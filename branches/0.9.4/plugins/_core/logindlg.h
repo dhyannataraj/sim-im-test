@@ -27,14 +27,14 @@ class QLabel;
 class QLineEdit;
 class LinkLabel;
 
-class LoginDialog : public LoginDialogBase, public EventReceiver
+class LoginDialog : public LoginDialogBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    LoginDialog(bool bInit, Client *client, const QString &msg, const char *loginProfile);
+    LoginDialog(bool bInit, SIM::Client *client, const QString &msg, const char *loginProfile);
     ~LoginDialog();
     bool isChanged() { return m_bProfileChanged; }
-    Client *client() { return m_client; }
+    SIM::Client *client() { return m_client; }
 protected slots:
     void saveToggled(bool);
     void profileChanged(int);
@@ -43,12 +43,12 @@ protected slots:
     void loginComplete();
     void adjust();
 protected:
-    virtual void *processEvent(Event*);
+    virtual void *processEvent(SIM::Event*);
     virtual void closeEvent(QCloseEvent *e);
     virtual void accept();
     virtual void reject();
-    string m_profile;
-    string m_loginProfile;
+    std::string m_profile;
+    std::string m_loginProfile;
     void clearInputs();
     void fill();
     void startLogin();
@@ -56,12 +56,12 @@ protected:
     bool m_bLogin;
     bool m_bInit;
     bool m_bProfileChanged;
-    void makeInputs(unsigned &row, Client *client, bool bQuick);
-    vector<QLabel*>		picts;
-    vector<QLabel*>		texts;
-    vector<QLineEdit*>	passwords;
-    vector<LinkLabel*>	links;
-    Client	   *m_client;
+    void makeInputs(unsigned &row, SIM::Client *client, bool bQuick);
+    std::vector<QLabel*>	picts;
+    std::vector<QLabel*>	texts;
+    std::vector<QLineEdit*>	passwords;
+    std::vector<LinkLabel*>	links;
+    SIM::Client	   *m_client;
 };
 
 #endif

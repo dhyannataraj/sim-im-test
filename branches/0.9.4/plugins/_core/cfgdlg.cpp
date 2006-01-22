@@ -37,6 +37,9 @@
 namespace ConfigDlg
 {
 
+using namespace std;
+using namespace SIM;
+
 const unsigned CONFIG_ITEM	= 1;
 const unsigned PLUGIN_ITEM	= 2;
 const unsigned CLIENT_ITEM  = 3;

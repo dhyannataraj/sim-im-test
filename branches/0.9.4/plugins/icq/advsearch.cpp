@@ -17,6 +17,8 @@
 
 #include "advsearch.h"
 
+using namespace SIM;
+
 extern const ext_info *p_genders;
 extern const ext_info *p_languages;
 extern const ext_info *p_occupations;

@@ -25,9 +25,13 @@
 #include <qdir.h>
 #include <qsocketnotifier.h>
 
+using namespace SIM;
+
 #ifdef WIN32
 
 #include <windows.h>
+
+using std::string;
 
 const unsigned SERIAL_TIMEOUT	= 1000;
 
@@ -399,6 +403,8 @@ QStringList SerialPort::devices()
 #include <fcntl.h>
 #include <termios.h>
 #include <errno.h>
+
+using std::string;
 
 enum PortState
 {

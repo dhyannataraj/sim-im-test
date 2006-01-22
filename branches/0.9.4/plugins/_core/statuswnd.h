@@ -34,26 +34,26 @@ class StatusLabel : public QLabel
 {
     Q_OBJECT
 public:
-    StatusLabel(QWidget *parent, Client *client, unsigned id);
+    StatusLabel(QWidget *parent, SIM::Client *client, unsigned id);
 protected slots:
     void timeout();
 protected:
     void mousePressEvent(QMouseEvent *e);
     void setPict();
     QTimer			*m_timer;
-    Client			*m_client;
+    SIM::Client		*m_client;
     unsigned		m_id;
     bool			m_bBlink;
     friend class StatusFrame;
 };
 
-class StatusFrame : public QFrame, public EventReceiver
+class StatusFrame : public QFrame, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     StatusFrame(QWidget *parent);
     void adjustPos();
-    StatusLabel *findLabel(Client*);
+    StatusLabel *findLabel(SIM::Client*);
 signals:
     void showButton(bool);
 protected slots:
@@ -61,7 +61,7 @@ protected slots:
 protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void mousePressEvent(QMouseEvent *e);
-    virtual void *processEvent(Event *e);
+    virtual void *processEvent(SIM::Event *e);
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
     QFrame		*m_frame;
@@ -73,7 +73,7 @@ class StatusWnd : public QFrame
     Q_OBJECT
 public:
     StatusWnd();
-    BalloonMsg *showError(const QString &text, QStringList &buttons, Client *client);
+    BalloonMsg *showError(const QString &text, QStringList &buttons, SIM::Client *client);
 protected slots:
     void showButton(bool);
     void clicked();

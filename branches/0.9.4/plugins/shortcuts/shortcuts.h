@@ -23,14 +23,14 @@
 
 typedef struct ShortcutsData
 {
-    Data	Key;
-    Data	Global;
-    Data	Mouse;
+    SIM::Data	Key;
+    SIM::Data	Global;
+    SIM::Data	Mouse;
 } ShortcutsData;
 
-typedef map<unsigned, const char*>	MAP_STR;
-typedef map<unsigned, bool>			MAP_BOOL;
-typedef map<unsigned, CommandDef>	MAP_CMDS;
+typedef std::map<unsigned, const char*>	MAP_STR;
+typedef std::map<unsigned, bool>		MAP_BOOL;
+typedef std::map<unsigned, SIM::CommandDef>	MAP_CMDS;
 
 class KGlobalAccel;
 
@@ -38,7 +38,7 @@ class GlobalKey : public QObject
 {
     Q_OBJECT
 public:
-    GlobalKey(CommandDef *cmd);
+    GlobalKey(SIM::CommandDef *cmd);
     ~GlobalKey();
     unsigned id() { return m_cmd.id; }
 #ifdef WIN32
@@ -52,7 +52,7 @@ public:
 public slots:
     void execute();
 protected:
-    CommandDef m_cmd;
+    SIM::CommandDef m_cmd;
 #ifdef WIN32
     int m_key;
 #else
@@ -65,7 +65,7 @@ unsigned m_key;
 #endif
 };
 
-class ShortcutsPlugin : public QObject, public Plugin, public EventReceiver
+class ShortcutsPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -76,18 +76,18 @@ public:
     PROP_STRLIST(Mouse);
     void applyKeys();
     void releaseKeys();
-    const char *getOldKey(CommandDef *cmd);
-    bool getOldGlobal(CommandDef *cmd);
+    const char *getOldKey(SIM::CommandDef *cmd);
+    bool getOldGlobal(SIM::CommandDef *cmd);
     static QWidget *getMainWindow();
     static unsigned stringToButton(const char *cfg);
-    static string buttonToString(unsigned button);
+    static std::string buttonToString(unsigned button);
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual void *processEvent(Event*);
-    virtual string getConfig();
+    virtual void *processEvent(SIM::Event*);
+    virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void applyKeys(unsigned long);
-    void applyKey(CommandDef*);
+    void applyKey(SIM::CommandDef*);
     void releaseKeys(unsigned long);
 #ifdef WIN32
     void init();

@@ -25,6 +25,8 @@
 #include <qtabwidget.h>
 #include <qcheckbox.h>
 
+using namespace SIM;
+
 MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
         : MSNConfigBase(parent)
 {

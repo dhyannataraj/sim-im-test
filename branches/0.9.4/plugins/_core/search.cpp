@@ -36,6 +36,9 @@
 #include <qstatusbar.h>
 #include <qtimer.h>
 
+using namespace std;
+using namespace SIM;
+
 const unsigned COL_KEY			= 0x100;
 const unsigned COL_SEARCH_WND	= 0x101;
 

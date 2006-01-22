@@ -63,6 +63,9 @@
 #include <ctype.h>
 #endif
 
+using namespace std;
+using namespace SIM;
+
 /*
 typedef struct ICQUserData
 {

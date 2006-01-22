@@ -35,7 +35,7 @@ public:
     static QStringList devices();
     void writeLine(const char *data, unsigned timeRead);
     void setTimeout(unsigned timeRead);
-    string readLine();
+    std::string readLine();
 signals:
     void write_ready();
     void read_ready();

@@ -20,18 +20,18 @@
 
 #include "simapi.h"
 
-class MSNProtocol : public Protocol
+class MSNProtocol : public SIM::Protocol
 {
 public:
-    MSNProtocol(Plugin *plugin);
+    MSNProtocol(SIM::Plugin *plugin);
     ~MSNProtocol();
-    Client	*createClient(Buffer *cfg);
-    const CommandDef *description();
-    const CommandDef *statusList();
-    virtual const DataDef *userDataDef();
+    SIM::Client	*createClient(Buffer *cfg);
+    const SIM::CommandDef *description();
+    const SIM::CommandDef *statusList();
+    virtual const SIM::DataDef *userDataDef();
 };
 
-class MSNPlugin : public Plugin
+class MSNPlugin : public SIM::Plugin
 {
 public:
     MSNPlugin(unsigned base);
@@ -42,7 +42,7 @@ public:
     unsigned MSNInitMail;
     unsigned MSNNewMail;
 protected:
-    Protocol *m_protocol;
+    SIM::Protocol *m_protocol;
 };
 
 #endif

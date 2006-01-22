@@ -20,22 +20,22 @@
 
 #include "simapi.h"
 
-class HomeDirPlugin : public Plugin, public EventReceiver
+class HomeDirPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     HomeDirPlugin(unsigned base);
-    string m_homeDir;
-    string defaultPath();
+    std::string m_homeDir;
+    std::string defaultPath();
 #ifdef WIN32
     bool m_bDefault;
     bool m_bSave;
 #endif
 protected:
-    void *processEvent(Event *e);
-    string buildFileName(const char *name);
+    void *processEvent(SIM::Event *e);
+    std::string buildFileName(const char *name);
 #ifdef WIN32
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual string getConfig();
+    virtual std::string getConfig();
 #endif
 };
 

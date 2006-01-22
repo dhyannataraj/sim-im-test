@@ -22,12 +22,12 @@
 
 typedef struct ReplaceData
 {
-    Data	Keys;
-    Data	Key;
-    Data	Value;
+    SIM::Data	Keys;
+    SIM::Data	Key;
+    SIM::Data	Value;
 } ReplaceData;
 
-class ReplacePlugin : public QObject, public Plugin
+class ReplacePlugin : public QObject, public SIM::Plugin
 {
     Q_OBJECT
 public:
@@ -37,7 +37,7 @@ public:
     PROP_UTFLIST(Key)
     PROP_UTFLIST(Value)
 protected:
-    virtual string getConfig();
+    virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     bool eventFilter(QObject *o, QEvent *e);
     ReplaceData data;

@@ -33,11 +33,11 @@ signals:
     void finished();
 };
 
-class MsgJournal : public QObject, public EventReceiver
+class MsgJournal : public QObject, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MsgJournal(MsgEdit *parent, Message *msg);
+    MsgJournal(MsgEdit *parent, SIM::Message *msg);
     ~MsgJournal();
 protected slots:
     void init();
@@ -45,9 +45,9 @@ protected slots:
     void emptyChanged(bool bEmpty);
     void removeRecord(void*);
 protected:
-    virtual void *processEvent(Event*);
+    virtual void *processEvent(SIM::Event*);
     void		send(const QString&);
-    string		m_client;
+    std::string	m_client;
     unsigned	m_ID;
     unsigned	m_oldID;
     unsigned	m_time;

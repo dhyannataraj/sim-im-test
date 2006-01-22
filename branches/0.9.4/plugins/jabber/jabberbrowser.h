@@ -47,7 +47,7 @@ const unsigned COL_MODE				= 9;
 class JabberSearch;
 class JIDSearch;
 
-class JabberWizard : public QWizard, public EventReceiver
+class JabberWizard : public QWizard, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -61,12 +61,12 @@ protected slots:
     void textChanged(const QString&);
     void slotSelected(const QString&);
 protected:
-    void *processEvent(Event *e);
-    string m_type;
-    string m_id;
+    void *processEvent(SIM::Event *e);
+    std::string m_type;
+    std::string m_id;
 };
 
-class JabberBrowser : public QMainWindow, public EventReceiver
+class JabberBrowser : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -79,7 +79,7 @@ public:
     ListView  *m_list;
 signals:
     void enableOptions(bool);
-    void addSearch(QWidget*, Client*, const QString&);
+    void addSearch(QWidget*, SIM::Client*, const QString&);
 protected slots:
     void selectionChanged();
     void currentChanged(QListViewItem*);
@@ -91,7 +91,7 @@ protected slots:
     void configFinished();
     void regFinished();
 protected:
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void setNavigation();
     void stop(const QString &err);
     void go(const QString &url, const QString &node);
@@ -112,16 +112,16 @@ protected:
     bool		 m_bInProcess;
     JabberClient *m_client;
     CToolBar	 *m_bar;
-    vector<string>	m_history;
-    vector<string>	m_nodes;
+    std::vector<std::string>	m_history;
+    std::vector<std::string>	m_nodes;
     QString		 m_historyStr;
     int			 m_historyPos;
     JabberWizard	*m_reg;
     JabberWizard	*m_config;
     JIDSearch	 *m_search;
-    string		 m_search_id;
-    string		 m_reg_id;
-    string		 m_config_id;
+    std::string		 m_search_id;
+    std::string		 m_reg_id;
+    std::string		 m_config_id;
     bool		 m_bError;
     friend class DiscoInfo;
 };

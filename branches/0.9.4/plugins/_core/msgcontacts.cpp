@@ -25,6 +25,9 @@
 
 #include <qlayout.h>
 
+using std::list;
+using namespace SIM;
+
 MsgContacts::MsgContacts(MsgEdit *parent, Message *msg)
         : QObject(parent)
 {

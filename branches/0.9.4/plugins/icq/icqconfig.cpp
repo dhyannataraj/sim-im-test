@@ -27,6 +27,8 @@
 #include <qtabwidget.h>
 #include <qcombobox.h>
 
+using namespace SIM;
+
 ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
         : ICQConfigBase(parent)
 {

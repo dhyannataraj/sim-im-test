@@ -23,6 +23,8 @@
 #include <qlineedit.h>
 #include <qvalidator.h>
 
+using namespace SIM;
+
 PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
         : PhoneDetailsBase(p)
 {

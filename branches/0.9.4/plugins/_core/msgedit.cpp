@@ -52,6 +52,9 @@
 #include "kdeisversion.h"
 #endif
 
+using namespace std;
+using namespace SIM;
+
 const unsigned NO_TYPE = (unsigned)(-1);
 
 MsgTextEdit::MsgTextEdit(MsgEdit *edit, QWidget *parent)

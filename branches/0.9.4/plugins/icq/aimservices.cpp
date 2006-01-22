@@ -20,6 +20,7 @@
 #include <map>
 
 using namespace std;
+using namespace SIM;
 
 ServiceSocket::ServiceSocket(ICQClient *client, unsigned short id)
 {

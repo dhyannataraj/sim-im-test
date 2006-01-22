@@ -24,6 +24,9 @@
 #include <qmultilineedit.h>
 #include <qcombobox.h>
 
+using std::string;
+using namespace SIM;
+
 WorkInfo::WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : WorkInfoBase(parent)
 {

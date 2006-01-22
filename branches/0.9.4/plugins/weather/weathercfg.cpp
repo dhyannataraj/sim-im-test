@@ -30,6 +30,9 @@
 #include <qspinbox.h>
 #include <qtabwidget.h>
 
+using namespace std;
+using namespace SIM;
+
 WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
         : WeatherCfgBase(parent)
 {

@@ -27,6 +27,8 @@
 #include <qcheckbox.h>
 #include <qtimer.h>
 
+using namespace SIM;
+
 WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
         : WarnDlgBase(parent, NULL, false, WDestructiveClose)
 {

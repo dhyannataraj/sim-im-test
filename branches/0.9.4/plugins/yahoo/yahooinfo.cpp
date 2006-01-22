@@ -28,6 +28,8 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
+using namespace SIM;
+
 YahooInfo::YahooInfo(QWidget *parent, struct YahooUserData *data, YahooClient *client)
         : YahooInfoBase(parent)
 {

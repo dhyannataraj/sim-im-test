@@ -22,6 +22,9 @@
 #include <qtimer.h>
 #include <qwidget.h>
 
+using namespace std;
+using namespace SIM;
+
 Plugin *createNetmonitorPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new NetmonitorPlugin(base, config);

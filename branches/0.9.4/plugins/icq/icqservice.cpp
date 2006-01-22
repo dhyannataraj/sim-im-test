@@ -27,6 +27,9 @@
 
 #include <qtimer.h>
 
+using namespace std;
+using namespace SIM;
+
 const unsigned short ICQ_SNACxSRV_ERROR         = 0x0001;
 const unsigned short ICQ_SNACxSRV_READYxCLIENT  = 0x0002;
 const unsigned short ICQ_SNACxSRV_READYxSERVER	= 0x0003;

@@ -63,6 +63,9 @@
 
 #define MAX_HISTORY	100
 
+using namespace SIM;
+using std::list;
+
 class RichTextDrag : public QTextDrag
 {
 public:

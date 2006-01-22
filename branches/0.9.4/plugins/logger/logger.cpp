@@ -29,6 +29,9 @@
 #include <windows.h>
 #endif
 
+using namespace std;
+using namespace SIM;
+
 Plugin *createLoggerPlugin(unsigned base, bool, Buffer *add_info)
 {
     LoggerPlugin *plugin = new LoggerPlugin(base, add_info);

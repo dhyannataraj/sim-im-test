@@ -20,6 +20,8 @@
 
 #include <qdir.h>
 
+using namespace SIM;
+
 Plugin *createMigratePlugin(unsigned base, bool, Buffer*)
 {
     MigratePlugin *plugin = new MigratePlugin(base);
@@ -55,7 +57,7 @@ MigratePlugin::~MigratePlugin()
 
 bool MigratePlugin::init()
 {
-    string path = user_file("");
+    std::string path = user_file("");
     QString dir = QFile::decodeName(path.c_str());
     QDir d(dir);
     if (!d.exists())

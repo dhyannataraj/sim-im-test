@@ -23,19 +23,19 @@
 
 class ICQClient;
 
-class PastInfo : public PastInfoBase, public EventReceiver
+class PastInfo : public PastInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     PastInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
     void cmbAfChanged(int);
     void cmbBgChanged(int);
 protected:
-    void *processEvent(Event*);
-    QString getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info*);
+    void *processEvent(SIM::Event*);
+    QString getInfo(QComboBox *cmb, QLineEdit *edt, const SIM::ext_info*);
     void fill();
     struct ICQUserData *m_data;
     unsigned  m_contact;

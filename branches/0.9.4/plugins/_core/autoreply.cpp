@@ -25,6 +25,8 @@
 #include <qtimer.h>
 #include <qlabel.h>
 
+using namespace SIM;
+
 AutoReplyDialog::AutoReplyDialog(unsigned status)
         : AutoReplyBase(NULL, NULL, true)
 {

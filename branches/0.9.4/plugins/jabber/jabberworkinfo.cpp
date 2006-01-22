@@ -23,6 +23,8 @@
 #include <qlineedit.h>
 #include <qstringlist.h>
 
+using namespace SIM;
+
 JabberWorkInfo::JabberWorkInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
         : JabberWorkInfoBase(parent)
 {

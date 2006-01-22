@@ -28,6 +28,9 @@
 #include <netinet/in.h>
 #endif
 
+using namespace std;
+using namespace SIM;
+
 const unsigned short ICQ_SNACxBDY_REQUESTxRIGHTS   = 0x0002;
 const unsigned short ICQ_SNACxBDY_RIGHTSxGRANTED   = 0x0003;
 const unsigned short ICQ_SNACxBDY_ADDxTOxLIST      = 0x0004;

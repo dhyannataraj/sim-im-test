@@ -25,19 +25,19 @@
 class ICQClient;
 class ListView;
 
-class ICQSecure : public ICQSecureBase, public EventReceiver
+class ICQSecure : public ICQSecureBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     ICQSecure(QWidget *parent, ICQClient *client);
 public slots:
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
     void hideIpToggled(bool);
     void deleteVisibleItem(QListViewItem *item);
     void deleteInvisibleItem(QListViewItem *item);
 protected:
-    virtual void *processEvent(Event*);
+    virtual void *processEvent(SIM::Event*);
     void fill();
     void setListView(ListView*);
     void fillListView(ListView*, unsigned offs);

@@ -24,14 +24,14 @@
 class CorePlugin;
 class ConfigItem;
 
-class UserConfig : public ConfigureDialogBase, public EventReceiver
+class UserConfig : public ConfigureDialogBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    UserConfig(Contact *conatct, Group *group);
+    UserConfig(SIM::Contact *conatct, SIM::Group *group);
     ~UserConfig();
-    Contact *m_contact;
-    Group   *m_group;
+    SIM::Contact *m_contact;
+    SIM::Group   *m_group;
     bool raisePage(unsigned id);
     bool raiseDefaultPage();
     void showUpdate(bool);
@@ -43,7 +43,7 @@ protected slots:
     void updateInfo();
 protected:
     virtual void accept();
-    virtual void *processEvent(Event *e);
+    virtual void *processEvent(SIM::Event *e);
     void resizeEvent(QResizeEvent*);
     void setTitle();
     void fill();

@@ -22,16 +22,16 @@
 
 class MsgEdit;
 
-class MsgAuth : public QObject, public EventReceiver
+class MsgAuth : public QObject, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MsgAuth(MsgEdit *parent, Message *msg);
+    MsgAuth(MsgEdit *parent, SIM::Message *msg);
 protected slots:
     void init();
 protected:
-    void *processEvent(Event*);
-    string m_client;
+    void *processEvent(SIM::Event*);
+    std::string m_client;
     unsigned m_type;
     MsgEdit *m_edit;
 };

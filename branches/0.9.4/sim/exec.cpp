@@ -37,6 +37,9 @@
 
 #include "stl.h"
 
+using namespace std;
+using namespace SIM;
+
 #define READ 0
 #define WRITE 1
 

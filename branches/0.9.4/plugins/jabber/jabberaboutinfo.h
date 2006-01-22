@@ -23,16 +23,16 @@
 
 class JabberClient;
 
-class JabberAboutInfo : public JabberAboutInfoBase, public EventReceiver
+class JabberAboutInfo : public JabberAboutInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     JabberAboutInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client);
 public slots:
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(Event *e);
+    void *processEvent(SIM::Event *e);
     void fill(JabberUserData *data);
     struct JabberUserData *m_data;
     JabberClient *m_client;

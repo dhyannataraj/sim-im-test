@@ -25,11 +25,11 @@ class ConnectionSettings : public ConnectionSettingsBase
 {
     Q_OBJECT
 public:
-    ConnectionSettings(Client *client);
+    ConnectionSettings(SIM::Client *client);
 protected slots:
     void apply();
 protected:
-    Client *m_client;
+    SIM::Client *m_client;
 };
 
 #endif

@@ -25,19 +25,19 @@ class ICQClient;
 
 class QImage;
 
-class ICQPicture : public ICQPictureBase, public EventReceiver
+class ICQPicture : public ICQPictureBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     ICQPicture(QWidget *parent, struct ICQUserData *data, ICQClient *client);
 public slots:
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
 protected slots:
     void clearPicture();
     void pictSelected(const QString&);
 protected:
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void fill();
     void setPict(QImage &img);
     struct ICQUserData	*m_data;

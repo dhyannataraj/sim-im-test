@@ -33,7 +33,7 @@ signals:
 public slots:
     void init();
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
 protected:
     SMSClient *m_client;
 };

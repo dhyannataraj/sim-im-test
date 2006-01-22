@@ -24,7 +24,7 @@
 
 class QPixmap;
 
-class VerifyDlg : public VerifyDlgBase, public EventReceiver
+class VerifyDlg : public VerifyDlgBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:

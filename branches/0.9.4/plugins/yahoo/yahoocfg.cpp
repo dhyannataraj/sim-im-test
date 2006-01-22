@@ -51,7 +51,7 @@ YahooConfig::YahooConfig(QWidget *parent, YahooClient *client, bool bConfig)
     autoToggled(m_client->getAutoHTTP());
 }
 
-void YahooConfig::apply(Client*, void*)
+void YahooConfig::apply(SIM::Client*, void*)
 {
 }
 

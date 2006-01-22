@@ -36,6 +36,8 @@
 #include <qapplication.h>
 #endif
 
+using namespace SIM;
+
 #ifdef USE_KDE
 class SimApp : public KUniqueApplication
 {

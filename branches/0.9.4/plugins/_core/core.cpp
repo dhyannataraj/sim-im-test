@@ -70,6 +70,9 @@
 #include <sys/stat.h>
 #endif
 
+using namespace std;
+using namespace SIM;
+
 #ifdef WIN32
 
 class LockThread : public QThread

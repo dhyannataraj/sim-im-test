@@ -20,6 +20,8 @@
 #include <qpixmap.h>
 #include <qlineedit.h>
 
+using namespace SIM;
+
 DeclineDlg::DeclineDlg(Message *msg)
         : DeclineDlgBase(NULL, NULL, false, WDestructiveClose)
 {
@@ -36,7 +38,7 @@ DeclineDlg::~DeclineDlg()
 
 void DeclineDlg::accept()
 {
-    string reason;
+    std::string reason;
     reason = edtReason->text().utf8();
     messageDecline md;
     md.msg    = m_msg;

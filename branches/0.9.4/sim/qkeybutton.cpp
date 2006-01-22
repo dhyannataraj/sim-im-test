@@ -93,7 +93,7 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
     unsigned key_state = 0;
     QString keyName;
     QString name;
-    log(L_DEBUG, "-> %X %X", e->key(), e->state());
+    SIM::log(SIM::L_DEBUG, "-> %X %X", e->key(), e->state());
     switch (e->key()){
     case Key_Shift:
         key_state = ShiftButton;

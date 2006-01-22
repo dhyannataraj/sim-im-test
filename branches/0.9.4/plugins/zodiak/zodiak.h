@@ -50,17 +50,17 @@ typedef struct Picker
     ZodiakWnd	*label;
 } Picker;
 
-class ZodiakPlugin : public QObject, public Plugin, public EventReceiver
+class ZodiakPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     ZodiakPlugin(unsigned);
     virtual ~ZodiakPlugin();
 protected:
-    list<Picker>	m_pickers;
+    std::list<Picker>	m_pickers;
     bool eventFilter(QObject*, QEvent*);
     void createLabel(DatePicker *picker);
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
 };
 
 #endif

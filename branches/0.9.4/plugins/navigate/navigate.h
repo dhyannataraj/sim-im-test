@@ -23,20 +23,20 @@
 typedef struct NavigateData
 {
 #ifdef WIN32
-    Data NewWindow;
+    SIM::Data NewWindow;
 #else
-Data Browser;
-    Data Mailer;
+    SIM::Data Browser;
+    SIM::Data Mailer;
 #endif
 } NavigateData;
 
-class NavigatePlugin : public Plugin, public EventReceiver
+class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     NavigatePlugin(unsigned, Buffer *name);
     virtual ~NavigatePlugin();
 protected:
-    virtual void *processEvent(Event*);
+    virtual void *processEvent(SIM::Event*);
     QString parseUrl(const QString &text);
     unsigned long CmdMail;
     unsigned long CmdMailList;
@@ -48,7 +48,7 @@ protected:
     PROP_STR(Browser);
     PROP_STR(Mailer);
 #endif
-    virtual string getConfig();
+    virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     NavigateData data;
     friend class NavCfg;

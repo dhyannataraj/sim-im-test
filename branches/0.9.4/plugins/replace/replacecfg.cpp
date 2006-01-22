@@ -24,6 +24,8 @@
 #include <qlayout.h>
 #include <qheader.h>
 
+using SIM::number;
+
 ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
         : ReplaceCfgBase(parent)
 {

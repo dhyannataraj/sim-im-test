@@ -29,6 +29,8 @@
 namespace SIM
 {
 
+using std::string;
+
 static const char *level_name(unsigned short n)
 {
     if (n & L_ERROR) return "ERR";

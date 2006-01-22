@@ -36,7 +36,7 @@ typedef struct ClientStatus
 {
     unsigned long	status;
     unsigned		client;
-    clientData		*data;
+    SIM::clientData	*data;
 } ClientStatus;
 
 class MsgTextEdit : public TextEdit
@@ -49,29 +49,29 @@ protected:
     virtual void contentsDropEvent(QDropEvent*);
     virtual void contentsDragEnterEvent(QDragEnterEvent*);
     virtual void contentsDragMoveEvent(QDragMoveEvent*);
-    Message *createMessage(QMimeSource*);
+    SIM::Message *createMessage(QMimeSource*);
     MsgEdit *m_edit;
 };
 
-class MsgEdit : public QMainWindow, public EventReceiver
+class MsgEdit : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     MsgEdit(QWidget *parent, UserWnd *userWnd);
     ~MsgEdit();
     CToolBar	*m_bar;
-    bool		setMessage(Message *msg, bool bSetFocus);
+    bool		setMessage(SIM::Message *msg, bool bSetFocus);
     UserWnd		*m_userWnd;
     TextEdit	*m_edit;
     QVBoxLayout	*m_layout;
     QFrame		*m_frame;
-    bool		sendMessage(Message *msg);
+    bool		sendMessage(SIM::Message *msg);
     static void setupMessages();
-    void		getWays(vector<ClientStatus> &cs, Contact *contact);
-    Client		*client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id, bool bUseClient=true);
+    void		getWays(std::vector<ClientStatus> &cs, SIM::Contact *contact);
+    SIM::Client	*client(void *&data, bool bCreate, bool bSendTyping, unsigned contact_id, bool bUseClient=true);
     bool		m_bReceived;
     unsigned	m_flags;
-    void		execCommand(CommandDef *cmd);
+    void		execCommand(SIM::CommandDef *cmd);
     unsigned	type() { return m_type; }
     bool		adjustType();
     QString m_resource;
@@ -96,24 +96,24 @@ protected:
     QObject  *m_processor;
     QObject	 *m_recvProcessor;
     unsigned m_type;
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void resizeEvent(QResizeEvent*);
     void stopSend(bool bCheck=true);
     void showCloseSend(bool bShow);
     void typingStart();
     void typingStop();
-    void changeTyping(Client *client, void *data);
+    void changeTyping(SIM::Client *client, void *data);
     void setEmptyMessage();
     bool setType(unsigned type);
     bool	m_bTyping;
-    string	m_typingClient;
+    std::string	m_typingClient;
     bool send();
-    list<unsigned> multiply;
-    list<unsigned>::iterator multiply_it;
-    CommandDef	m_cmd;
-    Message		*m_msg;
-    MsgSend		m_retry;
-    string m_client;
+    std::list<unsigned> multiply;
+    std::list<unsigned>::iterator multiply_it;
+    SIM::CommandDef	m_cmd;
+    SIM::Message	*m_msg;
+    MsgSend			m_retry;
+    std::string m_client;
 };
 
 class SmileLabel : public QLabel
@@ -125,7 +125,7 @@ signals:
     void clicked(const char *id);
 protected:
     void mouseReleaseEvent(QMouseEvent*);
-    string id;
+    std::string id;
 };
 
 class SmilePopup : public QFrame

@@ -56,7 +56,7 @@ protected slots:
 protected:
     void timerStop();
     unsigned short port;
-    string host;
+    std::string host;
     QSocket *sock;
     QTimer  *timer;
     bool bInWrite;
@@ -98,7 +98,7 @@ public:
     bool   bDone;
     bool   bTimeout;
     unsigned long addr();
-    string host();
+    std::string host();
 protected slots:
     void   resolveTimeout();
     void   resolveReady();
@@ -120,7 +120,7 @@ public slots:
     void idle();
     void checkState();
 protected:
-    list<SIMResolver*> resolvers;
+    std::list<SIMResolver*> resolvers;
 };
 
 class IP
@@ -143,7 +143,7 @@ class IPResolver : public QObject
 public:
     IPResolver();
     ~IPResolver();
-    list<IP*> queue;
+    std::list<IP*> queue;
     void start_resolve();
 protected slots:
     void resolve_ready();

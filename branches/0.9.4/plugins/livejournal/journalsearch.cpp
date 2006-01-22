@@ -20,6 +20,8 @@
 
 #include <qlineedit.h>
 
+using namespace SIM;
+
 JournalSearch::JournalSearch(LiveJournalClient *client, QWidget *parent)
         : JournalSearchBase(parent)
 {

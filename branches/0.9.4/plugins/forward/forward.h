@@ -22,14 +22,14 @@
 
 typedef struct ForwardUserData
 {
-    Data	Phone;
-    Data	Send1st;
-    Data	Translit;
+    SIM::Data	Phone;
+    SIM::Data	Send1st;
+    SIM::Data	Translit;
 } ForwardUserData;
 
 class CorePlugin;
 
-class ForwardPlugin : public Plugin, public EventReceiver
+class ForwardPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     ForwardPlugin(unsigned);
@@ -38,7 +38,7 @@ public:
 protected:
     CorePlugin	*core;
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual void *processEvent(Event*);
+    virtual void *processEvent(SIM::Event*);
 };
 
 #endif

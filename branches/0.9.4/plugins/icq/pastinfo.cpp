@@ -22,6 +22,8 @@
 #include <qlineedit.h>
 #include <qcombobox.h>
 
+using namespace SIM;
+
 PastInfo::PastInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : PastInfoBase(parent)
 {

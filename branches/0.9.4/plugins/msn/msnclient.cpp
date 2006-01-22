@@ -69,6 +69,8 @@ typedef struct MSNUserData
 } MSNUserData;
 */
 
+using namespace SIM;
+
 static DataDef msnUserData[] =
     {
         { "", DATA_ULONG, 1, DATA(3) },		// Sign

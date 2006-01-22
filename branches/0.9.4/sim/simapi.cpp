@@ -272,6 +272,9 @@ NoTranslate:
 namespace SIM
 {
 
+using std::list;
+using std::string;
+
 static list<EventReceiver*> *receivers = NULL;
 
 EventReceiver::EventReceiver(unsigned priority)

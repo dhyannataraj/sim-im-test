@@ -23,6 +23,8 @@
 namespace SIM
 {
 
+using std::list;
+
 #ifndef INADDR_NONE
 #define INADDR_NONE	0xFFFFFFFF
 #endif
@@ -279,7 +281,7 @@ void SocketFactory::idle()
         ClientSocket *s = *it;
         ClientSocketNotify *n = s->m_notify;
         if (n){
-            string errString;
+            std::string errString;
             if (s->errorString())
                 errString = s->errorString();
             s->errString = "";

@@ -85,7 +85,7 @@ bool TransparentTop::eventFilter(QObject *o, QEvent *e)
 void TransparentTop::backgroundUpdated( const QPixmap &pm )
 {
     bg = pm;
-    Event e(EventRepaintView);
+    SIM::Event e(SIM::EventRepaintView);
     e.process();
 }
 #endif

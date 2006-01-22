@@ -35,7 +35,9 @@
 #include <qlayout.h>
 #include <qobjectlist.h>
 
-class ButtonsMap : public map<unsigned, CToolItem*>
+using namespace SIM;
+
+class ButtonsMap : public std::map<unsigned, CToolItem*>
 {
 public:
     ButtonsMap() {}

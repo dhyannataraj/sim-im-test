@@ -26,6 +26,9 @@
 #include <qfile.h>
 #include <qregexp.h>
 
+using std::string;
+using namespace SIM;
+
 class XSLPrivate
 {
 public:

@@ -39,6 +39,7 @@
 
 #include <vector>
 using namespace std;
+using namespace SIM;
 
 #ifdef WIN32
 #if _MSC_VER > 1020

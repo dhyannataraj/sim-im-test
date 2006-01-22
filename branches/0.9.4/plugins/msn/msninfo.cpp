@@ -26,6 +26,8 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
+using namespace SIM;
+
 MSNInfo::MSNInfo(QWidget *parent, struct MSNUserData *data, MSNClient *client)
         : MSNInfoBase(parent)
 {

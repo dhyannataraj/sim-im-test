@@ -23,6 +23,9 @@
 #include <qurl.h>
 #endif
 
+using namespace std;
+using namespace SIM;
+
 #ifdef WIN32
 #include <windows.h>
 #include <ddeml.h>

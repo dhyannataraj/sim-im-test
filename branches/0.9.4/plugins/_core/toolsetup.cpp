@@ -22,6 +22,9 @@
 #include <qregexp.h>
 #include <qpushbutton.h>
 
+using namespace std;
+using namespace SIM;
+
 ToolBarSetup::ToolBarSetup(Commands *bars, CommandsDef *def)
         : ToolBarSetupBase(NULL, "toolbar_setup", false, WDestructiveClose)
 {

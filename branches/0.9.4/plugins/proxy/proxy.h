@@ -28,16 +28,16 @@ const unsigned PROXY_HTTPS	= 3;
 
 typedef struct ProxyData
 {
-    Data	Client;
-    Data	Clients;
-    Data	Type;
-    Data	Host;
-    Data	Port;
-    Data	Auth;
-    Data	User;
-    Data	Password;
-    Data	Default;
-    Data	NoShow;
+    SIM::Data	Client;
+    SIM::Data	Clients;
+    SIM::Data	Type;
+    SIM::Data	Host;
+    SIM::Data	Port;
+    SIM::Data	Auth;
+    SIM::Data	User;
+    SIM::Data	Password;
+    SIM::Data	Default;
+    SIM::Data	NoShow;
     bool	bInit;
     ProxyData();
     ProxyData(const ProxyData&);
@@ -51,7 +51,7 @@ typedef struct ProxyData
 class Proxy;
 class Listener;
 
-class ProxyPlugin : public Plugin, public EventReceiver
+class ProxyPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     ProxyPlugin(unsigned, Buffer*);
@@ -65,16 +65,16 @@ public:
     PROP_STR(User);
     PROP_STR(Password);
     unsigned ProxyPacket;
-    list<Proxy*>	proxies;
+    std::list<Proxy*>	proxies;
     ProxyData data;
-    void clientData(TCPClient*, ProxyData &data);
-    static const DataDef *proxyData;
+    void clientData(SIM::TCPClient*, ProxyData &data);
+    static const SIM::DataDef *proxyData;
     unsigned ProxyErr;
-    string clientName(TCPClient *client);
+    std::string clientName(SIM::TCPClient *client);
 protected:
-    virtual void *processEvent(Event*);
+    virtual void *processEvent(SIM::Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual string getConfig();
+    virtual std::string getConfig();
 };
 
 #endif

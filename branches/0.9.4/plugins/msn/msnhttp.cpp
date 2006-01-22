@@ -21,6 +21,9 @@
 
 #include <qtimer.h>
 
+using std::string;
+using namespace SIM;
+
 const unsigned POLL_TIMEOUT	= 10;
 
 // ______________________________________________________________________________________

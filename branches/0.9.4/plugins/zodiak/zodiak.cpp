@@ -39,6 +39,9 @@
 #include <qpushbutton.h>
 #include <qpainter.h>
 
+using namespace std;
+using namespace SIM;
+
 Plugin *createZodiakPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ZodiakPlugin(base);

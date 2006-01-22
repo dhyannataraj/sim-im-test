@@ -25,27 +25,27 @@
 
 typedef struct OSDUserData
 {
-    Data	EnableMessage;
-    Data    EnableMessageShowContent;
-    Data	ContentLines;
-    Data	EnableAlert;
-    Data	EnableAlertOnline;
-    Data	EnableAlertAway;
-    Data	EnableAlertNA;
-    Data	EnableAlertDND;
-    Data	EnableAlertOccupied;
-    Data	EnableAlertFFC;
-    Data	EnableAlertOffline;
-    Data	EnableTyping;
-    Data	Position;
-    Data	Offset;
-    Data	Color;
-    Data	Font;
-    Data	Timeout;
-    Data	Shadow;
-    Data	Background;
-    Data	BgColor;
-    Data	Screen;
+    SIM::Data	EnableMessage;
+    SIM::Data    EnableMessageShowContent;
+    SIM::Data	ContentLines;
+    SIM::Data	EnableAlert;
+    SIM::Data	EnableAlertOnline;
+    SIM::Data	EnableAlertAway;
+    SIM::Data	EnableAlertNA;
+    SIM::Data	EnableAlertDND;
+    SIM::Data	EnableAlertOccupied;
+    SIM::Data	EnableAlertFFC;
+    SIM::Data	EnableAlertOffline;
+    SIM::Data	EnableTyping;
+    SIM::Data	Position;
+    SIM::Data	Offset;
+    SIM::Data	Color;
+    SIM::Data	Font;
+    SIM::Data	Timeout;
+    SIM::Data	Shadow;
+    SIM::Data	Background;
+    SIM::Data	BgColor;
+    SIM::Data	Screen;
 } OSDUserData;
 
 enum OSDType
@@ -92,7 +92,7 @@ protected:
     QPushButton	*m_button;
 };
 
-class OSDPlugin : public QObject, public Plugin, public EventReceiver
+class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -105,11 +105,11 @@ protected slots:
     void closeClick();
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual void *processEvent(Event*);
+    virtual void *processEvent(SIM::Event*);
     void processQueue();
     OSDRequest			m_request;
-    list<OSDRequest>	queue;
-    list<unsigned>		typing;
+    std::list<OSDRequest>	queue;
+    std::list<unsigned>		typing;
     CorePlugin	*core;
     QWidget		*m_osd;
     QTimer		*m_timer;

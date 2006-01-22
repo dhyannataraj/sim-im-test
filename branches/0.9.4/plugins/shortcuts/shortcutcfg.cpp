@@ -29,6 +29,8 @@
 #include <qcheckbox.h>
 #include <qtabwidget.h>
 
+using namespace SIM;
+
 ShortcutsConfig::ShortcutsConfig(QWidget *parent, ShortcutsPlugin *plugin)
         : ShortcutsConfigBase(parent)
 {

@@ -21,6 +21,8 @@
 #include <qlabel.h>
 #include <qpushbutton.h>
 
+using namespace SIM;
+
 VerifyDlg::VerifyDlg(QWidget *parent, const QPixmap& picture)
         : VerifyDlgBase(parent, NULL, false)
 {

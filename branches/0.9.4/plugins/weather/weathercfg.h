@@ -27,7 +27,7 @@
 class WeatherPlugin;
 class WIfaceCfg;
 
-class WeatherCfg : public WeatherCfgBase, public EventReceiver, public FetchClient, public SAXParser
+class WeatherCfg : public WeatherCfgBase, public SIM::EventReceiver, public FetchClient, public SAXParser
 {
     Q_OBJECT
 public:
@@ -40,14 +40,14 @@ public slots:
     void textChanged(const QString&);
 protected:
     bool done(unsigned code, Buffer &data, const char *headers);
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void fill();
     WeatherPlugin *m_plugin;
     WIfaceCfg	  *m_iface;
-    string   m_id;
-    string	 m_data;
-    vector<string>		m_ids;
-    vector<string>		m_names;
+    std::string		m_id;
+    std::string		m_data;
+    std::vector<std::string>	m_ids;
+    std::vector<std::string>	m_names;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);

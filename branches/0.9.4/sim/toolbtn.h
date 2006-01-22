@@ -36,18 +36,18 @@ class ToolBarStates;
 class EXPORT CToolItem
 {
 public:
-    CToolItem(CommandDef *def);
+    CToolItem(SIM::CommandDef *def);
     virtual ~CToolItem() {}
     virtual void setState();
     virtual QWidget *widget() = 0;
     void checkState();
-    void setCommand(CommandDef *def);
-    void setChecked(CommandDef *def);
-    void setDisabled(CommandDef *def);
-    void setShow(CommandDef *def);
-    CommandDef *def();
+    void setCommand(SIM::CommandDef *def);
+    void setChecked(SIM::CommandDef *def);
+    void setDisabled(SIM::CommandDef *def);
+    void setShow(SIM::CommandDef *def);
+    SIM::CommandDef *def();
 protected:
-    CommandDef m_def;
+    SIM::CommandDef m_def;
     QString m_text;
 };
 
@@ -55,7 +55,7 @@ class EXPORT CToolButton : public QToolButton, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolButton(QWidget * parent, CommandDef *def);
+    CToolButton(QWidget * parent, SIM::CommandDef *def);
     ~CToolButton();
     virtual void setState();
     virtual QWidget *widget() { return this; }
@@ -85,7 +85,7 @@ class EXPORT PictButton : public CToolButton
 {
     Q_OBJECT
 public:
-    PictButton(QToolBar*, CommandDef *def);
+    PictButton(QToolBar*, SIM::CommandDef *def);
     ~PictButton();
 protected:
     virtual void setState();
@@ -99,7 +99,7 @@ class EXPORT CToolCombo : public QComboBox, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolCombo(QToolBar*, CommandDef *def, bool bCheck);
+    CToolCombo(QToolBar*, SIM::CommandDef *def, bool bCheck);
     ~CToolCombo();
     void setText(const QString&);
 protected slots:
@@ -119,7 +119,7 @@ class EXPORT CToolEdit : public QLineEdit, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolEdit(QToolBar*, CommandDef *def);
+    CToolEdit(QToolBar*, SIM::CommandDef *def);
     ~CToolEdit();
 protected slots:
     void btnDestroyed();
@@ -131,16 +131,16 @@ protected:
 
 class ButtonsMap;
 
-class EXPORT CToolBar : public QToolBar, public EventReceiver
+class EXPORT CToolBar : public QToolBar, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    CToolBar(CommandsDef *def, QMainWindow *parent);
+    CToolBar(SIM::CommandsDef *def, QMainWindow *parent);
     ~CToolBar();
-    CommandsDef *m_def;
+    SIM::CommandsDef *m_def;
     void *param()				{ return m_param; }
     void setParam(void *param)	{ m_param = param; }
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
 public slots:
     void showPopup(QPoint p);
     void toolBarChanged();

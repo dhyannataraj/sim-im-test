@@ -20,7 +20,10 @@
 
 #include <qregexp.h>
 
-class UnquoteParser : public HTMLParser
+using namespace std;
+using namespace SIM;
+
+class UnquoteParser : public SIM::HTMLParser
 {
 public:
     UnquoteParser();

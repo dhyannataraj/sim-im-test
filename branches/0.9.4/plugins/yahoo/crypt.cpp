@@ -39,6 +39,7 @@ const char b64t[] =
 
 char *yahoo_crypt(const char *key, const char *salt)
 {
+    using SIM::md5;
     static char *buffer = NULL;
     static int buflen = 0;
     int needed = 3 + strlen (salt) + 1 + 26 + 1;
@@ -63,11 +64,11 @@ char *yahoo_crypt(const char *key, const char *salt)
     salt_len = MIN (strcspn (salt, "$"), 8);
     key_len = strlen (key);
 
-    string ct = key;
+    std::string ct = key;
     ct += md5_salt_prefix;
     ct += salt;
 
-    string ct_alt = key;
+    std::string ct_alt = key;
     ct_alt += salt;
     ct_alt += key;
     ct_alt = md5(ct_alt.c_str());

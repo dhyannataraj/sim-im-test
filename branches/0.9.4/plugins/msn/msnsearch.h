@@ -32,7 +32,7 @@ public:
 signals:
     void setAdd(bool);
 protected slots:
-    void createContact(unsigned tmpFlags, Contact *&contact);
+    void createContact(unsigned tmpFlags, SIM::Contact *&contact);
 protected:
     MSNClient *m_client;
     void showEvent(QShowEvent*);
