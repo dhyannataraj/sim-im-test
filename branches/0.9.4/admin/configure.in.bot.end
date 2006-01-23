@@ -27,4 +27,6 @@ else
   echo ""
   echo "Good - your configure finished. Start make now"
   echo ""
+  echo "Note for non-GNU systems users: in order to compile SIM, you need to use GNU make (gmake)"
+  echo ""
 fi
