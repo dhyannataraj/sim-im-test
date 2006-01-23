@@ -456,74 +456,74 @@ AC_DEFUN([KDE_SET_DEFAULT_PATHS],
 if test "$1" = "default"; then
 
   if test -z "$kde_htmldir"; then
-    kde_htmldir='\${datadir}/doc/HTML'
+    kde_htmldir='${datadir}/doc/HTML'
   fi
   if test -z "$kde_appsdir"; then
-    kde_appsdir='\${datadir}/applnk'
+    kde_appsdir='${datadir}/applnk'
   fi
   if test -z "$kde_icondir"; then
-    kde_icondir='\${datadir}/icons'
+    kde_icondir='${datadir}/icons'
   fi
   if test -z "$kde_sounddir"; then
-    kde_sounddir='\${datadir}/sounds'
+    kde_sounddir='${datadir}/sounds'
   fi
   if test -z "$kde_datadir"; then
-    kde_datadir='\${datadir}/apps'
+    kde_datadir='${datadir}/apps'
   fi
   if test -z "$kde_locale"; then
-    kde_locale='\${datadir}/locale'
+    kde_locale='${datadir}/locale'
   fi
   if test -z "$kde_cgidir"; then
-    kde_cgidir='\${exec_prefix}/cgi-bin'
+    kde_cgidir='${exec_prefix}/cgi-bin'
   fi
   if test -z "$kde_confdir"; then
-    kde_confdir='\${datadir}/config'
+    kde_confdir='${datadir}/config'
   fi
   if test -z "$kde_kcfgdir"; then
-    kde_kcfgdir='\${datadir}/config.kcfg'
+    kde_kcfgdir='${datadir}/config.kcfg'
   fi
   if test -z "$kde_mimedir"; then
-    kde_mimedir='\${datadir}/mimelnk'
+    kde_mimedir='${datadir}/mimelnk'
   fi
   if test -z "$kde_toolbardir"; then
-    kde_toolbardir='\${datadir}/toolbar'
+    kde_toolbardir='${datadir}/toolbar'
   fi
   if test -z "$kde_wallpaperdir"; then
-    kde_wallpaperdir='\${datadir}/wallpapers'
+    kde_wallpaperdir='${datadir}/wallpapers'
   fi
   if test -z "$kde_templatesdir"; then
-    kde_templatesdir='\${datadir}/templates'
+    kde_templatesdir='${datadir}/templates'
   fi
   if test -z "$kde_bindir"; then
-    kde_bindir='\${exec_prefix}/bin'
+    kde_bindir='${exec_prefix}/bin'
   fi
   if test -z "$kde_servicesdir"; then
-    kde_servicesdir='\${datadir}/services'
+    kde_servicesdir='${datadir}/services'
   fi
   if test -z "$kde_servicetypesdir"; then
-    kde_servicetypesdir='\${datadir}/servicetypes'
+    kde_servicetypesdir='${datadir}/servicetypes'
   fi
   if test -z "$kde_moduledir"; then
     if test "$kde_qtver" = "2"; then
-      kde_moduledir='\${libdir}/kde2'
+      kde_moduledir='${libdir}/kde2'
     else
-      kde_moduledir='\${libdir}/kde3'
+      kde_moduledir='${libdir}/kde3'
     fi
   fi
   if test -z "$kde_styledir"; then
-    kde_styledir='\${libdir}/kde3/plugins/styles'
+    kde_styledir='${libdir}/kde3/plugins/styles'
   fi
   if test -z "$kde_widgetdir"; then
-    kde_widgetdir='\${libdir}/kde3/plugins/designer'
+    kde_widgetdir='${libdir}/kde3/plugins/designer'
   fi
   if test -z "$xdg_appsdir"; then
-    xdg_appsdir='\${datadir}/applications/kde'
+    xdg_appsdir='${datadir}/applications/kde'
   fi
   if test -z "$xdg_menudir"; then
-    xdg_menudir='\${sysconfdir}/xdg/menus'
+    xdg_menudir='${sysconfdir}/xdg/menus'
   fi
   if test -z "$xdg_directorydir"; then
-    xdg_directorydir='\${datadir}/desktop-directories'
+    xdg_directorydir='${datadir}/desktop-directories'
   fi
 
   KDE_SET_PATHS(defaults)
