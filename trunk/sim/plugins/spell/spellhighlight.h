@@ -32,7 +32,9 @@
 
 #include "spell.h"
 
-class SpellHighlighter : public QObject, public QSyntaxHighlighter, public HTMLParser, public EventReceiver
+using std::stack;
+
+class SpellHighlighter : public QObject, public QSyntaxHighlighter, public SIM::HTMLParser, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -52,7 +54,7 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void flush();
     void flushText();
     int m_pos;

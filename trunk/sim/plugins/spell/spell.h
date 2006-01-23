@@ -24,12 +24,14 @@
 #include <qdict.h>
 #include <qstringlist.h>
 
+using std::list;
+
 typedef struct SpellData
 {
 #ifdef WIN32
-    Data	Path;
+    SIM::Data	Path;
 #endif
-    Data	Lang;
+    SIM::Data	Lang;
 } SpellData;
 
 class TextEdit;
@@ -38,10 +40,10 @@ class KDictSpellingHighlighter;
 class SpellerBase;
 class Speller;
 
-typedef map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
-typedef map<my_string, bool> MAP_BOOL;
+typedef std::map<TextEdit*, QSyntaxHighlighter*>	MAP_EDITS;
+typedef std::map<SIM::my_string, bool> MAP_BOOL;
 
-class SpellPlugin : public QObject, public Plugin, public EventReceiver
+class SpellPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -65,8 +67,8 @@ protected slots:
     void check(const QString &word);
 protected:
     bool eventFilter(QObject *o, QEvent *e);
-    virtual void *processEvent(Event*);
-    virtual string getConfig();
+    virtual void *processEvent(SIM::Event*);
+    virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void activate();
     void deactivate();

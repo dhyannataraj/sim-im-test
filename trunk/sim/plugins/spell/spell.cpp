@@ -50,58 +50,58 @@ PSpellHighlighter::~PSpellHighlighter()
         m_plugin->m_edits.erase(it);
 }
 
-Plugin *createSpellPlugin(unsigned base, bool, Buffer *config)
+SIM::Plugin *createSpellPlugin(unsigned base, bool, Buffer *config)
 {
-    Plugin *plugin = new SpellPlugin(base, config);
+    SIM::Plugin *plugin = new SpellPlugin(base, config);
     return plugin;
 }
 
-static PluginInfo info =
+static SIM::PluginInfo info =
     {
         I18N_NOOP("Spell check"),
         I18N_NOOP("Plugin provides check spelling"),
         VERSION,
         createSpellPlugin,
-        PLUGIN_DEFAULT
+        SIM::PLUGIN_DEFAULT
     };
 
-EXPORT_PROC PluginInfo* GetPluginInfo()
+EXPORT_PROC SIM::PluginInfo* GetPluginInfo()
 {
     return &info;
 }
 
-static DataDef spellData[] =
+static SIM::DataDef spellData[] =
     {
 #ifdef WIN32
-        { "Path", DATA_STRING, 1, 0 },
+        { "Path", SIM::DATA_STRING, 1, 0 },
 #endif
-        { "Lang", DATA_STRING, 1, 0 },
+        { "Lang", SIM::DATA_STRING, 1, 0 },
         { NULL, 0, 0, 0 }
     };
 
 SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
-    load_data(spellData, &data, config);
+    SIM::load_data(spellData, &data, config);
     m_bActive = false;
     m_base = NULL;
     CmdSpell = registerType();
 
-    Command cmd;
+    SIM::Command cmd;
     cmd->id          = CmdSpell;
     cmd->text        = "_";
     cmd->menu_id     = MenuTextEdit;
     cmd->menu_grp    = 0x0100;
-    cmd->flags		 = COMMAND_CHECK_STATE;
+    cmd->flags		 = SIM::COMMAND_CHECK_STATE;
 
-    Event eCmd(EventCommandCreate, cmd);
+    SIM::Event eCmd(SIM::EventCommandCreate, cmd);
     eCmd.process();
     reset();
 }
 
 SpellPlugin::~SpellPlugin()
 {
-    Event eCmd(EventCommandRemove, (void*)CmdSpell);
+    SIM::Event eCmd(SIM::EventCommandRemove, (void*)CmdSpell);
     eCmd.process();
     deactivate();
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it)
@@ -123,9 +123,9 @@ void SpellPlugin::reset()
     m_base = new SpellerBase;
 #endif
     SpellerConfig cfg(*m_base);
-    string ll = getLang();
+    std::string ll = getLang();
     while (!ll.empty()){
-        string l = getToken(ll, ';');
+        std::string l = SIM::getToken(ll, ';');
         cfg.setKey("lang", l.c_str());
         cfg.setKey("encoding", "utf-8");
         Speller *speller = new Speller(&cfg);
@@ -171,7 +171,7 @@ void SpellPlugin::deactivate()
     m_edits.clear();
 }
 
-string SpellPlugin::getConfig()
+std::string SpellPlugin::getConfig()
 {
     return save_data(spellData, &data);
 }
@@ -181,7 +181,7 @@ QWidget *SpellPlugin::createConfigWindow(QWidget *parent)
     return new SpellConfig(parent, this);
 }
 
-void *SpellPlugin::processEvent(Event*)
+void *SpellPlugin::processEvent(SIM::Event*)
 {
     return NULL;
 }
@@ -264,7 +264,7 @@ QStringList SpellPlugin::suggestions(const QString &word)
                 res.append(wrd);
         }
     }
-    vector<WordWeight> words;
+    std::vector<WordWeight> words;
     for (QStringList::Iterator itw = res.begin(); itw != res.end(); ++itw){
         unsigned w = weight(word, *itw);
         if (w == 0)
