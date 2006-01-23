@@ -33,6 +33,8 @@
 #include <qfiledialog.h>
 #endif
 
+using namespace SIM;
+
 MsgFile::MsgFile(MsgEdit *parent, Message *msg)
         : QObject(parent)
 {

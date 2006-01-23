@@ -64,7 +64,7 @@ protected:
     bool m_bDirty;
     int  m_cur;
     int  m_edit;
-    vector<StyleDef> m_styles;
+    std::vector<StyleDef> m_styles;
 };
 
 #endif

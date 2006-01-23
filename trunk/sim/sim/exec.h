@@ -37,7 +37,7 @@ public:
     Buffer bIn;
     Buffer bOut;
     Buffer bErr;
-    string prog;
+    std::string prog;
 #ifdef WIN32
     QThread *thread;
     QThread *outThread;

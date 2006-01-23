@@ -39,7 +39,7 @@ public slots:
 protected:
     void fillPublic(Buffer *b);
     Exec		*m_exec;
-    string		m_key;
+    std::string	m_key;
 };
 
 #endif

@@ -22,12 +22,12 @@
 
 typedef struct IconsData
 {
-    Data	Icon;
-    Data	NIcons;
-    Data	Default;
+    SIM::Data	Icon;
+    SIM::Data	NIcons;
+    SIM::Data	Default;
 } IconsData;
 
-class IconsPlugin : public Plugin
+class IconsPlugin : public SIM::Plugin
 {
 public:
     IconsPlugin(unsigned, Buffer*);
@@ -38,7 +38,7 @@ public:
     void setIcons(bool bForce);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual string getConfig();
+    virtual std::string getConfig();
     IconsData data;
 };
 

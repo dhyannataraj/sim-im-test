@@ -27,7 +27,7 @@ class QTimer;
 typedef struct OpInfo
 {
     unsigned	oper;
-    string		param;
+    std::string	param;
 } OpInfo;
 
 class Phonebook
@@ -38,7 +38,7 @@ public:
     unsigned m_used;
     unsigned m_numberSize;
     unsigned m_nameSize;
-    vector<bool> m_entries;
+    std::vector<bool> m_entries;
 };
 
 class GsmTA : public QObject
@@ -48,8 +48,8 @@ public:
     GsmTA(QObject *parent);
     ~GsmTA();
     bool open(const char *device, int baudrate, bool bXonXoff);
-    string model();
-    string oper();
+    std::string model();
+    std::string oper();
     void getPhoneBook();
     void setPhoneBookEntry(unsigned index, const QString &phone, const QString &name);
 signals:
@@ -101,24 +101,24 @@ protected:
     bool isChatResponse(const char *answer, const char *response = NULL,
                         bool bIgnoreErrors = false);
     bool isIncoming(const char *answer);
-    bool matchResponse(string &answer, const char *responseToMatch);
+    bool matchResponse(std::string &answer, const char *responseToMatch);
     void processQueue();
     void parseEntriesList(const char *answ);
     void parseEntry(const char *answ);
     void getNextEntry();
-    string normalize(const char *answ);
-    string gsmToLatin1(const char *str);
-    string latin1ToGsm(const char *str);
+    std::string normalize(const char *answ);
+    std::string gsmToLatin1(const char *str);
+    std::string latin1ToGsm(const char *str);
     State			m_state;
-    string			m_cmd;
-    string			m_manufacturer;
-    string			m_model;
-    string			m_revision;
-    string			m_serialNumber;
-    string			m_operator;
-    string			m_response;
-    string			m_charset;
-    list<OpInfo>	m_queue;
+    std::string		m_cmd;
+    std::string		m_manufacturer;
+    std::string		m_model;
+    std::string		m_revision;
+    std::string		m_serialNumber;
+    std::string		m_operator;
+    std::string		m_response;
+    std::string		m_charset;
+    std::list<OpInfo>m_queue;
     Phonebook		m_books[2];
     Phonebook		*m_book;
     bool			m_bPing;

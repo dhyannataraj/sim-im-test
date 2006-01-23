@@ -20,6 +20,8 @@
 
 #include <qpixmap.h>
 
+using namespace SIM;
+
 IgnoreList::IgnoreList(QWidget *parent)
         : IgnoreListBase(parent)
 {

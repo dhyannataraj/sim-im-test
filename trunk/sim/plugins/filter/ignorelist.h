@@ -23,7 +23,7 @@
 
 class QListViewItem;
 
-class IgnoreList : public IgnoreListBase, public EventReceiver
+class IgnoreList : public IgnoreListBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -34,10 +34,10 @@ protected slots:
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
 protected:
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void removeItem(QListViewItem*);
-    void updateItem(QListViewItem*, Contact*);
-    QListViewItem *findItem(Contact*);
+    void updateItem(QListViewItem*, SIM::Contact*);
+    QListViewItem *findItem(SIM::Contact*);
 };
 
 #endif

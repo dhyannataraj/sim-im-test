@@ -32,6 +32,9 @@
 #include <qpainter.h>
 #include <qimage.h>
 
+using namespace std;
+using namespace SIM;
+
 StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
         : QLabel(parent)
 {

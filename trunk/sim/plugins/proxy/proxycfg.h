@@ -23,16 +23,15 @@
 #include "proxycfgbase.h"
 
 #include <vector>
-using namespace std;
 
 class ProxyPlugin;
 class QTabWidget;
 
-class ProxyConfig : public ProxyConfigBase, public EventReceiver
+class ProxyConfig : public ProxyConfigBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client);
+    ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, SIM::Client *client);
 public slots:
     void apply();
 protected slots:
@@ -41,12 +40,12 @@ protected slots:
     void authToggled(bool auth);
 protected:
     void paintEvent(QPaintEvent*);
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void fillClients();
     void fill(ProxyData*);
     void get(ProxyData*);
-    vector<ProxyData> m_data;
-    Client *m_client;
+    std::vector<ProxyData> m_data;
+    SIM::Client *m_client;
     ProxyPlugin *m_plugin;
     unsigned m_current;
 };

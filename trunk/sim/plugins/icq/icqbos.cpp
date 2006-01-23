@@ -17,6 +17,8 @@
 
 #include "icqclient.h"
 
+using namespace SIM;
+
 const unsigned short ICQ_SNACxBOS_REQUESTxRIGHTS     = 0x0002;
 const unsigned short ICQ_SNACxBOS_RIGHTSxGRANTED     = 0x0003;
 const unsigned short ICQ_SNACxBOS_ADDxVISIBLExLIST   = 0x0005;

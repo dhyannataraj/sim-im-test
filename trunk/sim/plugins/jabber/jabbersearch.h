@@ -50,8 +50,8 @@ public:
     const char *id() { return m_jid.c_str(); }
     void addWidget(struct JabberAgentInfo *data);
     JabberClient	*m_client;
-    string			m_jid;
-    string			m_node;
+    std::string		m_jid;
+    std::string		m_node;
     QString			m_title;
 protected slots:
     void setSize();
@@ -62,15 +62,15 @@ protected:
     QString				m_instruction;
     QString				m_label;
     QWidget				*m_receiver;
-    string				m_key;
+    std::string			m_key;
     bool				m_bDirty;
     bool				m_bXData;
     bool				m_bFirst;
     bool				m_bRegister;
-    list<QWidget*>		m_required;
-    vector<QWidget*>	m_widgets;
-    vector<QWidget*>	m_labels;
-    vector<QWidget*>	m_descs;
+    std::list<QWidget*>		m_required;
+    std::vector<QWidget*>	m_widgets;
+    std::vector<QWidget*>	m_labels;
+    std::vector<QWidget*>	m_descs;
 };
 
 class JIDAdvSearch;

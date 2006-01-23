@@ -36,7 +36,7 @@ FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
     lay->addWidget(lblFont);
     lay->addSpacing(2);
     QPushButton *btnFont = new QPushButton(this);
-    btnFont->setPixmap(Pict("text"));
+    btnFont->setPixmap(SIM::Pict("text"));
     lay->addWidget(btnFont);
     lblFont->setFrameShape(QFrame::Box);
     lblFont->setLineWidth(1);
@@ -59,7 +59,7 @@ void FontEdit::setFont(const char *fontname)
     }
 }
 
-string FontEdit::getFont()
+std::string FontEdit::getFont()
 {
     return font2str(f, false).latin1();
 }

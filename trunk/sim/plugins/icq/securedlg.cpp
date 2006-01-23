@@ -25,6 +25,8 @@
 #include <qtimer.h>
 #include <qlabel.h>
 
+using namespace SIM;
+
 SecureDlg::SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *data)
         : SecureDlgBase(NULL, "securedlg", false, WDestructiveClose)
 {

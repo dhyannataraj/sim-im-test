@@ -67,6 +67,9 @@
 .				{ return TXT; }
 %%
 
+using namespace std;
+using namespace SIM;
+
 struct FontDef
 {
     int		charset;

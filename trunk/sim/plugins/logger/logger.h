@@ -26,14 +26,14 @@ const unsigned short L_EVENTS  = 0x10;
 
 typedef struct LoggerData
 {
-    Data LogLevel;
-    Data LogPackets;
-    Data File;
+    SIM::Data LogLevel;
+    SIM::Data LogPackets;
+    SIM::Data File;
 } LoggerData;
 
 class QFile;
 
-class LoggerPlugin : public QObject, public Plugin, public EventReceiver
+class LoggerPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -46,10 +46,10 @@ public:
     void setLogType(unsigned id, bool bLog);
 protected:
     bool eventFilter(QObject *o, QEvent *e);
-    list<unsigned> m_packets;
+    std::list<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual string getConfig();
-    void *processEvent(Event*);
+    virtual std::string getConfig();
+    void *processEvent(SIM::Event*);
     void openFile();
     QFile *m_file;
     LoggerData data;

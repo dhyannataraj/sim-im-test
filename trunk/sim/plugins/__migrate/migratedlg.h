@@ -42,16 +42,16 @@ protected:
     void error(const QString&);
     void flush();
 
-    string	m_owner;
+    std::string	m_owner;
 
     unsigned m_uin;
-    string	m_passwd;
-    string	m_name;
-    int		m_state;
-    string	m_message;
-    string	m_time;
-    string	m_direction;
-    string	m_charset;
+    std::string	m_passwd;
+    std::string	m_name;
+    int			m_state;
+    std::string	m_message;
+    std::string	m_time;
+    std::string	m_direction;
+    std::string	m_charset;
 
     unsigned m_grpId;
     unsigned m_contactId;
@@ -63,7 +63,7 @@ protected:
     QFile	hTo;
 
     bool		m_bProcess;
-    list<QCheckBox*>	m_boxes;
+    std::list<QCheckBox*> m_boxes;
     QString		m_dir;
     QStringList	m_cnvDirs;
 };

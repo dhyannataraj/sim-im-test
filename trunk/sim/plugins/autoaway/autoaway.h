@@ -22,19 +22,19 @@
 
 typedef struct AutoAwayData
 {
-    Data	AwayTime;
-    Data	EnableAway;
-    Data	NATime;
-    Data	EnableNA;
-    Data	OffTime;
-    Data	EnableOff;
-    Data	DisableAlert;
+    SIM::Data	AwayTime;
+    SIM::Data	EnableAway;
+    SIM::Data	NATime;
+    SIM::Data	EnableNA;
+    SIM::Data	OffTime;
+    SIM::Data	EnableOff;
+    SIM::Data	DisableAlert;
 } AutoAwayData;
 
 class QTimer;
 class CorePlugin;
 
-class AutoAwayPlugin : public QObject, public Plugin, public EventReceiver
+class AutoAwayPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -50,8 +50,8 @@ public:
 protected slots:
     void timeout();
 protected:
-    virtual void *processEvent(Event*);
-    virtual string getConfig();
+    virtual void *processEvent(SIM::Event*);
+    virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     unsigned getIdleTime();
     bool bAway;

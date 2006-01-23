@@ -23,6 +23,8 @@
 #include <qlayout.h>
 #include <qlabel.h>
 
+using namespace SIM;
+
 ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg)
         : ProxyErrorBase(NULL, NULL, false, WDestructiveClose)
 {

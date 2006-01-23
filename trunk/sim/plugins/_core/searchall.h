@@ -22,7 +22,7 @@
 #include "stl.h"
 #include "searchallbase.h"
 
-typedef map<QWidget*, QStringList>	WND_MAP;
+typedef std::map<QWidget*, QStringList>	WND_MAP;
 
 class SearchAll : public SearchAllBase
 {

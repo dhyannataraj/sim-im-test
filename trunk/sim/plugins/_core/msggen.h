@@ -22,17 +22,17 @@
 
 class MsgEdit;
 
-class MsgGen : public QObject, public EventReceiver
+class MsgGen : public QObject, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MsgGen(MsgEdit *parent, Message *msg);
+    MsgGen(MsgEdit *parent, SIM::Message *msg);
 protected slots:
     void init();
     void emptyChanged(bool bEmpty);
 protected:
-    void *processEvent(Event*);
-    string m_client;
+    void *processEvent(SIM::Event*);
+    std::string m_client;
     bool   m_bCanSend;
     MsgEdit	*m_edit;
 };

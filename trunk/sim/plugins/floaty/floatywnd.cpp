@@ -32,6 +32,9 @@
 #include <kwin.h>
 #endif
 
+using namespace std;
+using namespace SIM;
+
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
         : QWidget(NULL, "floaty",
                   WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool |

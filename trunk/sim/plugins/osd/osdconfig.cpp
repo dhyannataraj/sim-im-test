@@ -27,6 +27,8 @@
 #include <qtabwidget.h>
 #include <qlabel.h>
 
+using SIM::getContacts;
+
 OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         : OSDConfigBase(parent)
 {

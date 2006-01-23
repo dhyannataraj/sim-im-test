@@ -19,6 +19,9 @@
 #include "jabber.h"
 #include "core.h"
 
+using std::string;
+using namespace SIM;
+
 static DataDef jabberMessageData[] =
     {
         { "Subject", DATA_UTF, 1, 0 },

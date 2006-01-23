@@ -22,18 +22,18 @@
 
 class MsgEdit;
 
-class MsgFile : public QObject, public EventReceiver
+class MsgFile : public QObject, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MsgFile(MsgEdit *parent, Message *msg);
+    MsgFile(MsgEdit *parent, SIM::Message *msg);
 protected slots:
     void selectFile();
     void changed(const QString&);
     void init();
 protected:
-    virtual void *processEvent(Event*);
-    string		 m_client;
+    virtual void *processEvent(SIM::Event*);
+    std::string	 m_client;
     MsgEdit      *m_edit;
     bool		 m_bCanSend;
 };

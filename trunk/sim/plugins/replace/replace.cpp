@@ -22,6 +22,9 @@
 
 #include <qapplication.h>
 
+using namespace std;
+using namespace SIM;
+
 Plugin *createReplacePlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new ReplacePlugin(base, cfg);

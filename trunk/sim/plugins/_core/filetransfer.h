@@ -29,7 +29,7 @@ class FileTransferDlg : public FileTransferBase
 {
     Q_OBJECT
 public:
-    FileTransferDlg(FileMessage*);
+    FileTransferDlg(SIM::FileMessage*);
     ~FileTransferDlg();
 protected slots:
     void speedChanged(int);
@@ -45,7 +45,7 @@ protected:
     void transfer(bool);
     void calcSpeed(bool);
     void setBars();
-    FileMessage	*m_msg;
+    SIM::FileMessage *m_msg;
     QTimer	*m_timer;
     unsigned m_time;
     unsigned m_file;
@@ -62,7 +62,7 @@ protected:
     unsigned m_totalSize;
     QString  m_dir;
     BalloonMsg *m_ask;
-    FileTransfer::State m_state;
+    SIM::FileTransfer::State m_state;
     friend class FileTransferDlgNotify;
 };
 

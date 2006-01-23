@@ -25,19 +25,19 @@
 class ProxyConfig;
 class ProxyPlugin;
 
-class ProxyError : public ProxyErrorBase, public EventReceiver
+class ProxyError : public ProxyErrorBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg);
+    ProxyError(ProxyPlugin *plugin, SIM::TCPClient *client, const char *msg);
     ~ProxyError();
 signals:
     void apply();
 protected:
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     virtual void accept();
     ProxyPlugin *m_plugin;
-    TCPClient	*m_client;
+    SIM::TCPClient	*m_client;
 };
 
 #endif

@@ -30,6 +30,9 @@
 #include <qapplication.h>
 #include <qtextcodec.h>
 
+using namespace std;
+using namespace SIM;
+
 MigrateDialog::MigrateDialog(const QString &dir, const QStringList &cnvDirs)
         : MigrateDialogBase(NULL, "migrate", true)
 {

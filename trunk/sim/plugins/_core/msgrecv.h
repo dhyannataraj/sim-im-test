@@ -24,22 +24,22 @@
 
 class MsgEdit;
 
-class MsgReceived : public QObject, public EventReceiver
+class MsgReceived : public QObject, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MsgReceived(MsgEdit *parent, Message *msg, bool bOpen);
+    MsgReceived(MsgEdit *parent, SIM::Message *msg, bool bOpen);
 public slots:
     void init();
 protected:
-    void		*processEvent(Event*);
+    void		*processEvent(SIM::Event*);
     unsigned	m_type;
     unsigned	m_id;
     unsigned	m_contact;
-    string		m_client;
+    std::string	m_client;
     bool		m_bOpen;
     MsgEdit	    *m_edit;
-    Message		*m_msg;
+    SIM::Message *m_msg;
 };
 
 #endif

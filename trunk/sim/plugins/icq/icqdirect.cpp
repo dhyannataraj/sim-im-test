@@ -38,6 +38,9 @@
 #include <qtimer.h>
 #include <qregexp.h>
 
+using namespace std;
+using namespace SIM;
+
 const unsigned short TCP_START  = 0x07EE;
 const unsigned short TCP_ACK    = 0x07DA;
 const unsigned short TCP_CANCEL	= 0x07D0;

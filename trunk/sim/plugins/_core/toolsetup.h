@@ -29,7 +29,7 @@ class ToolBarSetup : public ToolBarSetupBase
 {
     Q_OBJECT
 public:
-    ToolBarSetup(Commands*, CommandsDef*);
+    ToolBarSetup(Commands*, SIM::CommandsDef*);
     ~ToolBarSetup();
 protected slots:
     void selectionChanged();
@@ -40,9 +40,9 @@ protected slots:
     void applyClick();
     void okClick();
 protected:
-    CommandsDef	*m_def;
+    SIM::CommandsDef *m_def;
     Commands	*m_bars;
-    vector<unsigned> active;
+    std::vector<unsigned> active;
     bool bDirty;
     void addButton(QListBox *lst, unsigned id);
     void setButtons();

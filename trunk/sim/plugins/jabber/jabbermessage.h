@@ -27,36 +27,36 @@ const unsigned long MessageJabberError	= 0x204;
 
 typedef struct JabberMessageData
 {
-    Data	Subject;
+    SIM::Data	Subject;
 } JabberMessageData;
 
-class JabberMessage : public Message
+class JabberMessage : public SIM::Message
 {
 public:
     JabberMessage(Buffer *cfg = NULL);
     ~JabberMessage();
     PROP_UTF8(Subject);
-    virtual string save();
+    virtual std::string save();
     virtual QString presentation();
-    virtual unsigned baseType() { return MessageGeneric; }
+    virtual unsigned baseType() { return SIM::MessageGeneric; }
 protected:
     JabberMessageData	data;
 };
 
 typedef struct JabberMessageErrorData
 {
-    Data	Error;
-    Data	Code;
+    SIM::Data	Error;
+    SIM::Data	Code;
 } JabberMessageErrorData;
 
-class JabberMessageError : public Message
+class JabberMessageError : public SIM::Message
 {
 public:
     JabberMessageError(Buffer *cfg = NULL);
     ~JabberMessageError();
     PROP_UTF8(Error);
     PROP_ULONG(Code);
-    virtual string save();
+    virtual std::string save();
     virtual QString presentation();
 protected:
     JabberMessageErrorData	data;
@@ -64,13 +64,13 @@ protected:
 
 typedef struct JabberMessageFileData
 {
-    Data	ID;
-    Data	From;
-    Data	Host;
-    Data	Port;
+    SIM::Data	ID;
+    SIM::Data	From;
+    SIM::Data	Host;
+    SIM::Data	Port;
 } JabberMessageFileData;
 
-class JabberFileMessage : public FileMessage
+class JabberFileMessage : public SIM::FileMessage
 {
 public:
     JabberFileMessage(Buffer *cfg = NULL);
@@ -79,7 +79,7 @@ public:
     PROP_STR(From);
     PROP_STR(Host);
     PROP_USHORT(Port);
-    virtual unsigned baseType() { return MessageFile; }
+    virtual unsigned baseType() { return SIM::MessageFile; }
 protected:
     JabberMessageFileData	data;
 };

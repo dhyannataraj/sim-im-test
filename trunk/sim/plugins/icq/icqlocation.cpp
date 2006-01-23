@@ -31,6 +31,9 @@
 
 #include <qtextcodec.h>
 
+using std::string;
+using namespace SIM;
+
 const unsigned short ICQ_SNACxLOC_ERROR             = 0x0001;
 const unsigned short ICQ_SNACxLOC_REQUESTxRIGHTS    = 0x0002;
 const unsigned short ICQ_SNAXxLOC_RIGHTSxGRANTED    = 0x0003;

@@ -21,6 +21,8 @@
 #include "editfile.h"
 #include "ballonmsg.h"
 
+using namespace SIM;
+
 static const char *helpList[] =
     {
         "%t",

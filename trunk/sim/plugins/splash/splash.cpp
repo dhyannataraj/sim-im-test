@@ -25,6 +25,8 @@
 #include <qfile.h>
 #include <qpainter.h>
 
+using namespace SIM;
+
 Plugin *createSplashPlugin(unsigned base, bool bStart, Buffer*)
 {
     Plugin *plugin = new SplashPlugin(base, bStart);
@@ -51,7 +53,7 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
     splash = NULL;
     m_bStart = bStart;
     if (m_bStart){
-        string pictPath = app_file("pict/splash.png");
+        std::string pictPath = app_file("pict/splash.png");
         QPixmap pict(QFile::decodeName(pictPath.c_str()));
         if (!pict.isNull()){
             KAboutData *about_data = getAboutData();

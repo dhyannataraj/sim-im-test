@@ -29,6 +29,8 @@
 #include <qpixmap.h>
 #include <time.h>
 
+using namespace SIM;
+
 #ifndef USE_KDE
 
 static FilePreview *createPreview(QWidget *parent)

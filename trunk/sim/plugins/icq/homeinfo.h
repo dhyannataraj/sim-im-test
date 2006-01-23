@@ -23,16 +23,16 @@
 
 class ICQClient;
 
-class HomeInfo : public HomeInfoBase, public EventReceiver
+class HomeInfo : public HomeInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     HomeInfo(QWidget *parent, struct ICQUserData*, unsigned contact, ICQClient *client);
 public slots:
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void fill();
     struct ICQUserData *m_data;
     unsigned m_contact;

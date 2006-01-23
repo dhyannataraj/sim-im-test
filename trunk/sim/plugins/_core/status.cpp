@@ -29,7 +29,9 @@
 #include <qwidgetlist.h>
 
 #include <map>
+
 using namespace std;
+using namespace SIM;
 
 typedef map<unsigned, unsigned> MAP_STATUS;
 

@@ -28,7 +28,7 @@ class MainInfo;
 const unsigned long SMSCmdBase			= 0x00080000;
 const unsigned long MessagePhoneCall		= SMSCmdBase;
 
-class SMSPlugin : public QObject, public Plugin
+class SMSPlugin : public QObject, public SIM::Plugin
 {
     Q_OBJECT
 public:
@@ -44,43 +44,43 @@ protected:
     SMSProtocol *m_protocol;
 };
 
-class SMSProtocol : public Protocol
+class SMSProtocol : public SIM::Protocol
 {
 public:
-    SMSProtocol(Plugin *plugin);
+    SMSProtocol(SIM::Plugin *plugin);
     ~SMSProtocol();
-    Client	*createClient(Buffer *cfg);
-    const CommandDef *description();
-    const CommandDef *statusList();
-    const DataDef *userDataDef();
+    SIM::Client	*createClient(Buffer *cfg);
+    const SIM::CommandDef *description();
+    const SIM::CommandDef *statusList();
+    const SIM::DataDef *userDataDef();
 };
 
 typedef struct SMSClientData
 {
-    Data	Device;
-    Data	BaudRate;
-    Data	XonXoff;
-    Data	Charge;
-    Data	Charging;
-    Data	Quality;
+    SIM::Data	Device;
+    SIM::Data	BaudRate;
+    SIM::Data	XonXoff;
+    SIM::Data	Charge;
+    SIM::Data	Charging;
+    SIM::Data	Quality;
 } SMSClientData;
 
 const unsigned SMS_SIGN	= 6;
 
 typedef struct smsUserData
 {
-    clientData	base;
-    Data	Name;
-    Data	Phone;
-    Data	Index;
-    Data	Type;
+    SIM::clientData	base;
+    SIM::Data	Name;
+    SIM::Data	Phone;
+    SIM::Data	Index;
+    SIM::Data	Type;
 } smsUserData;
 
-class SMSClient : public TCPClient
+class SMSClient : public SIM::TCPClient
 {
     Q_OBJECT
 public:
-    SMSClient(Protocol *protocol, Buffer *cfg);
+    SMSClient(SIM::Protocol *protocol, Buffer *cfg);
     ~SMSClient();
     PROP_STR(Device);
     PROP_ULONG(BaudRate);
@@ -88,8 +88,8 @@ public:
     PROP_ULONG(Charge);
     PROP_BOOL(Charging);
     PROP_ULONG(Quality);
-    string model();
-    string oper();
+    std::string model();
+    std::string oper();
 protected slots:
     void error();
     void init();
@@ -104,23 +104,23 @@ protected:
     virtual unsigned short	getPort() const;
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
-    virtual string	getConfig();
-    virtual string	name();
-    virtual string	dataName(void*);
-    virtual bool	isMyData(clientData*&, Contact*&);
-    virtual bool	createData(clientData*&, Contact*);
-    virtual void	setupContact(Contact*, void *data);
-    virtual bool	send(Message*, void *data);
+    virtual std::string getConfig();
+    virtual std::string name();
+    virtual std::string dataName(void*);
+    virtual bool	isMyData(SIM::clientData*&, SIM::Contact*&);
+    virtual bool	createData(SIM::clientData*&, SIM::Contact*);
+    virtual void	setupContact(SIM::Contact*, void *data);
+    virtual bool	send(SIM::Message*, void *data);
     virtual bool	canSend(unsigned type, void *data);
     virtual void	packet_ready();
     virtual void	socketConnect();
-    virtual CommandDef *configWindows();
+    virtual SIM::CommandDef *configWindows();
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual QWidget	*setupWnd();
     virtual QWidget *searchWindow(QWidget*);
     QString			m_callNumber;
     QTimer			*m_callTimer;
-    Message			*m_call;
+    SIM::Message	*m_call;
     bool			m_bCall;
     GsmTA			*m_ta;
     SMSClientData	data;

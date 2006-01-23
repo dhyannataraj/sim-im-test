@@ -23,6 +23,9 @@
 #include <qtimer.h>
 #include <stdio.h>
 
+using namespace std;
+using namespace SIM;
+
 const unsigned short HTTP_PROXY_VERSION = 0x0443;
 
 const unsigned short HTTP_PROXY_HELLO	   = 2;

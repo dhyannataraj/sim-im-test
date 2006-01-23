@@ -24,6 +24,8 @@
 #include <qpushbutton.h>
 #include <qgroupbox.h>
 
+using namespace SIM;
+
 JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
                      const QString &node, const char *type)
         : JIDSearchBase(parent)
@@ -163,7 +165,7 @@ void *JIDSearch::processEvent(Event *e)
 
 void JIDSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
-    string resource;
+    std::string resource;
     if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
         return;
     if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)

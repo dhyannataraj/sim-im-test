@@ -31,7 +31,7 @@ signals:
     void okEnabled(bool);
 public slots:
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
 protected slots:
     void changed();
     void changed(const QString&);

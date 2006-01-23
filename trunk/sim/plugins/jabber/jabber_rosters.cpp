@@ -36,6 +36,9 @@
 #include <qimage.h>
 #include <qfile.h>
 
+using namespace std;
+using namespace SIM;
+
 class RostersRequest : public JabberClient::ServerRequest
 {
 public:

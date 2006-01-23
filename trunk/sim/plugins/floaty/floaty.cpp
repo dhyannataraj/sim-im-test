@@ -26,6 +26,8 @@
 #include <qwidgetlist.h>
 #include <qtimer.h>
 
+using namespace SIM;
+
 const unsigned BLINK_TIMEOUT	= 500;
 const unsigned BLINK_COUNT		= 8;
 

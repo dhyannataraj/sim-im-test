@@ -21,6 +21,8 @@
 #include <qmultilineedit.h>
 #include <qcheckbox.h>
 
+using SIM::set_str;
+
 SMSConfig::SMSConfig(QWidget *parent, void *_data)
         : SMSConfigBase(parent)
 {

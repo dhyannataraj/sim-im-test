@@ -22,6 +22,8 @@
 #include <qpixmap.h>
 #include <qpushbutton.h>
 
+using namespace SIM;
+
 class ICQClient;
 
 EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)

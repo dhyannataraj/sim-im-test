@@ -23,6 +23,8 @@
 #include <qpainter.h>
 #include <qfile.h>
 
+using namespace SIM;
+
 Plugin *createBackgroundPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new BackgroundPlugin(base, config);
@@ -72,7 +74,7 @@ BackgroundPlugin::~BackgroundPlugin()
     free_data(backgroundData, &data);
 }
 
-string BackgroundPlugin::getConfig()
+std::string BackgroundPlugin::getConfig()
 {
     return save_data(backgroundData, &data);
 }

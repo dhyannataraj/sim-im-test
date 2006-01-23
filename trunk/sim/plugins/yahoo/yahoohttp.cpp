@@ -18,7 +18,9 @@
 #include "yahooclient.h"
 #include "fetch.h"
 
-class YahooHttpPool : public Socket, public FetchClient
+using namespace SIM;
+
+class YahooHttpPool : public SIM::Socket, public FetchClient
 {
 public:
     YahooHttpPool();

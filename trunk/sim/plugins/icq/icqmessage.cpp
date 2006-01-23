@@ -29,6 +29,9 @@
 #include <qimage.h>
 #include <qregexp.h>
 
+using namespace std;
+using namespace SIM;
+
 static DataDef aimFileMessageData[] =
     {
         { "", DATA_ULONG, 1, 0 },				// Port

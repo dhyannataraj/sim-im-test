@@ -22,17 +22,17 @@
 
 class MsgEdit;
 
-class MsgUrl : public QObject, public EventReceiver
+class MsgUrl : public QObject, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MsgUrl(MsgEdit *parent, Message *msg);
+    MsgUrl(MsgEdit *parent, SIM::Message *msg);
 protected slots:
     void init();
     void urlChanged(const QString&);
 protected:
-    virtual void *processEvent(Event*);
-    string		m_client;
+    virtual void *processEvent(SIM::Event*);
+    std::string	m_client;
     MsgEdit		*m_edit;
 };
 

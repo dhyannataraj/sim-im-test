@@ -54,6 +54,9 @@
 #endif
 #endif
 
+using namespace std;
+using namespace SIM;
+
 const unsigned SHADOW_DEF	= 2;
 const unsigned XOSD_MARGIN	= 5;
 

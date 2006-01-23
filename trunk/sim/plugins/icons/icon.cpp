@@ -19,6 +19,9 @@
 #include "iconcfg.h"
 #include "icons.h"
 
+using namespace std;
+using namespace SIM;
+
 Plugin *createIconsPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new IconsPlugin(base, config);

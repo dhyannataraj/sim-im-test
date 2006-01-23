@@ -26,36 +26,36 @@ class CMenu;
 
 typedef struct MenuDef
 {
-    CommandsDef		*def;
+    SIM::CommandsDef *def;
     CMenu			*menu;
     void			*param;
 } MenuDef;
 
-typedef map<unsigned, CommandsDef*> CMDS_MAP;
-typedef map<unsigned, MenuDef>		MENU_MAP;
+typedef std::map<unsigned, SIM::CommandsDef*> CMDS_MAP;
+typedef std::map<unsigned, MenuDef>		MENU_MAP;
 
-class Commands : public QObject, public EventReceiver
+class Commands : public QObject, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     Commands();
     ~Commands();
-    void set(CommandsDef*, const char *str);
+    void set(SIM::CommandsDef*, const char *str);
     void clear();
 protected slots:
     void popupActivated();
 protected:
     bool eventFilter(QObject *o, QEvent *e);
-    void *processEvent(Event*);
-    CommandsDef *createBar(unsigned id);
+    void *processEvent(SIM::Event*);
+    SIM::CommandsDef *createBar(unsigned id);
     void removeBar(unsigned id);
-    CommandsDef *createMenu(unsigned id);
+    SIM::CommandsDef *createMenu(unsigned id);
     void removeMenu(unsigned id);
     void *show(unsigned id, QMainWindow *parent);
-    CMenu *get(CommandDef *cmd);
-    CommandsDef *getDef(unsigned id);
+    CMenu *get(SIM::CommandDef *cmd);
+    SIM::CommandsDef *getDef(unsigned id);
     CMenu *processMenu(unsigned id, void *param, int key);
-    void customize(CommandsDef *def);
+    void customize(SIM::CommandsDef *def);
     void customizeMenu(unsigned id);
     unsigned cur_id;
     CMDS_MAP bars;

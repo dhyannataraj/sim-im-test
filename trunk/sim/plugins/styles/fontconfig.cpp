@@ -52,6 +52,7 @@ FontConfig::~FontConfig()
 
 void FontConfig::apply()
 {
+    using std::string;
     string base;
     string menu;
     if (chkSystem->isChecked()){

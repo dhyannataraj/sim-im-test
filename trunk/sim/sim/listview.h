@@ -28,7 +28,7 @@ const unsigned long CmdListDelete	= 0x100;
 
 class QTimer;
 
-class EXPORT ListView : public QListView, public EventReceiver
+class EXPORT ListView : public QListView, public SIM::EventReceiver
 {
     Q_OBJECT
     Q_PROPERTY( int expandingColumn READ expandingColumn WRITE setExpandingColumn )
@@ -52,8 +52,8 @@ public slots:
     virtual void startDrag();
     void sizeChange(int,int,int);
 protected:
-    virtual ProcessMenuParam *getMenu(QListViewItem *item);
-    virtual void *processEvent(Event*);
+    virtual SIM::ProcessMenuParam *getMenu(QListViewItem *item);
+    virtual void *processEvent(SIM::Event*);
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void resizeEvent(QResizeEvent*);
     virtual QDragObject *dragObject();
@@ -69,7 +69,7 @@ protected:
     void showPopup(QListViewItem *item, QPoint p);
     int m_expandingColumn;
     unsigned long m_menuId;
-    ProcessMenuParam m_mp;
+    SIM::ProcessMenuParam m_mp;
     QTimer	 *m_resizeTimer;
 #if COMPAT_QT_VERSION < 0x030000
     QPoint m_mousePressPos;
@@ -82,10 +82,10 @@ class EXPORT ContactDragObject : public QStoredDrag
 {
     Q_OBJECT
 public:
-    ContactDragObject(ListView *dragSource, Contact *contact);
+    ContactDragObject(ListView *dragSource, SIM::Contact *contact);
     ~ContactDragObject();
     static bool canDecode(QMimeSource*);
-    static Contact *decode(QMimeSource*);
+    static SIM::Contact *decode(QMimeSource*);
 protected:
     unsigned long m_id;
 };

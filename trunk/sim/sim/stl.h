@@ -35,7 +35,6 @@
 #include <map>
 #include <memory>
 #include <algorithm>
-using namespace std;
 
 #ifdef WIN32
 #if _MSC_VER > 1020

@@ -23,16 +23,16 @@
 
 class YahooClient;
 
-class YahooInfo : public YahooInfoBase, public EventReceiver
+class YahooInfo : public YahooInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     YahooInfo(QWidget *parent, struct YahooUserData *data, YahooClient *client);
 public slots:
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(Event *e);
+    void *processEvent(SIM::Event *e);
     void fill();
     struct YahooUserData *m_data;
     YahooClient *m_client;

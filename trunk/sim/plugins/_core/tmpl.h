@@ -31,7 +31,7 @@ typedef struct TmplExpand
     QString			res;
 } TmplExpand;
 
-class Tmpl : public QObject, public EventReceiver
+class Tmpl : public QObject, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -41,11 +41,11 @@ protected slots:
     void ready(Exec*, int res, const char *out);
     void clear();
 protected:
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     bool process(TmplExpand*);
     QString process(TmplExpand*, const QString &str);
-    bool getTag(const string &name, void *data, const DataDef *def, QString &res);
-    list<TmplExpand> tmpls;
+    bool getTag(const std::string &name, void *data, const SIM::DataDef *def, QString &res);
+    std::list<TmplExpand> tmpls;
 };
 
 #endif

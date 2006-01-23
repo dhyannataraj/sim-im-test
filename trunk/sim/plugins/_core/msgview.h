@@ -28,7 +28,7 @@ class XSL;
 typedef struct CutHistory
 {
     unsigned	contact;
-    string		client;
+    std::string	client;
     unsigned	from;
     unsigned	size;
 } CutHistory;
@@ -36,40 +36,40 @@ typedef struct CutHistory
 typedef struct Msg_Id
 {
     unsigned	id;
-    string		client;
+    std::string		client;
 } Msg_Id;
 
-class MsgViewBase : public TextShow, public EventReceiver
+class MsgViewBase : public TextShow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     MsgViewBase(QWidget *parent, const char *name, unsigned id=(unsigned)(-1));
     ~MsgViewBase();
-    void		addMessage(Message *msg, bool bUnread=false, bool bSync=true);
-    bool		findMessage(Message *msg);
+    void		addMessage(SIM::Message *msg, bool bUnread=false, bool bSync=true);
+    bool		findMessage(SIM::Message *msg);
     void		setSelect(const QString &str);
     void		setXSL(XSL*);
     static		QString parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles);
     unsigned	m_id;
-    Message		*currentMessage();
+    SIM::Message *currentMessage();
     void		sync(unsigned);
 protected slots:
     void		update();
 protected:
     virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
-    void		*processEvent(Event*);
+    void		*processEvent(SIM::Event*);
     void		setBackground(unsigned start);
     void		setSource(const QString&);
     void		setColors();
     void		reload();
-    unsigned	messageId(const QString&, string &client);
-    QString		messageText(Message *msg, bool bUnread);
+    unsigned	messageId(const QString&, std::string &client);
+    QString		messageText(SIM::Message *msg, bool bUnread);
     QPoint		m_popupPos;
     QString		m_selectStr;
     unsigned	m_nSelection;
     XSL			*xsl;
-    vector<CutHistory>	m_cut;
-    list<Msg_Id>		m_updated;
+    std::vector<CutHistory>	m_cut;
+    std::list<Msg_Id>		m_updated;
 };
 
 class MsgView : public MsgViewBase
@@ -81,7 +81,7 @@ public:
 protected slots:
     void		init();
 protected:
-    void		*processEvent(Event*);
+    void		*processEvent(SIM::Event*);
 };
 
 #endif

@@ -22,17 +22,17 @@
 
 typedef struct StylesData
 {
-    Data	Style;
-    Data	SystemFonts;
-    Data	BaseFont;
-    Data	MenuFont;
-    Data	MessageFont;
-    Data	SystemColors;
-    Data	BtnColor;
-    Data	BgColor;
+    SIM::Data	Style;
+    SIM::Data	SystemFonts;
+    SIM::Data	BaseFont;
+    SIM::Data	MenuFont;
+    SIM::Data	MessageFont;
+    SIM::Data	SystemColors;
+    SIM::Data	BtnColor;
+    SIM::Data	BgColor;
 } StylesData;
 
-class StylesPlugin : public Plugin
+class StylesPlugin : public SIM::Plugin
 {
 public:
     StylesPlugin(unsigned, Buffer*);
@@ -45,7 +45,7 @@ public:
     PROP_BOOL(SystemColors);
     PROP_ULONG(BtnColor);
     PROP_ULONG(BgColor);
-    string getConfig();
+    std::string getConfig();
     QWidget *createConfigWindow(QWidget *parent);
     void setFonts();
     void setupDefaultFonts();

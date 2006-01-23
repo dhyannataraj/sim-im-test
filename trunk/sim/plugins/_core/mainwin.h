@@ -29,7 +29,7 @@ class QToolBat;
 class CorePlugin;
 class QSizeGrip;
 
-class MainWindow : public QMainWindow, public EventReceiver
+class MainWindow : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -44,7 +44,7 @@ protected:
     QVBoxLayout	*lay;
     QHBoxLayout	*h_lay;
     QSizeGrip	*m_grip;
-    void *processEvent(Event*);
+    void *processEvent(SIM::Event*);
     void focusInEvent(QFocusEvent*);
     void setTitle();
     void closeEvent(QCloseEvent *e);
@@ -53,8 +53,8 @@ protected:
     void quit();
     void addWidget(QWidget*, bool bDown);
     void addStatus(QWidget *w, bool);
-    list<QWidget*> statusWidgets;
-    string		m_icon;
+    std::list<QWidget*> statusWidgets;
+    std::string	m_icon;
     friend class CorePlugin;
 #ifdef WIN32
     QPoint p;

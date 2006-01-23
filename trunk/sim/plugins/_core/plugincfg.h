@@ -25,11 +25,11 @@ class PluginCfg : public PluginCfgBase
 {
     Q_OBJECT
 public:
-    PluginCfg(QWidget *parent, pluginInfo *info);
+    PluginCfg(QWidget *parent, SIM::pluginInfo *info);
 public slots:
     void apply();
 protected:
-    pluginInfo *m_info;
+    SIM::pluginInfo *m_info;
 };
 
 #endif

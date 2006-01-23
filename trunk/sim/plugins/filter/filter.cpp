@@ -26,6 +26,8 @@
 
 #include <qregexp.h>
 
+using namespace SIM;
+
 Plugin *createFilterPlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new FilterPlugin(base, cfg);
@@ -140,7 +142,7 @@ FilterPlugin::~FilterPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-string FilterPlugin::getConfig()
+std::string FilterPlugin::getConfig()
 {
     return save_data(filterData, &data);
 }

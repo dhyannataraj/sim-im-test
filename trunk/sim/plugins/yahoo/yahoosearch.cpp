@@ -22,6 +22,9 @@
 #include <qlabel.h>
 #include <qcombobox.h>
 
+using std::string;
+using namespace SIM;
+
 const ext_info ages[] =
     {
         { "13-18", 1 },

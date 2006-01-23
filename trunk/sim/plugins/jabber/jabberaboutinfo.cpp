@@ -22,6 +22,8 @@
 
 #include <qmultilineedit.h>
 
+using namespace SIM;
+
 JabberAboutInfo::JabberAboutInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
         : JabberAboutInfoBase(parent)
 {

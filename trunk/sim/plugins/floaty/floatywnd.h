@@ -57,7 +57,7 @@ protected:
     QPoint   mousePos;
     QPoint	 initMousePos;
     QString  m_text;
-    string   m_icons;
+    std::string m_icons;
     const char *m_statusIcon;
     unsigned long m_id;
     unsigned m_style;

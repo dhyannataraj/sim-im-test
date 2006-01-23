@@ -27,6 +27,8 @@
 #endif
 #include <qtimer.h>
 
+using namespace SIM;
+
 Plugin *createAboutPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new AboutPlugin(base);

@@ -51,6 +51,9 @@
 #endif
 #endif
 
+using namespace std;
+using namespace SIM;
+
 #ifdef WIN32
 
 const unsigned TIP_TIMEOUT = 24 * 60 * 60 * 1000;

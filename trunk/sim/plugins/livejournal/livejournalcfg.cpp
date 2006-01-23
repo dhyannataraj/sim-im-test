@@ -24,6 +24,8 @@
 #include <qspinbox.h>
 #include <qtimer.h>
 
+using namespace SIM;
+
 LiveJournalCfg::LiveJournalCfg(QWidget *parent, LiveJournalClient *client, bool bConfig)
         : LiveJournalCfgBase(parent)
 {

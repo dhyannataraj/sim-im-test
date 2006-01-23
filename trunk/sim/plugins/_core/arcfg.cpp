@@ -23,6 +23,8 @@
 #include <qtabwidget.h>
 #include <qcheckbox.h>
 
+using namespace SIM;
+
 ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *contact)
         : ARConfigBase(p)
 {

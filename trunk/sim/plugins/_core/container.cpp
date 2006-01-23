@@ -45,6 +45,9 @@
 #endif
 #endif
 
+using namespace std;
+using namespace SIM;
+
 const unsigned ACCEL_MESSAGE = 0x1000;
 
 class UserTab : public QTab

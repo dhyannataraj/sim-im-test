@@ -23,16 +23,16 @@
 
 class MSNClient;
 
-class MSNInfo : public MSNInfoBase, public EventReceiver
+class MSNInfo : public MSNInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
     MSNInfo(QWidget *parent, struct MSNUserData *data, MSNClient *client);
 public slots:
     void apply();
-    void apply(Client*, void*);
+    void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(Event *e);
+    void *processEvent(SIM::Event *e);
     void fill();
     struct MSNUserData *m_data;
     MSNClient *m_client;

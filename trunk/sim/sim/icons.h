@@ -29,8 +29,6 @@
 #endif
 #endif
 
-using namespace std;
-
 class QMimeSourceFactory;
 
 namespace SIM
@@ -42,19 +40,19 @@ typedef struct PictDef
 #if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     QPixmap			*pixmap;
 #endif
-    string			file;
+    std::string		file;
 #ifdef USE_KDE
-    string			system;
+    std::string		system;
 #endif
     unsigned		flags;
 } PictDef;
 
-typedef map<my_string, PictDef> PIXMAP_MAP;
+typedef std::map<my_string, PictDef> PIXMAP_MAP;
 
 typedef struct smileDef
 {
-    string	smile;
-    string	name;
+    std::string	smile;
+    std::string	name;
 } smileDef;
 
 class IconSet
@@ -64,18 +62,18 @@ public:
     virtual ~IconSet();
     virtual PictDef *getPict(const char *name) = 0;
     virtual void clear() = 0;
-    void parseSmiles(const QString&, unsigned &start, unsigned &size, string &name);
-    list<string> getSmile(const char *name);
-    string getSmileName(const char *name);
-    void getSmiles(list<string> &smiles, list<string> &used);
+    void parseSmiles(const QString&, unsigned &start, unsigned &size, std::string &name);
+    std::list<std::string> getSmile(const char *name);
+    std::string getSmileName(const char *name);
+    void getSmiles(std::list<std::string> &smiles, std::list<std::string> &used);
 protected:
     PIXMAP_MAP		m_icons;
-    list<smileDef>	m_smiles;
+    std::list<smileDef>	m_smiles;
 };
 
 //#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
 
-typedef map<unsigned, string>	ICONS_MAP;
+typedef std::map<unsigned, std::string>	ICONS_MAP;
 
 //#endif
 
@@ -87,13 +85,13 @@ public:
     ~Icons();
     PictDef *getPict(const char *name);
     QString parseSmiles(const QString&);
-    list<string> getSmile(const char *name);
-    void getSmiles(list<string> &smiles);
-    string getSmileName(const char *name);
+    std::list<std::string> getSmile(const char *name);
+    void getSmiles(std::list<std::string> &smiles);
+    std::string getSmileName(const char *name);
     static unsigned nSmile;
     IconSet *addIconSet(const char *name, bool bDefault);
     void removeIconSet(IconSet*);
-    list<IconSet*>	m_customSets;
+    std::list<IconSet*> m_customSets;
 //#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
     PictDef			*getPict(const QPixmap &pict);
     ICONS_MAP		m_icons;
@@ -102,7 +100,7 @@ protected slots:
     void iconChanged(int);
 protected:
     void *processEvent(Event*);
-    list<IconSet*>	m_defSets;
+    std::list<IconSet*>	m_defSets;
 };
 
 EXPORT Icons *getIcons();

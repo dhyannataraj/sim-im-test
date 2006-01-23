@@ -46,32 +46,32 @@ const unsigned long MenuSearchResult		= IcqCmdBase;
 //const unsigned long MenuCheckInvisible	= IcqCmdBase + 1;
 const unsigned long MenuIcqGroups		= IcqCmdBase + 2;
 
-class ICQProtocol : public Protocol
+class ICQProtocol : public SIM::Protocol
 {
 public:
-    ICQProtocol(Plugin *plugin);
+    ICQProtocol(SIM::Plugin *plugin);
     ~ICQProtocol();
-    Client	*createClient(Buffer *cfg);
-    const CommandDef *description();
-    const CommandDef *statusList();
-    static const CommandDef *_statusList();
-    virtual const DataDef *userDataDef();
-    static const DataDef *icqUserData;
+    SIM::Client	*createClient(Buffer *cfg);
+    const SIM::CommandDef *description();
+    const SIM::CommandDef *statusList();
+    static const SIM::CommandDef *_statusList();
+    virtual const SIM::DataDef *userDataDef();
+    static const SIM::DataDef *icqUserData;
 };
 
-class AIMProtocol : public Protocol
+class AIMProtocol : public SIM::Protocol
 {
 public:
-    AIMProtocol(Plugin *plugin);
+    AIMProtocol(SIM::Plugin *plugin);
     ~AIMProtocol();
-    Client	*createClient(Buffer *cfg);
-    const CommandDef *description();
-    const CommandDef *statusList();
-    virtual const DataDef *userDataDef();
-    static const DataDef *icqUserData;
+    SIM::Client	*createClient(Buffer *cfg);
+    const SIM::CommandDef *description();
+    const SIM::CommandDef *statusList();
+    virtual const SIM::DataDef *userDataDef();
+    static const SIM::DataDef *icqUserData;
 };
 
-class ICQPlugin : public Plugin
+class ICQPlugin : public SIM::Plugin
 {
 public:
     ICQPlugin(unsigned base);
@@ -81,8 +81,8 @@ public:
     unsigned AIMDirectPacket;
     unsigned RetrySendDND;
     unsigned RetrySendOccupied;
-    static Protocol *m_icq;
-    static Protocol *m_aim;
+    static SIM::Protocol *m_icq;
+    static SIM::Protocol *m_aim;
     static ICQPlugin  *icq_plugin;
     static CorePlugin *core;
     void registerMessages();

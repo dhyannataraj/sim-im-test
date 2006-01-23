@@ -40,6 +40,8 @@ static char value_name[] = "SIM";
 
 #endif
 
+using SIM::getContacts;
+
 #ifndef USE_KDE
 
 typedef struct language

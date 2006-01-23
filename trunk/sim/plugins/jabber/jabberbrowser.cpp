@@ -32,6 +32,9 @@
 #include <qlabel.h>
 #include <qapplication.h>
 
+using namespace std;
+using namespace SIM;
+
 const unsigned BROWSE_INFO	= 8;
 
 JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type)
