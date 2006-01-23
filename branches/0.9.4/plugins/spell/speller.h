@@ -66,7 +66,7 @@ class SpellerConfig
 public:
     SpellerConfig(SpellerBase &base);
     ~SpellerConfig();
-    string getLangs();
+    std::string getLangs();
     int setKey(const char *key, const char *val);
 protected:
     struct AspellConfig *cfg;

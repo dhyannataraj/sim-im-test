@@ -151,9 +151,9 @@ SpellerConfig::~SpellerConfig()
         delete_aspell_config(cfg);
 }
 
-string SpellerConfig::getLangs()
+std::string SpellerConfig::getLangs()
 {
-    string res;
+    std::string res;
     if (cfg == NULL)
         return res;
     AspellDictInfoList *dlist = get_aspell_dict_info_list(cfg);
@@ -182,7 +182,7 @@ Speller::Speller(SpellerConfig *cfg)
     if (cfg->cfg){
         AspellCanHaveError *ret = new_aspell_speller(cfg->cfg);
         if (aspell_error(ret) != 0){
-            log(L_WARN, "Spell: %s", aspell_error_message(ret));
+            SIM::log(SIM::L_WARN, "Spell: %s", aspell_error_message(ret));
             delete_aspell_can_have_error(ret);
             return;
         }

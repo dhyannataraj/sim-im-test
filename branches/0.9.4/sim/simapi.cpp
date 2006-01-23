@@ -81,7 +81,7 @@ QString i18n(const char *comment, const char *text)
         return QString::null;
     if (comment == NULL)
         return i18n(text);
-    string s;
+    std::string s;
     s = "_: ";
     s += comment;
     s += "\n";
@@ -152,7 +152,7 @@ QString put_n_in(const QString &orig, unsigned long n)
 
 #define EXPECT_LENGTH(x)														\
 	if (forms.count() != x){													\
-		log(L_WARN, "Broken translation %s", singular);							\
+		SIM::log(SIM::L_WARN, "Broken translation %s", singular);							\
 		goto NoTranslate;														\
 	}
 

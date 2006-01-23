@@ -75,7 +75,7 @@ void SpellConfig::apply()
 #ifdef WIN32
     m_plugin->setPath(QFile::encodeName(edtPath->text()));
 #endif
-    string lang;
+    std::string lang;
     for (QListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
         if (item->text(COL_CHECKED) == "")
             continue;
@@ -99,7 +99,7 @@ void SpellConfig::textChanged(const QString &str)
 void SpellConfig::textChanged(const QString&)
 #endif
 {
-    string langs;
+    std::string langs;
 #ifdef WIN32
     if (str.isEmpty()){
         lnkAspell->show();
@@ -126,11 +126,11 @@ void SpellConfig::textChanged(const QString&)
         lblLang->setEnabled(true);
         lstLang->setEnabled(true);
         while (!langs.empty()){
-            string l = getToken(langs, ';');
+            std::string l = SIM::getToken(langs, ';');
             bool bCheck = false;
-            string ll = m_plugin->getLang();
+            std::string ll = m_plugin->getLang();
             while (!ll.empty()){
-                string lc = getToken(ll, ';');
+                std::string lc = SIM::getToken(ll, ';');
                 if (l == lc){
                     bCheck = true;
                     break;
@@ -164,7 +164,7 @@ void SpellConfig::langClicked(QListViewItem *item)
 {
     if(!item)
         return;
-    log(L_DEBUG, "langClicked");
+    SIM::log(SIM::L_DEBUG, "langClicked");
     if (item->text(COL_CHECKED) == ""){
         item->setText(COL_CHECKED, "1");
     }else{

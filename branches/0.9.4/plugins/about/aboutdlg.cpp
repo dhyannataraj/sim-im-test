@@ -32,13 +32,13 @@
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
         : AboutDlgBase(parent, name, modal)
 {
-    SET_WNDPROC("about")
-    setButtonsPict(this);
+    SIM::SET_WNDPROC("about")
+    SIM::setButtonsPict(this);
     setCaption(caption());
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-    setIcon(Pict("ICQ"));
-    QIconSet icon = Icon("ICQ");
+    setIcon(SIM::Pict("ICQ"));
+    QIconSet icon = SIM::Icon("ICQ");
     if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
     edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));
@@ -86,7 +86,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     }
     QString license = aboutData->license();
     license += "\n\n";
-    QFile f(QFile::decodeName(app_file("COPYING").c_str()));
+    QFile f(QFile::decodeName(SIM::app_file("COPYING").c_str()));
     if (f.open(IO_ReadOnly)){
         for (;;){
             QString s;
