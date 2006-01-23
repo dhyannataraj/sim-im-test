@@ -2,6 +2,7 @@ sim_plugin_LTLIBRARIES = gpg.la
 
 gpg_la_SOURCES = \
  gpg.cpp \
+ gpgfindbase.ui \
  gpgcfg.cpp \
  gpgcfgbase.ui \
  gpgadv.cpp \
@@ -14,8 +15,7 @@ gpg_la_SOURCES = \
  passphrasebase.ui
 
 EXTRA_gpg_la_SOURCES =\
- gpgfind.cpp \
- gpgfindbase.ui
+ gpgfind.cpp
 
 INCLUDES=-I../../sim -I../_core $(all_includes)
 
