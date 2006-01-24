@@ -29,6 +29,8 @@
 #include <qfile.h>
 #include <qlineedit.h>
 
+using namespace SIM;
+
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
         : AboutDlgBase(parent, name, modal)
 {

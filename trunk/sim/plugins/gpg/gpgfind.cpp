@@ -27,6 +27,8 @@
 
 #include <windows.h>
 
+using namespace SIM;
+
 GpgFind::GpgFind(EditFile *edt)
         : GpgFindBase(NULL, NULL, false, WDestructiveClose)
 {

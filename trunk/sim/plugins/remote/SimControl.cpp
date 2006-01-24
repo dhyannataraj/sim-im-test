@@ -24,6 +24,8 @@ extern CComModule _Module;
 #include "remote.h"
 #include "stl.h"
 
+using namespace std;
+
 class IPC
 {
 public:

@@ -22,15 +22,15 @@
 
 typedef struct WinDockData
 {
-    Data	AutoHide;
-    Data	State;
-    Data	Height;
-    Data	Width;
+    SIM::Data	AutoHide;
+    SIM::Data	State;
+    SIM::Data	Height;
+    SIM::Data	Width;
 } WinDocData;
 
 class QTimer;
 
-class WinDockPlugin : public QObject, public Plugin, public EventReceiver
+class WinDockPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
@@ -47,7 +47,7 @@ protected slots:
 protected:
     virtual void *processEvent(SIM::Event*);
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual string getConfig();
+    virtual std::string getConfig();
     QWidget *getMainWindow();
     unsigned CmdAutoHide;
     bool m_bInit;

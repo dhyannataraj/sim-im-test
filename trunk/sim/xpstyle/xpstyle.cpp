@@ -40,6 +40,9 @@
 bool bInit = false;
 #endif
 
+using namespace std;
+using namespace SIM;
+
 static QStyle *createXPstyle()
 {
     return new QWindowsXPStyle;
