@@ -36,7 +36,7 @@ typedef struct BalloonItem
     QString		title;
     unsigned	id;
     unsigned	flags;
-    Client		*client;
+    SIM::Client	*client;
 } BallonItem;
 
 #endif
@@ -93,7 +93,7 @@ protected:
 #else
     void				*hShell;
     bool				m_bBalloon;
-    list<BalloonItem>	m_queue;
+    std::list<BalloonItem>	m_queue;
     bool				showBalloon();
 #endif
     DockPlugin *m_plugin;

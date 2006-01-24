@@ -39,8 +39,8 @@ protected slots:
 protected:
     bool checkPath();
     QString				 m_path;
-    stack<QStringList>   m_tree;
-    stack<unsigned>		 m_pos;
+    std::stack<QStringList>	m_tree;
+    std::stack<unsigned>	m_pos;
     QFileInfoList		 m_drives;
     QFileInfo			 *m_drive;
     EditFile			 *m_edit;

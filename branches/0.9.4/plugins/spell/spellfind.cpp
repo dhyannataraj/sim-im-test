@@ -27,6 +27,9 @@
 
 #include <windows.h>
 
+using namespace std;
+using namespace SIM;
+
 SpellFind::SpellFind(EditFile *edt)
         : SpellFindBase(NULL, NULL, false, WDestructiveClose)
 {

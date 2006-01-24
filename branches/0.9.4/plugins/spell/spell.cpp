@@ -26,6 +26,9 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 
+using namespace std;
+using namespace SIM;
+
 class PSpellHighlighter : public SpellHighlighter
 {
 public:
