@@ -33,6 +33,8 @@
 #include <qpainter.h>
 #include <qstyle.h>
 
+using namespace SIM;
+
 const unsigned COL_NAME		= 0;
 const unsigned COL_CHECK	= 1;
 const unsigned COL_CHECKED	= 2;
