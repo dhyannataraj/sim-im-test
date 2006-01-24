@@ -10,7 +10,5 @@ wood_la_METASOURCES = AUTO
 wood_la_LIBADD = $(LIB_QT) $(EXTRA_LIBS)
 wood_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
-install-data-hook:
-	rm -rf $(DESTDIR)$(sim_stylesdir)/wood.la
 
 

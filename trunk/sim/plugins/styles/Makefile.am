@@ -13,7 +13,5 @@ styles_la_METASOURCES = AUTO
 styles_la_LIBADD = ../../sim/libsim.la   $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS) 
 styles_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
-install-data-hook:
-	rm -rf $(DESTDIR)$(sim_plugindir)/styles.la
 
 

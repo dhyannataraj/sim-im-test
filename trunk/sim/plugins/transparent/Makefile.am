@@ -15,7 +15,5 @@ transparent_la_LIBADD = $(TRANSPARENT_OBJ) ../../sim/libsim.la  $(LIB_QT) $(LIB_
 transparent_la_DEPENDENCIES  = $(TRANSPARENT_OBJ)
 transparent_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
-install-data-hook:
-	rm -rf $(DESTDIR)$(sim_plugindir)/transparent.la
 
 

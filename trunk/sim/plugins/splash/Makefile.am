@@ -13,6 +13,4 @@ dist_pict_DATA = splash.png
 
 pictdir = $(kde_datadir)/sim/pict/
 
-install-data-hook:
-	rm -rf $(DESTDIR)$(sim_plugindir)/splash.la
 
