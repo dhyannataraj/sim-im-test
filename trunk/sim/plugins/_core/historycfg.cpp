@@ -205,7 +205,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     lblPage2->setText(str2);
     edtStyle->setWordWrap(QTextEdit::NoWrap);
     edtStyle->setTextFormat(QTextEdit::RichText);
-    new XmlHighlighter(edtStyle);
+    highlighter = new XmlHighlighter(edtStyle);
     QStringList styles;
     addStyles(user_file(STYLES).c_str(), true);
 #ifdef USE_KDE
@@ -241,6 +241,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
 
 HistoryConfig::~HistoryConfig()
 {
+    delete highlighter;
 }
 
 static char BACKUP_SUFFIX[] = "~";

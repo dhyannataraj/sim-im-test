@@ -556,6 +556,7 @@ void init_data(const DataDef *d, Data *data)
             data->ptr = NULL;
             switch (def->type){
             case DATA_STRING:
+            case DATA_STRLIST:
                 set_str(&data->ptr, def->def_value);
                 break;
             case DATA_UTF:
