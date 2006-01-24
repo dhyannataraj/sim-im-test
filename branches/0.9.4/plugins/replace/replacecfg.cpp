@@ -29,6 +29,7 @@ using SIM::number;
 ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
         : ReplaceCfgBase(parent)
 {
+    m_count = 0;
     m_plugin = plugin;
     lstKeys->addColumn(i18n("You type"));
     lstKeys->addColumn(i18n("You send"));

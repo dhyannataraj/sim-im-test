@@ -308,6 +308,7 @@ void MsgViewBase::update()
             }
         }
         text += messageText(msg, bUnread);
+        delete msg;
     }
     viewport()->setUpdatesEnabled(true);
     append(text);
