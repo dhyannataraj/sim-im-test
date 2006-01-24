@@ -656,7 +656,7 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
                         header->update( d->hotHeader );
                 }
             } else if ( o->inherits( "QSlider" ) ) {
-                static clearSlider = FALSE;
+                static int clearSlider = FALSE;
                 QSlider *slider = (QSlider*)o;
                 const QRect rect = slider->sliderRect();
                 const bool inSlider = rect.contains( d->hotSpot );
@@ -665,7 +665,7 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
                     slider->repaint( rect, FALSE );
                 }
             } else if ( o->inherits( "QComboBox" ) ) {
-                static clearCombo = FALSE;
+                static int clearCombo = FALSE;
 
                 int x = 0, y = 0, wi = widget->width(), he = widget->height();
                 int xpos = x;
@@ -835,8 +835,8 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
                 unsigned char cr = c.red();
                 unsigned char cg = c.green();
                 unsigned char cb = c.blue();
-                for (i = 0; i < image->height(); i++){
-                    for (unsigned j = 0; j < image->width(); j++){
+                for (i = 0; i < (unsigned)image->height(); i++){
+                    for (unsigned j = 0; j < (unsigned)image->width(); j++){
                         unsigned char a = qAlpha(*f);
                         *t = qRgba((cr * a + qRed(*t) * (0xFF - a)) >> 8,
                                    (cg * a + qGreen(*t) * (0xFF - a)) >> 8,
@@ -849,8 +849,8 @@ bool QWindowsXPStyle::eventFilter( QObject *o, QEvent *e )
                 f = (unsigned int*)image->bits();
                 t = (unsigned int*)img.bits();
                 t += picty * widget->width() + x;
-                for (i = 0; i < image->height(); i++){
-                    for (unsigned j = 0; j < image->width(); j++){
+                for (i = 0; i < (unsigned)image->height(); i++){
+                    for (unsigned j = 0; j < (unsigned)image->width(); j++){
                         unsigned char a = qAlpha(*f);
                         *t = qRgba((qRed(*f) * a + qRed(*t) * (0xFF - a)) >> 8,
                                    (qGreen(*f) * a + qGreen(*t) * (0xFF - a)) >> 8,
@@ -1576,12 +1576,12 @@ void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
             unsigned char cg2 = c2.green();
             unsigned char cb2 = c2.blue();
             unsigned i;
-            for (i = 0; i < (image->width() + 2) * (image->height() + 2); i++)
+            for (i = 0; i < (unsigned)(image->width() + 2) * (image->height() + 2); i++)
                 data[i] = qRgba(cr1, cg1, cb1, 0xFF);
             unsigned int *f = from;
             unsigned int *t = data + (image->width() + 2) * 2 + 2;
-            for (i = 0; i < image->height(); i++){
-                for (unsigned j = 0; j < image->height(); j++){
+            for (i = 0; i < (unsigned)image->height(); i++){
+                for (unsigned j = 0; j < (unsigned)image->height(); j++){
                     unsigned char a = qAlpha(*f);
                     *t = qRgba((cr2 * a + cr1 * (0xFF - a)) >> 8,
                                (cg2 * a + cg1 * (0xFF - a)) >> 8,
@@ -1593,8 +1593,8 @@ void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
             }
             f = from;
             t = data;
-            for (i = 0; i < image->height(); i++){
-                for (unsigned j = 0; j < image->height(); j++){
+            for (i = 0; i < (unsigned)image->height(); i++){
+                for (unsigned j = 0; j < (unsigned)image->height(); j++){
                     unsigned char a = qAlpha(*f);
                     *t = qRgba((qRed(*f) * a + qRed(*t) * (0xFF - a)) >> 8,
                                (qGreen(*f) * a + qGreen(*t) * (0xFF - a)) >> 8,
@@ -1614,7 +1614,7 @@ void QWindowsXPStyle::drawPopupMenuItem( QPainter* p, bool checkable,
             unsigned char cb = c.blue();
             unsigned int *data = (unsigned int*)(img.bits());
             unsigned int *from = (unsigned int*)(image->bits());
-            for (unsigned i = 0; i < image->width() * image->height(); i++){
+            for (unsigned i = 0; i < (unsigned)image->width() * image->height(); i++){
                 unsigned char a = qAlpha(from[i]);
                 data[i] = qRgba((qRed(from[i]) * a + cr * (0xFF - a)) >> 8,
                                 (qGreen(from[i]) * a + cg * (0xFF - a)) >> 8,
