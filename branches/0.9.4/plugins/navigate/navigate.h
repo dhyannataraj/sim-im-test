@@ -28,6 +28,9 @@ typedef struct NavigateData
     SIM::Data Browser;
     SIM::Data Mailer;
 #endif
+#ifdef USE_KDE
+    SIM::Data UseKDE;
+#endif
 } NavigateData;
 
 class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver
@@ -47,6 +50,9 @@ protected:
 #else
     PROP_STR(Browser);
     PROP_STR(Mailer);
+#endif
+#ifdef USE_KDE
+    PROP_BOOL(UseKDE);
 #endif
     virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);

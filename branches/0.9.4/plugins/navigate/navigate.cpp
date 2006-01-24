@@ -19,6 +19,10 @@
 #include "navcfg.h"
 #include "core.h"
 
+#ifdef USE_KDE
+#include <kapplication.h>
+#endif
+
 #ifndef WIN32
 #include <qurl.h>
 #endif
@@ -248,8 +252,9 @@ static DataDef navigateData[] =
 #ifdef USE_KDE
         { "Browser", DATA_STRING, 1, "konqueror" },
         { "Mailer", DATA_STRING, 1, "kmail" },
+        { "UseKDE", DATA_BOOL, 1, DATA(1) },
 #else
-{ "Browser", DATA_STRING, 1, "netscape" },
+        { "Browser", DATA_STRING, 1, "netscape" },
         { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
 #endif
 #endif
@@ -378,6 +383,16 @@ void *NavigatePlugin::processEvent(Event *e)
             ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);
         }
 #else
+#ifdef USE_KDE
+        if (getUseKDE())
+        {
+            if (proto == "mailto")
+                kapp->invokeMailer(url.substr(proto.length() + 1), QString::null);
+            else
+                kapp->invokeBrowser(url);
+            return e->param();
+        }
+#endif // USE_KDE
         ExecParam execParam;
         if (proto == "mailto"){
             execParam.cmd = getMailer();
@@ -391,7 +406,7 @@ void *NavigatePlugin::processEvent(Event *e)
         execParam.arg = url.c_str();
         Event eExec(EventExec, &execParam);
         eExec.process();
-#endif
+#endif // WIN32
         return e->param();
     }
     if (e->type() == EventEncodeText){

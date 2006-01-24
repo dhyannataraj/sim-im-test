@@ -6,35 +6,46 @@
         <name>name</name>
         <cstring>Form1</cstring>
     </property>
-    <property>
+    <property stdset="1">
         <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>282</width>
+            <width>278</width>
             <height>192</height>
         </rect>
     </property>
-    <property>
+    <property stdset="1">
         <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-        <property>
+        <property stdset="1">
             <name>margin</name>
             <number>11</number>
         </property>
-        <property>
+        <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkKDE</cstring>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Use KDE settings</string>
+            </property>
+        </widget>
         <widget>
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>lblBrowser</cstring>
             </property>
-            <property>
+            <property stdset="1">
                 <name>text</name>
                 <string>Browser:</string>
             </property>
@@ -52,7 +63,7 @@
                 <name>name</name>
                 <cstring>lblMailer</cstring>
             </property>
-            <property>
+            <property stdset="1">
                 <name>text</name>
                 <string>Mailer:</string>
             </property>
@@ -70,7 +81,7 @@
                 <name>name</name>
                 <cstring>chkNew</cstring>
             </property>
-            <property>
+            <property stdset="1">
                 <name>text</name>
                 <string>Open links in &amp;new window</string>
             </property>
@@ -80,11 +91,11 @@
                 <name>name</name>
                 <cstring>Spacer1</cstring>
             </property>
-            <property>
+            <property stdset="1">
                 <name>orientation</name>
                 <enum>Vertical</enum>
             </property>
-            <property>
+            <property stdset="1">
                 <name>sizeType</name>
                 <enum>Expanding</enum>
             </property>

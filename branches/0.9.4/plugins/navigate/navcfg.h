@@ -32,6 +32,8 @@ public slots:
     void apply();
 protected:
     NavigatePlugin *m_plugin;
+protected slots:
+    void useKDEtoggled(bool on);
 };
 
 #endif
