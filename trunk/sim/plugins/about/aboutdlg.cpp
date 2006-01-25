@@ -34,8 +34,8 @@ using namespace SIM;
 KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *parent, const char *name, bool modal)
         : AboutDlgBase(parent, name, modal)
 {
-    SIM::SET_WNDPROC("about")
-    SIM::setButtonsPict(this);
+	SET_WNDPROC("about");
+    setButtonsPict(this);
     setCaption(caption());
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));

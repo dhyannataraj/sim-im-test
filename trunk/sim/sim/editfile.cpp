@@ -103,7 +103,7 @@ public:
 FileDialog::FileDialog(const QString &dirName, const QString &filter, QWidget *parent, const QString &title)
         : QFileDialog(dirName, filter, parent, "filedialog", true)
 {
-    SET_WNDPROC("filedialog")
+    SET_WNDPROC("filedialog");
     setCaption(title);
 }
 
