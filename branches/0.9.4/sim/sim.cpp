@@ -36,6 +36,7 @@
 #include <qapplication.h>
 #endif
 
+using namespace std;
 using namespace SIM;
 
 #ifdef USE_KDE
