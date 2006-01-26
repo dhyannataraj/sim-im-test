@@ -23,6 +23,7 @@
 
 #include <qtimer.h>
 
+using namespace std;
 const unsigned ErrorColor = 0xFF0101;
 
 SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)

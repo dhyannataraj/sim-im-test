@@ -51,8 +51,7 @@ const unsigned CONNECT_TIMEOUT = 60;
 namespace SIM
 {
 
-using std::list;
-using std::string;
+using namespace std;
 
 SIMSockets::SIMSockets()
 {

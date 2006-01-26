@@ -24,6 +24,7 @@
 #include <qcombobox.h>
 #include <qtimer.h>
 
+using namespace std;
 using namespace SIM;
 
 static bool cmp_protocol(Protocol *p1, Protocol *p2)

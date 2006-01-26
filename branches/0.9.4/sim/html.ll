@@ -105,7 +105,7 @@ static std::string current_tag;
 namespace SIM
 {
 
-using std::list;
+using namespace std;
 
 class HTMLParserPrivate
 {

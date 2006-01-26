@@ -27,7 +27,7 @@
 #include <qtoolbar.h>
 #include <qtimer.h>
 
-using std::list;
+using namespace std;
 using namespace SIM;
 
 static DataDef userWndData[] =
