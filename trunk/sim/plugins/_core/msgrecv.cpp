@@ -30,7 +30,7 @@
 #include <qlayout.h>
 #include <qpopupmenu.h>
 
-using std::list;
+using namespace std;
 using namespace SIM;
 
 MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)

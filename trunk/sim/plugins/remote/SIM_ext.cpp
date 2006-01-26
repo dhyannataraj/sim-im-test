@@ -6,6 +6,8 @@ extern CComModule _Module;
 #include "SIM_ext.h"
 #include <stdio.h>
 
+using namespace std;
+
 static bool (*ProcessStr)(BSTR in_str, BSTR *out_str) = NULL;
 
 static string getToken(string &from, char c)

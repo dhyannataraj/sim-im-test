@@ -23,7 +23,7 @@
 namespace SIM
 {
 
-using std::list;
+using namespace std;
 
 #ifndef INADDR_NONE
 #define INADDR_NONE	0xFFFFFFFF

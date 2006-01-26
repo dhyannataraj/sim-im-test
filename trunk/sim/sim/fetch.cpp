@@ -32,8 +32,7 @@
 
 #include <time.h>
 
-using std::string;
-using std::list;
+using namespace std;
 using namespace SIM;
 
 const unsigned HTTPPacket   = 0x100;

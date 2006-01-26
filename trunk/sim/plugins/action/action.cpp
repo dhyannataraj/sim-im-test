@@ -22,7 +22,7 @@
 
 #include <qtimer.h>
 
-using std::list;
+using namespace std;
 using namespace SIM;
 
 Plugin *createActionPlugin(unsigned base, bool, Buffer*)
