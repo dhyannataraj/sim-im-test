@@ -764,10 +764,10 @@ Contact *SearchDialog::createContact(unsigned flags)
     if (m_result->currentItem() == NULL)
         return NULL;
     QWidget *w = (QWidget*)(m_result->currentItem()->text(COL_SEARCH_WND).toULong());
-    connect(this, SIGNAL(createContact(const QString&, unsigned, Contact*&)), w, SLOT(createContact(const QString&, unsigned, Contact*&)));
+	connect(this, SIGNAL(createContact(const QString&, unsigned, SIM::Contact*&)), w, SLOT(createContact(const QString&, unsigned, SIM::Contact*&)));
     QString name = m_result->currentItem()->text(0);
     emit createContact(name, flags, contact);
-    disconnect(this, SIGNAL(createContact(const QString&, unsigned, Contact*&)), w, SLOT(createContact(const QString&, unsigned, Contact*&)));
+    disconnect(this, SIGNAL(createContact(const QString&, unsigned, SIM::Contact*&)), w, SLOT(createContact(const QString&, unsigned, SIM::Contact*&)));
     return contact;
 }
 
