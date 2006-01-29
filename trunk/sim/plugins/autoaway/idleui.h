@@ -18,6 +18,7 @@
 //
 // See TestIdleUI.cpp for an example of how to use IdleUI
 //
+// IdleUI DLL by Paul DiLascia
 DLLIMPORT BOOL IdleUIInit();
 DLLIMPORT void IdleUITerm();
 DLLIMPORT DWORD IdleUIGetLastInputTime();
