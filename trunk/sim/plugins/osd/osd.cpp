@@ -42,7 +42,7 @@
 #ifndef CS_DROPSHADOW
 #define CS_DROPSHADOW   0x00020000
 #endif
-#ifndef SPI_GETSCREENSAVERRUNNING 
+#ifndef SPI_GETSCREENSAVERRUNNING
 #define SPI_GETSCREENSAVERRUNNING 114
 #endif
 
@@ -87,7 +87,7 @@ typedef struct OSDUserData
 	unsigned	EnableMessage;
 	unsigned	EnableAlert;
 	unsigned	EnableAlertOnline;,
-	unsigned	EnableAlertAway; 
+	unsigned	EnableAlertAway;
 	unsigned	EnableAlertNA;
 	unsigned	EnableAlertDND;
 	unsigned	EnableAlertOccupied;
@@ -735,14 +735,6 @@ void *OSDPlugin::processEvent(Event *e)
 int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
-}
-
-/**
- * This is to prevent the CRT from loading, thus making this a smaller
- * and faster dll.
- **/
-extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
-    return DllMain( hinstDLL, fdwReason, lpvReserved );
 }
 
 #endif

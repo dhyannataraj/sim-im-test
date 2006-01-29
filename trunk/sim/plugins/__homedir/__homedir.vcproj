@@ -16,7 +16,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\Release\plugins"
+			OutputDirectory=".\..\..\Release"
 			IntermediateDirectory=".\..\..\Release_Wrk"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
@@ -78,7 +78,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="odbc32.lib odbccp32.lib AdvAPI32.Lib $(QTDIR)\lib\$(QTLIB) ..\..\Release\sim.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib AdvAPI32.Lib $(QTDIR)\lib\$(QTLIB) $(OutDir)\sim.lib"
 				OutputFile=".\..\..\Release\plugins/__homedir.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -114,7 +114,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\Debug\plugins"
+			OutputDirectory=".\..\..\Debug"
 			IntermediateDirectory=".\..\..\Debug_Wrk"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
@@ -177,7 +177,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="odbc32.lib odbccp32.lib AdvAPI32.Lib $(QTDIR)\lib\$(QTLIB) ..\..\Release\sim.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib AdvAPI32.Lib $(QTDIR)\lib\$(QTLIB) $(OutDir)\sim.lib"
 				OutputFile=".\..\..\Debug\plugins/__homedir.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

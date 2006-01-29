@@ -79,7 +79,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="..\..\Debug\sim.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB)"
+				AdditionalDependencies="$(OutDir)\sim.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB)"
 				OutputFile="../../Debug/plugins/yahoo.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -180,7 +180,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="..\..\Release\sim.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB)"
+				AdditionalDependencies="$(OutDir)\sim.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB)"
 				OutputFile="../../Release/plugins/yahoo.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

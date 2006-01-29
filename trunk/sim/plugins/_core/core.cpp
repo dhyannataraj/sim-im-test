@@ -205,7 +205,7 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
 
 /*
 typedef struct CoreData
-{    
+{
     char		*Profile;
     unsigned	SavePasswd;
     unsigned	NoShow;
@@ -4549,14 +4549,6 @@ bool FileLock::lock(bool)
 int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
-}
-
-/**
- * This is to prevent the CRT from loading, thus making this a smaller
- * and faster dll.
- **/
-extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
-    return DllMain( hinstDLL, fdwReason, lpvReserved );
 }
 
 #endif

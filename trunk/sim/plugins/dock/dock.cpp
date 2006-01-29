@@ -70,7 +70,7 @@ typedef struct DockData
     bool			AutoHide;
     unsigned		AutoHideInterval;
     bool			ShowMain;
-#ifndef WIN32 
+#ifndef WIN32
     unsigned		DockX;
     unsigned		DockY;
 #endif
@@ -411,14 +411,6 @@ void DockPlugin::timer()
 int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
-}
-
-/**
- * This is to prevent the CRT from loading, thus making this a smaller
- * and faster dll.
- **/
-extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
-    return DllMain( hinstDLL, fdwReason, lpvReserved );
 }
 
 #endif

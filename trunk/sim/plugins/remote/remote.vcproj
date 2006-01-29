@@ -79,7 +79,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib User32.Lib Gdi32.Lib $(QTDIR)\lib\$(QTLIB) ..\..\Release\sim.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib User32.Lib Gdi32.Lib $(QTDIR)\lib\$(QTLIB) $(OutDir)\sim.lib"
 				OutputFile="../../Release/plugins/remote.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -178,7 +178,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib User32.Lib Gdi32.Lib $(QTDIR)\lib\$(QTLIB) ..\..\Release\sim.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib User32.Lib Gdi32.Lib $(QTDIR)\lib\$(QTLIB) $(OutDir)\sim.lib"
 				OutputFile="../../Debug/plugins/remote.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
