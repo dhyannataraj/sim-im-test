@@ -931,7 +931,7 @@ void QWindowsXPStyle::drawButton( QPainter *p, int x, int y, int w, int h,
                        stateId, QRect(x, y, w, h));
     if ( !theme.isValid() ) {
         //QWindowsStyle::drawButton(p, x, y, w, h, g, sunken, fill); //old QT2.3
-		
+
         return;
     }
     theme.drawBackground();
@@ -1732,14 +1732,6 @@ void QWindowsXPStyle::activeTabChanged()
 int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
     return TRUE;
-}
-
-/**
- * This is to prevent the CRT from loading, thus making this a smaller
- * and faster dll.
- **/
-extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
-    return DllMain( hinstDLL, fdwReason, lpvReserved );
 }
 
 #include "moc_xpstyle.cpp"

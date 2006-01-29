@@ -16,8 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\Release_Wrk\plugins\style"
-			IntermediateDirectory=".\..\Release_Wrk"
+			OutputDirectory="..\Release\plugins\styles"
+			IntermediateDirectory="..\Release_Wrk"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -78,7 +78,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="imm32.lib wsock32.lib winmm.lib User32.Lib Gdi32.Lib $(QTDIR)\lib\$(QTLIB) uxtheme.lib ..\Release\sim.lib"
+				AdditionalDependencies="imm32.lib wsock32.lib winmm.lib User32.Lib Gdi32.Lib uxtheme.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="../Release/plugins/styles/xpstyle.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -114,8 +114,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\Debug\plugins\styles"
-			IntermediateDirectory=".\..\Debug_Wrk"
+			OutputDirectory="..\Debug\plugins\styles"
+			IntermediateDirectory="..\Debug_Wrk"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -177,7 +177,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="imm32.lib wsock32.lib winmm.lib User32.Lib Gdi32.Lib $(QTDIR)\lib\$(QTLIB) uxtheme.lib ..\Release\sim.lib"
+				AdditionalDependencies="imm32.lib wsock32.lib winmm.lib User32.Lib Gdi32.Lib uxtheme.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile=".\..\Debug\plugins\styles/xpstyle.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef PREVIEW_H
+#define PREVIEW_H
 
 #include "simapi.h"
 #ifdef USE_KDE
@@ -52,3 +54,5 @@ protected:
 };
 
 #endif
+
+#endif // PREVIEW_H
