@@ -17,7 +17,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\..\Release\plugins"
-			IntermediateDirectory="..\..\Release_Wrk"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -55,7 +55,8 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\..\..\Release_Wrk/icq.pch"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="icq_pch.h"
 				AssemblerListingLocation=".\..\..\Release_Wrk/"
 				ObjectFile="Debug/"
 				ProgramDataBaseFileName="Debug/"
@@ -63,6 +64,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DisableSpecificWarnings="4996"
+				ForcedIncludeFiles="icq_pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -115,8 +117,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Debug"
-			IntermediateDirectory="..\..\Debug_Wrk"
+			OutputDirectory="..\..\Debug\plugins"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -153,7 +155,8 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\..\..\Debug_Wrk/icq.pch"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="icq_pch.h"
 				AssemblerListingLocation=".\..\..\Debug_Wrk/"
 				ObjectFile=".\..\..\Debug_Wrk/"
 				ProgramDataBaseFileName=".\..\..\Debug_Wrk/"
@@ -162,6 +165,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996"
+				ForcedIncludeFiles="icq_pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -2596,6 +2600,26 @@
 			<File
 				RelativePath="icq.h"
 				>
+			</File>
+			<File
+				RelativePath=".\icq_pch.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="icqclient.h"

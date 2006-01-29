@@ -55,13 +55,15 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\Release_Wrk/sim.pch"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="sim_pch.h"
 				AssemblerListingLocation=".\Release_Wrk/"
 				ObjectFile="Release/"
 				ProgramDataBaseFileName="Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DisableSpecificWarnings="4996"
+				ForcedIncludeFiles="sim_pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -114,7 +116,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug_Wrk"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -650,6 +652,8 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -1598,6 +1602,8 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -2114,6 +2120,14 @@
 			<File
 				RelativePath=".\sim\sim_pch.h"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
