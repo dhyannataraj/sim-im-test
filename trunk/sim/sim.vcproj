@@ -151,7 +151,8 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\Debug_Wrk/sim.pch"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="sim_pch.h"
 				AssemblerListingLocation=".\Debug_Wrk/"
 				ObjectFile="Debug/"
 				ProgramDataBaseFileName="Debug/"
@@ -160,6 +161,7 @@
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996"
+				ForcedIncludeFiles="sim_pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -657,6 +659,8 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1603,6 +1607,8 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -2106,8 +2112,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\sim\sim_pch.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="sim\simapi.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="sim\socket.h"
