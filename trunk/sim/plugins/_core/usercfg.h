@@ -22,7 +22,6 @@
 #include "cfgdlgbase.h"
 
 class CorePlugin;
-class ConfigItem;
 
 class UserConfig : public ConfigureDialogBase, public SIM::EventReceiver
 {
