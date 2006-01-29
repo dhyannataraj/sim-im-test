@@ -84,6 +84,8 @@ typedef struct CoreData
     SIM::Data	EditSaveFont;
     SIM::Data	OwnColors;
     SIM::Data	UseSmiles;
+    SIM::Data	UseExtViewer;
+    SIM::Data	ExtViewer;
     SIM::Data	CloseSend;
     SIM::Data	HistoryPage;
     SIM::Data	HistoryDirection;
@@ -447,6 +449,8 @@ public:
     PROP_BOOL(EditSaveFont);
     PROP_BOOL(OwnColors);
     PROP_BOOL(UseSmiles);
+    PROP_BOOL(UseExtViewer);
+    PROP_STR(ExtViewer);
     PROP_BOOL(CloseSend);
     PROP_ULONG(HistoryPage);
     PROP_BOOL(HistoryDirection);

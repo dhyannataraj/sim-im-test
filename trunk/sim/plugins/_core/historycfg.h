@@ -57,6 +57,7 @@ public slots:
     void toggled(bool);
     void toggledDays(bool);
     void toggledSize(bool);
+    void toggledExtViewer(bool);
 protected:
     void fillPreview();
     bool eventFilter(QObject *o, QEvent *e);

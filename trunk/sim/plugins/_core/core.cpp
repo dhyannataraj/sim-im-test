@@ -297,6 +297,16 @@ static DataDef coreData[] =
         { "EditSaveFont", DATA_BOOL, 1, 0 },
         { "OwnColors", DATA_BOOL, 1, 0 },
         { "UseSmiles", DATA_BOOL, 1, DATA(1) },
+        { "UseExtViewer", DATA_BOOL, 1, 0 },
+#ifdef WIN32
+        { "ExtViewer", DATA_STRING, 1, "notepad" },
+#else /*WIN32*/
+#ifdef USE_KDE
+        { "ExtViewer", DATA_STRING, 1, "kate" },
+#else/*USE_KDE*/
+        { "ExtViewer", DATA_STRING, 1, "gvim" },
+#endif/*USE_KDE*/
+#endif/*WIN32*/
         { "CloseSend", DATA_BOOL, 1, 0 },
         { "HistoryPage", DATA_ULONG, 1, DATA(100) },
         { "HistoryDirection", DATA_BOOL, 1, 0 },
@@ -3159,26 +3169,36 @@ if (fname[0] != '/')
             }
             if (cmd->id == CmdHistory){
                 unsigned long id = (unsigned long)(cmd->param);
-                HistoryWindow *wnd = NULL;
-                QWidgetList  *list = QApplication::topLevelWidgets();
-                QWidgetListIt it(*list);
-                QWidget * w;
-                while ((w = it.current()) != NULL){
-                    if (w->inherits("HistoryWindow")){
-                        wnd =  static_cast<HistoryWindow*>(w);
-                        if (wnd->id() == id)
-                            break;
-                        wnd = NULL;
+                if (!getUseExtViewer()){
+                    HistoryWindow *wnd = NULL;
+                    QWidgetList  *list = QApplication::topLevelWidgets();
+                    QWidgetListIt it(*list);
+                    QWidget * w;
+                    while ((w = it.current()) != NULL){
+                           if (w->inherits("HistoryWindow")){
+                               wnd =  static_cast<HistoryWindow*>(w);
+                               if (wnd->id() == id)
+                                   break;
+                               wnd = NULL;
+                           }
+                           ++it;
                     }
-                    ++it;
+                    delete list;
+                    if (wnd == NULL){
+                        wnd = new HistoryWindow(id);
+                        if (data.historySize[0].value && data.historySize[1].value)
+                            wnd->resize(data.historySize[0].value, data.historySize[1].value);
+                    }
+                    raiseWindow(wnd);
+                } else{
+                    QString str = QFile::decodeName(user_file(".history_file").c_str());
+                    History::save(id, str);
+                    ExecParam execParam;
+                    execParam.cmd = getExtViewer();
+                    execParam.arg = (const char *)str;
+                    Event eExec(EventExec, &execParam);
+                    eExec.process();
                 }
-                delete list;
-                if (wnd == NULL){
-                    wnd = new HistoryWindow(id);
-                    if (data.historySize[0].value && data.historySize[1].value)
-                        wnd->resize(data.historySize[0].value, data.historySize[1].value);
-                }
-                raiseWindow(wnd);
                 return e->param();
             }
             if (cmd->id == CmdConfigure){

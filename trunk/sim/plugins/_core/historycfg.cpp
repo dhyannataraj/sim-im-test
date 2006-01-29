@@ -188,6 +188,8 @@ HistoryConfig::HistoryConfig(QWidget *parent)
 {
     chkOwn->setChecked(CorePlugin::m_plugin->getOwnColors());
     chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
+    chkExtViewer->setChecked(CorePlugin::m_plugin->getUseExtViewer());
+    edtExtViewer->setText(CorePlugin::m_plugin->getExtViewer());
     m_cur = -1;
     cmbPage->setEditable(true);
     m_bDirty = false;
@@ -208,6 +210,8 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     highlighter = new XmlHighlighter(edtStyle);
     QStringList styles;
     addStyles(user_file(STYLES).c_str(), true);
+    str1 = i18n("Use external viewer");
+    chkExtViewer->setText(str1);
 #ifdef USE_KDE
     QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
     for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
@@ -230,6 +234,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     connect(chkSmile, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
     connect(chkDays, SIGNAL(toggled(bool)), this, SLOT(toggledDays(bool)));
     connect(chkSize, SIGNAL(toggled(bool)), this, SLOT(toggledSize(bool)));
+    connect(chkExtViewer, SIGNAL(toggled(bool)), this, SLOT(toggledExtViewer(bool)));
     HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));
     chkDays->setChecked(data->CutDays.bValue);
     chkSize->setChecked(data->CutSize.bValue);
@@ -237,6 +242,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     edtSize->setValue(data->MaxSize.value);
     toggledDays(chkDays->isChecked());
     toggledSize(chkSize->isChecked());
+    toggledExtViewer(chkExtViewer->isChecked());
 }
 
 HistoryConfig::~HistoryConfig()
@@ -312,6 +318,11 @@ void HistoryConfig::apply()
         bChanged = true;
         CorePlugin::m_plugin->setUseSmiles(chkSmile->isChecked());
     }
+    if (chkExtViewer->isChecked() != CorePlugin::m_plugin->getUseExtViewer()){
+        bChanged = true;
+        CorePlugin::m_plugin->setUseExtViewer(chkExtViewer->isChecked());
+    }
+    CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().local8Bit());
     CorePlugin::m_plugin->setHistoryPage(atol(cmbPage->lineEdit()->text().latin1()));
     if (bChanged){
         Event e(EventHistoryConfig);
@@ -705,6 +716,11 @@ void HistoryConfig::toggledSize(bool bState)
     lblSize->setEnabled(bState);
     lblSize1->setEnabled(bState);
     edtSize->setEnabled(bState);
+}
+
+void HistoryConfig::toggledExtViewer(bool bState)
+{
+    edtExtViewer->setEnabled(bState);
 }
 
 #ifndef _MSC_VER
