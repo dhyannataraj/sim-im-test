@@ -149,4 +149,10 @@ if test "$have_ssl" != yes; then
   echo "or as RPM from your local distribution site."
 fi
 
+AM_CONDITIONAL(QT_WIN, test "$kde_use_qt_win" = "yes")
+
+if test "$kde_use_qt_win" = "yes"; then
+   AC_SUBST(SIM_RC_OBJ, "sim_rc.o")
+fi
+
 DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/update"
