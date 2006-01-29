@@ -163,9 +163,9 @@ int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 {
     return TRUE;
 }
+#endif
 
 #ifndef _MSC_VER
 #include "about.moc"
 #endif
 
-#endif
