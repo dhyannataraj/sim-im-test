@@ -3,7 +3,8 @@ lib_LTLIBRARIES = libsim.la
 
 SUBDIRS=png qt3 libltdl
 
-sim_SOURCES = sim.cpp
+sim_SOURCES = sim.cpp \
+ sim.rc
 
 libsim_la_SOURCES = \
  aboutdata.cpp \
@@ -49,7 +50,8 @@ libsim_la_LIBADD   = $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFIL
 EXTRA_DIST = \
 	sim-kde.menu \
 	sim.desktop \
-	sim.cpp
+	sim.cpp \
+	icq.ico
 
 dist-hook:
 	cp $(srcdir)/*.h $(distdir)/
