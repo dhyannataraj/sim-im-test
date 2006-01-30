@@ -3190,14 +3190,18 @@ if (fname[0] != '/')
                             wnd->resize(data.historySize[0].value, data.historySize[1].value);
                     }
                     raiseWindow(wnd);
-                } else{
+                } else{		    
                     QString str = QFile::decodeName(user_file(".history_file").c_str());
                     History::save(id, str);
-                    ExecParam execParam;
-                    execParam.cmd = getExtViewer();
-                    execParam.arg = (const char *)str;
-                    Event eExec(EventExec, &execParam);
-                    eExec.process();
+                    Exec *m_ex;
+                    m_ex = new Exec;
+		    QString m_cmd;
+                    m_cmd += "\"";
+                    m_cmd += getExtViewer();
+                    m_cmd += "\" \"";                    
+                    m_cmd += str;
+                    m_cmd += "\"";
+	            m_ex->execute(m_cmd.local8Bit(), "\n");
                 }
                 return e->param();
             }
