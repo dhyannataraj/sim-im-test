@@ -54,15 +54,14 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(ConfigurationName)/jabber.pch"
-				AssemblerListingLocation=".\$(ConfigurationName)/"
-				ObjectFile=".\$(ConfigurationName)/"
-				ProgramDataBaseFileName=".\$(ConfigurationName)/"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="jabber_pch.h"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996"
+				ForcedIncludeFiles="jabber_pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -84,7 +83,6 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/jabber.pdb"
 				ImportLibrary=".\..\..\Debug/jabber.lib"
 				TargetMachine="1"
 			/>
@@ -156,14 +154,12 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(ConfigurationName)/jabber.pch"
-				AssemblerListingLocation=".\$(ConfigurationName)/"
-				ObjectFile="Debug/"
-				ProgramDataBaseFileName="Debug/"
-				BrowseInformation="1"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="jabber_pch.h"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DisableSpecificWarnings="4996"
+				ForcedIncludeFiles="jabber_pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -1518,6 +1514,26 @@
 			<File
 				RelativePath="jabber.h"
 				>
+			</File>
+			<File
+				RelativePath=".\jabber_pch.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="jabber_ssl.h"
