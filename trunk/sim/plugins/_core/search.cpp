@@ -324,9 +324,9 @@ void *SearchDialog::processEvent(Event *e)
                     Contact *contact = NULL;
                     if ((QWidget*)(cmd->param) == m_search->btnSearch){
                         if (m_current){
-                            connect(this, SIGNAL(createContact(unsigned,Contact*&)), m_current, SLOT(createContact(unsigned,Contact*&)));
+                            connect(this, SIGNAL(createContact(unsigned,SIM::Contact*&)), m_current, SLOT(createContact(unsigned,SIM::Contact*&)));
                             emit createContact(CONTACT_TEMP, contact);
-                            disconnect(this, SIGNAL(createContact(unsigned,Contact*&)), m_current, SLOT(createContact(unsigned,Contact*&)));
+                            disconnect(this, SIGNAL(createContact(unsigned,SIM::Contact*&)), m_current, SLOT(createContact(unsigned,SIM::Contact*&)));
                         }
                     }else{
                         contact = createContact(CONTACT_TEMP);
