@@ -40,8 +40,8 @@ protected slots:
 protected:
     virtual void closeEvent(QCloseEvent *e);
     virtual void resizeEvent(QResizeEvent *e);
-    SIM::Client *currentClient();
-    void fill(SIM::Client *current = NULL);
+    Client *currentClient();
+    void fill(Client *current = NULL);
     bool m_bModal;
 };
 

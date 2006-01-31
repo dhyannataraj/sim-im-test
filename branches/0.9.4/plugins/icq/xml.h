@@ -30,13 +30,13 @@
 
 class XmlNode {
 private:
-    static std::string parseTag(std::string::iterator& curr, std::string::iterator end);
-    static void skipWS(std::string::iterator& curr, std::string::iterator end);
+    static string parseTag(string::iterator& curr, string::iterator end);
+    static void skipWS(string::iterator& curr, string::iterator end);
 
 protected:
-    std::string tag;
+    string tag;
 
-    XmlNode(const std::string& t);
+    XmlNode(const string& t);
 
 public:
     virtual ~XmlNode();
@@ -44,50 +44,50 @@ public:
     virtual bool isBranch() = 0;
     bool isLeaf();
 
-    std::string getTag();
+    string getTag();
 
-    static XmlNode *parse(std::string::iterator& start, std::string::iterator end);
+    static XmlNode *parse(string::iterator& start, string::iterator end);
 
-    static std::string quote(const std::string& s);
-    static std::string unquote(const std::string& s);
-    static std::string replace_all(const std::string& s, const std::string& r1, const std::string& r2);
+    static string quote(const string& s);
+    static string unquote(const string& s);
+    static string replace_all(const string& s, const string& r1, const string& r2);
 
-    virtual std::string toString(int n) = 0;
+    virtual string toString(int n) = 0;
 };
 
 class XmlLeaf;
 
 class XmlBranch : public XmlNode {
 private:
-    std::list<XmlNode*> children;
+    list<XmlNode*> children;
 
 public:
-    XmlBranch(const std::string& t);
+    XmlBranch(const string& t);
     ~XmlBranch();
 
     bool isBranch();
-    bool exists(const std::string& tag);
-    XmlNode *getNode(const std::string& tag);
-    XmlBranch *getBranch(const std::string& tag);
-    XmlLeaf *getLeaf(const std::string& tag);
+    bool exists(const string& tag);
+    XmlNode *getNode(const string& tag);
+    XmlBranch *getBranch(const string& tag);
+    XmlLeaf *getLeaf(const string& tag);
 
     void pushnode(XmlNode *c);
 
-    std::string toString(int n);
+    string toString(int n);
 
 };
 
 class XmlLeaf : public XmlNode {
 private:
-    std::string value;
+    string value;
 public:
-    XmlLeaf(const std::string& t, const std::string& v);
+    XmlLeaf(const string& t, const string& v);
     ~XmlLeaf();
 
     bool isBranch();
-    std::string getValue();
+    string getValue();
 
-    std::string toString(int n);
+    string toString(int n);
 
 };
 

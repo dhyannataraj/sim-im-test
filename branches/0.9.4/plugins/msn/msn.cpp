@@ -19,8 +19,6 @@
 #include "msnclient.h"
 #include "simapi.h"
 
-using namespace SIM;
-
 Plugin *createMSNPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new MSNPlugin(base);

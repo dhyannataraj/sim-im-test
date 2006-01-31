@@ -26,8 +26,6 @@
 #include <qlineedit.h>
 #include <qcombobox.h>
 
-using namespace SIM;
-
 MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
         : QObject(parent)
 {

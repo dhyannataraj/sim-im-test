@@ -23,8 +23,6 @@
 #include <qlineedit.h>
 #include <qpushbutton.h>
 
-using namespace SIM;
-
 class MSNClient;
 
 MSNSearch::MSNSearch(MSNClient *client, QWidget *parent)

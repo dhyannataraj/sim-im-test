@@ -29,24 +29,24 @@ class GroupRadioButton;
 
 typedef struct ItemInfo
 {
-    std::string	jid;
-    std::string	node;
-    std::string	id;
+    string	jid;
+    string	node;
+    string	id;
 } ItemInfo;
 
 typedef struct AgentSearch
 {
-    std::string		jid;
-    std::string		node;
-    std::string		id_info;
-    std::string		id_search;
+    string			jid;
+    string			node;
+    string			id_info;
+    string			id_search;
     QString			condition;
     unsigned		fill;
-    std::vector<std::string>	fields;
-    std::string		type;
+    vector<string>	fields;
+    string			type;
 } AgentSearch;
 
-class JabberAdd : public JabberAddBase, public SIM::EventReceiver
+class JabberAdd : public JabberAddBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -67,10 +67,10 @@ protected slots:
     void searchStop();
     void searchMail(const QString&);
     void searchName(const QString&, const QString&, const QString&);
-    void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
-    void createContact(unsigned tmpFlags, SIM::Contact *&contact);
+    void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
+    void createContact(unsigned tmpFlags, Contact *&contact);
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void setBrowser(bool bBrowser);
     void showEvent(QShowEvent*);
     void startSearch();
@@ -85,12 +85,12 @@ protected:
     QString			m_last;
     QString			m_nick;
     QString			m_mail;
-    std::string		m_id_browse;
-    std::string		m_id_disco;
-    std::list<ItemInfo>		m_disco_items;
-    std::list<AgentSearch>	m_agents;
-    std::vector<std::string>m_fields;
-    std::vector<QString>	m_labels;
+    string			m_id_browse;
+    string			m_id_disco;
+    list<ItemInfo>	m_disco_items;
+    list<AgentSearch>	m_agents;
+    vector<string>		m_fields;
+    vector<QString>		m_labels;
     unsigned			m_nFields;
 };
 

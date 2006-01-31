@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 
-class MigratePlugin : public SIM::Plugin
+class MigratePlugin : public Plugin
 {
 public:
     MigratePlugin(unsigned);

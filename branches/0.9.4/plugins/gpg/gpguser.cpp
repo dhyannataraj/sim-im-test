@@ -24,9 +24,6 @@
 #include <qtimer.h>
 #include <qfile.h>
 
-using std::string;
-using namespace SIM;
-
 GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
         : GpgUserBase(parent)
 {

@@ -69,7 +69,7 @@ RemoteConfig::RemoteConfig(QWidget *parent, RemotePlugin *plugin)
 
 void RemoteConfig::apply()
 {
-    std::string path;
+    string path;
 #ifdef WIN32
     if (chkTCP->isChecked()){
         path  = TCP;

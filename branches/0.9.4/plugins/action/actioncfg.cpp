@@ -27,8 +27,6 @@
 #include <qpainter.h>
 #include <qpushbutton.h>
 
-using namespace SIM;
-
 unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
 

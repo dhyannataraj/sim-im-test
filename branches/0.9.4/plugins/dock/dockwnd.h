@@ -41,7 +41,7 @@ typedef struct BalloonItem
 
 #endif
 
-class DockWnd : public QWidget, public SIM::EventReceiver
+class DockWnd : public QWidget, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -64,7 +64,7 @@ protected slots:
     void dbl_click();
     void showPopup();
 protected:
-    virtual void *processEvent(SIM::Event *e);
+    virtual void *processEvent(Event *e);
     void  reset();
     bool  bNoToggle;
     const char *m_tip;

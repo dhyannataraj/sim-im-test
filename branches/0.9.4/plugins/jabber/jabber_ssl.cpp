@@ -21,8 +21,6 @@
 
 #include "jabber_ssl.h"
 
-using namespace SIM;
-
 JabberSSL::JabberSSL(Socket *s)
         : SSLClient(s)
 {

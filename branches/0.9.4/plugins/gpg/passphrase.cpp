@@ -25,8 +25,6 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 
-using namespace SIM;
-
 PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const char *key)
         : PassphraseDlgBase(NULL, "passphrase", false, WDestructiveClose)
 {

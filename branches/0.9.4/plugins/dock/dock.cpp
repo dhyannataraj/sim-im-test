@@ -37,8 +37,6 @@
 #include <kwin.h>
 #endif
 
-using namespace SIM;
-
 Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new DockPlugin(base, config);
@@ -305,7 +303,7 @@ void *DockPlugin::processEvent(Event *e)
     return NULL;
 }
 
-std::string DockPlugin::getConfig()
+string DockPlugin::getConfig()
 {
     return save_data(dockData, &data);
 }

@@ -20,8 +20,6 @@
 #include "simapi.h"
 #include "core.h"
 
-using namespace SIM;
-
 Plugin *createForwardPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ForwardPlugin(base);

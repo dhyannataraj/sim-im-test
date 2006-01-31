@@ -26,14 +26,14 @@ class Exec;
 
 typedef struct ActionUserData
 {
-    SIM::Data	OnLine;
-    SIM::Data	Status;
-    SIM::Data	Message;
-    SIM::Data	Menu;
-    SIM::Data	NMenu;
+    Data	OnLine;
+    Data	Status;
+    Data	Message;
+    Data	Menu;
+    Data	NMenu;
 } ActionUserData;
 
-class ActionPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class ActionPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -46,10 +46,10 @@ protected slots:
     void msg_ready(Exec*,int,const char*);
     void clear();
 protected:
-    std::list<Exec*> m_exec;
-    std::list<Exec*> m_delete;
+    list<Exec*> m_exec;
+    list<Exec*> m_delete;
     unsigned long CmdAction;
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     QWidget *createConfigWindow(QWidget *parent);
 };
 

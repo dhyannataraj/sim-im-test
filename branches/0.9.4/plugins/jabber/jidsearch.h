@@ -24,7 +24,7 @@
 class JabberClient;
 class JIDAdvSearch;
 
-class JIDSearch : public JIDSearchBase, public SIM::EventReceiver
+class JIDSearch : public JIDSearchBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -33,7 +33,7 @@ public:
     QString m_node;
 signals:
     void setAdd(bool);
-    void showClient(SIM::Client*);
+    void showClient(Client*);
     void showResult(QWidget*);
     void addResult(QWidget*);
     void setColumns(const QStringList&, int, QWidget*);
@@ -44,12 +44,12 @@ protected slots:
     void advancedClicked();
     void search();
     void searchStop();
-    void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
+    void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void showEvent(QShowEvent*);
-    std::string	 m_search_id;
-    std::string	 m_type;
+    string		 m_search_id;
+    string		 m_type;
     bool		 m_bInit;
     bool		 m_bAdv;
     JIDAdvSearch *m_adv;

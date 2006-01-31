@@ -25,7 +25,6 @@
 
 ConnectWnd::ConnectWnd(bool bStart)
 {
-    using SIM::app_file;
     m_bStart = bStart;
     setConnecting(true);
     QMovie movie(QFile::decodeName(app_file("pict/connect.gif").c_str()));

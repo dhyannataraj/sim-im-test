@@ -99,6 +99,7 @@ typedef unsigned char _Bool;
 #define atoul(x) (strtoul((x), NULL, 10))
 
 #include <string>
+using namespace std;
 
 #include <qwidget.h>
 #if COMPAT_QT_VERSION >= 0x030000
@@ -215,7 +216,7 @@ public:
     Plugin(unsigned base);
     virtual ~Plugin() {}
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual string getConfig();
     unsigned registerType();
     void boundTypes();
 protected:
@@ -253,7 +254,7 @@ typedef struct PluginInfo			// Information in plugin
 typedef struct pluginInfo
 {
     Plugin			*plugin;
-    std::string			name;
+    string			name;
     Buffer			*cfg;			// configuration data
     bool			bDisabled;		// no load this plugin
     bool			bNoCreate;		// can't create plugin
@@ -358,7 +359,7 @@ typedef struct CmdParam
 {
     const char *arg;
     const char *descr;
-    std::string *value;
+    string *value;
 } CmdParam;
 
 const unsigned EventArgc = 0x0202;
@@ -767,7 +768,7 @@ typedef struct messageDecline
 typedef struct messageSend
 {
     Message		*msg;
-    std::string	*text;
+    string		*text;
 } messageSend;
 
 const unsigned EventMessageReceived	= 0x1100;
@@ -896,7 +897,7 @@ const unsigned DATA_OBJECT		= 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
-EXPORT std::string save_data(const DataDef *def, void *data);
+EXPORT string save_data(const DataDef *def, void *data);
 
 EXPORT bool set_str(char **str, const char *value);
 EXPORT const char *get_str(const Data &strlist, unsigned index);
@@ -907,26 +908,26 @@ EXPORT const char *get_host(Data &ip);
 EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_STRLIST(A)	\
-	const char *get##A(unsigned index) const { return SIM::get_str(data.A, index); } \
-	void set##A(unsigned index, const char *value) { SIM::set_str(&data.A, index, value); } \
-	void clear##A()  { SIM::clear_list(&data.A); }
+	const char *get##A(unsigned index) const { return get_str(data.A, index); } \
+	void set##A(unsigned index, const char *value) { set_str(&data.A, index, value); } \
+	void clear##A()	{ clear_list(&data.A); }
 
 #define PROP_UTFLIST(A)	\
-	QString get##A(unsigned index) const { return QString::fromUtf8(SIM::get_str(data.A, index)); } \
-	void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value.utf8()); } \
-	void clear##A()  { SIM::clear_list(&data.A); }
+	QString get##A(unsigned index) const { return QString::fromUtf8(get_str(data.A, index)); } \
+	void set##A(unsigned index, const QString &value) { set_str(&data.A, index, value.utf8()); } \
+	void clear##A()	{ clear_list(&data.A); }
 
 #define PROP_STR(A) \
 	const char *get##A() const { return data.A.ptr ? data.A.ptr : ""; } \
-	bool set##A(const char *r) { return SIM::set_str(&data.A.ptr, r); }
+	bool set##A(const char *r) { return set_str(&data.A.ptr, r); }
 
 #define PROP_UTF8(A) \
 	QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
-	bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
+	bool set##A(const QString &r) { return set_str(&data.A.ptr, r.utf8()); }
 
 #define VPROP_UTF8(A) \
 	virtual QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
-	bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
+	bool set##A(const QString &r) { return set_str(&data.A.ptr, r.utf8()); }
 
 #define PROP_LONG(A) \
 	unsigned long get##A() const { return data.A.value; } \
@@ -949,9 +950,9 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 	virtual void set##A(bool r) { data.A.bValue = r; }
 
 #define PROP_IP(A)	\
-	unsigned long get##A()	const { return SIM::get_ip(data.A); } \
-	const char *host##A() { return SIM::get_host(data.A); } \
-	void set##A(unsigned long r) { SIM::set_ip(&data.A, r); }
+	unsigned long get##A()	const { return get_ip(data.A); } \
+	const char *host##A() { return get_host(data.A); } \
+	void set##A(unsigned long r) { set_ip(&data.A, r); }
 
 const int LEFT		= 0;
 const int TOP		= 1;
@@ -969,10 +970,10 @@ EXPORT bool cmp(char *s1, char *s2);
 // Utilities
 
 /* Get full path */
-EXPORT std::string app_file(const char *f);
+EXPORT string app_file(const char *f);
 
 /* Get user file */
-EXPORT std::string user_file(const char *f);
+EXPORT string user_file(const char *f);
 
 /* Make directory */
 EXPORT bool makedir(char *p);
@@ -980,19 +981,19 @@ EXPORT bool makedir(char *p);
 /* Save state */
 EXPORT void save_state();
 
-EXPORT std::string number(unsigned n);
-EXPORT std::string trim(const char *str);
+EXPORT string number(unsigned n);
+EXPORT string trim(const char *str);
 EXPORT QString trim(const QString &str);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);
 EXPORT QString formatAddr(Data &addr, unsigned port);
-EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
-EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
+EXPORT string getToken(string &from, char c, bool bUnEscape=true);
+EXPORT string getToken(const char *&from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
-EXPORT std::string quoteChars(const char *from, const char *chars);
+EXPORT string quoteChars(const char *from, const char *chars);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT char fromHex(char);
-EXPORT std::string unquoteString(const char *p);
+EXPORT string unquoteString(const char *p);
 
 
 // _____________________________________________________________________________________
@@ -1058,7 +1059,7 @@ public:
     void setId(unsigned id) { m_id = id; }
     unsigned contact() const { return m_contact; }
     void setContact(unsigned contact) { m_contact = contact; }
-    virtual std::string save();
+    virtual string save();
     virtual unsigned baseType() { return m_type; }
     QString getPlainText();
     QString getRichText();
@@ -1082,7 +1083,7 @@ protected:
     unsigned	m_id;
     unsigned	m_contact;
     unsigned	m_type;
-    std::string	m_client;
+    string		m_client;
 };
 
 typedef struct MessageSMSData
@@ -1098,7 +1099,7 @@ public:
     ~SMSMessage();
     PROP_UTF8(Phone);
     PROP_UTF8(Network);
-    virtual std::string save();
+    virtual string save();
     virtual QString presentation();
 protected:
     MessageSMSData data;
@@ -1199,7 +1200,7 @@ public:
     PROP_UTF8(File);
     unsigned getSize();
     void     setSize(unsigned);
-    virtual	std::string save();
+    virtual	string save();
     virtual QString presentation();
     virtual QString getDescription();
     bool    setDescription(const QString&);
@@ -1245,7 +1246,7 @@ class EXPORT UrlMessage : public Message
 public:
     UrlMessage(unsigned type=MessageUrl, Buffer *cfg=NULL);
     ~UrlMessage();
-    virtual std::string  save();
+    virtual string  save();
     virtual QString presentation();
     VPROP_UTF8(Url)
 protected:
@@ -1262,7 +1263,7 @@ class EXPORT ContactsMessage : public Message
 public:
     ContactsMessage(unsigned type=MessageContacts, Buffer *cfg=NULL);
     ~ContactsMessage();
-    virtual std::string  save();
+    virtual string  save();
     virtual QString presentation();
     VPROP_UTF8(Contacts);
 protected:
@@ -1279,7 +1280,7 @@ class EXPORT StatusMessage : public Message
 public:
     StatusMessage(Buffer *cfg=NULL);
     PROP_ULONG(Status);
-    virtual std::string save();
+    virtual string save();
     virtual QString presentation();
 protected:
     MessageStatusData data;
@@ -1293,7 +1294,7 @@ class EXPORT UserData
 public:
     UserData();
     ~UserData();
-    std::string save();
+    string save();
     void load(unsigned long id, const DataDef *def, Buffer *cfg);
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
@@ -1318,7 +1319,7 @@ class EXPORT ClientUserData
 public:
     ClientUserData();
     ~ClientUserData();
-    std::string save();
+    string save();
     void load(Client *client, Buffer *cfg);
     void *getData(Client *client);
     bool have(void*);
@@ -1330,7 +1331,7 @@ public:
     void join(clientData *cData, ClientUserData &data);
     unsigned size();
     Client *activeClient(void *&data, Client *client);
-    std::string property(const char *name);
+    string property(const char *name);
 protected:
     ClientUserDataPrivate *p;
     friend class ClientDataIterator;
@@ -1358,7 +1359,7 @@ public:
     bool isText() { return m_bText; }
 protected:
     unsigned m_id;
-    std::string m_name;
+    string	 m_name;
     bool	 m_bText;
 };
 
@@ -1414,7 +1415,7 @@ public:
     bool setLastName(const QString &name, const char *client);
     bool setEMails(const QString &mails, const char *client);
     bool setPhones(const QString &phones, const char *client);
-    unsigned long contactInfo(unsigned &style, const char *&statusIcon, std::string *icons = NULL);
+    unsigned long contactInfo(unsigned &style, const char *&statusIcon, string *icons = NULL);
     QString tipText();
     ContactData data;
     const DataDef *dataDef();
@@ -1514,16 +1515,16 @@ public:
         Connected,
         Error
     };
-    virtual std::string name() = 0;
-    virtual std::string dataName(void*) = 0;
+    virtual string name() = 0;
+    virtual string dataName(void*) = 0;
     Protocol *protocol() { return m_protocol; }
     virtual QWidget	*setupWnd() = 0;
     virtual void setStatus(unsigned status, bool bCommon);
-    virtual std::string getConfig();
+    virtual string getConfig();
     virtual bool compareData(void*, void*);
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;
-    virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
+    virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
     virtual QString ownerName();
     virtual QString contactName(void *clientData);
     virtual void setupContact(Contact*, void *data) = 0;
@@ -1537,7 +1538,7 @@ public:
     virtual void updateInfo(Contact *contact, void *clientData);
     virtual void setClientInfo(void *data);
     virtual QWidget *searchWindow(QWidget *parent) = 0;
-    virtual std::string resources(void *data);
+    virtual string resources(void *data);
     void	removeGroup(Group *grp);
     void    setState(State, const char *text = NULL, unsigned code = 0);
     State   getState() { return m_state; }
@@ -1561,7 +1562,7 @@ protected:
 typedef struct UserDataDef
 {
     unsigned		id;
-    std::string		name;
+    string			name;
     const DataDef	*def;
 } UserDataDef;
 
@@ -1667,7 +1668,7 @@ public:
     Contact *contactByMail(const QString &_mail, const QString &_name);
     static bool cmpPhone(const char *p1, const char *p2);
     QString toUnicode(Contact *contact, const char *str, int length=-1);
-    std::string fromUnicode(Contact *contact, const QString &str);
+    string fromUnicode(Contact *contact, const QString &str);
     QTextCodec *getCodec(Contact *contact);
     QTextCodec *getCodecByName(const char *encoding);
     static const ENCODING *getEncodings();
@@ -1724,7 +1725,7 @@ __attribute__ ((__format__ (printf, 2, 3)));
 #else
 EXPORT void log(unsigned short level, const char *fmt, ...);
 #endif      
-EXPORT std::string make_packet_string(LogInfo *l);
+EXPORT string make_packet_string(LogInfo *l);
 
 // _____________________________________________________________________________________
 // Data
@@ -1754,12 +1755,12 @@ EXPORT void setWndProc(QWidget*);
 EXPORT void mySetCaption(QWidget *w, const QString &caption);
 EXPORT void translate();
 EXPORT unsigned wndMessage();
-#define SET_WNDPROC(A)	SIM::setWndProc(this);
-#define setCaption(s)	SIM::mySetCaption(this, s);
+#define SET_WNDPROC(A)	setWndProc(this);
+#define setCaption(s)	mySetCaption(this, s);
 #else
 #ifndef QT_MACOSX_VERSION
 EXPORT void setWndClass(QWidget*, const char*);
-#define SET_WNDPROC(A)  SIM::setWndClass(this, A);
+#define SET_WNDPROC(A)  setWndClass(this, A);
 #else
 #define SET_WNDPROC(A)
 #endif
@@ -1808,7 +1809,7 @@ public:
     bool operator < (const my_string &str) const;
     void operator = (const my_string &str);
     const char *c_str() const { return m_str->c_str(); }
-    std::string *m_str;
+    string *m_str;
 };
 
 EXPORT bool inResize();
@@ -1817,6 +1818,8 @@ EXPORT void setLogEnable(bool);
 
 }
 
-EXPORT QString g_i18n(const char *text, SIM::Contact *contact);
+using namespace SIM;
+
+EXPORT QString g_i18n(const char *text, Contact *contact);
 
 #endif

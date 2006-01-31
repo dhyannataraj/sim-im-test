@@ -24,7 +24,7 @@
 
 class MSNClient;
 
-class MSNHttpPool : public QObject, public SIM::Socket, public FetchClient
+class MSNHttpPool : public QObject, public Socket, public FetchClient
 {
     Q_OBJECT
 public:
@@ -38,9 +38,9 @@ public:
 protected slots:
     void idle();
 protected:
-    std::string m_session_id;
-    std::string m_host;
-    std::string m_ip;
+    string m_session_id;
+    string m_host;
+    string m_ip;
     Buffer readData;
     Buffer *writeData;
     virtual bool done(unsigned code, Buffer &data, const char *headers);

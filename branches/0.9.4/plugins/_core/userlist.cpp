@@ -25,9 +25,6 @@
 #include <qbutton.h>
 #include <qpainter.h>
 
-using namespace std;
-using namespace SIM;
-
 UserViewItemBase::UserViewItemBase(UserListBase *parent)
         : QListViewItem(parent)
 {
@@ -833,7 +830,7 @@ static void resort(QListViewItem *item)
     if (!item->isExpandable())
         return;
     item->sort();
-    for (item = item->firstChild(); item; item = item->nextSibling())
+    for (item = item->firstChild(); item; item = item = item->nextSibling())
         resort(item);
 }
 

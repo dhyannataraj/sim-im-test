@@ -28,8 +28,6 @@
 #include <qtabwidget.h>
 #include <qcombobox.h>
 
-using namespace SIM;
-
 AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
         : AIMConfigBase(parent)
 {

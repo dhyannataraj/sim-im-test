@@ -34,7 +34,6 @@
 #include <cctype>
 
 using namespace std;
-using namespace SIM;
 
 // Represents a character (as opposed to paragraph) style
 struct CharStyle

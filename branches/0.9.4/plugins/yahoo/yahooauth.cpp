@@ -932,7 +932,7 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         m_socket->error_state("Unknown auth method");
         return;
     }
-    std::string password = getPassword().ascii();
+    string password = getPassword().ascii();
     const char *pass = password.c_str();
 
     md5_byte_t			result[16];

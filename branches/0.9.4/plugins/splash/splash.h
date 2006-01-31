@@ -22,12 +22,12 @@
 
 class QWidget;
 
-class SplashPlugin : public SIM::Plugin, public SIM::EventReceiver
+class SplashPlugin : public Plugin, public EventReceiver
 {
 public:
     SplashPlugin(unsigned base, bool bStart);
     virtual ~SplashPlugin();
-    virtual void *processEvent(SIM::Event *e);
+    virtual void *processEvent(Event *e);
 protected:
     QWidget *splash;
     bool m_bStart;

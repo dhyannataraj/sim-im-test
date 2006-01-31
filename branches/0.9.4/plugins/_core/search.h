@@ -31,12 +31,12 @@ class QTimer;
 
 typedef struct ClientWidget
 {
-    SIM::Client	*client;
+    Client		*client;
     QWidget		*widget;
     QString		name;
 } ClientWidget;
 
-class SearchDialog : public QMainWindow, public SIM::EventReceiver
+class SearchDialog : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -52,14 +52,14 @@ public slots:
     void toggled(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);
-    void addSearch(QWidget*, SIM::Client*, const QString &name);
-    void showClient(SIM::Client*);
+    void addSearch(QWidget*, Client*, const QString &name);
+    void showClient(Client*);
 signals:
     void finished();
     void search();
     void searchStop();
-    void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
-    void createContact(unsigned tmpFlags, SIM::Contact *&contact);
+    void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
+    void createContact(unsigned tmpFlags, Contact *&contact);
 protected slots:
     void searchClick();
     void setColumns(const QStringList&, int, QWidget*);
@@ -73,14 +73,14 @@ protected slots:
     void newSearch();
     void enableOptions(bool);
 protected:
-    std::vector<ClientWidget>	m_widgets;
+    vector<ClientWidget>	m_widgets;
     void		setStatus();
     void		setAddButton();
     ListView	*m_result;
     QWidget		*m_current;
     QWidget		*m_currentResult;
     QWidget		*m_active;
-    void		*processEvent(SIM::Event*);
+    void		*processEvent(Event*);
     void		resizeEvent(QResizeEvent*);
     void		moveEvent(QMoveEvent*);
     void		closeEvent(QCloseEvent*);
@@ -88,7 +88,7 @@ protected:
     void		attach(QWidget*);
     void		detach(QWidget*);
     bool		checkSearch(QWidget*, bool&);
-    SIM::Contact *createContact(unsigned flags);
+    Contact		*createContact(unsigned flags);
     void		setTitle();
     bool		m_bAdd;
     bool		m_bColumns;

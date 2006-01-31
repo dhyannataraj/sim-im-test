@@ -34,136 +34,136 @@ const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 
 typedef struct JabberUserData
 {
-    SIM::clientData	base;
-    SIM::Data		ID;
-    SIM::Data		Node;
-    SIM::Data		Resource;
-    SIM::Data		Name;
-    SIM::Data		Status;
-    SIM::Data		FirstName;
-    SIM::Data		Nick;
-    SIM::Data		Desc;
-    SIM::Data		Bday;
-    SIM::Data		Url;
-    SIM::Data		OrgName;
-    SIM::Data		OrgUnit;
-    SIM::Data		Title;
-    SIM::Data		Role;
-    SIM::Data		Street;
-    SIM::Data		ExtAddr;
-    SIM::Data		City;
-    SIM::Data		Region;
-    SIM::Data		PCode;
-    SIM::Data		Country;
-    SIM::Data		EMail;
-    SIM::Data		Phone;
-    SIM::Data		StatusTime;
-    SIM::Data		OnlineTime;
-    SIM::Data		Subscribe;
-    SIM::Data		Group;
-    SIM::Data		bChecked;
-    SIM::Data		TypingId;
-    SIM::Data		composeId;
-    SIM::Data		richText;
-    SIM::Data		invisible;
-    SIM::Data		PhotoWidth;
-    SIM::Data		PhotoHeight;
-    SIM::Data		LogoWidth;
-    SIM::Data		LogoHeight;
-    SIM::Data		nResources;
-    SIM::Data		Resources;
-    SIM::Data		ResourceStatus;
-    SIM::Data		ResourceReply;
-    SIM::Data		ResourceStatusTime;
-    SIM::Data		ResourceOnlineTime;
-    SIM::Data		AutoReply;
+    clientData	base;
+    Data		ID;
+    Data		Node;
+    Data		Resource;
+    Data		Name;
+    Data		Status;
+    Data		FirstName;
+    Data		Nick;
+    Data		Desc;
+    Data		Bday;
+    Data		Url;
+    Data		OrgName;
+    Data		OrgUnit;
+    Data		Title;
+    Data		Role;
+    Data		Street;
+    Data		ExtAddr;
+    Data		City;
+    Data		Region;
+    Data		PCode;
+    Data		Country;
+    Data		EMail;
+    Data		Phone;
+    Data		StatusTime;
+    Data		OnlineTime;
+    Data		Subscribe;
+    Data		Group;
+    Data		bChecked;
+    Data		TypingId;
+    Data		composeId;
+    Data		richText;
+    Data		invisible;
+    Data		PhotoWidth;
+    Data		PhotoHeight;
+    Data		LogoWidth;
+    Data		LogoHeight;
+    Data		nResources;
+    Data		Resources;
+    Data		ResourceStatus;
+    Data		ResourceReply;
+    Data		ResourceStatusTime;
+    Data		ResourceOnlineTime;
+    Data		AutoReply;
 } JabberUserData;
 
 typedef struct JabberClientData
 {
-    SIM::Data		Server;
-    SIM::Data		Port;
-    SIM::Data		UseSSL;
-    SIM::Data		UsePlain;
-    SIM::Data		UseVHost;
-    SIM::Data		Register;
-    SIM::Data		Priority;
-    SIM::Data		ListRequest;
-    SIM::Data		VHost;
-    SIM::Data		Typing;
-    SIM::Data		RichText;
-    SIM::Data		ProtocolIcons;
-    SIM::Data		MinPort;
-    SIM::Data		MaxPort;
-    SIM::Data		Photo;
-    SIM::Data		Logo;
-    SIM::Data		AutoSubscribe;
-    SIM::Data		AutoAccept;
-    SIM::Data		UseHTTP;
-    SIM::Data		URL;
-    SIM::Data		InfoUpdated;
+    Data		Server;
+    Data		Port;
+    Data		UseSSL;
+    Data		UsePlain;
+    Data		UseVHost;
+    Data		Register;
+    Data		Priority;
+    Data		ListRequest;
+    Data		VHost;
+    Data		Typing;
+    Data		RichText;
+    Data		ProtocolIcons;
+    Data		MinPort;
+    Data		MaxPort;
+    Data		Photo;
+    Data		Logo;
+    Data		AutoSubscribe;
+    Data		AutoAccept;
+    Data		UseHTTP;
+    Data		URL;
+    Data		InfoUpdated;
     JabberUserData	owner;
 } JabberClientData;
 
 typedef struct JabberAgentsInfo
 {
-    SIM::Data		VHost;
-    SIM::Data		ID;
-    SIM::Data		Name;
-    SIM::Data		Search;
-    SIM::Data		Register;
+    Data		VHost;
+    Data		ID;
+    Data		Name;
+    Data		Search;
+    Data		Register;
     JabberClient	*Client;
 } JabberAgentsInfo;
 
 typedef struct JabberAgentInfo
 {
-    SIM::Data		ReqID;
-    SIM::Data		VHost;
-    SIM::Data		ID;
-    SIM::Data		Field;
-    SIM::Data		Type;
-    SIM::Data		Label;
-    SIM::Data		Value;
-    SIM::Data		Desc;
-    SIM::Data		Options;
-    SIM::Data		OptionLabels;
-    SIM::Data		nOptions;
-    SIM::Data		bRequired;
+    Data		ReqID;
+    Data		VHost;
+    Data		ID;
+    Data		Field;
+    Data		Type;
+    Data		Label;
+    Data		Value;
+    Data		Desc;
+    Data		Options;
+    Data		OptionLabels;
+    Data		nOptions;
+    Data		bRequired;
 } JabberAgentInfo;
 
 typedef struct JabberSearchData
 {
-    SIM::Data		ID;
-    SIM::Data		JID;
-    SIM::Data		First;
-    SIM::Data		Last;
-    SIM::Data		Nick;
-    SIM::Data		EMail;
-    SIM::Data		Status;
-    SIM::Data		Fields;
-    SIM::Data		nFields;
+    Data		ID;
+    Data		JID;
+    Data		First;
+    Data		Last;
+    Data		Nick;
+    Data		EMail;
+    Data		Status;
+    Data		Fields;
+    Data		nFields;
 } JabberSearchData;
 
 typedef struct JabberListRequest
 {
-    std::string		jid;
-    std::string		grp;
-    std::string		name;
+    string			jid;
+    string			grp;
+    string			name;
     bool			bDelete;
 } JabberListRequest;
 
 typedef struct DiscoItem
 {
-    std::string			id;
-    std::string			jid;
-    std::string			node;
-    std::string			name;
-    std::string			type;
-    std::string			category;
-    std::string			features;
+    string			id;
+    string			jid;
+    string			node;
+    string			name;
+    string			type;
+    string			category;
+    string			features;
 } DiscoItem;
 
-class JabberClient : public SIM::TCPClient, public SAXParser
+class JabberClient : public TCPClient, public SAXParser
 {
     Q_OBJECT
 public:
@@ -186,9 +186,9 @@ public:
         virtual void	element_start(const char *el, const char **attr);
         virtual void	element_end(const char *el);
         virtual	void	char_data(const char *str, int len);
-        std::string		m_element;
-        std::stack<std::string>	m_els;
-        std::string		m_id;
+        string			m_element;
+        stack<string>	m_els;
+        string			m_id;
         JabberClient	*m_client;
         friend class JabberClient;
     };
@@ -202,14 +202,14 @@ class IqRequest : public ServerRequest
         virtual void	element_start(const char *el, const char **attr);
         virtual void	element_end(const char *el);
         virtual	void	char_data(const char *str, int len);
-        std::string		*m_data;
-        std::string		m_url;
-        std::string		m_descr;
-        std::string		m_query;
-        std::string		m_from;
-        std::string		m_id;
-        std::string		m_file_name;
-        unsigned		m_file_size;
+        string		*m_data;
+        string		m_url;
+        string		m_descr;
+        string		m_query;
+        string		m_from;
+        string		m_id;
+        string		m_file_name;
+        unsigned	m_file_size;
     };
 
 class PresenceRequest : public ServerRequest
@@ -221,13 +221,13 @@ class PresenceRequest : public ServerRequest
         virtual void element_start(const char *el, const char **attr);
         virtual void element_end(const char *el);
         virtual void char_data(const char *str, int len);
-        std::string m_from;
-        std::string m_data;
-        std::string m_type;
-        std::string m_status;
-        std::string m_show;
-        std::string m_stamp1;
-        std::string m_stamp2;
+        string m_from;
+        string m_data;
+        string m_type;
+        string m_status;
+        string m_show;
+        string m_stamp1;
+        string m_stamp2;
     };
 
 class MessageRequest : public ServerRequest
@@ -239,22 +239,22 @@ class MessageRequest : public ServerRequest
         virtual void element_start(const char *el, const char **attr);
         virtual void element_end(const char *el);
         virtual void char_data(const char *str, int len);
-        std::string m_from;
-        std::string *m_data;
-        std::string m_body;
-        std::string m_richText;
-        std::string m_subj;
-        std::string m_error;
-        std::string m_contacts;
-        std::string m_target;
-        std::string m_desc;
-        std::vector<std::string> m_targets;
-        std::vector<std::string> m_descs;
+        string m_from;
+        string *m_data;
+        string m_body;
+        string m_richText;
+        string m_subj;
+        string m_error;
+        string m_contacts;
+        string m_target;
+        string m_desc;
+        vector<string> m_targets;
+        vector<string> m_descs;
 
         bool   m_bBody;
         bool   m_bRosters;
         bool   m_bError;
-        std::string m_id;
+        string m_id;
         bool   m_bCompose;
         bool   m_bEvent;
         bool   m_bRichText;
@@ -263,9 +263,9 @@ class MessageRequest : public ServerRequest
 
     JabberClient(JabberProtocol*, Buffer *cfg);
     ~JabberClient();
-    virtual std::string name();
+    virtual string name();
     virtual QWidget	*setupWnd();
-    virtual std::string getConfig();
+    virtual string getConfig();
 
     void setID(const QString &id);
     QString getID()
@@ -294,46 +294,46 @@ class MessageRequest : public ServerRequest
     PROP_STR(URL);
     PROP_BOOL(InfoUpdated);
 
-    std::string		buildId(JabberUserData *data);
-    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, SIM::Contact *&contact, std::string &resource, bool bJoin=true);
-    bool			add_contact(const char *id, unsigned grp);
-    std::string		get_agents(const char *jid);
-    std::string		get_agent_info(const char *jid, const char *node, const char *type);
-    void			auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
-    std::string		search(const char *jid, const char *node, const char *condition);
-    std::string		process(const char *jid, const char *node, const char *condition, const char *type);
+    string		buildId(JabberUserData *data);
+    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, Contact *&contact, string &resource, bool bJoin=true);
+    bool		add_contact(const char *id, unsigned grp);
+    string		get_agents(const char *jid);
+    string		get_agent_info(const char *jid, const char *node, const char *type);
+    void		auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
+    string		search(const char *jid, const char *node, const char *condition);
+    string		process(const char *jid, const char *node, const char *condition, const char *type);
 
-    static std::string	to_lower(const char *s);
-    static std::string	get_attr(const char *name, const char **attrs);
-    virtual void setupContact(SIM::Contact*, void *data);
-    virtual void updateInfo(SIM::Contact *contact, void *data);
+    static string	to_lower(const char *s);
+    static string	get_attr(const char *name, const char **attrs);
+    virtual void setupContact(Contact*, void *data);
+    virtual void updateInfo(Contact *contact, void *data);
 
     JabberClientData	data;
-    std::string dataName(void*);
+    string dataName(void*);
 
     JabberListRequest *findRequest(const char *jid, bool bRemove);
 
-    std::string VHost();
+    string VHost();
     bool isAgent(const char *jid);
-    virtual bool send(SIM::Message*, void*);
+    virtual bool send(Message*, void*);
     void    listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);
-    void	sendFileRequest(SIM::FileMessage *msg, unsigned short port, JabberUserData *data, const char *url, unsigned size);
-    void	sendFileAccept(SIM::FileMessage *msg, JabberUserData *data);
+    void	sendFileRequest(FileMessage *msg, unsigned short port, JabberUserData *data, const char *url, unsigned size);
+    void	sendFileAccept(FileMessage *msg, JabberUserData *data);
 
-    std::list<SIM::Message*> m_ackMsg;
-    std::list<SIM::Message*> m_waitMsg;
+    list<Message*>  m_ackMsg;
+    list<Message*>	m_waitMsg;
 
     QString photoFile(JabberUserData*);
     QString logoFile(JabberUserData*);
-    std::list<ServerRequest*>	m_requests;
+    list<ServerRequest*>	m_requests;
 
-    std::string discoItems(const char *jid, const char *node);
-    std::string discoInfo(const char *jid, const char *node);
-    std::string browse(const char *jid);
-    std::string versionInfo(const char *jid, const char *node);
-    std::string timeInfo(const char *jid, const char *node);
-    std::string lastInfo(const char *jid, const char *node);
-    std::string statInfo(const char *jid, const char *node);
+    string discoItems(const char *jid, const char *node);
+    string discoInfo(const char *jid, const char *node);
+    string browse(const char *jid);
+    string versionInfo(const char *jid, const char *node);
+    string timeInfo(const char *jid, const char *node);
+    string lastInfo(const char *jid, const char *node);
+    string statInfo(const char *jid, const char *node);
     void addLang(ServerRequest *req);
     void info_request(JabberUserData *user_data, bool bVCard);
     virtual void setClientInfo(void *data);
@@ -344,8 +344,8 @@ protected slots:
     void	auth_failed();
     void	auth_ok();
 protected:
-    virtual void *processEvent(SIM::Event *e);
-    SIM::Socket *createSocket();
+    virtual void *processEvent(Event *e);
+    Socket *createSocket();
 
     virtual QString contactName(void *clientData);
     virtual void setStatus(unsigned status);
@@ -354,17 +354,17 @@ protected:
     virtual void connect_ready();
     virtual void packet_ready();
     virtual void setInvisible(bool bState);
-    virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
-    virtual bool createData(SIM::clientData*&, SIM::Contact*);
+    virtual bool isMyData(clientData*&, Contact*&);
+    virtual bool createData(clientData*&, Contact*);
     virtual bool compareData(void*, void*);
     virtual bool canSend(unsigned, void*);
-    virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
-    virtual std::string resources(void *data);
+    virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons = NULL);
+    virtual string resources(void *data);
     virtual QString contactTip(void *data);
     virtual QWidget *searchWindow(QWidget *parent);
-    virtual SIM::CommandDef *infoWindows(SIM::Contact *contact, void *data);
-    virtual QWidget *infoWindow(QWidget *parent, SIM::Contact *contact, void *data, unsigned id);
-    virtual SIM::CommandDef *configWindows();
+    virtual CommandDef *infoWindows(Contact *contact, void *data);
+    virtual QWidget *infoWindow(QWidget *parent, Contact *contact, void *data, unsigned id);
+    virtual CommandDef *configWindows();
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
 
     void init();
@@ -376,10 +376,10 @@ protected:
     void setOffline(JabberUserData *data);
 
     static	QCString encodeXML(const QString &str);
-    std::string		m_id;
+    string		m_id;
     unsigned	m_depth;
 
-    std::string		get_unique_id();
+    string		get_unique_id();
     unsigned	m_id_seed;
     unsigned	m_msg_id;
 
@@ -388,7 +388,7 @@ protected:
     void		element_end(const char *el);
     void		char_data(const char *str, int len);
 
-    std::list<JabberListRequest>	m_listRequests;
+    list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;
 
     const char *get_icon(JabberUserData *data, unsigned status, bool invisible);
@@ -409,10 +409,10 @@ protected:
     friend class JabberBrowser;
 };
 
-class JabberFileTransfer : public SIM::FileTransfer, public SIM::ClientSocketNotify, public SIM::ServerSocketNotify
+class JabberFileTransfer : public FileTransfer, public ClientSocketNotify, public ServerSocketNotify
 {
 public:
-    JabberFileTransfer(SIM::FileMessage *msg, JabberUserData *data, JabberClient *client);
+    JabberFileTransfer(FileMessage *msg, JabberUserData *data, JabberClient *client);
     ~JabberFileTransfer();
     void listen();
     void connect();
@@ -439,14 +439,14 @@ protected:
     virtual void	startReceive(unsigned pos);
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const char *err);
-    virtual bool	accept(SIM::Socket *s, unsigned long ip);
+    virtual bool	accept(Socket *s, unsigned long ip);
     bool get_line(const char *str);
     void send_line(const char *str);
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;
-    std::string			m_url;
-    SIM::ClientSocket	*m_socket;
+    string   m_url;
+    ClientSocket	*m_socket;
 };
 
 class JabberSearch;

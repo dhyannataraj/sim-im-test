@@ -40,9 +40,6 @@ static char value_name[] = "SIM";
 
 #endif
 
-using namespace std;
-using namespace SIM;
-
 #ifndef USE_KDE
 
 typedef struct language

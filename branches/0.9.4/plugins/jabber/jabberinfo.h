@@ -23,7 +23,7 @@
 
 class JabberClient;
 
-class JabberInfo : public JabberInfoBase, public SIM::EventReceiver
+class JabberInfo : public JabberInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -32,12 +32,12 @@ signals:
     void raise(QWidget*);
 public slots:
     void apply();
-    void apply(SIM::Client*, void*);
+    void apply(Client*, void*);
     void goUrl();
     void urlChanged(const QString&);
     void resourceActivated(int);
 protected:
-    void *processEvent(SIM::Event *e);
+    void *processEvent(Event *e);
     void fill();
     struct JabberUserData *m_data;
     JabberClient *m_client;

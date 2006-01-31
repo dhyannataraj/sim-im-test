@@ -23,16 +23,16 @@
 
 class ICQClient;
 
-class AIMInfo : public AIMInfoBase, public SIM::EventReceiver
+class AIMInfo : public AIMInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
     AIMInfo(QWidget *parent, struct ICQUserData*, unsigned contact, ICQClient *client);
 public slots:
     void apply();
-    void apply(SIM::Client*, void*);
+    void apply(Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    void *processEvent(Event *e);
     void fill();
     struct ICQUserData *m_data;
     unsigned  m_contact;

@@ -25,10 +25,10 @@
 
 typedef struct BackgroundData
 {
-    SIM::Data	Background;
-    SIM::Data	Position;
-    SIM::Data	MarginContact;
-    SIM::Data	MarginGroup;
+    Data	Background;
+    Data	Position;
+    Data	MarginContact;
+    Data	MarginGroup;
 } BackgroundData;
 
 const unsigned ContactLeft  = 0;
@@ -38,14 +38,14 @@ const unsigned WindowBottom = 3;
 const unsigned WindowCenter = 4;
 const unsigned WindowScale  = 5;
 
-class BackgroundPlugin : public SIM::Plugin, public SIM::EventReceiver
+class BackgroundPlugin : public Plugin, public EventReceiver
 {
 public:
     BackgroundPlugin(unsigned, Buffer *name);
     virtual ~BackgroundPlugin();
 protected:
-    virtual void *processEvent(SIM::Event *e);
-    virtual std::string getConfig();
+    virtual void *processEvent(Event *e);
+    virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     PROP_STR(Background);
     PROP_ULONG(Position);

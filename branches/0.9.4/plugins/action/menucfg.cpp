@@ -23,8 +23,6 @@
 
 #include <qpushbutton.h>
 
-using namespace SIM;
-
 MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
         : MenuConfigBase(parent)
 {

@@ -19,9 +19,6 @@
 
 #include <qtimer.h>
 
-using std::string;
-using namespace SIM;
-
 class AuthRequest : public JabberClient::ServerRequest
 {
 public:

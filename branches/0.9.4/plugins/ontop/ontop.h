@@ -29,12 +29,12 @@ const unsigned EventOnTop		  = 0x00030001;
 
 typedef struct OnTopData
 {
-    SIM::Data	OnTop;
-    SIM::Data	InTask;
-    SIM::Data	ContainerOnTop;
+    Data	OnTop;
+    Data	InTask;
+    Data	ContainerOnTop;
 } OnTopData;
 
-class OnTopPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class OnTopPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -42,9 +42,9 @@ public:
     virtual ~OnTopPlugin();
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual void *processEvent(SIM::Event*);
+    virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual string getConfig();
     void getState();
     void setState();
     QWidget *getMainWindow();

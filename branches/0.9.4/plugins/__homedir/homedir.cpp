@@ -36,9 +36,6 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 
 #include <qdir.h>
 
-using std::string;
-using namespace SIM;
-
 Plugin *createHomeDirPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new HomeDirPlugin(base);

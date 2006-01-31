@@ -103,37 +103,37 @@ const unsigned LR_DELETE_GROUP	= 3;
 
 typedef struct YahooUserData
 {
-    SIM::clientData	base;
-    SIM::Data		Login;
-    SIM::Data		Nick;
-    SIM::Data		First;
-    SIM::Data		Last;
-    SIM::Data		EMail;
-    SIM::Data		Status;
-    SIM::Data		bAway;
-    SIM::Data		AwayMessage;
-    SIM::Data		OnlineTime;
-    SIM::Data		StatusTime;
-    SIM::Data		Group;
-    SIM::Data		bChecked;
-    SIM::Data		bTyping;
+    clientData	base;
+    Data		Login;
+    Data		Nick;
+    Data		First;
+    Data		Last;
+    Data		EMail;
+    Data		Status;
+    Data		bAway;
+    Data		AwayMessage;
+    Data		OnlineTime;
+    Data		StatusTime;
+    Data		Group;
+    Data		bChecked;
+    Data		bTyping;
 } YahooUserData;
 
 typedef struct YahooClientData
 {
-    SIM::Data	Server;
-    SIM::Data	Port;
-    SIM::Data	MinPort;
-    SIM::Data	MaxPort;
-    SIM::Data	UseHTTP;
-    SIM::Data	AutoHTTP;
-    SIM::Data	ListRequests;
+    Data	Server;
+    Data	Port;
+    Data	MinPort;
+    Data	MaxPort;
+    Data	UseHTTP;
+    Data	AutoHTTP;
+    Data	ListRequests;
     YahooUserData	owner;
 } YahooClientData;
 
-typedef std::pair<unsigned, std::string> PARAM;
+typedef pair<unsigned, string> PARAM;
 
-class Params : public std::list<PARAM>
+class Params : public list<PARAM>
 {
 public:
     Params() {}
@@ -144,21 +144,21 @@ class QTextCodec;
 
 typedef struct Message_ID
 {
-    SIM::Message	*msg;
-    unsigned		id;
+    Message		*msg;
+    unsigned	id;
 } Message_ID;
 
 typedef struct ListRequest
 {
     unsigned	type;
-    std::string		name;
+    string		name;
 } ListRequest;
 
-class YahooClient : public SIM::TCPClient
+class YahooClient : public TCPClient
 {
     Q_OBJECT
 public:
-    YahooClient(SIM::Protocol*, Buffer *cfg);
+    YahooClient(Protocol*, Buffer *cfg);
     ~YahooClient();
     PROP_STR(Server);
     PROP_USHORT(Port);
@@ -167,34 +167,34 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_STR(ListRequests);
-    virtual std::string getConfig();
+    virtual string getConfig();
     QString getLogin();
     void setLogin(const QString&);
-    std::string  dataName(void*);
+    string  dataName(void*);
     YahooClientData	data;
-    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
-    YahooUserData *findContact(const char *id, const char *grp, SIM::Contact *&contact, bool bSend=true, bool bJoin=true);
-    void sendFile(SIM::FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
-    std::list<Message_ID>		m_waitMsg;
-    std::list<SIM::Message*>	m_ackMsg;
+    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, string *icons = NULL);
+    YahooUserData *findContact(const char *id, const char *grp, Contact *&contact, bool bSend=true, bool bJoin=true);
+    void sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
+    list<Message_ID>	m_waitMsg;
+    list<Message*>		m_ackMsg;
 protected slots:
     void ping();
 protected:
-    void	*processEvent(SIM::Event*);
+    void	*processEvent(Event*);
     void	setStatus(unsigned status);
     virtual void setInvisible(bool bState);
     void	disconnected();
-    SIM::Socket  *createSocket();
-    std::string	name();
+    Socket  *createSocket();
+    string	name();
     QWidget	*setupWnd();
-    bool isMyData(SIM::clientData*&, SIM::Contact*&);
-    bool createData(SIM::clientData*&, SIM::Contact*);
-    void setupContact(SIM::Contact*, void *data);
-    bool send(SIM::Message*, void *data);
+    bool isMyData(clientData*&, Contact*&);
+    bool createData(clientData*&, Contact*);
+    void setupContact(Contact*, void *data);
+    bool send(Message*, void *data);
     bool canSend(unsigned type, void *data);
-    SIM::CommandDef *infoWindows(SIM::Contact*, void *_data);
-    SIM::CommandDef *configWindows();
-    QWidget *infoWindow(QWidget *parent, SIM::Contact*, void *_data, unsigned id);
+    CommandDef *infoWindows(Contact*, void *_data);
+    CommandDef *configWindows();
+    QWidget *infoWindow(QWidget *parent, Contact*, void *_data, unsigned id);
     QWidget *configWindow(QWidget *parent, unsigned id);
     virtual QWidget *searchWindow(QWidget *parent);
     virtual QString contactTip(void *_data);
@@ -212,26 +212,26 @@ protected:
     void processStatus(unsigned short service, const char *id,
                        const char *_state, const char *_msg,
                        const char *_away, const char *_idle);
-    void messageReceived(SIM::Message *msg, const char *id);
+    void messageReceived(Message *msg, const char *id);
     void process_message(const char *id, const char *msg, const char *utf);
     void process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url, const char *msgid);
     void process_fileurl(const char *id, const char *msg, const char *url);
     void notify(const char *id, const char *msg, const char *state);
-    void sendMessage(const QString &msgText, SIM::Message *msg, YahooUserData*);
+    void sendMessage(const QString &msgText, Message *msg, YahooUserData*);
     void sendTyping(YahooUserData*, bool);
     void addBuddy(YahooUserData*);
     void removeBuddy(YahooUserData*);
     void moveBuddy(YahooUserData *data, const char *grp);
     void sendStatus(unsigned long status, const char *msg = NULL);
     ListRequest *findRequest(const char *login);
-    std::list<PARAM>	   m_values;
-    std::list<ListRequest> m_requests;
+    list<PARAM>	   m_values;
+    list<ListRequest> m_requests;
     unsigned long  m_session;
     unsigned long  m_pkt_status;
     unsigned short m_data_size;
     unsigned short m_service;
     unsigned	   m_ft_id;
-    std::string	m_session_id;
+    string	m_session_id;
     bool m_bHeader;
     bool m_bHTTP;
     bool m_bFirstTry;
@@ -240,27 +240,27 @@ protected:
 
 typedef struct YahooFileData
 {
-    SIM::Data	Url;
-    SIM::Data	MsgID;
+    Data	Url;
+    Data	MsgID;
 } YahooFileData;
 
-class YahooFileMessage : public SIM::FileMessage
+class YahooFileMessage : public FileMessage
 {
 public:
     YahooFileMessage(Buffer *cfg=NULL);
     ~YahooFileMessage();
     PROP_STR(Url);
     PROP_ULONG(MsgID);
-    virtual	std::string save();
-    virtual unsigned baseType() { return SIM::MessageFile; }
+    virtual	string save();
+    virtual unsigned baseType() { return MessageFile; }
 protected:
     YahooFileData data;
 };
 
-class YahooFileTransfer : public SIM::FileTransfer, public SIM::ClientSocketNotify, public SIM::ServerSocketNotify
+class YahooFileTransfer : public FileTransfer, public ClientSocketNotify, public ServerSocketNotify
 {
 public:
-    YahooFileTransfer(SIM::FileMessage *msg, YahooUserData *data, YahooClient *client);
+    YahooFileTransfer(FileMessage *msg, YahooUserData *data, YahooClient *client);
     ~YahooFileTransfer();
     void listen();
     void connect();
@@ -288,16 +288,16 @@ protected:
     virtual void	startReceive(unsigned pos);
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const char *err);
-    virtual bool	accept(SIM::Socket *s, unsigned long ip);
+    virtual bool	accept(Socket *s, unsigned long ip);
     bool get_line(const char *str);
     void send_line(const char *str);
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;
-    std::string	m_url;
-    std::string	m_host;
-    std::string	m_method;
-    SIM::ClientSocket	*m_socket;
+    string   m_url;
+    string	 m_host;
+    string	 m_method;
+    ClientSocket	*m_socket;
 };
 
 #endif

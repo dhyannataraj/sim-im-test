@@ -29,9 +29,6 @@
 #include <qlabel.h>
 #include <qtabwidget.h>
 
-using std::string;
-using namespace SIM;
-
 const ext_info chat_groups[] =
     {
         { I18N_NOOP("General chat"), 1 },

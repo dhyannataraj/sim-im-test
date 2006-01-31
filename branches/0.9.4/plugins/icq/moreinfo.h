@@ -23,20 +23,20 @@
 
 class ICQClient;
 
-class MoreInfo : public MoreInfoBase, public SIM::EventReceiver
+class MoreInfo : public MoreInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
     MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
-    void apply(SIM::Client*, void*);
+    void apply(Client*, void*);
     void goUrl();
     void urlChanged(const QString&);
     void setLang(int);
     void birthDayChanged();
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void fill();
     struct ICQUserData *m_data;
     unsigned  m_contact;

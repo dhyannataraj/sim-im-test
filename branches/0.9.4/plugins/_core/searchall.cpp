@@ -21,9 +21,6 @@
 
 #include <qtimer.h>
 
-using namespace std;
-using namespace SIM;
-
 SearchAll::SearchAll(QWidget *parent)
         : SearchAllBase(parent)
 {

@@ -37,7 +37,7 @@ class EXPORT CMenu : public KPopupMenu
 {
     Q_OBJECT
 public:
-    CMenu(SIM::CommandsDef *def);
+    CMenu(CommandsDef *def);
     ~CMenu();
     void setParam(void *param);
 protected slots:
@@ -46,11 +46,11 @@ protected slots:
     void menuActivated(int);
     void clearMenu();
 protected:
-    void processItem(SIM::CommandDef *s, bool &bSeparator, bool &bFirst, unsigned base_id);
+    void processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned base_id);
     QSize sizeHint() const;
     void initMenu();
-    std::vector<CMD> m_cmds;
-    SIM::CommandsDef *m_def;
+    vector<CMD> m_cmds;
+    CommandsDef *m_def;
     KPopupMenu	*m_wrk;
     void *m_param;
     bool		m_bInit;

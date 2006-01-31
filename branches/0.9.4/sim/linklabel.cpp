@@ -40,9 +40,6 @@
 #define QStyleSheet		Qt3::QStyleSheet
 #endif
 
-using namespace std;
-using namespace SIM;
-
 LinkLabel::LinkLabel(QWidget *parent, const char *name)
         : QLabel(parent, name)
 {

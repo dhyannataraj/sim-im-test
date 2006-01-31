@@ -25,9 +25,6 @@
 #include <qpixmap.h>
 #include <qapplication.h>
 
-using std::string;
-using namespace SIM;
-
 const unsigned short ICQ_SNACxLOGIN_ERROR			= 0x0001;
 const unsigned short ICQ_SNACxLOGIN_MD5xLOGIN			= 0x0002;
 const unsigned short ICQ_SNACxLOGIN_LOGINxREPLY			= 0x0003;

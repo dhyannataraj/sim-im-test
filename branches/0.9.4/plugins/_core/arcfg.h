@@ -25,14 +25,14 @@ class ARConfig : public ARConfigBase
 {
     Q_OBJECT
 public:
-    ARConfig(QWidget *parent, unsigned status, const QString &name, SIM::Contact *contact);
+    ARConfig(QWidget *parent, unsigned status, const QString &name, Contact *contact);
 public slots:
     void apply();
     void toggled(bool);
     void help();
 protected:
     unsigned m_status;
-    SIM::Contact *m_contact;
+    Contact	 *m_contact;
 };
 
 #endif

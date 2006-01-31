@@ -22,8 +22,6 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 
-using namespace SIM;
-
 EditMail::EditMail(QWidget *parent, const QString &mail, bool bPublish, bool bShowPublish)
         : EditMailBase(parent, "editmail", true)
 {

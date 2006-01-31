@@ -23,10 +23,10 @@
 
 typedef struct UpdateData
 {
-    SIM::Data	Time;
+    Data	Time;
 } UpdateData;
 
-class UpdatePlugin : public QObject, public SIM::Plugin, public FetchClient, public SIM::EventReceiver
+class UpdatePlugin : public QObject, public Plugin, public FetchClient, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -37,10 +37,10 @@ protected slots:
 protected:
     unsigned CmdGo;
     bool done(unsigned code, Buffer &data, const char *headers);
-    virtual std::string getConfig();
-    void *processEvent(SIM::Event*);
-    std::string getHeader(const char *name, const char *headers);
-    std::string m_url;
+    virtual string getConfig();
+    void *processEvent(Event*);
+    string getHeader(const char *name, const char *headers);
+    string   m_url;
     PROP_ULONG(Time);
     UpdateData data;
 };

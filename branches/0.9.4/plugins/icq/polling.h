@@ -25,7 +25,7 @@
 class HttpRequest;
 class HttpPacket;
 
-class HttpPool : public QObject, public SIM::Socket
+class HttpPool : public QObject, public Socket
 {
     Q_OBJECT
 public:
@@ -46,11 +46,11 @@ protected:
     };
     State state;
 
-    std::string sid;
-    std::string m_host;
-    std::string m_url;
+    string sid;
+    string m_host;
+    string m_url;
 
-    std::list<HttpPacket*> queue;
+    list<HttpPacket*> queue;
     unsigned seq;
     unsigned readn;
     Buffer readData;

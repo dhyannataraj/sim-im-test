@@ -25,9 +25,6 @@
 #include <qtimer.h>
 #include <ctype.h>
 
-using namespace std;
-using namespace SIM;
-
 const unsigned	PING_TIMEOUT	= 20000;
 const unsigned	UNKNOWN			= (unsigned)(-1);
 

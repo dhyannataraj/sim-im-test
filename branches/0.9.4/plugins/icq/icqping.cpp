@@ -17,8 +17,6 @@
 
 #include "icqclient.h"
 
-using namespace SIM;
-
 const unsigned short ICQ_SNACxPING_ERROR            = 0x0001;
 const unsigned short ICQ_SNACxPING_REPORTxINTERVALL = 0x0002;
 const unsigned short ICQ_SNACxPING_STATS            = 0x0003;   // not implemented

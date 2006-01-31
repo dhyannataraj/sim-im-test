@@ -29,8 +29,6 @@
 #include <qpainter.h>
 #include <qcursor.h>
 
-using namespace SIM;
-
 #ifdef WIN32
 #include <windows.h>
 
@@ -147,7 +145,7 @@ TransparentPlugin::~TransparentPlugin()
     free_data(transparentData, &data);
 }
 
-std::string TransparentPlugin::getConfig()
+string TransparentPlugin::getConfig()
 {
     return save_data(transparentData, &data);
 }

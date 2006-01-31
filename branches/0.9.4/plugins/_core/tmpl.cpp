@@ -36,9 +36,6 @@
 #include <qdatetime.h>
 #include <time.h>
 
-using namespace std;
-using namespace SIM;
-
 Tmpl::Tmpl(QObject *parent)
         : QObject(parent)
 {

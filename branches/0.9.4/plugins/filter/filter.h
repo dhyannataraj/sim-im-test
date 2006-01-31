@@ -22,18 +22,18 @@
 
 typedef struct FilterData
 {
-    SIM::Data	FromList;
-    SIM::Data	AuthFromList;
+    Data	FromList;
+    Data	AuthFromList;
 } FilterData;
 
 typedef struct FilterUserData
 {
-    SIM::Data	SpamList;
+    Data	SpamList;
 } FilterUserData;
 
 class QStringList;
 
-class FilterPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class FilterPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -48,9 +48,9 @@ protected:
     unsigned long CmdIgnoreList;
     unsigned long CmdIgnore;
     unsigned long CmdIgnoreText;
-    virtual void *processEvent(SIM::Event*);
+    virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual string getConfig();
     bool checkSpam(const QString &text, const QString &filter);
     void getWords(const QString &text, QStringList &words, bool bPattern);
     FilterData data;

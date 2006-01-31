@@ -20,8 +20,6 @@
 #include <qlayout.h>
 #include <qpixmap.h>
 
-using namespace SIM;
-
 ConnectionSettings::ConnectionSettings(Client *client)
         : ConnectionSettingsBase(NULL, NULL, true)
 {

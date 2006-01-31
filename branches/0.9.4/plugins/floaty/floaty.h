@@ -22,15 +22,15 @@
 
 typedef struct FloatyUserData
 {
-    SIM::Data	X;
-    SIM::Data	Y;
+    Data	X;
+    Data	Y;
 } FloatyUserData;
 
 class FloatyWnd;
 class CorePlugin;
 class QTimer;
 
-class FloatyPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class FloatyPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -44,7 +44,7 @@ protected slots:
     void unreadBlink();
 protected:
     FloatyWnd *findFloaty(unsigned id);
-    virtual void *processEvent(SIM::Event*);
+    virtual void *processEvent(Event*);
     unsigned long CmdFloaty;
     unsigned long user_data_id;
     QPoint	 popupPos;

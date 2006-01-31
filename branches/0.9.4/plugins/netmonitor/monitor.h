@@ -27,7 +27,7 @@ class NetmonitorPlugin;
 
 const unsigned short L_PACKETS = 0x08;
 
-class MonitorWindow : public QMainWindow, public SIM::EventReceiver
+class MonitorWindow : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -46,7 +46,7 @@ protected slots:
     void adjustEdit();
     void adjustLog();
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void closeEvent(QCloseEvent*);
     bool bPause;
     bool bAutoscroll;

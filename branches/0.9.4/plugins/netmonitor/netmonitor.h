@@ -23,15 +23,15 @@
 
 typedef struct NetMonitorData
 {
-    SIM::Data	LogLevel;
-    SIM::Data	LogPackets;
-    SIM::Data	geometry[5];
-    SIM::Data	Show;
+    Data	LogLevel;
+    Data	LogPackets;
+    Data	geometry[5];
+    Data	Show;
 } NetMonitorData;
 
 class MonitorWindow;
 
-class NetmonitorPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class NetmonitorPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -46,12 +46,12 @@ protected slots:
     void finished();
     void realFinished();
 protected:
-    virtual void *processEvent(SIM::Event*);
-    virtual std::string getConfig();
+    virtual void *processEvent(Event*);
+    virtual string getConfig();
     void showMonitor();
     void saveState();
     unsigned long CmdNetMonitor;
-    std::list<unsigned> m_packets;
+    list<unsigned> m_packets;
     NetMonitorData data;
     MonitorWindow *monitor;
 };

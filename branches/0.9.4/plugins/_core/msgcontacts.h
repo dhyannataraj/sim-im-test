@@ -23,11 +23,11 @@
 class MsgEdit;
 class UserList;
 
-class MsgContacts : public QObject, public SIM::EventReceiver
+class MsgContacts : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgContacts(MsgEdit *btn, SIM::Message *msg);
+    MsgContacts(MsgEdit *btn, Message *msg);
     ~MsgContacts();
 protected slots:
     void init();
@@ -35,10 +35,10 @@ protected slots:
     void editFinished();
     void listFinished();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual void *processEvent(Event*);
     UserList	*m_list;
     MsgEdit		*m_edit;
-    std::string	m_client;
+    string		m_client;
 };
 
 #endif

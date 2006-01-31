@@ -28,9 +28,6 @@
 #include <qtextstream.h>
 #include <time.h>
 
-using namespace std;
-using namespace SIM;
-
 #ifdef WIN32
 static char HISTORY_PATH[] = "history\\";
 #else

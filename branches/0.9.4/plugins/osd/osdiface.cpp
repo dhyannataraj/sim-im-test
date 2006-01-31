@@ -25,9 +25,6 @@
 #include <qspinbox.h>
 #include <qlabel.h>
 
-using std::string;
-using namespace SIM;
-
 OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
         : OSDIfaceBase(parent)
 {

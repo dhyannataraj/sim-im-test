@@ -29,9 +29,6 @@
 #include <kaudioplayer.h>
 #endif
 
-using namespace std;
-using namespace SIM;
-
 const unsigned CHECK_SOUND_TIMEOUT	= 200;
 const unsigned WAIT_SOUND_TIMEOUT	= 1000;
 

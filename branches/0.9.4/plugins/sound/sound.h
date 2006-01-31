@@ -24,20 +24,20 @@
 typedef struct SoundData
 {
 #ifdef USE_KDE
-    SIM::Data	UseArts;
+    Data	UseArts;
 #endif
-    SIM::Data	Player;
-    SIM::Data	StartUp;
-    SIM::Data	FileDone;
-    SIM::Data	MessageSent;
+    Data	Player;
+    Data	StartUp;
+    Data	FileDone;
+    Data	MessageSent;
 } SoundData;
 
 typedef struct SoundUserData
 {
-    SIM::Data	Alert;
-    SIM::Data	Receive;
-    SIM::Data	NoSoundIfActive;
-    SIM::Data	Disable;
+    Data	Alert;
+    Data	Receive;
+    Data	NoSoundIfActive;
+    Data	Disable;
 } SoundUserData;
 
 class CorePlugin;
@@ -45,7 +45,7 @@ class QTimer;
 class QSound;
 class Exec;
 
-class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class SoundPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -65,15 +65,15 @@ protected slots:
     void childExited(int, int);
 protected:
     unsigned long user_data_id;
-    virtual void *processEvent(SIM::Event*);
-    virtual std::string getConfig();
+    virtual void *processEvent(Event*);
+    virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    std::string fullName(const char*);
-    std::string messageSound(unsigned type, SoundUserData *data);
+    string fullName(const char*);
+    string messageSound(unsigned type, SoundUserData *data);
     void playSound(const char*);
     void processQueue();
-    std::string		m_current;
-    std::list<std::string>	m_queue;
+    string			m_current;
+    list<string>	m_queue;
     QSound			*m_sound;
     QTimer			*m_checkTimer;
 #ifndef WIN32

@@ -34,9 +34,6 @@
 #include <sys/stat.h>
 #endif
 
-using namespace std;
-using namespace SIM;
-
 #ifndef WIN32
 static string GPGpath;
 #endif

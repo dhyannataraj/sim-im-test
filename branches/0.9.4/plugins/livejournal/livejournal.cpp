@@ -33,9 +33,6 @@
 #include <qregexp.h>
 #include <stdio.h>
 
-using namespace std;
-using namespace SIM;
-
 Plugin *createLiveJournalPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new LiveJournalPlugin(base);

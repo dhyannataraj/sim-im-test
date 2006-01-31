@@ -27,9 +27,6 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 
-using namespace std;
-using namespace SIM;
-
 const unsigned FILL_FIRST	= 0x0001;
 const unsigned FILL_LAST	= 0x0002;
 const unsigned FILL_NICK	= 0x0004;

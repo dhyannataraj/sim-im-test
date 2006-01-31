@@ -30,9 +30,9 @@ class UserList;
 
 typedef struct UserWndData
 {
-    SIM::Data	EditHeight;
-    SIM::Data	editBar[8];
-    SIM::Data	MessageType;
+    Data	EditHeight;
+    Data	editBar[8];
+    Data	MessageType;
 } UserWndData;
 
 class UserWnd : public QSplitter
@@ -41,13 +41,13 @@ class UserWnd : public QSplitter
 public:
     UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust);
     ~UserWnd();
-    std::string getConfig();
+    string getConfig();
     unsigned long id() { return m_id; }
     QString getName();
     QString getLongName();
     const char *getIcon();
     unsigned type();
-    void setMessage(SIM::Message**);
+    void setMessage(Message**);
     void setStatus(const QString&);
     void showListView(bool bShow);
     QString status() { return m_status; }

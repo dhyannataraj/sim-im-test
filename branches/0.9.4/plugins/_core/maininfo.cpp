@@ -30,9 +30,6 @@
 #include <qlabel.h>
 #include <qtabwidget.h>
 
-using namespace std;
-using namespace SIM;
-
 const unsigned PHONE_TYPE		= 0;
 const unsigned PHONE_NUMBER		= 1;
 const unsigned PHONE_PUBLISH	= 2;

@@ -28,9 +28,6 @@
 #include <qregexp.h>
 #include <qpainter.h>
 
-using std::string;
-using namespace SIM;
-
 unsigned ONLINE_ALERT = 0x10000;
 
 SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugin)

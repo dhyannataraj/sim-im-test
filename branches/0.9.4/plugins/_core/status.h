@@ -31,10 +31,10 @@ typedef struct BalloonItem
     QString		text;
     QStringList	buttons;
     unsigned	id;
-    SIM::Client	*client;
+    Client		*client;
 } BalloonItem;
 
-class CommonStatus : public QObject, public SIM::EventReceiver
+class CommonStatus : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -48,14 +48,14 @@ protected slots:
     void showBalloon();
 protected:
     QTimer *m_timer;
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void rebuildStatus();
     void checkInvisible();
     bool m_bInit;
     bool m_bBlink;
     bool m_bConnected;
     BalloonMsg		  *m_balloon;
-    std::list<BalloonItem> m_queue;
+    list<BalloonItem> m_queue;
 };
 
 #endif

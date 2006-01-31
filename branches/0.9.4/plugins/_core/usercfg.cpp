@@ -33,9 +33,6 @@
 #include <qregexp.h>
 #include <qiconset.h>
 
-using namespace std;
-using namespace SIM;
-
 class ConfigItem : public QListViewItem
 {
 public:

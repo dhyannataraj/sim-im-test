@@ -39,9 +39,6 @@
 #endif
 #endif
 
-using namespace std;
-using namespace SIM;
-
 Plugin *createShortcutsPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new ShortcutsPlugin(base, config);

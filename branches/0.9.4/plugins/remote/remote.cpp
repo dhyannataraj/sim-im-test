@@ -31,9 +31,6 @@
 #include <qpixmap.h>
 #include <time.h>
 
-using namespace std;
-using namespace SIM;
-
 Plugin *createRemotePlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new RemotePlugin(base, config);

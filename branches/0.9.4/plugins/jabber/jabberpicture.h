@@ -25,19 +25,19 @@ class JabberClient;
 
 class QImage;
 
-class JabberPicture : public JabberPictureBase, public SIM::EventReceiver
+class JabberPicture : public JabberPictureBase, public EventReceiver
 {
     Q_OBJECT
 public:
     JabberPicture(QWidget *parent, struct JabberUserData *data, JabberClient *client, bool bPhoto);
 public slots:
     void apply();
-    void apply(SIM::Client*, void*);
+    void apply(Client*, void*);
 protected slots:
     void clearPicture();
     void pictSelected(const QString&);
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void fill();
     void setPict(QImage &img);
     bool m_bPhoto;

@@ -27,7 +27,7 @@ class AdvSearch;
 class AIMSearch;
 class GroupRadioButton;
 
-class ICQSearch : public ICQSearchBase, public SIM::EventReceiver
+class ICQSearch : public ICQSearchBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -48,8 +48,8 @@ protected slots:
     void searchStop();
     void searchMail(const QString&);
     void searchName(const QString&, const QString&, const QString&);
-    void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
-    void createContact(unsigned tmpFlags, SIM::Contact *&contact);
+    void createContact(const QString&, unsigned tmpFlags, Contact *&contact);
+    void createContact(unsigned tmpFlags, Contact *&contact);
 protected:
     enum SearchType
     {
@@ -60,13 +60,13 @@ protected:
         Full
     };
     static inline const QString extractUIN(const QString& str);
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void showEvent(QShowEvent*);
     void setAdv(bool);
     void icq_search();
     void addColumns();
-    void add(const QString &screen, unsigned tmpFlags, SIM::Contact *&contact);
-    std::list<unsigned>	m_uins;
+    void add(const QString &screen, unsigned tmpFlags, Contact *&contact);
+    list<unsigned>		m_uins;
     ICQClient			*m_client;
     QWidget				*m_adv;
     bool				m_bAdv;
@@ -75,27 +75,27 @@ protected:
     unsigned short		m_id_icq;
     unsigned short		m_id_aim;
     unsigned long		m_uin;
-    std::string			m_first;
-    std::string			m_last;
-    std::string			m_nick;
-    std::string			m_mail;
+    string				m_first;
+    string				m_last;
+    string				m_nick;
+    string				m_mail;
     unsigned short		m_age;
     char				m_gender;
     unsigned short		m_lang;
-    std::string			m_city;
-    std::string			m_state;
+    string				m_city;
+    string				m_state;
     unsigned short		m_country;
-    std::string			m_company;
-    std::string			m_depart;
-    std::string			m_position;
+    string				m_company;
+    string				m_depart;
+    string				m_position;
     unsigned short		m_occupation;
     unsigned short		m_past;
-    std::string			m_past_text;
+    string				m_past_text;
     unsigned short		m_interests;
-    std::string			m_interests_text;
+    string				m_interests_text;
     unsigned short		m_affilations;
-    std::string			m_affilations_text;
-    std::string			m_keywords;
+    string				m_affilations_text;
+    string				m_keywords;
     bool				m_bOnline;
 };
 

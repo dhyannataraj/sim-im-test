@@ -47,9 +47,6 @@
 #include <ctype.h>
 #endif
 
-using namespace std;
-using namespace SIM;
-
 #ifndef XML_STATUS_OK
 #define XML_STATUS_OK    1
 #define XML_STATUS_ERROR 0

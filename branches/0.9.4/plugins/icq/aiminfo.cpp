@@ -27,9 +27,6 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
-using std::string;
-using namespace SIM;
-
 AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : AIMInfoBase(parent)
 {

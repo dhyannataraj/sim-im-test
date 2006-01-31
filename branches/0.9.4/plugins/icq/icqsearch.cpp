@@ -26,9 +26,6 @@
 #include <qgroupbox.h>
 #include <qcheckbox.h>
 
-using namespace std;
-using namespace SIM;
-
 ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
         : ICQSearchBase(parent)
 {

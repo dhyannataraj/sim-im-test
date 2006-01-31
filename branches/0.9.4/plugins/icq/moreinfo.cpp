@@ -26,9 +26,6 @@
 #include <qcombobox.h>
 #include <qlineedit.h>
 
-using std::string;
-using namespace SIM;
-
 MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : MoreInfoBase(parent)
 {

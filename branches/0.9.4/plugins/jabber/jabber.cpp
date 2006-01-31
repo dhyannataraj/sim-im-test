@@ -19,8 +19,6 @@
 #include "jabber.h"
 #include "core.h"
 
-using namespace SIM;
-
 Plugin *createJabberPlugin(unsigned base, bool, Buffer *cfg)
 {
     Plugin *plugin = new JabberPlugin(base, cfg);
@@ -377,7 +375,7 @@ JabberPlugin::~JabberPlugin()
     free_data(jabberData, &data);
 }
 
-std::string JabberPlugin::getConfig()
+string JabberPlugin::getConfig()
 {
     return save_data(jabberData, &data);
 }

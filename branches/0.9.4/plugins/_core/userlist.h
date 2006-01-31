@@ -64,17 +64,17 @@ protected:
 class GroupItem : public UserViewItemBase
 {
 public:
-    GroupItem(UserListBase *view, SIM::Group *grp, bool bOffline);
-    GroupItem(UserViewItemBase *view, SIM::Group *grp, bool bOffline);
+    GroupItem(UserListBase *view, Group *grp, bool bOffline);
+    GroupItem(UserViewItemBase *view, Group *grp, bool bOffline);
     unsigned type() { return GRP_ITEM; }
     unsigned long id() { return m_id; }
-    void update(SIM::Group *grp, bool bInit=false);
+    void update(Group *grp, bool bInit=false);
     unsigned m_nContacts;
     unsigned m_nContactsOnline;
     unsigned m_unread;
 protected:
     virtual void setOpen(bool bOpen);
-    void init(SIM::Group *grp);
+    void init(Group *grp);
     unsigned long m_id;
     bool m_bOffline;
 };
@@ -82,18 +82,18 @@ protected:
 class ContactItem : public UserViewItemBase
 {
 public:
-    ContactItem(UserViewItemBase *view, SIM::Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread);
+    ContactItem(UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread);
     unsigned type() { return USR_ITEM; }
     unsigned long id() { return m_id; }
     unsigned style() { return m_style; }
     unsigned status() { return m_status; }
-    bool update(SIM::Contact *grp, unsigned status, unsigned style, const char *icons, unsigned unread);
+    bool update(Contact *grp, unsigned status, unsigned style, const char *icons, unsigned unread);
     bool m_bOnline;
     bool m_bBlink;
     unsigned m_unread;
 protected:
     virtual QString key(int column, bool ascending) const;
-    void init(SIM::Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread);
+    void init(Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread);
     unsigned long m_id;
     unsigned m_style;
     unsigned m_status;
@@ -112,10 +112,10 @@ protected:
     unsigned m_groupMode;
     unsigned m_bShowOnline;
     unsigned m_bShowEmpty;
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
-    unsigned getUserStatus(SIM::Contact *contact, unsigned &style, std::string &icons);
+    unsigned getUserStatus(Contact *contact, unsigned &style, string &icons);
     virtual unsigned getUnread(unsigned contact_id);
     GroupItem *findGroupItem(unsigned id, QListViewItem *p = NULL);
     ContactItem *findContactItem(unsigned id, QListViewItem *p = NULL);
@@ -124,10 +124,10 @@ protected:
     void addGroupForUpdate(unsigned long id);
     void addContactForUpdate(unsigned long id);
     virtual void deleteItem(QListViewItem *item);
-    std::list<QListViewItem*> sortItems;
-    std::list<QListViewItem*> updatedItems;
-    std::list<unsigned long>	updGroups;
-    std::list<unsigned long>	updContacts;
+    list<QListViewItem*> sortItems;
+    list<QListViewItem*> updatedItems;
+    list<unsigned long>	updGroups;
+    list<unsigned long>	updContacts;
     bool m_bDirty;
     bool m_bInit;
     QTimer *updTimer;
@@ -140,7 +140,7 @@ class UserList : public UserListBase
 public:
     UserList(QWidget *parent);
     ~UserList();
-    std::list<unsigned> selected;
+    list<unsigned> selected;
 signals:
     void selectChanged();
     void finished();

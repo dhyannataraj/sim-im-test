@@ -27,8 +27,6 @@
 #include <qspinbox.h>
 #include <qtabwidget.h>
 
-using namespace SIM;
-
 JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
         : JabberConfigBase(parent)
 {

@@ -22,10 +22,10 @@
 
 #ifdef USE_OPENSSL
 
-class JabberSSL : public SIM::SSLClient
+class JabberSSL : public SSLClient
 {
 public:
-    JabberSSL(SIM::Socket*);
+    JabberSSL(Socket*);
 protected:
     virtual bool initSSL();
 };

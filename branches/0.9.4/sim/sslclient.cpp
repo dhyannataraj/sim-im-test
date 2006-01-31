@@ -33,11 +33,6 @@
 
 #include "socket.h"
 
-namespace SIM
-{
-
-using std::string;
-
 static bool bInit = false;
 
 static void initLib()
@@ -430,7 +425,7 @@ bool SSLClient::initTLS1(bool bDH)
     return true;
 }
 
-string md5(const char *str, int size)
+string SIM::md5(const char *str, int size)
 {
     MD5_CTX c;
     unsigned char md[MD5_DIGEST_LENGTH];
@@ -444,7 +439,7 @@ string md5(const char *str, int size)
     return res;
 }
 
-string sha1(const char *str, int size)
+string SIM::sha1(const char *str, int size)
 {
     unsigned char digest[20];
     SHA_CTX ctx;
@@ -457,8 +452,6 @@ string sha1(const char *str, int size)
     res.append((char*)digest, sizeof(digest));
     return res;
 }
-
-} // namespace SIM
 
 #endif
 

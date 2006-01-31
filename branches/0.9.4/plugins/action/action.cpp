@@ -22,9 +22,6 @@
 
 #include <qtimer.h>
 
-using namespace std;
-using namespace SIM;
-
 Plugin *createActionPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new ActionPlugin(base);

@@ -34,7 +34,7 @@
 #define SPACE		9
 #define COMMENT		10
 
-static std::string current_tag;
+static string current_tag;
 
 %}
 
@@ -104,8 +104,6 @@ static std::string current_tag;
 
 namespace SIM
 {
-
-using namespace std;
 
 class HTMLParserPrivate
 {

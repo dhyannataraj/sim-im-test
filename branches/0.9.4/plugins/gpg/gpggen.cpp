@@ -28,9 +28,6 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 
-using std::string;
-using namespace SIM;
-
 GpgGen::GpgGen(GpgCfg *cfg)
         : GpgGenBase(NULL, NULL, true)
 {

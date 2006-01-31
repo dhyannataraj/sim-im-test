@@ -29,13 +29,13 @@ public:
     virtual ~MSNPacket() {}
     const char	*cmd()	{ return m_cmd.c_str(); }
     unsigned	id()	{ return m_id; }
-    virtual	void	answer(std::vector<std::string>&) {}
+    virtual	void	answer(vector<string>&) {}
     virtual void	error(unsigned code);
     void			addArg(const char *str);
     virtual void	send();
 protected:
-    std::string		m_line;
-    std::string		m_cmd;
+    string		m_line;
+    string		m_cmd;
     MSNClient	*m_client;
     unsigned	m_id;
 };
@@ -44,21 +44,21 @@ class VerPacket : public MSNPacket
 {
 public:
     VerPacket(MSNClient *client);
-    void answer(std::vector<std::string> &args);
+    void answer(vector<string> &args);
 };
 
 class CvrPacket : public MSNPacket
 {
 public:
     CvrPacket(MSNClient *client);
-    void answer(std::vector<std::string> &args);
+    void answer(vector<string> &args);
 };
 
 class UsrPacket : public MSNPacket
 {
 public:
     UsrPacket(MSNClient *client, const char *hash = NULL);
-    void answer(std::vector<std::string> &args);
+    void answer(vector<string> &args);
 };
 
 class OutPacket : public MSNPacket
@@ -78,7 +78,7 @@ class SynPacket : public MSNPacket
 public:
     SynPacket(MSNClient *client);
 protected:
-    void answer(std::vector<std::string> &args);
+    void answer(vector<string> &args);
 };
 
 class QryPacket : public MSNPacket
@@ -93,7 +93,7 @@ class AdgPacket : public MSNPacket
 public:
     AdgPacket(MSNClient *client, unsigned grp_id, const char *name);
 protected:
-    void answer(std::vector<std::string> &args);
+    void answer(vector<string> &args);
     unsigned m_id;
 };
 
@@ -114,9 +114,9 @@ class AddPacket : public MSNPacket
 public:
     AddPacket(MSNClient *client, const char *listType, const char *mail, const char *name, unsigned grp=0);
 protected:
-    void answer(std::vector<std::string> &args);
+    void answer(vector<string> &args);
     virtual void	error(unsigned code);
-    std::string m_mail;
+    string m_mail;
 };
 
 class RemPacket : public MSNPacket
@@ -145,7 +145,7 @@ public:
     void clear();
 protected:
     SBSocket *m_socket;
-    void answer(std::vector<std::string> &args);
+    void answer(vector<string> &args);
 };
 
 class MSNServerMessage
@@ -155,7 +155,7 @@ public:
     ~MSNServerMessage();
     bool packet();
 protected:
-    std::string	  m_msg;
+    string	  m_msg;
     MSNClient *m_client;
     unsigned  m_size;
 };

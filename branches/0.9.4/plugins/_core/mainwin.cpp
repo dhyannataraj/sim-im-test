@@ -27,8 +27,6 @@
 #include <qsizegrip.h>
 #include <qstatusbar.h>
 
-using namespace SIM;
-
 #ifdef WIN32
 
 #include <windows.h>
@@ -171,7 +169,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 #endif
     if (e->type() == QEvent::ChildRemoved){
         QChildEvent *ce = static_cast<QChildEvent*>(e);
-        std::list<QWidget*>::iterator it;
+        list<QWidget*>::iterator it;
         for (it = statusWidgets.begin(); it != statusWidgets.end(); ++it){
             if (*it == ce->child()){
                 statusWidgets.erase(it);

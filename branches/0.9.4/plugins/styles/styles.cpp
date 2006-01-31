@@ -40,8 +40,6 @@
 #include <qsgistyle.h>
 #endif
 
-using namespace SIM;
-
 Plugin *createStylesPlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new StylesPlugin(base, config);
@@ -103,7 +101,7 @@ StylesPlugin::~StylesPlugin()
         delete m_savePalette;
 }
 
-std::string StylesPlugin::getConfig()
+string StylesPlugin::getConfig()
 {
     return save_data(stylesData, &data);
 }
@@ -155,7 +153,7 @@ void StylesPlugin::setStyles()
         style = QStyleFactory::create(getStyle());
 #else
 if (*getStyle()){
-    std::string s = getStyle();
+    string s = getStyle();
     if (s == "windows"){
         style = new QWindowsStyle;
     }else if (s == "motif"){
@@ -180,7 +178,7 @@ if (*getStyle()){
             }
         }
         if (bOK){
-            std::string dll = "plugins\\styles\\";
+            string dll = "plugins\\styles\\";
             dll += s;
             dll += ".dll";
             HINSTANCE hLib = LoadLibraryA(app_file(dll.c_str()).c_str());

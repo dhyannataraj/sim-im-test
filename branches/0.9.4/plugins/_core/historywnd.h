@@ -30,7 +30,7 @@ class QComboBox;
 class HistoryProgressBar;
 class HistoryIterator;
 
-class HistoryWindow : public QMainWindow, public SIM::EventReceiver
+class HistoryWindow : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -42,7 +42,7 @@ protected slots:
     void fill();
     void next();
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void resizeEvent(QResizeEvent*);
     void setName();
     void addHistory(const QString &str);
@@ -56,7 +56,7 @@ protected:
     unsigned m_nMessages;
     unsigned long m_id;
     unsigned m_page;
-    std::vector<std::string> m_states;
+    vector<string> m_states;
     unsigned m_history_page_count;
 };
 

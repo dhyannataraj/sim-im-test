@@ -17,8 +17,6 @@
 
 #include "aimsearch.h"
 
-using namespace SIM;
-
 AIMSearch::AIMSearch()
 {
     initCombo(cmbCountry, 0, getCountries(), true, getCountryCodes());

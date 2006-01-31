@@ -37,7 +37,6 @@
 #include <vector>
 
 using namespace std;
-using namespace SIM;
 
 class CComboBox : public QComboBox
 {

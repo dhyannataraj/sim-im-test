@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 
-class AboutPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class AboutPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -30,7 +30,7 @@ protected slots:
     void aboutDestroyed();
     void realDestroy();
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     unsigned long CmdBugReport;
     unsigned long CmdAbout;
     QWidget *about;

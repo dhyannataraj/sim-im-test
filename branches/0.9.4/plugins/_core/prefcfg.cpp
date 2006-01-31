@@ -24,8 +24,6 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 
-using namespace SIM;
-
 PrefConfig::PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group)
         : PrefConfigBase(parent)
 {

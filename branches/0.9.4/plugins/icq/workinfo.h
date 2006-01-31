@@ -23,18 +23,18 @@
 
 class ICQClient;
 
-class WorkInfo : public WorkInfoBase, public SIM::EventReceiver
+class WorkInfo : public WorkInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
     WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
-    void apply(SIM::Client*, void*);
+    void apply(Client*, void*);
     void goUrl();
     void urlChanged(const QString&);
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void fill();
     struct ICQUserData *m_data;
     unsigned  m_contact;

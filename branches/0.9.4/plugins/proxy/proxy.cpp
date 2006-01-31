@@ -35,9 +35,6 @@
 #include <arpa/inet.h>
 #endif
 
-using namespace std;
-using namespace SIM;
-
 #ifndef INADDR_NONE
 #define INADDR_NONE	0xFFFFFFFF
 #endif

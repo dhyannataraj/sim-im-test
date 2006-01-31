@@ -25,8 +25,6 @@
 #include <qtimer.h>
 #include <qtoolbutton.h>
 
-using namespace SIM;
-
 MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
         : QObject(parent)
 {

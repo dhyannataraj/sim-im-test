@@ -21,8 +21,6 @@
 namespace SIM
 {
 
-using namespace std;
-
 Command::Command()
 {
     memset(&m_cmd, 0, sizeof(CommandDef));

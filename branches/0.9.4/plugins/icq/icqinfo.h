@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class ICQInfo : public ICQInfoBase, public SIM::EventReceiver
+class ICQInfo : public ICQInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -32,9 +32,9 @@ signals:
     void raise(QWidget*);
 public slots:
     void apply();
-    void apply(SIM::Client*, void*);
+    void apply(Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    void *processEvent(Event *e);
     void fill();
     struct ICQUserData *m_data;
     unsigned  m_contact;

@@ -60,8 +60,6 @@ static char EXT[]    = ".xsl";
 
 #undef QTextEdit
 
-using namespace std;
-using namespace SIM;
 
 class XmlHighlighter : public QSyntaxHighlighter
 {

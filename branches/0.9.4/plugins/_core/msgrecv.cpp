@@ -30,9 +30,6 @@
 #include <qlayout.h>
 #include <qpopupmenu.h>
 
-using namespace std;
-using namespace SIM;
-
 MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
         : QObject(parent), EventReceiver(HighPriority - 1)
 {

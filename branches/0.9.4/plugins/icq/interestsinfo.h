@@ -23,17 +23,17 @@
 
 class ICQClient;
 
-class InterestsInfo : public InterestsInfoBase, public SIM::EventReceiver
+class InterestsInfo : public InterestsInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
     InterestsInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
-    void apply(SIM::Client*, void*);
+    void apply(Client*, void*);
     void cmbChanged(int);
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void fill();
     QString getInfo(QComboBox *cmb, QLineEdit *edt);
     struct ICQUserData *m_data;

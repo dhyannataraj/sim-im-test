@@ -28,8 +28,6 @@
 #include <qtabwidget.h>
 #include <qpushbutton.h>
 
-using namespace SIM;
-
 extern DataDef jabberUserData[];
 
 DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,

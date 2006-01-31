@@ -29,9 +29,6 @@
 #include <qtimer.h>
 #include "xml.h"
 
-using namespace std;
-using namespace SIM;
-
 const unsigned short ICQ_SNACxVAR_ERROR             = 0x0001;
 const unsigned short ICQ_SNACxVAR_REQxSRV           = 0x0002;
 const unsigned short ICQ_SNACxVAR_DATA              = 0x0003;

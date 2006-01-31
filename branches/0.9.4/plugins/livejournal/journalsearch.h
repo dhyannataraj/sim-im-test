@@ -31,7 +31,7 @@ public:
 signals:
     void setAdd(bool);
 protected slots:
-    void createContact(unsigned tmpFlags, SIM::Contact *&contact);
+    void createContact(unsigned tmpFlags, Contact *&contact);
 protected:
     void showEvent(QShowEvent*);
     LiveJournalClient *m_client;

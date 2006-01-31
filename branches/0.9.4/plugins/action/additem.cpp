@@ -24,8 +24,6 @@
 #include <qtimer.h>
 #include <qpushbutton.h>
 
-using namespace SIM;
-
 AddItem::AddItem(QWidget *parent)
         : AddItemBase(parent, NULL, true)
 {

@@ -24,8 +24,6 @@
 #include <qmultilineedit.h>
 #include <qstringlist.h>
 
-using namespace SIM;
-
 JabberHomeInfo::JabberHomeInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
         : JabberHomeInfoBase(parent)
 {

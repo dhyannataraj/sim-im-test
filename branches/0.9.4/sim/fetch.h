@@ -44,7 +44,7 @@ public:
     bool	isDone();
     void    stop();
     void	set_speed(unsigned speed);
-    static bool	crackUrl(const char *url, std::string &proto, std::string &host, unsigned short &port, std::string &user, std::string &pass, std::string &uri, std::string &extra);
+    static bool	crackUrl(const char *url, string &proto, string &host, unsigned short &port, string &user, string &pass, string &uri, string &extra);
 private:
     FetchClientPrivate *p;
     friend class FetchClientPrivate;
@@ -59,14 +59,14 @@ public:
     ~FetchManager();
     static FetchManager *manager;
     void done(FetchClient *client);
-    std::string user_agent;
+    string user_agent;
 protected slots:
     void timeout();
 };
 
-EXPORT std::string basic_auth(const char *user, const char *pass);
+EXPORT string basic_auth(const char *user, const char *pass);
 EXPORT bool get_connection_state(bool &state);
-EXPORT std::string get_user_agent();
+EXPORT string get_user_agent();
 
 #endif
 

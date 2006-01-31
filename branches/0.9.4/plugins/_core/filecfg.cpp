@@ -25,8 +25,6 @@
 #include <qmultilineedit.h>
 #include <qradiobutton.h>
 
-using namespace SIM;
-
 FileConfig::FileConfig(QWidget *parent, void *_data)
         : FileConfigBase(parent)
 {

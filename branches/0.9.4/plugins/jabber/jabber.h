@@ -57,26 +57,26 @@ const unsigned BROWSE_DISCO		= 1;
 const unsigned BROWSE_BROWSE	= 2;
 const unsigned BROWSE_AGENTS	= 4;
 
-class JabberProtocol : public SIM::Protocol
+class JabberProtocol : public Protocol
 {
 public:
-    JabberProtocol(SIM::Plugin *plugin);
+    JabberProtocol(Plugin *plugin);
     ~JabberProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
-    const SIM::CommandDef *description();
-    const SIM::CommandDef *statusList();
-    virtual const SIM::DataDef *userDataDef();
+    Client	*createClient(Buffer *cfg);
+    const CommandDef *description();
+    const CommandDef *statusList();
+    virtual const DataDef *userDataDef();
 };
 
 typedef struct JabberData
 {
-    SIM::Data		browser_bar[7];
-    SIM::Data		BrowserHistory;
-    SIM::Data		AllLevels;
-    SIM::Data		BrowseType;
+    Data		browser_bar[7];
+    Data		BrowserHistory;
+    Data		AllLevels;
+    Data		BrowseType;
 } JabberData;
 
-class JabberPlugin : public SIM::Plugin
+class JabberPlugin : public Plugin
 {
 public:
     JabberPlugin(unsigned base, Buffer *cfg);
@@ -90,8 +90,8 @@ public:
     PROP_ULONG(BrowseType);
     static JabberPlugin *plugin;
 protected:
-    virtual std::string getConfig();
-    SIM::Protocol *m_protocol;
+    virtual string getConfig();
+    Protocol *m_protocol;
 };
 
 #endif

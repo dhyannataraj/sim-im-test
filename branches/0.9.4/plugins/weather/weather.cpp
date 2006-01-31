@@ -33,9 +33,6 @@
 #include <qregexp.h>
 #include <qtooltip.h>
 
-using std::string;
-using namespace SIM;
-
 const unsigned CHECK1_INTERVAL = 30 * 60;
 const unsigned CHECK2_INTERVAL = 120 * 60;
 

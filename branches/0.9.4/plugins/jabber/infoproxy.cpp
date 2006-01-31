@@ -19,8 +19,6 @@
 
 #include <qtabwidget.h>
 
-using namespace SIM;
-
 InfoProxy::InfoProxy(QWidget *parent, QWidget *child, const QString &title)
         : InfoProxyBase(parent)
 {

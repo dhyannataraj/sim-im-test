@@ -18,8 +18,6 @@
 #include "nonim.h"
 #include "intedit.h"
 
-using namespace SIM;
-
 NonIM::NonIM(QWidget *parent)
         : NonIMBase(parent)
 {

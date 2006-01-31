@@ -26,50 +26,50 @@ const unsigned long MessageGPGUse	= 0x5001;
 
 typedef struct GpgData
 {
-    SIM::Data	GPG;
-    SIM::Data	Home;
-    SIM::Data	GenKey;
-    SIM::Data	PublicList;
-    SIM::Data	SecretList;
-    SIM::Data	Import;
-    SIM::Data	Export;
-    SIM::Data	Encrypt;
-    SIM::Data	Decrypt;
-    SIM::Data	Key;
-    SIM::Data	Passphrases;
-    SIM::Data	Keys;
-    SIM::Data	nPassphrases;
-    SIM::Data	SavePassphrase;
+    Data	GPG;
+    Data	Home;
+    Data	GenKey;
+    Data	PublicList;
+    Data	SecretList;
+    Data	Import;
+    Data	Export;
+    Data	Encrypt;
+    Data	Decrypt;
+    Data	Key;
+    Data	Passphrases;
+    Data	Keys;
+    Data	nPassphrases;
+    Data	SavePassphrase;
 } GpgData;
 
 typedef struct GpgUserData
 {
-    SIM::Data	Key;
-    SIM::Data	Use;
+    Data	Key;
+    Data	Use;
 } GpgUserData;
 
 class Exec;
 
 typedef struct DecryptMsg
 {
-    SIM::Message *msg;
+    Message		*msg;
     Exec		*exec;
     QString		infile;
     QString		outfile;
     unsigned	contact;
     QString		passphrase;
-    std::string	key;
+    string		key;
 } DecryptMsg;
 
 typedef struct KeyMsg
 {
-    std::string	key;
-    SIM::Message *msg;
+    string	key;
+    Message	*msg;
 } KeyMsg;
 
 class PassphraseDlg;
 
-class GpgPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class GpgPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -92,7 +92,7 @@ public:
     const char *GPG();
     void reset();
     static GpgPlugin *plugin;
-    std::list<KeyMsg>	 m_sendKeys;
+    list<KeyMsg>	 m_sendKeys;
     unsigned long user_data_id;
 protected slots:
     void decryptReady(Exec*,int,const char*);
@@ -103,37 +103,37 @@ protected slots:
     void passphraseApply(const QString&);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
-    void *processEvent(SIM::Event*);
+    virtual string getConfig();
+    void *processEvent(Event*);
     void registerMessage();
     void unregisterMessage();
     void askPassphrase();
-    bool decode(SIM::Message *msg, const char *pass, const char *key);
+    bool decode(Message *msg, const char *pass, const char *key);
     bool m_bMessage;
-    std::list<DecryptMsg> m_decrypt;
-    std::list<DecryptMsg> m_import;
-    std::list<DecryptMsg> m_public;
-    std::list<DecryptMsg> m_wait;
+    list<DecryptMsg> m_decrypt;
+    list<DecryptMsg> m_import;
+    list<DecryptMsg> m_public;
+    list<DecryptMsg> m_wait;
     PassphraseDlg	 *m_pass;
     GpgData data;
 };
 
 class MsgEdit;
 
-class MsgGPGKey : public QObject, public SIM::EventReceiver
+class MsgGPGKey : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgGPGKey(MsgEdit *parent, SIM::Message *msg);
+    MsgGPGKey(MsgEdit *parent, Message *msg);
     ~MsgGPGKey();
 protected slots:
     void init();
     void exportReady(Exec*,int,const char*);
     void clearExec();
 protected:
-    void *processEvent(SIM::Event*);
-    std::string  m_client;
-    std::string	m_key;
+    void *processEvent(Event*);
+    string  m_client;
+    string	m_key;
     MsgEdit	*m_edit;
     Exec	*m_exec;
 };

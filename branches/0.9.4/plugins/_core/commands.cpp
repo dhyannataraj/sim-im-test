@@ -27,8 +27,6 @@
 #include <qwidgetlist.h>
 #include <qaccel.h>
 
-using namespace SIM;
-
 Commands::Commands()
 {
     qApp->installEventFilter(this);

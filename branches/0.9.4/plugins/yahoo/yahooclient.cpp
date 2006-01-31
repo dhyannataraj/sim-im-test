@@ -63,9 +63,6 @@
 #include <qregexp.h>
 #include <qfile.h>
 
-using namespace std;
-using namespace SIM;
-
 const unsigned long MessageYahooFile	= 0x700;
 
 static char YAHOO_PACKET_SIGN[] = "YMSG";

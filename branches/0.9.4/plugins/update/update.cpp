@@ -27,9 +27,6 @@
 #include <qwidgetlist.h>
 #include <qregexp.h>
 
-using std::string;
-using namespace SIM;
-
 const unsigned CHECK_INTERVAL = 60 * 60 * 24;
 
 Plugin *createUpdatePlugin(unsigned base, bool, Buffer *config)

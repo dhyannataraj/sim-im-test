@@ -18,9 +18,6 @@
 #include "jabberclient.h"
 #include "fetch.h"
 
-using std::string;
-using namespace SIM;
-
 class JabberHttpPool : public Socket, public FetchClient
 {
 public:

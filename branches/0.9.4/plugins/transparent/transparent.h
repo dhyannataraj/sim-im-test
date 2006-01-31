@@ -22,16 +22,16 @@
 
 typedef struct TransparentData
 {
-    SIM::Data	Transparency;
+    Data	Transparency;
 #ifdef WIN32
-    SIM::Data	IfInactive;
+    Data	IfInactive;
 #endif
 } TransparentData;
 
 class QTimer;
 class TransparentTop;
 
-class TransparentPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class TransparentPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -47,12 +47,12 @@ public slots:
     void tickMouse();
     void topDestroyed();
 protected:
-    virtual std::string getConfig();
+    virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool eventFilter(QObject*, QEvent*);
     QWidget *getMainWindow();
     bool    m_bState;
-    virtual void *processEvent(SIM::Event *e);
+    virtual void *processEvent(Event *e);
 #ifdef WIN32
     unsigned startTime;
     QTimer   *timer;

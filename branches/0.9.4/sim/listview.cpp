@@ -22,8 +22,6 @@
 #include <qapplication.h>
 #include <qheader.h>
 
-using namespace SIM;
-
 bool ListView::s_bInit = false;
 
 ListView::ListView(QWidget *parent, const char *name)

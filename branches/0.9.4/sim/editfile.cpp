@@ -34,9 +34,6 @@
 #include <qfiledialog.h>
 #endif
 
-using std::string;
-using namespace SIM;
-
 EditFile::EditFile(QWidget *p, const char *name)
         : QFrame(p, name)
 {

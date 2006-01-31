@@ -29,32 +29,32 @@ class HistoryFileIterator;
 
 typedef struct msg_save
 {
-    std::string	msg;
-    std::string	client;
+    string		msg;
+    string		client;
     unsigned	contact;
 } msg_save;
 
-typedef std::map<unsigned, msg_save>	MAP_MSG;
+typedef map<unsigned, msg_save>	MAP_MSG;
 
 class History
 {
 public:
     History(unsigned contact_id);
     ~History();
-    static void add(SIM::Message*, const char *type);
-    static void del(SIM::Message*);
-    static void rewrite(SIM::Message*);
-    static void cut(SIM::Message*, unsigned contact_id, unsigned date);
+    static void add(Message*, const char *type);
+    static void del(Message*);
+    static void rewrite(Message*);
+    static void cut(Message*, unsigned contact_id, unsigned date);
     static void del(unsigned msg_id);
-    static void remove(SIM::Contact *contact);
+    static void remove(Contact *contact);
     static bool save(unsigned id, const QString& file_name, bool bAppend = false);
-    static SIM::Message *load(unsigned id, const char *client, unsigned contact);
+    static Message *load(unsigned id, const char *client, unsigned contact);
 protected:
-    static void del(const char *name, unsigned contact, unsigned id, bool bCopy, SIM::Message *msg=NULL);
+    static void del(const char *name, unsigned contact, unsigned id, bool bCopy, Message *msg=NULL);
     static unsigned	s_tempId;
     static MAP_MSG	*s_tempMsg;
     unsigned m_contact;
-    std::list<HistoryFile*> files;
+    list<HistoryFile*> files;
     friend class HistoryIterator;
 };
 
@@ -63,11 +63,11 @@ class HistoryIterator
 public:
     HistoryIterator(unsigned contact_id);
     ~HistoryIterator();
-    SIM::Message *operator++();
-    SIM::Message *operator--();
+    Message *operator++();
+    Message *operator--();
     void begin();
     void end();
-    std::string state();
+    string state();
     void setState(const char*);
     void setFilter(const QString &filter);
 protected:
@@ -76,7 +76,7 @@ protected:
     unsigned m_temp_id;
     History m_history;
     HistoryFileIterator *m_it;
-    std::list<HistoryFileIterator*> iters;
+    list<HistoryFileIterator*> iters;
 };
 
 #endif

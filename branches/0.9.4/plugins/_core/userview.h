@@ -67,8 +67,8 @@ protected:
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
     virtual unsigned getUnread(unsigned contact_id);
-    virtual SIM::ProcessMenuParam *getMenu(QListViewItem *item);
-    void *processEvent(SIM::Event*);
+    virtual ProcessMenuParam *getMenu(QListViewItem *item);
+    void *processEvent(Event*);
     void paintEmptyArea(QPainter *p, const QRect &r);
     bool eventFilter(QObject *obj, QEvent *e);
     void setGroupMode(unsigned mode, bool bFirst=false);
@@ -84,13 +84,13 @@ protected:
     void sortAll();
     void sortAll(QListViewItem*);
     void dragEvent(QDropEvent *e, bool isDrop);
-    void search(std::list<QListViewItem*> &items);
-    void search(QListViewItem*, std::list<QListViewItem*> &items);
+    void search(list<QListViewItem*> &items);
+    void search(QListViewItem*, list<QListViewItem*> &items);
     void stopSearch();
     void showTip(QListViewItem*);
     QDragObject *dragObject();
     virtual void deleteItem(QListViewItem *item);
-    std::list<BlinkCount> blinks;
+    list<BlinkCount> blinks;
     unsigned long m_dropContactId;
     QListViewItem *m_dropItem;
     QListViewItem *m_current;

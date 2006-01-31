@@ -27,7 +27,7 @@ class JabberHomeInfo;
 class JabberWorkInfo;
 class JabberAboutInfo;
 
-class DiscoInfo : public DiscoInfoBase, public SIM::EventReceiver
+class DiscoInfo : public DiscoInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -47,7 +47,7 @@ protected:
     QString m_name;
     QString m_type;
     QString m_category;
-    void *processEvent(SIM::Event *e);
+    void *processEvent(Event *e);
     void resizeEvent(QResizeEvent*);
     void setTitle();
     bool m_bVersion;
@@ -56,10 +56,10 @@ protected:
     bool m_bStat;
     bool m_bVCard;
     JabberBrowser *m_browser;
-    std::string m_versionId;
-    std::string m_timeId;
-    std::string m_lastId;
-    std::string m_statId;
+    string m_versionId;
+    string m_timeId;
+    string m_lastId;
+    string m_statId;
     JabberAboutInfo *m_about;
     JabberUserData	m_data;
 };

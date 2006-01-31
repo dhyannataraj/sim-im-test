@@ -32,12 +32,9 @@
 
 #include <time.h>
 
-using namespace std;
-using namespace SIM;
-
 const unsigned HTTPPacket   = 0x100;
 
-typedef std::map<my_string, string> HEADERS_MAP;
+typedef map<my_string, string> HEADERS_MAP;
 
 class FetchThread;
 

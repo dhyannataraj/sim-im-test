@@ -23,8 +23,6 @@
 #include <qmultilineedit.h>
 #include <qcombobox.h>
 
-using namespace SIM;
-
 HomeInfo::HomeInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : HomeInfoBase(parent)
 {

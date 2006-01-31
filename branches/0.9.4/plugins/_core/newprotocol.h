@@ -26,13 +26,13 @@
 class ConnectWnd;
 class CorePlugin;
 
-class NewProtocol : public NewProtocolBase, public SIM::EventReceiver
+class NewProtocol : public NewProtocolBase, public EventReceiver
 {
     Q_OBJECT
 public:
     NewProtocol(QWidget *parent);
     ~NewProtocol();
-    SIM::Client	*m_client;
+    Client	*m_client;
     bool	connected() { return m_bConnected; }
 signals:
     void apply();
@@ -42,9 +42,9 @@ protected slots:
     void pageChanged(const QString&);
     void loginComplete();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual void *processEvent(Event*);
     virtual void reject();
-    std::vector<SIM::Protocol*>	m_protocols;
+    vector<Protocol*>	m_protocols;
     ConnectWnd	*m_connectWnd;
     QWidget *m_setup;
     QWidget *m_last;

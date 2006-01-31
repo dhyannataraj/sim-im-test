@@ -24,7 +24,7 @@
 
 class WarningMessage;
 
-class WarnDlg : public WarnDlgBase, public SIM::EventReceiver
+class WarnDlg : public WarnDlgBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -32,7 +32,7 @@ public:
     ~WarnDlg();
 protected:
     void accept();
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void showError(const char*);
     ICQClient		*m_client;
     ICQUserData		*m_data;

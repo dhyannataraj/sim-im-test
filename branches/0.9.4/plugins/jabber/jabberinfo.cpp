@@ -30,8 +30,6 @@
 #include <qlabel.h>
 #include <qtabwidget.h>
 
-using namespace SIM;
-
 JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
         : JabberInfoBase(parent)
 {

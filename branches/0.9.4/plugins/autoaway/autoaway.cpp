@@ -63,8 +63,6 @@ static HMODULE hLibUI = NULL;
 #endif
 #endif
 
-using namespace SIM;
-
 const unsigned AUTOAWAY_TIME	= 10000;
 
 Plugin *createAutoAwayPlugin(unsigned base, bool, Buffer *config)
@@ -263,7 +261,7 @@ AutoAwayPlugin::~AutoAwayPlugin()
     free_data(autoAwayData, &data);
 }
 
-std::string AutoAwayPlugin::getConfig()
+string AutoAwayPlugin::getConfig()
 {
     return save_data(autoAwayData, &data);
 }

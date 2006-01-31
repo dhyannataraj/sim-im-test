@@ -27,8 +27,6 @@
 #include <qprogressbar.h>
 #include <qtabwidget.h>
 
-using namespace SIM;
-
 SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
         : SMSSetupBase(parent)
 {

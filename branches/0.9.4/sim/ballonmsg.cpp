@@ -54,8 +54,6 @@
 #define BALLOON_MARGIN		8
 #define BALLOON_SHADOW_DEF	2
 
-using namespace SIM;
-
 EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 {
     QImage image = pict.convertToImage();

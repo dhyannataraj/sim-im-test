@@ -22,21 +22,21 @@
 
 typedef struct DockData
 {
-    SIM::Data		AutoHide;
-    SIM::Data		AutoHideInterval;
-    SIM::Data		ShowMain;
+    Data		AutoHide;
+    Data		AutoHideInterval;
+    Data		ShowMain;
 #ifndef WIN32 
-    SIM::Data		DockX;
-    SIM::Data		DockY;
+    Data		DockX;
+    Data		DockY;
 #endif
-    SIM::Data		Desktop;
+    Data		Desktop;
 } DockData;
 
 class DockWnd;
 class QPopupMenu;
 class CorePlugin;
 
-class DockPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class DockPlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -48,9 +48,9 @@ protected slots:
     void doubleClicked();
     void timer();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual void *processEvent(Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual string getConfig();
     virtual bool eventFilter(QObject*, QEvent*);
     DockWnd *dock;
     QWidget *getMainWindow();

@@ -30,8 +30,6 @@
 #endif
 #endif
 
-using namespace SIM;
-
 Plugin *createOnTopPlugin(unsigned base, bool, Buffer *config)
 {
 #if defined(WIN32) || defined(USE_KDE)
@@ -182,7 +180,7 @@ void *OnTopPlugin::processEvent(Event *e)
     return NULL;
 }
 
-std::string OnTopPlugin::getConfig()
+string OnTopPlugin::getConfig()
 {
     getState();
     return save_data(onTopData, &data);

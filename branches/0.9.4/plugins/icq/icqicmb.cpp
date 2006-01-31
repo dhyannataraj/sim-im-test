@@ -39,9 +39,6 @@
 #include <qimage.h>
 #include <qregexp.h>
 
-using namespace std;
-using namespace SIM;
-
 const unsigned MAX_TYPE2_SIZE	= 0x1800;
 const unsigned SEND_TIMEOUT		= 50000;
 

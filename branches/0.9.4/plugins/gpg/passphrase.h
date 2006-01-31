@@ -29,7 +29,7 @@ class PassphraseDlg : public PassphraseDlgBase
 public:
     PassphraseDlg(GpgPlugin *plugin, const char *key);
     ~PassphraseDlg();
-    std::string m_key;
+    string m_key;
     void error();
 signals:
     void finished();

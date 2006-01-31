@@ -20,8 +20,6 @@
 #include "icqclient.h"
 #include "textshow.h"
 
-using namespace SIM;
-
 AboutInfo::AboutInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
         : AboutInfoBase(parent)
 {

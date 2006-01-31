@@ -23,23 +23,23 @@
 typedef struct NavigateData
 {
 #ifdef WIN32
-    SIM::Data NewWindow;
+    Data NewWindow;
 #else
-    SIM::Data Browser;
-    SIM::Data Mailer;
+    Data Browser;
+    Data Mailer;
 #endif
 #ifdef USE_KDE
     SIM::Data UseKDE;
 #endif
 } NavigateData;
 
-class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver
+class NavigatePlugin : public Plugin, public EventReceiver
 {
 public:
     NavigatePlugin(unsigned, Buffer *name);
     virtual ~NavigatePlugin();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual void *processEvent(Event*);
     QString parseUrl(const QString &text);
     unsigned long CmdMail;
     unsigned long CmdMailList;
@@ -54,7 +54,7 @@ protected:
 #ifdef USE_KDE
     PROP_BOOL(UseKDE);
 #endif
-    virtual std::string getConfig();
+    virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     NavigateData data;
     friend class NavCfg;

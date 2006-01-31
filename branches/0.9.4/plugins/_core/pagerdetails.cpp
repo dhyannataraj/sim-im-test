@@ -21,8 +21,6 @@
 #include <qlineedit.h>
 #include <qfontmetrics.h>
 
-using namespace SIM;
-
 PagerDetails::PagerDetails(QWidget *p, const QString &oldNumber)
         : PagerDetailsBase(p)
 {

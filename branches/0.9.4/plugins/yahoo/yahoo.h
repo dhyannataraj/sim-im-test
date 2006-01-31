@@ -20,20 +20,20 @@
 
 #include "simapi.h"
 
-class YahooProtocol : public SIM::Protocol
+class YahooProtocol : public Protocol
 {
 public:
-    YahooProtocol(SIM::Plugin *plugin);
+    YahooProtocol(Plugin *plugin);
     ~YahooProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
-    const SIM::CommandDef *description();
-    const SIM::CommandDef *statusList();
-    virtual const SIM::DataDef *userDataDef();
+    Client	*createClient(Buffer *cfg);
+    const CommandDef *description();
+    const CommandDef *statusList();
+    virtual const DataDef *userDataDef();
 };
 
 class CorePlugin;
 
-class YahooPlugin : public SIM::Plugin
+class YahooPlugin : public Plugin
 {
 public:
     YahooPlugin(unsigned);
@@ -43,7 +43,7 @@ public:
 protected:
     void registerMessages();
     void unregisterMessages();
-    SIM::Protocol *m_protocol;
+    Protocol *m_protocol;
 };
 
 #endif

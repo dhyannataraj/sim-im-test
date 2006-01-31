@@ -33,8 +33,6 @@
 
 #include <time.h>
 
-using namespace SIM;
-
 const unsigned MAX_AVERAGE	= 40;
 const unsigned SHOW_AVERAGE	= 5;
 
@@ -513,7 +511,7 @@ void FileTransferDlg::goDir()
 
     if (m_dir.isEmpty())
         return;
-    std::string s = "file:";
+    string s = "file:";
     /* Now replace spaces with %20 so the path isn't truncated
        are there any other separators we need to care of ?*/
 	QString fpath(QFile::encodeName(m_dir));

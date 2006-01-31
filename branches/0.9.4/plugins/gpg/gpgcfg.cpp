@@ -32,9 +32,6 @@
 #include <qcombobox.h>
 #include <qtimer.h>
 
-using std::string;
-using namespace SIM;
-
 GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
         : GpgCfgBase(parent)
 {

@@ -25,8 +25,6 @@
 #include <qscrollbar.h>
 #include <qpushbutton.h>
 
-using namespace SIM;
-
 ConnectionManager::ConnectionManager(bool bModal)
         : ConnectionManagerBase(NULL, "manager", bModal)
 {

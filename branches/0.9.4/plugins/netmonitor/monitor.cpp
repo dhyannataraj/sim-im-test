@@ -31,9 +31,6 @@
 #include <qfiledialog.h>
 #endif
 
-using std::string;
-using namespace SIM;
-
 const int mnuSave = 1;
 const int mnuExit = 2;
 const int mnuCopy = 3;

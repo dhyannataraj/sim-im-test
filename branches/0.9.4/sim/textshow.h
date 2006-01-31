@@ -78,7 +78,7 @@ protected:
     bool linksEnabled() const { return true; }
 };
 
-class EXPORT TextEdit : public TextShow, public SIM::EventReceiver
+class EXPORT TextEdit : public TextShow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -109,7 +109,7 @@ protected slots:
     void fgColorChanged(QColor c);
     void fontChanged(const QFont &f);
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     bool eventFilter(QObject *o, QEvent *e);
     void keyPressEvent(QKeyEvent *e);
     QPopupMenu *createPopupMenu(const QPoint& pos);

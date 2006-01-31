@@ -40,8 +40,6 @@
 
 #include <time.h>
 
-using namespace SIM;
-
 class HistoryProgressBar : public QWidget
 {
 public:
@@ -298,7 +296,7 @@ void HistoryWindow::next()
         return;
 
     for (;;){
-        std::string state = m_it->state();
+        string state = m_it->state();
         Message *msg = NULL;
         if (m_bDirection){
             msg = --(*m_it);

@@ -61,7 +61,7 @@ void DockCfg::autoHideToggled(bool bAutoHide)
 
 void DockCfg::customize()
 {
-    SIM::Event e(SIM::EventMenuCustomize, (void*)(m_plugin->DockMenu));
+    Event e(EventMenuCustomize, (void*)(m_plugin->DockMenu));
     e.process();
 }
 

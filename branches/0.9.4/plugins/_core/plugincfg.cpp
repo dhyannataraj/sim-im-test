@@ -25,8 +25,6 @@
 #include <qcheckbox.h>
 #include <qpainter.h>
 
-using namespace SIM;
-
 PluginCfg::PluginCfg(QWidget *parent, pluginInfo *info)
         : PluginCfgBase(parent)
 {

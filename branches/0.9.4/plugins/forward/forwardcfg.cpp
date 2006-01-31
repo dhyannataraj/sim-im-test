@@ -22,8 +22,6 @@
 #include <qcheckbox.h>
 #include <qlineedit.h>
 
-using namespace SIM;
-
 ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin)
         : ForwardConfigBase(parent)
 {

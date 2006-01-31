@@ -22,8 +22,6 @@
 #include <qtimer.h>
 #include <qapplication.h>
 
-using namespace SIM;
-
 CMenu::CMenu(CommandsDef *def)
         : KPopupMenu(NULL)
 {

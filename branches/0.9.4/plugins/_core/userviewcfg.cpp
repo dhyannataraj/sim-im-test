@@ -23,8 +23,6 @@
 #include <qcombobox.h>
 #include <qlabel.h>
 
-using namespace SIM;
-
 UserViewConfig::UserViewConfig(QWidget *parent)
         : UserViewConfigBase(parent)
 {

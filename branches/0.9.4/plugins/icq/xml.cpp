@@ -22,8 +22,6 @@
 #include "simapi.h"
 #include "xml.h"
 
-using namespace std;
-
 // ---------- XmlNode ---------------------------
 
 XmlNode::XmlNode(const string& t) : tag(t) { }

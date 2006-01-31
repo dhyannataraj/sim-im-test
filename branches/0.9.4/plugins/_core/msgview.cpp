@@ -27,9 +27,6 @@
 #include <qtimer.h>
 #include <qdatetime.h>
 
-using namespace std;
-using namespace SIM;
-
 static char MSG_ANCHOR[] = "<a name=\"m:";
 static char MSG_BEGIN[]  = "<a name=\"b\">";
 

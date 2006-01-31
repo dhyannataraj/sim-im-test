@@ -35,14 +35,14 @@ public:
     virtual ~HTMLParser();
     void parse(const QString &str);
     void parse(Buffer &buf);
-    static std::list<QString> parseStyle(const QString &str);
-    static QString makeStyle(const std::list<QString> &opt);
+    static list<QString> parseStyle(const QString &str);
+    static QString makeStyle(const list<QString> &opt);
 protected:
     void parse();
     unsigned start_pos;
     unsigned end_pos;
     virtual void text(const QString &text) = 0;
-    virtual void tag_start(const QString &tag, const std::list<QString> &options) = 0;
+    virtual void tag_start(const QString &tag, const list<QString> &options) = 0;
     virtual void tag_end(const QString &tag) = 0;
     HTMLParserPrivate *p;
     friend class HTMLParserPrivate;

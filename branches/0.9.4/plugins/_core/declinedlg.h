@@ -21,17 +21,17 @@
 #include "simapi.h"
 #include "declinedlgbase.h"
 
-class DeclineDlg : public DeclineDlgBase, public SIM::EventReceiver
+class DeclineDlg : public DeclineDlgBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    DeclineDlg(SIM::Message *msg);
+    DeclineDlg(Message *msg);
     ~DeclineDlg();
-    SIM::Message *message() { return m_msg; }
+    Message *message() { return m_msg; }
 protected:
-    void *processEvent(SIM::Event *e);
+    void *processEvent(Event *e);
     void accept();
-    SIM::Message *m_msg;
+    Message *m_msg;
 };
 
 #endif

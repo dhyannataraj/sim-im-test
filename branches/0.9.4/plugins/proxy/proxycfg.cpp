@@ -29,9 +29,6 @@
 #include <qpainter.h>
 #include <qtabwidget.h>
 
-using std::string;
-using namespace SIM;
-
 ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client)
         : ProxyConfigBase(parent)
 {

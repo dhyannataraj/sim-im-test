@@ -35,11 +35,11 @@ public:
     QCheckBox	*chkSave;
 };
 
-class MsgSMS : public QObject, public SIM::EventReceiver
+class MsgSMS : public QObject, public EventReceiver
 {
     Q_OBJECT
 public:
-    MsgSMS(MsgEdit *parent, SIM::Message *msg);
+    MsgSMS(MsgEdit *parent, Message *msg);
     ~MsgSMS();
 protected slots:
     void init();
@@ -47,7 +47,7 @@ protected slots:
     void textChanged();
     void panelDestroyed();
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     MsgEdit		*m_edit;
     SMSPanel	*m_panel;
     unsigned	m_id;

@@ -39,13 +39,13 @@ class QAccel;
 
 typedef struct ContainerData
 {
-    SIM::Data	Id;
-    SIM::Data	Windows;
-    SIM::Data	ActiveWindow;
-    SIM::Data	geometry[5];
-    SIM::Data	barState[7];
-    SIM::Data	StatusSize;
-    SIM::Data	WndConfig;
+    Data	Id;
+    Data	Windows;
+    Data	ActiveWindow;
+    Data	geometry[5];
+    Data	barState[7];
+    Data	StatusSize;
+    Data	WndConfig;
 } ContainerData;
 
 class ContainerStatus : public QStatusBar
@@ -67,7 +67,7 @@ public:
     void raiseTab(unsigned id);
     UserWnd *wnd(unsigned id);
     UserWnd *currentWnd();
-    std::list<UserWnd*> windows();
+    list<UserWnd*> windows();
     void removeTab(unsigned id);
     void changeTab(unsigned id);
     void setBold(unsigned id, bool bState);
@@ -83,7 +83,7 @@ protected:
     virtual void paintLabel(QPainter *p, const QRect &rc, QTab *t, bool bFocus) const;
 };
 
-class Container : public QMainWindow, public SIM::EventReceiver
+class Container : public QMainWindow, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -92,13 +92,13 @@ public:
     QString name();
     UserWnd *wnd(unsigned id);
     UserWnd *wnd();
-    std::list<UserWnd*> windows();
-    std::string getState();
+    list<UserWnd*> windows();
+    string getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
     void setNoSwitch(bool bState);
     void setMessageType(unsigned id);
-    void contactChanged(SIM::Contact *contact);
+    void contactChanged(Contact *contact);
     PROP_ULONG(Id);
     PROP_STR(Windows);
     PROP_ULONG(ActiveWindow);
@@ -123,7 +123,7 @@ protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void moveEvent(QMoveEvent*);
     virtual bool event(QEvent*);
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void showBar();
     void setupAccel();
     ContainerData	data;
@@ -139,7 +139,7 @@ protected:
     ContainerStatus	*m_status;
     QWidgetStack	*m_wnds;
     QAccel			*m_accel;
-    std::list<UserWnd*> m_childs;
+    list<UserWnd*>	m_childs;
 };
 
 #endif

@@ -28,8 +28,6 @@
 #include <qlayout.h>
 #include <qcheckbox.h>
 
-using namespace SIM;
-
 const unsigned MAX_SMS_LEN_LATIN1	= 160;
 const unsigned MAX_SMS_LEN_UNICODE	= 70;
 

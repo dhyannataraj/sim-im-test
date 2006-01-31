@@ -27,9 +27,6 @@
 #include <qtoolbar.h>
 #include <qtimer.h>
 
-using namespace std;
-using namespace SIM;
-
 static DataDef userWndData[] =
     {
         { "EditHeight", DATA_ULONG, 1, 0 },
@@ -92,7 +89,7 @@ UserWnd::~UserWnd()
     }
 }
 
-std::string UserWnd::getConfig()
+string UserWnd::getConfig()
 {
     return save_data(userWndData, &data);
 }

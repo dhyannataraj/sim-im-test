@@ -27,7 +27,6 @@
 #include <vector>
 
 using namespace std;
-using namespace SIM;
 
 #include <qtimer.h>
 

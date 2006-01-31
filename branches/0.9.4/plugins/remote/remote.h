@@ -24,9 +24,9 @@
 
 typedef struct RemoteData
 {
-    SIM::Data	Path;
+    Data	Path;
 #ifdef WIN32
-    SIM::Data	EnableMenu;
+    Data	EnableMenu;
 #endif
 } RemoteData;
 
@@ -46,7 +46,7 @@ const unsigned SLOT_OUT		= 2;
 
 #endif
 
-class RemotePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public SIM::ServerSocketNotify
+class RemotePlugin : public QObject, public Plugin, public EventReceiver, public ServerSocketNotify
 {
     Q_OBJECT
 public:
@@ -57,18 +57,18 @@ public:
     PROP_BOOL(EnableMenu);
 #endif
     void bind();
-    std::list<ControlSocket*> m_sockets;
+    list<ControlSocket*> m_sockets;
     CorePlugin	*core;
 public slots:
     void command();
     bool command(const QString&, QString&, bool &bError);
 protected:
-    virtual bool accept(SIM::Socket*, unsigned long ip);
+    virtual bool accept(Socket*, unsigned long ip);
     virtual void bind_ready(unsigned short port);
     virtual bool error(const char *err);
 
-    virtual void *processEvent(SIM::Event*);
-    virtual std::string getConfig();
+    virtual void *processEvent(Event*);
+    virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
 #ifdef WIN32
     IPC		*ipc;
@@ -76,13 +76,13 @@ protected:
     RemoteData data;
 };
 
-class ControlSocket : public SIM::ClientSocketNotify
+class ControlSocket : public ClientSocketNotify
 {
 public:
-    ControlSocket(RemotePlugin *plugin, SIM::Socket *s);
+    ControlSocket(RemotePlugin *plugin, Socket *s);
     ~ControlSocket();
 protected:
-    SIM::ClientSocket	*m_socket;
+    ClientSocket	*m_socket;
     RemotePlugin	*m_plugin;
     void write(const char*);
     virtual bool error_state(const char *err, unsigned code);

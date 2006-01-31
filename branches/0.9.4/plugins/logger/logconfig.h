@@ -24,7 +24,7 @@
 class LoggerPlugin;
 class QListViewItem;
 
-class LogConfig : public LogConfigBase, public SIM::EventReceiver
+class LogConfig : public LogConfigBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -34,7 +34,7 @@ public slots:
     void clickItem(QListViewItem*);
 protected:
     void resizeEvent(QResizeEvent *e);
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void fill();
     void addItem(const char *name, bool bChecked, unsigned level, unsigned packet);
     void setCheck(QListViewItem*);

@@ -21,14 +21,14 @@
 #include "simapi.h"
 #include "stl.h"
 
-typedef std::map<std::string, unsigned> MAP_TYPES;
+typedef map<string, unsigned>				MAP_TYPES;
 
 typedef struct msg_id
 {
     unsigned	id;
     unsigned	contact;
     unsigned	type;
-    std::string		client;
+    string		client;
 } msg_id;
 
 class FileLock;
@@ -45,69 +45,69 @@ class ConnectionManager;
 
 typedef struct CoreData
 {
-    SIM::Data	Profile;
-    SIM::Data	SavePasswd;
-    SIM::Data	NoShow;
-    SIM::Data	ShowPanel;
-    SIM::Data	ManualStatus;
-    SIM::Data	StatusTime;
-    SIM::Data	Invisible;
-    SIM::Data	geometry[5];
-    SIM::Data	toolBarState[7];
-    SIM::Data	Buttons;
-    SIM::Data	Menues;
-    SIM::Data	ShowOnLine;
-    SIM::Data	GroupMode;
-    SIM::Data	UseDblClick;
-    SIM::Data	UseSysColors;
-    SIM::Data	ColorOnline;
-    SIM::Data	ColorOffline;
-    SIM::Data	ColorAway;
-    SIM::Data	ColorNA;
-    SIM::Data	ColorDND;
-    SIM::Data	ColorGroup;
-    SIM::Data	GroupSeparator;
-    SIM::Data	Lang;
-    SIM::Data	ContainerMode;
-    SIM::Data	SendOnEnter;
-    SIM::Data	containerGeo[5];
-    SIM::Data	containerBar[7];
-    SIM::Data	ContainerStatusSize;
-    SIM::Data	Containers;
-    SIM::Data	Container;
-    SIM::Data	CopyMessages;
-    SIM::Data	EditHeight;
-    SIM::Data	editBar[7];
-    SIM::Data	EditBackground;
-    SIM::Data	EditForeground;
-    SIM::Data	EditFont;
-    SIM::Data	EditSaveFont;
-    SIM::Data	OwnColors;
-    SIM::Data	UseSmiles;
-    SIM::Data	CloseSend;
-    SIM::Data	HistoryPage;
-    SIM::Data	HistoryDirection;
-    SIM::Data	historySize[2];
-    SIM::Data	historyBar[7];
-    SIM::Data	HistorySearch;
-    SIM::Data	Unread;
-    SIM::Data	NoShowAutoReply;
-    SIM::Data	SortMode;
-    SIM::Data	CloseTransfer;
-    SIM::Data	HistoryStyle;
-    SIM::Data	AuthStyle;
-    SIM::Data	VisibleStyle;
-    SIM::Data	InvisibleStyle;
-    SIM::Data	SmallGroupFont;
-    SIM::Data	ShowAllEncodings;
-    SIM::Data	ShowEmptyGroup;
-    SIM::Data	NoJoinAlert;
-    SIM::Data	EnableSpell;
-    SIM::Data	RemoveHistory;
-    SIM::Data	SearchGeo[5];
-    SIM::Data	SearchClient;
-    SIM::Data	NoScroller;
-    SIM::Data	cfgGeo[5];
+    Data	Profile;
+    Data	SavePasswd;
+    Data	NoShow;
+    Data	ShowPanel;
+    Data	ManualStatus;
+    Data	StatusTime;
+    Data	Invisible;
+    Data	geometry[5];
+    Data	toolBarState[7];
+    Data	Buttons;
+    Data	Menues;
+    Data	ShowOnLine;
+    Data	GroupMode;
+    Data	UseDblClick;
+    Data	UseSysColors;
+    Data	ColorOnline;
+    Data	ColorOffline;
+    Data	ColorAway;
+    Data	ColorNA;
+    Data	ColorDND;
+    Data	ColorGroup;
+    Data	GroupSeparator;
+    Data	Lang;
+    Data	ContainerMode;
+    Data	SendOnEnter;
+    Data	containerGeo[5];
+    Data	containerBar[7];
+    Data	ContainerStatusSize;
+    Data	Containers;
+    Data	Container;
+    Data	CopyMessages;
+    Data	EditHeight;
+    Data	editBar[7];
+    Data	EditBackground;
+    Data	EditForeground;
+    Data	EditFont;
+    Data	EditSaveFont;
+    Data	OwnColors;
+    Data	UseSmiles;
+    Data	CloseSend;
+    Data	HistoryPage;
+    Data	HistoryDirection;
+    Data	historySize[2];
+    Data	historyBar[7];
+    Data	HistorySearch;
+    Data	Unread;
+    Data	NoShowAutoReply;
+    Data	SortMode;
+    Data	CloseTransfer;
+    Data	HistoryStyle;
+    Data	AuthStyle;
+    Data	VisibleStyle;
+    Data	InvisibleStyle;
+    Data	SmallGroupFont;
+    Data	ShowAllEncodings;
+    Data	ShowEmptyGroup;
+    Data	NoJoinAlert;
+    Data	EnableSpell;
+    Data	RemoveHistory;
+    Data	SearchGeo[5];
+    Data	SearchClient;
+    Data	NoScroller;
+    Data	cfgGeo[5];
 } CoreData;
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -128,48 +128,48 @@ const unsigned NEW_MSG_RAISE	= 2;
 
 typedef struct CoreUserData
 {
-    SIM::Data	LogStatus;
-    SIM::Data	LogMessage;
-    SIM::Data	OpenNewMessage;
-    SIM::Data	OpenOnOnline;
-    SIM::Data	IncomingPath;
-    SIM::Data	AcceptMode;
-    SIM::Data	OverwriteFiles;
-    SIM::Data	DeclineMessage;
+    Data	LogStatus;
+    Data	LogMessage;
+    Data	OpenNewMessage;
+    Data	OpenOnOnline;
+    Data	IncomingPath;
+    Data	AcceptMode;
+    Data	OverwriteFiles;
+    Data	DeclineMessage;
 } CoreUserData;
 
 typedef struct SMSUserData
 {
-    SIM::Data	SMSSignatureBefore;
-    SIM::Data	SMSSignatureAfter;
+    Data	SMSSignatureBefore;
+    Data	SMSSignatureAfter;
 } SMSUserData;
 
 typedef struct ARUserData
 {
-    SIM::Data	AutoReply;
+    Data	AutoReply;
 } ARUserData;
 
 typedef struct ListUserData
 {
-    SIM::Data	OfflineOpen;
-    SIM::Data	OnlineOpen;
-    SIM::Data	ShowAlways;
+    Data	OfflineOpen;
+    Data	OnlineOpen;
+    Data	ShowAlways;
 } ListUserData;
 
 typedef struct TranslitUserData
 {
-    SIM::Data	Translit;
+    Data	Translit;
 } TranslitUserData;
 
 typedef struct HistoryUserData
 {
-    SIM::Data	CutSize;
-    SIM::Data	MaxSize;
-    SIM::Data	CutDays;
-    SIM::Data	Days;
+    Data	CutSize;
+    Data	MaxSize;
+    Data	CutDays;
+    Data	Days;
 } HistoryUserData;
 
-class ClientList : public std::vector<SIM::Client*>
+class ClientList : public vector<Client*>
 {
 public:
     ClientList();
@@ -332,9 +332,9 @@ class Tmpl;
 
 typedef struct CheckSend
 {
-    unsigned		id;
-    SIM::Client		*client;
-    void			*data;
+    unsigned	id;
+    Client		*client;
+    void		*data;
 } CheckSend;
 
 typedef struct MessageID
@@ -346,24 +346,24 @@ typedef struct MessageID
 
 typedef struct ARRequest
 {
-    SIM::Contact		*contact;
-    unsigned			status;
-    SIM::EventReceiver	*receiver;
-    void				*param;
+    Contact			*contact;
+    unsigned		status;
+    EventReceiver	*receiver;
+    void			*param;
 } ARReuest;
 
 typedef struct TemplateExpand
 {
-    QString				tmpl;
-    SIM::Contact		*contact;
-    SIM::EventReceiver	*receiver;
-    void				*param;
+    QString			tmpl;
+    Contact			*contact;
+    EventReceiver	*receiver;
+    void			*param;
 } TemplateExpand;
 
 typedef struct MsgSend
 {
-    SIM::Message *msg;
-    MsgEdit		 *edit;
+    Message		*msg;
+    MsgEdit		*edit;
 } MsgSend;
 
 const unsigned	MESSAGE_DEFAULT		= 0x0000;
@@ -384,27 +384,27 @@ const unsigned  STYLE_STRIKE	= 4;
 
 typedef struct MessageDef
 {
-    const SIM::CommandDef	*cmdReceived;
-    const SIM::CommandDef	*cmdSent;
+    const CommandDef	*cmdReceived;
+    const CommandDef	*cmdSent;
     unsigned			flags;
     const char			*singular;
     const char			*plural;
-    SIM::Message*		(*create)(Buffer *cfg);
-    QObject*			(*generate)(MsgEdit *edit, SIM::Message *msg);
-    SIM::Message*		(*drag)(QMimeSource*);
+    Message*			(*create)(Buffer *cfg);
+    QObject*			(*generate)(MsgEdit *edit, Message *msg);
+    Message*			(*drag)(QMimeSource*);
 } MessageDef;
 
 typedef struct clientContact
 {
-    SIM::clientData	*data;
-    SIM::Client	*client;
+    clientData	*data;
+    Client		*client;
     bool		bNew;
 } clientContact;
 
 class XSL;
 class BalloonMsg;
 
-class CorePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class CorePlugin : public QObject, public Plugin, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -475,16 +475,16 @@ public:
     unsigned translit_data_id;
     unsigned history_data_id;
 
-    SIM::CommandsMap	preferences;
-    SIM::CommandsMap	messageTypes;
+    CommandsMap	preferences;
+    CommandsMap	messageTypes;
     MAP_TYPES	types;
 
-    std::list<msg_id>	unread;
+    list<msg_id>	unread;
 
     QFont editFont;
     static CorePlugin	*m_plugin;
-    SIM::Message *createMessage(const char *type, Buffer *cfg);
-    QString clientName(SIM::Client *client);
+    Message *createMessage(const char *type, Buffer *cfg);
+    QString clientName(Client *client);
 
     XSL	*historyXSL;
     CoreData	data;
@@ -502,19 +502,19 @@ protected slots:
     void focusDestroyed();
     void showMain();
 protected:
-    virtual void *processEvent(SIM::Event*);
-    virtual std::string getConfig();
+    virtual void *processEvent(Event*);
+    virtual string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    void showInfo(SIM::CommandDef *cmd);
+    void showInfo(CommandDef *cmd);
     bool init(bool bFirst);
     void destroy();
     void loadDir();
     void loadClients(ClientList&);
     void loadMenu();
     QString poFile(const char *lang);
-    SIM::Client *loadClient(const char *name, Buffer *cfg);
+    Client *loadClient(const char *name, Buffer *cfg);
     void setCurrentProfile(const char *profile);
-    bool adjustClientItem(unsigned id, SIM::CommandDef *cmd);
+    bool adjustClientItem(unsigned id, CommandDef *cmd);
     void showPanel();
     void hideWindows();
     void changeProfile();
@@ -523,12 +523,12 @@ protected:
     void initData();
     void loadUnread();
     void clearUnread(unsigned contact_id);
-    void getWays(std::vector<clientContact> &ways, SIM::Contact *contact);
-    std::string typeName(const char *name);
+    void getWays(vector<clientContact> &ways, Contact *contact);
+    string typeName(const char *name);
     void setAutoReplies();
     bool lockProfile(const char*, bool bSend = false);
     bool				m_bInit;
-    std::vector<std::string> m_profiles;
+    vector<string>		m_profiles;
     QWidget				*m_cfg;
     QWidget				*m_focus;
     UserView			*m_view;

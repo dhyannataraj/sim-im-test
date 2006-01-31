@@ -23,11 +23,11 @@
 
 class QListViewItem;
 
-class MainInfo : public MainInfoBase, public SIM::EventReceiver
+class MainInfo : public MainInfoBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    MainInfo(QWidget *parent, SIM::Contact *contact);
+    MainInfo(QWidget *parent, Contact *contact);
 protected slots:
     void apply();
     void mailSelectionChanged();
@@ -44,13 +44,13 @@ protected slots:
     void deletePhone();
 protected:
     void fill();
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void fillPhoneItem(QListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
     void fillCurrentCombo();
     void fillEncoding();
     void getEncoding(bool SendContactChangedEvent = true);
     bool m_bInit;
-    SIM::Contact *m_contact;
+    Contact *m_contact;
 };
 
 #endif

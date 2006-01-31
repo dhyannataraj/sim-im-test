@@ -164,7 +164,7 @@ protected:
     bool bClosed;
 
     unsigned	errCode;
-    std::string	errString;
+    string		errString;
     friend class SocketFactory;
 };
 
@@ -204,8 +204,8 @@ protected:
 
 #ifdef USE_OPENSSL
 
-EXPORT std::string md5(const char*, int size = -1);
-EXPORT std::string sha1(const char*, int size = -1);
+EXPORT string md5(const char*, int size = -1);
+EXPORT string sha1(const char*, int size = -1);
 
 class EXPORT SSLClient : public SocketNotify, public Socket
 {

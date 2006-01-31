@@ -21,18 +21,18 @@
 #include "simapi.h"
 #include "cfgdlgbase.h"
 
-class ConfigureDialog : public ConfigureDialogBase, public SIM::EventReceiver
+class ConfigureDialog : public ConfigureDialogBase, public EventReceiver
 {
     Q_OBJECT
 public:
     ConfigureDialog();
     ~ConfigureDialog();
-    void raisePage(SIM::Client *client);
+    void raisePage(Client *client);
     void raisePhoneBook();
     void showUpdate(bool bShow);
 signals:
     void applyChanges();
-    void applyChanges(SIM::Client*, void*);
+    void applyChanges(Client*, void*);
     void finished();
 protected slots:
     void apply();
@@ -44,7 +44,7 @@ protected:
     void accept();
     void reject();
     void apply(QListViewItem *item);
-    virtual void *processEvent(SIM::Event*);
+    virtual void *processEvent(Event*);
     void fill(unsigned id);
     void setTitle();
     bool setCurrentItem(QListViewItem *parent, unsigned id);

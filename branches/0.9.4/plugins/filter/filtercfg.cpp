@@ -66,7 +66,7 @@ void FilterConfig::apply()
 void FilterConfig::apply(void *_data)
 {
     FilterUserData *data = (FilterUserData*)_data;
-    SIM::set_str(&data->SpamList.ptr, edtFilter->text().utf8());
+    set_str(&data->SpamList.ptr, edtFilter->text().utf8());
 }
 
 #ifndef _MSC_VER

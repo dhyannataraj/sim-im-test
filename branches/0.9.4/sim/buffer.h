@@ -86,21 +86,21 @@ public:
     Buffer &operator >> (unsigned short &c);
     Buffer &operator >> (unsigned long &c);
     Buffer &operator >> (int &c);
-    Buffer &operator >> (std::string &s);
+    Buffer &operator >> (string &s);
     Buffer &operator >> (char**);
 
     void unpack(char &c);
     void unpack(unsigned char &c);
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
-    std::string unpackScreen();
-    void unpack(std::string &s);
-    void unpackStr(std::string &s);
-    void unpackStr32(std::string &s);
+    string unpackScreen();
+    void unpack(string &s);
+    void unpackStr(string &s);
+    void unpackStr32(string &s);
 
-    void pack(const std::string &s);
+    void pack(const string &s);
 
-    Buffer &operator << (const std::string &s);
+    Buffer &operator << (const string &s);
     Buffer &operator << (const char *str);
     Buffer &operator << (char c);
     Buffer &operator << (unsigned char c) { return operator << ((char)c); }
@@ -133,7 +133,7 @@ public:
     void tlvLE(unsigned short n, unsigned long c);
     void tlvLE(unsigned short n, Buffer &b) { tlvLE(n, b.data(), (unsigned short)(b.size())); }
 
-    bool scan(const char *substr, std::string &res);
+    bool scan(const char *substr, string &res);
 
     void init(unsigned size);
     unsigned allocSize() { return m_alloc_size; }
@@ -143,7 +143,7 @@ public:
     void fromBase64(Buffer &from);
     void toBase64(Buffer &from);
 
-    std::string	getSection(bool bSkip=false);
+    string		getSection(bool bSkip=false);
     unsigned	startSection() { return m_startSection; }
     char	*getLine();
 protected:

@@ -25,7 +25,7 @@ class PrefConfig : public PrefConfigBase
 {
     Q_OBJECT
 public:
-    PrefConfig(QWidget *parent, SIM::CommandDef *cmd, SIM::Contact *contact, SIM::Group *group);
+    PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group);
 signals:
     void apply(void*);
 public slots:
@@ -33,9 +33,9 @@ public slots:
 protected slots:
     void overrideToggled(bool);
 protected:
-    SIM::CommandDef	*m_cmd;
-    SIM::Contact	*m_contact;
-    SIM::Group		*m_group;
+    CommandDef *m_cmd;
+    Contact *m_contact;
+    Group   *m_group;
 };
 
 #endif

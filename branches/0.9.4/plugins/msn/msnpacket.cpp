@@ -32,9 +32,6 @@
 #include <stdio.h>
 #include <qtimer.h>
 
-using namespace std;
-using namespace SIM;
-
 MSNPacket::MSNPacket(MSNClient *client, const char *cmd)
 {
     m_cmd = cmd;

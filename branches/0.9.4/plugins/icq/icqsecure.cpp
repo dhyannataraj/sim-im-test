@@ -24,8 +24,6 @@
 #include <qtabwidget.h>
 #include <qlineedit.h>
 
-using namespace SIM;
-
 ICQSecure::ICQSecure(QWidget *parent, ICQClient *client)
         : ICQSecureBase(parent)
 {

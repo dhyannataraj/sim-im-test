@@ -26,8 +26,6 @@
 #include <qcheckbox.h>
 #include <qcombobox.h>
 
-using namespace SIM;
-
 MouseConfig::MouseConfig(QWidget *parent, ShortcutsPlugin *plugin)
         : MouseConfigBase(parent)
 {

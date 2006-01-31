@@ -27,8 +27,6 @@ email                : vovan@shutoff.ru
 namespace SIM
 {
 
-using namespace std;
-
 typedef map<unsigned, PacketType*>	PACKET_MAP;
 
 class ContactListPrivate
@@ -2114,7 +2112,7 @@ string ContactList::fromUnicode(Contact *contact, const QString &str)
 }
 }
 
-EXPORT QString g_i18n(const char *text, SIM::Contact *contact)
+EXPORT QString g_i18n(const char *text, Contact *contact)
 {
     QString male = i18n("male", text);
     if (contact == NULL)
@@ -2122,7 +2120,7 @@ EXPORT QString g_i18n(const char *text, SIM::Contact *contact)
     QString female = i18n("female", text);
     if (male == female)
         return male;
-    std::string gender = contact->clientData.property("Gender");
+    string gender = contact->clientData.property("Gender");
     if (atol(gender.c_str()) == 1)
         return female;
     return male;

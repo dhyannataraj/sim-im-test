@@ -65,7 +65,7 @@ protected:
     bool m_bDirty;
     int  m_cur;
     int  m_edit;
-    std::vector<StyleDef> m_styles;
+    vector<StyleDef> m_styles;
     QSyntaxHighlighter* highlighter;
 };
 

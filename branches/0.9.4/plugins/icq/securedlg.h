@@ -23,7 +23,7 @@
 
 class ICQClient;
 
-class SecureDlg : public SecureDlgBase, public SIM::EventReceiver
+class SecureDlg : public SecureDlgBase, public EventReceiver
 {
     Q_OBJECT
 public:
@@ -35,9 +35,9 @@ public:
 protected slots:
     void start();
 protected:
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     void error(const char *err);
-    SIM::Message *m_msg;
+    Message *m_msg;
 };
 
 #endif

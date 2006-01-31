@@ -26,8 +26,6 @@
 #include <qcombobox.h>
 #include <qcheckbox.h>
 
-using namespace SIM;
-
 extern ext_info phoneIcons[];
 extern const char *phoneTypeNames[];
 

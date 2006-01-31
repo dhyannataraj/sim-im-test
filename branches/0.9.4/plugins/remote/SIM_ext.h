@@ -31,15 +31,17 @@
 #include <list>
 #include <map>
 
+using namespace std;
+
 typedef struct ItemInfo
 {
-    std::string		text;
+    string		text;
     HICON		icon;
     unsigned	id;
 } ItemInfo;
 
-typedef std::map<std::string, HICON>		ICON_MAP;
-typedef std::map<unsigned, ItemInfo>	ITEM_MAP;
+typedef map<string, HICON>		ICON_MAP;
+typedef map<unsigned, ItemInfo>	ITEM_MAP;
 
 /////////////////////////////////////////////////////////////////////////////
 // CSIM_ext
@@ -75,7 +77,7 @@ public:
     ITEM_MAP	  m_items;
     ItemInfo	  getItemInfo(unsigned id);
     HICON		  createIcon(const char *name);
-    HBITMAP		  createBitmap(std::string &info);
+    HBITMAP		  createBitmap(string &info);
     unsigned	  CmdBase;
 
     // ISIM_ext

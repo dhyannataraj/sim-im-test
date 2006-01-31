@@ -26,9 +26,6 @@
 #include <qtabwidget.h>
 #include <qsound.h>
 
-using std::string;
-using SIM::getContacts;
-
 SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
         : SoundConfigBase(parent)
 {

@@ -19,8 +19,6 @@
 #include "yahooclient.h"
 #include "core.h"
 
-using namespace SIM;
-
 Plugin *createYahooPlugin(unsigned base, bool, Buffer*)
 {
     Plugin *plugin = new YahooPlugin(base);

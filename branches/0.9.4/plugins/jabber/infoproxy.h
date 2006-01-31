@@ -21,17 +21,17 @@
 #include "simapi.h"
 #include "infoproxybase.h"
 
-class InfoProxy : public InfoProxyBase, public SIM::EventReceiver
+class InfoProxy : public InfoProxyBase, public EventReceiver
 {
     Q_OBJECT
 public:
     InfoProxy(QWidget *parent, QWidget *child, const QString &title);
 signals:
     void sig_apply();
-    void sig_apply(SIM::Client*, void*);
+    void sig_apply(Client*, void*);
 public slots:
     void apply();
-    void apply(SIM::Client*, void*);
+    void apply(Client*, void*);
 };
 
 #endif

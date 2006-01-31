@@ -39,9 +39,6 @@
 #include <windows.h>
 #endif
 
-using namespace std;
-using namespace SIM;
-
 const unsigned BLINK_TIMEOUT	= 500;
 const unsigned BLINK_COUNT		= 8;
 

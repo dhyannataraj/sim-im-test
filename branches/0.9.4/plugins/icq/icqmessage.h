@@ -40,28 +40,28 @@ const unsigned long MessageWarning			= 0x113;
 
 class ListView;
 
-class IcqContactsMessage : public SIM::ContactsMessage
+class IcqContactsMessage : public ContactsMessage
 {
 public:
     IcqContactsMessage(Buffer *cfg=NULL);
     ~IcqContactsMessage();
     QString getContacts() const;
-    virtual unsigned baseType() { return SIM::MessageContacts; }
+    virtual unsigned baseType() { return MessageContacts; }
 };
 
 typedef struct ICQAuthMessageData
 {
-    SIM::Data	Charset;
+    Data	Charset;
 } ICQAuthMessageData;
 
-class ICQAuthMessage : public SIM::AuthMessage
+class ICQAuthMessage : public AuthMessage
 {
 public:
     ICQAuthMessage(unsigned type, unsigned base_type, Buffer *cfg=NULL);
     ~ICQAuthMessage();
     PROP_STR(Charset);
     virtual QString getText() const;
-    virtual std::string save();
+    virtual string save();
     virtual unsigned baseType() { return m_baseType; }
 protected:
     unsigned m_baseType;
@@ -70,16 +70,16 @@ protected:
 
 typedef struct ICQFileMessageData
 {
-    SIM::Data	ServerDescr;
-    SIM::Data	IP;
-    SIM::Data	Port;
-    SIM::Data	ID_L;
-    SIM::Data	ID_H;
-    SIM::Data	Cookie;
-    SIM::Data	Extended;
+    Data	ServerDescr;
+    Data	IP;
+    Data	Port;
+    Data	ID_L;
+    Data	ID_H;
+    Data	Cookie;
+    Data	Extended;
 } ICQFileMessageData;
 
-class ICQFileMessage : public SIM::FileMessage
+class ICQFileMessage : public FileMessage
 {
 public:
     ICQFileMessage(Buffer *cfg=NULL);
@@ -92,20 +92,20 @@ public:
     PROP_ULONG(Cookie);
     PROP_ULONG(Extended);
     virtual QString getDescription();
-    virtual std::string  save();
-    virtual unsigned baseType() { return SIM::MessageFile; }
+    virtual string  save();
+    virtual unsigned baseType() { return MessageFile; }
 protected:
     ICQFileMessageData data;
 };
 
 typedef struct AIMFileMessageData
 {
-    SIM::Data	Port;
-    SIM::Data	ID_L;
-    SIM::Data	ID_H;
+    Data	Port;
+    Data	ID_L;
+    Data	ID_H;
 } AIMFileMessageData;
 
-class AIMFileMessage : public SIM::FileMessage
+class AIMFileMessage : public FileMessage
 {
 public:
     AIMFileMessage(Buffer *cfg=NULL);
@@ -113,26 +113,26 @@ public:
     PROP_USHORT(Port);
     PROP_ULONG(ID_L);
     PROP_ULONG(ID_H);
-    virtual unsigned baseType() { return SIM::MessageFile; }
+    virtual unsigned baseType() { return MessageFile; }
 protected:
     AIMFileMessageData data;
 };
 
 typedef struct MessageWarningData
 {
-    SIM::Data	Anonymous;
-    SIM::Data	OldLevel;
-    SIM::Data	NewLevel;
+    Data	Anonymous;
+    Data	OldLevel;
+    Data	NewLevel;
 } MessageWarningData;
 
-class WarningMessage : public SIM::AuthMessage
+class WarningMessage : public AuthMessage
 {
 public:
     WarningMessage(Buffer *cfg=NULL);
     PROP_BOOL(Anonymous);
     PROP_USHORT(OldLevel);
     PROP_USHORT(NewLevel);
-    virtual std::string  save();
+    virtual string  save();
     QString presentation();
 protected:
     MessageWarningData data;

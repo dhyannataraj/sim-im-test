@@ -32,49 +32,49 @@ class IconSet;
 
 typedef struct WeatherData
 {
-    SIM::Data	ID;
-    SIM::Data	Location;
-    SIM::Data	Time;
-    SIM::Data	ForecastTime;
-    SIM::Data	Forecast;
-    SIM::Data	Text;
-    SIM::Data	Tip;
-    SIM::Data	ForecastTip;
-    SIM::Data	Units;
-    SIM::Data	bar[7];
-    SIM::Data	Updated;
-    SIM::Data	Temperature;
-    SIM::Data	FeelsLike;
-    SIM::Data	DewPoint;
-    SIM::Data	Humidity;
-    SIM::Data    Precipitance;
-    SIM::Data	Pressure;
-    SIM::Data	PressureD;
-    SIM::Data	Conditions;
-    SIM::Data	Wind;
-    SIM::Data	Wind_speed;
-    SIM::Data	WindGust;
-    SIM::Data	Visibility;
-    SIM::Data	Sun_raise;
-    SIM::Data	Sun_set;
-    SIM::Data	Icon;
-    SIM::Data	UT;
-    SIM::Data	UP;
-    SIM::Data	US;
-    SIM::Data	UD;
-    SIM::Data	Day;
-    SIM::Data	WDay;
-    SIM::Data	MinT;
-    SIM::Data	MaxT;
-    SIM::Data	DayIcon;
-    SIM::Data	DayConditions;
-	SIM::Data	UV_Intensity;
-	SIM::Data	UV_Description;
-	SIM::Data	MoonIcon;
-	SIM::Data	MoonPhase;
+    Data	ID;
+    Data	Location;
+    Data	Time;
+    Data	ForecastTime;
+    Data	Forecast;
+    Data	Text;
+    Data	Tip;
+    Data	ForecastTip;
+    Data	Units;
+    Data	bar[7];
+    Data	Updated;
+    Data	Temperature;
+    Data	FeelsLike;
+    Data	DewPoint;
+    Data	Humidity;
+    Data    Precipitance;
+    Data	Pressure;
+    Data	PressureD;
+    Data	Conditions;
+    Data	Wind;
+    Data	Wind_speed;
+    Data	WindGust;
+    Data	Visibility;
+    Data	Sun_raise;
+    Data	Sun_set;
+    Data	Icon;
+    Data	UT;
+    Data	UP;
+    Data	US;
+    Data	UD;
+    Data	Day;
+    Data	WDay;
+    Data	MinT;
+    Data	MaxT;
+    Data	DayIcon;
+    Data	DayConditions;
+	Data	UV_Intensity;
+	Data	UV_Description;
+	Data	MoonIcon;
+	Data	MoonPhase;
 } WeatherData;
 
-class WeatherPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public FetchClient, public SAXParser
+class WeatherPlugin : public QObject, public Plugin, public EventReceiver, public FetchClient, public SAXParser
 {
     Q_OBJECT
 public:
@@ -136,7 +136,7 @@ protected:
     QString forecastReplace(const QString&);
     unsigned long BarWeather;
     unsigned long CmdWeather;
-    std::string m_data;
+    string m_data;
     bool   m_bData;
     bool   m_bBar;
     bool   m_bWind;
@@ -145,15 +145,15 @@ protected:
     bool   m_bForecast;
     bool   m_bCC;
     unsigned m_day;
-    std::string getConfig();
+    string getConfig();
     bool isDay();
     bool parseTime(const char *str, int &h, int &m);
     bool parseDateTime(const char *str, QDateTime &dt);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool done(unsigned code, Buffer &data, const char *headers);
-    void *processEvent(SIM::Event*);
+    void *processEvent(Event*);
     WeatherData data;
-    SIM::IconSet *m_icons;
+    IconSet		*m_icons;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);
