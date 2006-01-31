@@ -236,7 +236,7 @@ QWidget *ClientItem::getWidget(ConfigureDialog *dlg)
 {
     QWidget *res = m_client->configWindow(dlg, m_cmd->id);
     if (res)
-        QObject::connect(dlg, SIGNAL(applyChanges(Client*, void*)), res, SLOT(apply(Client*, void*)));
+        QObject::connect(dlg, SIGNAL(applyChanges(SIM::Client*, void*)), res, SLOT(apply(SIM::Client*, void*)));
     return res;
 }
 
