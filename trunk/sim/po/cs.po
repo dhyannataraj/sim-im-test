@@ -1,21 +1,22 @@
-# translation of cs.po to Czech
+# translation of cs.po to
 # Pavel Rousar <rousarp@fel.cvut.cz>, 2002.
 # Pavel Rousar <p.rousar@sh.cvut.cz>, 2003, 2004.
 # Jiri Sedlak <jiri_sedlak@users.sourceforge.net>, 2004.
 # Jiri Jurecek <jjure@users.sourceforge.net>, 2004, 2005.
-# Vojtěch Gondžala <vogo@seznam.cz>, 2005.
+# Vojtěch Gondžala <vogo@seznam.cz>, 2005, 2006.
 # Jan Šembera <fissie@users.berlios.de>, 2005.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: cs\n"
 "POT-Creation-Date: 2006-01-15 22:23+0500\n"
-"PO-Revision-Date: 2005-12-24 00:17+0100\n"
-"Last-Translator: Jan Šembera <fissie@users.berlios.de>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2006-01-31 23:07+0100\n"
+"Last-Translator: Vojtěch Gondžala <vogo@seznam.cz>\n"
+"Language-Team:  <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
+"X-Generator: KBabel 1.11\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -5634,7 +5635,7 @@ msgstr "Máte novou poštu"
 #: plugins/navigate/navcfgbase.cc:72 rc.cpp:1443
 #, no-c-format
 msgid "Use KDE settings"
-msgstr ""
+msgstr "Použít nastavení KDE"
 
 #: plugins/navigate/navcfgbase.cc:73 rc.cpp:1446
 #, no-c-format
@@ -6243,12 +6244,12 @@ msgstr "Nechcete-li využívat zvukového výstupu Qt, nastavte si jiný přehr�
 #: plugins/sound/soundconfigbase.cpp:97 rc.cpp:403
 #, no-c-format
 msgid "&Use KDE sound settings"
-msgstr ""
+msgstr "Po&užít nastavení zvuku KDE"
 
 #: plugins/sound/soundconfigbase.cpp:98 rc.cpp:406
 #, no-c-format
 msgid "Use player defined in system notify settings in kcontrol"
-msgstr ""
+msgstr "Požije přehrávač nastavený v modulu Systémová hlášení v Ovládacím centru KDE"
 
 #: plugins/sound/soundconfigbase.cpp:99 rc.cpp:409
 #, no-c-format
@@ -8857,12 +8858,11 @@ msgstr "Multiprotokolový Instantní Messenger"
 
 #: sim/sim.cpp:207
 msgid "Current development"
-msgstr ""
+msgstr "Současný vývoj"
 
 #: sim/sim.cpp:208
-#, fuzzy
 msgid "Author"
-msgstr "Autoři"
+msgstr "Autor"
 
 #: sim/sim.cpp:209
 msgid "Developer"
@@ -8990,96 +8990,3 @@ msgstr "Vlastní"
 msgid "Windows XP style"
 msgstr "Styl Windows XP"
 
-#~ msgid "&Use artsd"
-#~ msgstr "Po&užít Artsd (zvukový démon KDE)"
-
-#~ msgid ""
-#~ "_n: Check invisible\n"
-#~ "%n times check invisible"
-#~ msgstr ""
-#~ "Kontrola neviditelnosti\n"
-#~ "%n -krát kontrolována neviditelnost\n"
-#~ "%n -krát kontrolována neviditelnost"
-
-#~ msgid "Check invisible"
-#~ msgstr "Kontrola neviditelnosti"
-
-#~ msgid "Check &invisible"
-#~ msgstr "Kontrolovat &neviditelné"
-
-#~ msgid "&All"
-#~ msgstr "&Vše"
-
-#~ msgid "&Only invisible"
-#~ msgstr "&Pouze neviditelný"
-
-#~ msgid "Maintainer"
-#~ msgstr "Správce"
-
-#, fuzzy
-#~ msgid "%n day"
-#~ msgstr "Neděle"
-
-#, fuzzy
-#~ msgid "%n file"
-#~ msgstr "Poslat soubor"
-
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Otevřít zprávu"
-
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Email Pager"
-
-#, fuzzy
-#~ msgid "Contact request"
-#~ msgstr "Požadavek na kontakty"
-
-#, fuzzy
-#~ msgid "%n contact found"
-#~ msgstr "Žádný kontakt pro odeslání"
-
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "Po odeslání &zavřít"
-
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Požádat o &autorizaci"
-
-#, fuzzy
-#~ msgid "Authorization granted"
-#~ msgstr "Požádat o &autorizaci"
-
-#, fuzzy
-#~ msgid "Authorization refused"
-#~ msgstr "Požádat o &autorizaci"
-
-#, fuzzy
-#~ msgid "Add to contacts"
-#~ msgstr "Není kontakt"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "Odeb&rat ze žurnálu"
-
-#, fuzzy
-#~ msgid "LiveJournal post"
-#~ msgstr "LiveJournal &post"
-
-#, fuzzy
-#~ msgid "You have %n unread message"
-#~ msgstr "Máte novou poštu"
-
-#, fuzzy
-#~ msgid "weather"
-#~ msgstr "Počasí"
-
-#, fuzzy
-#~ msgid "%n GPG key"
-#~ msgstr "GPG klíč"
