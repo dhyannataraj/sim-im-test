@@ -15,7 +15,5 @@ weather_la_METASOURCES = AUTO
 weather_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(LIB_QT) $(EXTRA_LIBS)
 weather_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
-install-data-hook:
-	rm -rf $(DESTDIR)$(sim_plugindir)/weather.la
 
 

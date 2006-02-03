@@ -24,7 +24,5 @@ gpg_la_LIBADD =  $(GPG_OBJ) ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECOR
 gpg_la_DEPENDENCIES =  $(GPG_OBJ)
 gpg_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
-install-data-hook:
-	rm -rf $(DESTDIR)$(sim_plugindir)/gpg.la
 
 

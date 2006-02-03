@@ -14,6 +14,4 @@ __homedir_la_LIBADD = $(__HOMEDIR_OBJ) ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $
 __homedir_la_DEPENDENCIES = $(__HOMEDIR_OBJ)
 __homedir_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
-install-data-hook:
-	rm -rf $(DESTDIR)$(sim_plugindir)/__homedir.la
 

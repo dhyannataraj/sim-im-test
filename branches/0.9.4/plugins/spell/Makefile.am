@@ -18,7 +18,5 @@ spell_la_LIBADD = $(SPELL_OBJ) ../../sim/libsim.la   $(LIB_QT) $(LIB_KDECORE) $(
 spell_la_DEPENDENCIES =  $(SPELL_OBJ)
 spell_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
-install-data-hook:
-	rm -rf $(DESTDIR)$(sim_plugindir)/spell.la
 
 
