@@ -1203,11 +1203,20 @@ SOURCE=.\sim\xsl.h
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=.\icq.ico
+SOURCE=.\sim\icq.ico
 # End Source File
 # Begin Source File
 
-SOURCE=.\sim.rc
+SOURCE=.\sim\sim.rc
+
+!IF  "$(CFG)" == "sim - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "sim - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ENDIF 
+
 # End Source File
 # End Group
 # Begin Source File

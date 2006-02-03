@@ -3,7 +3,8 @@ lib_LTLIBRARIES = libsim.la
 
 SUBDIRS=png qt3 libltdl
 
-sim_SOURCES = sim.cpp
+sim_SOURCES = sim.cpp \
+ sim.rc
 
 libsim_la_SOURCES = \
  aboutdata.cpp \
@@ -43,13 +44,20 @@ libsim_la_SOURCES = \
  unzip.c \
  html.ll
 
-sim_LDADD = libsim.la
+if QT_WIN
+sim_rc.o: sim.rc
+	windres -I$(srcdir)/.. sim.rc -o sim_rc.o
+endif
+
+sim_LDADD = $(SIM_RC_OBJ) libsim.la
+sim_DEPENDENCIES = $(SIM_RC_OBJ)
 libsim_la_LIBADD   = $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
 
 EXTRA_DIST = \
 	sim-kde.menu \
 	sim.desktop \
 	sim.cpp \
+	icq.ico
 	*.h
 
 

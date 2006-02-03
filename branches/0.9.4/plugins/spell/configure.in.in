@@ -10,4 +10,8 @@ fi
 if test "x$compile_plugin" = "xno"; then
   DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/spell"
 fi
+if test "$kde_use_qt_win" = "yes"; then
+	SPELL_OBJ=spellfind.lo
+	AC_SUBST([SPELL_OBJ])
+fi
 
