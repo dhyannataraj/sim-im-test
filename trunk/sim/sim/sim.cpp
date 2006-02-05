@@ -180,7 +180,7 @@ class Debug
 {
 public:
     Debug()		{}
-    ~Debug()	{ /*_CrtDumpMemoryLeaks();*/ } //causes crash on close in win32 by noragen
+    ~Debug()	{ _CrtDumpMemoryLeaks(); } //causes crash on close in win32 by noragen
 };
 
 Debug d;
