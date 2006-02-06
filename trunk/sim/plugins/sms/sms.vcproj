@@ -605,7 +605,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="sounds"
+			Name="Sounds"
 			Filter="wav"
 			>
 			<File
