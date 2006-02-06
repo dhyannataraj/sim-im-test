@@ -381,12 +381,22 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         p->setFont(f);
         QString highlight;
         QString text = item->text(CONTACT_TEXT);
+        int pos;
         if (!m_search.isEmpty()){
-            if (text.left(m_search.length()).upper() == m_search.upper())
-                highlight = text.left(m_search.length());
+            pos=text.upper().find(m_search.upper());
+            //Search from the beginning of contact name
+            /*if (text.left(m_search.length()).upper() == m_search.upper())
+                highlight = text.left(m_search.length());*/
+            //Search for substring in contact name
+            if (pos>-1) 
+                highlight=text.mid(pos,m_search.length());
         }
         int save_x = x;
         x = item->drawText(p, x, width, text);
+        if (pos>0)
+            /*drawText returns bounding x coordinate of the output +5,
+              so to have actual x coordinate to draw, we ned to -4*/
+            save_x = item->drawText(p, save_x, width, text.left(pos)) - 4;
         x += 2;
         if (!highlight.isEmpty()){
             QPen oldPen = p->pen();
@@ -1693,7 +1703,10 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
     if (static_cast<UserViewItemBase*>(item)->type() != USR_ITEM)
         return;
     QString name = item->text(CONTACT_TEXT);
-    if (name.left(m_search.length()).upper() == m_search.upper())
+    //Search from the beginning of contact name
+    //if (name.left(m_search.length()).upper() == m_search.upper())
+    //Search for substring in contact name
+    if (name.upper().find(m_search.upper())>-1)
         items.push_back(item);
 }
 
