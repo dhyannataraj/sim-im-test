@@ -16,7 +16,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\Release\plugins"
+			OutputDirectory="..\..\Release"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
@@ -117,7 +117,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\Debug\plugins"
+			OutputDirectory="..\..\Debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
@@ -3670,7 +3670,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Sound"
+			Name="Sounds"
 			Filter="wav"
 			>
 			<File
@@ -3716,7 +3716,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;"
 						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>

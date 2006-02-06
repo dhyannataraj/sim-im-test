@@ -381,7 +381,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         p->setFont(f);
         QString highlight;
         QString text = item->text(CONTACT_TEXT);
-        int pos;
+        int pos=0;
         if (!m_search.isEmpty()){
             pos=text.upper().find(m_search.upper());
             //Search from the beginning of contact name
