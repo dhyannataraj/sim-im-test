@@ -146,6 +146,8 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     lblCopy1->setText(copy1);
     lblCopy2->setText(copy2);
     spnCopy->setValue(CorePlugin::m_plugin->getCopyMessages());
+    chkOwnerName->setText(i18n("Show own nickname in window title"));
+    chkOwnerName->setChecked(CorePlugin::m_plugin->getShowOwnerName());
 #ifdef WIN32
     HKEY subKey;
     if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
@@ -243,6 +245,7 @@ void InterfaceConfig::apply()
         CorePlugin::m_plugin->setContainerMode(0);
         CorePlugin::m_plugin->setSendOnEnter(false);
     }
+    CorePlugin::m_plugin->setShowOwnerName(chkOwnerName->isChecked());
 #ifndef USE_KDE
     if (strcmp(lang, CorePlugin::m_plugin->getLang())){
         CorePlugin::m_plugin->removeTranslator();

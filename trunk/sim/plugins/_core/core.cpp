@@ -283,6 +283,7 @@ static DataDef coreData[] =
         { "Lang", DATA_STRING, 1, 0 },
         { "ContainerMode", DATA_ULONG, 1, DATA(2) },
         { "SendOnEnter", DATA_BOOL, 1, 0 },
+        { "ShowOwnerName", DATA_BOOL, 1, 0 },
         { "ContainerGeometry", DATA_ULONG, 5, DATA(-1) },
         { "ContainerBar", DATA_LONG, 7, 0 },
         { "ContainerStatusSize", DATA_ULONG, 1, 0 },

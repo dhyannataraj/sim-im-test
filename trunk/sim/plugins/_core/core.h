@@ -70,6 +70,7 @@ typedef struct CoreData
     SIM::Data	Lang;
     SIM::Data	ContainerMode;
     SIM::Data	SendOnEnter;
+    SIM::Data	ShowOwnerName;
     SIM::Data	containerGeo[5];
     SIM::Data	containerBar[7];
     SIM::Data	ContainerStatusSize;
@@ -438,6 +439,7 @@ public:
     unsigned getContainerMode();
     void setContainerMode(unsigned);
     PROP_BOOL(SendOnEnter);
+    PROP_BOOL(ShowOwnerName);
     PROP_ULONG(ContainerStatusSize);
     PROP_STR(Containers);
     PROP_STRLIST(Container);
