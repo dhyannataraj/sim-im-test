@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # a script for use by autoconf to make the Makefiles
 # from the Makefile.in's
 #
@@ -25,8 +25,10 @@
 
 #   You should have received a copy of the GNU Library General Public License
 #   along with this library; see the file COPYING.LIB.  If not, write to
-#   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-#   Boston, MA 02111-1307, USA.
+#   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+#   Boston, MA 02110-1301, USA.
+
+use strict;
 
 use File::Path;
 
@@ -35,17 +37,23 @@ my $ac_sacfiles = $ARGV[1];
 my $ac_given_srcdir=$ARGV[2];
 my $ac_given_INSTALL=$ARGV[3];
 
+my @comp_match;
+my @comp_subs;
+
 #print "ac_subs=$ac_subs\n";
 #print "ac_sacfiles=$ac_sacfiles\n";
 #print "ac_given_srcdir=$ac_given_srcdir\n";
 #print "ac_given_INSTALL=$ac_given_INSTALL\n";
 
+my $configure_input;
 my ($srcdir, $top_srcdir);
 my $INSTALL;
 my $bad_perl = ($] < 5.005);
+my $created_file_count = 0;
 
 open(CF, "< $ac_subs") || die "can't open $ac_subs: $!";
 my @subs = <CF>;
+my $pat;
 close(CF);
 chomp @subs;
 @comp_match=();
@@ -53,7 +61,7 @@ chomp @subs;
 
 if ($bad_perl) {
     print "Using perl older than version 5.005\n";
-    foreach my $pat (@subs) {
+    foreach $pat (@subs) {
 	if (  ($pat =~ m/s%([^%]*)%([^%]*)%g/ )
 	   || ($pat =~ m/s%([^%]*)%([^%]*)%;t/ )
            || ($pat =~ m/s,([^,]*),(.*),;t/)
@@ -78,7 +86,7 @@ if ($bad_perl) {
 	}
     }
 } else {
-    foreach my $pat (@subs) {
+    foreach $pat (@subs) {
        if ( ($pat =~ /s%([^%]*)%([^%]*)%g/ ) ||
             ($pat =~ /s%([^%]*)%([^%]*)%;t/ ) ||
             ($pat =~ /s,([^,]*),(.*),;t/) ) {
@@ -96,7 +104,7 @@ if ($bad_perl) {
         push @comp_match, eval "qr/\Q$1\E/";
         push @comp_subs, "";
       } else {
-          die "Uhh. Malformed pattern in $ac_cs_root.subs ($pat)"
+          die "Uhh. Malformed pattern in $ac_subs ($pat)"
           unless ( $pat =~ /^\s*$/ );   # ignore white lines
       }
     }
@@ -168,25 +176,26 @@ foreach $ac_file (@ac_files) {
     my $ac_comsub="";
     my $fname=$ac_file_in;
     $fname =~ s%.*/%%;
-    my $configure_input="Generated automatically from $fname by config.pl.";
-    if ($ac_file =~ /.*[Mm]akefile.*/) {
-	$ac_comsub="# ".$configure_input."\n";  # for the first line in $ac_file
-    }
+    $configure_input="$ac_file.  Generated from $fname by config.pl.";
 
     my $ac_file_inputs;
     ($ac_file_inputs = $ac_file_in) =~ s%^%$ac_given_srcdir/%;
     $ac_file_inputs =~ s%:% $ac_given_srcdir/%g;
 
-    patch_file($ac_file, $ac_file_inputs, $ac_comsub);
+    patch_file($ac_file, $ac_file_inputs);
+    ++$created_file_count;
 }
 
+print "config.pl: fast created $created_file_count file(s).\n";
+
 sub patch_file {
-    my ($outf, $infiles, $identline) = @_;
+    my ($outf, $infiles) = @_;
     my $filedata;
     my @infiles=split(' ', $infiles);
     my $i=0;
+    my $name;
 
-    foreach my $name (@infiles) {
+    foreach $name (@infiles) {
 	if (open(CF, "< $name")) {
 	    while (<CF>) {
 		$filedata .= $_;
@@ -195,10 +204,6 @@ sub patch_file {
 	} else {
 	    print STDERR "can't open $name: $!"."\n";
 	}
-    }
-    if ($identline) {
-	# Put the ident in the second line.  For shitty automake 1.6x.
-	$filedata =~ s%\n%\n$identline%;
     }
 
     $filedata =~ s%\@configure_input\@%$configure_input%g;
@@ -225,11 +230,7 @@ sub patch_file {
 
 sub make_closure {
     my ($pat, $sub) = @_;
-    $pat =~ s/\@/\\@/g;   # @bla@ -> \@bla\@
-    $pat =~ s/\$/\\\$/g;  # $bla -> \$bla
-    $sub =~ s/\@/\\@/g;
-    $sub =~ s/\$/\\\$/g;
-    my $ret = eval "return sub { my \$ref=shift; \$\$ref =~ s%$pat%$sub%g; }";
+    my $ret = eval "return sub { my \$ref=shift; \$\$ref =~ s%\Q$pat\E%\Q$sub\E%g; }";
     if ($@) {
         print "can't create CODE: $@\n";
     }
