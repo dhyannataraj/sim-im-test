@@ -495,7 +495,7 @@ if test "$1" = "default"; then
     kde_templatesdir='${datadir}/templates'
   fi
   if test -z "$kde_bindir"; then
-    kde_bindir='${exec_prefix}/bin'
+    kde_bindir='\${exec_prefix}/bin'
   fi
   if test -z "$kde_servicesdir"; then
     kde_servicesdir='${datadir}/services'
