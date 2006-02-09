@@ -473,8 +473,9 @@ EXPORT bool set_str(char **str, const char *value)
     if (value && *value){
         *str = new char[strlen(value) + 1];
         strcpy(*str, value);
+		return true;
     }
-    return true;
+    return false;
 }
 
 EXPORT void free_data(const DataDef *def, void *d)

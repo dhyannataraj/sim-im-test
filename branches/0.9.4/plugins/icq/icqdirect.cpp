@@ -782,8 +782,9 @@ void DirectClient::processPacket()
         }
         break;
     case TCP_CANCEL:
-    case TCP_ACK:
+	case TCP_ACK: {
         log(L_DEBUG, "Ack %X %X", ackFlags, msgFlags);
+		bool itDeleted = false;
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
             if ((*it).seq != seq)
                 continue;
@@ -791,10 +792,10 @@ void DirectClient::processPacket()
                 if ((*it).type == PLUGIN_AR){
                     set_str(&m_data->AutoReply.ptr, msg_str.c_str());
                     m_queue.erase(it);
+					itDeleted = true;
                     break;
                 }
                 unsigned plugin_index = (*it).type;
-                m_queue.erase(it);
                 switch (plugin_index){
                 case PLUGIN_FILESERVER:
                 case PLUGIN_FOLLOWME:
@@ -806,7 +807,9 @@ void DirectClient::processPacket()
                     break;
                 }
                 m_client->parsePluginPacket(m_socket->readBuffer, plugin_index, m_data, m_data->Uin.value, true);
-                break;
+                m_queue.erase(it);
+				itDeleted = true;
+				break;
             }
             Message *msg = (*it).msg;
             if (command == TCP_CANCEL){
@@ -896,7 +899,7 @@ void DirectClient::processPacket()
             delete msg;
             break;
         }
-        if (it == m_queue.end()){
+        if (!itDeleted && it == m_queue.end()){
             list<Message*>::iterator it;
             for (it = m_client->m_acceptMsg.begin(); it != m_client->m_acceptMsg.end(); ++it){
                 string name = m_client->dataName(m_data);
@@ -923,6 +926,7 @@ void DirectClient::processPacket()
                 log(L_WARN, "Message for ACK not found");
         }
         break;
+	}
     default:
         m_socket->error_state("Unknown TCP command");
     }

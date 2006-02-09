@@ -302,7 +302,7 @@ static DataDef coreData[] =
         { "HistorySearch", DATA_UTF, 1, 0 },
         { "Unread", DATA_STRING, 1, 0 },
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
-        { "SortMode", DATA_ULONG, 1, DATA(0x00030201) },
+        { "SortMode", DATA_ULONG, 1, DATA(0x00020301) },
         { "CloseTransfer", DATA_BOOL, 1, 0 },
         { "HistoryStyle", DATA_STRING, 1, "SIM" },
         { "AuthStyle", DATA_ULONG, 1, DATA(1) },
