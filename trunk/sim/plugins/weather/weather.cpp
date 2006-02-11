@@ -386,17 +386,21 @@ i18n("weather", "Mist")
 i18n("weather", "Haze")
 i18n("weather", "Storm")
 i18n("weather", "Rain")
-i18n("weather", "Snow")
 i18n("weather", "Light Rain")
+i18n("weather", "Freezing Rain")
+i18n("weather", "Rain to Snow")
+i18n("weather", "Snow")
 i18n("weather", "Light Snow")
 i18n("weather", "Few Snow")
 i18n("weather", "Scattered Snow")
 i18n("weather", "Clear")
+i18n("weather", "Clearing")
 i18n("weather", "Showers")
 i18n("weather", "Mostly Clear")
 i18n("weather", "Sunny")
 i18n("weather", "Fair")
 i18n("weather", "Cloudy")
+i18n("waether", "Clouds")
 i18n("weather", "Mostly Cloudy")
 i18n("weather", "Partly Cloudy")
 i18n("weather", "Wind")
@@ -436,10 +440,11 @@ i18n("weather", "Low")
 i18n("weather", "Moderate")
 i18n("weather", "High")
 i18n("weather", "Showers in the Vicinity")
-i18n("weather", "Waning Crescent")
-i18n("weather", "Waxing Crescent")
-i18n("weather", "Waxing Gibbous")
-i18n("weather", "Waning Gibbous")
+i18n("moonphase", "Waning Crescent")
+i18n("moonphase", "First Quarter")
+i18n("moonphase", "Waxing Crescent")
+i18n("moonphase", "Waxing Gibbous")
+i18n("moonphase", "Waning Gibbous")
 #endif
 
 static QString i18n_conditions(const QString &str)
@@ -492,7 +497,7 @@ QString WeatherPlugin::replace(const QString &text)
     updated = getUpdated();
 #endif
     /* double Expressions *before* single or better RegExp ! */
-    res = res.replace(QRegExp("\\%mp"), i18n("weather", getMoonPhase()));
+    res = res.replace(QRegExp("\\%mp"), i18n("moonphase", getMoonPhase()));
     res = res.replace(QRegExp("\\%mi"), number(getMoonIcon()));
     res = res.replace(QRegExp("\\%pp"), number(getPrecipitance()));
 	res = res.replace(QRegExp("\\%ut"), i18n("weather", getUV_Description()));
