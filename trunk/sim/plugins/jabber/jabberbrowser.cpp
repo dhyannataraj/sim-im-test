@@ -305,9 +305,9 @@ void *JabberBrowser::processEvent(Event *e)
                     delete m_search;
                 }else{
                     m_search->jidSearch->addWidget(data);
-                    connect(this, SIGNAL(addSearch(QWidget*, Client*, const QString&)), topLevelWidget(), SLOT(addSearch(QWidget*, Client*, const QString&)));
+                    connect(this, SIGNAL(addSearch(QWidget*, SIM::Client*, const QString&)), topLevelWidget(), SLOT(addSearch(QWidget*, SIM::Client*, const QString&)));
                     emit addSearch(m_search, m_client, m_search->m_jid);
-                    disconnect(this, SIGNAL(addSearch(QWidget*, Client*, const QString&)), topLevelWidget(), SLOT(addSearch(QWidget*, Client*, const QString&)));
+                    disconnect(this, SIGNAL(addSearch(QWidget*, SIM::Client*, const QString&)), topLevelWidget(), SLOT(addSearch(QWidget*, SIM::Client*, const QString&)));
                 }
                 m_search_id = "";
                 m_search    = NULL;

@@ -25,7 +25,7 @@ InfoProxy::InfoProxy(QWidget *parent, QWidget *child, const QString &title)
         : InfoProxyBase(parent)
 {
     connect(this, SIGNAL(sig_apply()), child, SLOT(apply()));
-    connect(this, SIGNAL(sig_apply(Client*, void*)), child, SLOT(apply(Client*, void*)));
+    connect(this, SIGNAL(sig_apply(SIM::Client*, void*)), child, SLOT(apply(SIM::Client*, void*)));
     tabInfo->addTab(child, title);
     tabInfo->removePage(tab);
 }

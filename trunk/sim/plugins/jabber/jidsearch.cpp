@@ -50,9 +50,9 @@ JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
 
 void JIDSearch::browserClicked()
 {
-    connect(this, SIGNAL(showClient(Client*)), topLevelWidget(), SLOT(showClient(Client*)));
+    connect(this, SIGNAL(showClient(SIM::Client*)), topLevelWidget(), SLOT(showClient(SIM::Client*)));
     emit showClient(m_client);
-    disconnect(this, SIGNAL(showClient(Client*)), topLevelWidget(), SLOT(showClient(Client*)));
+    disconnect(this, SIGNAL(showClient(SIM::Client*)), topLevelWidget(), SLOT(showClient(SIM::Client*)));
 }
 
 void JIDSearch::showEvent(QShowEvent *e)
