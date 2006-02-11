@@ -1,4 +1,6 @@
+if ENABLE_TRANSPARENT
 sim_plugin_LTLIBRARIES = transparent.la
+endif
 
 transparent_la_SOURCES = \
  transparent.cpp \

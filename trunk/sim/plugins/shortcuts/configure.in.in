@@ -1,4 +1,1 @@
-if test "$kde_use_qt_mac" = "yes" ; then
-  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/shortcuts"
-fi
-
+AM_CONDITIONAL(ENABLE_SHORTCUTS, test "$kde_use_qt_mac" != "yes")

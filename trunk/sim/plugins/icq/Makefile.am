@@ -1,4 +1,6 @@
+if ENABLE_ICQ
 sim_plugin_LTLIBRARIES = icq.la
+endif
 
 icq_la_SOURCES = \
  icq.cpp \

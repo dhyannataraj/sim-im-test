@@ -1,6 +1,4 @@
-compile_plugin="no"
 if test "$have_ssl" != yes; then
   AC_MSG_WARN([OpenSSL library disabled. LiveJournal plugin is disabled])
-  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/livejournal"
 fi
-
+AM_CONDITIONAL(ENABLE_LIVEJOURNAL, test "$have_ssl" = "yes")

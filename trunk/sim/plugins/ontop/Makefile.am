@@ -1,4 +1,6 @@
+if ENABLE_ONTOP
 sim_plugin_LTLIBRARIES = ontop.la
+endif
 
 ontop_la_SOURCES = \
  ontop.cpp \

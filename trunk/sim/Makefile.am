@@ -6,13 +6,6 @@ EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO resource.h conf
 	     AUTHORS.sim README.SVN TODO.MingW install_win32 sim/win32 xpstyle
 
 SUBDIRS = $(TOPSUBDIRS)
-DIST_SUBDIRS = $(SUBDIRS) \
-	plugins/ontop \
-	plugins/spell \
-	plugins/styles/metal \
-	plugins/styles/wood \
-	plugins/transparent \
-	plugins/windock
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if 

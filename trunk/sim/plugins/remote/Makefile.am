@@ -1,5 +1,9 @@
+if ENABLE_REMOTE
 sim_plugin_LTLIBRARIES = remote.la
 bin_PROGRAMS = simctrl 
+dist_mime_DATA = x-icq.desktop
+dist_service_DATA = simctrl.desktop
+endif
 
 remote_la_SOURCES = \
  remotecfgbase.ui \
@@ -11,12 +15,8 @@ simctrl_SOURCES = \
 
 INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
-mime_DATA = x-icq.desktop
 mimedir = $(kde_mimedir)/application
-service_DATA = simctrl.desktop
 servicedir = $(kde_servicesdir)
-
-EXTRA_DIST = $(mime_DATA) $(service_DATA)
 
 remote_la_METASOURCES = AUTO
 remote_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS) 

@@ -1,6 +1,4 @@
-compile_plugin="no"
 if test "$have_ssl" != yes; then
   AC_MSG_WARN([OpenSSL library disabled. Yahoo! plugin is disabled])
-  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/yahoo"
 fi
-
+AM_CONDITIONAL(ENABLE_YAHOO, test "$have_ssl" = "yes")

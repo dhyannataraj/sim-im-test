@@ -1,4 +1,6 @@
+if ENABLE_SPELL
 sim_plugin_LTLIBRARIES = spell.la
+endif
 
 spell_la_SOURCES = \
   spell.cpp \

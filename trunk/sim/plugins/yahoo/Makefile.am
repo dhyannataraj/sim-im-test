@@ -1,4 +1,6 @@
+if ENABLE_YAHOO
 sim_plugin_LTLIBRARIES = yahoo.la
+endif
 
 yahoo_la_SOURCES = \
  yahoo.cpp \

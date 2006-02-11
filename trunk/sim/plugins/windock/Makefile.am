@@ -1,4 +1,6 @@
+if ENABLE_WINDOCK
 sim_plugin_LTLIBRARIES = windock.la
+endif
 
 windock_la_SOURCES = \
  windock.cpp

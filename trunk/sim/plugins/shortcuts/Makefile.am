@@ -1,4 +1,6 @@
+if ENABLE_SHORTCUTS
 sim_plugin_LTLIBRARIES = shortcuts.la
+endif
 
 shortcuts_la_SOURCES = \
  shortcuts.cpp \

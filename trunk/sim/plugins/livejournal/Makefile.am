@@ -1,4 +1,6 @@
+if ENABLE_LIVEJOURNAL
 sim_plugin_LTLIBRARIES = livejournal.la
+endif
 
 livejournal_la_SOURCES = \
  livejournal.cpp \

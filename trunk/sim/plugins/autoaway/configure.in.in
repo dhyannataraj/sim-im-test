@@ -15,7 +15,9 @@ if test "x$kde_use_qt_win" = "xno"; then
 	AC_SUBST(XSS_LIBS)
 	if test "x$compile_plugin" = "xno"; then
 		AC_MSG_WARN([ScreenSaver extension not found. AutoAway plugin is disabled])
-		DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/autoaway"
 	fi
+	AM_CONDITIONAL(ENABLE_AUTOAWAY, test "x$compile_plugin" = "xyes")
+else
+	AM_CONDITIONAL(ENABLE_AUTOAWAY, true)
 fi
 

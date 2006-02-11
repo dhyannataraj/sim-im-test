@@ -1,4 +1,6 @@
+if ENABLE_MSN
 sim_plugin_LTLIBRARIES = msn.la
+endif
 
 msn_la_SOURCES = \
  msn.cpp \

@@ -1,4 +1,6 @@
+if ENABLE_AUTOAWAY
 sim_plugin_LTLIBRARIES = autoaway.la
+endif
 
 autoaway_la_SOURCES = \
  autoawaycfgbase.ui \

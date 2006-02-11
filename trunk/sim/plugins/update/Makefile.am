@@ -1,4 +1,6 @@
+if ENABLE_UPDATE
 sim_plugin_LTLIBRARIES = update.la
+endif
 
 update_la_SOURCES = \
  update.cpp 

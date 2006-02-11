@@ -165,4 +165,4 @@ if test "$kde_use_qt_win" = "yes"; then
    AC_SUBST(SIM_RC_OBJ, "sim_rc.o")
 fi
 
-DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/update"
+AM_CONDITIONAL(ENABLE_UPDATE, false)
