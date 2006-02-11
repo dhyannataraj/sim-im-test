@@ -58,10 +58,15 @@ const unsigned short ICQ_VISIBLE_LIST           = 0x0002;
 const unsigned short ICQ_INVISIBLE_LIST         = 0x0003;
 const unsigned short ICQ_INVISIBLE_STATE        = 0x0004;
 const unsigned short ICQ_PRESENCE_INFO          = 0x0005;
+const unsigned short ICQ_SHORTCUT_BAR           = 0x0009;
 const unsigned short ICQ_IGNORE_LIST            = 0x000E;
+const unsigned short ICQ_LAST_UPDATE            = 0x000F;
 const unsigned short ICQ_NON_IM                 = 0x0010;
+const unsigned short ICQ_UNKNOWN                = 0x0011;
 const unsigned short ICQ_IMPORT_TIME            = 0x0013;
 const unsigned short ICQ_BUDDY_CHKSUM           = 0x0014;
+const unsigned short ICQ_UNKNOWN2               = 0x0019;
+const unsigned short ICQ_AWAITING_AUTH          = 0x001B;
 
 const unsigned short TLV_WAIT_AUTH  = 0x0066;
 const unsigned short TLV_SUBITEMS   = 0x00C8;
@@ -297,11 +302,12 @@ void ICQClient::parseRosterItem(unsigned short type,
         break;
     case ICQ_PRESENCE_INFO:
     case ICQ_BUDDY_CHKSUM:
-    case 0x0009:
-    case 0x000f:    /* I saw this roster type in junction to
-                                               TLV(0x0145) - DateTime() */
+    case ICQ_SHORTCUT_BAR:
+    case ICQ_LAST_UPDATE:
+	case ICQ_UNKNOWN:
+	case ICQ_UNKNOWN2:
         break;
-    case ICQ_NON_IM:{
+    case ICQ_NON_IM: {
             Tlv *tlv_name = NULL;
             Tlv *tlv_phone = NULL;
             string alias;
@@ -321,7 +327,6 @@ void ICQClient::parseRosterItem(unsigned short type,
             }
             break;
         }
-    case 0x0011:
     case ICQ_IMPORT_TIME:{
             Tlv *tlv_time = NULL;
             QDateTime qt_time;
@@ -333,6 +338,17 @@ void ICQClient::parseRosterItem(unsigned short type,
             }
             break;
         }
+	case ICQ_AWAITING_AUTH: {
+            Contact *contact;
+			if (str.length()){
+                log(L_DEBUG, "%s is awaiting auth", str.c_str());
+				if (findContact(str.c_str(), NULL, false, contact))
+					break;
+				findContact(str.c_str(), str.c_str(), true, contact, NULL, false);
+				addFullInfoRequest(atol(str.c_str()));
+            }
+			break;
+		}
     default:
         log(L_WARN,"Unknown roster type %04X", type);
     }
