@@ -22,17 +22,7 @@
 #define _LIBICONV_H
 
 #define _LIBICONV_VERSION 0x0109    /* version number: (major<<8) + minor */
-
-#ifdef LIBICONV_STATIC
-#define LIBICONV_DLL_EXPORTED
-#else /* LIBICONV_STATIC */
-#ifdef BUILDING_LIBICONV
-#define LIBICONV_DLL_EXPORTED __declspec(dllexport)
-#else
-#define LIBICONV_DLL_EXPORTED __declspec(dllimport)
-#endif
-#endif /* LIBICONV_STATIC */ 
-extern LIBICONV_DLL_EXPORTED int _libiconv_version;       /* Likewise */
+extern int _libiconv_version;       /* Likewise */
 
 /* We would like to #include any system header file which could define
    iconv_t, 1. in order to eliminate the risk that the user gets compilation
@@ -65,7 +55,7 @@ typedef void* iconv_t;
    have EILSEQ in a different header.  On these systems, define EILSEQ
    ourselves. */
 #ifndef EILSEQ
-#define EILSEQ 
+#define EILSEQ @EILSEQ@
 #endif
 
 
@@ -79,7 +69,7 @@ extern "C" {
 #ifndef LIBICONV_PLUG
 #define iconv_open libiconv_open
 #endif
-extern LIBICONV_DLL_EXPORTED iconv_t iconv_open (const char* tocode, const char* fromcode);
+extern iconv_t iconv_open (const char* tocode, const char* fromcode);
 
 /* Converts, using conversion descriptor `cd', at most `*inbytesleft' bytes
    starting at `*inbuf', writing at most `*outbytesleft' bytes starting at
@@ -89,13 +79,13 @@ extern LIBICONV_DLL_EXPORTED iconv_t iconv_open (const char* tocode, const char*
 #ifndef LIBICONV_PLUG
 #define iconv libiconv
 #endif
-extern LIBICONV_DLL_EXPORTED size_t iconv (iconv_t cd, const char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
+extern size_t iconv (iconv_t cd, const char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
 
 /* Frees resources allocated for conversion descriptor `cd'. */
 #ifndef LIBICONV_PLUG
 #define iconv_close libiconv_close
 #endif
-extern LIBICONV_DLL_EXPORTED int iconv_close (iconv_t cd);
+extern int iconv_close (iconv_t cd);
 
 
 #ifndef LIBICONV_PLUG
@@ -104,7 +94,7 @@ extern LIBICONV_DLL_EXPORTED int iconv_close (iconv_t cd);
 
 /* Control of attributes. */
 #define iconvctl libiconvctl
-extern LIBICONV_DLL_EXPORTED int iconvctl (iconv_t cd, int request, void* argument);
+extern int iconvctl (iconv_t cd, int request, void* argument);
 
 /* Requests for iconvctl. */
 #define ICONV_TRIVIALP            0  /* int *argument */
@@ -115,7 +105,7 @@ extern LIBICONV_DLL_EXPORTED int iconvctl (iconv_t cd, int request, void* argume
 
 /* Listing of locale independent encodings. */
 #define iconvlist libiconvlist
-extern LIBICONV_DLL_EXPORTED void iconvlist (int (*do_one) (unsigned int namescount,
+extern void iconvlist (int (*do_one) (unsigned int namescount,
                                       const char * const * names,
                                       void* data),
                        void* data);
@@ -127,7 +117,7 @@ extern LIBICONV_DLL_EXPORTED void iconvlist (int (*do_one) (unsigned int namesco
    by the corresponding pathname with the current prefix instead.  Both
    prefixes should be directory names without trailing slash (i.e. use ""
    instead of "/").  */
-extern LIBICONV_DLL_EXPORTED void libiconv_set_relocation_prefix (const char *orig_prefix,
+extern void libiconv_set_relocation_prefix (const char *orig_prefix,
 					    const char *curr_prefix);
 
 #endif
@@ -139,3 +129,4 @@ extern LIBICONV_DLL_EXPORTED void libiconv_set_relocation_prefix (const char *or
 
 
 #endif /* _LIBICONV_H */
+
