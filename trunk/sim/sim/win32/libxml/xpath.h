@@ -1,26 +1,40 @@
 /*
- * xpath.c: interface for XML Path Language implementation
+ * Summary: XML Path Language implementation
+ * Description: API for the XML Path Language implementation
  *
- * Reference: W3C Working Draft 5 July 1999
- *            http://www.w3.org/Style/XSL/Group/1999/07/xpath-19990705.html
+ * XML Path Language implementation
+ * XPath is a language for addressing parts of an XML document,
+ * designed to be used by both XSLT and XPointer
+ *     http://www.w3.org/TR/xpath
  *
- * See COPYRIGHT for the status of this software
+ * Implements
+ * W3C Recommendation 16 November 1999
+ *     http://www.w3.org/TR/1999/REC-xpath-19991116
  *
- * Author: daniel@veillard.com
+ * Copy: See Copyright for the status of this software.
+ *
+ * Author: Daniel Veillard
  */
 
 #ifndef __XML_XPATH_H__
 #define __XML_XPATH_H__
 
 #include <libxml/xmlversion.h>
+
+#ifdef LIBXML_XPATH_ENABLED
+
 #include <libxml/xmlerror.h>
 #include <libxml/tree.h>
 #include <libxml/hash.h>
+#endif /* LIBXML_XPATH_ENABLED */
 
+#if defined(LIBXML_XPATH_ENABLED) || defined(LIBXML_SCHEMAS_ENABLED)
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+#endif /* LIBXML_XPATH_ENABLED or LIBXML_SCHEMAS_ENABLED */
+	
+#ifdef LIBXML_XPATH_ENABLED
 typedef struct _xmlXPathContext xmlXPathContext;
 typedef xmlXPathContext *xmlXPathContextPtr;
 typedef struct _xmlXPathParserContext xmlXPathParserContext;
@@ -52,7 +66,8 @@ typedef enum {
     XPTR_SUB_RESOURCE_ERROR,
     XPATH_UNDEF_PREFIX_ERROR,
     XPATH_ENCODING_ERROR,
-    XPATH_INVALID_CHAR_ERROR
+    XPATH_INVALID_CHAR_ERROR,
+    XPATH_INVALID_CTXT
 } xmlXPathError;
 
 /*
@@ -188,6 +203,69 @@ struct _xmlXPathAxis {
 };
 
 /**
+ * xmlXPathFunction:
+ * @ctxt:  the XPath interprestation context
+ * @nargs:  the number of arguments
+ *
+ * An XPath function.
+ * The arguments (if any) are popped out from the context stack
+ * and the result is pushed on the stack.
+ */
+
+typedef void (*xmlXPathFunction) (xmlXPathParserContextPtr ctxt, int nargs);
+
+/*
+ * Function and Variable Lookup.
+ */
+
+/**
+ * xmlXPathVariableLookupFunc:
+ * @ctxt:  an XPath context
+ * @name:  name of the variable
+ * @ns_uri:  the namespace name hosting this variable
+ *
+ * Prototype for callbacks used to plug variable lookup in the XPath
+ * engine.
+ *
+ * Returns the XPath object value or NULL if not found.
+ */
+typedef xmlXPathObjectPtr (*xmlXPathVariableLookupFunc) (void *ctxt,
+                                         const xmlChar *name,
+                                         const xmlChar *ns_uri);
+
+/**
+ * xmlXPathFuncLookupFunc:
+ * @ctxt:  an XPath context
+ * @name:  name of the function
+ * @ns_uri:  the namespace name hosting this function
+ *
+ * Prototype for callbacks used to plug function lookup in the XPath
+ * engine.
+ *
+ * Returns the XPath function or NULL if not found.
+ */
+typedef xmlXPathFunction (*xmlXPathFuncLookupFunc) (void *ctxt,
+					 const xmlChar *name,
+					 const xmlChar *ns_uri);
+
+/**
+ * xmlXPathFlags:
+ * Flags for XPath engine compilation and runtime
+ */
+/**
+ * XML_XPATH_CHECKNS:
+ *
+ * check namespaces at compilation
+ */
+#define XML_XPATH_CHECKNS (1<<0)
+/**
+ * XML_XPATH_NOVAR:
+ *
+ * forbid variables in expression
+ */
+#define XML_XPATH_NOVAR	  (1<<1)
+
+/**
  * xmlXPathContext:
  *
  * Expression evaluation occurs with respect to a context.
@@ -237,7 +315,7 @@ struct _xmlXPathContext {
 
     /* the set of namespace declarations in scope for the expression */
     xmlHashTablePtr nsHash;		/* The namespaces hash table */
-    void *varLookupFunc;		/* variable lookup func */
+    xmlXPathVariableLookupFunc varLookupFunc;/* variable lookup func */
     void *varLookupData;		/* variable lookup data */
 
     /* Possibility to link in an extra item */
@@ -248,7 +326,7 @@ struct _xmlXPathContext {
     const xmlChar *functionURI;
 
     /* function lookup function and data */
-    void *funcLookupFunc;		/* function lookup func */
+    xmlXPathFuncLookupFunc funcLookupFunc;/* function lookup func */
     void *funcLookupData;		/* function lookup data */
 
     /* temporary namespace lists kept for walking the namespace axis */
@@ -260,6 +338,11 @@ struct _xmlXPathContext {
     xmlStructuredErrorFunc error;       /* the callback in case of errors */
     xmlError lastError;			/* the last error */
     xmlNodePtr debugNode;		/* the source node XSLT */
+
+    /* dictionnary */
+    xmlDictPtr dict;			/* dictionnary if any */
+
+    int flags;				/* flags to control compilation */
 };
 
 /*
@@ -292,18 +375,6 @@ struct _xmlXPathParserContext {
     xmlNodePtr         ancestor;	/* used for walking preceding axis */
 };
 
-/**
- * xmlXPathFunction:
- * @ctxt:  the XPath interprestation context
- * @nargs:  the number of arguments
- *
- * An XPath function.
- * The arguments (if any) are popped out from the context stack
- * and the result is pushed on the stack.
- */
-
-typedef void (*xmlXPathFunction) (xmlXPathParserContextPtr ctxt, int nargs);
-
 /************************************************************************
  *									*
  *			Public API					*
@@ -317,11 +388,6 @@ typedef void (*xmlXPathFunction) (xmlXPathParserContextPtr ctxt, int nargs);
 XMLPUBVAR double xmlXPathNAN;
 XMLPUBVAR double xmlXPathPINF;
 XMLPUBVAR double xmlXPathNINF;
-
-XMLPUBFUN int XMLCALL
-		xmlXPathIsNaN	(double val);
-XMLPUBFUN int XMLCALL
-		xmlXPathIsInf	(double val);
 
 /* These macros may later turn into functions */
 /**
@@ -417,8 +483,6 @@ XMLPUBFUN xmlXPathObjectPtr XMLCALL
 /**
  * Context handling.
  */
-XMLPUBFUN void XMLCALL		   
-		    xmlXPathInit		(void);
 XMLPUBFUN xmlXPathContextPtr XMLCALL 
 		    xmlXPathNewContext		(xmlDocPtr doc);
 XMLPUBFUN void XMLCALL		   
@@ -443,12 +507,26 @@ XMLPUBFUN int XMLCALL
  */
 XMLPUBFUN xmlXPathCompExprPtr XMLCALL 
 		    xmlXPathCompile		(const xmlChar *str);
+XMLPUBFUN xmlXPathCompExprPtr XMLCALL 
+		    xmlXPathCtxtCompile		(xmlXPathContextPtr ctxt,
+		    				 const xmlChar *str);
 XMLPUBFUN xmlXPathObjectPtr XMLCALL   
 		    xmlXPathCompiledEval	(xmlXPathCompExprPtr comp,
 						 xmlXPathContextPtr ctx);
 XMLPUBFUN void XMLCALL                
 		    xmlXPathFreeCompExpr	(xmlXPathCompExprPtr comp);
+#endif /* LIBXML_XPATH_ENABLED */
+#if defined(LIBXML_XPATH_ENABLED) || defined(LIBXML_SCHEMAS_ENABLED)
+XMLPUBFUN void XMLCALL		   
+		    xmlXPathInit		(void);
+XMLPUBFUN int XMLCALL
+		xmlXPathIsNaN	(double val);
+XMLPUBFUN int XMLCALL
+		xmlXPathIsInf	(double val);
+
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* LIBXML_XPATH_ENABLED or LIBXML_SCHEMAS_ENABLED*/
 #endif /* ! __XML_XPATH_H__ */

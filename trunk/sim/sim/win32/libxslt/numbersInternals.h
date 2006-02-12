@@ -1,10 +1,10 @@
 /*
- * numbers.h: Implementation of the XSLT number functions
+ * Summary: Implementation of the XSLT number functions
+ * Description: Implementation of the XSLT number functions
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * daniel@veillard.com
- * Bjorn Reese <breese@users.sourceforge.net>
+ * Author: Bjorn Reese <breese@users.sourceforge.net> and Daniel Veillard
  */
 
 #ifndef __XML_XSLT_NUMBERSINTERNALS_H__
@@ -26,11 +26,11 @@ typedef struct _xsltNumberData xsltNumberData;
 typedef xsltNumberData *xsltNumberDataPtr;
     
 struct _xsltNumberData {
-    xmlChar *level;
-    xmlChar *count;
-    xmlChar *from;
-    xmlChar *value;
-    xmlChar *format;
+    const xmlChar *level;
+    const xmlChar *count;
+    const xmlChar *from;
+    const xmlChar *value;
+    const xmlChar *format;
     int has_format;
     int digitsPerGroup;
     int groupingCharacter;

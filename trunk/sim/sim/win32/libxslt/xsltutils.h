@@ -1,21 +1,23 @@
 /*
- * xsltutils.h: interfaces for the utilities module of the XSLT engine.
+ * Summary: set of utilities for the XSLT engine
+ * Description: interfaces for the utilities module of the XSLT engine.
+ *              things like message handling, profiling, and other
+ *              generally useful routines.
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * daniel@veillard.com
+ * Author: Daniel Veillard
  */
 
 #ifndef __XML_XSLTUTILS_H__
 #define __XML_XSLTUTILS_H__
 
-#if defined(WIN32) && defined(_MSC_VER)
-#include <libxslt/xsltwin32config.h>
-#else
 #include <libxslt/xsltconfig.h>
+#ifdef HAVE_STDARG_H
+#include <stdarg.h>
 #endif
-
 #include <libxml/xpath.h>
+#include <libxml/dict.h>
 #include <libxml/xmlerror.h>
 #include "xsltexports.h"
 #include "xsltInternals.h"
@@ -78,11 +80,57 @@ extern "C" {
 /*
  * Our own version of namespaced atributes lookup.
  */
-XSLTPUBFUN xmlChar * XSLTCALL	xsltGetNsProp			(xmlNodePtr node,
-						 const xmlChar *name,
-						 const xmlChar *nameSpace);
-XSLTPUBFUN int XSLTCALL		xsltGetUTF8Char			(const unsigned char *utf,
-						 int *len);
+XSLTPUBFUN xmlChar * XSLTCALL
+		xsltGetNsProp	(xmlNodePtr node,
+				 const xmlChar *name,
+				 const xmlChar *nameSpace);
+XSLTPUBFUN const xmlChar * XSLTCALL
+		xsltGetCNsProp	(xsltStylesheetPtr style,
+				 xmlNodePtr node,
+				 const xmlChar *name,
+				 const xmlChar *nameSpace);
+XSLTPUBFUN int XSLTCALL
+		xsltGetUTF8Char	(const unsigned char *utf,
+				 int *len);
+
+/*
+ * XSLT Debug Tracing Tracing Types
+ */
+typedef enum {
+	XSLT_TRACE_ALL =		-1,
+	XSLT_TRACE_NONE = 		0,
+	XSLT_TRACE_COPY_TEXT = 		1<<0,
+	XSLT_TRACE_PROCESS_NODE = 	1<<1,
+	XSLT_TRACE_APPLY_TEMPLATE = 	1<<2,
+	XSLT_TRACE_COPY = 		1<<3,
+	XSLT_TRACE_COMMENT = 		1<<4,
+	XSLT_TRACE_PI = 		1<<5,
+	XSLT_TRACE_COPY_OF = 		1<<6,
+	XSLT_TRACE_VALUE_OF = 		1<<7,
+	XSLT_TRACE_CALL_TEMPLATE = 	1<<8,
+	XSLT_TRACE_APPLY_TEMPLATES = 	1<<9,
+	XSLT_TRACE_CHOOSE = 		1<<10,
+	XSLT_TRACE_IF = 		1<<11,
+	XSLT_TRACE_FOR_EACH = 		1<<12,
+	XSLT_TRACE_STRIP_SPACES = 	1<<13,
+	XSLT_TRACE_TEMPLATES = 		1<<14,
+	XSLT_TRACE_KEYS = 		1<<15,
+	XSLT_TRACE_VARIABLES = 		1<<16
+} xsltDebugTraceCodes;
+
+/**
+ * XSLT_TRACE:
+ *
+ * Control the type of xsl debugtrace messages emitted.
+ */
+#define XSLT_TRACE(ctxt,code,call)	\
+	if (ctxt->traceCode && (*(ctxt->traceCode) & code)) \
+	    call
+
+XSLTPUBFUN void XSLTCALL
+		xsltDebugSetDefaultTrace(xsltDebugTraceCodes val);
+XSLTPUBFUN xsltDebugTraceCodes XSLTCALL
+		xsltDebugGetDefaultTrace(void);
 
 /*
  * XSLT specific error and debug reporting functions.
@@ -117,6 +165,9 @@ XSLTPUBFUN void XSLTCALL
 						 const char *msg,
 						 ...);
 
+XSLTPUBFUN int XSLTCALL
+		xsltSetCtxtParseOptions		(xsltTransformContextPtr ctxt,
+						 int options);
 /*
  * Sorting.
  */
@@ -144,9 +195,18 @@ XSLTPUBFUN xmlXPathObjectPtr * XSLTCALL
  * QNames handling.
  */
 
+XSLTPUBFUN const xmlChar * XSLTCALL
+		xsltSplitQName			(xmlDictPtr dict,
+						 const xmlChar *name,
+						 const xmlChar **prefix);
 XSLTPUBFUN const xmlChar * XSLTCALL 
     		xsltGetQNameURI			(xmlNodePtr node,
 						 xmlChar **name);
+
+XSLTPUBFUN const xmlChar * XSLTCALL
+		xsltGetQNameURI2		(xsltStylesheetPtr style,
+						 xmlNodePtr node,
+						 const xmlChar **name);
 
 /*
  * Output, reuse libxml I/O buffers.
@@ -173,6 +233,13 @@ XSLTPUBFUN int XSLTCALL
                                                  int * doc_txt_len, 
                                                  xmlDocPtr result, 
                                                  xsltStylesheetPtr style);
+
+/*
+ * XPath interface
+ */
+XSLTPUBFUN xmlXPathCompExprPtr XSLTCALL
+		xsltXPathCompile		(xsltStylesheetPtr style,
+						 const xmlChar *str);
 
 /*
  * Profiling.

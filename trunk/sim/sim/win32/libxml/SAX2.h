@@ -1,9 +1,11 @@
 /*
- * SAX.h : Default SAX2 handler interfaces to build a tree.
+ * Summary: SAX2 parser interface used to build the DOM tree
+ * Description: those are the default SAX2 interfaces used by
+ *              the library when building DOM tree.
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * Daniel Veillard <daniel@veillard.com>
+ * Author: Daniel Veillard
  */
 
 
@@ -96,6 +98,7 @@ XMLPUBFUN void XMLCALL
 		xmlSAX2StartDocument		(void *ctx);
 XMLPUBFUN void XMLCALL		
 		xmlSAX2EndDocument		(void *ctx);
+#if defined(LIBXML_SAX1_ENABLED) || defined(LIBXML_HTML_ENABLED) || defined(LIBXML_WRITER_ENABLED) || defined(LIBXML_DOCB_ENABLED)
 XMLPUBFUN void XMLCALL		
 		xmlSAX2StartElement		(void *ctx,
 						 const xmlChar *fullname,
@@ -103,6 +106,7 @@ XMLPUBFUN void XMLCALL
 XMLPUBFUN void XMLCALL		
 		xmlSAX2EndElement		(void *ctx,
 						 const xmlChar *name);
+#endif /* LIBXML_SAX1_ENABLED or LIBXML_HTML_ENABLED */
 XMLPUBFUN void XMLCALL
 		xmlSAX2StartElementNs		(void *ctx,
 						 const xmlChar *localname,
@@ -134,22 +138,6 @@ XMLPUBFUN void XMLCALL
 						 const xmlChar *target,
 						 const xmlChar *data);
 XMLPUBFUN void XMLCALL		
-		xmlSAX2GlobalNamespace		(void *ctx,
-						 const xmlChar *href,
-						 const xmlChar *prefix);
-XMLPUBFUN void XMLCALL		
-		xmlSAX2SetNamespace		(void *ctx,
-						 const xmlChar *name);
-XMLPUBFUN xmlNsPtr XMLCALL	
-		xmlSAX2GetNamespace		(void *ctx);
-XMLPUBFUN int XMLCALL		
-		xmlSAX2CheckNamespace		(void *ctx,
-						 xmlChar *nameSpace);
-XMLPUBFUN void XMLCALL		
-		xmlSAX2NamespaceDecl		(void *ctx,
-						 const xmlChar *href,
-						 const xmlChar *prefix);
-XMLPUBFUN void XMLCALL		
 		xmlSAX2Comment			(void *ctx,
 						 const xmlChar *value);
 XMLPUBFUN void XMLCALL		
@@ -157,8 +145,10 @@ XMLPUBFUN void XMLCALL
 						 const xmlChar *value,
 						 int len);
 
+#ifdef LIBXML_SAX1_ENABLED
 XMLPUBFUN int XMLCALL
 		xmlSAXDefaultVersion		(int version);
+#endif /* LIBXML_SAX1_ENABLED */
 
 XMLPUBFUN int XMLCALL
 		xmlSAXVersion			(xmlSAXHandler *hdlr,
@@ -169,17 +159,17 @@ XMLPUBFUN void XMLCALL
 #ifdef LIBXML_HTML_ENABLED
 XMLPUBFUN void XMLCALL		
 		xmlSAX2InitHtmlDefaultSAXHandler(xmlSAXHandler *hdlr);
+XMLPUBFUN void XMLCALL		
+		htmlDefaultSAXHandlerInit	(void);
 #endif
 #ifdef LIBXML_DOCB_ENABLED
 XMLPUBFUN void XMLCALL		
 		xmlSAX2InitDocbDefaultSAXHandler(xmlSAXHandler *hdlr);
+XMLPUBFUN void XMLCALL		
+		docbDefaultSAXHandlerInit	(void);
 #endif
 XMLPUBFUN void XMLCALL		
 		xmlDefaultSAXHandlerInit	(void);
-XMLPUBFUN void XMLCALL		
-		htmlDefaultSAXHandlerInit	(void);
-XMLPUBFUN void XMLCALL		
-		docbDefaultSAXHandlerInit	(void);
 #ifdef __cplusplus
 }
 #endif

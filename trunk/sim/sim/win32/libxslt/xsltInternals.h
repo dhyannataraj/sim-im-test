@@ -1,12 +1,13 @@
 /*
- * xsltInternals.h: internal data structures, constants and functions used
- *                  by the XSLT engine.
- *                  They are not part of the API or ABI, i.e. they can change
- *                  without prior notice, use carefully.
+ * Summary: internal data structures, constants and functions
+ * Description: Internal data structures, constants and functions used
+ *              by the XSLT engine. 
+ *              They are not part of the API or ABI, i.e. they can change
+ *              without prior notice, use carefully.
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * daniel@veillard.com
+ * Author: Daniel Veillard
  */
 
 #ifndef __XML_XSLT_INTERNALS_H__
@@ -16,6 +17,7 @@
 #include <libxml/hash.h>
 #include <libxml/xpath.h>
 #include <libxml/xmlerror.h>
+#include <libxml/dict.h>
 #include <libxslt/xslt.h>
 #include "xsltexports.h"
 #include "numbersInternals.h"
@@ -48,7 +50,10 @@ typedef xsltRuntimeExtra *xsltRuntimeExtraPtr;
 struct _xsltRuntimeExtra {
     void       *info;		/* pointer to the extra data */
     xmlFreeFunc deallocate;	/* pointer to the deallocation routine */
-    void       *val;		/* data not needing deallocation */
+    union {			/* dual-purpose field */
+        void   *ptr;		/* data not needing deallocation */
+	int    ival;		/* integer value storage */
+    } val;
 };
 
 /**
@@ -74,7 +79,7 @@ struct _xsltRuntimeExtra {
  *
  * Macro used to define extra information stored in the context
  */
-#define	XSLT_RUNTIME_EXTRA(ctxt, nr) (ctxt)->extras[(nr)].val
+#define	XSLT_RUNTIME_EXTRA(ctxt, nr, typ) (ctxt)->extras[(nr)].val.typ
 
 /**
  * xsltTemplate:
@@ -90,8 +95,8 @@ struct _xsltTemplate {
     float priority;	/* as given from the stylesheet, not computed */
     xmlChar *name;	/* the local part of the name QName */
     xmlChar *nameURI;	/* the URI part of the name QName */
-    xmlChar *mode;	/* the local part of the mode QName */
-    xmlChar *modeURI;	/* the URI part of the mode QName */
+    const xmlChar *mode;/* the local part of the mode QName */
+    const xmlChar *modeURI;/* the URI part of the mode QName */
     xmlNodePtr content;	/* the template replacement value */
     xmlNodePtr elem;	/* the source element */
 
@@ -141,6 +146,8 @@ struct _xsltDocument {
     int main;			/* is this the main document */
     xmlDocPtr doc;		/* the parsed document */
     void *keys;			/* key tables storage */
+    struct _xsltDocument *includes; /* subsidiary includes */
+    int preproc;		/* pre-processing already done */
 };
 
 typedef struct _xsltTransformContext xsltTransformContext;
@@ -250,38 +257,38 @@ struct _xsltStylePreComp {
      * Pre computed values.
      */
 
-    xmlChar *stype;             /* sort */
+    const xmlChar *stype;       /* sort */
     int      has_stype;		/* sort */
     int      number;		/* sort */
-    xmlChar *order;             /* sort */
+    const xmlChar *order;	/* sort */
     int      has_order;		/* sort */
     int      descending;	/* sort */
-    xmlChar *lang;		/* sort */
+    const xmlChar *lang;	/* sort */
     int      has_lang;		/* sort */
-    xmlChar *case_order;	/* sort */
+    const xmlChar *case_order;	/* sort */
     int      lower_first;	/* sort */
 
-    xmlChar *use;		/* copy, element */
+    const xmlChar *use;		/* copy, element */
     int      has_use;		/* copy, element */
 
     int      noescape;		/* text */
 
-    xmlChar *name;		/* element, attribute, pi */
+    const xmlChar *name;	/* element, attribute, pi */
     int      has_name;		/* element, attribute, pi */
-    xmlChar *ns;		/* element */
+    const xmlChar *ns;		/* element */
     int      has_ns;		/* element */
 
-    xmlChar *mode;		/* apply-templates */
-    xmlChar *modeURI;		/* apply-templates */
+    const xmlChar *mode;	/* apply-templates */
+    const xmlChar *modeURI;	/* apply-templates */
 
-    xmlChar *test;		/* if */
+    const xmlChar *test;	/* if */
 
     xsltTemplatePtr templ;	/* call-template */
 
-    xmlChar *select;		/* sort, copy-of, value-of, apply-templates */
+    const xmlChar *select;	/* sort, copy-of, value-of, apply-templates */
 
     int      ver11;		/* document */
-    xmlChar *filename;		/* document URL */
+    const xmlChar *filename;	/* document URL */
     int      has_filename;	/* document */
 
     xsltNumberData numdata;	/* number */
@@ -301,12 +308,12 @@ typedef xsltStackElem *xsltStackElemPtr;
 struct _xsltStackElem {
     struct _xsltStackElem *next;/* chained list */
     xsltStylePreCompPtr comp;   /* the compiled form */
-    int computed;	/* was the evaluation done */
-    xmlChar *name;	/* the local part of the name QName */
-    xmlChar *nameURI;	/* the URI part of the name QName */
-    xmlChar *select;	/* the eval string */
-    xmlNodePtr tree;	/* the tree if no eval string or the location */
-    xmlXPathObjectPtr value; /* The value if computed */
+    int computed;		/* was the evaluation done */
+    const xmlChar *name;	/* the local part of the name QName */
+    const xmlChar *nameURI;	/* the URI part of the name QName */
+    const xmlChar *select;	/* the eval string */
+    xmlNodePtr tree;		/* the tree if no eval string or the location */
+    xmlXPathObjectPtr value;	/* The value if computed */
 };
 
 /*
@@ -414,6 +421,36 @@ struct _xsltStylesheet {
      */
     xmlHashTablePtr extInfos;	/* the extension data */
     int		    extrasNr;	/* the number of extras required */
+
+    /*
+     * For keeping track of nested includes
+     */
+    xsltDocumentPtr includes;	/* points to last nested include */
+
+    /*
+     * dictionnary: shared between stylesheet, context and documents.
+     */
+    xmlDictPtr dict;
+    /*
+     * precompiled attribute value templates.
+     */
+    void *attVTs;
+    /*
+     * if namespace-alias has an alias for the default stylesheet prefix
+     */
+    const xmlChar *defaultAlias;
+    /*
+     * bypass pre-processing (already done) (used in imports)
+     */
+    int nopreproc;
+    /*
+     * all document text strings were internalized
+     */
+    int internalized;
+    /*
+     * Literal Result Element as Stylesheet c.f. section 2.3
+     */
+    int literal_result;
 };
 
 /*
@@ -513,6 +550,27 @@ struct _xsltTransformContext {
     const xmlChar  *lasttext;		/* last text node content */
     unsigned int    lasttsize;		/* last text node size */
     unsigned int    lasttuse;		/* last text node use */
+    /*
+     * Per Context Debugging
+     */
+    int debugStatus;			/* the context level debug status */
+    unsigned long* traceCode;		/* pointer to the variable holding the mask */
+
+    int parserOptions;			/* parser options xmlParserOption */
+
+    /*
+     * dictionnary: shared between stylesheet, context and documents.
+     */
+    xmlDictPtr dict;
+    /*
+     * temporary storage for doc ptr, currently only used for
+     * global var evaluation
+     */
+    xmlDocPtr		tmpDoc;
+    /*
+     * all document text strings are internalized
+     */
+    int internalized;
 };
 
 /**
@@ -539,6 +597,28 @@ struct _xsltTransformContext {
  */
 #define CHECK_STOPPED0 if (ctxt->state == XSLT_STATE_STOPPED) return(0);
 
+/*
+ * The macro XML_CAST_FPTR is a hack to avoid a gcc warning about
+ * possible incompatibilities between function pointers and object
+ * pointers.  It is defined in libxml/hash.h within recent versions
+ * of libxml2, but is put here for compatibility.
+ */
+#ifndef XML_CAST_FPTR
+/**
+ * XML_CAST_FPTR:
+ * @fptr:  pointer to a function
+ *
+ * Macro to do a casting from an object pointer to a
+ * function pointer without encountering a warning from
+ * gcc
+ *
+ * #define XML_CAST_FPTR(fptr) (*(void **)(&fptr))
+ * This macro violated ISO C aliasing rules (gcc4 on s390 broke)
+ * so it is disabled now
+ */
+
+#define XML_CAST_FPTR(fptr) fptr
+#endif
 /*
  * Functions associated to the internal types
 xsltDecimalFormatPtr	xsltDecimalFormatGetByName(xsltStylesheetPtr sheet,
@@ -567,7 +647,8 @@ XSLTPUBFUN void XSLTCALL
 XSLTPUBFUN xsltStylesheetPtr XSLTCALL	
 			xsltParseStylesheetDoc	(xmlDocPtr doc);
 XSLTPUBFUN xsltStylesheetPtr XSLTCALL	
-			xsltParseStylesheetImportedDoc(xmlDocPtr doc);
+			xsltParseStylesheetImportedDoc(xmlDocPtr doc,
+						xsltStylesheetPtr style);
 XSLTPUBFUN xsltStylesheetPtr XSLTCALL	
 			xsltLoadStylesheetPI	(xmlDocPtr doc);
 XSLTPUBFUN void XSLTCALL 			
@@ -601,6 +682,18 @@ XSLTPUBFUN int XSLTCALL
 XSLTPUBFUN void XSLTCALL			
 			xsltFreeRVTs		(xsltTransformContextPtr ctxt);
 			
+/*
+ * Extra functions for Attribute Value Templates
+ */
+XSLTPUBFUN void XSLTCALL
+			xsltCompileAttr		(xsltStylesheetPtr style,
+						 xmlAttrPtr attr);
+XSLTPUBFUN xmlChar * XSLTCALL
+			xsltEvalAVT		(xsltTransformContextPtr ctxt,
+						 void *avt,
+						 xmlNodePtr node);
+XSLTPUBFUN void XSLTCALL
+			xsltFreeAVTList		(void *avt);
 #ifdef __cplusplus
 }
 #endif

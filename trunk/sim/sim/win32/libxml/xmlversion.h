@@ -1,9 +1,10 @@
 /*
- * xmlversion.h : compile-time version informations for the XML parser.
+ * Summary: compile-time version informations
+ * Description: compile-time version informations for the XML library
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * daniel@veillard.com
+ * Author: Daniel Veillard
  */
 
 #ifndef __XML_VERSION_H__
@@ -28,21 +29,28 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * the version string like "1.2.3"
  */
-#define LIBXML_DOTTED_VERSION "2.6.0"
+#define LIBXML_DOTTED_VERSION "2.6.23"
 
 /**
  * LIBXML_VERSION:
  *
  * the version number: 1.2.3 value is 1002003
  */
-#define LIBXML_VERSION 20600
+#define LIBXML_VERSION 20623
 
 /**
  * LIBXML_VERSION_STRING:
  *
  * the version number string, 1.2.3 value is "1002003"
  */
-#define LIBXML_VERSION_STRING "20600"
+#define LIBXML_VERSION_STRING "20623"
+
+/**
+ * LIBXML_VERSION_EXTRA:
+ *
+ * extra version information, used to show a CVS compilation
+ */
+#define LIBXML_VERSION_EXTRA "CVS2717"
 
 /**
  * LIBXML_TEST_VERSION:
@@ -50,7 +58,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  * Macro to check that the libxml version in use is compatible with
  * the version the software has been compiled against
  */
-#define LIBXML_TEST_VERSION xmlCheckVersion(20600);
+#define LIBXML_TEST_VERSION xmlCheckVersion(20623);
 
 #ifndef VMS
 #if 0
@@ -69,6 +77,11 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
 #define WITHOUT_TRIO
 #endif
 #else /* VMS */
+/**
+ * WITH_TRIO:
+ *
+ * defined if the trio support need to be configured in
+ */
 #define WITH_TRIO 1
 #endif /* VMS */
 
@@ -115,8 +128,17 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the xmlReader parsing interface is configured in
  */
-#if 0
+#if 1
 #define LIBXML_READER_ENABLED
+#endif
+
+/**
+ * LIBXML_PATTERN_ENABLED:
+ *
+ * Whether the xmlPattern node selection interface is configured in
+ */
+#if 1
+#define LIBXML_PATTERN_ENABLED
 #endif
 
 /**
@@ -124,7 +146,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the xmlWriter saving interface is configured in
  */
-#if 0
+#if 1
 #define LIBXML_WRITER_ENABLED
 #endif
 
@@ -142,7 +164,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the FTP support is configured in
  */
-#if 0
+#if 1
 #define LIBXML_FTP_ENABLED
 #endif
 
@@ -151,7 +173,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the HTTP support is configured in
  */
-#if 0
+#if 1
 #define LIBXML_HTTP_ENABLED
 #endif
 
@@ -160,7 +182,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the DTD validation support is configured in
  */
-#if 0
+#if 1
 #define LIBXML_VALID_ENABLED
 #endif
 
@@ -178,7 +200,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the deprecated APIs are compiled in for compatibility
  */
-#if 0
+#if 1
 #define LIBXML_LEGACY_ENABLED
 #endif
 
@@ -187,7 +209,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the Canonicalization support is configured in
  */
-#if 0
+#if 1
 #define LIBXML_C14N_ENABLED
 #endif
 
@@ -196,7 +218,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the Catalog support is configured in
  */
-#if 0
+#if 1
 #define LIBXML_CATALOG_ENABLED
 #endif
 
@@ -205,7 +227,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the SGML Docbook support is configured in
  */
-#if 0
+#if 1
 #define LIBXML_DOCB_ENABLED
 #endif
 
@@ -223,7 +245,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether XPointer is configured in
  */
-#if 0
+#if 1
 #define LIBXML_XPTR_ENABLED
 #endif
 
@@ -232,7 +254,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether XInclude is configured in
  */
-#if 0
+#if 1
 #define LIBXML_XINCLUDE_ENABLED
 #endif
 
@@ -241,7 +263,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether iconv support is available
  */
-#if 0
+#if 1
 #define LIBXML_ICONV_ENABLED
 #endif
 
@@ -259,7 +281,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether Debugging module is configured in
  */
-#if 0
+#if 1
 #define LIBXML_DEBUG_ENABLED
 #endif
 
@@ -273,11 +295,20 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
 #endif
 
 /**
+ * LIBXML_DEBUG_RUNTIME:
+ *
+ * Whether the runtime debugging is configured in
+ */
+#if 0
+#define LIBXML_DEBUG_RUNTIME
+#endif
+
+/**
  * LIBXML_UNICODE_ENABLED:
  *
  * Whether the Unicode related interfaces are compiled in
  */
-#if 0
+#if 1
 #define LIBXML_UNICODE_ENABLED
 #endif
 
@@ -286,7 +317,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the regular expressions interfaces are compiled in
  */
-#if 0
+#if 1
 #define LIBXML_REGEXP_ENABLED
 #endif
 
@@ -295,8 +326,17 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the automata interfaces are compiled in
  */
-#if 0
+#if 1
 #define LIBXML_AUTOMATA_ENABLED
+#endif
+
+/**
+ * LIBXML_EXPR_ENABLED:
+ *
+ * Whether the formal expressions interfaces are compiled in
+ */
+#if 1
+#define LIBXML_EXPR_ENABLED
 #endif
 
 /**
@@ -304,8 +344,32 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
  *
  * Whether the Schemas validation interfaces are compiled in
  */
-#if 0
+#if 1
 #define LIBXML_SCHEMAS_ENABLED
+#endif
+
+/**
+ * LIBXML_SCHEMATRON_ENABLED:
+ *
+ * Whether the Schematron validation interfaces are compiled in
+ */
+#if 1
+#define LIBXML_SCHEMATRON_ENABLED
+#endif
+
+/**
+ * LIBXML_MODULES_ENABLED:
+ *
+ * Whether the module interfaces are compiled in
+ */
+#if 1
+#define LIBXML_MODULES_ENABLED
+/**
+ * LIBXML_MODULE_EXTENSION:
+ *
+ * the string suffix used by dynamic modules (usually shared libraries)
+ */
+#define LIBXML_MODULE_EXTENSION ".dll" 
 #endif
 
 /**
@@ -318,7 +382,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(int version);
 #include <ansidecl.h>
 #endif
 #ifndef ATTRIBUTE_UNUSED
-#define ATTRIBUTE_UNUSED
+#define ATTRIBUTE_UNUSED __attribute__((unused))
 #endif
 #else
 #define ATTRIBUTE_UNUSED

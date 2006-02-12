@@ -1,9 +1,10 @@
 /*
- * automata.h : description of the API to build regexp automats
+ * Summary: API to build regexp automata
+ * Description: the API to build regexp automata
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * Daniel Veillard <veillard@redhat.com>
+ * Author: Daniel Veillard
  */
 
 #ifndef __XML_AUTOMATA_H__
@@ -12,6 +13,7 @@
 #include <libxml/xmlversion.h>
 #include <libxml/tree.h>
 
+#ifdef LIBXML_REGEXP_ENABLED
 #ifdef LIBXML_AUTOMATA_ENABLED
 #include <libxml/xmlregexp.h>
 
@@ -63,11 +65,28 @@ XMLPUBFUN xmlAutomataStatePtr XMLCALL
 						 const xmlChar *token,
 						 const xmlChar *token2,
 						 void *data);
+XMLPUBFUN xmlAutomataStatePtr XMLCALL
+                    xmlAutomataNewNegTrans	(xmlAutomataPtr am,
+						 xmlAutomataStatePtr from,
+						 xmlAutomataStatePtr to,
+						 const xmlChar *token,
+						 const xmlChar *token2,
+						 void *data);
+
 XMLPUBFUN xmlAutomataStatePtr XMLCALL	
 		    xmlAutomataNewCountTrans	(xmlAutomataPtr am,
 						 xmlAutomataStatePtr from,
 						 xmlAutomataStatePtr to,
 						 const xmlChar *token,
+						 int min,
+						 int max,
+						 void *data);
+XMLPUBFUN xmlAutomataStatePtr XMLCALL	
+		    xmlAutomataNewCountTrans2	(xmlAutomataPtr am,
+						 xmlAutomataStatePtr from,
+						 xmlAutomataStatePtr to,
+						 const xmlChar *token,
+						 const xmlChar *token2,
 						 int min,
 						 int max,
 						 void *data);
@@ -78,6 +97,15 @@ XMLPUBFUN xmlAutomataStatePtr XMLCALL
 						 const xmlChar *token,
 						 int min,
 						 int max,
+						 void *data);
+XMLPUBFUN xmlAutomataStatePtr XMLCALL
+		    xmlAutomataNewOnceTrans2	(xmlAutomataPtr am, 
+						 xmlAutomataStatePtr from,
+						 xmlAutomataStatePtr to, 
+						 const xmlChar *token,
+						 const xmlChar *token2,
+						 int min, 
+						 int max, 
 						 void *data);
 XMLPUBFUN xmlAutomataStatePtr XMLCALL	
 		    xmlAutomataNewAllTrans	(xmlAutomataPtr am,
@@ -113,4 +141,6 @@ XMLPUBFUN int XMLCALL
 #endif 
 
 #endif /* LIBXML_AUTOMATA_ENABLED */
+#endif /* LIBXML_REGEXP_ENABLED */
+
 #endif /* __XML_AUTOMATA_H__ */

@@ -1,9 +1,11 @@
 /*
- * SAX.h : Old SAX vewrsion1 handler interfaces.
+ * Summary: Old SAX version 1 handler, deprecated
+ * Description: DEPRECATED set of SAX version 1 interfaces used to
+ *              build the DOM tree.
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * Daniel Veillard <daniel@veillard.com>
+ * Author: Daniel Veillard
  */
 
 
@@ -15,6 +17,8 @@
 #include <libxml/xmlversion.h>
 #include <libxml/parser.h>
 #include <libxml/xlink.h>
+
+#ifdef LIBXML_LEGACY_ENABLED
 
 #ifdef __cplusplus
 extern "C" {
@@ -146,6 +150,7 @@ XMLPUBFUN void XMLCALL
 						 const xmlChar *value,
 						 int len);
 
+#ifdef LIBXML_SAX1_ENABLED
 XMLPUBFUN void XMLCALL		
 		initxmlDefaultSAXHandler	(xmlSAXHandlerV1 *hdlr,
 						 int warning);
@@ -157,7 +162,12 @@ XMLPUBFUN void XMLCALL
 XMLPUBFUN void XMLCALL		
 		initdocbDefaultSAXHandler	(xmlSAXHandlerV1 *hdlr);
 #endif
+#endif /* LIBXML_SAX1_ENABLED */
+
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* LIBXML_LEGACY_ENABLED */
+
 #endif /* __XML_SAX_H__ */

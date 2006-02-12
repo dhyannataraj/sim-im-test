@@ -1,7 +1,11 @@
 /*
- * xmlmemory.h: interface for the memory allocation debug.
+ * Summary: interface for the memory allocator
+ * Description: provides interfaces for the memory allocator,
+ *              including debugging capabilities.
  *
- * daniel@veillard.com
+ * Copy: See Copyright for the status of this software.
+ *
+ * Author: Daniel Veillard
  */
 
 
@@ -50,7 +54,7 @@ extern "C" {
  *
  * Signature for a free() implementation.
  */
-typedef void (*xmlFreeFunc)(void *mem);
+typedef void (XMLCALL *xmlFreeFunc)(void *mem);
 /**
  * xmlMallocFunc:
  * @size:  the size requested in bytes
@@ -59,7 +63,7 @@ typedef void (*xmlFreeFunc)(void *mem);
  *
  * Returns a pointer to the newly allocated block or NULL in case of error.
  */
-typedef void *(*xmlMallocFunc)(size_t size);
+typedef void *(XMLCALL *xmlMallocFunc)(size_t size);
 
 /**
  * xmlReallocFunc:
@@ -70,7 +74,7 @@ typedef void *(*xmlMallocFunc)(size_t size);
  *
  * Returns a pointer to the newly reallocated block or NULL in case of error.
  */
-typedef void *(*xmlReallocFunc)(void *mem, size_t size);
+typedef void *(XMLCALL *xmlReallocFunc)(void *mem, size_t size);
 
 /**
  * xmlStrdupFunc:
@@ -80,7 +84,7 @@ typedef void *(*xmlReallocFunc)(void *mem, size_t size);
  *
  * Returns the copy of the string or NULL in case of error.
  */
-typedef char *(*xmlStrdupFunc)(const char *str);
+typedef char *(XMLCALL *xmlStrdupFunc)(const char *str);
 
 /*
  * The 4 interfaces used for all memory handling within libxml.
@@ -125,11 +129,18 @@ XMLPUBFUN int XMLCALL
 XMLPUBFUN int XMLCALL	
 	xmlInitMemory	(void);
 
+/* 
+ * Cleanup of the memory layer.
+ */
+XMLPUBFUN void XMLCALL                
+                xmlCleanupMemory        (void);
 /*
  * These are specific to the XML debug memory wrapper.
  */
 XMLPUBFUN int XMLCALL	
 	xmlMemUsed	(void);
+XMLPUBFUN int XMLCALL	
+	xmlMemBlocks	(void);
 XMLPUBFUN void XMLCALL	
 	xmlMemDisplay	(FILE *fp);
 XMLPUBFUN void XMLCALL	

@@ -1,10 +1,12 @@
 /*
- * xsltwin32config.h: compile-time version informations for the XSLT engine
- *                    when compiled on windows
+ * Summary: compile-time version informations for the XSLT engine 
+ *          when compiled on windows
+ * Description: compile-time version informations for the XSLT engine
+ *              when compiled on windows. This file is generated.
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * daniel@veillard.com
+ * Author: Daniel Veillard
  */
 
 #ifndef __XML_XSLTWIN32CONFIG_H__
@@ -21,21 +23,28 @@ extern "C" {
  *
  * the version string like "1.2.3"
  */
-#define LIBXSLT_DOTTED_VERSION "1.1.0"
+#define LIBXSLT_DOTTED_VERSION "1.1.15"
 
 /**
  * LIBXSLT_VERSION:
  *
  * the version number: 1.2.3 value is 1002003
  */
-#define LIBXSLT_VERSION 10100
+#define LIBXSLT_VERSION 10115
 
 /**
  * LIBXSLT_VERSION_STRING:
  *
  * the version number string, 1.2.3 value is "1002003"
  */
-#define LIBXSLT_VERSION_STRING "10100"
+#define LIBXSLT_VERSION_STRING "10115"
+
+/**
+ * LIBXSLT_VERSION_EXTRA:
+ *
+ * extra version information, used to show a CVS compilation
+ */
+#define LIBXSLT_VERSION_EXTRA "-win32"
 
 /**
  * WITH_XSLT_DEBUG:
@@ -46,6 +55,18 @@ extern "C" {
  */
 #if 1
 #define WITH_XSLT_DEBUG
+#endif
+
+/**
+ * WITH_MODULES:
+ *
+ * Whether module support is configured into libxslt
+ */
+#if 1
+#ifndef WITH_MODULES
+#define WITH_MODULES
+#endif
+#define LIBXSLT_PLUGINS_PATH() getenv("LIBXSLT_PLUGINS_PATH")
 #endif
 
 #if 0

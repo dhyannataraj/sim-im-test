@@ -1,19 +1,11 @@
 /*
- * dict.h: dictionary of reusable strings, just used to avoid allocation
+ * Summary: string dictionnary
+ * Description: dictionary of reusable strings, just used to avoid allocation
  *         and freeing operations.
  *
- * Copyright (C) 2003 Daniel Veillard.
+ * Copy: See Copyright for the status of this software.
  *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
- *
- * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- * MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE AUTHORS AND
- * CONTRIBUTORS ACCEPT NO RESPONSIBILITY IN ANY CONCEIVABLE MANNER.
- *
- * Author: daniel@veillard.com
+ * Author: Daniel Veillard
  */
 
 #ifndef __XML_DICT_H__
@@ -37,6 +29,8 @@ typedef xmlDict *xmlDictPtr;
  */
 XMLPUBFUN xmlDictPtr XMLCALL
 			xmlDictCreate	(void);
+XMLPUBFUN xmlDictPtr XMLCALL
+			xmlDictCreateSub(xmlDictPtr sub);
 XMLPUBFUN int XMLCALL
 			xmlDictReference(xmlDictPtr dict);
 XMLPUBFUN void XMLCALL			
@@ -50,6 +44,10 @@ XMLPUBFUN const xmlChar * XMLCALL
 		                         const xmlChar *name,
 		                         int len);
 XMLPUBFUN const xmlChar * XMLCALL		
+			xmlDictExists	(xmlDictPtr dict,
+		                         const xmlChar *name,
+		                         int len);
+XMLPUBFUN const xmlChar * XMLCALL		
 			xmlDictQLookup	(xmlDictPtr dict,
 		                         const xmlChar *prefix,
 		                         const xmlChar *name);
@@ -58,6 +56,13 @@ XMLPUBFUN int XMLCALL
 					 const xmlChar *str);
 XMLPUBFUN int XMLCALL			
 			xmlDictSize	(xmlDictPtr dict);
+
+/*
+ * Cleanup function
+ */
+XMLPUBFUN void XMLCALL
+                        xmlDictCleanup  (void);
+
 #ifdef __cplusplus
 }
 #endif

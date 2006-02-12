@@ -1,9 +1,10 @@
 /*
- * xslt.h: Interfaces, constants and types related to the XSLT engine
+ * Summary: Interfaces, constants and types related to the XSLT engine
+ * Description: Interfaces, constants and types related to the XSLT engine
  *
- * See Copyright for the status of this software.
+ * Copy: See Copyright for the status of this software.
  *
- * daniel@veillard.com
+ * Author: Daniel Veillard
  */
 
 #ifndef __XML_XSLT_H__
@@ -44,7 +45,6 @@ extern "C" {
  */
 #define XSLT_NAMESPACE ((xmlChar *) "http://www.w3.org/1999/XSL/Transform")
 
-#if LIBXML_VERSION >= 20600
 /**
  * XSLT_PARSE_OPTIONS:
  *
@@ -53,7 +53,6 @@ extern "C" {
  */
 #define XSLT_PARSE_OPTIONS \
  XML_PARSE_NOENT | XML_PARSE_DTDLOAD | XML_PARSE_DTDATTR | XML_PARSE_NOCDATA
-#endif
 
 /**
  * xsltMaxDepth:
