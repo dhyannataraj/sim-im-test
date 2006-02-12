@@ -2274,10 +2274,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="plugins\_core\parse.ll"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
