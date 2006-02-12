@@ -1,4 +1,6 @@
+if ENABLE_STYLES_WOOD
 sim_styles_LTLIBRARIES = wood.la
+endif
 
 wood_la_SOURCES = \
  wood.cpp \

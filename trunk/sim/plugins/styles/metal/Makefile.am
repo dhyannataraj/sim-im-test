@@ -1,4 +1,6 @@
+if ENABLE_STYLES_METAL
 sim_styles_LTLIBRARIES = metal.la
+endif
 
 metal_la_SOURCES = \
  metal.cpp \

@@ -7,6 +7,8 @@ styles_la_SOURCES = \
  fontconfig.cpp \
  styles.cpp
 
+SUBDIRS = wood metal
+
 INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
 styles_la_METASOURCES = AUTO

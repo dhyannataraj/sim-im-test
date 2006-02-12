@@ -166,3 +166,6 @@ if test "$kde_use_qt_win" = "yes"; then
 fi
 
 AM_CONDITIONAL(ENABLE_UPDATE, false)
+AM_CONDITIONAL(ENABLE_STYLES_WOOD, false)
+AM_CONDITIONAL(ENABLE_STYLES_METAL, false)
+
