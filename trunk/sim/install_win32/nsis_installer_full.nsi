@@ -499,6 +499,6 @@ Section Start
 SectionEnd ; end the section
    
 Function dirImage
-	!insertmacro BIMAGE "..\Release\sim-window-small.bmp" /RESIZETOFIT
+	!insertmacro BIMAGE "sim-window-small.bmp" /RESIZETOFIT
 FunctionEnd
 ; eof
