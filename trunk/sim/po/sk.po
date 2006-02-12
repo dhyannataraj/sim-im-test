@@ -1,19 +1,19 @@
 # translation of sk.po to Slovak
-# Copyright (C) 2002,2003, 2004 Free Software Foundation, Inc.
-# Tomas Olah <tomas.olah@alert.sk>, 2003, 2004.
+# Copyright (C) 2002,2003, 2004, 2006 Free Software Foundation, Inc.
+# Tomas Olah <tomas.olah@alert.sk>, 2003, 2004, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "POT-Creation-Date: 2006-01-15 22:23+0500\n"
-"PO-Revision-Date: 2005-04-20 21:07+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2006-02-12 20:03+0100\n"
+"Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.10.2\n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # qt3/i18n.cpp:117
@@ -131,11 +131,13 @@ msgstr "Správa automatickej odpovede"
 
 # msgedit.cpp:130
 #: plugins/_core/autoreply.cpp:51 plugins/_core/autoreply.cpp:97
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
-msgstr "Zavrieť po %n sekundách"
+msgstr ""
+"Zavrieť po %n sekunde\n"
+"Zavrieť po %n sekundách"
 
 #: plugins/_core/autoreplybase.cpp:87 plugins/_core/connectionsettingsbase.cpp:74 rc.cpp:773 rc.cpp:1246
 #, no-c-format
@@ -277,19 +279,17 @@ msgstr "Kontajner"
 
 # ui/phonebookbase.cpp:129
 #: plugins/_core/container.cpp:593 plugins/osd/osd.cpp:421
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is typing"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 píše"
 
 # ui/phonebookbase.cpp:129
 #: plugins/_core/container.cpp:594 plugins/osd/osd.cpp:422
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is typing"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 píše"
 
 # ui/setupdlg.cpp:129
 #: plugins/_core/core.cpp:108 plugins/weather/weathercfg.cpp:49
@@ -801,19 +801,17 @@ msgstr "čas od nastavenia stavu"
 
 # ui/phonebookbase.cpp:129
 #: plugins/_core/core.cpp:1683
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 wrote:"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 napísal:"
 
 # ui/phonebookbase.cpp:129
 #: plugins/_core/core.cpp:1684
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 wrote:"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 napísala:"
 
 # qt3/i18n.cpp:21
 #: plugins/_core/core.cpp:1721 plugins/_core/status.cpp:321 sim/qt3/i18n.cpp:21
@@ -1794,11 +1792,13 @@ msgstr "Otvoriť a daj na pop&redie"
 
 # control.cpp:241
 #: plugins/_core/msgedit.cpp:431 plugins/update/update.cpp:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Message\n"
 "%n messages"
-msgstr "Neprečítané správy"
+msgstr ""
+"Správa\n"
+"%n správ"
 
 #: plugins/_core/msgedit.cpp:457
 #, c-format
@@ -1806,6 +1806,8 @@ msgid ""
 "_n: SMS\n"
 "%n SMSs"
 msgstr ""
+"SMS\n"
+"%n SMSiek"
 
 #: plugins/_core/msgedit.cpp:473
 #, c-format
@@ -1813,15 +1815,19 @@ msgid ""
 "_n: URL\n"
 "%n URLs"
 msgstr ""
+"URL\n"
+"%n URL"
 
 # msgview.cpp:188
 # msgview.cpp:1228
 #: plugins/_core/msgedit.cpp:536
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
-msgstr "Uložiť telefón v zozname kontaktov"
+msgstr ""
+"Zoznam\n"
+"%n zoznamov"
 
 #: plugins/_core/msgedit.cpp:583 plugins/icq/icqmessage.cpp:546
 #, c-format
@@ -1829,6 +1835,8 @@ msgid ""
 "_n: File\n"
 "%n files"
 msgstr ""
+"Súbor\n"
+"%n súborov"
 
 # mainwin.cpp:2072
 # ui/acceptbase.cpp:179
@@ -1848,6 +1856,8 @@ msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
 msgstr ""
+"Žiadosť o autorizáciu\n"
+"%n žiadostí o autorizáciu"
 
 # msgedit.cpp:120
 #: plugins/_core/msgedit.cpp:665
@@ -1865,6 +1875,8 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
+"Autorizácia povolená\n"
+"%n autorizácií povolených"
 
 #: plugins/_core/msgedit.cpp:749
 #, c-format
@@ -1872,15 +1884,19 @@ msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 msgstr ""
+"Autorizácia odmietnutá\n"
+"%n autorizácií odmietnutých"
 
 # msgview.cpp:188
 # msgview.cpp:1228
 #: plugins/_core/msgedit.cpp:770
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
-msgstr "Uložiť telefón v zozname kontaktov"
+msgstr ""
+"pridaný do kontaktov\n"
+"%n pridaných do kontaktov"
 
 #: plugins/_core/msgedit.cpp:791
 #, c-format
@@ -1888,6 +1904,8 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
+"Odstránený z kontaktov\n"
+"%n odstránených z kontaktov"
 
 #: plugins/_core/msgedit.cpp:812
 #, c-format
@@ -1895,6 +1913,8 @@ msgid ""
 "_n: Status changed\n"
 "%n times status changed"
 msgstr ""
+"Status zmenený\n"
+"%n krá status zmenený"
 
 # qt3/i18n.cpp:23
 # ui/logindlg.cpp:154
@@ -2134,11 +2154,13 @@ msgstr "Nie s v zozname"
 # msgview.cpp:188
 # msgview.cpp:1228
 #: plugins/_core/search.cpp:632
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
-msgstr "Uložiť telefón v zozname kontaktov"
+msgstr ""
+"%n kontakt nájdený\n"
+"%n kontaktov nájdených"
 
 # ui/aboutinfobase.cpp:105
 #: plugins/_core/searchallbase.cpp:83 plugins/icq/aboutinfobase.cc:65 plugins/jabber/jabberaboutinfobase.cpp:56 rc.cpp:394 rc.cpp:903 rc.cpp:1805
@@ -2552,7 +2574,7 @@ msgstr "O SIM"
 #: plugins/about/aboutdlgbase.cpp:119 rc.cpp:1580
 #, no-c-format
 msgid "Authors"
-msgstr "Autory"
+msgstr "Autori"
 
 # ui/aboutdlgbase.cpp:154
 #: plugins/about/aboutdlgbase.cpp:120 rc.cpp:1583
@@ -2899,9 +2921,9 @@ msgid "&Receive message only from contacts from list"
 msgstr "P&rijímať správy len od kontaktov zo zoznamu"
 
 #: plugins/filter/filtercfgbase.cpp:70 rc.cpp:613
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "&Receive authorization and system messages only from contacts from list"
-msgstr "P&rijímať správy len od kontaktov zo zoznamu"
+msgstr "P&rijímať autorizáciu a systémové správy len od kontaktov zo zoznamu"
 
 # ui/generalsecbase.cpp:227
 #: plugins/filter/filtercfgbase.cpp:71 rc.cpp:616
@@ -3006,6 +3028,8 @@ msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
 msgstr ""
+"%n GPG kľúč\n"
+"%n GPG kľúče"
 
 #: plugins/gpg/gpg.cpp:749
 msgid "GPG key"
@@ -3318,7 +3342,7 @@ msgstr "Minulý"
 #: plugins/icq/advsearchbase.cc:261 rc.cpp:2320
 #, no-c-format
 msgid "Affilations"
-msgstr ""
+msgstr "Vzťahy"
 
 #: plugins/icq/advsearchbase.cc:262 rc.cpp:2323
 #, no-c-format
@@ -3943,6 +3967,8 @@ msgid ""
 "_n: %n file\n"
 "%n files"
 msgstr ""
+"%n súbor\n"
+"%n súborov"
 
 # msgedit.cpp:588
 #: plugins/icq/icqicmb.cpp:1292 plugins/icq/warndlg.cpp:66
@@ -4158,35 +4184,43 @@ msgstr "Zlá adresa serveru"
 
 # control.cpp:241
 #: plugins/icq/icqmessage.cpp:562
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
-msgstr "Neprečítané správy"
+msgstr ""
+"Správa WWW-panel\n"
+"%n Správy WWW-panel"
 
 # control.cpp:241
 #: plugins/icq/icqmessage.cpp:583
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
-msgstr "Neprečítané správy"
+msgstr ""
+"Správa email pager\n"
+"%n Správy email pager"
 
 # ui/randomchat.cpp:217
 #: plugins/icq/icqmessage.cpp:604
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
-msgstr "Žiadosť o bezpečný kanál neúspešná"
+msgstr ""
+"Žiadosť o bezpečný kanál\n"
+"%n Žiadostí o bezpečný kanál"
 
 # ui/randomchat.cpp:217
 #: plugins/icq/icqmessage.cpp:625
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
-msgstr "Žiadosť o bezpečný kanál neúspešná"
+msgstr ""
+"zatvorenie bezpečného kanála\n"
+"%n krát zatvorenie bezpečného kanála"
 
 #: plugins/icq/icqmessage.cpp:668
 #, c-format
@@ -4194,15 +4228,19 @@ msgid ""
 "_n: Warning\n"
 "%n warnings"
 msgstr ""
+"upozornenie\n"
+"%n upozornení"
 
 # msgview.cpp:188
 # msgview.cpp:1228
 #: plugins/icq/icqmessage.cpp:774
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: Contact request\n"
 "%n contact requests"
-msgstr "Uložiť telefón v zozname kontaktov"
+msgstr ""
+"žiadosť o kontakt\n"
+"%n žiadostí o kontakt"
 
 # msgview.cpp:192
 # msgview.cpp:1232
@@ -4221,21 +4259,18 @@ msgstr "Email pager"
 
 # ui/randomchat.cpp:217
 #: plugins/icq/icqmessage.cpp:861
-#, fuzzy
 msgid "Request secure channel"
-msgstr "Žiadosť o bezpečný kanál neúspešná"
+msgstr "Žiadosť o bezpečný kanál"
 
 # ui/randomchat.cpp:217
 #: plugins/icq/icqmessage.cpp:868
-#, fuzzy
 msgid "Close secure channel"
-msgstr "Žiadosť o bezpečný kanál neúspešná"
+msgstr "Zatvoriť bezpečný kanál"
 
 # monitor.cpp:81
 #: plugins/icq/icqmessage.cpp:882 plugins/logger/logconfig.cpp:93
-#, fuzzy
 msgid "Warning"
-msgstr "&Varovania"
+msgstr "&Varovanie"
 
 #: plugins/icq/icqpicture.cpp:126
 msgid "Picture can not be more than 7 kbytes"
@@ -5223,12 +5258,12 @@ msgstr ""
 #: plugins/icq/verifydlgbase.cc:111 rc.cpp:1917
 #, no-c-format
 msgid "VerifyDlg"
-msgstr ""
+msgstr "Kontrolný dialóg"
 
 #: plugins/icq/verifydlgbase.cc:112 rc.cpp:1920
 #, no-c-format
 msgid "Please retype the letters from the picture above:"
-msgstr ""
+msgstr "Prosím prepíšte písmená z obrázku:"
 
 # msgedit.cpp:588
 #: plugins/icq/warndlgbase.cc:83 rc.cpp:2255
@@ -5427,6 +5462,8 @@ msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
+"%n deň\n"
+"%n dní"
 
 #: plugins/jabber/discoinfobase.cpp:265 rc.cpp:309
 #, no-c-format
@@ -5718,6 +5755,8 @@ msgid ""
 "_n: Error\n"
 "%n errors"
 msgstr ""
+"chyba\n"
+"%n chýb"
 
 # ui/logindlgbase.cpp:123
 #: plugins/jabber/jabbermessage.cpp:158 plugins/jabber/jabbermessage.cpp:214
@@ -5917,6 +5956,8 @@ msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
 msgstr ""
+"LiveJournal príspevok\n"
+"%n LiveJournal príspevkov"
 
 #: plugins/livejournal/livejournal.cpp:103
 #, c-format
@@ -5924,6 +5965,8 @@ msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
 msgstr ""
+"Priateľ aktualizovaný\n"
+"Priateľov aktualizovaných %n"
 
 #: plugins/livejournal/livejournal.cpp:120
 msgid "&Remove from journal"
@@ -5939,9 +5982,8 @@ msgstr "&WWW Live Journal"
 
 # qt3/i18n.cpp:61
 #: plugins/livejournal/livejournal.cpp:232
-#, fuzzy
 msgid "Friends updated"
-msgstr "Pohľad na priateľov"
+msgstr "Priatelia aktualizovaní"
 
 #: plugins/livejournal/livejournal.cpp:276
 msgid "LiveJournal"
@@ -6790,11 +6832,11 @@ msgid "&Automatically add contacts in accept list"
 msgstr "&Automaticky pridať kontakty v zozname akceptovaných"
 
 #: plugins/msn/msnpacket.cpp:468
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "_n: You have %n unread message.\n"
 "You have %n unread messages."
-msgstr "Máte %n neprečítanych správ"
+msgstr "Máte neprečítané správy (%n)"
 
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
@@ -6803,7 +6845,7 @@ msgstr "Máte novú poštu"
 #: plugins/navigate/navcfgbase.cc:72 rc.cpp:1443
 #, no-c-format
 msgid "Use KDE settings"
-msgstr ""
+msgstr "Použiť KDE nastavenia"
 
 # ui/networkbase.cpp:234
 # ui/proxydlgbase.cpp:178
@@ -6860,9 +6902,8 @@ msgstr "U&ložiť"
 # ui/userinfo.cpp:110
 # userview.cpp:1846
 #: plugins/netmonitor/monitor.cpp:65
-#, fuzzy
 msgid "&Autoscroll"
-msgstr "Automatická odpoveď"
+msgstr "&Automatické rolovanie"
 
 # qt3/i18n.cpp:253
 #: plugins/netmonitor/monitor.cpp:66 plugins/netmonitor/monitor.cpp:119
@@ -6968,113 +7009,100 @@ msgstr "&OSD"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:407
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is online"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 je pripojený"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:408
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is online"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 je pripojená"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:409
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is away"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 je mimo"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:410
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is away"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 je mimo"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:411
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is not available"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 nie je dostupný"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:412
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is not available"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 nie je dostupná"
 
 #: plugins/osd/osd.cpp:413
 msgid ""
 "_: male\n"
 "%1 doesn't want to be disturbed"
-msgstr ""
+msgstr "%1 nechce byť vyrušovaný"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:414
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 doesn't want to be disturbed"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1  nechce byť vyrušovaná"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:415
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is occupied"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 je zaneprázdnený"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:416
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is occupied"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1  je zaneprázdnená"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:417
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is free for chat"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 je voľný na kecanie"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:418
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is free for chat"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 je voľná na kecanie"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:419
-#, fuzzy
 msgid ""
 "_: male\n"
 "%1 is offline"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 nie je pripojený"
 
 # ui/phonebookbase.cpp:129
 #: plugins/osd/osd.cpp:420
-#, fuzzy
 msgid ""
 "_: female\n"
 "%1 is offline"
-msgstr "Obrázok nie je dostupný"
+msgstr "%1 nie je pripojená"
 
 # ui/setupdlg.cpp:129
 #: plugins/osd/osdconfig.cpp:52
@@ -7399,6 +7427,8 @@ msgid ""
 "_n: Phone call\n"
 "%n phone calls"
 msgstr ""
+"telefónny hovor\n"
+"%n telefónnych hovorov"
 
 # msgedit.cpp:184
 #: plugins/sms/sms.cpp:95
@@ -7529,12 +7559,12 @@ msgstr "QT poskytuje zvukový výstup, ak nechcete použiť zvuk z QT musíte na
 #: plugins/sound/soundconfigbase.cpp:97 rc.cpp:403
 #, no-c-format
 msgid "&Use KDE sound settings"
-msgstr ""
+msgstr "Po&užiť nastavenie zvuku z KDE"
 
 #: plugins/sound/soundconfigbase.cpp:98 rc.cpp:406
 #, no-c-format
 msgid "Use player defined in system notify settings in kcontrol"
-msgstr ""
+msgstr "Použiť prehrávač definovaný v nastavení systémovej notifikácie v kcontrol"
 
 # ui/alertdialogbase.cpp:243
 # ui/themesetupbase.cpp:301
@@ -7760,245 +7790,218 @@ msgstr "Nedeľa"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:379
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Squalls"
-msgstr "počasie"
+msgstr "Búrky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:380
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr "počasie"
+msgstr "Prehánky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:381
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr "počasie"
+msgstr "Hmla"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:382
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mist"
-msgstr "počasie"
+msgstr "Opar"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:383
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr "počasie"
+msgstr "Hmla"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:384
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr "počasie"
+msgstr "Búrka"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:385
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr "počasie"
+msgstr "Dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:386
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr "počasie"
+msgstr "Sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:387
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Rain"
-msgstr "počasie"
+msgstr "Ľahký dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:388
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr "počasie"
+msgstr "Ľahké sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:389
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr "počasie"
+msgstr "Občasné sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:390
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr "počasie"
+msgstr "Rozptýlené sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:391
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr "počasie"
+msgstr "Jasno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:392
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr "počasie"
+msgstr "Prehánky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:393
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr "počasie"
+msgstr "Prevažne jasno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:394
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr "počasie"
+msgstr "Slnečno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:395
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr "počasie"
+msgstr "Jasno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:396
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr "počasie"
+msgstr "Oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:397
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr "počasie"
+msgstr "Prevažne oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:398
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr "počasie"
+msgstr "Čiastočne oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:399
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr "počasie"
+msgstr "Vietor"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:400
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "počasie"
+msgstr "Veterne"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:401
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr "počasie"
+msgstr "Mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:402
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Freezing Drizzle"
-msgstr "počasie"
+msgstr "Mrznúce mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:403
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Drizzle"
-msgstr "počasie"
+msgstr "Ľahké mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:404
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr "počasie"
+msgstr "Drifting sneh"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:405
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow Grains"
-msgstr "počasie"
+msgstr "Snehové zrnká"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -8007,196 +8010,175 @@ msgstr "počasie"
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr "počasie"
+msgstr "Scattered"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:407
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr "počasie"
+msgstr "Dym"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:408
-#, fuzzy
 msgid ""
 "_: weather\n"
 "steady"
-msgstr "počasie"
+msgstr "stabilne"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:409
-#, fuzzy
 msgid ""
 "_: weather\n"
 "rising"
-msgstr "počasie"
+msgstr "svitanie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:410
-#, fuzzy
 msgid ""
 "_: weather\n"
 "falling"
-msgstr "počasie"
+msgstr "klesanie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:411
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Unlimited"
-msgstr "počasie"
+msgstr "Neobmedzene"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:412
-#, fuzzy
 msgid ""
 "_: weather\n"
 "N"
-msgstr "počasie"
+msgstr "S"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:413
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr "počasie"
+msgstr "SSZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:414
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NW"
-msgstr "počasie"
+msgstr "SZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:415
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "počasie"
+msgstr "ZSZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:416
-#, fuzzy
 msgid ""
 "_: weather\n"
 "W"
-msgstr "počasie"
+msgstr "Z"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:417
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "počasie"
+msgstr "ZJZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:418
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SW"
-msgstr "počasie"
+msgstr "JZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:419
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr "počasie"
+msgstr "JJZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:420
-#, fuzzy
 msgid ""
 "_: weather\n"
 "S"
-msgstr "počasie"
+msgstr "J"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:421
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr "počasie"
+msgstr "JJV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:422
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SE"
-msgstr "počasie"
+msgstr "JV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:423
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "počasie"
+msgstr "VJV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:424
-#, fuzzy
 msgid ""
 "_: weather\n"
 "E"
-msgstr "počasie"
+msgstr "V"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:425
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "počasie"
+msgstr "VSV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:426
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NE"
-msgstr "počasie"
+msgstr "SV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:427
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr "počasie"
+msgstr "SSV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -8205,7 +8187,7 @@ msgstr "počasie"
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "počasie"
+msgstr "VAR"
 
 #: plugins/weather/weather.cpp:429
 msgid "km"
@@ -8218,38 +8200,34 @@ msgstr "km/h"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:431
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "počasie"
+msgstr "Nízko"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:432
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "počasie"
+msgstr "Stredne"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:433
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "počasie"
+msgstr "Vysoko"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:434
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
-msgstr "počasie"
+msgstr "Prehánky v okolí"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -8258,7 +8236,7 @@ msgstr "počasie"
 msgid ""
 "_: weather\n"
 "Waning Crescent"
-msgstr "počasie"
+msgstr "Waning Crescent"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -8267,7 +8245,7 @@ msgstr "počasie"
 msgid ""
 "_: weather\n"
 "Waxing Crescent"
-msgstr "počasie"
+msgstr "Waxing Crescent"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -8276,7 +8254,7 @@ msgstr "počasie"
 msgid ""
 "_: weather\n"
 "Waxing Gibbous"
-msgstr "počasie"
+msgstr "Waxing Gibbous"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -8285,7 +8263,7 @@ msgstr "počasie"
 msgid ""
 "_: weather\n"
 "Waning Gibbous"
-msgstr "počasie"
+msgstr "Waning Gibbous"
 
 # libicq/country.cpp:109
 #: plugins/weather/weather.cpp:450
@@ -8295,20 +8273,18 @@ msgstr "a"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:453
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
-msgstr "počasie"
+msgstr "Skoro"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:456
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
-msgstr "počasie"
+msgstr "Neskôr"
 
 #: plugins/weather/weather.cpp:501 plugins/weather/weather.cpp:503
 msgid "m/s"
@@ -8680,15 +8656,15 @@ msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #: rc.cpp:504
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Find ASpell"
-msgstr "Stiahnu ASpell"
+msgstr "Nájsť ASpell"
 
 # libicq/country.cpp:142
 #: rc.cpp:1693
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Find GPG"
-msgstr "&Nájsť"
+msgstr "Nájsť GPG"
 
 # about.cpp:280
 #: sim/aboutdata.cpp:287
@@ -10796,13 +10772,12 @@ msgstr "Multiprotokolový instantný messenger"
 
 #: sim/sim.cpp:207
 msgid "Current development"
-msgstr ""
+msgstr "Aktuálny vývoj"
 
 # ui/aboutdlgbase.cpp:153
 #: sim/sim.cpp:208
-#, fuzzy
 msgid "Author"
-msgstr "Autory"
+msgstr "Autor"
 
 #: sim/sim.cpp:209
 msgid "Developer"
@@ -10955,118 +10930,3 @@ msgstr "Vlastné"
 msgid "Windows XP style"
 msgstr "Štýl \"Windows XP\""
 
-# ui/soundsetupbase.cpp:241
-#~ msgid "&Use artsd"
-#~ msgstr "Použiť  Arts sound server"
-
-# client.cpp:1252
-# mainwin.cpp:2708
-#, fuzzy
-#~ msgid "Check invisible"
-#~ msgstr "Skontrolovať nev&iditeľnosť"
-
-# client.cpp:1252
-# mainwin.cpp:2708
-#~ msgid "Check &invisible"
-#~ msgstr "Skontrolovať nev&iditeľnosť"
-
-#~ msgid "&All"
-#~ msgstr "Vš&etko"
-
-# control.cpp:233
-#~ msgid "&Only invisible"
-#~ msgstr "Le&n neviditeľných"
-
-# sim.cpp:534
-#~ msgid "Maintainer"
-#~ msgstr "Správca"
-
-# libicq/country.cpp:274
-#, fuzzy
-#~ msgid "%n day"
-#~ msgstr "Nedeľa"
-
-# msgedit.cpp:588
-#, fuzzy
-#~ msgid "%n file"
-#~ msgstr "Odoslať súbor"
-
-# control.cpp:234
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Otvoriť správu"
-
-# ui/maininfobase.cpp:322
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Email pager"
-
-# msgview.cpp:192
-# msgview.cpp:1232
-#, fuzzy
-#~ msgid "Contact request"
-#~ msgstr "Žiadosť o kontakt"
-
-# mainwin.cpp:628
-# mainwin.cpp:2727
-#, fuzzy
-#~ msgid "%n contact found"
-#~ msgstr "Žiadne kontakty pre odoslanie"
-
-# msgedit.cpp:130
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "Po odoslaní &zavrieť"
-
-# msgedit.cpp:193
-# msgview.cpp:1191
-# ui/soundsetupbase.cpp:231
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Požiadavka na autorizácia"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorization granted"
-#~ msgstr "Požiadavka na autorizácia"
-
-# msgview.cpp:164
-# msgview.cpp:1204
-#, fuzzy
-#~ msgid "Authorization refused"
-#~ msgstr "Požiadavka na autorizácia"
-
-# mainwin.cpp:628
-# mainwin.cpp:2727
-#, fuzzy
-#~ msgid "Add to contacts"
-#~ msgstr "iaden kontakt"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "Odst&rániť z denníka"
-
-#, fuzzy
-#~ msgid "LiveJournal post"
-#~ msgstr "&Odoslať na Live Journal"
-
-#, fuzzy
-#~ msgid "You have %n unread message"
-#~ msgstr "Máte novú poštu"
-
-# libicq/country.cpp:406
-# libicq/country.cpp:452
-#, fuzzy
-#~ msgid "weather"
-#~ msgstr "Počasie"
-
-#, fuzzy
-#~ msgid "%n GPG key"
-#~ msgstr "GPG kľúč"
