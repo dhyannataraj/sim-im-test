@@ -8,4 +8,4 @@ CLEANFILES = libltdl.la
 libltdl_la_SOURCES = ltdl.c
 libltdl_la_LIBADD = $(LIBADD_DL)
 
-AM_CFLAGS = -Wno-unused-parameter -Wno-sign-compare
+AM_CFLAGS = -Wno-unused
