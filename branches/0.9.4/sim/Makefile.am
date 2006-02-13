@@ -66,7 +66,7 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/sim.desktop $(xdg_appsdir)/sim.desktop
 
 uninstall-local:
-	-rm -f $(kde_appsdir)/Internet/sim.desktop
+	-rm -f $(xdg_appsdir)/sim.desktop
 
 # set the include path for X, qt and KDE
 INCLUDES = $(LTDLINCL) $(all_includes) 
