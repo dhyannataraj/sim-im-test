@@ -286,7 +286,7 @@ int main(int argc, char *argv[])
         if ((arg == "reinstall") || (arg == "showicons") || (arg == "hideicons"))
             return 0;
     }
-    SimApp app(argc, argv);
+    SimApp *app = new SimApp(argc, argv);
     StyleInfo*  (*getStyleInfo)() = NULL;
     HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
     if (hLib != NULL)
@@ -301,7 +301,7 @@ int main(int argc, char *argv[])
 #endif
     PluginManager p(argc, argv);
 	if (p.isLoaded())
-        res = app.exec();
+        res = app->exec();
 #ifdef WIN32
     CloseHandle(hMutex);
 #endif
