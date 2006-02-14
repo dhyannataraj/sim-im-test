@@ -184,7 +184,8 @@ void FloatyWnd::paintEvent(QPaintEvent*)
 
     p.begin(this);
     p.drawPixmap(QPoint(2, 2), pict);
-    p.setPen(colorGroup().dark());
+	QColorGroup cg;
+	p.setPen(cg.dark());
     p.moveTo(1, 1);
     p.lineTo(width() - 2, 1);
     p.lineTo(width() - 2, height() - 2);
