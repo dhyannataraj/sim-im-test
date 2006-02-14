@@ -2059,7 +2059,7 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         ms.text = &msg_text;
         Event e(EventSend, &ms);
         e.process();
-        msgBuf << 0x0000L;
+        msgBuf << 0x0000FFFFL;
         msgBuf << msg_text.c_str();
     }
     Buffer b;
