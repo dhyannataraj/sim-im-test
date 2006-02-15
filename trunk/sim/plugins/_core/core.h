@@ -110,6 +110,9 @@ typedef struct CoreData
     SIM::Data	SearchGeo[5];
     SIM::Data	SearchClient;
     SIM::Data	NoScroller;
+    SIM::Data	RegNew;
+    SIM::Data	ICQUIN;
+    SIM::Data	ICQPassword;
     SIM::Data	cfgGeo[5];
 } CoreData;
 
@@ -473,6 +476,9 @@ public:
     PROP_BOOL(RemoveHistory);
     PROP_STR(SearchClient);
     PROP_BOOL(NoScroller);
+    PROP_BOOL(RegNew);
+    PROP_UTF8(ICQUIN);
+    PROP_UTF8(ICQPassword);
 
     unsigned user_data_id;
     unsigned sms_data_id;

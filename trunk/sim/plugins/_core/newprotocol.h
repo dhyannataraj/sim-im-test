@@ -30,7 +30,7 @@ class NewProtocol : public NewProtocolBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    NewProtocol(QWidget *parent);
+    NewProtocol(QWidget *parent,int default_protocol=0, bool bConnect=false);
     ~NewProtocol();
     SIM::Client	*m_client;
     bool	connected() { return m_bConnected; }

@@ -36,7 +36,7 @@ static bool cmp_protocol(Protocol *p1, Protocol *p2)
     return s1 < s2;
 }
 
-NewProtocol::NewProtocol(QWidget *parent)
+NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect)
         : NewProtocolBase(parent, "new_protocol", true)
 {
     m_setup  = NULL;
@@ -84,9 +84,13 @@ NewProtocol::NewProtocol(QWidget *parent)
         cmbProtocol->insertItem(Pict(cmd->icon, cmbProtocol->colorGroup().base()), i18n(cmd->text));
     }
     connect(cmbProtocol, SIGNAL(activated(int)), this, SLOT(protocolChanged(int)));
-    cmbProtocol->setCurrentItem(0);
-    protocolChanged(0);
-    connect(this, SIGNAL(selected(const QString&)), this, SLOT(pageChanged(const QString&)));
+    cmbProtocol->setCurrentItem(default_protocol);
+    protocolChanged(default_protocol);
+	if (bConnect){
+		showPage(m_connectWnd);
+		pageChanged(NULL);
+	}
+    connect(this, SIGNAL(selected(const QString&)), this, SLOT(pageChanged(const QString&)));	
 }
 
 NewProtocol::~NewProtocol()
@@ -226,6 +230,7 @@ void NewProtocol::loginComplete()
     backButton()->hide();
     Event e(EventSaveState);
     e.process();
+    accept();
 }
 
 void *NewProtocol::processEvent(Event *e)

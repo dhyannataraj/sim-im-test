@@ -17,6 +17,7 @@
 
 #include "icqconfig.h"
 #include "icq.h"
+#include "core.h"
 
 #include <qtimer.h>
 #include <qlineedit.h>
@@ -34,16 +35,22 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
 {
     m_client = client;
     m_bConfig = bConfig;
+    Event ePlugin(EventGetPluginInfo, (void*)"_core");
+    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    core = static_cast<CorePlugin*>(info->plugin);
     if (m_bConfig){
         QTimer::singleShot(0, this, SLOT(changed()));
         connect(chkNew, SIGNAL(toggled(bool)), this, SLOT(newToggled(bool)));
         if (m_client->data.owner.Uin.value){
             edtUin->setText(QString::number(m_client->data.owner.Uin.value));
             chkNew->setChecked(false);
+            edtPasswd->setText(m_client->getPassword());
+        }else if(core->getRegNew()) {
+                 edtUin->setText(core->getICQUIN());
+                 edtPasswd->setText(core->getICQPassword());
         }else{
             chkNew->setChecked(true);
         }
-        edtPasswd->setText(m_client->getPassword());
         edtUin->setValidator(new QIntValidator(1000, 0x1FFFFFFF, edtUin));
         connect(edtUin, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
