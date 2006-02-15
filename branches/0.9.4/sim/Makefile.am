@@ -57,7 +57,7 @@ EXTRA_DIST = \
 	sim-kde.menu \
 	sim.desktop \
 	sim.cpp \
-	icq.ico
+	icq.ico \
 	*.h
 
 
