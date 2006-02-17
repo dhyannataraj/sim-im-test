@@ -710,10 +710,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 msg = "Item you want to modify not found in list";
                 break;
             case 0x03:
-                msg = "Item you want to add allready exists";
+                msg = "Item you want to add already exists";
                 break;
             case 0x0a:
-                msg = "Error adding item (invalid id, allready in list, invalid data)";
+                msg = "Error adding item (invalid id, already in list, invalid data)";
                 break;
             case 0x0c:
                 msg = "Can't add item. Limit for this type of items exceeded";
