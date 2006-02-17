@@ -293,6 +293,45 @@ class QTimer;
 typedef unsigned char capability[0x10];
 typedef unsigned char plugin[0x12];
 
+typedef enum {
+    CAP_NULL = 0,
+    CAP_AIM_VOICE,
+    CAP_AIM_SENDFILE,
+    CAP_DIRECT,
+    CAP_AIM_IMIMAGE,
+    CAP_AIM_BUDDYCON,
+    CAP_AIM_STOCKS,
+    CAP_AIM_GETFILE,
+    CAP_SRV_RELAY,
+    CAP_AIM_GAMES,
+    CAP_AIM_BUDDYLIST,
+    CAP_AVATAR,
+    CAP_AIM_SUPPORT,
+    CAP_UTF,
+    CAP_RTF,
+    CAP_TYPING,
+    CAP_SIM,
+    CAP_STR_2001,
+    CAP_STR_2002,
+    CAP_IS_2001,
+    CAP_TRILLIAN,
+    CAP_TRIL_CRYPT,
+    CAP_MACICQ,
+    CAP_AIM_CHAT,
+    CAP_MICQ,
+    CAP_LICQ,
+    CAP_SIMOLD,
+    CAP_KOPETE,
+    CAP_XTRAZ,
+    CAP_IS_2002,
+    CAP_MIRANDA,
+    CAP_ANDRQ,
+    CAP_QIP,
+    CAP_IMSECURE,
+    CAP_KXICQ
+} cap_id_t;
+    
+/*
 const unsigned CAP_DIRECT			= 0;
 const unsigned CAP_RTF				= 1;
 const unsigned CAP_SRV_RELAY		= 2;
@@ -317,6 +356,7 @@ const unsigned CAP_KOPETE			= 20;
 const unsigned CAP_XTRAZ			= 21;
 const unsigned CAP_IS_2002			= 21;
 const unsigned CAP_NULL				= 22;
+*/
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;

@@ -219,32 +219,57 @@ void ICQClient::locationRequest()
 }
 
 #define cap_id   0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00
+#define cap_none 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 #define cap_str  0xbc, 0xd2, 0x00, 0x04, 0xac, 0x96, 0xdd, 0x96
 
 #define cap_mid  0x4c, 0x7f, 0x11, 0xd1
 #define cap_mstr 0x4f, 0xe9, 0xd3, 0x11
+#define cap_aim  0x09, 0x46, 0x13
 
+// must be synced with cap_id_t enum in icqclient.h
 const capability arrCapabilities[] =
     {
+        // CAP_NULL
+        { cap_none, cap_none },
+        // CAP_AIM_VOICE
+        { cap_aim, 0x41, cap_mid, cap_id },
+        // CAP_AIM_SENDFILE
+        { cap_aim, 0x43, cap_mid, cap_id },
         // CAP_DIRECT
-        { 0x09, 0x46, 0x13, 0x44, cap_mid, cap_id },
+        { cap_aim, 0x44, cap_mid, cap_id },
+        // CAP_AIM_IMIMAGE
+        { cap_aim, 0x45, cap_mid, cap_id },
+        // CAP_AIM_BUDDYCON
+        { cap_aim, 0x46, cap_mid, cap_id },
+        // CAP_AIM_STOCKS
+        { cap_aim, 0x47, cap_mid, cap_id },
+        // CAP_AIM_GETFILE
+        { cap_aim, 0x48, cap_mid, cap_id },
+        // CAP_SRV_RELAY
+        { cap_aim, 0x49, cap_mid, cap_id },
+        // CAP_AIM_GAMES
+        { cap_aim, 0x4a, cap_mid, cap_id },
+        // CAP_AIM_BUDDYLIST
+        { cap_aim, 0x4b, cap_mid, cap_id },
+        // CAP_AVATAR
+        { cap_aim, 0x4c, cap_mid, cap_id },
+        // CAP_AIM_SUPPORT
+        { cap_aim, 0x4d, cap_mid, cap_id },
+        // CAP_UTF
+        { cap_aim, 0x4e, cap_mid, cap_id },
         // CAP_RTF
         { 0x97, 0xb1, 0x27, 0x51, 0x24, 0x3c, 0x43, 0x34,
           0xad, 0x22, 0xd6, 0xab, 0xf7, 0x3f, 0x14, 0x92 },
-        // CAP_SRV_RELAY
-        { 0x09, 0x46, 0x13, 0x49, cap_mid, cap_id },
-        // CAP_UTF
-        { 0x09, 0x46, 0x13, 0x4e, cap_mid, cap_id },
         // CAP_TYPING
         { 0x56, 0x3f, 0xc8, 0x09, 0x0b, 0x6f, 0x41, 0xbd,
           0x9f, 0x79, 0x42, 0x26, 0x09, 0xdf, 0xa2, 0xf3 },
-        // CAP_AIM_SUPPORT
-        { 0x09, 0x46, 0x13, 0x4d, cap_mid, cap_id },
         // CAP_SIM
         { 'S', 'I', 'M', ' ', 'c', 'l', 'i', 'e',
           'n', 't', ' ', ' ', 0, 0, 0, 0 },
-        // CAP_STR_2001_2002
+        // CAP_STR_2001
         { 0xa0, 0xe9, 0x3f, 0x37, cap_mstr, cap_str },
+        // CAP_STR_2002
+        { 0x10, 0xcf, 0x40, 0xd1, cap_mstr, cap_str },
         // CAP_IS_2001
         { 0x2e, 0x7a, 0x64, 0x75, 0xfa, 0xdf, 0x4d, 0xc8,
           0x88, 0x6f, 0xea, 0x35, 0x95, 0xfd, 0xb6, 0xdf },
@@ -259,14 +284,6 @@ const capability arrCapabilities[] =
           0x90, 0xdb, 0x00, 0x10, 0x4b, 0x9b, 0x4b, 0x7d },
         // CAP_AIM_CHAT
         { 0x74, 0x8f, 0x24, 0x20, 0x62, 0x87, 0x11, 0xd1, cap_id },
-        // CAP_AIM_BUDDYCON
-        { 0x09, 0x46, 0x13, 0x46, cap_mid, cap_id },
-        // CAP_AIM_IMIMAGE
-        { 0x09, 0x46, 0x13, 0x45, cap_mid, cap_id },
-        // CAP_AIM_SENDFILE
-        { 0x09, 0x46, 0x13, 0x43, cap_mid, cap_id },
-        // CAP_AIM_BUDDY_LIST
-        { 0x09, 0x46, 0x13, 0x4b, cap_mid, cap_id },
         // CAP_MICQ
         { 'm', 'I', 'C', 'Q', ' ', (unsigned char)'©', 'R', '.',
           'K', ' ', '.', ' ', 0, 0, 0, 0 },
@@ -284,9 +301,19 @@ const capability arrCapabilities[] =
           0x9D, 0x51, 0xA6, 0x47, 0x4E, 0x34, 0xF5, 0xA0  },
         // CAP_IS_2002
         { 0x10, 0xcf, 0x40, 0xd1, cap_mid, cap_id },
-        // CAP_NULL
-        { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
+        // CAP_MIRANDA
+        { 'M', 'i', 'r', 'a', 'n', 'd', 'a', 'M', cap_none },
+        // CAP_ANDRQ
+        { '&', 'R', 'Q', 'i', 'n', 's', 'i', 'd',
+          'e', 0, 0, 0, 0, 0, 0, 0 },
+        // CAP_QIP
+        { 0x56, 0x3f, 0xc8, 0x09, 0x0b, 0x6f, 0x41, 'Q',
+          'I', 'P', ' ', '2', '0', '0', '5', 'a' },
+        // CAP_IMSECURE
+        { 'I', 'M', 's', 'e', 'c', 'u', 'r', 'e',
+          'C', 'p', 'h', 'r', 0, 0, 0, 0 },
+        // CAP_KXICQ
+        { 0x09, 0x49, 0x13, 0x44, cap_mid, cap_id },
     };
 
 const capability *ICQClient::capabilities = arrCapabilities;
