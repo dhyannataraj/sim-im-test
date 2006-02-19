@@ -294,7 +294,6 @@ typedef unsigned char capability[0x10];
 typedef unsigned char plugin[0x12];
 
 typedef enum {
-    CAP_NULL = 0,
     CAP_AIM_VOICE,
     CAP_AIM_SENDFILE,
     CAP_DIRECT,
@@ -328,7 +327,8 @@ typedef enum {
     CAP_ANDRQ,
     CAP_QIP,
     CAP_IMSECURE,
-    CAP_KXICQ
+    CAP_KXICQ,
+    CAP_NULL,
 } cap_id_t;
     
 /*

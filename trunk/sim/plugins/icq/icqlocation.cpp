@@ -229,8 +229,6 @@ void ICQClient::locationRequest()
 // must be synced with cap_id_t enum in icqclient.h
 const capability arrCapabilities[] =
     {
-        // CAP_NULL
-        { cap_none, cap_none },
         // CAP_AIM_VOICE
         { cap_aim, 0x41, cap_mid, cap_id },
         // CAP_AIM_SENDFILE
@@ -314,6 +312,8 @@ const capability arrCapabilities[] =
           'C', 'p', 'h', 'r', 0, 0, 0, 0 },
         // CAP_KXICQ
         { 0x09, 0x49, 0x13, 0x44, cap_mid, cap_id },
+        // CAP_NULL
+        { cap_none, cap_none },
     };
 
 const capability *ICQClient::capabilities = arrCapabilities;
