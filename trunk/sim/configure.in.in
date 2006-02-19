@@ -132,15 +132,10 @@ CPPFLAGS="$CPPFLAGS `$XSLT_CONFIG --cflags`"
 AC_SUBST(LIB_XML2)
 AC_SUBST(LIB_XSLT)
 
-ZIP_FLAGS=""
+ZIP_FLAGS="-j"
 AC_PATH_PROG(ZIP, zip, no)
 if test "x$ZIP" = "xno" ; then
-   AC_PATH_PROG(ZIP, jar, no)
-   ZIP_FLAGS=" -cMf "
-   if test "x$ZIP" = "xno" ; then
-     AC_MSG_ERROR([Executable zip or jar not found!
-])
-   fi
+   AC_MSG_ERROR([Executable zip or jar not found!])
 fi
 AC_SUBST(ZIP)
 AC_SUBST(ZIP_FLAGS)
