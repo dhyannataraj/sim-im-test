@@ -77,6 +77,7 @@ typedef struct ICQUserData
     unsigned long	Port;
     unsigned long	DCcookie;
     unsigned long	Caps;
+    unsigned long	Caps2;
     char			*AutoReply;
     unsigned long	Uin;
     unsigned long	IcqID;
@@ -150,6 +151,7 @@ static DataDef _icqUserData[] =
         { "Port", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// DCcookie
         { "Caps", DATA_ULONG, 1, 0 },
+        { "Caps2", DATA_ULONG, 1, 0 },
         { "", DATA_STRING, 1, 0 },				// AutoReply
         { "Uin", DATA_ULONG, 1, 0 },
         { "Screen", DATA_STRING, 1, 0 },
@@ -1562,9 +1564,18 @@ unsigned ICQClient::warnLevel(unsigned short level)
     return level;
 }
 
-bool ICQClient::hasCap(ICQUserData *data, int n)
+bool ICQClient::hasCap(ICQUserData *data, cap_id_t n)
 {
-    return (data->Caps.value & (1 << n)) != 0;
+    unsigned long val = n > 31 ? data->Caps2.value : data->Caps.value;
+    int pos = (int)n % 32;
+    return (val & (1 << pos)) != 0;
+}
+
+void ICQClient::setCap(ICQUserData *data, cap_id_t n)
+{
+    unsigned long &val = n > 31 ? data->Caps2.value : data->Caps.value;
+    int pos = (int)n % 32;
+    val |= (1 << pos);
 }
 
 static string verString(unsigned ver)
@@ -1601,7 +1612,39 @@ string ICQClient::clientName(ICQUserData *data)
         snprintf(b, sizeof(b), "v%lu ", data->Version.value);
         res = b;
     }
-    if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN))
+    if (hasCap(data, CAP_MIRANDA))
+	{
+        unsigned ver1 = (data->Build.value >> 24) & 0xFF;
+        unsigned ver2 = (data->Build.value >> 16) & 0xFF;
+        unsigned ver3 = (data->Build.value >>  8) & 0xFF;
+        unsigned ver4 = (data->Build.value >>  0) & 0xFF;
+        snprintf(b, sizeof(b), "Miranda %u.%u.%u.%u", ver1, ver2, ver3, ver4);
+        res += b;
+        return res;
+	}
+    if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_2) &&
+		hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))
+	{
+        res += "ICQ 5.0";
+        return res;
+	}
+    if (hasCap(data, CAP_ICQ5_1))
+	{
+        log( L_DEBUG, "CAP_ICQ5_1 without all others" );
+	}
+    if (hasCap(data, CAP_ICQ5_2))
+	{
+        log( L_DEBUG, "CAP_ICQ5_2 without all others" );
+	}
+    if (hasCap(data, CAP_ICQ5_3))
+	{
+        log( L_DEBUG, "CAP_ICQ5_3 without all others" );
+	}
+    if (hasCap(data, CAP_ICQ5_4))
+	{
+        log( L_DEBUG, "CAP_ICQ5_4 without all others" );
+	}
+	if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN))
     {
         res += "Trillian";
         return res;
@@ -1673,6 +1716,10 @@ string ICQClient::clientName(ICQUserData *data)
         ver += b;
         res = "Kopete ";
         res += ver;
+        return res;
+    }
+    if (hasCap(data, CAP_XTRAZ)){
+        res += "ICQ 4.0 Lite";
         return res;
     }
     if (hasCap(data, CAP_XTRAZ)){
@@ -1758,7 +1805,8 @@ string ICQClient::clientName(ICQUserData *data)
     }
     if (data->InfoUpdateTime.value &&
             (data->InfoUpdateTime.value == data->PluginStatusTime.value) &&
-            (data->PluginStatusTime.value == data->PluginInfoTime.value) && (data->Caps.value == 0)){
+            (data->PluginStatusTime.value == data->PluginInfoTime.value) &&
+            (data->Caps.value == 0) && (data->Caps2.value == 0)){
         res += "vICQ";
         return res;
     }

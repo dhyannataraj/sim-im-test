@@ -165,6 +165,7 @@ typedef struct ICQUserData
     SIM::Data		Port;
     SIM::Data		DCcookie;
     SIM::Data		Caps;
+    SIM::Data		Caps2;
     SIM::Data        AutoReply;
     SIM::Data		Uin;
     SIM::Data        Screen;
@@ -294,70 +295,47 @@ typedef unsigned char capability[0x10];
 typedef unsigned char plugin[0x12];
 
 typedef enum {
-    CAP_AIM_VOICE,
-    CAP_AIM_SENDFILE,
-    CAP_DIRECT,
-    CAP_AIM_IMIMAGE,
-    CAP_AIM_BUDDYCON,
-    CAP_AIM_STOCKS,
-    CAP_AIM_GETFILE,
-    CAP_SRV_RELAY,
-    CAP_AIM_GAMES,
-    CAP_AIM_BUDDYLIST,
-    CAP_AVATAR,
-    CAP_AIM_SUPPORT,
-    CAP_UTF,
-    CAP_RTF,
-    CAP_TYPING,
-    CAP_SIM,
-    CAP_STR_2001,
-    CAP_STR_2002,
-    CAP_IS_2001,
-    CAP_TRILLIAN,
-    CAP_TRIL_CRYPT,
-    CAP_MACICQ,
-    CAP_AIM_CHAT,
-    CAP_MICQ,
-    CAP_LICQ,
-    CAP_SIMOLD,
-    CAP_KOPETE,
-    CAP_XTRAZ,
-    CAP_IS_2002,
-    CAP_MIRANDA,
-    CAP_ANDRQ,
-    CAP_QIP,
-    CAP_IMSECURE,
-    CAP_KXICQ,
-    CAP_NULL,
+    CAP_AIM_VOICE=0,		// 0x00000001
+    CAP_AIM_SENDFILE,		// 0x00000002
+    CAP_DIRECT,				// 0x00000004
+    CAP_AIM_IMIMAGE,		// 0x00000008
+    CAP_AIM_BUDDYCON,		// 0x00000010
+    CAP_AIM_STOCKS,			// 0x00000020
+    CAP_AIM_GETFILE,		// 0x00000040
+    CAP_SRV_RELAY,			// 0x00000080
+    CAP_AIM_GAMES,			// 0x00000100
+    CAP_AIM_BUDDYLIST,		// 0x00000200
+    CAP_AVATAR,				// 0x00000400
+    CAP_AIM_SUPPORT,		// 0x00000800
+    CAP_UTF,				// 0x00001000
+    CAP_RTF,				// 0x00002000
+    CAP_TYPING,				// 0x00004000
+    CAP_SIM,				// 0x00008000
+    CAP_STR_2001,			// 0x00010000
+    CAP_STR_2002,			// 0x00020000
+    CAP_IS_2001,			// 0x00040000
+    CAP_TRILLIAN,			// 0x00080000
+    CAP_TRIL_CRYPT,			// 0x00100000
+    CAP_MACICQ,				// 0x00200000
+    CAP_AIM_CHAT,			// 0x00400000
+    CAP_MICQ,				// 0x00800000
+    CAP_LICQ,				// 0x01000000
+    CAP_SIMOLD,				// 0x02000000
+    CAP_KOPETE,				// 0x04000000
+    CAP_XTRAZ,				// 0x08000000
+    CAP_IS_2002,			// 0x10000000
+    CAP_MIRANDA,			// 0x20000000
+    CAP_ANDRQ,				// 0x40000000
+    CAP_QIP,				// 0x80000000
+    CAP_IMSECURE,			// 0x00000001 - Caps2
+    CAP_KXICQ,				// 0x00000002
+	CAP_ICQ5_1,				// 0x00000004
+	CAP_ICQ5_2,				// 0x00000008
+	CAP_ICQ5_3,				// 0x00000010
+	CAP_ICQ5_4,				// 0x00000020
+    CAP_NULL,				// 0x00000040
 } cap_id_t;
     
-/*
-const unsigned CAP_DIRECT			= 0;
-const unsigned CAP_RTF				= 1;
-const unsigned CAP_SRV_RELAY		= 2;
-const unsigned CAP_UTF				= 3;
-const unsigned CAP_TYPING			= 4;
-const unsigned CAP_AIM_SUPPORT		= 5;
-const unsigned CAP_SIM				= 6;
-const unsigned CAP_STR_2001			= 7;
-const unsigned CAP_IS_2001			= 8;
-const unsigned CAP_TRILLIAN			= 9;
-const unsigned CAP_TRIL_CRYPT		= 10;
-const unsigned CAP_MACICQ			= 11;
-const unsigned CAP_AIM_CHAT			= 12;
-const unsigned CAP_AIM_BUDDYCON		= 13;
-const unsigned CAP_AIM_IMIMAGE		= 14;
-const unsigned CAP_AIM_SENDFILE		= 15;
-const unsigned CAP_AIM_BUDDYLIST	= 16;
-const unsigned CAP_MICQ				= 17;
-const unsigned CAP_LICQ				= 18;
-const unsigned CAP_SIMOLD			= 19;
-const unsigned CAP_KOPETE			= 20;
-const unsigned CAP_XTRAZ			= 21;
-const unsigned CAP_IS_2002			= 21;
-const unsigned CAP_NULL				= 22;
-*/
-
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
 const unsigned PLUGIN_FILESERVER         = 2;
@@ -714,7 +692,8 @@ protected:
     void sendPluginInfoUpdate(unsigned plugin_id);
     void sendPluginStatusUpdate(unsigned plugin_id, unsigned long status);
     bool m_bIdleTime;
-    bool hasCap(ICQUserData *data, int fcap);
+    static bool hasCap(ICQUserData *data, cap_id_t fcap);
+    static void setCap(ICQUserData *data, cap_id_t fcap);
     bool isSupportPlugins(ICQUserData *data);
     std::string trimPhone(const char *phone);
     unsigned short getListId();
@@ -792,6 +771,7 @@ protected:
     friend class DirectClient;
     friend class ICQListener;
     friend class AIMFileTransfer;
+	friend class ICQFileTransfer;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket

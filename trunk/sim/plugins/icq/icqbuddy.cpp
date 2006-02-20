@@ -38,6 +38,15 @@ const unsigned short ICQ_SNACxBDY_REMOVExFROMxLIST = 0x0005;
 const unsigned short ICQ_SNACxBDY_USERONLINE	   = 0x000B;
 const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
 
+static QString makeCapStr( const capability cap, unsigned size ) 
+{
+	QString str = "", tmp;
+	for(unsigned int i = 0; i < size; i++ ) {
+		str += tmp.sprintf( "0x%02x ", cap[i] );
+	}
+	return str;
+}
+
 void ICQClient::snac_buddy(unsigned short type, unsigned short)
 {
     string screen;
@@ -140,15 +149,23 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             Tlv *tlvCapability = tlv(0x000D);
             if (tlvCapability){
                 data->Caps.value = 0;
+                data->Caps2.value = 0;
                 Buffer info(*tlvCapability);
                 for (; info.readPos() < info.size(); ){
                     capability cap;
                     info.unpack((char*)cap, sizeof(capability));
                     for (unsigned i = 0;; i++){
-                        if (*capabilities[i] == 0) break;
                         unsigned size = sizeof(capability);
                         if (i == CAP_SIMOLD) size--;
-                        if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE)) size -= 4;
+
+						if (*capabilities[i] == 0) {
+							log( L_DEBUG, "%d unknown cap %s", data->Uin.value, makeCapStr( cap, size ).latin1() );
+							break;
+						}
+                        if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))
+							size -= 4;
+						if ((i == CAP_MIRANDA))
+							size -= 8;
                         if (!memcmp(cap, capabilities[i], size)){
                             if (i == CAP_SIMOLD){
                                 unsigned char build = cap[sizeof(capability)-1];
@@ -160,7 +177,12 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                                 p += 12;
                                 data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
                             }
-                            data->Caps.value |= (1 << i);
+							if ((i == CAP_MIRANDA)) {
+                                unsigned char *p = (unsigned char*)cap;
+                                p += 8;
+                                data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
+							}
+                            setCap(data, (cap_id_t)i);
                             break;
                         }
                     }

@@ -1745,7 +1745,7 @@ void ICQFileTransfer::bind_ready(unsigned short port)
 
 void ICQFileTransfer::login_timeout()
 {
-    if (m_data->Caps.value & (1 << CAP_DIRECT)){
+    if (ICQClient::hasCap(m_data, CAP_DIRECT)){
         DirectSocket::m_state = DirectSocket::WaitReverse;
         m_state = WaitReverse;
         bind(m_client->getMinPort(), m_client->getMaxPort(), m_client);
@@ -1757,7 +1757,7 @@ void ICQFileTransfer::login_timeout()
 bool ICQFileTransfer::error_state(const char *err, unsigned code)
 {
     if (DirectSocket::m_state == DirectSocket::ConnectFail){
-        if (m_data->Caps.value & (1 << CAP_DIRECT)){
+        if (ICQClient::hasCap(m_data, CAP_DIRECT)){
             login_timeout();
             return false;
         }
