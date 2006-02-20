@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _UPDATE_H
-#define _UPDATE_H
+#ifndef _ZODIAK_H
+#define _ZODIAK_H
 
 #include "simapi.h"
 #include "stl.h"
