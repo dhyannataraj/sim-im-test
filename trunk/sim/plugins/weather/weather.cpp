@@ -440,11 +440,14 @@ i18n("weather", "Low")
 i18n("weather", "Moderate")
 i18n("weather", "High")
 i18n("weather", "Showers in the Vicinity")
-i18n("moonphase", "Waning Crescent")
-i18n("moonphase", "First Quarter")
+
 i18n("moonphase", "Waxing Crescent")
+i18n("moonphase", "First Quarter")
 i18n("moonphase", "Waxing Gibbous")
+i18n("moonphase", "Full")
 i18n("moonphase", "Waning Gibbous")
+i18n("moonphase", "Last Quarter")
+i18n("moonphase", "Waning Crescent")
 #endif
 
 static QString i18n_conditions(const QString &str)

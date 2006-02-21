@@ -1622,8 +1622,7 @@ string ICQClient::clientName(ICQUserData *data)
         res += b;
         return res;
 	}
-    if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_2) &&
-		hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))
+    if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))
 	{
         res += "ICQ 5.0";
         return res;
@@ -1631,10 +1630,6 @@ string ICQClient::clientName(ICQUserData *data)
     if (hasCap(data, CAP_ICQ5_1))
 	{
         log( L_DEBUG, "CAP_ICQ5_1 without all others" );
-	}
-    if (hasCap(data, CAP_ICQ5_2))
-	{
-        log( L_DEBUG, "CAP_ICQ5_2 without all others" );
 	}
     if (hasCap(data, CAP_ICQ5_3))
 	{
