@@ -47,6 +47,7 @@ LiveJournalCfg::LiveJournalCfg(QWidget *parent, LiveJournalClient *client, bool 
     edtPort->setValue(client->getPort());
     edtInterval->setValue(client->getInterval());
     chkFastServer->setChecked(client->getFastServer());
+    chkUseFormatting->setChecked(client->getUseFormatting());
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPassword, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     changed("");
@@ -74,6 +75,7 @@ void LiveJournalCfg::apply()
     m_client->setPort(atol(edtPort->text()));
     m_client->setInterval(atol(edtInterval->text()));
     m_client->setFastServer(chkFastServer->isChecked());
+    m_client->setUseFormatting(chkUseFormatting->isChecked());
 }
 
 void LiveJournalCfg::apply(Client*, void*)

@@ -377,6 +377,7 @@ static DataDef liveJournalClientData[] =
         { "Menu", DATA_STRLIST, 1, 0 },
         { "MenuURL", DATA_STRLIST, 1, 0 },
         { "FastServer", DATA_BOOL, 1, 0 },
+        { "UseFormatting", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRING, 1, 0 },			// LastUpdate
         { "", DATA_STRUCT, sizeof(LiveJournalUserData) / sizeof(Data), DATA(liveJournalUserData) },
         { NULL, 0, 0, 0 }
@@ -531,14 +532,21 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     m_msg = msg;
     m_bEdit   = (msg->getID() != 0);
     m_bResult = false;
+    QString text;
     if (msg->getRichText().isEmpty()){
-        addParam("event", "");
+        text = QString::null;
     }else{
-        BRParser parser(msg->getBackground());
-        parser.parse(msg->getRichText());
-        addParam("event", parser.m_str.utf8());
+        // if (msg->getFlags() & MESSAGE_RICHTEXT){
+        if (client->getUseFormatting()){
+            BRParser parser(msg->getBackground());
+            parser.parse(msg->getRichText());
+            text = parser.m_str;
+        }else{
+            text = msg->getPlainText();
+        }
         addParam("subject", msg->getSubject().utf8());
     }
+    addParam("event", text.utf8());
     addParam("lineendings", "unix");
     if (msg->getID())
         addParam("itemid", number(msg->getID()).c_str());
@@ -558,15 +566,14 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     if (msg->getPrivate()){
         switch (msg->getPrivate()){
         case 0:
-                addParam("security", "private");
+            addParam("security", "private");
             break;
         case 1:
             addParam("security", "usemask");
             addParam("allowmask", "0");
             break;
         case 2:
-            addParam("security", "usemask");
-            addParam("allowmask", "0");
+            addParam("security", "private");
             break;
         }
     }

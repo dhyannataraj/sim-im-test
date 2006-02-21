@@ -109,6 +109,7 @@ typedef struct LiveJournalClientData
     SIM::Data	Menu;
     SIM::Data	MenuUrl;
     SIM::Data	FastServer;
+    SIM::Data	UseFormatting;
     SIM::Data	LastUpdate;
     LiveJournalUserData	owner;
 } LiveJournalClientData;
@@ -147,6 +148,7 @@ public:
     PROP_STRLIST(Menu);
     PROP_STRLIST(MenuUrl);
     PROP_BOOL(FastServer);
+    PROP_BOOL(UseFormatting);
     PROP_STR(LastUpdate);
     void auth_fail(const char *err);
     void auth_ok();
