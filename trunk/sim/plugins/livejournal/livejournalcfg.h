@@ -35,6 +35,7 @@ public slots:
     void apply(SIM::Client*, void*);
     void changed(const QString&);
     void changed();
+    void useSigToggled(bool);
 protected:
     LiveJournalClient *m_client;
     bool m_bConfig;

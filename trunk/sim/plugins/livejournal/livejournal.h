@@ -110,6 +110,8 @@ typedef struct LiveJournalClientData
     SIM::Data	MenuUrl;
     SIM::Data	FastServer;
     SIM::Data	UseFormatting;
+    SIM::Data	UseSignature;
+    SIM::Data	Signature;
     SIM::Data	LastUpdate;
     LiveJournalUserData	owner;
 } LiveJournalClientData;
@@ -149,7 +151,10 @@ public:
     PROP_STRLIST(MenuUrl);
     PROP_BOOL(FastServer);
     PROP_BOOL(UseFormatting);
+    PROP_BOOL(UseSignature);
+    PROP_UTF8(Signature);
     PROP_STR(LastUpdate);
+    QString getSignatureText();
     void auth_fail(const char *err);
     void auth_ok();
     LiveJournalUserData	*findContact(const char *user, SIM::Contact *&contact, bool bCreate=true, bool bJoin=true);

@@ -378,6 +378,8 @@ static DataDef liveJournalClientData[] =
         { "MenuURL", DATA_STRLIST, 1, 0 },
         { "FastServer", DATA_BOOL, 1, 0 },
         { "UseFormatting", DATA_BOOL, 1, DATA(1) },
+        { "UseSignature", DATA_BOOL, 1, DATA(1) },
+        { "Signature", DATA_UTF, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// LastUpdate
         { "", DATA_STRUCT, sizeof(LiveJournalUserData) / sizeof(Data), DATA(liveJournalUserData) },
         { NULL, 0, 0, 0 }
@@ -546,6 +548,8 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
         }
         addParam("subject", msg->getSubject().utf8());
     }
+    if (!m_bEdit && client->getUseSignature())
+        text += "\n" + client->getSignatureText();
     addParam("event", text.utf8());
     addParam("lineendings", "unix");
     if (msg->getID())
@@ -566,7 +570,7 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     if (msg->getPrivate()){
         switch (msg->getPrivate()){
         case 0:
-            addParam("security", "private");
+            addParam("security", "public");
             break;
         case 1:
             addParam("security", "usemask");
@@ -838,6 +842,14 @@ void LiveJournalClient::statusChanged()
         }
     }
     findContact(data.owner.User.ptr, contact);
+}
+
+QString LiveJournalClient::getSignatureText()
+{
+    QString res = getSignature();
+    if (res.isEmpty())
+        res = i18n("<div style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">Powered by <a style=\"font-size:1em;font-style:italic;\" href=\"http://sim-im.berlios.de\">SIM Instant Messenger</a></div>");
+    return res;
 }
 
 static void addIcon(string *s, const char *icon, const char *statusIcon)
