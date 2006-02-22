@@ -3705,7 +3705,7 @@ bool CorePlugin::init(bool bInit)
     CmdParam p = { "-profile:", I18N_NOOP("Use specified profile"), &cmd_line_profile };
     Event e(EventArg, &p);
     if (e.process()){
-	bCmdLineProfile = true;
+        bCmdLineProfile = true;
         setProfile(NULL);
         QString profileDir = QFile::decodeName(user_file("").c_str());
         profileDir += cmd_line_profile.c_str();
@@ -3716,12 +3716,14 @@ bool CorePlugin::init(bool bInit)
         }
     }
 
-    string value;
+    string value="";
     CmdParam p1 = { "-uin:", I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password"), &value };
     Event e1(EventArg, &p1);
 	bRegister=e1.process();
 	setRegNew(bRegister);
-	QString  uinValue(value);
+	QString  uinValue;
+	if (value != "")
+		uinValue = QString(value);
 	QString uin=uinValue.left(uinValue.find(':'));
 	setICQUIN((const char *)uin.local8Bit());
 	setICQPassword((const char *)uinValue.right(uinValue.length()-uinValue.find(':')-1).local8Bit());
