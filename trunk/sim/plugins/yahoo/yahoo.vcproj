@@ -249,6 +249,8 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -427,6 +429,8 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -671,6 +675,8 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
