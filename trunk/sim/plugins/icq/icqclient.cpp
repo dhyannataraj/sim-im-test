@@ -1678,13 +1678,10 @@ string ICQClient::clientName(ICQUserData *data)
         unsigned ver1 = (data->Build.value >> 24) & 0xFF;
         unsigned ver2 = (data->Build.value >> 16) & 0xFF;
         unsigned ver3 = (data->Build.value >> 8) & 0xFF;
-        if (ver3){
-            snprintf(b, sizeof(b), "Licq %u.%u.%u", ver1, ver2, ver3);
-        }else{
-            snprintf(b, sizeof(b), "Licq %u.%u", ver1, ver2);
-        }
+		ver2 %=100;	// see licq source
+        snprintf(b, sizeof(b), "Licq %u.%u.%u", ver1, ver2, ver3);
         res += b;
-        if (data->Build.value & 0xFF)
+        if ((data->Build.value & 0xFF) == 1)
             res += "/SSL";
         return res;
     }
