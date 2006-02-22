@@ -48,8 +48,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				InlineFunctionExpansion="1"
+				Optimization="2"
 				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\sim,..\_core"
 				PreprocessorDefinitions="USE_OPENSSL;WIN32;_WINDOWS;QT_DLL;UNICODE;QT_THREAD_SUPPORT;VERSION=\&quot;0.9.4\&quot;;PACKAGE=\&quot;SIM\&quot;;USE_QT=1;CVS_BUILD=1"
 				StringPooling="true"
@@ -58,10 +57,6 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="icq_pch.h"
-				AssemblerListingLocation=".\$(ConfigurationName)/"
-				ObjectFile="Debug/"
-				ProgramDataBaseFileName="Debug/"
-				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DisableSpecificWarnings="4996"
@@ -84,7 +79,6 @@
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib AdvAPI32.Lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="../../Release/plugins/icq.dll"
-				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/icq.lib"
 				TargetMachine="1"
@@ -158,9 +152,6 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="icq_pch.h"
-				AssemblerListingLocation=".\$(ConfigurationName)/"
-				ObjectFile=".\$(ConfigurationName)/"
-				ProgramDataBaseFileName=".\$(ConfigurationName)/"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -3717,7 +3708,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>

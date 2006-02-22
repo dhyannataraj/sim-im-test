@@ -48,21 +48,18 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				InlineFunctionExpansion="1"
+				Optimization="2"
 				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\sim,..\_core"
 				PreprocessorDefinitions="WIN32;_WINDOWS;QT_DLL;UNICODE;QT_THREAD_SUPPORT;VERSION=\&quot;0.9.4\&quot;;PACKAGE=\&quot;SIM\&quot;;USE_QT=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(ConfigurationName)/gpg.pch"
-				AssemblerListingLocation=".\$(ConfigurationName)/"
-				ObjectFile="Debug/"
-				ProgramDataBaseFileName="Debug/"
-				BrowseInformation="1"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="gpg_pch.h"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DisableSpecificWarnings="4996"
+				ForcedIncludeFiles="gpg_pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -81,7 +78,6 @@
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="../../Release/plugins/gpg.dll"
-				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/gpg.lib"
 				TargetMachine="1"
@@ -153,15 +149,14 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(ConfigurationName)/gpg.pch"
-				AssemblerListingLocation=".\$(ConfigurationName)/"
-				ObjectFile=".\$(ConfigurationName)/"
-				ProgramDataBaseFileName=".\$(ConfigurationName)/"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="gpg_pch.h"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996"
+				ForcedIncludeFiles="gpg_pch.h"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -824,6 +819,26 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\gpg_pch.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="gpgadv.h"
 				>
 				<FileConfiguration
@@ -993,33 +1008,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
-			>
-			<File
-				RelativePath="gpg.rc"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories=""
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
 			Name="Interfaces"
 			Filter="ui"
 			>
@@ -1166,6 +1154,14 @@
 						Outputs="$(InputDir)$(InputName).h;$(InputDir)$(InputName).cpp;$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			>
+			<File
+				RelativePath=".\gpg.rc"
+				>
 			</File>
 		</Filter>
 	</Files>

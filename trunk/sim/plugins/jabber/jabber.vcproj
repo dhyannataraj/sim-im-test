@@ -147,8 +147,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				InlineFunctionExpansion="1"
+				Optimization="2"
 				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\sim,..\_core"
 				PreprocessorDefinitions="WIN32;_WINDOWS;QT_DLL;UNICODE;QT_THREAD_SUPPORT;VERSION=\&quot;0.9.4\&quot;;PACKAGE=\&quot;SIM\&quot;;USE_QT=1;USE_OPENSSL"
 				StringPooling="true"
@@ -178,7 +177,6 @@
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib $(OPENSSL_DIR)\lib\ssleay32.lib"
 				OutputFile="../../Release/plugins/jabber.dll"
-				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/jabber.lib"
 				TargetMachine="1"
