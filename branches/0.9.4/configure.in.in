@@ -6,6 +6,14 @@ AC_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_C_BIGENDIAN
 KDE_NEED_FLEX
+AC_PATH_PROG(LEX, flex, no)
+if test "x$LEX" = "xno" ; then
+   AC_PATH_PROG(LEX, lex, no)
+   if test "x$LEX" = "xno" ; then
+      AC_MSG_ERROR([lex or flex not found!])
+   fi
+fi
+AM_PROG_LEX
 AM_CONDITIONAL(QT2, test "$kde_qtver" = "2")
 if test "$kde_qtver" = "2" ; then
  LIBUIQT="../../sim/qt3/libsimuiqt.la"
@@ -153,6 +161,7 @@ AM_CONDITIONAL(QT_WIN, test "$kde_use_qt_win" = "yes")
 
 if test "$kde_use_qt_win" = "yes"; then
    AC_SUBST(SIM_RC_OBJ, "sim_rc.o")
+   AC_SUBST(GMSGFMT, "$GMSGFMT --qt")
 fi
 
 DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/update"

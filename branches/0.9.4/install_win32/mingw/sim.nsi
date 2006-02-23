@@ -191,8 +191,27 @@ Section "!SIM program files" SecSIM
   File ..\..\plugins\_core\pict\*.gif
 
   ;Locales
-  SetOutPath "$INSTDIR\po"  
-  File ..\..\po\*.qm
+  SetOutPath "$INSTDIR\po" 
+  File /oname=bg.qm ..\..\po\bg.gmo
+  File /oname=ca.qm ..\..\po\ca.gmo
+  File /oname=cs.qm ..\..\po\cs.gmo
+  File /oname=de.qm ..\..\po\de.gmo
+  File /oname=el.qm ..\..\po\el.gmo
+  File /oname=es.qm ..\..\po\es.gmo
+  File /oname=fr.qm ..\..\po\fr.gmo
+  File /oname=he.qm ..\..\po\he.gmo
+  File /oname=hu.qm ..\..\po\hu.gmo
+  File /oname=it.qm ..\..\po\it.gmo
+  File /oname=nl.qm ..\..\po\nl.gmo
+  File /oname=pl.qm ..\..\po\pl.gmo
+  File /oname=pt_BR.qm ..\..\po\pt_BR.gmo
+  File /oname=ru.qm ..\..\po\ru.gmo
+  File /oname=sk.qm ..\..\po\sk.gmo
+  File /oname=sw.qm ..\..\po\sw.gmo
+  File /oname=th.qm ..\..\po\th.gmo
+  File /oname=tr.qm ..\..\po\tr.gmo
+  File /oname=uk.qm ..\..\po\uk.gmo
+  File /oname=zh_TW.qm ..\..\po\zh_TW.gmo
 
   ;Sounds
   SetOutPath "$INSTDIR\sounds"  
@@ -282,7 +301,7 @@ FunctionEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecSIM} "Main program, plugins and needed data files."
     !insertmacro MUI_DESCRIPTION_TEXT ${SecQt} "Qt library. You can disable its installation if you have already installed it somewhere in yor system."
     !insertmacro MUI_DESCRIPTION_TEXT ${SecXml} "Xml processing library. You can disable its installation if you have already installed it somewhere in yor system."
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecXstl} "Xslt transfornation library. You can disable its installation if you have already installed it somewhere in yor system."
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecXslt} "Xslt transfornation library. You can disable its installation if you have already installed it somewhere in yor system."
     !insertmacro MUI_DESCRIPTION_TEXT ${SecSSL} "OpenSSL library. You can disable its installation if you have already installed it somewhere in yor system."
     !insertmacro MUI_DESCRIPTION_TEXT ${SecMingw} "Mingw runtime. You can disable its installation if you have already installed Mingw somewhere in yor system."
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
