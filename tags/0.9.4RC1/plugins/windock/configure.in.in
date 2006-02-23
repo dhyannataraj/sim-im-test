@@ -1,0 +1,8 @@
+compile_plugin="no"
+if test "$kde_use_qt_win" = "yes"; then
+  compile_plugin="yes"
+fi
+if test "x$compile_plugin" = "xno"; then
+  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/windock"
+fi
+
