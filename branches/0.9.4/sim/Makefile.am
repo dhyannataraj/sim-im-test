@@ -10,6 +10,7 @@ libsim_la_SOURCES = \
  aboutdata.cpp \
  ballonmsg.cpp \
  buffer.cpp \
+ builtinlogger.cpp \
  cfg.cpp \
  cmddef.cpp \
  contacts.cpp \

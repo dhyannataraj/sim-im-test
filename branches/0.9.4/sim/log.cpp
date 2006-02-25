@@ -29,7 +29,7 @@
 namespace SIM
 {
 
-static const char *level_name(unsigned short n)
+const char *level_name(unsigned short n)
 {
     if (n & L_ERROR) return "ERR";
     if (n & L_WARN) return "WRN";
