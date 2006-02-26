@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _PREVIEW_H
+#define _PREVIEW_H
+
 #include "simapi.h"
 #ifdef USE_KDE
 #include <kpreviewwidgetbase.h>
@@ -52,3 +55,5 @@ protected:
 };
 
 #endif
+
+#endif // _PREVIEW_H
