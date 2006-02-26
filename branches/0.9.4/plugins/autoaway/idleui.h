@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////
 // 2000 Microsoft Systems Journal.
-// If this program works, it was written by Paul DiLascia.
+// If this program works, it was written by Paul DiLascia, this includes idleui.def.
 // If not, I don't know who wrote it.
-// This program compiles with Visual C++ 6.0 on Windows 98
-//
+// This program compiles with Visual C++ 6.0 on Windows 98, Visual C++ 2005
+// 
 #define DLLIMPORT __declspec(dllimport)
 
 // IdleUI is a DLL that lets you tell when the user interface has been idle
