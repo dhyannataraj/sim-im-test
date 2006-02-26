@@ -1725,7 +1725,7 @@ __attribute__ ((__format__ (printf, 2, 3)));
 EXPORT void log(unsigned short level, const char *fmt, ...);
 #endif      
 EXPORT std::string make_packet_string(LogInfo *l);
-
+EXPORT const char *level_name(unsigned short n);
 // _____________________________________________________________________________________
 // Data
 

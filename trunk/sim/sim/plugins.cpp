@@ -25,6 +25,7 @@
 #include "exec.h"
 #include "sax.h"
 #include "xsl.h"
+#include "builtinlogger.h"
 
 #ifdef WIN32
 #include "qjpegio.h"
@@ -49,6 +50,7 @@
 #include <qapplication.h>
 #include <qregexp.h>
 
+#include <memory>
 #include <algorithm>
 using namespace std;
 
@@ -136,6 +138,7 @@ protected:
     bool m_bAbort;
 
     ExecManager	 *m_exec;
+    auto_ptr<BuiltinLogger> builtinLogger;
 
     friend class PluginManager;
 };
@@ -158,6 +161,8 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 {
     m_argc = argc;
     m_argv = argv;
+    builtinLogger.reset(new BuiltinLogger());
+
     m_exec = new ExecManager;
 
     app_name = *argv;
