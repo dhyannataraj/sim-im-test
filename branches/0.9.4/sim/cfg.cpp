@@ -628,7 +628,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         Data *ld = data + offs;
         switch (def->type){
         case DATA_IP:
-            p = strchr(value, ',');
+            p = (char*)strchr(value, ',');
             if (p){
                 *p = 0;
                 p++;
@@ -724,7 +724,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             break;
         case DATA_BOOL:
             for (i = 0; i < def->n_values; i++, ld++){
-                p = strchr(value, ',');
+                p = (char *)strchr(value, ',');
                 if (p)
                     *p = 0;
                 if (*value){

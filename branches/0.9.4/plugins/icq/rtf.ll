@@ -729,7 +729,7 @@ void Level::setText(const char *str)
            
         FontDef& def = p->fonts[m_nFont-1];
            
-        char *pp = strchr(str, ';');
+        char *pp = (char *)strchr(str, ';');
         unsigned size;
         if (pp != NULL)
            size = (pp - str);

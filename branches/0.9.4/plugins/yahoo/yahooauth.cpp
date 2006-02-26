@@ -1011,7 +1011,7 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
          */
 
         if (isalpha(*magic_ptr) || isdigit(*magic_ptr)) {
-            loc = strchr(challenge_lookup, *magic_ptr);
+            loc =(char *) strchr(challenge_lookup, *magic_ptr);
             if (!loc) {
                 /* SME XXX Error - disconnect here */
             }
@@ -1027,7 +1027,7 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         } else {
             unsigned int	local_store;
 
-            loc = strchr(operand_lookup, *magic_ptr);
+            loc = (char *)strchr(operand_lookup, *magic_ptr);
             if (!loc) {
                 /* SME XXX Disconnect */
             }
