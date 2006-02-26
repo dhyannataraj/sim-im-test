@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "logger.h"
-#include "simapi.h"
 #include "logconfig.h"
 
 #include <stdio.h>
