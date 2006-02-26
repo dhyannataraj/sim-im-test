@@ -278,6 +278,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\sim\builtinlogger.cpp"
+				>
+			</File>
+			<File
 				RelativePath="sim\cfg.cpp"
 				>
 				<FileConfiguration
@@ -1204,6 +1208,10 @@
 			</File>
 			<File
 				RelativePath="sim\buffer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\builtinlogger.h"
 				>
 			</File>
 			<File
