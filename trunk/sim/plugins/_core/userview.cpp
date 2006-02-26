@@ -1288,11 +1288,14 @@ void UserView::showTip(QListViewItem *list_item)
         hideTip();
         mTipItem = NULL;
         if (list_item){
-            UserViewItemBase *base_item = static_cast<UserViewItemBase*>(list_item);
-            if (base_item->type() == USR_ITEM){
-                mTipItem = list_item;
-                tipTimer->start(1000, true);
-            }
+            UserViewItemBase *base_item = dynamic_cast<UserViewItemBase*>(list_item);
+            if (!base_item)
+				log(L_DEBUG, "UserView::showTip() with wrong param");
+			else
+				if (base_item->type() == USR_ITEM){
+					mTipItem = list_item;
+					tipTimer->start(1000, true);
+				}
         }
     }
 }
