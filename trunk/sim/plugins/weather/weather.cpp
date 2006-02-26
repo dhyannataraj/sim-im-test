@@ -571,6 +571,7 @@ QString WeatherPlugin::getTipText()
     QString str = getTip();
     if (str.isEmpty())
         str = i18n("%l<br><br>\n"
+				   "<b>Current Weather:</b><br>\n"
                    "<img src=\"icon:weather%i\"> %c<br>\n"
                    "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
@@ -581,9 +582,10 @@ QString WeatherPlugin::getTipText()
                    "Dew Point: <b>%d</b><br>\n"
                    "Sunrise: %r<br>\n"
                    "Sunset: %s<br>\n"
-                   "<img src=\"icon:moon%mi\"> %mp<br>\n"
 				   "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
-                   "<br>\n"
+				   "<b>Moonphase: </b>%mp<br>\n"
+                   "<img src=\"icon:moon%mi\"><br>\n"
+				   "<br>\n"
                    "Updated: %u<br>\n");
     return str;
 }
@@ -592,7 +594,8 @@ QString WeatherPlugin::getForecastText()
 {
     QString str = getForecastTip();
     if (str.isEmpty())
-        str = i18n("<br>\n"
+        str = i18n("<br><br>\n"
+				   "<b>Forecast for</b><br>\n"
                    "<nobr><b>%d %w</b></nobr><br>\n"
                    "<img src=\"icon:weather%n\"> %c<br>\n"
                    " Temperature: <b>%t</b><br>\n");
