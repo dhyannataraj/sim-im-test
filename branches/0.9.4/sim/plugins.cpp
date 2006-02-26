@@ -161,7 +161,11 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 {
     m_argc = argc;
     m_argv = argv;
-    builtinLogger.reset(new BuiltinLogger());
+    unsigned logLevel = L_ERROR | L_WARN;
+#ifdef DEBUG
+    logLevel |= L_DEBUG;
+#endif
+    builtinLogger.reset(new BuiltinLogger(logLevel));
 
     m_exec = new ExecManager;
 
@@ -217,6 +221,13 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         info.base		 = 0;
         plugins.push_back(info);
         log(L_DEBUG,"Found plugin %s",info.name.c_str());
+    }
+    Event eCorePlugin(EventGetPluginInfo, (void*)"_core");
+    pluginInfo *coreInfo = static_cast<pluginInfo*>(eCorePlugin.process());
+    if (!coreInfo) {
+        log(L_ERROR,"Fatal error: Core plugin failed to load. Aborting!");
+        m_bAbort = true;
+        return;
     }
     sort(plugins.begin(), plugins.end(), cmp_plugin);
     for (vector<pluginInfo>::iterator itp = plugins.begin(); itp != plugins.end(); ++itp){

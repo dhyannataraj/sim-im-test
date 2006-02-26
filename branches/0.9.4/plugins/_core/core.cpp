@@ -4107,7 +4107,7 @@ Client *CorePlugin::loadClient(const char *name, Buffer *cfg)
     Event e(EventGetPluginInfo, (void*)pluginName.c_str());
     pluginInfo *info = (pluginInfo*)e.process();
     if (info == NULL){
-        log(L_DEBUG, "Plugin %s not found", pluginName.c_str());
+        log(L_WARN, "Plugin %s not found", pluginName.c_str());
         return NULL;
     }
     if (info->info == NULL){
