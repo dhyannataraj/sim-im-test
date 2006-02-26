@@ -388,7 +388,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             /*if (text.left(m_search.length()).upper() == m_search.upper())
                 highlight = text.left(m_search.length());*/
             //Search for substring in contact name
-            if (pos>-1) 
+            if (pos>-1)
                 highlight=text.mid(pos,m_search.length());
         }
         int save_x = x;
