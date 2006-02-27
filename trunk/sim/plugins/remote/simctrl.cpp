@@ -206,7 +206,7 @@ Processor *createTCPProcessor(const char *addr_str)
             sockaddr_in addr;
             addr.sin_family		 = AF_INET;
             addr.sin_addr.s_addr = ip;
-            addr.sin_port        = htons(port);
+            addr.sin_port        = htons((u_short)port);
             socklen_t addr_len = sizeof(addr);
             if (connect(s, (sockaddr*)&addr, addr_len) == -1){
 #ifdef WIN32

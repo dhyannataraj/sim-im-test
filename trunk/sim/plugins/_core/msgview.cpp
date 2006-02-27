@@ -292,7 +292,7 @@ void MsgViewBase::update()
     setSelection(start, 0, paragraphs() - 1, 0xFFFF, 0);
     removeSelectedText();
     setReadOnly(true);
-    QString text;
+    QString text="";
     for (list<Msg_Id>::iterator it = msgs.begin(); it != msgs.end(); ++it){
         Message *msg = History::load((*it).id, (*it).client.c_str(), m_id);
         if (msg == NULL)
@@ -311,7 +311,7 @@ void MsgViewBase::update()
         delete msg;
     }
     viewport()->setUpdatesEnabled(true);
-    append(text);
+    append(text);   //<= here occured a crash
     if (!CorePlugin::m_plugin->getOwnColors())
         setBackground(i);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))

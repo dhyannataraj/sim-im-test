@@ -1713,7 +1713,7 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
         items.push_back(item);
 }
 
-void UserView::dragScroll()
+void UserView::dragScroll() //rewrite!?
 {
     QPoint pos = QCursor::pos();
     pos = viewport()->mapFromGlobal(pos);
@@ -1725,7 +1725,7 @@ void UserView::dragScroll()
         item = itemAt(pos);
     }else if (pos.y() > viewport()->height()){
         pos = QPoint(pos.x(), viewport()->height() - 1);
-        item = itemAt(pos);
+        item = itemAt(pos); //<== crash, it does not return item, sometimes in QGList append() no mem allocation is possible :-/ ???
         if (item){
             pos = QPoint(pos.x(), viewport()->height() - 1 + item->height());
             item = itemAt(pos);

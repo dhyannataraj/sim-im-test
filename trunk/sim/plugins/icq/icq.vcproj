@@ -153,10 +153,10 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="icq_pch.h"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996,4127"
 				ForcedIncludeFiles="icq_pch.h"
 			/>
 			<Tool

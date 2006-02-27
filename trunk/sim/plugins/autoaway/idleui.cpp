@@ -152,7 +152,8 @@ void shutdown()
 
 BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID reserved)
 {
-    switch (reason)
+    reserved=0;
+	switch (reason)
     {
     case DLL_PROCESS_ATTACH:
         {
