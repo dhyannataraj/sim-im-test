@@ -1445,23 +1445,6 @@ public:
     ~UserViewContactDragObject();
 };
 
-#ifdef WIN32
-
-static UserView *dragView = NULL;
-
-DWORD __stdcall DragScrollThread(LPVOID)
-{
-    for (;;){
-        Sleep(200);
-        if (dragView == NULL)
-            break;
-        dragView->dragScroll();
-    }
-    return 0;
-}
-
-#endif
-
 UserViewContactDragObject::UserViewContactDragObject(UserView *view, Contact *contact)
         : ContactDragObject(view, contact)
 {
