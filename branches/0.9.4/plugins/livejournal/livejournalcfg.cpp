@@ -21,6 +21,7 @@
 
 #include <qcheckbox.h>
 #include <qlineedit.h>
+#include <qmultilineedit.h>
 #include <qspinbox.h>
 #include <qtimer.h>
 
@@ -45,8 +46,13 @@ LiveJournalCfg::LiveJournalCfg(QWidget *parent, LiveJournalClient *client, bool 
     edtPort->setValue(client->getPort());
     edtInterval->setValue(client->getInterval());
     chkFastServer->setChecked(client->getFastServer());
+    chkUseFormatting->setChecked(client->getUseFormatting());
+    chkUseSignature->setChecked(client->getUseSignature());
+    edtSignature->setText(client->getSignatureText());
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPassword, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
+    connect(chkUseSignature, SIGNAL(toggled(bool)), this, SLOT(useSigToggled(bool)));
+    useSigToggled(chkUseSignature->isChecked());
     changed("");
     QTimer::singleShot(0, this, SLOT(changed()));
 }
@@ -72,10 +78,19 @@ void LiveJournalCfg::apply()
     m_client->setPort(atol(edtPort->text()));
     m_client->setInterval(atol(edtInterval->text()));
     m_client->setFastServer(chkFastServer->isChecked());
+    m_client->setUseFormatting(chkUseFormatting->isChecked());
+    m_client->setUseSignature(chkUseSignature->isChecked());
+    if (edtSignature->text() != m_client->getSignatureText())
+        m_client->setSignature(edtSignature->text());
 }
 
 void LiveJournalCfg::apply(Client*, void*)
 {
+}
+
+void LiveJournalCfg::useSigToggled(bool value)
+{
+    edtSignature->setEnabled(value);
 }
 
 #ifndef _MSC_VER

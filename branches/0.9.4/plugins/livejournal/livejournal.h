@@ -109,6 +109,9 @@ typedef struct LiveJournalClientData
     Data	Menu;
     Data	MenuUrl;
     Data	FastServer;
+    Data	UseFormatting;
+    Data	UseSignature;
+    Data	Signature;
     Data	LastUpdate;
     LiveJournalUserData	owner;
 } LiveJournalClientData;
@@ -147,7 +150,11 @@ public:
     PROP_STRLIST(Menu);
     PROP_STRLIST(MenuUrl);
     PROP_BOOL(FastServer);
+    PROP_BOOL(UseFormatting);
+    PROP_BOOL(UseSignature);
+    PROP_UTF8(Signature);
     PROP_STR(LastUpdate);
+    QString getSignatureText();
     void auth_fail(const char *err);
     void auth_ok();
     LiveJournalUserData	*findContact(const char *user, Contact *&contact, bool bCreate=true, bool bJoin=true);
