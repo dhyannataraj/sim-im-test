@@ -1132,6 +1132,10 @@ void UserView::keyPressEvent(QKeyEvent *e)
                 return;
             }
         }
+    case Key_Delete:
+        // e->text() is not empty, but we don't need to specially handle Del 
+        UserListBase::keyPressEvent(e);
+        return;
     default:
         QString t = e->text();
         if (t.isEmpty()){
