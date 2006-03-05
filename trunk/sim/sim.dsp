@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(QTDIR)\include" /I "sim" /I "sim\win32" /D "NDEBUG" /D "QT_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D "SIMAPI_EXPORTS" /D CVS_BUILD=1 /YX"sim_pch.h" /Fo"Release/" /Fd"Release/" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O1 /I "$(QTDIR)\include" /I "sim" /I "sim\win32" /D "NDEBUG" /D "QT_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D VERSION=\"0.9.5 $(SIMTAG)\" /D PACKAGE=\"SIM\" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D "SIMAPI_EXPORTS" /D CVS_BUILD=1 /YX"sim_pch.h" /Fo"Release/" /Fd"Release/" /FD /c
 # SUBTRACT CPP /WX
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -71,7 +71,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "sim\win32" /D "_DEBUG" /D "_USRDLL" /D "QT_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D VERSION=\"0.9.4\" /D PACKAGE=\"SIM\" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D "SIMAPI_EXPORTS" /D CVS_BUILD=1 /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "$(QTDIR)\include" /I "sim" /I "sim\win32" /D "_DEBUG" /D "_USRDLL" /D "QT_DLL" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D VERSION=\"0.9.5 $(SIMTAG)\" /D PACKAGE=\"SIM\" /D "UNICODE" /D "USE_OPENSSL" /D LTDL_SHLIB_EXT=\".dll\" /D LTDL_OBJDIR=\"\" /D "HAVE_STDIO_H" /D "HAVE_STRING_H" /D "HAVE_MALLOC_H" /D "SIMAPI_EXPORTS" /D CVS_BUILD=1 /FR"Debug/" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x419 /d "_DEBUG"
