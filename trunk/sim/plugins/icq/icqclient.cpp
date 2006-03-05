@@ -1622,6 +1622,10 @@ string ICQClient::clientName(ICQUserData *data)
         res += b;
         return res;
 	}
+    if (hasCap(data, CAP_QIP)){
+        res += "QIP 2005a";
+        return res;
+    }
     if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))
 	{
         res += "ICQ 5.0";

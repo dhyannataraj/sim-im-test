@@ -164,6 +164,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 						}
                         if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))
 							size -= 4;
+                        if ((i == CAP_ANDRQ))
+                            size -= 7;
 						if ((i == CAP_MIRANDA))
 							size -= 8;
                         if (!memcmp(cap, capabilities[i], size)){
@@ -175,6 +177,11 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE)){
                                 unsigned char *p = (unsigned char*)cap;
                                 p += 12;
+                                data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
+                            }
+                            if ((i == CAP_ANDRQ)) {
+                                unsigned char *p = (unsigned char*)cap;
+                                p += 9;
                                 data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
                             }
 							if ((i == CAP_MIRANDA)) {
