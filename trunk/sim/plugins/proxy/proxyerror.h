@@ -29,7 +29,7 @@ class ProxyError : public ProxyErrorBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    ProxyError(ProxyPlugin *plugin, SIM::TCPClient *client, const char *msg);
+    ProxyError(ProxyPlugin *plugin, SIM::TCPClient *client, const QString& msg);
     ~ProxyError();
 signals:
     void apply();

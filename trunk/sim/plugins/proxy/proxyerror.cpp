@@ -25,7 +25,7 @@
 
 using namespace SIM;
 
-ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg)
+ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const QString& msg)
         : ProxyErrorBase(NULL, NULL, false, WDestructiveClose)
 {
     SET_WNDPROC("proxy")
@@ -34,8 +34,7 @@ ProxyError::ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg)
     setCaption(caption());
     m_plugin = plugin;
     m_client = client;
-    if (msg && *msg)
-        lblMessage->setText(i18n(msg));
+    lblMessage->setText(msg);
     if (layout() && layout()->inherits("QBoxLayout")){
         QBoxLayout *lay = static_cast<QBoxLayout*>(layout());
         ProxyConfig *cfg = new ProxyConfig(this, m_plugin, NULL, m_client);
