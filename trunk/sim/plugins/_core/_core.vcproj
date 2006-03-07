@@ -7273,6 +7273,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\icqlite\28.png"
+				>
+			</File>
+			<File
+				RelativePath=".\icqlite\29.png"
+				>
+			</File>
+			<File
 				RelativePath="icqlite\3.png"
 				>
 			</File>
@@ -7321,6 +7329,32 @@
 						Description="Make icqlite.jisp"
 						CommandLine="mkdir $(IntDir)\jisp&#x0D;&#x0A;copy $(InputDir)*.png $(IntDir)\jisp&#x0D;&#x0A;copy $(InputDir)icondef.xml $(IntDir)\jisp&#x0D;&#x0A;jar -cMf $(OutDir)\icons\icqlite.jisp -C $(IntDir)\jisp .&#x0D;&#x0A;del /Q $(IntDir)\jisp\*.*&#x0D;&#x0A;rmdir /Q $(IntDir)\jisp&#x0D;&#x0A;"
 						Outputs="$(OutDir)\icons\icqlite.jisp"
+					/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+		<Filter
+			Name="additional"
+			>
+			<File
+				RelativePath=".\additional\0.png"
+				>
+			</File>
+			<File
+				RelativePath=".\additional\1.png"
+				>
+			</File>
+			<File
+				RelativePath=".\additional\icondef.xml"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Make additional.jisp"
+						CommandLine="mkdir $(IntDir)\jisp&#x0D;&#x0A;copy $(InputDir)*.png $(IntDir)\jisp&#x0D;&#x0A;copy $(InputDir)icondef.xml $(IntDir)\jisp&#x0D;&#x0A;jar -cMf $(OutDir)\icons\additional.jisp -C $(IntDir)\jisp .&#x0D;&#x0A;del /Q $(IntDir)\jisp\*.*&#x0D;&#x0A;rmdir /Q $(IntDir)\jisp"
+						Outputs="$(OutDir)\icons\additional.jisp"
 					/>
 				</FileConfiguration>
 			</File>
