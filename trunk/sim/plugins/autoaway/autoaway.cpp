@@ -343,7 +343,8 @@ void *AutoAwayPlugin::processEvent(Event *e)
         }
         if ((commonStatus == STATUS_ONLINE) || (commonStatus == STATUS_OFFLINE))
             return NULL;
-        return (void*)commonStatus;
+        if (getDisableAlert() && (bAway || bNA || bOff))
+            return (void*)commonStatus;
     }
     return NULL;
 }
