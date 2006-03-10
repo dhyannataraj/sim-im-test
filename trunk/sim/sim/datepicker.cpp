@@ -111,9 +111,7 @@ DateEdit::DateEdit(QWidget *parent)
         : QLineEdit(parent)
 {
     setValidator(new DateValidator(this));
-#if COMPAT_QT_VERSION >= 0x030200
     setInputMask("00/00/0000;_");
-#endif
 }
 
 DatePicker::DatePicker(QWidget *parent, const char *name)

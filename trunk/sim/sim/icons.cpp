@@ -95,14 +95,10 @@ Icons::Icons()
        I had a similar idea with setting the old defaultFactory in
        the destructor but this won't work :(
        Christian */
-#if COMPAT_QT_VERSION >= 0x030000
     QMimeSourceFactory* oldDefaultFactory = QMimeSourceFactory::takeDefaultFactory();
-#endif
     QMimeSourceFactory::setDefaultFactory(new MyMimeSourceFactory());
-#if COMPAT_QT_VERSION >= 0x030000
     if (oldDefaultFactory)
         QMimeSourceFactory::addFactory( oldDefaultFactory );
-#endif
     addIconSet("icons/sim.jisp", true);
     m_defSets.push_back(new WrkIconSet);
     addIconSet("icons/smiles.jisp", false);
@@ -110,9 +106,6 @@ Icons::Icons()
 
 Icons::~Icons()
 {
-#if COMPAT_QT_VERSION < 0x030000
-    QMimeSourceFactory::setDefaultFactory(new QMimeSourceFactory());
-#endif
     list<IconSet*>::iterator it;
     for (it = m_customSets.begin(); it != m_customSets.end(); ++it)
         delete *it;
@@ -128,9 +121,6 @@ void *Icons::processEvent(Event *e)
             (*it)->clear();
         for (it = m_defSets.begin(); it != m_defSets.end(); ++it)
             (*it)->clear();
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        m_icons.clear();
-#endif
     }
     return NULL;
 }
@@ -255,19 +245,6 @@ void Icons::removeIconSet(IconSet *is)
     }
 }
 
-//#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-
-PictDef *Icons::getPict(const QPixmap &p)
-{
-    unsigned serial = p.serialNumber();
-    ICONS_MAP::iterator it = m_icons.find(serial);
-    if (it == m_icons.end())
-        return NULL;
-    return getPict(it->second.c_str());
-}
-
-//#endif
-
 static Icons *icons = NULL;
 
 Icons *getIcons()
@@ -290,56 +267,11 @@ PictDef *getPict(const char *name)
     return icons->getPict(name);
 }
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-static QPixmap getPixmap(PictDef *d, const char *name)
-#else
 static QPixmap getPixmap(PictDef *d, const char*)
-#endif
 {
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    if (d->pixmap == NULL){
-        QColor c = QApplication::palette().active().button();
-        unsigned char cr = c.red();
-        unsigned char cg = c.green();
-        unsigned char cb = c.blue();
-        QImage image(d->image->width(), d->image->height(), 32);
-        QBitmap mask(d->image->width(), d->image->height());
-        QPainter pmask(&mask);
-        pmask.fillRect(0, 0, d->image->width(), d->image->height(), QColor(255, 255, 255));
-        pmask.setPen(QColor(0, 0, 0));
-        unsigned int *from = (unsigned int*)d->image->bits();
-        unsigned int *to   = (unsigned int*)image.bits();
-        for (int i = 0; i < d->image->height(); i++){
-            for (int j = 0; j < d->image->width(); j++){
-                unsigned int c = *(from++);
-                unsigned char a = (c >> 24) & 0xFF;
-                unsigned char r = (c >> 16) & 0xFF;
-                unsigned char g = (c >> 8) & 0xFF;
-                unsigned char b = c & 0xFF;
-                r = (((r * a) + (cr * (0xFF - a))) >> 8) & 0xFF;
-                g = (((g * a) + (cg * (0xFF - a))) >> 8) & 0xFF;
-                b = (((b * a) + (cb * (0xFF - a))) >> 8) & 0xFF;
-                *(to++) = 0xFF000000 + (r << 16) + (g << 8) + b;
-                if (a)
-                    pmask.drawPoint(j, i);
-            }
-        }
-        pmask.end();
-        QPixmap *res = new QPixmap;
-        res->convertFromImage(image);
-        res->setMask(mask);
-        d->pixmap = res;
-    }
-    ICONS_MAP &icons = getIcons()->m_icons;
-    ICONS_MAP::iterator it = icons.find(d->pixmap->serialNumber());
-    if (it == icons.end())
-        icons.insert(ICONS_MAP::value_type(d->pixmap->serialNumber(), name));
-    return *(d->pixmap);
-#else
     QPixmap res;
     res.convertFromImage(*(d->image));
     return res;
-#endif
 }
 
 QIconSet Icon(const char *name)
@@ -353,13 +285,6 @@ QIconSet Icon(const char *name)
     pict = getPict(bigName.c_str());
     if (pict)
         res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Large);
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    string disName = "disabled.";
-    disName += name;
-    pict = getPict(disName.c_str());
-    if (pict)
-        res.setPixmap(getPixmap(pict, bigName.c_str()), QIconSet::Small, QIconSet::Disabled);
-#endif
     return res;
 }
 
@@ -379,37 +304,10 @@ QPixmap Pict(const char *name)
     return getPixmap(p, name);
 }
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-
-QPixmap Pict(const char *name, const QColor &c)
-{
-	const QImage *img = Image(name);
-	if (img == NULL)
-		return QPixmap();
-	QImage res = img->copy();
-	unsigned char cr = c.red();
-	unsigned char cg = c.green();
-	unsigned char cb = c.blue();
-    unsigned int *data = (unsigned int*)res.bits();
-    for (int i = 0; i < res.height() * res.width(); i++){
-		unsigned char a = qAlpha(data[i]);
-		data[i] = qRgba((qRed(data[i]) * a + cr * (0xFF - a)) >> 8,
-			(qGreen(data[i]) * a + cg * (0xFF - a)) >> 8,
-			(qBlue(data[i]) * a + cb * (0xFF - a)) >> 8, 0xFF);
-	}
-	QPixmap r;
-	r.convertFromImage(res);
-	return r;
-}
-
-#else
-
 QPixmap Pict(const char *name, const QColor&)
 {
 	return Pict(name);
 }
-
-#endif
 
 MyMimeSourceFactory::MyMimeSourceFactory()
         : QMimeSourceFactory()
@@ -441,10 +339,6 @@ IconSet::~IconSet()
     for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
         if ((*it).second.image)
             delete (*it).second.image;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        if ((*it).second.pixmap)
-            delete (*it).second.pixmap;
-#endif
     }
 }
 
@@ -595,60 +489,6 @@ static QImage makeInvisible(unsigned flags, const QImage &p)
     return image;
 }
 
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-
-static QImage makeDisabled(const QImage &p)
-{
-    QImage image(p.width() + 1, p.height() + 1, 32);
-	unsigned int *data = (unsigned int*)image.bits();
-	unsigned int *d = (unsigned int*)p.bits();
-	QColorGroup g = QApplication::palette().disabled();
-	QColor c1 = g.base();
-    unsigned char cr1 = c1.red();
-    unsigned char cg1 = c1.green();
-    unsigned char cb1 = c1.blue();
-	QColor c2 = g.button();
-    unsigned char cr2 = c2.red();
-    unsigned char cg2 = c2.green();
-    unsigned char cb2 = c2.blue();
-	unsigned int *f = d;
-	unsigned int *t = data;
-	int i;
-	for (i = 0; i < p.width() + 1; i++)
-		*(t++) = qRgba(cr2, cg2, cb2, 0);
-	for (i = 0; i < p.height(); i++){
-		*(t++) = qRgba(cr2, cg2, cb2, 0);
-		for (int j = 0; j < p.width(); j++){
-			unsigned char v = (qRed(*f) + qGreen(*f) + qBlue(*f)) / 3;
-			*(t++) = qRgba((cr2 * v + cr1 * (0xFF - v)) >> 8,
-				(cg2 * v + cg1 * (0xFF - v)) >> 8,
-				(cb2 * v + cb1 * (0xFF - v)) >> 8, qAlpha(*f));
-			f++;
-		}
-	}
-	c1 = g.foreground();
-	cr1 = c1.red();
-	cg1 = c1.green();
-	cb1 = c1.blue();
-	f = d;
-	t = data;
-	for (i = 0; i < p.height(); i++){
-		for (int j = 0; j < p.width(); j++){
-			unsigned char a = qAlpha(*f);
-			unsigned char v = (qRed(*f) + qGreen(*f) + qBlue(*f)) / 3;
-			*t = qRgba((((cr2 * v + cr1 * (0xFF - v)) >> 8) * a + qRed(*t) * (0xFF - a)) >> 8,
-				(((cg2 * v + cg1 * (0xFF - v)) >> 8) * a + qGreen(*t) * (0xFF - a)) >> 8,
-				(((cb2 * v + cb1 * (0xFF - v)) >> 8) * a + qBlue(*t) * (0xFF - a)) >> 8, QMAX(qAlpha(*f), qAlpha(*t)));
-			f++;
-			t++;
-		}
-		t++;
-	}
-    return image;
-}
-
-#endif
-
 static QImage merge(const QImage &p1, const QImage &p2)
 {
     QImage img1 = p1.copy();
@@ -760,15 +600,6 @@ PictDef *WrkIconSet::getPict(const char *name)
             return add(name, res, p->flags);
         }
     }
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    char _disabled[] = "disabled.";
-    if ((strlen(name) > strlen(_disabled)) && !memcmp(name, _disabled, strlen(_disabled))){
-        PictDef *p = SIM::getPict(n.substr(strlen(_disabled)).c_str());
-        if (p == NULL)
-            return NULL;
-        return add(name, makeDisabled(*(p->image)), p->flags);
-    }
-#endif
     if ((strlen(name) <= 4) || memcmp(name, "big.", 4))
         log(L_DEBUG, "Icon %s not found", name);
     return NULL;
@@ -779,10 +610,6 @@ void WrkIconSet::clear()
     for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
         if ((*it).second.image)
             delete (*it).second.image;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        if ((*it).second.pixmap)
-            delete (*it).second.pixmap;
-#endif
     }
     m_icons.clear();
 }
@@ -792,9 +619,6 @@ PictDef *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
     PictDef p;
     p.image = new QImage(pict);
     p.flags = flags;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    p.pixmap = NULL;
-#endif
     m_icons.insert(PIXMAP_MAP::value_type(name, p));
     return &m_icons.find(name)->second;
 }
@@ -853,12 +677,6 @@ void FileIconSet::clear()
             delete (*it).second.image;
             (*it).second.image = NULL;
         }
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        if ((*it).second.pixmap){
-            delete (*it).second.pixmap;
-            (*it).second.pixmap = NULL;
-        }
-#endif
     }
 }
 
@@ -930,9 +748,6 @@ void FileIconSet::element_end(const char *el)
     if (!strcmp(el, "icon")){
         PictDef p;
         p.image  = NULL;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-        p.pixmap = NULL;
-#endif
         p.file   = m_file;
         p.flags  = m_flags;
 #ifdef USE_KDE

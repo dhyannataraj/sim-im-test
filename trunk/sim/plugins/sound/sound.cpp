@@ -378,11 +378,7 @@ void SoundPlugin::processQueue()
         m_sound   = NULL;
         m_sound = new QSound(sound.c_str());
         m_sound->play();
-#if COMPAT_QT_VERSION >= 0x030000
         m_checkTimer->start(CHECK_SOUND_TIMEOUT);
-#else
-        m_checkTimer->start(WAIT_SOUND_TIMEOUT);
-#endif
         m_current = "";
         return; // QSound
     }
@@ -408,10 +404,9 @@ void SoundPlugin::processQueue()
 void SoundPlugin::checkSound()
 {
     bool bDone = true;
-#if COMPAT_QT_VERSION >= 0x030000
     if (m_sound && !m_sound->isFinished())
         bDone = false;
-#endif
+
     if (bDone){
         m_checkTimer->stop();
         if (m_sound)

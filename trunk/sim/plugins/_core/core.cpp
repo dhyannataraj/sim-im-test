@@ -120,7 +120,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-#if !defined(WIN32) && !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
+#if !defined(WIN32) && !defined(USE_KDE)
 
 struct loaded_domain;
 
@@ -1580,14 +1580,14 @@ void CorePlugin::installTranslator()
     QString po = poFile(lang.c_str());
     if (po.isEmpty())
         return;
-#if !defined(WIN32) && !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
+#if !defined(WIN32) && !defined(USE_KDE)
     m_translator = new SIMTranslator(NULL, po);
 #else
     m_translator = new QTranslator(NULL);
     m_translator->load(po);
 #endif
     qApp->installTranslator(m_translator);
-#if !defined(WIN32) && !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
+#if !defined(WIN32) && !defined(USE_KDE)
     resetPlural();
 #endif
     Event e(EventLanguageChanged, m_translator);
@@ -1600,7 +1600,7 @@ void CorePlugin::removeTranslator()
         qApp->removeTranslator(m_translator);
         delete m_translator;
         m_translator = NULL;
-#if !defined(WIN32) && !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
+#if !defined(WIN32) && !defined(USE_KDE)
         resetPlural();
 #endif
         Event e(EventLanguageChanged, NULL);
@@ -4032,11 +4032,7 @@ string CorePlugin::getConfig()
         fCFG.writeBlock(write.c_str(), write.length());
 
         const int status = fCFG.status();
-#if COMPAT_QT_VERSION >= 0x030200
         const QString errorMessage = fCFG.errorString();
-#else
-        const QString errorMessage = "write file fail";
-#endif
         fCFG.close();
         if (status != IO_Ok) {
             log(L_ERROR, "IO error during writting to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
@@ -4090,11 +4086,7 @@ string CorePlugin::getConfig()
         }
 
         const int status = f.status();
-#if COMPAT_QT_VERSION >= 0x030200
         const QString errorMessage = f.errorString();
-#else
-const QString errorMessage = "write file fail";
-#endif
         f.close();
         if (status != IO_Ok) {
             log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());

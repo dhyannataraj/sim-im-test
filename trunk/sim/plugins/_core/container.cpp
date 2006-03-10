@@ -1044,12 +1044,6 @@ UserWnd *UserTabBar::currentWnd()
 void UserTabBar::layoutTabs()
 {
     QTabBar::layoutTabs();
-#if COMPAT_QT_VERSION < 0x030000
-    QList<QTab> *tList = tabList();
-    for (QTab *t = tList->first(); t; t = tList->next()){
-        t->r.setHeight(height());
-    }
-#endif
 }
 
 UserTab::UserTab(UserWnd *wnd, bool bBold)

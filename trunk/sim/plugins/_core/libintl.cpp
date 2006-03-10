@@ -51,7 +51,7 @@ Cambridge, MA 02139, USA.  */
 #include "simapi.h"
 #include "qglobal.h"
 
-#if !defined(USE_KDE) && (COMPAT_QT_VERSION >= 0x030000)
+#if !defined(USE_KDE)
 
 #include <stdlib.h>
 

@@ -253,9 +253,7 @@ void *FilterPlugin::processEvent(Event *e)
                 MsgViewBase *view = (MsgViewBase*)(cmd->param);
                 if (view->hasSelectedText()){
                     text = view->selectedText();
-#if (COMPAT_QT_VERSION < 0x030000) || (COMPAT_QT_VERSION >= 0x030100)
                     text = unquoteText(text);
-#endif
                     id = view->m_id;
                 }
             }else if (cmd->menu_id == MenuTextEdit){
@@ -263,10 +261,8 @@ void *FilterPlugin::processEvent(Event *e)
                 TextEdit *edit = medit->m_edit;
                 if (edit->hasSelectedText()){
                     text = edit->selectedText();
-#if (COMPAT_QT_VERSION < 0x030000) || (COMPAT_QT_VERSION >= 0x030100)
                     if (edit->textFormat() == QTextEdit::RichText)
                         text = unquoteText(text);
-#endif
                     id = medit->m_userWnd->id();
                 }
             }

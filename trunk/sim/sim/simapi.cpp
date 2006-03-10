@@ -49,9 +49,7 @@
 #include <qmultilineedit.h>
 #include <qregexp.h>
 
-#if COMPAT_QT_VERSION >= 0x030000
 #include <qdesktopwidget.h>
-#endif
 
 #ifdef USE_KDE
 #include <kwin.h>
@@ -94,7 +92,7 @@ QString i18n(const char *comment, const char *text)
 
 #endif
 
-#if !defined(USE_KDE) || (COMPAT_QT_VERSION < 0x030000)
+#if !defined(USE_KDE)
 
 static bool bPluralInit = false;
 static int plural_form = -1;
@@ -719,101 +717,28 @@ I18N_NOOP("Grin")
 DECLARE_HANDLE(HMONITOR);
 typedef BOOL (CALLBACK* MONITORENUMPROC)(HMONITOR, HDC, LPRECT, LPARAM);
 
-#if COMPAT_QT_VERSION < 0x030000
-
-static BOOL CALLBACK enumScreens(HMONITOR, HDC, LPRECT rc, LPARAM data)
-{
-    vector<QRect> *p = (vector<QRect>*)data;
-    p->push_back(QRect(rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top));
-    return TRUE;
-}
-
-#endif
 #endif
 
 EXPORT unsigned screens()
 {
-#if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     return desktop->numScreens();
-#else 
-#ifdef WIN32
-    HINSTANCE hLib = LoadLibraryA("user32.dll");
-    BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
-    (DWORD&)_EnumDisplayMonitors = (DWORD)GetProcAddress(hLib, "EnumDisplayMonitors");
-    if (_EnumDisplayMonitors == NULL){
-        FreeLibrary(hLib);
-        return 1;
-    }
-    vector<QRect> rc;
-    if (_EnumDisplayMonitors(NULL, NULL, enumScreens, (LPARAM)&rc) == 0){
-        FreeLibrary(hLib);
-        return 1;
-    }
-    return rc.size();
-#else
-    return 1;
-#endif
-#endif
 }
 
 EXPORT QRect screenGeometry(unsigned nScreen)
 {
-#if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     return desktop->screenGeometry(nScreen);
-#else 
-#ifdef WIN32
-    HINSTANCE hLib = LoadLibraryA("user32.dll");
-    BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
-    (DWORD&)_EnumDisplayMonitors = (DWORD)GetProcAddress(hLib, "EnumDisplayMonitors");
-    if (_EnumDisplayMonitors == NULL){
-        FreeLibrary(hLib);
-        return QApplication::desktop()->rect();
-    }
-    vector<QRect> rc;
-    if (_EnumDisplayMonitors(NULL, NULL, enumScreens, (LPARAM)&rc) == 0){
-        FreeLibrary(hLib);
-        return QApplication::desktop()->rect();
-    }
-    return rc[nScreen];
-#else
-    return QApplication::desktop()->rect();
-#endif
-#endif
 }
 
 EXPORT QRect screenGeometry()
 {
-#if COMPAT_QT_VERSION >= 0x030000
     QDesktopWidget *desktop = QApplication::desktop();
     QRect rc;
     for (int i = 0; i < desktop->numScreens(); i++){
         rc |= desktop->screenGeometry(i);
     }
     return rc;
-#else 
-#ifdef WIN32
-    HINSTANCE hLib = LoadLibraryA("user32.dll");
-    BOOL (WINAPI *_EnumDisplayMonitors)(HDC, LPCRECT, MONITORENUMPROC, LPARAM) = NULL;
-    (DWORD&)_EnumDisplayMonitors = (DWORD)GetProcAddress(hLib, "EnumDisplayMonitors");
-    if (_EnumDisplayMonitors == NULL){
-        FreeLibrary(hLib);
-        return QApplication::desktop()->rect();
-    }
-    vector<QRect> rc;
-    if (_EnumDisplayMonitors(NULL, NULL, enumScreens, (LPARAM)&rc) == 0){
-        FreeLibrary(hLib);
-        return QApplication::desktop()->rect();
-    }
-    QRect res;
-    for (vector<QRect>::iterator it = rc.begin(); it != rc.end(); ++it)
-        res |= (*it);
-    return res;
-#else
-    return QApplication::desktop()->rect();
-#endif
-#endif
 }
 
 static bool bLog = true;

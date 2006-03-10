@@ -71,9 +71,6 @@ protected:
     unsigned long m_menuId;
     SIM::ProcessMenuParam m_mp;
     QTimer	 *m_resizeTimer;
-#if COMPAT_QT_VERSION < 0x030000
-    QPoint m_mousePressPos;
-#endif
     bool m_bAcceptDrop;
     static bool s_bInit;
 };

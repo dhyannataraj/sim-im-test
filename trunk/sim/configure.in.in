@@ -6,16 +6,6 @@ AC_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_C_BIGENDIAN
 KDE_NEED_FLEX
-AM_CONDITIONAL(QT2, test "$kde_qtver" = "2")
-if test "$kde_qtver" = "2" ; then
- LIBUIQT="../../sim/qt3/libsimuiqt.la"
- LIBUI="../../sim/qt3/libsimuiqt.la"
-else
- LIBUIQT=""
- LIBUI=""
-fi
-AC_SUBST(LIBUIQT)
-AC_SUBST(LIBUI)
 LFLAGS="-o${LEX_OUTPUT_ROOT}.c"
 AC_SUBST(LFLAGS)
 if test "$CYGWIN" = "yes"; then

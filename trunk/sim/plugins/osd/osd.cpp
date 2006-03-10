@@ -372,11 +372,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         }
         QBrush bg(data->BgColor.value);
         p.fillRect(rc, bg);
-#if COMPAT_QT_VERSION < 0x030000
-        style().drawPopupPanel(&p, 0, 0, w, h, colorGroup(), 2, &bg);
-#else
         style().drawPrimitive(QStyle::PE_PanelPopup, &p, rc, colorGroup());
-#endif
         rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
     }
     p.setFont(font());

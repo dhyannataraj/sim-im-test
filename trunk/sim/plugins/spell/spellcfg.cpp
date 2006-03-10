@@ -175,32 +175,14 @@ void SpellConfig::langClicked(QListViewItem *item)
     setCheck(item);
 }
 
-#if COMPAT_QT_VERSION < 0x030000
-#define CHECK_OFF       QButton::Off
-#define CHECK_ON        QButton::On
-#define CHECK_NOCHANGE  QButton::NoChange
-#else
 #define CHECK_OFF       QStyle::Style_Off
 #define CHECK_ON        QStyle::Style_On
 #define CHECK_NOCHANGE  QStyle::Style_NoChange
-#endif
 
 void SpellConfig::setCheck(QListViewItem *item)
 {
     int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();
-#if COMPAT_QT_VERSION < 0x030000
-    QSize s = style().indicatorSize();
-    QPixmap pixInd(s.width(), s.height());
-    QPainter pInd(&pixInd);
-    style().drawIndicator(&pInd, 0, 0, s.width(), s.height(), cg, state);
-    pInd.end();
-    QBitmap mInd(s.width(), s.height());
-    pInd.begin(&mInd);
-    style().drawIndicatorMask(&pInd, 0, 0, s.width(), s.height(), state);
-    pInd.end();
-    pixInd.setMask(mInd);
-#else
     int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
@@ -210,7 +192,6 @@ void SpellConfig::setCheck(QListViewItem *item)
     pInd.eraseRect(rc);
     style().drawPrimitive(QStyle::PE_Indicator, &pInd, rc, cg, state);
     pInd.end();
-#endif
     item->setPixmap(COL_CHECK, pixInd);
 }
 

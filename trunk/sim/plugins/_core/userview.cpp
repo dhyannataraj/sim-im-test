@@ -157,51 +157,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
 
 static void drawImage(QPainter *p, int x, int y, const QImage &img)
 {
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    if (p->device()->devType() != QInternal::Pixmap && pict->depth() < 32){
-        p->drawImage(x, y, img);
-        return;
-    }
-    QPixmap *pict = static_cast<QPixmap*>(p->device());
-    p->end();
-    QImage image = pict->convertToImage();
-    unsigned int *f = (unsigned int*)(img.bits());
-    unsigned int *t = (unsigned int*)(image.bits());
-    int w = img.width();
-    int h = img.height();
-    if (y < 0){
-        f -= img.width() * y;
-        h += y;
-        y = 0;
-    }
-    if (x < 0){
-        f -= x;
-        w += x;
-        x = 0;
-    }
-    if (h > image.height())
-        h = image.height();
-    if (w > image.width())
-        w = image.width();
-
-    t += (image.width() * y) + x;
-    for (int i = 0; i < h; i++){
-        for (int j = 0; j < w; j++){
-            unsigned char a = qAlpha(*f);
-            *t = qRgba((a * qRed(*f) + (0xFF - a) * qRed(*t)) >> 8,
-                       (a * qGreen(*f) + (0xFF - a) * qGreen(*t)) >> 8,
-                       (a * qBlue(*f) + (0xFF - a) * qBlue(*t)) >> 8, 0xFF);
-            f++;
-            t++;
-        }
-        t += (image.width() - w);
-        f += (img.width() - w);
-    }
-    pict->convertFromImage(image);
-    p->begin(pict);
-#else
     p->drawImage(x, y, img);
-#endif
 }
 
 int UserView::heightItem(UserViewItemBase *base)

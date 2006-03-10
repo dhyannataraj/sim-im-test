@@ -116,12 +116,8 @@ int UserViewItemBase::drawText(QPainter *p, int x, int width, const QString &tex
 void UserViewItemBase::drawSeparator(QPainter *p, int x, int width, const QColorGroup &cg)
 {
     if (x < width - 6){
-#if COMPAT_QT_VERSION > 0x030000
         QRect rcSep(x, height()/2, width - 6 - x, 1);
         listView()->style().drawPrimitive(QStyle::PE_Separator, p, rcSep, cg);
-#else
-        listView()->style().drawSeparator(p, x, height() / 2, width - 6, height() / 2, cg);
-#endif
     }
 }
 
@@ -214,9 +210,7 @@ ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned stat
 {
     m_id = contact->id();
     init(contact, status, style, icons, unread);
-#if COMPAT_QT_VERSION >= 0x030000    
     setDragEnabled(true);
-#endif
 }
 
 void ContactItem::init(Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread)
@@ -1112,39 +1106,18 @@ bool UserList::isGroupSelected(unsigned id)
     return bRes;
 }
 
-#if COMPAT_QT_VERSION < 0x030000
-#define CHECK_OFF	QButton::Off
-#define CHECK_ON	QButton::On
-#define CHECK_NOCHANGE	QButton::NoChange
-#else
 #define CHECK_OFF	QStyle::Style_Off
 #define CHECK_ON	QStyle::Style_On
 #define CHECK_NOCHANGE	QStyle::Style_NoChange
-#endif
 
 int UserList::drawIndicator(QPainter *p, int x, QListViewItem *item, bool bState, const QColorGroup &cg)
 {
     int state = bState ? CHECK_ON : CHECK_OFF;
-#if COMPAT_QT_VERSION < 0x030000
-    QSize s = style().indicatorSize();
-    QPixmap pixInd(s.width(), s.height());
-    QPainter pInd(&pixInd);
-    style().drawIndicator(&pInd, 0, 0, s.width(), s.height(), cg, state);
-    pInd.end();
-    QBitmap mInd(s.width(), s.height());
-    pInd.begin(&mInd);
-    style().drawIndicatorMask(&pInd, 0, 0, s.width(), s.height(), state);
-    pInd.end();
-    pixInd.setMask(mInd);
-    p->drawPixmap(x, (item->height() - s.height()) / 2, pixInd);
-    x += s.width() + 2;
-#else
     int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QRect rc(x, (item->height() - h) / 2, w, h);
     style().drawPrimitive(QStyle::PE_Indicator, p, rc, cg, state);
     x += w + 2;
-#endif
     return x;
 }
 

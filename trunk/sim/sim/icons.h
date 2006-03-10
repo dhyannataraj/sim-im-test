@@ -37,9 +37,6 @@ namespace SIM
 typedef struct PictDef
 {
     QImage			*image;
-#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    QPixmap			*pixmap;
-#endif
     std::string		file;
 #ifdef USE_KDE
     std::string		system;
@@ -71,12 +68,6 @@ protected:
     std::list<smileDef>	m_smiles;
 };
 
-//#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-
-typedef std::map<unsigned, std::string>	ICONS_MAP;
-
-//#endif
-
 class EXPORT Icons : public QObject, public EventReceiver
 {
     Q_OBJECT
@@ -92,10 +83,6 @@ public:
     IconSet *addIconSet(const char *name, bool bDefault);
     void removeIconSet(IconSet*);
     std::list<IconSet*> m_customSets;
-//#if defined(WIN32) && (COMPAT_QT_VERSION < 0x030000)
-    PictDef			*getPict(const QPixmap &pict);
-    ICONS_MAP		m_icons;
-//#endif
 protected slots:
     void iconChanged(int);
 protected:

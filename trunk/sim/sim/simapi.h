@@ -22,11 +22,7 @@
 #include "config.h"
 #endif
 
-#include "compatqtversion.h"
-
-#if COMPAT_QT_VERSION >= 0x030000
 #include <qtextedit.h>
-#endif
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
@@ -101,9 +97,7 @@ typedef unsigned char _Bool;
 #include <string>
 
 #include <qwidget.h>
-#if COMPAT_QT_VERSION >= 0x030000
 #include <qdockwindow.h>
-#endif
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -134,9 +128,6 @@ EXPORT int strcasecmp(const char *a, const char *b);
 #ifdef USE_KDE
 
 #include <klocale.h>
-#if COMPAT_QT_VERSION < 0x030000
-EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
-#endif
 #else
 #include <qobject.h>
 EXPORT QString i18n(const char *text);
@@ -149,24 +140,8 @@ EXPORT inline QString tr2i18n(const char* message, const char* =0) {
 #define I18N_NOOP(A)	A
 #endif
 #endif
-#if !defined(USE_KDE) || (COMPAT_QT_VERSION < 0x030000)
+#if !defined(USE_KDE)
 EXPORT void resetPlural();
-#endif
-
-#if COMPAT_QT_VERSION < 0x030000
-
-#include <qpoint.h>
-
-class QContextMenuEvent
-{
-public:
-QContextMenuEvent(const QPoint &pos) : p(pos) {}
-    const QPoint &globalPos() { return p; }
-    void accept() {}
-protected:
-    QPoint p;
-};
-
 #endif
 
 class QFile;

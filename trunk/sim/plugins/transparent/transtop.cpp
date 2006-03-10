@@ -27,12 +27,8 @@ TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
 {
     m_transparent = transparent * 0.01;
     rootpixmap = new KRootPixmap(parent);
-#if COMPAT_QT_VERSION < 0x030000
-    parent->installEventFilter(this);
-#else
-rootpixmap->setCustomPainting(true);
+    rootpixmap->setCustomPainting(true);
     connect(rootpixmap, SIGNAL(backgroundUpdated(const QPixmap&)), this, SLOT(backgroundUpdated(const QPixmap&)));
-#endif
     transparentChanged();
 }
 
@@ -52,35 +48,14 @@ void TransparentTop::setTransparent(unsigned transparent)
 
 QPixmap TransparentTop::background(const QColor &c)
 {
-#if COMPAT_QT_VERSION < 0x030000
-    QWidget *w = (QWidget*)parent();
-    const QPixmap *bg = w->backgroundPixmap();
-    if (bg == NULL)
-        return QPixmap();
-    QImage img = bg->convertToImage();
-#else
     if (bg.isNull())
         return QPixmap();
     QImage img = bg.convertToImage();
-#endif
     img = KImageEffect::fade(img, m_transparent, c);
     QPixmap res;
     res.convertFromImage(img);
     return res;
 }
-
-#if COMPAT_QT_VERSION < 0x030000
-
-bool TransparentTop::eventFilter(QObject *o, QEvent *e)
-{
-    if (e->type() == QEvent::Show){
-        Event e(EventRepaintView);
-        e.process();
-    }
-    return QObject::eventFilter(o, e);
-}
-
-#else
 
 void TransparentTop::backgroundUpdated( const QPixmap &pm )
 {
@@ -88,7 +63,6 @@ void TransparentTop::backgroundUpdated( const QPixmap &pm )
     SIM::Event e(SIM::EventRepaintView);
     e.process();
 }
-#endif
 
 #ifndef _MSC_VER
 #include "transtop.moc"

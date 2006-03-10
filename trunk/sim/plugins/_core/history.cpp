@@ -861,11 +861,7 @@ bool History::save(unsigned id, const QString& file_name, bool bAppend)
                 << "\n\n";
         }
         const int status = f.status();
-		#if COMPAT_QT_VERSION >= 0x030200
-			const QString errorMessage = f.errorString();
-		#else
-			const QString errorMessage = "write failed";
-		#endif
+        const QString errorMessage = f.errorString();
         f.close();
         if (status != IO_Ok) {
             log(L_ERROR, "I/O error during write to file %s : %s", (const char*)file_name.local8Bit(), (const char*)errorMessage.local8Bit());

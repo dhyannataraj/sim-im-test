@@ -187,14 +187,6 @@ void CToolButton::setState()
     }
     if (m_def.icon_on && strcmp(m_def.icon, m_def.icon_on)){
         QIconSet offIcon = Icon(m_def.icon);
-#if COMPAT_QT_VERSION < 0x030000
-        if (!offIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
-            setIconSet(offIcon);
-            QIconSet onIcon = Icon(m_def.icon_on);
-            if (!onIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
-                setOnIconSet(onIcon);
-        }
-#else
         if (!offIcon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
             QIconSet icons = offIcon;
             QPixmap off = Pict(m_def.icon_on);
@@ -202,7 +194,6 @@ void CToolButton::setState()
                 icons.setPixmap(off, QIconSet::Small, QIconSet::Normal, QIconSet::On);
             setIconSet(icons);
         }
-#endif
     }else{
         QIconSet icon = Icon(m_def.icon);
         if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
@@ -291,12 +282,6 @@ QPoint CToolButton::popupPos(QWidget *btn, QWidget *p)
 
 void CToolButton::mousePressEvent(QMouseEvent *e)
 {
-#if COMPAT_QT_VERSION < 0x030000
-    if (e->button() == RightButton){
-        emit showPopup(e->globalPos());
-        return;
-    }
-#endif
     QToolButton::mousePressEvent(e);
 }
 
@@ -422,11 +407,7 @@ void PictButton::paintEvent(QPaintEvent*)
             p.fillRect(0, 0, width(), height(), colorGroup().button());
         }
     }
-#if COMPAT_QT_VERSION < 0x030000
-    style().drawToolButton(this, &p);
-#else
     drawButton(&p);
-#endif
     int w = 4;
     QRect rc(4, 4, width() - 4, height() - 4);
     if (m_def.icon && strcmp(m_def.icon, "empty")){
@@ -626,12 +607,6 @@ void CToolBar::checkState()
 
 void CToolBar::mousePressEvent(QMouseEvent *e)
 {
-#if COMPAT_QT_VERSION < 0x030000
-    if (e->button() == RightButton){
-        showPopup(e->globalPos());
-        return;
-    }
-#endif
     QToolBar::mousePressEvent(e);
 }
 

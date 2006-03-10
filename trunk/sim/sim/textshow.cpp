@@ -150,15 +150,11 @@ TextEdit::TextEdit(QWidget *p, const char *name)
     curFG = colorGroup().color(QColorGroup::Text);
     m_bCtrlMode = true;
     setWordWrap(WidgetWidth);
-#if COMPAT_QT_VERSION >= 0x030100
     setAutoFormatting(0);
-#endif
     connect(this, SIGNAL(currentFontChanged(const QFont&)), this, SLOT(fontChanged(const QFont&)));
     connect(this, SIGNAL(currentColorChanged(const QColor&)), this, SLOT(slotColorChanged(const QColor&)));
     connect(this, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
-#if COMPAT_QT_VERSION >= 0x030000
     connect(this, SIGNAL(clicked(int,int)), this, SLOT(slotClicked(int,int)));
-#endif
     viewport()->installEventFilter(this);
     fontChanged(font());
 }
@@ -188,7 +184,6 @@ void TextEdit::slotTextChanged()
 
 void TextEdit::slotClicked(int,int)
 {
-#if COMPAT_QT_VERSION >= 0x030000
     int paraFrom, paraTo, indexFrom, indexTo;
     getSelection(&paraFrom, &indexFrom, &paraTo, &indexTo);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))
@@ -197,7 +192,6 @@ void TextEdit::slotClicked(int,int)
     QContextMenuEvent e(QContextMenuEvent::Other, QPoint(0, 0), QPoint(0, 0), 0);
     contentsContextMenuEvent(&e);
     m_bInClick = false;
-#endif
 }
 
 QPopupMenu *TextEdit::createPopupMenu(const QPoint& pos)
@@ -334,15 +328,6 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
             return;
         }
     }
-#if (COMPAT_QT_VERSION >= 0x030000) && (COMPAT_QT_VERSION < 0x030100)
-    // Workaround about autoformat feature in qt 3.0.x
-    if ((e->text()[0] == '-') || (e->text()[0] == '*')){
-        if (isOverwriteMode() && !hasSelectedText())
-            moveCursor(MoveForward, true);
-        insert( e->text(), TRUE, FALSE );
-        return;
-    }
-#endif
     // Note: We no longer translate Enter to Ctrl-Enter since we need
     // to know about paragraph breaks now.
     TextShow::keyPressEvent(e);
@@ -464,13 +449,11 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     if (!hasSelectedText())
         setColor(c);
     int r = c.red();
-#if COMPAT_QT_VERSION >= 0x030000
     if (r){
         r--;
     }else{
         r++;
     }
-#endif
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, c.green(), c.blue()));
     setPalette(pal);
@@ -514,10 +497,8 @@ TextShow::TextShow(QWidget *p, const char *name)
 {
     setTextFormat(RichText);
     setReadOnly(true);
-#if COMPAT_QT_VERSION >= 0x030100
     if (QApplication::clipboard()->supportsSelection())
         connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
-#endif
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotResizeTimer()));
 }
@@ -630,11 +611,7 @@ void TextShow::copy()
     QTextDrag *drag = dragObject(NULL);
     if ( !drag )
         return;
-#if COMPAT_QT_VERSION <= 0x030100
-    QApplication::clipboard()->setData(drag);
-#else
     QApplication::clipboard()->setData(drag, QClipboard::Clipboard);
-#endif
 }
 
 void TextShow::cut()
@@ -651,13 +628,11 @@ QTextDrag *TextShow::dragObject(QWidget *parent) const
 {
     if (!hasSelectedText())
         return NULL;
-#if (COMPAT_QT_VERSION < 0x030000) || (COMPAT_QT_VERSION >= 0x030100)
     if (textFormat() == RichText){
         RichTextDrag *drag = new RichTextDrag(parent);
         drag->setRichText(selectedText());
         return drag;
     }
-#endif
     return new QTextDrag(selectedText(), parent );
 }
 
@@ -697,7 +672,6 @@ void TextShow::setText(const QString &text)
 
 void TextShow::slotSelectionChanged()
 {
-#if COMPAT_QT_VERSION >= 0x030100
     disconnect(QApplication::clipboard(), SIGNAL(selectionChanged()), this, 0);
     if (QApplication::clipboard()->supportsSelection()){
         QTextDrag *drag = dragObject(NULL);
@@ -706,7 +680,6 @@ void TextShow::slotSelectionChanged()
         QApplication::clipboard()->setData(drag, QClipboard::Selection);
         connect( QApplication::clipboard(), SIGNAL(selectionChanged()), this, SLOT(clipboardChanged()));
     }
-#endif
 }
 
 class BgColorParser : public HTMLParser

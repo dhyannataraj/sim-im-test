@@ -56,7 +56,6 @@
 #include "aboutdata.h"
 #include "ballonmsg.h"
 #include "buffer.h"
-#include "compatqtversion.h"
 #include "datepicker.h"
 #include "editfile.h"
 #include "exec.h"

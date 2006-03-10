@@ -42,31 +42,6 @@ void IntLineEdit::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Escape) emit escape();
 }
 
-#if COMPAT_QT_VERSION < 0x030000
-
-QRegExpValidator::QRegExpValidator(const Qt3::QRegExp& rx, QWidget *parent)
-        : QValidator(parent), r(rx)
-{
-}
-
-QValidator::State QRegExpValidator::validate( QString& input, int& pos ) const
-{
-    if ( r.exactMatch(input) ) {
-        return Acceptable;
-    } else {
-        if ( r.matchedLength() == (int) input.length() ) {
-            return Intermediate;
-        } else {
-            pos = input.length();
-            return Invalid;
-        }
-    }
-}
-
-#define	QRegExp		Qt3::QRegExp
-
-#endif
-
 RegExpValidator::RegExpValidator(const char *reg_exp, QWidget *parent)
         : QRegExpValidator(QRegExp(reg_exp), parent)
 {

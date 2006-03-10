@@ -189,12 +189,8 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
     /*  match() is obsolete since 3.0 so there is a big chance
         that this will be replaced and we get
         bug-reports from the users ... */
-#if COMPAT_QT_VERSION < 0x030000
-    while ((pos = re.match(str, pos, &len)) != -1) {
-#else
     while ((pos = re.search(str, pos)) != -1) {
         len = re.matchedLength();
-#endif
         if (len == 1)
             continue;
         QString s = " ";

@@ -476,7 +476,6 @@ QString WeatherPlugin::replace(const QString &text)
 {
     QString res = text;
     QString sun_set, sun_raise, updated;
-#if COMPAT_QT_VERSION >= 0x030000
     QTime tmp_time;
     QDateTime dt;
     int h,m;
@@ -494,11 +493,6 @@ QString WeatherPlugin::replace(const QString &text)
     parseDateTime(getUpdated(),dt);
     updated = dt.toString(Qt::LocalDate);
     updated = updated.left(updated.length() - 3);
-#else
-    sun_set = getSun_set();
-    sun_raise = getSun_raise();
-    updated = getUpdated();
-#endif
     /* double Expressions *before* single or better RegExp ! */
     res = res.replace(QRegExp("\\%mp"), i18n("moonphase", getMoonPhase()));
     res = res.replace(QRegExp("\\%mi"), number(getMoonIcon()));

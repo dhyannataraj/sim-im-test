@@ -127,13 +127,6 @@ void ListView::keyPressEvent(QKeyEvent *e)
 
 void ListView::viewportMousePressEvent(QMouseEvent *e)
 {
-#if COMPAT_QT_VERSION < 0x030000
-    if (e->button() == QObject::RightButton){
-        QContextMenuEvent contextEvent(e->globalPos());
-        viewportContextMenuEvent(&contextEvent);
-        return;
-    }
-#endif
     QListView::viewportMousePressEvent(e);
 }
 
@@ -145,32 +138,17 @@ void ListView::contentsMousePressEvent(QMouseEvent *e)
             m_pressedItem = NULL;
         if (m_pressedItem)
             repaintItem(m_pressedItem);
-#if COMPAT_QT_VERSION < 0x030000
-        m_mousePressPos = e->pos();
-        QTimer::singleShot(QApplication::startDragTime(), this, SLOT(startDrag()));
-#endif
     }
     QListView::contentsMousePressEvent(e);
 }
 
 void ListView::contentsMouseMoveEvent(QMouseEvent *e)
 {
-#if COMPAT_QT_VERSION < 0x030000
-    if (e->state() & QObject::LeftButton){
-        if (!m_mousePressPos.isNull() && currentItem() &&
-                (QPoint(e->pos() - m_mousePressPos).manhattanLength() > QApplication::startDragDistance())){
-            startDrag();
-        }
-    }
-#endif
     QListView::contentsMouseMoveEvent(e);
 }
 
 void ListView::contentsMouseReleaseEvent(QMouseEvent *e)
 {
-#if COMPAT_QT_VERSION < 0x030000
-    m_mousePressPos = QPoint(0, 0);
-#endif
     QListView::contentsMouseReleaseEvent(e);
     if (m_pressedItem){
         QListViewItem *item = m_pressedItem;
@@ -273,10 +251,6 @@ void ListView::adjustColumn()
 
 void ListView::startDrag()
 {
-#if COMPAT_QT_VERSION < 0x030000
-    if (m_mousePressPos.isNull()) return;
-    m_mousePressPos = QPoint(0, 0);
-#endif
     emit dragStart();
     startDrag(dragObject());
 }

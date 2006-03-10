@@ -276,11 +276,7 @@ void HistoryConfig::apply()
             f.writeBlock(s.c_str(), s.length());
 
             const int status = f.status();
-#if COMPAT_QT_VERSION >= 0x030200
             const QString errorMessage = f.errorString();
-#else
-            const QString errorMessage = "write file fail";
-#endif
             f.close();
             if (status != IO_Ok) {
                 log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
@@ -437,11 +433,7 @@ void HistoryConfig::copy()
     from.close();
 
     const int status = to.status();
-#if COMPAT_QT_VERSION >= 0x030200
     const QString errorMessage = to.errorString();
-#else
-const QString errorMessage = "write file fail";
-#endif
     to.close();
     if (status != IO_Ok) {
         log(L_ERROR, "IO error during writting to file %s : %s", (const char*)to.name().local8Bit(), (const char*)errorMessage.local8Bit());

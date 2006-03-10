@@ -250,7 +250,6 @@ LRESULT CALLBACK keysWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 GlobalKey::GlobalKey(CommandDef *cmd)
 {
     m_cmd = *cmd;
-#if COMPAT_QT_VERSION >= 0x030000
     QKeySequence keys(cmd->accel);
     if (keys != QKeySequence(0)){
         string shortName = "sim_";
@@ -261,11 +260,6 @@ GlobalKey::GlobalKey(CommandDef *cmd)
                       keys, keys, this, SLOT(execute()));
         accel->updateConnections();
     }
-#else
-accel = new KGlobalAccel(this);
-accel->insertItem(i18n(cmd->text), i18n(cmd->text), cmd->accel);
-accel->connectItem(cmd->accel, this, SLOT(execute()));
-#endif
 }
 
 GlobalKey::~GlobalKey()

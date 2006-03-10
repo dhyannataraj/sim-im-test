@@ -29,16 +29,7 @@
 #include <windows.h>
 #endif
 
-#if COMPAT_QT_VERSION >= 0x030000
 #include <qstylefactory.h>
-#else
-#include <qwindowsstyle.h>
-#include <qplatinumstyle.h>
-#include <qmotifstyle.h>
-#include <qmotifplusstyle.h>
-#include <qcdestyle.h>
-#include <qsgistyle.h>
-#endif
 
 using namespace SIM;
 
@@ -150,54 +141,8 @@ void StylesPlugin::setColors()
 void StylesPlugin::setStyles()
 {
     QStyle *style = NULL;
-#if COMPAT_QT_VERSION >= 0x030000
     if (*getStyle())
         style = QStyleFactory::create(getStyle());
-#else
-if (*getStyle()){
-    std::string s = getStyle();
-    if (s == "windows"){
-        style = new QWindowsStyle;
-    }else if (s == "motif"){
-        style = new QMotifStyle;
-    }else if (s == "cde"){
-        style = new QCDEStyle;
-    }else if (s == "motifplus"){
-        style = new QMotifPlusStyle;
-    }else if (s == "platinum"){
-        style = new QPlatinumStyle;
-    }else if (s == "sgi"){
-        style = new QSGIStyle;
-#ifdef WIN32
-    }else{
-        bool bOK = true;
-        if (s == "xpstyle"){
-            HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
-            if (hLib){
-                FreeLibrary(hLib);
-            }else{
-                bOK = false;
-            }
-        }
-        if (bOK){
-            std::string dll = "plugins\\styles\\";
-            dll += s;
-            dll += ".dll";
-            HINSTANCE hLib = LoadLibraryA(app_file(dll.c_str()).c_str());
-            if (hLib){
-                StyleInfo*  (*getStyleInfo)() = NULL;
-                (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
-                if (getStyleInfo){
-                    StyleInfo *info = getStyleInfo();
-                    if (info && info->create)
-                        style = info->create();
-                }
-            }
-        }
-#endif
-    }
-}
-#endif
     if (style){
         QApplication::setStyle(style);
         if (!getSystemColors())

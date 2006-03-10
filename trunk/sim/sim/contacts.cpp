@@ -1753,11 +1753,7 @@ void ContactList::save()
     }
 
     const int status = f.status();
-#if COMPAT_QT_VERSION >= 0x030200
     const QString errorMessage = f.errorString();
-#else
-    const QString errorMessage = "Write file fail";
-#endif
     f.close();
     if (status != IO_Ok) {
         log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());

@@ -24,26 +24,7 @@
 #include <qstyle.h>
 #include <qdir.h>
 
-#if COMPAT_QT_VERSION >= 0x030000
 #include <qstylefactory.h>
-#else
-
-#ifdef WIN32
-#include <windows.h>
-#endif
-
-const char *defStyles[] =
-    {
-        "windows",
-        "motif",
-        "cde",
-        "motifplus",
-        "platinum",
-        "sgi",
-        NULL
-    };
-
-#endif
 
 StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
         : StylesConfigBase(parent)
@@ -57,39 +38,7 @@ StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
         tab->addTab(font_cfg, i18n("Fonts and colors"));
         break;
     }
-#if COMPAT_QT_VERSION >= 0x030000
     lstStyle->insertStringList(QStyleFactory::keys());
-#else
-    for (const char **s = defStyles; *s; s++)
-        lstStyle->insertItem(*s);
-#ifdef WIN32
-    QDir d(app_file("plugins\\styles\\").c_str());
-    QStringList styles = d.entryList("*.dll");
-    for (QStringList::Iterator it = styles.begin(); it != styles.end(); ++it){
-        QString name = *it;
-        int n = name.findRev(".");
-        if (n > 0)
-            name = name.left(n);
-        if (name == "xpstyle"){
-            HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
-            if (hLib == NULL)
-                continue;
-            FreeLibrary(hLib);
-        }
-        string dll = "plugins\\styles\\";
-        dll += name.latin1();
-        dll += ".dll";
-        HINSTANCE hLib = LoadLibraryA(app_file(dll.c_str()).c_str());
-        if (hLib == NULL)
-            continue;
-        StyleInfo*  (*getStyleInfo)() = NULL;
-        (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
-        if (getStyleInfo)
-            lstStyle->insertItem(name);
-        FreeLibrary(hLib);
-    }
-#endif
-#endif
     if (*m_plugin->getStyle()){
         QListBoxItem *item = lstStyle->findItem(m_plugin->getStyle());
         if (item)

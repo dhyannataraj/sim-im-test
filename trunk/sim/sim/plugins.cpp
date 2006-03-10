@@ -572,11 +572,7 @@ void PluginManagerPrivate::saveState()
     }
 
     const int status = f.status();
-#if COMPAT_QT_VERSION >= 0x030200
     const QString errorMessage = f.errorString();
-#else
-    const QString errorMessage = "write file fail";
-#endif
     f.close();
     if (status != IO_Ok) {
         log(L_ERROR, "I/O error during writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
