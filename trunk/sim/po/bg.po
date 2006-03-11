@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2006-03-11 02:52+0500\n"
-"PO-Revision-Date: 2006-01-27 22:52+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
+"PO-Revision-Date: 2006-03-11 19:34+0200\n"
+"Last-Translator: Atanas Mavrov <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -576,8 +576,7 @@ msgstr "Прякор"
 
 #: plugins/_core/core.cpp:1689
 msgid "number of unread messages from this contact"
-msgstr ""
-"количество на непрочетените съобщения"
+msgstr "количество на непрочетените съобщения"
 
 #: plugins/_core/core.cpp:1691
 msgid "contact status"
@@ -624,8 +623,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1744
 msgid "Don't show this message in next time"
-msgstr ""
-"Не показвай това съобщение следващия път"
+msgstr "Не показвай това съобщение следващия път"
 
 #: plugins/_core/core.cpp:1771
 msgid "`<command>` - call <command> and substitute command output\n"
@@ -666,13 +664,12 @@ msgid "Send SMS"
 msgstr "Изпращане на SMS"
 
 #: plugins/_core/core.cpp:3705
-#, fuzzy
 msgid "Use specified profile"
-msgstr "Избиране на профил"
+msgstr "Избиране на определен профил"
 
 #: plugins/_core/core.cpp:3720
 msgid "Add new ICQ UIN to profile. You need to specify uin:password"
-msgstr ""
+msgstr "Добавяне на нов ICQ потребител към профила. Трябва да въведете номер:парола"
 
 #. i18n: file ./plugins/_core/managerbase.ui line 20
 #: plugins/_core/core.cpp:4285 plugins/_core/core.cpp:4307 rc.cpp:1228
@@ -813,7 +810,7 @@ msgstr "Показване на %1 съобщения на страница"
 #: plugins/_core/historycfg.cpp:213 rc.cpp:883
 #, no-c-format
 msgid "Use external viewer"
-msgstr ""
+msgstr "Използване на външна програма за преглед"
 
 #: plugins/_core/historycfg.cpp:485
 msgid "Remove style '%1'?"
@@ -984,9 +981,9 @@ msgstr "Копиране на %1 съобщения от историята"
 
 #. i18n: file ./plugins/_core/interfacecfgbase.ui line 267
 #: plugins/_core/interfacecfg.cpp:149 rc.cpp:839
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Show own nickname in window title"
-msgstr "Показване на главния прозорец"
+msgstr "Показване на собствения прякор в заглавието на прозореца"
 
 #: plugins/_core/logindlg.cpp:60
 msgid "Select profile"
@@ -1076,8 +1073,7 @@ msgstr "Зает"
 
 #: plugins/_core/maininfo.cpp:88
 msgid "User is crrently available at:"
-msgstr ""
-"Потребителят в момента е на разположение: "
+msgstr "Потребителят в момента е на разположение: "
 
 #: plugins/_core/maininfo.cpp:229 plugins/_core/maininfo.cpp:348
 #: plugins/_core/maininfo.cpp:372 plugins/_core/maininfo.cpp:471
@@ -1513,8 +1509,7 @@ msgstr "Меню"
 
 #: plugins/action/actioncfg.cpp:181 plugins/action/additem.cpp:56
 msgid "In command line you can use:"
-msgstr ""
-"В командния ред вие може да използвате:"
+msgstr "В командния ред вие може да използвате:"
 
 #: plugins/action/actioncfg.cpp:186
 msgid ""
@@ -1631,8 +1626,7 @@ msgstr "SIM"
 
 #: plugins/dock/dock.cpp:150
 msgid "Toggle main window"
-msgstr ""
-"Скриване/показване на главния прозорец"
+msgstr "Скриване/показване на главния прозорец"
 
 #: plugins/dock/dock.cpp:273
 msgid "Hide main window"
@@ -1870,8 +1864,7 @@ msgstr "AIM"
 
 #: plugins/icq/icq.cpp:356
 msgid "Visible list"
-msgstr ""
-"Списък на потребители, за които съм видим"
+msgstr "Списък на потребители, за които съм видим"
 
 #: plugins/icq/icq.cpp:365
 msgid "Invisible list"
@@ -1888,7 +1881,6 @@ msgid "Process message failed"
 msgstr "Грешка при обработка на съобщение"
 
 #: plugins/icq/icqclient.cpp:361
-#, fuzzy
 msgid "Dear translator! type this default encoding for your language"
 msgstr "CP 1251"
 
@@ -2233,8 +2225,7 @@ msgstr "Този клиент е остарял"
 
 #: plugins/icq/icqlogin.cpp:259
 msgid "Too many clients from same IP"
-msgstr ""
-"Твърде много потребители ползващи едно IP"
+msgstr "Твърде много потребители ползващи едно IP"
 
 #: plugins/icq/icqlogin.cpp:264
 msgid "Rate limit"
@@ -2278,8 +2269,7 @@ msgstr ""
 
 #: plugins/icq/icqlogin.cpp:329
 msgid "Your UIN is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър"
+msgstr "Твоят номер се използва от друг компютър"
 
 #: plugins/icq/icqlogin.cpp:349
 msgid "Close packet from server"
@@ -2369,8 +2359,7 @@ msgstr "Внимание"
 
 #: plugins/icq/icqpicture.cpp:128
 msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-"Не може картинката да е по - голяма от 7 Кб"
+msgstr "Не може картинката да е по - голяма от 7 Кб"
 
 #: plugins/icq/icqpicture.cpp:138 plugins/jabber/jabberpicture.cpp:140
 msgid "Picture is not available"
@@ -4171,8 +4160,7 @@ msgid "Navigate"
 msgstr "Препратки към външни програми"
 
 #: plugins/navigate/navigate.cpp:229
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Приставката осигурява управление на "
 "препратките - свързва се с външен "
@@ -4274,8 +4262,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:72
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Приставката поддържа известяване на "
 "състоянието на съобщенията и "
@@ -4445,8 +4432,7 @@ msgstr "Отдалечено управление"
 
 #: plugins/remote/remote.cpp:46
 msgid "Plugin provides remote control"
-msgstr ""
-"Приставката осигурява отдалечен контрол"
+msgstr "Приставката осигурява отдалечен контрол"
 
 #: plugins/replace/replace.cpp:36
 msgid "Replace text"
@@ -4565,8 +4551,7 @@ msgstr "Сигнализира при включване"
 
 #: plugins/spell/spell.cpp:65
 msgid "Plugin provides check spelling"
-msgstr ""
-"Приставка осигурява правописна проверка"
+msgstr "Приставка осигурява правописна проверка"
 
 #: plugins/spell/spellcfg.cpp:48
 msgid "ASpell(aspell.exe)"
@@ -4604,8 +4589,7 @@ msgstr "Стилове"
 
 #: plugins/styles/styles.cpp:45
 msgid "Plugin provides styles"
-msgstr ""
-"Приставката осигурява изменение на стила"
+msgstr "Приставката осигурява изменение на стила"
 
 #: plugins/styles/stylescfg.cpp:38
 msgid "Fonts and colors"
@@ -4663,8 +4647,7 @@ msgstr "Време"
 
 #: plugins/weather/weather.cpp:51
 msgid "Plugin provides show weather"
-msgstr ""
-"Приставката осигурява преглед на времето"
+msgstr "Приставката осигурява преглед на времето"
 
 #: plugins/weather/weather.cpp:119 plugins/weather/weather.cpp:327
 msgid "Not connected"
@@ -4747,18 +4730,16 @@ msgid ""
 msgstr "Слаб дъжд"
 
 #: plugins/weather/weather.cpp:390 plugins/weather/weather.cpp:410
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Freezing Rain"
-msgstr "Поледица"
+msgstr "Леден дъжд"
 
 #: plugins/weather/weather.cpp:391
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Rain to Snow"
-msgstr "Слаб сняг"
+msgstr "Мокър сняг"
 
 #: plugins/weather/weather.cpp:392
 msgid ""
@@ -4791,7 +4772,6 @@ msgid ""
 msgstr "Ясно"
 
 #: plugins/weather/weather.cpp:397
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clearing"
@@ -4828,7 +4808,6 @@ msgid ""
 msgstr "Облачно"
 
 #: plugins/weather/weather.cpp:403
-#, fuzzy
 msgid ""
 "_: waether\n"
 "Clouds"
@@ -5059,7 +5038,6 @@ msgid ""
 msgstr "Пороен валеж"
 
 #: plugins/weather/weather.cpp:444
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
@@ -5069,10 +5047,9 @@ msgstr "Растящо новолуние"
 msgid ""
 "_: moonphase\n"
 "First Quarter"
-msgstr ""
+msgstr "Първа четвърт"
 
 #: plugins/weather/weather.cpp:446
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
@@ -5082,10 +5059,9 @@ msgstr "Нарастваща Луна"
 msgid ""
 "_: moonphase\n"
 "Full"
-msgstr ""
+msgstr "Пълна Луна"
 
 #: plugins/weather/weather.cpp:448
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
@@ -5095,14 +5071,13 @@ msgstr "Намаляваща Луна"
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
-msgstr ""
+msgstr "Последна четвърт"
 
 #: plugins/weather/weather.cpp:450
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
-msgstr "Намаляващия полумесец"
+msgstr "Намаляващ полумесец"
 
 #: plugins/weather/weather.cpp:462
 msgid "and"
@@ -5133,7 +5108,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:567
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<b>Current Weather:</b><br>\n"
@@ -5154,8 +5128,9 @@ msgid ""
 "Updated: %u<br>\n"
 msgstr ""
 "%l<br><br>\n"
+"<b>Текущо време:</b><br>\n"
 "<img src=\"icon:weather%i\"> %c<br>\n"
-"Температура: <b>%t</b> (подобно на: <b>%f</b>)<br>\n"
+"Температура: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
 "Влажност: <b>%h</b><br>\n"
 "Количество валежи: <b>%pp %</b><br>\n"
 "Налягане: <b>%p</b> (%q)<br>\n"
@@ -5164,14 +5139,13 @@ msgstr ""
 "Точка на оросяване: <b>%d</b><br>\n"
 "Изгрев: %r<br>\n"
 "Залез: %s<br>\n"
-"<img src=\"icon:moon%mi\"> %mp<br>\n"
-"UV-интензивност <b>%ut</b> със стойност <b>%ui</b> "
-"(от 11)<br>\n"
+"UV-интензивност <b>%ut</b> със стойност <b>%ui</b> (от 11)<br>\n"
+"<b>Фаза на луната: </b>%mp<br>\n"
+"<img src=\"icon:moon%mi\"><br>\n"
 "<br>\n"
 "Обновено: %u<br>\n"
 
 #: plugins/weather/weather.cpp:591
-#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
@@ -5179,7 +5153,8 @@ msgid ""
 "<img src=\"icon:weather%n\"> %c<br>\n"
 " Temperature: <b>%t</b><br>\n"
 msgstr ""
-"<br>\n"
+"<br><br>\n"
+"<b>Предвиждане за</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"> %c<br>\n"
 " Температура: <b>%t</b><br>\n"
@@ -5526,8 +5501,7 @@ msgstr "Порт:"
 #: rc.cpp:64
 #, no-c-format
 msgid "Proxy require &authorization"
-msgstr ""
-"&Прокси сървъра изисква удостоверяване"
+msgstr "&Прокси сървъра изисква удостоверяване"
 
 #. i18n: file ./plugins/proxy/proxycfgbase.ui line 129
 #: rc.cpp:67
@@ -5995,8 +5969,7 @@ msgstr "Форма4"
 #: rc.cpp:397
 #, no-c-format
 msgid "Additional information:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #. i18n: file ./plugins/sound/soundconfigbase.ui line 39
 #: rc.cpp:403
@@ -6054,8 +6027,7 @@ msgstr ""
 #: rc.cpp:433
 #, no-c-format
 msgid "Set \"Away\" status after"
-msgstr ""
-"Включване на \"Не съм пред компютъра\" след"
+msgstr "Включване на \"Не съм пред компютъра\" след"
 
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 61
 #: rc.cpp:436
@@ -6090,8 +6062,7 @@ msgstr "Превключване в \"Изключен\" след"
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 138
 #: rc.cpp:451
 #, no-c-format
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Изключва известяване при \"Не съм пред "
 "компютъра\", \"Няма ме\", \"Моля не ме "
@@ -6310,8 +6281,7 @@ msgstr ""
 #: rc.cpp:629
 #, no-c-format
 msgid "Select directories for convert"
-msgstr ""
-"Избиране на директории за преобразуване"
+msgstr "Избиране на директории за преобразуване"
 
 #. i18n: file ./plugins/__migrate/migratedlgbase.ui line 49
 #: rc.cpp:632
@@ -6436,8 +6406,7 @@ msgstr "Мб"
 #: rc.cpp:726 rc.cpp:880
 #, no-c-format
 msgid "Max history file size"
-msgstr ""
-"Максимален размер на файла с историята"
+msgstr "Максимален размер на файла с историята"
 
 #. i18n: file ./plugins/_core/userhistorycfgbase.ui line 101
 #: rc.cpp:729 rc.cpp:856
@@ -7074,15 +7043,15 @@ msgstr ""
 
 #. i18n: file ./plugins/livejournal/livejournalcfgbase.ui line 384
 #: rc.cpp:1323
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Use formatted messages"
-msgstr "Непрочетено съобщение"
+msgstr "Използване на форматирани съобщения"
 
 #. i18n: file ./plugins/livejournal/livejournalcfgbase.ui line 395
 #: rc.cpp:1326
 #, no-c-format
 msgid "Add signature to all messages"
-msgstr ""
+msgstr "Добавяне на подпис към всички съобщения"
 
 #. i18n: file ./plugins/livejournal/journalsearchbase.ui line 39
 #: rc.cpp:1332
@@ -7641,8 +7610,7 @@ msgstr ""
 #: rc.cpp:1786
 #, no-c-format
 msgid "&Visible list"
-msgstr ""
-"&Списък на потребители, за които съм видим"
+msgstr "&Списък на потребители, за които съм видим"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 217
 #: rc.cpp:1789
@@ -7692,8 +7660,7 @@ msgstr "Относн&о"
 #: rc.cpp:1823
 #, no-c-format
 msgid "Additional information about user:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #. i18n: file ./plugins/icq/aimsearchbase.ui line 39
 #: rc.cpp:1829
@@ -7887,8 +7854,7 @@ msgstr "Чакане на потвърждение от клиента"
 #: rc.cpp:2072
 #, no-c-format
 msgid "Accept in &occupied mode"
-msgstr ""
-"Приемане на файлове в режим \"&Зает съм\""
+msgstr "Приемане на файлове в режим \"&Зает съм\""
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 570
 #: rc.cpp:2075
@@ -7940,8 +7906,7 @@ msgstr ""
 #: rc.cpp:2093
 #, no-c-format
 msgid "Check invisible every"
-msgstr ""
-"Проверка за невидими потребители на всеки"
+msgstr "Проверка за невидими потребители на всеки"
 
 #. i18n: file ./plugins/icq/moreinfobase.ui line 45
 #: rc.cpp:2102
@@ -8038,8 +8003,7 @@ msgstr ""
 #: rc.cpp:2246
 #, no-c-format
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
-"Избиране на кодировка по подразбиране:"
+msgstr "Избиране на кодировка по подразбиране:"
 
 #. i18n: file ./plugins/icq/securedlgbase.ui line 20
 #: rc.cpp:2255
@@ -8129,8 +8093,7 @@ msgstr "Ключова дума"
 #: rc.cpp:2338
 #, no-c-format
 msgid "Search &online users only"
-msgstr ""
-"Търсене само на &свързаните потребители"
+msgstr "Търсене само на &свързаните потребители"
 
 #. i18n: file ./plugins/yahoo/yahoocfgbase.ui line 45
 #: rc.cpp:2372
@@ -8152,8 +8115,7 @@ msgstr "&Ключова дума"
 
 #: sim/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
-msgstr ""
-"Атанас Мавров <bugar@developer.bg>; Варна-България;"
+msgstr "Атанас Мавров <bugar@developer.bg>; Варна-България;"
 
 #: sim/aboutdata.cpp:303
 msgid "This program is distributed under the terms of the GPL v2."
@@ -9464,421 +9426,3 @@ msgstr "Потребителски"
 msgid "Windows XP style"
 msgstr "Уиндоус XP стил"
 
-#~ msgid "Cut"
-#~ msgstr "Отрязване"
-
-#~ msgid "Copy"
-#~ msgstr "Копиране"
-
-#~ msgid "Paste"
-#~ msgstr "Вмъкване"
-
-#~ msgid "Hu&e:"
-#~ msgstr "Яркос&т"
-
-#~ msgid "&Sat:"
-#~ msgstr "&Дълбочина:"
-
-#~ msgid "&Val:"
-#~ msgstr "&Стойност:"
-
-#~ msgid "&Red:"
-#~ msgstr "&Червен:"
-
-#~ msgid "&Green:"
-#~ msgstr "&Зелен:"
-
-#~ msgid "Bl&ue:"
-#~ msgstr "&Син:"
-
-#~ msgid "A&lpha channel:"
-#~ msgstr "&Алфа канал:"
-
-#~ msgid "&Basic colors"
-#~ msgstr "&Основни цветове"
-
-#~ msgid "&Custom colors"
-#~ msgstr "&Потребителски цветове"
-
-#~ msgid "&Define Custom Colors >>"
-#~ msgstr ""
-#~ "&Определяне на потребителски цветове"
-
-#~ msgid "&Add To Custom Colors"
-#~ msgstr ""
-#~ "&Добавяне към потребителските цветове"
-
-#~ msgid "Select color"
-#~ msgstr "Избиране на цвят"
-
-#~ msgid "Copy or Move a File"
-#~ msgstr "Копиране или преместване на файл"
-
-#~ msgid "Read: %1"
-#~ msgstr "Четене: %1"
-
-#~ msgid "Write: %1"
-#~ msgstr "Писане: %1"
-
-#~ msgid "All files (*)"
-#~ msgstr "Всички файлове(*)"
-
-#~ msgid "Size"
-#~ msgstr "Размер"
-
-#~ msgid "Attributes"
-#~ msgstr "Свойства"
-
-#~ msgid "Look &in:"
-#~ msgstr "Търсене &в:"
-
-#~ msgid "File &name:"
-#~ msgstr "&Име на файл:"
-
-#~ msgid "File &type:"
-#~ msgstr "&Вид на файл:"
-
-#~ msgid "Back"
-#~ msgstr "Назад"
-
-#~ msgid "One directory up"
-#~ msgstr "Една директория по - нагоре"
-
-#~ msgid "Create New Folder"
-#~ msgstr "Създаване на нова директория"
-
-#~ msgid "List View"
-#~ msgstr "Списък"
-
-#~ msgid "Detail View"
-#~ msgstr "Детайли"
-
-#~ msgid "Preview File Info"
-#~ msgstr "Предварителен преглед на информация"
-
-#~ msgid "Preview File Contents"
-#~ msgstr "Предварителен преглед на състояние"
-
-#~ msgid "Read-write"
-#~ msgstr "Четене - писане"
-
-#~ msgid "Read-only"
-#~ msgstr "Само за четене"
-
-#~ msgid "Write-only"
-#~ msgstr "Само за писане"
-
-#~ msgid "Inaccessible"
-#~ msgstr "Недостъпен"
-
-#~ msgid "Symlink to File"
-#~ msgstr "Символична връзка на файл"
-
-#~ msgid "Symlink to Directory"
-#~ msgstr "Символична връзка на директория"
-
-#~ msgid "Symlink to Special"
-#~ msgstr "Символична връзка на специален"
-
-#~ msgid "Dir"
-#~ msgstr "Директория"
-
-#~ msgid "Special"
-#~ msgstr "Специален"
-
-#~ msgid "Save as"
-#~ msgstr "Запазване в"
-
-#~ msgid "&Open"
-#~ msgstr "&Отваряне"
-
-#~ msgid "R&eload"
-#~ msgstr "&Обновяване"
-
-#~ msgid "Sort by &Name"
-#~ msgstr "Подреждане по &име"
-
-#~ msgid "Sort by &Size"
-#~ msgstr "Подреждане по &големина"
-
-#~ msgid "Sort by &Date"
-#~ msgstr "Подреждане по &дата"
-
-#~ msgid "&Unsorted"
-#~ msgstr "&Неподреден"
-
-#~ msgid "Sort"
-#~ msgstr "Подреждане"
-
-#~ msgid "Show &hidden files"
-#~ msgstr "Показване на &скритите файлове"
-
-#~ msgid "the file"
-#~ msgstr "файлът"
-
-#~ msgid "the directory"
-#~ msgstr "директорията"
-
-#~ msgid "the symlink"
-#~ msgstr "символичната връзка"
-
-#~ msgid "Delete %1"
-#~ msgstr "Изтриване на %1"
-
-#~ msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-#~ msgstr ""
-#~ "<qt>Наистина ли желаете да изтриете %1 "
-#~ "\"%2\"?</qt>"
-
-#~ msgid "New Folder 1"
-#~ msgstr "Нова директория 1"
-
-#~ msgid "New Folder"
-#~ msgstr "Нова директория"
-
-#~ msgid "New Folder %1"
-#~ msgstr "Нова директория %1"
-
-#~ msgid "Find Directory"
-#~ msgstr "Търсене на директория"
-
-#~ msgid "Directories"
-#~ msgstr "Директории"
-
-#~ msgid "Save"
-#~ msgstr "Запазване"
-
-#~ msgid ""
-#~ "%1\n"
-#~ "File not found.\n"
-#~ "Check path and filename."
-#~ msgstr ""
-#~ "%1\n"
-#~ "Файлът не е открит.\n"
-#~ "Проверете пътя и името на файла."
-
-#~ msgid "ERROR"
-#~ msgstr "ГРЕШКА"
-
-#~ msgid "&Font"
-#~ msgstr "&Шрифт:"
-
-#~ msgid "Font st&yle"
-#~ msgstr "&Стил на шрифта"
-
-#~ msgid "&Size"
-#~ msgstr "&Размер"
-
-#~ msgid "Effects"
-#~ msgstr "Ефекти"
-
-#~ msgid "Stri&keout"
-#~ msgstr "Зачер&кнат"
-
-#~ msgid "&Color"
-#~ msgstr "&Цвят:"
-
-#~ msgid "Sample"
-#~ msgstr "Пример"
-
-#~ msgid "Scr&ipt"
-#~ msgstr "Скри&пт"
-
-#~ msgid "Apply"
-#~ msgstr "Прилагане"
-
-#~ msgid "Close"
-#~ msgstr "Затваряне"
-
-#~ msgid "Select Font"
-#~ msgstr "Избиране на шрифт"
-
-#~ msgid ""
-#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
-#~ "toolkit from Trolltech. Qt provides single-source portability across Windows "
-#~ "95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
-#~ "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
-#~ "information.</p>"
-#~ msgstr ""
-#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
-#~ "toolkit from Trolltech. Qt provides single-source portability across Windows "
-#~ "95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
-#~ "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
-#~ "information.</p>"
-
-#~ msgid "Help"
-#~ msgstr "Помощ"
-
-#~ msgid "Defaults"
-#~ msgstr "По подразбиране"
-
-#~ msgid "< &Back"
-#~ msgstr "<Назад"
-
-#~ msgid "&Next >"
-#~ msgstr "Следващ>"
-
-#~ msgid "&Finish"
-#~ msgstr "Край"
-
-#~ msgid "+"
-#~ msgstr "+"
-
-#~ msgid "F%1"
-#~ msgstr "F%1"
-
-#~ msgid "ctrl"
-#~ msgstr "ctrl"
-
-#~ msgid "shift"
-#~ msgstr "shift"
-
-#~ msgid "alt"
-#~ msgstr "alt"
-
-#~ msgid ""
-#~ "Could not rename\n"
-#~ "%1\n"
-#~ "to\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Не може да преименува: %1на\n"
-#~ "%2"
-
-#~ msgid ""
-#~ "Could not open\n"
-#~ "%1"
-#~ msgstr ""
-#~ "Не може да отвори\n"
-#~ "%1"
-
-#~ msgid ""
-#~ "Could not write\n"
-#~ "%1"
-#~ msgstr ""
-#~ "Не може да запише\n"
-#~ "%1"
-
-#~ msgid "Operation stopped by the user"
-#~ msgstr "Операцията е спряна от потребителя."
-
-#~ msgid "(unknown)"
-#~ msgstr "(неизвестен)"
-
-#~ msgid "Host %1 found"
-#~ msgstr "%1 не е намерен"
-
-#~ msgid "Host found"
-#~ msgstr "Сървъра е намерен"
-
-#~ msgid "Connected to host %1"
-#~ msgstr "Свързване с %1"
-
-#~ msgid "Connected to host"
-#~ msgstr "Свързване със сървър"
-
-#~ msgid "Connection to %1 closed"
-#~ msgstr "Връзката към %1 е прекратена"
-
-#~ msgid "Login Incorrect"
-#~ msgstr "Грешка при удостоверяване"
-
-#~ msgid "Col %1"
-#~ msgstr "Колона %1"
-
-#~ msgid "Row %1"
-#~ msgstr "Ред %1"
-
-#~ msgid "Undo"
-#~ msgstr "Връщане"
-
-#~ msgid "Redo"
-#~ msgstr "Стъпка назад"
-
-#~ msgid "&Left"
-#~ msgstr "&Ляво"
-
-#~ msgid "&Right"
-#~ msgstr "&Дясно"
-
-#~ msgid "&Top"
-#~ msgstr "&Горе"
-
-#~ msgid "&Bottom"
-#~ msgstr "&Долу"
-
-#~ msgid "R&estore"
-#~ msgstr "Възстано&вяване"
-
-#~ msgid "&Hide"
-#~ msgstr "&Скриване"
-
-#~ msgid "Line Up Toolbars (compact)"
-#~ msgstr "Съкратен панел с инструменти"
-
-#~ msgid "Line Up Toolbars (normal)"
-#~ msgstr "Нормален панел с инструменти"
-
-#~ msgid "Paste special..."
-#~ msgstr "Специално поставяне..."
-
-#~ msgid "What's this?"
-#~ msgstr "Какво е това?"
-
-#~ msgid "&Restore"
-#~ msgstr "&Възстановяване"
-
-#~ msgid "&Move"
-#~ msgstr "&Преместване"
-
-#~ msgid "Mi&nimize"
-#~ msgstr "Минимизи&ране"
-
-#~ msgid "Ma&ximize"
-#~ msgstr "&Максимизиране"
-
-#~ msgid "&Roll up"
-#~ msgstr "&Разтваряне"
-
-#~ msgid "Minimize"
-#~ msgstr "Минимизиране"
-
-#~ msgid "Restore Down"
-#~ msgstr "Свиване"
-
-#~ msgid "Maximize"
-#~ msgstr "Максимизиране"
-
-#~ msgid "Roll up"
-#~ msgstr "Разтваряне"
-
-#~ msgid "Restore Up"
-#~ msgstr "Възстановяване"
-
-#~ msgid "Roll down"
-#~ msgstr "Пада"
-
-#~ msgid "&Use artsd"
-#~ msgstr "&Използване на artsd"
-
-#~ msgid ""
-#~ "_n: Check invisible\n"
-#~ "%n times check invisible"
-#~ msgstr ""
-#~ "Проверка за невидими\n"
-#~ "%n проверки за невидими"
-
-#~ msgid "Check invisible"
-#~ msgstr "Проверка за невидими"
-
-#~ msgid "Check &invisible"
-#~ msgstr "Проверка за &невидими"
-
-#~ msgid "&All"
-#~ msgstr "&Всички"
-
-#~ msgid "&Only invisible"
-#~ msgstr "&Само невидимите"
-
-#~ msgid "Maintainer"
-#~ msgstr "Автор"
