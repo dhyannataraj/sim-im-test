@@ -331,9 +331,6 @@ static DataDef coreData[] =
         { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
-        { "RegNew", DATA_BOOL, 1, DATA(0) },
-        { "ICQUIN", DATA_UTF, 1, DATA(0) },
-        { "ICQPassword", DATA_UTF, 1, DATA(0) },
         { "CfgGeometry", DATA_ULONG, 5, DATA(0) },
         { NULL, 0, 0, 0 }
     };
@@ -504,6 +501,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     m_nClients	 = 0;
     m_nClientsMenu  = 0;
     m_nResourceMenu = 0;
+    m_RegNew = false;
 
     loadDir();
 
@@ -3194,7 +3192,7 @@ if (fname[0] != '/')
                             wnd->resize(data.historySize[0].value, data.historySize[1].value);
                     }
                     raiseWindow(wnd);
-                } else{		    
+                } else{
                     QString str = QFile::decodeName(user_file(".history_file").c_str());
                     History::save(id, str);
                     Exec *m_ex;
@@ -3202,7 +3200,7 @@ if (fname[0] != '/')
 		    QString m_cmd;
                     m_cmd += "\"";
                     m_cmd += getExtViewer();
-                    m_cmd += "\" \"";                    
+                    m_cmd += "\" \"";
                     m_cmd += str;
                     m_cmd += "\"";
 	            m_ex->execute(m_cmd.local8Bit(), "\n");
@@ -3698,58 +3696,49 @@ bool CorePlugin::init(bool bInit)
     bool bRes = true;
     bool bNew = false;
     bool bCmdLineProfile = false;
-    bool bRegister = false;
-    bool bRegistered = false;
 
     string cmd_line_profile;
     CmdParam p = { "-profile:", I18N_NOOP("Use specified profile"), &cmd_line_profile };
     Event e(EventArg, &p);
-    if (e.process()){
+    if (e.process() && cmd_line_profile != ""){        
         bCmdLineProfile = true;
         setProfile(NULL);
         QString profileDir = QFile::decodeName(user_file("").c_str());
         profileDir += cmd_line_profile.c_str();
         QDir d(profileDir);
-        if (d.exists()){
-		bCmdLineProfile = false;
-		setProfile(cmd_line_profile.c_str());
+        if (d.exists()) {
+            bCmdLineProfile = false;
+            setProfile(cmd_line_profile.c_str());
         }
     }
 
     string value="";
     CmdParam p1 = { "-uin:", I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password"), &value };
     Event e1(EventArg, &p1);
-	bRegister=e1.process();
-	setRegNew(bRegister);
-	QString  uinValue;
-	if (value != "")
-		uinValue = QString(value);
-	QString uin=uinValue.left(uinValue.find(':'));
-	setICQUIN((const char *)uin.local8Bit());
-	setICQPassword((const char *)uinValue.right(uinValue.length()-uinValue.find(':')-1).local8Bit());
-	
-	if (!bCmdLineProfile){
-		bRegistered = false;
-		if (bRegister) {
-        		ClientList clients;
-        		loadClients(clients);
-        		unsigned i;
-			QString clName;
-			QString clID;
-        		for (i = 0; i < clients.size(); i++){
-				QString clName=QString(clients[i]->name().c_str());
-				clID=clName.right(clName.length()-clName.find('.')-1);
-				if (clID.compare(uin)==0) {
-					bRegistered=true;
-					log(L_DEBUG,"Already registered");
-				}
-				log(L_DEBUG,"ID=%s", (const char *)clID.local8Bit());
-        		}
-		}
-	}
+    if (e1.process() && value != "") {
+        QString  uinValue=value;
+        QString uin=uinValue.left(uinValue.find(':'));
+        setICQUIN(uin);
+        QString passwd=uinValue.right(uinValue.length()-uinValue.find(':')-1);
+        setICQPassword(passwd);
 
+        if (!bCmdLineProfile){
+            bool bRegistered = false;
+            ClientList clients;
+            loadClients(clients);
+            unsigned i;
+            QString clName, clID;
+            for (i = 0; i < clients.size(); i++){
+                 QString clName=QString(clients[i]->name().c_str());
+                 clID=clName.right(clName.length()-clName.find('.')-1);
+                 if (clID.compare(uin)==0)
+                     bRegistered=true;
+            }
+            setRegNew(!bRegistered);
+        } else
+           setRegNew(true);
+    }
     if ((!bInit || (*getProfile() == 0) || !getNoShow() || !getSavePasswd()) && !bCmdLineProfile){
-        getContacts()->clearClients();
         if (!bInit || m_profiles.size()){
             if (bInit)
                 hideWindows();
@@ -3775,37 +3764,39 @@ bool CorePlugin::init(bool bInit)
     if (*getProfile() == 0 || bCmdLineProfile){
         hideWindows();
         getContacts()->clearClients();
-	
-	NewProtocol *pDlg=NULL;
-	if (bCmdLineProfile){
-		setSavePasswd(true);
-		setNoShow(true);
-		pDlg = new NewProtocol(NULL,1,bRegister);
-	} else {
-		pDlg = new NewProtocol(NULL);
-	}
+
+        NewProtocol *pDlg=NULL;
+        if (bCmdLineProfile){
+            setSavePasswd(true);
+            setNoShow(true);
+            pDlg = new NewProtocol(NULL,1,getRegNew());
+        } else {
+            pDlg = new NewProtocol(NULL);
+        }
         if (!pDlg->exec() && !pDlg->connected()){
+            delete(pDlg);
             Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
             eAbort.process();
             return false;
         }
+
         Client *client = getContacts()->getClient(0);
         string profile = client->name();
         setProfile(NULL);
         QString profileDir = QFile::decodeName(user_file("").c_str());
-	if (!bCmdLineProfile){
-		profileDir += profile.c_str();
-        	for (unsigned i = 1;;i++){
-            	QDir d(profileDir + "." + QString::number(i));
-            	if (!d.exists()){
-                	profile += '.';
-                	profile += number(i);
-                	break;
-            	}
-        	}
-	} else {		
-		profile = cmd_line_profile;
-	}
+        if (!bCmdLineProfile){
+            profileDir += profile.c_str();
+            for (unsigned i = 1;;i++){
+                 QDir d(profileDir + "." + QString::number(i));
+                 if (!d.exists()){
+                     profile += '.';
+                     profile += number(i);
+                     break;
+                 }
+            }
+        } else {
+            profile = cmd_line_profile;
+        }
 
         setProfile(profile.c_str());
         bLoaded = true;
@@ -3828,10 +3819,10 @@ bool CorePlugin::init(bool bInit)
             client->setManualStatus(getManualStatus());
         client->setStatus(client->getManualStatus(), client->getCommonStatus());
     }
-    if (bRegister&&!bRegistered&&!bCmdLineProfile){
-		hideWindows();
-        	NewProtocol pDlg(NULL,1,bRegister);
-		pDlg.exec();
+    if (getRegNew()&&!bCmdLineProfile){
+        hideWindows();
+        NewProtocol pDlg(NULL,1,true);
+        pDlg.exec();
      }
     if (m_main)
         return true;

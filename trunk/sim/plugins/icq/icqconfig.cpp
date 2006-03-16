@@ -46,8 +46,8 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
             chkNew->setChecked(false);
             edtPasswd->setText(m_client->getPassword());
         }else if(core->getRegNew()) {
-                 edtUin->setText(core->getICQUIN());
-                 edtPasswd->setText(core->getICQPassword());
+          edtUin->setText(core->getICQUIN());
+          edtPasswd->setText(core->getICQPassword());
         }else{
             chkNew->setChecked(true);
         }

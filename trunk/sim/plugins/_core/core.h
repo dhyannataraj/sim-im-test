@@ -110,9 +110,6 @@ typedef struct CoreData
     SIM::Data	SearchGeo[5];
     SIM::Data	SearchClient;
     SIM::Data	NoScroller;
-    SIM::Data	RegNew;
-    SIM::Data	ICQUIN;
-    SIM::Data	ICQPassword;
     SIM::Data	cfgGeo[5];
 } CoreData;
 
@@ -476,9 +473,12 @@ public:
     PROP_BOOL(RemoveHistory);
     PROP_STR(SearchClient);
     PROP_BOOL(NoScroller);
-    PROP_BOOL(RegNew);
-    PROP_UTF8(ICQUIN);
-    PROP_UTF8(ICQPassword);
+    void setRegNew(bool p_new) {m_RegNew=p_new;}
+    bool getRegNew() const {return m_RegNew;}
+    void setICQUIN(QString p_uin) {m_ICQUIN=p_uin;}
+    QString getICQUIN() const {return m_ICQUIN;}
+    void setICQPassword(QString p_password) {m_ICQPassword=p_password;}
+    QString getICQPassword() const {return m_ICQPassword;}
 
     unsigned user_data_id;
     unsigned sms_data_id;
@@ -558,6 +558,9 @@ protected:
     Tmpl				*m_tmpl;
     BalloonMsg			*m_alert;
     FileLock			*m_lock;
+    bool                        m_RegNew;
+    QString                     m_ICQUIN;
+    QString                     m_ICQPassword;
 
     friend class MainWindow;
     friend class UserView;
