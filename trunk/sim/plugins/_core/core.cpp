@@ -3779,6 +3779,7 @@ bool CorePlugin::init(bool bInit)
             eAbort.process();
             return false;
         }
+        delete(pDlg);
 
         Client *client = getContacts()->getClient(0);
         string profile = client->name();
