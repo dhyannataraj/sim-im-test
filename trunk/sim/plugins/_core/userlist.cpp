@@ -385,7 +385,7 @@ void UserListBase::drawUpdates()
                 if (itemOnline){
                     contactItem = findContactItem(contact->id(), itemOnline);
                     if (contactItem){
-                        deleteItem(contactItem);
+                        deleteItem(contactItem); //<== crash
                         bChanged = true;
                         if (itemOnline->firstChild() == NULL){
                             deleteItem(itemOnline);
