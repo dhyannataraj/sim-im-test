@@ -387,7 +387,7 @@ void *NavigatePlugin::processEvent(Event *e)
         if (getUseKDE())
         {
             if (proto == "mailto")
-                kapp->invokeMailer(url.substr(proto.length() + 1), QString::null);
+                kapp->invokeMailer(QString(url.substr(proto.length() + 1)), QString::null);
             else
                 kapp->invokeBrowser(url);
             return e->param();
