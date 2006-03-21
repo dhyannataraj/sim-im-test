@@ -90,9 +90,6 @@ QString i18n(const char *comment, const char *text)
     return i18n(text);
 }
 
-#endif
-
-#if !defined(USE_KDE)
 
 static bool bPluralInit = false;
 static int plural_form = -1;
@@ -459,7 +456,7 @@ bool raiseWindow(QWidget *w, unsigned)
 #endif
 #endif
     w->show();
-    w->showNormal();
+//    w->showNormal(); // crissi: for testing
     w->raise();
 #ifdef WIN32
     AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
