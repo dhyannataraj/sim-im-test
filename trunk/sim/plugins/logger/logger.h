@@ -22,7 +22,7 @@
 #include "stl.h"
 
 const unsigned short L_PACKETS = 0x08;
-const unsigned short L_EVENTS  = 0x10;
+// const unsigned short L_EVENTS  = 0x10;
 
 typedef struct LoggerData
 {
@@ -45,7 +45,7 @@ public:
     bool isLogType(unsigned id);
     void setLogType(unsigned id, bool bLog);
 protected:
-    bool eventFilter(QObject *o, QEvent *e);
+//    bool eventFilter(QObject *o, QEvent *e);
     std::list<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual std::string getConfig();
