@@ -21,6 +21,8 @@
 #include "simapi.h"
 #include "stl.h"
 
+#include<qthread.h>
+
 typedef std::map<std::string, unsigned> MAP_TYPES;
 
 typedef struct msg_id
@@ -407,6 +409,16 @@ typedef struct clientContact
 class XSL;
 class BalloonMsg;
 
+class HistoryThread : public QThread
+{
+public:
+    HistoryThread(unsigned id, std::string Viewer);
+    virtual void run();
+protected:
+    unsigned m_id;
+    std::string m_Viewer;
+};
+
 class CorePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
@@ -561,6 +573,7 @@ protected:
     bool                        m_RegNew;
     QString                     m_ICQUIN;
     QString                     m_ICQPassword;
+    HistoryThread*              m_HistoryThread;
 
     friend class MainWindow;
     friend class UserView;

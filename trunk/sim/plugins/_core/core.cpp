@@ -502,6 +502,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     m_nClientsMenu  = 0;
     m_nResourceMenu = 0;
     m_RegNew = false;
+    m_HistoryThread = NULL;
 
     loadDir();
 
@@ -1500,6 +1501,8 @@ CorePlugin::~CorePlugin()
         delete m_status;
     if (historyXSL)
         delete historyXSL;
+    if (m_HistoryThread)
+        delete m_HistoryThread;
 
     getContacts()->unregisterUserData(history_data_id);
     getContacts()->unregisterUserData(translit_data_id);
@@ -3193,17 +3196,9 @@ if (fname[0] != '/')
                     }
                     raiseWindow(wnd);
                 } else{
-                    QString str = QFile::decodeName(user_file(".history_file").c_str());
-                    History::save(id, str);
-                    Exec *m_ex;
-                    m_ex = new Exec;
-		    QString m_cmd;
-                    m_cmd += "\"";
-                    m_cmd += getExtViewer();
-                    m_cmd += "\" \"";
-                    m_cmd += str;
-                    m_cmd += "\"";
-	            m_ex->execute(m_cmd.local8Bit(), "\n");
+                    if (!m_HistoryThread)
+                        m_HistoryThread = new HistoryThread(id, getExtViewer());
+                    m_HistoryThread->start();
                 }
                 return e->param();
             }
@@ -3700,7 +3695,7 @@ bool CorePlugin::init(bool bInit)
     string cmd_line_profile;
     CmdParam p = { "-profile:", I18N_NOOP("Use specified profile"), &cmd_line_profile };
     Event e(EventArg, &p);
-    if (e.process() && cmd_line_profile != ""){        
+    if (e.process() && cmd_line_profile != ""){
         bCmdLineProfile = true;
         setProfile(NULL);
         QString profileDir = QFile::decodeName(user_file("").c_str());
@@ -4620,6 +4615,25 @@ bool FileLock::lock(bool)
     m_bLock = true;
 #endif
     return true;
+}
+
+HistoryThread::HistoryThread(unsigned id, string Viewer) {
+    m_id=id;
+    m_Viewer=Viewer;
+}
+
+void HistoryThread::run() {
+    QString str = QFile::decodeName(user_file(".history_file").c_str());
+    History::save(m_id, str);
+    Exec *m_ex;
+    m_ex = new Exec;
+    QString m_cmd;
+    m_cmd += "\"";
+    m_cmd += m_Viewer;
+    m_cmd += "\" \"";
+    m_cmd += str;
+    m_cmd += "\"";
+    m_ex->execute(m_cmd.local8Bit(), "\n");
 }
 
 #ifdef WIN32
