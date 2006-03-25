@@ -33,7 +33,7 @@ class MainWindow : public QMainWindow, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    MainWindow();
+    MainWindow(SIM::Geometry&);
     ~MainWindow();
     bool m_bNoResize;
 protected slots:

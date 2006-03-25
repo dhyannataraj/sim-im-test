@@ -969,7 +969,7 @@ EXPORT string save_data(const DataDef *def, void *_data)
 #endif
 #endif
 
-EXPORT void saveGeometry(QWidget *w, Data geo[5])
+EXPORT void saveGeometry(QWidget *w, Geometry geo)
 {
     if (w == NULL)
         return;
@@ -1002,7 +1002,7 @@ KWin::Info info = KWin::info(w->winId());
 #endif
 }
 
-EXPORT void restoreGeometry(QWidget *w, Data geo[5], bool bPos, bool bSize)
+EXPORT void restoreGeometry(QWidget *w, Geometry geo, bool bPos, bool bSize)
 {
     if (w == NULL)
         return;

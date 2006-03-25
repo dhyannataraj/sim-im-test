@@ -71,7 +71,24 @@ void MainWindowWidget::childEvent(QChildEvent *e)
     QTimer::singleShot(0, parent(), SLOT(setGrip()));
 }
 
-MainWindow::MainWindow()
+namespace local { namespace {
+
+void restoreGeometry(MainWindow *mainWindow, Geometry &geometry)
+{
+    if ((geometry[WIDTH].value == (unsigned long)-1) && (geometry[HEIGHT].value == (unsigned long)-1)){
+        geometry[HEIGHT].value = QApplication::desktop()->height() * 2 / 3;
+        geometry[WIDTH].value  = geometry[HEIGHT].value / 3;
+    }
+    if ((geometry[LEFT].value == (unsigned long)-1) && (geometry[TOP].value == (unsigned long)-1)){
+        geometry[LEFT].value = QApplication::desktop()->width() - 25 - geometry[WIDTH].value;
+        geometry[TOP].value = 5;
+    }
+    restoreGeometry(mainWindow, geometry, true, true);
+}
+
+}} // local
+
+MainWindow::MainWindow(Geometry &geometry)
         : QMainWindow(NULL, "mainwnd",
                       WType_TopLevel | WStyle_Customize |
                       WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu),
@@ -105,6 +122,8 @@ MainWindow::MainWindow()
     QStatusBar *status = statusBar();
     status->hide();
     status->installEventFilter(this);
+    
+    local::restoreGeometry(this, geometry);
 }
 
 MainWindow::~MainWindow()
@@ -239,6 +258,7 @@ void MainWindow::quit()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    save_state();
     QMainWindow::closeEvent(e);
     qApp->quit();
 }

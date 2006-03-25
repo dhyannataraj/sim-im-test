@@ -822,7 +822,6 @@ void deleteResolver();
 
 PluginManager::~PluginManager()
 {
-    save_state();
     Event e(EventQuit);
     e.process();
     contacts->clearClients();
