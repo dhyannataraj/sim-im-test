@@ -960,8 +960,10 @@ const int WIDTH		= 2;
 const int HEIGHT	= 3;
 const int DESKTOP	= 4;
 
-EXPORT void saveGeometry(QWidget*, Data[5]);
-EXPORT void restoreGeometry(QWidget*, Data[5], bool bPos, bool bSize);
+typedef Data Geometry[5];
+EXPORT void saveGeometry(QWidget*, Geometry);
+EXPORT void restoreGeometry(QWidget*, Geometry, bool bPos, bool bSize);
+
 EXPORT void saveToolbar(QToolBar*, Data[7]);
 EXPORT void restoreToolbar(QToolBar*, Data[7]);
 EXPORT bool cmp(char *s1, char *s2);

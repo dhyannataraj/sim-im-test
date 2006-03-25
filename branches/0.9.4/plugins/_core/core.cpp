@@ -3738,17 +3738,8 @@ bool CorePlugin::init(bool bInit)
 
     loadUnread();
 
-    m_main = new MainWindow;
+    m_main = new MainWindow(data.geometry);
     m_view = new UserView;
-    if ((data.geometry[WIDTH].value == (unsigned long)-1) && (data.geometry[HEIGHT].value == (unsigned long)-1)){
-        data.geometry[HEIGHT].value = QApplication::desktop()->height() * 2 / 3;
-        data.geometry[WIDTH].value  = data.geometry[HEIGHT].value / 3;
-    }
-    if ((data.geometry[LEFT].value == (unsigned long)-1) && (data.geometry[TOP].value == (unsigned long)-1)){
-        data.geometry[LEFT].value = QApplication::desktop()->width() - 25 - data.geometry[WIDTH].value;
-        data.geometry[TOP].value = 5;
-    }
-    restoreGeometry(m_main, data.geometry, true, true);
 
     if (!bNew){
         string containers = getContainers();
