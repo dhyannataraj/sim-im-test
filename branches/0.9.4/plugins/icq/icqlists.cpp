@@ -1304,8 +1304,20 @@ void ICQClient::addContactRequest(Contact *contact)
                 }
             }
             if (data->GrpId.value != grp_id){
-                log(L_DEBUG, "%s change group %lu->%u", userStr(contact, data).c_str(), data->GrpId.value, grp_id);
-                bChanged = true;
+                if (grp_id == 0) {
+                    // <hack>
+                    // fix for #5302
+                    grp_id = 1;
+                    contact->setGroup(grp_id);
+                    unsigned short oldGrpId = static_cast<unsigned short>(data->GrpId.value);
+                    data->GrpId.value = grp_id;
+                    log(L_WARN, "%s change group %u->%u, because otherewise the contact would be deleted", userStr(contact, data).c_str(), oldGrpId, grp_id);
+                    return;
+                    // </hack>
+                } else {
+                    log(L_DEBUG, "%s change group %lu->%u", userStr(contact, data).c_str(), data->GrpId.value, grp_id);
+                    bChanged = true;
+                }
             }
             if (!bChanged && (data->IcqID.value == 0))
                 return;
