@@ -80,26 +80,6 @@ Function .onInit
   !insertmacro MUI_LANGDLL_DISPLAY
   SetSilent normal
   
-  
-  ;.NET 2005 Distributable Installation
-  
-    StrCpy $LANGUAGE_DLL_TITLE "Installer Language"
-    StrCpy $LANGUAGE_DLL_INFO "Please select a language:"
-    StrCpy $URL_DOTNET "${URL_DOTNET_1033}"
-    StrCpy $OSLANGUAGE "1033"
-   
-  ; Insert other Language Blocks Here
-   
-    ;StrCpy $MUI_LANGDLL_WINDOWTITLE "Installer Language"
-    ;!define MUI_LANGDLL_INFO "$LANGUAGE_DLL_INFO"
-    !undef MUI_LANGDLL_WINDOWTITLE
-    !undef MUI_LANGDLL_INFO
-    InitPluginsDir
-    SetOutPath "$PLUGINSDIR"
-    ;File "Common\Plugins\*.*"
-    File /r "${NSISDIR}\Plugins\*.*"
-  
-  ;.NET 2005 Distributable Installation /
 FunctionEnd
 
 ; The file to write
