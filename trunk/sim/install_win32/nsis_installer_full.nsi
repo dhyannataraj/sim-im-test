@@ -23,34 +23,6 @@ BGGradient topc
   DetailPrint "${text}"
 !macroend
 
-;.NET 2005 Distributable Installation
-
-!define BASE_URL http://download.microsoft.com/download
-; .NET Framework
-; English
-!define URL_DOTNET_1033 "${BASE_URL}/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
-; German
-!define URL_DOTNET_1031 "${BASE_URL}/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
-; Spanish
-!define URL_DOTNET_1034 "${BASE_URL}/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
-; French
-!define URL_DOTNET_1036 "${BASE_URL}/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
-; Russian
-!define URL_DOTNET_1037 "${BASE_URL}/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
-; Chinese (Simplified)
-!define URL_DOTNET_2052 "${BASE_URL}/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
-
-; ... If you need one not listed above you will have to visit the Microsoft Download site,
-; select the language you are after and scan the page source to obtain the link. 
-
-Var "LANGUAGE_DLL_TITLE"
-Var "LANGUAGE_DLL_INFO"
-Var "URL_DOTNET"
-Var "OSLANGUAGE"
-Var "DOTNET_RETURN_CODE"
-
-;.NET 2005 Distributable Installation/
-
 
 ;Languages
 
@@ -96,79 +68,6 @@ Var "DOTNET_RETURN_CODE"
   ;!insertmacro MUI_LANGUAGE "Indonesian"
   ;!insertmacro MUI_LANGUAGE "Mongolian"
   ;!insertmacro MUI_LANGUAGE "Luxembourgish"
-
-
-
-
-;.NET 2005 Distributable Installation /
-;German
-LangString DESC_REMAINING ${LANG_GERMAN} " (%d %s%s remaining)"
-LangString DESC_PROGRESS ${LANG_GERMAN} "%d.%01dkB/s" ;"%dkB (%d%%) of %dkB @ %d.%01dkB/s"
-LangString DESC_PLURAL ${LANG_GERMAN} "s"
-LangString DESC_HOUR ${LANG_GERMAN} "hour"
-LangString DESC_MINUTE ${LANG_GERMAN} "minute"
-LangString DESC_SECOND ${LANG_GERMAN} "second"
-LangString DESC_CONNECTING ${LANG_GERMAN} "Connecting..."
-LangString DESC_DOWNLOADING ${LANG_GERMAN} "Downloading %s"
-LangString DESC_SHORTDOTNET ${LANG_GERMAN} "Microsoft .Net Framework 2.0"
-LangString DESC_LONGDOTNET ${LANG_GERMAN} "Microsoft .Net Framework 2.0"
-LangString DESC_DOTNET_DECISION ${LANG_GERMAN} "$(DESC_SHORTDOTNET) is required.$\nIt is strongly \
-  advised that you install$\n$(DESC_SHORTDOTNET) before continuing.$\nIf you choose to continue, \
-  you will need to connect$\nto the internet before proceeding.$\nWould you like to download and install \
-  the package now?"
-LangString SEC_DOTNET ${LANG_GERMAN} "$(DESC_SHORTDOTNET) "
-LangString DESC_INSTALLING ${LANG_GERMAN} "Installing"
-LangString DESC_DOWNLOADING1 ${LANG_GERMAN} "Downloading"
-LangString DESC_DOWNLOADFAILED ${LANG_GERMAN} "Download Failed:"
-LangString ERROR_DOTNET_DUPLICATE_INSTANCE ${LANG_GERMAN} "The $(DESC_SHORTDOTNET) Installer is \
-  already running."
-LangString ERROR_NOT_ADMINISTRATOR ${LANG_GERMAN} "$(DESC_000022)"
-LangString ERROR_INVALID_PLATFORM ${LANG_GERMAN} "$(DESC_000023)"
-LangString DESC_DOTNET_TIMEOUT ${LANG_GERMAN} "The installation of the $(DESC_SHORTDOTNET) \
-  has timed out."
-LangString ERROR_DOTNET_INVALID_PATH ${LANG_GERMAN} "The $(DESC_SHORTDOTNET) Installation$\n\
-  was not found in the following location:$\n"
-LangString ERROR_DOTNET_FATAL ${LANG_GERMAN} "A fatal error occurred during the installation$\n\
-  of the $(DESC_SHORTDOTNET)."
-LangString FAILED_DOTNET_INSTALL ${LANG_GERMAN} "The installation of $(PRODUCT_NAME) will$\n\
-  continue. However, it may not function properly$\nuntil $(DESC_SHORTDOTNET)$\nis installed."
-
-LangString DESC_REMAINING ${LANG_RUSSIAN} " (%d %s%s remaining)"
-LangString DESC_PROGRESS ${LANG_RUSSIAN} "%d.%01dkB/s" ;"%dkB (%d%%) of %dkB @ %d.%01dkB/s"
-LangString DESC_PLURAL ${LANG_RUSSIAN} "s"
-LangString DESC_HOUR ${LANG_RUSSIAN} "hour"
-LangString DESC_MINUTE ${LANG_RUSSIAN} "minute"
-LangString DESC_SECOND ${LANG_RUSSIAN} "second"
-LangString DESC_CONNECTING ${LANG_RUSSIAN} "Connecting..."
-LangString DESC_DOWNLOADING ${LANG_RUSSIAN} "Downloading %s"
-LangString DESC_SHORTDOTNET ${LANG_RUSSIAN} "Microsoft .Net Framework 2.0"
-LangString DESC_LONGDOTNET ${LANG_RUSSIAN} "Microsoft .Net Framework 2.0"
-LangString DESC_DOTNET_DECISION ${LANG_RUSSIAN} "$(DESC_SHORTDOTNET) is required.$\nIt is strongly \
-  advised that you install$\n$(DESC_SHORTDOTNET) before continuing.$\nIf you choose to continue, \
-  you will need to connect$\nto the internet before proceeding.$\nWould you like to download and install \
-  the package now?"
-LangString SEC_DOTNET ${LANG_RUSSIAN} "$(DESC_SHORTDOTNET) "
-LangString DESC_INSTALLING ${LANG_RUSSIAN} "Installing"
-LangString DESC_DOWNLOADING1 ${LANG_RUSSIAN} "Downloading"
-LangString DESC_DOWNLOADFAILED ${LANG_RUSSIAN} "Download Failed:"
-LangString ERROR_DOTNET_DUPLICATE_INSTANCE ${LANG_RUSSIAN} "The $(DESC_SHORTDOTNET) Installer is \
-  already running."
-LangString ERROR_NOT_ADMINISTRATOR ${LANG_RUSSIAN} "$(DESC_000022)"
-LangString ERROR_INVALID_PLATFORM ${LANG_RUSSIAN} "$(DESC_000023)"
-LangString DESC_DOTNET_TIMEOUT ${LANG_RUSSIAN} "The installation of the $(DESC_SHORTDOTNET) \
-  has timed out."
-LangString ERROR_DOTNET_INVALID_PATH ${LANG_RUSSIAN} "The $(DESC_SHORTDOTNET) Installation$\n\
-  was not found in the following location:$\n"
-LangString ERROR_DOTNET_FATAL ${LANG_RUSSIAN} "A fatal error occurred during the installation$\n\
-  of the $(DESC_SHORTDOTNET)."
-LangString FAILED_DOTNET_INSTALL ${LANG_RUSSIAN} "The installation of $(PRODUCT_NAME) will$\n\
-  continue. However, it may not function properly$\nuntil $(DESC_SHORTDOTNET)$\nis installed."
-
-
-
-
-;.NET 2005 Distributable Installation /
-
 
 
 
@@ -230,128 +129,6 @@ LangString message ${LANG_RUSSIAN} "SIM-IM установлен и готов к работe.$\nЗапуст
 ; The stuff to install
 
 
-;.NET 2005 Distributable Installation
-
-  Section $(SEC_DOTNET) SECDOTNET
-    SectionIn RO
-    IfSilent lbl_IsSilent
-    !define DOTNETFILESDIR "Common\Files\MSNET"
-    StrCpy $DOTNET_RETURN_CODE "0"
-!ifdef DOTNET_ONCD_1033
-    StrCmp "$OSLANGUAGE" "1033" 0 lbl_Not1033
-    SetOutPath "$PLUGINSDIR"
-    file /r "${DOTNETFILESDIR}\dotnetfx1033.exe"
-    !insertmacro PRINT "$(DESC_INSTALLING) $(DESC_SHORTDOTNET)..."
-    Banner::show /NOUNLOAD "$(DESC_INSTALLING) $(DESC_SHORTDOTNET)..."
-    nsExec::ExecToStack '"$PLUGINSDIR\dotnetfx1033.exe" /q /c:"install.exe /noaspupgrade /q"'
-    pop $DOTNET_RETURN_CODE
-    Banner::destroy
-    SetRebootFlag true
-    Goto lbl_NoDownloadRequired
-    lbl_Not1033:
-!endif
-
-!ifdef DOTNET_ONCD_1033
-    StrCmp "$OSLANGUAGE" "1033" 0 lbl_Not1033
-    SetOutPath "$PLUGINSDIR"
-    file /r "${DOTNETFILESDIR}\dotnetfx1033.exe"
-    !insertmacro PRINT "$(DESC_INSTALLING) $(DESC_SHORTDOTNET)..."
-    Banner::show /NOUNLOAD "$(DESC_INSTALLING) $(DESC_SHORTDOTNET)..."
-    nsExec::ExecToStack '"$PLUGINSDIR\dotnetfx1033.exe" /q /c:"install.exe /noaspupgrade /q"'
-    pop $DOTNET_RETURN_CODE
-    Banner::destroy
-    SetRebootFlag true
-    Goto lbl_NoDownloadRequired
-    lbl_Not1033:
-!endif
-
-
-
-; Insert Other language blocks here
- 
-    ; the following Goto and Label is for consistencey.
-    Goto lbl_DownloadRequired
-    lbl_DownloadRequired:
-    !insertmacro PRINT "$(DESC_DOWNLOADING1) $(DESC_SHORTDOTNET)..."
-    MessageBox MB_ICONEXCLAMATION|MB_YESNO|MB_DEFBUTTON2 "$(DESC_DOTNET_DECISION)" /SD IDNO \
-      IDYES +2 IDNO 0
-    Goto lbl_ContinueInstall
-    ; "Downloading Microsoft .Net Framework"
-    AddSize 153600
-    nsisdl::download /TRANSLATE "$(DESC_DOWNLOADING)" "$(DESC_CONNECTING)" \
-       "$(DESC_SECOND)" "$(DESC_MINUTE)" "$(DESC_HOUR)" "$(DESC_PLURAL)" \
-       "$(DESC_PROGRESS)" "$(DESC_REMAINING)" \
-       /TIMEOUT=30000 "$URL_DOTNET" "$PLUGINSDIR\dotnetfx.exe"
-    Pop $0
-    StrCmp "$0" "success" lbl_continue
-    !insertmacro PRINT "$(DESC_DOWNLOADFAILED) $0"
-    Abort
- 
-    lbl_continue:
-      !insertmacro PRINT "$(DESC_INSTALLING) $(DESC_SHORTDOTNET)..."
-      Banner::show /NOUNLOAD "$(DESC_INSTALLING) $(DESC_SHORTDOTNET)..."
-      nsExec::ExecToStack '"$PLUGINSDIR\dotnetfx.exe" /q /c:"install.exe /noaspupgrade /q"'
-      pop $DOTNET_RETURN_CODE
-      Banner::destroy
-      SetRebootFlag true
-      ; silence the compiler
-      Goto lbl_NoDownloadRequired
-      lbl_NoDownloadRequired:
- 
-      ; obtain any error code and inform the user ($DOTNET_RETURN_CODE)
-      ; If nsExec is unable to execute the process,
-      ; it will return "error"
-      ; If the process timed out it will return "timeout"
-      ; else it will return the return code from the executed process.
-      StrCmp "$DOTNET_RETURN_CODE" "" lbl_NoError
-      StrCmp "$DOTNET_RETURN_CODE" "0" lbl_NoError
-      StrCmp "$DOTNET_RETURN_CODE" "3010" lbl_NoError
-      StrCmp "$DOTNET_RETURN_CODE" "8192" lbl_NoError
-      StrCmp "$DOTNET_RETURN_CODE" "error" lbl_Error
-      StrCmp "$DOTNET_RETURN_CODE" "timeout" lbl_TimeOut
-      ; It's a .Net Error
-      StrCmp "$DOTNET_RETURN_CODE" "4101" lbl_Error_DuplicateInstance
-      StrCmp "$DOTNET_RETURN_CODE" "4097" lbl_Error_NotAdministrator
-      StrCmp "$DOTNET_RETURN_CODE" "1633" lbl_Error_InvalidPlatform lbl_FatalError
-      ; all others are fatal
- 
-    lbl_Error_DuplicateInstance:
-    !insertmacro PRINT "$(ERROR_DOTNET_DUPLICATE_INSTANCE)"
-    GoTo lbl_Done
- 
-    lbl_Error_NotAdministrator:
-    !insertmacro PRINT "$(ERROR_NOT_ADMINISTRATOR)"
-    GoTo lbl_Done
- 
-    lbl_Error_InvalidPlatform:
-    !insertmacro PRINT "$(ERROR_INVALID_PLATFORM)"
-    GoTo lbl_Done
- 
-    lbl_TimeOut:
-    !insertmacro PRINT "$(DESC_DOTNET_TIMEOUT)"
-    GoTo lbl_Done
- 
-    lbl_Error:
-    !insertmacro PRINT "$(ERROR_DOTNET_INVALID_PATH)"
-    GoTo lbl_Done
- 
-    lbl_FatalError:
-    !insertmacro PRINT "$(ERROR_DOTNET_FATAL)[$DOTNET_RETURN_CODE]"
-    GoTo lbl_Done
- 
-    lbl_Done:
-    !insertmacro PRINT "$(FAILED_DOTNET_INSTALL)"
-    lbl_NoError:
-    lbl_IsSilent:
-    lbl_ContinueInstall:
-  SectionEnd
- 
-!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT ${SECDOTNET} $(DESC_LONGDOTNET)
-!insertmacro MUI_FUNCTION_DESCRIPTION_END
-
-;.NET 2005 Distributable Installation /
-
 
 
 Section "Install"
@@ -365,6 +142,8 @@ Section "Install"
   
   File ..\Release\sim.exe
   File ..\Release\simctrl.exe
+  File VC8_deploy\Microsoft.VC80.CRT.manifest
+  File VC8_deploy\sim.exe.intermediate.manifest
   
   
   UnRegDLL  $INSTDIR\simremote.dll
@@ -378,6 +157,7 @@ Section "Install"
   SetOutPath $INSTDIR\plugins
 
   File ..\Release\plugins\*.dll
+  File VC8_deploy\plugins\Microsoft.VC80.CRT.manifest
 
   SetOutPath $INSTDIR\plugins\styles
 
