@@ -53,8 +53,13 @@ const unsigned short ICQ_SNACxFAM_SERVICE          = 0x0001;
 const unsigned short ICQ_SNACxFAM_LOCATION         = 0x0002;
 const unsigned short ICQ_SNACxFAM_BUDDY            = 0x0003;
 const unsigned short ICQ_SNACxFAM_MESSAGE          = 0x0004;
+const unsigned short ICQ_SNACxFAM_AIMxINVITATION   = 0x0006;
+const unsigned short ICQ_SNACxFAM_ADMINISTRATIVE   = 0x0007;
 const unsigned short ICQ_SNACxFAM_BOS              = 0x0009;
 const unsigned short ICQ_SNACxFAM_PING             = 0x000B;
+const unsigned short ICQ_SNACxFAM_CHATxNAVIGATION  = 0x000D;
+const unsigned short ICQ_SNACxFAM_CHAT			   = 0x000E;
+const unsigned short ICQ_SNACxFAM_SERVERBUDDYICONS = 0x0010;
 const unsigned short ICQ_SNACxFAM_LISTS            = 0x0013;
 const unsigned short ICQ_SNACxFAM_VARIOUS          = 0x0015;
 const unsigned short ICQ_SNACxFAM_LOGIN            = 0x0017;
@@ -99,43 +104,44 @@ const unsigned short ICQ_MSGxURL               = 0x0004;
 const unsigned short ICQ_MSGxAUTHxREQUEST      = 0x0006;
 const unsigned short ICQ_MSGxAUTHxREFUSED      = 0x0007;
 const unsigned short ICQ_MSGxAUTHxGRANTED      = 0x0008;
+const unsigned short ICQ_MSGxSERVERxMSG		   = 0x0009;
 const unsigned short ICQ_MSGxADDEDxTOxLIST     = 0x000C;
 const unsigned short ICQ_MSGxWEBxPANEL         = 0x000D;
 const unsigned short ICQ_MSGxEMAILxPAGER       = 0x000E;
 const unsigned short ICQ_MSGxCONTACTxLIST      = 0x0013;
 const unsigned short ICQ_MSGxEXT               = 0x001A;
 
-const unsigned short ICQ_MSGxSECURExCLOSE       = 0x00EE;
+const unsigned short ICQ_MSGxSECURExCLOSE      = 0x00EE;
 const unsigned short ICQ_MSGxSECURExOPEN       = 0x00EF;
 
 const unsigned short ICQ_MSGxAR_AWAY           = 0x03E8;
 const unsigned short ICQ_MSGxAR_OCCUPIED       = 0x03E9;
-const unsigned short ICQ_MSGxAR_NA               = 0x03EA;
-const unsigned short ICQ_MSGxAR_DND               = 0x03EB;
-const unsigned short ICQ_MSGxAR_FFC               = 0x03EC;
+const unsigned short ICQ_MSGxAR_NA             = 0x03EA;
+const unsigned short ICQ_MSGxAR_DND            = 0x03EB;
+const unsigned short ICQ_MSGxAR_FFC            = 0x03EC;
 
 const unsigned short ICQ_TCPxACK_ONLINE         = 0x0000;
 const unsigned short ICQ_TCPxACK_AWAY           = 0x0004;
 const unsigned short ICQ_TCPxACK_OCCUPIED       = 0x0009;
 const unsigned short ICQ_TCPxACK_DND            = 0x000A;
 const unsigned short ICQ_TCPxACK_OCCUPIEDxCAR   = 0x000B;
-const unsigned short ICQ_TCPxACK_OCCUPIEDx2        = 0x000C;
+const unsigned short ICQ_TCPxACK_OCCUPIEDx2     = 0x000C;
 const unsigned short ICQ_TCPxACK_NA             = 0x000E;
 const unsigned short ICQ_TCPxACK_DNDxCAR        = 0x000F;
 const unsigned short ICQ_TCPxACK_ACCEPT         = 0x0000;
 const unsigned short ICQ_TCPxACK_REFUSE         = 0x0001;
 
 const unsigned short ICQ_TCPxMSG_AUTOxREPLY     = 0x0000;
-const unsigned short ICQ_TCPxMSG_NORMAL            = 0x0001;
+const unsigned short ICQ_TCPxMSG_NORMAL         = 0x0001;
 const unsigned short ICQ_TCPxMSG_URGENT         = 0x0002;
 const unsigned short ICQ_TCPxMSG_LIST           = 0x0004;
 
-const unsigned short ICQ_MTN_FINISH    = 0x0000;
+const unsigned short ICQ_MTN_FINISH   = 0x0000;
 const unsigned short ICQ_MTN_TYPED    = 0x0001;
 const unsigned short ICQ_MTN_START    = 0x0002;
 
 const char DIRECT_MODE_DENIED    = 0x01;
-const char DIRECT_MODE_INDIRECT    = 0x02;
+const char DIRECT_MODE_INDIRECT  = 0x02;
 const char DIRECT_MODE_DIRECT    = 0x04;
 
 const unsigned MAX_PLAIN_MESSAGE_SIZE = 450;
