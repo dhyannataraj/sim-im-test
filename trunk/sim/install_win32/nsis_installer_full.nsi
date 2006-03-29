@@ -126,9 +126,9 @@ Section "Install"
   File VC8_deploy\sim.exe.intermediate.manifest
   
   ;VC8DLL's
-  File VC8_deploy\msvcm80.dll
-  File VC8_deploy\msvcp80.dll
-  File VC8_deploy\msvcr80.dll
+  File $%WINDIR%\system32\msvcm80.dll
+  File $%WINDIR%\system32\msvcp80.dll
+  File $%WINDIR%\system32\msvcr80.dll
   
   UnRegDLL  $INSTDIR\simremote.dll
   UnRegDLL  $INSTDIR\simext.dll
