@@ -9,6 +9,8 @@ SetCompressor lzma
 BGGradient topc
 
 !include "MUI.nsh"
+!include "LogicLib.nsh"
+!include "WordFunc.nsh"
 
 !macro BIMAGE IMAGE PARMS
 	Push $0
@@ -23,41 +25,41 @@ BGGradient topc
   DetailPrint "${text}"
 !macroend
 
-
 ;Languages
 
   !insertmacro MUI_LANGUAGE "English"
-  !insertmacro MUI_LANGUAGE "French"
   !insertmacro MUI_LANGUAGE "German"
-  !insertmacro MUI_LANGUAGE "Spanish"
-  !insertmacro MUI_LANGUAGE "SimpChinese"
+  !insertmacro MUI_LANGUAGE "Russian"
+  ;!insertmacro MUI_LANGUAGE "French"
+  ;!insertmacro MUI_LANGUAGE "French"
+  ;!insertmacro MUI_LANGUAGE "Spanish"
+  ;!insertmacro MUI_LANGUAGE "SimpChinese"
   ;!insertmacro MUI_LANGUAGE "TradChinese"
-  !insertmacro MUI_LANGUAGE "Japanese"
-  !insertmacro MUI_LANGUAGE "Korean"
-  !insertmacro MUI_LANGUAGE "Italian"
-  !insertmacro MUI_LANGUAGE "Dutch"
+  ;!insertmacro MUI_LANGUAGE "Japanese"
+  ;!insertmacro MUI_LANGUAGE "Korean"
+  ;!insertmacro MUI_LANGUAGE "Italian"
+  ;!insertmacro MUI_LANGUAGE "Dutch"
   ;!insertmacro MUI_LANGUAGE "Danish"
   ;!insertmacro MUI_LANGUAGE "Swedish"
   ;!insertmacro MUI_LANGUAGE "Norwegian"
   ;!insertmacro MUI_LANGUAGE "Finnish"
   ;!insertmacro MUI_LANGUAGE "Greek"
-  !insertmacro MUI_LANGUAGE "Russian"
-  !insertmacro MUI_LANGUAGE "Portuguese"
-  !insertmacro MUI_LANGUAGE "PortugueseBR"
-  !insertmacro MUI_LANGUAGE "Polish"
-  !insertmacro MUI_LANGUAGE "Ukrainian"
-  !insertmacro MUI_LANGUAGE "Czech"
-  !insertmacro MUI_LANGUAGE "Slovak"
-  !insertmacro MUI_LANGUAGE "Croatian"
-  !insertmacro MUI_LANGUAGE "Bulgarian"
-  !insertmacro MUI_LANGUAGE "Hungarian"
+  ;!insertmacro MUI_LANGUAGE "Portuguese"
+  ;!insertmacro MUI_LANGUAGE "PortugueseBR"
+  ;!insertmacro MUI_LANGUAGE "Polish"
+  ;!insertmacro MUI_LANGUAGE "Ukrainian"
+  ;!insertmacro MUI_LANGUAGE "Czech"
+  ;!insertmacro MUI_LANGUAGE "Slovak"
+  ;!insertmacro MUI_LANGUAGE "Croatian"
+  ;!insertmacro MUI_LANGUAGE "Bulgarian"
+  ;!insertmacro MUI_LANGUAGE "Hungarian"
   ;!insertmacro MUI_LANGUAGE "Thai"
-  !insertmacro MUI_LANGUAGE "Romanian"
-  !insertmacro MUI_LANGUAGE "Latvian"
-  !insertmacro MUI_LANGUAGE "Macedonian"
-  !insertmacro MUI_LANGUAGE "Estonian"
-  !insertmacro MUI_LANGUAGE "Turkish"
-  !insertmacro MUI_LANGUAGE "Lithuanian"
+  ;!insertmacro MUI_LANGUAGE "Romanian"
+  ;!insertmacro MUI_LANGUAGE "Latvian"
+  ;!insertmacro MUI_LANGUAGE "Macedonian"
+  ;!insertmacro MUI_LANGUAGE "Estonian"
+  ;!insertmacro MUI_LANGUAGE "Turkish"
+  ;!insertmacro MUI_LANGUAGE "Lithuanian"
   ;!insertmacro MUI_LANGUAGE "Catalan"
   ;!insertmacro MUI_LANGUAGE "Slovenian"
   ;!insertmacro MUI_LANGUAGE "Serbian"
@@ -70,12 +72,12 @@ BGGradient topc
   ;!insertmacro MUI_LANGUAGE "Luxembourgish"
 
 
-
-
 ; The name of the installer
 Name "SIM CVS/SVN VC8 FULL-Version ${__DATE__}, ${__TIME__}"
 
+ 
 Function .onInit
+  
   SetSilent silent
   !insertmacro MUI_LANGDLL_DISPLAY
   SetSilent normal
@@ -107,8 +109,6 @@ LangString message ${LANG_ENGLISH} "I can run SIM for you now.$\nShould I do thi
 LangString message ${LANG_GERMAN} "Ich kann SIM fьr Sie ausfьhren.$\nSoll ich das fьr Sie ьbernehmen?"
 LangString message ${LANG_RUSSIAN} "SIM-IM установлен и готов к работe.$\nЗапустить SIM-IM?"
 ; The stuff to install
-
-
 
 
 Section "Install"
