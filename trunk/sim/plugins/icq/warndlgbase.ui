@@ -70,7 +70,7 @@
             <property>
                 <name>text</name>
                 <string>Check this if you don't want your screen name revealed.
-Anonymous warinings are less severe.</string>
+Anonymous warnings are less severe.</string>
             </property>
             <property>
                 <name>alignment</name>

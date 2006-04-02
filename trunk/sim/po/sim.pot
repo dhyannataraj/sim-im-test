@@ -7669,7 +7669,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "Check this if you don't want your screen name revealed.\n"
-"Anonymous warinings are less severe."
+"Anonymous warnings are less severe."
 msgstr ""
 
 #. i18n: file ./plugins/icq/advsearchbase.ui line 225
