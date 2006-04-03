@@ -40,7 +40,12 @@ AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_UID_T
 AC_STRUCT_TM
+
 AC_PATH_X
+if test $have_x = yes; then
+   AC_DEFINE(HAVE_X,1,[Have X Window System])
+fi
+
 AC_HEADER_SYS_WAIT
 AC_TM_GMTOFF
 AC_FUNC_FORK
