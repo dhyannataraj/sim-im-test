@@ -262,6 +262,7 @@ void ProxyConfig::get(ProxyData *data)
     set_str(&data->User.ptr, edtUser->text().local8Bit());
     set_str(&data->Password.ptr, edtPswd->text().local8Bit());
     data->NoShow.bValue = chkNoShow->isChecked();
+    data->bInit = true;
 }
 
 #ifndef _MSC_VER
