@@ -1,18 +1,9 @@
-sim (0.9.3.99svn20060204-0.1) unstable; urgency=low
+sim (0.9.3.99svn20060404-1) unstable; urgency=low
 
-  * Non-maintainer upload.
-  * Upstream revision #270
-  * debian/* files fixed according to debian-mentors recomendations
+  * A lot of fixes.
+  * Upstream revision branches/0.9.4#412.
 
- -- Nikolay Shaplov <N@shaplov.ru>  Sat,  4 Feb 2006 20:43:36 +0300
-
-sim (0.9.3.99svn20060111-0.1) unstable; urgency=low
-
-  * Non-maintainer upload.
-  * Upstream revision #171.
-  * "Ten days" to release.
-
- -- Alexander Petrov <zowers@gmail.com>  Fri, 13 Jan 2006 02:56:21 +0300
+ -- Alexander Petrov <zowers@gmail.com>  Tue,  4 Apr 2006 04:06:35 +0400
 
 sim (0.9.3-1.1) unstable; urgency=low
 

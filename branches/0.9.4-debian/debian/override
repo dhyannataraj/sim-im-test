@@ -2,5 +2,3 @@ sim: binary-without-manpage simctrl
 sim: non-dev-pkg-with-shlib-symlink usr/lib/libsim.so.0.0.0 usr/lib/libsim.so
 sim: package-name-doesnt-match-sonames libsim0
 sim: no-shlibs-control-file usr/lib/libsim.so
-W: sim source: configure-generated-file-in-source config.log
-W: sim source: configure-generated-file-in-source config.status
