@@ -8794,7 +8794,7 @@ msgstr "Ожидать подтверждение от клиента"
 #: rc.cpp:2072
 #, no-c-format
 msgid "Accept in &occupied mode"
-msgstr "Принимать в режиме \"&Отошел\""
+msgstr "Принимать в режиме \"&Занят\""
 
 # mainwin.cpp:1706 ui/acceptbase.cpp:133
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 570

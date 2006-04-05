@@ -7859,7 +7859,7 @@ msgstr "Чекати підтвердження від клієнта"
 #: rc.cpp:2072
 #, no-c-format
 msgid "Accept in &occupied mode"
-msgstr "Приймати в режимі \"&Відійшов\""
+msgstr "Приймати в режимі \"&Зайнятий\""
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 570
 #: rc.cpp:2075
