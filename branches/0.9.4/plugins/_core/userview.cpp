@@ -1119,6 +1119,10 @@ void UserView::keyPressEvent(QKeyEvent *e)
                 return;
             }
         }
+    case Key_Delete:
+        // e->text() is not empty, but we don't need to specially handle Del 
+        UserListBase::keyPressEvent(e);
+        return;
     default:
         QString t = e->text();
         if (t.isEmpty()){
@@ -1449,22 +1453,13 @@ DWORD __stdcall DragScrollThread(LPVOID)
 UserViewContactDragObject::UserViewContactDragObject(UserView *view, Contact *contact)
         : ContactDragObject(view, contact)
 {
-#ifdef WIN32
-    dragView = view;
-    DWORD threadId;
-    CreateThread(NULL, 0, DragScrollThread, NULL, 0, &threadId);
-#else
-    QTimer *dragTimer = new QTimer(this);
-    connect(dragTimer, SIGNAL(timeout()), view, SLOT(dragScroll()));
-    dragTimer->start(200);
-#endif
+	QTimer *dragTimer = new QTimer(this);
+	connect(dragTimer, SIGNAL(timeout()), view, SLOT(dragScroll()));
+	dragTimer->start(200);
 }
 
 UserViewContactDragObject::~UserViewContactDragObject()
 {
-#ifdef WIN32
-    dragView = NULL;
-#endif
 }
 
 QDragObject *UserView::dragObject()

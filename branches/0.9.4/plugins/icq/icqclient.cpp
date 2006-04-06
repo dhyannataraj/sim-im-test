@@ -1649,27 +1649,19 @@ string ICQClient::clientName(ICQUserData *data)
     }
     if (hasCap(data, CAP_KOPETE))
     {
-        unsigned ver1 = (data->Build.value >> 24) & 0xFF;
-        unsigned ver2 = (data->Build.value >> 16) & 0xFF;
-        unsigned ver3 = (data->Build.value >> 8) & 0xFF;
-        unsigned ver4 = (data->Build.value) & 0xFF;
-        string ver;
-        if (ver4){
-            snprintf(b, sizeof(b), "%u", ver4);
-            ver = b;
-        }
-        if (ver3 || !res.empty()){
-            snprintf(b, sizeof(b), "%u", ver3);
-            ver += b;
-        }
-        if (ver2 || !res.empty()){
-            snprintf(b, sizeof(b), "%u", ver2);
-            ver += b;
-        }
-        snprintf(b, sizeof(b), "%u", ver1);
-        ver += b;
+        // last 4 bytes determine version
+        // NOTE change with each Kopete Release!
+        // first number, major version
+        // second number,  minor version
+        // third number, point version 100+
+        // fourth number,  point version 0-99
+        unsigned ver1 =  (data->Build.value >> 24) & 0xFF;	// major
+        unsigned ver2 =  (data->Build.value >> 16) & 0xFF;	// minor
+        unsigned ver3 = ((data->Build.value >>  8) & 0xFF) * 100;
+        ver3         +=  (data->Build.value >>  0) & 0xFF;
+        snprintf(b, sizeof(b), "%u.%u.%u", ver1, ver2, ver3);
         res = "Kopete ";
-        res += ver;
+        res += b;
         return res;
     }
     if (hasCap(data, CAP_XTRAZ)){

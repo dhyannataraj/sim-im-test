@@ -29,7 +29,7 @@ class ProxyError : public ProxyErrorBase, public EventReceiver
 {
     Q_OBJECT
 public:
-    ProxyError(ProxyPlugin *plugin, TCPClient *client, const char *msg);
+    ProxyError(ProxyPlugin *plugin, TCPClient *client, const QString& msg);
     ~ProxyError();
 signals:
     void apply();
