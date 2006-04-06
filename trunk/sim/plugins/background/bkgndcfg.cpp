@@ -72,7 +72,7 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
     spnContact->setValue(plugin->getMarginContact());
     spnGroup->setValue(plugin->getMarginGroup());
     lblLink->setText(i18n("Get more skins"));
-    lblLink->setUrl("http://miranda-im.org/download/index.php?action=display&id=32");
+    lblLink->setUrl("http://addons.miranda-im.org/index.php?action=display&id=34");
 }
 
 void BkgndCfg::apply()
