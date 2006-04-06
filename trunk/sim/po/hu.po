@@ -3431,7 +3431,7 @@ msgid ""
 "<div "
 "style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">Power"
 "ed by <a style=\"font-size:1em;font-style:italic;\" "
-"href=\"http://sim-im.berlios.de\">SIM Instant Messenger</a></div>"
+"href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1375
