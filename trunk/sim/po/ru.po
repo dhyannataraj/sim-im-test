@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2006-03-11 02:52+0500\n"
-"PO-Revision-Date: 2006-03-11 03:14+0500\n"
+"PO-Revision-Date: 2006-03-23 00:41+0500\n"
 "Last-Translator: Andrey Rahmatullin <wrar@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2701,7 +2701,7 @@ msgstr "Закрытие защищенного соединения"
 # monitor.cpp:79
 #: plugins/icq/icqmessage.cpp:885 plugins/logger/logconfig.cpp:95
 msgid "Warning"
-msgstr "&Предупреждения"
+msgstr "Предупреждения"
 
 #: plugins/icq/icqpicture.cpp:128
 msgid "Picture can not be more than 7 kbytes"
