@@ -423,7 +423,7 @@ SectionEnd ; end the section
 
 Section "Verknüpfungen"
 CreateDirectory "$SMPROGRAMS\SIM"
-  WriteIniStr "$INSTDIR\SIM.url" "InternetShortcut" "URL" "http://sim-im.berlios.de"
+  WriteIniStr "$INSTDIR\SIM.url" "InternetShortcut" "URL" "http://sim-im.org"
   WriteIniStr "$INSTDIR\Updates.url" "InternetShortcut" "URL" "http://www.sim-icq.de"
   CreateShortCut "$SMPROGRAMS\SIM\SIM-IM.lnk" "$INSTDIR\SIM.url" "" "$INSTDIR\SIM.url" 0
   CreateShortCut "$SMPROGRAMS\SIM\Updates.lnk" "$INSTDIR\Updates.url" "" "$INSTDIR\Updates.url" 0

@@ -6,7 +6,7 @@
     <description>SIM weather icons.</description>
     <author jid="shutoff@jabber.ru">Vladimir Shutoff</author>
     <creation>2004-06-11</creation>
-    <home>http://sim-im.berlios.de/</home>
+    <home>http://sim-im.org/</home>
   </meta>
   <icon name="weather0">
 	<object mime="image/png">0.png</object>
