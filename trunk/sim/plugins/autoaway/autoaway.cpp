@@ -52,15 +52,13 @@ static DWORD (__stdcall *_IdleUIGetLastInputTime)(void);
 
 static HMODULE hLibUI = NULL;
 
-#else
-#ifdef HAVE_CARBON_CARBON_H
+#elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
 #include <Carbon/Carbon.h>
 #else
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xlibint.h>
 #include <X11/extensions/scrnsaver.h>
-#endif
 #endif
 
 using namespace SIM;
@@ -87,7 +85,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-#ifdef HAVE_CARBON_CARBON_H
+#if defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
 
 static unsigned mSecondsIdle = 0;
 static EventLoopTimerRef mTimerRef;
@@ -194,8 +192,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
         if (hLibUI != NULL)
             (DWORD&)_IdleUIGetLastInputTime = (DWORD)GetProcAddress(hLibUI, "IdleUIGetLastInputTime");
     }
-#else
-#ifdef HAVE_CARBON_CARBNON_H
+#elif defined(HAVE_CARBON_CARBNON_H) && !defined(HAVE_X)
 CFBundleRef carbonBundle;
     if (LoadFrameworkBundle( CFSTR("Carbon.framework"), &carbonBundle ) == noErr) {
         InstallEventLoopIdleTimerPtr myInstallEventLoopIdleTimer = (InstallEventLoopIdleTimerPtr)CFBundleGetFunctionPointerForName(carbonBundle, CFSTR("InstallEventLoopIdleTimer"));
@@ -204,7 +201,6 @@ CFBundleRef carbonBundle;
             (*myInstallEventLoopIdleTimer)(GetMainEventLoop(), kEventDurationSecond, kEventDurationSecond, timerUPP, 0, &mTimerRef);
         }
     }
-#endif
 #endif
     Event ePlugin(EventGetPluginInfo, (void*)"_core");
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
@@ -223,8 +219,7 @@ AutoAwayPlugin::~AutoAwayPlugin()
     _IdleUIGetLastInputTime = NULL;
     if (hLibUI)
         FreeLibrary(hLibUI);
-#else
-#ifdef HAVE_CARBON_CARBNON_H
+#elif defined(HAVE_CARBON_CARBNON_H) && !defined(HAVE_X)
     RemoveEventLoopTimer(mTimerRef);
 #else
     // We load static Xss in our autoaway.so's process space, but the bastard
@@ -258,7 +253,6 @@ AutoAwayPlugin::~AutoAwayPlugin()
        }
        UnlockDisplay(dpy);
     }
-#endif
 #endif
     free_data(autoAwayData, &data);
 }
@@ -362,8 +356,7 @@ unsigned AutoAwayPlugin::getIdleTime()
     if (_IdleUIGetLastInputTime)
         return _IdleUIGetLastInputTime() / 1000;
     return 0;
-#else
-#ifdef HAVE_CARBON_CARBON_H
+#elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
     return mSecondsIdle;
 #else
 QWidgetList *list = QApplication::topLevelWidgets();
@@ -391,7 +384,6 @@ QWidgetList *list = QApplication::topLevelWidgets();
         return 0;
     }
     return (mit_info->idle / 1000);
-#endif
 #endif
 }
 
