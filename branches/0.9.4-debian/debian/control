@@ -2,13 +2,13 @@ Source: sim
 Section: net
 Priority: optional
 Maintainer: Alexander Petrov <zowers@gmail.com>
-Build-Depends: debhelper (>> 4.0.0), flex, autoconf, automake1.9, autotools-dev, perl, libtool(>= 1.4.2-1), libfam-dev, libpng-dev, libqt3-mt-dev, libqt3-headers, libqt3-headers, qt3-dev-tools, libssl-dev, kdelibs4-dev, zlib1g-dev, libexpat1-dev, libxml2-dev, libxslt1-dev, libxft-dev, zip
+Build-Depends: debhelper (>> 4.0.0), flex, autoconf, automake1.9, autotools-dev, perl, libtool(>= 1.4.2-1), libfam-dev, libpng12-dev, libqt3-mt-dev, libqt3-headers, qt3-dev-tools, libssl-dev, kdelibs4-dev, zlib1g-dev, libexpat1-dev, libxml2-dev, libxslt1-dev, libxft-dev, zip
 Standards-Version: 3.6.2.1
 
 Package: sim
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: Simple Instant Messenger
+Description: Simple Instant Messenger (KDE)
  sim is a simple and powerful multi-protocol instant messenger.
  .
  Some of the features:
@@ -31,4 +31,4 @@ Description: Simple Instant Messenger
   Homepage: http://sim-im.org/
  .
   This package is compiled with KDE support.
-  See the 'kde' package for more information.
+  See the 'kde' package for more information about KDE.

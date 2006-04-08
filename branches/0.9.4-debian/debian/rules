@@ -103,19 +103,19 @@ install: build
 
 	# Main install.
 	$(MAKE) install DESTDIR=`pwd`/$(tmp)
+	# Remove unneeded stuff.
 	rm -f $(tmp)/usr/share/apps/sim/COPYING
 	rm -f $(tmp)/usr/share/mimelnk/application/x-icq.desktop
+	rmdir $(tmp)/usr/share/mimelnk/application
+	rmdir $(tmp)/usr/share/mimelnk
 	rm -f $(tmp)/usr/lib/libsim.la
+	rm -f $(tmp)/usr/lib/libsim.so
 	rm -f $(tmp)/usr/lib/sim/*.la
 
 	# Generate HTML docs.
 	for i in `find $(tmp) -name "*.docbook"`; do \
 	  pushd . > /dev/null; cd `dirname $$i`; meinproc `basename $$i`; \
 	  popd > /dev/null; done
-
-	# Make common links for docs.
-	for i in `find $(kdedocs) -type d -name kbear`; do \
-	  ln -f -n -s ../common $$i/common ; done
 
 	# rm -f debian/sim/usr/share/menu/sim-kde.menu
 	# rm -f debian/sim/usr/bin/simctrl
