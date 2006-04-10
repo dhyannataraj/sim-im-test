@@ -456,8 +456,12 @@ bool raiseWindow(QWidget *w, unsigned)
 #endif
 #endif
     w->show();
-    if (w->isMinimized())
-        w->showNormal();
+    if (w->isMinimized()) {
+        if (w->isMaximized())
+            w->showMaximized();
+        else
+            w->showNormal();
+    }
     w->raise();
 #ifdef WIN32
     AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
