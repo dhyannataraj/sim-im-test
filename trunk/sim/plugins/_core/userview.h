@@ -91,6 +91,7 @@ protected:
     QDragObject *dragObject();
     virtual void deleteItem(QListViewItem *item);
     std::list<BlinkCount> blinks;
+    std::list<QListViewItem*> closed_items;
     unsigned long m_dropContactId;
     QListViewItem *m_dropItem;
     QListViewItem *m_current;

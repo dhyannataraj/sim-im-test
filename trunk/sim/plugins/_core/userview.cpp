@@ -1021,6 +1021,9 @@ void UserView::keyPressEvent(QKeyEvent *e)
         m_search = m_search.left(m_search.length() - 1);
         if (m_search.isEmpty()){
             m_searchItem = NULL;
+            list<QListViewItem*>::iterator it;
+            for (it = closed_items.begin(); it != closed_items.end(); ++it)
+                 (*it)->setOpen(FALSE);
         }else{
             search(new_items);
             if (new_items.empty()){
@@ -1049,13 +1052,12 @@ void UserView::keyPressEvent(QKeyEvent *e)
             for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)
                 if ((*it_old) == m_searchItem)
                     break;
-            if (it_old == old_items.end())
-                return;
+            if (it_old != old_items.begin())
+                it_old--;
             if (it_old == old_items.begin()){
                 QApplication::beep();
                 return;
             }
-            --it_old;
             m_searchItem = *it_old;
         }
         break;
@@ -1089,7 +1091,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
             }
         }
     case Key_Delete:
-        // e->text() is not empty, but we don't need to specially handle Del 
+        // e->text() is not empty, but we don't need to specially handle Del
         UserListBase::keyPressEvent(e);
         return;
     default:
@@ -1098,12 +1100,19 @@ void UserView::keyPressEvent(QKeyEvent *e)
             UserListBase::keyPressEvent(e);
             return;
         }
+        if (m_search.isEmpty()) {
+            closed_items.clear();
+            for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
+                 if (item->isExpandable() && !(item->isOpen()))
+                     closed_items.push_back(item);
+        }
         QString save_search = m_search;
         search(old_items);
         m_search += t;
         search(new_items);
         if (new_items.empty()){
             m_search = save_search;
+            search(new_items);
             QApplication::beep();
             return;
         }else{
@@ -1627,13 +1636,16 @@ void UserView::search(list<QListViewItem*> &items)
 {
     if (m_search.isEmpty())
         return;
+    list<QListViewItem*>::iterator it;
+    for (it = closed_items.begin(); it != closed_items.end(); ++it)
+         (*it)->setOpen(FALSE);
     for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
         search(item, items);
 }
 
 void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
 {
-    if (item->isExpandable() && item->isOpen()){
+  if (item->isExpandable()){
         for (QListViewItem *child = item->firstChild(); child; child = child->nextSibling())
             search(child, items);
     }
@@ -1643,8 +1655,10 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
     //Search from the beginning of contact name
     //if (name.left(m_search.length()).upper() == m_search.upper())
     //Search for substring in contact name
-    if (name.upper().find(m_search.upper())>-1)
+    if (name.upper().find(m_search.upper())>-1) {
+        item->parent()->setOpen(TRUE);
         items.push_back(item);
+    }
 }
 
 void UserView::dragScroll() //rewrite!?
