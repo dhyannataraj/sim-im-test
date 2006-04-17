@@ -3197,7 +3197,9 @@ if (fname[0] != '/')
                     raiseWindow(wnd);
                 } else{
                     if (!m_HistoryThread)
-                        m_HistoryThread = new HistoryThread(id, getExtViewer());
+                        m_HistoryThread = new HistoryThread();
+                    m_HistoryThread->set_id(id);
+                    m_HistoryThread->set_Viewer(getExtViewer());
                     m_HistoryThread->start();
                 }
                 return e->param();
@@ -4606,11 +4608,6 @@ bool FileLock::lock(bool)
     m_bLock = true;
 #endif
     return true;
-}
-
-HistoryThread::HistoryThread(unsigned id, string Viewer) {
-    m_id=id;
-    m_Viewer=Viewer;
 }
 
 void HistoryThread::run() {

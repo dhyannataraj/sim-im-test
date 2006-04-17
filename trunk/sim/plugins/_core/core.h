@@ -412,8 +412,9 @@ class BalloonMsg;
 class HistoryThread : public QThread
 {
 public:
-    HistoryThread(unsigned id, std::string Viewer);
     virtual void run();
+    void set_id(unsigned id) {m_id=id;}
+    void set_Viewer(std::string Viewer) {m_Viewer=Viewer;}
 protected:
     unsigned m_id;
     std::string m_Viewer;
