@@ -211,6 +211,9 @@ static LevelColorDef levelColors[] =
 
 void *MonitorWindow::processEvent(Event *e)
 {
+    if (!e) {
+        return 0;
+    }
     if ((e->type() == EventLog) && !bPause){
         LogInfo *li = (LogInfo*)e->param();
         if (((li->packet_id == 0) && (li->log_level & m_plugin->getLogLevel())) ||
