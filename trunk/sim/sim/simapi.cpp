@@ -306,10 +306,12 @@ void *Event::process(EventReceiver *from)
         }
     }
     for (; it != receivers->end(); ++it){
-        EventReceiver *e = *it;
-        void *res = e->processEvent(this);
-        if (res)
-            return res;
+        EventReceiver *receiver = *it;
+        if (receiver) {
+            void *res = receiver->processEvent(this);
+            if (res)
+                return res;
+        }
     }
     return NULL;
 }
