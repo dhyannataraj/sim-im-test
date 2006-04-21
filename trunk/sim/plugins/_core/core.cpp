@@ -3735,7 +3735,7 @@ bool CorePlugin::init(bool bInit)
         } else
            setRegNew(true);
     }
-    if ((!bInit || (*getProfile() == 0) || !getNoShow() || !getSavePasswd()) &&cmd_line_profile=="" && !getSavePasswd()){
+    if ((!bInit || (*getProfile() == 0) || !getNoShow() || !getSavePasswd()) &&(cmd_line_profile=="" || (cmd_line_profile!="" && !getSavePasswd()))){
         if (!bInit || m_profiles.size()){
             if (bInit)
                 hideWindows();
