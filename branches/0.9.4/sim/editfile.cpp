@@ -29,6 +29,7 @@
 #include <qclipboard.h>
 #ifdef USE_KDE
 #include <kfiledialog.h>
+#include <kdiroperator.h>
 #define QFileDialog	KFileDialog
 #else
 #include <qfiledialog.h>
@@ -40,6 +41,7 @@ EditFile::EditFile(QWidget *p, const char *name)
     bDirMode = false;
     bMultiplyMode = false;
     bCreate = false;
+    bShowHidden = false;
     createPreview = NULL;
     lay = new QHBoxLayout(this);
     edtFile = new FileLineEdit(this);
@@ -95,6 +97,13 @@ class FileDialog : public QFileDialog
 {
 public:
     FileDialog(const QString &dirName, const QString &filter, QWidget *parent, const QString &title);
+
+    #ifdef USE_KDE
+    void setShowHiddenFiles(bool value)
+    {
+        ops->setShowHiddenFiles(value);
+    }
+    #endif
 };
 
 FileDialog::FileDialog(const QString &dirName, const QString &filter, QWidget *parent, const QString &title)
@@ -114,6 +123,11 @@ void EditFile::setCreate(bool create)
     bCreate = create;
 }
 
+void EditFile::setShowHidden(bool value)
+{
+    bShowHidden = value;
+}
+
 void EditFile::showFiles()
 {
     QString s = edtFile->text();
@@ -121,7 +135,20 @@ void EditFile::showFiles()
     s.replace(QRegExp("\\\\"), "/");
 #endif
     if (bDirMode){
-        s = QFileDialog::getExistingDirectory(s, topLevelWidget(), title);
+        if (bShowHidden) {
+            FileDialog *dialog = new FileDialog(s, QString::null, topLevelWidget(), title);
+#ifdef USE_KDE
+            dialog->setMode(KFile::Directory | KFile::ExistingOnly);
+#else
+            dialog->setMode(QFileDialog::DirectoryOnly);
+#endif
+            dialog->setShowHiddenFiles(bShowHidden);
+            if (dialog->exec() == QDialog::Accepted) {
+                s = dialog->selectedFile();
+            }
+        } else {
+            s = QFileDialog::getExistingDirectory(s, topLevelWidget(), title);
+        }
     }else if (bMultiplyMode){
         QStringList lst = QFileDialog::getOpenFileNames(filter, QString::null, topLevelWidget());
         if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){

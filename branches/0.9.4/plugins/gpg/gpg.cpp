@@ -259,6 +259,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                     if (n > 0)
                         key = key.substr(n + 3);
                     key = getToken(key, ' ');
+                    key = getToken(key, ',');
                     if (m_pass && ((*it).key == m_pass->m_key)){
                         DecryptMsg m;
                         m.msg    = msg;
