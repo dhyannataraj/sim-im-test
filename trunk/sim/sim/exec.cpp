@@ -286,6 +286,10 @@ void Exec::finished()
         log(L_WARN, "Error: %s", bErr.data(0));
     }
     bOut << (char)0;
+    if (bOut.size()){
+        bOut << (char)0;
+        log(L_DEBUG, "Exec output: '%s'", bOut.data(0));
+    }
     emit ready(this, result, bOut.data(0));
 }
 
@@ -320,6 +324,7 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
         finished();
         return;
     }
+    log(L_DEBUG, "Executing '%s'", prg);
     child_pid = fork();
     if (child_pid == -1){
         log(L_WARN, "Can't fork: %s", strerror(errno));
@@ -333,12 +338,9 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
         return;
     }
     if (child_pid != 0){
-        close(inPipe[READ]);
-        close(outPipe[WRITE]);
-        close(errPipe[WRITE]);
-        hIn = inPipe[WRITE];
-        hOut = outPipe[READ];
-        hErr = errPipe[READ];
+        close(  inPipe[READ]);      hIn =  inPipe[WRITE];
+        hOut = outPipe[READ];       close(outPipe[WRITE]);
+        hErr = errPipe[READ];       close(errPipe[WRITE]);
         fcntl(hIn, F_SETFL, fcntl(hIn, F_GETFL, 0) | O_NONBLOCK);
         fcntl(hOut, F_SETFL, fcntl(hOut, F_GETFL, 0) | O_NONBLOCK);
         fcntl(hErr, F_SETFL, fcntl(hErr, F_GETFL, 0) | O_NONBLOCK);
@@ -390,6 +392,7 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
             arg += *p;
         }
         args.push_back(arg);
+        if (!*p) break;
     }
     char **argv = new char*[args.size() + 1];
     unsigned i = 0;
@@ -398,7 +401,8 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
     }
     argv[i] = NULL;
     if (execvp(argv[0], argv)){
-        log(L_WARN, "Can't run %s:%s", prg, strerror(errno));
+        log(L_ERROR, "Can't exec %s:%s", prg, strerror(errno));
+        delete [] argv;
         exit(1);
     }
 #endif
@@ -425,6 +429,9 @@ void Exec::childExited(int pid, int status)
         errReady(hErr);
         if (hErr != -1) close(hErr);
     }
+    delete n_in;  n_in  = 0;
+    delete n_out; n_out = 0;
+    delete n_err; n_err = 0;
     finished();
 }
 

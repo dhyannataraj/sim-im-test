@@ -59,6 +59,7 @@ public:
     void setTitle(const QString &title);
     void setReadOnly(bool);
     void setCreate(bool);
+    void setShowHidden(bool);
 signals:
     void textChanged(const QString&);
 public slots:
@@ -69,6 +70,7 @@ protected:
     bool bDirMode;
     bool bMultiplyMode;
     bool bCreate;
+    bool bShowHidden;
     QString filter;
     QString startDir;
     QString title;

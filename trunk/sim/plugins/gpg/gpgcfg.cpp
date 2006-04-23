@@ -51,6 +51,7 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
 #endif
     edtHome->setText(QFile::decodeName(user_file(m_plugin->getHome()).c_str()));
     edtHome->setDirMode(true);
+    edtHome->setShowHidden(true);
     edtHome->setTitle(i18n("Select home directory"));
     lnkGPG->setUrl("http://www.gnupg.org/(en)/download/index.html");
     lnkGPG->setText(i18n("Download GPG"));
@@ -200,7 +201,7 @@ void GpgCfg::refresh()
     gpg += m_plugin->getSecretList();
     m_exec = new Exec;
     connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(secretReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+    m_exec->execute(gpg.local8Bit(), 0, true);
 }
 
 void GpgCfg::secretReady(Exec *exec, int res, const char*)
