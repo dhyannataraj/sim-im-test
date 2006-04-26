@@ -55,6 +55,7 @@ Exec::Exec()
     n_in 	= NULL;
     n_out	= NULL;
     n_err	= NULL;
+    m_setCLocale = false;
     connect(ExecManager::manager, SIGNAL(childExited(int, int)), this, SLOT(childExited(int, int)));
 #endif
 }
@@ -79,6 +80,11 @@ Exec::~Exec()
         delete thread;
     }
 #endif
+}
+
+void Exec::setCLocale(bool value)
+{
+    m_setCLocale = value;
 }
 
 #ifdef WIN32
@@ -397,6 +403,11 @@ void Exec::execute(const char *prg, const char *input, bool bSync)
         argv[i++] = strdup((*it).c_str());
     }
     argv[i] = NULL;
+    if (m_setCLocale) {
+       setenv("LC_MESSAGES", "C", 1);
+       setenv("LANG",        "C", 1);
+       setenv("LANGUAGE",    "C", 1);
+    }
     if (execvp(argv[0], argv)){
         log(L_ERROR, "Can't exec %s:%s", prg, strerror(errno));
         delete [] argv;

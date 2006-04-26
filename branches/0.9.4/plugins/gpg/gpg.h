@@ -19,7 +19,9 @@
 #define _GPG_H
 
 #include "simapi.h"
-#include "stl.h"
+
+#include <list>
+#include <string>
 
 const unsigned long MessageGPGKey	= 0x5000;
 const unsigned long MessageGPGUse	= 0x5001;
@@ -114,7 +116,7 @@ protected:
     list<DecryptMsg> m_import;
     list<DecryptMsg> m_public;
     list<DecryptMsg> m_wait;
-    PassphraseDlg	 *m_pass;
+    PassphraseDlg	 *m_passphraseDlg;
     GpgData data;
 };
 

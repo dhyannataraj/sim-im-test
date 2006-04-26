@@ -22,7 +22,6 @@
 #include "buffer.h"
 #include <qobject.h>
 
-class ExecManager;
 class QSocketNotifier;
 class QTimer;
 class QThread;
@@ -33,6 +32,7 @@ class EXPORT Exec : public QObject
 public:
     Exec();
     ~Exec();
+    void setCLocale(bool);  ///?< flag set C locale
     int result;
     Buffer bIn;
     Buffer bOut;
@@ -63,6 +63,8 @@ protected:
     QSocketNotifier *n_out;
     QSocketNotifier *n_err;
 #endif
+private:
+    bool m_setCLocale;
 };
 
 class ExecManager : public QObject
