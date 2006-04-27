@@ -602,13 +602,12 @@ bool GpgPlugin::decode(Message *msg, const char *aPassphrase, const char *key)
     if (home[(int)(home.length() - 1)] == '\\')
         home = home.left(home.length() - 1);
     QString gpg;
-    gpg += "\"/usr/bin/sh\" -c 'LANGUAGE=C \"";
+    gpg += "\"";
     gpg += QFile::decodeName(GPG());
     gpg += "\" --no-tty --homedir \"";
     gpg += home;
     gpg += "\" ";
     gpg += getDecrypt();
-    gpg += "'";
     gpg = gpg.replace(QRegExp("\\%plainfile\\%"), output);
     gpg = gpg.replace(QRegExp("\\%cipherfile\\%"), input);
     DecryptMsg dm;
