@@ -1,6 +1,6 @@
-sim (0.9.3.99svn20060404-1) unstable; urgency=low
+sim (0.9.3.99svn20060428-1) unstable; urgency=low
 
-  * New upstream svn snapshot branches/0.9.4#412 (Closes: #343253) which includes:
+  * New upstream svn snapshot branches/0.9.4#443 (Closes: #343253) which includes:
    - A lot of fixes.
    - Fixed: new message icon in dock is blinking even after reading (Closes: #242233)
    - Fixed deing while sending long message (Closes: #259195)
@@ -11,7 +11,7 @@ sim (0.9.3.99svn20060404-1) unstable; urgency=low
   * New homepage: http://sim-im.org/
   * New maintainer.
 
- -- Alexander Petrov <zowers@gmail.com>  Sun,  9 Apr 2006 02:59:26 +0400
+ -- Alexander Petrov <zowers@gmail.com>  Fri, 28 Apr 2006 03:09:43 +0400
 
 sim (0.9.3-1.1) unstable; urgency=low
 
