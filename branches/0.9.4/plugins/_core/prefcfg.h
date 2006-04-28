@@ -23,7 +23,7 @@
 
 class PrefConfig : public PrefConfigBase
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
     PrefConfig(QWidget *parent, CommandDef *cmd, Contact *contact, Group *group);
 signals:
