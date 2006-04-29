@@ -1,8 +1,17 @@
+sim (0.9.3.99svn20060428-2) unstable; urgency=low
+
+  * Really change maintainer.
+  * Reformat changelog to fit in 80 columns.
+
+ -- Alexander Petrov <zowers@gmail.com>  Sat, 29 Apr 2006 10:48:56 +0400
+
 sim (0.9.3.99svn20060428-1) unstable; urgency=low
 
-  * New upstream svn snapshot branches/0.9.4#443 (Closes: #343253) which includes:
+  * New upstream svn snapshot branches/0.9.4#443 (Closes: #343253) which
+    includes:
    - A lot of fixes.
-   - Fixed: new message icon in dock is blinking even after reading (Closes: #242233)
+   - Fixed: new message icon in dock is blinking even after reading
+     (Closes: #242233)
    - Fixed deing while sending long message (Closes: #259195)
    - Fixed conflict with installed kopete (Closes: #271685)
    - Fixed: icons for ICQ are not set (Closes: #299664)
