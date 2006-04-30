@@ -10,24 +10,29 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 
 Build system
 ~~~~~~~~~~~~
-[*] Update admin/ dir to KDE 3.5.1.
+[*] Update admin/ dir to KDE 3.5.2.
 [+] Make 'make dist' working.
 [+] Add ability to build in separate directory.
 [+] Unix: do not delete .la files after installing.
-
+[+] MacOSX: fix build with X11.
+[+] Win32/MSVC: switch to MSVC8.
+[+] Win32/MSVC: use precompiled headers.
 
 Core
 ~~~~
 [+] Command line option to run SIM with specified profile.
 [+] Option to show contact list title in message window title.
-[+] Search in contact list by a substring in contact name.
+[+] Contact list: search in contact list by a substring in contact name.
 [+] History: option to use external viewer.
+[+] Contact list: search in closed contact list groups too.
+[-] Contact list: fix deleting contacts by pressing Del.
+[*] Remove Qt2 code.
 
 
 ICQ plugin
 ~~~~~~~~~~
 [*] Improve client versions detection.
-
+[-] Do not delete contacts if group changed while offline.
 
 Jabber plugin
 ~~~~~~~~~~~~~
@@ -46,4 +51,4 @@ Misc plugins
 [-] LiveJournal: Security level of message was set incorrectly.
 [+] LiveJournal: Add optional signature to all messages.
 [+] LiveJournal: Option to disable message text formatting.
-
+[-] Proxy: fix some crashes.
