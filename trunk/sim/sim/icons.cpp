@@ -101,7 +101,7 @@ Icons::Icons()
         QMimeSourceFactory::addFactory( oldDefaultFactory );
     addIconSet("icons/sim.jisp", true);
     m_defSets.push_back(new WrkIconSet);
-    addIconSet("icons/smiles.jisp", false);
+    addIconSet("icons/icqlite.jisp", false);
 }
 
 Icons::~Icons()
