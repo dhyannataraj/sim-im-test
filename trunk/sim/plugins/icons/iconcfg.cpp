@@ -39,7 +39,8 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
     connect(lstIcon, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     if (m_plugin->getDefault()){
-        lstIcon->insertItem("icons/icqlite.jisp");
+		lstIcon->insertItem("icons/smiles.jisp");
+
     }else{
         for (unsigned i = 1; i <= m_plugin->getNIcons(); i++)
             lstIcon->insertItem(m_plugin->getIcon(i));
