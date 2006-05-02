@@ -68,7 +68,7 @@
 #include "preview.h"
 #include "qchildwidget.h"
 #include "qcolorbutton.h"
-#include "qjpegio.h"
+//#include "qjpegio.h"
 #include "qkeybutton.h"
 #include "qregexp.h"
 #include "qsimplerichtext.h"

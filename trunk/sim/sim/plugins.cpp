@@ -28,7 +28,7 @@
 #include "builtinlogger.h"
 
 #ifdef WIN32
-#include "qjpegio.h"
+//#include "qjpegio.h"
 #include <windows.h>
 #else
 #include <ctype.h>
@@ -178,9 +178,9 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     m_bInInit = true;
 
     lt_dlinit();
-#ifdef WIN32
-    qInitJpegIO();
-#endif
+//#ifdef WIN32
+//    qInitJpegIO();
+//#endif
 
     QStringList pluginsList;
 #ifdef WIN32

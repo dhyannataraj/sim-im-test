@@ -840,28 +840,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\qjpegio.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="sim\qkeybutton.cpp"
 				>
 				<FileConfiguration
@@ -1517,10 +1495,6 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="sim\qjpegio.h"
-				>
 			</File>
 			<File
 				RelativePath="sim\qkeybutton.h"
