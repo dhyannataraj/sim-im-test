@@ -1,6 +1,6 @@
 #%%undefine __libtoolize
 %define do_not_compile ""
-%define versuffix rc1
+%define versuffix rc2
 
 %def_enable simqt
 %def_enable simkde
@@ -16,7 +16,7 @@
 
 Name: sim
 Version: 0.9.4
-Release: alt11
+Release: alt12
 Serial: 1
 
 Group: Networking/Instant messaging
@@ -161,10 +161,7 @@ echo "Building for Master 2.2"
 [ -f admin/Makefile.common ] && %make_build -f admin/Makefile.common
 
 %build
-#export PATH=`pwd`:$PATH
-#export LDFLAGS="-L%buildroot/%_libdir -lpthread"
 unset QTDIR || : ; . /etc/profile.d/qt3dir.sh
-#export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 
 ## Without KDE ##
 %if_enabled simqt
@@ -252,6 +249,9 @@ unset QTDIR || : ; . /etc/profile.d/qt3dir.sh
 %_iconsdir/*/*/*/*.png
 
 %changelog
+* Wed May 03 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt12
+- 0.9.4 RC2
+
 * Sat Feb 25 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt11
 - 0.9.4 RC1
 - update URL
