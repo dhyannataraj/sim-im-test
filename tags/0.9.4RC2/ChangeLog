@@ -1,0 +1,34 @@
+USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
+
+[+] New
+[-] Fixed error
+[*] Changes
+
+
+=== SIM 0.9.4 RC2 (03.05.2006) ===
+
+Build system
+~~~~~~~~~~~~
+[+] MacOSX: fix build with X11.
+[+] Win32/MSVC: use precompiled headers.
+
+Core
+~~~~
+[-] Contact list: fix deleting contacts by pressing Del.
+[-] Other fixes.
+[*] Use ICQ Lite smiles package by default.
+
+ICQ plugin
+~~~~~~~~~~
+[*] Improve client versions detection.
+[-] Do not delete contacts if group changed while offline.
+
+Misc plugins
+~~~~~~~~~~~~
+[-] LiveJournal: Security level of message was set incorrectly.
+[+] LiveJournal: Add optional signature to all messages.
+[+] LiveJournal: Option to disable message text formatting.
+[-] Proxy: fix some crashes.
+[*] Logger: remove dangerous 'Events' logging facility.
+[-] Gpg: some fixes.
+[-] Background: fix URL for additional backgrounds.

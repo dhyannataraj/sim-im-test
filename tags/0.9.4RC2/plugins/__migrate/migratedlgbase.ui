@@ -1,0 +1,201 @@
+<!DOCTYPE UI><UI>
+<class>MigrateDialogBase</class>
+<widget>
+    <class>QWizard</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>MigrateDialog</cstring>
+    </property>
+    <property>
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>507</width>
+            <height>316</height>
+        </rect>
+    </property>
+    <property>
+        <name>caption</name>
+        <string>Convert configuration from old version</string>
+    </property>
+    <widget>
+        <class>QWidget</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>page1</cstring>
+        </property>
+        <attribute>
+            <name>title</name>
+            <string>Select directories for convert</string>
+        </attribute>
+        <vbox>
+            <property>
+                <name>margin</name>
+                <number>11</number>
+            </property>
+            <property>
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <widget>
+                <class>QLabel</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>TextLabel1</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>Directories for convert:</string>
+                </property>
+            </widget>
+            <widget>
+                <class>Line</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>Line1</cstring>
+                </property>
+                <property>
+                    <name>sizePolicy</name>
+                    <sizepolicy>
+                        <hsizetype>1</hsizetype>
+                        <vsizetype>0</vsizetype>
+                    </sizepolicy>
+                </property>
+            </widget>
+            <widget>
+                <class>QCheckBox</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>chkRemove</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>&amp;Remove old files</string>
+                </property>
+            </widget>
+            <widget>
+                <class>QLabel</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>TextLabel3</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string>Note!
+If you select an option " Remove old files ", you can not use the old version</string>
+                </property>
+                <property>
+                    <name>alignment</name>
+                    <set>WordBreak|AlignVCenter|AlignLeft</set>
+                </property>
+                <property>
+                    <name>wordwrap</name>
+                </property>
+            </widget>
+            <spacer>
+                <property>
+                    <name>name</name>
+                    <cstring>Spacer1</cstring>
+                </property>
+                <property>
+                    <name>orientation</name>
+                    <enum>Vertical</enum>
+                </property>
+                <property>
+                    <name>sizeType</name>
+                    <enum>Expanding</enum>
+                </property>
+                <property>
+                    <name>sizeHint</name>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+        </vbox>
+    </widget>
+    <widget>
+        <class>QWidget</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>page2</cstring>
+        </property>
+        <attribute>
+            <name>title</name>
+            <string>Convert configuration</string>
+        </attribute>
+        <vbox>
+            <property>
+                <name>margin</name>
+                <number>11</number>
+            </property>
+            <property>
+                <name>spacing</name>
+                <number>6</number>
+            </property>
+            <spacer>
+                <property>
+                    <name>name</name>
+                    <cstring>Spacer2</cstring>
+                </property>
+                <property>
+                    <name>orientation</name>
+                    <enum>Vertical</enum>
+                </property>
+                <property>
+                    <name>sizeType</name>
+                    <enum>Expanding</enum>
+                </property>
+                <property>
+                    <name>sizeHint</name>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget>
+                <class>QLabel</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>lblStatus</cstring>
+                </property>
+                <property>
+                    <name>text</name>
+                    <string></string>
+                </property>
+            </widget>
+            <widget>
+                <class>QProgressBar</class>
+                <property stdset="1">
+                    <name>name</name>
+                    <cstring>barCnv</cstring>
+                </property>
+            </widget>
+            <spacer>
+                <property>
+                    <name>name</name>
+                    <cstring>Spacer3</cstring>
+                </property>
+                <property>
+                    <name>orientation</name>
+                    <enum>Vertical</enum>
+                </property>
+                <property>
+                    <name>sizeType</name>
+                    <enum>Expanding</enum>
+                </property>
+                <property>
+                    <name>sizeHint</name>
+                    <size>
+                        <width>20</width>
+                        <height>20</height>
+                    </size>
+                </property>
+            </spacer>
+        </vbox>
+    </widget>
+</widget>
+</UI>
