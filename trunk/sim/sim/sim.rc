@@ -1,14 +1,9 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
 /////////////////////////////////////////////////////////////////////////////
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -42,8 +37,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,9,4,0
- PRODUCTVERSION 0,9,4,0
+ FILEVERSION 0,9,5,0
+ PRODUCTVERSION 0,9,5,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -61,14 +56,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "Vladimir Shutoff\0"
             VALUE "FileDescription", "sim\0"
-            VALUE "FileVersion", "0, 9, 4, 0\0"
+            VALUE "FileVersion", "0, 9, 5, 0\0"
             VALUE "InternalName", "sim\0"
             VALUE "LegalCopyright", "Copyright © 2002-2003\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "sim.exe\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "SIM\0"
-            VALUE "ProductVersion", "0, 9, 4, 0\0"
+            VALUE "ProductVersion", "0, 9, 5, 0\0"
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -93,16 +88,7 @@ IDI_ICON1               ICON    DISCARDABLE     "icq.ico"
 /////////////////////////////////////////////////////////////////////////////
 
 
-/////////////////////////////////////////////////////////////////////////////
-// Russian resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-#ifdef _WIN32
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 //
 // String Table
 //
@@ -112,18 +98,5 @@ BEGIN
     1                       "Simple Instant Messenger"
 END
 
-#endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
-
-
-
-#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
 
