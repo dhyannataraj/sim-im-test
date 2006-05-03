@@ -15,10 +15,12 @@ Build system
 Core
 ~~~~
 [-] Contact list: fix deleting contacts by pressing Del.
-[-] Other fixes
+[-] Other fixes.
+[*] Use ICQ Lite smiles package by default.
 
 ICQ plugin
 ~~~~~~~~~~
+[*] Improve client versions detection.
 [-] Do not delete contacts if group changed while offline.
 
 Misc plugins
@@ -27,4 +29,6 @@ Misc plugins
 [+] LiveJournal: Add optional signature to all messages.
 [+] LiveJournal: Option to disable message text formatting.
 [-] Proxy: fix some crashes.
-[*] Logger: remove dangerous 'Events' logging facility
+[*] Logger: remove dangerous 'Events' logging facility.
+[-] Gpg: some fixes.
+[-] Background: fix URL for additional backgrounds.
