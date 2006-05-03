@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sim\n"
 "POT-Creation-Date: 2006-03-11 02:52+0500\n"
-"PO-Revision-Date: 2006-04-17 23:28+0100\n"
+"PO-Revision-Date: 2006-05-02 11:19+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,9 @@ msgstr "Automatiskt svarsmeddelande"
 msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
-msgstr "Stäng efter %n sekunder"
+msgstr ""
+"Stäng efter %n sekund\n"
+"Stäng efter %n sekunder"
 
 #: plugins/_core/cfgdlg.cpp:278
 #: plugins/_core/usercfg.cpp:198
@@ -489,7 +491,7 @@ msgstr "&SMS"
 #: plugins/_core/core.cpp:1076
 #: plugins/_core/core.cpp:1107
 msgid "Show &offline"
-msgstr "Visa &offline"
+msgstr "Visa &frånkopplade"
 
 #: plugins/_core/core.cpp:1088
 msgid "&No show groups"
@@ -657,7 +659,7 @@ msgstr "telefon"
 
 #: plugins/_core/core.cpp:1687
 msgid "contact nick"
-msgstr ""
+msgstr "kontaktens smeknamn"
 
 #: plugins/_core/core.cpp:1689
 msgid "number of unread messages from this contact"
@@ -669,11 +671,11 @@ msgstr "kontaktstatus"
 
 #: plugins/_core/core.cpp:1693
 msgid "time of set status"
-msgstr ""
+msgstr "tiden för statusändring"
 
 #: plugins/_core/core.cpp:1695
 msgid "time from set status"
-msgstr ""
+msgstr "tid från statusändring"
 
 #: plugins/_core/core.cpp:1700
 msgid ""
@@ -1155,7 +1157,7 @@ msgstr "Privat mobiltelefon"
 
 #: plugins/_core/maininfo.cpp:55
 msgid "Wireless Pager"
-msgstr ""
+msgstr "Visare"
 
 #. i18n: file ./plugins/msn/msninfobase.ui line 70
 #: plugins/_core/maininfo.cpp:74
@@ -1221,7 +1223,9 @@ msgstr "Fil"
 msgid ""
 "_n: Message\n"
 "%n messages"
-msgstr "%n meddelanden"
+msgstr ""
+"Meddelande\n"
+"%n meddelanden"
 
 #: plugins/_core/msgedit.cpp:460
 #, c-format
@@ -1235,14 +1239,18 @@ msgstr "%n SMS"
 msgid ""
 "_n: URL\n"
 "%n URLs"
-msgstr "%n Url:er"
+msgstr ""
+"Url\n"
+"%n Url:er"
 
 #: plugins/_core/msgedit.cpp:539
 #, c-format
 msgid ""
 "_n: Contact list\n"
 "%n contact lists"
-msgstr "%n kontaktlistor"
+msgstr ""
+"Kontaktlista\n"
+"%n kontaktlistor"
 
 #: plugins/_core/msgedit.cpp:586
 #: plugins/icq/icqmessage.cpp:549
@@ -1250,7 +1258,9 @@ msgstr "%n kontaktlistor"
 msgid ""
 "_n: File\n"
 "%n files"
-msgstr "%n filer"
+msgstr ""
+"Fil\n"
+"%n filer"
 
 #: plugins/_core/msgedit.cpp:593
 msgid "&Accept"
@@ -1265,7 +1275,9 @@ msgstr "&Neka"
 msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
-msgstr "%n auktorisera begäran"
+msgstr ""
+"Auktorisera begäran\n"
+"%n auktorisera begäran"
 
 #: plugins/_core/msgedit.cpp:668
 msgid "&Grant"
@@ -1280,35 +1292,45 @@ msgstr "&Vägra"
 msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
-msgstr "%n auktorisering tillåts"
+msgstr ""
+"Auktorisering tillåts\n"
+"%n auktorisering tillåts"
 
 #: plugins/_core/msgedit.cpp:752
 #, c-format
 msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
-msgstr "%n auktorisering vägras"
+msgstr ""
+"Auktorisering vägras\n"
+"%n auktorisering vägras"
 
 #: plugins/_core/msgedit.cpp:773
 #, c-format
 msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
-msgstr "Lägg till %n i kontakter"
+msgstr ""
+"Lägg till i kontakter\n"
+"Lägg till %n i kontakter"
 
 #: plugins/_core/msgedit.cpp:794
 #, c-format
 msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
-msgstr "%n borttagen från kontakter"
+msgstr ""
+"Borttagen från kontakter\n"
+"%n borttagen från kontakter"
 
 #: plugins/_core/msgedit.cpp:815
 #, c-format
 msgid ""
 "_n: Status changed\n"
 "%n times status changed"
-msgstr "Status ändrad %n gånger"
+msgstr ""
+"Status ändrad\n"
+"Status ändrad %n gånger"
 
 #: plugins/_core/msgedit.cpp:930
 msgid "Cancel"
@@ -1443,7 +1465,9 @@ msgstr "Inte i listan"
 msgid ""
 "_n: %n contact found\n"
 "%n contacts found"
-msgstr "%n kontakter hittades"
+msgstr ""
+"%n kontakt hittades\n"
+"%n kontakter hittades"
 
 #: plugins/_core/status.cpp:74
 #: plugins/_core/statuswnd.cpp:91
@@ -1490,7 +1514,7 @@ msgstr "Ny kontakt"
 
 #: plugins/_core/usercfg.cpp:293
 msgid "Setting for group '%1'"
-msgstr ""
+msgstr "Inställning för gruppen \"%1\""
 
 #: plugins/_core/usercfg.cpp:297
 msgid "[Update info]"
@@ -1517,7 +1541,7 @@ msgstr "Inställningar"
 #: rc.cpp:532
 #, no-c-format
 msgid "Online"
-msgstr "Online"
+msgstr "Ansluten"
 
 #. i18n: file ./plugins/osd/osdconfigbase.ui line 127
 #: plugins/_core/userlist.cpp:640
@@ -1534,7 +1558,7 @@ msgstr "Online"
 #: rc.cpp:1036
 #, no-c-format
 msgid "Offline"
-msgstr "Offline"
+msgstr "Frånkopplad"
 
 #: plugins/_core/userview.cpp:447
 #: plugins/_core/userview.cpp:637
@@ -1633,7 +1657,7 @@ msgstr "Program"
 
 #: plugins/action/actioncfg.cpp:49
 msgid "Contact online"
-msgstr "Kontakt online"
+msgstr "Kontakt ansluten"
 
 #: plugins/action/actioncfg.cpp:55
 msgid "Status changed"
@@ -1655,6 +1679,10 @@ msgid ""
 "If program output is empty,  message will be destroyed.\n"
 "Thus it is possible to organize additional messages filters.\n"
 msgstr ""
+"För meddelandehändelser kommer meddelandetexten att skickas till standard in för programmet.\n"
+"Om programmet returnerar en noll-felskod kommer meddelandetexten att ersättas med programmets utdata.\n"
+"Om programmets utdata är tomt kommer meddelandet att förstöras.\n"
+"Det är dock möjligt att organisera ytterligare meddelandefilter.\n"
 
 #: plugins/action/menucfg.cpp:33
 msgid "Item"
@@ -1837,7 +1865,9 @@ msgstr "Kryptering misslyckades"
 msgid ""
 "_n: %n GPG key\n"
 "%n GPG keys"
-msgstr "%n GPG-nycklar"
+msgstr ""
+"%n GPG-nyckel\n"
+"%n GPG-nycklar"
 
 #: plugins/gpg/gpg.cpp:752
 msgid "GPG key"
@@ -1931,7 +1961,7 @@ msgstr "Registrera nytt skärmnamn"
 #: plugins/yahoo/yahooclient.cpp:1389
 #: plugins/yahoo/yahooinfo.cpp:111
 msgid "Last online"
-msgstr "Senast online"
+msgstr "Senast ansluten"
 
 #: plugins/icq/icq.cpp:61
 msgid "ICQ"
@@ -2021,11 +2051,11 @@ msgstr "Ogiltigt SNAC-huvud"
 
 #: plugins/icq/icqclient.cpp:705
 msgid "Server rate limit exceeded"
-msgstr ""
+msgstr "Serverbegränsning överstigen"
 
 #: plugins/icq/icqclient.cpp:706
 msgid "Client rate limit exceeded"
-msgstr ""
+msgstr "Klientbegränsning överstigen"
 
 #: plugins/icq/icqclient.cpp:707
 msgid "Recipient is not logged in"
@@ -2099,7 +2129,7 @@ msgstr "Ingen träff"
 
 #: plugins/icq/icqclient.cpp:724
 msgid "List overflow"
-msgstr ""
+msgstr "Listöverflöde"
 
 #: plugins/icq/icqclient.cpp:725
 msgid "Request ambiguous"
@@ -2111,7 +2141,7 @@ msgstr "Serverkö full"
 
 #: plugins/icq/icqclient.cpp:727
 msgid "Not while on AOL"
-msgstr ""
+msgstr "Inte när på AOL"
 
 #: plugins/icq/icqclient.cpp:744
 msgid "Protocol error"
@@ -2166,7 +2196,7 @@ msgstr "Mer information"
 #: plugins/jabber/jabberclient.cpp:1672
 #: plugins/jabber/jabberclient.cpp:1691
 msgid "About info"
-msgstr ""
+msgstr "Information om"
 
 #. i18n: file ./plugins/icq/advsearchbase.ui line 384
 #: plugins/icq/icqclient.cpp:1927
@@ -2179,7 +2209,7 @@ msgstr "Intressen"
 #: plugins/icq/icqclient.cpp:1942
 #: plugins/icq/icqclient.cpp:2130
 msgid "Group/Past"
-msgstr ""
+msgstr "Grupp/Tidigare"
 
 #: plugins/icq/icqclient.cpp:1957
 #: plugins/icq/icqclient.cpp:2145
@@ -2280,7 +2310,7 @@ msgstr "Meddelande nekades"
 #: plugins/jabber/jabberclient.cpp:652
 #: plugins/yahoo/yahooclient.cpp:1055
 msgid "Client go offline"
-msgstr "Klient gick offline"
+msgstr "Klient kopplade från"
 
 #: plugins/icq/icqicmb.cpp:994
 msgid "Directory"
@@ -2292,7 +2322,9 @@ msgstr "Katalog"
 msgid ""
 "_n: %n file\n"
 "%n files"
-msgstr "%n filer"
+msgstr ""
+"%n fil\n"
+"%n filer"
 
 #: plugins/icq/icqicmb.cpp:1295
 #: plugins/icq/warndlg.cpp:68
@@ -2375,7 +2407,7 @@ msgstr "Inloggningsfel"
 
 #: plugins/icq/icqlogin.cpp:86
 msgid "Registered in no register state"
-msgstr ""
+msgstr "Registrerad i ett icke-registrerat tillstånd"
 
 #: plugins/icq/icqlogin.cpp:254
 msgid "This client is outdated"
@@ -2387,7 +2419,7 @@ msgstr "För många klienter från samma IP-adress"
 
 #: plugins/icq/icqlogin.cpp:264
 msgid "Rate limit"
-msgstr ""
+msgstr "Begränsning"
 
 #: plugins/icq/icqlogin.cpp:270
 msgid "Invalid UIN and password combination"
@@ -2415,7 +2447,7 @@ msgstr "För ung!"
 
 #: plugins/icq/icqlogin.cpp:304
 msgid "UIN was suspended"
-msgstr ""
+msgstr "UIN blev suspenderat"
 
 #: plugins/icq/icqlogin.cpp:308
 msgid "Can't login to ICQ network - Please try again later"
@@ -2438,7 +2470,9 @@ msgstr "Felaktig värdadress"
 msgid ""
 "_n: WWW-panel message\n"
 "%n WWW-panel messages"
-msgstr "%n WWW-panelmeddelanden"
+msgstr ""
+"WWW-panelmeddelande\n"
+"%n WWW-panelmeddelanden"
 
 #: plugins/icq/icqmessage.cpp:586
 #, c-format
@@ -2446,34 +2480,44 @@ msgid ""
 "_n: Email pager message\n"
 "%n Email pager messages"
 msgstr ""
+"_n: E-postvisarmeddelande\n"
+"%n e-postvisarmeddelanden"
 
 #: plugins/icq/icqmessage.cpp:607
 #, c-format
 msgid ""
 "_n: Request secure channel\n"
 "%n requests secure channel"
-msgstr "%n begär säker kanal"
+msgstr ""
+"Begär säker kanal\n"
+"%n begär säker kanal"
 
 #: plugins/icq/icqmessage.cpp:628
 #, c-format
 msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
-msgstr "%n gånger stäng säker kanal"
+msgstr ""
+"Stäng säker kanal\n"
+"%n gånger stäng säker kanal"
 
 #: plugins/icq/icqmessage.cpp:671
 #, c-format
 msgid ""
 "_n: Warning\n"
 "%n warnings"
-msgstr "%n varningar"
+msgstr ""
+"Varning\n"
+"%n varningar"
 
 #: plugins/icq/icqmessage.cpp:777
 #, c-format
 msgid ""
 "_n: Contact request\n"
 "%n contact requests"
-msgstr "%n kontaktbegäran"
+msgstr ""
+"Kontaktbegäran\n"
+"%n kontaktbegäran"
 
 #: plugins/icq/icqmessage.cpp:827
 msgid "Contact Request"
@@ -2485,7 +2529,7 @@ msgstr "Webbpanel"
 
 #: plugins/icq/icqmessage.cpp:858
 msgid "Email pager"
-msgstr ""
+msgstr "E-postvisare"
 
 #: plugins/icq/icqmessage.cpp:864
 msgid "Request secure channel"
@@ -2603,7 +2647,7 @@ msgstr "OGILTIGT NUMMER"
 
 #: plugins/icq/icqvarious.cpp:1496
 msgid "RATE LIMIT"
-msgstr ""
+msgstr "BEGRÄNSNING"
 
 #: plugins/icq/icqvarious.cpp:1529
 #: plugins/icq/icqvarious.cpp:1588
@@ -2669,7 +2713,7 @@ msgstr "Bilar"
 
 #: plugins/icq/interestsinfo.cpp:95
 msgid "Celebrity Fans"
-msgstr ""
+msgstr "Kändisdyrkare"
 
 #: plugins/icq/interestsinfo.cpp:96
 msgid "Collections"
@@ -2845,7 +2889,7 @@ msgstr "Postorderkatalog"
 
 #: plugins/icq/interestsinfo.cpp:139
 msgid "Business services"
-msgstr ""
+msgstr "Affärstjänster"
 
 #: plugins/icq/interestsinfo.cpp:140
 msgid "Audio and visual"
@@ -3049,11 +3093,11 @@ msgstr "Militär"
 
 #: plugins/icq/pastinfo.cpp:83
 msgid "Past Work Place"
-msgstr ""
+msgstr "Tidigare arbetsplats"
 
 #: plugins/icq/pastinfo.cpp:84
 msgid "Past Organization"
-msgstr ""
+msgstr "Tidigare organisation"
 
 #: plugins/icq/pastinfo.cpp:85
 #: plugins/icq/pastinfo.cpp:112
@@ -3062,7 +3106,7 @@ msgstr "Annan"
 
 #: plugins/icq/pastinfo.cpp:93
 msgid "Alumni Org."
-msgstr ""
+msgstr "Kårorganisation"
 
 #: plugins/icq/pastinfo.cpp:94
 msgid "Charity Org."
@@ -3070,7 +3114,7 @@ msgstr "Välgörenhetsorganisation"
 
 #: plugins/icq/pastinfo.cpp:95
 msgid "Club/Social Org."
-msgstr ""
+msgstr "Klubb/Social organisation"
 
 #: plugins/icq/pastinfo.cpp:96
 msgid "Community Org."
@@ -3102,7 +3146,7 @@ msgstr "Natur- och miljöorganisation"
 
 #: plugins/icq/pastinfo.cpp:103
 msgid "Professional Org."
-msgstr ""
+msgstr "Proffsorganisation"
 
 #: plugins/icq/pastinfo.cpp:104
 msgid "Scientific/Technical Org."
@@ -3118,7 +3162,7 @@ msgstr "Spirituell/Religiös organisation"
 
 #: plugins/icq/pastinfo.cpp:107
 msgid "Sports Org."
-msgstr ""
+msgstr "Sportorganisation"
 
 #: plugins/icq/pastinfo.cpp:108
 msgid "Support Org."
@@ -3158,7 +3202,7 @@ msgstr "Gymnasiestudent"
 
 #: plugins/icq/workinfo.cpp:81
 msgid "Community & Social"
-msgstr ""
+msgstr "Gemenskap & socialt"
 
 #: plugins/icq/workinfo.cpp:82
 msgid "Education"
@@ -3186,7 +3230,7 @@ msgstr "Juridik"
 
 #: plugins/icq/workinfo.cpp:90
 msgid "Managerial"
-msgstr ""
+msgstr "Ansvarig"
 
 #: plugins/icq/workinfo.cpp:91
 msgid "Manufacturing"
@@ -3206,7 +3250,7 @@ msgstr "Övrigt tjänster"
 
 #: plugins/icq/workinfo.cpp:96
 msgid "Professional"
-msgstr ""
+msgstr "Proffs"
 
 #: plugins/icq/workinfo.cpp:97
 msgid "Retail"
@@ -3263,7 +3307,9 @@ msgstr "&Statistik"
 msgid ""
 "_n: %n day\n"
 "%n days"
-msgstr "%n dagar"
+msgstr ""
+"%n dag\n"
+"%n dagar"
 
 #: plugins/jabber/jabber.cpp:61
 msgid "Jabber"
@@ -3301,7 +3347,7 @@ msgstr "Info"
 
 #: plugins/jabber/jabber.cpp:314
 msgid "Browser mode"
-msgstr ""
+msgstr "Bläddringsläge"
 
 #: plugins/jabber/jabber.cpp:324
 msgid "Load one level"
@@ -3343,7 +3389,7 @@ msgstr "Klar"
 
 #: plugins/jabber/jabberbrowser.cpp:252
 msgid "Client offline"
-msgstr "Klient offline"
+msgstr "Klient kopplade från"
 
 #: plugins/jabber/jabberbrowser.cpp:259
 msgid "Stop"
@@ -3406,17 +3452,19 @@ msgstr "Ursprungligt meddelande:"
 msgid ""
 "_n: Error\n"
 "%n errors"
-msgstr "%n fel"
+msgstr ""
+"Fel\n"
+"%n fel"
 
 #: plugins/jabber/jabbermessage.cpp:161
 #: plugins/jabber/jabbermessage.cpp:217
 msgid "Log On"
-msgstr ""
+msgstr "Logga in"
 
 #: plugins/jabber/jabbermessage.cpp:178
 #: plugins/jabber/jabbermessage.cpp:225
 msgid "Log Off"
-msgstr ""
+msgstr "Logga ut"
 
 #: plugins/jabber/jabberpicture.cpp:49
 msgid "&Logo"
@@ -3436,27 +3484,27 @@ msgstr "Användarnamn"
 
 #: plugins/jabber/jabbersearch.cpp:107
 msgid "Age min"
-msgstr ""
+msgstr "Minimal ålder"
 
 #: plugins/jabber/jabbersearch.cpp:108
 msgid "Age max"
-msgstr ""
+msgstr "Maximal ålder"
 
 #: plugins/jabber/jabbersearch.cpp:211
 msgid "Online only"
-msgstr "Endast online"
+msgstr "Endast anslutna"
 
 #: plugins/jabber/jabbersearch.cpp:296
 msgid "First (Given)"
-msgstr ""
+msgstr "Förnamn (Tilltalsnamn)"
 
 #: plugins/jabber/jabbersearch.cpp:297
 msgid "Last (Family)"
-msgstr ""
+msgstr "Efternamn (Familjenamn)"
 
 #: plugins/jabber/jabbersearch.cpp:298
 msgid "Nick (Alias)"
-msgstr ""
+msgstr "Smeknamn (Alias)"
 
 #: plugins/jabber/jabbersearch.cpp:299
 msgid "Email"
@@ -3575,14 +3623,18 @@ msgstr "Organisationsenhet"
 msgid ""
 "_n: LiveJournal post\n"
 "%n LiveJournal posts"
-msgstr "%n LiveJournal-inlägg"
+msgstr ""
+"LiveJournal-inlägg\n"
+"%n LiveJournal-inlägg"
 
 #: plugins/livejournal/livejournal.cpp:106
 #, c-format
 msgid ""
 "_n: Friends updated\n"
 "Friends updated %n"
-msgstr "Vänner uppdaterade %n"
+msgstr ""
+"Vänner uppdaterade\n"
+"Vänner uppdaterade %n"
 
 #: plugins/livejournal/livejournal.cpp:123
 msgid "&Remove from journal"
@@ -3698,7 +3750,7 @@ msgstr "ilsken"
 
 #: plugins/livejournal/livejournal.cpp:1397
 msgid "jubilant"
-msgstr ""
+msgstr "jublande"
 
 #: plugins/livejournal/livejournal.cpp:1398
 msgid "lonely"
@@ -3922,7 +3974,7 @@ msgstr "halvliggande"
 
 #: plugins/livejournal/livejournal.cpp:1453
 msgid "exanimate"
-msgstr ""
+msgstr "livlös"
 
 #: plugins/livejournal/livejournal.cpp:1454
 msgid "embarrassed"
@@ -4022,7 +4074,7 @@ msgstr "cynisk"
 
 #: plugins/livejournal/livejournal.cpp:1478
 msgid "quixotic"
-msgstr ""
+msgstr "kär och galen"
 
 #: plugins/livejournal/livejournal.cpp:1479
 msgid "crazy"
@@ -4074,7 +4126,7 @@ msgstr "snuskig"
 
 #: plugins/livejournal/livejournal.cpp:1491
 msgid "predatory"
-msgstr ""
+msgstr "djurisk"
 
 #: plugins/livejournal/livejournal.cpp:1492
 msgid "dirty"
@@ -4098,7 +4150,7 @@ msgstr "bortstött"
 
 #: plugins/livejournal/livejournal.cpp:1497
 msgid "numb"
-msgstr ""
+msgstr "avtrubbad"
 
 #: plugins/livejournal/livejournal.cpp:1498
 msgid "cheerful"
@@ -4223,7 +4275,7 @@ msgstr "MSN"
 
 #: plugins/msn/msn.cpp:64
 msgid "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
-msgstr ""
+msgstr "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
 
 #: plugins/msn/msn.cpp:144
 #: plugins/yahoo/yahooclient.cpp:1408
@@ -4253,7 +4305,7 @@ msgstr "Ditt konto används från en annan plats"
 #: plugins/msn/msnclient.cpp:1914
 #: plugins/msn/msnclient.cpp:1922
 msgid "Contact go offline"
-msgstr "Kontakt gick offline"
+msgstr "Kontakt kopplade från"
 
 #: plugins/msn/msnclient.cpp:2116
 msgid "Send message failed"
@@ -4269,14 +4321,16 @@ msgstr "Registrera i .NET Passport"
 
 #: plugins/msn/msnconfig.cpp:47
 msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-msgstr ""
+msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 
 #: plugins/msn/msnpacket.cpp:471
 #, c-format
 msgid ""
 "_n: You have %n unread message.\n"
 "You have %n unread messages."
-msgstr "Du har %n olästa meddelanden."
+msgstr ""
+"Du har %n oläst meddelande.\n"
+"Du har %n olästa meddelanden."
 
 #: plugins/msn/msnpacket.cpp:491
 msgid "You have new mail"
@@ -4394,13 +4448,13 @@ msgstr "&OSD"
 msgid ""
 "_: male\n"
 "%1 is online"
-msgstr "%1 är online"
+msgstr "%1 är ansluten"
 
 #: plugins/osd/osd.cpp:407
 msgid ""
 "_: female\n"
 "%1 is online"
-msgstr "%1 är online"
+msgstr "%1 är ansluten"
 
 #: plugins/osd/osd.cpp:408
 msgid ""
@@ -4466,13 +4520,13 @@ msgstr "%1 är ledig för chatt"
 msgid ""
 "_: male\n"
 "%1 is offline"
-msgstr "%1 är offline"
+msgstr "%1 är frånkopplad"
 
 #: plugins/osd/osd.cpp:419
 msgid ""
 "_: female\n"
 "%1 is offline"
-msgstr "%1 är offline"
+msgstr "%1 är frånkopplad"
 
 #: plugins/osd/osdconfig.cpp:54
 msgid "&Interface"
@@ -4612,7 +4666,9 @@ msgstr "Insticksmodul som tillhandahåller tangentbordsgenvägar och globala mus
 msgid ""
 "_n: Phone call\n"
 "%n phone calls"
-msgstr "%n telefonsamtal"
+msgstr ""
+"Telefonsamtal\n"
+"%n telefonsamtal"
 
 #: plugins/sms/sms.cpp:98
 msgid "Phone call"
@@ -4650,7 +4706,7 @@ msgstr "Qt tillhandahåller ljudutdata så att du bara behöver ställa in en up
 
 #: plugins/sound/sounduser.cpp:47
 msgid "Online alert"
-msgstr "Onlinealarm"
+msgstr "Anslutningsalarm"
 
 #: plugins/spell/spell.cpp:65
 msgid "Plugin provides check spelling"
@@ -4698,7 +4754,7 @@ msgstr "Typsnitt och färger"
 
 #: plugins/styles/wood/wood.cpp:1258
 msgid "Norwegian Wood"
-msgstr ""
+msgstr "Norsk skog"
 
 #: plugins/transparent/transparent.cpp:67
 msgid "Transparent"
@@ -5360,6 +5416,8 @@ msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
+"Det finns redan ett automatiskt dolt fönster på denna kant.\n"
+"Endast en automatiskt dolt fönster tillåts på samma kant."
 
 #: plugins/windock/windock.cpp:361
 msgid "AutoHide"
@@ -5371,7 +5429,7 @@ msgstr "Yahoo!"
 
 #: plugins/yahoo/yahoo.cpp:86
 msgid "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
-msgstr ""
+msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
 
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
@@ -5379,7 +5437,7 @@ msgstr "Skaffa ett Yahoo! ID"
 
 #: plugins/yahoo/yahooclient.cpp:342
 msgid "Yahoo! login lock"
-msgstr ""
+msgstr "Yahoo!-inloggningslås"
 
 #: plugins/yahoo/yahooclient.cpp:365
 msgid "Your account has been locked"
@@ -5484,7 +5542,7 @@ msgstr "Fiskarna"
 #: plugins/zodiak/zodiak.cpp:235
 #, c-format
 msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-msgstr ""
+msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #. i18n: file ./plugins/logger/logconfigbase.ui line 20
 #: rc.cpp:3
@@ -5609,7 +5667,7 @@ msgstr "sekunders inaktivitet"
 #: rc.cpp:36
 #, no-c-format
 msgid "Show Mainwin on desktop"
-msgstr ""
+msgstr "Visa huvudfönster på skrivbordet"
 
 #. i18n: file ./plugins/dock/dockcfgbase.ui line 139
 #: rc.cpp:39
@@ -5985,7 +6043,7 @@ msgstr "&Namn"
 #: rc.cpp:1958
 #, no-c-format
 msgid "First:"
-msgstr ""
+msgstr "Förnamn:"
 
 #. i18n: file ./plugins/jabber/jabberaddbase.ui line 132
 #: rc.cpp:238
@@ -5994,7 +6052,7 @@ msgstr ""
 #: rc.cpp:1961
 #, no-c-format
 msgid "Last:"
-msgstr ""
+msgstr "Efternamn:"
 
 #. i18n: file ./plugins/jabber/jabberaddbase.ui line 150
 #: rc.cpp:241
@@ -6079,7 +6137,7 @@ msgstr "Status:"
 #: rc.cpp:2365
 #, no-c-format
 msgid "Online:"
-msgstr "Online:"
+msgstr "Ansluten:"
 
 #. i18n: file ./plugins/jabber/jabberinfobase.ui line 469
 #: rc.cpp:282
@@ -6141,13 +6199,13 @@ msgstr "Position:"
 #: rc.cpp:309
 #, no-c-format
 msgid "DiscoInfo"
-msgstr ""
+msgstr "DiscoInfo"
 
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 75
 #: rc.cpp:315
 #, no-c-format
 msgid "Namespaces:"
-msgstr ""
+msgstr "Namnrymder:"
 
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 93
 #: rc.cpp:318
@@ -6187,13 +6245,13 @@ msgstr "System:"
 #: rc.cpp:342
 #, no-c-format
 msgid "UTC client time:"
-msgstr ""
+msgstr "UTC-klienttid:"
 
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 338
 #: rc.cpp:345
 #, no-c-format
 msgid "Last activity, idle response:"
-msgstr ""
+msgstr "Senaste aktivitet, inaktivt svar:"
 
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 379
 #: rc.cpp:348
@@ -6319,13 +6377,13 @@ msgstr "Ställ in statusen \"Inte tillgänglig\" efter"
 #: rc.cpp:448
 #, no-c-format
 msgid "Set \"Offline\" status after"
-msgstr "Ställ in statusen \"Offline\" efter"
+msgstr "Ställ in statusen \"Frånkopplad\" efter"
 
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 138
 #: rc.cpp:451
 #, no-c-format
 msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr "Inaktivera onlinealarm i \"Frånvarande\", \"Inte tillgänglig\", \"Stör inte\" och \"Upptagen\"-lista."
+msgstr "Inaktivera anslutningsalarm i \"Frånvarande\", \"Inte tillgänglig\", \"Stör inte\" och \"Upptagen\"-lista."
 
 #. i18n: file ./plugins/shortcuts/mousecfgbase.ui line 36
 #: rc.cpp:457
@@ -6603,7 +6661,7 @@ msgstr "Spara &statusändringar i historik"
 #: rc.cpp:680
 #, no-c-format
 msgid "Open window if user go online"
-msgstr "Öppna fönster om användare går online"
+msgstr "Öppna fönster om användare ansluter"
 
 #. i18n: file ./plugins/_core/msgcfgbase.ui line 80
 #: rc.cpp:686
@@ -6716,7 +6774,7 @@ msgstr "Visa inte denna dialogruta"
 #: rc.cpp:789
 #, no-c-format
 msgid "EditMail"
-msgstr ""
+msgstr "Redigera post"
 
 #. i18n: file ./plugins/_core/editmailbase.ui line 50
 #: rc.cpp:792
@@ -6939,7 +6997,7 @@ msgstr "Vägra automatiskt"
 #: rc.cpp:984
 #, no-c-format
 msgid "EditPhone"
-msgstr ""
+msgstr "Redigera telefon"
 
 #. i18n: file ./plugins/_core/editphonebase.ui line 43
 #: rc.cpp:987
@@ -7304,7 +7362,7 @@ msgstr "Lägg till signatur till alla meddelanden"
 #: rc.cpp:1332
 #, no-c-format
 msgid "Add community"
-msgstr ""
+msgstr "Lägg till gemenskap"
 
 #. i18n: file ./plugins/livejournal/msgjournalbase.ui line 61
 #: rc.cpp:1338
@@ -7502,7 +7560,7 @@ msgstr "Genomskinlig endast om inaktiv"
 #: rc.cpp:1515
 #, no-c-format
 msgid "SMSSetup"
-msgstr ""
+msgstr "SMS-inställningar"
 
 #. i18n: file ./plugins/sms/smssetupbase.ui line 82
 #: rc.cpp:1524
@@ -7873,7 +7931,7 @@ msgstr "&Bakgrund"
 #: rc.cpp:1814
 #, no-c-format
 msgid "Past background:"
-msgstr ""
+msgstr "Tidigare bakgrund:"
 
 #. i18n: file ./plugins/icq/aboutinfobase.ui line 45
 #: rc.cpp:1820
@@ -7898,14 +7956,14 @@ msgstr "Namn"
 #: rc.cpp:2136
 #, no-c-format
 msgid "Middle:"
-msgstr ""
+msgstr "Mellannamn:"
 
 #. i18n: file ./plugins/icq/aimsearchbase.ui line 133
 #: rc.cpp:1841
 #: rc.cpp:2139
 #, no-c-format
 msgid "Maiden:"
-msgstr ""
+msgstr "Födelsenamn:"
 
 #. i18n: file ./plugins/icq/aimsearchbase.ui line 279
 #: rc.cpp:1859
@@ -7968,7 +8026,7 @@ msgstr "Grupp / avdelning:"
 #: rc.cpp:1929
 #, no-c-format
 msgid "VerifyDlg"
-msgstr ""
+msgstr "Kontrolldialog"
 
 #. i18n: file ./plugins/icq/verifydlgbase.ui line 124
 #: rc.cpp:1932
@@ -8066,19 +8124,19 @@ msgstr "Skicka meddelande:"
 #: rc.cpp:2063
 #, no-c-format
 msgid "No wait ack"
-msgstr ""
+msgstr "Ingen väntebekräftelse"
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 528
 #: rc.cpp:2066
 #, no-c-format
 msgid "Wait ack from server"
-msgstr ""
+msgstr "Väntebekräftelse från server"
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 534
 #: rc.cpp:2069
 #, no-c-format
 msgid "Wait ack from client"
-msgstr ""
+msgstr "Väntebekräftelse från klient"
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 559
 #: rc.cpp:2072
@@ -8096,7 +8154,7 @@ msgstr "Acceptera i &Stör inte-läget"
 #: rc.cpp:2078
 #, no-c-format
 msgid "For decrease traffic you can:"
-msgstr ""
+msgstr "För minskad trafik kan du:"
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 613
 #: rc.cpp:2081
@@ -8216,7 +8274,7 @@ msgstr "Välj standard för teckenkodning"
 #: rc.cpp:2243
 #, no-c-format
 msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
-msgstr "Din aktuella teckenkodning (UTF-8) i systemet kan orsaka problem när din personliga information sparas och vid läsning av offlinemeddelanden från andra användare."
+msgstr "Din aktuella teckenkodning (UTF-8) i systemet kan orsaka problem när din personliga information sparas och vid läsning av meddelanden i frånkopplat läge från andra användare."
 
 #. i18n: file ./plugins/icq/encodingdlgbase.ui line 74
 #: rc.cpp:2246
@@ -8274,13 +8332,13 @@ msgstr ""
 #: rc.cpp:2310
 #, no-c-format
 msgid "Work"
-msgstr ""
+msgstr "Arbete"
 
 #. i18n: file ./plugins/icq/advsearchbase.ui line 419
 #: rc.cpp:2328
 #, no-c-format
 msgid "Past"
-msgstr ""
+msgstr "Tidigare"
 
 #. i18n: file ./plugins/icq/advsearchbase.ui line 458
 #: rc.cpp:2332
@@ -8298,7 +8356,7 @@ msgstr "Nyckelord"
 #: rc.cpp:2338
 #, no-c-format
 msgid "Search &online users only"
-msgstr "Sök endast användare som är &online"
+msgstr "Sök endast användare som är &anslutna"
 
 #. i18n: file ./plugins/yahoo/yahoocfgbase.ui line 45
 #: rc.cpp:2372
@@ -8800,7 +8858,7 @@ msgstr "Indonesien"
 
 #: sim/country.cpp:129
 msgid "International Freephone Service"
-msgstr ""
+msgstr "Internationell gratistelefontjänst"
 
 #: sim/country.cpp:130
 msgid "Iran"
