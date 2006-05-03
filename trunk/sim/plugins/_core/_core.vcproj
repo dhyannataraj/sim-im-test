@@ -112,7 +112,6 @@
 			OutputDirectory="..\..\Debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -6153,7 +6152,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm"
+						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
 						Outputs="$(OutDir)\po\$(InputName).qm"
 					/>
 				</FileConfiguration>
@@ -6163,7 +6162,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm"
+						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
 						Outputs="$(OutDir)\po\$(InputName).qm"
 					/>
 				</FileConfiguration>
