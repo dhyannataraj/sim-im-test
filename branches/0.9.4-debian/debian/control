@@ -3,11 +3,12 @@ Section: net
 Priority: optional
 Maintainer: Alexander Petrov <zowers@gmail.com>
 Build-Depends: debhelper (>> 4.0.0), flex, autoconf, automake1.9, autotools-dev, perl, libtool(>= 1.5.2), libfam-dev, libpng12-dev, libqt3-mt-dev, libqt3-headers, qt3-dev-tools, libssl-dev, kdelibs4-dev, zlib1g-dev, libexpat1-dev, libxml2-dev, libxslt1-dev, libxft-dev, libxss-dev, zip
-Standards-Version: 3.6.2.1
+Standards-Version: 3.7.0
 
 Package: sim
 Architecture: any
 Depends: ${shlibs:Depends}
+Suggests: gnupg (>= 1.4.3)
 Description: Simple Instant Messenger (KDE)
  sim is a simple and powerful multi-protocol instant messenger.
  .
@@ -23,6 +24,7 @@ Description: Simple Instant Messenger (KDE)
   * Support Miranda icon themes;
   * Spam filter;
   * Secure direct connection with SIM and L-ICQ;
+  * GPG encryption using gnupg;
   * Message or chat mode for user window;
   * On-Screen display notification about messages and user status;
   * Sending of the messages to several users;
