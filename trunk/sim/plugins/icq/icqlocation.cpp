@@ -111,7 +111,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
 {
     Contact *contact = NULL;
     ICQUserData *data;
-    string screen;
+    QString screen;
     switch (type){
     case ICQ_SNAXxLOC_RIGHTSxGRANTED:
         log(L_DEBUG, "Location rights granted");
@@ -120,10 +120,10 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
         break;
     case ICQ_SNACxLOC_LOCATIONxINFO:
         screen = m_socket->readBuffer.unpackScreen();
-        if (isOwnData(screen.c_str())){
+        if (isOwnData(screen.latin1())){
             data = &this->data.owner;
         }else{
-            data = findContact(screen.c_str(), NULL, false, contact);
+            data = findContact(screen.latin1(), NULL, false, contact);
         }
         if (data){
             string charset = "us-ascii";
@@ -159,7 +159,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
         }
         break;
     case ICQ_SNACxLOC_DIRxINFO:
-        if (isOwnData(screen.c_str())){
+        if (isOwnData(screen.latin1())){
             data = &this->data.owner;
         }else{
             data = findInfoRequest(seq, contact);

@@ -163,7 +163,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxMSG_SRV_MISSED_MSG: {
             unsigned short mFormat; // missed channel
-            string screen;			// screen
+            QString screen;			// screen
             unsigned short wrnLevel;// warning level
             unsigned short nTlv;    // number of tlvs
             TlvList  lTlv;          // all tlvs in message
@@ -203,7 +203,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             default:
                 err_str = I18N_NOOP("Unknown error");
             }
-            log(L_DEBUG, "ICMB error %u (%s) - screen(%s)", error, err_str, screen.c_str());
+            log(L_DEBUG, "ICMB error %u (%s) - screen(%s)", error, err_str, screen.latin1());
             break;
         }
     case ICQ_SNACxMSG_BLAMExSRVxACK:

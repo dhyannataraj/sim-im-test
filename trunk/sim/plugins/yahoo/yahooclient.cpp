@@ -225,7 +225,7 @@ void YahooClient::packet_ready()
         unsigned long session_id;
         m_socket->readBuffer >> m_pkt_status >> session_id;
         if (m_data_size){
-            m_socket->readBuffer.add(m_data_size);
+            m_socket->readBuffer.resize(m_socket->readBuffer.size()+m_data_size);
             m_bHeader = false;
             return;
         }

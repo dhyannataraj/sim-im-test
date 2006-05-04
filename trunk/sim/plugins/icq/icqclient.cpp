@@ -896,7 +896,7 @@ void ICQClient::sendPacket(bool bSend)
     }
     OscarSocket::sendPacket(false);
     r->delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
-    writeBuffer.setSize(writeBuffer.packetStartPos());
+    writeBuffer.resize(writeBuffer.packetStartPos());
     m_processTimer->stop();
     m_processTimer->start(delay);
 }

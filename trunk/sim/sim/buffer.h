@@ -19,6 +19,8 @@
 #define _BUFFER_H
 
 #include "simapi.h"
+#include <qcstring.h>
+#include <qptrlist.h>
 
 class Buffer;
 
@@ -38,29 +40,24 @@ protected:
     char *m_data;
 };
 
-class EXPORT TlvList
+class EXPORT TlvList : public QPtrList<Tlv>
 {
 public:
     TlvList();
-    TlvList(Buffer&, unsigned nTlvs = (unsigned)(-1));
-    ~TlvList();
-    Tlv *operator() (unsigned short num);
-    TlvList &operator + (Tlv *tlv);
-    Tlv *operator[](unsigned n);
-protected:
-    void *m_tlv;
-    friend class Buffer;
+    TlvList(Buffer&, unsigned nTlvs = -1);
+	Tlv *operator() (unsigned short num);
+    Tlv *operator[] (unsigned n);
+	TlvList &operator+ (Tlv *tlv) { append(tlv); return *this; }
 };
 
-class EXPORT Buffer
+class EXPORT Buffer : public QByteArray
 {
 public:
     Buffer(unsigned size=0);
     Buffer(Tlv&);
     ~Buffer();
-    void add(unsigned size);
-    unsigned size() const { return m_size; }
-    void setSize(unsigned size);
+	bool add(uint size);
+    bool resize(uint size);
     unsigned readPos() const { return m_posRead; }
     void incReadPos(int size);
     void decReadPos(int size) { incReadPos(-size); }
@@ -68,7 +65,7 @@ public:
     void setWritePos(unsigned size);
     void setReadPos(unsigned size);
 
-    char* data(unsigned pos=0) const { return m_data + pos; }
+	char* data(unsigned pos=0) const { return QByteArray::data() + pos; }
 
     void packetStart();
     unsigned long packetStartPos();
@@ -94,7 +91,7 @@ public:
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
     std::string unpackScreen();
-    void unpack(std::string &s);
+	void unpack(std::string &s);
     void unpackStr(std::string &s);
     void unpackStr32(std::string &s);
 
@@ -136,24 +133,18 @@ public:
     bool scan(const char *substr, std::string &res);
 
     void init(unsigned size);
-    unsigned allocSize() { return m_alloc_size; }
-    void allocate(unsigned size, unsigned add_size);
-    void insert(unsigned size);
 
     void fromBase64(Buffer &from);
     void toBase64(Buffer &from);
 
-    std::string	getSection(bool bSkip=false);
+    QCString	getSection(bool bSkip=false);
     unsigned	startSection() { return m_startSection; }
     char	*getLine();
 protected:
     unsigned m_packetStartPos;
-    unsigned m_size;
-    unsigned m_alloc_size;
     unsigned m_posRead;
     unsigned m_posWrite;
     unsigned m_startSection;
-    char *m_data;
 };
 
 EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info=NULL);

@@ -691,7 +691,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Buffer sf;
             sf.init(f.size());
             f.readBlock(sf.data(), f.size());
-            sf.setSize(f.size());
+            sf.resize(f.size());
             while (sf.readPos() < sf.size()){
                 string line;
                 sf.scan("\n", line);

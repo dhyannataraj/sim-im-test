@@ -130,14 +130,14 @@ Message *HistoryFile::load(unsigned id)
         if ((unsigned)at() >= size())
             break;
         unsigned size = cfg.size();
-        cfg.allocate(LOAD_BLOCK_SIZE, LOAD_BLOCK_SIZE);
+        cfg.resize(LOAD_BLOCK_SIZE);
         int readn = readBlock(cfg.data(size), LOAD_BLOCK_SIZE);
         if (readn < 0){
             log(L_WARN, "Can't read %s", name().latin1());
             return NULL;
         }
         size += readn;
-        cfg.setSize(size);
+        cfg.resize(size);
         if (readn == 0)
             break;
     }
@@ -270,14 +270,14 @@ bool HistoryFileIterator::loadBlock(bool bUp)
                 return true;
             blockEnd += BLOCK_SIZE;
             unsigned size = config.size();
-            config.allocate(BLOCK_SIZE, BLOCK_SIZE);
+            config.resize(BLOCK_SIZE);
             int readn = file.readBlock(config.data(size), BLOCK_SIZE);
             if (readn < 0){
                 log(L_WARN, "Can't read %s", file.name().latin1());
                 clear();
                 return true;
             }
-            config.setSize(size + readn);
+            config.resize(size + readn);
         }else{
             if (m_block == 0)
                 return true;
@@ -292,7 +292,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             }
             unsigned size = m_block - block;
             m_block = block;
-            config.insert(size);
+            config.resize(size);
             if ((unsigned)file.readBlock(config.data(), size) != size){
                 log(L_WARN, "Can't read %s", file.name().latin1());
                 clear();
@@ -711,13 +711,13 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
     unsigned skip_start = id;
     for (;;){
         unsigned size = config.size();
-        config.allocate(LOAD_BLOCK_SIZE, LOAD_BLOCK_SIZE);
+        config.resize(LOAD_BLOCK_SIZE);
         int readn = f.readBlock(config.data(size), LOAD_BLOCK_SIZE);
         if (readn < 0){
             log(L_ERROR, "Read history error");
             return;
         }
-        config.setSize(size + readn);
+        config.resize(size + readn);
         string section = config.getSection();
         if (section.empty()){
             if (readn == 0)

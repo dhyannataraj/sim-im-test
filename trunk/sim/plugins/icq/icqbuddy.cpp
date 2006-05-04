@@ -49,7 +49,7 @@ static QString makeCapStr( const capability cap, unsigned size )
 
 void ICQClient::snac_buddy(unsigned short type, unsigned short)
 {
-    string screen;
+    QString screen;
     Contact *contact;
     ICQUserData *data;
     switch (type){
@@ -58,7 +58,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxBDY_USEROFFLINE:
         screen = m_socket->readBuffer.unpackScreen();
-        data = findContact(screen.c_str(), NULL, false, contact);
+        data = findContact(screen.latin1(), NULL, false, contact);
         if (data && (data->Status.value != ICQ_STATUS_OFFLINE)){
             setOffline(data);
             StatusMessage m;
@@ -72,7 +72,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxBDY_USERONLINE:
         screen = m_socket->readBuffer.unpackScreen();
-        data = findContact(screen.c_str(), NULL, false, contact);
+        data = findContact(screen.latin1(), NULL, false, contact);
         if (data){
             time_t now;
             time(&now);

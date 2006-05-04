@@ -228,15 +228,15 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         sendPacket(true);
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
-            string screen = m_socket->readBuffer.unpackScreen();
+            QString screen = m_socket->readBuffer.unpackScreen();
             if (screen.length() == 0){
                 char n;
                 m_socket->readBuffer >> n;
                 m_socket->readBuffer.incReadPos(n);
                 screen = m_socket->readBuffer.unpackScreen();
             }
-            if ((unsigned)atol(screen.c_str()) != data.owner.Uin.value){
-                log(L_WARN, "No my name info (%s)", screen.c_str());
+            if ((unsigned)atol(screen.latin1()) != data.owner.Uin.value){
+                log(L_WARN, "No my name info (%s)", screen.latin1());
                 break;
             }
             m_socket->readBuffer.incReadPos(4);
