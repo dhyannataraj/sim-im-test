@@ -4159,7 +4159,7 @@ void CorePlugin::loadClients(ClientList &clients)
         return;
     }
     for (;;){
-        string section = cfg.getSection();
+        string section = string(cfg.getSection());
         if (section.empty())
             break;
         Client *client = loadClient(section.c_str(), &cfg);
