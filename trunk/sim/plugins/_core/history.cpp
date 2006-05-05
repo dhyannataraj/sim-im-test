@@ -141,7 +141,7 @@ Message *HistoryFile::load(unsigned id)
         if (readn == 0)
             break;
     }
-    string type = cfg.getSection();
+    string type = string(cfg.getSection());
     Message *msg = CorePlugin::m_plugin->createMessage(type.c_str(), &cfg);
     if (msg == NULL)
         return NULL;
@@ -300,7 +300,7 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             }
             config.setWritePos(0);
         }
-        string type = config.getSection(!bUp && (m_block != 0));
+        string type = string(config.getSection(!bUp && (m_block != 0)));
         if (type.empty())
             continue;
         if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
@@ -558,7 +558,7 @@ Message *History::load(unsigned id, const char *client, unsigned contact)
         Buffer config;
         config << ms.msg.c_str();
         config.setWritePos(0);
-        string type = config.getSection();
+        string type = string(config.getSection());
         Message *msg = createMessage(id, type.c_str(), &config);
         if (msg){
             msg->setClient(ms.client.c_str());
@@ -718,7 +718,7 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
             return;
         }
         config.resize(size + readn);
-        string section = config.getSection();
+        string section = string(config.getSection());
         if (section.empty()){
             if (readn == 0)
                 return;
