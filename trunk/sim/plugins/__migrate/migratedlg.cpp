@@ -181,7 +181,7 @@ void MigrateDialog::process()
         cfg.init(icqConf.size());
         icqConf.readBlock(cfg.data(), icqConf.size());
         for (;;){
-            string section = cfg.getSection();
+            string section = string(cfg.getSection());
             if (section.empty())
                 break;
             m_state = 3;
@@ -244,7 +244,7 @@ void MigrateDialog::process()
             cfg.init(hFrom.size());
             hFrom.readBlock(cfg.data(), hFrom.size());
             for (;;){
-                string section = cfg.getSection();
+                string section = string(cfg.getSection());
                 if (section.empty())
                     break;
                 m_state = 3;
