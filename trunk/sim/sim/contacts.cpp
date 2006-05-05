@@ -1797,7 +1797,7 @@ void ContactList::load()
     Contact *c = NULL;
     Group   *g = NULL;
     for (;;){
-        string s = cfg.getSection();
+        string s = string(cfg.getSection());
         if (s.empty())
             break;
         if (s == OWNER){
