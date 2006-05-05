@@ -649,7 +649,7 @@ void PluginManagerPrivate::loadState()
     bool continous=TRUE;
     while(continous) {
 
-        string section = cfg.getSection();
+        string section = string(cfg.getSection());
 
         if (section.empty())
             return;
