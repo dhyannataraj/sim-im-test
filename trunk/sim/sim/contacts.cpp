@@ -1797,28 +1797,28 @@ void ContactList::load()
     Contact *c = NULL;
     Group   *g = NULL;
     for (;;){
-        string s = string(cfg.getSection());
-        if (s.empty())
+        QString s = cfg.getSection();
+        if (s.isEmpty())
             break;
         if (s == OWNER){
             p->flush(c, g);
             c = owner();
             g = NULL;
             s = "";
-        }else if ((s.length() > strlen(GROUP)) && !memcmp(s.c_str(), GROUP, strlen(GROUP))){
+        }else if (s == GROUP){
             p->flush(c, g);
             c = NULL;
-            unsigned long id = atol(s.c_str() + strlen(GROUP));
+            unsigned long id = atol(s.latin1() + strlen(GROUP));
             g = group(id, id != 0);
             s = "";
-        }else if ((s.length() > strlen(CONTACT)) && !memcmp(s.c_str(), CONTACT, strlen(CONTACT))){
+        }else if (s == CONTACT){
             p->flush(c, g);
             g = NULL;
-            unsigned long id = atol(s.c_str() + strlen(CONTACT));
+            unsigned long id = atol(s.latin1() + strlen(CONTACT));
             c = contact(id, true);
             s = "";
         }
-        p->flush(c, g, s.c_str(), &cfg);
+        p->flush(c, g, s.latin1(), &cfg);
     }
     p->flush(c, g);
     // Notify the clients about the newly loaded contact list

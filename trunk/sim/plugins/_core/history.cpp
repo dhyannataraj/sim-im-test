@@ -141,8 +141,8 @@ Message *HistoryFile::load(unsigned id)
         if (readn == 0)
             break;
     }
-    string type = string(cfg.getSection());
-    Message *msg = CorePlugin::m_plugin->createMessage(type.c_str(), &cfg);
+    QString type = cfg.getSection();
+    Message *msg = CorePlugin::m_plugin->createMessage(type.latin1(), &cfg);
     if (msg == NULL)
         return NULL;
     msg->setId(id);
@@ -300,25 +300,25 @@ bool HistoryFileIterator::loadBlock(bool bUp)
             }
             config.setWritePos(0);
         }
-        string type = string(config.getSection(!bUp && (m_block != 0)));
-        if (type.empty())
+        QString type = config.getSection(!bUp && (m_block != 0));
+        if (type.isEmpty())
             continue;
         if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
             continue;
         unsigned id = m_block;
         if (!bUp)
             m_block += config.startSection();
-        createMessage(id + config.startSection(), type.c_str(), &config);
+        createMessage(id + config.startSection(), type.latin1(), &config);
         unsigned pos = config.writePos();
         for (;;){
             if (!bUp && (id + config.writePos() > blockEnd))
                 break;
             type = config.getSection();
-            if (type.empty())
+            if (type.isEmpty())
                 break;
             if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
                 break;
-            createMessage(id + config.startSection(), type.c_str(), &config);
+            createMessage(id + config.startSection(), type.latin1(), &config);
             pos = config.writePos();
         }
         if (bUp)
@@ -558,8 +558,8 @@ Message *History::load(unsigned id, const char *client, unsigned contact)
         Buffer config;
         config << ms.msg.c_str();
         config.setWritePos(0);
-        string type = string(config.getSection());
-        Message *msg = createMessage(id, type.c_str(), &config);
+        QString type = config.getSection();
+        Message *msg = createMessage(id, type.latin1(), &config);
         if (msg){
             msg->setClient(ms.client.c_str());
             msg->setContact(ms.contact);
@@ -718,8 +718,8 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
             return;
         }
         config.resize(size + readn);
-        string section = string(config.getSection());
-        if (section.empty()){
+        QString section = config.getSection();
+        if (section.isEmpty()){
             if (readn == 0)
                 return;
             continue;

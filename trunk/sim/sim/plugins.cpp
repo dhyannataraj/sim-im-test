@@ -649,9 +649,9 @@ void PluginManagerPrivate::loadState()
     bool continous=TRUE;
     while(continous) {
 
-        string section = string(cfg.getSection());
+        QString section = cfg.getSection();
 
-        if (section.empty())
+        if (section.isEmpty())
             return;
         unsigned long i = NO_PLUGIN;
         for (unsigned n = 0; n < plugins.size(); n++)
@@ -664,11 +664,12 @@ void PluginManagerPrivate::loadState()
             continue;
 
         pluginInfo &info = plugins[i];
-        const char *line = cfg.getLine();
+        QString line = cfg.getLine();
 
-        if (line == NULL)
+        if (line.isEmpty())
             continue;
-        string token = getToken(line, ',');
+        QString token = line.section(',',0,0);
+        QString dword = line.section(',',1,1);
         if (token == ENABLE){
             info.bDisabled = false;
             info.bFromCfg  = true;
@@ -679,7 +680,7 @@ void PluginManagerPrivate::loadState()
         }
         else {continue;}
 
-        info.base = atol(line);
+        info.base = dword.toLong();
 
         if (info.base > m_base)
             m_base = info.base;

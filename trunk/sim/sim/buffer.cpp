@@ -100,13 +100,13 @@ Tlv *TlvList::operator[](unsigned n)
 }
 
 Buffer::Buffer(unsigned size)
-        : QByteArray(size)
+        : QCString(size)
 {
 	init(size);
 }
 
 Buffer::Buffer(Tlv &tlv)
-        : QByteArray(tlv.Size())
+        : QCString(tlv.Size())
 {
 	init(tlv.Size());
     pack((char*)tlv, tlv.Size());
@@ -621,123 +621,41 @@ void Buffer::toBase64(Buffer &from)
     }
 }
 
-QCString Buffer::getSection(bool bSkip)
+QString Buffer::getSection(bool bSkip)
 {
-    m_posRead = m_posWrite;
-    unsigned posRead = m_posRead;
-    char *p = data(m_posRead);
-    if (bSkip){
-        /* skip until next '[' */
-        for (;;){
-            for (; m_posRead < size(); p++, m_posRead++)
-                if ((*p == '\n') || (*p == 0))
-                    break;
-            if (m_posRead >= size()){
-                m_posRead = posRead;
-                return "";
-            }
-            m_posRead++;
-            p++;
-            if (*p == '[')
-                break;
-        }
-    }
-    for (;;){
-        /* Search for '[' */
-        if (m_posRead >= size()){
-            m_posRead = posRead;
-            return "";
-        }
-        if (*p == '[')
-            break;
-        for (; m_posRead < size(); p++, m_posRead++)
-            if ((*p == '\n') || (*p == 0))
-                break;
-        if (m_posRead >= size()){
-            m_posRead = posRead;
-            return "";
-        }
-        m_posRead++;
-        p++;
-    }
-    m_startSection = m_posRead;
-    m_posRead++;
-    p++;
-    QCString section;
-    char *s = p;
-    /* Search for ']' and get section name when found */
-    for (; m_posRead < size(); p++, m_posRead++){
-        if (*p == ']'){
-            *p = 0;
-            section = s;
-            *p = ']';
-        }
-        /* no ']' or end of stream */
-        if ((*p == '\n') || (*p == 0))
-            break;
-    }
-    if (m_posRead >= size()){
-        m_posRead = posRead;
-        return "";
-    }
-    /* next line with data */
-    for (;m_posRead < size(); p++, m_posRead++){
-        if ((*p != '\n') || (*p == 0))
-            break;
-    }
-    m_posWrite = m_posRead;
-    /* when current line starts with '[' we have a section
-       without any data */
-    if ((m_posRead >= size()) || (*p == '[')) {
-        return section;
-    }
-    /* put m_posWrite to (next section start) - 1 */
-    for (; m_posWrite < size(); p++, m_posWrite++){
-        if ((*p == '\r') || (*p == '\n') || (*p == 0)){
-            *p = 0;
-            if ((m_posWrite + 1 < size()) && (p[1] == '[')){
-                m_posWrite++;
-                break;
-            }
-        }
-    }
-    if (m_posWrite >= size()){
-		resize(size() + 1);
-    }
+	int start = m_posRead;
+	int end = m_posRead;
+
+	if( bSkip )
+		start = find( '[', m_posRead + 1);
+	if( start == -1 )
+		return QString();
+	start = find( '[', start );
+	end = find( ']', start );
+	if( start == -1 || end == -1 )
+		return QString();
+    m_startSection = m_posRead = start;
+	QString section = mid( start + 1, end - start - 1 );
+
+	m_posRead = end + 1;
+	if ( m_posRead < size() )
+		if ( at(m_posRead) == '\n' )
+			m_posRead++;
+	if ( m_posRead >= size() )
+		m_posRead = size() - 1;
+	m_posWrite = find( '[', end );
+	if( m_posWrite == -1 )
+		m_posWrite = size() - 1;
+
     return section;
 }
 
-#if 0
-char *Buffer::getLine()
+QString Buffer::getLine()
 {
-    if (readPos() >= writePos())
-        return NULL;
-    char *res = data(m_posRead);
-    /* handle cases when the buffer is not \n-terminated (avoid returning non-null-terminated string) */
-    int maxLength = size()-m_posRead, length = 0;
-    while ((length < maxLength) && (res[length] != '\0'))
-        ++length;
-    if (length == maxLength)
-    {
-        resize(size() + 1);
-        at(size()) = '\0';
-    }
-    char *p;
-    for (p = res; (m_posRead < m_posWrite) && *p ; p++)
-        m_posRead++;
-    for (; (m_posRead < m_posWrite) && (*p == 0) ; p++)
-        m_posRead++;
-    return res;
-}
+	QString str;
 
-#else
-char *Buffer::getLine()
-{
-	static QString str;
-
-	str = QString();
     if (readPos() >= writePos())
-        return NULL;
+        return QString();
 	int idx = find( '\n', m_posRead );
 	if( idx==-1 )
 		idx = find( '\0', m_posRead );
@@ -746,10 +664,9 @@ char *Buffer::getLine()
 	str = QString::fromLatin1( data() + m_posRead, idx - m_posRead + 1 );
 	m_posRead += str.length() + 1;
 	if(str.isEmpty())
-		return NULL;
-	return (char*)str.latin1();
+		return QString();
+	return str;
 }
-#endif
 
 EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)
 {

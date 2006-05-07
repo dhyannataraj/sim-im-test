@@ -608,19 +608,22 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
     if (cfg == NULL)
         return;
     unsigned read_pos = cfg->readPos();
-    char *line;
     for (;;){
-        line = cfg->getLine();
-        if (line == NULL)
+        QString line = cfg->getLine();
+        if (line.isEmpty())
             break;
-        char *p = strchr(line, '=');
-        if (p == NULL)
-            continue;
-        *p = 0;
-        const char *value = p + 1;
+		QRegExp rx("^(.+)=(.+)$");
+		if(!rx.exactMatch(line))
+			continue;
+		QString name = rx.cap(1);
+		QString val = rx.cap(2);
+		if(name.isEmpty() || val.isEmpty())
+			continue;
+
+		const char *value = val.latin1();
         unsigned offs = 0;
-        const DataDef *def = find_key(d, line, offs);
-        *p = '=';
+		const char *p;
+        const DataDef *def = find_key(d, name, offs);
         if (def == NULL)
             continue;
         unsigned i;
@@ -628,14 +631,11 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         Data *ld = data + offs;
         switch (def->type){
         case DATA_IP:
-            p = (char*) strchr(value, ',');
+            p = strchr(value, ',');
             if (p){
-                *p = 0;
                 p++;
             }
             set_ip(ld, inet_addr(value), p);
-            if (p)
-                p[-1] = ',';
             break;
         case DATA_STRLIST:
             i = strtoul(value, NULL, 10);
@@ -722,24 +722,20 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 value++;
             }
             break;
-        case DATA_BOOL:
-            for (i = 0; i < def->n_values; i++, ld++){
-                p = (char *)strchr(value, ',');
-                if (p)
-                    *p = 0;
-                if (*value){
-                    if (!strcasecmp(value, "false") || !strcmp(value, "0")){
-                        ld->bValue = false;
-                    }else{
-                        ld->bValue = true;
-                    }
-                }
-                value = p;
-                if (value == NULL)
+		case DATA_BOOL: {
+			QRegExp rx("^(?:([^,]*),?)$");
+			rx.search(val);
+            for (unsigned i = 0; i < def->n_values; i++, ld++){
+                QString v = rx.cap(i+1);
+                if (v.isEmpty())
                     break;
-                value++;
+				if(v.lower() == "false" || v == "0")
+                    ld->bValue = false;
+				else
+                    ld->bValue = true;
             }
             break;
+		}
         }
     }
     cfg->setReadPos(read_pos);

@@ -50,7 +50,7 @@ public:
 	TlvList &operator+ (Tlv *tlv) { append(tlv); return *this; }
 };
 
-class EXPORT Buffer : public QByteArray
+class EXPORT Buffer : public QCString
 {
 public:
     Buffer(unsigned size=0);
@@ -137,9 +137,9 @@ public:
     void fromBase64(Buffer &from);
     void toBase64(Buffer &from);
 
-    QCString	getSection(bool bSkip=false);
+    QString	getSection(bool bSkip=false);
+    QString getLine();
     unsigned	startSection() { return m_startSection; }
-    char	*getLine();
 protected:
     unsigned m_packetStartPos;
     unsigned m_posRead;

@@ -181,8 +181,8 @@ void MigrateDialog::process()
         cfg.init(icqConf.size());
         icqConf.readBlock(cfg.data(), icqConf.size());
         for (;;){
-            string section = string(cfg.getSection());
-            if (section.empty())
+            QString section = cfg.getSection();
+            if (section.isEmpty())
                 break;
             m_state = 3;
             if (section == "Group")
@@ -192,19 +192,19 @@ void MigrateDialog::process()
             if (!m_bProcess)
                 return;
             for (;;){
-                char *l = cfg.getLine();
-                if (l == NULL)
+                QString line = cfg.getLine();
+                if (line.isEmpty())
                     break;
-                string line = l;
-                string name = getToken(line, '=');
+                QString name = line.section('=',0,0);
+				QString data = line.section('=',1,1);
                 if (name == "UIN")
-                    m_uin = atol(line.c_str());
+                    m_uin = data.toLong();
                 if (name == "EncryptPassword")
-                    m_passwd = line;
+                    m_passwd = data.latin1();
                 if (name == "Name")
-                    m_name = line;
+                    m_name = data.latin1();
                 if (name == "Alias")
-                    m_name = line;
+                    m_name = data.latin1();
             }
             flush();
             barCnv->setProgress(cfg.readPos());
@@ -244,8 +244,8 @@ void MigrateDialog::process()
             cfg.init(hFrom.size());
             hFrom.readBlock(cfg.data(), hFrom.size());
             for (;;){
-                string section = string(cfg.getSection());
-                if (section.empty())
+                QString section = cfg.getSection();
+                if (section.isEmpty())
                     break;
                 m_state = 3;
                 if (section == "Message")
@@ -253,19 +253,19 @@ void MigrateDialog::process()
                 if (!m_bProcess)
                     return;
                 for (;;){
-                    char *l = cfg.getLine();
-                    if (l == NULL)
+                    QString line = cfg.getLine();
+                    if (line.isEmpty())
                         break;
-                    string line = l;
-                    string name = getToken(line, '=');
+                    QString name = line.section('=',0,0);
+                    QString data = line.section('=',1,1);
                     if (name == "Message")
-                        m_message = line;
+                        m_message = data.latin1();
                     if (name == "Time")
-                        m_time = line;
+                        m_time = data.latin1();
                     if (name == "Direction")
-                        m_direction = line;
+                        m_direction = data.latin1();
                     if (name == "Charset")
-                        m_charset = line;
+                        m_charset = data.latin1();
                 }
                 flush();
                 barCnv->setProgress(cfg.readPos());

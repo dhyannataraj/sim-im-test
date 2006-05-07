@@ -4159,47 +4159,47 @@ void CorePlugin::loadClients(ClientList &clients)
         return;
     }
     for (;;){
-        string section = string(cfg.getSection());
-        if (section.empty())
+        QString section = cfg.getSection();
+        if (section.isEmpty())
             break;
-        Client *client = loadClient(section.c_str(), &cfg);
+        Client *client = loadClient(section, &cfg);
         if (client)
             clients.push_back(client);
     }
 }
 
-Client *CorePlugin::loadClient(const char *name, Buffer *cfg)
+Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
 {
-    if ((name == NULL) || (*name == 0))
+    if (name.isEmpty())
         return NULL;
-    string clientName = name;
-    string pluginName = getToken(clientName, '/');
-    if ((pluginName.length() == 0) || (clientName.length() == 0))
+    QString clientName = name.section('/',1,1);
+    QString pluginName = name.section('/',0,0);
+    if (pluginName.isEmpty())
         return NULL;
-    Event e(EventGetPluginInfo, (void*)pluginName.c_str());
+    Event e(EventGetPluginInfo, (void*)pluginName.latin1());
     pluginInfo *info = (pluginInfo*)e.process();
     if (info == NULL){
-        log(L_WARN, "Plugin %s not found", pluginName.c_str());
+        log(L_WARN, "Plugin %s not found", pluginName.latin1());
         return NULL;
     }
     if (info->info == NULL){
-        Event e(EventLoadPlugin, (void*)pluginName.c_str());
+        Event e(EventLoadPlugin, (void*)pluginName.latin1());
         e.process();
     }
     if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-        log(L_DEBUG, "Plugin %s no protocol", pluginName.c_str());
+        log(L_DEBUG, "Plugin %s no protocol", pluginName.latin1());
         return NULL;
     }
     info->bDisabled = false;
-    Event eApply(EventApplyPlugin, (void*)pluginName.c_str());
+    Event eApply(EventApplyPlugin, (void*)pluginName.latin1());
     eApply.process();
     Protocol *protocol;
     ContactList::ProtocolIterator it;
     while ((protocol = ++it) != NULL){
-        if (!strcmp(protocol->description()->text, clientName.c_str()))
+        if (protocol->description()->text == clientName)
             return protocol->createClient(cfg);
     }
-    log(L_DEBUG, "Protocol %s not found", clientName.c_str());
+    log(L_DEBUG, "Protocol %s not found", clientName.latin1());
     return NULL;
 }
 
