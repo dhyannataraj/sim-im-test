@@ -1800,18 +1800,20 @@ void ContactList::load()
         QString s = cfg.getSection();
         if (s.isEmpty())
             break;
-        if (s == OWNER){
+        if (s.left(strlen(OWNER)) == OWNER){
             p->flush(c, g);
             c = owner();
             g = NULL;
             s = "";
-        }else if (s == GROUP){
+        }else
+		if (s.left(strlen(GROUP)) == GROUP){
             p->flush(c, g);
             c = NULL;
             unsigned long id = atol(s.latin1() + strlen(GROUP));
             g = group(id, id != 0);
             s = "";
-        }else if (s == CONTACT){
+        }else
+		if (s.left(strlen(CONTACT)) == CONTACT){
             p->flush(c, g);
             g = NULL;
             unsigned long id = atol(s.latin1() + strlen(CONTACT));

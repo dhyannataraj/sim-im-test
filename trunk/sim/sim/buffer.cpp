@@ -163,10 +163,12 @@ void Buffer::setReadPos(unsigned n)
 
 void Buffer::pack(const char *d, unsigned s)
 {
+	s++;
 	if(m_posWrite+s > size())
 		resize(m_posWrite+s);
     memcpy(data() + m_posWrite, d, s);
-    m_posWrite += s;
+	at(s-1) = '\0';
+    m_posWrite += s+1;
 }
 
 unsigned Buffer::unpack(char *d, unsigned s)
@@ -652,10 +654,9 @@ QString Buffer::getSection(bool bSkip)
 
 QString Buffer::getLine()
 {
-	QString str;
-
-    if (readPos() >= writePos())
-        return QString();
+    QString str;
+	if (readPos() >= writePos())
+        return str;
 	int idx = find( '\n', m_posRead );
 	if( idx==-1 )
 		idx = find( '\0', m_posRead );
@@ -666,8 +667,18 @@ QString Buffer::getLine()
 	if ( at(m_posRead) == '\n' )
 		m_posRead++;
 	if ( m_posRead >= size() )
-		m_posRead = size() - 1;
+		m_posRead = size();
 	return str;
+}
+
+Buffer &Buffer::operator = (const QByteArray &ba)
+{
+	int size = ba.size();
+	assign(ba);
+	resize(size+1);
+	at(size) = '\0';
+	m_posWrite = size;
+	return *this;
 }
 
 EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)

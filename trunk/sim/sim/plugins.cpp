@@ -638,10 +638,9 @@ void PluginManagerPrivate::loadState()
     }
 
     Buffer cfg;
-    cfg.init(f.size());
-    int n = f.readBlock(cfg.data(), f.size());
+	cfg = f.readAll();
 
-    if (n < 0){
+    if (cfg.size() < 0){
         log(L_ERROR, "Can't read %s", f.name().ascii());
         return;
     }

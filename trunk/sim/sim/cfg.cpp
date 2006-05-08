@@ -623,7 +623,6 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
 
 		const char *value = val.latin1();
         unsigned offs = 0;
-		const char *p;
         const DataDef *def = find_key(d, name, offs);
         if (def == NULL)
             continue;
@@ -631,13 +630,11 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         string v;
         Data *ld = data + offs;
         switch (def->type){
-        case DATA_IP:
-            p = strchr(value, ',');
-            if (p){
-                p++;
-            }
-            set_ip(ld, inet_addr(value), p);
+        case DATA_IP: {
+        	QStringList strlist = QStringList::split( ',', val );
+            set_ip(ld, inet_addr(strlist[0]), strlist[1]);
             break;
+        }
         case DATA_STRLIST:
             i = strtoul(value, NULL, 10);
             if (i == 0)
@@ -688,49 +685,44 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 value++;
             }
             break;
-        case DATA_STRING:
-            for (i = 0; i < def->n_values; ld++){
-                value = strchr(value, '\"');
-                if (value == NULL)
-                    break;
-                value++;
-                set_str(&ld->ptr, getToken(value, '\"').c_str());
-                i++;
-                value = strchr(value, ',');
-                if (value == NULL)
-                    break;
-                value++;
-            }
-            break;
-        case DATA_LONG:
-            for (i = 0; i < def->n_values; ld++){
-                if (*value != ',')
-                    ld->value = atol(value);
-                value = strchr(value, ',');
-                i++;
-                if (value == NULL)
-                    break;
-                value++;
-            }
-            break;
-        case DATA_ULONG:
-            for (i = 0; i < def->n_values; ld++){
-                if (*value != ',')
-                    ld->value = strtoul(value, NULL, 10);
-                value = strchr(value, ',');
-                if (value == NULL)
-                    break;
-                value++;
-            }
-            break;
-		case DATA_BOOL: {
-			QRegExp rx("^(?:([^,]*),?)$");
+		case DATA_STRING: {
+			QRegExp rx("\"([^\"]*)\",?");	// "<value>","<value>", ...
 			rx.search(val);
             for (unsigned i = 0; i < def->n_values; i++, ld++){
-                QString v = rx.cap(i+1);
-                if (v.isEmpty())
-                    break;
-				if(v.lower() == "false" || v == "0")
+				QString s = rx.cap(i+1);
+				if(s.isEmpty())
+					continue;
+				set_str(&ld->ptr, s);
+			}
+            break;
+		}
+		case DATA_LONG: {
+			QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+	        	QString s = sl[i];
+				if(s.isEmpty())
+					continue;
+				ld->value = s.toLong();
+			}
+            break;
+		}
+		case DATA_ULONG: {
+			QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+	        	QString s = sl[i];
+				if(s.isEmpty())
+					continue;
+        		ld->value = s.toULong();
+			}
+            break;
+		}
+		case DATA_BOOL: {
+			QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+	        	QString s = sl[i];
+				if(s.isEmpty())
+					continue;
+				if(s.lower() == "false" || s == "0")
                     ld->bValue = false;
 				else
                     ld->bValue = true;
@@ -749,51 +741,48 @@ static char toHex(char c)
     return (char)(c - 10 + 'a');
 }
 
-static string quoteString(const char *str)
+static QString quoteString(const char *str)
 {
-    Buffer quoted;
-    if (str)
-        quoted.init(strlen(str) + 5);
-    quoted << "\"";
+    QString quoted("\"");
     if (str){
         for (unsigned char *p = (unsigned char*)str; *p; p++){
             switch (*p){
             case '\\':
-                quoted << "\\\\";
+                quoted += "\\\\";
                 break;
             case '\r':
                 break;
             case '\n':
-                quoted << "\\n";
+                quoted += "\\n";
                 break;
             case '\"':
-                quoted << "\\\"";
+                quoted += "\\\"";
                 break;
             default:
                 if (*p >= ' '){
-                    quoted << *p;
+                    quoted += *p;
                 }else if (*p){
-                    quoted << "\\x";
-                    quoted << toHex((char)(*p >> 4));
-                    quoted << toHex(*p);
+                    quoted += "\\x";
+                    quoted += toHex((char)(*p >> 4));
+                    quoted += toHex(*p);
                 }
             }
         }
     }
-    quoted << "\"" << (char)0;
-    return quoted.data();
+    quoted += "\"";
+    return quoted;
 }
 
 EXPORT string save_data(const DataDef *def, void *_data)
 {
     Data *data = (Data*)_data;
-    string res;
+    QString res;
     for (; def->name; def++){
-        string value;
+        QString value;
         bool bSave = false;
         unsigned i;
         if (def->type == DATA_STRUCT){
-            string s = save_data((DataDef*)(def->def_value), data);
+            QString s = save_data((DataDef*)(def->def_value), data);
             if (s.length()){
                 if (res.length())
                     res += "\n";

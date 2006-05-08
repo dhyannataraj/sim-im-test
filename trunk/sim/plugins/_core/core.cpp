@@ -4153,8 +4153,8 @@ void CorePlugin::loadClients(ClientList &clients)
         return;
     }
     Buffer cfg;
-    cfg.init(f.size());
-    if (f.readBlock(cfg.data(), f.size()) < 0){
+	cfg = f.readAll();
+    if (cfg.size() == 0){
         log(L_ERROR, "Can't read %s", cfgName.c_str());
         return;
     }
