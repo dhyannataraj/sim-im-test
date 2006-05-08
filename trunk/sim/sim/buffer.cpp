@@ -661,10 +661,12 @@ QString Buffer::getLine()
 		idx = find( '\0', m_posRead );
 	if( idx==-1 )
 		idx = size();
-	str = QString::fromLatin1( data() + m_posRead, idx - m_posRead + 1 );
-	m_posRead += str.length() + 1;
-	if(str.isEmpty())
-		return QString();
+	str = QString::fromLatin1( data() + m_posRead, idx - m_posRead );
+	m_posRead += str.length();
+	if ( at(m_posRead) == '\n' )
+		m_posRead++;
+	if ( m_posRead >= size() )
+		m_posRead = size() - 1;
 	return str;
 }
 
