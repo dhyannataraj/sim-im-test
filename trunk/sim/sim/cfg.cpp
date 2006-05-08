@@ -26,6 +26,7 @@
 #include <qmainwindow.h>
 #include <qstringlist.h>
 #include <qapplication.h>
+#include <qregexp.h>
 
 #include <stdio.h>
 
