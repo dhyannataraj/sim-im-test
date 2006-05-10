@@ -37,7 +37,7 @@
 #ifndef  LTDL_SHLIB_EXT
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
 #define  LTDL_SHLIB_EXT ".so"
-#else	/* MacOS needs .a */
+#else   /* MacOS needs .a */
 #define  LTDL_SHLIB_EXT ".a"
 #endif
 #endif
@@ -137,7 +137,7 @@ protected:
     bool m_bInInit;
     bool m_bAbort;
 
-    ExecManager	 *m_exec;
+    ExecManager  *m_exec;
     auto_ptr<BuiltinLogger> builtinLogger;
 
     friend class PluginManager;
@@ -206,19 +206,19 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         int p = f.findRev('.');
         if (p > 0) f = f.left(p);
         pluginInfo info;
-        info.plugin		 = NULL;
+        info.plugin      = NULL;
 #ifdef WIN32
-        info.name		 = strdup(QFile::encodeName(f.lower()));
+        info.name        = strdup(QFile::encodeName(f.lower()));
 #else
-        info.name		 = strdup(QFile::encodeName(f));
+        info.name        = strdup(QFile::encodeName(f));
 #endif
-        info.cfg		 = NULL;
-        info.bDisabled	 = false;
-        info.bNoCreate	 = false;
-        info.bFromCfg	 = false;
-        info.module		 = NULL;
-        info.info		 = NULL;
-        info.base		 = 0;
+        info.cfg         = NULL;
+        info.bDisabled   = false;
+        info.bNoCreate   = false;
+        info.bFromCfg    = false;
+        info.module      = NULL;
+        info.info        = NULL;
+        info.base        = 0;
         plugins.push_back(info);
         log(L_DEBUG,"Found plugin %s",info.name.c_str());
     }
@@ -638,9 +638,9 @@ void PluginManagerPrivate::loadState()
     }
 
     Buffer cfg;
-	cfg = f.readAll();
+    cfg = f.readAll();
 
-    if (cfg.size() < 0){
+    if (cfg.size() <= 0){
         log(L_ERROR, "Can't read %s", f.name().ascii());
         return;
     }

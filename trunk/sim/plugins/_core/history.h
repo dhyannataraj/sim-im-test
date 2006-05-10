@@ -67,7 +67,7 @@ public:
     SIM::Message *operator--();
     void begin();
     void end();
-    std::string state();
+    QString state();
     void setState(const char*);
     void setFilter(const QString &filter);
 protected:

@@ -52,7 +52,7 @@ class HistoryFile : public QFile
 public:
     HistoryFile(const char *name, unsigned contact);
     bool isOpen() { return handle() != -1; }
-    string		m_name;
+    QString		m_name;
     unsigned	m_contact;
     Message *load(unsigned id);
 private:
@@ -126,27 +126,14 @@ Message *HistoryFile::load(unsigned id)
     if (!at(id))
         return NULL;
     Buffer cfg;
-    for (;;){
-        if ((unsigned)at() >= size())
-            break;
-        unsigned size = cfg.size();
-        cfg.resize(LOAD_BLOCK_SIZE);
-        int readn = readBlock(cfg.data(size), LOAD_BLOCK_SIZE);
-        if (readn < 0){
-            log(L_WARN, "Can't read %s", name().latin1());
-            return NULL;
-        }
-        size += readn;
-        cfg.resize(size);
-        if (readn == 0)
-            break;
-    }
-    QString type = cfg.getSection();
+	cfg = readAll();
+
+	QString type = cfg.getSection();
     Message *msg = CorePlugin::m_plugin->createMessage(type.latin1(), &cfg);
     if (msg == NULL)
         return NULL;
     msg->setId(id);
-    msg->setClient(m_name.c_str());
+    msg->setClient(m_name);
     msg->setContact(m_contact);
     return msg;
 }
@@ -191,7 +178,7 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *c
     }
     Message *msg = ::createMessage(id, type, cfg);
     if (msg){
-        msg->setClient(file.m_name.c_str());
+        msg->setClient(file.m_name);
         msg->setContact(file.m_contact);
         msgs.push_back(msg);
     }
@@ -398,11 +385,11 @@ void HistoryIterator::end()
     m_bUp = m_bDown = false;
 }
 
-string HistoryIterator::state()
+QString HistoryIterator::state()
 {
-    string res;
+    QString res;
     for (list<HistoryFileIterator*>::iterator it = iters.begin(); it != iters.end(); ++it){
-        if (!res.empty())
+        if (!res.isEmpty())
             res += ";";
         Message *msg = (*it)->message();
         if (msg){
@@ -413,7 +400,7 @@ string HistoryIterator::state()
         res += ",";
         res += (*it)->file.m_name;
     }
-    if (!res.empty())
+    if (!res.isEmpty())
         res += ";";
     res += number(m_temp_id);
     res += ",temp";

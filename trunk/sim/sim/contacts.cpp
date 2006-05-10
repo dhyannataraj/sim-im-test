@@ -29,7 +29,7 @@ namespace SIM
 
 using namespace std;
 
-typedef map<unsigned, PacketType*>	PACKET_MAP;
+typedef map<unsigned, PacketType*>  PACKET_MAP;
 
 class ContactListPrivate
 {
@@ -43,28 +43,28 @@ public:
     void flush(Contact *c, Group *g);
     UserData userData;
     list<UserDataDef> userDataDef;
-    Contact			*owner;
+    Contact         *owner;
     list<Contact*>  contacts;
     vector<Group*>  groups;
     vector<Client*> clients;
     list<Protocol*> protocols;
-    PACKET_MAP		packets;
-    bool			bNoRemove;
+    PACKET_MAP      packets;
+    bool            bNoRemove;
 };
 
 /*
 typedef struct ContactData
 {
-   unsigned long	Group;		// Group ID
-   char			*Name;		// Contact Display Name (UTF-8)
-unsigned long	Ignore;		// In ignore list
-unsigned long	LastActive;
-char			*EMails;
-char			*Phones;
-char			*FirstName;
-char			*LastName;
-char			*Notes;
-unsigned long	Temp;
+   unsigned long    Group;      // Group ID
+   char         *Name;      // Contact Display Name (UTF-8)
+unsigned long   Ignore;     // In ignore list
+unsigned long   LastActive;
+char            *EMails;
+char            *Phones;
+char            *FirstName;
+char            *LastName;
+char            *Notes;
+unsigned long   Temp;
 } ContactData;
 */
 
@@ -170,8 +170,8 @@ typedef list<string> PROTO_LIST;
 
 typedef struct STR_ITEM
 {
-    QString		value;
-    PROTO_LIST	proto;
+    QString     value;
+    PROTO_LIST  proto;
 } STR_ITEM;
 
 typedef list<STR_ITEM> STR_LIST;
@@ -427,9 +427,9 @@ QString Contact::tipText()
 
 typedef struct sortClientData
 {
-    void		*data;
-    Client		*client;
-    unsigned	nClient;
+    void        *data;
+    Client      *client;
+    unsigned    nClient;
 } sortClientData;
 
 static bool cmp_sd(sortClientData p1, sortClientData p2)
@@ -579,7 +579,7 @@ void Client::updateInfo(Contact *contact, void *data)
 /*
 typedef struct GroupData
 {
-   char			*Name;		// Display name (UTF-8)
+   char         *Name;      // Display name (UTF-8)
 } GroupData;
 */
 static DataDef groupData[] =
@@ -1048,12 +1048,12 @@ PacketType *ContactList::getPacketType(unsigned id)
 /*
 typedef struct ClientData
 {
-   unsigned	ManualStatus;
-   unsigned	CommonStatus;
-   char		*Password;
-   unsigned	SavePassword;
-char		*PreviousPassword;
-   unsigned	Invisible;
+   unsigned ManualStatus;
+   unsigned CommonStatus;
+   char     *Password;
+   unsigned SavePassword;
+char        *PreviousPassword;
+   unsigned Invisible;
 } ClientData;
 */
 
@@ -1062,8 +1062,8 @@ static DataDef _clientData[] =
         { "ManualStatus", DATA_LONG, 1, DATA(1) },
         { "CommonStatus", DATA_BOOL, 1, DATA(1) },
         { "Password", DATA_UTF, 1, 0 },
-        { "", DATA_BOOL, 1, DATA(1) },		// SavePassword
-        { "", DATA_UTF, 1, 0 },				// PreviousPassword
+        { "", DATA_BOOL, 1, DATA(1) },      // SavePassword
+        { "", DATA_UTF, 1, 0 },             // PreviousPassword
         { "Invisible", DATA_BOOL, 1, 0 },
         { "LastSend", DATA_STRLIST, 1, 0 },
         { NULL, 0, 0, 0 }
@@ -1206,11 +1206,11 @@ void Client::setState(State state, const char *text, unsigned code)
         clientErrorData d;
         d.client  = this;
         d.err_str = text;
-        d.code	  = code;
+        d.code    = code;
         d.args    = NULL;
-        d.flags	  = ERR_ERROR;
+        d.flags   = ERR_ERROR;
         d.options = NULL;
-        d.id	  = 0;
+        d.id      = 0;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             if (getContacts()->getClient(i) == this){
                 d.id = i + 1;
@@ -1253,8 +1253,8 @@ bool ContactList::moveClient(Client *client, bool bUp)
 
 typedef struct _ClientUserData
 {
-    Client	*client;
-    void	*data;
+    Client  *client;
+    void    *data;
 } _ClientUserData;
 
 class ClientUserDataPrivate : public vector<_ClientUserData>
@@ -1354,12 +1354,12 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
 
 string ClientUserData::save()
 {
-    string res;
+    QString res;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         _ClientUserData &d = *it;
         if (d.client->protocol()->description()->flags & PROTOCOL_TEMP_DATA)
             continue;
-        string cfg = save_data(d.client->protocol()->userDataDef(), d.data);
+        QString cfg = save_data(d.client->protocol()->userDataDef(), d.data);
         if (cfg.length()){
             if (res.length())
                 res += "\n";
@@ -1628,9 +1628,9 @@ void UserData::freeUserData(unsigned id)
     }
 }
 
-string UserData::save()
+QString UserData::save()
 {
-    string res;
+    QString res;
     if (userData == NULL)
         return res;
     for (unsigned id = 0; id < n_data; id++){
@@ -1639,7 +1639,7 @@ string UserData::save()
         list<UserDataDef> &d = getContacts()->p->userDataDef;
         for (list<UserDataDef>::iterator it = d.begin(); it != d.end(); ++it){
             if ((*it).id != id) continue;
-            string cfg = save_data((*it).def, userData[id]);
+            QString cfg = save_data((*it).def, userData[id]);
             if (cfg.length()){
                 if (res.length())
                     res += "\n";
@@ -1678,78 +1678,61 @@ static char BACKUP_SUFFIX[] = "~";
 
 void ContactList::save()
 {
-    string cfgName = user_file(CONTACTS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+    QString line;
+    QString cfgName = user_file(CONTACTS_CONF);
+    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).latin1())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
+        log(L_ERROR, "Can't create %s", f.name().local8Bit());
         return;
     }
-    string line = p->userData.save();
-    if (line.length()){
-        f.writeBlock(line.c_str(), line.length());
-        f.writeBlock("\n", 1);
-    }
+    QTextStream ds(&f);
+    ds << p->userData.save() << "\n";
+
     line = save_data(contactData, &owner()->data);
     if (line.length()){
-        string cfg  = "[";
-        cfg += OWNER;
-        cfg += "]\n";
-        f.writeBlock(cfg.c_str(), cfg.length());
-        f.writeBlock(line.c_str(), line.length());
-        f.writeBlock("\n", 1);
+        ds << "[" << OWNER << "]\n";
+        ds << line;
+        ds << "\n";
     }
+
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
-        line = "[";
-        line += GROUP;
-        line += number(grp->id());
-        line += "]\n";
-        f.writeBlock(line.c_str(), line.length());
+        ds << "[" << GROUP << number(grp->id()) << "]\n";
+        
         line = save_data(groupData, &grp->data);
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
+            ds << line << "\n";
         } else {
             /* Group has no name --> Not In List
                since the load_data seems to have problems with totally empty
                entries, this must be ...*/
-            f.writeBlock("Name=\"NIL\"\n", 11);
+            ds << "Name=\"NIL\"\n";
         }
         line = grp->userData.save();
-        if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
-        }
+        if (line.length())
+            ds << line << "\n";
+
         line = grp->clientData.save();
-        if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
-        }
+        if (line.length())
+            ds << line << "\n";
     }
     for (list<Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
         Contact *contact = *it_c;
         if (contact->getFlags() & CONTACT_TEMPORARY)
             continue;
-        line = "[";
-        line += CONTACT;
-        line += number(contact->id());
-        line += "]\n";
-        f.writeBlock(line.c_str(), line.length());
+        ds << "[" << CONTACT << number(contact->id()) << "]\n";
+
         line = save_data(contactData, &contact->data);
-        if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
-        }
+        if (line.length())
+            ds << line << "\n";
+
         line = contact->userData.save();
-        if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
-        }
+        if (line.length())
+            ds << line << "\n";
+
         line = contact->clientData.save();
-        if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
-            f.writeBlock("\n", 1);
-        }
+        if (line.length())
+            ds << line << "\n";
     }
 
     const int status = f.status();
@@ -1781,17 +1764,17 @@ void ContactList::clear()
 void ContactList::load()
 {
     clear();
-    string cfgName = user_file(CONTACTS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QString cfgName = user_file(CONTACTS_CONF);
+    QFile f(QFile::decodeName(cfgName.latin1()));
     if (!f.open(IO_ReadOnly)){
-        log(L_ERROR, "Can't open %s", cfgName.c_str());
+        log(L_ERROR, "Can't open %s", cfgName.latin1());
         return;
     }
     Buffer cfg;
-    cfg.init(f.size());
-    int n = f.readBlock(cfg.data(), f.size());
-    if (n < 0){
-        log(L_ERROR, "Can't read %s", cfgName.c_str());
+    cfg = f.readAll();
+ 
+    if (cfg.size() <= 0){
+        log(L_ERROR, "Can't read %s", cfgName.latin1());
         return;
     }
     Contact *c = NULL;
@@ -1806,14 +1789,14 @@ void ContactList::load()
             g = NULL;
             s = "";
         }else
-		if (s.left(strlen(GROUP)) == GROUP){
+        if (s.left(strlen(GROUP)) == GROUP){
             p->flush(c, g);
             c = NULL;
             unsigned long id = atol(s.latin1() + strlen(GROUP));
             g = group(id, id != 0);
             s = "";
         }else
-		if (s.left(strlen(CONTACT)) == CONTACT){
+        if (s.left(strlen(CONTACT)) == CONTACT){
             p->flush(c, g);
             g = NULL;
             unsigned long id = atol(s.latin1() + strlen(CONTACT));

@@ -474,7 +474,7 @@ EXPORT bool set_str(char **str, const char *value)
     if (value && *value){
         *str = new char[strlen(value) + 1];
         strcpy(*str, value);
-		return true;
+        return true;
     }
     return false;
 }
@@ -516,9 +516,9 @@ EXPORT void free_data(const DataDef *def, void *d)
     }
 }
 
-string unquoteString(const char *p)
+QString unquoteStringInternal(const char *p)
 {
-    string unquoted;
+    QString unquoted;
     for (; *p; p++){
         if (*p != '\\'){
             unquoted += *p;
@@ -613,122 +613,106 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         QString line = cfg->getLine();
         if (line.isEmpty())
             break;
-		QRegExp rx("^(.+)=(.+)$");
-		if(!rx.exactMatch(line))
+		int idx = line.find('=');
+		if(idx == -1)
 			continue;
-		QString name = rx.cap(1);
-		QString val = rx.cap(2);
-		if(name.isEmpty() || val.isEmpty())
-			continue;
+		QString name = line.left( idx );
+		QString val  = line.mid( idx + 1 );
+        if(name.isEmpty() || val.isEmpty())
+            continue;
 
-		const char *value = val.latin1();
         unsigned offs = 0;
         const DataDef *def = find_key(d, name, offs);
         if (def == NULL)
             continue;
-        unsigned i;
-        string v;
         Data *ld = data + offs;
         switch (def->type){
         case DATA_IP: {
-        	QStringList strlist = QStringList::split( ',', val );
-            set_ip(ld, inet_addr(strlist[0]), strlist[1]);
+            QStringList strlist = QStringList::split( ',', val );
+            const char *ip = strlist[0];
+            const char *url = strlist[1];
+            set_ip(ld, inet_addr(ip), url);
             break;
         }
-        case DATA_STRLIST:
-            i = strtoul(value, NULL, 10);
+        case DATA_STRLIST: {
+            int i = val.toULong();
             if (i == 0)
                 break;
-            value = strchr(value, '\"');
-            if (value == NULL){
-                set_str(ld, i, NULL);
-                break;
-            }
-            value++;
-            set_str(ld, i, getToken(value, '\"').c_str());
+            QString s = unquoteStringInternal(val);
+            set_str(ld, i, s);
             break;
-        case DATA_UTFLIST:
-            i = strtoul(value, NULL, 10);
+        }
+        case DATA_UTFLIST: {
+            int i = val.toULong();
             if (i == 0)
                 break;
-            value = strchr(value, '\"');
-            if (value == NULL){
-                set_str(ld, i, NULL);
-                break;
-            }
-            value++;
-            v = getToken(value, '\"');
-            if (*value == 'u'){
-                set_str(ld, i, v.c_str());
-            }else{
-                QString s = QString::fromLocal8Bit(v.c_str());
-                set_str(ld, i, s.utf8());
-            }
+            QString s = unquoteStringInternal(val);
+            set_str(ld, i, s.utf8());
             break;
-        case DATA_UTF:
-            for (i = 0; i < def->n_values; ld++){
-                value = strchr(value, '\"');
-                if (value == NULL)
-                    break;
-                value++;
-                v = getToken(value, '\"');
-                if (*value == 'u'){
-                    set_str(&ld->ptr, v.c_str());
-                }else{
-                    QString s = QString::fromLocal8Bit(v.c_str());
-                    set_str(&ld->ptr, s.utf8());
-                }
-                i++;
-                value = strchr(value, ',');
-                if (value == NULL)
-                    break;
-                value++;
+        }
+        case DATA_UTF: {
+			QStringList sl = QStringList::split( "\",\"", val );
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+				if(s.left(1) == "\"")
+					s = s.mid( 1 );
+				if(s.right(1) == "\"")
+					s = s.left( s.length() - 1 );
+                s = unquoteStringInternal(s);
+                set_str(&ld->ptr, s.utf8());
             }
             break;
-		case DATA_STRING: {
-			QRegExp rx("\"([^\"]*)\",?");	// "<value>","<value>", ...
-			rx.search(val);
-            for (unsigned i = 0; i < def->n_values; i++, ld++){
-				QString s = rx.cap(i+1);
-				if(s.isEmpty())
-					continue;
-				set_str(&ld->ptr, s);
-			}
-            break;
-		}
-		case DATA_LONG: {
-			QStringList sl = QStringList::split(',',val,true);
+        }
+        case DATA_STRING: {
+			QStringList sl = QStringList::split( "\",\"", val );
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-	        	QString s = sl[i];
-				if(s.isEmpty())
-					continue;
-				ld->value = s.toLong();
-			}
+                QString s = sl[i];
+				if(s.left(1) == "\"")
+					s = s.mid( 1 );
+				if(s.right(1) == "\"")
+					s = s.left( s.length() - 1 );
+                if(s.isEmpty())
+                    continue;
+                s = unquoteStringInternal(s);
+                set_str(&ld->ptr, s);
+            }
             break;
-		}
-		case DATA_ULONG: {
-			QStringList sl = QStringList::split(',',val,true);
+        }
+        case DATA_LONG: {
+            QStringList sl = QStringList::split(',',val,true);
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-	        	QString s = sl[i];
-				if(s.isEmpty())
-					continue;
-        		ld->value = s.toULong();
-			}
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                ld->value = s.toLong();
+            }
             break;
-		}
-		case DATA_BOOL: {
-			QStringList sl = QStringList::split(',',val,true);
+        }
+        case DATA_ULONG: {
+            QStringList sl = QStringList::split(',',val,true);
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-	        	QString s = sl[i];
-				if(s.isEmpty())
-					continue;
-				if(s.lower() == "false" || s == "0")
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                ld->value = s.toULong();
+            }
+            break;
+        }
+        case DATA_BOOL: {
+            QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                if(s.lower() == "false" || s == "0")
                     ld->bValue = false;
-				else
+                else
                     ld->bValue = true;
             }
             break;
-		}
+        }
         }
     }
     cfg->setReadPos(read_pos);

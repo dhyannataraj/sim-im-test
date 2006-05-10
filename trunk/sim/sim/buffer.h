@@ -45,18 +45,18 @@ class EXPORT TlvList : public QPtrList<Tlv>
 public:
     TlvList();
     TlvList(Buffer&, unsigned nTlvs = -1);
-	Tlv *operator() (unsigned short num);
+    Tlv *operator() (unsigned short num);
     Tlv *operator[] (unsigned n);
-	TlvList &operator+ (Tlv *tlv) { append(tlv); return *this; }
+    TlvList &operator+ (Tlv *tlv) { append(tlv); return *this; }
 };
 
-class EXPORT Buffer : public QCString
+class EXPORT Buffer : public QByteArray
 {
 public:
     Buffer(unsigned size=0);
     Buffer(Tlv&);
     ~Buffer();
-	bool add(uint size);
+    bool add(uint size);
     bool resize(uint size);
     unsigned readPos() const { return m_posRead; }
     void incReadPos(int size);
@@ -65,7 +65,7 @@ public:
     void setWritePos(unsigned size);
     void setReadPos(unsigned size);
 
-	char* data(unsigned pos=0) const { return QByteArray::data() + pos; }
+    char* data(unsigned pos=0) const { return QByteArray::data() + pos; }
 
     void packetStart();
     unsigned long packetStartPos();
@@ -91,7 +91,7 @@ public:
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
     std::string unpackScreen();
-	void unpack(std::string &s);
+    void unpack(std::string &s);
     void unpackStr(std::string &s);
     void unpackStr32(std::string &s);
 
@@ -137,11 +137,11 @@ public:
     void fromBase64(Buffer &from);
     void toBase64(Buffer &from);
 
-    QString	getSection(bool bSkip=false);
+    QString getSection(bool bSkip=false);
     QString getLine();
-    unsigned	startSection() { return m_startSection; }
+    unsigned    startSection() { return m_startSection; }
 
-	Buffer &operator = (const QByteArray &ba);
+    Buffer &operator = (const QByteArray &ba);
 
 protected:
     unsigned m_packetStartPos;
