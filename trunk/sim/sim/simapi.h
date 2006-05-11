@@ -871,7 +871,7 @@ const unsigned DATA_OBJECT      = 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
-EXPORT std::string save_data(const DataDef *def, void *data);
+EXPORT QString save_data(const DataDef *def, void *data);
 
 EXPORT bool set_str(char **str, const char *value);
 EXPORT const char *get_str(const Data &strlist, unsigned index);

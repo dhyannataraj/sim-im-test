@@ -401,7 +401,7 @@ string ICQClient::getConfig()
         listRequest += (*it).screen;
     }
     setListRequests(listRequest.c_str());
-    string res = Client::getConfig();
+    QString res = Client::getConfig();
     if (res.length())
         res += "\n";
     return res += save_data(icqClientData, &data);

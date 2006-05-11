@@ -519,6 +519,8 @@ EXPORT void free_data(const DataDef *def, void *d)
 QString unquoteStringInternal(const char *p)
 {
     QString unquoted;
+	if( *p == '\"' )
+		p++;
     for (; *p; p++){
         if (*p != '\\'){
             unquoted += *p;
@@ -548,6 +550,8 @@ QString unquoteStringInternal(const char *p)
             p--;
         }
     }
+	if( unquoted.right( 1 ) == "\"" )
+		unquoted = unquoted.left( unquoted.length() - 1 );
     return unquoted;
 }
 
@@ -635,18 +639,26 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             break;
         }
         case DATA_STRLIST: {
-            int i = val.toULong();
+			int idx = val.find( ',' );
+			if( idx == -1 )
+				break;
+			QString cnt = val.left( idx );
+            int i = cnt.toULong();
             if (i == 0)
                 break;
-            QString s = unquoteStringInternal(val);
+            QString s = unquoteStringInternal(val.mid( idx + 1 ));
             set_str(ld, i, s);
             break;
         }
         case DATA_UTFLIST: {
-            int i = val.toULong();
+			int idx = val.find( ',' );
+			if( idx == -1 )
+				break;
+			QString cnt = val.left( idx );
+            int i = cnt.toULong();
             if (i == 0)
                 break;
-            QString s = unquoteStringInternal(val);
+            QString s = unquoteStringInternal(val.mid( idx + 1 ));
             set_str(ld, i, s.utf8());
             break;
         }
@@ -656,10 +668,6 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 QString s = sl[i];
                 if(s.isEmpty())
                     continue;
-				if(s.left(1) == "\"")
-					s = s.mid( 1 );
-				if(s.right(1) == "\"")
-					s = s.left( s.length() - 1 );
                 s = unquoteStringInternal(s);
                 set_str(&ld->ptr, s.utf8());
             }
@@ -669,10 +677,6 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
 			QStringList sl = QStringList::split( "\",\"", val );
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
                 QString s = sl[i];
-				if(s.left(1) == "\"")
-					s = s.mid( 1 );
-				if(s.right(1) == "\"")
-					s = s.left( s.length() - 1 );
                 if(s.isEmpty())
                     continue;
                 s = unquoteStringInternal(s);
@@ -757,7 +761,7 @@ static QString quoteString(const char *str)
     return quoted;
 }
 
-EXPORT string save_data(const DataDef *def, void *_data)
+EXPORT QString save_data(const DataDef *def, void *_data)
 {
     Data *data = (Data*)_data;
     QString res;

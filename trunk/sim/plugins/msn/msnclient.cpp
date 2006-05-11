@@ -169,7 +169,7 @@ string MSNClient::getConfig()
         listRequests += QString::number((*it).Type) + "," + QString::fromUtf8((*it).Name.c_str());
     }
     setListRequests(listRequests);
-    string res = Client::getConfig();
+    QString res = Client::getConfig();
     if (res.length())
         res += "\n";
     res += save_data(msnClientData, &data);

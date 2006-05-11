@@ -110,7 +110,7 @@ void ProxyConfig::apply()
     for (unsigned i = 1; i < m_data.size(); i++){
         if (m_data[i] == m_data[0])
             continue;
-        m_plugin->setClients(nClient++, save_data(ProxyPlugin::proxyData, &m_data[i]).c_str());
+        m_plugin->setClients(nClient++, save_data(ProxyPlugin::proxyData, &m_data[i]).latin1());
     }
 }
 

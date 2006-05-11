@@ -141,7 +141,7 @@ YahooClient::~YahooClient()
 
 string YahooClient::getConfig()
 {
-    string res = TCPClient::getConfig();
+    QString res = TCPClient::getConfig();
     if (res.length())
         res += "\n";
     string requests;
