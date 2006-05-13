@@ -371,17 +371,18 @@ void Buffer::pack32(const Buffer &b)
     pack(b.data(b.readPos()), size);
 }
 
-Buffer &Buffer::operator << (const string &s)
+Buffer &Buffer::operator << (const QString &s)
 {
-    unsigned short size = (unsigned short)(s.size() + 1);
+    QCString utf8 = s.utf8();
+	unsigned short size = (unsigned short)(utf8.length() + 1);
     *this << (unsigned short)htons(size);
-    pack(s.c_str(), size);
+    pack(utf8, size);
     return *this;
 }
 
 Buffer &Buffer::operator << (char **str)
 {
-    string s;
+    QString s;
     if (*str)
         s = *str;
     return *this << s;

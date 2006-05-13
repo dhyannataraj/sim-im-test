@@ -375,7 +375,7 @@ protected:
     void rosters_request();
     void setOffline(JabberUserData *data);
 
-    static	QCString encodeXML(const QString &str);
+    static	QString encodeXML(const QString &str);
     std::string		m_id;
     unsigned	m_depth;
 

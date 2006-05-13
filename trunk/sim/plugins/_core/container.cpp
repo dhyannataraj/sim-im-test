@@ -305,17 +305,17 @@ list<UserWnd*> Container::windows()
 string Container::getState()
 {
     clearWndConfig();
-    string windows;
+    QString windows;
     if (m_tabBar == NULL)
         return save_data(containerData, &data);
     list<UserWnd*> userWnds = m_tabBar->windows();
     for (list<UserWnd*>::iterator it = userWnds.begin(); it != userWnds.end(); ++it){
-        if (!windows.empty())
+        if (!windows.isEmpty())
             windows += ',';
-        windows += number((*it)->id());
+        windows += QString::number((*it)->id());
         setWndConfig((*it)->id(), (*it)->getConfig().c_str());
     }
-    setWindows(windows.c_str());
+    setWindows(windows);
     UserWnd *userWnd = m_tabBar->currentWnd();
     if (userWnd)
         setActiveWindow(userWnd->id());

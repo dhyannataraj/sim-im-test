@@ -970,9 +970,9 @@ string JabberClient::to_lower(const char *s)
     return res;
 }
 
-QCString JabberClient::encodeXML(const QString &str)
+QString JabberClient::encodeXML(const QString &str)
 {
-    return quoteString(str, quoteNOBR).utf8();
+    return quoteString(str, quoteNOBR);
 }
 
 JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bool bCreate, Contact *&contact, string &resource, bool bJoin)
@@ -1922,9 +1922,9 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
             return;
         }
         if (src.left(5) == "icon:"){
-            list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+            QStringList smiles = getIcons()->getSmile(src.mid(5).latin1());
             if (!smiles.empty()){
-                res += QString::fromUtf8(smiles.front().c_str());
+                res += smiles.front();
                 return;
             }
         }
@@ -2105,7 +2105,7 @@ bool JabberClient::send(Message *msg, void *_data)
             if (!msg->getResource().isEmpty()){
                 m_socket->writeBuffer
                 << "/"
-                << msg->getResource().utf8();
+                << msg->getResource();
             }
             m_socket->writeBuffer
             << "\'><body>"
@@ -2114,7 +2114,7 @@ bool JabberClient::send(Message *msg, void *_data)
             if (data->richText.bValue && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
-                << quote_nbsp(removeImages(msg->getRichText(), msg->getBackground())).utf8()
+                << quote_nbsp(removeImages(msg->getRichText(), msg->getBackground()))
                 << "</body></html>";
             }
             m_socket->writeBuffer
@@ -2151,7 +2151,7 @@ bool JabberClient::send(Message *msg, void *_data)
             if (!msg->getResource().isEmpty()){
                 m_socket->writeBuffer
                 << "/"
-                << msg->getResource().utf8();
+                << msg->getResource();
             }
             m_socket->writeBuffer
             << "\'><body>"
@@ -2175,7 +2175,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 if (!t.isEmpty()){
                     m_socket->writeBuffer
                     << "<br/>"
-                    << removeImages(msg->getRichText(), msg->getBackground()).utf8();
+                    << removeImages(msg->getRichText(), msg->getBackground());
                 }
                 m_socket->writeBuffer
                 << "</body></html>";
@@ -2261,7 +2261,7 @@ bool JabberClient::send(Message *msg, void *_data)
             if (!msg->getResource().isEmpty()){
                 m_socket->writeBuffer
                 << "/"
-                << msg->getResource().utf8();
+                << msg->getResource();
             }
             m_socket->writeBuffer
             << "\'><x xmlns='jabber:x:roster'>";

@@ -97,7 +97,7 @@ public:
 
     void pack(const std::string &s);
 
-    Buffer &operator << (const std::string &s);
+    Buffer &operator << (const QString &s);
     Buffer &operator << (const char *str);
     Buffer &operator << (char c);
     Buffer &operator << (unsigned char c) { return operator << ((char)c); }

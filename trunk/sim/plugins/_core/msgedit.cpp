@@ -1467,9 +1467,9 @@ void MsgEdit::colorsChanged()
 void MsgEdit::insertSmile(const char *id)
 {
     if (m_edit->textFormat() == QTextEdit::PlainText){
-        list<string> smiles = getIcons()->getSmile(id);
+        QStringList smiles = getIcons()->getSmile(id);
         if (!smiles.empty())
-            m_edit->insert(QString::fromUtf8(smiles.front().c_str()), false, true, true);
+            m_edit->insert(smiles.front(), false, true, true);
         return;
     }
     QString img_src = QString("<img src=icon:%1>").arg(id);
@@ -1570,8 +1570,8 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
         }
     }
     setPixmap(pict);
-    list<string> smiles = getIcons()->getSmile(_id);
-    QString tip = QString::fromUtf8(smiles.front().c_str());
+    QStringList smiles = getIcons()->getSmile(_id);
+    QString tip = smiles.front();
     string name = getIcons()->getSmileName(_id);
     char c = name[0];
     if ((c < '0') || (c > '9')){
@@ -1592,14 +1592,14 @@ SmilePopup::SmilePopup(QWidget *popup)
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
     QSize s;
-    list<string> smiles;
+    QStringList smiles;
     getIcons()->getSmiles(smiles);
     if (smiles.empty())
         return;
     unsigned nSmiles = 0;
-    list<string>::iterator it;
+    QValueListIterator<QString> it;
     for (it = smiles.begin(); it != smiles.end(); ++it){
-        QIconSet is = Icon(it->c_str());
+        QIconSet is = Icon(*it);
         if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
             continue;
         QPixmap pict;
@@ -1625,10 +1625,10 @@ SmilePopup::SmilePopup(QWidget *popup)
     unsigned i = 0;
     unsigned j = 0;
     for (it = smiles.begin(); it != smiles.end(); ++it){
-        QIconSet is = Icon(it->c_str());
+        QIconSet is = Icon(*it);
         if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
             continue;
-        QWidget *w = new SmileLabel(it->c_str(), this);
+        QWidget *w = new SmileLabel(*it, this);
         w->setMinimumSize(s);
         connect(w, SIGNAL(clicked(const char*)), this, SLOT(labelClicked(const char*)));
         lay->addWidget(w, i, j);

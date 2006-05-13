@@ -79,12 +79,12 @@ void ToolBarSetup::okClick()
 void ToolBarSetup::applyClick()
 {
     if (bDirty){
-        string config;
+        QString config;
         vector<unsigned>::iterator it;
         for (it = active.begin(); it != active.end(); ++it){
             if (config.length())
                 config += ',';
-            config += number(*it);
+			config += QString::number(*it);
         }
         bool bFirst = true;
         CommandsList list(*m_def, true);
@@ -104,10 +104,10 @@ void ToolBarSetup::applyClick()
             }else{
                 config += ',';
             }
-            config += number(id);
+            config += QString::number(id);
         }
-        m_def->setConfig(config.c_str());
-        m_bars->set(m_def, config.c_str());
+        m_def->setConfig(config);
+        m_bars->set(m_def, config);
         bDirty = false;
     }
 }

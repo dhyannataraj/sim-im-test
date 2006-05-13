@@ -77,7 +77,7 @@ void YahooSearch::search()
 
 void YahooSearch::search(const QString &text, int type)
 {
-    string url;
+    QString url;
     url = "http://members.yahoo.com/interests?.oc=m&.kw=";
     string kw = getContacts()->fromUnicode(NULL, text);
     for (const char *p = kw.c_str(); *p; p++){
@@ -90,13 +90,13 @@ void YahooSearch::search(const QString &text, int type)
         url += *p;
     }
     url += "&.sb=";
-    url += number(type);
+    url += QString::number(type);
     url += "&.g=";
-    url += number(getComboValue(cmbGender, genders));
+    url += QString::number(getComboValue(cmbGender, genders));
     url += "&.ar=";
-    url += number(getComboValue(cmbAge, ages));
+    url += QString::number(getComboValue(cmbAge, ages));
     url += "&.pg=y";
-    fetch(url.c_str());
+    fetch(url);
 }
 
 void YahooSearch::searchStop()

@@ -1306,7 +1306,7 @@ string ClientUserData::property(const char *name)
                         return user_data->ptr;
                 case DATA_ULONG:
                     if (user_data->value != (unsigned long)(def->def_value))
-                        return number(user_data->value);
+                        return QString::number(user_data->value);
                 }
             }
             user_data += def->n_values;
@@ -1697,7 +1697,7 @@ void ContactList::save()
 
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
-        ds << "[" << GROUP << number(grp->id()) << "]\n";
+        ds << "[" << GROUP << QString::number(grp->id()) << "]\n";
         
         line = save_data(groupData, &grp->data);
         if (line.length()){
@@ -1720,7 +1720,7 @@ void ContactList::save()
         Contact *contact = *it_c;
         if (contact->getFlags() & CONTACT_TEMPORARY)
             continue;
-        ds << "[" << CONTACT << number(contact->id()) << "]\n";
+        ds << "[" << CONTACT << QString::number(contact->id()) << "]\n";
 
         line = save_data(contactData, &contact->data);
         if (line.length())

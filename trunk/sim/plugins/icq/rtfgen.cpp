@@ -654,8 +654,8 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
             }
         }
         if (src.left(5) == "icon:"){
-            list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
-            for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
+            QStringList smiles = getIcons()->getSmile(src.mid(5).latin1());
+            for (QValueListIterator<QString> its = smiles.begin(); its != smiles.end(); ++its){
                 string s = *its;
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if (s != def_smiles[nSmile])
@@ -669,7 +669,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
                 }
             }
             if (!smiles.empty()){
-                text(QString::fromUtf8(smiles.front().c_str()));
+                text(smiles.front());
                 return;
             }
         }
@@ -952,13 +952,13 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
             text(alt);
             return;
         }
-        list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+        QStringList smiles = getIcons()->getSmile(src.mid(5).latin1());
         if (smiles.empty()){
             text(alt);
             return;
         }
         if (m_bIcq){
-            for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
+            for (QValueListIterator<QString> its = smiles.begin(); its != smiles.end(); ++its){
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if ((*its) != def_smiles[nSmile])
                         continue;
@@ -971,7 +971,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
                 }
             }
         }
-        text(QString::fromUtf8(smiles.front().c_str()));
+        text(smiles.front());
         return;
     }
     res += "<";

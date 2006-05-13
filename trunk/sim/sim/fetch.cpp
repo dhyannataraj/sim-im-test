@@ -52,8 +52,8 @@ protected:
     void stop();
     FetchClient *m_client;
     void		fail();
-    string		m_uri;
-    string		m_hIn;
+    QString		m_uri;
+    QString		m_hIn;
     HEADERS_MAP	m_hOut;
     unsigned	m_code;
     bool		m_bRedirect;
@@ -212,7 +212,7 @@ void FetchThread::run()
     char extra[1024];
     url.lpszExtraInfo	  = extra;
     url.dwExtraInfoLength = sizeof(extra);
-    if (!_InternetCrackUrl(m_client->m_uri.c_str(), 0, ICU_DECODE, &url)){
+    if (!_InternetCrackUrl(m_client->m_uri, 0, ICU_DECODE, &url)){
         error("InternetCrackUrl");
         return;
     }
@@ -465,9 +465,9 @@ FetchManager::FetchManager()
             user_agent += "2000";
         }else{
             user_agent += "NT ";
-            user_agent += number(osvi.dwMajorVersion);
+            user_agent += QString::number(osvi.dwMajorVersion);
             user_agent += ".";
-            user_agent += number(osvi.dwMinorVersion);
+            user_agent += QString::number(osvi.dwMinorVersion);
         }
         break;
     case VER_PLATFORM_WIN32_WINDOWS:
@@ -512,7 +512,7 @@ FetchManager::FetchManager()
         (DWORD&)_InternetErrorDlg = (DWORD)GetProcAddress(hLib, "InternetErrorDlg");
     }
     if (_InternetOpen && _HttpSendRequestEx){
-        hInet = _InternetOpen(user_agent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+        hInet = _InternetOpen(user_agent, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
         if (hInet == NULL)
             log(L_WARN, "Internet open error %u", GetLastError());
     }
@@ -665,7 +665,7 @@ void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRed
     string uri;
     string extra;
     unsigned short port;
-    if (!FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra)){
+    if (!FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra)){
         m_socket->error_state("Bad URL");
         return;
     }
@@ -675,7 +675,7 @@ void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRed
             m_bHTTPS = true;
         }else{
 #endif
-            log(L_WARN, "Unsupported protocol %s", m_uri.c_str());
+            log(L_WARN, "Unsupported protocol %s", m_uri);
             return;
 #ifdef USE_OPENSSL
         }
@@ -816,7 +816,7 @@ bool FetchClientPrivate::error_state(const char *err, unsigned)
     m_state = None;
     if (m_socket)
         m_socket->close();
-    return m_client->done(m_code, m_data, m_hIn.c_str());
+    return m_client->done(m_code, m_data, m_hIn);
 }
 
 void FetchClientPrivate::connect_ready()
@@ -848,7 +848,7 @@ void FetchClientPrivate::connect_ready()
     string uri;
     string extra;
     unsigned short port;
-    FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra);
+    FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra);
     if (!extra.empty()){
         uri += "?";
         uri += extra;
@@ -865,7 +865,7 @@ void FetchClientPrivate::connect_ready()
         << "\r\n";
     if (!findHeader("User-Agent"))
         m_socket->writeBuffer
-        << "User-Agent: " << FetchManager::manager->user_agent.c_str() << "\r\n";
+        << "User-Agent: " << FetchManager::manager->user_agent.latin1() << "\r\n";
     if (!findHeader("Authorization") && !user.empty())
         m_socket->writeBuffer
         << "Authorization: basic "
@@ -875,7 +875,7 @@ void FetchClientPrivate::connect_ready()
         if (!findHeader("Content-Length"))
             m_socket->writeBuffer
             << "Content-Length: "
-            << number(postSize).c_str()
+            << QString::number(postSize)
             << "\r\n";
         m_postSize = postSize;
     }
@@ -996,7 +996,7 @@ void FetchClientPrivate::packet_ready()
                 string extra;
                 unsigned short port;
                 if (!FetchClient::crackUrl(p, proto, host, port, user, pass, uri, extra)){
-                    FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra);
+                    FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra);
                     extra = "";
                     if (*p == '/'){
                         uri = p;
@@ -1010,7 +1010,7 @@ void FetchClientPrivate::packet_ready()
                 m_uri += "://";
                 m_uri += host;
                 m_uri += ":";
-                m_uri += number(port);
+                m_uri += QString::number(port);
                 m_uri += uri;
                 if (!extra.empty()){
                     m_uri += "?";

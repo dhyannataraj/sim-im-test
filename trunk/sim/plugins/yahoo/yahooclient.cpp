@@ -144,14 +144,14 @@ string YahooClient::getConfig()
     QString res = TCPClient::getConfig();
     if (res.length())
         res += "\n";
-    string requests;
+    QString requests;
     for (list<ListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
-        if (!requests.empty())
+        if (!requests.isEmpty())
             requests += ";";
-        requests += number((*it).type);
+        requests += QString::number((*it).type);
         requests += (*it).name;
     }
-    setListRequests(requests.c_str());
+    setListRequests(requests);
     res += save_data(yahooClientData, &data);
     return res;
 }
@@ -248,7 +248,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             size += 4;
             size += (*it).second.size();
-            size += number((*it).first).length();
+            size += QString::number((*it).first).length();
         }
     }
     m_socket->writeBuffer.packetStart();
@@ -257,9 +257,9 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     if (size){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             m_socket->writeBuffer
-            << number((*it).first).c_str()
+            << QString::number((*it).first)
             << (unsigned short)0xC080
-            << (*it).second.c_str()
+            << (*it).second
             << (unsigned short)0xC080;
         }
     }
@@ -1648,12 +1648,12 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
                 break;
             }
         }
-        list<string> smiles = getIcons()->getSmile(src.latin1());
+        QStringList smiles = getIcons()->getSmile(src);
         if (smiles.empty()){
             text(alt);
             return;
         }
-        text(QString::fromUtf8(smiles.front().c_str()));
+        text(smiles.front());
         return;
     }
     if (tag == "br"){
@@ -1739,13 +1739,13 @@ void YahooParser::tag_end(const QString &tag)
 
 void YahooParser::set_state(unsigned oldState, unsigned newState, unsigned st)
 {
-    string part;
+    QString part;
     if ((oldState & st) == (newState & st))
         return;
     if ((newState & st) == 0)
         part = "x";
-    part += number(st);
-    escape(part.c_str());
+    part += QString::number(st);
+    escape(part);
 }
 
 void YahooParser::set_style(const style &s)
@@ -1759,7 +1759,7 @@ void YahooParser::set_style(const style &s)
         unsigned i;
         for (i = 0; i < 10; i++){
             if (esc_colors[i] == s.color){
-                escape(number(30 + i).c_str());
+                escape(QString::number(30 + i));
                 break;
             }
         }
@@ -1985,7 +1985,7 @@ void *YahooClient::processEvent(Event *e)
                     addParam(13, "2");
                     addParam(27, getContacts()->fromUnicode(contact, msg->getDescription()).c_str());
                     addParam(53, getContacts()->fromUnicode(contact, msg->getDescription()).c_str());
-                    addParam(11, number(msg->getMsgID()).c_str());
+                    addParam(11, QString::number(msg->getMsgID()));
                     sendPacket(YAHOO_SERVICE_P2PFILEXFER);
                 }
                 string reason = "";
@@ -2037,7 +2037,7 @@ void YahooClient::sendStatus(unsigned long _status, const char *msg)
     /* data.owner.Status contains sim-status, not protocol-status! */
     if (data.owner.Status.value == STATUS_ONLINE)
         service = YAHOO_SERVICE_ISBACK;
-    addParam(10, number(status).c_str());
+    addParam(10, QString::number(status));
     if ((status == YAHOO_STATUS_CUSTOM) && msg) {
         addParam(19, msg);
         addParam(47, "1");
@@ -2061,12 +2061,12 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     int n = fn.findRev("/");
     if (n > 0)
         fn = fn.mid(n + 1);
-    string url = "http://";
+    QString url = "http://";
     struct in_addr addr;
     addr.s_addr = m_socket->localHost();
     url += inet_ntoa(addr);
     url += ":";
-    url += number(port);
+    url += QString::number(port);
     url += "/";
     string nn;
     Contact *contact;
@@ -2086,11 +2086,11 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     addParam(1, getLogin().utf8());
     addParam(13, "1");
     addParam(27, getContacts()->fromUnicode(contact, fn).c_str());
-    addParam(28, number(file->size()).c_str());
-    addParam(20, url.c_str());
+    addParam(28, QString::number(file->size()));
+    addParam(20, url);
     addParam(14, getContacts()->fromUnicode(contact, m).c_str());
     addParam(53, nn.c_str());
-    addParam(11, number(++m_ft_id).c_str());
+    addParam(11, QString::number(++m_ft_id));
     addParam(54, "MSG1.0");
     sendPacket(YAHOO_SERVICE_P2PFILEXFER, YAHOO_STATUS_AVAILABLE);
     for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
@@ -2338,7 +2338,7 @@ void YahooFileTransfer::packet_ready()
 
 void YahooFileTransfer::connect_ready()
 {
-    string line;
+    QString line;
     line = "GET /";
     line += m_url;
     line += " HTTP/1.1\r\n"
@@ -2347,12 +2347,12 @@ void YahooFileTransfer::connect_ready()
     line += "\r\n";
     if (m_startPos){
         line += "Range: ";
-        line += number(m_startPos);
+        line += QString::number(m_startPos);
         line += "-\r\n";
     }
     m_startPos = 0;
     m_endPos   = 0xFFFFFFFF;
-    send_line(line.c_str());
+    send_line(line);
     FileTransfer::m_state = FileTransfer::Negotiation;
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
@@ -2457,9 +2457,9 @@ bool YahooFileTransfer::get_line(const char *str)
             m_answer = 204;
         if ((m_answer == 200) && ((m_startPos != 0) || (m_endPos < m_file->size())))
             m_answer = 206;
-        string s;
+        QString s;
         s = "HTTP/1.0 ";
-        s += number(m_answer);
+        s += QString::number(m_answer);
         switch (m_answer){
         case 200:
             s += " OK";
@@ -2479,19 +2479,19 @@ bool YahooFileTransfer::get_line(const char *str)
         default:
             s += " Error";
         }
-        send_line(s.c_str());
+        send_line(s);
         if ((m_answer == 200) || (m_answer == 206)){
             send_line("Content-Type: application/data");
             s = "Content-Length: ";
-            s += number(m_endPos - m_startPos);
-            send_line(s.c_str());
+            s += QString::number(m_endPos - m_startPos);
+            send_line(s);
         }
         if (m_answer == 206){
             s = "Range: ";
-            s += number(m_startPos);
+            s += QString::number(m_startPos);
             s += "-";
-            s += number(m_endPos);
-            send_line(s.c_str());
+            s += QString::number(m_endPos);
+            send_line(s);
         }
         send_line("");
         if (m_method == "HEAD"){

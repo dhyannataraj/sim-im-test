@@ -181,16 +181,16 @@ int UserView::heightItem(UserViewItemBase *base)
         string icons = item->text(CONTACT_ICONS).latin1();
         while (!icons.empty()){
             string icon = getToken(icons, ',');
-            const QImage *img = Image(icon.c_str());
-            if (img && (img->height() > h))
-                h = img->height();
+            QImage img = Image(icon.c_str());
+            if (img.height() > h)
+                h = img.height();
         }
         if (item->m_unread){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
             if (def){
-                const QImage *img = Image(def->icon);
-                if (img && (img->height() > h))
-                    h = img->height();
+                QImage img = Image(def->icon);
+                if (img.height() > h)
+                    h = img.height();
             }
         }
     }
@@ -226,18 +226,18 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             text += QString::number(item->m_nContacts);
             text += ")";
         }
-        const QImage *img = Image(item->isOpen() ? "expanded" : "collapsed");
-        if (img)
-            drawImage(p, 2 + margin, (item->height() - img->height()) / 2, *img);
+        QImage img = Image(item->isOpen() ? "expanded" : "collapsed");
+        if (!img.isNull())
+            drawImage(p, 2 + margin, (item->height() - img.height()) / 2, img);
         int x = 24 + margin;
         if (!item->isOpen() && item->m_unread){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
             if (def){
-                const QImage *img = Image(def->icon);
-                if (img){
+                img = Image(def->icon);
+                if (!img.isNull()){
                     if (m_bUnreadBlink)
-                        drawImage(p, x, (item->height() - img->height()) / 2, *img);
-                    x += img->width() + 2;
+                        drawImage(p, x, (item->height() - img.height()) / 2, img);
+                    x += img.width() + 2;
                 }
             }
         }
@@ -296,11 +296,11 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         int x = margin;
         if (icon.length()){
-            const QImage *img = Image(icon.c_str());
-            if (img){
+            QImage img = Image(icon.c_str());
+            if (!img.isNull()){
                 x += 2;
-                drawImage(p, x, (item->height() - img->height()) / 2, *img);
-                x += img->width() + 2;
+                drawImage(p, x, (item->height() - img.height()) / 2, img);
+                x += img.width() + 2;
             }
         }
         if (x < 24)
@@ -378,12 +378,12 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         unsigned xIcon = width;
         while (icons.length()){
             icon = getToken(icons, ',');
-            const QImage *img = Image(icon.c_str());
-            if (img){
-                xIcon -= img->width() + 2;
+            QImage img = Image(icon.c_str());
+            if (!img.isNull()){
+                xIcon -= img.width() + 2;
                 if (xIcon < (unsigned)x)
                     break;
-                drawImage(p, xIcon, (item->height() - img->height()) / 2, *img);
+                drawImage(p, xIcon, (item->height() - img.height()) / 2, img);
             }
         }
         return;

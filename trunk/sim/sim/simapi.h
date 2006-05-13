@@ -1749,7 +1749,7 @@ EXPORT void setButtonsPict(QWidget *w);
 EXPORT QIconSet Icon(const char *name);
 EXPORT QPixmap Pict(const char *name);
 EXPORT QPixmap Pict(const char *name, const QColor &bgColor);
-EXPORT const QImage *Image(const char *name);
+EXPORT QImage Image(const char *name);
 
 EXPORT void setAboutData(KAboutData*);
 EXPORT KAboutData *getAboutData();

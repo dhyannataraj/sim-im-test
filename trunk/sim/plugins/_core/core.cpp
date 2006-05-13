@@ -465,7 +465,7 @@ static autoReply autoReplies[] =
         { 0, NULL }
     };
 
-static string smile_icon;
+static QString smile_icon;
 
 CorePlugin::CorePlugin(unsigned base, Buffer *config)
         : Plugin(base), EventReceiver(HighPriority)
@@ -695,7 +695,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
     eCmd.process();
 
-    list<string> smiles;
+    QStringList smiles;
     getIcons()->getSmiles(smiles);
     unsigned flags = 0;
     if (smiles.empty()){
@@ -707,7 +707,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 
     cmd->id			= CmdSmile;
     cmd->text		= I18N_NOOP("&Insert smile");
-    cmd->icon		= smile_icon.c_str();
+    cmd->icon		= smile_icon;
     cmd->bar_grp	= 0x7000;
     cmd->flags		= COMMAND_CHECK_STATE | flags;
     eCmd.process();
@@ -1706,7 +1706,7 @@ void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
     case EventIconChanged:{
-            list<string> smiles;
+            QStringList smiles;
             getIcons()->getSmiles(smiles);
             unsigned flags = 0;
             if (smiles.empty()){
@@ -1718,7 +1718,7 @@ void *CorePlugin::processEvent(Event *e)
             Command cmd;
             cmd->id			= CmdSmile;
             cmd->text		= I18N_NOOP("&Insert smile");
-            cmd->icon		= smile_icon.c_str();
+            cmd->icon		= smile_icon;
             cmd->bar_id		= ToolBarMsgEdit;
             cmd->bar_grp	= 0x7000;
             cmd->flags		= COMMAND_CHECK_STATE | flags;
@@ -3779,16 +3779,16 @@ bool CorePlugin::init(bool bInit)
         delete(pDlg);
 
         Client *client = getContacts()->getClient(0);
-        string profile = client->name();
+        QString profile = client->name();
         setProfile(NULL);
         QString profileDir = QFile::decodeName(user_file("").c_str());
         if (!bCmdLineProfile){
-            profileDir += profile.c_str();
+            profileDir += profile;
             for (unsigned i = 1;;i++){
                  QDir d(profileDir + "." + QString::number(i));
                  if (!d.exists()){
                      profile += '.';
-                     profile += number(i);
+                     profile += QString::number(i);
                      break;
                  }
             }
@@ -3796,7 +3796,7 @@ bool CorePlugin::init(bool bInit)
             profile = cmd_line_profile;
         }
 
-        setProfile(profile.c_str());
+        setProfile(profile);
         bLoaded = true;
         bRes = false;
         bNew = true;
@@ -3938,18 +3938,18 @@ void CorePlugin::loadDir()
 static char BACKUP_SUFFIX[] = "~";
 string CorePlugin::getConfig()
 {
-    string unread_str;
+    QString unread_str;
     for (list<msg_id>::iterator itUnread = unread.begin(); itUnread != unread.end(); ++itUnread){
         msg_id &m = (*itUnread);
-        if (!unread_str.empty())
+        if (!unread_str.isEmpty())
             unread_str += ";";
-        unread_str += number(m.contact);
+        unread_str += QString::number(m.contact);
         unread_str += ",";
-        unread_str += number(m.id);
+        unread_str += QString::number(m.id);
         unread_str += ",";
         unread_str += m.client;
     }
-    setUnread(unread_str.c_str());
+    setUnread(unread_str);
 
     unsigned editBgColor = getEditBackground();
     unsigned editFgColor = getEditForeground();
@@ -3971,7 +3971,7 @@ string CorePlugin::getConfig()
         setEditFont(NULL);
 
     clearContainer();
-    string containers;
+    QString containers;
 
     QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
@@ -3983,15 +3983,15 @@ string CorePlugin::getConfig()
                 ++it;
                 continue;
             }
-            if (!containers.empty())
+            if (!containers.isEmpty())
                 containers += ',';
-            containers += number(c->getId());
+            containers += QString::number(c->getId());
             setContainer(c->getId(), c->getState().c_str());
         }
         ++it;
     }
     delete list;
-    setContainers(containers.c_str());
+    setContainers(containers);
     if (m_main){
         saveGeometry(m_main, data.geometry);
         saveToolbar(m_main->bar, data.toolBarState);
@@ -4004,12 +4004,12 @@ string CorePlugin::getConfig()
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.c_str());
     }else{
-        string write = "[_core]\n";
+        QString write = "[_core]\n";
         write += "enable,";
-        write += number(m_base);
+        write += QString::number(m_base);
         write += "\n";
         write += cfg;
-        fCFG.writeBlock(write.c_str(), write.length());
+        fCFG.writeBlock(write.local8Bit());
 
         const int status = fCFG.status();
         const QString errorMessage = fCFG.errorString();
@@ -4571,18 +4571,18 @@ FileLock::~FileLock()
 #ifdef WIN32
 bool FileLock::lock(bool bSend)
 {
-    string event = "SIM.";
-    string s;
-    s = name().local8Bit();
-    event += number(adler32(s.c_str(), s.length()));
-    HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.c_str());
+    QString event = "SIM.";
+    QString s;
+    s = name();
+    event += QString::number(adler32(s.latin1(), s.length()));
+    HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.latin1());
     if (hEvent){
         if (bSend)
             SetEvent(hEvent);
         CloseHandle(hEvent);
         return false;
     }
-    hEvent = CreateEventA(NULL, false, false, event.c_str());
+    hEvent = CreateEventA(NULL, false, false, event.latin1());
     if (hEvent == NULL)
         return false;
     m_thread = new LockThread(hEvent);
