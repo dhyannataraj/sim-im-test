@@ -301,12 +301,12 @@ SMSClient::~SMSClient()
     free_data(smsClientData, &data);
 }
 
-string SMSClient::getConfig()
+QString SMSClient::getConfig()
 {
-    string cfg = TCPClient::getConfig();
-    string my_cfg = save_data(smsClientData, &data);
-    if (!my_cfg.empty()){
-        if (!cfg.empty())
+    QString cfg = TCPClient::getConfig();
+    QString my_cfg = save_data(smsClientData, &data);
+    if (!my_cfg.isEmpty()){
+        if (!cfg.isEmpty())
             cfg += "\n";
         cfg += my_cfg;
     }

@@ -35,7 +35,7 @@ protected:
     std::string buildFileName(const char *name);
 #ifdef WIN32
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QString getConfig();
 #endif
 };
 

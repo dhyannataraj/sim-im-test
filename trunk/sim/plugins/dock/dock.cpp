@@ -302,7 +302,7 @@ void *DockPlugin::processEvent(Event *e)
     return NULL;
 }
 
-std::string DockPlugin::getConfig()
+QString DockPlugin::getConfig()
 {
     return save_data(dockData, &data);
 }

@@ -1157,7 +1157,7 @@ void Client::freeData()
     free_data(_clientData, &data);
 }
 
-string Client::getConfig()
+QString Client::getConfig()
 {
     QString real_pswd = getPassword();
     QString pswd = getPassword();
@@ -1178,7 +1178,7 @@ string Client::getConfig()
         setPassword(prev);
     if (!getSavePassword())
         setPassword(NULL);
-    string res = save_data(_clientData, &data);
+    QString res = save_data(_clientData, &data);
     setPassword(real_pswd);
     return res;
 }

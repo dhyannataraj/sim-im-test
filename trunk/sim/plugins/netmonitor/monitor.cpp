@@ -99,7 +99,8 @@ void MonitorWindow::save()
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
         return;
     }
-    QCString t;
+	QTextStream ts(&f);
+    QString t;
     if (edit->hasSelectedText()){
         t = unquoteText(edit->selectedText()).local8Bit();
     }else{
@@ -108,7 +109,8 @@ void MonitorWindow::save()
 #ifdef WIN32
     t.replace(QRegExp("\n"),"\r\n");
 #endif
-    f.writeBlock(t, t.length());
+    ts << t;
+	f.close();
 }
 
 void MonitorWindow::exit()

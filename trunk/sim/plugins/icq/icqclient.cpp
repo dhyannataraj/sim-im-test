@@ -390,9 +390,9 @@ bool ICQClient::compareData(void *d1, void *d2)
     return strcmp(data1->Screen.ptr, data2->Screen.ptr) == 0;
 }
 
-string ICQClient::getConfig()
+QString ICQClient::getConfig()
 {
-    string listRequest;
+    QString listRequest;
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
         if (listRequest.length())
             listRequest += ';';
@@ -400,7 +400,7 @@ string ICQClient::getConfig()
         listRequest += ',';
         listRequest += (*it).screen;
     }
-    setListRequests(listRequest.c_str());
+    setListRequests(listRequest);
     QString res = Client::getConfig();
     if (res.length())
         res += "\n";

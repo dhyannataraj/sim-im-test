@@ -101,15 +101,15 @@ LoggerPlugin::~LoggerPlugin()
     free_data(loggerData, &data);
 }
 
-string LoggerPlugin::getConfig()
+QString LoggerPlugin::getConfig()
 {
-    string packets;
+    QString packets;
     for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';
         packets += number(*it);
     }
-    setLogPackets(packets.c_str());
+    setLogPackets(packets);
     return save_data(loggerData, &data);
 }
 

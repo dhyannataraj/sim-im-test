@@ -142,7 +142,7 @@ FilterPlugin::~FilterPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-std::string FilterPlugin::getConfig()
+QString FilterPlugin::getConfig()
 {
     return save_data(filterData, &data);
 }

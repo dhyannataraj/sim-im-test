@@ -167,7 +167,7 @@ public slots:
     void messageUpdated();
 protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual std::string name();
     virtual std::string dataName(void*);
     virtual QWidget	*setupWnd();

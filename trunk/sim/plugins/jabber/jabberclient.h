@@ -265,7 +265,7 @@ class MessageRequest : public ServerRequest
     ~JabberClient();
     virtual std::string name();
     virtual QWidget	*setupWnd();
-    virtual std::string getConfig();
+    virtual QString getConfig();
 
     void setID(const QString &id);
     QString getID()

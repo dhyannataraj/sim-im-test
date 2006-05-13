@@ -47,7 +47,7 @@ protected slots:
 protected:
     virtual void *processEvent(SIM::Event*);
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     QWidget *getMainWindow();
     unsigned CmdAutoHide;
     bool m_bInit;

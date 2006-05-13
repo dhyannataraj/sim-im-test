@@ -105,7 +105,7 @@ protected slots:
     void passphraseApply(const QString&);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     void *processEvent(SIM::Event*);
     void registerMessage();
     void unregisterMessage();

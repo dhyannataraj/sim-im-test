@@ -528,7 +528,7 @@ protected slots:
     void showMain();
 protected:
     virtual void *processEvent(SIM::Event*);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void showInfo(SIM::CommandDef *cmd);
     bool init(bool bFirst);

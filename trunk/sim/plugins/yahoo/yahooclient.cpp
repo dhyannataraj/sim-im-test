@@ -139,7 +139,7 @@ YahooClient::~YahooClient()
     free_data(yahooClientData, &data);
 }
 
-string YahooClient::getConfig()
+QString YahooClient::getConfig()
 {
     QString res = TCPClient::getConfig();
     if (res.length())

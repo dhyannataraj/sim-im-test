@@ -174,7 +174,7 @@ void SpellPlugin::deactivate()
     m_edits.clear();
 }
 
-std::string SpellPlugin::getConfig()
+QString SpellPlugin::getConfig()
 {
     return save_data(spellData, &data);
 }

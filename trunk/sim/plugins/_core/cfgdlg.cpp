@@ -474,13 +474,13 @@ void ConfigureDialog::apply()
         for (const DataDef *d = def; d->name; ++d)
             size += sizeof(Data) * d->n_values;
         void *data = malloc(size);
-        string cfg = client->getConfig();
-        if (cfg.empty()){
+        QString cfg = client->getConfig();
+        if (cfg.isEmpty()){
             load_data(def, data, NULL);
         }else{
             Buffer config;
             config << "[Title]\n";
-            config.pack(cfg.c_str(), cfg.length());
+            config.pack(cfg);
             config.setWritePos(0);
             config.getSection();
             load_data(def, data, &config);

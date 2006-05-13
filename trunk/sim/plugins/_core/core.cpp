@@ -3911,19 +3911,7 @@ void CorePlugin::loadDir()
     for (QStringList::Iterator it = list.begin(); it != list.end(); ++it){
         QString entry = *it;
         if (entry[0] == '.') continue;
-        QString fname = baseName;
-#ifdef WIN32
-        fname += "\\";
-#else
-        fname += "/";
-#endif
-        fname += entry;
-#ifdef WIN32
-        fname += "\\";
-#else
-        fname += "/";
-#endif
-        fname += CLIENTS_CONF;
+        QString fname = baseName + "/" + entry + "/" + CLIENTS_CONF;
         QFile f(fname);
         if (f.exists()){
             m_profiles.push_back((const char*)QFile::encodeName(entry));
@@ -3936,7 +3924,7 @@ void CorePlugin::loadDir()
 }
 
 static char BACKUP_SUFFIX[] = "~";
-string CorePlugin::getConfig()
+QString CorePlugin::getConfig()
 {
     QString unread_str;
     for (list<msg_id>::iterator itUnread = unread.begin(); itUnread != unread.end(); ++itUnread){
@@ -3962,11 +3950,9 @@ string CorePlugin::getConfig()
         setEditForeground(0);
     }
 
-    string ef;
-    ef = FontEdit::font2str(editFont, false).latin1();
-    string def_ef;
-    def_ef = FontEdit::font2str(QApplication::font(), false).latin1();
-    setEditFont(ef.c_str());
+    QString ef     = FontEdit::font2str(editFont, false).latin1();
+    QString def_ef = FontEdit::font2str(QApplication::font(), false).latin1();
+    setEditFont(ef);
     if ((ef == def_ef) || !getEditSaveFont())
         setEditFont(NULL);
 
@@ -3996,26 +3982,26 @@ string CorePlugin::getConfig()
         saveGeometry(m_main, data.geometry);
         saveToolbar(m_main->bar, data.toolBarState);
     }
-    string cfg = save_data(coreData, &data);
-    string saveProfile = getProfile();
+    QString cfg = save_data(coreData, &data);
+    QString saveProfile = getProfile();
     setProfile(NULL);
-    string cfgName = user_file("plugins.conf");
-    QFile fCFG(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+    QString cfgName = user_file("plugins.conf");
+    QFile fCFG(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", cfgName.c_str());
+        log(L_ERROR, "Can't create %s", cfgName);
     }else{
-        QString write = "[_core]\n";
-        write += "enable,";
-        write += QString::number(m_base);
-        write += "\n";
-        write += cfg;
-        fCFG.writeBlock(write.local8Bit());
+		QTextStream ts(&fCFG);
+        ts << "[_core]\n"
+           << "enable,"
+           << m_base
+           << "\n"
+           << cfg;
 
         const int status = fCFG.status();
         const QString errorMessage = fCFG.errorString();
         fCFG.close();
         if (status != IO_Ok) {
-            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
+            log(L_ERROR, QString("IO error during writting to file %1 : %2").arg(fCFG.name()).arg(errorMessage));
         } else {
             // rename to normal file
             QFileInfo fileInfo(fCFG.name());
@@ -4025,17 +4011,18 @@ string CorePlugin::getConfig()
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+                log(L_ERROR, QString("Can't rename file %1 to %2").arg(fileInfo.fileName()).arg(desiredFileName));
             }
         }
     }
 
-    setProfile(saveProfile.c_str());
+    setProfile(saveProfile);
     cfgName = user_file(CLIENTS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", cfgName.c_str());
+        log(L_ERROR, "Can't create %s", cfgName);
     }else{
+		QTextStream ts(&f);
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
             Protocol *protocol = client->protocol();
@@ -4052,16 +4039,14 @@ string CorePlugin::getConfig()
             }
             if (info == NULL)
                 continue;
-            string line = "[";
-            line += info->name;
-            line += "/";
-            line += protocol->description()->text;
-            line += "]\n";
-            f.writeBlock(line.c_str(), line.length());
-            line = client->getConfig();
+            ts << "["
+               << info->name
+               << "/"
+               << protocol->description()->text
+               << "]\n";
+            QString line = client->getConfig();
             if (line.length()){
-                f.writeBlock(line.c_str(), line.length());
-                f.writeBlock("\n", 1);
+				ts << line << "\n";
             }
         }
 
@@ -4069,7 +4054,7 @@ string CorePlugin::getConfig()
         const QString errorMessage = f.errorString();
         f.close();
         if (status != IO_Ok) {
-            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+            log(L_ERROR, QString("IO error during writting to file %1 : %2").arg(f.name()).arg(errorMessage));
         } else {
             // rename to normal file
             QFileInfo fileInfo(f.name());
@@ -4079,7 +4064,7 @@ string CorePlugin::getConfig()
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-                log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+                log(L_ERROR, QString("Can't rename file %1 to %2").arg(fileInfo.fileName()).arg(desiredFileName));
             }
         }
     }
@@ -4088,7 +4073,7 @@ string CorePlugin::getConfig()
     string dir = user_file("");
     chmod(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
-    string res = save_data(coreData, &data);
+    QString res = save_data(coreData, &data);
     setEditBackground(editBgColor);
     setEditForeground(editFgColor);
     return res;

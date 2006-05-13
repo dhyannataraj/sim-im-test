@@ -37,7 +37,7 @@ public:
     PROP_UTFLIST(Key)
     PROP_UTFLIST(Value)
 protected:
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     bool eventFilter(QObject *o, QEvent *e);
     ReplaceData data;

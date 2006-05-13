@@ -19,6 +19,10 @@
 #include "config.h"
 #endif
 
+#include <qfile.h>
+#include <qstring.h>
+#include <qtextstream.h>
+
 #include "simapi.h"
 #include "sockfactory.h"
 #include "fetch.h"
@@ -78,7 +82,7 @@ QWidget *Plugin::createConfigWindow(QWidget*)
     return NULL;
 }
 
-string Plugin::getConfig()
+QString Plugin::getConfig()
 {
     return "";
 }
@@ -546,27 +550,26 @@ void PluginManagerPrivate::saveState()
     if (m_bAbort)
         return;
     getContacts()->save();
-    string cfgName = user_file(PLUGINS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+    QString cfgName = user_file(PLUGINS_CONF);
+    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
+        log(L_ERROR, QString("Can't create %1").arg(f.name()));
         return;
     }
+	QTextStream ts(&f);
     for (unsigned i = 0; i < plugins.size(); i++){
         pluginInfo &info = plugins[i];
-        string line = "[";
-        line += info.name;
-        line += "]\n";
-        line += info.bDisabled ? DISABLE : ENABLE;
-        line += ",";
-        line += number(info.base);
-        line += "\n";
-        f.writeBlock(line.c_str(), line.length());
+        ts << "["
+		   << info.name
+		   << "]\n"
+		   << ( info.bDisabled ? DISABLE : ENABLE )
+		   << ","
+		   << info.base
+		   << "\n";
         if (info.plugin){
-            string cfg = info.plugin->getConfig();
+            QString cfg = info.plugin->getConfig();
             if (cfg.length()){
-                f.writeBlock(cfg.c_str(), cfg.length());
-                f.writeBlock("\n", 1);
+				ts << cfg.local8Bit() << "\n";
             }
         }
     }
@@ -575,7 +578,7 @@ void PluginManagerPrivate::saveState()
     const QString errorMessage = f.errorString();
     f.close();
     if (status != IO_Ok) {
-        log(L_ERROR, "I/O error during writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        log(L_ERROR, QString("I/O error during writing to file %1 : %2").arg(f.name()).arg(errorMessage));
         return;
     }
 
@@ -587,7 +590,7 @@ void PluginManagerPrivate::saveState()
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, "Can't rename file %s to %s", (const char*)fileInfo.fileName().local8Bit(), (const char*)desiredFileName.local8Bit());
+        log(L_ERROR, QString("Can't rename file %s to %1").arg(fileInfo.fileName()).arg(desiredFileName));
         return;
     }
 }

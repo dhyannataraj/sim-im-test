@@ -54,7 +54,7 @@ protected:
 #ifdef USE_KDE
     PROP_BOOL(UseKDE);
 #endif
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     NavigateData data;
     friend class NavCfg;

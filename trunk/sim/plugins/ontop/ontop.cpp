@@ -182,7 +182,7 @@ void *OnTopPlugin::processEvent(Event *e)
     return NULL;
 }
 
-std::string OnTopPlugin::getConfig()
+QString OnTopPlugin::getConfig()
 {
     getState();
     return save_data(onTopData, &data);

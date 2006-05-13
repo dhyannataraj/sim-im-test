@@ -562,7 +562,7 @@ Message *History::load(unsigned id, const char *client, unsigned contact)
 
 void History::add(Message *msg, const char *type)
 {
-    string line = "[";
+    QString line = "[";
     line += type;
     line += "]\n";
     line += msg->save();
@@ -572,7 +572,7 @@ void History::add(Message *msg, const char *type)
         if (s_tempMsg == NULL)
             s_tempMsg = new MAP_MSG;
         msg_save ms;
-        ms.msg     = line;
+        ms.msg     = line.local8Bit();
         ms.contact = msg->contact();
         if (msg->client())
             ms.client = msg->client();
@@ -581,7 +581,7 @@ void History::add(Message *msg, const char *type)
         return;
     }
 
-    if (!line.empty() && (line[line.length() - 1] != '\n'))
+    if (!line.isEmpty() && (line.right(1) != "\n"))
         line += '\n';
 
     QString name = msg->client();
@@ -599,7 +599,7 @@ void History::add(Message *msg, const char *type)
     if (data && data->CutSize.bValue){
         QFileInfo fInfo(QFile::decodeName(f_name.local8Bit()));
         if (fInfo.exists() && (fInfo.size() >= data->MaxSize.value * 0x100000 + CUT_BLOCK)){
-            int pos = fInfo.size() - data->MaxSize.value * 0x100000 + line.size();
+            int pos = fInfo.size() - data->MaxSize.value * 0x100000 + line.length();
             if (pos < 0)
                 pos = 0;
             del(f_name, msg->contact(), pos, false);
@@ -612,7 +612,7 @@ void History::add(Message *msg, const char *type)
         return;
     }
     unsigned id = f.at();
-    f.writeBlock(line.c_str(), line.size());
+    f.writeBlock(line.latin1(), line.length());
 
     msg->setId(id);
 }
@@ -722,18 +722,14 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
         }
     }
     unsigned skip_size = config.writePos() - config.startSection();
-    string line = "\n";
+    QString line = "\n";
     if (msg){
         line += msg->save();
         line += "\n";
         skip_start++;
     }
-    int size = line.length();
-    int writen = t.writeBlock(line.c_str(), size);
-    if (writen != size){
-        log(L_DEBUG, "Write history error");
-        return;
-    }
+	QTextStream ts(&f);
+	ts << line;
     skip_size -= line.length();
     if (config.writePos() < config.size()){
         int size = config.size() - config.writePos();

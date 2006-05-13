@@ -233,7 +233,7 @@ void JabberClient::setID(const QString &id)
     set_str(&data.owner.ID.ptr, id.utf8());
 }
 
-string JabberClient::getConfig()
+QString JabberClient::getConfig()
 {
     QString lr;
     for (list<JabberListRequest>::iterator it = m_listRequests.begin(); it != m_listRequests.end(); ++it){

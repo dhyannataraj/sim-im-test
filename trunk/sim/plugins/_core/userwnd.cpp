@@ -92,7 +92,7 @@ UserWnd::~UserWnd()
     }
 }
 
-std::string UserWnd::getConfig()
+QString UserWnd::getConfig()
 {
     return save_data(userWndData, &data);
 }

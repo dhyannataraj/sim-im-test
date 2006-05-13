@@ -452,7 +452,7 @@ ShortcutsPlugin::~ShortcutsPlugin()
     free_data(shortcutsData, &data);
 }
 
-string ShortcutsPlugin::getConfig()
+QString ShortcutsPlugin::getConfig()
 {
     return save_data(shortcutsData, &data);
 }

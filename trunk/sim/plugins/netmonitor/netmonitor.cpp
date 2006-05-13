@@ -110,11 +110,11 @@ NetmonitorPlugin::~NetmonitorPlugin()
     free_data(monitorData, &data);
 }
 
-string NetmonitorPlugin::getConfig()
+QString NetmonitorPlugin::getConfig()
 {
     saveState();
     setShow(monitor != NULL);
-    string packets;
+    QString packets;
     for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';

@@ -172,7 +172,7 @@ public:
     ~MSNClient();
     virtual std::string name();
     virtual QWidget	*setupWnd();
-    virtual std::string getConfig();
+    virtual QString getConfig();
     PROP_STR(Server);
     PROP_USHORT(Port);
     PROP_ULONG(ListVer);

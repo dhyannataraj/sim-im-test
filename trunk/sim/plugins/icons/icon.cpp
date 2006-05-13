@@ -83,7 +83,7 @@ void IconsPlugin::setIcons(bool bForce)
     e.process();
 }
 
-string IconsPlugin::getConfig()
+QString IconsPlugin::getConfig()
 {
     return save_data(iconsData, &data);
 }

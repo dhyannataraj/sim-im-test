@@ -503,7 +503,7 @@ void *NavigatePlugin::processEvent(Event *e)
     return NULL;
 }
 
-string NavigatePlugin::getConfig()
+QString NavigatePlugin::getConfig()
 {
     return save_data(navigateData, &data);
 }

@@ -160,7 +160,7 @@ QWidget	*MSNClient::setupWnd()
     return new MSNConfig(NULL, this, false);
 }
 
-string MSNClient::getConfig()
+QString MSNClient::getConfig()
 {
     QString listRequests;
     for (list<MSNListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){

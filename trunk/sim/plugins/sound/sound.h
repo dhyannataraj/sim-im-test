@@ -66,7 +66,7 @@ protected slots:
 protected:
     unsigned long user_data_id;
     virtual void *processEvent(SIM::Event*);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     std::string fullName(const char*);
     std::string messageSound(unsigned type, SoundUserData *data);

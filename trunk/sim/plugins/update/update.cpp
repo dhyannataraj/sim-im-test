@@ -73,7 +73,7 @@ UpdatePlugin::~UpdatePlugin()
     free_data(updateData, &data);
 }
 
-string UpdatePlugin::getConfig()
+QString UpdatePlugin::getConfig()
 {
     return save_data(updateData, &data);
 }

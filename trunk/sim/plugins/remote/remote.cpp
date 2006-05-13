@@ -249,7 +249,7 @@ RemotePlugin::~RemotePlugin()
     free_data(remoteData, &data);
 }
 
-string RemotePlugin::getConfig()
+QString RemotePlugin::getConfig()
 {
     return save_data(remoteData, &data);
 }

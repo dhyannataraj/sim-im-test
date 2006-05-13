@@ -38,7 +38,7 @@ public:
     void setIcons(bool bForce);
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     IconsData data;
 };
 

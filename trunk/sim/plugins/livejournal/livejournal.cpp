@@ -405,12 +405,12 @@ LiveJournalClient::~LiveJournalClient()
     free_data(liveJournalClientData, &data);
 }
 
-string LiveJournalClient::getConfig()
+QString LiveJournalClient::getConfig()
 {
-    string cfg = TCPClient::getConfig();
-    string my_cfg = save_data(liveJournalClientData, &data);
-    if (!my_cfg.empty()){
-        if (!cfg.empty())
+    QString cfg = TCPClient::getConfig();
+    QString my_cfg = save_data(liveJournalClientData, &data);
+    if (!my_cfg.isEmpty()){
+        if (!cfg.isEmpty())
             cfg += "\n";
         cfg += my_cfg;
     }

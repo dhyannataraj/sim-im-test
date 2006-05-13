@@ -65,7 +65,7 @@ ReplacePlugin::~ReplacePlugin()
     free_data(replaceData, &data);
 }
 
-string ReplacePlugin::getConfig()
+QString ReplacePlugin::getConfig()
 {
     return save_data(replaceData, &data);
 }

@@ -1307,7 +1307,7 @@ void *ProxyPlugin::processEvent(Event *e)
     return NULL;
 }
 
-string ProxyPlugin::getConfig()
+QString ProxyPlugin::getConfig()
 {
     return save_data(_proxyData, &data);
 }

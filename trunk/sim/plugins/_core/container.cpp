@@ -313,7 +313,7 @@ string Container::getState()
         if (!windows.isEmpty())
             windows += ',';
         windows += QString::number((*it)->id());
-        setWndConfig((*it)->id(), (*it)->getConfig().c_str());
+        setWndConfig((*it)->id(), (*it)->getConfig());
     }
     setWindows(windows);
     UserWnd *userWnd = m_tabBar->currentWnd();

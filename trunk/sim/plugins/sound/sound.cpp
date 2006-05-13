@@ -169,7 +169,7 @@ SoundPlugin::~SoundPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-string SoundPlugin::getConfig()
+QString SoundPlugin::getConfig()
 {
     return save_data(soundData, &data);
 }

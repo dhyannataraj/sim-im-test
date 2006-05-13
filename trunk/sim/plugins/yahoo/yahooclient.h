@@ -167,7 +167,7 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_STR(ListRequests);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     QString getLogin();
     void setLogin(const QString&);
     std::string  dataName(void*);

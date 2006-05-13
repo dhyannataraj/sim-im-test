@@ -190,7 +190,7 @@ public:
     Plugin(unsigned base);
     virtual ~Plugin() {}
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     unsigned registerType();
     void boundTypes();
 protected:
@@ -1496,7 +1496,7 @@ public:
     Protocol *protocol() { return m_protocol; }
     virtual QWidget *setupWnd() = 0;
     virtual void setStatus(unsigned status, bool bCommon);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual bool compareData(void*, void*);
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;

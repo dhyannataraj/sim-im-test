@@ -51,7 +51,7 @@ protected slots:
     void timeout();
 protected:
     virtual void *processEvent(SIM::Event*);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     unsigned getIdleTime();
     bool bAway;

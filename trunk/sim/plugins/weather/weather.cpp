@@ -141,7 +141,7 @@ WeatherPlugin::~WeatherPlugin()
     getIcons()->removeIconSet(m_icons);
 }
 
-string WeatherPlugin::getConfig()
+QString WeatherPlugin::getConfig()
 {
     if (m_bar)
         saveToolbar(m_bar, data.bar);

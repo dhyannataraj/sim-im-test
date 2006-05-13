@@ -197,7 +197,7 @@ QWidget *HomeDirPlugin::createConfigWindow(QWidget *parent)
     return new HomeDirConfig(parent, this);
 }
 
-string HomeDirPlugin::getConfig()
+QString HomeDirPlugin::getConfig()
 {
     if (!m_bSave)
         return "";

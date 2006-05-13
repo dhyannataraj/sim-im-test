@@ -147,7 +147,7 @@ TransparentPlugin::~TransparentPlugin()
     free_data(transparentData, &data);
 }
 
-std::string TransparentPlugin::getConfig()
+QString TransparentPlugin::getConfig()
 {
     return save_data(transparentData, &data);
 }

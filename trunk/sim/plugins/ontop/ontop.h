@@ -44,7 +44,7 @@ protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void *processEvent(SIM::Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     void getState();
     void setState();
     QWidget *getMainWindow();

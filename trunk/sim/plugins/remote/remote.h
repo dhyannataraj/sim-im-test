@@ -68,7 +68,7 @@ protected:
     virtual bool error(const char *err);
 
     virtual void *processEvent(SIM::Event*);
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
 #ifdef WIN32
     IPC		*ipc;

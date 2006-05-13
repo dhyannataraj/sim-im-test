@@ -502,7 +502,7 @@ public:
     ~ICQClient();
     virtual std::string name();
     virtual QWidget    *setupWnd();
-    virtual std::string getConfig();
+    virtual QString getConfig();
     virtual unsigned getStatus();
     virtual void contactsLoaded();
     void setUin(unsigned long);

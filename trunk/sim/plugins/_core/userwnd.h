@@ -41,7 +41,7 @@ class UserWnd : public QSplitter
 public:
     UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust);
     ~UserWnd();
-    std::string getConfig();
+    QString getConfig();
     unsigned long id() { return m_id; }
     QString getName();
     QString getLongName();
