@@ -88,7 +88,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     }
     QString license = aboutData->license();
     license += "\n\n";
-    QFile f(QFile::decodeName(SIM::app_file("COPYING").c_str()));
+    QFile f(SIM::app_file("COPYING"));
     if (f.open(IO_ReadOnly)){
         for (;;){
             QString s;

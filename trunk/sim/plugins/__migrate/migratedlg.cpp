@@ -108,12 +108,8 @@ void MigrateDialog::pageSelected(const QString&)
     for (it = m_boxes.begin(); it != m_boxes.end(); ++it){
         if (!(*it)->isChecked())
             continue;
-        QString path = QFile::decodeName(user_file(QFile::encodeName((*it)->text())).c_str());
-#ifdef WIN32
-        path += "\\";
-#else
+        QString path = user_file((*it)->text());
         path += "/";
-#endif
         QFile icq_conf(path + "icq.conf");
         totalSize += icq_conf.size();
         QString history_path = path + "history";
@@ -147,12 +143,8 @@ void MigrateDialog::process()
     for (list<QCheckBox*>::iterator it = m_boxes.begin(); it != m_boxes.end(); ++it){
         if (!(*it)->isChecked())
             continue;
-        QString path = QFile::decodeName(user_file(QFile::encodeName((*it)->text())).c_str());
-#ifdef WIN32
-        path += "\\";
-#else
+        QString path = user_file((*it)->text());
         path += "/";
-#endif
         icqConf.close();
         clientsConf.close();
         contactsConf.close();

@@ -1518,14 +1518,10 @@ CorePlugin::~CorePlugin()
 QString CorePlugin::poFile(const char *lang)
 {
 #ifdef WIN32
-    string s = "po";
-    s += "\\";
-    for (const char *pp = lang; *pp; pp++)
-        s += (char)(tolower(*pp));
-    s += ".qm";
-    s = app_file(s.c_str());
-    QFile f(QFile::decodeName(s.c_str()));
-    if (!f.exists()) return "";
+    QString s = "po\\" + QString(lang).lower() + ".qm";
+    QFile f(app_file(s));
+    if (!f.exists())
+		return "";
 #else
     string s = PREFIX "/share/locale/";
     string l;
@@ -1856,15 +1852,11 @@ void *CorePlugin::processEvent(Event *e)
 #ifdef WIN32
             if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
 #else
-if (fname[0] != '/')
+            if (fname[0] != '/')
 #endif
                 profile = getProfile();
             if (profile.length())
-#ifdef WIN32
-                profile += "\\";
-#else
                 profile += "/";
-#endif
             profile += fname;
             if (profile.isEmpty()){
                 *cfg = "";
@@ -1873,7 +1865,7 @@ if (fname[0] != '/')
             }
             Event eProfile(EventHomeDir, cfg);
             if (!eProfile.process(this))
-                *cfg = app_file(cfg->c_str());
+                *cfg = app_file(cfg->c_str()).local8Bit();
             makedir((char*)(cfg->c_str()));
             return cfg;
         }
@@ -2045,20 +2037,15 @@ if (fname[0] != '/')
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                     if (data){
                         if (data->AcceptMode.value == 1){
-                            string dir;
+                            QString dir;
                             if (data && data->IncomingPath.ptr)
                                 dir = data->IncomingPath.ptr;
-#ifdef WIN32
-                            if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
-                                dir += '\\';
-#else
-                            if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+                            if (!dir.isEmpty() && (dir.right(1) != '/') && (dir.right(1) != '\\'))
                                 dir += '/';
-#endif
-                            dir = user_file(dir.c_str());
+                            dir = user_file(dir);
                             messageAccept ma;
                             ma.msg	     = msg;
-                            ma.dir 		 = dir.c_str();
+                            ma.dir 		 = dir;
                             ma.overwrite = data->OverwriteFiles.bValue ? Replace : Skip;
                             Event e(EventMessageAccept, &ma);
                             e.process();
@@ -3371,20 +3358,15 @@ if (fname[0] != '/')
                 Message *msg = (Message*)(cmd->param);
                 Contact *contact = getContacts()->contact(msg->contact());
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                string dir;
+                QString dir;
                 if (data && data->IncomingPath.ptr)
                     dir = data->IncomingPath.ptr;
-#ifdef WIN32
-                if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
-                    dir += '\\';
-#else
-                if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+                if (!dir.isEmpty() && (dir.right(1) != "/") && (dir.right(1) != "\\"))
                     dir += '/';
-#endif
-                dir = user_file(dir.c_str());
+                dir = user_file(dir);
                 messageAccept ma;
                 ma.msg	     = msg;
-                ma.dir	     = dir.c_str();
+                ma.dir	     = dir;
                 ma.overwrite = Ask;
                 Event e(EventMessageAccept, &ma);
                 e.process();
@@ -3700,7 +3682,7 @@ bool CorePlugin::init(bool bInit)
     if (e.process() && cmd_line_profile != ""){
         bCmdLineProfile = true;
         setProfile(NULL);
-        QString profileDir = QFile::decodeName(user_file("").c_str());
+        QString profileDir = user_file("");
         profileDir += cmd_line_profile.c_str();
         QDir d(profileDir);
         if (d.exists()) {
@@ -3781,7 +3763,7 @@ bool CorePlugin::init(bool bInit)
         Client *client = getContacts()->getClient(0);
         QString profile = client->name();
         setProfile(NULL);
-        QString profileDir = QFile::decodeName(user_file("").c_str());
+        QString profileDir = user_file("");
         if (!bCmdLineProfile){
             profileDir += profile;
             for (unsigned i = 1;;i++){
@@ -3904,7 +3886,7 @@ void CorePlugin::loadDir()
     string saveProfile = getProfile();
     setProfile(NULL);
     bool bOK = false;
-    QString baseName = QFile::decodeName(user_file("").c_str());
+    QString baseName = user_file("");
     QDir dir(baseName);
     dir.setFilter(QDir::Dirs);
     QStringList list = dir.entryList();
@@ -4455,7 +4437,7 @@ bool CorePlugin::lockProfile(const char *profile, bool bSend)
         }
         return true;
     }
-    FileLock *lock = new FileLock(QFile::decodeName(user_file(".lock").c_str()));
+    FileLock *lock = new FileLock(user_file(".lock"));
     if (!lock->lock(bSend)){
         delete lock;
         return false;
@@ -4596,7 +4578,7 @@ bool FileLock::lock(bool)
 }
 
 void HistoryThread::run() {
-    QString str = QFile::decodeName(user_file(".history_file").c_str());
+    QString str = user_file(".history_file");
     History::save(m_id, str);
     Exec *m_ex;
     m_ex = new Exec;

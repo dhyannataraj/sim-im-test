@@ -3301,11 +3301,11 @@ static char PICT_PATH[] = "pictures/";
 
 QString ICQClient::pictureFile(ICQUserData *data)
 {
-    string f = PICT_PATH;
+    QString f = PICT_PATH;
     f += "icq.";
-    f += number(data->Uin.value);
-    f = user_file(f.c_str());
-    return QFile::decodeName(f.c_str());
+	f += QString::number(data->Uin.value);
+    f = user_file(f);
+    return f;
 }
 
 void ICQClient::retry(int n, void *p)

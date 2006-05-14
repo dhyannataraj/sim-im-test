@@ -946,10 +946,10 @@ EXPORT bool cmp(char *s1, char *s2);
 // Utilities
 
 /* Get full path */
-EXPORT std::string app_file(const char *f);
+EXPORT QString app_file(const char *f);
 
 /* Get user file */
-EXPORT std::string user_file(const char *f);
+EXPORT QString user_file(const char *f);
 
 /* Make directory */
 EXPORT bool makedir(char *p);

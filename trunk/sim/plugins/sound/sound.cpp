@@ -305,8 +305,8 @@ string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
 
 string SoundPlugin::fullName(const char *name)
 {
-    string sound="";
-    string str_name = name;
+    QString sound="";
+    QString str_name = name;
     if ((name == NULL) || (*name == 0) || (str_name == "(nosound)"))
         return sound;
 #ifdef WIN32
@@ -319,7 +319,7 @@ string SoundPlugin::fullName(const char *name)
     }else{
         sound = "sounds/";
         sound += name;
-        sound = app_file(sound.c_str());
+        sound = app_file(sound);
     }
     return sound;
 }

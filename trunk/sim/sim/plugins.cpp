@@ -188,7 +188,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 
     QStringList pluginsList;
 #ifdef WIN32
-    QDir pluginDir(app_file("plugins").c_str());
+    QDir pluginDir(app_file("plugins"));
 #else
     QDir pluginDir(PLUGIN_PATH);
 #endif
@@ -614,12 +614,11 @@ void PluginManagerPrivate::loadState()
     if (m_bLoaded) return;
 
     m_bLoaded = true;
-    string cfgName = user_file(PLUGINS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QFile f(user_file(PLUGINS_CONF));
 
     if (!f.exists()) {
         /* Maybe first start ? */
-        QDir dir(user_file(NULL).c_str());
+        QDir dir(user_file(NULL));
         if (!dir.exists()) {
             log(L_WARN, "Creating directory %s",dir.absPath().ascii());
             if (!dir.mkdir(dir.absPath())) {

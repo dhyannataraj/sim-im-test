@@ -19,6 +19,7 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <qlibrary.h>
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
 #include <X11/X.h>
@@ -287,13 +288,12 @@ int main(int argc, char *argv[])
             return 0;
     }
     SimApp app(argc, argv);
-    StyleInfo*  (*getStyleInfo)() = NULL;
-    HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
-    if (hLib != NULL)
-        hLib = LoadLibraryA(app_file("plugins\\styles\\xpstyle.dll").c_str());
-    if (hLib != NULL)
-        (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
-    if (getStyleInfo){
+
+	StyleInfo*  (*getStyleInfo)() = NULL;
+    getStyleInfo = (StyleInfo*(__cdecl *)())QLibrary::resolve("UxTheme.dll","GetStyleInfo");
+	if(!getStyleInfo)
+	    getStyleInfo = (StyleInfo*(__cdecl *)())QLibrary::resolve(app_file("plugins\\styles\\xpstyle.dll"),"GetStyleInfo");
+	if (getStyleInfo){
         StyleInfo *info = getStyleInfo();
         if (info)
             qApp->setStyle(info->create());

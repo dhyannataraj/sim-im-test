@@ -49,7 +49,7 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
     lblGPG->hide();
     edtGPG->hide();
 #endif
-    edtHome->setText(QFile::decodeName(user_file(m_plugin->getHome()).c_str()));
+    edtHome->setText(user_file(m_plugin->getHome()));
     edtHome->setDirMode(true);
     edtHome->setShowHidden(true);
     edtHome->setTitle(i18n("Select home directory"));

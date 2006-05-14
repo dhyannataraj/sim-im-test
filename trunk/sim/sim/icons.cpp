@@ -615,7 +615,7 @@ PictDef *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
 FileIconSet::FileIconSet(const char *file)
 {
     m_data = NULL;
-	m_zip = new UnZip(QFile::decodeName(app_file(file).c_str()));
+	m_zip = new UnZip(app_file(file));
     QByteArray arr;
     if (m_zip->open() && m_zip->readFile("icondef.xml", &arr))
         parse(arr.data(), arr.size(), false);
@@ -638,9 +638,9 @@ PictDef *FileIconSet::getPict(const char *name)
         if (!it.data().system.isEmpty()){
             QPixmap pict;
             if (memcmp(name, "big.", 4)){
-                pict = SmallIconSet(it->data().system).pixmap(QIconSet::Small, QIconSet::Normal);
+                pict = SmallIconSet(it.data().system).pixmap(QIconSet::Small, QIconSet::Normal);
             }else{
-                pict = DesktopIconSet(it->data().system).pixmap(QIconSet::Large, QIconSet::Normal);
+                pict = DesktopIconSet(it.data().system).pixmap(QIconSet::Large, QIconSet::Normal);
             }
             if (!pict.isNull()){
                 it.data().image = pict.convertToImage();
@@ -741,15 +741,15 @@ void FileIconSet::element_end(const char *el)
         if (it == m_icons.end())
             m_icons.insert(PIXMAP_MAP::value_type(m_name, p));
 #ifdef USE_KDE
-        if (m_name.substr(0, 4) != "big."){
-            string big_name = "big.";
+        if (m_name.left(4) != "big."){
+            QString big_name = "big.";
             big_name += m_name;
             p.file   = "";
             p.flags  = m_flags;
             p.system = m_system;
-            it = m_icons.find(big_name.c_str());
+            it = m_icons.find(big_name);
             if (it == m_icons.end())
-                m_icons.insert(PIXMAP_MAP::value_type(big_name.c_str(), p));
+                m_icons.insert(PIXMAP_MAP::value_type(big_name, p));
         }
 #endif
     }

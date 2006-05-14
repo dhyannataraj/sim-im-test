@@ -31,12 +31,7 @@
 using namespace std;
 using namespace SIM;
 
-#ifdef WIN32
-static char HISTORY_PATH[] = "history\\";
-#else
 static char HISTORY_PATH[] = "history/";
-#endif
-
 static char REMOVED[] = ".removed";
 
 const unsigned CUT_BLOCK		= 0x4000;
@@ -110,7 +105,7 @@ HistoryFile::HistoryFile(const char *file_name, unsigned contact)
     }
 
     f_name = user_file(f_name);
-    setName(QFile::decodeName(f_name.local8Bit()));
+    setName(f_name);
     if (!exists()){
         QFile bak(name() + REMOVED);
         if (bak.exists()){
@@ -663,11 +658,11 @@ void History::cut(Message *msg, unsigned contact_id, unsigned date)
 
 void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, Message *msg)
 {
-    string f_name = HISTORY_PATH;
+    QString f_name = HISTORY_PATH;
     f_name += name;
 
-    f_name = user_file(f_name.c_str());
-    QFile f(QFile::decodeName(f_name.c_str()));
+    f_name = user_file(f_name);
+    QFile f(f_name);
     if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
         return;
@@ -794,11 +789,11 @@ void History::del(unsigned msg_id)
 void History::remove(Contact *contact)
 {
     bool bRename = (contact->getFlags() & CONTACT_NOREMOVE_HISTORY);
-    string name = QString::number(contact->id());
-    string f_name = HISTORY_PATH;
+    QString name = QString::number(contact->id());
+    QString f_name = HISTORY_PATH;
     f_name += name;
-    name = user_file(f_name.c_str());
-    QFile f(QFile::decodeName(name.c_str()));
+    name = user_file(f_name);
+    QFile f(name);
     f.remove();
     void *data;
     ClientDataIterator it(contact->clientData);
@@ -806,8 +801,8 @@ void History::remove(Contact *contact)
         name = it.client()->dataName(data);
         f_name = HISTORY_PATH;
         f_name += name;
-        name = user_file(f_name.c_str());
-        QFile f(QString::fromUtf8(name.c_str()));
+        name = user_file(f_name);
+        QFile f(name);
         if (!f.exists())
             continue;
         if (bRename){

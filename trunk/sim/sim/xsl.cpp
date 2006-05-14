@@ -57,34 +57,27 @@ XSLPrivate::~XSLPrivate()
         xsltFreeStylesheet(styleSheet);
 }
 
-#ifdef WIN32
-static char STYLES[] = "styles\\";
-#else
 static char STYLES[] = "styles/";
-#endif
 static char EXT[]    = ".xsl";
 
 XSL::XSL(const QString &name)
 {
-    string fname = STYLES;
-    fname += QFile::encodeName(name);
-    fname += EXT;
-    QFile f(QFile::decodeName(user_file(fname.c_str()).c_str()));
+    QString fname = STYLES + QFile::encodeName(name) + EXT;
+    QFile f(user_file(fname));
     bool bOK = true;
     if (!f.open(IO_ReadOnly)){
-        f.setName(QFile::decodeName(app_file(fname.c_str()).c_str()));
+        f.setName(app_file(fname));
         if (!f.open(IO_ReadOnly)){
-            log(L_WARN, "Can't open %s", fname.c_str());
+            log(L_WARN, QString("Can't open %1").arg(fname));
             bOK = false;
         }
     }
-    string xsl;
-    if (bOK){
-        xsl.append(f.size(), '\x00');
-        f.readBlock((char*)(xsl.c_str()), f.size());
-        f.close();
-    }
-    d = new XSLPrivate(xsl.c_str());
+	QString xsl;
+	if(bOK) {
+		QTextStream ts(&f);
+		xsl = ts.read();
+	}
+    d = new XSLPrivate(xsl);
 }
 
 XSL::~XSL()

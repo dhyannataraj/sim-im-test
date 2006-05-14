@@ -41,7 +41,7 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
 {
     m_plugin = plugin;
     edtPicture->setText(QFile::decodeName(plugin->getBackground()));
-    edtPicture->setStartDir(QFile::decodeName(SIM::app_file("pict/").c_str()));
+    edtPicture->setStartDir(SIM::app_file("pict/"));
     edtPicture->setTitle(i18n("Select background picture"));
     QStrList formats = QImageIO::inputFormats();
     QString format;

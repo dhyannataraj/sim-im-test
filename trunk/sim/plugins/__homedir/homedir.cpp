@@ -22,7 +22,7 @@
 #include <windows.h>
 #include <shlobj.h>
 
-#include <qregexp.h>
+#include <qlibrary.h>
 #include "homedircfg.h"
 
 static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
@@ -104,14 +104,8 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
         m_homeDir = defaultPath();
     QString d = QFile::decodeName(m_homeDir.c_str());
 #ifdef WIN32
-    d = d.replace(QRegExp("/"), "\\");
-    if (d.length() && (d[(int)(d.length() - 1)] == '\\'))
-        d = d.left(d.length() - 1);
     if (d.length() && d[(int)(d.length() - 1)] == ':')
         d += "\\";
-#else
-    if (d.length() && (d[(int)(d.length() - 1)] == '/'))
-        d = d.left(d.length() - 1);
 #endif
     QDir dir(d);
     if (!dir.exists()) {
@@ -125,7 +119,7 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
 
 string HomeDirPlugin::defaultPath()
 {
-    string s;
+    QString s;
 #ifndef WIN32
     struct passwd *pwd = getpwuid(getuid());
     if (pwd){
@@ -151,12 +145,9 @@ string HomeDirPlugin::defaultPath()
 #else
     char szPath[1024];
     szPath[0] = 0;
-    HINSTANCE hLib = LoadLibraryA("Shell32.dll");
     QString defPath;
-    if (hLib != NULL){
-        (DWORD&)_SHGetSpecialFolderPathW = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathW");
-        (DWORD&)_SHGetSpecialFolderPathA = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
-    }
+    (DWORD&)_SHGetSpecialFolderPathW = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
+    (DWORD&)_SHGetSpecialFolderPathA = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathA");
     if (_SHGetSpecialFolderPathW && _SHGetSpecialFolderPathW(NULL, szPath, CSIDL_APPDATA, true)){
         for (unsigned short *str = (unsigned short*)szPath; *str; str++)
             defPath += QChar(*str);
@@ -227,11 +218,7 @@ string HomeDirPlugin::buildFileName(const char *name)
     if (fname[0] != '/'){
 #endif
         s += QFile::decodeName(m_homeDir.c_str());
-#ifdef WIN32
-        s += '\\';
-#else
         s += '/';
-#endif
     }
     s += fname;
     string res;

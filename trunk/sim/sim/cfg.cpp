@@ -145,9 +145,9 @@ EXPORT bool makedir(char *p)
 
 // _____________________________________________________________________________________
 
-EXPORT string app_file(const char *f)
+EXPORT QString app_file(const char *f)
 {
-    string app_file_name = "";
+    QString app_file_name = "";
     QString fname = QFile::decodeName(f);
 #ifdef WIN32
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
@@ -157,7 +157,7 @@ EXPORT string app_file(const char *f)
     char *p = strrchr(buff, '\\');
     if (p) *p = 0;
     app_file_name = buff;
-    if (app_file_name.length() && (app_file_name[app_file_name.length()-1] != '\\'))
+    if (app_file_name.length() && (app_file_name.right(1) != "\\") && (app_file_name.right(1) != "/"))
         app_file_name += "\\";
 #else
     if (fname[0] == '/')
@@ -177,17 +177,12 @@ EXPORT string app_file(const char *f)
     app_file_name = PREFIX "/share/apps/sim/";
 #endif
     app_file_name += f;
-#ifdef WIN32
-    for (p = (char*)app_file_name.c_str(); *p; p++)
-        if (*p == '/')
-            *p = '\\';
-#endif
-    return app_file_name;
+	return QDir::convertSeparators(app_file_name);
 }
 
 // ______________________________________________________________________________________
 
-EXPORT string user_file(const char *f)
+EXPORT QString user_file(const char *f)
 {
     string res;
     if (f) {

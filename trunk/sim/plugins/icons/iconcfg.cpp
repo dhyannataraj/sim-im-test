@@ -93,7 +93,7 @@ void IconCfg::add()
 #else
     QString filter = i18n("Icon set(*.jisp)");
 #endif
-    QString jisp = QFileDialog::getOpenFileName(QFile::decodeName(SIM::app_file("icons/").c_str()), filter, topLevelWidget(), i18n("Select icon set"));
+    QString jisp = QFileDialog::getOpenFileName(SIM::app_file("icons/"), filter, topLevelWidget(), i18n("Select icon set"));
     if (!jisp.isEmpty())
         lstIcon->insertItem(jisp);
 }

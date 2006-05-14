@@ -262,11 +262,7 @@ static void rmDir(const QString &path)
     for (it = l.begin(); it != l.end(); ++it){
         if (((*it) == ".") || ((*it) == "..")) continue;
         QString p = path;
-#ifdef WIN32
-        p += "\\";
-#else
-p += "/";
-#endif
+        p += "/";
         p += *it;
         rmDir(p);
     }
@@ -274,11 +270,7 @@ p += "/";
     for (it = l.begin(); it != l.end(); ++it){
         if (((*it) == ".") || ((*it) == "..")) continue;
         QString p = path;
-#ifdef WIN32
-        p += "\\";
-#else
         p += "/";
-#endif
         p += *it;
         d.remove(p);
     }
@@ -390,7 +382,7 @@ void LoginDialog::profileDelete()
         return;
     string curProfile = CorePlugin::m_plugin->m_profiles[n];
     CorePlugin::m_plugin->setProfile(curProfile.c_str());
-    rmDir(QFile::decodeName(user_file("").c_str()));
+    rmDir(user_file(""));
     CorePlugin::m_plugin->setProfile(NULL);
     CorePlugin::m_plugin->changeProfile();
     CorePlugin::m_plugin->m_profiles.clear();
