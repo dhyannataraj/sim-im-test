@@ -693,7 +693,7 @@ void GpgPlugin::reset()
 {
     if (*GPG() && *getHome() && *getKey()){
 #ifdef HAVE_CHMOD
-        chmod(user_file(getHome()).c_str(), 0700);
+        chmod(user_file(getHome()), 0700);
 #endif
         registerMessage();
     }else{
