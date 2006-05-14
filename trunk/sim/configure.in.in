@@ -139,14 +139,12 @@ uname=`uname`
 unamem=`uname -m`
 AC_DEFINE_UNQUOTED(UNAME,"${uname} ${unamem}",[System type])
 
-if test "$have_ssl" != yes; then
-  echo ""
-  echo "OpenSSL support is not available.  SIM will not be able to"
-  echo "establish secure communication channels. This is not required"
-  echo "for proper function (i.e. it is optional). If you really desire this"
-  echo "functionality then install OpenSSL (libraries and headers) and"
-  echo "rebuild SIM.  OpenSSL can be found at http://www.openssl.org"
-  echo "or as RPM from your local distribution site."
+if test "$have_ssl" != "yes" -a "$want_ssl" != "no"; then
+  AC_MSG_ERROR([SIM requires OpenSSL library.
+Please install OpenSSL (libraries and headers).
+OpenSSL can be found at http://www.openssl.org
+or as RPM from your local distribution site.
+])
 fi
 
 AM_CONDITIONAL(QT_WIN, test "$kde_use_qt_win" = "yes")
