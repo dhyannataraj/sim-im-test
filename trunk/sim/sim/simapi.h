@@ -975,7 +975,6 @@ EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT std::string quoteChars(const char *from, const char *chars);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT char fromHex(char);
-EXPORT QString unquoteString(const QString &in);
 
 
 // _____________________________________________________________________________________
