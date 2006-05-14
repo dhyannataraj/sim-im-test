@@ -17,7 +17,7 @@
 
 #include "sax.h"
 #include "icons.h"
-#include "qzip.h"
+#include "qzip/qzip.h"
 
 #include <qiconset.h>
 #include <qmime.h>
