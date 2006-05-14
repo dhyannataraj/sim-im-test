@@ -81,10 +81,10 @@ typedef unsigned char _Bool;
 #define QT_THREAD_SUPPORT 1
 #endif
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 # define DEPRECATED __declspec(deprecated)
-#else
-# define DEPRECATED
+#elif defined(__GNUC__)
+# define DEPRECATED __attribute__ ((deprecated))
 #endif
 
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
