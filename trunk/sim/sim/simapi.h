@@ -81,6 +81,12 @@ typedef unsigned char _Bool;
 #define QT_THREAD_SUPPORT 1
 #endif
 
+#ifdef _MSC_VER
+# define DEPRECATED __declspec(deprecated)
+#else
+# define DEPRECATED
+#endif
+
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
 #include <qnetworkprotocol.h>
 #ifndef _CRTDBG_MAP_ALLOC
@@ -940,7 +946,7 @@ EXPORT void restoreGeometry(QWidget*, Geometry, bool bPos, bool bSize);
 
 EXPORT void saveToolbar(QToolBar*, Data[7]);
 EXPORT void restoreToolbar(QToolBar*, Data[7]);
-EXPORT bool cmp(char *s1, char *s2);
+EXPORT DEPRECATED bool cmp(char *s1, char *s2);
 
 // _____________________________________________________________________________________
 // Utilities
@@ -957,9 +963,9 @@ EXPORT bool makedir(char *p);
 /* Save state */
 EXPORT void save_state();
 
-EXPORT std::string number(unsigned n);
-EXPORT std::string trim(const char *str);
-EXPORT QString trim(const QString &str);
+EXPORT DEPRECATED std::string number(unsigned n);
+EXPORT DEPRECATED std::string trim(const char *str);
+EXPORT DEPRECATED QString trim(const QString &str);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);
 EXPORT QString formatAddr(Data &addr, unsigned port);

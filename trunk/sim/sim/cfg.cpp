@@ -198,53 +198,22 @@ EXPORT QString user_file(const char *f)
 
 // ______________________________________________________________________________________
 
-EXPORT string number(unsigned n)
+// deprecated
+EXPORT std::string number(unsigned n)
 {
-    char b[32];
-    snprintf(b, sizeof(b), "%u", n);
-    return string(b);
+    return QString::number(n);
 }
 
-EXPORT string trim(const char *from)
+// deprecated
+EXPORT std::string trim(const char *from)
 {
-    string res;
-    if (from == NULL)
-        return res;
-    res = from;
-    int i;
-    for (i = 0; i < (int)(res.length()); i++){
-        if (res[i] != ' ')
-            break;
-    }
-    if (i)
-        res = res.substr(i);
-    for (i = res.length() - 1; i >= 0; i--){
-        if (res[i] != ' ')
-            break;
-    }
-    if (i < (int)(res.length() - 1))
-        res = res.substr(0, i + 1);
-    return res;
+    return QString(from).stripWhiteSpace();
 }
 
+// deprecated
 EXPORT QString trim(const QString &from)
 {
-    QString res;
-    res = from;
-    int i;
-    for (i = 0; i < (int)(res.length()); i++){
-        if (res[i] != ' ')
-            break;
-    }
-    if (i)
-        res = res.mid(i);
-    for (i = res.length() - 1; i >= 0; i--){
-        if (res[i] != ' ')
-            break;
-    }
-    if (i < (int)(res.length() - 1))
-        res = res.mid(0, i + 1);
-    return res;
+    return from.stripWhiteSpace();
 }
 
 EXPORT string quoteChars(const char *from, const char *chars)
