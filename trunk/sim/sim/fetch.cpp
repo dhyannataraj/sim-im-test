@@ -675,7 +675,7 @@ void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRed
             m_bHTTPS = true;
         }else{
 #endif
-            log(L_WARN, "Unsupported protocol %s", m_uri);
+            log(L_WARN, "Unsupported protocol %s", (const char*)m_uri.local8Bit());
             return;
 #ifdef USE_OPENSSL
         }

@@ -127,7 +127,7 @@ string HomeDirPlugin::defaultPath()
     }else{
         log(L_ERROR, "Can't get pwd");
     }
-    if (s[s.size() - 1] != '/')
+    if (s[s.length() - 1] != '/')
         s += '/';
 #ifdef USE_KDE
     char *kdehome = getenv("KDEHOME");
@@ -176,7 +176,7 @@ string HomeDirPlugin::defaultPath()
     }
 #endif
 #ifdef HAVE_CHMOD
-    chmod(s.c_str(), 0700);
+    chmod(s.local8Bit(), 0700);
 #endif
     return s;
 }

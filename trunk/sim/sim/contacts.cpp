@@ -1682,7 +1682,7 @@ void ContactList::save()
     QString cfgName = user_file(CONTACTS_CONF);
     QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", f.name().local8Bit());
+        log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
     QTextStream ds(&f);

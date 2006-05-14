@@ -3970,7 +3970,7 @@ QString CorePlugin::getConfig()
     QString cfgName = user_file("plugins.conf");
     QFile fCFG(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", cfgName);
+        log(L_ERROR, "Can't create %s", (const char*)cfgName.local8Bit());
     }else{
 		QTextStream ts(&fCFG);
         ts << "[_core]\n"
@@ -4002,7 +4002,7 @@ QString CorePlugin::getConfig()
     cfgName = user_file(CLIENTS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", cfgName);
+        log(L_ERROR, "Can't create %s", (const char*)cfgName.local8Bit());
     }else{
 		QTextStream ts(&f);
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
