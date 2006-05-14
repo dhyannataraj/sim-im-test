@@ -19,7 +19,6 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -50,7 +49,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
-				PreprocessorDefinitions="NDEBUG;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1"
+				PreprocessorDefinitions="NDEBUG;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1;NOUNCRYPT"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -111,7 +110,6 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -142,7 +140,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1"
+				PreprocessorDefinitions="_DEBUG;_USRDLL;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1;NOUNCRYPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -570,6 +568,28 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\sim\qzip\ioapi.c"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						ForcedIncludeFiles="$(NOINHERIT)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="sim\linklabel.cpp"
 				>
 				<FileConfiguration
@@ -862,26 +882,8 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\qzip.cpp"
+				RelativePath=".\sim\qzip\qzip.cpp"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="sim\sax.cpp"
@@ -1104,15 +1106,13 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\unzip.c"
+				RelativePath=".\sim\qzip\unzip.c"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
 						UsePrecompiledHeader="0"
 						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
@@ -1122,8 +1122,6 @@
 					>
 					<Tool
 						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
 						UsePrecompiledHeader="0"
 						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
@@ -1373,6 +1371,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\sim\qzip\ioapi.h"
+				>
+			</File>
+			<File
 				RelativePath="sim\johab_hangul.h"
 				>
 			</File>
@@ -1521,7 +1523,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\qzip.h"
+				RelativePath=".\sim\qzip\qzip.h"
 				>
 			</File>
 			<File
@@ -1664,7 +1666,7 @@
 				>
 			</File>
 			<File
-				RelativePath="sim\unzip.h"
+				RelativePath=".\sim\qzip\unzip.h"
 				>
 			</File>
 			<File
