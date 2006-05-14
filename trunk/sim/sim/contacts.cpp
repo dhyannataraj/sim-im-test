@@ -1680,7 +1680,7 @@ void ContactList::save()
 {
     QString line;
     QString cfgName = user_file(CONTACTS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).latin1())); // use backup file for this ...
+    QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", f.name().local8Bit());
         return;
@@ -1765,7 +1765,7 @@ void ContactList::load()
 {
     clear();
     QString cfgName = user_file(CONTACTS_CONF);
-    QFile f(QFile::decodeName(cfgName.latin1()));
+    QFile f(cfgName);
     if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't open %s", cfgName.latin1());
         return;

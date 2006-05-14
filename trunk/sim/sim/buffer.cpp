@@ -164,7 +164,9 @@ void Buffer::setReadPos(unsigned n)
 
 void Buffer::pack(const char *d, unsigned s)
 {
-    if(m_posWrite+s > size())
+    if(s == 0)
+		return;
+	if(m_posWrite+s > size())
         resize(m_posWrite+s);
     memcpy(data() + m_posWrite, d, s);
     m_posWrite += s;
@@ -390,7 +392,9 @@ Buffer &Buffer::operator << (char **str)
 
 Buffer &Buffer::operator << (const char *str)
 {
-    pack(str, strlen(str));
+    if(!str)
+		return *this;
+	pack(str, strlen(str));
     return *this;
 }
 
