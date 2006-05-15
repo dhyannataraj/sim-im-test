@@ -25,7 +25,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createReplacePlugin(unsigned base, bool, Buffer *cfg)
+Plugin *createReplacePlugin(unsigned base, bool, ConfigBuffer *cfg)
 {
     Plugin *plugin = new ReplacePlugin(base, cfg);
     return plugin;
@@ -53,7 +53,7 @@ static DataDef replaceData[] =
         { NULL, 0, 0, 0 }
     };
 
-ReplacePlugin::ReplacePlugin(unsigned base, Buffer *cfg)
+ReplacePlugin::ReplacePlugin(unsigned base, ConfigBuffer *cfg)
         : Plugin(base)
 {
     load_data(replaceData, &data, cfg);

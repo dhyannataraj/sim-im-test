@@ -35,7 +35,7 @@ class NetmonitorPlugin : public QObject, public SIM::Plugin, public SIM::EventRe
 {
     Q_OBJECT
 public:
-    NetmonitorPlugin(unsigned, Buffer *name);
+    NetmonitorPlugin(unsigned, ConfigBuffer *name);
     virtual ~NetmonitorPlugin();
     PROP_ULONG(LogLevel);
     PROP_STR(LogPackets);

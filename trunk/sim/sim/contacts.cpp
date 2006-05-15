@@ -1394,7 +1394,7 @@ void *ClientUserData::createData(Client *client)
     for (const DataDef *d = def; d->name; ++d)
         size += sizeof(Data) * d->n_values;
     data.data = malloc(size);
-    load_data(def, data.data, NULL);
+    load_data(def, data.data, (Buffer*)NULL);
     p->push_back(data);
     return data.data;
 }
@@ -1610,7 +1610,7 @@ void *UserData::getUserData(unsigned id, bool bCreate)
     for (const DataDef *def = (*it).def; def->name; ++def)
         size += sizeof(Data) * def->n_values;
     userData[id] = malloc(size);
-    load_data((*it).def, userData[id], NULL);
+    load_data((*it).def, userData[id]);
     return userData[id];
 }
 

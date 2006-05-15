@@ -149,15 +149,14 @@ protected:
 
 static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
 {
-    const char *n1 = p1.name.c_str();
-    const char *n2 = p2.name.c_str();
-    for (; *n1 && *n2; n1++, n2++){
-        if (tolower(*n1) < tolower(*n2))
-            return true;
-        if (tolower(*n1) > tolower(*n2))
-            return false;
-    }
-    return (*n1 == 0) && (*n2 != 0);
+    QString s1 = p1.name.lower();
+    QString s2 = p2.name.lower();
+
+    if(s1 < s2)
+        return true;
+    if(s1 > s2)
+        return false;
+    return false;
 }
 
 PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
@@ -224,7 +223,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         info.info        = NULL;
         info.base        = 0;
         plugins.push_back(info);
-        log(L_DEBUG,"Found plugin %s",info.name.c_str());
+        log(L_DEBUG,"Found plugin %s",info.name.latin1());
     }
     Event eCorePlugin(EventGetPluginInfo, (void*)"_core");
     pluginInfo *coreInfo = static_cast<pluginInfo*>(eCorePlugin.process());
@@ -349,17 +348,17 @@ void PluginManagerPrivate::load(pluginInfo &info)
 {
     if (info.module == NULL){
 #ifdef WIN32
-        string pluginName = "plugins\\";
+        QString pluginName = "plugins\\";
 #else
-        string pluginName = PLUGIN_PATH;
+        QString pluginName = PLUGIN_PATH;
         pluginName += "/";
 #endif
         pluginName += info.name;
         pluginName += LTDL_SHLIB_EXT;
-        string fullName = app_file(pluginName.c_str());
-        info.module = (void*)lt_dlopen(fullName.c_str());
+        QString fullName = app_file(pluginName);
+        info.module = (void*)lt_dlopen(fullName);
         if (info.module == NULL)
-            fprintf(stderr, "Can't load plugin %s: %s\n", info.name.c_str(), lt_dlerror());
+            fprintf(stderr, "Can't load plugin %s: %s\n", info.name.latin1(), lt_dlerror());
     }
     if (info.module == NULL)
         return;
@@ -367,7 +366,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         PluginInfo* (*getInfo)() = NULL;
         (lt_ptr&)getInfo = lt_dlsym((lt_dlhandle)info.module, "GetPluginInfo");
         if (getInfo == NULL){
-            fprintf(stderr, "Plugin %s hasn't entry GetPluginInfo\n", info.name.c_str());
+            fprintf(stderr, "Plugin %s hasn't entry GetPluginInfo\n", info.name.latin1());
             release(info);
             return;
         }
@@ -375,13 +374,13 @@ void PluginManagerPrivate::load(pluginInfo &info)
 #ifndef WIN32
 #ifdef USE_KDE
         if (!(info.info->flags & PLUGIN_KDE_COMPILE)){
-            fprintf(stderr, "Plugin %s is compiled without KDE support!\n", info.name.c_str());
+            fprintf(stderr, "Plugin %s is compiled without KDE support!\n", info.name.latin1());
             release(info);
             return;
         }
 #else
 if (info.info->flags & PLUGIN_KDE_COMPILE){
-        fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.c_str());
+        fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.latin1());
         release(info);
         return;
     }
@@ -396,7 +395,7 @@ bool PluginManagerPrivate::create(pluginInfo &info)
         return true;
     string param;
     string descr;
-    const char *short_name = info.name.c_str();
+    const char *short_name = info.name;
     for (; *short_name; short_name++){
         char c = *short_name;
         if ((c >= '0') && (c <= '9')) continue;
@@ -435,7 +434,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         release(info);
         return false;
     }
-    log(L_DEBUG, "Load plugin %s", info.name.c_str());
+    log(L_DEBUG, "Load plugin %s", info.name.latin1());
     if (!m_bLoaded && !(info.info->flags & (PLUGIN_NO_CONFIG_PATH & ~PLUGIN_DEFAULT))){
         loadState();
         if (info.bDisabled || (!info.bFromCfg && (info.info->flags & (PLUGIN_NOLOAD_DEFAULT & ~PLUGIN_DEFAULT)))){
@@ -498,7 +497,7 @@ void PluginManagerPrivate::release(const char *name)
 void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
 {
     if (info.plugin){
-        log(L_DEBUG, "Unload plugin %s", info.name.c_str());
+        log(L_DEBUG, "Unload plugin %s", info.name.latin1());
         delete info.plugin;
         info.plugin = NULL;
         Event e(EventPluginChanged, &info);
@@ -639,10 +638,9 @@ void PluginManagerPrivate::loadState()
         return;
     }
 
-    Buffer cfg;
-    cfg = f.readAll();
+    ConfigBuffer cfg(&f);
 
-    if (cfg.size() <= 0){
+    if (cfg.length() <= 0){
         log(L_ERROR, "Can't read %s", f.name().ascii());
         return;
     }
@@ -686,9 +684,8 @@ void PluginManagerPrivate::loadState()
         if (info.base > m_base)
             m_base = info.base;
 
-        if (cfg.readPos() < cfg.writePos()){
-            plugins[i].cfg = new Buffer;
-            plugins[i].cfg->pack(cfg.data(cfg.readPos()), cfg.writePos() - cfg.readPos());
+        if (cfg.dataAvailable()){
+            plugins[i].cfg = cfg.getData();
         }
     }
 }

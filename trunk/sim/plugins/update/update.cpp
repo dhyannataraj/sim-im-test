@@ -32,7 +32,7 @@ using namespace SIM;
 
 const unsigned CHECK_INTERVAL = 60 * 60 * 24;
 
-Plugin *createUpdatePlugin(unsigned base, bool, Buffer *config)
+Plugin *createUpdatePlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new UpdatePlugin(base, config);
     return plugin;
@@ -58,7 +58,7 @@ static DataDef updateData[] =
         { NULL, 0, 0, 0 }
     };
 
-UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)
+UpdatePlugin::UpdatePlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(updateData, &data, config);

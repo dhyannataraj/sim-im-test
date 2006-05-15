@@ -36,7 +36,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createLiveJournalPlugin(unsigned base, bool, Buffer*)
+Plugin *createLiveJournalPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new LiveJournalPlugin(base);
     return plugin;

@@ -28,7 +28,7 @@
 
 using namespace SIM;
 
-Plugin *createFilterPlugin(unsigned base, bool, Buffer *cfg)
+Plugin *createFilterPlugin(unsigned base, bool, ConfigBuffer *cfg)
 {
     Plugin *plugin = new FilterPlugin(base, cfg);
     return plugin;
@@ -74,7 +74,7 @@ static QWidget *getFilterConfig(QWidget *parent, void *data)
     return new FilterConfig(parent, (FilterUserData*)data, filterPlugin, false);
 }
 
-FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
+FilterPlugin::FilterPlugin(unsigned base, ConfigBuffer *cfg)
         : Plugin(base), EventReceiver(HighPriority - 1)
 {
     filterPlugin = this;

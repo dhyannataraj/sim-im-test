@@ -1161,7 +1161,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 string homepage;
                 b.unpack(homepage);
                 ICQUserData data;
-                load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data, NULL);
+                load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
                 data.Uin.value = uin;
                 set_str(&data.Alias.ptr, name.c_str());
                 set_str(&data.About.ptr, topic.c_str());

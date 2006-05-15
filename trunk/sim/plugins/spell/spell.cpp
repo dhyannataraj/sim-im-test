@@ -53,7 +53,7 @@ PSpellHighlighter::~PSpellHighlighter()
         m_plugin->m_edits.erase(it);
 }
 
-SIM::Plugin *createSpellPlugin(unsigned base, bool, Buffer *config)
+SIM::Plugin *createSpellPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     SIM::Plugin *plugin = new SpellPlugin(base, config);
     return plugin;
@@ -82,7 +82,7 @@ static SIM::DataDef spellData[] =
         { NULL, 0, 0, 0 }
     };
 
-SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
+SpellPlugin::SpellPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     SIM::load_data(spellData, &data, config);

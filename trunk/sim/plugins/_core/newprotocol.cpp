@@ -57,17 +57,17 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect)
         if (info == NULL)
             break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, (char*)info->name.c_str());
+            Event e(EventLoadPlugin, (char*)info->name.latin1());
             e.process();
             if (info->info && !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-                Event e(EventUnloadPlugin, (char*)info->name.c_str());
+                Event e(EventUnloadPlugin, (char*)info->name.latin1());
                 e.process();
             }
         }
         if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
             continue;
         info->bDisabled = false;
-        Event eApply(EventApplyPlugin, (char*)info->name.c_str());
+        Event eApply(EventApplyPlugin, (char*)info->name.latin1());
         eApply.process();
     }
     Protocol *protocol;
@@ -118,9 +118,9 @@ NewProtocol::~NewProtocol()
         if (i < getContacts()->nClients())
             continue;
         info->bDisabled = true;
-        Event eApply(EventApplyPlugin, (char*)info->name.c_str());
+        Event eApply(EventApplyPlugin, (char*)info->name.latin1());
         eApply.process();
-        Event eUnload(EventUnloadPlugin, (char*)info->name.c_str());
+        Event eUnload(EventUnloadPlugin, (char*)info->name.latin1());
         eUnload.process();
     }
 }

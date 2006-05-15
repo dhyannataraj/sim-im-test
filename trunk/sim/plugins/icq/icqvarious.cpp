@@ -639,7 +639,7 @@ void SearchWPRequest::fail(unsigned short)
     SearchResult res;
     res.id = m_id;
     res.client = m_client;
-    load_data(ICQProtocol::icqUserData, &res.data, NULL);
+    load_data(ICQProtocol::icqUserData, &res.data);
     Event e(EventSearchDone, &res);
     e.process();
     free_data(ICQProtocol::icqUserData, &res.data);
@@ -650,7 +650,7 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     SearchResult res;
     res.id = m_id;
     res.client = m_client;
-    load_data(ICQProtocol::icqUserData, &res.data, NULL);
+    load_data(ICQProtocol::icqUserData, &res.data);
 
     unsigned short n;
     b >> n;
@@ -694,7 +694,7 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     if (nSubType == 0xAE01){
         unsigned long all;
         b >> all;
-        load_data(ICQProtocol::icqUserData, &res.data, NULL);
+        load_data(ICQProtocol::icqUserData, &res.data);
         res.data.Uin.value = all;
         Event e(EventSearchDone, &res);
         e.process();

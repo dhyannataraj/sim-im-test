@@ -49,7 +49,7 @@ class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceive
 {
     Q_OBJECT
 public:
-    SoundPlugin(unsigned, bool, Buffer*);
+    SoundPlugin(unsigned, bool, ConfigBuffer*);
     virtual ~SoundPlugin();
 #ifdef USE_KDE
     PROP_BOOL(UseArts);

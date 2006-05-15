@@ -179,7 +179,7 @@ void PluginItem::apply()
             m_widget = NULL;
         }
     }
-    Event e(EventApplyPlugin, (char*)m_info->name.c_str());
+    Event e(EventApplyPlugin, (char*)m_info->name.latin1());
     e.process();
 }
 
@@ -318,7 +318,7 @@ ConfigureDialog::~ConfigureDialog()
         if (info == NULL) break;
         if (info->plugin == NULL) continue;
         if (info->bDisabled){
-            Event eUnload(EventUnloadPlugin, (char*)info->name.c_str());
+            Event eUnload(EventUnloadPlugin, (char*)info->name.latin1());
             eUnload.process();
         }
     }
@@ -393,7 +393,7 @@ void ConfigureDialog::fill(unsigned id)
         pluginInfo *info = (pluginInfo*)e.process();
         if (info == NULL) break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, (char*)info->name.c_str());
+            Event e(EventLoadPlugin, (char*)info->name.latin1());
             e.process();
         }
         if ((info->info == NULL) || (info->info->title == NULL)) continue;
@@ -476,7 +476,7 @@ void ConfigureDialog::apply()
         void *data = malloc(size);
         QString cfg = client->getConfig();
         if (cfg.isEmpty()){
-            load_data(def, data, NULL);
+            load_data(def, data);
         }else{
             Buffer config;
             config << "[Title]\n";

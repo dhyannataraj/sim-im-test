@@ -28,7 +28,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createSplashPlugin(unsigned base, bool bStart, Buffer*)
+Plugin *createSplashPlugin(unsigned base, bool bStart, ConfigBuffer*)
 {
     Plugin *plugin = new SplashPlugin(base, bStart);
     return plugin;

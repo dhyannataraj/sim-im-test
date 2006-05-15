@@ -37,7 +37,7 @@ class FilterPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 {
     Q_OBJECT
 public:
-    FilterPlugin(unsigned, Buffer *cfg);
+    FilterPlugin(unsigned, ConfigBuffer *cfg);
     virtual ~FilterPlugin();
     PROP_BOOL(FromList);
     PROP_BOOL(AuthFromList);

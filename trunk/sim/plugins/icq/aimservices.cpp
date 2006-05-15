@@ -320,7 +320,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                 TlvList tlvs(m_socket->readBuffer, nTlvs);
                 Tlv *tlv = tlvs(0x09);
                 if (tlv){
-                    load_data(ICQProtocol::icqUserData, &res.data, NULL);
+                    load_data(ICQProtocol::icqUserData, &res.data);
                     set_str(&res.data.Screen.ptr, *tlv);
                     tlv = tlvs(0x01);
                     if (tlv){
@@ -375,7 +375,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                 }
             }
             if (r != 6){
-                load_data(ICQProtocol::icqUserData, &res.data, NULL);
+                load_data(ICQProtocol::icqUserData, &res.data);
                 Event e(EventSearchDone, &res);
                 e.process();
                 free_data(ICQProtocol::icqUserData, &res.data);

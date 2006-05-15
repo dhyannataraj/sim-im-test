@@ -39,7 +39,7 @@
 
 using namespace SIM;
 
-Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
+Plugin *createDockPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new DockPlugin(base, config);
     return plugin;
@@ -88,7 +88,7 @@ static DataDef dockData[] =
         { NULL, 0, 0, 0 }
     };
 
-DockPlugin::DockPlugin(unsigned base, Buffer *config)
+DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(dockData, &data, config);

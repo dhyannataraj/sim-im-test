@@ -25,7 +25,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createActionPlugin(unsigned base, bool, Buffer*)
+Plugin *createActionPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new ActionPlugin(base);
     return plugin;

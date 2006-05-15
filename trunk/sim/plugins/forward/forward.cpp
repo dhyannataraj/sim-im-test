@@ -22,7 +22,7 @@
 
 using namespace SIM;
 
-Plugin *createForwardPlugin(unsigned base, bool, Buffer*)
+Plugin *createForwardPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new ForwardPlugin(base);
     return plugin;

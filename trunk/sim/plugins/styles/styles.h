@@ -35,7 +35,7 @@ typedef struct StylesData
 class StylesPlugin : public SIM::Plugin
 {
 public:
-    StylesPlugin(unsigned, Buffer*);
+    StylesPlugin(unsigned, ConfigBuffer*);
     ~StylesPlugin();
     PROP_STR(Style);
     PROP_BOOL(SystemFonts);

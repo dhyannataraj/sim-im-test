@@ -77,7 +77,7 @@ static DataDef _proxyData[] =
 ProxyData::ProxyData()
 {
     bInit = false;
-    load_data(_proxyData, this, NULL);
+    load_data(_proxyData, this);
 }
 
 ProxyData::ProxyData(const ProxyData &d)
@@ -97,7 +97,7 @@ ProxyData::ProxyData(const char *cfg)
         load_data(_proxyData, this, &config);
         bInit = true;
     }else{
-        load_data(_proxyData, this, NULL);
+        load_data(_proxyData, this);
     }
 }
 
@@ -148,13 +148,13 @@ ProxyData& ProxyData::operator = (const ProxyData &d)
         bInit = true;
         Default = d.Default;
     }else{
-        load_data(_proxyData, this, NULL);
+        load_data(_proxyData, this);
     }
 
     return *this;
 }
 
-ProxyData& ProxyData::operator = (Buffer *cfg)
+ProxyData& ProxyData::operator = (ConfigBuffer *cfg)
 {
     if (bInit){
         free_data(_proxyData, this);
@@ -1150,7 +1150,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
 // ______________________________________________________________________________________
 
 
-Plugin *createProxyPlugin(unsigned base, bool, Buffer *config)
+Plugin *createProxyPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new ProxyPlugin(base, config);
     return plugin;
@@ -1170,7 +1170,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-ProxyPlugin::ProxyPlugin(unsigned base, Buffer *config)
+ProxyPlugin::ProxyPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     data = config;

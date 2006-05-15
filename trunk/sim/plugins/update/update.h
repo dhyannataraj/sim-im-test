@@ -30,7 +30,7 @@ class UpdatePlugin : public QObject, public SIM::Plugin, public FetchClient, pub
 {
     Q_OBJECT
 public:
-    UpdatePlugin(unsigned, Buffer*);
+    UpdatePlugin(unsigned, ConfigBuffer*);
     virtual ~UpdatePlugin();
 protected slots:
     void timeout();

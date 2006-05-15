@@ -22,7 +22,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createIconsPlugin(unsigned base, bool, Buffer *config)
+Plugin *createIconsPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new IconsPlugin(base, config);
     return plugin;
@@ -50,7 +50,7 @@ static DataDef iconsData[] =
         { NULL, 0, 0, 0 }
     };
 
-IconsPlugin::IconsPlugin(unsigned base, Buffer *config)
+IconsPlugin::IconsPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(iconsData, &data, config);

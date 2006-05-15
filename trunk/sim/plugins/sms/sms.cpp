@@ -44,7 +44,7 @@ static DataDef _smsUserData[] =
         { NULL, 0, 0, 0 }
     };
 
-Plugin *createSMSPlugin(unsigned base, bool, Buffer*)
+Plugin *createSMSPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new SMSPlugin(base);
     return plugin;

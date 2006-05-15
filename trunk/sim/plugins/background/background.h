@@ -41,7 +41,7 @@ const unsigned WindowScale  = 5;
 class BackgroundPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
-    BackgroundPlugin(unsigned, Buffer *name);
+    BackgroundPlugin(unsigned, ConfigBuffer *name);
     virtual ~BackgroundPlugin();
 protected:
     virtual void *processEvent(SIM::Event *e);

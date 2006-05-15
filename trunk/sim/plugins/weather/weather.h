@@ -78,7 +78,7 @@ class WeatherPlugin : public QObject, public SIM::Plugin, public SIM::EventRecei
 {
     Q_OBJECT
 public:
-    WeatherPlugin(unsigned, bool, Buffer*);
+    WeatherPlugin(unsigned, bool, ConfigBuffer*);
     virtual ~WeatherPlugin();
     PROP_STR(ID);
     PROP_STR(Location);

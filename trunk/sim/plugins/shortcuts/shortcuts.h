@@ -69,7 +69,7 @@ class ShortcutsPlugin : public QObject, public SIM::Plugin, public SIM::EventRec
 {
     Q_OBJECT
 public:
-    ShortcutsPlugin(unsigned, Buffer*);
+    ShortcutsPlugin(unsigned, ConfigBuffer*);
     virtual ~ShortcutsPlugin();
     PROP_STRLIST(Key);
     PROP_STRLIST(Global);

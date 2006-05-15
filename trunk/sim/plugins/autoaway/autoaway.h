@@ -38,7 +38,7 @@ class AutoAwayPlugin : public QObject, public SIM::Plugin, public SIM::EventRece
 {
     Q_OBJECT
 public:
-    AutoAwayPlugin(unsigned, Buffer*);
+    AutoAwayPlugin(unsigned, ConfigBuffer*);
     ~AutoAwayPlugin();
     PROP_ULONG(AwayTime);
     PROP_BOOL(EnableAway);

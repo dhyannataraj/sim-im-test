@@ -27,7 +27,6 @@
 #include <qstringlist.h>
 #include <qapplication.h>
 #include <qregexp.h>
-#include <qdir.h>
 
 #include <stdio.h>
 
@@ -685,6 +684,122 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         }
     }
     cfg->setReadPos(read_pos);
+}
+
+EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
+{
+    Data *data = (Data*)_data;
+    init_data(d, data);
+    if (cfg == NULL)
+        return;
+    cfg->savePos();
+    for (;;){
+        QString line = cfg->getLine();
+        if (line.isEmpty())
+            break;
+		int idx = line.find('=');
+		if(idx == -1)
+			continue;
+		QString name = line.left( idx );
+		QString val  = line.mid( idx + 1 );
+        if(name.isEmpty() || val.isEmpty())
+            continue;
+
+        unsigned offs = 0;
+        const DataDef *def = find_key(d, name, offs);
+        if (def == NULL)
+            continue;
+        Data *ld = data + offs;
+        switch (def->type){
+        case DATA_IP: {
+            QStringList strlist = QStringList::split( ',', val );
+            const char *ip = strlist[0];
+            const char *url = strlist[1];
+            set_ip(ld, inet_addr(ip), url);
+            break;
+        }
+        case DATA_STRLIST: {
+			int idx = val.find( ',' );
+			if( idx == -1 )
+				break;
+			QString cnt = val.left( idx );
+            int i = cnt.toULong();
+            if (i == 0)
+                break;
+            QString s = unquoteStringInternal(val.mid( idx + 1 ));
+            set_str(ld, i, s);
+            break;
+        }
+        case DATA_UTFLIST: {
+			int idx = val.find( ',' );
+			if( idx == -1 )
+				break;
+			QString cnt = val.left( idx );
+            int i = cnt.toULong();
+            if (i == 0)
+                break;
+            QString s = unquoteStringInternal(val.mid( idx + 1 ));
+            set_str(ld, i, s.utf8());
+            break;
+        }
+        case DATA_UTF: {
+			QStringList sl = QStringList::split( "\",\"", val );
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                s = unquoteStringInternal(s);
+                set_str(&ld->ptr, s.utf8());
+            }
+            break;
+        }
+        case DATA_STRING: {
+			QStringList sl = QStringList::split( "\",\"", val );
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                s = unquoteStringInternal(s);
+                set_str(&ld->ptr, s);
+            }
+            break;
+        }
+        case DATA_LONG: {
+            QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                ld->value = s.toLong();
+            }
+            break;
+        }
+        case DATA_ULONG: {
+            QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                ld->value = s.toULong();
+            }
+            break;
+        }
+        case DATA_BOOL: {
+            QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                if(s.lower() == "false" || s == "0")
+                    ld->bValue = false;
+                else
+                    ld->bValue = true;
+            }
+            break;
+        }
+        }
+    }
+	cfg->restorePos();
 }
 
 static char toHex(char c)

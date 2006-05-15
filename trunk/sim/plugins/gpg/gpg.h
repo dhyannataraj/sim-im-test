@@ -75,7 +75,7 @@ class GpgPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    GpgPlugin(unsigned, Buffer*);
+    GpgPlugin(unsigned, ConfigBuffer*);
     virtual ~GpgPlugin();
     PROP_STR(GPG);
     PROP_STR(Home);

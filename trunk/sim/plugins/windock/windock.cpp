@@ -35,7 +35,7 @@ const unsigned short ABE_FLOAT   = (unsigned short)(-1);
 
 static WinDockPlugin *dock = NULL;
 
-Plugin *createWinDockPlugin(unsigned base, bool, Buffer *config)
+Plugin *createWinDockPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new WinDockPlugin(base, config);
     return plugin;
@@ -347,7 +347,7 @@ static DataDef winDockData[] =
         { NULL, 0, 0, 0 }
     };
 
-WinDockPlugin::WinDockPlugin(unsigned base, Buffer *config)
+WinDockPlugin::WinDockPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base), EventReceiver(DefaultPriority - 1)
 {
     dock = this;

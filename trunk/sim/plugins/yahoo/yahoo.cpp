@@ -21,7 +21,7 @@
 
 using namespace SIM;
 
-Plugin *createYahooPlugin(unsigned base, bool, Buffer*)
+Plugin *createYahooPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new YahooPlugin(base);
     return plugin;

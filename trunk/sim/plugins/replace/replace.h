@@ -31,7 +31,7 @@ class ReplacePlugin : public QObject, public SIM::Plugin
 {
     Q_OBJECT
 public:
-    ReplacePlugin(unsigned, Buffer *cfg);
+    ReplacePlugin(unsigned, ConfigBuffer *cfg);
     virtual ~ReplacePlugin();
     PROP_ULONG(Keys)
     PROP_UTFLIST(Key)

@@ -166,7 +166,7 @@ void Buffer::pack(const char *d, unsigned s)
 {
     if(s == 0)
 		return;
-	if(m_posWrite+s > size())
+    if(m_posWrite+s > size())
         resize(m_posWrite+s);
     memcpy(data() + m_posWrite, d, s);
     m_posWrite += s;
@@ -394,7 +394,7 @@ Buffer &Buffer::operator << (const char *str)
 {
     if(!str)
 		return *this;
-	pack(str, strlen(str));
+    pack(str, strlen(str));
     return *this;
 }
 
@@ -714,6 +714,106 @@ Buffer &Buffer::operator = (const QByteArray &ba)
     m_posWrite = size;
     return *this;
 }
+
+// *********************************************
+// ConfigBuffer
+// *********************************************
+ConfigBuffer::ConfigBuffer(const QString &str)
+: m_posRead(0), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
+{
+	QString *that = static_cast<QString*>(this);
+	*that = str;
+}
+
+ConfigBuffer::ConfigBuffer(QIODevice *io)
+: m_posRead(0), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
+{
+	QString *that = static_cast<QString*>(this);
+	QTextStream ts(io);
+	*that = ts.read();
+}
+
+QString ConfigBuffer::getSection(bool bSkip)
+{
+    QString str;
+    unsigned start = m_posRead;
+    unsigned end = m_posRead;
+
+    if( bSkip )
+        start = findStartSection( m_posRead + 1 );
+    if( start == -1 )
+        return str;
+    start = findStartSection( start );
+    end   = findEndSection( start );
+    if( start == -1 || end == -1 )
+        return str;
+    m_startSection = m_posRead = start;
+
+    str = mid( start + 1, end - start - 1 );
+
+    m_posRead = end + 1;
+    if ( m_posRead < length() )
+        if ( at(m_posRead) == '\n' )
+            m_posRead++;
+    if ( m_posRead >= length() )
+        m_posRead = length() - 1;
+
+	m_posNextSection = findStartSection( end );
+    if( m_posNextSection == -1 )
+        m_posNextSection = length() - 1;
+
+    return str;
+}
+
+QString ConfigBuffer::getLine()
+{
+    QString str;
+    if(m_posNextSection==~0U)
+		getSection();
+	if (m_posRead >= m_posNextSection)
+        return str;
+    int idx = find( '\n', m_posRead );
+    if( idx==-1 )
+        idx = find( '\0', m_posRead );
+    if( idx==-1 )
+        idx = length();
+    str = mid( m_posRead, idx - m_posRead );
+    m_posRead += str.length();
+    if ( at(m_posRead) == '\n' )
+        m_posRead++;
+    if ( m_posRead >= length() )
+        m_posRead = length();
+    return str;
+}
+
+int ConfigBuffer::findStartSection(unsigned start)
+{
+    int idx = start;
+
+    do {
+        idx = find( '[', idx);
+        if(idx == -1)
+            return -1;
+        if( idx == 0 || at( idx - 1 ) == '\n' )
+            return idx;
+        idx++;
+    } while(true);
+}
+
+int ConfigBuffer::findEndSection(unsigned start)
+{
+    int idx = start;
+
+    do {
+        idx = find( ']', idx);
+        if(idx == -1)
+            return -1;
+        if( idx == (int)length() - 1 || at( idx + 1 ) == '\n' )
+            return idx;
+        idx++;
+    } while(true);
+}
+
 
 EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)
 {

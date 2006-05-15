@@ -21,7 +21,7 @@
 
 using namespace SIM;
 
-Plugin *createICQPlugin(unsigned base, bool, Buffer*)
+Plugin *createICQPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new ICQPlugin(base);
     return plugin;

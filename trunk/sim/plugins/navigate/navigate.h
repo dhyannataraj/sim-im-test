@@ -36,7 +36,7 @@ typedef struct NavigateData
 class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
-    NavigatePlugin(unsigned, Buffer *name);
+    NavigatePlugin(unsigned, ConfigBuffer *name);
     virtual ~NavigatePlugin();
 protected:
     virtual void *processEvent(SIM::Event*);

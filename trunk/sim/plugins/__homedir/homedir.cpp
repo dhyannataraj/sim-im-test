@@ -39,7 +39,7 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 using std::string;
 using namespace SIM;
 
-Plugin *createHomeDirPlugin(unsigned base, bool, Buffer*)
+Plugin *createHomeDirPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new HomeDirPlugin(base);
     return plugin;

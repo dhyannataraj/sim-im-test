@@ -52,7 +52,7 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     m_name	   = name;
     m_type	   = type;
     m_category = category;
-    load_data(jabberUserData, &m_data, NULL);
+    load_data(jabberUserData, &m_data);
     disableWidget(edtJName);
     disableWidget(edtType);
     disableWidget(edtCategory);
@@ -94,7 +94,7 @@ void DiscoInfo::reset()
         m_node = m_browser->m_list->currentItem()->text(COL_NODE);
     }
     free_data(jabberUserData, &m_data);
-    load_data(jabberUserData, &m_data, NULL);
+    load_data(jabberUserData, &m_data);
     set_str(&m_data.ID.ptr, m_url.utf8());
     set_str(&m_data.Node.ptr, m_node.utf8());
     setTitle();

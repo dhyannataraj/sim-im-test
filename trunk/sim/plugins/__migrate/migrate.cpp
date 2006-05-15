@@ -22,7 +22,7 @@
 
 using namespace SIM;
 
-Plugin *createMigratePlugin(unsigned base, bool, Buffer*)
+Plugin *createMigratePlugin(unsigned base, bool, ConfigBuffer*)
 {
     MigratePlugin *plugin = new MigratePlugin(base);
     if (!plugin->init()){

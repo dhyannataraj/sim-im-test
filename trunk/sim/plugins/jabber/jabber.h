@@ -79,7 +79,7 @@ typedef struct JabberData
 class JabberPlugin : public SIM::Plugin
 {
 public:
-    JabberPlugin(unsigned base, Buffer *cfg);
+    JabberPlugin(unsigned base, ConfigBuffer *cfg);
     virtual ~JabberPlugin();
     unsigned JabberPacket;
     void registerMessages();

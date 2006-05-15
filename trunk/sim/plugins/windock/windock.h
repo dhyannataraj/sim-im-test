@@ -34,7 +34,7 @@ class WinDockPlugin : public QObject, public SIM::Plugin, public SIM::EventRecei
 {
     Q_OBJECT
 public:
-    WinDockPlugin(unsigned, Buffer*);
+    WinDockPlugin(unsigned, ConfigBuffer*);
     virtual ~WinDockPlugin();
     PROP_BOOL(AutoHide);
     PROP_USHORT(State);

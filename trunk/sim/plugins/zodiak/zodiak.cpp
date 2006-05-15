@@ -42,7 +42,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createZodiakPlugin(unsigned base, bool, Buffer*)
+Plugin *createZodiakPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new ZodiakPlugin(base);
     return plugin;

@@ -38,7 +38,7 @@ class OnTopPlugin : public QObject, public SIM::Plugin, public SIM::EventReceive
 {
     Q_OBJECT
 public:
-    OnTopPlugin(unsigned, Buffer*);
+    OnTopPlugin(unsigned, ConfigBuffer*);
     virtual ~OnTopPlugin();
 protected:
     virtual bool eventFilter(QObject*, QEvent*);

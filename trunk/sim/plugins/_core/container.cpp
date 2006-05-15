@@ -128,7 +128,7 @@ Container::Container(unsigned id, const char *cfg)
         config.getSection();
         load_data(containerData, &data, &config);
     }else{
-        load_data(containerData, &data, NULL);
+        load_data(containerData, &data);
     }
 
     bool bPos = true;

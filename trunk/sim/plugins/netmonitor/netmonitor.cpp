@@ -25,7 +25,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createNetmonitorPlugin(unsigned base, bool, Buffer *config)
+Plugin *createNetmonitorPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new NetmonitorPlugin(base, config);
     return plugin;
@@ -64,7 +64,7 @@ static DataDef monitorData[] =
         { NULL, 0, 0, 0 }
     };
 
-NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
+NetmonitorPlugin::NetmonitorPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(monitorData, &data, config);

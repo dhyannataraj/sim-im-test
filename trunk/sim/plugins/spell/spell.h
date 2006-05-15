@@ -47,7 +47,7 @@ class SpellPlugin : public QObject, public SIM::Plugin, public SIM::EventReceive
 {
     Q_OBJECT
 public:
-    SpellPlugin(unsigned, Buffer*);
+    SpellPlugin(unsigned, ConfigBuffer*);
     ~SpellPlugin();
 #ifdef WIN32
     PROP_STR(Path);

@@ -35,7 +35,7 @@ using namespace SIM;
 const unsigned CHECK_SOUND_TIMEOUT	= 200;
 const unsigned WAIT_SOUND_TIMEOUT	= 1000;
 
-Plugin *createSoundPlugin(unsigned base, bool bFirst, Buffer *config)
+Plugin *createSoundPlugin(unsigned base, bool bFirst, ConfigBuffer *config)
 {
     Plugin *plugin = new SoundPlugin(base, bFirst, config);
     return plugin;
@@ -101,7 +101,7 @@ static QWidget *getSoundSetup(QWidget *parent, void *data)
     return new SoundUserConfig(parent, data, soundPlugin);
 }
 
-SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
+SoundPlugin::SoundPlugin(unsigned base, bool bFirst, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(soundData, &data, config);

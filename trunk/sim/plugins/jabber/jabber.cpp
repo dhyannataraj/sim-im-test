@@ -21,7 +21,7 @@
 
 using namespace SIM;
 
-Plugin *createJabberPlugin(unsigned base, bool, Buffer *cfg)
+Plugin *createJabberPlugin(unsigned base, bool, ConfigBuffer *cfg)
 {
     Plugin *plugin = new JabberPlugin(base, cfg);
     return plugin;
@@ -202,7 +202,7 @@ DataDef jabberData[] =
 
 JabberPlugin *JabberPlugin::plugin = NULL;
 
-JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
+JabberPlugin::JabberPlugin(unsigned base, ConfigBuffer *cfg)
         : Plugin(base)
 {
     plugin = this;

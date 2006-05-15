@@ -35,7 +35,7 @@ class TransparentPlugin : public QObject, public SIM::Plugin, public SIM::EventR
 {
     Q_OBJECT
 public:
-    TransparentPlugin(unsigned, Buffer*);
+    TransparentPlugin(unsigned, ConfigBuffer*);
     virtual ~TransparentPlugin();
     PROP_ULONG(Transparency);
 #ifdef WIN32

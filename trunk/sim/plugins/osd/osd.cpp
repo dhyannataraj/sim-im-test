@@ -60,7 +60,7 @@ using namespace SIM;
 const unsigned SHADOW_DEF	= 2;
 const unsigned XOSD_MARGIN	= 5;
 
-Plugin *createOSDPlugin(unsigned base, bool, Buffer*)
+Plugin *createOSDPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new OSDPlugin(base);
     return plugin;

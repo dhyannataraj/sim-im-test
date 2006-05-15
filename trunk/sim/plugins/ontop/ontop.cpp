@@ -32,7 +32,7 @@
 
 using namespace SIM;
 
-Plugin *createOnTopPlugin(unsigned base, bool, Buffer *config)
+Plugin *createOnTopPlugin(unsigned base, bool, ConfigBuffer *config)
 {
 #if defined(WIN32) || defined(USE_KDE)
     Plugin *plugin = new OnTopPlugin(base, config);
@@ -71,7 +71,7 @@ static DataDef onTopData[] =
         { NULL, 0, 0, 0 }
     };
 
-OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
+OnTopPlugin::OnTopPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(onTopData, &data, config);

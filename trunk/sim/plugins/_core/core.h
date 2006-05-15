@@ -19,6 +19,7 @@
 #define _CORE_H
 
 #include "simapi.h"
+#include "buffer.h"
 #include "stl.h"
 
 #include<qthread.h>
@@ -424,7 +425,7 @@ class CorePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    CorePlugin(unsigned, Buffer*);
+    CorePlugin(unsigned, ConfigBuffer*);
     virtual ~CorePlugin();
     PROP_STR(Profile)
     PROP_BOOL(SavePasswd)

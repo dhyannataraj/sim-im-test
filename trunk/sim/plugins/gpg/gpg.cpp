@@ -41,7 +41,7 @@ using namespace SIM;
 static string GPGpath;
 #endif
 
-Plugin *createGpgPlugin(unsigned base, bool, Buffer *cfg)
+Plugin *createGpgPlugin(unsigned base, bool, ConfigBuffer *cfg)
 {
 #ifndef WIN32
     if (GPGpath.empty())
@@ -118,7 +118,7 @@ static DataDef gpgUserData[] =
 
 GpgPlugin *GpgPlugin::plugin = NULL;
 
-GpgPlugin::GpgPlugin(unsigned base, Buffer *cfg)
+GpgPlugin::GpgPlugin(unsigned base, ConfigBuffer *cfg)
         : Plugin(base), EventReceiver(HighestPriority - 0x100)
 {
     load_data(gpgData, &data, cfg);

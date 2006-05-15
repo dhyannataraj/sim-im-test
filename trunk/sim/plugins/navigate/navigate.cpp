@@ -217,7 +217,7 @@ string RegEntry::value(const char *key)
 
 #endif
 
-Plugin *createNavigatePlugin(unsigned base, bool, Buffer *config)
+Plugin *createNavigatePlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new NavigatePlugin(base, config);
     return plugin;
@@ -262,7 +262,7 @@ static DataDef navigateData[] =
     };
 
 
-NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
+NavigatePlugin::NavigatePlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(navigateData, &data, config);

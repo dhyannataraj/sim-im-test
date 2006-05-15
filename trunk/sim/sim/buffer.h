@@ -150,6 +150,28 @@ protected:
     unsigned m_startSection;
 };
 
+class EXPORT ConfigBuffer : public QString
+{
+public:
+	ConfigBuffer(const QString &str);
+	ConfigBuffer(QIODevice *io);
+    QString getSection(bool bSkip=false);
+    QString getLine();
+    unsigned    startSection() { return m_startSection; }
+    bool dataAvailable() { return (m_posRead < m_posNextSection); }
+    ConfigBuffer *getData() { return new ConfigBuffer(mid( m_posRead, m_posNextSection - m_posRead)); }
+    void savePos() { m_posReadSave = m_posRead; }
+    void restorePos() { m_posRead = m_posReadSave; }
+protected:
+    int findStartSection(unsigned start);
+    int findEndSection(unsigned start);
+protected:
+    unsigned m_posRead;
+    unsigned m_startSection;
+    unsigned m_posNextSection;
+    unsigned m_posReadSave;
+};
+
 EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info=NULL);
 
 #endif

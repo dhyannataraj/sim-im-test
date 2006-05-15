@@ -29,7 +29,7 @@
 
 using namespace SIM;
 
-Plugin *createAboutPlugin(unsigned base, bool, Buffer*)
+Plugin *createAboutPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new AboutPlugin(base);
     return plugin;

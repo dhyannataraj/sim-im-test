@@ -33,7 +33,7 @@
 
 using namespace SIM;
 
-Plugin *createStylesPlugin(unsigned base, bool, Buffer *config)
+Plugin *createStylesPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new StylesPlugin(base, config);
     return plugin;
@@ -66,7 +66,7 @@ static DataDef stylesData[] =
         { NULL, 0, 0, 0 }
     };
 
-StylesPlugin::StylesPlugin(unsigned base, Buffer *config)
+StylesPlugin::StylesPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     m_saveBaseFont = NULL;

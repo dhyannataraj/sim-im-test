@@ -100,7 +100,7 @@ protected:
 #endif
 };
 
-Plugin *createCorePlugin(unsigned base, bool, Buffer *config)
+Plugin *createCorePlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new CorePlugin(base, config);
     return plugin;
@@ -467,7 +467,7 @@ static autoReply autoReplies[] =
 
 static QString smile_icon;
 
-CorePlugin::CorePlugin(unsigned base, Buffer *config)
+CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
     m_plugin = this;

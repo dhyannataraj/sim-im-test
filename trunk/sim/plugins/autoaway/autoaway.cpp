@@ -65,7 +65,7 @@ using namespace SIM;
 
 const unsigned AUTOAWAY_TIME	= 10000;
 
-Plugin *createAutoAwayPlugin(unsigned base, bool, Buffer *config)
+Plugin *createAutoAwayPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new AutoAwayPlugin(base, config);
     return plugin;
@@ -179,7 +179,7 @@ static DataDef autoAwayData[] =
         { NULL, 0, 0, 0 }
     };
 
-AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
+AutoAwayPlugin::AutoAwayPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base), EventReceiver(HighPriority)
 {
     load_data(autoAwayData, &data, config);

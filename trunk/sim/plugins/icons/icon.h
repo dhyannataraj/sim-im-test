@@ -30,7 +30,7 @@ typedef struct IconsData
 class IconsPlugin : public SIM::Plugin
 {
 public:
-    IconsPlugin(unsigned, Buffer*);
+    IconsPlugin(unsigned, ConfigBuffer*);
     virtual ~IconsPlugin();
     PROP_STRLIST(Icon);
     PROP_ULONG(NIcons);

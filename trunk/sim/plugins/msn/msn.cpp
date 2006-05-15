@@ -21,7 +21,7 @@
 
 using namespace SIM;
 
-Plugin *createMSNPlugin(unsigned base, bool, Buffer*)
+Plugin *createMSNPlugin(unsigned base, bool, ConfigBuffer*)
 {
     Plugin *plugin = new MSNPlugin(base);
     return plugin;

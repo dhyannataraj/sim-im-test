@@ -81,10 +81,12 @@ typedef unsigned char _Bool;
 #define QT_THREAD_SUPPORT 1
 #endif
 
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 # define DEPRECATED __declspec(deprecated)
 #elif defined(__GNUC__)
 # define DEPRECATED __attribute__ ((deprecated))
+#else
+# define DEPRECATED
 #endif
 
 #if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
@@ -161,6 +163,7 @@ class QLineEdit;
 
 class KAboutData;
 class Buffer;
+class ConfigBuffer;
 
 namespace SIM
 {
@@ -204,7 +207,7 @@ protected:
     unsigned m_base;
 };
 
-typedef Plugin *createPlugin(unsigned base, bool bStart, Buffer *cfg);
+typedef Plugin *createPlugin(unsigned base, bool bStart, ConfigBuffer *cfg);
 typedef QStyle *createStyle();
 
 const unsigned PLUGIN_KDE_COMPILE    = 0x0001;
@@ -234,8 +237,8 @@ typedef struct PluginInfo           // Information in plugin
 typedef struct pluginInfo
 {
     Plugin          *plugin;
-    std::string         name;
-    Buffer          *cfg;           // configuration data
+    QString         name;
+    ConfigBuffer    *cfg;           // configuration data
     bool            bDisabled;      // no load this plugin
     bool            bNoCreate;      // can't create plugin
     bool            bFromCfg;       // init state from config
@@ -876,7 +879,8 @@ const unsigned DATA_UTFLIST     = 8;
 const unsigned DATA_OBJECT      = 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
-EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
+EXPORT void load_data(const DataDef *def, void *data, Buffer *config = NULL);
+EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config);
 EXPORT QString save_data(const DataDef *def, void *data);
 
 EXPORT bool set_str(char **str, const char *value);
@@ -975,6 +979,7 @@ EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT std::string quoteChars(const char *from, const char *chars);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT char fromHex(char);
+EXPORT QString unquoteString(const QString &in);
 
 
 // _____________________________________________________________________________________

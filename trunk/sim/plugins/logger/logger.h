@@ -37,7 +37,7 @@ class LoggerPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 {
     Q_OBJECT
 public:
-    LoggerPlugin(unsigned, Buffer*);
+    LoggerPlugin(unsigned, ConfigBuffer*);
     virtual ~LoggerPlugin();
     PROP_ULONG(LogLevel);
     PROP_STR(LogPackets);

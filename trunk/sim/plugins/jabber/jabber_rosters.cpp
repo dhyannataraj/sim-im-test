@@ -304,7 +304,7 @@ InfoRequest::~InfoRequest()
         JabberUserData *data;
         JabberUserData u_data;
         if (m_bVCard){
-            load_data(jabberUserData, &u_data, NULL);
+            load_data(jabberUserData, &u_data);
             data = &u_data;
             set_str(&data->ID.ptr, m_jid.c_str());
             set_str(&data->Node.ptr, m_node.c_str());
@@ -1534,7 +1534,7 @@ static DataDef jabberAgentsInfo[] =
 AgentDiscoRequest::AgentDiscoRequest(JabberClient *client, const char *jid)
         : ServerRequest(client, _GET, NULL, jid)
 {
-    load_data(jabberAgentsInfo, &data, NULL);
+    load_data(jabberAgentsInfo, &data);
     set_str(&data.ID.ptr, jid);
     m_bError = false;
 }
@@ -1603,7 +1603,7 @@ void AgentsDiscoRequest::element_start(const char *el, const char **attr)
 AgentRequest::AgentRequest(JabberClient *client, const char *jid)
         : ServerRequest(client, _GET, NULL, jid)
 {
-    load_data(jabberAgentsInfo, &data, NULL);
+    load_data(jabberAgentsInfo, &data);
     m_bError = false;
     m_jid    = jid;
 }
@@ -1624,7 +1624,7 @@ void AgentRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "agent")){
         free_data(jabberAgentsInfo, &data);
-        load_data(jabberAgentsInfo, &data, NULL);
+        load_data(jabberAgentsInfo, &data);
         m_data = JabberClient::get_attr("jid", attr);
         set_str(&data.ID.ptr, m_data.c_str());
     }else if (!strcmp(el, "search")){
@@ -1727,13 +1727,13 @@ AgentInfoRequest::AgentInfoRequest(JabberClient *client, const char *jid)
     m_bOption = false;
     m_error_code = 0;
     m_bError = false;
-    load_data(jabberAgentInfo, &data, NULL);
+    load_data(jabberAgentInfo, &data);
 }
 
 AgentInfoRequest::~AgentInfoRequest()
 {
     free_data(jabberAgentInfo, &data);
-    load_data(jabberAgentInfo, &data, NULL);
+    load_data(jabberAgentInfo, &data);
     set_str(&data.ID.ptr, m_jid.c_str());
     set_str(&data.ReqID.ptr, m_id.c_str());
     data.nOptions.value = m_error_code;
@@ -1753,7 +1753,7 @@ void AgentInfoRequest::element_start(const char *el, const char **attr)
         return;
     if (!strcmp(el, "field")){
         free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data, NULL);
+        load_data(jabberAgentInfo, &data);
         set_str(&data.ID.ptr, m_jid.c_str());
         m_data = JabberClient::get_attr("var", attr);
         set_str(&data.Field.ptr, m_data.c_str());
@@ -1775,7 +1775,7 @@ void AgentInfoRequest::element_start(const char *el, const char **attr)
         Event e(EventAgentInfo, &data);
         e.process();
         free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data, NULL);
+        load_data(jabberAgentInfo, &data);
     }
     m_data = "";
 }
@@ -1802,7 +1802,7 @@ void AgentInfoRequest::element_end(const char *el)
             Event e(EventAgentInfo, &data);
             e.process();
             free_data(jabberAgentInfo, &data);
-            load_data(jabberAgentInfo, &data, NULL);
+            load_data(jabberAgentInfo, &data);
         }
     }else if (!strcmp(el, "option")){
         m_bOption = false;
@@ -1825,7 +1825,7 @@ void AgentInfoRequest::element_end(const char *el)
         Event e(EventAgentInfo, &data);
         e.process();
         free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data, NULL);
+        load_data(jabberAgentInfo, &data);
     }else if (strcmp(el, "error") && strcmp(el, "iq") && strcmp(el, "query") && strcmp(el, "x")){
         set_str(&data.Value.ptr, m_data.c_str());
         set_str(&data.ID.ptr, m_jid.c_str());
@@ -1834,7 +1834,7 @@ void AgentInfoRequest::element_end(const char *el)
         Event e(EventAgentInfo, &data);
         e.process();
         free_data(jabberAgentInfo, &data);
-        load_data(jabberAgentInfo, &data, NULL);
+        load_data(jabberAgentInfo, &data);
     }
 }
 
@@ -1909,7 +1909,7 @@ static DataDef jabberSearchData[] =
 SearchRequest::SearchRequest(JabberClient *client, const char *jid)
         : ServerRequest(client, _SET, NULL, jid)
 {
-    load_data(jabberSearchData, &data, NULL);
+    load_data(jabberSearchData, &data);
     m_bReported = false;
 }
 
@@ -1926,7 +1926,7 @@ void SearchRequest::element_start(const char *el, const char **attr)
         m_bReported = true;
     }else if (!strcmp(el, "item")){
         free_data(jabberSearchData, &data);
-        load_data(jabberSearchData, &data, NULL);
+        load_data(jabberSearchData, &data);
         m_data = JabberClient::get_attr("jid", attr);
         set_str(&data.JID.ptr, m_data.c_str());
     }else if (!strcmp(el, "field")){
@@ -1951,7 +1951,7 @@ void SearchRequest::element_end(const char *el)
     if (!strcmp(el, "reported")){
         m_bReported = false;
         free_data(jabberSearchData, &data);
-        load_data(jabberSearchData, &data, NULL);
+        load_data(jabberSearchData, &data);
         for (list<string>::iterator it = m_fields.begin(); it != m_fields.end(); ++it){
             string value;
             VALUE_MAP::iterator itv = m_values.find((*it).c_str());

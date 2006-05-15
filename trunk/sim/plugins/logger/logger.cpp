@@ -31,7 +31,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createLoggerPlugin(unsigned base, bool, Buffer *add_info)
+Plugin *createLoggerPlugin(unsigned base, bool, ConfigBuffer *add_info)
 {
     LoggerPlugin *plugin = new LoggerPlugin(base, add_info);
     return plugin;
@@ -73,7 +73,7 @@ static DataDef loggerData[] =
         { NULL, 0, 0, 0 }
     };
 
-LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
+LoggerPlugin::LoggerPlugin(unsigned base, ConfigBuffer *add_info)
         : Plugin(base)
 {
     m_file = NULL;

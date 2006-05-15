@@ -34,7 +34,7 @@
 using namespace std;
 using namespace SIM;
 
-Plugin *createRemotePlugin(unsigned base, bool, Buffer *config)
+Plugin *createRemotePlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new RemotePlugin(base, config);
     return plugin;
@@ -225,7 +225,7 @@ IPCLock::~IPCLock()
 
 #endif
 
-RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
+RemotePlugin::RemotePlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(remoteData, &data, config);

@@ -50,7 +50,7 @@ class RemotePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiv
 {
     Q_OBJECT
 public:
-    RemotePlugin(unsigned, Buffer*);
+    RemotePlugin(unsigned, ConfigBuffer*);
     ~RemotePlugin();
     PROP_STR(Path);
 #ifdef WIN32

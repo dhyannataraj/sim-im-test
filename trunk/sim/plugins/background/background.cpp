@@ -25,7 +25,7 @@
 
 using namespace SIM;
 
-Plugin *createBackgroundPlugin(unsigned base, bool, Buffer *config)
+Plugin *createBackgroundPlugin(unsigned base, bool, ConfigBuffer *config)
 {
     Plugin *plugin = new BackgroundPlugin(base, config);
     return plugin;
@@ -62,7 +62,7 @@ static DataDef backgroundData[] =
         { NULL, 0, 0, 0 }
     };
 
-BackgroundPlugin::BackgroundPlugin(unsigned base, Buffer *config)
+BackgroundPlugin::BackgroundPlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base)
 {
     load_data(backgroundData, &data, config);

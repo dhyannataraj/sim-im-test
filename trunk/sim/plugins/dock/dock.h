@@ -40,7 +40,7 @@ class DockPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    DockPlugin(unsigned, Buffer*);
+    DockPlugin(unsigned, ConfigBuffer*);
     virtual ~DockPlugin();
 protected slots:
     void showPopup(QPoint);

@@ -1170,7 +1170,7 @@ void YahooClient::loadList(const char *str)
         }
         if ((*itl).type == LR_DELETE){
             YahooUserData data;
-            load_data(yahooUserData, &data, NULL);
+            load_data(yahooUserData, &data);
             set_str(&data.Login.ptr, (*itl).name.c_str());
             removeBuddy(&data);
             free_data(yahooUserData, &data);
