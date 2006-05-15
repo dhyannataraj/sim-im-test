@@ -39,7 +39,7 @@ public:
     void clear(bool bClearAll);
     unsigned registerUserData(const char *name, const DataDef *def);
     void unregisterUserData(unsigned id);
-    void flush(Contact *c, Group *g, const char *section, Buffer *cfg);
+    void flush(Contact *c, Group *g, const char *section, ConfigBuffer *cfg);
     void flush(Contact *c, Group *g);
     UserData userData;
     list<UserDataDef> userDataDef;
@@ -1372,7 +1372,7 @@ string ClientUserData::save()
     return res;
 }
 
-void ClientUserData::load(Client *client, Buffer *cfg)
+void ClientUserData::load(Client *client, ConfigBuffer *cfg)
 {
     _ClientUserData data;
     data.client = client;
@@ -1654,7 +1654,7 @@ QString UserData::save()
     return res;
 }
 
-void UserData::load(unsigned long id, const DataDef *def, Buffer *cfg)
+void UserData::load(unsigned long id, const DataDef *def, ConfigBuffer *cfg)
 {
     void *d = getUserData(id, true);
     if (d == NULL)
@@ -1770,10 +1770,9 @@ void ContactList::load()
         log(L_ERROR, "Can't open %s", cfgName.latin1());
         return;
     }
-    Buffer cfg;
-    cfg = f.readAll();
+    ConfigBuffer cfg(&f);
  
-    if (cfg.size() <= 0){
+    if (cfg.length() <= 0){
         log(L_ERROR, "Can't read %s", cfgName.latin1());
         return;
     }
@@ -1824,7 +1823,7 @@ void ContactListPrivate::flush(Contact *c, Group *g)
         data->sort();
 }
 
-void ContactListPrivate::flush(Contact *c, Group *g, const char *section, Buffer *cfg)
+void ContactListPrivate::flush(Contact *c, Group *g, const char *section, ConfigBuffer *cfg)
 {
     if (cfg == NULL)
         return;

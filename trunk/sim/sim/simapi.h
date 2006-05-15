@@ -1281,7 +1281,7 @@ public:
     UserData();
     ~UserData();
     QString save();
-    void load(unsigned long id, const DataDef *def, Buffer *cfg);
+    void load(unsigned long id, const DataDef *def, ConfigBuffer *cfg);
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
 protected:
@@ -1306,7 +1306,7 @@ public:
     ClientUserData();
     ~ClientUserData();
     std::string save();
-    void load(Client *client, Buffer *cfg);
+    void load(Client *client, ConfigBuffer *cfg);
     void *getData(Client *client);
     bool have(void*);
     void *createData(Client *client);
