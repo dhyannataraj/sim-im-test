@@ -50,7 +50,7 @@ ICQProtocol::~ICQProtocol()
 {
 }
 
-Client *ICQProtocol::createClient(Buffer *cfg)
+Client *ICQProtocol::createClient(ConfigBuffer *cfg)
 {
     return new ICQClient(this, cfg, false);
 }
@@ -220,7 +220,7 @@ AIMProtocol::~AIMProtocol()
 {
 }
 
-Client *AIMProtocol::createClient(Buffer *cfg)
+Client *AIMProtocol::createClient(ConfigBuffer *cfg)
 {
     return new ICQClient(this, cfg, true);
 }

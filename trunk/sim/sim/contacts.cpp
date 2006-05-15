@@ -1069,7 +1069,7 @@ static DataDef _clientData[] =
         { NULL, 0, 0, 0 }
     };
 
-Client::Client(Protocol *protocol, Buffer *cfg)
+Client::Client(Protocol *protocol, ConfigBuffer *cfg)
 {
     load_data(_clientData, &data, cfg);
 

@@ -50,7 +50,7 @@ JabberProtocol::~JabberProtocol()
 {
 }
 
-Client *JabberProtocol::createClient(Buffer *cfg)
+Client *JabberProtocol::createClient(ConfigBuffer *cfg)
 {
     return new JabberClient(this, cfg);
 }

@@ -92,7 +92,7 @@ class LiveJournalProtocol : public SIM::Protocol
 public:
     LiveJournalProtocol(SIM::Plugin *plugin);
     ~LiveJournalProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::Client	*createClient(ConfigBuffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     const SIM::DataDef *userDataDef();
@@ -139,7 +139,7 @@ class LiveJournalClient : public SIM::TCPClient, public FetchClient
 {
     Q_OBJECT
 public:
-    LiveJournalClient(SIM::Protocol*, Buffer *cfg);
+    LiveJournalClient(SIM::Protocol*, ConfigBuffer *cfg);
     ~LiveJournalClient();
     PROP_STR(Server);
     PROP_STR(URL);

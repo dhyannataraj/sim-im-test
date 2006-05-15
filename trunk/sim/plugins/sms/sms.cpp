@@ -185,7 +185,7 @@ SMSProtocol::~SMSProtocol()
 {
 }
 
-Client *SMSProtocol::createClient(Buffer *cfg)
+Client *SMSProtocol::createClient(ConfigBuffer *cfg)
 {
     return new SMSClient(this, cfg);
 }
@@ -286,7 +286,7 @@ static DataDef smsClientData[] =
         { NULL, 0, 0, 0 }
     };
 
-SMSClient::SMSClient(Protocol *protocol, Buffer *cfg)
+SMSClient::SMSClient(Protocol *protocol, ConfigBuffer *cfg)
         : TCPClient(protocol, cfg)
 {
     load_data(smsClientData, &data, cfg);

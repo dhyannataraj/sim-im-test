@@ -25,7 +25,7 @@ class YahooProtocol : public SIM::Protocol
 public:
     YahooProtocol(SIM::Plugin *plugin);
     ~YahooProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::Client	*createClient(ConfigBuffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     virtual const SIM::DataDef *userDataDef();

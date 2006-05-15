@@ -261,7 +261,7 @@ class MessageRequest : public ServerRequest
         unsigned m_errorCode;
     };
 
-    JabberClient(JabberProtocol*, Buffer *cfg);
+    JabberClient(JabberProtocol*, ConfigBuffer *cfg);
     ~JabberClient();
     virtual std::string name();
     virtual QWidget	*setupWnd();

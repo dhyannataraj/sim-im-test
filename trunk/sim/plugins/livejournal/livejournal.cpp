@@ -268,7 +268,7 @@ LiveJournalProtocol::~LiveJournalProtocol()
 {
 }
 
-Client *LiveJournalProtocol::createClient(Buffer *cfg)
+Client *LiveJournalProtocol::createClient(ConfigBuffer *cfg)
 {
     return new LiveJournalClient(this, cfg);
 }
@@ -390,7 +390,7 @@ const DataDef *LiveJournalProtocol::userDataDef()
     return liveJournalUserData;
 }
 
-LiveJournalClient::LiveJournalClient(Protocol *proto, Buffer *cfg)
+LiveJournalClient::LiveJournalClient(Protocol *proto, ConfigBuffer *cfg)
         : TCPClient(proto, cfg)
 {
     load_data(liveJournalClientData, &data, cfg);

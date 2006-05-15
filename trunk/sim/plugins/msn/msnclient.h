@@ -168,7 +168,7 @@ class MSNClient : public SIM::TCPClient, public FetchClient
 {
     Q_OBJECT
 public:
-    MSNClient(SIM::Protocol*, Buffer *cfg);
+    MSNClient(SIM::Protocol*, ConfigBuffer *cfg);
     ~MSNClient();
     virtual std::string name();
     virtual QWidget	*setupWnd();

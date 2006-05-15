@@ -121,7 +121,7 @@ static DataDef msnClientData[] =
         { NULL, 0, 0, 0 }
     };
 
-MSNClient::MSNClient(Protocol *protocol, Buffer *cfg)
+MSNClient::MSNClient(Protocol *protocol, ConfigBuffer *cfg)
         : TCPClient(protocol, cfg)
 {
     load_data(msnClientData, &data, cfg);

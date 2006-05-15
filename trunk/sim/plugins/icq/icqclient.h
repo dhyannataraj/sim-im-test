@@ -498,7 +498,7 @@ class ICQClient : public SIM::TCPClient, public OscarSocket
 {
     Q_OBJECT
 public:
-    ICQClient(SIM::Protocol*, Buffer *cfg, bool bAIM);
+    ICQClient(SIM::Protocol*, ConfigBuffer *cfg, bool bAIM);
     ~ICQClient();
     virtual std::string name();
     virtual QWidget    *setupWnd();

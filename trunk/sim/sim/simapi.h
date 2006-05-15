@@ -1468,7 +1468,7 @@ public:
     Protocol(Plugin *plugin);
     virtual ~Protocol();
     Plugin  *plugin() { return m_plugin; }
-    virtual Client  *createClient(Buffer *cfg) = 0;
+    virtual Client  *createClient(ConfigBuffer *cfg) = 0;
     virtual const CommandDef *description() = 0;
     virtual const CommandDef *statusList() = 0;
     virtual const DataDef *userDataDef() = 0;
@@ -1492,7 +1492,7 @@ const unsigned AuthError = 1;
 class EXPORT Client
 {
 public:
-    Client(Protocol*, Buffer *cfg);
+    Client(Protocol*, ConfigBuffer *cfg);
     virtual ~Client();
     enum State
     {

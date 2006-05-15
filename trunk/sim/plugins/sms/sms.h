@@ -49,7 +49,7 @@ class SMSProtocol : public SIM::Protocol
 public:
     SMSProtocol(SIM::Plugin *plugin);
     ~SMSProtocol();
-    SIM::Client	*createClient(Buffer *cfg);
+    SIM::Client	*createClient(ConfigBuffer *cfg);
     const SIM::CommandDef *description();
     const SIM::CommandDef *statusList();
     const SIM::DataDef *userDataDef();
@@ -80,7 +80,7 @@ class SMSClient : public SIM::TCPClient
 {
     Q_OBJECT
 public:
-    SMSClient(SIM::Protocol *protocol, Buffer *cfg);
+    SMSClient(SIM::Protocol *protocol, ConfigBuffer *cfg);
     ~SMSClient();
     PROP_STR(Device);
     PROP_ULONG(BaudRate);

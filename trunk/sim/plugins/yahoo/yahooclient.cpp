@@ -115,7 +115,7 @@ const DataDef *YahooProtocol::userDataDef()
     return yahooUserData;
 }
 
-YahooClient::YahooClient(Protocol *protocol, Buffer *cfg)
+YahooClient::YahooClient(Protocol *protocol, ConfigBuffer *cfg)
         : TCPClient(protocol, cfg)
 {
     load_data(yahooClientData, &data, cfg);

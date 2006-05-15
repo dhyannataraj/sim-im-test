@@ -50,7 +50,7 @@ MSNProtocol::~MSNProtocol()
 {
 }
 
-Client *MSNProtocol::createClient(Buffer *cfg)
+Client *MSNProtocol::createClient(ConfigBuffer *cfg)
 {
     return new MSNClient(this, cfg);
 }

@@ -72,7 +72,7 @@ YahooProtocol::~YahooProtocol()
 {
 }
 
-Client *YahooProtocol::createClient(Buffer *cfg)
+Client *YahooProtocol::createClient(ConfigBuffer *cfg)
 {
     return new YahooClient(this, cfg);
 }

@@ -538,7 +538,7 @@ protected:
     void loadClients(ClientList&);
     void loadMenu();
     QString poFile(const char *lang);
-    SIM::Client *loadClient(const QString &name, Buffer *cfg);
+    SIM::Client *loadClient(const QString &name, ConfigBuffer *cfg);
     void setCurrentProfile(const char *profile);
     bool adjustClientItem(unsigned id, SIM::CommandDef *cmd);
     void showPanel();

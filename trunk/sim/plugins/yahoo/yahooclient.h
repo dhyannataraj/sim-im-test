@@ -158,7 +158,7 @@ class YahooClient : public SIM::TCPClient
 {
     Q_OBJECT
 public:
-    YahooClient(SIM::Protocol*, Buffer *cfg);
+    YahooClient(SIM::Protocol*, ConfigBuffer *cfg);
     ~YahooClient();
     PROP_STR(Server);
     PROP_USHORT(Port);

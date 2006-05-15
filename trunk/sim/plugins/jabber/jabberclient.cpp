@@ -169,7 +169,7 @@ static DataDef jabberClientData[] =
         { NULL, 0, 0, 0 }
     };
 
-JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
+JabberClient::JabberClient(JabberProtocol *protocol, ConfigBuffer *cfg)
         : TCPClient(protocol, cfg)
 {
     load_data(jabberClientData, &data, cfg);

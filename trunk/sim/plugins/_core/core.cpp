@@ -4113,16 +4113,15 @@ Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 
 void CorePlugin::loadClients(ClientList &clients)
 {
-    string cfgName = user_file(CLIENTS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QString cfgName = user_file(CLIENTS_CONF);
+    QFile f(cfgName);
     if (!f.open(IO_ReadOnly)){
-        log(L_ERROR, "Can't open %s", cfgName.c_str());
+        log(L_ERROR, "Can't open %s", cfgName.latin1());
         return;
     }
-    Buffer cfg;
-	cfg = f.readAll();
-    if (cfg.size() == 0){
-        log(L_ERROR, "Can't read %s", cfgName.c_str());
+    ConfigBuffer cfg(&f);
+    if (cfg.length() == 0){
+        log(L_ERROR, "Can't read %s", cfgName.latin1());
         return;
     }
     for (;;){
@@ -4135,7 +4134,7 @@ void CorePlugin::loadClients(ClientList &clients)
     }
 }
 
-Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
+Client *CorePlugin::loadClient(const QString &name, ConfigBuffer *cfg)
 {
     if (name.isEmpty())
         return NULL;
