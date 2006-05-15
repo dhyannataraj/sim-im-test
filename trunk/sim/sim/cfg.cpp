@@ -27,6 +27,7 @@
 #include <qstringlist.h>
 #include <qapplication.h>
 #include <qregexp.h>
+#include <qdir.h>
 
 #include <stdio.h>
 
