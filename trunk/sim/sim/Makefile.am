@@ -3,8 +3,7 @@ lib_LTLIBRARIES = libsim.la
 
 SUBDIRS = png libltdl qzip
 
-sim_SOURCES = sim.cpp \
- sim.rc
+sim_SOURCES = sim.cpp 
 
 libsim_la_SOURCES = \
  aboutdata.cpp \

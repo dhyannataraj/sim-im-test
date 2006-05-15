@@ -50,7 +50,6 @@
 #include "discoinfo.h"
 #include "infoproxy.h"
 #include "jabber.h"
-#include "jabber_pch.h"
 #include "jabber_ssl.h"
 #include "jabberaboutinfo.h"
 #include "jabberadd.h"
