@@ -696,7 +696,7 @@ QString Buffer::getLine()
         idx = find( '\0', m_posRead );
     if( idx==-1 )
         idx = size();
-    str = QString::fromLatin1( data() + m_posRead, idx - m_posRead );
+    str = QString::fromLocal8Bit( data() + m_posRead, idx - m_posRead );
     m_posRead += str.length();
     if ( at(m_posRead) == '\n' )
         m_posRead++;
@@ -719,18 +719,24 @@ Buffer &Buffer::operator = (const QByteArray &ba)
 // ConfigBuffer
 // *********************************************
 ConfigBuffer::ConfigBuffer(const QString &str)
-: m_posRead(0), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
+: m_IO(0), m_posRead(0), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0), m_BlockSize(0)
 {
 	QString *that = static_cast<QString*>(this);
 	*that = str;
 }
 
-ConfigBuffer::ConfigBuffer(QIODevice *io)
-: m_posRead(0), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
+ConfigBuffer::ConfigBuffer(QIODevice *io, unsigned BlockSize)
+: m_IO(io), m_posRead(0), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0), m_BlockSize(0)
 {
 	QString *that = static_cast<QString*>(this);
-	QTextStream ts(io);
-	*that = ts.read();
+	if(m_IO) {
+		if(!m_BlockSize) {
+			QTextStream ts(io);
+			*that = ts.read();
+		} else {
+			QTextStream ts(io);
+		}
+	}
 }
 
 QString ConfigBuffer::getSection(bool bSkip)
