@@ -830,7 +830,7 @@ void JabberClient::ServerRequest::start_element(const char *name)
 void JabberClient::ServerRequest::add_attribute(const char *name, const char *value)
 {
     m_client->m_socket->writeBuffer
-    << " " << name << "=\'" << JabberClient::encodeXML(QString::fromUtf8(value)) << "\'";
+    << " " << name << "=\'" << JabberClient::encodeXML(QString::fromUtf8(value)).ascii() << "\'";
 }
 
 void JabberClient::ServerRequest::end_element(bool bNewLevel)
@@ -860,7 +860,7 @@ void JabberClient::ServerRequest::add_text(const char *value)
         m_element = "";
     }
     m_client->m_socket->writeBuffer
-    << JabberClient::encodeXML(QString::fromUtf8(value));
+    << JabberClient::encodeXML(QString::fromUtf8(value)).ascii();
 }
 
 void JabberClient::ServerRequest::text_tag(const char *name, const char *value)
@@ -870,7 +870,7 @@ void JabberClient::ServerRequest::text_tag(const char *name, const char *value)
     end_element(true);
     m_client->m_socket->writeBuffer
     << "<" << name << ">"
-    << JabberClient::encodeXML(QString::fromUtf8(value))
+    << JabberClient::encodeXML(QString::fromUtf8(value)).ascii()
     << "</" << name << ">\n";
 }
 
@@ -907,7 +907,7 @@ void JabberClient::startHandshake()
     m_socket->writeBuffer
     << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
     << "<stream:stream to=\'"
-    << encodeXML(VHost().c_str())
+    << encodeXML(VHost().c_str()).ascii()
     << "\' xmlns=\'jabber:client\' xmlns:stream=\'http://etherx.jabber.org/streams\'>\n";
     sendPacket();
 }
@@ -1922,7 +1922,7 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
             return;
         }
         if (src.left(5) == "icon:"){
-            QStringList smiles = getIcons()->getSmile(src.mid(5).latin1());
+            QStringList smiles = getIcons()->getSmile(src.mid(5).ascii());
             if (!smiles.empty()){
                 res += smiles.front();
                 return;
