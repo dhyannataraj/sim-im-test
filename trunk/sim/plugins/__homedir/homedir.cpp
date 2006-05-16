@@ -67,7 +67,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 #ifdef WIN32
 
-static char key_name[] = "Software\\SIM";
+static char key_name[] = "/SIM";
 static char path_value[] = "Path";
 
 #endif
@@ -78,8 +78,8 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
 #ifdef WIN32
     m_bSave    = true;
 	QSettings setting( QSettings::Native );
-	setting.setPath( "/SIM", "", QSettings::User );
-	m_homeDir = setting.readEntry( "Path" );
+	setting.setPath( key_name, "", QSettings::User );
+	m_homeDir = setting.readEntry( path_value );
     m_bDefault = m_homeDir.isNull();
 #endif
 	QString d;
@@ -95,7 +95,7 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
 		d = m_homeDir;
 	}
 	QDir dir( d );
-    if ( !dir.exists() ) {
+    if ( d.isEmpty() || !dir.exists() ) {
         m_homeDir  = defaultPath();
 #ifdef WIN32
         m_bDefault = true;
@@ -181,12 +181,12 @@ QString HomeDirPlugin::getConfig()
     if (!m_bSave)
         return "";
 	QSettings setting( QSettings::Native );
-	setting.setPath( "/SIM", "", QSettings::User );
+	setting.setPath( key_name, "", QSettings::User );
 
 	if (!m_bDefault){
-		setting.writeEntry( "Path", m_homeDir );
+		setting.writeEntry( path_value, m_homeDir );
     }else{
-        setting.removeEntry( "Path" );
+        setting.removeEntry( path_value );
     }
     return "";
 }
