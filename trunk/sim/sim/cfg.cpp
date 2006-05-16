@@ -185,7 +185,7 @@ EXPORT QString app_file(const char *f)
 
 EXPORT QString user_file(const char *f)
 {
-    string res;
+    QString res;
     if (f) {
         res = f;
     } else {

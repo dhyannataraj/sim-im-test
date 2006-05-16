@@ -1846,8 +1846,8 @@ void *CorePlugin::processEvent(Event *e)
         m_cmds->clear();
         return NULL;
     case EventHomeDir:{
-            string *cfg = (string*)(e->param());
-            QString fname = QFile::decodeName(cfg->c_str());
+            QString *cfg = (QString*)(e->param());
+            QString fname = *cfg;
             QString profile;
 #ifdef WIN32
             if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
@@ -1861,12 +1861,12 @@ void *CorePlugin::processEvent(Event *e)
             if (profile.isEmpty()){
                 *cfg = "";
             }else{
-                *cfg = QFile::encodeName(profile);
+                *cfg = profile;
             }
             Event eProfile(EventHomeDir, cfg);
             if (!eProfile.process(this))
-                *cfg = app_file(cfg->c_str()).local8Bit();
-            makedir((char*)(cfg->c_str()));
+                *cfg = app_file(cfg->local8Bit());
+            makedir(QFile::encodeName(*cfg).data());
             return cfg;
         }
     case EventAddPreferences:{

@@ -24,15 +24,15 @@ class HomeDirPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     HomeDirPlugin(unsigned base);
-    std::string m_homeDir;
-    std::string defaultPath();
+    QString m_homeDir;
+    QString defaultPath();
 #ifdef WIN32
     bool m_bDefault;
     bool m_bSave;
 #endif
 protected:
     void *processEvent(SIM::Event *e);
-    std::string buildFileName(const char *name);
+    QString buildFileName(const QString *name);
 #ifdef WIN32
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual QString getConfig();
