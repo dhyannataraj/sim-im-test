@@ -63,9 +63,9 @@ void JabberClient::auth_plain()
     AuthRequest *req = new AuthRequest(this);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:auth");
-    string username = data.owner.ID.ptr;
+    QString username = data.owner.ID.ptr;
     username = getToken(username, '@');
-    req->text_tag("username", username.c_str());
+    req->text_tag("username", username);
     req->text_tag("password", getPassword());
     req->text_tag("resource", data.owner.Resource.ptr);
     req->send();
@@ -77,9 +77,9 @@ void JabberClient::auth_register()
     AuthRequest *req = new AuthRequest(this);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:register");
-    string username = data.owner.ID.ptr;
+    QString username = data.owner.ID.ptr;
     username = getToken(username, '@');
-    req->text_tag("username", username.c_str());
+    req->text_tag("username", username);
     req->text_tag("password", getPassword());
     req->send();
     m_requests.push_back(req);
@@ -92,20 +92,20 @@ void JabberClient::auth_digest()
     AuthRequest *req = new AuthRequest(this);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:auth");
-    string username = data.owner.ID.ptr;
+    QString username = data.owner.ID.ptr;
     username = getToken(username, '@');
-    req->text_tag("username", username.c_str());
+    req->text_tag("username", username);
 
-    string digest = m_id;
-    digest += getPassword().utf8();
-    string md = sha1(digest.c_str());
+    QString digest = m_id;
+    digest += getPassword();
+    string md = sha1(digest.utf8());
     digest = "";
     for (unsigned i = 0; i < md.length(); i++){
         char b[3];
         sprintf(b, "%02x",md[i] & 0xFF);
         digest += b;
     }
-    req->text_tag("digest", digest.c_str());
+    req->text_tag("digest", digest);
     req->text_tag("resource", data.owner.Resource.ptr);
     req->send();
     m_requests.push_back(req);

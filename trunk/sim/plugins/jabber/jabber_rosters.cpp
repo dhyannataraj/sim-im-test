@@ -430,7 +430,7 @@ void JabberClient::setupContact(Contact *contact, void *_data)
     if (data->Phone.ptr && *data->Phone.ptr){
         phones = QString::fromUtf8(data->Phone.ptr);
         phones += ",Home Phone,";
-        phones += number(PHONE).c_str();
+		phones += QString::number(PHONE);
     }
     contact->setPhones(phones, name().c_str());
 
@@ -634,7 +634,7 @@ void JabberClient::setClientInfo(void *_data)
         QString mail = getToken(mailItem, '/');
         if (mailItem.length())
             continue;
-        req->text_tag("EMAIL", mail.utf8());
+        req->text_tag("EMAIL", mail);
         break;
     }
     req->text_tag("BDAY", data->Bday.ptr);
@@ -760,7 +760,7 @@ bool JabberClient::add_contact(const char *jid, unsigned grp)
     if (grp)
         g = getContacts()->group(grp);
     if (g)
-        req->text_tag("group", g->getName().utf8());
+        req->text_tag("group", g->getName());
     req->send();
     m_requests.push_back(req);
     return true;
@@ -2116,9 +2116,9 @@ void JabberClient::processList()
         if ((*it).bDelete)
             req->add_attribute("subscription", "remove");
         if (!(*it).name.empty())
-            req->add_attribute("name", r.name.c_str());
+            req->add_attribute("name", r.name);
         if (!(*it).bDelete)
-            req->text_tag("group", r.grp.c_str());
+            req->text_tag("group", r.grp);
         req->send();
         m_requests.push_back(req);
     }
@@ -2237,10 +2237,10 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
     req->start_element("si");
     req->add_attribute("xmlns", "http://jabber.org/protocol/si");
     req->add_attribute("profile", "http://jabber.org/protocol/si/profile/file-transfer");
-    req->add_attribute("id", get_unique_id().c_str());
+    req->add_attribute("id", get_unique_id());
     req->start_element("file");
     req->add_attribute("xmns", "http://jabber.org/protocol/si/profile/file-transfer");
-    req->add_attribute("size", number(size).c_str());
+	req->add_attribute("size", QString::number(size));
     req->add_attribute("name", fname);
     req->start_element("range");
     req->end_element();
@@ -2258,18 +2258,18 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
 #if 0
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:oob");
-    string url  = "http://";
+    QString url  = "http://";
     struct in_addr addr;
     addr.s_addr = m_socket->localHost();
     url += inet_ntoa(addr);
     url += ":";
-    url += number(port);
+	url += QString::number(port);
     url += "/";
     url += fname;
-    string desc;
-    desc = msg->getText().utf8();
-    req->text_tag("url", url.c_str());
-    req->text_tag("desc", desc.c_str());
+    QString desc;
+    desc = msg->getText();
+    req->text_tag("url", url);
+    req->text_tag("desc", desc);
 #endif
     req->send();
     m_requests.push_back(req);
@@ -2844,11 +2844,11 @@ StatItemsRequest::~StatItemsRequest()
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");
     if (!m_node.empty())
-        req->add_attribute("node", m_node.c_str());
+        req->add_attribute("node", m_node);
     m_client->addLang(req);
     for (list<string>::iterator it = m_stats.begin(); it != m_stats.end(); ++it){
         req->start_element("stat");
-        req->add_attribute("name", (*it).c_str());
+        req->add_attribute("name", (*it));
         req->end_element();
     }
     req->send();
@@ -2886,7 +2886,7 @@ void JabberClient::addLang(ServerRequest *req)
     QString s = i18n(XmlLang);
     if (s == XmlLang)
         return;
-    req->add_attribute("xml:lang", s.utf8());
+    req->add_attribute("xml:lang", s);
 }
 
 class ChangePasswordRequest : public JabberClient::ServerRequest

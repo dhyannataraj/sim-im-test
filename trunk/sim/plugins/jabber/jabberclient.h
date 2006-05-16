@@ -173,12 +173,12 @@ public:
         ServerRequest(JabberClient *client, const char *type, const char *from, const char *to, const char *id=NULL);
         virtual ~ServerRequest();
         void	send();
-        void	start_element(const char *name);
+        void	start_element(const QString &name);
         void	end_element(bool bNewLevel = false);
-        void	add_attribute(const char *name, const char *value);
-        void	add_condition(const char *cond, bool bXData);
-        void	add_text(const char *text);
-        void	text_tag(const char *name, const char *value);
+        void	add_attribute(const QString &name, const QString &value);
+        void	add_condition(const QString &cond, bool bXData);
+        void	add_text(const QString &text);
+        void	text_tag(const QString &name, const QString &value);
         static const char *_GET;
         static const char *_SET;
         static const char *_RESULT;
@@ -186,8 +186,8 @@ public:
         virtual void	element_start(const char *el, const char **attr);
         virtual void	element_end(const char *el);
         virtual	void	char_data(const char *str, int len);
-        std::string		m_element;
-        std::stack<std::string>	m_els;
+        QString  		m_element;
+        std::stack<QString>	m_els;
         std::string		m_id;
         JabberClient	*m_client;
         friend class JabberClient;
@@ -376,10 +376,10 @@ protected:
     void setOffline(JabberUserData *data);
 
     static	QString encodeXML(const QString &str);
-    std::string		m_id;
+    QString		m_id;
     unsigned	m_depth;
 
-    std::string		get_unique_id();
+    QString		get_unique_id();
     unsigned	m_id_seed;
     unsigned	m_msg_id;
 
