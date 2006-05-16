@@ -2879,7 +2879,7 @@ string JabberClient::statInfo(const char *jid, const char *node)
     return req->m_id;
 }
 
-static char XmlLang[] = I18N_NOOP("Please translate this to short language name (ru, de)");
+static char XmlLang[] = I18N_NOOP("Please translate this to short language name like 'ru' or 'de'. Do not translate this sentence!)");
 
 void JabberClient::addLang(ServerRequest *req)
 {

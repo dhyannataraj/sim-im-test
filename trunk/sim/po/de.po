@@ -3367,7 +3367,7 @@ msgstr "Netzwerkfehler auf niedriger Ebene"
 
 #: plugins/jabber/jabber_rosters.cpp:2882
 msgid "Please translate this to short language name (ru, de)"
-msgstr "Bitte dies zu kurzem Namen für Sprache übersetzen (ru, de)"
+msgstr "de"
 
 #: plugins/jabber/jabberbrowser.cpp:49
 msgid "Process"
