@@ -42,16 +42,16 @@ protected:
     void error(const QString&);
     void flush();
 
-    std::string	m_owner;
+    QString	m_owner;
 
     unsigned m_uin;
-    std::string	m_passwd;
-    std::string	m_name;
-    int			m_state;
-    std::string	m_message;
-    std::string	m_time;
-    std::string	m_direction;
-    std::string	m_charset;
+    QString	m_passwd;
+    QString	m_name;
+    int		m_state;
+    QString	m_message;
+    QString	m_time;
+    QString	m_direction;
+    QString	m_charset;
 
     unsigned m_grpId;
     unsigned m_contactId;
