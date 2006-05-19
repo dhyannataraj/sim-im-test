@@ -251,7 +251,7 @@ public:
     ~YahooFileMessage();
     PROP_STR(Url);
     PROP_ULONG(MsgID);
-    virtual	std::string save();
+    virtual	QString save();
     virtual unsigned baseType() { return SIM::MessageFile; }
 protected:
     YahooFileData data;

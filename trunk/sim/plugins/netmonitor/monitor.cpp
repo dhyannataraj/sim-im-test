@@ -31,7 +31,6 @@
 #include <qfiledialog.h>
 #endif
 
-using std::string;
 using namespace SIM;
 
 const int mnuSave = 1;
@@ -102,9 +101,9 @@ void MonitorWindow::save()
 	QTextStream ts(&f);
     QString t;
     if (edit->hasSelectedText()){
-        t = unquoteText(edit->selectedText()).local8Bit();
+        t = unquoteText(edit->selectedText());
     }else{
-        t = unquoteText(edit->text()).local8Bit();
+        t = unquoteText(edit->text());
     }
 #ifdef WIN32
     t.replace(QRegExp("\n"),"\r\n");
@@ -230,8 +229,8 @@ void *MonitorWindow::processEvent(Event *e)
             QString logString = "<p><pre>";
             if (font)
                 logString += QString("<font color=\"#%1\">") .arg(font);
-            string s = make_packet_string(li);
-            logString += edit->quoteText(s.c_str());
+            QString s = make_packet_string(li);
+            logString += edit->quoteText(s);
             if (font)
                 logString += QString("</font>");
             logString += "</pre></p>";

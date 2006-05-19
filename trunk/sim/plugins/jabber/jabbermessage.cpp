@@ -39,12 +39,12 @@ JabberMessage::~JabberMessage()
     free_data(jabberMessageData, &data);
 }
 
-string JabberMessage::save()
+QString JabberMessage::save()
 {
-    string res = Message::save();
-    string s = save_data(jabberMessageData, &data);
-    if (!s.empty()){
-        if (!res.empty())
+    QString res = Message::save();
+    QString s = save_data(jabberMessageData, &data);
+    if (!s.isEmpty()){
+        if (!res.isEmpty())
             res += "\n";
         res += s;
     }
@@ -94,12 +94,12 @@ JabberMessageError::~JabberMessageError()
     free_data(jabberMessageErrorData, &data);
 }
 
-string JabberMessageError::save()
+QString JabberMessageError::save()
 {
-    string res = Message::save();
-    string s = save_data(jabberMessageErrorData, &data);
-    if (!s.empty()){
-        if (!res.empty())
+    QString res = Message::save();
+    QString s = save_data(jabberMessageErrorData, &data);
+    if (!s.isEmpty()){
+        if (!res.isEmpty())
             res += "\n";
         res += s;
     }

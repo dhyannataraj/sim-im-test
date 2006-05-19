@@ -79,12 +79,12 @@ JournalMessage::~JournalMessage()
     free_data(journalMessageData, &data);
 }
 
-string JournalMessage::save()
+QString JournalMessage::save()
 {
-    string cfg = Message::save();
-    string my_cfg = save_data(journalMessageData, &data);
-    if (!my_cfg.empty()){
-        if (!cfg.empty())
+    QString cfg = Message::save();
+    QString my_cfg = save_data(journalMessageData, &data);
+    if (!my_cfg.isEmpty()){
+        if (!cfg.isEmpty())
             cfg += "\n";
         cfg += my_cfg;
     }
@@ -1107,7 +1107,7 @@ void *LiveJournalClient::processEvent(Event *e)
             while ((data = (LiveJournalUserData*)(++it)) != NULL){
                 if (dataName(data) == msg->client()){
                     Buffer cfg;
-                    cfg << "[Title]\n" << msg->save().c_str();
+                    cfg << "[Title]\n" << (const char*)msg->save().local8Bit();
                     cfg.setWritePos(0);
                     cfg.getSection();
                     JournalMessage *m = new JournalMessage(&cfg);

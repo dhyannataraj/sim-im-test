@@ -82,12 +82,12 @@ QString ICQFileMessage::getDescription()
     return getContacts()->toUnicode(getContacts()->contact(contact()), serverText);
 }
 
-string ICQFileMessage::save()
+QString ICQFileMessage::save()
 {
-    string s = FileMessage::save();
-    string s1 = save_data(icqFileMessageData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QString s = FileMessage::save();
+    QString s1 = save_data(icqFileMessageData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }
@@ -143,12 +143,12 @@ QString ICQAuthMessage::getText() const
     return Message::getText();
 }
 
-string ICQAuthMessage::save()
+QString ICQAuthMessage::save()
 {
-    string s = Message::save();
-    string s1 = save_data(icqAuthMessageData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QString s = Message::save();
+    QString s1 = save_data(icqAuthMessageData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }
@@ -685,10 +685,10 @@ WarningMessage::WarningMessage(Buffer *cfg)
     load_data(warningMessageData, &data, cfg);
 }
 
-string WarningMessage::save()
+QString WarningMessage::save()
 {
-    string res = AuthMessage::save();
-    if (!res.empty())
+    QString res = AuthMessage::save();
+    if (!res.isEmpty())
         res += "\n";
     return res + save_data(warningMessageData, &data);
 }

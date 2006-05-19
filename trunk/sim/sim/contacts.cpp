@@ -1292,7 +1292,7 @@ unsigned ClientUserData::size()
     return p->size();
 }
 
-string ClientUserData::property(const char *name)
+QString ClientUserData::property(const char *name)
 {
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         _ClientUserData &d = *it;
@@ -1301,9 +1301,11 @@ string ClientUserData::property(const char *name)
             if (!strcmp(def->name, name)){
                 switch (def->type){
                 case DATA_STRING:
-                case DATA_UTF:
+                     if (user_data->ptr)
+						 return QString::fromAscii(user_data->ptr);
+               case DATA_UTF:
                     if (user_data->ptr)
-                        return user_data->ptr;
+						return QString::fromUtf8(user_data->ptr);
                 case DATA_ULONG:
                     if (user_data->value != (unsigned long)(def->def_value))
                         return QString::number(user_data->value);
@@ -1352,7 +1354,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     return client;
 }
 
-string ClientUserData::save()
+QString ClientUserData::save()
 {
     QString res;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){

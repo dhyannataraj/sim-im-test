@@ -1030,10 +1030,10 @@ EXPORT void saveGeometry(QWidget *w, Geometry geo)
         return;
     QPoint pos = w->pos();
     QSize size = w->size();
-    geo[0].value = pos.x();
-    geo[1].value = pos.y();
-    geo[2].value = size.width();
-    geo[3].value = size.height();
+    geo[LEFT].value   = pos.x();
+    geo[TOP].value    = pos.y();
+    geo[WIDTH].value  = size.width();
+    geo[HEIGHT].value = size.height();
 #ifdef WIN32
     if (GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_TOOLWINDOW){
         int dc = GetSystemMetrics(SM_CYCAPTION);

@@ -61,7 +61,7 @@ public:
     ~ICQAuthMessage();
     PROP_STR(Charset);
     virtual QString getText() const;
-    virtual std::string save();
+    virtual QString save();
     virtual unsigned baseType() { return m_baseType; }
 protected:
     unsigned m_baseType;
@@ -92,7 +92,7 @@ public:
     PROP_ULONG(Cookie);
     PROP_ULONG(Extended);
     virtual QString getDescription();
-    virtual std::string  save();
+    virtual QString save();
     virtual unsigned baseType() { return SIM::MessageFile; }
 protected:
     ICQFileMessageData data;
@@ -132,7 +132,7 @@ public:
     PROP_BOOL(Anonymous);
     PROP_USHORT(OldLevel);
     PROP_USHORT(NewLevel);
-    virtual std::string  save();
+    virtual QString save();
     QString presentation();
 protected:
     MessageWarningData data;

@@ -96,7 +96,7 @@ void Message::setClient(const char *client)
     m_client = client;
 }
 
-string Message::save()
+QString Message::save()
 {
     if (getTime() == 0){
         time_t now;
@@ -105,7 +105,7 @@ string Message::save()
     }
     unsigned saveFlags = getFlags();
     setFlags(getFlags() & MESSAGE_SAVEMASK);
-    string res = save_data(messageData, &data);
+    QString res = save_data(messageData, &data);
     setFlags(saveFlags);
     return res;
 }
@@ -142,12 +142,12 @@ SMSMessage::~SMSMessage()
     free_data(messageSMSData, &data);
 }
 
-string SMSMessage::save()
+QString SMSMessage::save()
 {
-    string s = Message::save();
-    string s1 = save_data(messageSMSData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QString s = Message::save();
+    QString s1 = save_data(messageSMSData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }
@@ -185,12 +185,12 @@ UrlMessage::~UrlMessage()
     free_data(messageUrlData, &data);
 }
 
-string UrlMessage::save()
+QString UrlMessage::save()
 {
-    string s = Message::save();
-    string s1 = save_data(messageUrlData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QString s = Message::save();
+    QString s1 = save_data(messageUrlData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }
@@ -227,12 +227,12 @@ ContactsMessage::~ContactsMessage()
     free_data(messageContactsData, &data);
 }
 
-string ContactsMessage::save()
+QString ContactsMessage::save()
 {
-    string s = Message::save();
-    string s1 = save_data(messageContactsData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QString s = Message::save();
+    QString s1 = save_data(messageContactsData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }
@@ -484,12 +484,12 @@ bool FileMessage::setDescription(const QString &str)
     return set_str(&data.Description.ptr, str.utf8());
 }
 
-string FileMessage::save()
+QString FileMessage::save()
 {
-    string s = Message::save();
-    string s1 = save_data(messageFileData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QString s = Message::save();
+    QString s1 = save_data(messageFileData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }
@@ -643,12 +643,12 @@ StatusMessage::StatusMessage(Buffer *cfg)
     load_data(messageStatusData, &data, cfg);
 }
 
-string StatusMessage::save()
+QString StatusMessage::save()
 {
-    string s = Message::save();
-    string s1 = save_data(messageStatusData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QString s = Message::save();
+    QString s1 = save_data(messageStatusData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }

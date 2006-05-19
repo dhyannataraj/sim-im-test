@@ -145,7 +145,7 @@ protected:
     bool   m_bForecast;
     bool   m_bCC;
     unsigned m_day;
-    QString getConfig();
+    virtual QString getConfig();
     bool isDay();
     bool parseTime(const char *str, int &h, int &m);
     bool parseDateTime(const char *str, QDateTime &dt);

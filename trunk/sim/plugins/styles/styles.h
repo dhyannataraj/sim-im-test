@@ -45,7 +45,7 @@ public:
     PROP_BOOL(SystemColors);
     PROP_ULONG(BtnColor);
     PROP_ULONG(BgColor);
-    QString getConfig();
+    virtual QString getConfig();
     QWidget *createConfigWindow(QWidget *parent);
     void setFonts();
     void setupDefaultFonts();

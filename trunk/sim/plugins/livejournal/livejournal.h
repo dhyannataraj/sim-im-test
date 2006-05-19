@@ -61,7 +61,7 @@ class JournalMessage : public SIM::Message
 public:
     JournalMessage(Buffer *cfg = NULL);
     ~JournalMessage();
-    std::string save();
+    QString save();
     PROP_UTF8(Subject);
     PROP_ULONG(Private);
     PROP_ULONG(Time);

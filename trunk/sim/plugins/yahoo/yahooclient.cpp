@@ -2136,7 +2136,7 @@ YahooFileMessage::~YahooFileMessage()
     free_data(yahoMessageFile, &data);
 }
 
-string YahooFileMessage::save()
+QString YahooFileMessage::save()
 {
     return save_data(yahoMessageFile, &data);
 }

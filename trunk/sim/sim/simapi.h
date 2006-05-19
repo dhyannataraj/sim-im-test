@@ -1045,7 +1045,7 @@ public:
     void setId(unsigned id) { m_id = id; }
     unsigned contact() const { return m_contact; }
     void setContact(unsigned contact) { m_contact = contact; }
-    virtual std::string save();
+    virtual QString save();
     virtual unsigned baseType() { return m_type; }
     QString getPlainText();
     QString getRichText();
@@ -1085,7 +1085,7 @@ public:
     ~SMSMessage();
     PROP_UTF8(Phone);
     PROP_UTF8(Network);
-    virtual std::string save();
+    virtual QString save();
     virtual QString presentation();
 protected:
     MessageSMSData data;
@@ -1186,7 +1186,7 @@ public:
     PROP_UTF8(File);
     unsigned getSize();
     void     setSize(unsigned);
-    virtual std::string save();
+    virtual QString save();
     virtual QString presentation();
     virtual QString getDescription();
     bool    setDescription(const QString&);
@@ -1232,7 +1232,7 @@ class EXPORT UrlMessage : public Message
 public:
     UrlMessage(unsigned type=MessageUrl, Buffer *cfg=NULL);
     ~UrlMessage();
-    virtual std::string  save();
+    virtual QString save();
     virtual QString presentation();
     VPROP_UTF8(Url)
 protected:
@@ -1249,7 +1249,7 @@ class EXPORT ContactsMessage : public Message
 public:
     ContactsMessage(unsigned type=MessageContacts, Buffer *cfg=NULL);
     ~ContactsMessage();
-    virtual std::string  save();
+    virtual QString save();
     virtual QString presentation();
     VPROP_UTF8(Contacts);
 protected:
@@ -1266,7 +1266,7 @@ class EXPORT StatusMessage : public Message
 public:
     StatusMessage(Buffer *cfg=NULL);
     PROP_ULONG(Status);
-    virtual std::string save();
+    virtual QString save();
     virtual QString presentation();
 protected:
     MessageStatusData data;
@@ -1305,7 +1305,7 @@ class EXPORT ClientUserData
 public:
     ClientUserData();
     ~ClientUserData();
-    std::string save();
+    QString save();
     void load(Client *client, ConfigBuffer *cfg);
     void *getData(Client *client);
     bool have(void*);
@@ -1317,7 +1317,7 @@ public:
     void join(clientData *cData, ClientUserData &data);
     unsigned size();
     Client *activeClient(void *&data, Client *client);
-    std::string property(const char *name);
+    QString property(const char *name);
 protected:
     ClientUserDataPrivate *p;
     friend class ClientDataIterator;
