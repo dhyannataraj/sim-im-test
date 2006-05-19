@@ -57,7 +57,7 @@ public:
     ZodiakPlugin(unsigned);
     virtual ~ZodiakPlugin();
 protected:
-    std::list<Picker>	m_pickers;
+    QValueList<Picker>	m_pickers;
     bool eventFilter(QObject*, QEvent*);
     void createLabel(DatePicker *picker);
     void *processEvent(SIM::Event*);
