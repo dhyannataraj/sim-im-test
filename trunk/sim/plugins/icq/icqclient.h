@@ -500,7 +500,8 @@ class ICQClient : public SIM::TCPClient, public OscarSocket
 public:
     ICQClient(SIM::Protocol*, ConfigBuffer *cfg, bool bAIM);
     ~ICQClient();
-    virtual std::string name();
+    virtual QString name();
+    virtual QString dataName(void*);
     virtual QWidget    *setupWnd();
     virtual QString getConfig();
     virtual unsigned getStatus();
@@ -571,7 +572,6 @@ public:
                                  const char *maiden, const char *country, const char *street,
                                  const char *city, const char *nick, const char *zip,
                                  const char *state);
-    virtual std::string dataName(void*);
     void requestReverseConnection(const char *screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
     SIM::Message *parseMessage(unsigned short type, const char *screen,
@@ -617,7 +617,7 @@ protected:
     virtual SIM::Socket  *createSocket();
     virtual QString ownerName();
     virtual QString contactName(void *clientData);
-    std::string dataName(const char *screen);
+    QString dataName(const QString &screen);
     Buffer  m_cookie;
     virtual SIM::ClientSocket *socket();
     virtual void packet();

@@ -58,7 +58,7 @@ WarnDlg::~WarnDlg()
 void WarnDlg::accept()
 {
     m_msg = new WarningMessage;
-    m_msg->setClient(m_client->dataName(m_data).c_str());
+    m_msg->setClient(m_client->dataName(m_data));
     m_msg->setContact(m_contact);
     m_msg->setAnonymous(chkAnon->isChecked());
     m_client->setWarnAnonimously(chkAnon->isChecked());

@@ -170,7 +170,8 @@ public:
     virtual QString getConfig();
     QString getLogin();
     void setLogin(const QString&);
-    std::string  dataName(void*);
+    QString	name();
+    QString dataName(void*);
     YahooClientData	data;
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
     YahooUserData *findContact(const char *id, const char *grp, SIM::Contact *&contact, bool bSend=true, bool bJoin=true);
@@ -185,7 +186,6 @@ protected:
     virtual void setInvisible(bool bState);
     void	disconnected();
     SIM::Socket  *createSocket();
-    std::string	name();
     QWidget	*setupWnd();
     bool isMyData(SIM::clientData*&, SIM::Contact*&);
     bool createData(SIM::clientData*&, SIM::Contact*);

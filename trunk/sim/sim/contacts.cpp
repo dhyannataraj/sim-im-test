@@ -521,7 +521,7 @@ unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, str
     return status;
 }
 
-string Client::resources(void*)
+QString Client::resources(void*)
 {
     return "";
 }

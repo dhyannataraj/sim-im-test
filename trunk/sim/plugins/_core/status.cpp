@@ -305,7 +305,7 @@ void *CommonStatus::processEvent(Event *e)
             if (getContacts()->nClients() > 1){
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i) == data->client){
-                        title = data->client->name().c_str();
+                        title = data->client->name();
                         int n = title.find(".");
                         if (n > 0)
                             title = title.left(n) + " " + title.mid(n + 1);

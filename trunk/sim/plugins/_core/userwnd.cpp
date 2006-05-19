@@ -136,9 +136,9 @@ QString UserWnd::getLongName()
         if (bFrom){
             res += " ";
             if (m_edit->m_bReceived){
-                res += i18n("to %1") .arg(client->name().c_str());
+                res += i18n("to %1") .arg(client->name());
             }else{
-                res += i18n("from %1") .arg(client->name().c_str());
+                res += i18n("from %1") .arg(client->name());
             }
         }
     }

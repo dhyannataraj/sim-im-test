@@ -951,7 +951,7 @@ bool MsgEdit::send()
             m_type = m_msg->type();
             Client *c = client(data, true, false, m_msg->contact(), (m_msg->getFlags() & MESSAGE_MULTIPLY) == 0);
             if (c){
-                m_msg->setClient(c->dataName(data).c_str());
+                m_msg->setClient(c->dataName(data));
                 bSent = c->send(m_msg, data);
             }else{
                 data = NULL;
@@ -1407,7 +1407,7 @@ void MsgEdit::typingStart()
         return;
     Message *msg = new Message(MessageTypingStart);
     if (cl->send(msg, data)){
-        m_typingClient = cl->dataName(data);
+        m_typingClient = cl->dataName(data).latin1();
     }else{
         delete msg;
     }

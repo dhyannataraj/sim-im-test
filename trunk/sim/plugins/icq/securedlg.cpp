@@ -54,7 +54,7 @@ void SecureDlg::start()
 {
     m_msg = new Message(MessageOpenSecure);
     m_msg->setContact(m_contact);
-    m_msg->setClient(m_client->dataName(m_data).c_str());
+    m_msg->setClient(m_client->dataName(m_data));
     m_msg->setFlags(MESSAGE_NOHISTORY);
     if (!static_cast<Client*>(m_client)->send(m_msg, m_data)){
         delete m_msg;

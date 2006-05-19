@@ -170,7 +170,8 @@ class MSNClient : public SIM::TCPClient, public FetchClient
 public:
     MSNClient(SIM::Protocol*, ConfigBuffer *cfg);
     ~MSNClient();
-    virtual std::string name();
+    virtual QString name();
+    virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
     virtual QString getConfig();
     PROP_STR(Server);
@@ -191,7 +192,6 @@ public:
     void sendLine(const char *line, bool crlf = true);
     void setLogin(const QString&);
     MSNClientData	data;
-    std::string dataName(void*);
     MSNUserData *findContact(const char *mail, const char *name, SIM::Contact *&contact, bool nJoin=true);
     MSNUserData *findContact(const char *mail, SIM::Contact *&contact);
     MSNUserData *findGroup(unsigned long id, const char *name, SIM::Group *&grp);

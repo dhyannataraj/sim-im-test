@@ -263,7 +263,8 @@ class MessageRequest : public ServerRequest
 
     JabberClient(JabberProtocol*, ConfigBuffer *cfg);
     ~JabberClient();
-    virtual std::string name();
+    virtual QString name();
+    virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
     virtual QString getConfig();
 
@@ -309,7 +310,6 @@ class MessageRequest : public ServerRequest
     virtual void updateInfo(SIM::Contact *contact, void *data);
 
     JabberClientData	data;
-    std::string dataName(void*);
 
     JabberListRequest *findRequest(const char *jid, bool bRemove);
 
@@ -359,7 +359,7 @@ protected:
     virtual bool compareData(void*, void*);
     virtual bool canSend(unsigned, void*);
     virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
-    virtual std::string resources(void *data);
+    virtual QString resources(void *data);
     virtual QString contactTip(void *data);
     virtual QWidget *searchWindow(QWidget *parent);
     virtual SIM::CommandDef *infoWindows(SIM::Contact *contact, void *data);

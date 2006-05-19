@@ -54,7 +54,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     setButtonsPict(this);
     lblMessage->setText(text);
     if (m_client){
-        setCaption(caption() + " " + QString::fromLocal8Bit(client->name().c_str()));
+        setCaption(caption() + " " + client->name());
         setIcon(Pict(m_client->protocol()->description()->icon));
     }else{
         setCaption(i18n("Select profile"));
@@ -287,7 +287,7 @@ void LoginDialog::makeInputs(unsigned &row, Client *client, bool bQuick)
         pict->show();
     }
     QLabel *txt = new QLabel(this);
-    txt->setText(bQuick ? i18n("Password:") : QString::fromLocal8Bit(client->name().c_str()));
+    txt->setText(bQuick ? i18n("Password:") : client->name());
     txt->setAlignment(AlignRight);
     QLineEdit *edt = new QLineEdit(this);
     edt->setText(client->getPassword());
@@ -334,8 +334,7 @@ void LoginDialog::fill()
         if (clients.size()){
             Client *client = clients[0];
             cmbProfile->insertItem(
-                Pict(client->protocol()->description()->icon),
-                QString::fromLocal8Bit(client->name().c_str()));
+                Pict(client->protocol()->description()->icon),client->name());
         }
     }
     cmbProfile->insertItem(i18n("New profile"));

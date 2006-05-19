@@ -90,6 +90,8 @@ public:
     PROP_ULONG(Quality);
     std::string model();
     std::string oper();
+    virtual QString name();
+    virtual QString dataName(void*);
 protected slots:
     void error();
     void init();
@@ -105,8 +107,6 @@ protected:
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
     virtual QString getConfig();
-    virtual std::string name();
-    virtual std::string dataName(void*);
     virtual bool	isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool	createData(SIM::clientData*&, SIM::Contact*);
     virtual void	setupContact(SIM::Contact*, void *data);

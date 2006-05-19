@@ -703,7 +703,7 @@ void ICQClient::ackMessage(SendMsg &s)
     }
     if ((s.msg->getFlags() & MESSAGE_NOHISTORY) == 0){
         if ((s.flags & SEND_MASK) == SEND_RAW){
-            s.msg->setClient(dataName(m_send.screen.c_str()).c_str());
+            s.msg->setClient(dataName(m_send.screen.c_str()));
             Event e(EventSent, s.msg);
             e.process();
         }else if (!s.part.isEmpty()){
@@ -722,7 +722,7 @@ void ICQClient::ackMessage(SendMsg &s)
                 m.setText(s.part);
             }
             m.setFlags(flags);
-            m.setClient(dataName(s.screen.c_str()).c_str());
+            m.setClient(dataName(s.screen.c_str()));
             Event e(EventSent, &m);
             e.process();
         }

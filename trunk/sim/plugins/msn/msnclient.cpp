@@ -147,12 +147,9 @@ MSNClient::~MSNClient()
     freeData();
 }
 
-string MSNClient::name()
+QString MSNClient::name()
 {
-    string res = "MSN.";
-    QString s = QString::fromLocal8Bit(getLogin());
-    res += s.utf8();
-    return res;
+    return "MSN." + getLogin();
 }
 
 QWidget	*MSNClient::setupWnd()
@@ -270,7 +267,7 @@ void MSNClient::disconnected()
             if (bChanged){
                 StatusMessage m;
                 m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
+                m.setClient(dataName(data));
                 m.setFlags(MESSAGE_RECEIVED);
                 m.setStatus(STATUS_OFFLINE);
                 Event e(EventMessageReceived, &m);
@@ -596,7 +593,7 @@ void MSNClient::getLine(const char *line)
             data->StatusTime.value = now;
             StatusMessage m;
             m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
+            m.setClient(dataName(data));
             m.setFlags(MESSAGE_RECEIVED);
             m.setStatus(status);
             Event e(EventMessageReceived, &m);
@@ -620,7 +617,7 @@ void MSNClient::getLine(const char *line)
             data->Status.value = status;
             StatusMessage m;
             m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
+            m.setClient(dataName(data));
             m.setFlags(MESSAGE_RECEIVED);
             m.setStatus(status);
             Event e(EventMessageReceived, &m);
@@ -642,7 +639,7 @@ void MSNClient::getLine(const char *line)
             data->Status.value = STATUS_OFFLINE;
             StatusMessage m;
             m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
+            m.setClient(dataName(data));
             m.setFlags(MESSAGE_RECEIVED);
             m.setStatus(STATUS_OFFLINE);
             Event e(EventMessageReceived, &m);
@@ -1033,7 +1030,7 @@ bool MSNClient::send(Message *msg, void *_data)
             return false;
         if (msg->getText().isEmpty()){
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
-                msg->setClient(dataName(data).c_str());
+                msg->setClient(dataName(data));
                 Event e(EventSent, msg);
                 e.process();
             }
@@ -1076,9 +1073,9 @@ bool MSNClient::send(Message *msg, void *_data)
     return false;
 }
 
-string MSNClient::dataName(void *_data)
+QString MSNClient::dataName(void *_data)
 {
-    string res = name();
+    QString res = name();
     MSNUserData *data = (MSNUserData*)_data;
     res += "+";
     res += data->EMail.ptr;
@@ -1131,8 +1128,8 @@ void MSNClient::setupContact(Contact *contact, void *_data)
         phones += QString::fromUtf8(data->PhoneMobile.ptr);
         phones += ",Private Cellular,2";
     }
-    bool bChanged = contact->setPhones(phones, name().c_str());
-    bChanged |= contact->setEMails(data->EMail.ptr, name().c_str());
+    bool bChanged = contact->setPhones(phones, name());
+    bChanged |= contact->setEMails(data->EMail.ptr, name());
     if (contact->getName().isEmpty()){
         QString name = QString::fromUtf8(data->ScreenName.ptr);
         if (name.isEmpty())
@@ -1324,7 +1321,7 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const char *name, Group *&gr
 void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
 {
     AuthMessage msg(type);
-    msg.setClient(dataName(data).c_str());
+    msg.setClient(dataName(data));
     msg.setContact(contact->id());
     msg.setFlags(MESSAGE_RECEIVED);
     Event e(EventMessageReceived, &msg);
@@ -2124,7 +2121,7 @@ void SBSocket::getLine(const char *_line)
         if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
             Message m(MessageGeneric);
             m.setContact(m_contact->id());
-            m.setClient(m_client->dataName(m_data).c_str());
+            m.setClient(m_client->dataName(m_data));
             m.setText(m_msgPart);
             m.setForeground(msg->getForeground());
             m.setBackground(0xFFFFFF);
@@ -2243,7 +2240,7 @@ void SBSocket::messageReady()
         msg->setFont(font.c_str());
         msg->setText(msg_text);
         msg->setContact(m_contact->id());
-        msg->setClient(m_client->dataName(m_data).c_str());
+        msg->setClient(m_client->dataName(m_data));
         Event e(EventMessageReceived, msg);
         if (!e.process())
             delete msg;
@@ -2348,7 +2345,7 @@ void SBSocket::messageReady()
             msg->setSize(fileSize);
             msg->setFlags(MESSAGE_RECEIVED | MESSAGE_TEMP);
             msg->setContact(m_contact->id());
-            msg->setClient(m_client->dataName(m_data).c_str());
+            msg->setClient(m_client->dataName(m_data));
             msgInvite m;
             m.msg    = msg;
             m.cookie = cookie;

@@ -1501,8 +1501,8 @@ public:
         Connected,
         Error
     };
-    virtual std::string name() = 0;
-    virtual std::string dataName(void*) = 0;
+    virtual QString name() = 0;
+    virtual QString dataName(void*) = 0;
     Protocol *protocol() { return m_protocol; }
     virtual QWidget *setupWnd() = 0;
     virtual void setStatus(unsigned status, bool bCommon);
@@ -1524,7 +1524,7 @@ public:
     virtual void updateInfo(Contact *contact, void *clientData);
     virtual void setClientInfo(void *data);
     virtual QWidget *searchWindow(QWidget *parent) = 0;
-    virtual std::string resources(void *data);
+    virtual QString resources(void *data);
     void    removeGroup(Group *grp);
     void    setState(State, const char *text = NULL, unsigned code = 0);
     State   getState() { return m_state; }

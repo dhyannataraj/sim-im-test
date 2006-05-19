@@ -640,7 +640,7 @@ bool LiveJournalClient::send(Message *msg, void *_data)
     if (data->User.ptr && strcmp(data->User.ptr, this->data.owner.User.ptr))
         journal = data->User.ptr;
     m_requests.push_back(new MessageRequest(this, static_cast<JournalMessage*>(msg), journal));
-    msg->setClient(dataName(_data).c_str());
+    msg->setClient(dataName(_data));
     send();
     return true;
 }
@@ -679,17 +679,17 @@ bool LiveJournalClient::isMyData(clientData *&data, Contact*&)
     return false;
 }
 
-string LiveJournalClient::dataName(void *data)
+QString LiveJournalClient::dataName(void *data)
 {
-    string res = name();
+    QString res = name();
     res += ".";
     res += ((LiveJournalUserData*)data)->User.ptr;
     return res;
 }
 
-string LiveJournalClient::name()
+QString LiveJournalClient::name()
 {
-    string res;
+    QString res;
     res = "LiveJournal.";
     if (data.owner.User.ptr)
         res += data.owner.User.ptr;
@@ -745,7 +745,7 @@ static CommandDef cfgLiveJournalWnd[] =
 
 CommandDef *LiveJournalClient::configWindows()
 {
-    QString title = QString::fromUtf8(name().c_str());
+    QString title = name();
     int n = title.find(".");
     if (n > 0)
         title = title.left(n) + " " + title.mid(n + 1);
@@ -1251,7 +1251,7 @@ void LiveJournalClient::messageUpdated()
         return;
     Message *msg = new Message(MessageUpdated);
     msg->setContact(contact->id());
-    msg->setClient(dataName(data).c_str());
+    msg->setClient(dataName(data));
     msg->setFlags(MESSAGE_TEMP | MESSAGE_NOVIEW);
     Event e(EventMessageReceived, msg);
     if (!e.process())

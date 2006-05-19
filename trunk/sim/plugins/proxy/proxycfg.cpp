@@ -93,7 +93,7 @@ void ProxyConfig::apply()
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
             if (client == m_client){
-                set_str(&nd.Client.ptr, m_client->name().c_str());
+                set_str(&nd.Client.ptr, m_client->name().latin1());
                 m_data.push_back(nd);
             }else{
                 ProxyData d;
@@ -213,7 +213,7 @@ void ProxyConfig::fillClients()
         Client *client = getContacts()->getClient(i);
         if (client->protocol()->description()->flags & PROTOCOL_NOPROXY)
             continue;
-        QString name = client->name().c_str();
+        QString name = client->name();
         int pos = name.find(".");
         if (pos > 0)
             name = name.replace(pos, 1, " ");

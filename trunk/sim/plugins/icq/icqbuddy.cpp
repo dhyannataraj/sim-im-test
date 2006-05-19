@@ -63,7 +63,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             setOffline(data);
             StatusMessage m;
             m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
+            m.setClient(dataName(data));
             m.setStatus(STATUS_OFFLINE);
             m.setFlags(MESSAGE_RECEIVED);
             Event e(EventMessageReceived, &m);
@@ -370,7 +370,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     status = STATUS_AWAY;
                 StatusMessage m;
                 m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
+                m.setClient(dataName(data));
                 m.setStatus(status);
                 m.setFlags(MESSAGE_RECEIVED);
                 Event e(EventMessageReceived, &m);

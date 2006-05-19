@@ -675,7 +675,7 @@ void HistoryConfig::fillPreview()
     m5.setTime(now);
     m5.setContact(contact->id());
     if (getContacts()->nClients())
-        m5.setClient((getContacts()->getClient(0)->name() + ".").c_str());
+        m5.setClient((getContacts()->getClient(0)->name() + "."));
     edtPreview->addMessage(&m5);
     delete contact;
     CorePlugin::m_plugin->setUseSmiles(saveSmiles);

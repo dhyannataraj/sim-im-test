@@ -425,17 +425,17 @@ void JabberClient::setupContact(Contact *contact, void *_data)
     QString mail;
     if (data->EMail.ptr && *data->EMail.ptr)
         mail = QString::fromUtf8(data->EMail.ptr);
-    contact->setEMails(mail, name().c_str());
+    contact->setEMails(mail, name());
     QString phones;
     if (data->Phone.ptr && *data->Phone.ptr){
         phones = QString::fromUtf8(data->Phone.ptr);
         phones += ",Home Phone,";
 		phones += QString::number(PHONE);
     }
-    contact->setPhones(phones, name().c_str());
+    contact->setPhones(phones, name());
 
     if (contact->getFirstName().isEmpty() && data->FirstName.ptr && *data->FirstName.ptr)
-        contact->setFirstName(QString::fromUtf8(data->FirstName.ptr), name().c_str());
+        contact->setFirstName(QString::fromUtf8(data->FirstName.ptr), name());
 
     if (contact->getName().isEmpty())
         contact->setName(QString::fromUtf8(data->ID.ptr));
@@ -958,7 +958,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
             if (bChanged){
                 StatusMessage m;
                 m.setContact(contact->id());
-                m.setClient(m_client->dataName(data).c_str());
+                m.setClient(m_client->dataName(data));
                 m.setFlags(MESSAGE_RECEIVED);
                 m.setStatus(status);
                 Event e(EventMessageReceived, &m);
@@ -1061,7 +1061,7 @@ JabberClient::IqRequest::~IqRequest()
         msg->setFrom(m_from.c_str());
         msg->setID(m_id.c_str());
         msg->setFlags(MESSAGE_RECEIVED | MESSAGE_TEMP);
-        msg->setClient(m_client->dataName(data).c_str());
+        msg->setClient(m_client->dataName(data));
         msg->setContact(contact->id());
         m_client->m_ackMsg.push_back(msg);
         Event e(EventMessageReceived, msg);
@@ -1336,7 +1336,7 @@ JabberClient::MessageRequest::~MessageRequest()
         msg->setText(QString::fromUtf8(m_body.c_str()));
     }
     msg->setFlags(msg->getFlags() | MESSAGE_RECEIVED);
-    msg->setClient(m_client->dataName(data).c_str());
+    msg->setClient(m_client->dataName(data));
     msg->setContact(contact->id());
     Event e(EventMessageReceived, msg);
     if (!e.process())

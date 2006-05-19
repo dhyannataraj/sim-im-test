@@ -2483,7 +2483,7 @@ void *CorePlugin::processEvent(Event *e)
                         }
                         if (bFrom){
                             t += " ";
-                            t += i18n("from %1") .arg((*itw).client->name().c_str());
+                            t += i18n("from %1") .arg((*itw).client->name());
                         }
                         cmds[n].text_wrk = strdup(t.utf8());
                     }
@@ -2553,10 +2553,10 @@ void *CorePlugin::processEvent(Event *e)
                     while (++it)
                         nCmds++;
                 }
-                string resources = cc.client->resources(cc.data);
-                if (!resources.empty()){
+                QString resources = cc.client->resources(cc.data);
+                if (!resources.isEmpty()){
                     nCmds++;
-                    while (!resources.empty()){
+                    while (!resources.isEmpty()){
                         getToken(resources, ';');
                         nCmds++;
                     }
@@ -2587,12 +2587,12 @@ void *CorePlugin::processEvent(Event *e)
                     nCmds++;
                 }
                 resources = cc.client->resources(cc.data);
-                if (!resources.empty()){
+                if (!resources.isEmpty()){
                     cmds[nCmds++].text = "_";
                     unsigned nRes = 1;
                     for (unsigned i = 0; i < n; i++){
-                        string resources = ways[i].client->resources(ways[i].data);
-                        while (!resources.empty()){
+                        resources = ways[i].client->resources(ways[i].data);
+                        while (!resources.isEmpty()){
                             getToken(resources, ';');
                             unsigned long id = CmdContactResource + nRes;
                             if (nRes > m_nResourceMenu){
@@ -2611,8 +2611,8 @@ void *CorePlugin::processEvent(Event *e)
                             nRes++;
                         }
                     }
-                    string resources = cc.client->resources(cc.data);
-                    while (!resources.empty()){
+                    resources = cc.client->resources(cc.data);
+                    while (!resources.isEmpty()){
                         unsigned long id = CmdContactResource + nRes;
                         if (nRes > m_nResourceMenu){
                             m_nResourceMenu = nRes;
@@ -3461,7 +3461,7 @@ void *CorePlugin::processEvent(Event *e)
                                 MessageDef *mdef = (MessageDef*)(def->param);
                                 Message *msg = mdef->create(NULL);
                                 msg->setContact((unsigned long)(cmd->param));
-                                msg->setClient(cc.client->dataName(data).c_str());
+                                msg->setClient(cc.client->dataName(data));
                                 msg->setResource(QString::fromUtf8(res.c_str()));
                                 Event eOpen(EventOpenMessage, &msg);
                                 eOpen.process();
@@ -3499,7 +3499,7 @@ void *CorePlugin::processEvent(Event *e)
                         MessageDef *mdef = (MessageDef*)(def->param);
                         Message *msg = mdef->create(NULL);
                         msg->setContact((unsigned long)(cmd->param));
-                        msg->setClient(cc.client->dataName(data).c_str());
+                        msg->setClient(cc.client->dataName(data));
                         Event eOpen(EventOpenMessage, &msg);
                         eOpen.process();
                         delete msg;
@@ -3708,7 +3708,7 @@ bool CorePlugin::init(bool bInit)
             unsigned i;
             QString clName, clID;
             for (i = 0; i < clients.size(); i++){
-                 QString clName=QString(clients[i]->name().c_str());
+                 QString clName=QString(clients[i]->name());
                  clID=clName.right(clName.length()-clName.find('.')-1);
                  if (clID.compare(uin)==0)
                      bRegistered=true;

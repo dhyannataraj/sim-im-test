@@ -327,9 +327,9 @@ string SMSClient::oper()
     return "";
 }
 
-string SMSClient::name()
+QString SMSClient::name()
 {
-    string res = "SMS.";
+    QString res = "SMS.";
     if (getState() == Connected){
         res += model();
         res += " ";
@@ -340,7 +340,7 @@ string SMSClient::name()
     return res;
 }
 
-string SMSClient::dataName(void*)
+QString SMSClient::dataName(void*)
 {
     return "";
 }
@@ -414,7 +414,7 @@ static CommandDef cfgSmsWnd[] =
 
 CommandDef *SMSClient::configWindows()
 {
-    QString title = QString::fromUtf8(name().c_str());
+    QString title = name();
     int n = title.find(".");
     if (n > 0)
         title = title.left(n) + " " + title.mid(n + 1);

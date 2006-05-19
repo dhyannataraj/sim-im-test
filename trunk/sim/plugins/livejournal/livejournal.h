@@ -141,6 +141,8 @@ class LiveJournalClient : public SIM::TCPClient, public FetchClient
 public:
     LiveJournalClient(SIM::Protocol*, ConfigBuffer *cfg);
     ~LiveJournalClient();
+    virtual QString name();
+    virtual QString dataName(void*);
     PROP_STR(Server);
     PROP_STR(URL);
     PROP_USHORT(Port);
@@ -168,8 +170,6 @@ public slots:
 protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     virtual QString getConfig();
-    virtual std::string name();
-    virtual std::string dataName(void*);
     virtual QWidget	*setupWnd();
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool createData(SIM::clientData*&, SIM::Contact*);

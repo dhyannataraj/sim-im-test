@@ -916,7 +916,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         if (old_status != new_status){
             StatusMessage m;
             m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
+            m.setClient(dataName(data));
             m.setFlags(MESSAGE_RECEIVED);
             m.setStatus(STATUS_OFFLINE);
             Event e(EventMessageReceived, &m);
@@ -933,17 +933,17 @@ void YahooClient::processStatus(unsigned short service, const char *id,
     }
 }
 
-string YahooClient::name()
+QString YahooClient::name()
 {
-    string res = "Yahoo.";
+    QString res = "Yahoo.";
     if (data.owner.Login.ptr)
         res += data.owner.Login.ptr;
     return res;
 }
 
-string YahooClient::dataName(void *_data)
+QString YahooClient::dataName(void *_data)
 {
-    string res = name();
+    QString res = name();
     YahooUserData *data = (YahooUserData*)_data;
     res += "+";
     res += data->Login.ptr;
@@ -1034,7 +1034,7 @@ void YahooClient::disconnected()
                 data->Status.value = YAHOO_STATUS_OFFLINE;
                 StatusMessage m;
                 m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
+                m.setClient(dataName(data));
                 m.setStatus(STATUS_OFFLINE);
                 m.setFlags(MESSAGE_RECEIVED);
                 Event e(EventMessageReceived, &m);
@@ -1273,7 +1273,7 @@ void YahooClient::messageReceived(Message *msg, const char *id)
             Event e(EventContactChanged, contact);
             e.process();
         }
-        msg->setClient(dataName(data).c_str());
+        msg->setClient(dataName(data));
         msg->setContact(contact->id());
     }
     bool bAck = (msg->type() == MessageYahooFile);
@@ -1805,7 +1805,7 @@ void YahooClient::sendMessage(const QString &msgText, Message *msg, YahooUserDat
     addParam(64, "0");
     sendPacket(YAHOO_SERVICE_MESSAGE, 0x5A55AA56);
     if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
-        msg->setClient(dataName(data).c_str());
+        msg->setClient(dataName(data));
         Event e(EventSent, msg);
         e.process();
     }

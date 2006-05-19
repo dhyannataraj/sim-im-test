@@ -289,10 +289,10 @@ void SearchDialog::setTitle()
     if (n >= m_widgets.size())
         return;
     Client *client = m_widgets[n].client;
-    string name;
+    QString name;
     if ((client != NULL) && (client != (Client*)(-1)))
-        name = client->name().c_str();
-    CorePlugin::m_plugin->setSearchClient(name.c_str());
+        name = client->name();
+    CorePlugin::m_plugin->setSearchClient(name);
     if (m_bAdd){
         setCaption(i18n("Add") + ": " + m_search->cmbClients->currentText());
         setIcon(Pict("add"));

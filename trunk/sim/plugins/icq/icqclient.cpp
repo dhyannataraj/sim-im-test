@@ -407,9 +407,9 @@ QString ICQClient::getConfig()
     return res += save_data(icqClientData, &data);
 }
 
-string ICQClient::name()
+QString ICQClient::name()
 {
-    string res;
+    QString res;
     if (m_bAIM){
         res = "AIM.";
         if (data.owner.Screen.ptr)
@@ -417,7 +417,7 @@ string ICQClient::name()
         return res;
     }
     res = "ICQ.";
-    res += number(data.owner.Uin.value);
+    res += QString::number(data.owner.Uin.value);
     return res;
 }
 
@@ -667,7 +667,7 @@ void ICQClient::disconnected()
                 setOffline(data);
                 StatusMessage m;
                 m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
+                m.setClient(dataName(data));
                 m.setStatus(STATUS_OFFLINE);
                 m.setFlags(MESSAGE_RECEIVED);
                 Event e(EventMessageReceived, &m);
@@ -3102,14 +3102,14 @@ bool ICQClient::canSend(unsigned type, void *_data)
     return false;
 }
 
-string ICQClient::dataName(void *data)
+QString ICQClient::dataName(void *data)
 {
-    return dataName(screen((ICQUserData*)data).c_str());
+    return dataName(screen((ICQUserData*)data));
 }
 
-string ICQClient::dataName(const char *screen)
+QString ICQClient::dataName(const QString &screen)
 {
-    string res = name();
+    QString res = name();
     res += ".";
     res += screen;
     return res;
@@ -3138,7 +3138,7 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
             Event e(EventContactChanged, contact);
             e.process();
         }
-        msg->setClient(dataName(data).c_str());
+        msg->setClient(dataName(data));
         msg->setContact(contact->id());
         if (data->bTyping.bValue){
             data->bTyping.bValue = false;
