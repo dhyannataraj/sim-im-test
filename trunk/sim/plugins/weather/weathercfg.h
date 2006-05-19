@@ -44,10 +44,10 @@ protected:
     void fill();
     WeatherPlugin *m_plugin;
     WIfaceCfg	  *m_iface;
-    std::string		m_id;
-    std::string		m_data;
-    std::vector<std::string>	m_ids;
-    std::vector<std::string>	m_names;
+    QString			m_id;
+    QString			m_data;
+    QStringList		m_ids;
+    QStringList		m_names;
     void		element_start(const char *el, const char **attr);
     void		element_end(const char *el);
     void		char_data(const char *str, int len);

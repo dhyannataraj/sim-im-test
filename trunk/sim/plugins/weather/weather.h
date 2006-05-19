@@ -136,7 +136,7 @@ protected:
     QString forecastReplace(const QString&);
     unsigned long BarWeather;
     unsigned long CmdWeather;
-    std::string m_data;
+    QString m_data;
     bool   m_bData;
     bool   m_bBar;
     bool   m_bWind;

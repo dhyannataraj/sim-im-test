@@ -30,7 +30,6 @@
 #include <qspinbox.h>
 #include <qtabwidget.h>
 
-using namespace std;
 using namespace SIM;
 
 WeatherCfg::WeatherCfg(QWidget *parent, WeatherPlugin *plugin)
@@ -77,9 +76,9 @@ void WeatherCfg::search()
     if (cmbLocation->lineEdit()->text().isEmpty())
         return;
     btnSearch->setText(i18n("&Cancel"));
-    string url = "http://xoap.weather.com/search/search?where=";
-    url += toTranslit(cmbLocation->lineEdit()->text()).utf8();
-    fetch(url.c_str());
+    QString url = "http://xoap.weather.com/search/search?where=";
+    url += toTranslit(cmbLocation->lineEdit()->text());
+    fetch(url.latin1());
 }
 
 bool WeatherCfg::done(unsigned, Buffer &data, const char*)
@@ -98,8 +97,7 @@ bool WeatherCfg::done(unsigned, Buffer &data, const char*)
         cmbLocation->lineEdit()->setText(oldText);
         BalloonMsg::message(i18n("Location %1 not found") .arg(oldText), btnSearch, false);
     }else{
-        for (vector<string>::iterator it = m_names.begin(); it != m_names.end(); ++it)
-            cmbLocation->insertItem(QString::fromUtf8((*it).c_str()));
+        cmbLocation->insertStringList(m_names);
         cmbLocation->setCurrentItem(0);
         activated(0);
     }
@@ -126,7 +124,7 @@ void WeatherCfg::activated(int n)
 {
     if ((unsigned)n >= m_ids.size())
         return;
-    edtID->setText(m_ids[n].c_str());
+    edtID->setText(m_ids[n]);
 }
 
 void WeatherCfg::apply()
@@ -153,8 +151,8 @@ void WeatherCfg::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "loc") && attr){
         for (const char **p = attr; *p;){
-            string key   = *(p++);
-            string value = *(p++);
+            QString key   = *(p++);
+            QString value = *(p++);
             if (key == "id")
                 m_id = value;
         }
@@ -163,9 +161,9 @@ void WeatherCfg::element_start(const char *el, const char **attr)
 
 void WeatherCfg::element_end(const char *el)
 {
-    if (!strcmp(el, "loc") && !m_id.empty() && !m_data.empty()){
-        m_ids.push_back(m_id);
-        m_names.push_back(m_data);
+    if (!strcmp(el, "loc") && !m_id.isEmpty() && !m_data.isEmpty()){
+        m_ids.append(m_id);
+        m_names.append(m_data);
         m_id = "";
         m_data = "";
     }
@@ -173,8 +171,8 @@ void WeatherCfg::element_end(const char *el)
 
 void WeatherCfg::char_data(const char *str, int len)
 {
-    if (!m_id.empty())
-        m_data.append(str, len);
+    if (!m_id.isEmpty())
+		m_data += QString::fromLatin1(str, len);
 }
 
 #ifndef _MSC_VER
