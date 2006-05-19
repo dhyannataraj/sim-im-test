@@ -543,7 +543,7 @@ Message *History::load(unsigned id, const char *client, unsigned contact)
         QString type = config.getSection();
         Message *msg = createMessage(id, type.latin1(), &config);
         if (msg){
-            msg->setClient(ms.client.c_str());
+            msg->setClient(ms.client);
             msg->setContact(ms.contact);
             msg->setFlags(msg->getFlags() | MESSAGE_TEMP);
         }
@@ -632,7 +632,7 @@ typedef map<my_string, unsigned> CLIENTS_MAP;
 
 void History::cut(Message *msg, unsigned contact_id, unsigned date)
 {
-    string client;
+    QString client;
     if (msg)
         client = msg->client();
     CLIENTS_MAP clients;

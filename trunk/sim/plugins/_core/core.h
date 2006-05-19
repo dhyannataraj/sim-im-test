@@ -31,7 +31,7 @@ typedef struct msg_id
     unsigned	id;
     unsigned	contact;
     unsigned	type;
-    std::string		client;
+    QString		client;
 } msg_id;
 
 class FileLock;

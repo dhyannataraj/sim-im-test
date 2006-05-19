@@ -1061,15 +1061,15 @@ public:
     PROP_STR(Font);
     PROP_ULONG(RetryCode);
     PROP_UTF8(Resource);
-    const char *client() const { return m_client.c_str(); }
-    void setClient(const char *client);
+    const QString &client() const { return m_client; }
+    void setClient(const QString &client);
     virtual QString presentation();
     MessageData data;
 protected:
     unsigned    m_id;
     unsigned    m_contact;
     unsigned    m_type;
-    std::string m_client;
+    QString     m_client;
 };
 
 typedef struct MessageSMSData
@@ -1791,6 +1791,7 @@ class EXPORT my_string
 public:
     my_string(const char *str);
     my_string(const my_string &str);
+    my_string(const QString &str);
     ~my_string();
     bool operator < (const my_string &str) const;
     void operator = (const my_string &str);

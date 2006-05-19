@@ -134,8 +134,8 @@ protected slots:
     void clearExec();
 protected:
     void *processEvent(SIM::Event*);
-    std::string  m_client;
-    std::string	m_key;
+    QString m_client;
+    QString	m_key;
     MsgEdit	*m_edit;
     Exec	*m_exec;
 };

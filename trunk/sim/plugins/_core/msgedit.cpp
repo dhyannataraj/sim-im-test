@@ -356,7 +356,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
 {
     data = NULL;
     Contact *contact = getContacts()->contact(contact_id);
-    if (!bUseClient || m_client.empty()){
+    if (!bUseClient || m_client.isEmpty()){
         if (contact == NULL)
             return NULL;
         vector<ClientStatus> cs;
@@ -1230,7 +1230,7 @@ void *MsgEdit::processEvent(Event *e)
             case CmdMsgAnswer:{
                     Message *msg = new Message(MessageGeneric);
                     msg->setContact(m_userWnd->id());
-                    msg->setClient(m_client.c_str());
+                    msg->setClient(m_client);
                     Event e(EventOpenMessage, &msg);
                     e.process();
                     delete msg;
@@ -1494,7 +1494,7 @@ void MsgEdit::goNext()
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
         if ((*it).contact != m_userWnd->id())
             continue;
-        Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
+        Message *msg = History::load((*it).id, (*it).client, (*it).contact);
         if (msg == NULL)
             continue;
         Event e(EventOpenMessage, &msg);

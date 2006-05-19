@@ -3420,7 +3420,7 @@ void *CorePlugin::processEvent(Event *e)
                 unsigned n = cmd->id - CmdUnread;
                 for (list<msg_id>::iterator it = unread.begin(); it != unread.end(); ++it){
                     if (n-- == 0){
-                        Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
+                        Message *msg = History::load((*it).id, (*it).client, (*it).contact);
                         if (msg){
                             msg->setFlags(msg->getFlags() & ~MESSAGE_NORAISE);
                             Event e(EventOpenMessage, &msg);

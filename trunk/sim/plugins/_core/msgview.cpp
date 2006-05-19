@@ -294,7 +294,7 @@ void MsgViewBase::update()
     setReadOnly(true);
     QString text="";
     for (list<Msg_Id>::iterator it = msgs.begin(); it != msgs.end(); ++it){
-        Message *msg = History::load((*it).id, (*it).client.c_str(), m_id);
+        Message *msg = History::load((*it).id, (*it).client, m_id);
         if (msg == NULL)
             continue;
         bool bUnread = false;
@@ -336,16 +336,16 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         icon = "empty";
         StatusMessage *sm = static_cast<StatusMessage*>(msg);
         Client *client = NULL;
-        string clientStr;
+        QString clientStr;
         if (msg->client())
             clientStr = msg->client();
-        int n = clientStr.find_last_of('.');
+        int n = clientStr.findRev('.');
         if (n >= 0){
-            clientStr = clientStr.substr(0, n);
+            clientStr = clientStr.left(n);
         }else{
             clientStr = "";
         }
-        if (!clientStr.empty()){
+        if (!clientStr.isEmpty()){
             for (unsigned i = 0; i < getContacts()->nClients(); i++){
                 string n = getContacts()->getClient(i)->name();
                 if (n.length() < clientStr.length())
@@ -429,12 +429,12 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     if (!CorePlugin::m_plugin->getOwnColors() && (msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
         id += QString::number(msg->getBackground());
     // </hack>
-    string client_str;
+    QString client_str;
     if (msg->client())
         client_str = msg->client();
-    if (!client_str.empty()){
+    if (!client_str.isEmpty()){
         id += ",";
-        id += quoteString(client_str.c_str());
+        id += quoteString(client_str);
     }
     if (m_cut.size()){
         id += ",";
@@ -753,7 +753,7 @@ void MsgViewBase::reload()
             msgs.push_back(id);
     }
     for (i = 0; i < msgs.size(); i++){
-        Message *msg = History::load(msgs[i].id, msgs[i].client.c_str(), m_id);
+        Message *msg = History::load(msgs[i].id, msgs[i].client, m_id);
         if (msg == NULL)
             continue;
         t += messageText(msg, false);

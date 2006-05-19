@@ -843,7 +843,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     gpg += home;
     gpg += "\" ";
     gpg += GpgPlugin::plugin->getExport();
-    gpg = gpg.replace(QRegExp("\\%userid\\%"), m_key.c_str());
+    gpg = gpg.replace(QRegExp("\\%userid\\%"), m_key);
 
     m_exec = new Exec;
     connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(exportReady(Exec*,int,const char*)));
@@ -916,10 +916,10 @@ void *MsgGPGKey::processEvent(Event *e)
                 Message *msg = new Message;
                 msg->setText(msgText);
                 msg->setContact(m_edit->m_userWnd->id());
-                msg->setClient(m_client.c_str());
+                msg->setClient(m_client);
                 msg->setFlags(MESSAGE_NOHISTORY);
                 KeyMsg km;
-                km.key = m_key;
+                km.key = m_key.latin1();
                 km.msg = msg;
                 GpgPlugin::plugin->m_sendKeys.push_back(km);
                 MsgSend s;

@@ -113,7 +113,7 @@ protected:
     SIM::CommandDef	m_cmd;
     SIM::Message	*m_msg;
     MsgSend			m_retry;
-    std::string m_client;
+    QString         m_client;
 };
 
 class SmileLabel : public QLabel

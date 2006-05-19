@@ -201,7 +201,7 @@ void *MsgFile::processEvent(Event *e)
                     msg->setText(msgText);
                     msg->setFile(file);
                     msg->setContact(m_edit->m_userWnd->id());
-                    msg->setClient(m_client.c_str());
+                    msg->setClient(m_client);
                     m_edit->sendMessage(msg);
                 }
                 return e->param();

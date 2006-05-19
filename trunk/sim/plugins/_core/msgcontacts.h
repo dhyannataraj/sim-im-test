@@ -38,7 +38,7 @@ protected:
     virtual void *processEvent(SIM::Event*);
     UserList	*m_list;
     MsgEdit		*m_edit;
-    std::string	m_client;
+    QString 	m_client;
 };
 
 #endif

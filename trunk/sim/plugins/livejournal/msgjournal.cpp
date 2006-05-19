@@ -48,7 +48,7 @@ MsgJournal::MsgJournal(MsgEdit *parent, Message *msg)
         clientData *data;
         ClientDataIterator it(contact->clientData);
         while ((data = ++it) != NULL){
-            if ((m_client.empty() && (data->Sign.value == LIVEJOURNAL_SIGN)) || (m_client == it.client()->dataName(data))){
+            if ((m_client.isEmpty() && (data->Sign.value == LIVEJOURNAL_SIGN)) || (m_client == it.client()->dataName(data))){
                 LiveJournalClient *client = static_cast<LiveJournalClient*>(it.client());
                 for (unsigned i = 1; i < client->getMoods(); i++){
                     const char *mood = client->getMood(i);
@@ -171,7 +171,7 @@ void MsgJournal::send(const QString& msgText)
     JournalMessage *msg = new JournalMessage;
     msg->setText(msgText);
     msg->setContact(m_edit->m_userWnd->id());
-    msg->setClient(m_client.c_str());
+    msg->setClient(m_client);
     msg->setFlags(MESSAGE_RICHTEXT);
     msg->setID(m_ID);
     msg->setOldID(m_oldID);

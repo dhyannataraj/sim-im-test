@@ -36,7 +36,7 @@ typedef struct CutHistory
 typedef struct Msg_Id
 {
     unsigned	id;
-    std::string		client;
+    QString     client;
 } Msg_Id;
 
 class MsgViewBase : public TextShow, public SIM::EventReceiver

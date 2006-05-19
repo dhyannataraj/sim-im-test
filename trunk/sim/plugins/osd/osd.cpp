@@ -514,7 +514,7 @@ void OSDPlugin::processQueue()
                     MessageID id;
                     id.id      = (*it).id;
                     id.contact = (*it).contact;
-                    id.client  = (*it).client.c_str();
+                    id.client  = (*it).client;
                     Event e(EventLoadMessage, &id);
                     Message *msg = (Message*)(e.process());
                     if (msg == NULL)
@@ -584,7 +584,7 @@ void OSDPlugin::closeClick()
             MessageID id;
             id.id      = (*it).id;
             id.contact = (*it).contact;
-            id.client  = (*it).client.c_str();
+            id.client  = (*it).client;
             Event e(EventLoadMessage, &id);
             Message *msg = (Message*)(e.process());
             core->unread.erase(it);

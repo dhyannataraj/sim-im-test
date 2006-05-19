@@ -30,7 +30,7 @@ class HistoryFileIterator;
 typedef struct msg_save
 {
     std::string	msg;
-    std::string	client;
+    QString 	client;
     unsigned	contact;
 } msg_save;
 

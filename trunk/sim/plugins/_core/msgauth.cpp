@@ -87,7 +87,7 @@ void *MsgAuth::processEvent(Event *e)
             AuthMessage *msg = new AuthMessage(m_type);
             msg->setText(msgText);
             msg->setContact(m_edit->m_userWnd->id());
-            msg->setClient(m_client.c_str());
+            msg->setClient(m_client);
             m_edit->sendMessage(msg);
             return e->param();
         }

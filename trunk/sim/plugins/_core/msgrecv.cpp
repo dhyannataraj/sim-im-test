@@ -87,7 +87,7 @@ void *MsgReceived::processEvent(Event *e)
             if (mdef && mdef->cmdReceived){
                 for (const CommandDef *d = mdef->cmdReceived; d->text; d++){
                     if (d->popup_id && (d->popup_id == cmd->menu_id)){
-                        Message *msg = History::load(m_id, m_client.c_str(), m_contact);
+                        Message *msg = History::load(m_id, m_client, m_contact);
                         if (msg){
                             CommandDef c = *cmd;
                             c.param = msg;
@@ -99,7 +99,7 @@ void *MsgReceived::processEvent(Event *e)
             }
 
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
-                Message *msg = History::load(m_id, m_client.c_str(), m_contact);
+                Message *msg = History::load(m_id, m_client, m_contact);
                 if (msg){
                     CommandDef c = *cmd;
                     c.id   -= CmdReceived;
@@ -122,7 +122,7 @@ void *MsgReceived::processEvent(Event *e)
                         CommandDef c = *cmd;
                         Message *msg = m_msg;
                         if (msg == NULL)
-                            msg = History::load(m_id, m_client.c_str(), m_contact);
+                            msg = History::load(m_id, m_client, m_contact);
                         if (msg){
                             c.id   -= CmdReceived;
                             c.param = msg;
@@ -145,7 +145,7 @@ void *MsgReceived::processEvent(Event *e)
                             if (d->flags & COMMAND_CHECK_STATE){
                                 Message *msg = m_msg;
                                 if (msg == NULL)
-                                    msg = History::load(m_id, m_client.c_str(), m_contact);
+                                    msg = History::load(m_id, m_client, m_contact);
                                 if (msg){
                                     CommandDef c = *d;
                                     c.param = msg;

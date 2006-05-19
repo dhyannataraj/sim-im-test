@@ -89,10 +89,8 @@ QString Message::presentation()
     return res;
 }
 
-void Message::setClient(const char *client)
+void Message::setClient(const QString &client)
 {
-    if (client == NULL)
-        client = "";
     m_client = client;
 }
 

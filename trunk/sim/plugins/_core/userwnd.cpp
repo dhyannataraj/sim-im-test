@@ -290,7 +290,7 @@ void UserWnd::markAsRead()
             ++it;
             continue;
         }
-        Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
+        Message *msg = History::load((*it).id, (*it).client, (*it).contact);
         CorePlugin::m_plugin->unread.erase(it);
         if (msg){
             Event e(EventMessageRead, msg);

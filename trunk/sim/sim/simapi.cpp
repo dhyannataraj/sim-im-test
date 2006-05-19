@@ -780,6 +780,11 @@ my_string::my_string(const my_string &s)
     m_str = new string(*s.m_str);
 }
 
+my_string::my_string(const QString &s)
+{
+    m_str = new string(s.utf8());
+}
+
 void my_string::operator = (const my_string &s)
 {
     *m_str = *s.m_str;

@@ -122,7 +122,7 @@ void *MsgGen::processEvent(Event *e)
                 Message *msg = new Message;
                 msg->setText(msgText);
                 msg->setContact(m_edit->m_userWnd->id());
-                msg->setClient(m_client.c_str());
+                msg->setClient(m_client);
                 msg->setFlags(MESSAGE_RICHTEXT);
                 msg->setForeground(m_edit->m_edit->foreground().rgb() & 0xFFFFFF);
                 msg->setBackground(m_edit->m_edit->background().rgb() & 0xFFFFFF);

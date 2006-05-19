@@ -47,7 +47,7 @@ protected slots:
 protected:
     virtual void *processEvent(SIM::Event*);
     void		send(const QString&);
-    std::string	m_client;
+    QString 	m_client;
     unsigned	m_ID;
     unsigned	m_oldID;
     unsigned	m_time;

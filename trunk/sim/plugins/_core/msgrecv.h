@@ -36,7 +36,7 @@ protected:
     unsigned	m_type;
     unsigned	m_id;
     unsigned	m_contact;
-    std::string	m_client;
+    QString 	m_client;
     bool		m_bOpen;
     MsgEdit	    *m_edit;
     SIM::Message *m_msg;
