@@ -118,8 +118,9 @@ QString NetmonitorPlugin::getConfig()
     for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';
-        packets += number(*it);
+        packets += QString::number(*it);
     }
+    setLogPackets(packets);
     return save_data(monitorData, &data);
 }
 

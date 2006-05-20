@@ -24,8 +24,6 @@
 #include <qlayout.h>
 #include <qheader.h>
 
-using SIM::number;
-
 ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
         : ReplaceCfgBase(parent)
 {
@@ -40,9 +38,9 @@ ReplaceCfg::ReplaceCfg(QWidget *parent, ReplacePlugin *plugin)
         QString value = m_plugin->getValue(i);
         if (key.isEmpty())
             continue;
-        new QListViewItem(lstKeys, key, value, number(m_count++).c_str());
+        new QListViewItem(lstKeys, key, value, QString::number(m_count++));
     }
-    new QListViewItem(lstKeys, "", "", number(m_count++).c_str());
+    new QListViewItem(lstKeys, "", "", QString::number(m_count++));
     lstKeys->adjustColumn();
     m_edit = new IntLineEdit(lstKeys->viewport());
     m_edit->installEventFilter(this);
@@ -132,7 +130,7 @@ void ReplaceCfg::flush()
         return;
     }
     if ((m_editCol == 0) && m_editItem->text(0).isEmpty())
-        new QListViewItem(lstKeys, "", "", number(m_count++).c_str());
+        new QListViewItem(lstKeys, "", "", QString::number(m_count++));
     m_editItem->setText(m_editCol, m_edit->text());
 }
 

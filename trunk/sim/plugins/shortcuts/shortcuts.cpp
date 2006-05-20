@@ -209,9 +209,9 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     getKey(cmd->accel, mod, key);
     QWidget *main = ShortcutsPlugin::getMainWindow();
     if (key && main){
-        string atom = "sim_";
-        atom += number(cmd->id);
-        m_key = GlobalAddAtomA(atom.c_str());
+        QString atom = "sim_";
+        atom += QString::number(cmd->id);
+        m_key = GlobalAddAtomA(atom.latin1());
         RegisterHotKey(main->winId(), m_key, mod, key);
     }
 }

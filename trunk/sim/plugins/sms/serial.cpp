@@ -382,14 +382,14 @@ QStringList SerialPort::devices()
 {
     QStringList res;
     for (unsigned i = 1; i <= 8; i++){
-        string port = "COM";
-        port += number(i);
-        string fullPort = "\\\\.\\";
+        QString port = "COM";
+        port += QString::number(i);
+        QString fullPort = "\\\\.\\";
         fullPort += port;
-        HANDLE hPort = CreateFileA(fullPort.c_str(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
+        HANDLE hPort = CreateFileA(fullPort.latin1(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
         if (hPort == INVALID_HANDLE_VALUE)
             continue;
-        res.append(port.c_str());
+        res.append(port);
         CloseHandle(hPort);
     }
     return res;

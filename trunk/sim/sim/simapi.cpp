@@ -534,7 +534,7 @@ EXPORT QString formatAddr(Data &ip, unsigned port)
     res += inet_ntoa(inaddr);
     if (port){
         res += ":";
-        res += number(port).c_str();
+        res += QString::number(port);
     }
     const char *host = get_host(ip);
     if (host && *host){

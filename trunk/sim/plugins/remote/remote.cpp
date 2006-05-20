@@ -153,9 +153,9 @@ void IPC::process()
             continue;
         QString in;
         QString out;
-        string name = prefix();
-        name += number(i);
-        HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.c_str());
+        QString name = prefix();
+        name += QString::number(i);
+        HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.latin1());
         if (hMem == NULL){
             s[i] = SLOT_NONE;
             PulseEvent(hEventOut);
@@ -707,10 +707,10 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += args[0];
                 return false;
             }
-            string uin_str = number(uin);
+            QString uin_str = QString::number(uin);
             addContact ac;
             ac.proto = "ICQ";
-            ac.addr  = uin_str.c_str();
+            ac.addr  = uin_str.latin1();
             ac.nick  = NULL;
             ac.group = 0;
             Event e(EventAddContact, &ac);

@@ -484,9 +484,9 @@ void GsmTA::getNextEntry()
         if (!m_book->m_entries[m_book->m_size])
             continue;
         m_state = PhoneBook3;
-        string cmd = "+CPBR=";
-        cmd += number(m_book->m_size);
-        at(cmd.c_str(), 20000);
+        QString cmd = "+CPBR=";
+        cmd += QString::number(m_book->m_size);
+        at(cmd.latin1(), 20000);
         m_book->m_size++;
         return;
     }

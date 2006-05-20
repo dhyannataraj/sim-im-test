@@ -887,7 +887,7 @@ void HTTPS_Proxy::connect_ready()
     bOut << "CONNECT "
     << m_host.c_str()
     << ":"
-    << number(m_port).c_str()
+    << (const char*)QString::number(m_port).latin1()
     << " HTTP/1.0\r\n"
     << "User-Agent: "
     << get_user_agent().c_str()
@@ -1108,7 +1108,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
         << " http://"
         << m_host.c_str();
         if (m_port != 80)
-            bOut << ":" << number(m_port).c_str();
+            bOut << ":" << (const char*)QString::number(m_port);
         bOut << getToken(line, ' ', false).c_str();
         bOut << " HTTP/1.1\r\n";
         m_state = Headers;

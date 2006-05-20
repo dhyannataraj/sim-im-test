@@ -202,7 +202,7 @@ EXPORT QString user_file(const char *f)
 // deprecated
 EXPORT std::string number(unsigned n)
 {
-    return QString::number(n);
+    return QString::number(n).latin1();
 }
 
 // deprecated
@@ -872,7 +872,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                                 res += "\n";
                             res += def->name;
                             res += "=";
-                            res += number((*it).first);
+                            res += QString::number((*it).first);
                             res += ",";
                             res += quoteString((*it).second.c_str());
                         }
@@ -887,7 +887,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                                 res += "\n";
                             res += def->name;
                             res += "=";
-                            res += number((*it).first);
+                            res += QString::number((*it).first);
                             res += ",";
                             QString s = QString::fromUtf8((*it).second.c_str());
                             QCString ls = s.local8Bit();
