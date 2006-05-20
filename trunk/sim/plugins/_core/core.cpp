@@ -4383,10 +4383,10 @@ void CorePlugin::setContainerMode(unsigned value)
 
 QString CorePlugin::clientName(Client *client)
 {
-    string s = client->name();
-    QString res = i18n(getToken(s, '.').c_str());
+    QString s = client->name();
+    QString res = i18n(getToken(s, '.'));
     res += " ";
-    return res + s.c_str();
+    return res + s;
 }
 
 void CorePlugin::checkHistory()

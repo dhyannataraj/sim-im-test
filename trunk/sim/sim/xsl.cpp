@@ -72,11 +72,11 @@ XSL::XSL(const QString &name)
             bOK = false;
         }
     }
-	QString xsl;
+	QString xsl("");
 	if(bOK) {
 		QTextStream ts(&f);
 		xsl = ts.read();
-	}
+    }
     d = new XSLPrivate(xsl);
 }
 
