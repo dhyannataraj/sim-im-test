@@ -1383,7 +1383,7 @@ void ICQClient::setupContact(Contact *contact, void *_data)
     contact->setPhones(phones, n.c_str());
     QString mails;
     if (data->EMail.ptr)
-        mails += getContacts()->toUnicode(contact, trim(data->EMail.ptr).c_str());
+        mails += getContacts()->toUnicode(contact, QString(data->EMail.ptr).stripWhiteSpace());
     if (data->EMails.ptr){
         string emails = data->EMails.ptr;
         while (emails.length()){

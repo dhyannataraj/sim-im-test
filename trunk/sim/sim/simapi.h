@@ -968,7 +968,6 @@ EXPORT bool makedir(char *p);
 EXPORT void save_state();
 
 EXPORT DEPRECATED std::string number(unsigned n);
-EXPORT DEPRECATED std::string trim(const char *str);
 EXPORT DEPRECATED QString trim(const QString &str);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);

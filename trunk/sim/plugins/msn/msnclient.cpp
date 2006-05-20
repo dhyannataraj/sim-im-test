@@ -2148,17 +2148,17 @@ typedef map<string, string>	STR_VALUES;
 static STR_VALUES parseValues(const char *str)
 {
     STR_VALUES res;
-    string s = trim(str);
-    while (!s.empty()){
-        string p = trim(getToken(s, ';', false).c_str());
-        string key = getToken(p, '=', false);
+    QString s = QString(str).stripWhiteSpace();
+    while (!s.isEmpty()){
+        QString p = getToken(s, ';', false).stripWhiteSpace();
+        QString key = getToken(p, '=', false);
         STR_VALUES::iterator it = res.find(key);
         if (it == res.end()){
             res.insert(STR_VALUES::value_type(key, p));
         }else{
-            (*it).second = p;
+            (*it).second = p.latin1();
         }
-        s = trim(s.c_str());
+        s = s.stripWhiteSpace();
     }
     return res;
 }
@@ -2168,10 +2168,10 @@ static char FT_GUID[] = "{5D3E02AB-6190-11d3-BBBB-00C04F795683}";
 void SBSocket::messageReady()
 {
     log(L_DEBUG, "MSG: [%s]", m_message.c_str());
-    string content_type;
-    string charset;
-    string font;
-    string typing;
+    QString content_type;
+    QString charset;
+    QString font;
+    QString typing;
     unsigned color = 0;
     bool bColor = false;
     while (!m_message.empty()){
@@ -2184,20 +2184,20 @@ void SBSocket::messageReady()
             m_message = m_message.substr(2);
             break;
         }
-        string line = m_message.substr(0, n);
+        QString line = m_message.substr(0,n);
         m_message = m_message.substr(n + 2);
-        string key = getToken(line, ':', false);
+        QString key = getToken(line, ':', false);
         if (key == "Content-Type"){
-            line = trim(line.c_str());
-            content_type = trim(getToken(line, ';').c_str());
-            STR_VALUES v = parseValues(trim(line.c_str()).c_str());
+            line = line.stripWhiteSpace();
+            content_type = getToken(line, ';').stripWhiteSpace();
+            STR_VALUES v = parseValues(line.stripWhiteSpace());
             STR_VALUES::iterator it = v.find("charset");
             if (it != v.end())
                 charset = (*it).second;
             continue;
         }
         if (key == "X-MMS-IM-Format"){
-            STR_VALUES v = parseValues(trim(line.c_str()).c_str());
+            STR_VALUES v = parseValues(line.stripWhiteSpace());
             STR_VALUES::iterator it = v.find("FN");
             if (it != v.end())
                 font = m_client->unquote(QString::fromUtf8((*it).second.c_str())).utf8();
@@ -2219,7 +2219,7 @@ void SBSocket::messageReady()
             continue;
         }
         if (key == "TypingUser"){
-            typing = trim(line.c_str());
+            typing = line.stripWhiteSpace();
             continue;
         }
     }
@@ -2237,7 +2237,7 @@ void SBSocket::messageReady()
             msg->setBackground(0xFFFFFF);
             msg->setForeground(color);
         }
-        msg->setFont(font.c_str());
+        msg->setFont(font);
         msg->setText(msg_text);
         msg->setContact(m_contact->id());
         msg->setClient(m_client->dataName(m_data));
@@ -2247,7 +2247,7 @@ void SBSocket::messageReady()
         return;
     }
     if (content_type == "text/x-msmsgscontrol"){
-        if (QString(typing.c_str()).lower() == QString(m_data->EMail.ptr).lower()){
+        if (typing.lower() == QString(m_data->EMail.ptr).lower()){
             time_t now;
             time(&now);
             bool bEvent = (m_data->typing_time.value == 0);
@@ -2259,19 +2259,19 @@ void SBSocket::messageReady()
         }
     }
     if (content_type == "text/x-msmsgsinvite"){
-        string file;
-        string command;
-        string guid;
-        string code;
-        string ip_address;
-        string ip_address_internal;
+        QString file;
+        QString command;
+        QString guid;
+        QString code;
+        QString ip_address;
+        QString ip_address_internal;
         unsigned short port = 0;
         unsigned short port_x = 0;
         unsigned cookie = 0;
         unsigned auth_cookie = 0;
         unsigned fileSize = 0;
         while (!m_message.empty()){
-            string line;
+            QString line;
             int n = m_message.find("\r\n");
             if (n < 0){
                 line = m_message;
@@ -2280,49 +2280,50 @@ void SBSocket::messageReady()
                 line = m_message.substr(0, n);
                 m_message = m_message.substr(n + 2);
             }
-            string key = getToken(line, ':', false);
+            QString key = getToken(line, ':', false);
+            line = line.stripWhiteSpace();
             if (key == "Application-GUID"){
-                guid = trim(line.c_str());
+                guid = line;
                 continue;
             }
             if (key == "Invitation-Command"){
-                command = trim(line.c_str());
+                command = line;
                 continue;
             }
             if (key == "Invitation-Cookie"){
-                cookie = strtoul(trim(line.c_str()).c_str(), NULL, 10);
+                cookie = line.toULong();
                 continue;
             }
             if (key == "Application-File"){
-                file = trim(line.c_str());
+                file = line;
                 continue;
             }
             if (key == "Application-FileSize"){
-                fileSize = strtoul(trim(line.c_str()).c_str(), NULL, 10);
+                fileSize = line.toULong();
                 continue;
             }
             if (key == "Cancel-Code"){
-                code = trim(line.c_str());
+                code = line;
                 continue;
             }
             if (key == "IP-Address"){
-                ip_address = trim(line.c_str());
+                ip_address = line;
                 continue;
             }
             if (key == "IP-Address-Internal"){
-                ip_address_internal = trim(line.c_str());
+                ip_address_internal = (unsigned short)line.toULong();
                 continue;
             }
             if (key == "Port"){
-                port = (unsigned short)atol(trim(line.c_str()).c_str());
+                port =  (unsigned short)line.toULong();
                 continue;
             }
             if (key == "PortX"){
-                port_x = (unsigned short)atol(trim(line.c_str()).c_str());
+                port_x = (unsigned short)line.toULong();
                 continue;
             }
             if (key == "AuthCookie"){
-                auth_cookie = strtoul(trim(line.c_str()).c_str(), NULL, 10);
+                auth_cookie = line.toULong();
                 continue;
             }
 
@@ -2333,15 +2334,15 @@ void SBSocket::messageReady()
         }
         if (command == "INVITE"){
             if (guid != FT_GUID){
-                log(L_WARN, "Unknown GUID %s", guid.c_str());
+                log(L_WARN, "Unknown GUID %s", guid.latin1());
                 return;
             }
-            if (file.empty()){
+            if (file.isEmpty()){
                 log(L_WARN, "No file in message");
                 return;
             }
             FileMessage *msg = new FileMessage;
-            msg->setDescription(m_client->unquote(QString::fromUtf8(file.c_str())));
+            msg->setDescription(m_client->unquote(QString::fromUtf8(file)));
             msg->setSize(fileSize);
             msg->setFlags(MESSAGE_RECEIVED | MESSAGE_TEMP);
             msg->setContact(m_contact->id());
@@ -2360,8 +2361,8 @@ void SBSocket::messageReady()
                 }
             }
         }else if (command == "ACCEPT"){
-            unsigned ip      = inet_addr(ip_address.c_str());
-            unsigned real_ip = inet_addr(ip_address_internal.c_str());
+            unsigned ip      = inet_addr(ip_address);
+            unsigned real_ip = inet_addr(ip_address_internal);
             if (ip != INADDR_NONE)
                 set_ip(&m_data->IP, ip);
             if (real_ip != INADDR_NONE)
@@ -2438,7 +2439,7 @@ void SBSocket::messageReady()
             if (it == m_acceptMsg.end())
                 log(L_WARN, "No message for cancel");
         }else{
-            log(L_WARN, "Unknown command %s", command.c_str());
+            log(L_WARN, "Unknown command %s", command.latin1());
             return;
         }
     }
