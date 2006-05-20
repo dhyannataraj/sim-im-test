@@ -182,10 +182,20 @@ unsigned Buffer::unpack(char *d, unsigned s)
     return readn;
 }
 
-std::string Buffer::unpackScreen()
+unsigned Buffer::unpack(QString &d, unsigned s)
+{
+    unsigned readn = size() - m_posRead;
+    if (s < readn)
+        readn = s;
+    d = QString::fromAscii(data() + m_posRead, readn);
+    m_posRead += readn;
+    return readn;
+}
+
+QString Buffer::unpackScreen()
 {
     char len;
-    QCString res;
+    QString res;
 
     *this >> len;
     /* 13 isn't right, AIM allows 16. But when we get a longer
@@ -194,8 +204,8 @@ std::string Buffer::unpackScreen()
     if (len > 16)
         log(L_DEBUG,"Too long Screenname! Length: %d",len);
     res.fill('\x00',len);
-    unpack(res.data(), len);
-    return QString(res);
+    unpack(res, len);
+    return res;
 }
 
 void Buffer::unpack(std::string &str)
@@ -442,11 +452,11 @@ Buffer &Buffer::operator << (unsigned long c)
     return *this;
 }
 
-void Buffer::packScreen(const char *screen)
+void Buffer::packScreen(const QString &screen)
 {
-    char len = (char)(strlen(screen));
+    char len = (char)(strlen(screen.latin1()));
     pack(&len, 1);
-    pack(screen, len);
+    pack(screen.latin1(), len);
 }
 
 bool Buffer::scan(const char *substr, string &res)
@@ -467,6 +477,32 @@ bool Buffer::scan(const char *substr, string &res)
             if (pos - readPos()){
                 res.append(pos - readPos(), '\x00');
                 unpack((char*)res.c_str(), pos - readPos());
+            }
+            incReadPos(pos + strlen(substr) - readPos());
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Buffer::scan(const char *substr, QString &res)
+{
+    char c = *substr;
+    for (unsigned pos = readPos(); pos < writePos(); pos++){
+        if (*data(pos) != c)
+            continue;
+        const char *sp = substr;
+        for (unsigned pos1 = pos; *sp; pos1++, sp++){
+            if (pos1 >= writePos())
+                break;
+            if (*data(pos1) != *sp)
+                break;
+        }
+        if (*sp == 0){
+            res = "";
+            if (pos - readPos()){
+                int size = pos - readPos();
+                unpack(res, size);
             }
             incReadPos(pos + strlen(substr) - readPos());
             return true;

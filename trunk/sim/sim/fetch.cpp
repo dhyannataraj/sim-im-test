@@ -62,7 +62,7 @@ protected:
     unsigned	m_speed;
 #ifdef WIN32
     FetchThread	*m_thread;
-    string		m_err;
+    QString		m_err;
     unsigned	m_errCode;
     bool event(QEvent* event);
 #endif
@@ -337,23 +337,20 @@ void FetchThread::run()
     }
     in_headers.setWritePos(size);
     log_packet(in_headers, false, HTTPPacket);
-    string line;
+    QString line;
     bool bFirst = true;
     for (; in_headers.readPos() < in_headers.writePos(); ){
         if (!in_headers.scan("\r\n", line)){
-            line = "";
             unsigned size = in_headers.writePos() - in_headers.readPos();
-            line.append(size, '\x00');
-            in_headers.unpack((char*)line.c_str(), size);
+            in_headers.unpack(line, size);
         }
         if (bFirst){
             bFirst = false;
             getToken(line, ' ');
-            m_client->m_code = atol(line.c_str());
+            m_client->m_code = line.toLong();
             continue;
         }
         m_client->m_hIn += line;
-        m_client->m_hIn += '\x00';
     }
     if (bFirst){
         error("Bas answer");

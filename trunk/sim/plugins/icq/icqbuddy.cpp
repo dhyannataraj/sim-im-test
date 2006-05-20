@@ -58,7 +58,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxBDY_USEROFFLINE:
         screen = m_socket->readBuffer.unpackScreen();
-        data = findContact(screen.latin1(), NULL, false, contact);
+        data = findContact(screen, NULL, false, contact);
         if (data && (data->Status.value != ICQ_STATUS_OFFLINE)){
             setOffline(data);
             StatusMessage m;
@@ -72,7 +72,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxBDY_USERONLINE:
         screen = m_socket->readBuffer.unpackScreen();
-        data = findContact(screen.latin1(), NULL, false, contact);
+        data = findContact(screen, NULL, false, contact);
         if (data){
             time_t now;
             time(&now);
@@ -424,7 +424,7 @@ void ICQClient::sendContactList()
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
             if (data->IgnoreId.value == 0)
-                m_socket->writeBuffer.packScreen(screen(data).c_str());
+                m_socket->writeBuffer.packScreen(screen(data));
         }
     }
     sendPacket(true);
@@ -448,7 +448,7 @@ void ICQClient::addBuddy(Contact *contact)
             continue;
         if ((data->IgnoreId.value == 0)  && (data->WaitAuth.bValue || (data->GrpId.value == 0))){
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
-            m_socket->writeBuffer.packScreen(screen(data).c_str());
+            m_socket->writeBuffer.packScreen(screen(data));
             sendPacket(true);
             buddies.push_back(screen(data));
         }
@@ -472,7 +472,7 @@ void ICQClient::removeBuddy(Contact *contact)
         if (it == buddies.end())
             continue;
         snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
-        m_socket->writeBuffer.packScreen(screen(data).c_str());
+        m_socket->writeBuffer.packScreen(screen(data));
         sendPacket(true);
         buddies.erase(it);
     }

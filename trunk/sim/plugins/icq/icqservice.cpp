@@ -235,7 +235,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 m_socket->readBuffer.incReadPos(n);
                 screen = m_socket->readBuffer.unpackScreen();
             }
-            if ((unsigned)atol(screen.latin1()) != data.owner.Uin.value){
+            if (screen.toULong() != data.owner.Uin.value){
                 log(L_WARN, "No my name info (%s)", screen.latin1());
                 break;
             }
@@ -292,17 +292,15 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_EVIL:{
             unsigned short level;
             m_socket->readBuffer.unpack(level);
-            string from = m_socket->readBuffer.unpackScreen();
+            QString from = m_socket->readBuffer.unpackScreen();
             data.owner.WarningLevel.value = level;
-            QString f;
-            f = from.c_str();
-            if (f.isEmpty())
-                f = i18n("anonymous");
+            if (from.isEmpty())
+                from = i18n("anonymous");
             clientErrorData d;
             d.client  = this;
             d.code    = 0;
             d.err_str = I18N_NOOP("You've been warned by %1");
-            d.args    = strdup(f.utf8());
+            d.args    = strdup(from.utf8());
             d.flags   = ERR_INFO;
             d.options = NULL;
             d.id	  = CmdShowWarning;

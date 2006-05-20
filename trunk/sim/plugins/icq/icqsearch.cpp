@@ -424,13 +424,13 @@ void *ICQSearch::processEvent(Event *e)
             age = QString::number(res->data.Age.value);
         QStringList l;
         l.append(icon);
-        QString key = m_client->screen(&res->data).c_str();
+        QString key = m_client->screen(&res->data);
         if (res->data.Uin.value){
             while (key.length() < 13)
                 key = QString(".") + key;
         }
         l.append(key);
-        l.append(m_client->screen(&res->data).c_str());;
+        l.append(m_client->screen(&res->data));;
         if (m_client->m_bAIM){
             QString s;
             if (res->data.Nick.ptr)

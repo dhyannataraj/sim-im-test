@@ -376,7 +376,7 @@ ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore
 
 public:
     unsigned          type;
-    std::string       screen;
+    QString           screen;
     unsigned short    icq_id;
     unsigned short    grp_id;
     unsigned short    visible_id;
@@ -412,7 +412,7 @@ bool operator == (const MessageId &m1, const MessageId &m2);
 
 typedef struct SendMsg
 {
-    std::string		screen;
+    QString 		screen;
     MessageId		id;
     SIM::Message	*msg;
     QString			text;
@@ -440,7 +440,7 @@ typedef struct ar_request
     MessageId         id;
     unsigned short    id1;
     unsigned short    id2;
-    std::string       screen;
+    QString           screen;
     bool              bDirect;
 } ar_request;
 
@@ -583,7 +583,7 @@ public:
     static const plugin *plugins;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
-    std::string screen(ICQUserData*);
+    QString screen(ICQUserData*);
     static unsigned warnLevel(unsigned short);
     static unsigned clearTags(QString &text);
     bool m_bAIM;

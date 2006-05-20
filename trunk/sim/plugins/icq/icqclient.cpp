@@ -473,7 +473,7 @@ bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
         if (data->Uin.value == this->data.owner.Uin.value)
             return false;
     }
-    ICQUserData *my_data = findContact(screen(data).c_str(), NULL, false, contact);
+    ICQUserData *my_data = findContact(screen(data), NULL, false, contact);
     if (my_data){
         data = my_data;
         string s;
@@ -2486,7 +2486,7 @@ void *ICQClient::processEvent(Event *e)
         ar_request ar = (*it);
         if (ar.bDirect){
             Contact *contact;
-            ICQUserData *data = findContact(ar.screen.c_str(), NULL, false, contact);
+            ICQUserData *data = findContact(ar.screen, NULL, false, contact);
             if (data && data->Direct.ptr){
                 QString answer;
                 if (data->Version.value >= 10){
@@ -2500,7 +2500,7 @@ void *ICQClient::processEvent(Event *e)
             Buffer copy;
             string response;
             response = t->tmpl.utf8();
-            sendAutoReply(ar.screen.c_str(), ar.id, plugins[PLUGIN_NULL],
+            sendAutoReply(ar.screen, ar.id, plugins[PLUGIN_NULL],
                           ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response.c_str(), 0, copy);
         }
         arRequests.erase(it);
@@ -2836,7 +2836,7 @@ void *ICQClient::processEvent(Event *e)
         QString screen = getToken(s, ',');
         if (!screen.isEmpty()){
             Contact *contact;
-            findContact(screen.latin1(), s.utf8(), true, contact);
+            findContact(screen, s.utf8(), true, contact);
             Command cmd;
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;
@@ -2994,13 +2994,13 @@ bool ICQClient::send(Message *msg, void *_data)
         }
         if (!hasCap(data, CAP_TYPING) && !hasCap(data, CAP_AIM_BUDDYCON))
             return false;
-        sendMTN(screen(data).c_str(), ICQ_MTN_START);
+        sendMTN(screen(data), ICQ_MTN_START);
         delete msg;
         return true;
     case MessageTypingStop:
         if (data == NULL)
             return false;
-        sendMTN(screen(data).c_str(), ICQ_MTN_FINISH);
+        sendMTN(screen(data), ICQ_MTN_FINISH);
         delete msg;
         return true;
 #ifdef USE_OPENSSL
@@ -3115,11 +3115,11 @@ QString ICQClient::dataName(const QString &screen)
     return res;
 }
 
-string ICQClient::screen(ICQUserData *data)
+QString ICQClient::screen(ICQUserData *data)
 {
     if (data->Uin.value == 0)
         return data->Screen.ptr ? data->Screen.ptr : "";
-    return number(data->Uin.value);
+    return QString::number(data->Uin.value);
 }
 
 bool ICQClient::messageReceived(Message *msg, const char *screen)
@@ -3221,7 +3221,7 @@ bool ICQClient::isSupportPlugins(ICQUserData *data)
 void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 {
     Contact *contact;
-    ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
+    ICQUserData *data = findContact(QString::number(uin), NULL, false, contact);
     if (data && !data->bNoDirect.bValue &&
             (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
             ((getInvisible() && data->VisibleId.value) ||
@@ -3271,7 +3271,7 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
     list<SendMsg>::iterator it;
     for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
         SendMsg &s = *it;
-        if (((unsigned)atol(s.screen.c_str()) == uin) && (s.flags == plugin_index) && (s.msg == NULL))
+        if ((s.screen.toULong() == uin) && (s.flags == plugin_index) && (s.msg == NULL))
             break;
     }
     if (it != sendBgQueue.end())
@@ -3356,7 +3356,7 @@ QString ICQClient::addCRLF(const QString &str)
 Contact *ICQClient::getContact(ICQUserData *data)
 {
     Contact *contact = NULL;
-    findContact(screen(data).c_str(), NULL, false, contact);
+    findContact(screen(data), NULL, false, contact);
     return contact;
 }
 

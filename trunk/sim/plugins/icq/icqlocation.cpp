@@ -120,10 +120,10 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
         break;
     case ICQ_SNACxLOC_LOCATIONxINFO:
         screen = m_socket->readBuffer.unpackScreen();
-        if (isOwnData(screen.latin1())){
+        if (isOwnData(screen)){
             data = &this->data.owner;
         }else{
-            data = findContact(screen.latin1(), NULL, false, contact);
+            data = findContact(screen, NULL, false, contact);
         }
         if (data){
             string charset = "us-ascii";
@@ -538,10 +538,10 @@ void ICQClient::fetchProfile(ICQUserData *data)
 {
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
     m_socket->writeBuffer << (unsigned short)0x0001;
-    m_socket->writeBuffer.packScreen(screen(data).c_str());
+    m_socket->writeBuffer.packScreen(screen(data));
     sendPacket(false);
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxDIRxINFO, true);
-    m_socket->writeBuffer.packScreen(screen(data).c_str());
+    m_socket->writeBuffer.packScreen(screen(data));
     sendPacket(false);
     m_info_req.insert(INFO_REQ_MAP::value_type(m_nMsgSequence, screen(data)));
 }
@@ -550,7 +550,7 @@ void ICQClient::fetchAwayMessage(ICQUserData *data)
 {
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
     m_socket->writeBuffer << (unsigned short)0x0003;
-    m_socket->writeBuffer.packScreen(screen(data).c_str());
+    m_socket->writeBuffer.packScreen(screen(data));
     sendPacket(false);
 }
 

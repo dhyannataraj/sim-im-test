@@ -72,6 +72,7 @@ public:
 
     void pack(const char *d, unsigned size);
     unsigned unpack(char *d, unsigned size);
+    unsigned unpack(QString &d, unsigned size);
 
     void pack(char c) { pack(&c, 1); }
     void pack(unsigned short c);
@@ -91,7 +92,7 @@ public:
     void unpack(unsigned char &c);
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
-    std::string unpackScreen();
+    QString unpackScreen();
     void unpack(std::string &s);
     void unpackStr(std::string &s);
     void unpackStr32(std::string &s);
@@ -111,7 +112,7 @@ public:
     Buffer &operator << (char**);
     Buffer &operator << (TlvList&);
 
-    void packScreen(const char *);
+    void packScreen(const QString &);
     void packStr32(const char *);
     void pack32(const Buffer &b);
 
@@ -132,6 +133,7 @@ public:
     void tlvLE(unsigned short n, Buffer &b) { tlvLE(n, b.data(), (unsigned short)(b.size())); }
 
     bool scan(const char *substr, std::string &res);
+    bool scan(const char *substr, QString &res);
 
     void init(unsigned size);
 
