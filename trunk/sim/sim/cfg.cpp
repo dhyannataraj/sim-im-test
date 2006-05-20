@@ -217,17 +217,6 @@ EXPORT QString trim(const QString &from)
     return from.stripWhiteSpace();
 }
 
-EXPORT string quoteChars(const char *from, const char *chars)
-{
-    string res;
-    for (; *from; from++){
-        if ((*from == '\\') || strchr(chars, *from))
-            res += '\\';
-        res += *from;
-    }
-    return res;
-}
-
 char fromHex(char c)
 {
     if ((c >= '0') && (c <= '9')) return (char)(c - '0');

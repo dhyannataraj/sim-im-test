@@ -332,7 +332,7 @@ public:
 protected:
     virtual void fail(unsigned short error_code);
     bool answer(Buffer &b, unsigned short nSubtype);
-    string unpack_list(Buffer &b);
+    QString unpack_list(Buffer &b);
     unsigned m_nParts;
     unsigned long m_uin;
     ICQClient *m_client;
@@ -368,22 +368,22 @@ void FullInfoRequest::fail(unsigned short)
     m_client->removeFullInfoRequest(m_uin);
 }
 
-string FullInfoRequest::unpack_list(Buffer &b)
+QString FullInfoRequest::unpack_list(Buffer &b)
 {
-    string res;
+    QString res;
     char n;
     b >> n;
     for (; n > 0; n--){
         unsigned short c;
         b.unpack(c);
-        string s;
+        QString s;
         b >> s;
         if (c == 0) continue;
         if (res.length())
             res += ";";
-        res += number(c);
+        res += QString::number(c);
         res += ",";
-        res += quoteChars(s.c_str(), ";");
+        res += quoteChars(s, ";");
     }
     return res;
 }
@@ -460,15 +460,15 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             break;
         }
     case ICQ_SRVxEMAIL_INFO:{
-            string mail;
+            QString mail;
             char c;
             b >> c;
             for (;c > 0;c--){
                 char d;
                 b >> d;
-                string s;
+                QString s;
                 b >> s;
-                s = quoteChars(s.c_str(), ";");
+                s = quoteChars(s, ";");
                 if (mail.length())
                     mail += ";";
                 mail += s;
@@ -476,7 +476,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 if (d)
                     mail += '-';
             }
-            set_str(&data->EMails.ptr, mail.c_str());
+            set_str(&data->EMails.ptr, mail);
             break;
         }
     case ICQ_SRVxWORK_INFO:{
@@ -503,11 +503,11 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
         b >> &data->About.ptr;
         break;
     case ICQ_SRVxINTERESTS_INFO:
-        set_str(&data->Interests.ptr, unpack_list(b).c_str());
+        set_str(&data->Interests.ptr, unpack_list(b));
         break;
     case ICQ_SRVxBACKGROUND_INFO:
-        set_str(&data->Backgrounds.ptr, unpack_list(b).c_str());
-        set_str(&data->Affilations.ptr, unpack_list(b).c_str());
+        set_str(&data->Backgrounds.ptr, unpack_list(b));
+        set_str(&data->Affilations.ptr, unpack_list(b));
         break;
     case ICQ_SRVxUNKNOWN_INFO:
         break;

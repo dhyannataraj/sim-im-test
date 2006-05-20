@@ -259,6 +259,23 @@ Buffer &Buffer::operator >> (string &str)
     return *this;
 }
 
+Buffer &Buffer::operator >> (QString &str)
+{
+    unsigned short s;
+    *this >> s;
+    s = htons(s);
+    str = "";
+    if (s){
+        if (s > size() - m_posRead)
+            s = (unsigned short)(size() - m_posRead);
+        char *buf = new char[s+1];
+        unpack(buf, s);
+        str = QString::fromAscii(buf,s);
+        delete[] buf;
+    }
+    return *this;
+}
+
 Buffer &Buffer::operator >> (char &c)
 {
     if (unpack(&c, 1) != 1) c = 0;

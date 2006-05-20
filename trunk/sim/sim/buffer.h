@@ -84,6 +84,7 @@ public:
     Buffer &operator >> (unsigned long &c);
     Buffer &operator >> (int &c);
     Buffer &operator >> (std::string &s);
+    Buffer &operator >> (QString &s);
     Buffer &operator >> (char**);
 
     void unpack(char &c);
