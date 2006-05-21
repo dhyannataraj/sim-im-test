@@ -1234,14 +1234,18 @@ msgstr ""
 msgid ""
 "_n: SMS\n"
 "%n SMSs"
-msgstr "%n SMS"
+msgstr ""
+"SMS\n"
+"%n SMSs"
 
 #: plugins/_core/msgedit.cpp:476
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URLs"
-msgstr "%n URLs"
+msgstr ""
+"URL\n"
+"%n URLs"
 
 #: plugins/_core/msgedit.cpp:539
 #, c-format
