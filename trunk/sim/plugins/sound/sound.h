@@ -68,12 +68,12 @@ protected:
     virtual void *processEvent(SIM::Event*);
     virtual QString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    std::string fullName(const char*);
-    std::string messageSound(unsigned type, SoundUserData *data);
-    void playSound(const char*);
+    QString fullName(const QString&);
+    QString messageSound(unsigned type, SoundUserData *data);
+    void playSound(const QString&);
     void processQueue();
-    std::string		m_current;
-    std::list<std::string>	m_queue;
+    QString		    m_current;
+    QStringList 	m_queue;
     QSound			*m_sound;
     QTimer			*m_checkTimer;
 #ifndef WIN32

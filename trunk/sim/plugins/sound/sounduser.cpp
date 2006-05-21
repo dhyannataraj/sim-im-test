@@ -28,7 +28,6 @@
 #include <qregexp.h>
 #include <qpainter.h>
 
-using std::string;
 using namespace SIM;
 
 unsigned ONLINE_ALERT = 0x10000;
@@ -42,9 +41,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     lstSound->setExpandingColumn(1);
 
     SoundUserData *user_data = (SoundUserData*)data;
-    string s;
-    s = plugin->fullName(user_data->Alert.ptr);
-    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), QFile::decodeName(s.c_str()));
+    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), plugin->fullName(user_data->Alert.ptr));
     item->setText(2, QString::number(ONLINE_ALERT));
     item->setPixmap(0, makePixmap("ICQ"));
 
@@ -67,7 +64,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         }
         type = type.left(1).upper() + type.mid(1);
         item = new QListViewItem(lstSound, type,
-                                 QFile::decodeName(m_plugin->messageSound(cmd->id, user_data).c_str()));
+                                 m_plugin->messageSound(cmd->id, user_data));
         item->setText(2, QString::number(cmd->id));
         item->setPixmap(0, makePixmap(cmd->icon));
     }

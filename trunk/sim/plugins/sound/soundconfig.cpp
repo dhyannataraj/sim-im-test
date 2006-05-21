@@ -26,7 +26,6 @@
 #include <qtabwidget.h>
 #include <qsound.h>
 
-using std::string;
 using SIM::getContacts;
 
 SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
@@ -54,13 +53,9 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
     }
     edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
 #endif
-    string s;
-    s = plugin->fullName(plugin->getStartUp());
-    edtStartup->setText(QFile::decodeName(s.c_str()));
-    s = plugin->fullName(plugin->getFileDone());
-    edtFileDone->setText(QFile::decodeName(s.c_str()));
-    s = plugin->fullName(plugin->getMessageSent());
-    edtSent->setText(QFile::decodeName(s.c_str()));
+    edtStartup->setText(plugin->fullName(plugin->getStartUp()));
+    edtFileDone->setText(plugin->fullName(plugin->getFileDone()));
+    edtSent->setText(plugin->fullName(plugin->getMessageSent()));
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -99,16 +94,16 @@ void SoundConfig::apply()
         m_plugin->setPlayer("");
     else
         m_plugin->setPlayer(edtPlayer->text().local8Bit());
-    m_plugin->setStartUp(QFile::encodeName(sound(edtStartup->text(), "startup.wav")));
-    m_plugin->setFileDone(QFile::encodeName(sound(edtFileDone->text(), "startup.wav")));
-    m_plugin->setMessageSent(QFile::encodeName(sound(edtSent->text(), "startup.wav")));
+    m_plugin->setStartUp(sound(edtStartup->text(), "startup.wav"));
+    m_plugin->setFileDone(sound(edtFileDone->text(), "startup.wav"));
+    m_plugin->setMessageSent(sound(edtSent->text(), "startup.wav"));
 }
 
 QString SoundConfig::sound(QString text, const char *def)
 {
-    QString defFile = QFile::decodeName(m_plugin->fullName(def).c_str());
+    QString defFile = m_plugin->fullName(def);
     if (defFile == text)
-        text = QFile::decodeName(def);
+        text = def;
     return text;
 }
 

@@ -24,12 +24,12 @@
 #include <qfile.h>
 #include <qsound.h>
 #include <qtimer.h>
+#include <qdir.h>
 
 #ifdef USE_KDE
 #include <kaudioplayer.h>
 #endif
 
-using namespace std;
 using namespace SIM;
 
 const unsigned CHECK_SOUND_TIMEOUT	= 200;
@@ -263,9 +263,8 @@ void *SoundPlugin::processEvent(Event *e)
                 bEnable = false;
         }
         if (bEnable){
-            string sound = messageSound(msg->baseType(), data);
-            if (!sound.empty())
-                playSound(sound.c_str());
+            QString sound = messageSound(msg->baseType(), data);
+            playSound(sound);
         }
         return NULL;
     }
@@ -277,15 +276,15 @@ void *SoundPlugin::processEvent(Event *e)
     return NULL;
 }
 
-string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
+QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
 {
     CommandDef *def = core->messageTypes.find(type);
-    string sound;
+    QString sound;
     if (data)
         sound = get_str(data->Receive, type);
     if (sound == "(nosound)")
         return "";
-    if (sound.empty()){
+    if (sound.isEmpty()){
         def = core->messageTypes.find(type);
         if ((def == NULL) || (def->icon == NULL))
             return "";
@@ -298,23 +297,18 @@ string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
             sound = def->icon;
         }
         sound += ".wav";
-        sound = fullName(sound.c_str());
+        sound = fullName(sound);
     }
     return sound;
 }
 
-string SoundPlugin::fullName(const char *name)
+QString SoundPlugin::fullName(const QString &name)
 {
-    QString sound="";
-    QString str_name = name;
-    if ((name == NULL) || (*name == 0) || (str_name == "(nosound)"))
-        return sound;
-#ifdef WIN32
-    char c = name[0];
-    if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) || ((c == '\\') && (name[1] == '\\'))){
-#else
-    if (name[0] == '/'){
-#endif
+    QString sound;
+    if (name.isEmpty() || name == "(nosound)")
+        return "";
+    QDir d(name);
+    if(!d.isRelative()) {
         sound = name;
     }else{
         sound = "sounds/";
@@ -324,16 +318,14 @@ string SoundPlugin::fullName(const char *name)
     return sound;
 }
 
-void SoundPlugin::playSound(const char *s)
+void SoundPlugin::playSound(const QString &s)
 {
-    if ((s == NULL) || (*s == 0))
+    if (s.isEmpty())
         return;
     if (m_current == s)
         return;
-    for (list<string>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-        if ((*it) == s)
-            return;
-    }
+    if(m_queue.findIndex(s)!=-1)
+        return;
     m_queue.push_back(s);
     if (m_sound == NULL)
         processQueue();
@@ -341,19 +333,19 @@ void SoundPlugin::playSound(const char *s)
 
 void SoundPlugin::processQueue()
 {
-    if (!m_current.empty() || m_queue.empty())
+    if (!m_current.isEmpty() || m_queue.isEmpty())
         return;
     m_current = m_queue.front();
     m_queue.erase(m_queue.begin());
-    string sound = fullName(m_current.c_str());
+    QString sound = fullName(m_current);
     // check whether file is available
-    if (!QFile::exists(QString(sound.c_str()))) {
+    if (!QFile::exists(sound)) {
         m_current="";
         return;
     }
 #ifdef USE_KDE
     if (getUseArts()){
-        KAudioPlayer::play(sound.c_str());
+        KAudioPlayer::play(sound);
         m_checkTimer->start(WAIT_SOUND_TIMEOUT);
         m_current = "";
         return; // arts
@@ -376,7 +368,7 @@ void SoundPlugin::processQueue()
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
-        m_sound = new QSound(sound.c_str());
+        m_sound = new QSound(sound);
         m_sound->play();
         m_checkTimer->start(CHECK_SOUND_TIMEOUT);
         m_current = "";
@@ -389,7 +381,7 @@ void SoundPlugin::processQueue()
         m_current="";
         return;
     }
-    p.arg = sound.c_str();
+    p.arg = sound.latin1();
     Event e(EventExec, &p);
     m_player = (long)e.process();
     if (m_player == 0){
