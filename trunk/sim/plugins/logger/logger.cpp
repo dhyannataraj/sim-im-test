@@ -199,7 +199,7 @@ void *LoggerPlugin::processEvent(Event *e)
         LogInfo *li = (LogInfo*)e->param();
         if (((li->packet_id == 0) && (li->log_level & getLogLevel())) ||
                 (li->packet_id && ((getLogLevel() & L_PACKETS) || isLogType(li->packet_id)))){
-            string s;
+            QString s;
             s = make_packet_string(li);
             if (m_file){
 #ifdef WIN32
@@ -207,34 +207,35 @@ void *LoggerPlugin::processEvent(Event *e)
 #else
                 s += "\n";
 #endif
-                m_file->writeBlock(s.c_str(), s.length());
+                m_file->writeBlock(s.latin1(), s.length());
             }
 #ifdef QT_DLL
-            for (char *p = (char*)(s.c_str()); *p; ){
+            for (char *p = (char*)(s.latin1()); *p; ){
                 char *r = strchr(p, '\n');
                 if (r) *r = 0;
                 if (strlen(p) > 256){
-                    string s = p;
-                    while (!s.empty()){
-                        string l;
+                    s = p;
+                    while (!s.isEmpty()){
+                        QString l;
                         if (s.length() < 256){
                             l = s;
                             s = "";
                         }else{
-                            l = s.substr(0, 256);
-                            s = s.substr(256);
+                            l = s.left(256);
+                            s = s.mid(256);
                         }
-                        OutputDebugStringA(l.c_str());
+                        OutputDebugStringA(l.latin1());
                     }
                 }else{
                     OutputDebugStringA(p);
                 }
                 OutputDebugStringA("\n");
-                if (r == NULL) break;
+                if (r == NULL)
+                    break;
                 p = r + 1;
             }
 #else
-            fprintf(stderr, "%s\n", s.c_str());
+            fprintf(stderr, "%s\n", s.latin1());
 #endif
         }
     }

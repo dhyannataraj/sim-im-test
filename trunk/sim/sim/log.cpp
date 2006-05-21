@@ -97,9 +97,9 @@ void log(unsigned short l, const char *fmt, ...)
     va_end(ap);
 }
 
-EXPORT string make_packet_string(LogInfo *l)
+EXPORT QString make_packet_string(LogInfo *l)
 {
-    string m;
+    QString m;
     if (l->packet_id){
         PacketType *type = getContacts()->getPacketType(l->packet_id);
         if (type == NULL)
@@ -114,14 +114,14 @@ EXPORT string make_packet_string(LogInfo *l)
             name += ".";
             name += l->add_info;
         }
-        format(m, "%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
+        m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
                tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
                tm->tm_hour, tm->tm_min, tm->tm_sec,
                name.c_str(),
                (l->log_level & L_PACKET_IN) ? "Read" : "Write",
                b->size() - start);
         if (type->isText()){
-            m.append(b->data(start), b->size() - start);
+            m += QString::fromLatin1(b->data(start), b->size() - start);
         }else{
             char line[81];
             char *p1 = line;
@@ -151,7 +151,8 @@ EXPORT string make_packet_string(LogInfo *l)
                 memcpy(p1, buf, 3);
                 p1 += 3;
             }
-            if (n <= 16) m += line;
+            if (n <= 16)
+                m += line;
         }
     }else{
         m = (const char*)(l->log_info);
