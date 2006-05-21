@@ -122,9 +122,7 @@ Container::Container(unsigned id, const char *cfg)
     setWFlags(WDestructiveClose);
 
     if (cfg && *cfg){
-        Buffer config;
-        config << "[Title]\n" << cfg;
-        config.setWritePos(0);
+        ConfigBuffer config( QString("[Title]\n") + QString(cfg));
         config.getSection();
         load_data(containerData, &data, &config);
     }else{

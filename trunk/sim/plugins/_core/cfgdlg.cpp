@@ -478,10 +478,8 @@ void ConfigureDialog::apply()
         if (cfg.isEmpty()){
             load_data(def, data);
         }else{
-            Buffer config;
-            config << "[Title]\n";
-            config.pack(cfg);
-            config.setWritePos(0);
+            QString str = "[Title]\n" + cfg;
+            ConfigBuffer config(str);
             config.getSection();
             load_data(def, data, &config);
         }
