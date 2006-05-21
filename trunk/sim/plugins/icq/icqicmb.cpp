@@ -1671,7 +1671,7 @@ bool ICQClient::processMsg()
     unsigned short type = 0;
     if (m_send.msg) {
         type = m_send.msg->type();
-        log(L_DEBUG, "Send: %s %u %X", m_send.screen, type, m_send.flags);
+        //log(L_DEBUG, "Send: %s %u %X", m_send.screen, type, m_send.flags); // crissi: crash
     }
     if (m_send.msg && (m_send.socket == NULL)){
         Buffer b;
@@ -2007,7 +2007,7 @@ bool ICQClient::processMsg()
         sendAdvMessage(m_send.screen, b, PLUGIN_RANDOMxCHAT, m_send.id, false, false);
     }else{
         unsigned plugin_index = m_send.flags;
-        log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen, plugin_index);
+        //log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen, plugin_index); // crissi: crash
 
         Buffer b;
         unsigned short type = 0;
