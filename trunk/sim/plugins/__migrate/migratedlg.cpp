@@ -169,9 +169,7 @@ void MigrateDialog::process()
         m_state  = 0;
         m_grpId		= 0;
         m_contactId = 0;
-        Buffer cfg;
-        cfg.init(icqConf.size());
-        icqConf.readBlock(cfg.data(), icqConf.size());
+        ConfigBuffer cfg(&icqConf);
         for (;;){
             QString section = cfg.getSection();
             if (section.isEmpty())
@@ -233,8 +231,7 @@ void MigrateDialog::process()
                 error(i18n("Can't open %1") .arg(hTo.name()));
                 return;
             }
-            cfg.init(hFrom.size());
-            hFrom.readBlock(cfg.data(), hFrom.size());
+            cfg = ConfigBuffer(&hFrom);
             for (;;){
                 QString section = cfg.getSection();
                 if (section.isEmpty())
