@@ -3954,7 +3954,7 @@ QString CorePlugin::getConfig()
             if (!containers.isEmpty())
                 containers += ',';
             containers += QString::number(c->getId());
-            setContainer(c->getId(), c->getState().c_str());
+            setContainer(c->getId(), c->getState());
         }
         ++it;
     }

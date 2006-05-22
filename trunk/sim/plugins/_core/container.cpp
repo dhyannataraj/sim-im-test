@@ -300,7 +300,7 @@ list<UserWnd*> Container::windows()
     return m_tabBar->windows();
 }
 
-string Container::getState()
+QString Container::getState()
 {
     clearWndConfig();
     QString windows;

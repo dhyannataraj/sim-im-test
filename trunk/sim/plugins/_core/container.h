@@ -93,7 +93,7 @@ public:
     UserWnd *wnd(unsigned id);
     UserWnd *wnd();
     std::list<UserWnd*> windows();
-    std::string getState();
+    QString getState();
     bool isReceived() { return m_bReceived; }
     void setReceived(bool bReceived) { m_bReceived = bReceived; }
     void setNoSwitch(bool bState);
