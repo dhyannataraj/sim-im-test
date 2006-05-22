@@ -39,7 +39,7 @@ class UserWnd : public QSplitter
 {
     Q_OBJECT
 public:
-    UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust);
+    UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdjust);
     ~UserWnd();
     QString getConfig();
     unsigned long id() { return m_id; }

@@ -242,13 +242,12 @@ void Container::init()
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
-        Buffer config;
+        QString str("[Title]\n");
         const char *cfg = getWndConfig(id);
-        if (cfg && *cfg){
-            config << "[Title]\n" << cfg;
-            config.setWritePos(0);
-            config.getSection();
-        }
+        if (cfg && *cfg)
+            str += cfg;
+        ConfigBuffer config(str);
+        config.getSection();
         addUserWnd(new UserWnd(id, &config, false, true), true);
     }
 
