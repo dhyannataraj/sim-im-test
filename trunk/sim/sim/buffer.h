@@ -165,6 +165,8 @@ public:
     ConfigBuffer *getData() { return new ConfigBuffer(mid( m_posRead, m_posNextSection - m_posRead)); }
     void savePos() { m_posReadSave = m_posRead; }
     void restorePos() { m_posRead = m_posReadSave; }
+
+    unsigned readPos() const { return m_posRead; }
 protected:
     int findStartSection(unsigned start);
     int findEndSection(unsigned start);
