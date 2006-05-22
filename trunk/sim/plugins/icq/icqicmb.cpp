@@ -1671,7 +1671,7 @@ bool ICQClient::processMsg()
     unsigned short type = 0;
     if (m_send.msg) {
         type = m_send.msg->type();
-        //log(L_DEBUG, "Send: %s %u %X", m_send.screen, type, m_send.flags); // crissi: crash
+        log(L_DEBUG, "Send: %s %u %X", m_send.screen.latin1(), type, m_send.flags);
     }
     if (m_send.msg && (m_send.socket == NULL)){
         Buffer b;
