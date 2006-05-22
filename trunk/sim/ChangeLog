@@ -17,6 +17,7 @@ Build system
 [+] MacOSX: fix build with X11.
 [+] Win32/MSVC: switch to MSVC8.
 [+] Win32/MSVC: use precompiled headers.
+[+] Unix: issue error, not warning, if openssl wasn't found.
 
 Core
 ~~~~
@@ -33,6 +34,7 @@ ICQ plugin
 ~~~~~~~~~~
 [*] Improve client versions detection.
 [-] Do not delete contacts if group changed while offline.
+[*] Accept messages in Occupied/DND modes by default.
 
 Jabber plugin
 ~~~~~~~~~~~~~
@@ -52,3 +54,4 @@ Misc plugins
 [+] LiveJournal: Add optional signature to all messages.
 [+] LiveJournal: Option to disable message text formatting.
 [-] Proxy: fix some crashes.
+[*] Logger: remove dangerous 'Events' logging facility
