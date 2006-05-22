@@ -5,6 +5,14 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 [*] Changes
 
 
+=== SIM 0.9.4 (not released yet) ===
+
+ICQ plugin
+~~~~~~~~~~
+[*] Accept messages in Occupied/DND modes by default.
+
+
+
 === SIM 0.9.4 RC2 (03.05.2006) ===
 
 Build system

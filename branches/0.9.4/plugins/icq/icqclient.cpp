@@ -267,8 +267,8 @@ static DataDef icqClientData[] =
         { "DisableTypingNotification", DATA_BOOL, 1, 0 },
 //        { "AutoCheckInvisible", DATA_BOOL, 1, 0 },
 //        { "CheckInvisibleInterval", DATA_ULONG, 1, DATA(15) },
-        { "AcceptInDND", DATA_BOOL, 1, 0 },
-        { "AcceptInOccupied", DATA_BOOL, 1, 0 },
+        { "AcceptInDND", DATA_BOOL, 1, DATA(1) }, //accept default on
+        { "AcceptInOccupied", DATA_BOOL, 1, DATA(1) }, //accept default on
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
         { "WarnAnonimously", DATA_BOOL, 1, 0 },
