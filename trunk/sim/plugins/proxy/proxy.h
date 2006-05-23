@@ -70,7 +70,7 @@ public:
     void clientData(SIM::TCPClient*, ProxyData &data);
     static const SIM::DataDef *proxyData;
     unsigned ProxyErr;
-    std::string clientName(SIM::TCPClient *client);
+    QString clientName(SIM::TCPClient *client);
 protected:
     virtual void *processEvent(SIM::Event*);
     virtual QWidget *createConfigWindow(QWidget *parent);

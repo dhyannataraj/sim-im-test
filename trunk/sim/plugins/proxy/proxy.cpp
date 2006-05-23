@@ -1187,7 +1187,7 @@ ProxyPlugin::~ProxyPlugin()
     getContacts()->removePacketType(ProxyPacket);
 }
 
-string ProxyPlugin::clientName(TCPClient *client)
+QString ProxyPlugin::clientName(TCPClient *client)
 {
     if (client == (TCPClient*)(-1))
         return "HTTP";
@@ -1204,12 +1204,12 @@ void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
         if (wdata.Client.ptr && (clientName(client) == wdata.Client.ptr)){
             cdata = wdata;
             cdata.Default.bValue = false;
-            set_str(&cdata.Client.ptr, clientName(client).c_str());
+            set_str(&cdata.Client.ptr, clientName(client));
             return;
         }
     }
     cdata = data;
-    set_str(&cdata.Client.ptr, clientName(client).c_str());
+    set_str(&cdata.Client.ptr, clientName(client));
     cdata.Default.bValue = true;
     clear_list(&cdata.Clients);
 }

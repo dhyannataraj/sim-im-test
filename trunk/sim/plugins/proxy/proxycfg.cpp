@@ -29,7 +29,6 @@
 #include <qpainter.h>
 #include <qtabwidget.h>
 
-using std::string;
 using namespace SIM;
 
 ProxyConfig::ProxyConfig(QWidget *parent, ProxyPlugin *plugin, QTabWidget *tab, Client *client)
@@ -174,10 +173,10 @@ void ProxyConfig::clientChanged(int)
         if (m_current == 0){
             for (unsigned i = 1; i < m_data.size(); i++){
                 if (m_data[i].Default.bValue){
-                    string client = m_data[i].Client.ptr;
+                    QString client = m_data[i].Client.ptr;
                     m_data[i] = m_data[0];
                     m_data[i].Default.bValue = true;
-                    set_str(&m_data[i].Client.ptr, client.c_str());
+                    set_str(&m_data[i].Client.ptr, client);
                 }else{
                     if (m_data[i] == m_data[0])
                         m_data[i].Default.bValue = true;
