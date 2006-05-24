@@ -90,9 +90,7 @@ ProxyData::ProxyData(const char *cfg)
 {
     bInit = false;
     if (cfg) {
-        Buffer config;
-        config << "[Title]\n" << cfg;
-        config.setWritePos(0);
+        ConfigBuffer config( QString( "[Title]\n" ) + cfg );
         config.getSection();
         load_data(_proxyData, this, &config);
         bInit = true;
@@ -140,9 +138,7 @@ ProxyData& ProxyData::operator = (const ProxyData &d)
         bInit = false;
     }
     if (d.bInit){
-        Buffer cfg;
-        cfg << "[Title]\n" << save_data(_proxyData, (void*)(&d)).latin1();
-        cfg.setWritePos(0);
+        ConfigBuffer cfg( QString( "[Title]\n" ) +  save_data(_proxyData, (void*)(&d)).latin1() );
         cfg.getSection();
         load_data(_proxyData, this, &cfg);
         bInit = true;
