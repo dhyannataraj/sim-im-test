@@ -33,7 +33,7 @@ typedef struct JabberMessageData
 class JabberMessage : public SIM::Message
 {
 public:
-    JabberMessage(Buffer *cfg = NULL);
+    JabberMessage(ConfigBuffer *cfg = NULL);
     ~JabberMessage();
     PROP_UTF8(Subject);
     virtual QString save();
@@ -52,7 +52,7 @@ typedef struct JabberMessageErrorData
 class JabberMessageError : public SIM::Message
 {
 public:
-    JabberMessageError(Buffer *cfg = NULL);
+    JabberMessageError(ConfigBuffer *cfg = NULL);
     ~JabberMessageError();
     PROP_UTF8(Error);
     PROP_ULONG(Code);
@@ -73,7 +73,7 @@ typedef struct JabberMessageFileData
 class JabberFileMessage : public SIM::FileMessage
 {
 public:
-    JabberFileMessage(Buffer *cfg = NULL);
+    JabberFileMessage(ConfigBuffer *cfg = NULL);
     ~JabberFileMessage();
     PROP_STR(ID);
     PROP_STR(From);

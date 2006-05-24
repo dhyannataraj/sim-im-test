@@ -28,7 +28,7 @@ static DataDef jabberMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-JabberMessage::JabberMessage(Buffer *cfg)
+JabberMessage::JabberMessage(ConfigBuffer *cfg)
         : Message(MessageJabber, cfg)
 {
     load_data(jabberMessageData, &data, cfg);
@@ -59,7 +59,7 @@ QString JabberMessage::presentation()
     return res;
 }
 
-static Message *createJabberMessage(Buffer *cfg)
+static Message *createJabberMessage(ConfigBuffer *cfg)
 {
     return new JabberMessage(cfg);
 }
@@ -83,7 +83,7 @@ static DataDef jabberMessageErrorData[] =
         { NULL, 0, 0, 0 }
     };
 
-JabberMessageError::JabberMessageError(Buffer *cfg)
+JabberMessageError::JabberMessageError(ConfigBuffer *cfg)
         : Message(MessageJabberError, cfg)
 {
     load_data(jabberMessageErrorData, &data, cfg);
@@ -127,7 +127,7 @@ QString JabberMessageError::presentation()
     return res;
 }
 
-static Message *createJabberMessageError(Buffer *cfg)
+static Message *createJabberMessageError(ConfigBuffer *cfg)
 {
     return new JabberMessageError(cfg);
 }
@@ -148,7 +148,7 @@ static MessageDef defJabberError =
         NULL
     };
 
-static Message *createJabberOnlineMessage(Buffer *cfg)
+static Message *createJabberOnlineMessage(ConfigBuffer *cfg)
 {
     return new AuthMessage(MessageJabberOnline, cfg);
 }
@@ -165,7 +165,7 @@ static MessageDef defJabberOnline =
         NULL
     };
 
-static Message *createJabberOfflineMessage(Buffer *cfg)
+static Message *createJabberOfflineMessage(ConfigBuffer *cfg)
 {
     return new AuthMessage(MessageJabberOffline, cfg);
 }
@@ -191,7 +191,7 @@ static DataDef jabberMessageFileData[] =
         { NULL, 0, 0, 0 }
     };
 
-JabberFileMessage::JabberFileMessage(Buffer *cfg)
+JabberFileMessage::JabberFileMessage(ConfigBuffer *cfg)
         : FileMessage(MessageFile, cfg)
 {
     load_data(jabberMessageFileData, &data, cfg);

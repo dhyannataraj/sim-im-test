@@ -612,14 +612,14 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             int i = cnt.toULong();
             if (i == 0)
                 break;
-            QString s = unquoteStringInternal(val.mid( idx + 1 ));
+            QString s = unquoteStringInternal( QString::fromUtf8( val.mid( idx + 1 ) ) );
             set_str(ld, i, s.utf8());
             break;
         }
         case DATA_UTF: {
 			QStringList sl = QStringList::split( "\",\"", val );
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-                QString s = sl[i];
+                QString s = QString::fromUtf8( sl[i] );
                 if(s.isEmpty())
                     continue;
                 s = unquoteStringInternal(s);
@@ -728,7 +728,7 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
             int i = cnt.toULong();
             if (i == 0)
                 break;
-            QString s = unquoteStringInternal(val.mid( idx + 1 ));
+            QString s = unquoteStringInternal( val.mid( idx + 1 ) );
             set_str(ld, i, s.utf8());
             break;
         }

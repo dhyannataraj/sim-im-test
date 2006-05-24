@@ -705,7 +705,7 @@ void GpgPlugin::reset()
 i18n("%n GPG key", "%n GPG keys", 1);
 #endif
 
-static Message *createGPGKey(Buffer *cfg)
+static Message *createGPGKey(ConfigBuffer *cfg)
 {
     return new Message(MessageGPGKey, cfg);
 }

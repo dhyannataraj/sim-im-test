@@ -479,7 +479,7 @@ void OSDPlugin::processQueue()
         case OSD_TYPING:
             if (data->EnableTyping.bValue){
                 unsigned style = 0;
-                string wrkIcons;
+                std::string wrkIcons;
                 const char *statusIcon = NULL;
                 contact->contactInfo(style, statusIcon, &wrkIcons);
                 bool bTyping = false;
@@ -682,7 +682,7 @@ void *OSDPlugin::processEvent(Event *e)
         data = (OSDUserData*)(contact->getUserData(user_data_id));
         if (data){
             unsigned style = 0;
-            string wrkIcons;
+            std::string wrkIcons;
             const char *statusIcon = NULL;
             contact->contactInfo(style, statusIcon, &wrkIcons);
             bool bTyping = false;

@@ -68,7 +68,7 @@ static DataDef journalMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-JournalMessage::JournalMessage(Buffer *cfg)
+JournalMessage::JournalMessage(ConfigBuffer *cfg)
         : Message(MessageJournal, cfg)
 {
     load_data(journalMessageData, &data, cfg);
@@ -106,7 +106,7 @@ i18n("LiveJournal post", "%n LiveJournal posts", 1);
 i18n("Friends updated", "Friends updated %n", 1);
 #endif
 
-static Message *createJournalMessage(Buffer *cfg)
+static Message *createJournalMessage(ConfigBuffer *cfg)
 {
     return new JournalMessage(cfg);
 }
@@ -174,7 +174,7 @@ static MessageDef defWWWJournalMessage =
         NULL
     };
 
-static Message *createUpdatedMessage(Buffer *cfg)
+static Message *createUpdatedMessage(ConfigBuffer *cfg)
 {
     return new Message(MessageUpdated, cfg);
 }
@@ -1106,9 +1106,7 @@ void *LiveJournalClient::processEvent(Event *e)
             ClientDataIterator it(contact->clientData, this);
             while ((data = (LiveJournalUserData*)(++it)) != NULL){
                 if (dataName(data) == msg->client()){
-                    Buffer cfg;
-                    cfg << "[Title]\n" << (const char*)msg->save().local8Bit();
-                    cfg.setWritePos(0);
+                    ConfigBuffer cfg( "[Title]\n" + msg->save() );
                     cfg.getSection();
                     JournalMessage *m = new JournalMessage(&cfg);
                     m->setContact(msg->contact());

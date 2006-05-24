@@ -59,7 +59,7 @@ typedef struct JournalMessageData
 class JournalMessage : public SIM::Message
 {
 public:
-    JournalMessage(Buffer *cfg = NULL);
+    JournalMessage(ConfigBuffer *cfg = NULL);
     ~JournalMessage();
     QString save();
     PROP_UTF8(Subject);

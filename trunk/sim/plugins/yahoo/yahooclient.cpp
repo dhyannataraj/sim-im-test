@@ -2101,7 +2101,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     }
 }
 
-static Message *createYahooFile(Buffer *cfg)
+static Message *createYahooFile(ConfigBuffer *cfg)
 {
     return new YahooFileMessage(cfg);
 }
@@ -2125,7 +2125,7 @@ static DataDef yahoMessageFile[] =
         { NULL, 0, 0, 0 }
     };
 
-YahooFileMessage::YahooFileMessage(Buffer *cfg)
+YahooFileMessage::YahooFileMessage(ConfigBuffer *cfg)
         : FileMessage(MessageYahooFile, cfg)
 {
     load_data(yahoMessageFile, &data, cfg);

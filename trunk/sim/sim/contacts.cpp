@@ -85,7 +85,7 @@ static DataDef contactData[] =
         { NULL, 0, 0, 0 }
     };
 
-Contact::Contact(unsigned long id, Buffer *cfg)
+Contact::Contact(unsigned long id, ConfigBuffer *cfg)
 {
     m_id = id;
     load_data(contactData, &data, cfg);
@@ -588,7 +588,7 @@ static DataDef groupData[] =
         { NULL, 0, 0, 0 }
     };
 
-Group::Group(unsigned long id, Buffer *cfg)
+Group::Group(unsigned long id, ConfigBuffer *cfg)
 {
     m_id = id;
     load_data(groupData, &data, cfg);
@@ -1396,7 +1396,7 @@ void *ClientUserData::createData(Client *client)
     for (const DataDef *d = def; d->name; ++d)
         size += sizeof(Data) * d->n_values;
     data.data = malloc(size);
-    load_data(def, data.data, (Buffer*)NULL);
+    load_data(def, data.data);
     p->push_back(data);
     return data.data;
 }

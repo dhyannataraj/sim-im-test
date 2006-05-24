@@ -66,7 +66,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 unsigned SMSPlugin::SerialPacket = 0;
 
-static Message *createPhoneCall(Buffer *cfg)
+static Message *createPhoneCall(ConfigBuffer *cfg)
 {
     return new Message(MessagePhoneCall, cfg);
 }

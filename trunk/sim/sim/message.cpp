@@ -47,7 +47,7 @@ static DataDef	messageData[] =
         { NULL, 0, 0, 0 }
     };
 
-Message::Message(unsigned type, Buffer *cfg)
+Message::Message(unsigned type, ConfigBuffer *cfg)
 {
     m_type = type;
     m_id = 0;
@@ -108,7 +108,7 @@ QString Message::getText() const
     if (data.Text.ptr && *data.Text.ptr)
         return QString::fromUtf8(data.Text.ptr);
     if (data.ServerText.ptr && *data.ServerText.ptr)
-        return getContacts()->toUnicode(getContacts()->contact(m_contact), data.ServerText.ptr);
+        return getContacts()->toUnicode(getContacts()->contact(m_contact), QString::fromLocal8Bit(data.ServerText.ptr));
     return "";
 }
 
@@ -124,7 +124,7 @@ static DataDef messageSMSData[] =
         { NULL, 0, 0, 0 }
     };
 
-SMSMessage::SMSMessage(Buffer *cfg)
+SMSMessage::SMSMessage(ConfigBuffer *cfg)
         : Message(MessageSMS, cfg)
 {
     load_data(messageSMSData, &data, cfg);
@@ -167,7 +167,7 @@ static DataDef messageUrlData[] =
         { NULL, 0, 0, 0 }
     };
 
-UrlMessage::UrlMessage(unsigned type, Buffer *cfg)
+UrlMessage::UrlMessage(unsigned type, ConfigBuffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageUrlData, &data, cfg);
@@ -209,7 +209,7 @@ static DataDef messageContactsData[] =
         { NULL, 0, 0, 0 }
     };
 
-ContactsMessage::ContactsMessage(unsigned type, Buffer *cfg)
+ContactsMessage::ContactsMessage(unsigned type, ConfigBuffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageContactsData, &data, cfg);
@@ -390,7 +390,7 @@ static DataDef messageFileData[] =
         { NULL, 0, 0, 0 }
     };
 
-FileMessage::FileMessage(unsigned type, Buffer *cfg)
+FileMessage::FileMessage(unsigned type, ConfigBuffer *cfg)
         : Message(type, cfg)
 {
     load_data(messageFileData, &data, cfg);
@@ -630,7 +630,7 @@ static DataDef messageStatusData[] =
         { NULL, 0, 0, 0 }
     };
 
-StatusMessage::StatusMessage(Buffer *cfg)
+StatusMessage::StatusMessage(ConfigBuffer *cfg)
         : Message(MessageStatus, cfg)
 {
     load_data(messageStatusData, &data, cfg);

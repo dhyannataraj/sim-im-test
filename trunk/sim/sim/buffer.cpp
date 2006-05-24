@@ -771,15 +771,15 @@ Buffer &Buffer::operator = (const QByteArray &ba)
 // *********************************************
 // ConfigBuffer
 // *********************************************
-ConfigBuffer::ConfigBuffer(const QString &str)
-: m_posRead(0), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
+ConfigBuffer::ConfigBuffer(const QString &str, unsigned pos)
+: m_posRead(pos), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
 {
 	QString *that = static_cast<QString*>(this);
 	*that = str;
 }
 
-ConfigBuffer::ConfigBuffer(QIODevice *io)
-: m_posRead(0), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
+ConfigBuffer::ConfigBuffer(QIODevice *io, unsigned pos)
+: m_posRead(pos), m_startSection(0), m_posNextSection(~0U), m_posReadSave(0)
 {
 	QString *that = static_cast<QString*>(this);
 	if( io ) {

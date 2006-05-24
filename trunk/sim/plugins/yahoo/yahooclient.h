@@ -247,7 +247,7 @@ typedef struct YahooFileData
 class YahooFileMessage : public SIM::FileMessage
 {
 public:
-    YahooFileMessage(Buffer *cfg=NULL);
+    YahooFileMessage(ConfigBuffer *cfg=NULL);
     ~YahooFileMessage();
     PROP_STR(Url);
     PROP_ULONG(MsgID);

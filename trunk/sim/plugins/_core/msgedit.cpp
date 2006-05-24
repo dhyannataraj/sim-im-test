@@ -420,7 +420,7 @@ void MsgEdit::setInput()
     }
 }
 
-static Message *createGeneric(Buffer *cfg)
+static Message *createGeneric(ConfigBuffer *cfg)
 {
     return new Message(MessageGeneric, cfg);
 }
@@ -446,7 +446,7 @@ static MessageDef defGeneric =
         NULL
     };
 
-static Message *createSMS(Buffer *cfg)
+static Message *createSMS(ConfigBuffer *cfg)
 {
     return new SMSMessage(cfg);
 }
@@ -476,7 +476,7 @@ static MessageDef defSMS =
 i18n("URL", "%n URLs", 1);
 #endif
 
-static Message *createUrl(Buffer *cfg)
+static Message *createUrl(ConfigBuffer *cfg)
 {
     return new UrlMessage(MessageUrl, cfg);
 }
@@ -513,7 +513,7 @@ static MessageDef defUrl =
         dropUrl
     };
 
-static Message *createContacts(Buffer *cfg)
+static Message *createContacts(ConfigBuffer *cfg)
 {
     return new ContactsMessage(MessageContacts, cfg);
 }
@@ -551,7 +551,7 @@ static MessageDef defContacts =
         dropContacts
     };
 
-static Message *createFile(Buffer *cfg)
+static Message *createFile(ConfigBuffer *cfg)
 {
     return new FileMessage(MessageFile, cfg);
 }
@@ -647,7 +647,7 @@ static MessageDef defFile =
         dropFile
     };
 
-static Message *createAuthRequest(Buffer *cfg)
+static Message *createAuthRequest(ConfigBuffer *cfg)
 {
     return new AuthMessage(MessageAuthRequest, cfg);
 }
@@ -722,7 +722,7 @@ static MessageDef defAuthRequest =
         NULL
     };
 
-static Message *createAuthGranted(Buffer *cfg)
+static Message *createAuthGranted(ConfigBuffer *cfg)
 {
     return new AuthMessage(MessageAuthGranted, cfg);
 }
@@ -743,7 +743,7 @@ static MessageDef defAuthGranted =
         NULL
     };
 
-static Message *createAuthRefused(Buffer *cfg)
+static Message *createAuthRefused(ConfigBuffer *cfg)
 {
     return new AuthMessage(MessageAuthRefused, cfg);
 }
@@ -764,7 +764,7 @@ static MessageDef defAuthRefused =
         NULL
     };
 
-static Message *createAdded(Buffer *cfg)
+static Message *createAdded(ConfigBuffer *cfg)
 {
     return new AuthMessage(MessageAdded, cfg);
 }
@@ -785,7 +785,7 @@ static MessageDef defAdded =
         NULL
     };
 
-static Message *createRemoved(Buffer *cfg)
+static Message *createRemoved(ConfigBuffer *cfg)
 {
     return new AuthMessage(MessageRemoved, cfg);
 }
@@ -806,7 +806,7 @@ static MessageDef defRemoved =
         NULL
     };
 
-static Message *createStatus(Buffer *cfg)
+static Message *createStatus(ConfigBuffer *cfg)
 {
     return new StatusMessage(cfg);
 }
@@ -1309,10 +1309,8 @@ void *MsgEdit::processEvent(Event *e)
                     CommandDef *def = CorePlugin::m_plugin->messageTypes.find(m_msg->type());
                     if (def){
                         MessageDef *mdef = (MessageDef*)(def->param);
-                        string cfg = m_msg->save();
-                        Buffer config;
-                        config << "[Title]\n" << cfg.c_str();
-                        config.setWritePos(0);
+                        QString cfg = m_msg->save();
+                        ConfigBuffer config( "[Title]\n" + cfg );
                         config.getSection();
                         m_msg = (mdef->create)(&config);
                         m_msg->setContact(*multiply_it);

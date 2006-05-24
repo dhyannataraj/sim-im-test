@@ -43,7 +43,7 @@ class ListView;
 class IcqContactsMessage : public SIM::ContactsMessage
 {
 public:
-    IcqContactsMessage(Buffer *cfg=NULL);
+    IcqContactsMessage(ConfigBuffer *cfg=NULL);
     ~IcqContactsMessage();
     QString getContacts() const;
     virtual unsigned baseType() { return SIM::MessageContacts; }
@@ -57,7 +57,7 @@ typedef struct ICQAuthMessageData
 class ICQAuthMessage : public SIM::AuthMessage
 {
 public:
-    ICQAuthMessage(unsigned type, unsigned base_type, Buffer *cfg=NULL);
+    ICQAuthMessage(unsigned type, unsigned base_type, ConfigBuffer *cfg=NULL);
     ~ICQAuthMessage();
     PROP_STR(Charset);
     virtual QString getText() const;
@@ -82,7 +82,7 @@ typedef struct ICQFileMessageData
 class ICQFileMessage : public SIM::FileMessage
 {
 public:
-    ICQFileMessage(Buffer *cfg=NULL);
+    ICQFileMessage(ConfigBuffer *cfg=NULL);
     ~ICQFileMessage();
     PROP_STR(ServerDescr);
     PROP_ULONG(IP);
@@ -108,7 +108,7 @@ typedef struct AIMFileMessageData
 class AIMFileMessage : public SIM::FileMessage
 {
 public:
-    AIMFileMessage(Buffer *cfg=NULL);
+    AIMFileMessage(ConfigBuffer *cfg=NULL);
     ~AIMFileMessage();
     PROP_USHORT(Port);
     PROP_ULONG(ID_L);
@@ -128,7 +128,7 @@ typedef struct MessageWarningData
 class WarningMessage : public SIM::AuthMessage
 {
 public:
-    WarningMessage(Buffer *cfg=NULL);
+    WarningMessage(ConfigBuffer *cfg=NULL);
     PROP_BOOL(Anonymous);
     PROP_USHORT(OldLevel);
     PROP_USHORT(NewLevel);

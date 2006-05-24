@@ -60,7 +60,7 @@ class HistoryFileIterator
 public:
     HistoryFileIterator(HistoryFile&, unsigned contact);
     ~HistoryFileIterator();
-    void createMessage(unsigned id, const char *type, Buffer *cfg);
+    void createMessage(unsigned id, const char *type, ConfigBuffer *cfg);
     void begin();
     void end();
     void clear();
@@ -80,7 +80,7 @@ private:
     void operator = (const HistoryFileIterator&);
 };
 
-static Message *createMessage(unsigned id, const char *type, Buffer *cfg)
+static Message *createMessage(unsigned id, const char *type, ConfigBuffer *cfg)
 {
     if ((type == NULL) || (*type == 0))
         return NULL;
@@ -121,10 +121,15 @@ Message *HistoryFile::load(unsigned id)
     if (!at(id))
         return NULL;
     Buffer cfg;
-	cfg = readAll();
+    cfg = readAll();
+    QString type = cfg.getSection();
 
-	QString type = cfg.getSection();
-    Message *msg = CorePlugin::m_plugin->createMessage(type.latin1(), &cfg);
+    int read = cfg.readPos();
+    int wrte = cfg.writePos();
+
+    QString str = QString::fromLocal8Bit( cfg.data( read ), wrte - read );
+    ConfigBuffer config( str );
+    Message *msg = CorePlugin::m_plugin->createMessage(type, &config);
     if (msg == NULL)
         return NULL;
     msg->setId(id);
@@ -147,7 +152,7 @@ HistoryFileIterator::~HistoryFileIterator()
     clear();
 }
 
-void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *cfg)
+void HistoryFileIterator::createMessage(unsigned id, const char *type, ConfigBuffer *cfg)
 {
     if (!m_filter.isEmpty()){
         Message m(MessageGeneric, cfg);
@@ -290,7 +295,10 @@ bool HistoryFileIterator::loadBlock(bool bUp)
         unsigned id = m_block;
         if (!bUp)
             m_block += config.startSection();
-        createMessage(id + config.startSection(), type.latin1(), &config);
+        int read = config.readPos();
+        int wrte = config.writePos();
+        ConfigBuffer cfgBuf( QString::fromLocal8Bit( config.data( read ), wrte - read ) );
+        createMessage(id + config.startSection(), type, &cfgBuf);
         unsigned pos = config.writePos();
         for (;;){
             if (!bUp && (id + config.writePos() > blockEnd))
@@ -300,7 +308,10 @@ bool HistoryFileIterator::loadBlock(bool bUp)
                 break;
             if ((config.writePos() == config.size()) && ((unsigned)file.at() < file.size()))
                 break;
-            createMessage(id + config.startSection(), type.latin1(), &config);
+            int read = config.readPos();
+            int wrte = config.writePos();
+            ConfigBuffer cfgBuf( QString::fromLocal8Bit( config.data( read ), wrte - read ) );
+            createMessage(id + config.startSection(), type, &cfgBuf);
             pos = config.writePos();
         }
         if (bUp)
@@ -537,11 +548,9 @@ Message *History::load(unsigned id, const char *client, unsigned contact)
         if (it == s_tempMsg->end())
             return NULL;
         msg_save &ms = (*it).second;
-        Buffer config;
-        config << ms.msg.c_str();
-        config.setWritePos(0);
+        ConfigBuffer config( ms.msg );
         QString type = config.getSection();
-        Message *msg = createMessage(id, type.latin1(), &config);
+        Message *msg = createMessage(id, type, &config);
         if (msg){
             msg->setClient(ms.client);
             msg->setContact(ms.contact);
@@ -592,7 +601,7 @@ void History::add(Message *msg, const char *type)
     if (contact)
         data = (HistoryUserData*)(contact->getUserData(CorePlugin::m_plugin->history_data_id));
     if (data && data->CutSize.bValue){
-        QFileInfo fInfo(QFile::decodeName(f_name.local8Bit()));
+        QFileInfo fInfo(f_name);
         if (fInfo.exists() && (fInfo.size() >= data->MaxSize.value * 0x100000 + CUT_BLOCK)){
             int pos = fInfo.size() - data->MaxSize.value * 0x100000 + line.length();
             if (pos < 0)
@@ -601,13 +610,14 @@ void History::add(Message *msg, const char *type)
         }
     }
 
-    QFile f(QFile::decodeName(f_name.local8Bit()));
+    QFile f(f_name);
     if (!f.open(IO_ReadWrite | IO_Append)){
         log(L_ERROR, "Can't open %s", f_name.latin1());
         return;
     }
     unsigned id = f.at();
-    f.writeBlock(line.latin1(), line.length());
+    QTextStream ts(&f);
+    ts << line.local8Bit();
 
     msg->setId(id);
 }
@@ -658,11 +668,7 @@ void History::cut(Message *msg, unsigned contact_id, unsigned date)
 
 void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, Message *msg)
 {
-    QString f_name = HISTORY_PATH;
-    f_name += name;
-
-    f_name = user_file(f_name);
-    QFile f(f_name);
+    QFile f(user_file(QString(HISTORY_PATH) + name));
     if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
         return;
@@ -724,7 +730,7 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
         skip_start++;
     }
 	QTextStream ts(&f);
-	ts << line;
+	ts << line.local8Bit();
     skip_size -= line.length();
     if (config.writePos() < config.size()){
         int size = config.size() - config.writePos();

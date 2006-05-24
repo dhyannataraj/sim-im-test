@@ -156,8 +156,8 @@ protected:
 class EXPORT ConfigBuffer : public QString
 {
 public:
-	ConfigBuffer(const QString &str);
-	ConfigBuffer(QIODevice *io);
+	ConfigBuffer(const QString &str, unsigned posStart = 0);
+	ConfigBuffer(QIODevice *io, unsigned posStart = 0);
     QString getSection(bool bSkip=false);
     QString getLine();
     unsigned    startSection() { return m_startSection; }

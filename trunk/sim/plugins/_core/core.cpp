@@ -4094,7 +4094,7 @@ void CorePlugin::clearUnread(unsigned contact_id)
     }
 }
 
-Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
+Message *CorePlugin::createMessage(const QString &type, ConfigBuffer *cfg)
 {
     MAP_TYPES::iterator itt = types.find(type);
     if (itt != types.end()){

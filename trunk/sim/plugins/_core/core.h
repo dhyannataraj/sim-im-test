@@ -395,7 +395,7 @@ typedef struct MessageDef
     unsigned			flags;
     const char			*singular;
     const char			*plural;
-    SIM::Message*		(*create)(Buffer *cfg);
+    SIM::Message*		(*create)(ConfigBuffer *cfg);
     QObject*			(*generate)(MsgEdit *edit, SIM::Message *msg);
     SIM::Message*		(*drag)(QMimeSource*);
 } MessageDef;
@@ -509,7 +509,7 @@ public:
 
     QFont editFont;
     static CorePlugin	*m_plugin;
-    SIM::Message *createMessage(const char *type, Buffer *cfg);
+    SIM::Message *createMessage(const QString &type, ConfigBuffer *cfg);
     QString clientName(SIM::Client *client);
 
     XSL	*historyXSL;

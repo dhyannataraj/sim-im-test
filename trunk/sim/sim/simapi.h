@@ -879,8 +879,8 @@ const unsigned DATA_UTFLIST     = 8;
 const unsigned DATA_OBJECT      = 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
-EXPORT void load_data(const DataDef *def, void *data, Buffer *config = NULL);
-EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config);
+//EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
+EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config = NULL);
 EXPORT QString save_data(const DataDef *def, void *data);
 
 EXPORT bool set_str(char **str, const char *value);
@@ -1036,7 +1036,7 @@ typedef struct MessageData
 class EXPORT Message
 {
 public:
-    Message(unsigned type = MessageGeneric, Buffer *cfg = NULL);
+    Message(unsigned type = MessageGeneric, ConfigBuffer *cfg = NULL);
     virtual ~Message();
     unsigned type() const { return m_type; }
     unsigned id() const { return m_id; }
@@ -1078,7 +1078,7 @@ typedef struct MessageSMSData
 class EXPORT SMSMessage : public Message
 {
 public:
-    SMSMessage(Buffer *cfg=NULL);
+    SMSMessage(ConfigBuffer *cfg=NULL);
     ~SMSMessage();
     PROP_UTF8(Phone);
     PROP_UTF8(Network);
@@ -1178,7 +1178,7 @@ protected:
 class EXPORT FileMessage : public Message
 {
 public:
-    FileMessage(unsigned type=MessageFile, Buffer *cfg=NULL);
+    FileMessage(unsigned type=MessageFile, ConfigBuffer *cfg=NULL);
     ~FileMessage();
     PROP_UTF8(File);
     unsigned getSize();
@@ -1214,7 +1214,7 @@ protected:
 class EXPORT AuthMessage : public Message
 {
 public:
-    AuthMessage(unsigned type, Buffer *cfg=NULL)
+    AuthMessage(unsigned type, ConfigBuffer *cfg=NULL)
 : Message(type, cfg) {}
     virtual QString presentation();
 };
@@ -1227,7 +1227,7 @@ typedef struct MessageUrlData
 class EXPORT UrlMessage : public Message
 {
 public:
-    UrlMessage(unsigned type=MessageUrl, Buffer *cfg=NULL);
+    UrlMessage(unsigned type=MessageUrl, ConfigBuffer *cfg=NULL);
     ~UrlMessage();
     virtual QString save();
     virtual QString presentation();
@@ -1244,7 +1244,7 @@ typedef struct MessageContactsData
 class EXPORT ContactsMessage : public Message
 {
 public:
-    ContactsMessage(unsigned type=MessageContacts, Buffer *cfg=NULL);
+    ContactsMessage(unsigned type=MessageContacts, ConfigBuffer *cfg=NULL);
     ~ContactsMessage();
     virtual QString save();
     virtual QString presentation();
@@ -1261,7 +1261,7 @@ typedef struct MessageStatusData
 class EXPORT StatusMessage : public Message
 {
 public:
-    StatusMessage(Buffer *cfg=NULL);
+    StatusMessage(ConfigBuffer *cfg=NULL);
     PROP_ULONG(Status);
     virtual QString save();
     virtual QString presentation();
@@ -1376,7 +1376,7 @@ const unsigned CONTACT_TEMPORARY    = CONTACT_TEMP | CONTACT_DRAG;
 class EXPORT Contact
 {
 public:
-    Contact(unsigned long id = 0, Buffer *cfg = NULL);
+    Contact(unsigned long id = 0, ConfigBuffer *cfg = NULL);
     virtual ~Contact();
     unsigned long id() { return m_id; }
     PROP_ULONG(Group)
@@ -1417,7 +1417,7 @@ typedef struct GroupData
 class EXPORT Group
 {
 public:
-    Group(unsigned long id = 0, Buffer *cfg = NULL);
+    Group(unsigned long id = 0, ConfigBuffer *cfg = NULL);
     virtual ~Group();
     unsigned long id() { return m_id; }
     PROP_UTF8(Name)

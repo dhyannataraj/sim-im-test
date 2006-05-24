@@ -40,7 +40,7 @@ static DataDef aimFileMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-AIMFileMessage::AIMFileMessage(Buffer *cfg)
+AIMFileMessage::AIMFileMessage(ConfigBuffer *cfg)
         : FileMessage(MessageFile, cfg)
 {
     load_data(aimFileMessageData, &data, cfg);
@@ -63,7 +63,7 @@ static DataDef icqFileMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-ICQFileMessage::ICQFileMessage(Buffer *cfg)
+ICQFileMessage::ICQFileMessage(ConfigBuffer *cfg)
         : FileMessage(MessageICQFile, cfg)
 {
     load_data(icqFileMessageData, &data, cfg);
@@ -94,7 +94,7 @@ QString ICQFileMessage::save()
     return s;
 }
 
-IcqContactsMessage::IcqContactsMessage(Buffer *cfg)
+IcqContactsMessage::IcqContactsMessage(ConfigBuffer *cfg)
         : ContactsMessage(MessageICQContacts, cfg)
 {
 }
@@ -117,7 +117,7 @@ static DataDef icqAuthMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-ICQAuthMessage::ICQAuthMessage(unsigned type, unsigned baseType, Buffer *cfg)
+ICQAuthMessage::ICQAuthMessage(unsigned type, unsigned baseType, ConfigBuffer *cfg)
         : AuthMessage(type, cfg)
 {
     load_data(icqAuthMessageData, &data, cfg);
@@ -540,7 +540,7 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
     return msg;
 }
 
-static Message *createIcqFile(Buffer *cfg)
+static Message *createIcqFile(ConfigBuffer *cfg)
 {
     return new ICQFileMessage(cfg);
 }
@@ -565,7 +565,7 @@ static MessageDef defIcqFile =
 i18n("WWW-panel message", "%n WWW-panel messages", 1);
 #endif
 
-static Message *createWebPanel(Buffer *cfg)
+static Message *createWebPanel(ConfigBuffer *cfg)
 {
     return new Message(MessageWebPanel, cfg);
 }
@@ -586,7 +586,7 @@ static MessageDef defWebPanel =
 i18n("Email pager message", "%n Email pager messages", 1);
 #endif
 
-static Message *createEmailPager(Buffer *cfg)
+static Message *createEmailPager(ConfigBuffer *cfg)
 {
     return new Message(MessageEmailPager, cfg);
 }
@@ -607,7 +607,7 @@ static MessageDef defEmailPager =
 i18n("Request secure channel", "%n requests secure channel", 1);
 #endif
 
-static Message *createOpenSecure(Buffer *cfg)
+static Message *createOpenSecure(ConfigBuffer *cfg)
 {
     return new Message(MessageOpenSecure, cfg);
 }
@@ -628,7 +628,7 @@ static MessageDef defOpenSecure =
 i18n("Close secure channel", "%n times close secure channel", 1);
 #endif
 
-static Message *createCloseSecure(Buffer *cfg)
+static Message *createCloseSecure(ConfigBuffer *cfg)
 {
     return new Message(MessageCloseSecure, cfg);
 }
@@ -679,7 +679,7 @@ static DataDef warningMessageData[] =
         { NULL, 0, 0, 0 }
     };
 
-WarningMessage::WarningMessage(Buffer *cfg)
+WarningMessage::WarningMessage(ConfigBuffer *cfg)
         : AuthMessage(MessageWarning, cfg)
 {
     load_data(warningMessageData, &data, cfg);
@@ -700,7 +700,7 @@ QString WarningMessage::presentation()
            .arg(ICQClient::warnLevel(getNewLevel()));
 }
 
-static Message *createWarning(Buffer *cfg)
+static Message *createWarning(ConfigBuffer *cfg)
 {
     return new WarningMessage(cfg);
 }
@@ -717,7 +717,7 @@ static MessageDef defWarning =
         NULL
     };
 
-static Message *createIcqAuthRequest(Buffer *cfg)
+static Message *createIcqAuthRequest(ConfigBuffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest, cfg);
 }
@@ -734,7 +734,7 @@ static MessageDef defIcqAuthRequest =
         NULL
     };
 
-static Message *createIcqAuthGranted(Buffer *cfg)
+static Message *createIcqAuthGranted(ConfigBuffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthGranted, MessageAuthGranted, cfg);
 }
@@ -751,7 +751,7 @@ static MessageDef defIcqAuthGranted =
         NULL
     };
 
-static Message *createIcqAuthRefused(Buffer *cfg)
+static Message *createIcqAuthRefused(ConfigBuffer *cfg)
 {
     return new ICQAuthMessage(MessageICQAuthRefused, MessageAuthRefused, cfg);
 }
@@ -768,7 +768,7 @@ static MessageDef defIcqAuthRefused =
         NULL
     };
 
-static Message *createContactRequest(Buffer *cfg)
+static Message *createContactRequest(ConfigBuffer *cfg)
 {
     return new ICQAuthMessage(MessageContactRequest, MessageContactRequest, cfg);
 }
@@ -789,7 +789,7 @@ static MessageDef defContactRequest =
         NULL
     };
 
-static Message *createIcqContacts(Buffer *cfg)
+static Message *createIcqContacts(ConfigBuffer *cfg)
 {
     return new IcqContactsMessage(cfg);
 }
