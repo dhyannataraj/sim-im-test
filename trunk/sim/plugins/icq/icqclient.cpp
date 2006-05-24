@@ -1342,35 +1342,35 @@ void ICQClient::setupContact(Contact *contact, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
     QString phones;
     if (data->HomePhone.ptr){
-        phones += getContacts()->toUnicode(contact, trimPhone(data->HomePhone.ptr).c_str());
+        phones += getContacts()->toUnicode(contact, trimPhone(data->HomePhone.ptr));
         phones += ",Home Phone,";
         phones += number(PHONE).c_str();
     }
     if (data->HomeFax.ptr){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, trimPhone(data->HomeFax.ptr).c_str());
+        phones += getContacts()->toUnicode(contact, trimPhone(data->HomeFax.ptr));
         phones += ",Home Fax,";
         phones += number(FAX).c_str();
     }
     if (data->WorkPhone.ptr){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, trimPhone(data->WorkPhone.ptr).c_str());
+        phones += getContacts()->toUnicode(contact, trimPhone(data->WorkPhone.ptr));
         phones += ",Work Phone,";
         phones += number(PHONE).c_str();
     }
     if (data->WorkFax.ptr){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, trimPhone(data->WorkFax.ptr).c_str());
+        phones += getContacts()->toUnicode(contact, trimPhone(data->WorkFax.ptr));
         phones += ",Work Fax,";
         phones += number(FAX).c_str();
     }
     if (data->PrivateCellular.ptr){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, trimPhone(data->PrivateCellular.ptr).c_str());
+        phones += getContacts()->toUnicode(contact, trimPhone(data->PrivateCellular.ptr));
         phones += ",Private Cellular,";
         phones += number(CELLULAR).c_str();
     }
@@ -1415,16 +1415,16 @@ void ICQClient::setupContact(Contact *contact, void *_data)
     }
 }
 
-string ICQClient::trimPhone(const char *from)
+QString ICQClient::trimPhone(const char *from)
 {
-    string res;
+    QString res;
     if (from == NULL)
         return res;
     res = from;
-    char *p = strstr((char*)res.c_str(), "SMS");
-    if (p)
-        *p = 0;
-    return trim(res.c_str());
+    int idx = res.find("SMS");
+    if(idx != -1)
+        res = res.left(idx);
+    return res.stripWhiteSpace();
 }
 
 QString ICQClient::contactTip(void *_data)
@@ -1514,10 +1514,10 @@ QString ICQClient::contactTip(void *_data)
         res += "<br>";
         res += formatAddr(data->RealIP, data->Port.value);
     }
-    string client_name = clientName(data);
+    QString client_name = clientName(data);
     if (client_name.length()){
         res += "<br>";
-        res += quoteString(client_name.c_str());
+        res += quoteString(client_name);
     }
     if (data->PictureWidth.value && data->PictureHeight.value){
         QImage img(pictureFile(data));
@@ -1603,14 +1603,13 @@ static string verString(unsigned ver)
     return res;
 }
 
-string ICQClient::clientName(ICQUserData *data)
+QString ICQClient::clientName(ICQUserData *data)
 {
-    string res;
+    QString res;
     char b[32];
     if (data->Version.value)
     {
-        snprintf(b, sizeof(b), "v%lu ", data->Version.value);
-        res = b;
+        res.sprintf("v%lu", data->Version.value);
     }
     if (hasCap(data, CAP_MIRANDA))
 	{

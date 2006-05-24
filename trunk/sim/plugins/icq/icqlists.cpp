@@ -198,10 +198,10 @@ void ICQClient::parseRosterItem(unsigned short type,
                     if (inf) tlv_phone = (*inf)(TLV_CELLULAR);
                     if (tlv_phone){
                         set_str(&data->Cellular.ptr, *tlv_phone);
-                        string phone = trimPhone(*tlv_phone);
-                        QString phone_str = quoteChars(QString::fromUtf8(phone.c_str()), ",");
+                        QString phone = trimPhone(*tlv_phone);
+                        QString phone_str = quoteChars(phone, ",");
                         phone_str += ",Private Cellular,";
-                        phone_str += number(CELLULAR).c_str();
+                        phone_str += QString::number(CELLULAR);
                         bChanged |= contact->setPhones(phone_str, NULL);
                     }else{
                         set_str(&data->Cellular.ptr, NULL);

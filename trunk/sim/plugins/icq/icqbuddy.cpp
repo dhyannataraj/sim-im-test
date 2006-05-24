@@ -439,11 +439,7 @@ void ICQClient::addBuddy(Contact *contact)
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, this);
     while ((data = (ICQUserData*)(++it_data)) != NULL){
-        list<string>::iterator it;
-        for (it = buddies.begin(); it != buddies.end(); ++it){
-            if (screen(data) == *it)
-                break;
-        }
+        QStringList::iterator it = buddies.find(screen(data));
         if (it != buddies.end())
             continue;
         if ((data->IgnoreId.value == 0)  && (data->WaitAuth.bValue || (data->GrpId.value == 0))){
@@ -464,11 +460,7 @@ void ICQClient::removeBuddy(Contact *contact)
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, this);
     while ((data = (ICQUserData*)(++it_data)) != NULL){
-        list<string>::iterator it;
-        for (it = buddies.begin(); it != buddies.end(); ++it){
-            if (screen(data) == *it)
-                break;
-        }
+        QStringList::iterator it = buddies.find(screen(data));
         if (it == buddies.end())
             continue;
         snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);

@@ -561,7 +561,7 @@ public:
     ListRequest *findGroupListRequest(unsigned short id);
     void removeListRequest(ListRequest *lr);
     virtual void setupContact(SIM::Contact*, void *data);
-    std::string clientName(ICQUserData*);
+    QString clientName(ICQUserData*);
     void sendStatus();
     void sendUpdate();
     void changePassword(const char *new_pswd);
@@ -673,7 +673,7 @@ protected:
     bool m_bNoSend;
     std::list<ServerRequest*> varRequests;
     std::list<InfoRequest>	infoRequests;
-    std::list<std::string>	buddies;
+    QStringList         	buddies;
     std::list<ListRequest>	listRequests;
     std::list<SendMsg>		smsQueue;
     std::list<SendMsg>		sendFgQueue;
@@ -701,7 +701,7 @@ protected:
     static bool hasCap(ICQUserData *data, cap_id_t fcap);
     static void setCap(ICQUserData *data, cap_id_t fcap);
     bool isSupportPlugins(ICQUserData *data);
-    std::string trimPhone(const char *phone);
+    QString trimPhone(const char *phone);
     unsigned short getListId();
     TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
     unsigned short sendRoster(unsigned short cmd, const char *name,
