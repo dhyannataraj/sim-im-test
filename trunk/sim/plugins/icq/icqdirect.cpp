@@ -1502,10 +1502,10 @@ void DirectClient::secureStop(bool bShutdown)
 }
 #endif
 
-const char *DirectClient::name()
+QString DirectClient::name()
 {
     if (m_data == NULL)
-        return NULL;
+        return QString();
     m_name = "";
     switch (m_channel){
     case PLUGIN_NULL:
@@ -1519,10 +1519,10 @@ const char *DirectClient::name()
     default:
         m_name = "Unknown.";
     }
-    m_name += number(m_data->Uin.value);
+    m_name += QString::number(m_data->Uin.value);
     m_name += ".";
-    m_name += number((unsigned long)this);
-    return m_name.c_str();
+    m_name += QString::number((unsigned long)this);
+    return m_name;
 }
 
 ICQFileTransfer::ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client)

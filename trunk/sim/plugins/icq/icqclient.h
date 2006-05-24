@@ -444,7 +444,7 @@ typedef struct ar_request
     bool              bDirect;
 } ar_request;
 
-typedef std::map<unsigned short, std::string> INFO_REQ_MAP;
+typedef std::map<unsigned short, QString> INFO_REQ_MAP;
 
 class DirectSocket;
 class ServiceSocket;
@@ -470,7 +470,7 @@ protected:
 
 typedef struct alias_group
 {
-    std::string	alias;
+    QString 	alias;
     unsigned	grp;
 } alias_group;
 
@@ -896,8 +896,8 @@ protected:
     void processMsgQueue();
     bool copyQueue(DirectClient *to);
     std::list<SendDirectMsg> m_queue;
-    const char *name();
-    std::string m_name;
+    QString name();
+    QString m_name;
 #ifdef USE_OPENSSL
     void secureConnect();
     void secureListen();

@@ -1052,7 +1052,7 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
 {
     Buffer msgBuf;
     Buffer buf;
-    string res;
+    QString res;
     switch (msg->type()){
     case MessageUrl:
         res = getContacts()->fromUnicode(getContact(data), msg->getPlainText());
@@ -1073,7 +1073,7 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
                 res += '\xFE';
                 res += (*it).first.c_str();
                 res += '\xFE';
-                res += (*it).second.alias.c_str();
+                res += (*it).second.alias;
             }
             res += '\xFE';
             type = ICQ_MSGxCONTACTxLIST;
