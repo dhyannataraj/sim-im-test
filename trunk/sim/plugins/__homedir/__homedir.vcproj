@@ -76,7 +76,7 @@
 				AdditionalDependencies="odbc32.lib odbccp32.lib AdvAPI32.Lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile=".\..\..\Release\plugins/__homedir.dll"
 				SuppressStartupBanner="true"
-				ImportLibrary=".\..\..\Release\plugins/__homedir.lib"
+				ImportLibrary=".\..\..\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -172,7 +172,7 @@
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\..\..\Debug\plugins/__homedir.pdb"
-				ImportLibrary=".\..\..\Debug\plugins/__homedir.lib"
+				ImportLibrary=".\..\..\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool

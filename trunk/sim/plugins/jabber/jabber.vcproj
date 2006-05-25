@@ -82,7 +82,7 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ImportLibrary=".\..\..\Debug/jabber.lib"
+				ImportLibrary=".\..\..\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -177,7 +177,7 @@
 				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib $(OPENSSL_DIR)\lib\ssleay32.lib"
 				OutputFile="../../Release/plugins/jabber.dll"
 				SuppressStartupBanner="true"
-				ImportLibrary=".\..\..\Release/jabber.lib"
+				ImportLibrary=".\..\..\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
