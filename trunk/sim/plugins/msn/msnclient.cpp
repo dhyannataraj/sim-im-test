@@ -2608,28 +2608,28 @@ void SBSocket::process(bool bTyping)
     Message *msg = m_queue.front();
     char color[10];
     sprintf(color, "%06lX", msg->getBackground());
-    string message;
+    QString message;
     message += "MIME-Version: 1.0\r\n";
     message += "Content-Type: text/plain; charset=UTF-8\r\n";
     message += "X-MMS_IM-Format: ";
     if (msg->getFont()){
-        string font = msg->getFont();
-        if (!font.empty()){
-            string font_type;
+        QString font = msg->getFont();
+        if (!font.isEmpty()){
+            QString font_type;
             int n = font.find(", ");
             if (n > 0){
-                font_type = font.substr(n + 2);
-                font = font.substr(0, n);
+                font_type = font.mid(n + 2);
+                font = font.left(n);
             }
             message += "FN=";
-            message += m_client->quote(QString::fromUtf8(font.c_str())).utf8();
+            message += m_client->quote(font);
             string effect;
-            while (!font_type.empty()){
-                string type = font_type;
+            while (!font_type.isEmpty()){
+                QString type = font_type;
                 int n = font_type.find(", ");
                 if (n > 0){
-                    type = font_type.substr(n);
-                    font_type = font_type.substr(n + 2);
+                    type = font_type.mid(n);
+                    font_type = font_type.mid(n + 2);
                 }else{
                     font_type = "";
                 }
@@ -2652,8 +2652,8 @@ void SBSocket::process(bool bTyping)
     message += color;
     message += "; CS=0\r\n";
     message += "\r\n";
-    message += m_msgPart.utf8();
-    sendMessage(message.c_str(), "A");
+    message += m_msgPart;
+    sendMessage(message.utf8(), "A");
     m_msg_id = m_packet_id;
 }
 

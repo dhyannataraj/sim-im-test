@@ -578,9 +578,9 @@ ICQUserData *ICQClient::findInfoRequest(unsigned short seq, Contact *&contact)
         log(L_WARN, "Info req %u not found", seq);
         return NULL;
     }
-    string screen = (*it).second;
+    QString screen = (*it).second;
     m_info_req.erase(it);
-    return findContact(screen.c_str(), NULL, false, contact);
+    return findContact(screen, NULL, false, contact);
 }
 
 void ICQClient::setAIMInfo(ICQUserData *data)

@@ -59,7 +59,7 @@ void FontEdit::setFont(const char *fontname)
     }
 }
 
-std::string FontEdit::getFont()
+QString FontEdit::getFont()
 {
     return font2str(f, false).latin1();
 }
