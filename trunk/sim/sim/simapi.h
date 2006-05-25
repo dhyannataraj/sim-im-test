@@ -879,7 +879,6 @@ const unsigned DATA_UTFLIST     = 8;
 const unsigned DATA_OBJECT      = 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
-//EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
 EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config = NULL);
 EXPORT QString save_data(const DataDef *def, void *data);
 

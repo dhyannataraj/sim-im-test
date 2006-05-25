@@ -141,7 +141,6 @@ public:
     void toBase64(Buffer &from);
 
     QString getSection(bool bSkip=false);
-    QString getLine();
     unsigned    startSection() { return m_startSection; }
 
     Buffer &operator = (const QByteArray &ba);

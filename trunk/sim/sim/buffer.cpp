@@ -739,25 +739,6 @@ QString Buffer::getSection(bool bSkip)
     return str;
 }
 
-QString Buffer::getLine()
-{
-    QString str;
-    if (readPos() >= writePos())
-        return str;
-    int idx = find( '\n', m_posRead );
-    if( idx==-1 )
-        idx = find( '\0', m_posRead );
-    if( idx==-1 )
-        idx = size();
-    str = QString::fromLocal8Bit( data() + m_posRead, idx - m_posRead );
-    m_posRead += str.length();
-    if ( at(m_posRead) == '\n' )
-        m_posRead++;
-    if ( m_posRead >= size() )
-        m_posRead = size();
-    return str;
-}
-
 Buffer &Buffer::operator = (const QByteArray &ba)
 {
     int size = ba.size();
