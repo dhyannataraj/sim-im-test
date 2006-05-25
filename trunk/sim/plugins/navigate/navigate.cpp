@@ -409,7 +409,7 @@ void *NavigatePlugin::processEvent(Event *e)
 #endif // WIN32
         return e->param();
     }
-    if (e->type() == EventEncodeText){
+    if (e->type() == EventAddHyperlinks){
         QString *text = (QString*)(e->param());
         *text = parseUrl(*text);
         return e->param();

@@ -50,7 +50,7 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
         QString p = msg->presentation();
         if (p.isEmpty())
             p = msg->getRichText();
-        Event e(EventEncodeText, &p);
+        Event e(EventAddHyperlinks, &p);
         e.process();
         p = MsgViewBase::parseText(p, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
         m_edit->m_edit->setText(p);

@@ -487,7 +487,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }else{
         msgText = status;
     }
-    Event e(EventEncodeText, &msgText);
+    Event e(EventAddHyperlinks, &msgText);
     e.process();
     ViewParser parser(CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
     msgText = parser.parse(msgText);

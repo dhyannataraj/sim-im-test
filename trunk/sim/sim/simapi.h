@@ -564,7 +564,7 @@ const unsigned EventCommandWidget   = 0x0526;
 const unsigned EventClientChanged   = 0x0530;
 
 /* Event - get home dir
-   param is string fileName
+   param is QString fileName
 */
 
 const unsigned EventHomeDir     = 0x0601;
@@ -617,10 +617,10 @@ const unsigned EventRepaintView = 0x0702;
 /* Event draw view item */
 const unsigned EventDrawItem = 0x0703;
 
-/* Event encode message text for show
-   param is string* (string in utf-8)
+/* Event replace all hyperlinks with correct html tags
+   param is QString*
 */
-const unsigned EventEncodeText = 0x0801;
+const unsigned EventAddHyperlinks = 0x0801;
 
 /* Event group created
    param is Group*
