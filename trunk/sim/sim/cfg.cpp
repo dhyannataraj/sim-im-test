@@ -705,31 +705,31 @@ static char toHex(char c)
     return (char)(c - 10 + 'a');
 }
 
-static QString quoteString(const char *str)
+static QString quoteStringInternal(const QString &str)
 {
     QString quoted("\"");
-    if (str){
-        for (unsigned char *p = (unsigned char*)str; *p; p++){
-            switch (*p){
-            case '\\':
-                quoted += "\\\\";
-                break;
-            case '\r':
-                break;
-            case '\n':
-                quoted += "\\n";
-                break;
-            case '\"':
-                quoted += "\\\"";
-                break;
-            default:
-                if (*p >= ' '){
-                    quoted += *p;
-                }else if (*p){
-                    quoted += "\\x";
-                    quoted += toHex((char)(*p >> 4));
-                    quoted += toHex(*p);
-                }
+    int length = str.length();
+    for (int i = 0; i < length; i++){
+        QChar c = str[i];
+        switch (c){
+        case '\\':
+            quoted += "\\\\";
+            break;
+        case '\r':
+            break;
+        case '\n':
+            quoted += "\\n";
+            break;
+        case '\"':
+            quoted += "\\\"";
+            break;
+        default:
+            if (c >= ' '){
+                quoted += c;
+            }else if (c){
+                quoted += "\\x";
+                quoted += toHex((char)(c >> 4));
+                quoted += toHex(c);
             }
         }
     }
@@ -780,7 +780,8 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                             res += "=";
                             res += QString::number((*it).first);
                             res += ",";
-                            res += quoteString((*it).second.c_str());
+                            QString s = (*it).second.c_str();
+                            res += quoteStringInternal(s);
                         }
                     }
                     break;
@@ -796,7 +797,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                             res += QString::number((*it).first);
                             res += ",";
                             QString s = QString::fromUtf8((*it).second.c_str());
-                            res += quoteString(s);
+                            res += quoteStringInternal(s);
                         }
                     }
                     break;
@@ -808,12 +809,12 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                             value += ",";
                         if (def->def_value){
                             if ((p == NULL) || strcmp(p, def->def_value)){
-                                value += quoteString(p);
+                                value += quoteStringInternal(p);
                                 bSave = true;
                             }
                         }else{
                             if ((p != NULL) && *p){
-                                value += quoteString(p);
+                                value += quoteStringInternal(p);
                                 bSave = true;
                             }
                         }
@@ -836,7 +837,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                                 bSave = true;
                         }
                         if (bSave){
-                            value += quoteString(s);
+                            value += quoteStringInternal(s);
                         }
                     }
                     break;

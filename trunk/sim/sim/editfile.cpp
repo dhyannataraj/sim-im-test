@@ -35,7 +35,6 @@
 #include <qfiledialog.h>
 #endif
 
-using std::string;
 using namespace SIM;
 
 EditFile::EditFile(QWidget *p, const char *name)
@@ -134,9 +133,6 @@ void EditFile::setShowHidden(bool value)
 void EditFile::showFiles()
 {
     QString s = edtFile->text();
-#ifdef WIN32
-    s.replace(QRegExp("\\\\"), "/");
-#endif
     if (bDirMode){
         if (bShowHidden) {
             FileDialog *dialog = new FileDialog(s, QString::null, topLevelWidget(), title);
@@ -164,9 +160,7 @@ void EditFile::showFiles()
         if (s.isEmpty()){
             s = startDir;
             if (!s.isEmpty()){
-                string d;
-                d = QFile::encodeName(s);
-                makedir((char*)d.c_str());
+                makedir(QFile::encodeName(QDir::convertSeparators(s)).data());
             }
         }
         if (createPreview){

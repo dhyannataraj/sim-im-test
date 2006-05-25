@@ -856,9 +856,9 @@ protected:
 typedef struct SendDirectMsg
 {
     SIM::Message        *msg;
-    unsigned    type;
-    unsigned short    seq;
-    unsigned short    icq_type;
+    unsigned            type;
+    unsigned short      seq;
+    unsigned short      icq_type;
 } SendDirectMsg;
 
 class DirectClient : public DirectSocket
