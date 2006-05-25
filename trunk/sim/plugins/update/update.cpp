@@ -27,7 +27,6 @@
 #include <qwidgetlist.h>
 #include <qregexp.h>
 
-using std::string;
 using namespace SIM;
 
 const unsigned CHECK_INTERVAL = 60 * 60 * 24;
@@ -85,7 +84,7 @@ void UpdatePlugin::timeout()
     time_t now;
     time(&now);
     if ((unsigned)now >= getTime() + CHECK_INTERVAL){
-        string url = "http://sim.shutoff.ru/cgi-bin/update1.pl?v=" VERSION;
+        QString url = "http://sim.shutoff.ru/cgi-bin/update1.pl?v=" VERSION;
 #ifdef WIN32
         url += "&os=1";
 #else
@@ -122,7 +121,7 @@ void UpdatePlugin::timeout()
                 url += (char)c;
             }
         }
-        fetch(url.c_str(), NULL, NULL, false);
+        fetch(url, NULL, NULL, false);
     }
 }
 
@@ -133,8 +132,8 @@ I18N_NOOP("Remind later")
 
 bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
 {
-    string h = getHeader("Location", headers);
-    if (!h.empty()){
+    QString h = getHeader("Location", headers);
+    if (!h.isEmpty()){
         Command cmd;
         cmd->id		= CmdStatusBar;
         Event eWidget(EventCommandWidget, cmd);
@@ -166,8 +165,7 @@ void *UpdatePlugin::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdGo){
-            QString url = m_url.c_str();     // FIXME :)
-            Event eGo(EventGoURL, (void*)&url);
+            Event eGo(EventGoURL, (void*)&m_url);
             eGo.process();
             time_t now;
             time(&now);
@@ -181,18 +179,14 @@ void *UpdatePlugin::processEvent(Event *e)
     return NULL;
 }
 
-string UpdatePlugin::getHeader(const char *name, const char *headers)
+QString UpdatePlugin::getHeader(const char *name, const char *headers)
 {
     for (const char *h = headers; *h; h += strlen(h) + 1){
-        string header = h;
-        string key = getToken(header, ':');
+        QString header = h;
+        QString key = getToken(header, ':');
         if (key != name)
             continue;
-        const char *p;
-        for (p = header.c_str(); *p; p++)
-            if (*p != ' ')
-                break;
-        return p;
+        return header.stripWhiteSpace();
     }
     return "";
 }

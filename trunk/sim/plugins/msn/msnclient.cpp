@@ -1383,14 +1383,12 @@ void *MSNClient::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNInitMail){
-            QString url = m_init_mail.c_str();  // FIXME :)
-            Event eGo(EventGoURL, (void*)&url);
+            Event eGo(EventGoURL, (void*)&m_init_mail);
             eGo.process();
             return e->param();
         }
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNNewMail){
-            QString url = m_new_mail.c_str();  // FIXME :)
-            Event eGo(EventGoURL, (void*)&url);
+            Event eGo(EventGoURL, (void*)&m_new_mail);
             eGo.process();
             return e->param();
         }
@@ -1562,14 +1560,14 @@ void MSNClient::requestTWN(const char *url)
 {
     if (!isDone())
         return;
-    string auth = "Authorization: Passport1.4 OrgVerb=GET,OrgURL=http%%3A%%2F%%2Fmessenger%%2Emsn%%2Ecom,sign-in=";
+    QString auth = "Authorization: Passport1.4 OrgVerb=GET,OrgURL=http%%3A%%2F%%2Fmessenger%%2Emsn%%2Ecom,sign-in=";
     auth += quote(getLogin()).utf8();
     auth += ",pwd=";
     auth += quote(getPassword()).utf8();
     auth += ",";
     auth += m_authChallenge;
     m_state = TWN;
-    fetch(url, auth.c_str());
+    fetch(url, auth);
 }
 
 string MSNClient::getValue(const char *key, const char *str)

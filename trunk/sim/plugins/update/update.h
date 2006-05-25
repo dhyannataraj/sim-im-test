@@ -39,8 +39,8 @@ protected:
     bool done(unsigned code, Buffer &data, const char *headers);
     virtual QString getConfig();
     void *processEvent(SIM::Event*);
-    std::string getHeader(const char *name, const char *headers);
-    std::string m_url;
+    QString getHeader(const char *name, const char *headers);
+    QString m_url;
     PROP_ULONG(Time);
     UpdateData data;
 };

@@ -254,9 +254,9 @@ protected:
         TWN
     };
     AuthState	 m_state;
-    std::string	 m_authChallenge;
-    std::string	 m_init_mail;
-    std::string	 m_new_mail;
+    QString 	 m_authChallenge;
+    QString	     m_init_mail;
+    QString 	 m_new_mail;
     bool		 m_bFirstTry;
     bool		 m_bHTTP;
     bool		 m_bFirst;

@@ -455,10 +455,10 @@ MSNServerMessage::~MSNServerMessage()
             m_client->m_init_mail = "";
             it = values.find("Post-URL");
             if (it != values.end())
-                m_client->m_init_mail = (*it).second.latin1();
+                m_client->m_init_mail = (*it).second;
             it = values.find("Inbox-URL");
             if (it != values.end())
-                m_client->m_init_mail += (*it).second.latin1();
+                m_client->m_init_mail += (*it).second;
             it = values.find("Inbox-Unread");
             if (it == values.end())
                 return;
@@ -480,10 +480,10 @@ MSNServerMessage::~MSNServerMessage()
             m_client->m_new_mail = "";
             it = values.find("Post-URL");
             if (it != values.end())
-                m_client->m_new_mail = (*it).second.latin1();
+                m_client->m_new_mail = (*it).second;
             it = values.find("Message-URL");
             if (it != values.end())
-                m_client->m_new_mail += (*it).second.latin1();
+                m_client->m_new_mail += (*it).second;
             QString from;
             it = values.find("From-Addr");
             if (it != values.end())
