@@ -1082,14 +1082,14 @@ void *LiveJournalClient::processEvent(Event *e)
             return NULL;
         Event eDel(EventMessageDeleted, msg);
         eDel.process();
-        string url = "http://";
+        QString url = "http://";
         url += getServer();
         if (getPort() != 80){
             url += ":";
             url += number(getPort());
         }
         url += "/";
-        Event eGo(EventGoURL, (void*)url.c_str());
+        Event eGo(EventGoURL, (void*)&url);
         eGo.process();
         if (getState() == Connected)
             m_timer->start(getInterval() * 60 * 1000, true);
@@ -1125,10 +1125,10 @@ void *LiveJournalClient::processEvent(Event *e)
         unsigned item_id = cmd->id - CmdMenuWeb;
         if ((item_id == 0) || (item_id >= 0x100))
             return NULL;
-        const char *url = getMenuUrl(menu_id * 0x100 + item_id);
-        if ((url == NULL) || (*url == 0))
+        QString url = getMenuUrl(menu_id * 0x100 + item_id);
+        if (url.isEmpty())
             return NULL;
-        Event eUrl(EventGoURL, (void*)url);
+        Event eUrl(EventGoURL, (void*)&url);
         eUrl.process();
         return e->param();
     }

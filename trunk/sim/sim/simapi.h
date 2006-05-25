@@ -570,7 +570,7 @@ const unsigned EventClientChanged   = 0x0530;
 const unsigned EventHomeDir     = 0x0601;
 
 /* Event go URL
-   param is char *url
+   param is QString *url
 */
 
 const unsigned EventGoURL       = 0x0602;

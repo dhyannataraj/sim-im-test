@@ -166,7 +166,8 @@ void *UpdatePlugin::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdGo){
-            Event eGo(EventGoURL, (void*)(m_url.c_str()));
+            QString url = m_url.c_str();     // FIXME :)
+            Event eGo(EventGoURL, (void*)&url);
             eGo.process();
             time_t now;
             time(&now);

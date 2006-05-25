@@ -196,9 +196,7 @@ void MoreInfo::goUrl()
     QString url = edtHomePage->text();
     if (url.isEmpty())
         return;
-    string url_str;
-    url_str = url.local8Bit();
-    Event e(EventGoURL, (void*)url_str.c_str());
+    Event e(EventGoURL, (void*)&url);
     e.process();
 }
 

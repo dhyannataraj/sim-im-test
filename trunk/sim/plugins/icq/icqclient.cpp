@@ -2820,22 +2820,22 @@ void *ICQClient::processEvent(Event *e)
         }
     }
     if (e->type() == EventGoURL){
-        string url = (const char*)(e->param());
-        string proto;
+        QString url = *((QString*)(e->param()));
+        QString proto;
         int n = url.find(':');
         if (n < 0)
             return NULL;
-        proto = url.substr(0, n);
+        proto = url.left(n);
         if ((proto != "icq") && (proto != "aim"))
             return NULL;
-        url = url.substr(proto.length() + 1);
+        url = url.mid(n + 1);
         while (url[0] == '/')
-            url = url.substr(1);
-        QString s = unquoteString(QString(url.c_str()));
+            url = url.mid(1);
+        QString s = unquoteString(url);
         QString screen = getToken(s, ',');
         if (!screen.isEmpty()){
             Contact *contact;
-            findContact(screen, s.utf8(), true, contact);
+            findContact(screen, s, true, contact);
             Command cmd;
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;

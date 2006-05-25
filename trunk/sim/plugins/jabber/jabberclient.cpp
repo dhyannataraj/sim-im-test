@@ -384,18 +384,18 @@ void *JabberClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventGoURL){
-        string url = (const char*)(e->param());
-        string proto;
+        QString url = (const char*)(e->param());
+        QString proto;
         int n = url.find(':');
         if (n < 0)
             return NULL;
-        proto = url.substr(0, n);
+        proto = url.left(n);
         if (proto != "jabber")
             return NULL;
-        url = url.substr(proto.length() + 1);
+        url = url.mid(n + 1);
         while (url[0] == '/')
-            url = url.substr(1);
-        QString s = unquoteString(QString(url.c_str()));
+            url = url.mid(1);
+        QString s = unquoteString(url);
         QString jid = getToken(s, '/');
         if (!jid.isEmpty()){
             Contact *contact;

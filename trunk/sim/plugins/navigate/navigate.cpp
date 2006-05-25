@@ -322,9 +322,9 @@ void *NavigatePlugin::processEvent(Event *e)
     }
 #endif
     if (e->type() == EventGoURL){
-        string url = (const char*)(e->param());
-        string proto;
-        if (url.length() == 0)
+        QString url = *((QString*)(e->param()));
+        QString proto;
+        if (url.isEmpty())
             return NULL;
         int n = url.find(':');
         /* in textshow.cpp file:// is deleted because it seems on some
@@ -334,7 +334,7 @@ void *NavigatePlugin::processEvent(Event *e)
             proto = "file";
             url = proto + "://" + url;
         }else{
-            proto = url.substr(0, n);
+            proto = url.left(n);
             if ((proto != "http") &&
                     (proto != "https") &&
                     (proto != "ftp") &&
@@ -345,49 +345,50 @@ void *NavigatePlugin::processEvent(Event *e)
 #ifdef WIN32
         bool bExec = false;
         if (getNewWindow()){
-            string key_name = proto;
+            QString key_name = proto;
             key_name += "\\Shell\\Open";
-            RegEntry rp(HKEY_CLASSES_ROOT, key_name.c_str());
-            string prg    = rp.value("command");
-            string action = rp.value("ddeexec");
-            string topic  = rp.value("ddeexec\\Topic");
-            string server = rp.value("ddeexec\\Application");
-            if (!action.empty()){
+            RegEntry rp(HKEY_CLASSES_ROOT, key_name.latin1());
+            QString prg    = rp.value("command");
+            QString action = rp.value("ddeexec");
+            QString topic  = rp.value("ddeexec\\Topic");
+            QString server = rp.value("ddeexec\\Application");
+            if (!action.isEmpty()){
                 int pos = action.find("%1");
                 if (pos >= 0)
-                    action = action.substr(0, pos) + url + action.substr(pos + 2);
+                    action = action.left(pos) + url + action.mid(pos + 2);
                 pos = prg.find("%1");
                 if (pos >= 0)
-                    prg = prg.substr(0, pos) + url + prg.substr(pos + 2);
-                if (!prg.empty()){
+                    prg = prg.left(pos) + url + prg.mid(pos + 2);
+                if (!prg.isEmpty()){
                     STARTUPINFOA si;
                     PROCESS_INFORMATION pi;
                     ZeroMemory(&si, sizeof(si));
                     si.cb = sizeof(si);
                     ZeroMemory(&pi, sizeof(pi));
-                    if (CreateProcessA(NULL, (char*)prg.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
+                    // don't use CreateProcessW this way (see msdn)!
+                    if (CreateProcessA(NULL, (LPSTR)prg.latin1(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
                         WaitForInputIdle(pi.hProcess, INFINITE);
                         CloseHandle(pi.hProcess);
                         CloseHandle(pi.hThread);
                     }
                 }
                 DDEbase b;
-                DDEconversation conv(server.c_str(), topic.c_str());
-                if (conv.Execute(action.c_str()))
+                DDEconversation conv(server, topic);
+                if (conv.Execute(action))
                     bExec = true;
             }
         }
         if (!bExec){
             if (proto == "file")
-                url = url.substr(5);
-            ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);
+                url = url.mid(5);
+            ShellExecuteW(NULL, NULL, (LPCWSTR)url.ucs2(), NULL, NULL, SW_SHOWNORMAL);
         }
 #else
 #ifdef USE_KDE
         if (getUseKDE())
         {
             if (proto == "mailto")
-                kapp->invokeMailer(QString(url.substr(proto.length() + 1)), QString::null);
+                kapp->invokeMailer(QString(url.mid(proto.length() + 1)), QString::null);
             else
                 kapp->invokeBrowser(url);
             return e->param();
@@ -396,14 +397,14 @@ void *NavigatePlugin::processEvent(Event *e)
         ExecParam execParam;
         if (proto == "mailto"){
             execParam.cmd = getMailer();
-            url = url.substr(proto.length() + 1);
+            url = url.mid(proto.length() + 1);
         }else{
             execParam.cmd = getBrowser();
-	    QUrl qurl(url);
-	    QString encodedUrl = qurl.toString(true, false);
-	    url = encodedUrl.latin1();
+            QUrl qurl(url);
+            QString encodedUrl = qurl.toString(true, false);
+            url = encodedUrl.latin1();
         }
-        execParam.arg = url.c_str();
+        execParam.arg = url.latin1();
         Event eExec(EventExec, &execParam);
         eExec.process();
 #endif // WIN32
@@ -471,9 +472,9 @@ void *NavigatePlugin::processEvent(Event *e)
             mail = getToken(mail, ';', false);
             mail = getToken(mail, '/');
             if (mail.length()){
-                string addr = "mailto:";
-                addr += mail.local8Bit();
-                Event eMail(EventGoURL, (void*)addr.c_str());
+                QString addr = "mailto:";
+                addr += mail;
+                Event eMail(EventGoURL, (void*)&addr);
                 eMail.process();
             }
             return e->param();
@@ -489,9 +490,9 @@ void *NavigatePlugin::processEvent(Event *e)
                 if (n-- == 0){
                     mail = getToken(mail, '/');
                     if (mail.length()){
-                        string addr = "mailto:";
-                        addr += mail.local8Bit();
-                        Event eMail(EventGoURL, (void*)addr.c_str());
+                        QString addr = "mailto:";
+                        addr += mail;
+                        Event eMail(EventGoURL, (void*)&addr);
                         eMail.process();
                     }
                     break;

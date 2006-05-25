@@ -3514,17 +3514,17 @@ void *CorePlugin::processEvent(Event *e)
         }
         return NULL;
     case EventGoURL:{
-            string url = (const char*)(e->param());
-            string proto;
+            QString url = *((QString*)(e->param()));
+            QString proto;
             int n = url.find(':');
             if (n < 0)
                 return NULL;
-            proto = url.substr(0, n);
+            proto = url.left(n);
+            url = url.mid(n + 1);
             if (proto == "sms"){
-                url = url.substr(proto.length() + 1);
                 while (url[0] == '/')
-                    url = url.substr(1);
-                Contact *contact = getContacts()->contactByPhone(url.c_str());
+                    url = url.mid(1);
+                Contact *contact = getContacts()->contactByPhone(url);
                 if (contact){
                     Command cmd;
                     cmd->id		 = MessageSMS;
@@ -3537,8 +3537,7 @@ void *CorePlugin::processEvent(Event *e)
             }
             if (proto != "sim")
                 return NULL;
-            url = url.substr(proto.length() + 1);
-            unsigned long contact_id = atoul(url.c_str());
+            unsigned long contact_id = url.toULong();
             Contact *contact = getContacts()->contact(contact_id);
             if (contact){
                 Command cmd;
