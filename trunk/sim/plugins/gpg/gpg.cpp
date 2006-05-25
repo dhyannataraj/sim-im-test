@@ -483,12 +483,11 @@ void *GpgPlugin::processEvent(Event *e)
                         QString input = output + ".in";
                         QFile in(input);
                         if (!in.open(IO_WriteOnly | IO_Truncate)){
-                            string s;
-                            s = input.local8Bit();
-                            log(L_WARN, "Can't create %s", s.c_str());
+                            log(L_WARN, "Can't create %s", input.local8Bit());
                             return NULL;
                         }
-                        in.writeBlock(ms->text->c_str(), ms->text->length());
+                        QCString cstr = ms->text->utf8();
+                        in.writeBlock(cstr, cstr.length());
                         in.close();
                         QString home = user_file(GpgPlugin::plugin->getHome());
                         if (home[(int)(home.length() - 1)] == '\\')
@@ -519,8 +518,7 @@ void *GpgPlugin::processEvent(Event *e)
                             return ms->msg;
                         }
                         *ms->text = "";
-                        ms->text->append(out.size(), '\x00');
-                        out.readBlock((char*)(ms->text->c_str()), out.size());
+                        *ms->text = QString::fromUtf8( out.readAll() );
                         out.close();
                         QFile::remove(output);
                         return NULL;

@@ -901,11 +901,11 @@ void ICQClient::sendPacket(bool bSend)
     m_processTimer->start(delay);
 }
 
-string ICQClient::cryptPassword()
+QString ICQClient::cryptPassword()
 {
-    string pswd = getContacts()->fromUnicode(NULL, getPassword());
-    const char *p = pswd.c_str();
-    string res;
+    QString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    const char *p = pswd.latin1();
+    QString res;
     unsigned char xor_table[] =
         {
             0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
@@ -913,7 +913,8 @@ string ICQClient::cryptPassword()
         };
     int j;
     for (j = 0; j < 8; j++){
-        if (p[j] == 0) break;
+        if (p[j] == 0)
+            break;
         char c = (char)(p[j] ^ xor_table[j]);
         res += c;
     }
@@ -1379,8 +1380,8 @@ void ICQClient::setupContact(Contact *contact, void *_data)
             phones += ";";
         phones += getContacts()->toUnicode(contact, data->PhoneBook.ptr);
     }
-    string n = name();
-    contact->setPhones(phones, n.c_str());
+    QString n = name();
+    contact->setPhones(phones, name());
     QString mails;
     if (data->EMail.ptr)
         mails += getContacts()->toUnicode(contact, QString(data->EMail.ptr).stripWhiteSpace());
@@ -1396,13 +1397,13 @@ void ICQClient::setupContact(Contact *contact, void *_data)
             }
         }
     }
-    contact->setEMails(mails, n.c_str());
+    contact->setEMails(mails, n);
     QString firstName = getContacts()->toUnicode(contact, data->FirstName.ptr);
     if (firstName.length())
-        contact->setFirstName(firstName, n.c_str());
+        contact->setFirstName(firstName, n);
     QString lastName = getContacts()->toUnicode(contact, data->LastName.ptr);
     if (lastName.length())
-        contact->setLastName(lastName, n.c_str());
+        contact->setLastName(lastName, n);
     if (contact->getName().isEmpty())
         contact->setName(QString::number(data->Uin.value));
     QString nick = getContacts()->toUnicode(contact, data->Nick.ptr);

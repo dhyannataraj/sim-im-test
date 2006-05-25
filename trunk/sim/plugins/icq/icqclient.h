@@ -655,7 +655,7 @@ protected:
     void removeFullInfoRequest(unsigned long uin);
     void requestService(ServiceSocket*);
     unsigned long fullStatus(unsigned status);
-    std::string cryptPassword();
+    QString cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
     const char* error_message(unsigned short error);
@@ -710,14 +710,14 @@ protected:
     void sendRosterGrp(const char *name, unsigned short grpId, unsigned short usrId);
     bool isContactRenamed(ICQUserData *data, SIM::Contact *contact);
     bool sendThruServer(SIM::Message *msg, void *data);
-    std::string getUserCellular(SIM::Contact *contact);
+    QString getUserCellular(SIM::Contact *contact);
     void setMainInfo(ICQUserData *d);
     void setAIMInfo(ICQUserData *data);
     void setProfile(ICQUserData *data);
     bool isOwnData(const char *screen);
     void packInfoList(char *str);
     QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    std::string createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
+    QString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, bool icqSmiles);
     void ackMessage(SendMsg &s);
     void accept(SIM::Message *msg, const char *dir, SIM::OverwriteMode overwrite);
@@ -891,7 +891,6 @@ protected:
     bool error_state(const char *err, unsigned code);
     void sendInit2();
     void startPacket(unsigned short cms, unsigned short seq);
-    void startMsgPacket(unsigned short msgType, const std::string &s);
     void sendPacket();
     void processMsgQueue();
     bool copyQueue(DirectClient *to);

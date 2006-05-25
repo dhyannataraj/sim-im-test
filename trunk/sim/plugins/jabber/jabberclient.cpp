@@ -2093,12 +2093,10 @@ bool JabberClient::send(Message *msg, void *_data)
             if ((contact == NULL) || (data == NULL))
                 return false;
             QString text;
-			string t;
             text = msg->getPlainText();
-			t = msg->getPlainText().utf8();
             messageSend ms;
             ms.msg  = msg;
-            ms.text = &t;
+            ms.text = &text;
             Event eSend(EventSend, &ms);
             eSend.process();
             m_socket->writeBuffer.packetStart();

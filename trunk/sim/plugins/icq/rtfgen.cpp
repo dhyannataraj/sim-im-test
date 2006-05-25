@@ -218,7 +218,7 @@ class RTFGenParser : public HTMLParser
 {
 public:
     RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact, unsigned max_size);
-    string parse(const QString &text);
+    QString parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
     // Returns the font face's index in the fonts table, adding the font face if necessary.
@@ -231,7 +231,7 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
     virtual void tag_end(const QString &tag);
-    string res;
+    QString res;
     ICQClient  *m_client;
     Contact    *m_contact;
     QTextCodec *m_codec;
@@ -319,7 +319,7 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
     return m_fontFaces.size() - 1;
 }
 
-string RTFGenParser::parse(const QString &text)
+QString RTFGenParser::parse(const QString &text)
 {
     res = "";
     m_res_size = 0;
@@ -375,7 +375,7 @@ string RTFGenParser::parse(const QString &text)
     m_bSpace = true;
     HTMLParser::parse(text);
 
-    string s;
+    QString s;
     s = "{\\rtf1\\ansi";
     if (ansicpg){
         s += "\\ansicpg";
@@ -386,7 +386,7 @@ string RTFGenParser::parse(const QString &text)
     unsigned n = 0;
     for (list<QString>::iterator it_face = m_fontFaces.begin(); it_face != m_fontFaces.end(); it_face++, n++){
         s += "{\\f";
-        s += number(n);
+        s += QString::number(n);
         QString face = (*it_face);
         if (face.find("Times") >= 0){
             s += "\\froman";
@@ -411,11 +411,11 @@ string RTFGenParser::parse(const QString &text)
     for (list<QColor>::iterator it_colors = m_colors.begin(); it_colors != m_colors.end(); ++it_colors){
         QColor c = *it_colors;
         s += "\\red";
-        s += number(c.red());
+        s += QString::number(c.red());
         s += "\\green";
-        s += number(c.green());
+        s += QString::number(c.green());
         s += "\\blue";
-        s += number(c.blue());
+        s += QString::number(c.blue());
         s += ";";
     }
     s += "}\r\n";
@@ -424,7 +424,7 @@ string RTFGenParser::parse(const QString &text)
     s += res;
     s += "\r\n}\r\n";
 
-    log(L_DEBUG, "Resulting RTF: %s", s.c_str());
+    log(L_DEBUG, "Resulting RTF: %s", s.latin1());
 
     return s;
 }
@@ -504,7 +504,7 @@ void RTFGenParser::text(const QString &text)
             }
         }
         res += "\\u";
-        res += number(s[0].unicode());
+        res += QString::number(s[0].unicode());
         res += "?";
         m_bSpace = false;
     }
@@ -843,7 +843,7 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-string ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
+QString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
 {
     RTFGenParser p(this, foreColor, contact, max_size);
     string res = p.parse(text);

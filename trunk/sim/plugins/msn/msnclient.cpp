@@ -2573,14 +2573,12 @@ void SBSocket::process(bool bTyping)
         sendTyping();
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
-        string text;
-        text = msg->getPlainText().utf8();
+        m_msgText = msg->getPlainText();
         messageSend ms;
         ms.msg  = msg;
-        ms.text = &text;
+        ms.text = &m_msgText;
         Event e(EventSend, &ms);
         e.process();
-        m_msgText = QString::fromUtf8(text.c_str());
         if (msg->type() == MessageUrl){
             UrlMessage *m = static_cast<UrlMessage*>(msg);
             QString msgText = m->getUrl();

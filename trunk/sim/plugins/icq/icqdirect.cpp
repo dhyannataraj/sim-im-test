@@ -1288,7 +1288,7 @@ void DirectClient::processMsgQueue()
             continue;
         }
         if (sm.msg){
-            string message;
+            QString message;
             Buffer &mb = m_socket->writeBuffer;
             unsigned short flags = ICQ_TCPxMSG_NORMAL;
             if (sm.msg->getFlags() & MESSAGE_URGENT)

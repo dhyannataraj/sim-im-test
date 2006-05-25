@@ -751,7 +751,7 @@ typedef struct messageDecline
 typedef struct messageSend
 {
     Message     *msg;
-    std::string *text;
+    QString     *text;
 } messageSend;
 
 const unsigned EventMessageReceived = 0x1100;
