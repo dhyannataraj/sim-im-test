@@ -1688,6 +1688,7 @@ void ContactList::save()
         return;
     }
     QTextStream ds(&f);
+    ds.setEncoding(QTextStream::UnicodeUTF8);
     ds << p->userData.save() << "\n";
 
     line = save_data(contactData, &owner()->data);
@@ -1784,20 +1785,20 @@ void ContactList::load()
         QString s = cfg.getSection();
         if (s.isEmpty())
             break;
-        if (s.left(strlen(OWNER)) == OWNER){
+        if (s.startsWith(OWNER)){
             p->flush(c, g);
             c = owner();
             g = NULL;
             s = "";
         }else
-        if (s.left(strlen(GROUP)) == GROUP){
+        if (s.startsWith(GROUP)){
             p->flush(c, g);
             c = NULL;
             unsigned long id = atol(s.latin1() + strlen(GROUP));
             g = group(id, id != 0);
             s = "";
         }else
-        if (s.left(strlen(CONTACT)) == CONTACT){
+        if (s.startsWith(CONTACT)){
             p->flush(c, g);
             g = NULL;
             unsigned long id = atol(s.latin1() + strlen(CONTACT));

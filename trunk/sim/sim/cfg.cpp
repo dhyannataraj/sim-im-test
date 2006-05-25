@@ -178,7 +178,7 @@ EXPORT QString app_file(const char *f)
     app_file_name = PREFIX "/share/apps/sim/";
 #endif
     app_file_name += f;
-	return QDir::convertSeparators(app_file_name);
+    return QDir::convertSeparators(app_file_name);
 }
 
 // ______________________________________________________________________________________
@@ -470,19 +470,25 @@ EXPORT void free_data(const DataDef *def, void *d)
     }
 }
 
-QString unquoteStringInternal(const char *p)
+QString unquoteStringInternal(const QString &p)
 {
     QString unquoted;
-	if( *p == '\"' )
-		p++;
-    for (; *p; p++){
-        if (*p != '\\'){
-            unquoted += *p;
+    int pos = 0;
+    if (p.startsWith("\""))
+        pos = 1;
+    int length = p.length();
+
+    for (; pos < length; pos++){
+        QChar c = p[pos];
+        if (c != '\\'){
+            unquoted += c;
             continue;
         }
-        p++;
-        if (*p == 0) break;
-        switch (*p){
+        pos++;
+        if ( pos >= length)
+            break;
+        c = p[pos];
+        switch (c){
         case '\\':
             unquoted += '\\';
             break;
@@ -492,20 +498,25 @@ QString unquoteStringInternal(const char *p)
         case 't':
             unquoted += '\t';
             break;
-        case 'x':
-            if (p[1] && p[2]){
-                char c = 0;
-                c = (char)((fromHex(p[1]) << 4) + fromHex(p[2]));
-                unquoted += c;
-                p += 2;
+        case 'x': {
+            if ( pos + 2 >= length ) {
+                pos--;
+                break;
             }
+            QChar c1 = p[pos+1];
+            QChar c2 = p[pos+2];
+            char ch;
+            ch = (char)((fromHex(c1) << 4) + fromHex(c2));
+            unquoted += ch;
+            pos += 2;
             break;
+        }
         default:
-            p--;
+            pos--;
         }
     }
-	if( unquoted.right( 1 ) == "\"" )
-		unquoted = unquoted.left( unquoted.length() - 1 );
+    if( unquoted.endsWith( "\"" ) )
+        unquoted = unquoted.left( unquoted.length() - 1 );
     return unquoted;
 }
 
@@ -571,11 +582,11 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
         QString line = cfg->getLine();
         if (line.isEmpty())
             break;
-		int idx = line.find('=');
-		if(idx == -1)
-			continue;
-		QString name = line.left( idx );
-		QString val  = line.mid( idx + 1 );
+        int idx = line.find('=');
+        if(idx == -1)
+            continue;
+        QString name = line.left( idx );
+        QString val  = line.mid( idx + 1 );
         if(name.isEmpty() || val.isEmpty())
             continue;
 
@@ -593,10 +604,10 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
             break;
         }
         case DATA_STRLIST: {
-			int idx = val.find( ',' );
-			if( idx == -1 )
-				break;
-			QString cnt = val.left( idx );
+            int idx = val.find( ',' );
+            if( idx == -1 )
+                break;
+            QString cnt = val.left( idx );
             int i = cnt.toULong();
             if (i == 0)
                 break;
@@ -605,30 +616,41 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
             break;
         }
         case DATA_UTFLIST: {
-			int idx = val.find( ',' );
-			if( idx == -1 )
-				break;
-			QString cnt = val.left( idx );
+            int idx = val.find( ',' );
+            if( idx == -1 )
+                break;
+            QString cnt = val.left( idx );
             int i = cnt.toULong();
             if (i == 0)
                 break;
-            QString s = unquoteStringInternal( val.mid( idx + 1 ) );
+            QString s = val.mid( idx + 1 );
+            // no longer needed, but we want to read old configs correct...
+            if( s.endsWith( "u" ) ) {
+                s = unquoteStringInternal( s.left( s.length() - 1 ) );
+            } else {
+                s = unquoteStringInternal( s );
+            }
             set_str(ld, i, s.utf8());
             break;
         }
         case DATA_UTF: {
-			QStringList sl = QStringList::split( "\",\"", val );
+            QStringList sl = QStringList::split( "\",\"", val );
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
                 QString s = sl[i];
                 if(s.isEmpty())
                     continue;
-                s = unquoteStringInternal(s);
+                // no longer needed, but we want to read old configs correct...
+                if( s.endsWith( "u" ) ) {
+                    s = unquoteStringInternal( s.left( s.length() - 1 ) );
+                } else {
+                    s = unquoteStringInternal( s );
+                }
                 set_str(&ld->ptr, s.utf8());
             }
             break;
         }
         case DATA_STRING: {
-			QStringList sl = QStringList::split( "\",\"", val );
+            QStringList sl = QStringList::split( "\",\"", val );
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
                 QString s = sl[i];
                 if(s.isEmpty())
@@ -673,7 +695,7 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
         }
         }
     }
-	cfg->restorePos();
+    cfg->restorePos();
 }
 
 static char toHex(char c)
@@ -774,13 +796,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                             res += QString::number((*it).first);
                             res += ",";
                             QString s = QString::fromUtf8((*it).second.c_str());
-                            QCString ls = s.local8Bit();
-                            if (QString::fromLocal8Bit(ls) == s){
-                                res += quoteString((const char*)ls);
-                            }else{
-                                res += quoteString((const char*)(s.utf8()));
-                                res += "u";
-                            }
+                            res += quoteString(s);
                         }
                     }
                     break;
@@ -820,13 +836,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                                 bSave = true;
                         }
                         if (bSave){
-                            QCString ls = s.local8Bit();
-                            if (QString::fromLocal8Bit(ls) == s){
-                                value += quoteString((const char*)ls);
-                            }else{
-                                value += quoteString((const char*)(s.utf8()));
-                                value += "u";
-                            }
+                            value += quoteString(s);
                         }
                     }
                     break;
