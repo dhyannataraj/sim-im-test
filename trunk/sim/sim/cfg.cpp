@@ -415,6 +415,32 @@ EXPORT void set_str(Data *d, unsigned index, const char *value)
 
 // _______________________________________________________________________________________
 
+EXPORT bool set_utf8(char **str, const QString &value)
+{
+    if ((*str == NULL) && (value.isEmpty()))
+        return false;
+    if (*str && !value.isEmpty() && *str == value)
+        return false;
+    if (*str){
+        delete[] *str;
+        *str = NULL;
+    }
+    if (!value.isEmpty()){
+        QCString utf8 = value.utf8();
+        *str = new char[utf8.length() + 1];
+        strcpy(*str, utf8.data());
+        return true;
+    }
+    return false;
+}
+
+EXPORT QString get_utf8(const char *str)
+{
+    if(!str)
+        return QString();
+    return QString::fromUtf8(str);
+}
+
 EXPORT bool set_str(char **str, const char *value)
 {
     if ((*str == NULL) && (value == NULL))

@@ -882,6 +882,8 @@ EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config = NULL);
 EXPORT QString save_data(const DataDef *def, void *data);
 
+EXPORT bool set_utf8(char **str, const QString &value);
+EXPORT QString get_utf8(const char *str);
 EXPORT bool set_str(char **str, const char *value);
 EXPORT const char *get_str(const Data &strlist, unsigned index);
 EXPORT void clear_list(Data *strlist);

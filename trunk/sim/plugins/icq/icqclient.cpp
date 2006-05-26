@@ -328,7 +328,7 @@ ICQClient::ICQClient(Protocol *protocol, ConfigBuffer *cfg, bool bAIM)
         ClientDataIterator itd(contact->clientData, this);
         ICQUserData *data;
         while ((data = (ICQUserData*)(++itd)) != NULL)
-            set_str(&data->Alias.ptr, contact->getName().utf8());
+            set_utf8(&data->Alias.ptr, contact->getName());
     }
 }
 
@@ -999,7 +999,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                 if (!alias->isEmpty()){
                     bChanged = contact->setName(*alias);
                 }
-                set_str(&data->Alias.ptr, *alias);
+                set_utf8(&data->Alias.ptr, *alias);
             }
             if (grp){
                 if (contact->getGroup() != grp->id()){
@@ -1042,7 +1042,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                         if (*alias){
                             bChanged = contact->setName(*alias);
                         }
-                        set_str(&data->Alias.ptr, *alias);
+                        set_utf8(&data->Alias.ptr, *alias);
                     }
                     if (grp){
                         if (grp->id() != contact->getGroup()){
@@ -1069,7 +1069,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                     data->Uin.value = uin;
                     if (uin == 0)
                         set_str(&data->Screen.ptr, screen);
-                    set_str(&data->Alias.ptr, *alias);
+                    set_utf8(&data->Alias.ptr, *alias);
                     Event e(EventContactChanged, contact);
                     e.process();
                     m_bJoin = true;
@@ -1092,7 +1092,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
     }else{
         name = screen;
     }
-    set_str(&data->Alias.ptr, *alias);
+    set_utf8(&data->Alias.ptr, *alias);
     contact->setName(name);
     if (grp)
         contact->setGroup(grp->id());
@@ -1102,7 +1102,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
     return data;
 }
 
-ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
+ICQUserData *ICQClient::findGroup(unsigned id, const QString *alias, Group *&grp)
 {
     ContactList::GroupIterator it;
     ICQUserData *data;
@@ -1110,27 +1110,27 @@ ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
         data = (ICQUserData*)(grp->clientData.getData(this));
         if (data && (data->IcqID.value == id)){
             if (alias)
-                set_str(&data->Alias.ptr, alias);
+                set_utf8(&data->Alias.ptr, *alias);
             return data;
         }
     }
     if (alias == NULL)
         return NULL;
     it.reset();
-    QString name = QString::fromUtf8(alias);
+    QString name = *alias;
     while ((grp = ++it) != NULL){
         if (grp->getName() == name){
             data = (ICQUserData*)(grp->clientData.createData(this));
             data->IcqID.value = id;
-            set_str(&data->Alias.ptr, alias);
+            set_utf8(&data->Alias.ptr, *alias);
             return data;
         }
     }
     grp = getContacts()->group(0, true);
-    grp->setName(QString::fromUtf8(alias));
+    grp->setName(name);
     data = (ICQUserData*)(grp->clientData.createData(this));
     data->IcqID.value = id;
-    set_str(&data->Alias.ptr, alias);
+    set_utf8(&data->Alias.ptr, *alias);
     Event e(EventGroupChanged, grp);
     e.process();
     return data;
@@ -1407,7 +1407,7 @@ void ICQClient::setupContact(Contact *contact, void *_data)
         contact->setName(QString::number(data->Uin.value));
     QString nick = getContacts()->toUnicode(contact, data->Nick.ptr);
     if (nick.isEmpty())
-        nick = QString::fromUtf8(data->Alias.ptr);
+        nick = get_utf8(data->Alias.ptr);
     if (!nick.isEmpty()){
         QString name = QString::number(data->Uin.value);
         if (name == contact->getName())

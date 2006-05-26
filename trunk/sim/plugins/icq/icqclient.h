@@ -556,7 +556,7 @@ public:
     SIM::Contact *getContact(ICQUserData*);
     ICQUserData *findContact(unsigned long uin, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
     ICQUserData *findContact(const QString &screen, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
-    ICQUserData *findGroup(unsigned id, const char *name, SIM::Group *&group);
+    ICQUserData *findGroup(unsigned id, const QString *name, SIM::Group *&group);
     void addFullInfoRequest(unsigned long uin);
     ListRequest *findContactListRequest(const char *screen);
     ListRequest *findGroupListRequest(unsigned short id);
@@ -705,10 +705,10 @@ protected:
     QString trimPhone(const char *phone);
     unsigned short getListId();
     TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
-    unsigned short sendRoster(unsigned short cmd, const char *name,
+    unsigned short sendRoster(unsigned short cmd, const QString &name,
                               unsigned short grp_id,  unsigned short usr_id,
                               unsigned short subCmd=0, TlvList *tlv = NULL);
-    void sendRosterGrp(const char *name, unsigned short grpId, unsigned short usrId);
+    void sendRosterGrp(const QString &name, unsigned short grpId, unsigned short usrId);
     bool isContactRenamed(ICQUserData *data, SIM::Contact *contact);
     bool sendThruServer(SIM::Message *msg, void *data);
     QString getUserCellular(SIM::Contact *contact);
