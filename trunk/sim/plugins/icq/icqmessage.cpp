@@ -1348,7 +1348,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 set_str(&data->PhoneBook.ptr, phones.c_str());
                 Contact *contact = NULL;
-                findContact(number(data->Uin.value).c_str(), NULL, false, contact);
+                findContact(data->Uin.value, NULL, false, contact);
                 if (contact){
                     setupContact(contact, data);
                     Event e(EventContactChanged, contact);
@@ -1364,7 +1364,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
             b.unpack(state);
             b.unpack(time);
             log(L_DEBUG, "Plugin status reply %u %lu %lu (%u)", uin, state, time, plugin_type);
-            findContact(number(uin).c_str(), NULL, false, contact);
+            findContact(uin, NULL, false, contact);
             if (contact == NULL)
                 break;
             switch (plugin_type){
@@ -1418,7 +1418,7 @@ static const char* plugin_descr[] =
 void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &info)
 {
     Contact *contact;
-    ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
+    ICQUserData *data = findContact(uin, NULL, false, contact);
     log(L_DEBUG, "Request about %u", plugin_type);
     Buffer answer;
     unsigned long typeAnswer = 0;

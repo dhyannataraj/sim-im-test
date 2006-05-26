@@ -322,7 +322,7 @@ void DirectSocket::packet_ready()
             m_socket->readBuffer.unpack(p_uin);
             if (m_data == NULL){
                 Contact *contact;
-                m_data = m_client->findContact(QString::number(p_uin), NULL, false, contact);
+                m_data = m_client->findContact(p_uin, NULL, false, contact);
                 if ((m_data == NULL) || contact->getIgnore()){
                     m_socket->error_state("User not found");
                     return;

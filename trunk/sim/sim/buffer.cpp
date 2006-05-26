@@ -238,6 +238,17 @@ void Buffer::unpackStr(std::string &str)
     str = cstr;
 }
 
+void Buffer::unpackStr(QString &str)
+{
+    unsigned short s;
+    *this >> s;
+    if (s == 0)
+        return;
+    if (s > size() - m_posRead)
+        s = (unsigned short)(size() - m_posRead);
+    unpack(str, s);
+}
+
 void Buffer::unpackStr32(std::string &str)
 {
     QCString cstr;

@@ -179,15 +179,15 @@ void ICQClient::chn_login()
         return;
     }
     if (data.owner.Uin.value){
-        string pswd = cryptPassword();
-        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.value, pswd.c_str());
+        QString pswd = cryptPassword();
+        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.value, pswd.latin1());
         char uin[20];
         sprintf(uin, "%lu", data.owner.Uin.value);
 
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
         m_socket->writeBuffer.tlv(0x0001, uin);
-        m_socket->writeBuffer.tlv(0x0002, pswd.c_str(), pswd.length());
+        m_socket->writeBuffer.tlv(0x0002, pswd.latin1(), pswd.length());
         m_socket->writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");
         m_socket->writeBuffer.tlv(0x0016, 0x010A);
         m_socket->writeBuffer.tlv(0x0017, 0x0002);
@@ -231,10 +231,10 @@ void ICQClient::chn_login()
     << 0x00000000L << 0x94680000L << 0x94680000L
     << 0x00000000L << 0x00000000L << 0x00000000L
     << 0x00000000L;
-    string pswd = getContacts()->fromUnicode(NULL, getPassword());
+    QString pswd = getContacts()->fromUnicode(NULL, getPassword());
     unsigned short len = (unsigned short)(pswd.length() + 1);
     msg.pack(len);
-    msg.pack(pswd.c_str(), len);
+    msg.pack(pswd.latin1(), len);
     msg << 0x94680000L << 0x00000602L;
     m_socket->writeBuffer.tlv(0x0001, msg);
     sendPacket(true);

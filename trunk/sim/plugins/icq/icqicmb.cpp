@@ -239,7 +239,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     /*
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;
-                        ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
+                        ICQUserData *data = findContact(m_send.screen, NULL, false, contact);
                         if (data && data->bInvisible.bValue) {
                             data->bInvisible.bValue = false;
                             Event e(EventContactStatus, contact);
@@ -1503,7 +1503,7 @@ void ICQClient::sendTimeout()
             /*
             if (m_send.msg->type() == MessageCheckInvisible){
                 Contact *contact;
-                ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
+                ICQUserData *data = findContact(m_send.screen, NULL, false, contact);
                 if (data && (data->bInvisible.bValue == 0)) {
                     data->bInvisible.bValue = true;
                     Event e(EventContactStatus, contact);

@@ -26,7 +26,6 @@
 #include <qgroupbox.h>
 #include <qcheckbox.h>
 
-using namespace std;
 using namespace SIM;
 
 ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
@@ -167,9 +166,9 @@ void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 
 void ICQSearch::add(const QString &screen, unsigned tmpFlags, Contact *&contact)
 {
-    if (m_client->findContact(screen.utf8(), NULL, false, contact))
+    if (m_client->findContact(screen, NULL, false, contact))
         return;
-    m_client->findContact(screen.utf8(), screen.utf8(), true, contact, NULL, false);
+    m_client->findContact(screen, &screen, true, contact, NULL, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
@@ -189,22 +188,22 @@ void ICQSearch::icq_search()
         m_id_icq = m_client->findByUin(m_uin);
         break;
     case Mail:
-        m_id_icq = m_client->findByMail(m_mail.c_str());
+        m_id_icq = m_client->findByMail(m_mail);
         break;
     case Name:
-        m_id_icq = m_client->findWP(m_first.c_str(), m_last.c_str(), m_nick.c_str(),
+        m_id_icq = m_client->findWP(m_first, m_last, m_nick,
                                     NULL, 0, 0, 0, NULL, NULL, 0, NULL, NULL, NULL,
                                     0, 0, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, false);
         break;
     case Full:
-        m_id_icq = m_client->findWP(m_first.c_str(), m_last.c_str(), m_nick.c_str(),
-                                    m_mail.c_str(), m_age, m_gender, m_lang,
-                                    m_city.c_str(), m_state.c_str(), m_country,
-                                    m_company.c_str(), m_depart.c_str(), m_position.c_str(),
-                                    m_occupation, m_past, m_past_text.c_str(),
-                                    m_interests, m_interests_text.c_str(),
-                                    m_affilations, m_affilations_text.c_str(), 0, NULL,
-                                    m_keywords.c_str(), m_bOnline);
+        m_id_icq = m_client->findWP(m_first, m_last, m_nick,
+                                    m_mail, m_age, m_gender, m_lang,
+                                    m_city, m_state, m_country,
+                                    m_company, m_depart, m_position,
+                                    m_occupation, m_past, m_past_text,
+                                    m_interests, m_interests_text,
+                                    m_affilations, m_affilations_text, 0, NULL,
+                                    m_keywords, m_bOnline);
         break;
     case None:
         m_id_icq = 0;
@@ -214,7 +213,7 @@ void ICQSearch::icq_search()
 
 const QString ICQSearch::extractUIN(const QString& str)
 {
-    if (!str || str.isEmpty())
+    if (str.isEmpty())
         return QString::null; 
     QString s = str;
     return s.remove(' ').remove('-');
@@ -399,11 +398,7 @@ void *ICQSearch::processEvent(Event *e)
             default:
                 icon += "inactive";
             }
-            list<unsigned>::iterator it;
-            for (it = m_uins.begin(); it != m_uins.end(); ++it)
-                if ((*it) == res->data.Uin.value)
-                    break;
-            if (it != m_uins.end())
+            if (m_uins.findIndex (res->data.Uin.value) != -1)
                 return NULL;
             m_bAdd = true;
             m_uins.push_back(res->data.Uin.value);
@@ -477,9 +472,9 @@ void *ICQSearch::processEvent(Event *e)
 
 void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
-    if (m_client->findContact(name.utf8(), NULL, false, contact))
+    if (m_client->findContact(name, NULL, false, contact))
         return;
-    if (m_client->findContact(name.utf8(), name.utf8(), true, contact, NULL, false) == NULL)
+    if (m_client->findContact(name, &name, true, contact, NULL, false) == NULL)
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }

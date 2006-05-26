@@ -95,6 +95,7 @@ public:
     QString unpackScreen();
     void unpack(std::string &s);
     void unpackStr(std::string &s);
+    void unpackStr(QString &s);
     void unpackStr32(std::string &s);
 
     void pack(const std::string &s);

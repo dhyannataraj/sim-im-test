@@ -1688,7 +1688,7 @@ void ContactList::save()
         return;
     }
     QTextStream ds(&f);
-    ds.setEncoding(QTextStream::UnicodeUTF8);
+    ds.setEncoding(QTextStream::Unicode);
     ds << p->userData.save() << "\n";
 
     line = save_data(contactData, &owner()->data);

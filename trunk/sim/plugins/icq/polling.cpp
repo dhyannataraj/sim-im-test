@@ -189,7 +189,7 @@ protected:
     virtual HttpPacket *packet();
     virtual const char *url();
     virtual void data_ready(Buffer*);
-    string sURL;
+    QString sURL;
 };
 
 MonitorRequest::MonitorRequest(HttpPool *pool)
@@ -206,10 +206,10 @@ HttpPacket *MonitorRequest::packet()
 const char *MonitorRequest::url()
 {
     sURL  = "http://";
-    sURL += m_pool->m_host.c_str();
+    sURL += m_pool->m_host;
     sURL += "/monitor?sid=";
-    sURL += m_pool->sid.c_str();
-    return sURL.c_str();
+    sURL += m_pool->sid;
+    return sURL.latin1();
 }
 
 void MonitorRequest::data_ready(Buffer *bIn)
@@ -266,7 +266,7 @@ protected:
     virtual HttpPacket *packet();
     virtual const char *url();
     virtual void data_ready(Buffer *b);
-    string sURL;
+    QString sURL;
 };
 
 PostRequest::PostRequest(HttpPool *proxy)
@@ -285,14 +285,14 @@ HttpPacket *PostRequest::packet()
 const char *PostRequest::url()
 {
     sURL  = "http://";
-    sURL += m_pool->m_host.c_str();
+    sURL += m_pool->m_host;
     sURL += "/data?sid=";
-    sURL += m_pool->sid.c_str();
+    sURL += m_pool->sid;
     sURL += "&seq=";
     char b[15];
     snprintf(b, sizeof(b), "%u", ++m_pool->seq);
     sURL += b;
-    return sURL.c_str();
+    return sURL.latin1();
 }
 
 void PostRequest::data_ready(Buffer*)

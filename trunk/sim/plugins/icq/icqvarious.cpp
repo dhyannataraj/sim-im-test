@@ -354,7 +354,7 @@ void FullInfoRequest::fail(unsigned short)
             Event e(EventClientChanged, m_client);
             e.process();
         }else{
-            m_client->findContact(number(m_uin).c_str(), NULL, false, contact);
+            m_client->findContact(m_uin, NULL, false, contact);
             if (contact){
                 Event e(EventContactChanged, contact);
                 e.process();
@@ -395,7 +395,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     if (m_client->data.owner.Uin.value == m_uin){
         data = &m_client->data.owner;
     }else{
-        data = m_client->findContact(number(m_uin).c_str(), NULL, false, contact);
+        data = m_client->findContact(m_uin, NULL, false, contact);
         if (data == NULL){
             log(L_DEBUG, "Info request %lu not found", m_uin);
             m_client->removeFullInfoRequest(m_uin);

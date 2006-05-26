@@ -554,7 +554,8 @@ public:
                           unsigned short nHomePoge, const char *szHomePage,
                           const char *sKeyWord, bool bOnlineOnly);
     SIM::Contact *getContact(ICQUserData*);
-    ICQUserData *findContact(const char *screen, const char *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
+    ICQUserData *findContact(unsigned long uin, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
+    ICQUserData *findContact(const QString &screen, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
     ICQUserData *findGroup(unsigned id, const char *name, SIM::Group *&group);
     void addFullInfoRequest(unsigned long uin);
     ListRequest *findContactListRequest(const char *screen);
@@ -630,7 +631,7 @@ protected:
     void snac_lists(unsigned short, unsigned short);
     void snac_various(unsigned short, unsigned short);
     void snac_login(unsigned short, unsigned short);
-    void parseRosterItem(unsigned short type, std::string str,unsigned short grp_id,
+    void parseRosterItem(unsigned short type, const QString &str,unsigned short grp_id,
                          unsigned short id, TlvList *inf, bool &bIgnoreTime);
     void chn_login();
     void chn_close();

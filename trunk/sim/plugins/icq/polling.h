@@ -46,9 +46,9 @@ protected:
     };
     State state;
 
-    std::string sid;
-    std::string m_host;
-    std::string m_url;
+    QString sid;
+    QString m_host;
+    QString m_url;
 
     std::list<HttpPacket*> queue;
     unsigned seq;

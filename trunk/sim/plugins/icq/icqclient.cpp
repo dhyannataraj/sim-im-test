@@ -476,8 +476,6 @@ bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
     ICQUserData *my_data = findContact(screen(data), NULL, false, contact);
     if (my_data){
         data = my_data;
-        string s;
-        s = contact->getName().local8Bit();
     }else{
         contact = NULL;
     }
@@ -972,18 +970,21 @@ unsigned long ICQClient::fullStatus(unsigned s)
     return status;
 }
 
-ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
+ICQUserData *ICQClient::findContact(unsigned long l, const QString *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
+{
+    return findContact(QString::number(l), alias, bCreate, contact, grp, bJoin);
+}
+
+ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
 {
     if ((screen == NULL) || (*screen == 0))
         return NULL;
 
-    string s;
-    for (const char *p = screen; *p; p++)
-        s += (char)tolower(*p);
+    QString s = screen.lower();
 
     ContactList::ContactIterator it;
     ICQUserData *data;
-    unsigned long uin = atol(screen);
+    unsigned long uin = screen.toULong();
 
     while ((contact = ++it) != NULL){
         ClientDataIterator it(contact->clientData, this);
@@ -995,11 +996,10 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                 continue;
             bool bChanged = false;
             if (alias){
-                if (*alias){
-                    QString name = QString::fromUtf8(alias);
-                    bChanged = contact->setName(name);
+                if (!alias->isEmpty()){
+                    bChanged = contact->setName(*alias);
                 }
-                set_str(&data->Alias.ptr, alias);
+                set_str(&data->Alias.ptr, *alias);
             }
             if (grp){
                 if (contact->getGroup() != grp->id()){
@@ -1036,14 +1036,13 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                     data = (ICQUserData*)(contact->clientData.createData(this));
                     data->Uin.value = uin;
                     if (uin == 0)
-                        set_str(&data->Screen.ptr, s.c_str());
+                        set_str(&data->Screen.ptr, s);
                     bool bChanged = false;
                     if (alias){
                         if (*alias){
-                            QString name = QString::fromUtf8(alias);
-                            bChanged = contact->setName(name);
+                            bChanged = contact->setName(*alias);
                         }
-                        set_str(&data->Alias.ptr, alias);
+                        set_str(&data->Alias.ptr, *alias);
                     }
                     if (grp){
                         if (grp->id() != contact->getGroup()){
@@ -1061,8 +1060,8 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                 }
             }
         }
-        if (alias && *alias){
-            QString name = QString::fromUtf8(alias).lower();
+        if (alias){
+            QString name = alias->lower();
             it.reset();
             while ((contact = ++it) != NULL){
                 if (contact->getName().lower() == name){
@@ -1070,7 +1069,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                     data->Uin.value = uin;
                     if (uin == 0)
                         set_str(&data->Screen.ptr, screen);
-                    set_str(&data->Alias.ptr, alias);
+                    set_str(&data->Alias.ptr, *alias);
                     Event e(EventContactChanged, contact);
                     e.process();
                     m_bJoin = true;
@@ -1084,16 +1083,16 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     data = (ICQUserData*)(contact->clientData.createData(this));
     data->Uin.value = uin;
     if (uin == 0)
-        set_str(&data->Screen.ptr, s.c_str());
+        set_str(&data->Screen.ptr, s);
     QString name;
-    if (alias && *alias){
-        name = QString::fromUtf8(alias);
+    if (alias){
+        name = *alias;
     }else if (uin){
         name = QString::number(uin);
     }else{
         name = screen;
     }
-    set_str(&data->Alias.ptr, alias);
+    set_str(&data->Alias.ptr, *alias);
     contact->setName(name);
     if (grp)
         contact->setGroup(grp->id());
@@ -2375,7 +2374,8 @@ void *ICQClient::processEvent(Event *e)
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
             Group *grp = getContacts()->group(ac->group);
             Contact *contact;
-            findContact(ac->addr, ac->nick, true, contact, grp);
+            QString tmp = QString::fromUtf8(ac->nick);
+            findContact(ac->addr, &tmp, true, contact, grp);
             return contact;
         }
         return NULL;
@@ -2836,7 +2836,7 @@ void *ICQClient::processEvent(Event *e)
         QString screen = getToken(s, ',');
         if (!screen.isEmpty()){
             Contact *contact;
-            findContact(screen, s, true, contact);
+            findContact(screen, &s, true, contact);
             Command cmd;
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;
@@ -3221,7 +3221,7 @@ bool ICQClient::isSupportPlugins(ICQUserData *data)
 void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 {
     Contact *contact;
-    ICQUserData *data = findContact(QString::number(uin), NULL, false, contact);
+    ICQUserData *data = findContact(uin, NULL, false, contact);
     if (data && !data->bNoDirect.bValue &&
             (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
             ((getInvisible() && data->VisibleId.value) ||
