@@ -222,7 +222,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     unsigned char type, flag;
                     struct tm sendTM;
                     memset(&sendTM, 0, sizeof(sendTM));
-                    string message;
+                    QString message;
                     unsigned short year;
                     unsigned char month, day, hours, min;
                     msg.unpack(uin);
@@ -249,7 +249,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     sendTM.tm_isdst = -1;
                     time_t send_time = mktime(&sendTM);
                     MessageId id;
-                    Message *m = parseMessage(type, number(uin).c_str(), message, msg, id, 0);
+                    Message *m = parseMessage(type, QString::number(uin), message, msg, id, 0);
                     if (m){
                         m->setTime(send_time);
                         messageReceived(m, number(uin).c_str());
@@ -1776,7 +1776,3 @@ void ICQClient::searchChat(unsigned short group)
     sendServerRequest();
     varRequests.push_back(new RandomChatRequest(this, m_nMsgSequence));
 }
-
-
-
-

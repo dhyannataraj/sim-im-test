@@ -493,7 +493,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     unsigned char type, flags;
                     msg >> type;
                     msg >> flags;
-                    string msg_str;
+                    QString msg_str;
                     msg >> msg_str;
                     Message *m = parseMessage(type, screen, msg_str, msg, id, 0);
                     if (m)
@@ -1146,7 +1146,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
     adv.unpack(msgType);
     adv.unpack(msgState);
     adv.unpack(msgFlags);
-    string msg;
+    QString msg;
     adv >> msg;
 
     switch (msgType){
@@ -1195,8 +1195,8 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
             Event e(EventARRequest, &ar);
             e.process();
 
-            if (!msg.empty()){
-                set_str(&data->AutoReply.ptr, msg.c_str());
+            if (!msg.isEmpty()){
+                set_str(&data->AutoReply.ptr, msg);
                 Event e(EventContactChanged, contact);
                 e.process();
             }
@@ -1204,11 +1204,11 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
         }
     }
     Buffer copy;
-    if (*msg.c_str() || (msgType == ICQ_MSGxEXT)){
+    if (!msg.isEmpty() || (msgType == ICQ_MSGxEXT)){
         if (adv.readPos() < adv.writePos())
             copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
-        log(L_DEBUG, "Msg size=%lu type=%u", (unsigned long) msg.size(), msgType);
-        if (msg.size() || (msgType == ICQ_MSGxEXT)){
+        log(L_DEBUG, "Msg size=%lu type=%u", (unsigned long) msg.length(), msgType);
+        if (msg.length() || (msgType == ICQ_MSGxEXT)){
             Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
             if (m){
                 if ((m_send.id == id) && (m_send.screen == screen)){

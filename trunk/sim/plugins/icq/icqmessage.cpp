@@ -449,11 +449,11 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
     return NULL;
 }
 
-Message *ICQClient::parseMessage(unsigned short type, const char *screen, string &p, Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseMessage(unsigned short type, const QString &screen, QString &p, Buffer &packet, MessageId &id, unsigned cookie)
 {
-    if (atol(screen) == 0x0A){
+    if (screen.toULong() == 0x0A){
         vector<string> l;
-        if (!parseFE(p.c_str(), l, 6)){
+        if (!parseFE(p, l, 6)){
             log(L_WARN, "Parse error web panel message");
             return NULL;
         }
@@ -485,10 +485,10 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
                 data = findContact(screen, NULL, true, contact);
                 if (data == NULL) {
                    return NULL;
-		}
+                }
                 contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
             }
-            msg = parseTextMessage(p.c_str(), cap_str.c_str(), contact);
+            msg = parseTextMessage(p, cap_str.c_str(), contact);
             if (msg == NULL)
                 break;
             if (forecolor != backcolor){
@@ -498,10 +498,10 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
             break;
         }
     case ICQ_MSGxURL:
-        msg = parseURLMessage(p.c_str());
+        msg = parseURLMessage(p);
         break;
     case ICQ_MSGxAUTHxREQUEST:
-        msg = parseAuthRequest(p.c_str());
+        msg = parseAuthRequest(p);
         break;
     case ICQ_MSGxAUTHxGRANTED:
         msg = new AuthMessage(MessageAuthGranted);
@@ -513,11 +513,11 @@ Message *ICQClient::parseMessage(unsigned short type, const char *screen, string
         msg = new AuthMessage(MessageAdded);
         break;
     case ICQ_MSGxCONTACTxLIST:
-        msg = parseContactMessage(p.c_str());
+        msg = parseContactMessage(p);
         break;
     case ICQ_MSGxFILE:{
             ICQFileMessage *m = new ICQFileMessage;
-            m->setServerText(p.c_str());
+            m->setServerText(p);
             unsigned short port;
             unsigned long  fileSize;
             string fileName;

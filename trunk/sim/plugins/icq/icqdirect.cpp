@@ -650,7 +650,7 @@ void DirectClient::processPacket()
     m_socket->readBuffer.unpack(type);
     m_socket->readBuffer.unpack(ackFlags);
     m_socket->readBuffer.unpack(msgFlags);
-    string msg_str;
+    QString msg_str;
     m_socket->readBuffer >> msg_str;
     Message *m;
     list<SendDirectMsg>::iterator it;
@@ -704,7 +704,7 @@ void DirectClient::processPacket()
 #ifdef USE_OPENSSL
             msg_str = "1";
 #endif
-            sendAck(seq, type, msgFlags, msg_str.c_str());
+            sendAck(seq, type, msgFlags, msg_str);
 #ifdef USE_OPENSSL
             if (type == ICQ_MSGxSECURExOPEN){
                 secureListen();
@@ -793,7 +793,7 @@ void DirectClient::processPacket()
                 continue;
             if ((*it).msg == NULL){
                 if ((*it).type == PLUGIN_AR){
-                    set_str(&m_data->AutoReply.ptr, msg_str.c_str());
+                    set_str(&m_data->AutoReply.ptr, msg_str);
                     m_queue.erase(it);
 					itDeleted = true;
                     break;
@@ -830,7 +830,7 @@ void DirectClient::processPacket()
                 secureStop(true);
                 break;
             case MessageOpenSecure:
-                if (*msg_str.c_str() == 0){
+                if (msg_str.isEmpty()){
                     msg->setError(I18N_NOOP("Other side does not support the secure connection"));
                 }else{
                     secureConnect();
@@ -843,10 +843,10 @@ void DirectClient::processPacket()
                     return;
                 }
                 if (ackFlags){
-                    if (msg_str.empty()){
+                    if (msg_str.isEmpty()){
                         msg->setError(I18N_NOOP("Send message fail"));
                     }else{
-                        QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str.c_str());
+                        QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str);
                         msg->setError(err.utf8());
                     }
                     Event e(EventMessageSent, msg);
@@ -870,7 +870,7 @@ void DirectClient::processPacket()
             unsigned flags = msg->getFlags() | MESSAGE_DIRECT;
             if (isSecure())
                 flags |= MESSAGE_SECURE;
-            if (m_client->ackMessage(msg, ackFlags, msg_str.c_str())){
+            if (m_client->ackMessage(msg, ackFlags, msg_str)){
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                     if (msg->type() == MessageGeneric){
                         Message m;
