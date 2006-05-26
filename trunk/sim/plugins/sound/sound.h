@@ -19,7 +19,6 @@
 #define _SOUND_H
 
 #include "simapi.h"
-#include "stl.h"
 
 typedef struct SoundData
 {

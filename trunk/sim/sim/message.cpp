@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "simapi.h"
-#include "stl.h"
 
 #include <time.h>
 
@@ -287,7 +286,6 @@ FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
 void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
 {
     QString fn = str;
-    fn = fn.replace(QRegExp("\\"), "/");
     QFileInfo f(str);
     if (!f.exists())
         return;
@@ -449,7 +447,7 @@ QString FileMessage::getDescription()
         int n = shortName.findRev("/");
         if (n >= 0)
             shortName = shortName.mid(n + 1);
-        return shortName;
+        return QDir::convertSeparators(shortName);
     }
     QString res;
     if (it.dirs()){

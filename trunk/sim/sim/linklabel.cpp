@@ -16,21 +16,13 @@
  ***************************************************************************/
 
 #include "linklabel.h"
-#include "stl.h"
 
 #include <qsimplerichtext.h>
-
 #include <qcursor.h>
-#include <qapplication.h>
 #include <qtooltip.h>
 #include <qstylesheet.h>
 #include <qpainter.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
-using namespace std;
 using namespace SIM;
 
 LinkLabel::LinkLabel(QWidget *parent, const char *name)
@@ -87,7 +79,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
     int y = 0;
     unsigned totalH = 0;
     QStringList l;
-    vector<unsigned> heights;
+    std::vector<unsigned> heights;
     QRect rc = screenGeometry();
     for (unsigned nDiv = 0;; nDiv++){
         bool bState = _bState;
@@ -99,8 +91,6 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
             unsigned i = 0;
             QString part;
             for (QStringList::Iterator it = l.begin(); it != l.end(); ++it, i++){
-                string s;
-                s = (*it).local8Bit();
                 if (!part.isEmpty()){
                     if (heights[i] >= hPart){
                         text += part;

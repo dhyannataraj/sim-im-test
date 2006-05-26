@@ -88,10 +88,10 @@ void FloatyWnd::init()
     w += pict.width() + 2;
     if ((unsigned)(pict.height()) > h)
         h = pict.height();
-    string icons = m_icons;
+    QString icons = m_icons;
     while (icons.length()){
-        string icon = getToken(icons, ',');
-        const QPixmap &pict = Pict(icon.c_str());
+        QString icon = getToken(icons, ',');
+        const QPixmap &pict = Pict(icon);
         w += pict.width() + 2;
         if ((unsigned)(pict.height()) > h)
             h = pict.height();
@@ -172,10 +172,10 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     setFont(&p);
     p.drawText(x, 0, w, h, AlignLeft | AlignVCenter, m_text, -1, &br);
     x = br.right() + 5;
-    string icons = m_icons;
+    QString icons = m_icons;
     while (icons.length()){
-        string icon = getToken(icons, ',');
-        const QPixmap &pict = Pict(icon.c_str());
+        QString icon = getToken(icons, ',');
+        const QPixmap &pict = Pict(icon);
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);
         x += pict.width();

@@ -789,7 +789,6 @@ ConfigBuffer::ConfigBuffer(QIODevice *io, unsigned pos)
 	QString *that = static_cast<QString*>(this);
 	if( io ) {
 		QTextStream ts( io );
-        ts.setEncoding( QTextStream::UnicodeUTF8 );
 		*that = ts.read();
 	}
 }
