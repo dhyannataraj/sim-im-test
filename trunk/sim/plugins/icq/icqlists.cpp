@@ -1039,7 +1039,7 @@ void ICQClient::sendRosterGrp(const char *name, unsigned short grpId, unsigned s
 static QString userStr(Contact *contact, ICQUserData *data)
 {
     QString res;
-    res.sprintf("%lu [%s]", data->Uin.value, contact->getName());
+    res.sprintf("%lu [%s]", data->Uin.value, contact ? contact->getName() : "unknown" );
     return res;
 }
 
