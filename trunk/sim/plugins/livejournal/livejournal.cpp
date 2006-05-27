@@ -852,24 +852,24 @@ QString LiveJournalClient::getSignatureText()
     return res;
 }
 
-static void addIcon(string *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const char *icon, const char *statusIcon)
 {
     if (s == NULL)
         return;
     if (statusIcon && !strcmp(statusIcon, icon))
         return;
-    string str = *s;
-    while (!str.empty()){
-        string item = getToken(str, ',');
+    QString str = *s;
+    while (!str.isEmpty()){
+        QString item = getToken(str, ',');
         if (item == icon)
             return;
     }
-    if (!s->empty())
+    if (!s->isEmpty())
         *s += ',';
     *s += icon;
 }
 
-void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, const char *&statusIcon, string *icons)
+void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons)
 {
     unsigned long status = STATUS_OFFLINE;
     const char *dicon = "LiveJournal_offline";
@@ -880,10 +880,10 @@ void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, 
     if (status > curStatus){
         curStatus = status;
         if (statusIcon && icons){
-            string iconSave = *icons;
+            QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
-                addIcon(icons, iconSave.c_str(), statusIcon);
+                addIcon(icons, iconSave, statusIcon);
         }
         statusIcon = dicon;
     }else{

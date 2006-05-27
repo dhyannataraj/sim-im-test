@@ -441,7 +441,7 @@ void OSDPlugin::processQueue()
         case OSD_ALERTONLINE:
             if (data->EnableAlert.bValue && data->EnableAlertOnline.bValue){
                 unsigned style = 0;
-                const char *statusIcon = NULL;
+                QString statusIcon;
                 if (contact->contactInfo(style, statusIcon) == STATUS_ONLINE)
                     text = g_i18n("%1 is online", contact) .arg(contact->getName());
             }
@@ -479,11 +479,11 @@ void OSDPlugin::processQueue()
         case OSD_TYPING:
             if (data->EnableTyping.bValue){
                 unsigned style = 0;
-                std::string wrkIcons;
-                const char *statusIcon = NULL;
+                QString wrkIcons;
+                QString statusIcon;
                 contact->contactInfo(style, statusIcon, &wrkIcons);
                 bool bTyping = false;
-                while (!wrkIcons.empty()){
+                while (!wrkIcons.isEmpty()){
                     if (getToken(wrkIcons, ',') == "typing"){
                         bTyping = true;
                         break;
@@ -682,11 +682,11 @@ void *OSDPlugin::processEvent(Event *e)
         data = (OSDUserData*)(contact->getUserData(user_data_id));
         if (data){
             unsigned style = 0;
-            std::string wrkIcons;
-            const char *statusIcon = NULL;
+            QString wrkIcons;
+            QString statusIcon;
             contact->contactInfo(style, statusIcon, &wrkIcons);
             bool bTyping = false;
-            while (!wrkIcons.empty()){
+            while (!wrkIcons.isEmpty()){
                 if (getToken(wrkIcons, ',') == "typing"){
                     bTyping = true;
                     break;

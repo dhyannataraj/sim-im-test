@@ -1042,19 +1042,19 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
     return data;
 }
 
-static void addIcon(string *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const char *icon, const char *statusIcon)
 {
     if (s == NULL)
         return;
     if (statusIcon && !strcmp(statusIcon, icon))
         return;
-    string str = *s;
-    while (!str.empty()){
-        string item = getToken(str, ',');
+    QString str = *s;
+    while (!str.isEmpty()){
+        QString item = getToken(str, ',');
         if (item == icon)
             return;
     }
-    if (!s->empty())
+    if (!s->isEmpty())
         *s += ',';
     *s += icon;
 }
@@ -1164,7 +1164,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
     return dicon;
 }
 
-void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons)
+void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons)
 {
     JabberUserData *data = (JabberUserData*)_data;
     const char *dicon = get_icon(data, data->Status.value, data->invisible.bValue);

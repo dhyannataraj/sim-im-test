@@ -76,7 +76,8 @@ void *YahooInfo::processEvent(Event *e)
 void YahooInfo::fill()
 {
     YahooUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
+    if (data == NULL)
+        data = &m_client->data.owner;
     edtLogin->setText(QString::fromUtf8(data->Login.ptr));
     edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
     edtFirst->setText(data->First.ptr ? QString::fromUtf8(data->First.ptr) : QString(""));
@@ -86,12 +87,12 @@ void YahooInfo::fill()
     unsigned long status = STATUS_OFFLINE;
     if (m_data == NULL){
         if (m_client->getState() == Client::Connected){
-            const char *statusIcon = NULL;
+            QString statusIcon;
             unsigned style  = 0;
             m_client->contactInfo(&m_client->data.owner, status, style, statusIcon);
         }
     }else{
-        const char *statusIcon = NULL;
+        QString statusIcon;
         unsigned style  = 0;
         m_client->contactInfo(data, status, style, statusIcon);
     }

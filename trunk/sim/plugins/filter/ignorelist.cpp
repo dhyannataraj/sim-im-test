@@ -87,7 +87,7 @@ void IgnoreList::updateItem(QListViewItem *item, Contact *contact)
         mail += getToken(mailItem, '/');
     }
     unsigned style;
-    const char *statusIcon;
+    QString statusIcon;
     contact->contactInfo(style, statusIcon);
     item->setText(0, name);
     item->setText(1, firstName);

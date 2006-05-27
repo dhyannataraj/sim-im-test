@@ -441,10 +441,10 @@ static bool cmp_sd(sortClientData p1, sortClientData p2)
     return p1.nClient < p2.nClient;
 }
 
-unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, string *icons)
+unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString *icons)
 {
     style = 0;
-    statusIcon = NULL;
+    statusIcon = "";
     if (icons)
         *icons = "";
     unsigned long status = STATUS_UNKNOWN;
@@ -554,10 +554,6 @@ CommandDef *Client::configWindows()
 QWidget *Client::configWindow(QWidget*, unsigned)
 {
     return NULL;
-}
-
-void Client::contactInfo(void*, unsigned long&, unsigned&, const char*&, string*)
-{
 }
 
 QString Client::contactTip(void*)

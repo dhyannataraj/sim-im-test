@@ -345,6 +345,11 @@ QString SMSClient::dataName(void*)
     return "";
 }
 
+void SMSClient::contactInfo(void *, unsigned long &, unsigned &, QString&, QString *icons)
+{
+    Q_UNUSED(icons);
+}
+
 bool SMSClient::isMyData(clientData*&, Contact*&)
 {
     return false;

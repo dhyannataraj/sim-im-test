@@ -32,7 +32,6 @@
 #include <kwin.h>
 #endif
 
-using namespace std;
 using namespace SIM;
 
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
@@ -99,7 +98,7 @@ void FloatyWnd::init()
     w += 8;
     h += 6;
     resize(w, h);
-    for (list<msg_id>::iterator it = m_plugin->core->unread.begin(); it != m_plugin->core->unread.end(); ++it){
+    for (std::list<msg_id>::iterator it = m_plugin->core->unread.begin(); it != m_plugin->core->unread.end(); ++it){
         if ((*it).contact != m_id)
             continue;
         m_unread = (*it).type;

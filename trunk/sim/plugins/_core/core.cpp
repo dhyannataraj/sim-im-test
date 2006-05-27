@@ -2455,7 +2455,7 @@ void *CorePlugin::processEvent(Event *e)
                         cmds[n].popup_id = id;
                         unsigned long status = STATUS_UNKNOWN;
                         unsigned style = 0;
-                        const char *statusIcon = NULL;
+                        QString statusIcon;
                         if ((*itw).bNew){
                             void *data = (*itw).data;
                             Client *client = contact->clientData.activeClient(data, (*itw).client);

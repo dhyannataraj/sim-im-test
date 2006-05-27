@@ -115,7 +115,7 @@ protected:
     void *processEvent(SIM::Event*);
     virtual void drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &cg, int width, int margin);
     virtual int heightItem(UserViewItemBase *base);
-    unsigned getUserStatus(SIM::Contact *contact, unsigned &style, std::string &icons);
+    unsigned getUserStatus(SIM::Contact *contact, unsigned &style, QString &icons);
     virtual unsigned getUnread(unsigned contact_id);
     GroupItem *findGroupItem(unsigned id, QListViewItem *p = NULL);
     ContactItem *findContactItem(unsigned id, QListViewItem *p = NULL);

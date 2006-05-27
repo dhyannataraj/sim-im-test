@@ -92,6 +92,7 @@ public:
     std::string oper();
     virtual QString name();
     virtual QString dataName(void*);
+    virtual void contactInfo(void *, unsigned long &, unsigned &, QString&, QString *icons=NULL);
 protected slots:
     void error();
     void init();

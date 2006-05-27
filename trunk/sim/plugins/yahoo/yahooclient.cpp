@@ -898,7 +898,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
 
         unsigned long old_status = STATUS_UNKNOWN;
         unsigned style  = 0;
-        const char *statusIcon = NULL;
+        QString statusIcon;
         contactInfo(data, old_status, style, statusIcon);
 
         time_t now;
@@ -1292,24 +1292,24 @@ void YahooClient::messageReceived(Message *msg, const char *id)
     }
 }
 
-static void addIcon(string *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const char *icon, const char *statusIcon)
 {
     if (s == NULL)
         return;
     if (statusIcon && !strcmp(statusIcon, icon))
         return;
-    string str = *s;
-    while (!str.empty()){
-        string item = getToken(str, ',');
+    QString str = *s;
+    while (!str.isEmpty()){
+        QString item = getToken(str, ',');
         if (item == icon)
             return;
     }
-    if (!s->empty())
+    if (!s->isEmpty())
         *s += ',';
     *s += icon;
 }
 
-void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, const char *&statusIcon, string *icons)
+void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QString &statusIcon, QString *icons)
 {
     YahooUserData *data = (YahooUserData*)_data;
     unsigned cmp_status = STATUS_OFFLINE;
@@ -1342,15 +1342,15 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, con
     }
     if (cmp_status > status){
         status = cmp_status;
-        if (statusIcon && icons){
-            string iconSave = *icons;
+        if (!statusIcon.isEmpty() && icons){
+            QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
-                addIcon(icons, iconSave.c_str(), statusIcon);
+                addIcon(icons, iconSave, statusIcon);
         }
         statusIcon = def->icon;
     }else{
-        if (statusIcon){
+        if (!statusIcon.isEmpty()){
             addIcon(icons, def->icon, statusIcon);
         }else{
             statusIcon = def->icon;
@@ -1365,7 +1365,7 @@ QString YahooClient::contactTip(void *_data)
     YahooUserData *data = (YahooUserData*)_data;
     unsigned long status = STATUS_UNKNOWN;
     unsigned style  = 0;
-    const char *statusIcon = NULL;
+    QString statusIcon;
     contactInfo(data, status, style, statusIcon);
     QString res;
     res += "<img src=\"icon:";

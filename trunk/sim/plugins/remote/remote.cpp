@@ -609,7 +609,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                             continue;
                     }
                     unsigned style = 0;
-                    const char *statusIcon = NULL;
+                    QString statusIcon;
                     unsigned status = contact->contactInfo(style, statusIcon);
                     if ((status == STATUS_OFFLINE) && core->getShowOnLine())
                         continue;
@@ -646,7 +646,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     }
                     info.name  = contact->getName();
                     info.id    = contact->id();
-                    info.icon  = statusIcon;
+                    info.icon  = statusIcon.latin1();
                     info.group = contact->getGroup();
                     if (core->getGroupMode()){
                         info.group = contact->getGroup();

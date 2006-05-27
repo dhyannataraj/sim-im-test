@@ -1399,7 +1399,7 @@ public:
     bool setLastName(const QString &name, const char *client);
     bool setEMails(const QString &mails, const char *client);
     bool setPhones(const QString &phones, const char *client);
-    unsigned long contactInfo(unsigned &style, const char *&statusIcon, std::string *icons = NULL);
+    unsigned long contactInfo(unsigned &style, QString &statusIcon, QString *icons = NULL);
     QString tipText();
     ContactData data;
     const DataDef *dataDef();
@@ -1508,7 +1508,7 @@ public:
     virtual bool compareData(void*, void*);
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;
-    virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
+    virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL) = 0;
     virtual QString ownerName();
     virtual QString contactName(void *clientData);
     virtual void setupContact(Contact*, void *data) = 0;

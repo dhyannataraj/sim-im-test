@@ -1764,24 +1764,24 @@ bool MSNClient::compareData(void *d1, void *d2)
     return strcmp(((MSNUserData*)d1)->EMail.ptr, ((MSNUserData*)d2)->EMail.ptr) == 0;
 }
 
-static void addIcon(string *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const char *icon, const char *statusIcon)
 {
     if (s == NULL)
         return;
     if (statusIcon && !strcmp(statusIcon, icon))
         return;
-    string str = *s;
-    while (!str.empty()){
-        string item = getToken(str, ',');
+    QString str = *s;
+    while (!str.isEmpty()){
+        QString item = getToken(str, ',');
         if (item == icon)
             return;
     }
-    if (!s->empty())
+    if (!s->isEmpty())
         *s += ',';
     *s += icon;
 }
 
-void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, const char *&statusIcon, string *icons)
+void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons)
 {
     MSNUserData *data = (MSNUserData*)_data;
     unsigned cmp_status = data->Status.value;
@@ -1817,7 +1817,7 @@ QString MSNClient::contactTip(void *_data)
     MSNUserData *data = (MSNUserData*)_data;
     unsigned long status = STATUS_UNKNOWN;
     unsigned style  = 0;
-    const char *statusIcon = NULL;
+    QString statusIcon;
     contactInfo(data, status, style, statusIcon);
     QString res;
     res += "<img src=\"icon:";

@@ -173,7 +173,7 @@ public:
     QString	name();
     QString dataName(void*);
     YahooClientData	data;
-    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
+    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL);
     YahooUserData *findContact(const char *id, const char *grp, SIM::Contact *&contact, bool bSend=true, bool bJoin=true);
     void sendFile(SIM::FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
     std::list<Message_ID>		m_waitMsg;

@@ -215,7 +215,7 @@ protected:
     virtual QString contactName(void *clientData);
     virtual void setInvisible(bool bState);
     virtual bool compareData(void*, void*);
-    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
+    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL);
     virtual QString contactTip(void *_data);
     virtual SIM::CommandDef *infoWindows(SIM::Contact*, void *_data);
     virtual SIM::CommandDef *configWindows();

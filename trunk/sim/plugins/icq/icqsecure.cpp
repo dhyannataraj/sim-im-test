@@ -189,7 +189,7 @@ void ICQSecure::fillListView(ListView *lst, unsigned offs)
                 item->setText(4,QString::number(contact->id()));
                 unsigned long status = STATUS_UNKNOWN;
                 unsigned style  = 0;
-                const char *statusIcon;
+                QString statusIcon;
                 ((Client*)m_client)->contactInfo(data, status, style, statusIcon);
                 item->setPixmap(0, Pict(statusIcon));
             }

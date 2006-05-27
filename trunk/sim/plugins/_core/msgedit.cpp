@@ -849,7 +849,7 @@ void MsgEdit::getWays(vector<ClientStatus> &cs, Contact *contact)
         while ((data = ++it) != NULL){
             unsigned long status = STATUS_UNKNOWN;
             unsigned style = 0;
-            const char *statusIcon = NULL;
+            QString statusIcon;
             client->contactInfo(data, status, style, statusIcon);
             ClientStatus s;
             s.client = i;

@@ -1174,7 +1174,7 @@ void ICQClient::setOffline(ICQUserData *data)
     set_str(&data->AutoReply.ptr, NULL);
 }
 
-static void addIcon(string *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const char *icon, const char *statusIcon)
 {
     if (s == NULL)
         return;
@@ -1182,18 +1182,18 @@ static void addIcon(string *s, const char *icon, const char *statusIcon)
     if (statusIcon && !strcmp(statusIcon, icon))
 
         return;
-    string str = *s;
-    while (!str.empty()){
-        string item = getToken(str, ',');
+    QString str = *s;
+    while (!str.isEmpty()){
+        QString item = getToken(str, ',');
         if (item == icon)
             return;
     }
-    if (!s->empty())
+    if (!s->isEmpty())
         *s += ',';
     *s += icon;
 }
 
-void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons)
+void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons)
 {
     ICQUserData *data = (ICQUserData*)(_data);
     unsigned status = STATUS_ONLINE;
@@ -1434,7 +1434,7 @@ QString ICQClient::contactTip(void *_data)
     QString statusText;
     unsigned long status = STATUS_OFFLINE;
     unsigned style  = 0;
-    const char *statusIcon = NULL;
+    QString statusIcon;
     contactInfo(data, status, style, statusIcon);
     if (status == STATUS_INVISIBLE){
         res += "<img src=\"icon:ICQ_invisible\">";

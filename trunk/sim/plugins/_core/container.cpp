@@ -698,11 +698,11 @@ void *Container::processEvent(Event *e)
         userWnd = m_tabBar->wnd(contact->id());
         if (userWnd){
             unsigned style = 0;
-            string wrkIcons;
-            const char *statusIcon = NULL;
+            QString wrkIcons;
+            QString statusIcon;
             contact->contactInfo(style, statusIcon, &wrkIcons);
             bool bTyping = false;
-            while (!wrkIcons.empty()){
+            while (!wrkIcons.isEmpty()){
                 if (getToken(wrkIcons, ',') == "typing"){
                     bTyping = true;
                     break;
