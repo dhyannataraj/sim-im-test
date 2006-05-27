@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sim\n"
 "POT-Creation-Date: 2006-03-11 02:52+0500\n"
-"PO-Revision-Date: 2006-05-02 11:19+0100\n"
+"PO-Revision-Date: 2006-05-03 20:56+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -7404,7 +7404,7 @@ msgstr "Humör:"
 #: rc.cpp:1357
 #, no-c-format
 msgid "Enable comments"
-msgstr "Aktiver kommentarer"
+msgstr "Aktivera kommentarer"
 
 #. i18n: file ./plugins/livejournal/msgjournalbase.ui line 166
 #: rc.cpp:1360
@@ -7435,7 +7435,7 @@ msgstr "Använd &TCP-uttag"
 #: rc.cpp:1382
 #, no-c-format
 msgid "Enable IE context menu extension"
-msgstr "Aktiver IE:s utökningar för sammanhangsmeny"
+msgstr "Aktivera IE:s utökningar för sammanhangsmeny"
 
 #. i18n: file ./plugins/msn/msnconfigbase.ui line 45
 #: rc.cpp:1410
