@@ -1246,10 +1246,10 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     if (status > curStatus){
         curStatus = status;
         if (statusIcon && icons){
-            string iconSave = *icons;
+            QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
-                addIcon(icons, iconSave.c_str(), statusIcon);
+                addIcon(icons, iconSave, statusIcon);
         }
         statusIcon = dicon;
     }else{

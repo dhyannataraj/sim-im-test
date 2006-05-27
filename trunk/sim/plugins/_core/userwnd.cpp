@@ -145,7 +145,7 @@ QString UserWnd::getLongName()
     return res;
 }
 
-const char *UserWnd::getIcon()
+QString UserWnd::getIcon()
 {
     Contact *contact = getContacts()->contact(m_id);
     unsigned long status = STATUS_UNKNOWN;
