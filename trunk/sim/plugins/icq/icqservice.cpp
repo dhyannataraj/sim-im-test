@@ -384,8 +384,8 @@ void ICQClient::sendLogonStatus()
         set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().utf8());
         data.owner.PluginInfoTime.value = now;
     }
-    if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
-        set_str(&data.owner.Picture.ptr, getPicture().utf8());
+    if (getPicture() != get_utf8(data.owner.Picture.ptr)){
+        set_utf8(&data.owner.Picture.ptr, getPicture());
         data.owner.PluginInfoTime.value = now;
     }
     if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.value){

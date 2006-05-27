@@ -1379,8 +1379,7 @@ bool ICQClient::isContactRenamed(ICQUserData *data, Contact *contact)
     }
     QString cell = getUserCellular(contact);
     QString phone;
-    if (data->Cellular.ptr)
-        phone = data->Cellular.ptr;
+    phone = get_utf8(data->Cellular.ptr);
     if (cell != phone){
         log(L_DEBUG, "%s phone changed %s->%s", userStr(contact, data).latin1(), phone.latin1(), cell.latin1());
         return true;

@@ -1609,7 +1609,7 @@ QString ICQClient::clientName(ICQUserData *data)
     char b[32];
     if (data->Version.value)
     {
-        res.sprintf("v%lu", data->Version.value);
+        res.sprintf("v%lu ", data->Version.value);
     }
     if (hasCap(data, CAP_MIRANDA))
 	{
@@ -2519,8 +2519,8 @@ void *ICQClient::processEvent(Event *e)
                     data.owner.PluginInfoTime.value = now;
                     sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
                 }
-                if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
-                    set_str(&data.owner.Picture.ptr, getPicture().utf8());
+                if (getPicture() != get_utf8(data.owner.Picture.ptr)){
+                    set_utf8(&data.owner.Picture.ptr, getPicture());
                     data.owner.PluginInfoTime.value = now;
                     sendPluginInfoUpdate(PLUGIN_PICTURE);
                 }
