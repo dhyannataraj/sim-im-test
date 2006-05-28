@@ -68,6 +68,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
                 processItem(cmd, bSeparator, bFirst, s->id);
             }
             delete[] cmds;
+            s->param = NULL;
             return;
         }
     }
