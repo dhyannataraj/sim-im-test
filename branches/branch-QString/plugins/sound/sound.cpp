@@ -117,7 +117,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, ConfigBuffer *config)
     cmd->id		 = user_data_id + 1;
     cmd->text	 = I18N_NOOP("&Sound");
     cmd->icon	 = "sound";
-    cmd->icon_on  = NULL;
+    cmd->icon_on  = "";
     cmd->param	 = (void*)getSoundSetup;
     Event e(EventAddPreferences, cmd);
     e.process();
@@ -134,8 +134,8 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, ConfigBuffer *config)
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
 
-    cmd->icon	  = NULL;
-    cmd->icon_on  = NULL;
+    cmd->icon	  = "";
+    cmd->icon_on  = "";
     cmd->bar_id   = 0;
     cmd->menu_id  = MenuMain;
     cmd->flags	  = COMMAND_CHECK_STATE;

@@ -1284,7 +1284,7 @@ QString JabberClient::contactTip(void *_data)
             res += get_icon(data, status, false);
             res += "\">";
             QString statusText;
-            for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+            for (const CommandDef *cmd = protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
                 if (cmd->id == status){
                     statusText = i18n(cmd->text);
                     res += statusText;
@@ -1408,12 +1408,12 @@ const unsigned NETWORK	  = 7;
 
 static CommandDef jabberWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "Jabber_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1421,14 +1421,14 @@ static CommandDef jabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             HOME_INFO,
             I18N_NOOP("Home info"),
             "home",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1436,14 +1436,14 @@ static CommandDef jabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             WORK_INFO,
             I18N_NOOP("Work info"),
             "work",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1451,14 +1451,14 @@ static CommandDef jabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1466,14 +1466,14 @@ static CommandDef jabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PHOTO_INFO,
             I18N_NOOP("Photo"),
             "pict",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1481,14 +1481,14 @@ static CommandDef jabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             LOGO_INFO,
             I18N_NOOP("Logo"),
             "pict",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1496,33 +1496,19 @@ static CommandDef jabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef cfgJabberWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "Jabber_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1530,14 +1516,14 @@ static CommandDef cfgJabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             HOME_INFO,
             I18N_NOOP("Home info"),
             "home",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1545,14 +1531,14 @@ static CommandDef cfgJabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             WORK_INFO,
             I18N_NOOP("Work info"),
             "work",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1560,14 +1546,14 @@ static CommandDef cfgJabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1575,14 +1561,14 @@ static CommandDef cfgJabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PHOTO_INFO,
             I18N_NOOP("Photo"),
             "pict",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1590,14 +1576,14 @@ static CommandDef cfgJabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             LOGO_INFO,
             I18N_NOOP("Logo"),
             "pict",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1605,14 +1591,14 @@ static CommandDef cfgJabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             NETWORK,
             I18N_NOOP("Network"),
             "network",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1620,23 +1606,9 @@ static CommandDef cfgJabberWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 CommandDef *JabberClient::infoWindows(Contact*, void *_data)
@@ -1644,8 +1616,8 @@ CommandDef *JabberClient::infoWindows(Contact*, void *_data)
     JabberUserData *data = (JabberUserData*)_data;
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += QString::fromUtf8(data->ID.ptr);
-    jabberWnd[0].text_wrk = strdup(name.utf8());
+    name += get_utf8(data->ID.ptr);
+    jabberWnd[0].text_wrk = name;
     return jabberWnd;
 }
 
@@ -1655,7 +1627,7 @@ CommandDef *JabberClient::configWindows()
     int n = title.find(".");
     if (n > 0)
         title = title.left(n) + " " + title.mid(n + 1);
-    cfgJabberWnd[0].text_wrk = strdup(title.utf8());
+    cfgJabberWnd[0].text_wrk = title;
     return cfgJabberWnd;
 }
 

@@ -35,7 +35,7 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     const char *text = NULL;
     const char *icon = NULL;
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
-        for (const CommandDef *d = getContacts()->getClient(i)->protocol()->statusList(); d->text; d++){
+        for (const CommandDef *d = getContacts()->getClient(i)->protocol()->statusList(); !d->text.isEmpty(); d++){
             if (d->id == status){
                 text = d->text;
                 icon = d->icon;

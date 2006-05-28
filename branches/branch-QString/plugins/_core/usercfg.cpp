@@ -163,15 +163,13 @@ ClientItem::ClientItem(QListViewItem *item, Client *client, void *data, CommandD
 void ClientItem::init(CommandDef *cmd)
 {
     m_cmd = cmd;
-    if (cmd->text_wrk){
-        QString text = QString::fromUtf8(cmd->text_wrk);
-        setText(0, text);
-        free(cmd->text_wrk);
-        cmd->text_wrk = NULL;
+    if (!cmd->text_wrk.isEmpty()){
+        setText(0, cmd->text_wrk);
+        cmd->text_wrk = "";
     }else{
         setText(0, i18n(cmd->text));
     }
-    if (cmd->icon)
+    if (!cmd->icon.isEmpty())
         setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
 }
 
@@ -344,7 +342,7 @@ void UserConfig::fill()
             parentItem->setText(0, i18n("Autoreply"));
             parentItem->setOpen(true);
         }
-        for (const CommandDef *d = it.client()->protocol()->statusList(); d->text; d++){
+        for (const CommandDef *d = it.client()->protocol()->statusList(); !d->text.isEmpty(); d++){
             if ((d->id == STATUS_ONLINE) || (d->id == STATUS_OFFLINE))
                 continue;
             list<unsigned>::iterator it;

@@ -387,7 +387,6 @@ void *SearchDialog::processEvent(Event *e)
                         nItems++;
                     if (nItems){
                         CommandDef *cmds = new CommandDef[nItems * 2 + 1];
-                        memset(cmds, 0, sizeof(CommandDef) * (nItems * 2 + 1));
                         list.reset();
                         nItems = 0;
                         unsigned prev = 0;
@@ -418,7 +417,6 @@ void *SearchDialog::processEvent(Event *e)
                     nGrp++;
                 it.reset();
                 CommandDef *cmds = new CommandDef[nGrp + 1];
-                memset(cmds, 0, sizeof(CommandDef) * (nGrp + 1));
                 nGrp = 0;
                 while ((grp = ++it) != NULL){
                     if (grp->id() == 0)
@@ -426,7 +424,7 @@ void *SearchDialog::processEvent(Event *e)
                     cmds[nGrp].id      = CmdContactGroup + grp->id();
                     cmds[nGrp].menu_id = MenuSearchGroups;
                     cmds[nGrp].text    = "_";
-                    cmds[nGrp].text_wrk = strdup(grp->getName().utf8());
+                    cmds[nGrp].text_wrk = grp->getName();
                     nGrp++;
                 }
                 cmds[nGrp].id      = CmdContactGroup;
@@ -706,7 +704,7 @@ void SearchDialog::addItem(const QStringList &values, QWidget *wnd)
         m_result->viewport()->setUpdatesEnabled(false);
     }
     item = new SearchViewItem(m_result);
-    item->setPixmap(0, Pict(values[0].latin1(), m_result->colorGroup().base()));
+    item->setPixmap(0, Pict(values[0], m_result->colorGroup().base()));
     item->setText(COL_KEY, values[1]);
     for (int i = 2; (unsigned)i < values.count(); i++)
         item->setText(i - 2, values[i]);

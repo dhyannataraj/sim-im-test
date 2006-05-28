@@ -63,22 +63,12 @@ void ButtonsMap::add(unsigned id, CToolItem *w)
 CToolItem::CToolItem(CommandDef *def)
 {
     m_def = *def;
-    if (def->text_wrk){
-        m_text = QString::fromUtf8(def->text_wrk);
-        free(def->text_wrk);
-        def->text_wrk = NULL;
-    }
+    m_text = def->text_wrk;
 }
 
 void CToolItem::setCommand(CommandDef *def)
 {
-    if (def->text_wrk){
-        m_text = QString::fromUtf8(def->text_wrk);
-        free(def->text_wrk);
-        def->text_wrk = NULL;
-    }else{
-        m_text = "";
-    }
+    m_text = def->text_wrk;
     def->bar_id  = m_def.bar_id;
     def->bar_grp = m_def.bar_grp;
     m_def = *def;
@@ -703,7 +693,7 @@ void CToolBar::toolBarChanged()
             addSeparator();
             continue;
         }
-        s->text_wrk = NULL;
+        s->text_wrk = "";
         CToolItem *btn = NULL;
         switch (s->flags & BTN_TYPE){
         case BTN_PICT:

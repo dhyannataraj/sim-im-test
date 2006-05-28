@@ -244,12 +244,11 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
                 return NULL;
             m_sug = m_plugin->suggestions(m_word);
             SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 3];
-            memset(cmds, 0, sizeof(SIM::CommandDef) * (m_sug.count() + 3));
             unsigned i = 0;
             for (QStringList::Iterator it = m_sug.begin(); it != m_sug.end(); ++it, i++){
                 cmds[i].id   = m_plugin->CmdSpell + i + 2;
                 cmds[i].text = "_";
-                cmds[i].text_wrk = strdup((*it).utf8());
+                cmds[i].text_wrk = (*it);
                 if (i >= 10){
                     i++;
                     break;
@@ -257,11 +256,11 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
             }
             cmds[i].id   = m_plugin->CmdSpell;
             cmds[i].text = "_";
-            cmds[i].text_wrk = strdup(i18n("Add '%1'") .arg(m_word) .utf8());
+            cmds[i].text_wrk = i18n("Add '%1'").arg(m_word);
             i++;
             cmds[i].id   = m_plugin->CmdSpell + 1;
             cmds[i].text = "_";
-            cmds[i].text_wrk = strdup(i18n("Ignore '%1'") .arg(m_word) .utf8());
+            cmds[i].text_wrk = i18n("Ignore '%1'") .arg(m_word);
 
             cmd->param  = cmds;
             cmd->flags |= SIM::COMMAND_RECURSIVE;

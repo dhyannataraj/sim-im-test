@@ -92,7 +92,7 @@ ActionPlugin::ActionPlugin(unsigned base)
 
     cmd->id		 = CmdAction;
     cmd->text	 = "_";
-    cmd->icon	 = NULL;
+    cmd->icon	 = "";
     cmd->flags	 = COMMAND_CHECK_STATE;
     cmd->menu_id = MenuContact;
     cmd->menu_grp = 0xC000;
@@ -143,7 +143,6 @@ void *ActionPlugin::processEvent(Event *e)
             if ((data == NULL) || (data->NMenu.value == 0))
                 return NULL;
             CommandDef *cmds = new CommandDef[data->NMenu.value + 1];
-            memset(cmds, 0, sizeof(CommandDef) * (data->NMenu.value + 1));
             unsigned n = 0;
             for (unsigned i = 0; i < data->NMenu.value; i++){
                 QString str = get_str(data->Menu, i + 1);
@@ -166,7 +165,7 @@ void *ActionPlugin::processEvent(Event *e)
                 }
                 cmds[n].id = CmdAction + i;
                 cmds[n].text = "_";
-                cmds[n].text_wrk = strdup(item.utf8());
+                cmds[n].text_wrk = item;
                 n++;
             }
             if (n == 0){

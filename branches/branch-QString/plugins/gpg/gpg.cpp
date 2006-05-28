@@ -758,7 +758,7 @@ void GpgPlugin::registerMessage()
 
     cmd->id			 = MessageGPGUse;
     cmd->text		 = I18N_NOOP("Use GPG encryption");
-    cmd->icon		 = NULL;
+    cmd->icon		 = "";
     cmd->param		 = &defGPGUse;
     cmd->menu_grp	 = 0x4080;
     eMsg.process();

@@ -191,12 +191,12 @@ Client *SMSProtocol::createClient(ConfigBuffer *cfg)
 }
 
 static CommandDef sms_descr =
-    {
+    CommandDef (
         0,
         I18N_NOOP("SMS"),
         "SMS",
-        NULL,
-        NULL,
+        QString::null,
+        QString::null,
         0,
         0,
         0,
@@ -204,8 +204,8 @@ static CommandDef sms_descr =
         0,
         PROTOCOL_NOPROXY | PROTOCOL_TEMP_DATA | PROTOCOL_NODATA | PROTOCOL_NO_AUTH,
         NULL,
-        NULL
-    };
+        QString::null
+    );
 
 const CommandDef *SMSProtocol::description()
 {
@@ -214,12 +214,12 @@ const CommandDef *SMSProtocol::description()
 
 static CommandDef sms_status_list[] =
     {
-        {
+        CommandDef (
             STATUS_ONLINE,
             I18N_NOOP("Online"),
             "SMS_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -227,14 +227,14 @@ static CommandDef sms_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
             "SMS_offline",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -242,23 +242,9 @@ static CommandDef sms_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 const CommandDef *SMSProtocol::statusList()
@@ -385,12 +371,12 @@ const unsigned MAIN_INFO = 1;
 
 static CommandDef cfgSmsWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "SMS",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -398,23 +384,9 @@ static CommandDef cfgSmsWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 CommandDef *SMSClient::configWindows()
@@ -423,7 +395,7 @@ CommandDef *SMSClient::configWindows()
     int n = title.find(".");
     if (n > 0)
         title = title.left(n) + " " + title.mid(n + 1);
-    cfgSmsWnd[0].text_wrk = strdup(title.utf8());
+    cfgSmsWnd[0].text_wrk = title;
     return cfgSmsWnd;
 }
 

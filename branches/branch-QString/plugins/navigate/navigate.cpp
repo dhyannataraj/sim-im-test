@@ -294,7 +294,7 @@ NavigatePlugin::NavigatePlugin(unsigned base, ConfigBuffer *config)
 
     cmd->id		= CmdCopyLocation;
     cmd->text		= I18N_NOOP("Copy &location");
-    cmd->icon		= NULL;
+    cmd->icon		= "";
     cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x7010;
     eCmd.process();
@@ -453,10 +453,10 @@ void *NavigatePlugin::processEvent(Event *e)
                 cmds[n] = *cmd;
                 cmds[n].id = CmdMailList + n;
                 cmds[n].flags = COMMAND_DEFAULT;
-                cmds[n].text_wrk = strdup(mail.utf8());
+                cmds[n].text_wrk = mail;
                 n++;
             }
-            memset(&cmds[n], 0, sizeof(CommandDef));
+            cmds[n].clear();
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
             return e->param();

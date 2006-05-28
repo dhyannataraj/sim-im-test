@@ -56,7 +56,7 @@ Client *MSNProtocol::createClient(ConfigBuffer *cfg)
 }
 
 static CommandDef msn_descr =
-    {
+    CommandDef (
         0,
         I18N_NOOP("MSN"),
         "MSN_online",
@@ -69,8 +69,8 @@ static CommandDef msn_descr =
         0,
         PROTOCOL_INVISIBLE,
         NULL,
-        NULL
-    };
+        QString::null
+    );
 
 const CommandDef *MSNProtocol::description()
 {
@@ -79,12 +79,12 @@ const CommandDef *MSNProtocol::description()
 
 static CommandDef msn_status_list[] =
     {
-        {
+        CommandDef (
             STATUS_ONLINE,
             I18N_NOOP("Online"),
             "MSN_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -92,14 +92,14 @@ static CommandDef msn_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_AWAY,
             I18N_NOOP("Away"),
             "MSN_away",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -107,14 +107,14 @@ static CommandDef msn_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_NA,
             I18N_NOOP("N/A"),
             "MSN_na",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -122,14 +122,14 @@ static CommandDef msn_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_DND,
             I18N_NOOP("Busy"),
             "MSN_dnd",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -137,14 +137,14 @@ static CommandDef msn_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_BRB,
             I18N_NOOP("Be right back"),
             "MSN_onback",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -152,14 +152,14 @@ static CommandDef msn_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_PHONE,
             I18N_NOOP("On the phone"),
             "MSN_onphone",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -167,14 +167,14 @@ static CommandDef msn_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_LUNCH,
             I18N_NOOP("On the lunch"),
             "MSN_lunch",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -182,14 +182,14 @@ static CommandDef msn_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
             "MSN_offline",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -197,23 +197,9 @@ static CommandDef msn_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 const CommandDef *MSNProtocol::statusList()

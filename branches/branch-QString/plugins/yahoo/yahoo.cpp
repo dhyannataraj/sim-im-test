@@ -78,7 +78,7 @@ Client *YahooProtocol::createClient(ConfigBuffer *cfg)
 }
 
 static CommandDef yahoo_descr =
-    {
+    CommandDef (
         0,
         I18N_NOOP("Yahoo!"),
         "Yahoo!_online",
@@ -91,8 +91,8 @@ static CommandDef yahoo_descr =
         0,
         PROTOCOL_INVISIBLE,
         NULL,
-        NULL
-    };
+        QString::null
+    );
 
 const CommandDef *YahooProtocol::description()
 {
@@ -101,12 +101,12 @@ const CommandDef *YahooProtocol::description()
 
 static CommandDef yahoo_status_list[] =
     {
-        {
+        CommandDef (
             STATUS_ONLINE,
             I18N_NOOP("Online"),
             "Yahoo!_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -114,14 +114,14 @@ static CommandDef yahoo_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_AWAY,
             I18N_NOOP("Away"),
             "Yahoo!_away",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -129,14 +129,14 @@ static CommandDef yahoo_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_NA,
             I18N_NOOP("N/A"),
             "Yahoo!_na",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -144,14 +144,14 @@ static CommandDef yahoo_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_DND,
             I18N_NOOP("Busy"),
             "Yahoo!_dnd",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -159,14 +159,14 @@ static CommandDef yahoo_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
             "Yahoo!_offline",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -174,23 +174,9 @@ static CommandDef yahoo_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 const CommandDef *YahooProtocol::statusList()

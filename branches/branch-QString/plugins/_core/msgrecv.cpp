@@ -85,7 +85,7 @@ void *MsgReceived::processEvent(Event *e)
             if (msgCmd)
                 mdef = (MessageDef*)(msgCmd->param);
             if (mdef && mdef->cmdReceived){
-                for (const CommandDef *d = mdef->cmdReceived; d->text; d++){
+                for (const CommandDef *d = mdef->cmdReceived; !d->text.isEmpty(); d++){
                     if (d->popup_id && (d->popup_id == cmd->menu_id)){
                         Message *msg = History::load(m_id, m_client, m_contact);
                         if (msg){
@@ -140,7 +140,7 @@ void *MsgReceived::processEvent(Event *e)
                 if (msgCmd)
                     mdef = (MessageDef*)(msgCmd->param);
                 if (mdef && mdef->cmdReceived){
-                    for (const CommandDef *d = mdef->cmdReceived; d->text; d++){
+                    for (const CommandDef *d = mdef->cmdReceived; !d->text.isEmpty(); d++){
                         if (d->id + CmdReceived == cmd->id){
                             if (d->flags & COMMAND_CHECK_STATE){
                                 Message *msg = m_msg;

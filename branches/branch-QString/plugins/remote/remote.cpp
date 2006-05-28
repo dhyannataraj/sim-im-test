@@ -554,7 +554,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     switch (nCmd){
 #ifdef WIN32
     case CMD_ICON:{
-            IconWidget w(Pict(args[0].utf8()));
+            IconWidget w(Pict(args[0]));
             HICON icon = w.icon();
             ICONINFO info;
             if (!GetIconInfo(icon, &info))
@@ -733,7 +733,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             unsigned status = STATUS_UNKNOWN;
             for (n = 0; n < getContacts()->nClients(); n++){
                 Client *client = getContacts()->getClient(n);
-                for (const CommandDef *d = client->protocol()->statusList(); d->text; d++){
+                for (const CommandDef *d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                     if (cmpStatus(d->text, args[0].latin1())){
                         status = d->id;
                         break;

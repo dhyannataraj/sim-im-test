@@ -4,13 +4,14 @@
 #include <process.h>
 
 #include "simapi.h"	// before Qt headers!
-#include "stl.h"
+#include "core.h"
 
 #include <qglobal.h>
 
 #include <qapplication.h>
 #include <qbitmap.h>
 #include <qbutton.h>
+#include <qbuttongroup.h>
 #include <qclipboard.h>
 #include <qcursor.h>
 #include <qdialog.h>

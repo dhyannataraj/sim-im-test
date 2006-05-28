@@ -108,7 +108,7 @@ FilterPlugin::FilterPlugin(unsigned base, ConfigBuffer *cfg)
 
     cmd->id          = CmdIgnoreText;
     cmd->text        = I18N_NOOP("Ignore this phrase");
-    cmd->icon		 = NULL;
+    cmd->icon		 = "";
     cmd->menu_id     = MenuTextEdit;
     cmd->menu_grp    = 0x7000;
     cmd->bar_id		 = 0;

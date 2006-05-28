@@ -56,7 +56,7 @@ Client *ICQProtocol::createClient(ConfigBuffer *cfg)
 }
 
 static CommandDef icq_descr =
-    {
+    CommandDef (
         0,
         I18N_NOOP("ICQ"),
         "ICQ_online",
@@ -69,8 +69,8 @@ static CommandDef icq_descr =
         0,
         PROTOCOL_INFO | PROTOCOL_SEARCH | PROTOCOL_INVISIBLE | PROTOCOL_AR_USER | PROTOCOL_ANY_PORT | PROTOCOL_NODATA,
         NULL,
-        NULL
-    };
+        QString::null
+    );
 
 const CommandDef *ICQProtocol::description()
 {
@@ -79,12 +79,12 @@ const CommandDef *ICQProtocol::description()
 
 static CommandDef icq_status_list[] =
     {
-        {
+        CommandDef (
             STATUS_ONLINE,
             I18N_NOOP("Online"),
             "ICQ_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -92,14 +92,14 @@ static CommandDef icq_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_AWAY,
             I18N_NOOP("Away"),
             "ICQ_away",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -107,14 +107,14 @@ static CommandDef icq_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_NA,
             I18N_NOOP("N/A"),
             "ICQ_na",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -122,14 +122,14 @@ static CommandDef icq_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_DND,
             I18N_NOOP("Do not Disturb"),
             "ICQ_dnd",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -137,14 +137,14 @@ static CommandDef icq_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OCCUPIED,
             I18N_NOOP("Occupied"),
             "ICQ_occupied",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -152,14 +152,14 @@ static CommandDef icq_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_FFC,
             I18N_NOOP("Free for chat"),
             "ICQ_ffc",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -167,14 +167,14 @@ static CommandDef icq_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
             "ICQ_offline",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -182,23 +182,9 @@ static CommandDef icq_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 const CommandDef *ICQProtocol::statusList()
@@ -226,11 +212,11 @@ Client *AIMProtocol::createClient(ConfigBuffer *cfg)
 }
 
 static CommandDef aim_descr =
-    {
+    CommandDef (
         0,
         I18N_NOOP("AIM"),
         "AIM_online",
-        NULL,
+        QString::null,
         "http://www.aim.com/help_faq/forgot_password/password.adp",
         0,
         0,
@@ -239,8 +225,8 @@ static CommandDef aim_descr =
         0,
         PROTOCOL_INFO | PROTOCOL_AR | PROTOCOL_ANY_PORT,
         NULL,
-        NULL
-    };
+        QString::null
+    );
 
 const CommandDef *AIMProtocol::description()
 {
@@ -249,12 +235,12 @@ const CommandDef *AIMProtocol::description()
 
 static CommandDef aim_status_list[] =
     {
-        {
+        CommandDef (
             STATUS_ONLINE,
             I18N_NOOP("Online"),
             "AIM_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -262,14 +248,14 @@ static CommandDef aim_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_AWAY,
             I18N_NOOP("Away"),
             "AIM_away",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -277,14 +263,14 @@ static CommandDef aim_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
             "AIM_offline",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -292,23 +278,9 @@ static CommandDef aim_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 const CommandDef *AIMProtocol::statusList()
@@ -384,7 +356,7 @@ ICQPlugin::ICQPlugin(unsigned base)
 
     cmd->id			 = CmdGroups;
     cmd->text		 = I18N_NOOP("&Add to group");
-    cmd->icon		 = NULL;
+    cmd->icon		 = "";
     cmd->menu_grp	 = 0x1002;
     cmd->popup_id	 = MenuIcqGroups;
     eCmd.process();

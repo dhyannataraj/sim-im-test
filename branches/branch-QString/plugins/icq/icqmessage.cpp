@@ -891,7 +891,7 @@ void ICQPlugin::registerMessages()
     cmd->id			= CmdUrlInput;
     cmd->text		= I18N_NOOP("&URL");
     cmd->icon		= "empty";
-    cmd->icon_on	= NULL;
+    cmd->icon_on	= "";
     cmd->bar_id		= ToolBarMsgEdit;
     cmd->bar_grp	= 0x1030;
     cmd->menu_id	= 0;
@@ -988,43 +988,43 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACT
                     if (!isMyData(cdata, cc))
                         continue;
                     ICQUserData *d = (ICQUserData*)cdata;
-                    string screen = this->screen(d);
-                    CONTACTS_MAP::iterator it = c.find(screen.c_str());
+                    QString screen = this->screen(d);
+                    CONTACTS_MAP::iterator it = c.find(screen);
                     if (it == c.end()){
                         alias_group ci;
                         ci.alias = getContacts()->fromUnicode(getContact(data), contact->getName());
                         ci.grp   = cc ? cc->getGroup() : 0;
-                        c.insert(CONTACTS_MAP::value_type(screen.c_str(), ci));
+                        c.insert(CONTACTS_MAP::value_type(screen, ci));
                         if (!newContacts.isEmpty())
                             newContacts += ";";
-                        if (atol(screen.c_str())){
+                        if (screen.toULong()){
                             newContacts += "icq:";
-                            newContacts += screen.c_str();
+                            newContacts += screen;
                             newContacts += "/";
                             newContacts += contact->getName();
                             newContacts += ",";
-                            if (contact->getName() == screen.c_str()){
+                            if (contact->getName() == screen){
                                 newContacts += "ICQ ";
-                                newContacts += screen.c_str();
+                                newContacts += screen;
                             }else{
                                 newContacts += contact->getName();
                                 newContacts += " (ICQ ";
-                                newContacts += screen.c_str();
+                                newContacts += screen;
                                 newContacts += ")";
                             }
                         }else{
                             newContacts += "aim:";
-                            newContacts += screen.c_str();
+                            newContacts += screen;
                             newContacts += "/";
                             newContacts += contact->getName();
                             newContacts += ",";
-                            if (contact->getName() == screen.c_str()){
+                            if (contact->getName() == screen){
                                 newContacts += "AIM ";
-                                newContacts += screen.c_str();
+                                newContacts += screen;
                             }else{
                                 newContacts += contact->getName();
                                 newContacts += " (AIM ";
-                                newContacts += screen.c_str();
+                                newContacts += screen;
                                 newContacts += ")";
                             }
                         }

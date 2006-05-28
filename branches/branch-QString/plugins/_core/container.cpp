@@ -283,7 +283,7 @@ void Container::setupAccel()
     CommandsList it(*cmdsMsg, true);
     CommandDef *c;
     while ((c = ++it) != NULL){
-        if ((c->accel == NULL) || (*c->accel == 0))
+        if (c->accel.isEmpty())
             continue;
         m_accel->insertItem(QAccel::stringToKey(c->accel), ACCEL_MESSAGE + c->id);
     }
@@ -441,9 +441,7 @@ void Container::contactSelected(int)
     QString name = userWnd->getName();
     Command cmd;
     cmd->id = CmdContainerContact;
-    cmd->text_wrk = NULL;
-    if (!name.isEmpty())
-        cmd->text_wrk = strdup(name.utf8());
+    cmd->text_wrk = name;
     cmd->icon  = userWnd->getIcon();
     cmd->param = (void*)(userWnd->id());
     cmd->popup_id = MenuContainerContact;
@@ -757,12 +755,11 @@ void *Container::processEvent(Event *e)
                 (cmd->id == CmdContainerContacts)){
             list<UserWnd*> userWnds = m_tabBar->windows();
             CommandDef *cmds = new CommandDef[userWnds.size() + 1];
-            memset(cmds, 0, sizeof(CommandDef) * (userWnds.size() + 1));
             unsigned n = 0;
             for (list<UserWnd*>::iterator it = userWnds.begin(); it != userWnds.end(); ++it){
                 cmds[n].id = (*it)->id();
                 cmds[n].flags = COMMAND_DEFAULT;
-                cmds[n].text_wrk = strdup((*it)->getName().utf8());
+                cmds[n].text_wrk = (*it)->getName();
                 cmds[n].icon  = (*it)->getIcon();
                 cmds[n].text  = "_";
                 cmds[n].menu_id = n + 1;
@@ -848,7 +845,7 @@ void Container::contactChanged(Contact *contact)
         QString name = userWnd->getName();
         Command cmd;
         cmd->id = CmdContainerContact;
-        cmd->text_wrk = strdup(name.utf8());
+        cmd->text_wrk = name;
         cmd->icon  = userWnd->getIcon();
         cmd->param = (void*)(contact->id());
         cmd->popup_id = MenuContainerContact;

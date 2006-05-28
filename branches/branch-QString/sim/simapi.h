@@ -416,22 +416,65 @@ const unsigned EventCommandExec = 0x0505;
 
 const unsigned EventCommandCreate = 0x0506;
 
-typedef struct CommandDef
+struct EXPORT CommandDef
 {
-    unsigned long   id;             // Command ID
-    const char  *text;          // Command name
-    const char  *icon;          // Icon
-    const char  *icon_on;       // Icon for checked state
-    const char  *accel;         // Accel
-    unsigned    bar_id;         // Toolbar ID
-    unsigned    bar_grp;        // Toolbar GRP
-    unsigned    menu_id;        // Menu ID
-    unsigned    menu_grp;       // Menu GRP
-    unsigned    popup_id;       // Popup ID
-    unsigned    flags;          // Command flags
-    void        *param;         // Paramether from MenuSetParam
-    char        *text_wrk;      // Text for check state (utf8)
-} CommandDef;
+    unsigned long   id;        // Command ID
+    QString     text;          // Command name
+    QString     icon;          // Icon
+    QString     icon_on;       // Icon for checked state
+    QString     accel;         // Accel
+    unsigned    bar_id;        // Toolbar ID
+    unsigned    bar_grp;       // Toolbar GRP
+    unsigned    menu_id;       // Menu ID
+    unsigned    menu_grp;      // Menu GRP
+    unsigned    popup_id;      // Popup ID
+    unsigned    flags;         // Command flags
+    void        *param;        // Paramether from MenuSetParam
+    QString     text_wrk;      // Text for check state (utf8)
+
+    void clear()
+    {
+        id		 = 0;
+        text	 = QString::null;
+        icon	 = QString::null;
+        icon_on  = QString::null;
+        accel	 = QString::null;
+        bar_id   = 0;
+        bar_grp	 = 0;
+        menu_id	 = 0;
+        menu_grp = 0;
+        popup_id = 0;
+        flags	 = 0;
+        param	 = NULL;
+        text_wrk = QString::null;
+    }
+    CommandDef(unsigned long _id = 0, const QString &_text = QString::null,
+               const QString &_icon = QString::null, const QString &_icon_on = QString::null,
+               const QString &_accel = QString::null, unsigned _bar_id = 0, unsigned _bar_grp = 0,
+               unsigned _menu_id = 0, unsigned _menu_grp = 0, unsigned _popup_id = 0,
+               unsigned _flags = 0, void *_param = NULL, const QString &_text_wrk = QString::null)
+               : id(_id), text(_text), icon(_icon), icon_on(_icon_on), accel(_accel), bar_id(_bar_id),
+                 bar_grp(_bar_grp), menu_id(_menu_id), menu_grp(_menu_grp), popup_id(_popup_id),
+                 flags(_flags), param(_param), text_wrk(_text_wrk)
+    {}
+    virtual ~CommandDef() {};
+    const CommandDef &operator =(const CommandDef &c) {
+        id		 = c.id;
+        text	 = c.text;
+        icon	 = c.icon;
+        icon_on  = c.icon_on;
+        accel	 = c.accel;
+        bar_id   = c.bar_id;
+        bar_grp	 = c.bar_grp;
+        menu_id	 = c.menu_id;
+        menu_grp = c.menu_grp;
+        popup_id = c.popup_id;
+        flags	 = c.flags;
+        param	 = c.param;
+        text_wrk = c.text_wrk;
+        return *this;
+    }
+};
 
 class EXPORT Command
 {
@@ -1754,10 +1797,9 @@ EXPORT void setWndClass(QWidget*, const char*);
 EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
 
-EXPORT QIconSet Icon(const char *name);
-EXPORT QPixmap Pict(const char *name);
-EXPORT QPixmap Pict(const char *name, const QColor &bgColor);
-EXPORT QImage Image(const char *name);
+EXPORT QIconSet Icon(const QString &name);
+EXPORT QPixmap Pict(const QString &name, const QColor &bgColor = QColor());
+EXPORT QImage Image(const QString &name);
 
 EXPORT void setAboutData(KAboutData*);
 EXPORT KAboutData *getAboutData();

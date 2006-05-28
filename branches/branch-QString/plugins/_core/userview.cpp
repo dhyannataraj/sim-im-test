@@ -178,10 +178,10 @@ int UserView::heightItem(UserViewItemBase *base)
     }
     if (base->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(base);
-        string icons = item->text(CONTACT_ICONS).latin1();
-        while (!icons.empty()){
-            string icon = getToken(icons, ',');
-            QImage img = Image(icon.c_str());
+        QString icons = item->text(CONTACT_ICONS);
+        while (!icons.isEmpty()){
+            QString icon = getToken(icons, ',');
+            QImage img = Image(icon);
             if (img.height() > h)
                 h = img.height();
         }
@@ -287,8 +287,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_STRIKE)
                 f.setStrikeOut(true);
         }
-        string icons = item->text(CONTACT_ICONS).latin1();
-        string icon = getToken(icons, ',');
+        QString icons = item->text(CONTACT_ICONS);
+        QString icon = getToken(icons, ',');
         if (item->m_unread && m_bUnreadBlink){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
             if (def)
@@ -296,7 +296,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         int x = margin;
         if (icon.length()){
-            QImage img = Image(icon.c_str());
+            QImage img = Image(icon);
             if (!img.isNull()){
                 x += 2;
                 drawImage(p, x, (item->height() - img.height()) / 2, img);
@@ -378,7 +378,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         unsigned xIcon = width;
         while (icons.length()){
             icon = getToken(icons, ',');
-            QImage img = Image(icon.c_str());
+            QImage img = Image(icon);
             if (!img.isNull()){
                 xIcon -= img.width() + 2;
                 if (xIcon < (unsigned)x)
@@ -661,7 +661,7 @@ void *UserView::processEvent(Event *e)
                 if (cmd->id == CmdContactTitle){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
-                        cmd->text_wrk = strdup(contact->getName().utf8());
+                        cmd->text_wrk = contact->getName();
                         return e->param();
                     }
                 }
@@ -703,7 +703,6 @@ void *UserView::processEvent(Event *e)
                     }
 
                     CommandDef *cmds = new CommandDef[nCmds];
-                    memset(cmds, 0, sizeof(CommandDef) * nCmds);
                     nCmds = 0;
 
                     CommandsList it(*cmdsMsg, true);
@@ -754,7 +753,7 @@ void *UserView::processEvent(Event *e)
                         c.flags = COMMAND_DEFAULT;
                         if ((grp->id() == grpId) && contact->id())
                             c.flags |= COMMAND_CHECKED;
-                        c.text_wrk = strdup(grp->getName().utf8());
+                        c.text_wrk = grp->getName();
                     }
                     CommandDef &c = cmds[nGroups++];
                     c = *cmd;
@@ -763,7 +762,7 @@ void *UserView::processEvent(Event *e)
                     c.flags = COMMAND_DEFAULT;
                     if (grpId == 0)
                         c.flags = COMMAND_CHECKED;
-                    memset(&cmds[nGroups], 0, sizeof(CommandDef));
+                    cmds[nGroups].clear();
                     cmd->flags |= COMMAND_RECURSIVE;
                     cmd->param = cmds;
                     return e->param();
@@ -775,7 +774,7 @@ void *UserView::processEvent(Event *e)
                     if (cmd->id == CmdGrpTitle){
                         Group *g = getContacts()->group(grp_id);
                         if (g)
-                            cmd->text_wrk = strdup(g->getName().utf8());
+                            cmd->text_wrk = g->getName();
                         return e->param();
                     }
                     if ((cmd->id == CmdGrpDelete) || (cmd->id == CmdGrpRename)){
@@ -1310,8 +1309,6 @@ static void resetUnread(QListViewItem *item, list<QListViewItem*> &grp)
             if ((*it) == item)
                 break;
         if (it == grp.end()){
-            string s;
-            s = item->text(0).local8Bit();
             GroupItem *group = static_cast<GroupItem*>(item);
             if (group->m_unread){
                 group->m_unread = 0;

@@ -787,6 +787,10 @@ void DirectClient::processPacket()
     case TCP_CANCEL:
 	case TCP_ACK: {
         log(L_DEBUG, "Ack %X %X", ackFlags, msgFlags);
+        if(m_queue.empty()) {
+            log(L_DEBUG, "TCP_ACK/TCP_CANCEL with empty queue");
+            break;
+        }
 		bool itDeleted = false;
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
             if ((*it).seq != seq)

@@ -673,7 +673,7 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
         if (strcmp(cfg, "-")){
             s->accel = cfg;
         }else{
-            s->accel = NULL;
+            s->accel = "";
         }
     }
     cfg = getGlobal(s->id);

@@ -113,7 +113,7 @@ QString Message::getText() const
 
 void Message::setText(const QString &text)
 {
-    set_str(&data.Text.ptr, text.utf8());
+    set_utf8(&data.Text.ptr, text);
 }
 
 static DataDef messageSMSData[] =
@@ -472,7 +472,7 @@ QString FileMessage::getDescription()
 
 bool FileMessage::setDescription(const QString &str)
 {
-    return set_str(&data.Description.ptr, str.utf8());
+    return set_utf8(&data.Description.ptr, str);
 }
 
 QString FileMessage::save()

@@ -118,7 +118,7 @@ void CommonStatus::setBarStatus()
                 status = STATUS_OFFLINE;
             }
             if (protocol){
-                for (const CommandDef *d = protocol->statusList(); d->text; d++){
+                for (const CommandDef *d = protocol->statusList(); !d->text.isEmpty(); d++){
                     if (d->id == status){
                         icon = d->icon;
                         break;
@@ -207,7 +207,7 @@ void CommonStatus::rebuildStatus()
     int nInvisible = -1;
     for (unsigned i = 0; i < nClients; i++){
         Client *client = getContacts()->getClient(i);
-        for (const CommandDef *cmd = client->protocol()->statusList(); cmd->text; cmd++){
+        for (const CommandDef *cmd = client->protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
             MAP_STATUS::iterator it = status.find(cmd->id);
             if (it == status.end()){
                 status.insert(MAP_STATUS::value_type(cmd->id, 1));
@@ -234,7 +234,7 @@ void CommonStatus::rebuildStatus()
     unsigned id = 0x1000;
     unsigned long FirstStatus = 0;
     unsigned long ManualStatus = 0;
-    for (const CommandDef *cmd = client->protocol()->statusList(); cmd->text; cmd++){
+    for (const CommandDef *cmd = client->protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
         MAP_STATUS::iterator it = status.find(cmd->id);
         if (it == status.end())
             continue;
@@ -385,7 +385,7 @@ void *CommonStatus::processEvent(Event *e)
                     return 0;
                 const CommandDef *curStatus = NULL;
                 const CommandDef *d;
-                for (d = client->protocol()->statusList(); d->text; d++){
+                for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                     if (d->id == def->id)
                         curStatus = d;
                 }
@@ -419,7 +419,7 @@ void *CommonStatus::processEvent(Event *e)
                     return 0;
                 const CommandDef *curStatus = NULL;
                 const CommandDef *d;
-                for (d = client->protocol()->statusList(); d->text; d++){
+                for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                     if (d->id == def->id)
                         curStatus = d;
                 }

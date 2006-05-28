@@ -220,15 +220,13 @@ ClientItem::ClientItem(QListView *view, Client *client, CommandDef *cmd)
 
 void ClientItem::init()
 {
-    if (m_cmd->text_wrk){
-        QString text = QString::fromUtf8(m_cmd->text_wrk);
-        setText(0, text);
-        free(m_cmd->text_wrk);
-        m_cmd->text_wrk = NULL;
+    if (!m_cmd->text_wrk.isEmpty()){
+        setText(0, m_cmd->text_wrk);
+        m_cmd->text_wrk = "";
     }else{
         setText(0, i18n(m_cmd->text));
     }
-    if (m_cmd->icon)
+    if (!m_cmd->icon.isEmpty())
         setPixmap(0, Pict(m_cmd->icon, listView()->colorGroup().base()));
 }
 
@@ -345,7 +343,7 @@ void ConfigureDialog::fill(unsigned id)
         CommandDef *cmds = client->configWindows();
         if (cmds){
             parentItem = NULL;
-            for (; cmds->text; cmds++){
+            for (; !cmds->text.isEmpty(); cmds++){
                 if (parentItem){
                     new ClientItem(parentItem, client, cmds);
                 }else{
@@ -368,7 +366,7 @@ void ConfigureDialog::fill(unsigned id)
             parentItem->setText(0, i18n("Autoreply"));
             parentItem->setOpen(true);
         }
-        for (const CommandDef *d = protocol->statusList(); d->text; d++){
+        for (const CommandDef *d = protocol->statusList(); !d->text.isEmpty(); d++){
             if (((protocol->description()->flags & PROTOCOL_AR_OFFLINE) == 0) &&
                     ((d->id == STATUS_ONLINE) || (d->id == STATUS_OFFLINE)))
                 continue;

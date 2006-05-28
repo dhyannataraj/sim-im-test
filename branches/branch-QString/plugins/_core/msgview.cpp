@@ -981,7 +981,7 @@ void *MsgViewBase::processEvent(Event *e)
                         cmdsSpecial = mdef->cmdSent;
                     }
                     if (cmdsSpecial)
-                        for (const CommandDef *d = cmdsSpecial; d->text; d++)
+                        for (const CommandDef *d = cmdsSpecial; !d->text.isEmpty(); d++)
                             n++;
                 }
 
@@ -995,10 +995,9 @@ void *MsgViewBase::processEvent(Event *e)
 
                 n++;
                 CommandDef *cmds = new CommandDef[n];
-                memset(cmds, 0, sizeof(CommandDef) * n);
                 n = 0;
                 if (cmdsSpecial){
-                    for (const CommandDef *d = cmdsSpecial; d->text; d++){
+                    for (const CommandDef *d = cmdsSpecial; !d->text.isEmpty(); d++){
                         cmds[n] = *d;
                         cmds[n].id = CmdMsgSpecial + n;
                         cmds[n].flags = COMMAND_DEFAULT;
@@ -1080,7 +1079,7 @@ void *MsgViewBase::processEvent(Event *e)
 
                     if (cmds){
                         unsigned n = cmd->id - CmdMsgSpecial;
-                        for (const CommandDef *d = cmds; d->text; d++){
+                        for (const CommandDef *d = cmds; !d->text.isEmpty(); d++){
                             if (n-- == 0){
                                 CommandDef cmd = *d;
                                 cmd.param = msg;

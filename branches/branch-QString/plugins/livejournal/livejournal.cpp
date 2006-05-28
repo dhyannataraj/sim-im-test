@@ -118,12 +118,12 @@ static QObject* generateJournalMessage(MsgEdit *w, Message *msg)
 
 static CommandDef journalMessageCommands[] =
     {
-        {
+        CommandDef (
             CmdDeleteJournalMessage,
             I18N_NOOP("&Remove from journal"),
             "remove",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1080,
             MenuMessage,
@@ -131,23 +131,9 @@ static CommandDef journalMessageCommands[] =
             0,
             COMMAND_DEFAULT,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            COMMAND_DEFAULT,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 static MessageDef defJournalMessage =
@@ -223,8 +209,8 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
 
     cmd->id			 = CmdMenuWeb;
     cmd->text		 = I18N_NOOP("LiveJournal &WWW");
-    cmd->icon		 = NULL;
-    cmd->accel		 = NULL;
+    cmd->icon		 = "";
+    cmd->accel		 = "";
     cmd->menu_grp	 = 0x3090;
     cmd->popup_id	 = MenuWeb;
     cmd->flags		 = COMMAND_DEFAULT;
@@ -234,7 +220,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->id			 = MessageUpdated;
     cmd->text		 = I18N_NOOP("Friends updated");
     cmd->icon		 = "LiveJournal_upd";
-    cmd->accel		 = NULL;
+    cmd->accel		 = "";
     cmd->menu_grp	 = 0;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
@@ -274,12 +260,12 @@ Client *LiveJournalProtocol::createClient(ConfigBuffer *cfg)
 }
 
 static CommandDef livejournal_descr =
-    {
+    CommandDef (
         0,
         I18N_NOOP("LiveJournal"),
         "LiveJournal",
-        NULL,
-        NULL,
+        QString::null,
+        QString::null,
         0,
         0,
         0,
@@ -287,8 +273,8 @@ static CommandDef livejournal_descr =
         0,
         PROTOCOL_NOSMS | PROTOCOL_NOPROXY,
         NULL,
-        NULL
-    };
+        QString::null
+    );
 
 const CommandDef *LiveJournalProtocol::description()
 {
@@ -297,12 +283,12 @@ const CommandDef *LiveJournalProtocol::description()
 
 static CommandDef livejournal_status_list[] =
     {
-        {
+        CommandDef (
             STATUS_ONLINE,
             I18N_NOOP("Online"),
             "LiveJournal_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -310,14 +296,14 @@ static CommandDef livejournal_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
             "LiveJournal_offline",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -325,23 +311,9 @@ static CommandDef livejournal_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 const CommandDef *LiveJournalProtocol::statusList()
@@ -711,12 +683,12 @@ const unsigned MAIN_INFO = 1;
 
 static CommandDef cfgLiveJournalWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "LiveJournal",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -724,23 +696,9 @@ static CommandDef cfgLiveJournalWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 CommandDef *LiveJournalClient::configWindows()
@@ -749,7 +707,7 @@ CommandDef *LiveJournalClient::configWindows()
     int n = title.find(".");
     if (n > 0)
         title = title.left(n) + " " + title.mid(n + 1);
-    cfgLiveJournalWnd[0].text_wrk = strdup(title.utf8());
+    cfgLiveJournalWnd[0].text_wrk = title;
     return cfgLiveJournalWnd;
 }
 
@@ -1150,7 +1108,6 @@ void *LiveJournalClient::processEvent(Event *e)
             if (nItems == 0)
                 return NULL;
             CommandDef *cmds = new CommandDef[nItems + 1];
-            memset(cmds, 0, sizeof(CommandDef) * (nItems + 1));
             list_id = menu_id * 0x100 + 1;
             for (unsigned i = 0;; i++){
                 const char *text = getMenu(list_id);
@@ -1161,7 +1118,7 @@ void *LiveJournalClient::processEvent(Event *e)
                     cmds[i].id = CmdMenuWeb + i + 1;
                     cmds[i].text = "_";
                     QString s = i18n(text);
-                    cmds[i].text_wrk = strdup(s.utf8());
+                    cmds[i].text_wrk = s;
                     const char *url = getMenuUrl(list_id);
                     if (url && (*url == '@')){
                         unsigned nSub = atol(url + 1);

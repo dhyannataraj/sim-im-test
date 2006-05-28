@@ -871,12 +871,12 @@ const unsigned NETWORK	 = 2;
 
 static CommandDef msnWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "MSN_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -884,33 +884,19 @@ static CommandDef msnWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef cfgMsnWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "MSN_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -918,14 +904,14 @@ static CommandDef cfgMsnWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             NETWORK,
             I18N_NOOP("Network"),
             "network",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -933,23 +919,9 @@ static CommandDef cfgMsnWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 CommandDef *MSNClient::infoWindows(Contact*, void *_data)
@@ -957,8 +929,8 @@ CommandDef *MSNClient::infoWindows(Contact*, void *_data)
     MSNUserData *data = (MSNUserData*)_data;
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += QString::fromUtf8(data->EMail.ptr);
-    msnWnd[0].text_wrk = strdup(name.utf8());
+    name += get_utf8(data->EMail.ptr);
+    msnWnd[0].text_wrk = name;
     return msnWnd;
 }
 
@@ -966,8 +938,8 @@ CommandDef *MSNClient::configWindows()
 {
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += QString::fromUtf8(data.owner.EMail.ptr);
-    cfgMsnWnd[0].text_wrk = strdup(name.utf8());
+    name += get_utf8(data.owner.EMail.ptr);
+    cfgMsnWnd[0].text_wrk = name;
     return cfgMsnWnd;
 }
 
@@ -1824,7 +1796,7 @@ QString MSNClient::contactTip(void *_data)
     res += statusIcon;
     res += "\">";
     QString statusText;
-    for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+    for (const CommandDef *cmd = protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
         if (!strcmp(cmd->icon, statusIcon)){
             res += " ";
             statusText = i18n(cmd->text);

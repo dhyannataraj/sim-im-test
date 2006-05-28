@@ -1372,7 +1372,7 @@ QString YahooClient::contactTip(void *_data)
     res += statusIcon;
     res += "\">";
     QString statusText;
-    for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+    for (const CommandDef *cmd = protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
         if (!strcmp(cmd->icon, statusIcon)){
             res += " ";
             statusText = i18n(cmd->text);
@@ -1446,12 +1446,12 @@ const unsigned NETWORK	 = 2;
 
 static CommandDef yahooWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "Yahoo!_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1459,33 +1459,19 @@ static CommandDef yahooWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef cfgYahooWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "Yahoo!_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1493,14 +1479,14 @@ static CommandDef cfgYahooWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             NETWORK,
             I18N_NOOP("Network"),
             "network",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1508,23 +1494,9 @@ static CommandDef cfgYahooWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 CommandDef *YahooClient::infoWindows(Contact*, void *_data)
@@ -1532,8 +1504,8 @@ CommandDef *YahooClient::infoWindows(Contact*, void *_data)
     YahooUserData *data = (YahooUserData*)_data;
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += QString::fromUtf8(data->Login.ptr);
-    yahooWnd[0].text_wrk = strdup(name.utf8());
+    name += get_utf8(data->Login.ptr);
+    yahooWnd[0].text_wrk = name;
     return yahooWnd;
 }
 
@@ -1541,8 +1513,8 @@ CommandDef *YahooClient::configWindows()
 {
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += QString::fromUtf8(data.owner.Login.ptr);
-    cfgYahooWnd[0].text_wrk = strdup(name.utf8());
+    name += get_utf8(data.owner.Login.ptr);
+    cfgYahooWnd[0].text_wrk = name;
     return cfgYahooWnd;
 }
 

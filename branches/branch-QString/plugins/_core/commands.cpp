@@ -142,7 +142,8 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
         while ((cmd = ++list) !=NULL){
             int cmdKey;
             if ((key & ALT) && ((key & ~MODIFIER_MASK) != Key_Alt)){
-                if (cmd->text == NULL) continue;
+                if (cmd->text.isEmpty())
+                    continue;
                 cmdKey = QAccel::shortcutKey(i18n(cmd->text));
                 if ((cmdKey & ~UNICODE_ACCEL) == key){
                     cmd->param = param;
@@ -151,7 +152,8 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
                         break;
                 }
             }
-            if (cmd->accel == NULL) continue;
+            if (cmd->accel.isEmpty())
+                continue;
             cmdKey = QAccel::stringToKey(i18n(cmd->accel));
             if (cmdKey == key){
                 cmd->param = param;

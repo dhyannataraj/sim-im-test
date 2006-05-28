@@ -588,12 +588,12 @@ i18n("File", "%n files", 1);
 
 static CommandDef fileCommands[] =
     {
-        {
+        CommandDef (
             CmdFileAccept,
             I18N_NOOP("&Accept"),
-            NULL,
-            NULL,
-            NULL,
+            "",
+            "",
+            "",
             ToolBarMsgEdit,
             0x1090,
             MenuMessage,
@@ -601,14 +601,14 @@ static CommandDef fileCommands[] =
             0,
             COMMAND_CHECK_STATE,
             NULL,
-            NULL
-        },
-        {
+            ""
+        ),
+        CommandDef (
             CmdFileDecline,
             I18N_NOOP("&Decline"),
-            NULL,
-            NULL,
-            NULL,
+            "",
+            "",
+            "",
             ToolBarMsgEdit,
             0x1091,
             MenuMessage,
@@ -616,23 +616,9 @@ static CommandDef fileCommands[] =
             MenuFileDecline,
             COMMAND_CHECK_STATE,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            COMMAND_DEFAULT,
-            NULL,
-            NULL
-        }
+            ""
+        ),
+        CommandDef ()
     };
 
 static MessageDef defFile =
@@ -663,12 +649,12 @@ i18n("Authorize request", "%n authorize requests", 1);
 
 static CommandDef authRequestCommands[] =
     {
-        {
+        CommandDef (
             CmdGrantAuth,
             I18N_NOOP("&Grant"),
-            NULL,
-            NULL,
-            NULL,
+            "",
+            "",
+            "",
             ToolBarMsgEdit,
             0x1080,
             MenuMessage,
@@ -676,14 +662,14 @@ static CommandDef authRequestCommands[] =
             0,
             COMMAND_DEFAULT,
             NULL,
-            NULL
-        },
-        {
+            ""
+        ),
+        CommandDef (
             CmdRefuseAuth,
             I18N_NOOP("&Refuse"),
-            NULL,
-            NULL,
-            NULL,
+            "",
+            "",
+            "",
             ToolBarMsgEdit,
             0x1081,
             MenuMessage,
@@ -691,23 +677,9 @@ static CommandDef authRequestCommands[] =
             0,
             COMMAND_DEFAULT,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            COMMAND_DEFAULT,
-            NULL,
-            NULL
-        }
+            ""
+        ),
+        CommandDef ()
     };
 
 static MessageDef defAuthRequest =
@@ -1534,7 +1506,7 @@ void MsgEdit::setupNext()
     def = CorePlugin::m_plugin->messageTypes.find(type);
 
     CommandDef c = *btnNext->def();
-    c.text_wrk = strdup(str.utf8());
+    c.text_wrk = str;
     if (def)
         c.icon     = def->icon;
     if (count){
@@ -1738,7 +1710,7 @@ void MsgEdit::setupMessages()
 
     cmd->id			= MessageStatus;
     cmd->text		= I18N_NOOP("Status");
-    cmd->icon		= NULL;
+    cmd->icon		= "";
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defStatus;

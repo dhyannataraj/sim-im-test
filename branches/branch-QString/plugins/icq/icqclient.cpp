@@ -294,7 +294,7 @@ ICQClient::ICQClient(Protocol *protocol, ConfigBuffer *cfg, bool bAIM)
     load_data(icqClientData, &data, cfg);
     if (data.owner.Uin.value != 0)
         m_bAIM = false;
-    if (data.owner.Screen.ptr && *data.owner.Screen.ptr)
+    if (!get_utf8(data.owner.Screen.ptr).isEmpty())
         m_bAIM = true;
 
     m_bVerifying = false;
@@ -1218,7 +1218,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             dicon = "ICQ_invisible";
         }else{
             const CommandDef *def = ICQProtocol::_statusList();
-            for (; def->text; def++){
+            for (; !def->text.isEmpty(); def++){
                 if (def->id == iconStatus){
                     dicon = def->icon;
                     break;
@@ -1447,7 +1447,7 @@ QString ICQClient::contactTip(void *_data)
             res += " ";
             res += i18n("Invisible");
         }else  if (data->Uin.value){
-            for (const CommandDef *cmd = ICQProtocol::_statusList(); cmd->text; cmd++){
+            for (const CommandDef *cmd = ICQProtocol::_statusList(); !cmd->text.isEmpty(); cmd++){
                 if (!strcmp(cmd->icon, statusIcon)){
                     res += " ";
                     statusText += i18n(cmd->text);
@@ -1471,7 +1471,7 @@ QString ICQClient::contactTip(void *_data)
     res += "<br>";
     if (data->Uin.value){
         res += "UIN: <b>";
-        res += number(data->Uin.value).c_str();
+        res += QString::number(data->Uin.value);
         res += "</b>";
     }else{
         res += "<b>";
@@ -1834,12 +1834,12 @@ const unsigned SECURITY  = 10;
 
 static CommandDef icqWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "ICQ_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1847,14 +1847,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             HOME_INFO,
             I18N_NOOP("Home info"),
             "home",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1862,14 +1862,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             WORK_INFO,
             I18N_NOOP("Work info"),
             "work",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1877,14 +1877,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             MORE_INFO,
             I18N_NOOP("More info"),
             "more",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1892,14 +1892,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1907,14 +1907,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             INTERESTS_INFO,
             I18N_NOOP("Interests"),
             "interest",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1922,14 +1922,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PAST_INFO,
             I18N_NOOP("Group/Past"),
             "past",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1937,14 +1937,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PICTURE_INFO,
             I18N_NOOP("Picture"),
             "pict",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1952,33 +1952,19 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef aimWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "AIM_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1986,14 +1972,14 @@ static CommandDef aimWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2001,33 +1987,19 @@ static CommandDef aimWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef icqConfigWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "ICQ_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2035,14 +2007,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             HOME_INFO,
             I18N_NOOP("Home info"),
             "home",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2050,14 +2022,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             WORK_INFO,
             I18N_NOOP("Work info"),
             "work",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2065,14 +2037,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             MORE_INFO,
             I18N_NOOP("More info"),
             "more",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2080,14 +2052,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2095,14 +2067,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             INTERESTS_INFO,
             I18N_NOOP("Interests"),
             "interest",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2110,14 +2082,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PAST_INFO,
             I18N_NOOP("Group/Past"),
             "past",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2125,14 +2097,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PICTURE_INFO,
             I18N_NOOP("Picture"),
             "pict",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2140,14 +2112,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             NETWORK,
             I18N_NOOP("Network"),
             "network",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2155,14 +2127,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             SECURITY,
             I18N_NOOP("Security"),
             "security",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2170,33 +2142,19 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef aimConfigWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "AIM_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2204,14 +2162,14 @@ static CommandDef aimConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2219,14 +2177,14 @@ static CommandDef aimConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             NETWORK,
             I18N_NOOP("Network"),
             "network",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2234,23 +2192,9 @@ static CommandDef aimConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 CommandDef *ICQClient::infoWindows(Contact*, void *_data)
@@ -2262,9 +2206,9 @@ CommandDef *ICQClient::infoWindows(Contact*, void *_data)
     if (data->Uin.value){
         name += QString::number(data->Uin.value);
     }else{
-        name += data->Screen.ptr;
+        name += get_utf8(data->Screen.ptr);
     }
-    def->text_wrk = strdup(name.utf8());
+    def->text_wrk = name;
     return def;
 }
 
@@ -2274,12 +2218,12 @@ CommandDef *ICQClient::configWindows()
     QString name = i18n(protocol()->description()->text);
     name += " ";
     if (m_bAIM){
-        name += QString::fromUtf8(data.owner.Screen.ptr);
+        name += get_utf8(data.owner.Screen.ptr);
         def = aimConfigWnd;
     }else{
         name += QString::number(data.owner.Uin.value);
     }
-    def->text_wrk = strdup(name.utf8());
+    def->text_wrk = name;
     return def;
 }
 

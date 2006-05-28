@@ -124,7 +124,7 @@ DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
     cmd->icon        = "configure";
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x10000;
-    cmd->accel       = 0;
+    cmd->accel       = "";
     cmd->flags       = COMMAND_DEFAULT;
 
     eCmd.process();
@@ -148,7 +148,7 @@ DockPlugin::DockPlugin(unsigned base, ConfigBuffer *config)
 
     cmd->id          = CmdToggle;
     cmd->text        = I18N_NOOP("Toggle main window");
-    cmd->icon        = NULL;
+    cmd->icon        = "";
     cmd->menu_id     = MenuMain;
     cmd->menu_grp    = 0;
     cmd->accel		 = "Ctrl+Shift+A";
