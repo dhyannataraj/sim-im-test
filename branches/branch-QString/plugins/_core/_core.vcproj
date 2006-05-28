@@ -78,7 +78,6 @@
 				AdditionalDependencies="$(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib odbc32.lib odbccp32.lib wsock32.lib winmm.lib User32.Lib AdvAPI32.Lib"
 				OutputFile="../../Release/plugins/_core.dll"
 				SuppressStartupBanner="true"
-				ImportLibrary=".\..\..\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -175,7 +174,6 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ImportLibrary=".\..\..\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -6332,8 +6330,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6342,8 +6340,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6356,8 +6354,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6366,8 +6364,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6380,8 +6378,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6390,8 +6388,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6404,8 +6402,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6414,8 +6412,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6428,8 +6426,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6438,8 +6436,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6452,8 +6450,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6462,8 +6460,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6476,8 +6474,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6486,8 +6484,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6500,8 +6498,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6510,8 +6508,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6524,8 +6522,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6534,8 +6532,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6548,8 +6546,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6558,8 +6556,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6572,8 +6570,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6582,8 +6580,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6595,8 +6593,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6604,8 +6602,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6618,8 +6616,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6628,8 +6626,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6642,8 +6640,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6652,8 +6650,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6666,8 +6664,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6676,8 +6674,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6690,8 +6688,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6700,8 +6698,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6714,8 +6712,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6724,8 +6722,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -6738,8 +6736,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -6748,8 +6746,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copy $(InputPath)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)\$(ParentName)\$(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)&quot;&#x0D;&#x0A;"
+						Outputs="$(OutDir)\$(ProjectName)\$(ParentName)\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
