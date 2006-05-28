@@ -152,7 +152,7 @@ public:
     Socket *socket() { return m_sock; }
     void setSocket(Socket *s, bool bClearError = true);
     void setNotify(ClientSocketNotify*);
-    const char *errorString();
+    const QString &errorString();
 protected:
     virtual void connect_ready();
     virtual void write_ready();
@@ -164,7 +164,7 @@ protected:
     bool bClosed;
 
     unsigned	errCode;
-    std::string	errString;
+    QString 	errString;
     friend class SocketFactory;
 };
 

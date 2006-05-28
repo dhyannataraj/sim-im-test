@@ -87,11 +87,9 @@ void ClientSocket::close()
     bClosed = true;
 }
 
-const char *ClientSocket::errorString()
+const QString &ClientSocket::errorString()
 {
-    if (errString.length())
-        return errString.c_str();
-    return NULL;
+    return errString;
 }
 
 void ClientSocket::connect(const char *host, unsigned short port, TCPClient *client)
@@ -281,11 +279,11 @@ void SocketFactory::idle()
         ClientSocket *s = *it;
         ClientSocketNotify *n = s->m_notify;
         if (n){
-            std::string errString;
+            QString errString;
             if (s->errorString())
                 errString = s->errorString();
             s->errString = "";
-            if (n->error_state(errString.c_str(), s->errCode))
+            if (n->error_state(errString, s->errCode))
                 delete n;
         }
     }

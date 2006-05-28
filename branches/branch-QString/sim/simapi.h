@@ -1379,14 +1379,14 @@ protected:
 class EXPORT PacketType
 {
 public:
-    PacketType(unsigned id, const char *name, bool bText);
+    PacketType(unsigned id, const QString &name, bool bText);
     ~PacketType();
     unsigned id() { return m_id; }
-    const char *name() { return m_name.c_str(); }
+    const QString &name() { return m_name; }
     bool isText() { return m_bText; }
 protected:
     unsigned m_id;
-    std::string m_name;
+    QString  m_name;
     bool     m_bText;
 };
 
@@ -1688,7 +1688,7 @@ public:
     unsigned nClients();
     Client *getClient(unsigned n);
     void clearClients();
-    void addPacketType(unsigned id, const char *name, bool bText=false);
+    void addPacketType(unsigned id, const QString &name, bool bText=false);
     void removePacketType(unsigned id);
     PacketType *getPacketType(unsigned i);
     Contact *contactByPhone(const QString &phone);
@@ -1812,13 +1812,6 @@ EXPORT void disableWidget(QWidget *w);
 EXPORT QString toTranslit(const QString&);
 EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
-
-typedef struct smile
-{
-    const char  *exp;
-    const char  *paste;
-    const char  *title;
-} smile;
 
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen);
