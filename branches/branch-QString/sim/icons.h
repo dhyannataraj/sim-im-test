@@ -58,11 +58,11 @@ class IconSet
 public:
     IconSet();
     virtual ~IconSet();
-    virtual PictDef *getPict(const char *name) = 0;
+    virtual PictDef *getPict(const QString &name) = 0;
     virtual void clear() = 0;
     void parseSmiles(const QString&, unsigned &start, unsigned &size, QString &name);
-    QStringList getSmile(const char *name);
-    QString getSmileName(const char *name);
+    QStringList getSmile(const QString &name);
+    QString getSmileName(const QString &name);
     void getSmiles(QStringList &smiles, QStringList &used);
 protected:
     PIXMAP_MAP      m_icons;
@@ -75,13 +75,13 @@ class EXPORT Icons : public QObject, public EventReceiver
 public:
     Icons();
     ~Icons();
-    PictDef *getPict(const char *name);
+    PictDef *getPict(const QString &name);
     QString parseSmiles(const QString&);
-    QStringList getSmile(const char *name);
+    QStringList getSmile(const QString &ame);
     void getSmiles(QStringList &smiles);
-    QString getSmileName(const char *name);
+    QString getSmileName(const QString &name);
     static unsigned nSmile;
-    IconSet *addIconSet(const char *name, bool bDefault);
+    IconSet *addIconSet(const QString &, bool bDefault);
     void removeIconSet(IconSet*);
     QValueList<IconSet*> m_customSets;
 protected slots:

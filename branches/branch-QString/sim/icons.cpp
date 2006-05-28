@@ -44,7 +44,7 @@ class WrkIconSet : public IconSet
 {
 public:
     WrkIconSet();
-    PictDef *getPict(const char *name);
+    PictDef *getPict(const QString &name);
     void clear();
 protected:
     PictDef *add(const char *name, const QImage &pict, unsigned flags);
@@ -53,9 +53,9 @@ protected:
 class FileIconSet : public IconSet, public SAXParser
 {
 public:
-    FileIconSet(const char *file);
+    FileIconSet(const QString &file);
     ~FileIconSet();
-    PictDef *getPict(const char *name);
+    PictDef *getPict(const QString &name);
     void clear();
 protected:
     virtual void element_start(const char *el, const char **attr);
@@ -126,7 +126,7 @@ void Icons::iconChanged(int)
     e.process();
 }
 
-PictDef *Icons::getPict(const char *name)
+PictDef *Icons::getPict(const QString &name)
 {
     QValueListIterator<IconSet*> it;
     for (it = m_customSets.begin() ; it != m_customSets.end(); ++it){
@@ -142,7 +142,7 @@ PictDef *Icons::getPict(const char *name)
     return NULL;
 }
 
-QStringList Icons::getSmile(const char *name)
+QStringList Icons::getSmile(const QString &name)
 {
     QValueListIterator<IconSet*> it;
     for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
@@ -153,7 +153,7 @@ QStringList Icons::getSmile(const char *name)
     return QStringList();
 }
 
-QString Icons::getSmileName(const char *name)
+QString Icons::getSmileName(const QString &name)
 {
     QValueListIterator<IconSet*> it;
     for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
@@ -209,7 +209,7 @@ QString Icons::parseSmiles(const QString &str)
     return res;
 }
 
-IconSet *Icons::addIconSet(const char *name, bool bDefault)
+IconSet *Icons::addIconSet(const QString &name, bool bDefault)
 {
 	FileIconSet *is = new FileIconSet(name);
     if (bDefault){
@@ -256,7 +256,7 @@ void deleteIcons()
     delete icons;
 }
 
-PictDef *getPict(const char *name)
+PictDef *getPict(const QString &name)
 {
     return icons->getPict(name);
 }
@@ -268,7 +268,7 @@ static QPixmap getPixmap(PictDef *d, const char*)
     return res;
 }
 
-QIconSet Icon(const char *name)
+QIconSet Icon(const QString &name)
 {
     PictDef *pict = getPict(name);
     if (pict == NULL)
@@ -282,7 +282,7 @@ QIconSet Icon(const char *name)
     return res;
 }
 
-QImage Image(const char *name)
+QImage Image(const QString &name)
 {
     PictDef *p = getPict(name);
     if (p == NULL)
@@ -290,17 +290,12 @@ QImage Image(const char *name)
     return p->image;
 }
 
-QPixmap Pict(const char *name)
+QPixmap Pict(const QString &name, const QColor&)
 {
     PictDef *p = getPict(name);
     if (p == NULL)
         return QPixmap();
     return getPixmap(p, name);
-}
-
-QPixmap Pict(const char *name, const QColor&)
-{
-    return Pict(name);
 }
 
 MyMimeSourceFactory::MyMimeSourceFactory()
@@ -375,7 +370,7 @@ void IconSet::getSmiles(QStringList &smiles, QStringList &used)
         smiles.push_back(name);
 }
 
-QStringList IconSet::getSmile(const char *name)
+QStringList IconSet::getSmile(const QString &name)
 {
     QStringList res;
     PIXMAP_MAP::iterator it = m_icons.find(name);
@@ -390,7 +385,7 @@ QStringList IconSet::getSmile(const char *name)
     return res;
 }
 
-QString IconSet::getSmileName(const char *name)
+QString IconSet::getSmileName(const QString &name)
 {
     PIXMAP_MAP::iterator it = m_icons.find(name);
     if (it == m_icons.end())
@@ -525,9 +520,9 @@ static QImage merge(const QImage &p1, const QImage &p2)
     return img1;
 }
 
-PictDef *WrkIconSet::getPict(const char *name)
+PictDef *WrkIconSet::getPict(const QString &name)
 {
-    if (name == NULL)
+    if (name.isEmpty())
         return NULL;
     PIXMAP_MAP::iterator it = m_icons.find(name);
     if (it != m_icons.end())
@@ -593,8 +588,8 @@ PictDef *WrkIconSet::getPict(const char *name)
             return add(name, res, p->flags);
         }
     }
-    if ((strlen(name) <= 4) || memcmp(name, "big.", 4))
-        log(L_DEBUG, "Icon %s not found", name);
+    if (!name.startsWith("big."))
+        log(L_DEBUG, "Icon %s not found", name.latin1());
     return NULL;
 }
 
@@ -612,7 +607,7 @@ PictDef *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
     return &m_icons.find(name).data();
 }
 
-FileIconSet::FileIconSet(const char *file)
+FileIconSet::FileIconSet(const QString &file)
 {
     m_data = NULL;
 	m_zip = new UnZip(app_file(file));
@@ -626,9 +621,9 @@ FileIconSet::~FileIconSet()
     delete m_zip;
 }
 
-PictDef *FileIconSet::getPict(const char *name)
+PictDef *FileIconSet::getPict(const QString &name)
 {
-    if (name == NULL)
+    if (name.isEmpty())
         return NULL;
     PIXMAP_MAP::iterator it = m_icons.find(name);
     if (it == m_icons.end())
@@ -637,7 +632,7 @@ PictDef *FileIconSet::getPict(const char *name)
 #ifdef USE_KDE
         if (!it.data().system.isEmpty()){
             QPixmap pict;
-            if (memcmp(name, "big.", 4)){
+            if (name.startWith("big.")){
                 pict = SmallIconSet(it.data().system).pixmap(QIconSet::Small, QIconSet::Normal);
             }else{
                 pict = DesktopIconSet(it.data().system).pixmap(QIconSet::Large, QIconSet::Normal);
