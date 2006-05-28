@@ -1893,19 +1893,19 @@ void *ContactList::getUserData(unsigned id)
     return p->userData.getUserData(id, true);
 }
 
-static string stripPhone(const char *phone)
+static QString stripPhone(const QString &phone)
 {
-    string res;
+    QString res;
     if (phone == NULL)
         return res;
-    for (; *phone; phone++){
-        char c = *phone;
+    for (int i = 0; i < (int)phone.length(); i++){
+        QChar c = phone[i];
         if ((c < '0') || (c > '9'))
             continue;
         res += c;
     }
     if (res.length() > 7)
-        res = res.substr(res.length() - 7);
+        res = res.mid(res.length() - 7);
     return res;
 }
 
@@ -1914,10 +1914,10 @@ bool ContactList::cmpPhone(const char *phone1, const char *phone2)
     return stripPhone(phone1) == stripPhone(phone2);
 }
 
-Contact *ContactList::contactByPhone(const char *_phone)
+Contact *ContactList::contactByPhone(const QString &_phone)
 {
-    string phone = stripPhone(_phone);
-    if (phone.empty())
+    QString phone = stripPhone(_phone);
+    if (phone.isEmpty())
         return NULL;
     Contact *c;
     ContactIterator it;

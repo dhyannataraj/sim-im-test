@@ -459,7 +459,7 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
             break;
     }
     if (contact == NULL){
-        contact = getContacts()->contactByPhone(phone.latin1());
+        contact = getContacts()->contactByPhone(phone);
         if (contact->getFlags() & CONTACT_TEMPORARY){
             bNew = true;
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
@@ -567,7 +567,7 @@ void SMSClient::phoneCall(const QString &number)
     m_call = new Message(MessagePhoneCall);
     if (!number.isEmpty()){
         bool bNew = false;
-        Contact *contact = getContacts()->contactByPhone(number.latin1());
+        Contact *contact = getContacts()->contactByPhone(number);
         if (contact->getFlags() & CONTACT_TEMPORARY){
             bNew = true;
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);

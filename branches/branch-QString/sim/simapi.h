@@ -1691,7 +1691,7 @@ public:
     void addPacketType(unsigned id, const char *name, bool bText=false);
     void removePacketType(unsigned id);
     PacketType *getPacketType(unsigned i);
-    Contact *contactByPhone(const char *phone);
+    Contact *contactByPhone(const QString &phone);
     Contact *contactByMail(const QString &_mail, const QString &_name);
     static bool cmpPhone(const char *p1, const char *p2);
     QString toUnicode(Contact *contact, const char *str, int length=-1);
