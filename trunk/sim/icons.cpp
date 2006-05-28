@@ -28,6 +28,7 @@
 #include <qfile.h>
 #include <qmime.h>
 #include <qapplication.h>
+#include <qdir.h>
 
 #ifdef USE_KDE
 #include <kapp.h>
@@ -632,7 +633,7 @@ FileIconSet::FileIconSet(const char *file)
     m_zip = new UnZip(QFile::decodeName(app_file(file).c_str()));
     QByteArray arr;
     m_data = NULL;
-    if (m_zip->open() && m_zip->readFile("icondef.xml", &arr))
+    if (m_zip->open() && (m_zip->readFile("icondef.xml", &arr) || m_zip->readFile(QFileInfo(m_zip->name()).baseName() + QDir::separator() + "icondef.xml", &arr)))
         parse(arr.data(), arr.size(), false);
 }
 
@@ -666,7 +667,7 @@ PictDef *FileIconSet::getPict(const char *name)
         if (it->second.file.empty())
             return NULL;
         QByteArray arr;
-        if (!m_zip->readFile(QString::fromUtf8(it->second.file.c_str()), &arr))
+        if (!m_zip->readFile(QString::fromUtf8(it->second.file.c_str()), &arr) && !m_zip->readFile(QFileInfo(m_zip->name()).baseName() + QDir::separator() + QString::fromUtf8(it->second.file.c_str()), &arr))
             return NULL;
         (*it).second.image = new QImage(arr);
         (*it).second.image->convertDepth(32);
