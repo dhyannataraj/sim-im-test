@@ -43,7 +43,7 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 
     }else{
         for (unsigned i = 1; i <= m_plugin->getNIcons(); i++)
-            lstIcon->insertItem(m_plugin->getIcon(i));
+            lstIcon->insertItem(QFile::decodeName(m_plugin->getIcon(i)));
     }
     selectionChanged();
 }
@@ -91,9 +91,9 @@ void IconCfg::add()
 #ifdef USE_KDE
     QString filter = i18n("*.jisp|Icon set");
 #else
-QString filter = i18n("Icon set(*.jisp)");
+    QString filter = i18n("Icon set(*.jisp)");
 #endif
-    QString jisp = QFileDialog::getOpenFileName(QFile::decodeName(SIM::app_file("icons/").c_str()), filter, topLevelWidget(), i18n("Select icon set"));
+    QString jisp = QFile::decodeName(QFileDialog::getOpenFileName(QFile::decodeName(SIM::app_file("icons/").c_str()), filter, topLevelWidget(), i18n("Select icon set")).local8Bit());
     if (!jisp.isEmpty())
         lstIcon->insertItem(jisp);
 }
