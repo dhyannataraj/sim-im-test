@@ -301,17 +301,12 @@ const QImage *Image(const char *name)
     return p->image;
 }
 
-QPixmap Pict(const char *name)
+QPixmap Pict(const char *name, const QColor&)
 {
     PictDef *p = getPict(name);
     if (p == NULL)
         return QPixmap();
     return getPixmap(p, name);
-}
-
-QPixmap Pict(const char *name, const QColor&)
-{
-	return Pict(name);
 }
 
 MyMimeSourceFactory::MyMimeSourceFactory()
