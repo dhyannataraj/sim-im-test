@@ -170,10 +170,11 @@ void ICQClient::parseRosterItem(unsigned short type,
                     bool bChanged = false;
                     QString alias;
                     Tlv *tlv_name = NULL;
-                    if (inf) tlv_name = (*inf)(TLV_ALIAS);
+                    if (inf)
+                        tlv_name = (*inf)(TLV_ALIAS);
                     if (tlv_name)
-                        alias = (char*)(*tlv_name);
-                    log(L_DEBUG, "User %s [%s] id %u - group %u", str.latin1(), alias.latin1(), id, grp_id);
+                        alias = QString::fromUtf8(*tlv_name);
+                    log(L_DEBUG, "User %s [%s] id %u - group %u", str.local8Bit().data(), alias.local8Bit().data(), id, grp_id);
                     Contact *contact;
                     Group *grp = NULL;
                     ICQUserData *data = findGroup(grp_id, NULL, grp);
@@ -883,6 +884,7 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
     if (m_tlv){
         Tlv *tlv_alias = (*m_tlv)(TLV_ALIAS);
         if (tlv_alias){
+            // ok here since Alias is utf8 and TLV_ALIAS too
             set_str(&data->Alias.ptr, *tlv_alias);
         }else{
             set_str(&data->Alias.ptr, NULL);

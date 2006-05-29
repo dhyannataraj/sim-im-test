@@ -186,7 +186,7 @@ static DataDef _icqUserData[] =
         { "State", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },
-        { "Address", DATA_STRING, 1, 0 },
+        { "Address", DATA_UTF, 1, 0 },
         { "", DATA_STRING, 1, 0 },
         { "Zip", DATA_STRING, 1, 0 },
         { "Country", DATA_ULONG, 1, 0 },
