@@ -70,10 +70,10 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, ConfigBuffer *config)
     load_data(monitorData, &data, config);
 
     if (getLogPackets()){
-        string packets = getLogPackets();
+        QString packets = getLogPackets();
         while (packets.length()){
-            string v = getToken(packets, ',');
-            setLogType(atol(v.c_str()), true);
+            QString v = getToken(packets, ',');
+            setLogType(v.toULong(), true);
         }
     }
 

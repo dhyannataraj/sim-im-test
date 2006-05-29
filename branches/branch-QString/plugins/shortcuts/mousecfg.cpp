@@ -150,7 +150,7 @@ void MouseConfig::changed(bool)
         if (chkAlt->isChecked()) n |= AltButton;
         if (chkCtrl->isChecked()) n |= ControlButton;
         if (chkShift->isChecked()) n |= ShiftButton;
-        res = ShortcutsPlugin::buttonToString(n).c_str();
+        res = ShortcutsPlugin::buttonToString(n);
     }
     QListViewItem *item = lstCmd->currentItem();
     if (item == NULL)

@@ -80,7 +80,7 @@ public:
     bool getOldGlobal(SIM::CommandDef *cmd);
     static QWidget *getMainWindow();
     static unsigned stringToButton(const char *cfg);
-    static std::string buttonToString(unsigned button);
+    static QString buttonToString(unsigned button);
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void *processEvent(SIM::Event*);

@@ -252,10 +252,10 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     m_cmd = *cmd;
     QKeySequence keys(cmd->accel);
     if (keys != QKeySequence(0)){
-        string shortName = "sim_";
+        QString shortName = "sim_";
         shortName += number(cmd->id);
         accel = new KGlobalAccel(this);
-        accel->insert(shortName.c_str(),
+        accel->insert(shortName,
                       i18n(cmd->text), i18n(cmd->text),
                       keys, keys, this, SLOT(execute()));
         accel->updateConnections();
@@ -605,26 +605,26 @@ static const char *states[] =
 unsigned ShortcutsPlugin::stringToButton(const char *cfg)
 {
     unsigned res = 0;
-    string config;
+    QString config;
     if (cfg)
         config = cfg;
     for (; config.length(); ){
-        string t = getToken(config, '+');
-        if (!strcmp(t.c_str(), "Alt")){
+        QString t = getToken(config, '+');
+        if (t == "Alt"){
             res |= AltButton;
             continue;
         }
-        if (!strcmp(t.c_str(), "Ctrl")){
+        if (t == "Ctrl"){
             res |= ControlButton;
             continue;
         }
-        if (!strcmp(t.c_str(), "Shift")){
+        if (t == "Shift"){
             res |= ShiftButton;
             continue;
         }
         unsigned i = 1;
         for (const char **p = states; *p; p++, i++){
-            if (!strcmp(t.c_str(), *p)){
+            if (t == *p){
                 res |= i;
                 return res;
             }
@@ -634,9 +634,9 @@ unsigned ShortcutsPlugin::stringToButton(const char *cfg)
     return 0;
 }
 
-string ShortcutsPlugin::buttonToString(unsigned n)
+QString ShortcutsPlugin::buttonToString(unsigned n)
 {
-    string res;
+    QString res;
     if (n & AltButton)
         res = "Alt+";
     if (n & ControlButton)

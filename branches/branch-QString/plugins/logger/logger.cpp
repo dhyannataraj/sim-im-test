@@ -84,10 +84,10 @@ LoggerPlugin::LoggerPlugin(unsigned base, ConfigBuffer *add_info)
     if (e.process())
         setLogLevel(atol(value.c_str()));
     if (getLogPackets()){
-        string packets = getLogPackets();
+        QString packets = getLogPackets();
         while (packets.length()){
-            string v = getToken(packets, ',');
-            setLogType(atol(v.c_str()), true);
+            QString v = getToken(packets, ',');
+            setLogType(v.toULong(), true);
         }
     }
     m_bFilter = false;

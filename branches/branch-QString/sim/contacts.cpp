@@ -1931,7 +1931,7 @@ Contact *ContactList::contactByPhone(const QString &_phone)
     }
     c = contact(0, true);
     c->setFlags(CONTACT_TEMP);
-    c->setName(QString::fromUtf8(_phone));
+    c->setName(_phone);
     Event e(EventContactChanged, c);
     e.process();
     return c;
