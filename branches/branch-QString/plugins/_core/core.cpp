@@ -2383,9 +2383,9 @@ void *CorePlugin::processEvent(Event *e)
                         QString resources = ways[0].client->resources(ways[0].data);
                         if (resources.isEmpty())
                             return NULL;
-                        string wrk = resources;
+                        QString wrk = resources;
                         unsigned n = 0;
-                        while (!wrk.empty()){
+                        while (!wrk.isEmpty()){
                             getToken(wrk, ';');
                             n++;
                         }
@@ -3432,9 +3432,9 @@ void *CorePlugin::processEvent(Event *e)
                     vector<clientContact> ways;
                     getWays(ways, contact);
                     for (unsigned n = 0; n < ways.size(); n++){
-                        string resources = ways[n].client->resources(ways[n].data);
-                        while (!resources.empty()){
-                            string res = getToken(resources, ';');
+                        QString resources = ways[n].client->resources(ways[n].data);
+                        while (!resources.isEmpty()){
+                            QString res = getToken(resources, ';');
                             if (nRes-- == 0){
                                 clientContact &cc = ways[n];
                                 clientData *data;
@@ -3454,7 +3454,7 @@ void *CorePlugin::processEvent(Event *e)
                                 Message *msg = mdef->create(NULL);
                                 msg->setContact((unsigned long)(cmd->param));
                                 msg->setClient(cc.client->dataName(data));
-                                msg->setResource(QString::fromUtf8(res.c_str()));
+                                msg->setResource(res);
                                 Event eOpen(EventOpenMessage, &msg);
                                 eOpen.process();
                                 delete msg;
@@ -4043,8 +4043,8 @@ QString CorePlugin::getConfig()
     }
 
 #ifndef WIN32
-    string dir = user_file("");
-    chmod(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);
+    QString dir = user_file("");
+    chmod(dir.local8Bit(),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
     QString res = save_data(coreData, &data);
     setEditBackground(editBgColor);
@@ -4548,9 +4548,7 @@ bool FileLock::lock(bool bSend)
 bool FileLock::lock(bool)
 {
     if (!open(IO_ReadWrite | IO_Truncate)){
-        string s;
-        s = name().local8Bit();
-        log(L_WARN, "Can't create %s", s.c_str());
+        log(L_WARN, "Can't create %s", name().local8Bit().data());
         return false;
     }
     struct flock fl;

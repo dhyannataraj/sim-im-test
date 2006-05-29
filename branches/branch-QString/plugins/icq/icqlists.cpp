@@ -1149,7 +1149,7 @@ unsigned ICQClient::processListRequest()
             if (data->IcqID.value == 0)
                 break;
             if (isContactRenamed(data, contact)){
-                log(L_DEBUG, "%s rename", userStr(contact, data).latin1());
+                log(L_DEBUG, "%s rename", userStr(contact, data).local8Bit().data());
                 TlvList *tlv = createListTlv(data, contact);
                 seq = sendRoster(ICQ_SNACxLISTS_RENAME, screen(data), (unsigned short)(data->GrpId.value), (unsigned short)(data->IcqID.value), 0, tlv);
                 m_listRequest = new ContactServerRequest(seq, screen(data), (unsigned short)(data->IcqID.value), (unsigned short)(data->GrpId.value), tlv);
@@ -1159,28 +1159,28 @@ unsigned ICQClient::processListRequest()
             break;
         case LIST_USER_DELETED:
             if (lr.visible_id){
-                log(L_DEBUG, "%s remove from visible list", lr.screen.latin1());
+                log(L_DEBUG, "%s remove from visible list", lr.screen.local8Bit().data());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, lr.screen, 0, lr.visible_id, ICQ_VISIBLE_LIST);
                 m_listRequest = new SetListRequest(seq, lr.screen, 0, ICQ_VISIBLE_LIST);
                 time(&m_listRequestTime);
                 break;
             }
             if (lr.invisible_id){
-                log(L_DEBUG, "%s remove from invisible list", lr.screen.latin1());
+                log(L_DEBUG, "%s remove from invisible list", lr.screen.local8Bit().data());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, lr.screen, 0, lr.invisible_id, ICQ_INVISIBLE_LIST);
                 m_listRequest = new SetListRequest(seq, lr.screen, 0, ICQ_INVISIBLE_LIST);
                 time(&m_listRequestTime);
                 break;
             }
             if (lr.ignore_id){
-                log(L_DEBUG, "%s remove from ignore list", lr.screen.latin1());
+                log(L_DEBUG, "%s remove from ignore list", lr.screen.local8Bit().data());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, lr.screen, 0, lr.ignore_id, ICQ_IGNORE_LIST);
                 m_listRequest = new SetListRequest(seq, lr.screen, 0, ICQ_IGNORE_LIST);
                 time(&m_listRequestTime);
                 break;
             }
             if (lr.screen.length() && lr.grp_id){
-                log(L_DEBUG, "%s remove from contact list", lr.screen.latin1());
+                log(L_DEBUG, "%s remove from contact list", lr.screen.local8Bit().data());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", lr.grp_id, lr.icq_id);
                 m_listRequest = new ContactServerRequest(seq, lr.screen, 0, 0);
                 time(&m_listRequestTime);
