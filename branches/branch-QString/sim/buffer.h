@@ -73,6 +73,7 @@ public:
     void pack(const char *d, unsigned size);
     unsigned unpack(char *d, unsigned size);
     unsigned unpack(QString &d, unsigned size);
+    unsigned unpackUtf8(QString &d, unsigned size);
 
     void pack(char c) { pack(&c, 1); }
     void pack(unsigned short c);
@@ -97,6 +98,7 @@ public:
     void unpack(QString &s);
     void unpackStr(std::string &s);
     void unpackStr(QString &s);
+    void unpackStrUtf8(QString &s);
     void unpackStr32(std::string &s);
 
     void pack(const std::string &s);

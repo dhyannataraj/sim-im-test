@@ -192,6 +192,16 @@ unsigned Buffer::unpack(QString &d, unsigned s)
     return readn;
 }
 
+unsigned Buffer::unpackUtf8(QString &d, unsigned s)
+{
+    unsigned readn = size() - m_posRead;
+    if (s < readn)
+        readn = s;
+    d = QString::fromUtf8(data() + m_posRead, readn);
+    m_posRead += readn;
+    return readn;
+}
+
 QString Buffer::unpackScreen()
 {
     char len;
@@ -260,6 +270,18 @@ void Buffer::unpackStr(QString &str)
     if (s > size() - m_posRead)
         s = (unsigned short)(size() - m_posRead);
     unpack(str, s);
+}
+
+void Buffer::unpackStrUtf8(QString &str)
+{
+    unsigned short s;
+    str = "";
+    *this >> s;
+    if (s == 0)
+        return;
+    if (s > size() - m_posRead)
+        s = (unsigned short)(size() - m_posRead);
+    unpackUtf8(str, s);
 }
 
 void Buffer::unpackStr32(std::string &str)

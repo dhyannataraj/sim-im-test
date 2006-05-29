@@ -221,7 +221,7 @@ void ICQClient::parseRosterItem(unsigned short type,
     case ICQ_GROUPS:{
             if (str.isEmpty())
                 break;
-            log(L_DEBUG, "group %s %u", str.local8Bit(), grp_id);
+            log(L_DEBUG, "group %s %u", str.local8Bit().data(), grp_id);
             ListRequest *lr = findGroupListRequest(grp_id);
             if (lr)
                 break;
@@ -464,7 +464,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             for (unsigned i = 0; i < list_len; i++){
                 QString name;
                 unsigned short id, grp_id, type, len;
-                m_socket->readBuffer.unpackStr(name);
+                m_socket->readBuffer.unpackStrUtf8(name);
                 m_socket->readBuffer >> grp_id >> id >> type >> len;
                 TlvList *inf = NULL;
                 if (len){
