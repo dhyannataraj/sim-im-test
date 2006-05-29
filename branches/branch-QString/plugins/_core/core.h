@@ -24,7 +24,7 @@
 
 #include<qthread.h>
 
-typedef std::map<std::string, unsigned> MAP_TYPES;
+typedef std::map<QString, unsigned> MAP_TYPES;
 
 typedef struct msg_id
 {
@@ -415,10 +415,10 @@ class HistoryThread : public QThread
 public:
     virtual void run();
     void set_id(unsigned id) {m_id=id;}
-    void set_Viewer(std::string Viewer) {m_Viewer=Viewer;}
+    void set_Viewer(const QString &Viewer) {m_Viewer=Viewer;}
 protected:
     unsigned m_id;
-    std::string m_Viewer;
+    QString m_Viewer;
 };
 
 class CorePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
@@ -550,11 +550,11 @@ protected:
     void loadUnread();
     void clearUnread(unsigned contact_id);
     void getWays(std::vector<clientContact> &ways, SIM::Contact *contact);
-    std::string typeName(const char *name);
+    QString typeName(const QString &name);
     void setAutoReplies();
     bool lockProfile(const char*, bool bSend = false);
     bool				m_bInit;
-    std::vector<std::string> m_profiles;
+    std::vector<QString> m_profiles;
     QWidget				*m_cfg;
     QWidget				*m_focus;
     UserView			*m_view;

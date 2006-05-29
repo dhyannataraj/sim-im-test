@@ -1819,7 +1819,7 @@ void *CorePlugin::processEvent(Event *e)
     case EventPluginChanged:{
             pluginInfo *info = (pluginInfo*)(e->param());
             if (info->plugin == this){
-                string profile = getProfile();
+                QString profile = getProfile();
                 free_data(coreData, &data);
                 load_data(coreData, &data, info->cfg);
                 time_t now;
@@ -1829,7 +1829,7 @@ void *CorePlugin::processEvent(Event *e)
                     delete info->cfg;
                     info->cfg = NULL;
                 }
-                setProfile(profile.c_str());
+                setProfile(profile);
                 removeTranslator();
                 installTranslator();
                 initData();
@@ -2076,7 +2076,7 @@ void *CorePlugin::processEvent(Event *e)
             Message *msg = (Message*)(e->param());
             CommandDef *def = messageTypes.find(msg->type());
             if (def){
-                History::add(msg, typeName(def->text).c_str());
+                History::add(msg, typeName(def->text));
                 if ((e->type() == EventMessageReceived) && (msg->type() != MessageStatus)){
                     msg_id m;
                     m.id = msg->id();
@@ -3626,7 +3626,7 @@ void CorePlugin::hideWindows()
 
 void CorePlugin::changeProfile()
 {
-    string saveProfile = getProfile();
+    QString saveProfile = getProfile();
     destroy();
     getContacts()->clearClients();
     Event eUnload(EventPluginsUnload, static_cast<Plugin*>(this));
@@ -3646,7 +3646,7 @@ void CorePlugin::changeProfile()
         delete info->cfg;
         info->cfg = NULL;
     }
-    setProfile(saveProfile.c_str());
+    setProfile(saveProfile);
     removeTranslator();
     installTranslator();
     initData();
@@ -3874,7 +3874,7 @@ static char CLIENTS_CONF[] = "clients.conf";
 
 void CorePlugin::loadDir()
 {
-    string saveProfile = getProfile();
+    QString saveProfile = getProfile();
     setProfile(NULL);
     bool bOK = false;
     QString baseName = user_file("");
@@ -3887,13 +3887,13 @@ void CorePlugin::loadDir()
         QString fname = baseName + "/" + entry + "/" + CLIENTS_CONF;
         QFile f(fname);
         if (f.exists()){
-            m_profiles.push_back((const char*)QFile::encodeName(entry));
-            if (QFile::encodeName(entry) == saveProfile.c_str())
+            m_profiles.push_back(QFile::encodeName(entry));
+            if (entry == saveProfile)
                 bOK = true;
         }
     }
     if (bOK)
-        setProfile(saveProfile.c_str());
+        setProfile(saveProfile);
 }
 
 static char BACKUP_SUFFIX[] = "~";
@@ -4196,9 +4196,9 @@ void CorePlugin::destroyManager()
     }
 }
 
-string CorePlugin::typeName(const char *name)
+QString CorePlugin::typeName(const QString &name)
 {
-    string text = name;
+    QString text = name;
     int n = text.find("&", 0);
     if (n >= 0)
         text.replace(n, 1, "");

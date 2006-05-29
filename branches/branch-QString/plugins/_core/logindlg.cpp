@@ -130,9 +130,9 @@ void LoginDialog::accept()
         return;
     }
 
-    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
+    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
     //if (m_profile != CorePlugin::m_plugin->getProfile()){
-        if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n].c_str())){
+        if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n])){
             CorePlugin::m_plugin->setProfile(m_profile.c_str());
             BalloonMsg::message(i18n("Other instance of SIM use this profile"), buttonOk);
             return;
@@ -213,7 +213,7 @@ void LoginDialog::profileChanged(int)
         btnDelete->setEnabled(false);
     }else{
         clearInputs();
-        CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
+        CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
         unsigned nClients = 0;
@@ -240,7 +240,7 @@ void LoginDialog::profileChanged(int)
         }
         if (passwords.size())
             passwords[0]->setFocus();
-        btnDelete->setEnabled(m_loginProfile == CorePlugin::m_plugin->m_profiles[n].c_str());
+        btnDelete->setEnabled(m_loginProfile == CorePlugin::m_plugin->m_profiles[n]);
         buttonOk->setEnabled(false);
         pswdChanged("");
     }
@@ -321,14 +321,14 @@ void LoginDialog::fill()
     }
     cmbProfile->clear();
     int newCur = -1;
-    string save_profile = CorePlugin::m_plugin->getProfile();
+    QString save_profile = CorePlugin::m_plugin->getProfile();
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();
     for (unsigned i = 0; i < CorePlugin::m_plugin->m_profiles.size(); i++){
-        string curProfile = CorePlugin::m_plugin->m_profiles[i];
-        if (!strcmp(curProfile.c_str(), save_profile.c_str()))
+        QString curProfile = CorePlugin::m_plugin->m_profiles[i];
+        if (curProfile == save_profile)
             newCur = i;
-        CorePlugin::m_plugin->setProfile(curProfile.c_str());
+        CorePlugin::m_plugin->setProfile(curProfile);
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
         if (clients.size()){
@@ -340,7 +340,7 @@ void LoginDialog::fill()
     cmbProfile->insertItem(i18n("New profile"));
     if (newCur != - 1){
         cmbProfile->setCurrentItem(newCur);
-        CorePlugin::m_plugin->setProfile(save_profile.c_str());
+        CorePlugin::m_plugin->setProfile(save_profile);
     }else{
         cmbProfile->setCurrentItem(cmbProfile->count() - 1);
         CorePlugin::m_plugin->setProfile(NULL);
@@ -379,8 +379,8 @@ void LoginDialog::profileDelete()
     int n = cmbProfile->currentItem();
     if ((n < 0) || (n >= (int)(CorePlugin::m_plugin->m_profiles.size())))
         return;
-    string curProfile = CorePlugin::m_plugin->m_profiles[n];
-    CorePlugin::m_plugin->setProfile(curProfile.c_str());
+    QString curProfile = CorePlugin::m_plugin->m_profiles[n];
+    CorePlugin::m_plugin->setProfile(curProfile);
     rmDir(user_file(""));
     CorePlugin::m_plugin->setProfile(NULL);
     CorePlugin::m_plugin->changeProfile();
