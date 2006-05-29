@@ -210,32 +210,28 @@ void *LoggerPlugin::processEvent(Event *e)
                 m_file->writeBlock(s.latin1(), s.length());
             }
 #ifdef QT_DLL
-            for (char *p = (char*)(s.latin1()); *p; ){
-                char *r = strchr(p, '\n');
-                if (r) *r = 0;
-                if (strlen(p) > 256){
-                    s = p;
-                    while (!s.isEmpty()){
+            QStringList slist = QStringList::split('\n',s);
+            for (unsigned i = 0 ; i < slist.count() ; i++){
+                QString out = slist[i];
+                if (out.length() > 256){
+                    while (!out.isEmpty()){
                         QString l;
-                        if (s.length() < 256){
-                            l = s;
-                            s = "";
+                        if (out.length() < 256){
+                            l = out;
+                            out = "";
                         }else{
-                            l = s.left(256);
-                            s = s.mid(256);
+                            l = out.left(256);
+                            out = out.mid(256);
                         }
-                        OutputDebugStringA(l.latin1());
+                        OutputDebugStringA(l.local8Bit().data());
                     }
                 }else{
-                    OutputDebugStringA(p);
+                    OutputDebugStringA(out.local8Bit().data());
                 }
                 OutputDebugStringA("\n");
-                if (r == NULL)
-                    break;
-                p = r + 1;
             }
 #else
-            fprintf(stderr, "%s\n", s.latin1());
+            fprintf(stderr, "%s\n", s.local8Bit().data());
 #endif
         }
     }
