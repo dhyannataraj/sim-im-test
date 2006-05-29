@@ -632,7 +632,7 @@ PictDef *FileIconSet::getPict(const QString &name)
 #ifdef USE_KDE
         if (!it.data().system.isEmpty()){
             QPixmap pict;
-            if (name.startWith("big.")){
+            if (name.startsWith("big.")){
                 pict = SmallIconSet(it.data().system).pixmap(QIconSet::Small, QIconSet::Normal);
             }else{
                 pict = DesktopIconSet(it.data().system).pixmap(QIconSet::Large, QIconSet::Normal);

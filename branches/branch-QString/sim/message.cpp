@@ -25,6 +25,8 @@
 #include <qstringlist.h>
 #include <qregexp.h>
 
+#include <vector>
+
 namespace SIM
 {
 

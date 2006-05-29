@@ -23,6 +23,8 @@
 #include <qstylesheet.h>
 #include <qpainter.h>
 
+#include <vector>
+
 using namespace SIM;
 
 LinkLabel::LinkLabel(QWidget *parent, const char *name)

@@ -1034,7 +1034,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
 #if KDE_IS_VERSION(3,2,0)
     cmd->id		= CmdEnableSpell;
     cmd->text		= I18N_NOOP("Enable spell check");
-    cmd->accel		= NULL;
+    cmd->accel		= "";
     cmd->menu_grp	= 0x4000;
     eCmd.process();
 
