@@ -1767,10 +1767,10 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QS
     if (data->Status.value > curStatus){
         curStatus = data->Status.value;
         if (statusIcon && icons){
-            string iconSave = *icons;
+            QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
-                addIcon(icons, iconSave.c_str(), statusIcon);
+                addIcon(icons, iconSave, statusIcon);
         }
         statusIcon = def->icon;
     }else{
