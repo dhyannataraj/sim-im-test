@@ -27,7 +27,6 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
-using std::string;
 using namespace SIM;
 
 AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
@@ -72,15 +71,16 @@ void AIMInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName.ptr, edtFirst->text().utf8());
-    set_str(&data->LastName.ptr, edtLast->text().utf8());
-    set_str(&data->MiddleName.ptr, edtMiddle->text().utf8());
-    set_str(&data->Maiden.ptr, edtMaiden->text().utf8());
-    set_str(&data->Nick.ptr, edtNick->text().utf8());
-    set_str(&data->Address.ptr, edtStreet->text().utf8());
-    set_str(&data->City.ptr, edtCity->text().utf8());
-    set_str(&data->State.ptr, edtState->text().utf8());
-    set_str(&data->Zip.ptr, edtZip->text().utf8());
+    set_utf8(&data->FirstName.ptr, edtFirst->text());
+    set_utf8(&data->LastName.ptr, edtLast->text());
+    set_utf8(&data->MiddleName.ptr, edtMiddle->text());
+    set_utf8(&data->Maiden.ptr, edtMaiden->text());
+    set_utf8(&data->Nick.ptr, edtNick->text());
+    set_utf8(&data->Address.ptr, edtStreet->text());
+    set_utf8(&data->City.ptr, edtCity->text());
+    set_utf8(&data->State.ptr, edtState->text());
+    set_utf8(&data->Zip.ptr, edtZip->text());
+    data->Country.value = getComboValue(cmbCountry,getCountries());
 }
 
 void *AIMInfo::processEvent(Event *e)
@@ -107,9 +107,7 @@ void *AIMInfo::processEvent(Event *e)
 
 static void setText(QLineEdit *edit, const char *str)
 {
-    if (str == NULL)
-        str = "";
-    edit->setText(QString::fromUtf8(str));
+    edit->setText(get_utf8(str));
 }
 
 void AIMInfo::fill()
@@ -209,21 +207,21 @@ void AIMInfo::fill()
         edtIntIP->hide();
     }
     if (m_data){
-        string client_name = m_client->clientName(data);
+        QString client_name = m_client->clientName(data);
         if (client_name.length()){
-            edtClient->setText(client_name.c_str());
+            edtClient->setText(client_name);
         }else{
             lblClient->hide();
             edtClient->hide();
         }
     }else{
-        string name = PACKAGE;
+        QString name = PACKAGE;
         name += " ";
         name += VERSION;
 #ifdef WIN32
         name += "/win32";
 #endif
-        edtClient->setText(name.c_str());
+        edtClient->setText(name);
     }
 }
 
