@@ -151,16 +151,16 @@ SpellerConfig::~SpellerConfig()
         delete_aspell_config(cfg);
 }
 
-std::string SpellerConfig::getLangs()
+QString SpellerConfig::getLangs()
 {
-    std::string res;
+    QString res;
     if (cfg == NULL)
         return res;
     AspellDictInfoList *dlist = get_aspell_dict_info_list(cfg);
     AspellDictInfoEnumeration *dels = aspell_dict_info_list_elements(dlist);
     const AspellDictInfo *entry;
     while ((entry = aspell_dict_info_enumeration_next(dels)) != NULL){
-        if (!res.empty())
+        if (!res.isEmpty())
             res += ";";
         res += entry->name;
     }

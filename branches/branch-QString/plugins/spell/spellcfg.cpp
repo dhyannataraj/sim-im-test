@@ -77,15 +77,15 @@ void SpellConfig::apply()
 #ifdef WIN32
     m_plugin->setPath(QFile::encodeName(edtPath->text()));
 #endif
-    std::string lang;
+    QString lang;
     for (QListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
         if (item->text(COL_CHECKED) == "")
             continue;
-        if (!lang.empty())
+        if (!lang.isEmpty())
             lang += ";";
-        lang += item->text(COL_NAME).latin1();
+        lang += item->text(COL_NAME);
     }
-    m_plugin->setLang(lang.c_str());
+    m_plugin->setLang(lang);
     m_plugin->reset();
 }
 
@@ -101,7 +101,7 @@ void SpellConfig::textChanged(const QString &str)
 void SpellConfig::textChanged(const QString&)
 #endif
 {
-    std::string langs;
+    QString langs;
 #ifdef WIN32
     if (str.isEmpty()){
         lnkAspell->show();
@@ -121,24 +121,24 @@ void SpellConfig::textChanged(const QString&)
     }
 #endif
     lstLang->clear();
-    if (langs.empty()){
+    if (langs.isEmpty()){
         lblLang->setEnabled(false);
         lstLang->setEnabled(false);
     }else{
         lblLang->setEnabled(true);
         lstLang->setEnabled(true);
-        while (!langs.empty()){
-            std::string l = SIM::getToken(langs, ';');
+        while (!langs.isEmpty()){
+            QString l = SIM::getToken(langs, ';');
             bool bCheck = false;
-            std::string ll = m_plugin->getLang();
-            while (!ll.empty()){
-                std::string lc = SIM::getToken(ll, ';');
+            QString ll = m_plugin->getLang();
+            while (!ll.isEmpty()){
+                QString lc = SIM::getToken(ll, ';');
                 if (l == lc){
                     bCheck = true;
                     break;
                 }
             }
-            QListViewItem *item = new QListViewItem(lstLang, l.c_str(), "", bCheck ? "1" : "");
+            QListViewItem *item = new QListViewItem(lstLang, l, "", bCheck ? "1" : "");
             setCheck(item);
         }
     }

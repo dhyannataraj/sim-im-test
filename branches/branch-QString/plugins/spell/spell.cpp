@@ -26,7 +26,6 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 
-using namespace std;
 using namespace SIM;
 
 class PSpellHighlighter : public SpellHighlighter
@@ -126,10 +125,10 @@ void SpellPlugin::reset()
     m_base = new SpellerBase;
 #endif
     SpellerConfig cfg(*m_base);
-    std::string ll = getLang();
-    while (!ll.empty()){
-        std::string l = SIM::getToken(ll, ';');
-        cfg.setKey("lang", l.c_str());
+    QString ll = getLang();
+    while (!ll.isEmpty()){
+        QString l = SIM::getToken(ll, ';');
+        cfg.setKey("lang", l);
         cfg.setKey("encoding", "utf-8");
         Speller *speller = new Speller(&cfg);
         if (speller->created()){
