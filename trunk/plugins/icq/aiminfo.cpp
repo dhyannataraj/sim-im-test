@@ -81,6 +81,7 @@ void AIMInfo::apply(Client *client, void *_data)
     set_str(&data->City.ptr, edtCity->text().utf8());
     set_str(&data->State.ptr, edtState->text().utf8());
     set_str(&data->Zip.ptr, edtZip->text().utf8());
+    data->Country.value = getComboValue(cmbCountry, getCountries());
 }
 
 void *AIMInfo::processEvent(Event *e)
@@ -127,7 +128,7 @@ void AIMInfo::fill()
     setText(edtCity, data->City.ptr);
     setText(edtState, data->State.ptr);
     setText(edtZip, data->Zip.ptr);
-    initCombo(cmbCountry, (unsigned short)(data->Country.value), getCountries(), true, getCountryCodes());
+    initCombo(cmbCountry, data->Country.value, getCountries());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty()) {
