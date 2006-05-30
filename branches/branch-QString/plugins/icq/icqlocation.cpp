@@ -631,6 +631,7 @@ void ICQClient::setAIMInfo(ICQUserData *data)
     set_str(&ownerData->Nick.ptr, data->Nick.ptr);
     set_str(&ownerData->Zip.ptr, data->Zip.ptr);
     set_str(&ownerData->State.ptr, data->State.ptr);
+    ownerData->Country.value = data->Country.value;
 }
 
 void ICQClient::setProfile(ICQUserData *data)

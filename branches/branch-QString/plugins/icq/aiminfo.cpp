@@ -125,7 +125,7 @@ void AIMInfo::fill()
     setText(edtCity, data->City.ptr);
     setText(edtState, data->State.ptr);
     setText(edtZip, data->Zip.ptr);
-    initCombo(cmbCountry, (unsigned short)(data->Country.value), getCountries(), true, getCountryCodes());
+    initCombo(cmbCountry, data->Country.value, getCountries());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty()) {

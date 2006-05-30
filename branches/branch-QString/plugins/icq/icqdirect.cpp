@@ -1634,7 +1634,7 @@ void ICQFileTransfer::processPacket()
             setSpeed(m_speed);
             startPacket(FT_INIT_ACK);
             m_socket->writeBuffer.pack((unsigned long)m_speed);
-            string uin = m_client->screen(&m_client->data.owner);
+            QString uin = m_client->screen(&m_client->data.owner);
             m_socket->writeBuffer << uin;
             sendPacket();
             FileTransfer::m_state = Negotiation;
