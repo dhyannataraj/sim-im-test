@@ -341,8 +341,8 @@ History::History(unsigned id)
     void *data;
     ClientDataIterator it(contact->clientData);
     while ((data = ++it) != NULL){
-        string name = it.client()->dataName(data);
-        HistoryFile *f = new HistoryFile(name.c_str(), id);
+        QString name = it.client()->dataName(data);
+        HistoryFile *f = new HistoryFile(name, id);
         f->m_name = name;
         if (f->isOpen()){
             files.push_back(f);

@@ -28,7 +28,7 @@ class XSL;
 typedef struct CutHistory
 {
     unsigned	contact;
-    std::string	client;
+    QString	    client;
     unsigned	from;
     unsigned	size;
 } CutHistory;
@@ -62,7 +62,7 @@ protected:
     void		setSource(const QString&);
     void		setColors();
     void		reload();
-    unsigned	messageId(const QString&, std::string &client);
+    unsigned	messageId(const QString&, QString &client);
     QString		messageText(SIM::Message *msg, bool bUnread);
     QPoint		m_popupPos;
     QString		m_selectStr;

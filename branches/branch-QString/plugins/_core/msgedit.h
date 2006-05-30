@@ -106,7 +106,7 @@ protected:
     void setEmptyMessage();
     bool setType(unsigned type);
     bool	m_bTyping;
-    std::string	m_typingClient;
+    QString	m_typingClient;
     bool send();
     std::list<unsigned> multiply;
     std::list<unsigned>::iterator multiply_it;
@@ -125,7 +125,7 @@ signals:
     void clicked(const char *id);
 protected:
     void mouseReleaseEvent(QMouseEvent*);
-    std::string id;
+    QString id;
 };
 
 class SmilePopup : public QFrame

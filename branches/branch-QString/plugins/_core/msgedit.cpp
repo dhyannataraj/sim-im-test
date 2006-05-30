@@ -884,11 +884,11 @@ bool MsgEdit::sendMessage(Message *msg)
         void *data = NULL;
         Client *c = client(data, true, false, msg->contact(), true);
         if (c){
-            string resources = c->resources(data);
-            while (!resources.empty()){
-                string res = getToken(resources, ';');
+            QString resources = c->resources(data);
+            while (!resources.isEmpty()){
+                QString res = getToken(resources, ';');
                 getToken(res, ',');
-                if (m_resource == QString::fromUtf8(res.c_str())){
+                if (m_resource == res){
                     msg->setResource(m_resource);
                     break;
                 }
@@ -911,15 +911,14 @@ bool MsgEdit::sendMessage(Message *msg)
 
 bool MsgEdit::send()
 {
-    unsigned i;
     Contact *contact = getContacts()->contact(m_msg->contact());
-    string client_str = m_msg->client();
+    QString client_str = m_msg->client();
     bool bSent = false;
     void *data = NULL;
     if (contact){
         Event e(EventMessageSend, m_msg);
         e.process();
-        if (client_str.empty()){
+        if (client_str.isEmpty()){
             m_type = m_msg->type();
             Client *c = client(data, true, false, m_msg->contact(), (m_msg->getFlags() & MESSAGE_MULTIPLY) == 0);
             if (c){
@@ -927,7 +926,7 @@ bool MsgEdit::send()
                 bSent = c->send(m_msg, data);
             }else{
                 data = NULL;
-                for (i = 0; i < getContacts()->nClients(); i++){
+                for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->send(m_msg, NULL)){
                         bSent = true;
@@ -1377,7 +1376,7 @@ void MsgEdit::typingStart()
         return;
     Message *msg = new Message(MessageTypingStart);
     if (cl->send(msg, data)){
-        m_typingClient = cl->dataName(data).latin1();
+        m_typingClient = cl->dataName(data);
     }else{
         delete msg;
     }
@@ -1385,7 +1384,7 @@ void MsgEdit::typingStart()
 
 void MsgEdit::typingStop()
 {
-    if (m_typingClient.empty())
+    if (m_typingClient.isEmpty())
         return;
     Contact *contact = getContacts()->contact(m_userWnd->m_id);
     if (contact == NULL)
@@ -1400,7 +1399,7 @@ void MsgEdit::typingStop()
             break;
         }
     }
-    m_typingClient = "";
+    m_typingClient = QString::null;
 }
 
 void MsgEdit::editTextChanged()
@@ -1542,18 +1541,18 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
     setPixmap(pict);
     QStringList smiles = getIcons()->getSmile(_id);
     QString tip = smiles.front();
-    string name = getIcons()->getSmileName(_id);
-    char c = name[0];
+    QString name = getIcons()->getSmileName(_id);
+    QChar c = name[0];
     if ((c < '0') || (c > '9')){
         tip += " ";
-        tip += i18n(name.c_str());
+        tip += i18n(name);
     }
     QToolTip::add(this, tip);
 }
 
 void SmileLabel::mouseReleaseEvent(QMouseEvent*)
 {
-    emit clicked(id.c_str());
+    emit clicked(id.latin1());
 }
 
 SmilePopup::SmilePopup(QWidget *popup)

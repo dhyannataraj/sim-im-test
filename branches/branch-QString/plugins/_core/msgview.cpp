@@ -243,7 +243,7 @@ void MsgViewBase::update()
         n = s.find("\"");
         if (n < 0)
             continue;
-        string client;
+        QString client;
         unsigned id = messageId(s.left(n), client);
         list<Msg_Id>::iterator it;
         for (it = m_updated.begin(); it != m_updated.end(); ++it){
@@ -271,7 +271,7 @@ void MsgViewBase::update()
         n = s.find("\"");
         if (n < 0)
             continue;
-        string client;
+        QString client;
         unsigned id = messageId(s.left(n), client);
         list<Msg_Id>::iterator it;
         for (it = msgs.begin(); it != msgs.end(); ++it){
@@ -347,10 +347,10 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         }
         if (!clientStr.isEmpty()){
             for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                string n = getContacts()->getClient(i)->name();
+                QString n = getContacts()->getClient(i)->name();
                 if (n.length() < clientStr.length())
                     continue;
-                n = n.substr(0, clientStr.length());
+                n = n.left(clientStr.length());
                 if (clientStr == n){
                     client = getContacts()->getClient(i);
                     break;
@@ -688,7 +688,7 @@ bool MsgViewBase::findMessage(Message *msg)
             ensureCursorVisible();
             return true;
         }
-        string client;
+        QString client;
         if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
             continue;
         setCursorPosition(i, 0);
@@ -708,15 +708,15 @@ void MsgViewBase::setColors()
     TextShow::setForeground(CorePlugin::m_plugin->getEditForeground());
 }
 
-unsigned MsgViewBase::messageId(const QString &_s, string &client)
+unsigned MsgViewBase::messageId(const QString &_s, QString &client)
 {
     QString s(_s);
-    unsigned id = atol(getToken(s, ',').latin1());
+    unsigned id = getToken(s, ',').toULong();
     getToken(s, ',');
-    client = getToken(s, ',').utf8();
+    client = getToken(s, ',');
     if (id >= 0x80000000)
         return id;
-    for (unsigned cut_id = atol(s.latin1()); cut_id < m_cut.size(); cut_id++){
+    for (unsigned cut_id = s.toULong(); cut_id < m_cut.size(); cut_id++){
         if (m_cut[cut_id].client != client)
             continue;
         if (id < m_cut[cut_id].from)
@@ -740,7 +740,7 @@ void MsgViewBase::reload()
         n = s.find("\"");
         if (n < 0)
             continue;
-        string client;
+        QString client;
         Msg_Id id;
         id.id = messageId(s.left(n), client);
         id.client = client;
@@ -793,7 +793,7 @@ void *MsgViewBase::processEvent(Event *e)
             n = s.find("\"");
             if (n < 0)
                 continue;
-            string client;
+            QString client;
             if ((messageId(s.left(n), client) == msg->id()) && (client == msg->client()))
                 break;
         }
@@ -823,7 +823,7 @@ void *MsgViewBase::processEvent(Event *e)
             n = s.find("\"");
             if (n < 0)
                 continue;
-            string client;
+            QString client;
             unsigned id = messageId(s.left(n), client);
             if ((client == ch->client) && (id >= ch->from) && (id < ch->from + ch->size)){
                 if (!bDelete){
@@ -878,6 +878,7 @@ void *MsgViewBase::processEvent(Event *e)
         if (msg->contact() != m_id)
             return NULL;
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
+            unsigned j;
             QString s = text(i);
             int n = s.find(MSG_ANCHOR);
             if (n < 0)
@@ -886,16 +887,12 @@ void *MsgViewBase::processEvent(Event *e)
             n = s.find("\"");
             if (n < 0)
                 continue;
-            string client;
+            QString client;
             if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
                 continue;
-            string ss;
-            ss = text(i).local8Bit();
 
-            unsigned j;
             for (j = i + 1; j < (unsigned)paragraphs(); j++){
                 QString s = text(j);
-                ss = text(j).local8Bit();
                 int n = s.find(MSG_ANCHOR);
                 if (n < 0)
                     continue;
@@ -903,7 +900,7 @@ void *MsgViewBase::processEvent(Event *e)
                 n = s.find("\"");
                 if (n < 0)
                     continue;
-                string client;
+                QString client;
                 if ((messageId(s.left(n), client) != msg->id()) || (client != msg->client()))
                     break;
             }
@@ -1120,9 +1117,9 @@ Message *MsgViewBase::currentMessage()
         n = s.find("\"");
         if (n < 0)
             continue;
-        string client;
+        QString client;
         unsigned id = messageId(s.left(n), client);
-        Message *msg = History::load(id, client.c_str(), m_id);
+        Message *msg = History::load(id, client, m_id);
         if (msg)
             return msg;
     }

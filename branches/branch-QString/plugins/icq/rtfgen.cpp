@@ -845,7 +845,7 @@ void RTFGenParser::tag_end(const QString &tagName)
 QString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
 {
     RTFGenParser p(this, foreColor, contact, max_size);
-    string res = p.parse(text);
+    QString res = p.parse(text);
     if (p.m_res_size == 0){
         part = text;
         text = "";

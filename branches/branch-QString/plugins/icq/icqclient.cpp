@@ -1091,7 +1091,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
     }else{
         name = screen;
     }
-    set_utf8(&data->Alias.ptr, *alias);
+    set_utf8(&data->Alias.ptr, name);
     contact->setName(name);
     if (grp)
         contact->setGroup(grp->id());
