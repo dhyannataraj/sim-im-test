@@ -347,7 +347,7 @@ void FetchThread::run()
         if (bFirst){
             bFirst = false;
             getToken(line, ' ');
-            m_client->m_code = line.toLong();
+            m_client->m_code = getToken(line, ' ').toLong();
             continue;
         }
         m_client->m_hIn += line;
