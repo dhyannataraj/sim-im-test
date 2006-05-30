@@ -1414,8 +1414,8 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
 
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
     m_socket->writeBuffer.packScreen(screen(data));
-    string message;
-    string charset;
+    QCString message;
+    QString charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
         message = msg->getPlainText().utf8();
         charset = "utf-8";
@@ -1424,16 +1424,16 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
     }
     m_socket->writeBuffer
     << (unsigned short)(message.length())
-    << message.c_str()
+    << message.data()
     << (char)0x00;
-    if (charset.empty()){
+    if (charset.isEmpty()){
         m_socket->writeBuffer << (char)0x00;
     }else{
         m_socket->writeBuffer
         << (char)0x01
         << (unsigned short)1
         << (unsigned short)(charset.length())
-        << charset.c_str();
+        << charset.latin1();
     }
     sendPacket(true);
 
@@ -1479,8 +1479,8 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
     m_socket->writeBuffer.packScreen(screen(data));
 
-    string message;
-    string charset;
+    QCString message;
+    QString charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
         message = msg->getPlainText().utf8();
         charset = "utf-8";
@@ -1490,15 +1490,15 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     m_socket->writeBuffer
     << (char) 0
     << (unsigned short)(message.length())
-    << message.c_str()
+    << message.data()
     << (char)0x00;
-    if (charset.empty()){
+    if (charset.isEmpty()){
         m_socket->writeBuffer << (char)0x00;
     }else{
         m_socket->writeBuffer << (char)0x01
         << (unsigned short)1
         << (unsigned short)(charset.length())
-        << charset.c_str();
+        << charset.latin1();
     }
     sendPacket(true);
 

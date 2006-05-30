@@ -1892,7 +1892,7 @@ void *YahooClient::processEvent(Event *e)
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        sendStatus(YAHOO_STATUS_CUSTOM, getContacts()->fromUnicode(NULL, t->tmpl).c_str());
+        sendStatus(YAHOO_STATUS_CUSTOM, getContacts()->fromUnicode(NULL, t->tmpl));
     }
     if (e->type() == EventMessageCancel){
         Message *msg = (Message*)(e->param());
@@ -1955,8 +1955,8 @@ void *YahooClient::processEvent(Event *e)
                     addParam(49, "FILEXFER");
                     addParam(1, getLogin().utf8());
                     addParam(13, "2");
-                    addParam(27, getContacts()->fromUnicode(contact, msg->getDescription()).c_str());
-                    addParam(53, getContacts()->fromUnicode(contact, msg->getDescription()).c_str());
+                    addParam(27, getContacts()->fromUnicode(contact, msg->getDescription()));
+                    addParam(53, getContacts()->fromUnicode(contact, msg->getDescription()));
                     addParam(11, QString::number(msg->getMsgID()));
                     sendPacket(YAHOO_SERVICE_P2PFILEXFER);
                 }
@@ -2040,13 +2040,14 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     url += ":";
     url += QString::number(port);
     url += "/";
-    string nn;
+    QString nn;
     Contact *contact;
     findContact(data->Login.ptr, NULL, contact);
-    string ff = getContacts()->fromUnicode(contact, fn);
-    for (const char *p = ff.c_str(); *p; p++){
-        if (((*p >= 'a') && (*p <='z')) || ((*p >= 'A') && (*p < 'Z')) || ((*p >= '0') && (*p <= '9')) || (*p == '.')){
-            nn += *p;
+    QCString ff = getContacts()->fromUnicode(contact, fn);
+    for (unsigned i = 0; i < ff.length(); i++){
+        const char c = ff.at(i);
+        if (((c >= 'a') && (c <='z')) || ((c >= 'A') && (c < 'Z')) || ((c >= '0') && (c <= '9')) || (c == '.')){
+            nn += c;
         }else{
             nn += "_";
         }
@@ -2057,11 +2058,11 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     addParam(49, "FILEXFER");
     addParam(1, getLogin().utf8());
     addParam(13, "1");
-    addParam(27, getContacts()->fromUnicode(contact, fn).c_str());
+    addParam(27, getContacts()->fromUnicode(contact, fn));
     addParam(28, QString::number(file->size()));
     addParam(20, url);
-    addParam(14, getContacts()->fromUnicode(contact, m).c_str());
-    addParam(53, nn.c_str());
+    addParam(14, getContacts()->fromUnicode(contact, m));
+    addParam(53, nn);
     addParam(11, QString::number(++m_ft_id));
     addParam(54, "MSG1.0");
     sendPacket(YAHOO_SERVICE_P2PFILEXFER, YAHOO_STATUS_AVAILABLE);

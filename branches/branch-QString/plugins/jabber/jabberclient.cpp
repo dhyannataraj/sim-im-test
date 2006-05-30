@@ -1042,18 +1042,17 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
     return data;
 }
 
-static void addIcon(QString *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 {
     if (s == NULL)
         return;
-    if (statusIcon && !strcmp(statusIcon, icon))
+    if (statusIcon == icon)
         return;
-    QString str = *s;
-    while (!str.isEmpty()){
-        QString item = getToken(str, ',');
-        if (item == icon)
-            return;
-    }
+
+    QStringList sl = QStringList::split(',', *s);
+    if(sl.findIndex(icon))
+        return;
+
     if (!s->isEmpty())
         *s += ',';
     *s += icon;
@@ -1171,10 +1170,10 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
     if (data->Status.value > curStatus){
         curStatus = data->Status.value;
         if (statusIcon && icons){
-            string iconSave = *icons;
+            QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
-                addIcon(icons, iconSave.c_str(), statusIcon);
+                addIcon(icons, iconSave, statusIcon);
         }
         statusIcon = dicon;
     }else{

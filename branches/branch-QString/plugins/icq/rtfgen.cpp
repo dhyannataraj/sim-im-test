@@ -493,9 +493,8 @@ void RTFGenParser::text(const QString &text)
         QString s;
         s += c;
         if (m_codec){
-            string plain;
-            plain = m_codec->fromUnicode(s);
-            if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
+            QCString plain = m_codec->fromUnicode(s);
+            if ((plain.length() == 1) && (m_codec->toUnicode(plain) == s)){
                 char b[5];
                 snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
                 res += b;

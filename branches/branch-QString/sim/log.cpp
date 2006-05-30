@@ -109,7 +109,7 @@ EXPORT QString make_packet_string(LogInfo *l)
         time_t now;
         time(&now);
         struct tm *tm = localtime(&now);
-        string name = type->name();
+        QString name = type->name();
         if (l->add_info && *l->add_info){
             name += ".";
             name += l->add_info;
@@ -117,7 +117,7 @@ EXPORT QString make_packet_string(LogInfo *l)
         m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
                tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
                tm->tm_hour, tm->tm_min, tm->tm_sec,
-               name.c_str(),
+               name.latin1(),
                (l->log_level & L_PACKET_IN) ? "Read" : "Write",
                b->size() - start);
         if (type->isText()){

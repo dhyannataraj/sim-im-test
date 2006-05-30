@@ -222,7 +222,7 @@ void MoreInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->Homepage.ptr, getContacts()->fromUnicode(NULL, edtHomePage->text()).c_str());
+    set_str(&data->Homepage.ptr, getContacts()->fromUnicode(NULL, edtHomePage->text()));
     data->Gender.value = getComboValue(cmbGender, genders);
     int day, month, year;
     edtDate->getDate(day, month, year);

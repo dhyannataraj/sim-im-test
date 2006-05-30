@@ -123,9 +123,9 @@ void ICQInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName.ptr, getContacts()->fromUnicode(NULL, edtFirst->text()).c_str());
-    set_str(&data->LastName.ptr, getContacts()->fromUnicode(NULL, edtLast->text()).c_str());
-    set_str(&data->Nick.ptr, getContacts()->fromUnicode(NULL, edtNick->text()).c_str());
+    set_str(&data->FirstName.ptr, getContacts()->fromUnicode(NULL, edtFirst->text()));
+    set_str(&data->LastName.ptr, getContacts()->fromUnicode(NULL, edtLast->text()));
+    set_str(&data->Nick.ptr, getContacts()->fromUnicode(NULL, edtNick->text()));
 }
 
 void *ICQInfo::processEvent(Event *e)

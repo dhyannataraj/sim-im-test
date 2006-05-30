@@ -70,7 +70,7 @@ void InterestsInfo::apply(Client *client, void *_data)
             res += ";";
         res += info[i];
     }
-    set_str(&data->Interests.ptr, getContacts()->fromUnicode(NULL, res).c_str());
+    set_str(&data->Interests.ptr, getContacts()->fromUnicode(NULL, res));
 }
 
 void *InterestsInfo::processEvent(Event *e)

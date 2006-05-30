@@ -1736,18 +1736,17 @@ bool MSNClient::compareData(void *d1, void *d2)
     return strcmp(((MSNUserData*)d1)->EMail.ptr, ((MSNUserData*)d2)->EMail.ptr) == 0;
 }
 
-static void addIcon(QString *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 {
     if (s == NULL)
         return;
-    if (statusIcon && !strcmp(statusIcon, icon))
+    if (statusIcon == icon)
         return;
-    QString str = *s;
-    while (!str.isEmpty()){
-        QString item = getToken(str, ',');
-        if (item == icon)
-            return;
-    }
+
+    QStringList sl = QStringList::split(',', *s);
+    if(sl.findIndex(icon))
+        return;
+
     if (!s->isEmpty())
         *s += ',';
     *s += icon;

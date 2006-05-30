@@ -99,11 +99,11 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             m_socket->readBuffer.unpackStr(md5_key);
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
-            string md = md5_key;
+            QCString md = md5_key.c_str();
             md += getContacts()->fromUnicode(NULL, getPassword());
             md += "AOL Instant Messenger (SM)";
-            md = md5(md.c_str());
-            m_socket->writeBuffer.tlv(0x0025, md.c_str(), md.length());
+            md = md5(md.data()).c_str();
+            m_socket->writeBuffer.tlv(0x0025, md.data(), md.length());
             m_socket->writeBuffer.tlv(0x0003, "AOL Instant Messenger, version 5.1.3036/WIN32");
             m_socket->writeBuffer.tlv(0x0016, (unsigned short)0x0109);
             m_socket->writeBuffer.tlv(0x0017, (unsigned short)0x0005);
@@ -152,10 +152,10 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             << 0x00000000L << 0x94680000L << 0x94680000L
             << 0x00000000L << 0x00000000L << 0x00000000L
             << 0x00000000L;
-            string pswd = getContacts()->fromUnicode(NULL, getPassword());
+            QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
             unsigned short len = (unsigned short)(pswd.length() + 1);
             msg.pack(len);
-            msg.pack(pswd.c_str(), len);
+            msg.pack(pswd.data(), len);
             msg << 0x94680000L << 0x00000602L;
             m_socket->writeBuffer.tlv(0x0001, msg);
             m_socket->writeBuffer.tlv(0x0009, verifyStr.latin1(), verifyStr.length());
@@ -231,10 +231,10 @@ void ICQClient::chn_login()
     << 0x00000000L << 0x94680000L << 0x94680000L
     << 0x00000000L << 0x00000000L << 0x00000000L
     << 0x00000000L;
-    QString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
     unsigned short len = (unsigned short)(pswd.length() + 1);
     msg.pack(len);
-    msg.pack(pswd.latin1(), len);
+    msg.pack(pswd.data(), len);
     msg << 0x94680000L << 0x00000602L;
     m_socket->writeBuffer.tlv(0x0001, msg);
     sendPacket(true);

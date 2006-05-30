@@ -282,7 +282,7 @@ void PastInfo::apply(Client *client, void *_data)
             res += ";";
         res += bg[i];
     }
-    set_str(&data->Backgrounds.ptr, getContacts()->fromUnicode(NULL, res).c_str());
+    set_str(&data->Backgrounds.ptr, getContacts()->fromUnicode(NULL, res));
     res = "";
     QString af[3];
     af[0] = getInfo(cmbAf1, edtAf1, affilations);
@@ -295,7 +295,7 @@ void PastInfo::apply(Client *client, void *_data)
             res += ";";
         res += af[i];
     }
-    set_str(&data->Affilations.ptr, getContacts()->fromUnicode(NULL, res).c_str());
+    set_str(&data->Affilations.ptr, getContacts()->fromUnicode(NULL, res));
 }
 
 QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)

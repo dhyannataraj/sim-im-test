@@ -42,7 +42,7 @@ void AboutInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->About.ptr, getContacts()->fromUnicode(getContacts()->contact(m_contact), edtAbout->text()).c_str());
+    set_str(&data->About.ptr, getContacts()->fromUnicode(getContacts()->contact(m_contact), edtAbout->text()));
 }
 
 void *AboutInfo::processEvent(Event *e)

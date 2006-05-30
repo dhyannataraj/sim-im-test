@@ -52,10 +52,10 @@ void HomeInfo::apply(Client *client, void *_data)
         return;
     ICQUserData *data = (ICQUserData*)_data;
     Contact *contact = getContacts()->contact(m_contact);
-    set_str(&data->Address.ptr, getContacts()->fromUnicode(contact, edtAddress->text()).c_str());
-    set_str(&data->City.ptr, getContacts()->fromUnicode(contact, edtCity->text()).c_str());
-    set_str(&data->State.ptr, getContacts()->fromUnicode(contact, edtState->text()).c_str());
-    set_str(&data->Zip.ptr, getContacts()->fromUnicode(contact, edtZip->text()).c_str());
+    set_str(&data->Address.ptr, getContacts()->fromUnicode(contact, edtAddress->text()));
+    set_str(&data->City.ptr, getContacts()->fromUnicode(contact, edtCity->text()));
+    set_str(&data->State.ptr, getContacts()->fromUnicode(contact, edtState->text()));
+    set_str(&data->Zip.ptr, getContacts()->fromUnicode(contact, edtZip->text()));
     data->Country.value = getComboValue(cmbCountry, getCountries());
 }
 

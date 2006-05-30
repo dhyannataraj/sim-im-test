@@ -1341,11 +1341,11 @@ void ICQClient::sendAutoReply(const char *screen, MessageId id,
     if (response){
         Contact *contact = NULL;
         findContact(screen, NULL, false, contact);
-        string r;
+        QCString r;
         r = getContacts()->fromUnicode(contact, QString::fromUtf8(response));
         unsigned short size = (unsigned short)(r.length() + 1);
         m_socket->writeBuffer.pack(size);
-        m_socket->writeBuffer.pack(r.c_str(), size);
+        m_socket->writeBuffer.pack(r.data(), size);
     }else{
         m_socket->writeBuffer << (char)0x01 << response_type;
     }

@@ -901,19 +901,18 @@ void ICQClient::sendPacket(bool bSend)
 
 QString ICQClient::cryptPassword()
 {
-    QString pswd = getContacts()->fromUnicode(NULL, getPassword());
-    const char *p = pswd.latin1();
-    QString res;
     unsigned char xor_table[] =
         {
             0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
             0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
         };
-    int j;
-    for (j = 0; j < 8; j++){
-        if (p[j] == 0)
+    QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    QString res;
+    for (int j = 0; j < 8; j++){
+        char c = pswd[j];
+        if (c == 0)
             break;
-        char c = (char)(p[j] ^ xor_table[j]);
+        c = (char)(c ^ xor_table[j]);
         res += c;
     }
     return res;
@@ -1174,20 +1173,17 @@ void ICQClient::setOffline(ICQUserData *data)
     set_str(&data->AutoReply.ptr, NULL);
 }
 
-static void addIcon(QString *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 {
     if (s == NULL)
         return;
-
-    if (statusIcon && !strcmp(statusIcon, icon))
-
+    if (statusIcon == icon)
         return;
-    QString str = *s;
-    while (!str.isEmpty()){
-        QString item = getToken(str, ',');
-        if (item == icon)
-            return;
-    }
+
+    QStringList sl = QStringList::split(',', *s);
+    if(sl.findIndex(icon))
+        return;
+
     if (!s->isEmpty())
         *s += ',';
     *s += icon;
@@ -2437,11 +2433,11 @@ void *ICQClient::processEvent(Event *e)
             Contact *contact;
             ICQUserData *data = findContact(ar.screen, NULL, false, contact);
             if (data && data->Direct.ptr){
-                QString answer;
+                QCString answer;
                 if (data->Version.value >= 10){
                     answer = t->tmpl.utf8();
                 }else{
-                    answer = getContacts()->fromUnicode(contact, t->tmpl).c_str();
+                    answer = getContacts()->fromUnicode(contact, t->tmpl);
                 }
                 ((DirectClient*)(data->Direct.ptr))->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
             }

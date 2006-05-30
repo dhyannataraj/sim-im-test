@@ -1695,7 +1695,7 @@ public:
     Contact *contactByMail(const QString &_mail, const QString &_name);
     static bool cmpPhone(const char *p1, const char *p2);
     QString toUnicode(Contact *contact, const char *str, int length=-1);
-    std::string fromUnicode(Contact *contact, const QString &str);
+    QCString fromUnicode(Contact *contact, const QString &str);
     QTextCodec *getCodec(Contact *contact);
     QTextCodec *getCodecByName(const char *encoding);
     static const ENCODING *getEncodings();

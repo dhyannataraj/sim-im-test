@@ -1248,36 +1248,36 @@ void ICQClient::setClientInfo(void *_data)
         QString number = getToken(phoneValue, ',');
         QString type = getToken(phoneValue, ',');
         if (type == "Home Phone"){
-            set_str(&d->HomePhone.ptr, getContacts()->fromUnicode(NULL, number).c_str());
+            set_str(&d->HomePhone.ptr, getContacts()->fromUnicode(NULL, number));
         }else if (type == "Home Fax"){
-            set_str(&d->HomeFax.ptr, getContacts()->fromUnicode(NULL, number).c_str());
+            set_str(&d->HomeFax.ptr, getContacts()->fromUnicode(NULL, number));
         }else if (type == "Work Phone"){
-            set_str(&d->WorkPhone.ptr, getContacts()->fromUnicode(NULL, number).c_str());
+            set_str(&d->WorkPhone.ptr, getContacts()->fromUnicode(NULL, number));
         }else if (type == "Work Fax"){
-            set_str(&d->WorkFax.ptr, getContacts()->fromUnicode(NULL, number).c_str());
+            set_str(&d->WorkFax.ptr, getContacts()->fromUnicode(NULL, number));
         }else if (type == "Private Cellular"){
             number += " SMS";
-            set_str(&d->PrivateCellular.ptr, getContacts()->fromUnicode(NULL, number).c_str());
+            set_str(&d->PrivateCellular.ptr, getContacts()->fromUnicode(NULL, number));
         }
     }
     d->HiddenEMail.bValue = false;
     QString mails = getContacts()->owner()->getEMails();
-    string s;
+    QString s;
     while (mails.length()){
         QString mailItem = getToken(mails, ';', false);
         QString mail = getToken(mailItem, '/');
-        if (!s.empty())
+        if (!s.isEmpty())
             s += ';';
         s += getContacts()->fromUnicode(NULL, mail);
         s += '/';
         if (mailItem.length())
             s += '-';
         if (d->EMail.ptr == NULL){
-            set_str(&d->EMail.ptr, getContacts()->fromUnicode(NULL, mail).c_str());
+            set_str(&d->EMail.ptr, getContacts()->fromUnicode(NULL, mail));
             d->HiddenEMail.bValue = !mailItem.isEmpty();
         }
     }
-    set_str(&d->EMails.ptr, s.c_str());
+    set_str(&d->EMails.ptr, s);
 
     if ((d->Country.value != data.owner.Country.value) ||
             (d->HiddenEMail.bValue != data.owner.HiddenEMail.bValue) ||
@@ -1473,7 +1473,7 @@ void ICQClient::changePassword(const char *new_pswd)
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
     << ICQ_SRVxREQ_CHANGE_PASSWD
-    << getContacts()->fromUnicode(NULL, pwd);
+    << getContacts()->fromUnicode(NULL, pwd).data();
     sendServerRequest();
     varRequests.push_back(new SetPasswordRequest(this, m_nMsgSequence, new_pswd));
 }

@@ -2082,16 +2082,16 @@ QString ContactList::toUnicode(Contact *contact, const char *str, int length)
     return "";
 }
 
-string ContactList::fromUnicode(Contact *contact, const QString &str)
+QCString ContactList::fromUnicode(Contact *contact, const QString &str)
 {
     if (str.isEmpty())
         return "";
     QString s = str;
     s = s.replace(QRegExp("\r?\n"), "\r\n");
-    QCString res = getCodec(contact)->fromUnicode(str);
-    return (const char*)res;
+    return getCodec(contact)->fromUnicode(str);
 }
-}
+
+}   // namespace sim
 
 EXPORT QString g_i18n(const char *text, SIM::Contact *contact)
 {

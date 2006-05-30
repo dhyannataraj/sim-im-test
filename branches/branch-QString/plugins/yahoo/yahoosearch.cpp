@@ -79,15 +79,16 @@ void YahooSearch::search(const QString &text, int type)
 {
     QString url;
     url = "http://members.yahoo.com/interests?.oc=m&.kw=";
-    string kw = getContacts()->fromUnicode(NULL, text);
-    for (const char *p = kw.c_str(); *p; p++){
-        if ((*p <= ' ') || (*p == '&') || (*p == '=')){
+    QCString kw = getContacts()->fromUnicode(NULL, text);
+    for (int i = 0; i < kw.length(); i++){
+        char c = kw.at(i);
+        if ((c <= ' ') || (c == '&') || (c == '=')){
             char b[5];
-            sprintf(b, "%%%02X", *p & 0xFF);
+            sprintf(b, "%%%02X", c & 0xFF);
             url += b;
             continue;
         }
-        url += *p;
+        url += c;
     }
     url += "&.sb=";
     url += QString::number(type);
@@ -185,7 +186,7 @@ void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&
     }
     if (grp)
         grpName = grp->getName();
-    m_client->findContact(id.utf8(), getContacts()->fromUnicode(NULL, grpName).c_str(), contact, false, false);
+    m_client->findContact(id.utf8(), getContacts()->fromUnicode(NULL, grpName), contact, false, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 

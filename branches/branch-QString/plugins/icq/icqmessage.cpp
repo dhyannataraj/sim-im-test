@@ -961,9 +961,10 @@ void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, I
         buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
         buf.packStr32("File");
         buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
-        msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()).c_str());
+        msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()).data());
         msgBuf << port << (unsigned short)0;
-        msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription());
+        // FIXME: is this correct here? -> iserverd.ru/oscar
+        msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription()).data();
         msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
         msgBuf << 0x00000000L;
         break;
