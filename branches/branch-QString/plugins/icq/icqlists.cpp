@@ -1039,7 +1039,8 @@ static QString userStr(Contact *contact, ICQUserData *data)
 {
     QString res;
     QString name = contact ? contact->getName() : "unknown";
-    res.sprintf("%lu [%s]", data->Uin.value, name.isNull() ? "unknown" : name.local8Bit() );
+    QTextOStream( &res ) << data->Uin.value  << "[" << (name.isNull() ? "unknown" : name) << "]";
+    
     return res;
 }
 
