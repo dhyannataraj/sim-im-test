@@ -1138,7 +1138,7 @@ ICQUserData *ICQClient::findGroup(unsigned id, const QString *alias, Group *&grp
 
 void ICQClient::setOffline(ICQUserData *data)
 {
-    string name = dataName(data);
+    QString name = dataName(data);
     for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ){
         Message *msg = *it;
         if (msg->client() && (name == msg->client())){

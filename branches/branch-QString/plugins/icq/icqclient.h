@@ -540,7 +540,7 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_BOOL(KeepAlive);
-    ICQClientData    data;
+    ICQClientData   data;
     unsigned short findByUin(unsigned long uin);
     unsigned short findByMail(const char *mail);
     unsigned short findWP(const char *first, const char *last, const char *nick,
