@@ -749,8 +749,8 @@ protected:
     void fetchAwayMessage(ICQUserData *data);
     void fetchProfiles();
     void setAwayMessage(const char *msg);
-    void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
-    void encodeString(const char *_str, unsigned short nTlv, bool bWide);
+    void encodeString(const QString &text, const QString &type, unsigned short charsetTlv, unsigned short infoTlv);
+    void encodeString(const QString &_str, unsigned short nTlv, bool bWide);
     bool processMsg();
     void packTlv(unsigned short tlv, unsigned short code, const char *keywords);
     ICQUserData *findInfoRequest(unsigned short seq, SIM::Contact *&contact);

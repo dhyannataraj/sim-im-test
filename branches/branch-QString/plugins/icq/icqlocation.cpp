@@ -31,7 +31,6 @@
 
 #include <qtextcodec.h>
 
-using std::string;
 using namespace SIM;
 
 const unsigned short ICQ_SNACxLOC_ERROR             = 0x0001;
@@ -63,7 +62,7 @@ QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 
 QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsigned n)
 {
-    string charset = "us-ascii";
+    QString charset = "us-ascii";
     Tlv *tlvCharset = NULL;
     for (unsigned i = 0;; i++){
         Tlv *tlv = tlvs[i];
@@ -89,19 +88,19 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
         }
     }
     QString res;
-    if (strstr(charset.c_str(), "us-ascii") || strstr(charset.c_str(), "utf")){
+    if (charset.contains("us-ascii") || charset.contains("utf")){
         res = QString::fromUtf8(text, size);
-    }else if (strstr(charset.c_str(), "unicode")){
+    }else if (charset.contains("unicode")){
         unsigned short *p = (unsigned short*)text;
         for (unsigned i = 0; i < size - 1; i += 2, p++)
             res += QChar((unsigned short)htons(*p));
     }else{
-        QTextCodec *codec = QTextCodec::codecForName(charset.c_str());
+        QTextCodec *codec = QTextCodec::codecForName(charset);
         if (codec){
             res = codec->toUnicode(text, size);
         }else{
             res = QString::fromUtf8(text, size);
-            log(L_WARN, "Unknown encoding %s", charset.c_str());
+            log(L_WARN, "Unknown encoding %s", charset.latin1());
         }
     }
     return res;
@@ -126,7 +125,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             data = findContact(screen, NULL, false, contact);
         }
         if (data){
-            string charset = "us-ascii";
+            QString charset = "us-ascii";
             m_socket->readBuffer.incReadPos(4);
             TlvList tlvs(m_socket->readBuffer);
             Tlv *tlvInfo = tlvs(0x02);
@@ -426,15 +425,13 @@ static bool isWide(const char *text)
     return isWide(QString::fromUtf8(text));
 }
 
-void ICQClient::encodeString(const char *str, unsigned short nTlv, bool bWide)
+void ICQClient::encodeString(const QString &str, unsigned short nTlv, bool bWide)
 {
-    if ((str == NULL) || (*str == 0)){
+    if (str.isEmpty()){
         m_socket->writeBuffer.tlv(nTlv, "");
         return;
     }
-    QString m;
-    if (str)
-        m = QString::fromUtf8(str);
+    QString m = str;
     if (bWide){
         unsigned short *unicode = new unsigned short[m.length()];
         unsigned short *t = unicode;
@@ -447,10 +444,10 @@ void ICQClient::encodeString(const char *str, unsigned short nTlv, bool bWide)
     }
 }
 
-void ICQClient::encodeString(const QString &m, const char *type, unsigned short charsetTlv, unsigned short infoTlv)
+void ICQClient::encodeString(const QString &m, const QString &type, unsigned short charsetTlv, unsigned short infoTlv)
 {
     bool bWide = isWide(m);
-    string content_type = type;
+    QString content_type = type;
     content_type += "; charset=\"";
     if (bWide){
         unsigned short *unicode = new unsigned short[m.length()];
@@ -458,12 +455,12 @@ void ICQClient::encodeString(const QString &m, const char *type, unsigned short 
         for (int i = 0; i < (int)(m.length()); i++)
             *(t++) = htons(m[i].unicode());
         content_type += "unicode-2\"";
-        m_socket->writeBuffer.tlv(charsetTlv, content_type.c_str());
+        m_socket->writeBuffer.tlv(charsetTlv, content_type);
         m_socket->writeBuffer.tlv(infoTlv, (char*)unicode, (unsigned short)(m.length() * sizeof(unsigned short)));
         delete[] unicode;
     }else{
         content_type += "us-ascii\"";
-        m_socket->writeBuffer.tlv(charsetTlv, content_type.c_str());
+        m_socket->writeBuffer.tlv(charsetTlv, content_type);
         m_socket->writeBuffer.tlv(infoTlv, m.latin1());
     }
 }
@@ -483,9 +480,9 @@ void ICQClient::sendCapability(const char *away_msg)
     os_ver = 0x80;
 #else
 #ifdef QT_MACOSX_VERSION
-os_ver = 0x40;
+    os_ver = 0x40;
 #else
-os_ver = 0;
+    os_ver = 0;
 #endif
 #endif
     *(pack_ver++) = os_ver;
@@ -598,7 +595,7 @@ void ICQClient::setAIMInfo(ICQUserData *data)
                  isWide(data->Zip.ptr) ||
                  isWide(data->Address.ptr) ||
                  isWide(data->City.ptr);
-    string country;
+    QString country;
     for (const ext_info *e = getCountryCodes(); e->szName; e++){
         if (e->nCode == data->Country.value){
             country = e->szName;
@@ -606,14 +603,14 @@ void ICQClient::setAIMInfo(ICQUserData *data)
         }
     }
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxDIRxINFO);
-    string encoding = bWide ? "unicode-2-0" : "us-ascii";
-    m_socket->writeBuffer.tlv(0x1C, encoding.c_str());
+    QString encoding = bWide ? "unicode-2-0" : "us-ascii";
+    m_socket->writeBuffer.tlv(0x1C, encoding);
     m_socket->writeBuffer.tlv(0x0A, (unsigned short)0x01);
     encodeString(data->FirstName.ptr, 0x01, bWide);
     encodeString(data->LastName.ptr, 0x02, bWide);
     encodeString(data->MiddleName.ptr, 0x03, bWide);
     encodeString(data->Maiden.ptr, 0x04, bWide);
-    encodeString(country.c_str(), 0x06, bWide);
+    encodeString(country, 0x06, bWide);
     encodeString(data->Address.ptr, 0x07, bWide);
     encodeString(data->City.ptr, 0x08, bWide);
     encodeString(data->Nick.ptr, 0x0C, bWide);
