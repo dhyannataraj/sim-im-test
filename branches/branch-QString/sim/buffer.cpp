@@ -44,27 +44,59 @@ using namespace std;
 
 #endif
 
+Tlv::Tlv(unsigned short num, char data)
+        : m_nNum(num), m_nSize(1)
+{
+    m_data.resize(m_nSize + 1);
+    m_data[0] = data;
+    m_data[1] = '\0';
+}
+
+Tlv::Tlv(unsigned short num, const char *data)
+        : m_nNum(num), m_nSize(0)
+{
+    m_nSize = strlen(data);
+    m_data.resize(m_nSize + 1);
+    memcpy(m_data.data(), data, m_nSize);
+    m_data[m_nSize] = '\0';
+}
+
+Tlv::Tlv(unsigned short num, unsigned short data)
+        : m_nNum(num), m_nSize(2)
+{
+    m_data.resize(m_nSize + 1);
+    memcpy(m_data.data(), &data, m_nSize);
+    m_data[m_nSize] = 0;
+}
+
+Tlv::Tlv(unsigned short num, unsigned long data)
+        : m_nNum(num), m_nSize(4)
+{
+    m_data.resize(m_nSize + 1);
+    memcpy(m_data.data(), &data, m_nSize);
+    m_data[m_nSize] = 0;
+}
+
 Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
         : m_nNum(num), m_nSize(size)
 {
-    m_data = new char[size + 1];
-    memcpy(m_data, data, size);
-    m_data[size] = 0;
+    m_data.resize(m_nSize + 1);
+    memcpy(m_data.data(), data, m_nSize);
+    m_data[m_nSize] = 0;
 }
 
 Tlv::~Tlv()
 {
-    delete[] m_data;
 }
 
 Tlv::operator unsigned short ()
 {
-    return (unsigned short)((m_nSize >= 2) ? htons(*((unsigned short*)m_data)) : 0);
+    return (unsigned short)((m_nSize >= 2) ? htons(*((unsigned short*)m_data.data())) : 0);
 }
 
 Tlv::operator unsigned long ()
 {
-    return (m_nSize >= 4) ? htonl(*((unsigned long*)m_data)) : 0;
+    return (m_nSize >= 4) ? htonl(*((unsigned long*)m_data.data())) : 0;
 }
 
 TlvList::TlvList()

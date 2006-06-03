@@ -27,17 +27,22 @@ class Buffer;
 class EXPORT Tlv
 {
 public:
+    Tlv(unsigned short num = 0, char data = '\0');
+    Tlv(unsigned short num, const char *data);
+    Tlv(unsigned short num, unsigned short data);
+    Tlv(unsigned short num, unsigned long  data);
     Tlv(unsigned short num, unsigned short size, const char *data);
     ~Tlv();
-    unsigned short Num() { return m_nNum; }
-    unsigned short Size() { return m_nSize; }
-    operator char *() { return m_data; }
+    unsigned short Num() { return (unsigned short)m_nNum; }
+    unsigned short Size() { return (unsigned short)m_nSize; }
+    const char *Data() { return m_data.data(); }
+    operator char *() { return m_data.data(); }
     operator unsigned short ();
     operator unsigned long ();
 protected:
-    unsigned short m_nNum;
-    unsigned short m_nSize;
-    char *m_data;
+    int m_nNum;
+    int m_nSize;
+    QByteArray m_data;
 };
 
 class EXPORT TlvList : public QPtrList<Tlv>
