@@ -330,7 +330,7 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
 
 EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
 {
-    QString res;
+    QCString res;
     int i;
     for (i = 0; i < (int)from.length(); i++){
         if (from[i] == c)
