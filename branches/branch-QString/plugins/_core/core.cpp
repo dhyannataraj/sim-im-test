@@ -147,7 +147,7 @@ public:
                                            const char* message) const;
     void load ( const QString & filename);
 protected:
-    string fName;
+    QString fName;
     loaded_l10nfile domain;
 };
 
@@ -179,20 +179,20 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
     if ((sourceText == NULL) || (*sourceText == 0))
         return res;
     if (message && *message){
-        string s;
+        QCString s;
         s = "_: ";
         s += message;
         s += "\n";
         s += sourceText;
-        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
+        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s);
     }
     if ((text == NULL) && context && *context && message && *message){
-        string s;
+        QCString s;
         s = "_: ";
         s += context;
         s += "\n";
         s += message;
-        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
+        text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s);
     }
     if (text == NULL)
         text = k_nl_find_msg((struct loaded_l10nfile*)&domain, sourceText);
@@ -3804,9 +3804,9 @@ bool CorePlugin::init(bool bInit)
     m_view = new UserView;
 
     if (!bNew){
-        string containers = getContainers();
-        while (!containers.empty()){
-            Container *c = new Container(0, getContainer(strtoul(getToken(containers, ',').c_str(), NULL, 10)));
+        QString containers = getContainers();
+        while (!containers.isEmpty()){
+            Container *c = new Container(0, getContainer(getToken(containers, ',').toULong()));
             c->init();
         }
     }
@@ -4055,18 +4055,18 @@ QString CorePlugin::getConfig()
 void CorePlugin::loadUnread()
 {
     unread.clear();
-    string unread_str = getUnread();
-    while (!unread_str.empty()){
-        string item = getToken(unread_str, ';');
-        unsigned long contact = atoul(getToken(item, ',').c_str());
-        unsigned long id = atoul(getToken(item, ',').c_str());
-        Message *msg = History::load(id, item.c_str(), contact);
+    QString unread_str = getUnread();
+    while (!unread_str.isEmpty()){
+        QString item = getToken(unread_str, ';');
+        unsigned long contact = getToken(item, ',').toULong();
+        unsigned long id = getToken(item, ',').toULong();
+        Message *msg = History::load(id, item, contact);
         if (msg == NULL)
             continue;
         msg_id m;
         m.id = id;
         m.contact = contact;
-        m.client  = item.c_str();
+        m.client  = item.latin1();
         m.type    = msg->baseType();
         unread.push_back(m);
     }

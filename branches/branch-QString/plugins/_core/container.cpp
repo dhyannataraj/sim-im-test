@@ -236,9 +236,9 @@ void Container::init()
         addUserWnd((*it), false);
     m_childs.clear();
 
-    string windows = getWindows();
-    while (!windows.empty()){
-        unsigned long id = strtoul(getToken(windows, ',').c_str(), NULL, 10);
+    QString windows = getWindows();
+    while (!windows.isEmpty()){
+        unsigned long id = getToken(windows, ',').toULong();
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;

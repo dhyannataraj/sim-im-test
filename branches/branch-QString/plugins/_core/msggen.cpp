@@ -38,7 +38,6 @@
 #include <qfontdialog.h>
 #endif
 
-using std::string;
 using namespace SIM;
 
 MsgGen::MsgGen(MsgEdit *parent, Message *msg)

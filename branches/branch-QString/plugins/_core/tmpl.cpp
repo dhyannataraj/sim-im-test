@@ -128,10 +128,8 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         }
         if (contact == NULL)
             continue;
-        string tagName;
-        tagName = tag.latin1();
 
-        if (tagName == "TimeStatus"){
+        if (tag == "TimeStatus"){
             QDateTime t;
             t.setTime_t(CorePlugin::m_plugin->getStatusTime());
             QString tstr;
@@ -140,14 +138,14 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
             continue;
         }
 
-        if (tagName == "IntervalStatus"){
+        if (tag == "IntervalStatus"){
             time_t now;
             time(&now);
             res += QString::number(now - CorePlugin::m_plugin->getStatusTime());
             continue;
         }
 
-        if (tagName == "IP"){
+        if (tag == "IP"){
             Event e(EventGetContactIP, contact);
             struct in_addr addr;
             IP* ip = (IP*)e.process();
@@ -159,14 +157,14 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
             continue;
         }
 
-        if (tagName == "Mail"){
+        if (tag == "Mail"){
             QString mails = contact->getEMails();
             QString mail = getToken(mails, ';', false);
             res += getToken(mail, '/');
             continue;
         }
 
-        if (tagName == "Phone"){
+        if (tag == "Phone"){
             QString phones = contact->getPhones();
             QString phone_item = getToken(phones, ';', false);
             phone_item = getToken(phone_item, '/', false);
@@ -174,7 +172,7 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
             continue;
         }
 
-        if (tagName == "Unread"){
+        if (tag == "Unread"){
             unsigned nUnread = 0;
             for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
                 if ((*it).contact == contact->id())
@@ -184,13 +182,13 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
             continue;
         }
 
-        if (getTag(tagName, &contact->data, contact->dataDef(), res))
+        if (getTag(tag, &contact->data, contact->dataDef(), res))
             continue;
 
         void *data;
         ClientDataIterator itc(contact->clientData);
         while ((data = ++itc) != NULL){
-            if (getTag(tagName, data, itc.client()->protocol()->userDataDef(), res))
+            if (getTag(tag, data, itc.client()->protocol()->userDataDef(), res))
                 break;
         }
         if (data)
@@ -202,7 +200,7 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
             void *data = (void*)contact->getUserData(def->id);
             if (data == NULL)
                 continue;
-            if (getTag(tagName, data, def->def, res)){
+            if (getTag(tag, data, def->def, res)){
                 break;
             }
         }
@@ -210,7 +208,7 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
     return res;
 }
 
-bool Tmpl::getTag(const string &name, void *_data, const DataDef *def, QString &res)
+bool Tmpl::getTag(const QString &name, void *_data, const DataDef *def, QString &res)
 {
     char *data = (char*)_data;
     const DataDef *d;

@@ -44,7 +44,7 @@ protected:
     void *processEvent(SIM::Event*);
     bool process(TmplExpand*);
     QString process(TmplExpand*, const QString &str);
-    bool getTag(const std::string &name, void *data, const SIM::DataDef *def, QString &res);
+    bool getTag(const QString &name, void *data, const SIM::DataDef *def, QString &res);
     std::list<TmplExpand> tmpls;
 };
 

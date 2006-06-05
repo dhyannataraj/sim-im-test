@@ -32,7 +32,6 @@
 #include <qapplication.h>
 #include <qtimer.h>
 
-using std::string;
 using namespace SIM;
 
 LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)

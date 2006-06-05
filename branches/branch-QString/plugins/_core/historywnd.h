@@ -56,7 +56,7 @@ protected:
     unsigned m_nMessages;
     unsigned long m_id;
     unsigned m_page;
-    std::vector<std::string> m_states;
+    std::vector<QString> m_states;
     unsigned m_history_page_count;
 };
 

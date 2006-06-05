@@ -263,9 +263,9 @@ void HistoryConfig::apply()
         name = user_file(name);
         QFile f(name + BACKUP_SUFFIX); // use backup file for this ...
         if (f.open(IO_WriteOnly | IO_Truncate)){
-            string s;
-            s = m_styles[i].text.utf8();
-            f.writeBlock(s.c_str(), s.length());
+            QString s;
+            s = m_styles[i].text;
+            f.writeBlock(s.utf8(), s.utf8().length());
 
             const int status = f.status();
             const QString errorMessage = f.errorString();
