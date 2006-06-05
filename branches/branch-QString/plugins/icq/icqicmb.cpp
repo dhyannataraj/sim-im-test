@@ -307,9 +307,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 break;
             }
             if ((*it).msg){
-                string answer;
+                QCString answer;
                 m_socket->readBuffer >> answer;
-                if (ackMessage((*it).msg, ackFlags, answer.c_str())){
+                if (ackMessage((*it).msg, ackFlags, answer)){
                     ackMessage(*it);
                 }else{
                     Event e(EventMessageSent, (*it).msg);
@@ -331,14 +331,14 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         break;
                 }
                 if (plugin_index == PLUGIN_NULL){
-                    string plugin_str;
+                    QString plugin_str;
                     unsigned i;
                     for (i = 0; i < sizeof(plugin); i++){
                         char b[4];
                         sprintf(b, "%02X ", p[i]);
                         plugin_str += b;
                     }
-                    log(L_WARN, "Unknown plugin sign in reply %s", plugin_str.c_str());
+                    log(L_WARN, "Unknown plugin sign in reply %s", plugin_str.latin1());
                     break;
                 }
                 if ((data == NULL) && (plugin_index != PLUGIN_RANDOMxCHAT))
@@ -348,12 +348,12 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             }
 
             if (plugin_type == PLUGIN_AR){
-                string answer;
+                QCString answer;
                 m_socket->readBuffer >> answer;
-                log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.c_str());
+                log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
                 Contact *contact;
                 ICQUserData *data = findContact(screen, NULL, false, contact);
-                if (data && set_str(&data->AutoReply.ptr, answer.c_str())){
+                if (data && set_str(&data->AutoReply.ptr, answer)){
                     Event e(EventContactChanged, contact);
                     e.process();
                 }
@@ -442,7 +442,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                             Contact *contact;
                             ICQUserData *data = findContact(screen, NULL, false, contact);
                             if (data){
-                                string name = dataName(data);
+                                QString name = dataName(data);
                                 for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
                                     Message *msg = *it;
                                     if (msg->client() && (name == msg->client())){
@@ -493,7 +493,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     unsigned char type, flags;
                     msg >> type;
                     msg >> flags;
-                    QString msg_str;
+                    QCString msg_str;
                     msg >> msg_str;
                     Message *m = parseMessage(type, screen, msg_str, msg, id, 0);
                     if (m)
@@ -724,7 +724,6 @@ void ICQClient::ackMessage(SendMsg &s)
             e.process();
         }
     }
-    string text;
     if ((s.text.length() == 0) || (s.msg->type() == MessageWarning)){
         Event e(EventMessageSent, s.msg);
         e.process();
@@ -740,16 +739,16 @@ void ICQClient::ackMessage(SendMsg &s)
 
 bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const char *str)
 {
-    string msg_str;
+    QCString msg_str;
     if (str)
         msg_str = str;
     switch (ackFlags){
     case ICQ_TCPxACK_OCCUPIED:
     case ICQ_TCPxACK_DND:
     case ICQ_TCPxACK_REFUSE:
-        if (*msg_str.c_str() == 0)
+        if (msg_str.isEmpty())
             msg_str = I18N_NOOP("Message declined");
-        msg->setError(msg_str.c_str());
+        msg->setError(msg_str);
         switch (ackFlags){
         case ICQ_TCPxACK_OCCUPIED:
             msg->setRetryCode(static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied);
@@ -1016,25 +1015,25 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
         Buffer adv(*tlv(0x2711));
         QString contacts;
         while (adv.readPos() < adv.size()){
-            string grp;
+            QString grp;
             adv.unpackStr(grp);
             unsigned short nBuddies;
             adv >> nBuddies;
             for (unsigned short i = 0; i < nBuddies; i++){
-                string s;
+                QString s;
                 adv.unpackStr(s);
                 if (!contacts.isEmpty())
                     contacts += ";";
-                if (atol(s.c_str())){
+                if (s.toULong()){
                     contacts += "icq:";
-                    contacts += s.c_str();
+                    contacts += s;
                     contacts += ",ICQ ";
-                    contacts += s.c_str();
+                    contacts += s;
                 }else{
                     contacts += "aim:";
-                    contacts += s.c_str();
+                    contacts += s;
                     contacts += ",AIM ";
-                    contacts += s.c_str();
+                    contacts += s;
                 }
             }
         }
@@ -1050,13 +1049,13 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
     }
 
     if (memcmp(cap, capabilities[CAP_SRV_RELAY], sizeof(cap))){
-        string s;
+        QString s;
         for (unsigned i = 0; i < sizeof(cap); i++){
             char b[5];
             sprintf(b, "0x%02X ", cap[i] & 0xFF);
             s += b;
         }
-        log(L_DEBUG, "Unknown capability in advanced message\n%s", s.c_str());
+        log(L_DEBUG, "Unknown capability in advanced message\n%s", s.latin1());
         return;
     }
 
@@ -1146,7 +1145,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
     adv.unpack(msgType);
     adv.unpack(msgState);
     adv.unpack(msgFlags);
-    QString msg;
+    QCString msg;
     adv >> msg;
 
     switch (msgType){
@@ -1709,11 +1708,11 @@ bool ICQClient::processMsg()
                 for (i = 0; i < cc.size(); i++){
                     if (cc[i].grp != grp){
                         if (grp != (unsigned)(-1)){
-                            string s = "Not in list";
+                            QString s = "Not in list";
                             if (grp){
                                 Group *group = getContacts()->group(grp);
                                 if (group)
-                                    s = group->getName().utf8();
+                                    s = group->getName();
                             }
                             msgBuf.pack(s);
                             msgBuf << size;
@@ -1726,11 +1725,11 @@ bool ICQClient::processMsg()
                     }
                     size++;
                 }
-                string s = "Not in list";
+                QString s = "Not in list";
                 if (grp){
                     Group *group = getContacts()->group(grp);
                     if (group)
-                        s = group->getName().utf8();
+                        s = group->getName();
                 }
                 msgBuf.pack(s);
                 msgBuf << size;
@@ -1915,9 +1914,9 @@ bool ICQClient::processMsg()
                     break;
                 }
             }
-            string charset = bWide ? "unicode-2-0" : "us-ascii";
-            tlvs + new Tlv(0x0D, charset.length(), charset.c_str());
-            string st;
+            QString charset = bWide ? "unicode-2-0" : "us-ascii";
+            tlvs + new Tlv(0x0D, charset.length(), charset.latin1());
+            QCString st;
             if (bWide){
                 for (i = 0; i < (int)(text.length()); i++){
                     unsigned short s = text[i].unicode();
@@ -1927,7 +1926,7 @@ bool ICQClient::processMsg()
             }else{
                 st = text.utf8();
             }
-            tlvs + new Tlv(0x0C, st.length(), st.c_str());
+            tlvs + new Tlv(0x0C, st.length(), st.data());
             FileMessage *msg = static_cast<FileMessage*>(m_send.msg);
             FileMessage::Iterator it(*msg);
             msgBuf
@@ -1953,7 +1952,7 @@ bool ICQClient::processMsg()
                 }
             }
             charset = bWide ? "utf8" : "us-ascii";
-            tlvs + new Tlv(0x2712, charset.length(), charset.c_str());
+            tlvs + new Tlv(0x2712, charset.length(), charset);
             msgBuf << (const char*)(fname.utf8()) << (char)0;
             sendType2(m_send.screen, msgBuf, m_send.id, CAP_AIM_SENDFILE, false, m_send.socket->localPort(), &tlvs);
             return true;

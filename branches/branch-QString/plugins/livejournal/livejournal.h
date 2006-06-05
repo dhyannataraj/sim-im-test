@@ -129,7 +129,7 @@ public:
 protected:
     LiveJournalClient *m_client;
     Buffer *m_buffer;
-    bool getLine(Buffer *b, std::string &line);
+    bool getLine(Buffer *b, QCString &line);
     friend class LiveJournalClient;
 };
 

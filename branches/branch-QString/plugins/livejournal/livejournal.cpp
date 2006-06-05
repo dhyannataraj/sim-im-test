@@ -1268,11 +1268,11 @@ LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mo
     addParam("ver", "1");
     if (client->data.owner.User.ptr)
         addParam("user", client->data.owner.User.ptr);
-    string pass = md5(client->getPassword().utf8());
+    QByteArray pass = md5(client->getPassword().utf8());
     string hpass;
-    for (unsigned i = 0; i < pass.length(); i++){
+    for (unsigned i = 0; i < pass.size(); i++){
         char b[5];
-        sprintf(b, "%02x", pass[i] & 0xFF);
+        sprintf(b, "%02x", pass[(int)i] & 0xFF);
         hpass += b;
     }
     addParam("hpassword", hpass.c_str());
@@ -1306,23 +1306,23 @@ void LiveJournalRequest::addParam(const char *key, const char *value)
 void LiveJournalRequest::result(Buffer *b)
 {
     for (;;){
-        string key;
-        string value;
+        QCString key;
+        QCString value;
         if (!getLine(b, key) || !getLine(b, value))
             break;
-        log(L_DEBUG, "Result: %s=%s", key.c_str(), value.c_str());
-        result(key.c_str(), value.c_str());
+        log(L_DEBUG, "Result: %s=%s", key.data(), value.data());
+        result(key, value);
     }
 }
 
-bool LiveJournalRequest::getLine(Buffer *b, string &line)
+bool LiveJournalRequest::getLine(Buffer *b, QCString &line)
 {
     if (b == NULL)
         return false;
     if (!b->scan("\n", line))
         return false;
-    if (line.length() && (line[line.length() - 1] == '\r'))
-        line = line.substr(0, line.length() - 1);
+    if (line.length() && (line[(int)line.length() - 1] == '\r'))
+        line = line.left(line.length() - 1);
     return true;
 }
 

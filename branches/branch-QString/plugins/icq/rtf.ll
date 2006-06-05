@@ -73,8 +73,8 @@ using namespace SIM;
 struct FontDef
 {
     int		charset;
-    string	taggedName;
-    string	nonTaggedName;
+    QString	taggedName;
+    QString	nonTaggedName;
 };
 
 class RTF2HTML;
@@ -138,7 +138,7 @@ public:
     void reset();
     void resetTag(TagEnum tag);
 protected:
-    string text;
+    QCString text;
     void Init();
     RTF2HTML *p;
     void resetColors() { m_nRed = m_nGreen = m_nBlue = 0; m_bColorInit = false; }
@@ -292,8 +292,8 @@ void RTF2HTML::FlushOutTags()
                if (t.param > fonts.size() || t.param == 0)
                    break;
                FontDef &f = fonts[t.param-1];
-               string name = (!f.nonTaggedName.empty()) ? f.nonTaggedName : f.taggedName;
-               PrintUnquoted("<span style=\"font-family:%s\">", name.c_str());
+               QString name = (!f.nonTaggedName.isEmpty()) ? f.nonTaggedName : f.taggedName;
+               PrintUnquoted("<span style=\"font-family:%s\">", name.latin1());
             }
             break;
         case TAG_BG_COLOR:
@@ -741,14 +741,14 @@ void Level::setText(const char *str)
         
         if (m_bFontName)
         {
-            def.nonTaggedName.append(str, size);
+            def.nonTaggedName += QString::fromLatin1(str, size);
             // We know we have the entire name
             if (pp != NULL)
                m_bFontName = false;
         }
         else if (!m_bTaggedFontNameOk)
         {
-            def.taggedName.append(str, size);
+            def.taggedName += QString::fromLatin1(str, size);
             if (pp != NULL)
                m_bTaggedFontNameOk = true;
         }
@@ -780,7 +780,7 @@ void Level::flush()
     if (encoding == NULL)
 		encoding = p->encoding;
 	QTextCodec *codec = getContacts()->getCodecByName(encoding);
-    p->PrintQuoted(codec->toUnicode(text.c_str(), text.length()));
+    p->PrintQuoted(codec->toUnicode(text.data(), text.length()));
     text = "";
 }
 

@@ -650,7 +650,7 @@ void DirectClient::processPacket()
     m_socket->readBuffer.unpack(type);
     m_socket->readBuffer.unpack(ackFlags);
     m_socket->readBuffer.unpack(msgFlags);
-    QString msg_str;
+    QCString msg_str;
     m_socket->readBuffer >> msg_str;
     Message *m;
     list<SendDirectMsg>::iterator it;
@@ -906,10 +906,10 @@ void DirectClient::processPacket()
             delete msg;
             break;
         }
-        if (!itDeleted && it == m_queue.end()){
+        if (!itDeleted && (m_queue.size() == 0 || it == m_queue.end())){
             list<Message*>::iterator it;
             for (it = m_client->m_acceptMsg.begin(); it != m_client->m_acceptMsg.end(); ++it){
-                string name = m_client->dataName(m_data);
+                QString name = m_client->dataName(m_data);
                 Message *msg = *it;
                 if ((msg->getFlags() & MESSAGE_DIRECT) &&
                         msg->client() && (name == msg->client())){
@@ -1137,7 +1137,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         return;
     }
 
-    string message;
+    QCString message;
     if (msg)
         message = msg;
 
@@ -1416,7 +1416,7 @@ bool DirectClient::cancelMessage(Message *msg)
                 mb.pack((unsigned short)(*it).icq_type);
                 mb.pack((unsigned short)0);
                 mb.pack((unsigned short)0);
-                string message;
+                QCString message;
                 mb << message;
                 sendPacket();
             }
@@ -1696,18 +1696,18 @@ void ICQFileTransfer::initReceive(char cmd)
         m_socket->error_state("Bad command in init receive");
         return;
     }
-    string fileName;
+    QCString fileName;
     char isDir;
     m_socket->readBuffer >> isDir >> fileName;
-    QString fName = getContacts()->toUnicode(m_client->getContact(m_data), fileName.c_str());
-    string dir;
+    QString fName = getContacts()->toUnicode(m_client->getContact(m_data), fileName);
+    QCString dir;
     unsigned long n;
     m_socket->readBuffer >> dir;
     m_socket->readBuffer.unpack(n);
     if (m_notify)
         m_notify->transfer(false);
-    if (!dir.empty())
-        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir.c_str()) + "/" + fName;
+    if (!dir.isEmpty())
+        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir) + "/" + fName;
     if (isDir)
         fName += "/";
     m_state = Wait;
@@ -1839,12 +1839,12 @@ void ICQFileTransfer::sendPacket(bool dump)
     p[1] = (unsigned char)((size >> 8) & 0xFF);
     if (dump){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        string name = "FileTranfer";
+        QString name = "FileTranfer";
         if (m_data){
             name += ".";
-            name += number(m_data->Uin.value);
+            name += QString::number(m_data->Uin.value);
         }
-        log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name.c_str());
+        log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name.latin1());
     }
     m_socket->write();
 }

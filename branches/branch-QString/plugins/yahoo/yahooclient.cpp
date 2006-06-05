@@ -272,7 +272,7 @@ void YahooClient::addParam(unsigned key, const char *value)
 {
     if (value == NULL)
         value = "";
-    m_values.push_back(PARAM(key, string(value)));
+    m_values.push_back(PARAM(key, value));
 }
 
 void YahooClient::connect_ready()
@@ -296,7 +296,7 @@ const char *Params::operator [](unsigned id)
 {
     for (iterator it = begin(); it != end(); ++it){
         if ((*it).first == id)
-            return (*it).second.c_str();
+            return (*it).second.data();
     }
     return NULL;
 }
@@ -307,13 +307,13 @@ void YahooClient::scan_packet()
     int param7_cnt = 0;
 
     for (;;){
-        string key;
-        string value;
+        QCString key;
+        QCString value;
         if (!(m_socket->readBuffer.scan("\xC0\x80", key) &&
                 m_socket->readBuffer.scan("\xC0\x80", value)))
             break;
-        unsigned key_id = atol(key.c_str());
-        log(L_DEBUG, "Param: %u %s", key_id, value.c_str());
+        unsigned key_id = key.toULong();
+        log(L_DEBUG, "Param: %u %s", key_id, value.data());
         /* There can be multiple buddies in an YAHOO_SERVICE_IDDEACT and
            YAHOO_SERVICE_LOGON paket ... */
         if ((key_id == 7) && ((m_service == YAHOO_SERVICE_IDDEACT) ||
@@ -625,17 +625,17 @@ QString TextParser::parse(const char *msg)
     Buffer b;
     b.pack(msg, strlen(msg));
     for (;;){
-        string part;
+        QCString part;
         if (!b.scan("\x1B\x5B", part))
             break;
-        addText(part.c_str(), part.length());
+        addText(part, part.length());
 
         if (!b.scan("m", part))
             break;
-        if (part.empty())
+        if (part.isEmpty())
             continue;
         if (part[0] == 'x'){
-            unsigned code = atol(part.c_str() + 1);
+            unsigned code = atol(part.data() + 1);
             switch (code){
             case 1:
             case 2:
@@ -646,10 +646,10 @@ QString TextParser::parse(const char *msg)
             continue;
         }
         if (part[0] == '#'){
-            put_color(strtoul(part.c_str() + 1, NULL, 16));
+            put_color(strtoul(part.data() + 1, NULL, 16));
             continue;
         }
-        unsigned code = atol(part.c_str());
+        unsigned code = part.toULong();
         switch (code){
         case 1:
         case 2:
@@ -2270,12 +2270,12 @@ void YahooFileTransfer::packet_ready()
     if (m_state != Receive){
         log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
         for (;;){
-            string s;
+            QCString s;
             if (!m_socket->readBuffer.scan("\n", s))
                 break;
-            if (!s.empty() && (s[s.length() - 1] == '\r'))
-                s = s.substr(0, s.length() - 1);
-            if (!get_line(s.c_str()))
+            if (!s.isEmpty() && (s[(int)s.length() - 1] == '\r'))
+                s = s.left(s.length() - 1);
+            if (!get_line(s))
                 break;
         }
     }

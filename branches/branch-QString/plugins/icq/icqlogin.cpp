@@ -25,7 +25,6 @@
 #include <qpixmap.h>
 #include <qapplication.h>
 
-using std::string;
 using namespace SIM;
 
 const unsigned short ICQ_SNACxLOGIN_ERROR			= 0x0001;
@@ -95,15 +94,14 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:
         if (data.owner.Screen.ptr){
-            string md5_key;
+            QCString md5_key;
             m_socket->readBuffer.unpackStr(md5_key);
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
-            QCString md = md5_key.c_str();
-            md += getContacts()->fromUnicode(NULL, getPassword());
-            md += "AOL Instant Messenger (SM)";
-            md = md5(md.data()).c_str();
-            m_socket->writeBuffer.tlv(0x0025, md.data(), md.length());
+            md5_key += getContacts()->fromUnicode(NULL, getPassword());
+            md5_key += "AOL Instant Messenger (SM)";
+            QByteArray md = md5(md5_key.data());
+            m_socket->writeBuffer.tlv(0x0025, md.data(), md.size());
             m_socket->writeBuffer.tlv(0x0003, "AOL Instant Messenger, version 5.1.3036/WIN32");
             m_socket->writeBuffer.tlv(0x0016, (unsigned short)0x0109);
             m_socket->writeBuffer.tlv(0x0017, (unsigned short)0x0005);
@@ -247,7 +245,7 @@ void ICQClient::chn_close()
     Tlv *tlv_error = tlv(8);
     if (tlv_error){
         unsigned short err = *tlv_error;
-        string errString;
+        QString errString;
         switch (err){
         case ICQ_LOGIN_ERRxOLDCLIENT1:
         case ICQ_LOGIN_ERRxOLDCLIENT2:
@@ -315,14 +313,14 @@ void ICQClient::chn_close()
             errString += number(err);
         }
         if (err){
-            log(L_ERROR, "%s", errString.c_str());
-            m_socket->error_state(errString.c_str(), errorCode);
+            log(L_ERROR, "%s", errString.latin1());
+            m_socket->error_state(errString, errorCode);
             return;
         }
     }
     tlv_error = tlv(9);
     if (tlv_error){
-        string errString;
+        QString errString;
         unsigned short err = *tlv_error;
         switch (err){
         case 0x1:{
@@ -334,11 +332,11 @@ void ICQClient::chn_close()
             break;
         default:
             errString = "Unknown run-time error ";
-            errString += number(err);
+            errString += QString::number(err);
         }
         if (err){
-            log(L_ERROR, "%s", errString.c_str());
-            m_socket->error_state(errString.c_str());
+            log(L_ERROR, "%s", errString.latin1());
+            m_socket->error_state(errString);
             return;
         }
     }

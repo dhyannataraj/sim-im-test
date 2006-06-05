@@ -337,7 +337,7 @@ void FetchThread::run()
     }
     in_headers.setWritePos(size);
     log_packet(in_headers, false, HTTPPacket);
-    QString line;
+    QCString line;
     bool bFirst = true;
     for (; in_headers.readPos() < in_headers.writePos(); ){
         if (!in_headers.scan("\r\n", line)){

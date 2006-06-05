@@ -322,44 +322,39 @@ static Message *parseAuthRequest(const char *str)
 
 Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie)
 {
-    string header;
+    QCString header;
     packet >> header;
     Buffer h(header.size());
-    h.pack(header.c_str(), header.size());
+    h.pack(header, header.size());
     h.incReadPos(16);
     unsigned short msg_type;
     h >> msg_type;
-    string msgType;
+    QCString msgType, info;
     h.unpackStr32(msgType);
-    string info;
     packet.unpackStr32(info);
     Buffer b(info.size());
-    b.pack(info.c_str(), info.size());
-    log(L_DEBUG, "Extended message %s [%04X] %lu", msgType.c_str(), msg_type, info.size());
+    b.pack(info, info.size());
+    log(L_DEBUG, "Extended message %s [%04X] %lu", msgType.data(), msg_type, info.size());
     int n = msgType.find("URL");
     if (n >= 0){
-        string info;
         b.unpackStr32(info);
-        return parseURLMessage(info.c_str());
+        return parseURLMessage(info);
     }
     if (msgType == "Request For Contacts"){
-        string info;
         b.unpackStr32(info);
         ICQAuthMessage *m = new ICQAuthMessage(MessageContactRequest, MessageContactRequest);
-        m->setServerText(info.c_str());
+        m->setServerText(info);
         return m;
     }
     if (msgType == "Contacts"){
-        string p;
-        b.unpackStr32(p);
-        return parseContactMessage(p.c_str());
+        b.unpackStr32(info);
+        return parseContactMessage(info);
     }
     if (msgType == "Message"){
-        string p;
-        b.unpackStr32(p);
+        b.unpackStr32(info);
         unsigned long forecolor, backcolor;
         b >> forecolor >> backcolor;
-        string cap_str;
+        QCString cap_str;
         b.unpackStr32(cap_str);
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -370,7 +365,7 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
 	    }
             contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
         }
-        Message *msg = parseTextMessage(p.c_str(), cap_str.c_str(), contact);
+        Message *msg = parseTextMessage(info.data(), cap_str.data(), contact);
         if (msg){
             if (forecolor != backcolor){
                 msg->setForeground(forecolor >> 8);
@@ -381,18 +376,17 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
     }
     n = msgType.find("File");
     if (n >= 0){
-        string fileDescr;
+        QCString fileDescr, fileName;
         b.unpackStr32(fileDescr);
         unsigned short port;
         b >> port;
         b.incReadPos(2);
-        string fileName;
         b >> fileName;
         unsigned long fileSize;
         b.unpack(fileSize);
         ICQFileMessage *m = new ICQFileMessage;
-        m->setServerDescr(fileName.c_str());
-        m->setServerText(fileDescr.c_str());
+        m->setServerDescr(fileName);
+        m->setServerText(fileDescr);
         m->setSize(fileSize);
         m->setPort(port);
         m->setFlags(MESSAGE_TEMP);
@@ -404,7 +398,8 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
     }
     if (msgType == "ICQSMS"){
         string p;
-        b.unpackStr32(p);
+        b.unpackStr32(info);
+        p = info;   // FIXME!!
         string::iterator s = p.begin();
         auto_ptr<XmlNode> top(XmlNode::parse(s, p.end()));
         if (top.get() == NULL){
@@ -445,11 +440,11 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
         StatusMessage *m = new StatusMessage;
         return m;
     }
-    log(L_WARN, "Unknown extended message type %s", msgType.c_str());
+    log(L_WARN, "Unknown extended message type %s", msgType.data());
     return NULL;
 }
 
-Message *ICQClient::parseMessage(unsigned short type, const QString &screen, QString &p, Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseMessage(unsigned short type, const QString &screen, QCString &p, Buffer &packet, MessageId &id, unsigned cookie)
 {
     if (screen.toULong() == 0x0A){
         vector<string> l;
@@ -477,7 +472,7 @@ Message *ICQClient::parseMessage(unsigned short type, const QString &screen, QSt
     case ICQ_MSGxMSG:{
             unsigned long forecolor, backcolor;
             packet >> forecolor >> backcolor;
-            string cap_str;
+            QCString cap_str;
             packet.unpackStr32(cap_str);
             Contact *contact;
             ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -488,7 +483,7 @@ Message *ICQClient::parseMessage(unsigned short type, const QString &screen, QSt
                 }
                 contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
             }
-            msg = parseTextMessage(p, cap_str.c_str(), contact);
+            msg = parseTextMessage(p, cap_str, contact);
             if (msg == NULL)
                 break;
             if (forecolor != backcolor){
@@ -520,14 +515,14 @@ Message *ICQClient::parseMessage(unsigned short type, const QString &screen, QSt
             m->setServerText(p);
             unsigned short port;
             unsigned long  fileSize;
-            string fileName;
+            QCString fileName;
             packet >> port;
             packet.incReadPos(2);
             packet >> fileName;
             packet.unpack(fileSize);
             m->setPort(port);
             m->setSize(fileSize);
-            m->setServerDescr(fileName.c_str());
+            m->setServerDescr(fileName);
             msg = m;
             break;
         }
@@ -1125,9 +1120,9 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
     unsigned short type;
     b >> type;
     b.incReadPos(bDirect ? 1 : 4);
-    vector<string> phonebook;
-    vector<string> numbers;
-    vector<string> phonedescr;
+    vector<QCString> phonebook;
+    vector<QCString> numbers;
+    vector<QCString> phonedescr;
     string phones;
     Contact *contact = NULL;
     unsigned long state, time, size, nEntries;
@@ -1146,10 +1141,10 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 data->PluginStatusTime.value, size, nEntries, plugin_type);
         switch (plugin_type){
         case PLUGIN_RANDOMxCHAT:{
+                QCString name, topic, homepage;
+
                 b.incReadPos(-12);
-                string name;
                 b.unpack(name);
-                string topic;
                 b.unpack(topic);
                 unsigned short age;
                 char gender;
@@ -1159,18 +1154,17 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 b.unpack(gender);
                 b.unpack(country);
                 b.unpack(language);
-                string homepage;
                 b.unpack(homepage);
                 ICQUserData data;
                 load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
                 data.Uin.value = uin;
-                set_str(&data.Alias.ptr, name.c_str());
-                set_str(&data.About.ptr, topic.c_str());
+                set_str(&data.Alias.ptr, name);
+                set_str(&data.About.ptr, topic);
                 data.Age.value = age;
                 data.Gender.value = gender;
                 data.Country.value = country;
                 data.Language.value = language;
-                set_str(&data.Homepage.ptr, homepage.c_str());
+                set_str(&data.Homepage.ptr, homepage);
                 Event e(EventRandomChatInfo, &data);
                 e.process();
                 free_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
@@ -1195,7 +1189,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 plugin p;
                 b.unpack((char*)p, sizeof(p));
                 b.incReadPos(4);
-                string name, descr;
+                QCString name, descr;
                 b.unpackStr32(name);
                 b.unpackStr32(descr);
                 b.incReadPos(4);
@@ -1204,10 +1198,10 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     if (memcmp(p, plugins[plugin_index], sizeof(p)) == 0)
                         break;
                 if (plugin_index >= PLUGIN_NULL){
-                    log(L_DEBUG, "Unknown plugin sign %s %s", name.c_str(), descr.c_str());
+                    log(L_DEBUG, "Unknown plugin sign %s %s", name.data(), descr.data());
                     continue;
                 }
-                log(L_DEBUG, "Plugin %u %s %s", plugin_index, name.c_str(), descr.c_str());
+                log(L_DEBUG, "Plugin %u %s %s", plugin_index, name.data(), descr.data());
                 switch (plugin_index){
                 case PLUGIN_PHONEBOOK:
                 case PLUGIN_FOLLOWME:
@@ -1237,14 +1231,14 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
         case PLUGIN_PICTURE:
             if (data){
                 b.incReadPos(-4);
-                string pict;
+                QCString pict;
                 b.unpackStr32(pict);
                 b.unpackStr32(pict);
                 QImage img;
                 QString fName = pictureFile(data);
                 QFile f(fName);
                 if (f.open(IO_WriteOnly | IO_Truncate)){
-                    f.writeBlock(pict.c_str(), pict.size());
+                    f.writeBlock(pict.data(), pict.size());
                     f.close();
                     img.load(fName);
                 }else{
@@ -1262,7 +1256,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     break;
                 }
                 for (i = 0; i < nEntries; i++){
-                    string descr, area, phone, ext, country;
+                    QCString descr, area, phone, ext, country;
                     unsigned long active;
                     b.unpackStr32(descr);
                     b.unpackStr32(area);
@@ -1270,25 +1264,25 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     b.unpackStr32(ext);
                     b.unpackStr32(country);
                     numbers.push_back(phone);
-                    string value;
+                    QCString value;
                     for (const ext_info *e = getCountries(); e->szName; e++){
                         if (country == e->szName){
                             value = "+";
-                            value += number(e->nCode);
+                            value += QString::number(e->nCode);
                             break;
                         }
                     }
-                    if (!area.empty()){
-                        if (!value.empty())
+                    if (!area.isEmpty()){
+                        if (!value.isEmpty())
                             value += " ";
                         value += "(";
                         value += area;
                         value += ")";
                     }
-                    if (!value.empty())
+                    if (!value.isEmpty())
                         value += " ";
                     value += phone;
-                    if (!ext.empty()){
+                    if (!ext.isEmpty()){
                         value += " - ";
                         value += ext;
                     }
@@ -1300,8 +1294,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 for (i = 0; i < nEntries; i++){
                     unsigned long type;
-                    string phone = phonebook[i];
-                    string gateway;
+                    QCString phone = phonebook[i];
+                    QCString gateway;
                     b.incReadPos(4);
                     b.unpack(type);
                     b.unpackStr32(gateway);
@@ -1340,7 +1334,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     phone += ",";
                     phone += phonedescr[i];
                     phone += ",";
-                    phone += number(type);
+                    phone += QString::number(type);
                     if (i == nActive)
                         phone += ",1";
                     if (!phones.empty())

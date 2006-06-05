@@ -310,12 +310,12 @@ ICQClient::ICQClient(Protocol *protocol, ConfigBuffer *cfg, bool bAIM)
     m_processTimer = new QTimer(this);
     connect(m_processTimer, SIGNAL(timeout()), this, SLOT(processSendQueue()));
     if (getListRequests()){
-        string requests = getListRequests();
+        QString requests = getListRequests();
         while (requests.length()){
-            string req = getToken(requests, ';');
-            string n = getToken(req, ',');
+            QString req = getToken(requests, ';');
+            QString n = getToken(req, ',');
             ListRequest lr;
-            lr.type   = atol(n.c_str());
+            lr.type   = n.toULong();
             lr.screen = req;
             listRequests.push_back(lr);
         }
@@ -1091,7 +1091,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
     }else{
         name = screen;
     }
-    if(*alias)
+    if(alias)
         set_utf8(&data->Alias.ptr, *alias);
     contact->setName(name);
     if (grp)
@@ -1382,14 +1382,14 @@ void ICQClient::setupContact(Contact *contact, void *_data)
     if (data->EMail.ptr)
         mails += getContacts()->toUnicode(contact, QString(data->EMail.ptr).stripWhiteSpace());
     if (data->EMails.ptr){
-        string emails = data->EMails.ptr;
+        QCString emails = data->EMails.ptr;
         while (emails.length()){
-            string mailItem = getToken(emails, ';', false);
-            string mail = trim(getToken(mailItem, '/').c_str());
+            QCString mailItem = getToken(emails, ';', false);
+            QCString mail = getToken(mailItem, '/').stripWhiteSpace();
             if (mail.length()){
                 if (mails.length())
                     mails += ";";
-                mails += getContacts()->toUnicode(contact, mail.c_str());
+                mails += getContacts()->toUnicode(contact, mail);
             }
         }
     }
@@ -1575,27 +1575,29 @@ void ICQClient::setCap(ICQUserData *data, cap_id_t n)
     val |= (1 << pos);
 }
 
-static string verString(unsigned ver)
+static QString verString(unsigned ver)
 {
-    string res;
-    if (ver == 0) return res;
+    QString res;
+    if (ver == 0)
+        return res;
     unsigned char v[4];
     v[0] = (unsigned char)((ver >> 24) & 0xFF);
     v[1] = (unsigned char)((ver >> 16) & 0xFF);
-    v[2] = (unsigned char)((ver >> 8) & 0xFF);
-    v[3] = (unsigned char)(ver & 0xFF);
+    v[2] = (unsigned char)((ver >>  8) & 0xFF);
+    v[3] = (unsigned char)((ver >>  0) & 0xFF);
     if ((v[0] & 0x80) || (v[1] & 0x80) || (v[2] & 0x80) || (v[3] & 0x80))
         return res;
-    char b[32];
-    snprintf(b, sizeof(b), " %u.%u", v[0], v[1]);
-    res = b;
+
+    res.sprintf(" %u.%u", v[0], v[1]);
     if (v[2] || v[3]){
-        snprintf(b, sizeof(b), ".%u", v[2]);
-        res += b;
+        QString s;
+        s.sprintf(".%u", v[2]);
+        res += s;
     }
     if (v[3]){
-        snprintf(b, sizeof(b), ".%u", v[3]);
-        res += b;
+        QString s;
+        s.sprintf(".%u", v[3]);
+        res += s;
     }
     return res;
 }
@@ -2444,10 +2446,10 @@ void *ICQClient::processEvent(Event *e)
             }
         }else{
             Buffer copy;
-            string response;
+            QCString response;
             response = t->tmpl.utf8();
             sendAutoReply(ar.screen, ar.id, plugins[PLUGIN_NULL],
-                          ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response.c_str(), 0, copy);
+                          ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response, 0, copy);
         }
         arRequests.erase(it);
         return e->param();

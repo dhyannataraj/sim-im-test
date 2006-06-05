@@ -27,11 +27,7 @@ class Buffer;
 class EXPORT Tlv
 {
 public:
-    Tlv(unsigned short num = 0, char data = '\0');
-    Tlv(unsigned short num, const char *data);
-    Tlv(unsigned short num, unsigned short data);
-    Tlv(unsigned short num, unsigned long  data);
-    Tlv(unsigned short num, unsigned short size, const char *data);
+    Tlv(unsigned short num = 0, unsigned short size = 0, const char *data = NULL);
     ~Tlv();
     unsigned short Num() { return (unsigned short)m_nNum; }
     unsigned short Size() { return (unsigned short)m_nSize; }
@@ -75,40 +71,41 @@ public:
     void packetStart();
     unsigned long packetStartPos();
 
-    void pack(const char *d, unsigned size);
-    unsigned unpack(char *d, unsigned size);
-    unsigned unpack(QString &d, unsigned size);
-    unsigned unpackUtf8(QString &d, unsigned size);
-
     void pack(char c) { pack(&c, 1); }
+    void pack(long c) { pack((unsigned long)c); }
+    void pack(unsigned char c) { pack((char)c); }
     void pack(unsigned short c);
     void pack(unsigned long c);
-    void pack(long c) { pack((unsigned long)c); }
+    void pack(const char *d, unsigned size);
+    void pack(const QString &s);    // utf8
+    void packScreen(const QString &s);
+    void packStr32(const char *s);
+    void pack32(const Buffer &b);
+
+    void unpack(char &c);
+    void unpack(unsigned char &c) { unpack((char&)c); }
+    void unpack(unsigned short &c);
+    void unpack(unsigned long &c);
+    unsigned unpack(char *d, unsigned size);
+    unsigned unpack(QCString &d, unsigned size);
+    unsigned unpack(QString &d, unsigned size); // utf8
+    void unpack(QCString &s);
+    void unpackStr(QCString &s);
+    void unpackStr(QString &s);     // utf8
+    void unpackStr32(QCString &s);
+
+    QString unpackScreen();
 
     Buffer &operator >> (char &c);
     Buffer &operator >> (unsigned char &c) { return operator >> ((char&)c); }
     Buffer &operator >> (unsigned short &c);
     Buffer &operator >> (unsigned long &c);
     Buffer &operator >> (int &c);
-    Buffer &operator >> (std::string &s);
-    Buffer &operator >> (QString &s);
+    Buffer &operator >> (QCString &s);
     Buffer &operator >> (char**);
 
-    void unpack(char &c);
-    void unpack(unsigned char &c);
-    void unpack(unsigned short &c);
-    void unpack(unsigned long &c);
-    QString unpackScreen();
-    void unpack(std::string &s);
-    void unpack(QString &s);
-    void unpackStr(std::string &s);
-    void unpackStr(QString &s);
-    void unpackStrUtf8(QString &s);
-    void unpackStr32(std::string &s);
-
-    void pack(const std::string &s);
-
     Buffer &operator << (const QString &s);
+    Buffer &operator << (const QCString &s);
     Buffer &operator << (const char *str);
     Buffer &operator << (char c);
     Buffer &operator << (unsigned char c) { return operator << ((char)c); }
@@ -120,10 +117,6 @@ public:
     Buffer &operator << (const bool b);
     Buffer &operator << (char**);
     Buffer &operator << (TlvList&);
-
-    void packScreen(const QString &);
-    void packStr32(const char *);
-    void pack32(const Buffer &b);
 
     void tlv(unsigned short n, const char *data, unsigned short len);
     void tlv(unsigned short n) { tlv(n, NULL, 0); }
@@ -141,8 +134,7 @@ public:
     void tlvLE(unsigned short n, unsigned long c);
     void tlvLE(unsigned short n, Buffer &b) { tlvLE(n, b.data(), (unsigned short)(b.size())); }
 
-    bool scan(const char *substr, std::string &res);
-    bool scan(const char *substr, QString &res);
+    bool scan(const char *substr, QCString &res);
 
     void init(unsigned size);
 

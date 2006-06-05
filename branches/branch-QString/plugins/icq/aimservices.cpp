@@ -138,7 +138,7 @@ class SearchSocket : public ServiceSocket
 {
 public:
     SearchSocket(ICQClient*);
-    unsigned short add(string str);
+    unsigned short add(const string &str);
 protected:
     void data(unsigned short fam, unsigned short type, unsigned short seq);
     void snac_service(unsigned short type);
@@ -167,13 +167,13 @@ static bool bLatin1(const QString &s)
 
 void SearchSocket::addTlv(unsigned short n, const QString &s, bool bLatin)
 {
-    string str;
+    QCString str;
     if (bLatin){
         str = s.latin1();
     }else{
         str = s.utf8();
     }
-    m_socket->writeBuffer.tlv(n, str.c_str());
+    m_socket->writeBuffer.tlv(n, str.data());
 }
 
 void SearchSocket::process()
@@ -250,7 +250,7 @@ void SearchSocket::process()
     m_requests.clear();
 }
 
-unsigned short SearchSocket::add(string name)
+unsigned short SearchSocket::add(const string &name)
 {
     m_requests.insert(REQUEST_MAP::value_type(++m_id, name));
     process();

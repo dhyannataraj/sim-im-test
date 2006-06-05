@@ -131,7 +131,7 @@ typedef struct YahooClientData
     YahooUserData	owner;
 } YahooClientData;
 
-typedef std::pair<unsigned, std::string> PARAM;
+typedef std::pair<unsigned, QCString> PARAM;
 
 class Params : public std::list<PARAM>
 {

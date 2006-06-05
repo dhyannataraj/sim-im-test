@@ -435,7 +435,7 @@ void JabberClient::setupContact(Contact *contact, void *_data)
     contact->setPhones(phones, name());
 
     if (contact->getFirstName().isEmpty() && data->FirstName.ptr && *data->FirstName.ptr)
-        contact->setFirstName(QString::fromUtf8(data->FirstName.ptr), name());
+        contact->setFirstName(get_utf8(data->FirstName.ptr), name());
 
     if (contact->getName().isEmpty())
         contact->setName(QString::fromUtf8(data->ID.ptr));

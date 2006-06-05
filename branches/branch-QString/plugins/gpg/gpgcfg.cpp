@@ -145,12 +145,12 @@ void GpgCfg::fillSecret(Buffer *b)
     cmbKey->insertItem(i18n("None"));
     if (b){
         for (;;){
-            string line;
+            QCString line;
             bool bRes = b->scan("\n", line);
             if (!bRes){
-                line.append(b->data(b->readPos()), b->size() - b->readPos());
+                line += QCString(b->data(b->readPos()), b->size() - b->readPos());
             }
-            string type = getToken(line, ':');
+            QCString type = getToken(line, ':');
             if (type == "sec"){
                 getToken(line, ':');
                 getToken(line, ':');

@@ -185,11 +185,11 @@ void JabberInfo::fill()
 {
     JabberUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtID->setText(QString::fromUtf8(data->ID.ptr));
-    edtFirstName->setText(data->FirstName.ptr ? QString::fromUtf8(data->FirstName.ptr) : QString(""));
-    edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
-    edtDate->setText(data->Bday.ptr ? QString::fromUtf8(data->Bday.ptr) : QString(""));
-    edtUrl->setText(data->Url.ptr ? QString::fromUtf8(data->Url.ptr) : QString(""));
+    edtID->setText(get_utf8(data->ID.ptr));
+    edtFirstName->setText(get_utf8(data->FirstName.ptr));
+    edtNick->setText(get_utf8(data->Nick.ptr));
+    edtDate->setText(get_utf8(data->Bday.ptr));
+    edtUrl->setText(get_utf8(data->Url.ptr));
     urlChanged(edtUrl->text());
     cmbResource->clear();
     if (data->nResources.value){
@@ -211,10 +211,10 @@ void JabberInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->FirstName.ptr, edtFirstName->text().utf8());
-    set_str(&data->Nick.ptr, edtNick->text().utf8());
-    set_str(&data->Bday.ptr, edtDate->text().utf8());
-    set_str(&data->Url.ptr, edtUrl->text().utf8());
+    set_utf8(&data->FirstName.ptr, edtFirstName->text());
+    set_utf8(&data->Nick.ptr, edtNick->text());
+    set_utf8(&data->Bday.ptr, edtDate->text());
+    set_utf8(&data->Url.ptr, edtUrl->text());
 }
 
 void JabberInfo::goUrl()

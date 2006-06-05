@@ -2656,12 +2656,12 @@ void JabberFileTransfer::packet_ready()
         JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
         log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
         for (;;){
-            string s;
+            QCString s;
             if (!m_socket->readBuffer.scan("\n", s))
                 break;
-            if (!s.empty() && (s[s.length() - 1] == '\r'))
-                s = s.substr(0, s.length() - 1);
-            if (!get_line(s.c_str()))
+            if (!s.isEmpty() && (s[(int)s.length() - 1] == '\r'))
+                s = s.left(s.length() - 1);
+            if (!get_line(s))
                 break;
         }
     }

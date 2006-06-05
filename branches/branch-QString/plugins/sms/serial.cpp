@@ -319,9 +319,9 @@ void SerialPort::setTimeout(unsigned read_time)
     SetEvent(d->hEvent);
 }
 
-string SerialPort::readLine()
+QCString SerialPort::readLine()
 {
-    string res;
+    QCString res;
     if (d->hPort == INVALID_HANDLE_VALUE)
         return res;
     if (d->m_buff.scan("\n", res)){
@@ -552,9 +552,9 @@ void SerialPort::setTimeout(unsigned timeRead)
     d->m_readTimer->start(d->m_timeout, true);
 }
 
-string SerialPort::readLine()
+QCString SerialPort::readLine()
 {
-    string res;
+    QCString res;
     if (d->fd == -1)
         return res;
     if (d->m_buf.scan("\n", res)){

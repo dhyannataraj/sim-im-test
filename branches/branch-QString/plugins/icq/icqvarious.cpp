@@ -224,7 +224,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     unsigned char type, flag;
                     struct tm sendTM;
                     memset(&sendTM, 0, sizeof(sendTM));
-                    QString message;
+                    QCString message;
                     unsigned short year;
                     unsigned char month, day, hours, min;
                     msg.unpack(uin);
@@ -378,7 +378,7 @@ QString FullInfoRequest::unpack_list(Buffer &b)
     for (; n > 0; n--){
         unsigned short c;
         b.unpack(c);
-        QString s;
+        QCString s;
         b >> s;
         if (c == 0) continue;
         if (res.length())
@@ -468,7 +468,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             for (;c > 0;c--){
                 char d;
                 b >> d;
-                QString s;
+                QCString s;
                 b >> s;
                 s = quoteChars(s, ";");
                 if (mail.length())
@@ -1501,15 +1501,16 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
         delete sms;
     }else{
         b.incReadPos(6);
-        string provider;
-        string answer;
+        QCString provider;
+        QCString answer_QCString;
         b.unpackStr(provider);
-        b.unpackStr(answer);
-
+        b.unpackStr(answer_QCString);
+// FIXME
+        std::string answer = answer_QCString;
         string::iterator s = answer.begin();
         auto_ptr<XmlNode> top(XmlNode::parse(s, answer.end()));
-        string error = I18N_NOOP("SMS send fail");
-        string network;
+        QString error = I18N_NOOP("SMS send fail");
+        QString network;
         if (top.get()){
             XmlNode *n = top.get();
             if (n && n->isBranch()){
@@ -1531,17 +1532,17 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
             }
         }
 
-        if (error.empty()){
+        if (error.isEmpty()){
             if (!m_client->smsQueue.empty()){
                 SendMsg &s = m_client->smsQueue.front();
                 SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
-                sms->setNetwork(network.c_str());
+                sms->setNetwork(network);
                 if ((sms->getFlags() & MESSAGE_NOHISTORY) == 0){
                     SMSMessage m;
                     m.setContact(sms->contact());
                     m.setText(s.part);
                     m.setPhone(sms->getPhone());
-                    m.setNetwork(network.c_str());
+                    m.setNetwork(network);
                     Event e(EventSent, &m);
                     e.process();
                 }
@@ -1549,7 +1550,7 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
         }else{
             if (!m_client->smsQueue.empty()){
                 SendMsg &s = m_client->smsQueue.front();
-                s.msg->setError(error.c_str());
+                s.msg->setError(error);
                 Event e(EventMessageSent, s.msg);
                 e.process();
                 delete s.msg;

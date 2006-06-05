@@ -290,10 +290,10 @@ QryPacket::QryPacket(MSNClient *client, const char *qry)
     char qry_add[] = "VT6PX?UQTM4WM%YR";
     string md = qry;
     md += qry_add;
-    md = md5(md.c_str());
-    for (unsigned i = 0; i < md.length(); i++){
+    QByteArray ba = md5(md.c_str());
+    for (unsigned i = 0; i < ba.size(); i++){
         char b[3];
-        sprintf(b, "%02x", md[i] & 0xFF);
+        sprintf(b, "%02x", ba[(int)i] & 0xFF);
         m_line += b;
     }
 }

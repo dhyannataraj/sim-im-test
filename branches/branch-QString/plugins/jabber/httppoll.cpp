@@ -76,9 +76,9 @@ string JabberHttpPool::getKey()
         m_key = m_seed;
         return m_key;
     }
-    string digest = sha1(m_key.c_str());
+    QByteArray digest = sha1(m_key.c_str());
     Buffer b;
-    b.pack(digest.c_str(), digest.length());
+    b.pack(digest.data(), digest.size());
     Buffer r;
     r.toBase64(b);
     m_key = "";

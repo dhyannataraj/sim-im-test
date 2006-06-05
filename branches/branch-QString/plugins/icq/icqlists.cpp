@@ -94,23 +94,23 @@ protected:
 class GroupServerRequest : public ListServerRequest
 {
 public:
-    GroupServerRequest(unsigned short seq, unsigned long id, unsigned short icq_id, const char *name);
+    GroupServerRequest(unsigned short seq, unsigned long id, unsigned short icq_id, const QString &name);
     virtual void process(ICQClient *client, unsigned short res);
 protected:
     unsigned long      m_id;
     unsigned short     m_icqId;
-    string             m_name;
+    QString             m_name;
 };
 
 class ContactServerRequest : public ListServerRequest
 {
 public:
-    ContactServerRequest(unsigned short seq, const char *screen,
+    ContactServerRequest(unsigned short seq, const QString &screen,
                          unsigned short icq_id, unsigned short grp_id, TlvList *tlv = NULL);
     ~ContactServerRequest();
     virtual void process(ICQClient *client, unsigned short res);
 protected:
-    string		       m_screen;
+    QString		       m_screen;
     unsigned short     m_icqId;
     unsigned short     m_grpId;
     TlvList            *m_tlv;
@@ -119,11 +119,11 @@ protected:
 class SetListRequest : public ListServerRequest
 {
 public:
-    SetListRequest(unsigned short seq, const char *screen,
+    SetListRequest(unsigned short seq, const QString &screen,
                    unsigned short icq_id, unsigned short type);
     virtual void process(ICQClient *client, unsigned short res);
 protected:
-    string			m_screen;
+    QString			m_screen;
     unsigned short	m_icqId;
     unsigned short	m_type;
 };
@@ -135,7 +135,8 @@ void ICQClient::parseRosterItem(unsigned short type,
                                 unsigned short grp_id,
                                 unsigned short id,
                                 TlvList *inf,
-                                bool &bIgnoreTime) {
+                                bool &bIgnoreTime)
+{
     int seq;
 
     switch (type){
@@ -151,7 +152,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                 if (!m_bAIM && (str.toULong() == getUin())) {
                     log(L_DEBUG, "Own UIN in contact list - removing!");
                     seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", grp_id, id);
-                    m_listRequest = new ContactServerRequest(seq, number(id).c_str(), 0, 0);
+                    m_listRequest = new ContactServerRequest(seq, QString::number(id), 0, 0);
                     time(&m_listRequestTime);
                     break;
                 }
@@ -334,8 +335,8 @@ void ICQClient::parseRosterItem(unsigned short type,
     case ICQ_NON_IM: {
             Tlv *tlv_name = NULL;
             Tlv *tlv_phone = NULL;
-            string alias;
-            string phone;
+            QString alias;
+            QString phone;
 
             if (inf) {
                 tlv_name = (*inf)(TLV_ALIAS);
@@ -346,8 +347,8 @@ void ICQClient::parseRosterItem(unsigned short type,
                     phone = (char*)(*tlv_phone);
                 }
                 log (L_DEBUG,"External Contact: %s Phone: %s",
-                     alias.c_str(),
-                     phone.c_str());
+                     alias.latin1(),
+                     phone.latin1());
             }
             break;
         }
@@ -465,7 +466,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             for (unsigned i = 0; i < list_len; i++){
                 QString name;
                 unsigned short id, grp_id, type, len;
-                m_socket->readBuffer.unpackStrUtf8(name);
+                m_socket->readBuffer.unpackStr(name);
                 m_socket->readBuffer >> grp_id >> id >> type >> len;
                 TlvList *inf = NULL;
                 if (len){
@@ -487,10 +488,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             list<Group*> forRemove;
             while ((grp = ++it_g) != NULL){
                 ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
-                string n;
+                QString n;
                 if (grp->id())
-                    n = grp->getName().local8Bit();
-                log(L_DEBUG, "Check %ld %s %p %u", grp->id(), n.c_str(), data, data ? data->bChecked.bValue : 0);
+                    n = grp->getName();
+                log(L_DEBUG, "Check %ld %s %p %u", grp->id(), n.latin1(), data, data ? data->bChecked.bValue : 0);
                 if ((data == NULL) || data->bChecked.bValue)
                     continue;
                 ListRequest *lr = findGroupListRequest((unsigned short)(data->IcqID.value));
@@ -610,8 +611,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxLISTS_AUTHxREQUEST:{
             QString screen = m_socket->readBuffer.unpackScreen();
-            string message;
-            string charset;
+            QCString message;
+            QCString charset;
             unsigned short have_charset;
             m_socket->readBuffer.unpackStr(message);
             m_socket->readBuffer >> have_charset;
@@ -621,14 +622,14 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             log(L_DEBUG, "Auth request %s", screen.latin1());
             Message *m = NULL;
-            if (charset.empty()){
+            if (charset.isEmpty()){
                 AuthMessage *msg = new AuthMessage(MessageAuthRequest);
-                msg->setText(QString::fromUtf8(message.c_str()));
+                msg->setText(QString::fromUtf8(message));
                 m = msg;
             }else{
                 ICQAuthMessage *msg = new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest);
-                msg->setServerText(message.c_str());
-                msg->setCharset(charset.c_str());
+                msg->setServerText(message);
+                msg->setCharset(charset);
                 m = msg;
             }
             messageReceived(m, screen);
@@ -642,12 +643,12 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             /* we treat future grant as normal grant but it isn't the same...
                http://iserverd1.khstu.ru/oscar/snac_13_15.html */
             QString screen = m_socket->readBuffer.unpackScreen();
-            string message;
+            QCString message;
             Message *m = NULL;
 
             m_socket->readBuffer.unpackStr(message);
             AuthMessage *msg = new AuthMessage(MessageAuthGranted);
-            msg->setText(QString::fromUtf8(message.c_str()));
+            msg->setText(QString::fromUtf8(message));
             m = msg;
             messageReceived(m, screen);
             Contact *contact;
@@ -664,8 +665,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             QString screen = m_socket->readBuffer.unpackScreen();
             char auth_ok;
             m_socket->readBuffer >> auth_ok;
-            string message;
-            string charset;
+            QCString message;
+            QCString charset;
             unsigned short have_charset;
             m_socket->readBuffer.unpackStr(message);
             m_socket->readBuffer >> have_charset;
@@ -675,14 +676,14 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             log(L_DEBUG, "Auth %u %s", auth_ok, screen.latin1());
             Message *m = NULL;
-            if (charset.empty()){
+            if (charset.isEmpty()){
                 AuthMessage *msg = new AuthMessage(auth_ok ? MessageAuthGranted : MessageAuthRefused);
-                msg->setText(QString::fromUtf8(message.c_str()));
+                msg->setText(QString::fromUtf8(message));
                 m = msg;
             }else{
                 ICQAuthMessage *msg = new ICQAuthMessage(auth_ok ? MessageICQAuthGranted : MessageICQAuthRefused, auth_ok ? MessageAuthGranted : MessageAuthRefused);
-                msg->setServerText(message.c_str());
-                msg->setCharset(charset.c_str());
+                msg->setServerText(message);
+                msg->setCharset(charset);
                 m = msg;
             }
             messageReceived(m, screen);
@@ -813,13 +814,9 @@ void ICQClient::clearListServerRequest()
 
 //-----------------------------------------------------------------------------
 
-GroupServerRequest::GroupServerRequest(unsigned short seq, unsigned long id, unsigned short icq_id, const char *name)
-        : ListServerRequest(seq)
+GroupServerRequest::GroupServerRequest(unsigned short seq, unsigned long id, unsigned short icq_id, const QString &name)
+        : ListServerRequest(seq), m_id(id), m_icqId(icq_id), m_name(name)
 {
-    m_id	= id;
-    m_icqId = icq_id;
-    if (name)
-        m_name = name;
 }
 
 void GroupServerRequest::process(ICQClient *client, unsigned short)
@@ -836,30 +833,25 @@ void GroupServerRequest::process(ICQClient *client, unsigned short)
     if (data == NULL)
         data = (ICQUserData*)(group->clientData.createData(client));
     data->IcqID.value = m_icqId;
-    set_str(&data->Alias.ptr, m_name.c_str());
+    set_utf8(&data->Alias.ptr, m_name);
 }
 
 //-----------------------------------------------------------------------------
 
-ContactServerRequest::ContactServerRequest(unsigned short seq, const char *screen,
+ContactServerRequest::ContactServerRequest(unsigned short seq, const QString &screen,
         unsigned short icq_id, unsigned short grp_id, TlvList *tlv)
-        : ListServerRequest(seq)
+        : ListServerRequest(seq), m_screen(screen), m_icqId(icq_id), m_grpId(grp_id), m_tlv(tlv)
 {
-    m_screen	= screen;
-    m_icqId		= icq_id;
-    m_grpId		= grp_id;
-    m_tlv		= tlv;
 }
 
 ContactServerRequest::~ContactServerRequest()
 {
-    if (m_tlv)
-        delete m_tlv;
+    delete m_tlv;
 }
 
 void ContactServerRequest::process(ICQClient *client, unsigned short res)
 {
-    ListRequest *lr = client->findContactListRequest(m_screen.c_str());
+    ListRequest *lr = client->findContactListRequest(m_screen);
     if (lr && (lr->type == LIST_USER_DELETED)){
         lr->screen = "";
         lr->icq_id = 0;
@@ -900,18 +892,15 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
 
 //-----------------------------------------------------------------------------
 
-SetListRequest::SetListRequest(unsigned short seq, const char *screen,
+SetListRequest::SetListRequest(unsigned short seq, const QString &screen,
                                unsigned short icq_id, unsigned short type)
-        : ListServerRequest(seq)
+        : ListServerRequest(seq), m_screen(screen), m_icqId(icq_id), m_type(type)
 {
-    m_screen	= screen;
-    m_icqId		= icq_id;
-    m_type		= type;
 }
 
 void SetListRequest::process(ICQClient *client, unsigned short)
 {
-    ListRequest *lr = client->findContactListRequest(m_screen.c_str());
+    ListRequest *lr = client->findContactListRequest(m_screen);
     if (lr && (lr->type == LIST_USER_DELETED)){
         switch (m_type){
         case ICQ_VISIBLE_LIST:
@@ -1192,7 +1181,7 @@ unsigned ICQClient::processListRequest()
         case LIST_GROUP_CHANGED:
             group = getContacts()->group(lr.screen.toULong());
             if (group){
-                name = group->getName().utf8();
+                name = group->getName();
                 data = (ICQUserData*)(group->clientData.getData(this));
                 if (data){
                     icq_id = (unsigned short)(data->IcqID.value);

@@ -29,7 +29,6 @@
 #include <qlabel.h>
 #include <qtabwidget.h>
 
-using std::string;
 using namespace SIM;
 
 const ext_info chat_groups[] =
@@ -252,21 +251,21 @@ void ICQInfo::fill()
         edtIntIP->hide();
     }
     if (m_data){
-        string client_name = m_client->clientName(data);
+        QString client_name = m_client->clientName(data);
         if (client_name.length()){
-            edtClient->setText(client_name.c_str());
+            edtClient->setText(client_name);
         }else{
             lblClient->hide();
             edtClient->hide();
         }
     }else{
-        string name = PACKAGE;
+        QString name = PACKAGE;
         name += " ";
         name += VERSION;
 #ifdef WIN32
         name += "/win32";
 #endif
-        edtClient->setText(name.c_str());
+        edtClient->setText(name);
     }
 }
 

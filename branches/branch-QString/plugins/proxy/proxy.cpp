@@ -1095,17 +1095,17 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
         return;
     }
     m_out.pack(buf, size);
-    string line;
+    QCString line;
     if (m_state == WaitHeader){
         if (!m_out.scan("\r\n", line))
             return;
         bOut
-        << getToken(line, ' ', false).c_str()
+        << getToken(line, ' ', false).data()
         << " http://"
         << m_host.c_str();
         if (m_port != 80)
             bOut << ":" << (const char*)QString::number(m_port);
-        bOut << getToken(line, ' ', false).c_str();
+        bOut << getToken(line, ' ', false).data();
         bOut << " HTTP/1.1\r\n";
         m_state = Headers;
     }
@@ -1115,18 +1115,18 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
                 HTTPS_Proxy::write();
                 return;
             }
-            if (line.empty())
+            if (line.isEmpty())
                 break;
-            string param = getToken(line, ':');
+            QCString param = getToken(line, ':');
             if (param == "Content-Length"){
-                const char *p = line.c_str();
+                const char *p = line.data();
                 for (; *p; p++){
                     if (*p != ' ')
                         break;
                 }
                 m_size = atol(p);
             }
-            bOut << param.c_str() << ":" << line.c_str() << "\r\n";
+            bOut << param.data() << ":" << line.data() << "\r\n";
         }
         send_auth();
         bOut << "\r\n";

@@ -577,7 +577,7 @@ public:
     void requestReverseConnection(const char *screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
-                          QString &p, Buffer &packet, MessageId &id, unsigned cookie);
+                          QCString &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(SIM::Message*, const char *screen);
     static bool parseRTF(const char *str, SIM::Contact *contact, QString &result);
     static QString pictureFile(ICQUserData *data);

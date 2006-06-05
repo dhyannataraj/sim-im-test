@@ -253,14 +253,14 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                     }
                 }
             }else{
-                string key;
-                string res;
+                QCString key;
+                QCString res;
                 QString passphrase;
                 exec->bErr.scan("\n", key);
                 if (exec->bErr.scan("bad passphrase", res)){
                     int n = key.find("ID ");
                     if (n > 0)
-                        key = key.substr(n + 3);
+                        key = key.mid(n + 3);
                     key = getToken(key, ' ');
                     key = getToken(key, ',');
                     if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
@@ -280,7 +280,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                         }
                     }
                     if ((*it).passphrase.isEmpty() && !passphrase.isEmpty()){
-                        if (decode(msg, passphrase.utf8(), key.c_str()))
+                        if (decode(msg, passphrase.utf8(), key))
                             return;
                     }else{
                         DecryptMsg m;
@@ -634,11 +634,11 @@ void GpgPlugin::publicReady(Exec *exec, int res, const char*)
             if (res == 0){
                 Buffer *b = &exec->bOut;
                 for (;;){
-                    string line;
+                    QCString line;
                     bool bRes = b->scan("\n", line);
                     if (!bRes)
-                        line.append(b->data(b->readPos()), b->size() - b->readPos());
-                    string type = getToken(line, ':');
+                        line += QCString(b->data(b->readPos()), b->size() - b->readPos());
+                    QCString type = getToken(line, ':');
                     if (type == "pub"){
                         getToken(line, ':');
                         getToken(line, ':');

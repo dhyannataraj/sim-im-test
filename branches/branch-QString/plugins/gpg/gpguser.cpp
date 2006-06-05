@@ -86,13 +86,13 @@ void GpgUser::publicReady(Exec*, int res, const char*)
     cmbPublic->insertItem(i18n("None"));
     if (res == 0){
         for (;;){
-            string line;
+            QCString line;
             Buffer *b = &m_exec->bOut;
             bool bRes = b->scan("\n", line);
             if (!bRes){
-                line.append(b->data(b->readPos()), b->size() - b->readPos());
+                line += QCString(b->data(b->readPos()), b->size() - b->readPos());
             }
-            string type = getToken(line, ':');
+            QCString type = getToken(line, ':');
             if (type == "pub"){
                 getToken(line, ':');
                 getToken(line, ':');
