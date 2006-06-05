@@ -192,7 +192,7 @@ unsigned Buffer::unpack(QCString &d, unsigned s)
     unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d = QCString(data() + m_posRead, readn + 1);    // + '\0'!
+    d = QCString(data() + m_posRead, readn + 1);
     m_posRead += readn;
     return readn;
 }
@@ -202,7 +202,7 @@ unsigned Buffer::unpack(QString &d, unsigned s)
     unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d = QString::fromUtf8(data() + m_posRead, readn + 1);    // + '\0'!
+    d = QString::fromUtf8(data() + m_posRead, readn);
     m_posRead += readn;
     return readn;
 }
