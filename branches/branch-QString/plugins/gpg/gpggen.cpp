@@ -28,7 +28,6 @@
 #include <qpushbutton.h>
 #include <qlabel.h>
 
-using std::string;
 using namespace SIM;
 
 GpgGen::GpgGen(GpgCfg *cfg)
@@ -87,20 +86,6 @@ void GpgGen::textChanged(const QString&)
 #define CRLF	"\n"
 #endif
 
-static string toLatin(const QString &str)
-{
-    QString s = toTranslit(str);
-    string res;
-    for (int i = 0; i < (int)s.length(); i++){
-        if (s[i].unicode() > 0x7F){
-            res += "?";
-        }else{
-            res += s[i].latin1();
-        }
-    }
-    return res;
-}
-
 void GpgGen::accept()
 {
     edtName->setEnabled(false);
@@ -118,20 +103,20 @@ QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
         return;
     if (home[(int)(home.length() - 1)] == '\\')
         home = home.left(home.length() - 1);
-    string in =
+    QString in =
         "Key-Type: 1" CRLF
         "Key-Length: 1024" CRLF
         "Expire-Date: 0" CRLF
         "Name-Real: ";
-    in += toLatin(edtName->text());
+    in += edtName->text();
     in += CRLF;
     if (!edtComment->text().isEmpty()){
         in += "Name-Comment: ";
-        in += toLatin(edtComment->text());
+        in += edtComment->text();
         in += CRLF;
     }
     in += "Name-Email: ";
-    in += toLatin(cmbMail->lineEdit()->text());
+    in += cmbMail->lineEdit()->text();
     in += CRLF;
     if (!edtPass1->text().isEmpty()){
         in += "Passphrase: ";
@@ -141,7 +126,7 @@ QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
     QString fname = user_file("keys/genkey.txt");
     QFile f(fname);
     f.open(IO_WriteOnly | IO_Truncate);
-    f.writeBlock(in.c_str(), in.length());
+    f.writeBlock(in.local8Bit(), in.local8Bit().length());
     f.close();
 
     gpg = QString("\"") + gpg + "\"";

@@ -24,7 +24,6 @@
 #include <qtimer.h>
 #include <qfile.h>
 
-using std::string;
 using namespace SIM;
 
 GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
@@ -45,14 +44,14 @@ GpgUser::~GpgUser()
 void GpgUser::apply(void *_data)
 {
     GpgUserData *data = (GpgUserData*)_data;
-    string key;
+    QString key;
     int nKey = cmbPublic->currentItem();
     if (nKey && (nKey < cmbPublic->count())){
-        string k = cmbPublic->currentText().latin1();
+        QString k = cmbPublic->currentText().latin1();
         key = getToken(k, ' ');
     }
-    set_str(&data->Key.ptr, key.c_str());
-    if (key.empty())
+    set_str(&data->Key.ptr, key);
+    if (key.isEmpty())
         data->Use.bValue = false;
 }
 
@@ -97,15 +96,16 @@ void GpgUser::publicReady(Exec*, int res, const char*)
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                string sign = getToken(line, ':');
-                if (sign == m_key)
+                QCString sign = getToken(line, ':');
+                if (QString::fromLocal8Bit(sign) == m_key)
                     cur = n;
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                string name = getToken(line, ':');
-                cmbPublic->insertItem(QString(sign.c_str()) + " - " + name.c_str());
+                QCString name = getToken(line, ':');
+                cmbPublic->insertItem(QString::fromLocal8Bit(sign) + QString(" - ") +
+                                   QString::fromLocal8Bit(name));
                 n++;
             }
             if (!bRes)

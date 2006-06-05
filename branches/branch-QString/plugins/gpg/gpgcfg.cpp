@@ -32,7 +32,6 @@
 #include <qcombobox.h>
 #include <qtimer.h>
 
-using std::string;
 using namespace SIM;
 
 GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
@@ -85,13 +84,13 @@ GpgCfg::~GpgCfg()
 
 void GpgCfg::apply()
 {
-    string key;
+    QString key;
     int nKey = cmbKey->currentItem();
     if (nKey && (nKey < cmbKey->count() - 1)){
-        string k = cmbKey->currentText().latin1();
+        QString k = cmbKey->currentText();
         key = getToken(k, ' ');
     }
-    m_plugin->setKey(key.c_str());
+    m_plugin->setKey(key);
 #ifdef WIN32
     m_plugin->setGPG(QFile::encodeName(edtGPG->text()));
 #endif
@@ -155,15 +154,16 @@ void GpgCfg::fillSecret(Buffer *b)
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                string sign = getToken(line, ':');
+                QCString sign = getToken(line, ':');
                 if (sign == m_plugin->getKey())
                     cur = n;
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                string name = getToken(line, ':');
-                cmbKey->insertItem(QString(sign.c_str()) + " - " + name.c_str());
+                QCString name = getToken(line, ':');
+                cmbKey->insertItem(QString::fromLocal8Bit(sign) + QString(" - ") +
+                                   QString::fromLocal8Bit(name));
                 n++;
             }
             if (!bRes)

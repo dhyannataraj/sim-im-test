@@ -39,7 +39,7 @@ public slots:
 protected:
     void fillPublic(Buffer *b);
     Exec		*m_exec;
-    std::string	m_key;
+    QString     m_key;
 };
 
 #endif

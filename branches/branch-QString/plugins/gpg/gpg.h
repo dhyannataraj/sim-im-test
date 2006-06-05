@@ -20,8 +20,8 @@
 
 #include "simapi.h"
 
-#include <list>
-#include <string>
+#include <qvaluelist.h>
+#include <qstring.h>
 
 const unsigned long MessageGPGKey	= 0x5000;
 const unsigned long MessageGPGUse	= 0x5001;
@@ -60,12 +60,12 @@ typedef struct DecryptMsg
     QString		outfile;
     unsigned	contact;
     QString		passphrase;
-    std::string	key;
+    QString     key;
 } DecryptMsg;
 
 typedef struct KeyMsg
 {
-    std::string	key;
+    QString	     key;
     SIM::Message *msg;
 } KeyMsg;
 
@@ -112,10 +112,10 @@ protected:
     void askPassphrase();
     bool decode(SIM::Message *msg, const char *pass, const char *key);
     bool m_bMessage;
-    std::list<DecryptMsg> m_decrypt;
-    std::list<DecryptMsg> m_import;
-    std::list<DecryptMsg> m_public;
-    std::list<DecryptMsg> m_wait;
+    QValueList<DecryptMsg> m_decrypt;
+    QValueList<DecryptMsg> m_import;
+    QValueList<DecryptMsg> m_public;
+    QValueList<DecryptMsg> m_wait;
     PassphraseDlg	 *m_passphraseDlg;
     GpgData data;
 };
