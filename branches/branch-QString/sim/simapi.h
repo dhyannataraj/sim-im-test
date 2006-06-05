@@ -1829,8 +1829,9 @@ public:
     ~my_string();
     bool operator < (const my_string &str) const;
     void operator = (const my_string &str);
-    const char *c_str() const { return m_str->c_str(); }
-    std::string *m_str;
+    const QString &c_str() const { return m_str; }
+protected:
+    QString m_str;
 };
 
 EXPORT bool inResize();
