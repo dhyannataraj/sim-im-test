@@ -2105,7 +2105,7 @@ string ContactList::fromUnicode(Contact *contact, const QString &str)
         return "";
     QString s = str;
     s = s.replace(QRegExp("\r?\n"), "\r\n");
-    QCString res = getCodec(contact)->fromUnicode(str);
+    QCString res = getCodec(contact)->fromUnicode(s);
     return (const char*)res;
 }
 }
