@@ -77,7 +77,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
             break;
         }
     }
-    if (GPGpath.empty())
+    if (GPGpath.isEmpty())
         info.description = I18N_NOOP("Plugin adds GnuPG encryption/decryption support for messages\n"
                                      "GPG not found in PATH");
 #endif
@@ -158,7 +158,7 @@ const char *GpgPlugin::GPG()
 #ifdef WIN32
     return getGPG();
 #else
-return GPGpath.c_str();
+return (const char *)GPGpath.local8Bit();
 #endif
 }
 
@@ -481,7 +481,7 @@ void *GpgPlugin::processEvent(Event *e)
                         QString input = output + ".in";
                         QFile in(input);
                         if (!in.open(IO_WriteOnly | IO_Truncate)){
-                            log(L_WARN, "Can't create %s", input.local8Bit());
+                            log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
                             return NULL;
                         }
                         QCString cstr = ms->text->utf8();

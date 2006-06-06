@@ -1506,7 +1506,7 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
         b.unpackStr(provider);
         b.unpackStr(answer_QCString);
 // FIXME
-        std::string answer = answer_QCString;
+        std::string answer = (const char *)answer_QCString;
         string::iterator s = answer.begin();
         auto_ptr<XmlNode> top(XmlNode::parse(s, answer.end()));
         QString error = I18N_NOOP("SMS send fail");

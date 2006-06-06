@@ -71,7 +71,7 @@ void GsmTA::write_ready()
 
 void GsmTA::read_ready()
 {
-    string line = m_port->readLine();
+    string line = (const char *)m_port->readLine();
     if (!line.empty() && (line[line.length() - 1] == '\r'))
         line = line.substr(0, line.length() - 1);
     if (!line.empty()){

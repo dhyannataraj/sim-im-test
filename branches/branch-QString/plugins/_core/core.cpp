@@ -166,7 +166,7 @@ SIMTranslator::~SIMTranslator()
 void SIMTranslator::load ( const QString & filename)
 {
     fName = QFile::encodeName(filename);
-    domain.filename = (char*)(fName.c_str());
+    domain.filename = (char*)((const char *)fName.local8Bit());
     k_nl_load_domain(&domain);
 }
 
@@ -2826,7 +2826,7 @@ void *CorePlugin::processEvent(Event *e)
                     QString msg = i18n(mdef->singular, mdef->plural, (*itc).second.count);
                     if (!msg) {
                         log(L_ERROR, "Message is missing some definitions! Text: %s, ID: %lu",
-                            def->text, def->id);
+                            (const char *)def->text.local8Bit(), def->id);
                         int cnt = (*itc).second.count;
                         msg = QString("%1").arg(cnt);
                     }
