@@ -64,7 +64,7 @@ static DataDef actionUserData[] =
         { "Message", DATA_UTFLIST, 1, 0 },
         { "Menu", DATA_UTFLIST, 1, 0 },
         { "NMenu", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static ActionPlugin *plugin = NULL;
@@ -140,11 +140,11 @@ void *ActionPlugin::processEvent(Event *e)
             if (contact == NULL)
                 return NULL;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-            if ((data == NULL) || (data->NMenu.value == 0))
+            if ((data == NULL) || (data->NMenu.asULong() == 0))
                 return NULL;
-            CommandDef *cmds = new CommandDef[data->NMenu.value + 1];
+            CommandDef *cmds = new CommandDef[data->NMenu.asULong() + 1];
             unsigned n = 0;
-            for (unsigned i = 0; i < data->NMenu.value; i++){
+            for (unsigned i = 0; i < data->NMenu.asULong(); i++){
                 QString str = get_str(data->Menu, i + 1);
                 QString item = getToken(str, ';');
                 int pos = item.find("&IP;");
@@ -186,7 +186,7 @@ void *ActionPlugin::processEvent(Event *e)
             if (contact == NULL)
                 return NULL;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-            if ((data == NULL) || (n >= data->NMenu.value))
+            if ((data == NULL) || (n >= data->NMenu.asULong()))
                 return NULL;
             QString str = get_str(data->Menu, n + 1);
             getToken(str, ';');
@@ -206,10 +206,10 @@ void *ActionPlugin::processEvent(Event *e)
         if (contact == NULL)
             return NULL;
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-        if ((data == NULL) || (data->OnLine.ptr == NULL))
+        if (data->OnLine.str().isEmpty())
             return NULL;
         TemplateExpand t;
-        t.tmpl     = QString::fromUtf8(data->OnLine.ptr);
+        t.tmpl     = data->OnLine.str();
         t.contact  = contact;
         t.receiver = this;
         t.param    = NULL;
@@ -226,10 +226,10 @@ void *ActionPlugin::processEvent(Event *e)
         if (data == NULL)
             return NULL;
         if (msg->type() == MessageStatus){
-            if (data->Status.ptr == NULL)
+            if (data->Status.str().isEmpty())
                 return NULL;
             TemplateExpand t;
-            t.tmpl     = QString::fromUtf8(data->Status.ptr);
+            t.tmpl     = data->Status.str();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
