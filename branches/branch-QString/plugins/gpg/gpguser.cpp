@@ -29,8 +29,8 @@ using namespace SIM;
 GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
         : GpgUserBase(parent)
 {
-    if (data && data->Key.ptr)
-        m_key = data->Key.ptr;
+    if (data)
+        m_key = data->Key.str();
     m_exec = NULL;
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));
     refresh();
@@ -50,9 +50,9 @@ void GpgUser::apply(void *_data)
         QString k = cmbPublic->currentText().latin1();
         key = getToken(k, ' ');
     }
-    set_str(&data->Key.ptr, key);
+    data->Key.str() = key;
     if (key.isEmpty())
-        data->Use.bValue = false;
+        data->Use.asBool() = false;
 }
 
 void GpgUser::refresh()

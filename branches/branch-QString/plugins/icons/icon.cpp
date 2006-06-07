@@ -47,7 +47,7 @@ static DataDef iconsData[] =
         { "Icons", DATA_STRLIST, 1, 0 },
         { "NIcons", DATA_ULONG, 1, 0 },
         { "Default", DATA_BOOL, 1, DATA(1) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 IconsPlugin::IconsPlugin(unsigned base, ConfigBuffer *config)

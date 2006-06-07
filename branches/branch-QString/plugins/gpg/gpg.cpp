@@ -106,14 +106,14 @@ static DataDef gpgData[] =
         { "Keys", DATA_STRLIST, 1, 0 },
         { "NPassphrases", DATA_ULONG, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef gpgUserData[] =
     {
         { "Key", DATA_STRING, 1, 0 },
         { "Use", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 GpgPlugin *GpgPlugin::plugin = NULL;
@@ -271,7 +271,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                     }
                     if ((*it).passphrase.isEmpty()){
                         for (unsigned i = 1; i <= getnPassphrases(); i++){
-                            if (key == getKeys(i)){
+                            if (QString::fromLocal8Bit(key) == getKeys(i)){
                                 passphrase = getPassphrases(i);
                                 break;
                             }
@@ -404,9 +404,9 @@ void *GpgPlugin::processEvent(Event *e)
                     if (contact == NULL)
                         return NULL;
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if ((data == NULL) || (data->Key.ptr == NULL))
+                    if (data->Key.str().isEmpty())
                         return NULL;
-                    if (data->Use.bValue)
+                    if (data->Use.asBool())
                         cmd->flags |= COMMAND_CHECKED;
                     return e->param();
                 }
@@ -420,8 +420,8 @@ void *GpgPlugin::processEvent(Event *e)
                 if (contact == NULL)
                     return NULL;
                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                if (data && data->Key.ptr)
-                    data->Use.bValue = (cmd->flags & COMMAND_CHECKED) != 0;
+                if (data && !data->Key.str().isEmpty())
+                    data->Use.asBool() = (cmd->flags & COMMAND_CHECKED) != 0;
                 return e->param();
             }
             return NULL;
@@ -456,7 +456,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Key.ptr && data->Use.bValue){
+                    if (data && !data->Key.str().isEmpty() && data->Use.asBool()){
                         msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                         if (msg->getFlags() & MESSAGE_RICHTEXT){
                             QString text = msg->getPlainText();
@@ -475,7 +475,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(ms->msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Key.ptr && data->Use.bValue){
+                    if (data && !data->Key.str().isEmpty() && data->Use.asBool()){
                         QString output = user_file("m.");
                         output += QString::number((unsigned long)ms->msg);
                         QString input = output + ".in";
@@ -499,7 +499,7 @@ void *GpgPlugin::processEvent(Event *e)
                         gpg += getEncrypt();
                         gpg = gpg.replace(QRegExp("\\%plainfile\\%"), input);
                         gpg = gpg.replace(QRegExp("\\%cipherfile\\%"), output);
-                        gpg = gpg.replace(QRegExp("\\%userid\\%"), data->Key.ptr);
+                        gpg = gpg.replace(QRegExp("\\%userid\\%"), data->Key.str());
                         Exec exec;
                         exec.execute(gpg.local8Bit(), "\n", true);
                         if (exec.result){
@@ -645,7 +645,7 @@ void GpgPlugin::publicReady(Exec *exec, int res, const char*)
                             Contact *contact = getContacts()->contact((*it).contact);
                             if (contact){
                                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, true));
-                                set_str(&data->Key.ptr, sign);
+                                data->Key.str() = sign;
                             }
                             break;
                         }

@@ -993,9 +993,9 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
     void clear##A()  { data.A.clear(); }
 
 #define PROP_UTFLIST(A) \
-    QString get##A(unsigned index) const { return QString::fromUtf8(SIM::get_str(data.A, index)); } \
-    void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value.utf8()); } \
-    void clear##A()  { SIM::clear_list(&data.A); }
+    const QString &get##A(unsigned index) { return SIM::get_str(data.A, index); } \
+    void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value); } \
+    void clear##A()  { data.A.clear(); }
 
 #define PROP_STR(A) \
     const QString& get##A() { return data.A.str(); } \

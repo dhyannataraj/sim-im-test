@@ -41,7 +41,7 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
     m_exec   = NULL;
     m_bNew   = false;
 #ifdef WIN32
-    edtGPG->setText(QFile::decodeName(m_plugin->getGPG()));
+    edtGPG->setText(m_plugin->getGPG());
     edtGPG->setFilter(i18n("GPG(gpg.exe)"));
     m_find = NULL;
 #else
@@ -154,7 +154,7 @@ void GpgCfg::fillSecret(Buffer *b)
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                QCString sign = getToken(line, ':');
+                QString sign = QString::fromLocal8Bit(getToken(line, ':'));
                 if (sign == m_plugin->getKey())
                     cur = n;
                 getToken(line, ':');
