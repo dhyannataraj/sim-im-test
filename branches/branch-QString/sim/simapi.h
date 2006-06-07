@@ -1746,7 +1746,7 @@ public:
     PacketType *getPacketType(unsigned i);
     Contact *contactByPhone(const QString &phone);
     Contact *contactByMail(const QString &_mail, const QString &_name);
-    static bool cmpPhone(const char *p1, const char *p2);
+    static bool cmpPhone(const QString &p1, const QString &p2);
     QString toUnicode(Contact *contact, const char *str, int length=-1);
     QCString fromUnicode(Contact *contact, const QString &str);
     QTextCodec *getCodec(Contact *contact);

@@ -176,7 +176,7 @@ static DataDef autoAwayData[] =
         { "OffTime", DATA_ULONG, 1, DATA(10) },
         { "EnableOff", DATA_BOOL, 1, 0 },
         { "DisableAlert", DATA_BOOL, 1, DATA(1) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 AutoAwayPlugin::AutoAwayPlugin(unsigned base, ConfigBuffer *config)
@@ -314,8 +314,8 @@ void AutoAwayPlugin::timeout()
         return;
     time_t now;
     time(&now);
-    core->data.StatusTime.value = now;
-    core->data.ManualStatus.value = newStatus;
+    core->data.StatusTime.asULong() = now;
+    core->data.ManualStatus.asULong() = newStatus;
     Event e(EventClientStatus);
     e.process();
 }

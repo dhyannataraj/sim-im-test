@@ -59,7 +59,7 @@ static DataDef backgroundData[] =
         { "Position", DATA_ULONG, 1, 0 },
         { "MarginContact", DATA_ULONG, 1, 0 },
         { "MarginGroup", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 BackgroundPlugin::BackgroundPlugin(unsigned base, ConfigBuffer *config)
@@ -139,7 +139,7 @@ void BackgroundPlugin::redraw()
     bgScale = QPixmap();
     if (*getBackground() == 0)
         return;
-    bgImage = QImage(QFile::decodeName(getBackground()));
+    bgImage = QImage(getBackground());
     Event e(EventRepaintView);
     e.process();
 }

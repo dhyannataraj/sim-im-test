@@ -1908,7 +1908,7 @@ static QString stripPhone(const QString &phone)
     return res;
 }
 
-bool ContactList::cmpPhone(const char *phone1, const char *phone2)
+bool ContactList::cmpPhone(const QString &phone1, const QString &phone2)
 {
     return stripPhone(phone1) == stripPhone(phone2);
 }

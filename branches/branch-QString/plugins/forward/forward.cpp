@@ -47,7 +47,7 @@ static DataDef forwardUserData[] =
         { "Phone", DATA_UTF, 1, 0 },
         { "Send1st", DATA_BOOL, 1, 0 },
         { "Translit", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static ForwardPlugin *forwardPlugin = NULL;
@@ -95,15 +95,14 @@ void *ForwardPlugin::processEvent(Event *e)
             QString phone = sms->getPhone();
             bool bMyPhone = false;
             ForwardUserData *data = (ForwardUserData*)(getContacts()->getUserData(user_data_id));
-            if (data->Phone.ptr)
-                bMyPhone = ContactList::cmpPhone(phone.utf8(), data->Phone.ptr);
+            bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
             if (!bMyPhone){
                 Group *grp;
                 ContactList::GroupIterator it;
                 while ((grp = ++it) != NULL){
                     data = (ForwardUserData*)(grp->userData.getUserData(user_data_id, false));
-                    if (data && data->Phone.ptr){
-                        bMyPhone = ContactList::cmpPhone(phone.utf8(), data->Phone.ptr);
+                    if (data && !data->Phone.str().isEmpty()){
+                        bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
                         break;
                     }
                 }
@@ -113,8 +112,8 @@ void *ForwardPlugin::processEvent(Event *e)
                 ContactList::ContactIterator it;
                 while ((contact = ++it) != NULL){
                     data = (ForwardUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Phone.ptr){
-                        bMyPhone = ContactList::cmpPhone(phone.utf8(), data->Phone.ptr);
+                    if (data && !data->Phone.str().isEmpty()){
+                        bMyPhone = ContactList::cmpPhone(phone, data->Phone.str());
                         break;
                     }
                 }
@@ -149,18 +148,18 @@ void *ForwardPlugin::processEvent(Event *e)
         if (contact == NULL)
             return NULL;
         ForwardUserData *data = (ForwardUserData*)(contact->getUserData(user_data_id));
-        if ((data == NULL) || (data->Phone.ptr == NULL) || (*data->Phone.ptr == 0))
+        if ((data == NULL) || (data->Phone.str().isEmpty()))
             return NULL;
         unsigned status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA)){
             text = contact->getName() + ": " + text;
             unsigned flags = MESSAGE_NOHISTORY;
-            if (data->Send1st.bValue)
+            if (data->Send1st.asBool())
                 flags |= MESSAGE_1ST_PART;
-            if (data->Translit.bValue)
+            if (data->Translit.asBool())
                 flags |= MESSAGE_TRANSLIT;
             SMSMessage *m = new SMSMessage;
-            m->setPhone(QString::fromUtf8(data->Phone.ptr));
+            m->setPhone(data->Phone.str());
             m->setText(text);
             m->setFlags(flags);
             unsigned i;

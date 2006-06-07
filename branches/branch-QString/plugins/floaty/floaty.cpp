@@ -66,7 +66,7 @@ typedef struct FloatyUserData
 static DataDef floatyUserData[] =
     {
         { "FloatyPosition", DATA_ULONG, 2, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 FloatyPlugin::FloatyPlugin(unsigned base)
@@ -140,7 +140,7 @@ void *FloatyPlugin::processEvent(Event *e)
                 if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
-                wnd->move(data->X.value, data->Y.value);
+                wnd->move(data->X.asULong(), data->Y.asULong());
                 wnd->show();
             }
             break;
