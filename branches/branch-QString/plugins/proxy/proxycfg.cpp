@@ -74,7 +74,7 @@ void ProxyConfig::apply()
     if (m_client){
         ProxyData nd(NULL);
         get(&nd);
-        set_str(&nd.Client.ptr, NULL);
+        nd.Client.str() = QString::null;
         if (getContacts()->nClients() <= 1){
             m_plugin->clearClients();
             m_plugin->data = nd;
@@ -83,7 +83,7 @@ void ProxyConfig::apply()
         ProxyData d;
         m_plugin->clientData(static_cast<TCPClient*>(m_client), d);
         m_data.clear();
-        if (d.Default.bValue){
+        if (d.Default.asBool()){
             d = nd;
         }else{
             d = m_plugin->data;
@@ -92,7 +92,7 @@ void ProxyConfig::apply()
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
             if (client == m_client){
-                set_str(&nd.Client.ptr, m_client->name().latin1());
+                nd.Client.str() = m_client->name();
                 m_data.push_back(nd);
             }else{
                 ProxyData d;
@@ -172,19 +172,19 @@ void ProxyConfig::clientChanged(int)
         get(&m_data[m_current]);
         if (m_current == 0){
             for (unsigned i = 1; i < m_data.size(); i++){
-                if (m_data[i].Default.bValue){
-                    QString client = m_data[i].Client.ptr;
+                if (m_data[i].Default.asBool()){
+                    QString client = m_data[i].Client.str();
                     m_data[i] = m_data[0];
-                    m_data[i].Default.bValue = true;
-                    set_str(&m_data[i].Client.ptr, client);
+                    m_data[i].Default.asBool() = true;
+                    m_data[i].Client.str() = client;
                 }else{
                     if (m_data[i] == m_data[0])
-                        m_data[i].Default.bValue = true;
+                        m_data[i].Default.asBool() = true;
                 }
             }
         }else{
             ProxyData &d = m_data[m_current];
-            d.Default.bValue = (d == m_data[0]);
+            d.Default.asBool() = (d == m_data[0]);
         }
     }
     m_current = cmbClient->currentItem();
@@ -233,37 +233,25 @@ void ProxyConfig::fillClients()
 
 void ProxyConfig::fill(ProxyData *data)
 {
-    cmbType->setCurrentItem(data->Type.value);
-    if (data->Host.ptr){
-        edtHost->setText(QString::fromLocal8Bit(data->Host.ptr));
-    }else{
-        edtHost->setText("");
-    }
-    edtPort->setValue(data->Port.value);
-    chkAuth->setChecked(data->Auth.bValue);
-    if (data->User.ptr){
-        edtUser->setText(QString::fromLocal8Bit(data->User.ptr));
-    }else{
-        edtUser->setText("");
-    }
-    if (data->Password.ptr){
-        edtPswd->setText(QString::fromLocal8Bit(data->Password.ptr));
-    }else{
-        edtPswd->setText("");
-    }
-    typeChanged(data->Type.value);
-    chkNoShow->setChecked(data->NoShow.bValue);
+    cmbType->setCurrentItem(data->Type.asULong());
+    edtHost->setText(data->Host.str());
+    edtPort->setValue(data->Port.asULong());
+    chkAuth->setChecked(data->Auth.asBool());
+    edtUser->setText(data->User.str());
+    edtPswd->setText(data->Password.str());
+    typeChanged(data->Type.asULong());
+    chkNoShow->setChecked(data->NoShow.asBool());
 }
 
 void ProxyConfig::get(ProxyData *data)
 {
-    data->Type.value = cmbType->currentItem();
-    set_str(&data->Host.ptr, edtHost->text().local8Bit());
-    data->Port.value = atol(edtPort->text().latin1());
-    data->Auth.bValue = chkAuth->isChecked();
-    set_str(&data->User.ptr, edtUser->text().local8Bit());
-    set_str(&data->Password.ptr, edtPswd->text().local8Bit());
-    data->NoShow.bValue = chkNoShow->isChecked();
+    data->Type.asULong() = cmbType->currentItem();
+    data->Host.str() = edtHost->text();
+    data->Port.asULong() = edtPort->text().toULong();
+    data->Auth.asBool() = chkAuth->isChecked();
+    data->User.str() = edtUser->text();
+    data->Password.str() = edtPswd->text();
+    data->NoShow.asBool() = chkNoShow->isChecked();
     data->bInit = true;
 }
 

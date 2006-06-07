@@ -75,7 +75,7 @@ static DataDef shortcutsData[] =
         { "Key", DATA_STRLIST, 1, 0 },
         { "Global", DATA_STRLIST, 1, 0 },
         { "Mouse", DATA_STRLIST, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 void GlobalKey::execute()

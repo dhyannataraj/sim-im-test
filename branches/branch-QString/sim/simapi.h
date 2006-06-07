@@ -939,12 +939,15 @@ public:
     QStringList &strList();
     bool setStrList(const QStringList &s);
 
+    long toLong() const;
     long &asLong();
     bool setLong(long d);
 
+    unsigned long toULong() const;
     unsigned long &asULong();
     bool setULong(unsigned long d);
 
+    bool toBool() const;
     bool &asBool();
     bool setBool(bool d);
 
@@ -1018,8 +1021,8 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
     void set##A(unsigned long r) { data.A.setULong(r); }
 
 #define PROP_USHORT(A) \
-    unsigned short get##A() const { return (unsigned short)(data.A.value); } \
-    void set##A(unsigned short r) { data.A.value = r; }
+    unsigned short get##A() { return (unsigned short)(data.A.asULong()); } \
+    void set##A(unsigned short r) { data.A.asULong() = r; }
 
 #define PROP_BOOL(A) \
     bool get##A() { return data.A.asBool(); } \

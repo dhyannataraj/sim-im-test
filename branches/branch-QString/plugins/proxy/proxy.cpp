@@ -71,7 +71,7 @@ static DataDef _proxyData[] =
         { "Password", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
         { "NoShow", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 ProxyData::ProxyData()
@@ -105,30 +105,21 @@ ProxyData::~ProxyData()
         free_data(_proxyData, this);
 }
 
-static bool _cmp(const char *s1, const char *s2)
-{
-    if (s1 == NULL)
-        return (s2 == NULL);
-    if (s2 == NULL)
-        return false;
-    return strcmp(s1, s2) == 0;
-}
-
 bool ProxyData::operator == (const ProxyData &d) const
 {
-    if (Type.value != d.Type.value)
+    if (Type.toULong() != d.Type.toULong())
         return false;
-    if (Type.value == PROXY_NONE)
+    if (Type.toULong() == PROXY_NONE)
         return true;
-    if ((Port.value != d.Port.value) && !_cmp(Host.ptr, d.Host.ptr))
+    if ((Port.toULong() != d.Port.toULong()) && Host.str() != d.Host.str())
         return false;
-    if (Type.value == PROXY_SOCKS4)
+    if (Type.toULong() == PROXY_SOCKS4)
         return true;
-    if (Auth.bValue != d.Auth.bValue)
+    if (Auth.toBool() != d.Auth.toBool())
         return false;
-    if (!d.Auth.bValue)
+    if (!d.Auth.toBool())
         return true;
-    return _cmp(User.ptr, d.User.ptr) && _cmp(Password.ptr, d.Password.ptr);
+    return ((User.str() == d.User.str()) && Password.str() == d.Password.str());
 }
 
 ProxyData& ProxyData::operator = (const ProxyData &d)
@@ -1197,16 +1188,16 @@ void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
         if ((proxyCfg == NULL) || (*proxyCfg == 0))
             break;
         ProxyData wdata(proxyCfg);
-        if (wdata.Client.ptr && (clientName(client) == wdata.Client.ptr)){
+        if (clientName(client) == wdata.Client.str()){
             cdata = wdata;
-            cdata.Default.bValue = false;
-            set_str(&cdata.Client.ptr, clientName(client));
+            cdata.Default.asBool() = false;
+            cdata.Client.str() = clientName(client);
             return;
         }
     }
     cdata = data;
-    set_str(&cdata.Client.ptr, clientName(client));
-    cdata.Default.bValue = true;
+    cdata.Client.str() = clientName(client);
+    cdata.Default.asBool() = true;
     clear_list(&cdata.Clients);
 }
 
@@ -1233,7 +1224,7 @@ void *ProxyPlugin::processEvent(Event *e)
         ProxyData data;
         clientData(p->client, data);
         Proxy *proxy = NULL;
-        switch (data.Type.value){
+        switch (data.Type.asULong()){
         case PROXY_SOCKS4:
             proxy = new SOCKS4_Proxy(this, &data, p->client);
             break;
@@ -1258,7 +1249,7 @@ void *ProxyPlugin::processEvent(Event *e)
         ProxyData data;
         clientData(p->client, data);
         Listener *listener = NULL;
-        switch (data.Type.value){
+        switch (data.Type.asULong()){
         case PROXY_SOCKS4:
             listener = new SOCKS4_Listener(this, &data, p->notify, p->client->ip());
             break;

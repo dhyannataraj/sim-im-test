@@ -62,7 +62,7 @@ static DataDef remoteData[] =
 #else
         { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 #ifdef WIN32
@@ -754,10 +754,10 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             }
             if (core->getManualStatus() == status)
                 return true;
-            core->data.ManualStatus.value  = status;
+            core->data.ManualStatus.asULong() = status;
             time_t now;
             time(&now);
-            core->data.StatusTime.value = now;
+            core->data.StatusTime.asULong() = now;
             Event e(EventClientStatus);
             e.process();
             return true;

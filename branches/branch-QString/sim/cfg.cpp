@@ -1068,11 +1068,18 @@ bool Data::setStrList(const QStringList &s)
     return true;
 }
 
+long Data::toLong() const
+{
+    checkType(DATA_LONG);
+    return (long)m_data.toInt();
+}
+
 long &Data::asLong()
 {
     checkType(DATA_LONG);
     return (long&)m_data.asInt();
 }
+
 bool Data::setLong(long d)
 {
     checkType(DATA_LONG);
@@ -1080,6 +1087,12 @@ bool Data::setLong(long d)
         return false;
     m_data=(int)d;
     return true;
+}
+
+unsigned long Data::toULong() const
+{
+    checkType(DATA_ULONG);
+    return (unsigned long)m_data.toUInt();
 }
 
 unsigned long &Data::asULong()
@@ -1094,6 +1107,12 @@ bool Data::setULong(unsigned long d)
         return false;
     m_data=(unsigned int)d;
     return true;
+}
+
+bool Data::toBool() const
+{
+    checkType(DATA_LONG);
+    return m_data.toBool();
 }
 
 bool &Data::asBool()
