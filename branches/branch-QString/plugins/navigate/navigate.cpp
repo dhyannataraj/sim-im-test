@@ -258,7 +258,7 @@ static DataDef navigateData[] =
         { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
 #endif
 #endif
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 

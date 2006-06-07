@@ -61,7 +61,7 @@ static DataDef monitorData[] =
         { "LogPackets", DATA_STRING, 1, 0 },
         { "Geometry", DATA_LONG, 5, DATA(-1) },
         { "Show", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 NetmonitorPlugin::NetmonitorPlugin(unsigned base, ConfigBuffer *config)
@@ -156,8 +156,8 @@ void NetmonitorPlugin::showMonitor()
     if (monitor == NULL)
     {
         monitor = new MonitorWindow(this);
-        bool bPos = (data.geometry[LEFT].value != NO_DATA) && (data.geometry[TOP].value != NO_DATA);
-        bool bSize = (data.geometry[WIDTH].value != NO_DATA) && (data.geometry[HEIGHT].value != NO_DATA);
+        bool bPos = (data.geometry[LEFT].asULong() != NO_DATA) && (data.geometry[TOP].asULong() != NO_DATA);
+        bool bSize = (data.geometry[WIDTH].asULong() != NO_DATA) && (data.geometry[HEIGHT].asULong() != NO_DATA);
         restoreGeometry(monitor, data.geometry, bPos, bSize);
         connect(monitor, SIGNAL(finished()), this, SLOT(finished()));
     }

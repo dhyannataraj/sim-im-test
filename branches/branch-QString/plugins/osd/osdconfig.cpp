@@ -34,17 +34,17 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
 {
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
-    chkMessage->setChecked(data->EnableMessage.bValue);
-    chkMessageContent->setChecked(data->EnableMessageShowContent.bValue);
-    chkStatus->setChecked(data->EnableAlert.bValue);
-    chkStatusOnline->setChecked(data->EnableAlertOnline.bValue);
-    chkStatusAway->setChecked(data->EnableAlertAway.bValue);
-    chkStatusNA->setChecked(data->EnableAlertNA.bValue);
-    chkStatusDND->setChecked(data->EnableAlertDND.bValue);
-    chkStatusOccupied->setChecked(data->EnableAlertOccupied.bValue);
-    chkStatusFFC->setChecked(data->EnableAlertFFC.bValue);
-    chkStatusOffline->setChecked(data->EnableAlertOffline.bValue);
-    chkTyping->setChecked(data->EnableTyping.bValue);
+    chkMessage->setChecked(data->EnableMessage.asBool());
+    chkMessageContent->setChecked(data->EnableMessageShowContent.asBool());
+    chkStatus->setChecked(data->EnableAlert.asBool());
+    chkStatusOnline->setChecked(data->EnableAlertOnline.asBool());
+    chkStatusAway->setChecked(data->EnableAlertAway.asBool());
+    chkStatusNA->setChecked(data->EnableAlertNA.asBool());
+    chkStatusDND->setChecked(data->EnableAlertDND.asBool());
+    chkStatusOccupied->setChecked(data->EnableAlertOccupied.asBool());
+    chkStatusFFC->setChecked(data->EnableAlertFFC.asBool());
+    chkStatusOffline->setChecked(data->EnableAlertOffline.asBool());
+    chkTyping->setChecked(data->EnableTyping.asBool());
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
             continue;
@@ -54,13 +54,13 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         tab->addTab(m_iface, i18n("&Interface"));
         break;
     }
-    edtLines->setValue(data->ContentLines.value);
+    edtLines->setValue(data->ContentLines.asULong());
     connect(chkStatus, SIGNAL(toggled(bool)), this, SLOT(statusToggled(bool)));
     connect(chkMessage, SIGNAL(toggled(bool)), this, SLOT(showMessageToggled(bool)));
     connect(chkMessageContent, SIGNAL(toggled(bool)), this, SLOT(contentToggled(bool)));
     showMessageToggled(chkMessage->isChecked());
     contentToggled(chkMessageContent->isChecked());
-    statusToggled(data->EnableAlert.bValue);
+    statusToggled(data->EnableAlert.asBool());
 }
 
 void OSDConfig::apply()
@@ -71,18 +71,18 @@ void OSDConfig::apply()
 void OSDConfig::apply(void *d)
 {
     OSDUserData *data = (OSDUserData*)d;
-    data->EnableMessage.bValue = chkMessage->isChecked();
-    data->EnableMessageShowContent.bValue = chkMessageContent->isChecked();
-    data->EnableAlert.bValue = chkStatus->isChecked();
-    data->EnableAlertOnline.bValue = chkStatusOnline->isChecked();
-    data->EnableAlertAway.bValue = chkStatusAway->isChecked();
-    data->EnableAlertNA.bValue = chkStatusNA->isChecked();
-    data->EnableAlertDND.bValue = chkStatusDND->isChecked();
-    data->EnableAlertOccupied.bValue = chkStatusOccupied->isChecked();
-    data->EnableAlertFFC.bValue = chkStatusFFC->isChecked();
-    data->EnableAlertOffline.bValue = chkStatusOffline->isChecked();
-    data->EnableTyping.bValue = chkTyping->isChecked();
-    data->ContentLines.value = atol(edtLines->text());
+    data->EnableMessage.asBool() = chkMessage->isChecked();
+    data->EnableMessageShowContent.asBool() = chkMessageContent->isChecked();
+    data->EnableAlert.asBool() = chkStatus->isChecked();
+    data->EnableAlertOnline.asBool() = chkStatusOnline->isChecked();
+    data->EnableAlertAway.asBool() = chkStatusAway->isChecked();
+    data->EnableAlertNA.asBool() = chkStatusNA->isChecked();
+    data->EnableAlertDND.asBool() = chkStatusDND->isChecked();
+    data->EnableAlertOccupied.asBool() = chkStatusOccupied->isChecked();
+    data->EnableAlertFFC.asBool() = chkStatusFFC->isChecked();
+    data->EnableAlertOffline.asBool() = chkStatusOffline->isChecked();
+    data->EnableTyping.asBool() = chkTyping->isChecked();
+    data->ContentLines.asULong() = atol(edtLines->text());
     m_iface->apply(d);
 }
 
