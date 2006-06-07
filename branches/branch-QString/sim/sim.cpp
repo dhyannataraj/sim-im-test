@@ -281,9 +281,9 @@ int main(int argc, char *argv[])
 #endif
 #else
     for (int i = 0; i < argc; i++){
-		std::string arg = argv[i];
+		QCString arg = argv[i];
         if ((arg[0] == '/') || (arg[0] == '-'))
-            arg = arg.substr(1);
+            arg = arg.mid(1);
         if ((arg == "reinstall") || (arg == "showicons") || (arg == "hideicons"))
             return 0;
     }

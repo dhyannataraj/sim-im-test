@@ -106,6 +106,7 @@ typedef unsigned char _Bool;
 
 #include <qwidget.h>
 #include <qdockwindow.h>
+#include <qvariant.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -270,7 +271,7 @@ class EventReceiver;
 class EXPORT Event
 {
 public:
-Event(unsigned type, void *param = NULL) : m_type(type), m_param(param) {}
+    Event(unsigned type, void *param = NULL) : m_type(type), m_param(param) {}
     virtual ~Event() {}
     unsigned type() { return m_type; }
     void *param() { return m_param; }
@@ -893,52 +894,103 @@ private:
 // ____________________________________________________________________________________
 // Configuration
 
+enum DataType {
+    DATA_UNKNOWN,
+    DATA_STRING,
+    DATA_UTF = DATA_STRING,
+    DATA_LONG,
+    DATA_ULONG,
+    DATA_BOOL,
+    DATA_STRLIST,
+    DATA_UTFLIST = DATA_STRLIST,
+    DATA_IP,
+    DATA_STRUCT,
+    DATA_OBJECT,
+};
+
 typedef struct DataDef
 {
     const char  *name;
-    unsigned    type;
+    DataType    type;
     unsigned    n_values;
     const char  *def_value;
 } DataDef;
 
+class IP;
+class EXPORT Data
+{
+public:
+    Data();
+    Data(const QString &d);
+    Data(long d);
+    Data(unsigned long d);
+    Data(bool d);
+    Data(const QStringList &d);
+    Data(const IP *d);
+    Data(enum DataType t);
+    Data(void *d);
+
+    void clear();
+
+    const QString str() const;
+    QString &str();
+    bool setStr(const QString &s);
+
+    QStringList &strList();
+    bool setStrList(const QStringList &s);
+
+    long &asLong();
+    bool setLong(long d);
+
+    unsigned long &asULong();
+    bool setULong(unsigned long d);
+
+    bool &asBool();
+    bool setBool(bool d);
+
+    QObject* object();
+    bool setObject(const QObject *);
+
+    IP* ip();
+    bool setIP(const IP *);
+protected:
+    void checkType(DataType type) const;
+    DataType m_type;
+    QVariant m_data;
+};
+
+/*
 typedef union Data
 {
     char            *ptr;
     unsigned long   value;
     bool            bValue;
 } Data;
+*/
 
 #define DATA(A) ((const char*)(A))
-
-const unsigned DATA_STRING      = 0;
-const unsigned DATA_LONG        = 1;
-const unsigned DATA_ULONG       = 2;
-const unsigned DATA_BOOL        = 3;
-const unsigned DATA_STRLIST     = 4;
-const unsigned DATA_UTF         = 5;
-const unsigned DATA_IP          = 6;
-const unsigned DATA_STRUCT      = 7;
-const unsigned DATA_UTFLIST     = 8;
-const unsigned DATA_OBJECT      = 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config = NULL);
 EXPORT QString save_data(const DataDef *def, void *data);
 
-EXPORT bool set_utf8(char **str, const QString &value);
-EXPORT QString get_utf8(const char *str);
 EXPORT bool set_str(char **str, const char *value);
-EXPORT const char *get_str(const Data &strlist, unsigned index);
+EXPORT bool set_str(QString *str, const QString &value);
+EXPORT bool set_utf8(QString *str, const QString &value);
+EXPORT QString get_utf8(const QString &str);
+
+EXPORT const QString &get_str(Data &strlist, unsigned index);
 EXPORT void clear_list(Data *strlist);
-EXPORT void set_str(Data *strlist, unsigned index, const char *value);
+EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
+
 EXPORT unsigned long get_ip(Data &ip);
 EXPORT const char *get_host(Data &ip);
 EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_STRLIST(A) \
-    const char *get##A(unsigned index) const { return SIM::get_str(data.A, index); } \
-    void set##A(unsigned index, const char *value) { SIM::set_str(&data.A, index, value); } \
-    void clear##A()  { SIM::clear_list(&data.A); }
+    const QString &get##A(unsigned index) { return SIM::get_str(data.A, index); } \
+    void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value); } \
+    void clear##A()  { data.A.clear(); }
 
 #define PROP_UTFLIST(A) \
     QString get##A(unsigned index) const { return QString::fromUtf8(SIM::get_str(data.A, index)); } \
@@ -946,36 +998,36 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
     void clear##A()  { SIM::clear_list(&data.A); }
 
 #define PROP_STR(A) \
-    const char *get##A() const { return data.A.ptr ? data.A.ptr : ""; } \
-    bool set##A(const char *r) { return SIM::set_str(&data.A.ptr, r); }
+    const QString& get##A() { return data.A.str(); } \
+    bool set##A(const QString &r) { return data.A.setStr( r ); }
 
 #define PROP_UTF8(A) \
-    QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
-    bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
+    const QString& get##A() { return data.A.str(); } \
+    bool set##A(const QString &r) { return data.A.setStr( r ); }
 
 #define VPROP_UTF8(A) \
-    virtual QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
-    bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
+    virtual const QString& get##A() { return data.A.str(); } \
+    virtual bool set##A(const QString &r) { return data.A.setStr( r ); }
 
 #define PROP_LONG(A) \
-    unsigned long get##A() const { return data.A.value; } \
-    void set##A(unsigned long r) { data.A.value = r; }
+    long get##A() { return data.A.asLong(); } \
+    void set##A(long r) { data.A.setLong(r); }
 
 #define PROP_ULONG(A) \
-    unsigned long get##A() const { return data.A.value; } \
-    void set##A(unsigned long r) { data.A.value = r; }
+    unsigned long get##A() { return data.A.asULong(); } \
+    void set##A(unsigned long r) { data.A.setULong(r); }
 
 #define PROP_USHORT(A) \
     unsigned short get##A() const { return (unsigned short)(data.A.value); } \
     void set##A(unsigned short r) { data.A.value = r; }
 
 #define PROP_BOOL(A) \
-    bool get##A() const { return data.A.bValue; } \
-    void set##A(bool r) { data.A.bValue = r; }
+    bool get##A() { return data.A.asBool(); } \
+    void set##A(bool r) { data.A.setBool(r); }
 
 #define VPROP_BOOL(A) \
-    bool get##A() const { return data.A.bValue; } \
-    virtual void set##A(bool r) { data.A.bValue = r; }
+    virtual bool get##A() { return data.A.asBool(); } \
+    virtual void set##A(bool r) { data.A.setBool(r); }
 
 #define PROP_IP(A)  \
     unsigned long get##A()  const { return SIM::get_ip(data.A); } \

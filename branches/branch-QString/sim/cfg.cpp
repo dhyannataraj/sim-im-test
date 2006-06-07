@@ -30,6 +30,7 @@
 #include <qdir.h>
 
 #include <stdio.h>
+#include <assert.h> // is this available with gcc too?
 
 #ifdef WIN32
 #include <windows.h>
@@ -356,28 +357,28 @@ EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
 
 bool set_ip(Data *p, unsigned long value, const char *host)
 {
-    IP **ip = (IP**)(&p->ptr);
+    IP *ip = p->ip();
     if (value == 0){
-        if (*ip == NULL)
+        if (ip == NULL)
             return false;
-        delete *ip;
-        *ip = NULL;
+        delete ip;
+        p->clear();
         return true;
     }
-    if (*ip == NULL)
-        *ip = new IP;
-    if ((*ip)->ip() == value){
+    if (ip == NULL)
+        ip = new IP;
+    if (ip->ip() == value){
         if (host == NULL)
-            (*ip)->resolve();
+            ip->resolve();
         return false;
     }
-    (*ip)->set(value, host);
+    ip->set(value, host);
     return true;
 }
 
 unsigned long get_ip(Data &p)
 {
-    IP *ip = (IP*)p.ptr;
+    IP *ip = p.ip();
     if (ip)
         return ip->ip();
     return 0;
@@ -385,7 +386,7 @@ unsigned long get_ip(Data &p)
 
 const char *get_host(Data &p)
 {
-    IP *ip = (IP*)p.ptr;
+    IP *ip = p.ip();
     if (ip && ip->host())
         return ip->host();
     return "";
@@ -397,72 +398,43 @@ typedef map<unsigned, string> STRING_MAP;
 
 EXPORT void clear_list(Data *d)
 {
-    STRING_MAP **strlist = (STRING_MAP**)(&d->ptr);
-    if (*strlist == NULL)
-        return;
-    delete *strlist;
-    *strlist = NULL;
+    d->clear();
 }
 
-EXPORT const char *get_str(const Data &d, unsigned index)
+EXPORT const QString &get_str(Data &d, unsigned index)
 {
-    STRING_MAP *strlist = (STRING_MAP*)(d.ptr);
-    if (strlist == NULL)
-        return "";
-    STRING_MAP::iterator it = strlist->find(index);
-    if (it == strlist->end())
-        return "";
-    return (*it).second.c_str();
+    QStringList &sl = d.strList();
+    return sl[index];
 }
 
-EXPORT void set_str(Data *d, unsigned index, const char *value)
+EXPORT void set_str(Data *d, unsigned index, const QString &value)
 {
-    STRING_MAP **strlist = (STRING_MAP**)(&d->ptr);
-    if ((value == NULL) || (*value == 0)){
-        if (*strlist == NULL)
-            return;
-        STRING_MAP::iterator it = (*strlist)->find(index);
-        if (it == (*strlist)->end())
-            return;
-        (*strlist)->erase(it);
-        return;
-    }
-    if (*strlist == NULL)
-        *strlist = new STRING_MAP;
-    STRING_MAP::iterator it = (*strlist)->find(index);
-    if (it == (*strlist)->end()){
-        (*strlist)->insert(STRING_MAP::value_type(index, value));
-        return;
-    }
-    (*it).second = value;
+    d->strList()[index] = value;
 }
 
 // _______________________________________________________________________________________
 
-EXPORT bool set_utf8(char **str, const QString &value)
+EXPORT bool set_utf8(QString *str, const QString &value)
+{
+    return (set_str(str,value));
+}
+
+EXPORT QString get_utf8(const QString &str)
+{
+    return str;
+}
+
+EXPORT bool set_str(QString *str, const QString &value)
 {
     if ((*str == NULL) && (value.isEmpty()))
         return false;
-    if (*str && !value.isEmpty() && *str == value)
+    if (*str && *str == value)
         return false;
-    if (*str){
-        delete[] *str;
-        *str = NULL;
-    }
     if (!value.isEmpty()){
-        QCString utf8 = value.utf8();
-        *str = new char[utf8.length() + 1];
-        strcpy(*str, utf8.data());
+        *str = value;
         return true;
     }
     return false;
-}
-
-EXPORT QString get_utf8(const char *str)
-{
-    if(!str)
-        return QString();
-    return QString::fromUtf8(str);
 }
 
 EXPORT bool set_str(char **str, const char *value)
@@ -478,7 +450,7 @@ EXPORT bool set_str(char **str, const char *value)
     if (value && *value){
         *str = new char[strlen(value) + 1];
         strcpy(*str, value);
-        return true;
+		return true;
     }
     return false;
 }
@@ -490,31 +462,23 @@ EXPORT void free_data(const DataDef *def, void *d)
         unsigned type = def->type;
         for (unsigned i = 0; i < def->n_values; i++, data++){
             switch (type){
-            case DATA_STRING:
-            case DATA_UTF:
-                set_str(&data->ptr, NULL);
-                break;
-            case DATA_STRLIST:
-            case DATA_UTFLIST:
-                clear_list(data);
-                break;
             case DATA_OBJECT:
-                if (data->ptr){
-                    delete (QObject*)(data->ptr);
-                    data->ptr = NULL;
-                }
+                delete data->object();
+                data->clear();
                 break;
             case DATA_IP:
-                if (data->ptr){
-                    delete (IP*)(data->ptr);
-                    data->ptr = NULL;
-                }
+                delete data->ip();
+                data->clear();
                 break;
             case DATA_STRUCT:
                 free_data((DataDef*)(def->def_value), data);
                 i    += (def->n_values - 1);
                 data += (def->n_values - 1);
                 break;
+            case DATA_STRING:
+            case DATA_STRLIST:
+            default:
+                data->clear();
             }
         }
     }
@@ -574,25 +538,18 @@ void init_data(const DataDef *d, Data *data)
 {
     for (const DataDef *def = d; def->name; def++){
         for (unsigned i = 0; i < def->n_values; i++, data++){
-            data->ptr = NULL;
+            data->clear();
             switch (def->type){
             case DATA_STRING:
             case DATA_STRLIST:
-                set_str(&data->ptr, def->def_value);
-                break;
-            case DATA_UTF:
-                if (def->def_value){
-                    QString  value = i18n(def->def_value);
-                    QCString v = value.utf8();
-                    set_str(&data->ptr, v);
-                }
+                data->setStr(def->def_value);
                 break;
             case DATA_ULONG:
             case DATA_LONG:
-                data->value = (unsigned long)(def->def_value);
+                data->setULong((unsigned long)def->def_value);
                 break;
             case DATA_BOOL:
-                data->bValue = (def->def_value != NULL);
+                data->setBool(def->def_value != NULL);
                 break;
             case DATA_STRUCT:
                 init_data((DataDef*)(def->def_value), data);
@@ -665,40 +622,6 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
             set_str(ld, i, s);
             break;
         }
-        case DATA_UTFLIST: {
-            int idx = val.find( ',' );
-            if( idx == -1 )
-                break;
-            QString cnt = val.left( idx );
-            int i = cnt.toULong();
-            if (i == 0)
-                break;
-            QString s = val.mid( idx + 1 );
-            // no longer needed, but we want to read old configs correct...
-            if( s.endsWith( "u" ) ) {
-                s = unquoteStringInternal( s.left( s.length() - 1 ) );
-            } else {
-                s = unquoteStringInternal( s );
-            }
-            set_str(ld, i, s.utf8());
-            break;
-        }
-        case DATA_UTF: {
-            QStringList sl = QStringList::split( "\",\"", val );
-            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-                QString s = sl[i];
-                if(s.isEmpty())
-                    continue;
-                // no longer needed, but we want to read old configs correct...
-                if( s.endsWith( "u" ) ) {
-                    s = unquoteStringInternal( s.left( s.length() - 1 ) );
-                } else {
-                    s = unquoteStringInternal( s );
-                }
-                set_str(&ld->ptr, s.utf8());
-            }
-            break;
-        }
         case DATA_STRING: {
             QStringList sl = QStringList::split( "\",\"", val );
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
@@ -706,7 +629,7 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
                 if(s.isEmpty())
                     continue;
                 s = unquoteStringInternal(s);
-                set_str(&ld->ptr, s);
+                ld->setStr(s);
             }
             break;
         }
@@ -716,7 +639,7 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
                 QString s = sl[i];
                 if(s.isEmpty())
                     continue;
-                ld->value = s.toLong();
+                ld->setLong(s.toLong());
             }
             break;
         }
@@ -726,7 +649,7 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
                 QString s = sl[i];
                 if(s.isEmpty())
                     continue;
-                ld->value = s.toULong();
+                ld->setULong(s.toULong());
             }
             break;
         }
@@ -736,10 +659,7 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
                 QString s = sl[i];
                 if(s.isEmpty())
                     continue;
-                if(s.lower() == "false" || s == "0")
-                    ld->bValue = false;
-                else
-                    ld->bValue = true;
+                ld->setBool(s.lower() != "false" && s != "0");
             }
             break;
         }
@@ -806,7 +726,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
             Data *d = data;
             switch (def->type){
             case DATA_IP:{
-                    IP *p = (IP*)(d->ptr);
+                    IP *p = d->ip();
                     if (p && p->ip()){
                         struct in_addr inaddr;
                         inaddr.s_addr = p->ip();
@@ -821,80 +741,40 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_STRLIST:{
-                    STRING_MAP *p = (STRING_MAP*)(d->ptr);
-                    if (p){
-                        for (STRING_MAP::iterator it = p->begin(); it != p->end(); ++it){
-                            if (res.length())
-                                res += "\n";
-                            res += def->name;
-                            res += "=";
-                            res += QString::number((*it).first);
-                            res += ",";
-                            QString s = (*it).second.c_str();
-                            res += quoteStringInternal(s);
-                        }
+                    QStringList &p = d->strList();
+                    for (unsigned i = 0; i < p.count(); i++){
+                        if (res.length())
+                            res += "\n";
+                        res += def->name;
+                        res += "=";
+                        res += QString::number(i);
+                        res += ",";
+                        res += quoteStringInternal(p[(int)i]);
                     }
-                    break;
-                }
-            case DATA_UTFLIST:{
-                    STRING_MAP *p = (STRING_MAP*)(d->ptr);
-                    if (p){
-                        for (STRING_MAP::iterator it = p->begin(); it != p->end(); ++it){
-                            if (res.length())
-                                res += "\n";
-                            res += def->name;
-                            res += "=";
-                            res += QString::number((*it).first);
-                            res += ",";
-                            QString s = QString::fromUtf8((*it).second.c_str());
-                            res += quoteStringInternal(s);
-                        }
-                    }
-                    break;
+                break;
                 }
             case DATA_STRING:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        char *p = d->ptr;
+                        QString &p = d->str();
                         if (value.length())
                             value += ",";
                         if (def->def_value){
-                            if ((p == NULL) || strcmp(p, def->def_value)){
+                            if (p != def->def_value){
                                 value += quoteStringInternal(p);
                                 bSave = true;
                             }
                         }else{
-                            if ((p != NULL) && *p){
+                            if (!p.isEmpty()){
                                 value += quoteStringInternal(p);
                                 bSave = true;
                             }
-                        }
-                    }
-                    break;
-                }
-            case DATA_UTF:{
-                    for (i = 0; i < def->n_values; i++, d++){
-                        char *p = d->ptr;
-                        if (value.length())
-                            value += ",";
-                        QString s;
-                        if (p != NULL)
-                            s = QString::fromUtf8(p);
-                        if (def->def_value){
-                            if (s != i18n(def->def_value))
-                                bSave = true;
-                        }else{
-                            if (s.length())
-                                bSave = true;
-                        }
-                        if (bSave){
-                            value += quoteStringInternal(s);
                         }
                     }
                     break;
                 }
             case DATA_BOOL:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        bool p = d->bValue;
+                        bool p = d->asBool();
                         if (value.length())
                             value += ",";
                         if (p != (def->def_value != 0)){
@@ -910,7 +790,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 }
             case DATA_LONG:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        long p = d->value;
+                        long p = d->asLong();
                         if (value.length())
                             value += ",";
                         if (p != (long)(def->def_value)){
@@ -924,7 +804,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 }
             case DATA_ULONG:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        unsigned long p = d->value;
+                        unsigned long p = d->asULong();
                         if (value.length())
                             value += ",";
                         if (p != (unsigned long)(def->def_value)){
@@ -964,16 +844,16 @@ EXPORT void saveGeometry(QWidget *w, Geometry geo)
         return;
     QPoint pos = w->pos();
     QSize size = w->size();
-    geo[LEFT].value   = pos.x();
-    geo[TOP].value    = pos.y();
-    geo[WIDTH].value  = size.width();
-    geo[HEIGHT].value = size.height();
+    geo[LEFT].asLong()   = pos.x();
+    geo[TOP].asLong()    = pos.y();
+    geo[WIDTH].asLong()  = size.width();
+    geo[HEIGHT].asLong() = size.height();
 #ifdef WIN32
     if (GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_TOOLWINDOW){
         int dc = GetSystemMetrics(SM_CYCAPTION);
         int ds = GetSystemMetrics(SM_CYSMCAPTION);
-        geo[1].value += dc - ds;
-        geo[3].value -= (dc - ds) * 2;
+        geo[1].asLong() += dc - ds;
+        geo[3].asLong() -= (dc - ds) * 2;
     }
 #endif
 #ifdef USE_KDE
@@ -996,28 +876,28 @@ EXPORT void restoreGeometry(QWidget *w, Geometry geo, bool bPos, bool bSize)
     if (w == NULL)
         return;
     QRect rc = screenGeometry();
-    if ((int)geo[WIDTH].value > rc.width())
-        geo[WIDTH].value = rc.width();
-    if ((int)geo[HEIGHT].value > rc.height())
-        geo[HEIGHT].value = rc.height();
-    if ((int)geo[LEFT].value + (int)geo[WIDTH].value > rc.width())
-        geo[LEFT].value = rc.width() - geo[WIDTH].value;
-    if ((int)geo[TOP].value + (int)geo[HEIGHT].value > rc.height())
-        geo[TOP].value = rc.height() - geo[HEIGHT].value;
-    if ((int)geo[LEFT].value < 0)
-        geo[LEFT].value = 0;
-    if ((int)geo[TOP].value < 0)
-        geo[TOP].value = 0;
+    if (geo[WIDTH].asLong() > rc.width())
+        geo[WIDTH].asLong() = rc.width();
+    if (geo[HEIGHT].asLong() > rc.height())
+        geo[HEIGHT].asLong() = rc.height();
+    if (geo[LEFT].asLong() + geo[WIDTH].asLong() > rc.width())
+        geo[LEFT].asLong() = rc.width() - geo[WIDTH].asLong();
+    if (geo[TOP].asLong() + geo[HEIGHT].asLong() > rc.height())
+        geo[TOP].asLong() = rc.height() - geo[HEIGHT].asLong();
+    if (geo[LEFT].asLong() < 0)
+        geo[LEFT].asLong() = 0;
+    if (geo[TOP].asLong() < 0)
+        geo[TOP].asLong() = 0;
     if (bPos)
-        w->move(geo[LEFT].value, geo[TOP].value);
+        w->move(geo[LEFT].asLong(), geo[TOP].asLong());
     if (bSize)
-        w->resize(geo[WIDTH].value, geo[HEIGHT].value);
+        w->resize(geo[WIDTH].asLong(), geo[HEIGHT].asLong());
 #ifdef USE_KDE
-    if (geo[4].value == (unsigned)(-1)){
+    if (geo[4].asLong() == (unsigned)(-1)){
         KWin::setOnAllDesktops(w->winId(), true);
     }else{
         KWin::setOnAllDesktops(w->winId(), false);
-        KWin::setOnDesktop(w->winId(), geo[4].value);
+        KWin::setOnDesktop(w->winId(), geo[4].asLong());
     }
 #endif
 }
@@ -1043,15 +923,15 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[7])
     bool nl;
     int  extraOffset;
     main->getLocation(bar, dock, index, nl, extraOffset);
-    state[0].value = SAVE_STATE;
-    state[1].value = (long)dock;
-    state[2].value = index;
-    state[3].value = nl ? 1 : 0;
-    state[4].value = extraOffset;
+    state[0].asLong() = SAVE_STATE;
+    state[1].asLong() = (long)dock;
+    state[2].asLong() = index;
+    state[3].asLong() = nl ? 1 : 0;
+    state[4].asLong() = extraOffset;
     if (dock == QMainWindow::TornOff){
         QPoint pos = bar->geometry().topLeft();
-        state[5].value = pos.x();
-        state[6].value = pos.y();
+        state[5].asLong() = pos.x();
+        state[6].asLong() = pos.y();
     }
 }
 
@@ -1059,14 +939,14 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 {
     if (bar == NULL)
         return;
-    if (state[0].value != SAVE_STATE){
-        if (state[1].value == 0)
-            state[1].value = (unsigned)(QMainWindow::Top);
-        state[2].value = 0;
-        state[3].value = 0;
-        state[4].value = SAVE_STATE;
-        state[5].value = 0;
-        state[6].value = 0;
+    if (state[0].asLong() != SAVE_STATE){
+        if (state[1].asLong() == 0)
+            state[1].asLong() = (unsigned)(QMainWindow::Top);
+        state[2].asLong() = 0;
+        state[3].asLong() = 0;
+        state[4].asLong() = SAVE_STATE;
+        state[5].asLong() = 0;
+        state[6].asLong() = 0;
     }
     QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
@@ -1077,10 +957,10 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
     }
     if (main == NULL)
         return;
-    QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1].value;
-    main->moveToolBar(bar, dock, state[2].value != 0, state[3].value != 0, state[4].value);
+    QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1].asLong();
+    main->moveToolBar(bar, dock, state[2].asLong() != 0, state[3].asLong() != 0, state[4].asLong());
     if (dock == QMainWindow::TornOff)
-        bar->move(state[5].value, state[6].value);
+        bar->move(state[5].asLong(), state[6].asLong());
 }
 
 EXPORT bool cmp(char *s1, char *s2)
@@ -1092,4 +972,181 @@ EXPORT bool cmp(char *s1, char *s2)
     return strcmp(s1, s2) != 0;
 }
 
+// Data
+Data::Data()      
+{
+    m_data = 0;
+    m_type = DATA_UNKNOWN;
 }
+
+Data::Data(const QString &d)      
+{
+    m_data = d;
+    m_type = DATA_STRING;
+}
+
+Data::Data(long d)
+{ 
+    m_data = (int)d; 
+    m_type = DATA_LONG; 
+}
+
+Data::Data(unsigned long d)
+{ 
+    m_data = (unsigned int)d; 
+    m_type = DATA_ULONG; 
+}
+
+Data::Data(bool d)                
+{ 
+    m_data = d; 
+    m_type = DATA_BOOL; 
+}
+
+Data::Data(const QStringList &d)  
+{ 
+    m_data = d; 
+    m_type = DATA_STRLIST; 
+}
+
+Data::Data(const IP *d)           
+{ 
+    m_data = (Q_LLONG)d; 
+    m_type = DATA_IP; 
+}
+
+Data::Data(enum DataType t)       
+{ 
+    m_data = 0; 
+    m_type = t; 
+}
+
+Data::Data(void *d)               
+{ 
+    m_data = (Q_LLONG)d; 
+    m_type = DATA_OBJECT; 
+}
+
+void Data::clear()
+{
+    m_data.clear();
+}
+
+const QString Data::str() const
+{
+    checkType(DATA_STRING);
+    return m_data.toString();
+}
+
+QString &Data::str()
+{
+    checkType(DATA_STRING);
+    return m_data.asString();
+}
+
+bool Data::setStr(const QString &s)
+{
+    checkType(DATA_STRING);
+    if(s==m_data.toString())
+        return false;
+    m_data=s;
+    return true;
+}
+
+QStringList &Data::strList()
+{
+    checkType(DATA_STRLIST);
+    return m_data.asStringList();
+}
+
+bool Data::setStrList(const QStringList &s)
+{
+    checkType(DATA_STRLIST);
+    if(s==m_data.toStringList())
+        return false;
+    m_data=s;
+    return true;
+}
+
+long &Data::asLong()
+{
+    checkType(DATA_LONG);
+    return (long&)m_data.asInt();
+}
+bool Data::setLong(long d)
+{
+    checkType(DATA_LONG);
+    if(d==(long)m_data.toInt())
+        return false;
+    m_data=(int)d;
+    return true;
+}
+
+unsigned long &Data::asULong()
+{
+    checkType(DATA_ULONG);
+    return (unsigned long&)m_data.asUInt();
+}
+bool Data::setULong(unsigned long d)
+{
+    checkType(DATA_ULONG);
+    if(d==(unsigned long)m_data.toUInt())
+        return false;
+    m_data=(unsigned int)d;
+    return true;
+}
+
+bool &Data::asBool()
+{
+    checkType(DATA_LONG);
+    return m_data.asBool();
+}
+
+bool Data::setBool(bool d)
+{
+    checkType(DATA_BOOL);
+    if(d==m_data.toBool())
+        return false;
+    m_data=d;
+    return true;
+}
+
+QObject* Data::object()
+{
+    checkType(DATA_OBJECT);
+    return (QObject*)m_data.asLongLong();
+}
+
+bool Data::setObject(const QObject *d)
+{
+    checkType(DATA_OBJECT);
+    if(d==(QObject*)m_data.toLongLong())
+        return false;
+    m_data=(Q_LLONG)d;
+    return true;
+}
+
+IP* Data::ip()
+{
+    checkType(DATA_IP);
+    return (IP*)m_data.asLongLong();
+}
+
+bool Data::setIP(const IP *d)
+{
+    checkType(DATA_IP);
+    if(d==(IP*)m_data.toLongLong())
+        return false;
+    m_data=(Q_LLONG)d;
+    return true;
+}
+
+void Data::checkType(DataType type) const
+{
+    if(m_type != type) {
+        log( L_ERROR, "Using wrong data type %d instead %d!", type, m_type );
+        assert(0);
+    }
+}
+
+}   // namespcae SIM

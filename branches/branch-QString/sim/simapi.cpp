@@ -527,7 +527,7 @@ EXPORT QString formatDate(unsigned long t)
 EXPORT QString formatAddr(Data &ip, unsigned port)
 {
     QString res;
-    if (ip.ptr == NULL)
+    if (ip.ip() == NULL)
         return res;
     struct in_addr inaddr;
     inaddr.s_addr = get_ip(ip);

@@ -82,7 +82,7 @@ static DataDef contactData[] =
         { "Notes", DATA_UTF, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
         { "Encoding", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Contact::Contact(unsigned long id, ConfigBuffer *cfg)
@@ -434,9 +434,9 @@ typedef struct sortClientData
 
 static bool cmp_sd(sortClientData p1, sortClientData p2)
 {
-    if (((clientData*)(p1.data))->LastSend.value > ((clientData*)(p2.data))->LastSend.value)
+    if (((clientData*)(p1.data))->LastSend.asULong() > ((clientData*)(p2.data))->LastSend.asULong())
         return true;
-    if (((clientData*)(p1.data))->LastSend.value < ((clientData*)(p2.data))->LastSend.value)
+    if (((clientData*)(p1.data))->LastSend.asULong() < ((clientData*)(p2.data))->LastSend.asULong())
         return false;
     return p1.nClient < p2.nClient;
 }
@@ -581,7 +581,7 @@ typedef struct GroupData
 static DataDef groupData[] =
     {
         { "Name", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Group::Group(unsigned long id, ConfigBuffer *cfg)
@@ -1062,7 +1062,7 @@ static DataDef _clientData[] =
         { "", DATA_UTF, 1, 0 },             // PreviousPassword
         { "Invisible", DATA_BOOL, 1, 0 },
         { "LastSend", DATA_STRLIST, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Client::Client(Protocol *protocol, ConfigBuffer *cfg)
@@ -1297,14 +1297,13 @@ QString ClientUserData::property(const char *name)
             if (!strcmp(def->name, name)){
                 switch (def->type){
                 case DATA_STRING:
-                     if (user_data->ptr)
-						 return QString::fromAscii(user_data->ptr);
-               case DATA_UTF:
-                    if (user_data->ptr)
-						return QString::fromUtf8(user_data->ptr);
+                    return user_data->str();
+                case DATA_LONG:
+                    if (user_data->asLong() != (long)(def->def_value))
+                        return QString::number(user_data->asLong());
                 case DATA_ULONG:
-                    if (user_data->value != (unsigned long)(def->def_value))
-                        return QString::number(user_data->value);
+                    if (user_data->asULong() != (unsigned long)(def->def_value))
+                        return QString::number(user_data->asULong());
                 }
             }
             user_data += def->n_values;
@@ -1328,7 +1327,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     for (it = p->begin(); it != p->end(); ++it){
         if (((*it).client == client) && ((*it).data == data))
             break;
-        if (((clientData*)((*it).data))->Sign.value != ((clientData*)data)->Sign.value)
+        if (((clientData*)((*it).data))->Sign.asULong() != ((clientData*)data)->Sign.asULong())
             continue;
         if (client->compareData(data, (*it).data))
             return NULL;
@@ -1340,7 +1339,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     for (++it; it != p->end(); ++it){
         if ((*it).client->getState() != Client::Connected)
             continue;
-        if (((clientData*)((*it).data))->Sign.value != ((clientData*)data)->Sign.value)
+        if (((clientData*)((*it).data))->Sign.asULong() != ((clientData*)data)->Sign.asULong())
             continue;
         if (client->compareData(data, (*it).data)){
             data = (*it).data;

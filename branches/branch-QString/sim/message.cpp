@@ -45,7 +45,7 @@ static DataDef	messageData[] =
         { "", DATA_STRING, 1, 0 },			// Error
         { "", DATA_ULONG, 1, 0 },			// RetryCode
         { "Resource", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Message::Message(unsigned type, ConfigBuffer *cfg)
@@ -106,23 +106,25 @@ QString Message::save()
 
 QString Message::getText() const
 {
-    if (data.Text.ptr && *data.Text.ptr)
-        return QString::fromUtf8(data.Text.ptr);
-    if (data.ServerText.ptr && *data.ServerText.ptr)
-        return getContacts()->toUnicode(getContacts()->contact(m_contact), QString::fromLocal8Bit(data.ServerText.ptr));
-    return "";
+    QString res = data.Text.str();
+    if (!res.isEmpty())
+        return res;
+    res = data.ServerText.str();
+    if (!res.isEmpty())
+        return getContacts()->toUnicode(getContacts()->contact(m_contact), res);
+    return res;
 }
 
 void Message::setText(const QString &text)
 {
-    set_utf8(&data.Text.ptr, text);
+    data.Text.setStr(text);
 }
 
 static DataDef messageSMSData[] =
     {
         { "Phone", DATA_UTF, 1, 0 },
         { "Network", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 SMSMessage::SMSMessage(ConfigBuffer *cfg)
@@ -165,7 +167,7 @@ QString SMSMessage::presentation()
 static DataDef messageUrlData[] =
     {
         { "Url", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 UrlMessage::UrlMessage(unsigned type, ConfigBuffer *cfg)
@@ -207,7 +209,7 @@ QString UrlMessage::presentation()
 static DataDef messageContactsData[] =
     {
         { "Contacts", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 ContactsMessage::ContactsMessage(unsigned type, ConfigBuffer *cfg)
@@ -387,7 +389,7 @@ static DataDef messageFileData[] =
         { "File", DATA_UTF, 1, 0 },
         { "Description", DATA_UTF, 1, 0 },
         { "Size", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 FileMessage::FileMessage(unsigned type, ConfigBuffer *cfg)
@@ -406,14 +408,14 @@ FileMessage::~FileMessage()
 
 unsigned FileMessage::getSize()
 {
-    if (data.Size.value)
-        return data.Size.value;
+    if (data.Size.asULong())
+        return data.Size.asULong();
     Iterator it(*this);
     const QString *name;
     while ((name = ++it) != NULL){
-        data.Size.value += it.size();
+        data.Size.asULong() += it.size();
     }
-    return data.Size.value;
+    return data.Size.asULong();
 }
 
 void FileMessage::addFile(const QString &file, unsigned size)
@@ -432,13 +434,13 @@ void FileMessage::addFile(const QString &file, unsigned size)
 
 void FileMessage::setSize(unsigned size)
 {
-    data.Size.value = size;
+    data.Size.asULong() = size;
 }
 
 QString FileMessage::getDescription()
 {
-    if (data.Description.ptr && *data.Description.ptr)
-        return QString::fromUtf8(data.Description.ptr);
+    if (!data.Description.str().isEmpty())
+        return data.Description.str();
     Iterator it(*this);
     if (it.count() <= 1){
         const QString *name = ++it;
@@ -474,7 +476,7 @@ QString FileMessage::getDescription()
 
 bool FileMessage::setDescription(const QString &str)
 {
-    return set_utf8(&data.Description.ptr, str);
+    return data.Description.setStr(str);
 }
 
 QString FileMessage::save()
@@ -627,7 +629,7 @@ QString AuthMessage::presentation()
 static DataDef messageStatusData[] =
     {
         { "Status", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 StatusMessage::StatusMessage(ConfigBuffer *cfg)
