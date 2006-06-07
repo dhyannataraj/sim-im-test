@@ -44,7 +44,7 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
 {
     m_plugin = plugin;
 #ifdef WIN32
-    edtPath->setText(QFile::decodeName(m_plugin->getPath()));
+    edtPath->setText(m_plugin->getPath());
     edtPath->setFilter(i18n("ASpell(aspell.exe)"));
     lnkAspell->setUrl("http://aspell.net/win32/");
     lnkAspell->setText(i18n("Download ASpell"));

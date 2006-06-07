@@ -41,7 +41,7 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     lstSound->setExpandingColumn(1);
 
     SoundUserData *user_data = (SoundUserData*)data;
-    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), plugin->fullName(user_data->Alert.ptr));
+    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), plugin->fullName(user_data->Alert.str()));
     item->setText(2, QString::number(ONLINE_ALERT));
     item->setPixmap(0, makePixmap("ICQ"));
 
@@ -69,10 +69,10 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
         item->setPixmap(0, makePixmap(cmd->icon));
     }
     lstSound->adjustColumn();
-    chkActive->setChecked(user_data->NoSoundIfActive.bValue);
-    chkDisable->setChecked(user_data->Disable.bValue);
+    chkActive->setChecked(user_data->NoSoundIfActive.toBool());
+    chkDisable->setChecked(user_data->Disable.toBool());
     connect(chkDisable, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
-    toggled(user_data->Disable.bValue);
+    toggled(user_data->Disable.toBool());
     m_edit = NULL;
     m_editItem = NULL;
     connect(lstSound, SIGNAL(selectionChanged(QListViewItem*)), this, SLOT(selectionChanged(QListViewItem*)));
@@ -100,13 +100,13 @@ void SoundUserConfig::apply(void *data)
         if (text.isEmpty())
             text = "(nosound)";
         if (id == ONLINE_ALERT){
-            set_str(&user_data->Alert.ptr, QFile::encodeName(text));
+            user_data->Alert.str() = text;
         }else{
-            set_str(&user_data->Receive, id, QFile::encodeName(text));
+            set_str(&user_data->Receive, id, text);
         }
     }
-    user_data->NoSoundIfActive.bValue = chkActive->isChecked();
-    user_data->Disable.bValue = chkDisable->isChecked();
+    user_data->NoSoundIfActive.asBool() = chkActive->isChecked();
+    user_data->Disable.asBool() = chkDisable->isChecked();
     Event e(m_plugin->EventSoundChanged);
     e.process();
 }

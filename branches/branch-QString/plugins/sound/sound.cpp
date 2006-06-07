@@ -75,7 +75,7 @@ static DataDef soundData[] =
         { "StartUp", DATA_STRING, 1, "startup.wav" },
         { "FileDone", DATA_STRING, 1, "filedone.wav" },
         { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -91,7 +91,7 @@ static DataDef soundUserData[] =
         { "Receive", DATA_STRLIST, 1, 0 },
         { "NoSoundIfActive", DATA_BOOL, 1, 0 },
         { "Disable", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static SoundPlugin *soundPlugin = NULL;
@@ -185,7 +185,7 @@ void *SoundPlugin::processEvent(Event *e)
         Command cmd;
         cmd->id    = CmdSoundDisable;
         SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-        if (!data->Disable.bValue)
+        if (!data->Disable.toBool())
             cmd->flags |= COMMAND_CHECKED;
         m_bChanged = true;
         Event e(EventCommandChecked, cmd);
@@ -198,7 +198,7 @@ void *SoundPlugin::processEvent(Event *e)
         if (cmd->id == CmdSoundDisable){
             cmd->flags &= ~COMMAND_CHECKED;
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-            if (!data->Disable.bValue)
+            if (!data->Disable.toBool())
                 cmd->flags |= COMMAND_CHECKED;
             return e->param();
         }
@@ -208,7 +208,7 @@ void *SoundPlugin::processEvent(Event *e)
         CommandDef *cmd = (CommandDef*)(e->param());
         if (!m_bChanged && (cmd->id == CmdSoundDisable)){
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-            data->Disable.bValue = !data->Disable.bValue;
+            data->Disable.asBool() = !data->Disable.toBool();
             Event eChanged(EventSoundChanged);
             eChanged.process();
             return e->param();
@@ -218,8 +218,8 @@ void *SoundPlugin::processEvent(Event *e)
     if (e->type() == EventContactOnline){
         Contact *contact = (Contact*)(e->param());
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
-        if (data && data->Alert.ptr && *data->Alert.ptr && !data->Disable.bValue){
-            Event eSound(EventPlaySound, data->Alert.ptr);
+        if (data && !data->Alert.str().isEmpty() && !data->Disable.toBool()){
+            Event eSound(EventPlaySound, (void*)data->Alert.str().latin1());
             eSound.process();
         }
         return NULL;
@@ -256,8 +256,8 @@ void *SoundPlugin::processEvent(Event *e)
         }else{
             data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
         }
-        bool bEnable = !data->Disable.bValue;
-        if (bEnable && data->NoSoundIfActive.bValue){
+        bool bEnable = !data->Disable.toBool();
+        if (bEnable && data->NoSoundIfActive.toBool()){
             Event e(EventActiveContact);
             if ((unsigned long)(e.process()) == contact->id())
                 bEnable = false;

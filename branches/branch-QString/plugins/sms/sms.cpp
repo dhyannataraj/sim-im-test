@@ -41,7 +41,7 @@ static DataDef _smsUserData[] =
         { "", DATA_UTF, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// Index
         { "", DATA_ULONG, 1, 0 },			// Type
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Plugin *createSMSPlugin(unsigned base, bool, ConfigBuffer*)
@@ -269,7 +269,7 @@ static DataDef smsClientData[] =
         { "", DATA_ULONG, 1, 0 },		// Charge
         { "", DATA_BOOL, 1, 0 },		// Charging
         { "", DATA_ULONG, 1, 0 },		// Quality
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 SMSClient::SMSClient(Protocol *protocol, ConfigBuffer *cfg)
@@ -452,7 +452,7 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
         smsUserData *data;
         ClientDataIterator itd(contact->clientData);
         while ((data = (smsUserData*)(++itd)) != NULL){
-            if (name == QString::fromUtf8(data->Name.ptr))
+            if (name == data->Name.str())
                 break;
         }
         if (data)
@@ -483,10 +483,10 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
         contact->setPhones(phones + phone + ",,2/-");
     }
     smsUserData *data = (smsUserData*)contact->clientData.createData(this);
-    set_str(&data->Phone.ptr, phone.utf8());
-    set_str(&data->Name.ptr, name.utf8());
-    data->Index.value = index;
-    data->Type.value  = type;
+    data->Phone.str() = phone;
+    data->Name.str()  = name;
+    data->Index.asULong() = index;
+    data->Type.asULong()  = type;
     if (bNew){
         Event e(EventContactChanged, contact);
         e.process();
