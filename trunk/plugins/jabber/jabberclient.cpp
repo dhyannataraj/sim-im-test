@@ -2534,6 +2534,10 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
         e.process();
         return;
     }
+    //FIXME: In EventMessageReceived handler from filter plugin, there is conditional delete(msg)
+    //that causes crash when filter plugin configured to block Authorisation messages.
+    //So parameter must be pointer to object from heap, but then I don't know how it can be safely 
+    //feed if it wasn't in EventMessageReceived. serzh.
     AuthMessage msg(type);
     msg.setContact(contact->id());
     msg.setClient(dataName(data).c_str());
