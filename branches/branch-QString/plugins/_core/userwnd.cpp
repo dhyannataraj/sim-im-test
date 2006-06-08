@@ -35,7 +35,7 @@ static DataDef userWndData[] =
         { "EditHeight", DATA_ULONG, 1, 0 },
         { "EditBar", DATA_ULONG, 8, 0 },
         { "MessageType", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 UserWnd::UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdjust)

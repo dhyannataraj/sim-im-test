@@ -162,7 +162,7 @@ void ActionConfig::apply(void *_data)
         }else if (id == CONTACT_STATUS){
             data->Status.str() = text;
         }else{
-            set_str(&data->Message, id, text.utf8());
+            set_str(&data->Message, id, text);
         }
     }
 }

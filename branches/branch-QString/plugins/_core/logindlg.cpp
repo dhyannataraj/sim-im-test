@@ -132,7 +132,7 @@ void LoginDialog::accept()
     CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
     //if (m_profile != CorePlugin::m_plugin->getProfile()){
         if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n])){
-            CorePlugin::m_plugin->setProfile(m_profile.c_str());
+            CorePlugin::m_plugin->setProfile(m_profile);
             BalloonMsg::message(i18n("Other instance of SIM use this profile"), buttonOk);
             return;
         }

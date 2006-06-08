@@ -32,10 +32,10 @@ FileConfig::FileConfig(QWidget *parent, void *_data)
 {
     CoreUserData *data = (CoreUserData*)_data;
     edtPath->setDirMode(true);
-    QString incoming = data->IncomingPath.ptr ? user_file(data->IncomingPath.ptr) : "";
+    QString incoming = !data->IncomingPath.str().isEmpty() ? user_file(data->IncomingPath.str()) : "";
     edtPath->setText(incoming);
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
-    switch (data->AcceptMode.value){
+    switch (data->AcceptMode.toULong()){
     case 0:
         btnDialog->setChecked(true);
         break;
@@ -46,10 +46,9 @@ FileConfig::FileConfig(QWidget *parent, void *_data)
         btnDecline->setChecked(true);
         break;
     }
-    chkOverwrite->setChecked(data->OverwriteFiles.bValue);
-    if (data->DeclineMessage.ptr)
-        edtDecline->setText(QString::fromUtf8(data->DeclineMessage.ptr));
-    acceptClicked(data->AcceptMode.value);
+    chkOverwrite->setChecked(data->OverwriteFiles.toBool());
+    edtDecline->setText(data->DeclineMessage.str());
+    acceptClicked(data->AcceptMode.toULong());
 }
 
 void FileConfig::apply(void *_data)
@@ -61,16 +60,16 @@ void FileConfig::apply(void *_data)
     } else {
         def = edtPath->text();
     }
-    set_str(&data->IncomingPath.ptr, QFile::encodeName(def));
-    edtPath->setText(data->IncomingPath.ptr ? user_file(data->IncomingPath.ptr) : "");
-    data->AcceptMode.value = 0;
+    data->IncomingPath.str() = def;
+    edtPath->setText(!data->IncomingPath.str().isEmpty() ? user_file(data->IncomingPath.str()) : "");
+    data->AcceptMode.asULong() = 0;
     if (btnAccept->isOn()){
-        data->AcceptMode.value = 1;
-        data->OverwriteFiles.bValue = chkOverwrite->isChecked();
+        data->AcceptMode.asULong() = 1;
+        data->OverwriteFiles.asBool() = chkOverwrite->isChecked();
     }
     if (btnDecline->isOn()){
-        data->AcceptMode.value = 2;
-        set_str(&data->DeclineMessage.ptr, edtDecline->text().utf8());
+        data->AcceptMode.asULong() = 2;
+        data->DeclineMessage.str() = edtDecline->text();
     }
 }
 

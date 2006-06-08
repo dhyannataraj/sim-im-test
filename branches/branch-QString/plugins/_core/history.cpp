@@ -157,8 +157,7 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, ConfigBuf
     if (!m_filter.isEmpty()){
         Message m(MessageGeneric, cfg);
         QString text;
-        if (m.data.Text.ptr && *m.data.Text.ptr)
-            text = QString::fromUtf8(m.data.Text.ptr);
+        text = m.data.Text.str();
         if (text.isEmpty()){
             const char *serverText = m.getServerText();
             if (*serverText == 0)
@@ -600,10 +599,10 @@ void History::add(Message *msg, const char *type)
     Contact *contact = getContacts()->contact(msg->contact());
     if (contact)
         data = (HistoryUserData*)(contact->getUserData(CorePlugin::m_plugin->history_data_id));
-    if (data && data->CutSize.bValue){
+    if (data && data->CutSize.toBool()){
         QFileInfo fInfo(f_name);
-        if (fInfo.exists() && (fInfo.size() >= data->MaxSize.value * 0x100000 + CUT_BLOCK)){
-            int pos = fInfo.size() - data->MaxSize.value * 0x100000 + line.length();
+        if (fInfo.exists() && (fInfo.size() >= data->MaxSize.toULong() * 0x100000 + CUT_BLOCK)){
+            int pos = fInfo.size() - data->MaxSize.toULong() * 0x100000 + line.length();
             if (pos < 0)
                 pos = 0;
             del(f_name, msg->contact(), pos, false);

@@ -103,7 +103,7 @@ static DataDef containerData[] =
         { "BarState", DATA_ULONG, 7, 0 },
         { "StatusSize", DATA_ULONG, 1, 0 },
         { "WndConfig", DATA_STRLIST, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Container::Container(unsigned id, const char *cfg)
@@ -134,13 +134,13 @@ Container::Container(unsigned id, const char *cfg)
         setId(id);
         memcpy(data.barState, CorePlugin::m_plugin->data.containerBar, sizeof(data.barState));
         memcpy(data.geometry, CorePlugin::m_plugin->data.containerGeo, sizeof(data.geometry));
-        if ((data.geometry[WIDTH].value == (unsigned long)-1) || (data.geometry[HEIGHT].value == (unsigned long)-1)){
+        if ((data.geometry[WIDTH].toULong() == (unsigned long)-1) || (data.geometry[HEIGHT].toULong() == (unsigned long)-1)){
             QWidget *desktop = QApplication::desktop();
-            data.geometry[WIDTH].value = desktop->width() / 3;
-            data.geometry[HEIGHT].value = desktop->height() / 3;
+            data.geometry[WIDTH].asULong() = desktop->width() / 3;
+            data.geometry[HEIGHT].asULong() = desktop->height() / 3;
         }
         bPos = false;
-        if ((data.geometry[TOP].value != (unsigned long)-1) || (data.geometry[LEFT].value != (unsigned long)-1)){
+        if ((data.geometry[TOP].toULong() != (unsigned long)-1) || (data.geometry[LEFT].toULong() != (unsigned long)-1)){
             bPos = true;
             QWidgetList  *list = QApplication::topLevelWidgets();
             for (int i = 0; i < 2; i++){
@@ -153,23 +153,23 @@ Container::Container(unsigned id, const char *cfg)
                         continue;
                     }
                     if (w->inherits("Container")){
-                        int dw = w->pos().x() - data.geometry[LEFT].value;
-                        int dh = w->pos().y() - data.geometry[TOP].value;
+                        int dw = w->pos().x() - data.geometry[LEFT].toULong();
+                        int dh = w->pos().y() - data.geometry[TOP].toULong();
                         if (dw < 0) dw = -dw;
                         if (dh < 0) dh = -dh;
                         if ((dw < 3) && (dh < 3)){
-                            int nl = data.geometry[LEFT].value;
-                            int nt = data.geometry[TOP].value;
+                            int nl = data.geometry[LEFT].toULong();
+                            int nt = data.geometry[TOP].toULong();
                             nl += 21;
                             nt += 20;
                             QWidget *desktop = QApplication::desktop();
-                            if (nl + (int)data.geometry[WIDTH].value > desktop->width())
+                            if (nl + (int)data.geometry[WIDTH].toULong() > desktop->width())
                                 nl = 0;
-                            if (nt + (int)data.geometry[WIDTH].value > desktop->width())
+                            if (nt + (int)data.geometry[WIDTH].toULong() > desktop->width())
                                 nt = 0;
-                            if ((nl != (int)data.geometry[LEFT].value) && (nt != (int)data.geometry[TOP].value)){
-                                data.geometry[LEFT].value = nl;
-                                data.geometry[TOP].value  = nt;
+                            if ((nl != (int)data.geometry[LEFT].toULong()) && (nt != (int)data.geometry[TOP].toULong())){
+                                data.geometry[LEFT].asULong() = nl;
+                                data.geometry[TOP].asULong()  = nt;
                                 bOK = false;
                             }
                         }

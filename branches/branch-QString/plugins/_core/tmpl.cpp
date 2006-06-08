@@ -231,10 +231,15 @@ bool Tmpl::getTag(const QString &name, void *_data, const DataDef *def, QString 
     case DATA_ULONG:
         res += QString::number(*((unsigned*)data));
         break;
+/*
     case DATA_UTF:
         if (*p)
             res += QString::fromUtf8(*p);
         break;
+*/
+#ifdef __GNUC__
+#warning fixme!
+#endif
     case DATA_STRING:
         if (*p)
             res += QString::fromLocal8Bit(*p);

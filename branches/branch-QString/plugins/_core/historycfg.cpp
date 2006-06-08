@@ -228,10 +228,10 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     connect(chkSize, SIGNAL(toggled(bool)), this, SLOT(toggledSize(bool)));
     connect(chkExtViewer, SIGNAL(toggled(bool)), this, SLOT(toggledExtViewer(bool)));
     HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));
-    chkDays->setChecked(data->CutDays.bValue);
-    chkSize->setChecked(data->CutSize.bValue);
-    edtDays->setValue(data->Days.value);
-    edtSize->setValue(data->MaxSize.value);
+    chkDays->setChecked(data->CutDays.toBool());
+    chkSize->setChecked(data->CutSize.toBool());
+    edtDays->setValue(data->Days.toULong());
+    edtSize->setValue(data->MaxSize.toULong());
     toggledDays(chkDays->isChecked());
     toggledSize(chkSize->isChecked());
     toggledExtViewer(chkExtViewer->isChecked());
@@ -291,7 +291,7 @@ void HistoryConfig::apply()
     int cur = cmbStyle->currentItem();
     if ((cur >= 0) && m_styles.size() &&
             (m_styles[cur].bChanged ||
-             (m_styles[cur].name != QFile::decodeName(CorePlugin::m_plugin->getHistoryStyle())))){
+             (m_styles[cur].name != CorePlugin::m_plugin->getHistoryStyle()))){
         CorePlugin::m_plugin->setHistoryStyle(QFile::encodeName(m_styles[cur].name));
         bChanged = true;
         delete CorePlugin::m_plugin->historyXSL;
@@ -318,10 +318,10 @@ void HistoryConfig::apply()
     }
     fillPreview();
     HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));
-    data->CutDays.bValue = chkDays->isChecked();
-    data->CutSize.bValue = chkSize->isChecked();
-    data->Days.value	 = atol(edtDays->text());
-    data->MaxSize.value  = atol(edtSize->text());
+    data->CutDays.asBool() = chkDays->isChecked();
+    data->CutSize.asBool() = chkSize->isChecked();
+    data->Days.asULong()   = edtDays->text().toULong();
+    data->MaxSize.asULong()= edtSize->text().toULong();
 }
 
 void HistoryConfig::addStyles(const char *dir, bool bCustom)

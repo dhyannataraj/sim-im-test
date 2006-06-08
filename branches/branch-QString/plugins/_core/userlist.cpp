@@ -158,9 +158,9 @@ void GroupItem::init(Group *grp)
         setOpen(true);
     }else{
         if (m_bOffline){
-            setOpen(data->OfflineOpen.bValue);
+            setOpen(data->OfflineOpen.toBool());
         }else{
-            setOpen(data->OnlineOpen.bValue);
+            setOpen(data->OnlineOpen.toBool());
         }
     }
     update(grp, true);
@@ -197,9 +197,9 @@ void GroupItem::setOpen(bool bOpen)
         ListUserData *data = (ListUserData*)(grp->getUserData(CorePlugin::m_plugin->list_data_id, !bOpen));
         if (data){
             if (m_bOffline){
-                data->OfflineOpen.bValue = bOpen;
+                data->OfflineOpen.asBool() = bOpen;
             }else{
-                data->OnlineOpen.bValue  = bOpen;
+                data->OnlineOpen.asBool()  = bOpen;
             }
         }
     }
@@ -377,7 +377,7 @@ void UserListBase::drawUpdates()
         unsigned unread = getUnread(contact->id());
         bool bShow = false;
         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id));
-        if (data && data->ShowAlways.bValue)
+        if (data && data->ShowAlways.toBool())
             bShow = true;
         switch (m_groupMode){
         case 0:
@@ -704,7 +704,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAlways.bValue)
+            if (data && data->ShowAlways.toBool())
                 bShow = true;
             if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 continue;
@@ -741,7 +741,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAlways.bValue)
+            if (data && data->ShowAlways.toBool())
                 bShow = true;
             if ((status <= STATUS_OFFLINE) && !bShow && (unread == 0) && m_bShowOnline)
                 continue;
@@ -794,7 +794,7 @@ void UserListBase::fill()
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
             ListUserData *data = (ListUserData*)contact->getUserData(CorePlugin::m_plugin->list_data_id);
-            if (data && data->ShowAlways.bValue)
+            if (data && data->ShowAlways.toBool())
                 bShow = true;
             if ((unread == 0) && !bShow && (status <= STATUS_OFFLINE) && m_bShowOnline)
                 continue;

@@ -1201,7 +1201,7 @@ void *MsgView::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if (data && data->LogStatus.bValue)
+                if (data && data->LogStatus.asBool())
                     bAdd = true;
             }
         }
@@ -1209,7 +1209,7 @@ void *MsgView::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if (data->OpenNewMessage.bValue)
+                if (data->OpenNewMessage.asBool())
                     bAdd = false;
             }
         }

@@ -332,7 +332,7 @@ static DataDef coreData[] =
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
         { "CfgGeometry", DATA_ULONG, 5, DATA(0) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -362,20 +362,20 @@ static DataDef coreUserData[] =
         { "AcceptMode", DATA_ULONG, 1, 0 },
         { "OverwriteFiles", DATA_BOOL, 1, 0 },
         { "DeclineMessage", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef smsUserData[] =
     {
         { "SMSSignatureBefore", DATA_UTF, 1, 0 },
         { "SMSSignatureAfter", DATA_UTF, 1, "\n&MyName;" },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef arUserData[] =
     {
         { "AutoReply", DATA_UTFLIST, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -392,7 +392,7 @@ static DataDef listUserData[] =
         { "OfflineOpen", DATA_BOOL, 1, DATA(1) },
         { "OnlineOpen", DATA_BOOL, 1, DATA(1) },
         { "ShowAlways", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -405,7 +405,7 @@ typedef struct TranslitUserData
 static DataDef translitUserData[] =
     {
         { "Translit", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef historyUserData[] =
@@ -414,7 +414,7 @@ static DataDef historyUserData[] =
         { "MaxSize", DATA_ULONG, 1, DATA(2) },
         { "CutDays", DATA_BOOL, 1, 0 },
         { "Days", DATA_ULONG, 1, DATA(90) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 CorePlugin *CorePlugin::m_plugin = NULL;
@@ -1639,7 +1639,7 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
         while ((data1 = ++it1) != NULL){
             if (data1 == data)
                 break;
-            if (data->Sign.value != data1->Sign.value)
+            if (data->Sign.toULong() != data1->Sign.toULong())
                 continue;
             if (it.client()->compareData(data, data1)){
                 bOK = false;
@@ -2031,33 +2031,32 @@ void *CorePlugin::processEvent(Event *e)
                 unsigned type = msg->baseType();
                 if (type == MessageStatus){
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                    if ((data == NULL) || !data->LogStatus.bValue)
+                    if ((data == NULL) || !data->LogStatus.toBool())
                         return NULL;
                 }else if (type == MessageFile){
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                     if (data){
-                        if (data->AcceptMode.value == 1){
+                        if (data->AcceptMode.toULong() == 1){
                             QString dir;
-                            if (data && data->IncomingPath.ptr)
-                                dir = data->IncomingPath.ptr;
+                            if (data)
+                                dir = data->IncomingPath.str();
                             if (!dir.isEmpty() && (dir.right(1) != '/') && (dir.right(1) != '\\'))
                                 dir += '/';
                             dir = user_file(dir);
                             messageAccept ma;
                             ma.msg	     = msg;
                             ma.dir 		 = dir;
-                            ma.overwrite = data->OverwriteFiles.bValue ? Replace : Skip;
+                            ma.overwrite = data->OverwriteFiles.toBool() ? Replace : Skip;
                             Event e(EventMessageAccept, &ma);
                             e.process();
                             return msg;
                         }
-                        if (data->AcceptMode.value == 2){
-                            string reason;
-                            if (data->DeclineMessage.ptr)
-                                reason = data->DeclineMessage.ptr;
+                        if (data->AcceptMode.toULong() == 2){
+                            QString reason;
+                            reason = data->DeclineMessage.str();
                             messageDecline md;
                             md.msg    = msg;
-                            md.reason = reason.c_str();
+                            md.reason = reason.latin1();
                             Event e(EventMessageDecline, &md);
                             e.process();
                             return msg;
@@ -2094,8 +2093,8 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     if (contact){
                         CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                        if (data->OpenNewMessage.value){
-                            if (data->OpenNewMessage.value == NEW_MSG_MINIMIZE)
+                        if (data->OpenNewMessage.toULong()){
+                            if (data->OpenNewMessage.toULong() == NEW_MSG_MINIMIZE)
                                 msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
                             Event e(EventOpenMessage, &msg);
                             e.process();
@@ -2269,7 +2268,7 @@ void *CorePlugin::processEvent(Event *e)
             Contact *contact = getContacts()->contact((unsigned long)(e->param()));
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                if (data->OpenOnOnline.bValue){
+                if (data->OpenOnOnline.toBool()){
                     Message *msg = new Message(MessageGeneric);
                     msg->setContact(contact->id());
                     Event e(EventOpenMessage, &msg);
@@ -3170,8 +3169,8 @@ void *CorePlugin::processEvent(Event *e)
                     delete list;
                     if (wnd == NULL){
                         wnd = new HistoryWindow(id);
-                        if (data.historySize[0].value && data.historySize[1].value)
-                            wnd->resize(data.historySize[0].value, data.historySize[1].value);
+                        if (data.historySize[0].toULong() && data.historySize[1].toULong())
+                            wnd->resize(data.historySize[0].toULong(), data.historySize[1].toULong());
                     }
                     raiseWindow(wnd);
                 } else{
@@ -3191,9 +3190,9 @@ void *CorePlugin::processEvent(Event *e)
                 if (m_cfg == NULL){
                     m_cfg = new ConfigureDialog;
                     connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
-                    if ((data.cfgGeo[WIDTH].value == 0) || (data.cfgGeo[HEIGHT].value == 0)){
-                        data.cfgGeo[WIDTH].value  = 500;
-                        data.cfgGeo[HEIGHT].value = 380;
+                    if ((data.cfgGeo[WIDTH].toULong() == 0) || (data.cfgGeo[HEIGHT].toULong() == 0)){
+                        data.cfgGeo[WIDTH].asULong()  = 500;
+                        data.cfgGeo[HEIGHT].asULong() = 380;
                         restoreGeometry(m_cfg, data.cfgGeo, false, true);
                     }else{
                         restoreGeometry(m_cfg, data.cfgGeo, true, true);
@@ -3206,9 +3205,9 @@ void *CorePlugin::processEvent(Event *e)
                 if (m_search == NULL){
                     m_search = new SearchDialog;
                     connect(m_search, SIGNAL(finished()), this, SLOT(dialogFinished()));
-                    if ((data.SearchGeo[WIDTH].value == 0) || (data.SearchGeo[HEIGHT].value == 0)){
-                        data.SearchGeo[WIDTH].value  = 500;
-                        data.SearchGeo[HEIGHT].value = 380;
+                    if ((data.SearchGeo[WIDTH].toULong() == 0) || (data.SearchGeo[HEIGHT].toULong() == 0)){
+                        data.SearchGeo[WIDTH].asULong()  = 500;
+                        data.SearchGeo[HEIGHT].asULong() = 380;
                         restoreGeometry(m_search, data.SearchGeo, false, true);
                     }else{
                         restoreGeometry(m_search, data.SearchGeo, true, true);
@@ -3351,8 +3350,8 @@ void *CorePlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                 QString dir;
-                if (data && data->IncomingPath.ptr)
-                    dir = data->IncomingPath.ptr;
+                if (data)
+                    dir = data->IncomingPath.str();
                 if (!dir.isEmpty() && (dir.right(1) != "/") && (dir.right(1) != "\\"))
                     dir += '/';
                 dir = user_file(dir);
@@ -3579,11 +3578,11 @@ void CorePlugin::showInfo(CommandDef *cmd)
     delete list;
     if (cfg == NULL){
         cfg = new UserConfig(contact, group);
-        if ((data.cfgGeo[WIDTH].value == 0) || (data.cfgGeo[HEIGHT].value == 0)){
-            data.cfgGeo[WIDTH].value  = 500;
-            data.cfgGeo[HEIGHT].value = 380;
+        if ((data.cfgGeo[WIDTH].toULong() == 0) || (data.cfgGeo[HEIGHT].toULong() == 0)){
+            data.cfgGeo[WIDTH].asULong()  = 500;
+            data.cfgGeo[HEIGHT].asULong() = 380;
         }
-        cfg->resize(data.cfgGeo[WIDTH].value, data.cfgGeo[HEIGHT].value);
+        cfg->resize(data.cfgGeo[WIDTH].toULong(), data.cfgGeo[HEIGHT].toULong());
     }
     raiseWindow(cfg);
     if (!cfg->raisePage(cmd->id))
@@ -4361,14 +4360,14 @@ void ClientList::addToContacts()
 
 unsigned CorePlugin::getContainerMode()
 {
-    return data.ContainerMode.value;
+    return data.ContainerMode.toULong();
 }
 
 void CorePlugin::setContainerMode(unsigned value)
 {
-    if (value == data.ContainerMode.value)
+    if (value == data.ContainerMode.toULong())
         return;
-    data.ContainerMode.value = value;
+    data.ContainerMode.asULong() = value;
     emit modeChanged();
 }
 
@@ -4386,11 +4385,11 @@ void CorePlugin::checkHistory()
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         HistoryUserData *data = (HistoryUserData*)(contact->getUserData(history_data_id));
-        if ((data == NULL) || !data->CutDays.bValue)
+        if ((data == NULL) || !data->CutDays.toBool())
             continue;
         time_t now;
         time(&now);
-        now -= data->Days.value * 24 * 60 * 60;
+        now -= data->Days.toULong() * 24 * 60 * 60;
         History::cut(NULL, contact->id(), now);
     }
     QTimer::singleShot(24 * 60 * 60 * 1000, this, SLOT(checkHistory()));
@@ -4403,7 +4402,7 @@ void CorePlugin::setManualStatus(unsigned long status)
     time_t now;
     time(&now);
     setStatusTime(now);
-    data.ManualStatus.value = status;
+    data.ManualStatus.asULong() = status;
 }
 
 void CorePlugin::alertFinished()

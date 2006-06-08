@@ -464,8 +464,8 @@ void *UserView::processEvent(Event *e)
                             bool bShow = false;
                             if (cmd->flags & COMMAND_CHECKED)
                                 bShow = true;
-                            if (data->ShowAlways.bValue != bShow){
-                                data->ShowAlways.bValue = bShow;
+                            if (data->ShowAlways.toBool() != bShow){
+                                data->ShowAlways.asBool() = bShow;
                                 Event e(EventContactChanged, contact);
                                 e.process();
                             }
@@ -670,7 +670,7 @@ void *UserView::processEvent(Event *e)
                     if (contact){
                         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
                         cmd->flags &= ~COMMAND_CHECKED;
-                        if (data && data->ShowAlways.bValue)
+                        if (data && data->ShowAlways.toBool())
                             cmd->flags |= COMMAND_CHECKED;
                         return e->param();
                     }
