@@ -1,7 +1,7 @@
 /****************************************************************************
-** $Id: metal.h,v 1.4 2004/06/04 16:55:46 shutoff Exp $
+** $Id: metal.h,v 1.1.1.9 2006/05/07 17:31:30 chehrlic Exp $
 **
-** Definition of something or other
+** Definition of the Metal Style for the themes example
 **
 ** Created : 979899
 **
@@ -15,22 +15,13 @@
 #ifndef METAL_H
 #define METAL_H
 
-#include <qwindowsstyle.h>
+
 #include <qpalette.h>
-#include <qpushbutton.h>
-#include "qapplication.h"
-#include "qpainter.h"
-#include "qdrawutil.h" // for now
-#include "qpixmap.h" // for now
-#include "qpalette.h" // for now
-#include "qwidget.h"
-#include "qlabel.h"
-#include "qimage.h"
-#include "qpushbutton.h"
-#include "qwidget.h"
-#include "qrangecontrol.h"
-#include "qscrollbar.h"
-#include <limits.h>
+
+#ifndef QT_NO_STYLE_WINDOWS
+
+#include <qwindowsstyle.h>
+
 
 class MetalStyle : public QWindowsStyle
 {
@@ -41,40 +32,42 @@ public:
     void polish( QWidget* );
     void unPolish( QWidget* );
 
-    void drawMetalButton( QPainter *p, int x, int y, int w, int h,
-                          bool sunken = FALSE, bool horz = TRUE );
+    void drawPrimitive( PrimitiveElement pe,
+			QPainter *p,
+			const QRect &r,
+			const QColorGroup &cg,
+			SFlags flags = Style_Default,
+			const QStyleOption& = QStyleOption::Default) const;
 
-    void drawButton( QPainter *p, int x, int y, int w, int h,
-                     const QColorGroup &g, bool sunken = FALSE,
-                     const QBrush *fill = 0 );
-    void drawBevelButton( QPainter *p, int x, int y, int w, int h,
-                          const QColorGroup &g, bool sunken = FALSE,
-                          const QBrush *fill = 0 );
+    void drawControl( ControlElement element,
+		      QPainter *p,
+		      const QWidget *widget,
+		      const QRect &r,
+		      const QColorGroup &cg,
+		      SFlags how = Style_Default,
+		      const QStyleOption& = QStyleOption::Default ) const;
 
-    void drawPushButton( QPushButton* btn, QPainter *p);
-    void drawPushButtonLabel( QPushButton* btn, QPainter *p);
-    void drawPanel( QPainter *p, int x, int y, int w, int h,
-                    const QColorGroup &, bool sunken,
-                    int lineWidth, const QBrush *fill );
+    void drawComplexControl( ComplexControl cc,
+			     QPainter *p,
+			     const QWidget *widget,
+			     const QRect &r,
+			     const QColorGroup &cg,
+			     SFlags how = Style_Default,
+			     SCFlags sub = SC_All,
+			     SCFlags subActive = SC_None,
+			     const QStyleOption& = QStyleOption::Default ) const;
+    int pixelMetric( PixelMetric, const QWidget * ) const;
 
-    void drawSlider( QPainter *p,
-                     int x, int y, int w, int h,
-                     const QColorGroup &g,
-                     Orientation orient, bool tickAbove, bool tickBelow );
-
-    void drawScrollBarControls( QPainter* p, const QScrollBar* sb,
-                                int sliderStart, uint controls,
-                                uint activeControl );
-
-    void drawComboButton( QPainter *p, int x, int y, int w, int h,
-                          const QColorGroup &g, bool sunken = FALSE,
-                          bool editable = FALSE,
-                          bool enabled = TRUE,
-                          const QBrush *fill = 0 );
 
 private:
+    void drawMetalFrame(  QPainter *p, int x, int y, int w, int h ) const;
+    void drawMetalGradient( QPainter *p, int x, int y, int w, int h,
+			  bool sunken, bool horz, bool flat=FALSE ) const;
+    void drawMetalButton( QPainter *p, int x, int y, int w, int h,
+			  bool sunken, bool horz, bool flat=FALSE ) const;
     QPalette oldPalette;
 };
 
 #endif
 
+#endif
