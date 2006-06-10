@@ -896,28 +896,28 @@ EXPORT void restoreGeometry(QWidget *w, Geometry geo, bool bPos, bool bSize)
     if (w == NULL)
         return;
     QRect rc = screenGeometry();
-    if (geo[WIDTH].asLong() > rc.width())
+    if (geo[WIDTH].toLong() > rc.width())
         geo[WIDTH].asLong() = rc.width();
-    if (geo[HEIGHT].asLong() > rc.height())
+    if (geo[HEIGHT].toLong() > rc.height())
         geo[HEIGHT].asLong() = rc.height();
-    if (geo[LEFT].asLong() + geo[WIDTH].asLong() > rc.width())
+    if (geo[LEFT].toLong() + geo[WIDTH].toLong() > rc.width())
         geo[LEFT].asLong() = rc.width() - geo[WIDTH].asLong();
-    if (geo[TOP].asLong() + geo[HEIGHT].asLong() > rc.height())
+    if (geo[TOP].toLong() + geo[HEIGHT].toLong() > rc.height())
         geo[TOP].asLong() = rc.height() - geo[HEIGHT].asLong();
-    if (geo[LEFT].asLong() < 0)
+    if (geo[LEFT].toLong() < 0)
         geo[LEFT].asLong() = 0;
-    if (geo[TOP].asLong() < 0)
+    if (geo[TOP].toLong() < 0)
         geo[TOP].asLong() = 0;
     if (bPos)
-        w->move(geo[LEFT].asLong(), geo[TOP].asLong());
+        w->move(geo[LEFT].toLong(), geo[TOP].toLong());
     if (bSize)
         w->resize(geo[WIDTH].asLong(), geo[HEIGHT].asLong());
 #ifdef USE_KDE
-    if (geo[4].asLong() == (unsigned)(-1)){
+    if (geo[4].toLong() == -1){
         KWin::setOnAllDesktops(w->winId(), true);
     }else{
         KWin::setOnAllDesktops(w->winId(), false);
-        KWin::setOnDesktop(w->winId(), geo[4].asLong());
+        KWin::setOnDesktop(w->winId(), geo[4].toLong());
     }
 #endif
 }

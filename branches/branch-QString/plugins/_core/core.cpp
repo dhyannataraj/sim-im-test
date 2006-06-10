@@ -331,7 +331,7 @@ static DataDef coreData[] =
         { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
-        { "CfgGeometry", DATA_ULONG, 5, DATA(0) },
+        { "CfgGeo", DATA_LONG, 5, DATA(0) },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -3190,9 +3190,9 @@ void *CorePlugin::processEvent(Event *e)
                 if (m_cfg == NULL){
                     m_cfg = new ConfigureDialog;
                     connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
-                    if ((data.cfgGeo[WIDTH].toULong() == 0) || (data.cfgGeo[HEIGHT].toULong() == 0)){
-                        data.cfgGeo[WIDTH].asULong()  = 500;
-                        data.cfgGeo[HEIGHT].asULong() = 380;
+                    if ((data.cfgGeo[WIDTH].toLong() == 0) || (data.cfgGeo[HEIGHT].toLong() == 0)){
+                        data.cfgGeo[WIDTH].asLong()  = 500;
+                        data.cfgGeo[HEIGHT].asLong() = 380;
                         restoreGeometry(m_cfg, data.cfgGeo, false, true);
                     }else{
                         restoreGeometry(m_cfg, data.cfgGeo, true, true);
@@ -3578,11 +3578,11 @@ void CorePlugin::showInfo(CommandDef *cmd)
     delete list;
     if (cfg == NULL){
         cfg = new UserConfig(contact, group);
-        if ((data.cfgGeo[WIDTH].toULong() == 0) || (data.cfgGeo[HEIGHT].toULong() == 0)){
-            data.cfgGeo[WIDTH].asULong()  = 500;
-            data.cfgGeo[HEIGHT].asULong() = 380;
+        if ((data.cfgGeo[WIDTH].toLong() == 0) || (data.cfgGeo[HEIGHT].toLong() == 0)){
+            data.cfgGeo[WIDTH].asLong()  = 500;
+            data.cfgGeo[HEIGHT].asLong() = 380;
         }
-        cfg->resize(data.cfgGeo[WIDTH].toULong(), data.cfgGeo[HEIGHT].toULong());
+        cfg->resize(data.cfgGeo[WIDTH].toLong(), data.cfgGeo[HEIGHT].toLong());
     }
     raiseWindow(cfg);
     if (!cfg->raisePage(cmd->id))

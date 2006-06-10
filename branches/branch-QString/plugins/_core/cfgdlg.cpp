@@ -470,8 +470,8 @@ void ConfigureDialog::apply()
             continue;
         size_t size = 0;
         for (const DataDef *d = def; d->name; ++d)
-            size += sizeof(Data) * d->n_values;
-        void *data = malloc(size);
+            size += d->n_values;
+        Data *data = new Data[size];
         QString cfg = client->getConfig();
         if (cfg.isEmpty()){
             load_data(def, data);
@@ -484,7 +484,7 @@ void ConfigureDialog::apply()
         emit applyChanges(client, data);
         client->setClientInfo(data);
         free_data(def, data);
-        free(data);
+        delete[] data;;
     }
     for (QListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
         apply(item);

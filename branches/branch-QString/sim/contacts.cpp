@@ -1376,7 +1376,7 @@ void ClientUserData::load(Client *client, ConfigBuffer *cfg)
     const DataDef *def = client->protocol()->userDataDef();
     size_t size = 0;
     for (const DataDef *d = def; d->name; ++d)
-        size += sizeof(Data) * d->n_values;
+        size += d->n_values;
     data.data = new Data[size];
     load_data(def, data.data, cfg);
     p->push_back(data);
@@ -1389,7 +1389,7 @@ void *ClientUserData::createData(Client *client)
     const DataDef *def = client->protocol()->userDataDef();
     size_t size = 0;
     for (const DataDef *d = def; d->name; ++d)
-        size += sizeof(Data) * d->n_values;
+        size += d->n_values;
     data.data = new Data[size];
     load_data(def, data.data);
     p->push_back(data);
@@ -1596,7 +1596,7 @@ void *UserData::getUserData(unsigned id, bool bCreate)
 
     size_t size = 0;
     for (const DataDef *def = (*it).def; def->name; ++def)
-        size += sizeof(Data) * def->n_values;
+        size += def->n_values;
 
     Data* data = new Data[size];
     m_userData.insert(id, data);
