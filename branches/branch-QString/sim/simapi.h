@@ -107,6 +107,7 @@ typedef unsigned char _Bool;
 #include <qwidget.h>
 #include <qdockwindow.h>
 #include <qvariant.h>
+#include <qmap.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -928,7 +929,10 @@ public:
     Data(const QStringList &d);
     Data(const IP *d);
     Data(enum DataType t);
-    Data(void *d);
+    Data(QObject *d);
+
+    void setName(const QString &name);
+    const QString &name() const;
 
     void clear();
 
@@ -960,6 +964,7 @@ protected:
     void checkType(DataType type) const;
     DataType m_type;
     QVariant m_data;
+    QString m_name;
 };
 
 /*
@@ -982,7 +987,7 @@ EXPORT bool set_str(QString *str, const QString &value);
 EXPORT bool set_utf8(QString *str, const QString &value);
 EXPORT QString get_utf8(const QString &str);
 
-EXPORT const QString &get_str(Data &strlist, unsigned index);
+EXPORT const QString get_str(Data &strlist, unsigned index);
 EXPORT void clear_list(Data *strlist);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
 
@@ -991,49 +996,49 @@ EXPORT const char *get_host(Data &ip);
 EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_STRLIST(A) \
-    const QString &get##A(unsigned index) { return SIM::get_str(data.A, index); } \
+    QString get##A(unsigned index) { return SIM::get_str(data.A, index); } \
     void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value); } \
     void clear##A()  { data.A.clear(); }
 
 #define PROP_UTFLIST(A) \
-    const QString &get##A(unsigned index) { return SIM::get_str(data.A, index); } \
+    QString get##A(unsigned index) { return SIM::get_str(data.A, index); } \
     void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value); } \
     void clear##A()  { data.A.clear(); }
 
 #define PROP_STR(A) \
-    const QString& get##A() { return data.A.str(); } \
+    QString get##A() const { return data.A.str(); } \
     bool set##A(const QString &r) { return data.A.setStr( r ); }
 
 #define PROP_UTF8(A) \
-    const QString& get##A() { return data.A.str(); } \
+    QString get##A() const { return data.A.str(); } \
     bool set##A(const QString &r) { return data.A.setStr( r ); }
 
 #define VPROP_UTF8(A) \
-    virtual const QString& get##A() { return data.A.str(); } \
+    virtual QString get##A() const { return data.A.str(); } \
     virtual bool set##A(const QString &r) { return data.A.setStr( r ); }
 
 #define PROP_LONG(A) \
-    long get##A() { return data.A.asLong(); } \
+    long get##A() const { return data.A.toLong(); } \
     void set##A(long r) { data.A.setLong(r); }
 
 #define PROP_ULONG(A) \
-    unsigned long get##A() { return data.A.asULong(); } \
+    unsigned long get##A() const { return data.A.toULong(); } \
     void set##A(unsigned long r) { data.A.setULong(r); }
 
 #define PROP_USHORT(A) \
-    unsigned short get##A() { return (unsigned short)(data.A.asULong()); } \
+    unsigned short get##A() const { return (unsigned short)(data.A.toULong()); } \
     void set##A(unsigned short r) { data.A.asULong() = r; }
 
 #define PROP_BOOL(A) \
-    bool get##A() { return data.A.asBool(); } \
+    bool get##A() const { return data.A.toBool(); } \
     void set##A(bool r) { data.A.setBool(r); }
 
 #define VPROP_BOOL(A) \
-    virtual bool get##A() { return data.A.asBool(); } \
+    virtual bool get##A() const { return data.A.toBool(); } \
     virtual void set##A(bool r) { data.A.setBool(r); }
 
 #define PROP_IP(A)  \
-    unsigned long get##A()  const { return SIM::get_ip(data.A); } \
+    unsigned long get##A() const { return SIM::get_ip(data.A); } \
     const char *host##A() { return SIM::get_host(data.A); } \
     void set##A(unsigned long r) { SIM::set_ip(&data.A, r); }
 
@@ -1371,6 +1376,7 @@ protected:
 
 // _____________________________________________________________________________________
 // Contact list
+typedef QMap<unsigned, SIM::Data*> UserDataMap;
 
 class EXPORT UserData
 {
@@ -1381,9 +1387,8 @@ public:
     void load(unsigned long id, const DataDef *def, ConfigBuffer *cfg);
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
-protected:
-    unsigned n_data;
-    void **userData;
+private:
+    UserDataMap m_userData;
 };
 
 class EXPORT Client;

@@ -401,15 +401,24 @@ EXPORT void clear_list(Data *d)
     d->clear();
 }
 
-EXPORT const QString &get_str(Data &d, unsigned index)
+EXPORT const QString get_str(Data &d, unsigned index)
 {
     QStringList &sl = d.strList();
-    return sl[index];
+    if(index < sl.count())
+        return sl[index];
+    return QString::null;
 }
 
 EXPORT void set_str(Data *d, unsigned index, const QString &value)
 {
-    d->strList()[index] = value;
+    QStringList &sl = d->strList();
+    if(index < sl.count()) {
+        sl[index] = value;
+        return;
+    }
+    while(sl.count() < index)
+        sl.append(QString::null);
+    sl[index] = value;
 }
 
 // _______________________________________________________________________________________
@@ -538,18 +547,28 @@ void init_data(const DataDef *d, Data *data)
 {
     for (const DataDef *def = d; def->name; def++){
         for (unsigned i = 0; i < def->n_values; i++, data++){
-            data->clear();
+            *data = Data();
             switch (def->type){
             case DATA_STRING:
+                *data = Data(QString(def->def_value));
+                break;
             case DATA_STRLIST:
-                data->setStr(def->def_value);
+                *data = Data(QStringList::split(',',def->def_value));
                 break;
             case DATA_ULONG:
+                *data = Data((unsigned long)def->def_value);
+                break;
             case DATA_LONG:
-                data->setULong((unsigned long)def->def_value);
+                *data = Data((long)def->def_value);
                 break;
             case DATA_BOOL:
-                data->setBool(def->def_value != NULL);
+                *data = Data(def->def_value != NULL);
+                break;
+            case DATA_OBJECT:
+                *data = Data((QObject*)0);
+                break;
+            case DATA_IP:
+                *data = Data((IP*)0);
                 break;
             case DATA_STRUCT:
                 init_data((DataDef*)(def->def_value), data);
@@ -557,6 +576,7 @@ void init_data(const DataDef *d, Data *data)
                 i += (def->n_values - 1);
                 break;
             }
+            data->setName(def->name);
         }
     }
 }
@@ -977,54 +997,63 @@ Data::Data()
 {
     m_data = 0;
     m_type = DATA_UNKNOWN;
+    m_name = "unknown";
 }
 
 Data::Data(const QString &d)      
 {
     m_data = d;
     m_type = DATA_STRING;
+    m_name = "unknown";
 }
 
 Data::Data(long d)
 { 
     m_data = (int)d; 
     m_type = DATA_LONG; 
+    m_name = "unknown";
 }
 
 Data::Data(unsigned long d)
 { 
     m_data = (unsigned int)d; 
     m_type = DATA_ULONG; 
+    m_name = "unknown";
 }
 
 Data::Data(bool d)                
 { 
     m_data = d; 
     m_type = DATA_BOOL; 
+    m_name = "unknown";
 }
 
 Data::Data(const QStringList &d)  
 { 
     m_data = d; 
     m_type = DATA_STRLIST; 
+    m_name = "unknown";
 }
 
 Data::Data(const IP *d)           
 { 
     m_data = (Q_LLONG)d; 
     m_type = DATA_IP; 
+    m_name = "unknown";
 }
 
 Data::Data(enum DataType t)       
 { 
     m_data = 0; 
     m_type = t; 
+    m_name = "unknown";
 }
 
-Data::Data(void *d)               
+Data::Data(QObject *d)               
 { 
     m_data = (Q_LLONG)d; 
     m_type = DATA_OBJECT; 
+    m_name = "unknown";
 }
 
 void Data::clear()
@@ -1071,53 +1100,53 @@ bool Data::setStrList(const QStringList &s)
 long Data::toLong() const
 {
     checkType(DATA_LONG);
-    return (long)m_data.toInt();
+    return (long)m_data.toLongLong();
 }
 
 long &Data::asLong()
 {
     checkType(DATA_LONG);
-    return (long&)m_data.asInt();
+    return (long&)m_data.asLongLong();
 }
 
 bool Data::setLong(long d)
 {
     checkType(DATA_LONG);
-    if(d==(long)m_data.toInt())
+    if(d==(Q_LLONG)m_data.toLongLong())
         return false;
-    m_data=(int)d;
+    m_data=(Q_LLONG)d;
     return true;
 }
 
 unsigned long Data::toULong() const
 {
     checkType(DATA_ULONG);
-    return (unsigned long)m_data.toUInt();
+    return (unsigned long)m_data.toULongLong();
 }
 
 unsigned long &Data::asULong()
 {
     checkType(DATA_ULONG);
-    return (unsigned long&)m_data.asUInt();
+    return (unsigned long&)m_data.asULongLong();
 }
 bool Data::setULong(unsigned long d)
 {
     checkType(DATA_ULONG);
-    if(d==(unsigned long)m_data.toUInt())
+    if(d==(Q_ULLONG)m_data.toULongLong())
         return false;
-    m_data=(unsigned int)d;
+    m_data=(Q_ULLONG)d;
     return true;
 }
 
 bool Data::toBool() const
 {
-    checkType(DATA_LONG);
+    checkType(DATA_BOOL);
     return m_data.toBool();
 }
 
 bool &Data::asBool()
 {
-    checkType(DATA_LONG);
+    checkType(DATA_BOOL);
     return m_data.asBool();
 }
 
@@ -1160,12 +1189,48 @@ bool Data::setIP(const IP *d)
     return true;
 }
 
+static const char *dataType2Name(DataType type)
+{
+    switch(type) {
+        case DATA_UNKNOWN:
+            return "uninitialized";
+        case DATA_STRING:
+            return "string";
+        case DATA_LONG:
+            return "long";
+        case DATA_ULONG:
+            return "ulong";
+        case DATA_BOOL:
+            return "bool";
+        case DATA_STRLIST:
+            return "stringlist";
+        case DATA_IP:
+            return "ip";
+        case DATA_STRUCT:
+            return "struct";
+        case DATA_OBJECT:
+            return "object";
+    }
+    return "unknown";
+}
+
 void Data::checkType(DataType type) const
 {
     if(m_type != type) {
-        log( L_ERROR, "Using wrong data type %d instead %d!", type, m_type );
+        log( L_ERROR, "Using wrong data type %s instead %s for %s!",
+             dataType2Name(type), dataType2Name(m_type), m_name.isEmpty() ? "??" : m_name.latin1() );
         assert(0);
     }
+}
+
+void Data::setName(const QString &name)
+{
+    m_name = name;
+}
+
+const QString &Data::name() const
+{
+    return m_name;
 }
 
 }   // namespcae SIM
