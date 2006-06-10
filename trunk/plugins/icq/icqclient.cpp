@@ -663,7 +663,7 @@ void ICQClient::disconnected()
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if ((data->Status.value != ICQ_STATUS_OFFLINE) || data->bInvisible.value){
+            if ((data->Status.value != ICQ_STATUS_OFFLINE) || data->bInvisible.bValue){
                 setOffline(data);
                 StatusMessage m;
                 m.setContact(contact->id());

@@ -1059,7 +1059,7 @@ char		*PreviousPassword;
 
 static DataDef _clientData[] =
     {
-        { "ManualStatus", DATA_LONG, 1, DATA(1) },
+        { "ManualStatus", DATA_ULONG, 1, DATA(1) },
         { "CommonStatus", DATA_BOOL, 1, DATA(1) },
         { "Password", DATA_UTF, 1, 0 },
         { "", DATA_BOOL, 1, DATA(1) },		// SavePassword
