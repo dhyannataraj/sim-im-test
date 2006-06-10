@@ -70,7 +70,7 @@ unsigned long	Temp;
 
 static DataDef contactData[] =
     {
-        { "Group", DATA_LONG, 1, 0 },
+        { "Group", DATA_ULONG, 1, 0 },
         { "Name", DATA_UTF, 1, 0 },
         { "Ignore", DATA_BOOL, 1, 0 },
         { "LastActive", DATA_ULONG, 1, 0 },

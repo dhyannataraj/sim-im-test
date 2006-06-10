@@ -63,9 +63,9 @@ static DataDef weatherData[] =
     {
         { "ID", DATA_STRING, 1, 0 },
         { "Location", DATA_STRING, 1, 0 },
-        { "Time", DATA_LONG, 1, 0 },
-        { "ForecastTime", DATA_LONG, 1, 0 },
-        { "Forecast", DATA_LONG, 1, DATA(2) },
+        { "Time", DATA_ULONG, 1, 0 },
+        { "ForecastTime", DATA_ULONG, 1, 0 },
+        { "Forecast", DATA_ULONG, 1, DATA(2) },
         { "Text", DATA_UTF, 1, 0 },
         { "Tip", DATA_UTF, 1, 0 },
         { "ForecastTip", DATA_UTF, 1, 0 },
@@ -86,7 +86,7 @@ static DataDef weatherData[] =
         { "Visibiliy", DATA_STRING, 1, 0 },
         { "Sun_raise", DATA_STRING, 1, 0 },
         { "Sun_set", DATA_STRING, 1, 0 },
-        { "Icon", DATA_LONG, 1, 0 },
+        { "Icon", DATA_ULONG, 1, 0 },
         { "UT", DATA_STRING, 1, 0 },
         { "US", DATA_STRING, 1, 0 },
         { "UP", DATA_STRING, 1, 0 },
@@ -789,7 +789,7 @@ void WeatherPlugin::element_end(const char *el)
         if (m_bMoon && m_bCC) {
             setMoonIcon(atol(m_data.c_str()));
         } else if (m_bCC){
-            setIcon(atol(m_data.c_str()));
+            setIcon(atoul(m_data.c_str()));
         }else{
             setDayIcon(m_day, m_data.c_str());
         }

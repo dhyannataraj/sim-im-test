@@ -331,7 +331,7 @@ static DataDef coreData[] =
         { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
-        { "CfgGeometry", DATA_ULONG, 5, DATA(0) },
+        { "CfgGeo", DATA_LONG, 5, DATA(0) },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
