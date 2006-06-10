@@ -763,13 +763,18 @@ EXPORT QString save_data(const DataDef *def, void *_data)
             case DATA_STRLIST:{
                     QStringList &p = d->strList();
                     for (unsigned i = 0; i < p.count(); i++){
+                        QString s = p[(int)i];
+                        if(s.isEmpty())
+                            continue;
+                        if(def->def_value && s == def->def_value)
+                            continue;
                         if (res.length())
                             res += "\n";
                         res += def->name;
                         res += "=";
                         res += QString::number(i);
                         res += ",";
-                        res += quoteStringInternal(p[(int)i]);
+                        res += quoteStringInternal(s);
                     }
                 break;
                 }

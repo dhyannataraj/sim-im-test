@@ -1425,7 +1425,7 @@ void ClientUserData::freeClientData(Client *client)
             continue;
         }
         free_data((*it).client->protocol()->userDataDef(), (*it).data);
-        free((*it).data);
+        delete[] (*it).data;
         p->erase(it);
         it = p->begin();
     }
@@ -2093,8 +2093,8 @@ EXPORT QString g_i18n(const char *text, SIM::Contact *contact)
     QString female = i18n("female", text);
     if (male == female)
         return male;
-    std::string gender = contact->clientData.property("Gender");
-    if (atol(gender.c_str()) == 1)
+    QString gender = contact->clientData.property("Gender");
+    if (gender.toLong() == 1)
         return female;
     return male;
 }
