@@ -344,7 +344,7 @@ static DataDef winDockData[] =
         { "State", DATA_ULONG, 1, DATA(-1) },
         { "Height", DATA_ULONG, 1, 0 },
         { "Width", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 WinDockPlugin::WinDockPlugin(unsigned base, Buffer *config)

@@ -101,7 +101,7 @@ static DataDef weatherData[] =
 		{ "UV_Description", DATA_STRING, 1, 0 },
 		{ "MoonIcon", DATA_LONG, 1, 0 },
 		{ "MoonPhase", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)

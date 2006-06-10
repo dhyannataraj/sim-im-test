@@ -47,7 +47,7 @@ static DataDef forwardUserData[] =
         { "Phone", DATA_UTF, 1, 0 },
         { "Send1st", DATA_BOOL, 1, 0 },
         { "Translit", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static ForwardPlugin *forwardPlugin = NULL;

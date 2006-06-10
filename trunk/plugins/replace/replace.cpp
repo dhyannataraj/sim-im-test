@@ -50,7 +50,7 @@ static DataDef replaceData[] =
         { "Keys", DATA_ULONG, 1, 0 },
         { "Key", DATA_UTFLIST, 1, 0 },
         { "Value", DATA_UTFLIST, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 ReplacePlugin::ReplacePlugin(unsigned base, Buffer *cfg)

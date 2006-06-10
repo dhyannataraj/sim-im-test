@@ -58,13 +58,13 @@ static DataDef filterData[] =
     {
         { "FromList", DATA_BOOL, 1, 0 },
         { "AuthFromList", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef filterUserData[] =
     {
         { "SpamList", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static FilterPlugin *filterPlugin = NULL;

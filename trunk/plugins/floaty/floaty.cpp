@@ -66,7 +66,7 @@ typedef struct FloatyUserData
 static DataDef floatyUserData[] =
     {
         { "FloatyPosition", DATA_ULONG, 2, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 FloatyPlugin::FloatyPlugin(unsigned base)

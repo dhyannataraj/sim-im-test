@@ -65,7 +65,7 @@ static DataDef journalMessageData[] =
         { "", DATA_ULONG, 1, 0 },		// oldID
         { "Mood", DATA_ULONG, 1, 0 },
         { "Comments", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 JournalMessage::JournalMessage(Buffer *cfg)
@@ -356,7 +356,7 @@ static DataDef liveJournalUserData[] =
         { "User", DATA_UTF, 1, 0 },
         { "Shared", DATA_BOOL, 1, 0 },
         { "", DATA_BOOL, 1, 0 },						// bChecked
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -382,7 +382,7 @@ static DataDef liveJournalClientData[] =
         { "Signature", DATA_UTF, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// LastUpdate
         { "", DATA_STRUCT, sizeof(LiveJournalUserData) / sizeof(Data), DATA(liveJournalUserData) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 const DataDef *LiveJournalProtocol::userDataDef()

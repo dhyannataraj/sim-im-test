@@ -103,7 +103,7 @@ static DataDef containerData[] =
         { "BarState", DATA_ULONG, 7, 0 },
         { "StatusSize", DATA_ULONG, 1, 0 },
         { "WndConfig", DATA_STRLIST, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Container::Container(unsigned id, const char *cfg)

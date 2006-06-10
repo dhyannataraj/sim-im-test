@@ -332,7 +332,7 @@ static DataDef coreData[] =
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
         { "CfgGeometry", DATA_ULONG, 5, DATA(0) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -362,20 +362,20 @@ static DataDef coreUserData[] =
         { "AcceptMode", DATA_ULONG, 1, 0 },
         { "OverwriteFiles", DATA_BOOL, 1, 0 },
         { "DeclineMessage", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef smsUserData[] =
     {
         { "SMSSignatureBefore", DATA_UTF, 1, 0 },
         { "SMSSignatureAfter", DATA_UTF, 1, "\n&MyName;" },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef arUserData[] =
     {
         { "AutoReply", DATA_UTFLIST, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -392,7 +392,7 @@ static DataDef listUserData[] =
         { "OfflineOpen", DATA_BOOL, 1, DATA(1) },
         { "OnlineOpen", DATA_BOOL, 1, DATA(1) },
         { "ShowAlways", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -405,7 +405,7 @@ typedef struct TranslitUserData
 static DataDef translitUserData[] =
     {
         { "Translit", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef historyUserData[] =
@@ -414,7 +414,7 @@ static DataDef historyUserData[] =
         { "MaxSize", DATA_ULONG, 1, DATA(2) },
         { "CutDays", DATA_BOOL, 1, 0 },
         { "Days", DATA_ULONG, 1, DATA(90) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 CorePlugin *CorePlugin::m_plugin = NULL;

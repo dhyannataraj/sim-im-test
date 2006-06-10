@@ -92,7 +92,7 @@ static DataDef msnUserData[] =
         { "RealIP", DATA_IP, 1, 0 },
         { "Port", DATA_ULONG, 1, 0 },
         { "", DATA_OBJECT, 1, 0 },				// sb
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -118,7 +118,7 @@ static DataDef msnClientData[] =
         { "NDeleted", DATA_ULONG, 1, 0 },
         { "AutoAuth", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(MSNUserData) / sizeof(Data), DATA(msnUserData) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 MSNClient::MSNClient(Protocol *protocol, Buffer *cfg)

@@ -106,14 +106,14 @@ static DataDef gpgData[] =
         { "Keys", DATA_STRLIST, 1, 0 },
         { "NPassphrases", DATA_ULONG, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef gpgUserData[] =
     {
         { "Key", DATA_STRING, 1, 0 },
         { "Use", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 GpgPlugin *GpgPlugin::plugin = NULL;

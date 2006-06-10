@@ -126,7 +126,7 @@ DataDef jabberUserData[] =
         { "", DATA_STRLIST, 1, 0 },			// ResourceStatusTime
         { "", DATA_STRLIST, 1, 0 },			// ResourceOnlineTime
         { "AutoReply", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -166,7 +166,7 @@ static DataDef jabberClientData[] =
         { "URL", DATA_STRING, 1, 0 },
         { "InfoUpdated", DATA_BOOL, 1, 0 },
         { "", DATA_STRUCT, sizeof(JabberUserData) / sizeof(Data), DATA(jabberUserData) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)

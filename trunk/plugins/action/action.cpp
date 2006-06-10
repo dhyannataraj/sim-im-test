@@ -64,7 +64,7 @@ static DataDef actionUserData[] =
         { "Message", DATA_UTFLIST, 1, 0 },
         { "Menu", DATA_UTFLIST, 1, 0 },
         { "NMenu", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static ActionPlugin *plugin = NULL;

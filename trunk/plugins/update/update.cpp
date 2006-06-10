@@ -55,7 +55,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 static DataDef updateData[] =
     {
         { "Time", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)

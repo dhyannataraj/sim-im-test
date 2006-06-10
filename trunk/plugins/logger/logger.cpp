@@ -70,7 +70,7 @@ static DataDef loggerData[] =
         { "LogLevel", DATA_ULONG, 1, DATA(3) },
         { "LogPackets", DATA_STRING, 1, 0 },
         { "File", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)

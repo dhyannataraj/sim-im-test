@@ -25,7 +25,7 @@ using namespace SIM;
 static DataDef jabberMessageData[] =
     {
         { "Subject", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 JabberMessage::JabberMessage(Buffer *cfg)
@@ -80,7 +80,7 @@ static DataDef jabberMessageErrorData[] =
     {
         { "Error", DATA_UTF, 1, 0 },
         { "Code", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 JabberMessageError::JabberMessageError(Buffer *cfg)
@@ -188,7 +188,7 @@ static DataDef jabberMessageFileData[] =
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },		// Host
         { "", DATA_ULONG, 1, 0 },		// Port
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 JabberFileMessage::JabberFileMessage(Buffer *cfg)

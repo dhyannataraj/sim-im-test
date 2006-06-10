@@ -63,7 +63,7 @@ static DataDef stylesData[] =
         { "SystemColors", DATA_BOOL, 1, DATA(1) },
         { "BtnColor", DATA_ULONG, 1, 0 },
         { "BgColor", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 StylesPlugin::StylesPlugin(unsigned base, Buffer *config)

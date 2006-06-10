@@ -230,7 +230,7 @@ static DataDef _icqUserData[] =
         { "", DATA_OBJECT, 1, 0 },				// DirectPluginStatus
         { "", DATA_BOOL, 1, 0 },				// bNoDirect
         { "", DATA_BOOL, 1, 0 },				// bInviisble
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 const DataDef *ICQProtocol::icqUserData = _icqUserData;
@@ -282,7 +282,7 @@ static DataDef icqClientData[] =
         { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
         { "KeepAlive", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)

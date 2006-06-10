@@ -841,10 +841,24 @@ private:
 // ____________________________________________________________________________________
 // Configuration
 
+enum DataType {
+    DATA_UNKNOWN = 0,
+    DATA_STRING,
+    DATA_LONG,
+    DATA_ULONG,
+    DATA_BOOL,
+    DATA_STRLIST,
+    DATA_UTF,
+    DATA_IP,
+    DATA_STRUCT,
+    DATA_UTFLIST,
+    DATA_OBJECT,
+};
+
 typedef struct DataDef
 {
     const char	*name;
-    unsigned	type;
+    DataType	type;
     unsigned	n_values;
     const char	*def_value;
 } DataDef;
@@ -857,17 +871,6 @@ typedef union Data
 } Data;
 
 #define DATA(A)	((const char*)(A))
-
-const unsigned DATA_STRING		= 0;
-const unsigned DATA_LONG		= 1;
-const unsigned DATA_ULONG		= 2;
-const unsigned DATA_BOOL		= 3;
-const unsigned DATA_STRLIST		= 4;
-const unsigned DATA_UTF			= 5;
-const unsigned DATA_IP			= 6;
-const unsigned DATA_STRUCT		= 7;
-const unsigned DATA_UTFLIST		= 8;
-const unsigned DATA_OBJECT		= 9;
 
 EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, Buffer *config);

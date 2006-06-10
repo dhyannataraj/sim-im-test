@@ -44,7 +44,7 @@ static DataDef	messageData[] =
         { "", DATA_STRING, 1, 0 },			// Error
         { "", DATA_ULONG, 1, 0 },			// RetryCode
         { "Resource", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Message::Message(unsigned type, Buffer *cfg)
@@ -128,7 +128,7 @@ static DataDef messageSMSData[] =
     {
         { "Phone", DATA_UTF, 1, 0 },
         { "Network", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 SMSMessage::SMSMessage(Buffer *cfg)
@@ -171,7 +171,7 @@ QString SMSMessage::presentation()
 static DataDef messageUrlData[] =
     {
         { "Url", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 UrlMessage::UrlMessage(unsigned type, Buffer *cfg)
@@ -213,7 +213,7 @@ QString UrlMessage::presentation()
 static DataDef messageContactsData[] =
     {
         { "Contacts", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 ContactsMessage::ContactsMessage(unsigned type, Buffer *cfg)
@@ -394,7 +394,7 @@ static DataDef messageFileData[] =
         { "File", DATA_UTF, 1, 0 },
         { "Description", DATA_UTF, 1, 0 },
         { "Size", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 FileMessage::FileMessage(unsigned type, Buffer *cfg)
@@ -634,7 +634,7 @@ QString AuthMessage::presentation()
 static DataDef messageStatusData[] =
     {
         { "Status", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 StatusMessage::StatusMessage(Buffer *cfg)

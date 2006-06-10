@@ -129,7 +129,7 @@ static DataDef osdUserData[] =
         { "Background", DATA_BOOL, 1, 0 },
         { "BgColor", DATA_ULONG, 1, 0 },
         { "Screen", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static OSDPlugin *osdPlugin = NULL;

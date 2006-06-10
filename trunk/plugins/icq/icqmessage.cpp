@@ -37,7 +37,7 @@ static DataDef aimFileMessageData[] =
         { "", DATA_ULONG, 1, 0 },				// Port
         { "", DATA_ULONG, 1, 0 },				// ID_L
         { "", DATA_ULONG, 1, 0 },				// ID_H
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 AIMFileMessage::AIMFileMessage(Buffer *cfg)
@@ -60,7 +60,7 @@ static DataDef icqFileMessageData[] =
         { "", DATA_ULONG, 1, 0 },				// ID_H
         { "", DATA_ULONG, 1, 0 },				// Cookie
         { "", DATA_ULONG, 1, 0 },				// Extended
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 ICQFileMessage::ICQFileMessage(Buffer *cfg)
@@ -114,7 +114,7 @@ QString IcqContactsMessage::getContacts() const
 static DataDef icqAuthMessageData[] =
     {
         { "Charset", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 ICQAuthMessage::ICQAuthMessage(unsigned type, unsigned baseType, Buffer *cfg)
@@ -676,7 +676,7 @@ static DataDef warningMessageData[] =
         { "Anonymous", DATA_BOOL, 1, 0 },
         { "OldLevel", DATA_ULONG, 1, 0 },
         { "NewLevel", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 WarningMessage::WarningMessage(Buffer *cfg)

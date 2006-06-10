@@ -62,7 +62,7 @@ static DataDef remoteData[] =
 #else
         { "Path", DATA_STRING, 1, "/tmp/sim.%user%" },
 #endif
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 #ifdef WIN32

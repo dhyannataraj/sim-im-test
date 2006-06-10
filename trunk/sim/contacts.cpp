@@ -82,7 +82,7 @@ static DataDef contactData[] =
         { "Notes", DATA_UTF, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
         { "Encoding", DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Contact::Contact(unsigned long id, Buffer *cfg)
@@ -585,7 +585,7 @@ typedef struct GroupData
 static DataDef groupData[] =
     {
         { "Name", DATA_UTF, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Group::Group(unsigned long id, Buffer *cfg)
@@ -1066,7 +1066,7 @@ static DataDef _clientData[] =
         { "", DATA_UTF, 1, 0 },				// PreviousPassword
         { "Invisible", DATA_BOOL, 1, 0 },
         { "LastSend", DATA_STRLIST, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Client::Client(Protocol *protocol, Buffer *cfg)

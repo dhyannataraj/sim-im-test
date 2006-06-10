@@ -1528,7 +1528,7 @@ static DataDef jabberAgentsInfo[] =
         { "", DATA_BOOL, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
         { "", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 AgentDiscoRequest::AgentDiscoRequest(JabberClient *client, const char *jid)
@@ -1716,7 +1716,7 @@ static DataDef jabberAgentInfo[] =
         { "", DATA_STRLIST, 1, 0 },
         { "", DATA_ULONG, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 
@@ -1902,7 +1902,7 @@ static DataDef jabberSearchData[] =
         { "", DATA_STRING, 1, 0 },
         { "", DATA_STRLIST, 1, 0 },
         { "", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 

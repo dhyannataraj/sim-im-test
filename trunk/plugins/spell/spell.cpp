@@ -79,7 +79,7 @@ static SIM::DataDef spellData[] =
         { "Path", SIM::DATA_STRING, 1, 0 },
 #endif
         { "Lang", SIM::DATA_STRING, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 SpellPlugin::SpellPlugin(unsigned base, Buffer *config)

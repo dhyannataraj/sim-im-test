@@ -41,7 +41,7 @@ static DataDef _smsUserData[] =
         { "", DATA_UTF, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// Index
         { "", DATA_ULONG, 1, 0 },			// Type
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 Plugin *createSMSPlugin(unsigned base, bool, Buffer*)
@@ -283,7 +283,7 @@ static DataDef smsClientData[] =
         { "", DATA_ULONG, 1, 0 },		// Charge
         { "", DATA_BOOL, 1, 0 },		// Charging
         { "", DATA_ULONG, 1, 0 },		// Quality
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 SMSClient::SMSClient(Protocol *protocol, Buffer *cfg)

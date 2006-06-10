@@ -101,7 +101,7 @@ static DataDef transparentData[] =
 #ifdef WIN32
         { "IfInactive", DATA_BOOL, 1, DATA(1) },
 #endif
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 TransparentPlugin::TransparentPlugin(unsigned base, Buffer *config)

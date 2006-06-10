@@ -75,7 +75,7 @@ static DataDef soundData[] =
         { "StartUp", DATA_STRING, 1, "startup.wav" },
         { "FileDone", DATA_STRING, 1, "filedone.wav" },
         { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 /*
@@ -91,7 +91,7 @@ static DataDef soundUserData[] =
         { "Receive", DATA_STRLIST, 1, 0 },
         { "NoSoundIfActive", DATA_BOOL, 1, 0 },
         { "Disable", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static SoundPlugin *soundPlugin = NULL;

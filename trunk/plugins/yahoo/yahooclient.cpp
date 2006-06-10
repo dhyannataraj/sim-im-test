@@ -94,7 +94,7 @@ static DataDef yahooUserData[] =
         { "Group", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_BOOL, 1, 0 },			// bTyping
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef yahooClientData[] =
@@ -107,7 +107,7 @@ static DataDef yahooClientData[] =
         { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
         { "ListRequests", DATA_STRING, 1, 0 },
         { "", DATA_STRUCT, sizeof(YahooUserData) / sizeof(Data), DATA(yahooUserData) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 const DataDef *YahooProtocol::userDataDef()
@@ -2122,7 +2122,7 @@ static DataDef yahoMessageFile[] =
     {
         { "", DATA_STRING, 1, 0 },				// URL
         { "", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 YahooFileMessage::YahooFileMessage(Buffer *cfg)

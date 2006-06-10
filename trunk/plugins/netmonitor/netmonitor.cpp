@@ -61,7 +61,7 @@ static DataDef monitorData[] =
         { "LogPackets", DATA_STRING, 1, 0 },
         { "Geometry", DATA_LONG, 5, DATA(-1) },
         { "Show", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)

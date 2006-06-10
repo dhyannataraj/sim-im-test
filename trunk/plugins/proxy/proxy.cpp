@@ -71,7 +71,7 @@ static DataDef _proxyData[] =
         { "Password", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },
         { "NoShow", DATA_BOOL, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 ProxyData::ProxyData()
