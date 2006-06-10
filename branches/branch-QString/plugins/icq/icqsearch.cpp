@@ -376,7 +376,7 @@ void *ICQSearch::processEvent(Event *e)
         if (e->type() == EventSearchDone){
             if (res->id == m_id_icq){
                 m_id_icq = 0;
-                if (res->data.Uin.value && m_bAdd)
+                if (res->data.Uin.toULong() && m_bAdd)
                     icq_search();
             }
             if (res->id == m_id_aim)
@@ -386,9 +386,9 @@ void *ICQSearch::processEvent(Event *e)
             return NULL;
         }
         QString icon;
-        if (res->data.Uin.value){
+        if (res->data.Uin.toULong()){
             icon = "ICQ_";
-            switch (res->data.Status.value){
+            switch (res->data.Status.toULong()){
             case STATUS_ONLINE:
                 icon += "online";
                 break;
@@ -398,15 +398,15 @@ void *ICQSearch::processEvent(Event *e)
             default:
                 icon += "inactive";
             }
-            if (m_uins.findIndex (res->data.Uin.value) != -1)
+            if (m_uins.findIndex (res->data.Uin.toULong()) != -1)
                 return NULL;
             m_bAdd = true;
-            m_uins.push_back(res->data.Uin.value);
+            m_uins.push_back(res->data.Uin.toULong());
         }else{
             icon = "AIM";
         }
         QString gender;
-        switch (res->data.Gender.value){
+        switch (res->data.Gender.toULong()){
         case 1:
             gender = i18n("Female");
             break;
@@ -415,12 +415,12 @@ void *ICQSearch::processEvent(Event *e)
             break;
         }
         QString age;
-        if (res->data.Age.value)
-            age = QString::number(res->data.Age.value);
+        if (res->data.Age.toULong())
+            age = QString::number(res->data.Age.toULong());
         QStringList l;
         l.append(icon);
         QString key = m_client->screen(&res->data);
-        if (res->data.Uin.value){
+        if (res->data.Uin.toULong()){
             while (key.length() < 13)
                 key = QString(".") + key;
         }
@@ -428,29 +428,14 @@ void *ICQSearch::processEvent(Event *e)
         l.append(m_client->screen(&res->data));;
         if (m_client->m_bAIM){
             QString s;
-            if (res->data.Nick.ptr)
-                s = QString::fromUtf8(res->data.Nick.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.FirstName.ptr)
-                s = QString::fromUtf8(res->data.FirstName.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.LastName.ptr)
-                s = QString::fromUtf8(res->data.LastName.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.City.ptr)
-                s = QString::fromUtf8(res->data.City.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.State.ptr)
-                s = QString::fromUtf8(res->data.State.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.Country.value){
+            l.append(res->data.Nick.str());
+            l.append(res->data.FirstName.str());
+            l.append(res->data.LastName.str());
+            l.append(res->data.City.str());
+            l.append(res->data.State.str());
+            if (res->data.Country.toULong()){
                 for (const ext_info *info = getCountries(); info->szName; info++){
-                    if (info->nCode == res->data.Country.value){
+                    if (info->nCode == res->data.Country.toULong()){
                         s = i18n(info->szName);
                         break;
                     }
@@ -458,12 +443,12 @@ void *ICQSearch::processEvent(Event *e)
             }
             l.append(s);
         }else{
-            l.append(getContacts()->toUnicode(NULL, res->data.Nick.ptr));
-            l.append(getContacts()->toUnicode(NULL, res->data.FirstName.ptr));
-            l.append(getContacts()->toUnicode(NULL, res->data.LastName.ptr));
+            l.append(res->data.Nick.str());
+            l.append(res->data.FirstName.str());
+            l.append(res->data.LastName.str());
             l.append(gender);
             l.append(age);
-            l.append(getContacts()->toUnicode(NULL, res->data.EMail.ptr));
+            l.append(res->data.EMail.str());
         }
         emit addItem(l, this);
     }

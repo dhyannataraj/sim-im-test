@@ -122,9 +122,9 @@ void ICQInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName.ptr, getContacts()->fromUnicode(NULL, edtFirst->text()));
-    set_str(&data->LastName.ptr, getContacts()->fromUnicode(NULL, edtLast->text()));
-    set_str(&data->Nick.ptr, getContacts()->fromUnicode(NULL, edtNick->text()));
+    data->FirstName.str() = edtFirst->text();
+    data->LastName.str()  = edtLast->text();
+    data->Nick.str()      = edtNick->text();
 }
 
 void *ICQInfo::processEvent(Event *e)
@@ -154,11 +154,10 @@ void ICQInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
 
-    edtUin->setText(QString::number(data->Uin.value));
-    Contact *contact = getContacts()->contact(m_contact);
-    edtFirst->setText(getContacts()->toUnicode(contact, data->FirstName.ptr));
-    edtLast->setText(getContacts()->toUnicode(contact, data->LastName.ptr));
-    edtNick->setText(getContacts()->toUnicode(contact, data->Nick.ptr));
+    edtUin->setText(QString::number(data->Uin.toULong()));
+    edtFirst->setText(data->FirstName.str());
+    edtLast->setText(data->LastName.str());
+    edtNick->setText(data->Nick.str());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty()) {
@@ -177,7 +176,7 @@ void ICQInfo::fill()
     cmbStatus->clear();
     unsigned status = STATUS_ONLINE;
     if (m_data){
-        unsigned s = m_data->Status.value;
+        unsigned s = m_data->Status.toULong();
         if (s == ICQ_STATUS_OFFLINE){
             status = STATUS_OFFLINE;
         }else if (s & ICQ_STATUS_DND){
@@ -196,14 +195,14 @@ void ICQInfo::fill()
         initCombo(cmbRandom, m_client->getRandomChatGroup(), chat_groups);
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), m_data->AutoReply.ptr));
+        edtAutoReply->setText(m_data->AutoReply.str());
     }else{
         edtAutoReply->hide();
     }
 
     int current = 0;
     const char *text = NULL;
-    if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.bValue){
+    if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.toBool()){
         cmbStatus->insertItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
     }else{
         for (const CommandDef *cmd = ICQPlugin::m_icq->statusList(); cmd->id; cmd++){
@@ -220,12 +219,12 @@ void ICQInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime.value));
+        edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime.value){
-            edtOnline->setText(formatDateTime(data->OnlineTime.value));
+        if (data->OnlineTime.toULong()){
+            edtOnline->setText(formatDateTime(data->OnlineTime.toULong()));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -235,17 +234,17 @@ void ICQInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime.value));
+            edtNA->setText(formatDateTime(data->StatusTime.toULong()));
         }
     }
-    if (data->IP.ptr){
-        edtExtIP->setText(formatAddr(data->IP, data->Port.value));
+    if (data->IP.ip()){
+        edtExtIP->setText(formatAddr(data->IP, data->Port.toULong()));
     }else{
         lblExtIP->hide();
         edtExtIP->hide();
     }
-    if ((data->RealIP.ptr) && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
-        edtIntIP->setText(formatAddr(data->RealIP, data->Port.value));
+    if ((data->RealIP.ip()) && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+        edtIntIP->setText(formatAddr(data->RealIP, data->Port.toULong()));
     }else{
         lblIntIP->hide();
         edtIntIP->hide();

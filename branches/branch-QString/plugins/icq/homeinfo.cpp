@@ -51,12 +51,11 @@ void HomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    Contact *contact = getContacts()->contact(m_contact);
-    set_str(&data->Address.ptr, getContacts()->fromUnicode(contact, edtAddress->text()));
-    set_str(&data->City.ptr, getContacts()->fromUnicode(contact, edtCity->text()));
-    set_str(&data->State.ptr, getContacts()->fromUnicode(contact, edtState->text()));
-    set_str(&data->Zip.ptr, getContacts()->fromUnicode(contact, edtZip->text()));
-    data->Country.value = getComboValue(cmbCountry, getCountries());
+    data->Address.str() = edtAddress->text();
+    data->City.str()    = edtCity->text();
+    data->State.str()   = edtState->text();
+    data->Zip.str()     = edtZip->text();
+    data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
 void *HomeInfo::processEvent(Event *e)
@@ -102,13 +101,12 @@ void HomeInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    Contact *contact = getContacts()->contact(m_contact);
-    edtAddress->setText(getContacts()->toUnicode(contact ,data->Address.ptr));
-    edtCity->setText(getContacts()->toUnicode(contact ,data->City.ptr));
-    edtState->setText(getContacts()->toUnicode(contact ,data->State.ptr));
-    edtZip->setText(getContacts()->toUnicode(contact ,data->Zip.ptr));
-    initCombo(cmbCountry, (unsigned short)(data->Country.value), getCountries());
-    initTZCombo(cmbZone, (char)(data->TimeZone.value));
+    edtAddress->setText(data->Address.str());
+    edtCity->setText(data->City.str());
+    edtState->setText(data->State.str());
+    edtZip->setText(data->Zip.str());
+    initCombo(cmbCountry, data->Country.toULong(), getCountries());
+    initTZCombo(cmbZone, (char)(data->TimeZone.toULong()));
 }
 
 #ifndef _MSC_VER

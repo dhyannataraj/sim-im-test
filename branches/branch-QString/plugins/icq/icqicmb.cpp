@@ -80,9 +80,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             ICQUserData *data = findContact(screen, NULL, false, contact);
             if (data == NULL)
                 break;
-            if (data->bTyping.bValue == bType)
+            if (data->bTyping.toBool() == bType)
                 break;
-            data->bTyping.bValue = bType;
+            data->bTyping.asBool() = bType;
             Event e(EventContactStatus, contact);
             e.process();
             break;
@@ -125,7 +125,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         sendBgQueue.erase(it);
                         it = sendBgQueue.begin();
                     }
-                    data->bBadClient.bValue = true;
+                    data->bBadClient.asBool() = true;
                     if (m_send.msg)
                         sendThruServer(m_send.msg, data);
                     m_send.msg    = NULL;
@@ -142,8 +142,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 if ((m_send.msg->type() == MessageCheckInvisible) && (error == 14)) {
                     Contact *contact;
                     ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                    if (data && !data->bInvisible.bValue) {
-                        data->bInvisible.bValue = true;
+                    if (data && !data->bInvisible.toBool()) {
+                        data->bInvisible.toBool() = true;
                         Event e(EventContactStatus, contact);
                         e.process();
                     }
@@ -240,8 +240,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     if (m_send.msg->type() == MessageCheckInvisible){
                         Contact *contact;
                         ICQUserData *data = findContact(m_send.screen, NULL, false, contact);
-                        if (data && data->bInvisible.bValue) {
-                            data->bInvisible.bValue = false;
+                        if (data && data->bInvisible.toBool()) {
+                            data->bInvisible.toBool() = false;
                             Event e(EventContactStatus, contact);
                             e.process();
                         }
@@ -250,7 +250,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     */
                         Contact *contact;
                         ICQUserData *data = findContact(screen, NULL, false, contact);
-                        if (((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
+                        if (((data == NULL) || (data->Status.toULong() == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
                                 (m_send.msg->type() != MessageFile)){
                             m_sendTimer->stop();
                             ackMessage(m_send);
@@ -353,7 +353,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
                 Contact *contact;
                 ICQUserData *data = findContact(screen, NULL, false, contact);
-                if (data && set_str(&data->AutoReply.ptr, answer)){
+                if (data && data->AutoReply.setStr(answer)){
                     Event e(EventContactChanged, contact);
                     e.process();
                 }
@@ -538,9 +538,9 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     SendMsg s;
     switch (msg->type()){
     case MessageGeneric:
-        if ((data->Status.value != ICQ_STATUS_OFFLINE) && (getSendFormat() == 0) &&
+        if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) && (getSendFormat() == 0) &&
                 hasCap(data, CAP_RTF) && (msg->getFlags() & MESSAGE_RICHTEXT) &&
-                !data->bBadClient.bValue){
+                !data->bBadClient.toBool()){
             s.flags  = SEND_RTF;
             s.msg    = msg;
             s.text   = msg->getRichText();
@@ -549,11 +549,11 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             processSendQueue();
             return true;
         }
-        if ((data->Status.value != ICQ_STATUS_OFFLINE) &&
+        if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
                 (getSendFormat() <= 1) &&
                 hasCap(data, CAP_UTF) &&
                 ((msg->getFlags() & MESSAGE_SECURE) == 0) &&
-                (data->Version.value >= 8) && !data->bBadClient.bValue){
+                (data->Version.toULong() >= 8) && !data->bBadClient.toBool()){
             s.flags  = SEND_UTF;
             s.msg    = msg;
             s.text   = addCRLF(msg->getPlainText());
@@ -562,9 +562,9 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             processSendQueue();
             return true;
         }
-        if ((data->Status.value != ICQ_STATUS_OFFLINE) &&
-                (data->Version.value >= 8) &&
-                !data->bBadClient.bValue &&
+        if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
+                (data->Version.toULong() >= 8) &&
+                !data->bBadClient.toBool() &&
                 (msg->getPlainText().length() >= MAX_PLAIN_MESSAGE_SIZE)){
             s.flags  = SEND_TYPE2;
             s.msg    = msg;
@@ -574,7 +574,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
             processSendQueue();
             return true;
         }
-        if ((data->Uin.value == 0) || m_bAIM){
+        if ((data->Uin.toULong() == 0) || m_bAIM){
             s.msg	 = msg;
             if (msg->getFlags() & MESSAGE_RICHTEXT){
                 s.flags  = SEND_HTML;
@@ -596,7 +596,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         processSendQueue();
         return true;
     case MessageUrl:
-        if ((data->Uin.value == 0) || m_bAIM){
+        if ((data->Uin.toULong() == 0) || m_bAIM){
             UrlMessage *m = static_cast<UrlMessage*>(msg);
             QString text = "<a href=\"";
             text += m->getUrl();
@@ -782,7 +782,7 @@ void ICQClient::sendAdvMessage(const char *screen, Buffer &msgText, unsigned plu
     msgBuf.pack(0x00000000L);
     msgBuf.pack(0x00000000L);
     msgBuf.pack(msgText.data(0), msgText.size());
-    sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port.value : 0, NULL, type);
+    sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port.toULong() : 0, NULL, type);
 }
 
 static void copyTlv(Buffer &b, TlvList *tlvs, unsigned nTlv)
@@ -932,8 +932,8 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                 set_ip(&data->RealIP, real_ip);
             if (ip && (get_ip(data->IP) == 0))
                 set_ip(&data->IP, ip);
-            if (port && (data->Port.value == 0))
-                data->Port.value = port;
+            if (port && (data->Port.toULong() == 0))
+                data->Port.asULong() = port;
         }
     }
 
@@ -1173,8 +1173,8 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
             ICQUserData *data = findContact(screen, NULL, false, contact);
             if (data == NULL)
                 return;
-            if ((getInvisible() && (data->VisibleId.value == 0)) ||
-                    (!getInvisible() && data->InvisibleId.value))
+            if ((getInvisible() && (data->VisibleId.toULong() == 0)) ||
+                    (!getInvisible() && data->InvisibleId.toULong()))
                 return;
             ar_request req;
             req.screen  = screen;
@@ -1195,7 +1195,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
             e.process();
 
             if (!msg.isEmpty()){
-                set_str(&data->AutoReply.ptr, msg);
+                data->AutoReply.str() = msg;
                 Event e(EventContactChanged, contact);
                 e.process();
             }
@@ -1503,8 +1503,8 @@ void ICQClient::sendTimeout()
             if (m_send.msg->type() == MessageCheckInvisible){
                 Contact *contact;
                 ICQUserData *data = findContact(m_send.screen, NULL, false, contact);
-                if (data && (data->bInvisible.bValue == 0)) {
-                    data->bInvisible.bValue = true;
+                if (data && (data->bInvisible.toBool() == 0)) {
+                    data->bInvisible.toBool() = true;
                     Event e(EventContactStatus, contact);
                     e.process();
                 }
@@ -1678,7 +1678,7 @@ bool ICQClient::processMsg()
         m_send.id.id_h = rand();
         switch (m_send.msg->type()){
         case MessageContacts:
-            if (data->Uin.value == 0){
+            if (data->Uin.toULong() == 0){
                 CONTACTS_MAP c;
                 QString nc = packContacts(static_cast<ContactsMessage*>(m_send.msg), data, c);
                 if (c.empty()){
@@ -1741,7 +1741,7 @@ bool ICQClient::processMsg()
                 return true;
             }
         case MessageUrl:{
-                if (data->Uin.value == 0)
+                if (data->Uin.toULong() == 0)
                     break;
                 packMessage(b, m_send.msg, data, type, false);
                 const char *err = m_send.msg->getError();
@@ -1754,9 +1754,9 @@ bool ICQClient::processMsg()
                     return false;
                 }
                 sendThroughServer(screen(data), 4, b, m_send.id, true, false);
-                if (data->Status.value != ICQ_STATUS_OFFLINE)
+                if (data->Status.toULong() != ICQ_STATUS_OFFLINE)
                     m_sendTimer->stop();
-                if ((data->Status.value != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
+                if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
                     ackMessage(m_send);
                 return true;
             }
@@ -1957,7 +1957,7 @@ bool ICQClient::processMsg()
             sendType2(m_send.screen, msgBuf, m_send.id, CAP_AIM_SENDFILE, false, m_send.socket->localPort(), &tlvs);
             return true;
         }
-        msgBuf.pack(this->data.owner.Uin.value);
+        msgBuf.pack(this->data.owner.Uin.toULong());
         unsigned long ip = get_ip(this->data.owner.IP);
         if (ip == get_ip(m_send.socket->m_data->IP))
             ip = get_ip(this->data.owner.RealIP);
@@ -1965,7 +1965,7 @@ bool ICQClient::processMsg()
         msgBuf.pack((unsigned long)(m_send.socket->localPort()));
         msgBuf.pack((char)MODE_DIRECT);
         msgBuf.pack((unsigned long)(m_send.socket->remotePort()));
-        msgBuf.pack(this->data.owner.Port.value);
+        msgBuf.pack(this->data.owner.Port.toULong());
         msgBuf.pack((unsigned short)8);
         msgBuf.pack((unsigned long)m_nMsgSequence);
         sendType2(m_send.screen, msgBuf, m_send.id, CAP_DIRECT, false, 0);
@@ -1974,7 +1974,7 @@ bool ICQClient::processMsg()
     if (m_send.flags == PLUGIN_AR){
         log(L_DEBUG, "Request auto response %s", m_send.screen.latin1());
 
-        unsigned long status = data->Status.value;
+        unsigned long status = data->Status.toULong();
         if ((status == ICQ_STATUS_ONLINE) || (status == ICQ_STATUS_OFFLINE))
             return false;
 
@@ -2062,7 +2062,7 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
     b.tlv(0x0501, "\x01", 1);
     b.tlv(0x0101, msgBuf);
     sendThroughServer(m_send.screen, 1, b, m_send.id, true, true);
-    if ((data->Status.value != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
+    if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) || (getAckMode() == 0))
         ackMessage(m_send);
 }
 
@@ -2084,11 +2084,11 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
             log(L_WARN, "Data for request not found");
             return;
         }
-        if (data->Direct.ptr == NULL){
+        if (data->Direct.object() == NULL){
             log(L_WARN, "No direct connection");
             return;
         }
-        ((DirectClient*)(data->Direct.ptr))->acceptMessage(msg);
+        ((DirectClient*)(data->Direct.object()))->acceptMessage(msg);
     }else{
         id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
         id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
@@ -2166,11 +2166,11 @@ void ICQClient::decline(Message *msg, const char *reason)
             log(L_WARN, "Data for request not found");
             return;
         }
-        if (data->Direct.ptr == NULL){
+        if (data->Direct.object() == NULL){
             log(L_WARN, "No direct connection");
             return;
         }
-        ((DirectClient*)(data->Direct.ptr))->declineMessage(msg, reason);
+        ((DirectClient*)(data->Direct.object()))->declineMessage(msg, reason);
     }else{
         MessageId id;
         unsigned cookie = 0;

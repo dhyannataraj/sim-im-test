@@ -508,10 +508,10 @@ public:
     virtual unsigned getStatus();
     virtual void contactsLoaded();
     void setUin(unsigned long);
-    void setScreen(const char*);
+    void setScreen(const QString &);
     unsigned long getUin();
-    const char *getServer() const;
-    void setServer(const char*);
+    const char*getServer() const;
+    void setServer(const char *);
     PROP_USHORT(Port);
     PROP_ULONG(ContactsTime);
     PROP_USHORT(ContactsLength);
@@ -703,7 +703,7 @@ protected:
     static bool hasCap(ICQUserData *data, cap_id_t fcap);
     static void setCap(ICQUserData *data, cap_id_t fcap);
     bool isSupportPlugins(ICQUserData *data);
-    QString trimPhone(const char *phone);
+    QString trimPhone(const QString &phone);
     unsigned short getListId();
     TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
     unsigned short sendRoster(unsigned short cmd, const QString &name,

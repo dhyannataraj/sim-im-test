@@ -71,16 +71,16 @@ void AIMInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_utf8(&data->FirstName.ptr, edtFirst->text());
-    set_utf8(&data->LastName.ptr, edtLast->text());
-    set_utf8(&data->MiddleName.ptr, edtMiddle->text());
-    set_utf8(&data->Maiden.ptr, edtMaiden->text());
-    set_utf8(&data->Nick.ptr, edtNick->text());
-    set_utf8(&data->Address.ptr, edtStreet->text());
-    set_utf8(&data->City.ptr, edtCity->text());
-    set_utf8(&data->State.ptr, edtState->text());
-    set_utf8(&data->Zip.ptr, edtZip->text());
-    data->Country.value = getComboValue(cmbCountry,getCountries());
+    data->FirstName.str() = edtFirst->text();
+    data->LastName.str() = edtLast->text();
+    data->MiddleName.str() = edtMiddle->text();
+    data->Maiden.str() = edtMaiden->text();
+    data->Nick.str() = edtNick->text();
+    data->Address.str() = edtStreet->text();
+    data->City.str() = edtCity->text();
+    data->State.str() = edtState->text();
+    data->Zip.str() = edtZip->text();
+    data->Country.asULong() = getComboValue(cmbCountry,getCountries());
 }
 
 void *AIMInfo::processEvent(Event *e)
@@ -105,27 +105,22 @@ void *AIMInfo::processEvent(Event *e)
     return NULL;
 }
 
-static void setText(QLineEdit *edit, const char *str)
-{
-    edit->setText(get_utf8(str));
-}
-
 void AIMInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
 
-    setText(edtScreen, data->Screen.ptr);
-    setText(edtFirst, data->FirstName.ptr);
-    setText(edtLast, data->LastName.ptr);
-    setText(edtMiddle, data->MiddleName.ptr);
-    setText(edtMaiden, data->Maiden.ptr);
-    setText(edtNick, data->Nick.ptr);
-    setText(edtStreet, data->Address.ptr);
-    setText(edtCity, data->City.ptr);
-    setText(edtState, data->State.ptr);
-    setText(edtZip, data->Zip.ptr);
-    initCombo(cmbCountry, data->Country.value, getCountries());
+    edtScreen->setText(data->Screen.str());
+    edtFirst->setText(data->FirstName.str());
+    edtLast->setText(data->LastName.str());
+    edtMiddle->setText(data->MiddleName.str());
+    edtMaiden->setText(data->Maiden.str());
+    edtNick->setText(data->Nick.str());
+    edtStreet->setText(data->Address.str());
+    edtCity->setText(data->City.str());
+    edtState->setText(data->State.str());
+    edtZip->setText(data->Zip.str());
+    initCombo(cmbCountry, data->Country.toULong(), getCountries());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty()) {
@@ -143,10 +138,10 @@ void AIMInfo::fill()
     cmbStatus->clear();
     unsigned status = STATUS_ONLINE;
     if (m_data){
-        switch (m_data->Status.value){
+        switch (m_data->Status.toULong()){
         case STATUS_ONLINE:
         case STATUS_OFFLINE:
-            status = m_data->Status.value;
+            status = m_data->Status.toULong();
             break;
         default:
             status = STATUS_AWAY;
@@ -154,8 +149,8 @@ void AIMInfo::fill()
     }else{
         status = m_client->getStatus();
     }
-    if (m_data && m_data->AutoReply.ptr && *m_data->AutoReply.ptr){
-        edtAutoReply->setText(QString::fromUtf8(m_data->AutoReply.ptr));
+    if (m_data && !m_data->AutoReply.str().isEmpty()){
+        edtAutoReply->setText(m_data->AutoReply.str());
     }else{
         edtAutoReply->hide();
     }
@@ -176,12 +171,12 @@ void AIMInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime.value));
+        edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime.value){
-            edtOnline->setText(formatDateTime(data->OnlineTime.value));
+        if (data->OnlineTime.toULong()){
+            edtOnline->setText(formatDateTime(data->OnlineTime.toULong()));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -191,17 +186,17 @@ void AIMInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime.value));
+            edtNA->setText(formatDateTime(data->StatusTime.toULong()));
         }
     }
-    if (data->IP.ptr){
-        edtExtIP->setText(formatAddr(data->IP, data->Port.value));
+    if (data->IP.ip()){
+        edtExtIP->setText(formatAddr(data->IP, data->Port.toULong()));
     }else{
         lblExtIP->hide();
         edtExtIP->hide();
     }
-    if (data->RealIP.ptr && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
-        edtIntIP->setText(formatAddr(data->RealIP, data->Port.value));
+    if (data->RealIP.ip() && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+        edtIntIP->setText(formatAddr(data->RealIP, data->Port.toULong()));
     }else{
         lblIntIP->hide();
         edtIntIP->hide();

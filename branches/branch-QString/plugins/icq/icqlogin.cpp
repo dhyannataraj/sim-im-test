@@ -67,7 +67,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     unsigned long newUin;
     switch (type){
     case ICQ_SNACxLOGIN_ERROR:
-        if (data.owner.Uin.value){
+        if (data.owner.Uin.toULong()){
             m_reconnect = NO_RECONNECT;
             m_socket->error_state(I18N_NOOP("Login error"), AuthError);
             break;
@@ -81,7 +81,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         m_socket->connect(getServer(), getPort(), this);
         break;
     case ICQ_SNACxLOGIN_REGISTER:
-        if (data.owner.Uin.value){
+        if (data.owner.Uin.toULong()){
             m_socket->error_state(I18N_NOOP("Registered in no register state"));
             break;
         }
@@ -93,11 +93,11 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         m_socket->connect(getServer(), getPort(), this);
         break;
     case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:
-        if (data.owner.Screen.ptr){
+        if (!data.owner.Screen.str().isEmpty()){
             QCString md5_key;
             m_socket->readBuffer.unpackStr(md5_key);
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
-            m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
+            m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.str());
             md5_key += getContacts()->fromUnicode(NULL, getPassword());
             md5_key += "AOL Instant Messenger (SM)";
             QByteArray md = md5(md5_key.data());
@@ -176,11 +176,11 @@ void ICQClient::chn_login()
         sendPacket(true);
         return;
     }
-    if (data.owner.Uin.value){
+    if (data.owner.Uin.toULong()){
         QString pswd = cryptPassword();
-        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.value, pswd.latin1());
+        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.toULong(), pswd.latin1());
         char uin[20];
-        sprintf(uin, "%lu", data.owner.Uin.value);
+        sprintf(uin, "%lu", data.owner.Uin.toULong());
 
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
@@ -198,12 +198,12 @@ void ICQClient::chn_login()
         sendPacket(true);
         return;
     }
-    if (data.owner.Screen.ptr && *data.owner.Screen.ptr){
+    if (!data.owner.Screen.str().isEmpty()){
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
         sendPacket(true);
         snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
-        m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
+        m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.str());
         m_socket->writeBuffer.tlv(0x004B);
         m_socket->writeBuffer.tlv(0x005A);
         sendPacket(true);

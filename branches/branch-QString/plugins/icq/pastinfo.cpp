@@ -120,8 +120,7 @@ void PastInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     unsigned i = 0;
-    Contact *contact = getContacts()->contact(m_contact);
-    QString str = getContacts()->toUnicode(contact, data->Backgrounds.ptr);
+    QString str = data->Backgrounds.str();
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
@@ -156,7 +155,7 @@ void PastInfo::fill()
         }
     }
     i = 0;
-    str = getContacts()->toUnicode(contact, data->Affilations.ptr);
+    str = data->Affilations.str();
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
@@ -282,7 +281,7 @@ void PastInfo::apply(Client *client, void *_data)
             res += ";";
         res += bg[i];
     }
-    set_str(&data->Backgrounds.ptr, getContacts()->fromUnicode(NULL, res));
+    data->Backgrounds.str() = res;
     res = "";
     QString af[3];
     af[0] = getInfo(cmbAf1, edtAf1, affilations);
@@ -295,7 +294,7 @@ void PastInfo::apply(Client *client, void *_data)
             res += ";";
         res += af[i];
     }
-    set_str(&data->Affilations.ptr, getContacts()->fromUnicode(NULL, res));
+    data->Affilations.str() = res;
 }
 
 QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)

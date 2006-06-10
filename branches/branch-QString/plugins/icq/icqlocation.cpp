@@ -44,13 +44,13 @@ const unsigned short ICQ_SNACxLOC_RESPONSExSETxINFO	= 0x000A;
 const unsigned short ICQ_SNACxLOC_REQUESTxDIRxINFO  = 0x000B;
 const unsigned short ICQ_SNACxLOC_DIRxINFO          = 0x000C;
 
-static bool extractInfo(TlvList &tlvs, unsigned short id, char **data)
+static bool extractInfo(TlvList &tlvs, unsigned short id, SIM::Data &data)
 {
     const char *info = NULL;
     Tlv *tlv = tlvs(id);
     if (tlv)
         info = *tlv;
-    return set_str(data, info);
+    return data.setStr(QString::fromUtf8(info));
 }
 
 QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
@@ -135,8 +135,8 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                     info = info.mid(6);
                 if (info.right(7).upper() == "</HTML>")
                     info = info.left(info.length() - 7);
-                if (set_str(&data->About.ptr, info.utf8())){
-                    data->ProfileFetch.bValue = true;
+                if (data->About.setStr(info)){
+                    data->ProfileFetch.asBool() = true;
                     if (contact){
                         Event e(EventContactChanged, contact);
                         e.process();
@@ -151,7 +151,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             Tlv *tlvAway = tlvs(0x04);
             if (tlvAway){
                 QString info = convert(tlvAway, tlvs, 0x03);
-                set_str(&data->AutoReply.ptr, info.utf8());
+                data->AutoReply.str() = info;
                 Event e(EventClientChanged, contact);
                 e.process();
             }
@@ -168,15 +168,15 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             unsigned country = 0;
             m_socket->readBuffer.incReadPos(4);
             TlvList tlvs(m_socket->readBuffer);
-            bChanged |= extractInfo(tlvs, 0x01, &data->FirstName.ptr);
-            bChanged |= extractInfo(tlvs, 0x02, &data->LastName.ptr);
-            bChanged |= extractInfo(tlvs, 0x03, &data->MiddleName.ptr);
-            bChanged |= extractInfo(tlvs, 0x04, &data->Maiden.ptr);
-            bChanged |= extractInfo(tlvs, 0x07, &data->State.ptr);
-            bChanged |= extractInfo(tlvs, 0x08, &data->City.ptr);
-            bChanged |= extractInfo(tlvs, 0x0C, &data->Nick.ptr);
-            bChanged |= extractInfo(tlvs, 0x0D, &data->Zip.ptr);
-            bChanged |= extractInfo(tlvs, 0x21, &data->Address.ptr);
+            bChanged |= extractInfo(tlvs, 0x01, data->FirstName);
+            bChanged |= extractInfo(tlvs, 0x02, data->LastName);
+            bChanged |= extractInfo(tlvs, 0x03, data->MiddleName);
+            bChanged |= extractInfo(tlvs, 0x04, data->Maiden);
+            bChanged |= extractInfo(tlvs, 0x07, data->State);
+            bChanged |= extractInfo(tlvs, 0x08, data->City);
+            bChanged |= extractInfo(tlvs, 0x0C, data->Nick);
+            bChanged |= extractInfo(tlvs, 0x0D, data->Zip);
+            bChanged |= extractInfo(tlvs, 0x21, data->Address);
             Tlv *tlvCountry = tlvs(0x06);
             if (tlvCountry){
                 const char *code = *tlvCountry;
@@ -188,11 +188,11 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                     }
                 }
             }
-            if (country != data->Country.value){
-                data->Country.value = country;
+            if (country != data->Country.toULong()){
+                data->Country.asULong() = country;
                 bChanged = true;
             }
-            data->ProfileFetch.bValue = true;
+            data->ProfileFetch.asBool() = true;
             if (bChanged){
                 if (contact){
                     Event e(EventContactChanged, contact);
@@ -409,20 +409,18 @@ static unsigned char get_ver(const char *&v)
     return c;
 }
 
-static bool isWide(const QString &text)
+static bool isWide(const QString &str)
 {
-    QString m = QString::fromUtf8(text);
+    QString m = str;
     for (int i = 0; i < (int)(m.length()); i++)
         if (m[i].unicode() > 0x7F)
             return true;
     return true;
 }
 
-static bool isWide(const char *text)
+static bool isWide(const SIM::Data &data)
 {
-    if ((text == NULL) || (*text == 0))
-        return false;
-    return isWide(QString::fromUtf8(text));
+    return isWide(data.str());
 }
 
 void ICQClient::encodeString(const QString &str, unsigned short nTlv, bool bWide)
@@ -507,10 +505,8 @@ void ICQClient::sendCapability(const char *away_msg)
     cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (m_bAIM){
-        if (data.owner.ProfileFetch.bValue){
-            QString profile;
-            if (data.owner.About.ptr)
-                profile = QString::fromUtf8(data.owner.About.ptr);
+        if (data.owner.ProfileFetch.toBool()){
+            QString profile = data.owner.About.str();
             profile = QString("<HTML>") + profile + "</HTML>";
             encodeString(profile, "text/aolrtf", 1, 2);
         }
@@ -556,7 +552,7 @@ void ICQClient::fetchAwayMessage(ICQUserData *data)
 
 void ICQClient::fetchProfiles()
 {
-    if (data.owner.ProfileFetch.bValue == 0)
+    if (data.owner.ProfileFetch.toBool() == 0)
         fetchProfile(&data.owner);
     Contact *contact;
     ContactList::ContactIterator itc;
@@ -564,7 +560,7 @@ void ICQClient::fetchProfiles()
         ICQUserData *data;
         ClientDataIterator itd(contact->clientData, this);
         while ((data = (ICQUserData*)(++itd)) != NULL){
-            if (data->Uin.value || data->ProfileFetch.bValue)
+            if (data->Uin.toULong() || data->ProfileFetch.toBool())
                 continue;
             fetchProfile(data);
         }
@@ -587,17 +583,17 @@ void ICQClient::setAIMInfo(ICQUserData *data)
 {
     if (getState() != Connected)
         return;
-    bool bWide = isWide(data->FirstName.ptr) ||
-                 isWide(data->LastName.ptr) ||
-                 isWide(data->MiddleName.ptr) ||
-                 isWide(data->Maiden.ptr) ||
-                 isWide(data->Nick.ptr) ||
-                 isWide(data->Zip.ptr) ||
-                 isWide(data->Address.ptr) ||
-                 isWide(data->City.ptr);
+    bool bWide = isWide(data->FirstName) ||
+                 isWide(data->LastName) ||
+                 isWide(data->MiddleName) ||
+                 isWide(data->Maiden) ||
+                 isWide(data->Nick) ||
+                 isWide(data->Zip) ||
+                 isWide(data->Address) ||
+                 isWide(data->City);
     QString country;
     for (const ext_info *e = getCountryCodes(); e->szName; e++){
-        if (e->nCode == data->Country.value){
+        if (e->nCode == data->Country.toULong()){
             country = e->szName;
             break;
         }
@@ -606,38 +602,36 @@ void ICQClient::setAIMInfo(ICQUserData *data)
     QString encoding = bWide ? "unicode-2-0" : "us-ascii";
     m_socket->writeBuffer.tlv(0x1C, encoding);
     m_socket->writeBuffer.tlv(0x0A, (unsigned short)0x01);
-    encodeString(data->FirstName.ptr, 0x01, bWide);
-    encodeString(data->LastName.ptr, 0x02, bWide);
-    encodeString(data->MiddleName.ptr, 0x03, bWide);
-    encodeString(data->Maiden.ptr, 0x04, bWide);
+    encodeString(data->FirstName.str(), 0x01, bWide);
+    encodeString(data->LastName.str(), 0x02, bWide);
+    encodeString(data->MiddleName.str(), 0x03, bWide);
+    encodeString(data->Maiden.str(), 0x04, bWide);
     encodeString(country, 0x06, bWide);
-    encodeString(data->Address.ptr, 0x07, bWide);
-    encodeString(data->City.ptr, 0x08, bWide);
-    encodeString(data->Nick.ptr, 0x0C, bWide);
-    encodeString(data->Zip.ptr, 0x0D, bWide);
-    encodeString(data->State.ptr, 0x21, bWide);
+    encodeString(data->Address.str(), 0x07, bWide);
+    encodeString(data->City.str(), 0x08, bWide);
+    encodeString(data->Nick.str(), 0x0C, bWide);
+    encodeString(data->Zip.str(), 0x0D, bWide);
+    encodeString(data->State.str(), 0x21, bWide);
     sendPacket(false);
 
     ICQUserData *ownerData = &this->data.owner;
-    set_str(&ownerData->FirstName.ptr, data->FirstName.ptr);
-    set_str(&ownerData->LastName.ptr, data->LastName.ptr);
-    set_str(&ownerData->MiddleName.ptr, data->MiddleName.ptr);
-    set_str(&ownerData->Maiden.ptr, data->Maiden.ptr);
-    set_str(&ownerData->Address.ptr, data->Address.ptr);
-    set_str(&ownerData->City.ptr, data->City.ptr);
-    set_str(&ownerData->Nick.ptr, data->Nick.ptr);
-    set_str(&ownerData->Zip.ptr, data->Zip.ptr);
-    set_str(&ownerData->State.ptr, data->State.ptr);
-    ownerData->Country.value = data->Country.value;
+    ownerData->FirstName.str() = data->FirstName.str();
+    ownerData->LastName.str() = data->LastName.str();
+    ownerData->MiddleName.str() = data->MiddleName.str();
+    ownerData->Maiden.str() = data->Maiden.str();
+    ownerData->Address.str() = data->Address.str();
+    ownerData->City.str() = data->City.str();
+    ownerData->Nick.str() = data->Nick.str();
+    ownerData->Zip.str() = data->Zip.str();
+    ownerData->State.str() = data->State.str();
+    ownerData->Country.asULong() = data->Country.toULong();
 }
 
 void ICQClient::setProfile(ICQUserData *data)
 {
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     QString profile;
-    if (data->About.ptr)
-        profile = QString::fromUtf8(data->About.ptr);
-    profile = QString("<HTML>") + profile + "</HTML>";
+    profile = QString("<HTML>") + data->About.str() + "</HTML>";
     encodeString(profile, "text/aolrtf", 1, 2);
     sendPacket(false);
 }

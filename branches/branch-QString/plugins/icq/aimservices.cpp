@@ -321,41 +321,41 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                 Tlv *tlv = tlvs(0x09);
                 if (tlv){
                     load_data(ICQProtocol::icqUserData, &res.data);
-                    set_str(&res.data.Screen.ptr, *tlv);
+                    res.data.Screen.str() = *tlv; // utf8 ??
                     tlv = tlvs(0x01);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.FirstName.ptr, str.utf8());
+                        res.data.FirstName.str() = str;
                     }
                     tlv = tlvs(0x02);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.LastName.ptr, str.utf8());
+                        res.data.LastName.str() = str;
                     }
                     tlv = tlvs(0x03);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.MiddleName.ptr, str.utf8());
+                        res.data.MiddleName.str() = str;
                     }
                     tlv = tlvs(0x07);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.Address.ptr, str.utf8());
+                        res.data.Address.str() = str;
                     }
                     tlv = tlvs(0x08);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.City.ptr, str.utf8());
+                        res.data.City.str() = str;
                     }
                     tlv = tlvs(0x0C);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.Nick.ptr, str.utf8());
+                        res.data.Nick.str() = str;
                     }
                     tlv = tlvs(0x07);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);
-                        set_str(&res.data.State.ptr, str.utf8());
+                        res.data.State.str() = str;
                     }
                     tlv = tlvs(0x06);
                     if (tlv){
@@ -364,7 +364,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                         country_text = country_text.lower();
                         for (const ext_info *info = getCountryCodes(); info->szName; ++info){
                             if (country_text == info->szName){
-                                res.data.Country.value = info->nCode;
+                                res.data.Country.asULong() = info->nCode;
                                 break;
                             }
                         }
