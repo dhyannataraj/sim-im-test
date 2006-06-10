@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: wood.h,v 1.3 2004/06/04 16:55:46 shutoff Exp $
+** $Id: wood.h,v 1.1.1.8 2006/05/07 17:31:30 chehrlic Exp $
 **
 ** Definition of something or other
 **
@@ -15,57 +15,71 @@
 #ifndef WOOD_H
 #define WOOD_H
 
-#include <qpushbutton.h>
-#include <qwindowsstyle.h>
-#include <qstyle.h>
+
 #include <qpalette.h>
-#include "qapplication.h"
-#include "qpainter.h"
-#include "qdrawutil.h" // for now
-#include "qpixmap.h" // for now
-#include "qpalette.h" // for now
-#include "qwidget.h"
-#include "qlabel.h"
-#include "qimage.h"
-#include "qpushbutton.h"
-#include "qwidget.h"
-#include "qrangecontrol.h"
-#include "qscrollbar.h"
-#include <qstyle.h>
+
+#ifndef QT_NO_STYLE_WINDOWS
+
 #include <qwindowsstyle.h>
-#include <limits.h>
+
 
 class NorwegianWoodStyle : public QWindowsStyle
 {
 public:
-    NorwegianWoodStyle( int sbext = -1 );
+    NorwegianWoodStyle();
     void polish( QApplication*);
     void polish( QWidget* );
     void unPolish( QWidget* );
     void unPolish( QApplication*);
 
-    void drawButton( QPainter *p, int x, int y, int w, int h,
-                     const QColorGroup &g, bool sunken = FALSE,
-                     const QBrush *fill = 0 );
-    void drawBevelButton( QPainter *p, int x, int y, int w, int h,
-                          const QColorGroup &g, bool sunken = FALSE,
-                          const QBrush *fill = 0 );
-    QRect buttonRect( int x, int y, int w, int h);
-    void drawButtonMask( QPainter *p, int x, int y, int w, int h);
-    void drawComboButton( QPainter *p, int x, int y, int w, int h,
-                          const QColorGroup &g,
-                          bool /* sunken */,
-                          bool editable,
-                          bool /*enabled */,
-                          const QBrush *fb );
+    void drawPrimitive( PrimitiveElement pe,
+			QPainter *p,
+			const QRect &r,
+			const QColorGroup &cg,
+			SFlags flags = Style_Default,
+			const QStyleOption& = QStyleOption::Default ) const;
 
-    void drawPushButton( QPushButton* btn, QPainter *p);
-    void drawPushButtonLabel( QPushButton* btn, QPainter *p);
-    void drawScrollBarControls( QPainter*,  const QScrollBar*, int sliderStart, uint controls, uint activeControl );
+    void drawControl( ControlElement element,
+		      QPainter *p,
+		      const QWidget *widget,
+		      const QRect &r,
+		      const QColorGroup &cg,
+		      SFlags how = Style_Default,
+		      const QStyleOption& = QStyleOption::Default ) const;
+
+    void drawControlMask( ControlElement element,
+			  QPainter *p,
+			  const QWidget *widget,
+			  const QRect &r,
+			  const QStyleOption& = QStyleOption::Default ) const;
+
+    void drawComplexControl( ComplexControl cc,
+			     QPainter *p,
+			     const QWidget *widget,
+			     const QRect &r,
+			     const QColorGroup &cg,
+			     SFlags how = Style_Default,
+			     SCFlags sub = SC_All,
+			     SCFlags subActive = SC_None,
+			     const QStyleOption& = QStyleOption::Default ) const;
+
+    void drawComplexControlMask( ComplexControl control,
+				 QPainter *p,
+				 const QWidget *widget,
+				 const QRect &r,
+				 const QStyleOption& = QStyleOption::Default ) const;
+
+    QRect querySubControlMetrics( ComplexControl control,
+				  const QWidget *widget,
+				  SubControl sc,
+				  const QStyleOption& = QStyleOption::Default ) const;
+
+    QRect subRect( SubRect r, const QWidget *widget ) const;
+
 
 private:
     void drawSemicircleButton(QPainter *p, const QRect &r, int dir,
-                              bool sunken, const QColorGroup &g );
+			      bool sunken, const QColorGroup &g ) const;
     QPalette oldPalette;
     QPixmap *sunkenDark;
     QPixmap *sunkenLight;
@@ -74,3 +88,4 @@ private:
 
 #endif
 
+#endif
