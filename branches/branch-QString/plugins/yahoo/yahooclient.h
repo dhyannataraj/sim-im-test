@@ -101,9 +101,8 @@ const unsigned LR_DELETE		= 1;
 const unsigned LR_CHANGE_GROUP	= 2;
 const unsigned LR_DELETE_GROUP	= 3;
 
-typedef struct YahooUserData
+struct YahooUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data		Login;
     SIM::Data		Nick;
     SIM::Data		First;
@@ -117,7 +116,7 @@ typedef struct YahooUserData
     SIM::Data		Group;
     SIM::Data		bChecked;
     SIM::Data		bTyping;
-} YahooUserData;
+};
 
 typedef struct YahooClientData
 {
@@ -151,7 +150,7 @@ typedef struct Message_ID
 typedef struct ListRequest
 {
     unsigned	type;
-    std::string		name;
+    QString		name;
 } ListRequest;
 
 class YahooClient : public SIM::TCPClient

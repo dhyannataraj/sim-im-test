@@ -94,7 +94,7 @@ static DataDef yahooUserData[] =
         { "Group", DATA_STRING, 1, 0 },
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_BOOL, 1, 0 },			// bTyping
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 static DataDef yahooClientData[] =
@@ -107,7 +107,7 @@ static DataDef yahooClientData[] =
         { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
         { "ListRequests", DATA_STRING, 1, 0 },
         { "", DATA_STRUCT, sizeof(YahooUserData) / sizeof(Data), DATA(yahooUserData) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 const DataDef *YahooProtocol::userDataDef()
@@ -197,7 +197,7 @@ bool YahooClient::send(Message *msg, void *_data)
 
 bool YahooClient::canSend(unsigned type, void *_data)
 {
-    if ((_data == NULL) || (((clientData*)_data)->Sign.value != YAHOO_SIGN))
+    if ((_data == NULL) || (((clientData*)_data)->Sign.toULong() != YAHOO_SIGN))
         return false;
     if (getState() != Connected)
         return false;
@@ -840,8 +840,8 @@ void YahooClient::notify(const char *id, const char *msg, const char *state)
     if (state && atol(state))
         bState = true;
     if (!strcasecmp(msg, "TYPING")){
-        if (data->bTyping.bValue != bState){
-            data->bTyping.bValue = bState;
+        if (data->bTyping.toBool() != bState){
+            data->bTyping.asBool() = bState;
             Event e(EventContactStatus, contact);
             e.process();
         }
@@ -864,15 +864,6 @@ void YahooClient::contact_rejected(const char *id, const char *message)
     messageReceived(msg, id);
 }
 
-static bool equal(const char *s1, const char *s2)
-{
-    if (s1 == NULL)
-        s1 = "";
-    if (s2 == NULL)
-        s2 = "";
-    return strcmp(s1, s2) != 0;
-}
-
 void YahooClient::processStatus(unsigned short service, const char *id,
                                 const char *_state, const char *_msg,
                                 const char *_away, const char *_idle)
@@ -892,9 +883,9 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         idle  = atol(_idle);
     if (service == YAHOO_SERVICE_LOGOFF)
         state = YAHOO_STATUS_OFFLINE;
-    if ((state != data->Status.value) ||
+    if ((state != data->Status.toULong()) ||
             ((state == YAHOO_STATUS_CUSTOM) &&
-             (((away != 0) != data->bAway.bValue) || equal(_msg, data->AwayMessage.ptr)))){
+             (((away != 0) != data->bAway.toBool()) || (_msg == data->AwayMessage.str())))){
 
         unsigned long old_status = STATUS_UNKNOWN;
         unsigned style  = 0;
@@ -904,11 +895,11 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         time_t now;
         time(&now);
         now -= idle;
-        if (data->Status.value == YAHOO_STATUS_OFFLINE)
-            data->OnlineTime.value = now;
-        data->Status.value = state;
-        data->bAway.bValue = (away != 0);
-        data->StatusTime.value = now;
+        if (data->Status.toULong() == YAHOO_STATUS_OFFLINE)
+            data->OnlineTime.asULong() = now;
+        data->Status.asULong() = state;
+        data->bAway.asBool() = (away != 0);
+        data->StatusTime.asULong() = now;
 
         unsigned long new_status = STATUS_UNKNOWN;
         contactInfo(data, new_status, style, statusIcon);
@@ -922,7 +913,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
             Event e(EventMessageReceived, &m);
             e.process();
             if ((new_status == STATUS_ONLINE) && !contact->getIgnore() && (getState() == Connected) &&
-                    (data->StatusTime.value > this->data.owner.OnlineTime.value + 30)){
+                    (data->StatusTime.toULong() > this->data.owner.OnlineTime.toULong() + 30)){
                 Event e(EventContactOnline, contact);
                 e.process();
             }
@@ -935,9 +926,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
 
 QString YahooClient::name()
 {
-    QString res = "Yahoo.";
-    if (data.owner.Login.ptr)
-        res += data.owner.Login.ptr;
+    QString res = "Yahoo." + data.owner.Login.str();
     return res;
 }
 
@@ -946,7 +935,7 @@ QString YahooClient::dataName(void *_data)
     QString res = name();
     YahooUserData *data = (YahooUserData*)_data;
     res += "+";
-    res += data->Login.ptr;
+    res += data->Login.str();
     return res;
 }
 
@@ -957,19 +946,19 @@ void YahooClient::setStatus(unsigned status)
     time_t now;
     time(&now);
     if (m_status == STATUS_OFFLINE)
-        data.owner.OnlineTime.value = now;
-    data.owner.StatusTime.value = now;
+        data.owner.OnlineTime.asULong() = now;
+    data.owner.StatusTime.asULong() = now;
     m_status = status;
-    data.owner.Status.value = m_status;
+    data.owner.Status.asULong() = m_status;
     Event e(EventClientChanged, static_cast<Client*>(this));
     e.process();
     if (status == STATUS_OFFLINE){
         if (m_status != STATUS_OFFLINE){
             m_status = status;
-            data.owner.Status.value = status;
+            data.owner.Status.asULong() = status;
             time_t now;
             time(&now);
-            data.owner.StatusTime.value = now;
+            data.owner.StatusTime.asULong() = now;
         }
         return;
     }
@@ -1030,8 +1019,8 @@ void YahooClient::disconnected()
         YahooUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (YahooUserData*)(++it)) != NULL){
-            if (data->Status.value != YAHOO_STATUS_OFFLINE){
-                data->Status.value = YAHOO_STATUS_OFFLINE;
+            if (data->Status.toULong() != YAHOO_STATUS_OFFLINE){
+                data->Status.asULong() = YAHOO_STATUS_OFFLINE;
                 StatusMessage m;
                 m.setContact(contact->id());
                 m.setClient(dataName(data));
@@ -1061,10 +1050,10 @@ void YahooClient::disconnected()
 
 bool YahooClient::isMyData(clientData *&_data, Contact*&contact)
 {
-    if (_data->Sign.value != YAHOO_SIGN)
+    if (_data->Sign.toULong() != YAHOO_SIGN)
         return false;
     YahooUserData *data = (YahooUserData*)_data;
-    YahooUserData *my_data = findContact(data->Login.ptr, NULL, contact);
+    YahooUserData *my_data = findContact(data->Login.str(), NULL, contact);
     if (!my_data){
         contact = NULL;
     }
@@ -1075,7 +1064,7 @@ bool YahooClient::createData(clientData *&_data, Contact *contact)
 {
     YahooUserData *data = (YahooUserData*)_data;
     YahooUserData *new_data = (YahooUserData*)(contact->clientData.createData(this));
-    set_str(&new_data->Nick.ptr, data->Nick.ptr);
+    new_data->Nick.str() = data->Nick.str();
     _data = (clientData*)new_data;
     return true;
 }
@@ -1091,14 +1080,12 @@ QWidget	*YahooClient::setupWnd()
 
 QString YahooClient::getLogin()
 {
-    if (data.owner.Login.ptr)
-        return QString::fromUtf8(data.owner.Login.ptr);
-    return "";
+    return data.owner.Login.str();
 }
 
 void YahooClient::setLogin(const QString &login)
 {
-    set_str(&data.owner.Login.ptr, login.utf8());
+    data.owner.Login.str() = login;
 }
 
 void YahooClient::authOk()
@@ -1121,7 +1108,7 @@ void YahooClient::loadList(const char *str)
         YahooUserData *data;
         ClientDataIterator itd(contact->clientData, this);
         while ((data = (YahooUserData*)(++itd)) != NULL){
-            data->bChecked.bValue = (contact->getGroup() == 0);
+            data->bChecked.asBool() = (contact->getGroup() == 0);
         }
     }
     if (str){
@@ -1148,30 +1135,30 @@ void YahooClient::loadList(const char *str)
                 }
                 if (grpName != getContacts()->toUnicode(NULL, grp.c_str()))
                     moveBuddy(data, getContacts()->toUnicode(NULL, grp.c_str()));
-                data->bChecked.bValue = true;
+                data->bChecked.asBool() = true;
             }
         }
     }
     it.reset();
     for (list<ListRequest>::iterator itl = m_requests.begin(); itl != m_requests.end(); ++itl){
         if ((*itl).type == LR_CHANGE){
-            YahooUserData *data = findContact((*itl).name.c_str(), NULL, contact, false);
+            YahooUserData *data = findContact((*itl).name, NULL, contact, false);
             if (data){
-                data->bChecked.bValue = true;
+                data->bChecked.asBool() = true;
                 QString grpName;
                 if (contact->getGroup()){
                     Group *grp = getContacts()->group(contact->getGroup());
                     if (grp)
                         grpName = grp->getName();
                 }
-                if (grpName != getContacts()->toUnicode(NULL, data->Group.ptr))
+                if (grpName != data->Group.str())
                     moveBuddy(data, grpName.utf8());
             }
         }
         if ((*itl).type == LR_DELETE){
             YahooUserData data;
             load_data(yahooUserData, &data);
-            set_str(&data.Login.ptr, (*itl).name.c_str());
+            data.Login.str() = (*itl).name;
             removeBuddy(&data);
             free_data(yahooUserData, &data);
         }
@@ -1184,7 +1171,7 @@ void YahooClient::loadList(const char *str)
         list<YahooUserData*> dataForRemove;
         bool bChanged = false;
         while ((data = (YahooUserData*)(++itd)) != NULL){
-            if (!data->bChecked.bValue){
+            if (!data->bChecked.toBool()){
                 dataForRemove.push_back(data);
                 bChanged = true;
             }
@@ -1211,7 +1198,7 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
         YahooUserData *data;
         ClientDataIterator itd(contact->clientData);
         while ((data = (YahooUserData*)(++itd)) != NULL){
-            if (data->Login.ptr && !strcmp(id, data->Login.ptr))
+            if (id == data->Login.str())
                 return data;
         }
     }
@@ -1220,8 +1207,8 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
         while ((contact = ++it) != NULL){
             if (contact->getName() == id){
                 YahooUserData *data = (YahooUserData*)contact->clientData.createData(this);
-                set_str(&data->Login.ptr, id);
-                set_str(&data->Group.ptr, grpname);
+                data->Login.str() = QString::fromUtf8(id);
+                data->Group.str() = QString::fromUtf8(grpname);
                 Event e(EventContactChanged, contact);
                 e.process();
                 return data;
@@ -1247,7 +1234,7 @@ YahooUserData *YahooClient::findContact(const char *id, const char *grpname, Con
         grp = getContacts()->group(0);
     contact = getContacts()->contact(0, true);
     YahooUserData *data = (YahooUserData*)(contact->clientData.createData(this));
-    set_str(&data->Login.ptr, id);
+    data->Login.str() = QString::fromUtf8(id);
     contact->setName(id);
     contact->setGroup(grp->id());
     Event e(EventContactChanged, contact);
@@ -1313,7 +1300,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
 {
     YahooUserData *data = (YahooUserData*)_data;
     unsigned cmp_status = STATUS_OFFLINE;
-    switch (data->Status.value){
+    switch (data->Status.toULong()){
     case YAHOO_STATUS_AVAILABLE:
         cmp_status = STATUS_ONLINE;
         break;
@@ -1329,7 +1316,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
     case YAHOO_STATUS_OFFLINE:
         break;
     case YAHOO_STATUS_CUSTOM:
-        cmp_status = data->bAway.bValue ? STATUS_AWAY : STATUS_ONLINE;
+        cmp_status = data->bAway.toBool() ? STATUS_AWAY : STATUS_ONLINE;
         break;
     default:
         cmp_status = STATUS_AWAY;
@@ -1356,7 +1343,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
             statusIcon = def->icon;
         }
     }
-    if (icons && data->bTyping.bValue)
+    if (icons && data->bTyping.toBool())
         addIcon(icons, "typing", statusIcon);
 }
 
@@ -1381,29 +1368,29 @@ QString YahooClient::contactTip(void *_data)
         }
     }
     res += "<br>";
-    res += QString::fromUtf8(data->Login.ptr);
+    res += data->Login.str();
     res += "</b>";
-    if (data->Status.value == YAHOO_STATUS_OFFLINE){
-        if (data->StatusTime.value){
+    if (data->Status.toULong() == YAHOO_STATUS_OFFLINE){
+        if (data->StatusTime.toULong()){
             res += "<br><font size=-1>";
             res += i18n("Last online");
             res += ": </font>";
-            res += formatDateTime(data->StatusTime.value);
+            res += formatDateTime(data->StatusTime.toULong());
         }
     }else{
-        if (data->OnlineTime.value){
+        if (data->OnlineTime.toULong()){
             res += "<br><font size=-1>";
             res += i18n("Online");
             res += ": </font>";
-            res += formatDateTime(data->OnlineTime.value);
+            res += formatDateTime(data->OnlineTime.toULong());
         }
-        if (data->Status.value != YAHOO_STATUS_AVAILABLE){
+        if (data->Status.toULong() != YAHOO_STATUS_AVAILABLE){
             res += "<br><font size=-1>";
             res += statusText;
             res += ": </font>";
-            res += formatDateTime(data->StatusTime.value);
+            res += formatDateTime(data->StatusTime.toULong());
             QString msg;
-            switch (data->Status.value){
+            switch (data->Status.toULong()){
             case YAHOO_STATUS_BRB:
                 msg = i18n("Be right back");
                 break;
@@ -1429,8 +1416,7 @@ QString YahooClient::contactTip(void *_data)
                 msg = i18n("Stepped out");
                 break;
             case YAHOO_STATUS_CUSTOM:
-                if (data->AwayMessage.ptr)
-                    msg = QString::fromUtf8(data->AwayMessage.ptr);
+                msg = data->AwayMessage.str();
             }
             if (!msg.isEmpty()){
                 res += "<br>";
@@ -1504,7 +1490,7 @@ CommandDef *YahooClient::infoWindows(Contact*, void *_data)
     YahooUserData *data = (YahooUserData*)_data;
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += get_utf8(data->Login.ptr);
+    name += data->Login.str();
     yahooWnd[0].text_wrk = name;
     return yahooWnd;
 }
@@ -1513,7 +1499,7 @@ CommandDef *YahooClient::configWindows()
 {
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += get_utf8(data.owner.Login.ptr);
+    name += data.owner.Login.str();
     cfgYahooWnd[0].text_wrk = name;
     return cfgYahooWnd;
 }
@@ -1769,7 +1755,7 @@ void YahooClient::sendMessage(const QString &msgText, Message *msg, YahooUserDat
     YahooParser p(msgText);
     addParam(0, getLogin().utf8());
     addParam(1, getLogin().utf8());
-    addParam(5, data->Login.ptr);
+    addParam(5, data->Login.str().utf8());
     addParam(14, p.res.c_str());
     if(p.bUtf)
         addParam(97, "1");
@@ -1788,7 +1774,7 @@ void YahooClient::sendMessage(const QString &msgText, Message *msg, YahooUserDat
 
 void YahooClient::sendTyping(YahooUserData *data, bool bState)
 {
-    addParam(5, data->Login.ptr);
+    addParam(5, data->Login.str().utf8());
     addParam(4, getLogin().utf8());
     addParam(14, " ");
     addParam(13, bState ? "1" : "0");
@@ -1798,31 +1784,31 @@ void YahooClient::sendTyping(YahooUserData *data, bool bState)
 
 void YahooClient::addBuddy(YahooUserData *data)
 {
-    if ((getState() != Connected) || (data->Group.ptr == NULL))
+    if ((getState() != Connected) || data->Group.str().isEmpty())
         return;
     addParam(1, getLogin().utf8());
-    addParam(7, data->Login.ptr);
-    addParam(65, data->Group.ptr ? data->Group.ptr : "");
+    addParam(7, data->Login.str().utf8());
+    addParam(65, data->Group.str().utf8());
     sendPacket(YAHOO_SERVICE_ADDBUDDY);
 }
 
 void YahooClient::removeBuddy(YahooUserData *data)
 {
-    if (data->Group.ptr == NULL)
+    if (data->Group.str().isEmpty())
         return;
     addParam(1, getLogin().utf8());
-    addParam(7, data->Login.ptr);
-    addParam(65, data->Group.ptr ? data->Group.ptr : "");
+    addParam(7, data->Login.str().utf8());
+    addParam(65, data->Group.str().utf8());
     sendPacket(YAHOO_SERVICE_REMBUDDY);
-    set_str(&data->Group.ptr, NULL);
+    data->Group.str() = QString::null;
 }
 
 void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
 {
-    if (data->Group.ptr == NULL){
+    if (data->Group.str().isEmpty()){
         if ((grp == NULL) || (*grp == 0))
             return;
-        set_str(&data->Group.ptr, grp);
+        data->Group.str() = QString::fromUtf8(grp);
         addBuddy(data);
         return;
     }
@@ -1830,17 +1816,17 @@ void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
         removeBuddy(data);
         return;
     }
-    if (!strcmp(data->Group.ptr, grp))
+    if (data->Group.str() ==  QString::fromUtf8(grp))
         return;
     addParam(1, getLogin().utf8());
-    addParam(7, data->Login.ptr);
+    addParam(7, data->Login.str().utf8());
     addParam(65, grp);
     sendPacket(YAHOO_SERVICE_ADDBUDDY);
     addParam(1, getLogin().utf8());
-    addParam(7, data->Login.ptr);
-    addParam(65, data->Group.ptr ? data->Group.ptr : "");
+    addParam(7, data->Login.str().utf8());
+    addParam(65, data->Group.str().utf8());
     sendPacket(YAHOO_SERVICE_REMBUDDY);
-    set_str(&data->Group.ptr, grp);
+    data->Group.str() = QString::fromUtf8(grp);
 }
 
 void *YahooClient::processEvent(Event *e)
@@ -1862,11 +1848,11 @@ void *YahooClient::processEvent(Event *e)
             if (getState() == Connected){
                 moveBuddy(data, grpName.c_str());
             }else{
-                ListRequest *lr = findRequest(data->Login.ptr);
+                ListRequest *lr = findRequest(data->Login.str());
                 if (lr == NULL){
                     ListRequest r;
                     r.type = LR_CHANGE;
-                    r.name = data->Login.ptr;
+                    r.name = data->Login.str();
                     m_requests.push_back(r);
                 }
             }
@@ -1880,11 +1866,11 @@ void *YahooClient::processEvent(Event *e)
             if (getState() == Connected){
                 removeBuddy(data);
             }else{
-                ListRequest *lr = findRequest(data->Login.ptr);
+                ListRequest *lr = findRequest(data->Login.str());
                 if (lr == NULL){
                     ListRequest r;
                     r.type = LR_DELETE;
-                    r.name = data->Login.ptr;
+                    r.name = data->Login.str();
                     m_requests.push_back(r);
                 }
             }
@@ -1951,7 +1937,7 @@ void *YahooClient::processEvent(Event *e)
                     }
                 }
                 if (msg->getMsgID() && data){
-                    addParam(5, data->Login.ptr);
+                    addParam(5, data->Login.str().utf8());
                     addParam(49, "FILEXFER");
                     addParam(1, getLogin().utf8());
                     addParam(13, "2");
@@ -1995,7 +1981,7 @@ void YahooClient::setInvisible(bool bState)
     TCPClient::setInvisible(bState);
     if (getState() != Connected)
         return;
-    sendStatus(data.owner.Status.value, data.owner.AwayMessage.ptr);
+    sendStatus(data.owner.Status.toULong(), data.owner.AwayMessage.str().utf8());
 }
 
 void YahooClient::sendStatus(unsigned long _status, const char *msg)
@@ -2007,7 +1993,7 @@ void YahooClient::sendStatus(unsigned long _status, const char *msg)
     if (msg)
         status = YAHOO_STATUS_CUSTOM;
     /* data.owner.Status contains sim-status, not protocol-status! */
-    if (data.owner.Status.value == STATUS_ONLINE)
+    if (data.owner.Status.toULong() == STATUS_ONLINE)
         service = YAHOO_SERVICE_ISBACK;
     addParam(10, QString::number(status));
     if ((status == YAHOO_STATUS_CUSTOM) && msg) {
@@ -2015,13 +2001,11 @@ void YahooClient::sendStatus(unsigned long _status, const char *msg)
         addParam(47, "1");
     }
     sendPacket(service);
-    if (data.owner.Status.value != status){
-        time_t now;
-        time(&now);
-        data.owner.StatusTime.value = now;
-    }
-    data.owner.Status.value = _status;
-    set_str(&data.owner.AwayMessage.ptr, msg);
+    if (data.owner.Status.toULong() != status)
+        data.owner.StatusTime.asULong() = time(NULL);
+
+    data.owner.Status.asULong() = _status;
+    data.owner.AwayMessage.str() = QString::fromUtf8(msg);
 }
 
 void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port)
@@ -2042,7 +2026,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     url += "/";
     QString nn;
     Contact *contact;
-    findContact(data->Login.ptr, NULL, contact);
+    findContact(data->Login.str(), NULL, contact);
     QCString ff = getContacts()->fromUnicode(contact, fn);
     for (unsigned i = 0; i < ff.length(); i++){
         const char c = ff.at(i);
@@ -2054,7 +2038,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     }
     url += nn;
     QString m = msg->getPlainText();
-    addParam(5, data->Login.ptr);
+    addParam(5, data->Login.str().utf8());
     addParam(49, "FILEXFER");
     addParam(1, getLogin().utf8());
     addParam(13, "1");
@@ -2095,7 +2079,7 @@ static DataDef yahoMessageFile[] =
     {
         { "", DATA_STRING, 1, 0 },				// URL
         { "", DATA_ULONG, 1, 0 },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 YahooFileMessage::YahooFileMessage(ConfigBuffer *cfg)
