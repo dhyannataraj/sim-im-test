@@ -926,7 +926,8 @@ const unsigned SAVE_STATE = (unsigned)(-1);
 
 EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 {
-    memset(state, 0, sizeof(state));
+    for(int i = 0; i < 7; i++)
+        state[i].clear();
     if (bar == NULL)
         return;
     QMainWindow *main = NULL;

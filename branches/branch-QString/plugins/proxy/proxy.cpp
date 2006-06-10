@@ -1198,7 +1198,7 @@ void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
     cdata = data;
     cdata.Client.str() = clientName(client);
     cdata.Default.asBool() = true;
-    clear_list(&cdata.Clients);
+    cdata.Clients.clear();
 }
 
 static QObject *findObject(QObject *w, const char *className)

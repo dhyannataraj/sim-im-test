@@ -75,13 +75,13 @@ namespace local { namespace {
 
 void restoreGeometry(MainWindow *mainWindow, Geometry &geometry)
 {
-    if ((geometry[WIDTH].toULong() == (unsigned long)-1) && (geometry[HEIGHT].toULong() == (unsigned long)-1)){
-        geometry[HEIGHT].asULong() = QApplication::desktop()->height() * 2 / 3;
-        geometry[WIDTH].asULong()  = geometry[HEIGHT].toULong() / 3;
+    if ((geometry[WIDTH].toLong() == -1) && (geometry[HEIGHT].toLong() == -1)){
+        geometry[HEIGHT].asLong() = QApplication::desktop()->height() * 2 / 3;
+        geometry[WIDTH].asLong()  = geometry[HEIGHT].toULong() / 3;
     }
-    if ((geometry[LEFT].toULong() == (unsigned long)-1) && (geometry[TOP].toULong() == (unsigned long)-1)){
-        geometry[LEFT].asULong() = QApplication::desktop()->width() - 25 - geometry[WIDTH].toULong();
-        geometry[TOP].asULong() = 5;
+    if ((geometry[LEFT].toLong() == -1) && (geometry[TOP].toLong() == -1)){
+        geometry[LEFT].asLong() = QApplication::desktop()->width() - 25 - geometry[WIDTH].toLong();
+        geometry[TOP].asLong() = 5;
     }
     restoreGeometry(mainWindow, geometry, true, true);
 }

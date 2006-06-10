@@ -62,9 +62,9 @@ static DataDef weatherData[] =
     {
         { "ID", DATA_STRING, 1, 0 },
         { "Location", DATA_STRING, 1, 0 },
-        { "Time", DATA_LONG, 1, 0 },
-        { "ForecastTime", DATA_LONG, 1, 0 },
-        { "Forecast", DATA_LONG, 1, DATA(2) },
+        { "Time", DATA_ULONG, 1, 0 },
+        { "ForecastTime", DATA_ULONG, 1, 0 },
+        { "Forecast", DATA_ULONG, 1, DATA(2) },
         { "Text", DATA_UTF, 1, 0 },
         { "Tip", DATA_UTF, 1, 0 },
         { "ForecastTip", DATA_UTF, 1, 0 },
@@ -85,7 +85,7 @@ static DataDef weatherData[] =
         { "Visibiliy", DATA_STRING, 1, 0 },
         { "Sun_raise", DATA_STRING, 1, 0 },
         { "Sun_set", DATA_STRING, 1, 0 },
-        { "Icon", DATA_LONG, 1, 0 },
+        { "Icon", DATA_ULONG, 1, 0 },
         { "UT", DATA_STRING, 1, 0 },
         { "US", DATA_STRING, 1, 0 },
         { "UP", DATA_STRING, 1, 0 },
@@ -268,8 +268,8 @@ bool WeatherPlugin::parseDateTime(const char *str, QDateTime &dt)
 
 bool WeatherPlugin::isDay()
 {
-    int raise_h, raise_m;
-    int set_h, set_m;
+    int raise_h = 0, raise_m = 0;
+    int set_h = 0, set_m = 0;
     if (!parseTime(getSun_raise(), raise_h, raise_m) || !parseTime(getSun_set(), set_h, set_m))
         return false;
     time_t now;
@@ -518,7 +518,7 @@ QString WeatherPlugin::replace(const QString &text)
 
 QString WeatherPlugin::forecastReplace(const QString &text)
 {
-    if (*getDay(m_day) == 0)
+    if (getDay(m_day).isEmpty())
         return "";
     QString res = text;
     QString temp;
@@ -783,7 +783,7 @@ void WeatherPlugin::element_end(const char *el)
         if (m_bMoon && m_bCC) {
             setMoonIcon(m_data.toLong());
         } else if (m_bCC){
-            setIcon(m_data.toLong());
+            setIcon(m_data.toULong());
         }else{
             setDayIcon(m_day, m_data);
         }

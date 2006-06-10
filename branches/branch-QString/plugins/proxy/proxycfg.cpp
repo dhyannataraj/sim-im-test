@@ -206,7 +206,7 @@ void ProxyConfig::fillClients()
     cmbClient->clear();
     cmbClient->insertItem(i18n("Default"));
     ProxyData d(m_plugin->data);
-    clear_list(&d.Clients);
+    d.Clients.clear();
     m_data.push_back(d);
     for (unsigned i = 0; i < getContacts()->nClients(); i++){
         Client *client = getContacts()->getClient(i);

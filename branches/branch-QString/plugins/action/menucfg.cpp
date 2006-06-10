@@ -102,7 +102,7 @@ void MenuConfig::remove()
 void MenuConfig::apply(void *_data)
 {
     ActionUserData *data = (ActionUserData*)_data;
-    clear_list(&data->Menu);
+    data->Menu.clear();
     data->NMenu.asULong() = 0;
     for (QListViewItem *item = lstMenu->firstChild(); item; item = item->nextSibling()){
         set_str(&data->Menu, ++data->NMenu.asULong(), (item->text(0) + ";" + item->text(1)));
