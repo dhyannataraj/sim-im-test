@@ -1396,11 +1396,11 @@ class ClientUserDataPrivate;
 class ClientDataIterator;
 class ClientDataIteratorPrivate;
 
-typedef struct clientData       // Base struct for all clientData
+struct clientData       // Base struct for all clientData
 {
     Data    Sign;
     Data    LastSend;
-} clientData;
+};
 
 class EXPORT ClientUserData
 {

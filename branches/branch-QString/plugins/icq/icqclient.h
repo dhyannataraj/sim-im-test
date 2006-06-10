@@ -156,9 +156,8 @@ const unsigned short SEARCH_DONE = (unsigned short)(-1);
 
 class DirectClient;
 
-typedef struct ICQUserData
+struct ICQUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data        Alias;
     SIM::Data        Cellular;
     SIM::Data		Status;
@@ -250,7 +249,7 @@ typedef struct ICQUserData
     SIM::Data		DirectPluginStatus;
     SIM::Data		bNoDirect;
     SIM::Data		bInvisible;
-} ICQUserData;
+};
 
 typedef struct ICQClientData
 {
@@ -510,8 +509,8 @@ public:
     void setUin(unsigned long);
     void setScreen(const QString &);
     unsigned long getUin();
-    const char*getServer() const;
-    void setServer(const char *);
+    QString getServer() const;
+    void setServer(const QString &);
     PROP_USHORT(Port);
     PROP_ULONG(ContactsTime);
     PROP_USHORT(ContactsLength);

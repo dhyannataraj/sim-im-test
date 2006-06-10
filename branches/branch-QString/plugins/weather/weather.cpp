@@ -149,7 +149,7 @@ QString WeatherPlugin::getConfig()
 
 void WeatherPlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || !isDone() || (*getID() == 0))
+    if (!getSocketFactory()->isActive() || !isDone() || (getID().isEmpty()))
         return;
     time_t now;
     time(&now);
@@ -177,7 +177,7 @@ void *WeatherPlugin::processEvent(Event *e)
         showBar();
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->id == CmdWeather) && *getID()){
+        if ((cmd->id == CmdWeather) && !getID().isEmpty()){
             QString url = "http://www.weather.com/outlook/travel/pastweather/";
             url += getID();
             Event eGo(EventGoURL, (void*)&url);
@@ -286,7 +286,7 @@ bool WeatherPlugin::isDay()
 
 void WeatherPlugin::showBar()
 {
-    if (m_bar || (*getID() == 0))
+    if (m_bar || getID().isEmpty())
         return;
     QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it( *list );
@@ -687,7 +687,7 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
 void WeatherPlugin::element_end(const char *el)
 {
     if (!strcmp(el, "day")){
-        if ((*getMinT(m_day) == 0) || (*getMaxT(m_day) == 0))
+        if (getMinT(m_day).isEmpty() || getMaxT(m_day).isEmpty())
             m_day--;
         return;
     }

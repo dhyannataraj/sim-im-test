@@ -430,18 +430,19 @@ QWidget	*ICQClient::setupWnd()
 static const char aim_server[] = "login.oscar.aol.com";
 static const char icq_server[] = "login.icq.com";
 
-const char *ICQClient::getServer() const
+QString ICQClient::getServer() const
 {
     if (!data.Server.str().isEmpty())
         return data.Server.str();
     return m_bAIM ? aim_server : icq_server;
 }
 
-void ICQClient::setServer(const char *server)
+void ICQClient::setServer(const QString &server)
 {
-    if (server && !strcmp(server, m_bAIM ? aim_server : icq_server))
-        server = NULL;
-    data.Server.str() = server;
+    if (server && server != (m_bAIM ? aim_server : icq_server))
+        data.Server.str() = QString::null;
+    else
+        data.Server.str() = server;
 }
 
 void ICQClient::setUin(unsigned long uin)
