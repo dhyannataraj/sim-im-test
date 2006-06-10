@@ -37,13 +37,12 @@ const unsigned COMMENT_ENABLE	= 0;
 const unsigned COMMENT_NO_MAIL	= 1;
 const unsigned COMMENT_DISABLE	= 2;
 
-typedef struct LiveJournalUserData
+struct LiveJournalUserData : public SIM::clientData
 {
-    SIM::clientData		base;
     SIM::Data	User;
     SIM::Data	Shared;
     SIM::Data	bChecked;
-} LiveJournalUserData;
+};
 
 typedef struct JournalMessageData
 {
