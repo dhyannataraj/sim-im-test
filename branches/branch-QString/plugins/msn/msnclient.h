@@ -39,9 +39,8 @@ const unsigned MSN_CHECKED	= 0x1000;
 
 class SBSocket;
 
-typedef struct MSNUserData
+struct MSNUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data	EMail;
     SIM::Data	ScreenName;
     SIM::Data	Status;
@@ -59,7 +58,7 @@ typedef struct MSNUserData
     SIM::Data	RealIP;
     SIM::Data	Port;
     SIM::Data	sb;
-} MSNUserData;
+};
 
 typedef struct MSNClientData
 {
