@@ -522,8 +522,8 @@ QString WeatherPlugin::forecastReplace(const QString &text)
         return "";
     QString res = text;
     QString temp;
-    int minT = atol(getMinT(m_day));
-    int maxT = atol(getMaxT(m_day));
+    int minT = getMinT(m_day).toInt();
+    int maxT = getMaxT(m_day).toInt();
     temp += QString::number(minT);
     temp += QChar((unsigned short)176);
     temp += getUT();

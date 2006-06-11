@@ -413,7 +413,7 @@ EXPORT void set_str(Data *d, unsigned index, const QString &value)
     }
     while(sl.count() < index)
         sl.append(QString::null);
-    sl[index] = value;
+    sl.append(value);
 }
 
 EXPORT void set_str(Data *d, unsigned index, const char *value)
@@ -425,7 +425,7 @@ EXPORT void set_str(Data *d, unsigned index, const char *value)
     }
     while(sl.count() < index)
         sl.append(QString::null);
-    sl[index] = QString::fromUtf8(value);
+    sl.append(QString::fromUtf8(value));
 }
 
 // _______________________________________________________________________________________

@@ -446,10 +446,10 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> webAware
             >> allowDC
             >> hideEmail;
-            data->TimeZone.asULong()    = TimeZone;
-            data->WebAware.asULong()    = webAware;
-            data->bNoDirect.asULong()   = (bool)!allowDC;
-            data->HiddenEMail.asULong() = hideEmail;
+            data->TimeZone.asULong()   = TimeZone;
+            data->WebAware.asBool()    = (webAware != 0);
+            data->bNoDirect.asBool()   = (allowDC == 0);   // negate!
+            data->HiddenEMail.asBool() = (hideEmail != 0);
             break;
         }
     case ICQ_SRVxMORE_INFO:{
@@ -931,7 +931,7 @@ bool SetMainInfoRequest::answer(Buffer&, unsigned short)
     m_client->data.owner.PrivateCellular.str() = m_privateCellular;
     m_client->data.owner.Country.asULong() = m_country;
     m_client->data.owner.TimeZone.asULong() = m_tz;
-    m_client->data.owner.HiddenEMail.asULong() = m_hiddenEMail;
+    m_client->data.owner.HiddenEMail.asBool() = m_hiddenEMail;
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();

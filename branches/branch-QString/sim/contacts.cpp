@@ -2055,7 +2055,7 @@ QTextCodec *ContactList::getCodecByName(const char *encoding)
 QTextCodec *ContactList::getCodec(Contact *contact)
 {
     QTextCodec *codec = NULL;
-    if (contact && *contact->getEncoding()){
+    if (contact && !contact->getEncoding().isEmpty()){
         codec = getCodecByName(contact->getEncoding());
         if (codec)
             return codec;

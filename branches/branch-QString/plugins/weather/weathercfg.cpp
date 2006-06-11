@@ -130,7 +130,7 @@ void WeatherCfg::activated(int n)
 void WeatherCfg::apply()
 {
     m_plugin->setUnits(cmbUnits->currentItem() != 0);
-    m_plugin->setForecast(atol(edtDays->text().latin1()));
+    m_plugin->setForecast(edtDays->text().toULong());
     m_plugin->setID(edtID->text());
     m_plugin->setLocation(cmbLocation->lineEdit()->text());
     m_iface->apply();
