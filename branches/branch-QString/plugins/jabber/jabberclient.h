@@ -32,7 +32,7 @@ const unsigned SUBSCRIBE_FROM	= 1;
 const unsigned SUBSCRIBE_TO		= 2;
 const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 
-typedef struct JabberUserData : public SIM::clientData
+struct JabberUserData : public SIM::clientData
 {
     SIM::Data		ID;
     SIM::Data		Node;
@@ -145,9 +145,9 @@ typedef struct JabberSearchData
 
 typedef struct JabberListRequest
 {
-    std::string		jid;
-    std::string		grp;
-    std::string		name;
+    QString		    jid;
+    QString		    grp;
+    QString		    name;
     bool			bDelete;
 } JabberListRequest;
 
@@ -312,7 +312,7 @@ class MessageRequest : public ServerRequest
 
     JabberListRequest *findRequest(const char *jid, bool bRemove);
 
-    std::string VHost();
+    QString VHost();
     bool isAgent(const char *jid);
     virtual bool send(SIM::Message*, void*);
     void    listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);

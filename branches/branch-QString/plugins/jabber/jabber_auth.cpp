@@ -33,7 +33,7 @@ protected:
 };
 
 AuthRequest::AuthRequest(JabberClient *client)
-        : JabberClient::ServerRequest(client, _SET, NULL, client->VHost().c_str())
+        : JabberClient::ServerRequest(client, _SET, NULL, client->VHost())
 {
     m_bFail = true;
 }
