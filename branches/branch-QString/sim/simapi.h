@@ -982,14 +982,9 @@ EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config = NULL);
 EXPORT QString save_data(const DataDef *def, void *data);
 
-EXPORT bool set_str(char **str, const char *value);
-EXPORT bool set_str(QString *str, const QString &value);
-EXPORT bool set_utf8(QString *str, const QString &value);
-EXPORT QString get_utf8(const QString &str);
-
 EXPORT const QString get_str(Data &strlist, unsigned index);
-EXPORT void clear_list(Data *strlist);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
+EXPORT DEPRECATED void set_str(Data *strlist, unsigned index, const char *value);
 
 EXPORT unsigned long get_ip(Data &ip);
 EXPORT const char *get_host(Data &ip);

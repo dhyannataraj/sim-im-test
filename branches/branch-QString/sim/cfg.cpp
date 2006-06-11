@@ -396,11 +396,6 @@ const char *get_host(Data &p)
 
 typedef map<unsigned, string> STRING_MAP;
 
-EXPORT void clear_list(Data *d)
-{
-    d->clear();
-}
-
 EXPORT const QString get_str(Data &d, unsigned index)
 {
     QStringList &sl = d.strList();
@@ -421,48 +416,19 @@ EXPORT void set_str(Data *d, unsigned index, const QString &value)
     sl[index] = value;
 }
 
+EXPORT void set_str(Data *d, unsigned index, const char *value)
+{
+    QStringList &sl = d->strList();
+    if(index < sl.count()) {
+        sl[index] = value;
+        return;
+    }
+    while(sl.count() < index)
+        sl.append(QString::null);
+    sl[index] = QString::fromUtf8(value);
+}
+
 // _______________________________________________________________________________________
-
-EXPORT bool set_utf8(QString *str, const QString &value)
-{
-    return (set_str(str,value));
-}
-
-EXPORT QString get_utf8(const QString &str)
-{
-    return str;
-}
-
-EXPORT bool set_str(QString *str, const QString &value)
-{
-    if ((*str == NULL) && (value.isEmpty()))
-        return false;
-    if (*str && *str == value)
-        return false;
-    if (!value.isEmpty()){
-        *str = value;
-        return true;
-    }
-    return false;
-}
-
-EXPORT bool set_str(char **str, const char *value)
-{
-    if ((*str == NULL) && (value == NULL))
-        return false;
-    if (*str && value && !strcmp(*str, value))
-        return false;
-    if (*str){
-        delete[] *str;
-        *str = NULL;
-    }
-    if (value && *value){
-        *str = new char[strlen(value) + 1];
-        strcpy(*str, value);
-		return true;
-    }
-    return false;
-}
 
 EXPORT void free_data(const DataDef *def, void *d)
 {

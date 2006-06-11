@@ -313,21 +313,6 @@ Buffer &Buffer::operator >> (int &c)
     return *this;
 }
 
-Buffer &Buffer::operator >> (char **s)
-{
-    unsigned short size;
-    *this >> size;
-    size = htons(size);
-    if (size){
-        QCString str;
-        unpack(str, size);
-        set_str(s, str.data());
-    }else{
-        set_str(s, NULL);
-    }
-    return *this;
-}
-
 void Buffer::unpack(char &c)
 {
     *this >> c;

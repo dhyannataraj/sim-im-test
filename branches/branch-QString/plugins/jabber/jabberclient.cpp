@@ -339,13 +339,6 @@ void JabberClient::packet_ready()
     m_socket->readBuffer.packetStart();
 }
 
-static bool cmp(const string &str, const char *s)
-{
-    if (s == NULL)
-        return str.empty();
-    return str == s;
-}
-
 void *JabberClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
@@ -1377,11 +1370,11 @@ void JabberClient::setOffline(JabberUserData *data)
 {
     data->Status.asULong()    = STATUS_OFFLINE;
     data->composeId.asULong() = 0;
-    clear_list(&data->Resources);
-    clear_list(&data->ResourceReply);
-    clear_list(&data->ResourceStatus);
-    clear_list(&data->ResourceStatusTime);
-    clear_list(&data->ResourceOnlineTime);
+    data->Resources.clear();
+    data->ResourceReply.clear();
+    data->ResourceStatus.clear();
+    data->ResourceStatusTime.clear();
+    data->ResourceOnlineTime.clear();
     data->nResources.asULong() = 0;
     if (!data->TypingId.str().isEmpty()){
         data->TypingId.clear();

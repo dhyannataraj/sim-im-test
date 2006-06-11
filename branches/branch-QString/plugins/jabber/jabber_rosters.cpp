@@ -895,11 +895,11 @@ JabberClient::PresenceRequest::~PresenceRequest()
                         resourceStatusTime.push_back(get_str(data->ResourceStatusTime, n));
                         resourceOnlineTime.push_back(get_str(data->ResourceOnlineTime, n));
                     }
-                    clear_list(&data->Resources);
-                    clear_list(&data->ResourceReply);
-                    clear_list(&data->ResourceStatus);
-                    clear_list(&data->ResourceStatusTime);
-                    clear_list(&data->ResourceOnlineTime);
+                    data->Resources.clear();
+                    data->ResourceReply.clear();
+                    data->ResourceStatus.clear();
+                    data->ResourceStatusTime.clear();
+                    data->ResourceOnlineTime.clear();
                     for (i = 0; i < resources.size(); i++){
                         set_str(&data->Resources, i + 1, resources[i].c_str());
                         set_str(&data->ResourceReply, i + 1, resourceReply[i].c_str());

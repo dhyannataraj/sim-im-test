@@ -102,7 +102,6 @@ public:
     Buffer &operator >> (unsigned long &c);
     Buffer &operator >> (int &c);
     Buffer &operator >> (QCString &s);
-    Buffer &operator >> (char**);
 
     Buffer &operator << (const QString &s);
     Buffer &operator << (const QCString &s);
