@@ -355,7 +355,7 @@ void *JabberAdd::processEvent(Event *e)
             return NULL;
         if (data->JID.ptr == NULL){
             addAttr("", i18n("JID"));
-            for (unsigned i = 0; i < data->nFields.value; i++){
+            for (unsigned i = 0; i < data->nFields.toULong(); i++){
                 addAttr(get_str(data->Fields, i * 2), get_str(data->Fields, i * 2 + 1));
                 (*it).fields.push_back(get_str(data->Fields, i * 2));
             }

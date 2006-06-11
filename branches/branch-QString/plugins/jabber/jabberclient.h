@@ -32,9 +32,8 @@ const unsigned SUBSCRIBE_FROM	= 1;
 const unsigned SUBSCRIBE_TO		= 2;
 const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 
-typedef struct JabberUserData
+typedef struct JabberUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data		ID;
     SIM::Data		Node;
     SIM::Data		Resource;
@@ -77,7 +76,7 @@ typedef struct JabberUserData
     SIM::Data		ResourceStatusTime;
     SIM::Data		ResourceOnlineTime;
     SIM::Data		AutoReply;
-} JabberUserData;
+};
 
 typedef struct JabberClientData
 {
@@ -271,7 +270,7 @@ class MessageRequest : public ServerRequest
     void setID(const QString &id);
     QString getID()
     {
-        return QString::fromUtf8(data.owner.ID.ptr ? data.owner.ID.ptr : "");
+        return data.owner.ID.str();
     }
     PROP_STR(Server);
     PROP_STR(VHost);
@@ -295,7 +294,7 @@ class MessageRequest : public ServerRequest
     PROP_STR(URL);
     PROP_BOOL(InfoUpdated);
 
-    std::string		buildId(JabberUserData *data);
+    QString		    buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, SIM::Contact *&contact, std::string &resource, bool bJoin=true);
     bool			add_contact(const char *id, unsigned grp);
     std::string		get_agents(const char *jid);

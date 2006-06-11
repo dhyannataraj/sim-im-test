@@ -121,7 +121,7 @@ void *JIDSearch::processEvent(Event *e)
             QStringList l;
             l.append("");
             l.append(i18n("JID"));
-            for (unsigned i = 0; i < data->nFields.value; i++){
+            for (unsigned i = 0; i < data->nFields.toULong(); i++){
                 l.append(get_str(data->Fields, i * 2));
                 l.append(i18n(get_str(data->Fields, i * 2 + 1)));
             }
@@ -149,7 +149,7 @@ void *JIDSearch::processEvent(Event *e)
         l.append(icon);
         l.append(QString::fromUtf8(data->JID.ptr));
         l.append(QString::fromUtf8(data->JID.ptr));
-        for (unsigned n = 0; n < data->nFields.value; n++)
+        for (unsigned n = 0; n < data->nFields.toULong(); n++)
             l.append(QString::fromUtf8(get_str(data->Fields, n)));
         emit addItem(l, this);
     }

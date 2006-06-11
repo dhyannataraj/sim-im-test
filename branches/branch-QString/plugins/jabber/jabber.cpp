@@ -183,7 +183,7 @@ DataDef jabberData[] =
         { "BrowserHistory", DATA_UTF, 1, 0 },
         { "AllLevels", DATA_BOOL, 1, 0 },
         { "BrowseType", DATA_ULONG, 1, DATA(BROWSE_DISCO | BROWSE_BROWSE | BROWSE_AGENTS) },
-        { NULL, 0, 0, 0 }
+        { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
 JabberPlugin *JabberPlugin::plugin = NULL;
