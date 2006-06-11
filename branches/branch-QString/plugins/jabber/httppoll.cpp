@@ -186,7 +186,7 @@ void JabberHttpPool::pause(unsigned)
 
 Socket *JabberClient::createSocket()
 {
-    m_bHTTP = getUseHTTP() && *getURL();
+    m_bHTTP = getUseHTTP() && !getURL().isEmpty();
     if (m_bHTTP)
         return new JabberHttpPool(getURL());
     return NULL;

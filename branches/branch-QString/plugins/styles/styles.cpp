@@ -140,15 +140,13 @@ void StylesPlugin::setColors()
 
 void StylesPlugin::setStyles()
 {
-    QStyle *style = NULL;
-    if (*getStyle())
-        style = QStyleFactory::create(getStyle());
+    QStyle *style = QStyleFactory::create(getStyle());
     if (style){
         QApplication::setStyle(style);
         if (!getSystemColors())
             setColors();
     }else{
-        setStyle(NULL);
+        setStyle(QString::null);
     }
 }
 

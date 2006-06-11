@@ -137,7 +137,7 @@ void BackgroundPlugin::redraw()
 {
     bgImage = QImage();
     bgScale = QPixmap();
-    if (*getBackground() == 0)
+    if (getBackground().isEmpty())
         return;
     bgImage = QImage(getBackground());
     Event e(EventRepaintView);

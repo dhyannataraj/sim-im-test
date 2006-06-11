@@ -3707,7 +3707,7 @@ bool CorePlugin::init(bool bInit)
         } else
            setRegNew(true);
     }
-    if ((!bInit || (*getProfile() == 0) || !getNoShow() || !getSavePasswd()) &&(cmd_line_profile=="" || (cmd_line_profile!="" && !getSavePasswd()))){
+    if ((!bInit || getProfile().isEmpty() || !getNoShow() || !getSavePasswd()) &&(cmd_line_profile=="" || (cmd_line_profile!="" && !getSavePasswd()))){
         if (!bInit || m_profiles.size()){
             if (bInit)
                 hideWindows();
@@ -3723,14 +3723,14 @@ bool CorePlugin::init(bool bInit)
                 bRes = false;
             bLoaded = true;
         }
-    }else if (bInit && *getProfile() && !bCmdLineProfile){
+    }else if (bInit && !getProfile().isEmpty() && !bCmdLineProfile){
         if (!lockProfile(getProfile(), true)){
             Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
             eAbort.process();
             return false;
         }
     }
-    if (*getProfile() == 0 || bCmdLineProfile){
+    if (getProfile().isEmpty() || bCmdLineProfile){
         hideWindows();
         getContacts()->clearClients();
 

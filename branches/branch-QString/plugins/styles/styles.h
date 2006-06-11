@@ -51,12 +51,13 @@ public:
     void setupDefaultFonts();
     void setColors();
     void setStyles();
+protected:
     QFont		*m_saveBaseFont;
     QFont		*m_saveMenuFont;
     QPalette	*m_savePalette;
     QStyle		*m_saveStyle;
-protected:
     StylesData	data;
+    friend class FontConfig;
 };
 
 #endif

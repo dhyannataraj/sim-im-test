@@ -153,12 +153,12 @@ GpgPlugin::~GpgPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-const char *GpgPlugin::GPG()
+QString GpgPlugin::GPG()
 {
 #ifdef WIN32
     return getGPG();
 #else
-return (const char *)GPGpath.local8Bit();
+    return GPGpath;
 #endif
 }
 
@@ -682,7 +682,7 @@ QWidget *GpgPlugin::createConfigWindow(QWidget *parent)
 
 void GpgPlugin::reset()
 {
-    if (*GPG() && *getHome() && *getKey()){
+    if (!GPG().isEmpty() && !getHome().isEmpty() && getKey().isEmpty()){
 #ifdef HAVE_CHMOD
         chmod(user_file(getHome()), 0700);
 #endif

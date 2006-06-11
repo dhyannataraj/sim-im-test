@@ -22,7 +22,6 @@
 #include <qtabwidget.h>
 #include <qlistbox.h>
 #include <qstyle.h>
-#include <qdir.h>
 
 #include <qstylefactory.h>
 
@@ -39,7 +38,7 @@ StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
         break;
     }
     lstStyle->insertStringList(QStyleFactory::keys());
-    if (*m_plugin->getStyle()){
+    if (!m_plugin->getStyle().isEmpty()){
         QListBoxItem *item = lstStyle->findItem(m_plugin->getStyle());
         if (item)
             lstStyle->setCurrentItem(item);

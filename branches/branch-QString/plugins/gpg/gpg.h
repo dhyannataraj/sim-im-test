@@ -91,7 +91,7 @@ public:
     PROP_STRLIST(Keys);
     PROP_ULONG(nPassphrases);
     PROP_BOOL(SavePassphrase);
-    const char *GPG();
+    QString GPG();
     void reset();
     static GpgPlugin *plugin;
     std::list<KeyMsg>	 m_sendKeys;
