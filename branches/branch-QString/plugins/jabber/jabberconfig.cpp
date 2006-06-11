@@ -40,10 +40,8 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
     edtPort->setValue(m_client->getPort());
     edtPriority->setValue(m_client->getPriority());
-    if (m_client->data.owner.Resource.ptr)
-        edtResource->setText(QString::fromUtf8(m_client->data.owner.Resource.ptr));
-    if (m_client->data.VHost.ptr)
-        edtVHost->setText(QString::fromUtf8(m_client->data.VHost.ptr));
+    edtResource->setText(m_client->data.owner.Resource.str());
+    edtVHost->setText(m_client->data.VHost.str());
     if (m_bConfig){
         tabCfg->removePage(tabJabber);
     }else{
@@ -104,7 +102,7 @@ void JabberConfig::apply()
     }
     m_client->setUseVHost(false);
     if (chkVHost->isChecked()){
-        set_str(&m_client->data.VHost.ptr, edtVHost->text().utf8());
+        m_client->data.VHost.str() = edtVHost->text();
         if (!edtVHost->text().isEmpty())
             m_client->setUseVHost(true);
     }
@@ -113,7 +111,7 @@ void JabberConfig::apply()
     if (n >= 0){
         QString host = jid.mid(n + 1);
         jid = jid.left(n);
-        set_str(&m_client->data.VHost.ptr, host.utf8());
+        m_client->data.VHost.str() = host;
         m_client->setUseVHost(true);
     }
     if (!m_bConfig){
@@ -140,7 +138,7 @@ void JabberConfig::apply()
         Event e(EventRepaintView);
         e.process();
     }
-    set_str(&m_client->data.owner.Resource.ptr, edtResource->text().utf8());
+    m_client->data.owner.Resource.str() = edtResource->text();
     m_client->setPriority(atol(edtPriority->text().latin1()));
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setURL(edtUrl->text().latin1());

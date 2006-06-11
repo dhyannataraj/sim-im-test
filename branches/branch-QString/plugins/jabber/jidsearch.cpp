@@ -115,9 +115,9 @@ void *JIDSearch::processEvent(Event *e)
 {
     if (e->type() == EventSearch){
         JabberSearchData *data = (JabberSearchData*)(e->param());
-        if (m_search_id != data->ID.ptr)
+        if (QString::fromUtf8(m_search_id.c_str()) != data->ID.str())
             return NULL;
-        if (data->JID.ptr == NULL){
+        if (data->JID.str().isEmpty()){
             QStringList l;
             l.append("");
             l.append(i18n("JID"));
@@ -138,8 +138,8 @@ void *JIDSearch::processEvent(Event *e)
         }else if (m_type == "yahoo"){
             icon = "Yahoo!";
         }
-        if (data->Status.ptr){
-            if (!strcmp(data->Status.ptr, "online")){
+        if (!data->Status.str().isEmpty()){
+            if (data->Status.str() == "online"){
                 icon += "_online";
             }else{
                 icon += "_offline";
@@ -147,8 +147,8 @@ void *JIDSearch::processEvent(Event *e)
         }
         QStringList l;
         l.append(icon);
-        l.append(QString::fromUtf8(data->JID.ptr));
-        l.append(QString::fromUtf8(data->JID.ptr));
+        l.append(data->JID.str());
+        l.append(data->JID.str());
         for (unsigned n = 0; n < data->nFields.toULong(); n++)
             l.append(QString::fromUtf8(get_str(data->Fields, n)));
         emit addItem(l, this);

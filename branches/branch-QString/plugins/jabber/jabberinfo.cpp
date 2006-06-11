@@ -185,11 +185,11 @@ void JabberInfo::fill()
 {
     JabberUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtID->setText(get_utf8(data->ID.ptr));
-    edtFirstName->setText(get_utf8(data->FirstName.ptr));
-    edtNick->setText(get_utf8(data->Nick.ptr));
-    edtDate->setText(get_utf8(data->Bday.ptr));
-    edtUrl->setText(get_utf8(data->Url.ptr));
+    edtID->setText(data->ID.str());
+    edtFirstName->setText(data->FirstName.str());
+    edtNick->setText(data->Nick.str());
+    edtDate->setText(data->Bday.str());
+    edtUrl->setText(data->Url.str());
     urlChanged(edtUrl->text());
     cmbResource->clear();
     if (data->nResources.toULong()){
@@ -197,8 +197,8 @@ void JabberInfo::fill()
             cmbResource->insertItem(QString::fromUtf8(get_str(data->Resources, i)));
         cmbResource->setEnabled(data->nResources.toULong() > 1);
     }else{
-        if (data->Resource.ptr)
-            cmbResource->insertItem(QString::fromUtf8(data->Resource.ptr));
+        if (!data->Resource.str().isEmpty())
+            cmbResource->insertItem(data->Resource.str());
         cmbResource->setEnabled(false);
     }
     resourceActivated(0);
@@ -211,10 +211,10 @@ void JabberInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_utf8(&data->FirstName.ptr, edtFirstName->text());
-    set_utf8(&data->Nick.ptr, edtNick->text());
-    set_utf8(&data->Bday.ptr, edtDate->text());
-    set_utf8(&data->Url.ptr, edtUrl->text());
+    data->FirstName.str() = edtFirstName->text();
+    data->Nick.str()      = edtNick->text();
+    data->Bday.str()      = edtDate->text();
+    data->Url.str()       = edtUrl->text();
 }
 
 void JabberInfo::goUrl()

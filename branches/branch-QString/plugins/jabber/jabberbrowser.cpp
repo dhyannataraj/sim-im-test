@@ -285,12 +285,10 @@ void *JabberBrowser::processEvent(Event *e)
 {
     if (e->type() == EventAgentInfo){
         JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
-        if (m_search_id == data->ReqID.ptr){
-            if (data->Type.ptr == NULL){
+        if (QString::fromUtf8(m_search_id.c_str()) == data->ReqID.str()){
+            if (data->Type.str().isEmpty()){
                 if (data->nOptions.toULong()){
-                    QString err;
-                    if (data->Label.ptr && *data->Label.ptr)
-                        err = i18n(data->Label.ptr);
+                    QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_search_id = "";
@@ -316,12 +314,10 @@ void *JabberBrowser::processEvent(Event *e)
             m_search->jidSearch->addWidget(data);
             return e->param();
         }
-        if (m_reg_id == data->ReqID.ptr){
-            if (data->Type.ptr == NULL){
+        if (QString::fromUtf8(m_reg_id.c_str()) == data->ReqID.str()) {
+            if (data->Type.str().isEmpty()){
                 if (data->nOptions.toULong()){
-                    QString err;
-                    if (data->Label.ptr && *data->Label.ptr)
-                        err = i18n(data->Label.ptr);
+                    QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_reg_id = "";
@@ -346,12 +342,10 @@ void *JabberBrowser::processEvent(Event *e)
                 m_reg->m_search->addWidget(data);
             return e->param();
         }
-        if (m_config_id == data->ReqID.ptr){
-            if (data->Type.ptr == NULL){
+        if (QString::fromUtf8(m_config_id.c_str()) == data->ReqID.str()){
+            if (data->Type.str().isEmpty()){
                 if (data->nOptions.toULong()){
-                    QString err;
-                    if (data->Label.ptr && *data->Label.ptr)
-                        err = i18n(data->Label.ptr);
+                    QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_config_id = "";

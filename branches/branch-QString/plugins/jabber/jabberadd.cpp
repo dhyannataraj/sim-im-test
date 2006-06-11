@@ -257,11 +257,11 @@ void *JabberAdd::processEvent(Event *e)
         JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
         list<AgentSearch>::iterator it;
         for (it = m_agents.begin(); it != m_agents.end(); ++it)
-            if ((*it).id_info == data->ReqID.ptr)
+            if (QString::fromUtf8((*it).id_info.c_str()) == data->ReqID.str())
                 break;
         if (it == m_agents.end())
             return NULL;
-        if (data->Type.ptr == NULL){
+        if (data->Type.str().isEmpty()){
             (*it).id_info = "";
             if (m_first.isEmpty())
                 (*it).fill |= FILL_FIRST;
@@ -287,52 +287,52 @@ void *JabberAdd::processEvent(Event *e)
             }
             return e->param();
         }
-        if (!strcmp(data->Type.ptr, "x")){
+        if (data->Type.str() == "x"){
             (*it).condition = "x:data";
             (*it).fill = 0;
             return e->param();
         }
         QString value;
         QString field;
-        if (data->Field.ptr &&
-                (!strcmp(data->Type.ptr, "text-single") ||
-                 !strcmp(data->Type.ptr, "text-private") ||
-                 !strcmp(data->Type.ptr, "text-multi"))){
-            field = data->Field.ptr;
-            if (!strcmp(data->Field.ptr, "first") && !m_first.isEmpty()){
+        if (!data->Field.str().isEmpty() &&
+                (data->Type.str() == "text-single" ||
+                 data->Type.str() == "text-private" ||
+                 data->Type.str() == "text-multi")){
+            field = data->Field.str();
+            if ((data->Field.str() == "first") && !m_first.isEmpty()){
                 value = m_first;
                 (*it).fill |= FILL_FIRST;
             }
-            if (!strcmp(data->Field.ptr, "last") && !m_last.isEmpty()){
+            if ((data->Field.str() == "last") && !m_last.isEmpty()){
                 value = m_last;
                 (*it).fill |= FILL_LAST;
             }
-            if ((!strcmp(data->Field.ptr, "nickname") || !strcmp(data->Field.ptr, "nick")) && !m_nick.isEmpty()){
+            if (((data->Field.str() == "nickname") || (data->Field.str() == "nick")) && !m_nick.isEmpty()){
                 value = m_nick;
                 (*it).fill |= FILL_NICK;
             }
-            if (!strcmp(data->Field.ptr, "email") && !m_mail.isEmpty()){
+            if ((data->Field.str() == "email") && !m_mail.isEmpty()){
                 value = m_mail;
                 (*it).fill |= FILL_MAIL;
             }
         }
-        if (!strcmp(data->Type.ptr, "first") && !m_first.isEmpty()){
-            field = data->Type.ptr;
+        if ((data->Type.str() == "first") && !m_first.isEmpty()){
+            field = data->Type.str();
             value = m_first;
             (*it).fill |= FILL_FIRST;
         }
-        if (!strcmp(data->Type.ptr, "last") && !m_last.isEmpty()){
-            field = data->Type.ptr;
+        if ((data->Type.str() == "last") && !m_last.isEmpty()){
+            field = data->Type.str();
             value = m_last;
             (*it).fill |= FILL_LAST;
         }
-        if ((!strcmp(data->Type.ptr, "nickname") || !strcmp(data->Type.ptr, "nick")) && !m_nick.isEmpty()){
-            field = data->Type.ptr;
+        if (((data->Type.str() == "nickname") || (data->Type.str() == "nick")) && !m_nick.isEmpty()){
+            field = data->Type.str();
             value = m_nick;
             (*it).fill |= FILL_NICK;
         }
-        if (!strcmp(data->Type.ptr, "email") && !m_mail.isEmpty()){
-            field = data->Type.ptr;
+        if ((data->Type.str() == "email") && !m_mail.isEmpty()){
+            field = data->Type.str();
             value = m_mail;
             (*it).fill |= FILL_MAIL;
         }
@@ -349,11 +349,11 @@ void *JabberAdd::processEvent(Event *e)
         JabberSearchData *data = (JabberSearchData*)(e->param());
         list<AgentSearch>::iterator it;
         for (it = m_agents.begin(); it != m_agents.end(); ++it)
-            if ((*it).id_search == data->ID.ptr)
+            if (QString::fromUtf8((*it).id_search.c_str()) == data->ID.str())
                 break;
         if (it == m_agents.end())
             return NULL;
-        if (data->JID.ptr == NULL){
+        if (data->JID.str().isEmpty()){
             addAttr("", i18n("JID"));
             for (unsigned i = 0; i < data->nFields.toULong(); i++){
                 addAttr(get_str(data->Fields, i * 2), get_str(data->Fields, i * 2 + 1));
@@ -372,8 +372,8 @@ void *JabberAdd::processEvent(Event *e)
         }else if ((*it).type == "yahoo"){
             icon = "Yahoo!";
         }
-        if (data->Status.ptr){
-            if (!strcmp(data->Status.ptr, "online")){
+        if (!data->Status.str().isEmpty()){
+            if (data->Status.str() == "online"){
                 icon += "_online";
             }else{
                 icon += "_offline";
@@ -381,19 +381,19 @@ void *JabberAdd::processEvent(Event *e)
         }
         QStringList l;
         l.append(icon);
-        l.append(QString::fromUtf8(data->JID.ptr));
+        l.append(data->JID.str());
         for (unsigned i = 0; i < m_fields.size(); i++){
             QString v;
             if (m_fields[i] == ""){
-                v = QString::fromUtf8(data->JID.ptr);
-            }else if ((m_fields[i] == "first") && data->First.ptr){
-                v = QString::fromUtf8(data->First.ptr);
-            }else if ((m_fields[i] == "last") && data->Last.ptr){
-                v = QString::fromUtf8(data->Last.ptr);
-            }else if ((m_fields[i] == "nick") && data->Nick.ptr){
-                v = QString::fromUtf8(data->Nick.ptr);
-            }else if ((m_fields[i] == "email") && data->EMail.ptr){
-                v = QString::fromUtf8(data->EMail.ptr);
+                v = data->JID.str();
+            }else if ((m_fields[i] == "first") && !data->First.str().isEmpty()){
+                v = data->First.str();
+            }else if ((m_fields[i] == "last") && !data->Last.str().isEmpty()){
+                v = data->Last.str();
+            }else if ((m_fields[i] == "nick") && !data->Nick.str().isEmpty()){
+                v = data->Nick.str();
+            }else if ((m_fields[i] == "email") && !data->EMail.str().isEmpty()){
+                v = data->EMail.str();
             }else{
                 for (unsigned n = 0; n < (*it).fields.size(); n++){
                     if ((*it).fields[n] == m_fields[i]){

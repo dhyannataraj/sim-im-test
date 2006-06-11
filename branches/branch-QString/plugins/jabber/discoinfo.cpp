@@ -95,8 +95,8 @@ void DiscoInfo::reset()
     }
     free_data(jabberUserData, &m_data);
     load_data(jabberUserData, &m_data);
-    set_str(&m_data.ID.ptr, m_url.utf8());
-    set_str(&m_data.Node.ptr, m_node.utf8());
+    m_data.ID.str()   = m_url;
+    m_data.Node.str() = m_node;
     setTitle();
     edtJName->setText(m_name);
     edtType->setText(m_type);
@@ -204,14 +204,14 @@ void *DiscoInfo::processEvent(Event *e)
 {
     if (e->type() == EventVCard){
         JabberUserData *data = (JabberUserData*)(e->param());
-        if (!str_cmp(m_data.ID.ptr, data->ID.ptr) && !str_cmp(m_data.Node.ptr, data->Node.ptr)){
-            edtFirstName->setText(data->FirstName.ptr ? QString::fromUtf8(data->FirstName.ptr) : QString(""));
-            edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
-            edtBirthday->setText(data->Bday.ptr ? QString::fromUtf8(data->Bday.ptr) : QString(""));
-            edtUrl->setText(data->Url.ptr ? QString::fromUtf8(data->Url.ptr) : QString(""));
+        if (m_data.ID.str() == data->ID.str() && m_data.Node.str() == data->Node.str()){
+            edtFirstName->setText(data->FirstName.str());
+            edtNick->setText(data->Nick.str());
+            edtBirthday->setText(data->Bday.str());
+            edtUrl->setText(data->Url.str());
             urlChanged(edtUrl->text());
-            edtEMail->setText(data->EMail.ptr ? QString::fromUtf8(data->EMail.ptr) : QString(""));
-            edtPhone->setText(data->Phone.ptr ? QString::fromUtf8(data->Phone.ptr) : QString(""));
+            edtEMail->setText(data->EMail.str());
+            edtPhone->setText(data->Phone.str());
         }
     }
     if (e->type() == EventDiscoItem){
@@ -279,12 +279,12 @@ void DiscoInfo::apply()
 {
     if (m_bVCard && m_about){
         m_about->apply(m_browser->m_client, &m_data);
-        set_str(&m_data.FirstName.ptr, edtFirstName->text().utf8());
-        set_str(&m_data.Nick.ptr, edtNick->text().utf8());
-        set_str(&m_data.Bday.ptr, edtBirthday->text().utf8());
-        set_str(&m_data.Url.ptr, edtUrl->text().utf8());
-        set_str(&m_data.EMail.ptr, edtEMail->text().utf8());
-        set_str(&m_data.Phone.ptr, edtPhone->text().utf8());
+        m_data.FirstName.str() = edtFirstName->text();
+        m_data.Nick.str()      = edtNick->text();
+        m_data.Bday.str()      = edtBirthday->text();
+        m_data.Url.str()       = edtUrl->text();
+        m_data.EMail.str()     = edtEMail->text();
+        m_data.Phone.str()     = edtPhone->text();
         m_browser->m_client->setClientInfo(&m_data);
     }
 }
