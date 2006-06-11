@@ -1378,8 +1378,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 break;
             case PLUGIN_ICQPHONE:
-                if ((state != 0) != data->ICQPhone.toBool()){
-                    data->ICQPhone.asBool() = (state != 0);
+                if ((state != 0) != data->ICQPhone.toULong()){
+                    data->ICQPhone.asULong() = (state != 0);
                     Event e(EventContactChanged, contact);
                     e.process();
                 }

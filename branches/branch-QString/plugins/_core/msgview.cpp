@@ -1209,7 +1209,7 @@ void *MsgView::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if (data->OpenNewMessage.asBool())
+                if (data->OpenNewMessage.asULong() != NEW_MSG_NOOPEN)
                     bAdd = false;
             }
         }
