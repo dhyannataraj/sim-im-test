@@ -923,23 +923,23 @@ class EXPORT Data
 public:
     Data();
     Data(const QString &d);
+    Data(const QStringList &d);
     Data(long d);
     Data(unsigned long d);
     Data(bool d);
-    Data(const QStringList &d);
+    Data(const QObject *d);
     Data(const IP *d);
-    Data(enum DataType t);
-    Data(QObject *d);
 
     void setName(const QString &name);
     const QString &name() const;
 
     void clear();
 
-    const QString str() const;
+    QString str() const;
     QString &str();
     bool setStr(const QString &s);
 
+    QStringList strList() const;
     QStringList &strList();
     bool setStrList(const QStringList &s);
 
@@ -963,18 +963,15 @@ public:
 protected:
     void checkType(DataType type) const;
     DataType m_type;
-    QVariant m_data;
     QString m_name;
+    // don't use QVariant as it doesn't support our data types in the way we like it
+    QString        m_dataAsQString;
+    QStringList    m_dataAsQStringList;
+    unsigned long  m_dataAsValue;
+    bool           m_dataAsBool;
+    QObject       *m_dataAsObject;
+    IP            *m_dataAsIP;
 };
-
-/*
-typedef union Data
-{
-    char            *ptr;
-    unsigned long   value;
-    bool            bValue;
-} Data;
-*/
 
 #define DATA(A) ((const char*)(A))
 

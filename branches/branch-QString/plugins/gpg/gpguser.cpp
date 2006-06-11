@@ -59,7 +59,7 @@ void GpgUser::refresh()
 {
     if (m_exec)
         return;
-    QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
+    QString gpg  = GpgPlugin::plugin->GPG();
     QString home = user_file(GpgPlugin::plugin->getHome());
     if (gpg.isEmpty() || home.isEmpty())
         return;
