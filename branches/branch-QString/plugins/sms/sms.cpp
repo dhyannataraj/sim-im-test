@@ -28,7 +28,7 @@
 #include <qwidgetlist.h>
 #include <qobjectlist.h>
 
-using std::string;
+using namespace std;
 using namespace SIM;
 
 const unsigned COL_TYPE	= 3;
@@ -493,9 +493,9 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
     }
 }
 
-const char *SMSClient::getServer() const
+QString SMSClient::getServer() const
 {
-    return NULL;
+    return QString::null;
 }
 
 unsigned short SMSClient::getPort() const

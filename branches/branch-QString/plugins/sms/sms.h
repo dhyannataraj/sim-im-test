@@ -67,14 +67,13 @@ typedef struct SMSClientData
 
 const unsigned SMS_SIGN	= 6;
 
-typedef struct smsUserData
+struct smsUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data	Name;
     SIM::Data	Phone;
     SIM::Data	Index;
     SIM::Data	Type;
-} smsUserData;
+};
 
 class SMSClient : public SIM::TCPClient
 {
@@ -103,7 +102,7 @@ protected slots:
     void phonebookEntry(int, int, const QString&, const QString&);
     void callTimeout();
 protected:
-    virtual const char		*getServer() const;
+    virtual QString         getServer() const;
     virtual unsigned short	getPort() const;
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
