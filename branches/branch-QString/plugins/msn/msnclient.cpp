@@ -163,7 +163,7 @@ QString MSNClient::getConfig()
     for (list<MSNListRequest>::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
         if (!listRequests.isEmpty())
             listRequests += ";";
-        listRequests += QString::number((*it).Type) + "," + QString::fromUtf8((*it).Name.c_str());
+        listRequests += QString::number((*it).Type) + "," + (*it).Name;
     }
     setListRequests(listRequests);
     QString res = Client::getConfig();
@@ -258,9 +258,10 @@ void MSNClient::disconnected()
             if (data->Status.toULong() != STATUS_OFFLINE){
                 data->Status.asULong() = STATUS_OFFLINE;
                 data->StatusTime.asULong() = now;
-                if (data->sb.ptr){
-                    delete (SBSocket*)(data->sb.ptr);
-                    data->sb.ptr = NULL;
+                SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
+                if (sock){
+                    delete sock;
+                    data->sb.clear();
                 }
                 bChanged = true;
             }
@@ -376,7 +377,7 @@ void MSNClient::processLST(const char *mail, const char *name, unsigned state, u
 
     m_curBuddy = mail;
     Contact *contact;
-    MSNListRequest *lr = findRequest(mail, LR_CONTACTxREMOVED);
+    MSNListRequest *lr = findRequest(QString::fromUtf8(mail), LR_CONTACTxREMOVED);
     if (lr)
         return;
     bool bNew = false;
@@ -385,9 +386,9 @@ void MSNClient::processLST(const char *mail, const char *name, unsigned state, u
         data = findContact(mail, name, contact);
         bNew = true;
     }else{
-        set_str(&data->EMail.ptr, mail);
-        set_str(&data->ScreenName.ptr, name);
-        if (name != (const char*)(contact->getName().utf8()))
+        data->EMail.str() = QString::fromUtf8(mail);
+        data->ScreenName.str() = QString::fromUtf8(name);
+        if (data->ScreenName.str() != contact->getName())
             contact->setName(QString::fromUtf8(name));
     }
     data->sFlags.asULong() |= MSN_CHECKED;
@@ -395,11 +396,11 @@ void MSNClient::processLST(const char *mail, const char *name, unsigned state, u
     if (state & MSN_BLOCKED)
         contact->setIgnore(true);
 
-    lr = findRequest(mail, LR_CONTACTxCHANGED);
+    lr = findRequest(QString::fromUtf8(mail), LR_CONTACTxCHANGED);
     data->Group.asULong() = grp;
-    set_str(&data->PhoneHome.ptr, NULL);
-    set_str(&data->PhoneWork.ptr, NULL);
-    set_str(&data->PhoneMobile.ptr, NULL);
+    data->PhoneHome.clear();
+    data->PhoneWork.clear();
+    data->PhoneMobile.clear();
     data->Mobile.asBool() = false;
     Group *group = NULL;
     if ((grp == 0) || (grp == NO_GROUP)){
@@ -419,7 +420,7 @@ void MSNClient::processLST(const char *mail, const char *name, unsigned state, u
         if (bChanged){
             MSNListRequest lr;
             lr.Type = LR_CONTACTxCHANGED;
-            lr.Name = data->EMail.ptr;
+            lr.Name = data->EMail.str();
             m_requests.push_back(lr);
         }
         if (data->Flags.toULong() & MSN_FORWARD)
@@ -558,11 +559,11 @@ void MSNClient::getLine(const char *line)
             QString type = getToken(l, ' ');
             bool bChanged = false;
             if (type == "PHH"){
-                bChanged = set_str(&data->PhoneHome.ptr, unquote(info).utf8());
+                bChanged = data->PhoneHome.setStr(unquote(info));
             }else if (type == "PHW"){
-                bChanged = set_str(&data->PhoneWork.ptr, unquote(info).utf8());
+                bChanged = data->PhoneWork.setStr(unquote(info));
             }else if (type == "PHM"){
-                bChanged = set_str(&data->PhoneMobile.ptr, unquote(info).utf8());
+                bChanged = data->PhoneMobile.setStr(unquote(info));
             }else if (type == "MOB"){
                 data->Mobile.asBool() = ((info[0] == 'Y') != 0);
             }else{
@@ -733,11 +734,11 @@ void MSNClient::getLine(const char *line)
     if (cmd == "PRP"){
         QString cmd = getToken(l, ' ');
         if (cmd == "PHH")
-            set_str(&data.owner.PhoneHome.ptr, unquote(getToken(l, ' ')).utf8());
+            data.owner.PhoneHome.str() = unquote(getToken(l, ' '));
         if (cmd == "PHW")
-            set_str(&data.owner.PhoneWork.ptr, unquote(getToken(l, ' ')).utf8());
+            data.owner.PhoneWork.str() = unquote(getToken(l, ' '));
         if (cmd == "PHM")
-            set_str(&data.owner.PhoneMobile.ptr, unquote(getToken(l, ' ')).utf8());
+            data.owner.PhoneMobile.str() = unquote(getToken(l, ' '));
         if (cmd == "MBE")
             data.owner.Mobile.asBool() = (getToken(l, ' ') == "Y");
         return;
@@ -751,11 +752,11 @@ void MSNClient::getLine(const char *line)
         e.process();
         QString cmd = getToken(l, ' ');
         if (cmd == "PHH")
-            set_str(&data->PhoneHome.ptr, unquote(getToken(l, ' ')).utf8());
+            data->PhoneHome.str() = unquote(getToken(l, ' '));
         if (cmd == "PHW")
-            set_str(&data->PhoneWork.ptr, unquote(getToken(l, ' ')).utf8());
+            data->PhoneWork.str() = unquote(getToken(l, ' '));
         if (cmd == "PHM")
-            set_str(&data->PhoneMobile.ptr, unquote(getToken(l, ' ')).utf8());
+            data->PhoneMobile.str() = unquote(getToken(l, ' '));
         if (cmd == "MBE")
             data->Mobile.asBool() = (getToken(l, ' ') == "Y");
         return;
@@ -857,14 +858,12 @@ void MSNClient::ping()
 
 QString MSNClient::getLogin()
 {
-    if (data.owner.EMail.ptr == NULL)
-        return "";
-    return QString::fromUtf8(data.owner.EMail.ptr);
+    return data.owner.EMail.str();
 }
 
 void MSNClient::setLogin(const QString &str)
 {
-    set_str(&data.owner.EMail.ptr, str.utf8());
+    data.owner.EMail.str() = str;
 }
 
 const unsigned MAIN_INFO = 1;
@@ -930,7 +929,7 @@ CommandDef *MSNClient::infoWindows(Contact*, void *_data)
     MSNUserData *data = (MSNUserData*)_data;
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += get_utf8(data->EMail.ptr);
+    name += data->EMail.str();
     msnWnd[0].text_wrk = name;
     return msnWnd;
 }
@@ -939,7 +938,7 @@ CommandDef *MSNClient::configWindows()
 {
     QString name = i18n(protocol()->description()->text);
     name += " ";
-    name += get_utf8(data.owner.EMail.ptr);
+    name += data.owner.EMail.str();
     cfgMsnWnd[0].text_wrk = name;
     return cfgMsnWnd;
 }
@@ -996,7 +995,7 @@ bool MSNClient::send(Message *msg, void *_data)
     case MessageAuthGranted:
         if (data->Flags.toULong() & MSN_ACCEPT)
             return false;
-        packet = new AddPacket(this, "AL", data->EMail.ptr, quote(data->ScreenName.str()).utf8(), 0);
+        packet = new AddPacket(this, "AL", data->EMail.str().utf8(), quote(data->ScreenName.str()).utf8(), 0);
         packet->send();
     case MessageAuthRefused:
         if (data->Flags.toULong() & MSN_ACCEPT)
@@ -1020,7 +1019,7 @@ bool MSNClient::send(Message *msg, void *_data)
                 if (getInvisible())
                     return false;
                 Contact *contact;
-                findContact(data->EMail.ptr, contact);
+                findContact(data->EMail.str().utf8(), contact);
                 sock = new SBSocket(this, contact, data);
                 sock->connect();
                 data->sb.setObject(sock);
@@ -1033,7 +1032,7 @@ bool MSNClient::send(Message *msg, void *_data)
                 if (getInvisible())
                     return false;
                 Contact *contact;
-                findContact(data->EMail.ptr, contact);
+                findContact(data->EMail.str().utf8(), contact);
                 sock = new SBSocket(this, contact, data);
                 sock->connect();
                 data->sb.setObject(sock);
@@ -1059,7 +1058,7 @@ QString MSNClient::dataName(void *_data)
     QString res = name();
     MSNUserData *data = (MSNUserData*)_data;
     res += "+";
-    res += data->EMail.ptr;
+    res += data->EMail.str();
     return res;
 }
 
@@ -1068,10 +1067,9 @@ bool MSNClient::isMyData(clientData *&_data, Contact *&contact)
     if (_data->Sign.toULong() != MSN_SIGN)
         return false;
     MSNUserData *data = (MSNUserData*)_data;
-    if (data->EMail.ptr && this->data.owner.EMail.ptr &&
-            data->EMail.str().lower() == this->data.owner.EMail.str().lower())
+    if (data->EMail.str().lower() == this->data.owner.EMail.str().lower())
         return false;
-    MSNUserData *my_data = findContact(data->EMail.ptr, contact);
+    MSNUserData *my_data = findContact(data->EMail.str().utf8(), contact);
     if (my_data){
         data = my_data;
     }else{
@@ -1084,7 +1082,7 @@ bool MSNClient::createData(clientData *&_data, Contact *contact)
 {
     MSNUserData *data = (MSNUserData*)_data;
     MSNUserData *new_data = (MSNUserData*)(contact->clientData.createData(this));
-    set_str(&new_data->EMail.ptr, data->EMail.ptr);
+    new_data->EMail.str() = data->EMail.str();
     _data = (clientData*)new_data;
     return true;
 }
@@ -1093,28 +1091,28 @@ void MSNClient::setupContact(Contact *contact, void *_data)
 {
     MSNUserData *data = (MSNUserData*)_data;
     QString phones;
-    if (data->PhoneHome.ptr){
-        phones += QString::fromUtf8(data->PhoneHome.ptr);
+    if (!data->PhoneHome.str().isEmpty()){
+        phones += data->PhoneHome.str();
         phones += ",Home Phone,1";
     }
-    if (data->PhoneWork.ptr){
+    if (!data->PhoneWork.str().isEmpty()){
         if (!phones.isEmpty())
             phones += ";";
-        phones += QString::fromUtf8(data->PhoneWork.ptr);
+        phones += data->PhoneWork.str();
         phones += ",Work Phone,1";
     }
-    if (data->PhoneMobile.ptr){
+    if (!data->PhoneMobile.str().isEmpty()){
         if (!phones.isEmpty())
             phones += ";";
-        phones += QString::fromUtf8(data->PhoneMobile.ptr);
+        phones += data->PhoneMobile.str();
         phones += ",Private Cellular,2";
     }
     bool bChanged = contact->setPhones(phones, name());
-    bChanged |= contact->setEMails(data->EMail.ptr, name());
+    bChanged |= contact->setEMails(data->EMail.str(), name());
     if (contact->getName().isEmpty()){
-        QString name = QString::fromUtf8(data->ScreenName.ptr);
+        QString name = data->ScreenName.str();
         if (name.isEmpty())
-            name = QString::fromUtf8(data->EMail.ptr);
+            name = data->EMail.str();
         int n = name.find('@');
         if (n > 0)
             name = name.left(n);
@@ -1166,7 +1164,7 @@ MSNUserData *MSNClient::findContact(const char *mail, Contact *&contact)
         MSNUserData *res;
         ClientDataIterator it(contact->clientData, this);
         while ((res = (MSNUserData*)(++it)) != NULL){
-            if (!strcmp(res->EMail.ptr, mail))
+            if (res->EMail.str() == QString::fromUtf8(mail))
                 return res;
         }
     }
@@ -1177,7 +1175,7 @@ QString MSNClient::contactName(void *clientData)
 {
     MSNUserData *data = (MSNUserData*)clientData;
     QString res = "MSN: ";
-    res += QString::fromUtf8(data->EMail.ptr);
+    res += data->EMail.str();
     return res;
 }
 
@@ -1204,7 +1202,7 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
     QString name_str = unquote(QString::fromUtf8(name));
     MSNUserData *data = findContact(mail, contact);
     if (data){
-        set_str(&data->ScreenName.ptr, name);
+        data->ScreenName.str() = QString::fromUtf8(name);
         setupContact(contact, data);
         return data;
     }
@@ -1213,8 +1211,8 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
         while ((contact = ++it) != NULL){
             if (contact->getName() == name_str){
                 data = (MSNUserData*)(contact->clientData.createData(this));
-                set_str(&data->EMail.ptr, mail);
-                set_str(&data->ScreenName.ptr, name);
+                data->EMail.str() = QString::fromUtf8(mail);
+                data->ScreenName.str() = QString::fromUtf8(name);
                 setupContact(contact, data);
                 Event e(EventContactChanged, contact);
                 e.process();
@@ -1225,8 +1223,8 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
         while ((contact = ++it) != NULL){
             if (contact->getName().lower() == name_str.lower()){
                 data = (MSNUserData*)(contact->clientData.createData(this));
-                set_str(&data->EMail.ptr, mail);
-                set_str(&data->ScreenName.ptr, name);
+                data->EMail.str() = QString::fromUtf8(mail);
+                data->ScreenName.str() = QString::fromUtf8(name);
                 setupContact(contact, data);
                 Event e(EventContactChanged, contact);
                 e.process();
@@ -1241,8 +1239,8 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
             while ((contact = ++it) != NULL){
                 if (contact->getName().lower() == name_str.lower()){
                     data = (MSNUserData*)(contact->clientData.createData(this));
-                    set_str(&data->EMail.ptr, mail);
-                    set_str(&data->ScreenName.ptr, name);
+                    data->EMail.str() = QString::fromUtf8(mail);
+                    data->ScreenName.str() = QString::fromUtf8(name);
                     setupContact(contact, data);
                     Event e(EventContactChanged, contact);
                     e.process();
@@ -1254,8 +1252,8 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
     }
     contact = getContacts()->contact(0, true);
     data = (MSNUserData*)(contact->clientData.createData(this));
-    set_str(&data->EMail.ptr, mail);
-    set_str(&data->ScreenName.ptr, name);
+    data->EMail.str() = QString::fromUtf8(mail);
+    data->ScreenName.str() = QString::fromUtf8(name);
     contact->setName(name_str);
     Event e(EventContactChanged, contact);
     e.process();
@@ -1270,7 +1268,7 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const char *name, Group *&gr
         MSNUserData *res = (MSNUserData*)(++it);
         if ((res == NULL) || (res->Group.toULong() != id))
             continue;
-        if ((name != NULL) && set_str(&res->ScreenName.ptr, name)){
+        if ((name != NULL) && res->ScreenName.setStr(QString::fromUtf8(name))){
             grp->setName(QString::fromUtf8(name));
             Event e(EventGroupChanged, grp);
             e.process();
@@ -1286,13 +1284,13 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const char *name, Group *&gr
             continue;
         MSNUserData *res = (MSNUserData*)(grp->clientData.createData(this));
         res->Group.asULong() = id;
-        set_str(&res->ScreenName.ptr, name);
+        res->ScreenName.str() = QString::fromUtf8(name);
         return res;
     }
     grp = getContacts()->group(0, true);
     MSNUserData *res = (MSNUserData*)(grp->clientData.createData(this));
     res->Group.asULong() = id;
-    set_str(&res->ScreenName.ptr, name);
+    res->ScreenName.str() = QString::fromUtf8(name);
     grp->setName(grpName);
     Event e(EventGroupChanged, grp);
     e.process();
@@ -1396,7 +1394,7 @@ void *MSNClient::processEvent(Event *e)
             MSNUserData *data;
             ClientDataIterator itc(contact->clientData, this);
             while ((data = (MSNUserData*)(++itc)) != NULL){
-                if (!strcmp(data->EMail.ptr, addr)){
+                if (data->EMail.str() == QString::fromUtf8(addr)){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
@@ -1412,8 +1410,8 @@ void *MSNClient::processEvent(Event *e)
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
-            if (data->IP.ptr)
-                return data->IP.ptr;
+            if (data->IP.ip())
+                return data->IP.ip();
         }
         return NULL;
     }
@@ -1459,14 +1457,14 @@ void *MSNClient::processEvent(Event *e)
                 bChanged = true;
             if (contact->getGroup() != (data->Group.toULong()))
                 bChanged = true;
-            if (contact->getName() != QString::fromUtf8(data->ScreenName.ptr))
+            if (contact->getName() != data->ScreenName.str())
                 bChanged = true;
             if (!bChanged)
                 continue;
-            findRequest(data->EMail.ptr, LR_CONTACTxCHANGED, true);
+            findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
             MSNListRequest lr;
             lr.Type = LR_CONTACTxCHANGED;
-            lr.Name = data->EMail.ptr;
+            lr.Name = data->EMail.str();
             m_requests.push_back(lr);
         }
         processRequests();
@@ -1477,17 +1475,17 @@ void *MSNClient::processEvent(Event *e)
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
-            findRequest(data->EMail.ptr, LR_CONTACTxCHANGED, true);
+            findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
             MSNListRequest lr;
             if (data->Group.toULong() != NO_GROUP){
                 lr.Type  = LR_CONTACTxREMOVED;
-                lr.Name  = data->EMail.ptr;
+                lr.Name  = data->EMail.str();
                 lr.Group = data->Group.toULong();
                 m_requests.push_back(lr);
             }
             if (data->Flags.toULong() & MSN_BLOCKED){
                 lr.Type = LR_CONTACTxREMOVED_BL;
-                lr.Name  = data->EMail.ptr;
+                lr.Name  = data->EMail.str();
                 m_requests.push_back(lr);
             }
         }
@@ -1498,7 +1496,7 @@ void *MSNClient::processEvent(Event *e)
         Group *grp = (Group*)(e->param());
         ClientDataIterator it(grp->clientData, this);
         MSNUserData *data = (MSNUserData*)(++it);
-        if ((data == NULL) || (grp->getName() != QString::fromUtf8(data->ScreenName.ptr))){
+        if ((data == NULL) || (grp->getName() != data->ScreenName.str())){
             findRequest(grp->id(), LR_GROUPxCHANGED, true);
             MSNListRequest lr;
             lr.Type = LR_GROUPxCHANGED;
@@ -1592,11 +1590,11 @@ MSNListRequest *MSNClient::findRequest(unsigned long id, unsigned type, bool bDe
 {
     if (m_requests.empty())
         return NULL;
-    string name = number(id);
-    return findRequest(name.c_str(), type, bDelete);
+    QString name = QString::number(id);
+    return findRequest(name, type, bDelete);
 }
 
-MSNListRequest *MSNClient::findRequest(const char *name, unsigned type, bool bDelete)
+MSNListRequest *MSNClient::findRequest(const QString &name, unsigned type, bool bDelete)
 {
     if (m_requests.empty())
         return NULL;
@@ -1623,26 +1621,26 @@ void MSNClient::processRequests()
         MSNUserData *data;
         switch ((*it).Type){
         case LR_CONTACTxCHANGED:
-            data = findContact((*it).Name.c_str(), contact);
+            data = findContact((*it).Name.utf8(), contact);
             if (data){
                 bool bBlock = (data->Flags.toULong() & MSN_BLOCKED) != 0;
                 if (contact->getIgnore() != bBlock){
                     if (contact->getIgnore()){
                         if (data->Flags.toULong() & MSN_FORWARD)
-                            packet = new RemPacket(this, "FL", (*it).Name.c_str());
+                            packet = new RemPacket(this, "FL", (*it).Name.utf8());
                         if (data->Flags.toULong() & MSN_ACCEPT){
                             if (packet)
                                 packet->send();
-                            packet = new RemPacket(this, "AL", (*it).Name.c_str());
+                            packet = new RemPacket(this, "AL", (*it).Name.utf8());
                         }
                         data->Flags.asULong() &= ~(MSN_FORWARD | MSN_ACCEPT);
                         if (packet)
                             packet->send();
-                        packet = new AddPacket(this, "BL", data->EMail.ptr, quote(contact->getName()).utf8());
-                        set_str(&data->ScreenName.ptr, contact->getName().utf8());
+                        packet = new AddPacket(this, "BL", data->EMail.str().utf8(), quote(contact->getName()).utf8());
+                        data->ScreenName.str() = contact->getName();
                         data->Flags.asULong() |= MSN_BLOCKED;
                     }else{
-                        packet = new RemPacket(this, "BL", data->EMail.ptr);
+                        packet = new RemPacket(this, "BL", data->EMail.str().utf8());
                         data->Flags.asULong() &= ~MSN_BLOCKED;
                     }
                 }
@@ -1659,46 +1657,46 @@ void MSNClient::processRequests()
                 if (((data->Flags.toULong() & MSN_FORWARD) == 0) || (data->Group.toULong() == NO_GROUP)){
                     if (packet)
                         packet->send();
-                    packet = new AddPacket(this, "FL", data->EMail.ptr, quote(data->ScreenName.str()).utf8(), grp_id);
+                    packet = new AddPacket(this, "FL", data->EMail.str().utf8(), quote(data->ScreenName.str()).utf8(), grp_id);
                     data->Group.asULong() = grp_id;
                     data->Flags.asULong() |= MSN_FORWARD;
                 }
                 if (getAutoAuth() && (data->Flags.toULong() & MSN_FORWARD) && ((data->Flags.toULong() & MSN_ACCEPT) == 0) && ((data->Flags.toULong() & MSN_BLOCKED) == 0)){
                     if (packet)
                         packet->send();
-                    packet = new AddPacket(this, "AL", data->EMail.ptr, quote(data->ScreenName.str()).utf8(), 0);
+                    packet = new AddPacket(this, "AL", data->EMail.str().utf8(), quote(data->ScreenName.str()).utf8(), 0);
                     data->Group.asULong() = grp_id;
                     data->Flags.asULong() |= MSN_ACCEPT;
                 }
                 if (data->Group.toULong() != grp_id){
                     if (packet)
                         packet->send();
-                    packet = new AddPacket(this, "FL", data->EMail.ptr, quote(data->ScreenName.str()).utf8(), grp_id);
+                    packet = new AddPacket(this, "FL", data->EMail.str().utf8(), quote(data->ScreenName.str()).utf8(), grp_id);
                     packet->send();
                     packet = NULL;
-                    packet = new RemPacket(this, "FL", data->EMail.ptr, data->Group.toULong());
+                    packet = new RemPacket(this, "FL", data->EMail.str().utf8(), data->Group.toULong());
                     data->Group.asULong() = grp_id;
                 }
-                if (contact->getName() != QString::fromUtf8(data->ScreenName.ptr)){
+                if (contact->getName() != data->ScreenName.str()){
                     if (packet)
                         packet->send();
-                    packet = new ReaPacket(this, data->EMail.ptr, quote(contact->getName()).utf8());
-                    set_str(&data->ScreenName.ptr, contact->getName().utf8());
+                    packet = new ReaPacket(this, data->EMail.str().utf8(), quote(contact->getName()).utf8());
+                    data->ScreenName.str() = contact->getName();
                 }
             }
             break;
         case LR_CONTACTxREMOVED:
-            packet = new RemPacket(this, "AL", (*it).Name.c_str());
+            packet = new RemPacket(this, "AL", (*it).Name.utf8());
             packet->send();
-            packet = new RemPacket(this, "FL", (*it).Name.c_str());
+            packet = new RemPacket(this, "FL", (*it).Name.utf8());
             setNDeleted(getNDeleted() + 1);
-            setDeleted(getNDeleted(), (*it).Name.c_str());
+            setDeleted(getNDeleted(), (*it).Name.utf8());
             break;
         case LR_CONTACTxREMOVED_BL:
-            packet = new RemPacket(this, "BL", (*it).Name.c_str());
+            packet = new RemPacket(this, "BL", (*it).Name.utf8());
             break;
         case LR_GROUPxCHANGED:
-            grp = getContacts()->group(strtoul((*it).Name.c_str(), NULL, 10));
+            grp = getContacts()->group(strtoul((*it).Name.utf8(), NULL, 10));
             if (grp){
                 ClientDataIterator it(grp->clientData, this);
                 data = (MSNUserData*)(++it);
@@ -1708,11 +1706,11 @@ void MSNClient::processRequests()
                     packet = new AdgPacket(this, grp->id(), quote(grp->getName()).utf8());
                     data = (MSNUserData*)(grp->clientData.createData(this));
                 }
-                set_str(&data->ScreenName.ptr, grp->getName().utf8());
+                data->ScreenName.str() = grp->getName();
             }
             break;
         case LR_GROUPxREMOVED:
-            packet = new RmgPacket(this, strtoul((*it).Name.c_str(), NULL, 10));
+            packet = new RmgPacket(this, (*it).Name.toULong());
             break;
         }
         if (packet)
@@ -1744,7 +1742,7 @@ bool MSNClient::add(const char *mail, const char *name, unsigned grp)
 
 bool MSNClient::compareData(void *d1, void *d2)
 {
-    return strcmp(((MSNUserData*)d1)->EMail.ptr, ((MSNUserData*)d2)->EMail.ptr) == 0;
+    return (((MSNUserData*)d1)->EMail.str() == ((MSNUserData*)d2)->EMail.str());
 }
 
 static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
@@ -1815,7 +1813,7 @@ QString MSNClient::contactTip(void *_data)
         }
     }
     res += "<br>";
-    res += QString::fromUtf8(data->EMail.ptr);
+    res += data->EMail.str();
     res += "</b>";
     if (data->Status.toULong() == STATUS_OFFLINE){
         if (data->StatusTime.toULong()){
@@ -1838,11 +1836,11 @@ QString MSNClient::contactTip(void *_data)
             res += formatDateTime(data->StatusTime.toULong());
         }
     }
-    if (data->IP.ptr){
+    if (data->IP.ip()){
         res += "<br>";
         res += formatAddr(data->IP, data->Port.toULong());
     }
-    if (data->RealIP.ptr && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+    if (data->RealIP.ip() && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
         res += "<br>";
         res += formatAddr(data->RealIP, data->Port.toULong());
     }
@@ -1880,7 +1878,7 @@ SBSocket::~SBSocket()
     if (it != m_client->m_SBsockets.end())
         m_client->m_SBsockets.erase(it);
     if (m_data){
-        m_data->sb.ptr = NULL;
+        m_data->sb.clear();
         if (m_data->typing_time.toULong()){
             m_data->typing_time.asULong() = 0;
             Event e(EventContactStatus, m_contact);
@@ -1978,7 +1976,7 @@ void SBSocket::connect_ready()
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
     m_socket->setRaw(true);
-    string args = m_client->data.owner.EMail.ptr;
+    string args = m_client->data.owner.EMail.str().utf8();
     args += " ";
     args += m_cookie;
     m_cookie = "";
@@ -2080,7 +2078,7 @@ void SBSocket::getLine(const char *_line)
         process();
     }
     if (cmd == "USR")
-        send("CAL", m_data->EMail.ptr);
+        send("CAL", m_data->EMail.str().utf8());
     if ((cmd == "ACK") || (cmd == "NAK")){
         unsigned id = atol(getToken(line, ' ').c_str());
         if (id != m_msg_id){
@@ -2454,7 +2452,7 @@ void SBSocket::sendTyping()
         message += "MIME-Version: 1.0\r\n";
         message += "Content-Type: text/x-msmsgcontrol\r\n";
         message += "TypingUser: ";
-        message += m_client->data.owner.EMail.ptr;
+        message += m_client->data.owner.EMail.str().utf8();
         message += "\r\n";
         message += "\r\n";
         sendMessage(message.c_str(), "U");

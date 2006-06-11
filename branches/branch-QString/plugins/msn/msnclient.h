@@ -156,7 +156,7 @@ const unsigned NO_GROUP					= (unsigned)(-1);
 typedef struct MSNListRequest
 {
     unsigned	Type;
-    std::string	Name;
+    QString	    Name;
     unsigned	Group;
 } MSNListRequest;
 
@@ -198,7 +198,7 @@ public:
     std::list<MSNListRequest> m_requests;
     void processRequests();
     MSNListRequest *findRequest(unsigned long id, unsigned type, bool bDelete=false);
-    MSNListRequest *findRequest(const char *name, unsigned type, bool bDelete=false);
+    MSNListRequest *findRequest(const QString &name, unsigned type, bool bDelete=false);
     bool add(const char *mail, const char *name, unsigned grp);
     std::list<SBSocket*> m_SBsockets;
     virtual void setupContact(SIM::Contact*, void *data);
