@@ -1487,7 +1487,7 @@ void CorePlugin::setAutoReplies()
     for (autoReply *a = autoReplies; a->text; a++){
         const char *t = get_str(data->AutoReply, a->status);
         if ((t == NULL) || (*t == 0))
-            set_str(&data->AutoReply, a->status, i18n(a->text).utf8());
+            set_str(&data->AutoReply, a->status, i18n(a->text));
     }
 }
 
@@ -1809,8 +1809,8 @@ void *CorePlugin::processEvent(Event *e)
             ARUserData *ar = (ARUserData*)getContacts()->getUserData(ar_data_id);
             for (autoReply *a = autoReplies; a->text; a++){
                 const char *t = get_str(ar->AutoReply, a->status);
-                if (t && !strcmp(t, i18n(a->text).utf8()))
-                    set_str(&ar->AutoReply, a->status, NULL);
+                if (t && QString::fromUtf8(t) == i18n(a->text))
+                    set_str(&ar->AutoReply, a->status, QString::null);
             }
             e->process(this);
             setAutoReplies();

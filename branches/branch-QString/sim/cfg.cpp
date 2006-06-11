@@ -955,16 +955,9 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
         bar->move(state[5].asLong(), state[6].asLong());
 }
 
-EXPORT bool cmp(char *s1, char *s2)
-{
-    if (s1 == NULL)
-        return s2 != NULL;
-    if (s2 == NULL)
-        return true;
-    return strcmp(s1, s2) != 0;
-}
-
-// Data
+// ----------------------------
+// class Data
+// ----------------------------
 Data::Data()      
 {
     m_data = 0;

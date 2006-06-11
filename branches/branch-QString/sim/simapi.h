@@ -1049,7 +1049,6 @@ EXPORT void restoreGeometry(QWidget*, Geometry, bool bPos, bool bSize);
 
 EXPORT void saveToolbar(QToolBar*, Data[7]);
 EXPORT void restoreToolbar(QToolBar*, Data[7]);
-EXPORT DEPRECATED bool cmp(char *s1, char *s2);
 
 // _____________________________________________________________________________________
 // Utilities
