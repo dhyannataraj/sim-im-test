@@ -22,8 +22,6 @@
 #include "config.h"
 #endif
 
-#include <qtextedit.h>
-
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stddef.h>
@@ -59,6 +57,14 @@ typedef unsigned char _Bool;
       #define __bool_true_false_are_defined 1
     #endif
 #endif
+
+#include <qglobal.h>
+#include <qdockwindow.h>
+#include <qmap.h>
+#include <qstring.h>
+#include <qtextedit.h>
+#include <qvariant.h>
+#include <qwidget.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -100,14 +106,7 @@ typedef unsigned char _Bool;
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
-#define atoul(x) (strtoul((x), NULL, 10))
-
 #include <string>
-
-#include <qwidget.h>
-#include <qdockwindow.h>
-#include <qvariant.h>
-#include <qmap.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
