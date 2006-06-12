@@ -333,8 +333,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             data->FollowMe.value = 0;
                             bChanged = true;
                         }
-                        if (data->ICQPhone.bValue){
-                            data->ICQPhone.bValue = false;
+                        if (data->ICQPhone.value){
+                            data->ICQPhone.value = 0;
                             bChanged = true;
                         }
                         if (data->PluginStatusTime.value)

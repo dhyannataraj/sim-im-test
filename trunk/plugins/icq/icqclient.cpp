@@ -266,7 +266,7 @@ static DataDef icqClientData[] =
         { "RandomChatGroup", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
         { "SendFormat", DATA_ULONG, 1, 0 },
-        { "DisablePlugins", DATA_ULONG, 1, 0 },
+        { "DisablePlugins", DATA_BOOL, 1, 0 },
         { "DisableAutoUpdate", DATA_BOOL, 1, 0 },
         { "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
         { "DisableTypingNotification", DATA_BOOL, 1, 0 },

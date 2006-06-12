@@ -1383,8 +1383,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 break;
             case PLUGIN_ICQPHONE:
-                if ((state != 0) != data->ICQPhone.bValue){
-                    data->ICQPhone.bValue = (state != 0);
+                if ((state != 0) != data->ICQPhone.value){
+                    data->ICQPhone.value = (state != 0);
                     Event e(EventContactChanged, contact);
                     e.process();
                 }
@@ -1595,7 +1595,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
             answer.packStr32(plugin_descr[PLUGIN_FILESERVER]);
             answer.pack((unsigned long)0);
         }
-        if (this->data.owner.ICQPhone.bValue){
+        if (this->data.owner.ICQPhone.value){
             nEntries++;
             answer.pack((char*)plugins[PLUGIN_ICQPHONE], sizeof(plugin));
             answer.pack((unsigned short)0);

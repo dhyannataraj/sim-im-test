@@ -430,10 +430,10 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> webAware
             >> allowDC
             >> hideEmail;
-            data->TimeZone.value    = TimeZone;
-            data->WebAware.value    = webAware;
-            data->bNoDirect.value   = (bool)!allowDC;
-            data->HiddenEMail.value = hideEmail;
+            data->TimeZone.value     = TimeZone;
+            data->WebAware.bValue    = (webAware != 0);
+            data->bNoDirect.bValue   = (allowDC == 0);
+            data->HiddenEMail.bValue = (hideEmail != 0);
             break;
         }
     case ICQ_SRVxMORE_INFO:{
