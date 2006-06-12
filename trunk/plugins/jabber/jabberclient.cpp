@@ -47,6 +47,8 @@
 #include <ctype.h>
 #endif
 
+#include <algorithm>
+
 using namespace std;
 using namespace SIM;
 
@@ -2483,6 +2485,34 @@ bool JabberClient::isAgent(const char *jid)
     return false;
 }
 
+class JabberClient::JabberAuthMessage : public AuthMessage
+{
+public:
+    JabberAuthMessage(std::vector<JabberAuthMessage*> &tempMessages, unsigned type, Buffer *cfg=NULL)
+        : AuthMessage(type, cfg)
+        , tempMessages(tempMessages)
+    {
+        tempMessages.push_back(this);
+    }
+    virtual ~JabberAuthMessage()
+    {
+        remove(tempMessages, this);
+    }
+
+    static bool remove(std::vector<JabberAuthMessage*>&messages, JabberAuthMessage *value)
+    {
+        std::vector<JabberAuthMessage*>::iterator it = find(messages.begin(), messages.end(), value);
+        if (it != messages.end())
+        {
+            messages.erase(it);
+            return true;
+        }
+        return false;
+    }
+
+private:
+    std::vector<JabberAuthMessage*> &tempMessages;
+};
 
 void JabberClient::auth_request(const char *jid, unsigned type, const char *text, bool bCreate)
 {
@@ -2538,14 +2568,19 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     //that causes crash when filter plugin configured to block Authorisation messages.
     //So parameter must be pointer to object from heap, but then I don't know how it can be safely 
     //feed if it wasn't in EventMessageReceived. serzh.
-    AuthMessage msg(type);
-    msg.setContact(contact->id());
-    msg.setClient(dataName(data).c_str());
-    msg.setFlags(MESSAGE_RECEIVED);
+    //12.june.2006 zowers: FIXED.
+    JabberAuthMessage *msg = new JabberAuthMessage(tempAuthMessages, type);
+    msg->setContact(contact->id());
+    msg->setClient(dataName(data).c_str());
+    msg->setFlags(MESSAGE_RECEIVED);
     if (text)
-        msg.setText(unquoteString(QString::fromUtf8(text)));
-    Event e(EventMessageReceived, &msg);
+        msg->setText(unquoteString(QString::fromUtf8(text)));
+    Event e(EventMessageReceived, msg);
     e.process();
+    if (JabberAuthMessage::remove(tempAuthMessages, msg))
+    {
+        delete msg;
+    }
 }
 
 void JabberClient::setInvisible(bool bState)
