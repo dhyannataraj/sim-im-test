@@ -966,32 +966,7 @@ Data::Data()
 
 Data::Data(const Data &d)
 {
-    m_name = d.m_name;
-    m_type = d.m_type;
-    switch(m_type) {
-        case DATA_STRING:
-            m_dataAsQString = d.m_dataAsQString;
-            break;
-        case DATA_LONG:
-        case DATA_ULONG:
-            m_dataAsValue = d.m_dataAsValue;
-            break;
-        case DATA_BOOL:
-            m_dataAsBool = d.m_dataAsBool;
-            break;
-        case DATA_STRLIST:
-            m_dataAsQStringList = d.m_dataAsQStringList;
-            break;
-        case DATA_IP:
-            m_dataAsIP = d.m_dataAsIP;
-            break;
-        case DATA_OBJECT:
-            m_dataAsObject = d.m_dataAsObject;
-        case DATA_UNKNOWN:
-        case DATA_STRUCT:
-        default:
-            break;
-    }
+    *this = d;
 }
 
 Data::Data(const QString &d)      
@@ -1041,6 +1016,37 @@ Data::Data(const IP *d)
 { 
     clear();
     m_dataAsIP = const_cast<IP*>(d); 
+}
+
+Data &Data::operator =(const Data &d)
+{
+    m_name = d.m_name;
+    m_type = d.m_type;
+    switch(m_type) {
+        case DATA_STRING:
+            m_dataAsQString = d.m_dataAsQString;
+            break;
+        case DATA_LONG:
+        case DATA_ULONG:
+            m_dataAsValue = d.m_dataAsValue;
+            break;
+        case DATA_BOOL:
+            m_dataAsBool = d.m_dataAsBool;
+            break;
+        case DATA_STRLIST:
+            m_dataAsQStringList = d.m_dataAsQStringList;
+            break;
+        case DATA_IP:
+            m_dataAsIP = d.m_dataAsIP;
+            break;
+        case DATA_OBJECT:
+            m_dataAsObject = d.m_dataAsObject;
+        case DATA_UNKNOWN:
+        case DATA_STRUCT:
+        default:
+            break;
+    }
+    return *this;
 }
 
 void Data::clear()

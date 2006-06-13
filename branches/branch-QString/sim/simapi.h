@@ -930,6 +930,8 @@ public:
     Data(const QObject *d);
     Data(const IP *d);
 
+    Data &operator =(const Data &);
+
     void setName(const QString &name);
     const QString &name() const;
 

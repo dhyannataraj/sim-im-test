@@ -2753,7 +2753,7 @@ void *CorePlugin::processEvent(Event *e)
                     item = getToken(item, '/', false);
                     QString number = getToken(item, ',');
                     getToken(item, ',');
-                    unsigned long icon = atoul(getToken(item, ',').latin1());
+                    unsigned long icon = getToken(item, ',').toULong();
                     cmds[n].id   = CmdLocation + n;
                     cmds[n].text = "_";
                     cmds[n].menu_id  = MenuLocation;
