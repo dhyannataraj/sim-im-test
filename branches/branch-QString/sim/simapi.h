@@ -921,6 +921,7 @@ class EXPORT Data
 {
 public:
     Data();
+    Data(const Data& d);
     Data(const QString &d);
     Data(const QStringList &d);
     Data(long d);

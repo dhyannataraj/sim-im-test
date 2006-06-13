@@ -71,6 +71,12 @@ protected:
     virtual QSizePolicy sizePolicy() const;
 };
 
+static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
+{
+    for(unsigned i = 0; i < count; i++)
+        dest[i] = src[i];
+}
+
 ContainerStatus::ContainerStatus(QWidget *parent)
         : QStatusBar(parent)
 {
@@ -132,8 +138,8 @@ Container::Container(unsigned id, const char *cfg)
     bool bPos = true;
     if (cfg == NULL){
         setId(id);
-        memcpy(data.barState, CorePlugin::m_plugin->data.containerBar, sizeof(data.barState));
-        memcpy(data.geometry, CorePlugin::m_plugin->data.containerGeo, sizeof(data.geometry));
+        copyData(data.barState, CorePlugin::m_plugin->data.containerBar, 7);
+        copyData(data.geometry, CorePlugin::m_plugin->data.containerGeo, 5);
         if ((data.geometry[WIDTH].toLong() == -1) || (data.geometry[HEIGHT].toLong() == -1)){
             QWidget *desktop = QApplication::desktop();
             data.geometry[WIDTH].asLong() = desktop->width() / 3;
@@ -502,7 +508,7 @@ void Container::toolbarChanged(QToolBar*)
     if (m_bBarChanged)
         return;
     saveToolbar(m_bar, data.barState);
-    memcpy(CorePlugin::m_plugin->data.containerBar, data.barState, sizeof(data.barState));
+    copyData(CorePlugin::m_plugin->data.containerBar, data.barState, 7);
 }
 
 void Container::statusChanged(int width)

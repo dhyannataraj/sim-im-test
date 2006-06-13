@@ -31,7 +31,7 @@ class UserList;
 typedef struct UserWndData
 {
     SIM::Data	EditHeight;
-    SIM::Data	editBar[8];
+    SIM::Data	editBar[7];
     SIM::Data	MessageType;
 } UserWndData;
 

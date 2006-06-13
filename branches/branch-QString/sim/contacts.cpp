@@ -1250,7 +1250,7 @@ bool ContactList::moveClient(Client *client, bool bUp)
 typedef struct _ClientUserData
 {
     Client  *client;
-    void    *data;
+    Data    *data;
 } _ClientUserData;
 
 class ClientUserDataPrivate : public vector<_ClientUserData>
@@ -1269,7 +1269,7 @@ ClientUserDataPrivate::~ClientUserDataPrivate()
     for (ClientUserDataPrivate::iterator it = begin(); it != end(); ++it){
         _ClientUserData &d = *it;
         free_data(d.client->protocol()->userDataDef(), d.data);
-        free(d.data);
+        delete[] d.data;
     }
 }
 
@@ -1292,7 +1292,7 @@ QString ClientUserData::property(const char *name)
 {
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         _ClientUserData &d = *it;
-        Data *user_data = (Data*)d.data;
+        Data *user_data = d.data;
         for (const DataDef *def = d.client->protocol()->userDataDef(); def->name; def++){
             if (!strcmp(def->name, name)){
                 switch (def->type){
@@ -1442,7 +1442,7 @@ void ClientUserData::join(ClientUserData &data)
 void ClientUserData::join(clientData *cData, ClientUserData &data)
 {
     for (ClientUserDataPrivate::iterator it = data.p->begin(); it != data.p->end(); ++it){
-        if ((*it).data == cData){
+        if ((*it).data == &(cData->Sign)){
             p->push_back(*it);
             data.p->erase(it);
             break;

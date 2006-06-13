@@ -38,6 +38,12 @@ static DataDef userWndData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
+static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
+{
+    for(unsigned i = 0; i < count; i++)
+        dest[i] = src[i];
+}
+
 UserWnd::UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdjust)
         : QSplitter(Horizontal, NULL)
 {
@@ -52,8 +58,9 @@ UserWnd::UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdju
     m_list = NULL;
     m_view = NULL;
 
+    
     if (cfg == NULL)
-        memcpy(data.editBar, CorePlugin::m_plugin->data.editBar, sizeof(data.editBar));
+        copyData(data.editBar, CorePlugin::m_plugin->data.editBar, 7);
 
     m_bBarChanged = true;
     if (CorePlugin::m_plugin->getContainerMode())
@@ -201,7 +208,7 @@ void UserWnd::toolbarChanged(QToolBar*)
     if (m_bBarChanged)
         return;
     saveToolbar(m_edit->m_bar, data.editBar);
-    memcpy(CorePlugin::m_plugin->data.editBar, data.editBar, sizeof(data.editBar));
+    copyData(CorePlugin::m_plugin->data.editBar, data.editBar, 7);
 }
 
 unsigned UserWnd::type()
