@@ -469,15 +469,15 @@ DirectClient::~DirectClient()
     error_state(NULL, 0);
     switch (m_channel){
     case PLUGIN_NULL:
-        if (m_data && ((DirectSocket*)(m_data->Direct.object()) == this))
+        if (m_data && ((m_data->Direct.object()) == this))
             m_data->Direct.clear();
         break;
     case PLUGIN_INFOxMANAGER:
-        if (m_data && ((DirectSocket*)(m_data->DirectPluginInfo.object()) == this))
+        if (m_data && ((m_data->DirectPluginInfo.object()) == this))
             m_data->DirectPluginInfo.clear();
         break;
     case PLUGIN_STATUSxMANAGER:
-        if (m_data && ((DirectSocket*)(m_data->DirectPluginStatus.object()) == this))
+        if (m_data && ((m_data->DirectPluginStatus.object()) == this))
             m_data->DirectPluginStatus.clear();
         break;
     }
@@ -525,10 +525,11 @@ void DirectClient::processPacket()
             }
             removeFromClient();
             switch (m_channel){
-            case PLUGIN_INFOxMANAGER:
-                if (m_data->DirectPluginInfo.object()){
-                    if (((DirectClient*)(m_data->DirectPluginInfo.object()))->copyQueue(this)){
-                        delete (QObject*)(m_data->DirectPluginInfo.object());
+            case PLUGIN_INFOxMANAGER: {
+                DirectClient *dc = dynamic_cast<DirectClient*>(m_data->Direct.object());
+                if (dc){
+                    if (dc->copyQueue(this)){
+                        delete dc;
                         m_data->DirectPluginInfo.setObject(this);
                     }else{
                         m_socket->error_state("Plugin info connection already established");
@@ -537,10 +538,12 @@ void DirectClient::processPacket()
                     m_data->DirectPluginInfo.setObject(this);
                 }
                 break;
-            case PLUGIN_STATUSxMANAGER:
-                if (m_data->DirectPluginStatus.object()){
-                    if (((DirectClient*)(m_data->DirectPluginStatus.object()))->copyQueue(this)){
-                        delete (QObject*)(m_data->DirectPluginStatus.object());
+            }
+            case PLUGIN_STATUSxMANAGER: {
+                DirectClient *dc = dynamic_cast<DirectClient*>(m_data->Direct.object());
+                if (dc){
+                    if (dc->copyQueue(this)){
+                        delete dc;
                         m_data->DirectPluginStatus.setObject(this);
                     }else{
                         m_socket->error_state("Plugin status connection already established");
@@ -549,10 +552,12 @@ void DirectClient::processPacket()
                     m_data->DirectPluginStatus.setObject(this);
                 }
                 break;
-            case PLUGIN_NULL:
-                if (m_data->Direct.object()){
-                    if (((DirectClient*)(m_data->Direct.object()))->copyQueue(this)){
-                        delete (QObject*)(m_data->Direct.object());
+            }
+            case PLUGIN_NULL: {
+                DirectClient *dc = dynamic_cast<DirectClient*>(m_data->Direct.object());
+                if (dc){
+                    if (dc->copyQueue(this)){
+                        delete dc;
                         m_data->Direct.setObject(this);
                     }else{
                         m_socket->error_state("Direct connection already established");
@@ -561,6 +566,7 @@ void DirectClient::processPacket()
                     m_data->Direct.setObject(this);
                 }
                 break;
+            }
             default:
                 m_socket->error_state("Unknown direct channel");
                 return;

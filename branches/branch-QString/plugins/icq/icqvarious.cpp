@@ -1397,7 +1397,7 @@ void ICQClient::setClientInfo(void *_data)
      if (d->WorkCountry.toULong() != data.owner.WorkCountry.toULong())
         clientInfoTLVs.append(makeUInt16(TLV_WORK_COUNTRY, d->WorkCountry.toULong()));
 
-    if (d->WorkZip.toULong() != data.owner.WorkZip.toULong())
+    if (d->WorkZip.str() != data.owner.WorkZip.str())
         clientInfoTLVs.append(makeUInt32(TLV_WORK_ZIP, QString(d->WorkZip.str()).toULong()));
 
     if (d->WorkPhone.str() == data.owner.WorkPhone.str())

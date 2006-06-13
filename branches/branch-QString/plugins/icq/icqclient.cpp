@@ -266,7 +266,7 @@ static DataDef icqClientData[] =
         { "RandomChatGroup", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
         { "SendFormat", DATA_ULONG, 1, 0 },
-        { "DisablePlugins", DATA_ULONG, 1, 0 },
+        { "DisablePlugins", DATA_BOOL, 1, 0 },
         { "DisableAutoUpdate", DATA_BOOL, 1, 0 },
         { "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
         { "DisableTypingNotification", DATA_BOOL, 1, 0 },
@@ -1280,7 +1280,8 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         }
         if (data->bTyping.toBool())
             addIcon(icons, "typing", statusIcon);
-        if (data->Direct.object() && ((DirectClient*)(data->Direct.object()))->isSecure())
+        DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+        if (dc && dc->isSecure())
             addIcon(icons, "encrypted", statusIcon);
     }
     if (data->InvisibleId.toULong())
@@ -3044,13 +3045,18 @@ bool ICQClient::canSend(unsigned type, void *_data)
                 hasCap(data, CAP_SIM) ||
                 hasCap(data, CAP_SIMOLD) ||
                 ((data->InfoUpdateTime.toULong() & 0xFF7F0000L) == 0x7D000000L)){
-            if (data->Direct.object())
-                return !((DirectClient*)(data->Direct.object()))->isSecure();
+            DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+            if (dc)
+                return !(dc->isSecure());
             return get_ip(data->IP) || get_ip(data->RealIP);
         }
         return false;
-    case MessageCloseSecure:
-        return data && data->Direct.object() && ((DirectClient*)(data->Direct.object()))->isSecure();
+    case MessageCloseSecure: {
+        if(!data)
+            return false;
+       DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+       return dc && dc->isSecure();
+    }
 #endif
     }
     return false;
