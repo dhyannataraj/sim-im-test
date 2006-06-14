@@ -262,8 +262,8 @@ void InterfaceConfig::apply()
                 log(L_WARN, "RegSetValue fail %u", res);
         }else{
             DWORD res = RegDeleteKeyA(subKey, value_name);
-            if (res!= ERROR_SUCCESS)
-                log(L_WARN, "RegSetValue fail %u", res);
+            if (res!=ERROR_SUCCESS && res!=ERROR_FILE_NOT_FOUND)
+                log(L_WARN, "RegDeleteKey fail %u", res);
         }
     }
     RegCloseKey(subKey);

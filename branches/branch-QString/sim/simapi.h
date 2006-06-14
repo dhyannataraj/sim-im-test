@@ -58,6 +58,8 @@ typedef unsigned char _Bool;
     #endif
 #endif
 
+#define QT_THREAD_SUPPORT 1
+
 #include <qglobal.h>
 #include <qdockwindow.h>
 #include <qmap.h>
@@ -74,7 +76,8 @@ typedef unsigned char _Bool;
 #pragma warning(disable: 4275)
 #pragma warning(disable: 4514)
 #pragma warning(disable: 4710)  
-#pragma warning(disable: 4786)  
+#pragma warning(disable: 4786)
+#pragma warning(disable: 4127)
 #pragma warning(push)
 #pragma warning(disable: 4018)  
 #pragma warning(disable: 4100)  
@@ -84,7 +87,6 @@ typedef unsigned char _Bool;
 #pragma warning(disable: 4530)  
 #pragma warning(disable: 4663)  
 #endif
-#define QT_THREAD_SUPPORT 1
 #endif
 
 #ifdef _MSC_VER
@@ -117,7 +119,7 @@ typedef unsigned char _Bool;
 #ifdef SIMAPI_EXPORTS
 #define EXPORT __declspec(dllexport)
 #else
-#define EXPORT
+#define EXPORT __declspec(dllimport)
 #endif
 
 #ifndef HAVE_STRCASECMP
@@ -1369,8 +1371,8 @@ protected:
 
 // _____________________________________________________________________________________
 // Contact list
-typedef QMap<unsigned, SIM::Data*> UserDataMap;
 
+class UserDataPrivate;
 class EXPORT UserData
 {
 public:
@@ -1381,7 +1383,7 @@ public:
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
 private:
-    UserDataMap m_userData;
+    UserDataPrivate *d;
 };
 
 class EXPORT Client;

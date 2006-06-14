@@ -299,6 +299,7 @@ int main(int argc, char *argv[])
             qApp->setStyle(info->create());
     }
 #endif
+    QApplication::addLibraryPath( app.applicationDirPath() + "/plugins" );
     PluginManager p(argc, argv);
 	if (p.isLoaded())
         res = app.exec();

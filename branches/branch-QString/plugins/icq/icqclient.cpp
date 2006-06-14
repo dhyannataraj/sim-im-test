@@ -1031,7 +1031,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                     if ((uin == 0) && (s != data->Screen.str()))
                         continue;
                     data = (ICQUserData*)(contact->clientData.createData(this));
-                    data->Uin.str() = uin;
+                    data->Uin.asULong() = uin;
                     if (uin == 0)
                         data->Screen.str() = s;
                     bool bChanged = false;
@@ -1063,7 +1063,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
             while ((contact = ++it) != NULL){
                 if (contact->getName().lower() == name){
                     ICQUserData *data = (ICQUserData*)(contact->clientData.createData(this));
-                    data->Uin.str() = uin;
+                    data->Uin.asULong() = uin;
                     if (uin == 0)
                         data->Screen.str() = screen;
                     data->Alias.str() = QString::fromUtf8(*alias);

@@ -2374,7 +2374,7 @@ bool JabberClient::send(Message *msg, void *_data)
             if (data->composeId.toULong() == 0)
                 return false;
             QString msg_id = "msg";
-            msg_id += number(data->composeId.toULong());
+            msg_id += QString::number(data->composeId.toULong());
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message to=\'"

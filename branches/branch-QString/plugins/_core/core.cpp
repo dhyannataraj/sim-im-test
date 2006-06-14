@@ -3370,20 +3370,20 @@ void *CorePlugin::processEvent(Event *e)
                 e.process();
             }
             if (cmd->id == CmdDeclineReasonBusy){
-                string reason;
-                reason = i18n("Sorry, I'm busy right now, and can not respond to your request").utf8();
+                QString reason;
+                reason = i18n("Sorry, I'm busy right now, and can not respond to your request");
                 messageDecline md;
                 md.msg    = (Message*)(cmd->param);
-                md.reason = reason.c_str();
+                md.reason = reason.utf8().data();
                 Event e(EventMessageDecline, &md);
                 e.process();
             }
             if (cmd->id == CmdDeclineReasonLater){
-                string reason;
-                reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later").utf8();
+                QString reason;
+                reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later");
                 messageDecline md;
                 md.msg    = (Message*)(cmd->param);
-                md.reason = reason.c_str();
+                md.reason = reason.utf8().data();
                 Event e(EventMessageDecline, &md);
                 e.process();
             }

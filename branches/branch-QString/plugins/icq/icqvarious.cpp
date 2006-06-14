@@ -941,13 +941,13 @@ bool SetMainInfoRequest::answer(Buffer&, unsigned short)
 // ******************************************
 //  static helper functions
 // ******************************************
-static Tlv makeSString(unsigned id, const char *str)
+static Tlv makeSString(unsigned id, const QString &str)
 {
-    unsigned len = strlen(str) + 1; // including '\0'
+    unsigned len = str.utf8().length() + 1; // including '\0'
     QByteArray ba( len + 2 );
     ba[0] = (char)((len     ) & 0xff);
     ba[1] = (char)((len >> 8) & 0xff);
-    memcpy( ba.data() + 2, str, len );
+    memcpy( ba.data() + 2, str.utf8(), len );
     return Tlv( id, ba.size(), ba.data() );
 }
 
@@ -962,24 +962,24 @@ static Tlv makeBCombo(unsigned id, unsigned long y, unsigned long m, unsigned lo
     return Tlv( id, 6, (const char*)buf );
 }
 
-static Tlv makeECombo(unsigned id, const char *str)
+static Tlv makeECombo(unsigned id, const QString &str)
 {
-    unsigned len = strlen(str) + 1; // including '\0'
+    unsigned len = str.utf8().length() + 1; // including '\0'
     QByteArray ba( len + 3 );
     ba[0] = (char)((len     ) & 0xff);
     ba[1] = (char)((len >> 8) & 0xff);
-    memcpy( ba.data() + 2, str, len  );
+    memcpy( ba.data() + 2, str.utf8(), len  );
     ba[ (int)len + 2 ] = '\0';  // permission (don't use in icq directories)
     return Tlv( id, ba.size(), ba.data() );
 }
 
-static QValueList<Tlv> makeICombo(unsigned id, const char *str)
+static QValueList<Tlv> makeICombo(unsigned id, const QString &str)
 {
     QValueList<Tlv> list;
     if ( !str )
         list;
 
-    QCString cstr( str );
+    QCString cstr = str.utf8();
     int cur = 0;
     int idx = 0;
     do {
@@ -1039,11 +1039,11 @@ static Tlv makeUInt8(unsigned id, unsigned char d)
     return Tlv( id, 2, data );
 }
 
-static QCString getSString(const char *tlvData)
+static QString getSString(const char *tlvData)
 {
     unsigned len;
     len = tlvData[0] | ( tlvData[1] << 8 );
-    QCString ret( &tlvData[2], len);
+    QString ret = QString::fromUtf8( &tlvData[2], len);
     return ret;
 }
 
@@ -1055,21 +1055,21 @@ static void getBCombo(const char *tlvData, unsigned long &y, unsigned long &m, u
     d = buf[2];
 }
 
-static QCString getECombo(const char *tlvData)
+static QString getECombo(const char *tlvData)
 {
     unsigned len;
     len = tlvData[0] | ( tlvData[1] << 8 );
-    QCString ret( &tlvData[2], len);
+    QString ret = QString::fromUtf8( &tlvData[2], len);
     return ret;
 }
 
-static QCString getICombo(const char *tlvData, const char *o )
+static QString getICombo(const char *tlvData, const QString &o)
 {
-    QCString ret;
-    QCString others( o );
+    QString ret;
+    QString others = o;
 
     int cat = tlvData[0] | ( tlvData[1] >> 8 );
-    ret = QString::number( cat ).latin1() + QCString( "," ) + getSString( &tlvData[2] );
+    ret = QString::number( cat ) + "," + getSString( &tlvData[2] );
     if( others.isEmpty() )
         return ret;
     return others + ';' + ret;
