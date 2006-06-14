@@ -1064,7 +1064,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     ePrefSMS.process();
 
     cmd->id			= history_data_id + 1;
-    cmd->text		= I18N_NOOP("&History");
+    cmd->text		= I18N_NOOP("&History setup");
     cmd->icon		= "history";
     cmd->icon_on	= NULL;
     cmd->param		= (void*)getHistorySetup;

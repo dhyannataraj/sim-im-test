@@ -285,10 +285,14 @@ msgid "User &info"
 msgstr "&Информация о пользователе"
 
 # mainwin.cpp:1701
-#: plugins/_core/core.cpp:649 plugins/_core/core.cpp:1068
+#: plugins/_core/core.cpp:649
 #: plugins/_core/core.cpp:1243
 msgid "&History"
 msgstr "Исто&рия"
+
+# plugins/_core/core.cpp:1067
+msgid "&History setup"
+msgstr "Настро&йки истории"
 
 # mainwin.cpp:1717 ui/aboutdlgbase.cpp:131 ui/filetransfer.cpp:156
 # ui/finddlgbase.cpp:66 ui/logindlgbase.cpp:83 ui/proxydlgbase.cpp:55
