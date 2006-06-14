@@ -12,21 +12,23 @@
 
 #ifndef QT_NO_STYLE_WINDOWS
 
-#include "qapplication.h"
-#include "qcombobox.h"
-#include "qpainter.h"
-#include "qdrawutil.h" // for now
-#include "qpixmap.h" // for now
-#include "qpalette.h" // for now
-#include "qwidget.h"
-#include "qlabel.h"
-#include "qimage.h"
-#include "qpushbutton.h"
-#include "qwidget.h"
-#include "qrangecontrol.h"
-#include "qscrollbar.h"
+#include <qapplication.h>
+#include <qcombobox.h>
+#include <qpainter.h>
+#include <qdrawutil.h> // for now
+#include <qpixmap.h> // for now
+#include <qpalette.h> // for now
+#include <qwidget.h>
+#include <qlabel.h>
+#include <qimage.h>
+#include <qpushbutton.h>
+#include <qwidget.h>
+#include <qrangecontrol.h>
+#include <qscrollbar.h>
+#include <qslider.h>
+#include <qstylefactory.h>
+#include <qstyleplugin.h>
 #include <limits.h>
-#include "qstylefactory.h"
 
 /* XPM */
 static const char *polish_xpm[] = {
@@ -1411,5 +1413,40 @@ void NorwegianWoodStyle::drawSemicircleButton( QPainter *p, const QRect &r,
     p->setClipRegion( oldClip );
     p->setClipping( bReallyClip );
 }
+
+// **************************
+// --- Plugin - interface ---
+// **************************
+
+class WoodStylePlugin : public QStylePlugin
+{
+public:
+    WoodStylePlugin();
+
+    QStringList keys() const;
+    QStyle *create( const QString& );
+};
+
+WoodStylePlugin::WoodStylePlugin()
+: QStylePlugin()
+{
+}
+
+QStringList WoodStylePlugin::keys() const
+{
+    QStringList list;
+    list << "Wood";
+    return list;
+}
+
+QStyle* WoodStylePlugin::create( const QString& s )
+{
+    if ( s.lower() == "wood" )
+        return new NorwegianWoodStyle();
+
+    return 0;
+}
+
+Q_EXPORT_PLUGIN( WoodStylePlugin )
 
 #endif

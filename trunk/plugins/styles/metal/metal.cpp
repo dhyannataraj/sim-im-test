@@ -12,20 +12,21 @@
 
 #ifndef QT_NO_STYLE_WINDOWS
 
-#include "qapplication.h"
-#include "qcombobox.h"
-#include "qpainter.h"
-#include "qdrawutil.h" // for now
-#include "qpixmap.h" // for now
-#include "qpalette.h" // for now
-#include "qwidget.h"
-#include "qlabel.h"
-#include "qimage.h"
-#include "qpushbutton.h"
-#include "qwidget.h"
-#include "qrangecontrol.h"
-#include "qscrollbar.h"
-#include "qslider.h"
+#include <qapplication.h>
+#include <qcombobox.h>
+#include <qpainter.h>
+#include <qdrawutil.h> // for now
+#include <qpixmap.h> // for now
+#include <qpalette.h> // for now
+#include <qwidget.h>
+#include <qlabel.h>
+#include <qimage.h>
+#include <qpushbutton.h>
+#include <qwidget.h>
+#include <qrangecontrol.h>
+#include <qscrollbar.h>
+#include <qslider.h>
+#include <qstyleplugin.h>
 #include <limits.h>
 
 
@@ -483,5 +484,40 @@ int MetalStyle::pixelMetric( PixelMetric metric, const QWidget *w ) const
 	return QWindowsStyle::pixelMetric( metric, w );
     }
 }
+
+// **************************
+// --- Plugin - interface ---
+// **************************
+
+class MetalStylePlugin : public QStylePlugin
+{
+public:
+    MetalStylePlugin();
+
+    QStringList keys() const;
+    QStyle *create( const QString& );
+};
+
+MetalStylePlugin::MetalStylePlugin()
+: QStylePlugin()
+{
+}
+
+QStringList MetalStylePlugin::keys() const
+{
+    QStringList list;
+    list << "Metal";
+    return list;
+}
+
+QStyle* MetalStylePlugin::create( const QString& s )
+{
+    if ( s.lower() == "metal" )
+        return new MetalStyle();
+
+    return 0;
+}
+
+Q_EXPORT_PLUGIN( MetalStylePlugin )
 
 #endif
