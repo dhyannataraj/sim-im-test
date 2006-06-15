@@ -114,7 +114,6 @@ public:
     Buffer &operator << (long c) { return operator << ((unsigned long)c); }
     Buffer &operator << (const Buffer &b);
     Buffer &operator << (const bool b);
-    Buffer &operator << (char**);
     Buffer &operator << (TlvList&);
 
     void tlv(unsigned short n, const char *data, unsigned short len);

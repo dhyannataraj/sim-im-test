@@ -158,11 +158,13 @@ void ICQSecure::fillListView(ListView *lst, unsigned offs)
     lst->clear();
     Contact *contact;
     ContactList::ContactIterator it;
+    offs = offs / sizeof(Data);
     while ((contact = ++it) != NULL){
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, m_client);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (*((unsigned short*)(((char*)data) + offs))){
+            Data *d = &data->Sign;
+            if ((d + offs)->asULong()){
                 QString firstName = contact->getFirstName();
                 QString lastName  = contact->getLastName();
                 firstName = getToken(firstName, '/');

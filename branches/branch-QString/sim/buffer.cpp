@@ -28,7 +28,6 @@
 #include <netinet/in.h>
 #endif
 
-#include <string>   // fixme!
 using namespace SIM;
 
 #ifdef WORDS_BIGENDIAN
@@ -214,7 +213,7 @@ QString Buffer::unpackScreen()
 
     *this >> len;
     /* 13 isn't right, AIM allows 16. But when we get a longer
-    name, we *must* unpack them if we won't lose the TLVs
+    name, we *must* unpack them if we won't loose the TLVs
     behind the Screenname ... */
     if (len > 16)
         log(L_DEBUG,"Too long Screenname! Length: %d",len);
@@ -387,14 +386,6 @@ Buffer &Buffer::operator << (const QCString &s)
     *this << (unsigned short)htons(size);
     pack(s, size);
     return *this;
-}
-
-Buffer &Buffer::operator << (char **str)
-{
-    QString s;
-    if (*str)
-        s = *str;
-    return *this << s;
 }
 
 Buffer &Buffer::operator << (const char *str)
