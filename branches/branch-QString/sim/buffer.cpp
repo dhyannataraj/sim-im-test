@@ -627,7 +627,7 @@ void Buffer::toBase64(Buffer &from)
 
 static int findStartSection(const Buffer *pBuf, unsigned start)
 {
-    int idx = start;
+    int idx = start == -1 ? 0 : start;
 
     do {
         idx = pBuf->find( '[', idx);
@@ -641,7 +641,7 @@ static int findStartSection(const Buffer *pBuf, unsigned start)
 
 static int findEndSection(const Buffer *pBuf, unsigned start)
 {
-    int idx = start;
+    int idx = start == -1 ? 0 : start;
 
     do {
         idx = pBuf->find( ']', idx);

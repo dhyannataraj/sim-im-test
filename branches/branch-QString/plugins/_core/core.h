@@ -74,14 +74,14 @@ typedef struct CoreData
     SIM::Data	ContainerMode;
     SIM::Data	SendOnEnter;
     SIM::Data	ShowOwnerName;
-    SIM::Data	containerGeo[5];
-    SIM::Data	containerBar[7];
+    SIM::Data	ContainerGeometry[5];
+    SIM::Data	ContainerBar[7];
     SIM::Data	ContainerStatusSize;
     SIM::Data	Containers;
     SIM::Data	Container;
     SIM::Data	CopyMessages;
     SIM::Data	EditHeight;
-    SIM::Data	editBar[7];
+    SIM::Data	EditBar[7];
     SIM::Data	EditBackground;
     SIM::Data	EditForeground;
     SIM::Data	EditFont;
@@ -93,8 +93,8 @@ typedef struct CoreData
     SIM::Data	CloseSend;
     SIM::Data	HistoryPage;
     SIM::Data	HistoryDirection;
-    SIM::Data	historySize[2];
-    SIM::Data	historyBar[7];
+    SIM::Data	HistorySize[2];
+    SIM::Data	HistoryBar[7];
     SIM::Data	HistorySearch;
     SIM::Data	Unread;
     SIM::Data	NoShowAutoReply;

@@ -138,8 +138,8 @@ Container::Container(unsigned id, const char *cfg)
     bool bPos = true;
     if (cfg == NULL){
         setId(id);
-        copyData(data.barState, CorePlugin::m_plugin->data.containerBar, 7);
-        copyData(data.geometry, CorePlugin::m_plugin->data.containerGeo, 5);
+        copyData(data.barState, CorePlugin::m_plugin->data.ContainerBar, 7);
+        copyData(data.geometry, CorePlugin::m_plugin->data.ContainerGeometry, 5);
         if ((data.geometry[WIDTH].toLong() == -1) || (data.geometry[HEIGHT].toLong() == -1)){
             QWidget *desktop = QApplication::desktop();
             data.geometry[WIDTH].asLong() = desktop->width() / 3;
@@ -489,8 +489,8 @@ void Container::resizeEvent(QResizeEvent *e)
     if (m_bInSize)
         return;
     saveGeometry(this, data.geometry);
-    CorePlugin::m_plugin->data.containerGeo[WIDTH]  = data.geometry[WIDTH];
-    CorePlugin::m_plugin->data.containerGeo[HEIGHT] = data.geometry[HEIGHT];
+    CorePlugin::m_plugin->data.ContainerGeometry[WIDTH]  = data.geometry[WIDTH];
+    CorePlugin::m_plugin->data.ContainerGeometry[HEIGHT] = data.geometry[HEIGHT];
 }
 
 void Container::moveEvent(QMoveEvent *e)
@@ -499,8 +499,8 @@ void Container::moveEvent(QMoveEvent *e)
     if (m_bInSize)
         return;
     saveGeometry(this, data.geometry);
-    CorePlugin::m_plugin->data.containerGeo[LEFT] = data.geometry[LEFT];
-    CorePlugin::m_plugin->data.containerGeo[TOP]  = data.geometry[TOP];
+    CorePlugin::m_plugin->data.ContainerGeometry[LEFT] = data.geometry[LEFT];
+    CorePlugin::m_plugin->data.ContainerGeometry[TOP]  = data.geometry[TOP];
 }
 
 void Container::toolbarChanged(QToolBar*)
@@ -508,7 +508,7 @@ void Container::toolbarChanged(QToolBar*)
     if (m_bBarChanged)
         return;
     saveToolbar(m_bar, data.barState);
-    copyData(CorePlugin::m_plugin->data.containerBar, data.barState, 7);
+    copyData(CorePlugin::m_plugin->data.ContainerBar, data.barState, 7);
 }
 
 void Container::statusChanged(int width)

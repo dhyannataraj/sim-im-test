@@ -91,7 +91,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
     Event e(EventShowBar, &b);
     m_bar = (CToolBar*)e.process();
     m_bar->setParam((void*)m_id);
-    restoreToolbar(m_bar, CorePlugin::m_plugin->data.historyBar);
+    restoreToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
     m_status = statusBar();
     m_progress = NULL;
@@ -245,13 +245,13 @@ void *HistoryWindow::processEvent(Event *e)
 void HistoryWindow::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
-    CorePlugin::m_plugin->data.historySize[0].asULong() = width();
-    CorePlugin::m_plugin->data.historySize[1].asULong() = height();
+    CorePlugin::m_plugin->data.HistorySize[0].asULong() = width();
+    CorePlugin::m_plugin->data.HistorySize[1].asULong() = height();
 }
 
 void HistoryWindow::toolbarChanged(QToolBar*)
 {
-    saveToolbar(m_bar, CorePlugin::m_plugin->data.historyBar);
+    saveToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
 }
 
 void HistoryWindow::fill()

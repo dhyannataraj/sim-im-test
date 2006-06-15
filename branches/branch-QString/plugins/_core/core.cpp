@@ -3169,8 +3169,8 @@ void *CorePlugin::processEvent(Event *e)
                     delete list;
                     if (wnd == NULL){
                         wnd = new HistoryWindow(id);
-                        if (data.historySize[0].toULong() && data.historySize[1].toULong())
-                            wnd->resize(data.historySize[0].toULong(), data.historySize[1].toULong());
+                        if (data.HistorySize[0].toULong() && data.HistorySize[1].toULong())
+                            wnd->resize(data.HistorySize[0].toULong(), data.HistorySize[1].toULong());
                     }
                     raiseWindow(wnd);
                 } else{

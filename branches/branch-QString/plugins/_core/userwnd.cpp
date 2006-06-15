@@ -60,7 +60,7 @@ UserWnd::UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdju
 
     
     if (cfg == NULL)
-        copyData(data.editBar, CorePlugin::m_plugin->data.editBar, 7);
+        copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
 
     m_bBarChanged = true;
     if (CorePlugin::m_plugin->getContainerMode())
@@ -208,7 +208,7 @@ void UserWnd::toolbarChanged(QToolBar*)
     if (m_bBarChanged)
         return;
     saveToolbar(m_edit->m_bar, data.editBar);
-    copyData(CorePlugin::m_plugin->data.editBar, data.editBar, 7);
+    copyData(CorePlugin::m_plugin->data.EditBar, data.editBar, 7);
 }
 
 unsigned UserWnd::type()
