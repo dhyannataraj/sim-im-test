@@ -19,6 +19,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -48,8 +49,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
-				PreprocessorDefinitions="NDEBUG;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1;NOUNCRYPT"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="_NDEBUG;NDEBUG;SIMAPI_EXPORTS;NOUNCRYPT"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -72,7 +73,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="User32.Lib Gdi32.Lib WS2_32.Lib Advapi32.lib sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib"
+				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib $(QTDIR)\lib\qtmain.lib"
 				OutputFile=".\Release/sim.exe"
 				SubSystem="2"
 				TargetMachine="1"
@@ -109,6 +110,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -138,8 +140,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1;NOUNCRYPT"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="_DEBUG;DEBUG;SIMAPI_EXPORTS;NOUNCRYPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -164,7 +166,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="User32.Lib Gdi32.Lib WS2_32.Lib Advapi32.lib sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib"
+				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib $(QTDIR)\lib\qtmain.lib"
 				OutputFile=".\Debug/sim.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

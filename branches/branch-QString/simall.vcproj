@@ -20,7 +20,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			BuildLogFile="$(IntDir)\$(ProjectName)_BuildLog.htm"
@@ -28,7 +28,7 @@
 			<Tool
 				Name="VCNMakeTool"
 				BuildCommandLine=""
-				ReBuildCommandLine=" /a"
+				ReBuildCommandLine="/a"
 				CleanCommandLine=""
 				Output="sim.exe"
 				PreprocessorDefinitions=""
@@ -44,7 +44,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="0"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			BuildLogFile="$(IntDir)\$(ProjectName)_BuildLog.htm"
@@ -52,7 +52,7 @@
 			<Tool
 				Name="VCNMakeTool"
 				BuildCommandLine=""
-				ReBuildCommandLine=" /a"
+				ReBuildCommandLine="/a"
 				CleanCommandLine=""
 				Output="sim.exe"
 				PreprocessorDefinitions=""
@@ -82,70 +82,6 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 		</Filter>
-		<File
-			RelativePath="plugins\_core\styles\Separated.2.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\Separated.3.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\Separated.4.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\Separated.5.(2+3).xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\Separated.6.(2+4).xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\Separated.7.(3+4).xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\Separated.8.(2+3+4).xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\Separated.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\SIM.2.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\SIM.3.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\SIM.4.(2+3).xsl"
-			>
-		</File>
-		<File
-			RelativePath="sim.bsc"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\SIM.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\XChat.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\XChat2seconds.xsl"
-			>
-		</File>
-		<File
-			RelativePath="plugins\_core\styles\XChat3fullDate.xsl"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

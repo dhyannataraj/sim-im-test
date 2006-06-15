@@ -58,8 +58,6 @@ typedef unsigned char _Bool;
     #endif
 #endif
 
-#define QT_THREAD_SUPPORT 1
-
 #include <qglobal.h>
 #include <qdockwindow.h>
 #include <qmap.h>
