@@ -264,16 +264,16 @@ void ICQSearch::search()
             }
         }
         m_id_aim = m_client->aimInfoSearch(
-                       adv->edtFirst->text().utf8(),
-                       adv->edtLast->text().utf8(),
-                       adv->edtMiddle->text().utf8(),
-                       adv->edtMaiden->text().utf8(),
+                       adv->edtFirst->text(),
+                       adv->edtLast->text(),
+                       adv->edtMiddle->text(),
+                       adv->edtMaiden->text(),
                        country,
-                       adv->edtStreet->text().utf8(),
-                       adv->edtCity->text().utf8(),
-                       adv->edtNick->text().utf8(),
-                       adv->edtZip->text().utf8(),
-                       adv->edtState->text().utf8());
+                       adv->edtStreet->text(),
+                       adv->edtCity->text(),
+                       adv->edtNick->text(),
+                       adv->edtZip->text(),
+                       adv->edtState->text());
     }else if (!m_client->m_bAIM && grpUin->isChecked() && !edtUIN->text().isEmpty()){
         m_type = UIN;
         m_uin  = extractUIN(edtUIN->text()).toULong();
@@ -292,8 +292,8 @@ void ICQSearch::search()
         m_last		= getContacts()->fromUnicode(0, edtLast->text());
         m_nick		= getContacts()->fromUnicode(0, edtNick->text());
         icq_search();
-        m_id_aim = m_client->aimInfoSearch(edtFirst->text().utf8(), edtLast->text().utf8(), NULL,
-                                           NULL, NULL, NULL, NULL, edtNick->text().utf8(), NULL, NULL);
+        m_id_aim = m_client->aimInfoSearch(edtFirst->text(), edtLast->text(), QString::null, QString::null,
+                                           QString::null, QString::null, QString::null, edtNick->text(), QString::null, QString::null);
     }
     if ((m_id_icq == 0) && (m_id_aim == 0))
         return;
@@ -357,7 +357,8 @@ void ICQSearch::searchName(const QString &first, const QString &last, const QStr
             m_nick		= nick.utf8();
         icq_search();
     }
-    m_id_aim = m_client->aimInfoSearch(first.utf8(), last.utf8(), NULL, NULL, NULL, NULL, NULL, nick.utf8(), NULL, NULL);
+    m_id_aim = m_client->aimInfoSearch(first, last, QString::null, QString::null, QString::null,
+                                       QString::null, QString::null, nick, QString::null, QString::null);
     addColumns();
 }
 

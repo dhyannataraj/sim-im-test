@@ -255,7 +255,7 @@ QString JabberClient::getConfig()
 QString JabberClient::name()
 {
     QString res = "Jabber.";
-    if (data.owner.ID.toULong()){
+    if (data.owner.ID.str().isEmpty()){
         QString server;
         if (getUseVHost())
             server = getVHost();
@@ -1181,7 +1181,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
         const char *dicon = get_icon(data, atol(get_str(data->ResourceStatus, i)), false);
         addIcon(icons, dicon, statusIcon);
     }
-    if (((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.str().utf8()))
+    if (((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.str()))
         style |= CONTACT_UNDERLINE;
     if (icons && !data->TypingId.str().isEmpty())
         addIcon(icons, "typing", statusIcon);
@@ -1703,15 +1703,15 @@ bool JabberClient::canSend(unsigned type, void *_data)
     case MessageUrl:
         return true;
     case MessageAuthRequest:
-        return ((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.str().utf8());
+        return ((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.str());
     case MessageAuthGranted:
-        return ((data->Subscribe.toULong() & SUBSCRIBE_FROM) == 0) && !isAgent(data->ID.str().utf8());
+        return ((data->Subscribe.toULong() & SUBSCRIBE_FROM) == 0) && !isAgent(data->ID.str());
     case MessageAuthRefused:
-        return (data->Subscribe.toULong() & SUBSCRIBE_FROM) && !isAgent(data->ID.str().utf8());
+        return (data->Subscribe.toULong() & SUBSCRIBE_FROM) && !isAgent(data->ID.str());
     case MessageJabberOnline:
-        return isAgent(data->ID.str().utf8()) && (data->Status.toULong() == STATUS_OFFLINE);
+        return isAgent(data->ID.str()) && (data->Status.toULong() == STATUS_OFFLINE);
     case MessageJabberOffline:
-        return isAgent(data->ID.str().utf8()) && (data->Status.toULong() != STATUS_OFFLINE);
+        return isAgent(data->ID.str()) && (data->Status.toULong() != STATUS_OFFLINE);
     }
     return false;
 }
@@ -2329,7 +2329,7 @@ bool JabberClient::send(Message *msg, void *_data)
             return true;
         }
     case MessageJabberOnline:
-        if (isAgent(data->ID.str().utf8()) && (data->Status.toULong() == STATUS_OFFLINE)){
+        if (isAgent(data->ID.str()) && (data->Status.toULong() == STATUS_OFFLINE)){
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<presence to=\'"
@@ -2341,7 +2341,7 @@ bool JabberClient::send(Message *msg, void *_data)
         }
         break;
     case MessageJabberOffline:
-        if (isAgent(data->ID.str().utf8()) && (data->Status.toULong() != STATUS_OFFLINE)){
+        if (isAgent(data->ID.str()) && (data->Status.toULong() != STATUS_OFFLINE)){
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<presence to=\'"
@@ -2438,10 +2438,10 @@ JabberListRequest *JabberClient::findRequest(const char *jid, bool bRemove)
 }
 
 
-bool JabberClient::isAgent(const char *jid)
+bool JabberClient::isAgent(const QString &jid)
 {
-    const char *p = strrchr(jid, '/');
-    if (p && !strcmp(p + 1, "registered"))
+    int idx = jid.find('/');
+    if (idx != -1 && jid.mid(idx+1) == "registered")
         return true;
     return false;
 }
@@ -2452,7 +2452,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     Contact *contact;
     string resource;
     JabberUserData *data = findContact(jid, NULL, false, contact, resource);
-    if (isAgent(jid) || ((type == MessageAuthRequest) && getAutoAccept())){
+    if (isAgent(QString::fromUtf8(jid)) || ((type == MessageAuthRequest) && getAutoAccept())){
         switch (type){
         case MessageAuthRequest:{
                 if (data == NULL)

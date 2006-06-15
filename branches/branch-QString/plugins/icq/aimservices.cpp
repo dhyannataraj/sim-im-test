@@ -131,14 +131,14 @@ const unsigned short SNACxSRV_RATExACK			= 0x0008;
 const unsigned short SNACxSRV_I_AM_ICQ			= 0x0017;
 const unsigned short SNACxSRV_ACK_ICQ			= 0x0018;
 
-typedef map<unsigned short, string> REQUEST_MAP;
-typedef map<unsigned short, unsigned short> SEQ_MAP;
+typedef QMap<unsigned short, QStringList> REQUEST_MAP;
+typedef QMap<unsigned short, unsigned short> SEQ_MAP;
 
 class SearchSocket : public ServiceSocket
 {
 public:
     SearchSocket(ICQClient*);
-    unsigned short add(const string &str);
+    unsigned short add(const QStringList &str);
 protected:
     void data(unsigned short fam, unsigned short type, unsigned short seq);
     void snac_service(unsigned short type);
@@ -183,74 +183,57 @@ void SearchSocket::process()
     for (REQUEST_MAP::iterator it = m_requests.begin(); it != m_requests.end(); ++it){
         snac(USER_DIRECTORY_SERVICE, USER_DIRECTORY_SEARCH, true);
         bool bLatin;
-        if ((*it).second[0]){
-            QString mail = QString::fromUtf8((*it).second.c_str());
+        if (!(*it).count() == 0)
+            continue;
+        if (!(*it).count() == 1){
+            QStringList sl = (*it);
+            QString mail = sl[0];
             bLatin = bLatin1(mail);
             m_socket->writeBuffer.tlv(0x1C, bLatin ? "us-ascii" : "utf8");
             m_socket->writeBuffer.tlv(0x0A, (unsigned short)1);
             addTlv(0x05, mail, bLatin);
         }else{
-            const char *p = (*it).second.c_str();
-            p++;
-            QString first = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString last  = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString middle  = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString maiden  = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString country  = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString street  = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString city  = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString nick  = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString zip  = QString::fromUtf8(p);
-            p += strlen(p) + 1;
-            QString state  = QString::fromUtf8(p);
-            bLatin = bLatin1(first) &&
-                     bLatin1(last) &&
-                     bLatin1(middle) &&
-                     bLatin1(maiden) &&
-                     bLatin1(country) &&
-                     bLatin1(street) &&
-                     bLatin1(city) &&
-                     bLatin1(nick) &&
-                     bLatin1(zip) &&
-                     bLatin1(state);
+            QStringList sl = (*it);
+            bLatin = bLatin1(sl[0]) &&
+                     bLatin1(sl[1]) &&
+                     bLatin1(sl[2]) &&
+                     bLatin1(sl[3]) &&
+                     bLatin1(sl[4]) &&
+                     bLatin1(sl[5]) &&
+                     bLatin1(sl[6]) &&
+                     bLatin1(sl[7]) &&
+                     bLatin1(sl[8]) &&
+                     bLatin1(sl[9]);
             m_socket->writeBuffer.tlv(0x1C, bLatin ? "us-ascii" : "utf8");
             m_socket->writeBuffer.tlv(0x0A, (unsigned short)0);
-            if (!first.isEmpty())
-                addTlv(0x01, first, bLatin);
-            if (!last.isEmpty())
-                addTlv(0x02, last, bLatin);
-            if (!middle.isEmpty())
-                addTlv(0x03, middle, bLatin);
-            if (!maiden.isEmpty())
-                addTlv(0x04, maiden, bLatin);
-            if (!country.isEmpty())
-                addTlv(0x06, country, bLatin);
-            if (!state.isEmpty())
-                addTlv(0x07, state, bLatin);
-            if (!city.isEmpty())
-                addTlv(0x08, city, bLatin);
-            if (!nick.isEmpty())
-                addTlv(0x0C, nick, bLatin);
-            if (!zip.isEmpty())
-                addTlv(0x0D, zip, bLatin);
-            if (!street.isEmpty())
-                addTlv(0x21, street, bLatin);
+            if (!sl[0].isEmpty())
+                addTlv(0x01, sl[0], bLatin);
+            if (!sl[1].isEmpty())
+                addTlv(0x02, sl[1], bLatin);
+            if (!sl[2].isEmpty())
+                addTlv(0x03, sl[2], bLatin);
+            if (!sl[3].isEmpty())
+                addTlv(0x04, sl[3], bLatin);
+            if (!sl[4].isEmpty())
+                addTlv(0x06, sl[4], bLatin);
+            if (!sl[5].isEmpty())
+                addTlv(0x07, sl[5], bLatin);
+            if (!sl[6].isEmpty())
+                addTlv(0x08, sl[6], bLatin);
+            if (!sl[7].isEmpty())
+                addTlv(0x0C, sl[7], bLatin);
+            if (!sl[8].isEmpty())
+                addTlv(0x0D, sl[8], bLatin);
+            if (!sl[9].isEmpty())
+                addTlv(0x21, sl[9], bLatin);
         }
         sendPacket();
-        m_seq.insert(SEQ_MAP::value_type(m_nMsgSequence, (*it).first));
+        m_seq.insert(SEQ_MAP::value_type(m_nMsgSequence, it.key()));
     }
     m_requests.clear();
 }
 
-unsigned short SearchSocket::add(const string &name)
+unsigned short SearchSocket::add(const QStringList &name)
 {
     m_requests.insert(REQUEST_MAP::value_type(++m_id, name));
     process();
@@ -312,7 +295,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
             m_socket->readBuffer >> r >> nSearch;
 
             SearchResult res;
-            res.id = (*it).second;
+            res.id = (*it);
             res.client = m_client;
             for (unsigned n = 0; n < nSearch; n++){
                 unsigned short nTlvs;
@@ -401,13 +384,15 @@ unsigned short ICQClient::aimEMailSearch(const char *name)
         s = new SearchSocket(this);
         requestService(s);
     }
-    return s->add(name);
+    QStringList sl;
+    sl.append(QString::fromUtf8(name));
+    return s->add(sl);
 }
 
-unsigned short ICQClient::aimInfoSearch(const char *first, const char *last, const char *middle,
-                                        const char *maiden, const char *country, const char *street,
-                                        const char *city, const char *nick, const char *zip,
-                                        const char *state)
+unsigned short ICQClient::aimInfoSearch(const QString &first, const QString &last, const QString &middle,
+                                        const QString &maiden, const QString &country, const QString &street,
+                                        const QString &city, const QString &nick, const QString &zip,
+                                        const QString &state)
 {
     SearchSocket *s = NULL;
     for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
@@ -420,47 +405,18 @@ unsigned short ICQClient::aimInfoSearch(const char *first, const char *last, con
         s = new SearchSocket(this);
         requestService(s);
     }
-    string info;
-    info += (char)0;
+    QStringList info;
 
-    if (first)
-        info += first;
-    info += (char)0;
-
-    if (last)
-        info += last;
-    info += (char)0;
-
-    if (middle)
-        info += middle;
-    info += (char)0;
-
-    if (maiden)
-        info += maiden;
-    info += (char)0;
-
-    if (country)
-        info += country;
-    info += (char)0;
-
-    if (street)
-        info += street;
-    info += (char)0;
-
-    if (city)
-        info += city;
-    info += (char)0;
-
-    if (nick)
-        info += nick;
-    info += (char)0;
-
-    if (zip)
-        info += zip;
-    info += (char)0;
-
-    if (state)
-        info += state;
+    info.append(QString::fromUtf8(first));
+    info.append(QString::fromUtf8(last));
+    info.append(QString::fromUtf8(middle));
+    info.append(QString::fromUtf8(maiden));
+    info.append(QString::fromUtf8(country));
+    info.append(QString::fromUtf8(street));
+    info.append(QString::fromUtf8(city));
+    info.append(QString::fromUtf8(nick));
+    info.append(QString::fromUtf8(zip));
+    info.append(QString::fromUtf8(state));
     return s->add(info);
 }
 

@@ -313,7 +313,7 @@ class MessageRequest : public ServerRequest
     JabberListRequest *findRequest(const char *jid, bool bRemove);
 
     QString VHost();
-    bool isAgent(const char *jid);
+    bool isAgent(const QString &jid);
     virtual bool send(SIM::Message*, void*);
     void    listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);
     void	sendFileRequest(SIM::FileMessage *msg, unsigned short port, JabberUserData *data, const char *url, unsigned size);

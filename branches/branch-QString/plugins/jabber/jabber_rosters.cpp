@@ -961,7 +961,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 Event e(EventMessageReceived, &m);
                 e.process();
             }
-            if (bOnLine && !contact->getIgnore() && !m_client->isAgent(data->ID.str().utf8())){
+            if (bOnLine && !contact->getIgnore() && !m_client->isAgent(data->ID.str())){
                 Event e(EventContactOnline, contact);
                 e.process();
             }
@@ -2009,7 +2009,7 @@ string JabberClient::search(const char *jid, const char *node, const char *condi
     req->add_attribute("xmlns", "jabber:iq:search");
     if (node && *node)
         req->add_attribute("node", node);
-    req->add_condition(condition, false);
+    req->add_condition(QString::fromUtf8(condition), false);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2091,7 +2091,7 @@ string JabberClient::process(const char *jid, const char *node, const char *cond
         req->add_attribute("type", "submit");
     if (node && *node)
         req->add_attribute("node", node);
-    req->add_condition(condition, bData);
+    req->add_condition(QString::fromUtf8(condition), bData);
     req->send();
     m_requests.push_back(req);
     return req->m_id;

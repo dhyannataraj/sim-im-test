@@ -569,10 +569,10 @@ public:
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
     unsigned short aimEMailSearch(const char *name);
-    unsigned short aimInfoSearch(const char *first, const char *last, const char *middle,
-                                 const char *maiden, const char *country, const char *street,
-                                 const char *city, const char *nick, const char *zip,
-                                 const char *state);
+    unsigned short aimInfoSearch(const QString &first, const QString &last, const QString &middle,
+                                 const QString &maiden, const QString &country, const QString &street,
+                                 const QString &city, const QString &nick, const QString &zip,
+                                 const QString &state);
     void requestReverseConnection(const char *screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
