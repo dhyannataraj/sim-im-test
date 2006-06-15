@@ -310,7 +310,7 @@ void ICQClient::chn_close()
             break;
         default:
             errString = "Unknown error ";
-            errString += number(err);
+            errString += QString::number(err);
         }
         if (err){
             log(L_ERROR, "%s", errString.latin1());

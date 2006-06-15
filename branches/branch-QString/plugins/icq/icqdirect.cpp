@@ -275,7 +275,7 @@ void DirectSocket::packet_ready()
     }
     if (m_state != Logged){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     }
     switch (m_state){
     case Logged:{
@@ -400,7 +400,7 @@ void DirectSocket::sendInit()
     if (m_version >= 7)
         m_socket->writeBuffer.pack(0x00000000L);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     m_socket->write();
 }
 
@@ -411,7 +411,7 @@ void DirectSocket::sendInitAck()
     m_socket->writeBuffer.pack((unsigned short)0x0001);
     m_socket->writeBuffer.pack((unsigned short)0x0000);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     m_socket->write();
 }
 
@@ -504,7 +504,7 @@ void DirectClient::processPacket()
     case WaitInit2:
         if (m_bIncoming){
             ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
             if (m_version < 8){
                 if (m_data->Direct.object()){
                     m_socket->error_state("Direct connection already established");
@@ -515,7 +515,7 @@ void DirectClient::processPacket()
                 break;
             }
             plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
             m_socket->readBuffer.incReadPos(13);
             char p[16];
             m_socket->readBuffer.unpack(p, 16);
@@ -1823,7 +1823,7 @@ void ICQFileTransfer::sendInit()
     m_socket->writeBuffer.pack((unsigned long)m_nFiles);			// nFiles
     m_socket->writeBuffer.pack((unsigned long)m_totalSize);		// Total size
     m_socket->writeBuffer.pack((unsigned long)m_speed);			// speed
-    m_socket->writeBuffer << number(m_client->data.owner.Uin.toULong());
+    m_socket->writeBuffer << QString::number(m_client->data.owner.Uin.toULong());
     sendPacket();
     if ((m_nFiles == 0) || (m_totalSize == 0))
         m_socket->error_state(I18N_NOOP("No files for transfer"));

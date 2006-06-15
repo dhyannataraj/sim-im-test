@@ -1064,7 +1064,7 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
                 return;
             }
             static_cast<ContactsMessage*>(msg)->setContacts(nc);
-            res = number(c.size());
+            res = QString::number(c.size());
             for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
                 res += '\xFE';
                 res += (*it).first.c_str();

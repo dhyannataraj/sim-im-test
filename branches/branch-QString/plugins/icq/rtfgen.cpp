@@ -379,7 +379,7 @@ QString RTFGenParser::parse(const QString &text)
     s = "{\\rtf1\\ansi";
     if (ansicpg){
         s += "\\ansicpg";
-        s += number(ansicpg);
+        s += QString::number(ansicpg);
     }
     s += "\\deff0\r\n";
     s += "{\\fonttbl";
@@ -397,7 +397,7 @@ QString RTFGenParser::parse(const QString &text)
         }
         if (charset){
             s += "\\fcharset";
-            s += number(charset);
+            s += QString::number(charset);
         }
         s += " ";
         int pos = face.find(QRegExp(" +["));

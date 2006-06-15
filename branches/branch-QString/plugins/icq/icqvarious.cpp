@@ -254,7 +254,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     Message *m = parseMessage(type, QString::number(uin), message, msg, id, 0);
                     if (m){
                         m->setTime(send_time);
-                        messageReceived(m, number(uin).c_str());
+                        messageReceived(m, QString::number(uin));
                     }
                     break;
                 }
@@ -1675,7 +1675,7 @@ unsigned ICQClient::processSMSQueue()
         xmltree.pushnode(new XmlLeaf("text",(const char*)(part.utf8())));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
         xmltree.pushnode(new XmlLeaf("encoding","utf8"));
-        xmltree.pushnode(new XmlLeaf("senders_UIN",number(data.owner.Uin.toULong()).c_str()));
+        xmltree.pushnode(new XmlLeaf("senders_UIN",QString::number(data.owner.Uin.toULong()).latin1()));
         xmltree.pushnode(new XmlLeaf("senders_name",""));
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));
 

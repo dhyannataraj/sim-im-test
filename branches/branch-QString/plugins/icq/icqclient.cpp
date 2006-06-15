@@ -396,7 +396,7 @@ QString ICQClient::getConfig()
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
         if (listRequest.length())
             listRequest += ';';
-        listRequest += number((*it).type);
+        listRequest += QString::number((*it).type);
         listRequest += ',';
         listRequest += (*it).screen;
     }
@@ -1535,9 +1535,9 @@ QString ICQClient::contactTip(void *_data)
             }
             QMimeSourceFactory::defaultFactory()->setPixmap("pict://icq", pict);
             res += "<br><img src=\"pict://icq\" width=\"";
-            res += number(w).c_str();
+            res += QString::number(w);
             res += "\" height=\"";
-            res += number(h).c_str();
+            res += QString::number(h);
             res += "\">";
         }
     }
@@ -3244,7 +3244,7 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
     if (it != sendBgQueue.end())
         return;
     SendMsg s;
-    s.screen = number(uin);
+    s.screen = QString::number(uin);
     s.flags  = plugin_index;
     sendBgQueue.push_back(s);
     processSendQueue();

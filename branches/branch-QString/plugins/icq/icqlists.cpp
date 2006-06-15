@@ -987,7 +987,9 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
 {
     snac(ICQ_SNACxFAM_LISTS, cmd, true);
     QCString sName = name.utf8();
-    m_socket->writeBuffer.pack(sName.data(),sName.length());
+    unsigned short len = sName.length();
+    m_socket->writeBuffer.pack(htons(len));
+    m_socket->writeBuffer.pack(sName, len);
     m_socket->writeBuffer
     << grp_id
     << usr_id
@@ -1254,7 +1256,7 @@ void ICQClient::addGroupRequest(Group *group)
         }
         ListRequest lr;
         lr.type   = LIST_GROUP_CHANGED;
-        lr.screen = number(group->id());
+        lr.screen = QString::number(group->id());
         listRequests.push_back(lr);
         processSendQueue();
         return;
@@ -1272,7 +1274,7 @@ void ICQClient::addGroupRequest(Group *group)
     ListRequest lr;
     lr.type = LIST_GROUP_CHANGED;
     lr.icq_id  = (unsigned short)(data->IcqID.toULong());
-    lr.screen  = number(group->id());
+    lr.screen  = QString::number(group->id());
     listRequests.push_back(lr);
     processSendQueue();
 }
