@@ -328,7 +328,7 @@ string Container::getState()
 
 QString Container::name()
 {
-    UserWnd *wnd = m_tabBar->currentWnd();
+    UserWnd *wnd = m_tabBar ? m_tabBar->currentWnd() : 0;
     if (wnd)
         return wnd->getName();
     return i18n("Container");
@@ -435,7 +435,7 @@ void Container::showBar()
 
 void Container::contactSelected(int)
 {
-    UserWnd *userWnd = m_tabBar->currentWnd();
+    UserWnd *userWnd = m_tabBar ? m_tabBar->currentWnd() : 0;
     if (userWnd == NULL)
         return;
     m_wnds->raiseWidget(userWnd);
