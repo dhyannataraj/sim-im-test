@@ -8,7 +8,7 @@
 %define release 2
 
 Name: 		sim
-Version: 	0.9.3
+Version: 	0.9.4
 %if %{rh_release}
 Release: 	%{release}.rh%(dist_release="`echo "%{rh_release} * 10" | bc 2>/dev/null`" ; echo "$dist_release")
 Distribution:	Red Hat Linux %{rh_release}
@@ -23,9 +23,9 @@ Summary(de):	SIM - Multiprotokoll Instant Messenger
 License: 	GPL
 Group: 		Applications/Internet
 URL: 		http://sim-im.berlios.de/
-Source0: 	%{name}-%{version}.tar.gz
+Source0: 	%{name}-%{version}.tar.bz2
 BuildRequires:	autoconf >= 2.52, automake >= 1.5
-BuildRequires:  gcc, gcc-c++, XFree86-devel, zlib-devel, libjpeg-devel, expat-devel, flex, libart_lgpl-devel, libpng-devel, gettext
+BuildRequires:  gcc, gcc-c++, zlib-devel, libjpeg-devel, expat-devel, flex, libart_lgpl-devel, libpng-devel, gettext, libXScrnSaver-devel
 %if %{with_kde}
 BuildRequires:  kdelibs-devel >= 3.0.0
 Requires:       kdebase >= 3.0.0, kdelibs >= 3.0.0
@@ -62,7 +62,7 @@ http://sim-im.berlios.de/
 make -f admin/Makefile.common
 CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" 
 
-%configure \
+%configure --with-qt-dir=/usr/lib/qt-3.3\
 %if %{with_kde}
 	--enable-kde \
 %else
@@ -92,9 +92,8 @@ rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 %doc AUTHORS COPYING ChangeLog README* TODO INSTALL
 %{_bindir}/sim*
 %{_libdir}/libsim*
-%{_libdir}/menu/
 %{_libdir}/sim/
-%{_datadir}/applnk-redhat/Internet/sim.desktop
+%{_datadir}/applications/kde/sim.desktop
 %{_datadir}/apps/
 %{_datadir}/icons/*/*/*/*
 %{_datadir}/mimelnk/
