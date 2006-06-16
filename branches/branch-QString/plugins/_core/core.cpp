@@ -1549,8 +1549,8 @@ QString CorePlugin::poFile(const char *lang)
 void CorePlugin::installTranslator()
 {
     m_translator = NULL;
-    string lang = getLang();
-    if (!strcmp(lang.c_str(), "-"))
+    QString lang = getLang();
+    if (lang == "-")
         return;
     if (lang.length() == 0){
 #ifdef WIN32
@@ -1574,7 +1574,7 @@ void CorePlugin::installTranslator()
 #endif
 #endif
     }
-    QString po = poFile(lang.c_str());
+    QString po = poFile(lang.ascii());
     if (po.isEmpty())
         return;
 #if !defined(WIN32) && !defined(USE_KDE)

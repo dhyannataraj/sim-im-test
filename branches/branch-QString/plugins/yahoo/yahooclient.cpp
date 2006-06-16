@@ -122,11 +122,11 @@ YahooClient::YahooClient(Protocol *protocol, ConfigBuffer *cfg)
     m_status = STATUS_OFFLINE;
     m_bFirstTry = false;
     m_ft_id = 0;
-    string requests = getListRequests();
-    while (!requests.empty()){
-        string request = getToken(requests, ';');
+    QString requests = getListRequests();
+    while (!requests.isEmpty()){
+        QString request = getToken(requests, ';');
         ListRequest lr;
-        lr.type = atol(getToken(request, ',').c_str());
+        lr.type = atol(getToken(request, ',').latin1());
         lr.name = request;
         m_requests.push_back(lr);
     }
