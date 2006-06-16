@@ -899,7 +899,7 @@ void ICQClient::sendPacket(bool bSend)
     m_processTimer->start(delay);
 }
 
-QString ICQClient::cryptPassword()
+QCString ICQClient::cryptPassword()
 {
     unsigned char xor_table[] =
         {
@@ -907,7 +907,7 @@ QString ICQClient::cryptPassword()
             0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
         };
     QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
-    QString res;
+    QCString res;
     for (int j = 0; j < 8; j++){
         char c = pswd[j];
         if (c == 0)
@@ -2986,12 +2986,13 @@ bool ICQClient::send(Message *msg, void *_data)
         if ((dc == NULL) &&
                 !data->bNoDirect.toBool() &&
                 (data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
+                (get_ip(data->IP)) &&
                 (get_ip(data->IP) == get_ip(this->data.owner.IP)))
             bCreateDirect = true;
         if (!bCreateDirect &&
                 (msg->type() == MessageGeneric) &&
                 (data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
-                get_ip(data->IP) &&
+                (get_ip(data->IP)) &&
                 (msg->getPlainText().length() >= MAX_TYPE2_MESSAGE_SIZE))
             bCreateDirect = true;
         if ((getInvisible() && (data->VisibleId.toULong() == 0)) ||

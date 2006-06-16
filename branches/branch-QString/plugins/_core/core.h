@@ -110,7 +110,7 @@ typedef struct CoreData
     SIM::Data	NoJoinAlert;
     SIM::Data	EnableSpell;
     SIM::Data	RemoveHistory;
-    SIM::Data	SearchGeo[5];
+    SIM::Data	SearchGeometry[5];
     SIM::Data	SearchClient;
     SIM::Data	NoScroller;
     SIM::Data	cfgGeo[5];

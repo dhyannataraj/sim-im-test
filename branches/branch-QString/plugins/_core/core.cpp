@@ -3205,12 +3205,12 @@ void *CorePlugin::processEvent(Event *e)
                 if (m_search == NULL){
                     m_search = new SearchDialog;
                     connect(m_search, SIGNAL(finished()), this, SLOT(dialogFinished()));
-                    if ((data.SearchGeo[WIDTH].toULong() == 0) || (data.SearchGeo[HEIGHT].toULong() == 0)){
-                        data.SearchGeo[WIDTH].asULong()  = 500;
-                        data.SearchGeo[HEIGHT].asULong() = 380;
-                        restoreGeometry(m_search, data.SearchGeo, false, true);
+                    if ((data.SearchGeometry[WIDTH].toLong() == 0) || (data.SearchGeometry[HEIGHT].toLong() == 0)){
+                        data.SearchGeometry[WIDTH].asLong()  = 500;
+                        data.SearchGeometry[HEIGHT].asLong() = 380;
+                        restoreGeometry(m_search, data.SearchGeometry, false, true);
                     }else{
-                        restoreGeometry(m_search, data.SearchGeo, true, true);
+                        restoreGeometry(m_search, data.SearchGeometry, true, true);
                     }
                 }
                 raiseWindow(m_search);

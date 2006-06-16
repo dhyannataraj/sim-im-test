@@ -177,15 +177,15 @@ void ICQClient::chn_login()
         return;
     }
     if (data.owner.Uin.toULong()){
-        QString pswd = cryptPassword();
-        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.toULong(), pswd.latin1());
+        QCString pswd = cryptPassword();
+        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.toULong(), pswd.data());
         char uin[20];
         sprintf(uin, "%lu", data.owner.Uin.toULong());
 
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
         m_socket->writeBuffer.tlv(0x0001, uin);
-        m_socket->writeBuffer.tlv(0x0002, pswd.latin1(), pswd.length());
+        m_socket->writeBuffer.tlv(0x0002, pswd.data(), pswd.length());
         m_socket->writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");
         m_socket->writeBuffer.tlv(0x0016, 0x010A);
         m_socket->writeBuffer.tlv(0x0017, 0x0002);

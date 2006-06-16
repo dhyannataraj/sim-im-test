@@ -92,7 +92,7 @@ SearchDialog::SearchDialog()
 
 SearchDialog::~SearchDialog()
 {
-    saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
+    saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
 void SearchDialog::resizeEvent(QResizeEvent *e)
@@ -100,14 +100,14 @@ void SearchDialog::resizeEvent(QResizeEvent *e)
     QMainWindow::resizeEvent(e);
     m_result->adjustColumn();
     if (isVisible())
-        saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
+        saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
 void SearchDialog::moveEvent(QMoveEvent *e)
 {
     QMainWindow::moveEvent(e);
     if (isVisible())
-        saveGeometry(this, CorePlugin::m_plugin->data.SearchGeo);
+        saveGeometry(this, CorePlugin::m_plugin->data.SearchGeometry);
 }
 
 void SearchDialog::closeEvent(QCloseEvent *e)

@@ -656,7 +656,7 @@ protected:
     void removeFullInfoRequest(unsigned long uin);
     void requestService(ServiceSocket*);
     unsigned long fullStatus(unsigned status);
-    QString cryptPassword();
+    QCString cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
     const char* error_message(unsigned short error);

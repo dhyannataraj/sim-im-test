@@ -113,7 +113,7 @@ DataDef jabberUserData[] =
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_STRING, 1, 0 },			// TypingId
         { "", DATA_ULONG, 1, 0 },			// ComposeId
-        { "", DATA_ULONG, 1, DATA(1) },			// richText
+        { "", DATA_BOOL, 1, DATA(1) },			// richText
         { "", DATA_BOOL, 1, 0 },
         { "PhotoWidth", DATA_ULONG, 1, 0 },
         { "PhotoHeight", DATA_ULONG, 1, 0 },
@@ -1064,14 +1064,14 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
     if (invisible)
         dicon = "Jabber_invisible";
     if (getProtocolIcons()){
-        string id = data->ID.str().utf8();
-        const char *host = strchr(id.c_str(), '@');
-        if (host){
-            string h = host + 1;
-            char *p = strchr((char*)(h.c_str()), '.');
+        QString id = data->ID.str();
+        int host = id.find( '@' );
+        if (host != -1){
+            QString h = id.mid(host + 1);
+            int p = h.find( '.' );
             if (p)
-                *p = 0;
-            if (strcmp(h.c_str(), "icq") == 0){
+                h = h.left( p );
+            if (h == "icq"){
                 if (invisible){
                     dicon = "ICQ_invisible";
                 }else{
@@ -1096,7 +1096,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                         break;
                     }
                 }
-            }else if (strcmp(h.c_str(), "aim") == 0){
+            }else if (h == "aim"){
                 switch (status){
                 case STATUS_ONLINE:
                     dicon = "AIM_online";
@@ -1108,7 +1108,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     dicon = "AIM_away";
                     break;
                 }
-            }else if (strcmp(h.c_str(), "msn") == 0){
+            }else if (h == "msn"){
                 if (invisible){
                     dicon = "MSN_invisible";
                 }else{
@@ -1130,7 +1130,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                         break;
                     }
                 }
-            }else if (strcmp(h.c_str(), "yahoo") == 0){
+            }else if (h == "yahoo"){
                 switch (status){
                 case STATUS_ONLINE:
                     dicon = "Yahoo!_online";
