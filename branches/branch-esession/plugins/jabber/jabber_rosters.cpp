@@ -582,7 +582,7 @@ protected:
 };
 
 SetInfoRequest::SetInfoRequest(JabberClient *client, JabberUserData *data)
-        : JabberClient::ServerRequest(client, _SET, NULL, client->buildId(data).c_str())
+        : JabberClient::ServerRequest(client, _SET, NULL, NULL)
 {
 }
 
