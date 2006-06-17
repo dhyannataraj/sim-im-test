@@ -3185,7 +3185,7 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
     DirectClient *dc;
     ICQUserData *data = findContact(uin, NULL, false, contact);
     if (data && !data->bNoDirect.toBool() &&
-            (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
+            get_ip(data->IP) && (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
             ((getInvisible() && data->VisibleId.toULong()) ||
              (!getInvisible() && (data->InvisibleId.toULong() == 0)))){
         switch (plugin_index){

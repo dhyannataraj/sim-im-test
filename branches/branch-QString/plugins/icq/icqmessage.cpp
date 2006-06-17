@@ -76,10 +76,10 @@ ICQFileMessage::~ICQFileMessage()
 
 QString ICQFileMessage::getDescription()
 {
-    const char *serverText = getServerDescr();
-    if ((serverText == NULL) || (*serverText == 0))
+    QString serverText = getServerDescr();
+    if (serverText.isEmpty())
         return FileMessage::getDescription();
-    return getContacts()->toUnicode(getContacts()->contact(contact()), serverText);
+    return serverText;
 }
 
 QString ICQFileMessage::save()
@@ -105,7 +105,7 @@ IcqContactsMessage::~IcqContactsMessage()
 
 QString IcqContactsMessage::getContacts() const
 {
-    const QString serverText = getServerText();
+    QString serverText = getServerText();
     if (serverText.isEmpty())
         return ContactsMessage::getContacts();
     return serverText;
@@ -131,11 +131,11 @@ ICQAuthMessage::~ICQAuthMessage()
 
 QString ICQAuthMessage::getText() const
 {
-    const char *serverText = getServerText();
-    if ((serverText == NULL) || (*serverText == 0))
+    QString serverText = getServerText();
+    if (serverText.isEmpty())
         return Message::getText();
-    const char *charset = getCharset();
-    if (charset && *charset){
+    QString charset = getCharset();
+    if (!charset.isEmpty()){
         QTextCodec *codec = QTextCodec::codecForName(charset);
         if (codec)
             return codec->toUnicode(serverText);
@@ -265,13 +265,13 @@ static Message *parseContactMessage(const char *str)
         log(L_WARN, "Parse error contacts message");
         return NULL;
     }
-    string serverText;
+    QString serverText;
     for (unsigned i = 0; i < nContacts; i++){
-        string screen = c[i*2];
-        string alias  = c[i*2+1];
-        if (!serverText.empty())
+        QString screen = QString::fromUtf8(c[i*2].c_str());
+        QString alias  = QString::fromUtf8(c[i*2+1].c_str());
+        if (!serverText.isEmpty())
             serverText += ";";
-        if (atol(screen.c_str())){
+        if (screen.toULong()){
             serverText += "icq:";
             serverText += screen;
             serverText += "/";
@@ -304,7 +304,7 @@ static Message *parseContactMessage(const char *str)
         }
     }
     IcqContactsMessage *m = new IcqContactsMessage;
-    m->setServerText(serverText.c_str());
+    m->setServerText(serverText);
     return m;
 }
 
