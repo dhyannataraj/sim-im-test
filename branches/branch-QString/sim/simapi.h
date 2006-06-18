@@ -1492,10 +1492,10 @@ public:
     void *getUserData(unsigned id, bool bCreate = false);
     UserData userData;
     ClientUserData clientData;
-    bool setFirstName(const QString &name, const char *client);
-    bool setLastName(const QString &name, const char *client);
-    bool setEMails(const QString &mails, const char *client);
-    bool setPhones(const QString &phones, const char *client);
+    bool setFirstName(const QString &name, const QString &client);
+    bool setLastName(const QString &name, const QString &client);
+    bool setEMails(const QString &mails, const QString &client);
+    bool setPhones(const QString &phones, const QString &client);
     unsigned long contactInfo(unsigned &style, QString &statusIcon, QString *icons = NULL);
     QString tipText();
     ContactData data;

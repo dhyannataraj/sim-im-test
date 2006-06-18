@@ -166,7 +166,7 @@ void Contact::setup()
         it.client()->setupContact(this, data);
 }
 
-typedef list<string> PROTO_LIST;
+typedef QStringList PROTO_LIST;
 
 typedef struct STR_ITEM
 {
@@ -177,12 +177,13 @@ typedef struct STR_ITEM
 typedef list<STR_ITEM> STR_LIST;
 
 /* adds a value / client pair to str_list, *avoids* doubled entries */
-static void add_str (STR_LIST & m, const QString & value, const char *client)
+static void add_str (STR_LIST & m, const QString & value, const QString &c)
 {
     STR_LIST::iterator it;
 
-    if (!client)
-        client = "-";
+    QString client("-");
+    if (!c.isEmpty())
+        client = c;
 
     /* check if value is already in str_list */
     for (it = m.begin (); it != m.end (); ++it) {
@@ -192,25 +193,18 @@ static void add_str (STR_LIST & m, const QString & value, const char *client)
     }
     /* already there */
     if (it != m.end ()) {
-        PROTO_LIST & proto = (*it).proto;
+        PROTO_LIST &proto = (*it).proto;
         PROTO_LIST::iterator itp;
         /* client == '-' --> ignore */
-        if (!proto.empty () && !strcmp (client, "-"))
+        if (!proto.isEmpty() && client == "-")
             return;
         /* search if  already in list */
-        for (itp = proto.begin (); itp != proto.end (); ++itp) {
-            if (!strcmp ((*itp).c_str (), client))
-                return;
-        }
+        if(proto.contains(client))
+            return;
         /* search if "-" somewhere in list --> delete it */
-        for (itp = proto.begin (); itp != proto.end (); ++itp) {
-            if (!strcmp ((*itp).c_str (), "-"))
-                break;
-        }
-        if (itp != proto.end ())
-            proto.erase (itp);
+        proto.remove("-");
         /* add new client */
-        proto.push_back (string (client));
+        proto.push_back (client);
     }
     else {
         /* new entry */
@@ -221,8 +215,8 @@ static void add_str (STR_LIST & m, const QString & value, const char *client)
     }
 }
 
-static QString addStrings (const QString & old_value, const QString & values,
-                           const char *client)
+static QString addStrings (const QString &old_value, const QString &values,
+                           const QString &client)
 {
     STR_LIST    str_list;
 
@@ -245,7 +239,7 @@ static QString addStrings (const QString & old_value, const QString & values,
             while (proto.length ()) {
                 QString     proto2 = getToken (proto, ',');
                 /* and add */
-                add_str (str_list, str, proto2.latin1 ());
+                add_str (str_list, str, proto2);
             }
         }
     }
@@ -259,7 +253,7 @@ static QString addStrings (const QString & old_value, const QString & values,
             QString     proto = getToken (str_item, '/');
             while (proto.length ()) {
                 QString     proto2 = getToken (proto, ',');
-                add_str (str_list, str, proto2.latin1 ());
+                add_str (str_list, str, proto2);
             }
         }
     }
@@ -284,28 +278,28 @@ static QString addStrings (const QString & old_value, const QString & values,
         for (PROTO_LIST::iterator itp = proto.begin (); itp != proto.end (); ++itp) {
             if (proto_str.length ())
                 proto_str += ",";
-            proto_str += quoteChars ((*itp).c_str (), ",;/");
+            proto_str += quoteChars (*itp, ",;/");
         }
         res += proto_str;
     }
     return res;
 }
 
-bool Contact::setEMails(const QString &mail, const char *client)
+bool Contact::setEMails(const QString &mail, const QString &client)
 {
     return setEMails(addStrings(getEMails(), mail, client));
 }
 
-bool Contact::setPhones(const QString &phone, const char *client)
+bool Contact::setPhones(const QString &phone, const QString &client)
 {
     return setPhones(addStrings(getPhones(), phone, client));
 }
 
-static QString packString(const QString &value, const char *client)
+static QString packString(const QString &value, const QString &client)
 {
     QString res = quoteChars(value, "/");
     res += "/";
-    if (client){
+    if (!client.isEmpty()){
         res += client;
     }else{
         res += "-";
@@ -313,7 +307,7 @@ static QString packString(const QString &value, const char *client)
     return res;
 }
 
-static QString addString(const QString &oldValue, const QString &newValue, const char *client)
+static QString addString(const QString &oldValue, const QString &newValue, const QString &client)
 {
     QString res;
     if (oldValue.length() == 0){
@@ -323,17 +317,17 @@ static QString addString(const QString &oldValue, const QString &newValue, const
     }
     QString value = oldValue;
     getToken(value, '/');
-    if ((value == client) || (client == NULL))
+    if (value == client || client.isEmpty())
         return packString(newValue, client);
     return oldValue;
 }
 
-bool Contact::setFirstName(const QString &name, const char *client)
+bool Contact::setFirstName(const QString &name, const QString &client)
 {
     return setFirstName(addString(getFirstName(), name, client));
 }
 
-bool Contact::setLastName(const QString &name, const char *client)
+bool Contact::setLastName(const QString &name, const QString &client)
 {
     return setLastName(addString(getLastName(), name, client));
 }
