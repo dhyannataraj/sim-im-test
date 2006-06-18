@@ -39,7 +39,7 @@ protected:
     string m_url;
     string m_key;
     string m_seed;
-    string m_cookie;
+    QString m_cookie;
     virtual unsigned long localHost();
     virtual void pause(unsigned);
 };
@@ -107,12 +107,12 @@ void JabberHttpPool::write(const char *buf, unsigned size)
         return;
     Buffer *packet = new Buffer;
     string key = getKey();
-    *packet << m_cookie.c_str();
+    *packet << m_cookie.latin1();
 #ifdef USE_OPENSSL
     *packet << ";" << key.c_str();
 #endif
     *packet << ",";
-    log(L_DEBUG, "%s;%s,", m_cookie.c_str(), key.c_str());
+    log(L_DEBUG, "%s;%s,", m_cookie.latin1(), key.c_str());
     packet->pack(writeData.data(), writeData.writePos());
     char headers[] = "Content-Type: application/x-www-form-urlencoded";
     fetch(m_url.c_str(), headers, packet);
@@ -138,21 +138,21 @@ bool JabberHttpPool::done(unsigned code, Buffer &data, const char *headers)
         error("Bad result");
         return false;
     }
-    string cookie;
+    QString cookie;
     for (const char *p = headers; *p; p += strlen(p) + 1){
-        string h = p;
+        QString h = p;
         if (getToken(h, ':') != "Set-Cookie")
             continue;
-        while (!h.empty()){
-            string part = trim(getToken(h, ';').c_str());
+        while (!h.isEmpty()){
+            QString part = getToken(h, ';').stripWhiteSpace();
             if (getToken(part, '=') == "ID")
                 cookie = part;
         }
-        if (!cookie.empty())
+        if (!cookie.isEmpty())
             break;
     }
     m_cookie = cookie;
-    int err_code = atol(getToken(cookie, ':').c_str());
+    int err_code = atol(getToken(cookie, ':').latin1());
     if (cookie == "0"){
         const char *err = "Unknown poll error";
         switch (err_code){

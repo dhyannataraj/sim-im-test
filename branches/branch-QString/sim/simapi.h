@@ -957,10 +957,10 @@ public:
     bool &asBool();
     bool setBool(bool d);
 
-    QObject* object();
+    QObject* object() const;
     bool setObject(const QObject *);
 
-    IP* ip();
+    IP* ip() const;
     bool setIP(const IP *);
 protected:
     void checkType(DataType type) const;
@@ -985,8 +985,8 @@ EXPORT const QString get_str(Data &strlist, unsigned index);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
 EXPORT DEPRECATED void set_str(Data *strlist, unsigned index, const char *value);
 
-EXPORT unsigned long get_ip(Data &ip);
-EXPORT const char *get_host(Data &ip);
+EXPORT unsigned long get_ip(const Data &ip);
+EXPORT const char *get_host(const Data &ip);
 EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_STRLIST(A) \
@@ -1065,10 +1065,9 @@ EXPORT bool makedir(char *p);
 EXPORT void save_state();
 
 EXPORT DEPRECATED std::string number(unsigned n);
-EXPORT DEPRECATED QString trim(const QString &str);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);
-EXPORT QString formatAddr(Data &addr, unsigned port);
+EXPORT QString formatAddr(const Data &addr, unsigned port);
 EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
 EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);

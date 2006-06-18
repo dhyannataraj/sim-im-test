@@ -442,7 +442,7 @@ MSNServerMessage::~MSNServerMessage()
         n = line.find(":");
         if (n < 0)
             continue;
-        values.insert(KEY_MAP::value_type(line.left(n), trim(line.mid(n + 1))));
+        values.insert(KEY_MAP::value_type(line.left(n), line.mid(n + 1).stripWhiteSpace()));
     }
     KEY_MAP::iterator it = values.find("ClientIP");
     if (it != values.end())

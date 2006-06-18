@@ -524,11 +524,13 @@ EXPORT QString formatDate(unsigned long t)
 #endif
 }
 
-EXPORT QString formatAddr(Data &ip, unsigned port)
+EXPORT QString formatAddr(const Data &ip, unsigned port)
 {
     QString res;
-    if (ip.ip() == NULL)
+    if (ip.ip() == NULL) {
+        log( L_ERROR, "formatAddr() with invalid data (%s)", ip.name().latin1() );
         return res;
+    }
     struct in_addr inaddr;
     inaddr.s_addr = get_ip(ip);
     res += inet_ntoa(inaddr);

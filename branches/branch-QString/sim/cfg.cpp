@@ -376,17 +376,17 @@ bool set_ip(Data *p, unsigned long value, const char *host)
     return true;
 }
 
-unsigned long get_ip(Data &p)
+unsigned long get_ip(const Data &p)
 {
-    IP *ip = p.ip();
+    const IP *ip = p.ip();
     if (ip)
         return ip->ip();
     return 0;
 }
 
-const char *get_host(Data &p)
+const char *get_host(const Data &p)
 {
-    IP *ip = p.ip();
+    const IP *ip = p.ip();
     if (ip && ip->host())
         return ip->host();
     return "";
@@ -712,7 +712,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
             Data *d = data;
             switch (def->type){
             case DATA_IP:{
-                    IP *p = d->ip();
+                    const IP *p = d->ip();
                     if (p && p->ip()){
                         struct in_addr inaddr;
                         inaddr.s_addr = p->ip();
@@ -1163,7 +1163,7 @@ bool Data::setBool(bool d)
     return true;
 }
 
-QObject* Data::object()
+QObject* Data::object() const
 {
     checkType(DATA_OBJECT);
     return m_dataAsObject;
@@ -1178,7 +1178,7 @@ bool Data::setObject(const QObject *d)
     return true;
 }
 
-IP* Data::ip()
+IP* Data::ip() const
 {
     checkType(DATA_IP);
     return m_dataAsIP;
