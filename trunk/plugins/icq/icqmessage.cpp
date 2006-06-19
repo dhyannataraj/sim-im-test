@@ -335,7 +335,13 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
     packet.unpackStr32(info);
     Buffer b(info.size());
     b.pack(info.c_str(), info.size());
+#ifdef __GNUC__
+    // %z in C++ mode is GNU extension
     log(L_DEBUG, "Extended message %s [%04X] %zu", msgType.c_str(), msg_type, info.size());
+#else
+    // FIXME: casting from size_t to ulong is not valid everywhere (what about WIN64?)
+    log(L_DEBUG, "Extended message %s [%04X] %lu", msgType.c_str(), msg_type, (unsigned long)info.size());
+#endif
     int n = msgType.find("URL");
     if (n >= 0){
         string info;
