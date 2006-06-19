@@ -613,15 +613,6 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info
     return 0;
 }
 
-EXPORT void set_value(QLineEdit *edit, char *&value)
-{
-    if ((value == NULL) || (*value == 0)){
-        edit->setText("");
-        return;
-    }
-    edit->setText(QString::fromUtf8(value));
-}
-
 EXPORT void disableWidget(QWidget *w)
 {
     QPalette pal = w->palette();
@@ -775,11 +766,6 @@ EXPORT unsigned get_random()
 my_string::my_string(const char *str)
 {
     m_str = QString::fromUtf8(str);
-}
-
-my_string::my_string(const my_string &s)
-{
-    m_str = s.m_str;
 }
 
 my_string::my_string(const QString &s)

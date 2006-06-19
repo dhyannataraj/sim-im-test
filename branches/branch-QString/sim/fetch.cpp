@@ -37,7 +37,7 @@ using namespace SIM;
 
 const unsigned HTTPPacket   = 0x100;
 
-typedef std::map<my_string, string> HEADERS_MAP;
+typedef std::map<my_string, QString> HEADERS_MAP;
 
 class FetchThread;
 
@@ -186,7 +186,7 @@ void FetchThread::error(const char *name)
 
 void FetchThread::run()
 {
-    string headers;
+    QString headers;
     DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_NO_COOKIES;
     if (!m_client->m_bRedirect)
         flags |= INTERNET_FLAG_NO_AUTO_REDIRECT;
@@ -237,23 +237,23 @@ void FetchThread::run()
         return;
     }
     for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
-        string name = (*it).first.c_str();
-        if (!headers.empty())
+        QString name = (*it).first.str();
+        if (!headers.isEmpty())
             headers += "\r\n";
         headers += name;
         headers += ": ";
-        headers += (*it).second.c_str();
+        headers += (*it).second;
     }
     Buffer b;
     b.packetStart();
-    b << verb << " " << uri.c_str() << " HTTP/1.0\r\n" << headers.c_str() << "\r\n";
+    b << verb << " " << uri.c_str() << " HTTP/1.0\r\n" << headers.latin1() << "\r\n";
     log_packet(b, true, HTTPPacket);
     for (;;){
         if (postSize != NO_POSTSIZE){
             INTERNET_BUFFERSA BufferIn;
             memset(&BufferIn, 0, sizeof(BufferIn));
             BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERSA);
-            BufferIn.lpcszHeader     = headers.c_str();
+            BufferIn.lpcszHeader     = headers.latin1();
             BufferIn.dwHeadersLength = headers.length();
             BufferIn.dwHeadersTotal  = headers.length();
             BufferIn.dwBufferTotal   = (postSize != NO_POSTSIZE) ? postSize : 0;
@@ -301,7 +301,7 @@ void FetchThread::run()
                 return;
             }
         }else{
-            if (!_HttpSendRequest(hReq, headers.c_str(), headers.length(), NULL, 0)){
+            if (!_HttpSendRequest(hReq, headers, headers.length(), NULL, 0)){
                 error("HttpSendRequest");
                 return;
             }
@@ -756,7 +756,7 @@ bool FetchClient::crackUrl(const char *_url, string &protocol, string &host, uns
 
 void FetchClientPrivate::addHeader(const char *key, const char *value)
 {
-    HEADERS_MAP::iterator it = m_hOut.find(key);
+    HEADERS_MAP::iterator it = m_hOut.find(QString(key));
     if (it == m_hOut.end()){
         m_hOut.insert(HEADERS_MAP::value_type(key, value));
     }else{
@@ -878,9 +878,9 @@ void FetchClientPrivate::connect_ready()
     }
     for (HEADERS_MAP::iterator it = m_hOut.begin(); it != m_hOut.end(); ++it){
         m_socket->writeBuffer
-        << (*it).first.c_str()
+        << (*it).first.str().latin1()
         << ": "
-        << (*it).second.c_str()
+        << (*it).second.latin1()
         << "\r\n";
     }
     m_socket->writeBuffer

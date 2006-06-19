@@ -662,7 +662,7 @@ void History::cut(Message *msg, unsigned contact_id, unsigned date)
         }
     }
     for (CLIENTS_MAP::iterator it = clients.begin(); it != clients.end(); ++it)
-        del((*it).first.c_str(), msg ? msg->contact() : contact_id, (*it).second + 1, false);
+        del((*it).first.str().utf8(), msg ? msg->contact() : contact_id, (*it).second + 1, false);
 }
 
 void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, Message *msg)

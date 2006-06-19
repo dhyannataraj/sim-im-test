@@ -1067,7 +1067,7 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
             res = QString::number(c.size());
             for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
                 res += '\xFE';
-                res += (*it).first.c_str();
+                res += (*it).first.str();
                 res += '\xFE';
                 res += (*it).second.alias;
             }

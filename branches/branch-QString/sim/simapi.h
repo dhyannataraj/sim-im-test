@@ -1859,7 +1859,6 @@ EXPORT KAboutData *getAboutData();
 
 EXPORT void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty = true, const ext_info *tbl1 = NULL);
 EXPORT unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info *tbl1 = NULL);
-EXPORT void set_value(QLineEdit*, char *&value);
 EXPORT void disableWidget(QWidget *w);
 
 EXPORT QString toTranslit(const QString&);
@@ -1876,12 +1875,11 @@ class EXPORT my_string
 {
 public:
     my_string(const char *str);
-    my_string(const my_string &str);
     my_string(const QString &str);
     ~my_string();
     bool operator < (const my_string &str) const;
     void operator = (const my_string &str);
-    const QString &c_str() const { return m_str; }
+    const QString &str() const { return m_str; }
 protected:
     QString m_str;
 };
