@@ -431,7 +431,7 @@ protected:
         Receive
     };
     State m_state;
-    virtual bool    error_state(const char *err, unsigned code);
+    virtual bool    error_state(const QString &err, unsigned code);
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	write_ready();

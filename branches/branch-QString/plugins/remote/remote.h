@@ -85,7 +85,7 @@ protected:
     SIM::ClientSocket	*m_socket;
     RemotePlugin	*m_plugin;
     void write(const char*);
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     virtual void connect_ready();
     virtual void packet_ready();
 };

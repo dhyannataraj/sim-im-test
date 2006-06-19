@@ -212,7 +212,7 @@ void ClientSocket::setNotify(ClientSocketNotify *notify)
     m_notify = notify;
 }
 
-void ClientSocket::error_state(const char *err, unsigned code)
+void ClientSocket::error_state(const QString &err, unsigned code)
 {
     list<ClientSocket*>::iterator it;
     for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it)
@@ -322,9 +322,9 @@ void TCPClient::resolve_ready(unsigned long ip)
     m_ip = ip;
 }
 
-bool TCPClient::error_state(const char *err, unsigned code)
+bool TCPClient::error_state(const QString &err, unsigned code)
 {
-    log(L_DEBUG, "Socket error %s (%u)", err, code);
+    log(L_DEBUG, "Socket error %s (%u)", err.latin1(), code);
     m_loginTimer->stop();
     if (m_reconnect == NO_RECONNECT){
         m_timer->stop();

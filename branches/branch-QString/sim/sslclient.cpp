@@ -375,9 +375,10 @@ void SSLClient::write_ready()
 {
 }
 
-void SSLClient::error_state(const char *err, unsigned code)
+void SSLClient::error_state(const QString &err, unsigned code)
 {
-    if (notify) notify->error_state(err, code);
+    if (notify)
+        notify->error_state(err, code);
 }
 
 void SSLClient::setSocket(Socket *s)

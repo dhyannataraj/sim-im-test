@@ -2227,7 +2227,7 @@ bool YahooFileTransfer::accept(Socket *s, unsigned long)
     return false;
 }
 
-bool YahooFileTransfer::error_state(const char *err, unsigned)
+bool YahooFileTransfer::error_state(const QString &err, unsigned)
 {
     if ((m_state == Wait) || (m_state == Skip))
         return false;

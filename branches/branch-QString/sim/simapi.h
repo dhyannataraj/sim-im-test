@@ -1620,7 +1620,7 @@ public:
     virtual QWidget *searchWindow(QWidget *parent) = 0;
     virtual QString resources(void *data);
     void    removeGroup(Group *grp);
-    void    setState(State, const char *text = NULL, unsigned code = 0);
+    void    setState(State, const QString &text = QString(), unsigned code = 0);
     State   getState() { return m_state; }
     virtual unsigned getStatus();
     virtual void contactsLoaded();

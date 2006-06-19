@@ -363,7 +363,8 @@ void SIMClientSocket::slotError(int err)
     if (err)
         log(L_DEBUG, "Slot error %u", err);
     timerStop();
-    if (notify) notify->error_state(I18N_NOOP("Socket error"));
+    if (notify)
+        notify->error_state(I18N_NOOP("Socket error"));
 }
 
 void SIMClientSocket::pause(unsigned t)

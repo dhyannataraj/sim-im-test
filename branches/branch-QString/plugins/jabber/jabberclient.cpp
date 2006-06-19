@@ -2623,7 +2623,7 @@ bool JabberFileTransfer::accept(Socket *s, unsigned long)
     return true;
 }
 
-bool JabberFileTransfer::error_state(const char *err, unsigned)
+bool JabberFileTransfer::error_state(const QString &err, unsigned)
 {
     if (m_state == Wait)
         return false;

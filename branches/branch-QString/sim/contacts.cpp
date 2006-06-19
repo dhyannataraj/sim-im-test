@@ -1187,7 +1187,7 @@ bool Client::compareData(void*, void*)
     return false;
 }
 
-void Client::setState(State state, const char *text, unsigned code)
+void Client::setState(State state, const QString &text, unsigned code)
 {
     m_state = state;
     Event e(EventClientChanged, this);
@@ -1195,7 +1195,7 @@ void Client::setState(State state, const char *text, unsigned code)
     if (state == Error){
         clientErrorData d;
         d.client  = this;
-        d.err_str = text;
+        d.err_str = text.latin1();
         d.code    = code;
         d.args    = NULL;
         d.flags   = ERR_ERROR;

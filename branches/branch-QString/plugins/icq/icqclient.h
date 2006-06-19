@@ -788,7 +788,7 @@ public:
     ~ServiceSocket();
     unsigned short id() { return m_id; }
     void connect(const char *addr, unsigned short port, const char *cookie, unsigned cookie_size);
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     bool connected() { return m_bConnected; }
     void close();
 protected:
@@ -827,7 +827,7 @@ public:
     void connect();
     void reverseConnect(unsigned long ip, unsigned short port);
     void acceptReverse(SIM::Socket *s);
-    virtual bool   error_state(const char *err, unsigned code);
+    virtual bool   error_state(const QString &err, unsigned code);
     virtual void   connect_ready();
     unsigned short localPort();
     unsigned short remotePort();
@@ -889,7 +889,7 @@ protected:
     unsigned    m_channel;
     void processPacket();
     void connect_ready();
-    bool error_state(const char *err, unsigned code);
+    bool error_state(const QString &err, unsigned code);
     void sendInit2();
     void startPacket(unsigned short cms, unsigned short seq);
     void sendPacket();
@@ -933,7 +933,7 @@ protected:
     State m_state;
 
     virtual void connect_ready();
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     virtual void write_ready();
     virtual void setSpeed(unsigned speed);
     virtual void startReceive(unsigned pos);
@@ -971,7 +971,7 @@ protected:
     virtual void processPacket();
     virtual void connect_ready();
     virtual void packet_ready();
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     virtual void write_ready();
     virtual void startReceive(unsigned pos);
     virtual void bind_ready(unsigned short port);

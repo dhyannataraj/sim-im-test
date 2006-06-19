@@ -111,7 +111,7 @@ protected:
         WaitJoin,
         Connected
     };
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     virtual void connect_ready();
     virtual void packet_ready();
     void send(const char *cmd, const char *args);
@@ -304,7 +304,7 @@ protected:
         WaitDisconnect,
         WaitBye
     };
-    virtual bool    error_state(const char *err, unsigned code);
+    virtual bool    error_state(const QString &err, unsigned code);
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	write_ready();

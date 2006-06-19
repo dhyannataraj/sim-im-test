@@ -178,14 +178,14 @@ unsigned short DirectSocket::remotePort()
     return m_port;
 }
 
-bool DirectSocket::error_state(const char *error, unsigned)
+bool DirectSocket::error_state(const QString &error, unsigned)
 {
     if ((m_state == ConnectIP1) || (m_state == ConnectIP2)){
         connect();
         return false;
     }
-    if (*error)
-        log(L_WARN, "Direct socket error %s", error);
+    if (!error.isEmpty())
+        log(L_WARN, "Direct socket error %s", error.latin1());
     return true;
 }
 
@@ -1041,9 +1041,10 @@ void DirectClient::sendInit2()
     m_socket->write();
 }
 
-bool DirectClient::error_state(const char *err, unsigned code)
+bool DirectClient::error_state(const QString &error, unsigned code)
 {
-    if (err && !DirectSocket::error_state(err, code))
+    QString err = error;
+    if (!err.isEmpty() && !DirectSocket::error_state(err, code))
         return false;
     if (m_data && (m_port == m_data->Port.toULong())){
         switch (m_state){
@@ -1055,7 +1056,7 @@ bool DirectClient::error_state(const char *err, unsigned code)
             break;
         }
     }
-    if (err == NULL)
+    if (err.isEmpty())
         err = I18N_NOOP("Send message fail");
     for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
         SendDirectMsg &sm = *it;
@@ -1764,7 +1765,7 @@ void ICQFileTransfer::login_timeout()
     DirectSocket::login_timeout();
 }
 
-bool ICQFileTransfer::error_state(const char *err, unsigned code)
+bool ICQFileTransfer::error_state(const QString &err, unsigned code)
 {
     if (DirectSocket::m_state == DirectSocket::ConnectFail){
         if (ICQClient::hasCap(m_data, CAP_DIRECT)){
@@ -2047,7 +2048,7 @@ void AIMFileTransfer::connect_ready()
     m_socket->setRaw(true);
 }
 
-bool AIMFileTransfer::error_state(const char *err, unsigned)
+bool AIMFileTransfer::error_state(const QString &err, unsigned)
 {
     m_msg->setError(err);
     Event e(EventMessageSent, m_msg);
