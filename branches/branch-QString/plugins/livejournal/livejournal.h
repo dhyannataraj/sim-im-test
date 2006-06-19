@@ -19,7 +19,6 @@
 #define _LIVEJOURNAL_H
 
 #include "simapi.h"
-#include "stl.h"
 #include "buffer.h"
 #include "socket.h"
 #include "fetch.h"
@@ -122,7 +121,7 @@ class LiveJournalRequest
 public:
     LiveJournalRequest(LiveJournalClient *client, const char *mode);
     virtual ~LiveJournalRequest();
-    void addParam(const char *key, const char *value);
+    void addParam(const QString &key, const QString &value);
     void result(Buffer*);
     virtual void result(const char *key, const char *value) = 0;
 protected:
@@ -160,7 +159,7 @@ public:
     void auth_ok();
     LiveJournalUserData	*findContact(const char *user, SIM::Contact *&contact, bool bCreate=true, bool bJoin=true);
     QTimer  *m_timer;
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     bool add(const char *name);
 public slots:
     void timeout();
@@ -185,7 +184,7 @@ protected:
     SIM::CommandDef *configWindows();
     QWidget *configWindow(QWidget *parent, unsigned id);
     void statusChanged();
-    std::list<LiveJournalRequest*> m_requests;
+    QValueList<LiveJournalRequest*> m_requests;
     LiveJournalRequest		  *m_request;
     LiveJournalClientData	data;
     friend class LiveJournalCfg;
