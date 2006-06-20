@@ -2362,15 +2362,14 @@ void DiscoItemsRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::discoItems(const char *jid, const char *node)
+string JabberClient::discoItems(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
-    DiscoItemsRequest *req = new DiscoItemsRequest(this, jid);
+    DiscoItemsRequest *req = new DiscoItemsRequest(this, jid.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#items");
-    if (node && *node)
-        req->add_attribute("node", node);
+    req->add_attribute("node", node);
     addLang(req);
     req->send();
     m_requests.push_back(req);
@@ -2458,15 +2457,14 @@ void DiscoInfoRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::discoInfo(const char *jid, const char *node)
+string JabberClient::discoInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
-    DiscoInfoRequest *req = new DiscoInfoRequest(this, jid);
+    DiscoInfoRequest *req = new DiscoInfoRequest(this, jid.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#info");
-    if (node && *node)
-        req->add_attribute("node", node);
+    req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2591,11 +2589,11 @@ void BrowseRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::browse(const char *jid)
+string JabberClient::browse(const QString &jid)
 {
     if (getState() != Connected)
         return "";
-    BrowseRequest *req = new BrowseRequest(this, jid);
+    BrowseRequest *req = new BrowseRequest(this, jid.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:browse");
     req->send();
@@ -2656,15 +2654,14 @@ void VersionInfoRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::versionInfo(const char *jid, const char *node)
+string JabberClient::versionInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
-    VersionInfoRequest *req = new VersionInfoRequest(this, jid);
+    VersionInfoRequest *req = new VersionInfoRequest(this, jid.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:version");
-    if (node && *node)
-        req->add_attribute("node", node);
+    req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2715,15 +2712,14 @@ void TimeInfoRequest::char_data(const char *buf, int len)
         m_data->append(buf, len);
 }
 
-string JabberClient::timeInfo(const char *jid, const char *node)
+string JabberClient::timeInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
-    TimeInfoRequest *req = new TimeInfoRequest(this, jid);
+    TimeInfoRequest *req = new TimeInfoRequest(this, jid.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:time");
-    if (node && *node)
-        req->add_attribute("node", node);
+    req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2753,15 +2749,14 @@ void LastInfoRequest::element_start(const char *el, const char **attr)
     }
 }
 
-string JabberClient::lastInfo(const char *jid, const char *node)
+string JabberClient::lastInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
-    LastInfoRequest *req = new LastInfoRequest(this, jid);
+    LastInfoRequest *req = new LastInfoRequest(this, jid.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:last");
-    if (node && *node)
-        req->add_attribute("node", node);
+    req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
     return req->m_id;
@@ -2859,15 +2854,14 @@ void StatItemsRequest::element_start(const char *el, const char **attr)
     }
 }
 
-string JabberClient::statInfo(const char *jid, const char *node)
+string JabberClient::statInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
-    StatItemsRequest *req = new StatItemsRequest(this, jid, node);
+    StatItemsRequest *req = new StatItemsRequest(this, jid.utf8(), node.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");
-    if (node && *node)
-        req->add_attribute("node", node);
+    req->add_attribute("node", node);
     addLang(req);
     req->send();
     m_requests.push_back(req);

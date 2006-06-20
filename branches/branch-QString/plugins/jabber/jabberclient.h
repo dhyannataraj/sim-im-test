@@ -326,13 +326,13 @@ class MessageRequest : public ServerRequest
     QString logoFile(JabberUserData*);
     std::list<ServerRequest*>	m_requests;
 
-    std::string discoItems(const char *jid, const char *node);
-    std::string discoInfo(const char *jid, const char *node);
-    std::string browse(const char *jid);
-    std::string versionInfo(const char *jid, const char *node);
-    std::string timeInfo(const char *jid, const char *node);
-    std::string lastInfo(const char *jid, const char *node);
-    std::string statInfo(const char *jid, const char *node);
+    std::string discoItems(const QString &jid, const QString &node);
+    std::string discoInfo(const QString &jid, const QString &node);
+    std::string browse(const QString &jid);
+    std::string versionInfo(const QString &jid, const QString &node);
+    std::string timeInfo(const QString &jid, const QString &node);
+    std::string lastInfo(const QString &jid, const QString &node);
+    std::string statInfo(const QString &jid, const QString &node);
     void addLang(ServerRequest *req);
     void info_request(JabberUserData *user_data, bool bVCard);
     virtual void setClientInfo(void *data);

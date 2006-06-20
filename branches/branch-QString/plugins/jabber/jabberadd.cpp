@@ -173,7 +173,7 @@ void JabberAdd::startSearch()
         url = QString::fromUtf8(m_client->getVHost());
     if (url.isEmpty())
         url = QString::fromUtf8(m_client->getServer());
-    m_id_browse = m_client->browse(url.utf8());
+    m_id_browse = m_client->browse(url);
 }
 
 void JabberAdd::addAttr(const char *name, const QString &label)
@@ -221,7 +221,7 @@ void *JabberAdd::processEvent(Event *e)
                         url = QString::fromUtf8(m_client->getVHost());
                     if (url.isEmpty())
                         url = QString::fromUtf8(m_client->getServer());
-                    m_id_disco  = m_client->discoItems(url.utf8(), "");
+                    m_id_disco  = m_client->discoItems(url, "");
                 }
                 m_id_browse = "";
                 checkDone();
@@ -239,7 +239,7 @@ void *JabberAdd::processEvent(Event *e)
             ItemInfo info;
             info.jid  = item->jid;
             info.node = item->node;
-            info.id   = m_client->discoInfo(info.jid.c_str(), info.node.c_str());
+            info.id   = m_client->discoInfo(QString::fromUtf8(info.jid.c_str()), QString::fromUtf8(info.node.c_str()));
             m_disco_items.push_back(info);
             return e->param();
         }

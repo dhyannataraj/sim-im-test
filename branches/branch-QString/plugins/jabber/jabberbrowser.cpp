@@ -225,13 +225,13 @@ void JabberBrowser::go(const QString &url, const QString &node)
     m_bError = false;
     unsigned mode = 0;
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
-        item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(url.utf8(), node.utf8()).c_str());
-        item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(url.utf8(), node.utf8()).c_str());
+        item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(url, node).c_str());
+        item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(url, node).c_str());
         mode = BROWSE_DISCO | BROWSE_INFO;
     }
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE){
         if (node.isEmpty()){
-            item->setText(COL_ID_BROWSE, m_client->browse(url.utf8()).c_str());
+            item->setText(COL_ID_BROWSE, m_client->browse(url).c_str());
             mode |= BROWSE_BROWSE;
         }
     }
@@ -587,7 +587,7 @@ void *JabberBrowser::processEvent(Event *e)
             i->setText(COL_NODE, QString::fromUtf8(item->node.c_str()));
             int mode = 0;
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
-                i->setText(COL_ID_DISCO_INFO, m_client->discoInfo(item->jid.c_str(), item->node.c_str()).c_str());
+                i->setText(COL_ID_DISCO_INFO, m_client->discoInfo(QString::fromUtf8(item->jid.c_str()), QString::fromUtf8(item->node.c_str())).c_str());
                 mode |= BROWSE_INFO;
             }
             i->setText(COL_MODE, QString::number(mode));
@@ -730,19 +730,19 @@ void JabberBrowser::loadItem(QListViewItem *item)
     unsigned mode = atol(item->text(COL_MODE).latin1());
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
         if (((mode & BROWSE_DISCO) == 0) && item->text(COL_ID_DISCO_ITEMS).isEmpty()){
-            item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8()).c_str());
+            item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(item->text(COL_JID), item->text(COL_NODE)).c_str());
             mode |= BROWSE_DISCO;
             bProcess = true;
         }
         if (((mode & BROWSE_INFO) == 0) && item->text(COL_ID_DISCO_INFO).isEmpty()){
-            item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8()).c_str());
+            item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(item->text(COL_JID), item->text(COL_NODE)).c_str());
             mode |= BROWSE_INFO;
             bProcess = true;
         }
     }
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE){
         if (((mode & BROWSE_BROWSE) == 0) && item->text(COL_ID_BROWSE).isEmpty() && haveFeature("iq:id:browse", item->text(COL_FEATURES))){
-            item->setText(COL_ID_BROWSE, m_client->browse(item->text(COL_JID).utf8()).c_str());
+            item->setText(COL_ID_BROWSE, m_client->browse(item->text(COL_JID)).c_str());
             mode |= BROWSE_BROWSE;
             bProcess = true;
         }

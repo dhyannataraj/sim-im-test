@@ -135,7 +135,7 @@ void DiscoInfo::reset()
     edtName->setText("");
     edtVersion->setText("");
     edtSystem->setText("");
-    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url.utf8(), m_node.utf8()) : "";
+    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url, m_node) : "";
     if ((bTime || bLast) != (m_bTime || m_bLast)){
         m_bTime = bTime;
         m_bLast = bLast;
@@ -151,14 +151,14 @@ void DiscoInfo::reset()
     edtLast->setText("");
     if (m_bTime){
         edtTime->show();
-        m_timeId = m_browser->m_client->timeInfo(m_url.utf8(), m_node.utf8());
+        m_timeId = m_browser->m_client->timeInfo(m_url, m_node);
     }else{
         edtTime->hide();
         m_timeId = "";
     }
     if (m_bLast){
         edtLast->show();
-        m_lastId = m_browser->m_client->lastInfo(m_url.utf8(), m_node.utf8());
+        m_lastId = m_browser->m_client->lastInfo(m_url, m_node);
     }else{
         edtLast->hide();
         m_lastId = "";
@@ -174,7 +174,7 @@ void DiscoInfo::reset()
     }else if (m_bStat){
         pos++;
     }
-    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url.utf8(), m_node.utf8()) : "";
+    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url, m_node) : "";
     if (bVCard != m_bVCard){
         m_bVCard = bVCard;
         if (m_bVCard || m_bVCard){

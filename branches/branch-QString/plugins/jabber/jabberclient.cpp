@@ -822,6 +822,8 @@ void JabberClient::ServerRequest::start_element(const QString &name)
 
 void JabberClient::ServerRequest::add_attribute(const QString &name, const QString &value)
 {
+    if(value.isEmpty())
+        return;
     m_client->m_socket->writeBuffer
     << " " << (const char*)name.utf8()
 	<< "=\'" << (const char*)JabberClient::encodeXML(value).utf8() << "\'";
