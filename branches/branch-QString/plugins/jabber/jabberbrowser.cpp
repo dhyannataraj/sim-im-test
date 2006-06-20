@@ -168,9 +168,9 @@ void JabberBrowser::setClient(JabberClient *client)
     m_client = client;
     QString url;
     if (m_client->getUseVHost())
-        url = QString::fromUtf8(m_client->getVHost());
+        url = m_client->getVHost();
     if (url.isEmpty())
-        url = QString::fromUtf8(m_client->getServer());
+        url = m_client->getServer();
     goUrl(url, "");
 }
 

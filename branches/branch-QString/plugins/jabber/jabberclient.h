@@ -174,6 +174,7 @@ public:
         void	send();
         void	start_element(const QString &name);
         void	end_element(bool bNewLevel = false);
+        void	add_attribute(const QString &name, const char *value);
         void	add_attribute(const QString &name, const QString &value);
         void	add_condition(const QString &cond, bool bXData);
         void	add_text(const QString &text);
@@ -297,7 +298,7 @@ class MessageRequest : public ServerRequest
     QString		    buildId(JabberUserData *data);
     JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, SIM::Contact *&contact, std::string &resource, bool bJoin=true);
     bool			add_contact(const char *id, unsigned grp);
-    std::string		get_agents(const char *jid);
+    std::string		get_agents(const QString &jid);
     std::string		get_agent_info(const char *jid, const char *node, const char *type);
     void			auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
     std::string		search(const char *jid, const char *node, const char *condition);
@@ -310,12 +311,12 @@ class MessageRequest : public ServerRequest
 
     JabberClientData	data;
 
-    JabberListRequest *findRequest(const char *jid, bool bRemove);
+    JabberListRequest *findRequest(const QString &jid, bool bRemove);
 
     QString VHost();
     bool isAgent(const QString &jid);
     virtual bool send(SIM::Message*, void*);
-    void    listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);
+    void    listRequest(JabberUserData *data, const QString &name, const QString &grp, bool bDelete);
     void	sendFileRequest(SIM::FileMessage *msg, unsigned short port, JabberUserData *data, const char *url, unsigned size);
     void	sendFileAccept(SIM::FileMessage *msg, JabberUserData *data);
 

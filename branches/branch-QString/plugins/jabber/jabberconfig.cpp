@@ -37,7 +37,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     QTimer::singleShot(0, this, SLOT(changed()));
     edtID->setText(m_client->getID());
     edtPasswd->setText(m_client->getPassword());
-    edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
+    edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
     edtPriority->setValue(m_client->getPriority());
     edtResource->setText(m_client->data.owner.Resource.str());

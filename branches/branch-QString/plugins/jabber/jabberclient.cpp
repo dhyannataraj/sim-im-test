@@ -194,8 +194,8 @@ JabberClient::JabberClient(JabberProtocol *protocol, ConfigBuffer *cfg)
         QString item = getToken(listRequests, ';', false);
         JabberListRequest lr;
         lr.bDelete = false;
-        lr.jid = getToken(item, ',').utf8();
-        lr.grp = getToken(item, ',').utf8();
+        lr.jid = getToken(item, ',');
+        lr.grp = getToken(item, ',');
         if (!item.isEmpty())
             lr.bDelete = true;
         m_listRequests.push_back(lr);
@@ -421,16 +421,16 @@ void *JabberClient::processEvent(Event *e)
         JabberUserData *data;
         while ((data = (JabberUserData*)(++it)) != NULL){
             if (grpName == data->Group.str()){
-                listRequest(data, name.utf8(), grpName.utf8(), false);
+                listRequest(data, name, grpName, false);
                 continue;
             }
             if (!data->Name.str().isEmpty()){
                 if (name == data->Name.str())
-                    listRequest(data, name.utf8(), grpName.utf8(), false);
+                    listRequest(data, name, grpName, false);
                 continue;
             }
             if (name == data->ID.str())
-                listRequest(data, name.utf8(), grpName.utf8(), false);
+                listRequest(data, name, grpName, false);
         }
         return NULL;
     }
@@ -439,7 +439,7 @@ void *JabberClient::processEvent(Event *e)
         ClientDataIterator it(contact->clientData, this);
         JabberUserData *data;
         while ((data = (JabberUserData*)(++it)) != NULL){
-            listRequest(data, NULL, NULL, true);
+            listRequest(data, QString::null, QString::null, true);
         }
         return NULL;
     }
@@ -827,6 +827,11 @@ void JabberClient::ServerRequest::add_attribute(const QString &name, const QStri
     m_client->m_socket->writeBuffer
     << " " << (const char*)name.utf8()
 	<< "=\'" << (const char*)JabberClient::encodeXML(value).utf8() << "\'";
+}
+
+void JabberClient::ServerRequest::add_attribute(const QString &name, const char *value)
+{
+    add_attribute(name, value ? QString::fromUtf8(value) : QString());
 }
 
 void JabberClient::ServerRequest::end_element(bool bNewLevel)
@@ -2403,7 +2408,7 @@ QString JabberClient::dataName(void *_data)
     return res;
 }
 
-void JabberClient::listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete)
+void JabberClient::listRequest(JabberUserData *data, const QString &name, const QString &grp, bool bDelete)
 {
     QString jid = data->ID.str();
     list<JabberListRequest>::iterator it;
@@ -2415,20 +2420,18 @@ void JabberClient::listRequest(JabberUserData *data, const char *name, const cha
     }
     JabberListRequest lr;
     lr.jid = jid;
-    if (name)
-        lr.name = name;
-    if (grp)
-        lr.grp = grp;
+    lr.name = name;
+    lr.grp = grp;
     lr.bDelete = bDelete;
     m_listRequests.push_back(lr);
     processList();
 }
 
-JabberListRequest *JabberClient::findRequest(const char *jid, bool bRemove)
+JabberListRequest *JabberClient::findRequest(const QString &jid, bool bRemove)
 {
     list<JabberListRequest>::iterator it;
     for (it = m_listRequests.begin(); it != m_listRequests.end(); ++it){
-        if ((*it).jid == QString::fromUtf8(jid)){
+        if ((*it).jid == jid){
             if (bRemove){
                 m_listRequests.erase(it);
                 return NULL;

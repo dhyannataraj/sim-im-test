@@ -84,9 +84,9 @@ RostersRequest::~RostersRequest()
         while ((data = (JabberUserData*)(++it)) != NULL){
             if (!data->bChecked.toBool()){
                 QString jid = data->ID.str();
-                JabberListRequest *lr = m_client->findRequest(jid.utf8(), false);
+                JabberListRequest *lr = m_client->findRequest(jid, false);
                 if (lr && lr->bDelete)
-                    m_client->findRequest(jid.utf8(), true);
+                    m_client->findRequest(jid, true);
                 dataRemoved.push_back(data);
             }
         }
@@ -152,13 +152,13 @@ void RostersRequest::element_end(const char *el)
     }
     if (strcmp(el, "item") == 0){
         bool bChanged = false;
-        JabberListRequest *lr = m_client->findRequest(m_jid.c_str(), false);
+        JabberListRequest *lr = m_client->findRequest(QString::fromUtf8(m_jid.c_str()), false);
         Contact *contact;
         string resource;
         JabberUserData *data = m_client->findContact(m_jid.c_str(), m_name.c_str(), false, contact, resource);
         if (data == NULL){
             if (lr && lr->bDelete){
-                m_client->findRequest(m_jid.c_str(), true);
+                m_client->findRequest(QString::fromUtf8(m_jid.c_str()), true);
             }else{
                 bChanged = true;
                 string resource;
@@ -211,7 +211,7 @@ void RostersRequest::element_end(const char *el)
                         grp = contact->getGroup();
                         Group *group = getContacts()->group(grp);
                         if (group)
-                            m_client->listRequest(data, contact->getName().utf8(), group->getName().utf8(), false);
+                            m_client->listRequest(data, contact->getName(), group->getName(), false);
                     }
                 }
                 contact->setGroup(grp);
@@ -1651,9 +1651,9 @@ void AgentRequest::char_data(const char *el, int len)
     m_data.append(el, len);
 }
 
-string JabberClient::get_agents(const char *jid)
+string JabberClient::get_agents(const QString &jid)
 {
-    AgentRequest *req = new AgentRequest(this, jid);
+    AgentRequest *req = new AgentRequest(this, jid.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:agents");
     addLang(req);
