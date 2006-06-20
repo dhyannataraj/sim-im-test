@@ -40,6 +40,7 @@ protected slots:
     void profileChanged(int);
     void pswdChanged(const QString&);
     void profileDelete();
+    void profileRename();
     void loginComplete();
     void adjust();
 protected:
@@ -56,7 +57,7 @@ protected:
     bool m_bLogin;
     bool m_bInit;
     bool m_bProfileChanged;
-    void makeInputs(unsigned &row, SIM::Client *client, bool bQuick);
+    void makeInputs(unsigned &row, SIM::Client *client);
     std::vector<QLabel*>	picts;
     std::vector<QLabel*>	texts;
     std::vector<QLineEdit*>	passwords;

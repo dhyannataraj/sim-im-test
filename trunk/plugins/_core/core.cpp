@@ -58,6 +58,8 @@
 #include <qpopupmenu.h>
 #include <qthread.h>
 #include <qtextcodec.h>
+#include <qinputdialog.h>
+#include <qmessagebox.h>
 
 #include <time.h>
 
@@ -3762,6 +3764,33 @@ bool CorePlugin::init(bool bInit)
         hideWindows();
         getContacts()->clearClients();
 
+        QString name;
+        setProfile(NULL);
+        QDir d(QFile::decodeName(user_file("").c_str()));
+        while(1) {
+          if (!bCmdLineProfile){
+              bool ok = false;
+              name = QInputDialog::getText(i18n("Create Profile"), i18n("Please enter a new name for the profile."),         QLineEdit::Normal, name, &ok, NULL);
+              if(!ok){
+                 Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+                 eAbort.process();
+                 return false;
+              }
+          } else {
+              name = QString(cmd_line_profile);
+          }
+          if(d.exists(name)) {
+            QMessageBox::information(NULL, i18n("Create Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
+            continue;
+          }
+          else if(!d.mkdir(name)) {
+            QMessageBox::information(NULL, i18n("Create Profile"), i18n("Unable to create the profile.  Please do not use any special characters."), QMessageBox::Ok);
+            continue;
+          }
+          break;
+        }
+        setProfile(static_cast<const char *>(name.local8Bit()));
+
         NewProtocol *pDlg=NULL;
         if (bCmdLineProfile){
             setSavePasswd(true);
@@ -3772,31 +3801,14 @@ bool CorePlugin::init(bool bInit)
         }
         if (!pDlg->exec() && !pDlg->connected()){
             delete(pDlg);
+            if (d.exists(name))
+                d.rmdir(name);
             Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
             eAbort.process();
             return false;
         }
         delete(pDlg);
 
-        Client *client = getContacts()->getClient(0);
-        string profile = client->name();
-        setProfile(NULL);
-        QString profileDir = QFile::decodeName(user_file("").c_str());
-        if (!bCmdLineProfile){
-            profileDir += profile.c_str();
-            for (unsigned i = 1;;i++){
-                 QDir d(profileDir + "." + QString::number(i));
-                 if (!d.exists()){
-                     profile += '.';
-                     profile += number(i);
-                     break;
-                 }
-            }
-        } else {
-            profile = cmd_line_profile;
-        }
-
-        setProfile(profile.c_str());
         bLoaded = true;
         bRes = false;
         bNew = true;

@@ -31,6 +31,8 @@
 #include <qlayout.h>
 #include <qapplication.h>
 #include <qtimer.h>
+#include <qinputdialog.h>
+#include <qmessagebox.h>
 
 using std::string;
 using namespace SIM;
@@ -64,6 +66,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
         chkSave->hide();
         chkNoShow->hide();
         btnDelete->hide();
+        btnRename->hide();
         cmbProfile->hide();
         lblProfile->hide();
     }
@@ -74,6 +77,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     fill();
     connect(cmbProfile, SIGNAL(activated(int)), this, SLOT(profileChanged(int)));
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(profileDelete()));
+    connect(btnRename, SIGNAL(clicked()), this, SLOT(profileRename()));
     profileChanged(cmbProfile->currentItem());
 }
 
@@ -204,6 +208,7 @@ void LoginDialog::profileChanged(int)
         clearInputs();
         buttonOk->setEnabled(false);
         btnDelete->setEnabled(false);
+        btnRename->hide();
         return;
     }
     buttonOk->setEnabled(true);
@@ -211,7 +216,9 @@ void LoginDialog::profileChanged(int)
         lblPasswd->hide();
         clearInputs();
         btnDelete->setEnabled(false);
+        btnRename->hide();
     }else{
+        btnRename->show();
         clearInputs();
         CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
         ClientList clients;
@@ -223,20 +230,13 @@ void LoginDialog::profileChanged(int)
                 continue;
             nClients++;
         }
-        if (nClients > 1){
-            lblPasswd->show();
-        }else{
-            lblPasswd->hide();
-        }
+        lblPasswd->show();
+
         unsigned row = 2;
-        if (nClients == 1){
-            makeInputs(row, clients[0], true);
-        }else{
-            for (unsigned i = 0; i < clients.size(); i++){
-                if (clients[i]->protocol()->description()->flags & PROTOCOL_NO_AUTH)
-                    continue;
-                makeInputs(row, clients[i], false);
-            }
+        for (unsigned i = 0; i < clients.size(); i++){
+             if (clients[i]->protocol()->description()->flags & PROTOCOL_NO_AUTH)
+                 continue;
+             makeInputs(row, clients[i]);
         }
         if (passwords.size())
             passwords[0]->setFocus();
@@ -285,17 +285,16 @@ p += "/";
     d.rmdir(path);
 }
 
-void LoginDialog::makeInputs(unsigned &row, Client *client, bool bQuick)
+void LoginDialog::makeInputs(unsigned &row, Client *client)
 {
-    if (!bQuick){
-        QLabel *pict = new QLabel(this);
-        pict->setPixmap(Pict(client->protocol()->description()->icon));
-        picts.push_back(pict);
-        PLayout->addWidget(pict, row, 0);
-        pict->show();
-    }
+    QLabel *pict = new QLabel(this);
+    pict->setPixmap(Pict(client->protocol()->description()->icon));
+    picts.push_back(pict);
+    PLayout->addWidget(pict, row, 0);
+    pict->show();
+
     QLabel *txt = new QLabel(this);
-    txt->setText(bQuick ? i18n("Password:") : QString::fromLocal8Bit(client->name().c_str()));
+    txt->setText(QString::fromLocal8Bit(client->name().c_str()));
     txt->setAlignment(AlignRight);
     QLineEdit *edt = new QLineEdit(this);
     edt->setText(client->getPassword());
@@ -322,9 +321,8 @@ void LoginDialog::makeInputs(unsigned &row, Client *client, bool bQuick)
 void LoginDialog::fill()
 {
     if (m_client){
-        lblPasswd->hide();
         unsigned row = 2;
-        makeInputs(row, m_client, true);
+        makeInputs(row, m_client);
         return;
     }
     cmbProfile->clear();
@@ -343,7 +341,7 @@ void LoginDialog::fill()
             Client *client = clients[0];
             cmbProfile->insertItem(
                 Pict(client->protocol()->description()->icon),
-                QString::fromLocal8Bit(client->name().c_str()));
+                QString::fromLocal8Bit(curProfile.c_str()));
         }
     }
     cmbProfile->insertItem(i18n("New profile"));
@@ -400,12 +398,47 @@ void LoginDialog::profileDelete()
     fill();
 }
 
+void LoginDialog::profileRename()
+{
+  int n = cmbProfile->currentItem();
+  if ((n < 0) || (n >= (int)(CorePlugin::m_plugin->m_profiles.size())))
+    return;
+
+  QString name;
+  CorePlugin::m_plugin->setProfile(NULL);
+  QString profileDir=QFile::decodeName(user_file("").c_str());
+  QDir d(QFile::decodeName(user_file("").c_str()));
+  while(1) {
+    bool ok = false;
+    name = QInputDialog::getText(i18n("Rename Profile"), i18n("Please enter a new name for the profile."),         QLineEdit::Normal, name, &ok, this);
+    if(!ok)
+      return;
+    if(d.exists(name)) {
+      QMessageBox::information(this, i18n("Rename Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
+      continue;
+    }
+    else if(!d.rename(QString(CorePlugin::m_plugin->m_profiles[n]), name)) {
+      QMessageBox::information(this, i18n("Rename Profile"), i18n("Unable to rename the profile.  Please do not use any special characters."), QMessageBox::Ok);
+      continue;
+    }
+    break;
+  }
+  fill();
+  for (int i=0; i<(cmbProfile->count()); i++){
+       if (cmbProfile->text(i)==name){
+           cmbProfile->setCurrentItem(i);
+           break;
+       }
+  }
+}
+
 void LoginDialog::startLogin()
 {
     m_bLogin = true;
     cmbProfile->setEnabled(false);
     buttonOk->setEnabled(false);
     btnDelete->setEnabled(false);
+    btnRename->setEnabled(false);
     chkNoShow->setEnabled(false);
     chkSave->setEnabled(false);
     unsigned i;
@@ -419,6 +452,7 @@ void LoginDialog::stopLogin()
     cmbProfile->setEnabled(true);
     buttonOk->setEnabled(true);
     btnDelete->setEnabled(true);
+    btnRename->setEnabled(true);
     chkSave->setEnabled(true);
     saveToggled(chkSave->isChecked());
     unsigned i;
