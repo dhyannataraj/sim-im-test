@@ -115,7 +115,7 @@ DataDef jabberUserData[] =
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_STRING, 1, 0 },			// TypingId
         { "", DATA_ULONG, 1, 0 },			// ComposeId
-        { "", DATA_ULONG, 1, DATA(1) },			// richText
+        { "", DATA_BOOL, 1, DATA(1) },			// richText
         { "", DATA_BOOL, 1, 0 },
         { "PhotoWidth", DATA_ULONG, 1, 0 },
         { "PhotoHeight", DATA_ULONG, 1, 0 },
