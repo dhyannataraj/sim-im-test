@@ -138,11 +138,12 @@ const ext_info languages[] =
         {I18N_NOOP("Vietnamese"), 52},
         {I18N_NOOP("Yiddish"), 53},
         {I18N_NOOP("Yoruba"), 54},
-        {I18N_NOOP("Taiwanese"), 55},
-        {I18N_NOOP("Afrikaans"), 56},
+        {I18N_NOOP("Afrikaans"), 55},
         {I18N_NOOP("Persian"), 57},
         {I18N_NOOP("Albanian"), 58},
         {I18N_NOOP("Armenian"), 59},
+        {I18N_NOOP("Kyrgyz"), 123},
+        {I18N_NOOP("Maltese"), 125},
         {"", 0}
     };
 
