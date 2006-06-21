@@ -165,10 +165,10 @@ void *JIDSearch::processEvent(Event *e)
 
 void JIDSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
-    std::string resource;
-    if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
+    QString resource;
+    if (m_client->findContact(name, QString::null, false, contact, resource))
         return;
-    if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)
+    if (m_client->findContact(name, QString::null, true, contact, resource, false) == NULL)
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }

@@ -121,14 +121,14 @@ void JabberAdd::createContact(unsigned tmpFlags, Contact *&contact)
 {
     if (!grpJID->isChecked() || edtJID->text().isEmpty())
         return;
-    string resource;
-    if (m_client->findContact(edtJID->text().utf8(), NULL, false, contact, resource))
+    QString resource;
+    if (m_client->findContact(edtJID->text(), QString::null, false, contact, resource))
         return;
     QString name = edtJID->text();
     int n = name.find('@');
     if (n > 0)
         name = name.left(n);
-    m_client->findContact(edtJID->text().utf8(), name.utf8(), true, contact, resource, false);
+    m_client->findContact(edtJID->text(), name, true, contact, resource, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
@@ -452,10 +452,10 @@ void JabberAdd::checkDone()
 
 void JabberAdd::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
-    string resource;
-    if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
+    QString resource;
+    if (m_client->findContact(name, QString::null, false, contact, resource))
         return;
-    if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)
+    if (m_client->findContact(name, QString::null, true, contact, resource, false) == NULL)
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }

@@ -52,7 +52,7 @@ void AuthRequest::element_end(const char *el)
 void AuthRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "iq")){
-        string value = JabberClient::to_lower(JabberClient::get_attr("type", attr).c_str());
+        QString value = JabberClient::get_attr("type", attr).lower();
         if (value == "result")
             m_bFail = false;
     }

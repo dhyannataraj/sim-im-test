@@ -780,11 +780,10 @@ void JabberBrowser::dragStart()
     if (item == NULL)
         return;
     Contact *contact;
-    string resource;
-    JabberUserData *data = m_client->findContact(item->text(COL_JID).utf8(), NULL, false, contact, resource);
+    QString resource;
+    JabberUserData *data = m_client->findContact(item->text(COL_JID), QString::null, false, contact, resource);
     if (data == NULL){
-        string resource;
-        m_client->findContact(item->text(COL_JID).utf8(), item->text(COL_NAME).utf8(), true, contact, resource);
+        m_client->findContact(item->text(COL_JID), item->text(COL_NAME), true, contact, resource);
         contact->setFlags(CONTACT_DRAG);
     }
     m_list->startDrag(new ContactDragObject(m_list, contact));

@@ -87,7 +87,7 @@ void JabberInfo::apply()
             return;
         }
         if (!edtPswd1->text().isEmpty())
-            m_client->changePassword(edtPswd1->text().utf8());
+            m_client->changePassword(edtPswd1->text());
         // clear Textboxes
         edtCurrent->clear();
         edtPswd1->clear();
