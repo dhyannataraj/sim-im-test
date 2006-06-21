@@ -829,7 +829,9 @@ void JabberClient::ServerRequest::start_element(const char *name)
 void JabberClient::ServerRequest::add_attribute(const char *name, const char *value)
 {
     m_client->m_socket->writeBuffer
-    << " " << name << "=\'" << JabberClient::encodeXML(QString::fromUtf8(value)) << "\'";
+    << " " << name << "=\'" 
+    << JabberClient::encodeXML(QString::fromUtf8(value)).replace('\'', "&apos;")
+    << "\'";
 }
 
 void JabberClient::ServerRequest::end_element(bool bNewLevel)
