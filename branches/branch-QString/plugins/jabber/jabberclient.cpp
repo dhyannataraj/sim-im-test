@@ -2191,7 +2191,7 @@ bool JabberClient::send(Message *msg, void *_data)
                             if (!isMyData(data, c))
                                 continue;
                             JabberUserData *d = (JabberUserData*)data;
-                            string s = d->ID.str().utf8();
+                            string s = (const char*)(d->ID.str().utf8());
                             jids.push_back(s);
                             string n;
                             n = c->getName().utf8();
@@ -2693,7 +2693,7 @@ void JabberFileTransfer::connect_ready()
     JabberFileMessage *msg = static_cast<JabberFileMessage*>(m_msg);
     QString line;
     line = "GET /";
-    line += msg->getDescription().utf8();
+    line += msg->getDescription();
     line += " HTTP/1.1\r\n"
             "Host :";
     line += msg->getHost();

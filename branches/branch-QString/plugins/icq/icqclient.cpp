@@ -2331,7 +2331,7 @@ void *ICQClient::processEvent(Event *e)
             ICQUserData *data;
             ClientDataIterator itc(contact->clientData, this);
             while ((data = (ICQUserData*)(++itc)) != NULL){
-                if (data->Screen.str != addr){
+                if (data->Screen.str() != addr){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)

@@ -1976,7 +1976,7 @@ void SBSocket::connect_ready()
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
     m_socket->setRaw(true);
-    string args = m_client->data.owner.EMail.str().utf8();
+    string args = (const char *)(m_client->data.owner.EMail.str().utf8());
     args += " ";
     args += m_cookie;
     m_cookie = "";

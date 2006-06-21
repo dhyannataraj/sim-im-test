@@ -304,7 +304,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                 Tlv *tlv = tlvs(0x09);
                 if (tlv){
                     load_data(ICQProtocol::icqUserData, &res.data);
-                    res.data.Screen.str() = *tlv; // utf8 ??
+                    res.data.Screen.str() = tlv->Data(); // utf8 ??
                     tlv = tlvs(0x01);
                     if (tlv){
                         QString str = ICQClient::convert(tlv, tlvs, 0x1C);

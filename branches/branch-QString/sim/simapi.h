@@ -114,10 +114,11 @@ typedef unsigned char _Bool;
 #endif
 #endif
 
+//FIXME: Maybe we need here #ifdef WINDOWS? //serzh.
 #ifdef SIMAPI_EXPORTS
 #define EXPORT __declspec(dllexport)
 #else
-#define EXPORT __declspec(dllimport)
+#define EXPORT
 #endif
 
 #ifndef HAVE_STRCASECMP

@@ -183,7 +183,7 @@ void GpgCfg::refresh()
 #ifdef WIN32
     QString gpg  = edtGPG->text();
 #else
-    QString gpg  = QFile::decodeName(m_plugin->GPG());
+    QString gpg  = m_plugin->GPG();
 #endif
     QString home = edtHome->text();
     if (gpg.isEmpty() || home.isEmpty()){
