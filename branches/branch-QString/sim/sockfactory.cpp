@@ -431,15 +431,15 @@ void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPCl
 void SIMServerSocket::bind(const char *path)
 {
     m_name = QFile::decodeName(path);
-    string user_id;
+    QString user_id;
     uid_t uid = getuid();
     struct passwd *pwd = getpwuid(uid);
     if (pwd){
         user_id = pwd->pw_name;
     }else{
-        user_id = number(uid);
+        user_id = QString::number(uid);
     }
-    m_name = m_name.replace(QRegExp("\\%user\\%"), user_id.c_str());
+    m_name = m_name.replace(QRegExp("\\%user\\%"), user_id.latin1());
     QFile::remove(m_name);
 
     int s = socket(PF_UNIX, SOCK_STREAM, 0);

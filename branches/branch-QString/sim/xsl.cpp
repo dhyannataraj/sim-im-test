@@ -67,7 +67,7 @@ XSL::XSL(const QString &name)
     if (!f.open(IO_ReadOnly)){
         f.setName(app_file(fname));
         if (!f.open(IO_ReadOnly)){
-            log(L_WARN, QString("Can't open %1").arg(fname));
+            log(L_WARN, "Can't open %s", fname.local8Bit().data());
             bOK = false;
         }
     }
@@ -100,7 +100,7 @@ QString XSL::process(const QString &my_xml)
 
     xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
     if (doc == NULL){
-        log(L_WARN, "Parse XML error: %s", my_xsl.local8Bit());
+        log(L_WARN, "Parse XML error: %s", my_xsl.local8Bit().data());
         return QString::null;
     }
     const char *params[1];

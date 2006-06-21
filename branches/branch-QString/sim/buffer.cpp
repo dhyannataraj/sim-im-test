@@ -32,8 +32,8 @@ using namespace SIM;
 
 #ifdef WORDS_BIGENDIAN
 
-#define SWAP_S(s)   s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);  
-#define SWAP_L(s)   s = ((s&0xFF)<<24) + ((s&0xFF00)<<8) + ((s&0xFF0000)>>8) + ((s&0xFF000000)>>24); 
+#define SWAP_S(s)   s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);
+#define SWAP_L(s)   s = ((s&0xFF)<<24) + ((s&0xFF00)<<8) + ((s&0xFF0000)>>8) + ((s&0xFF000000)>>24);
 
 #else
 
@@ -115,7 +115,7 @@ Buffer::~Buffer()
 
 void Buffer::init(unsigned size)
 {
-    resize(size);   
+    resize(size);
     m_posRead = 0;
     m_posWrite = 0;
     m_packetStartPos = 0;
@@ -627,7 +627,7 @@ void Buffer::toBase64(Buffer &from)
 
 static int findStartSection(const Buffer *pBuf, unsigned start)
 {
-    int idx = start == -1 ? 0 : start;
+    int idx = start == ~0U ? 0 : start;
 
     do {
         idx = pBuf->find( '[', idx);
@@ -641,7 +641,7 @@ static int findStartSection(const Buffer *pBuf, unsigned start)
 
 static int findEndSection(const Buffer *pBuf, unsigned start)
 {
-    int idx = start == -1 ? 0 : start;
+    int idx = start == ~0U ? 0 : start;
 
     do {
         idx = pBuf->find( ']', idx);
@@ -661,11 +661,11 @@ QString Buffer::getSection(bool bSkip)
 
     if( bSkip )
         start = findStartSection(this, m_posRead + 1);
-    if( start == -1 )
+    if( start == ~0U )
         return str;
     start = findStartSection( this, start );
     end   = findEndSection( this, start );
-    if( start == -1 || end == -1 )
+    if( start == ~0U || end == ~0U )
         return str;
     m_startSection = m_posRead = start;
 
@@ -678,7 +678,7 @@ QString Buffer::getSection(bool bSkip)
     if ( m_posRead >= size() )
         m_posRead = size() - 1;
     m_posWrite = findStartSection( this, end );
-    if( m_posWrite == -1 )
+    if( m_posWrite == ~0U )
         m_posWrite = size() - 1;
 
     return str;
@@ -722,11 +722,11 @@ QString ConfigBuffer::getSection(bool bSkip)
 
     if( bSkip )
         start = findStartSection( m_posRead + 1 );
-    if( start == -1 )
+    if( start == ~0U )
         return str;
     start = findStartSection( start );
     end   = findEndSection( start );
-    if( start == -1 || end == -1 )
+    if( start == ~0U || end == ~0U )
         return str;
     m_startSection = m_posRead = start;
 
@@ -740,7 +740,7 @@ QString ConfigBuffer::getSection(bool bSkip)
         m_posRead = length() - 1;
 
 	m_posNextSection = findStartSection( end );
-    if( m_posNextSection == -1 )
+    if( m_posNextSection == ~0U )
         m_posNextSection = length() - 1;
 
     return str;

@@ -55,7 +55,7 @@
 #ifdef WIN32
 #if _MSC_VER > 1020
 #pragma warning(push)
-#pragma warning(disable: 4512)  
+#pragma warning(disable: 4512)
 #endif
 #endif
 
@@ -544,6 +544,9 @@ void init_data(const DataDef *d, Data *data)
                 data += (def->n_values - 1);
                 i += (def->n_values - 1);
                 break;
+            case DATA_UNKNOWN:
+            default:
+                break;
             }
             data->setName(def->name);
         }
@@ -652,6 +655,11 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
             }
             break;
         }
+        case DATA_UNKNOWN:
+        case DATA_STRUCT:
+        case DATA_OBJECT:
+        default:
+            break;
         }
     }
     cfg->restorePos();
@@ -810,6 +818,11 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     }
                     break;
                 }
+            case DATA_UNKNOWN:
+            case DATA_STRUCT:
+            case DATA_OBJECT:
+            default:
+                break;
             }
             if (bSave){
                 if (res.length())
@@ -972,53 +985,53 @@ Data::Data(const Data &d)
     *this = d;
 }
 
-Data::Data(const QString &d)      
+Data::Data(const QString &d)
  : m_type(DATA_STRING), m_name("unknown")
 {
     clear();
     m_dataAsQString = d;
 }
 
-Data::Data(const QStringList &d)  
+Data::Data(const QStringList &d)
  : m_type(DATA_STRLIST), m_name("unknown")
-{ 
+{
     clear();
-    m_dataAsQStringList = d; 
+    m_dataAsQStringList = d;
 }
 
 Data::Data(long d)
  : m_type(DATA_LONG), m_name("unknown")
-{ 
+{
     clear();
-    m_dataAsValue = (unsigned long)d; 
+    m_dataAsValue = (unsigned long)d;
 }
 
 Data::Data(unsigned long d)
  : m_type(DATA_ULONG), m_name("unknown")
-{ 
+{
     clear();
-    m_dataAsValue = d; 
+    m_dataAsValue = d;
 }
 
-Data::Data(bool d)                
+Data::Data(bool d)
  : m_type(DATA_BOOL), m_name("unknown")
-{ 
+{
     clear();
-    m_dataAsBool = d; 
+    m_dataAsBool = d;
 }
 
-Data::Data(const QObject *d)               
+Data::Data(const QObject *d)
  : m_type(DATA_OBJECT), m_name("unknown")
-{ 
+{
     clear();
-    m_dataAsObject = const_cast<QObject*>(d); 
+    m_dataAsObject = const_cast<QObject*>(d);
 }
 
-Data::Data(const IP *d)           
+Data::Data(const IP *d)
  : m_type(DATA_IP), m_name("unknown")
-{ 
+{
     clear();
-    m_dataAsIP = const_cast<IP*>(d); 
+    m_dataAsIP = const_cast<IP*>(d);
 }
 
 Data &Data::operator =(const Data &d)
