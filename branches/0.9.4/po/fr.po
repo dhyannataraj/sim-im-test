@@ -9111,7 +9111,7 @@ msgstr "Département/Secteur d'emploi :"
 #. i18n: file ./plugins/icq/verifydlgbase.ui line 16
 #: rc.cpp:1929
 #, no-c-format
-msgid "VerifyDlg"
+msgid "Verification Dialog"
 msgstr ""
 
 #. i18n: file ./plugins/icq/verifydlgbase.ui line 124

@@ -4164,7 +4164,7 @@ msgstr ""
 
 #: plugins/icq/verifydlgbase.cc:111 rc.cpp:1917
 #, no-c-format
-msgid "VerifyDlg"
+msgid "Verification Dialog"
 msgstr ""
 
 #: plugins/icq/verifydlgbase.cc:112 rc.cpp:1920
