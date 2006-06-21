@@ -296,7 +296,6 @@ class MessageRequest : public ServerRequest
     PROP_BOOL(InfoUpdated);
 
     QString		    buildId(JabberUserData *data);
-    DEPRECATED JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, SIM::Contact *&contact, std::string &resource, bool bJoin=true);
     JabberUserData	*findContact(const QString &jid, const QString &name, bool bCreate, SIM::Contact *&contact, QString &resource, bool bJoin=true);
     bool			add_contact(const char *id, unsigned grp);
     QString		get_agents(const QString &jid);
@@ -305,7 +304,6 @@ class MessageRequest : public ServerRequest
     QString		search(const QString &jid, const QString &node, const QString &condition);
     QString		process(const QString &jid, const QString &node, const QString &condition, const QString &type);
 
-    static std::string	to_lower(const char *s);
     static QString	get_attr(const char *name, const char **attrs);
     virtual void setupContact(SIM::Contact*, void *data);
     virtual void updateInfo(SIM::Contact *contact, void *data);
@@ -318,7 +316,7 @@ class MessageRequest : public ServerRequest
     bool isAgent(const QString &jid);
     virtual bool send(SIM::Message*, void*);
     void    listRequest(JabberUserData *data, const QString &name, const QString &grp, bool bDelete);
-    void	sendFileRequest(SIM::FileMessage *msg, unsigned short port, JabberUserData *data, const char *url, unsigned size);
+    void	sendFileRequest(SIM::FileMessage *msg, unsigned short port, JabberUserData *data, const QString &url, unsigned size);
     void	sendFileAccept(SIM::FileMessage *msg, JabberUserData *data);
 
     std::list<SIM::Message*> m_ackMsg;
@@ -441,12 +439,12 @@ protected:
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const char *err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
-    bool get_line(const char *str);
-    void send_line(const char *str);
+    bool get_line(const QCString &str);
+    void send_line(const QCString &str);
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;
-    std::string			m_url;
+    QString             m_url;
     SIM::ClientSocket	*m_socket;
 };
 

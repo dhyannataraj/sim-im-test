@@ -2317,7 +2317,7 @@ void *ICQClient::processEvent(Event *e)
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
             Group *grp = getContacts()->group(ac->group);
             Contact *contact;
-            QString tmp = QString::fromUtf8(ac->nick);
+            QString tmp = ac->nick;
             findContact(ac->addr, &tmp, true, contact, grp);
             return contact;
         }

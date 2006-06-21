@@ -112,8 +112,8 @@ protected:
     bool		 m_bInProcess;
     JabberClient *m_client;
     CToolBar	 *m_bar;
-    std::vector<std::string>	m_history;
-    std::vector<std::string>	m_nodes;
+    std::vector<QString>	m_history;
+    std::vector<QString>	m_nodes;
     QString		 m_historyStr;
     int			 m_historyPos;
     JabberWizard	*m_reg;

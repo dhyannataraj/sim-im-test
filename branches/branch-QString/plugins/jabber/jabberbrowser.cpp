@@ -177,20 +177,20 @@ void JabberBrowser::setClient(JabberClient *client)
 void JabberBrowser::goUrl(const QString &url, const QString &node)
 {
     int i = 0;
-    vector<string>::iterator it;
+    vector<QString>::iterator it;
     for (it = m_history.begin(); it != m_history.end(); ++it, i++){
         if (i > m_historyPos)
             break;
     }
     m_history.erase(it, m_history.end());
-    m_history.push_back(string(url.utf8()));
+    m_history.push_back(url);
     i = 0;
     for (it = m_nodes.begin(); it != m_nodes.end(); ++it, i++){
         if (i > m_historyPos)
             break;
     }
     m_nodes.erase(it, m_nodes.end());
-    m_nodes.push_back(string(node.utf8()));
+    m_nodes.push_back(node);
     m_historyPos++;
     go(url, node);
 }
@@ -499,20 +499,16 @@ void *JabberBrowser::processEvent(Event *e)
         if (cmd->id == CmdBack){
             if (m_historyPos){
                 m_historyPos--;
-                QString url  = QString::fromUtf8(m_history[m_historyPos].c_str());
-                QString node;
-                if (!m_nodes[m_historyPos].empty())
-                    node = QString::fromUtf8(m_nodes[m_historyPos].c_str());
+                QString url  = m_history[m_historyPos];
+                QString node = m_nodes[m_historyPos];
                 go(url, node);
             }
         }
         if (cmd->id == CmdForward){
             if (m_historyPos + 1 < (int)(m_history.size())){
                 m_historyPos++;
-                QString url  = QString::fromUtf8(m_history[m_historyPos].c_str());
-                QString node;
-                if (!m_nodes[m_historyPos].empty())
-                    node = QString::fromUtf8(m_nodes[m_historyPos].c_str());
+                QString url  = m_history[m_historyPos];
+                QString node = m_nodes[m_historyPos];
                 go(url, node);
             }
         }

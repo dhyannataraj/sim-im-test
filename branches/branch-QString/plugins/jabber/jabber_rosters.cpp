@@ -2189,7 +2189,7 @@ void SendFileRequest::char_data(const char*, int)
 {
 }
 
-void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserData *data, const char *fname, unsigned size)
+void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserData *data, const QString &fname, unsigned size)
 {
     QString jid = data->ID.str();
     if (msg->getResource().isEmpty()){

@@ -43,10 +43,10 @@ class CComboBox : public QComboBox
 {
 public:
     CComboBox(QWidget *parent, const char *name);
-    void addItem(const QString &label, const char *value);
+    void addItem(const QString &label, const QString &value);
     QString value();
 protected:
-    vector<string> m_values;
+    vector<QString> m_values;
 };
 
 CComboBox::CComboBox(QWidget *parent, const char *name)
@@ -55,7 +55,7 @@ CComboBox::CComboBox(QWidget *parent, const char *name)
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
 }
 
-void CComboBox::addItem(const QString &label, const char *value)
+void CComboBox::addItem(const QString &label, const QString &value)
 {
     m_values.push_back(value);
     insertItem(label);
@@ -66,7 +66,7 @@ QString CComboBox::value()
     unsigned index = currentItem();
     if (index >= m_values.size())
         return "";
-    return QString::fromUtf8(m_values[index].c_str());
+    return m_values[index];
 }
 
 const unsigned MAX_ELEMENTS = 8;
@@ -443,11 +443,11 @@ QString JabberSearch::condition(QWidget *w)
     }
     delete l;
 
-    if (!m_key.empty() && (w == NULL)){
+    if (!m_key.isEmpty() && (w == NULL)){
         if (!res.isEmpty())
             res += ";";
         res += "key=";
-        res += quoteChars(QString::fromUtf8(m_key.c_str()), ";");
+        res += quoteChars(m_key, ";");
     }
     return res;
 }

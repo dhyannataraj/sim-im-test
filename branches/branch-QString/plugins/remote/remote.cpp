@@ -707,11 +707,10 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += args[0];
                 return false;
             }
-            QString uin_str = QString::number(uin);
             addContact ac;
             ac.proto = "ICQ";
-            ac.addr  = uin_str.latin1();
-            ac.nick  = NULL;
+            ac.addr  = QString::number(uin);
+            ac.nick  = "";
             ac.group = 0;
             Event e(EventAddContact, &ac);
             Contact *contact = (Contact*)(e.process());
@@ -866,19 +865,11 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     bNewGrp = true;
                 }
             }
-            string proto;
-            proto = args[0].utf8();
-            string addr;
-            addr  = args[1].utf8();
-            string nick;
             addContact ac;
-            ac.proto = proto.c_str();
-            ac.addr  = addr.c_str();
+            ac.proto = args[0];
+            ac.addr  = args[1];
             if (args.size() > 2){
-                nick = args[2].utf8();
-                ac.nick = nick.c_str();
-            }else{
-                ac.nick = NULL;
+                ac.nick = args[2];
             }
             ac.group = 0;
             if (grp)

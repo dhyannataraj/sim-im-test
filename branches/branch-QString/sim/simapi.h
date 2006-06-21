@@ -723,9 +723,9 @@ const unsigned EventCommonTitle     = 0x0921;
 
 typedef struct addContact
 {
-    const char      *proto;
-    const char      *addr;
-    const char      *nick;
+    QString proto;
+    QString addr;
+    QString nick;
     unsigned        group;
 } addContact;
 

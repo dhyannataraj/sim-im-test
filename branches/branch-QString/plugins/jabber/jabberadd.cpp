@@ -176,7 +176,7 @@ void JabberAdd::startSearch()
     m_id_browse = m_client->browse(url);
 }
 
-void JabberAdd::addAttr(const char *name, const QString &label)
+void JabberAdd::addAttr(const QString &name, const QString &label)
 {
     for (unsigned i = 0; i < m_fields.size(); i++){
         if (m_fields[i] == name)
@@ -203,7 +203,7 @@ void JabberAdd::addAttrs()
         return;
     QStringList attrs;
     for (; m_nFields < m_fields.size(); m_nFields++){
-        attrs.append(m_fields[m_nFields].c_str());
+        attrs.append(m_fields[m_nFields]);
         attrs.append(m_labels[m_nFields]);
     }
     emit setColumns(attrs, 0, this);

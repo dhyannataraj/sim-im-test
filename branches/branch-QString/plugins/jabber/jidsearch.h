@@ -49,7 +49,7 @@ protected:
     void *processEvent(SIM::Event*);
     void showEvent(QShowEvent*);
     QString	 m_search_id;
-    std::string	 m_type;
+    QString	 m_type;
     bool		 m_bInit;
     bool		 m_bAdv;
     JIDAdvSearch *m_adv;

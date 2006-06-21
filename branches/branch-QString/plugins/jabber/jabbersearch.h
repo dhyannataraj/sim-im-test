@@ -62,7 +62,7 @@ protected:
     QString				m_instruction;
     QString				m_label;
     QWidget				*m_receiver;
-    std::string			m_key;
+    QString			        m_key;
     bool				m_bDirty;
     bool				m_bXData;
     bool				m_bFirst;

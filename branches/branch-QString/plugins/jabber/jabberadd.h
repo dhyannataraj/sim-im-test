@@ -75,7 +75,7 @@ protected:
     void showEvent(QShowEvent*);
     void startSearch();
     void checkDone();
-    void addAttr(const char *name, const QString &label);
+    void addAttr(const QString &name, const QString &label);
     void addAttrs();
     void addSearch(const QString &jid, const QString &node, const QString &features, const QString &type);
     JabberClient	*m_client;
@@ -89,7 +89,7 @@ protected:
     QString		m_id_disco;
     std::list<ItemInfo>		m_disco_items;
     std::list<AgentSearch>	m_agents;
-    std::vector<std::string>    m_fields;
+    std::vector<QString>        m_fields;
     std::vector<QString>	m_labels;
     unsigned			m_nFields;
 };

@@ -1376,7 +1376,7 @@ void *MSNClient::processEvent(Event *e)
         addContact *ac = (addContact*)(e->param());
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
             Contact *contact = NULL;
-            findContact(ac->addr, ac->nick, contact);
+            findContact(ac->addr.utf8(), ac->nick.utf8(), contact);
             if (contact && (contact->getGroup() != ac->group)){
                 contact->setGroup(ac->group);
                 Event e(EventContactChanged, contact);
