@@ -334,7 +334,7 @@ Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, Mes
     packet.unpackStr32(info);
     Buffer b(info.size());
     b.pack(info, info.size());
-    log(L_DEBUG, "Extended message %s [%04X] %lu", msgType.data(), msg_type, info.size());
+    log(L_DEBUG, "Extended message %s [%04X] %u", msgType.data(), msg_type, info.size());
     int n = msgType.find("URL");
     if (n >= 0){
         b.unpackStr32(info);

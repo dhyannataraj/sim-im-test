@@ -976,8 +976,8 @@ static Tlv makeECombo(unsigned id, const QString &str)
 static QValueList<Tlv> makeICombo(unsigned id, const QString &str)
 {
     QValueList<Tlv> list;
-    if ( !str )
-        list;
+    if ( str.isEmpty() )
+        return list;
 
     QCString cstr = str.utf8();
     int cur = 0;
@@ -1107,13 +1107,13 @@ protected:
 };
 
 ChangeInfoRequest::ChangeInfoRequest(ICQClient *client, unsigned short id, const QValueList<Tlv> &clientInfoTLVs)
-        : m_client(client), ServerRequest(id), m_clientInfoTLVs(clientInfoTLVs)
+        : ServerRequest(id), m_client(client), m_clientInfoTLVs(clientInfoTLVs)
 {
 }
 
 bool ChangeInfoRequest::answer(Buffer&, unsigned short)
 {
-    bool bFirstAffilation = true;   
+    bool bFirstAffilation = true;
     bool bFirstInterest = true;
     bool bFirstBackground = true;
     for( unsigned i = 0; i < m_clientInfoTLVs.count(); i++ ) {
@@ -1184,7 +1184,7 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
                 m_client->data.owner.Backgrounds.str() = getICombo(tlv->Data(), m_client->data.owner.Backgrounds.str());
                 break;
             }
-//  530       0x0212      icombo     User homepage category/keywords       
+//  530       0x0212      icombo     User homepage category/keywords
             case TLV_HOMEPAGE:
                 m_client->data.owner.Homepage.str() = getSString(tlv->Data());
                 break;
@@ -1202,7 +1202,7 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
                 break;
             case TLV_ZIP: {
                 QString str;
-                str.sprintf("%d", getUInt32(tlv->Data()));
+                str.sprintf("%lu", getUInt32(tlv->Data()));
                 m_client->data.owner.Zip.str() = str;
                 break;
             }
@@ -1229,7 +1229,7 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
                 break;
             case TLV_WORK_ZIP: {
                 QString str;
-                str.sprintf("%d", getUInt32(tlv->Data()));
+                str.sprintf("%lu", getUInt32(tlv->Data()));
                 m_client->data.owner.WorkZip.str() = str;
                 break;
             }
@@ -1252,9 +1252,9 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
                 m_client->data.owner.TimeZone.asBool() = getUInt8(tlv->Data());
                 break;
   /*
-  800         0x0320      sstring   User originally from city      
-  810         0x032A      sstring   User originally from state     
-  820         0x0334      uint16    User originally from country (code)        
+  800         0x0320      sstring   User originally from city
+  810         0x032A      sstring   User originally from state
+  820         0x0334      uint16    User originally from country (code)
     */
             default:
                 break;
@@ -1356,7 +1356,7 @@ void ICQClient::setClientInfo(void *_data)
     if (d->Backgrounds.str() == data.owner.Backgrounds.str())
         clientInfoTLVs += makeICombo(TLV_PAST, d->Backgrounds.str());
 
-//  530       0x0212      icombo     User homepage category/keywords       
+//  530       0x0212      icombo     User homepage category/keywords
 
     if (d->Homepage.str() == data.owner.Homepage.str())
         clientInfoTLVs.append(makeSString(TLV_HOMEPAGE, d->Homepage.str()));
@@ -1418,9 +1418,9 @@ void ICQClient::setClientInfo(void *_data)
     if (d->TimeZone.toULong() != data.owner.TimeZone.toULong())
         clientInfoTLVs.append(makeUInt8(TLV_TIMEZONE, d->TimeZone.toULong()));
   /*
-  800         0x0320      sstring   User originally from city      
-  810         0x032A      sstring   User originally from state     
-  820         0x0334      uint16    User originally from country (code)        
+  800         0x0320      sstring   User originally from city
+  810         0x032A      sstring   User originally from state
+  820         0x0334      uint16    User originally from country (code)
   */
 
     if (!clientInfoTLVs.isEmpty()) {

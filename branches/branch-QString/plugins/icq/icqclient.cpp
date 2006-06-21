@@ -1621,7 +1621,7 @@ QString ICQClient::clientName(ICQUserData *data)
     }
     if (hasCap(data, CAP_MAYBE_ICQ51))
     {
-        res += "ICQ 5.1 (???)";
+        res += "ICQ 5.1";
         return res;
     }
     if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))

@@ -38,7 +38,7 @@ const unsigned short ICQ_SNACxBDY_REMOVExFROMxLIST = 0x0005;
 const unsigned short ICQ_SNACxBDY_USERONLINE	   = 0x000B;
 const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
 
-static QString makeCapStr( const capability cap, unsigned size ) 
+static QString makeCapStr( const capability cap, unsigned size )
 {
 	QString str = "", tmp;
 	for(unsigned int i = 0; i < size; i++ ) {
@@ -159,7 +159,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         if (i == CAP_SIMOLD) size--;
 
 						if (*capabilities[i] == 0) {
-							log( L_DEBUG, "%d unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
+							log( L_DEBUG, "%ul unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
 							break;
 						}
                         if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))
