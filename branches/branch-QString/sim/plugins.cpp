@@ -552,7 +552,7 @@ void PluginManagerPrivate::saveState()
     QString cfgName = user_file(PLUGINS_CONF);
     QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, QString("Can't create %1").arg(f.name()));
+        log(L_ERROR, "Can't create %s", f.name().local8Bit().data());
         return;
     }
 	QTextStream ts(&f);
@@ -577,7 +577,7 @@ void PluginManagerPrivate::saveState()
     const QString errorMessage = f.errorString();
     f.close();
     if (status != IO_Ok) {
-        log(L_ERROR, QString("I/O error during writing to file %1 : %2").arg(f.name()).arg(errorMessage));
+        log(L_ERROR, "I/O error during writing to file %s : %s",f.name().local8Bit().data(), errorMessage.local8Bit().data());
         return;
     }
 
@@ -589,7 +589,7 @@ void PluginManagerPrivate::saveState()
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
-        log(L_ERROR, QString("Can't rename file %s to %1").arg(fileInfo.fileName()).arg(desiredFileName));
+        log(L_ERROR, QString("Can't rename file %s to %s"), fileInfo.fileName().local8Bit().data(), desiredFileName.local8Bit().data());
         return;
     }
 }

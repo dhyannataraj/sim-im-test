@@ -866,14 +866,14 @@ EXPORT void saveGeometry(QWidget *w, Geometry geo)
 #ifdef USE_KDE
 #if KDE_IS_VERSION(3,2,0)
     KWin::WindowInfo info = KWin::windowInfo(w->winId());
-    geo[4].value = info.desktop();
+    geo[4].asLong() = info.desktop();
     if (info.onAllDesktops())
-        geo[4].value = (unsigned)(-1);
+        geo[4].asLong() = (unsigned)(-1);
 #else
-KWin::Info info = KWin::info(w->winId());
-    geo[4].value = info.desktop;
+    KWin::Info info = KWin::info(w->winId());
+    geo[4].asLong() = info.desktop;
     if (info.onAllDesktops)
-        geo[4].value = (unsigned)(-1);
+        geo[4].asLong() = (unsigned)(-1);
 #endif
 #endif
 }
@@ -909,7 +909,7 @@ EXPORT void restoreGeometry(QWidget *w, Geometry geo, bool bPos, bool bSize)
 #endif
 }
 
-const unsigned SAVE_STATE = (unsigned)(-1);
+const long SAVE_STATE = -1;
 
 EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 {

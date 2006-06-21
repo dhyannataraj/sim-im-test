@@ -226,7 +226,7 @@ static QString addStrings (const QString &old_value, const QString &values,
         /* str_item  == one telephone entry */
         QString     str_item = getToken (m, ';', false);
         /* str == telephone entry without clients
-         * str_item == clients 
+         * str_item == clients
          */
         QString     str = getToken (str_item, '/');
         /* now split clients */
@@ -1298,6 +1298,8 @@ QString ClientUserData::property(const char *name)
                 case DATA_ULONG:
                     if (user_data->asULong() != (unsigned long)(def->def_value))
                         return QString::number(user_data->asULong());
+                default:
+                    break;
                 }
             }
             user_data += def->n_values;
@@ -1399,8 +1401,9 @@ void *ClientUserData::getData(Client *client)
     return NULL;
 }
 
-void ClientUserData::freeData(void *data)
+void ClientUserData::freeData(void *_data)
 {
+    SIM::Data *data = (SIM::Data*)_data;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         if ((*it).data == data){
             free_data((*it).client->protocol()->userDataDef(), data);
@@ -1702,7 +1705,7 @@ void ContactList::save()
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
         ds << "[" << GROUP << QString::number(grp->id()) << "]\n";
-        
+
         line = save_data(groupData, &grp->data);
         if (line.length()){
             ds << line << "\n";
@@ -1775,7 +1778,7 @@ void ContactList::load()
         return;
     }
     ConfigBuffer cfg(&f);
- 
+
     if (cfg.length() <= 0){
         log(L_ERROR, "Can't read %s", cfgName.latin1());
         return;
