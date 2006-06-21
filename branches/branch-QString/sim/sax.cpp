@@ -103,6 +103,8 @@ bool SAXParser::parse(const char *data, unsigned size, bool bChunk)
     if (p == NULL)
         p = new SAXParserPrivate(this);
     if (!p->parse(data, size, bChunk)){
+        xmlErrorPtr ptr = xmlGetLastError();
+        fprintf(stderr, "XML parse error %s", ptr ? ptr->message : "??" );
         reset();
         return false;
     }

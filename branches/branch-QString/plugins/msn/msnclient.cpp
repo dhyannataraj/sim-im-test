@@ -2553,10 +2553,9 @@ void SBSocket::process(bool bTyping)
         sendTyping();
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
-        m_msgText = msg->getPlainText();
         messageSend ms;
         ms.msg  = msg;
-        ms.text = &m_msgText;
+        ms.text = msg->getPlainText();
         Event e(EventSend, &ms);
         e.process();
         if (msg->type() == MessageUrl){
@@ -3078,7 +3077,7 @@ void SBSocket::declineMessage(unsigned cookie)
     sendMessage(message.c_str(), "S");
 }
 
-bool SBSocket::declineMessage(Message *msg, const char *reason)
+bool SBSocket::declineMessage(Message *msg, const QString &reason)
 {
     for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
         if ((*it).msg->id() != msg->id())
@@ -3087,9 +3086,9 @@ bool SBSocket::declineMessage(Message *msg, const char *reason)
         unsigned cookie = (*it).cookie;
         m_acceptMsg.erase(it);
         declineMessage(cookie);
-        if (reason && *reason){
+        if (!reason.isEmpty()){
             Message *msg = new Message(MessageGeneric);
-            msg->setText(QString::fromUtf8(reason));
+            msg->setText(reason);
             msg->setFlags(MESSAGE_NOHISTORY);
             if (!m_client->send(msg, m_data))
                 delete msg;

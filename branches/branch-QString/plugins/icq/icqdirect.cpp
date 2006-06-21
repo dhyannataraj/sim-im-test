@@ -1260,10 +1260,10 @@ void DirectClient::acceptMessage(Message *msg)
     }
 }
 
-void DirectClient::declineMessage(Message *msg, const char *reason)
+void DirectClient::declineMessage(Message *msg, const QString &reason)
 {
     QCString r;
-    r = getContacts()->fromUnicode(m_client->getContact(m_data), QString::fromUtf8(reason));
+    r = getContacts()->fromUnicode(m_client->getContact(m_data), reason);
     unsigned short seq = 0;
     switch (msg->type()){
     case MessageICQFile:
@@ -1328,7 +1328,7 @@ void DirectClient::processMsgQueue()
                     message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());
                     messageSend ms;
                     ms.msg  = sm.msg;
-                    ms.text = &message;
+                    ms.text = message;
                     Event e(EventSend, &ms);
                     e.process();
                 }

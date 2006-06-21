@@ -484,7 +484,7 @@ void *GpgPlugin::processEvent(Event *e)
                             log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
                             return NULL;
                         }
-                        QCString cstr = ms->text->utf8();
+                        QCString cstr = ms->text.utf8();
                         in.writeBlock(cstr, cstr.length());
                         in.close();
                         QString home = user_file(GpgPlugin::plugin->getHome());
@@ -515,8 +515,7 @@ void *GpgPlugin::processEvent(Event *e)
                             ms->msg->setError(I18N_NOOP("Encrypt failed"));
                             return ms->msg;
                         }
-                        *ms->text = "";
-                        *ms->text = QString::fromUtf8( out.readAll() );
+                        ms->text = QString::fromUtf8( out.readAll() );
                         out.close();
                         QFile::remove(output);
                         return NULL;

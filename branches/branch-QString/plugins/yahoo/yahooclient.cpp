@@ -1946,15 +1946,13 @@ void *YahooClient::processEvent(Event *e)
                     addParam(11, QString::number(msg->getMsgID()));
                     sendPacket(YAHOO_SERVICE_P2PFILEXFER);
                 }
-                string reason = "";
-                if (md->reason)
-                    reason = md->reason;
+                QString reason = md->reason;
                 Event e(EventMessageDeleted, msg);
                 e.process();
                 delete msg;
-                if (!reason.empty() && data){
+                if (!reason.isEmpty() && data){
                     Message *m = new Message(MessageGeneric);
-                    m->setText(reason.c_str());
+                    m->setText(reason);
                     m->setFlags(MESSAGE_NOHISTORY);
                     if (!send(m, data))
                         delete m;

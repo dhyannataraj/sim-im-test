@@ -722,7 +722,7 @@ protected:
     QString removeImages(const QString &text, bool icqSmiles);
     void ackMessage(SendMsg &s);
     void accept(SIM::Message *msg, const char *dir, SIM::OverwriteMode overwrite);
-    void decline(SIM::Message *msg, const char *reason);
+    void decline(SIM::Message *msg, const QString &reason);
     void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck);
     bool sendAuthRequest(SIM::Message *msg, void *data);
     bool sendAuthGranted(SIM::Message *msg, void *data);
@@ -870,7 +870,7 @@ public:
     ~DirectClient();
     bool sendMessage(SIM::Message*);
     void acceptMessage(SIM::Message*);
-    void declineMessage(SIM::Message*, const char *reason);
+    void declineMessage(SIM::Message*, const QString &reason);
     bool cancelMessage(SIM::Message*);
     void sendAck(unsigned short, unsigned short msgType, unsigned short msgFlags,
                  const char *message=NULL, unsigned short status=ICQ_TCPxACK_ACCEPT, SIM::Message *m=NULL);

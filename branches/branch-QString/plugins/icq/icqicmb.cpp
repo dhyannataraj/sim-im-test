@@ -1799,7 +1799,7 @@ bool ICQClient::processMsg()
                 text = getContacts()->fromUnicode(contact, m_send.part);
                 messageSend ms;
                 ms.msg  = m_send.msg;
-                ms.text = &text;
+                ms.text = text;
                 Event e(EventSend, &ms);
                 e.process();
                 break;
@@ -1825,14 +1825,12 @@ bool ICQClient::processMsg()
                     AIMParser p;
                     t += p.parse(m_send.part);
                 }else{
-                    QString s;
-                    s = m_send.part;
                     messageSend ms;
                     ms.msg  = m_send.msg;
-                    ms.text = &s;
+                    ms.text = m_send.part;
                     Event e(EventSend, &ms);
                     e.process();
-                    t += quoteString(s);
+                    t += quoteString(m_send.part);
                 }
                 //t += "</BODY></HTML>";
                 bool bWide = false;
@@ -2052,7 +2050,7 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msg_text = getContacts()->fromUnicode(getContact(data), text);
         messageSend ms;
         ms.msg  = m_send.msg;
-        ms.text = &msg_text;
+        ms.text = msg_text;
         Event e(EventSend, &ms);
         e.process();
         msgBuf << 0x0000FFFFL;
@@ -2150,7 +2148,7 @@ void ICQClient::accept(Message *msg, const char *dir, OverwriteMode overwrite)
         delete msg;
 }
 
-void ICQClient::decline(Message *msg, const char *reason)
+void ICQClient::decline(Message *msg, const QString &reason)
 {
     if (msg->getFlags() & MESSAGE_DIRECT){
         Contact *contact = getContacts()->contact(msg->contact());

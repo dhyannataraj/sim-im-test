@@ -2052,11 +2052,9 @@ void *CorePlugin::processEvent(Event *e)
                             return msg;
                         }
                         if (data->AcceptMode.toULong() == 2){
-                            QString reason;
-                            reason = data->DeclineMessage.str();
                             messageDecline md;
                             md.msg    = msg;
-                            md.reason = reason.latin1();
+                            md.reason = data->DeclineMessage.str();
                             Event e(EventMessageDecline, &md);
                             e.process();
                             return msg;
@@ -3365,25 +3363,21 @@ void *CorePlugin::processEvent(Event *e)
             if (cmd->id == CmdDeclineWithoutReason){
                 messageDecline md;
                 md.msg    = (Message*)(cmd->param);
-                md.reason = "";
+                md.reason = QString::null;
                 Event e(EventMessageDecline, &md);
                 e.process();
             }
             if (cmd->id == CmdDeclineReasonBusy){
-                QString reason;
-                reason = i18n("Sorry, I'm busy right now, and can not respond to your request");
                 messageDecline md;
                 md.msg    = (Message*)(cmd->param);
-                md.reason = reason.utf8().data();
+                md.reason = i18n("Sorry, I'm busy right now, and can not respond to your request");
                 Event e(EventMessageDecline, &md);
                 e.process();
             }
             if (cmd->id == CmdDeclineReasonLater){
-                QString reason;
-                reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later");
                 messageDecline md;
                 md.msg    = (Message*)(cmd->param);
-                md.reason = reason.utf8().data();
+                md.reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later");
                 Event e(EventMessageDecline, &md);
                 e.process();
             }
