@@ -1730,7 +1730,7 @@ AgentInfoRequest::~AgentInfoRequest()
     free_data(jabberAgentInfo, &data);
     load_data(jabberAgentInfo, &data);
     data.ID.str() = QString::fromUtf8(m_jid.c_str());
-    data.ReqID.str() = QString::fromUtf8(m_id.c_str());
+    data.ReqID.str() = m_id;
     data.nOptions.asULong() = m_error_code;
     data.Label.str() = QString::fromUtf8(m_error.c_str());
     Event e(EventAgentInfo, &data);
@@ -1765,7 +1765,7 @@ void AgentInfoRequest::element_start(const char *el, const char **attr)
     if (!strcmp(el, "x")){
         data.VHost.str() = m_client->VHost();
         data.Type.str() = "x";
-        data.ReqID.str() = QString::fromUtf8(m_id.c_str());
+        data.ReqID.str() = m_id;
         data.ID.str() = QString::fromUtf8(m_jid.c_str());
         Event e(EventAgentInfo, &data);
         e.process();
@@ -1792,7 +1792,7 @@ void AgentInfoRequest::element_end(const char *el)
     if (!strcmp(el, "field")){
         if (!data.Field.str().isEmpty()){
             data.VHost.str() = m_client->VHost();
-            data.ReqID.str() = QString::fromUtf8(m_id.c_str());
+            data.ReqID.str() = m_id;
             data.ID.str() = QString::fromUtf8(m_jid.c_str());
             Event e(EventAgentInfo, &data);
             e.process();
@@ -1815,7 +1815,7 @@ void AgentInfoRequest::element_end(const char *el)
     }else if (!strcmp(el, "key") || !strcmp(el, "instructions")){
         data.Value.str() = QString::fromUtf8(m_data.c_str());
         data.ID.str() = QString::fromUtf8(m_jid.c_str());
-        data.ReqID.str() = QString::fromUtf8(m_id.c_str());
+        data.ReqID.str() = m_id;
         data.Type.str() = QString::fromUtf8(el);
         Event e(EventAgentInfo, &data);
         e.process();
@@ -1824,7 +1824,7 @@ void AgentInfoRequest::element_end(const char *el)
     }else if (strcmp(el, "error") && strcmp(el, "iq") && strcmp(el, "query") && strcmp(el, "x")){
         data.Value.str() = QString::fromUtf8(m_data.c_str());
         data.ID.str() = QString::fromUtf8(m_jid.c_str());
-        data.ReqID.str() = QString::fromUtf8(m_id.c_str());
+        data.ReqID.str() = m_id;
         data.Type.str() = QString::fromUtf8(el);
         Event e(EventAgentInfo, &data);
         e.process();
@@ -1910,7 +1910,7 @@ SearchRequest::SearchRequest(JabberClient *client, const char *jid)
 
 SearchRequest::~SearchRequest()
 {
-    Event e(EventSearchDone, (void*)m_id.c_str());
+    Event e(EventSearchDone, (void*)m_id.utf8().data());
     e.process();
     free_data(jabberSearchData, &data);
 }
@@ -1956,7 +1956,7 @@ void SearchRequest::element_end(const char *el)
             set_str(&data.Fields, data.nFields.toULong() * 2 + 1, value.c_str());
             data.nFields.asULong()++;
         }
-        data.ID.str() = QString::fromUtf8(m_id.c_str());
+        data.ID.str() = m_id;
         Event e(EventSearch, &data);
         e.process();
         m_values.clear();
@@ -1970,7 +1970,7 @@ void SearchRequest::element_end(const char *el)
                 }
                 data.nFields.asULong()++;
             }
-            data.ID.str() = QString::fromUtf8(m_id.c_str());
+            data.ID.str() = m_id;
             Event e(EventSearch, &data);
             e.process();
             m_values.clear();
@@ -2044,7 +2044,7 @@ RegisterRequest::RegisterRequest(JabberClient *client, const char *jid)
 RegisterRequest::~RegisterRequest()
 {
     agentRegisterInfo ai;
-    ai.id = m_id.c_str();
+    ai.id = m_id;
     ai.err_code = m_error_code;
     ai.error = m_error.c_str();
     Event e(EventAgentRegister, &ai);
@@ -2325,7 +2325,7 @@ DiscoItemsRequest::~DiscoItemsRequest()
     item.id		= m_id;
     if (m_code){
         item.name	= m_error;
-        item.node	= number(m_code);
+        item.node	= QString::number(m_code);
     }
     Event e(EventDiscoItem, &item);
     e.process();
@@ -2418,7 +2418,7 @@ DiscoInfoRequest::~DiscoInfoRequest()
     item.id		= m_id;
     if (m_code){
         item.name	= m_error;
-        item.node	= number(m_code);
+        item.node	= QString::number(m_code);
     }
     Event e(EventDiscoItem, &item);
     e.process();
@@ -2515,7 +2515,7 @@ BrowseRequest::~BrowseRequest()
     item.id		= m_id;
     if (m_code){
         item.name	= m_error;
-        item.node	= number(m_code);
+        item.node	= QString::number(m_code);
     }
     Event e(EventDiscoItem, &item);
     e.process();
@@ -2830,7 +2830,7 @@ StatItemsRequest::~StatItemsRequest()
         e.process();
         return;
     }
-    StatRequest *req = new StatRequest(m_client, m_jid.c_str(), m_id.c_str());
+    StatRequest *req = new StatRequest(m_client, m_jid.c_str(), m_id.utf8());
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");
     if (!m_node.empty())

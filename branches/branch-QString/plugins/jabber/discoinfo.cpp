@@ -220,7 +220,7 @@ void *DiscoInfo::processEvent(Event *e)
             m_versionId = "";
             edtName->setText(QString::fromUtf8(item->name.c_str()));
             edtVersion->setText(QString::fromUtf8(item->jid.c_str()));
-            edtSystem->setText(QString::fromUtf8(item->node.c_str()));
+            edtSystem->setText(item->node);
             return e->param();
         }
         if (m_timeId == item->id){
@@ -236,7 +236,7 @@ void *DiscoInfo::processEvent(Event *e)
             QListViewItem *i = new QListViewItem(lstStat);
             i->setText(0, QString::fromUtf8(item->jid.c_str()));
             i->setText(1, QString::fromUtf8(item->name.c_str()));
-            i->setText(2, QString::fromUtf8(item->node.c_str()));
+            i->setText(2, item->node);
             return e->param();
         }
         if (m_lastId == item->id){

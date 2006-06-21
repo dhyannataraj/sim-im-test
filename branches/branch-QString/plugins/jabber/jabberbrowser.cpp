@@ -545,7 +545,7 @@ void *JabberBrowser::processEvent(Event *e)
         if (!m_bInProcess)
             return NULL;
         DiscoItem *item = (DiscoItem*)(e->param());
-        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id.c_str());
+        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id.utf8());
         if (it){
             if (item->jid.empty()){
                 it->setText(COL_ID_DISCO_ITEMS, "");
@@ -557,8 +557,8 @@ void *JabberBrowser::processEvent(Event *e)
                 QString err;
                 if (!item->name.empty()){
                     err = QString::fromUtf8(item->name.c_str());
-                }else if (!item->node.empty()){
-                    err = i18n("Error %1") .arg(atol(item->node.c_str()));
+                }else if (!item->node.isEmpty()){
+                    err = i18n("Error %1") .arg(item->node.toULong());
                 }
                 if (!err.isEmpty()){
                     unsigned mode = atol(it->text(COL_MODE).latin1());
@@ -578,16 +578,16 @@ void *JabberBrowser::processEvent(Event *e)
             QListViewItem *i;
             for (i = it->firstChild(); i; i = i->nextSibling()){
                 if ((i->text(COL_JID) == QString::fromUtf8(item->jid.c_str())) &&
-                        (i->text(COL_NODE) == QString::fromUtf8(item->node.c_str())))
+                        (i->text(COL_NODE) == item->node))
                     return e->param();
             }
             i = new QListViewItem(it);
             i->setText(COL_JID, QString::fromUtf8(item->jid.c_str()));
             i->setText(COL_NAME, item->name.empty() ? QString::fromUtf8(item->jid.c_str()) : QString::fromUtf8(item->name.c_str()));
-            i->setText(COL_NODE, QString::fromUtf8(item->node.c_str()));
+            i->setText(COL_NODE, item->node);
             int mode = 0;
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
-                i->setText(COL_ID_DISCO_INFO, m_client->discoInfo(QString::fromUtf8(item->jid.c_str()), QString::fromUtf8(item->node.c_str())).c_str());
+                i->setText(COL_ID_DISCO_INFO, m_client->discoInfo(QString::fromUtf8(item->jid.c_str()), item->node).c_str());
                 mode |= BROWSE_INFO;
             }
             i->setText(COL_MODE, QString::number(mode));
@@ -595,7 +595,7 @@ void *JabberBrowser::processEvent(Event *e)
                 loadItem(i);
             return e->param();
         }
-        it = findItem(COL_ID_DISCO_INFO, item->id.c_str());
+        it = findItem(COL_ID_DISCO_INFO, item->id.utf8());
         if (it){
             if (item->jid.empty()){
                 it->setText(COL_ID_DISCO_INFO, "");
@@ -615,7 +615,7 @@ void *JabberBrowser::processEvent(Event *e)
                 currentChanged(it);
             return e->param();
         }
-        it = findItem(COL_ID_BROWSE, item->id.c_str());
+        it = findItem(COL_ID_BROWSE, item->id.utf8());
         if (it){
             if (item->jid.empty()){
                 it->setText(COL_ID_BROWSE, "");
@@ -627,8 +627,8 @@ void *JabberBrowser::processEvent(Event *e)
                 QString err;
                 if (!item->name.empty()){
                     err = QString::fromUtf8(item->name.c_str());
-                }else if (!item->node.empty()){
-                    err = i18n("Error %1") .arg(atol(item->node.c_str()));
+                }else if (!item->node.isEmpty()){
+                    err = i18n("Error %1") .arg(item->node.toULong());
                 }
                 if (!err.isEmpty()){
                     unsigned mode = atol(it->text(COL_MODE).latin1());
@@ -644,7 +644,7 @@ void *JabberBrowser::processEvent(Event *e)
                 QListViewItem *i;
                 for (i = it->firstChild(); i; i = i->nextSibling()){
                     if ((i->text(COL_JID) == QString::fromUtf8(item->jid.c_str())) &&
-                            (i->text(COL_NODE) == QString::fromUtf8(item->node.c_str())))
+                            (i->text(COL_NODE) == item->node))
                         break;
                 }
                 if (i){

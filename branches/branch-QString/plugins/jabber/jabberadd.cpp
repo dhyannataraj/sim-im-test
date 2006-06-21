@@ -215,7 +215,7 @@ void *JabberAdd::processEvent(Event *e)
         DiscoItem *item = (DiscoItem*)(e->param());
         if (m_id_browse == item->id){
             if (item->jid.empty()){
-                if (!item->node.empty()){
+                if (!item->node.isEmpty()){
                     QString url;
                     if (m_client->getUseVHost())
                         url = m_client->getVHost();
@@ -238,7 +238,7 @@ void *JabberAdd::processEvent(Event *e)
             }
             ItemInfo info;
             info.jid  = item->jid;
-            info.node = item->node;
+            info.node = item->node.utf8();
             info.id   = m_client->discoInfo(QString::fromUtf8(info.jid.c_str()), QString::fromUtf8(info.node.c_str()));
             m_disco_items.push_back(info);
             return e->param();

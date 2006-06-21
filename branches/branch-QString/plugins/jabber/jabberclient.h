@@ -153,9 +153,9 @@ typedef struct JabberListRequest
 
 typedef struct DiscoItem
 {
-    std::string			id;
+    QString			    id;
     std::string			jid;
-    std::string			node;
+    QString			    node;
     std::string			name;
     std::string			type;
     std::string			category;
@@ -188,7 +188,7 @@ public:
         virtual	void	char_data(const char *str, int len);
         QString  		m_element;
         std::stack<QString>	m_els;
-        std::string		m_id;
+        QString		    m_id;
         JabberClient	*m_client;
         friend class JabberClient;
     };
