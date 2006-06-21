@@ -396,7 +396,7 @@ const char *get_host(const Data &p)
 
 typedef map<unsigned, string> STRING_MAP;
 
-EXPORT const QString get_str(Data &d, unsigned index)
+EXPORT const QString &get_str(Data &d, unsigned index)
 {
     QStringList &sl = d.strList();
     if(index < sl.count())
@@ -450,6 +450,9 @@ EXPORT void free_data(const DataDef *def, void *d)
                 i    += (def->n_values - 1);
                 data += (def->n_values - 1);
                 break;
+            case DATA_UNKNOWN:
+                // stop at the end of structure no matter if DataDef has more ...
+                return;
             case DATA_STRING:
             case DATA_STRLIST:
             default:

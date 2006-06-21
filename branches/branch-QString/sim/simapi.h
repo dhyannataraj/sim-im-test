@@ -114,11 +114,21 @@ typedef unsigned char _Bool;
 #endif
 #endif
 
-//FIXME: Maybe we need here #ifdef WINDOWS? //serzh.
-#ifdef SIMAPI_EXPORTS
-#define EXPORT __declspec(dllexport)
+#ifdef HAVE_GCC_VISIBILITY      // @linux: all gcc >= 4.0 have visibility support - please add a check for configure
+# define SIM_EXPORT __attribute__ ((visibility("default")))
+# define SIM_IMPORT __attribute__ ((visibility("default")))
+#elif defined(_WIN32) || defined(_WIN64)
+# define SIM_EXPORT __declspec(dllexport)
+# define SIM_IMPORT __declspec(dllimport)
 #else
-#define EXPORT
+# define SIM_EXPORT
+# define SIM_IMPORT
+#endif
+
+#ifdef SIMAPI_EXPORTS   // should be set when simapi-lib is build - please add a check for configure
+# define EXPORT SIM_EXPORT
+#else
+# define EXPORT SIM_IMPORT
 #endif
 
 #ifndef HAVE_STRCASECMP
@@ -790,13 +800,13 @@ typedef struct messageAccept
 typedef struct messageDecline
 {
     Message     *msg;
-    const char  *reason;
+    QString     reason;
 } messageDecline;
 
 typedef struct messageSend
 {
     Message     *msg;
-    QString     *text;
+    QString     text;
 } messageSend;
 
 const unsigned EventMessageReceived = 0x1100;
@@ -982,7 +992,7 @@ EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config = NULL);
 EXPORT QString save_data(const DataDef *def, void *data);
 
-EXPORT const QString get_str(Data &strlist, unsigned index);
+EXPORT const QString &get_str(Data &strlist, unsigned index);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
 EXPORT DEPRECATED void set_str(Data *strlist, unsigned index, const char *value);
 
