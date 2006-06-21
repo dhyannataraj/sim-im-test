@@ -317,7 +317,7 @@ static DataDef coreData[] =
         { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
-        { "CfgGeometry", DATA_ULONG, 5, DATA(0) },
+        { "CfgGeo", DATA_LONG, 5, DATA(0) },
         { NULL, 0, 0, 0 }
     };
 
@@ -1048,7 +1048,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     ePrefSMS.process();
 
     cmd->id			= history_data_id + 1;
-    cmd->text		= I18N_NOOP("&History");
+    cmd->text		= I18N_NOOP("&History setup");
     cmd->icon		= "history";
     cmd->icon_on	= NULL;
     cmd->param		= (void*)getHistorySetup;

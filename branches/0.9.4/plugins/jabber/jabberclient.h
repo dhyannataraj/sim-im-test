@@ -391,6 +391,9 @@ protected:
     list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;
 
+    class JabberAuthMessage;
+    std::vector<JabberAuthMessage*>	tempAuthMessages;
+
     const char *get_icon(JabberUserData *data, unsigned status, bool invisible);
 
     void		processList();

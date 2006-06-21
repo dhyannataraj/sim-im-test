@@ -68,7 +68,7 @@ unsigned long	Temp;
 
 static DataDef contactData[] =
     {
-        { "Group", DATA_LONG, 1, 0 },
+        { "Group", DATA_ULONG, 1, 0 },
         { "Name", DATA_UTF, 1, 0 },
         { "Ignore", DATA_BOOL, 1, 0 },
         { "LastActive", DATA_ULONG, 1, 0 },
@@ -2107,7 +2107,7 @@ string ContactList::fromUnicode(Contact *contact, const QString &str)
         return "";
     QString s = str;
     s = s.replace(QRegExp("\r?\n"), "\r\n");
-    QCString res = getCodec(contact)->fromUnicode(str);
+    QCString res = getCodec(contact)->fromUnicode(s);
     return (const char*)res;
 }
 }

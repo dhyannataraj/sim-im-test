@@ -168,8 +168,8 @@ void *FilterPlugin::processEvent(Event *e)
         // check if we accept only from users on the list
         if (
             ((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
-	    ( 
-	        getFromList() || 
+	    (
+	        (getFromList() && msg->type() != MessageAuthRequest && msg->type() != MessageAuthGranted && msg->type() != MessageAuthRefused)||
 		( getAuthFromList() && msg->type() <= MessageContacts)
             )
 	) {

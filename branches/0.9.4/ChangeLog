@@ -7,10 +7,17 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 
 === SIM 0.9.4 (not released yet) ===
 
+Build system
+~~~~~~~~~~~~
+[+] Unix: issue error, not warning, if openssl wasn't found.
+
 ICQ plugin
 ~~~~~~~~~~
 [*] Accept messages in Occupied/DND modes by default.
 
+Jabber plugin
+~~~~~~~~~~~~~
+[-] Fix crash on auth request when "Receive message only from contacts from list"
 
 
 === SIM 0.9.4 RC2 (03.05.2006) ===

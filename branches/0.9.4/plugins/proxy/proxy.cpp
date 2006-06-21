@@ -967,7 +967,8 @@ bool HTTPS_Proxy::readLine(string &s)
         bIn << c;
     }
     log_packet(bIn, false, m_plugin->ProxyPacket);
-    s.assign(bIn.data(0), bIn.size());
+    if(bIn.size())
+        s.assign(bIn.data(0), bIn.size());
     bIn.init(0);
     bIn.packetStart();
     return true;
