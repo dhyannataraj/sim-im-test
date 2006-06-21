@@ -14,10 +14,19 @@ Build system
 ICQ plugin
 ~~~~~~~~~~
 [*] Accept messages in Occupied/DND modes by default.
+[-] Sync language and occupation lists with ICQ server.
+[+] Add new icons from ICQ 5 and ICQ 5.1.
 
 Jabber plugin
 ~~~~~~~~~~~~~
-[-] Fix crash on auth request when "Receive message only from contacts from list"
+[-] Fix crash on auth request when "Receive message only from contacts from list".
+[-] Fix handling of single quotes in roster item names.
+
+Misc plugins
+~~~~~~~~~~~~
+[-] Icons: fix handling of JISP files with non-ascii paths.
+[-] Icons: fix handling of JISP files containing subdirectiories.
+[*] LiveJournal: disable formatted messages by default.
 
 
 === SIM 0.9.4 RC2 (03.05.2006) ===
