@@ -776,9 +776,9 @@ JabberClient::ServerRequest::ServerRequest(JabberClient *client, const char *typ
     << (const char*)m_id.utf8()
     << "\'";;
     if (!from.isEmpty())
-        m_client->m_socket->writeBuffer << " from=\'" << from << "\'";
+        m_client->m_socket->writeBuffer << " from=\'" << (const char*)from.utf8() << "\'";
     if (!to.isEmpty())
-        m_client->m_socket->writeBuffer << " to=\'" << to << "\'";
+        m_client->m_socket->writeBuffer << " to=\'" << (const char*)to.utf8() << "\'";
     m_client->m_socket->writeBuffer << ">\n";
 }
 
@@ -863,7 +863,7 @@ void JabberClient::ServerRequest::add_text(const QString &value)
 
 void JabberClient::ServerRequest::text_tag(const QString &name, const QString &value)
 {
-    if ((value == NULL) || (*value == 0))
+    if (value.isEmpty())
         return;
     end_element(true);
     m_client->m_socket->writeBuffer
@@ -905,7 +905,7 @@ void JabberClient::startHandshake()
     m_socket->writeBuffer
     << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
     << "<stream:stream to=\'"
-    << encodeXML(VHost()).ascii()
+    << (const char*)encodeXML(VHost()).utf8()
     << "\' xmlns=\'jabber:client\' xmlns:stream=\'http://etherx.jabber.org/streams\'>\n";
     sendPacket();
 }
@@ -2026,8 +2026,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 m_socket->writeBuffer.packetStart();
                 m_socket->writeBuffer
                 << "<presence to=\'"
-                << data->ID.str().utf8();
-                m_socket->writeBuffer
+                << (const char*)data->ID.str().utf8()
                 << "\' type=\'unsubscribed\'><status>"
                 << (const char*)(quoteString(msg->getPlainText(), quoteNOBR).utf8())
                 << "</status></presence>";
@@ -2056,11 +2055,11 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"
-            << data->ID.str().utf8();
+            << (const char*)data->ID.str().utf8();
             if (!msg->getResource().isEmpty()){
                 m_socket->writeBuffer
                 << "/"
-                << msg->getResource();
+                << (const char*)msg->getResource();
             }
             m_socket->writeBuffer
             << "\'><body>"
@@ -2102,11 +2101,11 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"
-            << data->ID.str().utf8();
+            << (const char*)data->ID.str().utf8();
             if (!msg->getResource().isEmpty()){
                 m_socket->writeBuffer
                 << "/"
-                << msg->getResource();
+                << (const char*)msg->getResource();
             }
             m_socket->writeBuffer
             << "\'><body>"
@@ -2210,11 +2209,11 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"
-            << data->ID.str().utf8();
+            << (const char*)data->ID.str().utf8();
             if (!msg->getResource().isEmpty()){
                 m_socket->writeBuffer
                 << "/"
-                << msg->getResource();
+                << (const char*)msg->getResource();
             }
             m_socket->writeBuffer
             << "\'><x xmlns='jabber:x:roster'>";
@@ -2284,8 +2283,7 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<presence to=\'"
-            << data->ID.str().utf8();
-            m_socket->writeBuffer
+            << (const char*)data->ID.str().utf8()
             << "\' type=\'subscribe\'><status>"
             << (const char*)(quoteString(msg->getPlainText(), quoteNOBR).utf8())
             << "</status></presence>";
@@ -2304,8 +2302,7 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<presence to=\'"
-            << data->ID.str().utf8();
-            m_socket->writeBuffer
+            << (const char*)data->ID.str().utf8()
             << "\' type=\'subscribed\'></presence>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
@@ -2323,7 +2320,7 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<presence to=\'"
-            << data->ID.str().utf8()
+            << (const char*)data->ID.str().utf8()
             << "\'></presence>";
             sendPacket();
             delete msg;
@@ -2335,7 +2332,7 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<presence to=\'"
-            << data->ID.str().utf8()
+            << (const char*)data->ID.str().utf8()
             << "\' type=\'unavailable\'></presence>";
             sendPacket();
             delete msg;
@@ -2350,7 +2347,7 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message to=\'"
-            << data->ID.str().utf8()
+            << (const char*)data->ID.str().utf8()
             << "\'><x xmlns='jabber:x:event'><composing/><id>"
             << (const char*)msg_id.utf8()
             << "</id></x></message>";
@@ -2368,7 +2365,7 @@ bool JabberClient::send(Message *msg, void *_data)
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message to=\'"
-            << data->ID.str().utf8()
+            << (const char*)data->ID.str().utf8()
             << "\'><x xmlns='jabber:x:event'><id>"
             << (const char*)msg_id.utf8()
             << "</id></x></message>";
@@ -2448,13 +2445,13 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
                 m_socket->writeBuffer.packetStart();
                 m_socket->writeBuffer
                 << "<presence to=\'"
-                << data->ID.str().utf8()
+                << (const char*)data->ID.str().utf8()
                 << "\' type=\'subscribed\'></presence>";
                 sendPacket();
                 m_socket->writeBuffer.packetStart();
                 m_socket->writeBuffer
                 << "<presence to=\'"
-                << data->ID.str().utf8()
+                << (const char*)data->ID.str().utf8()
                 << "\' type=\'subscribe\'><status>"
                 << "</status></presence>";
                 sendPacket();
