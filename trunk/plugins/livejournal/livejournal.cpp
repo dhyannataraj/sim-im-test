@@ -377,7 +377,7 @@ static DataDef liveJournalClientData[] =
         { "Menu", DATA_STRLIST, 1, 0 },
         { "MenuURL", DATA_STRLIST, 1, 0 },
         { "FastServer", DATA_BOOL, 1, 0 },
-        { "UseFormatting", DATA_BOOL, 1, DATA(1) },
+        { "UseFormatting", DATA_BOOL, 1, 0 },
         { "UseSignature", DATA_BOOL, 1, DATA(1) },
         { "Signature", DATA_UTF, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// LastUpdate
