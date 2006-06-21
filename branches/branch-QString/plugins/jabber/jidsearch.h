@@ -48,7 +48,7 @@ protected slots:
 protected:
     void *processEvent(SIM::Event*);
     void showEvent(QShowEvent*);
-    std::string	 m_search_id;
+    QString	 m_search_id;
     std::string	 m_type;
     bool		 m_bInit;
     bool		 m_bAdv;

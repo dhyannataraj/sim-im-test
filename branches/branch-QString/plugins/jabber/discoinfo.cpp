@@ -218,30 +218,30 @@ void *DiscoInfo::processEvent(Event *e)
         DiscoItem *item = (DiscoItem*)(e->param());
         if (m_versionId == item->id){
             m_versionId = "";
-            edtName->setText(QString::fromUtf8(item->name.c_str()));
-            edtVersion->setText(QString::fromUtf8(item->jid.c_str()));
+            edtName->setText(item->name);
+            edtVersion->setText(item->jid);
             edtSystem->setText(item->node);
             return e->param();
         }
         if (m_timeId == item->id){
             m_timeId = "";
-            edtTime->setText(QString::fromUtf8(item->jid.c_str()));
+            edtTime->setText(item->jid);
             return e->param();
         }
         if (m_statId == item->id){
-            if (item->jid.empty()){
+            if (item->jid.isEmpty()){
                 m_statId = "";
                 return e->param();
             }
             QListViewItem *i = new QListViewItem(lstStat);
-            i->setText(0, QString::fromUtf8(item->jid.c_str()));
-            i->setText(1, QString::fromUtf8(item->name.c_str()));
+            i->setText(0, item->jid);
+            i->setText(1, item->name);
             i->setText(2, item->node);
             return e->param();
         }
         if (m_lastId == item->id){
             m_lastId = "";
-            unsigned ss = atol(item->jid.c_str());
+            unsigned ss = item->jid.toUInt();
             unsigned mm = ss / 60;
             ss -= mm * 60;
             unsigned hh = mm / 60;

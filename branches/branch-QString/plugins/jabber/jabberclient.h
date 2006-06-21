@@ -153,13 +153,13 @@ typedef struct JabberListRequest
 
 typedef struct DiscoItem
 {
-    QString			    id;
-    std::string			jid;
-    QString			    node;
-    std::string			name;
-    std::string			type;
-    std::string			category;
-    std::string			features;
+    QString			id;
+    QString			jid;
+    QString			node;
+    QString			name;
+    QString			type;
+    QString			category;
+    QString			features;
 } DiscoItem;
 
 class JabberClient : public SIM::TCPClient, public SAXParser
@@ -299,11 +299,11 @@ class MessageRequest : public ServerRequest
     DEPRECATED JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, SIM::Contact *&contact, std::string &resource, bool bJoin=true);
     JabberUserData	*findContact(const QString &jid, const QString &name, bool bCreate, SIM::Contact *&contact, QString &resource, bool bJoin=true);
     bool			add_contact(const char *id, unsigned grp);
-    std::string		get_agents(const QString &jid);
-    std::string		get_agent_info(const QString &jid, const QString &node, const QString &type);
+    QString		get_agents(const QString &jid);
+    QString		get_agent_info(const QString &jid, const QString &node, const QString &type);
     void			auth_request(const QString &jid, unsigned type, const QString &text, bool bCreate);
-    std::string		search(const char *jid, const char *node, const char *condition);
-    std::string		process(const char *jid, const char *node, const char *condition, const char *type);
+    QString		search(const QString &jid, const QString &node, const QString &condition);
+    QString		process(const QString &jid, const QString &node, const QString &condition, const QString &type);
 
     static std::string	to_lower(const char *s);
     static QString	get_attr(const char *name, const char **attrs);
@@ -328,13 +328,13 @@ class MessageRequest : public ServerRequest
     QString logoFile(JabberUserData*);
     std::list<ServerRequest*>	m_requests;
 
-    std::string discoItems(const QString &jid, const QString &node);
-    std::string discoInfo(const QString &jid, const QString &node);
-    std::string browse(const QString &jid);
-    std::string versionInfo(const QString &jid, const QString &node);
-    std::string timeInfo(const QString &jid, const QString &node);
-    std::string lastInfo(const QString &jid, const QString &node);
-    std::string statInfo(const QString &jid, const QString &node);
+    QString discoItems(const QString &jid, const QString &node);
+    QString discoInfo(const QString &jid, const QString &node);
+    QString browse(const QString &jid);
+    QString versionInfo(const QString &jid, const QString &node);
+    QString timeInfo(const QString &jid, const QString &node);
+    QString lastInfo(const QString &jid, const QString &node);
+    QString statInfo(const QString &jid, const QString &node);
     void addLang(ServerRequest *req);
     void info_request(JabberUserData *user_data, bool bVCard);
     virtual void setClientInfo(void *data);

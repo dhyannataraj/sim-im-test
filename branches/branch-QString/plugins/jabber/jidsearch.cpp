@@ -103,7 +103,7 @@ void JIDSearch::search()
         condition += jidSearch->condition(m_adv);
         advancedClicked();
     }
-    m_search_id = m_client->search(m_jid.utf8(), m_node.utf8(), condition);
+    m_search_id = m_client->search(m_jid, m_node, condition);
 }
 
 void JIDSearch::searchStop()
@@ -115,7 +115,7 @@ void *JIDSearch::processEvent(Event *e)
 {
     if (e->type() == EventSearch){
         JabberSearchData *data = (JabberSearchData*)(e->param());
-        if (QString::fromUtf8(m_search_id.c_str()) != data->ID.str())
+        if (m_search_id != data->ID.str())
             return NULL;
         if (data->JID.str().isEmpty()){
             QStringList l;

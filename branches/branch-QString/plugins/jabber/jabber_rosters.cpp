@@ -1630,7 +1630,7 @@ void AgentRequest::char_data(const char *el, int len)
     m_data.append(QString::fromUtf8(el, len));
 }
 
-string JabberClient::get_agents(const QString &jid)
+QString JabberClient::get_agents(const QString &jid)
 {
     AgentRequest *req = new AgentRequest(this, jid);
     req->start_element("query");
@@ -1638,7 +1638,7 @@ string JabberClient::get_agents(const QString &jid)
     addLang(req);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 class AgentInfoRequest : public JabberClient::ServerRequest
@@ -1817,7 +1817,7 @@ void AgentInfoRequest::char_data(const char *el, int len)
     m_data.append(QString::fromUtf8(el, len));
 }
 
-string JabberClient::get_agent_info(const QString &jid, const QString &node, const QString &type)
+QString JabberClient::get_agent_info(const QString &jid, const QString &node, const QString &type)
 {
     AgentInfoRequest *req = new AgentInfoRequest(this, jid);
     req->start_element("query");
@@ -1828,7 +1828,7 @@ string JabberClient::get_agent_info(const QString &jid, const QString &node, con
     addLang(req);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id.utf8();
 }
 
 typedef map<my_string, QString> VALUE_MAP;
@@ -1980,17 +1980,16 @@ void SearchRequest::char_data(const char *el, int len)
     m_data.append(QString::fromUtf8(el, len));
 }
 
-string JabberClient::search(const char *jid, const char *node, const char *condition)
+QString JabberClient::search(const QString &jid, const QString &node, const QString &condition)
 {
-    SearchRequest *req = new SearchRequest(this, QString::fromUtf8(jid));
+    SearchRequest *req = new SearchRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:search");
-    if (node && *node)
-        req->add_attribute("node", node);
-    req->add_condition(QString::fromUtf8(condition), false);
+    req->add_attribute("node", node);
+    req->add_condition(condition, false);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 #if 0
@@ -2057,22 +2056,20 @@ void RegisterRequest::char_data(const char *el, int len)
     m_data->append(QString::fromUtf8(el, len));
 }
 
-string JabberClient::process(const char *jid, const char *node, const char *condition, const char *type)
+QString JabberClient::process(const QString &jid, const QString &node, const QString &condition, const QString &type)
 {
-    RegisterRequest *req = new RegisterRequest(this, QString::fromUtf8(jid));
+    RegisterRequest *req = new RegisterRequest(this, jid);
     req->start_element("query");
-    QString xmlns = "jabber:iq:";
-    xmlns += QString::fromUtf8(type);
+    QString xmlns = "jabber:iq:" + type;
     req->add_attribute("xmlns", xmlns);
     bool bData = (strcmp(type, "data") == 0);
     if (bData)
         req->add_attribute("type", "submit");
-    if (node && *node)
-        req->add_attribute("node", node);
-    req->add_condition(QString::fromUtf8(condition), bData);
+    req->add_attribute("node", node);
+    req->add_condition(condition, bData);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 void JabberClient::processList()
@@ -2299,7 +2296,7 @@ DiscoItemsRequest::~DiscoItemsRequest()
     DiscoItem item;
     item.id		= m_id;
     if (m_code){
-        item.name	= m_error.utf8();
+        item.name	= m_error;
         item.node	= QString::number(m_code);
     }
     Event e(EventDiscoItem, &item);
@@ -2311,10 +2308,10 @@ void DiscoItemsRequest::element_start(const char *el, const char **attr)
     if (!strcmp(el, "item")){
         DiscoItem item;
         item.id		= m_id;
-        item.jid	= JabberClient::get_attr("jid", attr).utf8();
-        item.name	= JabberClient::get_attr("name", attr).utf8();
+        item.jid	= JabberClient::get_attr("jid", attr);
+        item.name	= JabberClient::get_attr("name", attr);
         item.node	= JabberClient::get_attr("node", attr);
-        if (!item.jid.empty()){
+        if (!item.jid.isEmpty()){
             Event e(EventDiscoItem, &item);
             e.process();
         }
@@ -2337,7 +2334,7 @@ void DiscoItemsRequest::char_data(const char *buf, int len)
         m_data->append(QString::fromUtf8(buf, len));
 }
 
-string JabberClient::discoItems(const QString &jid, const QString &node)
+QString JabberClient::discoItems(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
@@ -2348,7 +2345,7 @@ string JabberClient::discoItems(const QString &jid, const QString &node)
     addLang(req);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 class DiscoInfoRequest : public JabberClient::ServerRequest
@@ -2380,19 +2377,19 @@ DiscoInfoRequest::~DiscoInfoRequest()
 {
     if (m_code == 0){
         DiscoItem item;
-        item.id			= m_id;
-        item.jid		= "info";
-        item.name		= m_name.utf8();
-        item.category	= m_category.utf8();
-        item.type		= m_type.utf8();
-        item.features	= m_features.utf8();
+        item.id         = m_id;
+        item.jid        = "info";
+        item.name       = m_name;
+        item.category	= m_category;
+        item.type       = m_type;
+        item.features	= m_features;
         Event e(EventDiscoItem, &item);
         e.process();
     }
     DiscoItem item;
     item.id		= m_id;
     if (m_code){
-        item.name	= m_error.utf8();
+        item.name	= m_error;
         item.node	= QString::number(m_code);
     }
     Event e(EventDiscoItem, &item);
@@ -2432,7 +2429,7 @@ void DiscoInfoRequest::char_data(const char *buf, int len)
         m_data->append(QString::fromUtf8(buf, len));
 }
 
-string JabberClient::discoInfo(const QString &jid, const QString &node)
+QString JabberClient::discoInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
@@ -2442,7 +2439,7 @@ string JabberClient::discoInfo(const QString &jid, const QString &node)
     req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 class BrowseRequest : public JabberClient::ServerRequest
@@ -2477,19 +2474,19 @@ BrowseRequest::~BrowseRequest()
 {
     if (!m_jid.isEmpty() && !m_name.isEmpty() && (m_code == 0)){
         DiscoItem item;
-        item.id			= m_id;
-        item.jid		= m_jid.utf8();
-        item.name		= m_name.utf8();
-        item.type		= m_type.utf8();
-        item.category	= m_category.utf8();
-        item.features	= m_features.utf8();
+        item.id     = m_id;
+        item.jid        = m_jid;
+        item.name       = m_name;
+        item.type       = m_type;
+        item.category   = m_category;
+        item.features   = m_features.utf8();
         Event e(EventDiscoItem, &item);
         e.process();
     }
     DiscoItem item;
     item.id		= m_id;
     if (m_code){
-        item.name	= m_error.utf8();
+        item.name	= m_error;
         item.node	= QString::number(m_code);
     }
     Event e(EventDiscoItem, &item);
@@ -2505,12 +2502,12 @@ void BrowseRequest::element_start(const char *el, const char **attr)
     if (!strcmp(el, "item") || !strcmp(el, "service") || !strcmp(el, "agent") || !strcmp(el, "headline")){
         if (!m_jid.isEmpty() && !m_name.isEmpty()){
             DiscoItem item;
-            item.id			= m_id;
-            item.jid		= m_jid.utf8();
-            item.name		= m_name.utf8();
-            item.type		= m_type.utf8();
-            item.category	= m_category.utf8();
-            item.features	= m_features.utf8();
+            item.id         = m_id;
+            item.jid        = m_jid;
+            item.name       = m_name;
+            item.type       = m_type;
+            item.category   = m_category;
+            item.features   = m_features;
             Event e(EventDiscoItem, &item);
             e.process();
         }
@@ -2546,12 +2543,12 @@ void BrowseRequest::element_end(const char *el)
             !strcmp(el, "agent") || !strcmp(el, "headline"))
             && !m_jid.isEmpty()){
         DiscoItem item;
-        item.id			= m_id;
-        item.jid		= m_jid.utf8();
-        item.name		= m_name.utf8();
-        item.type		= m_type.utf8();
-        item.category	= m_category.utf8();
-        item.features	= m_features.utf8();
+        item.id         = m_id;
+        item.jid        = m_jid;
+        item.name       = m_name;
+        item.type       = m_type;
+        item.category   = m_category;
+        item.features   = m_features;
         Event e(EventDiscoItem, &item);
         e.process();
         m_jid = "";
@@ -2564,7 +2561,7 @@ void BrowseRequest::char_data(const char *buf, int len)
         m_data->append(QString::fromUtf8(buf, len));
 }
 
-string JabberClient::browse(const QString &jid)
+QString JabberClient::browse(const QString &jid)
 {
     if (getState() != Connected)
         return "";
@@ -2573,7 +2570,7 @@ string JabberClient::browse(const QString &jid)
     req->add_attribute("xmlns", "jabber:iq:browse");
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 class VersionInfoRequest : public JabberClient::ServerRequest
@@ -2600,10 +2597,10 @@ VersionInfoRequest::VersionInfoRequest(JabberClient *client, const QString &jid)
 VersionInfoRequest::~VersionInfoRequest()
 {
     DiscoItem item;
-    item.id		= m_id;
-    item.jid	= m_version.utf8();
-    item.name	= m_name.utf8();
-    item.node	= m_os;
+    item.id     = m_id;
+    item.jid    = m_version;
+    item.name   = m_name;
+    item.node   = m_os;
     Event e(EventDiscoItem, &item);
     e.process();
 }
@@ -2629,7 +2626,7 @@ void VersionInfoRequest::char_data(const char *buf, int len)
         m_data->append(QString::fromUtf8(buf, len));
 }
 
-string JabberClient::versionInfo(const QString &jid, const QString &node)
+QString JabberClient::versionInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
@@ -2639,7 +2636,7 @@ string JabberClient::versionInfo(const QString &jid, const QString &node)
     req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 class TimeInfoRequest : public JabberClient::ServerRequest
@@ -2664,8 +2661,8 @@ TimeInfoRequest::TimeInfoRequest(JabberClient *client, const QString &jid)
 TimeInfoRequest::~TimeInfoRequest()
 {
     DiscoItem item;
-    item.id		= m_id;
-    item.jid	= m_time.utf8();
+    item.id     = m_id;
+    item.jid    = m_time;
     Event e(EventDiscoItem, &item);
     e.process();
 }
@@ -2687,7 +2684,7 @@ void TimeInfoRequest::char_data(const char *buf, int len)
         m_data->append(QString::fromUtf8(buf, len));
 }
 
-string JabberClient::timeInfo(const QString &jid, const QString &node)
+QString JabberClient::timeInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
@@ -2697,7 +2694,7 @@ string JabberClient::timeInfo(const QString &jid, const QString &node)
     req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 class LastInfoRequest : public JabberClient::ServerRequest
@@ -2718,13 +2715,13 @@ void LastInfoRequest::element_start(const char *el, const char **attr)
     if (!strcmp(el, "query")){
         DiscoItem item;
         item.id		= m_id;
-        item.jid	= JabberClient::get_attr("seconds", attr).utf8();
+        item.jid	= JabberClient::get_attr("seconds", attr);
         Event e(EventDiscoItem, &item);
         e.process();
     }
 }
 
-string JabberClient::lastInfo(const QString &jid, const QString &node)
+QString JabberClient::lastInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
@@ -2734,7 +2731,7 @@ string JabberClient::lastInfo(const QString &jid, const QString &node)
     req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 class StatRequest : public JabberClient::ServerRequest
@@ -2756,8 +2753,8 @@ StatRequest::StatRequest(JabberClient *client, const QString &jid, const QString
 StatRequest::~StatRequest()
 {
     DiscoItem item;
-    item.id		= m_id;
-    item.jid	= "";
+    item.id     = m_id;
+    item.jid    = "";
     Event e(EventDiscoItem, &item);
     e.process();
 }
@@ -2767,8 +2764,8 @@ void StatRequest::element_start(const char *el, const char **attr)
     if (!strcmp(el, "stat")){
         DiscoItem item;
         item.id		= m_id;
-        item.jid	= JabberClient::get_attr("name", attr).utf8();
-        item.name	= JabberClient::get_attr("units", attr).utf8();
+        item.jid	= JabberClient::get_attr("name", attr);
+        item.name	= JabberClient::get_attr("units", attr);
         item.node	= JabberClient::get_attr("value", attr);
         Event e(EventDiscoItem, &item);
         e.process();
@@ -2827,7 +2824,7 @@ void StatItemsRequest::element_start(const char *el, const char **attr)
     }
 }
 
-string JabberClient::statInfo(const QString &jid, const QString &node)
+QString JabberClient::statInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
@@ -2838,7 +2835,7 @@ string JabberClient::statInfo(const QString &jid, const QString &node)
     addLang(req);
     req->send();
     m_requests.push_back(req);
-    return string(req->m_id.utf8());
+    return req->m_id;
 }
 
 static char XmlLang[] = I18N_NOOP("Please translate this to short language name like 'ru' or 'de'. Do not translate this sentence!)");
