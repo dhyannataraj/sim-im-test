@@ -9,7 +9,7 @@ INCLUDES=-I$(srcdir)/../../sim -I../ontop -I../_core -I$(srcdir)/../_core $(all_
 
 windock_la_METASOURCES = AUTO
 windock_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KDEFX) $(EXTRA_LIBS)
-windock_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+windock_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 
 

@@ -31,7 +31,7 @@ jabber_la_SOURCES = \
  jidsearchbase.ui \
  jidadvsearch.cpp \
  jidadvsearchbase.ui \
- httppoll.cpp 
+ httppoll.cpp
 
 SUBDIRS = sounds
 
@@ -39,6 +39,6 @@ INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
 jabber_la_METASOURCES = AUTO
 jabber_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIBSSL) $(EXTRA_LIBS)
-jabber_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+jabber_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 

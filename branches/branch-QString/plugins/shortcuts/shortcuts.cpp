@@ -253,7 +253,7 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     QKeySequence keys(cmd->accel);
     if (keys != QKeySequence(0)){
         QString shortName = "sim_";
-        shortName += number(cmd->id);
+        shortName += QString::number(cmd->id);
         accel = new KGlobalAccel(this);
         accel->insert(shortName,
                       i18n(cmd->text), i18n(cmd->text),

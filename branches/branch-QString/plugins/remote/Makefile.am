@@ -1,6 +1,6 @@
 if ENABLE_REMOTE
 sim_plugin_LTLIBRARIES = remote.la
-bin_PROGRAMS = simctrl 
+bin_PROGRAMS = simctrl
 dist_mime_DATA = x-icq.desktop
 dist_service_DATA = simctrl.desktop
 endif
@@ -19,8 +19,8 @@ mimedir = $(kde_mimedir)/application
 servicedir = $(kde_servicesdir)
 
 remote_la_METASOURCES = AUTO
-remote_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS) 
-remote_la_LDFLAGS = -module -no-undefined -avoid-version -L../../sim/.libs $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
+remote_la_LIBADD = ../../sim/libsim.la  $(LIB_QT) $(LIB_KDECORE) $(EXTRA_LIBS)
+remote_la_LDFLAGS = -module -no-undefined -avoid-version $(QT_LDFLAGS) $(KDE_RPATH) $(all_libraries)
 
 
 
