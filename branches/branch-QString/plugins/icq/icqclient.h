@@ -565,10 +565,10 @@ public:
     QString clientName(ICQUserData*);
     void sendStatus();
     void sendUpdate();
-    void changePassword(const char *new_pswd);
+    void changePassword(const QString &new_pswd);
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
-    unsigned short aimEMailSearch(const char *name);
+    unsigned short aimEMailSearch(const QString &name);
     unsigned short aimInfoSearch(const QString &first, const QString &last, const QString &middle,
                                  const QString &maiden, const QString &country, const QString &street,
                                  const QString &city, const QString &nick, const QString &zip,
@@ -640,7 +640,7 @@ protected:
     void buddyRequest();
     void icmbRequest();
     void bosRequest();
-    void sendCapability(const char *msg=NULL);
+    void sendCapability(const QString *msg=NULL);
     void sendICMB(unsigned short channel, unsigned long flags);
     void sendLogonStatus();
     void sendClientReady();
@@ -723,22 +723,22 @@ protected:
     void ackMessage(SendMsg &s);
     void accept(SIM::Message *msg, const char *dir, SIM::OverwriteMode overwrite);
     void decline(SIM::Message *msg, const QString &reason);
-    void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck);
+    void sendThroughServer(const QString &screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck);
     bool sendAuthRequest(SIM::Message *msg, void *data);
     bool sendAuthGranted(SIM::Message *msg, void *data);
     bool sendAuthRefused(SIM::Message *msg, void *data);
     void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
-    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
+    void sendType2(const QString &screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
     void sendType1(const QString &text, bool bWide, ICQUserData *data);
     void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);
-    void sendAutoReply(const char *screen, MessageId id,
+    void sendAutoReply(const QString &screen, MessageId id,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
                        unsigned short  msgType, char msgFlags, unsigned short msgState,
                        const char *response, unsigned short response_type, Buffer &copy);
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(const char *screen, unsigned short type);
     void setChatGroup();
-    SIM::Message *parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie);
+    SIM::Message *parseExtendedMessage(const QString &screen, Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
     void packMessage(Buffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
@@ -747,7 +747,7 @@ protected:
     void fetchProfile(ICQUserData *data);
     void fetchAwayMessage(ICQUserData *data);
     void fetchProfiles();
-    void setAwayMessage(const char *msg);
+    void setAwayMessage(const QString *msg = NULL);
     void encodeString(const QString &text, const QString &type, unsigned short charsetTlv, unsigned short infoTlv);
     void encodeString(const QString &_str, unsigned short nTlv, bool bWide);
     bool processMsg();

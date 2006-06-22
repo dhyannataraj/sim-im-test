@@ -320,7 +320,7 @@ static Message *parseAuthRequest(const char *str)
     return m;
 }
 
-Message *ICQClient::parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, MessageId &id, unsigned cookie)
 {
     QCString header;
     packet >> header;

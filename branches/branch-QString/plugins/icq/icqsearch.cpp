@@ -284,7 +284,7 @@ void ICQSearch::search()
             m_mail = getContacts()->fromUnicode(0, edtMail->text());
             icq_search();
         }
-        m_id_aim = m_client->aimEMailSearch(edtMail->text().utf8());
+        m_id_aim = m_client->aimEMailSearch(edtMail->text());
     }else if (!m_client->m_bAIM && grpName->isChecked() &&
               (!edtFirst->text().isEmpty() || !edtLast->text().isEmpty() || !edtNick->text().isEmpty())){
         m_type = Name;
@@ -338,7 +338,7 @@ void ICQSearch::searchMail(const QString &mail)
             m_mail = mail.utf8();
         icq_search();
     }
-    m_id_aim = m_client->aimEMailSearch(mail.utf8());
+    m_id_aim = m_client->aimEMailSearch(mail);
     addColumns();
 }
 

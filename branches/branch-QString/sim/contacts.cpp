@@ -677,7 +677,8 @@ void ContactListPrivate::unregisterUserData(unsigned id)
         (*it_g)->userData.freeUserData(id);
     userData.freeUserData(id);
     for (list<UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (id != (*it).id) continue;
+        if (id != (*it).id)
+            continue;
         userDataDef.erase(it);
         break;
     }

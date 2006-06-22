@@ -632,7 +632,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     return false;
 }
 
-void ICQClient::sendThroughServer(const char *screen, unsigned short channel, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck)
+void ICQClient::sendThroughServer(const QString &screen, unsigned short channel, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck)
 {
     // we need informations about channel 2 tlvs !
     unsigned short tlv_type = 5;
@@ -693,7 +693,7 @@ void ICQClient::ackMessage(SendMsg &s)
         e.process();
         delete s.msg;
         s.msg = NULL;
-        s.screen = "";
+        s.screen = QString::null;
         m_sendTimer->stop();
         processSendQueue();
         return;
@@ -795,7 +795,7 @@ static void copyTlv(Buffer &b, TlvList *tlvs, unsigned nTlv)
     b.tlv(nTlv, *tlv, tlv->Size());
 }
 
-void ICQClient::sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
+void ICQClient::sendType2(const QString &screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
 {
     Buffer b;
     b << (unsigned short)0;
@@ -1320,7 +1320,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                   msgType, 0, 0, NULL, 0, copy);
 }
 
-void ICQClient::sendAutoReply(const char *screen, MessageId id,
+void ICQClient::sendAutoReply(const QString &screen, MessageId id,
                               const plugin p, unsigned short cookie1, unsigned short cookie2,
                               unsigned short msgType, char msgFlags, unsigned short msgState,
                               const char *response, unsigned short response_type, Buffer &copy)
@@ -2218,7 +2218,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
                 sendPacket(false);
                 if (reason && *reason){
                     Message *msg = new Message(MessageGeneric);
-                    msg->setText(QString::fromUtf8(reason));
+                    msg->setText(reason);
                     msg->setFlags(MESSAGE_NOHISTORY);
                     msg->setContact(contact->id());
                     if (!send(msg, data))

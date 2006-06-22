@@ -596,7 +596,7 @@ void ICQClient::setStatus(unsigned status)
         if (status == STATUS_ONLINE){
             if (m_status != STATUS_ONLINE){
                 m_status = STATUS_ONLINE;
-                setAwayMessage(NULL);
+                setAwayMessage();
                 Event e(EventClientChanged, this);
                 e.process();
             }
@@ -997,7 +997,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                 if (!alias->isEmpty()){
                     bChanged = contact->setName(*alias);
                 }
-                data->Alias.str() = QString::fromUtf8(*alias);
+                data->Alias.str() = *alias;
             }
             if (grp){
                 if (contact->getGroup() != grp->id()){
@@ -1039,7 +1039,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                         if (*alias){
                             bChanged = contact->setName(*alias);
                         }
-                        data->Alias.str() = QString::fromUtf8(*alias);
+                        data->Alias.str() = *alias;
                     }
                     if (grp){
                         if (grp->id() != contact->getGroup()){
@@ -1066,7 +1066,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                     data->Uin.asULong() = uin;
                     if (uin == 0)
                         data->Screen.str() = screen;
-                    data->Alias.str() = QString::fromUtf8(*alias);
+                    data->Alias.str() = *alias;
                     Event e(EventContactChanged, contact);
                     e.process();
                     m_bJoin = true;
@@ -1090,7 +1090,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
         name = screen;
     }
     if(alias)
-        data->Alias.str() = QString::fromUtf8(*alias);
+        data->Alias.str() = *alias;
     contact->setName(name);
     if (grp)
         contact->setGroup(grp->id());
@@ -1108,7 +1108,7 @@ ICQUserData *ICQClient::findGroup(unsigned id, const QString *alias, Group *&grp
         data = (ICQUserData*)(grp->clientData.getData(this));
         if (data && (data->IcqID.toULong() == id)){
             if (alias)
-                data->Alias.str() = QString::fromUtf8(*alias);
+                data->Alias.str() = *alias;
             return data;
         }
     }
@@ -1120,7 +1120,7 @@ ICQUserData *ICQClient::findGroup(unsigned id, const QString *alias, Group *&grp
         if (grp->getName() == name){
             data = (ICQUserData*)(grp->clientData.createData(this));
             data->IcqID.asULong() = id;
-            data->Alias.str() = QString::fromUtf8(*alias);
+            data->Alias.str() = *alias;
             return data;
         }
     }
@@ -1128,7 +1128,7 @@ ICQUserData *ICQClient::findGroup(unsigned id, const QString *alias, Group *&grp
     grp->setName(name);
     data = (ICQUserData*)(grp->clientData.createData(this));
     data->IcqID.asULong() = id;
-    data->Alias.str() = QString::fromUtf8(*alias);
+    data->Alias.str() = *alias;
     Event e(EventGroupChanged, grp);
     e.process();
     return data;
@@ -2415,9 +2415,9 @@ void *ICQClient::processEvent(Event *e)
         if (m_bAIM){
             if ((getState() == Connected) && (m_status == STATUS_AWAY)){
                 if ((*it).bDirect){
-                    setAwayMessage(t->tmpl.utf8());
+                    setAwayMessage(&t->tmpl);
                 }else{
-                    sendCapability(t->tmpl.utf8());
+                    sendCapability(&t->tmpl);
                     sendICMB(1, 11);
                     sendICMB(0, 11);
                     processSendQueue();

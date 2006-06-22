@@ -371,7 +371,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
     }
 }
 
-unsigned short ICQClient::aimEMailSearch(const char *name)
+unsigned short ICQClient::aimEMailSearch(const QString &name)
 {
     SearchSocket *s = NULL;
     for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
@@ -385,7 +385,7 @@ unsigned short ICQClient::aimEMailSearch(const char *name)
         requestService(s);
     }
     QStringList sl;
-    sl.append(QString::fromUtf8(name));
+    sl.append(name);
     return s->add(sl);
 }
 
@@ -407,16 +407,16 @@ unsigned short ICQClient::aimInfoSearch(const QString &first, const QString &las
     }
     QStringList info;
 
-    info.append(QString::fromUtf8(first));
-    info.append(QString::fromUtf8(last));
-    info.append(QString::fromUtf8(middle));
-    info.append(QString::fromUtf8(maiden));
-    info.append(QString::fromUtf8(country));
-    info.append(QString::fromUtf8(street));
-    info.append(QString::fromUtf8(city));
-    info.append(QString::fromUtf8(nick));
-    info.append(QString::fromUtf8(zip));
-    info.append(QString::fromUtf8(state));
+    info.append(first);
+    info.append(last);
+    info.append(middle);
+    info.append(maiden);
+    info.append(country);
+    info.append(street);
+    info.append(city);
+    info.append(nick);
+    info.append(zip);
+    info.append(state);
     return s->add(info);
 }
 

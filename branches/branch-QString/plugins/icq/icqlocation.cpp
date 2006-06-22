@@ -463,7 +463,7 @@ void ICQClient::encodeString(const QString &m, const QString &type, unsigned sho
     }
 }
 
-void ICQClient::sendCapability(const char *away_msg)
+void ICQClient::sendCapability(const QString *away_msg)
 {
     Buffer cap;
     capability c;
@@ -511,7 +511,7 @@ void ICQClient::sendCapability(const char *away_msg)
             encodeString(profile, "text/aolrtf", 1, 2);
         }
         if (away_msg)
-            encodeString(QString::fromUtf8(away_msg), "text/plain", 3, 4);
+            encodeString(*away_msg, "text/plain", 3, 4);
     }
     m_socket->writeBuffer.tlv(0x0005, cap);
     if (m_bAIM)
@@ -519,11 +519,11 @@ void ICQClient::sendCapability(const char *away_msg)
     sendPacket(true);
 }
 
-void ICQClient::setAwayMessage(const char *msg)
+void ICQClient::setAwayMessage(const QString *msg)
 {
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (msg){
-        encodeString(QString::fromUtf8(msg), "text/plain", 3, 4);
+        encodeString(*msg, "text/plain", 3, 4);
     }else{
         m_socket->writeBuffer.tlv(0x0004);
     }

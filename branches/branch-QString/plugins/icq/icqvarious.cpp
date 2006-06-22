@@ -1441,24 +1441,21 @@ void ICQClient::setClientInfo(void *_data)
 class SetPasswordRequest : public ServerRequest
 {
 public:
-    SetPasswordRequest(ICQClient *client, unsigned short id, const char *pwd);
+    SetPasswordRequest(ICQClient *client, unsigned short id, const QString &pwd);
 protected:
     bool answer(Buffer &b, unsigned short nSubtype);
     virtual void fail(unsigned short error_code);
-    string m_pwd;
+    QString m_pwd;
     ICQClient *m_client;
 };
 
-SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, const char *pwd)
-        : ServerRequest(id)
-{
-    m_client  = client;
-    m_pwd     = pwd;
-}
+SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, const QString &pwd)
+        : ServerRequest(id), m_pwd(pwd), m_client(client)
+{}
 
 bool SetPasswordRequest::answer(Buffer&, unsigned short)
 {
-    m_client->setPassword(QString::fromUtf8(m_pwd.c_str()));
+    m_client->setPassword(m_pwd);
     return true;
 }
 
@@ -1477,13 +1474,13 @@ void SetPasswordRequest::fail(unsigned short error_code)
     e.process();
 }
 
-void ICQClient::changePassword(const char *new_pswd)
+void ICQClient::changePassword(const QString &new_pswd)
 {
-    QString pwd = QString::fromUtf8(new_pswd);
+    QString pwd = new_pswd;
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
     << ICQ_SRVxREQ_CHANGE_PASSWD
-    << getContacts()->fromUnicode(NULL, pwd).data();
+    << (const char*)getContacts()->fromUnicode(NULL, pwd).data();
     sendServerRequest();
     varRequests.push_back(new SetPasswordRequest(this, m_nMsgSequence, new_pswd));
 }
