@@ -65,9 +65,10 @@ public:
     BEGIN_COM_MAP(CSIM_ext)
     COM_INTERFACE_ENTRY(ISIM_ext)
     COM_INTERFACE_ENTRY(IShellExtInit)
-    COM_INTERFACE_ENTRY(IContextMenu)
-    COM_INTERFACE_ENTRY(IContextMenu2)
-    COM_INTERFACE_ENTRY(IContextMenu3)
+// This produces compile errors
+//    COM_INTERFACE_ENTRY(IContextMenu)
+//    COM_INTERFACE_ENTRY(IContextMenu2)
+//    COM_INTERFACE_ENTRY(IContextMenu3)
     COM_INTERFACE_ENTRY(IObjectWithSite)
     END_COM_MAP()
 

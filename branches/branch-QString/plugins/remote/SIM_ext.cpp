@@ -44,7 +44,7 @@ CSIM_ext::CSIM_ext()
     lpData = NULL;
     if (ProcessStr == NULL){
         char name[512];
-        GetModuleFileName(hInstance, name, sizeof(name));
+        GetModuleFileNameA(hInstance, name, sizeof(name));
         char *r = strrchr(name, '\\');
         if (r){
             r++;
@@ -52,7 +52,7 @@ CSIM_ext::CSIM_ext()
             r = name;
         }
         strcpy(r, "simremote.dll");
-        HINSTANCE hLib = LoadLibrary(name);
+        HINSTANCE hLib = LoadLibraryA(name);
         (DWORD&)ProcessStr = (DWORD)GetProcAddress(hLib, "ProcessStr");
     }
 }
@@ -87,9 +87,6 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
         HRESULT hr = lpData->GetData(&formatetc, &stgmedium);
         if (!SUCCEEDED(hr))
             return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 0);
-        char *drop_files = (char*)GlobalLock(stgmedium.hGlobal);
-        DROPFILES *files = (DROPFILES*)drop_files;
-        GlobalUnlock(stgmedium.hGlobal);
 
         CComBSTR in("CONTACTS 3");
         CComBSTR out;
@@ -139,11 +136,11 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                                         if (res[0] == '>')
                                             grp = res + 1;
                                     }
-                                    AppendMenu(hMain, MF_POPUP | MF_STRING, (unsigned)hSub, grp);
+                                    AppendMenuA(hMain, MF_POPUP | MF_STRING, (unsigned)hSub, grp);
                                     if (res)
                                         delete[] res;
                                 }else{
-                                    AppendMenu(hSub, MF_SEPARATOR, 0, NULL);
+                                    AppendMenuA(hSub, MF_SEPARATOR, 0, NULL);
                                 }
                             }
                         }else{
@@ -155,14 +152,14 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                         info.icon  = createIcon(icon.c_str());
                         info.id	   = id;
                         m_items.insert(ITEM_MAP::value_type(cmd_id, info));
-                        AppendMenu(hSub, MF_STRING | MF_OWNERDRAW, cmd_id, line.c_str());
+                        AppendMenuA(hSub, MF_STRING | MF_OWNERDRAW, cmd_id, line.c_str());
                         cmd_id++;
                     }
                 }
             }
             delete[] res;
             if (hMain != NULL)
-                InsertMenu(hmenu, indexMenu++, MF_POPUP|MF_BYPOSITION,
+                InsertMenuA(hmenu, indexMenu++, MF_POPUP|MF_BYPOSITION,
                            (UINT)hMain, "Send to SIM contact");
         }
         return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, cmd_id - idCmdFirst);
@@ -253,7 +250,7 @@ HRESULT CSIM_ext::InvokeCommand(LPCMINVOKECOMMANDINFO lpici)
         drop_files += files->pFiles;
         CComBSTR in("SENDFILE \"");
         if (files->fWide){
-            in += (unsigned short*)drop_files;
+            in += (WCHAR*)drop_files;
         }else{
             in += drop_files;
         }
@@ -335,7 +332,7 @@ void CSIM_ext::MeasureItem(LPMEASUREITEMSTRUCT lpmis)
     HDC hDC = CreateCompatibleDC(NULL);
     SelectObject(hDC, GetStockObject(DEFAULT_GUI_FONT));
     SIZE s;
-    GetTextExtentPoint32(hDC, info.text.c_str(), info.text.length(), &s);
+    GetTextExtentPoint32A(hDC, info.text.c_str(), info.text.length(), &s);
     lpmis->itemWidth  = s.cx + GetSystemMetrics(SM_CXMENUCHECK) + GetSystemMetrics(SM_CXFRAME) * 2;
     lpmis->itemHeight = GetSystemMetrics(SM_CYMENU);
     DeleteDC(hDC);
@@ -349,7 +346,7 @@ void CSIM_ext::DrawMenuItem(LPDRAWITEMSTRUCT lpdis)
     if (info.icon == NULL)
         return;
     if (lpdis->itemAction & (ODA_DRAWENTIRE|ODA_SELECT)){
-        COLORREF crText, crBack;
+        COLORREF crText = 0, crBack = 0;
         int bgColor;
         if (lpdis->itemState & ODS_SELECTED)
         {
@@ -370,7 +367,7 @@ void CSIM_ext::DrawMenuItem(LPDRAWITEMSTRUCT lpdis)
                    info.icon, bmp.bmWidth, bmp.bmHeight, 0, 0, DI_NORMAL);
         RECT rt = lpdis->rcItem;
         rt.left += GetSystemMetrics(SM_CXMENUCHECK) + GetSystemMetrics(SM_CXFRAME);
-        DrawText(lpdis->hDC, info.text.c_str(), info.text.length(), &rt, DT_LEFT | DT_EXPANDTABS | DT_VCENTER | DT_SINGLELINE);
+        DrawTextA(lpdis->hDC, info.text.c_str(), info.text.length(), &rt, DT_LEFT | DT_EXPANDTABS | DT_VCENTER | DT_SINGLELINE);
         if (lpdis->itemState & ODS_SELECTED)
         {
             SetTextColor(lpdis->hDC, crText);

@@ -55,7 +55,6 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
-				WarnAsError="true"
 				SuppressStartupBanner="true"
 			/>
 			<Tool

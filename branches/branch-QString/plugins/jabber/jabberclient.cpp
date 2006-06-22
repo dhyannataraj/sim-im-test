@@ -2437,7 +2437,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
     Contact *contact;
     QString resource;
     JabberUserData *data = findContact(jid, QString::null, false, contact, resource);
-    if (isAgent(QString::fromUtf8(jid)) || ((type == MessageAuthRequest) && getAutoAccept())){
+    if (isAgent(jid) || ((type == MessageAuthRequest) && getAutoAccept())){
         switch (type){
         case MessageAuthRequest:{
                 if (data == NULL)
