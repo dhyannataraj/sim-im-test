@@ -27,7 +27,7 @@
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qbutton.h>
-#include <qfileinfo.h>
+#include <qfile.h>
 
 using namespace SIM;
 
@@ -68,7 +68,7 @@ void LogConfig::apply()
     } else {
         file.close();
     }
-    m_plugin->setFile(edtFile->text().latin1());
+    m_plugin->setFile(edtFile->text());
 
     /* check selected protocols */
     for (QListViewItem *item = lstLevel->firstChild(); item; item = item->nextSibling()){
@@ -127,7 +127,7 @@ void LogConfig::setCheck(QListViewItem *item)
 {
     int state = item->text(COL_CHECKED).isEmpty() ? CHECK_OFF : CHECK_ON;
     QColorGroup cg = palette().active();
-int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
+    int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     int h = style().pixelMetric(QStyle::PM_IndicatorHeight);
     QPixmap pixInd(w, h);
     QPainter pInd(&pixInd);

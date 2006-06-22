@@ -891,10 +891,10 @@ EXPORT void restoreGeometry(QWidget *w, Geometry geo, bool bPos, bool bSize)
         geo[LEFT].asLong() = rc.width() - geo[WIDTH].asLong();
     if (geo[TOP].toLong() + geo[HEIGHT].toLong() > rc.height())
         geo[TOP].asLong() = rc.height() - geo[HEIGHT].asLong();
-    if (geo[LEFT].toLong() < 0)
-        geo[LEFT].asLong() = 0;
-    if (geo[TOP].toLong() < 0)
-        geo[TOP].asLong() = 0;
+    if (geo[LEFT].toLong() < rc.left())
+        geo[LEFT].asLong() = rc.left();
+    if (geo[TOP].toLong() < rc.top())
+        geo[TOP].asLong() = rc.top();
     if (bPos)
         w->move(geo[LEFT].toLong(), geo[TOP].toLong());
     if (bSize)

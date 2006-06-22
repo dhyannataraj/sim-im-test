@@ -28,7 +28,6 @@
 #include <windows.h>
 #endif
 
-using namespace std;
 using namespace SIM;
 
 Plugin *createLoggerPlugin(unsigned base, bool, ConfigBuffer *add_info)
@@ -49,7 +48,7 @@ static PluginInfo info =
 #ifdef WIN32
         PLUGIN_NOLOAD_DEFAULT
 #else
-PLUGIN_DEFAULT
+        PLUGIN_DEFAULT
 #endif
     };
 
@@ -78,11 +77,11 @@ LoggerPlugin::LoggerPlugin(unsigned base, ConfigBuffer *add_info)
 {
     m_file = NULL;
     load_data(loggerData, &data, add_info);
-    string value;
-    CmdParam p = { "-d:", I18N_NOOP("Set debug level"), &value };
+    QString value;
+    CmdParam p = { "-d:", I18N_NOOP("Set debug level"), value };
     Event e(EventArg, &p);
-    if (e.process())
-        setLogLevel(atol(value.c_str()));
+    if (e.process() && !value.isEmpty())
+        setLogLevel(value.toULong());
     if (getLogPackets()){
         QString packets = getLogPackets();
         while (packets.length()){
@@ -104,7 +103,7 @@ LoggerPlugin::~LoggerPlugin()
 QString LoggerPlugin::getConfig()
 {
     QString packets;
-    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+    for (QValueList<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';
         packets += QString::number(*it);
@@ -158,20 +157,13 @@ void LoggerPlugin::openFile()
 
 bool LoggerPlugin::isLogType(unsigned id)
 {
-    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
-        if ((*it) == id)
-            return true;
-    }
-    return false;
+    return ( m_packets.find( id ) != m_packets.end() );
 }
 
 void LoggerPlugin::setLogType(unsigned id, bool bLog)
 {
-    list<unsigned>::iterator it;
-    for (it = m_packets.begin(); it != m_packets.end(); ++it){
-        if ((*it) == id)
-            break;
-    }
+    QValueList<unsigned>::iterator it;
+    it = m_packets.find( id );
     if (bLog){
         if (it == m_packets.end())
             m_packets.push_back(id);

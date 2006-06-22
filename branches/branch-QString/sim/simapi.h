@@ -352,9 +352,9 @@ const unsigned EventArg = 0x0201;
 
 typedef struct CmdParam
 {
-    const char *arg;
-    const char *descr;
-    std::string *value;
+    QString     arg;        // in
+    QString     descr;      // in
+    QString     value;      // out
 } CmdParam;
 
 const unsigned EventArgc = 0x0202;

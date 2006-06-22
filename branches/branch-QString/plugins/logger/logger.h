@@ -46,7 +46,7 @@ public:
     void setLogType(unsigned id, bool bLog);
 protected:
 //    bool eventFilter(QObject *o, QEvent *e);
-    std::list<unsigned> m_packets;
+    QValueList<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual QString getConfig();
     void *processEvent(SIM::Event*);
