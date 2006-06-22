@@ -76,6 +76,8 @@ void Tmpl::clear()
                 continue;
             }
             ++it;
+        } else {
+            ++it;
         }
     }
 }
