@@ -540,6 +540,7 @@ void ICQClient::fetchProfile(ICQUserData *data)
     m_socket->writeBuffer.packScreen(screen(data));
     sendPacket(false);
     m_info_req.insert(INFO_REQ_MAP::value_type(m_nMsgSequence, screen(data)));
+    data->ProfileFetch.setBool(true);
 }
 
 void ICQClient::fetchAwayMessage(ICQUserData *data)
@@ -552,7 +553,7 @@ void ICQClient::fetchAwayMessage(ICQUserData *data)
 
 void ICQClient::fetchProfiles()
 {
-    if (data.owner.ProfileFetch.toBool() == 0)
+    if (!data.owner.ProfileFetch.toBool())
         fetchProfile(&data.owner);
     Contact *contact;
     ContactList::ContactIterator itc;

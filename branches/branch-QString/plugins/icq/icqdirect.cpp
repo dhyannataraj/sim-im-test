@@ -1322,7 +1322,7 @@ void DirectClient::processMsgQueue()
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
                           ((sm.msg->getFlags() & MESSAGE_SECURE) == 0)){
-                    message = ICQClient::addCRLF(sm.msg->getPlainText()).utf8();
+                    message = ICQClient::addCRLF(sm.msg->getPlainText());
                     sm.type = CAP_UTF;
                 }else{
                     message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());
