@@ -112,8 +112,8 @@ static DataDef msnClientData[] =
         { "Version", DATA_STRING, 1, "5.0.0540" },
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFF) },
-        { "UseHTTP", DATA_ULONG, 1, 0 },
-        { "AutoHTTP", DATA_ULONG, 1, DATA(1) },
+        { "UseHTTP", DATA_BOOL, 1, 0 },
+        { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
         { "Deleted", DATA_STRLIST, 1, 0 },
         { "NDeleted", DATA_ULONG, 1, 0 },
         { "AutoAuth", DATA_BOOL, 1, DATA(1) },
@@ -1570,15 +1570,14 @@ string MSNClient::getValue(const char *key, const char *str)
     return "";
 }
 
-string MSNClient::getHeader(const char *name, const char *headers)
+string MSNClient::getHeader(const char *_name, const char *_headers)
 {
-    for (const char *h = headers; *h; h += strlen(h) + 1){
-        string header = h;
-        string key = getToken(header, ':');
-        if (key != name)
-            continue;
+    QCString hdr = _headers;
+    QCString name = _name;
+    int idx = hdr.find(name + ":");
+    if(idx != -1) {
         const char *p;
-        for (p = header.c_str(); *p; p++)
+        for (p = &hdr[idx]; *p; p++)
             if (*p != ' ')
                 break;
         return p;
