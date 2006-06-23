@@ -287,16 +287,16 @@ void SynPacket::answer(vector<string> &args)
     }
 }
 
-QryPacket::QryPacket(MSNClient *client, const char *qry)
+QryPacket::QryPacket(MSNClient *client, const QString &qry)
         : MSNPacket(client, "QRY")
 {
     addArg("PROD0038W!61ZTF9");
     addArg("32");
     m_line += "\r\n";
     char qry_add[] = "VT6PX?UQTM4WM%YR";
-    string md = qry;
+    QString md = qry;
     md += qry_add;
-    QByteArray ba = md5(md.c_str());
+    QByteArray ba = md5(md.utf8());
     for (unsigned i = 0; i < ba.size(); i++){
         char b[3];
         sprintf(b, "%02x", ba[(int)i] & 0xFF);

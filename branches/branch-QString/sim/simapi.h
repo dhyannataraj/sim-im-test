@@ -994,7 +994,6 @@ EXPORT QString save_data(const DataDef *def, void *data);
 
 EXPORT const QString &get_str(Data &strlist, unsigned index);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
-EXPORT DEPRECATED void set_str(Data *strlist, unsigned index, const char *value);
 
 EXPORT unsigned long get_ip(const Data &ip);
 EXPORT const char *get_host(const Data &ip);
@@ -1075,18 +1074,17 @@ EXPORT bool makedir(char *p);
 /* Save state */
 EXPORT void save_state();
 
-EXPORT DEPRECATED std::string number(unsigned n);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);
 EXPORT QString formatAddr(const Data &addr, unsigned port);
-EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
-EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT QCString getToken(QCString &from, char c, bool bUnEsacpe=true);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT char fromHex(char);
 EXPORT QString unquoteString(const QString &in);
 
+EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
+EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
 
 // _____________________________________________________________________________________
 // Message

@@ -85,7 +85,7 @@ protected:
 class QryPacket : public MSNPacket
 {
 public:
-    QryPacket(MSNClient *client, const char *qry);
+    QryPacket(MSNClient *client, const QString &qry);
     virtual void send();
 };
 

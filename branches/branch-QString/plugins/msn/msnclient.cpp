@@ -545,7 +545,7 @@ void MSNClient::getLine(const QCString &line)
     }
     if (cmd == "CHL"){
         getToken(l, ' ');
-        MSNPacket *packet = new QryPacket(this, getToken(l, ' ').latin1());
+        MSNPacket *packet = new QryPacket(this, getToken(l, ' '));
         packet->send();
         return;
     }

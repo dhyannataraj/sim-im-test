@@ -200,24 +200,6 @@ EXPORT QString user_file(const char *f)
 
 // ______________________________________________________________________________________
 
-// deprecated
-EXPORT std::string number(unsigned n)
-{
-    return QString::number(n).latin1();
-}
-
-// deprecated
-EXPORT std::string trim(const char *from)
-{
-    return QString(from).stripWhiteSpace();
-}
-
-// deprecated
-EXPORT QString trim(const QString &from)
-{
-    return from.stripWhiteSpace();
-}
-
 char fromHex(char c)
 {
     if ((c >= '0') && (c <= '9')) return (char)(c - '0');
@@ -414,18 +396,6 @@ EXPORT void set_str(Data *d, unsigned index, const QString &value)
     while(sl.count() < index)
         sl.append(QString::null);
     sl.append(value);
-}
-
-EXPORT void set_str(Data *d, unsigned index, const char *value)
-{
-    QStringList &sl = d->strList();
-    if(index < sl.count()) {
-        sl[index] = value;
-        return;
-    }
-    while(sl.count() < index)
-        sl.append(QString::null);
-    sl.append(QString::fromUtf8(value));
 }
 
 // _______________________________________________________________________________________
