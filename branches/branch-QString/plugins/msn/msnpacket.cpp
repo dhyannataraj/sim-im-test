@@ -35,25 +35,31 @@
 using namespace std;
 using namespace SIM;
 
-MSNPacket::MSNPacket(MSNClient *client, const char *cmd)
+MSNPacket::MSNPacket(MSNClient *client, const QString &cmd)
 {
     m_cmd = cmd;
     m_client = client;
     m_id   = ++m_client->m_packetId;
     m_line = cmd;
     m_line += ' ';
-    m_line += number(m_id);
+    m_line += QString::number(m_id);
 }
 
-void MSNPacket::addArg(const char *str)
+void MSNPacket::addArg(const QString &str)
 {
     m_line += ' ';
     m_line += str;
 }
 
+void MSNPacket::addArg(const char *str)
+{
+    m_line += ' ';
+    m_line += QString::fromUtf8(str);
+}
+
 void MSNPacket::send()
 {
-    m_client->sendLine(m_line.c_str());
+    m_client->sendLine(m_line);
     m_line = "";
     m_client->m_packets.push_back(this);
 }
@@ -300,12 +306,12 @@ QryPacket::QryPacket(MSNClient *client, const char *qry)
 
 void QryPacket::send()
 {
-    m_client->sendLine(m_line.c_str(), false);
+    m_client->sendLine(m_line, false);
     m_line = "";
     m_client->m_packets.push_back(this);
 }
 
-AdgPacket::AdgPacket(MSNClient *client, unsigned grp_id, const char *name)
+AdgPacket::AdgPacket(MSNClient *client, unsigned grp_id, const QString &name)
         : MSNPacket(client, "ADG")
 {
     m_id = grp_id;
@@ -326,10 +332,10 @@ void AdgPacket::answer(vector<string> &args)
     data->Group.asULong() = atol(args[2].c_str());
 }
 
-RegPacket::RegPacket(MSNClient *client, unsigned id, const char *name)
+RegPacket::RegPacket(MSNClient *client, unsigned id, const QString &name)
         : MSNPacket(client, "REG")
 {
-    addArg(number(id).c_str());
+    addArg(QString::number(id));
     addArg(name);
     addArg("0");
 }
@@ -337,10 +343,10 @@ RegPacket::RegPacket(MSNClient *client, unsigned id, const char *name)
 RmgPacket::RmgPacket(MSNClient *client, unsigned id)
         : MSNPacket(client, "RMG")
 {
-    addArg(number(id).c_str());
+    addArg(QString::number(id));
 }
 
-AddPacket::AddPacket(MSNClient *client, const char *listType, const char *mail, const char *name, unsigned grp)
+AddPacket::AddPacket(MSNClient *client, const QString &listType, const QString &mail, const QString &name, unsigned grp)
         : MSNPacket(client, "ADD")
 {
     m_mail = mail;
@@ -348,38 +354,38 @@ AddPacket::AddPacket(MSNClient *client, const char *listType, const char *mail, 
     addArg(mail);
     addArg(name);
     if (!strcmp(listType, "FL"))
-        addArg(number(grp).c_str());
+        addArg(QString::number(grp));
 }
 
 void AddPacket::error(unsigned)
 {
     Contact *contact;
-    MSNUserData *data = m_client->findContact(m_mail.c_str(), contact);
+    MSNUserData *data = m_client->findContact(m_mail, contact);
     if (data){
         contact->clientData.freeData(data);
         if (contact->clientData.size() == 0)
             delete contact;
     }
-    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddFail, (void*)(m_mail.c_str()));
+    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddFail, (void*)(m_mail.latin1()));
     e.process();
 }
 
 void AddPacket::answer(vector<string>&)
 {
-    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.c_str()));
+    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.latin1()));
     e.process();
 }
 
-RemPacket::RemPacket(MSNClient *client, const char *listType, const char *mail, unsigned group)
+RemPacket::RemPacket(MSNClient *client, const QString &listType, const QString &mail, unsigned group)
         : MSNPacket(client, "REM")
 {
     addArg(listType);
     addArg(mail);
     if (!strcmp(listType, "FL") && (group != NO_GROUP))
-        addArg(number(group).c_str());
+        addArg(QString::number(group));
 }
 
-ReaPacket::ReaPacket(MSNClient *client, const char *mail, const char *name)
+ReaPacket::ReaPacket(MSNClient *client, const QString &mail, const QString &name)
         : MSNPacket(client, "REA")
 {
     addArg(mail);

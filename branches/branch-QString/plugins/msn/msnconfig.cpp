@@ -35,9 +35,9 @@ MSNConfig::MSNConfig(QWidget *parent, MSNClient *client, bool bConfig)
     if (m_bConfig)
         tabCfg->removePage(tabMsn);
     QTimer::singleShot(0, this, SLOT(changed()));
-    edtLogin->setText(QString::fromUtf8(m_client->getLogin()));
+    edtLogin->setText(m_client->getLogin());
     edtPassword->setText(m_client->getPassword());
-    edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
+    edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
     connect(edtLogin, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPassword, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -64,10 +64,10 @@ void MSNConfig::apply()
         m_client->setLogin(edtLogin->text().local8Bit());
         m_client->setPassword(edtPassword->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
-    m_client->setPort((unsigned short)atol(edtPort->text()));
-    m_client->setMinPort((unsigned short)atol(edtMinPort->text()));
-    m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));
+    m_client->setServer(edtServer->text());
+    m_client->setPort(edtPort->text().toUShort());
+    m_client->setMinPort(edtMinPort->text().toUShort());
+    m_client->setMaxPort(edtMaxPort->text().toUShort());
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setAutoHTTP(chkAuto->isChecked());
     m_client->setAutoAuth(chkAuth->isChecked());
@@ -83,7 +83,7 @@ void MSNConfig::changed()
     emit okEnabled(!edtLogin->text().isEmpty() &&
                    !edtPassword->text().isEmpty() &&
                    !edtServer->text().isEmpty() &&
-                   atol(edtPort->text()));
+                   edtPort->text().toUShort());
 }
 
 void MSNConfig::autoToggled(bool bState)

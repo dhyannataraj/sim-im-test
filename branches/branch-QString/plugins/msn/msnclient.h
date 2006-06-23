@@ -92,7 +92,7 @@ class SBSocket : public QObject, public SIM::ClientSocketNotify
 public:
     SBSocket(MSNClient *client, SIM::Contact *contact, MSNUserData *data);
     ~SBSocket();
-    void connect(const char *addr, const char *session, const char *cookie, bool bDirection);
+    void connect(const QString &addr, const QString &session, const QString &cookie, bool bDirection);
     void connect();
     bool send(SIM::Message *msg);
     void timer(unsigned now);
@@ -114,13 +114,13 @@ protected:
     virtual bool error_state(const QString &err, unsigned code);
     virtual void connect_ready();
     virtual void packet_ready();
-    void send(const char *cmd, const char *args);
-    void getLine(const char *line);
+    void send(const QString &cmd, const QString &args);
+    void getLine(const QCString &line);
     void getMessage(unsigned size);
     bool getMessage();
     void messageReady();
     void process(bool bTyping=true);
-    void sendMessage(const char*, const char *type);
+    void sendMessage(const QString &msg, const char *type);
     void sendTyping();
     void sendFile();
     std::list<msgInvite>	m_acceptMsg;
@@ -130,11 +130,11 @@ protected:
     SIM::Contact	*m_contact;
     MSNClient		*m_client;
     MSNUserData		*m_data;
-    std::string		m_session;
-    std::string		m_cookie;
+    QString		    m_session;
+    QString		    m_cookie;
     SIM::ClientSocket *m_socket;
     unsigned		m_packet_id;
-    std::string		m_message;
+    QString		    m_message;
     unsigned		m_messageSize;
     bool			m_bTyping;
     XfrPacket		*m_packet;
@@ -188,12 +188,12 @@ public:
     QString getLogin();
     QString unquote(const QString&);
     QString quote(const QString&);
-    void sendLine(const char *line, bool crlf = true);
+    void sendLine(const QString &line, bool crlf = true);
     void setLogin(const QString&);
     MSNClientData	data;
-    MSNUserData *findContact(const char *mail, const char *name, SIM::Contact *&contact, bool nJoin=true);
-    MSNUserData *findContact(const char *mail, SIM::Contact *&contact);
-    MSNUserData *findGroup(unsigned long id, const char *name, SIM::Group *&grp);
+    MSNUserData *findContact(const QString &mail, const QString &name, SIM::Contact *&contact, bool nJoin=true);
+    MSNUserData *findContact(const QString &mail, SIM::Contact *&contact);
+    MSNUserData *findGroup(unsigned long id, const QString &name, SIM::Group *&grp);
     void auth_message(SIM::Contact *contact, unsigned type, MSNUserData *data);
     std::list<MSNListRequest> m_requests;
     void processRequests();
@@ -227,12 +227,12 @@ protected:
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool createData(SIM::clientData*&, SIM::Contact*);
     SIM::Socket *createSocket();
-    void getLine(const char*);
+    void getLine(const QCString &line);
     void clearPackets();
     void sendStatus();
     void checkEndSync();
-    void processLSG(unsigned id, const char *name);
-    void processLST(const char *mail, const char *alias, unsigned state, unsigned id);
+    void processLSG(unsigned id, const QString &name);
+    void processLST(const QString &mail, const QString &alias, unsigned state, unsigned id);
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	setStatus(unsigned status);
@@ -243,7 +243,7 @@ protected:
     unsigned			m_pingTime;
     std::list<MSNPacket*>m_packets;
     MSNServerMessage	*m_msg;
-    std::string				m_curBuddy;
+    QString				m_curBuddy;
     void		 requestLoginHost(const char *url);
     void		 requestTWN(const char *url);
     enum AuthState
@@ -312,8 +312,8 @@ protected:
     virtual bool	accept(SIM::Socket*, unsigned long ip);
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const char *err);
-    void			send(const char *line);
-    bool			getLine(const char *line);
+    void			send(const QString &line);
+    bool			getLine(const QCString &line);
     bool			m_bHeader;
     unsigned		m_size;
     State			m_state;

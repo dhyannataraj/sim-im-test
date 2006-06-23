@@ -47,13 +47,13 @@ void MSNSearch::createContact(unsigned tmpFlags, Contact *&contact)
     int pos = 0;
     if ((edtMail->validator()->validate(mail, pos) != QValidator::Acceptable))
         return;
-    if (m_client->findContact(mail.utf8(), contact))
+    if (m_client->findContact(mail, contact))
         return;
     QString name = mail;
     int n = name.find('@');
     if (n > 0)
         name = name.left(n);
-    m_client->findContact(mail.utf8(), name.utf8(), contact, false);
+    m_client->findContact(mail, name, contact, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 

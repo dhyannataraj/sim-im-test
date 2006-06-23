@@ -25,17 +25,18 @@
 class MSNPacket
 {
 public:
-    MSNPacket(MSNClient *client, const char *cmd);
+    MSNPacket(MSNClient *client, const QString &cmd);
     virtual ~MSNPacket() {}
-    const char	*cmd()	{ return m_cmd.c_str(); }
+    const QString &cmd()	{ return m_cmd; }
     unsigned	id()	{ return m_id; }
     virtual	void	answer(std::vector<std::string>&) {}
     virtual void	error(unsigned code);
+    void			addArg(const QString &str);
     void			addArg(const char *str);
     virtual void	send();
 protected:
-    std::string		m_line;
-    std::string		m_cmd;
+    QString		m_line;
+    QString		m_cmd;
     MSNClient	*m_client;
     unsigned	m_id;
 };
@@ -91,7 +92,7 @@ public:
 class AdgPacket : public MSNPacket
 {
 public:
-    AdgPacket(MSNClient *client, unsigned grp_id, const char *name);
+    AdgPacket(MSNClient *client, unsigned grp_id, const QString &name);
 protected:
     void answer(std::vector<std::string> &args);
     unsigned m_id;
@@ -100,7 +101,7 @@ protected:
 class RegPacket : public MSNPacket
 {
 public:
-    RegPacket(MSNClient *client, unsigned id, const char *name);
+    RegPacket(MSNClient *client, unsigned id, const QString &name);
 };
 
 class RmgPacket : public MSNPacket
@@ -112,23 +113,23 @@ public:
 class AddPacket : public MSNPacket
 {
 public:
-    AddPacket(MSNClient *client, const char *listType, const char *mail, const char *name, unsigned grp=0);
+    AddPacket(MSNClient *client, const QString &listType, const QString &mail, const QString &name, unsigned grp=0);
 protected:
     void answer(std::vector<std::string> &args);
     virtual void	error(unsigned code);
-    std::string m_mail;
+    QString m_mail;
 };
 
 class RemPacket : public MSNPacket
 {
 public:
-    RemPacket(MSNClient *client, const char *listType, const char *mail, unsigned group=NO_GROUP);
+    RemPacket(MSNClient *client, const QString &listType, const QString &mail, unsigned group=NO_GROUP);
 };
 
 class ReaPacket : public MSNPacket
 {
 public:
-    ReaPacket(MSNClient *client, const char *mail, const char *name);
+    ReaPacket(MSNClient *client, const QString &mail, const QString &name);
     virtual void	error(unsigned code);
 };
 
