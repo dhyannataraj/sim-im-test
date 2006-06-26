@@ -19,6 +19,7 @@
 #define _GPGCFG_H
 
 #include "simapi.h"
+#include "buffer.h"
 
 #include "gpgcfgbase.h"
 
