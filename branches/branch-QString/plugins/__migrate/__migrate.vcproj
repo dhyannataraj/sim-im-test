@@ -71,9 +71,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/__migrate.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/__migrate.lib"
 				TargetMachine="1"
@@ -164,13 +163,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/__migrate.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/__migrate.pdb"
 				ImportLibrary=".\..\..\Debug/__migrate.lib"
 				TargetMachine="1"
 			/>
@@ -186,7 +183,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/__migrate.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

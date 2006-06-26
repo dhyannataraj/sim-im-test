@@ -73,13 +73,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/osd.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/osd.pdb"
 				ImportLibrary=".\..\..\Debug/osd.lib"
 				TargetMachine="1"
 			/>
@@ -95,7 +93,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/osd.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -167,9 +164,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/osd.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/osd.lib"
 				TargetMachine="1"

@@ -186,7 +186,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Debug/sim.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

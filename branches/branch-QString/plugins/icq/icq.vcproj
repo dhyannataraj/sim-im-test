@@ -74,9 +74,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/icq.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/icq.lib"
 				TargetMachine="1"
@@ -170,13 +169,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/icq.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/icq.pdb"
 				ImportLibrary=".\..\..\Debug/icq.lib"
 				TargetMachine="1"
 			/>
@@ -192,7 +189,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/icq.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

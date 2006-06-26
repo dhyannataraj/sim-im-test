@@ -73,13 +73,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/netmonitor.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/netmonitor.pdb"
 				ImportLibrary=".\..\..\Debug/netmonitor.lib"
 				TargetMachine="1"
 			/>
@@ -95,7 +93,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/netmonitor.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -167,9 +164,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/netmonitor.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/netmonitor.lib"
 				TargetMachine="1"

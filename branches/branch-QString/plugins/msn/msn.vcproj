@@ -74,9 +74,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/msn.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/msn.lib"
 				TargetMachine="1"
@@ -170,13 +169,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/msn.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/msn.pdb"
 				ImportLibrary=".\..\..\Debug/msn.lib"
 				TargetMachine="1"
 			/>
@@ -192,7 +189,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/msn.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

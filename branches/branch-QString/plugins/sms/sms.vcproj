@@ -73,7 +73,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/sms.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/sms.lib"
 				TargetMachine="1"
@@ -166,11 +166,10 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/sms.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/sms.pdb"
 				ImportLibrary=".\..\..\Debug/sms.lib"
 				TargetMachine="1"
 			/>
@@ -186,7 +185,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/sms.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

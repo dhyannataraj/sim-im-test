@@ -75,11 +75,10 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/weather.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/weather.pdb"
 				ImportLibrary=".\..\..\Debug/weather.lib"
 				TargetMachine="1"
 			/>
@@ -95,7 +94,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/weather.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -169,7 +167,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/weather.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/weather.lib"
 				TargetMachine="1"

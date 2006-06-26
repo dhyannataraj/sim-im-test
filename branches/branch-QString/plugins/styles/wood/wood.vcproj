@@ -73,7 +73,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../../Release/plugins/styles/wood.dll"
+				OutputFile="$(OutDir)\plugins\styles\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\Release_Wrk\plugins\style/wood.lib"
 				TargetMachine="1"
@@ -166,11 +166,10 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="..\..\..\Debug\plugins\styles/wood.dll"
+				OutputFile="$(OutDir)\plugins\styles\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\Debug\plugins\styles/wood.pdb"
 				ImportLibrary=".\..\Debug\plugins\styles/wood.lib"
 				TargetMachine="1"
 			/>
@@ -186,7 +185,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\Debug\plugins\styles/wood.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

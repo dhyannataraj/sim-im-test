@@ -69,11 +69,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Debug/simctrl.exe"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/simctrl.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -89,7 +88,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/simctrl.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -157,7 +155,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Release/simctrl.exe"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
 				SuppressStartupBanner="true"
 				SubSystem="1"
 				TargetMachine="1"

@@ -75,7 +75,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/_core.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary="$(OutDir)\$(ProjectName).lib"
 				TargetMachine="1"
@@ -170,7 +170,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/_core.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
@@ -189,7 +189,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/_core.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

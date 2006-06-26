@@ -372,19 +372,19 @@ void PluginManagerPrivate::load(pluginInfo &info)
         }
         info.info = getInfo();
 #ifndef WIN32
-#ifdef USE_KDE
+# ifdef USE_KDE
         if (!(info.info->flags & PLUGIN_KDE_COMPILE)){
             fprintf(stderr, "Plugin %s is compiled without KDE support!\n", info.name.latin1());
             release(info);
             return;
         }
-#else
-if (info.info->flags & PLUGIN_KDE_COMPILE){
-        fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.latin1());
-        release(info);
-        return;
-    }
-#endif
+# else
+        if (info.info->flags & PLUGIN_KDE_COMPILE){
+            fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.latin1());
+            release(info);
+            return;
+        }
+# endif
 #endif
     }
 }

@@ -73,7 +73,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Release/plugins/sound.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\Release/sound.lib"
 				TargetMachine="1"
@@ -166,11 +166,10 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../Debug/plugins/sound.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/sound.pdb"
 				ImportLibrary=".\..\..\Debug/sound.lib"
 				TargetMachine="1"
 			/>
@@ -186,7 +185,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/sound.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

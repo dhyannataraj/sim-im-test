@@ -69,7 +69,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Release\simremote.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\simremote.def"
 				SubSystem="2"
@@ -159,12 +159,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\../../Debug/simremote.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\simremote.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\../../Debug/simremote.pdb"
 				SubSystem="2"
 				ImportLibrary=".\../../Debug/simremote.lib"
 				TargetMachine="1"
@@ -181,7 +180,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\../../Debug/simremote.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

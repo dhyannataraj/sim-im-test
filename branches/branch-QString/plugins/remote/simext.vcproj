@@ -73,7 +73,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Release/simext.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\simext.def"
 				SubSystem="2"
@@ -163,12 +163,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Debug/simext.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\simext.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/simext.pdb"
 				SubSystem="2"
 				ImportLibrary=".\..\..\Debug/simext.lib"
 				TargetMachine="1"
@@ -185,7 +184,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/simext.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

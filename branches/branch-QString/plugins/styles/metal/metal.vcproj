@@ -73,13 +73,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="..\..\..\Debug\plugins\styles/metal.dll"
+				OutputFile="$(OutDir)\plugins\styles\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\Debug\plugins\styles/metal.pdb"
 				ImportLibrary=".\..\Debug\plugins\styles/metal.lib"
 				TargetMachine="1"
 			/>
@@ -95,7 +93,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\Debug\plugins\styles/metal.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -167,9 +164,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile="../../../Release/plugins/styles/metal.dll"
+				OutputFile="$(OutDir)\plugins\styles\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\Release_Wrk\plugins\style/metal.lib"
 				TargetMachine="1"

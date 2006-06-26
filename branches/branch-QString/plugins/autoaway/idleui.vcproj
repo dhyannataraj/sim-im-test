@@ -74,12 +74,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Debug/idleui.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\idleui.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/idleui.pdb"
 				ImportLibrary=".\..\..\Debug/idleui.lib"
 				TargetMachine="1"
 			/>
@@ -95,7 +94,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/idleui.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -168,7 +166,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Release/idleui.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\idleui.def"
 				ImportLibrary=".\..\..\Release/idleui.lib"

@@ -71,7 +71,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Release/simipc.exe"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
 				SuppressStartupBanner="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -162,11 +162,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Debug/simipc.exe"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug/simipc.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -182,7 +181,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/simipc.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

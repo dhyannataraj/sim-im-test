@@ -71,9 +71,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Release\plugins/__homedir.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ImportLibrary=".\..\..\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
@@ -164,13 +163,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
-				OutputFile=".\..\..\Debug\plugins/__homedir.dll"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\Debug\plugins/__homedir.pdb"
 				ImportLibrary=".\..\..\$(ConfigurationName)\$(TargetName).lib"
 				TargetMachine="1"
 			/>
@@ -186,7 +183,6 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug\plugins/__homedir.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
