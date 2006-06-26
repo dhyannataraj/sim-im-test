@@ -37,9 +37,9 @@ public:
     ContactListPrivate();
     ~ContactListPrivate();
     void clear(bool bClearAll);
-    unsigned registerUserData(const char *name, const DataDef *def);
+    unsigned registerUserData(const QString &name, const DataDef *def);
     void unregisterUserData(unsigned id);
-    void flush(Contact *c, Group *g, const char *section, ConfigBuffer *cfg);
+    void flush(Contact *c, Group *g, const QString &section, ConfigBuffer *cfg);
     void flush(Contact *c, Group *g);
     UserData userData;
     list<UserDataDef> userDataDef;
@@ -653,7 +653,7 @@ void ContactListPrivate::clear(bool bClearAll)
     bNoRemove = false;
 }
 
-unsigned ContactListPrivate::registerUserData(const char *name, const DataDef *def)
+unsigned ContactListPrivate::registerUserData(const QString &name, const DataDef *def)
 {
     unsigned id = 0;
     for (list<UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
@@ -694,7 +694,7 @@ ContactList::~ContactList()
     delete p;
 }
 
-unsigned ContactList::registerUserData(const char *name, const DataDef *def)
+unsigned ContactList::registerUserData(const QString &name, const DataDef *def)
 {
     return p->registerUserData(name, def);
 }
@@ -1810,7 +1810,7 @@ void ContactList::load()
             c = contact(id, true);
             s = "";
         }
-        p->flush(c, g, s.latin1(), &cfg);
+        p->flush(c, g, s, &cfg);
     }
     p->flush(c, g);
     // Notify the clients about the newly loaded contact list
@@ -1831,11 +1831,11 @@ void ContactListPrivate::flush(Contact *c, Group *g)
         data->sort();
 }
 
-void ContactListPrivate::flush(Contact *c, Group *g, const char *section, ConfigBuffer *cfg)
+void ContactListPrivate::flush(Contact *c, Group *g, const QString &section, ConfigBuffer *cfg)
 {
     if (cfg == NULL)
         return;
-    if (*section == 0){
+    if (section.isEmpty()){
         if (c){
             free_data(contactData, &c->data);
             load_data(contactData, &c->data, cfg);
@@ -1850,7 +1850,7 @@ void ContactListPrivate::flush(Contact *c, Group *g, const char *section, Config
     }
     list<UserDataDef>::iterator it;
     for (it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (section == (*it).name)
+        if (section != (*it).name)
             continue;
         UserData *data = &userData;
         if (c)

@@ -33,7 +33,7 @@ using namespace SIM;
 static DataDef userWndData[] =
     {
         { "EditHeight", DATA_ULONG, 1, 0 },
-        { "EditBar", DATA_ULONG, 7, 0 },
+        { "EditBar", DATA_LONG, 7, 0 },
         { "MessageType", DATA_ULONG, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };

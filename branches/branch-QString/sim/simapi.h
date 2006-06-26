@@ -59,59 +59,39 @@ typedef unsigned char _Bool;
 #endif
 
 #include <qglobal.h>
-#include <qdockwindow.h>
 #include <qmap.h>
+#include <qmainwindow.h>
 #include <qstring.h>
-#include <qtextedit.h>
-#include <qvariant.h>
 #include <qwidget.h>
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#include <yvals.h>              
-#pragma warning(disable: 4097)
-#pragma warning(disable: 4244)  
-#pragma warning(disable: 4275)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4710)  
-#pragma warning(disable: 4786)
-#pragma warning(disable: 4127)
-#pragma warning(push)
-#pragma warning(disable: 4018)  
-#pragma warning(disable: 4100)  
-#pragma warning(disable: 4146)  
-#pragma warning(disable: 4511)  
-#pragma warning(disable: 4512)  
-#pragma warning(disable: 4530)  
-#pragma warning(disable: 4663)  
-#endif
+class ConfigBuffer;
+class KAboutData;
+class QComboBox;
+class QMainWindow;
+class QFile;
+class QIconSet;
+class QIcon;
+class QObject;
+class QPixmap;
+class QToolBar;
+
+#ifdef Q_CC_MSVC
+# pragma warning(disable: 4097)
+# pragma warning(disable: 4244)  
+# pragma warning(disable: 4275)
+# pragma warning(disable: 4514)
+# pragma warning(disable: 4710)  
+# pragma warning(disable: 4786)
+# pragma warning(disable: 4127)
+# pragma warning(disable: 4251)  // msvc is a little bit stupid when exporting a template class... :(
 #endif
 
-#ifdef _MSC_VER
+#ifdef Q_CC_MSVC
 # define DEPRECATED __declspec(deprecated)
-#elif defined(__GNUC__)
+#elif defined Q_CC_GNU
 # define DEPRECATED __attribute__ ((deprecated))
 #else
 # define DEPRECATED
-#endif
-
-#if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
-#include <qnetworkprotocol.h>
-#ifndef _CRTDBG_MAP_ALLOC
-#define _CRTDBG_MAP_ALLOC
-#endif
-#include <stdlib.h>
-#include <crtdbg.h>
-#include <memory>
-#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#endif
-
-#include <string>
-
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(pop)
-#endif
 #endif
 
 #ifdef HAVE_GCC_VISIBILITY      // @linux: all gcc >= 4.0 have visibility support - please add a check for configure
@@ -136,46 +116,27 @@ EXPORT int strcasecmp(const char *a, const char *b);
 #endif
 
 #ifdef WIN32
-#ifndef snprintf
-#define snprintf _snprintf
-#endif
+# ifndef snprintf
+#  define snprintf _snprintf
+# endif
 #endif
 
 #ifndef COPY_RESTRICTED
-#define COPY_RESTRICTED(A) private: A(const A&); A &operator = (const A&);
+# define COPY_RESTRICTED(A) private: A(const A&); A &operator = (const A&);
 #endif
 
 #ifdef USE_KDE
-
-#include <klocale.h>
+# include <klocale.h>
 #else
-#include <qobject.h>
 EXPORT QString i18n(const char *text);
 EXPORT QString i18n(const char *text, const char *comment);
 EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
-EXPORT inline QString tr2i18n(const char* message, const char* =0) {
-    return i18n(message);
-}
-#ifndef I18N_NOOP
-#define I18N_NOOP(A)    A
-#endif
-#endif
-#if !defined(USE_KDE)
+EXPORT inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
 EXPORT void resetPlural();
+# ifndef I18N_NOOP
+#  define I18N_NOOP(A)    A
+# endif
 #endif
-
-class QFile;
-class QWidget;
-class QIconSet;
-class QPixmap;
-class QToolBar;
-class QMainWindow;
-class QComboBox;
-class QLineEdit;
-
-class KAboutData;
-class Buffer;
-class ConfigBuffer;
 
 namespace SIM
 {
@@ -914,6 +875,7 @@ enum DataType {
     DATA_BOOL,
     DATA_STRLIST,
     DATA_UTFLIST = DATA_STRLIST,
+    DATA_STRMAP = DATA_STRLIST,
     DATA_IP,
     DATA_STRUCT,
     DATA_OBJECT,
@@ -931,10 +893,12 @@ class IP;
 class EXPORT Data
 {
 public:
+    typedef QMap<unsigned, QString> STRING_MAP;
+public:
     Data();
     Data(const Data& d);
     Data(const QString &d);
-    Data(const QStringList &d);
+    Data(const STRING_MAP &d);
     Data(long d);
     Data(unsigned long d);
     Data(bool d);
@@ -952,9 +916,9 @@ public:
     QString &str();
     bool setStr(const QString &s);
 
-    QStringList strList() const;
-    QStringList &strList();
-    bool setStrList(const QStringList &s);
+    STRING_MAP strMap() const;
+    STRING_MAP &strMap();
+    bool setStrList(const STRING_MAP &s);
 
     long toLong() const;
     long &asLong();
@@ -979,7 +943,7 @@ protected:
     QString m_name;
     // don't use QVariant as it doesn't support our data types in the way we like it
     QString        m_dataAsQString;
-    QStringList    m_dataAsQStringList;
+    STRING_MAP     m_dataAsQStringMap;
     unsigned long  m_dataAsValue;
     bool           m_dataAsBool;
     QObject       *m_dataAsObject;
@@ -1683,7 +1647,7 @@ public:
     void load();
     void save();
     void addClient(Client*);
-    unsigned registerUserData(const char *name, const DataDef *def);
+    unsigned registerUserData(const QString &name, const DataDef *def);
     void unregisterUserData(unsigned id);
     Contact *contact(unsigned long id=0, bool isNew=false);
     Group   *group(unsigned long id=0, bool isNew=false);

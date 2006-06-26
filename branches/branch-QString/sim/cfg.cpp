@@ -376,26 +376,20 @@ const char *get_host(const Data &p)
 
 // _______________________________________________________________________________________
 
-typedef map<unsigned, string> STRING_MAP;
-
 EXPORT const QString &get_str(Data &d, unsigned index)
 {
-    QStringList &sl = d.strList();
-    if(index < sl.count())
-        return sl[index];
+    Data::STRING_MAP &sm = d.strMap();
+    Data::STRING_MAP::const_iterator it = sm.find(index);
+    if(it != sm.end())
+        return it.data();
     return QString::null;
 }
 
 EXPORT void set_str(Data *d, unsigned index, const QString &value)
 {
-    QStringList &sl = d->strList();
-    if(index < sl.count()) {
-        sl[index] = value;
-        return;
-    }
-    while(sl.count() < index)
-        sl.append(QString::null);
-    sl.append(value);
+    Data::STRING_MAP &sm = d->strMap();
+
+    sm.replace(index, value);
 }
 
 // _______________________________________________________________________________________
@@ -424,7 +418,7 @@ EXPORT void free_data(const DataDef *def, void *d)
                 // stop at the end of structure no matter if DataDef has more ...
                 return;
             case DATA_STRING:
-            case DATA_STRLIST:
+            case DATA_STRMAP:
             default:
                 data->clear();
             }
@@ -491,9 +485,15 @@ void init_data(const DataDef *d, Data *data)
             case DATA_STRING:
                 *data = Data(QString(def->def_value));
                 break;
-            case DATA_STRLIST:
-                *data = Data(QStringList::split(',',def->def_value));
+            case DATA_STRMAP: {
+                QStringList sl = QStringList::split(',',def->def_value);
+                Data::STRING_MAP sm;
+                for(unsigned i = 0; i < sl.count(); i++) {
+                    sm.insert(i, sm[(int)i]);
+                }
+                *data = Data(sm);
                 break;
+           }
             case DATA_ULONG:
                 *data = Data((unsigned long)def->def_value);
                 break;
@@ -572,7 +572,7 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
             set_ip(ld, inet_addr(ip), url);
             break;
         }
-        case DATA_STRLIST: {
+        case DATA_STRMAP: {
             int idx = val.find( ',' );
             if( idx == -1 )
                 break;
@@ -707,10 +707,11 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     }
                     break;
                 }
-            case DATA_STRLIST:{
-                    QStringList &p = d->strList();
-                    for (unsigned i = 0; i < p.count(); i++){
-                        QString s = p[(int)i];
+            case DATA_STRMAP:{
+                    Data::STRING_MAP &p = d->strMap();
+                    Data::STRING_MAP::const_iterator it;
+                    for (it = p.begin(); it != p.end(); it ++) {
+                        QString s = it.data();
                         if(s.isEmpty())
                             continue;
                         if(def->def_value && s == def->def_value)
@@ -719,11 +720,11 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                             res += "\n";
                         res += def->name;
                         res += "=";
-                        res += QString::number(i);
+                        res += it.key();
                         res += ",";
                         res += quoteStringInternal(s);
                     }
-                break;
+                    break;
                 }
             case DATA_STRING:{
                     for (i = 0; i < def->n_values; i++, d++){
@@ -962,11 +963,11 @@ Data::Data(const QString &d)
     m_dataAsQString = d;
 }
 
-Data::Data(const QStringList &d)
- : m_type(DATA_STRLIST), m_name("unknown")
+Data::Data(const STRING_MAP &d)
+ : m_type(DATA_STRMAP), m_name("unknown")
 {
     clear();
-    m_dataAsQStringList = d;
+    m_dataAsQStringMap = d;
 }
 
 Data::Data(long d)
@@ -1019,8 +1020,8 @@ Data &Data::operator =(const Data &d)
         case DATA_BOOL:
             m_dataAsBool = d.m_dataAsBool;
             break;
-        case DATA_STRLIST:
-            m_dataAsQStringList = d.m_dataAsQStringList;
+        case DATA_STRMAP:
+            m_dataAsQStringMap = d.m_dataAsQStringMap;
             break;
         case DATA_IP:
             m_dataAsIP = d.m_dataAsIP;
@@ -1038,7 +1039,7 @@ Data &Data::operator =(const Data &d)
 void Data::clear()
 {
     m_dataAsQString = QString::null;
-    m_dataAsQStringList.clear();
+    m_dataAsQStringMap.clear();
     m_dataAsValue   = 0;
     m_dataAsBool    = false;
     m_dataAsObject  = NULL;
@@ -1066,24 +1067,23 @@ bool Data::setStr(const QString &s)
     return true;
 }
 
-QStringList Data::strList() const
+Data::STRING_MAP Data::strMap() const
 {
-    checkType(DATA_STRLIST);
-    return m_dataAsQStringList;
+    checkType(DATA_STRMAP);
+    return m_dataAsQStringMap;
 }
 
-QStringList &Data::strList()
+Data::STRING_MAP &Data::strMap()
 {
-    checkType(DATA_STRLIST);
-    return m_dataAsQStringList;
+    checkType(DATA_STRMAP);
+    return m_dataAsQStringMap;
 }
 
-bool Data::setStrList(const QStringList &s)
+bool Data::setStrList(const STRING_MAP &s)
 {
-    checkType(DATA_STRLIST);
-    if(s == m_dataAsQStringList)
-        return false;
-    m_dataAsQStringList = s;
+    checkType(DATA_STRMAP);
+    // ... 
+    m_dataAsQStringMap = s;
     return true;
 }
 
@@ -1192,8 +1192,8 @@ static const char *dataType2Name(DataType type)
             return "ulong";
         case DATA_BOOL:
             return "bool";
-        case DATA_STRLIST:
-            return "stringlist";
+        case DATA_STRMAP:
+            return "stringmap";
         case DATA_IP:
             return "ip";
         case DATA_STRUCT:
