@@ -1651,7 +1651,7 @@ protected:
 typedef struct UserDataDef
 {
     unsigned        id;
-    std::string     name;
+    QString         name;
     const DataDef   *def;
 } UserDataDef;
 

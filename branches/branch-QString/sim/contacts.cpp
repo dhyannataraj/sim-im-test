@@ -1850,7 +1850,7 @@ void ContactListPrivate::flush(Contact *c, Group *g, const char *section, Config
     }
     list<UserDataDef>::iterator it;
     for (it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (strcmp(section, (*it).name.c_str()))
+        if (section == (*it).name)
             continue;
         UserData *data = &userData;
         if (c)

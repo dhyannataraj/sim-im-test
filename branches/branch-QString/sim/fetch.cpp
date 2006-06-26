@@ -1086,7 +1086,7 @@ bool get_connection_state(bool&)
 
 #endif
 
-string get_user_agent()
+QString get_user_agent()
 {
     return FetchManager::manager->user_agent;
 }

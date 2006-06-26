@@ -66,7 +66,7 @@ protected slots:
 
 EXPORT std::string basic_auth(const char *user, const char *pass);
 EXPORT bool get_connection_state(bool &state);
-EXPORT std::string get_user_agent();
+EXPORT QString get_user_agent();
 
 #endif
 
