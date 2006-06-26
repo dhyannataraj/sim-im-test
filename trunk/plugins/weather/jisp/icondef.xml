@@ -155,6 +155,9 @@
   <icon name="weather">
 	<object mime="image/png">na.png</object>
   </icon>
+  <icon name="moon0">
+	<object mime="image/png">m0.png</object>
+  </icon>
   <icon name="moon1">
 	<object mime="image/png">m1.png</object>
   </icon>
