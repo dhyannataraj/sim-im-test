@@ -147,10 +147,10 @@ EXPORT bool makedir(char *p)
 
 // _____________________________________________________________________________________
 
-EXPORT QString app_file(const char *f)
+EXPORT QString app_file(const QString &f)
 {
     QString app_file_name = "";
-    QString fname = QFile::decodeName(f);
+    QString fname = f;
 #ifdef WIN32
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
         return f;
@@ -184,14 +184,9 @@ EXPORT QString app_file(const char *f)
 
 // ______________________________________________________________________________________
 
-EXPORT QString user_file(const char *f)
+EXPORT QString user_file(const QString &f)
 {
-    QString res;
-    if (f) {
-        res = f;
-    } else {
-        res = "";
-    }
+    QString res = f;
     Event e(EventHomeDir, &res);
     if (e.process())
         return res;

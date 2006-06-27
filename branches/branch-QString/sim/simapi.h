@@ -1017,10 +1017,10 @@ EXPORT void restoreToolbar(QToolBar*, Data[7]);
 // Utilities
 
 /* Get full path */
-EXPORT QString app_file(const char *f);
+EXPORT QString app_file(const QString &f);
 
 /* Get user file */
-EXPORT QString user_file(const char *f);
+EXPORT QString user_file(const QString &f);
 
 /* Make directory */
 EXPORT bool makedir(char *p);
