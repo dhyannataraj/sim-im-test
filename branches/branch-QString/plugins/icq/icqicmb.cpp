@@ -2099,7 +2099,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
     }
 }
 
-void ICQClient::accept(Message *msg, const char *dir, OverwriteMode overwrite)
+void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite)
 {
     ICQUserData *data = NULL;
     bool bDelete = true;
@@ -2118,7 +2118,7 @@ void ICQClient::accept(Message *msg, const char *dir, OverwriteMode overwrite)
         switch (msg->type()){
         case MessageICQFile:{
                 ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                ft->setDir(QFile::encodeName(dir));
+                ft->setDir(dir);
                 ft->setOverwrite(overwrite);
                 Event e(EventMessageAcked, msg);
                 e.process();
@@ -2129,7 +2129,7 @@ void ICQClient::accept(Message *msg, const char *dir, OverwriteMode overwrite)
             }
         case MessageFile:{
                 AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                ft->setDir(QFile::encodeName(dir));
+                ft->setDir(dir);
                 ft->setOverwrite(overwrite);
                 Event e(EventMessageAcked, msg);
                 e.process();

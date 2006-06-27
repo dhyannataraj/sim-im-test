@@ -1906,7 +1906,7 @@ void *YahooClient::processEvent(Event *e)
                 }
                 if (data){
                     YahooFileTransfer *ft = new YahooFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                    ft->setDir(QFile::encodeName(ma->dir));
+                    ft->setDir(ma->dir);
                     ft->setOverwrite(ma->overwrite);
                     Event e(EventMessageAcked, msg);
                     e.process();

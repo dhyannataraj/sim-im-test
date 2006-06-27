@@ -136,7 +136,7 @@ void MonitorWindow::erase()
 
 void MonitorWindow::adjustEdit()
 {
-    menuEdit->setItemEnabled(mnuCopy, !edit->hasSelectedText());
+    menuEdit->setItemEnabled(mnuCopy, edit->hasSelectedText());
     menuEdit->setItemEnabled(mnuErase, !edit->hasSelectedText());
 }
 
@@ -230,7 +230,7 @@ void *MonitorWindow::processEvent(Event *e)
             if (font)
                 logString += QString("<font color=\"#%1\">") .arg(font);
             QString s = make_packet_string(li);
-            logString += edit->quoteText(s);
+            logString += quoteString(s);
             if (font)
                 logString += QString("</font>");
             logString += "</pre></p>";

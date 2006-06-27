@@ -1196,7 +1196,7 @@ void Client::setState(State state, const QString &text, unsigned code)
     if (state == Error){
         clientErrorData d;
         d.client  = this;
-        d.err_str = text.latin1();
+        d.err_str = text;
         d.code    = code;
         d.args    = NULL;
         d.flags   = ERR_ERROR;

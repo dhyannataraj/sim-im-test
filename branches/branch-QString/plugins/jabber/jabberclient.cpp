@@ -482,7 +482,7 @@ void *JabberClient::processEvent(Event *e)
                 JabberUserData *data = findContact(msg->getFrom(), QString::null, false, contact, resource);
                 if (data){
                     JabberFileTransfer *ft = new JabberFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                    ft->setDir(QFile::encodeName(ma->dir));
+                    ft->setDir(ma->dir);
                     ft->setOverwrite(ma->overwrite);
                     Event e(EventMessageAcked, msg);
                     e.process();

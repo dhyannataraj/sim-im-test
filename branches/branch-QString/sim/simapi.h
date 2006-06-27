@@ -672,16 +672,6 @@ const unsigned EventContactOnline  = 0x0915;
 const unsigned EventContactStatus  = 0x0916;
 
 
-/* Event set common icon
-   param is const char *icon
-*/
-const unsigned EventCommonIcon      = 0x0920;
-
-/* Event set common title
-   param is const char *state
-*/
-const unsigned EventCommonTitle     = 0x0921;
-
 typedef struct addContact
 {
     QString proto;
@@ -754,7 +744,7 @@ enum OverwriteMode
 typedef struct messageAccept
 {
     Message         *msg;
-    const char      *dir;
+    QString         dir;
     OverwriteMode   overwrite;
 } messageAccept;
 
@@ -792,7 +782,7 @@ const unsigned ERR_INFO     = 0x0001;
 typedef struct clientErrorData
 {
     Client      *client;
-    const char  *err_str;
+    QString     err_str;
     const char  *options;
     char        *args;
     unsigned    code;
