@@ -72,10 +72,8 @@ void *SecureDlg::processEvent(Event *e)
         Message *msg = (Message*)(e->param());
         if (msg != m_msg)
             return NULL;
-        const char *err = msg->getError();
-        if (err && (*err == 0))
-            err = NULL;
-        if (err){
+        QString err = msg->getError();
+        if (!err.isEmpty()){
             error(err);
         }else{
             m_msg = NULL;

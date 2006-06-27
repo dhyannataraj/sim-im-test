@@ -1242,11 +1242,10 @@ void *MsgEdit::processEvent(Event *e)
         Message *msg = (Message*)(e->param());
         if (msg == m_msg){
             QString err;
-            const char *err_str = msg->getError();
-            if (err_str && *err_str)
-                err = i18n(err_str);
+            QString err_str = msg->getError();
+            err = i18n(err_str);
             Contact *contact = getContacts()->contact(msg->contact());
-            if (err){
+            if (!err.isEmpty()){
                 stopSend();
                 Command cmd;
                 cmd->id		= CmdSend;

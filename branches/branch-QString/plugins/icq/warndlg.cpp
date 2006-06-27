@@ -83,9 +83,9 @@ void *WarnDlg::processEvent(Event *e)
         Message *msg = (Message*)(e->param());
         if (msg == m_msg){
             m_msg = NULL;
-            const char *err = msg->getError();
-            if (err && *err){
-                showError(msg->getError());
+            QString err = msg->getError();
+            if (!err.isEmpty()){
+                showError(err);
             }else{
                 QTimer::singleShot(0, this, SLOT(close()));
             }

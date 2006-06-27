@@ -598,7 +598,7 @@ const unsigned EventGoURL       = 0x0602;
 const unsigned EventGetURL      = 0x0603;
 
 /* Event play sound
-   param is char *wav
+   param is QString *wav
 */
 
 const unsigned EventPlaySound   = 0x0604;

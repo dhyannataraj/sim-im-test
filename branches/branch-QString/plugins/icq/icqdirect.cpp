@@ -857,7 +857,7 @@ void DirectClient::processPacket()
                         msg->setError(I18N_NOOP("Send message fail"));
                     }else{
                         QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str);
-                        msg->setError(err.utf8());
+                        msg->setError(err);
                     }
                     Event e(EventMessageSent, msg);
                     e.process();

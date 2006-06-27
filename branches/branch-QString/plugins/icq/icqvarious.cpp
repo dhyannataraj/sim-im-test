@@ -1516,11 +1516,11 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
     if (code == 0x0100){
         if (m_client->smsQueue.empty())
             return true;
-        string errStr = b.data(b.readPos());
+        QCString errStr = b.data(b.readPos());
         SendMsg &s = m_client->smsQueue.front();
         SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
         m_client->smsQueue.erase(m_client->smsQueue.begin());
-        sms->setError(errStr.c_str());
+        sms->setError(errStr.data());
         Event e(EventMessageSent, sms);
         e.process();
         delete sms;

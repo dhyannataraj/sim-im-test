@@ -219,17 +219,18 @@ void *SoundPlugin::processEvent(Event *e)
         Contact *contact = (Contact*)(e->param());
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
         if (data && !data->Alert.str().isEmpty() && !data->Disable.toBool()){
-            Event eSound(EventPlaySound, (void*)data->Alert.str().latin1());
+            QString s = data->Alert.str();
+            Event eSound(EventPlaySound, (void*)&s);
             eSound.process();
         }
         return NULL;
     }
     if (e->type() == EventMessageSent){
         Message *msg = (Message*)(e->param());
-        const char *err = msg->getError();
-        if (err && *err)
+        QString err = msg->getError();
+        if (!err.isEmpty())
             return NULL;
-        const char *sound = NULL;
+        QString sound;
         if (msg->type() == MessageFile){
             sound = getFileDone();
         }else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
@@ -237,8 +238,8 @@ void *SoundPlugin::processEvent(Event *e)
                 return NULL;
             sound = getMessageSent();
         }
-        if (sound && *sound){
-            Event eSound(EventPlaySound, (void*)sound);
+        if (!sound.isEmpty()){
+            Event eSound(EventPlaySound, (void*)&sound);
             eSound.process();
         }
         return NULL;
@@ -269,8 +270,8 @@ void *SoundPlugin::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventPlaySound){
-        char *name = (char*)(e->param());
-        playSound(name);
+        QString *name = (QString*)(e->param());
+        playSound(*name);
         return e->param();
     }
     return NULL;

@@ -248,8 +248,8 @@ EditSound::~EditSound()
 
 void EditSound::play()
 {
-    QCString s = QFile::encodeName(edtFile->text());
-    Event e(EventPlaySound, (void*)(const char*)s);
+    QString s = edtFile->text();
+    Event e(EventPlaySound, (void*)&s);
     e.process();
 }
 

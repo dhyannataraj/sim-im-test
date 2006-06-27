@@ -92,7 +92,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 break;
             unsigned short error;
             m_socket->readBuffer >> error;
-            const char *err_str = I18N_NOOP("Unknown error");
+            QString err_str = I18N_NOOP("Unknown error");
             if ((error == 0x0009) && ((m_send.msg == NULL) || (m_send.msg->type() != MessageContacts))){
                 err_str = I18N_NOOP("Not supported by client");
                 Contact *contact;
@@ -1744,8 +1744,8 @@ bool ICQClient::processMsg()
                 if (data->Uin.toULong() == 0)
                     break;
                 packMessage(b, m_send.msg, data, type, false);
-                const char *err = m_send.msg->getError();
-                if (err && *err){
+                QString err = m_send.msg->getError();
+                if (!err.isEmpty()){
                     Event e(EventMessageSent, m_send.msg);
                     e.process();
                     delete m_send.msg;

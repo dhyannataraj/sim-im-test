@@ -28,7 +28,6 @@
 #include <windows.h>
 #include <windowsx.h>
 
-using namespace std;
 using namespace SIM;
 
 const unsigned short ABE_FLOAT   = (unsigned short)(-1);
