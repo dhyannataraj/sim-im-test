@@ -911,7 +911,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
             bool bOnLine = false;
             status = STATUS_OFFLINE;
             for (i = 1; i <= data->nResources.toULong(); i++){
-                unsigned rStatus = atol(get_str(data->ResourceStatus, i));
+                unsigned rStatus = get_str(data->ResourceStatus, i).toUInt();
                 if (rStatus > status)
                     status = rStatus;
             }

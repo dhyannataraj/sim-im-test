@@ -33,15 +33,15 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     setButtonsPict(this);
     tabAR->changeTab(tab, name);
     ARUserData *ar;
-    const char *text = NULL;
-    const char *noShow = CorePlugin::m_plugin->getNoShowAutoReply(m_status);
+    QString text;
+    QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(m_status);
     if (m_contact){
         chkNoShow->hide();
         connect(chkOverride, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
         ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::m_plugin->ar_data_id, false));
         if (ar)
             text = get_str(ar->AutoReply, m_status);
-        if (text && *text){
+        if (!text.isEmpty()){
             chkOverride->setChecked(true);
         }else{
             ar = NULL;
@@ -55,16 +55,15 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
     }else{
         chkOverride->hide();
     }
-    if ((text == NULL) || (*text == 0)){
+    if (text.isEmpty()){
         ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));
-        if (noShow && *noShow)
+        if (!noShow.isEmpty())
             chkNoShow->setChecked(true);
         text = get_str(ar->AutoReply, m_status);
-        if ((text == NULL) || (*text == 0))
+        if (text.isEmpty())
             text = get_str(ar->AutoReply, STATUS_AWAY);
     }
-    if (text)
-        edtAutoReply->setText(QString::fromUtf8(text));
+    edtAutoReply->setText(text);
     Event e(EventTmplHelpList);
     edtAutoReply->helpList = (const char**)e.process();
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));

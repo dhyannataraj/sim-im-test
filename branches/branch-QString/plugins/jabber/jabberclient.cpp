@@ -1172,7 +1172,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
         }
     }
     for (unsigned i = 1; i <= data->nResources.toULong(); i++){
-        const char *dicon = get_icon(data, atol(get_str(data->ResourceStatus, i)), false);
+        const char *dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
         addIcon(icons, dicon, statusIcon);
     }
     if (((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.str()))
@@ -1262,7 +1262,7 @@ QString JabberClient::contactTip(void *_data)
         }
     }else{
         for (unsigned i = 1; i <= data->nResources.toULong(); i++){
-            unsigned status = atol(get_str(data->ResourceStatus, i));
+            unsigned status = get_str(data->ResourceStatus, i).toUInt();
             res += "<img src=\"icon:";
             res += get_icon(data, status, false);
             res += "\">";
@@ -1277,10 +1277,10 @@ QString JabberClient::contactTip(void *_data)
             res += "<br/>ID: <b>";
             res += data->ID.str();
             res += "</b><br/>";
-            res += QString::fromUtf8(get_str(data->Resources, i));
+            res += get_str(data->Resources, i);
             res += "<br/>";
-            unsigned onlineTime = atol(get_str(data->ResourceOnlineTime, i));
-            unsigned statusTime = atol(get_str(data->ResourceStatusTime, i));
+            unsigned onlineTime = get_str(data->ResourceOnlineTime, i).toUInt();
+            unsigned statusTime = get_str(data->ResourceStatusTime, i).toUInt();
             if (onlineTime){
                 res += "<br/><font size=-1>";
                 res += i18n("Online");
@@ -1293,10 +1293,10 @@ QString JabberClient::contactTip(void *_data)
                 res += ": </font>";
                 res += formatDateTime(statusTime);
             }
-            const char *reply = get_str(data->ResourceReply, i);
-            if (reply && *reply){
+            const QString &reply = get_str(data->ResourceReply, i);
+            if (!reply.isEmpty()){
                 res += "<br/>";
-                QString r = QString::fromUtf8(reply);
+                QString r = reply;
                 r = r.replace(QRegExp("\n"), "<br/>");
                 res += r;
             }
@@ -1674,7 +1674,7 @@ QString JabberClient::resources(void *_data)
         for (unsigned i = 1; i <= data->nResources.toULong(); i++){
             if (!resource.isEmpty())
                 resource += ";";
-            const char *dicon = get_icon(data, atol(get_str(data->ResourceStatus, i)), false);
+            const char *dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
             resource += QString::number((unsigned long)dicon);
             resource += ",";
             resource += quoteChars(get_str(data->Resources, i), ";");

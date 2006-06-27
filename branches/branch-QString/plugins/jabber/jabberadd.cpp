@@ -397,7 +397,7 @@ void *JabberAdd::processEvent(Event *e)
             }else{
                 for (unsigned n = 0; n < (*it).fields.size(); n++){
                     if ((*it).fields[n] == m_fields[i]){
-                        v = QString::fromUtf8(get_str(data->Fields, n));
+                        v = get_str(data->Fields, n);
                         break;
                     }
                 }

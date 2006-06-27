@@ -150,7 +150,7 @@ void *JIDSearch::processEvent(Event *e)
         l.append(data->JID.str());
         l.append(data->JID.str());
         for (unsigned n = 0; n < data->nFields.toULong(); n++)
-            l.append(QString::fromUtf8(get_str(data->Fields, n)));
+            l.append(get_str(data->Fields, n));
         emit addItem(l, this);
     }
     if (e->type() == EventSearchDone){

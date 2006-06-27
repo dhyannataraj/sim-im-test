@@ -109,10 +109,10 @@ void JabberInfo::resourceActivated(int i)
         statusTime = data->StatusTime.toULong();
         onlineTime = data->OnlineTime.toULong();
     }else{
-        status = atol(get_str(data->ResourceStatus, n));
-        statusTime = atol(get_str(data->ResourceStatusTime, n));
-        onlineTime = atol(get_str(data->ResourceOnlineTime, n));
-        autoReply = QString::fromUtf8(get_str(data->ResourceReply, n));
+        status = get_str(data->ResourceStatus, n).toUInt();
+        statusTime = get_str(data->ResourceStatusTime, n).toUInt();
+        onlineTime = get_str(data->ResourceOnlineTime, n).toUInt();
+        autoReply = get_str(data->ResourceReply, n);
     }
     int current = 0;
     const char *text = NULL;
@@ -194,7 +194,7 @@ void JabberInfo::fill()
     cmbResource->clear();
     if (data->nResources.toULong()){
         for (unsigned i = 1; i <= data->nResources.toULong(); i++)
-            cmbResource->insertItem(QString::fromUtf8(get_str(data->Resources, i)));
+            cmbResource->insertItem(get_str(data->Resources, i));
         cmbResource->setEnabled(data->nResources.toULong() > 1);
     }else{
         if (!data->Resource.str().isEmpty())

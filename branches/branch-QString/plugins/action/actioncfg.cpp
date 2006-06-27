@@ -77,7 +77,7 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
         QListViewItem *item = new QListViewItem(lstEvent, type);
         item->setText(2, QString::number(cmd->id));
         item->setPixmap(0, makePixmap(cmd->icon));
-        item->setText(1, QString::fromUtf8(get_str(data->Message, cmd->id)));
+        item->setText(1, get_str(data->Message, cmd->id));
     }
     m_edit = NULL;
     m_editItem = NULL;

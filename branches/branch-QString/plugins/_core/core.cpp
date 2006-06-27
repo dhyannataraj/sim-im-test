@@ -1485,8 +1485,8 @@ void CorePlugin::setAutoReplies()
 {
     ARUserData *data = (ARUserData*)getContacts()->getUserData(ar_data_id);
     for (autoReply *a = autoReplies; a->text; a++){
-        const char *t = get_str(data->AutoReply, a->status);
-        if ((t == NULL) || (*t == 0))
+        const QString &t = get_str(data->AutoReply, a->status);
+        if (t.isEmpty())
             set_str(&data->AutoReply, a->status, i18n(a->text));
     }
 }
