@@ -457,6 +457,11 @@ bool raiseWindow(QWidget *w, unsigned)
     }
 #endif
 #endif
+#ifdef WIN32
+    DWORD dwProcID = GetWindowThreadProcessId(GetForegroundWindow(),NULL);
+    if(dwProcID != GetCurrentThreadId())
+        AttachThreadInput(dwProcID, GetCurrentThreadId(), TRUE);
+#endif
     w->show();
     if (w->isMinimized()) {
         if (w->isMaximized())
@@ -466,10 +471,10 @@ bool raiseWindow(QWidget *w, unsigned)
     }
     w->raise();
 #ifdef WIN32
-    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), TRUE);
     SetForegroundWindow(w->winId());
     SetFocus(w->winId());
-    AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(),NULL), GetCurrentThreadId(), FALSE);
+    if(dwProcID != GetCurrentThreadId())
+        AttachThreadInput(dwProcID, GetCurrentThreadId(), FALSE);
 #endif
     return true;
 }
