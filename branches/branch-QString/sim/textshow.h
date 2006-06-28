@@ -50,10 +50,6 @@ class EXPORT TextShow : public QTextEdit
 public:
     TextShow (QWidget *parent, const char *name=NULL);
     ~TextShow();
-    QString quoteText(const char *text, const char *charset=NULL);
-    void copy();
-    void cut();
-    void setText(const QString &text);
     virtual void setSource(const QString &url);
     const QColor &background() const;
     const QColor &foreground() const;
@@ -61,15 +57,7 @@ public:
     void setBackground(const QColor&);
 signals:
     void finished();
-protected slots:
-    void slotSelectionChanged();
-    void slotResizeTimer();
 protected:
-    QTextDrag *dragObject(QWidget *parent) const;
-    QTimer	  *m_timer;
-    void startDrag();
-    void keyPressEvent(QKeyEvent *e);
-    void resizeEvent(QResizeEvent *e);
     void emitLinkClicked(const QString&);
     bool linksEnabled() const { return true; }
 };
@@ -85,7 +73,6 @@ public:
     const QColor &foreground() const;
     const QColor &defForeground() const;
     void setForeground(const QColor&, bool bDef);
-    void changeText();
     void setParam(void*);
     void setFont(const QFont&);
     bool isEmpty();
@@ -106,7 +93,7 @@ protected slots:
     void fontChanged(const QFont &f);
 protected:
     void *processEvent(SIM::Event*);
-    bool eventFilter(QObject *o, QEvent *e);
+    virtual void focusOutEvent(QFocusEvent *e);
     void keyPressEvent(QKeyEvent *e);
     QPopupMenu *createPopupMenu(const QPoint& pos);
     void *m_param;

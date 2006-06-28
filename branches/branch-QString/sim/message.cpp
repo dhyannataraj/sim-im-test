@@ -106,13 +106,9 @@ QString Message::save()
 
 QString Message::getText() const
 {
-    QString res = data.Text.str();
-    if (!res.isEmpty())
-        return res;
-    res = data.ServerText.str();
-    if (!res.isEmpty())
-        return getContacts()->toUnicode(getContacts()->contact(m_contact), res);
-    return res;
+    if (!data.Text.str().isEmpty())
+        return data.Text.str();
+    return data.ServerText.str();
 }
 
 void Message::setText(const QString &text)

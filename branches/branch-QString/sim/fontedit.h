@@ -29,11 +29,11 @@ class EXPORT FontEdit : public QFrame
     Q_OBJECT
 public:
     FontEdit(QWidget *parent, const char *name=NULL);
-    void setFont(const char*);
+    void setFont(const QString &);
     QString getFont();
     void setWinFont(const QFont&);
     const QFont &winFont() { return f; }
-    static QFont str2font(const char *font, const QFont &defFont);
+    static QFont str2font(const QString &font, const QFont &defFont);
     static QString font2str(const QFont &font, bool use_tr);
 protected slots:
     void chooseFont();

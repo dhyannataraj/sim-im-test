@@ -50,9 +50,9 @@ void FontEdit::setWinFont(const QFont &_f)
     lblFont->setText(font2str(f, true));
 }
 
-void FontEdit::setFont(const char *fontname)
+void FontEdit::setFont(const QString &fontname)
 {
-    if (fontname){
+    if (!fontname.isEmpty()){
         setWinFont(str2font(fontname, font()));
     }else{
         setWinFont(font());
@@ -61,7 +61,7 @@ void FontEdit::setFont(const char *fontname)
 
 QString FontEdit::getFont()
 {
-    return font2str(f, false).latin1();
+    return font2str(f, false);
 }
 
 void FontEdit::chooseFont()
@@ -129,10 +129,10 @@ QString FontEdit::font2str(const QFont &f, bool use_tr)
     return fontName;
 }
 
-QFont FontEdit::str2font(const char *str, const QFont &def)
+QFont FontEdit::str2font(const QString &str, const QFont &def)
 {
     QFont f(def);
-    QStringList l = QStringList::split(QRegExp(" *, *"), QString::fromLocal8Bit(str));
+    QStringList l = QStringList::split(QRegExp(" *, *"), str);
     if (l.count() == 0) return f;
     int weight = QFont::Normal;
     bool italic    = false;
@@ -172,7 +172,7 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
         int p = s.find(QRegExp("[0-9]+ *pt"));
         if (p >= 0){
             s = s.mid(p);
-            int size = atol(s.latin1());
+            int size = s.toInt();
             if (size > 0)
                 f.setPointSize(size);
             continue;
@@ -180,7 +180,7 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
         p = s.find(QRegExp("[0-9]+ *pix"));
         if (p >= 0){
             s = s.mid(p);
-            int size = atol(s.latin1());
+            int size = s.toInt();
             if (size > 0)
                 f.setPixelSize(size);
             continue;
