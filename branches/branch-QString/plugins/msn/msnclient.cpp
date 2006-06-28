@@ -2550,9 +2550,10 @@ void SBSocket::process(bool bTyping)
         sendTyping();
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
+        m_msgText = msg->getPlainText();;
         messageSend ms;
         ms.msg  = msg;
-        ms.text = msg->getPlainText();
+        ms.text = m_msgText;
         Event e(EventSend, &ms);
         e.process();
         if (msg->type() == MessageUrl){
