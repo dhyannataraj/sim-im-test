@@ -205,7 +205,7 @@ int main(int argc, char *argv[])
                          "2005-2006, SIM-IM Development Team",
                          0,
                          "http://sim-im.org/",
-                         "https://lists.berlios.de/mailman/listinfo/sim-im-main");
+                         "https://mailman.dg.net.ua/listinfo/sim-im-main");
     aboutData.addAuthor("SIM-IM Development Team",I18N_NOOP("Current development"),0,"http://sim-im.org/");
     aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Author"),"vovan@shutoff.ru");
     aboutData.addAuthor("Christian Ehrlicher",I18N_NOOP("Developer"),"Ch.Ehrlicher@gmx.de");
