@@ -82,7 +82,6 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ImportLibrary=".\..\..\Debug/yahoo.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -96,7 +95,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -175,7 +173,6 @@
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
-				ImportLibrary=".\..\..\Release/yahoo.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -189,8 +186,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Release/yahoo.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

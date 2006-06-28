@@ -79,7 +79,6 @@
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\idleui.def"
 				GenerateDebugInformation="true"
-				ImportLibrary=".\..\..\Debug/idleui.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -93,7 +92,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -169,7 +167,6 @@
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\idleui.def"
-				ImportLibrary=".\..\..\Release/idleui.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -183,8 +180,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Release/idleui.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

@@ -73,7 +73,6 @@
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\simremote.def"
 				SubSystem="2"
-				ImportLibrary=".\../../Release/simremote.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -87,8 +86,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\../../Release/simremote.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -165,7 +162,6 @@
 				ModuleDefinitionFile=".\simremote.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				ImportLibrary=".\../../Debug/simremote.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -179,7 +175,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCFxCopTool"

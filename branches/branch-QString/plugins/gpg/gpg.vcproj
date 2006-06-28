@@ -77,7 +77,6 @@
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
-				ImportLibrary=".\..\..\Release/gpg.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -91,8 +90,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Release/gpg.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -174,7 +171,6 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ImportLibrary=".\..\..\Debug/gpg.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -188,7 +184,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCFxCopTool"

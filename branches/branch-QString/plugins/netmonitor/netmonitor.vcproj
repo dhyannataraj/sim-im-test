@@ -78,7 +78,6 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ImportLibrary=".\..\..\Debug/netmonitor.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -92,7 +91,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -167,7 +165,6 @@
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
-				ImportLibrary=".\..\..\Release/netmonitor.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -181,8 +178,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Release/netmonitor.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -344,11 +339,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-			<Filter
-				Name="Resource Files"
-				Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
-				>
-			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

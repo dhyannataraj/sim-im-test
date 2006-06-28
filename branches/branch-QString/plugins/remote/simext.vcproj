@@ -77,7 +77,6 @@
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\simext.def"
 				SubSystem="2"
-				ImportLibrary=".\..\..\Release/simext.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -91,8 +90,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Release/simext.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -169,7 +166,6 @@
 				ModuleDefinitionFile=".\simext.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				ImportLibrary=".\..\..\Debug/simext.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -183,7 +179,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCFxCopTool"

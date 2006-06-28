@@ -79,7 +79,6 @@
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ImportLibrary=".\..\..\Debug/transparent.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -93,7 +92,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -169,7 +167,6 @@
 				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
-				ImportLibrary=".\..\..\Release/transparent.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -183,8 +180,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Release/transparent.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
