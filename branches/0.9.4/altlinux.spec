@@ -1,6 +1,6 @@
 #%%undefine __libtoolize
 %define do_not_compile ""
-%define versuffix rc2
+%define versuffix %nil
 
 %def_enable simqt
 %def_enable simkde
@@ -16,7 +16,7 @@
 
 Name: sim
 Version: 0.9.4
-Release: alt12
+Release: alt13
 Serial: 1
 
 Group: Networking/Instant messaging
@@ -249,6 +249,9 @@ unset QTDIR || : ; . /etc/profile.d/qt3dir.sh
 %_iconsdir/*/*/*/*.png
 
 %changelog
+* Thu Jun 29 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt13
+- 0.9.4 release, finally :)
+
 * Wed May 03 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt12
 - 0.9.4 RC2
 
