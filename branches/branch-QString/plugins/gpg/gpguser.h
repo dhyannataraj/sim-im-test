@@ -37,7 +37,7 @@ public slots:
     void publicReady(Exec*, int, const char*);
     void clearExec();
 protected:
-    void fillPublic(Buffer *b);
+    void fillPublic(ConfigBuffer *b);
     Exec		*m_exec;
     QString     m_key;
 };
