@@ -334,7 +334,7 @@ public:
 protected:
     virtual void fail(unsigned short error_code);
     bool answer(Buffer &b, unsigned short nSubtype);
-    QString unpack_list(Buffer &b);
+    QString unpack_list(Buffer &b, Contact *contact);
     unsigned m_nParts;
     unsigned long m_uin;
     ICQClient *m_client;
@@ -370,7 +370,7 @@ void FullInfoRequest::fail(unsigned short)
     m_client->removeFullInfoRequest(m_uin);
 }
 
-QString FullInfoRequest::unpack_list(Buffer &b)
+QString FullInfoRequest::unpack_list(Buffer &b, Contact *contact)
 {
     QString res;
     char n;
@@ -385,7 +385,7 @@ QString FullInfoRequest::unpack_list(Buffer &b)
             res += ";";
         res += QString::number(c);
         res += ",";
-        res += quoteChars(s, ";");
+        res += quoteChars(getContacts()->toUnicode(contact, s), ";");
     }
     return res;
 }
@@ -427,17 +427,17 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> PrivateCellular
             >> Zip;
 
-            data->Nick.str() = getContacts()->fromUnicode(contact, Nick);
-            data->FirstName.str() = getContacts()->fromUnicode(contact, FirstName);
-            data->LastName.str() = getContacts()->fromUnicode(contact, LastName);
-            data->EMail.str() = getContacts()->fromUnicode(contact, EMail);
-            data->City.str() = getContacts()->fromUnicode(contact, City);
-            data->State.str() = getContacts()->fromUnicode(contact, State);
-            data->HomePhone.str() = getContacts()->fromUnicode(contact, HomePhone);
-            data->HomeFax.str() = getContacts()->fromUnicode(contact, HomeFax);
-            data->Address.str() = getContacts()->fromUnicode(contact, Address);
-            data->PrivateCellular.str() = getContacts()->fromUnicode(contact, PrivateCellular);
-            data->Zip.str() = QString::fromUtf8(Zip);;
+            data->Nick.str() = getContacts()->toUnicode(contact, Nick);
+            data->FirstName.str() = getContacts()->toUnicode(contact, FirstName);
+            data->LastName.str() = getContacts()->toUnicode(contact, LastName);
+            data->EMail.str() = getContacts()->toUnicode(contact, EMail);
+            data->City.str() = getContacts()->toUnicode(contact, City);
+            data->State.str() = getContacts()->toUnicode(contact, State);
+            data->HomePhone.str() = getContacts()->toUnicode(contact, HomePhone);
+            data->HomeFax.str() = getContacts()->toUnicode(contact, HomeFax);
+            data->Address.str() = getContacts()->toUnicode(contact, Address);
+            data->PrivateCellular.str() = getContacts()->toUnicode(contact, PrivateCellular);
+            data->Zip.str() = getContacts()->toUnicode(contact, Zip);
             b.unpack(n);
             data->Country.asULong() = n;
             b
@@ -461,7 +461,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             b >> c;
             data->Gender.asULong() = c;
             b >> Homepage;
-            data->Homepage.str() = getContacts()->fromUnicode(contact, Homepage);
+            data->Homepage.str() = getContacts()->toUnicode(contact, Homepage);
             unsigned short year;
             b.unpack(year);
             data->BirthYear.asULong() = year;
@@ -489,7 +489,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 s = quoteChars(s, ";");
                 if (mail.length())
                     mail += ";";
-                mail += getContacts()->fromUnicode(contact, s);
+                mail += getContacts()->toUnicode(contact, s);
                 mail += '/';
                 if (d)
                     mail += '-';
@@ -508,12 +508,12 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> WorkFax
             >> WorkAddress
             >> WorkZip;
-            data->WorkCity.str() = getContacts()->fromUnicode(contact, WorkCity);
-            data->WorkState.str() = getContacts()->fromUnicode(contact, WorkState);
-            data->WorkPhone.str() = getContacts()->fromUnicode(contact, WorkPhone);
-            data->WorkFax.str() = getContacts()->fromUnicode(contact, WorkFax);
-            data->WorkAddress.str() = getContacts()->fromUnicode(contact, WorkAddress);
-            data->WorkZip.str() = getContacts()->fromUnicode(contact, WorkZip);
+            data->WorkCity.str() = getContacts()->toUnicode(contact, WorkCity);
+            data->WorkState.str() = getContacts()->toUnicode(contact, WorkState);
+            data->WorkPhone.str() = getContacts()->toUnicode(contact, WorkPhone);
+            data->WorkFax.str() = getContacts()->toUnicode(contact, WorkFax);
+            data->WorkAddress.str() = getContacts()->toUnicode(contact, WorkAddress);
+            data->WorkZip.str() = getContacts()->toUnicode(contact, WorkZip);
 
             b.unpack(n);
             data->WorkCountry.asULong() = n;
@@ -521,28 +521,28 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> WorkName
             >> WorkDepartment
             >> WorkPosition;
-            data->WorkName.str() = getContacts()->fromUnicode(contact, WorkName);
-            data->WorkDepartment.str() = getContacts()->fromUnicode(contact, WorkDepartment);
-            data->WorkPosition.str() = getContacts()->fromUnicode(contact, WorkPosition);
+            data->WorkName.str() = getContacts()->toUnicode(contact, WorkName);
+            data->WorkDepartment.str() = getContacts()->toUnicode(contact, WorkDepartment);
+            data->WorkPosition.str() = getContacts()->toUnicode(contact, WorkPosition);
 
             b.unpack(n);
             data->Occupation.asULong() = n;
             b >> WorkHomepage;
-            data->WorkHomepage.str() = getContacts()->fromUnicode(contact, WorkHomepage);
+            data->WorkHomepage.str() = getContacts()->toUnicode(contact, WorkHomepage);
             break;
         }
     case ICQ_SRVxABOUT_INFO: {
             QCString About;
             b >> About;
-            data->About.str() = getContacts()->fromUnicode(contact, About);
+            data->About.str() = getContacts()->toUnicode(contact, About);
             break;
         }
     case ICQ_SRVxINTERESTS_INFO:
-        data->Interests.str() = unpack_list(b);
+        data->Interests.str() = unpack_list(b, contact);
         break;
     case ICQ_SRVxBACKGROUND_INFO:
-        data->Backgrounds.str() = unpack_list(b);
-        data->Affilations.str() = unpack_list(b);
+        data->Backgrounds.str() = unpack_list(b, contact);
+        data->Affilations.str() = unpack_list(b, contact);
         break;
     case ICQ_SRVxUNKNOWN_INFO:
         break;
