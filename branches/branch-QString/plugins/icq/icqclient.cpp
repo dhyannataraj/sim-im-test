@@ -1178,10 +1178,12 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
         return;
     if (statusIcon == icon)
         return;
-
-    QStringList sl = QStringList::split(',', *s);
-    if(sl.findIndex(icon))
-        return;
+    QString str = *s;
+    while (!str.isEmpty()){
+        QString item = getToken(str, ',');
+        if (item == icon)
+            return;
+    }
 
     if (!s->isEmpty())
         *s += ',';
@@ -1240,7 +1242,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         status = STATUS_ONLINE;
     if (status > curStatus){
         curStatus = status;
-        if (statusIcon && icons){
+        if (icons){
             QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
@@ -1248,7 +1250,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         }
         statusIcon = dicon;
     }else{
-        if (statusIcon){
+        if (!statusIcon.isEmpty()){
             addIcon(icons, dicon, statusIcon);
         }else{
             statusIcon = dicon;

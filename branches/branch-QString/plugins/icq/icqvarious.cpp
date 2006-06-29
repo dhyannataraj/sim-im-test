@@ -427,16 +427,16 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> PrivateCellular
             >> Zip;
 
-            data->Nick.str() = QString::fromUtf8(Nick);
-            data->FirstName.str() = QString::fromUtf8(FirstName);
-            data->LastName.str() = QString::fromUtf8(LastName);
-            data->EMail.str() = QString::fromUtf8(EMail);
-            data->City.str() = QString::fromUtf8(City);
-            data->State.str() = QString::fromUtf8(State);
-            data->HomePhone.str() = QString::fromUtf8(HomePhone);
-            data->HomeFax.str() = QString::fromUtf8(HomeFax);
-            data->Address.str() = QString::fromUtf8(Address);
-            data->PrivateCellular.str() = QString::fromUtf8(PrivateCellular);
+            data->Nick.str() = getContacts()->fromUnicode(contact, Nick);
+            data->FirstName.str() = getContacts()->fromUnicode(contact, FirstName);
+            data->LastName.str() = getContacts()->fromUnicode(contact, LastName);
+            data->EMail.str() = getContacts()->fromUnicode(contact, EMail);
+            data->City.str() = getContacts()->fromUnicode(contact, City);
+            data->State.str() = getContacts()->fromUnicode(contact, State);
+            data->HomePhone.str() = getContacts()->fromUnicode(contact, HomePhone);
+            data->HomeFax.str() = getContacts()->fromUnicode(contact, HomeFax);
+            data->Address.str() = getContacts()->fromUnicode(contact, Address);
+            data->PrivateCellular.str() = getContacts()->fromUnicode(contact, PrivateCellular);
             data->Zip.str() = QString::fromUtf8(Zip);;
             b.unpack(n);
             data->Country.asULong() = n;
@@ -461,7 +461,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             b >> c;
             data->Gender.asULong() = c;
             b >> Homepage;
-            data->Homepage.str() = QString::fromUtf8(Homepage);
+            data->Homepage.str() = getContacts()->fromUnicode(contact, Homepage);
             unsigned short year;
             b.unpack(year);
             data->BirthYear.asULong() = year;
@@ -489,7 +489,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 s = quoteChars(s, ";");
                 if (mail.length())
                     mail += ";";
-                mail += QString::fromUtf8(s);
+                mail += getContacts()->fromUnicode(contact, s);
                 mail += '/';
                 if (d)
                     mail += '-';
@@ -508,12 +508,12 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> WorkFax
             >> WorkAddress
             >> WorkZip;
-            data->WorkCity.str() = QString::fromUtf8(WorkCity);
-            data->WorkState.str() = QString::fromUtf8(WorkState);
-            data->WorkPhone.str() = QString::fromUtf8(WorkPhone);
-            data->WorkFax.str() = QString::fromUtf8(WorkFax);
-            data->WorkAddress.str() = QString::fromUtf8(WorkAddress);
-            data->WorkZip.str() = QString::fromUtf8(WorkZip);
+            data->WorkCity.str() = getContacts()->fromUnicode(contact, WorkCity);
+            data->WorkState.str() = getContacts()->fromUnicode(contact, WorkState);
+            data->WorkPhone.str() = getContacts()->fromUnicode(contact, WorkPhone);
+            data->WorkFax.str() = getContacts()->fromUnicode(contact, WorkFax);
+            data->WorkAddress.str() = getContacts()->fromUnicode(contact, WorkAddress);
+            data->WorkZip.str() = getContacts()->fromUnicode(contact, WorkZip);
 
             b.unpack(n);
             data->WorkCountry.asULong() = n;
@@ -521,20 +521,20 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> WorkName
             >> WorkDepartment
             >> WorkPosition;
-            data->WorkName.str() = QString::fromUtf8(WorkName);
-            data->WorkDepartment.str() = QString::fromUtf8(WorkDepartment);
-            data->WorkPosition.str() = QString::fromUtf8(WorkPosition);
+            data->WorkName.str() = getContacts()->fromUnicode(contact, WorkName);
+            data->WorkDepartment.str() = getContacts()->fromUnicode(contact, WorkDepartment);
+            data->WorkPosition.str() = getContacts()->fromUnicode(contact, WorkPosition);
 
             b.unpack(n);
             data->Occupation.asULong() = n;
             b >> WorkHomepage;
-            data->WorkHomepage.str() = QString::fromUtf8(WorkHomepage);
+            data->WorkHomepage.str() = getContacts()->fromUnicode(contact, WorkHomepage);
             break;
         }
     case ICQ_SRVxABOUT_INFO: {
             QCString About;
             b >> About;
-            data->About.str() = QString::fromUtf8(About);
+            data->About.str() = getContacts()->fromUnicode(contact, About);
             break;
         }
     case ICQ_SRVxINTERESTS_INFO:

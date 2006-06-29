@@ -1035,10 +1035,12 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
         return;
     if (statusIcon == icon)
         return;
-
-    QStringList sl = QStringList::split(',', *s);
-    if(sl.findIndex(icon))
-        return;
+    QString str = *s;
+    while (!str.isEmpty()){
+        QString item = getToken(str, ',');
+        if (item == icon)
+            return;
+    }
 
     if (!s->isEmpty())
         *s += ',';
