@@ -218,7 +218,7 @@ class RTFGenParser : public HTMLParser
 {
 public:
     RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact, unsigned max_size);
-    QString parse(const QString &text);
+    QCString parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
     // Returns the font face's index in the fonts table, adding the font face if necessary.
@@ -231,7 +231,7 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
     virtual void tag_end(const QString &tag);
-    QString res;
+    QCString res;
     ICQClient  *m_client;
     Contact    *m_contact;
     QTextCodec *m_codec;
@@ -319,7 +319,7 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
     return m_fontFaces.size() - 1;
 }
 
-QString RTFGenParser::parse(const QString &text)
+QCString RTFGenParser::parse(const QString &text)
 {
     res = "";
     m_res_size = 0;
@@ -375,7 +375,7 @@ QString RTFGenParser::parse(const QString &text)
     m_bSpace = true;
     HTMLParser::parse(text);
 
-    QString s;
+    QCString s;
     s = "{\\rtf1\\ansi";
     if (ansicpg){
         s += "\\ansicpg";
@@ -424,7 +424,7 @@ QString RTFGenParser::parse(const QString &text)
     s += res;
     s += "\r\n}\r\n";
 
-    log(L_DEBUG, "Resulting RTF: %s", s.latin1());
+    log(L_DEBUG, "Resulting RTF: %s", s.data());
 
     return s;
 }
@@ -842,10 +842,10 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-QString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
+QCString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
 {
     RTFGenParser p(this, foreColor, contact, max_size);
-    QString res = p.parse(text);
+    QCString res = p.parse(text);
     if (p.m_res_size == 0){
         part = text;
         text = "";
@@ -877,7 +877,7 @@ protected:
     virtual void tag_end(const QString &tag);
     void startBody();
     void endBody();
-    QString res;
+    QCString res;
     bool	 m_bBody;
     bool	 m_bIcq;
 };

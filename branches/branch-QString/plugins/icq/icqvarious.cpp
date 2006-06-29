@@ -1243,7 +1243,7 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
                 m_client->data.owner.WorkHomepage.str() = getSString(tlv->Data());
                 break;
             case TLV_SHOW_WEB:
-                m_client->data.owner.WebAware.asBool() = getUInt8(tlv->Data());
+                m_client->data.owner.WebAware.asBool() = !getUInt8(tlv->Data());
                 break;
             case TLV_NEED_AUTH:
                 m_client->data.owner.WaitAuth.asBool() = getUInt8(tlv->Data());

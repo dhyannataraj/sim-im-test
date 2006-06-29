@@ -353,7 +353,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
                 Contact *contact;
                 ICQUserData *data = findContact(screen, NULL, false, contact);
-                if (data && data->AutoReply.setStr(answer)){
+                if (data && data->AutoReply.setStr(getContacts()->toUnicode(contact, answer))){
                     Event e(EventContactChanged, contact);
                     e.process();
                 }
@@ -1785,7 +1785,7 @@ bool ICQClient::processMsg()
                 return true;
             }
         }
-        QString text;
+        QCString text;
         switch (m_send.flags & SEND_MASK){
         case SEND_RTF:
             text = createRTF(m_send.text, m_send.part, m_send.msg->getForeground(), contact, MAX_TYPE2_MESSAGE_SIZE);
@@ -1860,7 +1860,7 @@ bool ICQClient::processMsg()
         msgBuf.pack(msgStatus());
         msgBuf.pack(flags);
         msgBuf.pack(size);
-        msgBuf.pack(text.latin1(), size);
+        msgBuf.pack(text.data(), size);
         if (m_send.msg->getBackground() == m_send.msg->getForeground()){
             msgBuf << 0x00000000L << 0xFFFFFF00L;
         }else{

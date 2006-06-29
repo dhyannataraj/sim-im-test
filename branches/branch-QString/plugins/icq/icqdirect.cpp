@@ -1299,7 +1299,7 @@ void DirectClient::processMsgQueue()
             continue;
         }
         if (sm.msg){
-            QString message;
+            QCString message;
             Buffer &mb = m_socket->writeBuffer;
             unsigned short flags = ICQ_TCPxMSG_NORMAL;
             if (sm.msg->getFlags() & MESSAGE_URGENT)
@@ -1322,13 +1322,13 @@ void DirectClient::processMsgQueue()
                 }else if (m_client->hasCap(m_data, CAP_UTF) &&
                           (m_client->getSendFormat() <= 1) &&
                           ((sm.msg->getFlags() & MESSAGE_SECURE) == 0)){
-                    message = ICQClient::addCRLF(sm.msg->getPlainText());
+                    message = ICQClient::addCRLF(sm.msg->getPlainText()).utf8();
                     sm.type = CAP_UTF;
                 }else{
                     message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());
                     messageSend ms;
                     ms.msg  = sm.msg;
-                    ms.text = message;
+                    ms.text = sm.msg->getPlainText();
                     Event e(EventSend, &ms);
                     e.process();
                 }
