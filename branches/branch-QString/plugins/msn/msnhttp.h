@@ -38,9 +38,9 @@ public:
 protected slots:
     void idle();
 protected:
-    std::string m_session_id;
-    std::string m_host;
-    std::string m_ip;
+    QString m_session_id;
+    QString m_host;
+    QString m_ip;
     Buffer readData;
     Buffer *writeData;
     virtual bool done(unsigned code, Buffer &data, const char *headers);

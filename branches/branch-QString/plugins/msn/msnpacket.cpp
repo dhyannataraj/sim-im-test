@@ -161,7 +161,7 @@ VerPacket::VerPacket(MSNClient *client)
     addArg("MSNP8 CVR0");
 }
 
-void VerPacket::answer(vector<string>&)
+void VerPacket::answer(QValueList<QString>&)
 {
     MSNPacket *packet = new CvrPacket(m_client);
     packet->send();
@@ -176,9 +176,9 @@ CvrPacket::CvrPacket(MSNClient *client)
     addArg(m_client->getLogin());
 }
 
-void CvrPacket::answer(vector<string> &arg)
+void CvrPacket::answer(QValueList<QString>&arg)
 {
-    m_client->setVersion(arg[0].c_str());
+    m_client->setVersion(arg[0]);
     MSNPacket *packet = new UsrPacket(m_client);
     packet->send();
 }
@@ -196,14 +196,14 @@ UsrPacket::UsrPacket(MSNClient *client, const char *digest)
     }
 }
 
-void UsrPacket::answer(vector<string> &args)
+void UsrPacket::answer(QValueList<QString>&args)
 {
     if (args[0] == "OK"){
         QTimer::singleShot(0, m_client, SLOT(authOk()));
         return;
     }
     if (args[1] == "S"){
-        m_client->m_authChallenge = args[2].c_str();
+        m_client->m_authChallenge = args[2];
         m_client->requestLoginHost("https://nexus.passport.com/rdr/pprdr.asp");
     }
 }
@@ -251,17 +251,17 @@ SynPacket::SynPacket(MSNClient *client)
     addArg("0");
 }
 
-void SynPacket::answer(vector<string> &args)
+void SynPacket::answer(QValueList<QString>&args)
 {
     unsigned m_ver = 0;
-    if (!args[0].empty())
-        m_ver = atol(args[0].c_str());
+    if (!args[0].isEmpty())
+        m_ver = args[0].toUInt();
     m_client->m_nBuddies = 0;
     m_client->m_nGroups  = 0;
-    if ((args.size() > 1) && !args[1].empty())
-        m_client->m_nBuddies = atol(args[1].c_str());
-    if ((args.size() > 2) && !args[2].empty())
-        m_client->m_nGroups  = atol(args[2].c_str());
+    if ((args.size() > 1) && !args[1].isEmpty())
+        m_client->m_nBuddies = args[1].toUInt();
+    if ((args.size() > 2) && !args[2].isEmpty())
+        m_client->m_nGroups  = args[2].toUInt();
     m_client->setListVer(m_ver);
     ContactList::GroupIterator itg;
     Group *grp;
@@ -319,7 +319,7 @@ AdgPacket::AdgPacket(MSNClient *client, unsigned grp_id, const QString &name)
     addArg("0");
 }
 
-void AdgPacket::answer(vector<string> &args)
+void AdgPacket::answer(QValueList<QString>&args)
 {
     Group *grp = getContacts()->group(m_id);
     if (grp == NULL)
@@ -329,7 +329,7 @@ void AdgPacket::answer(vector<string> &args)
     data = (MSNUserData*)(++it);
     if (data == NULL)
         data = (MSNUserData*)(grp->clientData.createData(m_client));
-    data->Group.asULong() = atol(args[2].c_str());
+    data->Group.asULong() = args[2].toULong();
 }
 
 RegPacket::RegPacket(MSNClient *client, unsigned id, const QString &name)
@@ -370,7 +370,7 @@ void AddPacket::error(unsigned)
     e.process();
 }
 
-void AddPacket::answer(vector<string>&)
+void AddPacket::answer(QValueList<QString>&)
 {
     Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.latin1()));
     e.process();
@@ -417,10 +417,10 @@ void XfrPacket::clear()
     m_socket = NULL;
 }
 
-void XfrPacket::answer(vector<string> &args)
+void XfrPacket::answer(QValueList<QString>&args)
 {
     if (m_socket)
-        m_socket->connect(args[1].c_str(), "", args[3].c_str(), true);
+        m_socket->connect(args[1], "", args[3], true);
 }
 
 MSNServerMessage::MSNServerMessage(MSNClient *client, unsigned size)

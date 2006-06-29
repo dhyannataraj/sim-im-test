@@ -58,8 +58,8 @@ void MSNHttpPool::write(const char *buf, unsigned size)
     writeData->pack(buf, size);
     if (!isDone())
         return;
-    string url = "http://";
-    if (m_session_id.empty()){
+    QString url = "http://";
+    if (m_session_id.isEmpty()){
         url += "gateway.messenger.hotmail.com";
         url += MSN_HTTP;
         url += "Action=open&Server=";
@@ -76,7 +76,7 @@ void MSNHttpPool::write(const char *buf, unsigned size)
     const char *headers =
         "Content-Type: application/x-msn-messenger\n"
         "Proxy-Connection: Keep-Alive";
-    fetch(url.c_str(), headers, writeData);
+    fetch(url, headers, writeData);
     writeData = new Buffer;
 }
 
@@ -138,7 +138,7 @@ bool MSNHttpPool::done(unsigned code, Buffer &data, const char *headers)
             break;
         }
     }
-    if (m_session_id.empty() || m_host.empty()){
+    if (m_session_id.isEmpty() || m_host.isEmpty()){
         error("No session in answer");
         return false;
     }

@@ -800,9 +800,9 @@ void MSNClient::getLine(const QCString &line)
         m_socket->error_state("Bad answer cmd");
         return;
     }
-    vector<string> args;
+    QValueList<QString> args;
     while (l.length())
-        args.push_back(string(getToken(l, ' ', false).utf8()));
+        args.append(getToken(l, ' ', false));
     packet->answer(args);
     m_packets.erase(it);
     delete packet;

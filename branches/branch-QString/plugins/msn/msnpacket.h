@@ -29,7 +29,7 @@ public:
     virtual ~MSNPacket() {}
     const QString &cmd()	{ return m_cmd; }
     unsigned	id()	{ return m_id; }
-    virtual	void	answer(std::vector<std::string>&) {}
+    virtual	void	answer(QValueList<QString>&) {}
     virtual void	error(unsigned code);
     void			addArg(const QString &str);
     void			addArg(const char *str);
@@ -45,21 +45,21 @@ class VerPacket : public MSNPacket
 {
 public:
     VerPacket(MSNClient *client);
-    void answer(std::vector<std::string> &args);
+    void answer(QValueList<QString>&args);
 };
 
 class CvrPacket : public MSNPacket
 {
 public:
     CvrPacket(MSNClient *client);
-    void answer(std::vector<std::string> &args);
+    void answer(QValueList<QString>&args);
 };
 
 class UsrPacket : public MSNPacket
 {
 public:
     UsrPacket(MSNClient *client, const char *hash = NULL);
-    void answer(std::vector<std::string> &args);
+    void answer(QValueList<QString>&args);
 };
 
 class OutPacket : public MSNPacket
@@ -79,7 +79,7 @@ class SynPacket : public MSNPacket
 public:
     SynPacket(MSNClient *client);
 protected:
-    void answer(std::vector<std::string> &args);
+    void answer(QValueList<QString>&args);
 };
 
 class QryPacket : public MSNPacket
@@ -94,7 +94,7 @@ class AdgPacket : public MSNPacket
 public:
     AdgPacket(MSNClient *client, unsigned grp_id, const QString &name);
 protected:
-    void answer(std::vector<std::string> &args);
+    void answer(QValueList<QString>&args);
     unsigned m_id;
 };
 
@@ -115,7 +115,7 @@ class AddPacket : public MSNPacket
 public:
     AddPacket(MSNClient *client, const QString &listType, const QString &mail, const QString &name, unsigned grp=0);
 protected:
-    void answer(std::vector<std::string> &args);
+    void answer(QValueList<QString>&args);
     virtual void	error(unsigned code);
     QString m_mail;
 };
@@ -146,7 +146,7 @@ public:
     void clear();
 protected:
     SBSocket *m_socket;
-    void answer(std::vector<std::string> &args);
+    void answer(QValueList<QString>&args);
 };
 
 class MSNServerMessage
