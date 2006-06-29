@@ -3,7 +3,7 @@
 COMPILE_FIRST = sim plugins/_core
 
 EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO resource.h configure.in.in \
-	     AUTHORS.sim README.SVN TODO.MingW install_win32 sim/win32 xpstyle
+	     AUTHORS.sim README.SVN TODO.MingW install_win32 sim/win32
 
 SUBDIRS = $(TOPSUBDIRS)
 
