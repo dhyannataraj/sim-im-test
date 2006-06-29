@@ -1,0 +1,4 @@
+if test "$kde_use_qt_mac" = "yes" ; then
+  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/shortcuts"
+fi
+
