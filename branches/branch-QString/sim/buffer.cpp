@@ -186,6 +186,16 @@ unsigned Buffer::unpack(char *d, unsigned s)
     return readn;
 }
 
+unsigned Buffer::unpack(QString &d, unsigned s)
+{
+    unsigned readn = size() - m_posRead;
+    if (s < readn)
+        readn = s;
+    d = QString::fromUtf8(data() + m_posRead, readn);
+    m_posRead += readn;
+    return readn;
+}
+
 unsigned Buffer::unpack(QCString &d, unsigned s)
 {
     unsigned readn = size() - m_posRead;
@@ -196,12 +206,12 @@ unsigned Buffer::unpack(QCString &d, unsigned s)
     return readn;
 }
 
-unsigned Buffer::unpack(QString &d, unsigned s)
+unsigned Buffer::unpack(QByteArray &d, unsigned s)
 {
     unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d = QString::fromUtf8(data() + m_posRead, readn);
+    d = QByteArray::duplicate(data() + m_posRead, readn + 1);
     m_posRead += readn;
     return readn;
 }
@@ -233,7 +243,7 @@ void Buffer::unpack(QCString &str)
     unpack(str, s);
 }
 
-void Buffer::unpackStr(QCString &str)
+void Buffer::unpackStr(QString &str)
 {
     unsigned short s;
     str = "";
@@ -245,7 +255,7 @@ void Buffer::unpackStr(QCString &str)
     unpack(str, s);
 }
 
-void Buffer::unpackStr(QString &str)
+void Buffer::unpackStr(QCString &str)
 {
     unsigned short s;
     str = "";
@@ -259,11 +269,23 @@ void Buffer::unpackStr(QString &str)
 
 void Buffer::unpackStr32(QCString &str)
 {
-    QCString cstr;
     unsigned long s;
     *this >> s;
     s = htonl(s);
     str = "";
+    if (s == 0)
+        return;
+    if (s > size() - m_posRead)
+        s = size() - m_posRead;
+    unpack(str, s);
+}
+
+void Buffer::unpackStr32(QByteArray &str)
+{
+    unsigned long s;
+    *this >> s;
+    s = htonl(s);
+    str = QByteArray();
     if (s == 0)
         return;
     if (s > size() - m_posRead)

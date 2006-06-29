@@ -1232,13 +1232,14 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
             if (data){
                 b.incReadPos(-4);
                 QCString pict;
+                QByteArray ba;
                 b.unpackStr32(pict);
-                b.unpackStr32(pict);
+                b.unpackStr32(ba);
                 QImage img;
                 QString fName = pictureFile(data);
                 QFile f(fName);
                 if (f.open(IO_WriteOnly | IO_Truncate)){
-                    f.writeBlock(pict.data(), pict.size());
+                    f.writeBlock(ba.data(), ba.size());
                     f.close();
                     img.load(fName);
                 }else{

@@ -87,11 +87,13 @@ public:
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
     unsigned unpack(char *d, unsigned size);
-    unsigned unpack(QCString &d, unsigned size);
     unsigned unpack(QString &d, unsigned size); // utf8
+    unsigned unpack(QCString &d, unsigned size);
+    unsigned unpack(QByteArray &d, unsigned size);
     void unpack(QCString &s);
-    void unpackStr(QCString &s);
     void unpackStr(QString &s);     // utf8
+    void unpackStr(QCString &s);
+    void unpackStr32(QByteArray &s);
     void unpackStr32(QCString &s);
 
     QString unpackScreen();
