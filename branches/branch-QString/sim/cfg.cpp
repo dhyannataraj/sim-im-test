@@ -478,7 +478,7 @@ void init_data(const DataDef *d, Data *data)
             *data = Data();
             switch (def->type){
             case DATA_STRING:
-                *data = Data(QString(def->def_value));
+                *data = Data(def->def_value ? QString(def->def_value) : QString::null);
                 break;
             case DATA_STRMAP: {
                 QStringList sl = QStringList::split(',',def->def_value);

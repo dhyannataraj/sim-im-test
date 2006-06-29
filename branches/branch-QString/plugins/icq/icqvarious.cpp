@@ -943,11 +943,12 @@ bool SetMainInfoRequest::answer(Buffer&, unsigned short)
 // ******************************************
 static Tlv makeSString(unsigned id, const QString &str)
 {
-    unsigned len = str.utf8().length() + 1; // including '\0'
+    QCString cstr = getContacts()->fromUnicode(NULL, str);
+    unsigned len = cstr.length() + 1; // including '\0'
     QByteArray ba( len + 2 );
     ba[0] = (char)((len     ) & 0xff);
     ba[1] = (char)((len >> 8) & 0xff);
-    memcpy( ba.data() + 2, str.utf8(), len );
+    memcpy( ba.data() + 2, cstr, len );
     return Tlv( id, ba.size(), ba.data() );
 }
 
@@ -964,11 +965,12 @@ static Tlv makeBCombo(unsigned id, unsigned long y, unsigned long m, unsigned lo
 
 static Tlv makeECombo(unsigned id, const QString &str)
 {
-    unsigned len = str.utf8().length() + 1; // including '\0'
+    QCString cstr = getContacts()->fromUnicode(NULL, str);
+    unsigned len = cstr.length() + 1; // including '\0'
     QByteArray ba( len + 3 );
     ba[0] = (char)((len     ) & 0xff);
     ba[1] = (char)((len >> 8) & 0xff);
-    memcpy( ba.data() + 2, str.utf8(), len  );
+    memcpy( ba.data() + 2, cstr, len  );
     ba[ (int)len + 2 ] = '\0';  // permission (don't use in icq directories)
     return Tlv( id, ba.size(), ba.data() );
 }
@@ -979,7 +981,7 @@ static QValueList<Tlv> makeICombo(unsigned id, const QString &str)
     if ( str.isEmpty() )
         return list;
 
-    QCString cstr = str.utf8();
+    QCString cstr = getContacts()->fromUnicode(NULL, str);
     int cur = 0;
     int idx = 0;
     do {
@@ -1019,7 +1021,7 @@ static Tlv makeUInt32(unsigned id, unsigned long d)
     data[1] = (char)((d >>  8) & 0xff);
     data[2] = (char)((d >> 16) & 0xff);
     data[3] = (char)((d >> 24) & 0xff);
-    return Tlv( id, 2, data );
+    return Tlv( id, 4, data );
 }
 
 static Tlv makeUInt16(unsigned id, unsigned short d)
@@ -1036,14 +1038,14 @@ static Tlv makeUInt8(unsigned id, unsigned char d)
     char data[1];
 
     data[0] = (char)((d >> 0) & 0xff);
-    return Tlv( id, 2, data );
+    return Tlv( id, 1, data );
 }
 
 static QString getSString(const char *tlvData)
 {
     unsigned len;
     len = tlvData[0] | ( tlvData[1] << 8 );
-    QString ret = QString::fromUtf8( &tlvData[2], len);
+    QString ret = getContacts()->toUnicode(NULL, QCString( &tlvData[2], len));
     return ret;
 }
 
@@ -1059,7 +1061,7 @@ static QString getECombo(const char *tlvData)
 {
     unsigned len;
     len = tlvData[0] | ( tlvData[1] << 8 );
-    QString ret = QString::fromUtf8( &tlvData[2], len);
+    QString ret = getContacts()->toUnicode(NULL, QCString( &tlvData[2], len));
     return ret;
 }
 
@@ -1078,7 +1080,7 @@ static QString getICombo(const char *tlvData, const QString &o)
 static unsigned long getUInt32(const char *tlvData)
 {
     unsigned long ret;
-    ret = tlvData[0] | ( tlvData[1] << 8 ) | ( tlvData[1] << 16 ) |  ( tlvData[1] << 24 );
+    ret = tlvData[0] | ( tlvData[1] << 8 ) | ( tlvData[2] << 16 ) |  ( tlvData[3] << 24 );
     return ret;
 }
 
@@ -1306,16 +1308,16 @@ void ICQClient::setClientInfo(void *_data)
 
     QValueList<Tlv> clientInfoTLVs;
 
-    if (d->FirstName.str() == data.owner.FirstName.str())
+    if (d->FirstName.str() != data.owner.FirstName.str())
         clientInfoTLVs.append(makeSString(TLV_FIRST_NAME, d->FirstName.str()));
 
-    if (d->LastName.str() == data.owner.LastName.str())
+    if (d->LastName.str() != data.owner.LastName.str())
         clientInfoTLVs.append(makeSString(TLV_LAST_NAME, d->LastName.str()));
 
-    if (d->Nick.str() == data.owner.Nick.str())
+    if (d->Nick.str() != data.owner.Nick.str())
         clientInfoTLVs.append(makeSString(TLV_NICK, d->Nick.str()));
 
-    if (d->EMail.str() == data.owner.EMail.str())
+    if (d->EMail.str() != data.owner.EMail.str())
         clientInfoTLVs.append(makeECombo(TLV_EMAIL, d->EMail.str()));
 
     if (d->Age.toULong() != data.owner.Age.toULong())
@@ -1326,39 +1328,39 @@ void ICQClient::setClientInfo(void *_data)
 
     // TLV_LANGUAGE (uint16) missing
 
-    if (d->City.str() == data.owner.City.str())
+    if (d->City.str() != data.owner.City.str())
         clientInfoTLVs.append(makeSString(TLV_CITY, d->City.str()));
 
-    if (d->State.str() == data.owner.State.str())
+    if (d->State.str() != data.owner.State.str())
         clientInfoTLVs.append(makeSString(TLV_STATE, d->State.str()));
 
     if (d->Country.toULong() != data.owner.Country.toULong())
         clientInfoTLVs.append(makeUInt16(TLV_COUNTRY, d->Country.toULong()));
 
-    if (d->WorkName.str() == data.owner.WorkName.str())
+    if (d->WorkName.str() != data.owner.WorkName.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_COMPANY, d->WorkName.str()));
 
-    if (d->WorkDepartment.str() == data.owner.WorkDepartment.str())
+    if (d->WorkDepartment.str() != data.owner.WorkDepartment.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_DEPARTMENT, d->WorkDepartment.str()));
 
-    if (d->WorkPosition.str() == data.owner.WorkPosition.str())
+    if (d->WorkPosition.str() != data.owner.WorkPosition.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_POSITION, d->WorkPosition.str()));
 
     if (d->Occupation.toULong() != data.owner.Occupation.toULong())
         clientInfoTLVs.append(makeUInt16(TLV_WORK_OCCUPATION, d->Occupation.toULong()));
 
-    if (d->Affilations.str() == data.owner.Affilations.str())
+    if (d->Affilations.str() != data.owner.Affilations.str())
         clientInfoTLVs += makeICombo(TLV_AFFILATIONS, d->Affilations.str());
 
-    if (d->Interests.str() == data.owner.Interests.str())
+    if (d->Interests.str() != data.owner.Interests.str())
         clientInfoTLVs += makeICombo(TLV_INTERESTS, d->Interests.str());
 
-    if (d->Backgrounds.str() == data.owner.Backgrounds.str())
+    if (d->Backgrounds.str() != data.owner.Backgrounds.str())
         clientInfoTLVs += makeICombo(TLV_PAST, d->Backgrounds.str());
 
 //  530       0x0212      icombo     User homepage category/keywords
 
-    if (d->Homepage.str() == data.owner.Homepage.str())
+    if (d->Homepage.str() != data.owner.Homepage.str())
         clientInfoTLVs.append(makeSString(TLV_HOMEPAGE, d->Homepage.str()));
 
     if (d->BirthDay.toULong() != data.owner.BirthDay.toULong() ||
@@ -1367,31 +1369,31 @@ void ICQClient::setClientInfo(void *_data)
         clientInfoTLVs.append(makeBCombo(TLV_BIRTHDAY, d->BirthYear.toULong(), d->BirthMonth.toULong(), d->BirthDay.toULong()));
     }
 
-    if (d->About.str() == data.owner.About.str())
+    if (d->About.str() != data.owner.About.str())
         clientInfoTLVs.append(makeSString(TLV_NOTES, d->About.str()));
 
-    if (d->Address.str() == data.owner.Address.str())
+    if (d->Address.str() != data.owner.Address.str())
         clientInfoTLVs.append(makeSString(TLV_STREET, d->Address.str()));
 
-    if (d->Zip.str() == data.owner.Zip.str())
+    if (d->Zip.str() != data.owner.Zip.str())
         clientInfoTLVs.append(makeUInt32(TLV_ZIP, QString(d->Zip.str()).toULong()));
 
-    if (d->HomePhone.str() == data.owner.HomePhone.str())
+    if (d->HomePhone.str() != data.owner.HomePhone.str())
         clientInfoTLVs.append(makeSString(TLV_PHONE, d->HomePhone.str()));
 
-    if (d->HomeFax.str() == data.owner.HomeFax.str())
+    if (d->HomeFax.str() != data.owner.HomeFax.str())
         clientInfoTLVs.append(makeSString(TLV_FAX, d->HomeFax.str()));
 
-    if (d->PrivateCellular.str() == data.owner.PrivateCellular.str())
+    if (d->PrivateCellular.str() != data.owner.PrivateCellular.str())
         clientInfoTLVs.append(makeSString(TLV_CELLULAR, d->PrivateCellular.str()));
 
-    if (d->WorkAddress.str() == data.owner.WorkAddress.str())
+    if (d->WorkAddress.str() != data.owner.WorkAddress.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_STREET, d->WorkAddress.str()));
 
-    if (d->WorkCity.str() == data.owner.WorkCity.str())
+    if (d->WorkCity.str() != data.owner.WorkCity.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_CITY, d->WorkCity.str()));
 
-    if (d->WorkState.str() == data.owner.WorkState.str())
+    if (d->WorkState.str() != data.owner.WorkState.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_STATE, d->WorkState.str()));
 
      if (d->WorkCountry.toULong() != data.owner.WorkCountry.toULong())
@@ -1400,13 +1402,13 @@ void ICQClient::setClientInfo(void *_data)
     if (d->WorkZip.str() != data.owner.WorkZip.str())
         clientInfoTLVs.append(makeUInt32(TLV_WORK_ZIP, QString(d->WorkZip.str()).toULong()));
 
-    if (d->WorkPhone.str() == data.owner.WorkPhone.str())
+    if (d->WorkPhone.str() != data.owner.WorkPhone.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_PHONE, d->WorkPhone.str()));
 
-    if (d->WorkFax.str() == data.owner.WorkFax.str())
+    if (d->WorkFax.str() != data.owner.WorkFax.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_FAX, d->WorkFax.str()));
 
-    if (d->WorkHomepage.str() == data.owner.WorkHomepage.str())
+    if (d->WorkHomepage.str() != data.owner.WorkHomepage.str())
         clientInfoTLVs.append(makeSString(TLV_WORK_HOMEPAGE, d->WorkHomepage.str()));
 
     if (d->WebAware.toBool() != data.owner.WebAware.toBool())
