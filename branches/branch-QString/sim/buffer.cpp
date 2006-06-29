@@ -165,7 +165,11 @@ void Buffer::pack(const char *d, unsigned s)
 		return;
     if(m_posWrite+s > size())
         resize(m_posWrite+s);
-    memcpy(data() + m_posWrite, d, s);
+    if(d) {
+        memcpy(data() + m_posWrite, d, s);
+    } else {
+        memcpy(data() + m_posWrite, "", 1);
+    }
     m_posWrite += s;
 }
 
