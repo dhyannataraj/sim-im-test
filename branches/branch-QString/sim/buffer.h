@@ -45,7 +45,7 @@ class EXPORT TlvList : public QPtrList<Tlv>
 {
 public:
     TlvList();
-    TlvList(Buffer&, unsigned nTlvs = -1);
+    TlvList(Buffer&, unsigned nTlvs = ~0U);
     Tlv *operator() (unsigned short num);
     Tlv *operator[] (unsigned n);
     TlvList &operator+ (Tlv *tlv) { append(tlv); return *this; }
