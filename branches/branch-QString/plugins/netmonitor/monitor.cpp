@@ -24,6 +24,7 @@
 #include <qfile.h>
 #include <qmessagebox.h>
 #include <qregexp.h>
+#include <qtimer.h>
 #ifdef USE_KDE
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
@@ -81,6 +82,9 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     menu->insertItem(i18n("&Log"), menuLog);
     bPause = false;
     bAutoscroll = true;
+
+    m_logTimer = new QTimer(this);
+    connect(m_logTimer, SIGNAL(timeout()), this, SLOT(outputLog()));
 }
 
 void MonitorWindow::closeEvent(QCloseEvent *e)
@@ -234,14 +238,30 @@ void *MonitorWindow::processEvent(Event *e)
             if (font)
                 logString += QString("</font>");
             logString += "</pre></p>";
-            setLogEnable(false);
-            edit->append(logString);
-            if (bAutoscroll)
-                edit->scrollToBottom();
-            setLogEnable(true);
+            QMutexLocker lock(&m_mutex);
+            m_logStrings += logString;
+            if(!m_logTimer->isActive())
+                m_logTimer->start(10);
         }
     }
     return NULL;
+}
+
+void MonitorWindow::outputLog()
+{
+    if(m_logStrings.isEmpty())
+        return;
+    setLogEnable(false);
+
+    QMutexLocker lock(&m_mutex);
+
+    for(unsigned i = 0; i < m_logStrings.count(); i++)
+        edit->append(m_logStrings[(int)i]);
+
+    m_logStrings.clear();
+    if (bAutoscroll)
+        edit->scrollToBottom();
+    setLogEnable(true);
 }
 
 #ifndef _MSC_VER
