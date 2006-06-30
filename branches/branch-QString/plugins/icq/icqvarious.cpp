@@ -1140,7 +1140,7 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
                 m_client->data.owner.Gender.asULong() = getUInt8(tlv->Data());
                 break;
             case TLV_LANGUAGE:
-                // getUInt16((tlv->Data()));
+                m_client->data.owner.Language.asULong() = getUInt16(tlv->Data());
                 break;
             case TLV_CITY:
                 m_client->data.owner.City.str() = getSString(tlv->Data());
@@ -1326,7 +1326,8 @@ void ICQClient::setClientInfo(void *_data)
     if (d->Gender.toULong() != data.owner.Gender.toULong())
         clientInfoTLVs.append(makeUInt8(TLV_GENDER, d->Gender.toULong()));
 
-    // TLV_LANGUAGE (uint16) missing
+    if (d->Language.toULong() != data.owner.Language.toULong())
+        clientInfoTLVs.append(makeUInt16(TLV_LANGUAGE, d->Language.toULong()));
 
     if (d->City.str() != data.owner.City.str())
         clientInfoTLVs.append(makeSString(TLV_CITY, d->City.str()));

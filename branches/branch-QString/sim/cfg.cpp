@@ -1074,7 +1074,7 @@ Data::STRING_MAP &Data::strMap()
     return m_dataAsQStringMap;
 }
 
-bool Data::setStrList(const STRING_MAP &s)
+bool Data::setStrMap(const STRING_MAP &s)
 {
     checkType(DATA_STRMAP);
     // ... 

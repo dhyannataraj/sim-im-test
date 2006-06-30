@@ -199,7 +199,7 @@ public:
     void processRequests();
     MSNListRequest *findRequest(unsigned long id, unsigned type, bool bDelete=false);
     MSNListRequest *findRequest(const QString &name, unsigned type, bool bDelete=false);
-    bool add(const char *mail, const char *name, unsigned grp);
+    bool add(const QString &mail, const QString &name, unsigned grp);   // currently unsued?
     std::list<SBSocket*> m_SBsockets;
     virtual void setupContact(SIM::Contact*, void *data);
     bool		 m_bJoin;

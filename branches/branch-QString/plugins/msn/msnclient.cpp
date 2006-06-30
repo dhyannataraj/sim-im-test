@@ -1716,10 +1716,10 @@ void MSNClient::processRequests()
     m_requests.clear();
 }
 
-bool MSNClient::add(const char *mail, const char *name, unsigned grp)
+bool MSNClient::add(const QString &mail, const QString &name, unsigned grp)
 {
     Contact *contact;
-    MSNUserData *data = findContact(QString::fromUtf8(mail), contact);
+    MSNUserData *data = findContact(mail, contact);
     if (data){
         if (contact->getGroup() != grp){
             contact->setGroup(grp);
@@ -1728,7 +1728,7 @@ bool MSNClient::add(const char *mail, const char *name, unsigned grp)
         }
         return false;
     }
-    data = findContact(QString::fromUtf8(mail), QString::fromUtf8(name), contact);
+    data = findContact(mail, name, contact);
     if (data == NULL)
         return false;
     contact->setGroup(grp);

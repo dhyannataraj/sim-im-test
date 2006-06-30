@@ -908,7 +908,7 @@ public:
 
     STRING_MAP strMap() const;
     STRING_MAP &strMap();
-    bool setStrList(const STRING_MAP &s);
+    bool setStrMap(const STRING_MAP &s);
 
     long toLong() const;
     long &asLong();

@@ -2088,7 +2088,7 @@ QString ContactList::toUnicode(Contact *contact, const char *str, int length)
         QString res = getCodec(contact)->toUnicode(str, length);
         return res.replace(QRegExp("\r"), "");
     }
-    return "";
+    return QString::null;   // much better than "" !
 }
 
 QCString ContactList::fromUnicode(Contact *contact, const QString &str)
