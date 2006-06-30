@@ -20,6 +20,7 @@
 
 #include "simapi.h"
 #include <qmainwindow.h>
+#include <qmutex.h>
 
 class TextShow;
 class QPopupMenu;
@@ -55,6 +56,11 @@ protected:
     QPopupMenu *menuEdit;
     QPopupMenu *menuLog;
     NetmonitorPlugin *m_plugin;
+    QStringList m_logStrings;
+    QTimer *m_logTimer;
+    QMutex m_mutex;
+protected slots:
+    void outputLog();
 };
 
 #endif
