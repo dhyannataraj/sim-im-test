@@ -17,12 +17,12 @@
 
 #include "gpguser.h"
 #include "gpg.h"
-#include "exec.h"
 
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qtimer.h>
 #include <qfile.h>
+#include <qprocess.h>
 
 using namespace SIM;
 
@@ -31,14 +31,14 @@ GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
 {
     if (data)
         m_key = data->Key.str();
-    m_exec = NULL;
+    m_process = NULL;
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));
     refresh();
 }
 
 GpgUser::~GpgUser()
 {
-    clearExec();
+    delete m_process;
 }
 
 void GpgUser::apply(void *_data)
@@ -57,40 +57,38 @@ void GpgUser::apply(void *_data)
 
 void GpgUser::refresh()
 {
-    if (m_exec)
+    if (m_process)
         return;
     QString gpg  = GpgPlugin::plugin->GPG();
     QString home = user_file(GpgPlugin::plugin->getHome());
     if (gpg.isEmpty() || home.isEmpty())
         return;
-    if (m_exec)
-        return;
-    if (home[(int)(home.length() - 1)] == '\\')
+    if (home.endsWith("\\"))
         home = home.left(home.length() - 1);
-    gpg = QString("\"") + gpg + "\"";
-    gpg += " --no-tty --homedir \"";
-    gpg += home;
-    gpg += "\" ";
-    gpg += GpgPlugin::plugin->getPublicList();
-    m_exec = new Exec;
-    connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(publicReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+	m_process = new QProcess(this);
+	m_process->addArgument(gpg);
+	m_process->addArgument("--no-tty");
+	m_process->addArgument("--homedir");
+	m_process->addArgument(home);
+	GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getPublicList());
+
+	connect(m_process, SIGNAL(processExited()), this, SLOT(publicReady()));
+    m_process->start();
 }
 
-void GpgUser::publicReady(Exec*, int res, const char*)
+void GpgUser::publicReady()
 {
     int cur = 0;
     int n   = 1;
     cmbPublic->clear();
     cmbPublic->insertItem(i18n("None"));
-    if (res == 0){
-        for (;;){
+    if (m_process->normalExit() && m_process->exitStatus() == 0){
+        QCString str(m_process->readStdout());
+		for (;;){
             QCString line;
-            Buffer *b = &m_exec->bOut;
-            bool bRes = b->scan("\n", line);
-            if (!bRes){
-                line += QCString(b->data(b->readPos()), b->size() - b->readPos());
-            }
+			line = getToken(str, '\n');
+			if(line.isEmpty())
+				break;
             QCString type = getToken(line, ':');
             if (type == "pub"){
                 getToken(line, ':');
@@ -108,20 +106,11 @@ void GpgUser::publicReady(Exec*, int res, const char*)
                                    QString::fromLocal8Bit(name));
                 n++;
             }
-            if (!bRes)
-                break;
         }
     }
     cmbPublic->setCurrentItem(cur);
-    QTimer::singleShot(0, this, SLOT(clearExec()));
-}
-
-void GpgUser::clearExec()
-{
-    if (m_exec){
-        delete m_exec;
-        m_exec = NULL;
-    }
+	delete m_process;
+	m_process = 0;
 }
 
 #ifndef _MSC_VER

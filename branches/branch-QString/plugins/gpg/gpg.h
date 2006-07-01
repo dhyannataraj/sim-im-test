@@ -50,12 +50,12 @@ typedef struct GpgUserData
     SIM::Data	Use;
 } GpgUserData;
 
-class Exec;
+class QProcess;
 
 typedef struct DecryptMsg
 {
     SIM::Message *msg;
-    Exec		*exec;
+    QProcess	*process;
     QString		infile;
     QString		outfile;
     unsigned	contact;
@@ -96,10 +96,11 @@ public:
     static GpgPlugin *plugin;
     std::list<KeyMsg>	 m_sendKeys;
     unsigned long user_data_id;
+	static void addArguments(QProcess *proc, const QString &args);
 protected slots:
-    void decryptReady(Exec*,int,const char*);
-    void importReady(Exec*,int,const char*);
-    void publicReady(Exec*,int,const char*);
+    void decryptReady();
+    void importReady();
+    void publicReady();
     void clear();
     void passphraseFinished();
     void passphraseApply(const QString&);
@@ -110,7 +111,7 @@ protected:
     void registerMessage();
     void unregisterMessage();
     void askPassphrase();
-    bool decode(SIM::Message *msg, const char *pass, const char *key);
+    bool decode(SIM::Message *msg, const QString &pass, const QString &key);
     bool m_bMessage;
     QValueList<DecryptMsg> m_decrypt;
     QValueList<DecryptMsg> m_import;
@@ -130,14 +131,13 @@ public:
     ~MsgGPGKey();
 protected slots:
     void init();
-    void exportReady(Exec*,int,const char*);
-    void clearExec();
+    void exportReady();
 protected:
     void *processEvent(SIM::Event*);
     QString m_client;
     QString	m_key;
     MsgEdit	*m_edit;
-    Exec	*m_exec;
+    QProcess	*m_process;
 };
 
 #endif

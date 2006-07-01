@@ -134,15 +134,12 @@ void GpgGen::accept()
 	m_process->addArgument("--no-tty");
 	m_process->addArgument("--homedir");
 	m_process->addArgument(home);
-	// split by ' ' - could be a problem?
-	QStringList sl = QStringList::split(' ', GpgPlugin::plugin->getGenKey());
-	for(unsigned i = 0; i < sl.count(); i++)
-		m_process->addArgument(sl[(int)i]);
+	GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getGenKey());
 	m_process->addArgument(fname);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(genKeyReady()));
 
-    if ( !m_process->start() ) {
+    if (!m_process->start()) {
 		edtName->setEnabled(true);
 		cmbMail->setEnabled(true);
 		edtComment->setEnabled(true);
@@ -157,7 +154,7 @@ void GpgGen::accept()
 void GpgGen::genKeyReady()
 {
     QFile::remove(user_file("keys/genkey.txt"));
-    if (m_process->exitStatus() == 0){
+    if (m_process->normalExit() && m_process->exitStatus() == 0){
         GpgGenBase::accept();
 	} else {
 		QByteArray ba1, ba2;

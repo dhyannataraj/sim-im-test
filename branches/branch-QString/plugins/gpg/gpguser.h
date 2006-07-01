@@ -23,7 +23,7 @@
 #include "gpguserbase.h"
 
 class GpgPlugin;
-class Exec;
+class QProcess;
 
 class GpgUser : public GpgUserBase
 {
@@ -34,11 +34,10 @@ public:
 public slots:
     void apply(void *data);
     void refresh();
-    void publicReady(Exec*, int, const char*);
-    void clearExec();
+    void publicReady();
 protected:
     void fillPublic(ConfigBuffer *b);
-    Exec		*m_exec;
+    QProcess	*m_process;
     QString     m_key;
 };
 

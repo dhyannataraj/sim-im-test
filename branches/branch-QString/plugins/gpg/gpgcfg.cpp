@@ -76,11 +76,9 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
 GpgCfg::~GpgCfg()
 {
 #ifdef WIN32
-    if (m_find)
-        delete m_find;
+    delete m_find;
 #endif
-    if (m_adv)
-        delete m_adv;
+    delete m_adv;
 }
 
 void GpgCfg::apply()
@@ -197,10 +195,7 @@ void GpgCfg::refresh()
     m_process->addArgument("--no-tty");
     m_process->addArgument("--homedir");
 	m_process->addArgument(home);
-	// split by ' ' - could be a problem?
-	QStringList sl = QStringList::split(' ', GpgPlugin::plugin->getSecretList());
-	for(unsigned i = 0; i < sl.count(); i++)
-		m_process->addArgument(sl[(int)i]);
+	GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getSecretList());
 
 	connect(m_process, SIGNAL(processExited()), this, SLOT(secretReady()));
     if (!m_process->start()) {
@@ -212,7 +207,7 @@ void GpgCfg::refresh()
 
 void GpgCfg::secretReady()
 {
-	if (m_process->exitStatus()==0) {
+	if (m_process->normalExit() && m_process->exitStatus()==0) {
         fillSecret(m_process->readStdout());
 	} else {
 		QByteArray ba1, ba2;
@@ -220,11 +215,11 @@ void GpgCfg::secretReady()
 		ba2 = m_process->readStdout();
 		QString s(" (");
 		if (!ba1.isEmpty())
-			s += QString::fromLocal8Bit( ba1.data(), ba1.size() );
+			s += QString::fromLocal8Bit(ba1.data(), ba1.size());
 		if (!ba2.isEmpty()) {
 			if(!s.isEmpty())
 				s += " ";
-			s += QString::fromLocal8Bit( ba2.data(), ba2.size() );
+			s += QString::fromLocal8Bit(ba2.data(), ba2.size());
 		}
 		s += ")";
 		if(s == " ()")
