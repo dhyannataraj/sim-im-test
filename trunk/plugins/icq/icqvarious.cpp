@@ -1316,22 +1316,19 @@ void ICQClient::setClientInfo(void *_data)
             cmp(d->WorkHomepage.ptr, data.owner.WorkHomepage.ptr)){
 
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer
-        << ICQ_SRVxREQ_MODIFY_WORK
-        << &d->WorkCity.ptr
-        << &d->WorkState.ptr
-        << &d->WorkPhone.ptr
-        << &d->WorkFax.ptr
-        << &d->WorkAddress.ptr
-        << &d->WorkZip.ptr;
-        m_socket->writeBuffer.pack((unsigned short)d->WorkCountry.value);
-        m_socket->writeBuffer
-        << &d->WorkName.ptr
-        << &d->WorkDepartment.ptr
-        << &d->WorkPosition.ptr;
-        m_socket->writeBuffer.pack((unsigned short)d->Occupation.value);
-        m_socket->writeBuffer
-        << &d->WorkHomepage.ptr;
+        m_socket->writeBuffer << ICQ_SRVxWP_SET;
+        m_socket->writeBuffer.tlvLE(TLV_WORK_CITY, d->WorkCity.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_STATE, d->WorkState.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_PHONE, d->WorkPhone.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_FAX, d->WorkFax.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_STREET, d->WorkAddress.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_ZIP, d->WorkZip.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_COUNTRY, (unsigned short)d->WorkCountry.value);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, d->WorkName.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, d->WorkDepartment.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, d->WorkPosition.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_OCCUPATION, (unsigned short)d->Occupation.value);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_HOMEPAGE, d->WorkHomepage.ptr);
         sendServerRequest();
         varRequests.push_back(new SetWorkInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
@@ -1345,18 +1342,20 @@ void ICQClient::setClientInfo(void *_data)
             cmp(d->Homepage.ptr, data.owner.Homepage.ptr)){
 
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_MORE
-        << (char)(d->Age.value)
-        << (char)0
-        << (char)(d->Gender.value)
-        << &d->Homepage.ptr;
+        m_socket->writeBuffer << ICQ_SRVxWP_SET;
+        m_socket->writeBuffer.tlvLE(TLV_AGE, (unsigned short)(d->Age.value));
+        m_socket->writeBuffer.pack(TLV_GENDER);
+        m_socket->writeBuffer.pack((unsigned short)1);
+        m_socket->writeBuffer << (char)(d->Gender.value);
+        m_socket->writeBuffer.tlvLE(TLV_HOMEPAGE, d->Homepage.ptr);
+        m_socket->writeBuffer.pack(TLV_BIRTHDAY);
+        m_socket->writeBuffer.pack((unsigned short)6);
         m_socket->writeBuffer.pack((unsigned short)d->BirthYear.value);
-        m_socket->writeBuffer
-        << (char)(d->BirthMonth.value)
-        << (char)(d->BirthDay.value)
-        << (char)(d->Language.value & 0xFF)
-        << (char)((d->Language.value >> 8) & 0xFF)
-        << (char)((d->Language.value >> 16) & 0xFF);
+        m_socket->writeBuffer.pack((unsigned short)d->BirthMonth.value);
+        m_socket->writeBuffer.pack((unsigned short)d->BirthDay.value);
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)(d->Language.value & 0xFF));
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.value >> 8) & 0xFF));
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.value >> 16) & 0xFF));
         sendServerRequest();
         varRequests.push_back(new SetMoreInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
@@ -1364,8 +1363,8 @@ void ICQClient::setClientInfo(void *_data)
 
     if (cmp(d->About.ptr, data.owner.About.ptr)){
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer   << ICQ_SRVxREQ_MODIFY_ABOUT
-        << &d->About.ptr;
+        m_socket->writeBuffer << ICQ_SRVxWP_SET;
+        m_socket->writeBuffer.tlvLE(TLV_NOTES, d->About.ptr);
         sendServerRequest();
         varRequests.push_back(new SetAboutInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
