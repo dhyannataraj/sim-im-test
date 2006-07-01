@@ -1305,13 +1305,18 @@ void ICQClient::ping()
             int month = data.owner.BirthMonth.value;
             int day   = data.owner.BirthDay.value;
             if (day && month && year){
-                time_t now;
-                time(&now);
-                struct tm *tm = localtime(&now);
-                // removed +1 on tm_day because the notification was one
-                // day before the real birthday
-                if (((tm->tm_mon + 1) == month) && ((tm->tm_mday) == day))
-                    bBirthday = true;
+				QDate tNow = QDate::currentDate();
+				QDate tBirthday(tNow.year(), month, day);
+                // we send it two days before we've birthday
+				int diff = tNow.daysTo(tBirthday);
+				if(diff >= 0 && diff <=2)
+	                bBirthday = true;
+				else {
+					tBirthday = tBirthday.addYears(1);
+					diff = tNow.daysTo(tBirthday);
+					if(diff >= 0 && diff <=2)
+						bBirthday = true;
+				}
             }
         }
         if (bBirthday != m_bBirthday){
