@@ -223,19 +223,17 @@ IconSet *Icons::addIconSet(const QString &name, bool bDefault)
 void Icons::removeIconSet(IconSet *is)
 {
     QValueListIterator<IconSet*> it;
-    for (it = m_customSets.begin(); it != m_customSets.end(); ++it){
-        if (*it == is){
-            delete is;
-            m_customSets.remove(it);
-            return;
-        }
+	it = m_customSets.find( is );
+	if(it != m_customSets.end()){
+		delete is;
+		m_customSets.remove(it);
+        return;
     }
-    for (it = m_defSets.begin(); it != m_defSets.end(); ++it){
-        if (*it == is){
-            delete is;
-            m_defSets.remove(it);
-            return;
-        }
+	it = m_defSets.find( is );
+	if(it != m_defSets.end()){
+        delete is;
+        m_defSets.remove(it);
+        return;
     }
 }
 

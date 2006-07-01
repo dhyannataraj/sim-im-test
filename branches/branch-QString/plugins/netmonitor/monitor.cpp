@@ -241,7 +241,7 @@ void *MonitorWindow::processEvent(Event *e)
             QMutexLocker lock(&m_mutex);
             m_logStrings += logString;
             if(!m_logTimer->isActive())
-                m_logTimer->start(10);
+                m_logTimer->start(10,true);
         }
     }
     return NULL;
@@ -255,6 +255,7 @@ void MonitorWindow::outputLog()
 
     QMutexLocker lock(&m_mutex);
 
+    m_logTimer->stop();
     for(unsigned i = 0; i < m_logStrings.count(); i++)
         edit->append(m_logStrings[(int)i]);
 

@@ -715,7 +715,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                             res += "\n";
                         res += def->name;
                         res += "=";
-                        res += it.key();
+						res += QString::number(it.key());
                         res += ",";
                         res += quoteStringInternal(s);
                     }
