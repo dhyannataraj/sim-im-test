@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "gpggenbase.h"
 
-class Exec;
+class QProcess;
 class GpgCfg;
 
 class GpgGen : public GpgGenBase
@@ -32,11 +32,11 @@ public:
     ~GpgGen();
 protected slots:
     void textChanged(const QString&);
-    void genKeyReady(Exec*, int, const char*);
+    void genKeyReady();
 protected:
     void accept();
-    Exec	*m_exec;
-    GpgCfg	*m_cfg;
+	QProcess *m_process;
+    GpgCfg	 *m_cfg;
 };
 
 #endif

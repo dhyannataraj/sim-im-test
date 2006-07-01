@@ -19,13 +19,12 @@
 #define _GPGCFG_H
 
 #include "simapi.h"
-#include "buffer.h"
 
 #include "gpgcfgbase.h"
 
 class GpgPlugin;
 class GpgAdvanced;
-class Exec;
+class QProcess;
 
 #ifdef WIN32
 class GpgFind;
@@ -43,13 +42,12 @@ public slots:
     void textChanged(const QString&);
     void find();
     void findFinished();
-    void secretReady(Exec*, int, const char*);
-    void clearExec();
+    void secretReady();
     void selectKey(int);
 protected:
-    void fillSecret(Buffer *b);
+    void fillSecret(const QByteArray &ba = QByteArray());
     bool	   m_bNew;
-    Exec	  *m_exec;
+    QProcess  *m_process;
     GpgPlugin *m_plugin;
 #ifdef WIN32
     GpgFind   *m_find;

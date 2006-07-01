@@ -18,7 +18,6 @@
 #include "gpggen.h"
 #include "gpgcfg.h"
 #include "gpg.h"
-#include "exec.h"
 #include "ballonmsg.h"
 #include "editfile.h"
 
@@ -27,6 +26,7 @@
 #include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
+#include <qprocess.h>
 
 using namespace SIM;
 
@@ -38,7 +38,7 @@ GpgGen::GpgGen(GpgCfg *cfg)
     setButtonsPict(this);
     setCaption(caption());
     cmbMail->setEditable(true);
-    m_exec = NULL;
+	m_process = NULL;
     m_cfg  = cfg;
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtPass1, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
@@ -69,8 +69,7 @@ GpgGen::GpgGen(GpgCfg *cfg)
 
 GpgGen::~GpgGen()
 {
-    if (m_exec)
-        delete m_exec;
+    delete m_process;
 }
 
 void GpgGen::textChanged(const QString&)
@@ -96,7 +95,7 @@ void GpgGen::accept()
 #ifdef WIN32
     QString gpg  = m_cfg->edtGPG->text();
 #else
-QString gpg  = GpgPlugin::plugin->GPG();
+    QString gpg  = GpgPlugin::plugin->GPG();
 #endif
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())
@@ -129,32 +128,61 @@ QString gpg  = GpgPlugin::plugin->GPG();
     f.writeBlock(in.local8Bit(), in.local8Bit().length());
     f.close();
 
-    gpg = QString("\"") + gpg + "\"";
-    gpg += " --no-tty --homedir \"";
-    gpg += home;
-    gpg += "\" ";
-    gpg += GpgPlugin::plugin->getGenKey();
-    gpg += " \"";
-    gpg += fname.local8Bit();
-    gpg += "\"";
-    m_exec = new Exec;
-    connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(genKeyReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+	delete m_process;	// to be sure...
+	m_process = new QProcess(this);
+	m_process->addArgument(gpg);
+	m_process->addArgument("--no-tty");
+	m_process->addArgument("--homedir");
+	m_process->addArgument(home);
+	// split by ' ' - could be a problem?
+	QStringList sl = QStringList::split(' ', GpgPlugin::plugin->getGenKey());
+	for(unsigned i = 0; i < sl.count(); i++)
+		m_process->addArgument(sl[(int)i]);
+	m_process->addArgument(fname);
+
+    connect(m_process, SIGNAL(processExited()), this, SLOT(genKeyReady()));
+
+    if ( !m_process->start() ) {
+		edtName->setEnabled(true);
+		cmbMail->setEnabled(true);
+		edtComment->setEnabled(true);
+		lblProcess->setText("");
+		buttonOk->setEnabled(true);
+		BalloonMsg::message(i18n("Generate key failed"), buttonOk);
+		delete m_process;
+		m_process = 0;
+    }
 }
 
-void GpgGen::genKeyReady(Exec*,int res,const char*)
+void GpgGen::genKeyReady()
 {
     QFile::remove(user_file("keys/genkey.txt"));
-    if (res == 0){
+    if (m_process->exitStatus() == 0){
         GpgGenBase::accept();
-        return;
-    }
-    edtName->setEnabled(true);
-    cmbMail->setEnabled(true);
-    edtComment->setEnabled(true);
-    lblProcess->setText("");
-    buttonOk->setEnabled(true);
-    BalloonMsg::message(i18n("Generate key failed"), buttonOk);
+	} else {
+		QByteArray ba1, ba2;
+		ba1 = m_process->readStderr();
+		ba2 = m_process->readStdout();
+		QString s(" (");
+		if (!ba1.isEmpty())
+			s += QString::fromLocal8Bit(ba1.data(), ba1.size());
+		if (!ba2.isEmpty()) {
+			if(!s.isEmpty())
+				s += " ";
+			s += QString::fromLocal8Bit(ba2.data(), ba2.size());
+		}
+		s += ")";
+		if(s == " ()")
+			s = "";
+		edtName->setEnabled(true);
+		cmbMail->setEnabled(true);
+		edtComment->setEnabled(true);
+		lblProcess->setText("");
+		buttonOk->setEnabled(true);
+		BalloonMsg::message(i18n("Generate key failed") + s, buttonOk);
+	}
+	delete m_process;
+	m_process = 0;
 }
 
 #ifndef _MSC_VER
