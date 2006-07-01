@@ -42,7 +42,7 @@ config.status: configure
 	dh_testdir
 #   Add here commands to configure the package.
 	QTDIR=/usr/share/qt3 kde_appsdir=/usr/share/applications ./configure --disable-rpath --enable-openssl \
-	--enable-kde --prefix=/usr \
+	--enable-kde --enable-release --prefix=/usr \
 	--mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
 
 build: build-stamp
@@ -58,8 +58,8 @@ build-stamp:
 #	-test -r /usr/share/misc/config.guess && \
 #	cp -f /usr/share/misc/config.guess admin/config.guess
 
-#	/usr/bin/libtoolize -f
-#	cp -f /usr/share/aclocal/libtool.m4 admin/libtool.m4.in
+	/usr/bin/libtoolize -f
+	cp -f /usr/share/aclocal/libtool.m4 admin/libtool.m4.in
 	$(MAKE) -f admin/Makefile.common
 
 	./configure $(configkde)
