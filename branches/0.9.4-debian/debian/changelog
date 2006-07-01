@@ -3,7 +3,6 @@ sim (0.9.4-1) unstable; urgency=low
   * New upstream 0.9.4 - bugfix release (Closes: #376178).
   * Updated Standards-Version to 3.7.2.
   * Reintroduced build-depends versions.
-  * Lot of fixes, probably closes unreproducible bug: (Closes: #374204).
 
  -- Alexander Petrov <zowers@gmail.com>  Fri, 30 Jun 2006 04:38:02 +0400
 
