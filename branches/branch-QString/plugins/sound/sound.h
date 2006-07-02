@@ -42,7 +42,6 @@ typedef struct SoundUserData
 class CorePlugin;
 class QTimer;
 class QSound;
-class Exec;
 
 class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {

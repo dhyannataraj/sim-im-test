@@ -63,16 +63,16 @@ void GpgUser::refresh()
     QString home = user_file(GpgPlugin::plugin->getHome());
     if (gpg.isEmpty() || home.isEmpty())
         return;
-    if (home.endsWith("\\"))
+    if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
-	m_process = new QProcess(this);
-	m_process->addArgument(gpg);
-	m_process->addArgument("--no-tty");
-	m_process->addArgument("--homedir");
-	m_process->addArgument(home);
-	GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getPublicList());
+    m_process = new QProcess(this);
+    m_process->addArgument(gpg);
+    m_process->addArgument("--no-tty");
+    m_process->addArgument("--homedir");
+    m_process->addArgument(home);
+    GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getPublicList());
 
-	connect(m_process, SIGNAL(processExited()), this, SLOT(publicReady()));
+    connect(m_process, SIGNAL(processExited()), this, SLOT(publicReady()));
     m_process->start();
 }
 
@@ -84,11 +84,11 @@ void GpgUser::publicReady()
     cmbPublic->insertItem(i18n("None"));
     if (m_process->normalExit() && m_process->exitStatus() == 0){
         QCString str(m_process->readStdout());
-		for (;;){
+        for (;;){
             QCString line;
-			line = getToken(str, '\n');
-			if(line.isEmpty())
-				break;
+            line = getToken(str, '\n');
+            if(line.isEmpty())
+                    break;
             QCString type = getToken(line, ':');
             if (type == "pub"){
                 getToken(line, ':');
@@ -103,14 +103,14 @@ void GpgUser::publicReady()
                 getToken(line, ':');
                 QCString name = getToken(line, ':');
                 cmbPublic->insertItem(QString::fromLocal8Bit(sign) + QString(" - ") +
-                                   QString::fromLocal8Bit(name));
+                                      QString::fromLocal8Bit(name));
                 n++;
             }
         }
     }
     cmbPublic->setCurrentItem(cur);
-	delete m_process;
-	m_process = 0;
+    delete m_process;
+    m_process = 0;
 }
 
 #ifndef _MSC_VER

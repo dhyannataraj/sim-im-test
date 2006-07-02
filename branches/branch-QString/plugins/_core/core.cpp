@@ -18,7 +18,6 @@
 #include "core.h"
 #include "simapi.h"
 #include "cfgdlg.h"
-#include "exec.h"
 #include "mainwin.h"
 #include "userview.h"
 #include "commands.h"
@@ -58,6 +57,7 @@
 #include <qpopupmenu.h>
 #include <qthread.h>
 #include <qtextcodec.h>
+#include <qprocess.h>
 
 #include <time.h>
 
@@ -4561,15 +4561,11 @@ bool FileLock::lock(bool)
 void HistoryThread::run() {
     QString str = user_file(".history_file");
     History::save(m_id, str);
-    Exec *m_ex;
-    m_ex = new Exec;
-    QString m_cmd;
-    m_cmd += "\"";
-    m_cmd += m_Viewer;
-    m_cmd += "\" \"";
-    m_cmd += str;
-    m_cmd += "\"";
-    m_ex->execute(m_cmd.local8Bit(), "\n");
+    QProcess *m_ex;
+    m_ex = new QProcess();
+	m_ex->addArgument(m_Viewer);
+	m_ex->addArgument(str);
+	m_ex->start();
 }
 
 #ifdef WIN32

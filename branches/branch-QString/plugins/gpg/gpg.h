@@ -23,31 +23,31 @@
 #include <qvaluelist.h>
 #include <qstring.h>
 
-const unsigned long MessageGPGKey	= 0x5000;
-const unsigned long MessageGPGUse	= 0x5001;
+const unsigned long MessageGPGKey       = 0x5000;
+const unsigned long MessageGPGUse       = 0x5001;
 
 typedef struct GpgData
 {
-    SIM::Data	GPG;
-    SIM::Data	Home;
-    SIM::Data	GenKey;
-    SIM::Data	PublicList;
-    SIM::Data	SecretList;
-    SIM::Data	Import;
-    SIM::Data	Export;
-    SIM::Data	Encrypt;
-    SIM::Data	Decrypt;
-    SIM::Data	Key;
-    SIM::Data	Passphrases;
-    SIM::Data	Keys;
-    SIM::Data	nPassphrases;
-    SIM::Data	SavePassphrase;
+    SIM::Data   GPG;
+    SIM::Data   Home;
+    SIM::Data   GenKey;
+    SIM::Data   PublicList;
+    SIM::Data   SecretList;
+    SIM::Data   Import;
+    SIM::Data   Export;
+    SIM::Data   Encrypt;
+    SIM::Data   Decrypt;
+    SIM::Data   Key;
+    SIM::Data   Passphrases;
+    SIM::Data   Keys;
+    SIM::Data   nPassphrases;
+    SIM::Data   SavePassphrase;
 } GpgData;
 
 typedef struct GpgUserData
 {
-    SIM::Data	Key;
-    SIM::Data	Use;
+    SIM::Data   Key;
+    SIM::Data   Use;
 } GpgUserData;
 
 class QProcess;
@@ -55,18 +55,18 @@ class QProcess;
 typedef struct DecryptMsg
 {
     SIM::Message *msg;
-    QProcess	*process;
-    QString		infile;
-    QString		outfile;
-    unsigned	contact;
-    QString		passphrase;
+    QProcess    *process;
+    QString     infile;
+    QString     outfile;
+    unsigned    contact;
+    QString     passphrase;
     QString     key;
 } DecryptMsg;
 
 typedef struct KeyMsg
 {
-    QString	     key;
-    SIM::Message *msg;
+    QString         key;
+    SIM::Message    *msg;
 } KeyMsg;
 
 class PassphraseDlg;
@@ -94,9 +94,9 @@ public:
     QString GPG();
     void reset();
     static GpgPlugin *plugin;
-    std::list<KeyMsg>	 m_sendKeys;
+    std::list<KeyMsg>    m_sendKeys;
     unsigned long user_data_id;
-	static void addArguments(QProcess *proc, const QString &args);
+    static void addArguments(QProcess *proc, const QString &args);
 protected slots:
     void decryptReady();
     void importReady();
@@ -117,7 +117,7 @@ protected:
     QValueList<DecryptMsg> m_import;
     QValueList<DecryptMsg> m_public;
     QValueList<DecryptMsg> m_wait;
-    PassphraseDlg	 *m_passphraseDlg;
+    PassphraseDlg        *m_passphraseDlg;
     GpgData data;
 };
 
@@ -134,10 +134,10 @@ protected slots:
     void exportReady();
 protected:
     void *processEvent(SIM::Event*);
-    QString m_client;
-    QString	m_key;
-    MsgEdit	*m_edit;
-    QProcess	*m_process;
+    QString     m_client;
+    QString     m_key;
+    MsgEdit     *m_edit;
+    QProcess    *m_process;
 };
 
 #endif

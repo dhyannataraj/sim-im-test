@@ -142,11 +142,11 @@ void GpgCfg::fillSecret(const QByteArray &ba)
     cmbKey->clear();
     cmbKey->insertItem(i18n("None"));
     if (!ba.isEmpty()){
-		QCString all(ba);
+        QCString all(ba);
         for (;;){
             QCString line = getToken(all, '\n');
-			if(line.isEmpty())
-				break;
+            if(line.isEmpty())
+                    break;
             QCString type = getToken(line, ':');
             if (type == "sec"){
                 getToken(line, ':');
@@ -188,46 +188,46 @@ void GpgCfg::refresh()
     }
     if (m_process)
         return;
-    if (home.endsWith("\\"))
+    if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
-	m_process = new QProcess(this);
+    m_process = new QProcess(this);
     m_process->addArgument(gpg);
     m_process->addArgument("--no-tty");
     m_process->addArgument("--homedir");
-	m_process->addArgument(home);
-	GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getSecretList());
+    m_process->addArgument(home);
+    GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getSecretList());
 
-	connect(m_process, SIGNAL(processExited()), this, SLOT(secretReady()));
+    connect(m_process, SIGNAL(processExited()), this, SLOT(secretReady()));
     if (!m_process->start()) {
-		BalloonMsg::message(i18n("Get secret list failed"), btnRefresh);
-		delete m_process;
-		m_process = 0;
-	}
+        BalloonMsg::message(i18n("Get secret list failed"), btnRefresh);
+        delete m_process;
+        m_process = 0;
+    }
 }
 
 void GpgCfg::secretReady()
 {
-	if (m_process->normalExit() && m_process->exitStatus()==0) {
+    if (m_process->normalExit() && m_process->exitStatus()==0) {
         fillSecret(m_process->readStdout());
-	} else {
-		QByteArray ba1, ba2;
-		ba1 = m_process->readStderr();
-		ba2 = m_process->readStdout();
-		QString s(" (");
-		if (!ba1.isEmpty())
-			s += QString::fromLocal8Bit(ba1.data(), ba1.size());
-		if (!ba2.isEmpty()) {
-			if(!s.isEmpty())
-				s += " ";
-			s += QString::fromLocal8Bit(ba2.data(), ba2.size());
-		}
-		s += ")";
-		if(s == " ()")
-			s = "";
-		BalloonMsg::message(i18n("Get secret list failed") + s, btnRefresh);
-	}
-	delete m_process;
-	m_process = 0;
+    } else {
+        QByteArray ba1, ba2;
+        ba1 = m_process->readStderr();
+        ba2 = m_process->readStdout();
+        QString s(" (");
+        if (!ba1.isEmpty())
+            s += QString::fromLocal8Bit(ba1.data(), ba1.size());
+        if (!ba2.isEmpty()) {
+            if(!s.isEmpty())
+                s += " ";
+            s += QString::fromLocal8Bit(ba2.data(), ba2.size());
+        }
+        s += ")";
+        if(s == " ()")
+            s = "";
+        BalloonMsg::message(i18n("Get secret list failed") + s, btnRefresh);
+    }
+    delete m_process;
+    m_process = 0;
 }
 
 void GpgCfg::selectKey(int n)
