@@ -93,7 +93,7 @@ static DataDef gpgData[] =
         { "GenKey", DATA_STRING, 1, "--gen-key --batch" },
         { "PublicList", DATA_STRING, 1, "--with-colon --list-public-keys" },
         { "SecretList", DATA_STRING, 1, "--with-colon --list-secret-keys" },
-        { "Import", DATA_STRING, 1, "--import \"%keyfile%\"" },
+        { "Import", DATA_STRING, 1, "--import %keyfile%" },
         { "Export", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --export %userid%" },
         { "Encrypt", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --recipient %userid% --trusted-key %userid% --output %cipherfile% --encrypt %plainfile%" },
         { "Decrypt", DATA_STRING, 1, "--yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt %cipherfile%" },
@@ -309,7 +309,7 @@ void GpgPlugin::decryptReady()
 void GpgPlugin::importReady()
 {
     for (QValueList<DecryptMsg>::iterator it = m_import.begin(); it != m_import.end(); ++it){
-                QProcess *p = (*it).process;
+        QProcess *p = (*it).process;
         if (p && !p->isRunning()){
             if (p->normalExit() && p->exitStatus() == 0){
                 Message *msg = new Message(MessageGPGKey);
@@ -494,6 +494,7 @@ void *GpgPlugin::processEvent(Event *e)
                         proc.addArgument(GPG());
                         proc.addArgument("--no-tty");
                         proc.addArgument("--homedir");
+                        proc.addArgument(home);
                         QString str = getEncrypt();
                         str = str.replace(QRegExp("\\%plainfile\\%"), input);
                         str = str.replace(QRegExp("\\%cipherfile\\%"), output);
@@ -531,13 +532,11 @@ void *GpgPlugin::processEvent(Event *e)
         }
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());
-            if (((msg->getFlags() & MESSAGE_RICHTEXT) == 0)
-                    && (msg->baseType() == MessageGeneric)
-                    && m_bMessage){
+            if ((msg->baseType() == MessageGeneric) && m_bMessage){
                 QString text = msg->getPlainText();
                 const char SIGN_MSG[] = "-----BEGIN PGP MESSAGE-----";
                 const char SIGN_KEY[] = "-----BEGIN PGP PUBLIC KEY BLOCK-----";
-                if (text.left(strlen(SIGN_MSG)) == SIGN_MSG){
+                if (text.startsWith(SIGN_MSG)){
                     if (decode(msg, "", ""))
                         return msg;
                     return NULL;
@@ -551,7 +550,7 @@ void *GpgPlugin::processEvent(Event *e)
                         log(L_WARN, "Can't create %s", input.local8Bit().data());
                         return NULL;
                     }
-                    QByteArray ba = text.local8Bit();
+                    QByteArray ba = text.utf8();
                     in.writeBlock(ba);
                     in.close();
                     QString home = user_file(GpgPlugin::plugin->getHome());
@@ -562,7 +561,13 @@ void *GpgPlugin::processEvent(Event *e)
                     proc->addArgument("--no-tty");
                     proc->addArgument("--homedir");
                     proc->addArgument(home);
-                    QString str = getImport().replace(QRegExp("\\%keyfile\\%"), input);
+                    QString str = getImport();
+                    // can't use addArguments here!
+                    QStringList sl = QStringList::split(' ', str);
+                    for(unsigned i = 0; i < sl.count(); i++) {
+                        str = sl[(int)i];
+                        proc->addArgument(str.replace(QRegExp("\\%keyfile\\%"), input));
+                    }
                     GpgPlugin::addArguments(proc, str);
 
                     DecryptMsg dm;
@@ -697,10 +702,10 @@ void GpgPlugin::reset()
 
 void GpgPlugin::addArguments(QProcess *proc, const QString &args)
 {
-        // split by ' ' - could be a problem?
-        QStringList sl = QStringList::split(' ', args);
-        for(unsigned i = 0; i < sl.count(); i++)
-                proc->addArgument(sl[(int)i]);
+    // split by ' ' - could be a problem?
+    QStringList sl = QStringList::split(' ', args);
+    for(unsigned i = 0; i < sl.count(); i++)
+        proc->addArgument(sl[(int)i]);
 }
 
 #if 0
