@@ -13,4 +13,5 @@ dist_styles_DATA = \
  Separated.3.xsl \
  Separated.4.xsl
 
+stylesdir = $(kde_datadir)/sim/styles/
 dist_stylesdir = $(kde_datadir)/sim/styles/

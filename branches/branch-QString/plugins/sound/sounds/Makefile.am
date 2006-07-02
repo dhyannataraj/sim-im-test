@@ -13,4 +13,5 @@ dist_sounds_DATA = \
  message2.wav \
  vip-online.wav
 
+soundsdir = $(kde_datadir)/sim/sounds/
 dist_soundsdir = $(kde_datadir)/sim/sounds/
