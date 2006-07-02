@@ -2799,7 +2799,7 @@ AC_CACHE_VAL(ac_cv_libexr,
            EXRSTATUS=old
         else
            kde_save_LIBS="$LIBS"
-           LIBS="$LIBS $all_libraries $USER_LDFLAGS $LIBZ `pkg-config --libs OpenEXR`"
+           LIBS="$LIBS $all_libraries $USER_LDFLAGS `pkg-config --libs OpenEXR` $LIBZ"
            AC_LANG_SAVE
            AC_LANG_CPLUSPLUS
            kde_save_CXXFLAGS="$CXXFLAGS"
