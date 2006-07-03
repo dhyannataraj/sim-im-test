@@ -267,17 +267,6 @@ FileLineEdit::FileLineEdit(EditFile *p, const char *name)
 FileLineEdit::~FileLineEdit()
 {
 }
-
-void FileLineEdit::dragEnterEvent(QDragEnterEvent *e)
-{
-    QLineEdit::dragEnterEvent(e);
-}
-
-void FileLineEdit::dropEvent(QDropEvent *e)
-{
-    QLineEdit::dropEvent(e);
-}
-
 const int IdBase            = 0x1000;
 
 LineEdit::LineEdit(QWidget *parent, const char *name)
@@ -297,11 +286,6 @@ void LineEdit::menuActivated(int id)
             break;
         }
     }
-}
-
-void LineEdit::mousePressEvent(QMouseEvent *e)
-{
-    QLineEdit::mousePressEvent(e);
 }
 
 QPopupMenu *LineEdit::createPopupMenu()
@@ -341,11 +325,6 @@ void MultiLineEdit::menuActivated(int id)
             break;
         }
     }
-}
-
-void MultiLineEdit::mousePressEvent(QMouseEvent *e)
-{
-    QMultiLineEdit::mousePressEvent(e);
 }
 
 QPopupMenu *MultiLineEdit::createPopupMenu()
