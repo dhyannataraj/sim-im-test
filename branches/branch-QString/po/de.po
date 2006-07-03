@@ -49,7 +49,7 @@ msgstr "Konvertieren"
 
 #: plugins/__migrate/migrate.cpp:38
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr "Plugin stellt die Konvertierung der Konfiguration und des Verlaufs von SIM 0.8 bereit"
+msgstr "Plugin stellt die Konvertierung der Konfiguration und des Gesprächsverlaufs von SIM 0.8 bereit"
 
 #: plugins/__migrate/migratedlg.cpp:81
 msgid "Cancel convert?"
@@ -305,7 +305,7 @@ msgstr "Benutzer&information"
 #: plugins/_core/core.cpp:1068
 #: plugins/_core/core.cpp:1243
 msgid "&History"
-msgstr "&Verlauf"
+msgstr "&Gesprächsverlauf"
 
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 706
 #: plugins/_core/core.cpp:656
@@ -431,7 +431,7 @@ msgstr "Nachricht &löschen"
 
 #: plugins/_core/core.cpp:931
 msgid "&Cut history"
-msgstr "Verlauf ausschneiden"
+msgstr "Gesprächsverlauf ausschneiden"
 
 #: plugins/_core/core.cpp:936
 msgid "&Quote"
@@ -608,7 +608,7 @@ msgstr "Entschuldigung, bin gerade beschäftigt, werde aber später antworten."
 
 #: plugins/_core/core.cpp:1353
 msgid "Enter a decline reason"
-msgstr "Ablehungsgrund eingeben"
+msgstr "Ablehnungsgrund eingeben"
 
 #. i18n: file ./plugins/_core/maininfobase.ui line 289
 #: plugins/_core/core.cpp:1358
@@ -934,7 +934,7 @@ msgstr "Wird geladen"
 #: plugins/_core/historywnd.cpp:131
 #: plugins/_core/interfacecfg.cpp:91
 msgid "History"
-msgstr "Verlauf"
+msgstr "Gesprächsverlauf"
 
 #: plugins/_core/historywnd.cpp:191
 msgid "Textfile (*.txt)"
@@ -1095,14 +1095,14 @@ msgstr "SMS"
 
 #: plugins/_core/interfacecfg.cpp:140
 msgid "Copy %1 messages from history"
-msgstr "%1 Nachrichten vom Verlauf kopieren"
+msgstr "%1 Nachrichten vom Gesprächsverlauf kopieren"
 
 #. i18n: file ./plugins/_core/interfacecfgbase.ui line 267
 #: plugins/_core/interfacecfg.cpp:149
 #: rc.cpp:839
 #, no-c-format
 msgid "Show own nickname in window title"
-msgstr "eigenenen Spitznamen in der Fenstertitelleiste anzeigen"
+msgstr "eigenen Spitznamen in der Fenstertitelleiste anzeigen"
 
 #: plugins/_core/logindlg.cpp:60
 msgid "Select profile"
@@ -1571,7 +1571,7 @@ msgstr "\"%1\" löschen?"
 
 #: plugins/_core/userview.cpp:449
 msgid "Remove history"
-msgstr "Verlauf löschen"
+msgstr "Gesprächsverlauf löschen"
 
 #: plugins/_core/userview.cpp:861
 msgid "New group"
@@ -2419,7 +2419,7 @@ msgstr "Der Client ist veraltet"
 
 #: plugins/icq/icqlogin.cpp:259
 msgid "Too many clients from same IP"
-msgstr "Zuviele Clients mit der gleichen IP"
+msgstr "Zu viele Clients mit der gleichen IP"
 
 #: plugins/icq/icqlogin.cpp:264
 msgid "Rate limit"
@@ -2541,7 +2541,7 @@ msgstr "Sicheren Kanal anfordern"
 
 #: plugins/icq/icqmessage.cpp:871
 msgid "Close secure channel"
-msgstr "Sicheren Kanal schliessen"
+msgstr "Sicheren Kanal schließen"
 
 #: plugins/icq/icqmessage.cpp:885
 #: plugins/logger/logconfig.cpp:95
@@ -3008,7 +3008,7 @@ msgstr "Norwegisch"
 
 #: plugins/icq/moreinfo.cpp:126
 msgid "Romanian"
-msgstr "Romänisch"
+msgstr "Rumänisch"
 
 #: plugins/icq/moreinfo.cpp:128
 msgid "Serbian"
@@ -6659,7 +6659,7 @@ msgstr "Plugin &aktiviert"
 #: rc.cpp:677
 #, no-c-format
 msgid "Save &status changes to history"
-msgstr "&Statusänderungen im Verlauf speichern"
+msgstr "&Statusänderungen im Gesprächsverlauf speichern"
 
 #. i18n: file ./plugins/_core/msgcfgbase.ui line 50
 #: rc.cpp:680
@@ -6716,7 +6716,7 @@ msgstr "MB"
 #: rc.cpp:880
 #, no-c-format
 msgid "Max history file size"
-msgstr "maximale Dateigrösse des Verlaufs"
+msgstr "Maximale Dateigrösse des Gesprächsverlaufs"
 
 #. i18n: file ./plugins/_core/userhistorycfgbase.ui line 101
 #: rc.cpp:729
@@ -6730,7 +6730,7 @@ msgstr "Tage"
 #: rc.cpp:874
 #, no-c-format
 msgid "Keep history "
-msgstr "Verlauf behalten"
+msgstr "Gesprächsverlauf behalten"
 
 #. i18n: file ./plugins/_core/declinedlgbase.ui line 20
 #: rc.cpp:736
@@ -6742,7 +6742,7 @@ msgstr "Ablehnungsgrund"
 #: rc.cpp:739
 #, no-c-format
 msgid "Enter decline reason:"
-msgstr "Ablehungsgrund eingeben:"
+msgstr "Ablehnungsgrund eingeben:"
 
 #. i18n: file ./plugins/_core/arcfgbase.ui line 75
 #: rc.cpp:767
