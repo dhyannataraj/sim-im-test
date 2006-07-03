@@ -22,6 +22,7 @@
 
 #include <qvaluelist.h>
 #include <qstring.h>
+#include <qapplication.h> //for Linux: qApp->processEvents();
 
 const unsigned long MessageGPGKey       = 0x5000;
 const unsigned long MessageGPGUse       = 0x5001;
