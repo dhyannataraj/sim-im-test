@@ -1283,8 +1283,8 @@ msgid "Mb/s"
 msgstr "MB/s"
 
 #: plugins/_core/filetransfer.cpp:453
-msgid "kb/s"
-msgstr "KB/s"
+msgid "kB/s"
+msgstr "kB/s"
 
 #: plugins/_core/filetransfer.cpp:456
 msgid "b/s"
@@ -1371,7 +1371,7 @@ msgstr "Emoticons (Smilies) benutzen"
 #: rc.cpp:851
 #, no-c-format
 msgid "Max history file size"
-msgstr "Maximale Dateigrösse des Gesprächsverlaufs"
+msgstr "Maximale Dateigröße des Gesprächsverlaufs"
 
 #: plugins/_core/historycfgbase.cpp:171
 #: plugins/_core/userhistorycfgbase.cpp:92
@@ -2884,7 +2884,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:34
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder vom Kontaktmenü aus"
 
 #: plugins/action/action.cpp:84
 msgid "&Action"
@@ -3420,7 +3420,7 @@ msgstr "Zum Generieren eines Zufallsschlüssels Maus bewegen"
 
 #: plugins/gpg/gpggen.cpp:177
 msgid "Generate key failed"
-msgstr "Schlüssel generieren fehlgeschlagen"
+msgstr "Schlüsselgenerierung fehlgeschlagen"
 
 #: plugins/gpg/gpggenbase.cpp:135
 #: rc.cpp:1724
@@ -4453,7 +4453,7 @@ msgstr "Suche Mann"
 #: plugins/icq/icqinfo.cpp:85
 #: plugins/jabber/jabberinfo.cpp:66
 msgid "Input current password"
-msgstr "Korrektes Passwort eingeben"
+msgstr "Aktuelles Passwort eingeben"
 
 #: plugins/icq/icqinfo.cpp:88
 #: plugins/jabber/jabberinfo.cpp:69
@@ -4585,7 +4585,7 @@ msgstr "Eine Anmeldung mit Ihrer UIN wurde gerade von einem anderen Ort aus vorg
 
 #: plugins/icq/icqlogin.cpp:346
 msgid "Close packet from server"
-msgstr "Packet von Server schließen"
+msgstr "Paket von Server schließen"
 
 #: plugins/icq/icqlogin.cpp:353
 msgid "Bad host address"
@@ -4624,8 +4624,8 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
-"Sichereren Kanal schließen\n"
-"%n mal sichereren Kanal schließen"
+"Sicheren Kanal schließen\n"
+"%n Mal sicheren Kanal schließen"
 
 #: plugins/icq/icqmessage.cpp:668
 #, c-format
@@ -5184,7 +5184,7 @@ msgstr "Esperanto"
 
 #: plugins/icq/moreinfo.cpp:100
 msgid "Estonian"
-msgstr "Estlädisch"
+msgstr "Estnisch"
 
 #: plugins/icq/moreinfo.cpp:101
 msgid "Farsi"
@@ -5444,7 +5444,7 @@ msgstr "Selbstverbesserungsorg."
 
 #: plugins/icq/pastinfo.cpp:104
 msgid "Spiritual/Religious Org."
-msgstr "Spiriruell/Religöse Org."
+msgstr "Spirituell/Religöse Org."
 
 #: plugins/icq/pastinfo.cpp:105
 msgid "Sports Org."
@@ -10484,7 +10484,7 @@ msgstr "Windows XP-Stil"
 #~ msgid "Use specified profile"
 #~ msgstr "benutzerdefiniertes Profil auswählen"
 #~ msgid "Add new ICQ UIN to profile. You need to specify uin:password"
-#~ msgstr "Neue ICQ Nummer (UIN) zum Profil hinzufügen. Sie benötigen UIN:PASSWORT zum Spezfizieren."
+#~ msgstr "Neue ICQ-Nummer (UIN) zum Profil hinzufügen. Sie benötigen UIN:PASSWORT zum Spezifizieren."
 #~ msgid "Use external viewer"
 #~ msgstr "Externen Betrachter verwenden"
 #~ msgid "Show own nickname in window title"
