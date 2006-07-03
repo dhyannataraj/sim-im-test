@@ -175,7 +175,7 @@ msgstr "Konvertieren"
 
 #: plugins/__migrate/migrate.cpp:36
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr "Plugin stellt die Konvertierung der Konfiguration und des Verlaufs von SIM 0.8 bereit"
+msgstr "Plugin stellt die Konvertierung der Konfiguration und des Gesprächsverlaufs von SIM 0.8 bereit"
 
 #: plugins/__migrate/migratedlg.cpp:78
 msgid "Cancel convert?"
@@ -586,7 +586,7 @@ msgstr "Benutzer&information"
 #: plugins/_core/core.cpp:632
 #: plugins/_core/core.cpp:1226
 msgid "&History"
-msgstr "&Verlauf"
+msgstr "&Gesprächsverlauf"
 
 #: plugins/_core/core.cpp:639
 #: plugins/_core/filetransfer.cpp:346
@@ -718,7 +718,7 @@ msgstr "Nachricht &löschen"
 
 #: plugins/_core/core.cpp:914
 msgid "&Cut history"
-msgstr "Verlauf ausschneiden"
+msgstr "Gesprächsverlauf ausschneiden"
 
 #: plugins/_core/core.cpp:919
 msgid "&Quote"
@@ -791,7 +791,7 @@ msgstr "S&MS"
 
 #: plugins/_core/core.cpp:1051
 msgid "&History setup"
-msgstr "&Verlaufseinstellungen"
+msgstr "&Gesprächsverlaufseinstellungen"
 
 #: plugins/_core/core.cpp:1059
 #: plugins/_core/core.cpp:1090
@@ -920,7 +920,7 @@ msgstr "Entschuldigung, bin gerade beschäftigt, werde aber später antworten."
 
 #: plugins/_core/core.cpp:1336
 msgid "Enter a decline reason"
-msgstr "Ablehungsgrund eingeben"
+msgstr "Ablehnungsgrund eingeben"
 
 #: plugins/_core/core.cpp:1341
 #: plugins/_core/core.cpp:1355
@@ -1111,7 +1111,7 @@ msgstr "Ablehnungsgrund"
 #: rc.cpp:739
 #, no-c-format
 msgid "Enter decline reason:"
-msgstr "Ablehungsgrund eingeben:"
+msgstr "Ablehnungsgrund eingeben:"
 
 #: plugins/_core/editmail.cpp:31
 msgid "Add mail address"
@@ -1371,7 +1371,7 @@ msgstr "Emoticons (Smilies) benutzen"
 #: rc.cpp:851
 #, no-c-format
 msgid "Max history file size"
-msgstr "maximale Dateigrösse des Verlaufs"
+msgstr "Maximale Dateigrösse des Gesprächsverlaufs"
 
 #: plugins/_core/historycfgbase.cpp:171
 #: plugins/_core/userhistorycfgbase.cpp:92
@@ -1387,7 +1387,7 @@ msgstr "MB"
 #: rc.cpp:859
 #, no-c-format
 msgid "Keep history "
-msgstr "Verlauf behalten"
+msgstr "Gesprächsverlauf behalten"
 
 #: plugins/_core/historycfgbase.cpp:174
 #: plugins/_core/userhistorycfgbase.cpp:95
@@ -1434,7 +1434,7 @@ msgstr "Wird geladen"
 #: plugins/_core/historywnd.cpp:129
 #: plugins/_core/interfacecfg.cpp:88
 msgid "History"
-msgstr "Verlauf"
+msgstr "Gesprächsverlauf"
 
 #: plugins/_core/historywnd.cpp:189
 msgid "Textfile (*.txt)"
@@ -1596,7 +1596,7 @@ msgstr "SMS"
 
 #: plugins/_core/interfacecfg.cpp:137
 msgid "Copy %1 messages from history"
-msgstr "%1 Nachrichten vom Verlauf kopieren"
+msgstr "%1 Nachrichten vom Gesprächsverlauf kopieren"
 
 #: plugins/_core/interfacecfgbase.cpp:123
 #: plugins/icq/advsearchbase.cc:247
@@ -1986,7 +1986,7 @@ msgstr "Datei"
 #: rc.cpp:677
 #, no-c-format
 msgid "Save &status changes to history"
-msgstr "&Statusänderungen im Verlauf speichern"
+msgstr "&Statusänderungen im Gesprächsverlauf speichern"
 
 #: plugins/_core/msgcfgbase.cpp:85
 #: rc.cpp:680
@@ -2640,7 +2640,7 @@ msgstr "\"%1\" löschen?"
 
 #: plugins/_core/userview.cpp:480
 msgid "Remove history"
-msgstr "Verlauf löschen"
+msgstr "Gesprächsverlauf löschen"
 
 #: plugins/_core/userview.cpp:892
 msgid "New group"
@@ -4541,7 +4541,7 @@ msgstr "Der Client ist veraltet"
 
 #: plugins/icq/icqlogin.cpp:256
 msgid "Too many clients from same IP"
-msgstr "Zuviele Clients mit der gleichen IP"
+msgstr "Zu viele Clients mit der gleichen IP"
 
 #: plugins/icq/icqlogin.cpp:261
 msgid "Rate limit"
@@ -4663,7 +4663,7 @@ msgstr "Sicheren Kanal anfordern"
 
 #: plugins/icq/icqmessage.cpp:868
 msgid "Close secure channel"
-msgstr "Sicheren Kanal schliessen"
+msgstr "Sicheren Kanal schließen"
 
 #: plugins/icq/icqmessage.cpp:882
 #: plugins/logger/logconfig.cpp:93
@@ -5248,7 +5248,7 @@ msgstr "Norwegisch"
 
 #: plugins/icq/moreinfo.cpp:123
 msgid "Romanian"
-msgstr "Romänisch"
+msgstr "Rumänisch"
 
 #: plugins/icq/moreinfo.cpp:125
 msgid "Serbian"
@@ -10488,7 +10488,7 @@ msgstr "Windows XP-Stil"
 #~ msgid "Use external viewer"
 #~ msgstr "Externen Betrachter verwenden"
 #~ msgid "Show own nickname in window title"
-#~ msgstr "eigenenen Spitznamen in der Fenstertitelleiste anzeigen"
+#~ msgstr "eigenen Spitznamen in der Fenstertitelleiste anzeigen"
 #~ msgid "Taiwanese"
 #~ msgstr "Taiwanesisch"
 #~ msgid "Update"
