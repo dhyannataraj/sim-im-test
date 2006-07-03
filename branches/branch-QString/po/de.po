@@ -756,7 +756,7 @@ msgstr "benutzerdefiniertes Profil auswählen"
 
 #: plugins/_core/core.cpp:3720
 msgid "Add new ICQ UIN to profile. You need to specify uin:password"
-msgstr "Neue ICQ Nummer (UIN) zum Profil hinzufügen. Sie benötigen UIN:PASSWORT zum Spezfizieren."
+msgstr "Neue ICQ-Nummer (UIN) zum Profil hinzufügen. Sie benötigen UIN:PASSWORT zum Spezifizieren."
 
 #. i18n: file ./plugins/_core/managerbase.ui line 20
 #: plugins/_core/core.cpp:4285
@@ -886,8 +886,8 @@ msgid "Mb/s"
 msgstr "MB/s"
 
 #: plugins/_core/filetransfer.cpp:455
-msgid "kb/s"
-msgstr "KB/s"
+msgid "kB/s"
+msgstr "kB/s"
 
 #: plugins/_core/filetransfer.cpp:458
 msgid "b/s"
@@ -1644,7 +1644,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:37
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr "Plugin führt externe Programme bei einem Ereignis oder von Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder vom Kontaktmenü aus"
 
 #: plugins/action/action.cpp:87
 msgid "&Action"
@@ -1920,7 +1920,7 @@ msgstr "Zum Generieren eines Zufallsschlüssels Maus bewegen"
 
 #: plugins/gpg/gpggen.cpp:180
 msgid "Generate key failed"
-msgstr "Schlüssel generieren fehlgeschlagen"
+msgstr "Schlüsselgenerierung fehlgeschlagen"
 
 #: plugins/gpg/passphrase.cpp:39
 #, c-format
@@ -2393,7 +2393,7 @@ msgstr "Suche Mann"
 #: plugins/icq/icqinfo.cpp:88
 #: plugins/jabber/jabberinfo.cpp:68
 msgid "Input current password"
-msgstr "Korrektes Passwort eingeben"
+msgstr "Aktuelles Passwort eingeben"
 
 #: plugins/icq/icqinfo.cpp:91
 #: plugins/jabber/jabberinfo.cpp:71
@@ -2463,7 +2463,7 @@ msgstr "Eine Anmeldung mit Ihrer UIN wurde gerade von einem anderen Ort aus vorg
 
 #: plugins/icq/icqlogin.cpp:349
 msgid "Close packet from server"
-msgstr "Packet von Server schließen"
+msgstr "Paket von Server schließen"
 
 #: plugins/icq/icqlogin.cpp:356
 msgid "Bad host address"
@@ -2502,8 +2502,8 @@ msgid ""
 "_n: Close secure channel\n"
 "%n times close secure channel"
 msgstr ""
-"Sichereren Kanal schließen\n"
-"%n mal sichereren Kanal schließen"
+"Sicheren Kanal schließen\n"
+"%n Mal sicheren Kanal schließen"
 
 #: plugins/icq/icqmessage.cpp:671
 #, c-format
@@ -2944,7 +2944,7 @@ msgstr "Esperanto"
 
 #: plugins/icq/moreinfo.cpp:103
 msgid "Estonian"
-msgstr "Estlädisch"
+msgstr "Estnisch"
 
 #: plugins/icq/moreinfo.cpp:104
 msgid "Farsi"
@@ -3162,7 +3162,7 @@ msgstr "Selbstverbesserungsorg."
 
 #: plugins/icq/pastinfo.cpp:106
 msgid "Spiritual/Religious Org."
-msgstr "Spiriruell/Religöse Org."
+msgstr "Spirituell/Religöse Org."
 
 #: plugins/icq/pastinfo.cpp:107
 msgid "Sports Org."
@@ -6716,7 +6716,7 @@ msgstr "MB"
 #: rc.cpp:880
 #, no-c-format
 msgid "Max history file size"
-msgstr "Maximale Dateigrösse des Gesprächsverlaufs"
+msgstr "Maximale Dateigröße des Gesprächsverlaufs"
 
 #. i18n: file ./plugins/_core/userhistorycfgbase.ui line 101
 #: rc.cpp:729
