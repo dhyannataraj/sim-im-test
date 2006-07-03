@@ -93,6 +93,7 @@ QPixmap SoundUserConfig::makePixmap(const char *src)
 
 void SoundUserConfig::apply(void *data)
 {
+    selectionChanged(NULL);
     SoundUserData *user_data = (SoundUserData*)data;
     for (QListViewItem *item = lstSound->firstChild(); item; item = item->nextSibling()){
         unsigned id = item->text(2).toUInt();
