@@ -431,7 +431,7 @@ msgstr "Lokal akt&ualisieren"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
-msgstr "Mehr..."
+msgstr "Mehr ..."
 
 #: plugins/_core/commands.cpp:234
 #: plugins/_core/toolbarcfg.cpp:40
@@ -799,7 +799,7 @@ msgid "Show &offline"
 msgstr "&Offline anzeigen"
 
 #: plugins/_core/core.cpp:1071
-msgid "&No show groups"
+msgid "Do&n't show groups"
 msgstr "&Keine Gruppen anzeigen"
 
 #: plugins/_core/core.cpp:1081

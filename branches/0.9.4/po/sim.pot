@@ -465,7 +465,7 @@ msgid "Show &offline"
 msgstr ""
 
 #: plugins/_core/core.cpp:1071
-msgid "&No show groups"
+msgid "Do&n't show groups"
 msgstr ""
 
 #: plugins/_core/core.cpp:1081
