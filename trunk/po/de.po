@@ -181,7 +181,7 @@ msgstr "Information aktualisieren"
 
 #: plugins/_core/cmenu.cpp:80
 msgid "More..."
-msgstr "Mehr..."
+msgstr "Mehr ..."
 
 #: plugins/_core/commands.cpp:236
 #: plugins/_core/toolbarcfg.cpp:40
@@ -497,7 +497,7 @@ msgid "Show &offline"
 msgstr "&Offline anzeigen"
 
 #: plugins/_core/core.cpp:1088
-msgid "&No show groups"
+msgid "Do&n't show groups"
 msgstr "&Keine Gruppen anzeigen"
 
 #: plugins/_core/core.cpp:1098

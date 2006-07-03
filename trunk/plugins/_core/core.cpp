@@ -1086,7 +1086,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     eCmd.process();
 
     cmd->id			= CmdGrpOff;
-    cmd->text		= I18N_NOOP("&No show groups");
+    cmd->text		= I18N_NOOP("Do&n't show groups");
     cmd->icon		= "grp_off";
     cmd->icon_on	= 0;
     cmd->bar_id		= 0;
