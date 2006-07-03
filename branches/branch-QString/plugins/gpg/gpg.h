@@ -94,9 +94,8 @@ public:
     QString GPG();
     void reset();
     static GpgPlugin *plugin;
-    std::list<KeyMsg>    m_sendKeys;
+    QValueList<KeyMsg>    m_sendKeys;
     unsigned long user_data_id;
-    static void addArguments(QProcess *proc, const QString &args);
 protected slots:
     void decryptReady();
     void importReady();

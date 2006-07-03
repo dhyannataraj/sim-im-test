@@ -128,14 +128,16 @@ void GpgGen::accept()
     f.writeBlock(in.local8Bit(), in.local8Bit().length());
     f.close();
 
-	delete m_process;	// to be sure...
-	m_process = new QProcess(this);
-	m_process->addArgument(gpg);
-	m_process->addArgument("--no-tty");
-	m_process->addArgument("--homedir");
-	m_process->addArgument(home);
-	GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getGenKey());
-	m_process->addArgument(fname);
+    QStringList sl;
+    sl += gpg;
+    sl += "--no-tty";
+    sl += "--homedir";
+    sl += home;
+    sl += QStringList::split(' ', GpgPlugin::plugin->getGenKey());
+    sl += fname;
+
+    delete m_process;	// to be sure...
+	m_process = new QProcess(sl, this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(genKeyReady()));
 

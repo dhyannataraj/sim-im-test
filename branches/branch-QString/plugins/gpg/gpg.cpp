@@ -36,7 +36,6 @@
 #include <sys/stat.h>
 #endif
 
-using namespace std;
 using namespace SIM;
 
 #ifndef WIN32
@@ -337,12 +336,14 @@ void GpgPlugin::importReady()
                     if (home.endsWith("\\") || home.endsWith("/"))
                         home = home.left(home.length() - 1);
 
-                    QProcess *proc = new QProcess(this);
-                    proc->addArgument(GPG());
-                    proc->addArgument("--no-tty");
-                    proc->addArgument("--homedir");
-                    proc->addArgument(home);
-                    GpgPlugin::addArguments(proc, getPublicList());
+                    QStringList sl;
+                    sl += GPG();
+                    sl += "--no-tty";
+                    sl += "--homedir";
+                    sl += home;
+                    sl += QStringList::split(' ', getPublicList());
+
+                    QProcess *proc = new QProcess(sl, this);
 
                     DecryptMsg dm;
                     dm.process = proc;
@@ -434,7 +435,7 @@ void *GpgPlugin::processEvent(Event *e)
         }
     case EventMessageSent:{
             Message *msg = (Message*)(e->param());
-            for (list<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
+            for (QValueList<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
                 if ((*it).msg == msg){
                     if (msg->getError().isEmpty()){
                         Message m(MessageGPGKey);
@@ -490,20 +491,22 @@ void *GpgPlugin::processEvent(Event *e)
                         QString home = user_file(GpgPlugin::plugin->getHome());
                         if (home.endsWith("\\") || home.endsWith("/"))
                             home = home.left(home.length() - 1);
-                        QProcess proc(this);
-                        proc.addArgument(GPG());
-                        proc.addArgument("--no-tty");
-                        proc.addArgument("--homedir");
-                        proc.addArgument(home);
-                        QString str = getEncrypt();
-                        str = str.replace(QRegExp("\\%plainfile\\%"), input);
-                        str = str.replace(QRegExp("\\%cipherfile\\%"), output);
-                        str = str.replace(QRegExp("\\%userid\\%"), data->Key.str());
-                        proc.addArgument(str);
 
-                        if(!proc.launch("\n")) {
+                        QStringList sl;
+                        sl += GPG();
+                        sl += "--no-tty";
+                        sl += "--homedir";
+                        sl += home;
+                        sl += QStringList::split(' ', getEncrypt());
+                        sl = sl.gres(QRegExp("\\%plainfile\\%"), input);
+                        sl = sl.gres(QRegExp("\\%cipherfile\\%"), output);
+                        sl = sl.gres(QRegExp("\\%userid\\%"), data->Key.str());
+
+                        QProcess proc(sl, this);
+
+                        if(!proc.launch("\n"))
                             return ms->msg;
-                        }
+
                         // FIXME: not soo good...
                         while(proc.isRunning())
                             qApp->processEvents();
@@ -556,19 +559,16 @@ void *GpgPlugin::processEvent(Event *e)
                     QString home = user_file(GpgPlugin::plugin->getHome());
                     if (home.endsWith("\\") || home.endsWith("/"))
                         home = home.left(home.length() - 1);
-                    QProcess *proc = new QProcess(this);
-                    proc->addArgument(GPG());
-                    proc->addArgument("--no-tty");
-                    proc->addArgument("--homedir");
-                    proc->addArgument(home);
-                    QString str = getImport();
-                    // can't use addArguments here!
-                    QStringList sl = QStringList::split(' ', str);
-                    for(unsigned i = 0; i < sl.count(); i++) {
-                        str = sl[(int)i];
-                        proc->addArgument(str.replace(QRegExp("\\%keyfile\\%"), input));
-                    }
-                    GpgPlugin::addArguments(proc, str);
+
+                    QStringList sl;
+                    sl += GPG();
+                    sl += "--no-tty";
+                    sl += "--homedir";
+                    sl += home;
+                    sl += QStringList::split(' ', getImport());
+                    sl = sl.gres(QRegExp("\\%keyfile\\%"), input);
+
+                    QProcess *proc = new QProcess(sl, this);
 
                     DecryptMsg dm;
                     dm.process = proc;
@@ -605,15 +605,16 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
 
-    QProcess *proc = new QProcess(this);
-    proc->addArgument(GPG());
-    proc->addArgument("--no-tty");
-    proc->addArgument("--homedir");
-    proc->addArgument(home);
-    QString str = getDecrypt();
-    str = str.replace(QRegExp("\\%plainfile\\%"), output);
-    str = str.replace(QRegExp("\\%cipherfile\\%"), input);
-    GpgPlugin::addArguments(proc, str);
+    QStringList sl;
+    sl += GPG();
+    sl += "--no-tty";
+    sl += "--homedir";
+    sl += home;
+    sl += QStringList::split(' ', getDecrypt());
+    sl = sl.gres(QRegExp("\\%plainfile\\%"), output);
+    sl = sl.gres(QRegExp("\\%cipherfile\\%"), input);
+
+    QProcess *proc = new QProcess(sl, this);
 
     DecryptMsg dm;
     dm.process = proc;
@@ -698,14 +699,6 @@ void GpgPlugin::reset()
     }else{
         unregisterMessage();
     }
-}
-
-void GpgPlugin::addArguments(QProcess *proc, const QString &args)
-{
-    // split by ' ' - could be a problem?
-    QStringList sl = QStringList::split(' ', args);
-    for(unsigned i = 0; i < sl.count(); i++)
-        proc->addArgument(sl[(int)i]);
 }
 
 #if 0
@@ -845,22 +838,24 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
 
-    m_process = new QProcess(this);
-    m_process->addArgument(gpg);
-    m_process->addArgument("--no-tty");
-    m_process->addArgument("--homedir");
-    m_process->addArgument(home);
-    QString str = GpgPlugin::plugin->getExport().replace(QRegExp("\\%userid\\%"), m_key);
-    GpgPlugin::addArguments(m_process, str);
+    QStringList sl;
+    sl += GpgPlugin::plugin->GPG();
+    sl += "--no-tty";
+    sl += "--homedir";
+    sl += home;
+    sl += QStringList::split(' ', GpgPlugin::plugin->getExport());
+    sl = sl.gres(QRegExp("\\%userid\\%"), m_key);
+
+    m_process = new QProcess(sl, this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(exportReady()));
     if (!m_process->start())
-                exportReady();
+        exportReady();
 }
 
 MsgGPGKey::~MsgGPGKey()
 {
-        delete m_process;
+    delete m_process;
 }
 
 void MsgGPGKey::init()
@@ -874,7 +869,7 @@ void MsgGPGKey::exportReady()
         QByteArray ba1 = m_process->readStdout();
         m_edit->m_edit->setText(QString::fromLocal8Bit(ba1.data(), ba1.size()));
         if(ba1.isEmpty()) {
-                QByteArray ba2 = m_process->readStderr();
+            QByteArray ba2 = m_process->readStderr();
             QString errStr;
             if(!ba2.isEmpty())
                 errStr = " (" + QString::fromLocal8Bit( ba2.data(), ba2.size() ) + ")";

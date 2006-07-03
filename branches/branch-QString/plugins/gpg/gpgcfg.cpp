@@ -190,12 +190,15 @@ void GpgCfg::refresh()
         return;
     if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
-    m_process = new QProcess(this);
-    m_process->addArgument(gpg);
-    m_process->addArgument("--no-tty");
-    m_process->addArgument("--homedir");
-    m_process->addArgument(home);
-    GpgPlugin::addArguments(m_process, GpgPlugin::plugin->getSecretList());
+
+    QStringList sl;
+    sl += gpg;
+    sl += "--no-tty";
+    sl += "--homedir";
+    sl += home;
+    sl += QStringList::split(' ', GpgPlugin::plugin->getSecretList());
+
+    m_process = new QProcess(sl, this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(secretReady()));
     if (!m_process->start()) {
