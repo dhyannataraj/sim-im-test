@@ -30,17 +30,6 @@ class EditFile;
 class FilePreview;
 class QPopupMenu;
 
-class EXPORT FileLineEdit : public QLineEdit
-{
-    Q_OBJECT
-public:
-    FileLineEdit(EditFile *p, const char *name = NULL);
-    ~FileLineEdit();
-protected:
-    virtual void dragEnterEvent(QDragEnterEvent*);
-    virtual void dropEvent(QDropEvent*);
-};
-
 typedef FilePreview *CreatePreview(QWidget *parent);
 
 class EXPORT EditFile : public QFrame
@@ -75,7 +64,7 @@ protected:
     QString startDir;
     QString title;
     QHBoxLayout   *lay;
-    FileLineEdit  *edtFile;
+    QLineEdit     *edtFile;
     CreatePreview *createPreview;
 };
 
@@ -98,7 +87,6 @@ public:
 protected slots:
     void menuActivated(int);
 protected:
-    void mousePressEvent(QMouseEvent *e);
     QPopupMenu *createPopupMenu();
 };
 
@@ -111,7 +99,6 @@ public:
 protected slots:
     void menuActivated(int);
 protected:
-    void mousePressEvent(QMouseEvent *e);
     QPopupMenu *createPopupMenu();
 };
 

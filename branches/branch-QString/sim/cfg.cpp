@@ -1210,7 +1210,8 @@ void Data::checkType(DataType type) const
 
 void Data::setName(const QString &name)
 {
-    m_name = name;
+    if(!name.isEmpty() && m_name.isEmpty())
+        m_name = name;
 }
 
 const QString &Data::name() const
