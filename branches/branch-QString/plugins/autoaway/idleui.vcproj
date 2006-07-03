@@ -65,7 +65,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1049"
 				AdditionalIncludeDirectories="..\.."
 			/>
 			<Tool
@@ -155,7 +154,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1049"
 				AdditionalIncludeDirectories="..\.."
 			/>
 			<Tool

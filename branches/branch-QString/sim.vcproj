@@ -66,7 +66,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1049"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -157,7 +156,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1049"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -1188,10 +1186,6 @@
 			</File>
 			<File
 				RelativePath="sim\cjk_variants.h"
-				>
-			</File>
-			<File
-				RelativePath="sim\compatqtversion.h"
 				>
 			</File>
 			<File
