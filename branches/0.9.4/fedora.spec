@@ -5,7 +5,7 @@
 %else
 %define with_kde 1
 %endif
-%define release 2
+%define release 1
 
 Name: 		sim
 Version: 	0.9.4
@@ -16,13 +16,14 @@ Distribution:	Red Hat Linux %{rh_release}
 Release:	%{release}.fdr%(dist_release="`echo "%{fdr_release} * 10" | bc 2>/dev/null`" ; echo "$dist_release")
 Distribution:	Fedora Core %{fdr_release}
 %endif
-Vendor: 	Vladimir Shutoff <vovan@shutoff.ru>
-Packager:	Robert Scheck <sim@robert-scheck.de>
+Vendor:		SIM-IM team <sim-im-main@lists.sim-im.org>
+Packager:	Lev Shamardin <shamardin@gmail.com>
 Summary:  	SIM - Multiprotocol Instant Messenger
 Summary(de):	SIM - Multiprotokoll Instant Messenger
+Summary(ru_RU.UTF-8): SIM - Клиент ICQ/AIM/MSN/Jabber и других IM (с поддержкой KDE)
 License: 	GPL
 Group: 		Applications/Internet
-URL: 		http://sim-im.berlios.de/
+URL:		http://sim-im.org/
 Source0: 	%{name}-%{version}.tar.bz2
 BuildRequires:	autoconf >= 2.52, automake >= 1.5
 BuildRequires:  gcc, gcc-c++, zlib-devel, libjpeg-devel, expat-devel, flex, libart_lgpl-devel, libpng-devel, gettext, libXScrnSaver-devel
@@ -33,17 +34,24 @@ Requires:       kdebase >= 3.0.0, kdelibs >= 3.0.0
 BuildRequires:  qt-devel >= 3.0.0, openssl-devel, pcre-devel >= 3.9, arts-devel >= 1.0, libxml2-devel, libxslt-devel
 Requires:       qt >= 3.0.0, openssl, arts >= 1.0, libxml2, libxslt
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-root
+Obsoletes:	sim
+Requires:	/usr/share/mimelnk/application/x-icq.desktop
+
+%package mimelnk
+Summary:	Adds x-icq mime type support if kdenetwork is not installed
+Conflicts:	kdenetwork, sim
+Group: 		Applications/Internet
 
 %description -l de
 SIM - Multiprotokoll Instant Messenger
 
 SIM (Simple Instant Messenger) ist ein Plugin-basierender
 open-source Instant Messenger, der verschiedene Protokolle
-(ICQ, Jabber, AIM, MSN, LiveJournal, Yahoo!) unterst�tzt. 
-Daf�r wird die QT-Bibliothek und X11 (mit optionaler KDE-
-Unterst�tzung) verwendet.
+(ICQ, Jabber, AIM, MSN, LiveJournal, Yahoo!) unterstützt. 
+Dafür wird die QT-Bibliothek und X11 (mit optionaler KDE-
+Unterstützung) verwendet.
 
-SIM hat sehr unz�hlige Features, viele von diesen sind
+SIM hat sehr unzählige Features, viele von diesen sind
 aufgelistet unter: http://sim-im.berlios.de/
 
 %description
@@ -57,8 +65,26 @@ QT library and works on X11 (with optional KDE support).
 SIM has countless features, many of them are listed at:
 http://sim-im.berlios.de/
 
+%description -l ru_RU.UTF-8
+SIM - Многопротокольный клиент обмена мнгновенными сообщениями.
+
+SIM (Simple Instant Manager)
+Кроссплатформенный, многопротокольный клиент обмена мгновенными
+сообщениями. Поддерживаются протоколы ICQ, Jabber, MSN, AIM, YIM,
+а также LiveJournal. Кроме того, имеется множество плагинов,
+реализующих дополнительные возможности.
+
+%description mimelnk
+Additional SIM package with x-icq mime type support.
+Required only if kdenetwork package is not installed.
+
+%description mimelnk -l ru_RU.UTF-8
+Требуется только если не установлен пакет kdenetwork.
+
 %prep
 %setup -q
+cp /usr/share/aclocal/libtool.m4 admin/libtool.m4.in
+libtoolize -c -f
 make -f admin/Makefile.common
 CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" 
 
@@ -96,10 +122,17 @@ rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 %{_datadir}/applications/kde/sim.desktop
 %{_datadir}/apps/
 %{_datadir}/icons/*/*/*/*
-%{_datadir}/mimelnk/
 %{_datadir}/services/
 
+%files mimelnk
+%{_datadir}/mimelnk/
+
 %changelog
+* Fri Jun 30 2006 - Lev Shamardin <shamardin@gmail.com> - 0.9.4
+- Upgrade to 0.9.4 release
+- Updated packaging scheme to be compatible with new kdenetwork
+- Added russian package descriptions
+
 * Sat Apr 03 2004 - Robert Scheck <sim@robert-scheck.de> - 0.9.3-2
 - Upgrade to 0.9.3-2 (second 0.9.3 release)
 
@@ -118,4 +151,5 @@ rm -rf $RPM_BUILD_DIR/%{name}-%{version}
 * Tue Oct 28 2003 - Robert Scheck <sim@robert-scheck.de> - 0.9.0-1
 - Upgrade to 0.9.0
 - Adapted spec file from Red Hat Linux
+
 
