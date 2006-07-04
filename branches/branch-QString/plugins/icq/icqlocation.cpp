@@ -50,6 +50,7 @@ static bool extractInfo(TlvList &tlvs, unsigned short id, SIM::Data &data)
     Tlv *tlv = tlvs(id);
     if (tlv)
         info = *tlv;
+    // FIXME! use toUnicode() here?
     return data.setStr(QString::fromUtf8(info));
 }
 
@@ -131,9 +132,9 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             Tlv *tlvInfo = tlvs(0x02);
             if (tlvInfo){
                 QString info = convert(tlvInfo, tlvs, 0x01);
-                if (info.left(6).upper() == "<HTML>")
+                if (info.startsWith("<HTML>", false))
                     info = info.mid(6);
-                if (info.right(7).upper() == "</HTML>")
+                if (info.endsWith("</HTML>", false))
                     info = info.left(info.length() - 7);
                 if (data->About.setStr(info)){
                     data->ProfileFetch.asBool() = true;
@@ -158,7 +159,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
         }
         break;
     case ICQ_SNACxLOC_DIRxINFO:
-        if (isOwnData(screen.latin1())){
+        if (isOwnData(screen)){
             data = &this->data.owner;
         }else{
             data = findInfoRequest(seq, contact);

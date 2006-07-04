@@ -758,7 +758,7 @@ unsigned short ICQClient::findByUin(unsigned long uin)
     return m_nMsgSequence;
 }
 
-unsigned short ICQClient::findByMail(const char *mail)
+unsigned short ICQClient::findByMail(const QString &mail)
 {
     if (getState() != Connected)
         return (unsigned short)(-1);
@@ -784,17 +784,17 @@ void ICQClient::packTlv(unsigned short tlv, unsigned short code, const char *key
     m_socket->writeBuffer.tlvLE(tlv, b);
 }
 
-unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const char *szNick,
-                                 const char *szEmail, char age, char nGender,
-                                 unsigned short nLanguage, const char *szCity, const char *szState,
+unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, const QString &szNick,
+                                 const QString &szEmail, char age, char nGender,
+                                 unsigned short nLanguage, const QString &szCity, const QString &szState,
                                  unsigned short nCountryCode,
-                                 const char *szCoName, const char *szCoDept, const char *szCoPos,
+                                 const QString &szCoName, const QString &szCoDept, const QString &szCoPos,
                                  unsigned short nOccupation,
-                                 unsigned short nPast, const char *szPast,
-                                 unsigned short nInterests, const char *szInterests,
-                                 unsigned short nAffilation, const char *szAffilation,
-                                 unsigned short nHomePage, const char *szHomePage,
-                                 const char *szKeyWords, bool bOnlineOnly)
+                                 unsigned short nPast, const QString &szPast,
+                                 unsigned short nInterests, const QString &szInterests,
+                                 unsigned short nAffilation, const QString &szAffilation,
+                                 unsigned short nHomePage, const QString &szHomePage,
+                                 const QString &szKeyWords, bool bOnlineOnly)
 {
     if (getState() != Connected)
         return (unsigned short)(-1);
@@ -830,15 +830,15 @@ unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const 
         break;
     }
 
-    if (szCity && *szCity)
+    if (!szCity.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_CITY, szCity);
-    if (szState && *szState)
+    if (!szState.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_STATE, szState);
-    if (szCoName && *szCoName)
+    if (!szCoName.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, szCoName);
-    if (szCoDept && *szCoDept)
+    if (!szCoDept.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, szCoDept);
-    if (szCoPos && *szCoPos)
+    if (!szCoPos.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, szCoPos);
     if (nMinAge || nMaxAge)
         m_socket->writeBuffer.tlvLE(TLV_AGE_RANGE, (nMaxAge << 16) + nMinAge);
@@ -854,15 +854,15 @@ unsigned short ICQClient::findWP(const char *szFirst, const char *szLast, const 
     packTlv(TLV_INTERESTS, nInterests, szInterests);
     packTlv(TLV_AFFILATIONS, nAffilation, szAffilation);
     packTlv(TLV_HOMEPAGE, nHomePage, szHomePage);
-    if (szFirst && *szFirst)
+    if (!szFirst.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, szFirst);
-    if (szLast && *szLast)
+    if (!szLast.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, szLast);
-    if (szNick && *szNick)
+    if (!szNick.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_NICK, szNick);
-    if (szKeyWords && *szKeyWords)
+    if (!szKeyWords.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_KEYWORDS, szKeyWords);
-    if (szEmail && *szEmail)
+    if (!szEmail.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_EMAIL, szEmail);
     if (bOnlineOnly)
         m_socket->writeBuffer.tlvLE(TLV_SEARCH_ONLINE, (char)1);

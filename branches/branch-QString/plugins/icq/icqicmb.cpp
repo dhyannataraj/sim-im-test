@@ -762,7 +762,7 @@ bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const char *st
     return true;
 }
 
-void ICQClient::sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
+void ICQClient::sendAdvMessage(const QString &screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
 {
     if (cookie1 == 0){
         m_advCounter--;
@@ -858,7 +858,7 @@ void ICQClient::clearMsgQueue()
     m_send.screen = "";
 }
 
-void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck, MessageId id)
+void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool needAck, MessageId id)
 {
     m.incReadPos(8);    /* msg-id cookie */
     capability cap;
@@ -882,7 +882,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
         adv.unpack(mode);
         adv.unpack(remotePort);
         adv.unpack(localPort1);
-        if (req_uin != (unsigned)atol(screen)){
+        if (req_uin != screen.toULong()){
             log(L_WARN, "Bad UIN in reverse direct request");
             return;
         }
@@ -904,12 +904,12 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                 continue;
             ICQFileTransfer *ft = static_cast<ICQFileTransfer*>(msg->m_transfer);
             if (ft->m_localPort == remotePort){
-                log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu", screen, inet_ntoa(addr), localPort);
+                log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu", screen.latin1(), inet_ntoa(addr), localPort);
                 ft->reverseConnect(localIP, (unsigned short)localPort);
                 return;
             }
         }
-        log(L_DEBUG, "Setup reverse connect to %s %s:%lu", screen, inet_ntoa(addr), localPort);
+        log(L_DEBUG, "Setup reverse connect to %s %s:%lu", screen.latin1(), inet_ntoa(addr), localPort);
         DirectClient *direct = new DirectClient(data, this);
         m_sockets.push_back(direct);
         direct->reverseConnect(localIP, (unsigned short)localPort);
@@ -1133,7 +1133,7 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
             return;
         }
         Buffer info;
-        pluginAnswer(plugin_type, atol(screen), info);
+        pluginAnswer(plugin_type, screen.toULong(), info);
         sendAutoReply(screen, id, plugins[plugin_index],
                       cookie1, cookie2, 0, 0, 0x0200, NULL, 1, info);
         return;
@@ -1221,7 +1221,9 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
                 list<SendMsg>::iterator it;
                 for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
                     SendMsg &s = *it;
-                    log(L_DEBUG, "%lu %lu (%s) - %lu %lu (%s)", s.id.id_h, s.id.id_l, s.screen.latin1(), id.id_h, id.id_l, screen);
+                    log(L_DEBUG, "%lu %lu (%s) - %lu %lu (%s)",
+                        s.id.id_h, s.id.id_l, s.screen.latin1(),
+                        id.id_h, id.id_l, screen.latin1());
                     if ((s.id == id) && (s.screen == screen))
                         break;
                 }
@@ -1358,7 +1360,7 @@ void ICQClient::sendAutoReply(const QString &screen, MessageId id,
     sendPacket(false);
 }
 
-void ICQClient::sendMTN(const char *screen, unsigned short type)
+void ICQClient::sendMTN(const QString &screen, unsigned short type)
 {
     if (getDisableTypingNotification())
         return;
@@ -1808,10 +1810,11 @@ bool ICQClient::processMsg()
         case SEND_HTML_PLAIN:{
                 QString t;
                 unsigned max_size = MAX_TYPE2_MESSAGE_SIZE;
-                int i;
-                for (i = 0; i < (int)(m_send.text.length()); i++){
+                bool bWide = false;
+                for (int i = 0; i < (int)(m_send.text.length()); i++){
                     if (m_send.text[i].unicode() > 0x7F){
                         max_size = max_size / 2;
+                        bWide = true;
                         break;
                     }
                 }
@@ -1835,13 +1838,6 @@ bool ICQClient::processMsg()
                     t += quoteString(m_send.part);
                 }
                 //t += "</BODY></HTML>";
-                bool bWide = false;
-                for (i = 0; i < (int)(t.length()); i++){
-                    if (t[i].unicode() > 0x7F){
-                        bWide = true;
-                        break;
-                    }
-                }
                 sendType1(t, bWide, data);
                 return true;
             }
@@ -2037,16 +2033,16 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
 {
     Buffer msgBuf;
     if (bWide){
-        QString msg_text;
-        for (int i = 0; i < (int)text.length(); i++){
+        QByteArray ba(text.length() * 2);
+        for (int i = 0; i < (int)text.length(); i++) {
             unsigned short c = text[i].unicode();
             char c1 = (char)((c >> 8) & 0xFF);
             char c2 = (char)(c & 0xFF);
-            msg_text += c1;
-            msg_text += c2;
+            ba[i * 2 + 0] = c1;
+            ba[i * 2 + 1] = c2;
         }
         msgBuf << 0x00020000L;
-        msgBuf.pack(msg_text.latin1(), msg_text.length());
+        msgBuf.pack(ba.data(), ba.size());
     }else{
         QCString msg_text = getContacts()->fromUnicode(getContact(data), text);
         messageSend ms;
@@ -2233,7 +2229,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
     delete msg;
 }
 
-void ICQClient::requestReverseConnection(const char *screen, DirectSocket *socket)
+void ICQClient::requestReverseConnection(const QString &screen, DirectSocket *socket)
 {
     SendMsg s;
     s.flags  = PLUGIN_REVERSE;

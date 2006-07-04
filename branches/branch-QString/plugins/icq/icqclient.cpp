@@ -3083,14 +3083,14 @@ QString ICQClient::dataName(const QString &screen)
     return res;
 }
 
-QString ICQClient::screen(ICQUserData *data)
+QString ICQClient::screen(const ICQUserData *data)
 {
     if (data->Uin.toULong() == 0)
         return data->Screen.str();
     return QString::number(data->Uin.toULong());
 }
 
-bool ICQClient::messageReceived(Message *msg, const char *screen)
+bool ICQClient::messageReceived(Message *msg, const QString &screen)
 {
     msg->setFlags(msg->getFlags() | MESSAGE_RECEIVED);
     if (msg->contact() == 0){
@@ -3154,7 +3154,7 @@ QString ICQClient::contactName(void *clientData)
         res += data->Nick.str();
         res += " (";
     }
-    res += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : QString(data->Screen.str());
+    res += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : data->Screen.str();
     if (!data->Nick.str().isEmpty())
         res += ")";
     return res;
@@ -3274,7 +3274,7 @@ static char PICT_PATH[] = "pictures\\";
 static char PICT_PATH[] = "pictures/";
 #endif
 
-QString ICQClient::pictureFile(ICQUserData *data)
+QString ICQClient::pictureFile(const ICQUserData *data)
 {
     QString f = PICT_PATH;
     f += "icq.";
@@ -3313,12 +3313,11 @@ void ICQClient::retry(int n, void *p)
     e.process();
 }
 
-bool ICQClient::isOwnData(const char *screen)
+bool ICQClient::isOwnData(const QString &screen)
 {
-    if ((screen == NULL) || (data.owner.Screen.str().isEmpty()))
+    if (screen.isEmpty() || data.owner.Screen.str().isEmpty())
         return false;
-    QString s1(screen);
-    return (s1.lower() == data.owner.Screen.str().lower());
+    return (screen.lower() == data.owner.Screen.str().lower());
 }
 
 QString ICQClient::addCRLF(const QString &str)

@@ -198,7 +198,7 @@ static Message *parseTextMessage(const QCString &str, const QCString &_pp, Conta
 {
     if (*str == 0)
         return NULL;
-    log(L_DEBUG, "Text message: %s %s", str, _pp.data());
+    log(L_DEBUG, "Text message: %s %s", str.data(), _pp.data());
     if (_pp.length() == 38){
         QCString cap;
         const char *pp = _pp.data();
@@ -220,7 +220,7 @@ static Message *parseTextMessage(const QCString &str, const QCString &_pp, Conta
                 QString text;
                 if (ICQClient::parseRTF(str, contact, text))
                     msg->setFlags(MESSAGE_RICHTEXT);
-                log(L_DEBUG, "Msg: %s", str);
+                log(L_DEBUG, "Msg: %s", str.data());
                 msg->setText(text);
                 return msg;
             }

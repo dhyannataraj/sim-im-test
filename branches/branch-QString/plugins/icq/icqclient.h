@@ -541,24 +541,24 @@ public:
     PROP_BOOL(KeepAlive);
     ICQClientData   data;
     unsigned short findByUin(unsigned long uin);
-    unsigned short findByMail(const char *mail);
-    unsigned short findWP(const char *first, const char *last, const char *nick,
-                          const char *email, char age, char nGender,
-                          unsigned short nLanguage, const char *city, const char *szState,
+    unsigned short findByMail(const QString &mail);
+    unsigned short findWP(const QString &first, const QString &last, const QString &nick,
+                          const QString &email, char age, char nGender,
+                          unsigned short nLanguage, const QString &city, const QString &szState,
                           unsigned short nCountryCode,
-                          const char *cCoName, const char *szCoDept, const char *szCoPos,
+                          const QString &cCoName, const QString &szCoDept, const QString &szCoPos,
                           unsigned short nOccupation,
-                          unsigned short nPast, const char *szPast,
-                          unsigned short nInterests, const char *szInterests,
-                          unsigned short nAffiliation, const char *szAffiliation,
-                          unsigned short nHomePoge, const char *szHomePage,
-                          const char *sKeyWord, bool bOnlineOnly);
+                          unsigned short nPast, const QString &szPast,
+                          unsigned short nInterests, const QString &szInterests,
+                          unsigned short nAffiliation, const QString &szAffiliation,
+                          unsigned short nHomePoge, const QString &szHomePage,
+                          const QString &sKeyWord, bool bOnlineOnly);
     SIM::Contact *getContact(ICQUserData*);
     ICQUserData *findContact(unsigned long uin, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
     ICQUserData *findContact(const QString &screen, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
     ICQUserData *findGroup(unsigned id, const QString *name, SIM::Group *&group);
     void addFullInfoRequest(unsigned long uin);
-    ListRequest *findContactListRequest(const char *screen);
+    ListRequest *findContactListRequest(const QString &screen);
     ListRequest *findGroupListRequest(unsigned short id);
     void removeListRequest(ListRequest *lr);
     virtual void setupContact(SIM::Contact*, void *data);
@@ -573,18 +573,18 @@ public:
                                  const QString &maiden, const QString &country, const QString &street,
                                  const QString &city, const QString &nick, const QString &zip,
                                  const QString &state);
-    void requestReverseConnection(const char *screen, DirectSocket *socket);
+    void requestReverseConnection(const QString &screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
                           QCString &p, Buffer &packet, MessageId &id, unsigned cookie);
-    bool messageReceived(SIM::Message*, const char *screen);
+    bool messageReceived(SIM::Message*, const QString &screen);
     static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
-    static QString pictureFile(ICQUserData *data);
+    static QString pictureFile(const ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
-    QString screen(ICQUserData*);
+    QString screen(const ICQUserData*);
     static unsigned warnLevel(unsigned short);
     static unsigned clearTags(QString &text);
     bool m_bAIM;
@@ -715,8 +715,7 @@ protected:
     void setMainInfo(ICQUserData *d);
     void setAIMInfo(ICQUserData *data);
     void setProfile(ICQUserData *data);
-    bool isOwnData(const char *screen);
-    void packInfoList(char *str);
+    bool isOwnData(const QString &screen);
     QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
     QCString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, bool icqSmiles);
@@ -727,16 +726,16 @@ protected:
     bool sendAuthRequest(SIM::Message *msg, void *data);
     bool sendAuthGranted(SIM::Message *msg, void *data);
     bool sendAuthRefused(SIM::Message *msg, void *data);
-    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
+    void sendAdvMessage(const QString &screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
     void sendType2(const QString &screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
     void sendType1(const QString &text, bool bWide, ICQUserData *data);
-    void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);
+    void parseAdvancedMessage(const QString &screen, Buffer &msg, bool needAck, MessageId id);
     void sendAutoReply(const QString &screen, MessageId id,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
                        unsigned short  msgType, char msgFlags, unsigned short msgState,
                        const char *response, unsigned short response_type, Buffer &copy);
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
-    void sendMTN(const char *screen, unsigned short type);
+    void sendMTN(const QString &screen, unsigned short type);
     void setChatGroup();
     SIM::Message *parseExtendedMessage(const QString &screen, Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);

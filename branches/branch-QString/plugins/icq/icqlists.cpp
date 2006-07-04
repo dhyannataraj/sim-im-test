@@ -770,7 +770,7 @@ void ICQClient::sendInvisible(bool bInvisible)
     sendRoster(cmd, NULL, 0, getContactsInvisible(), ICQ_INVISIBLE_STATE, &tlvs);
 }
 
-ListRequest *ICQClient::findContactListRequest(const char *screen)
+ListRequest *ICQClient::findContactListRequest(const QString &screen)
 {
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
         if ((((*it).type == LIST_USER_CHANGED) || ((*it).type == LIST_USER_DELETED)) &&

@@ -195,9 +195,9 @@ void GpgPlugin::clear()
 void GpgPlugin::decryptReady()
 {
     int res = 0;
-        for (QValueList<DecryptMsg>::iterator it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
-                QProcess *p = (*it).process;
-        if (p && !p->isRunning()){
+    for (QValueList<DecryptMsg>::iterator it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
+        QProcess *p = (*it).process;
+        if (p && !p->isRunning() && (*it).msg){
             Message *msg = (*it).msg;
             (*it).msg = NULL;
             QTimer::singleShot(0, this, SLOT(clear()));
@@ -534,6 +534,8 @@ void *GpgPlugin::processEvent(Event *e)
         }
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());
+            if(!msg)
+                return NULL;
             if ((msg->baseType() == MessageGeneric) && m_bMessage){
                 QString text = msg->getPlainText();
                 const char SIGN_MSG[] = "-----BEGIN PGP MESSAGE-----";
@@ -632,7 +634,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
 void GpgPlugin::publicReady()
 {
     for (QValueList<DecryptMsg>::iterator it = m_public.begin(); it != m_public.end(); ++it){
-                QProcess *p = (*it).process;
+        QProcess *p = (*it).process;
         if (p && !p->isRunning()){
             if (p->normalExit() && p->exitStatus() == 0){
                 QCString str(p->readStdout());
