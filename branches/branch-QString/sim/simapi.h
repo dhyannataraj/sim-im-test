@@ -1081,9 +1081,9 @@ const unsigned  MESSAGE_TEMP        = 0x10000000;
 
 typedef struct MessageData
 {
-    Data        Text;           // Message text (UTF-8)
-    Data        ServerText;     // Message text (8bit)
-    Data        Flags;          //
+    Data        Text;           // Message text (locale independent)
+    Data        ServerText;     // Message text (locale dependent 8bit endcoding!)
+    Data        Flags;          // Message flags from above, should be QFlags in Qt4
     Data        Background;
     Data        Foreground;
     Data        Time;

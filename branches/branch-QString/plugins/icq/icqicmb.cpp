@@ -373,7 +373,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             case 0x0001:{
                     TlvList tlv(m_socket->readBuffer);
                     if (!tlv(2)){
-                        log(L_WARN, "TLV 0x0005 not found");
+                        log(L_WARN, "TLV 0x0002 not found");
                         break;
                     }
                     Buffer m(*tlv(2));
@@ -480,7 +480,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             case 0x0004:{
                     TlvList tlv(m_socket->readBuffer);
                     if (!tlv(5)){
-                        log(L_WARN, "Advanced message tlv5 not found");
+                        log(L_WARN, "Advanced message TLV 0x0005 not found");
                         break;
                     }
                     Buffer msg(*tlv(5));

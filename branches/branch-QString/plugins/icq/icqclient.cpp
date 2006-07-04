@@ -1446,12 +1446,12 @@ QString ICQClient::contactTip(void *_data)
         res += "<img src=\"icon:";
         res += statusIcon;
         res += "\">";
-        if (!strcmp(statusIcon, "ICQ_invisible")){
+        if (statusIcon == "ICQ_invisible"){
             res += " ";
             res += i18n("Invisible");
         }else  if (data->Uin.toULong()){
             for (const CommandDef *cmd = ICQProtocol::_statusList(); !cmd->text.isEmpty(); cmd++){
-                if (!strcmp(cmd->icon, statusIcon)){
+                if (cmd->icon == statusIcon){
                     res += " ";
                     statusText += i18n(cmd->text);
                     res += statusText;
@@ -2321,7 +2321,7 @@ void *ICQClient::processEvent(Event *e)
     TCPClient::processEvent(e);
     if (e->type() == EventAddContact){
         addContact *ac = (addContact*)(e->param());
-        if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
+        if (protocol()->description()->text == ac->proto){
             Group *grp = getContacts()->group(ac->group);
             Contact *contact;
             QString tmp = ac->nick;

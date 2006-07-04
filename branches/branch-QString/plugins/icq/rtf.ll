@@ -1004,16 +1004,16 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
     return s;
 }
 
-bool ICQClient::parseRTF(const char *rtf, Contact *contact, QString &res)
+bool ICQClient::parseRTF(const QCString &rtf, Contact *contact, QString &res)
 {
-	char _RTF[] = "{\\rtf";
+	const char _RTF[] = "{\\rtf";
 	QTextCodec *codec = getContacts()->getCodec(contact);
-	if ((strlen(rtf) > strlen(_RTF)) && !memcmp(rtf, _RTF, strlen(_RTF))){
+	if (!qstrncmp(rtf.data(), _RTF, sizeof(_RTF))){
 		RTF2HTML p;
-		res = p.Parse(rtf, codec->name());
+		res = p.Parse(rtf.data(), codec->name());
 		return true;
 	}
-	res = codec->toUnicode(rtf, strlen(rtf));
+	res = codec->toUnicode(rtf);
 	return false;
 }
 

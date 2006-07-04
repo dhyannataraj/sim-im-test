@@ -95,7 +95,7 @@ static DataDef gpgData[] =
         { "Import", DATA_STRING, 1, "--import %keyfile%" },
         { "Export", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --export %userid%" },
         { "Encrypt", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --recipient %userid% --trusted-key %userid% --output %cipherfile% --encrypt %plainfile%" },
-        { "Decrypt", DATA_STRING, 1, "--yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt %cipherfile%" },
+        { "Decrypt", DATA_STRING, 1, "--yes --passphrase-fd 0 --output %plainfile% --decrypt %cipherfile%" },
         { "Key", DATA_STRING, 1, 0 },
         { "Passphrases", DATA_UTFLIST, 1, 0 },
         { "Keys", DATA_STRLIST, 1, 0 },
@@ -126,8 +126,7 @@ GpgPlugin::GpgPlugin(unsigned base, ConfigBuffer *cfg)
 
 GpgPlugin::~GpgPlugin()
 {
-    if (m_passphraseDlg)
-        delete m_passphraseDlg;
+    delete m_passphraseDlg;
     unregisterMessage();
     free_data(gpgData, &data);
     QValueList<DecryptMsg>::iterator it;

@@ -578,7 +578,7 @@ public:
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
                           QCString &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(SIM::Message*, const char *screen);
-    static bool parseRTF(const char *str, SIM::Contact *contact, QString &result);
+    static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;

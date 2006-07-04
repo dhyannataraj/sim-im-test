@@ -169,7 +169,7 @@ static bool h2b(const char *&p, char &r)
     return false;
 }
 
-static bool h2b(const char *&p, string &cap)
+static bool h2b(const char *&p, QCString &cap)
 {
     char r1, r2;
     if (h2b(p, r1) && h2b(p, r2)){
@@ -194,13 +194,14 @@ static bool parseFE(const char *str, vector<string> &l, unsigned n)
     return true;
 }
 
-static Message *parseTextMessage(const char *str, const char *pp, Contact *contact)
+static Message *parseTextMessage(const QCString &str, const QCString &_pp, Contact *contact)
 {
     if (*str == 0)
         return NULL;
-    log(L_DEBUG, "Text message: %s %s", str, pp);
-    if (strlen(pp) == 38){
-        string cap;
+    log(L_DEBUG, "Text message: %s %s", str, _pp.data());
+    if (_pp.length() == 38){
+        QCString cap;
+        const char *pp = _pp.data();
         if ((*(pp++) == '{') &&
                 h2b(pp, cap) && h2b(pp, cap) && h2b(pp, cap) && h2b(pp, cap) &&
                 (*(pp++) == '-') &&
@@ -213,7 +214,7 @@ static Message *parseTextMessage(const char *str, const char *pp, Contact *conta
                 h2b(pp, cap) && h2b(pp, cap) && h2b(pp, cap) && h2b(pp, cap) &&
                 h2b(pp, cap) && h2b(pp, cap) &&
                 (*(pp++) == '}')){
-            const char *unpack_cap = cap.c_str();
+            const char *unpack_cap = cap.data();
             if (!memcmp(unpack_cap, ICQClient::capabilities[CAP_RTF], sizeof(capability))){
                 Message *msg = new Message(MessageGeneric);
                 QString text;
@@ -363,9 +364,9 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
             if (data == NULL) {
                return NULL;
 	    }
-            contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
+            contact->setFlags(contact->getFlags() | CONTACT_TEMP);
         }
-        Message *msg = parseTextMessage(info.data(), cap_str.data(), contact);
+        Message *msg = parseTextMessage(info, cap_str, contact);
         if (msg){
             if (forecolor != backcolor){
                 msg->setForeground(forecolor >> 8);
