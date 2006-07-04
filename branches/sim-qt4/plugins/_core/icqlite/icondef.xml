@@ -11,6 +11,7 @@
   <icon>
 	<text>:-)</text>
 	<text>:)</text>
+	<text>=)</text>
 	<object mime="image/png">0.png</object>
   </icon>
   <icon>
@@ -80,6 +81,7 @@
   </icon>
   <icon>
 	<text>:-D</text>
+	<text>:D</text>
 	<object mime="image/png">13.png</object>
   </icon>
   <icon>

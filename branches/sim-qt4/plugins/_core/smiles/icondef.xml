@@ -11,6 +11,7 @@
   <icon>
 	<text>:-)</text>
 	<text>:)</text>
+	<text>=)</text>
 	<object mime="image/png">Smile.png</object>
   </icon>
   <icon>
@@ -90,6 +91,7 @@
   </icon>
   <icon>
 	<text>:-D</text>
+	<text>:D</text>
 	<object mime="image/png">Grin.png</object>
   </icon>
 </icondef>
