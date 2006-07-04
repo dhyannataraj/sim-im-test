@@ -290,6 +290,9 @@ void GpgPlugin::decryptReady()
                         delete m_passphraseDlg;
                         m_passphraseDlg = NULL;
                         askPassphrase();
+                    } else {
+                        msg->setText(key + "\n" + str);
+                        return;
                     }
                 }
             }
@@ -309,10 +312,14 @@ void GpgPlugin::importReady()
     for (QValueList<DecryptMsg>::iterator it = m_import.begin(); it != m_import.end(); ++it){
         QProcess *p = (*it).process;
         if (p && !p->isRunning()){
+            Message *msg = new Message(MessageGPGKey);
+            msg->setContact((*it).msg->contact());
+            msg->setClient((*it).msg->client());
+            msg->setFlags((*it).msg->getFlags());
+
+            QByteArray ba = p->readStderr();
+            QString err = QString::fromLocal8Bit(ba.data(), ba.size());
             if (p->normalExit() && p->exitStatus() == 0){
-                Message *msg = new Message(MessageGPGKey);
-                QByteArray ba = p->readStderr();
-                QString err = QString::fromLocal8Bit(ba.data(), ba.size());
                 QRegExp r1("[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]:");
                 QRegExp r2("\".*\"");
                 int len;
@@ -325,9 +332,6 @@ void GpgPlugin::importReady()
                     pos = r2.match(err, 0, &len);
                     text += err.mid(pos + 1, len - 2);
                     msg->setText(text);
-                    msg->setContact((*it).msg->contact());
-                    msg->setClient((*it).msg->client());
-                    msg->setFlags((*it).msg->getFlags());
                     delete (*it).msg;
                     (*it).msg = msg;
 
@@ -351,7 +355,17 @@ void GpgPlugin::importReady()
                     m_public.push_back(dm);
                     connect(dm.process, SIGNAL(processExited()), this, SLOT(publicReady()));
                     dm.process->start();
+                } else {
+                    QString str;
+                    if(!err.isEmpty())
+                        str = "(" + err + ")";
+                    msg->setText(i18n("Importing public key failed") + str);
                 }
+            } else {
+                QString str;
+                if(!err.isEmpty())
+                    str = "(" + err + ")";
+                msg->setText(i18n("Importing public key failed") + str);
             }
             Event e(EventMessageReceived, (*it).msg);
             if (!e.process(this))
@@ -642,7 +656,7 @@ void GpgPlugin::publicReady()
                     QCString line;
                     line = getToken(str, '\n');
                     if(line.isEmpty())
-                            break;
+                        break;
                     QCString type = getToken(line, ':');
                     if (type == "pub"){
                         getToken(line, ':');
