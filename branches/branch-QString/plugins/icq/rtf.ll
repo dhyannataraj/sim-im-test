@@ -1008,7 +1008,7 @@ bool ICQClient::parseRTF(const QCString &rtf, Contact *contact, QString &res)
 {
 	const char _RTF[] = "{\\rtf";
 	QTextCodec *codec = getContacts()->getCodec(contact);
-	if (!qstrncmp(rtf.data(), _RTF, sizeof(_RTF))){
+	if (!qstrncmp(rtf.data(), _RTF, strlen(_RTF))){
 		RTF2HTML p;
 		res = p.Parse(rtf.data(), codec->name());
 		return true;
