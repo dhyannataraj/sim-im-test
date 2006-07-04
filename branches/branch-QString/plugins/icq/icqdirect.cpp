@@ -1328,7 +1328,7 @@ void DirectClient::processMsgQueue()
                     message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());
                     messageSend ms;
                     ms.msg  = sm.msg;
-                    ms.text = sm.msg->getPlainText();
+                    ms.text = &message;
                     Event e(EventSend, &ms);
                     e.process();
                 }

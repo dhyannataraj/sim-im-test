@@ -2049,11 +2049,13 @@ bool JabberClient::send(Message *msg, void *_data)
             if ((contact == NULL) || (data == NULL))
                 return false;
             QString text = msg->getPlainText();
+            QCString cstr = text.utf8();
             messageSend ms;
             ms.msg  = msg;
-            ms.text = text;
+            ms.text = &cstr;
             Event eSend(EventSend, &ms);
             eSend.process();
+            text = QString::fromUtf8(cstr);
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"

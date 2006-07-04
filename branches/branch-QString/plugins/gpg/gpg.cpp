@@ -485,8 +485,8 @@ void *GpgPlugin::processEvent(Event *e)
                             log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
                             return NULL;
                         }
-                        QCString cstr = ms->text.utf8();
-                        in.writeBlock(cstr, cstr.length());
+                        QCString *cstr = ms->text;
+                        in.writeBlock(cstr->data(), cstr->length());
                         in.close();
                         QString home = user_file(GpgPlugin::plugin->getHome());
                         if (home.endsWith("\\") || home.endsWith("/"))
@@ -524,7 +524,7 @@ void *GpgPlugin::processEvent(Event *e)
                             ms->msg->setError(I18N_NOOP("Encrypt failed"));
                             return ms->msg;
                         }
-                        ms->text = QString::fromUtf8( out.readAll() );
+                        *ms->text = out.readAll();
                         out.close();
                         QFile::remove(output);
                         return NULL;
@@ -750,19 +750,19 @@ void GpgPlugin::registerMessage()
         return;
     m_bMessage = true;
     Command cmd;
-    cmd->id              = MessageGPGKey;
-    cmd->text            = I18N_NOOP("GPG key");
-    cmd->icon            = "encrypted";
-    cmd->param           = &defGPGKey;
-    cmd->menu_grp        = 0x4081;
+    cmd->id             = MessageGPGKey;
+    cmd->text           = I18N_NOOP("GPG key");
+    cmd->icon           = "encrypted";
+    cmd->param          = &defGPGKey;
+    cmd->menu_grp       = 0x4081;
     Event eMsg(EventCreateMessageType, cmd);
     eMsg.process();
 
-    cmd->id              = MessageGPGUse;
-    cmd->text            = I18N_NOOP("Use GPG encryption");
-    cmd->icon            = "";
-    cmd->param           = &defGPGUse;
-    cmd->menu_grp        = 0x4080;
+    cmd->id             = MessageGPGUse;
+    cmd->text           = I18N_NOOP("Use GPG encryption");
+    cmd->icon           = "";
+    cmd->param          = &defGPGUse;
+    cmd->menu_grp       = 0x4080;
     eMsg.process();
 
     cmd->id      = user_data_id + 1;

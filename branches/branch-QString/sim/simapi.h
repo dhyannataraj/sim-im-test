@@ -757,7 +757,7 @@ typedef struct messageDecline
 typedef struct messageSend
 {
     Message     *msg;
-    QString     text;
+    QCString    *text;      // locale dependent !
 } messageSend;
 
 const unsigned EventMessageReceived = 0x1100;

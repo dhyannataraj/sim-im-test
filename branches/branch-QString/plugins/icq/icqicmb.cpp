@@ -1796,10 +1796,10 @@ bool ICQClient::processMsg()
             break;
         case SEND_TYPE2:{
                 m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                text = getContacts()->fromUnicode(contact, m_send.part);
+                text = m_send.part.utf8();
                 messageSend ms;
                 ms.msg  = m_send.msg;
-                ms.text = text;
+                ms.text = &text;
                 Event e(EventSend, &ms);
                 e.process();
                 break;
@@ -1825,11 +1825,13 @@ bool ICQClient::processMsg()
                     AIMParser p;
                     t += p.parse(m_send.part);
                 }else{
+                    QCString cstr = m_send.part.utf8();
                     messageSend ms;
                     ms.msg  = m_send.msg;
-                    ms.text = m_send.part;
+                    ms.text = &cstr;
                     Event e(EventSend, &ms);
                     e.process();
+                    m_send.part = QString::fromUtf8( cstr );
                     t += quoteString(m_send.part);
                 }
                 //t += "</BODY></HTML>";
@@ -2046,15 +2048,14 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msgBuf << 0x00020000L;
         msgBuf.pack(msg_text.latin1(), msg_text.length());
     }else{
-        QString msg_text;
-        msg_text = getContacts()->fromUnicode(getContact(data), text);
+        QCString msg_text = getContacts()->fromUnicode(getContact(data), text);
         messageSend ms;
         ms.msg  = m_send.msg;
-        ms.text = msg_text;
+        ms.text = &msg_text;
         Event e(EventSend, &ms);
         e.process();
         msgBuf << 0x0000FFFFL;
-        msgBuf << msg_text.latin1();
+        msgBuf << msg_text.data();
     }
     Buffer b;
     b.tlv(0x0501, "\x01", 1);
