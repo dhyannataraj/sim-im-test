@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+4<?xml version='1.0' encoding='UTF-8'?>
 <icondef>
   <meta>
     <name>SIM smiles</name>
@@ -91,6 +91,7 @@
   </icon>
   <icon>
 	<text>:-D</text>
+	<text>:D</text>
 	<object mime="image/png">Grin.png</object>
   </icon>
 </icondef>
