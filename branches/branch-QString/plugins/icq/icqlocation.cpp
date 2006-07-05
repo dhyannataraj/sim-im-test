@@ -544,14 +544,6 @@ void ICQClient::fetchProfile(ICQUserData *data)
     data->ProfileFetch.setBool(true);
 }
 
-void ICQClient::fetchAwayMessage(ICQUserData *data)
-{
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
-    m_socket->writeBuffer << (unsigned short)0x0003;
-    m_socket->writeBuffer.packScreen(screen(data));
-    sendPacket(false);
-}
-
 void ICQClient::fetchProfiles()
 {
     if (!data.owner.ProfileFetch.toBool())

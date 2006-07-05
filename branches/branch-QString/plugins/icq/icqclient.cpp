@@ -2316,6 +2316,11 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
     }
 }
 
+void ICQClient::fetchAwayMessage(ICQUserData *data)
+{
+    addPluginInfoRequest(data->Uin.toULong(), PLUGIN_AR);
+}
+
 void *ICQClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
@@ -2609,6 +2614,22 @@ void *ICQClient::processEvent(Event *e)
                 return e->param();
             return NULL;
         }
+        if(cmd->id == CmdFetchAway) {
+            Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
+            ClientDataIterator it(contact->clientData, this);
+            ICQUserData *data;
+            while ((data = (ICQUserData*)(++it)) != NULL){
+                unsigned long status = STATUS_OFFLINE;
+                unsigned style  = 0;
+                QString statusIcon;
+                contactInfo(data, status, style, statusIcon);
+                if(status != STATUS_ONLINE && status != STATUS_OFFLINE) {
+                    cmd->flags &= ~BTN_HIDE;
+                    return e->param();
+                }
+            }
+            return NULL;
+        }
         /*
         if (cmd->id == CmdCheckInvisibleAll){
             cmd->flags &= ~COMMAND_CHECKED;
@@ -2713,6 +2734,21 @@ void *ICQClient::processEvent(Event *e)
     }
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
+        if(cmd->id == CmdFetchAway) {
+            Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
+            ClientDataIterator it(contact->clientData, this);
+            ICQUserData *data;
+            while ((data = (ICQUserData*)(++it)) != NULL){
+                unsigned long status = STATUS_OFFLINE;
+                unsigned style  = 0;
+                QString statusIcon;
+                contactInfo(data, status, style, statusIcon);
+                if(status != STATUS_ONLINE && status != STATUS_OFFLINE)
+                    fetchAwayMessage(data);
+            }
+            cmd->flags &= ~COMMAND_CHECKED;
+            return NULL;
+        }
         /*
         if ((cmd->id == CmdCheckInvisible) ||
                 (cmd->id == CmdCheckInvisibleAll)){
