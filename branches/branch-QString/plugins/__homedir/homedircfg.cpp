@@ -67,7 +67,8 @@ void HomeDirConfig::apply()
     if (d.length() && (d[(int)(d.length() - 1)] == '/'))
         d = d.left(d.length() - 1);
 #endif
-    m_plugin->m_homeDir  = QFile::encodeName(d);
+    m_plugin->m_homeDir  = d;
+    m_plugin->m_bSave    = true;
 }
 
 void HomeDirConfig::defaultToggled(bool bState)

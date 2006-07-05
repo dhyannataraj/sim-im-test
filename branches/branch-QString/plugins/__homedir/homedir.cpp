@@ -158,13 +158,13 @@ QString HomeDirPlugin::defaultPath()
         QFile::remove(lockTest);
     }
     if (!defPath.isEmpty()){
-        s = QFile::encodeName(defPath);
+        s = defPath;
     }else{
         s = app_file("");
     }
 #endif
 #ifdef HAVE_CHMOD
-    chmod(s.local8Bit(), 0700);
+    chmod(QFile::encodeName(s), 0700);
 #endif
     return QDir::convertSeparators(s);
 }
@@ -206,7 +206,7 @@ QString HomeDirPlugin::buildFileName(const QString *name)
         s += '/';
     }
     s += fname;
-    return QFile::encodeName(QDir::convertSeparators(s));
+    return QDir::convertSeparators(s);
 }
 
 void *HomeDirPlugin::processEvent(Event *e)
