@@ -156,6 +156,28 @@ static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
     return (*n1 == 0) && (*n2 != 0);
 }
 
+bool findPluginsInBuildDir(const QDir &appDir, QStringList &pluginsList)
+{
+    QDir pluginsDir(appDir.absFilePath("plugins"));
+    log(L_DEBUG, "Searching for plugins in build directory '%s'...", static_cast<const char*>(pluginsDir.path()));
+    int count = 0;
+    // trunk/plugins/*
+    const QStringList pluginDirs = pluginsDir.entryList("*", QDir::Dirs);
+    for (QStringList::const_iterator it = pluginDirs.begin(); it != pluginDirs.end(); ++it) {
+        const QDir pluginDir( *it );
+        // trunk/plugins/$plugin_name/.libs/$plugin_name.so
+        const QString pluginFilename = pluginsDir.filePath(QDir( pluginDir.filePath(".libs") ).
+                                                           filePath(pluginDir.dirName() + LTDL_SHLIB_EXT));
+        if (QFile::exists(pluginFilename)) {
+            log(L_DEBUG, "Found '%s'...", static_cast<const char*>(pluginFilename));
+            pluginsList.append(pluginFilename);
+            count++;
+            }
+    }
+    log(L_DEBUG, "%i plugins found.", count);
+    return count > 0;
+}
+
 PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         : EventReceiver(LowPriority)
 {
@@ -183,26 +205,33 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 //#endif
 
     QStringList pluginsList;
-#ifdef WIN32
-    QDir pluginDir(app_file("plugins").c_str());
-#else
-    QDir pluginDir(PLUGIN_PATH);
-#endif
-    /* do some test so we can blame when sim can't access / find
-       the plugins */
-    pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
-    if (pluginsList.isEmpty()) {
-        log(L_ERROR,
-            "Can't access %s or directory contains no plugins!",
-            pluginDir.path().ascii());
-        m_bAbort = true;
-        return;
-    }
-    m_bAbort = false;
+    QDir appDir(qApp->applicationDirPath());
+    if ( findPluginsInBuildDir(appDir, pluginsList)
+         || findPluginsInBuildDir(appDir.path() + "/..", pluginsList)) {
+        log(L_DEBUG,"Loading plugins from build directory!");
+    } else {
 
-    log(L_DEBUG,"Loading plugins from %s",pluginDir.path().ascii());
-    for (QStringList::Iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
-        QString f = *it;
+#ifdef WIN32
+        QDir pluginDir(app_file("plugins").c_str());
+#else
+        QDir pluginDir(PLUGIN_PATH);
+#endif
+        /* do some test so we can blame when sim can't access / find
+           the plugins */
+        pluginsList = pluginDir.entryList("*" LTDL_SHLIB_EXT);
+        if (pluginsList.isEmpty()) {
+            log(L_ERROR,
+                "Can't access %s or directory contains no plugins!",
+                pluginDir.path().ascii());
+            m_bAbort = true;
+            return;
+        }
+        m_bAbort = false;
+
+        log(L_DEBUG,"Loading plugins from %s",pluginDir.path().ascii());
+    }
+    for (QStringList::iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
+        QString f = QFileInfo(*it).fileName();
         int p = f.findRev('.');
         if (p > 0) f = f.left(p);
         pluginInfo info;
@@ -212,6 +241,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 #else
         info.name		 = strdup(QFile::encodeName(f));
 #endif
+        info.filePath    = QFile::encodeName(*it);
         info.cfg		 = NULL;
         info.bDisabled	 = false;
         info.bNoCreate	 = false;
@@ -346,12 +376,17 @@ void PluginManagerPrivate::load(pluginInfo &info)
     if (info.module == NULL){
 #ifdef WIN32
         string pluginName = "plugins\\";
-#else
-        string pluginName = PLUGIN_PATH;
-        pluginName += "/";
-#endif
         pluginName += info.name;
         pluginName += LTDL_SHLIB_EXT;
+#else
+        string pluginName = info.filePath;
+        if( pluginName[0] != '/' ) {
+            pluginName = PLUGIN_PATH;
+            pluginName += "/";
+            pluginName += info.name;
+            pluginName += LTDL_SHLIB_EXT;
+        }
+#endif
         string fullName = app_file(pluginName.c_str());
         info.module = (void*)lt_dlopen(fullName.c_str());
         if (info.module == NULL)

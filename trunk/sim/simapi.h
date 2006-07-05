@@ -228,7 +228,8 @@ typedef struct PluginInfo			// Information in plugin
 typedef struct pluginInfo
 {
     Plugin			*plugin;
-    std::string			name;
+    std::string     name;
+    std::string     filePath;
     Buffer			*cfg;			// configuration data
     bool			bDisabled;		// no load this plugin
     bool			bNoCreate;		// can't create plugin
