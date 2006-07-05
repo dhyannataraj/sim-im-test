@@ -387,6 +387,7 @@ static void initializeMods()
 
 GlobalKey::GlobalKey(CommandDef *cmd)
 {
+    m_cmd = *cmd;
     m_key = QAccel::stringToKey(cmd->accel);
     m_state = 0;
     if (m_key & Qt::SHIFT){
