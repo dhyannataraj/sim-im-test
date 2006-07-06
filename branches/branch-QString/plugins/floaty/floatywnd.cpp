@@ -154,14 +154,14 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     }
 
     int x = 0;
-    const char *statusIcon = m_statusIcon;
+    QString statusIcon = m_statusIcon;
     if (m_unread && m_plugin->m_bBlink){
         CommandDef *def = m_plugin->core->messageTypes.find(m_unread);
         if (def)
             statusIcon = def->icon;
     }
 
-    if (statusIcon){
+    if (!statusIcon.isEmpty()){
         const QPixmap &pict = Pict(statusIcon);
         x += 2;
         p.drawPixmap(x, (h - pict.height()) / 2, pict);

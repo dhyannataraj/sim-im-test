@@ -27,7 +27,7 @@ class PassphraseDlg : public PassphraseDlgBase
 {
     Q_OBJECT
 public:
-    PassphraseDlg(GpgPlugin *plugin, const char *key);
+    PassphraseDlg(GpgPlugin *plugin, const QString &key);
     ~PassphraseDlg();
     QString m_key;
     void error();

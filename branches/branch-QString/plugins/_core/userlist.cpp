@@ -205,7 +205,7 @@ void GroupItem::setOpen(bool bOpen)
     }
 }
 
-ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread)
+ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
         : UserViewItemBase(view)
 {
     m_id = contact->id();
@@ -213,7 +213,7 @@ ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned stat
     setDragEnabled(true);
 }
 
-void ContactItem::init(Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread)
+void ContactItem::init(Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
 {
     m_bOnline    = false;
     m_bBlink	 = false;
@@ -221,19 +221,16 @@ void ContactItem::init(Contact *contact, unsigned status, unsigned style, const 
     update(contact, status, style, icons, unread);
 }
 
-bool ContactItem::update(Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread)
+bool ContactItem::update(Contact *contact, unsigned status, unsigned style, const  QString &icons, unsigned unread)
 {
     m_unread = unread;
     m_style  = style;
     m_status = status;
-    QString icons_str;
-    if (icons)
-        icons_str = icons;
     QString name = contact->getName();
     QString active;
     active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
     setText(CONTACT_TEXT, name);
-    setText(CONTACT_ICONS, icons_str);
+    setText(CONTACT_ICONS, icons);
     setText(CONTACT_ACTIVE, active);
     setText(CONTACT_STATUS, QString::number(9 - status));
     setup();

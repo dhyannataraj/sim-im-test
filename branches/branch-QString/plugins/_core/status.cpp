@@ -438,8 +438,8 @@ void *CommonStatus::processEvent(Event *e)
 
                 if (bOfflineStatus ||
                         ((def->id != STATUS_ONLINE) && (def->id != STATUS_OFFLINE))){
-                    const char *noShow = CorePlugin::m_plugin->getNoShowAutoReply(def->id);
-                    if ((noShow == NULL) || (*noShow == 0)){
+                    QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(def->id);
+                    if (noShow.isEmpty()){
                         AutoReplyDialog dlg(def->id);
                         if (!dlg.exec())
                             return e->param();

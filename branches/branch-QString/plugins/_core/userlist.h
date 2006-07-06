@@ -82,18 +82,18 @@ protected:
 class ContactItem : public UserViewItemBase
 {
 public:
-    ContactItem(UserViewItemBase *view, SIM::Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread);
+    ContactItem(UserViewItemBase *view, SIM::Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread);
     unsigned type() { return USR_ITEM; }
     unsigned long id() { return m_id; }
     unsigned style() { return m_style; }
     unsigned status() { return m_status; }
-    bool update(SIM::Contact *grp, unsigned status, unsigned style, const char *icons, unsigned unread);
+    bool update(SIM::Contact *grp, unsigned status, unsigned style, const QString &icons, unsigned unread);
     bool m_bOnline;
     bool m_bBlink;
     unsigned m_unread;
 protected:
     virtual QString key(int column, bool ascending) const;
-    void init(SIM::Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread);
+    void init(SIM::Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread);
     unsigned long m_id;
     unsigned m_style;
     unsigned m_status;

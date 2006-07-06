@@ -131,11 +131,11 @@ void LoggerPlugin::openFile()
         delete m_file;
         m_file = NULL;
     }
-    const char *fname = getFile();
-    if ((fname == NULL) || (*fname == 0))
+    QString fname = getFile();
+    if (fname.isEmpty())
         return;
-    // This si because sim crashes when a logfile is larger than 100MB ...
-    QFileInfo fileInfo(QFile::decodeName(fname));
+    // This is because sim crashes when a logfile is larger than 100MB ...
+    QFileInfo fileInfo(fname);
     if (fileInfo.size() > 1024 * 1024 * 50) {	// 50MB ...
         QString desiredFileName = fileInfo.fileName() + ".old";
 #ifdef WIN32
@@ -147,7 +147,7 @@ void LoggerPlugin::openFile()
         }
     }
     // now open file
-    m_file = new QFile(QFile::decodeName(fname));
+    m_file = new QFile(fname);
     if (!m_file->open(IO_Append | IO_ReadWrite)){
         delete m_file;
         m_file = NULL;

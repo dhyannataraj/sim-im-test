@@ -1775,12 +1775,12 @@ void *CorePlugin::processEvent(Event *e)
     case EventARRequest:{
             ARRequest *r = (ARRequest*)(e->param());
             ARUserData *ar;
-            const char *tmpl = NULL;
+            QString tmpl;
             if (r->contact){
                 ar = (ARUserData*)(r->contact->userData.getUserData(ar_data_id, false));
                 if (ar)
                     tmpl = get_str(ar->AutoReply, r->status);
-                if ((tmpl == NULL) || (*tmpl == 0)){
+                if (tmpl.isEmpty()){
                     ar = NULL;
                     Group *grp = getContacts()->group(r->contact->getGroup());
                     if (grp)
@@ -1789,20 +1789,17 @@ void *CorePlugin::processEvent(Event *e)
                         tmpl = get_str(ar->AutoReply, r->status);
                 }
             }
-            if ((tmpl == NULL) || (*tmpl == 0)){
+            if (tmpl.isEmpty()){
                 ar = (ARUserData*)(getContacts()->getUserData(ar_data_id));
                 tmpl = get_str(ar->AutoReply, r->status);
-                if ((tmpl == NULL) || (*tmpl == 0))
+                if (tmpl.isEmpty())
                     tmpl = get_str(ar->AutoReply, STATUS_AWAY);
             }
-            if (tmpl == NULL)
-                tmpl = "";
-            QString tstr = QString::fromUtf8(tmpl);
             TemplateExpand t;
             t.contact	= r->contact;
             t.param		= r->param;
             t.receiver	= r->receiver;
-            t.tmpl		= tstr;;
+            t.tmpl		= tmpl;
             Event eTmpl(EventTemplateExpand, &t);
             eTmpl.process();
             return e->param();
@@ -1810,8 +1807,8 @@ void *CorePlugin::processEvent(Event *e)
     case EventSaveState:{
             ARUserData *ar = (ARUserData*)getContacts()->getUserData(ar_data_id);
             for (autoReply *a = autoReplies; a->text; a++){
-                const char *t = get_str(ar->AutoReply, a->status);
-                if (t && QString::fromUtf8(t) == i18n(a->text))
+                QString t = get_str(ar->AutoReply, a->status);
+                if (t == i18n(a->text))
                     set_str(&ar->AutoReply, a->status, QString::null);
             }
             e->process(this);
@@ -3067,19 +3064,16 @@ void *CorePlugin::processEvent(Event *e)
             if (cmd->id == CmdGrantAuth){
                 Message *from = (Message*)(cmd->param);
                 Message *msg = new AuthMessage(MessageAuthGranted);
-                const char *client_str = from->client();
-                if (client_str == NULL)
-                    client_str = "";
                 msg->setContact(from->contact());
-                msg->setClient(client_str);
+                msg->setClient(from->client());
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
                     void *data;
                     ClientDataIterator it(contact->clientData);
                     while ((data = ++it) != NULL){
                         Client *client = it.client();
-                        if (*client_str){
-                            if ((client->dataName(data) == client_str) && client->send(msg, data))
+                        if (!from->client().isEmpty()){
+                            if ((client->dataName(data) == from->client()) && client->send(msg, data))
                                 return e->param();
                         }else{
                             if (client->canSend(MessageAuthGranted, data) && client->send(msg, data))
@@ -3327,8 +3321,8 @@ void *CorePlugin::processEvent(Event *e)
                 if ((((cmd->id != STATUS_ONLINE) && (cmd->id != STATUS_OFFLINE)) ||
                         (client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE))&&
                         (client->protocol()->description()->flags & (PROTOCOL_AR | PROTOCOL_AR_USER))){
-                    const char *noShow = CorePlugin::m_plugin->getNoShowAutoReply(cmd->id);
-                    if ((noShow == NULL) || (*noShow == 0)){
+                    QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(cmd->id);
+                    if (noShow.isEmpty()){
                         AutoReplyDialog dlg(cmd->id);
                         if (!dlg.exec())
                             return e->param();

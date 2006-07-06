@@ -147,8 +147,8 @@ protected:
     unsigned m_day;
     virtual QString getConfig();
     bool isDay();
-    bool parseTime(const char *str, int &h, int &m);
-    bool parseDateTime(const char *str, QDateTime &dt);
+    bool parseTime(const QString &str, int &h, int &m);
+    bool parseDateTime(const QString &str, QDateTime &dt);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     void *processEvent(SIM::Event*);

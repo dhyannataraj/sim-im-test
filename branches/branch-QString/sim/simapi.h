@@ -818,7 +818,7 @@ public:
     ~CommandsDef();
     unsigned id();
     bool isMenu();
-    void setConfig(const char*);
+    void setConfig(const QString &);
     void set(CommandDef*);
 private:
     CommandsDefPrivate *p;

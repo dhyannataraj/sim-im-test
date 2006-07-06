@@ -228,7 +228,7 @@ void WeatherPlugin::hideBar()
     }
 }
 
-bool WeatherPlugin::parseTime(const char *str, int &h, int &m)
+bool WeatherPlugin::parseTime(const QString &str, int &h, int &m)
 {
     QString s = str;
     h = getToken(s, ':').toLong();
@@ -240,7 +240,7 @@ bool WeatherPlugin::parseTime(const char *str, int &h, int &m)
     return true;
 }
 
-bool WeatherPlugin::parseDateTime(const char *str, QDateTime &dt)
+bool WeatherPlugin::parseDateTime(const QString &str, QDateTime &dt)
 {
     int h, m, D, M, Y;
     QString daytime;
@@ -825,14 +825,7 @@ void WeatherPlugin::element_end(const char *el)
         return;
     }
     if (!strcmp(el, "r") && m_bBar && m_bCC){
-        unsigned long v = 0;
-        for (const char *p = m_data.latin1(); *p; p++){
-            if (*p == '.')
-                break;
-            if (*p == ',')
-                continue;
-            v = (v * 10) + (*p - '0');
-        }
+        unsigned long v = (unsigned long)m_data.toFloat();
         setPressure(v);
         return;
     }

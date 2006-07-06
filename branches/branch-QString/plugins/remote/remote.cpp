@@ -268,9 +268,9 @@ static char TCP[] = "tcp:";
 
 void RemotePlugin::bind()
 {
-    const char *path = getPath();
-    if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
-        unsigned short port = (unsigned short)atol(path + strlen(TCP));
+    QString path = getPath();
+    if (path.startsWith(TCP)){
+        unsigned short port = path.mid(strlen(TCP)).toUShort();
         ServerSocketNotify::bind(port, port, NULL);
 #ifndef WIN32
     }else{

@@ -237,8 +237,8 @@ void *ActionPlugin::processEvent(Event *e)
             eTmpl.process();
             return NULL;
         }
-        const char *cmd = get_str(data->Message, msg->baseType());
-        if ((cmd == NULL) || (*cmd == 0))
+        QString cmd = get_str(data->Message, msg->baseType());
+        if (cmd.isEmpty())
             return NULL;
         TemplateExpand t;
         t.tmpl	   = QString::fromUtf8(cmd);

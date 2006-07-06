@@ -55,8 +55,6 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     m_timer->start(1000);
     ARUserData *ar = (ARUserData*)getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id);
     text = get_str(ar->AutoReply, m_status);
-    if (text.isEmpty())
-        text = get_str(ar->AutoReply, m_status);
     edtAutoResponse->setText(text);
     connect(edtAutoResponse, SIGNAL(textChanged()), this, SLOT(textChanged()));
     connect(chkNoShow, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));

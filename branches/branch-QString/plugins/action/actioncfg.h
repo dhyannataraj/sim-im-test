@@ -43,7 +43,7 @@ protected:
     MenuConfig		*m_menu;
     void resizeEvent(QResizeEvent *e);
     void setEnabled (bool);
-    QPixmap makePixmap(const char *src);
+    QPixmap makePixmap(const QString &src);
     struct ActionUserData	*m_data;
     ActionPlugin *m_plugin;
 };

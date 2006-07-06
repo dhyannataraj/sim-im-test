@@ -38,7 +38,7 @@ class CommandsDefPrivate : public EventReceiver
 {
 public:
     CommandsDefPrivate(unsigned id, bool bMenu);
-    void setConfig(const char *cfg_str);
+    void setConfig(const QString &cfg_str);
     void *processEvent(Event*);
     bool addCommand(CommandDef*);
     bool changeCommand(CommandDef*);
@@ -46,7 +46,7 @@ public:
     void generateConfig();
     list<CommandDef> buttons;
     list<unsigned> cfg;
-    string config;
+    QString config;
     unsigned m_id;
     bool m_bMenu;
 };
@@ -130,11 +130,9 @@ void *CommandsDefPrivate::processEvent(Event *e)
     return NULL;
 }
 
-void CommandsDefPrivate::setConfig(const char *cfg_str)
+void CommandsDefPrivate::setConfig(const QString &cfg_str)
 {
-    if (cfg_str == NULL)
-        cfg_str = "";
-    if (!strcmp(cfg_str, config.c_str()) && cfg.size())
+    if ((cfg_str == config) && cfg.size())
         return;
     cfg.clear();
     config = cfg_str;
@@ -147,23 +145,23 @@ void CommandsDefPrivate::generateConfig()
         return;
     if (config.length()){
         list<unsigned> processed;
-        string active = config;
-        string noactive;
+        QString active = config;
+        QString noactive;
         int n = config.find('/');
         if (n >= 0){
-            active   = config.substr(0, n);
-            noactive = config.substr(n + 1);
+            active   = config.left(n);
+            noactive = config.mid(n + 1);
         }
         while (active.length()){
-            string v = getToken(active, ',');
-            unsigned id = atol(v.c_str());
+            QString v = getToken(active, ',');
+            unsigned id = v.toUInt();
             cfg.push_back(id);
             if (id)
                 processed.push_back(id);
         }
         while (noactive.length()){
-            string v = getToken(noactive, ',');
-            unsigned id = atol(v.c_str());
+            QString v = getToken(noactive, ',');
+            unsigned id = v.toUInt();
             if (id)
                 processed.push_back(id);
         }
@@ -352,7 +350,7 @@ void CommandsDef::set(CommandDef *cmd)
     p->changeCommand(cmd);
 }
 
-void CommandsDef::setConfig(const char *cfg_str)
+void CommandsDef::setConfig(const QString &cfg_str)
 {
     p->setConfig(cfg_str);
 }

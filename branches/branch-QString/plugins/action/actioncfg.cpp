@@ -108,7 +108,7 @@ void ActionConfig::resizeEvent(QResizeEvent *e)
     lstEvent->adjustColumn();
 }
 
-QPixmap ActionConfig::makePixmap(const char *src)
+QPixmap ActionConfig::makePixmap(const QString &src)
 {
     const QPixmap &source = Pict(src);
     int w = source.width();
