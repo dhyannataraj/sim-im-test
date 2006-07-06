@@ -1,7 +1,7 @@
 bin_PROGRAMS = sim 
 lib_LTLIBRARIES = libsim.la
 
-SUBDIRS = png libltdl qzip
+SUBDIRS = png qzip
 
 sim_SOURCES = sim.cpp \
  sim.rc
@@ -50,7 +50,7 @@ endif
 
 sim_LDADD = $(SIM_RC_OBJ) libsim.la
 sim_DEPENDENCIES = $(SIM_RC_OBJ)
-libsim_la_LIBADD = qzip/libqzip.la $(LIBLTDL) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
+libsim_la_LIBADD = qzip/libqzip.la $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(LIB_KFILE) $(EXTRA_LIBS) $(LIB_XML2) $(LIB_XSLT) $(LIBSSL)
 
 EXTRA_DIST = \
 	sim-kde.menu \
