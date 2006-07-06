@@ -43,7 +43,7 @@ public:
     virtual ~Socket() {}
     virtual int read(char *buf, unsigned int size) = 0;
     virtual void write(const char *buf, unsigned int size) = 0;
-    virtual void connect(const char *host, unsigned short port) = 0;
+    virtual void connect(const QString &host, unsigned short port) = 0;
     virtual void close() = 0;
     virtual unsigned long localHost() = 0;
     virtual void pause(unsigned) = 0;
@@ -214,7 +214,7 @@ public:
     ~SSLClient();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
     virtual void close();
     virtual unsigned long localHost();
     virtual void pause(unsigned);

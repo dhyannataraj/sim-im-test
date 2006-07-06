@@ -89,7 +89,7 @@ void MSNHttpPool::close()
     stop();
 }
 
-void MSNHttpPool::connect(const char *host, unsigned short)
+void MSNHttpPool::connect(const QString &host, unsigned short)
 {
     m_ip = host;
     if (notify)

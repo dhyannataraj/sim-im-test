@@ -322,7 +322,7 @@ void SSLClient::write()
     process(false, true);
 }
 
-void SSLClient::connect(const char *host, unsigned short port)
+void SSLClient::connect(const QString &host, unsigned short port)
 {
     sock->connect(host, port);
 }

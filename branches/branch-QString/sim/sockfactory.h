@@ -39,7 +39,7 @@ public:
     virtual ~SIMClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual void close();
@@ -51,12 +51,12 @@ protected slots:
     void slotBytesWritten();
     void slotError(int);
     void slotLookupFinished(int);
-    void resolveReady(unsigned long addr, const char *host);
+    void resolveReady(unsigned long addr, const QString &host);
     void timeout();
 protected:
     void timerStop();
     unsigned short port;
-    std::string host;
+    QString host;
     QSocket *sock;
     QTimer  *timer;
     bool bInWrite;
@@ -98,7 +98,7 @@ public:
     bool   bDone;
     bool   bTimeout;
     unsigned long addr();
-    std::string host();
+    QString host();
 protected slots:
     void   resolveTimeout();
     void   resolveReady();
@@ -112,9 +112,9 @@ public:
     ~SIMSockets();
     virtual Socket *createSocket();
     virtual ServerSocket *createServerSocket();
-    void resolve(const char *host);
+    void resolve(const QString &host);
 signals:
-    void resolveReady(unsigned long res, const char*);
+    void resolveReady(unsigned long res, const QString&);
 public slots:
     void resultsReady();
     void idle();
@@ -128,13 +128,13 @@ class IP
 public:
     IP();
     ~IP();
-    void set(unsigned long ip, const char *host);
+    void set(unsigned long ip, const QString &host);
     void resolve();
     unsigned long ip() const { return m_ip; }
-    const char *host() const { return m_host; }
+    const QString &host() const { return m_host; }
 protected:
     unsigned long m_ip;
-    char *m_host;
+    QString m_host;
 };
 
 class IPResolver : public QObject

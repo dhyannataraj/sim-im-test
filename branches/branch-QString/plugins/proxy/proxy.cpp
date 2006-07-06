@@ -393,13 +393,13 @@ class SOCKS4_Proxy : public Proxy
 {
 public:
     SOCKS4_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client);
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
     virtual void error_state(const QString &text, unsigned code);
 
-    string			m_host;
+    QString			m_host;
     unsigned short	m_port;
 
     enum State
@@ -435,7 +435,7 @@ SOCKS4_Proxy::SOCKS4_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *clie
     m_state = None;
 }
 
-void SOCKS4_Proxy::connect(const char *host, unsigned short port)
+void SOCKS4_Proxy::connect(const QString &host, unsigned short port)
 {
     if (m_state != None){
         if (notify) notify->error_state(STATE_ERROR);
@@ -464,9 +464,9 @@ void SOCKS4_Proxy::connect_ready()
         error_state(STATE_ERROR, 0);
         return;
     }
-    unsigned long addr = inet_addr(m_host.c_str());
+    unsigned long addr = inet_addr(m_host);
     if (addr == INADDR_NONE){
-        struct hostent *hp = gethostbyname(m_host.c_str());
+        struct hostent *hp = gethostbyname(m_host);
         if (hp) addr = *((unsigned long*)(hp->h_addr_list[0]));
     }
     if (notify)
@@ -562,12 +562,12 @@ class SOCKS5_Proxy : public Proxy
 {
 public:
     SOCKS5_Proxy(ProxyPlugin*, ProxyData*, TCPClient*);
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
     virtual void error_state(const QString &text, unsigned code);
-    string m_host;
+    QString m_host;
     unsigned short m_port;
     enum State
     {
@@ -607,7 +607,7 @@ SOCKS5_Proxy::SOCKS5_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
     m_state = None;
 }
 
-void SOCKS5_Proxy::connect(const char *host, unsigned short port)
+void SOCKS5_Proxy::connect(const QString &host, unsigned short port)
 {
     if (m_state != None){
         error_state(STATE_ERROR, 0);
@@ -697,7 +697,7 @@ void SOCKS5_Proxy::error_state(const QString &t, unsigned code)
 
 void SOCKS5_Proxy::send_connect()
 {
-    unsigned long addr = inet_addr(m_host.c_str());
+    unsigned long addr = inet_addr(m_host);
     bOut << (char)0x05
     << (char)0x01			/* CONNECT */
     << (char)0x00;			/* reserved */
@@ -707,7 +707,7 @@ void SOCKS5_Proxy::send_connect()
     }else{
         bOut << (char)0x03		/* address type -- host name */
         << (char)m_host.length();
-        bOut.pack(m_host.c_str(), m_host.length());
+        bOut.pack(m_host, m_host.length());
     }
     bOut << m_port;
     m_state = WaitConnect;
@@ -825,13 +825,13 @@ class HTTPS_Proxy : public Proxy
 {
 public:
     HTTPS_Proxy(ProxyPlugin *plugin, ProxyData*, TCPClient *client);
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
 protected:
     virtual void connect_ready();
     virtual void read_ready();
     void error_state(const QString &text, unsigned code);
     void send_auth();
-    string m_host;
+    QString m_host;
     unsigned short m_port;
     enum State
     {
@@ -850,7 +850,7 @@ HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
     m_state = None;
 }
 
-void HTTPS_Proxy::connect(const char *host, unsigned short port)
+void HTTPS_Proxy::connect(const QString &host, unsigned short port)
 {
     if (m_state != None){
         error_state(STATE_ERROR, 0);
@@ -874,7 +874,7 @@ void HTTPS_Proxy::connect_ready()
     }
     bIn.packetStart();
     bOut << "CONNECT "
-    << m_host.c_str()
+    << m_host.ascii()
     << ":"
     << (const char*)QString::number(m_port).latin1()
     << " HTTP/1.0\r\n"
@@ -973,7 +973,7 @@ class HTTP_Proxy : public HTTPS_Proxy
 {
 public:
     HTTP_Proxy(ProxyPlugin *plugin, ProxyData*, TCPClient *client);
-    void connect(const char *host, unsigned short port);
+    void connect(const QString &host, unsigned short port);
 protected:
     virtual void write(const char *buf, unsigned int size);
     virtual int read(char *buf, unsigned int size);
@@ -1030,7 +1030,7 @@ void HTTP_Proxy::read_ready()
         notify->read_ready();
 }
 
-void HTTP_Proxy::connect(const char *host, unsigned short port)
+void HTTP_Proxy::connect(const QString &host, unsigned short port)
 {
     if (port == 443)
         m_bHTTP = false;
@@ -1097,7 +1097,7 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
         bOut
         << getToken(line, ' ', false).data()
         << " http://"
-        << m_host.c_str();
+        << m_host.ascii();
         if (m_port != 80)
             bOut << ":" << (const char*)QString::number(m_port);
         bOut << getToken(line, ' ', false).data();

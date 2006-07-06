@@ -121,12 +121,12 @@ unsigned long SIMResolver::addr()
     return htonl(dns->addresses().first().ip4Addr());
 }
 
-string SIMResolver::host()
+QString SIMResolver::host()
 {
-    return dns->label().latin1();
+    return dns->label();
 }
 
-void SIMSockets::resolve(const char *host)
+void SIMSockets::resolve(const QString &host)
 {
     SIMResolver *resolver = new SIMResolver(this, host);
     resolvers.push_back(resolver);
@@ -155,7 +155,7 @@ void SIMSockets::resultsReady()
             isActive = bState;
 #endif
         setActive(isActive);
-        emit resolveReady(r->addr(), r->host().c_str());
+        emit resolveReady(r->addr(), r->host());
         resolvers.remove(r);
         delete r;
         it = resolvers.begin();
@@ -245,7 +245,7 @@ void SIMClientSocket::write(const char *buf, unsigned int size)
         QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
 }
 
-void SIMClientSocket::connect(const char *_host, unsigned short _port)
+void SIMClientSocket::connect(const QString &_host, unsigned short _port)
 {
     port = _port;
     host = _host;
@@ -256,22 +256,23 @@ void SIMClientSocket::connect(const char *_host, unsigned short _port)
         return;
     }
 #endif
-    log(L_DEBUG, "Connect to %s:%u", host.c_str(), port);
-    if (inet_addr(host.c_str()) == INADDR_NONE){
+    log(L_DEBUG, "Connect to %s:%u", host.data(), port);
+    if (inet_addr(host.data()) == INADDR_NONE){
 //        if (!host.empty() && (host[host.length() - 1] != '.'))
 //            host += ".";
-        log(L_DEBUG, "Start resolve %s", host.c_str());
+        log(L_DEBUG, "Start resolve %s", host.data());
         SIMSockets *s = static_cast<SIMSockets*>(getSocketFactory());
-        QObject::connect(s, SIGNAL(resolveReady(unsigned long, const char*)), this, SLOT(resolveReady(unsigned long, const char*)));
-        s->resolve(host.c_str());
+        QObject::connect(s, SIGNAL(resolveReady(unsigned long, const QString&)), this, SLOT(resolveReady(unsigned long, const QString&)));
+        s->resolve(host);
         return;
     }
-    resolveReady(inet_addr(host.c_str()), host.c_str());
+    resolveReady(inet_addr(host), host);
 }
 
-void SIMClientSocket::resolveReady(unsigned long addr, const char *_host)
+void SIMClientSocket::resolveReady(unsigned long addr, const QString &_host)
 {
-    if (strcmp(_host, host.c_str())) return;
+    if (_host != host)
+        return;
     if (addr == INADDR_NONE){
         if (notify) notify->error_state(I18N_NOOP("Can't resolve host"));
         return;
@@ -281,12 +282,12 @@ void SIMClientSocket::resolveReady(unsigned long addr, const char *_host)
     in_addr a;
     a.s_addr = addr;
     host = inet_ntoa(a);
-    log(L_DEBUG, "Resolve ready %s", host.c_str());
+    log(L_DEBUG, "Resolve ready %s", host.latin1());
     timerStop();
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
     timer->start(CONNECT_TIMEOUT * 1000);
-    sock->connectToHost(host.c_str(), port);
+    sock->connectToHost(host, port);
 }
 
 void SIMClientSocket::slotConnected()
@@ -523,14 +524,12 @@ static IPResolver *pResolver = NULL;
 
 void deleteResolver()
 {
-    if (pResolver)
-        delete pResolver;
+    delete pResolver;
 }
 
 IP::IP()
+ : m_ip(0)
 {
-    m_ip = 0;
-    m_host = NULL;
 }
 
 IP::~IP()
@@ -543,32 +542,18 @@ IP::~IP()
             }
         }
     }
-    if (m_host)
-        delete[] m_host;
 }
 
-void IP::set(unsigned long ip, const char *host)
+void IP::set(unsigned long ip, const QString &host)
 {
     bool bResolve = false;
     if (ip != m_ip){
         m_ip = ip;
-        if (m_host){
-            delete[] m_host;
-            m_host = NULL;
-        }
+        m_host = QString::null;
         bResolve = true;
     }
-    if (host && *host){
-        if (m_host){
-            if (!strcmp(m_host, host))
-                return;
-            delete[] m_host;
-            m_host = NULL;
-        }
-        m_host = new char[strlen(host) + 1];
-        strcpy(m_host, host);
-    }
-    if (bResolve && m_host)
+    m_host = host;
+    if (bResolve && !m_host.isEmpty())
         resolve();
 }
 

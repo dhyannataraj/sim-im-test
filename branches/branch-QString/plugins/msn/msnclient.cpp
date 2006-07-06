@@ -525,7 +525,7 @@ void MSNClient::getLine(const QCString &line)
             clearPackets();
             m_socket->close();
             m_socket->readBuffer.init(0);
-            m_socket->connect(host.latin1(), port, this);
+            m_socket->connect(host, port, this);
             return;
         }
         l = id + " " + type + " " + l;
@@ -1926,9 +1926,9 @@ void SBSocket::connect(const QString &addr, const QString &session, const QStrin
     }else{
         m_state = ConnectingReceive;
     }
-    m_cookie = QString::fromUtf8(cookie);
-    m_session = QString::fromUtf8(session);
-    QString ip = QString::fromUtf8(addr);
+    m_cookie = cookie;
+    m_session = session;
+    QString ip = addr;
     unsigned short port = 0;
     int n = ip.find(':');
     if (n > 0){
