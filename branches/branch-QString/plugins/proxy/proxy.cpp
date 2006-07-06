@@ -1284,7 +1284,7 @@ void *ProxyPlugin::processEvent(Event *e)
         clientErrorData *data = (clientErrorData*)(e->param());
         if (data->code == ProxyErr){
             QString msg = i18n(data->err_str);
-            if (data->err_str && *data->err_str){
+            if (!data->err_str.isEmpty()){
                 if (data->args){
                     msg = msg.arg(QString::fromUtf8(data->args));
                     free(data->args);

@@ -79,7 +79,7 @@ public:
     const char *getOldKey(SIM::CommandDef *cmd);
     bool getOldGlobal(SIM::CommandDef *cmd);
     static QWidget *getMainWindow();
-    static unsigned stringToButton(const char *cfg);
+    static unsigned stringToButton(const QString &cfg);
     static QString buttonToString(unsigned button);
 protected:
     virtual bool eventFilter(QObject*, QEvent*);

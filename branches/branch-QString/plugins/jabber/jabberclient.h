@@ -348,7 +348,7 @@ protected:
 
     virtual QString contactName(void *clientData);
     virtual void setStatus(unsigned status);
-    void setStatus(unsigned status, const char *ar);
+    void setStatus(unsigned status, const QString &ar);
     virtual void disconnected();
     virtual void connect_ready();
     virtual void packet_ready();

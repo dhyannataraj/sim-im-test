@@ -152,8 +152,7 @@ void CToolButton::setTextLabel()
 {
     QString text = m_text;
     if (text.isEmpty()) {
-        if (m_def.text && *m_def.text)
-            text = i18n(m_def.text);
+        text = i18n(m_def.text);
     }
     int key = QAccel::shortcutKey(text);
     setAccel(key);
@@ -499,7 +498,7 @@ void CToolCombo::slotTextChanged(const QString &str)
 void CToolCombo::setState()
 {
     CToolItem::setState();
-    if (m_def.text && *m_def.text){
+    if (!m_def.text.isEmpty()){
         QString t = i18n(m_def.text);
         int pos;
         while ((pos = t.find('&')) >= 0)

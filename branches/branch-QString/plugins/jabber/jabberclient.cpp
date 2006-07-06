@@ -541,7 +541,7 @@ void JabberClient::setStatus(unsigned status)
     e.process();
 }
 
-void JabberClient::setStatus(unsigned status, const char *ar)
+void JabberClient::setStatus(unsigned status, const QString &ar)
 {
     if (status  != m_status){
         time_t now;
@@ -580,9 +580,9 @@ void JabberClient::setStatus(unsigned status, const char *ar)
         if (type)
             m_socket->writeBuffer << " type=\'" << type << "\'";
         m_socket->writeBuffer << ">\n";
-        if (show && *show)
+        if (show)
             m_socket->writeBuffer << "<show>" << show << "</show>\n";
-        if (ar && *ar){
+        if (!ar.isEmpty()){
             m_socket->writeBuffer << "<status>" << ar << "</status>\n";
         }
         if (!priority.isEmpty())

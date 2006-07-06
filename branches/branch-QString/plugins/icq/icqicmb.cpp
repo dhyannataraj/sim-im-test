@@ -2213,7 +2213,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
                 m_socket->writeBuffer.packScreen(screen(data));
                 m_socket->writeBuffer << 0x0003 << 0x0002 << 0x0001;
                 sendPacket(false);
-                if (reason && *reason){
+                if (!reason.isEmpty()){
                     Message *msg = new Message(MessageGeneric);
                     msg->setText(reason);
                     msg->setFlags(MESSAGE_NOHISTORY);

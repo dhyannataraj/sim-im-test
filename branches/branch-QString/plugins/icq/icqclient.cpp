@@ -976,7 +976,7 @@ ICQUserData *ICQClient::findContact(unsigned long l, const QString *alias, bool 
 
 ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
 {
-    if ((screen == NULL) || (*screen == 0))
+    if (screen.isEmpty())
         return NULL;
 
     QString s = screen.lower();
@@ -2400,10 +2400,7 @@ void *ICQClient::processEvent(Event *e)
         }
         btns.append(i18n("Send to &list"));
         btns.append(i18n("&Cancel"));
-        QString err;
-        const char *err_str = m->msg->getError();
-        if (err_str && *err_str)
-            err = i18n(err_str);
+        QString err = i18n(m->msg->getError());
         Command cmd;
         cmd->id		= CmdSend;
         cmd->param	= m->edit;

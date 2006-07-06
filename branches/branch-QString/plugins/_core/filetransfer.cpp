@@ -91,7 +91,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
             QString pp = getToken(p, '/');
             if (pp == ".."){
                 QString errMsg = i18n("Bad path: %1") .arg(m_name);
-                m_dlg->m_msg->setError(errMsg.utf8());
+                m_dlg->m_msg->setError(errMsg);
                 ft->setError();
                 return;
             }
@@ -101,7 +101,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
                 QDir d(ft->dir());
                 if (!d.mkdir(path)){
                     QString errMsg = i18n("Can't create: %1") .arg(path);
-                    m_dlg->m_msg->setError(errMsg.utf8());
+                    m_dlg->m_msg->setError(errMsg);
                     ft->setError();
                     return;
                 }
@@ -161,7 +161,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
         }
     }
     QString errMsg = i18n("Can't create: %1") .arg(m_name);
-    m_dlg->m_msg->setError(errMsg.utf8());
+    m_dlg->m_msg->setError(errMsg);
     ft->setError();
 }
 

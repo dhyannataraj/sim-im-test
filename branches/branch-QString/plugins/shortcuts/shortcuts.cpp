@@ -602,12 +602,10 @@ static const char *states[] =
         NULL
     };
 
-unsigned ShortcutsPlugin::stringToButton(const char *cfg)
+unsigned ShortcutsPlugin::stringToButton(const QString &cfg)
 {
     unsigned res = 0;
-    QString config;
-    if (cfg)
-        config = cfg;
+    QString config = cfg;
     for (; config.length(); ){
         QString t = getToken(config, '+');
         if (t == "Alt"){
@@ -658,8 +656,8 @@ QString ShortcutsPlugin::buttonToString(unsigned n)
 void ShortcutsPlugin::applyKey(CommandDef *s)
 {
     if (s->popup_id){
-        const char *cfg = getMouse(s->id);
-        if (cfg && *cfg){
+        QString cfg = getMouse(s->id);
+        if (!cfg.isEmpty()){
             unsigned btn = stringToButton(cfg);
             if (mouseCmds.size() == 0)
                 qApp->installEventFilter(this);
@@ -667,19 +665,19 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
         }
         return;
     }
-    const char *cfg = getKey(s->id);
-    if (cfg && *cfg){
+    QString cfg = getKey(s->id);
+    if (!cfg.isEmpty()){
         oldKeys.insert(MAP_STR::value_type(s->id, s->accel));
-        if (strcmp(cfg, "-")){
+        if (cfg == "-"){
             s->accel = cfg;
         }else{
             s->accel = "";
         }
     }
     cfg = getGlobal(s->id);
-    if (cfg && *cfg){
+    if (!cfg.isEmpty()){
         oldGlobals.insert(MAP_BOOL::value_type(s->id, (s->flags & COMMAND_GLOBAL_ACCEL) != 0));
-        if (*cfg == '-'){
+        if (cfg.startsWith("-")){
             s->flags &= ~COMMAND_GLOBAL_ACCEL;
         }else{
             s->flags |= COMMAND_GLOBAL_ACCEL;

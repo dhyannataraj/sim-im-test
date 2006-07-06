@@ -249,9 +249,7 @@ void Container::init()
         if (contact == NULL)
             continue;
         QString str("[Title]\n");
-        const char *cfg = getWndConfig(id);
-        if (cfg && *cfg)
-            str += cfg;
+        str += getWndConfig(id);
         ConfigBuffer config(str);
         config.getSection();
         addUserWnd(new UserWnd(id, &config, false, true), true);

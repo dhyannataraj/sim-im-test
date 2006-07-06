@@ -79,11 +79,9 @@ void *JabberWizard::processEvent(Event *e)
         agentRegisterInfo *ai = (agentRegisterInfo*)(e->param());
         if (m_id == ai->id){
             if (ai->err_code){
-                QString err;
-                if (ai->error && *ai->error)
-                    err = i18n(ai->error);
+                QString err = i18n(ai->error);
                 if (err.isEmpty())
-                    err = i18n("Error %1") .arg(ai->err_code);
+                    err = i18n("Error %1").arg(ai->err_code);
                 m_result->setText(err);
             }else{
                 m_result->setText(i18n("Done"));

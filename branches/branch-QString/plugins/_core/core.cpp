@@ -1471,13 +1471,8 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
 
 void CorePlugin::initData()
 {
-    if (historyXSL)
-        delete historyXSL;
-    QString styleName;
-    const char *s = getHistoryStyle();
-    if (s && *s)
-        styleName = QFile::decodeName(s);
-    historyXSL = new XSL(styleName);
+    delete historyXSL;
+    historyXSL = new XSL(getHistoryStyle());
     if ((getEditBackground() == 0) && (getEditForeground() == 0)){
         QPalette pal = QApplication::palette();
         QColorGroup cg = pal.normal();

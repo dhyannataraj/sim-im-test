@@ -460,7 +460,7 @@ void *LoginDialog::processEvent(Event *e)
             }
             stopLogin();
             QString msg;
-            if (d->err_str && *d->err_str){
+            if (!d->err_str.isEmpty()){
                 msg = i18n(d->err_str);
                 if (d->args){
                     msg = msg.arg(QString::fromUtf8(d->args));
