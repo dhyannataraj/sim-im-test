@@ -1658,6 +1658,19 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
     if (name.upper().find(m_search.upper())>-1) {
         item->parent()->setOpen(TRUE);
         items.push_back(item);
+    } else {
+      void *data;
+      Contact *contact = getContacts()->contact(static_cast<ContactItem*>(item)->id());
+        ClientDataIterator it(contact->clientData);
+        while ((data = ++it) != NULL){
+          Client *client = contact->clientData.activeClient(data, it.client());
+          QString contactName = client->contactName(data);
+          if (contactName.upper().find(m_search.upper())>-1) {
+              item->parent()->setOpen(TRUE);
+              items.push_back(item);
+              break;
+          }
+        }
     }
 }
 
