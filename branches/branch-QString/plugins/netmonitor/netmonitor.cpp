@@ -137,7 +137,7 @@ void NetmonitorPlugin::setLogType(unsigned id, bool bLog)
     }
 }
 
-const unsigned NO_DATA = (unsigned)(-1);
+const long NO_DATA = -1;
 
 void NetmonitorPlugin::showMonitor()
 {

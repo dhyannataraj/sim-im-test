@@ -159,7 +159,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                         if (i == CAP_SIMOLD) size--;
 
 						if (*capabilities[i] == 0) {
-							log( L_DEBUG, "%ul unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
+							log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
 							break;
 						}
                         if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))

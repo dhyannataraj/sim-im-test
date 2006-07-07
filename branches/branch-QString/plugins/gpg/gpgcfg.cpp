@@ -183,7 +183,7 @@ void GpgCfg::refresh()
 #endif
     QString home = edtHome->text();
     if (gpg.isEmpty() || home.isEmpty()){
-        fillSecret(NULL);
+        fillSecret(QByteArray());
         return;
     }
     if (m_process)
