@@ -583,7 +583,7 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
         if (show)
             m_socket->writeBuffer << "<show>" << show << "</show>\n";
         if (!ar.isEmpty()){
-            m_socket->writeBuffer << "<status>" << ar << "</status>\n";
+            m_socket->writeBuffer << "<status>" << (const char*)ar.utf8() << "</status>\n";
         }
         if (!priority.isEmpty())
             m_socket->writeBuffer << "<priority>" << (const char*)priority.utf8() << "</priority>\n";

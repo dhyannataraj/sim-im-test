@@ -770,24 +770,15 @@ bool FetchClientPrivate::findHeader(const char *key)
     return (it != m_hOut.end());
 }
 
-static string tobase64(const char *s)
+QCString basic_auth(const QString &user, const QString &pass)
 {
+    QString auth = user + ":" + pass;
     Buffer from;
     Buffer to;
-    from << s;
+    from << auth.local8Bit();
     to.toBase64(from);
-    string res;
-    res.append(to.data(), to.size());
-    return res;
-}
-
-string basic_auth(const char *user, const char *pass)
-{
-    string auth = user;
-    auth += ":";
-    if (pass)
-        auth += pass;
-    return tobase64(auth.c_str());
+    QCString cstr = to;
+    return cstr;
 }
 
 bool FetchClientPrivate::error_state(const QString &err, unsigned)
@@ -866,7 +857,7 @@ void FetchClientPrivate::connect_ready()
     if (!findHeader("Authorization") && !user.empty())
         m_socket->writeBuffer
         << "Authorization: basic "
-        << basic_auth(user.c_str(), pass.c_str()).c_str()
+        << basic_auth(user.c_str(), pass.c_str()).data()
         << "\r\n";
     if (postSize != NO_POSTSIZE){
         if (!findHeader("Content-Length"))

@@ -19,12 +19,12 @@
 #define _PROXYCFG_H
 
 #include "simapi.h"
-#include "proxy.h"
 #include "proxycfgbase.h"
 
-#include <vector>
+#include <qvaluelist.h>
 
 class ProxyPlugin;
+struct ProxyData;
 class QTabWidget;
 
 class ProxyConfig : public ProxyConfigBase, public SIM::EventReceiver
@@ -44,7 +44,7 @@ protected:
     void fillClients();
     void fill(ProxyData*);
     void get(ProxyData*);
-    std::vector<ProxyData> m_data;
+    QValueList<ProxyData> m_data;
     SIM::Client *m_client;
     ProxyPlugin *m_plugin;
     unsigned m_current;

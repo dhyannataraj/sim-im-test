@@ -35,7 +35,6 @@
 #include <arpa/inet.h>
 #endif
 
-using namespace std;
 using namespace SIM;
 
 #ifndef INADDR_NONE
@@ -221,7 +220,7 @@ Proxy::Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
     m_sock     = NULL;
     m_client   = client;
     m_bClosed  = false;
-    m_plugin->proxies.push_back(this);
+    m_plugin->proxies.append(this);
     bIn.packetStart();
     bOut.packetStart();
 }
@@ -232,7 +231,7 @@ Proxy::~Proxy()
         static_cast<ClientSocket*>(notify)->setSocket(m_sock);
     if (m_sock)
         delete m_sock;
-    for (list<Proxy*>::iterator it = m_plugin->proxies.begin(); it != m_plugin->proxies.end(); ++it){
+    for (QPtrList<Proxy>::iterator it = m_plugin->proxies.begin(); it != m_plugin->proxies.end(); ++it){
         if (*it == this){
             m_plugin->proxies.erase(it);
             break;
@@ -841,7 +840,7 @@ protected:
         WaitEmpty
     };
     State m_state;
-    bool readLine(string &s);
+    bool readLine(QCString &s);
 };
 
 HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
@@ -892,9 +891,9 @@ static char HTTP[] = "HTTP/";
 void HTTPS_Proxy::send_auth()
 {
     if (getAuth()){
-        string s = basic_auth(getUser(), getPassword());
+        QCString s = basic_auth(getUser(), getPassword());
         bOut << "Proxy-Authorization: Basic ";
-        bOut << s.c_str();
+        bOut << s.data();
         bOut << "\r\n";
     }
 }
@@ -912,19 +911,22 @@ void HTTPS_Proxy::error_state(const QString &t, unsigned code)
 void HTTPS_Proxy::read_ready()
 {
     if (m_state == WaitConnect){
-        string s;
-        if (!readLine(s)) return;
-        if (s.length() < strlen(HTTP)){
+        QCString s;
+        if (!readLine(s))
+            return;
+        if (s.left(strlen(HTTP)) != QCString(HTTP)){
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
-        const char *r = strchr(s.c_str(), ' ');
-        if (r == NULL){
+        int idx = s.find(' ');
+        int idx2 = s.find(' ', idx + 1);
+        if (idx == -1){
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
-        r++;
-        int code = atoi(r);
+        if(idx2 == -1)
+            idx2 = s.length();
+        int code = s.mid(idx + 1, idx2 - idx).toInt();
         if (code == 407){
             error_state(AUTH_ERROR, m_plugin->ProxyErr);
             return;
@@ -937,15 +939,17 @@ void HTTPS_Proxy::read_ready()
     }
     if (m_state == WaitEmpty){
         for (;;){
-            string s;
-            if (!readLine(s)) return;
-            if (s.length() == 0) break;
+            QCString s;
+            if (!readLine(s))
+                return;
+            if (s.length() == 0)
+                break;
         }
         proxy_connect_ready();
     }
 }
 
-bool HTTPS_Proxy::readLine(string &s)
+bool HTTPS_Proxy::readLine(QCString &s)
 {
     for (;;){
         char c;
@@ -954,14 +958,17 @@ bool HTTPS_Proxy::readLine(string &s)
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return false;
         }
-        if (n == 0) return false;
-        if (c == '\r') continue;
-        if (c == '\n') break;
+        if (n == 0)
+            return false;
+        if (c == '\r')
+            continue;
+        if (c == '\n')
+            break;
         bIn << c;
     }
     log_packet(bIn, false, m_plugin->ProxyPacket);
     if(bIn.size())
-        s.assign(bIn.data(0), bIn.size());
+        s = bIn;
     bIn.init(0);
     bIn.packetStart();
     return true;
@@ -990,7 +997,7 @@ protected:
     Buffer		m_out;
     bool		m_bHTTP;
     unsigned	m_size;
-    string		m_head;
+    QCString	m_head;
 };
 
 HTTP_Proxy::HTTP_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client)
@@ -1007,20 +1014,23 @@ void HTTP_Proxy::read_ready()
         HTTPS_Proxy::read_ready();
         return;
     }
-    if (!m_head.empty())
+    if (!m_head.isEmpty())
         return;
-    if (!readLine(m_head)) return;
+    if (!readLine(m_head))
+        return;
     if (m_head.length() < strlen(HTTP)){
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
-    const char *r = strchr(m_head.c_str(), ' ');
-    if (r == NULL){
+    int idx = m_head.find(' ');
+    int idx2 = m_head.find(' ', idx + 1);
+    if (idx == -1){
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
-    r++;
-    int code = atoi(r);
+    if(idx2 == -1)
+        idx2 = m_head.length();
+    int code = m_head.mid(idx + 1, idx2 - idx).toInt();
     if (code == 407){
         error_state(AUTH_ERROR, m_plugin->ProxyErr);
         return;
@@ -1058,13 +1068,13 @@ int HTTP_Proxy::read(char *buf, unsigned int size)
 {
     if (!m_bHTTP)
         return HTTPS_Proxy::read(buf, size);
-    if (m_head.empty())
+    if (m_head.isEmpty())
         return 0;
     if (size > m_head.length())
         size = m_head.length();
-    memcpy(buf, m_head.c_str(), size);
-    m_head = m_head.substr(size);
-    if (m_head.empty()){
+    memcpy(buf, m_head.data(), size);
+    m_head = m_head.mid(size);
+    if (m_head.isEmpty()){
         static_cast<ClientSocket*>(notify)->setSocket(m_sock);
         m_sock = NULL;
         getSocketFactory()->remove(this);
@@ -1172,9 +1182,7 @@ ProxyPlugin::ProxyPlugin(unsigned base, ConfigBuffer *config)
 
 ProxyPlugin::~ProxyPlugin()
 {
-    while (proxies.size()){
-        delete proxies.front();
-    }
+    proxies.setAutoDelete(true);
     getContacts()->removePacketType(ProxyPacket);
 }
 
@@ -1220,8 +1228,8 @@ void *ProxyPlugin::processEvent(Event *e)
 {
     if (e->type() == EventSocketConnect){
         ConnectParam *p = (ConnectParam*)(e->param());
-        list<Proxy*>::iterator it;
-        for (it = proxies.begin(); it != proxies.end(); ++it){
+        QPtrListIterator<Proxy> it(proxies);
+        for ( ; it.current() != 0; ++it){
             if ((*it)->notify == p->socket)
                 return NULL;
         }

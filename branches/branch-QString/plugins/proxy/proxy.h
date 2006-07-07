@@ -19,7 +19,7 @@
 #define _PROXY_H
 
 #include "simapi.h"
-#include "stl.h"
+#include <qptrlist.h>
 
 const unsigned PROXY_NONE	= 0;
 const unsigned PROXY_SOCKS4	= 1;
@@ -65,7 +65,7 @@ public:
     PROP_STR(User);
     PROP_STR(Password);
     unsigned ProxyPacket;
-    std::list<Proxy*>	proxies;
+    QPtrList<Proxy>	proxies;
     ProxyData data;
     void clientData(SIM::TCPClient*, ProxyData &data);
     static const SIM::DataDef *proxyData;
