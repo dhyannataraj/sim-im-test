@@ -475,7 +475,6 @@ void init_data(const DataDef *d, Data *data)
 {
     for (const DataDef *def = d; def->name; def++){
         for (unsigned i = 0; i < def->n_values; i++, data++){
-            *data = Data();
             switch (def->type){
             case DATA_STRING:
                 *data = Data(def->def_value ? QString(def->def_value) : QString::null);
@@ -511,6 +510,7 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_UNKNOWN:
             default:
+                *data = Data();
                 break;
             }
             data->setName(def->name);
@@ -948,6 +948,7 @@ Data::Data()
 
 Data::Data(const Data &d)
 {
+    clear();
     *this = d;
 }
 
@@ -1041,7 +1042,7 @@ void Data::clear()
     m_dataAsIP      = NULL;
 }
 
-QString Data::str() const
+const QString &Data::str() const
 {
     checkType(DATA_STRING);
     return m_dataAsQString;
@@ -1062,7 +1063,7 @@ bool Data::setStr(const QString &s)
     return true;
 }
 
-Data::STRING_MAP Data::strMap() const
+const Data::STRING_MAP &Data::strMap() const
 {
     checkType(DATA_STRMAP);
     return m_dataAsQStringMap;
@@ -1144,7 +1145,13 @@ bool Data::setBool(bool d)
     return true;
 }
 
-QObject* Data::object() const
+const QObject* Data::object() const
+{
+    checkType(DATA_OBJECT);
+    return m_dataAsObject;
+}
+
+QObject* Data::object()
 {
     checkType(DATA_OBJECT);
     return m_dataAsObject;
@@ -1159,7 +1166,13 @@ bool Data::setObject(const QObject *d)
     return true;
 }
 
-IP* Data::ip() const
+const IP* Data::ip() const
+{
+    checkType(DATA_IP);
+    return m_dataAsIP;
+}
+
+IP* Data::ip()
 {
     checkType(DATA_IP);
     return m_dataAsIP;

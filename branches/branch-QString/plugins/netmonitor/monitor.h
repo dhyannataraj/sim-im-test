@@ -58,7 +58,6 @@ protected:
     NetmonitorPlugin *m_plugin;
     QMutex m_mutex;
     QStringList m_logStrings;
-    QTimer *m_logTimer;
 protected slots:
     void outputLog();
 };

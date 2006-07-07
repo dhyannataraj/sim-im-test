@@ -22,7 +22,6 @@
 #include <qtimer.h>
 #include <qwidget.h>
 
-using namespace std;
 using namespace SIM;
 
 Plugin *createNetmonitorPlugin(unsigned base, bool, ConfigBuffer *config)
@@ -69,12 +68,10 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, ConfigBuffer *config)
 {
     load_data(monitorData, &data, config);
 
-    if (getLogPackets()){
-        QString packets = getLogPackets();
-        while (packets.length()){
-            QString v = getToken(packets, ',');
-            setLogType(v.toULong(), true);
-        }
+    QString packets = getLogPackets();
+    while (packets.length()){
+        QString v = getToken(packets, ',');
+        setLogType(v.toULong(), true);
     }
 
     monitor = NULL;
@@ -104,9 +101,7 @@ NetmonitorPlugin::~NetmonitorPlugin()
     Event eCmd(EventCommandRemove, (void*)CmdNetMonitor);
     eCmd.process();
 
-    if (monitor)
-        delete monitor;
-
+    delete monitor;
     free_data(monitorData, &data);
 }
 
@@ -115,7 +110,7 @@ QString NetmonitorPlugin::getConfig()
     saveState();
     setShow(monitor != NULL);
     QString packets;
-    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+    for (QValueList<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';
         packets += QString::number(*it);
@@ -126,20 +121,13 @@ QString NetmonitorPlugin::getConfig()
 
 bool NetmonitorPlugin::isLogType(unsigned id)
 {
-    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
-        if ((*it) == id)
-            return true;
-    }
-    return false;
+    return (m_packets.find(id) != m_packets.end());
 }
 
 void NetmonitorPlugin::setLogType(unsigned id, bool bLog)
 {
-    list<unsigned>::iterator it;
-    for (it = m_packets.begin(); it != m_packets.end(); ++it){
-        if ((*it) == id)
-            break;
-    }
+    QValueList<unsigned>::iterator it = m_packets.find(id);
+
     if (bLog){
         if (it == m_packets.end())
             m_packets.push_back(id);

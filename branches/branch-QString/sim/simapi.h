@@ -902,11 +902,11 @@ public:
 
     void clear();
 
-    QString str() const;
+    const QString &str() const;
     QString &str();
     bool setStr(const QString &s);
 
-    STRING_MAP strMap() const;
+    const STRING_MAP &strMap() const;
     STRING_MAP &strMap();
     bool setStrMap(const STRING_MAP &s);
 
@@ -922,10 +922,12 @@ public:
     bool &asBool();
     bool setBool(bool d);
 
-    QObject* object() const;
+    const QObject* object() const;
+    QObject* object();
     bool setObject(const QObject *);
 
-    IP* ip() const;
+    const IP* ip() const;
+    IP* ip();
     bool setIP(const IP *);
 protected:
     void checkType(DataType type) const;

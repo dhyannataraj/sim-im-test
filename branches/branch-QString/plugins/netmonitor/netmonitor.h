@@ -19,7 +19,7 @@
 #define _NETMONITOR_H
 
 #include "simapi.h"
-#include "stl.h"
+#include <qvaluelist.h>
 
 typedef struct NetMonitorData
 {
@@ -51,7 +51,7 @@ protected:
     void showMonitor();
     void saveState();
     unsigned long CmdNetMonitor;
-    std::list<unsigned> m_packets;
+    QValueList<unsigned> m_packets;
     NetMonitorData data;
     MonitorWindow *monitor;
 };
