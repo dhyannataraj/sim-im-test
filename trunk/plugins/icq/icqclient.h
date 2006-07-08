@@ -180,7 +180,6 @@ typedef struct ICQUserData
     SIM::Data		GrpId;
     SIM::Data		IgnoreId;
     SIM::Data		VisibleId;
-    SIM::Data		UseMD5;
     SIM::Data		ContactVisibleId;
     SIM::Data		InvisibleId;
     SIM::Data		ContactInvisibleId;
@@ -262,6 +261,7 @@ typedef struct ICQClientData
     SIM::Data		ContactsInvisible;
     SIM::Data		HideIP;
     SIM::Data		IgnoreAuth;
+    SIM::Data		UseMD5;
     SIM::Data		DirectMode;
     SIM::Data		IdleTime;
     SIM::Data        ListRequests;
