@@ -202,14 +202,13 @@ void GpgPlugin::decryptReady()
             (*it).msg = NULL;
             QTimer::singleShot(0, this, SLOT(clear()));
             if (p->normalExit() && p->exitStatus() == 0){
-                QFile f((*it).outfile);
+                QString s = (*it).outfile;
+                QFile f(s);
                 if (f.open(IO_ReadOnly)){
                     QByteArray ba = f.readAll();
                     msg->setText(QString::fromUtf8(ba));
                     msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                 }else{
-                    QString s;
-                    s = (*it).outfile;
                     log(L_WARN, "Can't open output decrypt file %s", s.local8Bit().data());
                     res = -1;
                 }
@@ -245,10 +244,10 @@ void GpgPlugin::decryptReady()
                     }
                 }
             }else{
-                QCString key;
-                QCString res;
+                QString key;
                 QString passphrase;
-                QCString str(p->readStderr());
+                QByteArray ba = p->readStderr();
+                QString str = QString::fromUtf8(ba.data(), ba.size());
                 key = getToken(str, '\n');
                 if (str.contains("bad passphrase")){
                     int n = key.find("ID ");
@@ -292,7 +291,6 @@ void GpgPlugin::decryptReady()
                         askPassphrase();
                     } else {
                         msg->setText(key + "\n" + str);
-                        return;
                     }
                 }
             }
@@ -335,9 +333,7 @@ void GpgPlugin::importReady()
                     delete (*it).msg;
                     (*it).msg = msg;
 
-                    QString home = user_file(GpgPlugin::plugin->getHome());
-                    if (home.endsWith("\\") || home.endsWith("/"))
-                        home = home.left(home.length() - 1);
+                    QString home = GpgPlugin::plugin->getHomeDir();
 
                     QStringList sl;
                     sl += GPG();
@@ -382,8 +378,7 @@ QString GpgPlugin::getConfig()
 {
     QStringList keys;
     QStringList passphrases;
-    unsigned i;
-    for (i = 1; i <= getnPassphrases(); i++){
+    for (unsigned i = 1; i <= getnPassphrases(); i++){
         keys.append(getKeys(i));
         passphrases.append(getPassphrases(i));
     }
@@ -392,8 +387,8 @@ QString GpgPlugin::getConfig()
         clearPassphrases();
     }
     QString res = save_data(gpgData, &data);
-    for (i = 0; i < getnPassphrases(); i++){
-        setKeys(i + 1, keys[i].latin1());
+    for (unsigned i = 0; i < getnPassphrases(); i++){
+        setKeys(i + 1, keys[i]);
         setPassphrases(i + 1, passphrases[i]);
     }
     return res;
@@ -501,9 +496,7 @@ void *GpgPlugin::processEvent(Event *e)
                         QCString *cstr = ms->text;
                         in.writeBlock(cstr->data(), cstr->length());
                         in.close();
-                        QString home = user_file(GpgPlugin::plugin->getHome());
-                        if (home.endsWith("\\") || home.endsWith("/"))
-                            home = home.left(home.length() - 1);
+                        QString home = GpgPlugin::plugin->getHomeDir();
 
                         QStringList sl;
                         sl += GPG();
@@ -571,9 +564,7 @@ void *GpgPlugin::processEvent(Event *e)
                     QByteArray ba = text.utf8();
                     in.writeBlock(ba);
                     in.close();
-                    QString home = user_file(GpgPlugin::plugin->getHome());
-                    if (home.endsWith("\\") || home.endsWith("/"))
-                        home = home.left(home.length() - 1);
+                    QString home = GpgPlugin::plugin->getHomeDir();
 
                     QStringList sl;
                     sl += GPG();
@@ -616,9 +607,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     QByteArray ba = msg->getPlainText().utf8();
     in.writeBlock(ba);
     in.close();
-    QString home = user_file(GpgPlugin::plugin->getHome());
-    if (home.endsWith("\\") || home.endsWith("/"))
-        home = home.left(home.length() - 1);
+    QString home = GpgPlugin::plugin->getHomeDir();
 
     QStringList sl;
     sl += GPG();
@@ -641,7 +630,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     m_decrypt.push_back(dm);
 
     connect(dm.process, SIGNAL(processExited()), this, SLOT(decryptReady()));
-        dm.process->launch (aPassphrase + "\n");
+    dm.process->launch(aPassphrase + "\n");
     return true;
 }
 
@@ -714,6 +703,14 @@ void GpgPlugin::reset()
     }else{
         unregisterMessage();
     }
+}
+
+QString GpgPlugin::getHomeDir()
+{
+    QString home = user_file(getHome());
+    if (home.endsWith("\\") || home.endsWith("/"))
+        home = home.left(home.length() - 1);
+    return home;
 }
 
 #if 0
@@ -848,10 +845,8 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     e.process();
 
     QString gpg  = GpgPlugin::plugin->GPG();
-    QString home = user_file(GpgPlugin::plugin->getHome());
+    QString home = GpgPlugin::plugin->getHomeDir();
     m_key = GpgPlugin::plugin->getKey();
-    if (home.endsWith("\\") || home.endsWith("/"))
-        home = home.left(home.length() - 1);
 
     QStringList sl;
     sl += GpgPlugin::plugin->GPG();

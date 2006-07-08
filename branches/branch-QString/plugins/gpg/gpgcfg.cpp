@@ -27,7 +27,6 @@
 #include "gpggen.h"
 #include "exec.h"
 
-#include <qpushbutton.h>
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qtimer.h>

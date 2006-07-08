@@ -97,6 +97,7 @@ public:
     static GpgPlugin *plugin;
     QValueList<KeyMsg>    m_sendKeys;
     unsigned long user_data_id;
+    QString getHomeDir();
 protected slots:
     void decryptReady();
     void importReady();

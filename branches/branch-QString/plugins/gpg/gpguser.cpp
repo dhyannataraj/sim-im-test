@@ -18,10 +18,7 @@
 #include "gpguser.h"
 #include "gpg.h"
 
-#include <qpushbutton.h>
 #include <qcombobox.h>
-#include <qtimer.h>
-#include <qfile.h>
 #include <qprocess.h>
 
 using namespace SIM;
@@ -47,7 +44,7 @@ void GpgUser::apply(void *_data)
     QString key;
     int nKey = cmbPublic->currentItem();
     if (nKey && (nKey < cmbPublic->count())){
-        QString k = cmbPublic->currentText().latin1();
+        QString k = cmbPublic->currentText();
         key = getToken(k, ' ');
     }
     data->Key.str() = key;
@@ -60,11 +57,9 @@ void GpgUser::refresh()
     if (m_process)
         return;
     QString gpg  = GpgPlugin::plugin->GPG();
-    QString home = user_file(GpgPlugin::plugin->getHome());
+    QString home = GpgPlugin::plugin->getHomeDir();
     if (gpg.isEmpty() || home.isEmpty())
         return;
-    if (home.endsWith("\\") || home.endsWith("/"))
-        home = home.left(home.length() - 1);
 
     QStringList sl;
     sl += gpg;
