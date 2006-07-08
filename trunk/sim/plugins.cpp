@@ -48,6 +48,7 @@
 #include <qmessagebox.h>
 #include <qapplication.h>
 #include <qregexp.h>
+#include <qlibrary.h>
 
 #include <memory>
 #include <algorithm>

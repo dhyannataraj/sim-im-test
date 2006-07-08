@@ -23,7 +23,6 @@
 #endif
 
 #include <qtextedit.h>
-#include <qlibrary.h>
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
@@ -148,6 +147,7 @@ EXPORT void resetPlural();
 class QFile;
 class QWidget;
 class QIconSet;
+class QLibrary;
 class QPixmap;
 class QToolBar;
 class QMainWindow;
