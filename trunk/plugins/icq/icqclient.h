@@ -180,6 +180,7 @@ typedef struct ICQUserData
     SIM::Data		GrpId;
     SIM::Data		IgnoreId;
     SIM::Data		VisibleId;
+    SIM::Data		UseMD5;
     SIM::Data		ContactVisibleId;
     SIM::Data		InvisibleId;
     SIM::Data		ContactInvisibleId;
@@ -516,6 +517,7 @@ public:
     PROP_USHORT(ContactsInvisible);
     PROP_BOOL(HideIP);
     PROP_BOOL(IgnoreAuth);
+    PROP_BOOL(UseMD5);
     PROP_ULONG(DirectMode);
     PROP_ULONG(IdleTime);
     PROP_STR(ListRequests);

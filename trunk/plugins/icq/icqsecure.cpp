@@ -83,6 +83,7 @@ void ICQSecure::apply()
     if (bStatusChanged && (m_client->getState() == Client::Connected))
         m_client->sendStatus();
     m_client->setIgnoreAuth(chkIgnoreAuth->isChecked());
+    m_client->setUseMD5(chkUseMD5->isChecked());
 }
 
 void ICQSecure::apply(Client *client, void *_data)
@@ -100,6 +101,7 @@ void ICQSecure::fill()
     chkWeb->setChecked(m_client->data.owner.WebAware.bValue);
     chkHideIP->setChecked(m_client->getHideIP());
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
+    chkUseMD5->setChecked(m_client->getUseMD5());
     grpDirect->setButton(m_client->getDirectMode());
     fillListView(lstVisible, offsetof(ICQUserData, VisibleId));
     fillListView(lstInvisible, offsetof(ICQUserData, InvisibleId));
