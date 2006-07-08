@@ -20,6 +20,7 @@
 #endif
 
 #include <qfile.h>
+#include <qlibrary.h>
 #include <qstring.h>
 #include <qtextstream.h>
 
@@ -180,11 +181,6 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     m_bLoaded = false;
     m_bInInit = true;
 
-    lt_dlinit();
-//#ifdef WIN32
-//    qInitJpegIO();
-//#endif
-
     QStringList pluginsList;
 #ifdef WIN32
     QDir pluginDir(app_file("plugins"));
@@ -207,13 +203,14 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     for (QStringList::Iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
         QString f = *it;
         int p = f.findRev('.');
-        if (p > 0) f = f.left(p);
+        if (p > 0)
+            f = f.left(p);
         pluginInfo info;
         info.plugin      = NULL;
 #ifdef WIN32
-        info.name        = strdup(QFile::encodeName(f.lower()));
+        info.name        = f.lower();
 #else
-        info.name        = strdup(QFile::encodeName(f));
+        info.name        = f;
 #endif
         info.cfg         = NULL;
         info.bDisabled   = false;
@@ -258,7 +255,6 @@ PluginManagerPrivate::~PluginManagerPrivate()
     release_all(NULL);
     delete m_exec;
     setLogEnable(false);
-    lt_dlexit();
     XSL::cleanup();
     SAXParser::cleanup();
 }
@@ -349,22 +345,25 @@ void PluginManagerPrivate::load(pluginInfo &info)
     if (info.module == NULL){
 #ifdef WIN32
         QString pluginName = "plugins\\";
-#else
-        QString pluginName = PLUGIN_PATH;
-        pluginName += "/";
-#endif
         pluginName += info.name;
-        pluginName += LTDL_SHLIB_EXT;
+#else
+        QString pluginName = info.filePath;
+        if( pluginName[0] != '/' ) {
+            pluginName = PLUGIN_PATH;
+            pluginName += "/";
+            pluginName += info.name;
+        }
+#endif
         QString fullName = app_file(pluginName);
-        info.module = (void*)lt_dlopen(fullName);
+        info.module = new QLibrary(fullName);
         if (info.module == NULL)
-            fprintf(stderr, "Can't load plugin %s: %s\n", info.name.latin1(), lt_dlerror());
+            fprintf(stderr, "Can't load plugin %s\n", info.name.latin1());
     }
     if (info.module == NULL)
         return;
     if (info.info == NULL){
         PluginInfo* (*getInfo)() = NULL;
-        (lt_ptr&)getInfo = lt_dlsym((lt_dlhandle)info.module, "GetPluginInfo");
+        getInfo = (PluginInfo* (*)()) info.module->resolve("GetPluginInfo");
         if (getInfo == NULL){
             fprintf(stderr, "Plugin %s hasn't entry GetPluginInfo\n", info.name.latin1());
             release(info);
@@ -505,7 +504,7 @@ void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
     }
     if (info.module){
         if (bFree)
-            lt_dlclose((lt_dlhandle)info.module);
+            delete info.module;
         info.module = NULL;
     }
     info.info = NULL;

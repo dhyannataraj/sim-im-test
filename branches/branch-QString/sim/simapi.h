@@ -71,6 +71,7 @@ class QMainWindow;
 class QFile;
 class QIconSet;
 class QIcon;
+class QLibrary;
 class QObject;
 class QPixmap;
 class QToolBar;
@@ -215,7 +216,7 @@ typedef struct pluginInfo
     bool            bDisabled;      // no load this plugin
     bool            bNoCreate;      // can't create plugin
     bool            bFromCfg;       // init state from config
-    void            *module;        // so or dll handle
+    QLibrary        *module;        // so or dll handle
     PluginInfo      *info;
     unsigned        base;           // base for plugin types
 } pluginInfo;
