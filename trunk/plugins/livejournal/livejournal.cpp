@@ -279,7 +279,7 @@ static CommandDef livejournal_descr =
         I18N_NOOP("LiveJournal"),
         "LiveJournal",
         NULL,
-        NULL,
+        I18N_NOOP("http://www.livejournal.com/lostinfo.bml"),
         0,
         0,
         0,
