@@ -41,21 +41,21 @@
 #endif
 
 #ifndef WIN32
-    #ifdef HAVE_STDBOOL_H
-      #include <stdbool.h>
-    #else
-      #ifndef HAVE__BOOL
-        #ifdef __cplusplus
-typedef bool _Bool;
-        #else
-typedef unsigned char _Bool;
-        #endif
-      #endif
-      #define bool _Bool
-      #define false 0
-      #define true 1
-      #define __bool_true_false_are_defined 1
-    #endif
+# ifdef HAVE_STDBOOL_H
+#  include <stdbool.h>
+# else
+#  ifndef HAVE__BOOL
+#   ifdef __cplusplus
+     typedef bool _Bool;
+#   else
+     typedef unsigned char _Bool;
+#   endif
+#  endif
+#  define bool _Bool
+#  define false 0
+#  define true 1
+#  define __bool_true_false_are_defined 1
+# endif
 #endif
 
 #include <qglobal.h>
@@ -78,13 +78,13 @@ class QToolBar;
 
 #ifdef Q_CC_MSVC
 # pragma warning(disable: 4097)
-# pragma warning(disable: 4244)  
+# pragma warning(disable: 4127)
+# pragma warning(disable: 4244)
+# pragma warning(disable: 4251)  // msvc is a little bit stupid when exporting a template class... :(
 # pragma warning(disable: 4275)
 # pragma warning(disable: 4514)
-# pragma warning(disable: 4710)  
+# pragma warning(disable: 4710)
 # pragma warning(disable: 4786)
-# pragma warning(disable: 4127)
-# pragma warning(disable: 4251)  // msvc is a little bit stupid when exporting a template class... :(
 #endif
 
 #ifdef Q_CC_MSVC
@@ -116,7 +116,7 @@ class QToolBar;
 EXPORT int strcasecmp(const char *a, const char *b);
 #endif
 
-#ifdef WIN32
+#ifdef Q_OS_WIN
 # ifndef snprintf
 #  define snprintf _snprintf
 # endif
@@ -135,7 +135,7 @@ EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
 EXPORT inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
 EXPORT void resetPlural();
 # ifndef I18N_NOOP
-#  define I18N_NOOP(A)    A
+#  define I18N_NOOP(A)  A
 # endif
 #endif
 
@@ -197,7 +197,7 @@ const unsigned PLUGIN_PROTOCOL       = 0x0008 | PLUGIN_NOLOAD_DEFAULT;
 const unsigned PLUGIN_NODISABLE      = 0x0010;
 const unsigned PLUGIN_RELOAD         = 0x0020;
 
-const unsigned long ABORT_LOADING        = (unsigned long)(-1);
+const unsigned long ABORT_LOADING    = (unsigned long)(-1);
 
 typedef struct PluginInfo           // Information in plugin
 {
@@ -205,7 +205,7 @@ typedef struct PluginInfo           // Information in plugin
     const char      *description;   // Description
     const char      *version;       // Version
     createPlugin    *create;        // create proc
-    unsigned        flags;          // plugin falsg
+    unsigned        flags;          // plugin flags
 } PluginInfo;
 
 typedef struct pluginInfo
@@ -858,7 +858,7 @@ private:
 // Configuration
 
 enum DataType {
-    DATA_UNKNOWN,
+    DATA_UNKNOWN = 0,
     DATA_STRING,
     DATA_UTF = DATA_STRING,
     DATA_LONG,
