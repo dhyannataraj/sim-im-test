@@ -150,6 +150,7 @@ AM_CONDITIONAL(QT_WIN, test "$kde_use_qt_win" = "yes")
 if test "$kde_use_qt_win" = "yes"; then
    AC_SUBST(SIM_RC_OBJ, "sim_rc.o")
    AC_SUBST(GMSGFMT, "$GMSGFMT --qt")
+   AC_DEFINE(SIMAPI_EXPORTS, 1, [build libsim.dll])
 fi
 
 AM_CONDITIONAL(ENABLE_UPDATE, false)
