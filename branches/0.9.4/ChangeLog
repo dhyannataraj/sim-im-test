@@ -5,6 +5,18 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 [*] Changes
 
 
+=== SIM 0.9.4.1 (not released yet) ===
+
+ICQ plugin
+~~~~~~~~~~
+[-] Fix birthday flag handling.
+[-] Fix user info saving.
+
+Misc plugins
+~~~~~~~~~~~~
+[*] Shortcuts: fix global shortcuts on X11 Qt-only build.
+
+
 === SIM 0.9.4 (29.06.2006) ===
 
 Build system
