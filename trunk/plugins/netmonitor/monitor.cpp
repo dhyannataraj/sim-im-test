@@ -239,8 +239,7 @@ void *MonitorWindow::processEvent(Event *e)
             logString += "</pre></p>";
             QMutexLocker lock(&m_mutex);
             m_logStrings += logString;
-            if(!m_logTimer->isActive())
-                m_logTimer->start(10,true);
+            m_logTimer->start(10,true);
         }
     }
     return NULL;

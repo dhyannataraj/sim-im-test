@@ -497,6 +497,7 @@ void *UserView::processEvent(Event *e)
                         c->id	   = cmd->id - CmdSendMessage;
                         c->menu_id = MenuMessage;
                         c->param   = (void*)(contact->id());
+                        c->flags   = cmd->flags;
                         Event eCmd(EventCommandExec, c);
                         if (eCmd.process())
                             return e->param();
@@ -728,6 +729,9 @@ void *UserView::processEvent(Event *e)
                     if (res && (c->flags & COMMAND_RECURSIVE)){
                         cmd->flags |= COMMAND_RECURSIVE;
                         cmd->param = c->param;
+                    }
+                    if (res) {
+                        cmd->flags = c->flags;
                     }
                     return res;
                 }
