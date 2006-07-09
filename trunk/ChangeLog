@@ -10,7 +10,7 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 
 Build system
 ~~~~~~~~~~~~
-[*] Update admin/ dir to KDE 3.5.2.
+[*] Update admin/ dir to KDE 3.5.3.
 [+] Make 'make dist' working.
 [+] Add ability to build in separate directory.
 [+] Unix: do not delete .la files after installing.
@@ -28,16 +28,25 @@ Core
 [+] Contact list: search in closed contact list groups too.
 [-] Contact list: fix deleting contacts by pressing Del.
 [*] Remove Qt2 code.
-
+[*] Use QLibrary for plugins instead of libltdl.
+[+] Contact list: search in contact list by user protocol IDs.
+[+] Add profile (re)naming feature.
 
 ICQ plugin
 ~~~~~~~~~~
 [*] Improve client versions detection.
 [-] Do not delete contacts if group changed while offline.
 [*] Accept messages in Occupied/DND modes by default.
+[+] Add new icons from ICQ 5 and ICQ 5.1.
+[+] Add MD5 auth support for ICQ accounts.
+[-] Fix user info saving.
+[-] Fix birthday flag handling.
+[-] Sync language and occupation lists with ICQ server.
 
 Jabber plugin
 ~~~~~~~~~~~~~
+[-] Fix crash on auth request when "Receive message only from contacts from list".
+[-] Fix handling of single quotes in roster item names.
 
 
 Yahoo! plugin
@@ -50,8 +59,12 @@ MSN plugin
 
 Misc plugins
 ~~~~~~~~~~~~
-[-] LiveJournal: Security level of message was set incorrectly.
-[+] LiveJournal: Add optional signature to all messages.
-[+] LiveJournal: Option to disable message text formatting.
+[-] LiveJournal: security level of message was set incorrectly.
+[+] LiveJournal: add optional signature to all messages.
+[+] LiveJournal: option to disable message text formatting.
 [-] Proxy: fix some crashes.
 [*] Logger: remove dangerous 'Events' logging facility
+[-] Icons: fix handling of JISP files with non-ascii paths.
+[-] Icons: fix handling of JISP files containing subdirectiories.
+[*] Shortcuts: fix global shortcuts on X11 Qt-only build.
+[*] LiveJournal: disable formatted messages by default.
