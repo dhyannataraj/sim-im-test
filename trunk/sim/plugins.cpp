@@ -35,10 +35,14 @@
 #endif
 
 #ifndef  LTDL_SHLIB_EXT
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-#define  LTDL_SHLIB_EXT ".so"
-#else	/* MacOS needs .a */
+#if defined(QT_MACOSX_VERSION) || defined(QT_MAC) /* MacOS needs .a */
 #define  LTDL_SHLIB_EXT ".a"
+#else
+#if defined(_WIN32) || defined(_WIN64)
+#define  LTDL_SHLIB_EXT ".dll"
+#else
+#define  LTDL_SHLIB_EXT ".a"
+#endif
 #endif
 #endif
 
