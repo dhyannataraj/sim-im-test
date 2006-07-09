@@ -66,74 +66,6 @@
 using namespace SIM;
 using namespace std;
 
-class RichTextDrag : public QTextDrag
-{
-public:
-    RichTextDrag(QWidget *dragSource = 0, const char *name = 0);
-
-    void setRichText(const QString &txt);
-
-    virtual QByteArray encodedData(const char *mime) const;
-    virtual const char* format(int i) const;
-
-    static bool decode(QMimeSource *e, QString &str, const QCString &mimetype, const QCString &subtype);
-    static bool canDecode( QMimeSource* e );
-private:
-    QString richTxt;
-};
-
-RichTextDrag::RichTextDrag( QWidget *dragSource, const char *name )
-        : QTextDrag( dragSource, name )
-{
-}
-
-QByteArray RichTextDrag::encodedData( const char *mime ) const
-{
-    if ( qstrcmp( "application/x-qrichtext", mime ) == 0 ) {
-        return richTxt.utf8(); // #### perhaps we should use USC2 instead?
-    } else
-        return QTextDrag::encodedData( mime );
-}
-
-bool RichTextDrag::decode(QMimeSource *e, QString &str, const QCString &mimetype, const QCString &subtype)
-{
-    if (mimetype == "application/x-qrichtext"){
-        const char *mime;
-        int i;
-        for ( i = 0; (mime = e->format(i)) != NULL; ++i ) {
-            if (qstrcmp("application/x-qrichtext", mime) != 0)
-                continue;
-            str = QString::fromUtf8(e->encodedData(mime));
-            return TRUE;
-        }
-        return FALSE;
-    }
-    QCString subt = subtype;
-    return QTextDrag::decode( e, str, subt );
-}
-
-bool RichTextDrag::canDecode(QMimeSource* e)
-{
-    if ( e->provides("application/x-qrichtext"))
-        return TRUE;
-    return QTextDrag::canDecode(e);
-}
-
-const char* RichTextDrag::format(int i) const
-{
-    if ( QTextDrag::format(i))
-        return QTextDrag::format(i);
-    if ( QTextDrag::format(i-1))
-        return "application/x-qrichtext";
-    return 0;
-}
-
-void RichTextDrag::setRichText(const QString &txt)
-{
-    richTxt = txt;
-    setText(unquoteText(txt));
-}
-
 TextEdit::TextEdit(QWidget *p, const char *name)
         : TextShow(p, name)
 {
@@ -246,17 +178,10 @@ void TextEdit::fgColorChanged(QColor c)
     emit colorsChanged();
 }
 
-bool TextEdit::eventFilter(QObject *o, QEvent *e)
+void TextEdit::focusOutEvent(QFocusEvent *e)
 {
-    if (e->type() == QEvent::FocusOut){
+    if (e->lostFocus())
         emit lostFocus();
-    }
-    return QTextEdit::eventFilter(o, e);
-}
-
-void TextEdit::changeText()
-{
-    emit textChanged();
 }
 
 void TextEdit::fontChanged(const QFont &f)
@@ -315,16 +240,6 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
         // the (bool) is required due to the bitmap
         if (m_bCtrlMode == (bool)(e->state() & ControlButton)){
             emit ctrlEnterPressed();
-            return;
-        }
-    }
-    if (!isReadOnly()){
-        if ((e->state() == ShiftButton) && (e->key() == Key_Insert)){
-            paste();
-            return;
-        }
-        if ((e->state() == ControlButton) && (e->key() == Key_Delete)){
-            cut();
             return;
         }
     }
@@ -425,22 +340,6 @@ void *TextEdit::processEvent(Event *e)
     return NULL;
 }
 
-void TextShow::setBackground(const QColor& c)
-{
-    QPalette pal = palette();
-    pal.setColor(QPalette::Active, QColorGroup::Base, c);
-    pal.setColor(QPalette::Inactive, QColorGroup::Base, c);
-    pal.setColor(QPalette::Disabled, QColorGroup::Base, c);
-    setPalette(pal);
-}
-
-void TextShow::setForeground(const QColor& c)
-{
-    QPalette pal = palette();
-    pal.setColor(QPalette::Active, QColorGroup::Text, c);
-    setPalette(pal);
-}
-
 void TextEdit::setForeground(const QColor& c, bool bDef)
 {
     curFG = c;
@@ -457,16 +356,6 @@ void TextEdit::setForeground(const QColor& c, bool bDef)
     QPalette pal = palette();
     pal.setColor(QPalette::Active, QColorGroup::Text, QColor(r, c.green(), c.blue()));
     setPalette(pal);
-}
-
-const QColor &TextShow::background() const
-{
-    return palette().color(QPalette::Active, QColorGroup::Base);
-}
-
-const QColor &TextShow::foreground() const
-{
-    return palette().color(QPalette::Active, QColorGroup::Text);
 }
 
 const QColor &TextEdit::foreground() const
@@ -497,15 +386,37 @@ TextShow::TextShow(QWidget *p, const char *name)
 {
     setTextFormat(RichText);
     setReadOnly(true);
-    if (QApplication::clipboard()->supportsSelection())
-        connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
-    m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotResizeTimer()));
 }
 
 TextShow::~TextShow()
 {
     emit finished();
+}
+
+void TextShow::setBackground(const QColor& c)
+{
+    QPalette pal = palette();
+    pal.setColor(QPalette::Active, QColorGroup::Base, c);
+    pal.setColor(QPalette::Inactive, QColorGroup::Base, c);
+    pal.setColor(QPalette::Disabled, QColorGroup::Base, c);
+    setPalette(pal);
+}
+
+void TextShow::setForeground(const QColor& c)
+{
+    QPalette pal = palette();
+    pal.setColor(QPalette::Active, QColorGroup::Text, c);
+    setPalette(pal);
+}
+
+const QColor &TextShow::background() const
+{
+    return palette().color(QPalette::Active, QColorGroup::Base);
+}
+
+const QColor &TextShow::foreground() const
+{
+    return palette().color(QPalette::Active, QColorGroup::Text);
 }
 
 void TextShow::emitLinkClicked(const QString &name)
@@ -545,141 +456,6 @@ void TextShow::setSource(const QString &name)
     if ( isVisible() )
         qApp->restoreOverrideCursor();
 #endif
-}
-
-void TextShow::slotResizeTimer()
-{
-#ifdef WIN32
-    if (inResize())
-        return;
-    m_timer->stop();
-    setVScrollBarMode(Auto);
-    setHScrollBarMode(Auto);
-    QResizeEvent re(QSize(0, 0), size());
-    resizeEvent(&re);
-#endif
-}
-
-void TextShow::resizeEvent(QResizeEvent *e)
-{
-#ifdef WIN32
-    if (inResize()){
-        if (!m_timer->isActive()){
-            setHScrollBarMode(AlwaysOff);
-            setVScrollBarMode(AlwaysOff);
-            m_timer->start(100);
-        }
-        return;
-    }
-#endif
-    QPoint p = QPoint(0, height());
-    p = mapToGlobal(p);
-    p = viewport()->mapFromGlobal(p);
-    int x, y;
-    viewportToContents(p.x(), p.y(), x, y);
-    int para;
-    int pos;
-    if (isReadOnly()){
-        pos = charAt(QPoint(x, y), &para);
-    }else{
-        getCursorPosition(&para, &pos);
-    }
-    QTextEdit::resizeEvent(e);
-    if (pos == -1){
-        scrollToBottom();
-    }else{
-        setCursorPosition(para, pos);
-        ensureCursorVisible();
-    }
-    sync();
-    viewport()->repaint();
-}
-
-
-void TextShow::keyPressEvent(QKeyEvent *e)
-{
-    if (((e->state() == Qt::ControlButton) && (e->key() == Qt::Key_C)) ||
-            ((e->state() == ControlButton) && (e->key() == Key_Insert))){
-        copy();
-        return;
-    }
-    QTextEdit::keyPressEvent(e);
-}
-
-void TextShow::copy()
-{
-    QTextDrag *drag = dragObject(NULL);
-    if ( !drag )
-        return;
-    QApplication::clipboard()->setData(drag, QClipboard::Clipboard);
-}
-
-void TextShow::cut()
-{
-    if (isReadOnly())
-        return;
-    if (hasSelectedText()) {
-        copy();
-        removeSelectedText();
-    }
-}
-
-QTextDrag *TextShow::dragObject(QWidget *parent) const
-{
-    if (!hasSelectedText())
-        return NULL;
-    if (textFormat() == RichText){
-        RichTextDrag *drag = new RichTextDrag(parent);
-        drag->setRichText(selectedText());
-        return drag;
-    }
-    return new QTextDrag(selectedText(), parent );
-}
-
-void TextShow::startDrag()
-{
-    QDragObject *drag = dragObject(viewport());
-    if (drag == NULL)
-        return;
-    if (isReadOnly()) {
-        drag->dragCopy();
-    } else {
-        if (drag->drag() && QDragObject::target() != this && QDragObject::target() != viewport() )
-            removeSelectedText();
-    }
-}
-
-QString TextShow::quoteText(const char *t, const char *charset)
-{
-    if (t == NULL)
-        t = "";
-    QString text;
-    QTextCodec *codec = NULL;
-    if (charset)
-        codec = QTextCodec::codecForName(charset);
-    if (codec){
-        text = codec->makeDecoder()->toUnicode(t, strlen(t));
-    }else{
-        text = QString::fromLocal8Bit(t);
-    }
-    return quoteString(text);
-}
-
-void TextShow::setText(const QString &text)
-{
-    QTextEdit::setText(text, "");
-}
-
-void TextShow::slotSelectionChanged()
-{
-    disconnect(QApplication::clipboard(), SIGNAL(selectionChanged()), this, 0);
-    if (QApplication::clipboard()->supportsSelection()){
-        QTextDrag *drag = dragObject(NULL);
-        if ( !drag )
-            return;
-        QApplication::clipboard()->setData(drag, QClipboard::Selection);
-        connect( QApplication::clipboard(), SIGNAL(selectionChanged()), this, SLOT(clipboardChanged()));
-    }
 }
 
 class BgColorParser : public HTMLParser

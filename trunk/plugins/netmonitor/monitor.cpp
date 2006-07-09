@@ -233,7 +233,7 @@ void *MonitorWindow::processEvent(Event *e)
             if (font)
                 logString += QString("<font color=\"#%1\">") .arg(font);
             string s = make_packet_string(li);
-            logString += edit->quoteText(s.c_str());
+            logString += quoteString(QString::fromLocal8Bit(s.c_str()));
             if (font)
                 logString += QString("</font>");
             logString += "</pre></p>";
