@@ -174,6 +174,7 @@ Section "!SIM program files" SecSIM
   File ..\..\plugins\spell\.libs\spell.dll
   File ..\..\plugins\splash\.libs\splash.dll
   File ..\..\plugins\styles\.libs\styles.dll
+  File ..\..\plugins\transparent\.libs\transparent.dll
   File ..\..\plugins\weather\.libs\weather.dll
   File ..\..\plugins\windock\.libs\windock.dll
   File ..\..\plugins\yahoo\.libs\yahoo.dll
@@ -181,6 +182,9 @@ Section "!SIM program files" SecSIM
 
   ;Icons
   SetOutPath "$INSTDIR\icons"  
+  File ..\..\plugins\_core\additional\additional.jisp
+  File ..\..\plugins\_core\icq5\icq5.jisp
+  File ..\..\plugins\_core\icq5.1\icq5.1.jisp
   File ..\..\plugins\_core\icqlite\icqlite.jisp
   File ..\..\plugins\_core\jisp\sim.jisp
   File ..\..\plugins\_core\smiles\smiles.jisp
