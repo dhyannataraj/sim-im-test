@@ -73,6 +73,9 @@ const unsigned short ICQ_SRVxREQ_PHONE_UPDATE       = 0x5406;
 const unsigned short ICQ_SRVxREQ_SET_CHAT_GROUP     = 0x5807;
 const unsigned short ICQ_SRVxREQ_RANDOM_CHAT        = 0x4E07;
 
+const unsigned short ICQ_SRVxWP_SET                 = 0x3A0C;
+const unsigned short ICQ_SRVxWP_SET_RESP            = 0x3F0C;
+
 const unsigned short TLV_UIN						= 0x0136;
 const unsigned short TLV_FIRST_NAME					= 0x0140;
 const unsigned short TLV_LAST_NAME					= 0x014A;
@@ -99,24 +102,25 @@ const unsigned short TLV_SEARCH_ONLINE				= 0x0230;
 const unsigned short TLV_BIRTHDAY					= 0x023A;
 const unsigned short TLV_NOTES						= 0x0258;
 const unsigned short TLV_STREET						= 0x0262;
-const unsigned short TLV_ZIP						= 0x026C;
+const unsigned short TLV_ZIP						= 0x026D;
 const unsigned short TLV_PHONE						= 0x0276;
 const unsigned short TLV_FAX						= 0x0280;
 const unsigned short TLV_CELLULAR					= 0x028A;
 const unsigned short TLV_WORK_STREET				= 0x0294;
 const unsigned short TLV_WORK_CITY					= 0x029E;
 const unsigned short TLV_WORK_STATE					= 0x02A8;
-const unsigned short TLV_WORK_CIUNTRY				= 0x02B2;
-const unsigned short TLV_WORK_ZIP					= 0x02BC;
+const unsigned short TLV_WORK_COUNTRY				= 0x02B2;
+const unsigned short TLV_WORK_ZIP					= 0x02BD;
 const unsigned short TLV_WORK_PHONE					= 0x02C6;
 const unsigned short TLV_WORK_FAX					= 0x02D0;
 const unsigned short TLV_WORK_HOMEPAGE				= 0x02DA;
-const unsigned short TLV_SHOW_WEB					= 0x02F8;
-const unsigned short TLV_NEED_AUTH					= 0x030C;
+const unsigned short TLV_NEED_AUTH					= 0x02F8;
+const unsigned short TLV_SHOW_WEB					= 0x030C;
 const unsigned short TLV_TIMEZONE					= 0x0316;
 const unsigned short TLV_ORIGINALLY_CITY			= 0x0320;
 const unsigned short TLV_ORIGINALLY_STATE			= 0x032A;
 const unsigned short TLV_ORIGINALLY_COUNTRY			= 0x0334;
+const unsigned short TLV_RECV_ICQ_SPAM				= 0x0348;
 
 const char SEARCH_STATE_OFFLINE  = 0;
 const char SEARCH_STATE_ONLINE   = 1;
@@ -1166,21 +1170,23 @@ bool SetSecurityInfoRequest::answer(Buffer&, unsigned short)
 void ICQClient::setMainInfo(ICQUserData *d)
 {
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_MAIN
-    << &d->Nick.ptr
-    << &d->FirstName.ptr
-    << &d->LastName.ptr
-    << &d->EMail.ptr
-    << &d->City.ptr
-    << &d->State.ptr
-    << &d->HomePhone.ptr
-    << &d->HomeFax.ptr
-    << &d->Address.ptr
-    << &d->PrivateCellular.ptr
-    << &d->Zip.ptr;
-    m_socket->writeBuffer.pack((unsigned short)(d->Country.value));
-    m_socket->writeBuffer.pack((char)(d->TimeZone.value));
-    m_socket->writeBuffer.pack((char)(d->HiddenEMail.bValue ? 1 : 0));
+    m_socket->writeBuffer << ICQ_SRVxWP_SET;
+    m_socket->writeBuffer.pack(TLV_TIMEZONE);
+    m_socket->writeBuffer.pack((unsigned short)1);
+    m_socket->writeBuffer << (char)(d->TimeZone.value);
+    m_socket->writeBuffer.tlvLE(TLV_NICK, d->Nick.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, d->FirstName.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, d->LastName.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_EMAIL, d->EMail.ptr);
+    m_socket->writeBuffer << d->HiddenEMail.bValue;
+    m_socket->writeBuffer.tlvLE(TLV_CITY, d->City.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_STATE, d->State.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_PHONE, d->HomePhone.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_FAX, d->HomeFax.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_STREET, d->Address.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_CELLULAR, d->PrivateCellular.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_ZIP, d->Zip.ptr);
+    m_socket->writeBuffer.tlvLE(TLV_COUNTRY, (unsigned short)(d->Country.value));
     sendServerRequest();
 
     varRequests.push_back(new SetMainInfoRequest(this, m_nMsgSequence, d));
@@ -1307,22 +1313,19 @@ void ICQClient::setClientInfo(void *_data)
             cmp(d->WorkHomepage.ptr, data.owner.WorkHomepage.ptr)){
 
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer
-        << ICQ_SRVxREQ_MODIFY_WORK
-        << &d->WorkCity.ptr
-        << &d->WorkState.ptr
-        << &d->WorkPhone.ptr
-        << &d->WorkFax.ptr
-        << &d->WorkAddress.ptr
-        << &d->WorkZip.ptr;
-        m_socket->writeBuffer.pack((unsigned short)d->WorkCountry.value);
-        m_socket->writeBuffer
-        << &d->WorkName.ptr
-        << &d->WorkDepartment.ptr
-        << &d->WorkPosition.ptr;
-        m_socket->writeBuffer.pack((unsigned short)d->Occupation.value);
-        m_socket->writeBuffer
-        << &d->WorkHomepage.ptr;
+        m_socket->writeBuffer << ICQ_SRVxWP_SET;
+        m_socket->writeBuffer.tlvLE(TLV_WORK_CITY, d->WorkCity.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_STATE, d->WorkState.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_PHONE, d->WorkPhone.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_FAX, d->WorkFax.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_STREET, d->WorkAddress.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_ZIP, d->WorkZip.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_COUNTRY, (unsigned short)d->WorkCountry.value);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, d->WorkName.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, d->WorkDepartment.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, d->WorkPosition.ptr);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_OCCUPATION, (unsigned short)d->Occupation.value);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_HOMEPAGE, d->WorkHomepage.ptr);
         sendServerRequest();
         varRequests.push_back(new SetWorkInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
@@ -1336,18 +1339,20 @@ void ICQClient::setClientInfo(void *_data)
             cmp(d->Homepage.ptr, data.owner.Homepage.ptr)){
 
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_MORE
-        << (char)(d->Age.value)
-        << (char)0
-        << (char)(d->Gender.value)
-        << &d->Homepage.ptr;
+        m_socket->writeBuffer << ICQ_SRVxWP_SET;
+        m_socket->writeBuffer.tlvLE(TLV_AGE, (unsigned short)(d->Age.value));
+        m_socket->writeBuffer.pack(TLV_GENDER);
+        m_socket->writeBuffer.pack((unsigned short)1);
+        m_socket->writeBuffer << (char)(d->Gender.value);
+        m_socket->writeBuffer.tlvLE(TLV_HOMEPAGE, d->Homepage.ptr);
+        m_socket->writeBuffer.pack(TLV_BIRTHDAY);
+        m_socket->writeBuffer.pack((unsigned short)6);
         m_socket->writeBuffer.pack((unsigned short)d->BirthYear.value);
-        m_socket->writeBuffer
-        << (char)(d->BirthMonth.value)
-        << (char)(d->BirthDay.value)
-        << (char)(d->Language.value & 0xFF)
-        << (char)((d->Language.value >> 8) & 0xFF)
-        << (char)((d->Language.value >> 16) & 0xFF);
+        m_socket->writeBuffer.pack((unsigned short)d->BirthMonth.value);
+        m_socket->writeBuffer.pack((unsigned short)d->BirthDay.value);
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)(d->Language.value & 0xFF));
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.value >> 8) & 0xFF));
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.value >> 16) & 0xFF));
         sendServerRequest();
         varRequests.push_back(new SetMoreInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
@@ -1355,8 +1360,8 @@ void ICQClient::setClientInfo(void *_data)
 
     if (cmp(d->About.ptr, data.owner.About.ptr)){
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer   << ICQ_SRVxREQ_MODIFY_ABOUT
-        << &d->About.ptr;
+        m_socket->writeBuffer << ICQ_SRVxWP_SET;
+        m_socket->writeBuffer.tlvLE(TLV_NOTES, d->About.ptr);
         sendServerRequest();
         varRequests.push_back(new SetAboutInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
