@@ -22,6 +22,7 @@
 #include "stl.h"
 
 #include <qiconset.h>
+#include <qimage.h>
 
 #ifdef WIN32
 #if _MSC_VER > 1020
@@ -36,7 +37,7 @@ namespace SIM
 
 typedef struct PictDef
 {
-    QImage			*image;
+    QImage			image;
     std::string		file;
 #ifdef USE_KDE
     std::string		system;

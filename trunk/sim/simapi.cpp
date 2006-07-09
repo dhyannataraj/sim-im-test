@@ -616,15 +616,6 @@ unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info
     return 0;
 }
 
-EXPORT void set_value(QLineEdit *edit, char *&value)
-{
-    if ((value == NULL) || (*value == 0)){
-        edit->setText("");
-        return;
-    }
-    edit->setText(QString::fromUtf8(value));
-}
-
 EXPORT void disableWidget(QWidget *w)
 {
     QPalette pal = w->palette();

@@ -22,8 +22,6 @@
 #include "config.h"
 #endif
 
-#include <qtextedit.h>
-
 #ifdef STDC_HEADERS
 #include <stdlib.h>
 #include <stddef.h>
@@ -43,119 +41,106 @@
 #endif
 
 #ifndef WIN32
-	#ifdef HAVE_STDBOOL_H
-	  #include <stdbool.h>
-	#else
-	  #ifndef HAVE__BOOL
-	    #ifdef __cplusplus
-typedef bool _Bool;
-		#else
-typedef unsigned char _Bool;
-		#endif
-	  #endif
-	  #define bool _Bool
-	  #define false 0
-	  #define true 1
-	  #define __bool_true_false_are_defined 1
-	#endif
+# ifdef HAVE_STDBOOL_H
+#  include <stdbool.h>
+# else
+#  ifndef HAVE__BOOL
+#   ifdef __cplusplus
+     typedef bool _Bool;
+#   else
+     typedef unsigned char _Bool;
+#   endif
+#  endif
+#  define bool _Bool
+#  define false 0
+#  define true 1
+#  define __bool_true_false_are_defined 1
+# endif
 #endif
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#include <yvals.h>              
-#pragma warning(disable: 4097)
-#pragma warning(disable: 4244)  
-#pragma warning(disable: 4275)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4710)  
-#pragma warning(disable: 4786)  
-#pragma warning(push)
-#pragma warning(disable: 4018)  
-#pragma warning(disable: 4100)  
-#pragma warning(disable: 4146)  
-#pragma warning(disable: 4511)  
-#pragma warning(disable: 4512)  
-#pragma warning(disable: 4530)  
-#pragma warning(disable: 4663)  
-#endif
-#define QT_THREAD_SUPPORT 1
-#endif
-
-#if defined(_MSC_VER) && defined(_DEBUG) && !defined(NO_CHECK_NEW)
-#include <qnetworkprotocol.h>
-#ifndef _CRTDBG_MAP_ALLOC
-#define _CRTDBG_MAP_ALLOC
-#endif
-#include <stdlib.h>
-#include <crtdbg.h>
-#include <memory>
-#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#endif
-
-#define atoul(x) (strtoul((x), NULL, 10))
-
-#include <string>
-
+#include <qglobal.h>
+#include <qmap.h>
+#include <qmainwindow.h>
+#include <qstring.h>
 #include <qwidget.h>
-#include <qdockwindow.h>
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(pop)
-#endif
+class Buffer;
+class KAboutData;
+class QComboBox;
+class QMainWindow;
+class QFile;
+class QIconSet;
+class QIcon;
+class QLibrary;
+class QObject;
+class QPixmap;
+class QToolBar;
+
+#ifdef Q_CC_MSVC
+# pragma warning(disable: 4097)
+# pragma warning(disable: 4127)
+# pragma warning(disable: 4244)
+# pragma warning(disable: 4251)  // msvc is a little bit stupid when exporting a template class... :(
+# pragma warning(disable: 4275)
+# pragma warning(disable: 4514)
+# pragma warning(disable: 4710)
+# pragma warning(disable: 4786)
 #endif
 
-#ifdef SIMAPI_EXPORTS
-#define EXPORT __declspec(dllexport)
+#ifdef Q_CC_MSVC
+# define DEPRECATED __declspec(deprecated)
+#elif defined Q_CC_GNU
+# define DEPRECATED __attribute__ ((deprecated))
 #else
-#define EXPORT
+# define DEPRECATED
+#endif
+
+#ifdef HAVE_GCC_VISIBILITY      // @linux: all gcc >= 4.0 have visibility support - please add a check for configure
+# define SIM_EXPORT __attribute__ ((visibility("default")))
+# define SIM_IMPORT __attribute__ ((visibility("default")))
+#elif defined(_WIN32) || defined(_WIN64)
+# define SIM_EXPORT __declspec(dllexport)
+# define SIM_IMPORT __declspec(dllimport)
+#else
+# define SIM_EXPORT
+# define SIM_IMPORT
+#endif
+
+#ifdef SIMAPI_EXPORTS   // should be set when simapi-lib is build - please add a check for configure
+# define EXPORT SIM_EXPORT
+#else
+# define EXPORT SIM_IMPORT
 #endif
 
 #ifndef HAVE_STRCASECMP
 EXPORT int strcasecmp(const char *a, const char *b);
 #endif
 
-#ifdef WIN32
-#ifndef snprintf
-#define snprintf _snprintf
-#endif
+#define atoul(x) (strtoul((x), NULL, 10))
+#include <string>
+
+#ifdef Q_OS_WIN
+# ifndef snprintf
+#  define snprintf _snprintf
+# endif
 #endif
 
 #ifndef COPY_RESTRICTED
-#define COPY_RESTRICTED(A) private: A(const A&); A &operator = (const A&);
+# define COPY_RESTRICTED(A) private: A(const A&); A &operator = (const A&);
 #endif
 
 #ifdef USE_KDE
-
-#include <klocale.h>
+# include <klocale.h>
 #else
-#include <qobject.h>
 EXPORT QString i18n(const char *text);
 EXPORT QString i18n(const char *text, const char *comment);
 EXPORT QString i18n(const char *singular, const char *plural, unsigned long n);
-EXPORT inline QString tr2i18n(const char* message, const char* =0) {
-    return i18n(message);
-}
-#ifndef I18N_NOOP
-#define I18N_NOOP(A)	A
-#endif
-#endif
-#if !defined(USE_KDE)
+EXPORT inline QString tr2i18n(const char* message, const char* =0) { return i18n(message); }
 EXPORT void resetPlural();
+# ifndef I18N_NOOP
+#  define I18N_NOOP(A)  A
+# endif
 #endif
-
-class QFile;
-class QWidget;
-class QIconSet;
-class QLibrary;
-class QPixmap;
-class QToolBar;
-class QMainWindow;
-class QComboBox;
-class QLineEdit;
-
-class KAboutData;
-class Buffer;
 
 namespace SIM
 {
@@ -174,8 +159,8 @@ public:
     PluginManager(int argc, char **argv);
     ~PluginManager();
     bool isLoaded();
-    static ContactList			*contacts;
-    static SocketFactory		*factory;
+    static ContactList          *contacts;
+    static SocketFactory        *factory;
 private:
     PluginManagerPrivate *p;
 };
@@ -204,46 +189,46 @@ typedef QStyle *createStyle();
 
 const unsigned PLUGIN_KDE_COMPILE    = 0x0001;
 #ifdef USE_KDE
-const unsigned PLUGIN_DEFAULT	     = PLUGIN_KDE_COMPILE;
+const unsigned PLUGIN_DEFAULT        = PLUGIN_KDE_COMPILE;
 #else
-const unsigned PLUGIN_DEFAULT	     = 0x0000;
+const unsigned PLUGIN_DEFAULT        = 0x0000;
 #endif
 const unsigned PLUGIN_NO_CONFIG_PATH = 0x0002 | PLUGIN_DEFAULT;
 const unsigned PLUGIN_NOLOAD_DEFAULT = 0x0004 | PLUGIN_DEFAULT;
 
-const unsigned PLUGIN_PROTOCOL		 = 0x0008 | PLUGIN_NOLOAD_DEFAULT;
-const unsigned PLUGIN_NODISABLE		 = 0x0010;
-const unsigned PLUGIN_RELOAD		 = 0x0020;
+const unsigned PLUGIN_PROTOCOL       = 0x0008 | PLUGIN_NOLOAD_DEFAULT;
+const unsigned PLUGIN_NODISABLE      = 0x0010;
+const unsigned PLUGIN_RELOAD         = 0x0020;
 
-const unsigned long ABORT_LOADING		 = (unsigned long)(-1);
+const unsigned long ABORT_LOADING    = (unsigned long)(-1);
 
-typedef struct PluginInfo			// Information in plugin
+typedef struct PluginInfo           // Information in plugin
 {
-    const char		*title;			// User title
-    const char		*description;	// Description
-    const char		*version;		// Version
-    createPlugin	*create;		// create proc
-    unsigned		flags;			// plugin falsg
+    const char      *title;         // User title
+    const char      *description;   // Description
+    const char      *version;       // Version
+    createPlugin    *create;        // create proc
+    unsigned        flags;          // plugin flags
 } PluginInfo;
 
 typedef struct pluginInfo
 {
-    Plugin			*plugin;
+    Plugin          *plugin;
     std::string     name;
     std::string     filePath;
-    Buffer			*cfg;			// configuration data
-    bool			bDisabled;		// no load this plugin
-    bool			bNoCreate;		// can't create plugin
-    bool			bFromCfg;		// init state from config
-    QLibrary			*module;		// so or dll handle
-    PluginInfo		*info;
-    unsigned		base;			// base for plugin types
+    Buffer          *cfg;           // configuration data
+    bool            bDisabled;      // no load this plugin
+    bool            bNoCreate;      // can't create plugin
+    bool            bFromCfg;       // init state from config
+    QLibrary        *module;        // so or dll handle
+    PluginInfo      *info;
+    unsigned        base;           // base for plugin types
 } pluginInfo;
 
 typedef struct StyleInfo
 {
-    const char		*title;
-    createStyle		*create;
+    const char      *title;
+    createStyle     *create;
 } StyleInfo;
 
 #ifdef WIN32
@@ -263,7 +248,7 @@ class EventReceiver;
 class EXPORT Event
 {
 public:
-Event(unsigned type, void *param = NULL) : m_type(type), m_param(param) {}
+    Event(unsigned type, void *param = NULL) : m_type(type), m_param(param) {}
     virtual ~Event() {}
     unsigned type() { return m_type; }
     void *param() { return m_param; }
@@ -276,11 +261,11 @@ protected:
 // ___________________________________________________________________________________
 // Event receiver
 
-const unsigned DefaultPriority	= 0x1000;
-const unsigned HighPriority		= 0x0800;
-const unsigned HighestPriority	= 0x0400;
-const unsigned LowPriority		= 0x2000;
-const unsigned LowestPriority	= 0x4000;
+const unsigned DefaultPriority  = 0x1000;
+const unsigned HighPriority     = 0x0800;
+const unsigned HighestPriority  = 0x0400;
+const unsigned LowPriority      = 0x2000;
+const unsigned LowestPriority   = 0x4000;
 
 class EXPORT EventReceiver
 {
@@ -304,10 +289,10 @@ const unsigned EventLog = 0x0001;
 
 typedef struct LogInfo
 {
-    unsigned	log_level;
-    void		*log_info;
-    unsigned	packet_id;
-    const char	*add_info;
+    unsigned    log_level;
+    void        *log_info;
+    unsigned    packet_id;
+    const char  *add_info;
 } LogInfo;
 
 /* Init application - after load all plugins */
@@ -333,8 +318,8 @@ const unsigned EventArg = 0x0201;
 
 typedef struct CmdParam
 {
-    const char *arg;
-    const char *descr;
+    const char  *arg;
+    const char  *descr;
     std::string *value;
 } CmdParam;
 
@@ -347,32 +332,32 @@ const unsigned EventLanguageChanged = 0x0301;
 
 /* Notification about change plugin state
    param is pluginInfo* */
-const unsigned EventPluginChanged	= 0x0302;
+const unsigned EventPluginChanged   = 0x0302;
 
 /* Event get plugin info param is plugin number
    return pluginInfo* 
 */
-const unsigned EventPluginGetInfo	= 0x0303;
-const unsigned EventApplyPlugin		= 0x0304;
+const unsigned EventPluginGetInfo   = 0x0303;
+const unsigned EventApplyPlugin     = 0x0304;
 
-const unsigned EventLoadPlugin		= 0x0305;
-const unsigned EventUnloadPlugin	= 0x0306;
+const unsigned EventLoadPlugin      = 0x0305;
+const unsigned EventUnloadPlugin    = 0x0306;
 
-const unsigned EventPluginsUnload	= 0x0307;
-const unsigned EventPluginsLoad		= 0x0308;
+const unsigned EventPluginsUnload   = 0x0307;
+const unsigned EventPluginsLoad     = 0x0308;
 
-const unsigned EventGetPluginInfo	= 0x0309;
+const unsigned EventGetPluginInfo   = 0x0309;
 
 /* Event - save state
 */
-const unsigned EventSaveState		= 0x0310;
+const unsigned EventSaveState       = 0x0310;
 
 /* Event clients changes
 */
-const unsigned EventClientsChanged	= 0x0311;
+const unsigned EventClientsChanged  = 0x0311;
 
 /* Event icons changed */
-const unsigned EventIconChanged		= 0x0400;
+const unsigned EventIconChanged     = 0x0400;
 
 /* Toolbar (create and remove)
    param is toolbar id */
@@ -383,7 +368,7 @@ const unsigned EventToolbarRemove = 0x0502;
 const unsigned long ToolBarMain      = 1;
 const unsigned long ToolBarContainer = 2;
 const unsigned long ToolBarTextEdit  = 3;
-const unsigned long ToolBarMsgEdit	= 4;
+const unsigned long ToolBarMsgEdit  = 4;
 
 /* Menu (create and remove)
    param is toolbar id */
@@ -411,19 +396,19 @@ const unsigned EventCommandCreate = 0x0506;
 
 typedef struct CommandDef
 {
-    unsigned long	id;				// Command ID
-    const char	*text;			// Command name
-    const char	*icon;			// Icon
-    const char	*icon_on;		// Icon for checked state
-    const char	*accel;			// Accel
-    unsigned	bar_id;			// Toolbar ID
-    unsigned	bar_grp;		// Toolbar GRP
-    unsigned	menu_id;		// Menu ID
-    unsigned	menu_grp;		// Menu GRP
-    unsigned	popup_id;		// Popup ID
-    unsigned	flags;			// Command flags
-    void		*param;			// Paramether from MenuSetParam
-    char		*text_wrk;		// Text for check state (utf8)
+    unsigned long   id;             // Command ID
+    const char  *text;          // Command name
+    const char  *icon;          // Icon
+    const char  *icon_on;       // Icon for checked state
+    const char  *accel;         // Accel
+    unsigned    bar_id;         // Toolbar ID
+    unsigned    bar_grp;        // Toolbar GRP
+    unsigned    menu_id;        // Menu ID
+    unsigned    menu_grp;       // Menu GRP
+    unsigned    popup_id;       // Popup ID
+    unsigned    flags;          // Command flags
+    void        *param;         // Paramether from MenuSetParam
+    char        *text_wrk;      // Text for check state (utf8)
 } CommandDef;
 
 class EXPORT Command
@@ -432,32 +417,32 @@ public:
     Command();
     CommandDef &operator=(const CommandDef&);
     CommandDef *operator->() { return &m_cmd; }
-    operator void*()		 { return &m_cmd; }
-    operator CommandDef*()	 { return &m_cmd; }
+    operator void*()         { return &m_cmd; }
+    operator CommandDef*()   { return &m_cmd; }
 protected:
     CommandDef m_cmd;
 };
 
-const unsigned COMMAND_DEFAULT		= 0;
-const unsigned COMMAND_IMPORTANT	= 0x0001;
-const unsigned COMMAND_TITLE		= 0x0002;
-const unsigned COMMAND_CHECKED		= 0x0004;
-const unsigned COMMAND_CHECK_STATE	= 0x0008;
-const unsigned COMMAND_DISABLED		= 0x0010;
-const unsigned COMMAND_GLOBAL_ACCEL	= 0x0020;
-const unsigned COMMAND_RECURSIVE	= 0x0040;
-const unsigned COMMAND_NEW_POPUP	= 0x0080;
+const unsigned COMMAND_DEFAULT      = 0;
+const unsigned COMMAND_IMPORTANT    = 0x0001;
+const unsigned COMMAND_TITLE        = 0x0002;
+const unsigned COMMAND_CHECKED      = 0x0004;
+const unsigned COMMAND_CHECK_STATE  = 0x0008;
+const unsigned COMMAND_DISABLED     = 0x0010;
+const unsigned COMMAND_GLOBAL_ACCEL = 0x0020;
+const unsigned COMMAND_RECURSIVE    = 0x0040;
+const unsigned COMMAND_NEW_POPUP    = 0x0080;
 
-const unsigned BTN_TYPE				= 0xF000;
-const unsigned BTN_DEFAULT			= 0x0000;
-const unsigned BTN_PICT				= 0x1000;
-const unsigned BTN_COMBO			= 0x2000;
-const unsigned BTN_COMBO_CHECK		= 0x3000;
-const unsigned BTN_EDIT				= 0x4000;
+const unsigned BTN_TYPE             = 0xF000;
+const unsigned BTN_DEFAULT          = 0x0000;
+const unsigned BTN_PICT             = 0x1000;
+const unsigned BTN_COMBO            = 0x2000;
+const unsigned BTN_COMBO_CHECK      = 0x3000;
+const unsigned BTN_EDIT             = 0x4000;
 
-const unsigned BTN_HIDE				= 0x10000;
-const unsigned BTN_NO_BUTTON		= 0x20000;
-const unsigned BTN_DIV				= 0x40000;
+const unsigned BTN_HIDE             = 0x10000;
+const unsigned BTN_NO_BUTTON        = 0x20000;
+const unsigned BTN_DIV              = 0x40000;
 
 /* Command - remove command id */
 const unsigned EventCommandRemove = 0x0507;
@@ -470,8 +455,8 @@ const unsigned EventShowBar = 0x0508;
 
 typedef struct BarShow
 {
-    QMainWindow	*parent;
-    unsigned	bar_id;
+    QMainWindow *parent;
+    unsigned    bar_id;
 } ToolBarShow;
 
 /* Event get real menu
@@ -492,14 +477,14 @@ const unsigned EventAddStatus = 0x050B;
 
 typedef struct WindowDef
 {
-    QWidget	*widget;
-    bool	bDown;
+    QWidget *widget;
+    bool    bDown;
 } WindowDef;
 
 /* Event Check command state
    param is CommandDef*
 */
-const unsigned EventCheckState	= 0x050C;
+const unsigned EventCheckState  = 0x050C;
 
 /* Event - toolbar changed
    param is ToolBarDef*
@@ -527,8 +512,8 @@ const unsigned EventProcessMenu   = 0x0510;
 typedef struct ProcessMenuParam
 {
     unsigned id;
-    void	 *param;
-    int		 key;			// If key != 0 process accel
+    void     *param;
+    int      key;           // If key != 0 process accel
 } ProcessMenuParam;
 
 /* Event register user preferences
@@ -545,40 +530,40 @@ typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);
 
 const unsigned EventRemovePreferences = 0x0512;
 
-const unsigned EventSetMainIcon		= 0x0520;
-const unsigned EventSetMainText		= 0x0521;
+const unsigned EventSetMainIcon     = 0x0520;
+const unsigned EventSetMainText     = 0x0521;
 
-const unsigned EventCommandChange	= 0x0522;
-const unsigned EventCommandChecked	= 0x0523;
-const unsigned EventCommandDisabled	= 0x0524;
-const unsigned EventCommandShow		= 0x0525;
-const unsigned EventCommandWidget	= 0x0526;
+const unsigned EventCommandChange   = 0x0522;
+const unsigned EventCommandChecked  = 0x0523;
+const unsigned EventCommandDisabled = 0x0524;
+const unsigned EventCommandShow     = 0x0525;
+const unsigned EventCommandWidget   = 0x0526;
 
-const unsigned EventClientChanged	= 0x0530;
+const unsigned EventClientChanged   = 0x0530;
 
 /* Event - get home dir
    param is string fileName
 */
 
-const unsigned EventHomeDir		= 0x0601;
+const unsigned EventHomeDir     = 0x0601;
 
 /* Event go URL
    param is char *url
 */
 
-const unsigned EventGoURL		= 0x0602;
+const unsigned EventGoURL       = 0x0602;
 
 /* Event get URL
    return char *url
 */
 
-const unsigned EventGetURL		= 0x0603;
+const unsigned EventGetURL      = 0x0603;
 
 /* Event play sound
    param is char *wav
 */
 
-const unsigned EventPlaySound	= 0x0604;
+const unsigned EventPlaySound   = 0x0604;
 
 /* Event raise window
    param is QWidget *
@@ -594,14 +579,14 @@ const unsigned EventPaintView = 0x0701;
 
 typedef struct PaintView
 {
-    QPainter *p;		// painter
-    QPoint	 pos;		// position
-    QSize	 size;		// size
-    int		 height;	// item height
-    int		 margin;	// icon margin
-    QWidget	 *win;		// window
-    bool	 isStatic;	// need static background
-    bool	 isGroup;	// draw group
+    QPainter *p;        // painter
+    QPoint   pos;       // position
+    QSize    size;      // size
+    int      height;    // item height
+    int      margin;    // icon margin
+    QWidget  *win;      // window
+    bool     isStatic;  // need static background
+    bool     isGroup;   // draw group
 } PaintView;
 
 /* Event repaint list view */
@@ -610,7 +595,7 @@ const unsigned EventRepaintView = 0x0702;
 /* Event draw view item */
 const unsigned EventDrawItem = 0x0703;
 
-/* Event encode message text for show
+/* Event replace all hyperlinks with correct html tags
    param is string* (string in utf-8)
 */
 const unsigned EventEncodeText = 0x0801;
@@ -652,45 +637,45 @@ const unsigned EventContactStatus  = 0x0916;
 /* Event set common icon
    param is const char *icon
 */
-const unsigned EventCommonIcon		= 0x0920;
+const unsigned EventCommonIcon      = 0x0920;
 
 /* Event set common title
    param is const char *state
 */
-const unsigned EventCommonTitle		= 0x0921;
+const unsigned EventCommonTitle     = 0x0921;
 
 typedef struct addContact
 {
-    const char		*proto;
-    const char		*addr;
-    const char		*nick;
-    unsigned		group;
+    const char      *proto;
+    const char      *addr;
+    const char      *nick;
+    unsigned        group;
 } addContact;
 
 /* Event for add contact
    param is addContact*
    return Contact*
 */
-const unsigned EventAddContact		= 0x0930;
+const unsigned EventAddContact      = 0x0930;
 
 /* Event for remove contact
    param is char *address
 */
-const unsigned EventDeleteContact	= 0x0931;
+const unsigned EventDeleteContact   = 0x0931;
 
 /* Event for get contact IP
    param is Contact*
 */
-const unsigned EventGetContactIP	= 0x0932;
+const unsigned EventGetContactIP    = 0x0932;
 
 /* Event netvork state changed
 */
-const unsigned EventNetworkChanged	= 0x1000;
+const unsigned EventNetworkChanged  = 0x1000;
 
 /* Event socket connect
    param is ConnectParam *
 */
-const unsigned EventSocketConnect	= 0x1001;
+const unsigned EventSocketConnect   = 0x1001;
 
 class ClientSocket;
 class ServerSocketNotify;
@@ -698,21 +683,21 @@ class TCPClient;
 
 typedef struct ConnectParam
 {
-    ClientSocket	*socket;
-    TCPClient		*client;
-    const char		*host;
-    unsigned short	port;
+    ClientSocket    *socket;
+    TCPClient       *client;
+    const char      *host;
+    unsigned short  port;
 } ConnectParam;
 
 /* Event socket listen
    param is ListenParam *
 */
-const unsigned EventSocketListen	 = 0x1002;
+const unsigned EventSocketListen     = 0x1002;
 
 typedef struct ListenParam
 {
-    ServerSocketNotify	*notify;
-    TCPClient			*client;
+    ServerSocketNotify  *notify;
+    TCPClient           *client;
 } ListenParam;
 
 /* Event send & receive message
@@ -730,54 +715,54 @@ enum OverwriteMode
 
 typedef struct messageAccept
 {
-    Message			*msg;
-    const char		*dir;
-    OverwriteMode	overwrite;
+    Message         *msg;
+    const char      *dir;
+    OverwriteMode   overwrite;
 } messageAccept;
 
 typedef struct messageDecline
 {
-    Message		*msg;
-    const char	*reason;
+    Message     *msg;
+    const char  *reason;
 } messageDecline;
 
 typedef struct messageSend
 {
-    Message		*msg;
-    std::string	*text;
+    Message     *msg;
+    std::string *text;
 } messageSend;
 
-const unsigned EventMessageReceived	= 0x1100;
-const unsigned EventMessageSent		= 0x1101;
-const unsigned EventMessageCancel	= 0x1102;
-const unsigned EventSent			= 0x1103;
-const unsigned EventOpenMessage		= 0x1104;
-const unsigned EventMessageRead		= 0x1105;
-const unsigned EventMessageAcked	= 0x1106;
+const unsigned EventMessageReceived = 0x1100;
+const unsigned EventMessageSent     = 0x1101;
+const unsigned EventMessageCancel   = 0x1102;
+const unsigned EventSent            = 0x1103;
+const unsigned EventOpenMessage     = 0x1104;
+const unsigned EventMessageRead     = 0x1105;
+const unsigned EventMessageAcked    = 0x1106;
 const unsigned EventMessageDeleted  = 0x1107;
-const unsigned EventMessageAccept	= 0x1108;
-const unsigned EventMessageDecline	= 0x1109;
-const unsigned EventMessageSend		= 0x110A;
-const unsigned EventSend			= 0x110B;
+const unsigned EventMessageAccept   = 0x1108;
+const unsigned EventMessageDecline  = 0x1109;
+const unsigned EventMessageSend     = 0x110A;
+const unsigned EventSend            = 0x110B;
 
-const unsigned EventClientError		= 0x1301;
-const unsigned EventShowError		= 0x1302;
+const unsigned EventClientError     = 0x1301;
+const unsigned EventShowError       = 0x1302;
 
-const unsigned ERR_ERROR	= 0x0000;
-const unsigned ERR_INFO		= 0x0001;
+const unsigned ERR_ERROR    = 0x0000;
+const unsigned ERR_INFO     = 0x0001;
 
 typedef struct clientErrorData
 {
-    Client		*client;
-    const char	*err_str;
+    Client      *client;
+    const char  *err_str;
     const char  *options;
-    char		*args;
-    unsigned	code;
-    unsigned	flags;
-    unsigned	id;
+    char        *args;
+    unsigned    code;
+    unsigned    flags;
+    unsigned    id;
 } clientErrorData;
 
-const unsigned EventUser			= 0x10000;
+const unsigned EventUser            = 0x10000;
 
 // _____________________________________________________________________________________
 // CommandsDef
@@ -826,7 +811,7 @@ public:
     bool erase(unsigned id);
     void clear();
 private:
-    CommandsMapPrivate	*p;
+    CommandsMapPrivate  *p;
     friend class CommandsMapIterator;
 };
 
@@ -850,6 +835,7 @@ enum DataType {
     DATA_ULONG,
     DATA_BOOL,
     DATA_STRLIST,
+    DATA_STRMAP = DATA_STRLIST,
     DATA_UTF,
     DATA_IP,
     DATA_STRUCT,
@@ -859,20 +845,20 @@ enum DataType {
 
 typedef struct DataDef
 {
-    const char	*name;
-    DataType	type;
-    unsigned	n_values;
-    const char	*def_value;
+    const char  *name;
+    DataType    type;
+    unsigned    n_values;
+    const char  *def_value;
 } DataDef;
 
 typedef union Data
 {
-    char			*ptr;
-    unsigned long	value;
-    bool			bValue;
+    char            *ptr;
+    unsigned long   value;
+    bool            bValue;
 } Data;
 
-#define DATA(A)	((const char*)(A))
+#define DATA(A) ((const char*)(A))
 
 EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
@@ -886,58 +872,58 @@ EXPORT unsigned long get_ip(Data &ip);
 EXPORT const char *get_host(Data &ip);
 EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
-#define PROP_STRLIST(A)	\
-	const char *get##A(unsigned index) const { return SIM::get_str(data.A, index); } \
-	void set##A(unsigned index, const char *value) { SIM::set_str(&data.A, index, value); } \
-	void clear##A()  { SIM::clear_list(&data.A); }
+#define PROP_STRLIST(A) \
+    const char *get##A(unsigned index) const { return SIM::get_str(data.A, index); } \
+    void set##A(unsigned index, const char *value) { SIM::set_str(&data.A, index, value); } \
+    void clear##A()  { SIM::clear_list(&data.A); }
 
-#define PROP_UTFLIST(A)	\
-	QString get##A(unsigned index) const { return QString::fromUtf8(SIM::get_str(data.A, index)); } \
-	void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value.utf8()); } \
-	void clear##A()  { SIM::clear_list(&data.A); }
+#define PROP_UTFLIST(A) \
+    QString get##A(unsigned index) const { return QString::fromUtf8(SIM::get_str(data.A, index)); } \
+    void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value.utf8()); } \
+    void clear##A()  { SIM::clear_list(&data.A); }
 
 #define PROP_STR(A) \
-	const char *get##A() const { return data.A.ptr ? data.A.ptr : ""; } \
-	bool set##A(const char *r) { return SIM::set_str(&data.A.ptr, r); }
+    const char *get##A() const { return data.A.ptr ? data.A.ptr : ""; } \
+    bool set##A(const char *r) { return SIM::set_str(&data.A.ptr, r); }
 
 #define PROP_UTF8(A) \
-	QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
-	bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
+    QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
+    bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
 
 #define VPROP_UTF8(A) \
-	virtual QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
-	bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
+    virtual QString get##A() const { return data.A.ptr ? QString::fromUtf8(data.A.ptr) : QString(""); } \
+    bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
 
 #define PROP_LONG(A) \
-	unsigned long get##A() const { return data.A.value; } \
-	void set##A(unsigned long r) { data.A.value = r; }
+    unsigned long get##A() const { return data.A.value; } \
+    void set##A(unsigned long r) { data.A.value = r; }
 
 #define PROP_ULONG(A) \
-	unsigned long get##A() const { return data.A.value; } \
-	void set##A(unsigned long r) { data.A.value = r; }
+    unsigned long get##A() const { return data.A.value; } \
+    void set##A(unsigned long r) { data.A.value = r; }
 
 #define PROP_USHORT(A) \
-	unsigned short get##A() const { return (unsigned short)(data.A.value); } \
-	void set##A(unsigned short r) { data.A.value = r; }
+    unsigned short get##A() const { return (unsigned short)(data.A.value); } \
+    void set##A(unsigned short r) { data.A.value = r; }
 
 #define PROP_BOOL(A) \
-	bool get##A() const { return data.A.bValue; } \
-	void set##A(bool r) { data.A.bValue = r; }
+    bool get##A() const { return data.A.bValue; } \
+    void set##A(bool r) { data.A.bValue = r; }
 
 #define VPROP_BOOL(A) \
-	bool get##A() const { return data.A.bValue; } \
-	virtual void set##A(bool r) { data.A.bValue = r; }
+    bool get##A() const { return data.A.bValue; } \
+    virtual void set##A(bool r) { data.A.bValue = r; }
 
-#define PROP_IP(A)	\
-	unsigned long get##A()	const { return SIM::get_ip(data.A); } \
-	const char *host##A() { return SIM::get_host(data.A); } \
-	void set##A(unsigned long r) { SIM::set_ip(&data.A, r); }
+#define PROP_IP(A)  \
+    unsigned long get##A()  const { return SIM::get_ip(data.A); } \
+    const char *host##A() { return SIM::get_host(data.A); } \
+    void set##A(unsigned long r) { SIM::set_ip(&data.A, r); }
 
-const int LEFT		= 0;
-const int TOP		= 1;
-const int WIDTH		= 2;
-const int HEIGHT	= 3;
-const int DESKTOP	= 4;
+const int LEFT      = 0;
+const int TOP       = 1;
+const int WIDTH     = 2;
+const int HEIGHT    = 3;
+const int DESKTOP   = 4;
 
 typedef Data Geometry[5];
 EXPORT void saveGeometry(QWidget*, Geometry);
@@ -981,54 +967,54 @@ EXPORT std::string unquoteString(const char *p);
 // _____________________________________________________________________________________
 // Message
 
-const unsigned MessageGeneric		= 1;
-const unsigned MessageSMS			= 2;
-const unsigned MessageFile			= 3;
-const unsigned MessageAuthRequest	= 4;
-const unsigned MessageAuthGranted	= 5;
-const unsigned MessageAuthRefused	= 6;
-const unsigned MessageAdded			= 7;
-const unsigned MessageRemoved		= 8;
-const unsigned MessageStatus		= 9;
-const unsigned MessageTypingStart	= 10;
-const unsigned MessageTypingStop	= 11;
-const unsigned MessageUrl			= 12;
-const unsigned MessageContacts		= 13;
+const unsigned MessageGeneric       = 1;
+const unsigned MessageSMS           = 2;
+const unsigned MessageFile          = 3;
+const unsigned MessageAuthRequest   = 4;
+const unsigned MessageAuthGranted   = 5;
+const unsigned MessageAuthRefused   = 6;
+const unsigned MessageAdded         = 7;
+const unsigned MessageRemoved       = 8;
+const unsigned MessageStatus        = 9;
+const unsigned MessageTypingStart   = 10;
+const unsigned MessageTypingStop    = 11;
+const unsigned MessageUrl           = 12;
+const unsigned MessageContacts      = 13;
 
 // Message flags:
 
-const unsigned	MESSAGE_RECEIVED	= 0x00000001;
-const unsigned	MESSAGE_RICHTEXT	= 0x00000002;
-const unsigned	MESSAGE_SECURE		= 0x00000004;
-const unsigned	MESSAGE_URGENT		= 0x00000008;
-const unsigned	MESSAGE_LIST		= 0x00000010;
-const unsigned	MESSAGE_NOVIEW		= 0x00000020;
+const unsigned  MESSAGE_RECEIVED    = 0x00000001;
+const unsigned  MESSAGE_RICHTEXT    = 0x00000002;
+const unsigned  MESSAGE_SECURE      = 0x00000004;
+const unsigned  MESSAGE_URGENT      = 0x00000008;
+const unsigned  MESSAGE_LIST        = 0x00000010;
+const unsigned  MESSAGE_NOVIEW      = 0x00000020;
 
-const unsigned	MESSAGE_SAVEMASK	= 0x0000FFFF;
+const unsigned  MESSAGE_SAVEMASK    = 0x0000FFFF;
 
-const unsigned	MESSAGE_TRANSLIT	= 0x00010000;
-const unsigned	MESSAGE_1ST_PART	= 0x00020000;
-const unsigned  MESSAGE_NOHISTORY	= 0x00040000;
-const unsigned	MESSAGE_LAST		= 0x00080000;
-const unsigned	MESSAGE_MULTIPLY	= 0x00100000;
-const unsigned	MESSAGE_FORWARD		= 0x00200000;
-const unsigned	MESSAGE_INSERT		= 0x00400000;
-const unsigned	MESSAGE_OPEN		= 0x00800000;
-const unsigned  MESSAGE_NORAISE		= 0x01000000;
-const unsigned	MESSAGE_TEMP		= 0x10000000;
+const unsigned  MESSAGE_TRANSLIT    = 0x00010000;
+const unsigned  MESSAGE_1ST_PART    = 0x00020000;
+const unsigned  MESSAGE_NOHISTORY   = 0x00040000;
+const unsigned  MESSAGE_LAST        = 0x00080000;
+const unsigned  MESSAGE_MULTIPLY    = 0x00100000;
+const unsigned  MESSAGE_FORWARD     = 0x00200000;
+const unsigned  MESSAGE_INSERT      = 0x00400000;
+const unsigned  MESSAGE_OPEN        = 0x00800000;
+const unsigned  MESSAGE_NORAISE     = 0x01000000;
+const unsigned  MESSAGE_TEMP        = 0x10000000;
 
 typedef struct MessageData
 {
-    Data		Text;			// Message text (UTF-8)
-    Data		ServerText;		// Message text (8bit)
-    Data		Flags;			//
-    Data		Background;
-    Data		Foreground;
-    Data		Time;
-    Data		Font;
-    Data		Error;
-    Data		RetryCode;
-    Data		Resource;
+    Data        Text;           // Message text (locale independent)
+    Data        ServerText;     // Message text (locale dependent 8bit endcoding!)
+    Data        Flags;          // Message flags from above, should be QFlags in Qt4
+    Data        Background;
+    Data        Foreground;
+    Data        Time;
+    Data        Font;
+    Data        Error;
+    Data        RetryCode;
+    Data        Resource;
 } MessageData;
 
 class EXPORT Message
@@ -1060,18 +1046,18 @@ public:
     const char *client() const { return m_client.c_str(); }
     void setClient(const char *client);
     virtual QString presentation();
-    MessageData	data;
+    MessageData data;
 protected:
-    unsigned	m_id;
-    unsigned	m_contact;
-    unsigned	m_type;
-    std::string	m_client;
+    unsigned    m_id;
+    unsigned    m_contact;
+    unsigned    m_type;
+    std::string m_client;
 };
 
 typedef struct MessageSMSData
 {
-    Data	Phone;
-    Data	Network;
+    Data    Phone;
+    Data    Network;
 } MessageSMSData;
 
 class EXPORT SMSMessage : public Message
@@ -1089,9 +1075,9 @@ protected:
 
 typedef struct MessageFileData
 {
-    Data		File;
-    Data		Description;
-    Data		Size;
+    Data        File;
+    Data        Description;
+    Data        Size;
 } MessageFileData;
 
 class FileMessageIteratorPrivate;
@@ -1107,7 +1093,7 @@ public:
     virtual void createFile(const QString &name, unsigned size, bool bCanResume) = 0;
 };
 
-const unsigned NO_FILE	= (unsigned)(-1);
+const unsigned NO_FILE  = (unsigned)(-1);
 
 class EXPORT FileTransfer
 {
@@ -1115,19 +1101,19 @@ public:
     FileTransfer(FileMessage *msg);
     virtual ~FileTransfer();
     void setNotify(FileTransferNotify*);
-    FileTransferNotify			*notify() { return m_notify; }
-    unsigned file()				{ return m_nFile; }
-    unsigned files()			{ return m_nFiles; }
-    unsigned bytes()			{ return m_bytes; }
-    unsigned totalBytes()		{ return m_totalBytes; }
-    unsigned fileSize()			{ return m_fileSize; }
-    unsigned totalSize()		{ return m_totalSize; }
-    unsigned speed()			{ return m_speed; }
-    unsigned transferBytes()	{ return m_transferBytes; }
+    FileTransferNotify          *notify() { return m_notify; }
+    unsigned file()             { return m_nFile; }
+    unsigned files()            { return m_nFiles; }
+    unsigned bytes()            { return m_bytes; }
+    unsigned totalBytes()       { return m_totalBytes; }
+    unsigned fileSize()         { return m_fileSize; }
+    unsigned totalSize()        { return m_totalSize; }
+    unsigned speed()            { return m_speed; }
+    unsigned transferBytes()    { return m_transferBytes; }
     virtual void setSpeed(unsigned speed);
-    QString  dir()				{ return m_dir; }
+    QString  dir()              { return m_dir; }
     void setDir(const QString &dir) { m_dir = dir; }
-    OverwriteMode overwrite()	{ return m_overwrite; }
+    OverwriteMode overwrite()   { return m_overwrite; }
     void setOverwrite(OverwriteMode overwrite) { m_overwrite = overwrite; }
     enum State
     {
@@ -1141,17 +1127,17 @@ public:
         Wait,
         Error
     };
-    State state()	{ return m_state; }
-    QFile			*m_file;
-    virtual void	startReceive(unsigned pos) = 0;
-    virtual void	setError();
-    void	addFile(const QString &file, unsigned size);
-    QString filename()		{ return m_name; }
-    bool	isDirectory()	{ return m_bDir; }
+    State state()   { return m_state; }
+    QFile           *m_file;
+    virtual void    startReceive(unsigned pos) = 0;
+    virtual void    setError();
+    void    addFile(const QString &file, unsigned size);
+    QString filename()      { return m_name; }
+    bool    isDirectory()   { return m_bDir; }
 protected:
-    bool	openFile();
-    FileMessage			*m_msg;
-    FileTransferNotify	*m_notify;
+    bool    openFile();
+    FileMessage         *m_msg;
+    FileTransferNotify  *m_notify;
     unsigned m_nFile;
     unsigned m_nFiles;
     unsigned m_bytes;
@@ -1166,11 +1152,11 @@ protected:
     unsigned m_transfer;
 
     OverwriteMode m_overwrite;
-    QString	 m_dir;
+    QString  m_dir;
     QString  m_base;
     QString  m_name;
-    State	 m_state;
-    bool	 m_bDir;
+    State    m_state;
+    bool     m_bDir;
     friend class FileMessage;
 };
 
@@ -1182,12 +1168,12 @@ public:
     PROP_UTF8(File);
     unsigned getSize();
     void     setSize(unsigned);
-    virtual	std::string save();
+    virtual std::string save();
     virtual QString presentation();
     virtual QString getDescription();
     bool    setDescription(const QString&);
-    void	addFile(const QString&);
-    void	addFile(const QString&, unsigned size);
+    void    addFile(const QString&);
+    void    addFile(const QString&, unsigned size);
     class EXPORT Iterator
     {
     public:
@@ -1203,9 +1189,9 @@ public:
         FileMessageIteratorPrivate *p;
         friend class FileMessage;
     };
-    FileTransfer	*m_transfer;
+    FileTransfer    *m_transfer;
 protected:
-    MessageFileData	data;
+    MessageFileData data;
     friend class FileTransfer;
     friend class Iterator;
 };
@@ -1220,7 +1206,7 @@ public:
 
 typedef struct MessageUrlData
 {
-    Data	Url;
+    Data    Url;
 } MessageUrlData;
 
 class EXPORT UrlMessage : public Message
@@ -1237,7 +1223,7 @@ protected:
 
 typedef struct MessageContactsData
 {
-    Data	Contacts;
+    Data    Contacts;
 } MessageContactsData;
 
 class EXPORT ContactsMessage : public Message
@@ -1254,7 +1240,7 @@ protected:
 
 typedef struct MessageStatusData
 {
-    Data	Status;
+    Data    Status;
 } MessageStatusData;
 
 class EXPORT StatusMessage : public Message
@@ -1290,10 +1276,10 @@ class ClientUserDataPrivate;
 class ClientDataIterator;
 class ClientDataIteratorPrivate;
 
-typedef struct clientData		// Base struct for all clientData
+typedef struct clientData       // Base struct for all clientData
 {
-    Data	Sign;
-    Data	LastSend;
+    Data    Sign;
+    Data    LastSend;
 } clientData;
 
 class EXPORT ClientUserData
@@ -1342,35 +1328,35 @@ public:
 protected:
     unsigned m_id;
     std::string m_name;
-    bool	 m_bText;
+    bool     m_bText;
 };
 
-const unsigned PHONE	= 0;
-const unsigned FAX		= 1;
-const unsigned CELLULAR	= 2;
-const unsigned PAGER	= 3;
+const unsigned PHONE    = 0;
+const unsigned FAX      = 1;
+const unsigned CELLULAR = 2;
+const unsigned PAGER    = 3;
 
 typedef struct ContactData
 {
-    Data			Group;		// Group ID
-    Data			Name;		// Contact Display Name (UTF-8)
-    Data			Ignore;		// In ignore list
-    Data			LastActive;
-    Data			EMails;
-    Data			Phones;
-    Data			PhoneStatus;
-    Data			FirstName;
-    Data			LastName;
-    Data			Notes;
-    Data			Flags;
-    Data			Encoding;
+    Data            Group;      // Group ID
+    Data            Name;       // Contact Display Name (UTF-8)
+    Data            Ignore;     // In ignore list
+    Data            LastActive;
+    Data            EMails;
+    Data            Phones;
+    Data            PhoneStatus;
+    Data            FirstName;
+    Data            LastName;
+    Data            Notes;
+    Data            Flags;
+    Data            Encoding;
 } ContactData;
 
-const unsigned CONTACT_TEMP				= 0x0001;
-const unsigned CONTACT_DRAG				= 0x0002;
-const unsigned CONTACT_NOREMOVE_HISTORY	= 0x1000;
+const unsigned CONTACT_TEMP             = 0x0001;
+const unsigned CONTACT_DRAG             = 0x0002;
+const unsigned CONTACT_NOREMOVE_HISTORY = 0x1000;
 
-const unsigned CONTACT_TEMPORARY	= CONTACT_TEMP | CONTACT_DRAG;
+const unsigned CONTACT_TEMPORARY    = CONTACT_TEMP | CONTACT_DRAG;
 
 class EXPORT Contact
 {
@@ -1410,7 +1396,7 @@ protected:
 
 typedef struct GroupData
 {
-    Data		Name;		// Display name (UTF-8)
+    Data        Name;       // Display name (UTF-8)
 } GroupData;
 
 class EXPORT Group
@@ -1430,30 +1416,30 @@ protected:
     friend class ContactListPrivate;
 };
 
-const unsigned STATUS_UNKNOWN	= 0;
-const unsigned STATUS_OFFLINE	= 1;
-const unsigned STATUS_NA		= 10;
-const unsigned STATUS_DND		= 20;
-const unsigned STATUS_AWAY		= 30;
-const unsigned STATUS_ONLINE	= 40;
-const unsigned STATUS_FFC		= 50;
+const unsigned STATUS_UNKNOWN   = 0;
+const unsigned STATUS_OFFLINE   = 1;
+const unsigned STATUS_NA        = 10;
+const unsigned STATUS_DND       = 20;
+const unsigned STATUS_AWAY      = 30;
+const unsigned STATUS_ONLINE    = 40;
+const unsigned STATUS_FFC       = 50;
 
-const unsigned CONTACT_UNDERLINE	= 0x0001;
-const unsigned CONTACT_ITALIC		= 0x0002;
-const unsigned CONTACT_STRIKEOUT	= 0x0004;
+const unsigned CONTACT_UNDERLINE    = 0x0001;
+const unsigned CONTACT_ITALIC       = 0x0002;
+const unsigned CONTACT_STRIKEOUT    = 0x0004;
 
-const unsigned PROTOCOL_INFO			= 0x00010000;
-const unsigned PROTOCOL_SEARCH			= 0x00020000;
-const unsigned PROTOCOL_AR_OFFLINE		= 0x00040000;
-const unsigned PROTOCOL_INVISIBLE		= 0x00080000;
-const unsigned PROTOCOL_AR				= 0x00100000;
-const unsigned PROTOCOL_AR_USER			= 0x00200000;
-const unsigned PROTOCOL_ANY_PORT		= 0x00800000;
-const unsigned PROTOCOL_NOSMS			= 0x01000000;
-const unsigned PROTOCOL_NOPROXY			= 0x02000000;
-const unsigned PROTOCOL_TEMP_DATA		= 0x04000000;
-const unsigned PROTOCOL_NODATA			= 0x08000000;
-const unsigned PROTOCOL_NO_AUTH			= 0x10000000;
+const unsigned PROTOCOL_INFO            = 0x00010000;
+const unsigned PROTOCOL_SEARCH          = 0x00020000;
+const unsigned PROTOCOL_AR_OFFLINE      = 0x00040000;
+const unsigned PROTOCOL_INVISIBLE       = 0x00080000;
+const unsigned PROTOCOL_AR              = 0x00100000;
+const unsigned PROTOCOL_AR_USER         = 0x00200000;
+const unsigned PROTOCOL_ANY_PORT        = 0x00800000;
+const unsigned PROTOCOL_NOSMS           = 0x01000000;
+const unsigned PROTOCOL_NOPROXY         = 0x02000000;
+const unsigned PROTOCOL_TEMP_DATA       = 0x04000000;
+const unsigned PROTOCOL_NODATA          = 0x08000000;
+const unsigned PROTOCOL_NO_AUTH         = 0x10000000;
 
 class ContactList;
 class Client;
@@ -1464,7 +1450,7 @@ public:
     Protocol(Plugin *plugin);
     virtual ~Protocol();
     Plugin  *plugin() { return m_plugin; }
-    virtual Client	*createClient(Buffer *cfg) = 0;
+    virtual Client  *createClient(Buffer *cfg) = 0;
     virtual const CommandDef *description() = 0;
     virtual const CommandDef *statusList() = 0;
     virtual const DataDef *userDataDef() = 0;
@@ -1474,13 +1460,13 @@ protected:
 
 typedef struct ClientData
 {
-    Data	ManualStatus;
-    Data	CommonStatus;
-    Data	Password;
-    Data	SavePassword;
-    Data	PreviousPassword;
-    Data	Invisible;
-    Data	LastSend;
+    Data    ManualStatus;
+    Data    CommonStatus;
+    Data    Password;
+    Data    SavePassword;
+    Data    PreviousPassword;
+    Data    Invisible;
+    Data    LastSend;
 } ClientData;
 
 const unsigned AuthError = 1;
@@ -1500,7 +1486,7 @@ public:
     virtual std::string name() = 0;
     virtual std::string dataName(void*) = 0;
     Protocol *protocol() { return m_protocol; }
-    virtual QWidget	*setupWnd() = 0;
+    virtual QWidget *setupWnd() = 0;
     virtual void setStatus(unsigned status, bool bCommon);
     virtual std::string getConfig();
     virtual bool compareData(void*, void*);
@@ -1521,7 +1507,7 @@ public:
     virtual void setClientInfo(void *data);
     virtual QWidget *searchWindow(QWidget *parent) = 0;
     virtual std::string resources(void *data);
-    void	removeGroup(Group *grp);
+    void    removeGroup(Group *grp);
     void    setState(State, const char *text = NULL, unsigned code = 0);
     State   getState() { return m_state; }
     virtual unsigned getStatus();
@@ -1537,15 +1523,15 @@ protected:
     void  freeData();
     State m_state;
     unsigned m_status;
-    ClientData	data;
-    Protocol	*m_protocol;
+    ClientData  data;
+    Protocol    *m_protocol;
 };
 
 typedef struct UserDataDef
 {
-    unsigned		id;
-    std::string		name;
-    const DataDef	*def;
+    unsigned        id;
+    std::string     name;
+    const DataDef   *def;
 } UserDataDef;
 
 class ContactListPrivate;
@@ -1561,8 +1547,8 @@ typedef struct ENCODING
     const char *language;
     const char *codec;
     int         mib;
-    int			rtf_code;
-    int			cp_code;
+    int         rtf_code;
+    int         cp_code;
     bool        bMain;
 } ENCODING;
 
@@ -1582,7 +1568,7 @@ public:
     Group   *group(unsigned long id=0, bool isNew=false);
     void addContact(Contact *contact);
     int  groupIndex(unsigned long id);
-    int	 groupCount();
+    int  groupCount();
     bool moveGroup(unsigned long id, bool bUp);
     bool moveClient(Client *client, bool bUp);
     class EXPORT GroupIterator
@@ -1686,20 +1672,20 @@ enum quoteMode
     quoteNOBR
 };
 
-EXPORT QString	unquoteText(const QString &text);
+EXPORT QString  unquoteText(const QString &text);
 EXPORT QString  quoteString(const QString &str, quoteMode mode = quoteHTML);
-EXPORT QString	unquoteString(const QString &str);
-EXPORT QString	quote_nbsp(const QString &str);
+EXPORT QString  unquoteString(const QString &str);
+EXPORT QString  quote_nbsp(const QString &str);
 
 // ____________________________________________________________________________________
 // Log procs
 
-const unsigned short L_ERROR 		= 0x01;
-const unsigned short L_WARN  		= 0x02;
-const unsigned short L_DEBUG		= 0x04;
+const unsigned short L_ERROR        = 0x01;
+const unsigned short L_WARN         = 0x02;
+const unsigned short L_DEBUG        = 0x04;
 
-const unsigned short L_PACKET_IN	= 0x10;
-const unsigned short L_PACKET_OUT	= 0x20;
+const unsigned short L_PACKET_IN    = 0x10;
+const unsigned short L_PACKET_OUT   = 0x20;
 
 #if defined __GNUC__
 EXPORT void log(unsigned short level, const char *fmt, ...)
@@ -1737,8 +1723,8 @@ EXPORT void setWndProc(QWidget*);
 EXPORT void mySetCaption(QWidget *w, const QString &caption);
 EXPORT void translate();
 EXPORT unsigned wndMessage();
-#define SET_WNDPROC(A)	SIM::setWndProc(this);
-#define setCaption(s)	SIM::mySetCaption(this, s);
+#define SET_WNDPROC(A)  SIM::setWndProc(this);
+#define setCaption(s)   SIM::mySetCaption(this, s);
 #else
 #ifndef QT_MACOSX_VERSION
 EXPORT void setWndClass(QWidget*, const char*);
@@ -1754,14 +1740,13 @@ EXPORT void setButtonsPict(QWidget *w);
 
 EXPORT QIconSet Icon(const char *name);
 EXPORT QPixmap Pict(const char *name, const QColor &bgColor = QColor());
-EXPORT const QImage *Image(const char *name);
+EXPORT QImage  Image(const char *name);
 
 EXPORT void setAboutData(KAboutData*);
 EXPORT KAboutData *getAboutData();
 
 EXPORT void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bAddEmpty = true, const ext_info *tbl1 = NULL);
 EXPORT unsigned short getComboValue(QComboBox *cmb, const ext_info *tbl, const ext_info *tbl1 = NULL);
-EXPORT void set_value(QLineEdit*, char *&value);
 EXPORT void disableWidget(QWidget *w);
 
 EXPORT QString toTranslit(const QString&);
@@ -1770,9 +1755,9 @@ EXPORT QString getPart(QString&, unsigned size);
 
 typedef struct smile
 {
-    const char	*exp;
-    const char	*paste;
-    const char	*title;
+    const char  *exp;
+    const char  *paste;
+    const char  *title;
 } smile;
 
 EXPORT unsigned screens();

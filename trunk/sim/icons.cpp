@@ -36,10 +36,6 @@
 #include <kiconloader.h>
 #endif
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #include <map>
 using namespace std;
 
@@ -275,7 +271,7 @@ PictDef *getPict(const char *name)
 static QPixmap getPixmap(PictDef *d, const char*)
 {
     QPixmap res;
-    res.convertFromImage(*(d->image));
+    res.convertFromImage(d->image);
     return res;
 }
 
@@ -293,7 +289,7 @@ QIconSet Icon(const char *name)
     return res;
 }
 
-const QImage *Image(const char *name)
+QImage Image(const char *name)
 {
     PictDef *p = getPict(name);
     if (p == NULL)
@@ -325,7 +321,7 @@ const QMimeSource *MyMimeSourceFactory::data(const QString &abs_name) const
         name = name.mid(5);
         PictDef *p = getPict(name.latin1());
         if (p)
-            ((QMimeSourceFactory*)this)->setImage(abs_name, *(p->image));
+            ((QMimeSourceFactory*)this)->setImage(abs_name, p->image);
     }
     return QMimeSourceFactory::data(abs_name);
 }
@@ -336,10 +332,6 @@ IconSet::IconSet()
 
 IconSet::~IconSet()
 {
-    for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
-        if ((*it).second.image)
-            delete (*it).second.image;
-    }
 }
 
 void IconSet::parseSmiles(const QString &text, unsigned &start, unsigned &size, string &name)
@@ -558,25 +550,25 @@ PictDef *WrkIconSet::getPict(const char *name)
         }
         if (p == NULL)
             return NULL;
-        return add(name, *(p->image), p->flags);
+        return add(name, p->image, p->flags);
     }
     if (n == "offline"){
         PictDef *p = SIM::getPict("online");
         if (p == NULL)
             return NULL;
-        return add(name, makeOffline(p->flags, *(p->image)), p->flags);
+        return add(name, makeOffline(p->flags, p->image), p->flags);
     }
     if (n == "inactive"){
         PictDef *p = SIM::getPict("online");
         if (p == NULL)
             return NULL;
-        return add(name, makeInactive(*(p->image)), p->flags);
+        return add(name, makeInactive(p->image), p->flags);
     }
     if (n == "invisible"){
         PictDef *p = SIM::getPict("online");
         if (p == NULL)
             return NULL;
-        return add(name, makeInvisible(p->flags, *(p->image)), p->flags);
+        return add(name, makeInvisible(p->flags, p->image), p->flags);
     }
     int pos = n.find('_');
     if (pos > 0){
@@ -585,17 +577,17 @@ PictDef *WrkIconSet::getPict(const char *name)
         if (p){
             string s = n.substr(pos + 1);
             if (s == "online"){
-                res = *(p->image);
+                res = p->image;
             }else if (s == "offline"){
-                res = makeOffline(p->flags, *(p->image));
+                res = makeOffline(p->flags, p->image);
             }else if (s == "invisible"){
-                res = makeInvisible(p->flags, *(p->image));
+                res = makeInvisible(p->flags, p->image);
             }else if (s == "inactive"){
-                res = makeInactive(*(p->image));
+                res = makeInactive(p->image);
             }else{
                 PictDef *pp = SIM::getPict(s.c_str());
                 if (pp)
-                    res = merge(*(p->image), *(pp->image));
+                    res = merge(p->image, pp->image);
             }
             return add(name, res, p->flags);
         }
@@ -607,17 +599,13 @@ PictDef *WrkIconSet::getPict(const char *name)
 
 void WrkIconSet::clear()
 {
-    for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
-        if ((*it).second.image)
-            delete (*it).second.image;
-    }
     m_icons.clear();
 }
 
 PictDef *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
 {
     PictDef p;
-    p.image = new QImage(pict);
+    p.image = pict;
     p.flags = flags;
     m_icons.insert(PIXMAP_MAP::value_type(name, p));
     return &m_icons.find(name)->second;
@@ -664,8 +652,7 @@ PictDef *FileIconSet::getPict(const char *name)
         QByteArray arr;
         if (!m_zip->readFile(QString::fromUtf8(it->second.file.c_str()), &arr) && !m_zip->readFile(QFileInfo(m_zip->name()).baseName(true) + QDir::separator() + QString::fromUtf8(it->second.file.c_str()), &arr))
             return NULL;
-        (*it).second.image = new QImage(arr);
-        (*it).second.image->convertDepth(32);
+        (*it).second.image = QImage(arr).convertDepth(32);
     }
     return &((*it).second);
 }
@@ -673,10 +660,7 @@ PictDef *FileIconSet::getPict(const char *name)
 void FileIconSet::clear()
 {
     for (PIXMAP_MAP::iterator it = m_icons.begin(); it != m_icons.end(); ++it){
-        if ((*it).second.image){
-            delete (*it).second.image;
-            (*it).second.image = NULL;
-        }
+        (*it).second.image = QImage();
     }
 }
 
@@ -747,7 +731,6 @@ void FileIconSet::element_end(const char *el)
 {
     if (!strcmp(el, "icon")){
         PictDef p;
-        p.image  = NULL;
         p.file   = m_file;
         p.flags  = m_flags;
 #ifdef USE_KDE
