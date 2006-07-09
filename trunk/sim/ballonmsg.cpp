@@ -28,6 +28,7 @@
 #include <qimage.h>
 #include <qframe.h>
 #include <qcheckbox.h>
+#include <qstylesheet.h>
 
 #include <qsimplerichtext.h>
 
