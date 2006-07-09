@@ -19,6 +19,7 @@
 			OutputDirectory="..\..\Debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -48,8 +49,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\sim,..\_core"
-				PreprocessorDefinitions="_DEBUG;DEBUG;WIN32;_WINDOWS;QT_DLL;UNICODE;QT_THREAD_SUPPORT;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;USE_QT=1;USE_OPENSSL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -67,7 +68,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1047"
 				AdditionalIncludeDirectories="..\.."
 			/>
 			<Tool
@@ -75,13 +75,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)sim\win32\ssleay32.lib"
-				OutputFile="../../Debug/plugins/jabber.dll"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ImportLibrary=".\..\..\Debug/jabber.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -95,8 +93,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Debug/jabber.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -116,6 +112,7 @@
 			OutputDirectory="..\..\Release"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -145,8 +142,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\sim,..\_core"
-				PreprocessorDefinitions="WIN32;_WINDOWS;QT_DLL;UNICODE;QT_THREAD_SUPPORT;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;USE_QT=1;USE_OPENSSL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="_NDEBUG;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -162,7 +159,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1047"
 				AdditionalIncludeDirectories="..\.."
 			/>
 			<Tool
@@ -170,11 +166,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				IgnoreImportLibrary="true"
-				AdditionalDependencies="odbc32.lib odbccp32.lib wsock32.lib winmm.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib $(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)sim\win32\ssleay32.lib"
-				OutputFile="../../Release/plugins/jabber.dll"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
+				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
-				ImportLibrary=".\..\..\Release/jabber.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -188,8 +182,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\..\..\Release/jabber.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

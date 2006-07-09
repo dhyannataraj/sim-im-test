@@ -19,6 +19,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -48,8 +49,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
-				PreprocessorDefinitions="NDEBUG;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;NOUNCRYPT;CVS_BUILD=1"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="_NDEBUG;NDEBUG;SIMAPI_EXPORTS;NOUNCRYPT"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -57,7 +58,6 @@
 				PrecompiledHeaderThrough="sim_pch.h"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DisableSpecificWarnings="4996"
 				ForcedIncludeFiles="sim_pch.h"
 			/>
 			<Tool
@@ -66,14 +66,13 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1049"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="User32.Lib Gdi32.Lib WS2_32.Lib Advapi32.lib sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib"
+				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib $(QTDIR)\lib\qtmain.lib"
 				OutputFile=".\Release/sim.exe"
 				SubSystem="2"
 				TargetMachine="1"
@@ -89,8 +88,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Release/sim.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -110,6 +107,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -139,8 +137,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;NOUNCRYPT;CVS_BUILD=1"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="_DEBUG;DEBUG;SIMAPI_EXPORTS;NOUNCRYPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -150,7 +148,6 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4996,4127"
 				ForcedIncludeFiles="sim_pch.h"
 			/>
 			<Tool
@@ -159,14 +156,13 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1049"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="User32.Lib Gdi32.Lib WS2_32.Lib Advapi32.lib sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib"
+				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib $(QTDIR)\lib\qtmain.lib"
 				OutputFile=".\Debug/sim.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -185,8 +181,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Debug/sim.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -652,32 +646,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="sim\libltdl\ltdl.c"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						UsePrecompiledHeader="0"
-						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						UsePrecompiledHeader="0"
-						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1195,10 +1163,6 @@
 				>
 			</File>
 			<File
-				RelativePath="sim\compatqtversion.h"
-				>
-			</File>
-			<File
 				RelativePath="sim\datepicker.h"
 				>
 				<FileConfiguration
@@ -1429,10 +1393,6 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="sim\libltdl\ltdl.h"
-				>
 			</File>
 			<File
 				RelativePath="sim\md32_common.h"
