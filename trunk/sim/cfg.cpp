@@ -373,6 +373,30 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
     return res;
 }
 
+EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
+{
+    QCString res;
+    int i;
+    for (i = 0; i < (int)from.length(); i++){
+        if (from[i] == c)
+            break;
+        if (from[i] == '\\'){
+            i++;
+            if (i >= (int)from.length())
+                break;
+            if (!bUnEscape)
+                res += "\\";
+        }
+        res += from[i];
+    }
+    if (i < (int)from.length()){
+        from = from.mid(i + 1);
+    }else{
+        from = "";
+    }
+    return res;
+}
+
 // _______________________________________________________________________________________
 
 bool set_ip(Data *p, unsigned long value, const char *host)

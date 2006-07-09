@@ -971,6 +971,7 @@ EXPORT QString formatAddr(Data &addr, unsigned port);
 EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
 EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
+EXPORT QCString getToken(QCString &from, char c, bool bUnEsacpe=true);
 EXPORT std::string quoteChars(const char *from, const char *chars);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT char fromHex(char);
