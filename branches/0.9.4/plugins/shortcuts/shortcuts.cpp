@@ -360,8 +360,37 @@ extern "C" {
     }
 }
 
+// from KGlobalAccel
+static uint g_keyModMaskXOnOrOff = 0;
+static void initializeMods()
+{
+    uint g_modXNumLock, g_modXScrollLock, g_modXModeSwitch; 
+    g_modXNumLock = g_modXScrollLock = g_modXModeSwitch = 0; 
+    int min_keycode, max_keycode;
+    int keysyms_per_keycode = 0;
+
+    XModifierKeymap* xmk = XGetModifierMapping( qt_xdisplay() );
+    XDisplayKeycodes( qt_xdisplay(), &min_keycode, &max_keycode );
+    XFree( XGetKeyboardMapping( qt_xdisplay(), min_keycode, 1, &keysyms_per_keycode ));
+    for( int i = Mod2MapIndex; i < 8; i++ ) {
+        uint mask = (1 << i);
+        uint keySymX = NoSymbol;
+        for( int j = 0; j < xmk->max_keypermod && keySymX == NoSymbol; ++j )
+            for( int k = 0; k < keysyms_per_keycode && keySymX == NoSymbol; ++k )
+                keySymX = XKeycodeToKeysym( qt_xdisplay(), xmk->modifiermap[xmk->max_keypermod * i + j], k );
+        switch( keySymX ) {
+            case XK_Num_Lock:    g_modXNumLock = mask; break;     // Normally Mod2Mask
+            case XK_Scroll_Lock: g_modXScrollLock = mask; break;  // Normally Mod5Mask
+            case XK_Mode_switch: g_modXModeSwitch = mask; break; 
+        }
+    }
+    XFreeModifiermap( xmk );
+    g_keyModMaskXOnOrOff = LockMask | g_modXNumLock | g_modXScrollLock | g_modXModeSwitch;
+}
+
 GlobalKey::GlobalKey(CommandDef *cmd)
 {
+    m_cmd = *cmd;
     m_key = QAccel::stringToKey(cmd->accel);
     m_state = 0;
     if (m_key & Qt::SHIFT){
@@ -383,18 +412,30 @@ GlobalKey::GlobalKey(CommandDef *cmd)
             break;
         }
     }
+
+    if(!g_keyModMaskXOnOrOff)
+        initializeMods();
+
     m_key = XKeysymToKeycode( qt_xdisplay(), m_key);
     XSync( qt_xdisplay(), 0 );
     XErrorHandler savedErrorHandler = XSetErrorHandler(XGrabErrorHandler);
-    XGrabKey( qt_xdisplay(), m_key, m_state,
-              qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
+
+    uint keyModMaskX = ~g_keyModMaskXOnOrOff;
+    for( uint irrelevantBitsMask = 0; irrelevantBitsMask <= 0xff; irrelevantBitsMask++ )
+        if( (irrelevantBitsMask & keyModMaskX) == 0 )
+            XGrabKey( qt_xdisplay(), m_key, m_state | irrelevantBitsMask, qt_xrootwin(), True, GrabModeAsync, GrabModeSync);
+
     XSync( qt_xdisplay(), 0 );
     XSetErrorHandler( savedErrorHandler );
 }
 
 GlobalKey::~GlobalKey()
 {
-    XUngrabKey( qt_xdisplay(), m_key, m_state, qt_xrootwin());
+    uint keyModMaskX = ~g_keyModMaskXOnOrOff;
+
+    for( uint irrelevantBitsMask = 0; irrelevantBitsMask <= 0xff; irrelevantBitsMask++ )
+        if( (irrelevantBitsMask & keyModMaskX) == 0 )
+            XUngrabKey( qt_xdisplay(), m_key, m_state | irrelevantBitsMask, qt_xrootwin());
 }
 
 typedef int (*QX11EventFilter) (XEvent*);
@@ -404,9 +445,15 @@ static QX11EventFilter oldFilter;
 static int X11EventFilter(XEvent *e)
 {
     if ((e->type == KeyPress) && globalKeys){
+        if ( !QWidget::keyboardGrabber() && !QApplication::activePopupWidget() ) {
+                XUngrabKeyboard( qt_xdisplay(), e->xkey.time );
+                XFlush( qt_xdisplay());
+        }
+        unsigned state = e->xkey.state & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask | 0x2000);
+
         for (list<GlobalKey*>::iterator it = globalKeys->begin(); it != globalKeys->end(); ++it){
             if (((*it)->key() == e->xkey.keycode) &&
-                    ((*it)->state() == e->xkey.state)){
+                    ((*it)->state() == state)){
                 (*it)->execute();
                 return true;
             }
