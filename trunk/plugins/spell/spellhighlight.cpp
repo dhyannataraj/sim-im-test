@@ -324,7 +324,7 @@ void SpellHighlighter::restore()
     rehighlight();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "spellhighlight.moc"
 #endif
 

@@ -741,6 +741,6 @@ void CToolBar::showPopup(QPoint p)
     popup->popup(p);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "toolbtn.moc"
 #endif

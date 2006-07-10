@@ -460,7 +460,7 @@ void JabberAdd::createContact(const QString &name, unsigned tmpFlags, Contact *&
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "jabberadd.moc"
 #endif
 

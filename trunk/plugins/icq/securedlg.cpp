@@ -94,7 +94,7 @@ void SecureDlg::error(const char *err)
     btnCancel->setText(i18n("&Close"));
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "securedlg.moc"
 #endif
 

@@ -263,7 +263,7 @@ void MonitorWindow::outputLog()
     setLogEnable(true);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "monitor.moc"
 #endif
 

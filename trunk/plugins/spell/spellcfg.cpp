@@ -195,7 +195,7 @@ void SpellConfig::setCheck(QListViewItem *item)
     item->setPixmap(COL_CHECK, pixInd);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "spellcfg.moc"
 #endif
 

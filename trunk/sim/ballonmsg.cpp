@@ -377,7 +377,7 @@ void BalloonButton::click()
 }
 
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "ballonmsg.moc"
 #endif
 

@@ -468,7 +468,7 @@ void ServerSocketNotify::bind(const char *path)
 
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "socket.moc"
 #endif
 

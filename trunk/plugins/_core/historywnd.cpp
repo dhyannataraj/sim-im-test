@@ -363,6 +363,6 @@ void HistoryWindow::addHistory(const QString &str)
     CorePlugin::m_plugin->setHistorySearch(res);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "historywnd.moc"
 #endif

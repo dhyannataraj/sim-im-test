@@ -538,7 +538,7 @@ void UserConfig::resizeEvent(QResizeEvent *e)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "usercfg.moc"
 #endif
 

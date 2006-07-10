@@ -148,6 +148,10 @@ QString UserWnd::getLongName()
 const char *UserWnd::getIcon()
 {
     Contact *contact = getContacts()->contact(m_id);
+    if(!contact) {
+        log(L_ERROR, "Contact %d not found!", m_id);
+        return "";
+    }
     unsigned long status = STATUS_UNKNOWN;
     unsigned style;
     const char *statusIcon = NULL;
@@ -301,7 +305,7 @@ void UserWnd::markAsRead()
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "userwnd.moc"
 #endif
 

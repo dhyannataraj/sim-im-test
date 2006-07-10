@@ -102,7 +102,7 @@ void ARConfig::help()
     BalloonMsg::message(helpString, btnHelp, false, 400);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "arcfg.moc"
 #endif
 

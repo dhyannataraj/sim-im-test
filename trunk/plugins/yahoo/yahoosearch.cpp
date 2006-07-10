@@ -189,7 +189,7 @@ void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "yahoosearch.moc"
 #endif
 

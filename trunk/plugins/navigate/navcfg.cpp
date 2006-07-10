@@ -71,7 +71,7 @@ void NavCfg::useKDEtoggled(bool on)
 }
 
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "navcfg.moc"
 #endif
 

@@ -146,7 +146,7 @@ void *LogConfig::processEvent(Event *e)
     return NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "logconfig.moc"
 #endif
 

@@ -162,7 +162,7 @@ void JabberPicture::setPict(QImage &img)
     lblPict->setMinimumSize(pict.size());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "jabberpicture.moc"
 #endif
 

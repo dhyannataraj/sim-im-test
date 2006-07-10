@@ -1188,7 +1188,7 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
     m_pressedItem = NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "userlist.moc"
 #endif
 

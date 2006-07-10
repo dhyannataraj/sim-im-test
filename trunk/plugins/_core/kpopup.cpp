@@ -428,7 +428,7 @@ void KPopupMenu::setTitle(const QString &title)
     d->m_lastTitle = title;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "kpopup.moc"
 #endif
 

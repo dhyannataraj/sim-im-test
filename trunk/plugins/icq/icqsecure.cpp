@@ -210,7 +210,7 @@ void ICQSecure::hideIpToggled(bool bOn)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "icqsecure.moc"
 #endif
 

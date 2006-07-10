@@ -152,7 +152,7 @@ int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
 
 #endif
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "replace.moc"
 #endif
 

@@ -772,7 +772,7 @@ void FileIconSet::char_data(const char *data, int size)
 
 };
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "icons.moc"
 #endif
 

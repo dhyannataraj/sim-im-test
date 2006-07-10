@@ -124,7 +124,7 @@ void GpgUser::clearExec()
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "gpguser.moc"
 #endif
 

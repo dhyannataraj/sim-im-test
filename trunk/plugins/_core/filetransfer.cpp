@@ -523,7 +523,7 @@ void FileTransferDlg::goDir()
     e.process();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "filetransfer.moc"
 #endif
 

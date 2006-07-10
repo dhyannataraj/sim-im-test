@@ -111,7 +111,7 @@ void HomeInfo::fill()
     initTZCombo(cmbZone, (char)(data->TimeZone.value));
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "homeinfo.moc"
 #endif
 

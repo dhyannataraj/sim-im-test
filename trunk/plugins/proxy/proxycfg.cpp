@@ -268,7 +268,7 @@ void ProxyConfig::get(ProxyData *data)
     data->bInit = true;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "proxycfg.moc"
 #endif
 

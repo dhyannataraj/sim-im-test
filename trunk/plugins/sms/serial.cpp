@@ -637,7 +637,7 @@ QStringList SerialPort::devices()
 
 #endif
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "serial.moc"
 #endif
 

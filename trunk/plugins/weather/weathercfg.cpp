@@ -177,7 +177,7 @@ void WeatherCfg::char_data(const char *str, int len)
         m_data.append(str, len);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "weathercfg.moc"
 #endif
 

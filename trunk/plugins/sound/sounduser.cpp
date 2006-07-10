@@ -144,7 +144,7 @@ void SoundUserConfig::selectionChanged(QListViewItem *item)
     m_edit->setFocus();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "sounduser.moc"
 #endif
 

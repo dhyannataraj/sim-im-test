@@ -73,7 +73,7 @@ void ProxyError::accept()
     ProxyErrorBase::accept();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "proxyerror.moc"
 #endif
 

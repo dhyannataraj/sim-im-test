@@ -1094,7 +1094,7 @@ string get_user_agent()
     return FetchManager::manager->user_agent;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "fetch.moc"
 #endif
 

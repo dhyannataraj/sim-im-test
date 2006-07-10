@@ -40,7 +40,7 @@ void SMSConfig::apply(void *_data)
     set_str(&data->SMSSignatureAfter.ptr, edtAfter->text().utf8());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "smscfg.moc"
 #endif
 

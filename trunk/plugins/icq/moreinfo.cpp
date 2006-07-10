@@ -244,7 +244,7 @@ void MoreInfo::urlChanged(const QString &text)
     btnHomePage->setEnabled(!text.isEmpty());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "moreinfo.moc"
 #endif
 

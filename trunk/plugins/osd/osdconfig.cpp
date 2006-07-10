@@ -110,7 +110,7 @@ void OSDConfig::contentToggled(bool bState)
     lblLines->setEnabled(bState && chkMessage->isChecked());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "osdconfig.moc"
 #endif
 

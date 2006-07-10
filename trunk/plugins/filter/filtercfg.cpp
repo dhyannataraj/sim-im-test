@@ -69,7 +69,7 @@ void FilterConfig::apply(void *_data)
     SIM::set_str(&data->SpamList.ptr, edtFilter->text().utf8());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "filtercfg.moc"
 #endif
 

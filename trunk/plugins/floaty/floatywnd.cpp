@@ -410,7 +410,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "floatywnd.moc"
 #endif
 
