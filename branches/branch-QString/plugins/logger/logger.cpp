@@ -82,12 +82,10 @@ LoggerPlugin::LoggerPlugin(unsigned base, ConfigBuffer *add_info)
     Event e(EventArg, &p);
     if (e.process() && !value.isEmpty())
         setLogLevel(value.toULong());
-    if (getLogPackets()){
-        QString packets = getLogPackets();
-        while (packets.length()){
-            QString v = getToken(packets, ',');
-            setLogType(v.toULong(), true);
-        }
+    QString packets = getLogPackets();
+    while (packets.length()){
+        QString v = getToken(packets, ',');
+        setLogType(v.toULong(), true);
     }
     m_bFilter = false;
     openFile();
@@ -95,8 +93,7 @@ LoggerPlugin::LoggerPlugin(unsigned base, ConfigBuffer *add_info)
 
 LoggerPlugin::~LoggerPlugin()
 {
-    if (m_file)
-        delete m_file;
+    delete m_file;
     free_data(loggerData, &data);
 }
 

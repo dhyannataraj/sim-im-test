@@ -111,7 +111,8 @@ TransparentPlugin::TransparentPlugin(unsigned base, ConfigBuffer *config)
 #endif
 {
     load_data(transparentData, &data, config);
-    if (getTransparency() >100) setTransparency(100);
+    if (getTransparency() >100)
+        setTransparency(100);
 #ifdef WIN32
     timer = NULL;
     m_bHaveMouse = false;

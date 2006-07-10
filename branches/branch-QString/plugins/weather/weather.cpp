@@ -313,18 +313,14 @@ void WeatherPlugin::showBar()
     updateButton();
 }
 
-static QString weather_icon;
-
 void WeatherPlugin::updateButton()
 {
     if ((getTime() == 0) || (m_bar == NULL))
         return;
-    weather_icon = "weather";
-    weather_icon += QString::number(getIcon());
     Command cmd;
     cmd->id      = CmdWeather;
     cmd->text    = I18N_NOOP("Not connected");
-    cmd->icon    = weather_icon;
+    cmd->icon    = "weather" + QString::number(getIcon());
     cmd->bar_id  = BarWeather;
     cmd->bar_grp = 0x1000;
     cmd->flags   = BTN_PICT | BTN_DIV;
@@ -332,7 +328,7 @@ void WeatherPlugin::updateButton()
     eCmd.process();
 
     QString text = unquoteText(getButtonText());
-    QString tip = getTipText();
+    QString tip  = getTipText();
     QString ftip = getForecastText();
     text = replace(text);
     tip  = replace(tip);
@@ -556,7 +552,6 @@ QString WeatherPlugin::getButtonText()
         str = i18n("%t | %c");
     return str;
 }
-
 
 QString WeatherPlugin::getTipText()
 {

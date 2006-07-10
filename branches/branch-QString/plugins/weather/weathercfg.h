@@ -22,8 +22,6 @@
 #include "weathercfgbase.h"
 #include "fetch.h"
 
-#include "stl.h"
-
 class WeatherPlugin;
 class WIfaceCfg;
 
