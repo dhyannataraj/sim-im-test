@@ -31,6 +31,7 @@
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qtimer.h>
+#include <qfile.h>
 
 using std::string;
 using namespace SIM;

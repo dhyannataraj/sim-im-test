@@ -27,6 +27,7 @@
 #include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
+#include <qfile.h>
 
 using std::string;
 using namespace SIM;
@@ -111,7 +112,7 @@ void GpgGen::accept()
 #ifdef WIN32
     QString gpg  = m_cfg->edtGPG->text();
 #else
-QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
+    QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
 #endif
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())

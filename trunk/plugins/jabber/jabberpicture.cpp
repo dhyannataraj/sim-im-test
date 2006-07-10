@@ -27,6 +27,7 @@
 #include <qlabel.h>
 #include <qimage.h>
 #include <qpixmap.h>
+#include <qfile.h>
 #include <time.h>
 
 using namespace SIM;

@@ -26,6 +26,7 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qimage.h>
+#include <qfile.h>
 
 #ifndef USE_KDE
 

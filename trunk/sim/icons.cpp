@@ -642,7 +642,7 @@ PictDef *FileIconSet::getPict(const char *name)
                 pict = DesktopIconSet(it->second.system.c_str()).pixmap(QIconSet::Large, QIconSet::Normal);
             }
             if (!pict.isNull()){
-                (*it).second.image = new QImage(pict.convertToImage());
+                (*it).second.image = QImage(pict.convertToImage());
                 return &((*it).second);
             }
         }

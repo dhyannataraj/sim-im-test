@@ -24,6 +24,7 @@
 #include <qbuttongroup.h>
 #include <qmultilineedit.h>
 #include <qradiobutton.h>
+#include <qfile.h>
 
 using namespace SIM;
 
