@@ -59,8 +59,7 @@
 #endif
 
 #include <qglobal.h>
-#include <qmap.h>
-#include <qmainwindow.h>
+#include <qdockwindow.h>
 #include <qstring.h>
 #include <qwidget.h>
 
@@ -77,14 +76,12 @@ class QPixmap;
 class QToolBar;
 
 #ifdef Q_CC_MSVC
-# pragma warning(disable: 4097)
+// "conditional expression is constant" (W4)
 # pragma warning(disable: 4127)
-# pragma warning(disable: 4244)
-# pragma warning(disable: 4251)  // msvc is a little bit stupid when exporting a template class... :(
-# pragma warning(disable: 4275)
-# pragma warning(disable: 4514)
+// "'identifier' : class 'type' needs to have dll-interface to be used by clients of class 'type2'" (W1)
+# pragma warning(disable: 4251)
+// "function' : function not inlined" (W4)4786
 # pragma warning(disable: 4710)
-# pragma warning(disable: 4786)
 #endif
 
 #ifdef Q_CC_MSVC

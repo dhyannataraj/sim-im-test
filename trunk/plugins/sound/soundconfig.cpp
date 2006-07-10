@@ -21,8 +21,8 @@
 #include "editfile.h"
 
 #include <qcheckbox.h>
+#include <qfile.h>
 #include <qlabel.h>
-#include <qlineedit.h>
 #include <qtabwidget.h>
 #include <qsound.h>
 

@@ -22,10 +22,8 @@
 #include "core.h"
 
 #include <qcheckbox.h>
+#include <qfile.h>
 #include <qlabel.h>
-#include <qlineedit.h>
-#include <qlayout.h>
-#include <qregexp.h>
 #include <qpainter.h>
 
 using std::string;
