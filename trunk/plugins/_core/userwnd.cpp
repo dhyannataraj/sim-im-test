@@ -149,7 +149,7 @@ const char *UserWnd::getIcon()
 {
     Contact *contact = getContacts()->contact(m_id);
     if(!contact) {
-        log(L_ERROR, "Contact %d not found!", m_id);
+        log(L_ERROR, "Contact %lu not found!", m_id);
         return "";
     }
     unsigned long status = STATUS_UNKNOWN;
