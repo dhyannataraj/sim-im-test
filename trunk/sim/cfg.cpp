@@ -49,21 +49,8 @@
 #include "kdeisversion.h"
 #endif
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(push)
-#pragma warning(disable: 4512)  
-#endif
-#endif
-
 #include <map>
 using namespace std;
-
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(pop)
-#endif
-#endif
 
 namespace SIM
 {

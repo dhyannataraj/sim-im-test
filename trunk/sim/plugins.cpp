@@ -28,7 +28,6 @@
 #include "builtinlogger.h"
 
 #ifdef WIN32
-//#include "qjpegio.h"
 #include <windows.h>
 #else
 #include <ctype.h>

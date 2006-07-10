@@ -18,28 +18,11 @@
 #ifndef _STL_H
 #define _STL_H
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(push)
-#pragma warning(disable: 4018)  
-#pragma warning(disable: 4146)  
-#pragma warning(disable: 4512)  
-#pragma warning(disable: 4663)  
-#pragma warning(disable: 4702)  
-#endif
-#endif
-
 #include <list>
 #include <vector>
 #include <stack>
 #include <map>
 #include <memory>
 #include <algorithm>
-
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(pop)
-#endif
-#endif
 
 #endif

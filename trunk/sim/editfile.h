@@ -23,23 +23,11 @@
 #include <qframe.h>
 #include <qlineedit.h>
 #include <qmultilineedit.h>
-#include <qfiledialog.h>
 
 class QHBoxLayout;
 class EditFile;
 class FilePreview;
 class QPopupMenu;
-
-class EXPORT FileLineEdit : public QLineEdit
-{
-    Q_OBJECT
-public:
-    FileLineEdit(EditFile *p, const char *name = NULL);
-    ~FileLineEdit();
-protected:
-    //virtual void dragEnterEvent(QDragEnterEvent*);
-    //virtual void dropEvent(QDropEvent*);
-};
 
 typedef FilePreview *CreatePreview(QWidget *parent);
 
@@ -75,7 +63,7 @@ protected:
     QString startDir;
     QString title;
     QHBoxLayout   *lay;
-    FileLineEdit  *edtFile;
+    QLineEdit     *edtFile;
     CreatePreview *createPreview;
 };
 

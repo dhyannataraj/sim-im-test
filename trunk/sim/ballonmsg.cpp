@@ -17,20 +17,19 @@
 
 #include "ballonmsg.h"
 
-#include <qtimer.h>
-#include <qpainter.h>
-#include <qtooltip.h>
-#include <qbitmap.h>
-#include <qpointarray.h>
 #include <qapplication.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qimage.h>
+#include <qbitmap.h>
 #include <qframe.h>
+#include <qimage.h>
 #include <qcheckbox.h>
-#include <qstylesheet.h>
-
+#include <qlayout.h>
+#include <qpainter.h>
+#include <qpointarray.h>
+#include <qpushbutton.h>
 #include <qsimplerichtext.h>
+#include <qstylesheet.h>
+#include <qtimer.h>
+#include <qtooltip.h>
 
 #ifdef WIN32
 #include <windows.h>

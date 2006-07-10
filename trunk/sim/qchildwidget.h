@@ -20,6 +20,12 @@
 
 #include "simapi.h"
 
+#include <qrect.h>
+#include <qwidget.h>
+
+class QChildEvent;
+class QPaintEvent;
+
 class EXPORT QChildWidget : public QWidget
 {
     Q_OBJECT

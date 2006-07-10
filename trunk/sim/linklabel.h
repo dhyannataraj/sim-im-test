@@ -21,6 +21,11 @@
 #include "simapi.h"
 
 #include <qlabel.h>
+#include <qrect.h>
+#include <qstring.h>
+
+class QMouseEvent;
+class QPainter;
 
 class EXPORT LinkLabel : public QLabel
 {

@@ -47,7 +47,7 @@ EditFile::EditFile(QWidget *p, const char *name)
     bShowHidden = false;
     createPreview = NULL;
     lay = new QHBoxLayout(this);
-    edtFile = new FileLineEdit(this);
+    edtFile = new QLineEdit(this);
     lay->addWidget(edtFile);
     lay->addSpacing(3);
     QPushButton *btnOpen = new QPushButton(this);
@@ -259,14 +259,6 @@ void EditSound::play()
     e.process();
 }
 
-FileLineEdit::FileLineEdit(EditFile *p, const char *name)
-        : QLineEdit(p, name)
-{
-}
-
-FileLineEdit::~FileLineEdit()
-{
-}
 const int IdBase            = 0x1000;
 
 LineEdit::LineEdit(QWidget *parent, const char *name)

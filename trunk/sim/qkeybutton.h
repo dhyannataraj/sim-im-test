@@ -19,7 +19,12 @@
 #define _QKEYBUTTON_H_
 
 #include "simapi.h"
+
 #include <qpushbutton.h>
+
+class QKeyEvent;
+class QFocusEvent;
+class QMouseEvent;
 
 class EXPORT QKeyButton: public QPushButton
 {

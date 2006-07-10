@@ -18,12 +18,9 @@
 #ifndef _ABOUTDATA_H
 #define _ABOUTDATA_H
 
-#include "simapi.h"
 #ifdef USE_KDE
 #include <kaboutdata.h>
 #else
-
-#include <qlabel.h>
 
 /*
 * This file is part of the KDE Libraries
@@ -45,6 +42,8 @@
 * Boston, MA 02111-1307, USA.
 *
 */
+
+#include "simapi.h"
 
 #include <qvaluelist.h>
 #include <qstring.h>
@@ -173,7 +172,7 @@ private:
 * @short Holds information needed by the "About" box and other
 * classes.
 * @author Espen Sand (espen@kde.org), David Faure (faure@kde.org)
-* @version $Id: aboutdata.h,v 1.2 2004-06-26 08:16:59 shutoff Exp $
+* @version $Id: aboutdata.h,v 1.2 2004/06/26 08:16:59 shutoff Exp $
 */
 class EXPORT KAboutData
 {
@@ -236,7 +235,7 @@ public:
                 const char *copyrightStatement = 0,
                 const char *text = 0,
                 const char *homePageAddress = 0,
-                const char *bugsEmailAddress = "submit@bugs.kde.org"
+                const char *bugsEmailAddress = "sim-im-main@lists.sim-im.org"
               );
 
     ~KAboutData();

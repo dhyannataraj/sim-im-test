@@ -18,15 +18,14 @@
 #include "datepicker.h"
 #include "toolbtn.h"
 
-#include <qlineedit.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qiconset.h>
-#include <qspinbox.h>
+#include <qdatetime.h>
 #include <qfontmetrics.h>
+#include <qlineedit.h>
+#include <qlayout.h>
+#include <qpushbutton.h>
+#include <qspinbox.h>
 #include <qpainter.h>
 #include <qvalidator.h>
-#include <qdatetime.h>
 
 class DateValidator : public QValidator
 {
