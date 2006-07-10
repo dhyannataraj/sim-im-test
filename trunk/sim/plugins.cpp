@@ -184,6 +184,7 @@ bool findPluginsInBuildDir(const QDir &appDir, QStringList &pluginsList)
 PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         : EventReceiver(LowPriority)
 {
+    m_bAbort = false;
     m_argc = argc;
     m_argv = argv;
     unsigned logLevel = L_ERROR | L_WARN;
