@@ -40,7 +40,7 @@
 #if defined(_WIN32) || defined(_WIN64)
 #define  LTDL_SHLIB_EXT ".dll"
 #else
-#define  LTDL_SHLIB_EXT ".a"
+#define  LTDL_SHLIB_EXT ".so"
 #endif
 #endif
 #endif
