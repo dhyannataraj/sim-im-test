@@ -20,6 +20,10 @@
 #include "core.h"
 #include <sockfactory.h>
 
+#ifdef Q_OS_WIN32
+#include <winsock.h>
+#endif
+
 #include <qtimer.h>
 #include <qdatetime.h>
 #include <time.h>

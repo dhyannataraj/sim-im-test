@@ -340,7 +340,8 @@ typedef enum {
 	CAP_UNKNOWN,			// 0x00000008
 	CAP_ICQ5_3,				// 0x00000010
 	CAP_ICQ5_4,				// 0x00000020
-    CAP_NULL,				// 0x00000040
+    CAP_JIMM,               // 0x00000040
+    CAP_NULL,				// 0x00000080
 } cap_id_t;
     
 const unsigned PLUGIN_PHONEBOOK          = 0;

@@ -32,7 +32,7 @@
 #include <kaboutdata.h>
 #include <kuniqueapplication.h>
 #else
-#include <aboutdata.h>
+#include "aboutdata.h"
 #include <qapplication.h>
 #endif
 

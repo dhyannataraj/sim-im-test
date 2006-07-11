@@ -18,6 +18,11 @@
 #include "icqclient.h"
 
 #include <qtextcodec.h>
+#ifdef Q_OS_WIN32
+# include <winsock.h>
+#else
+# include <netinet/in.h>
+#endif
 
 using std::string;
 using namespace SIM;
@@ -312,6 +317,9 @@ const capability arrCapabilities[] =
 		// CAP_ICQ5_4
 		{ 0xb9, 0x97, 0x08, 0xb5, 0x3a, 0x92, 0x42, 0x02,
 		  0xb0, 0x69, 0xf1, 0xe7, 0x57, 0xbb, 0x2e, 0x17 },
+        // CAP_JIMM
+		{ 'J', 'i', 'm', 'm', ' ', 0, 0, 0,
+		  0, 0, 0, 0, 0, 0, 0, 0 },
 /*
         // from Gaim:
         // CAP_AIM_HIPTOP
