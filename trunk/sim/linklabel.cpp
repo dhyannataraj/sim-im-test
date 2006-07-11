@@ -26,10 +26,6 @@
 #include <qstylesheet.h>
 #include <qpainter.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 using namespace std;
 using namespace SIM;
 

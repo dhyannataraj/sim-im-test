@@ -873,21 +873,6 @@ void WeatherPlugin::char_data(const char *str, int len)
         m_data.append(str, len);
 }
 
-#ifdef WIN32
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
 #ifndef NO_MOC_INCLUDES
 #include "weather.moc"
 #endif
-
-

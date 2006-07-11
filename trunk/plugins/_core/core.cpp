@@ -4636,18 +4636,6 @@ void HistoryThread::run() {
     m_ex->execute(m_cmd.local8Bit(), "\n");
 }
 
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
 #ifndef NO_MOC_INCLUDES
 #include "core.moc"
 #endif

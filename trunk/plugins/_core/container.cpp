@@ -603,7 +603,7 @@ void Container::flash()
     if (!initFlash){
         HINSTANCE hLib = GetModuleHandleA("user32");
         if (hLib != NULL)
-			(DWORD&)fwe = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
+            (DWORD&)fwe = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
         initFlash = true;
     }
     if (fwe){

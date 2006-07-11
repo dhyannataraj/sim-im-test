@@ -20,18 +20,6 @@
 #include "core.h"
 #include <sockfactory.h>
 
-#ifdef WIN32
-#include <windows.h>
-#else
-#include <sys/stat.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#endif
-
 #include <qtimer.h>
 #include <qdatetime.h>
 #include <time.h>

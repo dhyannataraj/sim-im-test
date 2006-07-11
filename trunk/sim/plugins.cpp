@@ -27,11 +27,7 @@
 #include "xsl.h"
 #include "builtinlogger.h"
 
-#ifdef WIN32
-#include <windows.h>
-#else
-#include <ctype.h>
-#endif
+#include <ctype.h>  // really needed?
 
 #ifndef  LTDL_SHLIB_EXT
 #if defined(QT_MACOSX_VERSION) || defined(QT_MAC) /* MacOS needs .a */
@@ -202,10 +198,6 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     m_base = 0;
     m_bLoaded = false;
     m_bInInit = true;
-
-//#ifdef WIN32
-//    qInitJpegIO();
-//#endif
 
     QStringList pluginsList;
     QDir appDir(qApp->applicationDirPath());

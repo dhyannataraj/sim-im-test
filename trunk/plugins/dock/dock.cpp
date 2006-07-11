@@ -28,15 +28,6 @@
 #include <qtimer.h>
 #include <time.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
-#ifdef USE_KDE
-#include <kwinmodule.h>
-#include <kwin.h>
-#endif
-
 using namespace SIM;
 
 Plugin *createDockPlugin(unsigned base, bool, Buffer *config)
@@ -396,18 +387,6 @@ void DockPlugin::timer()
         }
     }
 }
-
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
 
 #ifndef NO_MOC_INCLUDES
 #include "dock.moc"

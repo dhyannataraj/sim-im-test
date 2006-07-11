@@ -240,18 +240,3 @@ MSNPlugin::~MSNPlugin()
     getContacts()->removePacketType(MSNPacket);
     delete m_protocol;
 }
-
-#ifdef WIN32
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

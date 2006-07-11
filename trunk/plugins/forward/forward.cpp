@@ -180,19 +180,3 @@ QWidget *ForwardPlugin::createConfigWindow(QWidget *parent)
 {
     return new ForwardConfig(parent, getContacts()->getUserData(user_data_id), this);
 }
-
-#ifdef WIN32
-
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

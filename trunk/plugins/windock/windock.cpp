@@ -508,18 +508,3 @@ QWidget *WinDockPlugin::getMainWindow()
     delete list;
     return NULL;
 }
-
-
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

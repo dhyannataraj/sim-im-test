@@ -24,8 +24,8 @@
 #include <qfile.h>
 #include <qfileinfo.h>
 
-#ifdef WIN32
-#include <windows.h>
+#ifdef Q_OS_WIN
+# include <windows.h>
 #endif
 
 using namespace std;
@@ -46,10 +46,10 @@ static PluginInfo info =
                   "If you want to log more than one you may add the levels"),
         VERSION,
         createLoggerPlugin,
-#ifdef WIN32
+#ifdef Q_OS_WIN
         PLUGIN_NOLOAD_DEFAULT
 #else
-PLUGIN_DEFAULT
+        PLUGIN_DEFAULT
 #endif
     };
 
@@ -139,7 +139,7 @@ void LoggerPlugin::openFile()
     QFileInfo fileInfo(QFile::decodeName(fname));
     if (fileInfo.size() > 1024 * 1024 * 50) {	// 50MB ...
         QString desiredFileName = fileInfo.fileName() + ".old";
-#ifdef WIN32
+#ifdef Q_OS_WIN
         fileInfo.dir().remove(desiredFileName);
 #endif
         if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
@@ -202,14 +202,14 @@ void *LoggerPlugin::processEvent(Event *e)
             string s;
             s = make_packet_string(li);
             if (m_file){
-#ifdef WIN32
+#ifdef Q_OS_WIN
                 s += "\r\n";
 #else
                 s += "\n";
 #endif
                 m_file->writeBlock(s.c_str(), s.length());
             }
-#ifdef QT_DLL
+#ifdef Q_OS_WIN
             for (char *p = (char*)(s.c_str()); *p; ){
                 char *r = strchr(p, '\n');
                 if (r) *r = 0;
@@ -240,19 +240,6 @@ void *LoggerPlugin::processEvent(Event *e)
     }
     return NULL;
 }
-
-#ifdef WIN32
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
 
 #ifndef NO_MOC_INCLUDES
 #include "logger.moc"

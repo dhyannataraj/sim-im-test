@@ -35,10 +35,6 @@
 #include <qwidgetlist.h>
 #include <qcursor.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 using namespace std;
 using namespace SIM;
 

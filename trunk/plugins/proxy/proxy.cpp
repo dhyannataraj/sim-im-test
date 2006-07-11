@@ -1319,17 +1319,3 @@ QWidget *ProxyPlugin::createConfigWindow(QWidget *parent)
 }
 
 const DataDef *ProxyPlugin::proxyData = _proxyData;
-
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

@@ -2,7 +2,6 @@
 #define JABBER_PCH_H
 #pragma once
 
-#include <windows.h>
 #include <process.h>
 
 #include "simapi.h"	// before Qt headers!

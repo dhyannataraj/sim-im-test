@@ -25,10 +25,6 @@
 #include <qpalette.h>
 #include <qstyle.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #include <qstylefactory.h>
 
 using namespace SIM;
@@ -151,17 +147,3 @@ void StylesPlugin::setStyles()
         setStyle(NULL);
     }
 }
-
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

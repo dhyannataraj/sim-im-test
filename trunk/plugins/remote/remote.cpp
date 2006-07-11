@@ -1052,21 +1052,6 @@ void ControlSocket::packet_ready()
     write(CRLF);
 }
 
-#ifdef WIN32
-
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
 #ifndef NO_MOC_INCLUDES
 #include "remote.moc"
 #endif
-

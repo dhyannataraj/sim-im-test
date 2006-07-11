@@ -305,20 +305,6 @@ void *TransparentPlugin::processEvent(Event *e)
     return NULL;
 }
 
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
 #ifndef NO_MOC_INCLUDES
 #include "transparent.moc"
 #endif
-
-
