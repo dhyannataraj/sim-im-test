@@ -9,6 +9,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(KDE3Macros)
 include(MacroBoolTo01)
 include(Qt3Uic)
+include(Flex)
 
 # needed packages
 find_package(Qt3 REQUIRED)

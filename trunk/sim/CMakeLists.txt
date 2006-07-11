@@ -16,7 +16,6 @@ set (sim_LIB_SRCS
         exec.cpp
         fetch.cpp
         fontedit.cpp
-        html.cpp
         icons.cpp
         intedit.cpp
         linklabel.cpp
@@ -43,17 +42,20 @@ set (sim_LIB_SRCS
         qzip/unzip.c
     )
 
-# our target
-add_library(simlib SHARED ${sim_LIB_SRCS})
-
 # moc the sources
 kde3_automoc(${sim_LIB_SRCS})
+
+# don't forget flex
+add_flex_files(sim_LIB_SRCS html.ll)
+
+# our target
+add_library(simlib SHARED ${sim_LIB_SRCS})
 
 #some needed defines
 add_definitions(-DSIMAPI_EXPORTS -DNOUNCRYPT)
 
 # additional include dirs - at least ${CMAKE_CURRENT_BINARY_DIR} is needed
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 # openssl is optional
 if(OPENSSL_FOUND)
