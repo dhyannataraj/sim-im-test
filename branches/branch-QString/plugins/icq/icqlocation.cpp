@@ -149,6 +149,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                 break;	/* Because we won't find tlv(0x03) which is
                            "since online" instead of encoding... */                            
             }
+            /*
             Tlv *tlvAway = tlvs(0x04);
             if (tlvAway){
                 QString info = convert(tlvAway, tlvs, 0x03);
@@ -156,6 +157,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                 Event e(EventClientChanged, contact);
                 e.process();
             }
+            */
         }
         break;
     case ICQ_SNACxLOC_DIRxINFO:
@@ -324,10 +326,13 @@ const capability arrCapabilities[] =
 		// CAP_ICQ5_4
 		{ 0xb9, 0x97, 0x08, 0xb5, 0x3a, 0x92, 0x42, 0x02,
 		  0xb0, 0x69, 0xf1, 0xe7, 0x57, 0xbb, 0x2e, 0x17 },
-        // CAP_MAYBE_ICQ51
+        // CAP_ICQ51
         { 0xb2, 0xec, 0x8f, 0x16, 0x7c, 0x6f, 0x45, 0x1b,
           0xbd, 0x79, 0xdc, 0x58, 0x49, 0x78, 0x88, 0xb9 },
-/*
+        // CAP_JIMM
+        { 'J', 'i', 'm', 'm', ' ', 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0 },
+ /*/*
         // from Gaim:
         // CAP_AIM_HIPTOP
         { cap_aim, 0x23, cap_mid, cap_id },

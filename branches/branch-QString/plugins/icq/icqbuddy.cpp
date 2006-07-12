@@ -168,6 +168,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             size -= 7;
 						if ((i == CAP_MIRANDA))
 							size -= 8;
+                        if ((i == CAP_JIMM))
+                            size -= 11;
                         if (!memcmp(cap, capabilities[i], size)){
                             if (i == CAP_SIMOLD){
                                 unsigned char build = cap[sizeof(capability)-1];
@@ -189,6 +191,22 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                                 p += 8;
                                 data->Build.asULong() = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
 							}
+                            if ((i == CAP_JIMM)) {
+                                char *p = (char*)cap;
+                                p += 5;
+                                QString str = QString::fromAscii(p, 10);
+                                QStringList sl = QStringList::split('.', str);
+                                unsigned char maj = 0, min = 0;
+                                unsigned short rev = 0;
+                                if(sl.count() > 0)
+                                    maj = sl[0].toUShort();
+                                if(sl.count() > 1)
+                                    min = sl[1].toUShort();
+                                if(sl.count() > 2)
+                                    rev = sl[2].toUShort();
+
+                                data->Build.asULong() = (maj << 24) + (min << 16) + rev;
+                            }
                             setCap(data, (cap_id_t)i);
                             break;
                         }

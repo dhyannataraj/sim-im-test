@@ -1626,7 +1626,19 @@ QString ICQClient::clientName(ICQUserData *data)
         res += "QIP 2005a";
         return res;
     }
-    if (hasCap(data, CAP_MAYBE_ICQ51))
+    if (hasCap(data, CAP_JIMM))
+    {
+        QString r;
+        unsigned maj = (data->Build.toULong() >> 24) & 0xFF;
+        unsigned min = (data->Build.toULong() >> 16) & 0xFF;
+        unsigned rev = (data->Build.toULong() >>  0) & 0xFFFF;
+        if(rev)
+         r.sprintf("Jimm %d.%d.%d", maj, min, rev);
+        else
+         r.sprintf("Jimm %d.%d", maj, min);
+        return res + r;
+    }
+    if (hasCap(data, CAP_ICQ51))
     {
         res += "ICQ 5.1";
         return res;
