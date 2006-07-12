@@ -1836,6 +1836,11 @@ QString ICQClient::clientName(ICQUserData *data)
         res += "GnomeICU";
         return res;
     }
+    // ICQ2go doesn't use CAP_TYPING anymore
+    if ((data->Version.toULong() == 7) && hasCap(data, CAP_UTF)){
+        res += "ICQ2go";
+        return res;
+    }
     return res;
 }
 
