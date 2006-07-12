@@ -22,6 +22,9 @@
 
 #ifdef Q_OS_WIN32
 #include <winsock.h>
+#else
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #endif
 
 #include <qtimer.h>
