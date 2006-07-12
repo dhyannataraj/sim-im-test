@@ -1,5 +1,5 @@
 # a small macro to create one or more jisp archives
-# ZIP_EXECUTABLE and ICONS_OUTPUT_PATH has to be set to the correct path!
+# ZIP_EXECUTABLE has to be set to the correct path!
 # ADD_JISP_ARCHIVE(jisp-subdir)
 
 # problem: those files are build every time make is called ...
@@ -20,7 +20,7 @@ MACRO(ADD_JISP_ARCHIVE)
                 DEPENDS ${${_current_DIR}_JISP}
         )
 
-        INSTALL(FILES ${jisp_name} DESTINATION  ${ICONS_OUTPUT_PATH})
+        INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name} DESTINATION  ${CMAKE_INSTALL_PREFIX}/icons)
 
    ENDFOREACH (_current_DIR)
 ENDMACRO(ADD_JISP_ARCHIVE)

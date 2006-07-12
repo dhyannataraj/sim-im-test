@@ -3,6 +3,9 @@
 #################
 PROJECT(_core)
 
+ADD_SUBDIRECTORY(pict)
+ADD_SUBDIRECTORY(styles)
+
 SET(_core_LIB_SRCS
         arcfg.cpp
         autoreply.cpp
@@ -109,7 +112,7 @@ QT3_ADD_UI_FILES(_core_LIB_SRCS ${_core_UI_FILES})
 ADD_LIBRARY(_core SHARED ${_core_LIB_SRCS})
 
 # some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${SIMAPI_SRC_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
 ADD_JISP_ARCHIVE(additional icq5 icq5.1 icqlite jisp smiles)
@@ -117,3 +120,6 @@ ADD_JISP_ARCHIVE(additional icq5 icq5.1 icqlite jisp smiles)
 # we need simlib (and qt libs, but because simlib depends on them there's no
 #                 need to add them here once more)
 TARGET_LINK_LIBRARIES(_core simlib)
+
+# install target
+INSTALL(TARGETS _core LIBRARY DESTINATION plugins)

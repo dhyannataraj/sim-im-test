@@ -1,0 +1,7 @@
+# install only
+
+FILE(GLOB mng *.mng)
+FILE(GLOB png *.png)
+
+INSTALL(FILES ${mng} DESTINATION ${CMAKE_INSTALL_PREFIX}/pict)
+INSTALL(FILES ${png} DESTINATION ${CMAKE_INSTALL_PREFIX}/pict)
