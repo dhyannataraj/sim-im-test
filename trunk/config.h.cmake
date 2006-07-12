@@ -20,3 +20,4 @@
 
 // libraries
 #cmakedefine USE_OPENSSL 1
+#define PREFIX "${CMAKE_INSTALL_PREFIX}"
