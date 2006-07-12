@@ -2,7 +2,7 @@
 # target sim library #
 ######################
 
-set (sim_LIB_SRCS
+SET(sim_LIB_SRCS
         aboutdata.cpp
         ballonmsg.cpp
         buffer.cpp
@@ -43,41 +43,42 @@ set (sim_LIB_SRCS
     )
 
 # moc the sources
-kde3_automoc(${sim_LIB_SRCS})
+KDE3_AUTOMOC(${sim_LIB_SRCS})
 
 # don't forget flex
-add_flex_files(sim_LIB_SRCS html.ll)
+ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
 
 # our target
-add_library(simlib SHARED ${sim_LIB_SRCS})
+ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS})
 
 #some needed defines
-add_definitions(-DSIMAPI_EXPORTS -DNOUNCRYPT)
+ADD_DEFINITIONS(-DSIMAPI_EXPORTS -DNOUNCRYPT)
 
 # additional include dirs - at least ${CMAKE_CURRENT_BINARY_DIR} is needed
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 # openssl is optional
 if(OPENSSL_FOUND)
-  include_directories(${OPENSSL_INCLUDE_DIR})
-  target_link_libraries(simlib ${OPENSSL_LIBRARIES} ssleay32)
+  INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
+  TARGET_LINK_LIBRARIES(simlib ${OPENSSL_LIBRARIES} ssleay32)
 endif(OPENSSL_FOUND)
 
 # we need wsock32 on win32
 if (WIN32)
-  target_link_libraries(simlib wsock32)
+  TARGET_LINK_LIBRARIES(simlib wsock32)
 endif(WIN32)
 
 # libxml, libxslt and zlib
-include_directories(${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR})
-target_link_libraries(simlib ${QT_QTMAIN_LIBRARY} ${QT_QT_LIBRARY} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
+INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR} ${LIBXSLT_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR})
+TARGET_LINK_LIBRARIES(simlib ${QT_QTMAIN_LIBRARY} ${QT_QT_LIBRARY} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
+
 
 ##################
 # sim executable #
 ##################
 
 # main program
-add_executable(sim sim.cpp)
+ADD_EXECUTABLE(sim sim.cpp)
 
 # only needs simlib
-target_link_libraries(sim simlib)
+TARGET_LINK_LIBRARIES(sim simlib)

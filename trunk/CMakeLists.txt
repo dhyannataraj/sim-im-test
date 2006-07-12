@@ -1,28 +1,31 @@
+# main cmake file for SIM-IM
 
-project(sim-im)
+PROJECT(sim-im)
 
 # 2.4.2 ... maybe it can be lower, but I only have this one
-cmake_minimum_required(VERSION 2.4.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.4.2)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(KDE3Macros)
-include(MacroBoolTo01)
-include(Qt3Uic)
-include(Flex)
+SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+INCLUDE(KDE3Macros)
+INCLUDE(MacroBoolTo01)
+INCLUDE(Qt3Uic)
+INCLUDE(Flex)
+INCLUDE(Jisp)
 
 # needed packages
-find_package(Qt3 REQUIRED)
-find_package(LibXml2 REQUIRED)
-find_package(LibXslt REQUIRED)
-#find_package(ZLIB REQUIRED)
+FIND_PACKAGE(Qt3 REQUIRED)
+FIND_PACKAGE(LibXml2 REQUIRED)
+FIND_PACKAGE(LibXslt REQUIRED)
+#FIND_PACKAGE(ZLIB REQUIRED)
 
 # optional packages
-find_package(OpenSSL)
+FIND_PACKAGE(OpenSSL)
 
-add_definitions(${QT_DEFINITIONS} -DHAVE_CONFIG_H)
-include_directories(${QT_INCLUDE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
-link_directories(${QT_LIB_DIR})
+# global settings for every project
+ADD_DEFINITIONS(${QT_DEFINITIONS} -DHAVE_CONFIG_H)
+INCLUDE_DIRECTORIES(${QT_INCLUDE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+LINK_DIRECTORIES(${QT_LIB_DIR})
 
 # windows, microsoft compiler
 if(MSVC)
@@ -32,21 +35,23 @@ if(MSVC)
   endif(CMAKE_COMPILER_2005)
 endif(MSVC)
 
-macro_bool_to_01(OPENSSL_FOUND USE_OPENSSL)
+MACRO_BOOL_TO_01(OPENSSL_FOUND USE_OPENSSL)
 
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_INSTALL_PREFIX})
-set(LIBRARY_OUTPUT_PATH ${CMAKE_INSTALL_PREFIX}/plugins)
-set(ICONS_OUTPUT_PATH ${CMAKE_INSTALL_PREFIX}/icons)
-set(SIMAPI_SRC_DIR ${sim-im_SOURCE_DIR}/sim)
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_INSTALL_PREFIX})
+SET(LIBRARY_OUTPUT_PATH ${CMAKE_INSTALL_PREFIX}/plugins)
+SET(ICONS_OUTPUT_PATH ${CMAKE_INSTALL_PREFIX}/icons)
+SET(SIMAPI_SRC_DIR ${sim-im_SOURCE_DIR}/sim)
 
 # subdirectories
-add_subdirectory(sim)
-add_subdirectory(plugins/_core)
+ADD_SUBDIRECTORY(sim)
+ADD_SUBDIRECTORY(plugins/_core)
 
-message(STATUS "EXECUTABLE_OUTPUT_PATH " ${EXECUTABLE_OUTPUT_PATH})
-message(STATUS "LIBRARY_OUTPUT_PATH " ${LIBRARY_OUTPUT_PATH})
+# debug
+MESSAGE(STATUS "EXECUTABLE_OUTPUT_PATH " ${EXECUTABLE_OUTPUT_PATH})
+MESSAGE(STATUS "LIBRARY_OUTPUT_PATH " ${LIBRARY_OUTPUT_PATH})
+MESSAGE(STATUS "ICONS_OUTPUT_PATH " ${ICONS_OUTPUT_PATH})
 
 # create config.h
-include(ConfigureChecks.cmake)
-configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
+INCLUDE(ConfigureChecks.cmake)
+CONFIGURE_FILE(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
 

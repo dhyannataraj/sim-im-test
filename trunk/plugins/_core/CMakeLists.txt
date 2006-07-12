@@ -1,10 +1,9 @@
-################
-# _core library
-################
-project(_core)
-add_subdirectory(additional)
+#################
+# _core library #
+#################
+PROJECT(_core)
 
-set (_core_LIB_SRCS
+SET(_core_LIB_SRCS
         arcfg.cpp
         autoreply.cpp
         cfgdlg.cpp
@@ -57,18 +56,18 @@ set (_core_LIB_SRCS
         userlist.cpp
         userview.cpp
         userviewcfg.cpp
-        userwnd.cpp    
+        userwnd.cpp
 )
 
 # is this really needed?
-if(NOT WIN32)
-set (_core_LIB_SRCS
+IF(NOT WIN32)
+SET(_core_LIB_SRCS
         ${_core_LIB_SRCS}
         libintl.cpp
     )
-endif(NOT WIN32)
+ENDIF(NOT WIN32)
 
-set( _core_UI_FILES
+SET(_core_UI_FILES
         arcfgbase.ui
         autoreplybase.ui
         cfgdlgbase.ui
@@ -100,14 +99,21 @@ set( _core_UI_FILES
         userviewcfgbase.ui
 )
 
+# moc, if needed
+KDE3_AUTOMOC(${_core_LIB_SRCS})
 
-kde3_automoc(${_core_LIB_SRCS})
-qt3_add_ui_files(_core_LIB_SRCS ${_core_UI_FILES})
+# don't forget our ui's
+QT3_ADD_UI_FILES(_core_LIB_SRCS ${_core_UI_FILES})
 
-add_library(_core SHARED ${_core_LIB_SRCS})
+# this is all we need for _core library
+ADD_LIBRARY(_core SHARED ${_core_LIB_SRCS})
 
-# FIXME: ask Alex why we need this (otherwise .moc aren't found)
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${SIMAPI_SRC_DIR})
-message (STATUS "cur: " ${SIMAPI_SRC_DIR})
+# some needed include dirs
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${SIMAPI_SRC_DIR})
 
-target_link_libraries(_core simlib)
+# so we don't need an extra CMakeLists.txt in every subdirectory
+ADD_JISP_ARCHIVE(additional icq5 icq5.1 icqlite jisp smiles)
+
+# we need simlib (and qt libs, but because simlib depends on them there's no
+#                 need to add them here once more)
+TARGET_LINK_LIBRARIES(_core simlib)
