@@ -57,6 +57,9 @@ ADD_SUBDIRECTORY(plugins/gpg)
 ADD_SUBDIRECTORY(plugins/icons)
 ADD_SUBDIRECTORY(plugins/icq)
 ADD_SUBDIRECTORY(plugins/jabber)
+ADD_SUBDIRECTORY(plugins/livejournal)
+ADD_SUBDIRECTORY(plugins/logger)
+ADD_SUBDIRECTORY(plugins/msn)
 ADD_SUBDIRECTORY(plugins/zodiak)
 
 # create config.h

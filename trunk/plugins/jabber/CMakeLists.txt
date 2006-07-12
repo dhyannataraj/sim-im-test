@@ -13,7 +13,6 @@ SET(jabber_LIB_SRCS
         jabber_ssl.cpp
         jabberaboutinfo.cpp
         jabberadd.cpp
-        jabberaddbase.cpp
         jabberbrowser.cpp
         jabberclient.cpp
         jabberconfig.cpp
