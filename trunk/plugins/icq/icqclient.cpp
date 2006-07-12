@@ -1644,6 +1644,11 @@ string ICQClient::clientName(ICQUserData *data)
             r.sprintf("Jimm %d.%d", maj, min);
         return res + r;
     }
+    if (hasCap(data, CAP_ICQ51))
+    {
+        res += "ICQ 5.1";
+        return res;
+    }
     if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))
 	{
         res += "ICQ 5.0";
