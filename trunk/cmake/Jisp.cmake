@@ -14,9 +14,10 @@ MACRO(ADD_JISP_ARCHIVE)
 
         ADD_CUSTOM_TARGET(${jisp_name} ALL
                 COMMAND ${ZIP_EXECUTABLE}
-                -jq9
+                -j -q -9
                 ${jisp_name}
-                ${${_current_DIR}_JISP}
+                ${CMAKE_CURRENT_SOURCE_DIR}/${_current_DIR}/*.png
+                ${CMAKE_CURRENT_SOURCE_DIR}/${_current_DIR}/icondef.xml                
                 DEPENDS ${${_current_DIR}_JISP}
         )
 

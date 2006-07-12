@@ -26,7 +26,7 @@ CHECK_FUNCTION_EXISTS(munmap    "sys/mman.h"        HAVE_MUNMAP)        # _core/
 # search zip
 FIND_PROGRAM(ZIP_EXECUTABLE zip)
 IF (NOT ZIP_EXECUTABLE)
-  MESSAGE(FATAL "zip not found - aborting")
+  MESSAGE(FATAL_ERROR "zip not found - aborting")
 ENDIF (NOT ZIP_EXECUTABLE)
 
                        
