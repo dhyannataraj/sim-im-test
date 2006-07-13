@@ -17,7 +17,7 @@ MACRO(QT3_ADD_UI_FILES _sources )
       )
 
       ADD_CUSTOM_COMMAND(OUTPUT ${_src}
-         COMMAND uic
+         COMMAND ${QT_UIC_EXECUTABLE}
          ARGS
          -nounload
          -impl ${_header}
