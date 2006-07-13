@@ -22,6 +22,9 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 #endif
+#ifndef WIN32
+#include <sys/utsname.h>
+#endif
 #include "fetch.h"
 #include "buffer.h"
 #include "socket.h"
@@ -490,7 +493,9 @@ FetchManager::FetchManager()
         break;
     }
 #else
-    user_agent += UNAME;
+    struct utsname unamebuf;
+    if (uname(&unamebuf) == 0)
+        user_agent = user_agent + unamebuf.sysname + " " + unamebuf.machine;
 #endif
     user_agent += ")";
 #ifdef WIN32
