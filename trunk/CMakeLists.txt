@@ -40,6 +40,13 @@ endif(MSVC)
 
 MACRO_BOOL_TO_01(OPENSSL_FOUND USE_OPENSSL)
 
+SET(SIM_ICONS_DIR  icons)
+SET(SIM_PICT_DIR   pict)
+SET(SIM_PLUGIN_DIR plugins)
+SET(SIM_I18N_DIR   po)
+SET(SIM_SOUND_DIR  sounds)
+SET(SIM_STYLES_DIR styles)
+
 # subdirectories
 ADD_SUBDIRECTORY(sim)
 ADD_SUBDIRECTORY(plugins/__homedir)
@@ -72,7 +79,6 @@ ADD_SUBDIRECTORY(plugins/sound)
 ADD_SUBDIRECTORY(plugins/spell)
 ADD_SUBDIRECTORY(plugins/splash)
 ADD_SUBDIRECTORY(plugins/styles)
-ADD_SUBDIRECTORY(plugins/splash)
 ADD_SUBDIRECTORY(plugins/transparent)
 ADD_SUBDIRECTORY(plugins/update)
 ADD_SUBDIRECTORY(plugins/weather)
@@ -82,4 +88,3 @@ ADD_SUBDIRECTORY(plugins/zodiak)
 # create config.h
 INCLUDE(ConfigureChecks.cmake)
 CONFIGURE_FILE(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
-

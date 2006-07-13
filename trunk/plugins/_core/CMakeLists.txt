@@ -115,11 +115,16 @@ ADD_LIBRARY(_core SHARED ${_core_LIB_SRCS})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
-ADD_JISP_ARCHIVE(additional icq5 icq5.1 icqlite jisp smiles)
+ADD_JISP_ARCHIVE(additional additional.jisp)
+ADD_JISP_ARCHIVE(icq5       icq5.jisp)
+ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp)
+ADD_JISP_ARCHIVE(icqlite    icqlite.jisp)
+ADD_JISP_ARCHIVE(jisp       sim.jisp)
+ADD_JISP_ARCHIVE(smiles     smiles.jisp)
 
 # we need simlib (and qt libs, but because simlib depends on them there's no
 #                 need to add them here once more)
 TARGET_LINK_LIBRARIES(_core simlib)
 
 # install target
-INSTALL(TARGETS _core LIBRARY DESTINATION plugins)
+INSTALL(TARGETS _core RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})

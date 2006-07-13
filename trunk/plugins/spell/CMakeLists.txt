@@ -32,7 +32,7 @@ IF(HAVE_ASPELL)
     TARGET_LINK_LIBRARIES(spell simlib)
 
     # install target
-    INSTALL(TARGETS spell LIBRARY DESTINATION plugins)
+    INSTALL(TARGETS spell RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
 
 ELSE(HAVE_ASPELL)
     MESSAGE(STATUS "Cannot build spell plugin because aspell is missing on your system")
