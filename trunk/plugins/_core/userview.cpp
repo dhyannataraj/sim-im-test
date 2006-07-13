@@ -1652,10 +1652,12 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
     if (static_cast<UserViewItemBase*>(item)->type() != USR_ITEM)
         return;
     QString name = item->text(CONTACT_TEXT);
+    log(L_DEBUG, "Contact List search: Examining name %s", (const char *)name.local8Bit());
     //Search from the beginning of contact name
     //if (name.left(m_search.length()).upper() == m_search.upper())
     //Search for substring in contact name
     if (name.upper().find(m_search.upper())>-1) {
+        log(L_DEBUG, "Contact List search: Found name %s", (const char *)name.local8Bit());
         item->parent()->setOpen(TRUE);
         items.push_back(item);
     } else {
@@ -1664,8 +1666,12 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
         ClientDataIterator it(contact->clientData);
         while ((data = ++it) != NULL){
           Client *client = contact->clientData.activeClient(data, it.client());
+          if (client == NULL)
+              continue;
           QString contactName = client->contactName(data);
+          log(L_DEBUG, "Contact List search: Examining ID %s", (const char *)contactName.local8Bit());
           if (contactName.upper().find(m_search.upper())>-1) {
+              log(L_DEBUG, "Contact List search: Found ID %s", (const char *)contactName.local8Bit());
               item->parent()->setOpen(TRUE);
               items.push_back(item);
               break;
