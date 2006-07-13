@@ -31,3 +31,5 @@
 
 // libraries
 #cmakedefine USE_OPENSSL 1
+#cmakedefine HAVE_X 1
+#cmakedefine USE_KDE 1
