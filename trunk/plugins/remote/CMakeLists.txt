@@ -1,0 +1,62 @@
+##################
+# remote library #
+##################
+PROJECT(sms)
+
+SET(remote_LIB_SRCS
+        remote.cpp
+        remotecfg.cpp
+)
+
+SET(remote_UI_FILES
+        remotecfgbase.ui
+)
+
+# moc, if needed
+KDE3_AUTOMOC(${remote_LIB_SRCS})
+
+# don't forget our ui's
+QT3_ADD_UI_FILES(remote_LIB_SRCS ${remote_UI_FILES})
+
+ADD_LIBRARY(remote SHARED ${remote_LIB_SRCS})
+
+# some needed include dirs
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+
+TARGET_LINK_LIBRARIES(remote simlib)
+
+# install target
+INSTALL(TARGETS remote LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+
+#########################
+# next target - simctrl #
+#########################
+
+ADD_EXECUTABLE(simctrl simctrl.cpp)
+TARGET_LINK_LIBRARIES(simctrl simlib)
+INSTALL(TARGETS simctrl RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+IF(0)
+#doesn't work yet
+########################
+# next target - simext #
+########################
+
+ADD_EXECUTABLE(simext simext.idl SIM_ext.cpp simext.cpp simext.rc)
+INSTALL(TARGETS simext RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+########################
+# next target - simipc #
+########################
+
+ADD_EXECUTABLE(simipc simipc.cpp)
+INSTALL(TARGETS simipc RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+###########################
+# next target - simremote #
+###########################
+
+ADD_EXECUTABLE(simremote simremote.idl sim_remote.cpp simControl.cpp simremote.rc)
+INSTALL(TARGETS simremote RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+ENDIF(0)
