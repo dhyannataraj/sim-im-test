@@ -2,8 +2,10 @@
 #include "config.h"
 #endif
 
-#ifdef STDC_HEADERS
+#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
+#endif
+#ifdef HAVE_STDDEF_H
 #include <stddef.h>
 #endif
 #ifdef HAVE_INTTYPES_H
@@ -29,12 +31,6 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <pwd.h>
-#endif
-
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable: 4786)  
-#endif
 #endif
 
 #include <string>

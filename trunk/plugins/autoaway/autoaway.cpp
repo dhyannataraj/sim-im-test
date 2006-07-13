@@ -192,7 +192,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
         if (hLibUI != NULL)
             (DWORD&)_IdleUIGetLastInputTime = (DWORD)GetProcAddress(hLibUI, "IdleUIGetLastInputTime");
     }
-#elif defined(HAVE_CARBON_CARBNON_H) && !defined(HAVE_X)
+#elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
 CFBundleRef carbonBundle;
     if (LoadFrameworkBundle( CFSTR("Carbon.framework"), &carbonBundle ) == noErr) {
         InstallEventLoopIdleTimerPtr myInstallEventLoopIdleTimer = (InstallEventLoopIdleTimerPtr)CFBundleGetFunctionPointerForName(carbonBundle, CFSTR("InstallEventLoopIdleTimer"));
