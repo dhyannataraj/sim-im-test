@@ -1,0 +1,21 @@
+#################
+# metal library #
+#################
+PROJECT(metal)
+
+SET(metal_LIB_SRCS
+        metal.cpp
+)
+
+# moc, if needed
+KDE3_AUTOMOC(${metal_LIB_SRCS})
+
+ADD_LIBRARY(metal SHARED ${metal_LIB_SRCS})
+
+# some needed include dirs
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+
+TARGET_LINK_LIBRARIES(metal simlib)
+
+# install target
+INSTALL(TARGETS metal LIBRARY DESTINATION plugins/styles)
