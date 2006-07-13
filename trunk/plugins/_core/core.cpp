@@ -3686,6 +3686,8 @@ void CorePlugin::selectProfile()
     Event e(EventSaveState);
     e.process();
     init(false);
+    Event e2(EventInit);
+    e2.process();
 }
 
 bool CorePlugin::init(bool bInit)
@@ -4571,6 +4573,7 @@ FileLock::~FileLock()
     if (m_thread){
         CloseHandle(m_thread->hEvent);
         m_thread->wait(1000);
+        m_thread->terminate();
         delete m_thread;
     }
 #else
