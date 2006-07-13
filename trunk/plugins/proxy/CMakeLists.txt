@@ -23,8 +23,9 @@ QT3_ADD_UI_FILES(proxy_LIB_SRCS ${proxy_UI_FILES})
 ADD_LIBRARY(proxy SHARED ${proxy_LIB_SRCS})
 
 # some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_BINARY_DIR}/plugins/_core)
+                    
 TARGET_LINK_LIBRARIES(proxy simlib)
 
 # install target

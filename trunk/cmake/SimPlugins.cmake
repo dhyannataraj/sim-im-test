@@ -12,10 +12,15 @@ MACRO(SIM_FIND_PLUGINS)
 
             # all plugins starting with _ are *not* optional!
             IF(${uc_plugin} MATCHES "^_.*$")
+                ## prepend
+                SET(SIM_PLUGINS ${plugin} ${SIM_PLUGINS})
                 MARK_AS_ADVANCED(USE_${uc_plugin})
+            ELSE(${uc_plugin} MATCHES "^_.*$")
+                ## append
+                SET(SIM_PLUGINS ${SIM_PLUGINS} ${plugin})
             ENDIF(${uc_plugin} MATCHES "^_.*$")
             
-            SET(SIM_PLUGINS ${SIM_PLUGINS} ${plugin})
+
         ENDIF(cmakefile)
     ENDFOREACH(_cur_dir)
 ENDMACRO(SIM_FIND_PLUGINS)
