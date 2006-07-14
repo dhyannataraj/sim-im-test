@@ -3,11 +3,16 @@
 ###############
 PROJECT(gpg)
 
+IF(WIN32)
+	SET (gpgfind_SRC gpgfind.cpp)
+	SET (gpgfind_UI gpgfindbase.ui)
+ENDIF(WIN32)
+
 SET(gpg_LIB_SRCS
         gpg.cpp
         gpgadv.cpp
         gpgcfg.cpp
-        gpgfind.cpp
+        ${gpgfind_SRS}
         gpggen.cpp
         gpguser.cpp
         passphrase.cpp
@@ -16,7 +21,7 @@ SET(gpg_LIB_SRCS
 SET(gpg_UI_FILES
         gpgadvbase.ui
         gpgcfgbase.ui
-        gpgfindbase.ui
+        ${gpgfind_UI}
         gpggenbase.ui
         gpguserbase.ui
         passphrasebase.ui
