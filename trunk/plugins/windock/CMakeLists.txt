@@ -4,8 +4,6 @@ IF(WIN32)
     ###################
     PROJECT(windock)
 
-    SET_TARGET_PROPERTIES(windock PREFIX "")
-
     SET(windock_LIB_SRCS
             windock.cpp
     )
@@ -20,6 +18,8 @@ IF(WIN32)
                         ${CMAKE_SOURCE_DIR}/plugins/ontop)
 
     TARGET_LINK_LIBRARIES(windock simlib)
+
+    SET_TARGET_PROPERTIES(windock PROPERTIES PREFIX "")
 
     # install target
     INSTALL(TARGETS windock LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
