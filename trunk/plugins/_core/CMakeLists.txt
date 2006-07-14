@@ -110,6 +110,7 @@ QT3_ADD_UI_FILES(_core_LIB_SRCS ${_core_UI_FILES})
 
 # this is all we need for _core library
 ADD_LIBRARY(_core SHARED ${_core_LIB_SRCS})
+SET_TARGET_PROPERTIES(_core PROPERTIES PREFIX "")
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
