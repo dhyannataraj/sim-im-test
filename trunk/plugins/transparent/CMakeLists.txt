@@ -1,7 +1,7 @@
 #######################
 # transparent library #
 #######################
-IF(WIN32||USE_KDE3)
+IF(WIN32 OR USE_KDE3)
 	PROJECT(transparent)
 
 	SET(transparent_LIB_SRCS
@@ -35,6 +35,6 @@ IF(WIN32||USE_KDE3)
 
 	# install target
 	INSTALL(TARGETS transparent LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
-ELSE(WIN32||USE_KDE3)
+ELSE(WIN32 OR USE_KDE3)
 	MESSAGE(STATUS "This plugin can only be used on windows or KDE")
-ENDIF(WIN32||USE_KDE3)
+ENDIF(WIN32 OR USE_KDE3)
