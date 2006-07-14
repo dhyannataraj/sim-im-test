@@ -895,7 +895,7 @@ protected:
     void sendPacket();
     void processMsgQueue();
     bool copyQueue(DirectClient *to);
-    std::list<SendDirectMsg> m_queue;
+    QValueList<SendDirectMsg> m_queue;
     QString name();
     QString m_name;
 #ifdef USE_OPENSSL
