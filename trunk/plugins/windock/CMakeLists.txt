@@ -4,6 +4,8 @@ IF(WIN32)
     ###################
     PROJECT(windock)
 
+    SET_TARGET_PROPERTIES(windock PREFIX "")
+
     SET(windock_LIB_SRCS
             windock.cpp
     )

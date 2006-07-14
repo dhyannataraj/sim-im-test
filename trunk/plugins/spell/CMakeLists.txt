@@ -5,6 +5,8 @@ IF(HAVE_ASPELL)
     #################
     PROJECT(spell)
 
+    SET_TARGET_PROPERTIES(spell PREFIX "")
+
     SET(spell_LIB_SRCS
             spell.cpp
             spellcfg.cpp

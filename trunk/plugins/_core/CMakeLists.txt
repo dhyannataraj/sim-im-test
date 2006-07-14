@@ -127,5 +127,7 @@ ADD_JISP_ARCHIVE(smiles     smiles.jisp)
 #                 need to add them here once more)
 TARGET_LINK_LIBRARIES(_core simlib)
 
+SET_TARGET_PROPERTIES(_core PROPERTIES PREFIX "")
+
 # install target
 INSTALL(TARGETS _core LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})

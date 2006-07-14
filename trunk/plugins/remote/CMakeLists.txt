@@ -1,7 +1,7 @@
 ##################
 # remote library #
 ##################
-PROJECT(sms)
+PROJECT(remote)
 
 SET(remote_LIB_SRCS
         remote.cpp
@@ -24,6 +24,8 @@ ADD_LIBRARY(remote SHARED ${remote_LIB_SRCS})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 TARGET_LINK_LIBRARIES(remote simlib)
+
+SET_TARGET_PROPERTIES(remote PROPERTIES PREFIX "")
 
 # install target
 INSTALL(TARGETS remote LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})

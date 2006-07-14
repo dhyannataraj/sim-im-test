@@ -27,6 +27,8 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 TARGET_LINK_LIBRARIES(weather simlib)
 
+SET_TARGET_PROPERTIES(weather PROPERTIES PREFIX "")
+
 # so we don't need an extra CMakeLists.txt in every subdirectory
 ADD_JISP_ARCHIVE(jisp weather.jisp)
 
