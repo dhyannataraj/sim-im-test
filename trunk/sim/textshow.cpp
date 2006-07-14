@@ -26,9 +26,6 @@
 #include <kglobal.h>
 #include <kfiledialog.h>
 #define QFileDialog	KFileDialog
-#ifdef HAVE_KROOTPIXMAP_H
-#include <krootpixmap.h>
-#endif
 #else
 #include <qfiledialog.h>
 #endif

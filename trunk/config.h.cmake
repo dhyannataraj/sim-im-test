@@ -15,10 +15,6 @@
 #cmakedefine HAVE_SYS_TYPES_H 1
 #cmakedefine HAVE_UNISTD_H 1
 
-// kde-headers
-#cmakedefine HAVE_KTEXTEDIT_H 1
-#cmakedefine HAVE_KROOTPIXMAP_H 1
-
 // symbols
 #cmakedefine HAVE_STRNCASECMP 1
 
@@ -26,6 +22,7 @@
 #cmakedefine HAVE_CHMOD 1
 #cmakedefine HAVE_MMAP 1
 #cmakedefine HAVE_MUNMAP 1
+#cmakedefine HAVE_UNAME 1
 
 // check for structure member
 #cmakedefine HAVE_TM_GMTOFF 1

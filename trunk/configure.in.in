@@ -70,6 +70,7 @@ AC_CHECK_FUNCS([strcspn strdup strerror strstr strtol strtoul])
 
 AC_CHECK_FUNC(strcasecmp,[AC_DEFINE(HAVE_STRCASECMP,1,[Have strcasecmp])])
 AC_CHECK_FUNC(chmod,[AC_DEFINE(HAVE_CHMOD,1,[Have chmod])])
+AC_CHECK_FUNC(uname,[AC_DEFINE(HAVE_UNAME,1,[Have uname])])
 
 AC_EGREP_HEADER(in_addr_t, netinet/in.h,, AC_DEFINE(in_addr_t,int,[defaults in_addr_t to int]))
 AC_EGREP_HEADER(socklen_t, sys/socket.h,, AC_DEFINE(socklen_t,int,[defaults socklen_t to int]))
@@ -81,9 +82,6 @@ AC_MSG_CHECKING([for The Ultimate Answer])
 AC_MSG_RESULT([42])
 
 EXTRA_LIBS=""
-if test "$use_kde" = "yes" ; then
-KDE_CHECK_HEADER(ktextedit.h,[AC_DEFINE(HAVE_KTEXTEDIT_H,1,[Have ktextedit.h])])
-fi
 KDE_CHECK_HEADER(qsyntaxhighlighter.h,[AC_DEFINE(HAVE_QSYNTAXHIGHLIGHTER_H,1,[Have qsyntaxhighlighter.h])])
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix", [Install prefix])
 AC_SUBST(EXTRA_LIBS)
