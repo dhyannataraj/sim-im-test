@@ -12,7 +12,7 @@ SET(gpg_LIB_SRCS
         gpg.cpp
         gpgadv.cpp
         gpgcfg.cpp
-        ${gpgfind_SRS}
+        ${gpgfind_SRC}
         gpggen.cpp
         gpguser.cpp
         passphrase.cpp
