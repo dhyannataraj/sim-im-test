@@ -14,12 +14,12 @@ if (LIBICONV_INCLUDE_DIR AND LIBICONV_LIBRARIES)
 else (LIBICONV_INCLUDE_DIR AND LIBICONV_LIBRARIES)
 
     IF (NOT WIN32)
-        mesaage(FATAL_ERROR "Please set this to the correct values!")
+        MESSAGE(FATAL_ERROR "Please set this to the correct values!")
         # use pkg-config to get the directories and then use these values
         # in the FIND_PATH() and FIND_LIBRARY() calls
         INCLUDE(UsePkgConfig)
         PKGCONFIG(libiconv-1.9 _LibIconvIncDir _LibIconvLinkDir _LibIconvLinkFlags _LiIconvCflags)
-        set(LIBICONV_DEFINITIONS ${_LibIconvCflags})
+        SET(LIBICONV_DEFINITIONS ${_LibIconvCflags})
     ENDIF (NOT WIN32)
 
     FIND_PATH(LIBICONV_INCLUDE_DIR iconv.h
