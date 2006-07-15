@@ -1,4 +1,4 @@
-IF(ASPELL_FOUND)
+IF(ASPELL_FOUND AND NOT USE_KDE3)
 
     #################
     # spell library #
@@ -9,9 +9,15 @@ IF(ASPELL_FOUND)
             spell.cpp
             spellcfg.cpp
             speller.cpp
-            spellfind.cpp
             spellhighlight.cpp
     )
+    
+    IF(WIN32)
+      SET(spell_LIB_SRCS
+              ${spell_LIB_SRCS}
+              spellfind.cpp
+      )
+    ENDIF(WIN32)
 
     SET(spell_UI_FILES
             spellcfgbase.ui
@@ -36,7 +42,10 @@ IF(ASPELL_FOUND)
     # install target
     INSTALL(TARGETS spell LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME DESTINATION ${SIM_PLUGIN_DIR})
 
-ELSE(ASPELL_FOUND)
+ELSE(ASPELL_FOUND AND NOT USE_KDE3)
+  IF(USE_KDE3)
+    MESSAGE(STATUS "Spell plugin is disabled when building with KDE")
+  ELSE(USE_KDE3)
     MESSAGE(STATUS "Cannot build spell plugin because aspell is missing on your system")
-
-ENDIF(ASPELL_FOUND)
+  ENDIF(USE_KDE3)
+ENDIF(ASPELL_FOUND AND NOT USE_KDE3)
