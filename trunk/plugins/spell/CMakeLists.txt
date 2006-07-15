@@ -1,11 +1,9 @@
-IF(HAVE_ASPELL)
+IF(ASPELL_FOUND)
 
     #################
     # spell library #
     #################
     PROJECT(spell)
-
-    SET_TARGET_PROPERTIES(spell PREFIX "")
 
     SET(spell_LIB_SRCS
             spell.cpp
@@ -33,10 +31,12 @@ IF(HAVE_ASPELL)
 
     TARGET_LINK_LIBRARIES(spell simlib)
 
+    SET_TARGET_PROPERTIES(spell PROPERTIES PREFIX "")
+
     # install target
     INSTALL(TARGETS spell RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
 
-ELSE(HAVE_ASPELL)
+ELSE(ASPELL_FOUND)
     MESSAGE(STATUS "Cannot build spell plugin because aspell is missing on your system")
 
-ENDIF(HAVE_ASPELL)
+ENDIF(ASPELL_FOUND)
