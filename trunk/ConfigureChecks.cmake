@@ -19,7 +19,7 @@ CHECK_INCLUDE_FILES(sys/types.h     HAVE_SYS_TYPES_H)                   # simapi
 CHECK_INCLUDE_FILES(unistd.h        HAVE_UNISTD_H)                      # simapi.h
 
 # Symbols
-CHECK_SYMBOL_EXISTS(strcasecmp  "strings.h"         HAVE_STRNCASECMP)   # simapi.h
+CHECK_SYMBOL_EXISTS(strcasecmp  "strings.h"         HAVE_STRCASECMP)   # simapi.h
 
 # Functions
 CHECK_FUNCTION_EXISTS(chmod     "sys/stat.h"        HAVE_CHMOD)         # __homedir/homedir.cpp, gpg/gpg.cpp
