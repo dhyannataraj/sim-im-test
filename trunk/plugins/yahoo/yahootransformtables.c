@@ -257,7 +257,7 @@ int   yahoo_M1Common(unsigned b, int Parameter)
     a = a >> 16;
     a = (a ^ c ^ d) & 0xFF;
 
-    return (yahoo_M1[(unsigned) (a % 96)])(b, Parameter-1);
+    return (yahoo_M1[(unsigned) (a % 96)])((int)b, Parameter-1);
 }
 
 /***************************************************************************/

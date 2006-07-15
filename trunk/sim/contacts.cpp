@@ -1307,6 +1307,8 @@ string ClientUserData::property(const char *name)
                 case DATA_ULONG:
                     if (user_data->value != (unsigned long)(def->def_value))
                         return number(user_data->value);
+		default:
+		    break;
                 }
             }
             user_data += def->n_values;

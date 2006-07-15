@@ -590,7 +590,10 @@ void init_data(const DataDef *d, Data *data)
                 data += (def->n_values - 1);
                 i += (def->n_values - 1);
                 break;
+	    default:
+		break;
             }
+	    
         }
     }
 }
@@ -751,6 +754,8 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 value++;
             }
             break;
+	default:
+	    break;
         }
     }
     cfg->setReadPos(read_pos);
@@ -958,6 +963,8 @@ EXPORT string save_data(const DataDef *def, void *_data)
                     }
                     break;
                 }
+	    default:
+		    break;
             }
             if (bSave){
                 if (res.length())

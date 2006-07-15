@@ -238,6 +238,8 @@ bool Tmpl::getTag(const string &name, void *_data, const DataDef *def, QString &
         if (*p)
             res += QString::fromLocal8Bit(*p);
         break;
+    default:
+	break;
     }
     return true;
 }
