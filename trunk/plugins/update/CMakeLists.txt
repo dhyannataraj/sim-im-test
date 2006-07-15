@@ -1,6 +1,8 @@
 ##################
 # update library #
 ##################
+IF(FALSE)
+
 PROJECT(update)
 
 SET(update_LIB_SRCS
@@ -21,3 +23,5 @@ SET_TARGET_PROPERTIES(update PROPERTIES PREFIX "")
 
 # install target
 INSTALL(TARGETS update LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+
+ENDIF(FALSE)
