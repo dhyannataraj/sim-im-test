@@ -1,10 +1,10 @@
 # - Try to find LibIconv
 # Once done this will define
 #
-#  LIBICONV_FOUND - system has LibXml2
-#  LIBICONV_INCLUDE_DIR - the LibXml2 include directory
-#  LIBICONV_LIBRARIES - the libraries needed to use LibXml2
-#  LIBICONV_DEFINITIONS - Compiler switches required for using LibXml2
+#  LIBICONV_FOUND - system has LibIconv
+#  LIBICONV_INCLUDE_DIR - the LibIconv include directory
+#  LIBICONV_LIBRARIES - the libraries needed to use LibIconv
+#  LIBICONV_DEFINITIONS - Compiler switches required for using LibIconv
 
 if (LIBICONV_INCLUDE_DIR AND LIBICONV_LIBRARIES)
 
@@ -22,7 +22,7 @@ else (LIBICONV_INCLUDE_DIR AND LIBICONV_LIBRARIES)
         set(LIBICONV_DEFINITIONS ${_LibIconvCflags})
     ENDIF (NOT WIN32)
 
-    FIND_PATH(LIBICONV_INCLUDE_DIR libxml/xpath.h
+    FIND_PATH(LIBICONV_INCLUDE_DIR iconv.h
       PATHS
      ${_LibIconvIncDir}
       PATH_SUFFIXES libiconv
