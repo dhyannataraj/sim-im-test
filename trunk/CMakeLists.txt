@@ -27,6 +27,7 @@ FIND_PACKAGE(Qt3 REQUIRED)
 FIND_PACKAGE(LibXml2 REQUIRED)
 FIND_PACKAGE(LibXslt REQUIRED)
 FIND_PACKAGE(LibIconv REQUIRED)    # at least on win32 - dunno know about linux
+FIND_PACKAGE(ZLIB REQUIRED)
 
 # optional packages
 FIND_PACKAGE(ASpell)
