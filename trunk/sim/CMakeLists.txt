@@ -110,7 +110,7 @@ INSTALL(TARGETS simlib LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX} RUNTIME DESTI
 ##################
 
 # main program
-ADD_EXECUTABLE(sim sim.cpp sim.rc)
+ADD_EXECUTABLE(sim WIN32 sim.cpp sim.rc)
 
 # only needs simlib
 TARGET_LINK_LIBRARIES(sim simlib)
