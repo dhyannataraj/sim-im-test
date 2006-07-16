@@ -4,6 +4,7 @@ PROJECT(sim-im)
 
 # 2.4.2 ... maybe it can be lower, but I only have this one
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.2)
+SET(CMAKE_COLOR_MAKEFILE ON)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
