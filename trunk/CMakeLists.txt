@@ -13,10 +13,11 @@ INCLUDE(Flex)
 INCLUDE(Jisp)
 INCLUDE(KDE3Macros)
 INCLUDE(MacroBoolTo01)
+INCLUDE(Po)
 INCLUDE(Qt3Uic)
 INCLUDE(SimPlugins)
 
-SIM_FIND_PLUGINS()
+SIM_FIND_PLUGINS(${sim-im_SOURCE_DIR}/plugins)
 
 IF(NOT QT_FOUND)
     MESSAGE(FATAL_ERROR "Could not find Qt3 - cannot compile sim-im here")
@@ -86,12 +87,15 @@ else(WIN32)
 	SET(SIM_PICT_DIR ${DATADIR}/pict)
 	SET(SIM_SOUND_DIR ${DATADIR}/sounds)
 	SET(SIM_STYLES_DIR ${DATADIR}/styles)
+	SET(SIM_I18N_DIR   po)              # FIXME!
 endif(WIN32)	
 	
-
 # subdirectories
 ADD_SUBDIRECTORY(sim)
 SIM_INCLUDE_PLUGINS()
+
+# i18n
+COMPILE_PO_FILES(${sim-im_SOURCE_DIR}/po)
 
 # create config.h
 CONFIGURE_FILE(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )

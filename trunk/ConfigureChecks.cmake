@@ -29,9 +29,3 @@ CHECK_FUNCTION_EXISTS(uname     "sys/utsname.h"     HAVE_UNAME)         # sim/fe
 
 # check for structure member
 CHECK_STRUCT_MEMBER(tm tm_gmtoff time.h HAVE_TM_GMTOFF)        # icqclient.cpp
-
-# search zip
-FIND_PROGRAM(ZIP_EXECUTABLE zip)
-IF (NOT ZIP_EXECUTABLE)
-  MESSAGE(FATAL_ERROR "zip not found - aborting")
-ENDIF (NOT ZIP_EXECUTABLE)

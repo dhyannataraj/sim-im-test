@@ -1,7 +1,7 @@
 # Searching and enabling plugins
 
-MACRO(SIM_FIND_PLUGINS)
-    FILE(GLOB plugins_dir ${sim-im_SOURCE_DIR}/plugins/* )
+MACRO(SIM_FIND_PLUGINS sim_plugin_dir)
+    FILE(GLOB plugins_dir ${sim_plugin_dir}/* )
     FOREACH(_cur_dir ${plugins_dir})
         FILE(GLOB cmakefile ${_cur_dir}/CMakeLists.txt)
         IF(cmakefile)
@@ -23,7 +23,7 @@ MACRO(SIM_FIND_PLUGINS)
 
         ENDIF(cmakefile)
     ENDFOREACH(_cur_dir)
-ENDMACRO(SIM_FIND_PLUGINS)
+ENDMACRO(SIM_FIND_PLUGINS sim_plugin_dir)
 
 MACRO(SIM_INCLUDE_PLUGINS)
     FOREACH(plugin ${SIM_PLUGINS})
