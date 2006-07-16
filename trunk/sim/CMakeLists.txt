@@ -51,11 +51,11 @@ ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
 # our target
 ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS})
 
-IF(WIN32)
+IF(WIN32 AND NOT MINGW)
     SET_TARGET_PROPERTIES(simlib PROPERTIES VERSION 0.0.0 SOVERSION 0)
-ELSE(WIN32)
+ELSE(WIN32 AND NOT MINGW)
     SET_TARGET_PROPERTIES(simlib PROPERTIES OUTPUT_NAME sim${SIM_FLAVOUR} VERSION 0.0.0 SOVERSION 0)
-ENDIF(WIN32)
+ENDIF(WIN32 AND NOT MINGW)
 
 #some needed defines
 ADD_DEFINITIONS(-DSIMAPI_EXPORTS -DNOUNCRYPT)
@@ -114,7 +114,16 @@ INSTALL(TARGETS simlib LIBRARY DESTINATION ${LIBDIR} RUNTIME DESTINATION ${LIBDI
 ##################
 
 # main program
-ADD_EXECUTABLE(sim WIN32 sim.cpp sim.rc)
+if(MINGW)
+  # resource compilation for mingw
+  add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o
+                     COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR}
+                                         -i${CMAKE_CURRENT_SOURCE_DIR}/sim.rc
+                                         -o ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
+  ADD_EXECUTABLE(sim WIN32 sim.cpp ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
+else(MINGW)
+  ADD_EXECUTABLE(sim WIN32 sim.cpp sim.rc)
+endif(MINGW)
 
 # only needs simlib
 TARGET_LINK_LIBRARIES(sim simlib ${QT_QTMAIN_LIBRARY})
