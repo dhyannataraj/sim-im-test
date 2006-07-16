@@ -1,18 +1,21 @@
 # a small macro to create mo files out of po's
-# ZIP_EXECUTABLE has to be set to the correct path!
-# ADD_JISP_ARCHIVE(jisp-subdir)
 
-MACRO(FIND_MSG2QM)
-    FIND_PROGRAM(MSG2QM_EXECUTABLE msg2qm)
-    IF (NOT MSG2QM_EXECUTABLE)
-      MESSAGE(FATAL_ERROR "msg2qm not found - aborting")
-    ENDIF (NOT MSG2QM_EXECUTABLE)
-ENDMACRO(FIND_MSG2QM)
+MACRO(FIND_MSGFMT)
+    IF(NOT WIN32)
+        SET(MSGFMT_NAME "msgfmt")
+    ELSE(NOT WIN32)
+        SET(MSGFMT_NAME "msg2qm")
+    ENDIF(NOT WIN32)
+    FIND_PROGRAM(MSGFMT_EXECUTABLE ${MSGFMT_NAME})
+    IF (NOT MSGFMT_EXECUTABLE)
+      MESSAGE(FATAL_ERROR "${MSGFMT_NAME} not found - aborting")
+    ENDIF (NOT MSGFMT_EXECUTABLE)
+ENDMACRO(FIND_MSGFMT)
 
 MACRO(COMPILE_PO_FILES po_subdir)
-    IF(NOT MSG2QM_EXECUTABLE)
-        FIND_MSG2QM()
-    ENDIF(NOT MSG2QM_EXECUTABLE)
+    IF(NOT MSGFMT_EXECUTABLE)
+        FIND_MSGFMT()
+    ENDIF(NOT MSGFMT_EXECUTABLE)
 
     FILE(GLOB po_files ${po_subdir}/*.po)
 
@@ -26,7 +29,7 @@ MACRO(COMPILE_PO_FILES po_subdir)
 
         ADD_CUSTOM_COMMAND( TARGET po-files
                             POST_BUILD
-                            COMMAND ${MSG2QM_EXECUTABLE}
+                            COMMAND ${MSGFMT_EXECUTABLE}
                             ${po_input}
                             ${mo_output}
                             DEPENDS ${po_input}
