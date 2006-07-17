@@ -46,6 +46,8 @@ protected:
     virtual void tag_end(const QString &tag) = 0;
     HTMLParserPrivate *p;
     friend class HTMLParserPrivate;
+
+    COPY_RESTRICTED(HTMLParser)
 };
 
 }

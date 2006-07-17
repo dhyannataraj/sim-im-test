@@ -49,6 +49,8 @@ private:
     FetchClientPrivate *p;
     friend class FetchClientPrivate;
     friend class FetchManager;
+
+    COPY_RESTRICTED(FetchClient)
 };
 
 class EXPORT FetchManager : public QObject

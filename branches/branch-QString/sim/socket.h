@@ -115,6 +115,8 @@ protected:
     bool m_bActive;
     SocketFactoryPrivate *p;
     friend class ClientSocket;
+
+    COPY_RESTRICTED(SocketFactory)
 };
 
 SocketFactory EXPORT *getSocketFactory();

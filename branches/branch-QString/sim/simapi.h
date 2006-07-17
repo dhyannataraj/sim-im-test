@@ -123,7 +123,10 @@ EXPORT int strcasecmp(const char *a, const char *b);
 #endif
 
 #ifndef COPY_RESTRICTED
-# define COPY_RESTRICTED(A) private: A(const A&); A &operator = (const A&);
+# define COPY_RESTRICTED(A) \
+    private: \
+        A(const A&); \
+        A &operator = (const A&);
 #endif
 
 #ifdef USE_KDE
@@ -160,6 +163,8 @@ public:
     static SocketFactory        *factory;
 private:
     PluginManagerPrivate *p;
+
+    COPY_RESTRICTED(PluginManager)
 };
 
 // __________________________________________________________________________________
@@ -810,6 +815,8 @@ public:
 private:
     CommandsListPrivate *p;
     friend class CommandsListPrivate;
+
+    COPY_RESTRICTED(CommandsList)
 };
 
 class EXPORT CommandsDef
@@ -825,6 +832,8 @@ private:
     CommandsDefPrivate *p;
     friend class CommandsList;
     friend class CommandsDefPrivate;
+
+    COPY_RESTRICTED(CommandsDef)
 };
 
 class CommandsMapPrivate;
@@ -842,6 +851,8 @@ public:
 private:
     CommandsMapPrivate  *p;
     friend class CommandsMapIterator;
+
+    COPY_RESTRICTED(CommandsMap)
 };
 
 class EXPORT CommandsMapIterator
@@ -852,6 +863,8 @@ public:
     CommandDef *operator++();
 private:
     CommandsMapIteratorPrivate *p;
+
+    COPY_RESTRICTED(CommandsMapIterator)
 };
 
 // ____________________________________________________________________________________
@@ -1266,6 +1279,8 @@ public:
     protected:
         FileMessageIteratorPrivate *p;
         friend class FileMessage;
+
+        COPY_RESTRICTED(Iterator)
     };
     FileTransfer    *m_transfer;
 protected:
@@ -1347,6 +1362,8 @@ public:
     void freeUserData(unsigned id);
 private:
     UserDataPrivate *d;
+
+    COPY_RESTRICTED(UserData)
 };
 
 class EXPORT Client;
@@ -1381,6 +1398,8 @@ public:
 protected:
     ClientUserDataPrivate *p;
     friend class ClientDataIterator;
+
+    COPY_RESTRICTED(ClientUserData)
 };
 
 class EXPORT ClientDataIterator
@@ -1393,6 +1412,8 @@ public:
     void reset();
 protected:
     ClientDataIteratorPrivate *p;
+
+    COPY_RESTRICTED(ClientDataIterator)
 };
 
 class EXPORT PacketType
@@ -1659,6 +1680,8 @@ public:
     protected:
         GroupIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(GroupIterator)
     };
     class EXPORT ContactIterator
     {
@@ -1670,6 +1693,8 @@ public:
     protected:
         ContactIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(ContactIterator)
     };
     class EXPORT ProtocolIterator
     {
@@ -1681,6 +1706,8 @@ public:
     protected:
         ProtocolIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(ProtocolIterator)
     };
     class EXPORT PacketIterator
     {
@@ -1692,6 +1719,8 @@ public:
     protected:
         PacketIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(PacketIterator)
     };
     class EXPORT UserDataIterator
     {
@@ -1702,6 +1731,8 @@ public:
     protected:
         UserDataIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(UserDataIterator)
     };
     void *getUserData(unsigned id);
     unsigned nClients();
@@ -1736,6 +1767,8 @@ protected:
     friend class PacketIterator;
     friend class PacketIteratorPrivate;
     friend class UserDataIterator;
+
+    COPY_RESTRICTED(ContactList)
 };
 
 EXPORT ContactList *getContacts();

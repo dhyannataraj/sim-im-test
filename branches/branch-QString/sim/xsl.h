@@ -32,6 +32,8 @@ public:
     static void cleanup();
 protected:
     XSLPrivate *d;
+
+    COPY_RESTRICTED(XSL)
 };
 
 #endif
