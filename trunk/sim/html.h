@@ -26,8 +26,6 @@ class Buffer;
 namespace SIM
 {
 
-class HTMLParserPrivate;
-
 class EXPORT HTMLParser
 {
 public:
@@ -44,8 +42,10 @@ protected:
     virtual void text(const QString &text) = 0;
     virtual void tag_start(const QString &tag, const std::list<QString> &options) = 0;
     virtual void tag_end(const QString &tag) = 0;
-    HTMLParserPrivate *p;
+    class HTMLParserPrivate *p;
     friend class HTMLParserPrivate;
+
+    COPY_RESTRICTED(HTMLParser)
 };
 
 }

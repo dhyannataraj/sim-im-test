@@ -94,8 +94,6 @@ protected:
 
 class ClientSocket;
 
-class SocketFactoryPrivate;
-
 class EXPORT SocketFactory : public QObject
 {
     Q_OBJECT
@@ -113,8 +111,10 @@ protected slots:
     void idle();
 protected:
     bool m_bActive;
-    SocketFactoryPrivate *p;
+    class SocketFactoryPrivate *p;
     friend class ClientSocket;
+
+    COPY_RESTRICTED(SocketFactory)
 };
 
 SocketFactory EXPORT *getSocketFactory();

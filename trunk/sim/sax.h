@@ -37,6 +37,8 @@ protected:
 private:
     SAXParserPrivate *p;
     friend class SAXParserPrivate;
+
+    COPY_RESTRICTED(SAXParser)
 };
 
 #endif

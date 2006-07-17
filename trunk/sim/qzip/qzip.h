@@ -45,6 +45,8 @@ private:
     class UnZipPrivate *d;
 
     bool getList();
+
+    COPY_RESTRICTED(UnZip)
 };
 
 #endif

@@ -105,7 +105,10 @@ EXPORT int strcasecmp(const char *a, const char *b);
 #endif
 
 #ifndef COPY_RESTRICTED
-# define COPY_RESTRICTED(A) private: A(const A&); A &operator = (const A&);
+# define COPY_RESTRICTED(A) \
+    private: \
+        A(const A&); \
+        A &operator = (const A&);
 #endif
 
 #ifdef USE_KDE
@@ -127,7 +130,6 @@ namespace SIM
 // _________________________________________________________________________________
 /* PluginManager - base class for main application */
 
-class PluginManagerPrivate;
 class ContactList;
 class SocketFactory;
 class Client;
@@ -141,7 +143,9 @@ public:
     static ContactList          *contacts;
     static SocketFactory        *factory;
 private:
-    PluginManagerPrivate *p;
+    class PluginManagerPrivate *p;
+
+    COPY_RESTRICTED(PluginManager)
 };
 
 // __________________________________________________________________________________
@@ -746,8 +750,6 @@ const unsigned EventUser            = 0x10000;
 // _____________________________________________________________________________________
 // CommandsDef
 
-class CommandsDefPrivate;
-class CommandsListPrivate;
 class CommandsDef;
 
 class EXPORT CommandsList
@@ -758,8 +760,10 @@ public:
     CommandDef *operator++();
     void reset();
 private:
-    CommandsListPrivate *p;
+    class CommandsListPrivate *p;
     friend class CommandsListPrivate;
+
+    COPY_RESTRICTED(CommandsList)
 };
 
 class EXPORT CommandsDef
@@ -772,13 +776,12 @@ public:
     void setConfig(const char*);
     void set(CommandDef*);
 private:
-    CommandsDefPrivate *p;
+    class CommandsDefPrivate *p;
     friend class CommandsList;
     friend class CommandsDefPrivate;
-};
 
-class CommandsMapPrivate;
-class CommandsMapIteratorPrivate;
+    COPY_RESTRICTED(CommandsDef)
+};
 
 class EXPORT CommandsMap
 {
@@ -790,8 +793,10 @@ public:
     bool erase(unsigned id);
     void clear();
 private:
-    CommandsMapPrivate  *p;
+    class CommandsMapPrivate  *p;
     friend class CommandsMapIterator;
+
+    COPY_RESTRICTED(CommandsMap)
 };
 
 class EXPORT CommandsMapIterator
@@ -801,7 +806,9 @@ public:
     ~CommandsMapIterator();
     CommandDef *operator++();
 private:
-    CommandsMapIteratorPrivate *p;
+    class CommandsMapIteratorPrivate *p;
+
+    COPY_RESTRICTED(CommandsMapIterator)
 };
 
 // ____________________________________________________________________________________
@@ -1059,7 +1066,6 @@ typedef struct MessageFileData
     Data        Size;
 } MessageFileData;
 
-class FileMessageIteratorPrivate;
 class FileMessage;
 
 class FileTransferNotify
@@ -1165,8 +1171,10 @@ public:
         unsigned dirs();
         unsigned size();
     protected:
-        FileMessageIteratorPrivate *p;
+        class FileMessageIteratorPrivate *p;
         friend class FileMessage;
+
+        COPY_RESTRICTED(Iterator)
     };
     FileTransfer    *m_transfer;
 protected:
@@ -1248,12 +1256,12 @@ public:
 protected:
     unsigned n_data;
     void **userData;
+
+    COPY_RESTRICTED(UserData)
 };
 
 class EXPORT Client;
-class ClientUserDataPrivate;
 class ClientDataIterator;
-class ClientDataIteratorPrivate;
 
 typedef struct clientData       // Base struct for all clientData
 {
@@ -1280,8 +1288,10 @@ public:
     Client *activeClient(void *&data, Client *client);
     std::string property(const char *name);
 protected:
-    ClientUserDataPrivate *p;
+    class ClientUserDataPrivate *p;
     friend class ClientDataIterator;
+
+    COPY_RESTRICTED(ClientUserData)
 };
 
 class EXPORT ClientDataIterator
@@ -1293,7 +1303,9 @@ public:
     Client *client();
     void reset();
 protected:
-    ClientDataIteratorPrivate *p;
+    class ClientDataIteratorPrivate *p;
+
+    COPY_RESTRICTED(ClientDataIterator)
 };
 
 class EXPORT PacketType
@@ -1513,14 +1525,6 @@ typedef struct UserDataDef
     const DataDef   *def;
 } UserDataDef;
 
-class ContactListPrivate;
-class ContactIteratorPrivate;
-class GroupIteratorPrivate;
-class ClientIteratorPrivate;
-class ProtocolIteratorPrivate;
-class PacketIteratorPrivate;
-class UserDataIteratorPrivate;
-
 typedef struct ENCODING
 {
     const char *language;
@@ -1558,8 +1562,10 @@ public:
         ~GroupIterator();
         void reset();
     protected:
-        GroupIteratorPrivate *p;
+        class GroupIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(GroupIterator)
     };
     class EXPORT ContactIterator
     {
@@ -1569,8 +1575,10 @@ public:
         ~ContactIterator();
         void reset();
     protected:
-        ContactIteratorPrivate *p;
+        class ContactIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(ContactIterator)
     };
     class EXPORT ProtocolIterator
     {
@@ -1580,8 +1588,10 @@ public:
         ~ProtocolIterator();
         void reset();
     protected:
-        ProtocolIteratorPrivate *p;
+        class ProtocolIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(ProtocolIterator)
     };
     class EXPORT PacketIterator
     {
@@ -1591,8 +1601,10 @@ public:
         ~PacketIterator();
         void reset();
     protected:
-        PacketIteratorPrivate *p;
+        class PacketIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(PacketIterator)
     };
     class EXPORT UserDataIterator
     {
@@ -1601,8 +1613,10 @@ public:
         UserDataIterator();
         ~UserDataIterator();
     protected:
-        UserDataIteratorPrivate *p;
+        class UserDataIteratorPrivate *p;
         friend class ContactList;
+
+        COPY_RESTRICTED(UserDataIterator)
     };
     void *getUserData(unsigned id);
     unsigned nClients();
@@ -1637,6 +1651,8 @@ protected:
     friend class PacketIterator;
     friend class PacketIteratorPrivate;
     friend class UserDataIterator;
+
+    COPY_RESTRICTED(ContactList)
 };
 
 EXPORT ContactList *getContacts();

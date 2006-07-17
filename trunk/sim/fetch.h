@@ -28,7 +28,6 @@ class Buffer;
 
 const unsigned NO_POSTSIZE	= (unsigned)(-1);
 
-class FetchClientPrivate;
 class FetchManager;
 
 class EXPORT FetchClient
@@ -46,9 +45,11 @@ public:
     void	set_speed(unsigned speed);
     static bool	crackUrl(const char *url, std::string &proto, std::string &host, unsigned short &port, std::string &user, std::string &pass, std::string &uri, std::string &extra);
 private:
-    FetchClientPrivate *p;
+    class FetchClientPrivate *p;
     friend class FetchClientPrivate;
     friend class FetchManager;
+
+    COPY_RESTRICTED(FetchClient)
 };
 
 class EXPORT FetchManager : public QObject
