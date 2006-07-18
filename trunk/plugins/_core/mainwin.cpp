@@ -71,23 +71,6 @@ void MainWindowWidget::childEvent(QChildEvent *e)
     QTimer::singleShot(0, parent(), SLOT(setGrip()));
 }
 
-namespace local { namespace {
-
-void restoreGeometry(MainWindow *mainWindow, Geometry &geometry)
-{
-    if ((geometry[WIDTH].value == (unsigned long)-1) && (geometry[HEIGHT].value == (unsigned long)-1)){
-        geometry[HEIGHT].value = QApplication::desktop()->height() * 2 / 3;
-        geometry[WIDTH].value  = geometry[HEIGHT].value / 3;
-    }
-    if ((geometry[LEFT].value == (unsigned long)-1) && (geometry[TOP].value == (unsigned long)-1)){
-        geometry[LEFT].value = QApplication::desktop()->width() - 25 - geometry[WIDTH].value;
-        geometry[TOP].value = 5;
-    }
-    restoreGeometry(mainWindow, geometry);
-}
-
-}} // local
-
 MainWindow::MainWindow(Geometry &geometry)
         : QMainWindow(NULL, "mainwnd",
                       WType_TopLevel | WStyle_Customize |
@@ -123,7 +106,15 @@ MainWindow::MainWindow(Geometry &geometry)
     status->hide();
     status->installEventFilter(this);
     
-    local::restoreGeometry(this, geometry);
+    if ((geometry[WIDTH].value == (unsigned long)-1) && (geometry[HEIGHT].value == (unsigned long)-1)){
+        geometry[HEIGHT].value = QApplication::desktop()->height() * 2 / 3;
+        geometry[WIDTH].value  = geometry[HEIGHT].value / 3;
+    }
+    if ((geometry[LEFT].value == (unsigned long)-1) && (geometry[TOP].value == (unsigned long)-1)){
+        geometry[LEFT].value = QApplication::desktop()->width() - 25 - geometry[WIDTH].value;
+        geometry[TOP].value = 5;
+    }
+    restoreGeometry(this, geometry, true, true);
 }
 
 MainWindow::~MainWindow()
