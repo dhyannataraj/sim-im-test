@@ -21,6 +21,9 @@ MACRO(ADD_JISP_ARCHIVE subdir jisp_name)
     SET(${subdir}_JISP ${${subdir}_JISP} ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/icondef.xml)
 
     ADD_CUSTOM_TARGET(${jisp_name} ALL
+	    COMMAND ${CMAKE_COMMAND} 
+	    -E echo 
+	    "Generating" ${jisp_name} "from" ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}
             COMMAND ${ZIP_EXECUTABLE}
             -j -q -9
             ${jisp_name}
