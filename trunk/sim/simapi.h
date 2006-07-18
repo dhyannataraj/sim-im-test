@@ -1535,6 +1535,8 @@ typedef struct ENCODING
     bool        bMain;
 } ENCODING;
 
+class ContactListPrivate;
+
 class EXPORT ContactList
 {
 public:
