@@ -99,4 +99,11 @@ SIM_INCLUDE_PLUGINS()
 COMPILE_PO_FILES(${sim-im_SOURCE_DIR}/po)
 
 # create config.h
-CONFIGURE_FILE(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
+CONFIGURE_FILE(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+
+# the (win32) flex generator doesn't care about HAVE_UNISTD_H - it simply has to
+# be there. So create a dummy one if none exists
+IF(NOT HAVE_UNISTD_H)
+    WRITE_FILE( ${CMAKE_CURRENT_BINARY_DIR}/sim/unistd.h
+                "/* dummy unistd.h file for flex generated parsers */" )
+ENDIF(NOT HAVE_UNISTD_H)

@@ -1,21 +1,21 @@
 # a small macro to create mo files out of po's
 
 MACRO(FIND_MSGFMT)
-    IF(NOT WIN32)
-        SET(MSGFMT_NAME "msgfmt")
-    ELSE(NOT WIN32)
-        SET(MSGFMT_NAME "msg2qm")
-    ENDIF(NOT WIN32)
-    FIND_PROGRAM(MSGFMT_EXECUTABLE ${MSGFMT_NAME})
-    IF (NOT MSGFMT_EXECUTABLE)
-      MESSAGE(FATAL_ERROR "${MSGFMT_NAME} not found - aborting")
-    ENDIF (NOT MSGFMT_EXECUTABLE)
+    IF(NOT MSGFMT_EXECUTABLE)
+        IF(NOT WIN32)
+            SET(MSGFMT_NAME "msgfmt")
+        ELSE(NOT WIN32)
+            SET(MSGFMT_NAME "msg2qm")
+        ENDIF(NOT WIN32)
+        FIND_PROGRAM(MSGFMT_EXECUTABLE ${MSGFMT_NAME})
+        IF (NOT MSGFMT_EXECUTABLE)
+          MESSAGE(FATAL_ERROR "${MSGFMT_NAME} not found - aborting")
+        ENDIF (NOT MSGFMT_EXECUTABLE)
+    ENDIF(NOT MSGFMT_EXECUTABLE)
 ENDMACRO(FIND_MSGFMT)
 
 MACRO(COMPILE_PO_FILES po_subdir)
-    IF(NOT MSGFMT_EXECUTABLE)
-        FIND_MSGFMT()
-    ENDIF(NOT MSGFMT_EXECUTABLE)
+    FIND_MSGFMT()
 
     FILE(GLOB po_files ${po_subdir}/*.po)
 

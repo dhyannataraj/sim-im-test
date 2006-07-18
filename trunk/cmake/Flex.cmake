@@ -1,7 +1,18 @@
 # flex a .ll file
-# FIXME: add a check for flex executable!
+
+# search flex
+MACRO(FIND_FLEX)
+    IF(NOT FLEX_EXECUTABLE)
+        FIND_PROGRAM(FLEX_EXECUTABLE flex)
+        IF (NOT FLEX_EXECUTABLE)
+          MESSAGE(FATAL_ERROR "flex not found - aborting")
+        ENDIF (NOT FLEX_EXECUTABLE)
+    ENDIF(NOT FLEX_EXECUTABLE)
+ENDMACRO(FIND_FLEX)
 
 MACRO(ADD_FLEX_FILES _sources )
+    FIND_FLEX()
+
    FOREACH (_current_FILE ${ARGN})
 
       GET_FILENAME_COMPONENT(_tmp_FILE ${_current_FILE} ABSOLUTE)
@@ -11,7 +22,7 @@ MACRO(ADD_FLEX_FILES _sources )
       SET(_src ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.cpp)
 
       ADD_CUSTOM_COMMAND(OUTPUT ${_src}
-         COMMAND flex
+         COMMAND ${FLEX_EXECUTABLE}
          ARGS
          -o${_src}
          ${_tmp_FILE}
