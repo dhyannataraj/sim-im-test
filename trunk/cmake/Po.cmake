@@ -19,25 +19,32 @@ MACRO(COMPILE_PO_FILES po_subdir)
 
     FILE(GLOB po_files ${po_subdir}/*.po)
 
-    ADD_CUSTOM_TARGET(po-files ${po_files})
+    ADD_CUSTOM_TARGET(po-files ALL)
+
+    FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po)
 
     FOREACH(po_input ${po_files})
         GET_FILENAME_COMPONENT(_basename ${po_input} NAME_WE)
         GET_FILENAME_COMPONENT(po_file   ${po_input} NAME)
         
-        SET(mo_output ${_basename}.mo)
+        SET(mo_output po/${_basename}.mo)
 
         ADD_CUSTOM_COMMAND( TARGET po-files
                             POST_BUILD
+			    COMMAND ${CMAKE_COMMAND} 
+			    -E echo 
+			    "Generating" ${mo_output} "from" ${po_input} 
                             COMMAND ${MSGFMT_EXECUTABLE}
                             ${po_input}
-                            ${mo_output}
+			    -o ${mo_output}
                             DEPENDS ${po_input}
                             MAIN_DEPENDENCY sim
                             COMMENT "Generating " ${mo_output} " from " ${po_input}
         )
         SET(mo_files ${mo_files} ${mo_output})
+	# FIXME installation path for Windows
+	INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${mo_output} DESTINATION ${SIM_I18N_DIR}/${_basename}/LC_MESSAGES RENAME sim.mo)
     ENDFOREACH(po_input ${po_files})
 
-    INSTALL(FILES ${mo_files} DESTINATION ${SIM_I18N_DIR})
+    #   INSTALL(FILES ${mo_files} DESTINATION ${SIM_I18N_DIR})
 ENDMACRO(COMPILE_PO_FILES po_subdir)
