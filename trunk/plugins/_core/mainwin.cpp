@@ -83,7 +83,7 @@ void restoreGeometry(MainWindow *mainWindow, Geometry &geometry)
         geometry[LEFT].value = QApplication::desktop()->width() - 25 - geometry[WIDTH].value;
         geometry[TOP].value = 5;
     }
-    restoreGeometry(mainWindow, geometry, true, true);
+    restoreGeometry(mainWindow, geometry);
 }
 
 }} // local
