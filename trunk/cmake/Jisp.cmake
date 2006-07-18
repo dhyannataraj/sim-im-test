@@ -13,6 +13,7 @@ MACRO(FIND_ZIP)
     ENDIF(NOT ZIP_EXECUTABLE)
 ENDMACRO(FIND_ZIP)
 
+
 MACRO(ADD_JISP_ARCHIVE subdir jisp_name)
     FIND_ZIP()
 
@@ -20,17 +21,15 @@ MACRO(ADD_JISP_ARCHIVE subdir jisp_name)
 
     SET(${subdir}_JISP ${${subdir}_JISP} ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/icondef.xml)
 
-    ADD_CUSTOM_TARGET(${jisp_name} ALL
-	    COMMAND ${CMAKE_COMMAND} 
-	    -E echo 
-	    "Generating" ${jisp_name} "from" ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}
+    ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name}
             COMMAND ${ZIP_EXECUTABLE}
             -j -q -9
             ${jisp_name}
-            ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/*.png
-            ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/icondef.xml
-            DEPENDS ${${subdir}_JISP}
+	    ${${subdir}_JISP}
+	    DEPENDS ${${subdir}_JISP}
     )
+    ADD_CUSTOM_TARGET(${jisp_name}_v ALL
+	    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name})
 
     INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name} DESTINATION  ${SIM_ICONS_DIR})
 ENDMACRO(ADD_JISP_ARCHIVE)
