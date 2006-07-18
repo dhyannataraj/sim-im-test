@@ -29,8 +29,7 @@ MACRO(COMPILE_PO_FILES po_subdir)
         
         SET(mo_output po/${_basename}.mo)
 
-        ADD_CUSTOM_COMMAND( TARGET po-files
-                            POST_BUILD
+        ADD_CUSTOM_TARGET( ${mo_output} 
 			    COMMAND ${CMAKE_COMMAND} 
 			    -E echo 
 			    "Generating" ${mo_output} "from" ${po_input} 
@@ -38,13 +37,11 @@ MACRO(COMPILE_PO_FILES po_subdir)
                             ${po_input}
 			    -o ${mo_output}
                             DEPENDS ${po_input}
-                            MAIN_DEPENDENCY sim
-                            COMMENT "Generating " ${mo_output} " from " ${po_input}
         )
         SET(mo_files ${mo_files} ${mo_output})
 	# FIXME installation path for Windows
 	INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${mo_output} DESTINATION ${SIM_I18N_DIR}/${_basename}/LC_MESSAGES RENAME sim.mo)
     ENDFOREACH(po_input ${po_files})
-
+ADD_DEPENDENCIES(po-files ${mo_files})
     #   INSTALL(FILES ${mo_files} DESTINATION ${SIM_I18N_DIR})
 ENDMACRO(COMPILE_PO_FILES po_subdir)
