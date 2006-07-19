@@ -347,7 +347,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         QString pluginName = "plugins\\";
         pluginName += info.name;
 #else
-        QString pluginName = info.filePath;
+        QString pluginName;
         if( pluginName[0] != '/' ) {
             pluginName = PLUGIN_PATH;
             pluginName += "/";

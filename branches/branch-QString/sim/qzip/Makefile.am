@@ -10,7 +10,7 @@ libqzip_la_SOURCES = \
 	qzip.cpp \
 	qzip.h
 
-INCLUDES = $(all_includes)
+INCLUDES = -I$(srcdir)/.. $(all_includes)
 libqzip_la_LIBADD = $(LIB_QT) $(LIBZ)
 
 AM_CFLAGS = -Wno-unused -Wno-parentheses -DNOUNCRYPT
