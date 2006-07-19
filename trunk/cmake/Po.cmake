@@ -42,12 +42,14 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
             DEPENDS ${po_input}
         )
         SET(mo_files ${mo_files} ${mo_output})
+
+	IF(NOT WIN32)
+           INSTALL(FILES ${mo_output} DESTINATION ${SIM_I18N_DIR}/${_basename}/LC_MESSAGES RENAME sim.mo)
+	ENDIF(NOT WIN32)
     ENDFOREACH(po_input ${po_files})
 
     IF(WIN32)
         INSTALL(FILES ${mo_files} DESTINATION ${SIM_I18N_DIR})
-    ELSE(WIN32)
-        INSTALL(FILES ${mo_files} DESTINATION ${SIM_I18N_DIR}/${_basename}/LC_MESSAGES RENAME sim.mo)
     ENDIF(WIN32)
     SET(${_sources} ${${_sources}} ${mo_files})
 ENDMACRO(COMPILE_PO_FILES po_subdir)
