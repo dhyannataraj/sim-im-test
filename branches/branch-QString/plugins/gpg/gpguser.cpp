@@ -29,6 +29,10 @@ GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
     if (data)
         m_key = data->Key.str();
     m_process = NULL;
+    //FIME: When compiling with GCC either on nix on win32:
+    //error: no matching function for call to 'GpgUser::connect(QPushButton*&, const char [11], GpgUser* const, const char [11])
+    //note: candidates are: static bool QObject::connect(const QObject*, const char*, const QObject*, const char*)
+    //note:                 bool QObject::connect(const QObject*, const char*, const char*) const
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));
     refresh();
 }
