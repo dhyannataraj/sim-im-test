@@ -95,9 +95,6 @@ endif(WIN32)
 ADD_SUBDIRECTORY(sim)
 SIM_INCLUDE_PLUGINS()
 
-# i18n
-COMPILE_PO_FILES(${sim-im_SOURCE_DIR}/po)
-
 # create config.h
 CONFIGURE_FILE(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 

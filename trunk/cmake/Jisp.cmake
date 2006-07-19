@@ -1,8 +1,6 @@
 # a small macro to create one or more jisp archives
 # ADD_JISP_ARCHIVE(jisp-subdir)
 
-# problem: those files are build every time make is called ...
-
 # search zip
 MACRO(FIND_ZIP)
     IF(NOT ZIP_EXECUTABLE)
@@ -14,22 +12,22 @@ MACRO(FIND_ZIP)
 ENDMACRO(FIND_ZIP)
 
 
-MACRO(ADD_JISP_ARCHIVE subdir jisp_name)
+MACRO(ADD_JISP_ARCHIVE subdir jisp_name _sources)
     FIND_ZIP()
 
     FILE(GLOB ${subdir}_JISP ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/*.png)
 
     SET(${subdir}_JISP ${${subdir}_JISP} ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/icondef.xml)
 
-    ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name}
-            COMMAND ${ZIP_EXECUTABLE}
-            -j -q -9
-            ${jisp_name}
-	    ${${subdir}_JISP}
-	    DEPENDS ${${subdir}_JISP}
+    ADD_CUSTOM_COMMAND(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name}
+        COMMAND ${ZIP_EXECUTABLE}
+        -j -q -9
+        ${jisp_name}
+        ${${subdir}_JISP}
+        DEPENDS ${${subdir}_JISP}
     )
-    ADD_CUSTOM_TARGET(${jisp_name}_v ALL
-	    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name})
+    SET(${_sources} ${${_sources}} ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name})
 
     INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name} DESTINATION  ${SIM_ICONS_DIR})
 ENDMACRO(ADD_JISP_ARCHIVE)

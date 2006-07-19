@@ -108,20 +108,20 @@ KDE3_AUTOMOC(${_core_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(_core_LIB_SRCS ${_core_UI_FILES})
 
+# so we don't need an extra CMakeLists.txt in every subdirectory
+ADD_JISP_ARCHIVE(additional additional.jisp _core_LIB_SRCS)
+ADD_JISP_ARCHIVE(icq5       icq5.jisp       _core_LIB_SRCS)
+ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp     _core_LIB_SRCS)
+ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_LIB_SRCS)
+ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_LIB_SRCS)
+ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_LIB_SRCS)
+
 # this is all we need for _core library
 ADD_LIBRARY(_core SHARED ${_core_LIB_SRCS})
 SET_TARGET_PROPERTIES(_core PROPERTIES PREFIX "")
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-# so we don't need an extra CMakeLists.txt in every subdirectory
-ADD_JISP_ARCHIVE(additional additional.jisp)
-ADD_JISP_ARCHIVE(icq5       icq5.jisp)
-ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp)
-ADD_JISP_ARCHIVE(icqlite    icqlite.jisp)
-ADD_JISP_ARCHIVE(jisp       sim.jisp)
-ADD_JISP_ARCHIVE(smiles     smiles.jisp)
 
 # we need simlib (and qt libs, but because simlib depends on them there's no
 #                 need to add them here once more)

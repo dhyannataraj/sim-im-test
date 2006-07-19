@@ -96,16 +96,25 @@ INSTALL(TARGETS simlib LIBRARY DESTINATION ${LIBDIR} RUNTIME DESTINATION ${LIBDI
 ##################
 
 # main program
+SET(sim_EXE_SRCS
+    sim.cpp
+)
 if(MINGW)
   # resource compilation for mingw
-  add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o
+  ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o
                      COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR}
                                          -i${CMAKE_CURRENT_SOURCE_DIR}/sim.rc
                                          -o ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
-  ADD_EXECUTABLE(sim WIN32 sim.cpp ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
+  SET(sim_EXE_SRCS ${sim_EXE_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
 else(MINGW)
-  ADD_EXECUTABLE(sim WIN32 sim.cpp sim.rc)
+  SET(sim_EXE_SRCS ${sim_EXE_SRCS})
 endif(MINGW)
+
+# i18n
+COMPILE_PO_FILES(${CMAKE_SOURCE_DIR}/po sim_EXE_SRCS)
+
+# sim executable
+ADD_EXECUTABLE(sim WIN32 ${sim_EXE_SRCS})
 
 # only needs simlib
 TARGET_LINK_LIBRARIES(sim simlib ${QT_QTMAIN_LIBRARY})

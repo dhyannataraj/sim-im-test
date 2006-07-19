@@ -13,7 +13,7 @@ ENDMACRO(FIND_FLEX)
 MACRO(ADD_FLEX_FILES _sources )
     FIND_FLEX()
 
-   FOREACH (_current_FILE ${ARGN})
+    FOREACH (_current_FILE ${ARGN})
 
       GET_FILENAME_COMPONENT(_tmp_FILE ${_current_FILE} ABSOLUTE)
 
