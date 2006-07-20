@@ -5,16 +5,14 @@ MACRO(FIND_MSGFMT)
         message(STATUS "test")
         IF(NOT WIN32)
             SET(MSGFMT_NAME "msgfmt")
-            SET(MSGFMT_OUTPUT_ARGS "-o" CACHE INTERNAL "needed for linux")
         ELSE(NOT WIN32)
             SET(MSGFMT_NAME "msg2qm")
-            SET(MSGFMT_OUTPUT_ARGS " " CACHE INTERNAL "needed for linux")
         ENDIF(NOT WIN32)
         FIND_PROGRAM(MSGFMT_EXECUTABLE ${MSGFMT_NAME})
         IF (NOT MSGFMT_EXECUTABLE)
           MESSAGE(FATAL_ERROR "${MSGFMT_NAME} not found - aborting")
         ENDIF (NOT MSGFMT_EXECUTABLE)
-        MARK_AS_ADVANCED(MSGFMT_EXECUTABLE MSGFMT_OUTPUT_ARGS)
+        MARK_AS_ADVANCED(MSGFMT_EXECUTABLE)
     ENDIF(NOT MSGFMT_EXECUTABLE OR NOT MSGFMT_OUTPUT_ARGS)
 ENDMACRO(FIND_MSGFMT)
 
@@ -26,26 +24,40 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
     FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po)
 
     FOREACH(po_input ${po_files})
+
+        GET_FILENAME_COMPONENT(_in       ${po_input} ABSOLUTE)
         GET_FILENAME_COMPONENT(_basename ${po_input} NAME_WE)
-        GET_FILENAME_COMPONENT(po_file   ${po_input} NAME)
         
-        SET(mo_output ${CMAKE_CURRENT_BINARY_DIR}/po/${_basename}.mo)
+        GET_FILENAME_COMPONENT(_out      ${CMAKE_CURRENT_BINARY_DIR}/po/${_basename}.mo ABSOLUTE)
 
-        ADD_CUSTOM_COMMAND(
-            OUTPUT ${mo_output}
-            COMMAND ${CMAKE_COMMAND} 
-                -E echo
-                "Generating" ${mo_output} "from" ${po_input}
-                COMMAND ${MSGFMT_EXECUTABLE}
-                    ${po_input}
-                    ${MSGFMT_OUTPUT_ARGS} ${mo_output}
-            DEPENDS ${po_input}
-        )
-        SET(mo_files ${mo_files} ${mo_output})
+        IF(WIN32)
+            ADD_CUSTOM_COMMAND(
+                OUTPUT ${_out}
+                COMMAND ${CMAKE_COMMAND}
+                    -E echo
+                    "Generating" ${_out} "from" ${_in}
+                    COMMAND ${MSGFMT_EXECUTABLE}
+                        ${_in}
+                        ${_out}
+                DEPENDS ${_in}
+            )
+        ELSE(WIN32)
+            ADD_CUSTOM_COMMAND(
+                OUTPUT ${_out}
+                COMMAND ${CMAKE_COMMAND}
+                    -E echo
+                    "Generating" ${_out} "from" ${_in}
+                    COMMAND ${MSGFMT_EXECUTABLE}
+                        ${_in}
+                        -o ${_out}
+                DEPENDS ${_in}
+            )
+        ENDIF(WIN32)
+        SET(mo_files ${mo_files} ${_out})
 
-	IF(NOT WIN32)
-           INSTALL(FILES ${mo_output} DESTINATION ${SIM_I18N_DIR}/${_basename}/LC_MESSAGES RENAME sim.mo)
-	ENDIF(NOT WIN32)
+        IF(NOT WIN32)
+            INSTALL(FILES ${_out} DESTINATION ${SIM_I18N_DIR}/${_basename}/LC_MESSAGES RENAME sim.mo)
+        ENDIF(NOT WIN32)
     ENDFOREACH(po_input ${po_files})
 
     IF(WIN32)
