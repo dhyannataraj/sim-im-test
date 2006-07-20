@@ -9,8 +9,8 @@ SET(ontop_LIB_SRCS
 )
 
 SET(ontop_LIB_HDRS
-        ontop.cpp
-        ontopcfg.cpp
+        ontop.h
+        ontopcfg.h
 )
 
 SET(ontop_UI_FILES

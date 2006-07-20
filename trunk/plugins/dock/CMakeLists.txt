@@ -23,9 +23,9 @@ SET(dock_UI_FILES
 KDE3_AUTOMOC(${dock_LIB_SRCS})
 
 # don't forget our ui's
-QT3_ADD_UI_FILES(dock_LIB_SRCS ${dock_UI_FILES} ${dock_LIB_HDRS})
+QT3_ADD_UI_FILES(dock_LIB_SRCS ${dock_UI_FILES})
 
-ADD_LIBRARY(dock SHARED ${dock_LIB_SRCS})
+ADD_LIBRARY(dock SHARED ${dock_LIB_SRCS} ${dock_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
