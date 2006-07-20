@@ -10,6 +10,13 @@ SET(sms_LIB_SRCS
         smssetup.cpp
 )
 
+SET(sms_LIB_HDRS
+        gsm_ta.h
+        serial.h
+        sms.h
+        smssetup.h
+)
+
 SET(sms_UI_FILES
         smssetupbase.ui
 )
@@ -20,7 +27,7 @@ KDE3_AUTOMOC(${sms_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(sms_LIB_SRCS ${sms_UI_FILES})
 
-ADD_LIBRARY(sms SHARED ${sms_LIB_SRCS})
+ADD_LIBRARY(sms SHARED ${sms_LIB_SRCS} ${sms_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}

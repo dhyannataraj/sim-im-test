@@ -9,6 +9,12 @@ SET(dock_LIB_SRCS
         dockwnd.cpp
 )
 
+SET(dock_LIB_HDRS
+        dock.cpp
+        dockcfg.cpp
+        dockwnd.cpp
+)
+
 SET(dock_UI_FILES
         dockcfgbase.ui
 )
@@ -17,7 +23,7 @@ SET(dock_UI_FILES
 KDE3_AUTOMOC(${dock_LIB_SRCS})
 
 # don't forget our ui's
-QT3_ADD_UI_FILES(dock_LIB_SRCS ${dock_UI_FILES})
+QT3_ADD_UI_FILES(dock_LIB_SRCS ${dock_UI_FILES} ${dock_LIB_HDRS})
 
 ADD_LIBRARY(dock SHARED ${dock_LIB_SRCS})
 

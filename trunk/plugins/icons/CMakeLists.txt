@@ -8,6 +8,11 @@ SET(icons_LIB_SRCS
         iconcfg.cpp
 )
 
+SET(icons_LIB_HDRS
+        icon.h
+        iconcfg.h
+)
+
 SET(icons_UI_FILES
         iconcfgbase.ui
 )
@@ -18,7 +23,7 @@ KDE3_AUTOMOC(${icons_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(icons_LIB_SRCS ${icons_UI_FILES})
 
-ADD_LIBRARY(icons SHARED ${icons_LIB_SRCS})
+ADD_LIBRARY(icons SHARED ${icons_LIB_SRCS} ${icons_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

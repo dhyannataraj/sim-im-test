@@ -8,6 +8,11 @@ SET(navigate_LIB_SRCS
         navigate.cpp
 )
 
+SET(navigate_LIB_HDRS
+        navcfg.h
+        navigate.h
+)
+
 SET(navigate_UI_FILES
         navcfgbase.ui
 )
@@ -21,7 +26,7 @@ QT3_ADD_UI_FILES(navigate_LIB_SRCS ${navigate_UI_FILES})
 # and flex :)
 ADD_FLEX_FILES(navigate_LIB_SRCS parseurl.ll)
 
-ADD_LIBRARY(navigate SHARED ${navigate_LIB_SRCS})
+ADD_LIBRARY(navigate SHARED ${navigate_LIB_SRCS} ${navigate_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

@@ -9,6 +9,12 @@ SET(proxy_LIB_SRCS
         proxyerror.cpp
 )
 
+SET(proxy_LIB_HDRS
+        proxy.h
+        proxycfg.h
+        proxyerror.h
+)
+
 SET(proxy_UI_FILES
         proxycfgbase.ui
         proxyerrorbase.ui
@@ -20,7 +26,7 @@ KDE3_AUTOMOC(${proxy_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(proxy_LIB_SRCS ${proxy_UI_FILES})
 
-ADD_LIBRARY(proxy SHARED ${proxy_LIB_SRCS})
+ADD_LIBRARY(proxy SHARED ${proxy_LIB_SRCS} ${proxy_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}

@@ -62,6 +62,62 @@ SET(_core_LIB_SRCS
         userwnd.cpp
 )
 
+SET(_core_LIB_HDRS
+        arcfg.h
+        autoreply.h
+        cfgdlg.h
+        cmenu.h
+        commands.h
+        connectionsettings.h
+        connectwnd.h
+        container.h
+        core.h
+        declinedlg.h
+        editmail.h
+        editphone.h
+        filecfg.h
+        filetransfer.h
+        history.h
+        historycfg.h
+        historywnd.h
+        interfacecfg.h
+        kpopup.h
+        logindlg.h
+        maininfo.h
+        mainwin.h
+        manager.h
+        msgauth.h
+        msgcfg.h
+        msgcontacts.h
+        msgedit.h
+        msgfile.h
+        msggen.h
+        msgrecv.h
+        msgsms.h
+        msgurl.h
+        msgview.h
+        newprotocol.h
+        nonim.h
+        pagerdetails.h
+        phonedetails.h
+        plugincfg.h
+        prefcfg.h
+        search.h
+        searchall.h
+        smscfg.h
+        status.h
+        statuswnd.h
+        tmpl.h
+        toolbarcfg.h
+        toolsetup.h
+        usercfg.h
+        userhistorycfg.h
+        userlist.h
+        userview.h
+        userviewcfg.h
+        userwnd.h
+)
+
 # is this really needed?
 IF(NOT WIN32)
 SET(_core_LIB_SRCS
@@ -117,7 +173,7 @@ ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_LIB_SRCS)
 ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_LIB_SRCS)
 
 # this is all we need for _core library
-ADD_LIBRARY(_core SHARED ${_core_LIB_SRCS})
+ADD_LIBRARY(_core SHARED ${_core_LIB_SRCS} ${_core_LIB_HDRS})
 SET_TARGET_PROPERTIES(_core PROPERTIES PREFIX "")
 
 # some needed include dirs

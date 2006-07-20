@@ -9,6 +9,12 @@ SET(filter_LIB_SRCS
         ignorelist.cpp
 )
 
+SET(filter_LIB_HDRS
+        filter.h
+        filtercfg.h
+        ignorelist.h
+)
+
 SET(filter_UI_FILES
         filtercfgbase.ui
         ignorelistbase.ui
@@ -20,7 +26,7 @@ KDE3_AUTOMOC(${filter_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(filter_LIB_SRCS ${filter_UI_FILES})
 
-ADD_LIBRARY(filter SHARED ${filter_LIB_SRCS})
+ADD_LIBRARY(filter SHARED ${filter_LIB_SRCS} ${filter_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

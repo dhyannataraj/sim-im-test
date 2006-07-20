@@ -10,6 +10,13 @@ SET(livejournal_LIB_SRCS
         msgjournal.cpp
 )
 
+SET(livejournal_LIB_HDR
+        journalsearch.h
+        livejournal.h
+        livejournalcfg.h
+        msgjournal.h
+)
+
 SET(livejournal_UI_FILES
         journalsearchbase.ui
         livejournalcfgbase.ui
@@ -22,7 +29,7 @@ KDE3_AUTOMOC(${livejournal_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(livejournal_LIB_SRCS ${livejournal_UI_FILES})
 
-ADD_LIBRARY(livejournal SHARED ${livejournal_LIB_SRCS})
+ADD_LIBRARY(livejournal SHARED ${livejournal_LIB_SRCS} ${livejournal_LIB_HDR})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

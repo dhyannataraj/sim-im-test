@@ -8,10 +8,15 @@ SET(netmonitor_LIB_SRCS
         netmonitor.cpp
 )
 
+SET(netmonitor_LIB_HDRS
+        monitor.h
+        netmonitor.h
+)
+
 # moc, if needed
 KDE3_AUTOMOC(${netmonitor_LIB_SRCS})
 
-ADD_LIBRARY(netmonitor SHARED ${netmonitor_LIB_SRCS})
+ADD_LIBRARY(netmonitor SHARED ${netmonitor_LIB_SRCS} ${netmonitor_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

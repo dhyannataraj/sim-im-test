@@ -34,6 +34,11 @@ IF(COMPILE_PLUGIN)
             autoawaycfg.cpp
     )
 
+    SET(autoaway_LIB_HDRS
+            autoaway.h
+            autoawaycfg.h
+    )
+
     SET(autoaway_UI_FILES
             autoawaycfgbase.ui
     )
@@ -42,7 +47,7 @@ IF(COMPILE_PLUGIN)
     KDE3_AUTOMOC(${autoaway_LIB_SRCS})
 
     # don't forget our ui's
-    QT3_ADD_UI_FILES(autoaway_LIB_SRCS ${autoaway_UI_FILES})
+    QT3_ADD_UI_FILES(autoaway_LIB_SRCS ${autoaway_UI_FILES} ${autoaway_LIB_HDRS})
 
     ADD_LIBRARY(autoaway SHARED ${autoaway_LIB_SRCS})
 

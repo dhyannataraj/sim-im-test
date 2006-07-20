@@ -26,6 +26,26 @@ SET(jabber_LIB_SRCS
         jidsearch.cpp
 )
 
+SET(jabber_LIB_HDRS
+        discoinfo.h
+        infoproxy.h
+        jabber.h
+        jabber_ssl.h
+        jabberaboutinfo.h
+        jabberadd.h
+        jabberbrowser.h
+        jabberclient.h
+        jabberconfig.h
+        jabberhomeinfo.h
+        jabberinfo.h
+        jabbermessage.h
+        jabberpicture.h
+        jabbersearch.h
+        jabberworkinfo.h
+        jidadvsearch.h
+        jidsearch.h
+)
+
 SET(jabber_UI_FILES
         discoinfobase.ui
         infoproxybase.ui
@@ -46,7 +66,7 @@ KDE3_AUTOMOC(${jabber_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(jabber_LIB_SRCS ${jabber_UI_FILES})
 
-ADD_LIBRARY(jabber SHARED ${jabber_LIB_SRCS})
+ADD_LIBRARY(jabber SHARED ${jabber_LIB_SRCS} ${jabber_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

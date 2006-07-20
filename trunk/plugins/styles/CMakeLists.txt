@@ -12,6 +12,12 @@ SET(styles_LIB_SRCS
         stylescfg.cpp
 )
 
+SET(styles_LIB_HDRS
+        fontconfig.h
+        styles.h
+        stylescfg.h
+)
+
 SET(styles_UI_FILES
         fontconfigbase.ui
         stylescfgbase.ui
@@ -23,7 +29,7 @@ KDE3_AUTOMOC(${styles_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(styles_LIB_SRCS ${styles_UI_FILES})
 
-ADD_LIBRARY(styles SHARED ${styles_LIB_SRCS})
+ADD_LIBRARY(styles SHARED ${styles_LIB_SRCS} ${styles_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

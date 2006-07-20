@@ -9,6 +9,12 @@ SET(sound_LIB_SRCS
         sounduser.cpp
 )
 
+SET(sound_LIB_HDRS
+        sound.h
+        soundconfig.h
+        sounduser.h
+)
+
 SET(sound_UI_FILES
         soundconfigbase.ui
         sounduserbase.ui
@@ -20,7 +26,7 @@ KDE3_AUTOMOC(${sound_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(sound_LIB_SRCS ${sound_UI_FILES})
 
-ADD_LIBRARY(sound SHARED ${sound_LIB_SRCS})
+ADD_LIBRARY(sound SHARED ${sound_LIB_SRCS} ${sound_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

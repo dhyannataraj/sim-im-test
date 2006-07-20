@@ -42,6 +42,33 @@ SET(icq_LIB_SRCS
         xml.cpp
 )
 
+SET(icq_LIB_HDRS
+        aboutinfo.h
+        advsearch.h
+        aimconfig.h
+        aiminfo.h
+        aimsearch.h
+        encodingdlg.h
+        homeinfo.h
+        icq.h
+        icqclient.h
+        icqconfig.h
+        icqinfo.h
+        icqmessage.h
+        icqpicture.h
+        icqsearch.h
+        icqsecure.h
+        interestsinfo.h
+        moreinfo.h
+        pastinfo.h
+        polling.h
+        securedlg.h
+        verifydlg.h
+        warndlg.h
+        workinfo.h
+        xml.h
+)
+
 SET(icq_UI_FILES
         aboutinfobase.ui
         advsearchbase.ui
@@ -73,7 +100,7 @@ QT3_ADD_UI_FILES(icq_LIB_SRCS ${icq_UI_FILES})
 # and flex :)
 ADD_FLEX_FILES(icq_LIB_SRCS rtf.ll)
 
-ADD_LIBRARY(icq SHARED ${icq_LIB_SRCS})
+ADD_LIBRARY(icq SHARED ${icq_LIB_SRCS} ${icq_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

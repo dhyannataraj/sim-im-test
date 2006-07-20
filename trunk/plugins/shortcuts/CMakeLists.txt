@@ -9,6 +9,12 @@ SET(shortcuts_LIB_SRCS
         shortcuts.cpp
 )
 
+SET(shortcuts_LIB_HDRS
+        mousecfg.h
+        shortcutcfg.h
+        shortcuts.h
+)
+
 SET(shortcuts_UI_FILES
         mousecfgbase.ui
         shortcutcfgbase.ui
@@ -20,7 +26,7 @@ KDE3_AUTOMOC(${shortcuts_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(shortcuts_LIB_SRCS ${shortcuts_UI_FILES})
 
-ADD_LIBRARY(shortcuts SHARED ${shortcuts_LIB_SRCS})
+ADD_LIBRARY(shortcuts SHARED ${shortcuts_LIB_SRCS} ${shortcuts_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

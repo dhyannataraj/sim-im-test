@@ -5,6 +5,7 @@ PROJECT(gpg)
 
 IF(WIN32)
 	SET (gpgfind_SRC gpgfind.cpp)
+	SET (gpgfind_HDR gpgfind.h)
 	SET (gpgfind_UI gpgfindbase.ui)
 ENDIF(WIN32)
 
@@ -16,6 +17,16 @@ SET(gpg_LIB_SRCS
         gpggen.cpp
         gpguser.cpp
         passphrase.cpp
+)
+
+SET(gpg_LIB_HDRS
+        gpg.h
+        gpgadv.h
+        gpgcfg.h
+        ${gpgfind_HDR}
+        gpggen.h
+        gpguser.h
+        passphrase.h
 )
 
 SET(gpg_UI_FILES
@@ -33,7 +44,7 @@ KDE3_AUTOMOC(${gpg_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(gpg_LIB_SRCS ${gpg_UI_FILES})
 
-ADD_LIBRARY(gpg SHARED ${gpg_LIB_SRCS})
+ADD_LIBRARY(gpg SHARED ${gpg_LIB_SRCS} ${gpg_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}})

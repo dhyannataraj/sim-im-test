@@ -7,10 +7,14 @@ SET(metal_LIB_SRCS
         metal.cpp
 )
 
+SET(metal_LIB_HDRS
+        metal.h
+)
+
 # moc, if needed
 KDE3_AUTOMOC(${metal_LIB_SRCS})
 
-ADD_LIBRARY(metal SHARED ${metal_LIB_SRCS})
+ADD_LIBRARY(metal SHARED ${metal_LIB_SRCS} ${metal_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

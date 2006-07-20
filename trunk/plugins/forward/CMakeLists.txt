@@ -8,6 +8,11 @@ SET(forward_LIB_SRCS
         forwardcfg.cpp
 )
 
+SET(forward_LIB_HDRS
+        forward.h
+        forwardcfg.h
+)
+
 SET(forward_UI_FILES
         forwardcfgbase.ui
 )
@@ -18,7 +23,7 @@ KDE3_AUTOMOC(${forward_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(forward_LIB_SRCS ${forward_UI_FILES})
 
-ADD_LIBRARY(forward SHARED ${forward_LIB_SRCS})
+ADD_LIBRARY(forward SHARED ${forward_LIB_SRCS} ${forward_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

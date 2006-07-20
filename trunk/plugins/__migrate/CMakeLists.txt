@@ -8,6 +8,11 @@ SET(__migrate_LIB_SRCS
         migratedlg.cpp
 )
 
+SET(__migrate_LIB_HDRS
+        migrate.h
+        migratedlg.h
+)
+
 SET(__migrate_UI_FILES
         migratedlgbase.ui
 )
@@ -18,7 +23,7 @@ KDE3_AUTOMOC(${__migrate_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(__migrate_LIB_SRCS ${__migrate_UI_FILES})
 
-ADD_LIBRARY(__migrate SHARED ${__migrate_LIB_SRCS})
+ADD_LIBRARY(__migrate SHARED ${__migrate_LIB_SRCS} ${__migrate_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

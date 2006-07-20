@@ -9,6 +9,12 @@ SET(weather_LIB_SRCS
         wifacecfg.cpp
 )
 
+SET(weather_LIB_HDRS
+        weather.h
+        weathercfg.h
+        wifacecfg.h
+)
+
 SET(weather_UI_FILES
         weathercfgbase.ui
         wifacecfgbase.ui
@@ -23,7 +29,7 @@ QT3_ADD_UI_FILES(weather_LIB_SRCS ${weather_UI_FILES})
 # so we don't need an extra CMakeLists.txt in every subdirectory
 ADD_JISP_ARCHIVE(jisp weather.jisp weather_LIB_SRCS)
 
-ADD_LIBRARY(weather SHARED ${weather_LIB_SRCS})
+ADD_LIBRARY(weather SHARED ${weather_LIB_SRCS} ${weather_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

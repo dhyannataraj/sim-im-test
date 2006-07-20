@@ -42,6 +42,37 @@ SET(sim_LIB_SRCS
         qzip/unzip.c
     )
 
+SET(sim_LIB_HDRS
+        aboutdata.h
+        ballonmsg.h
+        buffer.h
+        builtinlogger.h
+        datepicker.h
+        editfile.h
+        exec.h
+        fetch.h
+        fontedit.h
+        icons.h
+        intedit.h
+        linklabel.h
+        listview.h
+        preview.h
+        qchildwidget.h
+        qcolorbutton.h
+        qkeybutton.h
+        sax.h
+        simapi.h
+        socket.h
+        sockfactory.h
+        textshow.h
+        toolbtn.h
+        translit.h
+        xsl.h
+        qzip/ioapi.h
+        qzip/qzip.h
+        qzip/unzip.h
+    )
+
 # moc the sources
 KDE3_AUTOMOC(${sim_LIB_SRCS})
 
@@ -49,7 +80,7 @@ KDE3_AUTOMOC(${sim_LIB_SRCS})
 ADD_FLEX_FILES(sim_LIB_SRCS html.ll)
 
 # our target
-ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS})
+ADD_LIBRARY(simlib SHARED ${sim_LIB_SRCS} ${sim_LIB_HDRS})
 
 IF(WIN32 AND NOT MINGW)
     SET_TARGET_PROPERTIES(simlib PROPERTIES VERSION 0.0.0 SOVERSION 0)

@@ -8,10 +8,14 @@ IF(WIN32)
             windock.cpp
     )
 
+    SET(windock_LIB_HDRS
+            windock.h
+    )
+
     # moc, if needed
     KDE3_AUTOMOC(${windock_LIB_SRCS} windock.h)
 
-    ADD_LIBRARY(windock SHARED ${windock_LIB_SRCS})
+    ADD_LIBRARY(windock SHARED ${windock_LIB_SRCS} ${windock_LIB_HDRS})
 
     # some needed include dirs
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}

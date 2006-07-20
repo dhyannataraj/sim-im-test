@@ -10,6 +10,13 @@ SET(action_LIB_SRCS
         menucfg.cpp
 )
 
+SET(action_LIB_HDRS
+        action.h
+        actioncfg.h
+        additem.h
+        menucfg.h
+)
+
 SET(action_UI_FILES
         actioncfgbase.ui
         additembase.ui
@@ -20,7 +27,7 @@ SET(action_UI_FILES
 KDE3_AUTOMOC(${action_LIB_SRCS})
 
 # don't forget our ui's
-QT3_ADD_UI_FILES(action_LIB_SRCS ${action_UI_FILES})
+QT3_ADD_UI_FILES(action_LIB_SRCS ${action_UI_FILES} ${action_LIB_HDRS})
 
 ADD_LIBRARY(action SHARED ${action_LIB_SRCS})
 

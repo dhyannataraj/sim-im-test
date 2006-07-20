@@ -9,6 +9,12 @@ SET(osd_LIB_SRCS
         osdiface.cpp
 )
 
+SET(osd_LIB_HDRS
+        osd.h
+        osdconfig.h
+        osdiface.h
+)
+
 SET(osd_UI_FILES
         osdconfigbase.ui
         osdifacebase.ui
@@ -20,7 +26,7 @@ KDE3_AUTOMOC(${osd_LIB_SRCS})
 # don't forget our ui's
 QT3_ADD_UI_FILES(osd_LIB_SRCS ${osd_UI_FILES})
 
-ADD_LIBRARY(osd SHARED ${osd_LIB_SRCS})
+ADD_LIBRARY(osd SHARED ${osd_LIB_SRCS}  ${osd_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

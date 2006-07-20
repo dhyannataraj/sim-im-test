@@ -7,10 +7,14 @@ SET(zodiak_LIB_SRCS
         zodiak.cpp
 )
 
+SET(zodiak_LIB_HDRS
+        zodiak.h
+)
+
 # moc, if needed
 KDE3_AUTOMOC(${zodiak_LIB_SRCS})
 
-ADD_LIBRARY(zodiak SHARED ${zodiak_LIB_SRCS})
+ADD_LIBRARY(zodiak SHARED ${zodiak_LIB_SRCS} ${zodiak_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})

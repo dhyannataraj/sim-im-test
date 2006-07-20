@@ -8,10 +8,15 @@ SET(floaty_LIB_SRCS
         floatywnd.cpp
 )
 
+SET(floaty_LIB_HDRS
+        floaty.h
+        floatywnd.h
+)
+
 # moc, if needed
 KDE3_AUTOMOC(${floaty_LIB_SRCS})
 
-ADD_LIBRARY(floaty SHARED ${floaty_LIB_SRCS})
+ADD_LIBRARY(floaty SHARED ${floaty_LIB_SRCS} ${floaty_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
