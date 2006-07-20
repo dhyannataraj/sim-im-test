@@ -10,9 +10,9 @@ SET(dock_LIB_SRCS
 )
 
 SET(dock_LIB_HDRS
-        dock.cpp
-        dockcfg.cpp
-        dockwnd.cpp
+        dock.h
+        dockcfg.h
+        dockwnd.h
 )
 
 SET(dock_UI_FILES

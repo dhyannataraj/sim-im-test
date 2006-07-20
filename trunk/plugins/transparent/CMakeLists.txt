@@ -10,8 +10,8 @@ IF(WIN32 OR USE_KDE3)
 	)
 
 	SET(transparent_LIB_HDRS
-        	transparent.cpp
-	        transparentcfg.cpp
+        	transparent.h
+	        transparentcfg.h
 	)
 
 	SET(transparent_UI_FILES

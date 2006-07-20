@@ -27,9 +27,9 @@ SET(action_UI_FILES
 KDE3_AUTOMOC(${action_LIB_SRCS})
 
 # don't forget our ui's
-QT3_ADD_UI_FILES(action_LIB_SRCS ${action_UI_FILES} ${action_LIB_HDRS})
+QT3_ADD_UI_FILES(action_LIB_SRCS ${action_UI_FILES})
 
-ADD_LIBRARY(action SHARED ${action_LIB_SRCS})
+ADD_LIBRARY(action SHARED ${action_LIB_SRCS} ${action_LIB_HDRS})
 
 # some needed include dirs
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
