@@ -100,7 +100,7 @@ void GpgGen::accept()
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())
         return;
-    if (home[(int)(home.length() - 1)] == '\\')
+    if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
     QString in =
         "Key-Type: 1" CRLF
@@ -119,13 +119,13 @@ void GpgGen::accept()
     in += CRLF;
     if (!edtPass1->text().isEmpty()){
         in += "Passphrase: ";
-        in += edtPass1->text().utf8();
+        in += edtPass1->text();
         in += CRLF;
     }
     QString fname = user_file("keys/genkey.txt");
     QFile f(fname);
     f.open(IO_WriteOnly | IO_Truncate);
-    f.writeBlock(in.local8Bit(), in.local8Bit().length());
+    f.writeBlock(in.utf8(), in.utf8().length());
     f.close();
 
     QStringList sl;
@@ -137,19 +137,19 @@ void GpgGen::accept()
     sl += fname;
 
     delete m_process;	// to be sure...
-	m_process = new QProcess(sl, this);
+    m_process = new QProcess(sl, this);
 
     connect(m_process, SIGNAL(processExited()), this, SLOT(genKeyReady()));
 
     if (!m_process->start()) {
-		edtName->setEnabled(true);
-		cmbMail->setEnabled(true);
-		edtComment->setEnabled(true);
-		lblProcess->setText("");
-		buttonOk->setEnabled(true);
-		BalloonMsg::message(i18n("Generate key failed"), buttonOk);
-		delete m_process;
-		m_process = 0;
+        edtName->setEnabled(true);
+        cmbMail->setEnabled(true);
+        edtComment->setEnabled(true);
+        lblProcess->setText("");
+        buttonOk->setEnabled(true);
+        BalloonMsg::message(i18n("Generate key failed"), buttonOk);
+        delete m_process;
+        m_process = 0;
     }
 }
 
@@ -158,30 +158,30 @@ void GpgGen::genKeyReady()
     QFile::remove(user_file("keys/genkey.txt"));
     if (m_process->normalExit() && m_process->exitStatus() == 0){
         GpgGenBase::accept();
-	} else {
-		QByteArray ba1, ba2;
-		ba1 = m_process->readStderr();
-		ba2 = m_process->readStdout();
-		QString s(" (");
-		if (!ba1.isEmpty())
-			s += QString::fromLocal8Bit(ba1.data(), ba1.size());
-		if (!ba2.isEmpty()) {
-			if(!s.isEmpty())
-				s += " ";
-			s += QString::fromLocal8Bit(ba2.data(), ba2.size());
-		}
-		s += ")";
-		if(s == " ()")
-			s = "";
-		edtName->setEnabled(true);
-		cmbMail->setEnabled(true);
-		edtComment->setEnabled(true);
-		lblProcess->setText("");
-		buttonOk->setEnabled(true);
-		BalloonMsg::message(i18n("Generate key failed") + s, buttonOk);
-	}
-	delete m_process;
-	m_process = 0;
+    } else {
+        QByteArray ba1, ba2;
+        ba1 = m_process->readStderr();
+        ba2 = m_process->readStdout();
+        QString s(" (");
+        if (!ba1.isEmpty())
+            s += QString::fromLocal8Bit(ba1.data(), ba1.size());
+        if (!ba2.isEmpty()) {
+            if(!s.isEmpty())
+                s += " ";
+            s += QString::fromLocal8Bit(ba2.data(), ba2.size());
+        }
+        s += ")";
+        if(s == " ()")
+            s = "";
+        edtName->setEnabled(true);
+        cmbMail->setEnabled(true);
+        edtComment->setEnabled(true);
+        lblProcess->setText("");
+        buttonOk->setEnabled(true);
+        BalloonMsg::message(i18n("Generate key failed") + s, buttonOk);
+    }
+    delete m_process;
+    m_process = 0;
 }
 
 #ifndef _MSC_VER

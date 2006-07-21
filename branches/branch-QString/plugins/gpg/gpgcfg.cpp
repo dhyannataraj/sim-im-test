@@ -25,7 +25,6 @@
 #endif
 #include "gpgadv.h"
 #include "gpggen.h"
-#include "exec.h"
 
 #include <qtabwidget.h>
 #include <qcombobox.h>
@@ -48,7 +47,7 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
     lblGPG->hide();
     edtGPG->hide();
 #endif
-    edtHome->setText(user_file(m_plugin->getHome()));
+    edtHome->setText(user_file(m_plugin->getHomeDir()));
     edtHome->setDirMode(true);
     edtHome->setShowHidden(true);
     edtHome->setTitle(i18n("Select home directory"));
@@ -145,7 +144,7 @@ void GpgCfg::fillSecret(const QByteArray &ba)
         for (;;){
             QCString line = getToken(all, '\n');
             if(line.isEmpty())
-                    break;
+                break;
             QCString type = getToken(line, ':');
             if (type == "sec"){
                 getToken(line, ':');
@@ -182,13 +181,11 @@ void GpgCfg::refresh()
 #endif
     QString home = edtHome->text();
     if (gpg.isEmpty() || home.isEmpty()){
-        fillSecret(QByteArray());
+        fillSecret();
         return;
     }
     if (m_process)
         return;
-    if (home.endsWith("\\") || home.endsWith("/"))
-        home = home.left(home.length() - 1);
 
     QStringList sl;
     sl += gpg;
