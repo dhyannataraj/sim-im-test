@@ -78,7 +78,7 @@ void WeatherCfg::search()
     btnSearch->setText(i18n("&Cancel"));
     QString url = "http://xoap.weather.com/search/search?where=";
     url += toTranslit(cmbLocation->lineEdit()->text());
-    fetch(url.latin1());
+    fetch(url.utf8());
 }
 
 bool WeatherCfg::done(unsigned, Buffer &data, const char*)
@@ -151,7 +151,7 @@ void WeatherCfg::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "loc") && attr){
         for (const char **p = attr; *p;){
-            QString key   = *(p++);
+            QCString key  = *(p++);
             QString value = *(p++);
             if (key == "id")
                 m_id = value;

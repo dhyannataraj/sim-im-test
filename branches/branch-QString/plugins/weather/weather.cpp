@@ -166,7 +166,7 @@ void WeatherPlugin::timeout()
         url += "&dayf=";
         url += QString::number(getForecast());
     }
-    fetch(url);
+    fetch(url.utf8());
 }
 
 void *WeatherPlugin::processEvent(Event *e)
@@ -492,7 +492,7 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%mp"), i18n("moonphase", getMoonPhase()));
     res = res.replace(QRegExp("\\%mi"), QString::number(getMoonIcon()));
     res = res.replace(QRegExp("\\%pp"), QString::number(getPrecipitance()));
-	res = res.replace(QRegExp("\\%ut"), i18n("weather", getUV_Description()));
+    res = res.replace(QRegExp("\\%ut"), i18n("weather", getUV_Description()));
     res = res.replace(QRegExp("\\%ui"), QString::number(getUV_Intensity()));
     res = res.replace(QRegExp("\\%t"), QString::number((int)getTemperature()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%f"), QString::number((int)getFeelsLike()) + QChar((unsigned short)176) + getUT());
@@ -650,7 +650,7 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
         QString wday;
         QString day;
         for (const char **p = attr; *p;){
-            QString key = *(p++);
+            QCString key  = *(p++);
             QString value = *(p++);
             if (key == "d"){
                 m_day = value.toLong();
@@ -856,21 +856,6 @@ void WeatherPlugin::char_data(const char *str, int len)
 		m_data += QString::fromLatin1(str, len);
 }
 
-#ifdef WIN32
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
 #ifndef _MSC_VER
 #include "weather.moc"
 #endif
-
-
