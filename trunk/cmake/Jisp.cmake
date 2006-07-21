@@ -15,8 +15,9 @@ ENDMACRO(FIND_ZIP)
 MACRO(ADD_JISP_ARCHIVE subdir jisp_name _sources)
     FIND_ZIP()
 
-    FILE(GLOB _in ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/*.png)
-    SET(_in ${_in} ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/icondef.xml)
+    GET_FILENAME_COMPONENT(_in_dir ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/icondef.xml PATH)
+    FILE(GLOB _in RELATIVE ${_in_dir} ${_in_dir}/*.png)
+    SET(_in ${_in} icondef.xml)
 
     GET_FILENAME_COMPONENT(_out ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name} ABSOLUTE)
 
@@ -24,6 +25,7 @@ MACRO(ADD_JISP_ARCHIVE subdir jisp_name _sources)
         OUTPUT ${_out}
         COMMAND ${ZIP_EXECUTABLE}
         -j -q -9
+        -b ${_in_dir}
         ${_out}
         ${_in}
         DEPENDS ${_in}
