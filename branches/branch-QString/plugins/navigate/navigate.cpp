@@ -327,21 +327,16 @@ void *NavigatePlugin::processEvent(Event *e)
         if (url.isEmpty())
             return NULL;
         int n = url.find(':');
-        /* in textshow.cpp file:// is deleted because it seems on some
-           Qt-version it is appended and on some not - so if no : is found,
-           append file:// */
-        if (n < 0){
-            proto = "file";
-            url = proto + "://" + url;
-        }else{
-            proto = url.left(n);
-            if ((proto != "http") &&
-                    (proto != "https") &&
-                    (proto != "ftp") &&
-                    (proto != "file") &&
-                    (proto != "mailto"))
-                return NULL;
-        }
+        if(n < 0)
+            return NULL;
+        proto = url.left(n);
+        if ((proto != "http") &&
+                (proto != "https") &&
+                (proto != "ftp") &&
+                (proto != "file") &&
+                (proto != "mailto") &&
+                (proto != "file"))
+            return NULL;
 #ifdef WIN32
         bool bExec = false;
         if (getNewWindow()){

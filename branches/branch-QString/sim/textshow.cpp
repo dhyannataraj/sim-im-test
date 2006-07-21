@@ -437,8 +437,6 @@ void TextShow::setSource(const QString &name)
         source = name.left( hash );
         mark = name.mid( hash+1 );
     }
-    if ( source.left(5) == "file:" )
-        source = source.mid(6);
 
     QString url = mimeSourceFactory()->makeAbsolute( source, context() );
     QString txt;
