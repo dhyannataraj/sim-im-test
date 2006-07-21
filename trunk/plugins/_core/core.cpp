@@ -1232,6 +1232,13 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->flags		= COMMAND_CHECK_STATE;
     eCmd.process();
 
+    cmd->id         = CmdFetchAway;
+    cmd->text       = I18N_NOOP("&Fetch away message");
+    cmd->icon       = "message";
+    cmd->menu_grp   = 0x8020;
+    cmd->flags      = COMMAND_CHECK_STATE | BTN_HIDE;
+    eCmd.process();
+
     cmd->id			= CmdInfo;
     cmd->text		= I18N_NOOP("User &info");
     cmd->icon		= "info";

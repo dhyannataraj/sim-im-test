@@ -545,14 +545,6 @@ void ICQClient::fetchProfile(ICQUserData *data)
     m_info_req.insert(INFO_REQ_MAP::value_type(m_nMsgSequence, screen(data)));
 }
 
-void ICQClient::fetchAwayMessage(ICQUserData *data)
-{
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
-    m_socket->writeBuffer << (unsigned short)0x0003;
-    m_socket->writeBuffer.packScreen(screen(data).c_str());
-    sendPacket(false);
-}
-
 void ICQClient::fetchProfiles()
 {
     if (data.owner.ProfileFetch.bValue == 0)

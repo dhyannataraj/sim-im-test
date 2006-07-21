@@ -72,6 +72,8 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
             return;
         }
     }
+    if(s->flags & BTN_HIDE)
+        return;
     if (m_wrk->count()){
         QSize s = m_wrk->sizeHint();
         QWidget *desktop = qApp->desktop();

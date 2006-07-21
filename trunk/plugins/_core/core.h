@@ -277,6 +277,7 @@ const unsigned long CmdAllEncodings			= (CmdBase + 99);
 const unsigned long CmdSearchInfo			= (CmdBase + 101);
 const unsigned long CmdSearchMsg			= (CmdBase + 102);
 const unsigned long CmdSearchOptions		= (CmdBase + 103);
+const unsigned long CmdFetchAway            = (CmdBase + 104);
 
 const unsigned long CmdContactGroup			= (CmdBase + 0x100);
 const unsigned long CmdUnread				= (CmdBase + 0x200);
