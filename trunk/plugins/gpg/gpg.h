@@ -96,6 +96,7 @@ public:
     static GpgPlugin *plugin;
     std::list<KeyMsg>	 m_sendKeys;
     unsigned long user_data_id;
+    QString getHomeDir();
 protected slots:
     void decryptReady(Exec*,int,const char*);
     void importReady(Exec*,int,const char*);

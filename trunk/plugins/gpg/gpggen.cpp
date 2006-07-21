@@ -18,18 +18,17 @@
 #include "gpggen.h"
 #include "gpgcfg.h"
 #include "gpg.h"
-#include "exec.h"
 #include "ballonmsg.h"
 #include "editfile.h"
 
 #include <qpixmap.h>
+#include <qprocess.h>
 #include <qlineedit.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qfile.h>
 
-using std::string;
 using namespace SIM;
 
 GpgGen::GpgGen(GpgCfg *cfg)
@@ -40,7 +39,7 @@ GpgGen::GpgGen(GpgCfg *cfg)
     setButtonsPict(this);
     setCaption(caption());
     cmbMail->setEditable(true);
-    m_exec = NULL;
+    m_process = NULL;
     m_cfg  = cfg;
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtPass1, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
@@ -71,8 +70,7 @@ GpgGen::GpgGen(GpgCfg *cfg)
 
 GpgGen::~GpgGen()
 {
-    if (m_exec)
-        delete m_exec;
+     delete m_process;
 }
 
 void GpgGen::textChanged(const QString&)
@@ -87,20 +85,6 @@ void GpgGen::textChanged(const QString&)
 #else
 #define CRLF	"\n"
 #endif
-
-static string toLatin(const QString &str)
-{
-    QString s = toTranslit(str);
-    string res;
-    for (int i = 0; i < (int)s.length(); i++){
-        if (s[i].unicode() > 0x7F){
-            res += "?";
-        }else{
-            res += s[i].latin1();
-        }
-    }
-    return res;
-}
 
 void GpgGen::accept()
 {
@@ -117,26 +101,26 @@ void GpgGen::accept()
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())
         return;
-    if (home[(int)(home.length() - 1)] == '\\')
+    if (home.endsWith("\\"))
         home = home.left(home.length() - 1);
-    string in =
+    QString in =
         "Key-Type: 1" CRLF
         "Key-Length: 1024" CRLF
         "Expire-Date: 0" CRLF
         "Name-Real: ";
-    in += toLatin(edtName->text());
+    in += edtName->text();
     in += CRLF;
     if (!edtComment->text().isEmpty()){
         in += "Name-Comment: ";
-        in += toLatin(edtComment->text());
+        in += edtComment->text();
         in += CRLF;
     }
     in += "Name-Email: ";
-    in += toLatin(cmbMail->lineEdit()->text());
+    in += cmbMail->lineEdit()->text();
     in += CRLF;
     if (!edtPass1->text().isEmpty()){
         in += "Passphrase: ";
-        in += edtPass1->text().utf8();
+        in += edtPass1->text();
         in += CRLF;
     }
 #ifdef WIN32
@@ -146,39 +130,68 @@ void GpgGen::accept()
 #endif
     QFile f(fname);
     f.open(IO_WriteOnly | IO_Truncate);
-    f.writeBlock(in.c_str(), in.length());
+    f.writeBlock(in.utf8(), in.utf8().length());
     f.close();
 
-    gpg = QString("\"") + gpg + "\"";
-    gpg += " --no-tty --homedir \"";
-    gpg += home;
-    gpg += "\" ";
-    gpg += GpgPlugin::plugin->getGenKey();
-    gpg += " \"";
-    gpg += fname.local8Bit();
-    gpg += "\"";
-    m_exec = new Exec;
-    connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(genKeyReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+    QStringList sl;
+    sl += gpg;
+    sl += "--no-tty";
+    sl += "--homedir";
+    sl += home;
+    sl += QStringList::split(' ', GpgPlugin::plugin->getGenKey());
+    sl += fname;
+
+    delete m_process;	// to be sure...
+    m_process = new QProcess(sl, this);
+
+    connect(m_process, SIGNAL(processExited()), this, SLOT(genKeyReady()));
+
+    if (!m_process->start()) {
+        edtName->setEnabled(true);
+        cmbMail->setEnabled(true);
+        edtComment->setEnabled(true);
+        lblProcess->setText("");
+        buttonOk->setEnabled(true);
+        BalloonMsg::message(i18n("Generate key failed"), buttonOk);
+        delete m_process;
+        m_process = 0;
+    }
 }
 
-void GpgGen::genKeyReady(Exec*,int res,const char*)
+void GpgGen::genKeyReady()
 {
 #ifdef WIN32
     QFile::remove(QFile::decodeName(user_file("keys\\genkey.txt").c_str()));
 #else
     QFile::remove(QFile::decodeName(user_file("keys/genkey.txt").c_str()));
 #endif
-    if (res == 0){
+    QFile::remove(user_file("keys/genkey.txt"));
+    if (m_process->normalExit() && m_process->exitStatus() == 0){
         GpgGenBase::accept();
-        return;
+    } else {
+        QByteArray ba1, ba2;
+        ba1 = m_process->readStderr();
+        ba2 = m_process->readStdout();
+        QString s(" (");
+        if (!ba1.isEmpty())
+            s += QString::fromLocal8Bit(ba1.data(), ba1.size());
+        if (!ba2.isEmpty()) {
+            if(!s.isEmpty())
+	            s += " ";
+            s += QString::fromLocal8Bit(ba2.data(), ba2.size());
+        }
+        s += ")";
+        if(s == " ()")
+            s = "";
+        edtName->setEnabled(true);
+        cmbMail->setEnabled(true);
+        edtComment->setEnabled(true);
+        lblProcess->setText("");
+        buttonOk->setEnabled(true);
+        BalloonMsg::message(i18n("Generate key failed") + s, buttonOk);
     }
-    edtName->setEnabled(true);
-    cmbMail->setEnabled(true);
-    edtComment->setEnabled(true);
-    lblProcess->setText("");
-    buttonOk->setEnabled(true);
-    BalloonMsg::message(i18n("Generate key failed"), buttonOk);
+    delete m_process;
+    m_process = 0;
 }
 
 #ifndef NO_MOC_INCLUDES

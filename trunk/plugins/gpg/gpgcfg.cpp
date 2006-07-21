@@ -17,6 +17,7 @@
 
 #include "gpg.h"
 #include "gpgcfg.h"
+#include "ballonmsg.h"
 #include "editfile.h"
 #include "linklabel.h"
 #ifdef WIN32
@@ -24,23 +25,21 @@
 #endif
 #include "gpgadv.h"
 #include "gpggen.h"
-#include "buffer.h"
-#include "exec.h"
 
+#include <qprocess.h>
 #include <qpushbutton.h>
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qtimer.h>
 #include <qfile.h>
 
-using std::string;
 using namespace SIM;
 
 GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
         : GpgCfgBase(parent)
 {
     m_plugin = plugin;
-    m_exec   = NULL;
+    m_process= NULL;
     m_bNew   = false;
 #ifdef WIN32
     edtGPG->setText(QFile::decodeName(m_plugin->getGPG()));
@@ -50,7 +49,7 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
     lblGPG->hide();
     edtGPG->hide();
 #endif
-    edtHome->setText(QFile::decodeName(user_file(m_plugin->getHome()).c_str()));
+    edtHome->setText(m_plugin->getHomeDir());
     edtHome->setDirMode(true);
     edtHome->setShowHidden(true);
     edtHome->setTitle(i18n("Select home directory"));
@@ -70,29 +69,27 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
     }
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));
     connect(cmbKey, SIGNAL(activated(int)), this, SLOT(selectKey(int)));
-    fillSecret(NULL);
+    fillSecret();
     refresh();
 }
 
 GpgCfg::~GpgCfg()
 {
 #ifdef WIN32
-    if (m_find)
-        delete m_find;
+    delete m_find;
 #endif
-    if (m_adv)
-        delete m_adv;
+    delete m_adv;
 }
 
 void GpgCfg::apply()
 {
-    string key;
+    QString key;
     int nKey = cmbKey->currentItem();
     if (nKey && (nKey < cmbKey->count() - 1)){
-        string k = cmbKey->currentText().latin1();
+        QString k = cmbKey->currentText();
         key = getToken(k, ' ');
     }
-    m_plugin->setKey(key.c_str());
+    m_plugin->setKey(key.ascii());
 #ifdef WIN32
     m_plugin->setGPG(QFile::encodeName(edtGPG->text()));
 #endif
@@ -138,37 +135,35 @@ void GpgCfg::findFinished()
 #endif
 }
 
-void GpgCfg::fillSecret(Buffer *b)
+void GpgCfg::fillSecret(const QByteArray &ba)
 {
     int cur = 0;
     int n   = 1;
     cmbKey->clear();
     cmbKey->insertItem(i18n("None"));
-    if (b){
+    if (!ba.isEmpty()){
+        QCString all(ba);
         for (;;){
-            string line;
-            bool bRes = b->scan("\n", line);
-            if (!bRes){
-                line.append(b->data(b->readPos()), b->size() - b->readPos());
-            }
-            string type = getToken(line, ':');
+            QCString line = getToken(all, '\n');
+            if(line.isEmpty())
+                    break;
+            QCString type = getToken(line, ':');
             if (type == "sec"){
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                string sign = getToken(line, ':');
+                QString sign = QString::fromLocal8Bit(getToken(line, ':'));
                 if (sign == m_plugin->getKey())
                     cur = n;
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
                 getToken(line, ':');
-                string name = getToken(line, ':');
-                cmbKey->insertItem(QString(sign.c_str()) + " - " + name.c_str());
+                QCString name = getToken(line, ':');
+                cmbKey->insertItem(QString::fromLocal8Bit(sign) + QString(" - ") +
+                                   QString::fromLocal8Bit(name));
                 n++;
             }
-            if (!bRes)
-                break;
         }
     }
     cmbKey->insertItem(i18n("New"));
@@ -186,38 +181,55 @@ void GpgCfg::refresh()
 #else
     QString gpg  = QFile::decodeName(m_plugin->GPG());
 #endif
-    QString home = edtHome->text();
+    QString home = m_plugin->getHomeDir();
+
     if (gpg.isEmpty() || home.isEmpty()){
         fillSecret(NULL);
         return;
     }
-    if (m_exec)
+    if (m_process)
         return;
-    if (home[(int)(home.length() - 1)] == '\\')
-        home = home.left(home.length() - 1);
-    gpg = QString("\"") + gpg + "\"";
-    gpg += " --no-tty --homedir \"";
-    gpg += home;
-    gpg += "\" ";
-    gpg += m_plugin->getSecretList();
-    m_exec = new Exec;
-    connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(secretReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), 0, true);
-}
 
-void GpgCfg::secretReady(Exec *exec, int res, const char*)
-{
-    if (res == 0)
-        fillSecret(&exec->bOut);
-    QTimer::singleShot(0, this, SLOT(clearExec()));
-}
+    QStringList sl;
+    sl += gpg;
+    sl += "--no-tty";
+    sl += "--homedir";
+    sl += home;
+    sl += QStringList::split(' ', GpgPlugin::plugin->getSecretList());
 
-void GpgCfg::clearExec()
-{
-    if (m_exec){
-        delete m_exec;
-        m_exec = NULL;
+    m_process = new QProcess(sl, this);
+
+    connect(m_process, SIGNAL(processExited()), this, SLOT(secretReady()));
+    if (!m_process->start()) {
+        BalloonMsg::message(i18n("Get secret list failed"), btnRefresh);
+        delete m_process;
+        m_process = 0;
     }
+}
+
+void GpgCfg::secretReady()
+{
+    if (m_process->normalExit() && m_process->exitStatus()==0) {
+        fillSecret(m_process->readStdout());
+    } else {
+        QByteArray ba1, ba2;
+        ba1 = m_process->readStderr();
+        ba2 = m_process->readStdout();
+        QString s(" (");
+        if (!ba1.isEmpty())
+            s += QString::fromLocal8Bit(ba1.data(), ba1.size());
+        if (!ba2.isEmpty()) {
+            if(!s.isEmpty())
+                s += " ";
+            s += QString::fromLocal8Bit(ba2.data(), ba2.size());
+        }
+        s += ")";
+        if(s == " ()")
+            s = "";
+        BalloonMsg::message(i18n("Get secret list failed") + s, btnRefresh);
+    }
+    delete m_process;
+    m_process = 0;
 }
 
 void GpgCfg::selectKey(int n)

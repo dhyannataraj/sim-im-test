@@ -934,6 +934,14 @@ void *MsgGPGKey::processEvent(Event *e)
     return NULL;
 }
 
+QString GpgPlugin::getHomeDir()
+{
+    QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
+    if (home.endsWith("\\") || home.endsWith("/"))
+        home = home.left(home.length() - 1);
+    return home;
+}
+
 #ifndef NO_MOC_INCLUDES
 #include "gpg.moc"
 #endif

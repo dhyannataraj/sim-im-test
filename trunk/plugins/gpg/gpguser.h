@@ -18,12 +18,10 @@
 #ifndef _GPGUSER_H
 #define _GPGUSER_H
 
-#include "simapi.h"
-
 #include "gpguserbase.h"
 
 class GpgPlugin;
-class Exec;
+class QProcess;
 
 class GpgUser : public GpgUserBase
 {
@@ -34,12 +32,10 @@ public:
 public slots:
     void apply(void *data);
     void refresh();
-    void publicReady(Exec*, int, const char*);
-    void clearExec();
+    void publicReady();
 protected:
-    void fillPublic(Buffer *b);
-    Exec		*m_exec;
-    std::string	m_key;
+    QProcess   *m_process;
+    QString     m_key;
 };
 
 #endif
