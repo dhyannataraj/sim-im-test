@@ -136,7 +136,7 @@ protected:
     QString forecastReplace(const QString&);
     unsigned long BarWeather;
     unsigned long CmdWeather;
-    std::string m_data;
+    QString m_data;
     bool   m_bData;
     bool   m_bBar;
     bool   m_bWind;
@@ -145,10 +145,10 @@ protected:
     bool   m_bForecast;
     bool   m_bCC;
     unsigned m_day;
-    std::string getConfig();
+    virtual std::string getConfig();
     bool isDay();
-    bool parseTime(const char *str, int &h, int &m);
-    bool parseDateTime(const char *str, QDateTime &dt);
+    bool parseTime(const QString &str, int &h, int &m);
+    bool parseDateTime(const QString &str, QDateTime &dt);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     void *processEvent(SIM::Event*);
