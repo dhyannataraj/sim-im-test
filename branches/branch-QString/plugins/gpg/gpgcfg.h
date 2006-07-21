@@ -18,8 +18,6 @@
 #ifndef _GPGCFG_H
 #define _GPGCFG_H
 
-#include "simapi.h"
-
 #include "gpgcfgbase.h"
 
 class GpgPlugin;

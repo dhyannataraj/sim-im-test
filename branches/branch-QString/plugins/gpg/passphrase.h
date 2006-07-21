@@ -18,7 +18,6 @@
 #ifndef _PASSPHRASE_H
 #define _PASSPHRASE_H
 
-#include "simapi.h"
 #include "passphrasebase.h"
 
 class GpgPlugin;

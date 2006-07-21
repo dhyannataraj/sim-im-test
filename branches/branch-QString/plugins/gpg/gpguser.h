@@ -18,12 +18,11 @@
 #ifndef _GPGUSER_H
 #define _GPGUSER_H
 
-#include "simapi.h"
-
 #include "gpguserbase.h"
 
 class GpgPlugin;
 class QProcess;
+class ConfigBuffer;
 
 class GpgUser : public GpgUserBase
 {

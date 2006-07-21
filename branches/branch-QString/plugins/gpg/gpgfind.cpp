@@ -25,8 +25,6 @@
 #include <qtimer.h>
 #include <qregexp.h>
 
-#include <windows.h>
-
 using namespace SIM;
 
 GpgFind::GpgFind(EditFile *edt)

@@ -18,7 +18,6 @@
 #ifndef _GPGGEN_H
 #define _GPGGEN_H
 
-#include "simapi.h"
 #include "gpggenbase.h"
 
 class QProcess;

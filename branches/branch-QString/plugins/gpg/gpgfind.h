@@ -18,7 +18,6 @@
 #ifndef _GPGFIND_H
 #define _GPGFIND_H
 
-#include "simapi.h"
 #include "stl.h"
 #include "gpgfindbase.h"
 
