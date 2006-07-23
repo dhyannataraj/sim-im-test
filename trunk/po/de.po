@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2006-03-11 02:52+0500\n"
-"PO-Revision-Date: 2006-04-26 01:55+0100\n"
+"PO-Revision-Date: 2006-07-23 19:26+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6685,7 +6685,7 @@ msgstr "Öffnen und &hervorheben"
 #: rc.cpp:698
 #, no-c-format
 msgid "Area code:"
-msgstr "Postleitzahl"
+msgstr "Vorwahl:"
 
 #. i18n: file ./plugins/_core/phonebase.ui line 86
 #: rc.cpp:701
