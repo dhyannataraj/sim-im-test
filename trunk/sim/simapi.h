@@ -1717,11 +1717,9 @@ EXPORT const pager_provider *getProviders();
 
 #ifdef WIN32
 EXPORT void setWndProc(QWidget*);
-EXPORT void mySetCaption(QWidget *w, const QString &caption);
 EXPORT void translate();
 EXPORT unsigned wndMessage();
 #define SET_WNDPROC(A)  SIM::setWndProc(this);
-#define setCaption(s)   SIM::mySetCaption(this, s);
 #else
 #ifndef QT_MACOSX_VERSION
 EXPORT void setWndClass(QWidget*, const char*);
