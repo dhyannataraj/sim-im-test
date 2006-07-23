@@ -95,7 +95,7 @@ static DataDef gpgData[] =
         { "Import", DATA_STRING, 1, "--import %keyfile%" },
         { "Export", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --export %userid%" },
         { "Encrypt", DATA_STRING, 1, "--charset utf8 --batch --yes --armor --comment \"\" --no-version --recipient %userid% --trusted-key %userid% --output %cipherfile% --encrypt %plainfile%" },
-        { "Decrypt", DATA_STRING, 1, "--charset utf8 --yes --passphrase-fd 0 --output %plainfile% --decrypt %cipherfile%" },
+        { "Decrypt", DATA_STRING, 1, "--charset utf8 --yes --passphrase-fd 0 --status-fd 2 --output %plainfile% --decrypt %cipherfile%" },
         { "Key", DATA_STRING, 1, 0 },
         { "Passphrases", DATA_UTFLIST, 1, 0 },
         { "Keys", DATA_STRLIST, 1, 0 },
@@ -206,7 +206,7 @@ void GpgPlugin::decryptReady()
                 QFile f(s);
                 if (f.open(IO_ReadOnly)){
                     QByteArray ba = f.readAll();
-                    msg->setText(QString::fromUtf8(ba));
+                    msg->setText(QString::fromUtf8(ba.data(), ba.size()));
                     msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                 }else{
                     log(L_WARN, "Can't open output decrypt file %s", s.local8Bit().data());
@@ -248,50 +248,50 @@ void GpgPlugin::decryptReady()
                 QString passphrase;
                 QByteArray ba = p->readStderr();
                 QString str = QString::fromUtf8(ba.data(), ba.size());
-                key = getToken(str, '\n');
-                if (str.contains("bad passphrase")){
-                    int n = key.find("ID ");
-                    if (n > 0)
-                        key = key.mid(n + 3);
-                    key = getToken(key, ' ');
-                    key = getToken(key, ',');
-                    if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
-                        DecryptMsg m;
-                        m.msg    = msg;
-                        m.key    = key;
-                        m_wait.push_back(m);
-                        m_passphraseDlg->error();
-                        return;
-                    }
-                    if ((*it).passphrase.isEmpty()){
-                        for (unsigned i = 1; i <= getnPassphrases(); i++){
-                            if (QString::fromLocal8Bit(key) == getKeys(i)){
-                                passphrase = getPassphrases(i);
-                                break;
+                while(!str.isEmpty()) {
+                    key = getToken(str, '\n');
+                    if (key.contains("BAD_PASSPHRASE")){
+                        int n = key.find("BAD_PASSPHRASE ");
+                        if(n < 0)
+                            break;
+                        key = key.mid(n + strlen("BAD_PASSPHRASE "));
+                        if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
+                            DecryptMsg m;
+                            m.msg    = msg;
+                            m.key    = key;
+                            m_wait.push_back(m);
+                            m_passphraseDlg->error();
+                            return;
+                        }
+                        if ((*it).passphrase.isEmpty()){
+                            for (unsigned i = 1; i <= getnPassphrases(); i++){
+                                if (key == getKeys(i)){
+                                    passphrase = getPassphrases(i);
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if ((*it).passphrase.isEmpty() && !passphrase.isEmpty()){
-                        if (decode(msg, passphrase, key))
+                        if ((*it).passphrase.isEmpty() && !passphrase.isEmpty()){
+                            if (decode(msg, passphrase, key))
+                                return;
+                        }else{
+                            DecryptMsg m;
+                            m.msg    = msg;
+                            m.key    = key;
+                            m_wait.push_back(m);
+                            (*it).msg = NULL;
+                            QTimer::singleShot(0, this, SLOT(clear()));
+                            askPassphrase();
                             return;
-                    }else{
-                        DecryptMsg m;
-                        m.msg    = msg;
-                        m.key    = key;
-                        m_wait.push_back(m);
-                        (*it).msg = NULL;
-                        QTimer::singleShot(0, this, SLOT(clear()));
-                        askPassphrase();
-                        return;
+                        }
                     }
-                }else{
-                    if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
-                        delete m_passphraseDlg;
-                        m_passphraseDlg = NULL;
-                        askPassphrase();
-                    } else {
-                        msg->setText(key + "\n" + str);
-                    }
+                }
+                if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
+                    delete m_passphraseDlg;
+                    m_passphraseDlg = NULL;
+                    askPassphrase();
+                } else {
+                    msg->setText(key + "\n" + str);
                 }
             }
             Event e(EventMessageReceived, msg);
@@ -561,8 +561,8 @@ void *GpgPlugin::processEvent(Event *e)
                         log(L_WARN, "Can't create %s", input.local8Bit().data());
                         return NULL;
                     }
-                    QByteArray ba = text.utf8();
-                    in.writeBlock(ba);
+                    QCString cstr = text.utf8();
+                    in.writeBlock(cstr.data(), cstr.length());
                     in.close();
                     QString home = GpgPlugin::plugin->getHomeDir();
 
@@ -604,8 +604,8 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
         log(L_WARN, "Can't create %s", input.local8Bit().data());
         return false;
     }
-    QByteArray ba = msg->getPlainText().utf8();
-    in.writeBlock(ba);
+    QCString cstr = msg->getPlainText().utf8();
+    in.writeBlock(cstr.data(), cstr.length());
     in.close();
     QString home = GpgPlugin::plugin->getHomeDir();
 
@@ -630,7 +630,7 @@ bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &
     m_decrypt.push_back(dm);
 
     connect(dm.process, SIGNAL(processExited()), this, SLOT(decryptReady()));
-    dm.process->launch(aPassphrase + "\n");
+    dm.process->launch(aPassphrase);
     return true;
 }
 

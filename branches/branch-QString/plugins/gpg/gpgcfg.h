@@ -44,7 +44,7 @@ public slots:
     void selectKey(int);
 protected:
     void fillSecret(const QByteArray &ba = QByteArray());
-    bool	   m_bNew;
+    bool       m_bNew;
     QProcess  *m_process;
     GpgPlugin *m_plugin;
 #ifdef WIN32
