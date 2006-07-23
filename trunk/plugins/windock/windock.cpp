@@ -113,7 +113,11 @@ static void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
         w = rcWnd->right - rcWnd->left;
     }else{
         GetWindowRect(pMain->winId(), &rcWork);
-        w = rcWork.right - rcWork.left;
+#ifdef WIN32
+        w = rcWork.right - rcWork.left-1;
+#else
+		w = rcWork.right - rcWork.left;
+#endif
     }
     switch (state){
     case ABE_LEFT:
