@@ -70,10 +70,10 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
     load_data(monitorData, &data, config);
 
     if (getLogPackets()){
-        string packets = getLogPackets();
+        QString packets = getLogPackets();
         while (packets.length()){
-            string v = getToken(packets, ',');
-            setLogType(atol(v.c_str()), true);
+            QString v = getToken(packets, ',');
+            setLogType(v.toULong(), true);
         }
     }
 
@@ -104,8 +104,7 @@ NetmonitorPlugin::~NetmonitorPlugin()
     Event eCmd(EventCommandRemove, (void*)CmdNetMonitor);
     eCmd.process();
 
-    if (monitor)
-        delete monitor;
+    delete monitor;
 
     free_data(monitorData, &data);
 }
@@ -114,31 +113,24 @@ string NetmonitorPlugin::getConfig()
 {
     saveState();
     setShow(monitor != NULL);
-    string packets;
-    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+    QString packets;
+    for (QValueList<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';
-        packets += number(*it);
+        packets += QString::number(*it);
     }
+    setLogPackets(packets);
     return save_data(monitorData, &data);
 }
 
 bool NetmonitorPlugin::isLogType(unsigned id)
 {
-    for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
-        if ((*it) == id)
-            return true;
-    }
-    return false;
+    return ( m_packets.find( id ) != m_packets.end() );
 }
 
 void NetmonitorPlugin::setLogType(unsigned id, bool bLog)
 {
-    list<unsigned>::iterator it;
-    for (it = m_packets.begin(); it != m_packets.end(); ++it){
-        if ((*it) == id)
-            break;
-    }
+    QValueList<unsigned>::iterator it = m_packets.find(id);
     if (bLog){
         if (it == m_packets.end())
             m_packets.push_back(id);

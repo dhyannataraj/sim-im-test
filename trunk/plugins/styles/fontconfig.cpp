@@ -53,8 +53,8 @@ FontConfig::~FontConfig()
 void FontConfig::apply()
 {
     using std::string;
-    string base;
-    string menu;
+    QString base;
+    QString menu;
     if (chkSystem->isChecked()){
         m_plugin->setSystemFonts(true);
     }else{
@@ -62,8 +62,8 @@ void FontConfig::apply()
         base = edtFont->getFont();
         menu = edtMenu->getFont();
     }
-    m_plugin->setBaseFont(base.c_str());
-    m_plugin->setMenuFont(menu.c_str());
+    m_plugin->setBaseFont(base.latin1());
+    m_plugin->setMenuFont(menu.latin1());
     m_plugin->setFonts();
 
     bool bChanged = false;

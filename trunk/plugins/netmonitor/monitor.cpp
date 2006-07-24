@@ -83,9 +83,6 @@ MonitorWindow::MonitorWindow(NetmonitorPlugin *plugin)
     menu->insertItem(i18n("&Log"), menuLog);
     bPause = false;
     bAutoscroll = true;
-
-    m_logTimer = new QTimer(this);
-    connect(m_logTimer, SIGNAL(timeout()), this, SLOT(outputLog()));
 }
 
 void MonitorWindow::closeEvent(QCloseEvent *e)
@@ -103,16 +100,18 @@ void MonitorWindow::save()
         QMessageBox::warning(this, i18n("Error"), i18n("Can't create file %1") .arg(s));
         return;
     }
-    QCString t;
+    QTextStream ts(&f);
+    QString t;
     if (edit->hasSelectedText()){
-        t = unquoteText(edit->selectedText()).local8Bit();
+        t = unquoteText(edit->selectedText());
     }else{
-        t = unquoteText(edit->text()).local8Bit();
+        t = unquoteText(edit->text());
     }
 #ifdef WIN32
     t.replace(QRegExp("\n"),"\r\n");
 #endif
-    f.writeBlock(t, t.length());
+    ts << t;
+    f.close();
 }
 
 void MonitorWindow::exit()
@@ -139,7 +138,7 @@ void MonitorWindow::erase()
 
 void MonitorWindow::adjustEdit()
 {
-    menuEdit->setItemEnabled(mnuCopy, !edit->hasSelectedText());
+    menuEdit->setItemEnabled(mnuCopy, edit->hasSelectedText());
     menuEdit->setItemEnabled(mnuErase, !edit->hasSelectedText());
 }
 
@@ -239,7 +238,7 @@ void *MonitorWindow::processEvent(Event *e)
             logString += "</pre></p>";
             QMutexLocker lock(&m_mutex);
             m_logStrings += logString;
-            m_logTimer->start(10,true);
+            QTimer::singleShot(10, this, SLOT(outputLog()));
         }
     }
     return NULL;
@@ -253,7 +252,6 @@ void MonitorWindow::outputLog()
 
     QMutexLocker lock(&m_mutex);
 
-    m_logTimer->stop();
     for(unsigned i = 0; i < m_logStrings.count(); i++)
         edit->append(m_logStrings[(int)i]);
 

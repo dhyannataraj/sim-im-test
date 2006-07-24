@@ -39,7 +39,6 @@
 #include <qpushbutton.h>
 #include <qpainter.h>
 
-using namespace std;
 using namespace SIM;
 
 Plugin *createZodiakPlugin(unsigned base, bool, Buffer*)
@@ -95,7 +94,7 @@ void ZodiakPlugin::createLabel(DatePicker *picker)
     Picker p;
     p.picker = picker;
     p.label  = new ZodiakWnd(picker);
-    m_pickers.push_back(p);
+    m_pickers.append(p);
     if (p.picker->layout())
         static_cast<QBoxLayout*>(p.picker->layout())->addWidget(p.label);
     p.label->show();
@@ -114,7 +113,7 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
         QChildEvent *ce = (QChildEvent*)e;
         if (ce->child()->inherits("DatePicker")){
             DatePicker *picker = (DatePicker*)(ce->child());
-            list<Picker>::iterator it;
+            QValueListIterator<Picker> it;
             for (it = m_pickers.begin(); it != m_pickers.end(); ++it){
                 if ((*it).picker == picker)
                     break;
@@ -127,9 +126,9 @@ bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)
         QChildEvent *ce = (QChildEvent*)e;
         if (ce->child()->inherits("DatePicker")){
             DatePicker *picker = (DatePicker*)(ce->child());
-            for (list<Picker>::iterator it = m_pickers.begin(); it != m_pickers.end(); ++it){
+            for (QValueListIterator<Picker> it = m_pickers.begin(); it != m_pickers.end(); ++it){
                 if ((*it).picker == picker){
-                    m_pickers.erase(it);
+                    m_pickers.remove(it);
                     break;
                 }
             }
@@ -231,9 +230,9 @@ void ZodiakWnd::view()
     m_picker->getDate(day, month, year);
     if (day && month && year){
         int n = getSign(day, month);
-        string s;
-        s = i18n("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]).latin1();
-        Event e(EventGoURL, (void*)(s.c_str()));
+        QString s;
+        s = i18n("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]);
+        Event e(EventGoURL, (void*)(s.latin1()));
         e.process();
     }
 }

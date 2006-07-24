@@ -56,9 +56,8 @@ protected:
     QPopupMenu *menuEdit;
     QPopupMenu *menuLog;
     NetmonitorPlugin *m_plugin;
-    QStringList m_logStrings;
-    QTimer *m_logTimer;
     QMutex m_mutex;
+    QStringList m_logStrings;
 protected slots:
     void outputLog();
 };
