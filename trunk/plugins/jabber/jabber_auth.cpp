@@ -98,7 +98,7 @@ void JabberClient::auth_digest()
 
     string digest = m_id;
     digest += getPassword().utf8();
-    string md = sha1(digest.c_str());
+    string md = static_cast<string>(sha1(digest.c_str()));
     digest = "";
     for (unsigned i = 0; i < md.length(); i++){
         char b[3];

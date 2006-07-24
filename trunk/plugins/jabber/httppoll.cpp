@@ -76,7 +76,7 @@ string JabberHttpPool::getKey()
         m_key = m_seed;
         return m_key;
     }
-    string digest = sha1(m_key.c_str());
+    string digest = static_cast<string>(sha1(m_key.c_str()));
     Buffer b;
     b.pack(digest.c_str(), digest.length());
     Buffer r;

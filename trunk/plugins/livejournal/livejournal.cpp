@@ -1313,7 +1313,7 @@ LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mo
     addParam("ver", "1");
     if (client->data.owner.User.ptr)
         addParam("user", client->data.owner.User.ptr);
-    string pass = md5(client->getPassword().utf8());
+    string pass = static_cast<string>(md5(client->getPassword().utf8()));
     string hpass;
     for (unsigned i = 0; i < pass.length(); i++){
         char b[5];
