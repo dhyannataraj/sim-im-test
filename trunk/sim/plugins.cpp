@@ -155,7 +155,7 @@ static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
     return (*n1 == 0) && (*n2 != 0);
 }
 
-bool findPluginsInBuildDir(const QDir &appDir, QStringList &pluginsList)
+bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList)
 {
     QDir pluginsDir(appDir.absFilePath("plugins"));
     log(L_DEBUG, "Searching for plugins in build directory '%s'...", static_cast<const char*>(pluginsDir.path()));
@@ -164,8 +164,8 @@ bool findPluginsInBuildDir(const QDir &appDir, QStringList &pluginsList)
     const QStringList pluginDirs = pluginsDir.entryList("*", QDir::Dirs);
     for (QStringList::const_iterator it = pluginDirs.begin(); it != pluginDirs.end(); ++it) {
         const QDir pluginDir( *it );
-        // trunk/plugins/$plugin_name/.libs/$plugin_name.so
-        const QString pluginFilename = pluginsDir.filePath(QDir( pluginDir.filePath(".libs") ).
+        // trunk/plugins/$plugin_name/$subdir/$plugin_name.so
+        const QString pluginFilename = pluginsDir.filePath(QDir( pluginDir.filePath(subdir) ).
                                                            filePath(pluginDir.dirName() + LTDL_SHLIB_EXT));
         if (QFile::exists(pluginFilename)) {
             log(L_DEBUG, "Found '%s'...", static_cast<const char*>(pluginFilename));
@@ -184,9 +184,9 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     m_argc = argc;
     m_argv = argv;
     unsigned logLevel = L_ERROR | L_WARN;
-#ifdef DEBUG
+    // #ifdef DEBUG // zowers: commented out ifdef to be able to get some output from users even on production systems
     logLevel |= L_DEBUG;
-#endif
+    // #endif
     builtinLogger.reset(new BuiltinLogger(logLevel));
 
     m_exec = new ExecManager;
@@ -201,8 +201,11 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 
     QStringList pluginsList;
     QDir appDir(qApp->applicationDirPath());
-    if ( findPluginsInBuildDir(appDir, pluginsList)
-         || findPluginsInBuildDir(appDir.path() + "/..", pluginsList)) {
+    if ( findPluginsInBuildDir(appDir, ".", pluginsList)                    // cmake location is source dir itself
+         || findPluginsInBuildDir(appDir.path() + "/..", ".", pluginsList)  // 
+         || findPluginsInBuildDir(appDir, ".libs", pluginsList)             // autotools location is .libs subdur
+         || findPluginsInBuildDir(appDir.path() + "/..", ".libs", pluginsList) )
+    {
         log(L_DEBUG,"Loading plugins from build directory!");
     } else {
 
