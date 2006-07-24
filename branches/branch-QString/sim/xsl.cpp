@@ -71,10 +71,9 @@ XSL::XSL(const QString &name)
             bOK = false;
         }
     }
-	QString xsl("");
-	if(bOK) {
-		QTextStream ts(&f);
-		xsl = ts.read();
+    QCString xsl;
+    if(bOK){
+		xsl = f.readAll();
     }
     d = new XSLPrivate(xsl);
 }
