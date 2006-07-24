@@ -57,11 +57,7 @@ XSLPrivate::~XSLPrivate()
         xsltFreeStylesheet(styleSheet);
 }
 
-#ifdef WIN32
-static char STYLES[] = "styles\\";
-#else
 static char STYLES[] = "styles/";
-#endif
 static char EXT[]    = ".xsl";
 
 XSL::XSL(const QString &name)
@@ -78,13 +74,11 @@ XSL::XSL(const QString &name)
             bOK = false;
         }
     }
-    string xsl;
-    if (bOK){
-        xsl.append(f.size(), '\x00');
-        f.readBlock((char*)(xsl.c_str()), f.size());
-        f.close();
+    QCString xsl;
+    if(bOK){
+		xsl = f.readAll();
     }
-    d = new XSLPrivate(xsl.c_str());
+    d = new XSLPrivate(xsl);
 }
 
 XSL::~XSL()
@@ -108,9 +102,7 @@ QString XSL::process(const QString &my_xml)
 
     xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
     if (doc == NULL){
-        string s;
-        s = my_xsl.local8Bit();
-        log(L_WARN, "Parse XML error: %s", s.c_str());
+        log(L_WARN, "Parse XML error: %s", my_xsl.local8Bit().data());
         return QString::null;
     }
     const char *params[1];

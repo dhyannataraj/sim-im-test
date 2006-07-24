@@ -204,8 +204,8 @@ protected:
 
 #ifdef USE_OPENSSL
 
-EXPORT std::string md5(const char*, int size = -1);
-EXPORT std::string sha1(const char*, int size = -1);
+EXPORT QByteArray md5(const char*, int size = -1);
+EXPORT QByteArray sha1(const char*, int size = -1);
 
 class EXPORT SSLClient : public SocketNotify, public Socket
 {

@@ -371,7 +371,8 @@ void SSLClient::write_ready()
 
 void SSLClient::error_state(const char *err, unsigned code)
 {
-    if (notify) notify->error_state(err, code);
+    if (notify)
+        notify->error_state(err, code);
 }
 
 void SSLClient::setSocket(Socket *s)
@@ -424,7 +425,7 @@ bool SSLClient::initTLS1(bool bDH)
     return true;
 }
 
-string md5(const char *str, int size)
+QByteArray md5(const char *str, int size)
 {
     MD5_CTX c;
     unsigned char md[MD5_DIGEST_LENGTH];
@@ -433,12 +434,12 @@ string md5(const char *str, int size)
     MD5_Init(&c);
     MD5_Update(&c, str, size);
     MD5_Final(md, &c);
-    string res;
-    res.append((char*)md, sizeof(md));
-    return res;
+    QByteArray ba;
+    ba.duplicate((char*)md, sizeof(md));
+    return ba;
 }
 
-string sha1(const char *str, int size)
+QByteArray sha1(const char *str, int size)
 {
     unsigned char digest[20];
     SHA_CTX ctx;
@@ -447,9 +448,9 @@ string sha1(const char *str, int size)
     SHA1_Init(&ctx);
     SHA1_Update(&ctx, str, size);
     SHA1_Final(digest, &ctx);
-    string res;
-    res.append((char*)digest, sizeof(digest));
-    return res;
+    QByteArray ba;
+    ba.duplicate((char*)digest, sizeof(digest));
+    return ba;
 }
 
 } // namespace SIM

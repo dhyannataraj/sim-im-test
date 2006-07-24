@@ -180,16 +180,20 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     int w = width() - BALLOON_SHADOW;
     int tailX = w / 2;
     int posX = rc.left() + rc.width() / 2 + BALLOON_TAIL_WIDTH - tailX;
-    if (posX <= 0) posX = 1;
+    if (posX <= screenGeometry().left())
+        posX = 1;
     QRect rcScreen = screenGeometry();
     if (posX + width() >= rcScreen.width())
         posX = rcScreen.width() - 1 - width();
     int tx = posX + tailX - BALLOON_TAIL_WIDTH;
-    if (tx < rc.left()) tx = rc.left();
-    if (tx > rc.left() + rc.width()) tx = rc.left() + rc.width();
+    if (tx < rc.left())
+        tx = rc.left();
+    if (tx > rc.left() + rc.width())
+        tx = rc.left() + rc.width();
     tailX = tx + BALLOON_TAIL_WIDTH - posX;
     if (tailX < BALLOON_R) tailX = BALLOON_R;
-    if (tailX > width() - BALLOON_R - BALLOON_TAIL_WIDTH) tailX = width() - BALLOON_R - BALLOON_TAIL_WIDTH;
+    if (tailX > width() - BALLOON_R - BALLOON_TAIL_WIDTH)
+        tailX = width() - BALLOON_R - BALLOON_TAIL_WIDTH;
     if (rc.top() <= height() + 2){
         bTailDown = false;
         move(posX, rc.top() + rc.height() + 1);
@@ -198,7 +202,8 @@ BalloonMsg::BalloonMsg(void *param, const QString &_text, QStringList &btn, QWid
     }
     int pos = 0;
     int h = height() - BALLOON_SHADOW - BALLOON_TAIL;
-    if (!bTailDown) pos += BALLOON_TAIL;
+    if (!bTailDown)
+        pos += BALLOON_TAIL;
     textRect.setRect(BALLOON_R, pos + BALLOON_R, w - BALLOON_R * 2, h);
     frm->resize(s.width(), hButton);
     frm->move(BALLOON_R, pos + h - BALLOON_R - hButton);

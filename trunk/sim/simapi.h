@@ -22,10 +22,6 @@
 #include "config.h"
 #endif
 
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stddef.h>
-#endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -95,7 +91,6 @@ class QToolBar;
 EXPORT int strcasecmp(const char *a, const char *b);
 #endif
 
-#define atoul(x) (strtoul((x), NULL, 10))
 #include <string>
 
 #ifdef Q_OS_WIN
@@ -1263,11 +1258,11 @@ protected:
 class EXPORT Client;
 class ClientDataIterator;
 
-typedef struct clientData       // Base struct for all clientData
+struct clientData       // Base struct for all clientData
 {
     Data    Sign;
     Data    LastSend;
-} clientData;
+};
 
 class EXPORT ClientUserData
 {
@@ -1534,8 +1529,6 @@ typedef struct ENCODING
     bool        bMain;
 } ENCODING;
 
-class ContactListPrivate;
-
 class EXPORT ContactList
 {
 public:
@@ -1635,7 +1628,7 @@ public:
     QTextCodec *getCodecByName(const char *encoding);
     static const ENCODING *getEncodings();
 protected:
-    ContactListPrivate *p;
+    class ContactListPrivate *p;
     friend class Contact;
     friend class Group;
     friend class UserData;
@@ -1746,13 +1739,6 @@ EXPORT void disableWidget(QWidget *w);
 EXPORT QString toTranslit(const QString&);
 EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
-
-typedef struct smile
-{
-    const char  *exp;
-    const char  *paste;
-    const char  *title;
-} smile;
 
 EXPORT unsigned screens();
 EXPORT QRect screenGeometry(unsigned nScreen=-1);

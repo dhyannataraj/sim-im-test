@@ -293,7 +293,7 @@ QImage Image(const char *name)
 {
     PictDef *p = getPict(name);
     if (p == NULL)
-        return NULL;
+        return QImage();
     return p->image;
 }
 

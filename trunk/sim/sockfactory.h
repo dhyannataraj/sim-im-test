@@ -130,8 +130,8 @@ public:
     ~IP();
     void set(unsigned long ip, const char *host);
     void resolve();
-    unsigned long ip() { return m_ip; }
-    const char *host() { return m_host; }
+    unsigned long ip() const { return m_ip; }
+    const char *host() const { return m_host; }
 protected:
     unsigned long m_ip;
     char *m_host;
