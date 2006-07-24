@@ -98,12 +98,12 @@ void JabberClient::auth_digest()
 
     string digest = m_id;
     digest += getPassword().utf8();
-    string md = static_cast<string>(sha1(digest.c_str()));
+    QByteArray md = sha1(digest.c_str());
     digest = "";
-    for (unsigned i = 0; i < md.length(); i++){
-        char b[3];
-        sprintf(b, "%02x",md[i] & 0xFF);
-        digest += b;
+    for (unsigned i = 0; i < md.size(); i++){
+      char b[3];
+      sprintf(b, "%02x", md[(int)i] & 0xFF);
+      digest += b;
     }
     req->text_tag("digest", digest.c_str());
     req->text_tag("resource", data.owner.Resource.ptr);
