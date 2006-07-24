@@ -1476,7 +1476,7 @@ public:
     };
     virtual std::string name() = 0;
     virtual std::string dataName(void*) = 0;
-    Protocol *protocol() { return m_protocol; }
+    Protocol *protocol() const { return m_protocol; }
     virtual QWidget *setupWnd() = 0;
     virtual void setStatus(unsigned status, bool bCommon);
     virtual std::string getConfig();
@@ -1484,7 +1484,6 @@ public:
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;
     virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
-    virtual QString ownerName();
     virtual QString contactName(void *clientData);
     virtual void setupContact(Contact*, void *data) = 0;
     virtual bool send(Message*, void *data) = 0;
@@ -1500,8 +1499,8 @@ public:
     virtual std::string resources(void *data);
     void    removeGroup(Group *grp);
     void    setState(State, const char *text = NULL, unsigned code = 0);
-    State   getState() { return m_state; }
-    virtual unsigned getStatus();
+    State   getState() const { return m_state; }
+    virtual unsigned getStatus() const { return m_status; }
     virtual void contactsLoaded();
     PROP_ULONG(ManualStatus)
     PROP_BOOL(CommonStatus)
@@ -1756,8 +1755,7 @@ typedef struct smile
 } smile;
 
 EXPORT unsigned screens();
-EXPORT QRect screenGeometry(unsigned nScreen);
-EXPORT QRect screenGeometry();
+EXPORT QRect screenGeometry(unsigned nScreen=-1);
 
 EXPORT unsigned get_random();
 

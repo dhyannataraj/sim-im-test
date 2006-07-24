@@ -526,11 +526,6 @@ string Client::resources(void*)
     return "";
 }
 
-QString Client::ownerName()
-{
-    return "";
-}
-
 QString Client::contactName(void*)
 {
     return i18n(protocol()->description()->text);
@@ -1185,11 +1180,6 @@ string Client::getConfig()
 
 void Client::setClientInfo(void*)
 {
-}
-
-unsigned Client::getStatus()
-{
-    return m_status;
 }
 
 bool Client::compareData(void*, void*)

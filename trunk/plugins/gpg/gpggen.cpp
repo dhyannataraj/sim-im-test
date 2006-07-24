@@ -101,7 +101,7 @@ void GpgGen::accept()
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())
         return;
-    if (home.endsWith("\\"))
+    if (home.endsWith("\\") ||home.endsWith("/"))
         home = home.left(home.length() - 1);
     QString in =
         "Key-Type: 1" CRLF
@@ -177,7 +177,7 @@ void GpgGen::genKeyReady()
             s += QString::fromLocal8Bit(ba1.data(), ba1.size());
         if (!ba2.isEmpty()) {
             if(!s.isEmpty())
-	            s += " ";
+                 s += " ";
             s += QString::fromLocal8Bit(ba2.data(), ba2.size());
         }
         s += ")";

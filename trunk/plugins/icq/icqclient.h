@@ -506,7 +506,6 @@ public:
     virtual std::string name();
     virtual QWidget    *setupWnd();
     virtual std::string getConfig();
-    virtual unsigned getStatus();
     virtual void contactsLoaded();
     void setUin(unsigned long);
     void setScreen(const char*);
@@ -619,7 +618,6 @@ protected:
     virtual void updateInfo(SIM::Contact *contact, void *_data);
     virtual void setClientInfo(void *data);
     virtual SIM::Socket  *createSocket();
-    virtual QString ownerName();
     virtual QString contactName(void *clientData);
     std::string dataName(const char *screen);
     Buffer  m_cookie;
