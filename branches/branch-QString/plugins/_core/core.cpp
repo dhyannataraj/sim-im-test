@@ -3950,7 +3950,7 @@ QString CorePlugin::getConfig()
     QString saveProfile = getProfile();
     setProfile(NULL);
     QString cfgName = user_file("plugins.conf");
-    QFile fCFG(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
+    QFile fCFG(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)cfgName.local8Bit());
     }else{
@@ -3982,7 +3982,7 @@ QString CorePlugin::getConfig()
 
     setProfile(saveProfile);
     cfgName = user_file(CLIENTS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
+    QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)cfgName.local8Bit());
     }else{
@@ -4035,7 +4035,7 @@ QString CorePlugin::getConfig()
 
 #ifndef WIN32
     QString dir = user_file("");
-    chmod(dir.local8Bit(),S_IRUSR | S_IWUSR | S_IXUSR);
+    chmod(QFile::encodeName(dir),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
     QString res = save_data(coreData, &data);
     setEditBackground(editBgColor);
@@ -4098,12 +4098,12 @@ void CorePlugin::loadClients(ClientList &clients)
     QString cfgName = user_file(CLIENTS_CONF);
     QFile f(cfgName);
     if (!f.open(IO_ReadOnly)){
-        log(L_ERROR, "Can't open %s", cfgName.latin1());
+        log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
         return;
     }
     ConfigBuffer cfg(&f);
     if (cfg.length() == 0){
-        log(L_ERROR, "Can't read %s", cfgName.latin1());
+        log(L_ERROR, "Can't read %s", cfgName.local8Bit().data());
         return;
     }
     for (;;){

@@ -210,7 +210,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
         QFile fi(*it + STYLES);
         if (!fi.exists())
             continue;
-        addStyles(QFile::encodeName(fi.name()), false);
+        addStyles(fi.name(), false);
     }
 #else
     addStyles(app_file(STYLES), false);
@@ -324,9 +324,9 @@ void HistoryConfig::apply()
     data->MaxSize.asULong()= edtSize->text().toULong();
 }
 
-void HistoryConfig::addStyles(const char *dir, bool bCustom)
+void HistoryConfig::addStyles(const QString &dir, bool bCustom)
 {
-    QDir d(QFile::decodeName(dir));
+    QDir d(dir);
     QStringList files = d.entryList("*.xsl", QDir::Files, QDir::Name);
     for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
         QString name = *it;
@@ -397,7 +397,7 @@ void HistoryConfig::copy()
     newName += QString::number(next + 1);
     QString n;
     n = STYLES;
-    n += QFile::encodeName(name);
+    n += name;
     n += EXT;
     if (m_styles[cur].bCustom){
         n = user_file(n);
@@ -491,7 +491,7 @@ void HistoryConfig::realDelete()
     m_styles.erase(it);
     QString n;
     n = STYLES;
-    n += QFile::encodeName(name);
+    n += name;
     n += EXT;
     n = user_file(n);
     QFile::remove(n);
@@ -596,7 +596,7 @@ void HistoryConfig::viewChanged(QWidget *w)
 				QTextStream ts(&f);
 				xsl = ts.read();
             }else{
-                log(L_WARN, "Can't open %s", name.latin1());
+                log(L_WARN, "Can't open %s", name.local8Bit().data());
             }
         }else{
             xsl = m_styles[cur].text;

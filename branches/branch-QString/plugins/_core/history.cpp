@@ -45,7 +45,7 @@ MAP_MSG  *History::s_tempMsg	= NULL;
 class HistoryFile : public QFile
 {
 public:
-    HistoryFile(const char *name, unsigned contact);
+    HistoryFile(const QString &name, unsigned contact);
     bool isOpen() { return handle() != -1; }
     QString		m_name;
     unsigned	m_contact;
@@ -92,13 +92,13 @@ static Message *createMessage(unsigned id, const char *type, ConfigBuffer *cfg)
     return NULL;
 }
 
-HistoryFile::HistoryFile(const char *file_name, unsigned contact)
+HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
 {
     m_contact = contact;
     m_name = file_name;
 
     QString f_name = HISTORY_PATH;
-    if (file_name && *file_name){
+    if (!file_name.isEmpty()){
         f_name += file_name;
     }else{
         f_name += QString::number(contact);
@@ -800,6 +800,7 @@ void History::remove(Contact *contact)
     name = user_file(f_name);
     QFile f(name);
     f.remove();
+ 
     void *data;
     ClientDataIterator it(contact->clientData);
     while ((data = ++it) != NULL){
