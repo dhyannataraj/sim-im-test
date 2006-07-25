@@ -22,7 +22,9 @@
 #include <windows.h>
 #include <shlobj.h>
 
-#include <qregexp.h>
+#include <qlibrary.h>
+#include <qsettings.h>
+
 #include "homedircfg.h"
 
 static BOOL (WINAPI *_SHGetSpecialFolderPathA)(HWND hwndOwner, LPSTR lpszPath, int nFolder, BOOL fCreate) = NULL;
@@ -35,8 +37,9 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 #endif
 
 #include <qdir.h>
+#include <qfile.h>
 
-using std::string;
+using namespace std;
 using namespace SIM;
 
 Plugin *createHomeDirPlugin(unsigned base, bool, Buffer*)
@@ -66,7 +69,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 #ifdef WIN32
 
-static char key_name[] = "Software\\SIM";
+static char key_name[] = "/SIM";
 static char path_value[] = "Path";
 
 #endif
@@ -75,47 +78,27 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
         : Plugin(base)
 {
 #ifdef WIN32
-    m_bDefault = true;
     m_bSave    = true;
-    HKEY subKey;
-    if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
-                      KEY_READ | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
-        DWORD vType = REG_SZ;
-        DWORD vCount = 0;
-        if (RegQueryValueExA(subKey, path_value, NULL, &vType, NULL, &vCount) == ERROR_SUCCESS){
-            m_homeDir = "";
-            m_homeDir.append(vCount, '\x00');
-            RegQueryValueExA(subKey, path_value, NULL, &vType, (unsigned char*)m_homeDir.c_str(), &vCount);
-            m_bDefault = false;
-        }
-        RegCloseKey(subKey);
-    }
+    QSettings setting( QSettings::Native );
+    setting.setPath( key_name, "", QSettings::User );
+    m_homeDir = setting.readEntry( path_value );
+    m_bDefault = m_homeDir.isNull();
 #endif
+    QString d;
     string value;
     CmdParam p = { "-b:", I18N_NOOP("Set home directory"), &value };
     Event e(EventArg, &p);
-    if (e.process()){
-        m_homeDir = value;
+    if (e.process() && !value.empty()){
+        d = QFile::decodeName(value.c_str());
 #ifdef WIN32
         m_bSave   = false;
 #endif
+    } else {
+        d = m_homeDir;
     }
-    if (m_homeDir.empty())
+    QDir dir( d );
+    if ( d.isEmpty() || !dir.exists() ) {
         m_homeDir = defaultPath();
-    QString d = QFile::decodeName(m_homeDir.c_str());
-#ifdef WIN32
-    d = d.replace(QRegExp("/"), "\\");
-    if (d.length() && (d[(int)(d.length() - 1)] == '\\'))
-        d = d.left(d.length() - 1);
-    if (d.length() && d[(int)(d.length() - 1)] == ':')
-        d += "\\";
-#else
-    if (d.length() && (d[(int)(d.length() - 1)] == '/'))
-        d = d.left(d.length() - 1);
-#endif
-    QDir dir(d);
-    if (!dir.exists()) {
-        m_homeDir  = defaultPath();
 #ifdef WIN32
         m_bDefault = true;
         m_bSave   = false;
@@ -123,17 +106,17 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
     }
 }
 
-string HomeDirPlugin::defaultPath()
+QString HomeDirPlugin::defaultPath()
 {
-    string s;
+    QString s;
 #ifndef WIN32
     struct passwd *pwd = getpwuid(getuid());
     if (pwd){
-        s = pwd->pw_dir;
+        s = QFile::decodeName(pwd->pw_dir);
     }else{
         log(L_ERROR, "Can't get pwd");
     }
-    if (s[s.size() - 1] != '/')
+    if (!s.endsWith("/"))
         s += '/';
 #ifdef USE_KDE
     char *kdehome = getenv("KDEHOME");
@@ -142,8 +125,8 @@ string HomeDirPlugin::defaultPath()
     }else{
         s += ".kde/";
     }
-    if (s.length() == 0) s += '/';
-    if (s[s.length()-1] != '/') s += '/';
+    if (!s.endsWith("/"))
+        s += '/';
     s += "share/apps/sim";
 #else
     s += ".sim";
@@ -151,26 +134,21 @@ string HomeDirPlugin::defaultPath()
 #else
     char szPath[1024];
     szPath[0] = 0;
-    HINSTANCE hLib = LoadLibraryA("Shell32.dll");
     QString defPath;
-    if (hLib != NULL){
-        (DWORD&)_SHGetSpecialFolderPathW = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathW");
-        (DWORD&)_SHGetSpecialFolderPathA = (DWORD)GetProcAddress(hLib,"SHGetSpecialFolderPathA");
-    }
+    (DWORD&)_SHGetSpecialFolderPathW = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
+    (DWORD&)_SHGetSpecialFolderPathA = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathA");
     if (_SHGetSpecialFolderPathW && _SHGetSpecialFolderPathW(NULL, szPath, CSIDL_APPDATA, true)){
-        for (unsigned short *str = (unsigned short*)szPath; *str; str++)
-            defPath += QChar(*str);
+        defPath = QString::fromUcs2((unsigned short*)szPath);
     }else if (_SHGetSpecialFolderPathA && _SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
         defPath = QFile::decodeName(szPath);
     }
     if (!defPath.isEmpty()){
-        if (defPath[(int)(defPath.length() - 1)] != '\\')
+        if (!defPath.endsWith("\\"))
             defPath += "\\";
         defPath += "sim";
-        string ss;
-        ss = QFile::encodeName(defPath);
+        QString ss = defPath;
         ss += "\\";
-        makedir((char*)(ss.c_str()));
+        makedir(QFile::encodeName(ss).data());
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);
         if (!f.open(IO_ReadWrite | IO_Truncate))
@@ -179,15 +157,15 @@ string HomeDirPlugin::defaultPath()
         QFile::remove(lockTest);
     }
     if (!defPath.isEmpty()){
-        s = QFile::encodeName(defPath);
+        s = defPath;
     }else{
         s = app_file("");
     }
 #endif
 #ifdef HAVE_CHMOD
-    chmod(s.c_str(), 0700);
+    chmod(QFile::encodeName(s), 0700);
 #endif
-    return s;
+    return QDir::convertSeparators(s);
 }
 
 #ifdef WIN32
@@ -201,17 +179,14 @@ string HomeDirPlugin::getConfig()
 {
     if (!m_bSave)
         return "";
-    HKEY subKey;
-    DWORD disposition;
-    if (RegCreateKeyExA(HKEY_CURRENT_USER, key_name, 0, "",
-                        REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &subKey, &disposition) != ERROR_SUCCESS)
-        return "";
+    QSettings setting( QSettings::Native );
+    setting.setPath( key_name, "", QSettings::User );
+
     if (!m_bDefault){
-        RegSetValueExA(subKey, path_value, 0, REG_SZ, (const unsigned char*)m_homeDir.c_str(), m_homeDir.length());
+        setting.writeEntry( path_value, m_homeDir );
     }else{
-        RegDeleteValueA(subKey, path_value);
+        setting.removeEntry( path_value );
     }
-    RegCloseKey(subKey);
     return "";
 }
 
@@ -226,16 +201,12 @@ string HomeDirPlugin::buildFileName(const char *name)
 #else
     if (fname[0] != '/'){
 #endif
-        s += QFile::decodeName(m_homeDir.c_str());
-#ifdef WIN32
-        s += '\\';
-#else
+        s += m_homeDir;
         s += '/';
-#endif
     }
     s += fname;
     string res;
-    res = QFile::encodeName(s);
+    res = QFile::encodeName(QDir::convertSeparators(s));
     return res;
 }
 
@@ -248,4 +219,3 @@ void *HomeDirPlugin::processEvent(Event *e)
     }
     return NULL;
 }
-

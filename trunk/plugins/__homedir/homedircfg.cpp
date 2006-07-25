@@ -31,7 +31,7 @@ HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
     chkDefault->setChecked(plugin->m_bDefault);
     connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
     defaultToggled(chkDefault->isChecked());
-    edtPath->setText(QFile::decodeName(plugin->m_homeDir.c_str()));
+    edtPath->setText(QDir::convertSeparators(plugin->m_homeDir));
     edtPath->setDirMode(true);
     chkDefault->setChecked(m_plugin->m_bDefault);
 }
@@ -40,7 +40,7 @@ void HomeDirConfig::apply()
 {
     bool bDefault;
     QString d;
-    QString defPath = QFile::decodeName(m_plugin->defaultPath().c_str());
+    QString defPath = m_plugin->defaultPath();
 
     if (chkDefault->isChecked()){
         bDefault = true;
@@ -67,14 +67,15 @@ void HomeDirConfig::apply()
     if (d.length() && (d[(int)(d.length() - 1)] == '/'))
         d = d.left(d.length() - 1);
 #endif
-    m_plugin->m_homeDir  = QFile::encodeName(d);
+    m_plugin->m_homeDir  = d;
+    m_plugin->m_bSave    = true;
 }
 
 void HomeDirConfig::defaultToggled(bool bState)
 {
     edtPath->setEnabled(!bState);
     if (bState)
-        edtPath->setText(QFile::decodeName(m_plugin->defaultPath().c_str()));
+        edtPath->setText(m_plugin->defaultPath());
 }
 
 #ifndef NO_MOC_INCLUDES
