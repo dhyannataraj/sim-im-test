@@ -32,20 +32,21 @@ using namespace SIM;
 class XSLPrivate
 {
 public:
-    XSLPrivate(const char *my_xsl);
+    XSLPrivate(const QString &my_xsl);
     ~XSLPrivate();
     xsltStylesheetPtr styleSheet;
     xmlDocPtr doc;
 };
 
-XSLPrivate::XSLPrivate(const char *my_xsl)
+XSLPrivate::XSLPrivate(const QString &my_xsl)
 {
     styleSheet = NULL;
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;
-    doc = xmlParseMemory(my_xsl, strlen(my_xsl));
+    doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
     if (doc == NULL){
-        log(L_WARN, "Can't parse XSLT");
+        xmlErrorPtr ptr = xmlGetLastError();
+        log(L_ERROR, "Can't parse XSLT (%s)", ptr ? ptr->message : "");
         return;
     }
     styleSheet = xsltParseStylesheetDoc(doc);
@@ -74,9 +75,10 @@ XSL::XSL(const QString &name)
             bOK = false;
         }
     }
-    QCString xsl;
+    QString xsl;
     if(bOK){
-		xsl = f.readAll();
+        QTextStream ts(&f);
+        xsl = ts.read();
     }
     d = new XSLPrivate(xsl);
 }
@@ -102,14 +104,16 @@ QString XSL::process(const QString &my_xml)
 
     xmlDocPtr doc = xmlParseMemory(my_xsl.utf8(), my_xsl.utf8().length());
     if (doc == NULL){
-        log(L_WARN, "Parse XML error: %s", my_xsl.local8Bit().data());
+        xmlErrorPtr ptr = xmlGetLastError();
+        log(L_WARN, "Parse XML error (%s): %s", ptr ? ptr->message : "", my_xsl.local8Bit().data());
         return QString::null;
     }
     const char *params[1];
     params[0] = NULL;
     xmlDocPtr res = xsltApplyStylesheet(d->styleSheet, doc, params);
     if (res == NULL){
-        log(L_WARN, "Apply stylesheet error");
+        xmlErrorPtr ptr = xmlGetLastError();
+        log(L_WARN, "Apply stylesheet error (%s)", ptr ? ptr->message : "");
         xmlFreeDoc(doc);
         return QString::null;
     }
