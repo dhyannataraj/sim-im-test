@@ -1523,7 +1523,7 @@ QString CorePlugin::poFile(const char *lang)
     QString s = "po\\" + QString(lang).lower() + ".qm";
     QFile f(app_file(s));
     if (!f.exists())
-		return "";
+        return "";
 #else
     string s = PREFIX "/share/locale/";
     string l;
@@ -1864,7 +1864,7 @@ void *CorePlugin::processEvent(Event *e)
             }
             Event eProfile(EventHomeDir, cfg);
             if (!eProfile.process(this))
-                *cfg = app_file(cfg->local8Bit());
+                *cfg = app_file(*cfg);
             makedir(QFile::encodeName(*cfg).data());
             return cfg;
         }

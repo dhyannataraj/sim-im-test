@@ -288,12 +288,13 @@ int main(int argc, char *argv[])
             return 0;
     }
     SimApp app(argc, argv);
-
-	StyleInfo*  (*getStyleInfo)() = NULL;
-    getStyleInfo = (StyleInfo*(__cdecl *)())QLibrary::resolve("UxTheme.dll","GetStyleInfo");
-	if(!getStyleInfo)
-	    getStyleInfo = (StyleInfo*(__cdecl *)())QLibrary::resolve(app_file("plugins\\styles\\xpstyle.dll"),"GetStyleInfo");
-	if (getStyleInfo){
+    StyleInfo*  (*getStyleInfo)() = NULL;
+    HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
+    if (hLib != NULL)
+        hLib = LoadLibraryA(app_file("plugins\\styles\\xpstyle.dll").latin1());
+    if (hLib != NULL)
+        (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
+    if (getStyleInfo){
         StyleInfo *info = getStyleInfo();
         if (info)
             qApp->setStyle(info->create());
@@ -301,7 +302,7 @@ int main(int argc, char *argv[])
 #endif
     QApplication::addLibraryPath( app.applicationDirPath() + "/plugins" );
     PluginManager p(argc, argv);
-	if (p.isLoaded())
+    if (p.isLoaded())
         res = app.exec();
 #ifdef WIN32
     CloseHandle(hMutex);

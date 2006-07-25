@@ -101,9 +101,9 @@ void SoundConfig::apply()
 
 QString SoundConfig::sound(QString text, const char *def)
 {
-    QString defFile = m_plugin->fullName(def);
+    QString defFile = m_plugin->fullName(QFile::decodeName(def));
     if (defFile == text)
-        text = def;
+        text = QFile::decodeName(def);
     return text;
 }
 

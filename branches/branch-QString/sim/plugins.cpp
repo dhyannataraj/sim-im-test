@@ -357,7 +357,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         QString fullName = app_file(pluginName);
         info.module = new QLibrary(fullName);
         if (info.module == NULL)
-            fprintf(stderr, "Can't load plugin %s\n", info.name.latin1());
+            fprintf(stderr, "Can't load plugin %s\n", info.name.local8Bit().data());
     }
     if (info.module == NULL)
         return;
