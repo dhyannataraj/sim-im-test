@@ -689,7 +689,7 @@ void GpgPlugin::reset()
 {
     if (*GPG() && *getHome() && *getKey()){
 #ifdef HAVE_CHMOD
-        chmod(QFile::encodeName(user_file(getHome()), 0700);
+        chmod(QFile::encodeName(user_file(getHome())), 0700);
 #endif
         registerMessage();
     }else{
