@@ -24,7 +24,6 @@ class HomeDirPlugin : public SIM::Plugin, public SIM::EventReceiver
 {
 public:
     HomeDirPlugin(unsigned base);
-    QString m_homeDir;
     QString defaultPath();
 #ifdef WIN32
     bool m_bDefault;
@@ -36,6 +35,8 @@ protected:
 #ifdef WIN32
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual QString getConfig();
+    QString m_homeDir;
+    friend class HomeDirConfig;
 #endif
 };
 
