@@ -396,7 +396,7 @@ bool set_ip(Data *p, unsigned long value, const char *host)
     return true;
 }
 
-unsigned long get_ip(Data &p)
+unsigned long get_ip(const Data &p)
 {
     IP *ip = (IP*)p.ptr;
     if (ip)
@@ -404,7 +404,7 @@ unsigned long get_ip(Data &p)
     return 0;
 }
 
-const char *get_host(Data &p)
+const char *get_host(const Data &p)
 {
     IP *ip = (IP*)p.ptr;
     if (ip && ip->host())

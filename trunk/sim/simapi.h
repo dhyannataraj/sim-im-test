@@ -849,8 +849,8 @@ EXPORT bool set_str(char **str, const char *value);
 EXPORT const char *get_str(const Data &strlist, unsigned index);
 EXPORT void clear_list(Data *strlist);
 EXPORT void set_str(Data *strlist, unsigned index, const char *value);
-EXPORT unsigned long get_ip(Data &ip);
-EXPORT const char *get_host(Data &ip);
+EXPORT unsigned long get_ip(const Data &ip);
+EXPORT const char *get_host(const Data &ip);
 EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_STRLIST(A) \
@@ -934,7 +934,7 @@ EXPORT std::string trim(const char *str);
 EXPORT QString trim(const QString &str);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);
-EXPORT QString formatAddr(Data &addr, unsigned port);
+EXPORT QString formatAddr(const Data &addr, unsigned port);
 EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
 EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
@@ -1306,14 +1306,14 @@ protected:
 class EXPORT PacketType
 {
 public:
-    PacketType(unsigned id, const char *name, bool bText);
+    PacketType(unsigned id, const QString &name, bool bText);
     ~PacketType();
-    unsigned id() { return m_id; }
-    const char *name() { return m_name.c_str(); }
-    bool isText() { return m_bText; }
+    unsigned id() const { return m_id; }
+    const QString &name() const { return m_name; }
+    bool isText() const { return m_bText; }
 protected:
     unsigned m_id;
-    std::string m_name;
+    QString  m_name;
     bool     m_bText;
 };
 
@@ -1616,7 +1616,7 @@ public:
     unsigned nClients();
     Client *getClient(unsigned n);
     void clearClients();
-    void addPacketType(unsigned id, const char *name, bool bText=false);
+    void addPacketType(unsigned id, const QString &name, bool bText=false);
     void removePacketType(unsigned id);
     PacketType *getPacketType(unsigned i);
     Contact *contactByPhone(const char *phone);
@@ -1682,7 +1682,7 @@ __attribute__ ((__format__ (printf, 2, 3)));
 #else
 EXPORT void log(unsigned short level, const char *fmt, ...);
 #endif      
-EXPORT std::string make_packet_string(LogInfo *l);
+EXPORT QString make_packet_string(LogInfo *l);
 EXPORT const char *level_name(unsigned short n);
 // _____________________________________________________________________________________
 // Data
@@ -1709,8 +1709,6 @@ EXPORT const pager_provider *getProviders();
 
 #ifdef WIN32
 EXPORT void setWndProc(QWidget*);
-EXPORT void translate();
-EXPORT unsigned wndMessage();
 #define SET_WNDPROC(A)  SIM::setWndProc(this);
 #else
 #ifndef QT_MACOSX_VERSION

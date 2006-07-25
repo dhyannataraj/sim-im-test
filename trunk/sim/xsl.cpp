@@ -26,7 +26,6 @@
 #include <qfile.h>
 #include <qregexp.h>
 
-using std::string;
 using namespace SIM;
 
 class XSLPrivate
@@ -63,9 +62,7 @@ static char EXT[]    = ".xsl";
 
 XSL::XSL(const QString &name)
 {
-    QString fname = STYLES;
-    fname += name;
-    fname += EXT;
+    QString fname = STYLES + name + EXT;
     QFile f(user_file(fname));
     bool bOK = true;
     if (!f.open(IO_ReadOnly)){

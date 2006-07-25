@@ -329,7 +329,6 @@ void EventReceiver::destroyList()
 #ifdef WIN32
 
 static WNDPROC oldWndProc = 0;
-static bool bSetCaption = false;
 static bool bResize     = false;
 static MSG m;
 
@@ -351,16 +350,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         m.lParam = lParam;
     }
     return oldWndProc(hWnd, msg, wParam, lParam);
-}
-
-void translate()
-{
-    TranslateMessage(&m);
-}
-
-unsigned wndMessage()
-{
-    return m.message;
 }
 
 void setWndProc(QWidget *w)
@@ -508,7 +497,7 @@ EXPORT QString formatDate(unsigned long t)
 #endif
 }
 
-EXPORT QString formatAddr(Data &ip, unsigned port)
+EXPORT QString formatAddr(const Data &ip, unsigned port)
 {
     QString res;
     if (ip.ptr == NULL)
@@ -518,7 +507,7 @@ EXPORT QString formatAddr(Data &ip, unsigned port)
     res += inet_ntoa(inaddr);
     if (port){
         res += ":";
-        res += number(port).c_str();
+        res += QString::number(port);
     }
     const char *host = get_host(ip);
     if (host && *host){

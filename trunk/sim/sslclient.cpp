@@ -15,9 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #ifdef USE_OPENSSL
+
+#include "simapi.h"
 
 #include <openssl/ssl.h>
 #include <openssl/err.h>

@@ -19,6 +19,7 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <qlibrary.h>
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
 #include <X11/X.h>
@@ -280,9 +281,9 @@ int main(int argc, char *argv[])
 #endif
 #else
     for (int i = 0; i < argc; i++){
-		std::string arg = argv[i];
+        QCString arg = argv[i];
         if ((arg[0] == '/') || (arg[0] == '-'))
-            arg = arg.substr(1);
+            arg = arg.mid(1);
         if ((arg == "reinstall") || (arg == "showicons") || (arg == "hideicons"))
             return 0;
     }
@@ -301,7 +302,7 @@ int main(int argc, char *argv[])
 #endif
     QApplication::addLibraryPath( app.applicationDirPath() + "/plugins" );
     PluginManager p(argc, argv);
-	if (p.isLoaded())
+    if (p.isLoaded())
         res = app.exec();
 #ifdef WIN32
     CloseHandle(hMutex);

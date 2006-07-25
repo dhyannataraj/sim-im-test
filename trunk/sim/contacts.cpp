@@ -1004,7 +1004,7 @@ PacketType *ContactList::PacketIterator::operator ++()
     return ++(*p);
 }
 
-PacketType::PacketType(unsigned id, const char *name, bool bText)
+PacketType::PacketType(unsigned id, const QString &name, bool bText)
 {
     m_id    = id;
     m_name  = name;
@@ -1015,7 +1015,7 @@ PacketType::~PacketType()
 {
 }
 
-void ContactList::addPacketType(unsigned id, const char *name, bool bText)
+void ContactList::addPacketType(unsigned id, const QString &name, bool bText)
 {
     PACKET_MAP::iterator it = p->packets.find(id);
     if (it != p->packets.end())
