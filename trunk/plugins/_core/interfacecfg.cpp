@@ -258,8 +258,8 @@ void InterfaceConfig::apply()
     if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
                       KEY_WRITE | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
         if (chkStart->isChecked()){
-            string path = app_file("sim.exe");
-            DWORD res = RegSetValueExA(subKey, value_name, 0, REG_SZ, (unsigned char*)path.c_str(), path.length());
+            QString path = app_file("sim.exe");
+            DWORD res = RegSetValueExA(subKey, value_name, 0, REG_SZ, (unsigned char*)path.latin1(), path.length());
             if (res != ERROR_SUCCESS)
                 log(L_WARN, "RegSetValue fail %u", res);
         }else{

@@ -210,7 +210,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     } else {
 
 #ifdef WIN32
-        QDir pluginDir(app_file("plugins").c_str());
+        QDir pluginDir(app_file("plugins"));
 #else
         QDir pluginDir(PLUGIN_PATH);
 #endif
@@ -372,18 +372,18 @@ void PluginManagerPrivate::load(pluginInfo &info)
 {
     if (info.module == NULL){
 #ifdef WIN32
-        string pluginName = "plugins\\";
-        pluginName += info.name;
+        QString pluginName = "plugins\\";
+        pluginName += QFile::decodeName(info.name.c_str());
 #else
-        string pluginName = info.filePath;
+        QString pluginName = QFile::decodeName(info.filePath.c_str());
         if( pluginName[0] != '/' ) {
             pluginName = PLUGIN_PATH;
             pluginName += "/";
-            pluginName += info.name;
+            pluginName += QFile::decodeName(info.name.c_str());
         }
 #endif
-        string fullName = app_file(pluginName.c_str());
-        info.module = new QLibrary(fullName.c_str());
+        QString fullName = app_file(pluginName);
+        info.module = new QLibrary(fullName);
         if (info.module == NULL)
             fprintf(stderr, "Can't load plugin %s\n", info.name.c_str());
     }
@@ -576,8 +576,8 @@ void PluginManagerPrivate::saveState()
     if (m_bAbort)
         return;
     getContacts()->save();
-    string cfgName = user_file(PLUGINS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+    QString cfgName = user_file(PLUGINS_CONF);
+    QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
@@ -641,12 +641,11 @@ void PluginManagerPrivate::loadState()
     if (m_bLoaded) return;
 
     m_bLoaded = true;
-    string cfgName = user_file(PLUGINS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QFile f(user_file(PLUGINS_CONF));
 
     if (!f.exists()) {
         /* Maybe first start ? */
-        QDir dir(user_file(NULL).c_str());
+        QDir dir(user_file(NULL));
         if (!dir.exists()) {
             log(L_WARN, "Creating directory %s",dir.absPath().ascii());
             if (!dir.mkdir(dir.absPath())) {

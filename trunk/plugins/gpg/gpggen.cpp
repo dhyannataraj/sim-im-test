@@ -123,11 +123,7 @@ void GpgGen::accept()
         in += edtPass1->text();
         in += CRLF;
     }
-#ifdef WIN32
-    QString fname = QFile::decodeName(user_file("keys\\genkey.txt").c_str());
-#else
-    QString fname = QFile::decodeName(user_file("keys/genkey.txt").c_str());
-#endif
+    QString fname = user_file("keys/genkey.txt");
     QFile f(fname);
     f.open(IO_WriteOnly | IO_Truncate);
     f.writeBlock(in.utf8(), in.utf8().length());
@@ -160,11 +156,6 @@ void GpgGen::accept()
 
 void GpgGen::genKeyReady()
 {
-#ifdef WIN32
-    QFile::remove(QFile::decodeName(user_file("keys\\genkey.txt").c_str()));
-#else
-    QFile::remove(QFile::decodeName(user_file("keys/genkey.txt").c_str()));
-#endif
     QFile::remove(user_file("keys/genkey.txt"));
     if (m_process->normalExit() && m_process->exitStatus() == 0){
         GpgGenBase::accept();

@@ -31,12 +31,7 @@
 using namespace std;
 using namespace SIM;
 
-#ifdef WIN32
-static char HISTORY_PATH[] = "history\\";
-#else
 static char HISTORY_PATH[] = "history/";
-#endif
-
 static char REMOVED[] = ".removed";
 
 const unsigned CUT_BLOCK		= 0x4000;
@@ -102,15 +97,15 @@ HistoryFile::HistoryFile(const char *file_name, unsigned contact)
     m_contact = contact;
     m_name = file_name;
 
-    string f_name = HISTORY_PATH;
+    QString f_name = HISTORY_PATH;
     if (file_name && *file_name){
-        f_name += file_name;
+        f_name += QFile::decodeName(file_name);
     }else{
         f_name += number(contact);
     }
 
-    f_name = user_file(f_name.c_str());
-    setName(QFile::decodeName(f_name.c_str()));
+    f_name = user_file(f_name);
+    setName(f_name);
     if (!exists()){
         QFile bak(name() + REMOVED);
         if (bak.exists()){
@@ -600,28 +595,28 @@ void History::add(Message *msg, const char *type)
     string name = msg->client();
     if (name.empty())
         name = number(msg->contact());
-    string f_name = HISTORY_PATH;
-    f_name += name;
+    QString f_name = HISTORY_PATH;
+    f_name += QFile::decodeName(name.c_str());
 
-    f_name = user_file(f_name.c_str());
+    f_name = user_file(f_name);
 
     HistoryUserData *data = NULL;
     Contact *contact = getContacts()->contact(msg->contact());
     if (contact)
         data = (HistoryUserData*)(contact->getUserData(CorePlugin::m_plugin->history_data_id));
     if (data && data->CutSize.bValue){
-        QFileInfo fInfo(QFile::decodeName(f_name.c_str()));
+        QFileInfo fInfo(f_name);
         if (fInfo.exists() && (fInfo.size() >= data->MaxSize.value * 0x100000 + CUT_BLOCK)){
             int pos = fInfo.size() - data->MaxSize.value * 0x100000 + line.size();
             if (pos < 0)
                 pos = 0;
-            del(f_name.c_str(), msg->contact(), pos, false);
+            del(f_name, msg->contact(), pos, false);
         }
     }
 
-    QFile f(QFile::decodeName(f_name.c_str()));
+    QFile f(f_name);
     if (!f.open(IO_ReadWrite | IO_Append)){
-        log(L_ERROR, "Can't open %s", f_name.c_str());
+        log(L_ERROR, "Can't open %s", f_name.local8Bit().data());
         return;
     }
     unsigned id = f.at();
@@ -635,7 +630,7 @@ void History::del(Message *msg)
     string name = msg->client();
     if (name.empty())
         name = number(msg->contact());
-    del(name.c_str(), msg->contact(), msg->id(), true);
+    del(QFile::decodeName(name.c_str()), msg->contact(), msg->id(), true);
 }
 
 void History::rewrite(Message *msg)
@@ -643,7 +638,7 @@ void History::rewrite(Message *msg)
     string name = msg->client();
     if (name.empty())
         name = number(msg->contact());
-    del(name.c_str(), msg->contact(), msg->id(), true, msg);
+    del(QFile::decodeName(name.c_str()), msg->contact(), msg->id(), true, msg);
 }
 
 typedef map<my_string, unsigned> CLIENTS_MAP;
@@ -671,16 +666,12 @@ void History::cut(Message *msg, unsigned contact_id, unsigned date)
         }
     }
     for (CLIENTS_MAP::iterator it = clients.begin(); it != clients.end(); ++it)
-        del((*it).first.c_str(), msg ? msg->contact() : contact_id, (*it).second + 1, false);
+        del(QFile::decodeName((*it).first.c_str()), msg ? msg->contact() : contact_id, (*it).second + 1, false);
 }
 
-void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, Message *msg)
+void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy, Message *msg)
 {
-    string f_name = HISTORY_PATH;
-    f_name += name;
-
-    f_name = user_file(f_name.c_str());
-    QFile f(QFile::decodeName(f_name.c_str()));
+    QFile f(user_file(HISTORY_PATH + name));
     if (!f.open(IO_ReadOnly)){
         log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
         return;
@@ -784,7 +775,7 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
     }
     CutHistory ch;
     ch.contact = contact;
-    ch.client  = name;
+    ch.client  = QFile::encodeName(name);
     if (bCopy){
         ch.from    = skip_start;
         ch.size    = skip_size;
@@ -811,20 +802,21 @@ void History::del(unsigned msg_id)
 void History::remove(Contact *contact)
 {
     bool bRename = (contact->getFlags() & CONTACT_NOREMOVE_HISTORY);
-    string name = number(contact->id());
-    string f_name = HISTORY_PATH;
+    QString name = QString::number(contact->id());
+    QString f_name = HISTORY_PATH;
     f_name += name;
-    name = user_file(f_name.c_str());
-    QFile f(QFile::decodeName(name.c_str()));
+    name = user_file(f_name);
+    QFile f(name);
     f.remove();
+
     void *data;
     ClientDataIterator it(contact->clientData);
     while ((data = ++it) != NULL){
         name = it.client()->dataName(data);
         f_name = HISTORY_PATH;
         f_name += name;
-        name = user_file(f_name.c_str());
-        QFile f(QString::fromUtf8(name.c_str()));
+        name = user_file(f_name);
+        QFile f(name);
         if (!f.exists())
             continue;
         if (bRename){

@@ -54,13 +54,13 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
     }
     edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
 #endif
-    string s;
-    s = plugin->fullName(plugin->getStartUp());
-    edtStartup->setText(QFile::decodeName(s.c_str()));
-    s = plugin->fullName(plugin->getFileDone());
-    edtFileDone->setText(QFile::decodeName(s.c_str()));
-    s = plugin->fullName(plugin->getMessageSent());
-    edtSent->setText(QFile::decodeName(s.c_str()));
+    QString s;
+    s = plugin->fullName(QFile::decodeName(plugin->getStartUp()));
+    edtStartup->setText(s);
+    s = plugin->fullName(QFile::decodeName(plugin->getFileDone()));
+    edtFileDone->setText(s);
+    s = plugin->fullName(QFile::decodeName(plugin->getMessageSent()));
+    edtSent->setText(s);
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -106,7 +106,7 @@ void SoundConfig::apply()
 
 QString SoundConfig::sound(QString text, const char *def)
 {
-    QString defFile = QFile::decodeName(m_plugin->fullName(def).c_str());
+    QString defFile = m_plugin->fullName(QFile::decodeName(def));
     if (defFile == text)
         text = QFile::decodeName(def);
     return text;

@@ -1670,8 +1670,8 @@ static char BACKUP_SUFFIX[] = "~";
 
 void ContactList::save()
 {
-    string cfgName = user_file(CONTACTS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+    QString cfgName = user_file(CONTACTS_CONF);
+    QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
@@ -1773,17 +1773,17 @@ void ContactList::clear()
 void ContactList::load()
 {
     clear();
-    string cfgName = user_file(CONTACTS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QString cfgName = user_file(CONTACTS_CONF);
+    QFile f(cfgName);
     if (!f.open(IO_ReadOnly)){
-        log(L_ERROR, "Can't open %s", cfgName.c_str());
+        log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
         return;
     }
     Buffer cfg;
     cfg.init(f.size());
     int n = f.readBlock(cfg.data(), f.size());
     if (n < 0){
-        log(L_ERROR, "Can't read %s", cfgName.c_str());
+        log(L_ERROR, "Can't read %s", cfgName.local8Bit().data());
         return;
     }
     Contact *c = NULL;

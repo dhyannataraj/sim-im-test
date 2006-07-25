@@ -388,7 +388,7 @@ void LoginDialog::profileDelete()
         return;
     string curProfile = CorePlugin::m_plugin->m_profiles[n];
     CorePlugin::m_plugin->setProfile(curProfile.c_str());
-    rmDir(QFile::decodeName(user_file("").c_str()));
+    rmDir(user_file(""));
     CorePlugin::m_plugin->setProfile(NULL);
     CorePlugin::m_plugin->changeProfile();
     CorePlugin::m_plugin->m_profiles.clear();
@@ -406,8 +406,8 @@ void LoginDialog::profileRename()
 
   QString name;
   CorePlugin::m_plugin->setProfile(NULL);
-  QString profileDir=QFile::decodeName(user_file("").c_str());
-  QDir d(QFile::decodeName(user_file("").c_str()));
+  QString profileDir=user_file("");
+  QDir d(user_file(""));
   while(1) {
     bool ok = false;
     name = QInputDialog::getText(i18n("Rename Profile"), i18n("Please enter a new name for the profile."),         QLineEdit::Normal, name, &ok, this);

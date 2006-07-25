@@ -50,7 +50,7 @@ public:
     static bool save(unsigned id, const QString& file_name, bool bAppend = false);
     static SIM::Message *load(unsigned id, const char *client, unsigned contact);
 protected:
-    static void del(const char *name, unsigned contact, unsigned id, bool bCopy, SIM::Message *msg=NULL);
+    static void del(const QString &name, unsigned contact, unsigned id, bool bCopy, SIM::Message *msg=NULL);
     static unsigned	s_tempId;
     static MAP_MSG	*s_tempMsg;
     unsigned m_contact;

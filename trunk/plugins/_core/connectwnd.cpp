@@ -28,9 +28,9 @@ ConnectWnd::ConnectWnd(bool bStart)
     using SIM::app_file;
     m_bStart = bStart;
     setConnecting(true);
-    QMovie movie(QFile::decodeName(app_file("pict/connect.gif").c_str()));
+    QMovie movie(app_file("pict/connect.gif"));
     if (movie.isNull())
-        movie = QMovie(QFile::decodeName(app_file("pict/connect.mng").c_str()));
+        movie = QMovie(app_file("pict/connect.mng"));
     if (!movie.isNull()){
         lblMovie->setMovie(movie);
         movie.connectUpdate(this, SLOT(updateMovie()));

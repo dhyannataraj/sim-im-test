@@ -244,7 +244,7 @@ EditSound::EditSound(QWidget *p, const char *name)
 #else
     filter = i18n("Sounds(*.wav)");
 #endif
-    startDir = QFile::decodeName(app_file("sound").c_str());
+    startDir = app_file("sound");
     title = i18n("Select sound");
 }
 

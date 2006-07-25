@@ -192,10 +192,10 @@ string HomeDirPlugin::getConfig()
 
 #endif
 
-string HomeDirPlugin::buildFileName(const char *name)
+string HomeDirPlugin::buildFileName(const QString *name)
 {
     QString s;
-    QString fname = QFile::decodeName(name);
+    QString fname = *name;
 #ifdef WIN32
     if ((fname[1] != ':') && (fname.left(2) != "\\\\")){
 #else
@@ -213,9 +213,9 @@ string HomeDirPlugin::buildFileName(const char *name)
 void *HomeDirPlugin::processEvent(Event *e)
 {
     if (e->type() == EventHomeDir){
-        string *cfg = (string*)(e->param());
-        *cfg = buildFileName(cfg->c_str());
-        return (void*)(cfg->c_str());
+        QString *cfg = (QString*)(e->param());
+        *cfg = buildFileName(cfg);
+        return (void*)(!cfg->isEmpty());
     }
     return NULL;
 }

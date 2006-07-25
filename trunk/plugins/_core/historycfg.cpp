@@ -209,7 +209,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     edtStyle->setTextFormat(QTextEdit::RichText);
     highlighter = new XmlHighlighter(edtStyle);
     QStringList styles;
-    addStyles(user_file(STYLES).c_str(), true);
+    addStyles(user_file(STYLES), true);
     str1 = i18n("Use external viewer");
     chkExtViewer->setText(str1);
 #ifdef USE_KDE
@@ -218,10 +218,10 @@ HistoryConfig::HistoryConfig(QWidget *parent)
         QFile fi(*it + STYLES);
         if (!fi.exists())
             continue;
-        addStyles(QFile::encodeName(fi.name()), false);
+        addStyles(fi.name(), false);
     }
 #else
-    addStyles(app_file(STYLES).c_str(), false);
+    addStyles(app_file(STYLES), false);
 #endif
     fillCombo(CorePlugin::m_plugin->getHistoryStyle());
     connect(cmbStyle, SIGNAL(activated(int)), this, SLOT(styleSelected(int)));
@@ -265,11 +265,11 @@ void HistoryConfig::apply()
             continue;
         if ((int)i == cmbStyle->currentItem())
             bChanged = true;
-        string name = STYLES;
+        QString name = STYLES;
         name += QFile::encodeName(m_styles[i].name);
         name += EXT;
-        name = user_file(name.c_str());
-        QFile f(QFile::decodeName((name + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+        name = user_file(name);
+        QFile f(name + BACKUP_SUFFIX); // use backup file for this ...
         if (f.open(IO_WriteOnly | IO_Truncate)){
             string s;
             s = m_styles[i].text.utf8();
@@ -293,7 +293,7 @@ void HistoryConfig::apply()
                 }
             }
         }else{
-            log(L_WARN, "Can't create %s", name.c_str());
+            log(L_WARN, "Can't create %s", name.local8Bit().data());
         }
     }
     int cur = cmbStyle->currentItem();
@@ -332,9 +332,9 @@ void HistoryConfig::apply()
     data->MaxSize.value  = atol(edtSize->text());
 }
 
-void HistoryConfig::addStyles(const char *dir, bool bCustom)
+void HistoryConfig::addStyles(const QString &dir, bool bCustom)
 {
-    QDir d(QFile::decodeName(dir));
+    QDir d(dir);
     QStringList files = d.entryList("*.xsl", QDir::Files, QDir::Name);
     for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
         QString name = *it;
@@ -403,27 +403,27 @@ void HistoryConfig::copy()
     }
     newName += ".";
     newName += QString::number(next + 1);
-    string n;
+    QString n;
     n = STYLES;
-    n += QFile::encodeName(name);
+    n += name;
     n += EXT;
     if (m_styles[cur].bCustom){
-        n = user_file(n.c_str());
+        n = user_file(n);
     }else{
-        n = app_file(n.c_str());
+        n = app_file(n);
     }
-    QFile from(QFile::decodeName(n.c_str()));
+    QFile from(n);
     if (!from.open(IO_ReadOnly)){
-        log(L_WARN, "Can't open %s", n.c_str());
+        log(L_WARN, "Can't open %s", n.local8Bit().data());
         return;
     }
     n = STYLES;
-    n += QFile::encodeName(newName);
+    n += newName;
     n += EXT;
-    n = user_file(n.c_str());
-    QFile to(QFile::decodeName((n + BACKUP_SUFFIX).c_str()));
+    n = user_file(n);
+    QFile to(n + BACKUP_SUFFIX);
     if (!to.open(IO_WriteOnly | IO_Truncate)){
-        log(L_WARN, "Cam't create %s", n.c_str());
+        log(L_WARN, "Cam't create %s", n.local8Bit().data());
         return;
     }
     string s;
@@ -499,12 +499,12 @@ void HistoryConfig::realDelete()
         if (cur-- == 0)
             break;
     m_styles.erase(it);
-    string n;
+    QString n;
     n = STYLES;
-    n += QFile::encodeName(name);
+    n += name;
     n += EXT;
-    n = user_file(n.c_str());
-    QFile::remove(QFile::decodeName(n.c_str()));
+    n = user_file(n);
+    QFile::remove(n);
     fillCombo(CorePlugin::m_plugin->getHistoryStyle());
 }
 
@@ -544,21 +544,19 @@ void HistoryConfig::realRename()
                 break;
             }
         }
-        string nn;
+        QString nn;
         nn = STYLES;
-        nn += QFile::encodeName(m_styles[m_edit].name);
+        nn += m_styles[m_edit].name;
         nn += EXT;
-        nn = user_file(nn.c_str());
+        nn = user_file(nn);
         if (m_styles[m_edit].text.isEmpty()){
-            QFile f(QFile::decodeName(nn.c_str()));
+            QFile f(nn);
             if (f.open(IO_ReadOnly)){
-                string s;
-                s.append(f.size(), '\x00');
-                f.readBlock((char*)(s.c_str()), f.size());
-                m_styles[m_edit].text = QString::fromUtf8(s.c_str());
+				QTextStream ts(&f);
+                m_styles[m_edit].text = ts.read();
             }
         }
-        QFile::remove(QFile::decodeName(nn.c_str()));
+        QFile::remove(nn);
         m_styles[m_edit].name = newName;
     }
     fillCombo(newName);
@@ -599,18 +597,16 @@ void HistoryConfig::viewChanged(QWidget *w)
     }else{
         QString xsl;
         if (m_styles[cur].text.isEmpty()){
-            string name = STYLES;
-            name += QFile::encodeName(m_styles[cur].name);
+            QString name = STYLES;
+            name += m_styles[cur].name;
             name += EXT;
-            name = m_styles[cur].bCustom ? user_file(name.c_str()) : app_file(name.c_str());
-            QFile f(QFile::decodeName(name.c_str()));
+            name = m_styles[cur].bCustom ? user_file(name) : app_file(name);
+            QFile f(name);
             if (f.open(IO_ReadOnly)){
-                name = "";
-                name.append(f.size(), '\x00');
-                f.readBlock((char*)(name.c_str()), f.size());
-                xsl = QString::fromUtf8(name.c_str());
+				QTextStream ts(&f);
+				xsl = ts.read();
             }else{
-                log(L_WARN, "Can't open %s", name.c_str());
+                log(L_WARN, "Can't open %s", name.local8Bit().data());
             }
         }else{
             xsl = m_styles[cur].text;

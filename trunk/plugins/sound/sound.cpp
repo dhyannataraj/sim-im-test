@@ -21,6 +21,7 @@
 #include "core.h"
 #include "exec.h"
 
+#include <qdir.h>
 #include <qfile.h>
 #include <qsound.h>
 #include <qtimer.h>
@@ -263,9 +264,9 @@ void *SoundPlugin::processEvent(Event *e)
                 bEnable = false;
         }
         if (bEnable){
-            string sound = messageSound(msg->baseType(), data);
-            if (!sound.empty())
-                playSound(sound.c_str());
+            QString sound = messageSound(msg->baseType(), data);
+            if (!sound.isEmpty())
+                playSound(QFile::encodeName(sound));
         }
         return NULL;
     }
@@ -277,15 +278,15 @@ void *SoundPlugin::processEvent(Event *e)
     return NULL;
 }
 
-string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
+QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
 {
     CommandDef *def = core->messageTypes.find(type);
-    string sound;
+    QString sound;
     if (data)
-        sound = get_str(data->Receive, type);
+        sound = QFile::decodeName(get_str(data->Receive, type));
     if (sound == "(nosound)")
         return "";
-    if (sound.empty()){
+    if (sound.isEmpty()){
         def = core->messageTypes.find(type);
         if ((def == NULL) || (def->icon == NULL))
             return "";
@@ -295,31 +296,26 @@ string SoundPlugin::messageSound(unsigned type, SoundUserData *data)
         }else if (mdef->flags & MESSAGE_ERROR){
             sound = "error";
         }else{
-            sound = def->icon;
+            sound = QFile::decodeName(def->icon);
         }
         sound += ".wav";
-        sound = fullName(sound.c_str());
+        sound = fullName(sound);
     }
     return sound;
 }
 
-string SoundPlugin::fullName(const char *name)
+QString SoundPlugin::fullName(const QString &name)
 {
-    string sound="";
-    string str_name = name;
-    if ((name == NULL) || (*name == 0) || (str_name == "(nosound)"))
-        return sound;
-#ifdef WIN32
-    char c = name[0];
-    if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) || ((c == '\\') && (name[1] == '\\'))){
-#else
-    if (name[0] == '/'){
-#endif
+    QString sound;
+    if (name.isEmpty() || name == "(nosound)")
+        return "";
+    QDir d(name);
+    if(!d.isRelative()) {
         sound = name;
     }else{
         sound = "sounds/";
         sound += name;
-        sound = app_file(sound.c_str());
+        sound = app_file(sound);
     }
     return sound;
 }
@@ -345,15 +341,15 @@ void SoundPlugin::processQueue()
         return;
     m_current = m_queue.front();
     m_queue.erase(m_queue.begin());
-    string sound = fullName(m_current.c_str());
+    QString sound = fullName(QFile::decodeName(m_current.c_str()));
     // check whether file is available
-    if (!QFile::exists(QString(sound.c_str()))) {
+    if (!QFile::exists(sound)) {
         m_current="";
         return;
     }
 #ifdef USE_KDE
     if (getUseArts()){
-        KAudioPlayer::play(sound.c_str());
+        KAudioPlayer::play(sound);
         m_checkTimer->start(WAIT_SOUND_TIMEOUT);
         m_current = "";
         return; // arts
@@ -376,7 +372,7 @@ void SoundPlugin::processQueue()
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
-        m_sound = new QSound(sound.c_str());
+        m_sound = new QSound(sound);
         m_sound->play();
         m_checkTimer->start(CHECK_SOUND_TIMEOUT);
         m_current = "";

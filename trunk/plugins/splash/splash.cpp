@@ -54,8 +54,7 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
     splash = NULL;
     m_bStart = bStart;
     if (m_bStart){
-        string pictPath = app_file("pict/splash.png");
-        QPixmap pict(QFile::decodeName(pictPath.c_str()));
+        QPixmap pict(app_file("pict/splash.png"));
         if (!pict.isNull()){
             KAboutData *about_data = getAboutData();
 			QString text = QString("%1%2").arg(about_data->appName()).arg("-IM");

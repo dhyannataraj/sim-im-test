@@ -3044,20 +3044,20 @@ static char PICT_PATH[] = "pictures/";
 
 QString JabberClient::photoFile(JabberUserData *data)
 {
-    string f = PICT_PATH;
+    QString f = PICT_PATH;
     f += "photo.";
-    f += data->ID.ptr;
-    f = user_file(f.c_str());
-    return QFile::decodeName(f.c_str());
+    f += QFile::decodeName(data->ID.ptr);
+    f = user_file(f);
+    return f;
 }
 
 QString JabberClient::logoFile(JabberUserData *data)
 {
-    string f = PICT_PATH;
+    QString f = PICT_PATH;
     f += "logo.";
-    f += data->ID.ptr;
-    f = user_file(f.c_str());
-    return QFile::decodeName(f.c_str());
+    f += QFile::decodeName(data->ID.ptr);
+    f = user_file(f);
+    return f;
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -336,9 +336,8 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
                     delete (*it).msg;
                     (*it).msg = msg;
 
-                    QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
-                    if (home[(int)(home.length() - 1)] == '\\')
-                        home = home.left(home.length() - 1);
+                    QString home = GpgPlugin::plugin->getHomeDir();
+
                     QString gpg;
                     gpg += "\"";
                     gpg += QFile::decodeName(GPG());
@@ -478,7 +477,7 @@ void *GpgPlugin::processEvent(Event *e)
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (data && data->Key.ptr && data->Use.bValue){
-                        QString output = QFile::decodeName(user_file("m.").c_str());
+                        QString output = user_file("m.");
                         output += QString::number((unsigned long)ms->msg);
                         QString input = output + ".in";
                         QFile in(input);
@@ -490,9 +489,8 @@ void *GpgPlugin::processEvent(Event *e)
                         }
                         in.writeBlock(ms->text->c_str(), ms->text->length());
                         in.close();
-                        QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
-                        if (home[(int)(home.length() - 1)] == '\\')
-                            home = home.left(home.length() - 1);
+                        QString home = GpgPlugin::plugin->getHomeDir();
+
                         QString gpg;
                         gpg += "\"";
                         gpg += QFile::decodeName(GPG());
@@ -543,7 +541,7 @@ void *GpgPlugin::processEvent(Event *e)
                     return NULL;
                 }
                 if (text.left(strlen(SIGN_KEY)) == SIGN_KEY){
-                    QString input = QFile::decodeName(user_file("m.").c_str());
+                    QString input = user_file("m.");
                     input  += QString::number((unsigned long)msg);
                     input += ".in";
                     QFile in(input);
@@ -557,9 +555,8 @@ void *GpgPlugin::processEvent(Event *e)
                     t = text.latin1();
                     in.writeBlock(t.c_str(), t.length());
                     in.close();
-                    QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
-                    if (home[(int)(home.length() - 1)] == '\\')
-                        home = home.left(home.length() - 1);
+                    QString home = GpgPlugin::plugin->getHomeDir();
+
                     QString gpg;
                     gpg += "\"";
                     gpg += QFile::decodeName(GPG());
@@ -588,7 +585,7 @@ static unsigned decode_index = 0;
 
 bool GpgPlugin::decode(Message *msg, const char *aPassphrase, const char *key)
 {
-    QString output = QFile::decodeName(user_file("md.").c_str());
+    QString output = user_file("md.");
     output += QString::number(decode_index++);
     QString input = output + ".in";
     QFile in(input);
@@ -601,9 +598,8 @@ bool GpgPlugin::decode(Message *msg, const char *aPassphrase, const char *key)
     string t = msg->getPlainText().latin1();
     in.writeBlock(t.c_str(), t.length());
     in.close();
-    QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
-    if (home[(int)(home.length() - 1)] == '\\')
-        home = home.left(home.length() - 1);
+    QString home = GpgPlugin::plugin->getHomeDir();
+
     QString gpg;
     gpg += "\"";
     gpg += QFile::decodeName(GPG());
@@ -693,7 +689,7 @@ void GpgPlugin::reset()
 {
     if (*GPG() && *getHome() && *getKey()){
 #ifdef HAVE_CHMOD
-        chmod(user_file(getHome()).c_str(), 0700);
+        chmod(QFile::encodeName(user_file(getHome()), 0700);
 #endif
         registerMessage();
     }else{
@@ -833,7 +829,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     e.process();
 
     QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
-    QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
+    QString home = GpgPlugin::plugin->getHomeDir();
     m_key = GpgPlugin::plugin->getKey();
     if (home[(int)(home.length() - 1)] == '\\')
         home = home.left(home.length() - 1);
@@ -936,7 +932,7 @@ void *MsgGPGKey::processEvent(Event *e)
 
 QString GpgPlugin::getHomeDir()
 {
-    QString home = QFile::decodeName(user_file(GpgPlugin::plugin->getHome()).c_str());
+    QString home = user_file(QFile::decodeName(GpgPlugin::plugin->getHome()));
     if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
     return home;

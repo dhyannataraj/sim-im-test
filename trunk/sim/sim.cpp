@@ -290,7 +290,7 @@ int main(int argc, char *argv[])
     StyleInfo*  (*getStyleInfo)() = NULL;
     HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
     if (hLib != NULL)
-        hLib = LoadLibraryA(app_file("plugins\\styles\\xpstyle.dll").c_str());
+        hLib = LoadLibraryA(app_file("plugins\\styles\\xpstyle.dll").latin1());
     if (hLib != NULL)
         (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
     if (getStyleInfo){

@@ -62,15 +62,15 @@ static char EXT[]    = ".xsl";
 
 XSL::XSL(const QString &name)
 {
-    string fname = STYLES;
-    fname += QFile::encodeName(name);
+    QString fname = STYLES;
+    fname += name;
     fname += EXT;
-    QFile f(QFile::decodeName(user_file(fname.c_str()).c_str()));
+    QFile f(user_file(fname));
     bool bOK = true;
     if (!f.open(IO_ReadOnly)){
-        f.setName(QFile::decodeName(app_file(fname.c_str()).c_str()));
+        f.setName(app_file(fname));
         if (!f.open(IO_ReadOnly)){
-            log(L_WARN, "Can't open %s", fname.c_str());
+            log(L_WARN, "Can't open %s", fname.local8Bit().data());
             bOK = false;
         }
     }

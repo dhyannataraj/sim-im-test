@@ -1527,14 +1527,11 @@ CorePlugin::~CorePlugin()
 QString CorePlugin::poFile(const char *lang)
 {
 #ifdef WIN32
-    string s = "po";
-    s += "\\";
-    for (const char *pp = lang; *pp; pp++)
-        s += (char)(tolower(*pp));
-    s += ".qm";
-    s = app_file(s.c_str());
-    QFile f(QFile::decodeName(s.c_str()));
-    if (!f.exists()) return "";
+    // lang is ascii, so this works fine
+    QString s = "po\\" + QString(lang).lower() + ".qm";
+    QFile f(app_file(s));
+    if (!f.exists())
+        return "";
 #else
     string s = PREFIX "/share/locale/";
     string l;
@@ -1859,31 +1856,27 @@ void *CorePlugin::processEvent(Event *e)
         m_cmds->clear();
         return NULL;
     case EventHomeDir:{
-            string *cfg = (string*)(e->param());
-            QString fname = QFile::decodeName(cfg->c_str());
+            QString *cfg = (QString*)(e->param());
+            QString fname = *cfg;
             QString profile;
 #ifdef WIN32
             if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
 #else
-if (fname[0] != '/')
+            if (fname[0] != '/')
 #endif
                 profile = getProfile();
             if (profile.length())
-#ifdef WIN32
-                profile += "\\";
-#else
                 profile += "/";
-#endif
             profile += fname;
             if (profile.isEmpty()){
                 *cfg = "";
             }else{
-                *cfg = QFile::encodeName(profile);
+                *cfg = profile;
             }
             Event eProfile(EventHomeDir, cfg);
             if (!eProfile.process(this))
-                *cfg = app_file(cfg->c_str());
-            makedir((char*)(cfg->c_str()));
+                *cfg = app_file(*cfg);
+            makedir(QFile::encodeName(*cfg).data());
             return cfg;
         }
     case EventAddPreferences:{
@@ -2054,20 +2047,15 @@ if (fname[0] != '/')
                     CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                     if (data){
                         if (data->AcceptMode.value == 1){
-                            string dir;
+                            QString dir;
                             if (data && data->IncomingPath.ptr)
-                                dir = data->IncomingPath.ptr;
-#ifdef WIN32
-                            if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
-                                dir += '\\';
-#else
-                            if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+                                dir = QFile::decodeName(data->IncomingPath.ptr);
+                            if (!dir.isEmpty() && (dir.right(1) != '/') && (dir.right(1) != '\\'))
                                 dir += '/';
-#endif
-                            dir = user_file(dir.c_str());
+                            dir = user_file(dir);
                             messageAccept ma;
                             ma.msg	     = msg;
-                            ma.dir 		 = dir.c_str();
+                            ma.dir 		 = QFile::encodeName(dir);
                             ma.overwrite = data->OverwriteFiles.bValue ? Replace : Skip;
                             Event e(EventMessageAccept, &ma);
                             e.process();
@@ -3380,20 +3368,15 @@ if (fname[0] != '/')
                 Message *msg = (Message*)(cmd->param);
                 Contact *contact = getContacts()->contact(msg->contact());
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                string dir;
+                QString dir;
                 if (data && data->IncomingPath.ptr)
-                    dir = data->IncomingPath.ptr;
-#ifdef WIN32
-                if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
-                    dir += '\\';
-#else
-                if (!dir.empty() && (dir[dir.length() - 1] != '/'))
+                    dir = QFile::decodeName(data->IncomingPath.ptr);
+                if (!dir.isEmpty() && (!dir.endsWith("/")) && (!dir.endsWith("\\")))
                     dir += '/';
-#endif
-                dir = user_file(dir.c_str());
+                dir = user_file(dir);
                 messageAccept ma;
                 ma.msg	     = msg;
-                ma.dir	     = dir.c_str();
+                ma.dir	     = QFile::encodeName(dir);
                 ma.overwrite = Ask;
                 Event e(EventMessageAccept, &ma);
                 e.process();
@@ -3711,8 +3694,8 @@ bool CorePlugin::init(bool bInit)
     if (e.process() && cmd_line_profile != ""){
         bCmdLineProfile = true;
         setProfile(NULL);
-        QString profileDir = QFile::decodeName(user_file("").c_str());
-        profileDir += cmd_line_profile.c_str();
+        QString profileDir = user_file("");
+        profileDir += QFile::decodeName(cmd_line_profile.c_str());
         QDir d(profileDir);
         if (d.exists()) {
             bCmdLineProfile = false;
@@ -3775,7 +3758,7 @@ bool CorePlugin::init(bool bInit)
 
         QString name;
         setProfile(NULL);
-        QDir d(QFile::decodeName(user_file("").c_str()));
+        QDir d(user_file(""));
         while(1) {
           if (!bCmdLineProfile){
               bool ok = false;
@@ -3925,7 +3908,7 @@ void CorePlugin::loadDir()
     string saveProfile = getProfile();
     setProfile(NULL);
     bool bOK = false;
-    QString baseName = QFile::decodeName(user_file("").c_str());
+    QString baseName = user_file("");
     QDir dir(baseName);
     dir.setFilter(QDir::Dirs);
     QStringList list = dir.entryList();
@@ -4020,10 +4003,10 @@ string CorePlugin::getConfig()
     string cfg = save_data(coreData, &data);
     string saveProfile = getProfile();
     setProfile(NULL);
-    string cfgName = user_file("plugins.conf");
-    QFile fCFG(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+    QString cfgName = user_file("plugins.conf");
+    QFile fCFG(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", cfgName.c_str());
+        log(L_ERROR, "Can't create %s", cfgName.local8Bit().data());
     }else{
         string write = "[_core]\n";
         write += "enable,";
@@ -4053,9 +4036,9 @@ string CorePlugin::getConfig()
 
     setProfile(saveProfile.c_str());
     cfgName = user_file(CLIENTS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).c_str())); // use backup file for this ...
+    QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
-        log(L_ERROR, "Can't create %s", cfgName.c_str());
+        log(L_ERROR, "Can't create %s", cfgName.local8Bit().data());
     }else{
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
@@ -4106,8 +4089,8 @@ string CorePlugin::getConfig()
     }
 
 #ifndef WIN32
-    string dir = user_file("");
-    chmod(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR);
+    QString dir = user_file("");
+    chmod(QFile::encodeName(dir),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
     string res = save_data(coreData, &data);
     setEditBackground(editBgColor);
@@ -4167,16 +4150,16 @@ Message *CorePlugin::createMessage(const char *type, Buffer *cfg)
 
 void CorePlugin::loadClients(ClientList &clients)
 {
-    string cfgName = user_file(CLIENTS_CONF);
-    QFile f(QFile::decodeName(cfgName.c_str()));
+    QString cfgName = user_file(CLIENTS_CONF);
+    QFile f(cfgName);
     if (!f.open(IO_ReadOnly)){
-        log(L_ERROR, "Can't open %s", cfgName.c_str());
+        log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
         return;
     }
     Buffer cfg;
     cfg.init(f.size());
     if (f.readBlock(cfg.data(), f.size()) < 0){
-        log(L_ERROR, "Can't read %s", cfgName.c_str());
+        log(L_ERROR, "Can't read %s", cfgName.local8Bit().data());
         return;
     }
     for (;;){
@@ -4491,7 +4474,7 @@ bool CorePlugin::lockProfile(const char *profile, bool bSend)
         }
         return true;
     }
-    FileLock *lock = new FileLock(QFile::decodeName(user_file(".lock").c_str()));
+    FileLock *lock = new FileLock(user_file(".lock"));
     if (!lock->lock(bSend)){
         delete lock;
         return false;
@@ -4633,7 +4616,7 @@ bool FileLock::lock(bool)
 }
 
 void HistoryThread::run() {
-    QString str = QFile::decodeName(user_file(".history_file").c_str());
+    QString str = user_file(".history_file");
     History::save(m_id, str);
     Exec *m_ex;
     m_ex = new Exec;

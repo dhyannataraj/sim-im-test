@@ -68,8 +68,8 @@ protected:
     virtual void *processEvent(SIM::Event*);
     virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
-    std::string fullName(const char*);
-    std::string messageSound(unsigned type, SoundUserData *data);
+    QString fullName(const QString &name);
+    QString messageSound(unsigned type, SoundUserData *data);
     void playSound(const char*);
     void processQueue();
     std::string		m_current;

@@ -57,7 +57,7 @@ protected:
 class FileIconSet : public IconSet, public SAXParser
 {
 public:
-    FileIconSet(const char *file);
+    FileIconSet(const QString &file);
     ~FileIconSet();
     PictDef *getPict(const char *name);
     void clear();
@@ -218,7 +218,7 @@ QString Icons::parseSmiles(const QString &str)
 
 IconSet *Icons::addIconSet(const char *name, bool bDefault)
 {
-    FileIconSet *is = new FileIconSet(name);
+    FileIconSet *is = new FileIconSet(QFile::decodeName(name));
     if (bDefault){
         m_defSets.push_front(is);
     }else{
@@ -611,9 +611,9 @@ PictDef *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
     return &m_icons.find(name)->second;
 }
 
-FileIconSet::FileIconSet(const char *file)
+FileIconSet::FileIconSet(const QString &file)
 {
-    m_zip = new UnZip(QFile::decodeName(app_file(file).c_str()));
+    m_zip = new UnZip(app_file(file));
     QByteArray arr;
     m_data = NULL;
     if (m_zip->open() && (m_zip->readFile("icondef.xml", &arr) || m_zip->readFile(QFileInfo(m_zip->name()).baseName(true) + QDir::separator() + "icondef.xml", &arr)))
