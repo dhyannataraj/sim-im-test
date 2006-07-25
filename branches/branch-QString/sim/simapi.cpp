@@ -329,7 +329,6 @@ void EventReceiver::destroyList()
 #ifdef WIN32
 
 static WNDPROC oldWndProc = 0;
-static bool bSetCaption = false;
 static bool bResize     = false;
 static MSG m;
 
@@ -340,11 +339,6 @@ bool inResize()
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if (msg == WM_SETTEXT){
-        if (!bSetCaption)
-            return 0;
-        return DefWindowProc(hWnd, msg, wParam, lParam);
-    }
     if (msg == WM_ENTERSIZEMOVE)
         bResize = true;
     if (msg == WM_EXITSIZEMOVE)
@@ -358,16 +352,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return oldWndProc(hWnd, msg, wParam, lParam);
 }
 
-void translate()
-{
-    TranslateMessage(&m);
-}
-
-unsigned wndMessage()
-{
-    return m.message;
-}
-
 void setWndProc(QWidget *w)
 {
     WNDPROC p;
@@ -377,22 +361,6 @@ void setWndProc(QWidget *w)
         p = (WNDPROC)SetWindowLongA(w->winId(), GWL_WNDPROC, (LONG)WndProc);
     }
     if (oldWndProc == NULL) oldWndProc = p;
-}
-
-void mySetCaption(QWidget *w, const QString &caption)
-{
-    bSetCaption = true;
-    if (IsWindowUnicode(w->winId())){
-        unsigned size = caption.length();
-        wchar_t *text = new wchar_t[size + 1];
-        memcpy(text, caption.unicode(), sizeof(wchar_t) * size);
-        text[size] = 0;
-        SendMessageW(w->winId(), WM_SETTEXT, 0, (LPARAM)text);
-        delete[] text;
-    }else{
-        SendMessageA(w->winId(), WM_SETTEXT, 0, (LPARAM)(const char*)caption.local8Bit());
-    }
-    bSetCaption = false;
 }
 
 #else

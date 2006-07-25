@@ -19,6 +19,7 @@
 #define _BALLONMSG_H
 
 #include "simapi.h"
+
 #include <qstring.h>
 #include <qdialog.h>
 #include <qbitmap.h>

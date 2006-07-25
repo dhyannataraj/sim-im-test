@@ -22,10 +22,6 @@
 #include "config.h"
 #endif
 
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stddef.h>
-#endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -38,24 +34,6 @@
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-
-#ifndef WIN32
-# ifdef HAVE_STDBOOL_H
-#  include <stdbool.h>
-# else
-#  ifndef HAVE__BOOL
-#   ifdef __cplusplus
-     typedef bool _Bool;
-#   else
-     typedef unsigned char _Bool;
-#   endif
-#  endif
-#  define bool _Bool
-#  define false 0
-#  define true 1
-#  define __bool_true_false_are_defined 1
-# endif
 #endif
 
 #include <qglobal.h>
@@ -77,14 +55,12 @@ class QPixmap;
 class QToolBar;
 
 #ifdef Q_CC_MSVC
-# pragma warning(disable: 4097)
+// "conditional expression is constant" (W4)
 # pragma warning(disable: 4127)
-# pragma warning(disable: 4244)
-# pragma warning(disable: 4251)  // msvc is a little bit stupid when exporting a template class... :(
-# pragma warning(disable: 4275)
-# pragma warning(disable: 4514)
+// "'identifier' : class 'type' needs to have dll-interface to be used by clients of class 'type2'" (W1)
+# pragma warning(disable: 4251)
+// "function' : function not inlined" (W4)4786
 # pragma warning(disable: 4710)
-# pragma warning(disable: 4786)
 #endif
 
 #ifdef Q_CC_MSVC
@@ -148,7 +124,6 @@ namespace SIM
 // _________________________________________________________________________________
 /* PluginManager - base class for main application */
 
-class PluginManagerPrivate;
 class ContactList;
 class SocketFactory;
 class Client;
@@ -162,7 +137,7 @@ public:
     static ContactList          *contacts;
     static SocketFactory        *factory;
 private:
-    PluginManagerPrivate *p;
+    class PluginManagerPrivate *p;
 
     COPY_RESTRICTED(PluginManager)
 };
@@ -801,8 +776,6 @@ const unsigned EventUser            = 0x10000;
 // _____________________________________________________________________________________
 // CommandsDef
 
-class CommandsDefPrivate;
-class CommandsListPrivate;
 class CommandsDef;
 
 class EXPORT CommandsList
@@ -813,7 +786,7 @@ public:
     CommandDef *operator++();
     void reset();
 private:
-    CommandsListPrivate *p;
+    class CommandsListPrivate *p;
     friend class CommandsListPrivate;
 
     COPY_RESTRICTED(CommandsList)
@@ -829,15 +802,12 @@ public:
     void setConfig(const QString &);
     void set(CommandDef*);
 private:
-    CommandsDefPrivate *p;
+    class CommandsDefPrivate *p;
     friend class CommandsList;
     friend class CommandsDefPrivate;
 
     COPY_RESTRICTED(CommandsDef)
 };
-
-class CommandsMapPrivate;
-class CommandsMapIteratorPrivate;
 
 class EXPORT CommandsMap
 {
@@ -849,7 +819,7 @@ public:
     bool erase(unsigned id);
     void clear();
 private:
-    CommandsMapPrivate  *p;
+    class CommandsMapPrivate  *p;
     friend class CommandsMapIterator;
 
     COPY_RESTRICTED(CommandsMap)
@@ -862,7 +832,7 @@ public:
     ~CommandsMapIterator();
     CommandDef *operator++();
 private:
-    CommandsMapIteratorPrivate *p;
+    class CommandsMapIteratorPrivate *p;
 
     COPY_RESTRICTED(CommandsMapIterator)
 };
@@ -1171,7 +1141,6 @@ typedef struct MessageFileData
     Data        Size;
 } MessageFileData;
 
-class FileMessageIteratorPrivate;
 class FileMessage;
 
 class FileTransferNotify
@@ -1277,7 +1246,7 @@ public:
         unsigned dirs();
         unsigned size();
     protected:
-        FileMessageIteratorPrivate *p;
+        class FileMessageIteratorPrivate *p;
         friend class FileMessage;
 
         COPY_RESTRICTED(Iterator)
@@ -1350,7 +1319,6 @@ protected:
 // _____________________________________________________________________________________
 // Contact list
 
-class UserDataPrivate;
 class EXPORT UserData
 {
 public:
@@ -1361,15 +1329,13 @@ public:
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
 private:
-    UserDataPrivate *d;
+    class UserDataPrivate *d;
 
     COPY_RESTRICTED(UserData)
 };
 
 class EXPORT Client;
-class ClientUserDataPrivate;
 class ClientDataIterator;
-class ClientDataIteratorPrivate;
 
 struct clientData       // Base struct for all clientData
 {
@@ -1396,7 +1362,7 @@ public:
     Client *activeClient(void *&data, Client *client);
     QString property(const char *name);
 protected:
-    ClientUserDataPrivate *p;
+    class ClientUserDataPrivate *p;
     friend class ClientDataIterator;
 
     COPY_RESTRICTED(ClientUserData)
@@ -1411,7 +1377,7 @@ public:
     Client *client();
     void reset();
 protected:
-    ClientDataIteratorPrivate *p;
+    class ClientDataIteratorPrivate *p;
 
     COPY_RESTRICTED(ClientDataIterator)
 };
@@ -1421,9 +1387,9 @@ class EXPORT PacketType
 public:
     PacketType(unsigned id, const QString &name, bool bText);
     ~PacketType();
-    unsigned id() { return m_id; }
-    const QString &name() { return m_name; }
-    bool isText() { return m_bText; }
+    unsigned id() const { return m_id; }
+    const QString &name() const { return m_name; }
+    bool isText() const { return m_bText; }
 protected:
     unsigned m_id;
     QString  m_name;
@@ -1633,14 +1599,6 @@ typedef struct UserDataDef
     const DataDef   *def;
 } UserDataDef;
 
-class ContactListPrivate;
-class ContactIteratorPrivate;
-class GroupIteratorPrivate;
-class ClientIteratorPrivate;
-class ProtocolIteratorPrivate;
-class PacketIteratorPrivate;
-class UserDataIteratorPrivate;
-
 typedef struct ENCODING
 {
     const char *language;
@@ -1678,7 +1636,7 @@ public:
         ~GroupIterator();
         void reset();
     protected:
-        GroupIteratorPrivate *p;
+        class GroupIteratorPrivate *p;
         friend class ContactList;
 
         COPY_RESTRICTED(GroupIterator)
@@ -1691,7 +1649,7 @@ public:
         ~ContactIterator();
         void reset();
     protected:
-        ContactIteratorPrivate *p;
+        class ContactIteratorPrivate *p;
         friend class ContactList;
 
         COPY_RESTRICTED(ContactIterator)
@@ -1704,7 +1662,7 @@ public:
         ~ProtocolIterator();
         void reset();
     protected:
-        ProtocolIteratorPrivate *p;
+        class ProtocolIteratorPrivate *p;
         friend class ContactList;
 
         COPY_RESTRICTED(ProtocolIterator)
@@ -1717,7 +1675,7 @@ public:
         ~PacketIterator();
         void reset();
     protected:
-        PacketIteratorPrivate *p;
+        class PacketIteratorPrivate *p;
         friend class ContactList;
 
         COPY_RESTRICTED(PacketIterator)
@@ -1729,7 +1687,7 @@ public:
         UserDataIterator();
         ~UserDataIterator();
     protected:
-        UserDataIteratorPrivate *p;
+        class UserDataIteratorPrivate *p;
         friend class ContactList;
 
         COPY_RESTRICTED(UserDataIterator)
@@ -1750,7 +1708,7 @@ public:
     QTextCodec *getCodecByName(const char *encoding);
     static const ENCODING *getEncodings();
 protected:
-    ContactListPrivate *p;
+    class ContactListPrivate *p;
     friend class Contact;
     friend class Group;
     friend class UserData;
@@ -1831,11 +1789,7 @@ EXPORT const pager_provider *getProviders();
 
 #ifdef WIN32
 EXPORT void setWndProc(QWidget*);
-EXPORT void mySetCaption(QWidget *w, const QString &caption);
-EXPORT void translate();
-EXPORT unsigned wndMessage();
 #define SET_WNDPROC(A)  SIM::setWndProc(this);
-#define setCaption(s)   SIM::mySetCaption(this, s);
 #else
 #ifndef QT_MACOSX_VERSION
 EXPORT void setWndClass(QWidget*, const char*);
@@ -1865,8 +1819,7 @@ EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
 
 EXPORT unsigned screens();
-EXPORT QRect screenGeometry(unsigned nScreen);
-EXPORT QRect screenGeometry();
+EXPORT QRect screenGeometry(unsigned nScreen=-1);
 
 EXPORT unsigned get_random();
 

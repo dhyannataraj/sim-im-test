@@ -20,8 +20,6 @@
 
 #include "simapi.h"
 
-class XSLPrivate;
-
 class EXPORT XSL
 {
 public:
@@ -31,7 +29,7 @@ public:
     QString process(const QString &xml);
     static void cleanup();
 protected:
-    XSLPrivate *d;
+    class XSLPrivate *d;
 
     COPY_RESTRICTED(XSL)
 };

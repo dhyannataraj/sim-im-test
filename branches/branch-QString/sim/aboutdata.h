@@ -18,12 +18,9 @@
 #ifndef _ABOUTDATA_H
 #define _ABOUTDATA_H
 
-#include "simapi.h"
 #ifdef USE_KDE
 #include <kaboutdata.h>
 #else
-
-#include <qlabel.h>
 
 /*
 * This file is part of the KDE Libraries
@@ -46,10 +43,10 @@
 *
 */
 
+#include "simapi.h"
+
 #include <qvaluelist.h>
 #include <qstring.h>
-
-class KAboutDataPrivate;
 
 /**
 * This structure is used to store information about a person or developer.
@@ -112,7 +109,6 @@ private:
     const char *mTask;
     const char *mEmailAddress;
     const char *mWebAddress;
-
 };
 
 /**
@@ -232,7 +228,7 @@ public:
                 const char *copyrightStatement = 0,
                 const char *text = 0,
                 const char *homePageAddress = 0,
-                const char *bugsEmailAddress = "submit@bugs.kde.org"
+                const char *bugsEmailAddress = "sim-im-main@lists.sim-im.org"
               );
 
     ~KAboutData();
@@ -409,7 +405,7 @@ private:
     const char *mBugEmailAddress;
     const char *mLicenseText;
 
-    KAboutDataPrivate *d;
+    class KAboutDataPrivate *d;
 
     COPY_RESTRICTED(KAboutData)
 };

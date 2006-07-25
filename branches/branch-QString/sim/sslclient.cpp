@@ -15,15 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable:4530)
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
-#endif
-
-#include "simapi.h"
 
 #ifdef USE_OPENSSL
+
+#include "simapi.h"
 
 #include <openssl/ssl.h>
 #include <openssl/err.h>
@@ -35,8 +33,6 @@
 
 namespace SIM
 {
-
-using std::string;
 
 static bool bInit = false;
 
@@ -462,6 +458,3 @@ QByteArray sha1(const char *str, int size)
 } // namespace SIM
 
 #endif
-
-
-

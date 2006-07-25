@@ -196,9 +196,9 @@ void *LoggerPlugin::processEvent(Event *e)
 #else
                 s += "\n";
 #endif
-                m_file->writeBlock(s.latin1(), s.length());
+                m_file->writeBlock(s.local8Bit(), s.local8Bit().length());
             }
-#ifdef QT_DLL
+#ifdef Q_OS_WIN
             QStringList slist = QStringList::split('\n',s);
             for (unsigned i = 0 ; i < slist.count() ; i++){
                 QString out = slist[i];
