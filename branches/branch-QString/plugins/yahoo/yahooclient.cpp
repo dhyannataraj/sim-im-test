@@ -259,7 +259,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
             m_socket->writeBuffer
             << QString::number((*it).first)
             << (unsigned short)0xC080
-            << (*it).second
+            << (*it).second.data()
             << (unsigned short)0xC080;
         }
     }
