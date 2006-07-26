@@ -137,6 +137,8 @@ void *JIDSearch::processEvent(Event *e)
             icon = "MSN";
         }else if (m_type == "yahoo"){
             icon = "Yahoo!";
+        }else if (m_type == "sms"){
+            icon = "sms";
         }
         if (data->Status.ptr){
             if (!strcmp(data->Status.ptr, "online")){
