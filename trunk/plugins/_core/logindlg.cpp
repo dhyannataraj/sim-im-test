@@ -37,7 +37,7 @@
 using std::string;
 using namespace SIM;
 
-LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)
+LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const QString &loginProfile)
         : LoginDialogBase(NULL, "logindlg",
                           client ? false : true,
                           client ? WDestructiveClose : 0)
@@ -47,11 +47,9 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     m_profile = CorePlugin::m_plugin->getProfile();
     m_client = client;
     m_bLogin = false;
-    if (loginProfile && *loginProfile){
-        m_loginProfile = loginProfile;
-    }else{
+    m_loginProfile = loginProfile;
+    if(m_loginProfile.isEmpty())
         btnDelete->hide();
-    }
     SET_WNDPROC("login")
     setButtonsPict(this);
     lblMessage->setText(text);
@@ -134,9 +132,9 @@ void LoginDialog::accept()
         return;
     }
 
-    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
+    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
     //if (m_profile != CorePlugin::m_plugin->getProfile()){
-        if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n].c_str())){
+        if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n])){
             CorePlugin::m_plugin->setProfile(m_profile.c_str());
             BalloonMsg::message(i18n("Other instance of SIM use this profile"), buttonOk);
             return;
@@ -220,7 +218,7 @@ void LoginDialog::profileChanged(int)
     }else{
         btnRename->show();
         clearInputs();
-        CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].c_str());
+        CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
         unsigned nClients = 0;
@@ -240,7 +238,7 @@ void LoginDialog::profileChanged(int)
         }
         if (passwords.size())
             passwords[0]->setFocus();
-        btnDelete->setEnabled(m_loginProfile == CorePlugin::m_plugin->m_profiles[n].c_str());
+        btnDelete->setEnabled(m_loginProfile == CorePlugin::m_plugin->m_profiles[n]);
         buttonOk->setEnabled(false);
         pswdChanged("");
     }

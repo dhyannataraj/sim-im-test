@@ -31,7 +31,7 @@ class LoginDialog : public LoginDialogBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    LoginDialog(bool bInit, SIM::Client *client, const QString &msg, const char *loginProfile);
+    LoginDialog(bool bInit, SIM::Client *client, const QString &msg, const QString &loginProfile);
     ~LoginDialog();
     bool isChanged() { return m_bProfileChanged; }
     SIM::Client *client() { return m_client; }
@@ -49,7 +49,7 @@ protected:
     virtual void accept();
     virtual void reject();
     std::string m_profile;
-    std::string m_loginProfile;
+    QString m_loginProfile;
     void clearInputs();
     void fill();
     void startLogin();

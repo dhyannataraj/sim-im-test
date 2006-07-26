@@ -71,6 +71,12 @@ protected:
     virtual QSizePolicy sizePolicy() const;
 };
 
+static void copyData(SIM::Data *dest, const SIM::Data *src, unsigned count)
+{
+    for(unsigned i = 0; i < count; i++)
+        dest[i] = src[i];
+}
+
 ContainerStatus::ContainerStatus(QWidget *parent)
         : QStatusBar(parent)
 {
@@ -99,8 +105,8 @@ static DataDef containerData[] =
         { "Id", DATA_ULONG, 1, 0 },
         { "Windows", DATA_STRING, 1, 0 },
         { "ActiveWindow", DATA_ULONG, 1, 0 },
-        { "Geometry", DATA_ULONG, 5, 0 },
-        { "BarState", DATA_ULONG, 7, 0 },
+        { "Geometry", DATA_LONG, 5, 0 },
+        { "BarState", DATA_LONG, 7, 0 },
         { "StatusSize", DATA_ULONG, 1, 0 },
         { "WndConfig", DATA_STRLIST, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
@@ -134,8 +140,8 @@ Container::Container(unsigned id, const char *cfg)
     bool bPos = true;
     if (cfg == NULL){
         setId(id);
-        memcpy(data.barState, CorePlugin::m_plugin->data.containerBar, sizeof(data.barState));
-        memcpy(data.geometry, CorePlugin::m_plugin->data.containerGeo, sizeof(data.geometry));
+        copyData(data.barState, CorePlugin::m_plugin->data.ContainerBar, 7);
+        copyData(data.geometry, CorePlugin::m_plugin->data.ContainerGeometry, 5);
         if ((data.geometry[WIDTH].value == (unsigned long)-1) || (data.geometry[HEIGHT].value == (unsigned long)-1)){
             QWidget *desktop = QApplication::desktop();
             data.geometry[WIDTH].value = desktop->width() / 3;
@@ -160,8 +166,8 @@ Container::Container(unsigned id, const char *cfg)
                         if (dw < 0) dw = -dw;
                         if (dh < 0) dh = -dh;
                         if ((dw < 3) && (dh < 3)){
-                            int nl = data.geometry[LEFT].value;
-                            int nt = data.geometry[TOP].value;
+                            long nl = data.geometry[LEFT].value;
+                            long nt = data.geometry[TOP].value;
                             nl += 21;
                             nt += 20;
                             QWidget *desktop = QApplication::desktop();
@@ -488,8 +494,8 @@ void Container::resizeEvent(QResizeEvent *e)
     if (m_bInSize)
         return;
     saveGeometry(this, data.geometry);
-    CorePlugin::m_plugin->data.containerGeo[WIDTH]  = data.geometry[WIDTH];
-    CorePlugin::m_plugin->data.containerGeo[HEIGHT] = data.geometry[HEIGHT];
+    CorePlugin::m_plugin->data.ContainerGeometry[WIDTH]  = data.geometry[WIDTH];
+    CorePlugin::m_plugin->data.ContainerGeometry[HEIGHT] = data.geometry[HEIGHT];
 }
 
 void Container::moveEvent(QMoveEvent *e)
@@ -498,8 +504,8 @@ void Container::moveEvent(QMoveEvent *e)
     if (m_bInSize)
         return;
     saveGeometry(this, data.geometry);
-    CorePlugin::m_plugin->data.containerGeo[LEFT] = data.geometry[LEFT];
-    CorePlugin::m_plugin->data.containerGeo[TOP]  = data.geometry[TOP];
+    CorePlugin::m_plugin->data.ContainerGeometry[LEFT] = data.geometry[LEFT];
+    CorePlugin::m_plugin->data.ContainerGeometry[TOP]  = data.geometry[TOP];
 }
 
 void Container::toolbarChanged(QToolBar*)
@@ -507,7 +513,7 @@ void Container::toolbarChanged(QToolBar*)
     if (m_bBarChanged)
         return;
     saveToolbar(m_bar, data.barState);
-    memcpy(CorePlugin::m_plugin->data.containerBar, data.barState, sizeof(data.barState));
+    copyData(CorePlugin::m_plugin->data.ContainerBar, data.barState, 7);
 }
 
 void Container::statusChanged(int width)

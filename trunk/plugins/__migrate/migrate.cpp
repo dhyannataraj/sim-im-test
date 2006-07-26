@@ -68,11 +68,7 @@ bool MigratePlugin::init()
         if ((*it)[0] == '.')
             continue;
         QString p = dir + (*it);
-#ifdef WIN32
-        p += "\\";
-#else
         p += "/";
-#endif
         QFile icqConf(p + "icq.conf");
         QFile clientsConf(p + "clients.conf");
         if (icqConf.exists() && !clientsConf.exists()){

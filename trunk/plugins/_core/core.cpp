@@ -17,8 +17,8 @@
 
 #include "core.h"
 #include "simapi.h"
+#include "buffer.h"
 #include "cfgdlg.h"
-#include "exec.h"
 #include "mainwin.h"
 #include "userview.h"
 #include "commands.h"
@@ -58,6 +58,7 @@
 #include <qpopupmenu.h>
 #include <qthread.h>
 #include <qtextcodec.h>
+#include <qprocess.h>
 #include <qinputdialog.h>
 #include <qmessagebox.h>
 
@@ -286,7 +287,7 @@ static DataDef coreData[] =
         { "ContainerMode", DATA_ULONG, 1, DATA(2) },
         { "SendOnEnter", DATA_BOOL, 1, 0 },
         { "ShowOwnerName", DATA_BOOL, 1, 0 },
-        { "ContainerGeometry", DATA_ULONG, 5, DATA(-1) },
+        { "ContainerGeometry", DATA_LONG, 5, DATA(-1) },
         { "ContainerBar", DATA_LONG, 7, 0 },
         { "ContainerStatusSize", DATA_ULONG, 1, 0 },
         { "Containers", DATA_STRING, 1, 0 },
@@ -330,10 +331,10 @@ static DataDef coreData[] =
         { "NoJoinAlert", DATA_BOOL, 1, 0 },
         { "EnableSpell", DATA_BOOL, 1, 0 },
         { "RemoveHistory", DATA_BOOL, 1, DATA(1) },
-        { "SearchGeometry", DATA_ULONG, 5, DATA(0) },
+        { "SearchGeometry", DATA_LONG, 5, DATA(0) },
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
-        { "CfgGeo", DATA_LONG, 5, DATA(0) },
+        { "CfgGeometry", DATA_LONG, 5, DATA(0) },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -1473,8 +1474,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 
 void CorePlugin::initData()
 {
-    if (historyXSL)
-        delete historyXSL;
+    delete historyXSL;
     QString styleName;
     const char *s = getHistoryStyle();
     if (s && *s)
@@ -3188,8 +3188,8 @@ void *CorePlugin::processEvent(Event *e)
                     delete list;
                     if (wnd == NULL){
                         wnd = new HistoryWindow(id);
-                        if (data.historySize[0].value && data.historySize[1].value)
-                            wnd->resize(data.historySize[0].value, data.historySize[1].value);
+                        if (data.HistorySize[0].value && data.HistorySize[1].value)
+                            wnd->resize(data.HistorySize[0].value, data.HistorySize[1].value);
                     }
                     raiseWindow(wnd);
                 } else{
@@ -3209,12 +3209,12 @@ void *CorePlugin::processEvent(Event *e)
                 if (m_cfg == NULL){
                     m_cfg = new ConfigureDialog;
                     connect(m_cfg, SIGNAL(finished()), this, SLOT(dialogFinished()));
-                    if ((data.cfgGeo[WIDTH].value == 0) || (data.cfgGeo[HEIGHT].value == 0)){
-                        data.cfgGeo[WIDTH].value  = 500;
-                        data.cfgGeo[HEIGHT].value = 380;
-                        restoreGeometry(m_cfg, data.cfgGeo, false, true);
+                    if ((data.CfgGeometry[WIDTH].value == 0) || (data.CfgGeometry[HEIGHT].value == 0)){
+                        data.CfgGeometry[WIDTH].value  = 500;
+                        data.CfgGeometry[HEIGHT].value = 380;
+                        restoreGeometry(m_cfg, data.CfgGeometry, false, true);
                     }else{
-                        restoreGeometry(m_cfg, data.cfgGeo, true, true);
+                        restoreGeometry(m_cfg, data.CfgGeometry, true, true);
                     }
                 }
                 raiseWindow(m_cfg);
@@ -3224,12 +3224,12 @@ void *CorePlugin::processEvent(Event *e)
                 if (m_search == NULL){
                     m_search = new SearchDialog;
                     connect(m_search, SIGNAL(finished()), this, SLOT(dialogFinished()));
-                    if ((data.SearchGeo[WIDTH].value == 0) || (data.SearchGeo[HEIGHT].value == 0)){
-                        data.SearchGeo[WIDTH].value  = 500;
-                        data.SearchGeo[HEIGHT].value = 380;
-                        restoreGeometry(m_search, data.SearchGeo, false, true);
+                    if ((data.SearchGeometry[WIDTH].value == 0) || (data.SearchGeometry[HEIGHT].value == 0)){
+                        data.SearchGeometry[WIDTH].value  = 500;
+                        data.SearchGeometry[HEIGHT].value = 380;
+                        restoreGeometry(m_search, data.SearchGeometry, false, true);
                     }else{
-                        restoreGeometry(m_search, data.SearchGeo, true, true);
+                        restoreGeometry(m_search, data.SearchGeometry, true, true);
                     }
                 }
                 raiseWindow(m_search);
@@ -3598,11 +3598,11 @@ void CorePlugin::showInfo(CommandDef *cmd)
     delete list;
     if (cfg == NULL){
         cfg = new UserConfig(contact, group);
-        if ((data.cfgGeo[WIDTH].value == 0) || (data.cfgGeo[HEIGHT].value == 0)){
-            data.cfgGeo[WIDTH].value  = 500;
-            data.cfgGeo[HEIGHT].value = 380;
+        if ((data.CfgGeometry[WIDTH].value == 0) || (data.CfgGeometry[HEIGHT].value == 0)){
+            data.CfgGeometry[WIDTH].value  = 500;
+            data.CfgGeometry[HEIGHT].value = 380;
         }
-        cfg->resize(data.cfgGeo[WIDTH].value, data.cfgGeo[HEIGHT].value);
+        cfg->resize(data.CfgGeometry[WIDTH].value, data.CfgGeometry[HEIGHT].value);
     }
     raiseWindow(cfg);
     if (!cfg->raisePage(cmd->id))
@@ -3914,23 +3914,12 @@ void CorePlugin::loadDir()
     QStringList list = dir.entryList();
     for (QStringList::Iterator it = list.begin(); it != list.end(); ++it){
         QString entry = *it;
-        if (entry[0] == '.') continue;
-        QString fname = baseName;
-#ifdef WIN32
-        fname += "\\";
-#else
-        fname += "/";
-#endif
-        fname += entry;
-#ifdef WIN32
-        fname += "\\";
-#else
-        fname += "/";
-#endif
-        fname += CLIENTS_CONF;
+        if (entry[0] == '.')
+            continue;
+        QString fname = baseName + "/" + entry + "/" + CLIENTS_CONF;
         QFile f(fname);
         if (f.exists()){
-            m_profiles.push_back((const char*)QFile::encodeName(entry));
+            m_profiles.append(entry);
             if (QFile::encodeName(entry) == saveProfile.c_str())
                 bOK = true;
         }
@@ -3966,16 +3955,14 @@ string CorePlugin::getConfig()
         setEditForeground(0);
     }
 
-    string ef;
-    ef = FontEdit::font2str(editFont, false).latin1();
-    string def_ef;
-    def_ef = FontEdit::font2str(QApplication::font(), false).latin1();
-    setEditFont(ef.c_str());
+    QString ef     = FontEdit::font2str(editFont, false);
+    QString def_ef = FontEdit::font2str(QApplication::font(), false);
+    setEditFont(ef.latin1());
     if ((ef == def_ef) || !getEditSaveFont())
         setEditFont(NULL);
 
     clearContainer();
-    string containers;
+    QString containers;
 
     QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
@@ -3987,15 +3974,15 @@ string CorePlugin::getConfig()
                 ++it;
                 continue;
             }
-            if (!containers.empty())
+            if (!containers.isEmpty())
                 containers += ',';
-            containers += number(c->getId());
+            containers += QString::number(c->getId());
             setContainer(c->getId(), c->getState().c_str());
         }
         ++it;
     }
     delete list;
-    setContainers(containers.c_str());
+    setContainers(containers.latin1());
     if (m_main){
         saveGeometry(m_main, data.geometry);
         saveToolbar(m_main->bar, data.toolBarState);
@@ -4205,15 +4192,6 @@ Client *CorePlugin::loadClient(const char *name, Buffer *cfg)
     }
     log(L_DEBUG, "Protocol %s not found", clientName.c_str());
     return NULL;
-}
-
-void CorePlugin::setCurrentProfile(const char *profile)
-{
-    if (m_profile){
-        free(m_profile);
-        m_profile = NULL;
-    }
-    m_profile = strdup(profile);
 }
 
 bool CorePlugin::adjustClientItem(unsigned id, CommandDef *cmd)
@@ -4576,18 +4554,17 @@ FileLock::~FileLock()
 #ifdef WIN32
 bool FileLock::lock(bool bSend)
 {
-    string event = "SIM.";
-    string s;
-    s = name().local8Bit();
-    event += number(adler32(s.c_str(), s.length()));
-    HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.c_str());
+    QString event = "SIM.";
+    QString s = name();
+    event += number(adler32(s.latin1(), s.length()));
+    HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.latin1());
     if (hEvent){
         if (bSend)
             SetEvent(hEvent);
         CloseHandle(hEvent);
         return false;
     }
-    hEvent = CreateEventA(NULL, false, false, event.c_str());
+    hEvent = CreateEventA(NULL, false, false, event.latin1());
     if (hEvent == NULL)
         return false;
     m_thread = new LockThread(hEvent);
@@ -4596,9 +4573,7 @@ bool FileLock::lock(bool bSend)
 bool FileLock::lock(bool)
 {
     if (!open(IO_ReadWrite | IO_Truncate)){
-        string s;
-        s = name().local8Bit();
-        log(L_WARN, "Can't create %s", s.c_str());
+        log(L_WARN, "Can't create %s", name().local8Bit().data());
         return false;
     }
     struct flock fl;
@@ -4615,18 +4590,15 @@ bool FileLock::lock(bool)
     return true;
 }
 
-void HistoryThread::run() {
+void HistoryThread::run()
+{
     QString str = user_file(".history_file");
     History::save(m_id, str);
-    Exec *m_ex;
-    m_ex = new Exec;
-    QString m_cmd;
-    m_cmd += "\"";
-    m_cmd += m_Viewer;
-    m_cmd += "\" \"";
-    m_cmd += str;
-    m_cmd += "\"";
-    m_ex->execute(m_cmd.local8Bit(), "\n");
+    QProcess *m_ex;
+    m_ex = new QProcess();
+    m_ex->addArgument(m_Viewer);
+    m_ex->addArgument(str);
+    m_ex->start();
 }
 
 #ifndef NO_MOC_INCLUDES

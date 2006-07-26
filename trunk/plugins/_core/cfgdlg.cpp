@@ -322,7 +322,7 @@ ConfigureDialog::~ConfigureDialog()
             eUnload.process();
         }
     }
-    saveGeometry(this, CorePlugin::m_plugin->data.cfgGeo);
+    saveGeometry(this, CorePlugin::m_plugin->data.CfgGeometry);
 }
 
 static unsigned itemWidth(QListViewItem *item, QFontMetrics &fm)

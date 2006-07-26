@@ -38,8 +38,8 @@
 using namespace std;
 using namespace SIM;
 
-const unsigned BLINK_TIMEOUT	= 500;
-const unsigned BLINK_COUNT		= 8;
+const unsigned BLINK_TIMEOUT    = 500;
+const unsigned BLINK_COUNT      = 8;
 
 typedef struct JoinContacts
 {
@@ -151,11 +151,6 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     setStaticBackground(pv.isStatic);
 }
 
-static void drawImage(QPainter *p, int x, int y, const QImage &img)
-{
-    p->drawImage(x, y, img);
-}
-
 int UserView::heightItem(UserViewItemBase *base)
 {
     QFont f(font());
@@ -174,10 +169,10 @@ int UserView::heightItem(UserViewItemBase *base)
     }
     if (base->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(base);
-        string icons = item->text(CONTACT_ICONS).latin1();
-        while (!icons.empty()){
-            string icon = getToken(icons, ',');
-            QImage img = Image(icon.c_str());
+        QString icons = item->text(CONTACT_ICONS);
+        while (!icons.isEmpty()){
+            QString icon = getToken(icons, ',');
+            QImage img = Image(icon);
             if (img.height() > h)
                 h = img.height();
         }
@@ -224,15 +219,15 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         QImage img = Image(item->isOpen() ? "expanded" : "collapsed");
         if (!img.isNull())
-            drawImage(p, 2 + margin, (item->height() - img.height()) / 2, img);
+            p->drawImage(2 + margin, (item->height() - img.height()) / 2, img);
         int x = 24 + margin;
         if (!item->isOpen() && item->m_unread){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
             if (def){
-                QImage img = Image(def->icon);
+                img = Image(def->icon);
                 if (!img.isNull()){
                     if (m_bUnreadBlink)
-                        drawImage(p, x, (item->height() - img.height()) / 2, img);
+                        p->drawImage(x, (item->height() - img.height()) / 2, img);
                     x += img.width() + 2;
                 }
             }
@@ -283,8 +278,8 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             if (CorePlugin::m_plugin->getInvisibleStyle()  & STYLE_STRIKE)
                 f.setStrikeOut(true);
         }
-        string icons = item->text(CONTACT_ICONS).latin1();
-        string icon = getToken(icons, ',');
+        QString icons = item->text(CONTACT_ICONS);
+        QString icon = getToken(icons, ',');
         if (item->m_unread && m_bUnreadBlink){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
             if (def)
@@ -292,10 +287,10 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         int x = margin;
         if (icon.length()){
-            QImage img = Image(icon.c_str());
+            QImage img = Image(icon);
             if (!img.isNull()){
                 x += 2;
-                drawImage(p, x, (item->height() - img.height()) / 2, img);
+                p->drawImage(x, (item->height() - img.height()) / 2, img);
                 x += img.width() + 2;
             }
         }
@@ -374,12 +369,12 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         unsigned xIcon = width;
         while (icons.length()){
             icon = getToken(icons, ',');
-            QImage img = Image(icon.c_str());
+            QImage img = Image(icon);
             if (!img.isNull()){
                 xIcon -= img.width() + 2;
                 if (xIcon < (unsigned)x)
                     break;
-                drawImage(p, xIcon, (item->height() - img.height()) / 2, img);
+                p->drawImage(xIcon, (item->height() - img.height()) / 2, img);
             }
         }
         return;
@@ -1310,8 +1305,6 @@ static void resetUnread(QListViewItem *item, list<QListViewItem*> &grp)
             if ((*it) == item)
                 break;
         if (it == grp.end()){
-            string s;
-            s = item->text(0).local8Bit();
             GroupItem *group = static_cast<GroupItem*>(item);
             if (group->m_unread){
                 group->m_unread = 0;

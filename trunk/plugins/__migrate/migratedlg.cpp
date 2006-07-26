@@ -109,19 +109,11 @@ void MigrateDialog::pageSelected(const QString&)
         if (!(*it)->isChecked())
             continue;
         QString path = user_file((*it)->text());
-#ifdef WIN32
-        path += "\\";
-#else
         path += "/";
-#endif
         QFile icq_conf(path + "icq.conf");
         totalSize += icq_conf.size();
         QString history_path = path + "history";
-#ifdef WIN32
-        history_path += "\\";
-#else
         history_path += "/";
-#endif
         QDir history(history_path);
         QStringList l = history.entryList("*.history", QDir::Files);
         for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
