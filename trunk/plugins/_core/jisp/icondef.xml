@@ -34,6 +34,24 @@
   <icon name="Yahoo!_dnd">
 	<object mime="image/png">yahoo_dnd.png</object>
   </icon>
+  <icon name="GG">
+    <object mime="image/png">gadu.png</object>
+  </icon>
+  <icon name="GG_away">
+    <object mime="image/png">gadu_away.png</object>
+  </icon>
+  <icon name="GG_na">
+    <object mime="image/png">gadu_na.png</object>
+  </icon>
+  <icon name="GG_dnd">
+    <object mime="image/png">gadu_dnd.png</object>
+  </icon>
+  <icon name="GG_invisible">
+    <object mime="image/png">gadu_invisible.png</object>
+  </icon>
+  <icon name="GG_offline">
+    <object mime="image/png">gadu_offline.png</object>
+  </icon>
   <icon name="away">
 	<object mime="image/png">away.png</object>
   </icon>
