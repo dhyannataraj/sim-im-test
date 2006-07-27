@@ -240,7 +240,7 @@ void YahooClient::packet_ready()
 void YahooClient::sendPacket(unsigned short service, unsigned long status)
 {
     if (m_bHTTP && !m_session_id.empty()){
-        addParam(0, getLogin().utf8());
+        addParam(0, getLogin().utf8().data());
         addParam(24, m_session_id.c_str());
     }
     unsigned short size = 0;
