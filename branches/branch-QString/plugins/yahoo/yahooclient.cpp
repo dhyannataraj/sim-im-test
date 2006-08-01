@@ -257,7 +257,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     if (size){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             m_socket->writeBuffer
-            << QString::number((*it).first)
+            << QString::number((*it).first).latin1()
             << (unsigned short)0xC080
             << (*it).second.data()
             << (unsigned short)0xC080;
