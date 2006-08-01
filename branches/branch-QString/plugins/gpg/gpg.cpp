@@ -510,7 +510,7 @@ void *GpgPlugin::processEvent(Event *e)
 
                         QProcess proc(sl, this);
 
-                        if(!proc.launch("\n"))
+                        if(!proc.start())
                             return ms->msg;
 
                         // FIXME: not soo good...
