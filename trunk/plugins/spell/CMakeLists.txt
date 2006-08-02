@@ -32,6 +32,13 @@ IF(ASPELL_FOUND AND NOT USE_KDE3)
             spellcfgbase.ui
             spellfindbase.ui
     )
+    
+    SET(spell_LIBS
+            ${ASPELL_LIBRARIES}
+    )
+
+    # some needed include dirs
+    INCLUDE_DIRECTORIES(${ASPELL_INCLUDE_DIR})
 
     SIM_ADD_PLUGIN(spell)
 

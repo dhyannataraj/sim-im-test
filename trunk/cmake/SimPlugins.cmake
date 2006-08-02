@@ -5,6 +5,7 @@ MACRO(SIM_ADD_PLUGIN _name)
     SET(_srcs ${${_name}_SRCS})
     SET(_hdrs ${${_name}_HDRS})
     SET(_uics ${${_name}_UICS})
+    SET(_libs ${${_name}_LIBS})
 
     KDE3_AUTOMOC(${_srcs})
     
@@ -14,7 +15,7 @@ MACRO(SIM_ADD_PLUGIN _name)
 
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-    TARGET_LINK_LIBRARIES(${_name} simlib)
+    TARGET_LINK_LIBRARIES(${_name} simlib ${_libs})
 
     SET_TARGET_PROPERTIES(${_name} PROPERTIES PREFIX "")
 
