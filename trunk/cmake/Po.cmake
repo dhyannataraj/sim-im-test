@@ -37,52 +37,58 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
             GET_FILENAME_COMPONENT(_out      ${CMAKE_CURRENT_BINARY_DIR}/po/${_basename}.mo ABSOLUTE)
 
             IF(WIN32)
-                IF(MSGFMT_EXECUTABLE STREQUAL "msg2qm")
+                GET_FILENAME_COMPONENT(_tmp ${MSGFMT_EXECUTABLE} NAME_WE)
+
+                # msg2qm doesn't like '/' somehow ...
+                STRING(REPLACE "/" "\\" _in_win ${_in})
+                STRING(REPLACE "/" "\\" _out_win ${_out})
+                
+                IF(${_tmp} STREQUAL "msg2qm")
+                    ADD_CUSTOM_COMMAND(
+                        OUTPUT ${_out}
+                        COMMAND ${CMAKE_COMMAND}
+                            -E echo
+                            "Generating" ${_out_win} "from" ${_in_win}
+                        COMMAND ${MSGFMT_EXECUTABLE}
+                            ${_in_win}
+                            ${_out_win}
+                        DEPENDS ${_in}
+                    )
+                ELSE(${_tmp} STREQUAL "msg2qm")
                     ADD_CUSTOM_COMMAND(
                         OUTPUT ${_out}
                         COMMAND ${CMAKE_COMMAND}
                             -E echo
                             "Generating" ${_out} "from" ${_in}
-                            COMMAND ${MSGFMT_EXECUTABLE}
-                                ${_in}
-                                ${_out}
+                        COMMAND ${MSGFMT_EXECUTABLE}
+                            -qt
+                            ${_in}
+                            ${_out}
                         DEPENDS ${_in}
                     )
-                ELSE(MSGFMT_EXECUTABLE STREQUAL "msg2qm")
-                    ADD_CUSTOM_COMMAND(
-                        OUTPUT ${_out}
-                        COMMAND ${CMAKE_COMMAND}
-                            -E echo
-                            "Generating" ${_out} "from" ${_in}
-                            COMMAND ${MSGFMT_EXECUTABLE}
-                                -qt
-                                ${_in}
-                                ${_out}
-                        DEPENDS ${_in}
-                    )
-                ENDIF(MSGFMT_EXECUTABLE STREQUAL "msg2qm")
+                ENDIF(${_tmp} STREQUAL "msg2qm")
             ELSE(WIN32)
                 ADD_CUSTOM_COMMAND(
                     OUTPUT ${_out}
                     COMMAND ${CMAKE_COMMAND}
                         -E echo
                         "Generating" ${_out} "from" ${_in}
-                        COMMAND ${MSGFMT_EXECUTABLE}
-                            ${_in}
-                            -o ${_out}
+                    COMMAND ${MSGFMT_EXECUTABLE}
+                        ${_in}
+                        -o ${_out}
                     DEPENDS ${_in}
                 )
             ENDIF(WIN32)
             SET(mo_files ${mo_files} ${_out})
 
-#           IF(NOT WIN32)
-#              INSTALL(FILES ${_out} DESTINATION ${SIM_I18N_DIR}/${_basename}/LC_MESSAGES RENAME sim.mo)
-#           ENDIF(NOT WIN32)
+            IF(NOT WIN32)
+               INSTALL(FILES ${_out} DESTINATION ${SIM_I18N_DIR}/${_basename}/LC_MESSAGES RENAME sim.mo)
+            ENDIF(NOT WIN32)
         ENDFOREACH(po_input ${po_files})
 
-#       IF(WIN32)
-#          INSTALL(FILES ${mo_files} DESTINATION ${SIM_I18N_DIR})
-#       ENDIF(WIN32)
+        IF(WIN32)
+           INSTALL(FILES ${mo_files} DESTINATION ${SIM_I18N_DIR})
+        ENDIF(WIN32)
         SET(${_sources} ${${_sources}} ${mo_files})
     ENDIF(MSGFMT_EXECUTABLE)
 ENDMACRO(COMPILE_PO_FILES po_subdir)
