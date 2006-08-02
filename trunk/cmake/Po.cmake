@@ -27,31 +27,29 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
     IF(MSGFMT_EXECUTABLE)
         FILE(GLOB po_files ${po_subdir}/*.po)
 
-        FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po)
-
         FOREACH(po_input ${po_files})
 
             GET_FILENAME_COMPONENT(_in       ${po_input} ABSOLUTE)
             GET_FILENAME_COMPONENT(_basename ${po_input} NAME_WE)
 
-            GET_FILENAME_COMPONENT(_out      ${CMAKE_CURRENT_BINARY_DIR}/po/${_basename}.mo ABSOLUTE)
+            # needed for win32
+            FILE(TO_NATIVE_PATH ${_in}  _in_native)
+            FILE(TO_NATIVE_PATH ${_out} _out_native)
 
             IF(WIN32)
+                FILE(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po)
+                GET_FILENAME_COMPONENT(_out ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po/${_basename}.mo ABSOLUTE)
                 GET_FILENAME_COMPONENT(_tmp ${MSGFMT_EXECUTABLE} NAME_WE)
 
-                # msg2qm doesn't like '/' somehow ...
-                STRING(REPLACE "/" "\\" _in_win ${_in})
-                STRING(REPLACE "/" "\\" _out_win ${_out})
-                
                 IF(${_tmp} STREQUAL "msg2qm")
                     ADD_CUSTOM_COMMAND(
                         OUTPUT ${_out}
                         COMMAND ${CMAKE_COMMAND}
                             -E echo
-                            "Generating" ${_out_win} "from" ${_in_win}
+                            "Generating" ${_out_native} "from" ${_in_native}
                         COMMAND ${MSGFMT_EXECUTABLE}
-                            ${_in_win}
-                            ${_out_win}
+                            ${_in_native}
+                            ${_out_native}
                         DEPENDS ${_in}
                     )
                 ELSE(${_tmp} STREQUAL "msg2qm")
@@ -59,23 +57,26 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
                         OUTPUT ${_out}
                         COMMAND ${CMAKE_COMMAND}
                             -E echo
-                            "Generating" ${_out} "from" ${_in}
+                            "Generating" ${_out_native} "from" ${_in_native}
                         COMMAND ${MSGFMT_EXECUTABLE}
                             -qt
-                            ${_in}
-                            ${_out}
+                            ${_in_native}
+                            ${_out_native}
                         DEPENDS ${_in}
                     )
                 ENDIF(${_tmp} STREQUAL "msg2qm")
             ELSE(WIN32)
+                FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po)
+                GET_FILENAME_COMPONENT(_out ${CMAKE_CURRENT_BINARY_DIR}/po/${_basename}.mo ABSOLUTE)
+
                 ADD_CUSTOM_COMMAND(
                     OUTPUT ${_out}
                     COMMAND ${CMAKE_COMMAND}
                         -E echo
-                        "Generating" ${_out} "from" ${_in}
+                        "Generating" ${_out_native} "from" ${_in_native}
                     COMMAND ${MSGFMT_EXECUTABLE}
-                        ${_in}
-                        -o ${_out}
+                        ${_in_native}
+                        -o ${_out_native}
                     DEPENDS ${_in}
                 )
             ENDIF(WIN32)
