@@ -146,8 +146,6 @@ private:
 // __________________________________________________________________________________
 /* Plugin prototype */
 
-struct pluginInfo;
-
 class EXPORT Plugin
 {
 public:

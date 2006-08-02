@@ -680,13 +680,6 @@ I18N_NOOP("Angel")
 I18N_NOOP("Grin")
 #endif
 
-#ifdef WIN32
-
-DECLARE_HANDLE(HMONITOR);
-typedef BOOL (CALLBACK* MONITORENUMPROC)(HMONITOR, HDC, LPRECT, LPARAM);
-
-#endif
-
 EXPORT unsigned screens()
 {
     QDesktopWidget *desktop = QApplication::desktop();
@@ -772,6 +765,3 @@ EXPORT int strcasecmp(const char *a, const char *b)
 }
 
 #endif
-
-
-

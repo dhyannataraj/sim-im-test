@@ -114,7 +114,7 @@ EXPORT QString make_packet_string(LogInfo *l)
             name += ".";
             name += l->add_info;
         }
-        m.sprintf(m, "%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
+        m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
                tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
                tm->tm_hour, tm->tm_min, tm->tm_sec,
                name.latin1(),
@@ -151,7 +151,8 @@ EXPORT QString make_packet_string(LogInfo *l)
                 memcpy(p1, buf, 3);
                 p1 += 3;
             }
-            if (n <= 16) m += line;
+            if (n <= 16)
+                m += line;
         }
     }else{
         m = (const char*)(l->log_info);

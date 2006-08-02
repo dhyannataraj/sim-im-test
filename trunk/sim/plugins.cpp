@@ -19,6 +19,16 @@
 #include "config.h"
 #endif
 
+#include <qapplication.h>
+#include <qdir.h>
+#include <qfile.h>
+#include <qlibrary.h>
+#include <qmessagebox.h>
+#include <qregexp.h>
+#include <qstring.h>
+#include <qstringlist.h>
+#include <qtextstream.h>
+
 #include "simapi.h"
 #include "sockfactory.h"
 #include "fetch.h"
@@ -27,30 +37,21 @@
 #include "xsl.h"
 #include "builtinlogger.h"
 
-#include <ctype.h>  // really needed?
+#include <ctype.h>
+#include <errno.h>
 
 #ifndef  LTDL_SHLIB_EXT
-#if defined(QT_MACOSX_VERSION) || defined(QT_MAC) /* MacOS needs .a */
-#define  LTDL_SHLIB_EXT ".a"
-#else
-#if defined(_WIN32) || defined(_WIN64)
-#define  LTDL_SHLIB_EXT ".dll"
-#else
-#define  LTDL_SHLIB_EXT ".so"
-#endif
-#endif
+# if defined(QT_MACOSX_VERSION) || defined(QT_MAC) /* MacOS needs .a */
+#  define  LTDL_SHLIB_EXT ".a"
+# else
+#  if defined(_WIN32) || defined(_WIN64)
+#   define  LTDL_SHLIB_EXT ".dll"
+#  else
+#   define  LTDL_SHLIB_EXT ".so"
+#  endif
+# endif
 #endif
 
-#include <errno.h>
-#include <qdir.h>
-#include <qstringlist.h>
-#include <qmessagebox.h>
-#include <qapplication.h>
-#include <qregexp.h>
-#include <qlibrary.h>
-
-#include <memory>
-#include <algorithm>
 using namespace std;
 
 namespace SIM
