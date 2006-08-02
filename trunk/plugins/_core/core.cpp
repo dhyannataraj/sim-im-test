@@ -447,23 +447,23 @@ static autoReply autoReplies[] =
     {
         { STATUS_AWAY, I18N_NOOP(
               "I am currently away from ICQ.\n"
-              "Please leave your message and I will get back to you as soon as I return!\n"
+              "Please leave your message and I will get back to you as soon as I return!"
           ) },
         { STATUS_NA, I18N_NOOP(
               "I am out'a here.\n"
-              "See you tomorrow!\n"
+              "See you tomorrow!"
           ) },
         { STATUS_DND, I18N_NOOP(
-              "Please do not disturb me now. Disturb me later.\n"
+              "Please do not disturb me now. Disturb me later."
           ) },
         { STATUS_FFC, I18N_NOOP(
-              "We'd love to hear what you have to say. Join our chat.\n"
+              "We'd love to hear what you have to say. Join our chat."
           ) },
         { STATUS_ONLINE, I18N_NOOP(
-              "I'm here.\n"
+              "I'm here."
           ) },
         { STATUS_OFFLINE, I18N_NOOP(
-              "I'm offline.\n"
+              "I'm offline."
           ) },
         { 0, NULL }
     };
