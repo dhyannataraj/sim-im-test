@@ -39,5 +39,5 @@ MACRO(ADD_JISP_ARCHIVE subdir jisp_name _sources)
     )
     SET(${_sources} ${${_sources}} ${_out})
 
-    INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${jisp_name} DESTINATION  ${SIM_ICONS_DIR})
+    INSTALL(FILES ${_out} DESTINATION  ${SIM_ICONS_DIR})
 ENDMACRO(ADD_JISP_ARCHIVE)
