@@ -1,29 +1,14 @@
 ##################
 # floaty library #
 ##################
-PROJECT(floaty)
-
-SET(floaty_LIB_SRCS
+SET(floaty_SRCS
         floaty.cpp
         floatywnd.cpp
 )
 
-SET(floaty_LIB_HDRS
+SET(floaty_HDRS
         floaty.h
         floatywnd.h
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${floaty_LIB_SRCS})
-
-ADD_LIBRARY(floaty SHARED ${floaty_LIB_SRCS} ${floaty_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(floaty simlib)
-
-SET_TARGET_PROPERTIES(floaty PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS floaty LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(floaty)

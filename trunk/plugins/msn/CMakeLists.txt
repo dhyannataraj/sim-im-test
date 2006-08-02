@@ -1,9 +1,7 @@
 ###############
 # msn library #
 ###############
-PROJECT(msn)
-
-SET(msn_LIB_SRCS
+SET(msn_SRCS
         msn.cpp
         msnclient.cpp
         msnconfig.cpp
@@ -13,7 +11,7 @@ SET(msn_LIB_SRCS
         msnsearch.cpp
 )
 
-SET(msn_LIB_HDRS
+SET(msn_HDRS
         msn.h
         msnclient.h
         msnconfig.h
@@ -23,26 +21,10 @@ SET(msn_LIB_HDRS
         msnsearch.h
 )
 
-SET(msn_UI_FILES
+SET(msn_UICS
         msnconfigbase.ui
         msninfobase.ui
         msnsearchbase.ui
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${msn_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(msn_LIB_SRCS ${msn_UI_FILES})
-
-ADD_LIBRARY(msn SHARED ${msn_LIB_SRCS} ${msn_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(msn simlib)
-
-SET_TARGET_PROPERTIES(msn PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS msn LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(msn)

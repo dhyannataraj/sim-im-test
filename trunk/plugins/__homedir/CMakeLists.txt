@@ -1,42 +1,22 @@
 #####################
 # __homedir library #
 #####################
-PROJECT(__homedir)
 
 #conditional sources
 IF(WIN32)
-	SET (homedircfg_SRC homedircfg.cpp)
-	SET (homedircfg_HDR homedircfg.h)
+	SET (__homedir_SRCS homedircfg.cpp)
+	SET (__homedir_HDRS homedircfg.h)
+	SET (__homedir_UICS homedircfgbase.ui)
 ENDIF(WIN32)
 
-SET(__homedir_LIB_SRCS
+SET(__homedir_SRCS
         homedir.cpp
-	${homedircfg_SRC}
+	${__homedir_SRCS}
 )
 
-SET(__homedir_LIB_HDR
+SET(__homedir_HDRS
         homedir.h
-	${homedircfg_HDR}
+	${__homedir_HDRS}
 )
 
-IF (WIN32)
-	SET(__homedir_UI_FILES homedircfgbase.ui)
-ENDIF(WIN32)
-
-# moc, if needed
-KDE3_AUTOMOC(${__homedir_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(__homedir_LIB_SRCS ${__homedir_UI_FILES})
-
-ADD_LIBRARY(__homedir SHARED ${__homedir_LIB_SRCS} ${__homedir_LIB_HDR})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(__homedir simlib)
-
-SET_TARGET_PROPERTIES(__homedir PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS __homedir LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(__homedir)

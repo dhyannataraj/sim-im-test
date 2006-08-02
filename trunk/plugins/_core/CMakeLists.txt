@@ -1,12 +1,10 @@
 #################
 # _core library #
 #################
-PROJECT(_core)
-
 ADD_SUBDIRECTORY(pict)
 ADD_SUBDIRECTORY(styles)
 
-SET(_core_LIB_SRCS
+SET(_core_SRCS
         arcfg.cpp
         autoreply.cpp
         cfgdlg.cpp
@@ -62,7 +60,15 @@ SET(_core_LIB_SRCS
         userwnd.cpp
 )
 
-SET(_core_LIB_HDRS
+# is this really needed?
+IF(NOT WIN32)
+SET(_core_SRCS
+        ${_core_SRCS}
+        libintl.cpp
+    )
+ENDIF(NOT WIN32)
+
+SET(_core_HDRS
         arcfg.h
         autoreply.h
         cfgdlg.h
@@ -118,15 +124,7 @@ SET(_core_LIB_HDRS
         userwnd.h
 )
 
-# is this really needed?
-IF(NOT WIN32)
-SET(_core_LIB_SRCS
-        ${_core_LIB_SRCS}
-        libintl.cpp
-    )
-ENDIF(NOT WIN32)
-
-SET(_core_UI_FILES
+SET(_core_UICS
         arcfgbase.ui
         autoreplybase.ui
         cfgdlgbase.ui
@@ -158,12 +156,6 @@ SET(_core_UI_FILES
         userviewcfgbase.ui
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${_core_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(_core_LIB_SRCS ${_core_UI_FILES})
-
 # so we don't need an extra CMakeLists.txt in every subdirectory
 ADD_JISP_ARCHIVE(additional additional.jisp _core_LIB_SRCS)
 ADD_JISP_ARCHIVE(icq5       icq5.jisp       _core_LIB_SRCS)
@@ -172,18 +164,4 @@ ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_LIB_SRCS)
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_LIB_SRCS)
 ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_LIB_SRCS)
 
-# this is all we need for _core library
-ADD_LIBRARY(_core SHARED ${_core_LIB_SRCS} ${_core_LIB_HDRS})
-SET_TARGET_PROPERTIES(_core PROPERTIES PREFIX "")
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-# we need simlib (and qt libs, but because simlib depends on them there's no
-#                 need to add them here once more)
-TARGET_LINK_LIBRARIES(_core simlib)
-
-SET_TARGET_PROPERTIES(_core PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS _core LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(_core)

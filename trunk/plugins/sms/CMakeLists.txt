@@ -1,44 +1,28 @@
 ###############
 # sms library #
 ###############
-PROJECT(sms)
-
-SET(sms_LIB_SRCS
+SET(sms_SRCS
         gsm_ta.cpp
         serial.cpp
         sms.cpp
         smssetup.cpp
 )
 
-SET(sms_LIB_HDRS
+SET(sms_HDRS
         gsm_ta.h
         serial.h
         sms.h
         smssetup.h
 )
 
-SET(sms_UI_FILES
+SET(sms_UICS
         smssetupbase.ui
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${sms_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(sms_LIB_SRCS ${sms_UI_FILES})
-
-ADD_LIBRARY(sms SHARED ${sms_LIB_SRCS} ${sms_LIB_HDRS})
-
 # some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
-                    ${CMAKE_BINARY_DIR}/plugins/_core)
+INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/plugins/_core)
 
-TARGET_LINK_LIBRARIES(sms simlib)
-
-SET_TARGET_PROPERTIES(sms PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS sms LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(sms)
 
 ADD_DEPENDENCIES(sms _core)
 

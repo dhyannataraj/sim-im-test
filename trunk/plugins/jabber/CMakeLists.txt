@@ -1,9 +1,7 @@
 ##################
 # jabber library #
 ##################
-PROJECT(jabber)
-
-SET(jabber_LIB_SRCS
+SET(jabber_SRCS
         discoinfo.cpp
         httppoll.cpp
         infoproxy.cpp
@@ -26,7 +24,7 @@ SET(jabber_LIB_SRCS
         jidsearch.cpp
 )
 
-SET(jabber_LIB_HDRS
+SET(jabber_HDRS
         discoinfo.h
         infoproxy.h
         jabber.h
@@ -46,7 +44,7 @@ SET(jabber_LIB_HDRS
         jidsearch.h
 )
 
-SET(jabber_UI_FILES
+SET(jabber_UICS
         discoinfobase.ui
         infoproxybase.ui
         jabberaboutinfobase.ui
@@ -60,23 +58,7 @@ SET(jabber_UI_FILES
         jidsearchbase.ui
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${jabber_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(jabber_LIB_SRCS ${jabber_UI_FILES})
-
-ADD_LIBRARY(jabber SHARED ${jabber_LIB_SRCS} ${jabber_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(jabber simlib)
-
-SET_TARGET_PROPERTIES(jabber PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS jabber LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(jabber)
 
 # install some sounds
 INSTALL(FILES sounds/error.wav DESTINATION ${SIM_SOUND_DIR})

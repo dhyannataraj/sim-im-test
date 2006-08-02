@@ -1,36 +1,18 @@
 ##################
 # logger library #
 ##################
-PROJECT(logger)
-
-SET(logger_LIB_SRCS
+SET(logger_SRCS
         logconfig.cpp
         logger.cpp
 )
 
-SET(logger_LIB_HDRS
+SET(logger_HDRS
         logconfig.h
         logger.h
 )
 
-SET(logger_UI_FILES
+SET(logger_UICS
         logconfigbase.ui
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${logger_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(logger_LIB_SRCS ${logger_UI_FILES})
-
-ADD_LIBRARY(logger SHARED ${logger_LIB_SRCS} ${logger_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(logger simlib)
-
-SET_TARGET_PROPERTIES(logger PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS logger LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(logger)

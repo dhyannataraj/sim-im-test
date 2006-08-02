@@ -1,9 +1,7 @@
 ###############
 # icq library #
 ###############
-PROJECT(icq)
-
-SET(icq_LIB_SRCS
+SET(icq_SRCS
         aboutinfo.cpp
         advsearch.cpp
         aimconfig.cpp
@@ -42,7 +40,7 @@ SET(icq_LIB_SRCS
         xml.cpp
 )
 
-SET(icq_LIB_HDRS
+SET(icq_HDRS
         aboutinfo.h
         advsearch.h
         aimconfig.h
@@ -69,7 +67,7 @@ SET(icq_LIB_HDRS
         xml.h
 )
 
-SET(icq_UI_FILES
+SET(icq_UICS
         aboutinfobase.ui
         advsearchbase.ui
         aimconfigbase.ui
@@ -91,26 +89,9 @@ SET(icq_UI_FILES
         workinfobase.ui
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${icq_LIB_SRCS})
+ADD_FLEX_FILES(icq_SRCS rtf.ll)
 
-# don't forget our ui's
-QT3_ADD_UI_FILES(icq_LIB_SRCS ${icq_UI_FILES})
-
-# and flex :)
-ADD_FLEX_FILES(icq_LIB_SRCS rtf.ll)
-
-ADD_LIBRARY(icq SHARED ${icq_LIB_SRCS} ${icq_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(icq simlib)
-
-SET_TARGET_PROPERTIES(icq PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS icq LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(icq)
 
 # install some sounds
 INSTALL(FILES sounds/mailpager.wav DESTINATION ${SIM_SOUND_DIR})

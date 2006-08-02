@@ -3,27 +3,14 @@
 ######################
 PROJECT(netmonitor)
 
-SET(netmonitor_LIB_SRCS
+SET(netmonitor_SRCS
         monitor.cpp
         netmonitor.cpp
 )
 
-SET(netmonitor_LIB_HDRS
+SET(netmonitor_HDRS
         monitor.h
         netmonitor.h
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${netmonitor_LIB_SRCS})
-
-ADD_LIBRARY(netmonitor SHARED ${netmonitor_LIB_SRCS} ${netmonitor_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(netmonitor simlib)
-
-SET_TARGET_PROPERTIES(netmonitor PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS netmonitor LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(netmonitor)

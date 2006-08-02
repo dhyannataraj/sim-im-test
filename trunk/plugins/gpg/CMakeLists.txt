@@ -1,57 +1,39 @@
 ###############
 # gpg library #
 ###############
-PROJECT(gpg)
-
 IF(WIN32)
-	SET (gpgfind_SRC gpgfind.cpp)
-	SET (gpgfind_HDR gpgfind.h)
-	SET (gpgfind_UI gpgfindbase.ui)
+	SET (gpg_SRCS gpgfind.cpp)
+	SET (gpg_HDRS gpgfind.h)
+	SET (gpg_UICS gpgfindbase.ui)
 ENDIF(WIN32)
 
-SET(gpg_LIB_SRCS
+SET(gpg_SRCS
         gpg.cpp
         gpgadv.cpp
         gpgcfg.cpp
-        ${gpgfind_SRC}
         gpggen.cpp
         gpguser.cpp
         passphrase.cpp
+        ${gpg_SRCS}
 )
 
-SET(gpg_LIB_HDRS
+SET(gpg_HDRS
         gpg.h
         gpgadv.h
         gpgcfg.h
-        ${gpgfind_HDR}
         gpggen.h
         gpguser.h
         passphrase.h
+        ${gpg_HDRS}
 )
 
-SET(gpg_UI_FILES
+SET(gpg_UICS
         gpgadvbase.ui
         gpgcfgbase.ui
-        ${gpgfind_UI}
         gpggenbase.ui
         gpguserbase.ui
         passphrasebase.ui
+        ${gpg_UICS}
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${gpg_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(gpg_LIB_SRCS ${gpg_UI_FILES})
-
-ADD_LIBRARY(gpg SHARED ${gpg_LIB_SRCS} ${gpg_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}})
-
-TARGET_LINK_LIBRARIES(gpg simlib)
-
-SET_TARGET_PROPERTIES(gpg PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS gpg LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(gpg)

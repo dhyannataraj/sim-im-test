@@ -138,7 +138,7 @@ if(MINGW)
                                          -o ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
   SET(sim_EXE_SRCS ${sim_EXE_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
 else(MINGW)
-  SET(sim_EXE_SRCS ${sim_EXE_SRCS})
+  SET(sim_EXE_SRCS ${sim_EXE_SRCS} sim.rc)
 endif(MINGW)
 
 # i18n
@@ -154,3 +154,13 @@ TARGET_LINK_LIBRARIES(sim simlib ${QT_QTMAIN_LIBRARY})
 INSTALL(TARGETS sim RUNTIME DESTINATION ${BINDIR})
 
 SET_TARGET_PROPERTIES(sim PROPERTIES OUTPUT_NAME sim${SIM_FLAVOUR})
+
+# some needed libs for win32
+if(WIN32)
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/iconv.dll    DESTINATION ${BINDIR})
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/libeay32.dll DESTINATION ${BINDIR})
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/libxml2.dll  DESTINATION ${BINDIR})
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/libxslt.dll  DESTINATION ${BINDIR})
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/ssleay32.dll DESTINATION ${BINDIR})
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/install_win32/zlib1.dll    DESTINATION ${BINDIR})
+endif(WIN32)

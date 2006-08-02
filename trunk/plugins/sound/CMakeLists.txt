@@ -1,42 +1,24 @@
 #################
 # sound library #
 #################
-PROJECT(sound)
-
-SET(sound_LIB_SRCS
+SET(sound_SRCS
         sound.cpp
         soundconfig.cpp
         sounduser.cpp
 )
 
-SET(sound_LIB_HDRS
+SET(sound_HDRS
         sound.h
         soundconfig.h
         sounduser.h
 )
 
-SET(sound_UI_FILES
+SET(sound_UICS
         soundconfigbase.ui
         sounduserbase.ui
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${sound_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(sound_LIB_SRCS ${sound_UI_FILES})
-
-ADD_LIBRARY(sound SHARED ${sound_LIB_SRCS} ${sound_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(sound simlib)
-
-SET_TARGET_PROPERTIES(sound PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS sound LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(sound)
 
 # install some sounds
 INSTALL(FILES sounds/alert.wav      DESTINATION ${SIM_SOUND_DIR})

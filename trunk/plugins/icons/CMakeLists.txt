@@ -1,36 +1,18 @@
 #################
 # icons library #
 #################
-PROJECT(icons)
-
-SET(icons_LIB_SRCS
+SET(icons_SRCS
         icon.cpp
         iconcfg.cpp
 )
 
-SET(icons_LIB_HDRS
+SET(icons_HDRS
         icon.h
         iconcfg.h
 )
 
-SET(icons_UI_FILES
+SET(icons_UICS
         iconcfgbase.ui
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${icons_LIB_SRCS})
-
-# don't forget our ui's
-QT3_ADD_UI_FILES(icons_LIB_SRCS ${icons_UI_FILES})
-
-ADD_LIBRARY(icons SHARED ${icons_LIB_SRCS} ${icons_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(icons simlib)
-
-SET_TARGET_PROPERTIES(icons PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS icons LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(icons)

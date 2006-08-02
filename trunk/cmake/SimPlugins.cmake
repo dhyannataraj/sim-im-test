@@ -1,4 +1,25 @@
 # Searching and enabling plugins
+MACRO(SIM_ADD_PLUGIN _name)
+    PROJECT(${_name})
+    
+    SET(_srcs ${${_name}_SRCS})
+    SET(_hdrs ${${_name}_HDRS})
+    SET(_uics ${${_name}_UICS})
+
+    KDE3_AUTOMOC(${_srcs})
+    
+    QT3_ADD_UI_FILES(_srcs ${_uics})
+
+    ADD_LIBRARY(${_name} SHARED ${_srcs} ${_hdrs})
+
+    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+
+    TARGET_LINK_LIBRARIES(${_name} simlib)
+
+    SET_TARGET_PROPERTIES(${_name} PROPERTIES PREFIX "")
+
+    INSTALL(TARGETS ${_name} LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+ENDMACRO(SIM_ADD_PLUGIN)
 
 MACRO(SIM_FIND_PLUGINS sim_plugin_dir)
     FILE(GLOB plugins_dir ${sim_plugin_dir}/* )

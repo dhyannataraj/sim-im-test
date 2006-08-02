@@ -27,39 +27,21 @@ IF(COMPILE_PLUGIN)
     ####################
     # autoaway library #
     ####################
-    PROJECT(autoaway)
-
-    SET(autoaway_LIB_SRCS
+    SET(autoaway_SRCS
             autoaway.cpp
             autoawaycfg.cpp
     )
 
-    SET(autoaway_LIB_HDRS
+    SET(autoaway_HDRS
             autoaway.h
             autoawaycfg.h
     )
 
-    SET(autoaway_UI_FILES
+    SET(autoaway_UICS
             autoawaycfgbase.ui
     )
 
-    # moc, if needed
-    KDE3_AUTOMOC(${autoaway_LIB_SRCS})
-
-    # don't forget our ui's
-    QT3_ADD_UI_FILES(autoaway_LIB_SRCS ${autoaway_UI_FILES})
-
-    ADD_LIBRARY(autoaway SHARED ${autoaway_LIB_SRCS} ${autoaway_LIB_HDRS})
-
-    # some needed include dirs
-    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-    TARGET_LINK_LIBRARIES(autoaway simlib ${XSS_LIB})
-
-    SET_TARGET_PROPERTIES(autoaway PROPERTIES PREFIX "")
-
-    # install target
-    INSTALL(TARGETS autoaway LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+    SIM_ADD_PLUGIN(autoaway)
 ELSE(COMPILE_PLUGIN)
     MESSAGE(STATUS "XScreenSaver library not found, autoaway plugin disabled")
 ENDIF(COMPILE_PLUGIN)
@@ -68,19 +50,9 @@ ENDIF(COMPILE_PLUGIN)
 # idleui library (win32 only) #
 ###############################
 IF(WIN32)
-    PROJECT(idleui)
-
-    SET(idleui_LIB_SRCS
+    SET(idleui_SRCS
             idleui.cpp
     )
 
-    ADD_LIBRARY(idleui SHARED ${idleui_LIB_SRCS})
-
-    # some needed include dirs
-    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-    TARGET_LINK_LIBRARIES(idleui simlib)
-
-    # install target
-    INSTALL(TARGETS idleui LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+    SIM_ADD_PLUGIN(idleui)
 ENDIF(WIN32)

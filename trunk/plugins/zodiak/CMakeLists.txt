@@ -1,27 +1,12 @@
 ##################
 # zodiak library #
 ##################
-PROJECT(zodiak)
-
-SET(zodiak_LIB_SRCS
+SET(zodiak_SRCS
         zodiak.cpp
 )
 
-SET(zodiak_LIB_HDRS
+SET(zodiak_HDRS
         zodiak.h
 )
 
-# moc, if needed
-KDE3_AUTOMOC(${zodiak_LIB_SRCS})
-
-ADD_LIBRARY(zodiak SHARED ${zodiak_LIB_SRCS} ${zodiak_LIB_HDRS})
-
-# some needed include dirs
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-
-TARGET_LINK_LIBRARIES(zodiak simlib)
-
-SET_TARGET_PROPERTIES(zodiak PROPERTIES PREFIX "")
-
-# install target
-INSTALL(TARGETS zodiak LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})
+SIM_ADD_PLUGIN(zodiak)
