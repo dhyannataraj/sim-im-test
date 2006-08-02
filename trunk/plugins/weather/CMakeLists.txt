@@ -19,7 +19,7 @@ SET(weather_UICS
 )
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
-ADD_JISP_ARCHIVE(jisp weather.jisp weather_LIB_SRCS)
+ADD_JISP_ARCHIVE(jisp weather.jisp weather_SRCS)
 
 SIM_ADD_PLUGIN(weather)
 

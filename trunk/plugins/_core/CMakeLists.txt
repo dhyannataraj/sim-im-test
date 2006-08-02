@@ -157,11 +157,11 @@ SET(_core_UICS
 )
 
 # so we don't need an extra CMakeLists.txt in every subdirectory
-ADD_JISP_ARCHIVE(additional additional.jisp _core_LIB_SRCS)
-ADD_JISP_ARCHIVE(icq5       icq5.jisp       _core_LIB_SRCS)
-ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp     _core_LIB_SRCS)
-ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_LIB_SRCS)
-ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_LIB_SRCS)
-ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_LIB_SRCS)
+ADD_JISP_ARCHIVE(additional additional.jisp _core_SRCS)
+ADD_JISP_ARCHIVE(icq5       icq5.jisp       _core_SRCS)
+ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp     _core_SRCS)
+ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_SRCS)
+ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)
+ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
 
 SIM_ADD_PLUGIN(_core)
