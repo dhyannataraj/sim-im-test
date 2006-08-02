@@ -531,8 +531,8 @@ void UserConfig::resizeEvent(QResizeEvent *e)
 {
     ConfigureDialogBase::resizeEvent(e);
     if (isVisible()){
-        CorePlugin::m_plugin->data.cfgGeo[WIDTH].asULong() = width();
-        CorePlugin::m_plugin->data.cfgGeo[HEIGHT].asULong() = height();
+        CorePlugin::m_plugin->data.CfgGeometry[WIDTH].asULong() = width();
+        CorePlugin::m_plugin->data.CfgGeometry[HEIGHT].asULong() = height();
     }
 }
 

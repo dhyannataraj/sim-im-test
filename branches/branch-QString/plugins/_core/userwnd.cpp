@@ -57,8 +57,7 @@ UserWnd::UserWnd(unsigned long id, ConfigBuffer *cfg, bool bReceived, bool bAdju
     m_splitter = new QSplitter(Vertical, m_hSplitter);
     m_list = NULL;
     m_view = NULL;
-
-    
+ 
     if (cfg == NULL)
         copyData(data.editBar, CorePlugin::m_plugin->data.EditBar, 7);
 

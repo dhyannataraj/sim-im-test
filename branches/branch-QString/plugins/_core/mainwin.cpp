@@ -71,23 +71,6 @@ void MainWindowWidget::childEvent(QChildEvent *e)
     QTimer::singleShot(0, parent(), SLOT(setGrip()));
 }
 
-namespace local { namespace {
-
-void restoreGeometry(MainWindow *mainWindow, Geometry &geometry)
-{
-    if ((geometry[WIDTH].toLong() == -1) && (geometry[HEIGHT].toLong() == -1)){
-        geometry[HEIGHT].asLong() = QApplication::desktop()->height() * 2 / 3;
-        geometry[WIDTH].asLong()  = geometry[HEIGHT].toULong() / 3;
-    }
-    if ((geometry[LEFT].toLong() == -1) && (geometry[TOP].toLong() == -1)){
-        geometry[LEFT].asLong() = QApplication::desktop()->width() - 25 - geometry[WIDTH].toLong();
-        geometry[TOP].asLong() = 5;
-    }
-    restoreGeometry(mainWindow, geometry, true, true);
-}
-
-}} // local
-
 MainWindow::MainWindow(Geometry &geometry)
         : QMainWindow(NULL, "mainwnd",
                       WType_TopLevel | WStyle_Customize |
@@ -123,7 +106,15 @@ MainWindow::MainWindow(Geometry &geometry)
     status->hide();
     status->installEventFilter(this);
     
-    local::restoreGeometry(this, geometry);
+    if ((geometry[WIDTH].toLong() == -1) && (geometry[HEIGHT].toLong() == -1)){
+        geometry[HEIGHT].asLong() = QApplication::desktop()->height() * 2 / 3;
+        geometry[WIDTH].asLong()  = geometry[HEIGHT].toLong() / 3;
+    }
+    if ((geometry[LEFT].toLong() == -1) && (geometry[TOP].toLong() == -1)){
+        geometry[LEFT].asLong() = QApplication::desktop()->width() - 25 - geometry[WIDTH].toLong();
+        geometry[TOP].asLong() = 5;
+    }
+    restoreGeometry(this, geometry, true, true);
 }
 
 MainWindow::~MainWindow()

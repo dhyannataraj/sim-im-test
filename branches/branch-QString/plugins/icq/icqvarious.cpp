@@ -148,6 +148,7 @@ ServerRequest::ServerRequest(unsigned short id)
 
 ServerRequest *ICQClient::findServerRequest(unsigned short id)
 {
+    log(L_DEBUG,"Searching for event id %d (%p)", id, this);
     for (list<ServerRequest*>::iterator it = varRequests.begin(); it != varRequests.end(); ++it){
         if ((*it)->id() == id)
             return *it;
@@ -161,6 +162,7 @@ void ServerRequest::fail(unsigned short)
 
 void ICQClient::clearServerRequests()
 {
+    log(L_DEBUG,"Clearing server requests (%p)", this);
     for (list<ServerRequest*>::iterator it_req = varRequests.begin(); it_req != varRequests.end(); ++it_req){
         (*it_req)->fail();
         delete *it_req;
@@ -269,6 +271,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                             break;
                         }
                         req->fail();
+                        log(L_DEBUG, "removing server request %d (%p)", nId, this);
                         varRequests.remove(req);
                         delete req;
                         break;
@@ -279,6 +282,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                         break;
                     }
                     if (req->answer(msg, nSubtype)){
+                        log(L_DEBUG, "removing server request %d (%p)", nId, this);
                         varRequests.remove(req);
                         delete req;
                     }
@@ -306,6 +310,7 @@ void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 
 void ICQClient::sendServerRequest()
 {
+    log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
     Buffer &b = m_socket->writeBuffer;
     char *packet = b.data(b.packetStartPos());
     unsigned short packet_size = (unsigned short)(b.size() - b.packetStartPos());
@@ -603,6 +608,7 @@ unsigned ICQClient::processInfoRequest()
         time_t now;
         time(&now);
         (*it).start_time = now;
+        log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
         varRequests.push_back(new FullInfoRequest(this, m_nMsgSequence, uin));
     }
     return 0;

@@ -35,15 +35,11 @@
 #include <qwidgetlist.h>
 #include <qcursor.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 using namespace std;
 using namespace SIM;
 
-const unsigned BLINK_TIMEOUT	= 500;
-const unsigned BLINK_COUNT		= 8;
+const unsigned BLINK_TIMEOUT    = 500;
+const unsigned BLINK_COUNT      = 8;
 
 typedef struct JoinContacts
 {
@@ -155,11 +151,6 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     setStaticBackground(pv.isStatic);
 }
 
-static void drawImage(QPainter *p, int x, int y, const QImage &img)
-{
-    p->drawImage(x, y, img);
-}
-
 int UserView::heightItem(UserViewItemBase *base)
 {
     QFont f(font());
@@ -228,7 +219,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         }
         QImage img = Image(item->isOpen() ? "expanded" : "collapsed");
         if (!img.isNull())
-            drawImage(p, 2 + margin, (item->height() - img.height()) / 2, img);
+            p->drawImage(2 + margin, (item->height() - img.height()) / 2, img);
         int x = 24 + margin;
         if (!item->isOpen() && item->m_unread){
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(item->m_unread);
@@ -236,7 +227,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
                 img = Image(def->icon);
                 if (!img.isNull()){
                     if (m_bUnreadBlink)
-                        drawImage(p, x, (item->height() - img.height()) / 2, img);
+                        p->drawImage(x, (item->height() - img.height()) / 2, img);
                     x += img.width() + 2;
                 }
             }
@@ -299,7 +290,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             QImage img = Image(icon);
             if (!img.isNull()){
                 x += 2;
-                drawImage(p, x, (item->height() - img.height()) / 2, img);
+                p->drawImage(x, (item->height() - img.height()) / 2, img);
                 x += img.width() + 2;
             }
         }
@@ -383,7 +374,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
                 xIcon -= img.width() + 2;
                 if (xIcon < (unsigned)x)
                     break;
-                drawImage(p, xIcon, (item->height() - img.height()) / 2, img);
+                p->drawImage(xIcon, (item->height() - img.height()) / 2, img);
             }
         }
         return;

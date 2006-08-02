@@ -179,7 +179,7 @@ void PluginItem::apply()
             m_widget = NULL;
         }
     }
-    Event e(EventApplyPlugin, (char*)m_info->name.latin1());
+    Event e(EventApplyPlugin, &m_info->name);
     e.process();
 }
 
@@ -316,11 +316,11 @@ ConfigureDialog::~ConfigureDialog()
         if (info == NULL) break;
         if (info->plugin == NULL) continue;
         if (info->bDisabled){
-            Event eUnload(EventUnloadPlugin, (char*)info->name.latin1());
+            Event eUnload(EventUnloadPlugin, &info->name);
             eUnload.process();
         }
     }
-    saveGeometry(this, CorePlugin::m_plugin->data.cfgGeo);
+    saveGeometry(this, CorePlugin::m_plugin->data.CfgGeometry);
 }
 
 static unsigned itemWidth(QListViewItem *item, QFontMetrics &fm)
@@ -391,7 +391,7 @@ void ConfigureDialog::fill(unsigned id)
         pluginInfo *info = (pluginInfo*)e.process();
         if (info == NULL) break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, (char*)info->name.latin1());
+            Event e(EventLoadPlugin, &info->name);
             e.process();
         }
         if ((info->info == NULL) || (info->info->title == NULL)) continue;

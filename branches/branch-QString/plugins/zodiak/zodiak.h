@@ -19,7 +19,6 @@
 #define _ZODIAK_H
 
 #include "simapi.h"
-#include "stl.h"
 
 #include <qframe.h>
 

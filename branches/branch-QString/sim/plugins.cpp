@@ -19,9 +19,14 @@
 #include "config.h"
 #endif
 
+#include <qapplication.h>
+#include <qdir.h>
 #include <qfile.h>
 #include <qlibrary.h>
+#include <qmessagebox.h>
+#include <qregexp.h>
 #include <qstring.h>
+#include <qstringlist.h>
 #include <qtextstream.h>
 
 #include "simapi.h"
@@ -32,31 +37,21 @@
 #include "xsl.h"
 #include "builtinlogger.h"
 
-#ifdef WIN32
-//#include "qjpegio.h"
-#include <windows.h>
-#else
 #include <ctype.h>
-#endif
+#include <errno.h>
 
 #ifndef  LTDL_SHLIB_EXT
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-#define  LTDL_SHLIB_EXT ".so"
-#else   /* MacOS needs .a */
-#define  LTDL_SHLIB_EXT ".a"
-#endif
+# if defined(QT_MACOSX_VERSION) || defined(QT_MAC) /* MacOS needs .a */
+#  define  LTDL_SHLIB_EXT ".a"
+# else
+#  if defined(_WIN32) || defined(_WIN64)
+#   define  LTDL_SHLIB_EXT ".dll"
+#  else
+#   define  LTDL_SHLIB_EXT ".so"
+#  endif
+# endif
 #endif
 
-#include "libltdl/ltdl.h"
-#include <errno.h>
-#include <qdir.h>
-#include <qstringlist.h>
-#include <qmessagebox.h>
-#include <qapplication.h>
-#include <qregexp.h>
-
-#include <memory>
-#include <algorithm>
 using namespace std;
 
 namespace SIM
@@ -109,20 +104,20 @@ protected:
     bool createPlugin(pluginInfo&);
 
     void release(pluginInfo&, bool bFree = true);
-    void release(const char *name);
+    void release(const QString &name);
     void release_all(Plugin *to);
 
     void load(pluginInfo&);
-    void load(const char *name);
+    void load(const QString &name);
     void load_all(Plugin *to);
 
     void saveState();
     void loadState();
     void reloadState();
 
-    pluginInfo *getInfo(const char *name);
+    pluginInfo *getInfo(const QString &name);
     pluginInfo *getInfo(unsigned n);
-    bool setInfo(const char *name);
+    bool setInfo(const QString *name);
 
 #ifndef WIN32
     unsigned long execute(const char *prg, const char *arg);
@@ -220,7 +215,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         info.info        = NULL;
         info.base        = 0;
         plugins.push_back(info);
-        log(L_DEBUG,"Found plugin %s",info.name.latin1());
+        log(L_DEBUG,"Found plugin %s",info.name.local8Bit().data());
     }
     Event eCorePlugin(EventGetPluginInfo, (void*)"_core");
     pluginInfo *coreInfo = static_cast<pluginInfo*>(eCorePlugin.process());
@@ -272,7 +267,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
     case EventPluginGetInfo:
         return getInfo((unsigned long)(e->param()));
     case EventApplyPlugin:
-        return (void*)setInfo((const char*)(e->param()));
+        return (void*)setInfo((QString*)e->param());
     case EventPluginsUnload:
         release_all((Plugin*)(e->param()));
         return e->param();
@@ -280,10 +275,10 @@ void *PluginManagerPrivate::processEvent(Event *e)
         load_all((Plugin*)(e->param()));
         return e->param();
     case EventUnloadPlugin:
-        release((const char*)(e->param()));
+        release(*((QString*)e->param()));
         return e->param();
     case EventLoadPlugin:
-        load((const char*)(e->param()));
+        load(*((QString*)e->param()));
         return e->param();
     case EventSaveState:
         saveState();
@@ -305,7 +300,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
     return NULL;
 }
 
-pluginInfo *PluginManagerPrivate::getInfo(const char *name)
+pluginInfo *PluginManagerPrivate::getInfo(const QString &name)
 {
     for (unsigned n = 0; n < plugins.size(); n++){
         pluginInfo &info = plugins[n];
@@ -333,7 +328,7 @@ void PluginManagerPrivate::release_all(Plugin *to)
     }
 }
 
-void PluginManagerPrivate::load(const char *name)
+void PluginManagerPrivate::load(const QString &name)
 {
     pluginInfo *info = getInfo(name);
     if (info)
@@ -365,7 +360,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         PluginInfo* (*getInfo)() = NULL;
         getInfo = (PluginInfo* (*)()) info.module->resolve("GetPluginInfo");
         if (getInfo == NULL){
-            fprintf(stderr, "Plugin %s hasn't entry GetPluginInfo\n", info.name.latin1());
+            fprintf(stderr, "Plugin %s hasn't entry GetPluginInfo\n", info.name.local8Bit().data());
             release(info);
             return;
         }
@@ -373,13 +368,13 @@ void PluginManagerPrivate::load(pluginInfo &info)
 #ifndef WIN32
 # ifdef USE_KDE
         if (!(info.info->flags & PLUGIN_KDE_COMPILE)){
-            fprintf(stderr, "Plugin %s is compiled without KDE support!\n", info.name.latin1());
+            fprintf(stderr, "Plugin %s is compiled without KDE support!\n", info.name.local8Bit().data());
             release(info);
             return;
         }
 # else
         if (info.info->flags & PLUGIN_KDE_COMPILE){
-            fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.latin1());
+            fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.local8Bit().data());
             release(info);
             return;
         }
@@ -394,21 +389,15 @@ bool PluginManagerPrivate::create(pluginInfo &info)
         return true;
     QString param;
     QString descr;
-    const char *short_name = info.name;
-    for (; *short_name; short_name++){
-        char c = *short_name;
-        if ((c >= '0') && (c <= '9')) continue;
-        break;
-    }
     QString value;
     param = "--enable-";
-    param += short_name;
+    param += info.name;
     if (findParam(param, QString::null, value)){
         info.bDisabled = false;
         info.bFromCfg = true;
     }
     param = "--disable-";
-    param += short_name;
+    param += info.name;
     if (findParam(param, QString::null, value)){
         info.bDisabled = true;
         info.bFromCfg = true;
@@ -433,7 +422,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         release(info);
         return false;
     }
-    log(L_DEBUG, "Load plugin %s", info.name.latin1());
+    log(L_DEBUG, "Load plugin %s", info.name.local8Bit().data());
     if (!m_bLoaded && !(info.info->flags & (PLUGIN_NO_CONFIG_PATH & ~PLUGIN_DEFAULT))){
         loadState();
         if (info.bDisabled || (!info.bFromCfg && (info.info->flags & (PLUGIN_NOLOAD_DEFAULT & ~PLUGIN_DEFAULT)))){
@@ -486,7 +475,7 @@ void PluginManagerPrivate::load_all(Plugin *from)
         create(plugins[i]);
 }
 
-void PluginManagerPrivate::release(const char *name)
+void PluginManagerPrivate::release(const QString &name)
 {
     pluginInfo *info = getInfo(name);
     if (info)
@@ -496,7 +485,7 @@ void PluginManagerPrivate::release(const char *name)
 void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
 {
     if (info.plugin){
-        log(L_DEBUG, "Unload plugin %s", info.name.latin1());
+        log(L_DEBUG, "Unload plugin %s", info.name.local8Bit().data());
         delete info.plugin;
         info.plugin = NULL;
         Event e(EventPluginChanged, &info);
@@ -518,9 +507,9 @@ pluginInfo *PluginManagerPrivate::getInfo(unsigned n)
     return &info;
 }
 
-bool PluginManagerPrivate::setInfo(const char *name)
+bool PluginManagerPrivate::setInfo(const QString *name)
 {
-    pluginInfo *info = getInfo(name);
+    pluginInfo *info = getInfo(*name);
     if (info == NULL)
         return false;
     if (info->bDisabled){

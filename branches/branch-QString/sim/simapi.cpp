@@ -691,17 +691,14 @@ EXPORT unsigned screens()
 EXPORT QRect screenGeometry(unsigned nScreen)
 {
     QDesktopWidget *desktop = QApplication::desktop();
-    return desktop->screenGeometry(nScreen);
-}
-
-EXPORT QRect screenGeometry()
-{
-    QDesktopWidget *desktop = QApplication::desktop();
-    QRect rc;
-    for (int i = 0; i < desktop->numScreens(); i++){
-        rc |= desktop->screenGeometry(i);
+    if(nScreen == -1) {
+        QRect rc;
+        for (int i = 0; i < desktop->numScreens(); i++){
+            rc |= desktop->screenGeometry(i);
+        }
+        return rc;
     }
-    return rc;
+    return desktop->screenGeometry(nScreen);
 }
 
 static bool bLog = true;
@@ -769,6 +766,3 @@ EXPORT int strcasecmp(const char *a, const char *b)
 }
 
 #endif
-
-
-

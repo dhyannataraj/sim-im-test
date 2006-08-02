@@ -34,7 +34,7 @@
 
 using namespace SIM;
 
-LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const char *loginProfile)
+LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const QString &loginProfile)
         : LoginDialogBase(NULL, "logindlg",
                           client ? false : true,
                           client ? WDestructiveClose : 0)
@@ -44,11 +44,10 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     m_profile = CorePlugin::m_plugin->getProfile();
     m_client = client;
     m_bLogin = false;
-    if (loginProfile && *loginProfile){
-        m_loginProfile = loginProfile;
-    }else{
+    m_loginProfile = loginProfile;
+    if(m_loginProfile.isEmpty())
         btnDelete->hide();
-    }
+
     SET_WNDPROC("login")
     setButtonsPict(this);
     lblMessage->setText(text);
