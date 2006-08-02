@@ -1,9 +1,8 @@
 # main cmake file for SIM-IM
 
-PROJECT(sim-im)
+PROJECT(Sim-IM)
 
-# 2.4.2 ... maybe it can be lower, but I only have this one
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.4.3)
 SET(CMAKE_COLOR_MAKEFILE ON)
 
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
@@ -17,6 +16,7 @@ INCLUDE(MacroBoolTo01)
 INCLUDE(Po)
 INCLUDE(Qt3Uic)
 INCLUDE(SimPlugins)
+INCLUDE(DistTarget)
 
 SIM_FIND_PLUGINS(${sim-im_SOURCE_DIR}/plugins)
 
@@ -71,8 +71,8 @@ endif(MSVC)
 
 SET(SIM_FLAVOUR "" CACHE STRING "Additional suffix for plugin dir and executable file")
 if(WIN32)
-    SET(LIBDIR ${CMAKE_INSTALL_PREFIX})
-    SET(BINDIR ${CMAKE_INSTALL_PREFIX})
+    SET(LIBDIR ${CMAKE_INSTALL_PREFIX} CACHE PATH "Path to sim library")
+    SET(BINDIR ${CMAKE_INSTALL_PREFIX} CACHE PATH "Path to sim library")
     SET(SIM_I18N_DIR   po)
     SET(SIM_ICONS_DIR  icons)
     SET(SIM_PICT_DIR   pict)
@@ -111,5 +111,6 @@ CONFIGURE_FILE(
   "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
   IMMEDIATE @ONLY)
 
+# uninstall target
 ADD_CUSTOM_TARGET(uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
