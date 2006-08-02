@@ -385,7 +385,7 @@ void SoundPlugin::processQueue()
         m_current="";
         return;
     }
-    p.arg = sound.local8Bit();
+    p.arg = sound.latin1();
     Event e(EventExec, &p);
     m_player = (long)e.process();
     if (m_player == 0){
