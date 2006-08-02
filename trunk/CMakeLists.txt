@@ -18,10 +18,10 @@ INCLUDE(Qt3Uic)
 INCLUDE(SimPlugins)
 INCLUDE(DistTarget)
 
-SIM_FIND_PLUGINS(${sim-im_SOURCE_DIR}/plugins)
+SIM_FIND_PLUGINS(${Sim-IM_SOURCE_DIR}/plugins)
 
 IF(NOT QT_FOUND)
-    MESSAGE(FATAL_ERROR "Could not find Qt3 - cannot compile sim-im here")
+    MESSAGE(FATAL_ERROR "Could not find Qt3 - cannot compile Sim-IM here")
 ENDIF(NOT QT_FOUND)
 
 # needed packages
@@ -57,8 +57,8 @@ MACRO_BOOL_TO_01(USE_KDE3 USE_KDE)
 ADD_DEFINITIONS(${QT_DEFINITIONS} -DHAVE_CONFIG_H)
 INCLUDE_DIRECTORIES(${QT_INCLUDE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
-                    ${sim-im_SOURCE_DIR}/sim
-                    ${sim-im_SOURCE_DIR}/plugins/_core)
+                    ${Sim-IM_SOURCE_DIR}/sim
+                    ${Sim-IM_SOURCE_DIR}/plugins/_core)
 LINK_DIRECTORIES(${QT_LIB_DIR})
 
 # windows, microsoft compiler
