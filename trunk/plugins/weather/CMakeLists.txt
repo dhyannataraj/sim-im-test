@@ -18,10 +18,7 @@ SET(weather_UICS
         wifacecfgbase.ui
 )
 
-# so we don't need an extra CMakeLists.txt in every subdirectory
-ADD_JISP_ARCHIVE(jisp weather.jisp weather_SRCS)
+# weather_.jisp until this is fixed in cmake
+ADD_JISP_ARCHIVE(jisp weather_.jisp weather_SRCS)
 
 SIM_ADD_PLUGIN(weather)
-
-# install target
-INSTALL(TARGETS weather LIBRARY DESTINATION ${SIM_PLUGIN_DIR} RUNTIME  DESTINATION ${SIM_PLUGIN_DIR})

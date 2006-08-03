@@ -111,6 +111,9 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
     CmdWeather = registerType();
     EventWeather = registerType();
     m_icons = getIcons()->addIconSet("icons/weather.jisp", true);
+    // work around a cmake 2.4.3 bug (vs only)
+    if(!m_icons)
+        m_icons = getIcons()->addIconSet("icons/weather_.jisp", true);
     Event eBar(EventToolbarCreate, (void*)BarWeather);
     eBar.process();
     Command cmd;
