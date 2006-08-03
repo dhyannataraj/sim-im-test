@@ -32,13 +32,15 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
             GET_FILENAME_COMPONENT(_in       ${po_input} ABSOLUTE)
             GET_FILENAME_COMPONENT(_basename ${po_input} NAME_WE)
 
-            # needed for win32
-            FILE(TO_NATIVE_PATH ${_in}  _in_native)
-            FILE(TO_NATIVE_PATH ${_out} _out_native)
-
+            #FIXME:
+            #Seems like cmake always calculates IF arguments,
+            #not depending on previous IFs, so we need this here for nix. serzh.
+            SET(_tmp " ")
             IF(WIN32)
                 FILE(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po)
                 GET_FILENAME_COMPONENT(_out ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po/${_basename}.mo ABSOLUTE)
+                FILE(TO_NATIVE_PATH ${_in}  _in_native)
+                FILE(TO_NATIVE_PATH ${_out} _out_native)
                 GET_FILENAME_COMPONENT(_tmp ${MSGFMT_EXECUTABLE} NAME_WE)
 
                 IF(${_tmp} STREQUAL "msg2qm")
@@ -73,10 +75,10 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
                     OUTPUT ${_out}
                     COMMAND ${CMAKE_COMMAND}
                         -E echo
-                        "Generating" ${_out_native} "from" ${_in_native}
+                        "Generating" ${_out} "from" ${_in}
                     COMMAND ${MSGFMT_EXECUTABLE}
-                        ${_in_native}
-                        -o ${_out_native}
+                        ${_in}
+                        -o ${_out}
                     DEPENDS ${_in}
                 )
             ENDIF(WIN32)
