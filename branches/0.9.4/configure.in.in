@@ -72,6 +72,7 @@ AC_CHECK_FUNCS([strcspn strdup strerror strstr strtol strtoul])
 
 AC_CHECK_FUNC(strcasecmp,[AC_DEFINE(HAVE_STRCASECMP,1,[Have strcasecmp])])
 AC_CHECK_FUNC(chmod,[AC_DEFINE(HAVE_CHMOD,1,[Have chmod])])
+AC_CHECK_FUNC(uname,[AC_DEFINE(HAVE_UNAME,1,[Have uname])])
 
 AC_EGREP_HEADER(in_addr_t, netinet/in.h,, AC_DEFINE(in_addr_t,int,[defaults in_addr_t to int]))
 AC_EGREP_HEADER(socklen_t, sys/socket.h,, AC_DEFINE(socklen_t,int,[defaults socklen_t to int]))
@@ -139,10 +140,6 @@ if test "x$ZIP" = "xno" ; then
 fi
 AC_SUBST(ZIP)
 AC_SUBST(ZIP_FLAGS)
-
-uname=`uname`
-unamem=`uname -m`
-AC_DEFINE_UNQUOTED(UNAME,"${uname} ${unamem}",[System type])
 
 if test "$have_ssl" != "yes" -a "$want_ssl" != "no"; then
   AC_MSG_ERROR([SIM requires OpenSSL library.
