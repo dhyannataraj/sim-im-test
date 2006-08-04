@@ -1158,6 +1158,48 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     dicon = "Yahoo!_ffc";
                     break;
                 }
+            }else if (strcmp(h.c_str(), "sms") == 0){
+                switch (status){
+                case STATUS_ONLINE:
+                dicon = "sms_online";
+                break;
+                case STATUS_OFFLINE:
+                dicon = "sms_offline";
+                break;
+                case STATUS_AWAY:
+                dicon = "sms_away";
+                break;
+                case STATUS_NA:
+                dicon = "sms_na";
+                break;
+                case STATUS_DND:
+                dicon = "sms_dnd";
+                break;
+                case STATUS_FFC:
+                dicon = "sms_ffc";
+                break;
+                }
+            }else if (strcmp(h.c_str(), "x-gadugadu") == 0){
+                switch (status){
+                case STATUS_ONLINE:
+                dicon = "GG_online";
+                break;
+                case STATUS_OFFLINE:
+                dicon = "GG_offline";
+                break;
+                case STATUS_AWAY:
+                dicon = "GG_away";
+                break;
+                case STATUS_NA:
+                dicon = "GG_na";
+                break;
+                case STATUS_DND:
+                dicon = "GG_dnd";
+                break;
+                case STATUS_FFC:
+                dicon = "GG_ffc";
+                break;
+                }
             }
         }
     }
