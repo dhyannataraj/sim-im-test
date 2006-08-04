@@ -254,6 +254,7 @@ static DataDef icqClientData[] =
         { "", DATA_ULONG, 1, 0 },
         { "HideIP", DATA_BOOL, 1, 0 },
         { "IgnoreAuth", DATA_BOOL, 1, 0 },
+        { "UseMD5", DATA_BOOL, 1, 0 },
         { "DirectMode", DATA_ULONG, 1, 0 },
         { "IdleTime", DATA_ULONG, 1, 0 },
         { "ListRequests", DATA_STRING, 1, 0 },

@@ -255,6 +255,7 @@ typedef struct ICQClientData
     Data		ContactsInvisible;
     Data		HideIP;
     Data		IgnoreAuth;
+    Data		UseMD5;
     Data		DirectMode;
     Data		IdleTime;
     Data        ListRequests;
@@ -493,6 +494,7 @@ public:
     PROP_USHORT(ContactsInvisible);
     PROP_BOOL(HideIP);
     PROP_BOOL(IgnoreAuth);
+    PROP_BOOL(UseMD5);
     PROP_ULONG(DirectMode);
     PROP_ULONG(IdleTime);
     PROP_STR(ListRequests);
