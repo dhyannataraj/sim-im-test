@@ -554,7 +554,7 @@ void init_data(const DataDef *d, Data *data)
 {
     for (const DataDef *def = d; def->name; def++){
         for (unsigned i = 0; i < def->n_values; i++, data++){
-            data->ptr = NULL;
+			data->ptr = NULL;
             switch (def->type){
             case DATA_STRING:
             case DATA_STRLIST:

@@ -195,7 +195,7 @@ string HomeDirPlugin::getConfig()
 string HomeDirPlugin::buildFileName(const QString *name)
 {
     QString s;
-    QString fname = *name;
+    QString fname = name ? *name : "!INVALID!";
 #ifdef WIN32
     if ((fname[1] != ':') && (fname.left(2) != "\\\\")){
 #else
@@ -214,7 +214,7 @@ void *HomeDirPlugin::processEvent(Event *e)
 {
     if (e->type() == EventHomeDir){
         QString *cfg = (QString*)(e->param());
-        *cfg = buildFileName(cfg);
+        *cfg = QString( buildFileName(cfg).c_str() ); 
         return (void*)(!cfg->isEmpty());
     }
     return NULL;

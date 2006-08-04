@@ -236,7 +236,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         pluginInfo info;
         info.plugin		 = NULL;
 #ifdef WIN32
-        info.name		 = strdup(QFile::encodeName(f.lower()));
+        info.name         = static_cast<const char*>(f.lower());
 #else
         info.name		 = strdup(QFile::encodeName(f));
 #endif
