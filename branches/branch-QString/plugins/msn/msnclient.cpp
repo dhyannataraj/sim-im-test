@@ -2825,7 +2825,7 @@ void MSNFileTransfer::startReceive(unsigned pos)
 
 void MSNFileTransfer::send(const QString &line)
 {
-    log(L_DEBUG, "Send: %s", line);
+    log(L_DEBUG, "Send: %s", line.latin1());
     m_socket->writeBuffer.packetStart();
     m_socket->writeBuffer << (const char*)line.utf8();
     m_socket->writeBuffer << "\r\n";

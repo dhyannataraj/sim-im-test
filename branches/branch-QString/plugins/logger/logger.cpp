@@ -148,7 +148,7 @@ void LoggerPlugin::openFile()
     if (!m_file->open(IO_Append | IO_ReadWrite)){
         delete m_file;
         m_file = NULL;
-        log(L_WARN, "Can't open %s", fname);
+        log(L_WARN, "Can't open %s", fname.latin1());
     }
 }
 
