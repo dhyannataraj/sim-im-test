@@ -1693,7 +1693,7 @@ void MSNClient::processRequests()
             packet = new RemPacket(this, "BL", (*it).Name);
             break;
         case LR_GROUPxCHANGED:
-            grp = getContacts()->group(strtoul((*it).Name.utf8(), NULL, 10));
+            grp = getContacts()->group(it->Name.toULong());
             if (grp){
                 ClientDataIterator it(grp->clientData, this);
                 data = (MSNUserData*)(++it);
@@ -2898,7 +2898,7 @@ bool MSNFileTransfer::getLine(const QCString &line)
         m_state = Receive;
         m_socket->setRaw(false);
         FileTransfer::m_state = FileTransfer::Read;
-        m_size = strtoul(l.latin1(), NULL, 10);
+        m_size = l.toULong();
         m_bytes = 0;
         if (m_notify){
             m_notify->transfer(true);
