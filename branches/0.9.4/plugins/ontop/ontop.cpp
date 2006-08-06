@@ -99,7 +99,7 @@ OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
 
 OnTopPlugin::~OnTopPlugin()
 {
-    Event eCmd(EventCommandRemove, (void*)CmdOnTop);
+    Event eCmd(EventCommandRemove, (void*)(long)CmdOnTop);
     eCmd.process();
 
     setOnTop(false);
