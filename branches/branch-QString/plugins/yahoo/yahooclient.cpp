@@ -126,7 +126,7 @@ YahooClient::YahooClient(Protocol *protocol, ConfigBuffer *cfg)
     while (!requests.isEmpty()){
         QString request = getToken(requests, ';');
         ListRequest lr;
-        lr.type = atol(getToken(request, ',').latin1());
+        lr.type = getToken(request, ',').toLong();
         lr.name = request;
         m_requests.push_back(lr);
     }
@@ -1664,7 +1664,7 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
                 s.color = c.rgb() & 0xFFFFFF;
             }
             if (name == "font-size"){
-                unsigned size = atol((*its).latin1());
+                unsigned size = (*its).toLong();
                 if (size)
                     s.size = size;
             }
@@ -1672,7 +1672,7 @@ void YahooParser::tag_start(const QString &tag, const list<QString> &options)
                 s.face = (*its);
             if (name == "font-weight")
                 s.state &= ~1;
-            if (atol((*its).latin1()) >= 600)
+            if ((*its).toLong() >= 600)
                 s.state |= 1;
             if ((name == "font-style") && ((*its) == "italic"))
                 s.state |= 2;

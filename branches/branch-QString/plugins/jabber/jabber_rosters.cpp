@@ -1007,7 +1007,7 @@ JabberClient::IqRequest::~IqRequest()
             return;
         }
         QString host = m_url.left(n);
-        unsigned short port = (unsigned short)atol(m_url.latin1() + n + 1);
+        unsigned short port = (unsigned short)m_url.mid(n + 1).toLong();
         n = m_url.find('/');
         if (n < 0){
             log(L_WARN, "File not found");

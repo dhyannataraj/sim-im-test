@@ -37,7 +37,7 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
         QString item = getToken(phones, ';', false);
         QString number = getToken(item, ',');
         getToken(item, ',');
-        if ((unsigned)atol(item.latin1()) == CELLULAR)
+        if ((unsigned)item.toLong() == CELLULAR)
             cmbPhone->insertItem(number);
     }
     cmbPhone->lineEdit()->setText(data->Phone.str());

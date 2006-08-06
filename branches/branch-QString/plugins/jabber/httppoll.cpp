@@ -152,7 +152,7 @@ bool JabberHttpPool::done(unsigned code, Buffer &data, const char *headers)
             break;
     }
     m_cookie = cookie;
-    int err_code = atol(getToken(cookie, ':').latin1());
+    int err_code = getToken(cookie, ':').toLong();
     if (cookie == "0"){
         const char *err = "Unknown poll error";
         switch (err_code){

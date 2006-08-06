@@ -48,7 +48,7 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
     }
     cmbPort->setCurrentItem(cur);
     for (unsigned i = 0; i < (unsigned)(cmbBaud->count()); i++){
-        if ((unsigned)atol(cmbBaud->text(i).latin1()) == m_client->getBaudRate()){
+        if ((unsigned)cmbBaud->text(i).toLong() == m_client->getBaudRate()){
             cmbBaud->setCurrentItem(i);
         }
     }
@@ -74,7 +74,7 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
 void SMSSetup::apply()
 {
     m_client->setDevice(cmbPort->currentText().latin1());
-    m_client->setBaudRate(atol(cmbBaud->currentText().latin1()));
+    m_client->setBaudRate(cmbBaud->currentText().toLong());
     m_client->setXonXoff(chkXonXoff->isChecked());
 }
 

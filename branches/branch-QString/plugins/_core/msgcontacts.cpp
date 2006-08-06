@@ -44,7 +44,7 @@ MsgContacts::MsgContacts(MsgEdit *parent, Message *msg)
         QString url = getToken(item, ',');
         QString proto = getToken(url, ':');
         if (proto == "sim"){
-            unsigned contact_id = atol(url.latin1());
+            unsigned contact_id = url.toLong();
             if (getContacts()->contact(contact_id))
                 m_list->selected.push_back(contact_id);
         }

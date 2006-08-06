@@ -498,7 +498,7 @@ static unsigned toInt(const QString &str)
 {
     if (str.isEmpty())
         return 0;
-    return atol(str.latin1());
+    return str.toLong();
 }
 
 void MSNClient::getLine(const QCString &line)
@@ -2825,7 +2825,7 @@ void MSNFileTransfer::startReceive(unsigned pos)
 
 void MSNFileTransfer::send(const QString &line)
 {
-    log(L_DEBUG, "Send: %s", line.latin1());
+    log(L_DEBUG, "Send: %s", line.local8Bit().data());
     m_socket->writeBuffer.packetStart();
     m_socket->writeBuffer << (const char*)line.utf8();
     m_socket->writeBuffer << "\r\n";

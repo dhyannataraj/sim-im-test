@@ -127,8 +127,8 @@ void JabberConfig::apply()
     }
     m_client->setUsePlain(chkPlain->isChecked());
 #endif
-    m_client->setMinPort((unsigned short)atol(edtMinPort->text().latin1()));
-    m_client->setMaxPort((unsigned short)atol(edtMaxPort->text().latin1()));
+    m_client->setMinPort((unsigned short)edtMinPort->text().toLong());
+    m_client->setMaxPort((unsigned short)edtMaxPort->text().toLong());
     m_client->setTyping(chkTyping->isChecked());
     m_client->setRichText(chkRichText->isChecked());
     m_client->setAutoSubscribe(chkSubscribe->isChecked());
@@ -139,7 +139,7 @@ void JabberConfig::apply()
         e.process();
     }
     m_client->data.owner.Resource.str() = edtResource->text();
-    m_client->setPriority(atol(edtPriority->text().latin1()));
+    m_client->setPriority(edtPriority->text().toLong());
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setURL(edtUrl->text().latin1());
 }

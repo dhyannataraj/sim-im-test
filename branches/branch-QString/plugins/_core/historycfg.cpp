@@ -311,7 +311,7 @@ void HistoryConfig::apply()
         CorePlugin::m_plugin->setUseExtViewer(chkExtViewer->isChecked());
     }
     CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().local8Bit());
-    CorePlugin::m_plugin->setHistoryPage(atol(cmbPage->lineEdit()->text().latin1()));
+    CorePlugin::m_plugin->setHistoryPage(cmbPage->lineEdit()->text().toLong());
     if (bChanged){
         Event e(EventHistoryConfig);
         e.process();

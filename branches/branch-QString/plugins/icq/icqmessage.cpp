@@ -976,7 +976,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACT
         QString url = getToken(contact, ',');
         QString proto = getToken(url, ':');
         if (proto == "sim"){
-            Contact *contact = getContacts()->contact(atol(url.latin1()));
+            Contact *contact = getContacts()->contact(url.toLong());
             if (contact){
                 ClientDataIterator it(contact->clientData);
                 clientData *cdata;
@@ -1460,7 +1460,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                             area    = getToken(number, ')');
                             if (country[0] == '+')
                                 country = country.mid(1);
-                            unsigned code = atol(country.latin1());
+                            unsigned code = country.toLong();
                             country = "";
                             for (const ext_info *e = getCountries(); e->nCode; e++){
                                 if (e->nCode == code){

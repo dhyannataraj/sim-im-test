@@ -2174,7 +2174,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 QString url = getToken(item, ',');
                 QString proto = getToken(url, ':');
                 if (proto == "sim"){
-                    Contact *contact = getContacts()->contact(atol(url.latin1()));
+                    Contact *contact = getContacts()->contact(url.toLong());
                     if (contact){
                         clientData *data;
                         ClientDataIterator it(contact->clientData);

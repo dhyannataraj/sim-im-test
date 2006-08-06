@@ -85,8 +85,8 @@ void OSDIface::apply(void *d)
 {
     OSDUserData *data = (OSDUserData*)d;
     data->Position.asULong() = cmbPos->currentItem();
-    data->Offset.asULong() = atol(spnOffs->text().latin1());
-    data->Timeout.asULong() = atol(spnTimeout->text().latin1());
+    data->Offset.asULong() = spnOffs->text().toLong();
+    data->Timeout.asULong() = spnTimeout->text().toLong();
     data->Color.asULong() = btnColor->color().rgb();
     QString f = edtFont->getFont();
     QString base = FontEdit::font2str(font(), false);

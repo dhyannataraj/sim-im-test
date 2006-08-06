@@ -555,7 +555,7 @@ void *JabberBrowser::processEvent(Event *e)
                     err = i18n("Error %1") .arg(item->node.toULong());
                 }
                 if (!err.isEmpty()){
-                    unsigned mode = atol(it->text(COL_MODE).latin1());
+                    unsigned mode = it->text(COL_MODE).toLong();
                     if (((mode & BROWSE_BROWSE) == 0) || (it->text(COL_ID_BROWSE).isEmpty() & m_bError))
                         stop(err);
                     m_bError = true;
@@ -625,7 +625,7 @@ void *JabberBrowser::processEvent(Event *e)
                     err = i18n("Error %1") .arg(item->node.toULong());
                 }
                 if (!err.isEmpty()){
-                    unsigned mode = atol(it->text(COL_MODE).latin1());
+                    unsigned mode = it->text(COL_MODE).toLong();
                     if (((mode & BROWSE_DISCO) == 0) || (it->text(COL_ID_DISCO_ITEMS).isEmpty() & m_bError))
                         stop(err);
                     m_bError = true;
@@ -721,7 +721,7 @@ void JabberBrowser::currentChanged(QListViewItem*)
 void JabberBrowser::loadItem(QListViewItem *item)
 {
     bool bProcess = false;
-    unsigned mode = atol(item->text(COL_MODE).latin1());
+    unsigned mode = item->text(COL_MODE).toLong();
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
         if (((mode & BROWSE_DISCO) == 0) && item->text(COL_ID_DISCO_ITEMS).isEmpty()){
             item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(item->text(COL_JID), item->text(COL_NODE)));

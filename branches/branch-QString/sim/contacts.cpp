@@ -392,7 +392,7 @@ QString Contact::tipText()
         phone_item = getToken(phone_item, '/', false);
         QString phone = getToken(phone_item, ',');
         getToken(phone_item, ',');
-        unsigned phone_type = atol(phone_item.latin1());
+        unsigned phone_type = phone_item.toLong();
         QString icon;
         switch (phone_type){
         case PHONE:
@@ -474,7 +474,7 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
         phoneItem = getToken(phoneItem, '/', false);
         getToken(phoneItem, ',');
         getToken(phoneItem, ',');
-        unsigned n = atol(phoneItem.latin1());
+        unsigned n = phoneItem.toLong();
         if (n == CELLULAR) bCell = true;
         if (n == PAGER) bPager = true;
     }
@@ -1799,14 +1799,14 @@ void ContactList::load()
         if (s.startsWith(GROUP)){
             p->flush(c, g);
             c = NULL;
-            unsigned long id = atol(s.latin1() + strlen(GROUP));
+            unsigned long id = s.mid(strlen(GROUP)).toLong();
             g = group(id, id != 0);
             s = "";
         }else
         if (s.startsWith(CONTACT)){
             p->flush(c, g);
             g = NULL;
-            unsigned long id = atol(s.latin1() + strlen(CONTACT));
+            unsigned long id = s.mid(strlen(CONTACT)).toLong();
             c = contact(id, true);
             s = "";
         }

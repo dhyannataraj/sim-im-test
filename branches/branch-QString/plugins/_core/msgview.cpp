@@ -541,7 +541,7 @@ void MsgViewBase::setSource(const QString &url)
         return;
     }
     QString id = url.mid(proto.length() + 3);
-    unsigned msg_id = atol(getToken(id, ',').latin1());
+    unsigned msg_id = getToken(id, ',').toLong();
     getToken(id, ',');
     id = getToken(id, '/');
     QString client = SIM::unquoteString(id);

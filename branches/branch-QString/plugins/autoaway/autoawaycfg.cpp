@@ -62,11 +62,11 @@ void AutoAwayConfig::apply()
     m_plugin->setEnableNA(chkNA->isChecked());
     m_plugin->setEnableOff(chkOff->isChecked());
     if (m_plugin->getEnableAway())
-        m_plugin->setAwayTime(atol(spnAway->text().latin1()));
+        m_plugin->setAwayTime(spnAway->text().toLong());
     if (m_plugin->getEnableNA())
-        m_plugin->setNATime(atol(spnNA->text().latin1()));
+        m_plugin->setNATime(spnNA->text().toLong());
     if (m_plugin->getEnableOff())
-        m_plugin->setOffTime(atol(spnOff->text().latin1()));
+        m_plugin->setOffTime(spnOff->text().toLong());
 }
 
 #ifndef _MSC_VER
