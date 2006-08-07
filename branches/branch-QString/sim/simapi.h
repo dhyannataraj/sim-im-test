@@ -1762,6 +1762,9 @@ __attribute__ ((__format__ (printf, 2, 3)));
 #else
 EXPORT void log(unsigned short level, const char *fmt, ...);
 #endif      
+/* QString counterpart of logging facility */
+void log(unsigned short level, const QString &msg);
+
 EXPORT QString make_packet_string(LogInfo *l);
 EXPORT const char *level_name(unsigned short n);
 // _____________________________________________________________________________________
