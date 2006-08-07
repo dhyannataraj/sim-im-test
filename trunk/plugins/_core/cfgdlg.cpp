@@ -179,7 +179,7 @@ void PluginItem::apply()
             m_widget = NULL;
         }
     }
-    Event e(EventApplyPlugin, (char*)m_info->name.c_str());
+    Event e(EventApplyPlugin, &m_info->name);
     e.process();
 }
 
@@ -318,7 +318,7 @@ ConfigureDialog::~ConfigureDialog()
         if (info == NULL) break;
         if (info->plugin == NULL) continue;
         if (info->bDisabled){
-            Event eUnload(EventUnloadPlugin, (char*)info->name.c_str());
+            Event eUnload(EventUnloadPlugin, &info->name);
             eUnload.process();
         }
     }
@@ -393,7 +393,7 @@ void ConfigureDialog::fill(unsigned id)
         pluginInfo *info = (pluginInfo*)e.process();
         if (info == NULL) break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, (char*)info->name.c_str());
+            Event e(EventLoadPlugin, &info->name);
             e.process();
         }
         if ((info->info == NULL) || (info->info->title == NULL)) continue;

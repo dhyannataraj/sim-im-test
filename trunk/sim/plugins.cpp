@@ -104,20 +104,20 @@ protected:
     bool createPlugin(pluginInfo&);
 
     void release(pluginInfo&, bool bFree = true);
-    void release(const char *name);
+    void release(const QString *name);
     void release_all(Plugin *to);
 
     void load(pluginInfo&);
-    void load(const char *name);
+    void load(const QString *name);
     void load_all(Plugin *to);
 
     void saveState();
     void loadState();
     void reloadState();
 
-    pluginInfo *getInfo(const char *name);
+    pluginInfo *getInfo(const QString *name);
     pluginInfo *getInfo(unsigned n);
-    bool setInfo(const char *name);
+    bool setInfo(const QString *name);
 
 #ifndef WIN32
     unsigned long execute(const char *prg, const char *arg);
@@ -145,15 +145,14 @@ protected:
 
 static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
 {
-    const char *n1 = p1.name.c_str();
-    const char *n2 = p2.name.c_str();
-    for (; *n1 && *n2; n1++, n2++){
-        if (tolower(*n1) < tolower(*n2))
-            return true;
-        if (tolower(*n1) > tolower(*n2))
-            return false;
-    }
-    return (*n1 == 0) && (*n2 != 0);
+    QString s1 = p1.name.lower();
+    QString s2 = p2.name.lower();
+
+    if(s1 < s2)
+        return true;
+    if(s1 > s2)
+        return false;
+    return false;
 }
 
 bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList)
@@ -236,11 +235,11 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         pluginInfo info;
         info.plugin		 = NULL;
 #ifdef WIN32
-        info.name         = static_cast<const char*>(f.lower());
+        info.name        = f.lower();
 #else
-        info.name		 = strdup(QFile::encodeName(f));
+        info.name		 = f;
 #endif
-        info.filePath    = QFile::encodeName(*it);
+        info.filePath    = *it;
         info.cfg		 = NULL;
         info.bDisabled	 = false;
         info.bNoCreate	 = false;
@@ -249,9 +248,10 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         info.info		 = NULL;
         info.base		 = 0;
         plugins.push_back(info);
-        log(L_DEBUG,"Found plugin %s",info.name.c_str());
+        log(L_DEBUG,"Found plugin %s",info.name.local8Bit().data());
     }
-    Event eCorePlugin(EventGetPluginInfo, (void*)"_core");
+    QString tmp("_core");
+    Event eCorePlugin(EventGetPluginInfo, &tmp);
     pluginInfo *coreInfo = static_cast<pluginInfo*>(eCorePlugin.process());
     if (!coreInfo) {
         log(L_ERROR,"Fatal error: Core plugin failed to load. Aborting!");
@@ -301,7 +301,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
     case EventPluginGetInfo:
         return getInfo((unsigned long)(e->param()));
     case EventApplyPlugin:
-        return (void*)setInfo((const char*)(e->param()));
+        return (void*)setInfo((QString*)e->param());
     case EventPluginsUnload:
         release_all((Plugin*)(e->param()));
         return e->param();
@@ -309,16 +309,16 @@ void *PluginManagerPrivate::processEvent(Event *e)
         load_all((Plugin*)(e->param()));
         return e->param();
     case EventUnloadPlugin:
-        release((const char*)(e->param()));
+        release((QString*)e->param());
         return e->param();
     case EventLoadPlugin:
-        load((const char*)(e->param()));
+        load((QString*)e->param());
         return e->param();
     case EventSaveState:
         saveState();
         break;
     case EventGetPluginInfo:
-        return getInfo((const char*)(e->param()));
+        return getInfo((QString*)(e->param()));
     case EventArgc:
         return (void*)(long)m_argc;
     case EventArgv:
@@ -334,11 +334,13 @@ void *PluginManagerPrivate::processEvent(Event *e)
     return NULL;
 }
 
-pluginInfo *PluginManagerPrivate::getInfo(const char *name)
+pluginInfo *PluginManagerPrivate::getInfo(const QString *name)
 {
+    if (!name || name->isEmpty())
+        return NULL;
     for (unsigned n = 0; n < plugins.size(); n++){
         pluginInfo &info = plugins[n];
-        if (info.name == name)
+        if (info.name == *name)
             return &info;
     }
     return NULL;
@@ -362,7 +364,7 @@ void PluginManagerPrivate::release_all(Plugin *to)
     }
 }
 
-void PluginManagerPrivate::load(const char *name)
+void PluginManagerPrivate::load(const QString *name)
 {
     pluginInfo *info = getInfo(name);
     if (info)
@@ -374,19 +376,19 @@ void PluginManagerPrivate::load(pluginInfo &info)
     if (info.module == NULL){
 #ifdef WIN32
         QString pluginName = "plugins\\";
-        pluginName += QFile::decodeName(info.name.c_str());
+        pluginName += info.name;
 #else
-        QString pluginName = QFile::decodeName(info.filePath.c_str());
+        QString pluginName = info.filePath;
         if( pluginName[0] != '/' ) {
             pluginName = PLUGIN_PATH;
             pluginName += "/";
-            pluginName += QFile::decodeName(info.name.c_str());
+            pluginName += info.name;
         }
 #endif
         QString fullName = app_file(pluginName);
         info.module = new QLibrary(fullName);
         if (info.module == NULL)
-            fprintf(stderr, "Can't load plugin %s\n", info.name.c_str());
+            fprintf(stderr, "Can't load plugin %s\n", info.name.local8Bit().data());
     }
     if (info.module == NULL)
         return;
@@ -394,7 +396,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         PluginInfo* (*getInfo)() = NULL;
         getInfo = (PluginInfo* (*)()) info.module->resolve("GetPluginInfo");
         if (getInfo == NULL){
-            fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry\n", info.name.c_str());
+            fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry\n", info.name.local8Bit().data());
             release(info);
             return;
         }
@@ -402,13 +404,13 @@ void PluginManagerPrivate::load(pluginInfo &info)
 #ifndef WIN32
 #ifdef USE_KDE
         if (!(info.info->flags & PLUGIN_KDE_COMPILE)){
-            fprintf(stderr, "Plugin %s is compiled without KDE support!\n", info.name.c_str());
+            fprintf(stderr, "Plugin %s is compiled without KDE support!\n", info.name.local8Bit().data());
             release(info);
             return;
         }
 #else
 if (info.info->flags & PLUGIN_KDE_COMPILE){
-        fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.c_str());
+        fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.local8Bit().data());
         release(info);
         return;
     }
@@ -421,14 +423,11 @@ bool PluginManagerPrivate::create(pluginInfo &info)
 {
     if (info.plugin)
         return true;
+    QCString short_name = QFile::encodeName(info.name);
+    while(short_name[0] >= '0' && short_name[0] <= '9')
+        short_name = short_name.mid(1);
     string param;
     string descr;
-    const char *short_name = info.name.c_str();
-    for (; *short_name; short_name++){
-        char c = *short_name;
-        if ((c >= '0') && (c <= '9')) continue;
-        break;
-    }
     string value;
     param = "--enable-";
     param += short_name;
@@ -462,7 +461,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         release(info);
         return false;
     }
-    log(L_DEBUG, "Load plugin %s", info.name.c_str());
+    log(L_DEBUG, "Load plugin %s", info.name.local8Bit().data());
     if (!m_bLoaded && !(info.info->flags & (PLUGIN_NO_CONFIG_PATH & ~PLUGIN_DEFAULT))){
         loadState();
         if (info.bDisabled || (!info.bFromCfg && (info.info->flags & (PLUGIN_NOLOAD_DEFAULT & ~PLUGIN_DEFAULT)))){
@@ -515,7 +514,7 @@ void PluginManagerPrivate::load_all(Plugin *from)
         create(plugins[i]);
 }
 
-void PluginManagerPrivate::release(const char *name)
+void PluginManagerPrivate::release(const QString *name)
 {
     pluginInfo *info = getInfo(name);
     if (info)
@@ -525,7 +524,7 @@ void PluginManagerPrivate::release(const char *name)
 void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
 {
     if (info.plugin){
-        log(L_DEBUG, "Unload plugin %s", info.name.c_str());
+        log(L_DEBUG, "Unload plugin %s", info.name.local8Bit().data());
         delete info.plugin;
         info.plugin = NULL;
         Event e(EventPluginChanged, &info);
@@ -547,7 +546,7 @@ pluginInfo *PluginManagerPrivate::getInfo(unsigned n)
     return &info;
 }
 
-bool PluginManagerPrivate::setInfo(const char *name)
+bool PluginManagerPrivate::setInfo(const QString *name)
 {
     pluginInfo *info = getInfo(name);
     if (info == NULL)
@@ -586,7 +585,7 @@ void PluginManagerPrivate::saveState()
     for (unsigned i = 0; i < plugins.size(); i++){
         pluginInfo &info = plugins[i];
         string line = "[";
-        line += info.name;
+        line += QFile::encodeName(info.name);
         line += "]\n";
         line += info.bDisabled ? DISABLE : ENABLE;
         line += ",";
@@ -685,7 +684,7 @@ void PluginManagerPrivate::loadState()
             return;
         unsigned long i = NO_PLUGIN;
         for (unsigned n = 0; n < plugins.size(); n++)
-            if (section == plugins[n].name){
+            if (section == QFile::encodeName(plugins[n].name).data()){
                 i = n;
                 break;
             }

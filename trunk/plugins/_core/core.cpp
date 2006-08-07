@@ -4044,7 +4044,7 @@ string CorePlugin::getConfig()
             if (info == NULL)
                 continue;
             string line = "[";
-            line += info->name;
+            line += QFile::encodeName(info->name).data();
             line += "/";
             line += protocol->description()->text;
             line += "]\n";
@@ -4164,25 +4164,25 @@ Client *CorePlugin::loadClient(const char *name, Buffer *cfg)
     if ((name == NULL) || (*name == 0))
         return NULL;
     string clientName = name;
-    string pluginName = getToken(clientName, '/');
-    if ((pluginName.length() == 0) || (clientName.length() == 0))
+    QString pluginName = QFile::decodeName(getToken(clientName, '/').c_str());
+    if ((pluginName.isEmpty()) || (clientName.length() == 0))
         return NULL;
-    Event e(EventGetPluginInfo, (void*)pluginName.c_str());
+    Event e(EventGetPluginInfo, &pluginName);
     pluginInfo *info = (pluginInfo*)e.process();
     if (info == NULL){
-        log(L_WARN, "Plugin %s not found", pluginName.c_str());
+        log(L_WARN, "Plugin %s not found", pluginName.local8Bit().data());
         return NULL;
     }
     if (info->info == NULL){
-        Event e(EventLoadPlugin, (void*)pluginName.c_str());
+        Event e(EventLoadPlugin, &pluginName);
         e.process();
     }
     if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-        log(L_DEBUG, "Plugin %s no protocol", pluginName.c_str());
+        log(L_DEBUG, "Plugin %s no protocol", pluginName.local8Bit().data());
         return NULL;
     }
     info->bDisabled = false;
-    Event eApply(EventApplyPlugin, (void*)pluginName.c_str());
+    Event eApply(EventApplyPlugin, &pluginName);
     eApply.process();
     Protocol *protocol;
     ContactList::ProtocolIterator it;

@@ -190,8 +190,8 @@ typedef struct PluginInfo           // Information in plugin
 typedef struct pluginInfo
 {
     Plugin          *plugin;
-    std::string     name;
-    std::string     filePath;
+    QString         name;
+    QString         filePath;
     Buffer          *cfg;           // configuration data
     bool            bDisabled;      // no load this plugin
     bool            bNoCreate;      // can't create plugin
@@ -314,14 +314,17 @@ const unsigned EventPluginChanged   = 0x0302;
    return pluginInfo* 
 */
 const unsigned EventPluginGetInfo   = 0x0303;
+/* param is plugin string (QString*)
+*/
 const unsigned EventApplyPlugin     = 0x0304;
-
 const unsigned EventLoadPlugin      = 0x0305;
 const unsigned EventUnloadPlugin    = 0x0306;
 
 const unsigned EventPluginsUnload   = 0x0307;
 const unsigned EventPluginsLoad     = 0x0308;
 
+/* param is plugin string (QString*)
+*/
 const unsigned EventGetPluginInfo   = 0x0309;
 
 /* Event - save state
