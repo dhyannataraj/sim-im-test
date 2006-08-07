@@ -241,7 +241,8 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->param		 = &defUpdatedMessage;
     eMsg.process();
 
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
+    QString pluginName("_core");
+    Event ePlugin(EventGetPluginInfo, &pluginName);
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
     core = static_cast<CorePlugin*>(info->plugin);
 }

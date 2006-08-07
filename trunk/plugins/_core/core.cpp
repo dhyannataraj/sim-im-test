@@ -3654,7 +3654,8 @@ void CorePlugin::changeProfile()
     preferences.clear();
     Event eLoad(EventPluginsLoad, static_cast<Plugin*>(this));
     eLoad.process();
-    Event eInfo(EventGetPluginInfo, (void*)"_core");
+    QString pluginName("_core");
+    Event eInfo(EventGetPluginInfo, &pluginName);
     pluginInfo *info = (pluginInfo*)(eInfo.process());
     free_data(coreData, &data);
     load_data(coreData, &data, info->cfg);

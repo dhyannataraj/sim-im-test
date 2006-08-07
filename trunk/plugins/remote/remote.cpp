@@ -229,7 +229,8 @@ RemotePlugin::RemotePlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(remoteData, &data, config);
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
+    QString pluginName("_core");
+    Event ePlugin(EventGetPluginInfo, &pluginName);
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
     core = static_cast<CorePlugin*>(info->plugin);
     bind();

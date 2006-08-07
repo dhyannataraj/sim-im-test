@@ -250,8 +250,8 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         plugins.push_back(info);
         log(L_DEBUG,"Found plugin %s",info.name.local8Bit().data());
     }
-    QString tmp("_core");
-    Event eCorePlugin(EventGetPluginInfo, &tmp);
+    QString pluginName("_core");
+    Event eCorePlugin(EventGetPluginInfo, &pluginName);
     pluginInfo *coreInfo = static_cast<pluginInfo*>(eCorePlugin.process());
     if (!coreInfo) {
         log(L_ERROR,"Fatal error: Core plugin failed to load. Aborting!");

@@ -35,7 +35,8 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
 {
     m_client = client;
     m_bConfig = bConfig;
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
+    QString pluginName("_core");
+    Event ePlugin(EventGetPluginInfo, &pluginName);
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
     core = static_cast<CorePlugin*>(info->plugin);
     if (m_bConfig){

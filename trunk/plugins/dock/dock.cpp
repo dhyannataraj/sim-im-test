@@ -87,7 +87,8 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
     inactiveTime = 0;
     m_popup = NULL;
 
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
+    QString pluginName("_core");
+    Event ePlugin(EventGetPluginInfo, &pluginName);
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
     core = static_cast<CorePlugin*>(info->plugin);
 

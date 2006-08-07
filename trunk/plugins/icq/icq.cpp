@@ -326,7 +326,8 @@ ICQPlugin *ICQPlugin::icq_plugin = NULL;
 ICQPlugin::ICQPlugin(unsigned base)
         : Plugin(base)
 {
-    Event ePlugin(EventGetPluginInfo, (void*)"_core");
+    QString pluginName("_core");
+    Event ePlugin(EventGetPluginInfo, &pluginName);
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
     core = static_cast<CorePlugin*>(info->plugin);
 
