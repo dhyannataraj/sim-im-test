@@ -288,17 +288,6 @@ int main(int argc, char *argv[])
             return 0;
     }
     SimApp app(argc, argv);
-    StyleInfo*  (*getStyleInfo)() = NULL;
-    HINSTANCE hLib = LoadLibraryA("UxTheme.dll");
-    if (hLib != NULL)
-        hLib = LoadLibraryA(app_file("plugins\\styles\\xpstyle.dll").latin1());
-    if (hLib != NULL)
-        (DWORD&)getStyleInfo = (DWORD)GetProcAddress(hLib,"GetStyleInfo");
-    if (getStyleInfo){
-        StyleInfo *info = getStyleInfo();
-        if (info)
-            qApp->setStyle(info->create());
-    }
 #endif
     QApplication::addLibraryPath( app.applicationDirPath() + "/plugins" );
     PluginManager p(argc, argv);

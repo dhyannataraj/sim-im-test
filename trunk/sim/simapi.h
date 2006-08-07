@@ -86,6 +86,7 @@ class QToolBar;
 #else
 # define EXPORT SIM_IMPORT
 #endif
+#define EXPORT_PROC SIM_EXPORT
 
 #ifndef HAVE_STRCASECMP
 EXPORT int strcasecmp(const char *a, const char *b);
@@ -201,20 +202,7 @@ typedef struct pluginInfo
     unsigned        base;           // base for plugin types
 } pluginInfo;
 
-typedef struct StyleInfo
-{
-    const char      *title;
-    createStyle     *create;
-} StyleInfo;
-
-#ifdef WIN32
-#define EXPORT_PROC extern "C" __declspec(dllexport)
-#else
-#define EXPORT_PROC extern "C" 
-#endif
-
-EXPORT_PROC PluginInfo *GetPluginInfo();
-EXPORT_PROC StyleInfo  *GetStyleInfo();
+SIM_EXPORT PluginInfo *GetPluginInfo();
 
 // _____________________________________________________________________________________
 // Event
