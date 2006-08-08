@@ -204,7 +204,7 @@ void ICQInfo::fill()
 
     int current = 0;
     const char *text = NULL;
-    if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.bValue){
+    if (m_data && (status == STATUS_OFFLINE) && m_data->bInvisible.toBool()){
         cmbStatus->insertItem(Pict("ICQ_invisible"), i18n("Possibly invisible"));
     }else{
         for (const CommandDef *cmd = ICQPlugin::m_icq->statusList(); cmd->id; cmd++){

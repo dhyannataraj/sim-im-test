@@ -147,8 +147,8 @@ void NetmonitorPlugin::showMonitor()
     if (monitor == NULL)
     {
         monitor = new MonitorWindow(this);
-        bool bPos = (data.geometry[LEFT].value != NO_DATA) && (data.geometry[TOP].value != NO_DATA);
-        bool bSize = (data.geometry[WIDTH].value != NO_DATA) && (data.geometry[HEIGHT].value != NO_DATA);
+        bool bPos = (data.geometry[LEFT].toLong() != NO_DATA) && (data.geometry[TOP].toLong() != NO_DATA);
+        bool bSize = (data.geometry[WIDTH].toLong() != NO_DATA) && (data.geometry[HEIGHT].toLong() != NO_DATA);
         restoreGeometry(monitor, data.geometry, bPos, bSize);
         connect(monitor, SIGNAL(finished()), this, SLOT(finished()));
     }

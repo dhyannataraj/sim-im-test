@@ -29,15 +29,15 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
 {
     m_plugin = plugin;
     ForwardUserData *data = (ForwardUserData*)_data;
-    chkFirst->setChecked(data->Send1st.bValue);
-    chkTranslit->setChecked(data->Translit.bValue);
+    chkFirst->setChecked(data->Send1st.toBool());
+    chkTranslit->setChecked(data->Translit.toBool());
     cmbPhone->setEditable(true);
     QString phones = getContacts()->owner()->getPhones();
     while (!phones.isEmpty()){
         QString item = getToken(phones, ';', false);
         QString number = getToken(item, ',');
         getToken(item, ',');
-        if ((unsigned)atol(item.latin1()) == CELLULAR)
+        if (item.toULong() == CELLULAR)
             cmbPhone->insertItem(number);
     }
     if (data->Phone.ptr)
@@ -47,8 +47,8 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
 void ForwardConfig::apply(void *_data)
 {
     ForwardUserData *data = (ForwardUserData*)_data;
-    data->Send1st.bValue = chkFirst->isChecked();
-    data->Translit.bValue = chkTranslit->isChecked();
+    data->Send1st.asBool() = chkFirst->isChecked();
+    data->Translit.asBool() = chkTranslit->isChecked();
     set_str(&data->Phone.ptr, cmbPhone->lineEdit()->text().utf8());
 }
 

@@ -80,9 +80,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
             if (data == NULL)
                 break;
-            if (data->bTyping.bValue == bType)
+            if (data->bTyping.toBool() == bType)
                 break;
-            data->bTyping.bValue = bType;
+            data->bTyping.asBool() = bType;
             Event e(EventContactStatus, contact);
             e.process();
             break;
@@ -125,7 +125,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         sendBgQueue.erase(it);
                         it = sendBgQueue.begin();
                     }
-                    data->bBadClient.bValue = true;
+                    data->bBadClient.asBool() = true;
                     if (m_send.msg)
                         sendThruServer(m_send.msg, data);
                     m_send.msg    = NULL;
@@ -138,21 +138,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 err_str = error_message(error);
             }
             if (m_send.msg){
-                /*
-                if ((m_send.msg->type() == MessageCheckInvisible) && (error == 14)) {
-                    Contact *contact;
-                    ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                    if (data && !data->bInvisible.bValue) {
-                        data->bInvisible.bValue = true;
-                        Event e(EventContactStatus, contact);
-                        e.process();
-                    }
-                }else{
-                */
-                    m_send.msg->setError(err_str);
-                    Event e(EventMessageSent, m_send.msg);
-                    e.process();
-                // }
+                m_send.msg->setError(err_str);
+                Event e(EventMessageSent, m_send.msg);
+                e.process();
                 delete m_send.msg;
             }
             m_send.msg    = NULL;
@@ -236,29 +224,16 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             if (bAck){
                 log(L_DEBUG, "Ack: %lu %lu (%s)", m_send.id.id_h, m_send.id.id_l, m_send.screen.c_str());
                 if (m_send.msg){
-                    /*
-                    if (m_send.msg->type() == MessageCheckInvisible){
-                        Contact *contact;
-                        ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                        if (data && data->bInvisible.bValue) {
-                            data->bInvisible.bValue = false;
-                            Event e(EventContactStatus, contact);
-                            e.process();
-                        }
-                        delete m_send.msg;
+                   Contact *contact;
+                    ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
+                    if (((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
+                            (m_send.msg->type() != MessageFile)){
+                        m_sendTimer->stop();
+                        ackMessage(m_send);
+                        return;
                     }else{
-                    */
-                        Contact *contact;
-                        ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
-                        if (((data == NULL) || (data->Status.value == ICQ_STATUS_OFFLINE) || (getAckMode() == 1)) &&
-                                (m_send.msg->type() != MessageFile)){
-                            m_sendTimer->stop();
-                            ackMessage(m_send);
-                            return;
-                        }else{
-                            replyQueue.push_back(m_send);
-                        }
-                    // }
+                        replyQueue.push_back(m_send);
+                    }
                 }else{
                     replyQueue.push_back(m_send);
                 }
@@ -543,7 +518,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     case MessageGeneric:
         if ((data->Status.value != ICQ_STATUS_OFFLINE) && (getSendFormat() == 0) &&
                 hasCap(data, CAP_RTF) && (msg->getFlags() & MESSAGE_RICHTEXT) &&
-                !data->bBadClient.bValue){
+                !data->bBadClient.toBool()){
             s.flags  = SEND_RTF;
             s.msg    = msg;
             s.text   = msg->getRichText();
@@ -556,7 +531,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
                 (getSendFormat() <= 1) &&
                 hasCap(data, CAP_UTF) &&
                 ((msg->getFlags() & MESSAGE_SECURE) == 0) &&
-                (data->Version.value >= 8) && !data->bBadClient.bValue){
+                (data->Version.value >= 8) && !data->bBadClient.toBool()){
             s.flags  = SEND_UTF;
             s.msg    = msg;
             s.text   = addCRLF(msg->getPlainText());
@@ -567,7 +542,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         }
         if ((data->Status.value != ICQ_STATUS_OFFLINE) &&
                 (data->Version.value >= 8) &&
-                !data->bBadClient.bValue &&
+                !data->bBadClient.toBool() &&
                 (msg->getPlainText().length() >= MAX_PLAIN_MESSAGE_SIZE)){
             s.flags  = SEND_TYPE2;
             s.msg    = msg;
@@ -1503,17 +1478,6 @@ void ICQClient::sendTimeout()
     if (m_send.screen.length()){
         log(L_WARN, "Send timeout");
         if (m_send.msg){
-            /*
-            if (m_send.msg->type() == MessageCheckInvisible){
-                Contact *contact;
-                ICQUserData *data = findContact(m_send.screen.c_str(), NULL, false, contact);
-                if (data && (data->bInvisible.bValue == 0)) {
-                    data->bInvisible.bValue = true;
-                    Event e(EventContactStatus, contact);
-                    e.process();
-                }
-            }
-            */
             m_send.msg->setError(I18N_NOOP("Send timeout"));
             Event e(EventMessageSent, m_send.msg);
             e.process();

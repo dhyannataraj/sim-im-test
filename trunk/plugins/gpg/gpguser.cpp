@@ -52,7 +52,7 @@ void GpgUser::apply(void *_data)
     }
     set_str(&data->Key.ptr, key.ascii());
     if (key.isEmpty())
-        data->Use.bValue = false;
+        data->Use.asBool() = false;
 }
 
 void GpgUser::refresh()

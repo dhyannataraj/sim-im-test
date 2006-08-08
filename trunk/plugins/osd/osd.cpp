@@ -272,7 +272,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     }
     p.end();
-    if (data->EnableMessageShowContent.bValue && data->ContentLines.value){
+    if (data->EnableMessageShowContent.toBool() && data->ContentLines.value){
         QFontMetrics fm(font());
         int maxHeight = fm.height() * (data->ContentLines.value + 1);
         if (rc.height() > maxHeight)
@@ -283,7 +283,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     int w = rc.width() + 1;
     int h = rc.height() + 1;
     int text_y = 0;
-    if (data->Background.bValue){
+    if (data->Background.toBool()){
         w += XOSD_MARGIN * 2;
         h += XOSD_MARGIN * 2;
         if (m_button == NULL){
@@ -303,7 +303,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
             m_button = NULL;
         }
     }
-    if (data->Shadow.bValue){
+    if (data->Shadow.toBool()){
         w += SHADOW_OFFS;
         h += SHADOW_OFFS;
     }
@@ -330,7 +330,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     default:
         move(x + data->Offset.value, y + rcScreen.height() - data->Offset.value - h);
     }
-    if (!data->Background.bValue || data->Shadow.bValue){
+    if (!data->Background.toBool() || data->Shadow.toBool()){
         QBitmap mask(w, h);
         p.begin(&mask);
 #ifdef WIN32
@@ -341,13 +341,13 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         QColor fg(255, 255, 255);
 #endif
         p.fillRect(0, 0, w, h, bg);
-        if (data->Background.bValue){
+        if (data->Background.toBool()){
             p.fillRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
             p.fillRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
         }else{
             p.setPen(fg);
             p.setFont(font());
-            if (data->Shadow.bValue){
+            if (data->Shadow.toBool()){
                 rc = QRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS);
                 p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
                 rc = QRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS);
@@ -365,8 +365,8 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     intensity(pict, -0.50f);
     p.begin(&pict);
     rc = QRect(0, 0, w, h);
-    if (data->Background.bValue){
-        if (data->Shadow.bValue){
+    if (data->Background.toBool()){
+        if (data->Shadow.toBool()){
             w -= SHADOW_OFFS;
             h -= SHADOW_OFFS;
             rc = QRect(0, 0, w, h);
@@ -440,7 +440,7 @@ void OSDPlugin::processQueue()
         data = (OSDUserData*)contact->getUserData(user_data_id);
         switch (m_request.type){
         case OSD_ALERTONLINE:
-            if (data->EnableAlert.bValue && data->EnableAlertOnline.bValue){
+            if (data->EnableAlert.toBool() && data->EnableAlertOnline.toBool()){
                 unsigned style = 0;
                 const char *statusIcon = NULL;
                 if (contact->contactInfo(style, statusIcon) == STATUS_ONLINE)
@@ -448,37 +448,37 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_ALERTAWAY:
-            if (data->EnableAlert.bValue && data->EnableAlertAway.bValue){
+            if (data->EnableAlert.toBool() && data->EnableAlertAway.toBool()){
                 text = g_i18n("%1 is away", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTNA:
-            if (data->EnableAlert.bValue && data->EnableAlertNA.bValue){
+            if (data->EnableAlert.toBool() && data->EnableAlertNA.toBool()){
                 text = g_i18n("%1 is not available", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTDND:
-            if (data->EnableAlert.bValue && data->EnableAlertDND.bValue){
+            if (data->EnableAlert.toBool() && data->EnableAlertDND.toBool()){
                 text = g_i18n("%1 doesn't want to be disturbed", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTOCCUPIED:
-            if (data->EnableAlert.bValue && data->EnableAlertOccupied.bValue){
+            if (data->EnableAlert.toBool() && data->EnableAlertOccupied.toBool()){
                 text = g_i18n("%1 is occupied", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTFFC:
-            if (data->EnableAlert.bValue && data->EnableAlertFFC.bValue){
+            if (data->EnableAlert.toBool() && data->EnableAlertFFC.toBool()){
                 text = g_i18n("%1 is free for chat", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTOFFLINE:
-            if (data->EnableAlert.bValue && data->EnableAlertOffline.bValue && !(core->getManualStatus() == STATUS_OFFLINE)){
+            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool() && !(core->getManualStatus() == STATUS_OFFLINE)){
                 text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
         case OSD_TYPING:
-            if (data->EnableTyping.bValue){
+            if (data->EnableTyping.toBool()){
                 unsigned style = 0;
                 string wrkIcons;
                 const char *statusIcon = NULL;
@@ -495,7 +495,7 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_MESSAGE:
-            if (data->EnableMessage.bValue && core){
+            if (data->EnableMessage.toBool() && core){
                 list<msg_id>::iterator it;
                 TYPE_MAP types;
                 TYPE_MAP::iterator itc;
@@ -510,7 +510,7 @@ void OSDPlugin::processQueue()
                     }else{
                         (*itc).second++;
                     }
-                    if (!data->EnableMessageShowContent.bValue)
+                    if (!data->EnableMessageShowContent.toBool())
                         continue;
                     MessageID id;
                     id.id      = (*it).id;

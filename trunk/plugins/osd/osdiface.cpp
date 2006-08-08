@@ -49,14 +49,14 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
     spnTimeout->setValue(data->Timeout.value);
     btnColor->setColor(data->Color.value);
     edtFont->setFont(data->Font.ptr);
-    chkShadow->setChecked(data->Shadow.bValue);
-    if (data->Background.bValue){
+    chkShadow->setChecked(data->Shadow.toBool());
+    if (data->Background.toBool()){
         chkBackground->setChecked(true);
         btnBgColor->setColor(data->BgColor.value);
     }else{
         chkBackground->setChecked(false);
     }
-    bgToggled(data->Background.bValue);
+    bgToggled(data->Background.toBool());
     connect(chkBackground, SIGNAL(toggled(bool)), this, SLOT(bgToggled(bool)));
     unsigned nScreens = screens();
     if (nScreens <= 1){
@@ -94,9 +94,9 @@ void OSDIface::apply(void *d)
     if (f == base)
         f = "";
     set_str(&data->Font.ptr, f.latin1());
-    data->Shadow.bValue = chkShadow->isChecked();
-    data->Background.bValue = chkBackground->isChecked();
-    if (data->Background.bValue){
+    data->Shadow.asBool() = chkShadow->isChecked();
+    data->Background.asBool() = chkBackground->isChecked();
+    if (data->Background.toBool()){
         data->BgColor.value = btnBgColor->color().rgb();
     }else{
         data->BgColor.value = 0;

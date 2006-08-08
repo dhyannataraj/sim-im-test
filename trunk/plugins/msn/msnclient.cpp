@@ -403,7 +403,7 @@ void MSNClient::processLST(const char *mail, const char *name, unsigned state, u
     set_str(&data->PhoneHome.ptr, NULL);
     set_str(&data->PhoneWork.ptr, NULL);
     set_str(&data->PhoneMobile.ptr, NULL);
-    data->Mobile.bValue = false;
+    data->Mobile.asBool() = false;
     Group *group = NULL;
     if ((grp == 0) || (grp == NO_GROUP)){
         group = getContacts()->group(0);
@@ -567,7 +567,7 @@ void MSNClient::getLine(const char *line)
             }else if (type == "PHM"){
                 bChanged = set_str(&data->PhoneMobile.ptr, unquote(info).utf8());
             }else if (type == "MOB"){
-                data->Mobile.bValue = ((info[0] == 'Y') != 0);
+                data->Mobile.asBool() = ((info[0] == 'Y') != 0);
             }else{
                 log(L_DEBUG, "Unknown BPR type %s", type.latin1());
             }
@@ -741,7 +741,7 @@ void MSNClient::getLine(const char *line)
         if (cmd == "PHM")
             set_str(&data.owner.PhoneMobile.ptr, unquote(getToken(l, ' ')).utf8());
         if (cmd == "MBE")
-            data.owner.Mobile.bValue = (getToken(l, ' ') == "Y");
+            data.owner.Mobile.asBool() = (getToken(l, ' ') == "Y");
         return;
     }
     if (cmd == "BPR"){
@@ -759,7 +759,7 @@ void MSNClient::getLine(const char *line)
         if (cmd == "PHM")
             set_str(&data->PhoneMobile.ptr, unquote(getToken(l, ' ')).utf8());
         if (cmd == "MBE")
-            data->Mobile.bValue = (getToken(l, ' ') == "Y");
+            data->Mobile.asBool() = (getToken(l, ' ') == "Y");
         return;
     }
     unsigned code = cmd.toUInt();

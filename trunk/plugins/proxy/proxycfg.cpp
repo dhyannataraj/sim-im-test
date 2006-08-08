@@ -84,7 +84,7 @@ void ProxyConfig::apply()
         ProxyData d;
         m_plugin->clientData(static_cast<TCPClient*>(m_client), d);
         m_data.clear();
-        if (d.Default.bValue){
+        if (d.Default.toBool()){
             d = nd;
         }else{
             d = m_plugin->data;
@@ -173,19 +173,19 @@ void ProxyConfig::clientChanged(int)
         get(&m_data[m_current]);
         if (m_current == 0){
             for (unsigned i = 1; i < m_data.size(); i++){
-                if (m_data[i].Default.bValue){
+                if (m_data[i].Default.toBool()){
                     string client = m_data[i].Client.ptr;
                     m_data[i] = m_data[0];
-                    m_data[i].Default.bValue = true;
+                    m_data[i].Default.asBool() = true;
                     set_str(&m_data[i].Client.ptr, client.c_str());
                 }else{
                     if (m_data[i] == m_data[0])
-                        m_data[i].Default.bValue = true;
+                        m_data[i].Default.asBool() = true;
                 }
             }
         }else{
             ProxyData &d = m_data[m_current];
-            d.Default.bValue = (d == m_data[0]);
+            d.Default.asBool() = (d == m_data[0]);
         }
     }
     m_current = cmbClient->currentItem();
@@ -241,7 +241,7 @@ void ProxyConfig::fill(ProxyData *data)
         edtHost->setText("");
     }
     edtPort->setValue(data->Port.value);
-    chkAuth->setChecked(data->Auth.bValue);
+    chkAuth->setChecked(data->Auth.toBool());
     if (data->User.ptr){
         edtUser->setText(QString::fromLocal8Bit(data->User.ptr));
     }else{
@@ -253,7 +253,7 @@ void ProxyConfig::fill(ProxyData *data)
         edtPswd->setText("");
     }
     typeChanged(data->Type.value);
-    chkNoShow->setChecked(data->NoShow.bValue);
+    chkNoShow->setChecked(data->NoShow.toBool());
 }
 
 void ProxyConfig::get(ProxyData *data)
@@ -261,10 +261,10 @@ void ProxyConfig::get(ProxyData *data)
     data->Type.value = cmbType->currentItem();
     set_str(&data->Host.ptr, edtHost->text().local8Bit());
     data->Port.value = atol(edtPort->text().latin1());
-    data->Auth.bValue = chkAuth->isChecked();
+    data->Auth.asBool() = chkAuth->isChecked();
     set_str(&data->User.ptr, edtUser->text().local8Bit());
     set_str(&data->Password.ptr, edtPswd->text().local8Bit());
-    data->NoShow.bValue = chkNoShow->isChecked();
+    data->NoShow.asBool() = chkNoShow->isChecked();
     data->bInit = true;
 }
 

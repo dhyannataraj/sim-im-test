@@ -91,14 +91,14 @@ void ICQSecure::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    data->WaitAuth.bValue = chkAuth->isChecked();
-    data->WebAware.bValue = chkWeb->isChecked();
+    data->WaitAuth.asBool() = chkAuth->isChecked();
+    data->WebAware.asBool() = chkWeb->isChecked();
 }
 
 void ICQSecure::fill()
 {
-    chkAuth->setChecked(m_client->data.owner.WaitAuth.bValue);
-    chkWeb->setChecked(m_client->data.owner.WebAware.bValue);
+    chkAuth->setChecked(m_client->data.owner.WaitAuth.toBool());
+    chkWeb->setChecked(m_client->data.owner.WebAware.toBool());
     chkHideIP->setChecked(m_client->getHideIP());
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
     chkUseMD5->setChecked(m_client->getUseMD5());

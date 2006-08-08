@@ -179,15 +179,15 @@ void ICQClient::parseRosterItem(unsigned short type,
                     ICQUserData *data = findGroup(grp_id, NULL, grp);
                     data = findContact(str.c_str(), alias.c_str(), true, contact, grp);
                     if (inf && (*inf)(TLV_WAIT_AUTH)){
-                        if (!data->WaitAuth.bValue){
-                            data->WaitAuth.bValue = true;
+                        if (!data->WaitAuth.toBool()){
+                            data->WaitAuth.asBool() = true;
                             bChanged = true;
                         }
                     } else {
                         /* if not TLV(WAIT_AUTH) we are authorized ... */
                         if (inf && !(*inf)(TLV_WAIT_AUTH)) {
-                            if (data->WaitAuth.bValue){
-                                data->WaitAuth.bValue = false;
+                            if (data->WaitAuth.toBool()){
+                                data->WaitAuth.asBool() = false;
                                 bChanged = true;
                             }
                         }
@@ -232,7 +232,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                     removeListRequest(lr);
             }
             data->IcqID.value     = grp_id;
-            data->bChecked.bValue = true;
+            data->bChecked.asBool() = true;
             if (grp->getName() != QString::fromUtf8(str.c_str())){
                 grp->setName(QString::fromUtf8(str.c_str()));
                 Event e(EventGroupChanged, grp);
@@ -439,10 +439,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     ClientDataIterator it(grp->clientData, this);
                     while ((data = (ICQUserData*)(++it)) != NULL){
                         if (data->IcqID.value == 0){
-                            data->bChecked.bValue = true;
+                            data->bChecked.asBool() = true;
                             continue;
                         }
-                        data->bChecked.bValue = false;
+                        data->bChecked.asBool() = false;
                     }
                 }
                 Contact *contact;
@@ -451,7 +451,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     ICQUserData *data;
                     ClientDataIterator it(contact->clientData, this);
                     while ((data = (ICQUserData*)(++it)) != NULL){
-                        data->bChecked.bValue = false;
+                        data->bChecked.asBool() = false;
                         data->GrpId.value = 0;
                         data->IgnoreId.value = 0;
                         data->VisibleId.value = 0;
@@ -488,8 +488,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 string n;
                 if (grp->id())
                     n = grp->getName().local8Bit();
-                log(L_DEBUG, "Check %ld %s %p %u", grp->id(), n.c_str(), data, data ? data->bChecked.bValue : 0);
-                if ((data == NULL) || data->bChecked.bValue)
+                log(L_DEBUG, "Check %ld %s %p %u", grp->id(), n.c_str(), data, data ? data->bChecked.toBool() : 0);
+                if ((data == NULL) || data->bChecked.toBool())
                     continue;
                 ListRequest *lr = findGroupListRequest((unsigned short)(data->IcqID.value));
                 if (lr)
@@ -633,7 +633,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             Contact *contact;
             ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
             if (data)
-                data->WantAuth.bValue = true;
+                data->WantAuth.asBool() = true;
             break;
         }
     case ICQ_SNACxLISTS_FUTURE_GRANT:{
@@ -651,7 +651,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             Contact *contact;
             ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
             if (data){
-                data->WaitAuth.bValue = false;
+                data->WaitAuth.asBool() = false;
                 Event e(EventContactChanged, contact);
                 e.process();
                 addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxSTATUS);
@@ -688,7 +688,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 Contact *contact;
                 ICQUserData *data = findContact(screen.c_str(), NULL, false, contact);
                 if (data){
-                    data->WaitAuth.bValue = false;
+                    data->WaitAuth.asBool() = false;
                     Event e(EventContactChanged, contact);
                     e.process();
                     addPluginInfoRequest(data->Uin.value, PLUGIN_QUERYxSTATUS);
@@ -866,16 +866,16 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
     }
     Contact *contact;
     ICQUserData *data = client->findContact(m_screen.c_str(), NULL, true, contact);
-    if ((res == 0x0E) && !data->WaitAuth.bValue){
-        data->WaitAuth.bValue = true;
+    if ((res == 0x0E) && !data->WaitAuth.toBool()){
+        data->WaitAuth.asBool() = true;
         Event e(EventContactChanged, contact);
         e.process();
         return;
     }
     data->IcqID.value = m_icqId;
     data->GrpId.value = m_grpId;
-    if ((data->GrpId.value == 0) && data->WaitAuth.bValue){
-        data->WaitAuth.bValue = false;
+    if ((data->GrpId.value == 0) && data->WaitAuth.toBool()){
+        data->WaitAuth.asBool() = false;
         Event e(EventContactChanged, contact);
         e.process();
     }
@@ -982,7 +982,7 @@ TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
     TlvList *tlv = new TlvList;
     QCString name = contact->getName().utf8();
     *tlv + new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
-    if (data->WaitAuth.bValue)
+    if (data->WaitAuth.toBool())
         *tlv + new Tlv(TLV_WAIT_AUTH, 0, NULL);
     string cell = getUserCellular(contact);
     if (cell.length())
@@ -1463,7 +1463,7 @@ bool ICQClient::sendAuthGranted(Message *msg, void *_data)
     if ((getState() != Connected) || (_data == NULL))
         return false;
     ICQUserData *data = (ICQUserData*)_data;
-    data->WantAuth.bValue = false;
+    data->WantAuth.asBool() = false;
 
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
     m_socket->writeBuffer.packScreen(screen(data).c_str());
@@ -1486,7 +1486,7 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     if ((getState() != Connected) || (_data == NULL))
         return false;
     ICQUserData *data = (ICQUserData*)_data;
-    data->WantAuth.bValue = false;
+    data->WantAuth.asBool() = false;
 
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
     m_socket->writeBuffer.packScreen(screen(data).c_str());

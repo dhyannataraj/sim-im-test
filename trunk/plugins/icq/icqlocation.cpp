@@ -130,7 +130,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                 if (info.right(7).upper() == "</HTML>")
                     info = info.left(info.length() - 7);
                 if (set_str(&data->About.ptr, info.utf8())){
-                    data->ProfileFetch.bValue = true;
+                    data->ProfileFetch.asBool() = true;
                     if (contact){
                         Event e(EventContactChanged, contact);
                         e.process();
@@ -186,7 +186,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                 data->Country.value = country;
                 bChanged = true;
             }
-            data->ProfileFetch.bValue = true;
+            data->ProfileFetch.asBool() = true;
             if (bChanged){
                 if (contact){
                     Event e(EventContactChanged, contact);
@@ -506,7 +506,7 @@ void ICQClient::sendCapability(const char *away_msg)
     cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (m_bAIM){
-        if (data.owner.ProfileFetch.bValue){
+        if (data.owner.ProfileFetch.toBool()){
             QString profile;
             if (data.owner.About.ptr)
                 profile = QString::fromUtf8(data.owner.About.ptr);
@@ -547,7 +547,7 @@ void ICQClient::fetchProfile(ICQUserData *data)
 
 void ICQClient::fetchProfiles()
 {
-    if (data.owner.ProfileFetch.bValue == 0)
+    if (data.owner.ProfileFetch.toBool() == 0)
         fetchProfile(&data.owner);
     Contact *contact;
     ContactList::ContactIterator itc;
@@ -555,7 +555,7 @@ void ICQClient::fetchProfiles()
         ICQUserData *data;
         ClientDataIterator itd(contact->clientData, this);
         while ((data = (ICQUserData*)(++itd)) != NULL){
-            if (data->Uin.value || data->ProfileFetch.bValue)
+            if (data->Uin.value || data->ProfileFetch.toBool())
                 continue;
             fetchProfile(data);
         }

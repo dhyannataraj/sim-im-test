@@ -1212,7 +1212,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
 void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons)
 {
     JabberUserData *data = (JabberUserData*)_data;
-    const char *dicon = get_icon(data, data->Status.value, data->invisible.bValue);
+    const char *dicon = get_icon(data, data->Status.value, data->invisible.toBool());
     if (data->Status.value > curStatus){
         curStatus = data->Status.value;
         if (statusIcon && icons){
@@ -1298,7 +1298,7 @@ QString JabberClient::contactTip(void *_data)
     QString res;
     if (data->nResources.value == 0){
         res = "<img src=\"icon:";
-        res += get_icon(data, STATUS_OFFLINE, data->invisible.bValue);
+        res += get_icon(data, STATUS_OFFLINE, data->invisible.toBool());
         res += "\">";
         res += i18n("Offline");
         res += "<br/>";
@@ -2157,7 +2157,7 @@ bool JabberClient::send(Message *msg, void *_data)
             << "\'><body>"
             << (const char*)(quote_nbsp(quoteString(QString::fromUtf8(text.c_str()), quoteNOBR)).utf8())
             << "</body>";
-            if (data->richText.bValue && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
+            if (data->richText.toBool() && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
                 << quote_nbsp(removeImages(msg->getRichText(), msg->getBackground())).utf8()
@@ -2167,7 +2167,7 @@ bool JabberClient::send(Message *msg, void *_data)
             << "</message>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
-                if (data->richText.bValue){
+                if (data->richText.toBool()){
                     msg->setClient(dataName(data).c_str());
                     Event e(EventSent, msg);
                     e.process();
@@ -2210,7 +2210,7 @@ bool JabberClient::send(Message *msg, void *_data)
             }
             m_socket->writeBuffer
             << "</body>";
-            if (data->richText.bValue && getRichText()){
+            if (data->richText.toBool() && getRichText()){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
                 << "<a href=\'"
@@ -2230,7 +2230,7 @@ bool JabberClient::send(Message *msg, void *_data)
             << "</message>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
-                if (data->richText.bValue){
+                if (data->richText.toBool()){
                     msg->setClient(dataName(data).c_str());
                     Event e(EventSent, msg);
                     e.process();
@@ -2331,7 +2331,7 @@ bool JabberClient::send(Message *msg, void *_data)
             }
             m_socket->writeBuffer
             << "</body>";
-            if (data->richText.bValue && getRichText()){
+            if (data->richText.toBool() && getRichText()){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>";
                 iti = jids.begin();
@@ -2347,7 +2347,7 @@ bool JabberClient::send(Message *msg, void *_data)
             << "</message>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
-                if (data->richText.bValue){
+                if (data->richText.toBool()){
                     msg->setClient(dataName(data).c_str());
                     Event e(EventSent, msg);
                     e.process();
@@ -2645,7 +2645,7 @@ void JabberClient::setInvisible(bool bState)
 
 string JabberClient::VHost()
 {
-    if (data.UseVHost.bValue && data.VHost.ptr && *data.VHost.ptr)
+    if (data.UseVHost.toBool() && data.VHost.ptr && *data.VHost.ptr)
         return data.VHost.ptr;
     return data.Server.ptr;
 }

@@ -400,7 +400,7 @@ void *GpgPlugin::processEvent(Event *e)
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                     if ((data == NULL) || (data->Key.ptr == NULL))
                         return NULL;
-                    if (data->Use.bValue)
+                    if (data->Use.toBool())
                         cmd->flags |= COMMAND_CHECKED;
                     return e->param();
                 }
@@ -415,7 +415,7 @@ void *GpgPlugin::processEvent(Event *e)
                     return NULL;
                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                 if (data && data->Key.ptr)
-                    data->Use.bValue = (cmd->flags & COMMAND_CHECKED) != 0;
+                    data->Use.asBool() = (cmd->flags & COMMAND_CHECKED) != 0;
                 return e->param();
             }
             return NULL;
@@ -450,7 +450,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Key.ptr && data->Use.bValue){
+                    if (data && data->Key.ptr && data->Use.toBool()){
                         msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                         if (msg->getFlags() & MESSAGE_RICHTEXT){
                             QString text = msg->getPlainText();
@@ -469,7 +469,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(ms->msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Key.ptr && data->Use.bValue){
+                    if (data && data->Key.ptr && data->Use.toBool()){
                         QString output = user_file("m.");
                         output += QString::number((unsigned long)ms->msg);
                         QString input = output + ".in";

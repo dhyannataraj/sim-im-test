@@ -137,7 +137,7 @@ void DirectSocket::login_timeout()
 {
     m_socket->error_state("Timeout direct connection");
     if (m_data)
-        m_data->bNoDirect.bValue = true;
+        m_data->bNoDirect.asBool() = true;
 }
 
 void DirectSocket::removeFromClient()
@@ -1039,7 +1039,7 @@ bool DirectClient::error_state(const char *err, unsigned code)
         switch (m_state){
         case ConnectIP1:
         case ConnectIP2:
-            m_data->bNoDirect.bValue = true;
+            m_data->bNoDirect.asBool() = true;
             break;
         default:
             break;

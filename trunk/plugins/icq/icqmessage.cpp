@@ -1375,8 +1375,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 break;
             switch (plugin_type){
             case PLUGIN_FILESERVER:
-                if ((state != 0) != (data->SharedFiles.bValue != 0)){
-                    data->SharedFiles.bValue = (state != 0);
+                if ((state != 0) != (data->SharedFiles.toBool() != 0)){
+                    data->SharedFiles.asBool() = (state != 0);
                     Event e(EventContactChanged, contact);
                     e.process();
                 }
@@ -1592,7 +1592,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
         answer.packStr32(plugin_name[PLUGIN_FOLLOWME]);
         answer.packStr32(plugin_descr[PLUGIN_FOLLOWME]);
         answer.pack((unsigned long)0);
-        if (this->data.owner.SharedFiles.bValue){
+        if (this->data.owner.SharedFiles.toBool()){
             nEntries++;
             answer.pack((char*)plugins[PLUGIN_FILESERVER], sizeof(plugin));
             answer.pack((unsigned short)0);

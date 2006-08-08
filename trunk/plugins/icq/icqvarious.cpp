@@ -435,9 +435,9 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> allowDC
             >> hideEmail;
             data->TimeZone.value     = TimeZone;
-            data->WebAware.bValue    = (webAware != 0);
-            data->bNoDirect.bValue   = (allowDC == 0);
-            data->HiddenEMail.bValue = (hideEmail != 0);
+            data->WebAware.asBool()    = (webAware != 0);
+            data->bNoDirect.asBool()   = (allowDC == 0);
+            data->HiddenEMail.asBool() = (hideEmail != 0);
             break;
         }
     case ICQ_SRVxMORE_INFO:{
@@ -674,7 +674,7 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     b.unpack(age);
 
     if (waitAuth)
-        res.data.WaitAuth.bValue = true;
+        res.data.WaitAuth.asBool() = true;
     switch (state){
     case SEARCH_STATE_OFFLINE:
         res.data.Status.value = STATUS_OFFLINE;
@@ -887,7 +887,7 @@ SetMainInfoRequest::SetMainInfoRequest(ICQClient *client, unsigned short id, ICQ
         m_privateCellular = data->PrivateCellular.ptr;
     m_country = data->Country.value;
     m_tz = data->TimeZone.value;
-    m_hiddenEMail = data->HiddenEMail.bValue;
+    m_hiddenEMail = data->HiddenEMail.toBool();
 }
 
 bool SetMainInfoRequest::answer(Buffer&, unsigned short)
@@ -905,7 +905,7 @@ bool SetMainInfoRequest::answer(Buffer&, unsigned short)
     set_str(&m_client->data.owner.PrivateCellular.ptr, m_privateCellular.c_str());
     m_client->data.owner.Country.value = m_country;
     m_client->data.owner.TimeZone.value = m_tz;
-    m_client->data.owner.HiddenEMail.bValue = m_hiddenEMail;
+    m_client->data.owner.HiddenEMail.asBool() = m_hiddenEMail;
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -1154,17 +1154,17 @@ SetSecurityInfoRequest::SetSecurityInfoRequest(ICQClient *client, unsigned short
         : ServerRequest(id)
 {
     m_client  = client;
-    m_bWebAware = data->WebAware.bValue;
-    m_bWaitAuth = data->WaitAuth.bValue;
+    m_bWebAware = data->WebAware.toBool();
+    m_bWaitAuth = data->WaitAuth.toBool();
 }
 
 bool SetSecurityInfoRequest::answer(Buffer&, unsigned short)
 {
-    if (m_client->data.owner.WebAware.bValue != m_bWebAware){
-        m_client->data.owner.WebAware.bValue = m_bWebAware;
+    if (m_client->data.owner.WebAware.toBool() != m_bWebAware){
+        m_client->data.owner.WebAware.asBool() = m_bWebAware;
         m_client->sendStatus();
     }
-    m_client->data.owner.WaitAuth.bValue = m_bWaitAuth;
+    m_client->data.owner.WaitAuth.asBool() = m_bWaitAuth;
     Event e(EventClientChanged, m_client);
     e.process();
     return true;
@@ -1181,7 +1181,7 @@ void ICQClient::setMainInfo(ICQUserData *d)
     m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, d->FirstName.ptr);
     m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, d->LastName.ptr);
     m_socket->writeBuffer.tlvLE(TLV_EMAIL, d->EMail.ptr);
-    m_socket->writeBuffer << d->HiddenEMail.bValue;
+    m_socket->writeBuffer << d->HiddenEMail.toBool();
     m_socket->writeBuffer.tlvLE(TLV_CITY, d->City.ptr);
     m_socket->writeBuffer.tlvLE(TLV_STATE, d->State.ptr);
     m_socket->writeBuffer.tlvLE(TLV_PHONE, d->HomePhone.ptr);
@@ -1230,7 +1230,7 @@ void ICQClient::setClientInfo(void *_data)
     ICQUserData *d = (ICQUserData*)_data;
 
     if (m_bAIM){
-        d->ProfileFetch.bValue = true;
+        d->ProfileFetch.asBool() = true;
         set_str(&data.owner.About.ptr, d->About.ptr);
         setAIMInfo(d);
         setProfile(d);
@@ -1266,7 +1266,7 @@ void ICQClient::setClientInfo(void *_data)
             set_str(&d->PrivateCellular.ptr, getContacts()->fromUnicode(NULL, number).c_str());
         }
     }
-    d->HiddenEMail.bValue = false;
+    d->HiddenEMail.asBool() = false;
     QString mails = getContacts()->owner()->getEMails();
     string s;
     while (mails.length()){
@@ -1280,13 +1280,13 @@ void ICQClient::setClientInfo(void *_data)
             s += '-';
         if (d->EMail.ptr == NULL){
             set_str(&d->EMail.ptr, getContacts()->fromUnicode(NULL, mail).c_str());
-            d->HiddenEMail.bValue = !mailItem.isEmpty();
+            d->HiddenEMail.asBool() = !mailItem.isEmpty();
         }
     }
     set_str(&d->EMails.ptr, s.c_str());
 
     if ((d->Country.value != data.owner.Country.value) ||
-            (d->HiddenEMail.bValue != data.owner.HiddenEMail.bValue) ||
+            (d->HiddenEMail.toBool() != data.owner.HiddenEMail.toBool()) ||
             cmp(d->Nick.ptr, data.owner.Nick.ptr) ||
             cmp(d->FirstName.ptr, data.owner.FirstName.ptr) ||
             cmp(d->LastName.ptr, data.owner.LastName.ptr) ||
@@ -1418,12 +1418,12 @@ void ICQClient::setClientInfo(void *_data)
         m_nUpdates++;
     }
 
-    if ((d->WaitAuth.bValue != data.owner.WaitAuth.bValue) ||
-            (d->WebAware.bValue != data.owner.WebAware.bValue)){
+    if ((d->WaitAuth.toBool() != data.owner.WaitAuth.toBool()) ||
+            (d->WebAware.toBool() != data.owner.WebAware.toBool())){
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer  << ICQ_SRVxREQ_PERMISSIONS
-        << (char)(d->WaitAuth.bValue ? 0 : 0x01)
-        << (char)(d->WebAware.bValue ? 0x01 : 0)
+        << (char)(d->WaitAuth.toBool() ? 0 : 0x01)
+        << (char)(d->WebAware.toBool() ? 0x01 : 0)
         << (char)0x02
         << (char)0;
         sendServerRequest();

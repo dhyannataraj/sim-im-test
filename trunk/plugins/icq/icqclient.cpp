@@ -664,7 +664,7 @@ void ICQClient::disconnected()
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if ((data->Status.value != ICQ_STATUS_OFFLINE) || data->bInvisible.bValue){
+            if ((data->Status.value != ICQ_STATUS_OFFLINE) || data->bInvisible.toBool()){
                 setOffline(data);
                 StatusMessage m;
                 m.setContact(contact->id());
@@ -944,7 +944,7 @@ unsigned long ICQClient::fullStatus(unsigned s)
         status = ICQ_STATUS_FFC;
         break;
     }
-    if (data.owner.WebAware.bValue)
+    if (data.owner.WebAware.toBool())
         status |= ICQ_STATUS_FxWEBxPRESENCE;
     if (getHideIP()){
         status |= ICQ_STATUS_FxHIDExIP | ICQ_STATUS_FxDIRECTxAUTH;
@@ -1158,12 +1158,12 @@ void ICQClient::setOffline(ICQUserData *data)
         delete (QObject*)data->DirectPluginStatus.ptr;
         data->DirectPluginStatus.ptr = NULL;
     }
-    data->bNoDirect.bValue = false;
+    data->bNoDirect.asBool() = false;
     data->Status.value = ICQ_STATUS_OFFLINE;
     data->Class.value  = 0;
-    data->bTyping.bValue = false;
-    data->bBadClient.bValue = false;
-    data->bInvisible.bValue = false;
+    data->bTyping.asBool() = false;
+    data->bBadClient.asBool() = false;
+    data->bInvisible.asBool() = false;
     time_t now;
     time(&now);
     data->StatusTime.value  = now;
@@ -1255,7 +1255,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             statusIcon = dicon;
         }
     }
-    if ((status == STATUS_OFFLINE) && data->bInvisible.bValue){
+    if ((status == STATUS_OFFLINE) && data->bInvisible.toBool()){
         status = STATUS_INVISIBLE;
         if (status > curStatus)
             curStatus = status;
@@ -1263,7 +1263,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
     if (icons){
         if ((iconStatus != STATUS_ONLINE) && (iconStatus != STATUS_OFFLINE) && (s & ICQ_STATUS_FxPRIVATE))
             addIcon(icons, "ICQ_invisible", statusIcon);
-        if (data->bInvisible.bValue)
+        if (data->bInvisible.toBool())
             addIcon(icons, "ICQ_invisible", statusIcon);
         if (data->Status.value & ICQ_STATUS_FxBIRTHDAY)
             addIcon(icons, "birthday", statusIcon);
@@ -1272,14 +1272,14 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         if (data->FollowMe.value == 2)
             addIcon(icons, "nophone", statusIcon);
         if (status != STATUS_OFFLINE){
-            if (data->SharedFiles.bValue)
+            if (data->SharedFiles.toBool())
                 addIcon(icons, "sharedfiles", statusIcon);
             if (data->ICQPhone.value == 1)
                 addIcon(icons, "icqphone", statusIcon);
             if (data->ICQPhone.value == 2)
                 addIcon(icons, "icqphonebusy", statusIcon);
         }
-        if (data->bTyping.bValue)
+        if (data->bTyping.toBool())
             addIcon(icons, "typing", statusIcon);
         if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure())
             addIcon(icons, "encrypted", statusIcon);
@@ -1288,7 +1288,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         style |= CONTACT_STRIKEOUT;
     if (data->VisibleId.value)
         style |= CONTACT_ITALIC;
-    if (data->WaitAuth.bValue)
+    if (data->WaitAuth.toBool())
         style |= CONTACT_UNDERLINE;
 }
 
@@ -2557,7 +2557,7 @@ void *ICQClient::processEvent(Event *e)
             ICQUserData *data;
             ClientDataIterator it(contact->clientData, this);
             while ((data = (ICQUserData*)(++it)) != NULL){
-                if (data->Uin.value || data->ProfileFetch.bValue)
+                if (data->Uin.value || data->ProfileFetch.toBool())
                     continue;
                 fetchProfile(data);
             }
@@ -2697,35 +2697,6 @@ void *ICQClient::processEvent(Event *e)
             }
             return NULL;
         }
-        /*
-        if (cmd->id == CmdCheckInvisibleAll){
-            cmd->flags &= ~COMMAND_CHECKED;
-            if ((getState() != Connected) || m_bAIM)
-                return NULL;
-            Contact *contact;
-            ContactList::ContactIterator it;
-            bool bICQ = false;
-            while ((contact = ++it) != NULL){
-                ICQUserData *data;
-                ClientDataIterator itc(contact->clientData, this);
-                while ((data = (ICQUserData*)(++itc)) != NULL){
-                    if (data->Uin.value == 0)
-                        continue;
-                    if (data->Status.value != ICQ_STATUS_OFFLINE)
-                        continue;
-                    bICQ = true;
-                    if (data->bInvisible.bValue){
-                        cmd->popup_id = MenuCheckInvisible;
-                        return e->param();
-                    }
-                }
-            }
-            if (bICQ){
-                cmd->popup_id = 0;
-                return e->param();
-            }
-        }
-        */
         if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
             if (cmd->id == CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2816,35 +2787,6 @@ void *ICQClient::processEvent(Event *e)
             cmd->flags &= ~COMMAND_CHECKED;
             return NULL;
         }
-        /*
-        if ((cmd->id == CmdCheckInvisible) ||
-                (cmd->id == CmdCheckInvisibleAll)){
-            if (getState() == Connected){
-                ContactList::ContactIterator it;
-                Contact *contact;
-                while ((contact = ++it) != NULL){
-                    if (contact->getIgnore())
-                        continue;
-                    ClientDataIterator itd(contact->clientData, this);
-                    ICQUserData *data;
-                    while ((data = (ICQUserData*)(++itd)) != NULL){
-                        if (data->Uin.value == 0)
-                            continue;
-                        if (data->Status.value != ICQ_STATUS_OFFLINE)
-                            continue;
-                        if ((cmd->id == CmdCheckInvisible) && (data->bInvisible.bValue == 0))
-                            continue;
-                        Message *m = new Message(MessageCheckInvisible);
-                        m->setContact(contact->id());
-                        m->setClient(dataName(data).c_str());
-                        m->setFlags(MESSAGE_NOHISTORY);
-                        if (!send(m, data))
-                            delete m;
-                    }
-                }
-            }
-        }
-        */
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdVisibleList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -3000,15 +2942,15 @@ bool ICQClient::send(Message *msg, void *_data)
         processSMSQueue();
         return true;
     case MessageAuthRequest:
-        if (data && data->WaitAuth.bValue)
+        if (data && data->WaitAuth.toBool())
             return sendAuthRequest(msg, data);
         return false;
     case MessageAuthGranted:
-        if (data && data->WantAuth.bValue)
+        if (data && data->WantAuth.toBool())
             return sendAuthGranted(msg, data);
         return false;
     case MessageAuthRefused:
-        if (data && data->WantAuth.bValue)
+        if (data && data->WantAuth.toBool())
             return sendAuthRefused(msg, data);
         return false;
     /*
@@ -3021,7 +2963,7 @@ bool ICQClient::send(Message *msg, void *_data)
         if (data && ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE)){
             if (data->Uin.value){
                 if ((data->Direct.ptr == NULL)){
-                    if (data->bNoDirect.bValue)
+                    if (data->bNoDirect.toBool())
                         return sendThruServer(msg, data);
                     data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
                     ((DirectClient*)(data->Direct.ptr))->connect();
@@ -3084,7 +3026,7 @@ bool ICQClient::send(Message *msg, void *_data)
     if (data->Uin.value){
         bool bCreateDirect = false;
         if ((data->Direct.ptr == NULL) &&
-                !data->bNoDirect.bValue &&
+                !data->bNoDirect.toBool() &&
                 (data->Status.value != ICQ_STATUS_OFFLINE) &&
                 (get_ip(data->IP) == get_ip(this->data.owner.IP)))
             bCreateDirect = true;
@@ -3123,13 +3065,9 @@ bool ICQClient::canSend(unsigned type, void *_data)
     case MessageContacts:
         return (data != NULL) && (data->Uin.value || hasCap(data, CAP_AIM_BUDDYLIST));
     case MessageAuthRequest:
-        return data && (data->WaitAuth.bValue);
+        return data && (data->WaitAuth.toBool());
     case MessageAuthGranted:
-        return data && (data->WantAuth.bValue);
-    /*
-    case MessageCheckInvisible:
-        return data && data->Uin.value && !m_bAIM && ((data->Status.value & 0xFFFF) == ICQ_STATUS_OFFLINE);
-    */
+        return data && (data->WantAuth.toBool());
     case MessageFile:
         return data &&
                ((data->Status.value & 0xFFFF) != ICQ_STATUS_OFFLINE) &&
@@ -3194,8 +3132,8 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
         }
         msg->setClient(dataName(data).c_str());
         msg->setContact(contact->id());
-        if (data->bTyping.bValue){
-            data->bTyping.bValue = false;
+        if (data->bTyping.toBool()){
+            data->bTyping.asBool() = false;
             Event e(EventContactStatus, contact);
             e.process();
         }
@@ -3272,7 +3210,7 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 {
     Contact *contact;
     ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
-    if (data && !data->bNoDirect.bValue &&
+    if (data && !data->bNoDirect.toBool() &&
             (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
             ((getInvisible() && data->VisibleId.value) ||
              (!getInvisible() && (data->InvisibleId.value == 0)))){

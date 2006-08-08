@@ -230,7 +230,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                     static_cast<QLineEdit*>(widget)->setText(QString::fromUtf8(data->Value.ptr));
                 set_str(&data->Label.ptr, f->name);
                 if (f->bRequired && m_bRegister)
-                    data->bRequired.bValue = true;
+                    data->bRequired.asBool() = true;
             }else if (data->Label.ptr){
                 widget = new QLineEdit(this, data->Field.ptr);
                 connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
@@ -250,7 +250,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
     }
     if (widget){
         m_bFirst = false;
-        if (data->bRequired.bValue)
+        if (data->bRequired.toBool())
             m_required.push_back(widget);
         QLabel *label = NULL;
         if (!bJoin && data->Label.ptr){

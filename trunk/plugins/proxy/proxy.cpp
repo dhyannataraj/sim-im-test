@@ -126,9 +126,9 @@ bool ProxyData::operator == (const ProxyData &d) const
         return false;
     if (Type.value == PROXY_SOCKS4)
         return true;
-    if (Auth.bValue != d.Auth.bValue)
+    if (Auth.toBool() != d.Auth.toBool())
         return false;
-    if (!d.Auth.bValue)
+    if (!d.Auth.toBool())
         return true;
     return _cmp(User.ptr, d.User.ptr) && _cmp(Password.ptr, d.Password.ptr);
 }
@@ -1204,14 +1204,14 @@ void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
         ProxyData wdata(proxyCfg);
         if (wdata.Client.ptr && (clientName(client) == wdata.Client.ptr)){
             cdata = wdata;
-            cdata.Default.bValue = false;
+            cdata.Default.asBool() = false;
             set_str(&cdata.Client.ptr, clientName(client).c_str());
             return;
         }
     }
     cdata = data;
     set_str(&cdata.Client.ptr, clientName(client).c_str());
-    cdata.Default.bValue = true;
+    cdata.Default.asBool() = true;
     clear_list(&cdata.Clients);
 }
 

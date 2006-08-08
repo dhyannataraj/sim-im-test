@@ -187,7 +187,7 @@ void *SoundPlugin::processEvent(Event *e)
         Command cmd;
         cmd->id    = CmdSoundDisable;
         SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-        if (!data->Disable.bValue)
+        if (!data->Disable.toBool())
             cmd->flags |= COMMAND_CHECKED;
         m_bChanged = true;
         Event e(EventCommandChecked, cmd);
@@ -200,7 +200,7 @@ void *SoundPlugin::processEvent(Event *e)
         if (cmd->id == CmdSoundDisable){
             cmd->flags &= ~COMMAND_CHECKED;
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-            if (!data->Disable.bValue)
+            if (!data->Disable.toBool())
                 cmd->flags |= COMMAND_CHECKED;
             return e->param();
         }
@@ -210,7 +210,7 @@ void *SoundPlugin::processEvent(Event *e)
         CommandDef *cmd = (CommandDef*)(e->param());
         if (!m_bChanged && (cmd->id == CmdSoundDisable)){
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
-            data->Disable.bValue = !data->Disable.bValue;
+            data->Disable.asBool() = !data->Disable.toBool();
             Event eChanged(EventSoundChanged);
             eChanged.process();
             return e->param();
@@ -220,7 +220,7 @@ void *SoundPlugin::processEvent(Event *e)
     if (e->type() == EventContactOnline){
         Contact *contact = (Contact*)(e->param());
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
-        if (data && data->Alert.ptr && *data->Alert.ptr && !data->Disable.bValue){
+        if (data && data->Alert.ptr && *data->Alert.ptr && !data->Disable.toBool()){
             Event eSound(EventPlaySound, data->Alert.ptr);
             eSound.process();
         }
@@ -258,8 +258,8 @@ void *SoundPlugin::processEvent(Event *e)
         }else{
             data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
         }
-        bool bEnable = !data->Disable.bValue;
-        if (bEnable && data->NoSoundIfActive.bValue){
+        bool bEnable = !data->Disable.toBool();
+        if (bEnable && data->NoSoundIfActive.toBool()){
             Event e(EventActiveContact);
             if ((unsigned long)(e.process()) == contact->id())
                 bEnable = false;

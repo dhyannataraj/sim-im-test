@@ -73,7 +73,7 @@ void AIMConfig::apply()
         m_client->setPassword(edtPasswd->text());
     }
     m_client->setServer(edtServer->text().local8Bit());
-    m_client->setPort((unsigned short)atol(edtPort->text()));
+    m_client->setPort(edtPort->text().toUShort());
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setAutoHTTP(chkAuto->isChecked());
     m_client->setKeepAlive(chkKeepAlive->isChecked());
@@ -90,7 +90,7 @@ void AIMConfig::changed()
     bOK =  !edtScreen->text().isEmpty() &&
            !edtPasswd->text().isEmpty() &&
            !edtServer->text().isEmpty() &&
-           atol(edtPort->text());
+           edtPort->text().toUShort();
     emit okEnabled(bOK);
 }
 

@@ -816,9 +816,9 @@ void LiveJournalClient::auth_ok()
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
         while ((data = (LiveJournalUserData*)(++itc)) != NULL){
-            if (!data->Shared.bValue)
+            if (!data->Shared.toBool())
                 continue;
-            if (data->bChecked.bValue)
+            if (data->bChecked.toBool())
                 continue;
             contact->clientData.freeData(data);
             if (contact->clientData.size() == 0)
@@ -995,8 +995,8 @@ void LoginRequest::result(const char *key, const char *value)
         Contact *contact;
         LiveJournalUserData *data = m_client->findContact(value, contact);
         if (data){
-            data->bChecked.bValue = true;
-            data->Shared.bValue   = true;
+            data->bChecked.asBool() = true;
+            data->Shared.asBool()   = true;
         }
     }
 }
@@ -1011,9 +1011,9 @@ void LiveJournalClient::setStatus(unsigned status)
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
         while ((data = (LiveJournalUserData*)(++itc)) != NULL){
-            data->bChecked.bValue = false;
+            data->bChecked.asBool() = false;
             if (data->User.ptr && this->data.owner.User.ptr && !strcmp(data->User.ptr, this->data.owner.User.ptr))
-                data->bChecked.bValue = true;
+                data->bChecked.asBool() = true;
         }
     }
     LiveJournalRequest *req = new LoginRequest(this);

@@ -840,8 +840,8 @@ void YahooClient::notify(const char *id, const char *msg, const char *state)
     if (state && atol(state))
         bState = true;
     if (!strcasecmp(msg, "TYPING")){
-        if (data->bTyping.bValue != bState){
-            data->bTyping.bValue = bState;
+        if (data->bTyping.toBool() != bState){
+            data->bTyping.asBool() = bState;
             Event e(EventContactStatus, contact);
             e.process();
         }
@@ -894,7 +894,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         state = YAHOO_STATUS_OFFLINE;
     if ((state != data->Status.value) ||
             ((state == YAHOO_STATUS_CUSTOM) &&
-             (((away != 0) != data->bAway.bValue) || equal(_msg, data->AwayMessage.ptr)))){
+             (((away != 0) != data->bAway.toBool()) || equal(_msg, data->AwayMessage.ptr)))){
 
         unsigned long old_status = STATUS_UNKNOWN;
         unsigned style  = 0;
@@ -907,7 +907,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         if (data->Status.value == YAHOO_STATUS_OFFLINE)
             data->OnlineTime.value = now;
         data->Status.value = state;
-        data->bAway.bValue = (away != 0);
+        data->bAway.asBool() = (away != 0);
         data->StatusTime.value = now;
 
         unsigned long new_status = STATUS_UNKNOWN;
@@ -1121,7 +1121,7 @@ void YahooClient::loadList(const char *str)
         YahooUserData *data;
         ClientDataIterator itd(contact->clientData, this);
         while ((data = (YahooUserData*)(++itd)) != NULL){
-            data->bChecked.bValue = (contact->getGroup() == 0);
+            data->bChecked.asBool() = (contact->getGroup() == 0);
         }
     }
     if (str){
@@ -1148,7 +1148,7 @@ void YahooClient::loadList(const char *str)
                 }
                 if (grpName != getContacts()->toUnicode(NULL, grp.c_str()))
                     moveBuddy(data, getContacts()->toUnicode(NULL, grp.c_str()));
-                data->bChecked.bValue = true;
+                data->bChecked.asBool() = true;
             }
         }
     }
@@ -1157,7 +1157,7 @@ void YahooClient::loadList(const char *str)
         if ((*itl).type == LR_CHANGE){
             YahooUserData *data = findContact((*itl).name.c_str(), NULL, contact, false);
             if (data){
-                data->bChecked.bValue = true;
+                data->bChecked.asBool() = true;
                 QString grpName;
                 if (contact->getGroup()){
                     Group *grp = getContacts()->group(contact->getGroup());
@@ -1184,7 +1184,7 @@ void YahooClient::loadList(const char *str)
         list<YahooUserData*> dataForRemove;
         bool bChanged = false;
         while ((data = (YahooUserData*)(++itd)) != NULL){
-            if (!data->bChecked.bValue){
+            if (!data->bChecked.toBool()){
                 dataForRemove.push_back(data);
                 bChanged = true;
             }
@@ -1329,7 +1329,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, con
     case YAHOO_STATUS_OFFLINE:
         break;
     case YAHOO_STATUS_CUSTOM:
-        cmp_status = data->bAway.bValue ? STATUS_AWAY : STATUS_ONLINE;
+        cmp_status = data->bAway.toBool() ? STATUS_AWAY : STATUS_ONLINE;
         break;
     default:
         cmp_status = STATUS_AWAY;
@@ -1356,7 +1356,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, con
             statusIcon = def->icon;
         }
     }
-    if (icons && data->bTyping.bValue)
+    if (icons && data->bTyping.toBool())
         addIcon(icons, "typing", statusIcon);
 }
 

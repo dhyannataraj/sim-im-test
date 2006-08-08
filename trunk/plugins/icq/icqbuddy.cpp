@@ -343,8 +343,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     }
                     if ((data->PluginInfoTime.value != data->PluginInfoFetchTime.value) ||
                             (data->PluginStatusTime.value != data->PluginStatusFetchTime.value)){
-                        if (data->SharedFiles.bValue){
-                            data->SharedFiles.bValue = false;
+                        if (data->SharedFiles.toBool()){
+                            data->SharedFiles.asBool() = false;
                             bChanged = true;
                         }
                         if (data->FollowMe.value){
@@ -360,8 +360,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     }
                 }
             }
-            if (data->bInvisible.bValue){
-                data->bInvisible.bValue = false;
+            if (data->bInvisible.toBool()){
+                data->bInvisible.asBool() = false;
                 bChanged = true;
             }
             if (bChanged){
@@ -464,7 +464,7 @@ void ICQClient::addBuddy(Contact *contact)
         }
         if (it != buddies.end())
             continue;
-        if ((data->IgnoreId.value == 0)  && (data->WaitAuth.bValue || (data->GrpId.value == 0))){
+        if ((data->IgnoreId.value == 0)  && (data->WaitAuth.toBool() || (data->GrpId.value == 0))){
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
             m_socket->writeBuffer.packScreen(screen(data).c_str());
             sendPacket(true);

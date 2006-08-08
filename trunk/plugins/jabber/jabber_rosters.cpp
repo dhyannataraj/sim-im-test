@@ -67,7 +67,7 @@ RostersRequest::RostersRequest(JabberClient *client)
         ClientDataIterator it(contact->clientData, client);
         JabberUserData *data;
         while ((data = (JabberUserData*)(++it)) != NULL)
-            data->bChecked.bValue = false;
+            data->bChecked.asBool() = false;
     }
     client->m_bJoin = false;
 }
@@ -82,7 +82,7 @@ RostersRequest::~RostersRequest()
         JabberUserData *data;
         list<void*> dataRemoved;
         while ((data = (JabberUserData*)(++it)) != NULL){
-            if (!data->bChecked.bValue){
+            if (!data->bChecked.toBool()){
                 string jid;
                 jid = data->ID.ptr;
                 JabberListRequest *lr = m_client->findRequest(jid.c_str(), false);
@@ -180,7 +180,7 @@ void RostersRequest::element_end(const char *el)
             data->Subscribe.value = m_subscribe;
         }
         set_str(&data->Group.ptr, m_grp.c_str());
-        data->bChecked.bValue = true;
+        data->bChecked.asBool() = true;
         if (lr == NULL){
             unsigned grp = 0;
             if (!m_grp.empty()){
@@ -946,13 +946,13 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     bOnLine = true;
                 if (data->Status.value == STATUS_OFFLINE){
                     data->OnlineTime.value = time1;
-                    data->richText.bValue = true;
+                    data->richText.asBool() = true;
                 }
                 data->Status.value = status;
                 data->StatusTime.value = time1;
             }
-            if (data->invisible.bValue != bInvisible){
-                data->invisible.bValue = bInvisible;
+            if (data->invisible.toBool() != bInvisible){
+                data->invisible.asBool() = bInvisible;
                 bChanged = true;
             }
             if (bChanged){
@@ -1310,7 +1310,7 @@ JabberClient::MessageRequest::~MessageRequest()
         return;
     if (m_bBody && m_contacts.empty()){
         if (m_richText.empty()){
-            data->richText.bValue = false;
+            data->richText.asBool() = false;
             msg->setText(QString::fromUtf8(m_body.c_str()));
         }else{
             JabberBgParser p;
@@ -1550,8 +1550,8 @@ AgentDiscoRequest::~AgentDiscoRequest()
         }
     }
     if (m_bError){
-        data.Register.bValue = true;
-        data.Search.bValue   = true;
+        data.Register.asBool() = true;
+        data.Search.asBool()   = true;
     }
     if (data.Name.ptr){
         set_str(&data.VHost.ptr, m_client->VHost().c_str());
@@ -1575,9 +1575,9 @@ void AgentDiscoRequest::element_start(const char *el, const char **attr)
     if (!strcmp(el, "feature")){
         string s = JabberClient::get_attr("var", attr);
         if (s == "jabber:iq:register")
-            data.Register.bValue = true;
+            data.Register.asBool() = true;
         if (s == "jabber:iq:search")
-            data.Search.bValue   = true;
+            data.Search.asBool()   = true;
     }
 }
 
@@ -1628,9 +1628,9 @@ void AgentRequest::element_start(const char *el, const char **attr)
         m_data = JabberClient::get_attr("jid", attr);
         set_str(&data.ID.ptr, m_data.c_str());
     }else if (!strcmp(el, "search")){
-        data.Search.bValue = true;
+        data.Search.asBool() = true;
     }else if (!strcmp(el, "register")){
-        data.Register.bValue = true;
+        data.Register.asBool() = true;
     }else if (!strcmp(el, "error")){
         m_bError = true;
     }
@@ -1816,7 +1816,7 @@ void AgentInfoRequest::element_end(const char *el)
             set_str(&data.Value.ptr, m_data.c_str());
         }
     }else if (!strcmp(el, "required")){
-        data.bRequired.bValue = true;
+        data.bRequired.asBool() = true;
     }else if (!strcmp(el, "key") || !strcmp(el, "instructions")){
         set_str(&data.Value.ptr, m_data.c_str());
         set_str(&data.ID.ptr, m_jid.c_str());

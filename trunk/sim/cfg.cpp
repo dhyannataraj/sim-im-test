@@ -572,7 +572,7 @@ void init_data(const DataDef *d, Data *data)
                 data->value = (unsigned long)(def->def_value);
                 break;
             case DATA_BOOL:
-                data->bValue = (def->def_value != NULL);
+                data->asBool() = (def->def_value != NULL);
                 break;
             case DATA_STRUCT:
                 init_data((DataDef*)(def->def_value), data);
@@ -707,7 +707,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         case DATA_LONG:
             for (i = 0; i < def->n_values; ld++){
                 if (*value != ',')
-                    ld->value = atol(value);
+                    ld->asLong() = atol(value);
                 value = strchr(value, ',');
                 i++;
                 if (value == NULL)
@@ -718,7 +718,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         case DATA_ULONG:
             for (i = 0; i < def->n_values; ld++){
                 if (*value != ',')
-                    ld->value = strtoul(value, NULL, 10);
+                    ld->asULong() = strtoul(value, NULL, 10);
                 value = strchr(value, ',');
                 if (value == NULL)
                     break;
@@ -732,9 +732,9 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                     *p = 0;
                 if (*value){
                     if (!strcasecmp(value, "false") || !strcmp(value, "0")){
-                        ld->bValue = false;
+                        ld->asBool() = false;
                     }else{
-                        ld->bValue = true;
+                        ld->asBool() = true;
                     }
                 }
                 value = p;
@@ -910,7 +910,7 @@ EXPORT string save_data(const DataDef *def, void *_data)
                 }
             case DATA_BOOL:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        bool p = d->bValue;
+                        bool p = d->toBool();
                         if (value.length())
                             value += ",";
                         if (p != (def->def_value != 0)){
