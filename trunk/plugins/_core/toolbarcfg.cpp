@@ -51,5 +51,3 @@ void ToolbarsCfg::popupActivated()
 #ifndef NO_MOC_INCLUDES
 #include "toolbarcfg.moc"
 #endif
-
-

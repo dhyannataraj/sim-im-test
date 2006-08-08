@@ -432,7 +432,7 @@ public:
     PROP_BOOL(NoShow)
     PROP_BOOL(ShowPanel)
     void setManualStatus(unsigned long status);
-    unsigned long getManualStatus() { return data.ManualStatus.value; }
+    unsigned long getManualStatus() { return data.ManualStatus.toULong(); }
     PROP_ULONG(StatusTime)
     PROP_BOOL(Invisible)
     PROP_STRLIST(Buttons)

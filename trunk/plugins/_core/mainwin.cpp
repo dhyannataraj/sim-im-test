@@ -106,13 +106,13 @@ MainWindow::MainWindow(Geometry &geometry)
     status->hide();
     status->installEventFilter(this);
     
-    if ((geometry[WIDTH].value == (unsigned long)-1) && (geometry[HEIGHT].value == (unsigned long)-1)){
-        geometry[HEIGHT].value = QApplication::desktop()->height() * 2 / 3;
-        geometry[WIDTH].value  = geometry[HEIGHT].value / 3;
+    if ((geometry[WIDTH].toLong() == -1) && (geometry[HEIGHT].toLong() == -1)){
+        geometry[HEIGHT].asLong() = QApplication::desktop()->height() * 2 / 3;
+        geometry[WIDTH].asLong()  = geometry[HEIGHT].toLong() / 3;
     }
-    if ((geometry[LEFT].value == (unsigned long)-1) && (geometry[TOP].value == (unsigned long)-1)){
-        geometry[LEFT].value = QApplication::desktop()->width() - 25 - geometry[WIDTH].value;
-        geometry[TOP].value = 5;
+    if ((geometry[LEFT].toLong() == -1) && (geometry[TOP].toLong() == -1)){
+        geometry[LEFT].asLong() = QApplication::desktop()->width() - 25 - geometry[WIDTH].toLong();
+        geometry[TOP].asLong() = 5;
     }
     restoreGeometry(this, geometry, true, true);
 }

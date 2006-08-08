@@ -26,10 +26,10 @@ UserHistoryCfg::UserHistoryCfg(QWidget *parent, void *d)
         : UserHistoryCfgBase(parent)
 {
     HistoryUserData *data = (HistoryUserData*)d;
-    chkDays->setChecked(data->CutDays.bValue);
-    chkSize->setChecked(data->CutSize.bValue);
-    edtDays->setValue(data->Days.value);
-    edtSize->setValue(data->MaxSize.value);
+    chkDays->setChecked(data->CutDays.toBool());
+    chkSize->setChecked(data->CutSize.toBool());
+    edtDays->setValue(data->Days.toULong());
+    edtSize->setValue(data->MaxSize.toULong());
     toggledDays(chkDays->isChecked());
     toggledSize(chkSize->isChecked());
     connect(chkDays, SIGNAL(toggled(bool)), this, SLOT(toggledDays(bool)));
@@ -43,10 +43,10 @@ UserHistoryCfg::~UserHistoryCfg()
 void UserHistoryCfg::apply(void *d)
 {
     HistoryUserData *data = (HistoryUserData*)d;
-    data->CutDays.bValue = chkDays->isChecked();
-    data->CutSize.bValue = chkSize->isChecked();
-    data->Days.value     = atol(edtDays->text());
-    data->MaxSize.value  = atol(edtSize->text());
+    data->CutDays.asBool()  = chkDays->isChecked();
+    data->CutSize.asBool()  = chkSize->isChecked();
+    data->Days.asULong()    = edtDays->text().toULong();
+    data->MaxSize.asULong() = edtSize->text().toULong();
 }
 
 void UserHistoryCfg::toggledDays(bool bState)

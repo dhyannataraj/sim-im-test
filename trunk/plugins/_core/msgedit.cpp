@@ -833,9 +833,9 @@ static bool cmp_status(ClientStatus s1, ClientStatus s2)
         return true;
     if (s1.status < s2.status)
         return false;
-    if (s1.data->LastSend.value > s2.data->LastSend.value)
+    if (s1.data->LastSend.toULong() > s2.data->LastSend.toULong())
         return true;
-    if (s1.data->LastSend.value < s2.data->LastSend.value)
+    if (s1.data->LastSend.toULong() < s2.data->LastSend.toULong())
         return false;
     return s1.client < s2.client;
 }
@@ -891,7 +891,7 @@ bool MsgEdit::sendMessage(Message *msg)
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
         TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id));
-        if (data && data->Translit.bValue)
+        if (data && data->Translit.toBool())
             msg->setFlags(msg->getFlags() | MESSAGE_TRANSLIT);
     }
 
@@ -978,7 +978,7 @@ bool MsgEdit::send()
         if (data){
             time_t now;
             time(&now);
-            ((clientData*)data)->LastSend.value = now;
+            ((clientData*)data)->LastSend.asULong() = now;
         }
     }else{
         if (m_msg){
@@ -1140,7 +1140,7 @@ void *MsgEdit::processEvent(Event *e)
                 TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id));
                 if (data){
                     cmd->flags &= ~COMMAND_CHECKED;
-                    if (data->Translit.bValue)
+                    if (data->Translit.toBool())
                         cmd->flags |= COMMAND_CHECKED;
                 }
             }
@@ -1217,7 +1217,7 @@ void *MsgEdit::processEvent(Event *e)
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
                 TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id, true));
-                data->Translit.bValue = ((cmd->flags & COMMAND_CHECKED) != 0);
+                data->Translit.asBool() = ((cmd->flags & COMMAND_CHECKED) != 0);
             }
             return e->param();;
         }

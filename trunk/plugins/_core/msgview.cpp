@@ -541,7 +541,7 @@ void MsgViewBase::setSource(const QString &url)
         return;
     }
     QString id = url.mid(proto.length() + 3);
-    unsigned msg_id = atol(getToken(id, ',').latin1());
+    unsigned msg_id = getToken(id, ',').toULong();
     getToken(id, ',');
     id = getToken(id, '/');
     QString client = SIM::unquoteString(id);
@@ -711,7 +711,7 @@ void MsgViewBase::setColors()
 unsigned MsgViewBase::messageId(const QString &_s, string &client)
 {
     QString s(_s);
-    unsigned id = atol(getToken(s, ',').latin1());
+    unsigned id = getToken(s, ',').toULong();
     getToken(s, ',');
     client = getToken(s, ',').utf8();
     if (id >= 0x80000000)
@@ -1205,7 +1205,7 @@ void *MsgView::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if (data && data->LogStatus.value != NEW_MSG_NOOPEN)
+                if (data && data->LogStatus.asBool() != NEW_MSG_NOOPEN)
                     bAdd = true;
             }
         }
@@ -1213,7 +1213,7 @@ void *MsgView::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
-                if (data->OpenNewMessage.bValue)
+                if (data->OpenNewMessage.asULong() != NEW_MSG_NOOPEN)
                     bAdd = false;
             }
         }

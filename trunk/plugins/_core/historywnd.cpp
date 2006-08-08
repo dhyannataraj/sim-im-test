@@ -245,8 +245,8 @@ void *HistoryWindow::processEvent(Event *e)
 void HistoryWindow::resizeEvent(QResizeEvent *e)
 {
     QMainWindow::resizeEvent(e);
-    CorePlugin::m_plugin->data.HistorySize[0].value = width();
-    CorePlugin::m_plugin->data.HistorySize[1].value = height();
+    CorePlugin::m_plugin->data.HistorySize[0].asULong() = width();
+    CorePlugin::m_plugin->data.HistorySize[1].asULong() = height();
 }
 
 void HistoryWindow::toolbarChanged(QToolBar*)

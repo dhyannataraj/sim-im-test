@@ -170,7 +170,7 @@ void *MsgFile::processEvent(Event *e)
                 QString f;
                 for (int i = 0; i < (int)file.length(); i++){
                     if (file[i] == '\"'){
-                        f = trim(f);
+                        f = f.stripWhiteSpace();
                         if (!f.isEmpty())
                             files.append(f);
                         f = "";
@@ -179,7 +179,7 @@ void *MsgFile::processEvent(Event *e)
                                 break;
                             f += file[i];
                         }
-                        f = trim(f);
+                        f = f.stripWhiteSpace();
                         if (!f.isEmpty())
                             files.append(f);
                         f = "";
@@ -187,7 +187,7 @@ void *MsgFile::processEvent(Event *e)
                     }
                     f += file[i];
                 }
-                f = trim(f);
+                f = f.stripWhiteSpace();
                 if (!f.isEmpty())
                     files.append(f);
                 file = "";

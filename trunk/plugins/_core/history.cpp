@@ -604,10 +604,10 @@ void History::add(Message *msg, const char *type)
     Contact *contact = getContacts()->contact(msg->contact());
     if (contact)
         data = (HistoryUserData*)(contact->getUserData(CorePlugin::m_plugin->history_data_id));
-    if (data && data->CutSize.bValue){
+    if (data && data->CutSize.toBool()){
         QFileInfo fInfo(f_name);
-        if (fInfo.exists() && (fInfo.size() >= data->MaxSize.value * 0x100000 + CUT_BLOCK)){
-            int pos = fInfo.size() - data->MaxSize.value * 0x100000 + line.size();
+        if (fInfo.exists() && (fInfo.size() >= data->MaxSize.toULong() * 0x100000 + CUT_BLOCK)){
+            int pos = fInfo.size() - data->MaxSize.toULong() * 0x100000 + line.size();
             if (pos < 0)
                 pos = 0;
             del(f_name, msg->contact(), pos, false);
