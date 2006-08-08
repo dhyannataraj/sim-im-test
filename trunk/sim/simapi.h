@@ -1742,7 +1742,7 @@ EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
 
 EXPORT unsigned screens();
-EXPORT QRect screenGeometry(unsigned nScreen=-1);
+EXPORT QRect screenGeometry(int nScreen=-1);
 
 EXPORT unsigned get_random();
 

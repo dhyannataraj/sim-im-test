@@ -686,7 +686,7 @@ EXPORT unsigned screens()
     return desktop->numScreens();
 }
 
-EXPORT QRect screenGeometry(unsigned nScreen)
+EXPORT QRect screenGeometry(int nScreen)
 {
     QDesktopWidget *desktop = QApplication::desktop();
     if(nScreen == -1) {
