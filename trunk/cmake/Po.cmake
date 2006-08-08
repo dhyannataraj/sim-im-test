@@ -57,9 +57,6 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
                 ELSE(${_tmp} STREQUAL "msg2qm")
                     ADD_CUSTOM_COMMAND(
                         OUTPUT ${_out}
-                        COMMAND ${CMAKE_COMMAND}
-                            -E echo
-                            "Generating" ${_out_native} "from" ${_in_native}
                         COMMAND ${MSGFMT_EXECUTABLE}
                             -qt
                             ${_in_native}
