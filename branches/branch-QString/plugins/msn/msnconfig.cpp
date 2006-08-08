@@ -91,7 +91,7 @@ void MSNConfig::autoToggled(bool bState)
     chkHTTP->setEnabled(!bState);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "msnconfig.moc"
 #endif
 

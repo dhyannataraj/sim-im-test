@@ -35,7 +35,7 @@ protected slots:
 protected:
     void accept();
     QProcess *m_process;
-    GpgCfg	 *m_cfg;
+    GpgCfg   *m_cfg;
 };
 
 #endif

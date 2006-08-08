@@ -85,7 +85,7 @@ void BkgndCfg::apply()
     m_plugin->redraw();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "bkgndcfg.moc"
 #endif
 

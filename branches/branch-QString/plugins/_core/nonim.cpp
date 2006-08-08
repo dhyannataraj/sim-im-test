@@ -60,7 +60,7 @@ void NonIM::add(unsigned grp_id)
     e.process();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "nonim.moc"
 #endif
 

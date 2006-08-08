@@ -146,7 +146,7 @@ void YahooInfo::apply(Client *client, void *_data)
     data->Last.str() = edtLast->text();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "yahooinfo.moc"
 #endif
 

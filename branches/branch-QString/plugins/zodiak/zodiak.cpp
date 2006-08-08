@@ -255,6 +255,6 @@ int ZodiakWnd::getSign(int day, int month)
     return month;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "zodiak.moc"
 #endif

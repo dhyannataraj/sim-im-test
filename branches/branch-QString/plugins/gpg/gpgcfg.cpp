@@ -240,7 +240,7 @@ void GpgCfg::selectKey(int n)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "gpgcfg.moc"
 #endif
 

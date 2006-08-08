@@ -68,7 +68,7 @@ void FilterConfig::apply(void *_data)
     data->SpamList.str() = edtFilter->text();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "filtercfg.moc"
 #endif
 

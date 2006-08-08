@@ -231,7 +231,7 @@ Proxy::~Proxy()
         static_cast<ClientSocket*>(notify)->setSocket(m_sock);
     if (m_sock)
         delete m_sock;
-    for (QPtrList<Proxy>::iterator it = m_plugin->proxies.begin(); it != m_plugin->proxies.end(); ++it){
+    for (QValueList<Proxy*>::iterator it = m_plugin->proxies.begin(); it != m_plugin->proxies.end(); ++it){
         if (*it == this){
             m_plugin->proxies.erase(it);
             break;
@@ -1182,7 +1182,9 @@ ProxyPlugin::ProxyPlugin(unsigned base, ConfigBuffer *config)
 
 ProxyPlugin::~ProxyPlugin()
 {
-    proxies.setAutoDelete(true);
+    for (QValueList<Proxy*>::iterator it = proxies.begin(); it != proxies.end(); ++it)
+        delete *it;
+
     getContacts()->removePacketType(ProxyPacket);
 }
 
@@ -1228,8 +1230,7 @@ void *ProxyPlugin::processEvent(Event *e)
 {
     if (e->type() == EventSocketConnect){
         ConnectParam *p = (ConnectParam*)(e->param());
-        QPtrListIterator<Proxy> it(proxies);
-        for ( ; it.current() != 0; ++it){
+        for (QValueList<Proxy*>::iterator it = proxies.begin(); it != proxies.end(); ++it){
             if ((*it)->notify == p->socket)
                 return NULL;
         }
@@ -1317,17 +1318,3 @@ QWidget *ProxyPlugin::createConfigWindow(QWidget *parent)
 }
 
 const DataDef *ProxyPlugin::proxyData = _proxyData;
-
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

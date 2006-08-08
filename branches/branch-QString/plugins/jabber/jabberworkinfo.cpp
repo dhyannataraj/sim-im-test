@@ -85,7 +85,7 @@ void JabberWorkInfo::apply(Client *client, void *_data)
     data->Role.str()    = edtRole->text();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "jabberworkinfo.moc"
 #endif
 

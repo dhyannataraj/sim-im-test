@@ -149,17 +149,3 @@ void StylesPlugin::setStyles()
         setStyle(QString::null);
     }
 }
-
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

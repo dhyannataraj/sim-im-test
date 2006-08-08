@@ -503,7 +503,7 @@ void CommonStatus::finished()
     QTimer::singleShot(1000, this, SLOT(showBalloon()));
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "status.moc"
 #endif
 

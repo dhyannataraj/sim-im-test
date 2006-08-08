@@ -4559,7 +4559,7 @@ void HistoryThread::run()
     m_ex->start();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "core.moc"
 #endif
 

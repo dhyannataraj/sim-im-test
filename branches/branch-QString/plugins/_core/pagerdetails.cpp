@@ -84,7 +84,7 @@ void PagerDetails::textChanged(const QString&)
     getNumber();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "pagerdetails.moc"
 #endif
 

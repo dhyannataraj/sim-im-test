@@ -2990,7 +2990,7 @@ void JabberClient::setupContact(Contact *contact, void *_data)
         contact->setName(data->ID.str());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "jabberclient.moc"
 #endif
 

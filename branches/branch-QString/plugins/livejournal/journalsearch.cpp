@@ -45,7 +45,7 @@ void JournalSearch::createContact(unsigned tmpFlags, Contact *&contact)
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "journalsearch.moc"
 #endif
 

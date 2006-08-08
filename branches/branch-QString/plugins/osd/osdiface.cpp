@@ -108,7 +108,7 @@ void OSDIface::apply(void *d)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "osdiface.moc"
 #endif
 

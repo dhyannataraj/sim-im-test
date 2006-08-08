@@ -508,17 +508,3 @@ QWidget *NavigatePlugin::createConfigWindow(QWidget *parent)
 {
     return new NavCfg(parent, this);
 }
-
-#ifdef WIN32
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

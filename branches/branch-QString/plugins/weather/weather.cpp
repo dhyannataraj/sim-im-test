@@ -857,6 +857,6 @@ void WeatherPlugin::char_data(const char *str, int len)
 		m_data += QString::fromLatin1(str, len);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "weather.moc"
 #endif

@@ -40,7 +40,7 @@ void InfoProxy::apply(Client *client, void *data)
     emit sig_apply(client, data);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "infoproxy.moc"
 #endif
 

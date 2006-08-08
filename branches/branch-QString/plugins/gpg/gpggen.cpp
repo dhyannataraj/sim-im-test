@@ -184,7 +184,7 @@ void GpgGen::genKeyReady()
     m_process = 0;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "gpggen.moc"
 #endif
 

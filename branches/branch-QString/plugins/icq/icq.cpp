@@ -433,18 +433,3 @@ ICQPlugin::~ICQPlugin()
     eMenuCheckInvisible.process();
     */
 }
-
-#ifdef WIN32
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

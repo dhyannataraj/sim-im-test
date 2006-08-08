@@ -78,7 +78,7 @@ void MessageConfig::setEnabled(bool state)
     MessageConfigBase::setEnabled(state);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "msgcfg.moc"
 #endif
 

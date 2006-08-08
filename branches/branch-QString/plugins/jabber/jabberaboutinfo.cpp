@@ -74,7 +74,7 @@ void JabberAboutInfo::apply(Client *client, void *_data)
     data->Desc.str() = edtAbout->text();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "jabberaboutinfo.moc"
 #endif
 

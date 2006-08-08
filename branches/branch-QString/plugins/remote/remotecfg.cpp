@@ -111,7 +111,7 @@ void RemoteConfig::toggled(bool state)
     edtPort->setEnabled(state);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "remotecfg.moc"
 #endif
 

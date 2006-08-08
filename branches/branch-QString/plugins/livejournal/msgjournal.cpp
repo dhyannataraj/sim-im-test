@@ -205,7 +205,7 @@ MsgJournalWnd::~MsgJournalWnd()
     finished();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "msgjournal.moc"
 #endif
 

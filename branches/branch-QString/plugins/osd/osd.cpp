@@ -722,20 +722,7 @@ void *OSDPlugin::processEvent(Event *e)
     return NULL;
 }
 
-#ifdef WIN32
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "osd.moc"
 #endif
 

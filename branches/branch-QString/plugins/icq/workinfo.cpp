@@ -153,7 +153,7 @@ void WorkInfo::apply(Client *client, void *_data)
     data->WorkHomepage.str() = edtSite->text();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "workinfo.moc"
 #endif
 

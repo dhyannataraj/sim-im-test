@@ -677,7 +677,7 @@ string GsmTA::latin1ToGsm(const char *str)
     return res;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "gsm_ta.moc"
 #endif
 

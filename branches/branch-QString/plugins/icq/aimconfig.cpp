@@ -93,7 +93,7 @@ void AIMConfig::changed()
     emit okEnabled(bOK);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "aimconfig.moc"
 #endif
 

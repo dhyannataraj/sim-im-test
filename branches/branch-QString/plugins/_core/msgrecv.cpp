@@ -204,7 +204,7 @@ void MsgReceived::init()
     m_msg = NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "msgrecv.moc"
 #endif
 

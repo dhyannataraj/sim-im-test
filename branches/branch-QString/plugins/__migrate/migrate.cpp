@@ -81,18 +81,3 @@ bool MigratePlugin::init()
     dlg.exec();
     return true;
 }
-
-#ifdef WIN32
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-#endif
-
-

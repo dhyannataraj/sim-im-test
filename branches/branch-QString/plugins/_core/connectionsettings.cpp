@@ -43,7 +43,7 @@ void ConnectionSettings::apply()
 {
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "connectionsettings.moc"
 #endif
 

@@ -36,7 +36,7 @@ void SMSConfig::apply(void *_data)
     data->SMSSignatureAfter.str() = edtAfter->text();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "smscfg.moc"
 #endif
 

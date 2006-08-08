@@ -78,7 +78,7 @@ void HomeDirConfig::defaultToggled(bool bState)
         edtPath->setText(m_plugin->defaultPath());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "homedircfg.moc"
 #endif
 

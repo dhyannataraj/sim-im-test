@@ -84,7 +84,7 @@ void ConnectWnd::setErr(const QString &text, const char *url)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "connectwnd.moc"
 #endif
 
