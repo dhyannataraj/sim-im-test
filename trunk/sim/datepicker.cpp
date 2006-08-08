@@ -352,9 +352,9 @@ PickerPopup::~PickerPopup()
 
 void PickerPopup::dayClick(PickerLabel *lbl)
 {
-    unsigned year  = atol(m_yearBox->text().latin1());
+    unsigned year  = m_yearBox->text().toULong();
     unsigned month = m_monthBox->value() + 1;
-    unsigned day   = atol(lbl->text().latin1());
+    unsigned day   = lbl->text().toULong();
     m_picker->setDate(day, month, year);
     close();
 }
@@ -363,12 +363,12 @@ void PickerPopup::monthChanged(int v)
 {
     if (v < 0){
         v += 12;
-        m_yearBox->setValue(atol(m_yearBox->text().latin1()) - 1);
+        m_yearBox->setValue(m_yearBox->text().toULong() - 1);
         m_monthBox->setValue(v);
     }
     if (v >= 12){
         v -= 12;
-        m_yearBox->setValue(atol(m_yearBox->text().latin1()) + 1);
+        m_yearBox->setValue(m_yearBox->text().toULong() + 1);
         m_monthBox->setValue(v);
     }
     fill();
@@ -397,7 +397,7 @@ void PickerPopup::fill()
         month += 12;
     if (month > 12)
         month -= 12;
-    QDate d(atol(m_yearBox->text().latin1()), month, 1);
+    QDate d(m_yearBox->text().toULong(), month, 1);
     unsigned n = d.dayOfWeek() - 1;
     unsigned s = d.daysInMonth();
     unsigned i;

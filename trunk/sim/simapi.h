@@ -825,9 +825,18 @@ typedef struct DataDef
 
 typedef union Data
 {
+public:
     char            *ptr;
     unsigned long   value;
     bool            bValue;
+public:
+    void clear() { ptr = NULL; }
+    bool &asBool() { return bValue; }
+    bool toBool() const { return bValue; }
+    long &asLong() { return (long&)value; }
+    long toLong() const { return (long)value; }
+    unsigned long &asULong() { return value; }
+    unsigned long toULong() const { return value; }
 } Data;
 
 #define DATA(A) ((const char*)(A))
@@ -1673,6 +1682,9 @@ __attribute__ ((__format__ (printf, 2, 3)));
 #else
 EXPORT void log(unsigned short level, const char *fmt, ...);
 #endif      
+/* QString counterpart of logging facility */
+EXPORT void log(unsigned short level, const QString &msg);
+
 EXPORT QString make_packet_string(LogInfo *l);
 EXPORT const char *level_name(unsigned short n);
 // _____________________________________________________________________________________

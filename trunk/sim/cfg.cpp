@@ -982,29 +982,29 @@ EXPORT void saveGeometry(QWidget *w, Geometry geo)
         return;
     QPoint pos = w->pos();
     QSize size = w->size();
-    geo[0].value = pos.x();
-    geo[1].value = pos.y();
-    geo[2].value = size.width();
-    geo[3].value = size.height();
+    geo[LEFT].asLong()   = pos.x();
+    geo[TOP].asLong()    = pos.y();
+    geo[WIDTH].asLong()  = size.width();
+    geo[HEIGHT].asLong() = size.height();
 #ifdef WIN32
     if (GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_TOOLWINDOW){
         int dc = GetSystemMetrics(SM_CYCAPTION);
         int ds = GetSystemMetrics(SM_CYSMCAPTION);
-        geo[1].value += dc - ds;
-        geo[3].value -= (dc - ds) * 2;
+        geo[1].asLong() += dc - ds;
+        geo[3].asLong() -= (dc - ds) * 2;
     }
 #endif
 #ifdef USE_KDE
 #if KDE_IS_VERSION(3,2,0)
     KWin::WindowInfo info = KWin::windowInfo(w->winId());
-    geo[4].value = info.desktop();
+    geo[4].asLong() = info.desktop();
     if (info.onAllDesktops())
-        geo[4].value = (unsigned)(-1);
+        geo[4].asLong() = -1;
 #else
-KWin::Info info = KWin::info(w->winId());
-    geo[4].value = info.desktop;
+    KWin::Info info = KWin::info(w->winId());
+    geo[4].asLong() = info.desktop;
     if (info.onAllDesktops)
-        geo[4].value = (unsigned)(-1);
+        geo[4].asLong() = -1;
 #endif
 #endif
 }
@@ -1014,37 +1014,38 @@ EXPORT void restoreGeometry(QWidget *w, Geometry geo, bool bPos, bool bSize)
     if (w == NULL)
         return;
     QRect rc = screenGeometry();
-    if ((int)geo[WIDTH].value > rc.width())
-        geo[WIDTH].value = rc.width();
-    if ((int)geo[HEIGHT].value > rc.height())
-        geo[HEIGHT].value = rc.height();
-    if ((int)geo[LEFT].value + (int)geo[WIDTH].value > rc.width())
-        geo[LEFT].value = rc.width() - geo[WIDTH].value;
-    if ((int)geo[TOP].value + (int)geo[HEIGHT].value > rc.height())
-        geo[TOP].value = rc.height() - geo[HEIGHT].value;
-    if ((int)geo[LEFT].value < 0)
-        geo[LEFT].value = 0;
-    if ((int)geo[TOP].value < 0)
-        geo[TOP].value = 0;
+    if (geo[WIDTH].toLong() > rc.width())
+        geo[WIDTH].asLong() = rc.width();
+    if (geo[HEIGHT].toLong() > rc.height())
+        geo[HEIGHT].asLong() = rc.height();
+    if (geo[LEFT].toLong() + geo[WIDTH].toLong() > rc.width())
+        geo[LEFT].asLong() = rc.width() - geo[WIDTH].asLong();
+    if (geo[TOP].toLong() + geo[HEIGHT].toLong() > rc.height())
+        geo[TOP].asLong() = rc.height() - geo[HEIGHT].asLong();
+    if (geo[LEFT].toLong() < rc.left())
+        geo[LEFT].asLong() = rc.left();
+    if (geo[TOP].toLong() < rc.top())
+        geo[TOP].asLong() = rc.top();
     if (bPos)
-        w->move(geo[LEFT].value, geo[TOP].value);
+        w->move(geo[LEFT].toLong(), geo[TOP].toLong());
     if (bSize)
-        w->resize(geo[WIDTH].value, geo[HEIGHT].value);
+        w->resize(geo[WIDTH].asLong(), geo[HEIGHT].asLong());
 #ifdef USE_KDE
-    if (geo[4].value == (unsigned)(-1)){
+    if (geo[4].toLong() == -1){
         KWin::setOnAllDesktops(w->winId(), true);
     }else{
         KWin::setOnAllDesktops(w->winId(), false);
-        KWin::setOnDesktop(w->winId(), geo[4].value);
+        KWin::setOnDesktop(w->winId(), geo[4].toLong());
     }
 #endif
 }
 
-const unsigned SAVE_STATE = (unsigned)(-1);
+const long SAVE_STATE = -1;
 
 EXPORT void saveToolbar(QToolBar *bar, Data state[7])
 {
-    memset(state, 0, sizeof(state));
+    for(int i = 0; i < 7; i++)
+        state[i].clear();
     if (bar == NULL)
         return;
     QMainWindow *main = NULL;
@@ -1061,15 +1062,15 @@ EXPORT void saveToolbar(QToolBar *bar, Data state[7])
     bool nl;
     int  extraOffset;
     main->getLocation(bar, dock, index, nl, extraOffset);
-    state[0].value = SAVE_STATE;
-    state[1].value = (long)dock;
-    state[2].value = index;
-    state[3].value = nl ? 1 : 0;
-    state[4].value = extraOffset;
+    state[0].asLong() = SAVE_STATE;
+    state[1].asLong() = (long)dock;
+    state[2].asLong() = index;
+    state[3].asLong() = nl ? 1 : 0;
+    state[4].asLong() = extraOffset;
     if (dock == QMainWindow::TornOff){
         QPoint pos = bar->geometry().topLeft();
-        state[5].value = pos.x();
-        state[6].value = pos.y();
+        state[5].asLong() = pos.x();
+        state[6].asLong() = pos.y();
     }
 }
 
@@ -1077,14 +1078,14 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 {
     if (bar == NULL)
         return;
-    if (state[0].value != SAVE_STATE){
-        if (state[1].value == 0)
-            state[1].value = (unsigned)(QMainWindow::Top);
-        state[2].value = 0;
-        state[3].value = 0;
-        state[4].value = SAVE_STATE;
-        state[5].value = 0;
-        state[6].value = 0;
+    if (state[0].asLong() != SAVE_STATE){
+        if (state[1].asLong() == 0)
+            state[1].asLong() = (unsigned)(QMainWindow::Top);
+        state[2].asLong() = 0;
+        state[3].asLong() = 0;
+        state[4].asLong() = SAVE_STATE;
+        state[5].asLong() = 0;
+        state[6].asLong() = 0;
     }
     QMainWindow *main = NULL;
     for (QWidget *w = bar->parentWidget(); w; w = w->parentWidget()){
@@ -1095,10 +1096,10 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
     }
     if (main == NULL)
         return;
-    QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1].value;
-    main->moveToolBar(bar, dock, state[2].value != 0, state[3].value != 0, state[4].value);
+    QMainWindow::ToolBarDock dock = (QMainWindow::ToolBarDock)state[1].asLong();
+    main->moveToolBar(bar, dock, state[2].asLong() != 0, state[3].asLong() != 0, state[4].asLong());
     if (dock == QMainWindow::TornOff)
-        bar->move(state[5].value, state[6].value);
+        bar->move(state[5].asLong(), state[6].asLong());
 }
 
 EXPORT bool cmp(char *s1, char *s2)

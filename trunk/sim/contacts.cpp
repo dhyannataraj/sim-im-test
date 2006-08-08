@@ -398,7 +398,7 @@ QString Contact::tipText()
         phone_item = getToken(phone_item, '/', false);
         QString phone = getToken(phone_item, ',');
         getToken(phone_item, ',');
-        unsigned phone_type = atol(phone_item.latin1());
+        unsigned phone_type = phone_item.toULong();
         QString icon;
         switch (phone_type){
         case PHONE:
@@ -434,9 +434,9 @@ typedef struct sortClientData
 
 static bool cmp_sd(sortClientData p1, sortClientData p2)
 {
-    if (((clientData*)(p1.data))->LastSend.value > ((clientData*)(p2.data))->LastSend.value)
+    if (((clientData*)(p1.data))->LastSend.asULong() > ((clientData*)(p2.data))->LastSend.asULong())
         return true;
-    if (((clientData*)(p1.data))->LastSend.value < ((clientData*)(p2.data))->LastSend.value)
+    if (((clientData*)(p1.data))->LastSend.asULong() < ((clientData*)(p2.data))->LastSend.asULong())
         return false;
     return p1.nClient < p2.nClient;
 }
@@ -480,7 +480,7 @@ unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, str
         phoneItem = getToken(phoneItem, '/', false);
         getToken(phoneItem, ',');
         getToken(phoneItem, ',');
-        unsigned n = atol(phoneItem.latin1());
+        unsigned n = phoneItem.toULong();
         if (n == CELLULAR) bCell = true;
         if (n == PAGER) bPager = true;
     }
