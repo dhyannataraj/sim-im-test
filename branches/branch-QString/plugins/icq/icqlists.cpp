@@ -22,6 +22,7 @@
 #ifndef WIN32
 #include <netinet/in.h>
 #endif
+#include <winsock2.h>   // htons
 #include <stdio.h>
 #include <time.h>
 #include <vector>

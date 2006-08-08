@@ -511,3 +511,7 @@ QWidget *WinDockPlugin::getMainWindow()
     delete list;
     return NULL;
 }
+
+#ifndef NO_MOC_INCLUDES
+#include "windock.moc"
+#endif
