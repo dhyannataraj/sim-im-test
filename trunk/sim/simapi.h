@@ -77,7 +77,7 @@ class QToolBar;
 #elif defined(_WIN32) || defined(_WIN64)
 # define SIM_EXPORT __declspec(dllexport)
 # define SIM_IMPORT __declspec(dllimport)
-# define EXPORT_PROC extern "C" __declspec(dllimport)
+# define EXPORT_PROC extern "C" __declspec(dllexport)
 #else
 # define SIM_EXPORT
 # define SIM_IMPORT
