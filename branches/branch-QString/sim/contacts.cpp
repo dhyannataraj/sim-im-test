@@ -474,9 +474,11 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
         phoneItem = getToken(phoneItem, '/', false);
         getToken(phoneItem, ',');
         getToken(phoneItem, ',');
-        unsigned n = phoneItem.toLong();
-        if (n == CELLULAR) bCell = true;
-        if (n == PAGER) bPager = true;
+        unsigned n = phoneItem.toULong();
+        if (n == CELLULAR)
+            bCell = true;
+        if (n == PAGER)
+            bPager = true;
     }
     if (bCell){
         if (statusIcon){

@@ -113,11 +113,7 @@ void MigrateDialog::pageSelected(const QString&)
         QFile icq_conf(path + "icq.conf");
         totalSize += icq_conf.size();
         QString history_path = path + "history";
-#ifdef WIN32
-        history_path += "\\";
-#else
         history_path += "/";
-#endif
         QDir history(history_path);
         QStringList l = history.entryList("*.history", QDir::Files);
         for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
@@ -186,7 +182,7 @@ void MigrateDialog::process()
                 if (line.isEmpty())
                     break;
                 QString name = line.section('=',0,0);
-				QString data = line.section('=',1,1);
+                QString data = line.section('=',1,1);
                 if (name == "UIN")
                     m_uin = data.toLong();
                 if (name == "EncryptPassword")

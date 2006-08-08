@@ -834,12 +834,12 @@ EXPORT void saveGeometry(QWidget *w, Geometry geo)
     KWin::WindowInfo info = KWin::windowInfo(w->winId());
     geo[4].asLong() = info.desktop();
     if (info.onAllDesktops())
-        geo[4].asLong() = (unsigned)(-1);
+        geo[4].asLong() = -1;
 #else
     KWin::Info info = KWin::info(w->winId());
     geo[4].asLong() = info.desktop;
     if (info.onAllDesktops)
-        geo[4].asLong() = (unsigned)(-1);
+        geo[4].asLong() = -1;
 #endif
 #endif
 }

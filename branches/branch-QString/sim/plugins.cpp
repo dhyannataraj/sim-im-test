@@ -538,7 +538,7 @@ void PluginManagerPrivate::saveState()
         return;
     getContacts()->save();
     QString cfgName = user_file(PLUGINS_CONF);
-    QFile f(QFile::decodeName((cfgName + BACKUP_SUFFIX).local8Bit())); // use backup file for this ...
+    QFile f(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!f.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", f.name().local8Bit().data());
         return;

@@ -96,6 +96,7 @@ void log(unsigned short l, const char *fmt, ...)
     log_string(l, m.c_str());
     va_end(ap);
 }
+
 void log(unsigned short l, const QString &str)
 {
 	log_string(l, str.local8Bit().data());
