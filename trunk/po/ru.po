@@ -3661,7 +3661,7 @@ msgstr "Загружать один уровень"
 
 #: plugins/jabber/jabber.cpp:335
 msgid "Load all levels"
-msgstr "Зашружать все уровни"
+msgstr "Загружать все уровни"
 
 # ui/changepasswd.cpp:36
 #: plugins/jabber/jabber_rosters.cpp:2024
