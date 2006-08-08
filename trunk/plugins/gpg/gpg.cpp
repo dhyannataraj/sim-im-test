@@ -24,11 +24,13 @@
 #include "userwnd.h"
 #include "exec.h"
 #include "passphrase.h"
+#include "ballonmsg.h"
 
 #include <qtimer.h>
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qregexp.h>
+#include <qprocess.h>
 
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
@@ -38,13 +40,13 @@ using namespace std;
 using namespace SIM;
 
 #ifndef WIN32
-static string GPGpath;
+static QString GPGpath;
 #endif
 
 Plugin *createGpgPlugin(unsigned base, bool, Buffer *cfg)
 {
 #ifndef WIN32
-    if (GPGpath.empty())
+    if (GPGpath.isEmpty())
         return NULL;
 #endif
     Plugin *plugin = new GpgPlugin(base, cfg);
@@ -63,37 +65,31 @@ static PluginInfo info =
 EXPORT_PROC PluginInfo* GetPluginInfo()
 {
 #ifndef WIN32
-    string path;
+    QString path;
     const char *p = getenv("PATH");
     if (p)
-        path = p;
-    while (!path.empty()){
-        string p = getToken(path, ':');
+        path = QFile::decodeName(p);
+    while (!path.isEmpty()){
+        QString p = getToken(path, ':');
         p += "/gpg";
-        QFile f(p.c_str());
+        QFile f(p);
         QFileInfo fi(f);
         if (fi.isExecutable()){
             GPGpath = p;
             break;
         }
     }
-    if (GPGpath.empty())
+    if (GPGpath.isEmpty())
         info.description = I18N_NOOP("Plugin adds GnuPG encryption/decryption support for messages\n"
                                      "GPG not found in PATH");
 #endif
     return &info;
 }
 
-#ifdef WIN32
-static char def_home[] = "keys\\";
-#else
-static char def_home[] = "keys/";
-#endif
-
 static DataDef gpgData[] =
     {
         { "GPG", DATA_STRING, 1, 0 },
-        { "Home", DATA_STRING, 1, def_home },
+        { "Home", DATA_STRING, 1, "keys/" },
         { "GenKey", DATA_STRING, 1, "--gen-key --batch" },
         { "PublicList", DATA_STRING, 1, "--with-colon --list-public-keys" },
         { "SecretList", DATA_STRING, 1, "--with-colon --list-secret-keys" },
@@ -131,19 +127,16 @@ GpgPlugin::GpgPlugin(unsigned base, Buffer *cfg)
 
 GpgPlugin::~GpgPlugin()
 {
-    if (m_passphraseDlg)
-        delete m_passphraseDlg;
+    delete m_passphraseDlg;
     unregisterMessage();
     free_data(gpgData, &data);
     list<DecryptMsg>::iterator it;
     for (it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
-        if ((*it).msg)
-            delete (*it).msg;
+        delete (*it).msg;
         delete (*it).exec;
     }
     for (it = m_import.begin(); it != m_import.end(); ++it){
-        if ((*it).msg)
-            delete (*it).msg;
+        delete (*it).msg;
         delete (*it).exec;
     }
     for (it = m_public.begin(); it != m_public.end(); ++it)
@@ -153,12 +146,12 @@ GpgPlugin::~GpgPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-const char *GpgPlugin::GPG()
+QString GpgPlugin::GPG()
 {
 #ifdef WIN32
-    return getGPG();
+    return QFile::decodeName(getGPG());
 #else
-return GPGpath.c_str();
+    return GPGpath;
 #endif
 }
 
@@ -340,7 +333,7 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
 
                     QString gpg;
                     gpg += "\"";
-                    gpg += QFile::decodeName(GPG());
+                    gpg += GPG();
                     gpg += "\" --no-tty --homedir \"";
                     gpg += home;
                     gpg += "\" ";
@@ -493,7 +486,7 @@ void *GpgPlugin::processEvent(Event *e)
 
                         QString gpg;
                         gpg += "\"";
-                        gpg += QFile::decodeName(GPG());
+                        gpg += GPG();
                         gpg += "\" --no-tty --homedir \"";
                         gpg += home;
                         gpg += "\" ";
@@ -559,7 +552,7 @@ void *GpgPlugin::processEvent(Event *e)
 
                     QString gpg;
                     gpg += "\"";
-                    gpg += QFile::decodeName(GPG());
+                    gpg += GPG();
                     gpg += "\" --no-tty --homedir \"";
                     gpg += home;
                     gpg += "\" ";
@@ -602,7 +595,7 @@ bool GpgPlugin::decode(Message *msg, const char *aPassphrase, const char *key)
 
     QString gpg;
     gpg += "\"";
-    gpg += QFile::decodeName(GPG());
+    gpg += GPG();
     gpg += "\" --no-tty --homedir \"";
     gpg += home;
     gpg += "\" ";
@@ -687,7 +680,7 @@ QWidget *GpgPlugin::createConfigWindow(QWidget *parent)
 
 void GpgPlugin::reset()
 {
-    if (*GPG() && *getHome() && *getKey()){
+    if (!GPG().isEmpty() && *getHome() && *getKey()){
 #ifdef HAVE_CHMOD
         chmod(QFile::encodeName(user_file(getHome())), 0700);
 #endif
@@ -695,6 +688,14 @@ void GpgPlugin::reset()
     }else{
         unregisterMessage();
     }
+}
+
+QString GpgPlugin::getHomeDir()
+{
+    QString home = user_file(QFile::decodeName(GpgPlugin::plugin->getHome()));
+    if (home.endsWith("\\") || home.endsWith("/"))
+        home = home.left(home.length() - 1);
+    return home;
 }
 
 #if 0
@@ -828,28 +829,28 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     Event e(EventCommandDisabled, cmd);
     e.process();
 
-    QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
+    QString gpg  = GpgPlugin::plugin->GPG();
     QString home = GpgPlugin::plugin->getHomeDir();
     m_key = GpgPlugin::plugin->getKey();
-    if (home[(int)(home.length() - 1)] == '\\')
-        home = home.left(home.length() - 1);
 
-    gpg = QString("\"") + gpg + "\"";
-    gpg += " --no-tty --homedir \"";
-    gpg += home;
-    gpg += "\" ";
-    gpg += GpgPlugin::plugin->getExport();
-    gpg = gpg.replace(QRegExp("\\%userid\\%"), m_key.c_str());
+    QStringList sl;
+    sl += GpgPlugin::plugin->GPG();
+    sl += "--no-tty";
+    sl += "--homedir";
+    sl += home;
+    sl += QStringList::split(' ', GpgPlugin::plugin->getExport());
+    sl = sl.gres(QRegExp("\\%userid\\%"), m_key);
 
-    m_exec = new Exec;
-    connect(m_exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(exportReady(Exec*,int,const char*)));
-    m_exec->execute(gpg.local8Bit(), "");
+    m_process = new QProcess(sl, this);
 
+    connect(m_process, SIGNAL(processExited()), this, SLOT(exportReady()));
+    if (!m_process->start())
+        exportReady();
 }
 
 MsgGPGKey::~MsgGPGKey()
 {
-    clearExec();
+    delete m_process;
 }
 
 void MsgGPGKey::init()
@@ -857,25 +858,29 @@ void MsgGPGKey::init()
     m_edit->m_edit->setFocus();
 }
 
-void MsgGPGKey::exportReady(Exec*, int err, const char *res)
+void MsgGPGKey::exportReady()
 {
-    if (err == 0)
-        m_edit->m_edit->setText(res);
-    QTimer::singleShot(0, this, SLOT(clearExec()));
+    if (m_process->normalExit() && m_process->exitStatus() == 0) {
+        QByteArray ba1 = m_process->readStdout();
+        m_edit->m_edit->setText(QString::fromLocal8Bit(ba1.data(), ba1.size()));
+        if(ba1.isEmpty()) {
+            QByteArray ba2 = m_process->readStderr();
+            QString errStr;
+            if(!ba2.isEmpty())
+                errStr = " (" + QString::fromLocal8Bit( ba2.data(), ba2.size() ) + ")";
+            BalloonMsg::message(i18n("Can't read gpg key") + errStr, m_edit->m_edit);
+        }
+    }
+
     Command cmd;
     cmd->id    = CmdSend;
     cmd->flags = 0;
     cmd->param = m_edit;
     Event e(EventCommandDisabled, cmd);
     e.process();
-}
 
-void MsgGPGKey::clearExec()
-{
-    if (m_exec){
-        delete m_exec;
-        m_exec = NULL;
-    }
+    delete m_process;
+    m_process = 0;
 }
 
 void *MsgGPGKey::processEvent(Event *e)
@@ -928,14 +933,6 @@ void *MsgGPGKey::processEvent(Event *e)
         }
     }
     return NULL;
-}
-
-QString GpgPlugin::getHomeDir()
-{
-    QString home = user_file(QFile::decodeName(GpgPlugin::plugin->getHome()));
-    if (home.endsWith("\\") || home.endsWith("/"))
-        home = home.left(home.length() - 1);
-    return home;
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -21,10 +21,9 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qpixmap.h>
-#include <qprocess.h>
 #include <qlineedit.h>
 #include <qcombobox.h>
+#include <qprocess.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qfile.h>
@@ -70,7 +69,7 @@ GpgGen::GpgGen(GpgCfg *cfg)
 
 GpgGen::~GpgGen()
 {
-     delete m_process;
+    delete m_process;
 }
 
 void GpgGen::textChanged(const QString&)
@@ -96,12 +95,12 @@ void GpgGen::accept()
 #ifdef WIN32
     QString gpg  = m_cfg->edtGPG->text();
 #else
-    QString gpg  = QFile::decodeName(GpgPlugin::plugin->GPG());
+    QString gpg  = GpgPlugin::plugin->GPG();
 #endif
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())
         return;
-    if (home.endsWith("\\") ||home.endsWith("/"))
+    if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
     QString in =
         "Key-Type: 1" CRLF
@@ -168,7 +167,7 @@ void GpgGen::genKeyReady()
             s += QString::fromLocal8Bit(ba1.data(), ba1.size());
         if (!ba2.isEmpty()) {
             if(!s.isEmpty())
-                 s += " ";
+                s += " ";
             s += QString::fromLocal8Bit(ba2.data(), ba2.size());
         }
         s += ")";

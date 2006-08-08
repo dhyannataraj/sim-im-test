@@ -23,25 +23,25 @@
 #include <list>
 #include <string>
 
-const unsigned long MessageGPGKey	= 0x5000;
-const unsigned long MessageGPGUse	= 0x5001;
+const unsigned long MessageGPGKey       = 0x5000;
+const unsigned long MessageGPGUse       = 0x5001;
 
 typedef struct GpgData
 {
-    SIM::Data	GPG;
-    SIM::Data	Home;
-    SIM::Data	GenKey;
-    SIM::Data	PublicList;
-    SIM::Data	SecretList;
-    SIM::Data	Import;
-    SIM::Data	Export;
-    SIM::Data	Encrypt;
-    SIM::Data	Decrypt;
-    SIM::Data	Key;
-    SIM::Data	Passphrases;
-    SIM::Data	Keys;
-    SIM::Data	nPassphrases;
-    SIM::Data	SavePassphrase;
+    SIM::Data   GPG;
+    SIM::Data   Home;
+    SIM::Data   GenKey;
+    SIM::Data   PublicList;
+    SIM::Data   SecretList;
+    SIM::Data   Import;
+    SIM::Data   Export;
+    SIM::Data   Encrypt;
+    SIM::Data   Decrypt;
+    SIM::Data   Key;
+    SIM::Data   Passphrases;
+    SIM::Data   Keys;
+    SIM::Data   nPassphrases;
+    SIM::Data   SavePassphrase;
 } GpgData;
 
 typedef struct GpgUserData
@@ -51,6 +51,7 @@ typedef struct GpgUserData
 } GpgUserData;
 
 class Exec;
+class QProcess;
 
 typedef struct DecryptMsg
 {
@@ -91,7 +92,7 @@ public:
     PROP_STRLIST(Keys);
     PROP_ULONG(nPassphrases);
     PROP_BOOL(SavePassphrase);
-    const char *GPG();
+    QString GPG();
     void reset();
     static GpgPlugin *plugin;
     std::list<KeyMsg>	 m_sendKeys;
@@ -131,14 +132,13 @@ public:
     ~MsgGPGKey();
 protected slots:
     void init();
-    void exportReady(Exec*,int,const char*);
-    void clearExec();
+    void exportReady();
 protected:
     void *processEvent(SIM::Event*);
-    std::string  m_client;
-    std::string	m_key;
+    std::string     m_client;
+    std::string     m_key;
     MsgEdit	*m_edit;
-    Exec	*m_exec;
+    QProcess    *m_process;
 };
 
 #endif

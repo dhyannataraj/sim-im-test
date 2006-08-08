@@ -42,7 +42,7 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
     m_process= NULL;
     m_bNew   = false;
 #ifdef WIN32
-    edtGPG->setText(QFile::decodeName(m_plugin->getGPG()));
+    edtGPG->setText(m_plugin->GPG());
     edtGPG->setFilter(i18n("GPG(gpg.exe)"));
     m_find = NULL;
 #else
@@ -146,7 +146,7 @@ void GpgCfg::fillSecret(const QByteArray &ba)
         for (;;){
             QCString line = getToken(all, '\n');
             if(line.isEmpty())
-                    break;
+                break;
             QCString type = getToken(line, ':');
             if (type == "sec"){
                 getToken(line, ':');
@@ -179,9 +179,9 @@ void GpgCfg::refresh()
 #ifdef WIN32
     QString gpg  = edtGPG->text();
 #else
-    QString gpg  = QFile::decodeName(m_plugin->GPG());
+    QString gpg  = m_plugin->GPG();
 #endif
-    QString home = m_plugin->getHomeDir();
+    QString home = edtHome->text();
 
     if (gpg.isEmpty() || home.isEmpty()){
         fillSecret(NULL);

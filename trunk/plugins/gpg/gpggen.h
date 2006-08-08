@@ -34,8 +34,8 @@ protected slots:
     void genKeyReady();
 protected:
     void accept();
-    QProcess    *m_process;
-    GpgCfg      *m_cfg;
+    QProcess *m_process;
+    GpgCfg   *m_cfg;
 };
 
 #endif

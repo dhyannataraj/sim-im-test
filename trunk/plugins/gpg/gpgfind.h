@@ -18,11 +18,12 @@
 #ifndef _GPGFIND_H
 #define _GPGFIND_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "gpgfindbase.h"
 
 #include <qdir.h>
+#include <qfileinfo.h>
+#include <qstring.h>
+#include <qvaluestack.h>
 
 class EditFile;
 
@@ -38,12 +39,12 @@ protected slots:
     void next();
 protected:
     bool checkPath();
-    QString				 m_path;
-    std::stack<QStringList>	m_tree;
-    std::stack<unsigned>	m_pos;
-    QFileInfoList		 m_drives;
-    QFileInfo			 *m_drive;
-    EditFile			 *m_edit;
+    QString                  m_path;
+    QValueStack<QStringList> m_tree;
+    QValueStack<unsigned>    m_pos;
+    QFileInfoList            m_drives;
+    QFileInfo               *m_drive;
+    EditFile                *m_edit;
 };
 
 #endif
