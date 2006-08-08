@@ -40,7 +40,7 @@ GpgCfg::GpgCfg(QWidget *parent, GpgPlugin *plugin)
     m_process= NULL;
     m_bNew   = false;
 #ifdef WIN32
-    edtGPG->setText(m_plugin->getGPG());
+    edtGPG->setText(m_plugin->GPG());
     edtGPG->setFilter(i18n("GPG(gpg.exe)"));
     m_find = NULL;
 #else

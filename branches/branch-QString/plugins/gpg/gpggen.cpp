@@ -21,12 +21,12 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 
-#include <qpixmap.h>
 #include <qlineedit.h>
 #include <qcombobox.h>
+#include <qprocess.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
-#include <qprocess.h>
+#include <qfile.h>
 
 using namespace SIM;
 
@@ -38,7 +38,7 @@ GpgGen::GpgGen(GpgCfg *cfg)
     setButtonsPict(this);
     setCaption(caption());
     cmbMail->setEditable(true);
-	m_process = NULL;
+    m_process = NULL;
     m_cfg  = cfg;
     connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtPass1, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));

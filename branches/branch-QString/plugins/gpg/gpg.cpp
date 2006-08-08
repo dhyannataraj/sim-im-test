@@ -228,7 +228,7 @@ void GpgPlugin::decryptReady()
                         bool bDecode = false;
                         for (itw = m_wait.begin(); itw != m_wait.end(); ++itw){
                             if ((*itw).key == (*it).key){
-                                decode((*itw).msg, (*it).passphrase.utf8(), (*it).key);
+                                decode((*itw).msg, (*it).passphrase, (*it).key);
                                 m_wait.erase(itw);
                                 bDecode = true;
                                 break;
@@ -949,20 +949,6 @@ void *MsgGPGKey::processEvent(Event *e)
     }
     return NULL;
 }
-
-#ifdef WIN32
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-
-#endif
 
 #ifndef _MSC_VER
 #include "gpg.moc"

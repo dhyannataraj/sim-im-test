@@ -70,8 +70,6 @@ typedef struct KeyMsg
     SIM::Message    *msg;
 } KeyMsg;
 
-class PassphraseDlg;
-
 class GpgPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
     Q_OBJECT
@@ -118,7 +116,7 @@ protected:
     QValueList<DecryptMsg> m_import;
     QValueList<DecryptMsg> m_public;
     QValueList<DecryptMsg> m_wait;
-    PassphraseDlg        *m_passphraseDlg;
+    class PassphraseDlg        *m_passphraseDlg;
     GpgData data;
 };
 
