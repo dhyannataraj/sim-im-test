@@ -22,10 +22,10 @@ CHECK_INCLUDE_FILES(unistd.h        HAVE_UNISTD_H)                      # simapi
 CHECK_SYMBOL_EXISTS(strcasecmp  "strings.h"         HAVE_STRCASECMP)    # simapi.h, various
 
 # Functions
-CHECK_FUNCTION_EXISTS(chmod     "sys/stat.h"        HAVE_CHMOD)         # __homedir/homedir.cpp, gpg/gpg.cpp
-CHECK_FUNCTION_EXISTS(mmap      "sys/mman.h"        HAVE_MMAP)          # _core/libintl.cpp
-CHECK_FUNCTION_EXISTS(munmap    "sys/mman.h"        HAVE_MUNMAP)        # _core/libintl.cpp
-CHECK_FUNCTION_EXISTS(uname     "sys/utsname.h"     HAVE_UNAME)         # sim/fetch.cpp
+CHECK_FUNCTION_EXISTS(chmod     HAVE_CHMOD)         # __homedir/homedir.cpp, gpg/gpg.cpp
+CHECK_FUNCTION_EXISTS(mmap      HAVE_MMAP)          # _core/libintl.cpp
+CHECK_FUNCTION_EXISTS(munmap    HAVE_MUNMAP)        # _core/libintl.cpp
+CHECK_FUNCTION_EXISTS(uname     HAVE_UNAME)         # sim/fetch.cpp
 
 # check for structure member
 CHECK_STRUCT_MEMBER(tm tm_gmtoff time.h HAVE_TM_GMTOFF)        # icqclient.cpp
