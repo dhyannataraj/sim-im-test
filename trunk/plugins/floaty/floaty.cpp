@@ -141,7 +141,7 @@ void *FloatyPlugin::processEvent(Event *e)
                 if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
-                wnd->move(data->X.value, data->Y.value);
+                wnd->move(data->X.toULong(), data->Y.toULong());
                 wnd->show();
             }
             break;
