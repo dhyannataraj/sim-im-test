@@ -1,5 +1,5 @@
 #! /bin/sh
-# postrm script for sim-qt
+# postrm script for sim
 #
 # see: dh_installdeb(1)
 

@@ -7,7 +7,9 @@ Standards-Version: 3.7.2
 
 Package: sim
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, sim-data (= ${source:Version})
+Conflicts: sim-qt (<= ${source:Version})
+Replaces:  sim-qt (<= ${source:Version})
 Suggests: gnupg (>= 1.4.3)
 Description: Simple Instant Messenger (KDE)
  sim is a simple and powerful multi-protocol instant messenger.
@@ -34,3 +36,44 @@ Description: Simple Instant Messenger (KDE)
  .
   This package is compiled with KDE support.
   See the 'kde' package for more information about KDE.
+
+Package: sim-qt
+Architecture: any
+Depends: ${shlibs:Depends}, sim-data (= ${source:Version})
+Conflicts: sim (<= ${source:Version})
+Replaces:  sim (<= ${source:Version})
+Suggests: gnupg (>= 1.4.3)
+Description: Simple Instant Messenger (Qt)
+ sim is a simple and powerful multi-protocol instant messenger.
+ .
+ Some of the features:
+  * Supported protocols: ICQ, Jabber, MSN, AIM, 
+    Yahoo!, LiveJournal;
+  * Receiving and sending SMS;
+  * Server-side contact list;
+  * Receiving and the sending messages in RTF-format;
+  * Phone directory support;
+  * File transfers;
+  * Chat;
+  * Support Miranda icon themes;
+  * Spam filter;
+  * Secure direct connection with SIM and L-ICQ;
+  * GPG encryption using gnupg;
+  * Message or chat mode for user window;
+  * On-Screen display notification about messages and user status;
+  * Sending of the messages to several users;
+  * Proxy: HTTP/HTTPS, SOCKS4, SOCKS5.
+ .
+  Homepage: http://sim-im.org/
+ .
+  This package is compiled with Qt support.
+
+Package: sim-data
+Architecture: all
+Conflicts: sim-data (<= ${source:Version})
+Replaces:  sim-data (<= ${source:Version})
+Suggests: sim (= ${source:Version}) | sim-qt (= ${source:Version})
+Description: Simple Instant Messenger data files
+ sim is a simple and powerful multi-protocol instant messenger.
+ .
+  This package contains data files for sim and sim-qt packages.

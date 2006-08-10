@@ -6,15 +6,24 @@
 # # Sample debian/rules that uses debhelper.
 # # GNU copyright 1997 to 1999 by Joey Hess.
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+# DebHelper control
+export DH_ALWAYS_EXCLUDE=.svn
+export DH_VERBOSE=1
 
-tmp = debian/sim
+sim = sim
+sim_qt = sim-qt
+sim_data = sim-data
+
+tmp_sim = $(CURDIR)/debian/$(sim)
+tmp_sim_qt = $(CURDIR)/debian/$(sim_qt)
+tmp_sim_data = $(CURDIR)/debian/$(sim_data)
+tmp = $(tmp_sim)
 pixmaps = $(tmp)/usr/share/pixmaps
 overrides = $(tmp)/usr/share/lintian/overrides
 kdedocs = $(tmp)/usr/share/doc/kde/HTML
+sim_data_dirs = usr/share/apps/sim  usr/share/icons  usr/share/locale  usr/share/pixmaps
 
-stamps_to_clean = build-stamp
+stamps_to_clean = admin/make-common-stamp build-stamp-sim build-stamp-sim-qt install-stamp-sim-data
 files_to_clean = debian/debiandirs configure aclocal.m4 acinclude.m4 po/*gmo config.log config.status
 dirs_to_clean = doc/en/HTML
 
@@ -26,68 +35,114 @@ INSTALL_FILE = install -p -o root -g root -m 644
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
+# FOR AUTOCONF 2.52 AND NEWER ONLY
+CONFFLAGS =
+ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+  CONFFLAGS += --build $(DEB_HOST_GNU_TYPE)
+else
+  CONFFLAGS += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
+endif
 
 CFLAGS = -Wall -g
-
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
 else
 	CFLAGS += -O2
 endif
+
+CXXFLAGS:=$(CFLAGS)
+
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
 
-config.status: configure
-	dh_testdir
-#   Add here commands to configure the package.
-	QTDIR=/usr/share/qt3 kde_appsdir=/usr/share/applications ./configure --disable-rpath --enable-openssl \
-	--enable-kde --enable-release --prefix=/usr \
-	--mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
+admin/make-common-stamp:
+	# emulate /usr/bin/libtoolize -f
+	ln -sf /usr/share/misc/config.guess		admin/config.guess
+	ln -sf /usr/share/misc/config.sub		admin/config.sub
+	ln -sf /usr/share/libtool/ltmain.sh		admin/ltmain.sh
+	ln -sf /usr/share/aclocal/libtool.m4	admin/libtool.m4.in
 
-build: build-stamp
--include debian/debiandirs
+	$(MAKE) -f admin/Makefile.common
+
+	touch admin/make-common-stamp
+
+build-stamp-sim: admin/make-common-stamp
+	# delete stamp for sim-qt
+	-rm -f build-stamp-sim-qt
+
+	# configure sim
+	./configure $(configkde) CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
+		--enable-kde
+
+	# Touch all the UI files. This will force uic to regenerate .h as well as .cpp sources.
+	# by default .cpp sources are regenerated but headers are not.
+	touch `find . -name "*.ui"`
+
+	# make sim
+	$(MAKE)
+
+	# create stamp for sim
+	touch build-stamp-sim
+
+build-stamp-sim-qt: admin/make-common-stamp
+	# delete stamp for sim
+	-rm -f build-stamp-sim
+
+	# configure sim-qt
+	./configure $(configkde) CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
+		--disable-kde
+
+	# Touch all the UI files. This will force uic to regenerate .h as well as .cpp sources.
+	# by default .cpp sources are regenerated but headers are not.
+	touch `find . -name "*.ui"`
+
+	# make sim-qt
+	$(MAKE)
+	touch build-stamp-sim-qt
 
 debian/debiandirs: admin/debianrules
 	perl -w admin/debianrules echodirs > debian/debiandirs
 
+build-sim: build-stamp-sim
+-include debian/debiandirs
 
-build-stamp:
-#	-test -r /usr/share/misc/config.sub && \
-#	cp -f /usr/share/misc/config.sub admin/config.sub
-#	-test -r /usr/share/misc/config.guess && \
-#	cp -f /usr/share/misc/config.guess admin/config.guess
+build-sim-qt: build-stamp-sim-qt
+-include debian/debiandirs
 
-	/usr/bin/libtoolize -f
-	cp -f /usr/share/aclocal/libtool.m4 admin/libtool.m4.in
-	$(MAKE) -f admin/Makefile.common
+build:
+	# build is just a required stub (Policy: 4.8)
 
-	./configure $(configkde)
+clean-common:
+	dh_testdir	-p$(pkg)
+	dh_testroot	-p$(pkg)
 
-	# Touch all the UI files.
-	# This will force uic to regenerate .h as well as .cpp sources;
-	# by default .cpp sources are regenerated but headers are not.
-	touch `find . -name "*.ui"`
-
-	$(MAKE)
-	touch build-stamp
-
-clean:
-	dh_testdir
-	dh_testroot
+	# make distclean
 	-$(MAKE) distclean
+
+	# clean other files
 	-rm -f $(stamps_to_clean)
 	-rm -f $(files_to_clean)
 	-rm -rf $(dirs_to_clean)
+	-rm -rf $(tmp)
 	-find $(CURDIR) -name Makefile.in -exec rm -f {} \;
+	dh_clean	-p$(pkg)
 
-	dh_clean
+clean-sim:
+	debian/rules clean-common pkg=$(sim) tmp=$(tmp_sim)
 
-install: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	dh_installdirs
+clean-sim-qt:
+	debian/rules clean-common pkg=$(sim_qt) tmp=$(tmp_sim_qt)
+
+clean: clean-sim clean-sim-qt
+	# clean is just a dependecy
+
+install-common: build-$(pkg)
+	-rm -f install-stamp-sim-data
+	dh_testdir	-p$(pkg)
+	dh_testroot	-p$(pkg)
+	dh_clean	-p$(pkg) -k
+	dh_installdirs	-p$(pkg)
 
 	# Install pixmaps.
 	$(INSTALL_DIR) $(pixmaps)
@@ -99,12 +154,11 @@ install: build
 	$(INSTALL_FILE) debian/override $(overrides)/sim
 
 	# Main install.
-	$(MAKE) install DESTDIR=`pwd`/$(tmp)
+	$(MAKE) install DESTDIR=$(tmp)
+
 	# Remove unneeded stuff.
 	rm -f $(tmp)/usr/share/apps/sim/COPYING
 	rm -f $(tmp)/usr/share/mimelnk/application/x-icq.desktop
-	rmdir $(tmp)/usr/share/mimelnk/application
-	rmdir $(tmp)/usr/share/mimelnk
 	rm -f $(tmp)/usr/lib/libsim.la
 	rm -f $(tmp)/usr/lib/libsim.so
 	rm -f $(tmp)/usr/lib/sim/*.la
@@ -114,33 +168,96 @@ install: build
 	  pushd . > /dev/null; cd `dirname $$i`; meinproc `basename $$i`; \
 	  popd > /dev/null; done
 
-# rm -f debian/sim/usr/share/menu/sim-kde.menu
-# rm -f debian/sim/usr/bin/simctrl
-# rm -f debian/sim/usr/share/applications/sim/COPYING
+	debian/rules install-sim-data-from src_pkg=$(pkg) src_tmp=$(tmp)
 
-# Build architecture-independent files here.
-binary-indep: build install
-	# binary-indep - We have nothing to do by default.
+install-sim:
+	debian/rules install-common pkg=$(sim) tmp=$(tmp_sim)
+
+install-sim-qt: install-stamp-sim-qt
+	debian/rules install-common pkg=$(sim_qt) tmp=$(tmp_sim_qt)
+
+remove-sim-data-from:
+	# delete common data files from sim
+	for d in  $(sim_data_dirs)  ; do
+		-rm -rf $(src_tmp)/$$d
+	done
+
+install-sim-data-from:
+	dh_testdir	-p$(sim_data)
+	dh_testroot	-p$(sim_data)
+	dh_clean	-p$(sim_data) -k
+	dh_installdirs	-p$(sim_data)
+	
+	# move common data files from sim-qt to sim-data
+	# delete common data files from sim
+	for d in  $(sim_data_dirs)  ; do \
+		mv -v $(src_tmp)/$$d $(tmp_sim_data)/$$d ; \
+	done
+	touch install-stamp-sim-data
+
+install-stamp-sim-data:
+	if [ -r build-stamp-sim ] ; then \
+	    debian/rules install-sim ; \
+	else \
+	    debian/rules install-sim-qt ; \
+	fi
+
+install-sim-data: install-stamp-sim-data
+	# install-sim-data is just a dependecy of install-stamp-sim-data
+
+install: install-sim install-sim-qt install-sim-data
+	# install is just a dependecy
 
 # Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installdocs
-	dh_installmenu
-	dh_installman
-	dh_installchangelogs ChangeLog
-	dh_installman -a debian/sim.1
-	dh_link
-	dh_strip
-	dh_compress --exclude=.docbook --exclude=.bz2
-	dh_fixperms
-	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
+binary-arch-common: build-$(pkg) install-$(pkg)
+	dh_testdir		-p$(pkg)
+	dh_testroot		-p$(pkg)
+	dh_installdocs	-p$(pkg)
+	dh_installmenu	-p$(pkg)
+	dh_installman	-p$(pkg)
+	dh_installchangelogs -p$(pkg) ChangeLog
+	dh_installman	-p$(pkg) -a debian/sim.1
+	dh_link			-p$(pkg)
+	dh_strip		-p$(pkg)
+	dh_compress		-p$(pkg) --exclude=.docbook --exclude=.bz2
+	dh_fixperms		-p$(pkg)
+	dh_makeshlibs	-p$(pkg)
+	dh_installdeb	-p$(pkg)
+	dh_shlibdeps	-p$(pkg) -L$(pkg)
+	dh_gencontrol	-p$(pkg)
+	dh_md5sums		-p$(pkg)
+	dh_builddeb		-p$(pkg)
 
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+# Build architecture-dependent files here.
+binary-arch-sim:
+	debian/rules binary-arch-common pkg=$(sim)
+
+# Build architecture-dependent files here.
+binary-arch-sim-qt:
+	debian/rules binary-arch-common pkg=$(sim_qt)
+
+# Build architecture-dependent files here.
+binary-arch: binary-arch-sim binary-arch-sim-qt
+	# binary-arch is just a dependecy
+
+binary-indep-sim-data: install-sim-data
+	dh_installchangelogs -p$(sim_data) ChangeLog
+	dh_compress		-p$(sim_data) --exclude=.docbook --exclude=.bz2
+	dh_fixperms		-p$(sim_data)
+	dh_gencontrol	-p$(sim_data)
+	dh_md5sums		-p$(sim_data)
+	dh_builddeb		-p$(sim_data)
+
+# Build architecture-independent files here.
+binary-indep: binary-indep-sim-data
+	# binary-indep is just a dependecy
+
+binary: binary-arch binary-indep
+	# binary is just a dependecy
+
+.PHONY: build build-sim build-sim-qt \
+	clean clean-common clean-sim clean-sim-qt \
+	binary-indep binary-indep-sim-data\
+	binary-arch binary-arch-common  binary-arch-sim binary-arch-sim-qt 
+	binary binary-sim binary-sim-qt \
+	install install-common install-sim install-sim-qt install-sim-data
