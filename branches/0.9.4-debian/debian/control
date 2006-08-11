@@ -70,8 +70,8 @@ Description: Simple Instant Messenger (Qt)
 
 Package: sim-data
 Architecture: all
-Conflicts: sim-data (<= ${source:Version})
-Replaces:  sim-data (<= ${source:Version})
+Conflicts: sim (<< ${source:Version})
+Replaces:  sim (<< ${source:Version})
 Suggests: sim (= ${source:Version}) | sim-qt (= ${source:Version})
 Description: Simple Instant Messenger data files
  sim is a simple and powerful multi-protocol instant messenger.

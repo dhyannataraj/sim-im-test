@@ -173,7 +173,7 @@ install-common: build-$(pkg)
 install-sim:
 	debian/rules install-common pkg=$(sim) tmp=$(tmp_sim)
 
-install-sim-qt: install-stamp-sim-qt
+install-sim-qt:
 	debian/rules install-common pkg=$(sim_qt) tmp=$(tmp_sim_qt)
 
 remove-sim-data-from:
@@ -188,8 +188,7 @@ install-sim-data-from:
 	dh_clean	-p$(sim_data) -k
 	dh_installdirs	-p$(sim_data)
 	
-	# move common data files from sim-qt to sim-data
-	# delete common data files from sim
+	# move common data files from sim to sim-data
 	for d in  $(sim_data_dirs)  ; do \
 		mv -v $(src_tmp)/$$d $(tmp_sim_data)/$$d ; \
 	done
@@ -242,6 +241,7 @@ binary-arch: binary-arch-sim binary-arch-sim-qt
 
 binary-indep-sim-data: install-sim-data
 	dh_installchangelogs -p$(sim_data) ChangeLog
+	dh_installdocs	-p$(sim_data)
 	dh_compress		-p$(sim_data) --exclude=.docbook --exclude=.bz2
 	dh_fixperms		-p$(sim_data)
 	dh_gencontrol	-p$(sim_data)
