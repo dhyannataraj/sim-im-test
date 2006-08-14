@@ -1,4 +1,0 @@
-sim: binary-without-manpage simctrl
-sim: package-name-doesnt-match-sonames libsim0
-sim-qt: binary-without-manpage simctrl
-sim-qt: package-name-doesnt-match-sonames libsim0

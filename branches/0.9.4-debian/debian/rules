@@ -151,7 +151,7 @@ install-common: build-$(pkg)
 
 	# Install overrides.
 	$(INSTALL_DIR) $(overrides)
-	$(INSTALL_FILE) debian/override $(overrides)/sim
+	$(INSTALL_FILE) debian/$(pkg).override $(overrides)/$(pkg)
 
 	# Main install.
 	$(MAKE) install DESTDIR=$(tmp)
@@ -176,18 +176,12 @@ install-sim:
 install-sim-qt:
 	debian/rules install-common pkg=$(sim_qt) tmp=$(tmp_sim_qt)
 
-remove-sim-data-from:
-	# delete common data files from sim
-	for d in  $(sim_data_dirs)  ; do
-		-rm -rf $(src_tmp)/$$d
-	done
-
 install-sim-data-from:
 	dh_testdir	-p$(sim_data)
 	dh_testroot	-p$(sim_data)
 	dh_clean	-p$(sim_data) -k
 	dh_installdirs	-p$(sim_data)
-	
+
 	# move common data files from sim to sim-data
 	for d in  $(sim_data_dirs)  ; do \
 		mv -v $(src_tmp)/$$d $(tmp_sim_data)/$$d ; \

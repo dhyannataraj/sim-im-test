@@ -67,6 +67,7 @@ Description: Simple Instant Messenger (Qt)
   Homepage: http://sim-im.org/
  .
   This package is compiled with Qt support.
+  If you have KDE installed then install sim package instead.
 
 Package: sim-data
 Architecture: all
