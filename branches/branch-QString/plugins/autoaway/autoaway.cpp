@@ -192,8 +192,8 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, ConfigBuffer *config)
         if (hLibUI != NULL)
             (DWORD&)_IdleUIGetLastInputTime = (DWORD)GetProcAddress(hLibUI, "IdleUIGetLastInputTime");
     }
-#elif defined(HAVE_CARBON_CARBNON_H) && !defined(HAVE_X)
-CFBundleRef carbonBundle;
+#elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
+    CFBundleRef carbonBundle;
     if (LoadFrameworkBundle( CFSTR("Carbon.framework"), &carbonBundle ) == noErr) {
         InstallEventLoopIdleTimerPtr myInstallEventLoopIdleTimer = (InstallEventLoopIdleTimerPtr)CFBundleGetFunctionPointerForName(carbonBundle, CFSTR("InstallEventLoopIdleTimer"));
         if (myInstallEventLoopIdleTimer){
@@ -219,7 +219,7 @@ AutoAwayPlugin::~AutoAwayPlugin()
     _IdleUIGetLastInputTime = NULL;
     if (hLibUI)
         FreeLibrary(hLibUI);
-#elif defined(HAVE_CARBON_CARBNON_H) && !defined(HAVE_X)
+#elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
     RemoveEventLoopTimer(mTimerRef);
 #else
     // We load static Xss in our autoaway.so's process space, but the bastard

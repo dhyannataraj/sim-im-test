@@ -22,6 +22,7 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <winsock.h>
 #else
 #include <sys/stat.h>
 #include <unistd.h>
@@ -239,6 +240,8 @@ bool Tmpl::getTag(const QString &name, void *_data, const DataDef *def, QString 
     case DATA_STRING:
         if (*p)
             res += QString::fromLocal8Bit(*p);
+        break;
+    default:
         break;
     }
     return true;

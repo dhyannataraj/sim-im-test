@@ -238,7 +238,7 @@ void InterfaceConfig::apply()
             mode = 2;
         CorePlugin::m_plugin->setContainerMode(mode + 1);
         CorePlugin::m_plugin->setSendOnEnter(chkEnter->isChecked());
-        CorePlugin::m_plugin->setCopyMessages(spnCopy->text().toLong());
+        CorePlugin::m_plugin->setCopyMessages(spnCopy->text().toULong());
     }else{
         CorePlugin::m_plugin->setContainerMode(0);
         CorePlugin::m_plugin->setSendOnEnter(false);

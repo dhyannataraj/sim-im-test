@@ -1392,4 +1392,3 @@ void DockWnd::reset()
 #ifndef NO_MOC_INCLUDES
 #include "dockwnd.moc"
 #endif
-

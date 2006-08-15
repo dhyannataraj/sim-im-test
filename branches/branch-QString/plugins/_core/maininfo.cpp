@@ -245,7 +245,7 @@ void MainInfo::fill()
         number = getToken(phoneItem, ',');
         type = getToken(phoneItem, ',');
         if (!phoneItem.isEmpty())
-            icon = getToken(phoneItem, ',').toLong();
+            icon = getToken(phoneItem, ',').toULong();
         QListViewItem *item = new QListViewItem(lstPhones);
         fillPhoneItem(item, number, type, icon, proto);
         cmbCurrent->insertItem(number);
@@ -416,7 +416,7 @@ void MainInfo::editPhone(QListViewItem *item)
     QString proto = item->text(PHONE_PROTO);
     if (!proto.isEmpty() && (proto != "-"))
         return;
-    EditPhone dlg(this, item->text(PHONE_NUMBER), item->text(PHONE_TYPE_ASIS), item->text(PHONE_ICON).toLong(), item->text(PHONE_PROTO).isEmpty(), m_contact == NULL);
+    EditPhone dlg(this, item->text(PHONE_NUMBER), item->text(PHONE_TYPE_ASIS), item->text(PHONE_ICON).toULong(), item->text(PHONE_PROTO).isEmpty(), m_contact == NULL);
     if (dlg.exec() && !dlg.number.isEmpty() && !dlg.type.isEmpty()){
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish)

@@ -285,7 +285,7 @@ void HistoryConfig::apply()
                 }
             }
         }else{
-            log(L_WARN, "Can't create %s", name.latin1());
+            log(L_WARN, "Can't create %s", name.local8Bit().data());
         }
     }
     int cur = cmbStyle->currentItem();
@@ -311,17 +311,17 @@ void HistoryConfig::apply()
         CorePlugin::m_plugin->setUseExtViewer(chkExtViewer->isChecked());
     }
     CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().local8Bit());
-    CorePlugin::m_plugin->setHistoryPage(cmbPage->lineEdit()->text().toLong());
+    CorePlugin::m_plugin->setHistoryPage(cmbPage->lineEdit()->text().toULong());
     if (bChanged){
         Event e(EventHistoryConfig);
         e.process();
     }
     fillPreview();
     HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));
-    data->CutDays.asBool() = chkDays->isChecked();
-    data->CutSize.asBool() = chkSize->isChecked();
-    data->Days.asULong()   = edtDays->text().toULong();
-    data->MaxSize.asULong()= edtSize->text().toULong();
+    data->CutDays.asBool()  = chkDays->isChecked();
+    data->CutSize.asBool()  = chkSize->isChecked();
+    data->Days.asULong()    = edtDays->text().toULong();
+    data->MaxSize.asULong() = edtSize->text().toULong();
 }
 
 void HistoryConfig::addStyles(const QString &dir, bool bCustom)
@@ -406,7 +406,7 @@ void HistoryConfig::copy()
     }
     QFile from(n);
     if (!from.open(IO_ReadOnly)){
-        log(L_WARN, "Can't open %s", n.latin1());
+        log(L_WARN, "Can't open %s", n.local8Bit().data());
         return;
     }
     n = STYLES;
@@ -415,12 +415,12 @@ void HistoryConfig::copy()
     n = user_file(n);
     QFile to(n + BACKUP_SUFFIX);
     if (!to.open(IO_WriteOnly | IO_Truncate)){
-        log(L_WARN, "Cam't create %s", n.latin1());
+        log(L_WARN, "Cam't create %s", n.local8Bit().data());
         return;
     }
-	QDataStream ds1(&from);
-	QDataStream ds2(&to);
-	ds2 << ds1;
+    QDataStream ds1(&from);
+    QDataStream ds2(&to);
+    ds2 << ds1;
     from.close();
 
     const int status = to.status();

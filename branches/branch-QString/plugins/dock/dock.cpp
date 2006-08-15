@@ -28,15 +28,6 @@
 #include <qtimer.h>
 #include <time.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
-#ifdef USE_KDE
-#include <kwinmodule.h>
-#include <kwin.h>
-#endif
-
 using namespace SIM;
 
 Plugin *createDockPlugin(unsigned base, bool, ConfigBuffer *config)

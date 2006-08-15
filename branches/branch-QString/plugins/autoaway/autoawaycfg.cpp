@@ -62,11 +62,11 @@ void AutoAwayConfig::apply()
     m_plugin->setEnableNA(chkNA->isChecked());
     m_plugin->setEnableOff(chkOff->isChecked());
     if (m_plugin->getEnableAway())
-        m_plugin->setAwayTime(spnAway->text().toLong());
+        m_plugin->setAwayTime(spnAway->text().toULong());
     if (m_plugin->getEnableNA())
-        m_plugin->setNATime(spnNA->text().toLong());
+        m_plugin->setNATime(spnNA->text().toULong());
     if (m_plugin->getEnableOff())
-        m_plugin->setOffTime(spnOff->text().toLong());
+        m_plugin->setOffTime(spnOff->text().toULong());
 }
 
 #ifndef NO_MOC_INCLUDES

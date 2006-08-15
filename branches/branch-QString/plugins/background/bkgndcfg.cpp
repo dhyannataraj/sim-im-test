@@ -79,9 +79,9 @@ void BkgndCfg::apply()
 {
     if (cmbPosition->currentItem() >= 0)
         m_plugin->setPosition(cmbPosition->currentItem());
-    m_plugin->setBackground(QFile::encodeName(edtPicture->text()));
-    m_plugin->setMarginContact(spnContact->text().toLong());
-    m_plugin->setMarginGroup(spnGroup->text().toLong());
+    m_plugin->setBackground(edtPicture->text());
+    m_plugin->setMarginContact(spnContact->text().toULong());
+    m_plugin->setMarginGroup(spnGroup->text().toULong());
     m_plugin->redraw();
 }
 

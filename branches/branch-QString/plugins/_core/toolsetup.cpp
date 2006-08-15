@@ -84,7 +84,7 @@ void ToolBarSetup::applyClick()
         for (it = active.begin(); it != active.end(); ++it){
             if (config.length())
                 config += ',';
-			config += QString::number(*it);
+            config += QString::number(*it);
         }
         bool bFirst = true;
         CommandsList list(*m_def, true);

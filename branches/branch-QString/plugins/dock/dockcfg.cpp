@@ -48,9 +48,9 @@ DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin)
 void DockCfg::apply()
 {
     m_plugin->setAutoHide(chkAutoHide->isChecked());
-    m_plugin->setAutoHideInterval(spnAutoHide->text().toLong());
+    m_plugin->setAutoHideInterval(spnAutoHide->text().toULong());
 #ifdef USE_KDE
-    m_plugin->setDesktop(spn_desk->text().toLong());
+    m_plugin->setDesktop(spn_desk->text().toULong());
 #endif
 }
 

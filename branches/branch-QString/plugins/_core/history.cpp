@@ -611,7 +611,7 @@ void History::add(Message *msg, const char *type)
 
     QFile f(f_name);
     if (!f.open(IO_ReadWrite | IO_Append)){
-        log(L_ERROR, "Can't open %s", f_name.latin1());
+        log(L_ERROR, "Can't open %s", f_name.local8Bit().data());
         return;
     }
     unsigned id = f.at();

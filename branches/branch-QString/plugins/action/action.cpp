@@ -140,11 +140,11 @@ void *ActionPlugin::processEvent(Event *e)
             if (contact == NULL)
                 return NULL;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-            if ((data == NULL) || (data->NMenu.asULong() == 0))
+            if ((data == NULL) || (data->NMenu.toULong() == 0))
                 return NULL;
-            CommandDef *cmds = new CommandDef[data->NMenu.asULong() + 1];
+            CommandDef *cmds = new CommandDef[data->NMenu.toULong() + 1];
             unsigned n = 0;
-            for (unsigned i = 0; i < data->NMenu.asULong(); i++){
+            for (unsigned i = 0; i < data->NMenu.toULong(); i++){
                 QString str = get_str(data->Menu, i + 1);
                 QString item = getToken(str, ';');
                 int pos = item.find("&IP;");
@@ -186,7 +186,7 @@ void *ActionPlugin::processEvent(Event *e)
             if (contact == NULL)
                 return NULL;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-            if ((data == NULL) || (n >= data->NMenu.asULong()))
+            if ((data == NULL) || (n >= data->NMenu.toULong()))
                 return NULL;
             QString str = get_str(data->Menu, n + 1);
             getToken(str, ';');
@@ -321,4 +321,3 @@ void ActionPlugin::clear()
 #ifndef NO_MOC_INCLUDES
 #include "action.moc"
 #endif
-

@@ -38,7 +38,7 @@ MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(add()));
     connect(btnEdit, SIGNAL(clicked()), this, SLOT(edit()));
     connect(btnRemove, SIGNAL(clicked()), this, SLOT(remove()));
-    for (unsigned i = 0; i < m_data->NMenu.asULong(); i++){
+    for (unsigned i = 0; i < m_data->NMenu.toULong(); i++){
         QString str = get_str(data->Menu, i + 1);
         QString item = getToken(str, ';');
         new QListViewItem(lstMenu, item, str);

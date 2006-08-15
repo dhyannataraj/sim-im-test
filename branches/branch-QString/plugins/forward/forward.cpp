@@ -154,9 +154,9 @@ void *ForwardPlugin::processEvent(Event *e)
         if ((status == STATUS_AWAY) || (status == STATUS_NA)){
             text = contact->getName() + ": " + text;
             unsigned flags = MESSAGE_NOHISTORY;
-            if (data->Send1st.asBool())
+            if (data->Send1st.toBool())
                 flags |= MESSAGE_1ST_PART;
-            if (data->Translit.asBool())
+            if (data->Translit.toBool())
                 flags |= MESSAGE_TRANSLIT;
             SMSMessage *m = new SMSMessage;
             m->setPhone(data->Phone.str());

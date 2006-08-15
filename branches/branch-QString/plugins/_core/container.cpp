@@ -161,8 +161,10 @@ Container::Container(unsigned id, const char *cfg)
                     if (w->inherits("Container")){
                         int dw = w->pos().x() - data.geometry[LEFT].toLong();
                         int dh = w->pos().y() - data.geometry[TOP].toLong();
-                        if (dw < 0) dw = -dw;
-                        if (dh < 0) dh = -dh;
+                        if (dw < 0)
+                            dw = -dw;
+                        if (dh < 0)
+                            dh = -dh;
                         if ((dw < 3) && (dh < 3)){
                             long nl = data.geometry[LEFT].toLong();
                             long nt = data.geometry[TOP].toLong();

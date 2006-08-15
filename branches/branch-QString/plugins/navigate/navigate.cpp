@@ -32,6 +32,7 @@ using namespace SIM;
 
 #ifdef WIN32
 #include <windows.h>
+#include <shellapi.h>
 #include <ddeml.h>
 
 class DDEbase
