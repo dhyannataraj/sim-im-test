@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2006-03-11 02:52+0500\n"
-"PO-Revision-Date: 2006-07-23 19:26+0100\n"
+"PO-Revision-Date: 2006-08-15 20:58+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1234,14 +1234,18 @@ msgstr ""
 msgid ""
 "_n: SMS\n"
 "%n SMSs"
-msgstr "%n SMS"
+msgstr ""
+"SMS\n"
+"%n SMS's"
 
 #: plugins/_core/msgedit.cpp:476
 #, c-format
 msgid ""
 "_n: URL\n"
 "%n URLs"
-msgstr "%n URLs"
+msgstr ""
+"URL\n"
+"%n URL's"
 
 #: plugins/_core/msgedit.cpp:539
 #, c-format
