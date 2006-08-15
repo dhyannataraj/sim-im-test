@@ -377,7 +377,7 @@ void *ICQSearch::processEvent(Event *e)
         if (e->type() == EventSearchDone){
             if (res->id == m_id_icq){
                 m_id_icq = 0;
-                if (res->data.Uin.value && m_bAdd)
+                if (res->data.Uin.toULong() && m_bAdd)
                     icq_search();
             }
             if (res->id == m_id_aim)
@@ -387,9 +387,9 @@ void *ICQSearch::processEvent(Event *e)
             return NULL;
         }
         QString icon;
-        if (res->data.Uin.value){
+        if (res->data.Uin.toULong()){
             icon = "ICQ_";
-            switch (res->data.Status.value){
+            switch (res->data.Status.toULong()){
             case STATUS_ONLINE:
                 icon += "online";
                 break;
@@ -401,17 +401,17 @@ void *ICQSearch::processEvent(Event *e)
             }
             list<unsigned>::iterator it;
             for (it = m_uins.begin(); it != m_uins.end(); ++it)
-                if ((*it) == res->data.Uin.value)
+                if ((*it) == res->data.Uin.toULong())
                     break;
             if (it != m_uins.end())
                 return NULL;
             m_bAdd = true;
-            m_uins.push_back(res->data.Uin.value);
+            m_uins.push_back(res->data.Uin.toULong());
         }else{
             icon = "AIM";
         }
         QString gender;
-        switch (res->data.Gender.value){
+        switch (res->data.Gender.toULong()){
         case 1:
             gender = i18n("Female");
             break;
@@ -420,12 +420,12 @@ void *ICQSearch::processEvent(Event *e)
             break;
         }
         QString age;
-        if (res->data.Age.value)
-            age = QString::number(res->data.Age.value);
+        if (res->data.Age.toULong())
+            age = QString::number(res->data.Age.toULong());
         QStringList l;
         l.append(icon);
         QString key = m_client->screen(&res->data).c_str();
-        if (res->data.Uin.value){
+        if (res->data.Uin.toULong()){
             while (key.length() < 13)
                 key = QString(".") + key;
         }
@@ -453,9 +453,9 @@ void *ICQSearch::processEvent(Event *e)
                 s = QString::fromUtf8(res->data.State.ptr);
             l.append(s);
             s = "";
-            if (res->data.Country.value){
+            if (res->data.Country.toULong()){
                 for (const ext_info *info = getCountries(); info->szName; info++){
-                    if (info->nCode == res->data.Country.value){
+                    if (info->nCode == res->data.Country.toULong()){
                         s = i18n(info->szName);
                         break;
                     }

@@ -364,7 +364,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                         country_text = country_text.lower();
                         for (const ext_info *info = getCountryCodes(); info->szName; ++info){
                             if (country_text == info->szName){
-                                res.data.Country.value = info->nCode;
+                                res.data.Country.asULong() = info->nCode;
                                 break;
                             }
                         }

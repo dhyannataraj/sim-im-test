@@ -81,7 +81,7 @@ void AIMInfo::apply(Client *client, void *_data)
     set_str(&data->City.ptr, edtCity->text().utf8());
     set_str(&data->State.ptr, edtState->text().utf8());
     set_str(&data->Zip.ptr, edtZip->text().utf8());
-    data->Country.value = getComboValue(cmbCountry, getCountries());
+    data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
 void *AIMInfo::processEvent(Event *e)
@@ -128,7 +128,7 @@ void AIMInfo::fill()
     setText(edtCity, data->City.ptr);
     setText(edtState, data->State.ptr);
     setText(edtZip, data->Zip.ptr);
-    initCombo(cmbCountry, data->Country.value, getCountries());
+    initCombo(cmbCountry, data->Country.toULong(), getCountries());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty()) {
@@ -146,10 +146,10 @@ void AIMInfo::fill()
     cmbStatus->clear();
     unsigned status = STATUS_ONLINE;
     if (m_data){
-        switch (m_data->Status.value){
+        switch (m_data->Status.toULong()){
         case STATUS_ONLINE:
         case STATUS_OFFLINE:
-            status = m_data->Status.value;
+            status = m_data->Status.toULong();
             break;
         default:
             status = STATUS_AWAY;
@@ -179,12 +179,12 @@ void AIMInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime.value));
+        edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime.value){
-            edtOnline->setText(formatDateTime(data->OnlineTime.value));
+        if (data->OnlineTime.toULong()){
+            edtOnline->setText(formatDateTime(data->OnlineTime.toULong()));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -194,17 +194,17 @@ void AIMInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime.value));
+            edtNA->setText(formatDateTime(data->StatusTime.toULong()));
         }
     }
     if (data->IP.ptr){
-        edtExtIP->setText(formatAddr(data->IP, data->Port.value));
+        edtExtIP->setText(formatAddr(data->IP, data->Port.toULong()));
     }else{
         lblExtIP->hide();
         edtExtIP->hide();
     }
     if (data->RealIP.ptr && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
-        edtIntIP->setText(formatAddr(data->RealIP, data->Port.value));
+        edtIntIP->setText(formatAddr(data->RealIP, data->Port.toULong()));
     }else{
         lblIntIP->hide();
         edtIntIP->hide();

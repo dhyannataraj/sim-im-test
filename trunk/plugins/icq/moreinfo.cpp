@@ -157,11 +157,11 @@ void MoreInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     edtHomePage->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), data->Homepage.ptr));
-    initCombo(cmbGender, (unsigned short)(data->Gender.value), genders);
+    initCombo(cmbGender, (unsigned short)(data->Gender.toULong()), genders);
     if (spnAge->text() == "0") spnAge->setSpecialValueText("");
-    edtDate->setDate(data->BirthDay.value, data->BirthMonth.value, data->BirthYear.value);
+    edtDate->setDate(data->BirthDay.toULong(), data->BirthMonth.toULong(), data->BirthYear.toULong());
     birthDayChanged();
-    unsigned l = data->Language.value;
+    unsigned l = data->Language.toULong();
     char l1 = (char)(l & 0xFF);
     l = l >> 8;
     char l2 = (char)(l & 0xFF);
@@ -227,16 +227,16 @@ void MoreInfo::apply(Client *client, void *_data)
         return;
     ICQUserData *data = (ICQUserData*)_data;
     set_str(&data->Homepage.ptr, getContacts()->fromUnicode(NULL, edtHomePage->text()).c_str());
-    data->Gender.value = getComboValue(cmbGender, genders);
+    data->Gender.asULong() = getComboValue(cmbGender, genders);
     int day, month, year;
     edtDate->getDate(day, month, year);
-    data->BirthMonth.value = month;
-    data->BirthDay.value   = day;
-    data->BirthYear.value  = year;
+    data->BirthMonth.asULong() = month;
+    data->BirthDay.asULong()   = day;
+    data->BirthYear.asULong()  = year;
     unsigned l1 = getComboValue(cmbLang1, languages);
     unsigned l2 = getComboValue(cmbLang2, languages);
     unsigned l3 = getComboValue(cmbLang3, languages);
-    data->Language.value = (l3 << 16) | (l2 << 8) | l1;
+    data->Language.asULong() = (l3 << 16) | (l2 << 8) | l1;
 }
 
 void MoreInfo::urlChanged(const QString &text)

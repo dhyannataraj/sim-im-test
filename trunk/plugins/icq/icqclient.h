@@ -587,7 +587,7 @@ public:
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
     std::string screen(ICQUserData*);
-    static unsigned warnLevel(unsigned short);
+    static unsigned long warnLevel(unsigned long);
     static unsigned clearTags(QString &text);
     bool m_bAIM;
     static QString addCRLF(const QString &str);

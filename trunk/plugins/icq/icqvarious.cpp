@@ -217,7 +217,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 serverRequest(ICQ_SRVxREQ_ACK_OFFLINE_MSG);
                 sendServerRequest();
                 setChatGroup();
-                addFullInfoRequest(data.owner.Uin.value);
+                addFullInfoRequest(data.owner.Uin.toULong());
                 m_bReady = true;
                 processSendQueue();
                 break;
@@ -301,7 +301,7 @@ void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 {
     snac(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
     m_socket->writeBuffer.tlv(0x0001, 0);
-    m_socket->writeBuffer.pack(data.owner.Uin.value);
+    m_socket->writeBuffer.pack(data.owner.Uin.toULong());
     m_socket->writeBuffer << cmd;
     m_socket->writeBuffer.pack((unsigned short)(seq ? seq : m_nMsgSequence));
 }
@@ -354,7 +354,7 @@ void FullInfoRequest::fail(unsigned short)
 {
     Contact *contact = NULL;
     if (m_nParts){
-        if (m_client->data.owner.Uin.value == m_uin){
+        if (m_client->data.owner.Uin.toULong() == m_uin){
             Event e(EventClientChanged, m_client);
             e.process();
         }else{
@@ -396,7 +396,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
 {
     Contact *contact = NULL;
     ICQUserData *data;
-    if (m_client->data.owner.Uin.value == m_uin){
+    if (m_client->data.owner.Uin.toULong() == m_uin){
         data = &m_client->data.owner;
     }else{
         data = m_client->findContact(number(m_uin).c_str(), NULL, false, contact);
@@ -427,14 +427,14 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> &data->PrivateCellular.ptr
             >> &data->Zip.ptr;
             b.unpack(n);
-            data->Country.value = n;
+            data->Country.asULong() = n;
             b
             >> TimeZone
             >> authFlag
             >> webAware
             >> allowDC
             >> hideEmail;
-            data->TimeZone.value     = TimeZone;
+            data->TimeZone.asULong()   = TimeZone;
             data->WebAware.asBool()    = (webAware != 0);
             data->bNoDirect.asBool()   = (allowDC == 0);
             data->HiddenEMail.asBool() = (hideEmail != 0);
@@ -443,24 +443,24 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     case ICQ_SRVxMORE_INFO:{
             char c;
             b >> c;
-            data->Age.value = c;
+            data->Age.asULong() = c;
             b >> c;
             b >> c;
-            data->Gender.value = c;
+            data->Gender.asULong() = c;
             b >> &data->Homepage.ptr;
             unsigned short year;
             b.unpack(year);
-            data->BirthYear.value = year;
+            data->BirthYear.asULong() = year;
             b >> c;
-            data->BirthMonth.value = c;
+            data->BirthMonth.asULong() = c;
             b >> c;
-            data->BirthDay.value = c;
+            data->BirthDay.asULong() = c;
             unsigned char lang[3];
             b
             >> lang[0]
             >> lang[1]
             >> lang[2];
-            data->Language.value = (lang[2] << 16) + (lang[1] << 8) + lang[0];
+            data->Language.asULong() = (lang[2] << 16) + (lang[1] << 8) + lang[0];
             break;
         }
     case ICQ_SRVxEMAIL_INFO:{
@@ -493,13 +493,13 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             >> &data->WorkAddress.ptr
             >> &data->WorkZip.ptr;
             b.unpack(n);
-            data->WorkCountry.value = n;
+            data->WorkCountry.asULong() = n;
             b
             >> &data->WorkName.ptr
             >> &data->WorkDepartment.ptr
             >> &data->WorkPosition.ptr;
             b.unpack(n);
-            data->Occupation.value = n;
+            data->Occupation.asULong() = n;
             b >> &data->WorkHomepage.ptr;
             break;
         }
@@ -520,7 +520,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
     }
     m_nParts++;
     if (m_nParts >= 8){
-        data->InfoFetchTime.value = data->InfoUpdateTime.value ? data->InfoUpdateTime.value : 1;
+        data->InfoFetchTime.asULong() = data->InfoUpdateTime.toULong() ? data->InfoUpdateTime.toULong() : 1;
         if (contact != NULL){
             m_client->setupContact(contact, data);
             Event e(EventContactChanged, contact);
@@ -538,8 +538,8 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
 #endif
             tz = - tz / (30 * 60);
             m_client->setupContact(getContacts()->owner(), data);
-            if (data->TimeZone.value != (unsigned)tz){
-                data->TimeZone.value = tz;
+            if (data->TimeZone.toULong() != (unsigned)tz){
+                data->TimeZone.asULong() = tz;
                 m_client->setMainInfo(data);
             }
             Event eContact(EventContactChanged, getContacts()->owner());
@@ -565,13 +565,11 @@ unsigned ICQClient::processInfoRequest()
             return delay;
         unsigned long uin = (*it).uin;
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ((uin == data.owner.Uin.value) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
+        m_socket->writeBuffer << ((uin == data.owner.Uin.toULong()) ? ICQ_SRVxREQ_OWN_INFO : ICQ_SRVxREQ_FULL_INFO);
         m_socket->writeBuffer.pack(uin);
         sendServerRequest();
         (*it).request_id = m_nMsgSequence;
-        time_t now;
-        time(&now);
-        (*it).start_time = now;
+        (*it).start_time = time(NULL);
         varRequests.push_back(new FullInfoRequest(this, m_nMsgSequence, uin));
     }
     return 0;
@@ -579,8 +577,7 @@ unsigned ICQClient::processInfoRequest()
 
 void ICQClient::checkInfoRequest()
 {
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ){
         if (((*it).request_id == 0) || ((time_t)((*it).start_time + INFO_REQUEST_TIMEOUT) < now)){
             ++it;
@@ -658,7 +655,7 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
 
     unsigned short n;
     b >> n;
-    b.unpack(res.data.Uin.value);
+    b.unpack(res.data.Uin.asULong());
     char waitAuth;
     unsigned short state;
     char gender;
@@ -677,19 +674,19 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
         res.data.WaitAuth.asBool() = true;
     switch (state){
     case SEARCH_STATE_OFFLINE:
-        res.data.Status.value = STATUS_OFFLINE;
+        res.data.Status.asULong() = STATUS_OFFLINE;
         break;
     case SEARCH_STATE_ONLINE:
-        res.data.Status.value = STATUS_ONLINE;
+        res.data.Status.asULong() = STATUS_ONLINE;
         break;
     case SEARCH_STATE_DISABLED:
-        res.data.Status.value = STATUS_UNKNOWN;
+        res.data.Status.asULong() = STATUS_UNKNOWN;
         break;
     }
-    res.data.Gender.value = gender;
-    res.data.Age.value    = age;
+    res.data.Gender.asULong() = gender;
+    res.data.Age.asULong()    = age;
 
-    if (res.data.Uin.value != m_client->data.owner.Uin.value){
+    if (res.data.Uin.toULong() != m_client->data.owner.Uin.toULong()){
         Event e(EventSearch, &res);
         e.process();
     }
@@ -699,7 +696,7 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
         unsigned long all;
         b >> all;
         load_data(ICQProtocol::icqUserData, &res.data, NULL);
-        res.data.Uin.value = all;
+        res.data.Uin.asULong() = all;
         Event e(EventSearchDone, &res);
         e.process();
         free_data(ICQProtocol::icqUserData, &res.data);
@@ -885,8 +882,8 @@ SetMainInfoRequest::SetMainInfoRequest(ICQClient *client, unsigned short id, ICQ
         m_homeFax = data->HomeFax.ptr;
     if (data->PrivateCellular.ptr)
         m_privateCellular = data->PrivateCellular.ptr;
-    m_country = data->Country.value;
-    m_tz = data->TimeZone.value;
+    m_country = data->Country.toULong();
+    m_tz = data->TimeZone.toULong();
     m_hiddenEMail = data->HiddenEMail.toBool();
 }
 
@@ -903,8 +900,8 @@ bool SetMainInfoRequest::answer(Buffer&, unsigned short)
     set_str(&m_client->data.owner.HomePhone.ptr, m_homePhone.c_str());
     set_str(&m_client->data.owner.HomeFax.ptr, m_homeFax.c_str());
     set_str(&m_client->data.owner.PrivateCellular.ptr, m_privateCellular.c_str());
-    m_client->data.owner.Country.value = m_country;
-    m_client->data.owner.TimeZone.value = m_tz;
+    m_client->data.owner.Country.asULong()    = m_country;
+    m_client->data.owner.TimeZone.asULong()   = m_tz;
     m_client->data.owner.HiddenEMail.asBool() = m_hiddenEMail;
     Event e(EventClientChanged, m_client);
     e.process();
@@ -945,14 +942,14 @@ SetWorkInfoRequest::SetWorkInfoRequest(ICQClient *client, unsigned short id, ICQ
         m_workAddress = data->WorkAddress.ptr;
     if (data->WorkZip.ptr)
         m_workZip = data->WorkZip.ptr;
-    m_workCountry = data->WorkCountry.value;
+    m_workCountry = data->WorkCountry.toULong();
     if (data->WorkName.ptr)
         m_workName = data->WorkName.ptr;
     if (data->WorkDepartment.ptr)
         m_workDepartment = data->WorkDepartment.ptr;
     if (data->WorkPosition.ptr)
         m_workPosition = data->WorkPosition.ptr;
-    m_occupation = data->Occupation.value;
+    m_occupation = data->Occupation.toULong();
     if (data->WorkHomepage.ptr)
         m_workHomepage = data->WorkHomepage.ptr;
     if (data->WorkPhone.ptr)
@@ -973,8 +970,8 @@ bool SetWorkInfoRequest::answer(Buffer&, unsigned short)
     set_str(&m_client->data.owner.WorkHomepage.ptr, m_workHomepage.c_str());
     set_str(&m_client->data.owner.WorkPhone.ptr, m_workPhone.c_str());
     set_str(&m_client->data.owner.WorkFax.ptr, m_workFax.c_str());
-    m_client->data.owner.WorkCountry.value = m_workCountry;
-    m_client->data.owner.Occupation.value = m_occupation;
+    m_client->data.owner.WorkCountry.asULong() = m_workCountry;
+    m_client->data.owner.Occupation.asULong() = m_occupation;
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -1001,12 +998,12 @@ SetMoreInfoRequest::SetMoreInfoRequest(ICQClient *client, unsigned short id, ICQ
         : ServerRequest(id)
 {
     m_client = client;
-    m_age = data->Age.value;
-    m_gender = data->Gender.value;
-    m_birthYear = data->BirthYear.value;
-    m_birthMonth = data->BirthMonth.value;
-    m_birthDay = data->BirthDay.value;
-    m_language = data->Language.value;
+    m_age = data->Age.toULong();
+    m_gender = data->Gender.toULong();
+    m_birthYear = data->BirthYear.toULong();
+    m_birthMonth = data->BirthMonth.toULong();
+    m_birthDay = data->BirthDay.toULong();
+    m_language = data->Language.toULong();
     string   m_homepage;
     if (data->Homepage.ptr)
         m_homepage = data->Homepage.ptr;
@@ -1015,12 +1012,12 @@ SetMoreInfoRequest::SetMoreInfoRequest(ICQClient *client, unsigned short id, ICQ
 bool SetMoreInfoRequest::answer(Buffer&, unsigned short)
 {
     set_str(&m_client->data.owner.Homepage.ptr, m_homepage.c_str());
-    m_client->data.owner.Age.value = m_age;
-    m_client->data.owner.Gender.value = m_gender;
-    m_client->data.owner.BirthYear.value = m_birthYear;
-    m_client->data.owner.BirthMonth.value = m_birthMonth;
-    m_client->data.owner.BirthDay.value = m_birthDay;
-    m_client->data.owner.Language.value = m_language;
+    m_client->data.owner.Age.asULong() = m_age;
+    m_client->data.owner.Gender.asULong() = m_gender;
+    m_client->data.owner.BirthYear.asULong() = m_birthYear;
+    m_client->data.owner.BirthMonth.asULong() = m_birthMonth;
+    m_client->data.owner.BirthDay.asULong() = m_birthDay;
+    m_client->data.owner.Language.asULong() = m_language;
     Event e(EventClientChanged, m_client);
     e.process();
     m_client->sendUpdate();
@@ -1176,7 +1173,7 @@ void ICQClient::setMainInfo(ICQUserData *d)
     m_socket->writeBuffer << ICQ_SRVxWP_SET;
     m_socket->writeBuffer.pack(TLV_TIMEZONE);
     m_socket->writeBuffer.pack((unsigned short)1);
-    m_socket->writeBuffer << (char)(d->TimeZone.value);
+    m_socket->writeBuffer << (char)(d->TimeZone.toULong());
     m_socket->writeBuffer.tlvLE(TLV_NICK, d->Nick.ptr);
     m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, d->FirstName.ptr);
     m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, d->LastName.ptr);
@@ -1189,7 +1186,7 @@ void ICQClient::setMainInfo(ICQUserData *d)
     m_socket->writeBuffer.tlvLE(TLV_STREET, d->Address.ptr);
     m_socket->writeBuffer.tlvLE(TLV_CELLULAR, d->PrivateCellular.ptr);
     m_socket->writeBuffer.tlvLE(TLV_ZIP, d->Zip.ptr);
-    m_socket->writeBuffer.tlvLE(TLV_COUNTRY, (unsigned short)(d->Country.value));
+    m_socket->writeBuffer.tlvLE(TLV_COUNTRY, (unsigned short)(d->Country.toULong()));
     sendServerRequest();
 
     varRequests.push_back(new SetMainInfoRequest(this, m_nMsgSequence, d));
@@ -1285,7 +1282,7 @@ void ICQClient::setClientInfo(void *_data)
     }
     set_str(&d->EMails.ptr, s.c_str());
 
-    if ((d->Country.value != data.owner.Country.value) ||
+    if ((d->Country.toULong() != data.owner.Country.toULong()) ||
             (d->HiddenEMail.toBool() != data.owner.HiddenEMail.toBool()) ||
             cmp(d->Nick.ptr, data.owner.Nick.ptr) ||
             cmp(d->FirstName.ptr, data.owner.FirstName.ptr) ||
@@ -1302,8 +1299,8 @@ void ICQClient::setClientInfo(void *_data)
         m_nUpdates++;
     }
 
-    if ((d->WorkCountry.value != data.owner.WorkCountry.value) ||
-            (d->Occupation.value != data.owner.Occupation.value) ||
+    if ((d->WorkCountry.toULong() != data.owner.WorkCountry.toULong()) ||
+            (d->Occupation.toULong() != data.owner.Occupation.toULong()) ||
             cmp(d->WorkCity.ptr, data.owner.WorkCity.ptr) ||
             cmp(d->WorkState.ptr, data.owner.WorkState.ptr) ||
             cmp(d->WorkAddress.ptr, data.owner.WorkAddress.ptr) ||
@@ -1323,39 +1320,39 @@ void ICQClient::setClientInfo(void *_data)
         m_socket->writeBuffer.tlvLE(TLV_WORK_FAX, d->WorkFax.ptr);
         m_socket->writeBuffer.tlvLE(TLV_WORK_STREET, d->WorkAddress.ptr);
         m_socket->writeBuffer.tlvLE(TLV_WORK_ZIP, d->WorkZip.ptr);
-        m_socket->writeBuffer.tlvLE(TLV_WORK_COUNTRY, (unsigned short)d->WorkCountry.value);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_COUNTRY, (unsigned short)d->WorkCountry.toULong());
         m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, d->WorkName.ptr);
         m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, d->WorkDepartment.ptr);
         m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, d->WorkPosition.ptr);
-        m_socket->writeBuffer.tlvLE(TLV_WORK_OCCUPATION, (unsigned short)d->Occupation.value);
+        m_socket->writeBuffer.tlvLE(TLV_WORK_OCCUPATION, (unsigned short)d->Occupation.toULong());
         m_socket->writeBuffer.tlvLE(TLV_WORK_HOMEPAGE, d->WorkHomepage.ptr);
         sendServerRequest();
         varRequests.push_back(new SetWorkInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
     }
-    if ((d->Age.value != data.owner.Age.value) ||
-            (d->Gender.value != data.owner.Gender.value) ||
-            (d->BirthYear.value != data.owner.BirthYear.value) ||
-            (d->BirthMonth.value != data.owner.BirthMonth.value) ||
-            (d->BirthDay.value != data.owner.BirthDay.value) ||
-            (d->Language.value != data.owner.Language.value) ||
+    if ((d->Age.toULong() != data.owner.Age.toULong()) ||
+            (d->Gender.toULong() != data.owner.Gender.toULong()) ||
+            (d->BirthYear.toULong() != data.owner.BirthYear.toULong()) ||
+            (d->BirthMonth.toULong() != data.owner.BirthMonth.toULong()) ||
+            (d->BirthDay.toULong() != data.owner.BirthDay.toULong()) ||
+            (d->Language.toULong() != data.owner.Language.toULong()) ||
             cmp(d->Homepage.ptr, data.owner.Homepage.ptr)){
 
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer << ICQ_SRVxWP_SET;
-        m_socket->writeBuffer.tlvLE(TLV_AGE, (unsigned short)(d->Age.value));
+        m_socket->writeBuffer.tlvLE(TLV_AGE, (unsigned short)(d->Age.toULong()));
         m_socket->writeBuffer.pack(TLV_GENDER);
         m_socket->writeBuffer.pack((unsigned short)1);
-        m_socket->writeBuffer << (char)(d->Gender.value);
+        m_socket->writeBuffer << (char)(d->Gender.toULong());
         m_socket->writeBuffer.tlvLE(TLV_HOMEPAGE, d->Homepage.ptr);
         m_socket->writeBuffer.pack(TLV_BIRTHDAY);
         m_socket->writeBuffer.pack((unsigned short)6);
-        m_socket->writeBuffer.pack((unsigned short)d->BirthYear.value);
-        m_socket->writeBuffer.pack((unsigned short)d->BirthMonth.value);
-        m_socket->writeBuffer.pack((unsigned short)d->BirthDay.value);
-        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)(d->Language.value & 0xFF));
-        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.value >> 8) & 0xFF));
-        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.value >> 16) & 0xFF));
+        m_socket->writeBuffer.pack((unsigned short)d->BirthYear.toULong());
+        m_socket->writeBuffer.pack((unsigned short)d->BirthMonth.toULong());
+        m_socket->writeBuffer.pack((unsigned short)d->BirthDay.toULong());
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)(d->Language.toULong() & 0xFF));
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.toULong() >> 8) & 0xFF));
+        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.toULong() >> 16) & 0xFF));
         sendServerRequest();
         varRequests.push_back(new SetMoreInfoRequest(this, m_nMsgSequence, d));
         m_nUpdates++;
@@ -1669,7 +1666,7 @@ unsigned ICQClient::processSMSQueue()
         xmltree.pushnode(new XmlLeaf("text",(const char*)(part.utf8())));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
         xmltree.pushnode(new XmlLeaf("encoding","utf8"));
-        xmltree.pushnode(new XmlLeaf("senders_UIN",number(data.owner.Uin.value).c_str()));
+        xmltree.pushnode(new XmlLeaf("senders_UIN",number(data.owner.Uin.toULong()).c_str()));
         xmltree.pushnode(new XmlLeaf("senders_name",""));
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));
 

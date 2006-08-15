@@ -64,7 +64,7 @@ void AboutInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    if (data->Uin.value){
+    if (data->Uin.toULong()){
         edtAbout->setTextFormat(QTextEdit::PlainText);
         edtAbout->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), data->About.ptr));
     }else{

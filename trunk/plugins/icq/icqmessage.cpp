@@ -1113,7 +1113,7 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
         b.pack(msgStatus());
         b.pack(flags);
     }else{
-        b.pack(this->data.owner.Uin.value);
+        b.pack(this->data.owner.Uin.toULong());
         b.pack(type);
     }
     b << res;
@@ -1147,8 +1147,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
         b.unpack(nEntries);
         if (data)
             log(L_DEBUG, "Plugin info reply %lu %lu (%lu %lu) %lu %lu (%u)",
-                data->Uin.value, time, data->PluginInfoTime.value,
-                data->PluginStatusTime.value, size, nEntries, plugin_type);
+                data->Uin.toULong(), time, data->PluginInfoTime.toULong(),
+                data->PluginStatusTime.toULong(), size, nEntries, plugin_type);
         switch (plugin_type){
         case PLUGIN_RANDOMxCHAT:{
                 b.incReadPos(-12);
@@ -1168,13 +1168,13 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 b.unpack(homepage);
                 ICQUserData data;
                 load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data, NULL);
-                data.Uin.value = uin;
+                data.Uin.asULong() = uin;
                 set_str(&data.Alias.ptr, name.c_str());
                 set_str(&data.About.ptr, topic.c_str());
-                data.Age.value = age;
-                data.Gender.value = gender;
-                data.Country.value = country;
-                data.Language.value = language;
+                data.Age.asULong() = age;
+                data.Gender.asULong() = gender;
+                data.Country.asULong() = country;
+                data.Language.asULong() = language;
                 set_str(&data.Homepage.ptr, homepage.c_str());
                 Event e(EventRandomChatInfo, &data);
                 e.process();
@@ -1255,8 +1255,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }else{
                     log(L_ERROR, "Can't create %s", (const char*)fName.local8Bit());
                 }
-                data->PictureWidth.value  = img.width();
-                data->PictureHeight.value = img.height();
+                data->PictureWidth.asULong()  = img.width();
+                data->PictureHeight.asULong() = img.height();
             }
             break;
         case PLUGIN_PHONEBOOK:
@@ -1354,7 +1354,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 set_str(&data->PhoneBook.ptr, phones.c_str());
                 Contact *contact = NULL;
-                findContact(number(data->Uin.value).c_str(), NULL, false, contact);
+                findContact(number(data->Uin.toULong()).c_str(), NULL, false, contact);
                 if (contact){
                     setupContact(contact, data);
                     Event e(EventContactChanged, contact);
@@ -1382,15 +1382,15 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 break;
             case PLUGIN_FOLLOWME:
-                if (state != data->FollowMe.value){
-                    data->FollowMe.value = state;
+                if (state != data->FollowMe.toULong()){
+                    data->FollowMe.asULong() = state;
                     Event e(EventContactChanged, contact);
                     e.process();
                 }
                 break;
             case PLUGIN_ICQPHONE:
-                if ((state != 0) != data->ICQPhone.value){
-                    data->ICQPhone.value = (state != 0);
+                if ((state != 0) != data->ICQPhone.toULong()){
+                    data->ICQPhone.asULong() = (state != 0);
                     Event e(EventContactChanged, contact);
                     e.process();
                 }
@@ -1432,9 +1432,9 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
     unsigned long time = 0;
     switch (plugin_type){
     case PLUGIN_PHONEBOOK:{
-            if (data && data->GrpId.value && !contact->getIgnore()){
+            if (data && data->GrpId.toULong() && !contact->getIgnore()){
                 Buffer answer1;
-                time = this->data.owner.PluginInfoTime.value;
+                time = this->data.owner.PluginInfoTime.toULong();
                 QString phones = getContacts()->owner()->getPhones();
                 while (!phones.isEmpty()){
                     QString item = getToken(phones, ';', false);
@@ -1524,7 +1524,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
             }
         }
     case PLUGIN_PICTURE:{
-            time = this->data.owner.PluginInfoTime.value;
+            time = this->data.owner.PluginInfoTime.toULong();
             typeAnswer = 0x00000001;
             QString pictFile = getPicture();
             if (!pictFile.isEmpty()){
@@ -1558,10 +1558,10 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
             break;
         }
     case PLUGIN_FOLLOWME:
-        time = this->data.owner.PluginStatusTime.value;
+        time = this->data.owner.PluginStatusTime.toULong();
         break;
     case PLUGIN_QUERYxINFO:
-        time = this->data.owner.PluginInfoTime.value;
+        time = this->data.owner.PluginInfoTime.toULong();
         typeAnswer = 0x00010002;
         if (!getPicture().isEmpty()){
             nEntries++;
@@ -1583,7 +1583,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
         }
         break;
     case PLUGIN_QUERYxSTATUS:
-        time = this->data.owner.PluginStatusTime.value;
+        time = this->data.owner.PluginStatusTime.toULong();
         typeAnswer = 0x00010000;
         nEntries++;
         answer.pack((char*)plugins[PLUGIN_FOLLOWME], sizeof(plugin));
@@ -1601,7 +1601,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
             answer.packStr32(plugin_descr[PLUGIN_FILESERVER]);
             answer.pack((unsigned long)0);
         }
-        if (this->data.owner.ICQPhone.value){
+        if (this->data.owner.ICQPhone.toULong()){
             nEntries++;
             answer.pack((char*)plugins[PLUGIN_ICQPHONE], sizeof(plugin));
             answer.pack((unsigned short)0);
@@ -1619,7 +1619,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
     info.pack((unsigned short)1);
     switch (plugin_type){
     case PLUGIN_FOLLOWME:
-        info.pack(this->data.owner.FollowMe.value);
+        info.pack(this->data.owner.FollowMe.toULong());
         info.pack(time);
         info.pack((char)1);
         break;

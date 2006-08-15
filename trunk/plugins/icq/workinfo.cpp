@@ -115,8 +115,8 @@ void WorkInfo::fill()
     edtCity->setText(getContacts()->toUnicode(contact, data->WorkCity.ptr));
     edtState->setText(getContacts()->toUnicode(contact, data->WorkState.ptr));
     edtZip->setText(getContacts()->toUnicode(contact, data->WorkZip.ptr));
-    initCombo(cmbCountry, (unsigned short)(data->WorkCountry.value), getCountries());
-    initCombo(cmbOccupation, (unsigned short)(data->Occupation.value), occupations);
+    initCombo(cmbCountry, (unsigned short)(data->WorkCountry.toULong()), getCountries());
+    initCombo(cmbOccupation, (unsigned short)(data->Occupation.toULong()), occupations);
     edtName->setText(getContacts()->toUnicode(contact, data->WorkName.ptr));
     edtDept->setText(getContacts()->toUnicode(contact, data->WorkDepartment.ptr));
     edtPosition->setText(getContacts()->toUnicode(contact, data->WorkPosition.ptr));
@@ -149,8 +149,8 @@ void WorkInfo::apply(Client *client, void *_data)
     set_str(&data->WorkCity.ptr, getContacts()->fromUnicode(NULL, edtCity->text()).c_str());
     set_str(&data->WorkState.ptr, getContacts()->fromUnicode(NULL, edtState->text()).c_str());
     set_str(&data->WorkZip.ptr, getContacts()->fromUnicode(NULL, edtZip->text()).c_str());
-    data->WorkCountry.value = getComboValue(cmbCountry, getCountries());
-    data->Occupation.value = getComboValue(cmbOccupation, occupations);
+    data->WorkCountry.asULong() = getComboValue(cmbCountry, getCountries());
+    data->Occupation.asULong() = getComboValue(cmbOccupation, occupations);
     set_str(&data->WorkName.ptr, getContacts()->fromUnicode(NULL, edtName->text()).c_str());
     set_str(&data->WorkDepartment.ptr, getContacts()->fromUnicode(NULL, edtDept->text()).c_str());
     set_str(&data->WorkPosition.ptr, getContacts()->fromUnicode(NULL, edtPosition->text()).c_str());

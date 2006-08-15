@@ -45,7 +45,7 @@ void ICQSecure::deleteVisibleItem(QListViewItem *item)
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            data->VisibleId.value = 0;
+            data->VisibleId.asULong() = 0;
             Event eContact(EventContactChanged, contact);
             eContact.process();
         }
@@ -59,7 +59,7 @@ void ICQSecure::deleteInvisibleItem(QListViewItem *item)
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            data->InvisibleId.value = 0;
+            data->InvisibleId.asULong() = 0;
             Event eContact(EventContactChanged, contact);
             eContact.process();
         }
@@ -184,7 +184,7 @@ void ICQSecure::fillListView(ListView *lst, unsigned offs)
                     mails += mailItem;
                 }
                 QListViewItem *item = new QListViewItem(lst);
-                item->setText(0,QString::number(data->Uin.value));
+                item->setText(0,QString::number(data->Uin.toULong()));
                 item->setText(1,contact->getName());
                 item->setText(2,firstName);
                 item->setText(3,mails);

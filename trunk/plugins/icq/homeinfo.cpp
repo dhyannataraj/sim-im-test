@@ -56,7 +56,7 @@ void HomeInfo::apply(Client *client, void *_data)
     set_str(&data->City.ptr, getContacts()->fromUnicode(contact, edtCity->text()).c_str());
     set_str(&data->State.ptr, getContacts()->fromUnicode(contact, edtState->text()).c_str());
     set_str(&data->Zip.ptr, getContacts()->fromUnicode(contact, edtZip->text()).c_str());
-    data->Country.value = getComboValue(cmbCountry, getCountries());
+    data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
 void *HomeInfo::processEvent(Event *e)
@@ -107,8 +107,8 @@ void HomeInfo::fill()
     edtCity->setText(getContacts()->toUnicode(contact ,data->City.ptr));
     edtState->setText(getContacts()->toUnicode(contact ,data->State.ptr));
     edtZip->setText(getContacts()->toUnicode(contact ,data->Zip.ptr));
-    initCombo(cmbCountry, (unsigned short)(data->Country.value), getCountries());
-    initTZCombo(cmbZone, (char)(data->TimeZone.value));
+    initCombo(cmbCountry, data->Country.toULong(), getCountries());
+    initTZCombo(cmbZone, data->TimeZone.toULong());
 }
 
 #ifndef NO_MOC_INCLUDES
