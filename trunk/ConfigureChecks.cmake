@@ -22,7 +22,9 @@ CHECK_INCLUDE_FILES(unistd.h        HAVE_UNISTD_H)                      # simapi
 CHECK_SYMBOL_EXISTS(strcasecmp  "strings.h"         HAVE_STRCASECMP)    # simapi.h, various
 
 # Functions
-CHECK_FUNCTION_EXISTS(chmod     HAVE_CHMOD)         # __homedir/homedir.cpp, gpg/gpg.cpp
+IF(NOT WIN32) # there is a chmod function on win32, but not usable the way we want...
+  CHECK_FUNCTION_EXISTS(chmod     HAVE_CHMOD)         # __homedir/homedir.cpp, gpg/gpg.cpp
+ENDIF(NOT WIN32)
 CHECK_FUNCTION_EXISTS(mmap      HAVE_MMAP)          # _core/libintl.cpp
 CHECK_FUNCTION_EXISTS(munmap    HAVE_MUNMAP)        # _core/libintl.cpp
 CHECK_FUNCTION_EXISTS(uname     HAVE_UNAME)         # sim/fetch.cpp
