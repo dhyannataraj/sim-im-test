@@ -939,7 +939,6 @@ bool MsgEdit::sendMessage(Message *msg)
 
 bool MsgEdit::send()
 {
-    unsigned i;
     Contact *contact = getContacts()->contact(m_msg->contact());
     string client_str = m_msg->client();
     bool bSent = false;
@@ -955,7 +954,7 @@ bool MsgEdit::send()
                 bSent = c->send(m_msg, data);
             }else{
                 data = NULL;
-                for (i = 0; i < getContacts()->nClients(); i++){
+                for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->send(m_msg, NULL)){
                         bSent = true;

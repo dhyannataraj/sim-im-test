@@ -882,9 +882,9 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     * show dockWnd only if there is nowhere to dock(e.g. WindowMaker)
     * */
     if (manager_window == None){
-	resize(64, 64);
-	QApplication::syncX();
-	show();
+        resize(64, 64);
+        QApplication::syncX();
+        show();
     }
 #endif
 #endif
@@ -1399,4 +1399,3 @@ void DockWnd::reset()
 #ifndef NO_MOC_INCLUDES
 #include "dockwnd.moc"
 #endif
-

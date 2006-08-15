@@ -286,4 +286,3 @@ void FloatyWnd::startBlink()
 #ifndef NO_MOC_INCLUDES
 #include "floaty.moc"
 #endif
-

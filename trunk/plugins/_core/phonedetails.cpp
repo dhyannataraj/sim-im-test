@@ -33,21 +33,21 @@ PhoneDetails::PhoneDetails(QWidget *p, const QString &oldNumber)
     QString extension;
     int countryCode = 0;
     if (number.find('(') >= 0){
-        QCString country = trim(getToken(number, '(')).latin1();
+        QCString country = getToken(number, '(').stripWhiteSpace().latin1();
         const char *p;
         for (p = country; *p; p++){
             if ((*p >= '0') && (*p <= '9'))
                 break;
         }
         countryCode = atol(p);
-        areaCode = trim(getToken(number, ')'));
+        areaCode = getToken(number, ')').stripWhiteSpace();
     }
     if (number.find(" - ") >= 0){
         int pos = number.find(" - ");
-        extension = trim(number.mid(pos + 3));
+        extension = number.mid(pos + 3).stripWhiteSpace();
         number = number.mid(0, pos);
     }
-    number = trim(number);
+    number = number.stripWhiteSpace();
     initCombo(cmbCountry, (unsigned short)countryCode, getCountries());
 
     QFontMetrics fm(font());

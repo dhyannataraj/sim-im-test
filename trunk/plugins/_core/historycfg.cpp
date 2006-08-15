@@ -17,11 +17,7 @@
 
 #include "simapi.h"
 
-#if QT_VERSION < 0x030000
-#include "qt3/qsyntaxhighlighter.h"
-#else
 #include <qsyntaxhighlighter.h>
-#endif
 
 #include "historycfg.h"
 #include "core.h"
@@ -51,11 +47,7 @@
 #include <kstddirs.h>
 #endif
 
-#ifdef WIN32
-static char STYLES[] = "styles\\";
-#else
 static char STYLES[] = "styles/";
-#endif
 static char EXT[]    = ".xsl";
 
 #undef QTextEdit

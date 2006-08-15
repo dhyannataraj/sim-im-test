@@ -34,9 +34,9 @@ PagerDetails::PagerDetails(QWidget *p, const QString &oldNumber)
     connect(edtNumber, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(edtGateway, SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     QString pagerNumber = oldNumber;
-    QString number = trim(getToken(pagerNumber, '@'));
-    QString gateway = trim(getToken(pagerNumber, '['));
-    QString providerName = trim(getToken(pagerNumber, ']'));
+    QString number = getToken(pagerNumber, '@').stripWhiteSpace();
+    QString gateway = getToken(pagerNumber, '[').stripWhiteSpace();
+    QString providerName = getToken(pagerNumber, ']').stripWhiteSpace();
     cmbProvider->lineEdit()->setText(providerName);
     edtNumber->setText(number);
     edtGateway->setText(gateway);

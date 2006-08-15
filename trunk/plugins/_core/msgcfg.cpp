@@ -62,8 +62,8 @@ void MessageConfig::apply(void *_data)
         m_file->apply(_data);
 
     CoreUserData *data = (CoreUserData*)_data;
-    data->OpenOnOnline.asBool()= chkOnline->isChecked();
-    data->LogStatus.asBool()   = chkStatus->isChecked();
+    data->OpenOnOnline.asBool()    = chkOnline->isChecked();
+    data->LogStatus.asBool()       = chkStatus->isChecked();
     data->OpenNewMessage.asULong() = NEW_MSG_NOOPEN;
     if (btnMinimize->isOn())
         data->OpenNewMessage.asULong() = NEW_MSG_MINIMIZE;
