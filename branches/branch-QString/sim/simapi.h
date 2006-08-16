@@ -1732,13 +1732,13 @@ EXPORT ContactList *getContacts();
 
 enum quoteMode
 {
-    quoteHTML,
+    quoteHTML ,
     quoteXML,
     quoteNOBR
 };
 
 EXPORT QString  unquoteText(const QString &text);
-EXPORT QString  quoteString(const QString &str, quoteMode mode = quoteHTML);
+EXPORT QString  quoteString(const QString &str, quoteMode mode = quoteHTML, bool bQuoteSpaces = true);
 EXPORT QString  unquoteString(const QString &str);
 EXPORT QString  quote_nbsp(const QString &str);
 

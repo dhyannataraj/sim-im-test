@@ -164,7 +164,7 @@ QString SIM::unquoteString(const QString &text)
     return res;
 }
 
-EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
+EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode, bool bQuoteSpaces)
 {
     QString str = _str;
     str.replace(QRegExp("&"), "&amp;");
@@ -183,14 +183,12 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode)
     default:
         break;
     }
+    if(!bQuoteSpaces)
+        return str;
     QRegExp re("  +");
-    int len;
     int pos = 0;
-    /*  match() is obsolete since 3.0 so there is a big chance
-        that this will be replaced and we get
-        bug-reports from the users ... */
     while ((pos = re.search(str, pos)) != -1) {
-        len = re.matchedLength();
+        int len = re.matchedLength();
         if (len == 1)
             continue;
         QString s = " ";
