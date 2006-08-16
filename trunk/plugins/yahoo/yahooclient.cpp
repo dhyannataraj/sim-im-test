@@ -197,7 +197,7 @@ bool YahooClient::send(Message *msg, void *_data)
 
 bool YahooClient::canSend(unsigned type, void *_data)
 {
-    if ((_data == NULL) || (((clientData*)_data)->Sign.value != YAHOO_SIGN))
+    if ((_data == NULL) || (((clientData*)_data)->Sign.toULong() != YAHOO_SIGN))
         return false;
     if (getState() != Connected)
         return false;
@@ -892,7 +892,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         idle  = atol(_idle);
     if (service == YAHOO_SERVICE_LOGOFF)
         state = YAHOO_STATUS_OFFLINE;
-    if ((state != data->Status.value) ||
+    if ((state != data->Status.toULong()) ||
             ((state == YAHOO_STATUS_CUSTOM) &&
              (((away != 0) != data->bAway.toBool()) || equal(_msg, data->AwayMessage.ptr)))){
 
@@ -901,14 +901,13 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         const char *statusIcon = NULL;
         contactInfo(data, old_status, style, statusIcon);
 
-        time_t now;
-        time(&now);
+        time_t now = time(NULL);
         now -= idle;
-        if (data->Status.value == YAHOO_STATUS_OFFLINE)
-            data->OnlineTime.value = now;
-        data->Status.value = state;
+        if (data->Status.toULong() == YAHOO_STATUS_OFFLINE)
+            data->OnlineTime.asULong() = now;
+        data->Status.asULong() = state;
         data->bAway.asBool() = (away != 0);
-        data->StatusTime.value = now;
+        data->StatusTime.asULong() = now;
 
         unsigned long new_status = STATUS_UNKNOWN;
         contactInfo(data, new_status, style, statusIcon);
@@ -922,7 +921,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
             Event e(EventMessageReceived, &m);
             e.process();
             if ((new_status == STATUS_ONLINE) && !contact->getIgnore() && (getState() == Connected) &&
-                    (data->StatusTime.value > this->data.owner.OnlineTime.value + 30)){
+                    (data->StatusTime.toULong() > this->data.owner.OnlineTime.toULong() + 30)){
                 Event e(EventContactOnline, contact);
                 e.process();
             }
@@ -954,22 +953,19 @@ void YahooClient::setStatus(unsigned status)
 {
     if (status  == m_status)
         return;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if (m_status == STATUS_OFFLINE)
-        data.owner.OnlineTime.value = now;
-    data.owner.StatusTime.value = now;
+        data.owner.OnlineTime.asULong() = now;
+    data.owner.StatusTime.asULong() = now;
     m_status = status;
-    data.owner.Status.value = m_status;
+    data.owner.Status.asULong() = m_status;
     Event e(EventClientChanged, static_cast<Client*>(this));
     e.process();
     if (status == STATUS_OFFLINE){
         if (m_status != STATUS_OFFLINE){
             m_status = status;
-            data.owner.Status.value = status;
-            time_t now;
-            time(&now);
-            data.owner.StatusTime.value = now;
+            data.owner.Status.asULong() = status;
+            data.owner.StatusTime.asULong() = time(NULL);
         }
         return;
     }
@@ -1030,8 +1026,8 @@ void YahooClient::disconnected()
         YahooUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (YahooUserData*)(++it)) != NULL){
-            if (data->Status.value != YAHOO_STATUS_OFFLINE){
-                data->Status.value = YAHOO_STATUS_OFFLINE;
+            if (data->Status.toULong() != YAHOO_STATUS_OFFLINE){
+                data->Status.asULong() = YAHOO_STATUS_OFFLINE;
                 StatusMessage m;
                 m.setContact(contact->id());
                 m.setClient(dataName(data).c_str());
@@ -1061,7 +1057,7 @@ void YahooClient::disconnected()
 
 bool YahooClient::isMyData(clientData *&_data, Contact*&contact)
 {
-    if (_data->Sign.value != YAHOO_SIGN)
+    if (_data->Sign.toULong() != YAHOO_SIGN)
         return false;
     YahooUserData *data = (YahooUserData*)_data;
     YahooUserData *my_data = findContact(data->Login.ptr, NULL, contact);
@@ -1313,7 +1309,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, con
 {
     YahooUserData *data = (YahooUserData*)_data;
     unsigned cmp_status = STATUS_OFFLINE;
-    switch (data->Status.value){
+    switch (data->Status.toULong()){
     case YAHOO_STATUS_AVAILABLE:
         cmp_status = STATUS_ONLINE;
         break;
@@ -1383,27 +1379,27 @@ QString YahooClient::contactTip(void *_data)
     res += "<br>";
     res += QString::fromUtf8(data->Login.ptr);
     res += "</b>";
-    if (data->Status.value == YAHOO_STATUS_OFFLINE){
-        if (data->StatusTime.value){
+    if (data->Status.toULong() == YAHOO_STATUS_OFFLINE){
+        if (data->StatusTime.toULong()){
             res += "<br><font size=-1>";
             res += i18n("Last online");
             res += ": </font>";
-            res += formatDateTime(data->StatusTime.value);
+            res += formatDateTime(data->StatusTime.toULong());
         }
     }else{
-        if (data->OnlineTime.value){
+        if (data->OnlineTime.toULong()){
             res += "<br><font size=-1>";
             res += i18n("Online");
             res += ": </font>";
-            res += formatDateTime(data->OnlineTime.value);
+            res += formatDateTime(data->OnlineTime.toULong());
         }
-        if (data->Status.value != YAHOO_STATUS_AVAILABLE){
+        if (data->Status.toULong() != YAHOO_STATUS_AVAILABLE){
             res += "<br><font size=-1>";
             res += statusText;
             res += ": </font>";
-            res += formatDateTime(data->StatusTime.value);
+            res += formatDateTime(data->StatusTime.toULong());
             QString msg;
-            switch (data->Status.value){
+            switch (data->Status.toULong()){
             case YAHOO_STATUS_BRB:
                 msg = i18n("Be right back");
                 break;
@@ -2023,7 +2019,7 @@ void YahooClient::setInvisible(bool bState)
     TCPClient::setInvisible(bState);
     if (getState() != Connected)
         return;
-    sendStatus(data.owner.Status.value, data.owner.AwayMessage.ptr);
+    sendStatus(data.owner.Status.toULong(), data.owner.AwayMessage.ptr);
 }
 
 void YahooClient::sendStatus(unsigned long _status, const char *msg)
@@ -2035,7 +2031,7 @@ void YahooClient::sendStatus(unsigned long _status, const char *msg)
     if (msg)
         status = YAHOO_STATUS_CUSTOM;
     /* data.owner.Status contains sim-status, not protocol-status! */
-    if (data.owner.Status.value == STATUS_ONLINE)
+    if (data.owner.Status.toULong() == STATUS_ONLINE)
         service = YAHOO_SERVICE_ISBACK;
     addParam(10, number(status).c_str());
     if ((status == YAHOO_STATUS_CUSTOM) && msg) {
@@ -2043,12 +2039,9 @@ void YahooClient::sendStatus(unsigned long _status, const char *msg)
         addParam(47, "1");
     }
     sendPacket(service);
-    if (data.owner.Status.value != status){
-        time_t now;
-        time(&now);
-        data.owner.StatusTime.value = now;
-    }
-    data.owner.Status.value = _status;
+    if (data.owner.Status.toULong() != status)
+        data.owner.StatusTime.asULong() = time(NULL);
+    data.owner.Status.asULong() = _status;
     set_str(&data.owner.AwayMessage.ptr, msg);
 }
 
@@ -2396,8 +2389,7 @@ void YahooFileTransfer::write_ready()
         m_socket->close();
         return;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;

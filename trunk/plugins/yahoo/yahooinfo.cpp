@@ -107,9 +107,9 @@ void YahooInfo::fill()
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
-        if (data->StatusTime.value){
+        if (data->StatusTime.toULong()){
             lblOnline->setText(i18n("Last online") + ":");
-            edtOnline->setText(formatDateTime(data->StatusTime.value));
+            edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
             lblOnline->show();
             edtOnline->show();
         }else{
@@ -119,8 +119,8 @@ void YahooInfo::fill()
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime.value){
-            edtOnline->setText(formatDateTime(data->OnlineTime.value));
+        if (data->OnlineTime.toULong()){
+            edtOnline->setText(formatDateTime(data->OnlineTime.toULong()));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -130,7 +130,7 @@ void YahooInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime.value));
+            edtNA->setText(formatDateTime(data->StatusTime.toULong()));
         }
     }
 }

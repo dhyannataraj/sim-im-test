@@ -530,8 +530,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
 #ifndef HAVE_TM_GMTOFF
             tz = - timezone;
 #else
-            time_t now;
-            time(&now);
+            time_t now = time(NULL);
             struct tm *tm = localtime(&now);
             tz = tm->tm_gmtoff;
             if (tm->tm_isdst) tz -= (60 * 60);
@@ -1671,9 +1670,8 @@ unsigned ICQClient::processSMSQueue()
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));
 
         char timestr[30];
-        time_t t;
+        time_t t = time(NULL);
         struct tm *tm;
-        time(&t);
         tm = gmtime(&t);
         snprintf(timestr, sizeof(timestr), "%s, %02u %s %04u %02u:%02u:%02u GMT",
                  w_days[tm->tm_wday], tm->tm_mday, months[tm->tm_mon], tm->tm_year + 1900,

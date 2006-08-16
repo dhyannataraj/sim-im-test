@@ -845,7 +845,7 @@ bool History::save(unsigned id, const QString& file_name, bool bAppend)
             if ((msg == NULL))
                 break;
             time_t t = msg->getTime();
-            char* time = new char[9];
+            char time[9];
             strftime(time, 9, "%H:%M:%S", localtime(&t));
             stream << (msg->getFlags() & MESSAGE_RECEIVED ? contact : owner)
                 << " (" << formatDate(t) << " " << time << "):\n"

@@ -555,11 +555,8 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     addParam("lineendings", "unix");
     if (msg->getID())
         addParam("itemid", number(msg->getID()).c_str());
-    if (msg->getTime() == 0){
-        time_t now;
-        time(&now);
-        msg->setTime(now);
-    }
+    if (msg->getTime() == 0)
+        msg->setTime(time(NULL));
     time_t now;
     now = msg->getTime();
     struct tm *tm = localtime(&now);
