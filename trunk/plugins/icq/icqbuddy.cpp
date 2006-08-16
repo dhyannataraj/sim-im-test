@@ -153,18 +153,19 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     info.unpack((char*)cap, sizeof(capability));
                     for (unsigned i = 0;; i++){
                         unsigned size = sizeof(capability);
-                        if (i == CAP_SIMOLD) size--;
+                        if (i == CAP_SIMOLD)
+                            size--;
 
-						if (*capabilities[i] == 0) {
-							log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
-							break;
-						}
+                        if (*capabilities[i] == 0) {
+                            log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
+                            break;
+                        }
                         if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))
-							size -= 4;
+                            size -= 4;
                         if ((i == CAP_ANDRQ))
                             size -= 7;
-						if ((i == CAP_MIRANDA))
-							size -= 8;
+                        if ((i == CAP_MIRANDA))
+                            size -= 8;
                         if ((i == CAP_JIMM))
                             size -= 11;
                         if (!memcmp(cap, capabilities[i], size)){
@@ -183,11 +184,11 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                                 p += 9;
                                 data->Build.asULong() = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
                             }
-							if ((i == CAP_MIRANDA)) {
+                            if ((i == CAP_MIRANDA)) {
                                 unsigned char *p = (unsigned char*)cap;
                                 p += 8;
                                 data->Build.asULong() = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
-							}
+                            }
                             if ((i == CAP_JIMM)) {
                                 char *p = (char*)cap;
                                 p += 5;

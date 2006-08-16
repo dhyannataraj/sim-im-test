@@ -74,7 +74,7 @@ void MSNInfo::fill()
     edtNick->setText(data->ScreenName.ptr ? QString::fromUtf8(data->ScreenName.ptr) : edtEMail->text());
     int current = 0;
     const char *text = NULL;
-    unsigned status = m_data ? m_data->Status.value : m_client->getStatus();
+    unsigned status = m_data ? m_data->Status.toULong() : m_client->getStatus();
     for (const CommandDef *cmd = m_client->protocol()->statusList(); cmd->id; cmd++){
         if (cmd->flags & COMMAND_CHECK_STATE)
             continue;
@@ -88,12 +88,12 @@ void MSNInfo::fill()
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
         lblOnline->setText(i18n("Last online") + ":");
-        edtOnline->setText(formatDateTime(data->StatusTime.value));
+        edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
         lblNA->hide();
         edtNA->hide();
     }else{
-        if (data->OnlineTime.value){
-            edtOnline->setText(formatDateTime(data->OnlineTime.value));
+        if (data->OnlineTime.toULong()){
+            edtOnline->setText(formatDateTime(data->OnlineTime.toULong()));
         }else{
             lblOnline->hide();
             edtOnline->hide();
@@ -103,7 +103,7 @@ void MSNInfo::fill()
             edtNA->hide();
         }else{
             lblNA->setText(i18n(text));
-            edtNA->setText(formatDateTime(data->StatusTime.value));
+            edtNA->setText(formatDateTime(data->StatusTime.toULong()));
         }
     }
 }

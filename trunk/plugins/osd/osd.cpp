@@ -255,26 +255,26 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     setFont(FontEdit::str2font(data->Font.ptr, baseFont));
     QPainter p(this);
     p.setFont(font());
-    unsigned nScreen = data->Screen.value;
+    unsigned nScreen = data->Screen.toULong();
     unsigned nScreens = screens();
     if (nScreen >= nScreens)
         nScreen = 0;
     int SHADOW_OFFS = SHADOW_DEF;
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
-                     rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
-                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
+                     rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong(),
+                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong());
     QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     if (rc.height() >= rcScreen.height() / 2){
         rcScreen = QRect(0, 0,
-                         rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value,
-                         rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.value);
+                         rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong(),
+                         rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong());
         rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     }
     p.end();
-    if (data->EnableMessageShowContent.toBool() && data->ContentLines.value){
+    if (data->EnableMessageShowContent.toBool() && data->ContentLines.toULong()){
         QFontMetrics fm(font());
-        int maxHeight = fm.height() * (data->ContentLines.value + 1);
+        int maxHeight = fm.height() * (data->ContentLines.toULong() + 1);
         if (rc.height() > maxHeight)
             rc.setHeight(maxHeight);
     }
@@ -308,27 +308,27 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         h += SHADOW_OFFS;
     }
     resize(QSize(w, h));
-    switch (data->Position.value){
+    switch (data->Position.toULong()){
     case 1:
-        move(x + data->Offset.value, y + data->Offset.value);
+        move(x + data->Offset.toULong(), y + data->Offset.toULong());
         break;
     case 2:
-        move(x + rcScreen.width() - data->Offset.value - w, y + rcScreen.height() - data->Offset.value - h);
+        move(x + rcScreen.width() - data->Offset.toULong() - w, y + rcScreen.height() - data->Offset.toULong() - h);
         break;
     case 3:
-        move(x + rcScreen.width() - data->Offset.value - w, y + data->Offset.value);
+        move(x + rcScreen.width() - data->Offset.toULong() - w, y + data->Offset.toULong());
         break;
     case 4:
-        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - data->Offset.value - h);
+        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - data->Offset.toULong() - h);
         break;
     case 5:
-        move(x + (rcScreen.width() - w) / 2, y + data->Offset.value);
+        move(x + (rcScreen.width() - w) / 2, y + data->Offset.toULong());
         break;
     case 6:
         move(x + (rcScreen.width() - w) / 2, y + (rcScreen.height() - h) /2);
         break;
     default:
-        move(x + data->Offset.value, y + rcScreen.height() - data->Offset.value - h);
+        move(x + data->Offset.toULong(), y + rcScreen.height() - data->Offset.toULong() - h);
     }
     if (!data->Background.toBool() || data->Shadow.toBool()){
         QBitmap mask(w, h);
@@ -371,13 +371,13 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
             h -= SHADOW_OFFS;
             rc = QRect(0, 0, w, h);
         }
-        QBrush bg(data->BgColor.value);
+        QBrush bg(data->BgColor.toULong());
         p.fillRect(rc, bg);
         style().drawPrimitive(QStyle::PE_PanelPopup, &p, rc, colorGroup());
         rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
     }
     p.setFont(font());
-    p.setPen(QColor(data->Color.value));
+    p.setPen(QColor(data->Color.toULong()));
     rc.setTop(text_y);
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
@@ -565,7 +565,7 @@ void OSDPlugin::processQueue()
                 connect(m_osd, SIGNAL(closeClick()), this, SLOT(closeClick()));
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
-            m_timer->start(data->Timeout.value * 1000);
+            m_timer->start(data->Timeout.toULong() * 1000);
             return;
         }
     }

@@ -645,7 +645,7 @@ bool LiveJournalClient::send(Message *msg, void *_data)
 
 bool LiveJournalClient::canSend(unsigned type, void *_data)
 {
-    if ((_data == NULL) || (((clientData*)_data)->Sign.value != LIVEJOURNAL_SIGN))
+    if ((_data == NULL) || (((clientData*)_data)->Sign.toULong() != LIVEJOURNAL_SIGN))
         return false;
     if (type == MessageJournal){
         if (getState() != Connected)
@@ -672,7 +672,7 @@ bool LiveJournalClient::createData(clientData*&, Contact*)
 
 bool LiveJournalClient::isMyData(clientData *&data, Contact*&)
 {
-    if (data->Sign.value != LIVEJOURNAL_SIGN)
+    if (data->Sign.toULong() != LIVEJOURNAL_SIGN)
         return false;
     return false;
 }

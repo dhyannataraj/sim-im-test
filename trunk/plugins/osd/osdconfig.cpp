@@ -54,7 +54,7 @@ OSDConfig::OSDConfig(QWidget *parent, void *d, OSDPlugin *plugin)
         tab->addTab(m_iface, i18n("&Interface"));
         break;
     }
-    edtLines->setValue(data->ContentLines.value);
+    edtLines->setValue(data->ContentLines.toULong());
     connect(chkStatus, SIGNAL(toggled(bool)), this, SLOT(statusToggled(bool)));
     connect(chkMessage, SIGNAL(toggled(bool)), this, SLOT(showMessageToggled(bool)));
     connect(chkMessageContent, SIGNAL(toggled(bool)), this, SLOT(contentToggled(bool)));
@@ -82,7 +82,7 @@ void OSDConfig::apply(void *d)
     data->EnableAlertFFC.asBool() = chkStatusFFC->isChecked();
     data->EnableAlertOffline.asBool() = chkStatusOffline->isChecked();
     data->EnableTyping.asBool() = chkTyping->isChecked();
-    data->ContentLines.value = atol(edtLines->text());
+    data->ContentLines.asULong() = edtLines->text().toULong();
     m_iface->apply(d);
 }
 

@@ -263,9 +263,9 @@ void SynPacket::answer(vector<string> &args)
         MSNUserData *data;
         ClientDataIterator it(grp->clientData, m_client);
         while ((data = (MSNUserData*)(++it)) != NULL){
-            data->sFlags.value = data->Flags.value;
+            data->sFlags.asULong() = data->Flags.toULong();
             if (args.size() > 1)
-                data->Flags.value  = 0;
+                data->Flags.asULong()  = 0;
         }
     }
     ContactList::ContactIterator itc;
@@ -274,9 +274,9 @@ void SynPacket::answer(vector<string> &args)
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, m_client);
         while ((data = (MSNUserData*)(++it)) != NULL){
-            data->sFlags.value = data->Flags.value;
+            data->sFlags.asULong() = data->Flags.toULong();
             if (args.size() > 1)
-                data->Flags.value  = 0;
+                data->Flags.asULong()  = 0;
         }
     }
 }
@@ -323,7 +323,7 @@ void AdgPacket::answer(vector<string> &args)
     data = (MSNUserData*)(++it);
     if (data == NULL)
         data = (MSNUserData*)(grp->clientData.createData(m_client));
-    data->Group.value = atol(args[2].c_str());
+    data->Group.asULong() = atol(args[2].c_str());
 }
 
 RegPacket::RegPacket(MSNClient *client, unsigned id, const char *name)
