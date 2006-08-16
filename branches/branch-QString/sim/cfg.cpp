@@ -34,6 +34,7 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <winsock.h>
 #else
 #include <sys/stat.h>
 #include <unistd.h>

@@ -151,12 +151,10 @@ void WeatherPlugin::timeout()
 {
     if (!getSocketFactory()->isActive() || !isDone() || (getID().isEmpty()))
         return;
-    time_t now;
-    time(&now);
-    if ((unsigned)now < getTime() + CHECK1_INTERVAL)
+    if ((unsigned)time(NULL) < getTime() + CHECK1_INTERVAL)
         return;
     m_bForecast = false;
-    if ((unsigned)now >= getForecastTime() + CHECK2_INTERVAL)
+    if ((unsigned)time(NULL) >= getForecastTime() + CHECK2_INTERVAL)
         m_bForecast = true;
     QString url = "http://xoap.weather.com/weather/local/";
     url += getID();
@@ -204,8 +202,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
         log(L_WARN, "XML parse error");
         return false;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     setTime(now);
     if (m_bForecast)
         setForecastTime(now);
@@ -272,8 +269,7 @@ bool WeatherPlugin::isDay()
     int set_h = 0, set_m = 0;
     if (!parseTime(getSun_raise(), raise_h, raise_m) || !parseTime(getSun_set(), set_h, set_m))
         return false;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     struct tm *tm = localtime(&now);
     if ((tm->tm_hour > raise_h) && (tm->tm_hour < set_h))
         return true;

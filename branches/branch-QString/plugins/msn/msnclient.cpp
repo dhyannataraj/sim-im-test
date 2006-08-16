@@ -195,8 +195,7 @@ void MSNClient::setStatus(unsigned status)
 {
     if (status  == m_status)
         return;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if (m_status == STATUS_OFFLINE)
         data.owner.OnlineTime.asULong() = now;
     data.owner.StatusTime.asULong() = now;
@@ -208,9 +207,7 @@ void MSNClient::setStatus(unsigned status)
         if (m_status != STATUS_OFFLINE){
             m_status = status;
             data.owner.Status.asULong() = status;
-            time_t now;
-            time(&now);
-            data.owner.StatusTime.asULong() = now;
+            data.owner.StatusTime.asULong() = time(NULL);
             MSNPacket *packet = new OutPacket(this);
             packet->send();
         }
@@ -248,8 +245,6 @@ void MSNClient::disconnected()
     stop();
     Contact *contact;
     ContactList::ContactIterator it;
-    time_t now;
-    time(&now);
     while ((contact = ++it) != NULL){
         bool bChanged = false;
         MSNUserData *data;
@@ -257,7 +252,7 @@ void MSNClient::disconnected()
         while ((data = (MSNUserData*)(++it)) != NULL){
             if (data->Status.toULong() != STATUS_OFFLINE){
                 data->Status.asULong() = STATUS_OFFLINE;
-                data->StatusTime.asULong() = now;
+                data->StatusTime.asULong() = time(NULL);
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock){
                     delete sock;
@@ -583,8 +578,7 @@ void MSNClient::getLine(const QCString &line)
         Contact *contact;
         MSNUserData *data = findContact(getToken(l, ' '), contact);
         if (data && (data->Status.toULong() != status)){
-            time_t now;
-            time(&now);
+            time_t now = time(NULL);
             data->Status.asULong() = status;
             if (data->Status.toULong() == STATUS_OFFLINE){
                 data->OnlineTime.asULong() = now;
@@ -607,8 +601,7 @@ void MSNClient::getLine(const QCString &line)
         Contact *contact;
         MSNUserData *data = findContact(getToken(l, ' '), contact);
         if (data && (data->Status.toULong() != status)){
-            time_t now;
-            time(&now);
+            time_t now = time(NULL);
             if (data->Status.toULong() == STATUS_OFFLINE){
                 data->OnlineTime.asULong() = now;
                 set_ip(&data->IP, 0);
@@ -634,9 +627,7 @@ void MSNClient::getLine(const QCString &line)
         Contact *contact;
         MSNUserData *data = findContact(getToken(l, ' '), contact);
         if (data && (data->Status.toULong() != STATUS_OFFLINE)){
-            time_t now;
-            time(&now);
-            data->StatusTime.asULong() = now;
+            data->StatusTime.asULong() = time(NULL);
             data->Status.asULong() = STATUS_OFFLINE;
             StatusMessage m;
             m.setContact(contact->id());
@@ -830,9 +821,7 @@ void MSNClient::authOk()
 {
     m_state    = None;
     m_authChallenge = "";
-    time_t now;
-    time(&now);
-    m_pingTime = now;
+    m_pingTime = time(NULL);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
     setPreviousPassword(NULL);
     MSNPacket *packet = new SynPacket(this);
@@ -843,8 +832,7 @@ void MSNClient::ping()
 {
     if (getState() != Connected)
         return;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now >= m_pingTime + PING_TIMEOUT){
         sendLine("PNG");
         m_pingTime = now;
@@ -2227,10 +2215,8 @@ void SBSocket::messageReady()
     }
     if (content_type == "text/x-msmsgscontrol"){
         if (typing.lower() == m_data->EMail.str().lower()){
-            time_t now;
-            time(&now);
             bool bEvent = (m_data->typing_time.toULong() == 0);
-            m_data->typing_time.asULong() = now;
+            m_data->typing_time.asULong() = time(NULL);
             if (bEvent){
                 Event e(EventContactStatus, m_contact);
                 e.process();
@@ -2951,8 +2937,7 @@ void MSNFileTransfer::write_ready()
         m_state = WaitBye;
         return;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;

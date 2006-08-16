@@ -476,9 +476,7 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     m_alert = NULL;
 
     load_data(coreData, &data, config);
-    time_t now;
-    time(&now);
-    setStatusTime(now);
+    setStatusTime(time(NULL));
 
     user_data_id	 = getContacts()->registerUserData("core", coreUserData);
     sms_data_id		 = getContacts()->registerUserData("sms", smsUserData);
@@ -1821,9 +1819,7 @@ void *CorePlugin::processEvent(Event *e)
                 QString profile = getProfile();
                 free_data(coreData, &data);
                 load_data(coreData, &data, info->cfg);
-                time_t now;
-                time(&now);
-                setStatusTime(now);
+                setStatusTime(time(NULL));
                 if (info->cfg){
                     delete info->cfg;
                     info->cfg = NULL;
@@ -2023,9 +2019,7 @@ void *CorePlugin::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 if (msg->getTime() == 0){
-                    time_t now;
-                    time(&now);
-                    msg->setTime(now);
+                    msg->setTime(time(NULL));
                 }
                 unsigned type = msg->baseType();
                 if (type == MessageStatus){
@@ -2060,9 +2054,7 @@ void *CorePlugin::processEvent(Event *e)
                         }
                     }
                 }else{
-                    time_t now;
-                    time(&now);
-                    contact->setLastActive(now);
+                    contact->setLastActive(time(NULL));
                     Event e(EventContactStatus, contact);
                     e.process();
                 }
@@ -3628,9 +3620,7 @@ void CorePlugin::changeProfile()
     pluginInfo *info = (pluginInfo*)(eInfo.process());
     free_data(coreData, &data);
     load_data(coreData, &data, info->cfg);
-    time_t now;
-    time(&now);
-    setStatusTime(now);
+    setStatusTime(time(NULL));
     if (info->cfg){
         delete info->cfg;
         info->cfg = NULL;
@@ -4371,8 +4361,7 @@ void CorePlugin::checkHistory()
         HistoryUserData *data = (HistoryUserData*)(contact->getUserData(history_data_id));
         if ((data == NULL) || !data->CutDays.toBool())
             continue;
-        time_t now;
-        time(&now);
+        time_t now = time(NULL);
         now -= data->Days.toULong() * 24 * 60 * 60;
         History::cut(NULL, contact->id(), now);
     }
@@ -4383,9 +4372,7 @@ void CorePlugin::setManualStatus(unsigned long status)
 {
     if (status == getManualStatus())
         return;
-    time_t now;
-    time(&now);
-    setStatusTime(now);
+    setStatusTime(time(NULL));
     data.ManualStatus.asULong() = status;
 }
 

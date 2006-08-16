@@ -947,9 +947,7 @@ bool MsgEdit::send()
     }
     if (bSent){
         if (data){
-            time_t now;
-            time(&now);
-            ((clientData*)data)->LastSend.asULong() = now;
+            ((clientData*)data)->LastSend.asULong() = time(NULL);
         }
     }else{
         if (m_msg){
@@ -1269,9 +1267,7 @@ void *MsgEdit::processEvent(Event *e)
                 }
             }else{
                 if (contact){
-                    time_t now;
-                    time(&now);
-                    contact->setLastActive(now);
+                    contact->setLastActive(time(NULL));
                     Event e(EventContactStatus, contact);
                     e.process();
                 }

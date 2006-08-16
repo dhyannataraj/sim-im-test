@@ -544,8 +544,7 @@ void JabberClient::setStatus(unsigned status)
 void JabberClient::setStatus(unsigned status, const QString &ar)
 {
     if (status  != m_status){
-        time_t now;
-        time(&now);
+        time_t now = time(NULL);
         data.owner.StatusTime.asULong() = now;
         if (m_status == STATUS_OFFLINE)
             data.owner.OnlineTime.asULong() = now;
@@ -601,16 +600,14 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
         }
         Contact *contact;
         ContactList::ContactIterator it;
-        time_t now;
-        time(&now);
-        data.owner.StatusTime.asULong() = now;
+        data.owner.StatusTime.asULong() = time(NULL);
         while ((contact = ++it) != NULL){
             JabberUserData *data;
             ClientDataIterator it(contact->clientData, this);
             while ((data = (JabberUserData*)(++it)) != NULL){
                 if (data->Status.toULong() == STATUS_OFFLINE)
                     continue;
-                data->StatusTime.asULong() = now;
+                data->StatusTime.asULong() = time(NULL);
                 setOffline(data);
                 StatusMessage m;
                 m.setContact(contact->id());
@@ -2735,8 +2732,7 @@ void JabberFileTransfer::write_ready()
         m_socket->close();
         return;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;

@@ -70,8 +70,7 @@ void format(string &s, const char *fmt, ...)
 
 void log_string(unsigned short l, const char *s)
 {
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     struct tm *tm = localtime(&now);
     string m;
     format(m, "%02u/%02u/%04u %02u:%02u:%02u [%s] ",
@@ -111,8 +110,7 @@ EXPORT QString make_packet_string(LogInfo *l)
             return m;
         Buffer *b = (Buffer*)(l->log_info);
         unsigned start = b->packetStartPos();
-        time_t now;
-        time(&now);
+        time_t now = time(NULL);
         struct tm *tm = localtime(&now);
         QString name = type->name();
         if (l->add_info && *l->add_info){

@@ -634,8 +634,7 @@ void HistoryConfig::fillPreview()
     contact->setFlags(CONTACT_TEMP);
     edtPreview->clear();
     edtPreview->setXSL(xsl);
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     bool saveSmiles = CorePlugin::m_plugin->getUseSmiles();
     bool saveOwn    = CorePlugin::m_plugin->getOwnColors();
     CorePlugin::m_plugin->setUseSmiles(chkSmile->isChecked());

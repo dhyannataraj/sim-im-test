@@ -92,11 +92,8 @@ void Message::setClient(const QString &client)
 
 QString Message::save()
 {
-    if (getTime() == 0){
-        time_t now;
-        time(&now);
-        setTime(now);
-    }
+    if (getTime() == 0)
+        setTime(time(NULL));
     unsigned saveFlags = getFlags();
     setFlags(getFlags() & MESSAGE_SAVEMASK);
     QString res = save_data(messageData, &data);

@@ -1894,8 +1894,7 @@ void ICQFileTransfer::write_ready()
             m_notify->process();
         return;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;

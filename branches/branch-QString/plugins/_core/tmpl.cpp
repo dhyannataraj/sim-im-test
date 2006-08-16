@@ -142,9 +142,7 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         }
 
         if (tag == "IntervalStatus"){
-            time_t now;
-            time(&now);
-            res += QString::number(now - CorePlugin::m_plugin->getStatusTime());
+            res += QString::number(time(NULL) - CorePlugin::m_plugin->getStatusTime());
             continue;
         }
 

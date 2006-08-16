@@ -332,10 +332,8 @@ void FileTransferDlg::transfer(bool bState)
     bool bTransfer = m_bTransfer;
     m_bTransfer = bState;
     if (bState && m_msg->m_transfer){
-        time_t now;
-        time(&now);
         m_transferBytes = m_msg->m_transfer->transferBytes();
-        m_transferTime  = now;
+        m_transferTime  = time(NULL);
     }
     if (!m_bTransfer && bTransfer)
         calcSpeed(true);
@@ -411,8 +409,7 @@ void FileTransferDlg::calcSpeed(bool bTransfer)
 {
     if (!m_bTransfer && !bTransfer)
         return;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if (((unsigned)now == m_transferTime) && !bTransfer)
         return;
     if (m_nAverage < MAX_AVERAGE)

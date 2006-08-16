@@ -573,11 +573,8 @@ void ICQClient::setStatus(unsigned status, bool bCommon)
         switch (status){
         case STATUS_NA:
         case STATUS_AWAY:
-            if (getIdleTime() == 0){
-                time_t now;
-                time(&now);
-                setIdleTime(now);
-            }
+            if (getIdleTime() == 0)
+                setIdleTime(time(NULL));
             break;
         default:
             setIdleTime(0);
@@ -1166,9 +1163,7 @@ void ICQClient::setOffline(ICQUserData *data)
     data->bTyping.asBool() = false;
     data->bBadClient.asBool() = false;
     data->bInvisible.asBool() = false;
-    time_t now;
-    time(&now);
-    data->StatusTime.asULong()  = now;
+    data->StatusTime.asULong()  = time(NULL);
     data->AutoReply.str() = QString::null;
 }
 
@@ -2481,8 +2476,7 @@ void *ICQClient::processEvent(Event *e)
             if (!m_bAIM)
                 addBuddy(contact);
             if (contact == getContacts()->owner()){
-                time_t now;
-                time(&now);
+                time_t now = time(NULL);
                 if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){
                     data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
                     data.owner.PluginInfoTime.asULong() = now;

@@ -97,7 +97,7 @@ void YahooSearch::search(const QString &text, int type)
     url += "&.ar=";
     url += QString::number(getComboValue(cmbAge, ages));
     url += "&.pg=y";
-    fetch(url);
+    fetch(url.utf8());
 }
 
 void YahooSearch::searchStop()

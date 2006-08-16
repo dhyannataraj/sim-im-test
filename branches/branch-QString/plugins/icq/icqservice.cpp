@@ -371,8 +371,7 @@ void ICQClient::sendLogonStatus()
         sendInvisible(false);
     sendContactList();
 
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if (data.owner.PluginInfoTime.toULong() == 0)
         data.owner.PluginInfoTime.asULong() = now;
     if (data.owner.PluginStatusTime.toULong() == 0)
@@ -479,9 +478,7 @@ void ICQClient::sendUpdate()
         return;
     if (--m_nUpdates)
         return;
-    time_t now;
-    time(&now);
-    data.owner.InfoUpdateTime.asULong() = now;
+    data.owner.InfoUpdateTime.asULong() = time(NULL);
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_status));
     Buffer directInfo(25);
@@ -540,9 +537,7 @@ void ICQClient::sendIdleTime()
         m_bIdleTime = false;
         return;
     }
-    time_t now;
-    time(&now);
-    unsigned long idle = now - getIdleTime();
+    unsigned long idle = time(NULL) - getIdleTime();
     if (idle <= 0)
         idle = 1;
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxIDLE);

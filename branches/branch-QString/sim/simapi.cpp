@@ -19,6 +19,7 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <winsock.h>
 #else
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -719,9 +720,7 @@ EXPORT unsigned get_random()
 {
     if (!bRandInit){
         bRandInit = true;
-        time_t now;
-        time(&now);
-        srand(now);
+        srand(time(NULL));
     }
     return rand();
 }

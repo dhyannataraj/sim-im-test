@@ -566,8 +566,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
 #ifndef HAVE_TM_GMTOFF
             tz = - timezone;
 #else
-            time_t now;
-            time(&now);
+            time_t now = time(NULL);
             struct tm *tm = localtime(&now);
             tz = tm->tm_gmtoff;
             if (tm->tm_isdst) tz -= (60 * 60);
@@ -605,9 +604,7 @@ unsigned ICQClient::processInfoRequest()
         m_socket->writeBuffer.pack(uin);
         sendServerRequest();
         (*it).request_id = m_nMsgSequence;
-        time_t now;
-        time(&now);
-        (*it).start_time = now;
+        (*it).start_time = time(NULL);
         log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
         varRequests.push_back(new FullInfoRequest(this, m_nMsgSequence, uin));
     }
@@ -616,8 +613,7 @@ unsigned ICQClient::processInfoRequest()
 
 void ICQClient::checkInfoRequest()
 {
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ){
         if (((*it).request_id == 0) || ((time_t)((*it).start_time + INFO_REQUEST_TIMEOUT) < now)){
             ++it;
@@ -1686,9 +1682,8 @@ unsigned ICQClient::processSMSQueue()
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));
 
         char timestr[30];
-        time_t t;
+        time_t t = time(NULL);
         struct tm *tm;
-        time(&t);
         tm = gmtime(&t);
         snprintf(timestr, sizeof(timestr), "%s, %02u %s %04u %02u:%02u:%02u GMT",
                  w_days[tm->tm_wday], tm->tm_mday, months[tm->tm_mon], tm->tm_year + 1900,

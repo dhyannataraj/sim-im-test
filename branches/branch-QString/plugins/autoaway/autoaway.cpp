@@ -312,9 +312,7 @@ void AutoAwayPlugin::timeout()
     }
     if (core->getManualStatus() == newStatus)
         return;
-    time_t now;
-    time(&now);
-    core->data.StatusTime.asULong() = now;
+    core->data.StatusTime.asULong() = time(NULL);
     core->data.ManualStatus.asULong() = newStatus;
     Event e(EventClientStatus);
     e.process();

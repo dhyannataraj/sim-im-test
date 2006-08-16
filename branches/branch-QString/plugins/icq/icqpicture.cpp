@@ -78,9 +78,7 @@ void ICQPicture::apply(Client *client, void *_data)
         pict = "";
     if (pict != m_client->getPicture()){
         m_client->setPicture(pict);
-        time_t now;
-        time(&now);
-        data->PluginInfoTime.asULong() = now;
+        data->PluginInfoTime.asULong() = time(NULL);
     }
 }
 

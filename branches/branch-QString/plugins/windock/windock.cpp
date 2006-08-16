@@ -27,6 +27,7 @@
 
 #include <windows.h>
 #include <windowsx.h>
+#include <shellapi.h>
 
 using namespace SIM;
 

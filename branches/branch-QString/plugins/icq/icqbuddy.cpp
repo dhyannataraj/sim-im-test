@@ -74,9 +74,6 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         screen = m_socket->readBuffer.unpackScreen();
         data = findContact(screen, NULL, false, contact);
         if (data){
-            time_t now;
-            time(&now);
-
             bool bChanged     = false;
             bool bAwayChanged = false;
             unsigned long prevStatus = data->Status.toULong();
@@ -92,7 +89,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 unsigned short userClass = *tlvClass;
                 if (userClass != data->Class.toULong()){
                     if ((userClass & CLASS_AWAY) != (data->Class.toULong() & CLASS_AWAY)){
-                        data->StatusTime.asULong() = (unsigned long)now;
+                        data->StatusTime.asULong() = (unsigned long)time(NULL);
                         bAwayChanged = true;
                     }
                     data->Class.asULong() = userClass;
@@ -115,11 +112,11 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     data->Status.asULong() = status;
                     if ((status & 0xFF) == 0)
                         data->AutoReply.str() = QString::null;
-                    data->StatusTime.asULong() = (unsigned long)now;
+                    data->StatusTime.asULong() = (unsigned long)time(NULL);
                 }
             }else if (data->Status.toULong() == ICQ_STATUS_OFFLINE){
                 data->Status.asULong() = ICQ_STATUS_ONLINE;
-                data->StatusTime.asULong() = (unsigned long)now;
+                data->StatusTime.asULong() = (unsigned long)time(NULL);
             }
 
             // Online time TLV
@@ -134,7 +131,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             Tlv *tlvNATime = tlv(0x0004);
             if (tlvNATime){
                 unsigned short na_time = *tlvNATime;
-                unsigned long StatusTime = (unsigned long)now - na_time * 60;
+                unsigned long StatusTime = (unsigned long)time(NULL) - na_time * 60;
                 if (StatusTime != data->StatusTime.toULong()){
                     data->StatusTime.asULong() = StatusTime;
                     bChanged = true;
@@ -156,18 +153,19 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     info.unpack((char*)cap, sizeof(capability));
                     for (unsigned i = 0;; i++){
                         unsigned size = sizeof(capability);
-                        if (i == CAP_SIMOLD) size--;
+                        if (i == CAP_SIMOLD)
+                            size--;
 
-						if (*capabilities[i] == 0) {
-							log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
-							break;
-						}
+                        if (*capabilities[i] == 0) {
+                            log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(), makeCapStr( cap, size ).latin1() );
+                            break;
+                        }
                         if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))
-							size -= 4;
+                            size -= 4;
                         if ((i == CAP_ANDRQ))
                             size -= 7;
-						if ((i == CAP_MIRANDA))
-							size -= 8;
+                        if ((i == CAP_MIRANDA))
+                            size -= 8;
                         if ((i == CAP_JIMM))
                             size -= 11;
                         if (!memcmp(cap, capabilities[i], size)){
@@ -186,11 +184,11 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                                 p += 9;
                                 data->Build.asULong() = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
                             }
-							if ((i == CAP_MIRANDA)) {
+                            if ((i == CAP_MIRANDA)) {
                                 unsigned char *p = (unsigned char*)cap;
                                 p += 8;
                                 data->Build.asULong() = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
-							}
+                            }
                             if ((i == CAP_JIMM)) {
                                 char *p = (char*)cap;
                                 p += 5;
@@ -301,15 +299,15 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             break;
                     switch (plugin_index){
                     case PLUGIN_FOLLOWME:
-                        if (data->FollowMe.asULong() == plugin_status)
+                        if (data->FollowMe.toULong() == plugin_status)
                             break;
                         data->FollowMe.asULong() = plugin_status;
                         bChanged = true;
                         break;
                     case PLUGIN_FILESERVER:
-                        if ((data->SharedFiles.toULong() != 0) == (plugin_status != 0))
+                        if ((data->SharedFiles.toBool() != 0) == (plugin_status != 0))
                             break;
-                        data->SharedFiles.asULong() = (plugin_status != 0);
+                        data->SharedFiles.asBool() = (plugin_status != 0);
                         bChanged = true;
                         break;
                     case PLUGIN_ICQPHONE:

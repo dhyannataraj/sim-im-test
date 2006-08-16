@@ -567,9 +567,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     Event e(EventGroupChanged, grp);
                     e.process();
                 }
-                time_t now;
-                time(&now);
-                data.owner.OnlineTime.asULong() = now;
+                data.owner.OnlineTime.asULong() = time(NULL);
                 if (m_logonStatus == STATUS_ONLINE){
                     m_status = STATUS_ONLINE;
                     sendCapability();
@@ -1231,9 +1229,7 @@ void ICQClient::checkListRequest()
 {
     if (m_listRequest == NULL)
         return;
-    time_t now;
-    time(&now);
-    if (now > (time_t)(m_listRequestTime + LIST_REQUEST_TIMEOUT)){
+    if (time(NULL) > (time_t)(m_listRequestTime + LIST_REQUEST_TIMEOUT)){
         log(L_WARN, "List request timeout");
         m_listRequest->process(this, (unsigned short)(-1));
         delete m_listRequest;

@@ -892,8 +892,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         QString statusIcon;
         contactInfo(data, old_status, style, statusIcon);
 
-        time_t now;
-        time(&now);
+        time_t now = time(NULL);
         now -= idle;
         if (data->Status.toULong() == YAHOO_STATUS_OFFLINE)
             data->OnlineTime.asULong() = now;
@@ -943,8 +942,7 @@ void YahooClient::setStatus(unsigned status)
 {
     if (status  == m_status)
         return;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if (m_status == STATUS_OFFLINE)
         data.owner.OnlineTime.asULong() = now;
     data.owner.StatusTime.asULong() = now;
@@ -956,9 +954,7 @@ void YahooClient::setStatus(unsigned status)
         if (m_status != STATUS_OFFLINE){
             m_status = status;
             data.owner.Status.asULong() = status;
-            time_t now;
-            time(&now);
-            data.owner.StatusTime.asULong() = now;
+            data.owner.StatusTime.asULong() = time(NULL);
         }
         return;
     }
@@ -2351,8 +2347,7 @@ void YahooFileTransfer::write_ready()
         m_socket->close();
         return;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;

@@ -762,8 +762,7 @@ static unsigned get_number(QString &s, unsigned digits)
 static time_t fromDelay(const QString &t)
 {
     QString s = t;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     struct tm _tm = *localtime(&now);
     _tm.tm_year = get_number(s, 4) - 1900;
     _tm.tm_mon  = get_number(s, 2) - 1;
@@ -832,9 +831,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
     }else{
         log(L_DEBUG, "Unsupported presence type %s", m_type.latin1());
     }
-    time_t now;
-    time(&now);
-    time_t time1 = now;
+    time_t time1 = time(NULL);
     time_t time2 = 0;
     if (!m_stamp1.isEmpty())
         time1 = fromDelay(m_stamp1);

@@ -81,9 +81,7 @@ void UpdatePlugin::timeout()
 {
     if (!getSocketFactory()->isActive() || !isDone())
         return;
-    time_t now;
-    time(&now);
-    if ((unsigned)now >= getTime() + CHECK_INTERVAL){
+    if ((unsigned)time(NULL) >= getTime() + CHECK_INTERVAL){
         QString url = "http://sim.shutoff.ru/cgi-bin/update1.pl?v=" VERSION;
 #ifdef WIN32
         url += "&os=1";
@@ -152,9 +150,7 @@ bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
         Event e(EventShowError, &d);
         e.process();
     }
-    time_t now;
-    time(&now);
-    setTime(now);
+    setTime(time(NULL));
     Event e(EventSaveState);
     e.process();
     return false;
@@ -167,9 +163,7 @@ void *UpdatePlugin::processEvent(Event *e)
         if (cmd->id == CmdGo){
             Event eGo(EventGoURL, (void*)&m_url);
             eGo.process();
-            time_t now;
-            time(&now);
-            setTime(now);
+            setTime(time(NULL));
             m_url = "";
             Event eSave(EventSaveState);
             eSave.process();
