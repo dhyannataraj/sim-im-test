@@ -1143,17 +1143,17 @@ void ICQClient::setOffline(ICQUserData *data)
         }
         ++it;
     }
-    if (data->Direct.ptr){
-        delete (QObject*)data->Direct.ptr;
-        data->Direct.ptr = NULL;
+    if (data->Direct.object()){
+        delete data->Direct.object();
+        data->Direct.clear();
     }
-    if (data->DirectPluginInfo.ptr){
-        delete (QObject*)data->DirectPluginInfo.ptr;
-        data->DirectPluginInfo.ptr = NULL;
+    if (data->DirectPluginInfo.object()){
+        delete data->DirectPluginInfo.object();
+        data->DirectPluginInfo.clear();
     }
-    if (data->DirectPluginStatus.ptr){
-        delete (QObject*)data->DirectPluginStatus.ptr;
-        data->DirectPluginStatus.ptr = NULL;
+    if (data->DirectPluginStatus.object()){
+        delete data->DirectPluginStatus.object();
+        data->DirectPluginStatus.clear();
     }
     data->bNoDirect.asBool()  = false;
     data->Status.asULong()    = ICQ_STATUS_OFFLINE;
@@ -1276,7 +1276,8 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         }
         if (data->bTyping.toBool())
             addIcon(icons, "typing", statusIcon);
-        if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure())
+        DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+        if (dc && dc->isSecure())
             addIcon(icons, "encrypted", statusIcon);
     }
     if (data->InvisibleId.toULong())
@@ -2633,7 +2634,8 @@ void *ICQClient::processEvent(Event *e)
                 ICQUserData *data;
                 ClientDataIterator it(contact->clientData, this);
                 while ((data = (ICQUserData*)(++it)) != NULL){
-                    if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->cancelMessage(msg))
+                    DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+                    if (dc && dc->cancelMessage(msg))
                         return msg;
                 }
             }
@@ -2906,7 +2908,8 @@ void *ICQClient::processEvent(Event *e)
             }
             return NULL;
         }
-        if (data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure()){
+        DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+        if (dc && dc->isSecure()){
             Message *m = new Message(MessageCloseSecure);
             m->setContact((*msg)->contact());
             m->setClient((*msg)->client());
@@ -2950,13 +2953,14 @@ bool ICQClient::send(Message *msg, void *_data)
     case MessageFile:
         if (data && ((data->Status.toULong() & 0xFFFF) != ICQ_STATUS_OFFLINE)){
             if (data->Uin.toULong()){
-                if ((data->Direct.ptr == NULL)){
+                DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+                if (!dc){
                     if (data->bNoDirect.toBool())
                         return sendThruServer(msg, data);
                     data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
                     ((DirectClient*)(data->Direct.ptr))->connect();
                 }
-                return ((DirectClient*)(data->Direct.ptr))->sendMessage(msg);
+                return dc->sendMessage(msg);
             }
             if (!hasCap(data, CAP_AIM_SENDFILE))
                 return false;
@@ -2988,20 +2992,27 @@ bool ICQClient::send(Message *msg, void *_data)
         delete msg;
         return true;
 #ifdef USE_OPENSSL
-    case MessageOpenSecure:
+    case MessageOpenSecure: {
         if (data == NULL)
             return false;
-        if (data && data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure())
+        DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+        if (dc && dc->isSecure())
             return false;
-        if (data->Direct.ptr == NULL){
-            data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
-            ((DirectClient*)(data->Direct.ptr))->connect();
+        if (!dc){
+            dc = new DirectClient(data, this, PLUGIN_NULL);
+            data->Direct.setObject(dc);
+            dc->connect();
         }
-        return ((DirectClient*)(data->Direct.ptr))->sendMessage(msg);
-    case MessageCloseSecure:
-        if (data && data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure())
-            return ((DirectClient*)(data->Direct.ptr))->sendMessage(msg);
+        return dc->sendMessage(msg);
+    }
+    case MessageCloseSecure: {
+        if (data == NULL)
+            return false;
+        DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+        if (dc && dc->isSecure())
+            return dc->sendMessage(msg);
         return false;
+    }
 #endif
     case MessageWarning:
         return sendThruServer(msg, data);
@@ -3013,7 +3024,8 @@ bool ICQClient::send(Message *msg, void *_data)
         return false;
     if (data->Uin.toULong()){
         bool bCreateDirect = false;
-        if ((data->Direct.ptr == NULL) &&
+        DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+        if ((dc == NULL) &&
                 !data->bNoDirect.toBool() &&
                 (data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
                 (get_ip(data->IP) == get_ip(this->data.owner.IP)))
@@ -3028,11 +3040,12 @@ bool ICQClient::send(Message *msg, void *_data)
                 (!getInvisible() && data->InvisibleId.toULong()))
             bCreateDirect = false;
         if (bCreateDirect){
-            data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
-            ((DirectClient*)(data->Direct.ptr))->connect();
+            dc = new DirectClient(data, this, PLUGIN_NULL);
+            data->Direct.setObject(dc);
+            dc->connect();
         }
-        if (data->Direct.ptr)
-            return ((DirectClient*)(data->Direct.ptr))->sendMessage(msg);
+        if (dc)
+            return dc->sendMessage(msg);
     }
     return sendThruServer(msg, data);
 }
@@ -3070,13 +3083,18 @@ bool ICQClient::canSend(unsigned type, void *_data)
                 hasCap(data, CAP_SIM) ||
                 hasCap(data, CAP_SIMOLD) ||
                 ((data->InfoUpdateTime.toULong() & 0xFF7F0000L) == 0x7D000000L)){
-            if (data->Direct.ptr)
-                return !((DirectClient*)(data->Direct.ptr))->isSecure();
+            DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+            if (dc)
+                return !(dc->isSecure());
             return get_ip(data->IP) || get_ip(data->RealIP);
         }
         return false;
-    case MessageCloseSecure:
-        return data && data->Direct.ptr && ((DirectClient*)(data->Direct.ptr))->isSecure();
+    case MessageCloseSecure: {
+            if(!data)
+                return false;
+            DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+            return dc && dc->isSecure();
+        }
 #endif
     }
     return false;
@@ -3203,45 +3221,54 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
             ((getInvisible() && data->VisibleId.toULong()) ||
              (!getInvisible() && (data->InvisibleId.toULong() == 0)))){
         switch (plugin_index){
-        case PLUGIN_AR:
-            if ((data->Direct.ptr == NULL) && !getHideIP()){
-                data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
-                ((DirectClient*)(data->Direct.ptr))->connect();
+        case PLUGIN_AR: {
+                DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+                if ((dc == NULL) && !getHideIP()){
+                    dc = new DirectClient(data, this, PLUGIN_NULL);
+                    data->Direct.setObject(dc);
+                    dc->connect();
+                }
+                if (dc){
+                    dc->addPluginInfoRequest(plugin_index);
+                    return;
+                }
+                break;
             }
-            if (data->Direct.ptr){
-                ((DirectClient*)(data->Direct.ptr))->addPluginInfoRequest(plugin_index);
-                return;
-            }
-            break;
         case PLUGIN_QUERYxINFO:
         case PLUGIN_PHONEBOOK:
-        case PLUGIN_PICTURE:
-            if (!isSupportPlugins(data))
-                return;
-            if ((data->DirectPluginInfo.ptr == NULL) && !getHideIP()){
-                data->DirectPluginInfo.ptr = (char*)(new DirectClient(data, this, PLUGIN_INFOxMANAGER));
-                ((DirectClient*)(data->DirectPluginInfo.ptr))->connect();
+        case PLUGIN_PICTURE: {
+                if (!isSupportPlugins(data))
+                    return;
+                DirectClient *dc = dynamic_cast<DirectClient*>(data->DirectPluginInfo.object());
+                if ((dc == NULL) && !getHideIP()){
+                    dc = new DirectClient(data, this, PLUGIN_INFOxMANAGER);
+                    data->DirectPluginInfo.setObject(dc);
+                    dc->connect();
+                }
+                if (dc){
+                    dc->addPluginInfoRequest(plugin_index);
+                    return;
+                }
+                break;
             }
-            if (data->DirectPluginInfo.ptr){
-                ((DirectClient*)(data->DirectPluginInfo.ptr))->addPluginInfoRequest(plugin_index);
-                return;
-            }
-            break;
         case PLUGIN_QUERYxSTATUS:
         case PLUGIN_FILESERVER:
         case PLUGIN_FOLLOWME:
-        case PLUGIN_ICQPHONE:
-            if (!isSupportPlugins(data))
-                return;
-            if ((data->DirectPluginStatus.ptr == NULL) && !getHideIP()){
-                data->DirectPluginStatus.ptr = (char*)(new DirectClient(data, this, PLUGIN_STATUSxMANAGER));
-                ((DirectClient*)(data->DirectPluginStatus.ptr))->connect();
+        case PLUGIN_ICQPHONE: {
+                if (!isSupportPlugins(data))
+                    return;
+                DirectClient *dc = dynamic_cast<DirectClient*>(data->DirectPluginStatus.object());
+                if ((dc == NULL) && !getHideIP()){
+                    dc = new DirectClient(data, this, PLUGIN_STATUSxMANAGER);
+                    data->DirectPluginStatus.setObject(dc);
+                    dc->connect();
+                }
+                if (dc){
+                    dc->addPluginInfoRequest(plugin_index);
+                    return;
+                }
+                break;
             }
-            if (data->DirectPluginStatus.ptr){
-                ((DirectClient*)(data->DirectPluginStatus.ptr))->addPluginInfoRequest(plugin_index);
-                return;
-            }
-            break;
         }
     }
     list<SendMsg>::iterator it;

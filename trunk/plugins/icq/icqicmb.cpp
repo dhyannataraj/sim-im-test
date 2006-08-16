@@ -2052,11 +2052,12 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
             log(L_WARN, "Data for request not found");
             return;
         }
-        if (data->Direct.ptr == NULL){
+        DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+        if (dc == NULL){
             log(L_WARN, "No direct connection");
             return;
         }
-        ((DirectClient*)(data->Direct.ptr))->acceptMessage(msg);
+        dc->acceptMessage(msg);
     }else{
         id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
         id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
@@ -2134,11 +2135,12 @@ void ICQClient::decline(Message *msg, const char *reason)
             log(L_WARN, "Data for request not found");
             return;
         }
-        if (data->Direct.ptr == NULL){
+        DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
+        if (dc == NULL){
             log(L_WARN, "No direct connection");
             return;
         }
-        ((DirectClient*)(data->Direct.ptr))->declineMessage(msg, reason);
+        dc->declineMessage(msg, reason);
     }else{
         MessageId id;
         unsigned cookie = 0;

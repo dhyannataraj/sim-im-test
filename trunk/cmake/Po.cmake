@@ -32,10 +32,6 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
             GET_FILENAME_COMPONENT(_in       ${po_input} ABSOLUTE)
             GET_FILENAME_COMPONENT(_basename ${po_input} NAME_WE)
 
-            #FIXME:
-            #Seems like cmake always calculates IF arguments,
-            #not depending on previous IFs, so we need this here for nix. serzh.
-            SET(_tmp " ")
             IF(WIN32)
                 FILE(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po)
                 GET_FILENAME_COMPONENT(_out ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po/${_basename}.mo ABSOLUTE)
@@ -43,7 +39,7 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
                 FILE(TO_NATIVE_PATH ${_out} _out_native)
                 GET_FILENAME_COMPONENT(_tmp ${MSGFMT_EXECUTABLE} NAME_WE)
 
-                IF(${_tmp} STREQUAL "msg2qm")
+                IF("${_tmp}" STREQUAL "msg2qm")
                     ADD_CUSTOM_COMMAND(
                         OUTPUT ${_out}
                         COMMAND ${CMAKE_COMMAND}
@@ -54,7 +50,7 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
                             ${_out_native}
                         DEPENDS ${_in}
                     )
-                ELSE(${_tmp} STREQUAL "msg2qm")
+                ELSE("${_tmp}" STREQUAL "msg2qm")
                     ADD_CUSTOM_COMMAND(
                         OUTPUT ${_out}
                         COMMAND ${MSGFMT_EXECUTABLE}
@@ -63,7 +59,7 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
                             ${_out_native}
                         DEPENDS ${_in}
                     )
-                ENDIF(${_tmp} STREQUAL "msg2qm")
+                ENDIF("${_tmp}" STREQUAL "msg2qm")
             ELSE(WIN32)
                 FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/po)
                 GET_FILENAME_COMPONENT(_out ${CMAKE_CURRENT_BINARY_DIR}/po/${_basename}.mo ABSOLUTE)

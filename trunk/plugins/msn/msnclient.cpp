@@ -256,9 +256,10 @@ void MSNClient::disconnected()
             if (data->Status.toULong() != STATUS_OFFLINE){
                 data->Status.asULong() = STATUS_OFFLINE;
                 data->StatusTime.asULong() = time(NULL);
-                if (data->sb.ptr){
-                    delete (SBSocket*)(data->sb.ptr);
-                    data->sb.ptr = NULL;
+                SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
+                if (sock){
+                    delete sock;
+                    data->sb.clear();
                 }
                 bChanged = true;
             }
@@ -688,12 +689,13 @@ void MSNClient::getLine(const char *line)
             Event e(EventContactChanged, contact);
             e.process();
         }
-        if (data->sb.ptr){
-            delete (SBSocket*)(data->sb.ptr);
-            data->sb.ptr = NULL;
+        SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
+        if (sock){
+            delete sock;
         }
-        data->sb.ptr = (char*)(new SBSocket(this, contact, data));
-        ((SBSocket*)(data->sb.ptr))->connect(addr.c_str(), session.c_str(), cookie.c_str(), false);
+        sock = new SBSocket(this, contact, data);
+        sock->connect(addr.c_str(), session.c_str(), cookie.c_str(), false);
+        data->sb.setObject(sock);
         return;
     }
     if (cmd == "OUT"){
@@ -1033,34 +1035,42 @@ bool MSNClient::send(Message *msg, void *_data)
         }
     case MessageGeneric:
     case MessageFile:
-    case MessageUrl:
-        if (data->sb.ptr == NULL){
-            if (getInvisible())
-                return false;
-            Contact *contact;
-            findContact(data->EMail.ptr, contact);
-            data->sb.ptr = (char*)(new SBSocket(this, contact, data));
-            ((SBSocket*)(data->sb.ptr))->connect();
+    case MessageUrl: {
+            SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
+            if (!sock){
+                if (getInvisible())
+                    return false;
+                Contact *contact;
+                findContact(data->EMail.ptr, contact);
+                sock = new SBSocket(this, contact, data);
+                sock->connect();
+                data->sb.setObject(sock);
+            }
+            return sock->send(msg);
         }
-        return ((SBSocket*)(data->sb.ptr))->send(msg);
-    case MessageTypingStart:
-        if (data->sb.ptr == NULL){
-            if (getInvisible())
-                return false;
-            Contact *contact;
-            findContact(data->EMail.ptr, contact);
-            data->sb.ptr = (char*)(new SBSocket(this, contact, data));
-            ((SBSocket*)(data->sb.ptr))->connect();
+    case MessageTypingStart: {
+            SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
+            if (!sock){
+                if (getInvisible())
+                    return false;
+                Contact *contact;
+                findContact(data->EMail.ptr, contact);
+                sock = new SBSocket(this, contact, data);
+                sock->connect();
+                data->sb.setObject(sock);
+            }
+            sock->setTyping(true);
+            delete msg;
+            return true;
         }
-        ((SBSocket*)(data->sb.ptr))->setTyping(true);
-        delete msg;
-        return true;
-    case MessageTypingStop:
-        if (data->sb.ptr == NULL)
-            return false;
-        ((SBSocket*)(data->sb.ptr))->setTyping(false);
-        delete msg;
-        return true;
+    case MessageTypingStop: {
+            SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
+            if (!sock)
+                return false;
+            sock->setTyping(false);
+            delete msg;
+            return true;
+        }
     }
     return false;
 }
@@ -1437,8 +1447,9 @@ void *MSNClient::processEvent(Event *e)
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
             if (dataName(data) == ma->msg->client()){
-                if (data->sb.ptr)
-                    ((SBSocket*)(data->sb.ptr))->acceptMessage(ma->msg, ma->dir, ma->overwrite);
+                SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
+                if (sock)
+                    sock->acceptMessage(ma->msg, ma->dir, ma->overwrite);
                 return e->param();
             }
         }
@@ -1452,8 +1463,9 @@ void *MSNClient::processEvent(Event *e)
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
             if (dataName(data) == md->msg->client()){
-                if (data->sb.ptr)
-                    ((SBSocket*)(data->sb.ptr))->declineMessage(md->msg, md->reason);
+                SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
+                if (sock)
+                    sock->declineMessage(md->msg, md->reason);
                 return e->param();
             }
         }
@@ -2815,10 +2827,11 @@ void MSNFileTransfer::connect_ready()
 void MSNFileTransfer::startReceive(unsigned pos)
 {
     if (pos > m_size){
+        SBSocket *sock = dynamic_cast<SBSocket*>(m_data->sb.object());
         FileTransfer::m_state = FileTransfer::Done;
         m_state = None;
-        if (m_data->sb.ptr)
-            ((SBSocket*)(m_data->sb.ptr))->declineMessage(cookie);
+        if (sock)
+            sock->declineMessage(cookie);
         m_socket->error_state("", 0);
         return;
     }
@@ -3008,7 +3021,8 @@ bool MSNFileTransfer::accept(Socket *s, unsigned long ip)
 
 void MSNFileTransfer::bind_ready(unsigned short port)
 {
-    if (m_data->sb.ptr == NULL){
+    SBSocket *sock = dynamic_cast<SBSocket*>(m_data->sb.object());
+    if (sock == NULL){
         error_state("No switchboard socket", 0);
         return;
     }

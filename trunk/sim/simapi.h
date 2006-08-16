@@ -823,9 +823,12 @@ typedef struct DataDef
     const char  *def_value;
 } DataDef;
 
+class IP;
 typedef union Data
 {
 public:
+    QObject         *m_dataAsObject;
+    IP              *m_dataAsIP;
     char            *ptr;
     unsigned long   value;
     bool            bValue;
@@ -837,6 +840,14 @@ public:
     long toLong() const { return (long)value; }
     unsigned long &asULong() { return value; }
     unsigned long toULong() const { return value; }
+    // IP
+    const IP* ip() const { return m_dataAsIP; }
+    IP* ip() { return m_dataAsIP; }
+    bool setIP(const IP *i) { m_dataAsIP = const_cast<IP*>(i); return (i != NULL); }
+    // QObject
+    const QObject* object() const { return m_dataAsObject; }
+    QObject* object() { return m_dataAsObject; }
+    bool setObject(const QObject *o) { m_dataAsObject = const_cast<QObject*>(o); return (o != NULL); }
 } Data;
 
 #define DATA(A) ((const char*)(A))
@@ -876,28 +887,28 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
     bool set##A(const QString &r) { return SIM::set_str(&data.A.ptr, r.utf8()); }
 
 #define PROP_LONG(A) \
-    unsigned long get##A() const { return data.A.value; } \
-    void set##A(unsigned long r) { data.A.value = r; }
+    unsigned long get##A() const { return data.A.toULong(); } \
+    void set##A(unsigned long r) { data.A.asLong() = r; }
 
 #define PROP_ULONG(A) \
-    unsigned long get##A() const { return data.A.value; } \
-    void set##A(unsigned long r) { data.A.value = r; }
+    unsigned long get##A() const { return data.A.toULong(); } \
+    void set##A(unsigned long r) { data.A.asULong() = r; }
 
 #define PROP_USHORT(A) \
-    unsigned short get##A() const { return (unsigned short)(data.A.value); } \
-    void set##A(unsigned short r) { data.A.value = r; }
+    unsigned short get##A() const { return (unsigned short)(data.A.toULong()); } \
+    void set##A(unsigned short r) { data.A.asULong() = r; }
 
 #define PROP_BOOL(A) \
-    bool get##A() const { return data.A.bValue; } \
-    void set##A(bool r) { data.A.bValue = r; }
+    bool get##A() const { return data.A.toBool(); } \
+    void set##A(bool r) { data.A.asBool() = r; }
 
 #define VPROP_BOOL(A) \
-    bool get##A() const { return data.A.bValue; } \
-    virtual void set##A(bool r) { data.A.bValue = r; }
+    bool get##A() const { return data.A.toBool(); } \
+    virtual void set##A(bool r) { data.A.asBool() = r; }
 
 #define PROP_IP(A)  \
-    unsigned long get##A()  const { return SIM::get_ip(data.A); } \
-    const char *host##A() { return SIM::get_host(data.A); } \
+    unsigned long get##A()  const { return (data.A.ip() ? data.A.ip()->ip() : 0); } \
+    const char *host##A() { return (data.A.ip() ? data.A.ip()->host() : ""); } \
     void set##A(unsigned long r) { SIM::set_ip(&data.A, r); }
 
 const int LEFT      = 0;
