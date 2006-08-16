@@ -71,8 +71,6 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     chkUpdate->setChecked(client->getDisableAutoUpdate());
     chkAutoReply->setChecked(client->getDisableAutoReplyUpdate());
     chkTyping->setChecked(client->getDisableTypingNotification());
-//    chkInvisible->setChecked(client->getAutoCheckInvisible());
-//    edtInvisible->setValue(client->getCheckInvisibleInterval());
     chkInvisible->hide();
     edtInvisible->hide();
     lblInvisible->hide();
@@ -85,7 +83,6 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
     chkAuto->setChecked(client->getAutoHTTP());
     chkKeepAlive->setChecked(client->getKeepAlive());
     cmbAck->setCurrentItem(client->getAckMode());
-//    invisibleToggled(client->getAutoCheckInvisible());
 }
 
 void ICQConfig::autoToggled(bool bState)
@@ -107,20 +104,18 @@ void ICQConfig::apply(Client*, void*)
 void ICQConfig::apply()
 {
     if (m_bConfig){
-        m_client->setUin(edtUin->text().toLong());
+        m_client->setUin(edtUin->text().toULong());
         m_client->setPassword(edtPasswd->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
-    m_client->setPort((unsigned short)atol(edtPort->text()));
-    m_client->setMinPort((unsigned short)atol(edtMinPort->text()));
-    m_client->setMaxPort((unsigned short)atol(edtMaxPort->text()));
+    m_client->setServer(edtServer->text());
+    m_client->setPort(edtPort->text().toUShort());
+    m_client->setMinPort(edtMinPort->text().toUShort());
+    m_client->setMaxPort(edtMaxPort->text().toUShort());
     m_client->setSendFormat(cmbFormat->currentItem());
     m_client->setDisablePlugins(chkPlugins->isChecked());
     m_client->setDisableAutoUpdate(chkUpdate->isChecked());
     m_client->setDisableAutoReplyUpdate(chkAutoReply->isChecked());
     m_client->setDisableTypingNotification(chkTyping->isChecked());
-//    m_client->setAutoCheckInvisible(chkInvisible->isChecked());
-//    m_client->setCheckInvisibleInterval(edtInvisible->text().toLong());
     m_client->setAcceptInDND(chkDND->isChecked());
     m_client->setAcceptInOccupied(chkOccupied->isChecked());
     m_client->setUseHTTP(chkHTTP->isChecked());
@@ -146,10 +141,10 @@ void ICQConfig::changed()
 {
     bool bOK = true;
     if (!chkNew->isChecked())
-        bOK = edtUin->text().toLong() > 1000;
+        bOK = (edtUin->text().toLong() > 1000);
     bOK =  bOK && !edtPasswd->text().isEmpty() &&
            !edtServer->text().isEmpty() &&
-           atol(edtPort->text());
+           edtPort->text().toUShort();
     emit okEnabled(bOK);
 }
 

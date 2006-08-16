@@ -469,15 +469,15 @@ DirectClient::~DirectClient()
     error_state(NULL, 0);
     switch (m_channel){
     case PLUGIN_NULL:
-        if (m_data && ((m_data->Direct.object()) == this))
+        if (m_data && (m_data->Direct.object() == this))
             m_data->Direct.clear();
         break;
     case PLUGIN_INFOxMANAGER:
-        if (m_data && ((m_data->DirectPluginInfo.object()) == this))
+        if (m_data && (m_data->DirectPluginInfo.object() == this))
             m_data->DirectPluginInfo.clear();
         break;
     case PLUGIN_STATUSxMANAGER:
-        if (m_data && ((m_data->DirectPluginStatus.object()) == this))
+        if (m_data && (m_data->DirectPluginStatus.object() == this))
             m_data->DirectPluginStatus.clear();
         break;
     }
@@ -526,7 +526,7 @@ void DirectClient::processPacket()
             removeFromClient();
             switch (m_channel){
             case PLUGIN_INFOxMANAGER: {
-                DirectClient *dc = dynamic_cast<DirectClient*>(m_data->Direct.object());
+                DirectClient *dc = dynamic_cast<DirectClient*>(m_data->DirectPluginInfo.object());
                 if (dc){
                     if (dc->copyQueue(this)){
                         delete dc;
@@ -540,7 +540,7 @@ void DirectClient::processPacket()
                 break;
             }
             case PLUGIN_STATUSxMANAGER: {
-                DirectClient *dc = dynamic_cast<DirectClient*>(m_data->Direct.object());
+                DirectClient *dc = dynamic_cast<DirectClient*>(m_data->DirectPluginStatus.object());
                 if (dc){
                     if (dc->copyQueue(this)){
                         delete dc;

@@ -83,7 +83,7 @@ void ProxyConfig::apply()
         ProxyData d;
         m_plugin->clientData(static_cast<TCPClient*>(m_client), d);
         m_data.clear();
-        if (d.Default.asBool()){
+        if (d.Default.toBool()){
             d = nd;
         }else{
             d = m_plugin->data;
@@ -172,7 +172,7 @@ void ProxyConfig::clientChanged(int)
         get(&m_data[m_current]);
         if (m_current == 0){
             for (unsigned i = 1; i < m_data.size(); i++){
-                if (m_data[i].Default.asBool()){
+                if (m_data[i].Default.toBool()){
                     QString client = m_data[i].Client.str();
                     m_data[i] = m_data[0];
                     m_data[i].Default.asBool() = true;
@@ -236,11 +236,11 @@ void ProxyConfig::fill(ProxyData *data)
     cmbType->setCurrentItem(data->Type.asULong());
     edtHost->setText(data->Host.str());
     edtPort->setValue(data->Port.asULong());
-    chkAuth->setChecked(data->Auth.asBool());
+    chkAuth->setChecked(data->Auth.toBool());
     edtUser->setText(data->User.str());
     edtPswd->setText(data->Password.str());
     typeChanged(data->Type.asULong());
-    chkNoShow->setChecked(data->NoShow.asBool());
+    chkNoShow->setChecked(data->NoShow.toBool());
 }
 
 void ProxyConfig::get(ProxyData *data)
