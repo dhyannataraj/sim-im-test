@@ -287,12 +287,12 @@ void *JabberBrowser::processEvent(Event *e)
         JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
         if (m_search_id == data->ReqID.ptr){
             if (data->Type.ptr == NULL){
-                if (data->nOptions.value){
+                if (data->nOptions.toULong()){
                     QString err;
                     if (data->Label.ptr && *data->Label.ptr)
                         err = i18n(data->Label.ptr);
                     if (err.isEmpty())
-                        err = i18n("Error %1") .arg(data->nOptions.value);
+                        err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_search_id = "";
                     Command cmd;
                     cmd->id		= CmdBrowseSearch;
@@ -318,12 +318,12 @@ void *JabberBrowser::processEvent(Event *e)
         }
         if (m_reg_id == data->ReqID.ptr){
             if (data->Type.ptr == NULL){
-                if (data->nOptions.value){
+                if (data->nOptions.toULong()){
                     QString err;
                     if (data->Label.ptr && *data->Label.ptr)
                         err = i18n(data->Label.ptr);
                     if (err.isEmpty())
-                        err = i18n("Error %1") .arg(data->nOptions.value);
+                        err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_reg_id = "";
                     delete m_reg;
                     m_reg = NULL;
@@ -348,12 +348,12 @@ void *JabberBrowser::processEvent(Event *e)
         }
         if (m_config_id == data->ReqID.ptr){
             if (data->Type.ptr == NULL){
-                if (data->nOptions.value){
+                if (data->nOptions.toULong()){
                     QString err;
                     if (data->Label.ptr && *data->Label.ptr)
                         err = i18n(data->Label.ptr);
                     if (err.isEmpty())
-                        err = i18n("Error %1") .arg(data->nOptions.value);
+                        err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_config_id = "";
                     delete m_config;
                     m_config = NULL;

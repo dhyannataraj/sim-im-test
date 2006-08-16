@@ -104,10 +104,10 @@ void JabberInfo::resourceActivated(int i)
     unsigned statusTime;
     unsigned onlineTime;
     QString autoReply;
-    if ((n == 0) || (n > data->nResources.value)){
-        status = m_data ? m_data->Status.value : m_client->getStatus();
-        statusTime = data->StatusTime.value;
-        onlineTime = data->OnlineTime.value;
+    if ((n == 0) || (n > data->nResources.toULong())){
+        status = m_data ? m_data->Status.toULong() : m_client->getStatus();
+        statusTime = data->StatusTime.toULong();
+        onlineTime = data->OnlineTime.toULong();
     }else{
         status = atol(get_str(data->ResourceStatus, n));
         statusTime = atol(get_str(data->ResourceStatusTime, n));
@@ -192,10 +192,10 @@ void JabberInfo::fill()
     edtUrl->setText(data->Url.ptr ? QString::fromUtf8(data->Url.ptr) : QString(""));
     urlChanged(edtUrl->text());
     cmbResource->clear();
-    if (data->nResources.value){
-        for (unsigned i = 1; i <= data->nResources.value; i++)
+    if (data->nResources.toULong()){
+        for (unsigned i = 1; i <= data->nResources.toULong(); i++)
             cmbResource->insertItem(QString::fromUtf8(get_str(data->Resources, i)));
-        cmbResource->setEnabled(data->nResources.value > 1);
+        cmbResource->setEnabled(data->nResources.toULong() > 1);
     }else{
         if (data->Resource.ptr)
             cmbResource->insertItem(QString::fromUtf8(data->Resource.ptr));

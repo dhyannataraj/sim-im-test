@@ -185,7 +185,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             CComboBox *box = new CComboBox(this, data->Field.ptr);
             int cur = 0;
             int n = 0;
-            for (unsigned i = 0; i < data->nOptions.value; i++){
+            for (unsigned i = 0; i < data->nOptions.toULong(); i++){
                 const char *label = get_str(data->OptionLabels, i);
                 const char *val   = get_str(data->Options, i);
                 if (label && val){
