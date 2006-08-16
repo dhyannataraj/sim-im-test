@@ -106,7 +106,7 @@ void HomeInfo::fill()
     edtState->setText(data->State.str());
     edtZip->setText(data->Zip.str());
     initCombo(cmbCountry, data->Country.toULong(), getCountries());
-    initTZCombo(cmbZone, (char)(data->TimeZone.toULong()));
+    initTZCombo(cmbZone, data->TimeZone.toULong());
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -46,7 +46,7 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
     }else{
         tabConfig->removePage(tabAIM);
     }
-    edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
+    edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -68,11 +68,11 @@ void AIMConfig::apply(Client*, void*)
 void AIMConfig::apply()
 {
     if (m_bConfig){
-        m_client->setScreen(edtScreen->text().lower().latin1());
+        m_client->setScreen(edtScreen->text().lower());
         m_client->setPassword(edtPasswd->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
-    m_client->setPort((unsigned short)atol(edtPort->text()));
+    m_client->setServer(edtServer->text());
+    m_client->setPort(edtPort->text().toUShort());
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setAutoHTTP(chkAuto->isChecked());
     m_client->setKeepAlive(chkKeepAlive->isChecked());
@@ -89,7 +89,7 @@ void AIMConfig::changed()
     bOK =  !edtScreen->text().isEmpty() &&
            !edtPasswd->text().isEmpty() &&
            !edtServer->text().isEmpty() &&
-           atol(edtPort->text());
+           edtPort->text().toUShort();
     emit okEnabled(bOK);
 }
 
