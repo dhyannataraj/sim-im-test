@@ -755,8 +755,8 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             }
             if (core->getManualStatus() == status)
                 return true;
-            core->data.ManualStatus.value  = status;
-            core->data.StatusTime.value = time(NULL);
+            core->data.ManualStatus.asULong()  = status;
+            core->data.StatusTime.asULong() = time(NULL);
             Event e(EventClientStatus);
             e.process();
             return true;

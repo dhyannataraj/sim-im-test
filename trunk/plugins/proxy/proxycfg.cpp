@@ -234,13 +234,13 @@ void ProxyConfig::fillClients()
 
 void ProxyConfig::fill(ProxyData *data)
 {
-    cmbType->setCurrentItem(data->Type.value);
+    cmbType->setCurrentItem(data->Type.toULong());
     if (data->Host.ptr){
         edtHost->setText(QString::fromLocal8Bit(data->Host.ptr));
     }else{
         edtHost->setText("");
     }
-    edtPort->setValue(data->Port.value);
+    edtPort->setValue(data->Port.toULong());
     chkAuth->setChecked(data->Auth.toBool());
     if (data->User.ptr){
         edtUser->setText(QString::fromLocal8Bit(data->User.ptr));
@@ -252,15 +252,15 @@ void ProxyConfig::fill(ProxyData *data)
     }else{
         edtPswd->setText("");
     }
-    typeChanged(data->Type.value);
+    typeChanged(data->Type.toULong());
     chkNoShow->setChecked(data->NoShow.toBool());
 }
 
 void ProxyConfig::get(ProxyData *data)
 {
-    data->Type.value = cmbType->currentItem();
+    data->Type.asULong() = cmbType->currentItem();
     set_str(&data->Host.ptr, edtHost->text().local8Bit());
-    data->Port.value = atol(edtPort->text().latin1());
+    data->Port.asULong() = edtPort->text().toULong();
     data->Auth.asBool() = chkAuth->isChecked();
     set_str(&data->User.ptr, edtUser->text().local8Bit());
     set_str(&data->Password.ptr, edtPswd->text().local8Bit());

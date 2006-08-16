@@ -118,13 +118,13 @@ static bool _cmp(const char *s1, const char *s2)
 
 bool ProxyData::operator == (const ProxyData &d) const
 {
-    if (Type.value != d.Type.value)
+    if (Type.toULong() != d.Type.toULong())
         return false;
-    if (Type.value == PROXY_NONE)
+    if (Type.toULong() == PROXY_NONE)
         return true;
-    if ((Port.value != d.Port.value) && !_cmp(Host.ptr, d.Host.ptr))
+    if ((Port.toULong() != d.Port.toULong()) && !_cmp(Host.ptr, d.Host.ptr))
         return false;
-    if (Type.value == PROXY_SOCKS4)
+    if (Type.toULong() == PROXY_SOCKS4)
         return true;
     if (Auth.toBool() != d.Auth.toBool())
         return false;
@@ -1238,7 +1238,7 @@ void *ProxyPlugin::processEvent(Event *e)
         ProxyData data;
         clientData(p->client, data);
         Proxy *proxy = NULL;
-        switch (data.Type.value){
+        switch (data.Type.toULong()){
         case PROXY_SOCKS4:
             proxy = new SOCKS4_Proxy(this, &data, p->client);
             break;
@@ -1263,7 +1263,7 @@ void *ProxyPlugin::processEvent(Event *e)
         ProxyData data;
         clientData(p->client, data);
         Listener *listener = NULL;
-        switch (data.Type.value){
+        switch (data.Type.toULong()){
         case PROXY_SOCKS4:
             listener = new SOCKS4_Listener(this, &data, p->notify, p->client->ip());
             break;

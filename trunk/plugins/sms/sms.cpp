@@ -508,8 +508,8 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
     smsUserData *data = (smsUserData*)contact->clientData.createData(this);
     set_str(&data->Phone.ptr, phone.utf8());
     set_str(&data->Name.ptr, name.utf8());
-    data->Index.value = index;
-    data->Type.value  = type;
+    data->Index.asULong() = index;
+    data->Type.asULong()  = type;
     if (bNew){
         Event e(EventContactChanged, contact);
         e.process();
