@@ -34,7 +34,7 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
 
             IF(WIN32)
                 FILE(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po)
-                GET_FILENAME_COMPONENT(_out ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po/${_basename}.mo ABSOLUTE)
+                GET_FILENAME_COMPONENT(_out ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/po/${_basename}.qm ABSOLUTE)
                 FILE(TO_NATIVE_PATH ${_in}  _in_native)
                 FILE(TO_NATIVE_PATH ${_out} _out_native)
                 GET_FILENAME_COMPONENT(_tmp ${MSGFMT_EXECUTABLE} NAME_WE)
