@@ -550,7 +550,7 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
             data.owner.OnlineTime.asULong() = now;
         m_status = status;
         m_socket->writeBuffer.packetStart();
-		QString priority = QString::number(getPriority());
+        QString priority = QString::number(getPriority());
         const char *show = NULL;
         const char *type = NULL;
         if (getInvisible()){
@@ -600,14 +600,15 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
         }
         Contact *contact;
         ContactList::ContactIterator it;
-        data.owner.StatusTime.asULong() = time(NULL);
+        time_t now = time(NULL);
+        data.owner.StatusTime.asULong() = now;
         while ((contact = ++it) != NULL){
             JabberUserData *data;
             ClientDataIterator it(contact->clientData, this);
             while ((data = (JabberUserData*)(++it)) != NULL){
                 if (data->Status.toULong() == STATUS_OFFLINE)
                     continue;
-                data->StatusTime.asULong() = time(NULL);
+                data->StatusTime.asULong() = now;
                 setOffline(data);
                 StatusMessage m;
                 m.setContact(contact->id());

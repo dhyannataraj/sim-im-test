@@ -254,26 +254,26 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     setFont(FontEdit::str2font(data->Font.str(), baseFont));
     QPainter p(this);
     p.setFont(font());
-    unsigned nScreen = data->Screen.asULong();
+    unsigned nScreen = data->Screen.toULong();
     unsigned nScreens = screens();
     if (nScreen >= nScreens)
         nScreen = 0;
     int SHADOW_OFFS = SHADOW_DEF;
     QRect rcScreen = screenGeometry(nScreen);
     rcScreen = QRect(0, 0,
-                     rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.asULong(),
-                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.asULong());
+                     rcScreen.width()  - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong(),
+                     rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong());
     QRect rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     if (rc.height() >= rcScreen.height() / 2){
         rcScreen = QRect(0, 0,
-                         rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.asULong(),
-                         rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.asULong());
+                         rcScreen.width() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong(),
+                         rcScreen.height() - SHADOW_OFFS - XOSD_MARGIN * 2 - data->Offset.toULong());
         rc = p.boundingRect(rcScreen, AlignLeft | AlignTop | WordBreak, str);
     }
     p.end();
-    if (data->EnableMessageShowContent.asBool() && data->ContentLines.asULong()){
+    if (data->EnableMessageShowContent.toBool() && data->ContentLines.toULong()){
         QFontMetrics fm(font());
-        int maxHeight = fm.height() * (data->ContentLines.asULong() + 1);
+        int maxHeight = fm.height() * (data->ContentLines.toULong() + 1);
         if (rc.height() > maxHeight)
             rc.setHeight(maxHeight);
     }
@@ -282,7 +282,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     int w = rc.width() + 1;
     int h = rc.height() + 1;
     int text_y = 0;
-    if (data->Background.asBool()){
+    if (data->Background.toBool()){
         w += XOSD_MARGIN * 2;
         h += XOSD_MARGIN * 2;
         if (m_button == NULL){
@@ -302,34 +302,34 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
             m_button = NULL;
         }
     }
-    if (data->Shadow.asBool()){
+    if (data->Shadow.toBool()){
         w += SHADOW_OFFS;
         h += SHADOW_OFFS;
     }
     resize(QSize(w, h));
-    switch (data->Position.asULong()){
+    switch (data->Position.toULong()){
     case 1:
-        move(x + data->Offset.asULong(), y + data->Offset.asULong());
+        move(x + data->Offset.toULong(), y + data->Offset.toULong());
         break;
     case 2:
-        move(x + rcScreen.width() - data->Offset.asULong() - w, y + rcScreen.height() - data->Offset.asULong() - h);
+        move(x + rcScreen.width() - data->Offset.toULong() - w, y + rcScreen.height() - data->Offset.toULong() - h);
         break;
     case 3:
-        move(x + rcScreen.width() - data->Offset.asULong() - w, y + data->Offset.asULong());
+        move(x + rcScreen.width() - data->Offset.toULong() - w, y + data->Offset.toULong());
         break;
     case 4:
-        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - data->Offset.asULong() - h);
+        move(x + (rcScreen.width() - w) / 2, y + rcScreen.height() - data->Offset.toULong() - h);
         break;
     case 5:
-        move(x + (rcScreen.width() - w) / 2, y + data->Offset.asULong());
+        move(x + (rcScreen.width() - w) / 2, y + data->Offset.toULong());
         break;
     case 6:
         move(x + (rcScreen.width() - w) / 2, y + (rcScreen.height() - h) /2);
         break;
     default:
-        move(x + data->Offset.asULong(), y + rcScreen.height() - data->Offset.asULong() - h);
+        move(x + data->Offset.toULong(), y + rcScreen.height() - data->Offset.toULong() - h);
     }
-    if (!data->Background.asBool() || data->Shadow.asBool()){
+    if (!data->Background.toBool() || data->Shadow.toBool()){
         QBitmap mask(w, h);
         p.begin(&mask);
 #ifdef WIN32
@@ -340,13 +340,13 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         QColor fg(255, 255, 255);
 #endif
         p.fillRect(0, 0, w, h, bg);
-        if (data->Background.asBool()){
+        if (data->Background.toBool()){
             p.fillRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
             p.fillRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS, fg);
         }else{
             p.setPen(fg);
             p.setFont(font());
-            if (data->Shadow.asBool()){
+            if (data->Shadow.toBool()){
                 rc = QRect(SHADOW_OFFS, SHADOW_OFFS, w - SHADOW_OFFS, h - SHADOW_OFFS);
                 p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
                 rc = QRect(0, 0, w - SHADOW_OFFS, h - SHADOW_OFFS);
@@ -364,19 +364,19 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     intensity(pict, -0.50f);
     p.begin(&pict);
     rc = QRect(0, 0, w, h);
-    if (data->Background.asBool()){
-        if (data->Shadow.asBool()){
+    if (data->Background.toBool()){
+        if (data->Shadow.toBool()){
             w -= SHADOW_OFFS;
             h -= SHADOW_OFFS;
             rc = QRect(0, 0, w, h);
         }
-        QBrush bg(data->BgColor.asULong());
+        QBrush bg(data->BgColor.toULong());
         p.fillRect(rc, bg);
         style().drawPrimitive(QStyle::PE_PanelPopup, &p, rc, colorGroup());
         rc = QRect(XOSD_MARGIN, XOSD_MARGIN, w - XOSD_MARGIN * 2, h - XOSD_MARGIN * 2);
     }
     p.setFont(font());
-    p.setPen(QColor(data->Color.asULong()));
+    p.setPen(QColor(data->Color.toULong()));
     rc.setTop(text_y);
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
@@ -439,7 +439,7 @@ void OSDPlugin::processQueue()
         data = (OSDUserData*)contact->getUserData(user_data_id);
         switch (m_request.type){
         case OSD_ALERTONLINE:
-            if (data->EnableAlert.asBool() && data->EnableAlertOnline.asBool()){
+            if (data->EnableAlert.toBool() && data->EnableAlertOnline.toBool()){
                 unsigned style = 0;
                 QString statusIcon;
                 if (contact->contactInfo(style, statusIcon) == STATUS_ONLINE)
@@ -447,37 +447,37 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_ALERTAWAY:
-            if (data->EnableAlert.asBool() && data->EnableAlertAway.asBool()){
+            if (data->EnableAlert.toBool() && data->EnableAlertAway.toBool()){
                 text = g_i18n("%1 is away", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTNA:
-            if (data->EnableAlert.asBool() && data->EnableAlertNA.asBool()){
+            if (data->EnableAlert.toBool() && data->EnableAlertNA.toBool()){
                 text = g_i18n("%1 is not available", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTDND:
-            if (data->EnableAlert.asBool() && data->EnableAlertDND.asBool()){
+            if (data->EnableAlert.toBool() && data->EnableAlertDND.toBool()){
                 text = g_i18n("%1 doesn't want to be disturbed", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTOCCUPIED:
-            if (data->EnableAlert.asBool() && data->EnableAlertOccupied.asBool()){
+            if (data->EnableAlert.toBool() && data->EnableAlertOccupied.toBool()){
                 text = g_i18n("%1 is occupied", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTFFC:
-            if (data->EnableAlert.asBool() && data->EnableAlertFFC.asBool()){
+            if (data->EnableAlert.toBool() && data->EnableAlertFFC.toBool()){
                 text = g_i18n("%1 is free for chat", contact) .arg(contact->getName());
             }
             break;
         case OSD_ALERTOFFLINE:
-            if (data->EnableAlert.asBool() && data->EnableAlertOffline.asBool() && !(core->getManualStatus() == STATUS_OFFLINE)){
+            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool() && !(core->getManualStatus() == STATUS_OFFLINE)){
                 text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
         case OSD_TYPING:
-            if (data->EnableTyping.asBool()){
+            if (data->EnableTyping.toBool()){
                 unsigned style = 0;
                 QString wrkIcons;
                 QString statusIcon;
@@ -494,7 +494,7 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_MESSAGE:
-            if (data->EnableMessage.asBool() && core){
+            if (data->EnableMessage.toBool() && core){
                 list<msg_id>::iterator it;
                 TYPE_MAP types;
                 TYPE_MAP::iterator itc;
@@ -509,7 +509,7 @@ void OSDPlugin::processQueue()
                     }else{
                         (*itc).second++;
                     }
-                    if (!data->EnableMessageShowContent.asBool())
+                    if (!data->EnableMessageShowContent.toBool())
                         continue;
                     MessageID id;
                     id.id      = (*it).id;
@@ -564,7 +564,7 @@ void OSDPlugin::processQueue()
                 connect(m_osd, SIGNAL(closeClick()), this, SLOT(closeClick()));
             }
             static_cast<OSDWidget*>(m_osd)->showOSD(text, data);
-            m_timer->start(data->Timeout.asULong() * 1000);
+            m_timer->start(data->Timeout.toULong() * 1000);
             return;
         }
     }
