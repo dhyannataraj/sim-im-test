@@ -143,14 +143,14 @@ char *k_nl_find_msg (struct loaded_l10nfile *domain_file, const char *msgid);
 class SIMTranslator : public QTranslator
 {
 public:
-    SIMTranslator(QObject *parent, const QString & filename);
+    SIMTranslator(QObject *parent, const QString &filename);
     ~SIMTranslator();
     virtual QTranslatorMessage findMessage(const char* context,
                                            const char *sourceText,
                                            const char* message) const;
     void load ( const QString & filename);
 protected:
-    string fName;
+    QCString fName;
     loaded_l10nfile domain;
 };
 
@@ -166,10 +166,10 @@ SIMTranslator::~SIMTranslator()
         k_nl_unload_domain((struct loaded_domain *)domain.data);
 }
 
-void SIMTranslator::load ( const QString & filename)
+void SIMTranslator::load(const QString &filename)
 {
     fName = QFile::encodeName(filename);
-    domain.filename = (char*)(fName.c_str());
+    domain.filename = fName.data();
     k_nl_load_domain(&domain);
 }
 

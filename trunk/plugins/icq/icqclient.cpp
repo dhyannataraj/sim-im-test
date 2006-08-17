@@ -1503,11 +1503,11 @@ QString ICQClient::contactTip(void *_data)
             res += formatDateTime(data->StatusTime.toULong());
         }
     }
-    if (data->IP.ptr){
+    if (data->IP.ip()){
         res += "<br>";
         res += formatAddr(data->IP, data->Port.toULong());
     }
-    if ((data->RealIP.ptr) && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+    if ((data->RealIP.ip()) && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
         res += "<br>";
         res += formatAddr(data->RealIP, data->Port.toULong());
     }
@@ -2423,10 +2423,10 @@ void *ICQClient::processEvent(Event *e)
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->RealIP.ptr)
-                return (void*)(data->RealIP.ptr);
-            if (data->IP.ptr)
-                return (void*)(data->IP.ptr);
+            if (data->RealIP.ip())
+                return (void*)(data->RealIP.ip());
+            if (data->IP.ip())
+                return (void*)(data->IP.ip());
         }
         return NULL;
     }
@@ -2506,14 +2506,15 @@ void *ICQClient::processEvent(Event *e)
         if (ar.bDirect){
             Contact *contact;
             ICQUserData *data = findContact(ar.screen.c_str(), NULL, false, contact);
-            if (data && data->Direct.ptr){
+            DirectClient *dc = dynamic_cast<DirectClient*>(data ? data->Direct.object() : 0);
+            if (dc){
                 QString answer;
                 if (data->Version.toULong() >= 10){
                     answer = t->tmpl.utf8();
                 }else{
                     answer = getContacts()->fromUnicode(contact, t->tmpl).c_str();
                 }
-                ((DirectClient*)(data->Direct.ptr))->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
+                dc->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
             }
         }else{
             Buffer copy;

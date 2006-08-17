@@ -48,7 +48,7 @@ SMSSetup::SMSSetup(QWidget *parent, SMSClient *client)
     }
     cmbPort->setCurrentItem(cur);
     for (unsigned i = 0; i < (unsigned)(cmbBaud->count()); i++){
-        if ((unsigned)atol(cmbBaud->text(i).latin1()) == m_client->getBaudRate()){
+        if (cmbBaud->text(i).toULong() == m_client->getBaudRate()){
             cmbBaud->setCurrentItem(i);
         }
     }

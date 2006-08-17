@@ -239,13 +239,13 @@ void ICQInfo::fill()
             edtNA->setText(formatDateTime(data->StatusTime.toULong()));
         }
     }
-    if (data->IP.ptr){
+    if (data->IP.ip()){
         edtExtIP->setText(formatAddr(data->IP, data->Port.toULong()));
     }else{
         lblExtIP->hide();
         edtExtIP->hide();
     }
-    if ((data->RealIP.ptr) && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+    if ((data->RealIP.ip()) && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
         edtIntIP->setText(formatAddr(data->RealIP, data->Port.toULong()));
     }else{
         lblIntIP->hide();

@@ -25,7 +25,6 @@
 #include <qfile.h>
 #include <qpainter.h>
 
-using namespace std;
 using namespace SIM;
 
 Plugin *createSplashPlugin(unsigned base, bool bStart, Buffer*)

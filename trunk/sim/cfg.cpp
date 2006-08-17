@@ -377,28 +377,29 @@ EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
 
 bool set_ip(Data *p, unsigned long value, const char *host)
 {
-    IP **ip = (IP**)(&p->ptr);
+    IP *ip = p->ip();
     if (value == 0){
-        if (*ip == NULL)
+        if (ip == NULL)
             return false;
-        delete *ip;
-        *ip = NULL;
+        delete ip;
+        p->clear();
         return true;
     }
-    if (*ip == NULL)
-        *ip = new IP;
-    if ((*ip)->ip() == value){
+    if (ip == NULL)
+        ip = new IP;
+    p->setIP(ip);
+    if (ip->ip() == value){
         if (host == NULL)
-            (*ip)->resolve();
+            ip->resolve();
         return false;
     }
-    (*ip)->set(value, host);
+    ip->set(value, host);
     return true;
 }
 
 unsigned long get_ip(const Data &p)
 {
-    IP *ip = (IP*)p.ptr;
+    const IP *ip = p.ip();
     if (ip)
         return ip->ip();
     return 0;
@@ -406,7 +407,7 @@ unsigned long get_ip(const Data &p)
 
 const char *get_host(const Data &p)
 {
-    IP *ip = (IP*)p.ptr;
+    const IP *ip = p.ip();
     if (ip && ip->host())
         return ip->host();
     return "";
@@ -418,16 +419,16 @@ typedef map<unsigned, string> STRING_MAP;
 
 EXPORT void clear_list(Data *d)
 {
-    STRING_MAP **strlist = (STRING_MAP**)(&d->ptr);
-    if (*strlist == NULL)
+    STRING_MAP *strlist = reinterpret_cast<STRING_MAP*>(d->ptr);
+    if (strlist == NULL)
         return;
-    delete *strlist;
-    *strlist = NULL;
+    delete strlist;
+    d->clear();
 }
 
 EXPORT const char *get_str(const Data &d, unsigned index)
 {
-    STRING_MAP *strlist = (STRING_MAP*)(d.ptr);
+    STRING_MAP *strlist = reinterpret_cast<STRING_MAP*>(d.ptr);
     if (strlist == NULL)
         return "";
     STRING_MAP::iterator it = strlist->find(index);
@@ -438,21 +439,22 @@ EXPORT const char *get_str(const Data &d, unsigned index)
 
 EXPORT void set_str(Data *d, unsigned index, const char *value)
 {
-    STRING_MAP **strlist = (STRING_MAP**)(&d->ptr);
+    STRING_MAP *strlist = reinterpret_cast<STRING_MAP*>(d->ptr);
     if ((value == NULL) || (*value == 0)){
-        if (*strlist == NULL)
+        if (strlist == NULL)
             return;
-        STRING_MAP::iterator it = (*strlist)->find(index);
-        if (it == (*strlist)->end())
+        STRING_MAP::iterator it = strlist->find(index);
+        if (it == strlist->end())
             return;
-        (*strlist)->erase(it);
+        strlist->erase(it);
         return;
     }
-    if (*strlist == NULL)
-        *strlist = new STRING_MAP;
-    STRING_MAP::iterator it = (*strlist)->find(index);
-    if (it == (*strlist)->end()){
-        (*strlist)->insert(STRING_MAP::value_type(index, value));
+    if (strlist == NULL)
+        strlist = new STRING_MAP;
+    d->ptr = reinterpret_cast<char*>(strlist);
+    STRING_MAP::iterator it = strlist->find(index);
+    if (it == strlist->end()){
+        strlist->insert(STRING_MAP::value_type(index, value));
         return;
     }
     (*it).second = value;

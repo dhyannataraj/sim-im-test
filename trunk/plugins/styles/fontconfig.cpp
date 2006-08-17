@@ -52,7 +52,6 @@ FontConfig::~FontConfig()
 
 void FontConfig::apply()
 {
-    using std::string;
     QString base;
     QString menu;
     if (chkSystem->isChecked()){

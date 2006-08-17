@@ -1433,8 +1433,8 @@ void *MSNClient::processEvent(Event *e)
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
-            if (data->IP.ptr)
-                return data->IP.ptr;
+            if (data->IP.ip())
+                return data->IP.ip();
         }
         return NULL;
     }
@@ -1860,11 +1860,11 @@ QString MSNClient::contactTip(void *_data)
             res += formatDateTime(data->StatusTime.toULong());
         }
     }
-    if (data->IP.ptr){
+    if (data->IP.ip()){
         res += "<br>";
         res += formatAddr(data->IP, data->Port.toULong());
     }
-    if (data->RealIP.ptr && ((data->IP.ptr == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
+    if (data->RealIP.ip() && ((data->IP.ip() == NULL) || (get_ip(data->IP) != get_ip(data->RealIP)))){
         res += "<br>";
         res += formatAddr(data->RealIP, data->Port.toULong());
     }
@@ -1902,7 +1902,7 @@ SBSocket::~SBSocket()
     if (it != m_client->m_SBsockets.end())
         m_client->m_SBsockets.erase(it);
     if (m_data){
-        m_data->sb.ptr = NULL;
+        m_data->sb.clear();
         if (m_data->typing_time.toULong()){
             m_data->typing_time.asULong() = 0;
             Event e(EventContactStatus, m_contact);
