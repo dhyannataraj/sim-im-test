@@ -82,7 +82,7 @@ void UpdatePlugin::timeout()
 {
     if (!getSocketFactory()->isActive() || !isDone())
         return;
-    if ((unsigned)time(NULL)) >= getTime() + CHECK_INTERVAL){
+    if (((unsigned)time(NULL)) >= getTime() + CHECK_INTERVAL){
         string url = "http://sim.shutoff.ru/cgi-bin/update1.pl?v=" VERSION;
 #ifdef WIN32
         url += "&os=1";
