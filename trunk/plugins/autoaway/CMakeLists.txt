@@ -42,6 +42,7 @@ IF(COMPILE_PLUGIN)
     )
 
     SIM_ADD_PLUGIN(autoaway)
+    TARGET_LINK_LIBRARIES(autoaway ${XSS_LIB})
 ELSE(COMPILE_PLUGIN)
     MESSAGE(STATUS "XScreenSaver library not found, autoaway plugin disabled")
 ENDIF(COMPILE_PLUGIN)
