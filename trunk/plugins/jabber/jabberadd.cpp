@@ -373,7 +373,7 @@ void *JabberAdd::processEvent(Event *e)
             icon = "Yahoo!";
         }else if ((*it).type == "sms"){
             icon = "sms";
-        }else if ((*it).type == "x-gadugadu"){
+        }else if (((*it).type == "x-gadugadu") || ((*it).type == "gg")){
             icon = "GG";
         }
         if (data->Status.ptr){
