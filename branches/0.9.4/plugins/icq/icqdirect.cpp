@@ -1267,6 +1267,7 @@ bool DirectClient::sendMessage(Message *msg)
     sm.msg	= msg;
     sm.seq	= 0;
     sm.type	= 0;
+    sm.icq_type = 0;
     m_queue.push_back(sm);
     processMsgQueue();
     return true;
