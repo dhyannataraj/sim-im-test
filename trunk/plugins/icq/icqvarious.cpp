@@ -601,6 +601,7 @@ void ICQClient::addFullInfoRequest(unsigned long uin)
     InfoRequest r;
     r.uin = uin;
     r.request_id = 0;
+    r.start_time = 0;
     infoRequests.push_back(r);
     processSendQueue();
 }
