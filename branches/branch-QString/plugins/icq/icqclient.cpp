@@ -1638,6 +1638,13 @@ QString ICQClient::clientName(ICQUserData *data)
         res += "ICQ 5.1";
         return res;
     }
+    // 0x1486 - the only caps icq 5.1 sends ... :(
+    if (hasCap(data, CAP_DIRECT) && hasCap(data, CAP_AVATAR) && hasCap(data, CAP_SRV_RELAY) &&
+        hasCap(data, CAP_AIM_SENDFILE) && hasCap(data, CAP_DIRECT))
+    {
+        res += "ICQ 5.1";
+        return res;
+    }
     if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))
 	{
         res += "ICQ 5.0";
