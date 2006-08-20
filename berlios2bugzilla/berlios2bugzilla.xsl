@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 	transformation: bugs from berlios exported list to bugzilla
-	processor: msxsl
+	processor: xsltproc, or any capable
 -->
 <xsl:stylesheet
    version="1.0"
