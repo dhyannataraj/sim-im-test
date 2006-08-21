@@ -1637,14 +1637,14 @@ QString ICQClient::clientName(ICQUserData *data)
     {
         res += "ICQ 5.1";
         return res;
-    }
+    }/*
     // 0x1486 - the only caps icq 5.1 sends ... :(
     if (hasCap(data, CAP_DIRECT) && hasCap(data, CAP_AVATAR) && hasCap(data, CAP_SRV_RELAY) &&
         hasCap(data, CAP_AIM_SENDFILE) && hasCap(data, CAP_DIRECT))
     {
         res += "ICQ 5.1";
         return res;
-    }
+    } */
     if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))
 	{
         res += "ICQ 5.0";
@@ -2447,7 +2447,8 @@ void *ICQClient::processEvent(Event *e)
                 }else{
                     sendCapability(&t->tmpl);
                     sendICMB(1, 11);
-                    sendICMB(0, 11);
+                    sendICMB(2,  3);
+                    sendICMB(4,  3);
                     processSendQueue();
                     fetchProfiles();
                 }
@@ -2458,14 +2459,15 @@ void *ICQClient::processEvent(Event *e)
         if (ar.bDirect){
             Contact *contact;
             ICQUserData *data = findContact(ar.screen, NULL, false, contact);
-            if (data && data->Direct.ip()){
+            DirectClient *dc = dynamic_cast<DirectClient*>(data ? data->Direct.object() : 0);
+            if (dc){
                 QCString answer;
                 if (data->Version.toULong() >= 10){
                     answer = t->tmpl.utf8();
                 }else{
                     answer = getContacts()->fromUnicode(contact, t->tmpl);
                 }
-                ((DirectClient*)(data->Direct.ip()))->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
+                dc->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
             }
         }else{
             Buffer copy;

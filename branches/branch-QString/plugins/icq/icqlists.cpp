@@ -572,7 +572,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     m_status = STATUS_ONLINE;
                     sendCapability();
                     sendICMB(1, 11);
-                    sendICMB(0, 11);
+                    sendICMB(2,  3);
+                    sendICMB(4,  3);
                     fetchProfiles();
                 }else{
                     m_status = STATUS_AWAY;
@@ -596,8 +597,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             sendCapability();
             sendICMB(1, 11);
-            sendICMB(0, 3);
+            sendICMB(2,  3);
+            sendICMB(4,  3);
             sendLogonStatus();
+            sendShortInfoRequest();
             setState(Connected);
             sendMessageRequest();
             fetchProfiles();

@@ -330,6 +330,13 @@ void ICQClient::sendMessageRequest()
     sendServerRequest();
 }
 
+void ICQClient::sendShortInfoRequest()
+{
+    serverRequest(ICQ_SRVxREQ_SHORT_INFO);
+//    m_offlineMessagesRequestId = m_nMsgSequence;
+    sendServerRequest();
+}
+
 // _________________________________________________________________________________________
 
 class FullInfoRequest : public ServerRequest

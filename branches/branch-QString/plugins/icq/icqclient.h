@@ -334,11 +334,11 @@ typedef enum {
     CAP_QIP,				// 0x80000000
     CAP_IMSECURE,			// 0x00000001 - Caps2
     CAP_KXICQ,				// 0x00000002
-	CAP_ICQ5_1,				// 0x00000004
-	CAP_UNKNOWN,			// 0x00000008
-	CAP_ICQ5_3,				// 0x00000010
-	CAP_ICQ5_4,				// 0x00000020
-    CAP_ICQ51,              // 0x00000040
+    CAP_ICQ5_1,				// 0x00000004
+    CAP_UNKNOWN,			// 0x00000008
+    CAP_ICQ5_3,				// 0x00000010
+    CAP_ICQ5_4,				// 0x00000020
+    CAP_ICQ51,                          // 0x00000040
     CAP_JIMM,				// 0x00000080
     CAP_NULL,				// 0x00000100
 } cap_id_t;
@@ -646,6 +646,7 @@ protected:
     void sendLogonStatus();
     void sendClientReady();
     void sendMessageRequest();
+    void sendShortInfoRequest();
     void setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service);
     void serverRequest(unsigned short cmd, unsigned short seq=0);
     void sendServerRequest();

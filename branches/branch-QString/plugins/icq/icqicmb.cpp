@@ -522,8 +522,8 @@ void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
     m_socket->writeBuffer
     << channel << flags
     << (unsigned short)8000		// max message size
-    << (unsigned short)999		// max sender warning level
-    << (unsigned short)999		// max receiver warning level
+    << (unsigned short)880		// max sender warning level
+    << (unsigned short)880		// max receiver warning level
     << (unsigned short)0		// min message interval
     << (unsigned short)0;		// unknown
     sendPacket(true);
