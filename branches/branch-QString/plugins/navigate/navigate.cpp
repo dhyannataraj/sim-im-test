@@ -53,7 +53,7 @@ DDEbase::DDEbase()
 {
     m_idDDE = 0;
     FARPROC lpDdeProc = MakeProcInstance((FARPROC) DDECallback, hInstance);
-    DdeInitializeA((LPDWORD) &m_idDDE, (PFNCALLBACK) lpDdeProc,	APPCMD_CLIENTONLY, 0L);
+    DdeInitializeW((LPDWORD) &m_idDDE, (PFNCALLBACK) lpDdeProc,	APPCMD_CLIENTONLY, 0L);
     base = this;
 }
 
@@ -72,19 +72,16 @@ HDDEDATA CALLBACK DDEbase::DDECallback(UINT, UINT, HCONV, HSZ, HSZ, HDDEDATA, DW
 class DDEstring
 {
 public:
-    DDEstring(const char *name);
+    DDEstring(const QString &name);
     ~DDEstring();
     operator HSZ() { return hSz; }
 protected:
     HSZ hSz;
 };
 
-DDEstring::DDEstring(const char *name) : hSz(NULL)
+DDEstring::DDEstring(const QString &name) : hSz(NULL)
 {
-    /*
-	Was aeeror with invalid converting to (CHAR*)
-    */
-    hSz = DdeCreateStringHandleA(*DDEbase::base, (CHAR*)name, CP_WINANSI);
+    hSz = DdeCreateStringHandleW(*DDEbase::base, (LPCWSTR)name.ucs2(), CP_WINANSI);
 }
 
 DDEstring::~DDEstring()
@@ -132,13 +129,13 @@ class DDEconversation
 protected:
     HCONV hConv;
 public:
-    DDEconversation(const char *_server, const char *_topic);
+    DDEconversation(const QString &_server, const QString &_topic);
     ~DDEconversation();
     operator HCONV() { return hConv; }
-    HDDEDATA Execute(const char *cmd);
+    HDDEDATA Execute(const QString &cmd);
 };
 
-DDEconversation::DDEconversation(const char *_server, const char *_topic)
+DDEconversation::DDEconversation(const QString &_server, const QString &_topic)
         : hConv(NULL)
 {
     DDEstring server(_server);
@@ -152,7 +149,7 @@ DDEconversation::~DDEconversation()
         DdeDisconnect(hConv);
 }
 
-HDDEDATA DDEconversation::Execute(const char *cmd)
+HDDEDATA DDEconversation::Execute(const QString &cmd)
 {
     if (hConv == NULL)
         return NULL;
@@ -167,10 +164,10 @@ HDDEDATA DDEconversation::Execute(const char *cmd)
 class RegEntry
 {
 public:
-    RegEntry(HKEY hRootKey, const char *path);
+    RegEntry(HKEY hRootKey, const QString &path);
     ~RegEntry();
     operator HKEY() { return hKey; }
-    string value(const char *key);
+    QString value(const QString &key);
 protected:
     HKEY hKey;
 };
@@ -189,9 +186,9 @@ string getCurrentUrl()
     return url;
 }
 
-RegEntry::RegEntry(HKEY hRootKey, const char *path)
+RegEntry::RegEntry(HKEY hRootKey, const QString &path)
 {
-    if (RegOpenKeyA(hRootKey, path, &hKey) != ERROR_SUCCESS)
+    if (RegOpenKeyW(hRootKey, (LPCWSTR)path.ucs2(), &hKey) != ERROR_SUCCESS)
         hKey = NULL;
 }
 
@@ -201,19 +198,17 @@ RegEntry::~RegEntry()
         RegCloseKey(hKey);
 }
 
-string RegEntry::value(const char *key)
+QString RegEntry::value(const QString &key)
 {
     if (hKey == NULL)
         return "";
     long size = 0;
-    if (RegQueryValueA(hKey, key, NULL, &size) != ERROR_SUCCESS)
+    if (RegQueryValueW(hKey, (LPCWSTR)key.ucs2(), NULL, &size) != ERROR_SUCCESS)
         return "";
-    string res;
-    res.append(size + 1, '\x00');
-    if (RegQueryValueA(hKey, key, (char*)res.c_str(), &size) != ERROR_SUCCESS)
+    QMemArray<unsigned short> ma(size);
+    if (RegQueryValueW(hKey, (LPCWSTR)key.ucs2(), (LPWSTR)ma.data(), &size) != ERROR_SUCCESS)
         return "";
-    res[size] = 0;
-    return res;
+    return QString::fromUcs2(ma);
 }
 
 #endif
@@ -343,7 +338,7 @@ void *NavigatePlugin::processEvent(Event *e)
         if (getNewWindow()){
             QString key_name = proto;
             key_name += "\\Shell\\Open";
-            RegEntry rp(HKEY_CLASSES_ROOT, key_name.latin1());
+            RegEntry rp(HKEY_CLASSES_ROOT, key_name);
             QString prg    = rp.value("command");
             QString action = rp.value("ddeexec");
             QString topic  = rp.value("ddeexec\\Topic");
