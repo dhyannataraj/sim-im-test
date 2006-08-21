@@ -5323,255 +5323,291 @@ msgid "Not connected"
 msgstr "Нет соединения"
 
 # libicq/country.cpp:216
-#: plugins/weather/weather.cpp:374
+#: plugins/weather/weather.cpp:370
 msgid "Monday"
-msgstr "Понедельник"
+msgstr "понедельник"
 
 # libicq/country.cpp:290
-#: plugins/weather/weather.cpp:375
+#: plugins/weather/weather.cpp:371
 msgid "Tuesday"
-msgstr "Вторник"
+msgstr "вторник"
 
-#: plugins/weather/weather.cpp:376
+#: plugins/weather/weather.cpp:372
 msgid "Wednesday"
-msgstr "Среда"
+msgstr "среда"
 
-#: plugins/weather/weather.cpp:377
+#: plugins/weather/weather.cpp:373
 msgid "Thursday"
-msgstr "Четверг"
+msgstr "четверг"
 
 # libicq/country.cpp:21
-#: plugins/weather/weather.cpp:378
+#: plugins/weather/weather.cpp:374
 msgid "Friday"
-msgstr "Пятница"
+msgstr "пятница"
 
 # libicq/country.cpp:274
-#: plugins/weather/weather.cpp:379
+#: plugins/weather/weather.cpp:375
 msgid "Saturday"
-msgstr "Суббота"
+msgstr "суббота"
 
 # libicq/country.cpp:274
-#: plugins/weather/weather.cpp:380
+#: plugins/weather/weather.cpp:376
 msgid "Sunday"
-msgstr "Воскресенье"
+msgstr "воскресенье"
 
-#: plugins/weather/weather.cpp:382
+#: plugins/weather/weather.cpp:378
 msgid ""
 "_: weather\n"
 "Squalls"
-msgstr "Шквал"
+msgstr "Порывистый ветер"
 
-#: plugins/weather/weather.cpp:383
+#: plugins/weather/weather.cpp:379
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr "Пасмурно"
+msgstr "Сплошная облачность"
 
-#: plugins/weather/weather.cpp:384
+#: plugins/weather/weather.cpp:380
 msgid ""
 "_: weather\n"
 "Fog"
 msgstr "Туман"
 
-#: plugins/weather/weather.cpp:385
+#: plugins/weather/weather.cpp:381
 msgid ""
 "_: weather\n"
 "Mist"
-msgstr "Легкий туман"
+msgstr "Дымка"
+
+#: plugins/weather/weather.cpp:382
+msgid ""
+"_: weather\n"
+"Haze"
+msgstr "Марево"
+
+#: plugins/weather/weather.cpp:383
+msgid ""
+"_: weather\n"
+"Storm"
+msgstr "Сильный ветер"
+
+#: plugins/weather/weather.cpp:384
+msgid ""
+"_: weather\n"
+"T-Storm"
+msgstr "Гроза"
+
+#: plugins/weather/weather.cpp:385
+msgid ""
+"_: weather\n"
+"T-Storms"
+msgstr "Грозы"
 
 #: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
-"Haze"
-msgstr "Туман"
+"Scattered T-Storms"
+msgstr "Местами грозы"
 
 #: plugins/weather/weather.cpp:387
 msgid ""
 "_: weather\n"
-"Storm"
-msgstr "Гроза"
+"Thunder"
+msgstr "Гром" 
 
 #: plugins/weather/weather.cpp:388
+msgid ""
+"_: weather\n"
+"Light Rain with Thunder"
+msgstr "Небольшой дождь, гроза"
+
+#: plugins/weather/weather.cpp:389
+msgid ""
+"_: weather\n"
+"Thunder in the Vicinity"
+msgstr "Возможны грозы"
+
+#: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Rain"
 msgstr "Дождь"
 
-#: plugins/weather/weather.cpp:389
-msgid ""
-"_: weather\n"
-"Light Rain"
-msgstr "Слабый дождь"
-
-#: plugins/weather/weather.cpp:390 plugins/weather/weather.cpp:410
-msgid ""
-"_: weather\n"
-"Freezing Rain"
-msgstr ""
-
 #: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
-"Rain to Snow"
-msgstr ""
+"Light Rain"
+msgstr "Небольшой дождь"
 
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:392 plugins/weather/weather.cpp:410
 msgid ""
 "_: weather\n"
-"Snow"
-msgstr "Снег"
+"Freezing Rain"
+msgstr "Дождь со снегом"
 
 #: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
-"Light Snow"
-msgstr "Слабый снег"
+"Rain to Snow"
+msgstr "Мокрый снег"
 
 #: plugins/weather/weather.cpp:394
 msgid ""
 "_: weather\n"
-"Few Snow"
-msgstr "Небольшой снег"
+"Snow"
+msgstr "Снегопад"
 
 #: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
-"Scattered Snow"
-msgstr "Слабый снег"
+"Light Snow"
+msgstr "Небольшой снегопад"
 
 #: plugins/weather/weather.cpp:396
+msgid ""
+"_: weather\n"
+"Few Snow"
+msgstr "Незначительный снегопад"
+
+#: plugins/weather/weather.cpp:397
+msgid ""
+"_: weather\n"
+"Scattered Snow"
+msgstr "Возможен снегопад"
+
+#: plugins/weather/weather.cpp:398
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:397
-msgid ""
-"_: weather\n"
-"Clearing"
-msgstr ""
-
-#: plugins/weather/weather.cpp:398
-msgid ""
-"_: weather\n"
-"Showers"
-msgstr "Дождь"
-
 #: plugins/weather/weather.cpp:399
 msgid ""
 "_: weather\n"
-"Mostly Clear"
-msgstr "В основном ясно"
+"Clearing"
+msgstr "Проясняется"
 
 #: plugins/weather/weather.cpp:400
+msgid ""
+"_: weather\n"
+"Showers"
+msgstr "Дожди"
+
+#: plugins/weather/weather.cpp:401
+msgid ""
+"_: weather\n"
+"Mostly Clear"
+msgstr "Незначительная облачность"
+
+#: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "Солнечно"
 
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:403
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:402
-msgid ""
-"_: weather\n"
-"Cloudy"
-msgstr "Облачно"
-
-#: plugins/weather/weather.cpp:403
-msgid ""
-"_: waether\n"
-"Clouds"
-msgstr "Облака"
-
 #: plugins/weather/weather.cpp:404
 msgid ""
 "_: weather\n"
-"Mostly Cloudy"
-msgstr "В основном облачно"
+"Cloudy"
+msgstr "Пасмурно"
 
 #: plugins/weather/weather.cpp:405
+msgid ""
+"_: weather\n"
+"Clouds"
+msgstr "Облачность"
+
+#: plugins/weather/weather.cpp:406
+msgid ""
+"_: weather\n"
+"Mostly Cloudy"
+msgstr "Значительная облачность"
+
+#: plugins/weather/weather.cpp:407
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Переменная облачность"
 
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:408
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Ветер"
 
-#: plugins/weather/weather.cpp:407
-msgid ""
-"_: weather\n"
-"Windy"
-msgstr "Ветренно"
-
-#: plugins/weather/weather.cpp:408
-msgid ""
-"_: weather\n"
-"Drizzle"
-msgstr "Дождь"
-
 #: plugins/weather/weather.cpp:409
 msgid ""
 "_: weather\n"
-"Freezing Drizzle"
-msgstr ""
+"Windy"
+msgstr "Ветрено"
+
+#: plugins/weather/weather.cpp:410
+msgid ""
+"_: weather\n"
+"Drizzle"
+msgstr "Моросящий дождь"
 
 #: plugins/weather/weather.cpp:411
+msgid ""
+"_: weather\n"
+"Freezing Drizzle"
+msgstr "Моросящий дождь со снегом"
+
+#: plugins/weather/weather.cpp:413
 msgid ""
 "_: weather\n"
 "Light Drizzle"
 msgstr "Небольшой дождь"
 
-#: plugins/weather/weather.cpp:412
-msgid ""
-"_: weather\n"
-"Drifting Snow"
-msgstr "Снег"
-
-#: plugins/weather/weather.cpp:413
-msgid ""
-"_: weather\n"
-"Snow Grains"
-msgstr ""
-
 #: plugins/weather/weather.cpp:414
 msgid ""
 "_: weather\n"
-"Scattered"
-msgstr "Рассеянный"
+"Drifting Snow"
+msgstr "Метель"
 
 #: plugins/weather/weather.cpp:415
+msgid ""
+"_: weather\n"
+"Snow Grains"
+msgstr "Снежная крупа"
+
+#: plugins/weather/weather.cpp:416
+msgid ""
+"_: weather\n"
+"Scattered"
+msgstr "Рассеянная облачность"
+
+#: plugins/weather/weather.cpp:417
 msgid ""
 "_: weather\n"
 "Smoke"
 msgstr "Смог"
 
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "не меняется"
 
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "растет"
 
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "падает"
 
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "Unlimited"
@@ -5581,103 +5617,109 @@ msgstr "Неограниченная"
 msgid ""
 "_: weather\n"
 "N"
-msgstr "Северный"
+msgstr "северный"
 
 #: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr "Северо-северо-западный"
+msgstr "северо-северо-западный"
 
 #: plugins/weather/weather.cpp:422
 msgid ""
 "_: weather\n"
 "NW"
-msgstr "Северо-западный"
+msgstr "северо-западный"
 
 #: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "Западно-северо-западный"
+msgstr "западно-северо-западный"
 
 #: plugins/weather/weather.cpp:424
 msgid ""
 "_: weather\n"
 "W"
-msgstr "Западный"
+msgstr "западный"
 
 #: plugins/weather/weather.cpp:425
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "Западно-юго-западный"
+msgstr "западно-юго-западный"
 
 #: plugins/weather/weather.cpp:426
 msgid ""
 "_: weather\n"
 "SW"
-msgstr "Юго-западный"
+msgstr "юго-западный"
 
 #: plugins/weather/weather.cpp:427
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr "Юго-юго-западный"
+msgstr "юго-юго-западный"
 
 #: plugins/weather/weather.cpp:428
 msgid ""
 "_: weather\n"
 "S"
-msgstr "Южный"
+msgstr "южный"
 
 #: plugins/weather/weather.cpp:429
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr "Юго-юго-восточный"
+msgstr "юго-юго-восточный"
 
 #: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
 "SE"
-msgstr "Юго-восточный"
+msgstr "юго-восточный"
 
 #: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "Восточно-юго-восточный"
+msgstr "восточно-юго-восточный"
 
 #: plugins/weather/weather.cpp:432
 msgid ""
 "_: weather\n"
 "E"
-msgstr "Восточный"
+msgstr "восточный"
 
 #: plugins/weather/weather.cpp:433
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "Восточно-северо-восточный"
+msgstr "восточно-северо-восточный"
 
 #: plugins/weather/weather.cpp:434
 msgid ""
 "_: weather\n"
 "NE"
-msgstr "Северо-восточный"
+msgstr "северо-восточный"
 
 #: plugins/weather/weather.cpp:435
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr "Северо-северо-восточный"
+msgstr "северо-северо-восточный"
 
 #: plugins/weather/weather.cpp:436
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "Переменный"
+msgstr "переменный"
+
+#: plugins/weather/weather.cpp:439
+msgid ""
+"_: weather\n"
+"CALM"
+msgstr "отсутствует"
 
 #: plugins/weather/weather.cpp:437
 msgid "km"
@@ -5691,67 +5733,67 @@ msgstr "км/ч"
 msgid ""
 "_: weather\n"
 "Low"
-msgstr ""
+msgstr "низкая"
 
 #: plugins/weather/weather.cpp:440
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr ""
+msgstr "средняя"
 
 #: plugins/weather/weather.cpp:441
 msgid ""
 "_: weather\n"
 "High"
-msgstr ""
+msgstr "высокая"
 
 #: plugins/weather/weather.cpp:442
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
-msgstr ""
+msgstr "Возможны осадки"
 
 #: plugins/weather/weather.cpp:444
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
-msgstr ""
+msgstr "старая Луна"
 
 #: plugins/weather/weather.cpp:445
 msgid ""
 "_: moonphase\n"
 "First Quarter"
-msgstr ""
+msgstr "первая четверть"
 
 #: plugins/weather/weather.cpp:446
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
-msgstr ""
+msgstr "растущая Луна"
 
 #: plugins/weather/weather.cpp:447
 msgid ""
 "_: moonphase\n"
 "Full"
-msgstr ""
+msgstr "полнолуние"
 
 #: plugins/weather/weather.cpp:448
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
-msgstr ""
+msgstr "убывающая Луна"
 
 #: plugins/weather/weather.cpp:449
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
-msgstr ""
+msgstr "последняя четверть"
 
 #: plugins/weather/weather.cpp:450
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
-msgstr ""
+msgstr "молодая Луна"
 
 # libicq/country.cpp:109
 #: plugins/weather/weather.cpp:462
@@ -5762,13 +5804,13 @@ msgstr "и"
 msgid ""
 "_: weather\n"
 "Early"
-msgstr ""
+msgstr "утром"
 
 #: plugins/weather/weather.cpp:468
 msgid ""
 "_: weather\n"
 "Late"
-msgstr ""
+msgstr "вечером"
 
 #: plugins/weather/weather.cpp:507 plugins/weather/weather.cpp:509
 msgid "m/s"
@@ -5777,7 +5819,7 @@ msgstr "м/с"
 # ui/moreinfo.cpp:73
 #: plugins/weather/weather.cpp:508 plugins/weather/weather.cpp:509
 msgid "gust "
-msgstr "порывы"
+msgstr "порывы "
 
 #: plugins/weather/weather.cpp:558
 msgid "%t | %c"
@@ -5815,7 +5857,7 @@ msgstr ""
 "Точка росы: <b>%d</b><br>\n"
 "Восход: %r<br>\n"
 "Закат: %s<br>\n"
-"UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
+"Интенсивность ультрафиолетового излучения <b>%ut</b>, равна <b>%ui</b> (из 11)<br>\n"
 "<b>Фаза Луны: </b>%mp<br>\n"
 "<img src=\"icon:moon%mi\"><br>\n"
 "<br>\n"
@@ -9104,42 +9146,42 @@ msgstr "Unicode"
 # client.cpp:60 client.cpp:61
 #: sim/contacts.cpp:2006 sim/contacts.cpp:2007
 msgid "Baltic"
-msgstr "Балтика"
+msgstr "Балтийские языки"
 
 # client.cpp:57 client.cpp:58
 #: sim/contacts.cpp:2009 sim/contacts.cpp:2011
 msgid "Central European"
-msgstr "Центральная Европа"
+msgstr "Центральноевропейские языки"
 
 # libicq/country.cpp:13
 #: sim/contacts.cpp:2013
 msgid "Chinese "
-msgstr "Китайский"
+msgstr "Китайская"
 
 # client.cpp:74 client.cpp:75
 #: sim/contacts.cpp:2014
 msgid "Chinese Simplified"
-msgstr "Упрощенный китайский"
+msgstr "Упрощенная китайская"
 
 # client.cpp:73
 #: sim/contacts.cpp:2015
 msgid "Chinese Traditional"
-msgstr "Традиционный китайский"
+msgstr "Традиционная китайская"
 
 # client.cpp:63 client.cpp:65
 #: sim/contacts.cpp:2017 sim/contacts.cpp:2018 sim/contacts.cpp:2020
 msgid "Cyrillic"
-msgstr "Русский"
+msgstr "Кириллица"
 
 # client.cpp:54 client.cpp:55 client.cpp:56
 #: sim/contacts.cpp:2034 sim/contacts.cpp:2035 sim/contacts.cpp:2036
 msgid "Western European"
-msgstr "Западная Европа"
+msgstr "Западноевропейские языки"
 
 # client.cpp:82
 #: sim/contacts.cpp:2038
 msgid "Tamil"
-msgstr "Тамильский"
+msgstr "Тамильская"
 
 # libicq/country.cpp:71
 #: sim/country.cpp:25
@@ -9159,7 +9201,7 @@ msgstr "Алжир"
 # libicq/country.cpp:74
 #: sim/country.cpp:28
 msgid "American Samoa"
-msgstr "Американская Самоа"
+msgstr "Восточное Самоа"
 
 # libicq/country.cpp:75
 #: sim/country.cpp:29
@@ -9174,7 +9216,7 @@ msgstr "Ангола"
 # libicq/country.cpp:77
 #: sim/country.cpp:31
 msgid "Anguilla"
-msgstr "Ангола"
+msgstr "Ангилья"
 
 # libicq/country.cpp:78
 #: sim/country.cpp:32
@@ -9225,7 +9267,7 @@ msgstr "Азербайджан"
 # libicq/country.cpp:87
 #: sim/country.cpp:41
 msgid "Bahamas"
-msgstr "Багамы"
+msgstr "Багамские острова"
 
 # libicq/country.cpp:88
 #: sim/country.cpp:42
@@ -9250,7 +9292,7 @@ msgstr "Барбуда"
 # libicq/country.cpp:92
 #: sim/country.cpp:46
 msgid "Belarus"
-msgstr "Беларусь"
+msgstr "Белоруссия"
 
 # libicq/country.cpp:93
 #: sim/country.cpp:47
@@ -9270,7 +9312,7 @@ msgstr "Бенин"
 # libicq/country.cpp:96
 #: sim/country.cpp:50
 msgid "Bermuda"
-msgstr "Бермуды"
+msgstr "Бермудские острова"
 
 # libicq/country.cpp:97
 #: sim/country.cpp:51
@@ -9325,7 +9367,7 @@ msgstr "Бурундия"
 # libicq/country.cpp:107
 #: sim/country.cpp:61
 msgid "Cambodia"
-msgstr "Камбоджи"
+msgstr "Камбоджа"
 
 # libicq/country.cpp:108
 #: sim/country.cpp:62
@@ -9340,12 +9382,12 @@ msgstr "Канада"
 # libicq/country.cpp:110
 #: sim/country.cpp:64
 msgid "Cape Verde Islands"
-msgstr "Острова зелёного мыса"
+msgstr "Острова Зелёного Мыса"
 
 # libicq/country.cpp:111
 #: sim/country.cpp:65
 msgid "Cayman Islands"
-msgstr "Кайманские острова"
+msgstr "Каймановы острова"
 
 # libicq/country.cpp:112
 #: sim/country.cpp:66
@@ -9375,7 +9417,7 @@ msgstr "Остров Рождества"
 # libicq/country.cpp:117
 #: sim/country.cpp:71
 msgid "Cocos-Keeling Islands"
-msgstr "Кокосовые острова"
+msgstr "Кокосовые-Килинг острова"
 
 # libicq/country.cpp:118
 #: sim/country.cpp:72
@@ -9460,7 +9502,7 @@ msgstr "Египет"
 # libicq/country.cpp:134
 #: sim/country.cpp:88
 msgid "El Salvador"
-msgstr "Эль-Сальвадор"
+msgstr "Сальвадор"
 
 # libicq/country.cpp:135
 #: sim/country.cpp:89
@@ -9580,7 +9622,7 @@ msgstr "Остров Гуам"
 # libicq/country.cpp:158
 #: sim/country.cpp:112
 msgid "Guantanamo Bay"
-msgstr "залив Гуантанамо"
+msgstr "Гуантанамо"
 
 # libicq/country.cpp:159
 #: sim/country.cpp:113
@@ -9595,7 +9637,7 @@ msgstr "Гвинея"
 # libicq/country.cpp:161
 #: sim/country.cpp:115
 msgid "Guinea-Bissau"
-msgstr "Гвинея-Бессау"
+msgstr "Гвинея-Бисау"
 
 # libicq/country.cpp:162
 #: sim/country.cpp:116
@@ -9605,7 +9647,7 @@ msgstr "Гайана"
 # libicq/country.cpp:163
 #: sim/country.cpp:117
 msgid "Haiti"
-msgstr "Хайти"
+msgstr "Гаити"
 
 # libicq/country.cpp:164
 #: sim/country.cpp:118
@@ -9615,7 +9657,7 @@ msgstr "Гондурас"
 # libicq/country.cpp:165
 #: sim/country.cpp:119
 msgid "Hong Kong"
-msgstr "Гонк-Конг"
+msgstr "Гонконг"
 
 # libicq/country.cpp:166
 #: sim/country.cpp:120
@@ -9710,7 +9752,7 @@ msgstr "Япония"
 # libicq/country.cpp:184
 #: sim/country.cpp:138
 msgid "Jordan"
-msgstr "Иордан"
+msgstr "Иордания"
 
 # libicq/country.cpp:185
 #: sim/country.cpp:139
@@ -9725,7 +9767,7 @@ msgstr "Кения"
 # libicq/country.cpp:187
 #: sim/country.cpp:141
 msgid "Kiribati Republic"
-msgstr "Республика Кирибати"
+msgstr "Кирибати"
 
 # libicq/country.cpp:188
 #: sim/country.cpp:142
@@ -9795,7 +9837,7 @@ msgstr "Люксембург"
 # libicq/country.cpp:201
 #: sim/country.cpp:155
 msgid "Macau"
-msgstr "Макау"
+msgstr "Макао"
 
 # libicq/country.cpp:202
 #: sim/country.cpp:156
@@ -9805,17 +9847,17 @@ msgstr "Мадагаскар"
 # libicq/country.cpp:203
 #: sim/country.cpp:157
 msgid "Malawi"
-msgstr "Малавия"
+msgstr "Малави"
 
 # libicq/country.cpp:204
 #: sim/country.cpp:158
 msgid "Malaysia"
-msgstr "Малазия"
+msgstr "Малайзия"
 
 # libicq/country.cpp:205
 #: sim/country.cpp:159
 msgid "Maldives"
-msgstr "Малдивы"
+msgstr "Мальдивы"
 
 # libicq/country.cpp:206
 #: sim/country.cpp:160
@@ -9835,7 +9877,7 @@ msgstr "Маршалловы острова"
 # libicq/country.cpp:209
 #: sim/country.cpp:163
 msgid "Martinique"
-msgstr "Остров Мартиника"
+msgstr "Мартиника"
 
 # libicq/country.cpp:210
 #: sim/country.cpp:164
@@ -9845,12 +9887,12 @@ msgstr "Мавритания"
 # libicq/country.cpp:211
 #: sim/country.cpp:165
 msgid "Mauritius"
-msgstr "Маврикия"
+msgstr "Маврикий"
 
 # libicq/country.cpp:212
 #: sim/country.cpp:166
 msgid "Mayotte Island"
-msgstr "Острова Майот"
+msgstr "Майотта"
 
 # libicq/country.cpp:213
 #: sim/country.cpp:167
@@ -9860,12 +9902,12 @@ msgstr "Мексика"
 # libicq/country.cpp:214
 #: sim/country.cpp:168
 msgid "Micronesia, Federated States of"
-msgstr "Микронезия, Федеративные Штаты"
+msgstr "Федеративные Штаты Микронезии"
 
 # libicq/country.cpp:215
 #: sim/country.cpp:169
 msgid "Moldova"
-msgstr "Молдова"
+msgstr "Молдавия"
 
 # libicq/country.cpp:216
 #: sim/country.cpp:170
@@ -9880,7 +9922,7 @@ msgstr "Монголия"
 # libicq/country.cpp:218
 #: sim/country.cpp:172
 msgid "Montserrat"
-msgstr "Монстеррат"
+msgstr "Монтсеррат"
 
 # libicq/country.cpp:219
 #: sim/country.cpp:173
@@ -9915,7 +9957,7 @@ msgstr "Непал"
 # libicq/country.cpp:225
 #: sim/country.cpp:179
 msgid "Netherlands Antilles"
-msgstr "Нидерландские Антиллы"
+msgstr "Нидерландские Антильские острова"
 
 # libicq/country.cpp:226
 #: sim/country.cpp:180
@@ -9945,7 +9987,7 @@ msgstr "Никарагуа"
 # libicq/country.cpp:232
 #: sim/country.cpp:185
 msgid "Niger"
-msgstr "Нигерия"
+msgstr "Нигер"
 
 # libicq/country.cpp:232
 #: sim/country.cpp:186
@@ -9955,12 +9997,12 @@ msgstr "Нигерия"
 # libicq/country.cpp:233
 #: sim/country.cpp:187
 msgid "Niue"
-msgstr "Ниу"
+msgstr "Ниуэ"
 
 # libicq/country.cpp:234
 #: sim/country.cpp:188
 msgid "Norfolk Island"
-msgstr "Остров Норфолк"
+msgstr "Норфолк"
 
 # libicq/country.cpp:235
 #: sim/country.cpp:189
@@ -10025,7 +10067,7 @@ msgstr "Пуэрто-Рико"
 # libicq/country.cpp:247
 #: sim/country.cpp:201
 msgid "Qatar"
-msgstr "Кватар"
+msgstr "Катар"
 
 # libicq/country.cpp:248
 #: sim/country.cpp:202
@@ -10035,7 +10077,7 @@ msgstr "Македония"
 # libicq/country.cpp:249
 #: sim/country.cpp:203
 msgid "Reunion Island"
-msgstr "Остров Реюньон"
+msgstr "Реюньон"
 
 # libicq/country.cpp:250
 #: sim/country.cpp:204
@@ -10045,7 +10087,7 @@ msgstr "Румыния"
 # libicq/country.cpp:251
 #: sim/country.cpp:205
 msgid "Rota Island"
-msgstr "Острова Рота"
+msgstr "Остров Рота"
 
 # libicq/country.cpp:252
 #: sim/country.cpp:206
@@ -10065,7 +10107,7 @@ msgstr "Сент-Люсия"
 # libicq/country.cpp:255
 #: sim/country.cpp:209
 msgid "Saipan Island"
-msgstr "Остров Сайпан"
+msgstr "Сайпан"
 
 # libicq/country.cpp:256
 #: sim/country.cpp:210
@@ -10075,7 +10117,7 @@ msgstr "Сан-Марино"
 # libicq/country.cpp:257
 #: sim/country.cpp:211
 msgid "Sao Tome and Principe"
-msgstr "Сао Томе-энд-Принсипи"
+msgstr "Сан-Томе и Принсипи"
 
 # libicq/country.cpp:258
 #: sim/country.cpp:212
@@ -10095,7 +10137,7 @@ msgstr "Сейшельские острова"
 # libicq/country.cpp:261
 #: sim/country.cpp:215
 msgid "Sierra Leone"
-msgstr "Сиерра-Лионе"
+msgstr "Сьерра-Лионе"
 
 # libicq/country.cpp:262
 #: sim/country.cpp:216
@@ -10125,7 +10167,7 @@ msgstr "Сомали"
 # libicq/country.cpp:267
 #: sim/country.cpp:221
 msgid "South Africa"
-msgstr "Южная африка"
+msgstr "Южная Африка"
 
 # libicq/country.cpp:268
 #: sim/country.cpp:222
@@ -10155,7 +10197,7 @@ msgstr "Сен-Пьер и Микелон"
 # libicq/country.cpp:273
 #: sim/country.cpp:227
 msgid "St. Vincent and the Grenadines"
-msgstr "Остров святого Винсента"
+msgstr "Сент-Винсент и Гренадины"
 
 # libicq/country.cpp:274
 #: sim/country.cpp:228
@@ -10165,7 +10207,7 @@ msgstr "Судан"
 # libicq/country.cpp:275
 #: sim/country.cpp:229
 msgid "Suriname"
-msgstr "Шуринаме"
+msgstr "Суринам"
 
 # libicq/country.cpp:276
 #: sim/country.cpp:230
@@ -10225,12 +10267,12 @@ msgstr "Токелау"
 # libicq/country.cpp:287
 #: sim/country.cpp:241
 msgid "Tonga"
-msgstr "Тонго"
+msgstr "Тонга"
 
 # libicq/country.cpp:288
 #: sim/country.cpp:242
 msgid "Trinidad and Tobago"
-msgstr "Тринидад-энд-Тобаго"
+msgstr "Тринидад и Тобаго"
 
 # libicq/country.cpp:289
 #: sim/country.cpp:243
@@ -10245,12 +10287,12 @@ msgstr "Турция"
 # libicq/country.cpp:291
 #: sim/country.cpp:245
 msgid "Turkmenistan"
-msgstr "Туркменистан"
+msgstr "Туркмения"
 
 # libicq/country.cpp:292
 #: sim/country.cpp:246
 msgid "Turks and Caicos Islands"
-msgstr "Острова Туркс"
+msgstr "Острова Теркс и Кайкос"
 
 # libicq/country.cpp:293
 #: sim/country.cpp:247
@@ -10285,7 +10327,7 @@ msgstr "Великобритания"
 # libicq/country.cpp:299
 #: sim/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr "Виргинские острова США"
+msgstr "Виргинские острова (США)"
 
 # libicq/country.cpp:300
 #: sim/country.cpp:254
@@ -10325,7 +10367,7 @@ msgstr "Острова Уоллис и Футуна"
 # libicq/country.cpp:307
 #: sim/country.cpp:261
 msgid "Western Samoa"
-msgstr "Западная Самоа"
+msgstr "Западное Самоа"
 
 # libicq/country.cpp:308
 #: sim/country.cpp:262
@@ -10410,35 +10452,35 @@ msgstr "Декабрь"
 # libicq/country.cpp:216
 #: sim/datepicker.cpp:240
 msgid "Mon"
-msgstr "Пн"
+msgstr "пн"
 
 # libicq/country.cpp:290
 #: sim/datepicker.cpp:241
 msgid "Tue"
-msgstr "Вт"
+msgstr "вт"
 
 #: sim/datepicker.cpp:242
 msgid "Wed"
-msgstr "Ср"
+msgstr "ср"
 
 #: sim/datepicker.cpp:243
 msgid "Thu"
-msgstr "Чт"
+msgstr "чт"
 
 # libicq/country.cpp:21
 #: sim/datepicker.cpp:244
 msgid "Fri"
-msgstr "Пт"
+msgstr "пт"
 
 # ui/homeinfobase.cpp:96 ui/searchbase.cpp:164 ui/workinfobase.cpp:190
 #: sim/datepicker.cpp:245
 msgid "Sat"
-msgstr "Сб"
+msgstr "сб"
 
 # libicq/country.cpp:274
 #: sim/datepicker.cpp:246
 msgid "Sun"
-msgstr "Вс"
+msgstr "вс"
 
 #: sim/editfile.cpp:146
 msgid "Open"
