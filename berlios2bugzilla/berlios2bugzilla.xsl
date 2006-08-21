@@ -7,7 +7,13 @@
    version="1.0"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-<xsl:output encoding="utf-8" version="1.0" indent="yes" />
+<xsl:output
+   encoding="utf-8"
+   version="1.0"
+   indent="yes"
+   standalone="yes"
+   doctype-system="http://bugs.sim-im.org/bugzilla.dtd"
+   />
 
 <xsl:preserve-space elements="//thetext"/>
 
@@ -15,6 +21,7 @@
 <xsl:variable name="site_urlbase">http://bugs.sim-im.org/</xsl:variable>
 <xsl:variable name="site_maintainer">wrar@altlinux.ru</xsl:variable>
 
+<xsl:variable name="importer_exporter">zowers@gmail.com</xsl:variable>
 <xsl:variable name="importer_bug_summary_header">
   This bug is imported from old bug tracking system at https://developer.berlios.de/bugs/?group_id=4482.
 </xsl:variable>
@@ -46,6 +53,7 @@
     <xsl:attribute name="version"><xsl:value-of select="$site_bugzilla_version"/></xsl:attribute>
     <xsl:attribute name="urlbase"><xsl:value-of select="$site_urlbase"/></xsl:attribute>
     <xsl:attribute name="maintainer"><xsl:value-of select="$site_maintainer"/></xsl:attribute>
+    <xsl:attribute name="exporter"><xsl:value-of select="$importer_exporter"/></xsl:attribute>
 
     <xsl:apply-templates select="/bugs/bug" />
 
