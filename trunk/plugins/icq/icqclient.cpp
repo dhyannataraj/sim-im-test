@@ -1468,7 +1468,7 @@ QString ICQClient::contactTip(void *_data)
     res += "<br>";
     if (data->Uin.toULong()){
         res += "UIN: <b>";
-        res += number(data->Uin.toULong()).c_str();
+        res += QString::number(data->Uin.toULong());
         res += "</b>";
     }else{
         res += "<b>";
@@ -1536,9 +1536,9 @@ QString ICQClient::contactTip(void *_data)
             }
             QMimeSourceFactory::defaultFactory()->setPixmap("pict://icq", pict);
             res += "<br><img src=\"pict://icq\" width=\"";
-            res += number(w).c_str();
+            res += QString::number(w);
             res += "\" height=\"";
-            res += number(h).c_str();
+            res += QString::number(h);
             res += "\">";
         }
     }
@@ -2842,7 +2842,6 @@ void *ICQClient::processEvent(Event *e)
         Message **msg = (Message**)(e->param());
         if (((*msg)->type() != MessageOpenSecure) &&
                 ((*msg)->type() != MessageCloseSecure) &&
-                // ((*msg)->type() != MessageCheckInvisible) &&
                 ((*msg)->type() != MessageWarning))
             return NULL;
         const char *client = (*msg)->client();
@@ -2864,18 +2863,6 @@ void *ICQClient::processEvent(Event *e)
         }
         if (data == NULL)
             return NULL;
-        /*
-        if ((*msg)->type() == MessageCheckInvisible){
-            Message *m = new Message(MessageCheckInvisible);
-            m->setContact((*msg)->contact());
-            m->setClient((*msg)->client());
-            if (!send(m, data)){
-                delete m;
-                return NULL;
-            }
-            return e->param();
-        }
-        */
         if ((*msg)->type() == MessageOpenSecure){
             SecureDlg *dlg = NULL;
             QWidgetList  *list = QApplication::topLevelWidgets();
@@ -2912,7 +2899,7 @@ void *ICQClient::processEvent(Event *e)
             m->setContact((*msg)->contact());
             m->setClient((*msg)->client());
             m->setFlags(MESSAGE_NOHISTORY);
-            if (!((DirectClient*)(data->Direct.ptr))->sendMessage(m))
+            if (!dc->sendMessage(m))
                 delete m;
             return e->param();
         }
@@ -2955,8 +2942,9 @@ bool ICQClient::send(Message *msg, void *_data)
                 if (!dc){
                     if (data->bNoDirect.toBool())
                         return sendThruServer(msg, data);
-                    data->Direct.ptr = (char*)(new DirectClient(data, this, PLUGIN_NULL));
-                    ((DirectClient*)(data->Direct.ptr))->connect();
+                    DirectClient *dc = new DirectClient(data, this, PLUGIN_NULL);
+                    data->Direct.setObject(dc);
+                    dc->connect();
                 }
                 return dc->sendMessage(msg);
             }

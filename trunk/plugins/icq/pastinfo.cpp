@@ -125,7 +125,7 @@ void PastInfo::fill()
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
-        unsigned short category = (unsigned short)atol(n.latin1());
+        unsigned short category = n.toUShort();
         switch (i){
         case 0:
             edtBg1->setText(info);
@@ -160,7 +160,7 @@ void PastInfo::fill()
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');
-        unsigned short category = (unsigned short)atol(n.latin1());
+        unsigned short category = n.toUShort();
         switch (i){
         case 0:
             edtAf1->setText(info);

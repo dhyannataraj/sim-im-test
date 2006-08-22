@@ -306,14 +306,14 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         break;
                 }
                 if (plugin_index == PLUGIN_NULL){
-                    string plugin_str;
+                    QString plugin_str;
                     unsigned i;
                     for (i = 0; i < sizeof(plugin); i++){
                         char b[4];
                         sprintf(b, "%02X ", p[i]);
                         plugin_str += b;
                     }
-                    log(L_WARN, "Unknown plugin sign in reply %s", plugin_str.c_str());
+                    log(L_WARN, "Unknown plugin sign in reply %s", plugin_str.latin1());
                     break;
                 }
                 if ((data == NULL) && (plugin_index != PLUGIN_RANDOMxCHAT))
@@ -348,7 +348,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             case 0x0001:{
                     TlvList tlv(m_socket->readBuffer);
                     if (!tlv(2)){
-                        log(L_WARN, "TLV 0x0005 not found");
+                        log(L_WARN, "TLV 0x0002 not found");
                         break;
                     }
                     Buffer m(*tlv(2));
@@ -458,7 +458,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             case 0x0004:{
                     TlvList tlv(m_socket->readBuffer);
                     if (!tlv(5)){
-                        log(L_WARN, "Advanced message tlv5 not found");
+                        log(L_WARN, "Advanced message TLV 0x0005 not found");
                         break;
                     }
                     Buffer msg(*tlv(5));
@@ -500,8 +500,8 @@ void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
     m_socket->writeBuffer
     << channel << flags
     << (unsigned short)8000		// max message size
-    << (unsigned short)999		// max sender warning level
-    << (unsigned short)999		// max receiver warning level
+    << (unsigned short)880		// max sender warning level
+    << (unsigned short)880		// max receiver warning level
     << (unsigned short)0		// min message interval
     << (unsigned short)0;		// unknown
     sendPacket(true);
@@ -592,18 +592,11 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
         }
     case MessageContacts:
     case MessageFile:
-    // case MessageCheckInvisible:
     case MessageWarning:
         s.flags  = SEND_RAW;
         s.msg    = msg;
         s.screen = screen(data);
-        /*
-        if (msg->type() == MessageCheckInvisible){
-            sendBgQueue.push_back(s);
-        }else{
-        */
-            sendFgQueue.push_back(s);
-        //}
+        sendFgQueue.push_back(s);
         processSendQueue();
         return true;
     }
@@ -1732,14 +1725,6 @@ bool ICQClient::processMsg()
             packMessage(b, m_send.msg, data, type, false);
             sendAdvMessage(screen(data).c_str(), b, PLUGIN_NULL, m_send.id, false, true);
             return true;
-        /*
-        case MessageCheckInvisible:{
-                Buffer b;
-                sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
-                sendThroughServer(m_send.screen.c_str(), 2, b, m_send.id, true, false);
-                return true;
-            }
-        */
         case MessageWarning:{
                 WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
                 snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
