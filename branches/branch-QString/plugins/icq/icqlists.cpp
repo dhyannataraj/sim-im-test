@@ -549,11 +549,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
         {
             log(L_DEBUG, "Rosters OK");
-            snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
-            sendPacket(true);
             QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
             setPreviousPassword(NULL);
-            sendClientReady();
             if (m_bAIM){
                 Group *grp;
                 ContactList::GroupIterator it;
@@ -590,6 +587,9 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     Event eAR(EventARRequest, &ar);
                     eAR.process();
                 }
+                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
+                sendPacket(true);
+                sendClientReady();
                 setState(Connected);
                 m_bReady = true;
                 processSendQueue();
@@ -600,9 +600,13 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendICMB(2,  3);
             sendICMB(4,  3);
             sendLogonStatus();
+            sendClientReady();
+            snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
+            sendPacket(true);
             sendShortInfoRequest();
-            setState(Connected);
             sendMessageRequest();
+
+            setState(Connected);
             fetchProfiles();
             break;
         }

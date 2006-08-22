@@ -1604,11 +1604,9 @@ QString ICQClient::clientName(ICQUserData *data)
     QString res;
     char b[32];
     if (data->Version.toULong())
-    {
         res.sprintf("v%lu ", data->Version.toULong());
-    }
-    if (hasCap(data, CAP_MIRANDA))
-	{
+
+    if (hasCap(data, CAP_MIRANDA)) {
         unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
         unsigned ver3 = (data->Build.toULong() >>  8) & 0xFF;
@@ -1616,13 +1614,12 @@ QString ICQClient::clientName(ICQUserData *data)
         snprintf(b, sizeof(b), "Miranda %u.%u.%u.%u", ver1, ver2, ver3, ver4);
         res += b;
         return res;
-	}
-    if (hasCap(data, CAP_QIP)){
+    }
+    if (hasCap(data, CAP_QIP)) {
         res += "QIP 2005a";
         return res;
     }
-    if (hasCap(data, CAP_JIMM))
-    {
+    if (hasCap(data, CAP_JIMM)) {
         QString r;
         unsigned maj = (data->Build.toULong() >> 24) & 0xFF;
         unsigned min = (data->Build.toULong() >> 16) & 0xFF;
@@ -1633,43 +1630,29 @@ QString ICQClient::clientName(ICQUserData *data)
          r.sprintf("Jimm %d.%d", maj, min);
         return res + r;
     }
-    if (hasCap(data, CAP_ICQ51))
-    {
+    if (hasCap(data, CAP_ICQ51)) {
         res += "ICQ 5.1";
         return res;
-    }/*
-    // 0x1486 - the only caps icq 5.1 sends ... :(
-    if (hasCap(data, CAP_DIRECT) && hasCap(data, CAP_AVATAR) && hasCap(data, CAP_SRV_RELAY) &&
-        hasCap(data, CAP_AIM_SENDFILE) && hasCap(data, CAP_DIRECT))
-    {
-        res += "ICQ 5.1";
-        return res;
-    } */
-    if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4))
-	{
+    }
+    if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4)) {
         res += "ICQ 5.0";
         return res;
-	}
-    if (hasCap(data, CAP_ICQ5_1))
-	{
+    }
+    if (hasCap(data, CAP_ICQ5_1)) {
         log( L_DEBUG, "CAP_ICQ5_1 without all others" );
-	}
-    if (hasCap(data, CAP_ICQ5_3))
-	{
+    }
+    if (hasCap(data, CAP_ICQ5_3)) {
         log( L_DEBUG, "CAP_ICQ5_3 without all others" );
-	}
-    if (hasCap(data, CAP_ICQ5_4))
-	{
+    }
+    if (hasCap(data, CAP_ICQ5_4)) {
         log( L_DEBUG, "CAP_ICQ5_4 without all others" );
-	}
-	if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN))
-    {
+    }
+    if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN)) {
         res += "Trillian";
         return res;
     }
 
-    if (hasCap(data, CAP_SIMOLD))
-    {
+    if (hasCap(data, CAP_SIMOLD)) {
         int hiVersion = (data->Build.toULong() >> 6) - 1;
         unsigned loVersion = data->Build.toULong() & 0x1F;
         snprintf(b, sizeof(b), "SIM %u.%u", (unsigned)hiVersion, loVersion);
@@ -1677,8 +1660,7 @@ QString ICQClient::clientName(ICQUserData *data)
         return res;
     }
 
-    if (hasCap(data, CAP_SIM))
-    {
+    if (hasCap(data, CAP_SIM)) {
         unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
         unsigned ver3 = (data->Build.toULong() >> 8) & 0xFF;
@@ -1696,8 +1678,7 @@ QString ICQClient::clientName(ICQUserData *data)
         return res;
     }
 
-    if (hasCap(data, CAP_LICQ))
-    {
+    if (hasCap(data, CAP_LICQ)) {
         unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
         unsigned ver3 = (data->Build.toULong() >> 8) & 0xFF;
@@ -1708,8 +1689,7 @@ QString ICQClient::clientName(ICQUserData *data)
             res += "/SSL";
         return res;
     }
-    if (hasCap(data, CAP_KOPETE))
-    {
+    if (hasCap(data, CAP_KOPETE)) {
         // last 4 bytes determine version
         // NOTE change with each Kopete Release!
         // first number, major version
@@ -1792,8 +1772,7 @@ QString ICQClient::clientName(ICQUserData *data)
         break;
     }
 
-    if (hasCap(data, CAP_TYPING))
-    {
+    if (hasCap(data, CAP_TYPING)) {
         switch (data->Version.toULong()){
         case 10:
             res += "ICQ 2003b";
@@ -2443,9 +2422,9 @@ void *ICQClient::processEvent(Event *e)
         if (m_bAIM){
             if ((getState() == Connected) && (m_status == STATUS_AWAY)){
                 if ((*it).bDirect){
-                    setAwayMessage(&t->tmpl);
+                    setAwayMessage(t->tmpl);
                 }else{
-                    sendCapability(&t->tmpl);
+                    sendCapability(t->tmpl);
                     sendICMB(1, 11);
                     sendICMB(2,  3);
                     sendICMB(4,  3);

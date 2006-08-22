@@ -40,11 +40,11 @@ const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
 
 static QString makeCapStr( const capability cap, unsigned size )
 {
-	QString str = "", tmp;
-	for(unsigned int i = 0; i < size; i++ ) {
-		str += tmp.sprintf( "0x%02x ", cap[i] );
-	}
-	return str;
+    QString str = "", tmp;
+    for(unsigned int i = 0; i < size; i++ ) {
+        str += tmp.sprintf( "0x%02x ", cap[i] );
+    }
+    return str;
 }
 
 void ICQClient::snac_buddy(unsigned short type, unsigned short)
@@ -143,10 +143,38 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             if (tlvIP)
                 bChanged |= set_ip(&data->IP, htonl((unsigned long)(*tlvIP)));
 
-            Tlv *tlvCapability = tlv(0x000D);
-            if (tlvCapability){
+            // short caps tlv
+            Tlv *tlvCapShort = tlv(0x0019);
+            if(tlvCapShort) {
                 data->Caps.asULong() = 0;
                 data->Caps2.asULong() = 0;
+
+                Buffer info(*tlvCapShort);
+
+                for (; info.readPos() < info.size(); ){
+                    unsigned char shortcap[2];
+                    info.unpack((char*)shortcap, sizeof(shortcap));
+                    for (unsigned i = 0;; i++) {
+                        if(!memcmp(&capabilities[i][2], shortcap, sizeof(shortcap))) {
+                            setCap(data, (cap_id_t)i);
+                            break;
+                        }
+                        // we don't go through all caps, only the first ones starting with 0x09
+                        if (*capabilities[i] != '\x09') {
+                            log( L_DEBUG, "%lu unknown cap %s", data->Uin.toULong(),
+                                          makeCapStr( shortcap, sizeof(shortcap) ).latin1() );
+                            break;
+                        }
+                    }
+                }
+            }
+            // normal cap tlv
+            Tlv *tlvCapability = tlv(0x000D);
+            if (tlvCapability) {
+                if (!tlvCapShort) {
+                    data->Caps.asULong() = 0;
+                    data->Caps2.asULong() = 0;
+                }
                 Buffer info(*tlvCapability);
                 for (; info.readPos() < info.size(); ){
                     capability cap;
