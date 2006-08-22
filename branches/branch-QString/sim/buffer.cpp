@@ -115,10 +115,10 @@ Buffer::~Buffer()
 
 void Buffer::init(unsigned size)
 {
-    resize(size);
     m_posRead = 0;
     m_posWrite = 0;
     m_packetStartPos = 0;
+    resize(size);
 }
 
 void Buffer::incReadPos(int n)
