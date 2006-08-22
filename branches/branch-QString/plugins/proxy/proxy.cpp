@@ -1262,7 +1262,7 @@ void *ProxyPlugin::processEvent(Event *e)
         ProxyData data;
         clientData(p->client, data);
         Listener *listener = NULL;
-        switch (data.Type.asULong()){
+        switch (data.Type.toULong()){
         case PROXY_SOCKS4:
             listener = new SOCKS4_Listener(this, &data, p->notify, p->client->ip());
             break;

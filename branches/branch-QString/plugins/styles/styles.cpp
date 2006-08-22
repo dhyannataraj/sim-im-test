@@ -24,11 +24,6 @@
 #include <qpopupmenu.h>
 #include <qpalette.h>
 #include <qstyle.h>
-
-#ifdef WIN32
-#include <windows.h>
-#endif
-
 #include <qstylefactory.h>
 
 using namespace SIM;

@@ -348,7 +348,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         if (!highlight.isEmpty()){
             QPen oldPen = p->pen();
             QColor oldBg = p->backgroundColor();
-            p->setBackgroundMode(OpaqueMode);
+            p->setBackgroundMode(TransparentMode);
             if (item == m_searchItem){
                 if ((item == currentItem()) && CorePlugin::m_plugin->getUseDblClick()){
                     p->setBackgroundColor(cg.highlightedText());

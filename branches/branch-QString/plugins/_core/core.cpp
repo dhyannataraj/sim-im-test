@@ -163,7 +163,7 @@ SIMTranslator::~SIMTranslator()
         k_nl_unload_domain((struct loaded_domain *)domain.data);
 }
 
-void SIMTranslator::load (const QString &filename)
+void SIMTranslator::load(const QString &filename)
 {
     fName = QFile::encodeName(filename);
     domain.filename = fName.data();
@@ -444,28 +444,26 @@ static autoReply autoReplies[] =
     {
         { STATUS_AWAY, I18N_NOOP(
               "I am currently away from ICQ.\n"
-              "Please leave your message and I will get back to you as soon as I return!\n"
+              "Please leave your message and I will get back to you as soon as I return!"
           ) },
         { STATUS_NA, I18N_NOOP(
               "I am out'a here.\n"
-              "See you tomorrow!\n"
+              "See you tomorrow!"
           ) },
         { STATUS_DND, I18N_NOOP(
-              "Please do not disturb me now. Disturb me later.\n"
+              "Please do not disturb me now. Disturb me later."
           ) },
         { STATUS_FFC, I18N_NOOP(
-              "We'd love to hear what you have to say. Join our chat.\n"
+              "We'd love to hear what you have to say. Join our chat."
           ) },
         { STATUS_ONLINE, I18N_NOOP(
-              "I'm here.\n"
+              "I'm here."
           ) },
         { STATUS_OFFLINE, I18N_NOOP(
-              "I'm offline.\n"
+              "I'm offline."
           ) },
         { 0, NULL }
     };
-
-static QString smile_icon;
 
 CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
         : Plugin(base), EventReceiver(HighPriority)
@@ -696,8 +694,8 @@ CorePlugin::CorePlugin(unsigned base, ConfigBuffer *config)
     QStringList smiles;
     getIcons()->getSmiles(smiles);
     unsigned flags = 0;
+    QString smile_icon;
     if (smiles.empty()){
-        smile_icon = "";
         flags = BTN_HIDE;
     }else{
         smile_icon = smiles.front();
@@ -1705,8 +1703,8 @@ void *CorePlugin::processEvent(Event *e)
             QStringList smiles;
             getIcons()->getSmiles(smiles);
             unsigned flags = 0;
+            QString smile_icon;
             if (smiles.empty()){
-                smile_icon = "";
                 flags = BTN_HIDE;
             }else{
                 smile_icon = smiles.front();

@@ -256,11 +256,9 @@ void SIMClientSocket::connect(const QString &_host, unsigned short _port)
         return;
     }
 #endif
-    log(L_DEBUG, "Connect to %s:%u", host.data(), port);
+    log(L_DEBUG, QString("Connect to %1:%2").arg(host).arg(port));
     if (inet_addr(host.data()) == INADDR_NONE){
-//        if (!host.empty() && (host[host.length() - 1] != '.'))
-//            host += ".";
-        log(L_DEBUG, "Start resolve %s", host.data());
+        log(L_DEBUG, QString("Start resolve %1").arg(host));
         SIMSockets *s = static_cast<SIMSockets*>(getSocketFactory());
         QObject::connect(s, SIGNAL(resolveReady(unsigned long, const QString&)), this, SLOT(resolveReady(unsigned long, const QString&)));
         s->resolve(host);
@@ -282,7 +280,7 @@ void SIMClientSocket::resolveReady(unsigned long addr, const QString &_host)
     in_addr a;
     a.s_addr = addr;
     host = inet_ntoa(a);
-    log(L_DEBUG, "Resolve ready %s", host.latin1());
+    log(L_DEBUG, QString("Resolve ready %1").arg(host));
     timerStop();
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
@@ -440,7 +438,7 @@ void SIMServerSocket::bind(const char *path)
     }else{
         user_id = QString::number(uid);
     }
-    m_name = m_name.replace(QRegExp("\\%user\\%"), user_id.latin1());
+    m_name = m_name.replace(QRegExp("\\%user\\%"), user_id);
     QFile::remove(m_name);
 
     int s = socket(PF_UNIX, SOCK_STREAM, 0);

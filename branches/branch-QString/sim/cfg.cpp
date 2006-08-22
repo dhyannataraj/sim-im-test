@@ -345,6 +345,7 @@ bool set_ip(Data *p, unsigned long value, const char *host)
     }
     if (ip == NULL)
         ip = new IP;
+    p->setIP(ip);
     if (ip->ip() == value){
         if (host == NULL)
             ip->resolve();
