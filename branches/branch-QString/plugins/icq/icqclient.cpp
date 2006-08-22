@@ -1550,9 +1550,9 @@ QString ICQClient::contactTip(void *_data)
     return res;
 }
 
-unsigned ICQClient::warnLevel(unsigned short level)
+unsigned long ICQClient::warnLevel(unsigned long level)
 {
-    level = (unsigned short)((level + 5) / 10);
+    level = ((level + 5) / 10);
     if (level > 100)
         level = 100;
     return level;
@@ -1602,18 +1602,17 @@ static QString verString(unsigned ver)
 QString ICQClient::clientName(ICQUserData *data)
 {
     QString res;
-    char b[32];
     if (data->Version.toULong())
         res.sprintf("v%lu ", data->Version.toULong());
 
     if (hasCap(data, CAP_MIRANDA)) {
+        QString r;
         unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
         unsigned ver3 = (data->Build.toULong() >>  8) & 0xFF;
         unsigned ver4 = (data->Build.toULong() >>  0) & 0xFF;
-        snprintf(b, sizeof(b), "Miranda %u.%u.%u.%u", ver1, ver2, ver3, ver4);
-        res += b;
-        return res;
+        r.sprintf("Miranda %u.%u.%u.%u", ver1, ver2, ver3, ver4);
+        return res + r;
     }
     if (hasCap(data, CAP_QIP)) {
         res += "QIP 2005a";
@@ -1625,9 +1624,9 @@ QString ICQClient::clientName(ICQUserData *data)
         unsigned min = (data->Build.toULong() >> 16) & 0xFF;
         unsigned rev = (data->Build.toULong() >>  0) & 0xFFFF;
         if(rev)
-         r.sprintf("Jimm %d.%d.%d", maj, min, rev);
+            r.sprintf("Jimm %d.%d.%d", maj, min, rev);
         else
-         r.sprintf("Jimm %d.%d", maj, min);
+            r.sprintf("Jimm %d.%d", maj, min);
         return res + r;
     }
     if (hasCap(data, CAP_ICQ51)) {
@@ -1653,23 +1652,24 @@ QString ICQClient::clientName(ICQUserData *data)
     }
 
     if (hasCap(data, CAP_SIMOLD)) {
-        int hiVersion = (data->Build.toULong() >> 6) - 1;
+        QString r;
+        unsigned hiVersion = (data->Build.toULong() >> 6) - 1;
         unsigned loVersion = data->Build.toULong() & 0x1F;
-        snprintf(b, sizeof(b), "SIM %u.%u", (unsigned)hiVersion, loVersion);
-        res += b;
-        return res;
+        r.sprintf("SIM %u.%u", hiVersion, loVersion);
+        return res + r;
     }
 
     if (hasCap(data, CAP_SIM)) {
+        QString r;
         unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
         unsigned ver3 = (data->Build.toULong() >> 8) & 0xFF;
         if (ver3){
-            snprintf(b, sizeof(b), "SIM %u.%u.%u", ver1, ver2, ver3);
+            r.sprintf("SIM %u.%u.%u", ver1, ver2, ver3);
         }else{
-            snprintf(b, sizeof(b), "SIM %u.%u", ver1, ver2);
+            r.sprintf("SIM %u.%u", ver1, ver2);
         }
-        res += b;
+        res += r;
         if (data->Build.toULong() & 0x80)
             res += "/win32";
 
@@ -1679,12 +1679,13 @@ QString ICQClient::clientName(ICQUserData *data)
     }
 
     if (hasCap(data, CAP_LICQ)) {
+        QString r;
         unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
         unsigned ver3 = (data->Build.toULong() >> 8) & 0xFF;
-		ver2 %=100;	// see licq source
-        snprintf(b, sizeof(b), "Licq %u.%u.%u", ver1, ver2, ver3);
-        res += b;
+        ver2 %=100;	// see licq source
+        r.sprintf("Licq %u.%u.%u", ver1, ver2, ver3);
+        res += r;
         if ((data->Build.toULong() & 0xFF) == 1)
             res += "/SSL";
         return res;
@@ -1696,13 +1697,13 @@ QString ICQClient::clientName(ICQUserData *data)
         // second number,  minor version
         // third number, point version 100+
         // fourth number,  point version 0-99
+        QString r;
         unsigned ver1 =  (data->Build.toULong() >> 24) & 0xFF;	// major
         unsigned ver2 =  (data->Build.toULong() >> 16) & 0xFF;	// minor
         unsigned ver3 = ((data->Build.toULong() >>  8) & 0xFF) * 100;
         ver3         +=  (data->Build.toULong() >>  0) & 0xFF;
-        snprintf(b, sizeof(b), "%u.%u.%u", ver1, ver2, ver3);
-        res = "Kopete ";
-        res += b;
+        r.sprintf("Kopete %u.%u.%u", ver1, ver2, ver3);
+        res += r;
         return res;
     }
     if (hasCap(data, CAP_XTRAZ)){
@@ -1718,13 +1719,14 @@ QString ICQClient::clientName(ICQUserData *data)
         return res;
     }
     if ((data->InfoUpdateTime.toULong() & 0xFF7F0000L) == 0x7D000000L){
+        QString r;
         unsigned ver = data->InfoUpdateTime.toULong() & 0xFFFF;
         if (ver % 10){
-            snprintf(b, sizeof(b), "Licq %u.%u.%u", ver / 1000, (ver / 10) % 100, ver % 10);
+            r.sprintf("Licq %u.%u.%u", ver / 1000, (ver / 10) % 100, ver % 10);
         }else{
-            snprintf(b, sizeof(b), "Licq %u.%u", ver / 1000, (ver / 10) % 100);
+            r.sprintf("Licq %u.%u", ver / 1000, (ver / 10) % 100);
         }
-        res += b;
+        res += r;
         if (data->InfoUpdateTime.toULong() & 0x00800000L)
             res += "/SSL";
         return res;
@@ -1759,10 +1761,12 @@ QString ICQClient::clientName(ICQUserData *data)
         res += "YSM";
         res += verString(data->PluginInfoTime.toULong() & 0xFFFF);
         return res;
-    case 0x04031980L:
-        snprintf(b, sizeof(b), "vICQ 0.43.%lu.%lu", data->PluginInfoTime.toULong() & 0xffff, data->PluginInfoTime.toULong() & (0x7fff0000) >> 16);
-        res += b;
+    case 0x04031980L: {
+        QString r;
+        r.sprintf("vICQ 0.43.%lu.%lu", data->PluginInfoTime.toULong() & 0xffff, data->PluginInfoTime.toULong() & (0x7fff0000) >> 16);
+        res += r;
         return res;
+    }
     case 0x3AA773EEL:
         if ((data->PluginStatusTime.toULong() == 0x3AA66380L) && (data->PluginInfoTime.toULong() == 0x3A877A42L))
         {

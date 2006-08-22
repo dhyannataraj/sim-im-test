@@ -76,7 +76,8 @@ const unsigned short ICQ_SRVxREQ_PHONE_UPDATE       = 0x5406;
 const unsigned short ICQ_SRVxREQ_SET_CHAT_GROUP     = 0x5807;
 const unsigned short ICQ_SRVxREQ_RANDOM_CHAT        = 0x4E07;
 
-const unsigned short ICQ_SRVxCLI_SET_FULLINFO       = 0x3A0C;
+const unsigned short ICQ_SRVxWP_SET                 = 0x3A0C;
+const unsigned short ICQ_SRVxWP_SET_RESP            = 0x3F0C;
 
 const unsigned short TLV_UIN                        = 0x0136;
 const unsigned short TLV_FIRST_NAME                 = 0x0140;
@@ -122,6 +123,7 @@ const unsigned short TLV_TIMEZONE                   = 0x0316;
 const unsigned short TLV_ORIGINALLY_CITY            = 0x0320;
 const unsigned short TLV_ORIGINALLY_STATE           = 0x032A;
 const unsigned short TLV_ORIGINALLY_COUNTRY         = 0x0334;
+const unsigned short TLV_RECV_ICQ_SPAM              = 0x0348;
 
 const char SEARCH_STATE_OFFLINE  = 0;
 const char SEARCH_STATE_ONLINE   = 1;
@@ -327,13 +329,6 @@ void ICQClient::sendMessageRequest()
 {
     serverRequest(ICQ_SRVxREQ_OFFLINE_MSG);
     m_offlineMessagesRequestId = m_nMsgSequence;
-    sendServerRequest();
-}
-
-void ICQClient::sendShortInfoRequest()
-{
-    serverRequest(ICQ_SRVxREQ_SHORT_INFO);
-//    m_offlineMessagesRequestId = m_nMsgSequence;
     sendServerRequest();
 }
 
@@ -1437,7 +1432,7 @@ void ICQClient::setClientInfo(void *_data)
 
     if (!clientInfoTLVs.isEmpty()) {
         serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxCLI_SET_FULLINFO;
+        m_socket->writeBuffer << ICQ_SRVxWP_SET;
         for( unsigned i =0; i < clientInfoTLVs.count(); i++ ) {
             Tlv *tlv = &clientInfoTLVs[i];
             m_socket->writeBuffer.tlvLE( tlv->Num(), *tlv, tlv->Size() );
@@ -1462,7 +1457,7 @@ protected:
 };
 
 SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, const QString &pwd)
-        : ServerRequest(id), m_pwd(pwd), m_client(client)
+    : ServerRequest(id), m_pwd(pwd), m_client(client)
 {}
 
 bool SetPasswordRequest::answer(Buffer&, unsigned short)
@@ -1672,15 +1667,15 @@ unsigned ICQClient::processSMSQueue()
         s.text = text;
         s.part = part;
 
-        string  nmb = "+";
+        QString nmb = "+";
         QString phone = sms->getPhone();
         for (int i = 0; i < (int)(phone.length()); i++){
-            char c = phone[i].latin1();
+            QChar c = phone[i];
             if ((c >= '0') && (c <= '9'))
                 nmb += c;
         }
         XmlBranch xmltree("icq_sms_message");
-        xmltree.pushnode(new XmlLeaf("destination",nmb));
+        xmltree.pushnode(new XmlLeaf("destination",(const char*)(nmb.utf8())));
         xmltree.pushnode(new XmlLeaf("text",(const char*)(part.utf8())));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
         xmltree.pushnode(new XmlLeaf("encoding","utf8"));

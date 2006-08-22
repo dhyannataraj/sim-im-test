@@ -343,7 +343,7 @@ typedef enum {
     CAP_JIMM,                   // 0x00000100
     CAP_NULL,                   // 0x00000200
 } cap_id_t;
-    
+
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
 const unsigned PLUGIN_FILESERVER         = 2;
@@ -587,7 +587,7 @@ public:
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
     QString screen(const ICQUserData*);
-    static unsigned warnLevel(unsigned short);
+    static unsigned long warnLevel(unsigned long);
     static unsigned clearTags(QString &text);
     bool m_bAIM;
     static QString addCRLF(const QString &str);
@@ -647,7 +647,6 @@ protected:
     void sendLogonStatus();
     void sendClientReady();
     void sendMessageRequest();
-    void sendShortInfoRequest();
     void setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service);
     void serverRequest(unsigned short cmd, unsigned short seq=0);
     void sendServerRequest();

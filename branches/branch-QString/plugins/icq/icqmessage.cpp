@@ -1460,7 +1460,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                             area    = getToken(number, ')');
                             if (country[0] == '+')
                                 country = country.mid(1);
-                            unsigned code = country.toLong();
+                            unsigned code = country.toULong();
                             country = "";
                             for (const ext_info *e = getCountries(); e->nCode; e++){
                                 if (e->nCode == code){

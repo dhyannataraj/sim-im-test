@@ -17,20 +17,12 @@
 
 #include "icqclient.h"
 
-#ifdef WIN32
-#include <windows.h>
-#include <winsock.h>
-#else
-#include <sys/stat.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#endif
-
 #include <qtextcodec.h>
+#ifdef Q_OS_WIN32
+# include <winsock.h>
+#else
+# include <netinet/in.h>
+#endif
 
 using namespace SIM;
 

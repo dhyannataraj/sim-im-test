@@ -388,7 +388,7 @@ void ICQClient::sendLogonStatus()
         data.owner.PluginInfoTime.asULong() = now;
     }
     if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.toULong()){
-        data.owner.FollowMe.asBool() = getContacts()->owner()->getPhoneStatus();
+        data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
         data.owner.PluginStatusTime.asULong() = now;
     }
 
@@ -399,7 +399,7 @@ void ICQClient::sendLogonStatus()
     m_socket->writeBuffer.tlv(0x0006, fullStatus(m_logonStatus));
     m_socket->writeBuffer.tlv(0x0008, (unsigned short)0);
     m_socket->writeBuffer.tlv(0x000C, directInfo);
-    m_socket->writeBuffer.tlv(0x001f, (unsigned short)0);   // new
+    m_socket->writeBuffer.tlv(0x001f, (unsigned short)0);
 
     sendPacket(true);
     if (!getInvisible())

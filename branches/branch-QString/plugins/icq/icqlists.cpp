@@ -364,17 +364,17 @@ void ICQClient::parseRosterItem(unsigned short type,
             }
             break;
         }
-	case ICQ_AWAITING_AUTH: {
+    case ICQ_AWAITING_AUTH: {
             Contact *contact;
-			if (str.length()){
+            if (str.length()){
                 log(L_DEBUG, "%s is awaiting auth", str.latin1());
-				if (findContact(str, NULL, false, contact))
-					break;
-				findContact(str, &str, true, contact, NULL, false);
-				addFullInfoRequest(str.toULong());
+                if (findContact(str, NULL, false, contact))
+                    break;
+                findContact(str, &str, true, contact, NULL, false);
+                addFullInfoRequest(str.toULong());
             }
-			break;
-		}
+            break;
+        }
     default:
         log(L_WARN,"Unknown roster type %04X", type);
     }
@@ -603,7 +603,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendClientReady();
             snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
             sendPacket(true);
-            sendShortInfoRequest();
+//            sendShortInfoRequest();   // icq 5.1 does this here
             sendMessageRequest();
 
             setState(Connected);
