@@ -215,7 +215,10 @@ unsigned Buffer::unpack(QByteArray &d, unsigned s)
     unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d = QByteArray::duplicate(data() + m_posRead, readn + 1);
+    d = QByteArray::duplicate(data() + m_posRead, readn);
+    unsigned size = d.size();
+    d.resize(size + 1);
+    d.data()[size] = '\0';
     m_posRead += readn;
     return readn;
 }
