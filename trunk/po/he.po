@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2006-08-22 22:57+0600\n"
+"POT-Creation-Date: 2006-08-23 00:15+0600\n"
 "PO-Revision-Date: 2005-04-20 21:06+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -5130,7 +5130,7 @@ msgstr "אחר"
 #: plugins/weather/weather.cpp:402
 #, fuzzy
 msgid ""
-"_: waether\n"
+"_: weather\n"
 "Clouds"
 msgstr "אחר"
 

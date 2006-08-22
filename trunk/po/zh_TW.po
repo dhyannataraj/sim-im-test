@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"POT-Creation-Date: 2006-08-22 22:57+0600\n"
+"POT-Creation-Date: 2006-08-23 00:15+0600\n"
 "PO-Revision-Date: 2005-04-20 21:07+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -5172,7 +5172,7 @@ msgstr "十月"
 #: plugins/weather/weather.cpp:402
 #, fuzzy
 msgid ""
-"_: waether\n"
+"_: weather\n"
 "Clouds"
 msgstr "十月"
 

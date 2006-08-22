@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-08-22 22:57+0600\n"
+"POT-Creation-Date: 2006-08-23 00:15+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4656,7 +4656,7 @@ msgstr ""
 
 #: plugins/weather/weather.cpp:402
 msgid ""
-"_: waether\n"
+"_: weather\n"
 "Clouds"
 msgstr ""
 

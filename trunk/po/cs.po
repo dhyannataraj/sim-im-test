@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2006-08-22 22:57+0600\n"
+"POT-Creation-Date: 2006-08-23 00:15+0600\n"
 "PO-Revision-Date: 2006-01-31 23:07+0100\n"
 "Last-Translator: Vojtěch Gondžala <vogo@seznam.cz>\n"
 "Language-Team:  <cs@li.org>\n"
@@ -4826,7 +4826,7 @@ msgstr "Oblačno"
 #: plugins/weather/weather.cpp:402
 #, fuzzy
 msgid ""
-"_: waether\n"
+"_: weather\n"
 "Clouds"
 msgstr "Oblačno"
 

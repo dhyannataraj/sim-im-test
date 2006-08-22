@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
-"POT-Creation-Date: 2006-08-22 22:57+0600\n"
+"POT-Creation-Date: 2006-08-23 00:15+0600\n"
 "PO-Revision-Date: 2005-05-05 07:36+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -4808,7 +4808,7 @@ msgstr "Nuvoloso"
 #: plugins/weather/weather.cpp:402
 #, fuzzy
 msgid ""
-"_: waether\n"
+"_: weather\n"
 "Clouds"
 msgstr "Nuvoloso"
 

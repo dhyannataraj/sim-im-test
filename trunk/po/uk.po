@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
-"POT-Creation-Date: 2006-08-22 22:57+0600\n"
-"PO-Revision-Date: 2006-08-22 23:05+0600\n"
+"POT-Creation-Date: 2006-08-23 00:15+0600\n"
+"PO-Revision-Date: 2006-08-23 00:44+0600\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3571,8 +3571,8 @@ msgid ""
 "href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
 msgstr ""
 "<div "
-"style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">Працю"
-"є під <a style=\"font-size:1em;font-style:italic;\" "
+"style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">Пра"
+"цює під <a style=\"font-size:1em;font-style:italic;\" "
 "href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
 
 #: plugins/livejournal/livejournal.cpp:1373
@@ -4935,8 +4935,9 @@ msgid ""
 msgstr "Хмарно"
 
 #: plugins/weather/weather.cpp:402
+#, fuzzy
 msgid ""
-"_: waether\n"
+"_: weather\n"
 "Clouds"
 msgstr "Хмарно"
 

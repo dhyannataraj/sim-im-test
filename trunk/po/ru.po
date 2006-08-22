@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"POT-Creation-Date: 2006-08-22 22:57+0600\n"
-"PO-Revision-Date: 2006-06-21 23:48+0600\n"
+"POT-Creation-Date: 2006-08-23 00:15+0600\n"
+"PO-Revision-Date: 2006-08-23 00:55+0600\n"
 "Last-Translator: Andrey Rahmatullin <wrar@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -202,45 +202,38 @@ msgstr "Интерфейс"
 
 # client.cpp:264
 #: plugins/_core/core.cpp:449
-#, fuzzy
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!"
 msgstr ""
 "Я отошел.\n"
-"Оставьте ваше сообщение, когда вернусь - "
-"прочитаю.\n"
+"Оставьте ваше сообщение, когда вернусь - прочитаю."
 
 # client.cpp:268
 #: plugins/_core/core.cpp:453
-#, fuzzy
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!"
-msgstr "Ушел далеко.\n"
+msgstr "Ушел далеко."
 
 # client.cpp:272
 #: plugins/_core/core.cpp:457
-#, fuzzy
 msgid "Please do not disturb me now. Disturb me later."
-msgstr "Просьба не беспокоить меня.\n"
+msgstr "Просьба не беспокоить меня."
 
 # client.cpp:279
 #: plugins/_core/core.cpp:460
-#, fuzzy
 msgid "We'd love to hear what you have to say. Join our chat."
-msgstr "Делать нечего, присоединюсь к чату.\n"
+msgstr "Делать нечего, присоединюсь к чату."
 
 #: plugins/_core/core.cpp:463
-#, fuzzy
 msgid "I'm here."
-msgstr "Я на месте.\n"
+msgstr "Я на месте."
 
 # mainwin.cpp:397
 #: plugins/_core/core.cpp:466
-#, fuzzy
 msgid "I'm offline."
-msgstr "Я ушел.\n"
+msgstr "Я ушел."
 
 # control.cpp:190
 #: plugins/_core/core.cpp:561
@@ -502,7 +495,6 @@ msgstr "Показывать пользователей не в &сети"
 
 # userview.cpp:684 userview.cpp:697
 #: plugins/_core/core.cpp:1088
-#, fuzzy
 msgid "Do&n't show groups"
 msgstr "&Не показывать группы"
 
@@ -568,9 +560,8 @@ msgstr "Показывать &всегда"
 
 # control.cpp:190
 #: plugins/_core/core.cpp:1235
-#, fuzzy
 msgid "&Fetch away message"
-msgstr "Новое сообщение"
+msgstr ""
 
 # mainwin.cpp:2115
 #: plugins/_core/core.cpp:1264
@@ -798,23 +789,22 @@ msgstr ""
 # mainwin.cpp:2371
 #: plugins/_core/core.cpp:3756 plugins/_core/core.cpp:3766
 #: plugins/_core/core.cpp:3770
-#, fuzzy
 msgid "Create Profile"
-msgstr "Изменить профиль"
+msgstr "Создать профиль"
 
 #: plugins/_core/core.cpp:3756 plugins/_core/logindlg.cpp:403
 msgid "Please enter a new name for the profile."
-msgstr ""
+msgstr "Введите новое имя для профиля."
 
 #: plugins/_core/core.cpp:3766 plugins/_core/logindlg.cpp:407
 msgid ""
 "There is already another profile with this name.  Please choose another."
-msgstr ""
+msgstr "Профиль с таким именем уже существует. Выберите другое имя."
 
 #: plugins/_core/core.cpp:3770
 msgid ""
 "Unable to create the profile.  Please do not use any special characters."
-msgstr ""
+msgstr "Невозможно создать профиль. Не используйте в имени спецсимволы."
 
 # ui/setupdlg.cpp:139
 #. i18n: file ./plugins/_core/managerbase.ui line 20
@@ -1204,14 +1194,13 @@ msgstr "Новый профиль"
 # mainwin.cpp:2353 userview.cpp:1344
 #: plugins/_core/logindlg.cpp:403 plugins/_core/logindlg.cpp:407
 #: plugins/_core/logindlg.cpp:411
-#, fuzzy
 msgid "Rename Profile"
-msgstr "&Переименовать группу"
+msgstr "&Переименовать профиль"
 
 #: plugins/_core/logindlg.cpp:411
 msgid ""
 "Unable to rename the profile.  Please do not use any special characters."
-msgstr ""
+msgstr "Невозможно переименовать профиль. Не используйте в имени спецсимволы."
 
 #: plugins/_core/logindlg.cpp:504 plugins/jabber/jabberclient.cpp:962
 #: plugins/livejournal/livejournal.cpp:937 plugins/msn/msnclient.cpp:823
@@ -2099,9 +2088,8 @@ msgid "New"
 msgstr "Новое"
 
 #: plugins/gpg/gpgcfg.cpp:204 plugins/gpg/gpgcfg.cpp:229
-#, fuzzy
 msgid "Get secret list failed"
-msgstr "Генерация ключа закончилась неудачно"
+msgstr ""
 
 #: plugins/gpg/gpggen.cpp:94
 msgid "Move mouse for generate random key"
@@ -3379,9 +3367,8 @@ msgstr ""
 
 # libicq/country.cpp:206
 #: plugins/icq/moreinfo.cpp:149
-#, fuzzy
 msgid "Maltese"
-msgstr "Мужской"
+msgstr ""
 
 # libicq/country.cpp:445
 #: plugins/icq/pastinfo.cpp:78
@@ -4754,9 +4741,8 @@ msgid "MSN"
 msgstr "MSN"
 
 #: plugins/msn/msn.cpp:64
-#, fuzzy
 msgid "https://accountservices.passport.net/uiresetpw.srf?lc=1033"
-msgstr "https://register.passport.net/reg.srf?lc=1049&langid=1049&sl=1"
+msgstr "https://accountservices.passport.net/uiresetpw.srf?lc=1049"
 
 #: plugins/msn/msn.cpp:144 plugins/yahoo/yahooclient.cpp:1404
 msgid "Be right back"
@@ -5567,9 +5553,8 @@ msgid ""
 msgstr "Пасмурно"
 
 #: plugins/weather/weather.cpp:402
-#, fuzzy
 msgid ""
-"_: waether\n"
+"_: weather\n"
 "Clouds"
 msgstr "Облачность"
 
@@ -7047,7 +7032,7 @@ msgstr "Предупредить &анонимно"
 
 #. i18n: file ./plugins/icq/warndlgbase.ui line 73
 #: rc.cpp:537
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Check this if you don't want your screen name revealed.\n"
 "Anonymous warnings are less severe."
@@ -7553,7 +7538,7 @@ msgstr "И&гнорировать требование авторизации"
 #: rc.cpp:1048
 #, no-c-format
 msgid "Always use &MD5 authentication"
-msgstr ""
+msgstr "Всегда использовать MD5-аутентификацию"
 
 # ui/generalsecbase.cpp:140
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 123
