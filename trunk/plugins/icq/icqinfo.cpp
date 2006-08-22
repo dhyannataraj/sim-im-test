@@ -107,7 +107,7 @@ void ICQInfo::apply()
                 return;
             }
             if (!edtPswd1->text().isEmpty())
-                m_client->changePassword(edtPswd1->text().utf8());
+                m_client->changePassword(edtPswd1->text());
             // clear Textboxes
             edtCurrent->clear();
             edtPswd1->clear();
@@ -252,21 +252,21 @@ void ICQInfo::fill()
         edtIntIP->hide();
     }
     if (m_data){
-        string client_name = m_client->clientName(data);
+        QString client_name = m_client->clientName(data);
         if (client_name.length()){
-            edtClient->setText(client_name.c_str());
+            edtClient->setText(client_name);
         }else{
             lblClient->hide();
             edtClient->hide();
         }
     }else{
-        string name = PACKAGE;
+        QString name = PACKAGE;
         name += " ";
         name += VERSION;
 #ifdef WIN32
         name += "/win32";
 #endif
-        edtClient->setText(name.c_str());
+        edtClient->setText(name);
     }
 }
 

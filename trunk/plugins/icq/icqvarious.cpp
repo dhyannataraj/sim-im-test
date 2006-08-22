@@ -47,7 +47,7 @@ const unsigned short ICQ_SRVxREQ_FULL_INFO          = 0xB204;
 const unsigned short ICQ_SRVxREQ_SHORT_INFO         = 0xBA04;
 const unsigned short ICQ_SRVxREQ_OWN_INFO           = 0xD004;
 const unsigned short ICQ_SRVxREQ_SEND_SMS           = 0x8214;
-const unsigned short ICQ_SRVxREQ_WP_UIN				= 0x6905;
+const unsigned short ICQ_SRVxREQ_WP_UIN             = 0x6905;
 const unsigned short ICQ_SRVxREQ_WP_MAIL            = 0x7305;
 const unsigned short ICQ_SRVxREQ_WP_FULL            = 0x5F05;
 const unsigned short ICQ_SRVxREQ_CHANGE_PASSWD      = 0x2E04;
@@ -79,51 +79,51 @@ const unsigned short ICQ_SRVxREQ_RANDOM_CHAT        = 0x4E07;
 const unsigned short ICQ_SRVxWP_SET                 = 0x3A0C;
 const unsigned short ICQ_SRVxWP_SET_RESP            = 0x3F0C;
 
-const unsigned short TLV_UIN						= 0x0136;
-const unsigned short TLV_FIRST_NAME					= 0x0140;
-const unsigned short TLV_LAST_NAME					= 0x014A;
-const unsigned short TLV_NICK						= 0x0154;
-const unsigned short TLV_EMAIL						= 0x015E;
-const unsigned short TLV_AGE_RANGE					= 0x0168;
-const unsigned short TLV_AGE						= 0x0172;
-const unsigned short TLV_GENDER						= 0x017C;
-const unsigned short TLV_LANGUAGE					= 0x0186;
-const unsigned short TLV_CITY						= 0x0190;
-const unsigned short TLV_STATE						= 0x019A;
-const unsigned short TLV_COUNTRY					= 0x01A4;
-const unsigned short TLV_WORK_COMPANY				= 0x01AE;
-const unsigned short TLV_WORK_DEPARTMENT			= 0x01B8;
-const unsigned short TLV_WORK_POSITION				= 0x01C2;
-const unsigned short TLV_WORK_OCCUPATION			= 0x01CC;
-const unsigned short TLV_AFFILATIONS				= 0x01D6;
-const unsigned short TLV_INTERESTS					= 0x01EA;
-const unsigned short TLV_PAST						= 0x01FE;
-const unsigned short TLV_HOMEPAGE_CATEGORY			= 0x0212;
-const unsigned short TLV_HOMEPAGE					= 0x0213;
-const unsigned short TLV_KEYWORDS					= 0x0226;
-const unsigned short TLV_SEARCH_ONLINE				= 0x0230;
-const unsigned short TLV_BIRTHDAY					= 0x023A;
-const unsigned short TLV_NOTES						= 0x0258;
-const unsigned short TLV_STREET						= 0x0262;
-const unsigned short TLV_ZIP						= 0x026D;
-const unsigned short TLV_PHONE						= 0x0276;
-const unsigned short TLV_FAX						= 0x0280;
-const unsigned short TLV_CELLULAR					= 0x028A;
-const unsigned short TLV_WORK_STREET				= 0x0294;
-const unsigned short TLV_WORK_CITY					= 0x029E;
-const unsigned short TLV_WORK_STATE					= 0x02A8;
-const unsigned short TLV_WORK_COUNTRY				= 0x02B2;
-const unsigned short TLV_WORK_ZIP					= 0x02BD;
-const unsigned short TLV_WORK_PHONE					= 0x02C6;
-const unsigned short TLV_WORK_FAX					= 0x02D0;
-const unsigned short TLV_WORK_HOMEPAGE				= 0x02DA;
-const unsigned short TLV_NEED_AUTH					= 0x02F8;
-const unsigned short TLV_SHOW_WEB					= 0x030C;
-const unsigned short TLV_TIMEZONE					= 0x0316;
-const unsigned short TLV_ORIGINALLY_CITY			= 0x0320;
-const unsigned short TLV_ORIGINALLY_STATE			= 0x032A;
-const unsigned short TLV_ORIGINALLY_COUNTRY			= 0x0334;
-const unsigned short TLV_RECV_ICQ_SPAM				= 0x0348;
+const unsigned short TLV_UIN                        = 0x0136;
+const unsigned short TLV_FIRST_NAME                 = 0x0140;
+const unsigned short TLV_LAST_NAME                  = 0x014A;
+const unsigned short TLV_NICK                       = 0x0154;
+const unsigned short TLV_EMAIL                      = 0x015E;
+const unsigned short TLV_AGE_RANGE                  = 0x0168;
+const unsigned short TLV_AGE                        = 0x0172;
+const unsigned short TLV_GENDER                     = 0x017C;
+const unsigned short TLV_LANGUAGE                   = 0x0186;
+const unsigned short TLV_CITY                       = 0x0190;
+const unsigned short TLV_STATE                      = 0x019A;
+const unsigned short TLV_COUNTRY                    = 0x01A4;
+const unsigned short TLV_WORK_COMPANY               = 0x01AE;
+const unsigned short TLV_WORK_DEPARTMENT            = 0x01B8;
+const unsigned short TLV_WORK_POSITION              = 0x01C2;
+const unsigned short TLV_WORK_OCCUPATION            = 0x01CC;
+const unsigned short TLV_AFFILATIONS                = 0x01D6;
+const unsigned short TLV_INTERESTS                  = 0x01EA;
+const unsigned short TLV_PAST                       = 0x01FE;
+const unsigned short TLV_HOMEPAGE_CATEGORY          = 0x0212;
+const unsigned short TLV_HOMEPAGE                   = 0x0213;
+const unsigned short TLV_KEYWORDS                   = 0x0226;
+const unsigned short TLV_SEARCH_ONLINE              = 0x0230;
+const unsigned short TLV_BIRTHDAY                   = 0x023A;
+const unsigned short TLV_NOTES                      = 0x0258;
+const unsigned short TLV_STREET                     = 0x0262;
+const unsigned short TLV_ZIP                        = 0x026C;
+const unsigned short TLV_PHONE                      = 0x0276;
+const unsigned short TLV_FAX                        = 0x0280;
+const unsigned short TLV_CELLULAR                   = 0x028A;
+const unsigned short TLV_WORK_STREET                = 0x0294;
+const unsigned short TLV_WORK_CITY                  = 0x029E;
+const unsigned short TLV_WORK_STATE                 = 0x02A8;
+const unsigned short TLV_WORK_COUNTRY               = 0x02B2;
+const unsigned short TLV_WORK_ZIP                   = 0x02BC;
+const unsigned short TLV_WORK_PHONE                 = 0x02C6;
+const unsigned short TLV_WORK_FAX                   = 0x02D0;
+const unsigned short TLV_WORK_HOMEPAGE              = 0x02DA;
+const unsigned short TLV_SHOW_WEB                   = 0x02F8;   // was changed with TLV_NEED_AUTH before merge
+const unsigned short TLV_NEED_AUTH                  = 0x030C;   // take a look at iserverd when it's online again
+const unsigned short TLV_TIMEZONE                   = 0x0316;
+const unsigned short TLV_ORIGINALLY_CITY            = 0x0320;
+const unsigned short TLV_ORIGINALLY_STATE           = 0x032A;
+const unsigned short TLV_ORIGINALLY_COUNTRY         = 0x0334;
+const unsigned short TLV_RECV_ICQ_SPAM              = 0x0348;
 
 const char SEARCH_STATE_OFFLINE  = 0;
 const char SEARCH_STATE_ONLINE   = 1;
@@ -1433,24 +1433,21 @@ void ICQClient::setClientInfo(void *_data)
 class SetPasswordRequest : public ServerRequest
 {
 public:
-    SetPasswordRequest(ICQClient *client, unsigned short id, const char *pwd);
+    SetPasswordRequest(ICQClient *client, unsigned short id, const QString &pwd);
 protected:
     bool answer(Buffer &b, unsigned short nSubtype);
     virtual void fail(unsigned short error_code);
-    string m_pwd;
+    QString m_pwd;
     ICQClient *m_client;
 };
 
-SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, const char *pwd)
-        : ServerRequest(id)
-{
-    m_client  = client;
-    m_pwd     = pwd;
-}
+SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, const QString &pwd)
+    : ServerRequest(id), m_pwd(pwd), m_client(client)
+{}
 
 bool SetPasswordRequest::answer(Buffer&, unsigned short)
 {
-    m_client->setPassword(QString::fromUtf8(m_pwd.c_str()));
+    m_client->setPassword(m_pwd);
     return true;
 }
 
@@ -1464,14 +1461,14 @@ void SetPasswordRequest::fail(unsigned short error_code)
     d.args    = NULL;
     d.flags   = ERR_ERROR;
     d.options = NULL;
-    d.id	  = CmdPasswordFail;
+    d.id      = CmdPasswordFail;
     Event e(EventClientError, &d);
     e.process();
 }
 
-void ICQClient::changePassword(const char *new_pswd)
+void ICQClient::changePassword(const QString &new_pswd)
 {
-    QString pwd = QString::fromUtf8(new_pswd);
+    QString pwd = new_pswd;
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
     << ICQ_SRVxREQ_CHANGE_PASSWD
@@ -1596,8 +1593,8 @@ void SMSRequest::fail(unsigned short)
     m_client->processSendQueue();
 }
 
-const unsigned MAX_SMS_LEN_LATIN1	= 160;
-const unsigned MAX_SMS_LEN_UNICODE	= 70;
+const unsigned MAX_SMS_LEN_LATIN1   = 160;
+const unsigned MAX_SMS_LEN_UNICODE  = 70;
 
 static const char *w_days[] =
     {
@@ -1654,19 +1651,19 @@ unsigned ICQClient::processSMSQueue()
         s.text = text;
         s.part = part;
 
-        string	nmb = "+";
-        QString	phone = sms->getPhone();
+        QString nmb = "+";
+        QString phone = sms->getPhone();
         for (int i = 0; i < (int)(phone.length()); i++){
-            char c = phone[i].latin1();
+            QChar c = phone[i];
             if ((c >= '0') && (c <= '9'))
                 nmb += c;
         }
         XmlBranch xmltree("icq_sms_message");
-        xmltree.pushnode(new XmlLeaf("destination",nmb));
+        xmltree.pushnode(new XmlLeaf("destination",(const char*)(nmb.utf8())));
         xmltree.pushnode(new XmlLeaf("text",(const char*)(part.utf8())));
         xmltree.pushnode(new XmlLeaf("codepage","1252"));
         xmltree.pushnode(new XmlLeaf("encoding","utf8"));
-        xmltree.pushnode(new XmlLeaf("senders_UIN",number(data.owner.Uin.toULong()).c_str()));
+        xmltree.pushnode(new XmlLeaf("senders_UIN",QString::number(data.owner.Uin.toULong()).latin1()));
         xmltree.pushnode(new XmlLeaf("senders_name",""));
         xmltree.pushnode(new XmlLeaf("delivery_receipt","Yes"));
 
@@ -1777,7 +1774,3 @@ void ICQClient::searchChat(unsigned short group)
     sendServerRequest();
     varRequests.push_back(new RandomChatRequest(this, m_nMsgSequence));
 }
-
-
-
-

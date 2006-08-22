@@ -1011,24 +1011,6 @@ QString ICQClient::removeImages(const QString &text, bool bIcq)
     return p.parse(text);
 }
 
-void remove_str(string& s, const string &str)
-{
-    int curr = 0, next;
-    while ((next = s.find(str, curr )) != -1) {
-        s.replace(next, str.size(), "");
-        curr = next;
-    }
-}
-
-void remove_str_ncase(string& s, const string &str)
-{
-    remove_str(s, str);
-    string lo_str;
-    for (const char *p = str.c_str(); *p; p++)
-        lo_str += (char)tolower(*p);
-    remove_str(s, lo_str);
-}
-
 class BgParser : public HTMLParser
 {
 public:

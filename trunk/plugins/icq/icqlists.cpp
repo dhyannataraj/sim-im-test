@@ -360,17 +360,17 @@ void ICQClient::parseRosterItem(unsigned short type,
             }
             break;
         }
-	case ICQ_AWAITING_AUTH: {
+    case ICQ_AWAITING_AUTH: {
             Contact *contact;
-			if (str.length()){
+            if (str.length()){
                 log(L_DEBUG, "%s is awaiting auth", str.c_str());
-				if (findContact(str.c_str(), NULL, false, contact))
-					break;
-				findContact(str.c_str(), str.c_str(), true, contact, NULL, false);
-				addFullInfoRequest(atol(str.c_str()));
+                if (findContact(str.c_str(), NULL, false, contact))
+                    break;
+                findContact(str.c_str(), str.c_str(), true, contact, NULL, false);
+                addFullInfoRequest(atol(str.c_str()));
             }
-			break;
-		}
+            break;
+        }
     default:
         log(L_WARN,"Unknown roster type %04X", type);
     }
@@ -485,10 +485,10 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             list<Group*> forRemove;
             while ((grp = ++it_g) != NULL){
                 ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
-                string n;
+                QString n;
                 if (grp->id())
                     n = grp->getName().local8Bit();
-                log(L_DEBUG, "Check %ld %s %p %u", grp->id(), n.c_str(), data, data ? data->bChecked.toBool() : 0);
+                log(L_DEBUG, "Check %ld %s %p %u", grp->id(), n.latin1(), data, data ? data->bChecked.toBool() : 0);
                 if ((data == NULL) || data->bChecked.toBool())
                     continue;
                 ListRequest *lr = findGroupListRequest((unsigned short)(data->IcqID.toULong()));
@@ -545,11 +545,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
         {
             log(L_DEBUG, "Rosters OK");
-            snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
-            sendPacket(true);
             QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
             setPreviousPassword(NULL);
-            sendClientReady();
             if (m_bAIM){
                 Group *grp;
                 ContactList::GroupIterator it;
@@ -568,7 +565,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     m_status = STATUS_ONLINE;
                     sendCapability();
                     sendICMB(1, 11);
-                    sendICMB(0, 11);
+                    sendICMB(2,  3);
+                    sendICMB(4,  3);
                     fetchProfiles();
                 }else{
                     m_status = STATUS_AWAY;
@@ -585,6 +583,9 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     Event eAR(EventARRequest, &ar);
                     eAR.process();
                 }
+                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
+                sendPacket(true);
+                sendClientReady();
                 setState(Connected);
                 m_bReady = true;
                 processSendQueue();
@@ -592,10 +593,15 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
             sendCapability();
             sendICMB(1, 11);
-            sendICMB(0, 3);
+            sendICMB(2,  3);
+            sendICMB(4,  3);
             sendLogonStatus();
-            setState(Connected);
+            sendClientReady();
+            snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
+            sendPacket(true);
             sendMessageRequest();
+
+            setState(Connected);
             fetchProfiles();
             break;
         }

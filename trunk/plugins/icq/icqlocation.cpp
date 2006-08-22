@@ -217,37 +217,40 @@ void ICQClient::locationRequest()
 
 #define cap_mid  0x4c, 0x7f, 0x11, 0xd1
 #define cap_mstr 0x4f, 0xe9, 0xd3, 0x11
-#define cap_aim  0x09, 0x46, 0x13
+#define cap_aim  0x09, 0x46
 
 // must be synced with cap_id_t enum in icqclient.h
+// 
 const capability arrCapabilities[] =
     {
+        // CAP_AIM_SHORTCAPS
+        { cap_aim, 0x00, 0x00, cap_mid, cap_id },
         // CAP_AIM_VOICE
-        { cap_aim, 0x41, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x41, cap_mid, cap_id },
         // CAP_AIM_SENDFILE
-        { cap_aim, 0x43, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x43, cap_mid, cap_id },
         // CAP_DIRECT
-        { cap_aim, 0x44, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x44, cap_mid, cap_id },
         // CAP_AIM_IMIMAGE
-        { cap_aim, 0x45, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x45, cap_mid, cap_id },
         // CAP_AIM_BUDDYCON
-        { cap_aim, 0x46, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x46, cap_mid, cap_id },
         // CAP_AIM_STOCKS
-        { cap_aim, 0x47, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x47, cap_mid, cap_id },
         // CAP_AIM_GETFILE
-        { cap_aim, 0x48, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x48, cap_mid, cap_id },
         // CAP_SRV_RELAY
-        { cap_aim, 0x49, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x49, cap_mid, cap_id },
         // CAP_AIM_GAMES
-        { cap_aim, 0x4a, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x4a, cap_mid, cap_id },
         // CAP_AIM_BUDDYLIST
-        { cap_aim, 0x4b, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x4b, cap_mid, cap_id },
         // CAP_AVATAR
-        { cap_aim, 0x4c, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x4c, cap_mid, cap_id },
         // CAP_AIM_SUPPORT
-        { cap_aim, 0x4d, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x4d, cap_mid, cap_id },
         // CAP_UTF
-        { cap_aim, 0x4e, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x4e, cap_mid, cap_id },
         // CAP_RTF
         { 0x97, 0xb1, 0x27, 0x51, 0x24, 0x3c, 0x43, 0x34,
           0xad, 0x22, 0xd6, 0xab, 0xf7, 0x3f, 0x14, 0x92 },
@@ -305,59 +308,57 @@ const capability arrCapabilities[] =
           'C', 'p', 'h', 'r', 0, 0, 0, 0 },
         // CAP_KXICQ
         { 0x09, 0x49, 0x13, 0x44, cap_mid, cap_id },
-		// CAP_ICQ5_1
-		{ 0xe3, 0x62, 0xc1, 0xe9, 0x12, 0x1a, 0x4b, 0x94,
-		  0xa6, 0x26, 0x7a, 0x74, 0xde, 0x24, 0x27, 0x0d },
-		// CAP_UNKNOWN - used by Trillian and some ICQ 5 clients
-		{ 0x17, 0x8c, 0x2d, 0x9b, 0xda, 0xa5, 0x45, 0xbb,
-		  0x8d, 0xdb, 0xf3, 0xbd, 0xbd, 0x53, 0xa1, 0x0a },
-		// CAP_ICQ5_3
-		{ 0x67, 0x36, 0x15, 0x15, 0x61, 0x2d, 0x4c, 0x07,
-		  0x8f, 0x3d, 0xbd, 0xe6, 0x40, 0x8e, 0xa0, 0x41 },
-		// CAP_ICQ5_4
-		{ 0xb9, 0x97, 0x08, 0xb5, 0x3a, 0x92, 0x42, 0x02,
-		  0xb0, 0x69, 0xf1, 0xe7, 0x57, 0xbb, 0x2e, 0x17 },
+        // CAP_ICQ5_1
+        { 0xe3, 0x62, 0xc1, 0xe9, 0x12, 0x1a, 0x4b, 0x94,
+          0xa6, 0x26, 0x7a, 0x74, 0xde, 0x24, 0x27, 0x0d },
+        // CAP_UNKNOWN - used by Trillian and some ICQ 5 clients
+        { 0x17, 0x8c, 0x2d, 0x9b, 0xda, 0xa5, 0x45, 0xbb,
+          0x8d, 0xdb, 0xf3, 0xbd, 0xbd, 0x53, 0xa1, 0x0a },
+        // CAP_ICQ5_3
+        { 0x67, 0x36, 0x15, 0x15, 0x61, 0x2d, 0x4c, 0x07,
+          0x8f, 0x3d, 0xbd, 0xe6, 0x40, 0x8e, 0xa0, 0x41 },
+        // CAP_ICQ5_4
+        { 0xb9, 0x97, 0x08, 0xb5, 0x3a, 0x92, 0x42, 0x02,
+          0xb0, 0x69, 0xf1, 0xe7, 0x57, 0xbb, 0x2e, 0x17 },
         // CAP_ICQ51
         { 0xb2, 0xec, 0x8f, 0x16, 0x7c, 0x6f, 0x45, 0x1b,
           0xbd, 0x79, 0xdc, 0x58, 0x49, 0x78, 0x88, 0xb9 },
         // CAP_JIMM
-		{ 'J', 'i', 'm', 'm', ' ', 0, 0, 0,
-		  0, 0, 0, 0, 0, 0, 0, 0 },
-/*
+        { 'J', 'i', 'm', 'm', ' ', 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0 },
+ /*/*
         // from Gaim:
         // CAP_AIM_HIPTOP
-        { cap_aim, 0x23, cap_mid, cap_id },
-        // CAP_AIM_ICHAT
-        { 0x09, 0x46, 0x00, 0x00, cap_mid, cap_id },
+        { cap_aim, 0x13, 0x23, cap_mid, cap_id },
         // CAP_AIM_SECUREIM
-        { 0x09, 0x46, 0x00, 0x01, cap_mid, cap_id },
+        { cap_aim, 0x00, 0x01, cap_mid, cap_id },
         // CAP_AIM_VIDEO
-        { 0x09, 0x46, 0x01, 0x00, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x00, cap_mid, cap_id },
         // CAP_AIM_LIVEVIDEO
-        { 0x09, 0x46, 0x01, 0x01, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x01, cap_mid, cap_id },
         // CAP_AIM_CAMERA
-        { 0x09, 0x46, 0x01, 0x02, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x02, cap_mid, cap_id },
         // CAP_AIM_ICHATAV
-        { 0x09, 0x46, 0x01, 0x05, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x05, cap_mid, cap_id },
         // CAP_AIM_SMS
-        { 0x09, 0x46, 0x01, 0xff, cap_mid, cap_id },
+        { cap_aim, 0x01, 0xff, cap_mid, cap_id },
         // unknown
-        { 0x09, 0x46, 0xf0, 0x03, cap_mid, cap_id },
-        { 0x09, 0x46, 0xf0, 0x05, cap_mid, cap_id },
+        { cap_aim, 0xf0, 0x03, cap_mid, cap_id },
+        { cap_aim, 0xf0, 0x05, cap_mid, cap_id },
 
         // from http://community.livejournal.com/oscardoc/12366.html:
         // HasMicrophone
-        { 0x09, 0x46, 0x01, 0x03, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x03, cap_mid, cap_id },
         // RtcAudio
-        { 0x09, 0x46, 0x01, 0x04, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x04, cap_mid, cap_id },
         // Aca
-        { 0x09, 0x46, 0x01, 0x06, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x06, cap_mid, cap_id },
         // MultiAudio
-        { 0x09, 0x46, 0x01, 0x07, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x07, cap_mid, cap_id },
         // MultiVideo
-        { 0x09, 0x46, 0x01, 0x08, cap_mid, cap_id },
+        { cap_aim, 0x01, 0x08, cap_mid, cap_id },
         // Viceroy
-        { 0x09, 0x46, 0xf0, 0x04, cap_mid, cap_id },
+        { cap_aim, 0xf0, 0x04, cap_mid, cap_id },
 
         // unknown QIP caps:
         { 0xd3, 0xd4, 0x53, 0x19, 0x8b, 0x32, 0x40, 0x3b,
@@ -464,7 +465,7 @@ void ICQClient::encodeString(const QString &m, const char *type, unsigned short 
     }
 }
 
-void ICQClient::sendCapability(const char *away_msg)
+void ICQClient::sendCapability(const QString &away_msg)
 {
     Buffer cap;
     capability c;
@@ -485,6 +486,7 @@ void ICQClient::sendCapability(const char *away_msg)
 #endif
 #endif
     *(pack_ver++) = os_ver;
+    cap.pack((char*)capabilities[CAP_AIM_SHORTCAPS], sizeof(capability));
     if (m_bAIM){
         cap.pack((char*)capabilities[CAP_AIM_CHAT], sizeof(capability));
         cap.pack((char*)capabilities[CAP_AIM_BUDDYCON], sizeof(capability));
@@ -513,8 +515,8 @@ void ICQClient::sendCapability(const char *away_msg)
             profile = QString("<HTML>") + profile + "</HTML>";
             encodeString(profile, "text/aolrtf", 1, 2);
         }
-        if (away_msg)
-            encodeString(QString::fromUtf8(away_msg), "text/plain", 3, 4);
+        if (!away_msg.isNull())
+            encodeString(away_msg, "text/plain", 3, 4);
     }
     m_socket->writeBuffer.tlv(0x0005, cap);
     if (m_bAIM)
@@ -522,11 +524,11 @@ void ICQClient::sendCapability(const char *away_msg)
     sendPacket(true);
 }
 
-void ICQClient::setAwayMessage(const char *msg)
+void ICQClient::setAwayMessage(const QString &msg)
 {
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
-    if (msg){
-        encodeString(QString::fromUtf8(msg), "text/plain", 3, 4);
+    if (!msg.isNull()){
+        encodeString(msg, "text/plain", 3, 4);
     }else{
         m_socket->writeBuffer.tlv(0x0004);
     }

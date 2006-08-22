@@ -302,49 +302,50 @@ typedef unsigned char capability[0x10];
 typedef unsigned char plugin[0x12];
 
 typedef enum {
-    CAP_AIM_VOICE=0,		// 0x00000001
-    CAP_AIM_SENDFILE,		// 0x00000002
-    CAP_DIRECT,				// 0x00000004
-    CAP_AIM_IMIMAGE,		// 0x00000008
-    CAP_AIM_BUDDYCON,		// 0x00000010
-    CAP_AIM_STOCKS,			// 0x00000020
-    CAP_AIM_GETFILE,		// 0x00000040
-    CAP_SRV_RELAY,			// 0x00000080
-    CAP_AIM_GAMES,			// 0x00000100
-    CAP_AIM_BUDDYLIST,		// 0x00000200
-    CAP_AVATAR,				// 0x00000400
-    CAP_AIM_SUPPORT,		// 0x00000800
-    CAP_UTF,				// 0x00001000
-    CAP_RTF,				// 0x00002000
-    CAP_TYPING,				// 0x00004000
-    CAP_SIM,				// 0x00008000
-    CAP_STR_2001,			// 0x00010000
-    CAP_STR_2002,			// 0x00020000
-    CAP_IS_2001,			// 0x00040000
-    CAP_TRILLIAN,			// 0x00080000
-    CAP_TRIL_CRYPT,			// 0x00100000
-    CAP_MACICQ,				// 0x00200000
-    CAP_AIM_CHAT,			// 0x00400000
-    CAP_MICQ,				// 0x00800000
-    CAP_LICQ,				// 0x01000000
-    CAP_SIMOLD,				// 0x02000000
-    CAP_KOPETE,				// 0x04000000
-    CAP_XTRAZ,				// 0x08000000
-    CAP_IS_2002,			// 0x10000000
-    CAP_MIRANDA,			// 0x20000000
-    CAP_ANDRQ,				// 0x40000000
-    CAP_QIP,				// 0x80000000
-    CAP_IMSECURE,			// 0x00000001 - Caps2
-    CAP_KXICQ,				// 0x00000002
-	CAP_ICQ5_1,				// 0x00000004
-	CAP_UNKNOWN,			// 0x00000008
-	CAP_ICQ5_3,				// 0x00000010
-	CAP_ICQ5_4,				// 0x00000020
-    CAP_ICQ51,				// 0x00000040
-    CAP_JIMM,				// 0x00000080
-    CAP_NULL,				// 0x00000100
+    CAP_AIM_SHORTCAPS = 0,      // 0x00000001
+    CAP_AIM_VOICE,              // 0x00000002
+    CAP_AIM_SENDFILE,           // 0x00000004
+    CAP_DIRECT,                 // 0x00000008
+    CAP_AIM_IMIMAGE,            // 0x00000010
+    CAP_AIM_BUDDYCON,           // 0x00000020
+    CAP_AIM_STOCKS,             // 0x00000040
+    CAP_AIM_GETFILE,            // 0x00000080
+    CAP_SRV_RELAY,              // 0x00000100
+    CAP_AIM_GAMES,              // 0x00000200
+    CAP_AIM_BUDDYLIST,          // 0x00000400
+    CAP_AVATAR,                 // 0x00000800
+    CAP_AIM_SUPPORT,            // 0x00001000
+    CAP_UTF,                    // 0x00002000
+    CAP_RTF,                    // 0x00004000
+    CAP_TYPING,                 // 0x00008000
+    CAP_SIM,                    // 0x00010000
+    CAP_STR_2001,               // 0x00020000
+    CAP_STR_2002,               // 0x00040000
+    CAP_IS_2001,                // 0x00080000
+    CAP_TRILLIAN,               // 0x00100000
+    CAP_TRIL_CRYPT,             // 0x00200000
+    CAP_MACICQ,                 // 0x00400000
+    CAP_AIM_CHAT,               // 0x00800000
+    CAP_MICQ,                   // 0x01000000
+    CAP_LICQ,                   // 0x02000000
+    CAP_SIMOLD,                 // 0x04000000
+    CAP_KOPETE,                 // 0x08000000
+    CAP_XTRAZ,                  // 0x10000000
+    CAP_IS_2002,                // 0x20000000
+    CAP_MIRANDA,                // 0x40000000
+    CAP_ANDRQ,                  // 0x80000000
+    CAP_QIP,                    // 0x00000001 - Caps2
+    CAP_IMSECURE,               // 0x00000002
+    CAP_KXICQ,                  // 0x00000004
+    CAP_ICQ5_1,                 // 0x00000008
+    CAP_UNKNOWN,                // 0x00000010
+    CAP_ICQ5_3,                 // 0x00000020
+    CAP_ICQ5_4,                 // 0x00000040
+    CAP_ICQ51,                  // 0x00000080
+    CAP_JIMM,                   // 0x00000100
+    CAP_NULL,                   // 0x00000200
 } cap_id_t;
-    
+
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
 const unsigned PLUGIN_FILESERVER         = 2;
@@ -563,10 +564,10 @@ public:
     ListRequest *findGroupListRequest(unsigned short id);
     void removeListRequest(ListRequest *lr);
     virtual void setupContact(SIM::Contact*, void *data);
-    std::string clientName(ICQUserData*);
+    QString clientName(ICQUserData*);
     void sendStatus();
     void sendUpdate();
-    void changePassword(const char *new_pswd);
+    void changePassword(const QString &new_pswd);
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
     unsigned short aimEMailSearch(const char *name);
@@ -641,7 +642,7 @@ protected:
     void buddyRequest();
     void icmbRequest();
     void bosRequest();
-    void sendCapability(const char *msg=NULL);
+    void sendCapability(const QString &msg=QString::null);
     void sendICMB(unsigned short channel, unsigned long flags);
     void sendLogonStatus();
     void sendClientReady();
@@ -748,7 +749,7 @@ protected:
     void fetchProfile(ICQUserData *data);
     void fetchAwayMessage(ICQUserData *data);
     void fetchProfiles();
-    void setAwayMessage(const char *msg);
+    void setAwayMessage(const QString &msg=QString::null);
     void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
     void encodeString(const char *_str, unsigned short nTlv, bool bWide);
     bool processMsg();

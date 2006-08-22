@@ -1389,7 +1389,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 }
                 break;
             case PLUGIN_ICQPHONE:
-                if ((state != 0) != data->ICQPhone.toULong()){
+                if ((state != 0) != (data->ICQPhone.toULong() != 0)){
                     data->ICQPhone.asULong() = (state != 0);
                     Event e(EventContactChanged, contact);
                     e.process();
@@ -1469,7 +1469,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                             area    = getToken(number, ')');
                             if (country[0] == '+')
                                 country = country.mid(1);
-                            unsigned code = atol(country.latin1());
+                            unsigned code = country.toULong();
                             country = "";
                             for (const ext_info *e = getCountries(); e->nCode; e++){
                                 if (e->nCode == code){
