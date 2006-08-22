@@ -5041,7 +5041,7 @@ msgstr "Bewölkt"
 msgid ""
 "_: weather\n"
 "Clouds"
-msgstr "Bewölkt"
+msgstr "Wolkig"
 
 #: plugins/weather/weather.cpp:403
 msgid ""
@@ -5053,7 +5053,7 @@ msgstr "Meist bewölkt"
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr "teilweise bewölkt"
+msgstr "Teilweise bewölkt"
 
 #: plugins/weather/weather.cpp:405
 msgid ""
@@ -5065,7 +5065,7 @@ msgstr "Wind"
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "windig"
+msgstr "Windig"
 
 #: plugins/weather/weather.cpp:407
 msgid ""
@@ -5107,25 +5107,25 @@ msgstr "Vereinzelte Niederschläge"
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr "Rauch"
+msgstr "Staub/Qualm"
 
 #: plugins/weather/weather.cpp:415
 msgid ""
 "_: weather\n"
 "steady"
-msgstr "beständig"
+msgstr "Beständig"
 
 #: plugins/weather/weather.cpp:416
 msgid ""
 "_: weather\n"
 "rising"
-msgstr "ansteigend"
+msgstr "Ansteigend"
 
 #: plugins/weather/weather.cpp:417
 msgid ""
 "_: weather\n"
 "falling"
-msgstr "fallend"
+msgstr "Fallend"
 
 #: plugins/weather/weather.cpp:418
 msgid ""
