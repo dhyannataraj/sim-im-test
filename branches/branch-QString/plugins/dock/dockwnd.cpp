@@ -31,6 +31,7 @@
 #include <qregexp.h>
 
 #ifdef WIN32
+#define _WIN32_IE 0x0501
 #include <windows.h>
 #include <shellapi.h>
 #endif
@@ -944,7 +945,7 @@ bool DockWnd::showBalloon()
         return false;
     BalloonItem &item = m_queue.front();
 
-    __NOTIFYICONDATAW notifyIconData;
+    NOTIFYICONDATAW notifyIconData;
     memset(&notifyIconData, 0, sizeof(notifyIconData));
     notifyIconData.cbSize   = sizeof(notifyIconData);
     notifyIconData.hWnd     = winId();
