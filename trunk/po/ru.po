@@ -5788,6 +5788,12 @@ msgid ""
 "Showers in the Vicinity"
 msgstr "Возможны осадки"
 
+#: plugins/weather/weather.cpp:443
+msgid ""
+"_: moonphase\n"
+"New"
+msgstr "новолуние"
+
 #: plugins/weather/weather.cpp:444
 msgid ""
 "_: moonphase\n"

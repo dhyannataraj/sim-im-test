@@ -440,7 +440,7 @@ i18n("weather", "Low")
 i18n("weather", "Moderate")
 i18n("weather", "High")
 i18n("weather", "Showers in the Vicinity")
-
+i18n("moonphase", "New")
 i18n("moonphase", "Waxing Crescent")
 i18n("moonphase", "First Quarter")
 i18n("moonphase", "Waxing Gibbous")
