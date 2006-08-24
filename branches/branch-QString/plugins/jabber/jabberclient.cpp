@@ -472,7 +472,7 @@ void *JabberClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventMessageAccept){
-        messageAccept *ma = (messageAccept*)(e->param());
+        messageAccept *ma = static_cast<messageAccept*>(e->param());
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
             if ((*it)->id() == ma->msg->id()){
                 JabberFileMessage *msg = static_cast<JabberFileMessage*>(*it);

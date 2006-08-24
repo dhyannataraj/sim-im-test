@@ -2369,7 +2369,7 @@ void *ICQClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventMessageAccept){
-        messageAccept *ma = (messageAccept*)(e->param());
+        messageAccept *ma = static_cast<messageAccept*>(e->param());
         for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
             if ((*it)->id() == ma->msg->id()){
                 Message *msg = *it;

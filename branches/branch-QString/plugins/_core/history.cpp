@@ -412,14 +412,14 @@ QString HistoryIterator::state()
     return res;
 }
 
-void HistoryIterator::setState(const char *str)
+void HistoryIterator::setState(const QString &str)
 {
-    string s = str;
-    while (!s.empty()){
-        string item = getToken(s, ';');
-        unsigned pos = atol(getToken(item, ',').c_str());
-        if (item == "temp"){
-            m_temp_id = strtoul(item.c_str(), NULL, 10);
+    QString s = str;
+    while (!s.isEmpty()){
+        QString item = getToken(s, ';');
+        unsigned pos = getToken(item, ',').toUInt();
+        if (item == "temp"){        // ??
+            m_temp_id = item.toUInt();
             continue;
         }
         for (list<HistoryFileIterator*>::iterator it = iters.begin(); it != iters.end(); ++it){

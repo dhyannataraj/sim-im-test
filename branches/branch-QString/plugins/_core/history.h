@@ -68,7 +68,7 @@ public:
     void begin();
     void end();
     QString state();
-    void setState(const char*);
+    void setState(const QString &);
     void setFilter(const QString &filter);
 protected:
     bool m_bUp;

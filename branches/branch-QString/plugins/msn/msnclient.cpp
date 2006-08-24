@@ -1402,7 +1402,7 @@ void *MSNClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventMessageAccept){
-        messageAccept *ma = (messageAccept*)(e->param());
+        messageAccept *ma = static_cast<messageAccept*>(e->param());
         Contact *contact = getContacts()->contact(ma->msg->contact());
         if (contact == NULL)
             return NULL;

@@ -1495,12 +1495,9 @@ CorePlugin::~CorePlugin()
     delete m_lock;
     delete m_cmds;
     delete m_tmpl;
-    if (m_status)
-        delete m_status;
-    if (historyXSL)
-        delete historyXSL;
-    if (m_HistoryThread)
-        delete m_HistoryThread;
+    delete m_status;
+    delete historyXSL;
+    delete m_HistoryThread;
 
     getContacts()->unregisterUserData(history_data_id);
     getContacts()->unregisterUserData(translit_data_id);
@@ -2035,8 +2032,8 @@ void *CorePlugin::processEvent(Event *e)
                                 dir += '/';
                             dir = user_file(dir);
                             messageAccept ma;
-                            ma.msg	     = msg;
-                            ma.dir 		 = dir;
+                            ma.msg       = msg;
+                            ma.dir       = dir;
                             ma.overwrite = data->OverwriteFiles.toBool() ? Replace : Skip;
                             Event e(EventMessageAccept, &ma);
                             e.process();

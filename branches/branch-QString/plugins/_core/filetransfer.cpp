@@ -505,17 +505,14 @@ void FileTransferDlg::action(int nAct, void*)
 
 void FileTransferDlg::goDir()
 {
-    QCString tmp;
-
     if (m_dir.isEmpty())
         return;
-    QString s = "file:";
+    QString path = "file:" + m_dir;
     /* Now replace spaces with %20 so the path isn't truncated
        are there any other separators we need to care of ?*/
-    QString fpath(m_dir);
-    fpath.replace(QRegExp(" "),"%20");
-    s += fpath;
-    Event e(EventGoURL, (void*)(&s));
+    path.replace(QRegExp(" "),"%20");
+
+    Event e(EventGoURL, (void*)(&path));
     e.process();
 }
 
