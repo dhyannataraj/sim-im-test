@@ -27,7 +27,7 @@ public:
     QString defaultPath();
 protected:
     void *processEvent(SIM::Event *e);
-    std::string buildFileName(const QString *name);
+    QString buildFileName(const QString *name);
 #ifdef WIN32
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual std::string getConfig();

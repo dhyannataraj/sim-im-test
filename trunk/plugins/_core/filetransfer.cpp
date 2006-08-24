@@ -507,16 +507,15 @@ void FileTransferDlg::goDir()
 {
     QCString tmp;
 
-
     if (m_dir.isEmpty())
         return;
-    std::string s = "file:";
+    QString path = "file:" + m_dir;
     /* Now replace spaces with %20 so the path isn't truncated
        are there any other separators we need to care of ?*/
-	QString fpath(QFile::encodeName(m_dir));
-    fpath.replace(QRegExp(" "),"%20");
-    s += fpath.ascii();
-    Event e(EventGoURL, (void*)(s.c_str()));
+    path.replace(QRegExp(" "),"%20");
+    tmp = QFile::encodeName(path);
+
+    Event e(EventGoURL, (void*)(tmp.data()));
     e.process();
 }
 

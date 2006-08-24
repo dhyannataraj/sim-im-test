@@ -30,7 +30,7 @@ class SpellerBase
 {
 public:
 #ifdef WIN32
-    SpellerBase(const char *path);
+    SpellerBase(const QString &path);
 #else
     SpellerBase();
 #endif

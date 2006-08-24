@@ -22,10 +22,10 @@
 
 #ifdef WIN32
 
-SpellerBase::SpellerBase(const char *path)
+SpellerBase::SpellerBase(const QString &path)
 {
     init();
-    QString p = QFile::decodeName(path);
+    QString p = path;
     int n = p.findRev("\\");
     if (n >= 0)
         p = p.left(n);

@@ -99,7 +99,7 @@ public:
     void timer(unsigned now);
     void setTyping(bool bTyping);
     bool cancelMessage(SIM::Message *msg);
-    bool acceptMessage(SIM::Message *msg, const char *dir, SIM::OverwriteMode mode);
+    bool acceptMessage(SIM::Message *msg, const QString &dir, SIM::OverwriteMode mode);
     bool declineMessage(SIM::Message *msg, const char *reason);
     void acceptMessage(unsigned short port, unsigned cookie, unsigned auth_cookie);
     void declineMessage(unsigned cookie);

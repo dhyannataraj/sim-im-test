@@ -53,7 +53,7 @@ void FilePreview::showPreview(const KURL &url)
     if (!fileName.isEmpty() && (fileName[fileName.length() - 1] != '/'))
         fileName += '/';
     fileName += url.fileName(false);
-    showPreview((const char*)(QFile::encodeName(fileName)));
+    showPreview(fileName));
 }
 
 void FilePreview::clearPreview()
@@ -70,7 +70,7 @@ void FilePreview::previewUrl(const QUrl &url)
         return;
     }
     QString fileName = url.toString(false, false);
-    showPreview(QFile::encodeName(fileName));
+    showPreview(fileName);
 }
 
 #endif
@@ -87,13 +87,13 @@ PictPreview::PictPreview(QWidget *parent)
     lay->addWidget(label);
 }
 
-void PictPreview::showPreview(const char *file)
+void PictPreview::showPreview(const QString &file)
 {
     if (file == NULL){
         label->setPixmap(QPixmap());
         return;
     }
-    QImage img(QFile::decodeName(file));
+    QImage img(file);
     if ((img.width() > label->width()) || (img.height() > label->height())){
         bool bOk = false;
         if (img.width() > label->width()){

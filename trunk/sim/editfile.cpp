@@ -164,9 +164,9 @@ void EditFile::showFiles()
         if (s.isEmpty()){
             s = startDir;
             if (!s.isEmpty()){
-                string d;
+                QCString d;
                 d = QFile::encodeName(s);
-                makedir((char*)d.c_str());
+                makedir(d.data());
             }
         }
         if (createPreview){

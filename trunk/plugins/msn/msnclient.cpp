@@ -1439,7 +1439,7 @@ void *MSNClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventMessageAccept){
-        messageAccept *ma = (messageAccept*)(e->param());
+        messageAccept *ma = static_cast<messageAccept*>(e->param());
         Contact *contact = getContacts()->contact(ma->msg->contact());
         if (contact == NULL)
             return NULL;
@@ -3064,7 +3064,7 @@ void SBSocket::acceptMessage(unsigned short port, unsigned cookie, unsigned auth
     sendMessage(message.c_str(), "N");
 }
 
-bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
+bool SBSocket::acceptMessage(Message *msg, const QString &dir, OverwriteMode mode)
 {
     for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
         if ((*it).msg->id() != msg->id())
@@ -3073,7 +3073,7 @@ bool SBSocket::acceptMessage(Message *msg, const char *dir, OverwriteMode mode)
         unsigned cookie = (*it).cookie;
         m_acceptMsg.erase(it);
         MSNFileTransfer *ft = new MSNFileTransfer(static_cast<FileMessage*>(msg), m_client, m_data);
-        ft->setDir(QFile::encodeName(dir));
+        ft->setDir(dir);
         ft->setOverwrite(mode);
         ft->auth_cookie = get_random();
         ft->cookie = cookie;

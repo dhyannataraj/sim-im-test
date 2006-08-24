@@ -153,7 +153,7 @@ EXPORT QString app_file(const QString &f)
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
             QFile fi(*it + f);
             if (fi.exists()){
-                app_file_name = (const char*)QFile::encodeName(fi.name());
+                app_file_name = QDir::convertSeparators(fi.name());
                 return app_file_name;
             }
         }

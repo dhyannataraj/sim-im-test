@@ -685,7 +685,7 @@ enum OverwriteMode
 typedef struct messageAccept
 {
     Message         *msg;
-    const char      *dir;
+    QString         dir;
     OverwriteMode   overwrite;
 } messageAccept;
 

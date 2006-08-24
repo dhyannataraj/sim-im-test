@@ -1930,7 +1930,7 @@ void *YahooClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventMessageAccept){
-        messageAccept *ma = (messageAccept*)(e->param());
+        messageAccept *ma = static_cast<messageAccept*>(e->param());
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
             if ((*it)->id() == ma->msg->id()){
                 YahooFileMessage *msg = static_cast<YahooFileMessage*>(*it);
@@ -1944,7 +1944,7 @@ void *YahooClient::processEvent(Event *e)
                 }
                 if (data){
                     YahooFileTransfer *ft = new YahooFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                    ft->setDir(QFile::encodeName(ma->dir));
+                    ft->setDir(ma->dir);
                     ft->setOverwrite(ma->overwrite);
                     Event e(EventMessageAcked, msg);
                     e.process();

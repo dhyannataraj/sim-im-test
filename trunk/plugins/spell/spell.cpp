@@ -121,7 +121,7 @@ void SpellPlugin::reset()
     if (m_base)
         delete m_base;
 #ifdef WIN32
-    m_base = new SpellerBase(getPath());
+    m_base = new SpellerBase(QFile::decodeName(getPath()));
 #else
     m_base = new SpellerBase;
 #endif

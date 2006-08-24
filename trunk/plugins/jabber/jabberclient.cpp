@@ -481,7 +481,7 @@ void *JabberClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventMessageAccept){
-        messageAccept *ma = (messageAccept*)(e->param());
+        messageAccept *ma = static_cast<messageAccept*>(e->param());
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
             if ((*it)->id() == ma->msg->id()){
                 JabberFileMessage *msg = static_cast<JabberFileMessage*>(*it);
@@ -491,7 +491,7 @@ void *JabberClient::processEvent(Event *e)
                 JabberUserData *data = findContact(msg->getFrom(), NULL, false, contact, resource);
                 if (data){
                     JabberFileTransfer *ft = new JabberFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                    ft->setDir(QFile::encodeName(ma->dir));
+                    ft->setDir(ma->dir);
                     ft->setOverwrite(ma->overwrite);
                     Event e(EventMessageAcked, msg);
                     e.process();

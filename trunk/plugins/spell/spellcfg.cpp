@@ -111,7 +111,7 @@ void SpellConfig::textChanged(const QString&)
         lnkAspell->hide();
         btnFind->hide();
 #ifdef WIN32
-        SpellerBase base(QFile::encodeName(str));
+        SpellerBase base(str);
 #else
         SpellerBase base;
 #endif

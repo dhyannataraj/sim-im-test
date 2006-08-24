@@ -723,7 +723,7 @@ protected:
     std::string createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, bool icqSmiles);
     void ackMessage(SendMsg &s);
-    void accept(SIM::Message *msg, const char *dir, SIM::OverwriteMode overwrite);
+    void accept(SIM::Message *msg, const QString &dir, SIM::OverwriteMode overwrite);
     void decline(SIM::Message *msg, const char *reason);
     void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck);
     bool sendAuthRequest(SIM::Message *msg, void *data);

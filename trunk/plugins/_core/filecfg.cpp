@@ -33,7 +33,7 @@ FileConfig::FileConfig(QWidget *parent, void *_data)
 {
     CoreUserData *data = (CoreUserData*)_data;
     edtPath->setDirMode(true);
-    QString incoming = (data->IncomingPath.ptr ? user_file(QFile::encodeName(data->IncomingPath.ptr)) : "");
+    QString incoming = (data->IncomingPath.ptr ? user_file(QFile::decodeName(data->IncomingPath.ptr)) : "");
     edtPath->setText(incoming);
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
     switch (data->AcceptMode.toULong()){

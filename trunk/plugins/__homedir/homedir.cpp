@@ -192,7 +192,7 @@ string HomeDirPlugin::getConfig()
 
 #endif
 
-string HomeDirPlugin::buildFileName(const QString *name)
+QString HomeDirPlugin::buildFileName(const QString *name)
 {
     QString s;
     QString fname = name ? *name : "!INVALID!";
@@ -205,16 +205,14 @@ string HomeDirPlugin::buildFileName(const QString *name)
         s += '/';
     }
     s += fname;
-    string res;
-    res = QFile::encodeName(QDir::convertSeparators(s));
-    return res;
+    return QDir::convertSeparators(s);
 }
 
 void *HomeDirPlugin::processEvent(Event *e)
 {
     if (e->type() == EventHomeDir){
         QString *cfg = (QString*)(e->param());
-        *cfg = QString( buildFileName(cfg).c_str() ); 
+        *cfg = buildFileName(cfg); 
         return (void*)(!cfg->isEmpty());
     }
     return NULL;

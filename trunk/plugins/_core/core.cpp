@@ -2048,8 +2048,8 @@ void *CorePlugin::processEvent(Event *e)
                                 dir += '/';
                             dir = user_file(dir);
                             messageAccept ma;
-                            ma.msg	     = msg;
-                            ma.dir 		 = QFile::encodeName(dir);
+                            ma.msg       = msg;
+                            ma.dir       = dir;
                             ma.overwrite = data->OverwriteFiles.toBool() ? Replace : Skip;
                             Event e(EventMessageAccept, &ma);
                             e.process();
@@ -3368,7 +3368,7 @@ void *CorePlugin::processEvent(Event *e)
                 dir = user_file(dir);
                 messageAccept ma;
                 ma.msg	     = msg;
-                ma.dir	     = QFile::encodeName(dir);
+                ma.dir	     = dir;
                 ma.overwrite = Ask;
                 Event e(EventMessageAccept, &ma);
                 e.process();
@@ -3685,8 +3685,7 @@ bool CorePlugin::init(bool bInit)
     if (e.process() && cmd_line_profile != ""){
         bCmdLineProfile = true;
         setProfile(NULL);
-        QString profileDir = user_file("");
-        profileDir += QFile::decodeName(cmd_line_profile.c_str());
+        QString profileDir = user_file(QFile::decodeName(cmd_line_profile.c_str()));
         QDir d(profileDir);
         if (d.exists()) {
             bCmdLineProfile = false;
