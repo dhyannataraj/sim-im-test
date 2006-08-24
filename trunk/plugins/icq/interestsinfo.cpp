@@ -198,7 +198,7 @@ void InterestsInfo::fill()
 
 QString InterestsInfo::getInfo(QComboBox *cmb, QLineEdit *edt)
 {
-    int n = getComboValue(cmb, interests);
+    unsigned n = getComboValue(cmb, interests);
     if (n == 0)
         return "";
     QString res = QString::number(n) + ",";
@@ -211,8 +211,7 @@ void InterestsInfo::cmbChanged(int)
     QComboBox *cmbs[4] = { cmbBg1, cmbBg2, cmbBg3, cmbBg4 };
     QLineEdit *edts[4] = { edtBg1, edtBg2, edtBg3, edtBg4 };
     unsigned n = 0;
-    unsigned i;
-    for (i = 0; i < 4; i++){
+    for (unsigned i = 0; i < 4; i++){
         unsigned short value = getComboValue(cmbs[i], interests);
         if (value){
             if (i != n){
