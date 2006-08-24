@@ -200,8 +200,7 @@ void PastInfo::cmbBgChanged(int)
     QComboBox *cmbs[3] = { cmbBg1, cmbBg2, cmbBg3 };
     QLineEdit *edts[3] = { edtBg1, edtBg2, edtBg3 };
     unsigned n = 0;
-    unsigned i;
-    for (i = 0; i < 3; i++){
+    for (unsigned i = 0; i < 3; i++){
         unsigned short value = getComboValue(cmbs[i], pasts);
         if (value){
             if (i != n){
@@ -211,6 +210,7 @@ void PastInfo::cmbBgChanged(int)
                 edts[n]->setText(edts[i]->text());
             }
             edts[n]->setEnabled(true);
+            edts[n]->setReadOnly(false);
             n++;
         }
     }
@@ -233,8 +233,7 @@ void PastInfo::cmbAfChanged(int)
     QComboBox *cmbs[3] = { cmbAf1, cmbAf2, cmbAf3 };
     QLineEdit *edts[3] = { edtAf1, edtAf2, edtAf3 };
     unsigned n = 0;
-    unsigned i;
-    for (i = 0; i < 3; i++){
+    for (unsigned i = 0; i < 3; i++){
         unsigned short value = getComboValue(cmbs[i], affilations);
         if (value){
             if (i != n){
@@ -273,8 +272,7 @@ void PastInfo::apply(Client *client, void *_data)
     bg[1] = getInfo(cmbBg2, edtBg2, pasts);
     bg[2] = getInfo(cmbBg3, edtBg3, pasts);
     QString res;
-    unsigned i;
-    for (i = 0; i < 3; i++){
+    for (unsigned i = 0; i < 3; i++){
         if (bg[i].isEmpty())
             continue;
         if (!res.isEmpty())
@@ -287,7 +285,7 @@ void PastInfo::apply(Client *client, void *_data)
     af[0] = getInfo(cmbAf1, edtAf1, affilations);
     af[1] = getInfo(cmbAf2, edtAf2, affilations);
     af[2] = getInfo(cmbAf3, edtAf3, affilations);
-    for (i = 0; i < 3; i++){
+    for (unsigned i = 0; i < 3; i++){
         if (af[i].isEmpty())
             continue;
         if (!res.isEmpty())
@@ -299,7 +297,7 @@ void PastInfo::apply(Client *client, void *_data)
 
 QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)
 {
-    int n = getComboValue(cmb, info);
+    unsigned n = getComboValue(cmb, info);
     if (n == 0)
         return "";
     QString res = QString::number(n) + ",";

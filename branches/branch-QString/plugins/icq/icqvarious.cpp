@@ -1049,7 +1049,7 @@ static QString getSString(const char *tlvData)
 {
     unsigned len;
     len = tlvData[0] | ( tlvData[1] << 8 );
-    QString ret = getContacts()->toUnicode(NULL, QCString( &tlvData[2], len));
+    QString ret = getContacts()->toUnicode(NULL, &tlvData[2], len);
     return ret;
 }
 
@@ -1074,7 +1074,7 @@ static QString getICombo(const char *tlvData, const QString &o)
     QString ret;
     QString others = o;
 
-    int cat = tlvData[0] | ( tlvData[1] >> 8 );
+    unsigned cat = tlvData[0] | ( tlvData[1] << 8 );
     ret = QString::number( cat ) + "," + getSString( &tlvData[2] );
     if( others.isEmpty() )
         return ret;
