@@ -1079,7 +1079,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
         case PLUGIN_STATUSxMANAGER:
             break;
         default:
-            log(L_WARN, "Bad plugin index request %u", plugin_index);
+            log(L_WARN, "Unsupported plugin request %u", plugin_index);
             return;
         }
         char type;

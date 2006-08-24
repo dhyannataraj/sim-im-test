@@ -2070,7 +2070,7 @@ bool JabberClient::send(Message *msg, void *_data)
             if (data->richText.toBool() && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
-                << (const char*)quote_nbsp(removeImages(msg->getRichText(), msg->getBackground())).utf8()
+                << (const char*)removeImages(msg->getRichText(), msg->getBackground()).utf8()
                 << "</body></html>";
             }
             m_socket->writeBuffer

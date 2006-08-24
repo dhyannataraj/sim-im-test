@@ -351,8 +351,10 @@ void PluginManagerPrivate::load(pluginInfo &info)
 #endif
         QString fullName = app_file(pluginName);
         info.module = new QLibrary(fullName);
-        if (info.module == NULL)
-            fprintf(stderr, "Can't load plugin %s\n", info.name.local8Bit().data());
+        if (info.module == NULL) {
+            QCString cstr = QString("Can't load plugin " + info.name + "\n").local8Bit();
+            qWarning(cstr.data());
+        }
     }
     if (info.module == NULL)
         return;
@@ -360,7 +362,9 @@ void PluginManagerPrivate::load(pluginInfo &info)
         PluginInfo* (*getInfo)() = NULL;
         getInfo = (PluginInfo* (*)()) info.module->resolve("GetPluginInfo");
         if (getInfo == NULL){
-            fprintf(stderr, "Plugin %s hasn't entry GetPluginInfo\n", info.name.local8Bit().data());
+            // fprintf and log() doesn't work here...
+            QCString cstr = QString("Plugin " + info.name + " hasn't entry GetPluginInfo\n").local8Bit();
+            qWarning(cstr.data());
             release(info);
             return;
         }
@@ -368,13 +372,15 @@ void PluginManagerPrivate::load(pluginInfo &info)
 #ifndef WIN32
 # ifdef USE_KDE
         if (!(info.info->flags & PLUGIN_KDE_COMPILE)){
-            fprintf(stderr, "Plugin %s is compiled without KDE support!\n", info.name.local8Bit().data());
+            QCString cstr = QString("Plugin " + info.name + " is compiled without KDE support!\n").local8Bit();
+            qWarning(cstr.data());
             release(info);
             return;
         }
 # else
         if (info.info->flags & PLUGIN_KDE_COMPILE){
-            fprintf(stderr, "Plugin %s is compiled with KDE support!\n", info.name.local8Bit().data());
+            QCString cstr = QString("Plugin " + info.name + " is compiled with KDE support!\n").local8Bit();
+            qWarning(cstr.data());
             release(info);
             return;
         }
