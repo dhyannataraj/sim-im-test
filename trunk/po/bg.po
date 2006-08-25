@@ -1,21 +1,21 @@
 # translation of bg.po to Bulgarian
 # Copyright (C) 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+#
 # Атанас Мавров <bugar@mail.bg>, 2003.
 # Атанас Мавров <bugar@developer.bg>, 2004.
 # Atanas Mavrov <bugar@developer.bg>, 2005, 2006.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: bg\n"
 "POT-Creation-Date: 2006-08-23 00:15+0600\n"
-"PO-Revision-Date: 2006-03-11 19:34+0200\n"
+"PO-Revision-Date: 2006-08-25 19:35+0300\n"
 "Last-Translator: Atanas Mavrov <bugar@developer.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.10.2\n"
+"X-Generator: KBabel 1.11.2\n"
 
 #: _translatorinfo.cpp:1 plugins/about/about.cpp:113
 msgid ""
@@ -177,47 +177,39 @@ msgid "System interface"
 msgstr "Системен изглед"
 
 #: plugins/_core/core.cpp:449
-#, fuzzy
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!"
 msgstr ""
 "В момента ме няма пред компютъра.\n"
 "Моля оставете вашето съобщение, ще ви се "
-"обадя като се върна!\n"
+"обадя като се върна!"
 
 #: plugins/_core/core.cpp:453
-#, fuzzy
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!"
 msgstr ""
-"На купон съм.\n"
-"Ще се видим утре!\n"
+"Няма ме пред компютъра.\n"
+"Ще се видим утре!"
 
 #: plugins/_core/core.cpp:457
-#, fuzzy
 msgid "Please do not disturb me now. Disturb me later."
 msgstr ""
 "Моля не ме безпокойте в момента. Обадете "
-"се по-късно.\n"
+"се по-късно."
 
 #: plugins/_core/core.cpp:460
-#, fuzzy
 msgid "We'd love to hear what you have to say. Join our chat."
-msgstr ""
-"Много бихме искали да чуем какво имате да "
-"ни кажете. Включете се в нашия разговор.\n"
+msgstr "Бихме искали да поговорим. Включете се в нашия разговор."
 
 #: plugins/_core/core.cpp:463
-#, fuzzy
 msgid "I'm here."
-msgstr "Тук съм.\n"
+msgstr "Тук съм."
 
 #: plugins/_core/core.cpp:466
-#, fuzzy
 msgid "I'm offline."
-msgstr "Изключен съм.\n"
+msgstr "Изключен съм."
 
 #: plugins/_core/core.cpp:561
 msgid "Unread messages"
@@ -425,18 +417,16 @@ msgid "&SMS"
 msgstr "&SMS"
 
 #: plugins/_core/core.cpp:1068
-#, fuzzy
 msgid "&History setup"
-msgstr "Ис&тория"
+msgstr "Настройки на историята"
 
 #: plugins/_core/core.cpp:1076 plugins/_core/core.cpp:1107
 msgid "Show &offline"
 msgstr "Показване/скриване на &изключените"
 
 #: plugins/_core/core.cpp:1088
-#, fuzzy
 msgid "Do&n't show groups"
-msgstr "Не показва &група"
+msgstr "Не показва &групи"
 
 #: plugins/_core/core.cpp:1098
 msgid "Group mode 1"
@@ -489,9 +479,8 @@ msgid "Show &always"
 msgstr "Показване &винаги"
 
 #: plugins/_core/core.cpp:1235
-#, fuzzy
 msgid "&Fetch away message"
-msgstr "Ново съобщение"
+msgstr "Приема отдалечено съобщение"
 
 #: plugins/_core/core.cpp:1264
 msgid "To container"
@@ -592,8 +581,7 @@ msgstr "Прякор"
 
 #: plugins/_core/core.cpp:1694
 msgid "number of unread messages from this contact"
-msgstr ""
-"количество на непрочетените съобщения"
+msgstr "количество на непрочетените съобщения"
 
 #: plugins/_core/core.cpp:1696
 msgid "contact status"
@@ -640,8 +628,7 @@ msgstr ""
 
 #: plugins/_core/core.cpp:1749
 msgid "Don't show this message in next time"
-msgstr ""
-"Не показвай това съобщение следващия път"
+msgstr "Не показвай това съобщение следващия път"
 
 #: plugins/_core/core.cpp:1776
 msgid "`<command>` - call <command> and substitute command output\n"
@@ -693,23 +680,20 @@ msgstr ""
 
 #: plugins/_core/core.cpp:3756 plugins/_core/core.cpp:3766
 #: plugins/_core/core.cpp:3770
-#, fuzzy
 msgid "Create Profile"
-msgstr "Промяна на профил"
+msgstr "Създаване на профил"
 
 #: plugins/_core/core.cpp:3756 plugins/_core/logindlg.cpp:403
 msgid "Please enter a new name for the profile."
-msgstr ""
+msgstr "Моля въведете име за профилът."
 
 #: plugins/_core/core.cpp:3766 plugins/_core/logindlg.cpp:407
-msgid ""
-"There is already another profile with this name.  Please choose another."
-msgstr ""
+msgid "There is already another profile with this name.  Please choose another."
+msgstr "Има друг профил със същото име. Моля изберете друго име."
 
 #: plugins/_core/core.cpp:3770
-msgid ""
-"Unable to create the profile.  Please do not use any special characters."
-msgstr ""
+msgid "Unable to create the profile.  Please do not use any special characters."
+msgstr "Профилът не може да бъде създаден. Моля не използвате специални символи."
 
 #. i18n: file ./plugins/_core/managerbase.ui line 20
 #: plugins/_core/core.cpp:4238 plugins/_core/core.cpp:4260 rc.cpp:1838
@@ -850,8 +834,7 @@ msgstr "Показване на %1 съобщения на страница"
 #: plugins/_core/historycfg.cpp:205 rc.cpp:1557
 #, no-c-format
 msgid "Use external viewer"
-msgstr ""
-"Използване на външна програма за преглед"
+msgstr "Използване на външна програма за преглед"
 
 #: plugins/_core/historycfg.cpp:477
 msgid "Remove style '%1'?"
@@ -1042,14 +1025,12 @@ msgstr "Нов профил"
 
 #: plugins/_core/logindlg.cpp:403 plugins/_core/logindlg.cpp:407
 #: plugins/_core/logindlg.cpp:411
-#, fuzzy
 msgid "Rename Profile"
-msgstr "Преименуване на &група"
+msgstr "Преименуване на профил"
 
 #: plugins/_core/logindlg.cpp:411
-msgid ""
-"Unable to rename the profile.  Please do not use any special characters."
-msgstr ""
+msgid "Unable to rename the profile.  Please do not use any special characters."
+msgstr "Не може да преименува профила. Моля не използвайте специални символи."
 
 #: plugins/_core/logindlg.cpp:504 plugins/jabber/jabberclient.cpp:962
 #: plugins/livejournal/livejournal.cpp:937 plugins/msn/msnclient.cpp:823
@@ -1120,8 +1101,7 @@ msgstr "Зает"
 
 #: plugins/_core/maininfo.cpp:88
 msgid "User is crrently available at:"
-msgstr ""
-"Потребителят в момента е на разположение: "
+msgstr "Потребителят в момента е на разположение: "
 
 #: plugins/_core/maininfo.cpp:229 plugins/_core/maininfo.cpp:348
 #: plugins/_core/maininfo.cpp:372 plugins/_core/maininfo.cpp:471
@@ -1557,8 +1537,7 @@ msgstr "Меню"
 
 #: plugins/action/actioncfg.cpp:181 plugins/action/additem.cpp:56
 msgid "In command line you can use:"
-msgstr ""
-"В командния ред вие може да използвате:"
+msgstr "В командния ред вие може да използвате:"
 
 #: plugins/action/actioncfg.cpp:186
 msgid ""
@@ -1675,8 +1654,7 @@ msgstr "SIM"
 
 #: plugins/dock/dock.cpp:142
 msgid "Toggle main window"
-msgstr ""
-"Скриване/показване на главния прозорец"
+msgstr "Скриване/показване на главния прозорец"
 
 #: plugins/dock/dock.cpp:265
 msgid "Hide main window"
@@ -1793,7 +1771,7 @@ msgstr "&GPG ключ"
 
 #: plugins/gpg/gpg.cpp:871
 msgid "Can't read gpg key"
-msgstr ""
+msgstr "Не може да прочете gpg ключ"
 
 #: plugins/gpg/gpgcfg.cpp:46
 msgid "GPG(gpg.exe)"
@@ -1823,9 +1801,8 @@ msgid "New"
 msgstr "Нов"
 
 #: plugins/gpg/gpgcfg.cpp:204 plugins/gpg/gpgcfg.cpp:229
-#, fuzzy
 msgid "Get secret list failed"
-msgstr "Създаването на ключ се провали"
+msgstr "Получаването на секретния списък се провали."
 
 #: plugins/gpg/gpggen.cpp:94
 msgid "Move mouse for generate random key"
@@ -1923,8 +1900,7 @@ msgstr "AIM"
 
 #: plugins/icq/icq.cpp:357
 msgid "Visible list"
-msgstr ""
-"Списък на потребители, за които съм видим"
+msgstr "Списък на потребители, за които съм видим"
 
 #: plugins/icq/icq.cpp:366
 msgid "Invisible list"
@@ -2285,8 +2261,7 @@ msgstr "Този клиент е остарял"
 
 #: plugins/icq/icqlogin.cpp:285
 msgid "Too many clients from same IP"
-msgstr ""
-"Твърде много потребители ползващи едно IP"
+msgstr "Твърде много потребители ползващи едно IP"
 
 #: plugins/icq/icqlogin.cpp:290
 msgid "Rate limit"
@@ -2330,8 +2305,7 @@ msgstr ""
 
 #: plugins/icq/icqlogin.cpp:355
 msgid "Your UIN is being used from another location"
-msgstr ""
-"Твоят номер се използва от друг компютър"
+msgstr "Твоят номер се използва от друг компютър"
 
 #: plugins/icq/icqlogin.cpp:375
 msgid "Close packet from server"
@@ -2421,8 +2395,7 @@ msgstr "Внимание"
 
 #: plugins/icq/icqpicture.cpp:127
 msgid "Picture can not be more than 7 kbytes"
-msgstr ""
-"Не може картинката да е по - голяма от 7 Кб"
+msgstr "Не може картинката да е по - голяма от 7 Кб"
 
 #: plugins/icq/icqpicture.cpp:137 plugins/jabber/jabberpicture.cpp:141
 msgid "Picture is not available"
@@ -2921,12 +2894,11 @@ msgstr "Арменски"
 
 #: plugins/icq/moreinfo.cpp:148
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Киргизки"
 
 #: plugins/icq/moreinfo.cpp:149
-#, fuzzy
 msgid "Maltese"
-msgstr "Мъж"
+msgstr "Малтийски"
 
 #: plugins/icq/pastinfo.cpp:78
 msgid "Elementary School"
@@ -3535,7 +3507,7 @@ msgstr "Журнал"
 
 #: plugins/livejournal/livejournal.cpp:283
 msgid "http://www.livejournal.com/lostinfo.bml"
-msgstr ""
+msgstr "http://www.livejournal.com/lostinfo.bml"
 
 #: plugins/livejournal/livejournal.cpp:614
 msgid "Posting failed"
@@ -3548,6 +3520,10 @@ msgid ""
 "ed by <a style=\"font-size:1em;font-style:italic;\" "
 "href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
 msgstr ""
+"<div "
+"style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">ПоддържанPower"
+"от <a style=\"font-size:1em;font-style:italic;\" "
+"href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
 
 #: plugins/livejournal/livejournal.cpp:1373
 msgid "Invalid username"
@@ -4160,9 +4136,8 @@ msgid "MSN"
 msgstr "MSN"
 
 #: plugins/msn/msn.cpp:64
-#, fuzzy
 msgid "https://accountservices.passport.net/uiresetpw.srf?lc=1033"
-msgstr "https://register.passport.net/reg.srf?lc=1049&langid=1049&sl=1"
+msgstr "https://accountservices.passport.net/uiresetpw.srf?lc=1033"
 
 #: plugins/msn/msn.cpp:144 plugins/yahoo/yahooclient.cpp:1404
 msgid "Be right back"
@@ -4225,8 +4200,7 @@ msgid "Navigate"
 msgstr "Препратки към външни програми"
 
 #: plugins/navigate/navigate.cpp:229
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Приставката осигурява управление на "
 "препратките - свързва се с външен "
@@ -4328,8 +4302,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:72
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Приставката поддържа известяване на "
 "състоянието на съобщенията и "
@@ -4499,8 +4472,7 @@ msgstr "Отдалечено управление"
 
 #: plugins/remote/remote.cpp:46
 msgid "Plugin provides remote control"
-msgstr ""
-"Приставката осигурява отдалечен контрол"
+msgstr "Приставката осигурява отдалечен контрол"
 
 #: plugins/replace/replace.cpp:36
 msgid "Replace text"
@@ -4623,8 +4595,7 @@ msgstr "Сигнализира при включване"
 
 #: plugins/spell/spell.cpp:65
 msgid "Plugin provides check spelling"
-msgstr ""
-"Приставка осигурява правописна проверка"
+msgstr "Приставка осигурява правописна проверка"
 
 #: plugins/spell/spellcfg.cpp:48
 msgid "ASpell(aspell.exe)"
@@ -4658,8 +4629,7 @@ msgstr "Стилове"
 
 #: plugins/styles/styles.cpp:40
 msgid "Plugin provides styles"
-msgstr ""
-"Приставката осигурява изменение на стила"
+msgstr "Приставката осигурява изменение на стила"
 
 #: plugins/styles/stylescfg.cpp:38
 msgid "Fonts and colors"
@@ -4713,8 +4683,7 @@ msgstr "Време"
 
 #: plugins/weather/weather.cpp:50
 msgid "Plugin provides show weather"
-msgstr ""
-"Приставката осигурява преглед на времето"
+msgstr "Приставката осигурява преглед на времето"
 
 #: plugins/weather/weather.cpp:121 plugins/weather/weather.cpp:325
 msgid "Not connected"
@@ -4785,46 +4754,40 @@ msgid ""
 msgstr "Буря"
 
 #: plugins/weather/weather.cpp:381
-#, fuzzy
 msgid ""
 "_: weather\n"
 "T-Storm"
-msgstr "Буря"
+msgstr "Проливен дъжд с гръмотевици"
 
 #: plugins/weather/weather.cpp:382
-#, fuzzy
 msgid ""
 "_: weather\n"
 "T-Storms"
-msgstr "Буря"
+msgstr "Проливен дъжд с гръмотевици"
 
 #: plugins/weather/weather.cpp:383
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered T-Storms"
-msgstr "Разпокъсан сняг"
+msgstr "Разпокъсан проливен дъжд с гръмотевици"
 
 #: plugins/weather/weather.cpp:384
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Thunder"
-msgstr "Буря"
+msgstr "Гръмотевици"
 
 #: plugins/weather/weather.cpp:385
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Rain with Thunder"
-msgstr "Слаб дъжд"
+msgstr "Слаб дъжд с гръмотевици"
 
 #: plugins/weather/weather.cpp:386
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Thunder in the Vicinity"
-msgstr "Пороен валеж"
+msgstr "Гръмотевици в района."
 
 #: plugins/weather/weather.cpp:387
 msgid ""
@@ -4917,7 +4880,6 @@ msgid ""
 msgstr "Облачно"
 
 #: plugins/weather/weather.cpp:402
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clouds"
@@ -5116,11 +5078,10 @@ msgid ""
 msgstr "Променливо"
 
 #: plugins/weather/weather.cpp:436
-#, fuzzy
 msgid ""
 "_: weather\n"
 "CALM"
-msgstr "Слаб"
+msgstr "Тих"
 
 #: plugins/weather/weather.cpp:437
 msgid "km"
@@ -5619,8 +5580,7 @@ msgstr "Порт:"
 #: rc.cpp:64
 #, no-c-format
 msgid "Proxy require &authorization"
-msgstr ""
-"&Прокси сървъра изисква удостоверяване"
+msgstr "&Прокси сървъра изисква удостоверяване"
 
 #. i18n: file ./plugins/proxy/proxycfgbase.ui line 129
 #: rc.cpp:67
@@ -6095,8 +6055,7 @@ msgstr "Форма4"
 #: rc.cpp:397
 #, no-c-format
 msgid "Additional information:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #. i18n: file ./plugins/sound/soundconfigbase.ui line 39
 #: rc.cpp:403
@@ -6154,8 +6113,7 @@ msgstr ""
 #: rc.cpp:433
 #, no-c-format
 msgid "Set \"Away\" status after"
-msgstr ""
-"Включване на \"Не съм пред компютъра\" след"
+msgstr "Включване на \"Не съм пред компютъра\" след"
 
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 61
 #: rc.cpp:436
@@ -6190,8 +6148,7 @@ msgstr "Превключване в \"Изключен\" след"
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 138
 #: rc.cpp:451
 #, no-c-format
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Изключва известяване при \"Не съм пред "
 "компютъра\", \"Няма ме\", \"Моля не ме "
@@ -6295,7 +6252,7 @@ msgstr "Анонимно &предупреждение"
 
 #. i18n: file ./plugins/icq/warndlgbase.ui line 73
 #: rc.cpp:537
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Check this if you don't want your screen name revealed.\n"
 "Anonymous warnings are less severe."
@@ -6303,7 +6260,7 @@ msgstr ""
 "Изберете това ако не искате да разкриете "
 "името си в предупрежденията.\n"
 "Анонимните предупреждения оказват "
-"значително по - малко влияние."
+"значително по - малко влияние"
 
 #. i18n: file ./plugins/icq/aimsearchbase.ui line 39
 #: rc.cpp:550
@@ -6387,8 +6344,7 @@ msgstr "Ключова дума"
 #: rc.cpp:638
 #, no-c-format
 msgid "Search &online users only"
-msgstr ""
-"Търсене само на &свързаните потребители"
+msgstr "Търсене само на &свързаните потребители"
 
 #. i18n: file ./plugins/icq/workinfobase.ui line 45
 #: rc.cpp:644
@@ -6540,8 +6496,7 @@ msgstr "Чакане на потвърждение от клиента"
 #: rc.cpp:834
 #, no-c-format
 msgid "Accept in &occupied mode"
-msgstr ""
-"Приемане на файлове в режим \"&Зает съм\""
+msgstr "Приемане на файлове в режим \"&Зает съм\""
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 570
 #: rc.cpp:837
@@ -6593,8 +6548,7 @@ msgstr ""
 #: rc.cpp:855
 #, no-c-format
 msgid "Check invisible every"
-msgstr ""
-"Проверка за невидими потребители на всеки"
+msgstr "Проверка за невидими потребители на всеки"
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 698
 #: rc.cpp:858 rc.cpp:1994
@@ -6697,8 +6651,7 @@ msgstr ""
 #: rc.cpp:1008
 #, no-c-format
 msgid "You will choose the coding by default which want to use:"
-msgstr ""
-"Избиране на кодировка по подразбиране:"
+msgstr "Избиране на кодировка по подразбиране:"
 
 #. i18n: file ./plugins/icq/securedlgbase.ui line 20
 #: rc.cpp:1017
@@ -6762,7 +6715,7 @@ msgstr ""
 #: rc.cpp:1048
 #, no-c-format
 msgid "Always use &MD5 authentication"
-msgstr ""
+msgstr "Винаги използва MD5 удостоверяване"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 123
 #: rc.cpp:1051
@@ -6798,8 +6751,7 @@ msgstr ""
 #: rc.cpp:1063
 #, no-c-format
 msgid "&Visible list"
-msgstr ""
-"&Списък на потребители, за които съм видим"
+msgstr "&Списък на потребители, за които съм видим"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 228
 #: rc.cpp:1066
@@ -6843,8 +6795,7 @@ msgstr "Относн&о"
 #: rc.cpp:1090
 #, no-c-format
 msgid "Additional information about user:"
-msgstr ""
-"Допълнителна информация за потребителя:"
+msgstr "Допълнителна информация за потребителя:"
 
 #. i18n: file ./plugins/spell/spellfindbase.ui line 20
 #: rc.cpp:1093
@@ -7027,8 +6978,7 @@ msgstr ""
 #: rc.cpp:1303
 #, no-c-format
 msgid "Select directories for convert"
-msgstr ""
-"Избиране на директории за преобразуване"
+msgstr "Избиране на директории за преобразуване"
 
 #. i18n: file ./plugins/__migrate/migratedlgbase.ui line 49
 #: rc.cpp:1306
@@ -7153,8 +7103,7 @@ msgstr "Мб"
 #: rc.cpp:1400 rc.cpp:1554
 #, no-c-format
 msgid "Max history file size"
-msgstr ""
-"Максимален размер на файла с историята"
+msgstr "Максимален размер на файла с историята"
 
 #. i18n: file ./plugins/_core/userhistorycfgbase.ui line 101
 #: rc.cpp:1403 rc.cpp:1530
@@ -7781,8 +7730,7 @@ msgstr "Използване на форматирани съобщения"
 #: rc.cpp:2003
 #, no-c-format
 msgid "Add signature to all messages"
-msgstr ""
-"Добавяне на подпис към всички съобщения"
+msgstr "Добавяне на подпис към всички съобщения"
 
 #. i18n: file ./plugins/livejournal/msgjournalbase.ui line 61
 #: rc.cpp:2009
@@ -8259,8 +8207,7 @@ msgstr "Повтаряне на паролата:"
 
 #: sim/aboutdata.cpp:266
 msgid "replace this with information about your translation team"
-msgstr ""
-"Атанас Мавров <bugar@developer.bg>; Варна-България;"
+msgstr "Атанас Мавров <bugar@developer.bg>; Варна-България;"
 
 #: sim/aboutdata.cpp:282
 msgid "This program is distributed under the terms of the GPL v2."
@@ -9567,21 +9514,3 @@ msgstr "Грешка при инициализиране на SSL"
 msgid "Custom"
 msgstr "Потребителски"
 
-#~ msgid "Taiwanese"
-#~ msgstr "Тайвански"
-
-#~ msgid ""
-#~ "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
-#~ "troublesignin.htm"
-#~ msgstr ""
-#~ "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xp"
-#~ "troublesignin.htm"
-
-#~ msgid "Metal style"
-#~ msgstr "Метал"
-
-#~ msgid "Norwegian Wood"
-#~ msgstr "Гора"
-
-#~ msgid "Windows XP style"
-#~ msgstr "Уиндоус XP стил"
