@@ -26,6 +26,7 @@ Copyright (C) 2003  Tarkvara Design Inc.
 #ifdef WIN32
 #define _WIN32_WINNT 0x0500
 #include <windows.h>
+#include "idleui.h"
 
 static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 
@@ -48,7 +49,6 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include "autoawaycfg.h"
 #include "simapi.h"
 #include "core.h"
-#include "idleui.h"
 
 using namespace SIM;
 
