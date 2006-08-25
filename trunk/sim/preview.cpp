@@ -53,7 +53,7 @@ void FilePreview::showPreview(const KURL &url)
     if (!fileName.isEmpty() && (fileName[fileName.length() - 1] != '/'))
         fileName += '/';
     fileName += url.fileName(false);
-    showPreview(fileName));
+    showPreview(fileName);
 }
 
 void FilePreview::clearPreview()
