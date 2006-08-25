@@ -898,8 +898,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         const char *statusIcon = NULL;
         contactInfo(data, old_status, style, statusIcon);
 
-        time_t now;
-        time(&now);
+        time_t now = time(NULL);
         now -= idle;
         if (data->Status.value == YAHOO_STATUS_OFFLINE)
             data->OnlineTime.value = now;
@@ -951,8 +950,7 @@ void YahooClient::setStatus(unsigned status)
 {
     if (status  == m_status)
         return;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if (m_status == STATUS_OFFLINE)
         data.owner.OnlineTime.value = now;
     data.owner.StatusTime.value = now;
@@ -964,9 +962,7 @@ void YahooClient::setStatus(unsigned status)
         if (m_status != STATUS_OFFLINE){
             m_status = status;
             data.owner.Status.value = status;
-            time_t now;
-            time(&now);
-            data.owner.StatusTime.value = now;
+            data.owner.StatusTime.value = time(NULL);
         }
         return;
     }
@@ -2040,11 +2036,8 @@ void YahooClient::sendStatus(unsigned long _status, const char *msg)
         addParam(47, "1");
     }
     sendPacket(service);
-    if (data.owner.Status.value != status){
-        time_t now;
-        time(&now);
-        data.owner.StatusTime.value = now;
-    }
+    if (data.owner.Status.value != status)
+        data.owner.StatusTime.value = time(NULL);
     data.owner.Status.value = _status;
     set_str(&data.owner.AwayMessage.ptr, msg);
 }
@@ -2393,8 +2386,7 @@ void YahooFileTransfer::write_ready()
         m_socket->close();
         return;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;

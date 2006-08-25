@@ -2864,8 +2864,7 @@ void JabberFileTransfer::write_ready()
         m_socket->close();
         return;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now != m_sendTime){
         m_sendTime = now;
         m_sendSize = 0;

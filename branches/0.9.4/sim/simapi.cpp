@@ -828,9 +828,7 @@ EXPORT unsigned get_random()
 {
     if (!bRandInit){
         bRandInit = true;
-        time_t now;
-        time(&now);
-        srand(now);
+        srand(time(NULL));
     }
     return rand();
 }

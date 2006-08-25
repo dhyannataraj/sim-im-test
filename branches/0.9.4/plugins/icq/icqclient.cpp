@@ -571,11 +571,8 @@ void ICQClient::setStatus(unsigned status, bool bCommon)
         switch (status){
         case STATUS_NA:
         case STATUS_AWAY:
-            if (getIdleTime() == 0){
-                time_t now;
-                time(&now);
-                setIdleTime(now);
-            }
+            if (getIdleTime() == 0)
+                setIdleTime(time(NULL));
             break;
         default:
             setIdleTime(0);

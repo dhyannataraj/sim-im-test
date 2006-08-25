@@ -281,8 +281,7 @@ void FetchThread::run()
                 }
                 if (m_client->m_speed){
                     m_client->m_sendSize += tail;
-                    time_t now;
-                    time(&now);
+                    time_t now = time(NULL);
                     if ((unsigned)now != m_client->m_sendTime){
                         m_client->m_sendTime = now;
                         m_client->m_sendSize = 0;
@@ -916,8 +915,7 @@ void FetchClientPrivate::write_ready()
     m_socket->write();
     if (m_speed){
         m_sendSize += tail;
-        time_t now;
-        time(&now);
+        time_t now = time(NULL);
         if ((unsigned)now != m_sendTime){
             m_sendTime = now;
             m_sendSize = 0;

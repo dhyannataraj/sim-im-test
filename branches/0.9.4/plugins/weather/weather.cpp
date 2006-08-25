@@ -149,8 +149,7 @@ void WeatherPlugin::timeout()
 {
     if (!getSocketFactory()->isActive() || !isDone() || (*getID() == 0))
         return;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     if ((unsigned)now < getTime() + CHECK1_INTERVAL)
         return;
     m_bForecast = false;
@@ -202,8 +201,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
         log(L_WARN, "XML parse error");
         return false;
     }
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     setTime(now);
     if (m_bForecast)
         setForecastTime(now);
@@ -270,8 +268,7 @@ bool WeatherPlugin::isDay()
     int set_h, set_m;
     if (!parseTime(getSun_raise(), raise_h, raise_m) || !parseTime(getSun_set(), set_h, set_m))
         return false;
-    time_t now;
-    time(&now);
+    time_t now = time(NULL);
     struct tm *tm = localtime(&now);
     if ((tm->tm_hour > raise_h) && (tm->tm_hour < set_h))
         return true;

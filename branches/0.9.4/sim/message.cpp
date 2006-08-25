@@ -98,11 +98,8 @@ void Message::setClient(const char *client)
 
 string Message::save()
 {
-    if (getTime() == 0){
-        time_t now;
-        time(&now);
-        setTime(now);
-    }
+    if (getTime() == 0)
+        setTime(time(NULL));
     unsigned saveFlags = getFlags();
     setFlags(getFlags() & MESSAGE_SAVEMASK);
     string res = save_data(messageData, &data);
