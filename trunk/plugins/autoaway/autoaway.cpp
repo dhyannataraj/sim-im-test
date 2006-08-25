@@ -23,9 +23,14 @@ Copyright (C) 2003  Tarkvara Design Inc.
 // This is required to use Xlibint (which isn't very clean itself)
 #define QT_CLEAN_NAMESPACE
 
+#include "autoaway.h"
+#include "autoawaycfg.h"
+#include "core.h"
+
 #ifdef WIN32
 #define _WIN32_WINNT 0x0500
 #include <windows.h>
+#include <qlibrary.h>
 #include "idleui.h"
 
 static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
@@ -39,16 +44,9 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <X11/extensions/scrnsaver.h>
 #endif
 
-#include <time.h>
 #include <qapplication.h>
-#include <qlibrary.h>
 #include <qtimer.h>
 #include <qwidgetlist.h>
-
-#include "autoaway.h"
-#include "autoawaycfg.h"
-#include "simapi.h"
-#include "core.h"
 
 using namespace SIM;
 
