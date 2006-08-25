@@ -1179,7 +1179,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                 dicon = "sms_ffc";
                 break;
                 }
-            }else if (strcmp(h.c_str(), "x-gadugadu") == 0){
+            }else if ((strcmp(h.c_str(), "x-gadugadu") == 0) || (strcmp(h.c_str(), "gg") == 0)){
                 switch (status){
                 case STATUS_ONLINE:
                 dicon = "GG_online";

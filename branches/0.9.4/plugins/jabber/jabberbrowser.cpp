@@ -959,7 +959,7 @@ void JabberBrowser::setItemPict(QListViewItem *item)
         name = "find";
     }else if (type == "sms"){
         name = "sms";
-    }else if (type == "x-gadugadu"){
+    }else if ((type == "x-gadugadu") || (type == "gg")){
         name = "GG";
     }else if ((type == "rss") || (type == "weather")){
         name = "info";

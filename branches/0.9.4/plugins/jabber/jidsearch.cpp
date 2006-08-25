@@ -137,7 +137,7 @@ void *JIDSearch::processEvent(Event *e)
             icon = "Yahoo!";
         }else if (m_type == "sms"){
             icon = "sms";
-        }else if (m_type == "x-gadugadu"){
+        }else if ((m_type == "x-gadugadu") || (m_type == "gg")){
             icon = "GG";
         }
         if (data->Status.ptr){
