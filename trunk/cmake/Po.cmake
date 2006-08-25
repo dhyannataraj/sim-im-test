@@ -3,11 +3,11 @@
 MACRO(FIND_MSGFMT)
     IF(NOT MSGFMT_EXECUTABLE)
         IF(NOT MSGFMT_NOT_FOUND)
-            SET(MSGFMT_NAME "msgfmt")
+            SET(MSGFMT_NAME "msg2qm")
             FIND_PROGRAM(MSGFMT_EXECUTABLE ${MSGFMT_NAME})
 
             IF (NOT MSGFMT_EXECUTABLE)
-                SET(MSGFMT_NAME "msg2qm")
+                SET(MSGFMT_NAME "msgfmt")
                 FIND_PROGRAM(MSGFMT_EXECUTABLE ${MSGFMT_NAME})
             ENDIF(NOT MSGFMT_EXECUTABLE)
 

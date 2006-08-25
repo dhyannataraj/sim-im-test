@@ -73,8 +73,8 @@ using namespace SIM;
 struct FontDef
 {
     int		charset;
-    string	taggedName;
-    string	nonTaggedName;
+    QString	taggedName;
+    QString	nonTaggedName;
 };
 
 class RTF2HTML;
@@ -134,11 +134,12 @@ public:
     void setParagraphDirLTR();
     void setParagraphDirRTL();
     void addLineBreak();
+    void setAnsiCodePage(unsigned short cp);
     void flush();
     void reset();
     void resetTag(TagEnum tag);
 protected:
-    string text;
+    QCString text;
     void Init();
     RTF2HTML *p;
     void resetColors() { m_nRed = m_nGreen = m_nBlue = 0; m_bColorInit = false; }
@@ -204,6 +205,8 @@ public:
     OutTag* getTopOutTag(TagEnum tagType);
     // Writes down the paragraph buffer and resets the paragraph state.
     void FlushParagraph();
+    //sets the codepage found in the rtf stream
+    void setAnsiCodePage(unsigned short cp);
 
 // Document-wide functions:
 
@@ -292,8 +295,8 @@ void RTF2HTML::FlushOutTags()
                if (t.param > fonts.size() || t.param == 0)
                    break;
                FontDef &f = fonts[t.param-1];
-               string name = (!f.nonTaggedName.empty()) ? f.nonTaggedName : f.taggedName;
-               PrintUnquoted("<span style=\"font-family:%s\">", name.c_str());
+               QString name = (!f.nonTaggedName.isEmpty()) ? f.nonTaggedName : f.taggedName;
+               PrintUnquoted("<span style=\"font-family:%s\">", name.latin1());
             }
             break;
         case TAG_BG_COLOR:
@@ -508,6 +511,18 @@ void RTF2HTML::FlushParagraph()
     sParagraph = "";
 }
 
+void RTF2HTML::setAnsiCodePage(unsigned short cp)
+{
+    for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
+		if (!c->bMain)
+			continue;
+        if ((unsigned)c->cp_code == cp){
+            encoding = c->codec;
+            return;
+        }
+    }
+}
+
 void Level::setFont(unsigned nFont)
 {
     if (nFont <= 0)
@@ -619,8 +634,10 @@ void Level::setFontSizeHalfPoints(unsigned short nSize)
 
 void Level::setFontSize(unsigned short nSize)
 {
-    if (m_nFontSize == nSize) return;
-    if (m_nFontSize) resetTag(TAG_FONT_SIZE);
+    if (m_nFontSize == nSize)
+        return;
+    if (m_nFontSize)
+        resetTag(TAG_FONT_SIZE);
     p->oTags.push_back(OutTag(TAG_FONT_SIZE, nSize));
     p->PutTag(TAG_FONT_SIZE);
     m_nFontSize = nSize;
@@ -706,6 +723,11 @@ void Level::addLineBreak()
     p->PrintUnquoted("<br/>");
 }
 
+void Level::setAnsiCodePage(unsigned short cp)
+{
+    p->setAnsiCodePage(cp);
+}
+
 void Level::reset()
 {
     resetTag(TAG_ALL);
@@ -741,14 +763,14 @@ void Level::setText(const char *str)
         
         if (m_bFontName)
         {
-            def.nonTaggedName.append(str, size);
+            def.nonTaggedName += QString::fromLatin1(str, size);
             // We know we have the entire name
             if (pp != NULL)
                m_bFontName = false;
         }
         else if (!m_bTaggedFontNameOk)
         {
-            def.taggedName.append(str, size);
+            def.taggedName += QString::fromLatin1(str, size);
             if (pp != NULL)
                m_bTaggedFontNameOk = true;
         }
@@ -765,7 +787,8 @@ void Level::setText(const char *str)
 
 void Level::flush()
 {
-    if (text.length() == 0) return;
+    if (text.length() == 0)
+        return;
     const char *encoding = NULL;
     if (m_nEncoding){
         for (const ENCODING *c = getContacts()->getEncodings(); c->language; c++){
@@ -780,7 +803,7 @@ void Level::flush()
     if (encoding == NULL)
 		encoding = p->encoding;
 	QTextCodec *codec = getContacts()->getCodecByName(encoding);
-    p->PrintQuoted(codec->toUnicode(text.c_str(), text.length()));
+    p->PrintQuoted(codec->toUnicode(text.data(), text.length()));
     text = "";
 }
 
@@ -804,6 +827,7 @@ const unsigned ULNONE		= 16;
 const unsigned LTRPAR		= 17;
 const unsigned RTLPAR		= 18;
 const unsigned LINE             = 19;
+const unsigned ANSICPG          = 20;
 
 static char cmds[] =
     "fonttbl\x00"
@@ -826,6 +850,7 @@ static char cmds[] =
     "ltrpar\x00"
     "rtlpar\x00"
     "line\x00"
+    "ansicpg\x00"
     "\x00";
 
 int yywrap() { return 1; }
@@ -993,6 +1018,8 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
                     break;
                 case LINE:
                     cur_level.addLineBreak();
+                case ANSICPG:
+                    cur_level.setAnsiCodePage(cmd_value);
                 }
                 break;
             }
@@ -1006,14 +1033,15 @@ QString RTF2HTML::Parse(const char *rtf, const char *_encoding)
 
 bool ICQClient::parseRTF(const char *rtf, Contact *contact, QString &res)
 {
-	char _RTF[] = "{\\rtf";
+	const char _RTF[] = "{\\rtf";
+	// codec to use when no other information is in the rtf stream
 	QTextCodec *codec = getContacts()->getCodec(contact);
-	if ((strlen(rtf) > strlen(_RTF)) && !memcmp(rtf, _RTF, strlen(_RTF))){
+	if (!qstrncmp(rtf, _RTF, strlen(_RTF))){
 		RTF2HTML p;
 		res = p.Parse(rtf, codec->name());
 		return true;
 	}
-	res = codec->toUnicode(rtf, strlen(rtf));
+	res = codec->toUnicode(rtf);
 	return false;
 }
 
