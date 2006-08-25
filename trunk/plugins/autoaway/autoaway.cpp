@@ -23,34 +23,11 @@ Copyright (C) 2003  Tarkvara Design Inc.
 // This is required to use Xlibint (which isn't very clean itself)
 #define QT_CLEAN_NAMESPACE
 
-#include "autoaway.h"
-#include "autoawaycfg.h"
-#include "simapi.h"
-#include "core.h"
-
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidgetlist.h>
-#include <time.h>
-
 #ifdef WIN32
+#define _WIN32_WINNT 0x0500
 #include <windows.h>
 
-#ifndef __MINGW32__
-/*
-  already defined in winuser.h, which is included in windows.h
-  (at least in MingW) headers
-*/
-typedef struct tagLASTINPUTINFO {
-    UINT cbSize;
-    DWORD dwTime;
-} LASTINPUTINFO, * PLASTINPUTINFO;
-#endif
-
 static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
-static DWORD (__stdcall *_IdleUIGetLastInputTime)(void);
-
-static HMODULE hLibUI = NULL;
 
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
 #include <Carbon/Carbon.h>
@@ -60,6 +37,18 @@ static HMODULE hLibUI = NULL;
 #include <X11/Xlibint.h>
 #include <X11/extensions/scrnsaver.h>
 #endif
+
+#include <time.h>
+#include <qapplication.h>
+#include <qlibrary.h>
+#include <qtimer.h>
+#include <qwidgetlist.h>
+
+#include "autoaway.h"
+#include "autoawaycfg.h"
+#include "simapi.h"
+#include "core.h"
+#include "idleui.h"
 
 using namespace SIM;
 
@@ -184,14 +173,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
 {
     load_data(autoAwayData, &data, config);
 #ifdef WIN32
-    HINSTANCE hLib = GetModuleHandleA("user32");
-    if (hLib != NULL){
-        (DWORD&)_GetLastInputInfo = (DWORD)GetProcAddress(hLib,"GetLastInputInfo");
-    }else{
-        hLibUI = LoadLibraryA("idleui.dll");
-        if (hLibUI != NULL)
-            (DWORD&)_IdleUIGetLastInputTime = (DWORD)GetProcAddress(hLibUI, "IdleUIGetLastInputTime");
-    }
+    (DWORD&)_GetLastInputInfo = (DWORD)QLibrary::resolve("user32.dll", "GetLastInputInfo");
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
     CFBundleRef carbonBundle;
     if (LoadFrameworkBundle( CFSTR("Carbon.framework"), &carbonBundle ) == noErr) {
@@ -217,9 +199,7 @@ AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
 AutoAwayPlugin::~AutoAwayPlugin()
 {
 #ifdef WIN32
-    _IdleUIGetLastInputTime = NULL;
-    if (hLibUI)
-        FreeLibrary(hLibUI);
+    // nothing to do
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
     RemoveEventLoopTimer(mTimerRef);
 #else
@@ -352,13 +332,11 @@ unsigned AutoAwayPlugin::getIdleTime()
         _GetLastInputInfo(&lii);
         return (GetTickCount()-lii.dwTime) / 1000;
     }
-    if (_IdleUIGetLastInputTime)
-        return _IdleUIGetLastInputTime() / 1000;
-    return 0;
+    return IdleUIGetLastInputTime();
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
     return mSecondsIdle;
 #else
-QWidgetList *list = QApplication::topLevelWidgets();
+    QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
     QWidget *w = it.current();
     delete list;

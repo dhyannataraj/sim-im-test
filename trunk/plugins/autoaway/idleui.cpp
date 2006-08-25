@@ -11,14 +11,6 @@
 #include<winuser.h>
 #include<assert.h>
 
-#define DLLEXPORT __declspec(dllexport)
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 ////////////////
 // The following global data is SHARED among all instances of the DLL
 // (processes); i.e., these are system-wide globals.
@@ -48,7 +40,7 @@ bool g_isHandleOwner = false;
 //////////////////
 // Initialize DLL: install kbd/mouse hooks.
 //
-DLLEXPORT BOOL IdleUIInit()
+BOOL IdleUIInit()
 {
     return TRUE;
 }
@@ -56,14 +48,14 @@ DLLEXPORT BOOL IdleUIInit()
 //////////////////
 // Terminate DLL: remove hooks.
 //
-DLLEXPORT void IdleUITerm()
+void IdleUITerm()
 {
 }
 
 /////////////////
 // Get tick count of last keyboard or mouse event
 //
-DLLEXPORT DWORD IdleUIGetLastInputTime()
+DWORD IdleUIGetLastInputTime()
 {
     return g_lastInputTick;
 }
