@@ -132,9 +132,9 @@ void LoginDialog::accept()
         return;
     }
 
-    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
+    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].local8Bit());
     //if (m_profile != CorePlugin::m_plugin->getProfile()){
-        if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n])){
+        if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n].local8Bit())){
             CorePlugin::m_plugin->setProfile(m_profile.c_str());
             BalloonMsg::message(i18n("Other instance of SIM use this profile"), buttonOk);
             return;
@@ -218,7 +218,7 @@ void LoginDialog::profileChanged(int)
     }else{
         btnRename->show();
         clearInputs();
-        CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
+        CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].local8Bit());
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
         unsigned nClients = 0;
@@ -321,17 +321,16 @@ void LoginDialog::fill()
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();
     for (unsigned i = 0; i < CorePlugin::m_plugin->m_profiles.size(); i++){
-        string curProfile = CorePlugin::m_plugin->m_profiles[i];
-        if (!strcmp(curProfile.c_str(), save_profile.c_str()))
+        QString curProfile = CorePlugin::m_plugin->m_profiles[i];
+        if (curProfile == QString::fromLocal8Bit(save_profile.c_str()))
             newCur = i;
-        CorePlugin::m_plugin->setProfile(curProfile.c_str());
+        CorePlugin::m_plugin->setProfile(curProfile.local8Bit());
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
         if (clients.size()){
             Client *client = clients[0];
             cmbProfile->insertItem(
-                Pict(client->protocol()->description()->icon),
-                QString::fromLocal8Bit(curProfile.c_str()));
+                Pict(client->protocol()->description()->icon),curProfile);
         }
     }
     cmbProfile->insertItem(i18n("New profile"));
@@ -376,8 +375,8 @@ void LoginDialog::profileDelete()
     int n = cmbProfile->currentItem();
     if ((n < 0) || (n >= (int)(CorePlugin::m_plugin->m_profiles.size())))
         return;
-    string curProfile = CorePlugin::m_plugin->m_profiles[n];
-    CorePlugin::m_plugin->setProfile(curProfile.c_str());
+    QString curProfile = CorePlugin::m_plugin->m_profiles[n];
+    CorePlugin::m_plugin->setProfile(curProfile.local8Bit());
     rmDir(user_file(""));
     CorePlugin::m_plugin->setProfile(NULL);
     CorePlugin::m_plugin->changeProfile();
@@ -407,7 +406,7 @@ void LoginDialog::profileRename()
       QMessageBox::information(this, i18n("Rename Profile"), i18n("There is already another profile with this name.  Please choose another."), QMessageBox::Ok);
       continue;
     }
-    else if(!d.rename(QString(CorePlugin::m_plugin->m_profiles[n]), name)) {
+    else if(!d.rename(CorePlugin::m_plugin->m_profiles[n], name)) {
       QMessageBox::information(this, i18n("Rename Profile"), i18n("Unable to rename the profile.  Please do not use any special characters."), QMessageBox::Ok);
       continue;
     }
