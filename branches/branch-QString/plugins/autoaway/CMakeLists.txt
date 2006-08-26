@@ -41,18 +41,19 @@ IF(COMPILE_PLUGIN)
             autoawaycfgbase.ui
     )
 
+    IF(WIN32)
+        SET(autoaway_SRCS
+            ${autoaway_SRCS}
+            idleui.cpp
+        )
+        SET(autoaway_HDRS
+            ${autoaway_HDRS}
+            idleui.h
+        )
+    ENDIF(WIN32)
+
     SIM_ADD_PLUGIN(autoaway)
+    TARGET_LINK_LIBRARIES(autoaway ${XSS_LIB})
 ELSE(COMPILE_PLUGIN)
     MESSAGE(STATUS "XScreenSaver library not found, autoaway plugin disabled")
 ENDIF(COMPILE_PLUGIN)
-
-###############################
-# idleui library (win32 only) #
-###############################
-IF(WIN32)
-    SET(idleui_SRCS
-            idleui.cpp
-    )
-
-    SIM_ADD_PLUGIN(idleui)
-ENDIF(WIN32)

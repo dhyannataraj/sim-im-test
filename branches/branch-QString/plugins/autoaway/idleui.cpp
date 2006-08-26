@@ -10,14 +10,7 @@
 #include<windows.h>
 #include<winuser.h>
 #include<assert.h>
-
-#define DLLEXPORT __declspec(dllexport)
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
+#include<qlibrary.h>
 
 ////////////////
 // The following global data is SHARED among all instances of the DLL
@@ -48,7 +41,7 @@ bool g_isHandleOwner = false;
 //////////////////
 // Initialize DLL: install kbd/mouse hooks.
 //
-DLLEXPORT BOOL IdleUIInit()
+BOOL IdleUIInit()
 {
     return TRUE;
 }
@@ -56,14 +49,14 @@ DLLEXPORT BOOL IdleUIInit()
 //////////////////
 // Terminate DLL: remove hooks.
 //
-DLLEXPORT void IdleUITerm()
+void IdleUITerm()
 {
 }
 
 /////////////////
 // Get tick count of last keyboard or mouse event
 //
-DLLEXPORT DWORD IdleUIGetLastInputTime()
+DWORD IdleUIGetLastInputTime()
 {
     return g_lastInputTick;
 }
@@ -149,9 +142,15 @@ void shutdown()
 //
 // DLL entry point
 //
-
+static bool bHaveGetLastInputInfo = false;
 BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID reserved)
 {
+    if(bHaveGetLastInputInfo)
+        return TRUE;
+    if(QLibrary::resolve("user32.dll", "GetLastInputInfo")) {
+        bHaveGetLastInputInfo = true;
+        return TRUE;
+    }
     reserved=0;
 	switch (reason)
     {
