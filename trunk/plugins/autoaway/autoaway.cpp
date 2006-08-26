@@ -44,6 +44,7 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 #include <X11/extensions/scrnsaver.h>
 #endif
 
+#include <time.h>
 #include <qapplication.h>
 #include <qtimer.h>
 #include <qwidgetlist.h>
