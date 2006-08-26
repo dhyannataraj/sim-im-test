@@ -265,6 +265,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\idleui.cpp"
+				>
+			</File>
+			<File
 				RelativePath="moc_autoaway.cpp"
 				>
 				<FileConfiguration
@@ -402,6 +406,10 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\idleui.h"
+				>
 			</File>
 		</Filter>
 		<Filter

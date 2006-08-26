@@ -10,6 +10,7 @@
 #include<windows.h>
 #include<winuser.h>
 #include<assert.h>
+#include<qlibrary.h>
 
 ////////////////
 // The following global data is SHARED among all instances of the DLL
@@ -141,9 +142,15 @@ void shutdown()
 //
 // DLL entry point
 //
-
+static bool bHaveGetLastInputInfo = false;
 BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID reserved)
 {
+    if(bHaveGetLastInputInfo)
+        return TRUE;
+    if(QLibrary::resolve("user32.dll", "GetLastInputInfo")) {
+        bHaveGetLastInputInfo = true;
+        return TRUE;
+    }
     reserved=0;
 	switch (reason)
     {
