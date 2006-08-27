@@ -849,6 +849,7 @@ enum DataType {
     DATA_IP,
     DATA_STRUCT,
     DATA_OBJECT,
+    DATA_BINARY     // QByteArray
 };
 
 typedef struct DataDef
@@ -874,6 +875,7 @@ public:
     Data(bool d);
     Data(const QObject *d);
     Data(const IP *d);
+    Data(const QByteArray &d);
 
     Data &operator =(const Data &);
 
@@ -909,6 +911,11 @@ public:
     const IP* ip() const;
     IP* ip();
     bool setIP(const IP *);
+
+    const QByteArray &toBinary() const;
+    QByteArray &asBinary();
+    bool setBinary(const QByteArray &d);
+
 protected:
     void checkType(DataType type) const;
     DataType m_type;
@@ -920,6 +927,7 @@ protected:
     bool           m_dataAsBool;
     QObject       *m_dataAsObject;
     IP            *m_dataAsIP;
+    QByteArray     m_dataAsBinary; 
 };
 
 #define DATA(A) ((const char*)(A))

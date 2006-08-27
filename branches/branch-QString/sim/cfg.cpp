@@ -505,6 +505,9 @@ void init_data(const DataDef *d, Data *data)
             case DATA_IP:
                 *data = Data((IP*)0);
                 break;
+            case DATA_BINARY:
+                *data = Data(QByteArray());
+                break;
             case DATA_STRUCT:
                 init_data((DataDef*)(def->def_value), data);
                 data += (def->n_values - 1);
@@ -619,6 +622,23 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
                 if(s.isEmpty())
                     continue;
                 ld->setBool(s.lower() != "false" && s != "0");
+            }
+            break;
+        }
+        case DATA_BINARY: {
+            QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                QByteArray ba;
+                while(s.length()) {
+                    ba.resize(ba.size()+1);   // FIXME!!! please!
+                    QString t = s.left(2);
+                    ba.data()[i] = (char)t.toShort(NULL, 16);
+                    s = s.mid(2);
+                }
+                ld->setBinary(ba);
             }
             break;
         }
@@ -786,6 +806,15 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     }
                     break;
                 }
+            case DATA_BINARY: {
+                for (unsigned i = 0; i < def->n_values; i++){
+                    QByteArray &ba = d->asBinary();
+                    for(unsigned i = 0; i < ba.size(); i++)
+                        value += QString::number((unsigned char)ba[(int)i], 16);
+                    bSave = true;
+                }
+                break;
+            }
             case DATA_UNKNOWN:
             case DATA_STRUCT:
             case DATA_OBJECT:
@@ -996,6 +1025,13 @@ Data::Data(const QObject *d)
     m_dataAsObject = const_cast<QObject*>(d);
 }
 
+Data::Data(const QByteArray &d)
+ : m_type(DATA_BINARY), m_name("unknown")
+{
+    clear();
+    m_dataAsBinary = d;
+}
+
 Data::Data(const IP *d)
  : m_type(DATA_IP), m_name("unknown")
 {
@@ -1026,6 +1062,10 @@ Data &Data::operator =(const Data &d)
             break;
         case DATA_OBJECT:
             m_dataAsObject = d.m_dataAsObject;
+            break;
+        case DATA_BINARY:
+            m_dataAsBinary = d.m_dataAsBinary;
+            break;
         case DATA_UNKNOWN:
         case DATA_STRUCT:
         default:
@@ -1042,6 +1082,7 @@ void Data::clear()
     m_dataAsBool    = false;
     m_dataAsObject  = NULL;
     m_dataAsIP      = NULL;
+    m_dataAsBinary.resize(0);
 }
 
 const QString &Data::str() const
@@ -1168,6 +1209,27 @@ bool Data::setObject(const QObject *d)
     return true;
 }
 
+const QByteArray &Data::toBinary() const
+{
+    checkType(DATA_BINARY);
+    return m_dataAsBinary;
+}
+
+QByteArray &Data::asBinary()
+{
+    checkType(DATA_BINARY);
+    return m_dataAsBinary;
+}
+
+bool Data::setBinary(const QByteArray &d)
+{
+    checkType(DATA_BINARY);
+    if(d == m_dataAsBinary)
+        return false;
+    m_dataAsBinary = d;
+    return true;
+}
+
 const IP* Data::ip() const
 {
     checkType(DATA_IP);
@@ -1210,6 +1272,8 @@ static const char *dataType2Name(DataType type)
             return "struct";
         case DATA_OBJECT:
             return "object";
+        case DATA_BINARY:
+            return "binary";
     }
     return "unknown";
 }
