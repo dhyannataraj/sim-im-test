@@ -345,6 +345,13 @@ bool TCPClient::error_state(const char *err, unsigned code)
         m_bWaitReconnect = true;
         log(L_DEBUG, "Wait reconnect %u sec", reconnectTime);
         m_timer->start(reconnectTime * 1000);
+    } else {
+        /*
+          slot reconnect() neeeds this flag 
+          to be true to make actual reconnect,
+          but it was somehow false. serzh.
+        */
+        m_bWaitReconnect = true;
     }
     return false;
 }
