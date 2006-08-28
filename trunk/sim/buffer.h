@@ -19,37 +19,34 @@
 #define _BUFFER_H
 
 #include "simapi.h"
+#include <qptrlist.h>
 
 class Buffer;
 
 class EXPORT Tlv
 {
 public:
-    Tlv(unsigned short num, unsigned short size, const char *data);
-    ~Tlv();
-    unsigned short Num() { return m_nNum; }
-    unsigned short Size() { return m_nSize; }
-    operator char *() { return m_data; }
+    Tlv(unsigned short num = 0, unsigned short size = 0, const char *data = NULL);
+    unsigned short Num() { return (unsigned short)m_nNum; }
+    unsigned short Size() { return (unsigned short)m_nSize; }
+    const char *Data() { return m_data.data(); }
+    operator char *() { return m_data.data(); }
     operator unsigned short ();
     operator unsigned long ();
 protected:
-    unsigned short m_nNum;
-    unsigned short m_nSize;
-    char *m_data;
+    int m_nNum;
+    int m_nSize;
+    QByteArray m_data;
 };
 
-class EXPORT TlvList
+class EXPORT TlvList : public QPtrList<Tlv>
 {
 public:
     TlvList();
-    TlvList(Buffer&, unsigned nTlvs = (unsigned)(-1));
-    ~TlvList();
+    TlvList(Buffer&, unsigned nTlvs = ~0U);
     Tlv *operator() (unsigned short num);
-    TlvList &operator + (Tlv *tlv);
-    Tlv *operator[](unsigned n);
-protected:
-    void *m_tlv;
-    friend class Buffer;
+    Tlv *operator[] (unsigned n) {  return at(n); }
+    TlvList &operator+= (const Tlv *tlv) { append(tlv); return *this; }
 };
 
 class EXPORT Buffer

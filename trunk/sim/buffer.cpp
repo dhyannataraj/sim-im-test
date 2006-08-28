@@ -41,16 +41,54 @@ using namespace SIM;
 
 #endif
 
+// Tlv
+Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
+        : m_nNum(num), m_nSize(size)
+{
+    m_data.resize(m_nSize + 1);
+    memcpy(m_data.data(), data, m_nSize);
+    m_data[m_nSize] = 0;
+}
+
 Tlv::operator unsigned short ()
 {
-    return (unsigned short)((m_nSize >= 2) ? htons(*((unsigned short*)m_data)) : 0);
+    return (unsigned short)((m_nSize >= 2) ? htons(*((unsigned short*)m_data.data())) : 0);
 }
 
 Tlv::operator unsigned long ()
 {
-    return (m_nSize >= 4) ? htonl(*((unsigned long*)m_data)) : 0;
+    return (m_nSize >= 4) ? htonl(*((unsigned long*)m_data.data())) : 0;
 }
 
+// TlvList
+TlvList::TlvList()
+{
+    setAutoDelete(true);
+}
+
+TlvList::TlvList(Buffer &b, unsigned nTlvs)
+{
+    setAutoDelete(true);
+    for (unsigned n = 0; (b.readPos() < b.size()) && (n < nTlvs); n++){
+        unsigned short num, size;
+        b >> num >> size;
+        if (b.readPos() + size > b.size())
+            break;
+        append(new Tlv(num, size, b.data(b.readPos())));
+        b.incReadPos(size);
+    }
+}
+
+Tlv *TlvList::operator()(unsigned short num)
+{
+    for(uint i = 0; i < count(); i++) {
+        if (at(i)->Num() == num)
+            return at(i);
+    }
+    return NULL;
+}
+
+// Buffer
 Buffer::Buffer(unsigned size)
         : m_alloc_size(0), m_data(NULL)
 {
@@ -486,96 +524,18 @@ unsigned long Buffer::packetStartPos()
     return m_packetStartPos;
 }
 
-class listTlv : public vector<Tlv*>
-{
-public:
-    listTlv();
-    ~listTlv();
-};
-
-listTlv::listTlv()
-{
-}
-
-listTlv::~listTlv()
-{
-    vector<Tlv*>::iterator it;
-    for (it = begin(); it != end(); it++)
-        delete *it;
-}
-
-TlvList::TlvList()
-{
-    m_tlv = new listTlv;
-}
-
-TlvList::TlvList(Buffer &b, unsigned nTlvs)
-{
-    m_tlv = new listTlv;
-    for (unsigned n = 0; (b.readPos() < b.size()) && (n < nTlvs); n++){
-        unsigned short num, size;
-        b >> num >> size;
-        if (b.readPos() + size > b.size())
-            break;
-        *this + new Tlv(num, size, b.data(b.readPos()));
-        b.incReadPos(size);
-    }
-}
-
-TlvList::~TlvList()
-{
-    delete static_cast<listTlv*>(m_tlv);
-}
-
-TlvList &TlvList::operator +(Tlv *tlv)
-{
-    static_cast<listTlv*>(m_tlv)->push_back(tlv);
-    return *this;
-}
-
-Tlv *TlvList::operator()(unsigned short num)
-{
-    vector<Tlv*>::iterator it;
-    for (it = static_cast<listTlv*>(m_tlv)->begin(); it != static_cast<listTlv*>(m_tlv)->end(); it++)
-        if ((*it)->Num() == num) return *it;
-    return NULL;
-}
-
-Tlv *TlvList::operator[](unsigned n)
-{
-    listTlv *l = static_cast<listTlv*>(m_tlv);
-    if (n >= l->size())
-        return NULL;
-    return (*l)[n];
-}
-
 Buffer &Buffer::operator << (TlvList &tlvList)
 {
-    listTlv *l = static_cast<listTlv*>(tlvList.m_tlv);
     unsigned size = 0;
-    vector<Tlv*>::iterator it;
-    for (it = l->begin(); it != l->end(); it++)
-        size += (*it)->Size() + 4;
+    for (uint i = 0; i < tlvList.count(); i++)
+        size += tlvList.at(i)->Size() + 4;
     *this << (unsigned short)size;
-    for (it = l->begin(); it != l->end(); it++){
-        Tlv *tlv = *it;
-        *this << tlv->Num() << tlv->Size();
+    for (uint i = 0; i < tlvList.count(); i++) {
+        Tlv *tlv = tlvList.at(i);
+        *this << tlv->Num() << (int)tlv->Size();
         pack(*tlv, tlv->Size());
     }
     return *this;
-}
-
-Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
-        : m_nNum(num), m_nSize(size)
-{
-    m_data = new char[size + 1];
-    memcpy(m_data, data, size);
-    m_data[size] = 0;
-}
-
-Tlv::~Tlv()
-{
-    delete[] m_data;
 }
 
 EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)

@@ -767,7 +767,7 @@ void ICQClient::sendInvisible(bool bInvisible)
     }
     char data = bInvisible ? 4 : 3;
     TlvList tlvs;
-    tlvs + new Tlv(0xCA, 1, &data);
+    tlvs += new Tlv(0xCA, 1, &data);
     sendRoster(cmd, NULL, 0, getContactsInvisible(), ICQ_INVISIBLE_STATE, &tlvs);
 }
 
@@ -985,12 +985,12 @@ TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
 {
     TlvList *tlv = new TlvList;
     QCString name = contact->getName().utf8();
-    *tlv + new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
+    *tlv += new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
     if (data->WaitAuth.toBool())
-        *tlv + new Tlv(TLV_WAIT_AUTH, 0, NULL);
+        *tlv += new Tlv(TLV_WAIT_AUTH, 0, NULL);
     string cell = getUserCellular(contact);
     if (cell.length())
-        *tlv + new Tlv(TLV_CELLULAR, (unsigned short)(cell.length()), cell.c_str());
+        *tlv += new Tlv(TLV_CELLULAR, (unsigned short)(cell.length()), cell.c_str());
     return tlv;
 }
 
