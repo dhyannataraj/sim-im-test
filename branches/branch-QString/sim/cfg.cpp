@@ -807,7 +807,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_BINARY: {
-                for (unsigned i = 0; i < def->n_values; i++){
+                for (unsigned i = 0; i < def->n_values; i++) {
                     QByteArray &ba = d->asBinary();
                     for(unsigned i = 0; i < ba.size(); i++) {
                         unsigned char c = ba.data()[i];
@@ -815,7 +815,8 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                         s.sprintf("%02X", c);
                         value += s;
                     }
-                    bSave = true;
+                    if(!bSave)
+                        bSave = (ba.size() != 0);
                 }
                 break;
             }

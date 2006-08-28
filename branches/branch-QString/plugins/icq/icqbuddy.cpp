@@ -268,7 +268,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                    !fi.exists() || fi.size() == 0) {
                     data->buddyID.asULong() = iconID;
                     data->buddyHash.asBinary() = hash;
-                    requestBuddy(ICQClient::screen(data), iconID, hash);
+                    requestBuddy(data);
                 }
            }
 

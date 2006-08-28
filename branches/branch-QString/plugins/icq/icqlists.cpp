@@ -40,7 +40,7 @@ const unsigned short ICQ_SNACxLISTS_REQxROSTER     = 0x0005;
 const unsigned short ICQ_SNACxLISTS_ROSTER         = 0x0006;
 const unsigned short ICQ_SNACxLISTS_ACTIVATE       = 0x0007;
 const unsigned short ICQ_SNACxLISTS_CREATE         = 0x0008;
-const unsigned short ICQ_SNACxLISTS_RENAME         = 0x0009;
+const unsigned short ICQ_SNACxLISTS_UPDATE         = 0x0009;
 const unsigned short ICQ_SNACxLISTS_DELETE         = 0x000A;
 const unsigned short ICQ_SNACxLISTS_DONE           = 0x000E;
 const unsigned short ICQ_SNACxLISTS_ROSTERxOK      = 0x000F;
@@ -66,7 +66,7 @@ const unsigned short ICQ_LAST_UPDATE            = 0x000F;
 const unsigned short ICQ_NON_IM                 = 0x0010;
 const unsigned short ICQ_UNKNOWN                = 0x0011;
 const unsigned short ICQ_IMPORT_TIME            = 0x0013;
-const unsigned short ICQ_BUDDY_CHKSUM           = 0x0014;
+const unsigned short ICQ_BUDDY_CHECKSUM         = 0x0014;
 const unsigned short ICQ_UNKNOWN2               = 0x0019;
 const unsigned short ICQ_UNKNOWN3               = 0x001A;
 const unsigned short ICQ_AWAITING_AUTH          = 0x001B;
@@ -86,12 +86,14 @@ const unsigned LIST_REQUEST_TIMEOUT = 50;
 class ListServerRequest
 {
 public:
-    ListServerRequest(unsigned short seq) { m_seq = seq; }
+    ListServerRequest(unsigned short seq) : m_seq(seq), m_time(time(NULL)) {}
     virtual ~ListServerRequest() {}
     unsigned short seq() { return m_seq; }
     virtual void process(ICQClient *client, unsigned short res) = 0;
+    time_t getTime() const { return m_time; }
 protected:
     unsigned short m_seq;
+    time_t m_time;
 };
 
 class GroupServerRequest : public ListServerRequest
@@ -126,7 +128,7 @@ public:
                    unsigned short icq_id, unsigned short type);
     virtual void process(ICQClient *client, unsigned short res);
 protected:
-    QString			m_screen;
+    QString             m_screen;
     unsigned short	m_icqId;
     unsigned short	m_type;
 };
@@ -134,13 +136,10 @@ protected:
 class SetBuddyRequest : public ListServerRequest
 {
 public:
-    SetBuddyRequest(unsigned short seq, const QString &screen, const QImage &img);
+    SetBuddyRequest(unsigned short seq, const ICQUserData *icqUserData);
     virtual void process(ICQClient *client, unsigned short res);
 protected:
-    QString			m_screen;
-    unsigned short	m_icqId;
-    unsigned short	m_type;
-    QImage          m_img;
+    const ICQUserData *m_icqUserData;
 };
 
 static char PLEASE_UPGRADE[] = "PleaseUpgrade";
@@ -168,7 +167,6 @@ void ICQClient::parseRosterItem(unsigned short type,
                     log(L_DEBUG, "Own UIN in contact list - removing!");
                     seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", grp_id, id);
                     m_listRequest = new ContactServerRequest(seq, QString::number(id), 0, 0);
-                    time(&m_listRequestTime);
                     break;
                 }
                 ListRequest *lr = findContactListRequest(str);
@@ -321,7 +319,7 @@ void ICQClient::parseRosterItem(unsigned short type,
         break;
     case ICQ_PRESENCE_INFO:
         break;
-    case ICQ_BUDDY_CHKSUM: {
+    case ICQ_BUDDY_CHECKSUM: {
             if (str.length()){
                 Tlv *tlv_buddyHash = (*inf)(TLV_BUDDYHASH);
                 if(tlv_buddyHash) {
@@ -335,7 +333,8 @@ void ICQClient::parseRosterItem(unsigned short type,
 
                     if(data.owner.buddyHash.toBinary() != buddyHash) {
                         data.owner.buddyHash.asBinary() = buddyHash;
-//                        requestBuddy(data.owner.Screen.str(), data.owner.buddyHash.toBinary());
+                        data.owner.buddyID.asULong() = flag;
+                        requestBuddy(&data.owner);
                     }
                 }
             }
@@ -431,7 +430,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             log(L_DEBUG, "Server adds new item");
             break;
         }
-    case ICQ_SNACxLISTS_RENAME: {
+    case ICQ_SNACxLISTS_UPDATE: {
             QString name;
             unsigned short id, grp_id, type, len;
             bool tmp;
@@ -446,7 +445,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 inf = new TlvList(b);
             }
             parseRosterItem(type,name,grp_id,id,inf,tmp);
-            if (inf) delete inf;
+            delete inf;
             break;
         }
     case ICQ_SNACxLISTS_DELETE: {
@@ -796,7 +795,7 @@ void ICQClient::listsRequest()
 
 void ICQClient::sendInvisible(bool bInvisible)
 {
-    unsigned short cmd = ICQ_SNACxLISTS_RENAME;
+    unsigned short cmd = ICQ_SNACxLISTS_UPDATE;
     if (getContactsInvisible() == 0){
         cmd = ICQ_SNACxLISTS_CREATE;
         setContactsInvisible((unsigned short)(get_random() & 0x7FFF));
@@ -968,15 +967,25 @@ void SetListRequest::process(ICQClient *client, unsigned short)
 }
 
 //-----------------------------------------------------------------------------
-SetBuddyRequest::SetBuddyRequest(unsigned short seq, const QString &screen, const QImage &img)
-        : ListServerRequest(seq), m_screen(screen), m_img(img)
+SetBuddyRequest::SetBuddyRequest(unsigned short seq, const ICQUserData *icqUserData)
+        : ListServerRequest(seq), m_icqUserData(icqUserData)
 {
 }
 
-void SetBuddyRequest::process(ICQClient *client, unsigned short)
+void SetBuddyRequest::process(ICQClient *client, unsigned short res)
 {
-    Contact *contact;
-    ICQUserData *data = client->findContact(m_screen, NULL, true, contact);
+    client->listRequests.erase(listRequests.begin());
+    // item does not exist
+    if(res == 2) {
+        ListRequest lr;
+        lr.type        = LIST_BUDDY_CHECKSUM;
+        lr.icqUserData = m_icqUserData;
+        lr.bCreate     = true;
+        client->listRequests.push_back(lr);
+        client->processSendQueue();
+    }
+    if(res != 0)
+        return;
 }
 
 //-----------------------------------------------------------------------------
@@ -1031,27 +1040,14 @@ TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
     return tlv;
 }
 
-void ICQClient::uploadBuddy(const QImage &img)
+void ICQClient::uploadBuddy(const ICQUserData *data)
 {
-    QByteArray ba;
-    QBuffer buf(ba);
-    img.save(&buf, "JPG");
-    QByteArray hash = md5(ba.data());
-
-    TlvList *tlvList = new TlvList;
-
-    ba.resize(hash.size() + 2);
-    ba.data()[0] = 0x01;
-    ba.data()[1] = hash.size();
-    memcpy(&ba.data()[2], hash.data(), hash.size());
-    Tlv tlv(TLV_BUDDYHASH, ba.size(), ba.data());
-    *tlvList += &tlv;
-
-    unsigned short seq = sendRoster(ICQ_SNACxLISTS_CREATE, "1", 0, 0, ICQ_BUDDY_CHKSUM, tlvList);
-}
-
-void ICQClient::setBuddyHash(const QByteArray &hash)
-{
+    ListRequest lr;
+    lr.type        = LIST_BUDDY_CHECKSUM;
+    lr.icqUserData = data;
+    lr.bCreate     = false;
+    listRequests.push_back(lr);
+    processSendQueue();
 }
 
 unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, unsigned short grp_id,
@@ -1078,7 +1074,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
 void ICQClient::sendRosterGrp(const QString &name, unsigned short grpId, unsigned short usrId)
 {
     QCString sName = name.utf8();
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_RENAME, true);
+    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UPDATE, true);
     m_socket->writeBuffer.pack(sName.data(), sName.length());
     m_socket->writeBuffer
     << grpId
@@ -1140,7 +1136,6 @@ unsigned ICQClient::processListRequest()
                         seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data), 0, (unsigned short)(data->ContactVisibleId.toULong()), ICQ_VISIBLE_LIST);
                     }
                     m_listRequest = new SetListRequest(seq, screen(data), (unsigned short)(data->VisibleId.toULong()), ICQ_VISIBLE_LIST);
-                    time(&m_listRequestTime);
                     break;
                 }
                 data->VisibleId.asULong() = data->ContactVisibleId.toULong();
@@ -1155,7 +1150,6 @@ unsigned ICQClient::processListRequest()
                         seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data), 0, (unsigned short)(data->ContactInvisibleId.toULong()), ICQ_INVISIBLE_LIST);
                     }
                     m_listRequest = new SetListRequest(seq, screen(data), (unsigned short)(data->InvisibleId.toULong()), ICQ_INVISIBLE_LIST);
-                    time(&m_listRequestTime);
                     break;
                 }
                 data->InvisibleId.asULong() = data->ContactInvisibleId.toULong();
@@ -1171,7 +1165,6 @@ unsigned ICQClient::processListRequest()
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), 0, ignore_id, ICQ_IGNORE_LIST);
                 }
                 m_listRequest = new SetListRequest(seq, screen(data), ignore_id, ICQ_IGNORE_LIST);
-                time(&m_listRequestTime);
                 break;
             }
             if (contact->getGroup()){
@@ -1203,12 +1196,10 @@ unsigned ICQClient::processListRequest()
                     sendPacket(true);
                     log(L_DEBUG, "%s move to group %s", userStr(contact, data).latin1(), (const char*)group->getName().local8Bit());
                     m_listRequest = new ContactServerRequest(seq, screen(data), (unsigned short)(data->IcqID.toULong()), grp_id, tlv);
-                    time(&m_listRequestTime);
                 }else{
                     log(L_DEBUG, "%s remove from contact list", userStr(contact, data).latin1());
                     seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()));
                     m_listRequest = new ContactServerRequest(seq, screen(data), 0, 0);
-                    time(&m_listRequestTime);
                 }
                 break;
             }
@@ -1217,9 +1208,8 @@ unsigned ICQClient::processListRequest()
             if (isContactRenamed(data, contact)){
                 log(L_DEBUG, "%s rename", userStr(contact, data).local8Bit().data());
                 TlvList *tlv = createListTlv(data, contact);
-                seq = sendRoster(ICQ_SNACxLISTS_RENAME, screen(data), (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()), 0, tlv);
+                seq = sendRoster(ICQ_SNACxLISTS_UPDATE, screen(data), (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()), 0, tlv);
                 m_listRequest = new ContactServerRequest(seq, screen(data), (unsigned short)(data->IcqID.toULong()), (unsigned short)(data->GrpId.toULong()), tlv);
-                time(&m_listRequestTime);
                 break;
             }
             break;
@@ -1228,28 +1218,24 @@ unsigned ICQClient::processListRequest()
                 log(L_DEBUG, "%s remove from visible list", lr.screen.local8Bit().data());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, lr.screen, 0, lr.visible_id, ICQ_VISIBLE_LIST);
                 m_listRequest = new SetListRequest(seq, lr.screen, 0, ICQ_VISIBLE_LIST);
-                time(&m_listRequestTime);
                 break;
             }
             if (lr.invisible_id){
                 log(L_DEBUG, "%s remove from invisible list", lr.screen.local8Bit().data());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, lr.screen, 0, lr.invisible_id, ICQ_INVISIBLE_LIST);
                 m_listRequest = new SetListRequest(seq, lr.screen, 0, ICQ_INVISIBLE_LIST);
-                time(&m_listRequestTime);
                 break;
             }
             if (lr.ignore_id){
                 log(L_DEBUG, "%s remove from ignore list", lr.screen.local8Bit().data());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, lr.screen, 0, lr.ignore_id, ICQ_IGNORE_LIST);
                 m_listRequest = new SetListRequest(seq, lr.screen, 0, ICQ_IGNORE_LIST);
-                time(&m_listRequestTime);
                 break;
             }
             if (lr.screen.length() && lr.grp_id){
                 log(L_DEBUG, "%s remove from contact list", lr.screen.local8Bit().data());
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", lr.grp_id, lr.icq_id);
                 m_listRequest = new ContactServerRequest(seq, lr.screen, 0, 0);
-                time(&m_listRequestTime);
             }
             break;
         case LIST_GROUP_CHANGED:
@@ -1262,7 +1248,7 @@ unsigned ICQClient::processListRequest()
                     QString alias = data->Alias.str();
                     if (alias != name){
                         log(L_DEBUG, "rename group %s", (const char*)group->getName().local8Bit());
-                        seq = sendRoster(ICQ_SNACxLISTS_RENAME, name, icq_id, 0, ICQ_GROUPS);
+                        seq = sendRoster(ICQ_SNACxLISTS_UPDATE, name, icq_id, 0, ICQ_GROUPS);
                     }
                 }else{
                     log(L_DEBUG, "create group %s", (const char*)group->getName().local8Bit());
@@ -1275,7 +1261,6 @@ unsigned ICQClient::processListRequest()
                 }
                 if (seq)
                     m_listRequest = new GroupServerRequest(seq, group->id(), icq_id, name);
-                time(&m_listRequestTime);
             }
             break;
         case LIST_GROUP_DELETED:
@@ -1287,7 +1272,40 @@ unsigned ICQClient::processListRequest()
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
                 sendPacket(true);
                 m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, name);
-                time(&m_listRequestTime);
+            }
+            break;
+        case LIST_BUDDY_CHECKSUM:
+            if (lr.icqUserData){
+                log(L_DEBUG, "Add/Modify buddy icon checksum");
+
+                QImage img(getPicture());
+                if(img.isNull())
+                    break;
+
+                QByteArray ba;
+                QBuffer buf(ba);
+                if(!buf.open(IO_WriteOnly)) {
+                    log(L_ERROR, "Can't open QByteArray for writing!");
+                    break;
+                }
+                if(!img.save(&buf, "JPEG")) {
+                    log(L_ERROR, "Can't save QImage to QBuffer");
+                    break;
+                }
+                buf.close();
+                QByteArray hash = md5(ba.data(), ba.size());
+
+                TlvList *tlvList = new TlvList;
+
+                ba.resize(hash.size() + 2);
+                ba.data()[0] = 0x01;
+                ba.data()[1] = hash.size();
+                memcpy(&ba.data()[2], hash.data(), hash.size());
+                Tlv *tlv = new Tlv(TLV_BUDDYHASH, ba.size(), ba.data());
+                *tlvList += tlv;
+
+                unsigned short seq = sendRoster(lr.bCreate ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_UPDATE, "", 0, 0, ICQ_BUDDY_CHECKSUM, tlvList);
+                m_listRequest = new SetBuddyRequest(seq, &this->data.owner);
             }
             break;
         }
@@ -1302,7 +1320,7 @@ void ICQClient::checkListRequest()
 {
     if (m_listRequest == NULL)
         return;
-    if (time(NULL) > (time_t)(m_listRequestTime + LIST_REQUEST_TIMEOUT)){
+    if (time(NULL) > (m_listRequest->getTime() + LIST_REQUEST_TIMEOUT)){
         log(L_WARN, "List request timeout");
         m_listRequest->process(this, (unsigned short)(-1));
         delete m_listRequest;

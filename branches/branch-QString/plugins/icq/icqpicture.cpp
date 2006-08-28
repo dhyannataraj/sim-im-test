@@ -48,7 +48,7 @@ ICQPicture::ICQPicture(QWidget *parent, struct ICQUserData *data, ICQClient *cli
         edtPict->hide();
         btnClear->hide();
     }else{
-        QString format = "*.bmp *.gif *.jpg *.jpeg";
+        QString format = QString("*." + QStringList::fromStrList(QImage::inputFormats()).join(" *.")).lower();
 #ifdef USE_KDE
         edtPict->setFilter(i18n("%1|Graphics") .arg(format));
 #else
@@ -80,6 +80,7 @@ void ICQPicture::apply(Client *client, void *_data)
         m_client->setPicture(pict);
         data->PluginInfoTime.asULong() = time(NULL);
     }
+    m_client->uploadBuddy(data);
 }
 
 void *ICQPicture::processEvent(Event *e)
@@ -97,12 +98,9 @@ void ICQPicture::fill()
     if (m_data == NULL)
         return;
     if (m_data->PictureHeight.toULong() && m_data->PictureWidth.toULong()){
-        QImage img(m_client->pictureFile(m_data));
-        setPict(img);
-        return;
+        setPict(QImage(m_client->pictureFile(m_data)));
     }
-    QImage img;
-    setPict(img);
+    setPict(QImage());
 }
 
 void ICQPicture::clearPicture()
@@ -115,19 +113,15 @@ const unsigned short MAX_PICTURE_SIZE      = 8081;
 void ICQPicture::pictSelected(const QString &file)
 {
     if (file.isEmpty()){
-        QImage img;
-        setPict(img);
-        return;
+        setPict(QImage());
+    } else {
+        QFile f(file);
+        if (f.size() > MAX_PICTURE_SIZE){
+            setPict(QImage());
+            BalloonMsg::message(i18n("Picture can not be more than 7 kbytes"), edtPict);
+        }
+        setPict(QImage(file));
     }
-    QFile f(file);
-    if (f.size() > MAX_PICTURE_SIZE){
-        QImage img;
-        setPict(img);
-        BalloonMsg::message(i18n("Picture can not be more than 7 kbytes"), edtPict);
-        return;
-    }
-    QImage img(file);
-    setPict(img);
 }
 
 void ICQPicture::setPict(QImage &img)

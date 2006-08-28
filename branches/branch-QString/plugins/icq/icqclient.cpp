@@ -1586,7 +1586,7 @@ unsigned long ICQClient::warnLevel(unsigned long level)
     return level;
 }
 
-bool ICQClient::hasCap(ICQUserData *data, cap_id_t n)
+bool ICQClient::hasCap(const ICQUserData *data, cap_id_t n)
 {
     unsigned long val = n > 31 ? data->Caps2.toULong() : data->Caps.toULong();
     int pos = (int)n % 32;
@@ -2344,6 +2344,7 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
     }else{
         fetchProfile(data);
     }
+    requestBuddy(data);
 }
 
 void ICQClient::fetchAwayMessage(ICQUserData *data)
@@ -3307,8 +3308,10 @@ void ICQClient::retry(int n, void *p)
 
 bool ICQClient::isOwnData(const QString &screen)
 {
-    if (screen.isEmpty() || data.owner.Screen.str().isEmpty())
+    if (screen.isEmpty())
         return false;
+    if(data.owner.Uin.toULong())
+        return (data.owner.Uin.toULong() == screen.toULong());
     return (screen.lower() == data.owner.Screen.str().lower());
 }
 

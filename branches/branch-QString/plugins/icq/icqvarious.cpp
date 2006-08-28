@@ -1818,16 +1818,14 @@ SSBISocket *ICQClient::getSSBISocket()
     return s;
 }
 
-/*
-void ICQClient::uploadBuddy(const QImage &img)
+void ICQClient::requestBuddy(const ICQUserData *data)
 {
-
-}
-*/
-void ICQClient::requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash)
-{
+    if(!hasCap(data, CAP_AVATAR) && !isOwnData(screen(data)))
+        return;
+    if(!data->buddyHash.toBinary().size())
+        return;
     SSBISocket *s = getSSBISocket();
-    s->requestBuddy(screen, buddyID, buddyHash);
+    s->requestBuddy(screen(data), data->buddyID.toULong(), data->buddyHash.toBinary());
 }
 
 SSBISocket::SSBISocket(ICQClient *client)
@@ -1895,8 +1893,17 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             log(L_WARN, "SSBI error (%04X,%04X)", seq, error_code);
             break;
         }
-    case ICQ_SNACxSSBI_UPLOAD_ACK:
+    case ICQ_SNACxSSBI_UPLOAD_ACK: {
+        unsigned short unknown1, unknown2;
+        char size;
+        QByteArray ba(16);
+
+        m_socket->readBuffer >> unknown1 >> unknown2;
+        m_socket->readBuffer >> size;
+        ba.resize(size);
+        m_socket->readBuffer.unpack(ba.data(), size);
         break;
+    }
     case ICQ_SNACxSSBI_REQ_AIM_ACK: {
             Contact *contact;
             QString screen;
@@ -1970,6 +1977,28 @@ void SSBISocket::process()
         }
     }
     m_buddyRequests.clear();
+}
+
+
+void ICQClient::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
+{
+    QByteArray ba;
+    QBuffer buf(ba);
+    if(!buf.open(IO_WriteOnly)) {
+        log(L_ERROR, "Can't open QByteArray for writing!");
+        return;
+    }
+    if(!img.save(&buf, "JPEG")) {
+        log(L_ERROR, "Can't save QImage to QBuffer");
+        return;
+    }
+    buf.close();
+
+    snac(ICQ_SNACxFAM_SSBI, ICQ_SNACxSSBI_UPLOAD, true);
+    m_socket->writeBuffer << refNumber;
+    m_socket->writeBuffer.pack(ba.data(), ba.size());
+
+    sendPacket(true);
 }
 
 void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash)

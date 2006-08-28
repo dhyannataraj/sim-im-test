@@ -370,13 +370,16 @@ class ICQClient;
 
 const unsigned LIST_USER_CHANGED    = 0;
 const unsigned LIST_USER_DELETED    = 1;
-const unsigned LIST_GROUP_CHANGED    = 2;
-const unsigned LIST_GROUP_DELETED    = 3;
+const unsigned LIST_GROUP_CHANGED   = 2;
+const unsigned LIST_GROUP_DELETED   = 3;
+const unsigned LIST_BUDDY_CHECKSUM  = 4;
 
 class ListRequest
 {
 public:
-ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore_id(0) {}
+    ListRequest()
+        : type(0), icq_id(0), grp_id(0), visible_id(0), invisible_id(0), ignore_id(0),
+          icqUserData(0), bCreate(false) {}
 
 public:
     unsigned          type;
@@ -386,6 +389,8 @@ public:
     unsigned short    visible_id;
     unsigned short    invisible_id;
     unsigned short    ignore_id;
+    const ICQUserData *icqUserData;
+    bool              bCreate;
 };
 
 class ICQListener : public SIM::ServerSocketNotify
@@ -595,6 +600,7 @@ public:
     static unsigned clearTags(QString &text);
     bool m_bAIM;
     static QString addCRLF(const QString &str);
+    void uploadBuddy(const ICQUserData *data);
 protected slots:
     void ping();
     void processSendQueue();
@@ -676,7 +682,6 @@ protected:
     unsigned short m_sendSmsId;
     unsigned short m_offlineMessagesRequestId;
     ListServerRequest *m_listRequest;
-    time_t m_listRequestTime;
     bool m_bRosters;
     bool m_bBirthday;
     bool m_bNoSend;
@@ -707,7 +712,7 @@ protected:
     void sendPluginInfoUpdate(unsigned plugin_id);
     void sendPluginStatusUpdate(unsigned plugin_id, unsigned long status);
     bool m_bIdleTime;
-    static bool hasCap(ICQUserData *data, cap_id_t fcap);
+    static bool hasCap(const ICQUserData *data, cap_id_t fcap);
     static void setCap(ICQUserData *data, cap_id_t fcap);
     bool isSupportPlugins(ICQUserData *data);
     QString trimPhone(const QString &phone);
@@ -759,9 +764,8 @@ protected:
     void encodeString(const QString &_str, unsigned short nTlv, bool bWide);
     bool processMsg();
     void packTlv(unsigned short tlv, unsigned short code, const char *keywords);
-    void uploadBuddy(const QImage &img);
-    void requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash);
-    void setBuddyHash(const QByteArray &hash);
+    void uploadBuddyIcon(unsigned short refNumber, const QImage &img);
+    void requestBuddy(const ICQUserData *data);
     ICQUserData *findInfoRequest(unsigned short seq, SIM::Contact *&contact);
     INFO_REQ_MAP m_info_req;
     unsigned short msgStatus();
@@ -788,7 +792,8 @@ protected:
     friend class DirectClient;
     friend class ICQListener;
     friend class AIMFileTransfer;
-	friend class ICQFileTransfer;
+    friend class ICQFileTransfer;
+    friend class SetBuddyRequest;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket

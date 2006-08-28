@@ -26,6 +26,7 @@
 #endif
 
 #include <qtimer.h>
+#include <qbuffer.h>
 
 using namespace std;
 using namespace SIM;
@@ -45,7 +46,7 @@ const unsigned short ICQ_SNACxSRV_PAUSExACK     = 0x000C;
 const unsigned short ICQ_SNACxSRV_RESUME        = 0x000D;
 const unsigned short ICQ_SNACxSRV_GETxUSERxINFO = 0x000E;
 const unsigned short ICQ_SNACxSRV_NAMExINFO     = 0x000F;
-const unsigned short ICQ_SNACxSRV_EVIL			= 0x0010;
+const unsigned short ICQ_SNACxSRV_EVIL          = 0x0010;
 const unsigned short ICQ_SNACxSRV_SETxIDLE      = 0x0011;
 const unsigned short ICQ_SNACxSRV_MIGRATE       = 0x0012;
 const unsigned short ICQ_SNACxSRV_MOTD          = 0x0013;
@@ -53,6 +54,7 @@ const unsigned short ICQ_SNACxSRV_PRIVATY_FLAGS = 0x0014;   /* Not implemented *
 const unsigned short ICQ_SNACxSRV_IMxICQ        = 0x0017;
 const unsigned short ICQ_SNACxSRV_ACKxIMxICQ    = 0x0018;
 const unsigned short ICQ_SNACxSRV_SETxSTATUS    = 0x001E;
+const unsigned short ICQ_SNACxSRV_EXT_STATUS    = 0x0021;
 
 void ICQClient::snac_service(unsigned short type, unsigned short)
 {
@@ -226,6 +228,46 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_ACKxIMxICQ:
         snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
         sendPacket(true);
+        break;
+    case ICQ_SNACxSRV_EXT_STATUS: {
+            QByteArray shash(16);
+            unsigned short nType;
+            char flags, size;
+
+            m_socket->readBuffer >> nType;
+            if(nType == 0)  // SSBI ready
+                break;
+            if(nType == 2)  // iChat message
+                break;
+
+            m_socket->readBuffer >> flags >> size;
+            shash.resize(size);
+            m_socket->readBuffer.unpack(shash.data(), shash.size());
+
+            QImage img(getPicture());
+            if(img.isNull())
+                break;
+
+            QByteArray ba;
+            QBuffer buf(ba);
+            if(!buf.open(IO_WriteOnly)) {
+                log(L_ERROR, "Can't open QByteArray for writing!");
+                break;
+            }
+            if(!img.save(&buf, "JPEG")) {
+                log(L_ERROR, "Can't save QImage to QBuffer");
+                break;
+            }
+            buf.close();
+            QByteArray hash = md5(ba.data(), ba.size());
+
+            if(hash != shash) {
+                log(L_WARN, "can't upload buddy icon due to different hash keys");
+                break;
+            }
+
+            uploadBuddyIcon(1, img);
+        }
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
             QString screen = m_socket->readBuffer.unpackScreen();
