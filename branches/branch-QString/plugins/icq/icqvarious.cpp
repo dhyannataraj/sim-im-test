@@ -27,6 +27,7 @@
 #endif
 
 #include <qtimer.h>
+#include <qbuffer.h>
 #include "xml.h"
 
 using namespace std;
@@ -1789,4 +1790,210 @@ void ICQClient::searchChat(unsigned short group)
     m_socket->writeBuffer.pack(group);
     sendServerRequest();
     varRequests.push_back(new RandomChatRequest(this, m_nMsgSequence));
+}
+
+// TODO: move to own file!
+const unsigned short ICQ_SNACxSSBI_ERROR            = 0x0001;
+const unsigned short ICQ_SNACxSSBI_UPLOAD           = 0x0002;   // cli -> srv
+const unsigned short ICQ_SNACxSSBI_UPLOAD_ACK       = 0x0003;   // src -> cli
+const unsigned short ICQ_SNACxSSBI_REQ_AIM          = 0x0004;   // cli -> srv
+const unsigned short ICQ_SNACxSSBI_REQ_AIM_ACK      = 0x0005;   // src -> cli
+const unsigned short ICQ_SNACxSSBI_REQ_ICQ          = 0x0006;   // cli -> srv
+const unsigned short ICQ_SNACxSSBI_REQ_ICQ_ACK      = 0x0007;   // src -> cli
+
+SSBISocket *ICQClient::getSSBISocket()
+{
+    SSBISocket *s = NULL;
+
+    for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
+        if ((*it)->id() == ICQ_SNACxFAM_SSBI){
+            s = static_cast<SSBISocket*>(*it);
+            break;
+        }
+    }
+    if (s == NULL){
+        s = new SSBISocket(this);
+        requestService(s);
+    }
+    return s;
+}
+
+/*
+void ICQClient::uploadBuddy(const QImage &img)
+{
+
+}
+*/
+void ICQClient::requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash)
+{
+    SSBISocket *s = getSSBISocket();
+    s->requestBuddy(screen, buddyID, buddyHash);
+}
+
+SSBISocket::SSBISocket(ICQClient *client)
+    : ServiceSocket(client, ICQ_SNACxFAM_SSBI)
+{}
+
+void SSBISocket::data(unsigned short fam, unsigned short type, unsigned short seq)
+{
+    switch(fam) {
+        case ICQ_SNACxFAM_SERVICE:
+            snac_service(type, seq);
+            break;
+        case ICQ_SNACxFAM_SSBI:
+            snac_ssbi(type, seq);
+            break;
+        default:
+            log(L_WARN, "Unknown family %d in SSBISocket");
+            break;
+    }
+}
+
+// from icqservice.cpp
+const unsigned short ICQ_SNACxSRV_READYxCLIENT  = 0x0002;
+const unsigned short ICQ_SNACxSRV_READYxSERVER	= 0x0003;
+const unsigned short ICQ_SNACxSRV_REQxRATExINFO = 0x0006;
+const unsigned short ICQ_SNACxSRV_RATExINFO     = 0x0007;
+const unsigned short ICQ_SNACxSRV_RATExACK      = 0x0008;
+const unsigned short ICQ_SNACxSRV_IMxICQ        = 0x0017;
+const unsigned short ICQ_SNACxSRV_ACKxIMxICQ    = 0x0018;
+
+void SSBISocket::snac_service(unsigned short type, unsigned short)
+{
+    switch(type) {
+        case ICQ_SNACxSRV_READYxSERVER:
+            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
+            m_socket->writeBuffer << 0x00010004L << 0x00100001L;
+            sendPacket();
+            break;
+        case ICQ_SNACxSRV_ACKxIMxICQ:
+            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
+            sendPacket();
+            break;
+        case ICQ_SNACxSRV_RATExINFO:
+            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
+            m_socket->writeBuffer << 0x00010002L << 0x00030004L << 0x0005;
+            sendPacket();
+            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_READYxCLIENT);
+            m_socket->writeBuffer << 0x00010004L << 0x00100739L << 0x00100001L << 0x00100739L;
+            sendPacket();
+            m_bConnected = true;
+            process();
+            break;
+        default:
+            log(L_DEBUG, "Unknown service type %u", type);
+            break;
+    }
+}
+
+void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
+{
+    switch (type){
+    case ICQ_SNACxSSBI_ERROR:{
+            unsigned short error_code;
+            m_socket->readBuffer >> error_code;
+            log(L_WARN, "SSBI error (%04X,%04X)", seq, error_code);
+            break;
+        }
+    case ICQ_SNACxSSBI_UPLOAD_ACK:
+        break;
+    case ICQ_SNACxSSBI_REQ_AIM_ACK: {
+            Contact *contact;
+            QString screen;
+            QByteArray hash(16), icon(1024);
+            unsigned short iconID, iconSize;
+            char iconFlags, hashSize;
+
+            screen = m_socket->readBuffer.unpackScreen();
+            ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
+            if(data) {
+                m_socket->readBuffer >> iconID >> iconFlags >> hashSize;
+                hash.resize(hashSize);
+                m_socket->readBuffer.unpack(hash.data(), hashSize);
+                m_socket->readBuffer >> iconSize;
+                icon.resize(iconSize);
+                m_socket->readBuffer.unpack(icon.data(), iconSize);
+
+                QString filename = ICQClient::avatarFile(data);
+                QFile f(filename);
+                f.open(IO_WriteOnly);
+                f.writeBlock(icon);
+                f.close();
+            }
+            break;
+        }
+    case ICQ_SNACxSSBI_REQ_ICQ_ACK: {
+            Contact *contact;
+            QString screen;
+            QByteArray hash(16), icon(1024);
+            unsigned short iconID, iconSize;
+            char iconFlags, hashSize, unknown1;
+
+            screen = m_socket->readBuffer.unpackScreen();
+            ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
+            if(data) {
+                m_socket->readBuffer >> iconID >> iconFlags >> hashSize;
+                hash.resize(hashSize);
+                m_socket->readBuffer.unpack(hash.data(), hashSize);
+                m_socket->readBuffer >> unknown1;
+                // again ...
+                m_socket->readBuffer >> iconID >> iconFlags >> hashSize;
+                hash.resize(hashSize);
+                m_socket->readBuffer.unpack(hash.data(), hashSize);
+
+                m_socket->readBuffer >> iconSize;
+                icon.resize(iconSize);
+                m_socket->readBuffer.unpack(icon.data(), iconSize);
+
+                QString filename = ICQClient::avatarFile(data);
+                QFile f(filename);
+                f.open(IO_WriteOnly);
+                f.writeBlock(icon);
+                f.close();
+            }
+            break;
+        }
+    default:
+        log(L_WARN, "Unknown SSBI family type %04X", type);
+        break;
+    }
+}
+
+void SSBISocket::process()
+{
+    for(unsigned i = 0; i < m_buddyRequests.count(); i++) {
+        Contact *contact;
+        QString screen = m_buddyRequests[(int)i];
+        ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
+        if(data) {
+            requestBuddy(screen, data->buddyID.toULong(), data->buddyHash.toBinary());
+        }
+    }
+    m_buddyRequests.clear();
+}
+
+void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash)
+{
+    if(buddyHash.size() != 0x10) {
+        log(L_ERROR, "Invalid buddyHash size (%d, id: %d) for %s", buddyHash.size(), buddyID, screen.latin1());
+        return;
+    }
+    // buddyID == 1 -> jpeg
+    // buddyID == 8 -> xml/swf
+    if(!connected()) {
+        // wait
+        m_buddyRequests.append(screen);
+        return;
+    }
+
+    char len = buddyHash.size();
+    snac(ICQ_SNACxFAM_SSBI, m_client->m_bAIM ? ICQ_SNACxSSBI_REQ_AIM : ICQ_SNACxSSBI_REQ_ICQ, true);
+
+    m_socket->writeBuffer.packScreen(screen);
+    m_socket->writeBuffer << (char)0x01
+                          << (unsigned short)buddyID
+                          << (char)0x01;
+    m_socket->writeBuffer.pack(&len, 1);
+    m_socket->writeBuffer.pack(buddyHash.data(), len);
+    sendPacket();
 }

@@ -59,7 +59,7 @@ const unsigned short ICQ_SNACxFAM_BOS              = 0x0009;
 const unsigned short ICQ_SNACxFAM_PING             = 0x000B;
 const unsigned short ICQ_SNACxFAM_CHATxNAVIGATION  = 0x000D;
 const unsigned short ICQ_SNACxFAM_CHAT			   = 0x000E;
-const unsigned short ICQ_SNACxFAM_SERVERBUDDYICONS = 0x0010;
+const unsigned short ICQ_SNACxFAM_SSBI             = 0x0010;
 const unsigned short ICQ_SNACxFAM_LISTS            = 0x0013;
 const unsigned short ICQ_SNACxFAM_VARIOUS          = 0x0015;
 const unsigned short ICQ_SNACxFAM_LOGIN            = 0x0017;
@@ -249,6 +249,8 @@ struct ICQUserData : public SIM::clientData
     SIM::Data		DirectPluginStatus;
     SIM::Data		bNoDirect;
     SIM::Data		bInvisible;
+    SIM::Data       buddyID;
+    SIM::Data       buddyHash;
 };
 
 typedef struct ICQClientData
@@ -496,6 +498,7 @@ typedef struct InfoRequest
 typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
 typedef std::map<unsigned, unsigned>			RATE_MAP;
 
+class SSBISocket;
 class ICQClient : public SIM::TCPClient, public OscarSocket
 {
     Q_OBJECT
@@ -582,6 +585,7 @@ public:
     bool messageReceived(SIM::Message*, const QString &screen);
     static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(const ICQUserData *data);
+    static QString avatarFile(const ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
@@ -642,6 +646,7 @@ protected:
     void buddyRequest();
     void icmbRequest();
     void bosRequest();
+    void addCapability(Buffer &cap, cap_id_t id);   // helper for sendCapability()
     void sendCapability(const QString &msg=QString::null);
     void sendICMB(unsigned short channel, unsigned long flags);
     void sendLogonStatus();
@@ -657,6 +662,7 @@ protected:
     void fillDirectInfo(Buffer &directInfo);
     void removeFullInfoRequest(unsigned long uin);
     void requestService(ServiceSocket*);
+    SSBISocket *getSSBISocket();
     unsigned long fullStatus(unsigned status);
     QCString cryptPassword();
     virtual void connect_ready();
@@ -753,6 +759,9 @@ protected:
     void encodeString(const QString &_str, unsigned short nTlv, bool bWide);
     bool processMsg();
     void packTlv(unsigned short tlv, unsigned short code, const char *keywords);
+    void uploadBuddy(const QImage &img);
+    void requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash);
+    void setBuddyHash(const QByteArray &hash);
     ICQUserData *findInfoRequest(unsigned short seq, SIM::Contact *&contact);
     INFO_REQ_MAP m_info_req;
     unsigned short msgStatus();
@@ -803,6 +812,20 @@ protected:
     bool    m_bConnected;
     SIM::ClientSocket *m_socket;
     ICQClient *m_client;
+};
+
+class SSBISocket : public ServiceSocket
+{
+public:
+    SSBISocket(ICQClient *client);
+    void requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash);
+protected:
+    virtual void data(unsigned short fam, unsigned short type, unsigned short seq);
+    void snac_service(unsigned short type, unsigned short seq);
+    void snac_ssbi(unsigned short type, unsigned short seq);
+    void process();
+
+    QStringList m_buddyRequests;
 };
 
 class DirectSocket : public QObject, public SIM::ClientSocketNotify

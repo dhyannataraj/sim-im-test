@@ -168,7 +168,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 m_socket->readBuffer >> num >> size;
                 data = m_socket->readBuffer.data(m_socket->readBuffer.readPos());
                 Tlv* tlv = new Tlv(num,size,data);
-                lTlv = lTlv + tlv;
+                lTlv += tlv;
             }
             m_socket->readBuffer >> missed >> error;
             const char *err_str = NULL;
@@ -1845,7 +1845,7 @@ bool ICQClient::processMsg()
         m_send.id.id_h = rand();
         if (m_send.flags == PLUGIN_AIM_FT){
             TlvList tlvs;
-            tlvs + new Tlv(0x0E, 2, "en");
+            tlvs += new Tlv(0x0E, 2, "en");
             char b[15];
             sprintf(b, "%06X", (unsigned)(m_send.msg->getBackground() & 0xFFFFFF));
             QString text = QString("<HTML><BODY BGCOLOR=\"#%1\">%2</BODY></HTML>")
@@ -1860,7 +1860,7 @@ bool ICQClient::processMsg()
                 }
             }
             QString charset = bWide ? "unicode-2-0" : "us-ascii";
-            tlvs + new Tlv(0x0D, charset.length(), charset.latin1());
+            tlvs += new Tlv(0x0D, charset.length(), charset.latin1());
             QCString st;
             if (bWide){
                 for (i = 0; i < (int)(text.length()); i++){
@@ -1871,7 +1871,7 @@ bool ICQClient::processMsg()
             }else{
                 st = text.utf8();
             }
-            tlvs + new Tlv(0x0C, st.length(), st.data());
+            tlvs += new Tlv(0x0C, st.length(), st.data());
             FileMessage *msg = static_cast<FileMessage*>(m_send.msg);
             FileMessage::Iterator it(*msg);
             msgBuf
@@ -1897,7 +1897,7 @@ bool ICQClient::processMsg()
                 }
             }
             charset = bWide ? "utf8" : "us-ascii";
-            tlvs + new Tlv(0x2712, charset.length(), charset);
+            tlvs += new Tlv(0x2712, charset.length(), charset);
             msgBuf << (const char*)(fname.utf8()) << (char)0;
             sendType2(m_send.screen, msgBuf, m_send.id, CAP_AIM_SENDFILE, false, m_send.socket->localPort(), &tlvs);
             return true;

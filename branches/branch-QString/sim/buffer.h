@@ -28,7 +28,6 @@ class EXPORT Tlv
 {
 public:
     Tlv(unsigned short num = 0, unsigned short size = 0, const char *data = NULL);
-    ~Tlv();
     unsigned short Num() { return (unsigned short)m_nNum; }
     unsigned short Size() { return (unsigned short)m_nSize; }
     const char *Data() { return m_data.data(); }
@@ -47,8 +46,8 @@ public:
     TlvList();
     TlvList(Buffer&, unsigned nTlvs = ~0U);
     Tlv *operator() (unsigned short num);
-    Tlv *operator[] (unsigned n);
-    TlvList &operator+ (Tlv *tlv) { append(tlv); return *this; }
+    Tlv *operator[] (unsigned n) {  return at(n); }
+    TlvList &operator+= (const Tlv *tlv) { append(tlv); return *this; }
 };
 
 class EXPORT Buffer : public QByteArray

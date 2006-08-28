@@ -40,8 +40,7 @@ ServiceSocket::~ServiceSocket()
             break;
         }
     }
-    if (m_socket)
-        delete m_socket;
+    delete m_socket;
 }
 
 ClientSocket *ServiceSocket::socket()

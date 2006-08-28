@@ -42,16 +42,13 @@ using namespace SIM;
 
 #endif
 
+// Tlv
 Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
         : m_nNum(num), m_nSize(size)
 {
     m_data.resize(m_nSize + 1);
     memcpy(m_data.data(), data, m_nSize);
     m_data[m_nSize] = 0;
-}
-
-Tlv::~Tlv()
-{
 }
 
 Tlv::operator unsigned short ()
@@ -64,6 +61,7 @@ Tlv::operator unsigned long ()
     return (m_nSize >= 4) ? htonl(*((unsigned long*)m_data.data())) : 0;
 }
 
+// TlvList
 TlvList::TlvList()
 {
     setAutoDelete(true);
@@ -91,11 +89,7 @@ Tlv *TlvList::operator()(unsigned short num)
     return NULL;
 }
 
-Tlv *TlvList::operator[](unsigned n)
-{
-    return at(n);
-}
-
+// Buffer
 Buffer::Buffer(unsigned size)
         : QByteArray(size)
 {

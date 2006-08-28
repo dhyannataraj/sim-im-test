@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <vector>
+#include <qbuffer.h>
 
 using namespace std;
 using namespace SIM;
@@ -76,6 +77,7 @@ const unsigned short TLV_UNKNOWN3   = 0x006e;
 const unsigned short TLV_SUBITEMS   = 0x00C8;
 const unsigned short TLV_SHORTCUT_BAR = 0x00cd;
 const unsigned short TLV_TIME       = 0x00D4;
+const unsigned short TLV_BUDDYHASH  = 0x00D5;
 const unsigned short TLV_ALIAS      = 0x0131;
 const unsigned short TLV_CELLULAR   = 0x013A;
 
@@ -129,6 +131,18 @@ protected:
     unsigned short	m_type;
 };
 
+class SetBuddyRequest : public ListServerRequest
+{
+public:
+    SetBuddyRequest(unsigned short seq, const QString &screen, const QImage &img);
+    virtual void process(ICQClient *client, unsigned short res);
+protected:
+    QString			m_screen;
+    unsigned short	m_icqId;
+    unsigned short	m_type;
+    QImage          m_img;
+};
+
 static char PLEASE_UPGRADE[] = "PleaseUpgrade";
 
 void ICQClient::parseRosterItem(unsigned short type,
@@ -171,9 +185,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                 }else{
                     bool bChanged = false;
                     QString alias;
-                    Tlv *tlv_name = NULL;
-                    if (inf)
-                        tlv_name = (*inf)(TLV_ALIAS);
+                    Tlv *tlv_name = inf ? (*inf)(TLV_ALIAS) : NULL;
                     if (tlv_name)
                         alias = QString::fromUtf8(*tlv_name);
                     log(L_DEBUG, "User %s [%s] id %u - group %u", str.local8Bit().data(), alias.local8Bit().data(), id, grp_id);
@@ -197,8 +209,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                     }
                     data->IcqID.asULong() = id;
                     data->GrpId.asULong() = grp_id;
-                    Tlv *tlv_phone = NULL;
-                    if (inf) tlv_phone = (*inf)(TLV_CELLULAR);
+                    Tlv *tlv_phone = inf ? (*inf)(TLV_CELLULAR) : NULL;
                     if (tlv_phone){
                         data->Cellular.str() = QString::fromUtf8(*tlv_phone);
                         QString phone = trimPhone(data->Cellular.str());
@@ -309,7 +320,27 @@ void ICQClient::parseRosterItem(unsigned short type,
         setContactsInvisible(id);
         break;
     case ICQ_PRESENCE_INFO:
-    case ICQ_BUDDY_CHKSUM:
+        break;
+    case ICQ_BUDDY_CHKSUM: {
+            if (str.length()){
+                Tlv *tlv_buddyHash = (*inf)(TLV_BUDDYHASH);
+                if(tlv_buddyHash) {
+                    char flag, size;
+                    QByteArray buddyHash;
+
+                    flag = tlv_buddyHash->Data()[0];
+                    size = tlv_buddyHash->Data()[1];
+                    buddyHash.resize(size);
+                    memcpy(buddyHash.data(), &tlv_buddyHash->Data()[2], size);
+
+                    if(data.owner.buddyHash.toBinary() != buddyHash) {
+                        data.owner.buddyHash.asBinary() = buddyHash;
+//                        requestBuddy(data.owner.Screen.str(), data.owner.buddyHash.toBinary());
+                    }
+                }
+            }
+            break;
+        }
     case ICQ_LAST_UPDATE:
 	case ICQ_UNKNOWN:
         break;
@@ -476,8 +507,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     m_socket->readBuffer.incReadPos(len);
                     inf = new TlvList(b);
                 }
-                parseRosterItem(type,name,grp_id,id,inf,bIgnoreTime);
-                if (inf) delete inf;
+                parseRosterItem(type, name, grp_id, id, inf, bIgnoreTime);
+                delete inf;
             }
             unsigned long time;
             m_socket->readBuffer >> time;
@@ -772,7 +803,7 @@ void ICQClient::sendInvisible(bool bInvisible)
     }
     char data = bInvisible ? 4 : 3;
     TlvList tlvs;
-    tlvs + new Tlv(0xCA, 1, &data);
+    tlvs += new Tlv(0xCA, 1, &data);
     sendRoster(cmd, NULL, 0, getContactsInvisible(), ICQ_INVISIBLE_STATE, &tlvs);
 }
 
@@ -937,6 +968,18 @@ void SetListRequest::process(ICQClient *client, unsigned short)
 }
 
 //-----------------------------------------------------------------------------
+SetBuddyRequest::SetBuddyRequest(unsigned short seq, const QString &screen, const QImage &img)
+        : ListServerRequest(seq), m_screen(screen), m_img(img)
+{
+}
+
+void SetBuddyRequest::process(ICQClient *client, unsigned short)
+{
+    Contact *contact;
+    ICQUserData *data = client->findContact(m_screen, NULL, true, contact);
+}
+
+//-----------------------------------------------------------------------------
 
 unsigned short ICQClient::getListId()
 {
@@ -979,13 +1022,36 @@ TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
 {
     TlvList *tlv = new TlvList;
     QCString name = contact->getName().utf8();
-    *tlv + new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
+    *tlv += new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
     if (data->WaitAuth.toBool())
-        *tlv + new Tlv(TLV_WAIT_AUTH, 0, NULL);
+        *tlv += new Tlv(TLV_WAIT_AUTH, 0, NULL);
     QString cell = getUserCellular(contact);
     if (cell.length())
-        *tlv + new Tlv(TLV_CELLULAR, (unsigned short)(cell.length()), cell.latin1());
+        *tlv += new Tlv(TLV_CELLULAR, (unsigned short)(cell.length()), cell.latin1());
     return tlv;
+}
+
+void ICQClient::uploadBuddy(const QImage &img)
+{
+    QByteArray ba;
+    QBuffer buf(ba);
+    img.save(&buf, "JPG");
+    QByteArray hash = md5(ba.data());
+
+    TlvList *tlvList = new TlvList;
+
+    ba.resize(hash.size() + 2);
+    ba.data()[0] = 0x01;
+    ba.data()[1] = hash.size();
+    memcpy(&ba.data()[2], hash.data(), hash.size());
+    Tlv tlv(TLV_BUDDYHASH, ba.size(), ba.data());
+    *tlvList += &tlv;
+
+    unsigned short seq = sendRoster(ICQ_SNACxLISTS_CREATE, "1", 0, 0, ICQ_BUDDY_CHKSUM, tlvList);
+}
+
+void ICQClient::setBuddyHash(const QByteArray &hash)
+{
 }
 
 unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, unsigned short grp_id,

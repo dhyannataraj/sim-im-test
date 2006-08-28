@@ -463,6 +463,11 @@ void ICQClient::encodeString(const QString &m, const QString &type, unsigned sho
     }
 }
 
+void ICQClient::addCapability(Buffer &cap, cap_id_t id)
+{
+    cap.pack((char*)capabilities[id], sizeof(capability));
+}
+
 void ICQClient::sendCapability(const QString &away_msg)
 {
     Buffer cap;
@@ -485,25 +490,27 @@ void ICQClient::sendCapability(const QString &away_msg)
 #endif
 #endif
     *(pack_ver++) = os_ver;
-    cap.pack((char*)capabilities[CAP_AIM_SHORTCAPS], sizeof(capability));
+    addCapability(cap, CAP_AIM_SHORTCAPS);
+    addCapability(cap, CAP_AIM_SUPPORT);
+    addCapability(cap, CAP_AVATAR);
     if (m_bAIM){
-        cap.pack((char*)capabilities[CAP_AIM_CHAT], sizeof(capability));
-        cap.pack((char*)capabilities[CAP_AIM_BUDDYCON], sizeof(capability));
-        cap.pack((char*)capabilities[CAP_AIM_IMIMAGE], sizeof(capability));
-        cap.pack((char*)capabilities[CAP_AIM_SENDFILE], sizeof(capability));
-        cap.pack((char*)capabilities[CAP_AIM_BUDDYLIST], sizeof(capability));
+        addCapability(cap, CAP_AIM_CHAT);
+        addCapability(cap, CAP_AIM_BUDDYCON);
+        addCapability(cap, CAP_AIM_IMIMAGE);
+        addCapability(cap, CAP_AIM_SENDFILE);
+        addCapability(cap, CAP_AIM_BUDDYLIST);
     }else{
-        cap.pack((char*)capabilities[CAP_DIRECT], sizeof(capability));
-        cap.pack((char*)capabilities[CAP_SRV_RELAY], sizeof(capability));
-        cap.pack((char*)capabilities[CAP_XTRAZ], sizeof(capability));
+        addCapability(cap, CAP_DIRECT);
+        addCapability(cap, CAP_SRV_RELAY);
+        addCapability(cap, CAP_XTRAZ);
         if (getSendFormat() <= 1)
-            cap.pack((char*)capabilities[CAP_UTF], sizeof(capability));
+            addCapability(cap, CAP_UTF);
         if (getSendFormat() == 0)
-            cap.pack((char*)capabilities[CAP_RTF], sizeof(capability));
+            addCapability(cap, CAP_RTF);
     }
     if (!getDisableTypingNotification())
         cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
-    cap.pack((char*)capabilities[CAP_AIM_SUPPORT], sizeof(capability));
+
     cap.pack((char*)c, sizeof(c));
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (m_bAIM){

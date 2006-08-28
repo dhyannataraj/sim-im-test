@@ -230,6 +230,8 @@ static DataDef _icqUserData[] =
         { "", DATA_OBJECT, 1, 0 },				// DirectPluginStatus
         { "", DATA_BOOL, 1, 0 },				// bNoDirect
         { "", DATA_BOOL, 1, 0 },				// bInviisble
+        { "buddyID", DATA_ULONG, 1, 0},
+        { "buddyHash", DATA_BINARY, 1, 0},
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -1517,7 +1519,33 @@ QString ICQClient::contactTip(void *_data)
         res += "<br>";
         res += quoteString(client_name);
     }
-    if (data->PictureWidth.toULong() && data->PictureHeight.toULong()){
+    if (data->buddyHash.toBinary().size() != 0 && data->buddyID.toULong() == 1) {
+        QImage img(avatarFile(data));
+        if (!img.isNull()){
+            QPixmap pict;
+            pict.convertFromImage(img);
+            int w = pict.width();
+            int h = pict.height();
+            if (h > w){
+                if (h > 60){
+                    w = w * 60 / h;
+                    h = 60;
+                }
+            }else{
+                if (w > 60){
+                    h = h * 60 / w;
+                    w = 60;
+                }
+            }
+            QMimeSourceFactory::defaultFactory()->setPixmap("pict://icqavatar", pict);
+            res += "<br><img src=\"pict://icqavatar\" width=\"";
+            res += QString::number(w);
+            res += "\" height=\"";
+            res += QString::number(h);
+            res += "\">";
+        }
+    }
+    if (data->PictureWidth.toULong() && data->PictureHeight.toULong()) {
         QImage img(pictureFile(data));
         if (!img.isNull()){
             QPixmap pict;
@@ -3226,17 +3254,23 @@ unsigned short ICQClient::msgStatus()
     return (unsigned short)(fullStatus(getStatus()) & 0xFF);
 }
 
-#ifdef WIN32
-static char PICT_PATH[] = "pictures\\";
-#else
 static char PICT_PATH[] = "pictures/";
-#endif
 
 QString ICQClient::pictureFile(const ICQUserData *data)
 {
     QString f = PICT_PATH;
     f += "icq.";
 	f += QString::number(data->Uin.toULong());
+    f = user_file(f);
+    return f;
+}
+
+QString ICQClient::avatarFile(const ICQUserData *data)
+{
+    QString f = PICT_PATH;
+    f += "icq.avatar.";
+	f += QString::number(data->Uin.toULong());
+    f += (data->buddyID.toULong() == 1) ? ".jpg" : ".xml";
     f = user_file(f);
     return f;
 }

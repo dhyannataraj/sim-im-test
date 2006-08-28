@@ -38,6 +38,18 @@ const unsigned short ICQ_SNACxBDY_REMOVExFROMxLIST = 0x0005;
 const unsigned short ICQ_SNACxBDY_USERONLINE	   = 0x000B;
 const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
 
+const unsigned short TLV_USER_CLASS         = 0x0001;
+const unsigned short TLV_USER_SIGNON_TIME   = 0x0003;
+const unsigned short TLV_USER_MEMBER_SINCE  = 0x0005; // not interpreted
+const unsigned short TLV_USER_STATUS        = 0x0006;
+const unsigned short TLV_USER_EXT_IP        = 0x000A;
+const unsigned short TLV_USER_DC_INFO       = 0x000C;
+const unsigned short TLV_USER_CAPS          = 0x000D;
+const unsigned short TLV_USER_ONLINE_TIME   = 0x000F; // not interpreted
+const unsigned short TLV_USER_TIMES_UPDATED = 0x0011; // ????
+const unsigned short TLV_USER_NEWCAPS       = 0x0019;
+const unsigned short TLV_USER_BUDDYINFO     = 0x001D;
+
 static QString makeCapStr( const capability cap, unsigned size )
 {
     QString str = "", tmp;
@@ -84,7 +96,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
             TlvList tlv(m_socket->readBuffer);
 
-            Tlv *tlvClass = tlv(0x0001);
+            Tlv *tlvClass = tlv(TLV_USER_CLASS);
             if (tlvClass){
                 unsigned short userClass = *tlvClass;
                 if (userClass != data->Class.toULong()){
@@ -105,7 +117,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             // Status TLV
-            Tlv *tlvStatus = tlv(0x0006);
+            Tlv *tlvStatus = tlv(TLV_USER_STATUS);
             if (tlvStatus){
                 unsigned long status = *tlvStatus;
                 if (status != data->Status.toULong()){
@@ -120,7 +132,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             // Online time TLV
-            Tlv *tlvOnlineTime = tlv(0x0003);
+            Tlv *tlvOnlineTime = tlv(TLV_USER_SIGNON_TIME);
             if (tlvOnlineTime){
                 unsigned long OnlineTime = *tlvOnlineTime;
                 if (OnlineTime != data->OnlineTime.toULong()){
@@ -139,12 +151,12 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             // IP TLV
-            Tlv *tlvIP = tlv(0x000A);
+            Tlv *tlvIP = tlv(TLV_USER_EXT_IP);
             if (tlvIP)
                 bChanged |= set_ip(&data->IP, htonl((unsigned long)(*tlvIP)));
 
             // short caps tlv
-            Tlv *tlvCapShort = tlv(0x0019);
+            Tlv *tlvCapShort = tlv(TLV_USER_NEWCAPS);
             if(tlvCapShort) {
                 data->Caps.asULong() = 0;
                 data->Caps2.asULong() = 0;
@@ -169,7 +181,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 }
             }
             // normal cap tlv
-            Tlv *tlvCapability = tlv(0x000D);
+            Tlv *tlvCapability = tlv(TLV_USER_CAPS);
             if (tlvCapability) {
                 if (!tlvCapShort) {
                     data->Caps.asULong() = 0;
@@ -239,13 +251,33 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     }
                 }
             }
+            // buddy info
+            Tlv *tlvBuddy = tlv(TLV_USER_BUDDYINFO);
+            if (tlvBuddy) {
+                unsigned short iconID;
+                char iconFlags, hashSize;
+                Buffer info(*tlvBuddy);
+                QByteArray hash(16);
+                QString fname = ICQClient::avatarFile(data);
+                QFileInfo fi(fname);
+
+                info >> iconID >> iconFlags >> hashSize;
+                hash.resize(hashSize);
+                info.unpack(hash.data(), hashSize);
+                if(data->buddyID.toULong() != iconID || data->buddyHash.toBinary() != hash ||
+                   !fi.exists() || fi.size() == 0) {
+                    data->buddyID.asULong() = iconID;
+                    data->buddyHash.asBinary() = hash;
+                    requestBuddy(ICQClient::screen(data), iconID, hash);
+                }
+           }
 
             unsigned long infoUpdateTime = 0;
             unsigned long pluginInfoTime = 0;
             unsigned long pluginStatusTime = 0;
 
             // Direct connection info
-            Tlv *tlvDirect = tlv(0x000C);
+            Tlv *tlvDirect = tlv(TLV_USER_DC_INFO);
             if (tlvDirect){
                 Buffer info(*tlvDirect);
                 unsigned long  realIP;
