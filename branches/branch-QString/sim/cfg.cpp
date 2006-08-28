@@ -809,8 +809,12 @@ EXPORT QString save_data(const DataDef *def, void *_data)
             case DATA_BINARY: {
                 for (unsigned i = 0; i < def->n_values; i++){
                     QByteArray &ba = d->asBinary();
-                    for(unsigned i = 0; i < ba.size(); i++)
-                        value += QString::number((unsigned char)ba[(int)i], 16);
+                    for(unsigned i = 0; i < ba.size(); i++) {
+                        unsigned char c = ba.data()[i];
+                        QString s;
+                        s.sprintf("%02X", c);
+                        value += s;
+                    }
                     bSave = true;
                 }
                 break;
