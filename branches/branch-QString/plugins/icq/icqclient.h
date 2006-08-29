@@ -595,7 +595,7 @@ public:
     static const plugin *plugins;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
-    QString screen(const ICQUserData*);
+    static QString screen(const ICQUserData*);
     static unsigned long warnLevel(unsigned long);
     static unsigned clearTags(QString &text);
     bool m_bAIM;

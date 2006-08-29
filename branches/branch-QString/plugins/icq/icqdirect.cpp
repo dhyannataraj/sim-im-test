@@ -184,8 +184,25 @@ bool DirectSocket::error_state(const QString &error, unsigned)
         connect();
         return false;
     }
-    if (!error.isEmpty())
-        log(L_WARN, "Direct socket error %s", error.latin1());
+    if (!error.isEmpty()) {
+        QCString err = error.local8Bit();
+        QCString user("unknown");
+        in_addr ip, realip;
+        unsigned long port = 0;
+        memset(&ip, 0, sizeof(in_addr));
+        memset(&realip, 0, sizeof(in_addr));
+
+        if(m_data) {
+            user   = ICQClient::screen(m_data).local8Bit();
+            port   = m_data->Port.asULong();
+            ip.s_addr     = get_ip(m_data->IP);
+            realip.s_addr = get_ip(m_data->RealIP);
+        } else {
+            ip.s_addr = m_ip;
+        }
+        log(L_WARN, "Direct socket error %s while trying to connect to %s (IP: %s, RealIP: %s, Port: %lu)",
+            err.data(), user.data(), inet_ntoa(ip), inet_ntoa(realip), port);
+    }
     return true;
 }
 
