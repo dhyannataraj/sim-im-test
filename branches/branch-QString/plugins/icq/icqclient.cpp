@@ -2237,13 +2237,7 @@ CommandDef *ICQClient::infoWindows(Contact*, void *_data)
 {
     ICQUserData *data = (ICQUserData*)_data;
     CommandDef *def = data->Uin.toULong() ? icqWnd : aimWnd;
-    QString name = i18n(protocol()->description()->text);
-    name += " ";
-    if (data->Uin.toULong()){
-        name += QString::number(data->Uin.toULong());
-    }else{
-        name += data->Screen.str();
-    }
+    QString name = contactName(data);
     def->text_wrk = name;
     return def;
 }

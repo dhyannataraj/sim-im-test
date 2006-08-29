@@ -89,11 +89,12 @@ public:
     unsigned unpack(QString &d, unsigned size); // utf8
     unsigned unpack(QCString &d, unsigned size);
     unsigned unpack(QByteArray &d, unsigned size);
-    void unpack(QCString &s);
-    void unpackStr(QString &s);     // utf8
-    void unpackStr(QCString &s);
-    void unpackStr32(QByteArray &s);
-    void unpackStr32(QCString &s);
+    // 2 byte size + string
+    bool unpackStr(QString &s);     // utf8
+    bool unpackStr(QCString &s);
+    // 4 byte size  + string
+    bool unpackStr32(QCString &s);
+    bool unpackStr32(QByteArray &s);
 
     QString unpackScreen();
 
@@ -102,7 +103,7 @@ public:
     Buffer &operator >> (unsigned short &c);
     Buffer &operator >> (unsigned long &c);
     Buffer &operator >> (int &c);
-    Buffer &operator >> (QCString &s);
+    Buffer &operator >> (QCString &s);  // size is 2 byte & little endian!
 
     Buffer &operator << (const QString &s);
     Buffer &operator << (const QCString &s);
@@ -110,7 +111,7 @@ public:
     Buffer &operator << (char c);
     Buffer &operator << (unsigned char c) { return operator << ((char)c); }
     Buffer &operator << (unsigned short c);
-    Buffer &operator << (int c) { return operator << ((unsigned short)c); }
+    Buffer &operator << (int c) { return operator << ((unsigned short)c); } // outch!
     Buffer &operator << (unsigned long c);
     Buffer &operator << (long c) { return operator << ((unsigned long)c); }
     Buffer &operator << (const Buffer &b);
