@@ -1113,8 +1113,8 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 QCString name, topic, homepage;
 
                 b.incReadPos(-12);
-                b.unpack(name);
-                b.unpack(topic);
+                b.unpackStr(name);
+                b.unpackStr(topic);
                 unsigned short age;
                 char gender;
                 unsigned short country;
@@ -1123,7 +1123,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 b.unpack(gender);
                 b.unpack(country);
                 b.unpack(language);
-                b.unpack(homepage);
+                b.unpackStr(homepage);
                 ICQUserData data;
                 load_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
                 data.Uin.asULong() = uin;

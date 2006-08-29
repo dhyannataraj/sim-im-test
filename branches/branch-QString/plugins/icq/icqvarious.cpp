@@ -240,7 +240,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     msg.unpack(min);
                     msg.unpack(type);
                     msg.unpack(flag);
-                    msg.unpack(message);
+                    msg.unpackStr(message);
                 #ifndef HAVE_TM_GMTOFF
                     sendTM.tm_sec  = -timezone;
                 #else
