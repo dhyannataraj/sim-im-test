@@ -1785,11 +1785,11 @@ bool JabberClient::canSend(unsigned type, void *_data)
     case MessageUrl:
         return true;
     case MessageAuthRequest:
-        return ((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.ptr);
+        return ((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0);
     case MessageAuthGranted:
-        return ((data->Subscribe.toULong() & SUBSCRIBE_FROM) == 0) && !isAgent(data->ID.ptr);
+        return ((data->Subscribe.toULong() & SUBSCRIBE_FROM) == 0);
     case MessageAuthRefused:
-        return (data->Subscribe.toULong() & SUBSCRIBE_FROM) && !isAgent(data->ID.ptr);
+        return (data->Subscribe.toULong() & SUBSCRIBE_FROM);
     case MessageJabberOnline:
         return isAgent(data->ID.ptr) && (data->Status.toULong() == STATUS_OFFLINE);
     case MessageJabberOffline:
@@ -2521,8 +2521,7 @@ JabberListRequest *JabberClient::findRequest(const char *jid, bool bRemove)
 
 bool JabberClient::isAgent(const char *jid)
 {
-    const char *p = strrchr(jid, '/');
-    if (p && !strcmp(p + 1, "registered"))
+    if ((QString::fromUtf8(jid)).find("@")==-1)
         return true;
     return false;
 }
