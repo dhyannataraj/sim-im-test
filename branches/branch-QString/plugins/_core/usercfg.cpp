@@ -313,7 +313,7 @@ void UserConfig::fill()
             CommandDef *cmds = client->infoWindows(m_contact, data);
             if (cmds){
                 parentItem = NULL;
-                for (; cmds->text; cmds++){
+                for (; !cmds->text.isEmpty(); cmds++){
                     if (parentItem){
                         new ClientItem(parentItem, it.client(), data, cmds);
                     }else{

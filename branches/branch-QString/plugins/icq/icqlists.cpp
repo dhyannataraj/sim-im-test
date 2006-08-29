@@ -974,7 +974,7 @@ SetBuddyRequest::SetBuddyRequest(unsigned short seq, const ICQUserData *icqUserD
 
 void SetBuddyRequest::process(ICQClient *client, unsigned short res)
 {
-    client->listRequests.erase(listRequests.begin());
+    client->listRequests.erase(client->listRequests.begin());
     // item does not exist
     if(res == 2) {
         ListRequest lr;
