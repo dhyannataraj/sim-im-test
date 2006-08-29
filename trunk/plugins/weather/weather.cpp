@@ -349,8 +349,7 @@ void WeatherPlugin::updateButton()
     }
     if (getForecast())
         tip += "</td></tr></table>";
-    tip += "<br>\nWeather data provided by weather.com";
-    tip += QChar((unsigned short)174);
+    tip += "<br>\n"+i18n("weather", "Weather data provided by weather.com&reg;");
     Command cmdw;
     cmdw->id	= CmdWeather;
     cmdw->param	= m_bar;

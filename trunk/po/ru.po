@@ -5357,6 +5357,12 @@ msgstr "Модуль обеспечивает показ погоды"
 msgid "Not connected"
 msgstr "Нет соединения"
 
+#: plugins/weather/weather.cpp:352
+msgid ""
+"_: weather\n"
+"Weather data provided by weather.com&reg;"
+msgstr "По данным weather.com&reg;"
+
 # libicq/country.cpp:216
 #: plugins/weather/weather.cpp:367
 msgid "Monday"
