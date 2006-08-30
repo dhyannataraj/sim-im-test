@@ -838,6 +838,7 @@ protected:
     QByteArray      m_dataAsBinary;
     STRING_MAP      m_dataAsQStringMap;
 public:
+    Data() { clear(); }
     void clear() { m_dataAsObject = NULL; m_dataAsIP = NULL; m_dataAsValue = 0; m_dataAsBool = false;
                    m_dataAsBinary.resize(0); m_dataAsQStringMap.clear(); ptr = NULL; }
     // Bool
@@ -1277,8 +1278,7 @@ public:
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
 protected:
-    unsigned n_data;
-    void **userData;
+    class UserDataPrivate *d;
 
     COPY_RESTRICTED(UserData)
 };

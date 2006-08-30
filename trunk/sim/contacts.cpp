@@ -1374,8 +1374,8 @@ void ClientUserData::load(Client *client, Buffer *cfg)
     const DataDef *def = client->protocol()->userDataDef();
     size_t size = 0;
     for (const DataDef *d = def; d->name; ++d)
-        size += sizeof(Data) * d->n_values;
-    data.data = malloc(size);
+        size += d->n_values;
+    data.data = new Data[size];
     load_data(def, data.data, cfg);
     p->push_back(data);
 }
@@ -1387,8 +1387,8 @@ void *ClientUserData::createData(Client *client)
     const DataDef *def = client->protocol()->userDataDef();
     size_t size = 0;
     for (const DataDef *d = def; d->name; ++d)
-        size += sizeof(Data) * d->n_values;
-    data.data = malloc(size);
+        size += d->n_values;
+    data.data = new Data[size];
     load_data(def, data.data, NULL);
     p->push_back(data);
     return data.data;
@@ -1563,78 +1563,87 @@ ContactList::UserDataIterator::~UserDataIterator()
 
 // ______________________________________________________________________________________
 
+typedef QMap<unsigned, SIM::Data*> UserDataMap;
+
+class UserDataPrivate
+{
+public:
+    UserDataMap m_userData;
+};
+
 UserData::UserData()
 {
-    n_data = 0;
-    userData = NULL;
+    d = new UserDataPrivate;
 }
 
 UserData::~UserData()
 {
-    if (userData){
-        for (unsigned i = 0; i < n_data; i++)
-            freeUserData(i);
-        free(userData);
+    UserDataMap::Iterator userDataIt;
+    for(userDataIt = d->m_userData.begin(); userDataIt != d->m_userData.end(); ++userDataIt) {
+        list<UserDataDef> &dataDef = getContacts()->p->userDataDef;
+        for (list<UserDataDef>::iterator it = dataDef.begin(); it != dataDef.end(); ++it){
+            if ((*it).id != userDataIt.key())
+                continue;
+            free_data((*it).def, *userDataIt);
+            break;
+        }
+        delete[] userDataIt.data();
     }
+    delete d;
 }
 
 void *UserData::getUserData(unsigned id, bool bCreate)
 {
-    if ((id < n_data) && userData[id])
-        return userData[id];
+    UserDataMap::Iterator userDataIt = d->m_userData.find(id);
+    if (userDataIt != d->m_userData.end())
+        return *userDataIt;
     if (!bCreate)
         return NULL;
-    list<UserDataDef> &d = getContacts()->p->userDataDef;
+
+    list<UserDataDef> &dataDef = getContacts()->p->userDataDef;
     list<UserDataDef>::iterator it;
-    for (it= d.begin(); it != d.end(); ++it)
+    for (it= dataDef.begin(); it != dataDef.end(); ++it)
         if ((*it).id == id)
             break;
-    if (it == d.end())
+    if (it == dataDef.end())
         return NULL;
-    if (id >= n_data){
-        size_t size = sizeof(void**) * (id + 1);
-        if (userData){
-            userData = (void**)realloc(userData, size);
-        }else{
-            userData = (void**)malloc(size);
-        }
-        memset(userData + n_data, 0, size - sizeof(void**) * n_data);
-        n_data = id + 1;
-    }
+
     size_t size = 0;
     for (const DataDef *def = (*it).def; def->name; ++def)
-        size += sizeof(Data) * def->n_values;
-    userData[id] = malloc(size);
-    load_data((*it).def, userData[id], NULL);
-    return userData[id];
+        size += def->n_values;
+
+    Data* data = new Data[size];
+    d->m_userData.insert(id, data);
+    load_data((*it).def, data, NULL);
+    return data;
 }
 
 void UserData::freeUserData(unsigned id)
 {
-    if ((id < n_data) && userData && userData[id]){
-        list<UserDataDef> &d = getContacts()->p->userDataDef;
-        for (list<UserDataDef>::iterator it = d.begin(); it != d.end(); ++it){
-            if ((*it).id != id) continue;
-            free_data((*it).def, userData[id]);
+    UserDataMap::Iterator userDataIt = d->m_userData.find(id);
+    if (userDataIt != d->m_userData.end()) {
+        list<UserDataDef> &dataDef = getContacts()->p->userDataDef;
+        for (list<UserDataDef>::iterator it = dataDef.begin(); it != dataDef.end(); ++it){
+            if ((*it).id != id)
+                continue;
+            free_data((*it).def, d->m_userData[id]);
             break;
         }
-        free(userData[id]);
-        userData[id] = NULL;
+        delete[] userDataIt.data();
+        d->m_userData.erase(userDataIt);
     }
 }
 
 string UserData::save()
 {
     string res;
-    if (userData == NULL)
-        return res;
-    for (unsigned id = 0; id < n_data; id++){
-        if (userData[id] == NULL)
-            continue;
+    UserDataMap::Iterator userDataIt;
+    for(userDataIt = d->m_userData.begin(); userDataIt != d->m_userData.end(); ++userDataIt) {
         list<UserDataDef> &d = getContacts()->p->userDataDef;
         for (list<UserDataDef>::iterator it = d.begin(); it != d.end(); ++it){
-            if ((*it).id != id) continue;
-            string cfg = save_data((*it).def, userData[id]);
+            if ((*it).id != userDataIt.key())
+                continue;
+            string cfg = save_data((*it).def, userDataIt.data());
             if (cfg.length()){
                 if (res.length())
                     res += "\n";

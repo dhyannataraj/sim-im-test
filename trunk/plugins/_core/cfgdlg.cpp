@@ -473,7 +473,7 @@ void ConfigureDialog::apply()
         size_t size = 0;
         for (const DataDef *d = def; d->name; ++d)
             size += sizeof(Data) * d->n_values;
-        void *data = malloc(size);
+        Data *data = new Data[size];
         string cfg = client->getConfig();
         if (cfg.empty()){
             load_data(def, data, NULL);
