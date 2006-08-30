@@ -67,6 +67,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     edtMinPort->setValue(m_client->getMinPort());
     edtMaxPort->setValue(m_client->getMaxPort());
     chkVHost->setChecked(m_client->getUseVHost());
+    toggledVHost(m_client->getUseVHost());
     chkTyping->setChecked(m_client->getTyping());
     chkRichText->setChecked(m_client->getRichText());
     chkIcons->setChecked(m_client->getProtocolIcons());
