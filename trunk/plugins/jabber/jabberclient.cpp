@@ -117,10 +117,10 @@ DataDef jabberUserData[] =
         { "", DATA_ULONG, 1, 0 },			// ComposeId
         { "", DATA_BOOL, 1, DATA(1) },			// richText
         { "", DATA_BOOL, 1, 0 },
-        { "PhotoWidth", DATA_ULONG, 1, 0 },
-        { "PhotoHeight", DATA_ULONG, 1, 0 },
-        { "LogoWidth", DATA_ULONG, 1, 0 },
-        { "LogoHeight", DATA_ULONG, 1, 0 },
+        { "PhotoWidth", DATA_LONG, 1, 0 },
+        { "PhotoHeight", DATA_LONG, 1, 0 },
+        { "LogoWidth", DATA_LONG, 1, 0 },
+        { "LogoHeight", DATA_LONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// nResources
         { "", DATA_STRLIST, 1, 0 },			// Resources
         { "", DATA_STRLIST, 1, 0 },			// ResourceStatus
@@ -1367,7 +1367,7 @@ QString JabberClient::contactTip(void *_data)
         }
     }
 
-    if (data->LogoWidth.toULong() && data->LogoHeight.toULong()){
+    if (data->LogoWidth.toLong() && data->LogoHeight.toLong()){
         QImage img(logoFile(data));
         if (!img.isNull()){
             QPixmap pict;
@@ -1393,7 +1393,7 @@ QString JabberClient::contactTip(void *_data)
             res += "\">";
         }
     }
-    if (data->PhotoWidth.toULong() && data->PhotoHeight.toULong()){
+    if (data->PhotoWidth.toLong() && data->PhotoHeight.toLong()){
         QImage img(photoFile(data));
         if (!img.isNull()){
             QPixmap pict;

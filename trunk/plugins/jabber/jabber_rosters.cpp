@@ -363,18 +363,18 @@ InfoRequest::~InfoRequest()
             }
         }
         if (photo.width() && photo.height()){
-            if ((photo.width() != data->PhotoWidth.toULong()) ||
-                    (photo.height() != data->PhotoHeight.toULong()))
+            if ((photo.width() != data->PhotoWidth.toLong()) ||
+                    (photo.height() != data->PhotoHeight.toLong()))
                 bChanged = true;
-            data->PhotoWidth.asULong()  = photo.width();
-            data->PhotoHeight.asULong() = photo.height();
+            data->PhotoWidth.asLong()  = photo.width();
+            data->PhotoHeight.asLong() = photo.height();
             if (m_jid == m_client->data.owner.ID.ptr)
                 m_client->setPhoto(m_client->photoFile(data));
         }else{
-            if (data->PhotoWidth.toULong() || data->PhotoHeight.toULong())
+            if (data->PhotoWidth.toLong() || data->PhotoHeight.toLong())
                 bChanged = true;
-            data->PhotoWidth.asULong()  = 0;
-            data->PhotoHeight.asULong() = 0;
+            data->PhotoWidth.asLong()  = 0;
+            data->PhotoHeight.asLong() = 0;
         }
 
         QImage logo;
@@ -392,18 +392,18 @@ InfoRequest::~InfoRequest()
             }
         }
         if (logo.width() && logo.height()){
-            if ((logo.width() != data->LogoWidth.toULong()) ||
-                    (logo.height() != data->LogoHeight.toULong()))
+            if ((logo.width() != data->LogoWidth.toLong()) ||
+                    (logo.height() != data->LogoHeight.toLong()))
                 bChanged = true;
-            data->LogoWidth.asULong()  = logo.width();
-            data->LogoHeight.asULong() = logo.height();
+            data->LogoWidth.asLong()  = logo.width();
+            data->LogoHeight.asLong() = logo.height();
             if (m_jid == m_client->data.owner.ID.ptr)
                 m_client->setLogo(m_client->logoFile(data));
         }else{
-            if (data->LogoWidth.toULong() || data->LogoHeight.toULong())
+            if (data->LogoWidth.toLong() || data->LogoHeight.toLong())
                 bChanged = true;
-            data->LogoWidth.asULong()  = 0;
-            data->LogoHeight.asULong() = 0;
+            data->LogoWidth.asLong()  = 0;
+            data->LogoHeight.asLong() = 0;
         }
 
         if (bChanged){
