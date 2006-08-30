@@ -80,7 +80,6 @@ void ICQPicture::apply(Client *client, void *_data)
         m_client->setPicture(pict);
         data->PluginInfoTime.asULong() = time(NULL);
     }
-    m_client->uploadBuddy(data);
 }
 
 void *ICQPicture::processEvent(Event *e)
@@ -124,7 +123,7 @@ void ICQPicture::pictSelected(const QString &file)
     }
 }
 
-void ICQPicture::setPict(QImage &img)
+void ICQPicture::setPict(const QImage &img)
 {
     if (img.isNull()){
         lblPict->setText(i18n("Picture is not available"));

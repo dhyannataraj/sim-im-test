@@ -54,6 +54,7 @@ class EXPORT Buffer : public QByteArray
 {
 public:
     Buffer(unsigned size=0);
+    Buffer(const QByteArray &ba);
     Buffer(Tlv&);
     ~Buffer();
     bool add(uint size);
@@ -143,8 +144,6 @@ public:
 
     QString getSection(bool bSkip=false);
     unsigned    startSection() { return m_startSection; }
-
-    Buffer &operator = (const QByteArray &ba);
 
 protected:
     unsigned m_packetStartPos;

@@ -323,7 +323,8 @@ void ICQClient::parseRosterItem(unsigned short type,
             if (str.length()){
                 Tlv *tlv_buddyHash = (*inf)(TLV_BUDDYHASH);
                 if(tlv_buddyHash) {
-                    char flag, size;
+                    const QByteArray &ba = data.owner.buddyHash.toBinary();
+                    unsigned char flag, size;
                     QByteArray buddyHash;
 
                     flag = tlv_buddyHash->Data()[0];
@@ -331,11 +332,12 @@ void ICQClient::parseRosterItem(unsigned short type,
                     buddyHash.resize(size);
                     memcpy(buddyHash.data(), &tlv_buddyHash->Data()[2], size);
 
-                    if(data.owner.buddyHash.toBinary() != buddyHash) {
+                    if(memcmp(ba.data(), buddyHash.data(), min(ba.size(), size))) {
                         data.owner.buddyHash.asBinary() = buddyHash;
                         data.owner.buddyID.asULong() = flag;
                         requestBuddy(&data.owner);
                     }
+                    data.owner.buddyRosterID.asULong() = id;
                 }
             }
             break;
@@ -979,8 +981,8 @@ void SetBuddyRequest::process(ICQClient *client, unsigned short res)
     if(res == 2) {
         ListRequest lr;
         lr.type        = LIST_BUDDY_CHECKSUM;
+        lr.icq_id      = m_icqUserData->buddyRosterID.toULong();
         lr.icqUserData = m_icqUserData;
-        lr.bCreate     = true;
         client->listRequests.push_back(lr);
         client->processSendQueue();
     }
@@ -1044,8 +1046,8 @@ void ICQClient::uploadBuddy(const ICQUserData *data)
 {
     ListRequest lr;
     lr.type        = LIST_BUDDY_CHECKSUM;
+    lr.icq_id      = data->buddyRosterID.toULong();
     lr.icqUserData = data;
-    lr.bCreate     = false;
     listRequests.push_back(lr);
     processSendQueue();
 }
@@ -1055,9 +1057,8 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
 {
     snac(ICQ_SNACxFAM_LISTS, cmd, true);
     QCString sName = name.utf8();
-    unsigned short len = sName.length();
-    m_socket->writeBuffer.pack(htons(len));
-    m_socket->writeBuffer.pack(sName, len);
+    m_socket->writeBuffer.pack(htons(sName.length()));
+    m_socket->writeBuffer.pack(sName.data(), sName.length());
     m_socket->writeBuffer
     << grp_id
     << usr_id
@@ -1301,10 +1302,11 @@ unsigned ICQClient::processListRequest()
                 ba.data()[0] = 0x01;
                 ba.data()[1] = hash.size();
                 memcpy(&ba.data()[2], hash.data(), hash.size());
-                Tlv *tlv = new Tlv(TLV_BUDDYHASH, ba.size(), ba.data());
-                *tlvList += tlv;
+                *tlvList += new Tlv(TLV_BUDDYHASH, ba.size(), ba.data());
+                *tlvList += new Tlv(TLV_ALIAS, 0, NULL);
 
-                unsigned short seq = sendRoster(lr.bCreate ? ICQ_SNACxLISTS_CREATE : ICQ_SNACxLISTS_UPDATE, "", 0, 0, ICQ_BUDDY_CHECKSUM, tlvList);
+                unsigned short seq = sendRoster(lr.icq_id ? ICQ_SNACxLISTS_UPDATE : ICQ_SNACxLISTS_CREATE,
+                                                "1", lr.grp_id, lr.icq_id, ICQ_BUDDY_CHECKSUM, tlvList);
                 m_listRequest = new SetBuddyRequest(seq, &this->data.owner);
             }
             break;

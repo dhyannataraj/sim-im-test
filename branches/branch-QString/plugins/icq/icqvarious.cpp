@@ -1430,7 +1430,7 @@ void ICQClient::setClientInfo(void *_data)
   810         0x032A      sstring   User originally from state
   820         0x0334      uint16    User originally from country (code)
   */
-
+    uploadBuddy(&data.owner);
     if (!clientInfoTLVs.isEmpty()) {
         serverRequest(ICQ_SRVxREQ_MORE);
         m_socket->writeBuffer << ICQ_SRVxWP_SET;
@@ -1828,8 +1828,14 @@ void ICQClient::requestBuddy(const ICQUserData *data)
     s->requestBuddy(screen(data), data->buddyID.toULong(), data->buddyHash.toBinary());
 }
 
+void ICQClient::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
+{
+    SSBISocket *s = getSSBISocket();
+    s->uploadBuddyIcon(refNumber, img);
+}
+
 SSBISocket::SSBISocket(ICQClient *client)
-    : ServiceSocket(client, ICQ_SNACxFAM_SSBI)
+    : ServiceSocket(client, ICQ_SNACxFAM_SSBI), m_refNumber(0)
 {}
 
 void SSBISocket::data(unsigned short fam, unsigned short type, unsigned short seq)
@@ -1977,13 +1983,30 @@ void SSBISocket::process()
         }
     }
     m_buddyRequests.clear();
+    if(!m_img.isNull()) {
+        uploadBuddyIcon(m_refNumber, m_img);
+        m_refNumber = 0;
+        m_img = QImage();
+    }
 }
 
-
-void ICQClient::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
+void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
 {
+    if(img.isNull()) {
+        log(L_ERROR, "Uploaded Buddy icon is empty!");
+        return;
+    }
+
+    if(!connected()) {
+        // wait
+        m_img = img;
+        m_refNumber = refNumber;
+        return;
+    }
+
     QByteArray ba;
     QBuffer buf(ba);
+    unsigned short len;
     if(!buf.open(IO_WriteOnly)) {
         log(L_ERROR, "Can't open QByteArray for writing!");
         return;
@@ -1994,9 +2017,11 @@ void ICQClient::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
     }
     buf.close();
 
+    len = ba.size();
     snac(ICQ_SNACxFAM_SSBI, ICQ_SNACxSSBI_UPLOAD, true);
     m_socket->writeBuffer << refNumber;
-    m_socket->writeBuffer.pack(ba.data(), ba.size());
+    m_socket->writeBuffer << len;
+    m_socket->writeBuffer.pack(ba.data(), len);
 
     sendPacket(true);
 }

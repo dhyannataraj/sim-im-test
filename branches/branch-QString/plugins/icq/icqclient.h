@@ -249,6 +249,7 @@ struct ICQUserData : public SIM::clientData
     SIM::Data		DirectPluginStatus;
     SIM::Data		bNoDirect;
     SIM::Data		bInvisible;
+    SIM::Data       buddyRosterID;
     SIM::Data       buddyID;
     SIM::Data       buddyHash;
 };
@@ -379,7 +380,7 @@ class ListRequest
 public:
     ListRequest()
         : type(0), icq_id(0), grp_id(0), visible_id(0), invisible_id(0), ignore_id(0),
-          icqUserData(0), bCreate(false) {}
+          icqUserData(0) {}
 
 public:
     unsigned          type;
@@ -390,7 +391,6 @@ public:
     unsigned short    invisible_id;
     unsigned short    ignore_id;
     const ICQUserData *icqUserData;
-    bool              bCreate;
 };
 
 class ICQListener : public SIM::ServerSocketNotify
@@ -824,6 +824,7 @@ class SSBISocket : public ServiceSocket
 public:
     SSBISocket(ICQClient *client);
     void requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash);
+    void uploadBuddyIcon(unsigned short refNumber, const QImage &img);
 protected:
     virtual void data(unsigned short fam, unsigned short type, unsigned short seq);
     void snac_service(unsigned short type, unsigned short seq);
@@ -831,6 +832,8 @@ protected:
     void process();
 
     QStringList m_buddyRequests;
+    QImage m_img;   // image to upload
+    unsigned short m_refNumber; // the ref number for the image
 };
 
 class DirectSocket : public QObject, public SIM::ClientSocketNotify

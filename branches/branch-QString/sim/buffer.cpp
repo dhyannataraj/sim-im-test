@@ -84,6 +84,12 @@ Buffer::Buffer(unsigned size)
     init(size);
 }
 
+Buffer::Buffer(const QByteArray &ba)
+    : QByteArray(ba)
+{
+    init(ba.size());
+}
+
 Buffer::Buffer(Tlv &tlv)
         : QByteArray(tlv.Size())
 {
@@ -692,16 +698,6 @@ QString Buffer::getSection(bool bSkip)
         m_posWrite = size() - 1;
 
     return str;
-}
-
-Buffer &Buffer::operator = (const QByteArray &ba)
-{
-    int size = ba.size();
-    assign(ba);
-    resize(size+1);
-    at(size) = '\0';
-    m_posWrite = size;
-    return *this;
 }
 
 // *********************************************

@@ -230,6 +230,7 @@ static DataDef _icqUserData[] =
         { "", DATA_OBJECT, 1, 0 },				// DirectPluginStatus
         { "", DATA_BOOL, 1, 0 },				// bNoDirect
         { "", DATA_BOOL, 1, 0 },				// bInviisble
+        { "", DATA_ULONG, 1, 0},                // buddyRosterID
         { "buddyID", DATA_ULONG, 1, 0},
         { "buddyHash", DATA_BINARY, 1, 0},
         { NULL, DATA_UNKNOWN, 0, 0 }

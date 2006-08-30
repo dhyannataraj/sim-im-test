@@ -254,8 +254,9 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             // buddy info
             Tlv *tlvBuddy = tlv(TLV_USER_BUDDYINFO);
             if (tlvBuddy) {
+                const QByteArray &ba = data->buddyHash.toBinary();
                 unsigned short iconID;
-                char iconFlags, hashSize;
+                unsigned char iconFlags, hashSize;
                 Buffer info(*tlvBuddy);
                 QByteArray hash(16);
                 QString fname = ICQClient::avatarFile(data);
@@ -264,7 +265,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 info >> iconID >> iconFlags >> hashSize;
                 hash.resize(hashSize);
                 info.unpack(hash.data(), hashSize);
-                if(data->buddyID.toULong() != iconID || data->buddyHash.toBinary() != hash ||
+                if( data->buddyID.toULong() != iconID ||
+                    ba.data() != hash.data() ||
                    !fi.exists() || fi.size() == 0) {
                     data->buddyID.asULong() = iconID;
                     data->buddyHash.asBinary() = hash;
