@@ -134,7 +134,7 @@ void ShortcutsConfig::saveMenu(unsigned long id)
                     QString t = item->text(1);
                     if (t.isEmpty())
                         t = "-";
-                    m_plugin->setKey(s->id, t);
+                    m_plugin->setKey(s->id, t.utf8());
                 }
                 bool bGlobal = !item->text(2).isEmpty();
                 bool bCfgGlobal = m_plugin->getOldGlobal(s);

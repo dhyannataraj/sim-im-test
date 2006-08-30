@@ -410,14 +410,14 @@ FileMessage::~FileMessage()
 
 unsigned FileMessage::getSize()
 {
-    if (data.Size.value)
-        return data.Size.value;
+    if (data.Size.toULong())
+        return data.Size.toULong();
     Iterator it(*this);
     const QString *name;
     while ((name = ++it) != NULL){
-        data.Size.value += it.size();
+        data.Size.asULong() += it.size();
     }
-    return data.Size.value;
+    return data.Size.toULong();
 }
 
 void FileMessage::addFile(const QString &file, unsigned size)
@@ -436,7 +436,7 @@ void FileMessage::addFile(const QString &file, unsigned size)
 
 void FileMessage::setSize(unsigned size)
 {
-    data.Size.value = size;
+    data.Size.asULong() = size;
 }
 
 QString FileMessage::getDescription()

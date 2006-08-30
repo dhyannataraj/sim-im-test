@@ -701,7 +701,7 @@ void *UserView::processEvent(Event *e)
                     CommandsList it(*cmdsMsg, true);
                     CommandDef *c;
                     while ((c = ++it) != NULL){
-                        memcpy(&cmds[nCmds], c, sizeof(CommandDef));
+                        cmds[nCmds] = *c;
                         cmds[nCmds].id = CmdSendMessage + c->id;
                         cmds[nCmds].menu_id = MenuContact;
                         nCmds++;

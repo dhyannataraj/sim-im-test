@@ -1295,8 +1295,11 @@ string ClientUserData::property(const char *name)
                     if (user_data->ptr)
                         return user_data->ptr;
                 case DATA_ULONG:
-                    if (user_data->value != (unsigned long)(def->def_value))
-                        return number(user_data->value);
+                    if (user_data->toULong() != (unsigned long)(def->def_value))
+                        return number(user_data->toULong());
+                case DATA_LONG:
+                    if (user_data->toLong() != (long)(def->def_value))
+                        return number(user_data->toLong());
 		default:
 		    break;
                 }
@@ -1322,7 +1325,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     for (it = p->begin(); it != p->end(); ++it){
         if (((*it).client == client) && ((*it).data == data))
             break;
-        if (((clientData*)((*it).data))->Sign.value != ((clientData*)data)->Sign.value)
+        if (((clientData*)((*it).data))->Sign.toULong() != ((clientData*)data)->Sign.toULong())
             continue;
         if (client->compareData(data, (*it).data))
             return NULL;
@@ -1334,7 +1337,7 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     for (++it; it != p->end(); ++it){
         if ((*it).client->getState() != Client::Connected)
             continue;
-        if (((clientData*)((*it).data))->Sign.value != ((clientData*)data)->Sign.value)
+        if (((clientData*)((*it).data))->Sign.toULong() != ((clientData*)data)->Sign.toULong())
             continue;
         if (client->compareData(data, (*it).data)){
             data = (*it).data;

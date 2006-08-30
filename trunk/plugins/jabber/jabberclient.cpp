@@ -1426,11 +1426,11 @@ void JabberClient::setOffline(JabberUserData *data)
 {
     data->Status.asULong()    = STATUS_OFFLINE;
     data->composeId.asULong() = 0;
-    clear_list(&data->Resources);
-    clear_list(&data->ResourceReply);
-    clear_list(&data->ResourceStatus);
-    clear_list(&data->ResourceStatusTime);
-    clear_list(&data->ResourceOnlineTime);
+    data->Resources.clear();
+    data->ResourceReply.clear();
+    data->ResourceStatus.clear();
+    data->ResourceStatusTime.clear();
+    data->ResourceOnlineTime.clear();
     data->nResources.asULong() = 0;
     if (data->TypingId.ptr && *data->TypingId.ptr){
         set_str(&data->TypingId.ptr, NULL);
@@ -1767,7 +1767,7 @@ string JabberClient::resources(void *_data)
             const char *dicon = get_icon(data, atol(get_str(data->ResourceStatus, i)), false);
             resource += number((unsigned long)dicon);
             resource += ",";
-            resource += quoteChars(get_str(data->Resources, i), ";");
+            resource += quoteChars(get_str(data->Resources, i).data(), ";");
         }
     }
     return resource;

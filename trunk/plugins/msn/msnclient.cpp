@@ -1210,16 +1210,16 @@ MSNUserData *MSNClient::findContact(const char *mail, const char *name, Contact 
             break;
     }
     if (i <= getNDeleted()){
-        list<string> deleted;
+        list<QCString> deleted;
         for (i = 1; i <= getNDeleted(); i++){
             if (!strcmp(getDeleted(i), mail))
                 continue;
             deleted.push_back(getDeleted(i));
         }
         setNDeleted(0);
-        for (list<string>::iterator it = deleted.begin(); it != deleted.end(); ++it){
+        for (list<QCString>::iterator it = deleted.begin(); it != deleted.end(); ++it){
             setNDeleted(getNDeleted() + 1);
-            setDeleted(getNDeleted(), (*it).c_str());
+            setDeleted(getNDeleted(), (*it));
         }
     }
     QString name_str = unquote(QString::fromUtf8(name));

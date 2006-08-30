@@ -109,12 +109,12 @@ public:
     PROP_STR(US);
     PROP_STR(UP);
     PROP_STR(UD);
-    PROP_STRLIST(Day);
-    PROP_STRLIST(WDay);
-    PROP_STRLIST(MinT);
-    PROP_STRLIST(MaxT);
-    PROP_STRLIST(DayIcon);
-    PROP_STRLIST(DayConditions);
+    PROP_UTFLIST(Day);
+    PROP_UTFLIST(WDay);
+    PROP_UTFLIST(MinT);
+    PROP_UTFLIST(MaxT);
+    PROP_UTFLIST(DayIcon);
+    PROP_UTFLIST(DayConditions);
 	PROP_LONG(UV_Intensity);
 	PROP_STR(UV_Description);
 	PROP_LONG(MoonIcon);

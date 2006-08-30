@@ -363,9 +363,9 @@ const unsigned EventCommandExec = 0x0505;
 
 const unsigned EventCommandCreate = 0x0506;
 
-typedef struct CommandDef
+struct CommandDef
 {
-    unsigned long   id;             // Command ID
+    unsigned long   id;         // Command ID
     const char  *text;          // Command name
     const char  *icon;          // Icon
     const char  *icon_on;       // Icon for checked state
@@ -378,7 +378,7 @@ typedef struct CommandDef
     unsigned    flags;          // Command flags
     void        *param;         // Paramether from MenuSetParam
     char        *text_wrk;      // Text for check state (utf8)
-} CommandDef;
+};
 
 class EXPORT Command
 {
@@ -813,6 +813,7 @@ enum DataType {
     DATA_STRUCT,
     DATA_UTFLIST,
     DATA_OBJECT,
+    DATA_BINARY     // QByteArray
 };
 
 typedef struct DataDef
@@ -824,31 +825,48 @@ typedef struct DataDef
 } DataDef;
 
 class IP;
-typedef union Data
+struct Data
 {
 public:
+    typedef QMap<unsigned, QCString> STRING_MAP;        // currently QCString!
+    char            *ptr;
+protected:
     QObject         *m_dataAsObject;
     IP              *m_dataAsIP;
-    char            *ptr;
-    unsigned long   value;
-    bool            bValue;
+    unsigned long   m_dataAsValue;
+    bool            m_dataAsBool;
+    QByteArray      m_dataAsBinary;
+    STRING_MAP      m_dataAsQStringMap;
 public:
-    void clear() { ptr = NULL; }
-    bool &asBool() { return bValue; }
-    bool toBool() const { return bValue; }
-    long &asLong() { return (long&)value; }
-    long toLong() const { return (long)value; }
-    unsigned long &asULong() { return value; }
-    unsigned long toULong() const { return value; }
-    // IP
+    void clear() { m_dataAsObject = NULL; m_dataAsIP = NULL; m_dataAsValue = 0; m_dataAsBool = false;
+                   m_dataAsBinary.resize(0); m_dataAsQStringMap.clear(); ptr = NULL; }
+    // Bool
+    bool &asBool() { return m_dataAsBool; }
+    bool toBool() const { return m_dataAsBool; }
+    // Long
+    long &asLong() { return (long&)m_dataAsValue; }
+    long toLong() const { return (long)m_dataAsValue; }
+    // ULong
+    unsigned long &asULong() { return m_dataAsValue; }
+    unsigned long toULong() const { return m_dataAsValue; }
+    // class IP
     const IP* ip() const { return m_dataAsIP; }
     IP* ip() { return m_dataAsIP; }
     bool setIP(const IP *i) { m_dataAsIP = const_cast<IP*>(i); return (i != NULL); }
-    // QObject
+    // class QObject
     const QObject* object() const { return m_dataAsObject; }
     QObject* object() { return m_dataAsObject; }
     bool setObject(const QObject *o) { m_dataAsObject = const_cast<QObject*>(o); return (o != NULL); }
-} Data;
+    // Binary
+    const QByteArray &toBinary() const { return m_dataAsBinary; }
+    QByteArray &asBinary() { return m_dataAsBinary; }
+    bool setBinary(const QByteArray &d) { if(m_dataAsBinary == d) return false; m_dataAsBinary = d; return true; }
+    // StringMap
+    const STRING_MAP &strMap() const { return m_dataAsQStringMap; }
+    STRING_MAP &strMap() { return m_dataAsQStringMap; }
+    bool setStrMap(const STRING_MAP &s) { m_dataAsQStringMap = s; return true; }
+
+};
 
 #define DATA(A) ((const char*)(A))
 
@@ -857,22 +875,21 @@ EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
 EXPORT std::string save_data(const DataDef *def, void *data);
 
 EXPORT bool set_str(char **str, const char *value);
-EXPORT const char *get_str(const Data &strlist, unsigned index);
-EXPORT void clear_list(Data *strlist);
-EXPORT void set_str(Data *strlist, unsigned index, const char *value);
+EXPORT const QCString &get_str(const Data &strlist, unsigned index);
+EXPORT void set_str(Data *strlist, unsigned index, const QCString &value);
 EXPORT unsigned long get_ip(const Data &ip);
 EXPORT const char *get_host(const Data &ip);
 EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_STRLIST(A) \
-    const char *get##A(unsigned index) const { return SIM::get_str(data.A, index); } \
-    void set##A(unsigned index, const char *value) { SIM::set_str(&data.A, index, value); } \
-    void clear##A()  { SIM::clear_list(&data.A); }
+    const QCString &get##A(unsigned index) const { return SIM::get_str(data.A, index); } \
+    void set##A(unsigned index, const QCString &value) { SIM::set_str(&data.A, index, value); } \
+    void clear##A()  { data.A.clear(); }
 
 #define PROP_UTFLIST(A) \
     QString get##A(unsigned index) const { return QString::fromUtf8(SIM::get_str(data.A, index)); } \
     void set##A(unsigned index, const QString &value) { SIM::set_str(&data.A, index, value.utf8()); } \
-    void clear##A()  { SIM::clear_list(&data.A); }
+    void clear##A()  { data.A.clear(); }
 
 #define PROP_STR(A) \
     const char *get##A() const { return data.A.ptr ? data.A.ptr : ""; } \

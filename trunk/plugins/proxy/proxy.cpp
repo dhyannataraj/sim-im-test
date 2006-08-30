@@ -1212,7 +1212,7 @@ void ProxyPlugin::clientData(TCPClient *client, ProxyData &cdata)
     cdata = data;
     set_str(&cdata.Client.ptr, clientName(client).c_str());
     cdata.Default.asBool() = true;
-    clear_list(&cdata.Clients);
+    cdata.Clients.clear();
 }
 
 static QObject *findObject(QObject *w, const char *className)

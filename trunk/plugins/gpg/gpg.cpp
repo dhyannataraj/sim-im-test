@@ -217,7 +217,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                 if (!(*it).key.empty()){
                     unsigned i = 1;
                     for (i = 1; i <= getnPassphrases(); i++){
-                        if ((*it).key == getKeys(i))
+                        if ((*it).key == getKeys(i).data())
                             break;
                     }
                     if (i > getnPassphrases()){
@@ -266,7 +266,7 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                     }
                     if ((*it).passphrase.isEmpty()){
                         for (unsigned i = 1; i <= getnPassphrases(); i++){
-                            if (key == getKeys(i)){
+                            if (key == getKeys(i).data()){
                                 passphrase = getPassphrases(i);
                                 break;
                             }

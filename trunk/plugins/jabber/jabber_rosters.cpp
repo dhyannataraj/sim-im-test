@@ -874,18 +874,18 @@ JabberClient::PresenceRequest::~PresenceRequest()
         if (data){
             unsigned i;
             for (i = 1; i <= data->nResources.toULong(); i++){
-                if (resource == get_str(data->Resources, i))
+                if (resource == get_str(data->Resources, i).data())
                     break;
             }
             bool bChanged = false;
             if (status == STATUS_OFFLINE){
                 if (i <= data->nResources.toULong()){
                     bChanged = true;
-                    vector<string> resources;
-                    vector<string> resourceReply;
-                    vector<string> resourceStatus;
-                    vector<string> resourceStatusTime;
-                    vector<string> resourceOnlineTime;
+                    vector<QCString> resources;
+                    vector<QCString> resourceReply;
+                    vector<QCString> resourceStatus;
+                    vector<QCString> resourceStatusTime;
+                    vector<QCString> resourceOnlineTime;
                     for (unsigned n = 1; n <= data->nResources.toULong(); n++){
                         if (i == n)
                             continue;
@@ -895,17 +895,17 @@ JabberClient::PresenceRequest::~PresenceRequest()
                         resourceStatusTime.push_back(get_str(data->ResourceStatusTime, n));
                         resourceOnlineTime.push_back(get_str(data->ResourceOnlineTime, n));
                     }
-                    clear_list(&data->Resources);
-                    clear_list(&data->ResourceReply);
-                    clear_list(&data->ResourceStatus);
-                    clear_list(&data->ResourceStatusTime);
-                    clear_list(&data->ResourceOnlineTime);
+                    data->Resources.clear();
+                    data->ResourceReply.clear();
+                    data->ResourceStatus.clear();
+                    data->ResourceStatusTime.clear();
+                    data->ResourceOnlineTime.clear();
                     for (i = 0; i < resources.size(); i++){
-                        set_str(&data->Resources, i + 1, resources[i].c_str());
-                        set_str(&data->ResourceReply, i + 1, resourceReply[i].c_str());
-                        set_str(&data->ResourceStatus, i + 1, resourceStatus[i].c_str());
-                        set_str(&data->ResourceStatusTime, i + 1, resourceStatusTime[i].c_str());
-                        set_str(&data->ResourceOnlineTime, i + 1, resourceOnlineTime[i].c_str());
+                        set_str(&data->Resources, i + 1, resources[i]);
+                        set_str(&data->ResourceReply, i + 1, resourceReply[i]);
+                        set_str(&data->ResourceStatus, i + 1, resourceStatus[i]);
+                        set_str(&data->ResourceStatusTime, i + 1, resourceStatusTime[i]);
+                        set_str(&data->ResourceOnlineTime, i + 1, resourceOnlineTime[i]);
                     }
                     data->nResources.asULong() = resources.size();
                 }
@@ -918,12 +918,12 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     set_str(&data->Resources, i, resource.c_str());
                     set_str(&data->ResourceOnlineTime, i, number(time2 ? time2 : time1).c_str());
                 }
-                if (number(status) != get_str(data->ResourceStatus, i)){
+                if (status != get_str(data->ResourceStatus, i).toULong()){
                     bChanged = true;
                     set_str(&data->ResourceStatus, i, number(status).c_str());
                     set_str(&data->ResourceStatusTime, i, number(time1).c_str());
                 }
-                if (m_status != get_str(data->ResourceReply, i)){
+                if (m_status != get_str(data->ResourceReply, i).data()){
                     bChanged = true;
                     set_str(&data->ResourceReply, i, m_status.c_str());
                 }
