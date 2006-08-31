@@ -25,6 +25,7 @@
 #include "icq.h"
 
 #include <qdatetime.h>
+#include <qimage.h>
 
 #include <map>
 

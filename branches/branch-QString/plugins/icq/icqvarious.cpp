@@ -28,6 +28,7 @@
 
 #include <qtimer.h>
 #include <qbuffer.h>
+#include <qfile.h>
 #include "xml.h"
 
 using namespace std;

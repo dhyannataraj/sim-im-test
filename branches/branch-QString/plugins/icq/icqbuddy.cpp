@@ -28,6 +28,8 @@
 #include <netinet/in.h>
 #endif
 
+#include <qfileinfo.h>
+
 using namespace std;
 using namespace SIM;
 
