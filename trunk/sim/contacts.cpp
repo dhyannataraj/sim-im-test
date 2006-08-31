@@ -1243,8 +1243,8 @@ bool ContactList::moveClient(Client *client, bool bUp)
 
 typedef struct _ClientUserData
 {
-    Client	*client;
-    void	*data;
+    Client  *client;
+    Data    *data;
 } _ClientUserData;
 
 class ClientUserDataPrivate : public vector<_ClientUserData>
@@ -1260,10 +1260,11 @@ ClientUserDataPrivate::ClientUserDataPrivate()
 
 ClientUserDataPrivate::~ClientUserDataPrivate()
 {
+    // why do I have to delete something here which is created somehwere else??
     for (ClientUserDataPrivate::iterator it = begin(); it != end(); ++it){
         _ClientUserData &d = *it;
         free_data(d.client->protocol()->userDataDef(), d.data);
-        free(d.data);
+        delete[] d.data;
     }
 }
 
@@ -1408,7 +1409,7 @@ void ClientUserData::freeData(void *data)
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         if ((*it).data == data){
             free_data((*it).client->protocol()->userDataDef(), data);
-            free(data);
+            delete[] data;
             p->erase(it);
             return;
         }
@@ -1423,7 +1424,7 @@ void ClientUserData::freeClientData(Client *client)
             continue;
         }
         free_data((*it).client->protocol()->userDataDef(), (*it).data);
-        free((*it).data);
+        delete[] (*it).data;
         p->erase(it);
         it = p->begin();
     }
@@ -1440,7 +1441,7 @@ void ClientUserData::join(ClientUserData &data)
 void ClientUserData::join(clientData *cData, ClientUserData &data)
 {
     for (ClientUserDataPrivate::iterator it = data.p->begin(); it != data.p->end(); ++it){
-        if ((*it).data == cData){
+        if ((*it).data == &(cData->Sign)){
             p->push_back(*it);
             data.p->erase(it);
             break;
