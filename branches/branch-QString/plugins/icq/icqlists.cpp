@@ -332,7 +332,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                     buddyHash.resize(size);
                     memcpy(buddyHash.data(), &tlv_buddyHash->Data()[2], size);
 
-                    if(memcmp(ba.data(), buddyHash.data(), min(ba.size(), size))) {
+                    if(memcmp(ba.data(), buddyHash.data(), min(ba.size(), (unsigned int)size))) {
                         data.owner.buddyHash.asBinary() = buddyHash;
                         data.owner.buddyID.asULong() = flag;
                         requestBuddy(&data.owner);
