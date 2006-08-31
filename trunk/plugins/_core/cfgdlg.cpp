@@ -488,7 +488,7 @@ void ConfigureDialog::apply()
         emit applyChanges(client, data);
         client->setClientInfo(data);
         free_data(def, data);
-        free(data);
+        delete[] data;
     }
     for (QListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
         apply(item);

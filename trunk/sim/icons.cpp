@@ -632,7 +632,7 @@ PictDef *FileIconSet::getPict(const char *name)
     PIXMAP_MAP::iterator it = m_icons.find(name);
     if (it == m_icons.end())
         return NULL;
-    if ((*it).second.image == NULL){
+    if ((*it).second.image.isNull()){
 #ifdef USE_KDE
         if (!it->second.system.empty()){
             QPixmap pict;

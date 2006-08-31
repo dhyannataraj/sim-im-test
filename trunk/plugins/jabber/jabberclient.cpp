@@ -974,7 +974,7 @@ string JabberClient::to_lower(const char *s)
 
 QCString JabberClient::encodeXML(const QString &str)
 {
-    return quoteString(str, quoteNOBR).utf8();
+    return quoteString(str, quoteNOBR, false).utf8();
 }
 
 JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bool bCreate, Contact *&contact, string &resource, bool bJoin)
@@ -2155,12 +2155,12 @@ bool JabberClient::send(Message *msg, void *_data)
             }
             m_socket->writeBuffer
             << "\'><body>"
-            << (const char*)(quote_nbsp(quoteString(QString::fromUtf8(text.c_str()), quoteNOBR)).utf8())
+            << (const char*)encodeXML(QString::fromUtf8(text.c_str()))
             << "</body>";
             if (data->richText.toBool() && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
                 m_socket->writeBuffer
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
-                << quote_nbsp(removeImages(msg->getRichText(), msg->getBackground())).utf8()
+                << (const char*)removeImages(msg->getRichText(), msg->getBackground()).utf8()
                 << "</body></html>";
             }
             m_socket->writeBuffer

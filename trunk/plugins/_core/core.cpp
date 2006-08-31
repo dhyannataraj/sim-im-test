@@ -4546,7 +4546,7 @@ bool FileLock::lock(bool bSend)
 {
     QString event = "SIM.";
     QString s = name();
-    event += number(adler32(s.latin1(), s.length()));
+    event += QString::number(adler32(s.latin1(), s.length()));
     HANDLE hEvent = OpenEventA(EVENT_MODIFY_STATE, FALSE, event.latin1());
     if (hEvent){
         if (bSend)
