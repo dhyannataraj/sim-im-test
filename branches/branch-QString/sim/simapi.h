@@ -936,7 +936,7 @@ EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, ConfigBuffer *config = NULL);
 EXPORT QString save_data(const DataDef *def, void *data);
 
-EXPORT const QString &get_str(Data &strlist, unsigned index);
+EXPORT const QString &get_str(const Data &strlist, unsigned index);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
 
 EXPORT unsigned long get_ip(const Data &ip);
@@ -1025,7 +1025,6 @@ EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT QCString getToken(QCString &from, char c, bool bUnEsacpe=true);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
 EXPORT char fromHex(char);
-EXPORT QString unquoteString(const QString &in);
 
 EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
 EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);

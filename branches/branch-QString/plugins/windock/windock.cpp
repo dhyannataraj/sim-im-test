@@ -47,7 +47,7 @@ static PluginInfo info =
         I18N_NOOP("Plugin provides dock main window to left or right side of screen"),
         VERSION,
         createWinDockPlugin,
-        PLUGIN_DEFAULT
+        0
     };
 
 EXPORT_PROC PluginInfo* GetPluginInfo()

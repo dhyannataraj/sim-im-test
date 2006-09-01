@@ -882,8 +882,9 @@ void MsgGPGKey::exportReady()
             QByteArray ba2 = m_process->readStderr();
             QString errStr;
             if(!ba2.isEmpty())
-                errStr = " (" + QString::fromLocal8Bit( ba2.data(), ba2.size() ) + ")";
-            BalloonMsg::message(i18n("Can't read gpg key") + errStr, m_edit->m_edit);
+                errStr = " (" + QString::fromLocal8Bit( ba2.data(), ba2.size() ) + ") ";
+            BalloonMsg::message(i18n("Can't read gpg key ") + errStr +
+                                     " Command: " + m_process->arguments().join(" "), m_edit->m_edit);
         }
     }
 

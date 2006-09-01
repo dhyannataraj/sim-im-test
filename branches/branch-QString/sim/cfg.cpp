@@ -82,17 +82,6 @@ void save_state()
 
 #ifdef WIN32
 
-static bool isWindowsNT()
-{
-    OSVERSIONINFO ovi;
-
-    ZeroMemory(&ovi, sizeof(ovi));
-    ovi.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
-    GetVersionEx(&ovi);
-
-    return (ovi.dwPlatformId==VER_PLATFORM_WIN32_NT);
-}
-
 EXPORT bool makedir(char *p)
 {
     char *r = strrchr(p, '\\');
@@ -103,7 +92,7 @@ EXPORT bool makedir(char *p)
     ZeroMemory(&sa, sizeof(sa));
     sa.nLength = sizeof(sa);
     sa.lpSecurityDescriptor = NULL;
-    if(isWindowsNT()){
+    if(QApplication::winVersion()&Qt::WV_NT_based){
         InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
         SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE);
         sa.lpSecurityDescriptor = &sd;
@@ -155,11 +144,13 @@ EXPORT QString app_file(const QString &f)
 #ifdef WIN32
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
         return f;
-    char buff[256];
-    GetModuleFileNameA(NULL, buff, sizeof(buff));
-    char *p = strrchr(buff, '\\');
-    if (p) *p = 0;
-    app_file_name = buff;
+    WCHAR buff[MAX_PATH];
+    GetModuleFileNameW(NULL, buff, MAX_PATH);
+    QString b = QString::fromUcs2((unsigned short*)buff);
+    int idx = b.findRev('\\');
+    if(idx != -1)
+        b = b.left(idx+1);
+    app_file_name = b;
     if (app_file_name.length() && (app_file_name.right(1) != "\\") && (app_file_name.right(1) != "/"))
         app_file_name += "\\";
 #else
@@ -373,9 +364,9 @@ const char *get_host(const Data &p)
 
 // _______________________________________________________________________________________
 
-EXPORT const QString &get_str(Data &d, unsigned index)
+EXPORT const QString &get_str(const Data &d, unsigned index)
 {
-    Data::STRING_MAP &sm = d.strMap();
+    const Data::STRING_MAP &sm = d.strMap();
     Data::STRING_MAP::const_iterator it = sm.find(index);
     if(it != sm.end())
         return it.data();
@@ -725,7 +716,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_STRMAP:{
-                    Data::STRING_MAP &p = d->strMap();
+                    const Data::STRING_MAP &p = d->strMap();
                     Data::STRING_MAP::const_iterator it;
                     for (it = p.begin(); it != p.end(); it ++) {
                         QString s = it.data();
@@ -737,7 +728,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                             res += "\n";
                         res += def->name;
                         res += "=";
-						res += QString::number(it.key());
+                        res += QString::number(it.key());
                         res += ",";
                         res += quoteStringInternal(s);
                     }
