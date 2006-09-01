@@ -837,8 +837,10 @@ protected:
     bool            m_dataAsBool;
     QByteArray      m_dataAsBinary;
     STRING_MAP      m_dataAsQStringMap;
+
+    DataType        m_dataType;
 public:
-    Data() { clear(); }
+    Data() : m_dataAsBinary(), m_dataAsQStringMap(), m_dataType(DATA_UNKNOWN) { clear(); }
     void clear() { m_dataAsObject = NULL; m_dataAsIP = NULL; m_dataAsValue = 0; m_dataAsBool = false;
                    m_dataAsBinary.resize(0); m_dataAsQStringMap.clear(); ptr = NULL; }
     // Bool
@@ -867,6 +869,9 @@ public:
     STRING_MAP &strMap() { return m_dataAsQStringMap; }
     bool setStrMap(const STRING_MAP &s) { m_dataAsQStringMap = s; return true; }
 
+    // DataType
+    void setType(DataType eType) { m_dataType = eType; }
+    DataType getType() const { return m_dataType; }
 };
 
 #define DATA(A) ((const char*)(A))

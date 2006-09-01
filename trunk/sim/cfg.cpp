@@ -609,6 +609,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         unsigned i;
         string v;
         Data *ld = data + offs;
+        ld->setType(def->type);
         switch (def->type){
         case DATA_IP:
             p = (char*) strchr(value, ',');
