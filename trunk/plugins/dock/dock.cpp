@@ -83,14 +83,14 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
         : Plugin(base)
 {
     load_data(dockData, &data, config);
-    dock = NULL;
-    inactiveTime = 0;
+    m_dock = NULL;
+    m_inactiveTime = 0;
     m_popup = NULL;
 
     QString pluginName("_core");
     Event ePlugin(EventGetPluginInfo, &pluginName);
     pluginInfo *info = (pluginInfo*)(ePlugin.process());
-    core = static_cast<CorePlugin*>(info->plugin);
+    m_core = static_cast<CorePlugin*>(info->plugin);
 
     DockMenu     = registerType();
     CmdTitle	 = registerType();
@@ -161,24 +161,23 @@ DockPlugin::~DockPlugin()
 
     Event eMenu(EventMenuRemove, (void*)DockMenu);
     eMenu.process();
-    if (dock)
-        delete dock;
+    delete m_dock;
     free_data(dockData, &data);
 }
 
 void DockPlugin::init()
 {
-    if (dock)
+    if (m_dock)
         return;
     m_main = getMainWindow();
     if (m_main == NULL)
         return;
     m_main->installEventFilter(this);
-    dock = new DockWnd(this, "inactive", I18N_NOOP("Inactive"));
-    connect(dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
-    connect(dock, SIGNAL(toggleWin()), this, SLOT(toggleWin()));
-    connect(dock, SIGNAL(doubleClicked()), this, SLOT(doubleClicked()));
-    bQuit = false;
+    m_dock = new DockWnd(this, "inactive", I18N_NOOP("Inactive"));
+    connect(m_dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
+    connect(m_dock, SIGNAL(toggleWin()), this, SLOT(toggleWin()));
+    connect(m_dock, SIGNAL(doubleClicked()), this, SLOT(doubleClicked()));
+    m_bQuit = false;
     QApplication::syncX();
 }
 
@@ -192,18 +191,18 @@ bool DockPlugin::eventFilter(QObject *o, QEvent *e)
     }else{
         switch (e->type()){
         case QEvent::Close:
-            if (!bQuit){
-                QWidget *main = (QWidget*)o;
+            if (!m_bQuit){
+                QWidget *main = static_cast<QWidget*>(o);
                 setShowMain(false);
                 main->hide();
                 return true;
             }
             break;
         case QEvent::WindowDeactivate:
-            time((time_t*)&inactiveTime);
+            time(&m_inactiveTime);
             break;
         case QEvent::WindowActivate:
-            inactiveTime = 0;
+            m_inactiveTime = 0;
             break;
         default:
             break;
@@ -228,14 +227,14 @@ void *DockPlugin::processEvent(Event *e)
         init();
         break;
     case EventQuit:
-        if (dock){
-            delete dock;
-            dock = NULL;
+        if (m_dock){
+            delete m_dock;
+            m_dock = NULL;
         }
         break;
     case EventRaiseWindow:
         if (e->param() == getMainWindow()){
-            if (dock == NULL)
+            if (m_dock == NULL)
                 init();
             if (!getShowMain())
                 return e->param();
@@ -276,7 +275,7 @@ void *DockPlugin::processEvent(Event *e)
                 setShowMain(false);
                 main->hide();
             }else{
-                inactiveTime = 0;
+                m_inactiveTime = 0;
                 setShowMain(true);
                 raiseWindow(main,getDesktop());
             }
@@ -288,7 +287,7 @@ void *DockPlugin::processEvent(Event *e)
             return e->param();
         }
         if (def->id == CmdQuit)
-            bQuit = true;
+            m_bQuit = true;
         break;
     }
     return NULL;
@@ -339,7 +338,7 @@ void DockPlugin::doubleClicked()
     cmd->menu_grp    = 0x1000;
     cmd->flags       = COMMAND_CHECK_STATE;
 
-    if (core->unread.size())
+    if (m_core->unread.size())
         cmd->id = CmdUnread;
 
     Event e(EventCommandExec, cmd);
@@ -373,13 +372,13 @@ void DockPlugin::timer()
 {
     if (!isMainShow())  // already hidden
         return;
-    if (!getAutoHide() || (inactiveTime == 0))  // no autohide
+    if (!getAutoHide() || (m_inactiveTime == 0))  // no autohide
         return;
     if (m_main != getMainWindow()) {
         m_main = getMainWindow();
         m_main->installEventFilter(this);
     }
-    if (time(NULL) > inactiveTime + (time_t)getAutoHideInterval()){
+    if (time(NULL) > m_inactiveTime + (time_t)getAutoHideInterval()){
         if (m_main){
             setShowMain(false);
             m_main->hide();

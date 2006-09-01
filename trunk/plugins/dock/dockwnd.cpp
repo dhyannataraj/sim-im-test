@@ -1344,9 +1344,9 @@ void DockWnd::reset()
     m_unreadText = "";
     MAP_COUNT count;
     MAP_COUNT::iterator itc;
-    for (list<msg_id>::iterator it = m_plugin->core->unread.begin(); it != m_plugin->core->unread.end(); ++it){
+    for (list<msg_id>::iterator it = m_plugin->m_core->unread.begin(); it != m_plugin->m_core->unread.end(); ++it){
         if (m_unread == NULL){
-            CommandDef *def = m_plugin->core->messageTypes.find((*it).type);
+            CommandDef *def = m_plugin->m_core->messageTypes.find((*it).type);
             if (def)
                 m_unread = def->icon;
         }
@@ -1362,7 +1362,7 @@ void DockWnd::reset()
     }
     if (!count.empty()){
         for (itc = count.begin(); itc != count.end(); ++itc){
-            CommandDef *def = m_plugin->core->messageTypes.find((*itc).first.type);
+            CommandDef *def = m_plugin->m_core->messageTypes.find((*itc).first.type);
             if (def == NULL)
                 continue;
             MessageDef *mdef = (MessageDef*)(def->param);

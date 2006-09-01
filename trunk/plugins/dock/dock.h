@@ -52,15 +52,22 @@ protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual std::string getConfig();
     virtual bool eventFilter(QObject*, QEvent*);
-    DockWnd *dock;
     QWidget *getMainWindow();
     bool isMainShow();
+    void init();
+
+    DockWnd *m_dock;
+    QWidget* m_main;
+    QPopupMenu *m_popup;
+    CorePlugin *m_core;
     unsigned long DockMenu;
     unsigned long CmdTitle;
     unsigned long CmdToggle;
     unsigned long CmdCustomize;
-    QPopupMenu *m_popup;
-    bool bQuit;
+    bool m_bQuit;
+    time_t m_inactiveTime;
+    DockData data;
+
     PROP_BOOL(AutoHide);
     PROP_ULONG(AutoHideInterval);
     PROP_BOOL(ShowMain);
@@ -69,13 +76,9 @@ protected:
     PROP_ULONG(DockY);
 #endif
     PROP_ULONG(Desktop);
-    CorePlugin *core;
-    time_t inactiveTime;
-    void init();
-    DockData data;
+
     friend class DockCfg;
     friend class DockWnd;
-    QWidget* m_main;
 };
 
 #endif
