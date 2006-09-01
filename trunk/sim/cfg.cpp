@@ -66,17 +66,6 @@ void save_state()
 
 #ifdef WIN32
 
-static bool isWindowsNT()
-{
-    OSVERSIONINFO ovi;
-
-    ZeroMemory(&ovi, sizeof(ovi));
-    ovi.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
-    GetVersionEx(&ovi);
-
-    return (ovi.dwPlatformId==VER_PLATFORM_WIN32_NT);
-}
-
 EXPORT bool makedir(char *p)
 {
     char *r = strrchr(p, '\\');
@@ -87,7 +76,7 @@ EXPORT bool makedir(char *p)
     ZeroMemory(&sa, sizeof(sa));
     sa.nLength = sizeof(sa);
     sa.lpSecurityDescriptor = NULL;
-    if(isWindowsNT()){
+    if(QApplication::winVersion()&Qt::WV_NT_based){
         InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
         SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE);
         sa.lpSecurityDescriptor = &sd;
@@ -137,11 +126,13 @@ EXPORT QString app_file(const QString &f)
 #ifdef WIN32
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
         return f;
-    char buff[256];
-    GetModuleFileNameA(NULL, buff, sizeof(buff));
-    char *p = strrchr(buff, '\\');
-    if (p) *p = 0;
-    app_file_name = buff;
+    WCHAR buff[MAX_PATH];
+    GetModuleFileNameW(NULL, buff, MAX_PATH);
+    QString b = QString::fromUcs2((unsigned short*)buff);
+    int idx = b.findRev('\\');
+    if(idx != -1)
+        b = b.left(idx+1);
+    app_file_name = b;
     if (app_file_name.length() && (app_file_name.right(1) != "\\") && (app_file_name.right(1) != "/"))
         app_file_name += "\\";
 #else
@@ -483,41 +474,6 @@ EXPORT void free_data(const DataDef *def, void *d)
             }
         }
     }
-}
-
-string unquoteString(const char *p)
-{
-    string unquoted;
-    for (; *p; p++){
-        if (*p != '\\'){
-            unquoted += *p;
-            continue;
-        }
-        p++;
-        if (*p == 0) break;
-        switch (*p){
-        case '\\':
-            unquoted += '\\';
-            break;
-        case 'n':
-            unquoted += '\n';
-            break;
-        case 't':
-            unquoted += '\t';
-            break;
-        case 'x':
-            if (p[1] && p[2]){
-                char c = 0;
-                c = (char)((fromHex(p[1]) << 4) + fromHex(p[2]));
-                unquoted += c;
-                p += 2;
-            }
-            break;
-        default:
-            p--;
-        }
-    }
-    return unquoted;
 }
 
 void init_data(const DataDef *d, Data *data)

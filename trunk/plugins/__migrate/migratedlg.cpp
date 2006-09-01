@@ -293,7 +293,7 @@ void MigrateDialog::flush()
         output += number(m_uin);
         output += "\n";
         if (!m_passwd.empty()){
-            m_passwd = unquoteString(m_passwd.c_str());
+            m_passwd = unquoteString(m_passwd.c_str()).ascii();
             unsigned char xor_table[] =
                 {
                     0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
