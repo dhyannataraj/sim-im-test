@@ -417,7 +417,7 @@ const char *get_host(const Data &p)
 
 EXPORT const QCString &get_str(const Data &d, unsigned index)
 {
-    static QCString QNullCString;   // ugly hack... 
+    static QCString QNullCString("\0");  // replace me with QString::null once all is con
 
     const Data::STRING_MAP &sm = d.strMap();
     Data::STRING_MAP::const_iterator it = sm.find(index);
