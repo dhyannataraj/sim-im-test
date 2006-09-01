@@ -923,7 +923,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     set_str(&data->ResourceStatus, i, number(status).c_str());
                     set_str(&data->ResourceStatusTime, i, number(time1).c_str());
                 }
-                if (m_status != get_str(data->ResourceReply, i).data()){
+                if (m_status.c_str() != get_str(data->ResourceReply, i)){
                     bChanged = true;
                     set_str(&data->ResourceReply, i, m_status.c_str());
                 }
