@@ -441,7 +441,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         info.base = m_base;
     }
     info.plugin = info.info->create(info.base, m_bInInit, info.cfg);
-    if (info.plugin == ABORT_LOADING){
+    if ((unsigned long)(info.plugin) == ABORT_LOADING){
         m_bAbort = true;
         info.plugin = NULL;
     }
@@ -465,7 +465,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
 
 void PluginManagerPrivate::load_all(Plugin *from)
 {
-    if (from == ABORT_LOADING){
+    if (from == (Plugin*)ABORT_LOADING){
         m_bAbort = true;
         qApp->quit();
         return;
