@@ -22,6 +22,8 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 #endif
+#include <time.h>
+
 #include "fetch.h"
 #include "buffer.h"
 #include "socket.h"
@@ -29,8 +31,7 @@
 
 #include <qthread.h>
 #include <qtimer.h>
-
-#include <time.h>
+#include <qlibrary.h>
 
 using namespace std;
 using namespace SIM;
@@ -490,22 +491,22 @@ FetchManager::FetchManager()
 #endif
     user_agent += ")";
 #ifdef WIN32
-    HINSTANCE hLib = LoadLibraryA("wininet.dll");
-    if (hLib != NULL){
-        (DWORD&)_InternetGetConnectedState = (DWORD)GetProcAddress(hLib, "InternetGetConnectedState");
-        (DWORD&)_InternetOpen = (DWORD)GetProcAddress(hLib, "InternetOpenA");
-        (DWORD&)_InternetCloseHandle = (DWORD)GetProcAddress(hLib, "InternetCloseHandle");
-        (DWORD&)_InternetCrackUrl = (DWORD)GetProcAddress(hLib, "InternetCrackUrlA");
-        (DWORD&)_InternetConnect = (DWORD)GetProcAddress(hLib, "InternetConnectA");
-        (DWORD&)_HttpOpenRequest = (DWORD)GetProcAddress(hLib, "HttpOpenRequestA");
-        (DWORD&)_HttpSendRequest = (DWORD)GetProcAddress(hLib, "HttpSendRequestA");
-        (DWORD&)_HttpSendRequestEx = (DWORD)GetProcAddress(hLib, "HttpSendRequestExA");
-        (DWORD&)_HttpQueryInfo = (DWORD)GetProcAddress(hLib, "HttpQueryInfoA");
-        (DWORD&)_HttpEndRequest = (DWORD)GetProcAddress(hLib, "HttpEndRequestA");
-        (DWORD&)_InternetReadFile = (DWORD)GetProcAddress(hLib, "InternetReadFile");
-        (DWORD&)_InternetWriteFile = (DWORD)GetProcAddress(hLib, "InternetWriteFile");
-        (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
-        (DWORD&)_InternetErrorDlg = (DWORD)GetProcAddress(hLib, "InternetErrorDlg");
+    QLibrary l("wininet.dll");
+    if (l.load()){
+        (void*&)_InternetGetConnectedState = l.resolve("InternetGetConnectedState");
+        (void*&)_InternetOpen = l.resolve("InternetOpenA");
+        (void*&)_InternetCloseHandle = l.resolve("InternetCloseHandle");
+        (void*&)_InternetCrackUrl = l.resolve("InternetCrackUrlA");
+        (void*&)_InternetConnect = l.resolve("InternetConnectA");
+        (void*&)_HttpOpenRequest = l.resolve("HttpOpenRequestA");
+        (void*&)_HttpSendRequest = l.resolve("HttpSendRequestA");
+        (void*&)_HttpSendRequestEx = l.resolve("HttpSendRequestExA");
+        (void*&)_HttpQueryInfo = l.resolve("HttpQueryInfoA");
+        (void*&)_HttpEndRequest = l.resolve("HttpEndRequestA");
+        (void*&)_InternetReadFile = l.resolve("InternetReadFile");
+        (void*&)_InternetWriteFile = l.resolve("InternetWriteFile");
+        (void*&)_InternetQueryOption = l.resolve("InternetQueryOptionA");
+        (void*&)_InternetErrorDlg = l.resolve("InternetErrorDlg");
     }
     if (_InternetOpen && _HttpSendRequestEx){
         hInet = _InternetOpen(user_agent, INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);

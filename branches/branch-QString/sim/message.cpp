@@ -38,8 +38,8 @@ static DataDef	messageData[] =
         { "ServerText", DATA_STRING, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
         // Use impossible RGB values as defaults, to signify there's no color set.
-        { "Background", DATA_ULONG, 1, (const char*)0xFFFFFFFF },
-        { "Foreground", DATA_ULONG, 1, (const char*)0xFFFFFFFF },
+        { "Background", DATA_ULONG, 1, (const char*)~0U },
+        { "Foreground", DATA_ULONG, 1, (const char*)~0U },
         { "Time", DATA_ULONG, 1, 0 },
         { "Font", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// Error
@@ -372,7 +372,7 @@ void FileMessage::Iterator::reset()
     p->it = p->begin();
 }
 
-unsigned FileMessage::Iterator::count()
+size_t FileMessage::Iterator::count()
 {
     return p->size();
 }

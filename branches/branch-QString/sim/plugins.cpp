@@ -231,7 +231,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
             return;
     }
     Event eStart(EventInit);
-    if ((long)eStart.process() == -1) {
+    if (eStart.process() == (void*)-1) {
         log(L_ERROR,"EventInit failed - aborting!");
         m_bAbort = true;
         return;
@@ -265,7 +265,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
         p = (CmdParam*)(e->param());
         return (void*)findParam(p->arg, p->descr, p->value);
     case EventPluginGetInfo:
-        return getInfo((unsigned long)(e->param()));
+        return getInfo((unsigned)(e->param()));
     case EventApplyPlugin:
         return (void*)setInfo((QString*)e->param());
     case EventPluginsUnload:
@@ -286,9 +286,9 @@ void *PluginManagerPrivate::processEvent(Event *e)
     case EventGetPluginInfo:
         return getInfo((const char*)(e->param()));
     case EventArgc:
-        return (void*)(long)m_argc;
+        return (void*)m_argc;
     case EventArgv:
-        return (void*)(long)m_argv;
+        return (void*)m_argv;
 #ifndef WIN32
     case EventExec:
         exec = (ExecParam*)(e->param());
@@ -312,7 +312,7 @@ pluginInfo *PluginManagerPrivate::getInfo(const QString &name)
 
 void PluginManagerPrivate::release_all(Plugin *to)
 {
-    for (int n = plugins.size() - 1; n >= 0; n--){
+    for (size_t n = plugins.size() - 1; n >= 0; n--){
         pluginInfo &info = plugins[n];
         if (to && (info.plugin == to))
             break;
@@ -441,7 +441,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         info.base = m_base;
     }
     info.plugin = info.info->create(info.base, m_bInInit, info.cfg);
-    if ((unsigned long)(info.plugin) == ABORT_LOADING){
+    if (info.plugin == ABORT_LOADING){
         m_bAbort = true;
         info.plugin = NULL;
     }
@@ -465,7 +465,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
 
 void PluginManagerPrivate::load_all(Plugin *from)
 {
-    if (from == (Plugin*)ABORT_LOADING){
+    if (from == ABORT_LOADING){
         m_bAbort = true;
         qApp->quit();
         return;
