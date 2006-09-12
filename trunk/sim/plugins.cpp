@@ -383,6 +383,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
             pluginName = PLUGIN_PATH;
             pluginName += "/";
             pluginName += info.name;
+            pluginName += LTDL_SHLIB_EXT;
         }
 #endif
         QString fullName = app_file(pluginName);
