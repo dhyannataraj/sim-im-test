@@ -2153,6 +2153,13 @@ bool JabberClient::send(Message *msg, void *_data)
                 << "/"
                 << msg->getResource().utf8();
             }
+            if (getTyping()){
+                data->composeId.asULong() = ++m_msg_id;
+                string msg_id = "msg";
+                msg_id += number(data->composeId.asULong());
+                m_socket->writeBuffer
+                <<"\' id=\'"<<msg_id.c_str();
+            }
             m_socket->writeBuffer
             << "\'><body>"
             << (const char*)encodeXML(QString::fromUtf8(text.c_str()))
@@ -2162,6 +2169,12 @@ bool JabberClient::send(Message *msg, void *_data)
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
                 << (const char*)removeImages(msg->getRichText(), msg->getBackground()).utf8()
                 << "</body></html>";
+            }
+            if (getTyping()){
+                m_socket->writeBuffer
+                <<"<x xmlns='jabber:x:event'>"
+                <<"<composing/>"
+                <<"</x>";
             }
             m_socket->writeBuffer
             << "</message>";
