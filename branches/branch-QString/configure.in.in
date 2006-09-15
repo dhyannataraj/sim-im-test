@@ -135,10 +135,6 @@ fi
 AC_SUBST(ZIP)
 AC_SUBST(ZIP_FLAGS)
 
-uname=`uname`
-unamem=`uname -m`
-AC_DEFINE_UNQUOTED(UNAME,"${uname} ${unamem}",[System type])
-
 if test "$have_ssl" != "yes" -a "$want_ssl" != "no"; then
   AC_MSG_ERROR([SIM requires OpenSSL library.
 Please install OpenSSL (libraries and headers).
