@@ -1189,12 +1189,10 @@ void DockWnd::setTip(const char *text)
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
     if (wharfIcon == NULL){
-        if (isVisible()){
 #endif
             QToolTip::remove(this);
             QToolTip::add(this, tip);
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-        }
     }else{
         if (wharfIcon->isVisible()){
             QToolTip::remove(wharfIcon);
