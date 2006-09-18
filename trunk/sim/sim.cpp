@@ -46,6 +46,7 @@ public:
     SimApp();
     ~SimApp();
     int newInstance();
+    void commitData(QSessionManager&);
     void saveState(QSessionManager&);
 protected:
     bool firstInstance;
@@ -87,6 +88,7 @@ public:
 SimApp(int argc, char **argv) : QApplication(argc, argv) {}
     ~SimApp();
 protected:
+    void commitData(QSessionManager&);
     void saveState(QSessionManager&);
 };
 
@@ -95,6 +97,11 @@ SimApp::~SimApp()
 }
 
 #endif
+
+void SimApp::commitData(QSessionManager&)
+{
+    save_state();
+}
 
 void SimApp::saveState(QSessionManager &sm)
 {
