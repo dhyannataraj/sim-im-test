@@ -74,8 +74,8 @@ static DataDef weatherData[] =
         { "Temperature", DATA_LONG, 1, 0 },
         { "FeelsLike", DATA_LONG, 1, 0 },
         { "DewPoint", DATA_LONG, 1, 0 },
-        { "Precipitance", DATA_LONG, 1, 0 },
         { "Humidity", DATA_LONG, 1, 0 },
+        { "Precipitation", DATA_LONG, 1, 0 },
         { "Pressure", DATA_LONG, 1, 0 },
         { "PressureD", DATA_STRING, 1, 0 },
         { "Conditions", DATA_STRING, 1, 0 },
@@ -495,7 +495,7 @@ QString WeatherPlugin::replace(const QString &text)
     /* double Expressions *before* single or better RegExp ! */
     res = res.replace(QRegExp("\\%mp"), i18n("moonphase", getMoonPhase()));
     res = res.replace(QRegExp("\\%mi"), QString::number(getMoonIcon()));
-    res = res.replace(QRegExp("\\%pp"), QString::number(getPrecipitance()));
+    res = res.replace(QRegExp("\\%pp"), QString::number(getPrecipitation()));
     res = res.replace(QRegExp("\\%ut"), i18n("weather", getUV_Description()));
     res = res.replace(QRegExp("\\%ui"), QString::number(getUV_Intensity()));
     res = res.replace(QRegExp("\\%t"), QString::number((int)getTemperature()) + QChar((unsigned short)176) + getUT());
@@ -567,7 +567,7 @@ QString WeatherPlugin::getTipText()
                    "<img src=\"icon:weather%i\"> %c<br>\n"
                    "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
-                   "Precipitance: <b>%pp %</b><br>\n"
+                   "Chance of Precipitation: <b>%pp%</b><br>\n"
                    "Pressure: <b>%p</b> (%q)<br>\n"
                    "Wind: <b>%b</b> <b>%w %g</b><br>\n"
                    "Visibility: <b>%v</b><br>\n"
@@ -615,7 +615,7 @@ static const char *tags[] =
         "s",
         "d",
         "ut",
-		"i",
+        "i",
         "us",
         "up",
         "ud",
@@ -651,6 +651,7 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
         return;
     }
     if (!strcmp(el, "day")){
+        m_bDayForecastIsValid = true; // Initial value
         QString wday;
         QString day;
         for (const char **p = attr; *p;){
@@ -677,6 +678,17 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
         setDay(m_day, day);
         setWDay(m_day, wday);
         return;
+    }
+    if (!strcmp(el, "part")){
+	for (const char **p = attr; *p;){
+	    QCString key  = *(p++);
+	    QString value = *(p++);
+	    if (key == "p"){
+		if (value == "d") m_bDayPart = 'd';
+		if (value == "n") m_bDayPart = 'n';
+	    }
+	}
+	return;
     }
     for (const char **p = tags; *p; p++){
         if (!strcmp(*p, el)){
@@ -734,10 +746,12 @@ void WeatherPlugin::element_end(const char *el)
         m_data = "";
         return;
     }
-    if (!strcmp(el, "ppcp") && m_bCC){
-        setPrecipitance(m_data.toLong());
-        m_data = "";
-        return;
+    if (!strcmp(el, "ppcp") && (m_day == 1) ) {
+        if (((m_bDayPart == 'd') && m_bDayForecastIsValid) || ((m_bDayPart == 'n') && ! m_bDayForecastIsValid )){
+    	    setPrecipitation(m_data.toLong());
+    	    m_data = "";
+    	    return;
+	}
     }
     if (!strcmp(el, "hmid") && m_bCC){
         setHumidity(m_data.toLong());
@@ -764,6 +778,8 @@ void WeatherPlugin::element_end(const char *el)
                 setConditions(m_data);
             }else{
                 setDayConditions(m_day, m_data);
+		if ((m_data == "N/A") && (m_bDayPart == 'd')) 
+		    m_bDayForecastIsValid = false;
             }
         }
         if (m_bWind && m_bCC)
