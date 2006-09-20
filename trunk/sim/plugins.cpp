@@ -231,7 +231,8 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     for (QStringList::iterator it = pluginsList.begin(); it != pluginsList.end(); ++it){
         QString f = QFileInfo(*it).fileName();
         int p = f.findRev('.');
-        if (p > 0) f = f.left(p);
+        if (p > 0)
+            f = f.left(p);
         pluginInfo info;
         info.plugin		 = NULL;
 #ifdef WIN32
