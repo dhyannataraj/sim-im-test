@@ -1,3 +1,10 @@
+sim (0.9.4.1~2-1) unstable; urgency=high
+
+  * SVN version rev. 1158 of bugfix release 0.9.4.1.
+  * Upstream doesn't fail to configure flex (Closes: #386392)
+
+ -- Alexander Petrov <zowers@gmail.com>  Wed, 20 Sep 2006 02:30:06 +0400
+
 sim (0.9.4.0+1-1) unstable; urgency=high
 
   * SVN version rev. 1080 of bugfix release 0.9.4.1.
