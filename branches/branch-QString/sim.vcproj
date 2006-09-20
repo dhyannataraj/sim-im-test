@@ -72,7 +72,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib $(QTDIR)\lib\qtmain.lib"
+				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib $(QTDIR)\lib\qtmain.lib Wininet.lib"
 				OutputFile=".\Release/sim.exe"
 				SubSystem="2"
 				TargetMachine="1"
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib $(QTDIR)\lib\qtmain.lib"
+				AdditionalDependencies="sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib $(QTDIR)\lib\qtmain.lib Wininet.lib"
 				OutputFile=".\Debug/sim.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

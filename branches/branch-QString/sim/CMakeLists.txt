@@ -108,7 +108,7 @@ ENDIF(USE_KDE3)
 
 # we need wsock32 on win32
 if (WIN32)
-  TARGET_LINK_LIBRARIES(simlib wsock32)
+  TARGET_LINK_LIBRARIES(simlib wsock32 wininet)
 endif(WIN32)
 
 # libxml, libxslt and iconv
