@@ -583,7 +583,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 break;
             value = strchr(value, '\"');
             if (value == NULL){
-                set_str(ld, i, NULL);
+                set_str(ld, i, "\0");
                 break;
             }
             value++;
