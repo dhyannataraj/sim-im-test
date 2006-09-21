@@ -497,7 +497,7 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
     }
     int mctl = TIOCM_DTR;
     if (ioctl(d->fd, TIOCMBIC, &mctl) < 0){
-        log(L_WARN, "Clear ÂÅÊ failed %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Clear ï¿½ï¿½failed %s: %s", fname.c_str(), strerror(errno));
         close();
         return false;
     }
@@ -631,7 +631,10 @@ QStringList SerialPort::devices()
     QDir dev("/dev");
     QStringList entries = dev.entryList("cuaa*", QDir::System);
     for (QStringList::Iterator it = entries.begin(); it != entries.end(); ++it)
-        res.append(*it);
+         res.append(*it);
+    entries = dev.entryList("ttyUSB*", QDir::System);
+    for (QStringList::Iterator it = entries.begin(); it != entries.end(); ++it)
+         res.append(*it);
     return res;
 }
 

@@ -39,8 +39,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     setCaption(caption());
 
     connect(btnOK, SIGNAL(clicked()), this, SLOT(close()));
-    setIcon(SIM::Pict("ICQ"));
-    QIconSet icon = SIM::Icon("ICQ");
+    setIcon(SIM::Pict("SIM"));
+    QIconSet icon = SIM::Icon("SIM");
     if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
         lblIcon->setPixmap(icon.pixmap(QIconSet::Large, QIconSet::Normal));
     edtVersion->setText(i18n("%1 Version: %2") .arg(aboutData->appName()) .arg(aboutData->version()));

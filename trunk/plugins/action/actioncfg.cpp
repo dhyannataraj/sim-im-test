@@ -48,7 +48,7 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
 
     QListViewItem *item = new QListViewItem(lstEvent, i18n("Contact online"));
     item->setText(2, QString::number(CONTACT_ONLINE));
-    item->setPixmap(0, makePixmap("ICQ"));
+    item->setPixmap(0, makePixmap("SIM"));
     if (data->OnLine.ptr)
         item->setText(1, QString::fromUtf8(data->OnLine.ptr));
 

@@ -82,7 +82,7 @@ MainWindow::MainWindow(Geometry &geometry)
     m_bNoResize = false;
 
     SET_WNDPROC("mainwnd");
-    m_icon = "ICQ";
+    m_icon = "SIM";
     setIcon(Pict(m_icon.c_str()));
     setTitle();
 
