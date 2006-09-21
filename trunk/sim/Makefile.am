@@ -55,7 +55,7 @@ EXTRA_DIST = \
 	sim-kde.menu \
 	sim.desktop \
 	sim.cpp \
-	icq.ico
+	sim.ico
 
 dist-hook:
 	cp $(srcdir)/*.h $(distdir)/
