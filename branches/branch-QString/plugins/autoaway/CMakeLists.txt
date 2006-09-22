@@ -54,7 +54,6 @@ IF(COMPILE_PLUGIN)
 
     LINK_DIRECTORIES(${X11_LIBRARY_DIR})
     SIM_ADD_PLUGIN(autoaway)
-message(STATUS "X11_LIBRARY_DIR: ${X11_LIBRARY_DIR}")
     TARGET_LINK_LIBRARIES(autoaway ${XSS_LIB})
 ELSE(COMPILE_PLUGIN)
     MESSAGE(STATUS "XScreenSaver library not found, autoaway plugin disabled")
