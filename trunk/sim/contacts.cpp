@@ -1404,8 +1404,9 @@ void *ClientUserData::getData(Client *client)
     return NULL;
 }
 
-void ClientUserData::freeData(void *data)
+void ClientUserData::freeData(void *_data)
 {
+    SIM::Data *data = (SIM::Data*)_data;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         if ((*it).data == data){
             free_data((*it).client->protocol()->userDataDef(), data);

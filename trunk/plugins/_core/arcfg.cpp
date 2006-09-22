@@ -79,7 +79,7 @@ void ARConfig::apply()
         }else{
             ARUserData *ar = (ARUserData*)(m_contact->userData.getUserData(CorePlugin::m_plugin->ar_data_id, false));
             if (ar)
-                set_str(&ar->AutoReply, m_status, NULL);
+                set_str(&ar->AutoReply, m_status, "");
         }
     }else{
         ARUserData *ar = (ARUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->ar_data_id));

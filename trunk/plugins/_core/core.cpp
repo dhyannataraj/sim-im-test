@@ -1821,7 +1821,7 @@ void *CorePlugin::processEvent(Event *e)
             for (autoReply *a = autoReplies; a->text; a++){
                 const char *t = get_str(ar->AutoReply, a->status);
                 if (t && !strcmp(t, i18n(a->text).utf8()))
-                    set_str(&ar->AutoReply, a->status, NULL);
+                    set_str(&ar->AutoReply, a->status, "");
             }
             e->process(this);
             setAutoReplies();

@@ -129,7 +129,7 @@ void ShortcutsConfig::saveMenu(unsigned long id)
                 int key = QAccel::stringToKey(item->text(1));
                 const char *cfg_key = m_plugin->getOldKey(s);
                 if (key == QAccel::stringToKey(cfg_key)){
-                    m_plugin->setKey(s->id, NULL);
+                    m_plugin->setKey(s->id, "");
                 }else{
                     QString t = item->text(1);
                     if (t.isEmpty())
@@ -143,7 +143,7 @@ void ShortcutsConfig::saveMenu(unsigned long id)
                     bCfgGlobal = false;
                 }
                 if (bGlobal == bCfgGlobal){
-                    m_plugin->setGlobal(s->id, NULL);
+                    m_plugin->setGlobal(s->id, "");
                 }else{
                     m_plugin->setGlobal(s->id, bGlobal ? "1" : "-1");
                 }

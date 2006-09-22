@@ -3,7 +3,11 @@
 MACRO(FIND_MSGFMT)
     IF(NOT MSGFMT_EXECUTABLE)
         IF(NOT MSGFMT_NOT_FOUND)
-            SET(MSGFMT_NAME "msg2qm")
+            IF(WIN32)
+              SET(MSGFMT_NAME "msg2qm")
+            ELSE(WIN32)
+              SET(MSGFMT_NAME "msgfmt")
+            ENDIF(WIN32)
             FIND_PROGRAM(MSGFMT_EXECUTABLE ${MSGFMT_NAME})
 
             IF (NOT MSGFMT_EXECUTABLE)
@@ -53,6 +57,9 @@ MACRO(COMPILE_PO_FILES po_subdir _sources)
                 ELSE("${_tmp}" STREQUAL "msg2qm")
                     ADD_CUSTOM_COMMAND(
                         OUTPUT ${_out}
+                        COMMAND ${CMAKE_COMMAND}
+                            -E echo
+                            "Generating" ${_out_native} "from" ${_in_native}
                         COMMAND ${MSGFMT_EXECUTABLE}
                             -qt
                             ${_in_native}
