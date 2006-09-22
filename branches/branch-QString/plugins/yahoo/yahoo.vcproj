@@ -698,10 +698,6 @@
 				>
 			</File>
 			<File
-				RelativePath="yahoo_fn.h"
-				>
-			</File>
-			<File
 				RelativePath=".\yahoo_pch.h"
 				>
 				<FileConfiguration
