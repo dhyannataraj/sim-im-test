@@ -1849,7 +1849,7 @@ void SSBISocket::data(unsigned short fam, unsigned short type, unsigned short se
             snac_ssbi(type, seq);
             break;
         default:
-            log(L_WARN, "Unknown family %d in SSBISocket");
+            log(L_WARN, "Unknown family %d in SSBISocket", fam);
             break;
     }
 }

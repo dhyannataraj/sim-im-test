@@ -1245,7 +1245,7 @@ public:
         const QString *operator++();
         const QString *operator[](unsigned);
         void reset();
-        unsigned count();
+        size_t count();
         unsigned dirs();
         unsigned size();
     protected:
@@ -1825,7 +1825,7 @@ EXPORT bool isLatin(const QString&);
 EXPORT QString getPart(QString&, unsigned size);
 
 EXPORT unsigned screens();
-EXPORT QRect screenGeometry(unsigned nScreen=-1);
+EXPORT QRect screenGeometry(unsigned nScreen=~0U);
 
 EXPORT unsigned get_random();
 

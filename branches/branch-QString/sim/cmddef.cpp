@@ -122,9 +122,11 @@ void *CommandsDefPrivate::processEvent(Event *e)
             }
         }
         break;
-    case EventCommandRemove:
-        if (delCommand((unsigned)(e->param())))
-            cfg.clear();
+    case EventCommandRemove:{
+            unsigned long cmd = (unsigned long)e->param();
+            if (delCommand(cmd))
+                cfg.clear();
+        }
         break;
     }
     return NULL;

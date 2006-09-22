@@ -692,7 +692,7 @@ EXPORT unsigned screens()
 EXPORT QRect screenGeometry(unsigned nScreen)
 {
     QDesktopWidget *desktop = QApplication::desktop();
-    if(nScreen == -1) {
+    if(nScreen == ~0U) {
         QRect rc;
         for (int i = 0; i < desktop->numScreens(); i++){
             rc |= desktop->screenGeometry(i);

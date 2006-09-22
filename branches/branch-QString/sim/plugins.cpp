@@ -264,8 +264,10 @@ void *PluginManagerPrivate::processEvent(Event *e)
     case EventArg:
         p = (CmdParam*)(e->param());
         return (void*)findParam(p->arg, p->descr, p->value);
-    case EventPluginGetInfo:
-        return getInfo((unsigned)(e->param()));
+    case EventPluginGetInfo: {
+        unsigned long info = (unsigned long)e->param();
+        return getInfo(info);
+    }
     case EventApplyPlugin:
         return (void*)setInfo((QString*)e->param());
     case EventPluginsUnload:
