@@ -271,12 +271,13 @@ QIconSet Icon(const QString &name)
     PictDef *pict = getPict(name);
     if (pict == NULL)
         return QIconSet();
-    QIconSet res(getPixmap(pict, name));
+    QIconSet res(getPixmap(pict, name), QIconSet::Small);
+/*
     QString bigName = "big.";
     bigName += name;
     pict = getPict(bigName);
     if (pict)
-        res.setPixmap(getPixmap(pict, bigName), QIconSet::Large);
+        res.setPixmap(getPixmap(pict, bigName), QIconSet::Large);*/
     return res;
 }
 
