@@ -54,7 +54,7 @@ ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionP
 
     item = new QListViewItem(lstEvent, i18n("Status changed"));
     item->setText(2, QString::number(CONTACT_STATUS));
-    item->setPixmap(0, makePixmap("ICQ"));
+    item->setPixmap(0, makePixmap("SIM"));
     if (data->Status.ptr)
         item->setText(1, QString::fromUtf8(data->Status.ptr));
 
