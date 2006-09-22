@@ -119,7 +119,7 @@ void UpdatePlugin::timeout()
                 url += (char)c;
             }
         }
-        fetch(url, NULL, NULL, false);
+        fetch(url, QString::null, NULL, false);
     }
 }
 

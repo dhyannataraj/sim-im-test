@@ -78,7 +78,7 @@ void WeatherCfg::search()
     btnSearch->setText(i18n("&Cancel"));
     QString url = "http://xoap.weather.com/search/search?where=";
     url += toTranslit(cmbLocation->lineEdit()->text());
-    fetch(url.utf8());
+    fetch(url);
 }
 
 bool WeatherCfg::done(unsigned, Buffer &data, const char*)

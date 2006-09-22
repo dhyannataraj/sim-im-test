@@ -76,7 +76,7 @@ public:
 protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     virtual HttpPacket *packet()     = 0;
-    virtual const char *url()		 = 0;
+    virtual QString url()            = 0;
     virtual void data_ready(Buffer*) = 0;
     HttpPool *m_pool;
 };
@@ -144,7 +144,7 @@ public:
     HelloRequest(HttpPool *poll, bool bAIM);
 protected:
     virtual HttpPacket *packet();
-    virtual const char *url();
+    virtual QString url();
     virtual void data_ready(Buffer*);
     bool m_bAIM;
 };
@@ -161,7 +161,7 @@ HttpPacket *HelloRequest::packet()
     return NULL;
 }
 
-const char *HelloRequest::url()
+QString HelloRequest::url()
 {
     return m_bAIM ? "http://aimhttp.oscar.aol.com/hello" : "http://http.proxy.icq.com/hello";
 }
@@ -187,9 +187,8 @@ public:
     MonitorRequest(HttpPool *pool);
 protected:
     virtual HttpPacket *packet();
-    virtual const char *url();
+    virtual QString url();
     virtual void data_ready(Buffer*);
-    QString sURL;
 };
 
 MonitorRequest::MonitorRequest(HttpPool *pool)
@@ -203,13 +202,14 @@ HttpPacket *MonitorRequest::packet()
     return NULL;
 }
 
-const char *MonitorRequest::url()
+QString MonitorRequest::url()
 {
+    QString sURL;
     sURL  = "http://";
     sURL += m_pool->m_host;
     sURL += "/monitor?sid=";
     sURL += m_pool->sid;
-    return sURL.latin1();
+    return sURL;
 }
 
 void MonitorRequest::data_ready(Buffer *bIn)
@@ -264,9 +264,8 @@ public:
     PostRequest(HttpPool *proxy);
 protected:
     virtual HttpPacket *packet();
-    virtual const char *url();
+    virtual QString url();
     virtual void data_ready(Buffer *b);
-    QString sURL;
 };
 
 PostRequest::PostRequest(HttpPool *proxy)
@@ -282,8 +281,9 @@ HttpPacket *PostRequest::packet()
     return NULL;
 }
 
-const char *PostRequest::url()
+QString PostRequest::url()
 {
+    QString sURL;
     sURL  = "http://";
     sURL += m_pool->m_host;
     sURL += "/data?sid=";
@@ -292,7 +292,7 @@ const char *PostRequest::url()
     char b[15];
     snprintf(b, sizeof(b), "%u", ++m_pool->seq);
     sURL += b;
-    return sURL.latin1();
+    return sURL;
 }
 
 void PostRequest::data_ready(Buffer*)

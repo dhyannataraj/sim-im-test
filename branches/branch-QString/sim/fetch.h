@@ -36,7 +36,7 @@ class EXPORT FetchClient
 public:
     FetchClient();
     virtual ~FetchClient();
-    void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
+    void fetch(const QString &url, const QString &headers = QString::null, Buffer *postData = NULL, bool bRedirect = true);
     virtual const char *read_data(char *buf, unsigned &size);
     virtual bool     write_data(const char *buf, unsigned size);
     virtual unsigned post_size();

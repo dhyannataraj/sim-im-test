@@ -164,7 +164,7 @@ void WeatherPlugin::timeout()
         url += "&dayf=";
         url += QString::number(getForecast());
     }
-    fetch(url.utf8());
+    fetch(url);
 }
 
 void *WeatherPlugin::processEvent(Event *e)

@@ -22,20 +22,17 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 #endif
-#include <time.h>
-
-#ifndef WIN32
+#ifdef HAVE_UNAME
 #include <sys/utsname.h>
 #endif
+#include <time.h>
+#include <qthread.h>
+#include <qtimer.h>
 
 #include "fetch.h"
 #include "buffer.h"
 #include "socket.h"
 #include "stl.h"
-
-#include <qthread.h>
-#include <qtimer.h>
-#include <qlibrary.h>
 
 using namespace std;
 using namespace SIM;
@@ -52,8 +49,8 @@ public:
     FetchClientPrivate(FetchClient*);
     ~FetchClientPrivate();
 protected:
-    void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
-    void _fetch(const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
+    void fetch(const QString &url, const QString &headers, Buffer *postData, bool bRedirect);
+    void _fetch(const QString &headers = QString::null, Buffer *postData = NULL, bool bRedirect = false);
     void stop();
     FetchClient *m_client;
     void		fail();
@@ -61,7 +58,7 @@ protected:
     QString		m_hIn;
     HEADERS_MAP	m_hOut;
     unsigned	m_code;
-    bool		m_bRedirect;
+    bool        m_bRedirect;
     unsigned    m_sendTime;
     unsigned    m_sendSize;
     unsigned	m_speed;
@@ -82,8 +79,8 @@ protected:
     unsigned	m_id;
     bool		m_bDone;
     unsigned	m_size;
-    void		addHeader(const char *key, const char *value);
-    bool		findHeader(const char *key);
+    void		addHeader(const QString &key, const QString &value);
+    bool		findHeader(const QString &key);
     Buffer		m_data;
     Buffer		*m_postData;
     enum State{
@@ -315,7 +312,7 @@ void FetchThread::run()
     m_client->m_code = line.toLong();
     m_client->m_hIn = str;
     if (line.isEmpty()){
-        error("Bas answer");
+        error("Bad answer");
         return;
     }
     for (;;){
@@ -508,7 +505,7 @@ void FetchClient::set_speed(unsigned speed)
     p->m_speed = speed;
 }
 
-void FetchClient::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
+void FetchClient::fetch(const QString &url, const QString &headers, Buffer *postData, bool bRedirect)
 {
     getSocketFactory()->checkState();
     p->fetch(url, headers, postData, bRedirect);
@@ -553,13 +550,13 @@ bool FetchClientPrivate::event(QEvent* e)
 }
 #endif
 
-void FetchClientPrivate::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
+void FetchClientPrivate::fetch(const QString &url, const QString &headers, Buffer *postData, bool bRedirect)
 {
     m_uri = url;
     _fetch(headers, postData, bRedirect);
 }
 
-void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRedirect)
+void FetchClientPrivate::_fetch(const QString &headers, Buffer *postData, bool bRedirect)
 {
     stop();
     m_bDone = false;
@@ -574,16 +571,12 @@ void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRed
     m_thread	= NULL;
 #endif
     if (headers){
-        string head = headers;
-        while (!head.empty()){
-            string header = getToken(head, '\n');
-            string key = getToken(header, ':');
-            unsigned n;
-            for (n = 0; n < header.length(); n++)
-                if (header[n] != ' ')
-                    break;
-            header = header.substr(n);
-            addHeader(key.c_str(), header.c_str());
+        QString head = headers;
+        while (!head.isEmpty()){
+            QString header = getToken(head, '\n');
+            QString key = getToken(header, ':');
+            header = header.stripWhiteSpace();
+            addHeader(key, header);
         }
     }
 #ifdef WIN32
@@ -699,9 +692,9 @@ bool FetchClient::crackUrl(const char *_url, string &protocol, string &host, uns
     return true;
 }
 
-void FetchClientPrivate::addHeader(const char *key, const char *value)
+void FetchClientPrivate::addHeader(const QString &key, const QString &value)
 {
-    HEADERS_MAP::iterator it = m_hOut.find(QString(key));
+    HEADERS_MAP::iterator it = m_hOut.find(key);
     if (it == m_hOut.end()){
         m_hOut.insert(HEADERS_MAP::value_type(key, value));
     }else{
@@ -709,7 +702,7 @@ void FetchClientPrivate::addHeader(const char *key, const char *value)
     }
 }
 
-bool FetchClientPrivate::findHeader(const char *key)
+bool FetchClientPrivate::findHeader(const QString &key)
 {
     HEADERS_MAP::iterator it = m_hOut.find(key);
     return (it != m_hOut.end());
