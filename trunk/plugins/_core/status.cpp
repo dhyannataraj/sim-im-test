@@ -72,7 +72,7 @@ CommonStatus::~CommonStatus()
 void CommonStatus::setBarStatus()
 {
     const char *text = I18N_NOOP("Inactive");
-    const char *icon = "inactive";
+    const char *icon = "SIM_inactive";
 
     m_bConnected = false;
     bool bActive = getSocketFactory()->isActive();
@@ -111,19 +111,11 @@ void CommonStatus::setBarStatus()
             }
             unsigned status;
             if (m_bBlink){
-                icon = "online";
+                icon = "SIM_online";
                 status = CorePlugin::m_plugin->getManualStatus();
             }else{
-                icon = "offline";
+                icon = "SIM_offline";
                 status = STATUS_OFFLINE;
-            }
-            if (protocol){
-                for (const CommandDef *d = protocol->statusList(); d->text; d++){
-                    if (d->id == status){
-                        icon = d->icon;
-                        break;
-                    }
-                }
             }
         }else{
             if (m_timer){
@@ -137,7 +129,7 @@ void CommonStatus::setBarStatus()
                 if (!client->getCommonStatus())
                     continue;
                 if (client->getState() == Client::Error){
-                    icon = "error";
+                    icon = "SIM_error";
                     text = I18N_NOOP("Error");
                     break;
                 }
@@ -151,7 +143,7 @@ void CommonStatus::setBarStatus()
                         for (i = 0; i < getContacts()->nClients(); i++){
                             Client *client = getContacts()->getClient(i);
                             if (client->protocol()->description()->flags & PROTOCOL_INVISIBLE){
-                                icon = client->protocol()->description()->icon_on;
+                                icon = "SIM_invisible";
                                 text = I18N_NOOP("&Invisible");
                                 break;
                             }
@@ -159,11 +151,30 @@ void CommonStatus::setBarStatus()
                     }
                     if (i >= getContacts()->nClients()){
                         for (d = client->protocol()->statusList(); d->text; d++){
-                            if (d->id == status){
-                                icon = d->icon;
-                                text = d->text;
-                                break;
-                            }
+                             if (d->id == status){
+                                 switch (status){
+                                 case STATUS_ONLINE: 
+                                     icon="SIM_online";
+                                     break;
+                                 case STATUS_AWAY:
+                                     icon="SIM_away";
+                                     break;
+                                 case STATUS_NA:
+                                     icon="SIM_na";
+                                     break;
+                                 case STATUS_DND:
+                                     icon="SIM_dnd";
+                                     break;
+                                 case STATUS_FFC:
+                                     icon="SIM_ffc";
+                                     break;
+                                 case STATUS_OFFLINE:
+                                     icon="SIM_offline";
+                                     break;
+                                 }
+                                 text = d->text;
+                                 break;
+                             }
                         }
                     }
                 }
