@@ -2896,14 +2896,17 @@ bool MSNFileTransfer::getLine(const QCString &line)
     if (cmd == "BYE"){
         if (m_notify)
             m_notify->transfer(false);
-        for (;;){
+		bool doloop=true;
+        for (;doloop;){
             if (!openFile()){
                 if (FileTransfer::m_state == FileTransfer::Done)
                     m_socket->error_state("");
                 return true;
             }
-            if (isDirectory())
+			if (isDirectory()){
+				doloop=false;
                 continue;
+			}
             m_state = Wait;
             FileTransfer::m_state = FileTransfer::Wait;
             if (!((Client*)m_client)->send(m_msg, m_data))
