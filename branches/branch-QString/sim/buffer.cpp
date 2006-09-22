@@ -106,6 +106,7 @@ void Buffer::init(unsigned size)
     m_posRead = 0;
     m_posWrite = 0;
     m_packetStartPos = 0;
+    m_startSection = 0;
     resize(size);
 }
 

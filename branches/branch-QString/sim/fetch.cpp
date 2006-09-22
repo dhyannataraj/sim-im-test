@@ -174,19 +174,19 @@ void FetchThread::run()
     url.dwStructSize = sizeof(url);
     WCHAR host[256];
     url.lpszHostName      = host;
-    url.dwHostNameLength  = sizeof(host);
+    url.dwHostNameLength  = sizeof(host)/sizeof(WCHAR);
     WCHAR user[256];
     url.lpszUserName      = user;
-    url.dwUserNameLength  = sizeof(user);
+    url.dwUserNameLength  = sizeof(user)/sizeof(WCHAR);
     WCHAR pass[256];
     url.lpszPassword	  = pass;
-    url.dwPasswordLength  = sizeof(pass);
+    url.dwPasswordLength  = sizeof(pass)/sizeof(WCHAR);
     WCHAR urlPath[1024];
     url.lpszUrlPath		  = urlPath;
-    url.dwUrlPathLength   = sizeof(urlPath);
+    url.dwUrlPathLength   = sizeof(urlPath)/sizeof(WCHAR);
     WCHAR extra[1024];
     url.lpszExtraInfo	  = extra;
-    url.dwExtraInfoLength = sizeof(extra);
+    url.dwExtraInfoLength = sizeof(extra)/sizeof(WCHAR);
     if (!InternetCrackUrl((LPCWSTR)m_client->m_uri.ucs2(), 0, ICU_DECODE, &url)){
         error("InternetCrackUrl");
         return;
@@ -302,31 +302,19 @@ void FetchThread::run()
         error("HttpQueryInfo");
         return;
     }
-    Buffer in_headers;
-    in_headers.packetStart();
-    in_headers.init(size);
-    if (!HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, in_headers.data(), &size, 0)){
+    QByteArray ba(size);
+    if (!HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, ba.data(), &size, 0)){
         error("HttpQueryInfo");
         return;
     }
-    in_headers.setWritePos(size);
-    log_packet(in_headers, false, HTTPPacket);
-    QCString line;
-    bool bFirst = true;
-    for (; in_headers.readPos() < in_headers.writePos(); ){
-        if (!in_headers.scan("\r\n", line)){
-            unsigned size = in_headers.writePos() - in_headers.readPos();
-            in_headers.unpack(line, size);
-        }
-        if (bFirst){
-            bFirst = false;
-            getToken(line, ' ');
-            m_client->m_code = getToken(line, ' ').toLong();
-            continue;
-        }
-        m_client->m_hIn += line;
-    }
-    if (bFirst){
+    QString str = QString::fromUcs2((unsigned short*)ba.data());
+    Buffer buf(QCString(str.latin1()));
+    log_packet(buf, false, HTTPPacket);
+    getToken(str, ' '); // HTTP/1.1
+    QString line = getToken(str, ' ');  // 200 (or an error code)
+    m_client->m_code = line.toLong();
+    m_client->m_hIn = str;
+    if (line.isEmpty()){
         error("Bas answer");
         return;
     }
