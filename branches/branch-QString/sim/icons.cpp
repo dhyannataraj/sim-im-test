@@ -211,7 +211,7 @@ QString Icons::parseSmiles(const QString &str)
 
 IconSet *Icons::addIconSet(const QString &name, bool bDefault)
 {
-	FileIconSet *is = new FileIconSet(name);
+    FileIconSet *is = new FileIconSet(name);
     if (bDefault){
         m_defSets.prepend(is);
     }else{
@@ -271,13 +271,12 @@ QIconSet Icon(const QString &name)
     PictDef *pict = getPict(name);
     if (pict == NULL)
         return QIconSet();
-    QIconSet res(getPixmap(pict, name), QIconSet::Small);
-/*
+    QIconSet res(getPixmap(pict, name));
     QString bigName = "big.";
     bigName += name;
     pict = getPict(bigName);
     if (pict)
-        res.setPixmap(getPixmap(pict, bigName), QIconSet::Large);*/
+        res.setPixmap(getPixmap(pict, bigName), QIconSet::Large);
     return res;
 }
 
@@ -609,7 +608,7 @@ PictDef *WrkIconSet::add(const char *name, const QImage &pict, unsigned flags)
 FileIconSet::FileIconSet(const QString &file)
 {
     m_data = NULL;
-	m_zip = new UnZip(app_file(file));
+    m_zip = new UnZip(app_file(file));
     QByteArray arr;
     if (m_zip->open() && m_zip->readFile("icondef.xml", &arr))
         parse(arr.data(), arr.size(), false);
@@ -631,7 +630,7 @@ PictDef *FileIconSet::getPict(const QString &name)
 #ifdef USE_KDE
         if (!it.data().system.isEmpty()){
             QPixmap pict;
-            if (name.startsWith("big.")){
+            if (!name.startsWith("big.")){
                 pict = SmallIconSet(it.data().system).pixmap(QIconSet::Small, QIconSet::Normal);
             }else{
                 pict = DesktopIconSet(it.data().system).pixmap(QIconSet::Large, QIconSet::Normal);
@@ -735,9 +734,8 @@ void FileIconSet::element_end(const char *el)
         if (it == m_icons.end())
             m_icons.insert(PIXMAP_MAP::value_type(m_name, p));
 #ifdef USE_KDE
-        if (m_name.left(4) != "big."){
-            QString big_name = "big.";
-            big_name += m_name;
+        if (!m_name.startsWith("big.")){
+            QString big_name = "big." + m_name;
             p.file   = "";
             p.flags  = m_flags;
             p.system = m_system;

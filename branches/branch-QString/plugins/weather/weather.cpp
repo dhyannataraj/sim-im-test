@@ -96,10 +96,10 @@ static DataDef weatherData[] =
         { "MaxT", DATA_STRLIST, 1, 0 },
         { "DayIcon", DATA_STRLIST, 1, 0 },
         { "DayConditions", DATA_STRLIST, 1, 0 },
-		{ "UV_Intensity", DATA_LONG, 1, 0 },
-		{ "UV_Description", DATA_STRING, 1, 0 },
-		{ "MoonIcon", DATA_LONG, 1, 0 },
-		{ "MoonPhase", DATA_STRING, 1, 0 },
+        { "UV_Intensity", DATA_LONG, 1, 0 },
+        { "UV_Description", DATA_STRING, 1, 0 },
+        { "MoonIcon", DATA_LONG, 1, 0 },
+        { "MoonPhase", DATA_STRING, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -556,7 +556,7 @@ QString WeatherPlugin::getTipText()
     QString str = getTip();
     if (str.isEmpty())
         str = i18n("%l<br><br>\n"
-				   "<b>Current Weather:</b><br>\n"
+                   "<b>Current Weather:</b><br>\n"
                    "<img src=\"icon:weather%i\"> %c<br>\n"
                    "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
@@ -567,10 +567,10 @@ QString WeatherPlugin::getTipText()
                    "Dew Point: <b>%d</b><br>\n"
                    "Sunrise: %r<br>\n"
                    "Sunset: %s<br>\n"
-				   "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
-				   "<b>Moonphase: </b>%mp<br>\n"
+                   "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
+                   "<b>Moonphase: </b>%mp<br>\n"
                    "<img src=\"icon:moon%mi\"><br>\n"
-				   "<br>\n"
+                   "<br>\n"
                    "Updated: %u<br>\n");
     return str;
 }
@@ -580,7 +580,7 @@ QString WeatherPlugin::getForecastText()
     QString str = getForecastTip();
     if (str.isEmpty())
         str = i18n("<br><br>\n"
-				   "<b>Forecast for</b><br>\n"
+                   "<b>Forecast for</b><br>\n"
                    "<nobr><b>%d %w</b></nobr><br>\n"
                    "<img src=\"icon:weather%n\"> %c<br>\n"
                    " Temperature: <b>%t</b><br>\n");
@@ -608,7 +608,7 @@ static const char *tags[] =
         "s",
         "d",
         "ut",
-		"i",
+        "i",
         "us",
         "up",
         "ud",
