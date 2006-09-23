@@ -570,7 +570,7 @@ void FetchClientPrivate::_fetch(const QString &headers, Buffer *postData, bool b
 #ifdef WIN32
     m_thread	= NULL;
 #endif
-    if (headers){
+    if (!headers.isEmpty()){
         QString head = headers;
         while (!head.isEmpty()){
             QString header = getToken(head, '\n');

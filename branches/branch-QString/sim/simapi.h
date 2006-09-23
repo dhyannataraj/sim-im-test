@@ -868,19 +868,15 @@ public:
 public:
     Data();
     Data(const Data& d);
-    Data(const QString &d);
-    Data(const STRING_MAP &d);
-    Data(long d);
-    Data(unsigned long d);
-    Data(bool d);
-    Data(const QObject *d);
-    Data(const IP *d);
-    Data(const QByteArray &d);
-
     Data &operator =(const Data &);
+
+    ~Data() { clear(); }
 
     void setName(const QString &name);
     const QString &name() const;
+
+    void setType(DataType type);
+    DataType type() const;
 
     void clear();
 
@@ -920,14 +916,7 @@ protected:
     void checkType(DataType type) const;
     DataType m_type;
     QString m_name;
-    // don't use QVariant as it doesn't support our data types in the way we like it
-    QString        m_dataAsQString;
-    STRING_MAP     m_dataAsQStringMap;
-    unsigned long  m_dataAsValue;
-    bool           m_dataAsBool;
-    QObject       *m_dataAsObject;
-    IP            *m_dataAsIP;
-    QByteArray     m_dataAsBinary; 
+    class DataPrivate *data;
 };
 
 #define DATA(A) ((const char*)(A))

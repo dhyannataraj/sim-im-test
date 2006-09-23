@@ -217,10 +217,8 @@ void ClientSocket::error_state(const QString &err, unsigned code)
     list<ClientSocket*>::iterator it;
     for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it)
         if ((*it) == this) return;
-    errString = "";
+    errString = err;
     errCode = code;
-    if (err)
-        errString = err;
     getSocketFactory()->p->errSockets.push_back(this);
     QTimer::singleShot(0, getSocketFactory(), SLOT(idle()));
 }
@@ -280,7 +278,7 @@ void SocketFactory::idle()
         ClientSocketNotify *n = s->m_notify;
         if (n){
             QString errString;
-            if (s->errorString())
+            if (!s->errorString().isEmpty())
                 errString = s->errorString();
             s->errString = "";
             if (n->error_state(errString, s->errCode))

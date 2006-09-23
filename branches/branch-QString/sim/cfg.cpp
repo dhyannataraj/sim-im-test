@@ -468,9 +468,11 @@ void init_data(const DataDef *d, Data *data)
 {
     for (const DataDef *def = d; def->name; def++){
         for (unsigned i = 0; i < def->n_values; i++, data++){
+            data->setName(def->name);
+            data->setType(def->type);
             switch (def->type){
             case DATA_STRING:
-                *data = Data(def->def_value ? QString(def->def_value) : QString::null);
+                data->str() = def->def_value ? QString(def->def_value) : QString::null;
                 break;
             case DATA_STRMAP: {
                 QStringList sl = QStringList::split(',',def->def_value);
@@ -478,26 +480,26 @@ void init_data(const DataDef *d, Data *data)
                 for(unsigned i = 0; i < sl.count(); i++) {
                     sm.insert(i, sm[(int)i]);
                 }
-                *data = Data(sm);
+                data->strMap() = sm;
                 break;
            }
             case DATA_ULONG:
-                *data = Data((unsigned long)def->def_value);
+                data->asULong() = (unsigned long)def->def_value;
                 break;
             case DATA_LONG:
-                *data = Data((long)def->def_value);
+                data->asLong() = (long)def->def_value;
                 break;
             case DATA_BOOL:
-                *data = Data(def->def_value != NULL);
+                data->asBool() = def->def_value != NULL;
                 break;
             case DATA_OBJECT:
-                *data = Data((QObject*)0);
+                data->setObject(NULL);
                 break;
             case DATA_IP:
-                *data = Data((IP*)0);
+                data->setIP(NULL);
                 break;
             case DATA_BINARY:
-                *data = Data(QByteArray());
+                data->asBinary() = QByteArray();
                 break;
             case DATA_STRUCT:
                 init_data((DataDef*)(def->def_value), data);
@@ -506,10 +508,9 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_UNKNOWN:
             default:
-                *data = Data();
+                data->clear();
                 break;
             }
-            data->setName(def->name);
         }
     }
 }
@@ -701,7 +702,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
             Data *d = data;
             switch (def->type){
             case DATA_IP:{
-                    const IP *p = d->ip();
+                    const IP *p = data->ip();
                     if (p && p->ip()){
                         struct in_addr inaddr;
                         inaddr.s_addr = p->ip();
@@ -716,7 +717,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_STRMAP:{
-                    const Data::STRING_MAP &p = d->strMap();
+                    const Data::STRING_MAP &p = data->strMap();
                     Data::STRING_MAP::const_iterator it;
                     for (it = p.begin(); it != p.end(); it ++) {
                         QString s = it.data();
@@ -736,7 +737,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 }
             case DATA_STRING:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        QString &p = d->str();
+                        QString &p = data->str();
                         if (value.length())
                             value += ",";
                         if (def->def_value){
@@ -755,7 +756,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 }
             case DATA_BOOL:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        bool p = d->asBool();
+                        bool p = data->asBool();
                         if (value.length())
                             value += ",";
                         if (p != (def->def_value != 0)){
@@ -771,7 +772,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 }
             case DATA_LONG:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        long p = d->asLong();
+                        long p = data->asLong();
                         if (value.length())
                             value += ",";
                         if (p != (long)(def->def_value)){
@@ -785,7 +786,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 }
             case DATA_ULONG:{
                     for (i = 0; i < def->n_values; i++, d++){
-                        unsigned long p = d->asULong();
+                        unsigned long p = data->asULong();
                         if (value.length())
                             value += ",";
                         if (p != (unsigned long)(def->def_value)){
@@ -799,7 +800,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 }
             case DATA_BINARY: {
                 for (unsigned i = 0; i < def->n_values; i++) {
-                    QByteArray &ba = d->asBinary();
+                    QByteArray &ba = data->asBinary();
                     for(unsigned i = 0; i < ba.size(); i++) {
                         unsigned char c = ba.data()[i];
                         QString s;
@@ -967,100 +968,59 @@ EXPORT void restoreToolbar(QToolBar *bar, Data state[7])
 // ----------------------------
 // class Data
 // ----------------------------
+class DataPrivate {
+public:
+    unsigned long        m_dataAsValue;
+    bool                 m_dataAsBool;
+    QString             *m_dataAsQString;
+    Data::STRING_MAP    *m_dataAsQStringMap;
+    QObject             *m_dataAsObject;
+    IP                  *m_dataAsIP;
+    QByteArray          *m_dataAsBinary; 
+    DataPrivate() : m_dataAsValue(0), m_dataAsBool(false), m_dataAsQString(NULL),
+                    m_dataAsQStringMap(NULL), m_dataAsObject(NULL), m_dataAsIP(NULL),
+                    m_dataAsBinary(NULL) {}
+};
+
 Data::Data()
- : m_type(DATA_UNKNOWN), m_name("unknown")
+ : m_type(DATA_UNKNOWN), m_name("unknown"), data(NULL)
 {
     clear();
 }
 
 Data::Data(const Data &d)
+ : data(NULL)
 {
-    clear();
     *this = d;
-}
-
-Data::Data(const QString &d)
- : m_type(DATA_STRING), m_name("unknown")
-{
-    clear();
-    m_dataAsQString = d;
-}
-
-Data::Data(const STRING_MAP &d)
- : m_type(DATA_STRMAP), m_name("unknown")
-{
-    clear();
-    m_dataAsQStringMap = d;
-}
-
-Data::Data(long d)
- : m_type(DATA_LONG), m_name("unknown")
-{
-    clear();
-    m_dataAsValue = (unsigned long)d;
-}
-
-Data::Data(unsigned long d)
- : m_type(DATA_ULONG), m_name("unknown")
-{
-    clear();
-    m_dataAsValue = d;
-}
-
-Data::Data(bool d)
- : m_type(DATA_BOOL), m_name("unknown")
-{
-    clear();
-    m_dataAsBool = d;
-}
-
-Data::Data(const QObject *d)
- : m_type(DATA_OBJECT), m_name("unknown")
-{
-    clear();
-    m_dataAsObject = const_cast<QObject*>(d);
-}
-
-Data::Data(const QByteArray &d)
- : m_type(DATA_BINARY), m_name("unknown")
-{
-    clear();
-    m_dataAsBinary = d;
-}
-
-Data::Data(const IP *d)
- : m_type(DATA_IP), m_name("unknown")
-{
-    clear();
-    m_dataAsIP = const_cast<IP*>(d);
 }
 
 Data &Data::operator =(const Data &d)
 {
+    clear();
     m_name = d.m_name;
     m_type = d.m_type;
     switch(m_type) {
         case DATA_STRING:
-            m_dataAsQString = d.m_dataAsQString;
+            this->str() = d.str();
             break;
         case DATA_LONG:
         case DATA_ULONG:
-            m_dataAsValue = d.m_dataAsValue;
+            data->m_dataAsValue = d.data->m_dataAsValue;
             break;
         case DATA_BOOL:
-            m_dataAsBool = d.m_dataAsBool;
+            data->m_dataAsBool = d.data->m_dataAsBool;
             break;
         case DATA_STRMAP:
-            m_dataAsQStringMap = d.m_dataAsQStringMap;
+            this->strMap() = d.strMap();
             break;
         case DATA_IP:
-            m_dataAsIP = d.m_dataAsIP;
+            data->m_dataAsIP = d.data->m_dataAsIP;
             break;
         case DATA_OBJECT:
-            m_dataAsObject = d.m_dataAsObject;
+            data->m_dataAsObject = d.data->m_dataAsObject;
             break;
         case DATA_BINARY:
-            m_dataAsBinary = d.m_dataAsBinary;
+            this->asBinary() = d.toBinary();
             break;
         case DATA_UNKNOWN:
         case DATA_STRUCT:
@@ -1072,178 +1032,192 @@ Data &Data::operator =(const Data &d)
 
 void Data::clear()
 {
-    m_dataAsQString = QString::null;
-    m_dataAsQStringMap.clear();
-    m_dataAsValue   = 0;
-    m_dataAsBool    = false;
-    m_dataAsObject  = NULL;
-    m_dataAsIP      = NULL;
-    m_dataAsBinary.resize(0);
+    if(data) {
+        delete data->m_dataAsQString;
+        delete data->m_dataAsQStringMap;
+        delete data->m_dataAsBinary;
+        delete data;
+    }
+    data = new DataPrivate;
 }
 
 const QString &Data::str() const
 {
     checkType(DATA_STRING);
-    return m_dataAsQString;
+    if(!data->m_dataAsQString)
+        data->m_dataAsQString = new QString();
+    return *data->m_dataAsQString;
 }
 
 QString &Data::str()
 {
     checkType(DATA_STRING);
-    return m_dataAsQString;
+    if(!data->m_dataAsQString)
+        data->m_dataAsQString = new QString();
+    return *data->m_dataAsQString;
 }
 
 bool Data::setStr(const QString &s)
 {
     checkType(DATA_STRING);
-    if(s == m_dataAsQString)
+    if(data->m_dataAsQString && s == *data->m_dataAsQString)
         return false;
-    m_dataAsQString = s;
+    *data->m_dataAsQString = s;
     return true;
 }
 
 const Data::STRING_MAP &Data::strMap() const
 {
     checkType(DATA_STRMAP);
-    return m_dataAsQStringMap;
+    if(!data->m_dataAsQStringMap)
+        data->m_dataAsQStringMap = new STRING_MAP();
+    return *data->m_dataAsQStringMap;
 }
 
 Data::STRING_MAP &Data::strMap()
 {
     checkType(DATA_STRMAP);
-    return m_dataAsQStringMap;
+    if(!data->m_dataAsQStringMap)
+        data->m_dataAsQStringMap = new STRING_MAP();
+    return *data->m_dataAsQStringMap;
 }
 
 bool Data::setStrMap(const STRING_MAP &s)
 {
     checkType(DATA_STRMAP);
     // ... 
-    m_dataAsQStringMap = s;
+    if(!data->m_dataAsQStringMap)
+        data->m_dataAsQStringMap = new STRING_MAP();
+    *data->m_dataAsQStringMap = s;
     return true;
 }
 
 long Data::toLong() const
 {
     checkType(DATA_LONG);
-    return m_dataAsValue;
+    return data->m_dataAsValue;
 }
 
 long &Data::asLong()
 {
     checkType(DATA_LONG);
-    return (long&)m_dataAsValue;
+    return (long&)data->m_dataAsValue;
 }
 
 bool Data::setLong(long d)
 {
     checkType(DATA_LONG);
-    if(d == (long)m_dataAsValue)
+    if(d == (long)data->m_dataAsValue)
         return false;
-    m_dataAsValue = (unsigned long)d;
+    data->m_dataAsValue = (unsigned long)d;
     return true;
 }
 
 unsigned long Data::toULong() const
 {
     checkType(DATA_ULONG);
-    return m_dataAsValue;
+    return data->m_dataAsValue;
 }
 
 unsigned long &Data::asULong()
 {
     checkType(DATA_ULONG);
-    return m_dataAsValue;
+    return data->m_dataAsValue;
 }
 bool Data::setULong(unsigned long d)
 {
     checkType(DATA_ULONG);
-    if(d == m_dataAsValue)
+    if(d == data->m_dataAsValue)
         return false;
-    m_dataAsValue = d;
+    data->m_dataAsValue = d;
     return true;
 }
 
 bool Data::toBool() const
 {
     checkType(DATA_BOOL);
-    return m_dataAsBool;
+    return data->m_dataAsBool;
 }
 
 bool &Data::asBool()
 {
     checkType(DATA_BOOL);
-    return m_dataAsBool;
+    return data->m_dataAsBool;
 }
 
 bool Data::setBool(bool d)
 {
     checkType(DATA_BOOL);
-    if(d == m_dataAsBool)
+    if(d == data->m_dataAsBool)
         return false;
-    m_dataAsBool = d;
+    data->m_dataAsBool = d;
     return true;
 }
 
 const QObject* Data::object() const
 {
     checkType(DATA_OBJECT);
-    return m_dataAsObject;
+    return data->m_dataAsObject;
 }
 
 QObject* Data::object()
 {
     checkType(DATA_OBJECT);
-    return m_dataAsObject;
+    return data->m_dataAsObject;
 }
 
 bool Data::setObject(const QObject *d)
 {
     checkType(DATA_OBJECT);
-    if(d == m_dataAsObject)
+    if(d == data->m_dataAsObject)
         return false;
-    m_dataAsObject = const_cast<QObject*>(d);
+    data->m_dataAsObject = const_cast<QObject*>(d);
     return true;
 }
 
 const QByteArray &Data::toBinary() const
 {
     checkType(DATA_BINARY);
-    return m_dataAsBinary;
+    if(!data->m_dataAsBinary)
+        data->m_dataAsBinary = new QByteArray();
+    return *data->m_dataAsBinary;
 }
 
 QByteArray &Data::asBinary()
 {
     checkType(DATA_BINARY);
-    return m_dataAsBinary;
+    if(!data->m_dataAsBinary)
+        data->m_dataAsBinary = new QByteArray();
+    return *data->m_dataAsBinary;
 }
 
 bool Data::setBinary(const QByteArray &d)
 {
     checkType(DATA_BINARY);
-    if(d == m_dataAsBinary)
+    if(data->m_dataAsBinary && d == *data->m_dataAsBinary)
         return false;
-    m_dataAsBinary = d;
+    *data->m_dataAsBinary = d;
     return true;
 }
 
 const IP* Data::ip() const
 {
     checkType(DATA_IP);
-    return m_dataAsIP;
+    return data->m_dataAsIP;
 }
 
 IP* Data::ip()
 {
     checkType(DATA_IP);
-    return m_dataAsIP;
+    return data->m_dataAsIP;
 }
 
 bool Data::setIP(const IP *d)
 {
     checkType(DATA_IP);
-    if(d == m_dataAsIP)
+    if(d == data->m_dataAsIP)
         return false;
-    m_dataAsIP = const_cast<IP*>(d);
+    data->m_dataAsIP = const_cast<IP*>(d);
     return true;
 }
 
@@ -1292,6 +1266,16 @@ void Data::setName(const QString &name)
 const QString &Data::name() const
 {
     return m_name;
+}
+
+void Data::setType(DataType type)
+{
+    m_type = type;
+}
+
+DataType Data::type() const
+{
+    return m_type;
 }
 
 }   // namespcae SIM
