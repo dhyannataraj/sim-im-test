@@ -24,6 +24,7 @@
 
 class ICQClient;
 class ListView;
+struct ICQUserData;
 
 class ICQSecure : public ICQSecureBase, public SIM::EventReceiver
 {
@@ -40,7 +41,7 @@ protected:
     virtual void *processEvent(SIM::Event*);
     void fill();
     void setListView(ListView*);
-    void fillListView(ListView*, unsigned offs);
+    void fillListView(ListView *lst, SIM::Data ICQUserData::* field);
     ICQClient	*m_client;
 };
 
