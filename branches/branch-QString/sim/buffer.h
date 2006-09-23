@@ -22,6 +22,13 @@
 #include <qcstring.h>
 #include <qptrlist.h>
 
+#ifndef Q_CC_MSVC
+#include <stdint.h>
+#else
+typedef unsigned short  uint16_t;
+typedef unsigned        uint32_t;
+#endif
+
 class Buffer;
 
 class EXPORT Tlv
@@ -32,8 +39,8 @@ public:
     unsigned short Size() { return m_nSize; }
     const char *Data() { return m_data.data(); }
     operator char *() { return m_data.data(); }
-    operator unsigned uint16_t ();
-    operator unsigned uint32_t ();
+    operator uint16_t ();
+    operator uint32_t ();
 protected:
     unsigned int m_nNum;
     unsigned int m_nSize;
