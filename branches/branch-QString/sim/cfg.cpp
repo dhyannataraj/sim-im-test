@@ -1030,7 +1030,7 @@ Data &Data::operator =(const Data &d)
     return *this;
 }
 
-void Data::clear()
+void Data::clear(bool bNew)
 {
     if(data) {
         delete data->m_dataAsQString;
@@ -1038,7 +1038,7 @@ void Data::clear()
         delete data->m_dataAsBinary;
         delete data;
     }
-    data = new DataPrivate;
+    data = bNew ? new DataPrivate : NULL;
 }
 
 const QString &Data::str() const

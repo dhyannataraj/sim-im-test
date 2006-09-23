@@ -28,15 +28,15 @@ class EXPORT Tlv
 {
 public:
     Tlv(unsigned short num = 0, unsigned short size = 0, const char *data = NULL);
-    unsigned short Num() { return (unsigned short)m_nNum; }
-    unsigned short Size() { return (unsigned short)m_nSize; }
+    unsigned short Num() { return m_nNum; }
+    unsigned short Size() { return m_nSize; }
     const char *Data() { return m_data.data(); }
     operator char *() { return m_data.data(); }
-    operator unsigned short ();
-    operator unsigned long ();
+    operator unsigned uint16_t ();
+    operator unsigned uint32_t ();
 protected:
-    int m_nNum;
-    int m_nSize;
+    unsigned int m_nNum;
+    unsigned int m_nSize;
     QByteArray m_data;
 };
 

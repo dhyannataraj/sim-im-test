@@ -870,7 +870,7 @@ public:
     Data(const Data& d);
     Data &operator =(const Data &);
 
-    ~Data() { clear(); }
+    ~Data() { clear(false); }
 
     void setName(const QString &name);
     const QString &name() const;
@@ -878,7 +878,7 @@ public:
     void setType(DataType type);
     DataType type() const;
 
-    void clear();
+    void clear(bool bNew = true);
 
     const QString &str() const;
     QString &str();

@@ -285,7 +285,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             TlvList tlv(m_socket->readBuffer);
             Tlv *tlvIP = tlv(0x000A);
             if (tlvIP)
-                set_ip(&data.owner.IP, htonl((unsigned long)(*tlvIP)));
+                set_ip(&data.owner.IP, htonl((uint32_t)(*tlvIP)));
             break;
         }
     case ICQ_SNACxSRV_SERVICExRESP:{
