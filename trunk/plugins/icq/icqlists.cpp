@@ -355,7 +355,7 @@ void ICQClient::parseRosterItem(unsigned short type,
 
             if (inf) {
                 tlv_time = (*inf)(TLV_TIME);
-                qt_time.setTime_t((unsigned long)(*tlv_time));
+                qt_time.setTime_t((uint32_t)(*tlv_time));
                 log (L_DEBUG, "Import Time %s",qt_time.toString().ascii());
             }
             break;

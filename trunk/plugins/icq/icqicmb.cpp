@@ -892,8 +892,8 @@ void ICQClient::parseAdvancedMessage(const char *screen, Buffer &m, bool needAck
     unsigned long real_ip = 0;
     unsigned long ip = 0;
     unsigned short port = 0;
-    if (tlv(3)) real_ip = htonl((unsigned long)(*tlv(3)));
-    if (tlv(4)) ip = htonl((unsigned long)(*tlv(4)));
+    if (tlv(3)) real_ip = htonl((uint32_t)(*tlv(3)));
+    if (tlv(4)) ip = htonl((uint32_t)(*tlv(4)));
     if (tlv(5)) port = *tlv(5);
     log(L_DEBUG, "IP: %lX %lX %d", ip, real_ip, port);
     if (real_ip || ip){

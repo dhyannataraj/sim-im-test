@@ -339,7 +339,7 @@ pluginInfo *PluginManagerPrivate::getInfo(const QString *name)
 {
     if (!name || name->isEmpty())
         return NULL;
-    for (unsigned n = 0; n < plugins.size(); n++){
+    for (size_t n = 0; n < plugins.size(); n++){
         pluginInfo &info = plugins[n];
         if (info.name == *name)
             return &info;
@@ -349,7 +349,7 @@ pluginInfo *PluginManagerPrivate::getInfo(const QString *name)
 
 void PluginManagerPrivate::release_all(Plugin *to)
 {
-    for (int n = plugins.size() - 1; n >= 0; n--){
+    for (size_t n = plugins.size() - 1; n >= 0; n--){
         pluginInfo &info = plugins[n];
         if (to && (info.plugin == to))
             break;

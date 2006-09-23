@@ -107,7 +107,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             // Status TLV
             Tlv *tlvStatus = tlv(0x0006);
             if (tlvStatus){
-                unsigned long status = *tlvStatus;
+                uint32_t status = *tlvStatus;
                 if (status != data->Status.toULong()){
                     data->Status.asULong() = status;
                     if ((status & 0xFF) == 0)
@@ -122,7 +122,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             // Online time TLV
             Tlv *tlvOnlineTime = tlv(0x0003);
             if (tlvOnlineTime){
-                unsigned long OnlineTime = *tlvOnlineTime;
+                uint32_t OnlineTime = *tlvOnlineTime;
                 if (OnlineTime != data->OnlineTime.toULong()){
                     data->OnlineTime.asULong() = OnlineTime;
                     bChanged = true;
@@ -141,7 +141,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             // IP TLV
             Tlv *tlvIP = tlv(0x000A);
             if (tlvIP)
-                bChanged |= set_ip(&data->IP, htonl((unsigned long)(*tlvIP)));
+                bChanged |= set_ip(&data->IP, htonl((uint32_t)(*tlvIP)));
 
             // short caps tlv
             Tlv *tlvCapShort = tlv(0x0019);

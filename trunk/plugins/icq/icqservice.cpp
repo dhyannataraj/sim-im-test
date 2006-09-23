@@ -243,7 +243,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             TlvList tlv(m_socket->readBuffer);
             Tlv *tlvIP = tlv(0x000A);
             if (tlvIP)
-                set_ip(&data.owner.IP, htonl((unsigned long)(*tlvIP)));
+                set_ip(&data.owner.IP, htonl((uint32_t)(*tlvIP)));
             break;
         }
     case ICQ_SNACxSRV_SERVICExRESP:{
@@ -255,7 +255,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             }
             Tlv *tlv_adr    = tlv(0x05);
             Tlv *tlv_cookie = tlv(0x06);
-            setServiceSocket(tlv_adr,tlv_cookie,(unsigned short)(*tlv_id));
+            setServiceSocket(tlv_adr,tlv_cookie,(uint16_t)(*tlv_id));
             break;
         }
     case ICQ_SNACxSRV_READYxSERVER:

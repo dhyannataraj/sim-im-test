@@ -21,21 +21,28 @@
 #include "simapi.h"
 #include <qptrlist.h>
 
+#ifndef Q_CC_MSVC
+#include <stdint.h>
+#else
+typedef unsigned short  uint16_t;
+typedef unsigned        uint32_t;
+#endif
+
 class Buffer;
 
 class EXPORT Tlv
 {
 public:
     Tlv(unsigned short num = 0, unsigned short size = 0, const char *data = NULL);
-    unsigned short Num() { return (unsigned short)m_nNum; }
-    unsigned short Size() { return (unsigned short)m_nSize; }
+    unsigned short Num() { return m_nNum; }
+    unsigned short Size() { return m_nSize; }
     const char *Data() { return m_data.data(); }
     operator char *() { return m_data.data(); }
-    operator unsigned short ();
-    operator unsigned long ();
+    operator uint16_t ();
+    operator uint32_t ();
 protected:
-    int m_nNum;
-    int m_nSize;
+    unsigned int m_nNum;
+    unsigned int m_nSize;
     QByteArray m_data;
 };
 
