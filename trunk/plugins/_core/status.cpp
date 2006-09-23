@@ -230,11 +230,10 @@ void CommonStatus::rebuildStatus()
             nInvisible = i;
     }
     if (nInvisible != -1){
-        Client *client = getContacts()->getClient(nInvisible);
         Command cmd;
         cmd->id			= CmdInvisible;
         cmd->text		= I18N_NOOP("&Invisible");
-        cmd->icon		= client->protocol()->description()->icon_on;
+        cmd->icon		= "SIM_invisible";
         cmd->menu_id	= MenuStatus;
         cmd->menu_grp	= 0x2000;
         cmd->flags		= COMMAND_CHECK_STATE;

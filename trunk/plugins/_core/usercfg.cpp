@@ -216,9 +216,34 @@ protected:
 ARItem::ARItem(QListViewItem *item, const CommandDef *def)
         : ConfigItem(item, 0)
 {
+    string icon;
+
     m_status = def->id;
     setText(0, i18n(def->text));
-    setPixmap(0, Pict(def->icon, listView()->colorGroup().base()));
+    switch (def->id){
+    case STATUS_ONLINE: 
+        icon="SIM_online";
+        break;
+    case STATUS_AWAY:
+        icon="SIM_away";
+        break;
+    case STATUS_NA:
+        icon="SIM_na";
+        break;
+    case STATUS_DND:
+        icon="SIM_dnd";
+        break;
+    case STATUS_FFC:
+        icon="SIM_ffc";
+        break;
+    case STATUS_OFFLINE:
+        icon="SIM_offline";
+        break;
+    default:
+        icon=def->icon;
+        break;
+    }
+    setPixmap(0, Pict(icon.c_str(), listView()->colorGroup().base()));
 }
 
 QWidget *ARItem::getWidget(UserConfig *dlg)
