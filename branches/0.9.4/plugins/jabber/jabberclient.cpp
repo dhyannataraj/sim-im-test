@@ -990,7 +990,7 @@ JabberUserData *JabberClient::findContact(const char *_jid, const char *name, bo
         JabberUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (JabberUserData*)(++it)) != NULL){
-            if (jid != data->ID.ptr)
+            if (QString::fromUtf8(jid.c_str()).upper() != QString::fromUtf8(data->ID.ptr).upper())
                 continue;
             if (!resource.empty())
                 set_str(&data->Resource.ptr, resource.c_str());
