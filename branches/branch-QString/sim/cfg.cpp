@@ -699,10 +699,10 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 res += s;
             }
         }else  if (*def->name){
-            Data *d = data;
+            Data *ld = data;
             switch (def->type){
             case DATA_IP:{
-                    const IP *p = data->ip();
+                    const IP *p = ld->ip();
                     if (p && p->ip()){
                         struct in_addr inaddr;
                         inaddr.s_addr = p->ip();
@@ -717,7 +717,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_STRMAP:{
-                    const Data::STRING_MAP &p = data->strMap();
+                    const Data::STRING_MAP &p = ld->strMap();
                     Data::STRING_MAP::const_iterator it;
                     for (it = p.begin(); it != p.end(); it ++) {
                         QString s = it.data();
@@ -736,8 +736,8 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_STRING:{
-                    for (i = 0; i < def->n_values; i++, d++){
-                        QString &p = data->str();
+                    for (i = 0; i < def->n_values; i++, ld++){
+                        QString &p = ld->str();
                         if (value.length())
                             value += ",";
                         if (def->def_value){
@@ -755,8 +755,8 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_BOOL:{
-                    for (i = 0; i < def->n_values; i++, d++){
-                        bool p = data->asBool();
+                    for (i = 0; i < def->n_values; i++, ld++){
+                        bool p = ld->asBool();
                         if (value.length())
                             value += ",";
                         if (p != (def->def_value != 0)){
@@ -771,8 +771,8 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_LONG:{
-                    for (i = 0; i < def->n_values; i++, d++){
-                        long p = data->asLong();
+                    for (i = 0; i < def->n_values; i++, ld++){
+                        long p = ld->asLong();
                         if (value.length())
                             value += ",";
                         if (p != (long)(def->def_value)){
@@ -785,8 +785,8 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_ULONG:{
-                    for (i = 0; i < def->n_values; i++, d++){
-                        unsigned long p = data->asULong();
+                    for (i = 0; i < def->n_values; i++, ld++){
+                        unsigned long p = ld->asULong();
                         if (value.length())
                             value += ",";
                         if (p != (unsigned long)(def->def_value)){
@@ -800,7 +800,7 @@ EXPORT QString save_data(const DataDef *def, void *_data)
                 }
             case DATA_BINARY: {
                 for (unsigned i = 0; i < def->n_values; i++) {
-                    QByteArray &ba = data->asBinary();
+                    QByteArray &ba = ld->asBinary();
                     for(unsigned i = 0; i < ba.size(); i++) {
                         unsigned char c = ba.data()[i];
                         QString s;
@@ -1259,7 +1259,7 @@ void Data::checkType(DataType type) const
 
 void Data::setName(const QString &name)
 {
-    if(!name.isEmpty() && m_name.isEmpty())
+    if(!name.isEmpty() && (m_name.isEmpty() || m_name == "unknown"))
         m_name = name;
 }
 
