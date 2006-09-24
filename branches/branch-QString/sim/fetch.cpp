@@ -362,12 +362,12 @@ bool HTTPSClient::initSSL()
     mpCTX = SSL_CTX_new();
     if (mpCTX == NULL)
         return false;
-    X509_set_default_verify_paths(pCTX->cert);
+    X509_set_default_verify_paths(mpCTX->cert);
 #else
 SSLeay_add_ssl_algorithms();
     mpCTX = SSL_CTX_new(SSLv23_client_method());
-    SSL_CTX_set_options(pCTX, SSL_OP_ALL);
-    SSL_CTX_set_default_verify_paths(pCTX);
+    SSL_CTX_set_options(mpCTX, SSL_OP_ALL);
+    SSL_CTX_set_default_verify_paths(mpCTX);
 #endif /* SSLEAY_VERSION_NUMBER < 0x0800 */
 #if SSLEAY_VERSION_NUMBER >= 0x00905100
     if (RAND_status() == 0) {
@@ -383,11 +383,11 @@ SSLeay_add_ssl_algorithms();
         }
     }
 #endif /* SSLEAY_VERSION_NUMBER >= 0x00905100 */
-    mpSSL = SSL_new(pCTX);
+    mpSSL = SSL_new(mpCTX);
     if(!mpSSL)
         return false;
 #if SSLEAY_VERSION_NUMBER >= 0x0900
-    pSSL->options|=SSL_OP_NO_TLSv1;
+    mpSSL->options|=SSL_OP_NO_TLSv1;
 #endif
     return true;
 }

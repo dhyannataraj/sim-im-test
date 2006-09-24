@@ -248,14 +248,10 @@ protected:
     };
     State state;
     bool m_bSecure;
-    void *mpCTX;
-    void *mpSSL;
-    void *mrBIO;
-    void *mwBIO;
-#define pCTX	((SSL_CTX*)mpCTX)
-#define pSSL	((SSL*)mpSSL)
-#define rBIO	((BIO*)mrBIO)
-#define wBIO	((BIO*)mwBIO)
+    SSL_CTX *mpCTX;
+    SSL     *mpSSL;
+    BIO     *mrBIO;
+    BIO     *mwBIO;
 };
 
 #endif
