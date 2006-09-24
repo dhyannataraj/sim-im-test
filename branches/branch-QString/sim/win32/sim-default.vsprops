@@ -7,10 +7,10 @@
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="$(QTDIR)\include;$(SolutionDir)\sim;$(SolutionDir)\sim\win32;$(SolutionDir)\plugins\_core"
 		BufferSecurityCheck="true"
-		PreprocessorDefinitions="WIN32_LEAN_AND_MEAN;NO_MOC_INCLUDES;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;QT_DLL;UNICODE;WIN32;QT_THREAD_SUPPORT;USE_OPENSSL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CVS_BUILD=1;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;LTDL_OBJDIR=\&quot;\&quot;;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;"
+		PreprocessorDefinitions="NO_MOC_INCLUDES;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;QT_DLL;UNICODE;WIN32;QT_THREAD_SUPPORT;USE_OPENSSL;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CVS_BUILD=1;VERSION=\&quot;0.9.5 $(SIMTAG)\&quot;;PACKAGE=\&quot;SIM\&quot;;LTDL_OBJDIR=\&quot;\&quot;;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;"
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="advapi32.lib gdi32.lib kernel32.lib odbc32.lib odbccp32.lib shell32.lib user32.lib winmm.lib wsock32.lib $(QTDIR)\lib\$(QTLIB) $(SolutionDir)sim\win32\ssleay32.lib"
+		AdditionalDependencies="advapi32.lib gdi32.lib kernel32.lib odbc32.lib odbccp32.lib shell32.lib user32.lib winmm.lib wsock32.lib $(QTDIR)\lib\$(QTLIB)"
 	/>
 </VisualStudioPropertySheet>

@@ -20,8 +20,11 @@
 
 #include "simapi.h"
 #include "buffer.h"
+
 #ifdef USE_OPENSSL
-#include <openssl/ssl.h>
+typedef struct ssl_ctx_st SSL_CTX;
+typedef struct ssl_st SSL;
+typedef struct bio_st BIO;
 #endif
 
 namespace SIM
