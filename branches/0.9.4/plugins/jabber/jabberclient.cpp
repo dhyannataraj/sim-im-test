@@ -829,7 +829,7 @@ void JabberClient::ServerRequest::start_element(const char *name)
 void JabberClient::ServerRequest::add_attribute(const char *name, const char *value)
 {
     m_client->m_socket->writeBuffer
-    << " " << name << "=\'" 
+    << " " << name << "=\'"
     << JabberClient::encodeXML(QString::fromUtf8(value)).replace('\'', "&apos;")
     << "\'";
 }
@@ -1073,16 +1073,19 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
         dicon = "Jabber_invisible";
     if (getProtocolIcons()){
         char *host = strchr(data->ID.ptr, '@');
-        if (host){
-            string h = host + 1;
-            char *p = strchr((char*)(h.c_str()), '.');
-            if (p)
-                *p = 0;
-            if (strcmp(h.c_str(), "icq") == 0){
-                if (invisible){
-                    dicon = "ICQ_invisible";
-                }else{
-                    switch (status){
+        string h;
+        if (host)
+            h = host + 1;
+        else
+            h = data->ID.ptr;
+        char *p = strchr((char*)(h.c_str()), '.');
+        if (p)
+            *p = 0;
+        if (strcmp(h.c_str(), "icq") == 0){
+            if (invisible){
+                dicon = "ICQ_invisible";
+            }else{
+                switch (status){
                     case STATUS_ONLINE:
                         dicon = "ICQ_online";
                         break;
@@ -1101,10 +1104,10 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     case STATUS_FFC:
                         dicon = "ICQ_ffc";
                         break;
-                    }
                 }
-            }else if (strcmp(h.c_str(), "aim") == 0){
-                switch (status){
+            }
+        }else if (strcmp(h.c_str(), "aim") == 0){
+            switch (status){
                 case STATUS_ONLINE:
                     dicon = "AIM_online";
                     break;
@@ -1114,12 +1117,12 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                 case STATUS_AWAY:
                     dicon = "AIM_away";
                     break;
-                }
-            }else if (strcmp(h.c_str(), "msn") == 0){
-                if (invisible){
-                    dicon = "MSN_invisible";
-                }else{
-                    switch (status){
+            }
+        }else if (strcmp(h.c_str(), "msn") == 0){
+            if (invisible){
+                dicon = "MSN_invisible";
+            }else{
+                switch (status){
                     case STATUS_ONLINE:
                         dicon = "MSN_online";
                         break;
@@ -1135,10 +1138,10 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     case STATUS_DND:
                         dicon = "MSN_dnd";
                         break;
-                    }
                 }
-            }else if (strcmp(h.c_str(), "yahoo") == 0){
-                switch (status){
+            }
+        }else if (strcmp(h.c_str(), "yahoo") == 0){
+            switch (status){
                 case STATUS_ONLINE:
                     dicon = "Yahoo!_online";
                     break;
@@ -1157,9 +1160,9 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                 case STATUS_FFC:
                     dicon = "Yahoo!_ffc";
                     break;
-                }
-            }else if (strcmp(h.c_str(), "sms") == 0){
-                switch (status){
+            }
+        }else if (strcmp(h.c_str(), "sms") == 0){
+            switch (status){
                 case STATUS_ONLINE:
                 dicon = "sms_online";
                 break;
@@ -1178,9 +1181,9 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                 case STATUS_FFC:
                 dicon = "sms_ffc";
                 break;
-                }
-            }else if ((strcmp(h.c_str(), "x-gadugadu") == 0) || (strcmp(h.c_str(), "gg") == 0)){
-                switch (status){
+            }
+        }else if ((strcmp(h.c_str(), "x-gadugadu") == 0) || (strcmp(h.c_str(), "gg") == 0)){
+            switch (status){
                 case STATUS_ONLINE:
                 dicon = "GG_online";
                 break;
@@ -1199,7 +1202,6 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                 case STATUS_FFC:
                 dicon = "GG_ffc";
                 break;
-                }
             }
         }
     }
@@ -2606,7 +2608,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     }
     //FIXME: In EventMessageReceived handler from filter plugin, there is conditional delete(msg)
     //that causes crash when filter plugin configured to block Authorisation messages.
-    //So parameter must be pointer to object from heap, but then I don't know how it can be safely 
+    //So parameter must be pointer to object from heap, but then I don't know how it can be safely
     //feed if it wasn't in EventMessageReceived. serzh.
     //12.june.2006 zowers: FIXED.
     JabberAuthMessage *msg = new JabberAuthMessage(tempAuthMessages, type);
