@@ -275,7 +275,7 @@ static DataDef icqClientData[] =
         { "WarnAnonimously", DATA_BOOL, 1, 0 },
         { "ACKMode", DATA_ULONG, 1, DATA(1) },
         { "UseHTTP", DATA_BOOL, 1, DATA(0) },
-        { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
+        { "AutoHTTP", DATA_BOOL, 1, DATA(0) },
         { "KeepAlive", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, 0, 0, 0 }
