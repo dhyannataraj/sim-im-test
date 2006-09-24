@@ -11,6 +11,6 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="advapi32.lib gdi32.lib kernel32.lib odbc32.lib odbccp32.lib shell32.lib user32.lib winmm.lib wsock32.lib $(QTDIR)\lib\$(QTLIB) $(SolutionDir)sim\win32\ssleay32.lib"
+		AdditionalDependencies="advapi32.lib gdi32.lib kernel32.lib odbc32.lib odbccp32.lib shell32.lib user32.lib winmm.lib wsock32.lib $(QTDIR)\lib\$(QTLIB)"
 	/>
 </VisualStudioPropertySheet>

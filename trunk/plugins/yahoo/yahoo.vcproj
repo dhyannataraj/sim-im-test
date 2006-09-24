@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)\sim\win32\libeay32MDd.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -168,7 +168,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
+				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib $(SolutionDir)\sim\win32\libeay32MD.lib"
 				OutputFile="$(OutDir)\plugins\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				TargetMachine="1"
@@ -225,32 +225,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="md5.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						UsePrecompiledHeader="0"
-						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						UsePrecompiledHeader="0"
-						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -405,32 +379,6 @@
 						Name="VCCLCompilerTool"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="sha.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						UsePrecompiledHeader="0"
-						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						UsePrecompiledHeader="0"
-						ForcedIncludeFiles="$(NOINHERIT)"
 					/>
 				</FileConfiguration>
 			</File>
@@ -685,14 +633,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-			<File
-				RelativePath="md5.h"
-				>
-			</File>
-			<File
-				RelativePath="sha.h"
-				>
-			</File>
 			<File
 				RelativePath="yahoo.h"
 				>

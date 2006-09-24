@@ -69,10 +69,10 @@ SSLClient::~SSLClient()
 
 void SSLClient::clear()
 {
-    if (pSSL != NULL)
-        SSL_free(pSSL);
-    if (pCTX != NULL)
-        SSL_CTX_free(pCTX);
+    if (mpSSL != NULL)
+        SSL_free(mpSSL);
+    if (mpCTX != NULL)
+        SSL_CTX_free(mpCTX);
     mpSSL = NULL;
     mpCTX = NULL;
     mrBIO = NULL;
@@ -88,8 +88,8 @@ bool SSLClient::initBIO()
         log(L_WARN, "SSL error");
         return false;
     }
-    SSL_set_bio(pSSL, rBIO, wBIO);
-    SSL_set_mode(pSSL, SSL_MODE_AUTO_RETRY);
+    SSL_set_bio(mpSSL, mrBIO, mwBIO);
+    SSL_set_mode(mpSSL, SSL_MODE_AUTO_RETRY);
     return true;
 }
 
@@ -119,20 +119,20 @@ void SSLClient::process(bool bInRead, bool bWantRead)
                 shutdown();
                 break;
             case SSLConnected:
-                if (!bInRead && (SSL_pending(pSSL) > 0))
+                if (!bInRead && (SSL_pending(mpSSL) > 0))
                     notify->read_ready();
                 break;
             }
         }
         char b[2048];
-        int i = BIO_read(wBIO, b, sizeof(b));
+        int i = BIO_read(mwBIO, b, sizeof(b));
         if (i == 0) return;
         if (i > 0){
             sock->write(b, i);
             continue;
         }
         if (i < 0){
-            if (!BIO_should_retry(wBIO))
+            if (!BIO_should_retry(mwBIO))
                 notify->error_state(I18N_NOOP("SSL write error"));
             return;
         }
@@ -141,12 +141,12 @@ void SSLClient::process(bool bInRead, bool bWantRead)
 
 void SSLClient::connect()
 {
-    if (pSSL == NULL){
+    if (mpSSL == NULL){
         notify->error_state(I18N_NOOP("SSL connect error"));
         return;
     }
-    int i = SSL_connect(pSSL);
-    int j = SSL_get_error(pSSL, i);
+    int i = SSL_connect(mpSSL);
+    int j = SSL_get_error(mpSSL, i);
     if (j == SSL_ERROR_NONE)
     {
         m_bSecure = true;
@@ -154,17 +154,17 @@ void SSLClient::connect()
         notify->connect_ready();
         return;
     }
-    const char *file;
-    int line;
-    unsigned long err;
     switch (j)
     {
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_connect error = %lx, %s:%i", err, file, line);
+    case SSL_ERROR_SSL: {
+        char errStr[200];
+        unsigned long err = ERR_get_error();
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_connect error = %lx (%s)", err, errStr);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL connect error"));
+        notify->error_state(errStr, err);
         return;
+    }
     case SSL_ERROR_WANT_WRITE:
     case SSL_ERROR_WANT_READ:
         state = SSLConnect;
@@ -177,30 +177,30 @@ void SSLClient::connect()
 
 void SSLClient::shutdown()
 {
-    if (pSSL == NULL){
+    if (mpSSL == NULL){
         notify->error_state(I18N_NOOP("SSL shutdown error"));
         return;
     }
-    int i = SSL_shutdown(pSSL);
-    int j = SSL_get_error(pSSL, i);
+    int i = SSL_shutdown(mpSSL);
+    int j = SSL_get_error(mpSSL, i);
     if (j == SSL_ERROR_NONE)
     {
-        SSL_free(pSSL);
+        SSL_free(mpSSL);
         mpSSL = NULL;
         m_bSecure = false;
         return;
     }
-    const char *file;
-    int line;
-    unsigned long err;
     switch (j)
     {
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_shutdown error = %lx, %s:%i", err, file, line);
+    case SSL_ERROR_SSL: {
+        char errStr[200];
+        unsigned long err = ERR_get_error();
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_shutdown error = %lx (%s)", err, errStr);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL shutdown error"));
+        notify->error_state(errStr, err);
         return;
+    }
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
         state = SSLShutdown;
@@ -213,12 +213,12 @@ void SSLClient::shutdown()
 
 void SSLClient::accept()
 {
-    if (pSSL == NULL){
+    if (mpSSL == NULL){
         notify->error_state(I18N_NOOP("SSL accept error"));
         return;
     }
-    int i = SSL_accept(pSSL);
-    int j = SSL_get_error(pSSL, i);
+    int i = SSL_accept(mpSSL);
+    int j = SSL_get_error(mpSSL, i);
     if (j == SSL_ERROR_NONE)
     {
         m_bSecure = true;
@@ -226,17 +226,17 @@ void SSLClient::accept()
         state = SSLConnected;
         return;
     }
-    const char *file;
-    int line;
-    unsigned long err;
     switch (j)
     {
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_accept error = %lx, %s:%i", err, file, line);
+    case SSL_ERROR_SSL: {
+        char errStr[200];
+        unsigned long err = ERR_get_error();
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_accept error = %lx (%s)", err, errStr);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL accept error"));
+        notify->error_state(errStr, err);
         return;
+    }
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
         state = SSLAccept;
@@ -250,23 +250,23 @@ void SSLClient::accept()
 int SSLClient::read(char *buf, unsigned int size)
 {
     if (state != SSLConnected) return 0;
-    int nBytesReceived = SSL_read(pSSL, buf, size);
-    int tmp = SSL_get_error(pSSL, nBytesReceived);
-    const char *file;
-    int line;
-    unsigned long err;
+    int nBytesReceived = SSL_read(mpSSL, buf, size);
+    int tmp = SSL_get_error(mpSSL, nBytesReceived);
     switch (tmp){
     case SSL_ERROR_NONE:
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
     case SSL_ERROR_WANT_X509_LOOKUP:
         break;
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_read error = %lx, %s:%i", err, file, line);
+    case SSL_ERROR_SSL: {
+        char errStr[200];
+        unsigned long err = ERR_get_error();
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_read error = %lx (%s)", err, errStr);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL read error"));
+        notify->error_state(errStr, err);
         return -1;
+    }
     default:
         log(L_DEBUG, "SSL: SSL_read error %d, SSL_%d", nBytesReceived, tmp);
         notify->error_state(I18N_NOOP("SSL read error"));
@@ -286,12 +286,9 @@ void SSLClient::write(const char *buf, unsigned int size)
 
 void SSLClient::write()
 {
-    int nBytesSend = SSL_write(pSSL, wBuffer.data(), wBuffer.size());
-    int tmp = SSL_get_error(pSSL, nBytesSend);
-    const char *file;
-    int line;
+    int nBytesSend = SSL_write(mpSSL, wBuffer.data(), wBuffer.size());
+    int tmp = SSL_get_error(mpSSL, nBytesSend);
     bool bWantRead = false;
-    unsigned long err;
     switch (tmp){
     case SSL_ERROR_NONE:
     case SSL_ERROR_WANT_WRITE:
@@ -300,12 +297,15 @@ void SSLClient::write()
     case SSL_ERROR_WANT_READ:
         bWantRead = true;
         break;
-    case SSL_ERROR_SSL:
-        err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_write error = %lx, %s:%i", err, file, line);
+    case SSL_ERROR_SSL: {
+        char errStr[200];
+        unsigned long err = ERR_get_error();
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_write error = %lx (%s)", err, errStr);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL write error"));
+        notify->error_state(errStr, err);
         return;
+    }
     default:
         log(L_DEBUG, "SSL: SSL_write error %d, SSL_%d", nBytesSend, tmp);
         notify->error_state(I18N_NOOP("SSL write error"));
@@ -327,7 +327,7 @@ void SSLClient::connect(const char *host, unsigned short port)
 
 void SSLClient::close()
 {
-    if (pSSL)
+    if (mpSSL)
         shutdown();
     clear();
     sock->close();
@@ -360,7 +360,7 @@ void SSLClient::read_ready()
             return;
         }
         if (n == 0) break;
-        n = BIO_write(rBIO, b, n);
+        n = BIO_write(mrBIO, b, n);
         if (n == -1)
             if (notify) notify->error_state(I18N_NOOP("SSL read error"));
         process();
@@ -415,15 +415,15 @@ bool SSLClient::initTLS1(bool bDH)
         return false;
     if (bDH){
 #if OPENSSL_VERSION_NUMBER >= 0x00905000L
-        SSL_CTX_set_cipher_list(pCTX, "ADH:@STRENGTH");
+        SSL_CTX_set_cipher_list(mpCTX, "ADH:@STRENGTH");
 #else
-        SSL_CTX_set_cipher_list(pCTX, "ADH");
+        SSL_CTX_set_cipher_list(mpCTX, "ADH");
 #endif
         DH *dh = get_dh512();
-        SSL_CTX_set_tmp_dh(pCTX, dh);
+        SSL_CTX_set_tmp_dh(mpCTX, dh);
         DH_free(dh);
     }
-    mpSSL = SSL_new(pCTX);
+    mpSSL = SSL_new(mpCTX);
     if(!mpSSL)
         return false;
     return true;

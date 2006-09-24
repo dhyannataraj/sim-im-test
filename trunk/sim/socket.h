@@ -21,6 +21,12 @@
 #include "simapi.h"
 #include "buffer.h"
 
+#ifdef USE_OPENSSL
+typedef struct ssl_ctx_st SSL_CTX;
+typedef struct ssl_st SSL;
+typedef struct bio_st BIO;
+#endif
+
 namespace SIM
 {
 
@@ -248,14 +254,10 @@ protected:
     };
     State state;
     bool m_bSecure;
-    void *mpCTX;
-    void *mpSSL;
-    void *mrBIO;
-    void *mwBIO;
-#define pCTX	((SSL_CTX*)mpCTX)
-#define pSSL	((SSL*)mpSSL)
-#define rBIO	((BIO*)mrBIO)
-#define wBIO	((BIO*)mwBIO)
+    SSL_CTX *mpCTX;
+    SSL     *mpSSL;
+    BIO     *mrBIO;
+    BIO     *mwBIO;
 };
 
 #endif

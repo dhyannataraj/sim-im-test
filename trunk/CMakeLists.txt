@@ -76,6 +76,8 @@ if(MSVC)
   endif(CMAKE_COMPILER_2005)
 endif(MSVC)
 
+add_definitions( -DUNICODE )
+
 SET(SIM_FLAVOUR "" CACHE STRING "Additional suffix for plugin dir and executable file")
 if(WIN32)
     SET(LIBDIR         .)
@@ -105,6 +107,7 @@ SIM_INCLUDE_PLUGINS()
 
 # create config.h
 CONFIGURE_FILE(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+add_definitions( -DHAVE_CONFIG_H )
 
 # the (win32) flex generator doesn't care about HAVE_UNISTD_H - it simply has to
 # be there. So create a dummy one if none exists
