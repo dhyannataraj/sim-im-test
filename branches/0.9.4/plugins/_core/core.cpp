@@ -881,6 +881,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 
     cmd->id			= CmdMsgOpen;
     cmd->text		= I18N_NOOP("&Open message");
+    cmd->accel		= NULL;
     cmd->icon		= "message";
     cmd->icon_on	= NULL;
     cmd->menu_id	= MenuMsgView;
@@ -898,12 +899,14 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 
     cmd->id			= CmdCopy;
     cmd->text		= I18N_NOOP("&Copy");
+    cmd->accel		= "Ctrl+C";
     cmd->icon		= "editcopy";
     cmd->menu_grp	= 0x2000;
     eCmd.process();
 
     cmd->id			= CmdDeleteMessage;
     cmd->text		= I18N_NOOP("&Delete message");
+    cmd->accel		= NULL;
     cmd->icon		= "remove";
     cmd->menu_grp	= 0x3000;
     eCmd.process();
@@ -915,7 +918,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 
     cmd->id			= CmdMsgQuote;
     cmd->text		= I18N_NOOP("&Quote");
-    cmd->icon		= "empty";
+    cmd->icon		= NULL;
     cmd->menu_id	= MenuMsgCommand;
     cmd->menu_grp	= 0x1002;
 
