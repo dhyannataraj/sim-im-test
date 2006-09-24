@@ -157,12 +157,15 @@ void SSLClient::connect()
     unsigned long err;
     switch (j)
     {
-    case SSL_ERROR_SSL:
+    case SSL_ERROR_SSL: {
+        char errStr[200];
         err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_connect error = %lx, %s:%i", err, file, line);
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_connect error = %lx (%s), %s:%i", err, errStr, file, line);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL connect error"));
+        notify->error_state(errStr, err);
         return;
+    }
     case SSL_ERROR_WANT_WRITE:
     case SSL_ERROR_WANT_READ:
         state = SSLConnect;
@@ -193,12 +196,15 @@ void SSLClient::shutdown()
     unsigned long err;
     switch (j)
     {
-    case SSL_ERROR_SSL:
+    case SSL_ERROR_SSL: {
+        char errStr[200];
         err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_shutdown error = %lx, %s:%i", err, file, line);
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_shutdown error = %lx (%s), %s:%i", err, errStr, file, line);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL shutdown error"));
+        notify->error_state(errStr, err);
         return;
+    }
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
         state = SSLShutdown;
@@ -229,12 +235,15 @@ void SSLClient::accept()
     unsigned long err;
     switch (j)
     {
-    case SSL_ERROR_SSL:
+    case SSL_ERROR_SSL: {
+        char errStr[200];
         err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_accept error = %lx, %s:%i", err, file, line);
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_accept error = %lx (%s), %s:%i", err, errStr, file, line);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL accept error"));
+        notify->error_state(errStr, err);
         return;
+    }
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
         state = SSLAccept;
@@ -259,12 +268,15 @@ int SSLClient::read(char *buf, unsigned int size)
     case SSL_ERROR_WANT_WRITE:
     case SSL_ERROR_WANT_X509_LOOKUP:
         break;
-    case SSL_ERROR_SSL:
+    case SSL_ERROR_SSL: {
+        char errStr[200];
         err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_read error = %lx, %s:%i", err, file, line);
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_read error = %lx (%s), %s:%i", err, errStr, file, line);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL read error"));
+        notify->error_state(errStr, err);
         return -1;
+    }
     default:
         log(L_DEBUG, "SSL: SSL_read error %d, SSL_%d", nBytesReceived, tmp);
         notify->error_state(I18N_NOOP("SSL read error"));
@@ -298,12 +310,15 @@ void SSLClient::write()
     case SSL_ERROR_WANT_READ:
         bWantRead = true;
         break;
-    case SSL_ERROR_SSL:
+    case SSL_ERROR_SSL: {
+        char errStr[200];
         err = ERR_get_error_line(&file, &line);
-        log(L_WARN, "SSL: SSL_write error = %lx, %s:%i", err, file, line);
+        ERR_error_string_n(err, errStr, sizeof(errStr)-1);
+        log(L_WARN, "SSL: SSL_write error = %lx (%s), %s:%i", err, errStr, file, line);
         ERR_clear_error();
-        notify->error_state(I18N_NOOP("SSL write error"));
+        notify->error_state(errStr, err);
         return;
+    }
     default:
         log(L_DEBUG, "SSL: SSL_write error %d, SSL_%d", nBytesSend, tmp);
         notify->error_state(I18N_NOOP("SSL write error"));
