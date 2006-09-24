@@ -7,14 +7,41 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 
 === SIM 0.9.4.1 (not released yet) ===
 
+Build system
+~~~~~~~~~~~~
+[-] Autotools: add AC_LANG_C.
+[-] Autotools: fix SMP builds.
+
+Core
+~~~~
+[-] Fix context menu shortcuts in dialog window.
+[+] Save state on system logout with Qt Session Management.
+
 ICQ plugin
 ~~~~~~~~~~
 [-] Fix birthday flag handling.
 [-] Fix user info saving.
+[+] Add MD5 auth support for ICQ accounts.
+[*] Disable "Automatically use HTTP polling if proxy required" by
+    default.
+
+Jabber plugin
+~~~~~~~~~~~~~
+[+] Add icons for sms and gadu-gadu transports.
+[*] Detect jabber transports by missing "@" symbol in jid instead of
+    "/registered" ending.
+[+] Allow auth messages for transports.
+[*] Show protocol icons for jabber transports in roster.
+[*] Ignore JID letter case.
+
+MSN plugin
+~~~~~~~~~~
+[+] Add password recovery URL.
 
 Misc plugins
 ~~~~~~~~~~~~
 [*] Shortcuts: fix global shortcuts on X11 Qt-only build.
+[*] LiveJournal: add password recovery URL.
 
 
 === SIM 0.9.4 (29.06.2006) ===
@@ -31,7 +58,8 @@ ICQ plugin
 
 Jabber plugin
 ~~~~~~~~~~~~~
-[-] Fix crash on auth request when "Receive message only from contacts from list".
+[-] Fix crash on auth request when "Receive message only from contacts
+    from list".
 [-] Fix handling of single quotes in roster item names.
 
 Misc plugins
