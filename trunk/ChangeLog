@@ -18,6 +18,8 @@ Build system
 [+] Win32/MSVC: switch to MSVC8.
 [+] Win32/MSVC: use precompiled headers.
 [+] Unix: issue error, not warning, if openssl wasn't found.
+[-] Autotools: fix SMP builds.
+[-] Autotools: add AC_LANG_C.
 
 Core
 ~~~~
@@ -31,6 +33,8 @@ Core
 [*] Use QLibrary for plugins instead of libltdl.
 [+] Contact list: search in contact list by user protocol IDs.
 [+] Add profile (re)naming feature.
+[-] Fix context menu shortcuts in dialog window.
+[+] Save state on system logout with Qt Session Management.
 
 ICQ plugin
 ~~~~~~~~~~
@@ -42,12 +46,19 @@ ICQ plugin
 [-] Fix user info saving.
 [-] Fix birthday flag handling.
 [-] Sync language and occupation lists with ICQ server.
+[*] Disable "Automatically use HTTP polling if proxy required" by
+    default.
 
 Jabber plugin
 ~~~~~~~~~~~~~
 [-] Fix crash on auth request when "Receive message only from contacts from list".
 [-] Fix handling of single quotes in roster item names.
-
+[+] Add icons for sms and gadu-gadu transports.
+[*] Detect jabber transports by missing "@" symbol in jid instead of
+    "/registered" ending.
+[+] Allow auth messages for transports.
+[*] Show protocol icons for jabber transports in roster.
+[*] Ignore JID letter case.
 
 Yahoo! plugin
 ~~~~~~~~~~~~~
@@ -55,7 +66,7 @@ Yahoo! plugin
 
 MSN plugin
 ~~~~~~~~~~
-
+[+] Add password recovery URL.
 
 Misc plugins
 ~~~~~~~~~~~~
@@ -68,3 +79,4 @@ Misc plugins
 [-] Icons: fix handling of JISP files containing subdirectiories.
 [*] Shortcuts: fix global shortcuts on X11 Qt-only build.
 [*] LiveJournal: disable formatted messages by default.
+[*] LiveJournal: add password recovery URL.
