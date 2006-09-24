@@ -20,6 +20,9 @@
 
 #include "simapi.h"
 #include "buffer.h"
+#ifdef USE_OPENSSL
+#include <openssl/ssl.h>
+#endif
 
 namespace SIM
 {

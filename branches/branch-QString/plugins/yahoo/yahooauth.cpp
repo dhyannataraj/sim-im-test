@@ -44,8 +44,8 @@
 #include "yahooclient.h"
 #include "socket.h"
 
-#include "sha.h"
-#include "md5.h"
+#include <openssl/sha.h>
+#include <openssl/md5.h>
 
 #include <ctype.h>
 
@@ -935,8 +935,8 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     std::string password = getPassword().ascii();
     const char *pass = password.c_str();
 
-    md5_byte_t			result[16];
-    md5_state_t			ctx;
+    unsigned char       result[16];
+    MD5state_st			ctx;
 
     SHA_CTX				ctx1;
     SHA_CTX				ctx2;
@@ -1123,8 +1123,8 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
         int			leave = 0;
 
         for (y = 0; y < 5; y++) {
-            md5_byte_t		result[16];
-            md5_state_t		ctx;
+            unsigned char   result[16];
+            MD5state_st		ctx;
 
             unsigned char	test[3];
 
@@ -1138,10 +1138,10 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
             test[1] = x >> 8;
             test[2] = y;
 
-            md5_init(&ctx);
-            md5_append(&ctx, magic_key_char, 4);
-            md5_append(&ctx, test, 3);
-            md5_finish(&ctx, result);
+            MD5_Init(&ctx);
+            MD5_Update(&ctx, magic_key_char, 4);
+            MD5_Update(&ctx, test, 3);
+            MD5_Final(result, &ctx);
 
             if (!memcmp(result, comparison_src+4, 16)) {
                 leave = 1;
@@ -1174,15 +1174,15 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     /* Get password and crypt hashes as per usual.
     	 */
 
-    md5_init(&ctx);
-    md5_append(&ctx, (unsigned char*)pass, strlen(pass));
-    md5_finish(&ctx, result);
+    MD5_Init(&ctx);
+    MD5_Update(&ctx, (unsigned char*)pass, strlen(pass));
+    MD5_Final(result, &ctx);
     to_y64((unsigned char*)password_hash, result, 16);
 
-    md5_init(&ctx);
+    MD5_Init(&ctx);
     crypt_result = yahoo_crypt(pass, "$1$_2S43d5f$");
-    md5_append(&ctx, (unsigned char*)crypt_result, strlen(crypt_result));
-    md5_finish(&ctx, result);
+    MD5_Update(&ctx, (unsigned char*)crypt_result, strlen(crypt_result));
+    MD5_Final(result, &ctx);
     to_y64((unsigned char*)crypt_hash, result, 16);
 
     /* Our first authentication response is based off of the password hash.
@@ -1202,28 +1202,28 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     if (cnt < 64)
         memset(&(pass_hash_xor2[cnt]), 0x5c, 64-cnt);
 
-    shaInit(&ctx1);
-    shaInit(&ctx2);
+    SHA_Init(&ctx1);
+    SHA_Init(&ctx2);
 
     /*
      * The first context gets the password hash XORed with 0x36 plus a magic value
      * which we previously extrapolated from our challenge.
      */
 
-    shaUpdate(&ctx1, (unsigned char*)pass_hash_xor1, 64);
+    SHA_Update(&ctx1, (unsigned char*)pass_hash_xor1, 64);
     if (y >= 3)
-        ctx1.sizeLo = 0x1ff;
-    shaUpdate(&ctx1, magic_key_char, 4);
-    shaFinal(&ctx1, digest1);
+        ctx1.Nl = 0x1ff;
+    SHA_Update(&ctx1, magic_key_char, 4);
+    SHA_Final(digest1, &ctx1);
 
     /*
      * The second context gets the password hash XORed with 0x5c plus the SHA-1 digest
      * of the first context.
      */
 
-    shaUpdate(&ctx2, (unsigned char*)pass_hash_xor2, 64);
-    shaUpdate(&ctx2, digest1, 20);
-    shaFinal(&ctx2, digest2);
+    SHA_Update(&ctx2, (unsigned char*)pass_hash_xor2, 64);
+    SHA_Update(&ctx2, digest1, 20);
+    SHA_Final(digest2, &ctx2);
 
     /*
      * Now that we have digest2, use it to fetch characters from an alphabet to construct
@@ -1295,28 +1295,28 @@ void YahooClient::process_auth(const char *method, const char *seed, const char 
     if (cnt < 64)
         memset(&(crypt_hash_xor2[cnt]), 0x5c, 64-cnt);
 
-    shaInit(&ctx1);
-    shaInit(&ctx2);
+    SHA_Init(&ctx1);
+    SHA_Init(&ctx2);
 
     /*
      * The first context gets the password hash XORed with 0x36 plus a magic value
      * which we previously extrapolated from our challenge.
      */
 
-    shaUpdate(&ctx1, (unsigned char*)crypt_hash_xor1, 64);
+    SHA_Update(&ctx1, (unsigned char*)crypt_hash_xor1, 64);
     if (y >= 3)
-        ctx1.sizeLo = 0x1ff;
-    shaUpdate(&ctx1, magic_key_char, 4);
-    shaFinal(&ctx1, digest1);
+        ctx1.Nl = 0x1ff;
+    SHA_Update(&ctx1, magic_key_char, 4);
+    SHA_Final(digest1, &ctx1);
 
     /*
      * The second context gets the password hash XORed with 0x5c plus the SHA-1 digest
      * of the first context.
      */
 
-    shaUpdate(&ctx2, (unsigned char*)crypt_hash_xor2, 64);
-    shaUpdate(&ctx2, digest1, 20);
-    shaFinal(&ctx2, digest2);
+    SHA_Update(&ctx2, (unsigned char*)crypt_hash_xor2, 64);
+    SHA_Update(&ctx2, digest1, 20);
+    SHA_Final(digest2, &ctx2);
 
     /*
      * Now that we have digest2, use it to fetch characters from an alphabet to construct
