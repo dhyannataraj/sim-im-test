@@ -1,4 +1,6 @@
-ADD_SUBDIRECTORY(png)
+IF(NOT WIN32)
+    ADD_SUBDIRECTORY(png)
+ENDIF(NOT WIN32)
 
 ######################
 # target sim library #
