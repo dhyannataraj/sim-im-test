@@ -255,6 +255,26 @@ void CommonStatus::rebuildStatus()
             FirstStatus = cmd->id;
         if ((ManualStatus == 0) && (CorePlugin::m_plugin->getManualStatus() == cmd->id))
             ManualStatus = cmd->id;
+        switch (c.id){
+        case STATUS_ONLINE: 
+            c.icon="SIM_online";
+            break;
+        case STATUS_AWAY:
+            c.icon="SIM_away";
+            break;
+        case STATUS_NA:
+            c.icon="SIM_na";
+            break;
+        case STATUS_DND:
+            c.icon="SIM_dnd";
+            break;
+        case STATUS_FFC:
+            c.icon="SIM_ffc";
+            break;
+        case STATUS_OFFLINE:
+            c.icon="SIM_offline";
+            break;
+        }
         c.menu_id  = MenuStatus;
         c.menu_grp = id++;
         c.flags = COMMAND_CHECK_STATE;
