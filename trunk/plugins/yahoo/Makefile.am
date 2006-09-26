@@ -14,9 +14,7 @@ yahoo_la_SOURCES = \
  yahoosearchbase.ui \
  crypt.cpp \
  yahootransformtables.c \
- yahoohttp.cpp \
- md5.c \
- sha.c
+ yahoohttp.cpp
 
 INCLUDES=-I$(srcdir)/../../sim -I../_core -I$(srcdir)/../_core $(all_includes)
 
