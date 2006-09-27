@@ -1147,7 +1147,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             ar_request req;
             req.screen  = screen;
             req.type    = msgType;
-            req.ack		= 0;
+            req.ack     = 0;
             req.id      = id;
             req.id1     = cookie1;
             req.id2     = cookie2;
@@ -1163,7 +1163,10 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             e.process();
 
             if (!msg.isEmpty()){
-                data->AutoReply.str() = msg;
+                Contact *contact;
+                ICQUserData *data = findContact(screen, NULL, false, contact);
+                QString m = getContacts()->toUnicode(contact, msg);
+                data->AutoReply.str() = m;
                 Event e(EventContactChanged, contact);
                 e.process();
             }
@@ -1747,7 +1750,7 @@ bool ICQClient::processMsg()
             break;
         case SEND_TYPE2:{
                 m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
-                text = m_send.part.utf8();
+                text = getContacts()->fromUnicode(contact, m_send.part);
                 messageSend ms;
                 ms.msg  = m_send.msg;
                 ms.text = &text;

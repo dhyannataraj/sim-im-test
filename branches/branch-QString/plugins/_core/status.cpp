@@ -296,10 +296,9 @@ void *CommonStatus::processEvent(Event *e)
             item.id     = data->id;
             item.client = data->client;
             item.text   = i18n(data->err_str);
-            if (data->args){
+            if (!data->args.isEmpty()){
                 if (item.text.find("%1") >= 0)
-                    item.text = item.text.arg(QString::fromUtf8(data->args));
-                free(data->args);
+                    item.text = item.text.arg(data->args);
             }
             QString title = "SIM";
             if (getContacts()->nClients() > 1){
@@ -333,8 +332,7 @@ void *CommonStatus::processEvent(Event *e)
                 QString msg;
                 if (!data->err_str.isEmpty()){
                     msg = i18n(data->err_str);
-                    if (data->args)
-                        msg = msg.arg(QString::fromUtf8(data->args));
+                    msg = msg.arg(data->args);
                 }
                 LoginDialog *loginDlg = new LoginDialog(false, data->client, msg, NULL);
                 raiseWindow(loginDlg);

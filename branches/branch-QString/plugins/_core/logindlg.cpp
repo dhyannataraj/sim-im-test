@@ -461,10 +461,7 @@ void *LoginDialog::processEvent(Event *e)
             QString msg;
             if (!d->err_str.isEmpty()){
                 msg = i18n(d->err_str);
-                if (d->args){
-                    msg = msg.arg(QString::fromUtf8(d->args));
-                    free(d->args);
-                }
+                msg = msg.arg(d->args);
             }else{
                 msg = i18n("Login failed");
             }

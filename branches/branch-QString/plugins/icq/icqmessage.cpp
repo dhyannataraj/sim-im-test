@@ -935,7 +935,7 @@ void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, I
     }
 }
 
-QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c)
+QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MAP &c)
 {
     QString contacts = msg->getContacts();
     QString newContacts;
@@ -957,7 +957,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACT
                     CONTACTS_MAP::iterator it = c.find(screen);
                     if (it == c.end()){
                         alias_group ci;
-                        ci.alias = getContacts()->fromUnicode(getContact(data), contact->getName());
+                        ci.alias = contact->getName();
                         ci.grp   = cc ? cc->getGroup() : 0;
                         c.insert(CONTACTS_MAP::value_type(screen, ci));
                         if (!newContacts.isEmpty())
@@ -1001,12 +1001,12 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *data, CONTACT
             QString screen = getToken(url, '/');
             if (url.isEmpty())
                 url = screen;
-            CONTACTS_MAP::iterator it = c.find(screen.latin1());
+            CONTACTS_MAP::iterator it = c.find(screen);
             if (it == c.end()){
                 alias_group ci;
-                ci.alias = getContacts()->fromUnicode(getContact(data), url);
+                ci.alias = url;
                 ci.grp   = 0;
-                c.insert(CONTACTS_MAP::value_type(screen.latin1(), ci));
+                c.insert(CONTACTS_MAP::value_type(screen, ci));
             }
         }
     }

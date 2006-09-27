@@ -60,7 +60,7 @@ void MSNPacket::addArg(const char *str)
 void MSNPacket::send()
 {
     m_client->sendLine(m_line);
-    m_line = "";
+    m_line = QString::null;
     m_client->m_packets.push_back(this);
 }
 
@@ -161,7 +161,7 @@ VerPacket::VerPacket(MSNClient *client)
     addArg("MSNP8 CVR0");
 }
 
-void VerPacket::answer(QValueList<QString>&)
+void VerPacket::answer(const QStringList&)
 {
     MSNPacket *packet = new CvrPacket(m_client);
     packet->send();
@@ -176,7 +176,7 @@ CvrPacket::CvrPacket(MSNClient *client)
     addArg(m_client->getLogin());
 }
 
-void CvrPacket::answer(QValueList<QString>&arg)
+void CvrPacket::answer(const QStringList &arg)
 {
     m_client->setVersion(arg[0]);
     MSNPacket *packet = new UsrPacket(m_client);
@@ -196,7 +196,7 @@ UsrPacket::UsrPacket(MSNClient *client, const char *digest)
     }
 }
 
-void UsrPacket::answer(QValueList<QString>&args)
+void UsrPacket::answer(const QStringList &args)
 {
     if (args[0] == "OK"){
         QTimer::singleShot(0, m_client, SLOT(authOk()));
@@ -251,7 +251,7 @@ SynPacket::SynPacket(MSNClient *client)
     addArg("0");
 }
 
-void SynPacket::answer(QValueList<QString>&args)
+void SynPacket::answer(const QStringList &args)
 {
     unsigned m_ver = 0;
     if (!args[0].isEmpty())
@@ -307,7 +307,7 @@ QryPacket::QryPacket(MSNClient *client, const QString &qry)
 void QryPacket::send()
 {
     m_client->sendLine(m_line, false);
-    m_line = "";
+    m_line = QString::null;
     m_client->m_packets.push_back(this);
 }
 
@@ -319,7 +319,7 @@ AdgPacket::AdgPacket(MSNClient *client, unsigned grp_id, const QString &name)
     addArg("0");
 }
 
-void AdgPacket::answer(QValueList<QString>&args)
+void AdgPacket::answer(const QStringList &args)
 {
     Group *grp = getContacts()->group(m_id);
     if (grp == NULL)
@@ -340,7 +340,7 @@ RegPacket::RegPacket(MSNClient *client, unsigned id, const QString &name)
     addArg("0");
 }
 
-RmgPacket::RmgPacket(MSNClient *client, unsigned id)
+RmgPacket::RmgPacket(MSNClient *client, unsigned long id)
         : MSNPacket(client, "RMG")
 {
     addArg(QString::number(id));
@@ -353,7 +353,7 @@ AddPacket::AddPacket(MSNClient *client, const QString &listType, const QString &
     addArg(listType);
     addArg(mail);
     addArg(name);
-    if (!strcmp(listType, "FL"))
+    if (listType == "FL")
         addArg(QString::number(grp));
 }
 
@@ -370,7 +370,7 @@ void AddPacket::error(unsigned)
     e.process();
 }
 
-void AddPacket::answer(QValueList<QString>&)
+void AddPacket::answer(const QStringList&)
 {
     Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.latin1()));
     e.process();
@@ -381,7 +381,7 @@ RemPacket::RemPacket(MSNClient *client, const QString &listType, const QString &
 {
     addArg(listType);
     addArg(mail);
-    if (!strcmp(listType, "FL") && (group != NO_GROUP))
+    if (listType == "FL" && (group != NO_GROUP))
         addArg(QString::number(group));
 }
 
@@ -417,7 +417,7 @@ void XfrPacket::clear()
     m_socket = NULL;
 }
 
-void XfrPacket::answer(QValueList<QString>&args)
+void XfrPacket::answer(const QStringList &args)
 {
     if (m_socket)
         m_socket->connect(args[1], "", args[3], true);
@@ -434,7 +434,7 @@ typedef map<QString, QString> KEY_MAP;
 MSNServerMessage::~MSNServerMessage()
 {
     KEY_MAP values;
-    QString msg = QString::fromUtf8(m_msg.c_str());
+    QString msg = QString::fromUtf8(m_msg);
     for (;!msg.isEmpty();){
         QString line;
         int n = msg.find("\r\n");
@@ -443,7 +443,7 @@ MSNServerMessage::~MSNServerMessage()
             msg  = msg.mid(n + 2);
         }else{
             line = msg;
-            msg  = "";
+            msg  = QString::null;
         }
         n = line.find(":");
         if (n < 0)
@@ -458,7 +458,7 @@ MSNServerMessage::~MSNServerMessage()
         QString content_type = (*it).second;
         content_type = getToken(content_type, ';');
         if (content_type == "text/x-msmsgsinitialemailnotification"){
-            m_client->m_init_mail = "";
+            m_client->m_init_mail = QString::null;
             it = values.find("Post-URL");
             if (it != values.end())
                 m_client->m_init_mail = (*it).second;
@@ -471,19 +471,19 @@ MSNServerMessage::~MSNServerMessage()
             unsigned nUnread = (*it).second.toUInt();
             if (nUnread){
                 clientErrorData data;
-                data.client		= m_client;
-                data.err_str	= "%1";
-                data.options	= NULL;
-                data.args		= strdup(i18n("You have %n unread message.", "You have %n unread messages.", nUnread).utf8());
-                data.code		= 0;
-                data.flags		= ERR_INFO;
-                data.id			= static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNInitMail;
+                data.client     = m_client;
+                data.err_str    = "%1";
+                data.options    = NULL;
+                data.args       = i18n("You have %n unread message.", "You have %n unread messages.", nUnread);
+                data.code       = 0;
+                data.flags      = ERR_INFO;
+                data.id         = static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNInitMail;
                 Event e(EventShowError, &data);
                 e.process();
             }
         }
         if (content_type == "text/x-msmsgsemailnotification"){
-            m_client->m_new_mail = "";
+            m_client->m_new_mail = QString::null;
             it = values.find("Post-URL");
             if (it != values.end())
                 m_client->m_new_mail = (*it).second;
@@ -498,13 +498,13 @@ MSNServerMessage::~MSNServerMessage()
             if (!from.isEmpty())
                 msg = i18n("%1 from %2") .arg(msg) .arg(from);
             clientErrorData data;
-            data.client		= m_client;
-            data.err_str	= "%1";
-            data.options	= NULL;
-            data.args		= strdup(msg.utf8());
-            data.code		= 0;
-            data.flags		= ERR_INFO;
-            data.id			= static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNNewMail;
+            data.client     = m_client;
+            data.err_str    = "%1";
+            data.options    = NULL;
+            data.args       = msg;
+            data.code       = 0;
+            data.flags      = ERR_INFO;
+            data.id         = static_cast<MSNPlugin*>(m_client->protocol()->plugin())->MSNNewMail;
             Event e(EventShowError, &data);
             e.process();
         }
@@ -518,7 +518,7 @@ bool MSNServerMessage::packet()
     if (size > m_size)
         size = m_size;
     if (size > 0){
-        m_msg.append(b.data(b.readPos()), size);
+        m_msg += QCString(b.data(b.readPos()), size);
         b.incReadPos(size);
         m_size -= size;
     }

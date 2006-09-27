@@ -126,23 +126,23 @@ protected:
     std::list<msgInvite>	m_acceptMsg;
     std::list<msgInvite>	m_waitMsg;
 
-    State			m_state;
-    SIM::Contact	*m_contact;
-    MSNClient		*m_client;
-    MSNUserData		*m_data;
-    QString		    m_session;
-    QString		    m_cookie;
-    SIM::ClientSocket *m_socket;
-    unsigned		m_packet_id;
-    QString		    m_message;
-    unsigned		m_messageSize;
-    bool			m_bTyping;
-    XfrPacket		*m_packet;
-    std::list<SIM::Message*>  m_queue;
-    QString			m_msgText;
-    QString			m_msgPart;
-    unsigned		m_msg_id;
-    unsigned		m_invite_cookie;
+    State               m_state;
+    SIM::Contact       *m_contact;
+    MSNClient          *m_client;
+    MSNUserData        *m_data;
+    QString             m_session;
+    QString             m_cookie;
+    SIM::ClientSocket  *m_socket;
+    unsigned            m_packet_id;
+    QString             m_message;
+    unsigned            m_messageSize;
+    bool                m_bTyping;
+    XfrPacket          *m_packet;
+    std::list<SIM::Message*>    m_queue;
+    QString             m_msgText;
+    QString             m_msgPart;
+    unsigned            m_msg_id;
+    unsigned            m_invite_cookie;
 };
 
 const unsigned LR_CONTACTxCHANGED		= 0;
@@ -156,7 +156,7 @@ const unsigned NO_GROUP					= (unsigned)(-1);
 typedef struct MSNListRequest
 {
     unsigned	Type;
-    QString	    Name;
+    QString     Name;
     unsigned	Group;
 } MSNListRequest;
 
@@ -242,25 +242,25 @@ protected:
     unsigned			m_packetId;
     unsigned			m_pingTime;
     std::list<MSNPacket*>m_packets;
-    MSNServerMessage	*m_msg;
-    QString				m_curBuddy;
-    void		 requestLoginHost(const char *url);
-    void		 requestTWN(const char *url);
+    MSNServerMessage   *m_msg;
+    QString             m_curBuddy;
+    void                requestLoginHost(const char *url);
+    void                requestTWN(const char *url);
     enum AuthState
     {
         None,
         LoginHost,
         TWN
     };
-    AuthState	 m_state;
-    QString 	 m_authChallenge;
-    QString	     m_init_mail;
-    QString 	 m_new_mail;
-    bool		 m_bFirstTry;
-    bool		 m_bHTTP;
-    bool		 m_bFirst;
-    unsigned	 m_nBuddies;
-    unsigned	 m_nGroups;
+    AuthState   m_state;
+    QString     m_authChallenge;
+    QString     m_init_mail;
+    QString     m_new_mail;
+    bool        m_bFirstTry;
+    bool        m_bHTTP;
+    bool        m_bFirst;
+    unsigned    m_nBuddies;
+    unsigned    m_nGroups;
     friend class MSNPacket;
     friend class UsrPacket;
     friend class QryPacket;
@@ -305,22 +305,22 @@ protected:
         WaitBye
     };
     virtual bool    error_state(const QString &err, unsigned code);
-    virtual void	packet_ready();
-    virtual void	connect_ready();
-    virtual void	write_ready();
-    virtual void	startReceive(unsigned pos);
-    virtual bool	accept(SIM::Socket*, unsigned long ip);
-    virtual void	bind_ready(unsigned short port);
-    virtual bool	error(const char *err);
-    void			send(const QString &line);
-    bool			getLine(const QCString &line);
-    bool			m_bHeader;
-    unsigned		m_size;
-    State			m_state;
-    SIM::ClientSocket    *m_socket;
-    MSNClient		*m_client;
-    MSNUserData		*m_data;
-    QTimer			*m_timer;
+    virtual void    packet_ready();
+    virtual void    connect_ready();
+    virtual void    write_ready();
+    virtual void    startReceive(unsigned pos);
+    virtual bool    accept(SIM::Socket*, unsigned long ip);
+    virtual void    bind_ready(unsigned short port);
+    virtual bool    error(const char *err);
+    void            send(const QString &line);
+    bool            getLine(const QCString &line);
+    bool            m_bHeader;
+    unsigned        m_size;
+    State           m_state;
+    SIM::ClientSocket   *m_socket;
+    MSNClient           *m_client;
+    MSNUserData         *m_data;
+    QTimer              *m_timer;
 };
 
 #endif

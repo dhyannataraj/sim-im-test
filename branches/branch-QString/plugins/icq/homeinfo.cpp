@@ -82,8 +82,10 @@ static QString formatTime(char n)
 
 static void initTZCombo(QComboBox *cmb, char tz)
 {
-    if (tz < -24) tz = 0;
-    if (tz > 24) tz = 0;
+    if (tz < -24)
+        tz = 0;
+    if (tz > 24)
+        tz = 0;
     if (cmb->isEnabled()){
         unsigned nSel = 12;
         unsigned n = 0;
@@ -100,7 +102,8 @@ static void initTZCombo(QComboBox *cmb, char tz)
 void HomeInfo::fill()
 {
     ICQUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
+    if (data == NULL)
+        data = &m_client->data.owner;
     edtAddress->setText(data->Address.str());
     edtCity->setText(data->City.str());
     edtState->setText(data->State.str());

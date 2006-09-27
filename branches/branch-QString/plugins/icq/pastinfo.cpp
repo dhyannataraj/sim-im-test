@@ -118,7 +118,8 @@ const ext_info *p_affilations = affilations;
 void PastInfo::fill()
 {
     ICQUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
+    if (data == NULL)
+        data = &m_client->data.owner;
     unsigned i = 0;
     QString str = data->Backgrounds.str();
     while (str.length()){

@@ -278,7 +278,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 screen = m_socket->readBuffer.unpackScreen();
             }
             if (screen.toULong() != data.owner.Uin.toULong()){
-                log(L_WARN, "No my name info (%s)", screen.latin1());
+                log(L_WARN, "Not my name info (%s)", screen.latin1());
                 break;
             }
             m_socket->readBuffer.incReadPos(4);
@@ -342,13 +342,12 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             d.client  = this;
             d.code    = 0;
             d.err_str = I18N_NOOP("You've been warned by %1");
-            d.args    = strdup(from.utf8());
+            d.args    = from;
             d.flags   = ERR_INFO;
             d.options = NULL;
-            d.id	  = CmdShowWarning;
+            d.id      = CmdShowWarning;
             Event e(EventClientError, &d);
             e.process();
-            free(d.args);
             break;
         }
     default:

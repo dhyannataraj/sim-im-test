@@ -158,8 +158,7 @@ void ICQClient::parseRosterItem(unsigned short type,
     switch (type){
     case ICQ_USER: {
             if (str.length()){
-                if ((str.length() == strlen(PLEASE_UPGRADE) + 3) &&
-                    (str.mid(strlen(PLEASE_UPGRADE)) == PLEASE_UPGRADE)){
+                if (str.startsWith(PLEASE_UPGRADE)){
                     log(L_DEBUG, "Upgrade warning");
                     return;
                 }
@@ -1450,14 +1449,12 @@ void ICQClient::addContactRequest(Contact *contact)
 
 bool ICQClient::isContactRenamed(ICQUserData *data, Contact *contact)
 {
-    QString name;
-    name = contact->getName();
     QString alias = data->Alias.str();
     if(alias.isEmpty())
         alias.sprintf("%lu", data->Uin.toULong());
 
-    if (name != alias){
-        log(L_DEBUG, "%lu renamed %s->%s", data->Uin.toULong(), alias.latin1(), name.latin1());
+    if (contact->getName() != alias){
+        log(L_DEBUG, "%lu renamed %s->%s", data->Uin.toULong(), alias.latin1(), contact->getName().latin1());
         return true;
     }
     QString cell = getUserCellular(contact);

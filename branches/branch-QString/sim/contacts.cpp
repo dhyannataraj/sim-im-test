@@ -1200,7 +1200,7 @@ void Client::setState(State state, const QString &text, unsigned code)
         d.client  = this;
         d.err_str = text;
         d.code    = code;
-        d.args    = NULL;
+        d.args    = QString::null;
         d.flags   = ERR_ERROR;
         d.options = NULL;
         d.id      = 0;

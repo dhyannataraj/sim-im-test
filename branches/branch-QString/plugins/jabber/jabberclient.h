@@ -145,21 +145,21 @@ typedef struct JabberSearchData
 
 typedef struct JabberListRequest
 {
-    QString		    jid;
-    QString		    grp;
-    QString		    name;
-    bool			bDelete;
+    QString             jid;
+    QString             grp;
+    QString             name;
+    bool                bDelete;
 } JabberListRequest;
 
 typedef struct DiscoItem
 {
-    QString			id;
-    QString			jid;
-    QString			node;
-    QString			name;
-    QString			type;
-    QString			category;
-    QString			features;
+    QString             id;
+    QString             jid;
+    QString             node;
+    QString             name;
+    QString             type;
+    QString             category;
+    QString             features;
 } DiscoItem;
 
 class JabberClient : public SIM::TCPClient, public SAXParser
@@ -295,14 +295,14 @@ class MessageRequest : public ServerRequest
     PROP_STR(URL);
     PROP_BOOL(InfoUpdated);
 
-    QString		    buildId(JabberUserData *data);
-    JabberUserData	*findContact(const QString &jid, const QString &name, bool bCreate, SIM::Contact *&contact, QString &resource, bool bJoin=true);
-    bool			add_contact(const char *id, unsigned grp);
-    QString		get_agents(const QString &jid);
-    QString		get_agent_info(const QString &jid, const QString &node, const QString &type);
-    void			auth_request(const QString &jid, unsigned type, const QString &text, bool bCreate);
-    QString		search(const QString &jid, const QString &node, const QString &condition);
-    QString		process(const QString &jid, const QString &node, const QString &condition, const QString &type);
+    QString         buildId(JabberUserData *data);
+    JabberUserData *findContact(const QString &jid, const QString &name, bool bCreate, SIM::Contact *&contact, QString &resource, bool bJoin=true);
+    bool            add_contact(const char *id, unsigned grp);
+    QString         get_agents(const QString &jid);
+    QString         get_agent_info(const QString &jid, const QString &node, const QString &type);
+    void            auth_request(const QString &jid, unsigned type, const QString &text, bool bCreate);
+    QString         search(const QString &jid, const QString &node, const QString &condition);
+    QString         process(const QString &jid, const QString &node, const QString &condition, const QString &type);
 
     static QString	get_attr(const char *name, const char **attrs);
     virtual void setupContact(SIM::Contact*, void *data);

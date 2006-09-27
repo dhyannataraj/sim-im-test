@@ -822,7 +822,7 @@ void DirectClient::processPacket()
                 if ((*it).type == PLUGIN_AR){
                     m_data->AutoReply.str() = msg_str;
                     m_queue.erase(it);
-					itDeleted = true;
+                    itDeleted = true;
                     break;
                 }
                 unsigned plugin_index = (*it).type;

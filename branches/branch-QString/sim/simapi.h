@@ -761,7 +761,7 @@ typedef struct clientErrorData
     Client      *client;
     QString     err_str;
     const char  *options;
-    char        *args;
+    QString     args;
     unsigned    code;
     unsigned    flags;
     unsigned    id;

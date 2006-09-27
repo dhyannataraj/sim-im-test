@@ -48,13 +48,13 @@ protected:
     virtual void element_start(const char *el, const char **attr);
     virtual void element_end(const char *el);
     virtual void char_data(const char *str, int len);
-    QString		m_jid;
-    QString		m_name;
-    QString		m_grp;
-    QString		m_subscription;
-    unsigned	m_subscribe;
-    unsigned	m_bSubscription;
-    QString		*m_data;
+    QString     m_jid;
+    QString     m_name;
+    QString     m_grp;
+    QString     m_subscription;
+    unsigned    m_subscribe;
+    unsigned    m_bSubscription;
+    QString    *m_data;
 };
 
 RostersRequest::RostersRequest(JabberClient *client)
@@ -284,7 +284,7 @@ extern DataDef jabberUserData[];
 InfoRequest::InfoRequest(JabberClient *client, JabberUserData *data, bool bVCard)
         : JabberClient::ServerRequest(client, _GET, NULL, client->buildId(data))
 {
-    m_jid	= data->ID.str();
+    m_jid   = data->ID.str();
     m_node  = data->Node.str();
     m_bStarted = false;
     m_data  = NULL;
@@ -360,18 +360,18 @@ InfoRequest::~InfoRequest()
             }
         }
         if (photo.width() && photo.height()){
-            if ((photo.width() != (int)(data->PhotoWidth.toULong())) ||
-                    (photo.height() != (int)(data->PhotoHeight.toULong())))
+            if ((photo.width() != (int)(data->PhotoWidth.toLong())) ||
+                    (photo.height() != (int)(data->PhotoHeight.toLong())))
                 bChanged = true;
-            data->PhotoWidth.asULong()  = photo.width();
-            data->PhotoHeight.asULong() = photo.height();
+            data->PhotoWidth.asLong()  = photo.width();
+            data->PhotoHeight.asLong() = photo.height();
             if (m_jid == m_client->data.owner.ID.str())
                 m_client->setPhoto(m_client->photoFile(data));
         }else{
-            if (data->PhotoWidth.toULong() || data->PhotoHeight.toULong())
+            if (data->PhotoWidth.toLong() || data->PhotoHeight.toLong())
                 bChanged = true;
-            data->PhotoWidth.asULong()  = 0;
-            data->PhotoHeight.asULong() = 0;
+            data->PhotoWidth.asLong()  = 0;
+            data->PhotoHeight.asLong() = 0;
         }
 
         QImage logo;
@@ -389,18 +389,18 @@ InfoRequest::~InfoRequest()
             }
         }
         if (logo.width() && logo.height()){
-            if ((logo.width() != (int)(data->LogoWidth.toULong())) ||
-                    (logo.height() != (int)(data->LogoHeight.toULong())))
+            if ((logo.width() != (int)(data->LogoWidth.toLong())) ||
+                    (logo.height() != (int)(data->LogoHeight.toLong())))
                 bChanged = true;
-            data->LogoWidth.asULong()  = logo.width();
-            data->LogoHeight.asULong() = logo.height();
+            data->LogoWidth.asLong()  = logo.width();
+            data->LogoHeight.asLong() = logo.height();
             if (m_jid == m_client->data.owner.ID.str())
                 m_client->setLogo(m_client->logoFile(data));
         }else{
-            if (data->LogoWidth.toULong() || data->LogoHeight.toULong())
+            if (data->LogoWidth.toLong() || data->LogoHeight.toLong())
                 bChanged = true;
-            data->LogoWidth.asULong()  = 0;
-            data->LogoHeight.asULong() = 0;
+            data->LogoWidth.asLong()  = 0;
+            data->LogoHeight.asLong() = 0;
         }
 
         if (bChanged){

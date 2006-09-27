@@ -449,6 +449,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             data->Zip.str() = getContacts()->toUnicode(contact, Zip);
             b.unpack(n);
             data->Country.asULong() = n;
+
             b
             >> TimeZone
             >> authFlag
@@ -495,10 +496,10 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 b >> d;
                 QCString s;
                 b >> s;
-                s = quoteChars(s, ";");
+                s = quoteChars(getContacts()->toUnicode(contact, s), ";");
                 if (mail.length())
                     mail += ";";
-                mail += getContacts()->toUnicode(contact, s);
+                mail += s;
                 mail += '/';
                 if (d)
                     mail += '-';
@@ -896,7 +897,7 @@ protected:
     QString m_homePhone;
     QString m_homeFax;
     QString m_privateCellular;
-    bool   m_hiddenEMail;
+    bool    m_hiddenEMail;
     unsigned m_country;
     unsigned m_tz;
     ICQClient *m_client;
@@ -1475,7 +1476,7 @@ void SetPasswordRequest::fail(unsigned short error_code)
     d.client  = m_client;
     d.code    = 0;
     d.err_str = I18N_NOOP("Change password fail");
-    d.args    = NULL;
+    d.args    = QString::null;
     d.flags   = ERR_ERROR;
     d.options = NULL;
     d.id      = CmdPasswordFail;

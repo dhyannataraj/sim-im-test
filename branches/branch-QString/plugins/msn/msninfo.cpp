@@ -71,7 +71,7 @@ void MSNInfo::fill()
     MSNUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     edtEMail->setText(data->EMail.str());
-    edtNick->setText(!data->ScreenName.str().isEmpty() ? data->ScreenName.str() : edtEMail->text());
+    edtNick->setText(!data->ScreenName.str().isEmpty() ? data->ScreenName.str() : data->EMail.str());
     int current = 0;
     const char *text = NULL;
     unsigned status = m_data ? m_data->Status.toULong() : m_client->getStatus();

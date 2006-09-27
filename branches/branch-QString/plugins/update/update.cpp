@@ -143,7 +143,7 @@ bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
         d.client  = NULL;
         d.err_str = I18N_NOOP("New version SIM is released");
         d.code	  = 0;
-        d.args    = NULL;
+        d.args    = QString::null;
         d.flags	  = ERR_INFO;
         d.options = "Show details\x00Remind later\x00\x00";
         d.id	  = CmdGo;

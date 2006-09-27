@@ -900,11 +900,8 @@ void *DockWnd::processEvent(Event *e)
                 if ((*it).id == data->id)
                     return e->param();
             }
-            QString arg;
-            if (data->args){
-                arg = QString::fromUtf8(data->args);
-                free(data->args);
-            }
+            QString arg = data->args;
+
             BalloonItem item;
             item.id   = data->id;
             item.client = data->client;

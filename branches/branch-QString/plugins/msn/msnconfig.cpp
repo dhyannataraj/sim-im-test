@@ -61,7 +61,7 @@ void MSNConfig::apply(Client*, void*)
 void MSNConfig::apply()
 {
     if (!m_bConfig){
-        m_client->setLogin(edtLogin->text().local8Bit());
+        m_client->setLogin(edtLogin->text());
         m_client->setPassword(edtPassword->text());
     }
     m_client->setServer(edtServer->text());

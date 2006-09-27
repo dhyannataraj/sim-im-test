@@ -26,40 +26,40 @@ class MSNPacket
 {
 public:
     MSNPacket(MSNClient *client, const QString &cmd);
-    virtual ~MSNPacket() {}
-    const QString &cmd()	{ return m_cmd; }
-    unsigned	id()	{ return m_id; }
-    virtual	void	answer(QValueList<QString>&) {}
-    virtual void	error(unsigned code);
-    void			addArg(const QString &str);
-    void			addArg(const char *str);
-    virtual void	send();
+    virtual ~MSNPacket(){}
+    const QString &cmd() const { return m_cmd; }
+    unsigned id()        const { return m_id; }
+    virtual void        answer(QStringList&) {};
+    virtual void        error(unsigned code);
+    void                addArg(const QString &str);
+    void                addArg(const char *str);
+    virtual void        send();
 protected:
-    QString		m_line;
-    QString		m_cmd;
-    MSNClient	*m_client;
-    unsigned	m_id;
+    QString     m_line;
+    QString     m_cmd;
+    MSNClient  *m_client;
+    unsigned    m_id;
 };
 
 class VerPacket : public MSNPacket
 {
 public:
     VerPacket(MSNClient *client);
-    void answer(QValueList<QString>&args);
+    void answer(const QStringList &args);
 };
 
 class CvrPacket : public MSNPacket
 {
 public:
     CvrPacket(MSNClient *client);
-    void answer(QValueList<QString>&args);
+    void answer(const QStringList &args);
 };
 
 class UsrPacket : public MSNPacket
 {
 public:
     UsrPacket(MSNClient *client, const char *hash = NULL);
-    void answer(QValueList<QString>&args);
+    void answer(const QStringList &args);
 };
 
 class OutPacket : public MSNPacket
@@ -78,8 +78,7 @@ class SynPacket : public MSNPacket
 {
 public:
     SynPacket(MSNClient *client);
-protected:
-    void answer(QValueList<QString>&args);
+    void answer(const QStringList &args);
 };
 
 class QryPacket : public MSNPacket
@@ -93,8 +92,8 @@ class AdgPacket : public MSNPacket
 {
 public:
     AdgPacket(MSNClient *client, unsigned grp_id, const QString &name);
+    void answer(const QStringList &args);
 protected:
-    void answer(QValueList<QString>&args);
     unsigned m_id;
 };
 
@@ -107,16 +106,16 @@ public:
 class RmgPacket : public MSNPacket
 {
 public:
-    RmgPacket(MSNClient *client, unsigned id);
+    RmgPacket(MSNClient *client, unsigned long id);
 };
 
 class AddPacket : public MSNPacket
 {
 public:
     AddPacket(MSNClient *client, const QString &listType, const QString &mail, const QString &name, unsigned grp=0);
-protected:
-    void answer(QValueList<QString>&args);
+    void answer(const QStringList &args);
     virtual void	error(unsigned code);
+protected:
     QString m_mail;
 };
 
@@ -144,9 +143,9 @@ class XfrPacket : public MSNPacket
 public:
     XfrPacket(MSNClient *client, SBSocket *socket);
     void clear();
+    void answer(const QStringList &args);
 protected:
     SBSocket *m_socket;
-    void answer(QValueList<QString>&args);
 };
 
 class MSNServerMessage
@@ -156,9 +155,9 @@ public:
     ~MSNServerMessage();
     bool packet();
 protected:
-    std::string	  m_msg;
-    MSNClient *m_client;
-    unsigned  m_size;
+    QCString    m_msg;
+    MSNClient  *m_client;
+    unsigned    m_size;
 };
 
 #endif

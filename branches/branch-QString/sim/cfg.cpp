@@ -490,7 +490,7 @@ void init_data(const DataDef *d, Data *data)
                 data->asLong() = (long)def->def_value;
                 break;
             case DATA_BOOL:
-                data->asBool() = def->def_value != NULL;
+                data->asBool() = (def->def_value != NULL);
                 break;
             case DATA_OBJECT:
                 data->setObject(NULL);

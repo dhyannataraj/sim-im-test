@@ -108,7 +108,8 @@ const ext_info *p_occupations = occupations;
 void WorkInfo::fill()
 {
     ICQUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
+    if (data == NULL)
+        data = &m_client->data.owner;
     edtAddress->setText(data->WorkAddress.str());
     edtCity->setText(data->WorkCity.str());
     edtState->setText(data->WorkState.str());
@@ -141,16 +142,16 @@ void WorkInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    data->WorkAddress.str() = edtAddress->text();
-    data->WorkCity.str() = edtCity->text();
-    data->WorkState.str() = edtState->text();
-    data->WorkZip.str() = edtZip->text();
+    data->WorkAddress.str()     = edtAddress->text();
+    data->WorkCity.str()        = edtCity->text();
+    data->WorkState.str()       = edtState->text();
+    data->WorkZip.str()         = edtZip->text();
     data->WorkCountry.asULong() = getComboValue(cmbCountry, getCountries());
-    data->Occupation.asULong() = getComboValue(cmbOccupation, occupations);
-    data->WorkName.str() = edtName->text();
-    data->WorkDepartment.str() = edtDept->text();
-    data->WorkPosition.str() = edtPosition->text();
-    data->WorkHomepage.str() = edtSite->text();
+    data->Occupation.asULong()  = getComboValue(cmbOccupation, occupations);
+    data->WorkName.str()        = edtName->text();
+    data->WorkDepartment.str()  = edtDept->text();
+    data->WorkPosition.str()    = edtPosition->text();
+    data->WorkHomepage.str()    = edtSite->text();
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -84,8 +84,8 @@ void MSNHttpPool::close()
 {
     delete writeData;
     writeData = new Buffer;
-    m_session_id = "";
-    m_host = "";
+    m_session_id = QString::null;
+    m_host = QString::null;
     stop();
 }
 
@@ -130,9 +130,9 @@ bool MSNHttpPool::done(unsigned code, Buffer &data, const char *headers)
                 string v = p2;
                 string k = getToken(v, '=');
                 if (k == "SessionID"){
-                    m_session_id = v;
+                    m_session_id = QString::fromUtf8(v.c_str());
                 }else if (k == "GW-IP"){
-                    m_host = v;
+                    m_host = QString::fromUtf8(v.c_str());
                 }
             }
             break;

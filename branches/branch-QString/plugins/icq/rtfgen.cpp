@@ -235,7 +235,7 @@ protected:
     ICQClient  *m_client;
     Contact    *m_contact;
     QTextCodec *m_codec;
-    bool		m_bSpace;
+    bool        m_bSpace;
     unsigned	m_max_size;
 
     TagStack m_tags;

@@ -418,7 +418,7 @@ static bool isWide(const QString &str)
     return true;
 }
 
-static bool isWide(const SIM::Data &data)
+static inline bool isWide(const SIM::Data &data)
 {
     return isWide(data.str());
 }
@@ -515,8 +515,8 @@ void ICQClient::sendCapability(const QString &away_msg)
     snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (m_bAIM){
         if (data.owner.ProfileFetch.toBool()){
-            QString profile = data.owner.About.str();
-            profile = QString("<HTML>") + profile + "</HTML>";
+            QString profile;
+            profile = QString("<HTML>") + data.owner.About.str() + "</HTML>";
             encodeString(profile, "text/aolrtf", 1, 2);
         }
         if (!away_msg.isNull())

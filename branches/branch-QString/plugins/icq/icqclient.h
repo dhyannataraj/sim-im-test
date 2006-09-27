@@ -445,7 +445,7 @@ const unsigned SEND_1STPART		= 0x0010;
 typedef struct ar_request
 {
     unsigned short    type;
-    unsigned short	  flags;
+    unsigned short    flags;
     unsigned short    ack;
     MessageId         id;
     unsigned short    id1;

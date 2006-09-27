@@ -115,10 +115,10 @@ DataDef jabberUserData[] =
         { "", DATA_ULONG, 1, 0 },			// ComposeId
         { "", DATA_BOOL, 1, DATA(1) },			// richText
         { "", DATA_BOOL, 1, 0 },
-        { "PhotoWidth", DATA_ULONG, 1, 0 },
-        { "PhotoHeight", DATA_ULONG, 1, 0 },
-        { "LogoWidth", DATA_ULONG, 1, 0 },
-        { "LogoHeight", DATA_ULONG, 1, 0 },
+        { "PhotoWidth", DATA_LONG, 1, 0 },
+        { "PhotoHeight", DATA_LONG, 1, 0 },
+        { "LogoWidth", DATA_LONG, 1, 0 },
+        { "LogoHeight", DATA_LONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// nResources
         { "", DATA_STRLIST, 1, 0 },			// Resources
         { "", DATA_STRLIST, 1, 0 },			// ResourceStatus
@@ -1145,6 +1145,48 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     dicon = "Yahoo!_ffc";
                     break;
                 }
+            }else if (h == "sms"){
+                switch (status){
+                    case STATUS_ONLINE:
+                        dicon = "sms_online";
+                        break;
+                    case STATUS_OFFLINE:
+                        dicon = "sms_offline";
+                        break;
+                    case STATUS_AWAY:
+                        dicon = "sms_away";
+                        break;
+                    case STATUS_NA:
+                        dicon = "sms_na";
+                        break;
+                    case STATUS_DND:
+                        dicon = "sms_dnd";
+                        break;
+                    case STATUS_FFC:
+                        dicon = "sms_ffc";
+                        break;
+                }
+            }else if (h == "x-gadugadu" || h == "gg"){
+                switch (status){
+                    case STATUS_ONLINE:
+                        dicon = "GG_online";
+                        break;
+                    case STATUS_OFFLINE:
+                        dicon = "GG_offline";
+                        break;
+                    case STATUS_AWAY:
+                        dicon = "GG_away";
+                        break;
+                    case STATUS_NA:
+                        dicon = "GG_na";
+                        break;
+                    case STATUS_DND:
+                        dicon = "GG_dnd";
+                        break;
+                    case STATUS_FFC:
+                        dicon = "GG_ffc";
+                        break;
+                }
             }
         }
     }
@@ -1305,7 +1347,7 @@ QString JabberClient::contactTip(void *_data)
         }
     }
 
-    if (data->LogoWidth.toULong() && data->LogoHeight.toULong()){
+    if (data->LogoWidth.toLong() && data->LogoHeight.toLong()){
         QImage img(logoFile(data));
         if (!img.isNull()){
             QPixmap pict;
@@ -1325,13 +1367,13 @@ QString JabberClient::contactTip(void *_data)
             }
             QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.logo", pict);
             res += "<br/><img src=\"pict://jabber.logo\" width=\"";
-			res += QString::number(w);
+            res += QString::number(w);
             res += "\" height=\"";
             res += QString::number(h);
             res += "\">";
         }
     }
-    if (data->PhotoWidth.toULong() && data->PhotoHeight.toULong()){
+    if (data->PhotoWidth.toLong() && data->PhotoHeight.toLong()){
         QImage img(photoFile(data));
         if (!img.isNull()){
             QPixmap pict;
@@ -1697,11 +1739,11 @@ bool JabberClient::canSend(unsigned type, void *_data)
     case MessageUrl:
         return true;
     case MessageAuthRequest:
-        return ((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.str());
+        return ((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0);
     case MessageAuthGranted:
-        return ((data->Subscribe.toULong() & SUBSCRIBE_FROM) == 0) && !isAgent(data->ID.str());
+        return ((data->Subscribe.toULong() & SUBSCRIBE_FROM) == 0);
     case MessageAuthRefused:
-        return (data->Subscribe.toULong() & SUBSCRIBE_FROM) && !isAgent(data->ID.str());
+        return (data->Subscribe.toULong() & SUBSCRIBE_FROM);
     case MessageJabberOnline:
         return isAgent(data->ID.str()) && (data->Status.toULong() == STATUS_OFFLINE);
     case MessageJabberOffline:
@@ -2063,6 +2105,14 @@ bool JabberClient::send(Message *msg, void *_data)
                 << "/"
                 << (const char*)msg->getResource();
             }
+            if (getTyping()){
+                data->composeId.asULong() = ++m_msg_id;
+                QString msg_id = "msg";
+                msg_id += QString::number(data->composeId.asULong());
+                m_socket->writeBuffer
+                << "\' id=\'"
+                << (const char*)msg_id.utf8();
+            }
             m_socket->writeBuffer
             << "\'><body>"
             << (const char*)encodeXML(text).utf8()
@@ -2072,6 +2122,12 @@ bool JabberClient::send(Message *msg, void *_data)
                 << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
                 << (const char*)removeImages(msg->getRichText(), msg->getBackground()).utf8()
                 << "</body></html>";
+            }
+            if (getTyping()){
+                m_socket->writeBuffer
+                << "<x xmlns='jabber:x:event'>"
+                << "<composing/>"
+                << "</x>";
             }
             m_socket->writeBuffer
             << "</message>";
@@ -2107,7 +2163,7 @@ bool JabberClient::send(Message *msg, void *_data)
             if (!msg->getResource().isEmpty()){
                 m_socket->writeBuffer
                 << "/"
-                << (const char*)msg->getResource();
+                << (const char*)msg->getResource().utf8();
             }
             m_socket->writeBuffer
             << "\'><body>"
@@ -2433,7 +2489,6 @@ bool JabberClient::isAgent(const QString &jid)
     return false;
 }
 
-
 void JabberClient::auth_request(const QString &jid, unsigned type, const QString &text, bool bCreate)
 {
     Contact *contact;
@@ -2581,7 +2636,7 @@ void JabberFileTransfer::bind_ready(unsigned short port)
     int n = fname.findRev('/');
     if (n >= 0)
         fname = fname.mid(n + 1);
-    m_url = fname.utf8();
+    m_url = fname;
     m_client->sendFileRequest(m_msg, port, m_data, m_url, m_fileSize);
 }
 
@@ -2943,11 +2998,7 @@ void JabberFileTransfer::connect()
         m_notify->createFile(m_msg->getDescription(), 0xFFFFFFFF, false);
 }
 
-#ifdef WIN32
-static char PICT_PATH[] = "pictures\\";
-#else
 static char PICT_PATH[] = "pictures/";
-#endif
 
 QString JabberClient::photoFile(JabberUserData *data)
 {

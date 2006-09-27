@@ -442,7 +442,7 @@ QString ICQClient::getServer() const
 
 void ICQClient::setServer(const QString &server)
 {
-    if (server && server != (m_bAIM ? aim_server : icq_server))
+    if (server == (m_bAIM ? aim_server : icq_server))
         data.Server.str() = QString::null;
     else
         data.Server.str() = server;
@@ -1057,7 +1057,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                 }
             }
         }
-        if (alias){
+        if (alias && !alias->isEmpty()){
             QString name = alias->lower();
             it.reset();
             while ((contact = ++it) != NULL){
@@ -1066,7 +1066,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                     data->Uin.asULong() = uin;
                     if (uin == 0)
                         data->Screen.str() = screen;
-                    data->Alias.str() = *alias;
+                    data->Alias.str() = alias ? *alias : QString::null;
                     Event e(EventContactChanged, contact);
                     e.process();
                     m_bJoin = true;
@@ -1419,7 +1419,7 @@ void ICQClient::setupContact(Contact *contact, void *_data)
 QString ICQClient::trimPhone(const QString &from)
 {
     QString res;
-    if (from == NULL)
+    if (from.isEmpty())
         return res;
     res = from;
     int idx = res.find("SMS");
