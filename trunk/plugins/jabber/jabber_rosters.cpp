@@ -1260,24 +1260,26 @@ JabberClient::MessageRequest::~MessageRequest()
     }
     Message *msg = NULL;
 
-    // JEP-0022 composing event handling
-    if (m_bBody){
-        // Msg contains normal message. 
-        // <composing/> here means "send me composing events, please", so we should do it.
-        // But if that tag is absent, we must not send them.
-        data->SendTypingEvents.asBool() = m_bCompose;
-        set_str(&data->TypingId.ptr, (m_bCompose ? m_id.c_str() : NULL));
-        /*
-        Event e(EventContactStatus, contact);
-        e.process();
-        */
-    }
-    else{
-        // Msg has no body ==> it is event message. 
-        // Presence of <composing/> here means "I'm typing", absence - "I'm not typing anymore".
-        data->IsTyping.asBool() = m_bCompose;
-        Event e(EventContactStatus, contact);
-        e.process();
+    if (!m_bError){
+        // JEP-0022 composing event handling
+        if (m_bBody){
+            // Msg contains normal message. 
+            // <composing/> here means "send me composing events, please", so we should do it.
+            // But if that tag is absent, we must not send them.
+            data->SendTypingEvents.asBool() = m_bCompose;
+            set_str(&data->TypingId.ptr, (m_bCompose ? m_id.c_str() : NULL));
+            /*
+            Event e(EventContactStatus, contact);
+            e.process();
+            */
+        }
+        else{
+            // Msg has no body ==> it is event message. 
+            // Presence of <composing/> here means "I'm typing", absence - "I'm not typing anymore".
+            data->IsTyping.asBool() = m_bCompose;
+            Event e(EventContactStatus, contact);
+            e.process();
+        }
     }
 
     if (m_errorCode || !m_error.empty()){
