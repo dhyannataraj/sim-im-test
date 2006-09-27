@@ -63,6 +63,8 @@ typedef struct JabberUserData
     SIM::Data		Group;
     SIM::Data		bChecked;
     SIM::Data		TypingId;
+    SIM::Data		SendTypingEvents;
+    SIM::Data		IsTyping;
     SIM::Data		composeId;
     SIM::Data		richText;
     SIM::Data		invisible;

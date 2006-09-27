@@ -803,9 +803,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
 {
     unsigned status = STATUS_UNKNOWN;
     bool bInvisible = false;
-    /*
-        m_type - flags after draft-ietf-xmpp-core-16 / 8.4.1
-    */
+    // RFC 3921 "XMPP IM": 2.2.1. Types of Presence
     if (m_type == "unavailable"){
         status = STATUS_OFFLINE;
     }else if (m_type == "subscribe"){
@@ -822,7 +820,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
     }else if (m_type == "error"){
         log(L_DEBUG, "An error has occurred regarding processing or delivery of a previously-sent presence stanza");
     }else if (m_type.length() == 0){
-        // m_show - flags after draft-ietf-xmpp-im-15 / 4.2
+        // RFC 3921 "XMPP IM": 2.2.2.1. Show
         status = STATUS_ONLINE;
         if (m_show == "away"){
             status = STATUS_AWAY;
@@ -835,6 +833,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
         }else if (m_show == "online"){
             status = STATUS_ONLINE;
         }else if (m_show.empty()){
+            // RFC 3921 "XMPP IM": 2.2.2.2. Status
             status = STATUS_ONLINE;
             if (m_status == "Online"){
                 status = STATUS_ONLINE;
@@ -945,6 +944,11 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     data->OnlineTime.asULong() = time1;
                     data->richText.asBool() = true;
                 }
+                if (status == STATUS_OFFLINE && data->IsTyping.toBool()){
+                    data->IsTyping.asBool() = false;
+                    Event e(EventContactStatus, contact);
+                    e.process();
+                }                  
                 data->Status.asULong() = status;
                 data->StatusTime.asULong() = time1;
             }
@@ -1255,35 +1259,27 @@ JabberClient::MessageRequest::~MessageRequest()
         contact->setFlags(CONTACT_TEMP);
     }
     Message *msg = NULL;
-    if (!m_id.empty()){
-        if (m_bError)
-            return;
-        string typing_id;
-        if (data->TypingId.ptr)
-            typing_id = data->TypingId.ptr;
-        string new_typing_id;
-        bool bProcess = false;
-        while (!typing_id.empty()){
-            string id = getToken(typing_id, ';');
-            if (id == m_id){
-                if (!m_bCompose)
-                    continue;
-                bProcess = true;
-            }
-            if (!new_typing_id.empty())
-                new_typing_id += ";";
-            new_typing_id += id;
-        }
-        if (!bProcess && m_bCompose){
-            if (!new_typing_id.empty())
-                new_typing_id += ";";
-            new_typing_id += m_id;
-        }
-        if (set_str(&data->TypingId.ptr, new_typing_id.c_str())){
-            Event e(EventContactStatus, contact);
-            e.process();
-        }
+
+    // JEP-0022 composing event handling
+    if (m_bBody){
+        // Msg contains normal message. 
+        // <composing/> here means "send me composing events, please", so we should do it.
+        // But if that tag is absent, we must not send them.
+        data->SendTypingEvents.asBool() = m_bCompose;
+        set_str(&data->TypingId.ptr, (m_bCompose ? m_id.c_str() : NULL));
+        /*
+        Event e(EventContactStatus, contact);
+        e.process();
+        */
     }
+    else{
+        // Msg has no body ==> it is event message. 
+        // Presence of <composing/> here means "I'm typing", absence - "I'm not typing anymore".
+        data->IsTyping.asBool() = m_bCompose;
+        Event e(EventContactStatus, contact);
+        e.process();
+    }
+
     if (m_errorCode || !m_error.empty()){
         if (!m_bEvent){
             JabberMessageError *m = new JabberMessageError;
@@ -1362,6 +1358,7 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     m_data = NULL;
     if (!strcmp(el, "message")){
         m_from = JabberClient::get_attr("from", attr);
+        m_id = JabberClient::get_attr("id", attr);
         if (JabberClient::get_attr("type", attr) == "error")
             m_bError = true;
         return;
@@ -1380,14 +1377,18 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
         m_data = &m_error;
         return;
     }
-    if (!strcmp(el, "composing")){
-        m_bCompose = true;
+    if (m_bEvent){
+        // Parsing <x xmlns='jabber:x:event'> tag, which contains JEP-0022 event info
+        if (!strcmp(el, "composing"))
+            m_bCompose = true;
         return;
     }
+    /*
     if (!strcmp(el, "id")){
         m_data = &m_id;
         return;
     }
+    */
     if (!strcmp(el, "url-data")){
         m_target = JabberClient::get_attr("target", attr);
         m_desc = "";

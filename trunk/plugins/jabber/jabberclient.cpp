@@ -114,6 +114,8 @@ DataDef jabberUserData[] =
         { "Group", DATA_UTF, 1, 0 },
         { "", DATA_BOOL, 1, 0 },			// bChecked
         { "", DATA_STRING, 1, 0 },			// TypingId
+        { "", DATA_BOOL, 1, 0 },			// SendTypingEvents
+        { "", DATA_BOOL, 1, 0 },			// IsTyping
         { "", DATA_ULONG, 1, 0 },			// ComposeId
         { "", DATA_BOOL, 1, DATA(1) },			// richText
         { "", DATA_BOOL, 1, 0 },
@@ -1235,7 +1237,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
     }
     if (((data->Subscribe.toULong() & SUBSCRIBE_TO) == 0) && !isAgent(data->ID.ptr))
         style |= CONTACT_UNDERLINE;
-    if (icons && data->TypingId.ptr && *data->TypingId.ptr)
+    if (icons && data->IsTyping.toBool())
         addIcon(icons, "typing", statusIcon);
 }
 
@@ -1440,8 +1442,9 @@ void JabberClient::setOffline(JabberUserData *data)
     data->ResourceStatusTime.clear();
     data->ResourceOnlineTime.clear();
     data->nResources.asULong() = 0;
-    if (data->TypingId.ptr && *data->TypingId.ptr){
-        set_str(&data->TypingId.ptr, NULL);
+    set_str(&data->TypingId.ptr, NULL);
+    if (data->IsTyping.toBool()){
+        data->IsTyping.asBool() = false;      
         Contact *contact;
         string resource;
         if (findContact(data->ID.ptr, NULL, false, contact, resource)){
@@ -2458,15 +2461,16 @@ bool JabberClient::send(Message *msg, void *_data)
         break;
     case MessageTypingStart:
         if (getTyping()){
-            data->composeId.asULong() = ++m_msg_id;
-            string msg_id = "msg";
-            msg_id += number(data->composeId.asULong());
+            //data->composeId.asULong() = ++m_msg_id;
+            //string msg_id = "msg";
+            //msg_id += number(data->composeId.asULong());
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message to=\'"
             << data->ID.ptr
             << "\'><x xmlns='jabber:x:event'><composing/><id>"
-            << msg_id.c_str()
+            //<< msg_id.c_str()
+            << (data->TypingId.ptr ? data->TypingId.ptr : "")
             << "</id></x></message>";
             sendPacket();
             delete msg;
@@ -2475,16 +2479,16 @@ bool JabberClient::send(Message *msg, void *_data)
         break;
     case MessageTypingStop:
         if (getTyping()){
-            if (data->composeId.toULong() == 0)
-                return false;
-            string msg_id = "msg";
-            msg_id += number(data->composeId.toULong());
+            //if (data->composeId.toULong() == 0)
+            //    return false;
+            //string msg_id = "msg";
+            //msg_id += number(data->composeId.toULong());
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message to=\'"
             << data->ID.ptr
             << "\'><x xmlns='jabber:x:event'><id>"
-            << msg_id.c_str()
+            << (data->TypingId.ptr ? data->TypingId.ptr : "")//msg_id.c_str()
             << "</id></x></message>";
             sendPacket();
             delete msg;
