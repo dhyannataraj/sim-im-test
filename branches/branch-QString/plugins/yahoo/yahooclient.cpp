@@ -212,7 +212,6 @@ bool YahooClient::canSend(unsigned type, void *_data)
 
 void YahooClient::packet_ready()
 {
-    log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
     if (m_bHeader){
         char header[4];
         m_socket->readBuffer.unpack(header, 4);
@@ -358,7 +357,7 @@ void YahooClient::process_packet(Params &params)
             return;
         case YAHOO_LOGIN_PASSWD:
             m_reconnect = NO_RECONNECT;
-            m_socket->error_state(I18N_NOOP("Login failed"), AuthError);
+            m_socket->error_state(I18N_NOOP("Wrong password"), AuthError);
             return;
         case YAHOO_LOGIN_LOCK:
             m_reconnect = NO_RECONNECT;
@@ -2557,7 +2556,3 @@ void YahooFileTransfer::connect()
 #ifndef NO_MOC_INCLUDES
 #include "yahooclient.moc"
 #endif
-
-
-
-
