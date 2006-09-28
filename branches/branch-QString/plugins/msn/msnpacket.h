@@ -29,7 +29,7 @@ public:
     virtual ~MSNPacket(){}
     const QString &cmd() const { return m_cmd; }
     unsigned id()        const { return m_id; }
-    virtual void        answer(QStringList&) {};
+    virtual void        answer(const QStringList&) {};
     virtual void        error(unsigned code);
     void                addArg(const QString &str);
     void                addArg(const char *str);
