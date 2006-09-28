@@ -1268,10 +1268,13 @@ JabberClient::MessageRequest::~MessageRequest()
             // But if that tag is absent, we must not send them.
             data->SendTypingEvents.asBool() = m_bCompose;
             set_str(&data->TypingId.ptr, (m_bCompose ? m_id.c_str() : NULL));
-            /*
-            Event e(EventContactStatus, contact);
-            e.process();
-            */
+
+            // also, incoming message implicitly means that user has stopped typing
+            if (data->IsTyping.toBool()){
+                data->IsTyping.asBool() = false;
+                Event e(EventContactStatus, contact);
+                e.process();
+            }
         }
         else{
             // Msg has no body ==> it is event message. 
