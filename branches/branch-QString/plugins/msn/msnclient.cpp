@@ -1277,12 +1277,13 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *
 
 void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
 {
-    AuthMessage msg(type);
-    msg.setClient(dataName(data));
-    msg.setContact(contact->id());
-    msg.setFlags(MESSAGE_RECEIVED);
-    Event e(EventMessageReceived, &msg);
-    e.process();
+    AuthMessage *msg = new AuthMessage(type);
+    msg->setClient(dataName(data));
+    msg->setContact(contact->id());
+    msg->setFlags(MESSAGE_RECEIVED);
+    Event e(EventMessageReceived, msg);
+    if(!e.process())
+        delete msg;
 }
 
 bool MSNClient::done(unsigned code, Buffer&, const char *headers)
