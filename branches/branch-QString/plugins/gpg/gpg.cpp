@@ -31,6 +31,7 @@
 #include <qregexp.h>
 #include <qprocess.h>
 #include <qstring.h>
+#include <qapplication.h> //for Linux: qApp->processEvents();
 
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
@@ -415,7 +416,7 @@ void *GpgPlugin::processEvent(Event *e)
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (!data || data->Key.str().isEmpty())
                         return NULL;
-                    if (data->Use.asBool())
+                    if (data->Use.toBool())
                         cmd->flags |= COMMAND_CHECKED;
                     return e->param();
                 }
@@ -465,7 +466,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && !data->Key.str().isEmpty() && data->Use.asBool()){
+                    if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
                         msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                         if (msg->getFlags() & MESSAGE_RICHTEXT){
                             QString text = msg->getPlainText();
@@ -484,7 +485,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(ms->msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && !data->Key.str().isEmpty() && data->Use.asBool()){
+                    if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
                         QString output = user_file("m.");
                         output += QString::number((unsigned long)ms->msg);
                         QString input = output + ".in";

@@ -35,7 +35,6 @@ public slots:
     void refresh();
     void publicReady();
 protected:
-    void fillPublic(ConfigBuffer *b);
     QProcess    *m_process;
     QString     m_key;
 };

@@ -213,12 +213,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             QString screen = m_socket->readBuffer.unpackScreen();
             bool bAck = false;
             if (m_send.id == id){
-                const char *p1 = screen.latin1();
-                const char *p2 = m_send.screen.latin1();
-                for (; *p1 && *p2; p1++, p2++)
-                    if (tolower(*p1) != tolower(*p2))
-                        break;
-                if ((*p1 == 0) && (*p2 == 0))
+                if(screen.lower == m_send.screen.lower())
                     bAck = true;
             }
             if (bAck){
