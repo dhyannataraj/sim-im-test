@@ -621,13 +621,14 @@ void JabberClient::setStatus(unsigned status, const char *ar)
                     continue;
                 data->StatusTime.asULong() = now;
                 setOffline(data);
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
-                m.setFlags(MESSAGE_RECEIVED);
-                m.setStatus(STATUS_OFFLINE);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage;
+                m->setContact(contact->id());
+                m->setClient(dataName(data).c_str());
+                m->setFlags(MESSAGE_RECEIVED);
+                m->setStatus(STATUS_OFFLINE);
+                Event e(EventMessageReceived, m);
+                if(!e.process())
+                    delete m;
             }
         }
     }
@@ -2632,11 +2633,6 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
         e.process();
         return;
     }
-    //FIXME: In EventMessageReceived handler from filter plugin, there is conditional delete(msg)
-    //that causes crash when filter plugin configured to block Authorisation messages.
-    //So parameter must be pointer to object from heap, but then I don't know how it can be safely
-    //feed if it wasn't in EventMessageReceived. serzh.
-    //12.june.2006 zowers: FIXED.
     JabberAuthMessage *msg = new JabberAuthMessage(tempAuthMessages, type);
     msg->setContact(contact->id());
     msg->setClient(dataName(data).c_str());

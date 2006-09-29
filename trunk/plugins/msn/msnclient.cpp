@@ -264,13 +264,14 @@ void MSNClient::disconnected()
                 bChanged = true;
             }
             if (bChanged){
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
-                m.setFlags(MESSAGE_RECEIVED);
-                m.setStatus(STATUS_OFFLINE);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(dataName(data).c_str());
+                m->setFlags(MESSAGE_RECEIVED);
+                m->setStatus(STATUS_OFFLINE);
+                Event e(EventMessageReceived, m);
+                if(!e.process())
+                    delete m;
             }
         }
     }
@@ -589,13 +590,14 @@ void MSNClient::getLine(const char *line)
                 set_ip(&data->RealIP, 0);
             }
             data->StatusTime.asULong() = now;
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
-            m.setFlags(MESSAGE_RECEIVED);
-            m.setStatus(status);
-            Event e(EventMessageReceived, &m);
-            e.process();
+            StatusMessage *m = new StatusMessage();
+            m->setContact(contact->id());
+            m->setClient(dataName(data).c_str());
+            m->setFlags(MESSAGE_RECEIVED);
+            m->setStatus(status);
+            Event e(EventMessageReceived, m);
+            if(!e.process())
+                delete m;
         }
         return;
     }
@@ -612,13 +614,14 @@ void MSNClient::getLine(const char *line)
             }
             data->StatusTime.asULong() = now;
             data->Status.asULong() = status;
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
-            m.setFlags(MESSAGE_RECEIVED);
-            m.setStatus(status);
-            Event e(EventMessageReceived, &m);
-            e.process();
+            StatusMessage *m = new StatusMessage();
+            m->setContact(contact->id());
+            m->setClient(dataName(data).c_str());
+            m->setFlags(MESSAGE_RECEIVED);
+            m->setStatus(status);
+            Event e(EventMessageReceived, m);
+            if(!e.process())
+                delete m;
             if ((status == STATUS_ONLINE) && !contact->getIgnore()){
                 Event e(EventContactOnline, contact);
                 e.process();
@@ -633,13 +636,14 @@ void MSNClient::getLine(const char *line)
             time_t now = time(NULL);
             data->StatusTime.asULong() = now;
             data->Status.asULong() = STATUS_OFFLINE;
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
-            m.setFlags(MESSAGE_RECEIVED);
-            m.setStatus(STATUS_OFFLINE);
-            Event e(EventMessageReceived, &m);
-            e.process();
+            StatusMessage *m = new StatusMessage();
+            m->setContact(contact->id());
+            m->setClient(dataName(data).c_str());
+            m->setFlags(MESSAGE_RECEIVED);
+            m->setStatus(STATUS_OFFLINE);
+            Event e(EventMessageReceived, m);
+            if(!e.process())
+                delete m;
         }
         return;
     }
@@ -1322,12 +1326,13 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const char *name, Group *&gr
 
 void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
 {
-    AuthMessage msg(type);
-    msg.setClient(dataName(data).c_str());
-    msg.setContact(contact->id());
-    msg.setFlags(MESSAGE_RECEIVED);
-    Event e(EventMessageReceived, &msg);
-    e.process();
+    AuthMessage *msg = new AuthMessage(type);
+    msg->setClient(dataName(data).c_str());
+    msg->setContact(contact->id());
+    msg->setFlags(MESSAGE_RECEIVED);
+    Event e(EventMessageReceived, msg);
+    if(!e.process())
+        delete msg;
 }
 
 bool MSNClient::done(unsigned code, Buffer&, const char *headers)

@@ -701,6 +701,9 @@ typedef struct messageSend
     std::string *text;
 } messageSend;
 
+// Param: Message*
+// Make sure Message * is a pointer to the heap since the message
+// maybe gets destroyed during it's way through the plugins
 const unsigned EventMessageReceived = 0x1100;
 const unsigned EventMessageSent     = 0x1101;
 const unsigned EventMessageCancel   = 0x1102;

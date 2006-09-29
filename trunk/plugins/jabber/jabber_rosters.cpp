@@ -948,7 +948,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     data->IsTyping.asBool() = false;
                     Event e(EventContactStatus, contact);
                     e.process();
-                }                  
+                }
                 data->Status.asULong() = status;
                 data->StatusTime.asULong() = time1;
             }
@@ -957,13 +957,14 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 bChanged = true;
             }
             if (bChanged){
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(m_client->dataName(data).c_str());
-                m.setFlags(MESSAGE_RECEIVED);
-                m.setStatus(status);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(m_client->dataName(data).c_str());
+                m->setFlags(MESSAGE_RECEIVED);
+                m->setStatus(status);
+                Event e(EventMessageReceived, m);
+                if(!e.process())
+                    delete m;
             }
             if (bOnLine && !contact->getIgnore() && !m_client->isAgent(data->ID.ptr)){
                 Event e(EventContactOnline, contact);

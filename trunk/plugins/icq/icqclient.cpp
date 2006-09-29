@@ -663,13 +663,14 @@ void ICQClient::disconnected()
         while ((data = (ICQUserData*)(++it)) != NULL){
             if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) || data->bInvisible.toBool()){
                 setOffline(data);
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
-                m.setStatus(STATUS_OFFLINE);
-                m.setFlags(MESSAGE_RECEIVED);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(dataName(data).c_str());
+                m->setStatus(STATUS_OFFLINE);
+                m->setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, m);
+                if(!e.process())
+                    delete m;
             }
         }
     }

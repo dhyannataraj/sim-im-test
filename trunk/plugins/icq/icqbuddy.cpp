@@ -61,13 +61,14 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         data = findContact(screen.c_str(), NULL, false, contact);
         if (data && (data->Status.toULong() != ICQ_STATUS_OFFLINE)){
             setOffline(data);
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
-            m.setStatus(STATUS_OFFLINE);
-            m.setFlags(MESSAGE_RECEIVED);
-            Event e(EventMessageReceived, &m);
-            e.process();
+            StatusMessage *m = new StatusMessage();
+            m->setContact(contact->id());
+            m->setClient(dataName(data).c_str());
+            m->setStatus(STATUS_OFFLINE);
+            m->setFlags(MESSAGE_RECEIVED);
+            Event e(EventMessageReceived, m);
+            if(!e.process())
+                delete m;
         }
         break;
     case ICQ_SNACxBDY_USERONLINE:
@@ -412,13 +413,14 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 }
                 if ((status == STATUS_ONLINE) && (data->Class.toULong() & CLASS_AWAY))
                     status = STATUS_AWAY;
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
-                m.setStatus(status);
-                m.setFlags(MESSAGE_RECEIVED);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(dataName(data).c_str());
+                m->setStatus(status);
+                m->setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, m);
+                if(!e.process())
+                    delete m;
                 if (!contact->getIgnore() &&
                         ((data->Class.toULong() & CLASS_AWAY) == 0) &&
                         (((data->Status.toULong() & 0xFF) == ICQ_STATUS_ONLINE) &&

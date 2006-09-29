@@ -912,13 +912,14 @@ void YahooClient::processStatus(unsigned short service, const char *id,
         contactInfo(data, new_status, style, statusIcon);
 
         if (old_status != new_status){
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data).c_str());
-            m.setFlags(MESSAGE_RECEIVED);
-            m.setStatus(STATUS_OFFLINE);
-            Event e(EventMessageReceived, &m);
-            e.process();
+            StatusMessage *m = new StatusMessage();
+            m->setContact(contact->id());
+            m->setClient(dataName(data).c_str());
+            m->setFlags(MESSAGE_RECEIVED);
+            m->setStatus(STATUS_OFFLINE);
+            Event e(EventMessageReceived, m);
+            if(!e.process())
+                delete m;
             if ((new_status == STATUS_ONLINE) && !contact->getIgnore() && (getState() == Connected) &&
                     (data->StatusTime.toULong() > this->data.owner.OnlineTime.toULong() + 30)){
                 Event e(EventContactOnline, contact);
@@ -1027,13 +1028,14 @@ void YahooClient::disconnected()
         while ((data = (YahooUserData*)(++it)) != NULL){
             if (data->Status.toULong() != YAHOO_STATUS_OFFLINE){
                 data->Status.asULong() = YAHOO_STATUS_OFFLINE;
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(dataName(data).c_str());
-                m.setStatus(STATUS_OFFLINE);
-                m.setFlags(MESSAGE_RECEIVED);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(dataName(data).c_str());
+                m->setStatus(STATUS_OFFLINE);
+                m->setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, m);
+                if(!e.process())
+                    delete m;
             }
         }
     }
