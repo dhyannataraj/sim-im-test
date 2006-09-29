@@ -168,13 +168,9 @@ void *FilterPlugin::processEvent(Event *e)
         Contact *contact = getContacts()->contact(msg->contact());
         FilterUserData *data = NULL;
         // check if we accept only from users on the list
-        if (
-            ((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
-	    (
-	        getFromList() ||
-		( getAuthFromList() && msg->type() <= MessageContacts)
-            )
-	) {
+        if ( ((contact == NULL) || contact->getFlags() & CONTACT_TEMPORARY) &&
+	          (getFromList() || (getAuthFromList() && msg->type() <= MessageContacts))
+            ) {
             delete msg;
             delete contact;
             return msg;

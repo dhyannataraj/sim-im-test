@@ -213,7 +213,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             QString screen = m_socket->readBuffer.unpackScreen();
             bool bAck = false;
             if (m_send.id == id){
-                if(screen.lower == m_send.screen.lower())
+                if(screen.lower() == m_send.screen.lower())
                     bAck = true;
             }
             if (bAck){
