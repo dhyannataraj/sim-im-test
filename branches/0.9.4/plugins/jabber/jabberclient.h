@@ -63,6 +63,8 @@ typedef struct JabberUserData
     Data		Group;
     Data		bChecked;
     Data		TypingId;
+    Data		SendTypingEvents;
+    Data		IsTyping;
     Data		composeId;
     Data		richText;
     Data		invisible;
