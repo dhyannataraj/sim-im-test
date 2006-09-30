@@ -405,8 +405,6 @@ EXPORT void free_data(const DataDef *def, void *d)
             case DATA_UNKNOWN:
                 // stop at the end of structure no matter if DataDef has more ...
                 return;
-            case DATA_STRING:
-            case DATA_STRMAP:
             default:
                 data->clear();
             }
@@ -472,7 +470,8 @@ void init_data(const DataDef *d, Data *data)
             data->setType(def->type);
             switch (def->type){
             case DATA_STRING:
-                data->str() = def->def_value ? QString(def->def_value) : QString::null;
+                if(def->def_value && *def->def_value)
+                    data->str() = QString(def->def_value);
                 break;
             case DATA_STRMAP: {
                 QStringList sl = QStringList::split(',',def->def_value);
@@ -480,7 +479,8 @@ void init_data(const DataDef *d, Data *data)
                 for(unsigned i = 0; i < sl.count(); i++) {
                     sm.insert(i, sm[(int)i]);
                 }
-                data->strMap() = sm;
+                if(sm.count())
+                    data->strMap() = sm;
                 break;
            }
             case DATA_ULONG:
@@ -493,13 +493,9 @@ void init_data(const DataDef *d, Data *data)
                 data->asBool() = (def->def_value != NULL);
                 break;
             case DATA_OBJECT:
-                data->setObject(NULL);
-                break;
             case DATA_IP:
-                data->setIP(NULL);
-                break;
             case DATA_BINARY:
-                data->asBinary() = QByteArray();
+                // no need to init here - init on use
                 break;
             case DATA_STRUCT:
                 init_data((DataDef*)(def->def_value), data);
@@ -508,7 +504,6 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_UNKNOWN:
             default:
-                data->clear();
                 break;
             }
         }
@@ -566,7 +561,7 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
         }
         case DATA_STRMAP: {
             int idx = val.find( ',' );
-            if( idx == -1 )
+            if(idx == -1)
                 break;
             QString cnt = val.left( idx );
             int i = cnt.toULong();
@@ -623,12 +618,10 @@ EXPORT void load_data(const DataDef *d, void *_data, ConfigBuffer *cfg)
                 QString s = sl[i];
                 if(s.isEmpty())
                     continue;
-                QByteArray ba;
-                while(s.length()) {
-                    ba.resize(ba.size()+1);   // FIXME!!! please!
-                    QString t = s.left(2);
-                    ba.data()[i] = (char)t.toShort(NULL, 16);
-                    s = s.mid(2);
+                int size = s.length() / 2;
+                QByteArray ba(size);
+                for(int cnt = 0; cnt < size; cnt++) {
+                    ba.data()[cnt] = (char)s.mid(cnt * 2, 2).toShort(NULL, 16);
                 }
                 ld->setBinary(ba);
             }
@@ -1035,7 +1028,8 @@ void Data::clear(bool bNew)
     if(data) {
         delete data->m_dataAsQString;
         delete data->m_dataAsQStringMap;
-        delete data->m_dataAsBinary;
+        if(data->m_dataAsBinary)
+            delete data->m_dataAsBinary;
         delete data;
     }
     data = bNew ? new DataPrivate : NULL;
@@ -1062,7 +1056,10 @@ bool Data::setStr(const QString &s)
     checkType(DATA_STRING);
     if(data->m_dataAsQString && s == *data->m_dataAsQString)
         return false;
-    *data->m_dataAsQString = s;
+    if(!data->m_dataAsQString)
+        data->m_dataAsQString = new QString(s);
+    else
+        *data->m_dataAsQString = s;
     return true;
 }
 
@@ -1087,8 +1084,9 @@ bool Data::setStrMap(const STRING_MAP &s)
     checkType(DATA_STRMAP);
     // ... 
     if(!data->m_dataAsQStringMap)
-        data->m_dataAsQStringMap = new STRING_MAP();
-    *data->m_dataAsQStringMap = s;
+        data->m_dataAsQStringMap = new STRING_MAP(s);
+    else
+        *data->m_dataAsQStringMap = s;
     return true;
 }
 
@@ -1196,7 +1194,10 @@ bool Data::setBinary(const QByteArray &d)
     checkType(DATA_BINARY);
     if(data->m_dataAsBinary && d == *data->m_dataAsBinary)
         return false;
-    *data->m_dataAsBinary = d;
+    if(!data->m_dataAsBinary)
+        data->m_dataAsBinary = new QByteArray(d);
+    else
+        *data->m_dataAsBinary = d;
     return true;
 }
 

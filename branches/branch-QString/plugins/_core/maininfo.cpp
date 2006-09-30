@@ -542,7 +542,7 @@ void MainInfo::fillEncoding()
 
 void MainInfo::getEncoding(bool SendContactChangedEvent)
 {
-    string encoding;
+    QString encoding;
     int n = cmbEncoding->currentItem();
     QString t = cmbEncoding->currentText();
     Contact *contact = m_contact;
@@ -580,12 +580,12 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
                 str = str.mid(n + 1);
                 n = str.find(')');
                 str = str.left(n);
-                encoding = str.latin1();
+                encoding = str;
                 break;
             }
         }
     }
-    if (!contact->setEncoding(encoding.c_str()))
+    if (!contact->setEncoding(encoding))
         return;
     if (SendContactChangedEvent){
         Event e(EventContactChanged, contact);
