@@ -70,7 +70,7 @@ CommonStatus::~CommonStatus()
 void CommonStatus::setBarStatus()
 {
     const char *text = I18N_NOOP("Inactive");
-    const char *icon = "inactive";
+    const char *icon = "SIM_inactive";
 
     m_bConnected = false;
     bool bActive = getSocketFactory()->isActive();
@@ -109,19 +109,11 @@ void CommonStatus::setBarStatus()
             }
             unsigned status;
             if (m_bBlink){
-                icon = "online";
+                icon = "SIM_online";
                 status = CorePlugin::m_plugin->getManualStatus();
             }else{
-                icon = "offline";
+                icon = "SIM_offline";
                 status = STATUS_OFFLINE;
-            }
-            if (protocol){
-                for (const CommandDef *d = protocol->statusList(); d->text; d++){
-                    if (d->id == status){
-                        icon = d->icon;
-                        break;
-                    }
-                }
             }
         }else{
             if (m_timer){
@@ -135,7 +127,7 @@ void CommonStatus::setBarStatus()
                 if (!client->getCommonStatus())
                     continue;
                 if (client->getState() == Client::Error){
-                    icon = "error";
+                    icon = "SIM_error";
                     text = I18N_NOOP("Error");
                     break;
                 }
@@ -149,7 +141,7 @@ void CommonStatus::setBarStatus()
                         for (i = 0; i < getContacts()->nClients(); i++){
                             Client *client = getContacts()->getClient(i);
                             if (client->protocol()->description()->flags & PROTOCOL_INVISIBLE){
-                                icon = client->protocol()->description()->icon_on;
+                                icon = "SIM_invisible";
                                 text = I18N_NOOP("&Invisible");
                                 break;
                             }
@@ -157,11 +149,30 @@ void CommonStatus::setBarStatus()
                     }
                     if (i >= getContacts()->nClients()){
                         for (d = client->protocol()->statusList(); d->text; d++){
-                            if (d->id == status){
-                                icon = d->icon;
-                                text = d->text;
-                                break;
-                            }
+                             if (d->id == status){
+                                 switch (status){
+                                 case STATUS_ONLINE: 
+                                     icon="SIM_online";
+                                     break;
+                                 case STATUS_AWAY:
+                                     icon="SIM_away";
+                                     break;
+                                 case STATUS_NA:
+                                     icon="SIM_na";
+                                     break;
+                                 case STATUS_DND:
+                                     icon="SIM_dnd";
+                                     break;
+                                 case STATUS_FFC:
+                                     icon="SIM_ffc";
+                                     break;
+                                 case STATUS_OFFLINE:
+                                     icon="SIM_offline";
+                                     break;
+                                 }
+                                 text = d->text;
+                                 break;
+                             }
                         }
                     }
                 }
@@ -217,11 +228,10 @@ void CommonStatus::rebuildStatus()
             nInvisible = i;
     }
     if (nInvisible != -1){
-        Client *client = getContacts()->getClient(nInvisible);
         Command cmd;
         cmd->id			= CmdInvisible;
         cmd->text		= I18N_NOOP("&Invisible");
-        cmd->icon		= client->protocol()->description()->icon_on;
+        cmd->icon		= "SIM_invisible";
         cmd->menu_id	= MenuStatus;
         cmd->menu_grp	= 0x2000;
         cmd->flags		= COMMAND_CHECK_STATE;
@@ -243,6 +253,26 @@ void CommonStatus::rebuildStatus()
             FirstStatus = cmd->id;
         if ((ManualStatus == 0) && (CorePlugin::m_plugin->getManualStatus() == cmd->id))
             ManualStatus = cmd->id;
+        switch (c.id){
+        case STATUS_ONLINE: 
+            c.icon="SIM_online";
+            break;
+        case STATUS_AWAY:
+            c.icon="SIM_away";
+            break;
+        case STATUS_NA:
+            c.icon="SIM_na";
+            break;
+        case STATUS_DND:
+            c.icon="SIM_dnd";
+            break;
+        case STATUS_FFC:
+            c.icon="SIM_ffc";
+            break;
+        case STATUS_OFFLINE:
+            c.icon="SIM_offline";
+            break;
+        }
         c.menu_id  = MenuStatus;
         c.menu_grp = id++;
         c.flags = COMMAND_CHECK_STATE;

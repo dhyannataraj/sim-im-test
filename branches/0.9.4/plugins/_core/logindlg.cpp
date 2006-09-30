@@ -55,7 +55,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
         setIcon(Pict(m_client->protocol()->description()->icon));
     }else{
         setCaption(i18n("Select profile"));
-        setIcon(Pict("ICQ"));
+        setIcon(Pict("SIM"));
     }
     if (m_client){
         chkSave->hide();

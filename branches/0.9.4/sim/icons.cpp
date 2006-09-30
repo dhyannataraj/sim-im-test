@@ -714,7 +714,7 @@ PictDef *WrkIconSet::getPict(const char *name)
                 break;
         }
         if (p == NULL){
-            icon_name = "ICQ";
+            icon_name = "SIM";
             p = SIM::getPict(icon_name);
         }
         if (p == NULL)

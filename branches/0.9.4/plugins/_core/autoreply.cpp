@@ -36,7 +36,29 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
         for (const CommandDef *d = getContacts()->getClient(i)->protocol()->statusList(); d->text; d++){
             if (d->id == status){
                 text = d->text;
-                icon = d->icon;
+                switch (d->id){
+                case STATUS_ONLINE: 
+                    icon="SIM_online";
+                    break;
+                case STATUS_AWAY:
+                    icon="SIM_away";
+                    break;
+                case STATUS_NA:
+                    icon="SIM_na";
+                    break;
+                case STATUS_DND:
+                    icon="SIM_dnd";
+                    break;
+                case STATUS_FFC:
+                    icon="SIM_ffc";
+                    break;
+                case STATUS_OFFLINE:
+                    icon="SIM_offline";
+                    break;
+                default:
+                    icon=d->icon;
+                    break;
+                }
                 break;
             }
         }

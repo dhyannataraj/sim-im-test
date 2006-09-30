@@ -57,8 +57,7 @@ EXTRA_DIST = \
 	sim-kde.menu \
 	sim.desktop \
 	sim.cpp \
-	icq.ico \
-	*.h
+	sim.ico
 
 
 install-data-local:
