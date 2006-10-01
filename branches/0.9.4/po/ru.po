@@ -8186,42 +8186,42 @@ msgstr "Unicode"
 # client.cpp:60 client.cpp:61
 #: sim/contacts.cpp:2008 sim/contacts.cpp:2009
 msgid "Baltic"
-msgstr "Балтика"
+msgstr "Балтийские языки"
 
 # client.cpp:57 client.cpp:58
 #: sim/contacts.cpp:2011 sim/contacts.cpp:2013
 msgid "Central European"
-msgstr "Центральная Европа"
+msgstr "Центральноевропейские языки"
 
 # libicq/country.cpp:13
 #: sim/contacts.cpp:2015
 msgid "Chinese "
-msgstr "Китайский"
+msgstr "Китайская"
 
 # client.cpp:74 client.cpp:75
 #: sim/contacts.cpp:2016
 msgid "Chinese Simplified"
-msgstr "Упрощенный китайский"
+msgstr "Упрощенная китайская"
 
 # client.cpp:73
 #: sim/contacts.cpp:2017
 msgid "Chinese Traditional"
-msgstr "Традиционный китайский"
+msgstr "Традиционная китайская"
 
 # client.cpp:63 client.cpp:65
 #: sim/contacts.cpp:2019 sim/contacts.cpp:2020 sim/contacts.cpp:2022
 msgid "Cyrillic"
-msgstr "Русский"
+msgstr "Кириллица"
 
 # client.cpp:54 client.cpp:55 client.cpp:56
 #: sim/contacts.cpp:2036 sim/contacts.cpp:2037 sim/contacts.cpp:2038
 msgid "Western European"
-msgstr "Западная Европа"
+msgstr "Западноевропейские языки"
 
 # client.cpp:82
 #: sim/contacts.cpp:2040
 msgid "Tamil"
-msgstr "Тамильский"
+msgstr "Тамильская"
 
 # libicq/country.cpp:71
 #: sim/country.cpp:25
