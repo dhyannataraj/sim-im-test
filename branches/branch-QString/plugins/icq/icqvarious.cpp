@@ -1076,8 +1076,9 @@ static QString getICombo(const char *tlvData, const QString &o)
 {
     QString ret;
     QString others = o;
+    const unsigned char *data = (const unsigned char*)tlvData;
 
-    unsigned cat = tlvData[0] | ( tlvData[1] << 8 );
+    unsigned cat = data[0] | ( data[1] << 8 );
     ret = QString::number( cat ) + "," + getSString( &tlvData[2] );
     if( others.isEmpty() )
         return ret;

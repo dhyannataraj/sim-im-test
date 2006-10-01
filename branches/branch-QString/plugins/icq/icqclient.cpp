@@ -359,17 +359,20 @@ ICQClient::~ICQClient()
 
 void ICQClient::contactsLoaded()
 {
+    /* outdated
     QTextCodec *codec = getContacts()->getCodec(NULL);
-    if (codec && (QString(codec->name()).lower().find("utf") >= 0)){
-        const char *_def_enc = I18N_NOOP("Dear translator! type this default encoding for your language");
+    QString cdc = codec->name();
+    if (codec && (cdc.lower().find("utf") >= 0)){
+        QString _def_enc = I18N_NOOP("Dear translator! type this default encoding for your language");
         QString def_enc = i18n(_def_enc);
         if (def_enc == _def_enc){
             EncodingDlg dlg(NULL, this);
             dlg.exec();
         }else{
-            getContacts()->owner()->setEncoding(def_enc.latin1());
+            getContacts()->owner()->setEncoding(def_enc);
         }
     }
+    */
 }
 
 const DataDef *ICQProtocol::userDataDef()
