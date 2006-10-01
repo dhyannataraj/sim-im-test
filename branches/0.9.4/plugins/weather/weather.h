@@ -47,7 +47,7 @@ typedef struct WeatherData
     Data	FeelsLike;
     Data	DewPoint;
     Data	Humidity;
-    Data    Precipitance;
+    Data	Precipitation;
     Data	Pressure;
     Data	PressureD;
     Data	Conditions;
@@ -93,7 +93,7 @@ public:
     PROP_LONG(Temperature);
     PROP_LONG(FeelsLike);
     PROP_LONG(DewPoint);
-    PROP_LONG(Precipitance);
+    PROP_LONG(Precipitation);
     PROP_LONG(Humidity);
     PROP_LONG(Pressure);
     PROP_STR(PressureD);
@@ -144,6 +144,8 @@ protected:
     bool   m_bMoon;
     bool   m_bForecast;
     bool   m_bCC;
+    char   m_bDayPart;
+    bool   m_bDayForecastIsValid;
     unsigned m_day;
     string getConfig();
     bool isDay();

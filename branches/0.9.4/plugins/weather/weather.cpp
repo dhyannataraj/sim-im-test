@@ -72,8 +72,8 @@ static DataDef weatherData[] =
         { "Temperature", DATA_LONG, 1, 0 },
         { "FeelsLike", DATA_LONG, 1, 0 },
         { "DewPoint", DATA_LONG, 1, 0 },
-        { "Precipitance", DATA_LONG, 1, 0 },
         { "Humidity", DATA_LONG, 1, 0 },
+        { "Precipitation", DATA_LONG, 1, 0 },
         { "Pressure", DATA_LONG, 1, 0 },
         { "PressureD", DATA_STRING, 1, 0 },
         { "Conditions", DATA_STRING, 1, 0 },
@@ -345,8 +345,7 @@ void WeatherPlugin::updateButton()
     }
     if (getForecast())
         tip += "</td></tr></table>";
-    tip += "<br>\nWeather data provided by weather.com";
-    tip += QChar((unsigned short)174);
+    tip += "<br>\n"+i18n("weather", "Weather data provided by weather.com&reg;");
     Command cmdw;
     cmdw->id	= CmdWeather;
     cmdw->param	= m_bar;
@@ -386,25 +385,31 @@ i18n("weather", "Thunder")
 i18n("weather", "Light Rain with Thunder")
 i18n("weather", "Thunder in the Vicinity")
 i18n("weather", "Rain")
-i18n("weather", "Snow")
 i18n("weather", "Light Rain")
+i18n("weather", "Freezing Rain")
+i18n("weather", "Rain to Snow")
+i18n("weather", "Snow")
 i18n("weather", "Light Snow")
 i18n("weather", "Few Snow")
 i18n("weather", "Scattered Snow")
 i18n("weather", "Clear")
+i18n("weather", "Clearing")
 i18n("weather", "Showers")
 i18n("weather", "Mostly Clear")
 i18n("weather", "Sunny")
 i18n("weather", "Fair")
 i18n("weather", "Cloudy")
+i18n("weather", "Clouds")
 i18n("weather", "Mostly Cloudy")
 i18n("weather", "Partly Cloudy")
 i18n("weather", "Wind")
 i18n("weather", "Windy")
 i18n("weather", "Drizzle")
+i18n("weather", "Freezing Drizzle")
 i18n("weather", "Freezing Rain")
 i18n("weather", "Light Drizzle")
 i18n("weather", "Drifting Snow")
+i18n("weather", "Snow Grains")
 i18n("weather", "Scattered")
 i18n("weather", "Smoke")
 i18n("weather", "steady")
@@ -428,16 +433,21 @@ i18n("weather", "ENE")
 i18n("weather", "NE")
 i18n("weather", "NNE")
 i18n("weather", "VAR")
+i18n("weather", "CALM")
 i18n("km")
 i18n("km/h")
 i18n("weather", "Low")
 i18n("weather", "Moderate")
 i18n("weather", "High")
 i18n("weather", "Showers in the Vicinity")
-i18n("weather", "Waning Crescent")
-i18n("weather", "Waxing Crescent")
-i18n("weather", "Waxing Gibbous")
-i18n("weather", "Waning Gibbous")
+i18n("moonphase", "New")
+i18n("moonphase", "Waxing Crescent")
+i18n("moonphase", "First Quarter")
+i18n("moonphase", "Waxing Gibbous")
+i18n("moonphase", "Full")
+i18n("moonphase", "Waning Gibbous")
+i18n("moonphase", "Last Quarter")
+i18n("moonphase", "Waning Crescent")
 #endif
 
 static QString i18n_conditions(const QString &str)
@@ -490,9 +500,9 @@ QString WeatherPlugin::replace(const QString &text)
     updated = getUpdated();
 #endif
     /* double Expressions *before* single or better RegExp ! */
-    res = res.replace(QRegExp("\\%mp"), i18n("weather", getMoonPhase()));
+    res = res.replace(QRegExp("\\%mp"), i18n("moonphase", getMoonPhase()));
     res = res.replace(QRegExp("\\%mi"), number(getMoonIcon()));
-    res = res.replace(QRegExp("\\%pp"), number(getPrecipitance()));
+    res = res.replace(QRegExp("\\%pp"), number(getPrecipitation()));
 	res = res.replace(QRegExp("\\%ut"), i18n("weather", getUV_Description()));
 	res = res.replace(QRegExp("\\%ui"), number(getUV_Intensity()));
     res = res.replace(QRegExp("\\%t"), QString::number((int)getTemperature()) + QChar((unsigned short)176) + getUT());
@@ -555,25 +565,26 @@ QString WeatherPlugin::getButtonText()
     return str;
 }
 
-
 QString WeatherPlugin::getTipText()
 {
     QString str = getTip();
     if (str.isEmpty())
         str = i18n("%l<br><br>\n"
+				   "<b>Current Weather:</b><br>\n"
                    "<img src=\"icon:weather%i\"> %c<br>\n"
                    "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
-                   "Precipitance: <b>%pp %</b><br>\n"
+                   "Chance of Precipitation: <b>%pp%</b><br>\n"
                    "Pressure: <b>%p</b> (%q)<br>\n"
                    "Wind: <b>%b</b> <b>%w %g</b><br>\n"
                    "Visibility: <b>%v</b><br>\n"
                    "Dew Point: <b>%d</b><br>\n"
                    "Sunrise: %r<br>\n"
                    "Sunset: %s<br>\n"
-                   "<img src=\"icon:moon%mi\"> %mp<br>\n"
 				   "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
-                   "<br>\n"
+				   "<b>Moonphase: </b>%mp<br>\n"
+                   "<img src=\"icon:moon%mi\"><br>\n"
+				   "<br>\n"
                    "Updated: %u<br>\n");
     return str;
 }
@@ -582,7 +593,8 @@ QString WeatherPlugin::getForecastText()
 {
     QString str = getForecastTip();
     if (str.isEmpty())
-        str = i18n("<br>\n"
+        str = i18n("<br><br>\n"
+				   "<b>Forecast for</b><br>\n"
                    "<nobr><b>%d %w</b></nobr><br>\n"
                    "<img src=\"icon:weather%n\"> %c<br>\n"
                    " Temperature: <b>%t</b><br>\n");
@@ -610,7 +622,7 @@ static const char *tags[] =
         "s",
         "d",
         "ut",
-		"i",
+        "i",
         "us",
         "up",
         "ud",
@@ -673,6 +685,17 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
         setWDay(m_day, wday.c_str());
         return;
     }
+    if (!strcmp(el, "part")){
+	for (const char **p = attr; *p;){
+	    QCString key  = *(p++);
+	    QString value = *(p++);
+	    if (key == "p"){
+		if (value == "d") m_bDayPart = 'd';
+		if (value == "n") m_bDayPart = 'n';
+	    }
+	}
+	return;
+    }
     for (const char **p = tags; *p; p++){
         if (!strcmp(*p, el)){
             m_bData = true;
@@ -729,11 +752,13 @@ void WeatherPlugin::element_end(const char *el)
         m_data = "";
         return;
     }
-    if (!strcmp(el, "ppcp") && m_bCC){
-        setPrecipitance(atol(m_data.c_str()));
-        m_data = "";
-        return;
-    }
+    if (!strcmp(el, "ppcp") && (m_day == 1) ) {
+        if (((m_bDayPart == 'd') && m_bDayForecastIsValid) || ((m_bDayPart == 'n') && ! m_bDayForecastIsValid )){
+    	    setPrecipitation(atol(m_data.c_str()));
+    	    m_data = "";
+    	    return;
+	}
+    }	
     if (!strcmp(el, "hmid") && m_bCC){
         setHumidity(atol(m_data.c_str()));
         m_data = "";
@@ -759,6 +784,8 @@ void WeatherPlugin::element_end(const char *el)
                 setConditions(m_data.c_str());
             }else{
                 setDayConditions(m_day, m_data.c_str());
+		if ((m_data == "N/A") && (m_bDayPart == 'd')) 
+		    m_bDayForecastIsValid = false;
             }
         }
         if (m_bWind && m_bCC)
