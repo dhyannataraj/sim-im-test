@@ -357,6 +357,7 @@ ICQClient::~ICQClient()
 
 void ICQClient::contactsLoaded()
 {
+    /* outdated
     QTextCodec *codec = getContacts()->getCodec(NULL);
     if (codec && (QString(codec->name()).lower().find("utf") >= 0)){
         const char *_def_enc = I18N_NOOP("Dear translator! type this default encoding for your language");
@@ -368,6 +369,7 @@ void ICQClient::contactsLoaded()
             getContacts()->owner()->setEncoding(def_enc.latin1());
         }
     }
+    */
 }
 
 const DataDef *ICQProtocol::userDataDef()
