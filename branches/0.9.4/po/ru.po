@@ -8241,7 +8241,7 @@ msgstr "Алжир"
 # libicq/country.cpp:74
 #: sim/country.cpp:28
 msgid "American Samoa"
-msgstr "Американская Самоа"
+msgstr "Восточное Самоа"
 
 # libicq/country.cpp:75
 #: sim/country.cpp:29
@@ -8256,7 +8256,7 @@ msgstr "Ангола"
 # libicq/country.cpp:77
 #: sim/country.cpp:31
 msgid "Anguilla"
-msgstr "Ангола"
+msgstr "Ангилья"
 
 # libicq/country.cpp:78
 #: sim/country.cpp:32
@@ -8306,7 +8306,7 @@ msgstr "Азербайджан"
 # libicq/country.cpp:87
 #: sim/country.cpp:41
 msgid "Bahamas"
-msgstr "Багамы"
+msgstr "Багамские острова"
 
 # libicq/country.cpp:88
 #: sim/country.cpp:42
@@ -8331,7 +8331,7 @@ msgstr "Барбуда"
 # libicq/country.cpp:92
 #: sim/country.cpp:46
 msgid "Belarus"
-msgstr "Беларусь"
+msgstr "Белоруссия"
 
 # libicq/country.cpp:93
 #: sim/country.cpp:47
@@ -8351,7 +8351,7 @@ msgstr "Бенин"
 # libicq/country.cpp:96
 #: sim/country.cpp:50
 msgid "Bermuda"
-msgstr "Бермуды"
+msgstr "Бермудские острова"
 
 # libicq/country.cpp:97
 #: sim/country.cpp:51
@@ -8406,7 +8406,7 @@ msgstr "Бурундия"
 # libicq/country.cpp:107
 #: sim/country.cpp:61
 msgid "Cambodia"
-msgstr "Камбоджи"
+msgstr "Камбоджа"
 
 # libicq/country.cpp:108
 #: sim/country.cpp:62
@@ -8421,12 +8421,12 @@ msgstr "Канада"
 # libicq/country.cpp:110
 #: sim/country.cpp:64
 msgid "Cape Verde Islands"
-msgstr "Острова зелёного мыса"
+msgstr "Острова Зелёного Мыса"
 
 # libicq/country.cpp:111
 #: sim/country.cpp:65
 msgid "Cayman Islands"
-msgstr "Кайманские острова"
+msgstr "Каймановы острова"
 
 # libicq/country.cpp:112
 #: sim/country.cpp:66
@@ -8456,7 +8456,7 @@ msgstr "Остров Рождества"
 # libicq/country.cpp:117
 #: sim/country.cpp:71
 msgid "Cocos-Keeling Islands"
-msgstr "Кокосовые острова"
+msgstr "Кокосовые-Килинг острова"
 
 # libicq/country.cpp:118
 #: sim/country.cpp:72
@@ -8541,7 +8541,7 @@ msgstr "Египет"
 # libicq/country.cpp:134
 #: sim/country.cpp:88
 msgid "El Salvador"
-msgstr "Эль-Сальвадор"
+msgstr "Сальвадор"
 
 # libicq/country.cpp:135
 #: sim/country.cpp:89
@@ -8661,7 +8661,7 @@ msgstr "Остров Гуам"
 # libicq/country.cpp:158
 #: sim/country.cpp:112
 msgid "Guantanamo Bay"
-msgstr "залив Гуантанамо"
+msgstr "Гуантанамо"
 
 # libicq/country.cpp:159
 #: sim/country.cpp:113
@@ -8676,7 +8676,7 @@ msgstr "Гвинея"
 # libicq/country.cpp:161
 #: sim/country.cpp:115
 msgid "Guinea-Bissau"
-msgstr "Гвинея-Бессау"
+msgstr "Гвинея-Бисау"
 
 # libicq/country.cpp:162
 #: sim/country.cpp:116
@@ -8686,7 +8686,7 @@ msgstr "Гайана"
 # libicq/country.cpp:163
 #: sim/country.cpp:117
 msgid "Haiti"
-msgstr "Хайти"
+msgstr "Гаити"
 
 # libicq/country.cpp:164
 #: sim/country.cpp:118
@@ -8696,7 +8696,7 @@ msgstr "Гондурас"
 # libicq/country.cpp:165
 #: sim/country.cpp:119
 msgid "Hong Kong"
-msgstr "Гонк-Конг"
+msgstr "Гонконг"
 
 # libicq/country.cpp:166
 #: sim/country.cpp:120
@@ -8791,7 +8791,7 @@ msgstr "Япония"
 # libicq/country.cpp:184
 #: sim/country.cpp:138
 msgid "Jordan"
-msgstr "Иордан"
+msgstr "Иордания"
 
 # libicq/country.cpp:185
 #: sim/country.cpp:139
@@ -8806,7 +8806,7 @@ msgstr "Кения"
 # libicq/country.cpp:187
 #: sim/country.cpp:141
 msgid "Kiribati Republic"
-msgstr "Республика Кирибати"
+msgstr "Кирибати"
 
 # libicq/country.cpp:188
 #: sim/country.cpp:142
@@ -8876,7 +8876,7 @@ msgstr "Люксембург"
 # libicq/country.cpp:201
 #: sim/country.cpp:155
 msgid "Macau"
-msgstr "Макау"
+msgstr "Макао"
 
 # libicq/country.cpp:202
 #: sim/country.cpp:156
@@ -8886,17 +8886,17 @@ msgstr "Мадагаскар"
 # libicq/country.cpp:203
 #: sim/country.cpp:157
 msgid "Malawi"
-msgstr "Малавия"
+msgstr "Малави"
 
 # libicq/country.cpp:204
 #: sim/country.cpp:158
 msgid "Malaysia"
-msgstr "Малазия"
+msgstr "Малайзия"
 
 # libicq/country.cpp:205
 #: sim/country.cpp:159
 msgid "Maldives"
-msgstr "Малдивы"
+msgstr "Мальдивы"
 
 # libicq/country.cpp:206
 #: sim/country.cpp:160
@@ -8916,7 +8916,7 @@ msgstr "Маршалловы острова"
 # libicq/country.cpp:209
 #: sim/country.cpp:163
 msgid "Martinique"
-msgstr "Остров Мартиника"
+msgstr "Мартиника"
 
 # libicq/country.cpp:210
 #: sim/country.cpp:164
@@ -8926,12 +8926,12 @@ msgstr "Мавритания"
 # libicq/country.cpp:211
 #: sim/country.cpp:165
 msgid "Mauritius"
-msgstr "Маврикия"
+msgstr "Маврикий"
 
 # libicq/country.cpp:212
 #: sim/country.cpp:166
 msgid "Mayotte Island"
-msgstr "Острова Майот"
+msgstr "Майотта"
 
 # libicq/country.cpp:213
 #: sim/country.cpp:167
@@ -8941,12 +8941,12 @@ msgstr "Мексика"
 # libicq/country.cpp:214
 #: sim/country.cpp:168
 msgid "Micronesia, Federated States of"
-msgstr "Микронезия, Федеративные Штаты"
+msgstr "Федеративные Штаты Микронезии"
 
 # libicq/country.cpp:215
 #: sim/country.cpp:169
 msgid "Moldova"
-msgstr "Молдова"
+msgstr "Молдавия"
 
 # libicq/country.cpp:216
 #: sim/country.cpp:170
@@ -8961,7 +8961,7 @@ msgstr "Монголия"
 # libicq/country.cpp:218
 #: sim/country.cpp:172
 msgid "Montserrat"
-msgstr "Монстеррат"
+msgstr "Монтсеррат"
 
 # libicq/country.cpp:219
 #: sim/country.cpp:173
@@ -8996,7 +8996,7 @@ msgstr "Непал"
 # libicq/country.cpp:225
 #: sim/country.cpp:179
 msgid "Netherlands Antilles"
-msgstr "Нидерландские Антиллы"
+msgstr "Нидерландские Антильские острова"
 
 # libicq/country.cpp:226
 #: sim/country.cpp:180
@@ -9026,7 +9026,7 @@ msgstr "Никарагуа"
 # libicq/country.cpp:232
 #: sim/country.cpp:185
 msgid "Niger"
-msgstr "Нигерия"
+msgstr "Нигер"
 
 # libicq/country.cpp:232
 #: sim/country.cpp:186
@@ -9036,12 +9036,12 @@ msgstr "Нигерия"
 # libicq/country.cpp:233
 #: sim/country.cpp:187
 msgid "Niue"
-msgstr "Ниу"
+msgstr "Ниуэ"
 
 # libicq/country.cpp:234
 #: sim/country.cpp:188
 msgid "Norfolk Island"
-msgstr "Остров Норфолк"
+msgstr "Норфолк"
 
 # libicq/country.cpp:235
 #: sim/country.cpp:189
@@ -9106,7 +9106,7 @@ msgstr "Пуэрто-Рико"
 # libicq/country.cpp:247
 #: sim/country.cpp:201
 msgid "Qatar"
-msgstr "Кватар"
+msgstr "Катар"
 
 # libicq/country.cpp:248
 #: sim/country.cpp:202
@@ -9116,7 +9116,7 @@ msgstr "Македония"
 # libicq/country.cpp:249
 #: sim/country.cpp:203
 msgid "Reunion Island"
-msgstr "Остров Реюньон"
+msgstr "Реюньон"
 
 # libicq/country.cpp:250
 #: sim/country.cpp:204
@@ -9126,7 +9126,7 @@ msgstr "Румыния"
 # libicq/country.cpp:251
 #: sim/country.cpp:205
 msgid "Rota Island"
-msgstr "Острова Рота"
+msgstr "Остров Рота"
 
 # libicq/country.cpp:252
 #: sim/country.cpp:206
@@ -9146,7 +9146,7 @@ msgstr "Сент-Люсия"
 # libicq/country.cpp:255
 #: sim/country.cpp:209
 msgid "Saipan Island"
-msgstr "Остров Сайпан"
+msgstr "Сайпан"
 
 # libicq/country.cpp:256
 #: sim/country.cpp:210
@@ -9156,7 +9156,7 @@ msgstr "Сан-Марино"
 # libicq/country.cpp:257
 #: sim/country.cpp:211
 msgid "Sao Tome and Principe"
-msgstr "Сао Томе-энд-Принсипи"
+msgstr "Сан-Томе и Принсипи"
 
 # libicq/country.cpp:258
 #: sim/country.cpp:212
@@ -9176,7 +9176,7 @@ msgstr "Сейшельские острова"
 # libicq/country.cpp:261
 #: sim/country.cpp:215
 msgid "Sierra Leone"
-msgstr "Сиерра-Лионе"
+msgstr "Сьерра-Лионе"
 
 # libicq/country.cpp:262
 #: sim/country.cpp:216
@@ -9206,7 +9206,7 @@ msgstr "Сомали"
 # libicq/country.cpp:267
 #: sim/country.cpp:221
 msgid "South Africa"
-msgstr "Южная африка"
+msgstr "Южная Африка"
 
 # libicq/country.cpp:268
 #: sim/country.cpp:222
@@ -9236,7 +9236,7 @@ msgstr "Сен-Пьер и Микелон"
 # libicq/country.cpp:273
 #: sim/country.cpp:227
 msgid "St. Vincent and the Grenadines"
-msgstr "Остров святого Винсента"
+msgstr "Сент-Винсент и Гренадины"
 
 # libicq/country.cpp:274
 #: sim/country.cpp:228
@@ -9246,7 +9246,7 @@ msgstr "Судан"
 # libicq/country.cpp:275
 #: sim/country.cpp:229
 msgid "Suriname"
-msgstr "Шуринаме"
+msgstr "Суринам"
 
 # libicq/country.cpp:276
 #: sim/country.cpp:230
@@ -9306,12 +9306,12 @@ msgstr "Токелау"
 # libicq/country.cpp:287
 #: sim/country.cpp:241
 msgid "Tonga"
-msgstr "Тонго"
+msgstr "Тонга"
 
 # libicq/country.cpp:288
 #: sim/country.cpp:242
 msgid "Trinidad and Tobago"
-msgstr "Тринидад-энд-Тобаго"
+msgstr "Тринидад и Тобаго"
 
 # libicq/country.cpp:289
 #: sim/country.cpp:243
@@ -9326,12 +9326,12 @@ msgstr "Турция"
 # libicq/country.cpp:291
 #: sim/country.cpp:245
 msgid "Turkmenistan"
-msgstr "Туркменистан"
+msgstr "Туркмения"
 
 # libicq/country.cpp:292
 #: sim/country.cpp:246
 msgid "Turks and Caicos Islands"
-msgstr "Острова Туркс"
+msgstr "Острова Теркс и Кайкос"
 
 # libicq/country.cpp:293
 #: sim/country.cpp:247
@@ -9366,7 +9366,7 @@ msgstr "Великобритания"
 # libicq/country.cpp:299
 #: sim/country.cpp:253
 msgid "United States Virgin Islands"
-msgstr "Виргинские острова США"
+msgstr "Виргинские острова (США)"
 
 # libicq/country.cpp:300
 #: sim/country.cpp:254
@@ -9406,7 +9406,7 @@ msgstr "Острова Уоллис и Футуна"
 # libicq/country.cpp:307
 #: sim/country.cpp:261
 msgid "Western Samoa"
-msgstr "Западная Самоа"
+msgstr "Западное Самоа"
 
 # libicq/country.cpp:308
 #: sim/country.cpp:262
