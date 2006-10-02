@@ -1386,8 +1386,12 @@ QString JabberClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.logo", pict);
-            res += "<br/><img src=\"pict://jabber.logo\" width=\"";
+            QString url="pict://jabber.logo.";
+            url += data->ID.ptr;
+            QMimeSourceFactory::defaultFactory()->setPixmap(static_cast<const char *>(url.utf8()), pict);
+            res += "<br/><img src=\"";
+            res += static_cast<const char *>(url.utf8());
+            res += "\" width=\"";
             res += number(w).c_str();
             res += "\" height=\"";
             res += number(h).c_str();
@@ -1412,8 +1416,12 @@ QString JabberClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QMimeSourceFactory::defaultFactory()->setPixmap("pict://jabber.photo", pict);
-            res += "<br/><img src=\"pict://jabber.photo\" width=\"";
+            QString url="pict://jabber.photo.";
+            url += data->ID.ptr;
+            QMimeSourceFactory::defaultFactory()->setPixmap(static_cast<const char *>(url.utf8()), pict);
+            res += "<br/><img src=\"";
+            res += static_cast<const char *>(url.utf8());
+            res += "\" width=\"";
             res += number(w).c_str();
             res += "\" height=\"";
             res += number(h).c_str();
