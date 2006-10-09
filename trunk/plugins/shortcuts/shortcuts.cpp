@@ -714,13 +714,13 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
         }
         return;
     }
-    const char *cfg = getKey(s->id);
-    if (cfg && *cfg){
+    QString cfg = getKey(s->id);
+    if (!cfg.isEmpty()){
         oldKeys.insert(MAP_STR::value_type(s->id, s->accel));
         if (strcmp(cfg, "-")){
             s->accel = cfg;
         }else{
-            s->accel = NULL;
+            s->accel = QString::null;
         }
     }
     cfg = getGlobal(s->id);

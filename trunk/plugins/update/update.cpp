@@ -131,8 +131,8 @@ I18N_NOOP("Remind later")
 
 bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
 {
-    string h = getHeader("Location", headers);
-    if (!h.empty()){
+    QString h = getHeader("Location", headers).c_str();	// fixme!
+    if (!h.isEmpty()){
         Command cmd;
         cmd->id		= CmdStatusBar;
         Event eWidget(EventCommandWidget, cmd);
@@ -144,7 +144,7 @@ bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
         d.client  = NULL;
         d.err_str = I18N_NOOP("New version SIM is released");
         d.code	  = 0;
-        d.args    = NULL;
+        d.args    = QString::null;
         d.flags	  = ERR_INFO;
         d.options = "Show details\x00Remind later\x00\x00";
         d.id	  = CmdGo;
@@ -162,10 +162,10 @@ void *UpdatePlugin::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdGo){
-            Event eGo(EventGoURL, (void*)(m_url.c_str()));
+            Event eGo(EventGoURL, (void*)&m_url);
             eGo.process();
             setTime(time(NULL));
-            m_url = "";
+			m_url = QString::null;
             Event eSave(EventSaveState);
             eSave.process();
             return e->param();

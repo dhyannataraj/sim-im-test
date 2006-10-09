@@ -61,8 +61,8 @@ void FontConfig::apply()
         base = edtFont->getFont();
         menu = edtMenu->getFont();
     }
-    m_plugin->setBaseFont(base.latin1());
-    m_plugin->setMenuFont(menu.latin1());
+    m_plugin->setBaseFont(base);
+    m_plugin->setMenuFont(menu);
     m_plugin->setFonts();
 
     bool bChanged = false;

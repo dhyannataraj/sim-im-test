@@ -43,7 +43,7 @@ IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
 
     }else{
         for (unsigned i = 1; i <= m_plugin->getNIcons(); i++)
-            lstIcon->insertItem(QFile::decodeName(m_plugin->getIcon(i)));
+            lstIcon->insertItem(m_plugin->getIcon(i));
     }
     selectionChanged();
 }
@@ -53,7 +53,7 @@ void IconCfg::apply()
     m_plugin->clearIcon();
     m_plugin->setDefault(false);
     for (unsigned i = 0; i < lstIcon->count(); i++)
-        m_plugin->setIcon(i + 1, QFile::encodeName(lstIcon->text(i)));
+        m_plugin->setIcon(i + 1, lstIcon->text(i));
     m_plugin->setNIcons(lstIcon->count());
     m_plugin->setIcons(true);
 }

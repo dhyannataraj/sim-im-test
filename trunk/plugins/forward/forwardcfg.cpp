@@ -40,8 +40,7 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
         if (item.toULong() == CELLULAR)
             cmbPhone->insertItem(number);
     }
-    if (data->Phone.ptr)
-        cmbPhone->lineEdit()->setText(QString::fromUtf8(data->Phone.ptr));
+    cmbPhone->lineEdit()->setText(data->Phone.str());
 }
 
 void ForwardConfig::apply(void *_data)
@@ -49,7 +48,7 @@ void ForwardConfig::apply(void *_data)
     ForwardUserData *data = (ForwardUserData*)_data;
     data->Send1st.asBool() = chkFirst->isChecked();
     data->Translit.asBool() = chkTranslit->isChecked();
-    set_str(&data->Phone.ptr, cmbPhone->lineEdit()->text().utf8());
+    data->Phone.str() = cmbPhone->lineEdit()->text();
 }
 
 void ForwardConfig::apply()

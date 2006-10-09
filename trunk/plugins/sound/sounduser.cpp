@@ -26,7 +26,6 @@
 #include <qlabel.h>
 #include <qpainter.h>
 
-using std::string;
 using namespace SIM;
 
 unsigned ONLINE_ALERT = 0x10000;
@@ -40,9 +39,8 @@ SoundUserConfig::SoundUserConfig(QWidget *parent, void *data, SoundPlugin *plugi
     lstSound->setExpandingColumn(1);
 
     SoundUserData *user_data = (SoundUserData*)data;
-    QString s;
-    s = plugin->fullName(user_data->Alert.ptr ? QFile::decodeName(user_data->Alert.ptr) : "");
-    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"), s);
+    QListViewItem *item = new QListViewItem(lstSound, i18n("Online alert"),
+                                            plugin->fullName(user_data->Alert.str()));
     item->setText(2, QString::number(ONLINE_ALERT));
     item->setPixmap(0, makePixmap("SIM"));
 
@@ -102,9 +100,9 @@ void SoundUserConfig::apply(void *data)
         if (text.isEmpty())
             text = "(nosound)";
         if (id == ONLINE_ALERT){
-            set_str(&user_data->Alert.ptr, QFile::encodeName(text));
+            user_data->Alert.str() = text;
         }else{
-            set_str(&user_data->Receive, id, QFile::encodeName(text));
+            set_str(&user_data->Receive, id, text);
         }
     }
     user_data->NoSoundIfActive.asBool() = chkActive->isChecked();

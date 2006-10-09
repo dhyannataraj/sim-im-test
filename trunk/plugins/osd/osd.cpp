@@ -252,7 +252,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
         hide();
         return;
     }
-    setFont(FontEdit::str2font(data->Font.ptr, baseFont));
+    setFont(FontEdit::str2font(data->Font.str(), baseFont));
     QPainter p(this);
     p.setFont(font());
     unsigned nScreen = data->Screen.toULong();
@@ -442,7 +442,7 @@ void OSDPlugin::processQueue()
         case OSD_ALERTONLINE:
             if (data->EnableAlert.toBool() && data->EnableAlertOnline.toBool()){
                 unsigned style = 0;
-                const char *statusIcon = NULL;
+                QString statusIcon;
                 if (contact->contactInfo(style, statusIcon) == STATUS_ONLINE)
                     text = g_i18n("%1 is online", contact) .arg(contact->getName());
             }
@@ -480,11 +480,11 @@ void OSDPlugin::processQueue()
         case OSD_TYPING:
             if (data->EnableTyping.toBool()){
                 unsigned style = 0;
-                string wrkIcons;
-                const char *statusIcon = NULL;
+                QString wrkIcons;
+                QString statusIcon;
                 contact->contactInfo(style, statusIcon, &wrkIcons);
                 bool bTyping = false;
-                while (!wrkIcons.empty()){
+                while (!wrkIcons.isEmpty()){
                     if (getToken(wrkIcons, ',') == "typing"){
                         bTyping = true;
                         break;
@@ -515,7 +515,7 @@ void OSDPlugin::processQueue()
                     MessageID id;
                     id.id      = (*it).id;
                     id.contact = (*it).contact;
-                    id.client  = (*it).client.c_str();
+                    id.client  = (*it).client;
                     Event e(EventLoadMessage, &id);
                     Message *msg = (Message*)(e.process());
                     if (msg == NULL)
@@ -585,7 +585,7 @@ void OSDPlugin::closeClick()
             MessageID id;
             id.id      = (*it).id;
             id.contact = (*it).contact;
-            id.client  = (*it).client.c_str();
+            id.client  = (*it).client;
             Event e(EventLoadMessage, &id);
             Message *msg = (Message*)(e.process());
             core->unread.erase(it);
@@ -683,11 +683,11 @@ void *OSDPlugin::processEvent(Event *e)
         data = (OSDUserData*)(contact->getUserData(user_data_id));
         if (data){
             unsigned style = 0;
-            string wrkIcons;
-            const char *statusIcon = NULL;
+            QString wrkIcons;
+            QString statusIcon = NULL;
             contact->contactInfo(style, statusIcon, &wrkIcons);
             bool bTyping = false;
-            while (!wrkIcons.empty()){
+            while (!wrkIcons.isEmpty()){
                 if (getToken(wrkIcons, ',') == "typing"){
                     bTyping = true;
                     break;

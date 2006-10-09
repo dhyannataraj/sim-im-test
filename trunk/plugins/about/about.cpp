@@ -102,7 +102,8 @@ void *AboutPlugin::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdBugReport){
-            Event eURL(EventGoURL, (void*)"http://developer.berlios.de/bugs/?group_id=4482");
+			QString s = "http://developer.berlios.de/bugs/?group_id=4482";
+            Event eURL(EventGoURL, (void*)&s);
             eURL.process();
         }
         if (cmd->id == CmdAbout){

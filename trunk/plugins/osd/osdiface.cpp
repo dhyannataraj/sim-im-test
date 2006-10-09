@@ -25,7 +25,6 @@
 #include <qspinbox.h>
 #include <qlabel.h>
 
-using std::string;
 using namespace SIM;
 
 OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
@@ -48,7 +47,7 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
     spnTimeout->setMaxValue(60);
     spnTimeout->setValue(data->Timeout.toULong());
     btnColor->setColor(data->Color.toULong());
-    edtFont->setFont(data->Font.ptr);
+    edtFont->setFont(data->Font.str());
     chkShadow->setChecked(data->Shadow.toBool());
     if (data->Background.toBool()){
         chkBackground->setChecked(true);
@@ -93,7 +92,7 @@ void OSDIface::apply(void *d)
     QString base = FontEdit::font2str(font(), false);
     if (f == base)
         f = "";
-    set_str(&data->Font.ptr, f.latin1());
+    data->Font.str() = f;
     data->Shadow.asBool() = chkShadow->isChecked();
     data->Background.asBool() = chkBackground->isChecked();
     if (data->Background.toBool()){

@@ -71,19 +71,19 @@ HDDEDATA CALLBACK DDEbase::DDECallback(UINT, UINT, HCONV, HSZ, HSZ, HDDEDATA, DW
 class DDEstring
 {
 public:
-    DDEstring(const char *name);
+    DDEstring(const QString &name);
     ~DDEstring();
     operator HSZ() { return hSz; }
 protected:
     HSZ hSz;
 };
 
-DDEstring::DDEstring(const char *name) : hSz(NULL)
+DDEstring::DDEstring(const QString &name) : hSz(NULL)
 {
     /*
 	Was aeeror with invalid converting to (CHAR*)
     */
-    hSz = DdeCreateStringHandleA(*DDEbase::base, (CHAR*)name, CP_WINANSI);
+    hSz = DdeCreateStringHandle(*DDEbase::base, (WCHAR*)name.ucs2(), CP_WINANSI);
 }
 
 DDEstring::~DDEstring()
@@ -131,13 +131,13 @@ class DDEconversation
 protected:
     HCONV hConv;
 public:
-    DDEconversation(const char *_server, const char *_topic);
+    DDEconversation(const QString &_server, const QString &_topic);
     ~DDEconversation();
     operator HCONV() { return hConv; }
-    HDDEDATA Execute(const char *cmd);
+    HDDEDATA Execute(const QString &cmd);
 };
 
-DDEconversation::DDEconversation(const char *_server, const char *_topic)
+DDEconversation::DDEconversation(const QString &_server, const QString &_topic)
         : hConv(NULL)
 {
     DDEstring server(_server);
@@ -151,7 +151,7 @@ DDEconversation::~DDEconversation()
         DdeDisconnect(hConv);
 }
 
-HDDEDATA DDEconversation::Execute(const char *cmd)
+HDDEDATA DDEconversation::Execute(const QString &cmd)
 {
     if (hConv == NULL)
         return NULL;
@@ -166,31 +166,31 @@ HDDEDATA DDEconversation::Execute(const char *cmd)
 class RegEntry
 {
 public:
-    RegEntry(HKEY hRootKey, const char *path);
+    RegEntry(HKEY hRootKey, const QString &path);
     ~RegEntry();
     operator HKEY() { return hKey; }
-    string value(const char *key);
+    QString value(const QString &key);
 protected:
     HKEY hKey;
 };
 
-string getCurrentUrl()
+QString getCurrentUrl()
 {
     RegEntry r(HKEY_CLASSES_ROOT, "HTTP\\Shell\\open\\ddeexec\\application");
-    string topic = r.value("");
-    if (topic.empty())
-        return "";
+    QString topic = r.value("");
+    if (topic.isEmpty())
+		return QString::null;
 
     DDEbase b;
-    DDEconversation conv(topic.c_str(), "WWW_GetWindowInfo");
+    DDEconversation conv(topic, "WWW_GetWindowInfo");
     DDEdataHandle answer(conv.Execute("-1"));
     const char *url = answer;
     return url;
 }
 
-RegEntry::RegEntry(HKEY hRootKey, const char *path)
+RegEntry::RegEntry(HKEY hRootKey, const QString &path)
 {
-    if (RegOpenKeyA(hRootKey, path, &hKey) != ERROR_SUCCESS)
+    if (RegOpenKey(hRootKey, (LPCWSTR)path.ucs2(), &hKey) != ERROR_SUCCESS)
         hKey = NULL;
 }
 
@@ -200,19 +200,18 @@ RegEntry::~RegEntry()
         RegCloseKey(hKey);
 }
 
-string RegEntry::value(const char *key)
+QString RegEntry::value(const QString &key)
 {
     if (hKey == NULL)
-        return "";
+		return QString::null;
     long size = 0;
-    if (RegQueryValueA(hKey, key, NULL, &size) != ERROR_SUCCESS)
-        return "";
-    string res;
-    res.append(size + 1, '\x00');
-    if (RegQueryValueA(hKey, key, (char*)res.c_str(), &size) != ERROR_SUCCESS)
-        return "";
-    res[size] = 0;
-    return res;
+    if (RegQueryValue(hKey, (LPCWSTR)key.ucs2(), NULL, &size) != ERROR_SUCCESS)
+        return QString::null;
+    QMemArray<unsigned short> ba(size + 1);
+	ba.fill(0);
+    if (RegQueryValue(hKey, (LPCWSTR)key.ucs2(), (LPWSTR)ba.data(), &size) != ERROR_SUCCESS)
+		return QString::null;
+	return QString::fromUcs2(ba.data());
 }
 
 #endif
@@ -292,9 +291,9 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
     cmd->menu_id	 = MenuMail;
     eCmd.process();
 
-    cmd->id		= CmdCopyLocation;
+    cmd->id         = CmdCopyLocation;
     cmd->text		= I18N_NOOP("Copy &location");
-    cmd->icon		= NULL;
+    cmd->icon		= QString::null;
     cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x7010;
     eCmd.process();
@@ -316,20 +315,23 @@ void *NavigatePlugin::processEvent(Event *e)
 {
 #ifdef WIN32
     if (e->type() == EventGetURL){
-        string *url = (string*)(e->param());
+        QString *url = (QString*)(e->param());
         *url = getCurrentUrl();
         return e->param();
     }
 #endif
     if (e->type() == EventGoURL){
-        string url = (const char*)(e->param());
-        string proto;
+        QString *u = (QString*)(e->param());
+		if(!u)
+			return NULL;
+		QString url = *u;
+        QString proto;
         if (url.length() == 0)
             return NULL;
         int n = url.find(':');
         if (n < 0)
             return NULL;
-        proto = url.substr(0, n);
+        proto = url.left(n);
         if ((proto != "http") &&
                 (proto != "https") &&
                 (proto != "ftp") &&
@@ -340,49 +342,49 @@ void *NavigatePlugin::processEvent(Event *e)
 #ifdef WIN32
         bool bExec = false;
         if (getNewWindow()){
-            string key_name = proto;
+            QString key_name = proto;
             key_name += "\\Shell\\Open";
-            RegEntry rp(HKEY_CLASSES_ROOT, key_name.c_str());
-            string prg    = rp.value("command");
-            string action = rp.value("ddeexec");
-            string topic  = rp.value("ddeexec\\Topic");
-            string server = rp.value("ddeexec\\Application");
-            if (!action.empty()){
+            RegEntry rp(HKEY_CLASSES_ROOT, key_name);
+            QString prg    = rp.value("command");
+            QString action = rp.value("ddeexec");
+            QString topic  = rp.value("ddeexec\\Topic");
+            QString server = rp.value("ddeexec\\Application");
+            if (!action.isEmpty()){
                 int pos = action.find("%1");
                 if (pos >= 0)
-                    action = action.substr(0, pos) + url + action.substr(pos + 2);
+                    action = action.left(pos) + url + action.mid(pos + 2);
                 pos = prg.find("%1");
                 if (pos >= 0)
-                    prg = prg.substr(0, pos) + url + prg.substr(pos + 2);
-                if (!prg.empty()){
-                    STARTUPINFOA si;
+                    prg = prg.left(pos) + url + prg.mid(pos + 2);
+                if (!prg.isEmpty()){
+                    STARTUPINFO si;
                     PROCESS_INFORMATION pi;
                     ZeroMemory(&si, sizeof(si));
                     si.cb = sizeof(si);
                     ZeroMemory(&pi, sizeof(pi));
-                    if (CreateProcessA(NULL, (char*)prg.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
+                    if (CreateProcess(NULL, (LPWSTR)prg.ucs2(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
                         WaitForInputIdle(pi.hProcess, INFINITE);
                         CloseHandle(pi.hProcess);
                         CloseHandle(pi.hThread);
                     }
                 }
                 DDEbase b;
-                DDEconversation conv(server.c_str(), topic.c_str());
-                if (conv.Execute(action.c_str()))
+                DDEconversation conv(server, topic);
+                if (conv.Execute(action))
                     bExec = true;
             }
         }
         if (!bExec){
             if (proto == "file")
-                url = url.substr(5);
-            ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);
+                url = url.mid(5);
+            ShellExecute(NULL, NULL, (LPCWSTR)url.ucs2(), NULL, NULL, SW_SHOWNORMAL);
         }
 #else
 #ifdef USE_KDE
         if (getUseKDE())
         {
             if (proto == "mailto")
-                kapp->invokeMailer(QString(url.substr(proto.length() + 1)), QString::null);
+                kapp->invokeMailer(QString(url.mid(proto.length() + 1)), QString::null);
             else
                 kapp->invokeBrowser(url);
             return e->param();
@@ -391,21 +393,23 @@ void *NavigatePlugin::processEvent(Event *e)
         ExecParam execParam;
         if (proto == "mailto"){
             execParam.cmd = getMailer();
-            url = url.substr(proto.length() + 1);
+            url = url.mid(proto.length() + 1);
         }else{
             execParam.cmd = getBrowser();
-	    QUrl qurl(url);
-	    QString encodedUrl = qurl.toString(true, false);
-	    url = encodedUrl.latin1();
+			QUrl qurl(url);
+			QString encodedUrl = qurl.toString(true, false);
+			url = encodedUrl;
         }
-        execParam.arg = url.c_str();
+        execParam.arg = url;
         Event eExec(EventExec, &execParam);
         eExec.process();
 #endif // WIN32
         return e->param();
     }
-    if (e->type() == EventEncodeText){
+    if (e->type() == EventAddHyperlinks){
         QString *text = (QString*)(e->param());
+        if(!text)
+            return NULL;
         *text = parseUrl(*text);
         return e->param();
     }
@@ -447,10 +451,10 @@ void *NavigatePlugin::processEvent(Event *e)
                 cmds[n] = *cmd;
                 cmds[n].id = CmdMailList + n;
                 cmds[n].flags = COMMAND_DEFAULT;
-                cmds[n].text_wrk = strdup(mail.utf8());
+                cmds[n].text_wrk = mail;
                 n++;
             }
-            memset(&cmds[n], 0, sizeof(CommandDef));
+            cmds[n].clear();
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
             return e->param();
@@ -466,9 +470,8 @@ void *NavigatePlugin::processEvent(Event *e)
             mail = getToken(mail, ';', false);
             mail = getToken(mail, '/');
             if (mail.length()){
-                string addr = "mailto:";
-                addr += mail.local8Bit();
-                Event eMail(EventGoURL, (void*)addr.c_str());
+                QString addr = "mailto:" + mail;
+                Event eMail(EventGoURL, (void*)&addr);
                 eMail.process();
             }
             return e->param();
@@ -484,9 +487,8 @@ void *NavigatePlugin::processEvent(Event *e)
                 if (n-- == 0){
                     mail = getToken(mail, '/');
                     if (mail.length()){
-                        string addr = "mailto:";
-                        addr += mail.local8Bit();
-                        Event eMail(EventGoURL, (void*)addr.c_str());
+                        QString addr = "mailto:" + mail;
+                        Event eMail(EventGoURL, (void*)&addr);
                         eMail.process();
                     }
                     break;

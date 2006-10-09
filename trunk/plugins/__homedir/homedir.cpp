@@ -212,6 +212,8 @@ void *HomeDirPlugin::processEvent(Event *e)
 {
     if (e->type() == EventHomeDir){
         QString *cfg = (QString*)(e->param());
+        if(!cfg)
+            return NULL;
         *cfg = buildFileName(cfg); 
         return (void*)(!cfg->isEmpty());
     }

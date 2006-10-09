@@ -78,16 +78,17 @@ LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
 {
     m_file = NULL;
     load_data(loggerData, &data, add_info);
-    string value;
-    CmdParam p = { "-d:", I18N_NOOP("Set debug level"), &value };
+    string cvalue;
+    CmdParam p = { "-d:", I18N_NOOP("Set debug level"), &cvalue };
     Event e(EventArg, &p);
+	QCString value = cvalue.c_str();
     if (e.process())
-        setLogLevel(atol(value.c_str()));
+        setLogLevel(value.toULong());
     if (getLogPackets()){
-        string packets = getLogPackets();
+        QString packets = getLogPackets();
         while (packets.length()){
-            string v = getToken(packets, ',');
-            setLogType(atol(v.c_str()), true);
+            QString v = getToken(packets, ',');
+            setLogType(v.toULong(), true);
         }
     }
     m_bFilter = false;
@@ -103,13 +104,13 @@ LoggerPlugin::~LoggerPlugin()
 
 string LoggerPlugin::getConfig()
 {
-    string packets;
+    QString packets;
     for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';
-        packets += number(*it);
+		packets += QString::number(*it);
     }
-    setLogPackets(packets.c_str());
+    setLogPackets(packets);
     return save_data(loggerData, &data);
 }
 

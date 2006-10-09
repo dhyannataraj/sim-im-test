@@ -69,12 +69,12 @@ protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     QString fullName(const QString &name);
     QString messageSound(unsigned type, SoundUserData *data);
-    void playSound(const char*);
+    void playSound(const QString &sound);
     void processQueue();
-    std::string		m_current;
-    std::list<std::string>	m_queue;
-    QSound			*m_sound;
-    QTimer			*m_checkTimer;
+    QString         m_current;
+    QStringList     m_queue;
+    QSound         *m_sound;
+    QTimer         *m_checkTimer;
 #ifndef WIN32
     long             m_player;
 #endif

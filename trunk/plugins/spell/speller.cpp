@@ -151,16 +151,16 @@ SpellerConfig::~SpellerConfig()
         delete_aspell_config(cfg);
 }
 
-std::string SpellerConfig::getLangs()
+QString SpellerConfig::getLangs()
 {
-    std::string res;
+    QString res;
     if (cfg == NULL)
         return res;
     AspellDictInfoList *dlist = get_aspell_dict_info_list(cfg);
     AspellDictInfoEnumeration *dels = aspell_dict_info_list_elements(dlist);
     const AspellDictInfo *entry;
     while ((entry = aspell_dict_info_enumeration_next(dels)) != NULL){
-        if (!res.empty())
+        if (!res.isEmpty())
             res += ";";
         res += entry->name;
     }
@@ -168,11 +168,11 @@ std::string SpellerConfig::getLangs()
     return res;
 }
 
-int SpellerConfig::setKey(const char *key, const char *val)
+int SpellerConfig::setKey(const char *key, const QString &val)
 {
     if (cfg == NULL)
         return -1;
-    return aspell_config_replace(cfg, key, val);
+    return aspell_config_replace(cfg, key, val.utf8());
 }
 
 Speller::Speller(SpellerConfig *cfg)

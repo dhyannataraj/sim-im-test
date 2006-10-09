@@ -139,10 +139,10 @@ void SpellHighlighter::flush()
 {
     if (m_curWord.isEmpty())
         return;
-    std::string ss;
+    QCString ss;
     if (!m_curWord.isEmpty())
         ss = m_curWord.local8Bit();
-    SIM::log(SIM::L_DEBUG, ">> %s [%u %u %u]", ss.c_str(), m_index, m_curStart, m_pos);
+    SIM::log(SIM::L_DEBUG, ">> %s [%u %u %u]", ss.data(), m_index, m_curStart, m_pos);
 
     if ((m_index >= m_curStart) && (m_index <= m_pos)){
         if (m_bCheck){
@@ -156,7 +156,7 @@ void SpellHighlighter::flush()
             if (m_bDisable) {
                 setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
             }else if (m_parag == m_paragraph){
-                MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord.utf8()));
+                MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord));
                 if ((it == m_words.end()) || (*it).second)
                     setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
             }
@@ -174,7 +174,7 @@ void SpellHighlighter::flush()
         m_curWord = "";
         return;
     }
-    MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord.utf8()));
+    MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord));
     if (it != m_words.end()){
         if (!(*it).second){
             if (!m_bError)
@@ -183,8 +183,8 @@ void SpellHighlighter::flush()
             setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
         }
     }else{
-        m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_curWord.utf8()), true));
-        if (m_plugin->m_ignore.find(SIM::my_string(m_curWord.utf8())) == m_plugin->m_ignore.end())
+        m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_curWord), true));
+        if (m_plugin->m_ignore.find(SIM::my_string(m_curWord)) == m_plugin->m_ignore.end())
             emit check(m_curWord);
     }
     m_curWord = "";
@@ -192,9 +192,9 @@ void SpellHighlighter::flush()
 
 void SpellHighlighter::slotMisspelling(const QString &word)
 {
-    MAP_BOOL::iterator it = m_words.find(SIM::my_string(word.utf8()));
+    MAP_BOOL::iterator it = m_words.find(SIM::my_string(word));
     if (it == m_words.end()){
-        m_words.insert(MAP_BOOL::value_type(SIM::my_string(word.utf8()), false));
+        m_words.insert(MAP_BOOL::value_type(SIM::my_string(word), false));
     }else{
         if (!(*it).second)
             return;
@@ -244,12 +244,11 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
                 return NULL;
             m_sug = m_plugin->suggestions(m_word);
             SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 3];
-            memset(cmds, 0, sizeof(SIM::CommandDef) * (m_sug.count() + 3));
             unsigned i = 0;
             for (QStringList::Iterator it = m_sug.begin(); it != m_sug.end(); ++it, i++){
                 cmds[i].id   = m_plugin->CmdSpell + i + 2;
                 cmds[i].text = "_";
-                cmds[i].text_wrk = strdup((*it).utf8());
+                cmds[i].text_wrk = (*it);
                 if (i >= 10){
                     i++;
                     break;
@@ -257,11 +256,11 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
             }
             cmds[i].id   = m_plugin->CmdSpell;
             cmds[i].text = "_";
-            cmds[i].text_wrk = strdup(i18n("Add '%1'") .arg(m_word) .utf8());
+            cmds[i].text_wrk = i18n("Add '%1'").arg(m_word);
             i++;
             cmds[i].id   = m_plugin->CmdSpell + 1;
             cmds[i].text = "_";
-            cmds[i].text_wrk = strdup(i18n("Ignore '%1'") .arg(m_word) .utf8());
+            cmds[i].text_wrk = i18n("Ignore '%1'").arg(m_word);
 
             cmd->param  = cmds;
             cmd->flags |= SIM::COMMAND_RECURSIVE;
@@ -283,9 +282,9 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
                 return NULL;
             if (cmd->id == m_plugin->CmdSpell){
                 m_plugin->add(m_word);
-                MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_word.utf8()));
+                MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_word));
                 if (it == m_words.end()){
-                    m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word.utf8()), true));
+                    m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
                 }else{
                     if ((*it).second)
                         return NULL;
@@ -294,12 +293,12 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
                 m_bDirty = true;
                 QTimer::singleShot(300, this, SLOT(reformat()));
             }else  if (cmd->id == m_plugin->CmdSpell + 1){
-                MAP_BOOL::iterator it = m_plugin->m_ignore.find(SIM::my_string(m_word.utf8()));
+                MAP_BOOL::iterator it = m_plugin->m_ignore.find(SIM::my_string(m_word));
                 if (it == m_plugin->m_ignore.end())
-                    m_plugin->m_ignore.insert(MAP_BOOL::value_type(SIM::my_string(m_word.utf8()), true));
-                it = m_words.find(SIM::my_string(m_word.utf8()));
+                    m_plugin->m_ignore.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
+                it = m_words.find(SIM::my_string(m_word));
                 if (it == m_words.end()){
-                    m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word.utf8()), true));
+                    m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
                 }else{
                     if ((*it).second)
                         return NULL;

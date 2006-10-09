@@ -46,8 +46,7 @@ FilterConfig::FilterConfig(QWidget *parent, FilterUserData *data, FilterPlugin *
         chkAuthFromList->hide();
         lblFilter->hide();
     }
-    if (data->SpamList.ptr)
-        edtFilter->setText(QString::fromUtf8(data->SpamList.ptr));
+    edtFilter->setText(data->SpamList.str());
 }
 
 FilterConfig::~FilterConfig()
@@ -66,7 +65,7 @@ void FilterConfig::apply()
 void FilterConfig::apply(void *_data)
 {
     FilterUserData *data = (FilterUserData*)_data;
-    SIM::set_str(&data->SpamList.ptr, edtFilter->text().utf8());
+    data->SpamList.str() = edtFilter->text();
 }
 
 #ifndef NO_MOC_INCLUDES

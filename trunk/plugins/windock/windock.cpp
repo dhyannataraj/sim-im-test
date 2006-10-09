@@ -116,7 +116,7 @@ static void getBarRect(UINT state, QRect &rc, RECT *rcWnd = NULL)
 #ifdef WIN32
         w = rcWork.right - rcWork.left-1;
 #else
-		w = rcWork.right - rcWork.left;
+        w = rcWork.right - rcWork.left;
 #endif
     }
     switch (state){

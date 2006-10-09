@@ -118,7 +118,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     cmd->id		 = user_data_id + 1;
     cmd->text	 = I18N_NOOP("&Sound");
     cmd->icon	 = "sound";
-    cmd->icon_on  = NULL;
+    cmd->icon_on  = QString::null;
     cmd->param	 = (void*)getSoundSetup;
     Event e(EventAddPreferences, cmd);
     e.process();
@@ -135,8 +135,8 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
 
-    cmd->icon	  = NULL;
-    cmd->icon_on  = NULL;
+    cmd->icon	  = QString::null;
+    cmd->icon_on  = QString::null;
     cmd->bar_id   = 0;
     cmd->menu_id  = MenuMain;
     cmd->flags	  = COMMAND_CHECK_STATE;
@@ -220,18 +220,18 @@ void *SoundPlugin::processEvent(Event *e)
     if (e->type() == EventContactOnline){
         Contact *contact = (Contact*)(e->param());
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
-        if (data && data->Alert.ptr && *data->Alert.ptr && !data->Disable.toBool()){
-            Event eSound(EventPlaySound, data->Alert.ptr);
+        if (data && !data->Alert.str().isEmpty() && !data->Disable.toBool()){
+            Event eSound(EventPlaySound, &data->Alert.str());
             eSound.process();
         }
         return NULL;
     }
     if (e->type() == EventMessageSent){
         Message *msg = (Message*)(e->param());
-        const char *err = msg->getError();
-        if (err && *err)
+        QString err = msg->getError();
+        if (!err.isEmpty())
             return NULL;
-        const char *sound = NULL;
+        QString sound;
         if (msg->type() == MessageFile){
             sound = getFileDone();
         }else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
@@ -239,8 +239,8 @@ void *SoundPlugin::processEvent(Event *e)
                 return NULL;
             sound = getMessageSent();
         }
-        if (sound && *sound){
-            Event eSound(EventPlaySound, (void*)sound);
+        if (!sound.isEmpty()){
+            Event eSound(EventPlaySound, (void*)&sound);
             eSound.process();
         }
         return NULL;
@@ -266,14 +266,13 @@ void *SoundPlugin::processEvent(Event *e)
         }
         if (bEnable){
             QString sound = messageSound(msg->baseType(), data);
-            if (!sound.isEmpty())
-                playSound(QFile::encodeName(sound));
+            playSound(sound);
         }
         return NULL;
     }
     if (e->type() == EventPlaySound){
-        char *name = (char*)(e->param());
-        playSound(name);
+        const QString *name = (const QString*)(e->param());
+        playSound(*name);
         return e->param();
     }
     return NULL;
@@ -284,7 +283,7 @@ QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
     CommandDef *def = core->messageTypes.find(type);
     QString sound;
     if (data)
-        sound = QFile::decodeName(get_str(data->Receive, type));
+        sound = get_str(data->Receive, type);
     if (sound == "(nosound)")
         return "";
     if (sound.isEmpty()){
@@ -297,7 +296,7 @@ QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
         }else if (mdef->flags & MESSAGE_ERROR){
             sound = "error";
         }else{
-            sound = QFile::decodeName(def->icon);
+            sound = def->icon;
         }
         sound += ".wav";
         sound = fullName(sound);
@@ -321,28 +320,26 @@ QString SoundPlugin::fullName(const QString &name)
     return sound;
 }
 
-void SoundPlugin::playSound(const char *s)
+void SoundPlugin::playSound(const QString &s)
 {
-    if ((s == NULL) || (*s == 0))
+    if (s.isEmpty())
         return;
     if (m_current == s)
         return;
-    for (list<string>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-        if ((*it) == s)
-            return;
-    }
-    m_queue.push_back(s);
+    if(m_queue.contains(s))
+        return;
+    m_queue.append(s);
     if (m_sound == NULL)
         processQueue();
 }
 
 void SoundPlugin::processQueue()
 {
-    if (!m_current.empty() || m_queue.empty())
+    if (!m_current.isEmpty() || m_queue.isEmpty())
         return;
     m_current = m_queue.front();
     m_queue.erase(m_queue.begin());
-    QString sound = fullName(QFile::decodeName(m_current.c_str()));
+    QString sound = fullName(m_current);
     // check whether file is available
     if (!QFile::exists(sound)) {
         m_current="";

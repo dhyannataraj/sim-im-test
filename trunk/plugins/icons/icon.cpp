@@ -66,8 +66,8 @@ void IconsPlugin::setIcons(bool bForce)
 {
     if (!bForce && getDefault())
         return;
-    list<IconSet*> &sets = getIcons()->m_customSets;
-    for (list<IconSet*>::iterator it = sets.begin(); it != sets.end(); ){
+    QValueList<IconSet*> &sets = getIcons()->m_customSets;
+    for (QValueListIterator<IconSet*> it = sets.begin(); it != sets.end(); ){
         IconSet *set = *it;
         it++;
         delete set;

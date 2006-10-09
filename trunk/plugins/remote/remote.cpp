@@ -269,9 +269,9 @@ static char TCP[] = "tcp:";
 
 void RemotePlugin::bind()
 {
-    const char *path = getPath();
-    if ((strlen(path) > strlen(TCP)) && !memcmp(path, TCP, strlen(TCP))){
-        unsigned short port = (unsigned short)atol(path + strlen(TCP));
+    QString path = getPath();
+    if (path.startsWith(TCP)){
+        unsigned short port = path.mid(strlen(TCP)).toUShort();
         ServerSocketNotify::bind(port, port, NULL);
 #ifndef WIN32
     }else{
@@ -400,7 +400,7 @@ typedef struct ContactInfo
     unsigned	id;
     unsigned	group;
     QString		key;
-    string		icon;
+    QString		icon;
 } ContactInfo;
 
 static bool cmp_info(const ContactInfo &p1, const ContactInfo &p2)
@@ -610,7 +610,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                             continue;
                     }
                     unsigned style = 0;
-                    const char *statusIcon = NULL;
+                    QString statusIcon;
                     unsigned status = contact->contactInfo(style, statusIcon);
                     if ((status == STATUS_OFFLINE) && core->getShowOnLine())
                         continue;
@@ -670,7 +670,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     out += " ";
                     out += QString::number((*itl).group);
                     out += " ";
-                    out += (*itl).icon.c_str();
+                    out += (*itl).icon;
                     out += " ";
                     out += (*itl).name;
                 }
@@ -708,11 +708,10 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += args[0];
                 return false;
             }
-            string uin_str = number(uin);
             addContact ac;
             ac.proto = "ICQ";
-            ac.addr  = uin_str.c_str();
-            ac.nick  = NULL;
+            ac.addr  = QString::number(uin);
+            ac.nick  = QString::null;
             ac.group = 0;
             Event e(EventAddContact, &ac);
             Contact *contact = (Contact*)(e.process());
@@ -865,19 +864,13 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     bNewGrp = true;
                 }
             }
-            string proto;
-            proto = args[0].utf8();
-            string addr;
-            addr  = args[1].utf8();
-            string nick;
             addContact ac;
-            ac.proto = proto.c_str();
-            ac.addr  = addr.c_str();
+            ac.proto = args[0];
+            ac.addr  = args[1];
             if (args.size() > 2){
-                nick = args[2].utf8();
-                ac.nick = nick.c_str();
+                ac.nick = args[2];
             }else{
-                ac.nick = NULL;
+                ac.nick = QString::null;
             }
             ac.group = 0;
             if (grp)

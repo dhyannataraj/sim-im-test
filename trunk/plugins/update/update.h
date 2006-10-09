@@ -40,7 +40,7 @@ protected:
     virtual std::string getConfig();
     void *processEvent(SIM::Event*);
     std::string getHeader(const char *name, const char *headers);
-    std::string m_url;
+    QString m_url;
     PROP_ULONG(Time);
     UpdateData data;
 };

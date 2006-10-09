@@ -54,11 +54,11 @@ protected:
     void dropEvent(QDropEvent*);
     void dragEvent(QDropEvent *e, bool isDrop);
     void setFont(QPainter *p);
-    QPoint   mousePos;
-    QPoint	 initMousePos;
-    QString  m_text;
-    std::string m_icons;
-    const char *m_statusIcon;
+    QPoint	mousePos;
+    QPoint	initMousePos;
+    QString	m_text;
+    QString	m_icons;
+    QString m_statusIcon;
     unsigned long m_id;
     unsigned m_style;
     unsigned m_unread;

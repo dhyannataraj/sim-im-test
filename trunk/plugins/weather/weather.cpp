@@ -96,10 +96,10 @@ static DataDef weatherData[] =
         { "MaxT", DATA_STRLIST, 1, 0 },
         { "DayIcon", DATA_STRLIST, 1, 0 },
         { "DayConditions", DATA_STRLIST, 1, 0 },
-		{ "UV_Intensity", DATA_LONG, 1, 0 },
-		{ "UV_Description", DATA_STRING, 1, 0 },
-		{ "MoonIcon", DATA_LONG, 1, 0 },
-		{ "MoonPhase", DATA_STRING, 1, 0 },
+        { "UV_Intensity", DATA_LONG, 1, 0 },
+        { "UV_Description", DATA_STRING, 1, 0 },
+        { "MoonIcon", DATA_LONG, 1, 0 },
+        { "MoonPhase", DATA_STRING, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -152,7 +152,7 @@ std::string WeatherPlugin::getConfig()
 
 void WeatherPlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || !isDone() || (*getID() == 0))
+    if (!getSocketFactory()->isActive() || !isDone() || getID().isEmpty())
         return;
     time_t now = time(NULL);
     if ((unsigned)now < getTime() + CHECK1_INTERVAL)
@@ -179,10 +179,10 @@ void *WeatherPlugin::processEvent(Event *e)
         showBar();
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
-        if ((cmd->id == CmdWeather) && *getID()){
+        if ((cmd->id == CmdWeather) && !getID().isEmpty()){
             QString url = "http://www.weather.com/outlook/travel/pastweather/";
             url += getID();
-            Event eGo(EventGoURL, (void*)url.latin1());
+            Event eGo(EventGoURL, (void*)&url);
             eGo.process();
             return e->param();
         }
@@ -286,7 +286,7 @@ bool WeatherPlugin::isDay()
 
 void WeatherPlugin::showBar()
 {
-    if (m_bar || (*getID() == 0))
+    if (m_bar || getID().isEmpty())
         return;
     QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it( *list );
@@ -522,18 +522,18 @@ QString WeatherPlugin::replace(const QString &text)
 
 QString WeatherPlugin::forecastReplace(const QString &text)
 {
-    if (*getDay(m_day) == 0)
+    if (getDay(m_day).isEmpty())
         return "";
     QString res = text;
     QString temp;
-    int minT = atol(getMinT(m_day));
-    int maxT = atol(getMaxT(m_day));
+    int minT = getMinT(m_day).toInt();
+    int maxT = getMaxT(m_day).toInt();
     temp += QString::number(minT);
     temp += QChar((unsigned short)176);
     temp += getUT();
     if ((strcmp(getMaxT(m_day), "N/A")) && (maxT != -255)) {
         temp += "-";
-		temp += QString::number(maxT);
+        temp += QString::number(maxT);
         temp += QChar((unsigned short)176);
         temp += getUT();
     }
@@ -563,7 +563,7 @@ QString WeatherPlugin::getTipText()
     QString str = getTip();
     if (str.isEmpty())
         str = i18n("%l<br><br>\n"
-				   "<b>Current Weather:</b><br>\n"
+                   "<b>Current Weather:</b><br>\n"
                    "<img src=\"icon:weather%i\"> %c<br>\n"
                    "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
                    "Humidity: <b>%h</b><br>\n"
@@ -574,10 +574,10 @@ QString WeatherPlugin::getTipText()
                    "Dew Point: <b>%d</b><br>\n"
                    "Sunrise: %r<br>\n"
                    "Sunset: %s<br>\n"
-				   "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
-				   "<b>Moonphase: </b>%mp<br>\n"
+                   "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
+                   "<b>Moonphase: </b>%mp<br>\n"
                    "<img src=\"icon:moon%mi\"><br>\n"
-				   "<br>\n"
+                   "<br>\n"
                    "Updated: %u<br>\n");
     return str;
 }
@@ -702,7 +702,7 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
 void WeatherPlugin::element_end(const char *el)
 {
     if (!strcmp(el, "day")){
-        if ((*getMinT(m_day) == 0) || (*getMaxT(m_day) == 0))
+        if (getMinT(m_day).isEmpty() || getMaxT(m_day).isEmpty())
             m_day--;
         return;
     }

@@ -21,12 +21,10 @@
 #include "editfile.h"
 
 #include <qcheckbox.h>
-#include <qfile.h>
 #include <qlabel.h>
 #include <qtabwidget.h>
 #include <qsound.h>
 
-using std::string;
 using SIM::getContacts;
 
 SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
@@ -52,15 +50,11 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
     if (bSound){
         lblPlayer->setText(i18n("Qt provides sound output so you just need to set a player if you don't like Qt's sound."));
     }
-    edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
+    edtPlayer->setText(plugin->getPlayer());
 #endif
-    QString s;
-    s = plugin->fullName(QFile::decodeName(plugin->getStartUp()));
-    edtStartup->setText(s);
-    s = plugin->fullName(QFile::decodeName(plugin->getFileDone()));
-    edtFileDone->setText(s);
-    s = plugin->fullName(QFile::decodeName(plugin->getMessageSent()));
-    edtSent->setText(s);
+    edtStartup->setText(plugin->fullName(plugin->getStartUp()));
+    edtFileDone->setText(plugin->fullName(plugin->getFileDone()));
+    edtSent->setText(plugin->fullName(plugin->getMessageSent()));
 
     for (QObject *p = parent; p != NULL; p = p->parent()){
         if (!p->inherits("QTabWidget"))
@@ -98,17 +92,17 @@ void SoundConfig::apply()
     if (bSound)
         m_plugin->setPlayer("");
     else
-        m_plugin->setPlayer(edtPlayer->text().local8Bit());
-    m_plugin->setStartUp(QFile::encodeName(sound(edtStartup->text(), "startup.wav")));
-    m_plugin->setFileDone(QFile::encodeName(sound(edtFileDone->text(), "startup.wav")));
-    m_plugin->setMessageSent(QFile::encodeName(sound(edtSent->text(), "startup.wav")));
+        m_plugin->setPlayer(edtPlayer->text());
+    m_plugin->setStartUp(sound(edtStartup->text(), "startup.wav"));
+    m_plugin->setFileDone(sound(edtFileDone->text(), "startup.wav"));
+    m_plugin->setMessageSent(sound(edtSent->text(), "startup.wav"));
 }
 
-QString SoundConfig::sound(QString text, const char *def)
+QString SoundConfig::sound(const QString &text, const QString &def)
 {
-    QString defFile = m_plugin->fullName(QFile::decodeName(def));
+    QString defFile = m_plugin->fullName(def);
     if (defFile == text)
-        text = QFile::decodeName(def);
+        return def;
     return text;
 }
 

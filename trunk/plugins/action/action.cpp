@@ -92,7 +92,7 @@ ActionPlugin::ActionPlugin(unsigned base)
 
     cmd->id		 = CmdAction;
     cmd->text	 = "_";
-    cmd->icon	 = NULL;
+    cmd->icon	 = QString::null;
     cmd->flags	 = COMMAND_CHECK_STATE;
     cmd->menu_id = MenuContact;
     cmd->menu_grp = 0xC000;
@@ -144,7 +144,6 @@ void *ActionPlugin::processEvent(Event *e)
             if ((data == NULL) || (data->NMenu.toULong() == 0))
                 return NULL;
             CommandDef *cmds = new CommandDef[data->NMenu.toULong() + 1];
-            memset(cmds, 0, sizeof(CommandDef) * (data->NMenu.toULong() + 1));
             unsigned n = 0;
             for (unsigned i = 0; i < data->NMenu.toULong(); i++){
                 QString str = get_str(data->Menu, i + 1);
@@ -167,7 +166,7 @@ void *ActionPlugin::processEvent(Event *e)
                 }
                 cmds[n].id = CmdAction + i;
                 cmds[n].text = "_";
-                cmds[n].text_wrk = strdup(item.utf8());
+                cmds[n].text_wrk = item;
                 n++;
             }
             if (n == 0){
@@ -208,10 +207,10 @@ void *ActionPlugin::processEvent(Event *e)
         if (contact == NULL)
             return NULL;
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
-        if ((data == NULL) || (data->OnLine.ptr == NULL))
+        if ((data == NULL) || (data->OnLine.str().isEmpty()))
             return NULL;
         TemplateExpand t;
-        t.tmpl     = QString::fromUtf8(data->OnLine.ptr);
+        t.tmpl     = data->OnLine.str();
         t.contact  = contact;
         t.receiver = this;
         t.param    = NULL;
@@ -228,10 +227,10 @@ void *ActionPlugin::processEvent(Event *e)
         if (data == NULL)
             return NULL;
         if (msg->type() == MessageStatus){
-            if (data->Status.ptr == NULL)
+            if (data->Status.str().isEmpty())
                 return NULL;
             TemplateExpand t;
-            t.tmpl     = QString::fromUtf8(data->Status.ptr);
+            t.tmpl     = data->Status.str();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
@@ -239,11 +238,11 @@ void *ActionPlugin::processEvent(Event *e)
             eTmpl.process();
             return NULL;
         }
-        const char *cmd = get_str(data->Message, msg->baseType());
-        if ((cmd == NULL) || (*cmd == 0))
+        QString cmd = get_str(data->Message, msg->baseType());
+        if (cmd.isEmpty())
             return NULL;
         TemplateExpand t;
-        t.tmpl	   = QString::fromUtf8(cmd);
+        t.tmpl	   = cmd;
         t.contact  = contact;
         t.receiver = this;
         t.param	   = msg;

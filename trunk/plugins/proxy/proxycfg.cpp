@@ -75,7 +75,7 @@ void ProxyConfig::apply()
     if (m_client){
         ProxyData nd(NULL);
         get(&nd);
-        set_str(&nd.Client.ptr, NULL);
+        nd.Client.str() = QString::null;
         if (getContacts()->nClients() <= 1){
             m_plugin->clearClients();
             m_plugin->data = nd;
@@ -93,7 +93,7 @@ void ProxyConfig::apply()
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
             if (client == m_client){
-                set_str(&nd.Client.ptr, m_client->name().c_str());
+                nd.Client.str() = m_client->name();
                 m_data.push_back(nd);
             }else{
                 ProxyData d;
@@ -174,10 +174,10 @@ void ProxyConfig::clientChanged(int)
         if (m_current == 0){
             for (unsigned i = 1; i < m_data.size(); i++){
                 if (m_data[i].Default.toBool()){
-                    string client = m_data[i].Client.ptr;
+                    QString client = m_data[i].Client.str();
                     m_data[i] = m_data[0];
                     m_data[i].Default.asBool() = true;
-                    set_str(&m_data[i].Client.ptr, client.c_str());
+                    m_data[i].Client.str() = client;
                 }else{
                     if (m_data[i] == m_data[0])
                         m_data[i].Default.asBool() = true;
@@ -213,7 +213,7 @@ void ProxyConfig::fillClients()
         Client *client = getContacts()->getClient(i);
         if (client->protocol()->description()->flags & PROTOCOL_NOPROXY)
             continue;
-        QString name = client->name().c_str();
+        QString name = client->name();
         int pos = name.find(".");
         if (pos > 0)
             name = name.replace(pos, 1, " ");
@@ -235,23 +235,11 @@ void ProxyConfig::fillClients()
 void ProxyConfig::fill(ProxyData *data)
 {
     cmbType->setCurrentItem(data->Type.toULong());
-    if (data->Host.ptr){
-        edtHost->setText(QString::fromLocal8Bit(data->Host.ptr));
-    }else{
-        edtHost->setText("");
-    }
+    edtHost->setText(data->Host.str());
     edtPort->setValue(data->Port.toULong());
     chkAuth->setChecked(data->Auth.toBool());
-    if (data->User.ptr){
-        edtUser->setText(QString::fromLocal8Bit(data->User.ptr));
-    }else{
-        edtUser->setText("");
-    }
-    if (data->Password.ptr){
-        edtPswd->setText(QString::fromLocal8Bit(data->Password.ptr));
-    }else{
-        edtPswd->setText("");
-    }
+    edtUser->setText(data->User.str());
+    edtPswd->setText(data->Password.str());
     typeChanged(data->Type.toULong());
     chkNoShow->setChecked(data->NoShow.toBool());
 }
@@ -259,12 +247,12 @@ void ProxyConfig::fill(ProxyData *data)
 void ProxyConfig::get(ProxyData *data)
 {
     data->Type.asULong() = cmbType->currentItem();
-    set_str(&data->Host.ptr, edtHost->text().local8Bit());
+    data->Host.str()     = edtHost->text();
     data->Port.asULong() = edtPort->text().toULong();
-    data->Auth.asBool() = chkAuth->isChecked();
-    set_str(&data->User.ptr, edtUser->text().local8Bit());
-    set_str(&data->Password.ptr, edtPswd->text().local8Bit());
-    data->NoShow.asBool() = chkNoShow->isChecked();
+    data->Auth.asBool()  = chkAuth->isChecked();
+    data->User.str()     = edtUser->text();
+    data->Password.str() = edtPswd->text();
+    data->NoShow.asBool()= chkNoShow->isChecked();
     data->bInit = true;
 }
 

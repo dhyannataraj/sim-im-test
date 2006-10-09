@@ -899,11 +899,8 @@ void *DockWnd::processEvent(Event *e)
                 if ((*it).id == data->id)
                     return e->param();
             }
-            QString arg;
-            if (data->args){
-                arg = QString::fromUtf8(data->args);
-                free(data->args);
-            }
+            QString arg = data->args;
+
             BalloonItem item;
             item.id   = data->id;
             item.client = data->client;
@@ -919,7 +916,7 @@ void *DockWnd::processEvent(Event *e)
             if (getContacts()->nClients() > 1){
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i) == data->client){
-                        item.title = getContacts()->getClient(i)->name().c_str();
+                        item.title = getContacts()->getClient(i)->name();
                         int n = item.title.find(".");
                         if (n > 0)
                             item.title = item.title.left(n) + " " + item.title.mid(n + 1);

@@ -122,15 +122,15 @@ void SpellPlugin::reset()
     if (m_base)
         delete m_base;
 #ifdef WIN32
-    m_base = new SpellerBase(QFile::decodeName(getPath()));
+    m_base = new SpellerBase(getPath());
 #else
     m_base = new SpellerBase;
 #endif
     SpellerConfig cfg(*m_base);
-    std::string ll = getLang();
-    while (!ll.empty()){
-        std::string l = SIM::getToken(ll, ';');
-        cfg.setKey("lang", l.c_str());
+    QString ll = getLang();
+    while (!ll.isEmpty()){
+        QString l = SIM::getToken(ll, ';');
+        cfg.setKey("lang", l);
         cfg.setKey("encoding", "utf-8");
         Speller *speller = new Speller(&cfg);
         if (speller->created()){

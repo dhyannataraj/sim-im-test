@@ -41,7 +41,7 @@ BkgndCfg::BkgndCfg(QWidget *parent, BackgroundPlugin *plugin)
         : BkgndCfgBase(parent)
 {
     m_plugin = plugin;
-    edtPicture->setText(QFile::decodeName(plugin->getBackground()));
+    edtPicture->setText(plugin->getBackground());
     edtPicture->setStartDir(SIM::app_file("pict/"));
     edtPicture->setTitle(i18n("Select background picture"));
     QStrList formats = QImageIO::inputFormats();
@@ -80,7 +80,7 @@ void BkgndCfg::apply()
 {
     if (cmbPosition->currentItem() >= 0)
         m_plugin->setPosition(cmbPosition->currentItem());
-    m_plugin->setBackground(QFile::encodeName(edtPicture->text()));
+    m_plugin->setBackground(edtPicture->text());
     m_plugin->setMarginContact(spnContact->text().toULong());
     m_plugin->setMarginGroup(spnGroup->text().toULong());
     m_plugin->redraw();

@@ -108,7 +108,7 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
 
     cmd->id          = CmdIgnoreText;
     cmd->text        = I18N_NOOP("Ignore this phrase");
-    cmd->icon		 = NULL;
+    cmd->icon		 = QString::null;
     cmd->menu_id     = MenuTextEdit;
     cmd->menu_grp    = 0x7000;
     cmd->bar_id		 = 0;
@@ -189,8 +189,8 @@ void *FilterPlugin::processEvent(Event *e)
 
         // get filter-data
         data = (FilterUserData*)(contact->getUserData(user_data_id));
-        if (data && data->SpamList.ptr && *data->SpamList.ptr){
-            if (checkSpam(msg->getPlainText(), QString::fromUtf8(data->SpamList.ptr))){
+        if (data && !data->SpamList.str().isEmpty()){
+            if (checkSpam(msg->getPlainText(), data->SpamList.str())){
                 delete msg;
                 return msg;
             }
@@ -273,8 +273,7 @@ void *FilterPlugin::processEvent(Event *e)
             }else{
                 data = (FilterUserData*)(getContacts()->getUserData(user_data_id));
             }
-            QString s;
-            s = QString::fromUtf8(data->SpamList.ptr);
+            QString s = data->SpamList.str();
             while (!text.isEmpty()){
                 QString line = getToken(text, '\n');
                 line = line.replace(QRegExp("\r"), "");
@@ -292,7 +291,7 @@ void *FilterPlugin::processEvent(Event *e)
                     s += " ";
                 s += line;
             }
-            set_str(&data->SpamList.ptr, s.utf8());
+            data->SpamList.str() = s;
             return NULL;
         }
         if (cmd->menu_id == MenuContactGroup){
@@ -417,4 +416,3 @@ void FilterPlugin::addToIgnore(void *p)
 #ifndef NO_MOC_INCLUDES
 #include "filter.moc"
 #endif
-
