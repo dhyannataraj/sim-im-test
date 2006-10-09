@@ -22,6 +22,7 @@
 #include <qstylesheet.h>
 #include <qtooltip.h>
 #include <qpainter.h>
+#include <qsimplerichtext.h>
 
 using namespace SIM;
 
