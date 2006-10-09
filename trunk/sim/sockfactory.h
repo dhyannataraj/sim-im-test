@@ -128,13 +128,13 @@ class IP
 public:
     IP();
     ~IP();
-    void set(unsigned long ip, const char *host);
+    void set(unsigned long ip, const QString &host);
     void resolve();
     unsigned long ip() const { return m_ip; }
-    const char *host() const { return m_host; }
+    const QString &host() const { return m_host; }
 protected:
     unsigned long m_ip;
-    char *m_host;
+    QString m_host;
 };
 
 class IPResolver : public QObject

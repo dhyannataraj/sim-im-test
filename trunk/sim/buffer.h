@@ -79,6 +79,8 @@ public:
 
     void pack(const char *d, unsigned size);
     unsigned unpack(char *d, unsigned size);
+    unsigned unpack(QString &d, unsigned s);    // utf8
+    unsigned unpack(QCString &d, unsigned size);
 
     void pack(char c) { pack(&c, 1); }
     void pack(unsigned short c);
@@ -90,21 +92,23 @@ public:
     Buffer &operator >> (unsigned short &c);
     Buffer &operator >> (unsigned long &c);
     Buffer &operator >> (int &c);
-    Buffer &operator >> (std::string &s);
-    Buffer &operator >> (char**);
+    Buffer &operator >> (QCString &s);  // size is 2 byte & little endian!
 
     void unpack(char &c);
     void unpack(unsigned char &c);
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
-    std::string unpackScreen();
-    void unpack(std::string &s);
-    void unpackStr(std::string &s);
-    void unpackStr32(std::string &s);
+    QString unpackScreen();
+    void unpack(QCString &s);
+    void unpackStr(QCString &s);
+    bool unpackStr(QString &s);     // utf8
+    void unpackStr32(QCString &s);
 
-    void pack(const std::string &s);
+    void pack(const QString &s);
+    void pack(const QCString &s);
 
-    Buffer &operator << (const std::string &s);
+    Buffer &operator << (const QString &s);     // utf8
+    Buffer &operator << (const QCString &s);
     Buffer &operator << (const char *str);
     Buffer &operator << (char c);
     Buffer &operator << (unsigned char c) { return operator << ((char)c); }
@@ -114,11 +118,10 @@ public:
     Buffer &operator << (long c) { return operator << ((unsigned long)c); }
     Buffer &operator << (const Buffer &b);
     Buffer &operator << (const bool b);
-    Buffer &operator << (char**);
     Buffer &operator << (TlvList&);
 
-    void packScreen(const char *);
-    void packStr32(const char *);
+    void packScreen(const QString &);
+    void packStr32(const QCString &);
     void pack32(const Buffer &b);
 
     void tlv(unsigned short n, const char *data, unsigned short len);
@@ -138,6 +141,7 @@ public:
     void tlvLE(unsigned short n, Buffer &b) { tlvLE(n, b.data(), (unsigned short)(b.size())); }
 
     bool scan(const char *substr, std::string &res);
+    bool scan(const char *substr, QCString &res);
 
     void init(unsigned size);
     unsigned allocSize() { return m_alloc_size; }

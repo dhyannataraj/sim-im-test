@@ -37,7 +37,7 @@ public:
     ContactListPrivate();
     ~ContactListPrivate();
     void clear(bool bClearAll);
-    unsigned registerUserData(const char *name, const DataDef *def);
+    unsigned registerUserData(const QString &name, const DataDef *def);
     void unregisterUserData(unsigned id);
     void flush(Contact *c, Group *g, const char *section, Buffer *cfg);
     void flush(Contact *c, Group *g);
@@ -166,12 +166,10 @@ void Contact::setup()
         it.client()->setupContact(this, data);
 }
 
-typedef list<string> PROTO_LIST;
-
 typedef struct STR_ITEM
 {
-    QString		value;
-    PROTO_LIST	proto;
+    QString     value;
+    QStringList proto;
 } STR_ITEM;
 
 typedef list<STR_ITEM> STR_LIST;
@@ -192,25 +190,21 @@ static void add_str (STR_LIST & m, const QString & value, const char *client)
     }
     /* already there */
     if (it != m.end ()) {
-        PROTO_LIST & proto = (*it).proto;
-        PROTO_LIST::iterator itp;
+        QStringList &proto = (*it).proto;
+        QStringList::iterator itp;
         /* client == '-' --> ignore */
         if (!proto.empty () && !strcmp (client, "-"))
             return;
         /* search if  already in list */
-        for (itp = proto.begin (); itp != proto.end (); ++itp) {
-            if (!strcmp ((*itp).c_str (), client))
-                return;
-        }
+        itp = proto.find(client);
+        if(itp == proto.end())
+            return;
         /* search if "-" somewhere in list --> delete it */
-        for (itp = proto.begin (); itp != proto.end (); ++itp) {
-            if (!strcmp ((*itp).c_str (), "-"))
-                break;
-        }
-        if (itp != proto.end ())
+        itp = proto.find("-");
+        if(itp != proto.end())
             proto.erase (itp);
         /* add new client */
-        proto.push_back (string (client));
+        proto.push_back (client);
     }
     else {
         /* new entry */
@@ -221,8 +215,8 @@ static void add_str (STR_LIST & m, const QString & value, const char *client)
     }
 }
 
-static QString addStrings (const QString & old_value, const QString & values,
-                           const char *client)
+static QString addStrings (const QString &old_value, const QString &values,
+                           const QString &client)
 {
     STR_LIST    str_list;
 
@@ -232,7 +226,7 @@ static QString addStrings (const QString & old_value, const QString & values,
         /* str_item  == one telephone entry */
         QString     str_item = getToken (m, ';', false);
         /* str == telephone entry without clients
-         * str_item == clients 
+         * str_item == clients
          */
         QString     str = getToken (str_item, '/');
         /* now split clients */
@@ -245,7 +239,7 @@ static QString addStrings (const QString & old_value, const QString & values,
             while (proto.length ()) {
                 QString     proto2 = getToken (proto, ',');
                 /* and add */
-                add_str (str_list, str, proto2.latin1 ());
+                add_str (str_list, str, proto2);
             }
         }
     }
@@ -259,12 +253,12 @@ static QString addStrings (const QString & old_value, const QString & values,
             QString     proto = getToken (str_item, '/');
             while (proto.length ()) {
                 QString     proto2 = getToken (proto, ',');
-                add_str (str_list, str, proto2.latin1 ());
+                add_str (str_list, str, proto2);
             }
         }
     }
     /* add new client if new client was given */
-    if (client) {
+    if (!client.isEmpty()) {
         for (STR_LIST::iterator it = str_list.begin (); it != str_list.end (); ++it) {
             add_str (str_list, (*it).value, client);
         }
@@ -273,39 +267,39 @@ static QString addStrings (const QString & old_value, const QString & values,
     /* now build new string */
     QString     res;
     for (STR_LIST::iterator it = str_list.begin (); it != str_list.end (); ++it) {
-        PROTO_LIST & proto = (*it).proto;
-        if (proto.size () == 0)
+        QStringList &proto = (*it).proto;
+        if (proto.size() == 0)
             continue;
-        if (res.length ())
+        if (res.length())
             res += ";";
         res += quoteChars ((*it).value, ";/");
         res += "/";
         QString     proto_str;
-        for (PROTO_LIST::iterator itp = proto.begin (); itp != proto.end (); ++itp) {
+        for (QStringList::iterator itp = proto.begin (); itp != proto.end (); ++itp) {
             if (proto_str.length ())
                 proto_str += ",";
-            proto_str += QString(quoteChars ((*itp).c_str (), ",;/").c_str());
+            proto_str += quoteChars ((*itp), ",;/");
         }
         res += proto_str;
     }
     return res;
 }
 
-bool Contact::setEMails(const QString &mail, const char *client)
+bool Contact::setEMails(const QString &mail, const QString &client)
 {
     return setEMails(addStrings(getEMails(), mail, client));
 }
 
-bool Contact::setPhones(const QString &phone, const char *client)
+bool Contact::setPhones(const QString &phone, const QString &client)
 {
     return setPhones(addStrings(getPhones(), phone, client));
 }
 
-static QString packString(const QString &value, const char *client)
+static QString packString(const QString &value, const QString &client)
 {
     QString res = quoteChars(value, "/");
     res += "/";
-    if (client){
+    if (!client.isEmpty()){
         res += client;
     }else{
         res += "-";
@@ -313,7 +307,7 @@ static QString packString(const QString &value, const char *client)
     return res;
 }
 
-static QString addString(const QString &oldValue, const QString &newValue, const char *client)
+static QString addString(const QString &oldValue, const QString &newValue, const QString &client)
 {
     QString res;
     if (oldValue.length() == 0){
@@ -323,17 +317,17 @@ static QString addString(const QString &oldValue, const QString &newValue, const
     }
     QString value = oldValue;
     getToken(value, '/');
-    if ((value == client) || (client == NULL))
+    if (value == client || client.isEmpty())
         return packString(newValue, client);
     return oldValue;
 }
 
-bool Contact::setFirstName(const QString &name, const char *client)
+bool Contact::setFirstName(const QString &name, const QString &client)
 {
     return setFirstName(addString(getFirstName(), name, client));
 }
 
-bool Contact::setLastName(const QString &name, const char *client)
+bool Contact::setLastName(const QString &name, const QString &client)
 {
     return setLastName(addString(getLastName(), name, client));
 }
@@ -441,12 +435,12 @@ static bool cmp_sd(sortClientData p1, sortClientData p2)
     return p1.nClient < p2.nClient;
 }
 
-unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, string *icons)
+unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString *icons)
 {
     style = 0;
-    statusIcon = NULL;
+    statusIcon = QString::null;
     if (icons)
-        *icons = "";
+		*icons = QString::null;
     unsigned long status = STATUS_UNKNOWN;
     void *data;
     ClientDataIterator it(clientData, NULL);
@@ -481,8 +475,10 @@ unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, str
         getToken(phoneItem, ',');
         getToken(phoneItem, ',');
         unsigned n = phoneItem.toULong();
-        if (n == CELLULAR) bCell = true;
-        if (n == PAGER) bPager = true;
+        if (n == CELLULAR)
+            bCell = true;
+        if (n == PAGER)
+            bPager = true;
     }
     if (bCell){
         if (statusIcon){
@@ -521,7 +517,7 @@ unsigned long Contact::contactInfo(unsigned &style, const char *&statusIcon, str
     return status;
 }
 
-string Client::resources(void*)
+QString Client::resources(void*)
 {
     return "";
 }
@@ -549,10 +545,6 @@ CommandDef *Client::configWindows()
 QWidget *Client::configWindow(QWidget*, unsigned)
 {
     return NULL;
-}
-
-void Client::contactInfo(void*, unsigned long&, unsigned&, const char*&, string*)
-{
 }
 
 QString Client::contactTip(void*)
@@ -658,7 +650,7 @@ void ContactListPrivate::clear(bool bClearAll)
     bNoRemove = false;
 }
 
-unsigned ContactListPrivate::registerUserData(const char *name, const DataDef *def)
+unsigned ContactListPrivate::registerUserData(const QString &name, const DataDef *def)
 {
     unsigned id = 0;
     for (list<UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
@@ -682,7 +674,8 @@ void ContactListPrivate::unregisterUserData(unsigned id)
         (*it_g)->userData.freeUserData(id);
     userData.freeUserData(id);
     for (list<UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (id != (*it).id) continue;
+        if (id != (*it).id)
+            continue;
         userDataDef.erase(it);
         break;
     }
@@ -698,7 +691,7 @@ ContactList::~ContactList()
     delete p;
 }
 
-unsigned ContactList::registerUserData(const char *name, const DataDef *def)
+unsigned ContactList::registerUserData(const QString &name, const DataDef *def)
 {
     return p->registerUserData(name, def);
 }
@@ -1057,8 +1050,8 @@ static DataDef _clientData[] =
         { "ManualStatus", DATA_ULONG, 1, DATA(1) },
         { "CommonStatus", DATA_BOOL, 1, DATA(1) },
         { "Password", DATA_UTF, 1, 0 },
-        { "", DATA_BOOL, 1, DATA(1) },		// SavePassword
-        { "", DATA_UTF, 1, 0 },				// PreviousPassword
+        { "", DATA_BOOL, 1, DATA(1) },      // SavePassword
+        { "", DATA_UTF, 1, 0 },             // PreviousPassword
         { "Invisible", DATA_BOOL, 1, 0 },
         { "LastSend", DATA_STRLIST, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
@@ -1187,7 +1180,7 @@ bool Client::compareData(void*, void*)
     return false;
 }
 
-void Client::setState(State state, const char *text, unsigned code)
+void Client::setState(State state, const QString &text, unsigned code)
 {
     m_state = state;
     Event e(EventClientChanged, this);
@@ -1196,11 +1189,11 @@ void Client::setState(State state, const char *text, unsigned code)
         clientErrorData d;
         d.client  = this;
         d.err_str = text;
-        d.code	  = code;
-        d.args    = NULL;
-        d.flags	  = ERR_ERROR;
+        d.code    = code;
+        d.args    = QString::null;
+        d.flags   = ERR_ERROR;
         d.options = NULL;
-        d.id	  = 0;
+        d.id      = 0;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             if (getContacts()->getClient(i) == this){
                 d.id = i + 1;
@@ -1283,7 +1276,7 @@ unsigned ClientUserData::size()
     return p->size();
 }
 
-string ClientUserData::property(const char *name)
+QString ClientUserData::property(const char *name)
 {
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         _ClientUserData &d = *it;
@@ -1293,14 +1286,14 @@ string ClientUserData::property(const char *name)
                 switch (def->type){
                 case DATA_STRING:
                 case DATA_UTF:
-                    if (user_data->ptr)
-                        return user_data->ptr;
+                    if (!user_data->str().isEmpty())
+                        return user_data->str();
                 case DATA_ULONG:
                     if (user_data->toULong() != (unsigned long)(def->def_value))
-                        return number(user_data->toULong());
+                        return QString::number(user_data->toULong());
                 case DATA_LONG:
                     if (user_data->toLong() != (long)(def->def_value))
-                        return number(user_data->toLong());
+                        return QString::number(user_data->toLong());
 		default:
 		    break;
                 }
@@ -1360,7 +1353,7 @@ string ClientUserData::save()
             if (res.length())
                 res += "\n";
             res += "[";
-            res += d.client->name();
+            res += d.client->name().utf8();
             res += "]\n";
             res += cfg;
         }
@@ -1650,7 +1643,7 @@ string UserData::save()
                 if (res.length())
                     res += "\n";
                 res += "[";
-                res += (*it).name;
+                res += (*it).name.latin1();
                 res += "]\n";
                 res += cfg;
             }
@@ -1864,7 +1857,7 @@ void ContactListPrivate::flush(Contact *c, Group *g, const char *section, Buffer
     }
     list<UserDataDef>::iterator it;
     for (it = userDataDef.begin(); it != userDataDef.end(); ++it){
-        if (strcmp(section, (*it).name.c_str()))
+        if (section != (*it).name)
             continue;
         UserData *data = &userData;
         if (c)
@@ -1916,31 +1909,31 @@ void *ContactList::getUserData(unsigned id)
     return p->userData.getUserData(id, true);
 }
 
-static string stripPhone(const char *phone)
+static QString stripPhone(const QString &phone)
 {
-    string res;
+    QString res;
     if (phone == NULL)
         return res;
-    for (; *phone; phone++){
-        char c = *phone;
+    for (unsigned i = 0; i < phone.length(); i){
+        const QChar &c = phone[(int)i];
         if ((c < '0') || (c > '9'))
             continue;
         res += c;
     }
     if (res.length() > 7)
-        res = res.substr(res.length() - 7);
+        res = res.mid(res.length() - 7);
     return res;
 }
 
-bool ContactList::cmpPhone(const char *phone1, const char *phone2)
+bool ContactList::cmpPhone(const QString &phone1, const QString &phone2)
 {
     return stripPhone(phone1) == stripPhone(phone2);
 }
 
-Contact *ContactList::contactByPhone(const char *_phone)
+Contact *ContactList::contactByPhone(const QString &_phone)
 {
-    string phone = stripPhone(_phone);
-    if (phone.empty())
+    QString phone = stripPhone(_phone);
+    if (phone.isEmpty())
         return NULL;
     Contact *c;
     ContactIterator it;
@@ -1948,13 +1941,13 @@ Contact *ContactList::contactByPhone(const char *_phone)
         QString phones = c->getPhones();
         while (!phones.isEmpty()){
             QString phoneItem = getToken(phones, ';', false);
-            if (cmpPhone(getToken(phoneItem, ',').utf8(), _phone))
+            if (cmpPhone(getToken(phoneItem, ','), _phone))
                 return c;
         }
     }
     c = contact(0, true);
     c->setFlags(CONTACT_TEMP);
-    c->setName(QString::fromUtf8(_phone));
+    c->setName(_phone);
     Event e(EventContactChanged, c);
     e.process();
     return c;
@@ -2086,7 +2079,7 @@ QTextCodec *ContactList::getCodecByName(const char *encoding)
 QTextCodec *ContactList::getCodec(Contact *contact)
 {
     QTextCodec *codec = NULL;
-    if (contact && *contact->getEncoding()){
+    if (contact && !contact->getEncoding().isEmpty()){
         codec = getCodecByName(contact->getEncoding());
         if (codec)
             return codec;
@@ -2094,25 +2087,24 @@ QTextCodec *ContactList::getCodec(Contact *contact)
     return getCodecByName(owner()->getEncoding());
 }
 
-QString ContactList::toUnicode(Contact *contact, const char *str, int length)
+QString ContactList::toUnicode(Contact *contact, const QCString &str, int length)
 {
-    if (str && *str){
+    if (!str.isEmpty()){
         if (length < 0)
-            length = strlen(str);
+            length = str.length();
         QString res = getCodec(contact)->toUnicode(str, length);
         return res.replace(QRegExp("\r"), "");
     }
-    return "";
+    return QString::null;
 }
 
-string ContactList::fromUnicode(Contact *contact, const QString &str)
+QCString ContactList::fromUnicode(Contact *contact, const QString &str)
 {
     if (str.isEmpty())
         return "";
     QString s = str;
     s = s.replace(QRegExp("\r?\n"), "\r\n");
-    QCString res = getCodec(contact)->fromUnicode(s);
-    return (const char*)res;
+    return getCodec(contact)->fromUnicode(s);
 }
 }
 
@@ -2124,8 +2116,8 @@ EXPORT QString g_i18n(const char *text, SIM::Contact *contact)
     QString female = i18n("female", text);
     if (male == female)
         return male;
-    std::string gender = contact->clientData.property("Gender");
-    if (atol(gender.c_str()) == 1)
+    QString gender = contact->clientData.property("Gender");
+    if (gender.toLong() == 1)
         return female;
     return male;
 }

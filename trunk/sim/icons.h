@@ -19,32 +19,34 @@
 #define _ICONS_H
 
 #include "simapi.h"
-#include "stl.h"
 
 #include <qiconset.h>
 #include <qimage.h>
-
-class QMimeSourceFactory;
+#include <qmap.h>
+#include <qstring.h>
+#include <qstringlist.h>
+#include <qptrlist.h>
+#include <qvaluelist.h>
 
 namespace SIM
 {
 
 typedef struct PictDef
 {
-    QImage			image;
-    std::string		file;
+    QImage      image;
+    QString     file;
 #ifdef USE_KDE
-    std::string		system;
+    QString     system;
 #endif
-    unsigned		flags;
+    unsigned    flags;
 } PictDef;
 
-typedef std::map<my_string, PictDef> PIXMAP_MAP;
+typedef QMap<QString, PictDef> PIXMAP_MAP;
 
-typedef struct smileDef
+typedef struct
 {
-    std::string	smile;
-    std::string	name;
+    QString smile;
+    QString name;
 } smileDef;
 
 class IconSet
@@ -52,15 +54,15 @@ class IconSet
 public:
     IconSet();
     virtual ~IconSet();
-    virtual PictDef *getPict(const char *name) = 0;
+    virtual PictDef *getPict(const QString &name) = 0;
     virtual void clear() = 0;
-    void parseSmiles(const QString&, unsigned &start, unsigned &size, std::string &name);
-    std::list<std::string> getSmile(const char *name);
-    std::string getSmileName(const char *name);
-    void getSmiles(std::list<std::string> &smiles, std::list<std::string> &used);
+    void parseSmiles(const QString&, unsigned &start, unsigned &size, QString &name);
+    QStringList getSmile(const QString &name);
+    QString getSmileName(const QString &name);
+    void getSmiles(QStringList &smiles, QStringList &used);
 protected:
-    PIXMAP_MAP		m_icons;
-    std::list<smileDef>	m_smiles;
+    PIXMAP_MAP      m_icons;
+    QValueList<smileDef>    m_smiles;
 };
 
 class EXPORT Icons : public QObject, public EventReceiver
@@ -69,20 +71,20 @@ class EXPORT Icons : public QObject, public EventReceiver
 public:
     Icons();
     ~Icons();
-    PictDef *getPict(const char *name);
+    PictDef *getPict(const QString &name);
     QString parseSmiles(const QString&);
-    std::list<std::string> getSmile(const char *name);
-    void getSmiles(std::list<std::string> &smiles);
-    std::string getSmileName(const char *name);
+    QStringList getSmile(const QString &ame);
+    void getSmiles(QStringList &smiles);
+    QString getSmileName(const QString &name);
     static unsigned nSmile;
-    IconSet *addIconSet(const char *name, bool bDefault);
+    IconSet *addIconSet(const QString &name, bool bDefault);
     void removeIconSet(IconSet*);
-    std::list<IconSet*> m_customSets;
+    QValueList<IconSet*> m_customSets;
 protected slots:
     void iconChanged(int);
 protected:
     void *processEvent(Event*);
-    std::list<IconSet*>	m_defSets;
+    QValueList<IconSet*>    m_defSets;
 };
 
 EXPORT Icons *getIcons();

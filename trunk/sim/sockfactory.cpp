@@ -363,7 +363,8 @@ void SIMClientSocket::slotError(int err)
     if (err)
         log(L_DEBUG, "Slot error %u", err);
     timerStop();
-    if (notify) notify->error_state(I18N_NOOP("Socket error"));
+    if (notify)
+        notify->error_state(I18N_NOOP("Socket error"));
 }
 
 void SIMClientSocket::pause(unsigned t)
@@ -430,15 +431,15 @@ void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPCl
 void SIMServerSocket::bind(const char *path)
 {
     m_name = QFile::decodeName(path);
-    string user_id;
+    QString user_id;
     uid_t uid = getuid();
     struct passwd *pwd = getpwuid(uid);
     if (pwd){
         user_id = pwd->pw_name;
     }else{
-        user_id = number(uid);
+        user_id = QString::number(uid);
     }
-    m_name = m_name.replace(QRegExp("\\%user\\%"), user_id.c_str());
+    m_name = m_name.replace(QRegExp("\\%user\\%"), user_id);
     QFile::remove(m_name);
 
     int s = socket(PF_UNIX, SOCK_STREAM, 0);
@@ -522,14 +523,12 @@ static IPResolver *pResolver = NULL;
 
 void deleteResolver()
 {
-    if (pResolver)
-        delete pResolver;
+    delete pResolver;
 }
 
 IP::IP()
+ : m_ip(0)
 {
-    m_ip = 0;
-    m_host = NULL;
 }
 
 IP::~IP()
@@ -542,32 +541,18 @@ IP::~IP()
             }
         }
     }
-    if (m_host)
-        delete[] m_host;
 }
 
-void IP::set(unsigned long ip, const char *host)
+void IP::set(unsigned long ip, const QString &host)
 {
     bool bResolve = false;
     if (ip != m_ip){
         m_ip = ip;
-        if (m_host){
-            delete[] m_host;
-            m_host = NULL;
-        }
+        m_host = QString::null;
         bResolve = true;
     }
-    if (host && *host){
-        if (m_host){
-            if (!strcmp(m_host, host))
-                return;
-            delete[] m_host;
-            m_host = NULL;
-        }
-        m_host = new char[strlen(host) + 1];
-        strcpy(m_host, host);
-    }
-    if (bResolve && m_host)
+    m_host = host;
+    if (bResolve && !m_host.isEmpty())
         resolve();
 }
 

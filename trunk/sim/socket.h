@@ -181,8 +181,8 @@ class EXPORT TCPClient : public QObject, public Client, public ClientSocketNotif
     Q_OBJECT
 public:
     TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority = DefaultPriority);
-    virtual const char		*getServer() const = 0;
-    virtual unsigned short	getPort() const = 0;
+    virtual QString         getServer() const = 0;
+    virtual unsigned short  getPort() const = 0;
     unsigned		m_reconnect;
     virtual void	setStatus(unsigned status, bool bCommon);
     unsigned long	ip() { return m_ip; }

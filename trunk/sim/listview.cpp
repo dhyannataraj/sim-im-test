@@ -17,10 +17,10 @@
 
 #include "listview.h"
 
-#include <qdragobject.h>
-#include <qheader.h>
 #include <qpopupmenu.h>
 #include <qtimer.h>
+#include <qapplication.h>
+#include <qheader.h>
 
 using namespace SIM;
 

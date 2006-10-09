@@ -63,21 +63,19 @@ void ButtonsMap::add(unsigned id, CToolItem *w)
 CToolItem::CToolItem(CommandDef *def)
 {
     m_def = *def;
-    if (def->text_wrk){
-        m_text = QString::fromUtf8(def->text_wrk);
-        free(def->text_wrk);
-        def->text_wrk = NULL;
+    if (!def->text_wrk.isEmpty()){
+        m_text = def->text_wrk;
+        def->text_wrk = QString::null;
     }
 }
 
 void CToolItem::setCommand(CommandDef *def)
 {
-    if (def->text_wrk){
-        m_text = QString::fromUtf8(def->text_wrk);
-        free(def->text_wrk);
-        def->text_wrk = NULL;
+    if (!def->text_wrk.isEmpty()){
+        m_text = def->text_wrk;
+        def->text_wrk = QString::null;
     }else{
-        m_text = "";
+        m_text = QString::null;
     }
     def->bar_id  = m_def.bar_id;
     def->bar_grp = m_def.bar_grp;
@@ -162,8 +160,7 @@ void CToolButton::setTextLabel()
 {
     QString text = m_text;
     if (text.isEmpty()) {
-        if (m_def.text && *m_def.text)
-            text = i18n(m_def.text);
+        text = i18n(m_def.text);
     }
     int key = QAccel::shortcutKey(text);
     setAccel(key);
@@ -509,7 +506,7 @@ void CToolCombo::slotTextChanged(const QString &str)
 void CToolCombo::setState()
 {
     CToolItem::setState();
-    if (m_def.text && *m_def.text){
+    if (!m_def.text.isEmpty()){
         QString t = i18n(m_def.text);
         int pos;
         while ((pos = t.find('&')) >= 0)
@@ -703,7 +700,7 @@ void CToolBar::toolBarChanged()
             addSeparator();
             continue;
         }
-        s->text_wrk = NULL;
+        s->text_wrk = QString::null;
         CToolItem *btn = NULL;
         switch (s->flags & BTN_TYPE){
         case BTN_PICT:

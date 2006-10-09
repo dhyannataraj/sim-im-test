@@ -23,9 +23,6 @@
 #include "simapi.h"
 
 #ifndef USE_KDE
-
-#include <qcolor.h>
-#include <qpoint.h>
 #include <qpushbutton.h>
 
 class EXPORT QColorButton : public QPushButton

@@ -35,7 +35,6 @@
 #include <qfiledialog.h>
 #endif
 
-using std::string;
 using namespace SIM;
 
 EditFile::EditFile(QWidget *p, const char *name)
@@ -134,9 +133,6 @@ void EditFile::setShowHidden(bool value)
 void EditFile::showFiles()
 {
     QString s = edtFile->text();
-#ifdef WIN32
-    s.replace(QRegExp("\\\\"), "/");
-#endif
     if (bDirMode){
         if (bShowHidden) {
             FileDialog *dialog = new FileDialog(s, QString::null, topLevelWidget(), title);
@@ -164,9 +160,7 @@ void EditFile::showFiles()
         if (s.isEmpty()){
             s = startDir;
             if (!s.isEmpty()){
-                QCString d;
-                d = QFile::encodeName(s);
-                makedir(d.data());
+                makedir(QFile::encodeName(QDir::convertSeparators(s)).data());
             }
         }
         if (createPreview){
@@ -225,10 +219,8 @@ void EditFile::showFiles()
 #endif
         }
     }
-#ifdef WIN32
-    s.replace(QRegExp("/"), "\\");
-#endif
-    if (s.length()) edtFile->setText(s);
+    if (s.length())
+        edtFile->setText(QDir::convertSeparators(s));
 }
 
 EditSound::EditSound(QWidget *p, const char *name)
@@ -254,8 +246,8 @@ EditSound::~EditSound()
 
 void EditSound::play()
 {
-    QCString s = QFile::encodeName(edtFile->text());
-    Event e(EventPlaySound, (void*)(const char*)s);
+    QString s = edtFile->text();
+    Event e(EventPlaySound, (void*)&s);
     e.process();
 }
 

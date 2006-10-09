@@ -20,14 +20,13 @@
 
 #include "simapi.h"
 
-#include <qdragobject.h>
 #include <qlistview.h>
+#include <qdragobject.h>
 
 const unsigned long MenuListView		= 0x100;
 const unsigned long CmdListDelete	= 0x100;
 
 class QTimer;
-class QDragObject;
 
 class EXPORT ListView : public QListView, public SIM::EventReceiver
 {

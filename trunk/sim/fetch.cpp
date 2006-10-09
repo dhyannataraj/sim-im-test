@@ -240,7 +240,7 @@ void FetchThread::run()
         return;
     }
     for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
-        string name = (*it).first.c_str();
+        string name = (*it).first.str().local8Bit().data();
         if (!headers.empty())
             headers += "\r\n";
         headers += name;
@@ -887,7 +887,7 @@ void FetchClientPrivate::connect_ready()
     }
     for (HEADERS_MAP::iterator it = m_hOut.begin(); it != m_hOut.end(); ++it){
         m_socket->writeBuffer
-        << (*it).first.c_str()
+        << (*it).first.str().local8Bit().data()
         << ": "
         << (*it).second.c_str()
         << "\r\n";

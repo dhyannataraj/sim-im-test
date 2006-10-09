@@ -443,8 +443,7 @@ void TextShow::setSource(const QString &name)
         url += mark;
     }
 
-    QCString s = url.local8Bit();
-    Event e(EventGoURL, (void*)(const char*)url);
+    Event e(EventGoURL, (void*)&url);
     e.process();
 
 #ifndef QT_NO_CURSOR

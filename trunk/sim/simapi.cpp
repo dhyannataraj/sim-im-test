@@ -79,13 +79,13 @@ QString i18n(const char *comment, const char *text)
         return QString::null;
     if (comment == NULL)
         return i18n(text);
-    std::string s;
+    QCString s;
     s = "_: ";
     s += comment;
     s += "\n";
     s += text;
-    QString res = QObject::tr(s.c_str());
-    if (res != s.c_str())
+    QString res = QObject::tr(s);
+    if (res != s.data())
         return res;
     return i18n(text);
 }
@@ -688,10 +688,10 @@ EXPORT unsigned screens()
     return desktop->numScreens();
 }
 
-EXPORT QRect screenGeometry(int nScreen)
+EXPORT QRect screenGeometry(unsigned nScreen)
 {
     QDesktopWidget *desktop = QApplication::desktop();
-    if(nScreen == -1) {
+    if(nScreen == ~0U) {
         QRect rc;
         for (int i = 0; i < desktop->numScreens(); i++){
             rc |= desktop->screenGeometry(i);
@@ -726,27 +726,26 @@ EXPORT unsigned get_random()
 
 my_string::my_string(const char *str)
 {
-    m_str = new string(str);
+    m_str = QString::fromUtf8(str);
 }
 
-my_string::my_string(const my_string &s)
+my_string::my_string(const QString &s)
 {
-    m_str = new string(*s.m_str);
+    m_str = s;
 }
 
 void my_string::operator = (const my_string &s)
 {
-    *m_str = *s.m_str;
+    m_str = s.m_str;
 }
 
 my_string::~my_string()
 {
-    delete m_str;
 }
 
 bool my_string::operator < (const my_string &a) const
 {
-    return strcmp(m_str->c_str(), a.m_str->c_str()) < 0;
+    return QString::compare(m_str, a.m_str) < 0;
 }
 
 }

@@ -34,8 +34,6 @@
 namespace SIM
 {
 
-using std::string;
-
 static bool bInit = false;
 
 static void initLib()
@@ -460,6 +458,3 @@ QByteArray sha1(const char *str, int size)
 } // namespace SIM
 
 #endif
-
-
-

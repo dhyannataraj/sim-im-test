@@ -25,7 +25,7 @@ using namespace std;
 
 Command::Command()
 {
-    memset(&m_cmd, 0, sizeof(CommandDef));
+    m_cmd.clear();
 }
 
 CommandDef &Command::operator=(const CommandDef &cmd)
@@ -281,22 +281,7 @@ void CommandsListPrivateShort::reset()
     it = m_def->cfg.begin();
 }
 
-static CommandDef SeparatorDef =
-    {
-        0,				// Command ID
-        NULL,			// Command name
-        NULL,			// Icon
-        NULL,			// Icon for checked state
-        NULL,			// Accel
-        0,				// Toolbar ID
-        0,				// Toolbar GRP
-        0,				// Menu ID
-        0,				// Menu GRP
-        0,				// Popup ID
-        0,				// Command flags
-        NULL,			// Paramether from MenuSetParam
-        NULL			// Text for check state (utf8)
-    };
+static CommandDef SeparatorDef = CommandDef ();
 
 CommandDef *CommandsListPrivateShort::next()
 {

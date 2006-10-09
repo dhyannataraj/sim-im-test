@@ -22,6 +22,7 @@
 
 #include <qlineedit.h>
 #include <qgroupbox.h>
+#include <qregexp.h>
 #include <qvalidator.h>
 
 class EXPORT IntLineEdit : public QLineEdit

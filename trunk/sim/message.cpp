@@ -37,8 +37,8 @@ static DataDef	messageData[] =
         { "ServerText", DATA_STRING, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
         // Use impossible RGB values as defaults, to signify there's no color set.
-        { "Background", DATA_ULONG, 1, (const char*)0xFFFFFFFF },
-        { "Foreground", DATA_ULONG, 1, (const char*)0xFFFFFFFF },
+        { "Background", DATA_ULONG, 1, (const char*)~0U },
+        { "Foreground", DATA_ULONG, 1, (const char*)~0U },
         { "Time", DATA_ULONG, 1, 0 },
         { "Font", DATA_STRING, 1, 0 },
         { "", DATA_STRING, 1, 0 },			// Error
@@ -58,11 +58,6 @@ Message::Message(unsigned type, Buffer *cfg)
 Message::~Message()
 {
     free_data(messageData, &data);
-}
-
-bool Message::setText(const char *text)
-{
-    return set_str(&data.Text.ptr, text);
 }
 
 QString Message::getPlainText()
@@ -89,10 +84,8 @@ QString Message::presentation()
     return res;
 }
 
-void Message::setClient(const char *client)
+void Message::setClient(const QString &client)
 {
-    if (client == NULL)
-        client = "";
     m_client = client;
 }
 
@@ -109,16 +102,17 @@ string Message::save()
 
 QString Message::getText() const
 {
-    if (data.Text.ptr && *data.Text.ptr)
-        return QString::fromUtf8(data.Text.ptr);
-    if (data.ServerText.ptr && *data.ServerText.ptr)
-        return getContacts()->toUnicode(getContacts()->contact(m_contact), data.ServerText.ptr);
+    if (!data.Text.str().isEmpty())
+        return data.Text.str();
+    // FIXME: Take a look on ServerText!
+    if (!data.ServerText.str().isEmpty())
+        return getContacts()->toUnicode(getContacts()->contact(m_contact), data.ServerText.str().ascii());
     return "";
 }
 
 void Message::setText(const QString &text)
 {
-    set_str(&data.Text.ptr, text.utf8());
+    data.Text.str() = text;
 }
 
 static DataDef messageSMSData[] =
@@ -441,8 +435,8 @@ void FileMessage::setSize(unsigned size)
 
 QString FileMessage::getDescription()
 {
-    if (data.Description.ptr && *data.Description.ptr)
-        return QString::fromUtf8(data.Description.ptr);
+    if (!data.Description.str().isEmpty())
+        return data.Description.str();
     Iterator it(*this);
     if (it.count() <= 1){
         const QString *name = ++it;
@@ -478,7 +472,7 @@ QString FileMessage::getDescription()
 
 bool FileMessage::setDescription(const QString &str)
 {
-    return set_str(&data.Description.ptr, str.utf8());
+    return data.Description.setStr(str);
 }
 
 string FileMessage::save()
