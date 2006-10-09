@@ -28,6 +28,9 @@
 #include <qfile.h>
 #include <qmime.h>
 #include <qapplication.h>
+#include <qfileinfo.h>
+#include <qdir.h>
+#include <qmap.h>
 
 #ifdef USE_KDE
 #include <kapp.h>
@@ -630,7 +633,7 @@ PictDef *FileIconSet::getPict(const QString &name)
              if (!name.startsWith("big.")){
                 pict = SmallIconSet(it.data().system).pixmap(QIconSet::Small, QIconSet::Normal);
             }else{
-                pict = DesktopIconSet(it->second.system.c_str()).pixmap(QIconSet::Large, QIconSet::Normal);
+                pict = DesktopIconSet(it.data().system).pixmap(QIconSet::Large, QIconSet::Normal);
             }
             if (!pict.isNull()){
                 it.data().image = pict.convertToImage();
