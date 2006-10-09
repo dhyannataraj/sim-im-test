@@ -101,9 +101,8 @@ const unsigned LR_DELETE		= 1;
 const unsigned LR_CHANGE_GROUP	= 2;
 const unsigned LR_DELETE_GROUP	= 3;
 
-typedef struct YahooUserData
+struct YahooUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data		Login;
     SIM::Data		Nick;
     SIM::Data		First;
@@ -117,7 +116,7 @@ typedef struct YahooUserData
     SIM::Data		Group;
     SIM::Data		bChecked;
     SIM::Data		bTyping;
-} YahooUserData;
+};
 
 typedef struct YahooClientData
 {
@@ -131,7 +130,7 @@ typedef struct YahooClientData
     YahooUserData	owner;
 } YahooClientData;
 
-typedef std::pair<unsigned, std::string> PARAM;
+typedef std::pair<unsigned, QCString> PARAM;
 
 class Params : public std::list<PARAM>
 {
@@ -151,7 +150,7 @@ typedef struct Message_ID
 typedef struct ListRequest
 {
     unsigned	type;
-    std::string		name;
+    QString     name;
 } ListRequest;
 
 class YahooClient : public SIM::TCPClient
@@ -170,9 +169,9 @@ public:
     virtual std::string getConfig();
     QString getLogin();
     void setLogin(const QString&);
-    std::string  dataName(void*);
+    QString  dataName(void*);
     YahooClientData	data;
-    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
+    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL);
     YahooUserData *findContact(const char *id, const char *grp, SIM::Contact *&contact, bool bSend=true, bool bJoin=true);
     void sendFile(SIM::FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
     std::list<Message_ID>		m_waitMsg;
@@ -185,7 +184,7 @@ protected:
     virtual void setInvisible(bool bState);
     void	disconnected();
     SIM::Socket  *createSocket();
-    std::string	name();
+    QString	name();
     QWidget	*setupWnd();
     bool isMyData(SIM::clientData*&, SIM::Contact*&);
     bool createData(SIM::clientData*&, SIM::Contact*);
@@ -206,6 +205,8 @@ protected:
     void process_auth_0x0b(const char *seed, const char *sn);
     void sendPacket(unsigned short service, unsigned long status=YAHOO_STATUS_AVAILABLE);
     void addParam(unsigned key, const char *value);
+    void addParam(unsigned key, const QCString &value);
+    void addParam(unsigned key, const QString &value);
     void loadList(const char *data);
     void contact_added(const char *id, const char *message);
     void contact_rejected(const char *id, const char *message);
@@ -223,7 +224,7 @@ protected:
     void removeBuddy(YahooUserData*);
     void moveBuddy(YahooUserData *data, const char *grp);
     void sendStatus(unsigned long status, const char *msg = NULL);
-    ListRequest *findRequest(const char *login);
+    ListRequest *findRequest(const QString &login);
     std::list<PARAM>	   m_values;
     std::list<ListRequest> m_requests;
     unsigned long  m_session;
@@ -231,7 +232,7 @@ protected:
     unsigned short m_data_size;
     unsigned short m_service;
     unsigned	   m_ft_id;
-    std::string	m_session_id;
+    QCString       m_session_id;
     bool m_bHeader;
     bool m_bHTTP;
     bool m_bFirstTry;

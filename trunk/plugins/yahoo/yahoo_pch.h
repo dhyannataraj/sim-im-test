@@ -1,7 +1,5 @@
 #pragma once
 
-#include <process.h>
-
 #include "simapi.h"	// before Qt headers!
 #include "stl.h"
 

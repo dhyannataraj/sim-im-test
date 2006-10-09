@@ -40,7 +40,7 @@ const unsigned BROWSE_INFO	= 8;
 JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type)
         : QWizard(parent, NULL, FALSE, WType_TopLevel | WDestructiveClose)
 {
-    m_type = type;
+    m_type = QString::fromUtf8(type);
     m_search = new JabberSearch;
     m_search->init(this, client, jid, node, title, m_type == "register");
     addPage(m_search, title);
@@ -70,7 +70,7 @@ void JabberWizard::slotSelected(const QString&)
         return;
     setFinishEnabled(m_result, false);
     QString condition = m_search->condition(NULL);
-    m_id = m_search->m_client->process(m_search->m_jid.c_str(), m_search->m_node.c_str(), condition, m_type.c_str());
+    m_id = m_search->m_client->process(m_search->m_jid, m_search->m_node, condition, m_type);
 }
 
 void *JabberWizard::processEvent(Event *e)
@@ -79,11 +79,9 @@ void *JabberWizard::processEvent(Event *e)
         agentRegisterInfo *ai = (agentRegisterInfo*)(e->param());
         if (m_id == ai->id){
             if (ai->err_code){
-                QString err;
-                if (ai->error && *ai->error)
-                    err = i18n(ai->error);
+                QString err = i18n(ai->error);
                 if (err.isEmpty())
-                    err = i18n("Error %1") .arg(ai->err_code);
+                    err = i18n("Error %1").arg(ai->err_code);
                 m_result->setText(err);
             }else{
                 m_result->setText(i18n("Done"));
@@ -168,29 +166,29 @@ void JabberBrowser::setClient(JabberClient *client)
     m_client = client;
     QString url;
     if (m_client->getUseVHost())
-        url = QString::fromUtf8(m_client->getVHost());
+        url = m_client->getVHost();
     if (url.isEmpty())
-        url = QString::fromUtf8(m_client->getServer());
+        url = m_client->getServer();
     goUrl(url, "");
 }
 
 void JabberBrowser::goUrl(const QString &url, const QString &node)
 {
     int i = 0;
-    vector<string>::iterator it;
+    vector<QString>::iterator it;
     for (it = m_history.begin(); it != m_history.end(); ++it, i++){
         if (i > m_historyPos)
             break;
     }
     m_history.erase(it, m_history.end());
-    m_history.push_back(string(url.utf8()));
+    m_history.push_back(url);
     i = 0;
     for (it = m_nodes.begin(); it != m_nodes.end(); ++it, i++){
         if (i > m_historyPos)
             break;
     }
     m_nodes.erase(it, m_nodes.end());
-    m_nodes.push_back(string(node.utf8()));
+    m_nodes.push_back(node);
     m_historyPos++;
     go(url, node);
 }
@@ -225,13 +223,13 @@ void JabberBrowser::go(const QString &url, const QString &node)
     m_bError = false;
     unsigned mode = 0;
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
-        item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(url.utf8(), node.utf8()).c_str());
-        item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(url.utf8(), node.utf8()).c_str());
+        item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(url, node));
+        item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(url, node));
         mode = BROWSE_DISCO | BROWSE_INFO;
     }
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE){
         if (node.isEmpty()){
-            item->setText(COL_ID_BROWSE, m_client->browse(url.utf8()).c_str());
+            item->setText(COL_ID_BROWSE, m_client->browse(url));
             mode |= BROWSE_BROWSE;
         }
     }
@@ -285,12 +283,10 @@ void *JabberBrowser::processEvent(Event *e)
 {
     if (e->type() == EventAgentInfo){
         JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
-        if (m_search_id == data->ReqID.ptr){
-            if (data->Type.ptr == NULL){
+        if (m_search_id == data->ReqID.str()){
+            if (data->Type.str().isEmpty()){
                 if (data->nOptions.toULong()){
-                    QString err;
-                    if (data->Label.ptr && *data->Label.ptr)
-                        err = i18n(data->Label.ptr);
+                    QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_search_id = "";
@@ -316,12 +312,10 @@ void *JabberBrowser::processEvent(Event *e)
             m_search->jidSearch->addWidget(data);
             return e->param();
         }
-        if (m_reg_id == data->ReqID.ptr){
-            if (data->Type.ptr == NULL){
+        if (m_reg_id == data->ReqID.str()) {
+            if (data->Type.str().isEmpty()){
                 if (data->nOptions.toULong()){
-                    QString err;
-                    if (data->Label.ptr && *data->Label.ptr)
-                        err = i18n(data->Label.ptr);
+                    QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_reg_id = "";
@@ -346,12 +340,10 @@ void *JabberBrowser::processEvent(Event *e)
                 m_reg->m_search->addWidget(data);
             return e->param();
         }
-        if (m_config_id == data->ReqID.ptr){
-            if (data->Type.ptr == NULL){
+        if (m_config_id == data->ReqID.str()){
+            if (data->Type.str().isEmpty()){
                 if (data->nOptions.toULong()){
-                    QString err;
-                    if (data->Label.ptr && *data->Label.ptr)
-                        err = i18n(data->Label.ptr);
+                    QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
                     m_config_id = "";
@@ -475,7 +467,7 @@ void *JabberBrowser::processEvent(Event *e)
                     delete m_search;
                 m_search = new JIDSearch(this, m_client, item->text(COL_JID), item->text(COL_NODE), item->text(COL_TYPE).utf8());
                 m_search->jidSearch->init(this, m_client, m_search->m_jid, m_search->m_node, "", false);
-                m_search_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "search");
+                m_search_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "search");
                 return e->param();
             }
             if (cmd->id == CmdRegister){
@@ -483,7 +475,7 @@ void *JabberBrowser::processEvent(Event *e)
                     delete m_reg;
                 m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME)), "reg", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
                 connect(m_reg, SIGNAL(destroyed()), this, SLOT(regFinished()));
-                m_reg_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
+                m_reg_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "register");
                 return e->param();
             }
             if (cmd->id == CmdBrowseConfigure){
@@ -491,7 +483,7 @@ void *JabberBrowser::processEvent(Event *e)
                     delete m_config;
                 m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME)), "configure", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
                 connect(m_config, SIGNAL(destroyed()), this, SLOT(configFinished()));
-                m_config_id = m_client->get_agent_info(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
+                m_config_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "data");
                 return e->param();
             }
             if (cmd->id == CmdBrowseInfo){
@@ -505,20 +497,16 @@ void *JabberBrowser::processEvent(Event *e)
         if (cmd->id == CmdBack){
             if (m_historyPos){
                 m_historyPos--;
-                QString url  = QString::fromUtf8(m_history[m_historyPos].c_str());
-                QString node;
-                if (!m_nodes[m_historyPos].empty())
-                    node = QString::fromUtf8(m_nodes[m_historyPos].c_str());
+                QString url  = m_history[m_historyPos];
+                QString node = m_nodes[m_historyPos];
                 go(url, node);
             }
         }
         if (cmd->id == CmdForward){
             if (m_historyPos + 1 < (int)(m_history.size())){
                 m_historyPos++;
-                QString url  = QString::fromUtf8(m_history[m_historyPos].c_str());
-                QString node;
-                if (!m_nodes[m_historyPos].empty())
-                    node = QString::fromUtf8(m_nodes[m_historyPos].c_str());
+                QString url  = m_history[m_historyPos];
+                QString node = m_nodes[m_historyPos];
                 go(url, node);
             }
         }
@@ -551,9 +539,9 @@ void *JabberBrowser::processEvent(Event *e)
         if (!m_bInProcess)
             return NULL;
         DiscoItem *item = (DiscoItem*)(e->param());
-        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id.c_str());
+        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id.utf8());
         if (it){
-            if (item->jid.empty()){
+            if (item->jid.isEmpty()){
                 it->setText(COL_ID_DISCO_ITEMS, "");
                 if (it != m_list->firstChild()){
                     checkDone();
@@ -561,13 +549,13 @@ void *JabberBrowser::processEvent(Event *e)
                     return e->param();
                 }
                 QString err;
-                if (!item->name.empty()){
-                    err = QString::fromUtf8(item->name.c_str());
-                }else if (!item->node.empty()){
-                    err = i18n("Error %1") .arg(atol(item->node.c_str()));
+                if (!item->name.isEmpty()){
+                    err = item->name;
+                }else if (!item->node.isEmpty()){
+                    err = i18n("Error %1") .arg(item->node.toULong());
                 }
                 if (!err.isEmpty()){
-                    unsigned mode = atol(it->text(COL_MODE).latin1());
+                    unsigned mode = it->text(COL_MODE).toLong();
                     if (((mode & BROWSE_BROWSE) == 0) || (it->text(COL_ID_BROWSE).isEmpty() & m_bError))
                         stop(err);
                     m_bError = true;
@@ -583,17 +571,17 @@ void *JabberBrowser::processEvent(Event *e)
             }
             QListViewItem *i;
             for (i = it->firstChild(); i; i = i->nextSibling()){
-                if ((i->text(COL_JID) == QString::fromUtf8(item->jid.c_str())) &&
-                        (i->text(COL_NODE) == QString::fromUtf8(item->node.c_str())))
+                if ((i->text(COL_JID) == item->jid) &&
+                        (i->text(COL_NODE) == item->node))
                     return e->param();
             }
             i = new QListViewItem(it);
-            i->setText(COL_JID, QString::fromUtf8(item->jid.c_str()));
-            i->setText(COL_NAME, item->name.empty() ? QString::fromUtf8(item->jid.c_str()) : QString::fromUtf8(item->name.c_str()));
-            i->setText(COL_NODE, QString::fromUtf8(item->node.c_str()));
+            i->setText(COL_JID, item->jid);
+            i->setText(COL_NAME, item->name.isEmpty() ? item->jid : item->name);
+            i->setText(COL_NODE, item->node);
             int mode = 0;
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
-                i->setText(COL_ID_DISCO_INFO, m_client->discoInfo(item->jid.c_str(), item->node.c_str()).c_str());
+                i->setText(COL_ID_DISCO_INFO, m_client->discoInfo(item->jid, item->node));
                 mode |= BROWSE_INFO;
             }
             i->setText(COL_MODE, QString::number(mode));
@@ -601,19 +589,19 @@ void *JabberBrowser::processEvent(Event *e)
                 loadItem(i);
             return e->param();
         }
-        it = findItem(COL_ID_DISCO_INFO, item->id.c_str());
+        it = findItem(COL_ID_DISCO_INFO, item->id.utf8());
         if (it){
-            if (item->jid.empty()){
+            if (item->jid.isEmpty()){
                 it->setText(COL_ID_DISCO_INFO, "");
                 checkDone();
                 adjustColumn(it);
                 return e->param();
             }
             if (it->text(COL_NAME) == it->text(COL_JID))
-                it->setText(COL_NAME, QString::fromUtf8(item->name.c_str()));
-            it->setText(COL_CATEGORY, QString::fromUtf8(item->category.c_str()));
-            it->setText(COL_TYPE, QString::fromUtf8(item->type.c_str()));
-            it->setText(COL_FEATURES, QString::fromUtf8(item->features.c_str()));
+                it->setText(COL_NAME, item->name);
+            it->setText(COL_CATEGORY, item->category);
+            it->setText(COL_TYPE, item->type);
+            it->setText(COL_FEATURES, item->features);
             if ((JabberPlugin::plugin->getAllLevels()) || (it == m_list->currentItem()))
                 loadItem(it);
             setItemPict(it);
@@ -621,9 +609,9 @@ void *JabberBrowser::processEvent(Event *e)
                 currentChanged(it);
             return e->param();
         }
-        it = findItem(COL_ID_BROWSE, item->id.c_str());
+        it = findItem(COL_ID_BROWSE, item->id.utf8());
         if (it){
-            if (item->jid.empty()){
+            if (item->jid.isEmpty()){
                 it->setText(COL_ID_BROWSE, "");
                 if (it != m_list->firstChild()){
                     checkDone();
@@ -631,13 +619,13 @@ void *JabberBrowser::processEvent(Event *e)
                     return e->param();
                 }
                 QString err;
-                if (!item->name.empty()){
-                    err = QString::fromUtf8(item->name.c_str());
-                }else if (!item->node.empty()){
-                    err = i18n("Error %1") .arg(atol(item->node.c_str()));
+                if (!item->name.isEmpty()){
+                    err = item->name;
+                }else if (!item->node.isEmpty()){
+                    err = i18n("Error %1") .arg(item->node.toULong());
                 }
                 if (!err.isEmpty()){
-                    unsigned mode = atol(it->text(COL_MODE).latin1());
+                    unsigned mode = it->text(COL_MODE).toLong();
                     if (((mode & BROWSE_DISCO) == 0) || (it->text(COL_ID_DISCO_ITEMS).isEmpty() & m_bError))
                         stop(err);
                     m_bError = true;
@@ -646,11 +634,11 @@ void *JabberBrowser::processEvent(Event *e)
                 adjustColumn(it);
                 return e->param();
             }
-            if (it->text(COL_JID) != QString::fromUtf8(item->jid.c_str())){
+            if (it->text(COL_JID) != item->jid){
                 QListViewItem *i;
                 for (i = it->firstChild(); i; i = i->nextSibling()){
-                    if ((i->text(COL_JID) == QString::fromUtf8(item->jid.c_str())) &&
-                            (i->text(COL_NODE) == QString::fromUtf8(item->node.c_str())))
+                    if ((i->text(COL_JID) == item->jid) &&
+                            (i->text(COL_NODE) == item->node))
                         break;
                 }
                 if (i){
@@ -662,18 +650,18 @@ void *JabberBrowser::processEvent(Event *e)
                             it->setOpen(true);
                     }
                     it = new QListViewItem(it);
-                    it->setText(COL_JID, QString::fromUtf8(item->jid.c_str()));
+                    it->setText(COL_JID, item->jid);
                     it->setText(COL_MODE, "0");
                     if (JabberPlugin::plugin->getAllLevels())
                         loadItem(it);
                 }
             }
             if (it->text(COL_NAME).isEmpty() || (it->text(COL_NAME) == it->text(COL_JID)))
-                it->setText(COL_NAME, QString::fromUtf8(item->name.c_str()));
+                it->setText(COL_NAME, item->name);
             it->setText(COL_NODE, "");
-            it->setText(COL_CATEGORY, QString::fromUtf8(item->category.c_str()));
-            it->setText(COL_TYPE, QString::fromUtf8(item->type.c_str()));
-            it->setText(COL_FEATURES, QString::fromUtf8(item->features.c_str()));
+            it->setText(COL_CATEGORY, item->category);
+            it->setText(COL_TYPE, item->type);
+            it->setText(COL_FEATURES, item->features);
             if (JabberPlugin::plugin->getAllLevels() || (it == m_list->currentItem()))
                 loadItem(it);
             setItemPict(it);
@@ -733,22 +721,22 @@ void JabberBrowser::currentChanged(QListViewItem*)
 void JabberBrowser::loadItem(QListViewItem *item)
 {
     bool bProcess = false;
-    unsigned mode = atol(item->text(COL_MODE).latin1());
+    unsigned mode = item->text(COL_MODE).toLong();
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO){
         if (((mode & BROWSE_DISCO) == 0) && item->text(COL_ID_DISCO_ITEMS).isEmpty()){
-            item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8()).c_str());
+            item->setText(COL_ID_DISCO_ITEMS, m_client->discoItems(item->text(COL_JID), item->text(COL_NODE)));
             mode |= BROWSE_DISCO;
             bProcess = true;
         }
         if (((mode & BROWSE_INFO) == 0) && item->text(COL_ID_DISCO_INFO).isEmpty()){
-            item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(item->text(COL_JID).utf8(), item->text(COL_NODE).utf8()).c_str());
+            item->setText(COL_ID_DISCO_INFO, m_client->discoInfo(item->text(COL_JID), item->text(COL_NODE)));
             mode |= BROWSE_INFO;
             bProcess = true;
         }
     }
     if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE){
         if (((mode & BROWSE_BROWSE) == 0) && item->text(COL_ID_BROWSE).isEmpty() && haveFeature("iq:id:browse", item->text(COL_FEATURES))){
-            item->setText(COL_ID_BROWSE, m_client->browse(item->text(COL_JID).utf8()).c_str());
+            item->setText(COL_ID_BROWSE, m_client->browse(item->text(COL_JID)));
             mode |= BROWSE_BROWSE;
             bProcess = true;
         }
@@ -786,11 +774,10 @@ void JabberBrowser::dragStart()
     if (item == NULL)
         return;
     Contact *contact;
-    string resource;
-    JabberUserData *data = m_client->findContact(item->text(COL_JID).utf8(), NULL, false, contact, resource);
+    QString resource;
+    JabberUserData *data = m_client->findContact(item->text(COL_JID), QString::null, false, contact, resource);
     if (data == NULL){
-        string resource;
-        m_client->findContact(item->text(COL_JID).utf8(), item->text(COL_NAME).utf8(), true, contact, resource);
+        m_client->findContact(item->text(COL_JID), item->text(COL_NAME), true, contact, resource);
         contact->setFlags(CONTACT_DRAG);
     }
     m_list->startDrag(new ContactDragObject(m_list, contact));

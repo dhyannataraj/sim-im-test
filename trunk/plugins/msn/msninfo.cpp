@@ -70,8 +70,8 @@ void MSNInfo::fill()
 {
     MSNUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtEMail->setText(QString::fromUtf8(data->EMail.ptr));
-    edtNick->setText(data->ScreenName.ptr ? QString::fromUtf8(data->ScreenName.ptr) : edtEMail->text());
+    edtEMail->setText(data->EMail.str());
+    edtNick->setText(!data->ScreenName.str().isEmpty() ? data->ScreenName.str() : data->EMail.str());
     int current = 0;
     const char *text = NULL;
     unsigned status = m_data ? m_data->Status.toULong() : m_client->getStatus();
@@ -116,7 +116,7 @@ void MSNInfo::apply(Client *client, void *_data)
     if (nick == edtEMail->text())
         nick = "";
     MSNUserData *data = (MSNUserData*)_data;
-    set_str(&data->ScreenName.ptr, nick.utf8());
+    data->ScreenName.str() = nick;
 }
 
 #ifndef NO_MOC_INCLUDES

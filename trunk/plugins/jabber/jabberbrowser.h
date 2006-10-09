@@ -62,8 +62,8 @@ protected slots:
     void slotSelected(const QString&);
 protected:
     void *processEvent(SIM::Event *e);
-    std::string m_type;
-    std::string m_id;
+    QString m_type;
+    QString m_id;
 };
 
 class JabberBrowser : public QMainWindow, public SIM::EventReceiver
@@ -112,16 +112,16 @@ protected:
     bool		 m_bInProcess;
     JabberClient *m_client;
     CToolBar	 *m_bar;
-    std::vector<std::string>	m_history;
-    std::vector<std::string>	m_nodes;
+    std::vector<QString>	m_history;
+    std::vector<QString>	m_nodes;
     QString		 m_historyStr;
     int			 m_historyPos;
     JabberWizard	*m_reg;
     JabberWizard	*m_config;
     JIDSearch	 *m_search;
-    std::string		 m_search_id;
-    std::string		 m_reg_id;
-    std::string		 m_config_id;
+    QString		 m_search_id;
+    QString		 m_reg_id;
+    QString		 m_config_id;
     bool		 m_bError;
     friend class DiscoInfo;
 };

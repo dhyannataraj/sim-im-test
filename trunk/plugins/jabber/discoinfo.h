@@ -56,10 +56,10 @@ protected:
     bool m_bStat;
     bool m_bVCard;
     JabberBrowser *m_browser;
-    std::string m_versionId;
-    std::string m_timeId;
-    std::string m_lastId;
-    std::string m_statId;
+    QString m_versionId;
+    QString m_timeId;
+    QString m_lastId;
+    QString m_statId;
     JabberAboutInfo *m_about;
     JabberUserData	m_data;
 };

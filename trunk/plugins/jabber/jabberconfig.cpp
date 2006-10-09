@@ -37,13 +37,11 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     QTimer::singleShot(0, this, SLOT(changed()));
     edtID->setText(m_client->getID());
     edtPasswd->setText(m_client->getPassword());
-    edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
+    edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
     edtPriority->setValue(m_client->getPriority());
-    if (m_client->data.owner.Resource.ptr)
-        edtResource->setText(QString::fromUtf8(m_client->data.owner.Resource.ptr));
-    if (m_client->data.VHost.ptr)
-        edtVHost->setText(QString::fromUtf8(m_client->data.VHost.ptr));
+    edtResource->setText(m_client->data.owner.Resource.str());
+    edtVHost->setText(m_client->data.VHost.str());
     if (m_bConfig){
         tabCfg->removePage(tabJabber);
     }else{
@@ -67,7 +65,6 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     edtMinPort->setValue(m_client->getMinPort());
     edtMaxPort->setValue(m_client->getMaxPort());
     chkVHost->setChecked(m_client->getUseVHost());
-    toggledVHost(m_client->getUseVHost());
     chkTyping->setChecked(m_client->getTyping());
     chkRichText->setChecked(m_client->getRichText());
     chkIcons->setChecked(m_client->getProtocolIcons());
@@ -97,15 +94,15 @@ void JabberConfig::apply(Client*, void*)
 void JabberConfig::apply()
 {
     if (m_bConfig){
-        m_client->setServer(edtServer->text().local8Bit());
-        m_client->setPort((unsigned short)atol(edtPort->text()));
+        m_client->setServer(edtServer->text());
+        m_client->setPort(edtPort->text().toUShort());
     }else{
-        m_client->setServer(edtServer1->text().local8Bit());
-        m_client->setPort((unsigned short)atol(edtPort1->text()));
+        m_client->setServer(edtServer1->text());
+        m_client->setPort(edtPort1->text().toUShort());
     }
     m_client->setUseVHost(false);
     if (chkVHost->isChecked()){
-        set_str(&m_client->data.VHost.ptr, edtVHost->text().utf8());
+        m_client->data.VHost.str() = edtVHost->text();
         if (!edtVHost->text().isEmpty())
             m_client->setUseVHost(true);
     }
@@ -114,7 +111,7 @@ void JabberConfig::apply()
     if (n >= 0){
         QString host = jid.mid(n + 1);
         jid = jid.left(n);
-        set_str(&m_client->data.VHost.ptr, host.utf8());
+        m_client->data.VHost.str() = host;
         m_client->setUseVHost(true);
     }
     if (!m_bConfig){
@@ -130,8 +127,8 @@ void JabberConfig::apply()
     }
     m_client->setUsePlain(chkPlain->isChecked());
 #endif
-    m_client->setMinPort((unsigned short)atol(edtMinPort->text().latin1()));
-    m_client->setMaxPort((unsigned short)atol(edtMaxPort->text().latin1()));
+    m_client->setMinPort(edtMinPort->text().toUShort());
+    m_client->setMaxPort(edtMaxPort->text().toUShort());
     m_client->setTyping(chkTyping->isChecked());
     m_client->setRichText(chkRichText->isChecked());
     m_client->setAutoSubscribe(chkSubscribe->isChecked());
@@ -141,17 +138,17 @@ void JabberConfig::apply()
         Event e(EventRepaintView);
         e.process();
     }
-    set_str(&m_client->data.owner.Resource.ptr, edtResource->text().utf8());
-    m_client->setPriority(atol(edtPriority->text().latin1()));
+    m_client->data.owner.Resource.str() = edtResource->text();
+    m_client->setPriority(edtPriority->text().toLong());
     m_client->setUseHTTP(chkHTTP->isChecked());
-    m_client->setURL(edtUrl->text().latin1());
+    m_client->setURL(edtUrl->text());
 }
 
 void JabberConfig::toggledSSL(bool bState)
 {
-    unsigned port = atol(edtPort1->text());
+    unsigned port = edtPort1->text().toUShort();
     if (m_bConfig)
-        port = atol(edtPort->text());
+        port = edtPort->text().toUShort();
     if (port == 0)
         port = 5222;
     if (bState){
@@ -180,10 +177,10 @@ void JabberConfig::changed()
     if (bOK){
         if (m_bConfig){
             bOK = !edtServer->text().isEmpty() &&
-                  atol(edtPort->text());
+                  edtPort->text().toUShort();
         }else{
             bOK = !edtServer1->text().isEmpty() &&
-                  atol(edtPort1->text());
+                  edtPort1->text().toUShort();
         }
     }
     emit okEnabled(bOK);

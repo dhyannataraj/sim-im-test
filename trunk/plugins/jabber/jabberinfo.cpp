@@ -87,7 +87,7 @@ void JabberInfo::apply()
             return;
         }
         if (!edtPswd1->text().isEmpty())
-            m_client->changePassword(edtPswd1->text().utf8());
+            m_client->changePassword(edtPswd1->text());
         // clear Textboxes
         edtCurrent->clear();
         edtPswd1->clear();
@@ -109,10 +109,10 @@ void JabberInfo::resourceActivated(int i)
         statusTime = data->StatusTime.toULong();
         onlineTime = data->OnlineTime.toULong();
     }else{
-        status = atol(get_str(data->ResourceStatus, n));
-        statusTime = atol(get_str(data->ResourceStatusTime, n));
-        onlineTime = atol(get_str(data->ResourceOnlineTime, n));
-        autoReply = QString::fromUtf8(get_str(data->ResourceReply, n));
+        status = get_str(data->ResourceStatus, n).toUInt();
+        statusTime = get_str(data->ResourceStatusTime, n).toUInt();
+        onlineTime = get_str(data->ResourceOnlineTime, n).toUInt();
+        autoReply = get_str(data->ResourceReply, n);
     }
     int current = 0;
     const char *text = NULL;
@@ -185,20 +185,20 @@ void JabberInfo::fill()
 {
     JabberUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtID->setText(QString::fromUtf8(data->ID.ptr));
-    edtFirstName->setText(data->FirstName.ptr ? QString::fromUtf8(data->FirstName.ptr) : QString(""));
-    edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
-    edtDate->setText(data->Bday.ptr ? QString::fromUtf8(data->Bday.ptr) : QString(""));
-    edtUrl->setText(data->Url.ptr ? QString::fromUtf8(data->Url.ptr) : QString(""));
+    edtID->setText(data->ID.str());
+    edtFirstName->setText(data->FirstName.str());
+    edtNick->setText(data->Nick.str());
+    edtDate->setText(data->Bday.str());
+    edtUrl->setText(data->Url.str());
     urlChanged(edtUrl->text());
     cmbResource->clear();
     if (data->nResources.toULong()){
         for (unsigned i = 1; i <= data->nResources.toULong(); i++)
-            cmbResource->insertItem(QString::fromUtf8(get_str(data->Resources, i)));
+            cmbResource->insertItem(get_str(data->Resources, i));
         cmbResource->setEnabled(data->nResources.toULong() > 1);
     }else{
-        if (data->Resource.ptr)
-            cmbResource->insertItem(QString::fromUtf8(data->Resource.ptr));
+        if (!data->Resource.str().isEmpty())
+            cmbResource->insertItem(data->Resource.str());
         cmbResource->setEnabled(false);
     }
     resourceActivated(0);
@@ -211,10 +211,10 @@ void JabberInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->FirstName.ptr, edtFirstName->text().utf8());
-    set_str(&data->Nick.ptr, edtNick->text().utf8());
-    set_str(&data->Bday.ptr, edtDate->text().utf8());
-    set_str(&data->Url.ptr, edtUrl->text().utf8());
+    data->FirstName.str() = edtFirstName->text();
+    data->Nick.str()      = edtNick->text();
+    data->Bday.str()      = edtDate->text();
+    data->Url.str()       = edtUrl->text();
 }
 
 void JabberInfo::goUrl()
@@ -222,7 +222,7 @@ void JabberInfo::goUrl()
     QString url = edtUrl->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)(const char*)(url.local8Bit()));
+    Event e(EventGoURL, (void*)&url);
     e.process();
 }
 

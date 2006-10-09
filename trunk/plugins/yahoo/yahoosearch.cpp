@@ -77,10 +77,10 @@ void YahooSearch::search()
 
 void YahooSearch::search(const QString &text, int type)
 {
-    string url;
+    QString url;
     url = "http://members.yahoo.com/interests?.oc=m&.kw=";
-    string kw = getContacts()->fromUnicode(NULL, text);
-    for (const char *p = kw.c_str(); *p; p++){
+    QCString kw = getContacts()->fromUnicode(NULL, text);
+    for (const char *p = kw; *p; p++){
         if ((*p <= ' ') || (*p == '&') || (*p == '=')){
             char b[5];
             sprintf(b, "%%%02X", *p & 0xFF);
@@ -90,13 +90,13 @@ void YahooSearch::search(const QString &text, int type)
         url += *p;
     }
     url += "&.sb=";
-    url += number(type);
+    url += QString::number(type);
     url += "&.g=";
-    url += number(getComboValue(cmbGender, genders));
+    url += QString::number(getComboValue(cmbGender, genders));
     url += "&.ar=";
-    url += number(getComboValue(cmbAge, ages));
+    url += QString::number(getComboValue(cmbAge, ages));
     url += "&.pg=y";
-    fetch(url.c_str());
+    fetch(url.local8Bit());
 }
 
 void YahooSearch::searchStop()
@@ -185,7 +185,7 @@ void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&
     }
     if (grp)
         grpName = grp->getName();
-    m_client->findContact(id.utf8(), getContacts()->fromUnicode(NULL, grpName).c_str(), contact, false, false);
+    m_client->findContact(id.utf8(), getContacts()->fromUnicode(NULL, grpName), contact, false, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 

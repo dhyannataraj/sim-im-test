@@ -47,26 +47,27 @@ public:
     void init(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name, bool bRegister);
     bool canSearch();
     QString condition(QWidget *w);
-    const char *id() { return m_jid.c_str(); }
+    const QString &id() { return m_jid; }
     void addWidget(struct JabberAgentInfo *data);
-    JabberClient	*m_client;
-    std::string		m_jid;
-    std::string		m_node;
-    QString			m_title;
+    JabberClient   *m_client;
+    QString         m_jid;
+    QString         m_node;
+    QString         m_title;
 protected slots:
     void setSize();
 protected:
     virtual void		createLayout();
-    QString				i18(const char *text);
-    QString				m_name;
-    QString				m_instruction;
-    QString				m_label;
-    QWidget				*m_receiver;
-    std::string			m_key;
-    bool				m_bDirty;
-    bool				m_bXData;
-    bool				m_bFirst;
-    bool				m_bRegister;
+    QString i18(const char *text);
+
+    QString     m_name;
+    QString     m_instruction;
+    QString     m_label;
+    QWidget    *m_receiver;
+    QString     m_key;
+    bool        m_bDirty;
+    bool        m_bXData;
+    bool        m_bFirst;
+    bool        m_bRegister;
     std::list<QWidget*>		m_required;
     std::vector<QWidget*>	m_widgets;
     std::vector<QWidget*>	m_labels;

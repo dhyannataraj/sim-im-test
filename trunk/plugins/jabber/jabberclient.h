@@ -32,9 +32,8 @@ const unsigned SUBSCRIBE_FROM	= 1;
 const unsigned SUBSCRIBE_TO		= 2;
 const unsigned SUBSCRIBE_BOTH	= (SUBSCRIBE_FROM | SUBSCRIBE_TO);
 
-typedef struct JabberUserData
+struct JabberUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data		ID;
     SIM::Data		Node;
     SIM::Data		Resource;
@@ -79,7 +78,7 @@ typedef struct JabberUserData
     SIM::Data		ResourceStatusTime;
     SIM::Data		ResourceOnlineTime;
     SIM::Data		AutoReply;
-} JabberUserData;
+};
 
 typedef struct JabberClientData
 {
@@ -148,21 +147,21 @@ typedef struct JabberSearchData
 
 typedef struct JabberListRequest
 {
-    std::string		jid;
-    std::string		grp;
-    std::string		name;
-    bool			bDelete;
+    QString             jid;
+    QString             grp;
+    QString             name;
+    bool                bDelete;
 } JabberListRequest;
 
 typedef struct DiscoItem
 {
-    std::string			id;
-    std::string			jid;
-    std::string			node;
-    std::string			name;
-    std::string			type;
-    std::string			category;
-    std::string			features;
+    QString             id;
+    QString             jid;
+    QString             node;
+    QString             name;
+    QString             type;
+    QString             category;
+    QString             features;
 } DiscoItem;
 
 class JabberClient : public SIM::TCPClient, public SAXParser
@@ -172,15 +171,16 @@ public:
     class ServerRequest
     {
     public:
-        ServerRequest(JabberClient *client, const char *type, const char *from, const char *to, const char *id=NULL);
+        ServerRequest(JabberClient *client, const char *type, const QString &from, const QString &to, const char *id=NULL);
         virtual ~ServerRequest();
         void	send();
-        void	start_element(const char *name);
+        void	start_element(const QString &name);
         void	end_element(bool bNewLevel = false);
-        void	add_attribute(const char *name, const char *value);
-        void	add_condition(const char *cond, bool bXData);
-        void	add_text(const char *text);
-        void	text_tag(const char *name, const char *value);
+        void	add_attribute(const QString &name, const char *value);
+        void	add_attribute(const QString &name, const QString &value);
+        void	add_condition(const QString &cond, bool bXData);
+        void	add_text(const QString &text);
+        void	text_tag(const QString &name, const QString &value);
         static const char *_GET;
         static const char *_SET;
         static const char *_RESULT;
@@ -188,9 +188,9 @@ public:
         virtual void	element_start(const char *el, const char **attr);
         virtual void	element_end(const char *el);
         virtual	void	char_data(const char *str, int len);
-        std::string		m_element;
-        std::stack<std::string>	m_els;
-        std::string		m_id;
+        QString  		m_element;
+        std::stack<QString>	m_els;
+        QString		    m_id;
         JabberClient	*m_client;
         friend class JabberClient;
     };
@@ -204,14 +204,14 @@ class IqRequest : public ServerRequest
         virtual void	element_start(const char *el, const char **attr);
         virtual void	element_end(const char *el);
         virtual	void	char_data(const char *str, int len);
-        std::string		*m_data;
-        std::string		m_url;
-        std::string		m_descr;
-        std::string		m_query;
-        std::string		m_from;
-        std::string		m_id;
-        std::string		m_file_name;
-        unsigned		m_file_size;
+        QString		*m_data;
+        QString		m_url;
+        QString		m_descr;
+        QString		m_query;
+        QString		m_from;
+        QString		m_id;
+        QString		m_file_name;
+        unsigned	m_file_size;
     };
 
 class PresenceRequest : public ServerRequest
@@ -223,13 +223,13 @@ class PresenceRequest : public ServerRequest
         virtual void element_start(const char *el, const char **attr);
         virtual void element_end(const char *el);
         virtual void char_data(const char *str, int len);
-        std::string m_from;
-        std::string m_data;
-        std::string m_type;
-        std::string m_status;
-        std::string m_show;
-        std::string m_stamp1;
-        std::string m_stamp2;
+        QString m_from;
+        QString m_data;
+        QString m_type;
+        QString m_status;
+        QString m_show;
+        QString m_stamp1;
+        QString m_stamp2;
     };
 
 class MessageRequest : public ServerRequest
@@ -241,22 +241,22 @@ class MessageRequest : public ServerRequest
         virtual void element_start(const char *el, const char **attr);
         virtual void element_end(const char *el);
         virtual void char_data(const char *str, int len);
-        std::string m_from;
-        std::string *m_data;
-        std::string m_body;
-        std::string m_richText;
-        std::string m_subj;
-        std::string m_error;
-        std::string m_contacts;
-        std::string m_target;
-        std::string m_desc;
-        std::vector<std::string> m_targets;
-        std::vector<std::string> m_descs;
+        QString m_from;
+        QString *m_data;
+        QString m_body;
+        QString m_richText;
+        QString m_subj;
+        QString m_error;
+        QString m_contacts;
+        QString m_target;
+        QString m_desc;
+        std::vector<QString> m_targets;
+        std::vector<QString> m_descs;
 
         bool   m_bBody;
         bool   m_bRosters;
         bool   m_bError;
-        std::string m_id;
+        QString m_id;
         bool   m_bCompose;
         bool   m_bEvent;
         bool   m_bRichText;
@@ -265,14 +265,15 @@ class MessageRequest : public ServerRequest
 
     JabberClient(JabberProtocol*, Buffer *cfg);
     ~JabberClient();
-    virtual std::string name();
+    virtual QString name();
+    virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
     virtual std::string getConfig();
 
     void setID(const QString &id);
     QString getID()
     {
-        return QString::fromUtf8(data.owner.ID.ptr ? data.owner.ID.ptr : "");
+        return data.owner.ID.str();
     }
     PROP_STR(Server);
     PROP_STR(VHost);
@@ -296,30 +297,28 @@ class MessageRequest : public ServerRequest
     PROP_STR(URL);
     PROP_BOOL(InfoUpdated);
 
-    std::string		buildId(JabberUserData *data);
-    JabberUserData	*findContact(const char *jid, const char *name, bool bCreate, SIM::Contact *&contact, std::string &resource, bool bJoin=true);
-    bool			add_contact(const char *id, unsigned grp);
-    std::string		get_agents(const char *jid);
-    std::string		get_agent_info(const char *jid, const char *node, const char *type);
-    void			auth_request(const char *jid, unsigned type, const char *text, bool bCreate);
-    std::string		search(const char *jid, const char *node, const char *condition);
-    std::string		process(const char *jid, const char *node, const char *condition, const char *type);
+    QString         buildId(JabberUserData *data);
+    JabberUserData *findContact(const QString &jid, const QString &name, bool bCreate, SIM::Contact *&contact, QString &resource, bool bJoin=true);
+    bool            add_contact(const char *id, unsigned grp);
+    QString         get_agents(const QString &jid);
+    QString         get_agent_info(const QString &jid, const QString &node, const QString &type);
+    void            auth_request(const QString &jid, unsigned type, const QString &text, bool bCreate);
+    QString         search(const QString &jid, const QString &node, const QString &condition);
+    QString         process(const QString &jid, const QString &node, const QString &condition, const QString &type);
 
-    static std::string	to_lower(const char *s);
-    static std::string	get_attr(const char *name, const char **attrs);
+    static QString	get_attr(const char *name, const char **attrs);
     virtual void setupContact(SIM::Contact*, void *data);
     virtual void updateInfo(SIM::Contact *contact, void *data);
 
     JabberClientData	data;
-    std::string dataName(void*);
 
-    JabberListRequest *findRequest(const char *jid, bool bRemove);
+    JabberListRequest *findRequest(const QString &jid, bool bRemove);
 
-    std::string VHost();
-    bool isAgent(const char *jid);
+    QString VHost();
+    bool isAgent(const QString &jid);
     virtual bool send(SIM::Message*, void*);
-    void    listRequest(JabberUserData *data, const char *name, const char *grp, bool bDelete);
-    void	sendFileRequest(SIM::FileMessage *msg, unsigned short port, JabberUserData *data, const char *url, unsigned size);
+    void    listRequest(JabberUserData *data, const QString &name, const QString &grp, bool bDelete);
+    void	sendFileRequest(SIM::FileMessage *msg, unsigned short port, JabberUserData *data, const QString &url, unsigned size);
     void	sendFileAccept(SIM::FileMessage *msg, JabberUserData *data);
 
     std::list<SIM::Message*> m_ackMsg;
@@ -329,17 +328,17 @@ class MessageRequest : public ServerRequest
     QString logoFile(JabberUserData*);
     std::list<ServerRequest*>	m_requests;
 
-    std::string discoItems(const char *jid, const char *node);
-    std::string discoInfo(const char *jid, const char *node);
-    std::string browse(const char *jid);
-    std::string versionInfo(const char *jid, const char *node);
-    std::string timeInfo(const char *jid, const char *node);
-    std::string lastInfo(const char *jid, const char *node);
-    std::string statInfo(const char *jid, const char *node);
+    QString discoItems(const QString &jid, const QString &node);
+    QString discoInfo(const QString &jid, const QString &node);
+    QString browse(const QString &jid);
+    QString versionInfo(const QString &jid, const QString &node);
+    QString timeInfo(const QString &jid, const QString &node);
+    QString lastInfo(const QString &jid, const QString &node);
+    QString statInfo(const QString &jid, const QString &node);
     void addLang(ServerRequest *req);
     void info_request(JabberUserData *user_data, bool bVCard);
     virtual void setClientInfo(void *data);
-    void changePassword(const char *pass);
+    void changePassword(const QString &pass);
 
 protected slots:
     void	ping();
@@ -351,7 +350,7 @@ protected:
 
     virtual QString contactName(void *clientData);
     virtual void setStatus(unsigned status);
-    void setStatus(unsigned status, const char *ar);
+    void setStatus(unsigned status, const QString &ar);
     virtual void disconnected();
     virtual void connect_ready();
     virtual void packet_ready();
@@ -360,8 +359,8 @@ protected:
     virtual bool createData(SIM::clientData*&, SIM::Contact*);
     virtual bool compareData(void*, void*);
     virtual bool canSend(unsigned, void*);
-    virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
-    virtual std::string resources(void *data);
+    virtual void contactInfo(void *data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons = NULL);
+    virtual QString resources(void *data);
     virtual QString contactTip(void *data);
     virtual QWidget *searchWindow(QWidget *parent);
     virtual SIM::CommandDef *infoWindows(SIM::Contact *contact, void *data);
@@ -377,11 +376,11 @@ protected:
     void rosters_request();
     void setOffline(JabberUserData *data);
 
-    static	QCString encodeXML(const QString &str);
-    std::string		m_id;
+    static	QString encodeXML(const QString &str);
+    QString		m_id;
     unsigned	m_depth;
 
-    std::string		get_unique_id();
+    QString		get_unique_id();
     unsigned	m_id_seed;
     unsigned	m_msg_id;
 
@@ -437,7 +436,7 @@ protected:
         Receive
     };
     State m_state;
-    virtual bool    error_state(const char *err, unsigned code);
+    virtual bool        error_state(const char *err, unsigned code);
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	write_ready();
@@ -445,12 +444,12 @@ protected:
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const char *err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
-    bool get_line(const char *str);
-    void send_line(const char *str);
+    bool get_line(const QCString &str);
+    void send_line(const QCString &str);
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;
-    std::string			m_url;
+    QString             m_url;
     SIM::ClientSocket	*m_socket;
 };
 
@@ -458,9 +457,9 @@ class JabberSearch;
 
 typedef struct agentRegisterInfo
 {
-    const char		*id;
+    QString		id;
     unsigned		err_code;
-    const char		*error;
+    QString		error;
 } agentRegisterInfo;
 
 #endif

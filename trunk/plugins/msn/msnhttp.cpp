@@ -58,8 +58,8 @@ void MSNHttpPool::write(const char *buf, unsigned size)
     writeData->pack(buf, size);
     if (!isDone())
         return;
-    string url = "http://";
-    if (m_session_id.empty()){
+    QString url = "http://";
+    if (m_session_id.isEmpty()){
         url += "gateway.messenger.hotmail.com";
         url += MSN_HTTP;
         url += "Action=open&Server=";
@@ -76,7 +76,7 @@ void MSNHttpPool::write(const char *buf, unsigned size)
     const char *headers =
         "Content-Type: application/x-msn-messenger\n"
         "Proxy-Connection: Keep-Alive";
-    fetch(url.c_str(), headers, writeData);
+    fetch(url.local8Bit(), headers, writeData);
     writeData = new Buffer;
 }
 
@@ -84,14 +84,14 @@ void MSNHttpPool::close()
 {
     delete writeData;
     writeData = new Buffer;
-    m_session_id = "";
-    m_host = "";
+    m_session_id = QString::null;
+    m_host = QString::null;
     stop();
 }
 
 void MSNHttpPool::connect(const char *host, unsigned short)
 {
-    m_ip = host;
+    m_ip = QString::fromUtf8(host); // for now
     if (notify)
         notify->connect_ready();
 }
@@ -130,15 +130,15 @@ bool MSNHttpPool::done(unsigned code, Buffer &data, const char *headers)
                 string v = p2;
                 string k = getToken(v, '=');
                 if (k == "SessionID"){
-                    m_session_id = v;
+                    m_session_id = QString::fromUtf8(v.c_str());
                 }else if (k == "GW-IP"){
-                    m_host = v;
+                    m_host = QString::fromUtf8(v.c_str());
                 }
             }
             break;
         }
     }
-    if (m_session_id.empty() || m_host.empty()){
+    if (m_session_id.isEmpty() || m_host.isEmpty()){
         error("No session in answer");
         return false;
     }

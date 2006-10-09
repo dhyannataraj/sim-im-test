@@ -103,7 +103,7 @@ void JIDSearch::search()
         condition += jidSearch->condition(m_adv);
         advancedClicked();
     }
-    m_search_id = m_client->search(m_jid.utf8(), m_node.utf8(), condition);
+    m_search_id = m_client->search(m_jid, m_node, condition);
 }
 
 void JIDSearch::searchStop()
@@ -115,9 +115,9 @@ void *JIDSearch::processEvent(Event *e)
 {
     if (e->type() == EventSearch){
         JabberSearchData *data = (JabberSearchData*)(e->param());
-        if (m_search_id != data->ID.ptr)
+        if (m_search_id != data->ID.str())
             return NULL;
-        if (data->JID.ptr == NULL){
+        if (data->JID.str().isEmpty()){
             QStringList l;
             l.append("");
             l.append(i18n("JID"));
@@ -137,13 +137,9 @@ void *JIDSearch::processEvent(Event *e)
             icon = "MSN";
         }else if (m_type == "yahoo"){
             icon = "Yahoo!";
-        }else if (m_type == "sms"){
-            icon = "sms";
-        }else if ((m_type == "x-gadugadu") || (m_type == "gg")){
-            icon = "GG";
         }
-        if (data->Status.ptr){
-            if (!strcmp(data->Status.ptr, "online")){
+        if (!data->Status.str().isEmpty()){
+            if (data->Status.str() == "online"){
                 icon += "_online";
             }else{
                 icon += "_offline";
@@ -151,10 +147,10 @@ void *JIDSearch::processEvent(Event *e)
         }
         QStringList l;
         l.append(icon);
-        l.append(QString::fromUtf8(data->JID.ptr));
-        l.append(QString::fromUtf8(data->JID.ptr));
+        l.append(data->JID.str());
+        l.append(data->JID.str());
         for (unsigned n = 0; n < data->nFields.toULong(); n++)
-            l.append(QString::fromUtf8(get_str(data->Fields, n)));
+            l.append(get_str(data->Fields, n));
         emit addItem(l, this);
     }
     if (e->type() == EventSearchDone){
@@ -169,10 +165,10 @@ void *JIDSearch::processEvent(Event *e)
 
 void JIDSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
-    std::string resource;
-    if (m_client->findContact(name.utf8(), NULL, false, contact, resource))
+    QString resource;
+    if (m_client->findContact(name, QString::null, false, contact, resource))
         return;
-    if (m_client->findContact(name.utf8(), NULL, true, contact, resource, false) == NULL)
+    if (m_client->findContact(name, QString::null, true, contact, resource, false) == NULL)
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }

@@ -2,8 +2,6 @@
 #define JABBER_PCH_H
 #pragma once
 
-#include <process.h>
-
 #include "simapi.h"	// before Qt headers!
 #include "stl.h"
 
@@ -49,7 +47,6 @@
 #include "discoinfo.h"
 #include "infoproxy.h"
 #include "jabber.h"
-#include "jabber_pch.h"
 #include "jabber_ssl.h"
 #include "jabberaboutinfo.h"
 #include "jabberadd.h"

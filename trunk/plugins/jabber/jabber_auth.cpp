@@ -19,7 +19,6 @@
 
 #include <qtimer.h>
 
-using std::string;
 using namespace SIM;
 
 class AuthRequest : public JabberClient::ServerRequest
@@ -33,7 +32,7 @@ protected:
 };
 
 AuthRequest::AuthRequest(JabberClient *client)
-        : JabberClient::ServerRequest(client, _SET, NULL, client->VHost().c_str())
+        : JabberClient::ServerRequest(client, _SET, NULL, client->VHost())
 {
     m_bFail = true;
 }
@@ -52,7 +51,7 @@ void AuthRequest::element_end(const char *el)
 void AuthRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "iq")){
-        string value = JabberClient::to_lower(JabberClient::get_attr("type", attr).c_str());
+        QString value = JabberClient::get_attr("type", attr).lower();
         if (value == "result")
             m_bFail = false;
     }
@@ -63,11 +62,11 @@ void JabberClient::auth_plain()
     AuthRequest *req = new AuthRequest(this);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:auth");
-    string username = data.owner.ID.ptr;
+    QString username = data.owner.ID.str();
     username = getToken(username, '@');
-    req->text_tag("username", username.c_str());
+    req->text_tag("username", username);
     req->text_tag("password", getPassword());
-    req->text_tag("resource", data.owner.Resource.ptr);
+    req->text_tag("resource", data.owner.Resource.str());
     req->send();
     m_requests.push_back(req);
 }
@@ -77,9 +76,9 @@ void JabberClient::auth_register()
     AuthRequest *req = new AuthRequest(this);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:register");
-    string username = data.owner.ID.ptr;
+    QString username = data.owner.ID.str();
     username = getToken(username, '@');
-    req->text_tag("username", username.c_str());
+    req->text_tag("username", username);
     req->text_tag("password", getPassword());
     req->send();
     m_requests.push_back(req);
@@ -92,21 +91,21 @@ void JabberClient::auth_digest()
     AuthRequest *req = new AuthRequest(this);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:auth");
-    string username = data.owner.ID.ptr;
+    QString username = data.owner.ID.str();
     username = getToken(username, '@');
-    req->text_tag("username", username.c_str());
+    req->text_tag("username", username);
 
-    string digest = m_id;
-    digest += getPassword().utf8();
-    QByteArray md = sha1(digest.c_str());
+    QString digest = m_id;
+    digest += getPassword();
+    QByteArray md = sha1(digest.utf8());
     digest = "";
     for (unsigned i = 0; i < md.size(); i++){
-      char b[3];
-      sprintf(b, "%02x", md[(int)i] & 0xFF);
-      digest += b;
+        char b[3];
+        sprintf(b, "%02x", md[(int)i] & 0xFF);
+        digest += b;
     }
-    req->text_tag("digest", digest.c_str());
-    req->text_tag("resource", data.owner.Resource.ptr);
+    req->text_tag("digest", digest);
+    req->text_tag("resource", data.owner.Resource.str());
     req->send();
     m_requests.push_back(req);
 }

@@ -95,8 +95,8 @@ void DiscoInfo::reset()
     }
     free_data(jabberUserData, &m_data);
     load_data(jabberUserData, &m_data, NULL);
-    set_str(&m_data.ID.ptr, m_url.utf8());
-    set_str(&m_data.Node.ptr, m_node.utf8());
+    m_data.ID.str() = m_url;
+    m_data.Node.str() = m_node;
     setTitle();
     edtJName->setText(m_name);
     edtType->setText(m_type);
@@ -135,7 +135,7 @@ void DiscoInfo::reset()
     edtName->setText("");
     edtVersion->setText("");
     edtSystem->setText("");
-    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url.utf8(), m_node.utf8()) : "";
+    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url, m_node) : "";
     if ((bTime || bLast) != (m_bTime || m_bLast)){
         m_bTime = bTime;
         m_bLast = bLast;
@@ -151,14 +151,14 @@ void DiscoInfo::reset()
     edtLast->setText("");
     if (m_bTime){
         edtTime->show();
-        m_timeId = m_browser->m_client->timeInfo(m_url.utf8(), m_node.utf8());
+        m_timeId = m_browser->m_client->timeInfo(m_url, m_node);
     }else{
         edtTime->hide();
         m_timeId = "";
     }
     if (m_bLast){
         edtLast->show();
-        m_lastId = m_browser->m_client->lastInfo(m_url.utf8(), m_node.utf8());
+        m_lastId = m_browser->m_client->lastInfo(m_url, m_node);
     }else{
         edtLast->hide();
         m_lastId = "";
@@ -174,7 +174,7 @@ void DiscoInfo::reset()
     }else if (m_bStat){
         pos++;
     }
-    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url.utf8(), m_node.utf8()) : "";
+    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url, m_node) : "";
     if (bVCard != m_bVCard){
         m_bVCard = bVCard;
         if (m_bVCard || m_bVCard){
@@ -198,50 +198,48 @@ void DiscoInfo::reset()
     }
 }
 
-int str_cmp(const char *s1, const char *s2);
-
 void *DiscoInfo::processEvent(Event *e)
 {
     if (e->type() == EventVCard){
         JabberUserData *data = (JabberUserData*)(e->param());
-        if (!str_cmp(m_data.ID.ptr, data->ID.ptr) && !str_cmp(m_data.Node.ptr, data->Node.ptr)){
-            edtFirstName->setText(data->FirstName.ptr ? QString::fromUtf8(data->FirstName.ptr) : QString(""));
-            edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
-            edtBirthday->setText(data->Bday.ptr ? QString::fromUtf8(data->Bday.ptr) : QString(""));
-            edtUrl->setText(data->Url.ptr ? QString::fromUtf8(data->Url.ptr) : QString(""));
+        if (m_data.ID.str() == data->ID.str() && m_data.Node.str() == data->Node.str()){
+            edtFirstName->setText(data->FirstName.str());
+            edtNick->setText(data->Nick.str());
+            edtBirthday->setText(data->Bday.str());
+            edtUrl->setText(data->Url.str());
             urlChanged(edtUrl->text());
-            edtEMail->setText(data->EMail.ptr ? QString::fromUtf8(data->EMail.ptr) : QString(""));
-            edtPhone->setText(data->Phone.ptr ? QString::fromUtf8(data->Phone.ptr) : QString(""));
+            edtEMail->setText(data->EMail.str());
+            edtPhone->setText(data->Phone.str());
         }
     }
     if (e->type() == EventDiscoItem){
         DiscoItem *item = (DiscoItem*)(e->param());
         if (m_versionId == item->id){
             m_versionId = "";
-            edtName->setText(QString::fromUtf8(item->name.c_str()));
-            edtVersion->setText(QString::fromUtf8(item->jid.c_str()));
-            edtSystem->setText(QString::fromUtf8(item->node.c_str()));
+            edtName->setText(item->name);
+            edtVersion->setText(item->jid);
+            edtSystem->setText(item->node);
             return e->param();
         }
         if (m_timeId == item->id){
             m_timeId = "";
-            edtTime->setText(QString::fromUtf8(item->jid.c_str()));
+            edtTime->setText(item->jid);
             return e->param();
         }
         if (m_statId == item->id){
-            if (item->jid.empty()){
+            if (item->jid.isEmpty()){
                 m_statId = "";
                 return e->param();
             }
             QListViewItem *i = new QListViewItem(lstStat);
-            i->setText(0, QString::fromUtf8(item->jid.c_str()));
-            i->setText(1, QString::fromUtf8(item->name.c_str()));
-            i->setText(2, QString::fromUtf8(item->node.c_str()));
+            i->setText(0, item->jid);
+            i->setText(1, item->name);
+            i->setText(2, item->node);
             return e->param();
         }
         if (m_lastId == item->id){
             m_lastId = "";
-            unsigned ss = atol(item->jid.c_str());
+            unsigned ss = item->jid.toUInt();
             unsigned mm = ss / 60;
             ss -= mm * 60;
             unsigned hh = mm / 60;
@@ -279,12 +277,12 @@ void DiscoInfo::apply()
 {
     if (m_bVCard && m_about){
         m_about->apply(m_browser->m_client, &m_data);
-        set_str(&m_data.FirstName.ptr, edtFirstName->text().utf8());
-        set_str(&m_data.Nick.ptr, edtNick->text().utf8());
-        set_str(&m_data.Bday.ptr, edtBirthday->text().utf8());
-        set_str(&m_data.Url.ptr, edtUrl->text().utf8());
-        set_str(&m_data.EMail.ptr, edtEMail->text().utf8());
-        set_str(&m_data.Phone.ptr, edtPhone->text().utf8());
+        m_data.FirstName.str()  = edtFirstName->text();
+        m_data.Nick.str()       = edtNick->text();
+        m_data.Bday.str()       = edtBirthday->text();
+        m_data.Url.str()        = edtUrl->text();
+        m_data.EMail.str()      = edtEMail->text();
+        m_data.Phone.str()      = edtPhone->text();
         m_browser->m_client->setClientInfo(&m_data);
     }
 }
@@ -294,7 +292,7 @@ void DiscoInfo::goUrl()
     QString url = edtUrl->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)(const char*)(url.local8Bit()));
+    Event e(EventGoURL, (void*)&url);
     e.process();
 }
 

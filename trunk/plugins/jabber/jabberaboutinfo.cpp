@@ -38,8 +38,6 @@ void JabberAboutInfo::apply()
 {
 }
 
-int str_cmp(const char *s1, const char *s2);
-
 void *JabberAboutInfo::processEvent(Event *e)
 {
     if (e->type() == EventContactChanged){
@@ -54,7 +52,7 @@ void *JabberAboutInfo::processEvent(Event *e)
     }
     if (m_data && (e->type() == EventVCard)){
         JabberUserData *data = (JabberUserData*)(e->param());
-        if (!str_cmp(m_data->ID.ptr, data->ID.ptr) && !str_cmp(m_data->Node.ptr, data->Node.ptr))
+        if (m_data->ID.str() == data->ID.str() && m_data->Node.str() == data->Node.str())
             fill(data);
     }
     return NULL;
@@ -63,7 +61,7 @@ void *JabberAboutInfo::processEvent(Event *e)
 void JabberAboutInfo::fill(JabberUserData *data)
 {
     if (data == NULL) data = &m_client->data.owner;
-    edtAbout->setText(data->Desc.ptr ? QString::fromUtf8(data->Desc.ptr) : QString(""));
+    edtAbout->setText(data->Desc.str());
 }
 
 void JabberAboutInfo::apply(Client *client, void *_data)
@@ -71,7 +69,7 @@ void JabberAboutInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->Desc.ptr, edtAbout->text().utf8());
+    data->Desc.str() = edtAbout->text();
 }
 
 #ifndef NO_MOC_INCLUDES

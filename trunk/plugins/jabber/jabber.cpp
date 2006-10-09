@@ -56,12 +56,12 @@ Client *JabberProtocol::createClient(Buffer *cfg)
 }
 
 static CommandDef jabber_descr =
-    {
+    CommandDef (
         0,
         I18N_NOOP("Jabber"),
         "Jabber_online",
         "Jabber_invisible",
-        NULL,
+        QString::null,
         0,
         0,
         0,
@@ -69,8 +69,8 @@ static CommandDef jabber_descr =
         0,
         PROTOCOL_INFO | PROTOCOL_AR | PROTOCOL_INVISIBLE | PROTOCOL_SEARCH | PROTOCOL_AR_OFFLINE,
         NULL,
-        NULL
-    };
+        QString::null
+    );
 
 const CommandDef *JabberProtocol::description()
 {
@@ -79,12 +79,12 @@ const CommandDef *JabberProtocol::description()
 
 static CommandDef jabber_status_list[] =
     {
-        {
+        CommandDef (
             STATUS_ONLINE,
             I18N_NOOP("Online"),
             "Jabber_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -92,14 +92,14 @@ static CommandDef jabber_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_AWAY,
             I18N_NOOP("Away"),
             "Jabber_away",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -107,14 +107,14 @@ static CommandDef jabber_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_NA,
             I18N_NOOP("N/A"),
             "Jabber_na",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -122,14 +122,14 @@ static CommandDef jabber_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_DND,
             I18N_NOOP("Do not Disturb"),
             "Jabber_dnd",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -137,14 +137,14 @@ static CommandDef jabber_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_FFC,
             I18N_NOOP("Free for chat"),
             "Jabber_ffc",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -152,14 +152,14 @@ static CommandDef jabber_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
             "Jabber_offline",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -167,23 +167,9 @@ static CommandDef jabber_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 const CommandDef *JabberProtocol::statusList()
@@ -237,7 +223,7 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
 
     cmd->id			 = CmdGroups;
     cmd->text		 = I18N_NOOP("&Add to group");
-    cmd->icon		 = NULL;
+    cmd->icon		 = QString::null;
     cmd->menu_grp	 = 0x1002;
     cmd->popup_id	 = MenuJabberGroups;
     eCmd.process();
@@ -322,7 +308,7 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
 
     cmd->id			 = CmdOneLevel;
     cmd->text		 = I18N_NOOP("Load one level");
-    cmd->icon		 = NULL;
+    cmd->icon		 = QString::null;
     cmd->bar_id		 = 0;
     cmd->bar_grp	 = 0;
     cmd->menu_id	 = MenuBrowser;

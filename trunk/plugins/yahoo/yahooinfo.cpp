@@ -76,22 +76,23 @@ void *YahooInfo::processEvent(Event *e)
 void YahooInfo::fill()
 {
     YahooUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
-    edtLogin->setText(QString::fromUtf8(data->Login.ptr));
-    edtNick->setText(data->Nick.ptr ? QString::fromUtf8(data->Nick.ptr) : QString(""));
-    edtFirst->setText(data->First.ptr ? QString::fromUtf8(data->First.ptr) : QString(""));
-    edtLast->setText(data->Last.ptr ? QString::fromUtf8(data->Last.ptr) : QString(""));
+    if (data == NULL)
+        data = &m_client->data.owner;
+    edtLogin->setText(data->Login.str());
+    edtNick->setText(data->Nick.str());
+    edtFirst->setText(data->First.str());
+    edtLast->setText(data->Last.str());
     int current = 0;
     const char *text = NULL;
     unsigned long status = STATUS_OFFLINE;
     if (m_data == NULL){
         if (m_client->getState() == Client::Connected){
-            const char *statusIcon = NULL;
+            QString statusIcon;
             unsigned style  = 0;
             m_client->contactInfo(&m_client->data.owner, status, style, statusIcon);
         }
     }else{
-        const char *statusIcon = NULL;
+        QString statusIcon;
         unsigned style  = 0;
         m_client->contactInfo(data, status, style, statusIcon);
     }
@@ -140,9 +141,9 @@ void YahooInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     YahooUserData *data = (YahooUserData*)_data;
-    set_str(&data->Nick.ptr, edtNick->text().utf8());
-    set_str(&data->First.ptr, edtFirst->text().utf8());
-    set_str(&data->Last.ptr, edtLast->text().utf8());
+    data->Nick.str()  = edtNick->text();
+    data->First.str() = edtFirst->text();
+    data->Last.str()  = edtLast->text();
 }
 
 #ifndef NO_MOC_INCLUDES

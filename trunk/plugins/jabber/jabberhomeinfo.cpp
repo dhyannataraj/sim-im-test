@@ -69,7 +69,7 @@ void *JabberHomeInfo::processEvent(Event *e)
     }
     if (m_data && (e->type() == EventVCard)){
         JabberUserData *data = (JabberUserData*)(e->param());
-        if (!str_cmp(m_data->ID.ptr, data->ID.ptr) && !str_cmp(m_data->Node.ptr, data->Node.ptr))
+        if (m_data->ID.str() == data->ID.str() && m_data->Node.str() == data->Node.str())
             fill(data);
     }
     return NULL;
@@ -78,12 +78,12 @@ void *JabberHomeInfo::processEvent(Event *e)
 void JabberHomeInfo::fill(JabberUserData *data)
 {
     if (data == NULL) data = &m_client->data.owner;
-    edtStreet->setText(data->Street.ptr ? QString::fromUtf8(data->Street.ptr) : QString(""));
-    edtExt->setText(data->ExtAddr.ptr ? QString::fromUtf8(data->ExtAddr.ptr) : QString(""));
-    edtCity->setText(data->City.ptr ? QString::fromUtf8(data->City.ptr) : QString(""));
-    edtState->setText(data->Region.ptr ? QString::fromUtf8(data->Region.ptr) : QString(""));
-    edtZip->setText(data->PCode.ptr ? QString::fromUtf8(data->PCode.ptr) : QString(""));
-    edtCountry->setText(data->Country.ptr ? QString::fromUtf8(data->Country.ptr) : QString(""));
+    edtStreet->setText(data->Street.str());
+    edtExt->setText(data->ExtAddr.str());
+    edtCity->setText(data->City.str());
+    edtState->setText(data->Region.str());
+    edtZip->setText(data->PCode.str());
+    edtCountry->setText(data->Country.str());
 }
 
 void JabberHomeInfo::apply(Client *client, void *_data)
@@ -91,12 +91,12 @@ void JabberHomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     JabberUserData *data = (JabberUserData*)_data;
-    set_str(&data->Street.ptr, edtStreet->text().utf8());
-    set_str(&data->ExtAddr.ptr, edtExt->text().utf8());
-    set_str(&data->City.ptr, edtCity->text().utf8());
-    set_str(&data->Region.ptr, edtState->text().utf8());
-    set_str(&data->PCode.ptr, edtZip->text().utf8());
-    set_str(&data->Country.ptr, edtCountry->text().utf8());
+    data->Street.str() = edtStreet->text();
+    data->ExtAddr.str() = edtExt->text();
+    data->City.str()    = edtCity->text();
+    data->Region.str()  = edtState->text();
+    data->PCode.str()   = edtZip->text();
+    data->Country.str() = edtCountry->text();
 }
 
 #ifndef NO_MOC_INCLUDES
