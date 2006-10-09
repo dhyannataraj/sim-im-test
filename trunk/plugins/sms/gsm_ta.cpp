@@ -417,8 +417,8 @@ bool GsmTA::isIncoming(const QCString &ans)
 {
     QCString answer = normalize(ans);
     if (matchResponse(answer, "+CLIP:")){
-        string number = getToken(answer, ',');
-        if (!number.empty() && (number[0] == '\"')){
+        QString number = getToken(answer, ',');
+        if (!number.isEmpty() && (number[0] == '\"')){
             getToken(number, '\"');
             number = getToken(number, '\"');
         }
