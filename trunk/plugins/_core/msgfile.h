@@ -33,9 +33,9 @@ protected slots:
     void init();
 protected:
     virtual void *processEvent(SIM::Event*);
-    std::string	 m_client;
-    MsgEdit      *m_edit;
-    bool		 m_bCanSend;
+    QString     m_client;
+    MsgEdit    *m_edit;
+    bool        m_bCanSend;
 };
 
 #endif

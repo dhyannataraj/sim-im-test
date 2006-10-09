@@ -32,14 +32,14 @@ public:
 public slots:
     void init();
 protected:
-    void		*processEvent(SIM::Event*);
-    unsigned	m_type;
-    unsigned	m_id;
-    unsigned	m_contact;
-    std::string	m_client;
-    bool		m_bOpen;
-    MsgEdit	    *m_edit;
-    SIM::Message *m_msg;
+    void           *processEvent(SIM::Event*);
+    unsigned        m_type;
+    unsigned        m_id;
+    unsigned        m_contact;
+    QString         m_client;
+    bool            m_bOpen;
+    MsgEdit        *m_edit;
+    SIM::Message   *m_msg;
 };
 
 #endif

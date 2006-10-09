@@ -50,7 +50,7 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
         QString p = msg->presentation();
         if (p.isEmpty())
             p = msg->getRichText();
-        Event e(EventEncodeText, &p);
+        Event e(EventAddHyperlinks, &p);
         e.process();
         p = MsgViewBase::parseText(p, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
         m_edit->m_edit->setText(p);
@@ -85,9 +85,9 @@ void *MsgReceived::processEvent(Event *e)
             if (msgCmd)
                 mdef = (MessageDef*)(msgCmd->param);
             if (mdef && mdef->cmdReceived){
-                for (const CommandDef *d = mdef->cmdReceived; d->text; d++){
+                for (const CommandDef *d = mdef->cmdReceived; !d->text.isEmpty(); d++){
                     if (d->popup_id && (d->popup_id == cmd->menu_id)){
-                        Message *msg = History::load(m_id, m_client.c_str(), m_contact);
+                        Message *msg = History::load(m_id, m_client, m_contact);
                         if (msg){
                             CommandDef c = *cmd;
                             c.param = msg;
@@ -99,7 +99,7 @@ void *MsgReceived::processEvent(Event *e)
             }
 
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
-                Message *msg = History::load(m_id, m_client.c_str(), m_contact);
+                Message *msg = History::load(m_id, m_client, m_contact);
                 if (msg){
                     CommandDef c = *cmd;
                     c.id   -= CmdReceived;
@@ -122,7 +122,7 @@ void *MsgReceived::processEvent(Event *e)
                         CommandDef c = *cmd;
                         Message *msg = m_msg;
                         if (msg == NULL)
-                            msg = History::load(m_id, m_client.c_str(), m_contact);
+                            msg = History::load(m_id, m_client, m_contact);
                         if (msg){
                             c.id   -= CmdReceived;
                             c.param = msg;
@@ -140,12 +140,12 @@ void *MsgReceived::processEvent(Event *e)
                 if (msgCmd)
                     mdef = (MessageDef*)(msgCmd->param);
                 if (mdef && mdef->cmdReceived){
-                    for (const CommandDef *d = mdef->cmdReceived; d->text; d++){
+                    for (const CommandDef *d = mdef->cmdReceived; !d->text.isEmpty(); d++){
                         if (d->id + CmdReceived == cmd->id){
                             if (d->flags & COMMAND_CHECK_STATE){
                                 Message *msg = m_msg;
                                 if (msg == NULL)
-                                    msg = History::load(m_id, m_client.c_str(), m_contact);
+                                    msg = History::load(m_id, m_client, m_contact);
                                 if (msg){
                                     CommandDef c = *d;
                                     c.param = msg;

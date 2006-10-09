@@ -26,12 +26,10 @@
 #include "gpgadv.h"
 #include "gpggen.h"
 
-#include <qprocess.h>
-#include <qpushbutton.h>
 #include <qtabwidget.h>
 #include <qcombobox.h>
 #include <qtimer.h>
-#include <qfile.h>
+#include <qprocess.h>
 
 using namespace SIM;
 
@@ -89,11 +87,11 @@ void GpgCfg::apply()
         QString k = cmbKey->currentText();
         key = getToken(k, ' ');
     }
-    m_plugin->setKey(key.ascii());
+    m_plugin->setKey(key);
 #ifdef WIN32
-    m_plugin->setGPG(QFile::encodeName(edtGPG->text()));
+    m_plugin->setGPG(edtGPG->text());
 #endif
-    m_plugin->setHome(QFile::encodeName(edtHome->text()));
+    m_plugin->setHome(edtHome->text());
     m_adv->apply();
     m_plugin->reset();
 }
@@ -184,7 +182,7 @@ void GpgCfg::refresh()
     QString home = edtHome->text();
 
     if (gpg.isEmpty() || home.isEmpty()){
-        fillSecret(NULL);
+        fillSecret();
         return;
     }
     if (m_process)

@@ -30,8 +30,8 @@ class HistoryFileIterator;
 typedef struct msg_save
 {
     std::string	msg;
-    std::string	client;
-    unsigned	contact;
+    QString     client;
+    unsigned    contact;
 } msg_save;
 
 typedef std::map<unsigned, msg_save>	MAP_MSG;
@@ -41,14 +41,14 @@ class History
 public:
     History(unsigned contact_id);
     ~History();
-    static void add(SIM::Message*, const char *type);
+    static void add(SIM::Message*, const QString &type);
     static void del(SIM::Message*);
     static void rewrite(SIM::Message*);
     static void cut(SIM::Message*, unsigned contact_id, unsigned date);
     static void del(unsigned msg_id);
     static void remove(SIM::Contact *contact);
     static bool save(unsigned id, const QString& file_name, bool bAppend = false);
-    static SIM::Message *load(unsigned id, const char *client, unsigned contact);
+    static SIM::Message *load(unsigned id, const QString &client, unsigned contact);
 protected:
     static void del(const QString &name, unsigned contact, unsigned id, bool bCopy, SIM::Message *msg=NULL);
     static unsigned	s_tempId;
@@ -67,8 +67,8 @@ public:
     SIM::Message *operator--();
     void begin();
     void end();
-    std::string state();
-    void setState(const char*);
+    QString state();
+    void setState(const QString &);
     void setFilter(const QString &filter);
 protected:
     bool m_bUp;

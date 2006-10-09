@@ -21,16 +21,14 @@
 #include <qprocess.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
-#include <qtimer.h>
-#include <qfile.h>
 
 using namespace SIM;
 
 GpgUser::GpgUser(QWidget *parent, GpgUserData *data)
         : GpgUserBase(parent)
 {
-    if (data && data->Key.ptr)
-        m_key = QString::fromAscii(data->Key.ptr);
+    if(data)
+        m_key = data->Key.str();
     m_process = NULL;
     connect(btnRefresh, SIGNAL(clicked()), this, SLOT(refresh()));
     refresh();
@@ -50,7 +48,7 @@ void GpgUser::apply(void *_data)
         QString k = cmbPublic->currentText();
         key = getToken(k, ' ');
     }
-    set_str(&data->Key.ptr, key.ascii());
+    data->Key.str() = key;
     if (key.isEmpty())
         data->Use.asBool() = false;
 }

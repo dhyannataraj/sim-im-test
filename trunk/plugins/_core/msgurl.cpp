@@ -48,24 +48,24 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
         connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
         edtUrl->setText(static_cast<UrlMessage*>(msg)->getUrl());
         if (edtUrl->text().isEmpty()){
-            string url;
+            QString url;
             Event e(EventGetURL, &url);
             e.process();
-            if (!url.empty()){
-                url = url.substr(1);
+            if (!url.isEmpty()){
+                url = url.mid(1);
                 int n = url.find('\"');
                 if (n > 0){
-                    string u = url.substr(0, n);
-                    edtUrl->setText(QString::fromLocal8Bit(u.c_str()));
-                    url = url.substr(n + 1);
+                    QString u = url.left(n);
+                    edtUrl->setText(u);
+                    url = url.mid(n + 1);
                     n = url.find('\"');
                     if (n > 0)
-                        url = url.substr(n + 1);
+                        url = url.mid(n + 1);
                 }
                 n = url.find('\"');
                 if (n > 0){
-                    url = url.substr(0, n);
-                    m_edit->m_edit->setText(QString::fromLocal8Bit(url.c_str()));
+                    url = url.left(n);
+                    m_edit->m_edit->setText(url);
                 }
             }
         }
@@ -144,7 +144,7 @@ void *MsgUrl::processEvent(Event *e)
                 msg->setContact(m_edit->m_userWnd->id());
                 msg->setText(msgText);
                 msg->setUrl(urlText);
-                msg->setClient(m_client.c_str());
+                msg->setClient(m_client);
                 m_edit->sendMessage(msg);
             }
             return e->param();

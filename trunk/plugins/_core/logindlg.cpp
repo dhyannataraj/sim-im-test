@@ -54,7 +54,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     setButtonsPict(this);
     lblMessage->setText(text);
     if (m_client){
-        setCaption(caption() + " " + QString::fromLocal8Bit(client->name().c_str()));
+        setCaption(caption() + " " + client->name());
         setIcon(Pict(m_client->protocol()->description()->icon));
     }else{
         setCaption(i18n("Select profile"));
@@ -126,16 +126,16 @@ void LoginDialog::accept()
     if ((n < 0) || (n >= cmbProfile->count() - 1)){
         CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
         CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
-        CorePlugin::m_plugin->setProfile(NULL);
+        CorePlugin::m_plugin->setProfile(QString::null);
         CorePlugin::m_plugin->changeProfile();
         LoginDialogBase::accept();
         return;
     }
 
-    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].local8Bit());
+    CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
     //if (m_profile != CorePlugin::m_plugin->getProfile()){
-        if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n].local8Bit())){
-            CorePlugin::m_plugin->setProfile(m_profile.c_str());
+        if (!CorePlugin::m_plugin->lockProfile(CorePlugin::m_plugin->m_profiles[n])){
+            CorePlugin::m_plugin->setProfile(m_profile);
             BalloonMsg::message(i18n("Other instance of SIM use this profile"), buttonOk);
             return;
         }
@@ -218,7 +218,7 @@ void LoginDialog::profileChanged(int)
     }else{
         btnRename->show();
         clearInputs();
-        CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n].local8Bit());
+        CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
         unsigned nClients = 0;
@@ -284,7 +284,7 @@ void LoginDialog::makeInputs(unsigned &row, Client *client)
     pict->show();
 
     QLabel *txt = new QLabel(this);
-    txt->setText(QString::fromLocal8Bit(client->name().c_str()));
+    txt->setText(client->name());
     txt->setAlignment(AlignRight);
     QLineEdit *edt = new QLineEdit(this);
     edt->setText(client->getPassword());
@@ -296,12 +296,12 @@ void LoginDialog::makeInputs(unsigned &row, Client *client)
     PLayout->addWidget(edt, row, 2);
     txt->show();
     edt->show();
-    const char *helpUrl = client->protocol()->description()->accel;
-    if (helpUrl && *helpUrl){
+    QString helpUrl = client->protocol()->description()->accel;
+    if (!helpUrl.isEmpty()){
         LinkLabel *lnkHelp = new LinkLabel(this);
         PLayout->addWidget(lnkHelp, ++row, 2);
         lnkHelp->setText(i18n("Forgot password?"));
-        lnkHelp->setUrl(i18n(helpUrl).latin1());
+        lnkHelp->setUrl(i18n(helpUrl));
         lnkHelp->show();
         links.push_back(lnkHelp);
     }
@@ -317,14 +317,14 @@ void LoginDialog::fill()
     }
     cmbProfile->clear();
     int newCur = -1;
-    string save_profile = CorePlugin::m_plugin->getProfile();
+    QString save_profile = CorePlugin::m_plugin->getProfile();
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();
     for (unsigned i = 0; i < CorePlugin::m_plugin->m_profiles.size(); i++){
         QString curProfile = CorePlugin::m_plugin->m_profiles[i];
-        if (curProfile == QString::fromLocal8Bit(save_profile.c_str()))
+        if (curProfile == save_profile)
             newCur = i;
-        CorePlugin::m_plugin->setProfile(curProfile.local8Bit());
+        CorePlugin::m_plugin->setProfile(curProfile);
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
         if (clients.size()){
@@ -336,10 +336,10 @@ void LoginDialog::fill()
     cmbProfile->insertItem(i18n("New profile"));
     if (newCur != - 1){
         cmbProfile->setCurrentItem(newCur);
-        CorePlugin::m_plugin->setProfile(save_profile.c_str());
+        CorePlugin::m_plugin->setProfile(save_profile);
     }else{
         cmbProfile->setCurrentItem(cmbProfile->count() - 1);
-        CorePlugin::m_plugin->setProfile(NULL);
+        CorePlugin::m_plugin->setProfile(QString::null);
     }
 }
 
@@ -376,9 +376,9 @@ void LoginDialog::profileDelete()
     if ((n < 0) || (n >= (int)(CorePlugin::m_plugin->m_profiles.size())))
         return;
     QString curProfile = CorePlugin::m_plugin->m_profiles[n];
-    CorePlugin::m_plugin->setProfile(curProfile.local8Bit());
+    CorePlugin::m_plugin->setProfile(curProfile);
     rmDir(user_file(""));
-    CorePlugin::m_plugin->setProfile(NULL);
+    CorePlugin::m_plugin->setProfile(QString::null);
     CorePlugin::m_plugin->changeProfile();
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();
@@ -394,7 +394,7 @@ void LoginDialog::profileRename()
     return;
 
   QString name;
-  CorePlugin::m_plugin->setProfile(NULL);
+  CorePlugin::m_plugin->setProfile(QString::null);
   QString profileDir=user_file("");
   QDir d(user_file(""));
   while(1) {
@@ -493,12 +493,9 @@ void *LoginDialog::processEvent(Event *e)
             }
             stopLogin();
             QString msg;
-            if (d->err_str && *d->err_str){
+            if (!d->err_str.isEmpty()){
                 msg = i18n(d->err_str);
-                if (d->args){
-                    msg = msg.arg(QString::fromUtf8(d->args));
-                    free(d->args);
-                }
+                msg = msg.arg(d->args);
             }else{
                 msg = i18n("Login failed");
             }

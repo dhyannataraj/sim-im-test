@@ -24,7 +24,6 @@
 #include <qbuttongroup.h>
 #include <qmultilineedit.h>
 #include <qradiobutton.h>
-#include <qfile.h>
 
 using namespace SIM;
 
@@ -33,8 +32,7 @@ FileConfig::FileConfig(QWidget *parent, void *_data)
 {
     CoreUserData *data = (CoreUserData*)_data;
     edtPath->setDirMode(true);
-    QString incoming = (data->IncomingPath.ptr ? user_file(QFile::decodeName(data->IncomingPath.ptr)) : "");
-    edtPath->setText(incoming);
+    edtPath->setText(user_file(data->IncomingPath.str()));
     connect(grpAccept, SIGNAL(clicked(int)), this, SLOT(acceptClicked(int)));
     switch (data->AcceptMode.toULong()){
     case 0:
@@ -48,8 +46,7 @@ FileConfig::FileConfig(QWidget *parent, void *_data)
         break;
     }
     chkOverwrite->setChecked(data->OverwriteFiles.toBool());
-    if (data->DeclineMessage.ptr)
-        edtDecline->setText(QString::fromUtf8(data->DeclineMessage.ptr));
+    edtDecline->setText(data->DeclineMessage.str());
     acceptClicked(data->AcceptMode.toULong());
 }
 
@@ -62,8 +59,8 @@ void FileConfig::apply(void *_data)
     } else {
         def = edtPath->text();
     }
-    set_str(&data->IncomingPath.ptr, QFile::encodeName(def));
-    edtPath->setText(data->IncomingPath.ptr ? user_file(QFile::decodeName(data->IncomingPath.ptr)) : "");
+    data->IncomingPath.str() = def;
+    edtPath->setText(user_file(data->IncomingPath.str()));
     data->AcceptMode.asULong() = 0;
     if (btnAccept->isOn()){
         data->AcceptMode.asULong() = 1;
@@ -71,7 +68,7 @@ void FileConfig::apply(void *_data)
     }
     if (btnDecline->isOn()){
         data->AcceptMode.asULong() = 2;
-        set_str(&data->DeclineMessage.ptr, edtDecline->text().utf8());
+        data->DeclineMessage.str() = edtDecline->text();
     }
 }
 

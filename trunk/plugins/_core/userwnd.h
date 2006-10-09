@@ -45,7 +45,7 @@ public:
     unsigned long id() { return m_id; }
     QString getName();
     QString getLongName();
-    const char *getIcon();
+    QString getIcon();
     unsigned type();
     void setMessage(SIM::Message**);
     void setStatus(const QString&);

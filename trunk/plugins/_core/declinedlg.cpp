@@ -38,11 +38,9 @@ DeclineDlg::~DeclineDlg()
 
 void DeclineDlg::accept()
 {
-    std::string reason;
-    reason = edtReason->text().utf8();
     messageDecline md;
     md.msg    = m_msg;
-    md.reason = reason.c_str();
+    md.reason = edtReason->text();
     Event e(EventMessageDecline, &md);
     e.process();
     DeclineDlgBase::accept();

@@ -97,18 +97,16 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
         tab->addTab(sms_cfg, i18n("SMS"));
         break;
     }
-    const char *cur = CorePlugin::m_plugin->getLang();
-    if (*cur == 0)
-        cur = NULL;
 #ifndef USE_KDE
+    QString cur = CorePlugin::m_plugin->getLang();
     cmbLang->insertItem(i18n("System"));
     QStringList items = getLangItems();
     cmbLang->insertStringList(items);
     int nCurrent = 0;
-    if (cur){
+    if (!cur.isEmpty()){
         const language *l;
         for (l = langs; l->code; l++)
-            if (!strcmp(cur, l->code))
+            if (cur == l->code)
                 break;
         if (l->code){
             QString name = i18n(l->name);
@@ -247,7 +245,7 @@ void InterfaceConfig::apply()
     }
     CorePlugin::m_plugin->setShowOwnerName(chkOwnerName->isChecked());
 #ifndef USE_KDE
-    if (strcmp(lang, CorePlugin::m_plugin->getLang())){
+    if (lang != CorePlugin::m_plugin->getLang()){
         CorePlugin::m_plugin->removeTranslator();
         CorePlugin::m_plugin->setLang(lang);
         CorePlugin::m_plugin->installTranslator();

@@ -36,9 +36,9 @@ protected slots:
     void listFinished();
 protected:
     virtual void *processEvent(SIM::Event*);
-    UserList	*m_list;
-    MsgEdit		*m_edit;
-    std::string	m_client;
+    UserList   *m_list;
+    MsgEdit    *m_edit;
+    QString     m_client;
 };
 
 #endif

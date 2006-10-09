@@ -150,7 +150,7 @@ void CommonStatus::setBarStatus()
                         }
                     }
                     if (i >= getContacts()->nClients()){
-                        for (d = client->protocol()->statusList(); d->text; d++){
+                        for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                              if (d->id == status){
                                  switch (status){
                                  case STATUS_ONLINE: 
@@ -218,7 +218,7 @@ void CommonStatus::rebuildStatus()
     int nInvisible = -1;
     for (unsigned i = 0; i < nClients; i++){
         Client *client = getContacts()->getClient(i);
-        for (const CommandDef *cmd = client->protocol()->statusList(); cmd->text; cmd++){
+        for (const CommandDef *cmd = client->protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
             MAP_STATUS::iterator it = status.find(cmd->id);
             if (it == status.end()){
                 status.insert(MAP_STATUS::value_type(cmd->id, 1));
@@ -244,7 +244,7 @@ void CommonStatus::rebuildStatus()
     unsigned id = 0x1000;
     unsigned long FirstStatus = 0;
     unsigned long ManualStatus = 0;
-    for (const CommandDef *cmd = client->protocol()->statusList(); cmd->text; cmd++){
+    for (const CommandDef *cmd = client->protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
         MAP_STATUS::iterator it = status.find(cmd->id);
         if (it == status.end())
             continue;
@@ -326,16 +326,15 @@ void *CommonStatus::processEvent(Event *e)
             item.id     = data->id;
             item.client = data->client;
             item.text   = i18n(data->err_str);
-            if (data->args){
+            if (!data->args.isEmpty()){
                 if (item.text.find("%1") >= 0)
-                    item.text = item.text.arg(QString::fromUtf8(data->args));
-                free(data->args);
+                    item.text = item.text.arg(data->args);
             }
             QString title = "SIM";
             if (getContacts()->nClients() > 1){
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i) == data->client){
-                        title = data->client->name().c_str();
+                        title = data->client->name();
                         int n = title.find(".");
                         if (n > 0)
                             title = title.left(n) + " " + title.mid(n + 1);
@@ -361,10 +360,9 @@ void *CommonStatus::processEvent(Event *e)
             clientErrorData *data = (clientErrorData*)(e->param());
             if (data->code == AuthError){
                 QString msg;
-                if (data->err_str && *data->err_str){
+                if (!data->err_str.isEmpty()){
                     msg = i18n(data->err_str);
-                    if (data->args)
-                        msg = msg.arg(QString::fromUtf8(data->args));
+                    msg = msg.arg(data->args);
                 }
                 LoginDialog *loginDlg = new LoginDialog(false, data->client, msg, NULL);
                 raiseWindow(loginDlg);
@@ -415,7 +413,7 @@ void *CommonStatus::processEvent(Event *e)
                     return 0;
                 const CommandDef *curStatus = NULL;
                 const CommandDef *d;
-                for (d = client->protocol()->statusList(); d->text; d++){
+                for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                     if (d->id == def->id)
                         curStatus = d;
                 }
@@ -449,7 +447,7 @@ void *CommonStatus::processEvent(Event *e)
                     return 0;
                 const CommandDef *curStatus = NULL;
                 const CommandDef *d;
-                for (d = client->protocol()->statusList(); d->text; d++){
+                for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                     if (d->id == def->id)
                         curStatus = d;
                 }
@@ -468,8 +466,8 @@ void *CommonStatus::processEvent(Event *e)
 
                 if (bOfflineStatus ||
                         ((def->id != STATUS_ONLINE) && (def->id != STATUS_OFFLINE))){
-                    const char *noShow = CorePlugin::m_plugin->getNoShowAutoReply(def->id);
-                    if ((noShow == NULL) || (*noShow == 0)){
+                    QString noShow = CorePlugin::m_plugin->getNoShowAutoReply(def->id);
+                    if (noShow.isEmpty()){
                         AutoReplyDialog dlg(def->id);
                         if (!dlg.exec())
                             return e->param();

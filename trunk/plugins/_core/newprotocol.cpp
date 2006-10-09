@@ -250,7 +250,7 @@ void *NewProtocol::processEvent(Event *e)
             d = (clientErrorData*)(e->param());
             if (d->client == m_client){
                 m_connectWnd->setErr(i18n(d->err_str),
-                                     (d->code == AuthError) ? m_client->protocol()->description()->accel : NULL);
+                    (d->code == AuthError) ? m_client->protocol()->description()->accel : QString::null);
                 m_bConnect = false;
                 m_client->setStatus(STATUS_OFFLINE, false);
                 setBackEnabled(m_connectWnd, true);

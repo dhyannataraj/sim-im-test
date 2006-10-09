@@ -132,7 +132,7 @@ void *MsgContacts::processEvent(Event *e)
                 ContactsMessage *msg = new ContactsMessage;
                 msg->setContact(m_edit->m_userWnd->id());
                 msg->setContacts(contacts);
-                msg->setClient(m_client.c_str());
+                msg->setClient(m_client);
                 m_edit->sendMessage(msg);
             }
             return e->param();

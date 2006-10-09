@@ -59,7 +59,6 @@
 #include "connectwndbase.h"
 #include "container.h"
 #include "core.h"
-#include "core_pch.h"
 #include "declinedlg.h"
 #include "declinedlgbase.h"
 #include "editmail.h"

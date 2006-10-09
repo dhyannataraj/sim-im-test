@@ -322,11 +322,8 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
         }
         m_processor = processor;
     }
-    if (msg->client()){
-        m_client = msg->client();
-    }else{
-        m_client = "";
-    }
+    m_client = msg->client();
+
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
         Event e(EventContactClient, contact);
@@ -356,7 +353,7 @@ Client *MsgEdit::client(void *&data, bool bCreate, bool bTyping, unsigned contac
 {
     data = NULL;
     Contact *contact = getContacts()->contact(contact_id);
-    if (!bUseClient || m_client.empty()){
+    if (!bUseClient || m_client.isEmpty()){
         if (contact == NULL)
             return NULL;
         vector<ClientStatus> cs;
@@ -588,12 +585,12 @@ i18n("File", "%n files", 1);
 
 static CommandDef fileCommands[] =
     {
-        {
+        CommandDef (
             CmdFileAccept,
             I18N_NOOP("&Accept"),
-            NULL,
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1090,
             MenuMessage,
@@ -601,14 +598,14 @@ static CommandDef fileCommands[] =
             0,
             COMMAND_CHECK_STATE,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             CmdFileDecline,
             I18N_NOOP("&Decline"),
-            NULL,
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1091,
             MenuMessage,
@@ -616,23 +613,9 @@ static CommandDef fileCommands[] =
             MenuFileDecline,
             COMMAND_CHECK_STATE,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            COMMAND_DEFAULT,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 static MessageDef defFile =
@@ -663,12 +646,12 @@ i18n("Authorize request", "%n authorize requests", 1);
 
 static CommandDef authRequestCommands[] =
     {
-        {
+        CommandDef (
             CmdGrantAuth,
             I18N_NOOP("&Grant"),
-            NULL,
-            NULL,
-            NULL,
+            "",
+            "",
+            "",
             ToolBarMsgEdit,
             0x1080,
             MenuMessage,
@@ -676,14 +659,14 @@ static CommandDef authRequestCommands[] =
             0,
             COMMAND_DEFAULT,
             NULL,
-            NULL
-        },
-        {
+            ""
+        ),
+        CommandDef (
             CmdRefuseAuth,
             I18N_NOOP("&Refuse"),
-            NULL,
-            NULL,
-            NULL,
+            "",
+            "",
+            "",
             ToolBarMsgEdit,
             0x1081,
             MenuMessage,
@@ -691,23 +674,9 @@ static CommandDef authRequestCommands[] =
             0,
             COMMAND_DEFAULT,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            COMMAND_DEFAULT,
-            NULL,
-            NULL
-        }
+            ""
+        ),
+        CommandDef ()
     };
 
 static MessageDef defAuthRequest =
@@ -849,7 +818,7 @@ void MsgEdit::getWays(vector<ClientStatus> &cs, Contact *contact)
         while ((data = ++it) != NULL){
             unsigned long status = STATUS_UNKNOWN;
             unsigned style = 0;
-            const char *statusIcon = NULL;
+            QString statusIcon;
             client->contactInfo(data, status, style, statusIcon);
             ClientStatus s;
             s.client = i;
@@ -912,11 +881,11 @@ bool MsgEdit::sendMessage(Message *msg)
         void *data = NULL;
         Client *c = client(data, true, false, msg->contact(), true);
         if (c){
-            string resources = c->resources(data);
-            while (!resources.empty()){
-                string res = getToken(resources, ';');
+            QString resources = c->resources(data);
+            while (!resources.isEmpty()){
+                QString res = getToken(resources, ';');
                 getToken(res, ',');
-                if (m_resource == QString::fromUtf8(res.c_str())){
+                if (m_resource == res){
                     msg->setResource(m_resource);
                     break;
                 }
@@ -940,17 +909,17 @@ bool MsgEdit::sendMessage(Message *msg)
 bool MsgEdit::send()
 {
     Contact *contact = getContacts()->contact(m_msg->contact());
-    string client_str = m_msg->client();
+    QString client_str = m_msg->client();
     bool bSent = false;
     void *data = NULL;
     if (contact){
         Event e(EventMessageSend, m_msg);
         e.process();
-        if (client_str.empty()){
+        if (client_str.isEmpty()){
             m_type = m_msg->type();
             Client *c = client(data, true, false, m_msg->contact(), (m_msg->getFlags() & MESSAGE_MULTIPLY) == 0);
             if (c){
-                m_msg->setClient(c->dataName(data).c_str());
+                m_msg->setClient(c->dataName(data));
                 bSent = c->send(m_msg, data);
             }else{
                 data = NULL;
@@ -1203,7 +1172,7 @@ void *MsgEdit::processEvent(Event *e)
                 SmilePopup *popup = new SmilePopup(this);
                 QSize s = popup->minimumSizeHint();
                 popup->resize(s);
-                connect(popup, SIGNAL(insert(const char*)), this, SLOT(insertSmile(const char*)));
+                connect(popup, SIGNAL(insert(const QString &)), this, SLOT(insertSmile(const QString &)));
                 QPoint p = CToolButton::popupPos(btnSmile, popup);
                 popup->move(p);
                 popup->show();
@@ -1227,7 +1196,7 @@ void *MsgEdit::processEvent(Event *e)
             case CmdMsgAnswer:{
                     Message *msg = new Message(MessageGeneric);
                     msg->setContact(m_userWnd->id());
-                    msg->setClient(m_client.c_str());
+                    msg->setClient(m_client);
                     Event e(EventOpenMessage, &msg);
                     e.process();
                     delete msg;
@@ -1410,7 +1379,7 @@ void MsgEdit::typingStart()
 
 void MsgEdit::typingStop()
 {
-    if (m_typingClient.empty())
+    if (m_typingClient.isEmpty())
         return;
     Contact *contact = getContacts()->contact(m_userWnd->m_id);
     if (contact == NULL)
@@ -1459,12 +1428,12 @@ void MsgEdit::colorsChanged()
     e.process();
 }
 
-void MsgEdit::insertSmile(const char *id)
+void MsgEdit::insertSmile(const QString &id)
 {
     if (m_edit->textFormat() == QTextEdit::PlainText){
-        list<string> smiles = getIcons()->getSmile(id);
+        QStringList smiles = getIcons()->getSmile(id);
         if (!smiles.empty())
-            m_edit->insert(QString::fromUtf8(smiles.front().c_str()), false, true, true);
+            m_edit->insert(smiles.front(), false, true, true);
         return;
     }
     QString img_src = QString("<img src=icon:%1>").arg(id);
@@ -1489,7 +1458,7 @@ void MsgEdit::goNext()
     for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
         if ((*it).contact != m_userWnd->id())
             continue;
-        Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
+        Message *msg = History::load((*it).id, (*it).client, (*it).contact);
         if (msg == NULL)
             continue;
         Event e(EventOpenMessage, &msg);
@@ -1531,7 +1500,7 @@ void MsgEdit::setupNext()
     def = CorePlugin::m_plugin->messageTypes.find(type);
 
     CommandDef c = *btnNext->def();
-    c.text_wrk = strdup(str.utf8());
+    c.text_wrk = str;
     if (def)
         c.icon     = def->icon;
     if (count){
@@ -1551,10 +1520,9 @@ void MsgEdit::editEnterPressed()
     e.process();
 }
 
-SmileLabel::SmileLabel(const char *_id, QWidget *parent)
-        : QLabel(parent)
+SmileLabel::SmileLabel(const QString &_id, QWidget *parent)
+        : QLabel(parent), id(_id)
 {
-    id = _id;
     QIconSet icon = Icon(_id);
     QPixmap pict;
     if (!icon.pixmap(QIconSet::Small, QIconSet::Normal).isNull()){
@@ -1565,20 +1533,19 @@ SmileLabel::SmileLabel(const char *_id, QWidget *parent)
         }
     }
     setPixmap(pict);
-    list<string> smiles = getIcons()->getSmile(_id);
-    QString tip = QString::fromUtf8(smiles.front().c_str());
-    string name = getIcons()->getSmileName(_id);
-    char c = name[0];
-    if ((c < '0') || (c > '9')){
+    QStringList smiles = getIcons()->getSmile(_id);
+    QString tip = smiles.front();
+    QString name = getIcons()->getSmileName(_id);
+    if ((name[0] < '0') || (name[0] > '9')){
         tip += " ";
-        tip += i18n(name.c_str());
+        tip += i18n(name);
     }
     QToolTip::add(this, tip);
 }
 
 void SmileLabel::mouseReleaseEvent(QMouseEvent*)
 {
-    emit clicked(id.c_str());
+    emit clicked(id);
 }
 
 SmilePopup::SmilePopup(QWidget *popup)
@@ -1587,14 +1554,14 @@ SmilePopup::SmilePopup(QWidget *popup)
     setFrameShape(PopupPanel);
     setFrameShadow(Sunken);
     QSize s;
-    list<string> smiles;
+    QStringList smiles;
     getIcons()->getSmiles(smiles);
     if (smiles.empty())
         return;
     unsigned nSmiles = 0;
-    list<string>::iterator it;
+    QStringList::iterator it;
     for (it = smiles.begin(); it != smiles.end(); ++it){
-        QIconSet is = Icon(it->c_str());
+        QIconSet is = Icon(*it);
         if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
             continue;
         QPixmap pict;
@@ -1620,12 +1587,12 @@ SmilePopup::SmilePopup(QWidget *popup)
     unsigned i = 0;
     unsigned j = 0;
     for (it = smiles.begin(); it != smiles.end(); ++it){
-        QIconSet is = Icon(it->c_str());
+        QIconSet is = Icon(*it);
         if (is.pixmap(QIconSet::Small, QIconSet::Normal).isNull())
             continue;
-        QWidget *w = new SmileLabel(it->c_str(), this);
+        QWidget *w = new SmileLabel(*it, this);
         w->setMinimumSize(s);
-        connect(w, SIGNAL(clicked(const char*)), this, SLOT(labelClicked(const char*)));
+        connect(w, SIGNAL(clicked(const QString &)), this, SLOT(labelClicked(const QString &)));
         lay->addWidget(w, i, j);
         if (++j >= cols){
             i++;
@@ -1635,7 +1602,7 @@ SmilePopup::SmilePopup(QWidget *popup)
     resize(minimumSizeHint());
 }
 
-void SmilePopup::labelClicked(const char *id)
+void SmilePopup::labelClicked(const QString &id)
 {
     insert(id);
     close();
@@ -1735,7 +1702,7 @@ void MsgEdit::setupMessages()
 
     cmd->id			= MessageStatus;
     cmd->text		= I18N_NOOP("Status");
-    cmd->icon		= NULL;
+    cmd->icon		= QString::null;
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defStatus;

@@ -22,7 +22,6 @@
 #include "msgedit.h"
 #include "textshow.h"
 #include "userwnd.h"
-#include "exec.h"
 #include "passphrase.h"
 #include "ballonmsg.h"
 
@@ -31,12 +30,14 @@
 #include <qfileinfo.h>
 #include <qregexp.h>
 #include <qprocess.h>
+#include <qapplication.h> //for Linux: qApp->processEvents();
+
+#include <string>
 
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
 
-using namespace std;
 using namespace SIM;
 
 #ifndef WIN32
@@ -93,10 +94,10 @@ static DataDef gpgData[] =
         { "GenKey", DATA_STRING, 1, "--gen-key --batch" },
         { "PublicList", DATA_STRING, 1, "--with-colon --list-public-keys" },
         { "SecretList", DATA_STRING, 1, "--with-colon --list-secret-keys" },
-        { "Import", DATA_STRING, 1, "--import \"%keyfile%\"" },
-        { "Export", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --export \"%userid%\"" },
-        { "Encrypt", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --recipient \"%userid%\" --trusted-key \"%userid%\" --output \"%cipherfile%\" --encrypt \"%plainfile%\"" },
-        { "Decrypt", DATA_STRING, 1, "--yes --passphrase-fd 0 --output \"%plainfile%\" --decrypt \"%cipherfile%\"" },
+        { "Import", DATA_STRING, 1, "--import %keyfile%" },
+        { "Export", DATA_STRING, 1, "--batch --yes --armor --comment \"\" --no-version --export %userid%" },
+        { "Encrypt", DATA_STRING, 1, "--charset utf8 --batch --yes --armor --comment \"\" --no-version --recipient %userid% --trusted-key %userid% --output %cipherfile% --encrypt %plainfile%" },
+        { "Decrypt", DATA_STRING, 1, "--charset utf8 --yes --passphrase-fd 0 --status-fd 2 --output %plainfile% --decrypt %cipherfile%" },
         { "Key", DATA_STRING, 1, 0 },
         { "Passphrases", DATA_UTFLIST, 1, 0 },
         { "Keys", DATA_STRLIST, 1, 0 },
@@ -130,17 +131,17 @@ GpgPlugin::~GpgPlugin()
     delete m_passphraseDlg;
     unregisterMessage();
     free_data(gpgData, &data);
-    list<DecryptMsg>::iterator it;
+    QValueList<DecryptMsg>::iterator it;
     for (it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
         delete (*it).msg;
-        delete (*it).exec;
+        delete (*it).process;
     }
     for (it = m_import.begin(); it != m_import.end(); ++it){
         delete (*it).msg;
-        delete (*it).exec;
+        delete (*it).process;
     }
     for (it = m_public.begin(); it != m_public.end(); ++it)
-        delete (*it).exec;
+        delete (*it).process;
     for (it = m_wait.begin(); it != m_wait.end(); ++it)
         delete (*it).msg;
     getContacts()->unregisterUserData(user_data_id);
@@ -149,7 +150,7 @@ GpgPlugin::~GpgPlugin()
 QString GpgPlugin::GPG()
 {
 #ifdef WIN32
-    return QFile::decodeName(getGPG());
+    return getGPG();
 #else
     return GPGpath;
 #endif
@@ -157,13 +158,13 @@ QString GpgPlugin::GPG()
 
 void GpgPlugin::clear()
 {
-    list<DecryptMsg>::iterator it;
+    QValueList<DecryptMsg>::iterator it;
     for (it = m_decrypt.begin(); it != m_decrypt.end();){
         if ((*it).msg){
             ++it;
             continue;
         }
-        delete (*it).exec;
+        delete (*it).process;
         QFile::remove((*it).infile);
         QFile::remove((*it).outfile);
         m_decrypt.erase(it);
@@ -174,7 +175,7 @@ void GpgPlugin::clear()
             ++it;
             continue;
         }
-        delete (*it).exec;
+        delete (*it).process;
         QFile::remove((*it).infile);
         QFile::remove((*it).outfile);
         m_import.erase(it);
@@ -185,7 +186,7 @@ void GpgPlugin::clear()
             ++it;
             continue;
         }
-        delete (*it).exec;
+        delete (*it).process;
         QFile::remove((*it).infile);
         QFile::remove((*it).outfile);
         m_public.erase(it);
@@ -193,44 +194,43 @@ void GpgPlugin::clear()
     }
 }
 
-void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
+void GpgPlugin::decryptReady()
 {
-    for (list<DecryptMsg>::iterator it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
-        if ((*it).exec == exec){
+    int res = 0;
+    for (QValueList<DecryptMsg>::iterator it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
+        QProcess *p = (*it).process;
+        if (p && !p->isRunning() && (*it).msg){
             Message *msg = (*it).msg;
             (*it).msg = NULL;
             QTimer::singleShot(0, this, SLOT(clear()));
-            if (res == 0){
-                QFile f((*it).outfile);
+            if (p->normalExit() && p->exitStatus() == 0){
+                QString s = (*it).outfile;
+                QFile f(s);
                 if (f.open(IO_ReadOnly)){
-                    string text;
-                    text.append(f.size(), '\x00');
-                    f.readBlock((char*)(text.c_str()), f.size());
-                    msg->setText(text.c_str());
+                    QByteArray ba = f.readAll();
+                    msg->setText(QString::fromUtf8(ba.data(), ba.size()));
                     msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                 }else{
-                    string s;
-                    s = (*it).outfile.local8Bit();
-                    log(L_WARN, "Can't open output decrypt file %s", s.c_str());
+                    log(L_WARN, "Can't open output decrypt file %s", s.local8Bit().data());
                     res = -1;
                 }
-                if (!(*it).key.empty()){
+                if (!(*it).key.isEmpty()){
                     unsigned i = 1;
                     for (i = 1; i <= getnPassphrases(); i++){
-                        if ((*it).key == getKeys(i).data())
+                        if ((*it).key == getKeys(i))
                             break;
                     }
                     if (i > getnPassphrases()){
                         setnPassphrases(i);
-                        setKeys(i, (*it).key.c_str());
+                        setKeys(i, (*it).key);
                     }
                     setPassphrases(i, (*it).passphrase);
                     for (;;){
-                        list<DecryptMsg>::iterator itw;
+                        QValueList<DecryptMsg>::iterator itw;
                         bool bDecode = false;
                         for (itw = m_wait.begin(); itw != m_wait.end(); ++itw){
                             if ((*itw).key == (*it).key){
-                                decode((*itw).msg, (*it).passphrase.utf8(), (*it).key.c_str());
+                                decode((*itw).msg, (*it).passphrase, (*it).key);
                                 m_wait.erase(itw);
                                 bDecode = true;
                                 break;
@@ -246,51 +246,54 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
                     }
                 }
             }else{
-                string key;
-                string res;
+                QString key;
                 QString passphrase;
-                exec->bErr.scan("\n", key);
-                if (exec->bErr.scan("bad passphrase", res)){
-                    int n = key.find("ID ");
-                    if (n > 0)
-                        key = key.substr(n + 3);
-                    key = getToken(key, ' ');
-                    key = getToken(key, ',');
-                    if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
-                        DecryptMsg m;
-                        m.msg    = msg;
-                        m.key    = key;
-                        m_wait.push_back(m);
-                        m_passphraseDlg->error();
-                        return;
-                    }
-                    if ((*it).passphrase.isEmpty()){
-                        for (unsigned i = 1; i <= getnPassphrases(); i++){
-                            if (key == getKeys(i).data()){
-                                passphrase = getPassphrases(i);
-                                break;
+                QByteArray ba = p->readStderr();
+                QString str = QString::fromUtf8(ba.data(), ba.size());
+                while(!str.isEmpty()) {
+                    key = getToken(str, '\n');
+                    if (key.contains("BAD_PASSPHRASE")){
+                        int n = key.find("BAD_PASSPHRASE ");
+                        if(n < 0)
+                            break;
+                        key = key.mid(n + strlen("BAD_PASSPHRASE "));
+                        if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
+                            DecryptMsg m;
+                            m.msg    = msg;
+                            m.key    = key;
+                            m_wait.push_back(m);
+                            m_passphraseDlg->error();
+                            return;
+                        }
+                        if ((*it).passphrase.isEmpty()){
+                            for (unsigned i = 1; i <= getnPassphrases(); i++){
+                                if (key == getKeys(i)){
+                                    passphrase = getPassphrases(i);
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if ((*it).passphrase.isEmpty() && !passphrase.isEmpty()){
-                        if (decode(msg, passphrase.utf8(), key.c_str()))
+                        if ((*it).passphrase.isEmpty() && !passphrase.isEmpty()){
+                            if (decode(msg, passphrase, key))
+                                return;
+                        }else{
+                            DecryptMsg m;
+                            m.msg    = msg;
+                            m.key    = key;
+                            m_wait.push_back(m);
+                            (*it).msg = NULL;
+                            QTimer::singleShot(0, this, SLOT(clear()));
+                            askPassphrase();
                             return;
-                    }else{
-                        DecryptMsg m;
-                        m.msg    = msg;
-                        m.key    = key;
-                        m_wait.push_back(m);
-                        (*it).msg = NULL;
-                        QTimer::singleShot(0, this, SLOT(clear()));
-                        askPassphrase();
-                        return;
+                        }
                     }
-                }else{
-                    if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
-                        delete m_passphraseDlg;
-                        m_passphraseDlg = NULL;
-                        askPassphrase();
-                    }
+                }
+                if (m_passphraseDlg && ((*it).key == m_passphraseDlg->m_key)){
+                    delete m_passphraseDlg;
+                    m_passphraseDlg = NULL;
+                    askPassphrase();
+                } else {
+                    msg->setText(key + "\n" + str);
                 }
             }
             Event e(EventMessageReceived, msg);
@@ -304,13 +307,19 @@ void GpgPlugin::decryptReady(Exec *exec, int res, const char*)
     log(L_WARN, "No decrypt exec");
 }
 
-void GpgPlugin::importReady(Exec *exec, int res, const char*)
+void GpgPlugin::importReady()
 {
-    for (list<DecryptMsg>::iterator it = m_import.begin(); it != m_import.end(); ++it){
-        if ((*it).exec == exec){
-            if (res == 0){
-                Message *msg = new Message(MessageGPGKey);
-                QString err(exec->bErr.data());
+    for (QValueList<DecryptMsg>::iterator it = m_import.begin(); it != m_import.end(); ++it){
+        QProcess *p = (*it).process;
+        if (p && !p->isRunning()){
+            Message *msg = new Message(MessageGPGKey);
+            msg->setContact((*it).msg->contact());
+            msg->setClient((*it).msg->client());
+            msg->setFlags((*it).msg->getFlags());
+
+            QByteArray ba = p->readStderr();
+            QString err = QString::fromLocal8Bit(ba.data(), ba.size());
+            if (p->normalExit() && p->exitStatus() == 0){
                 QRegExp r1("[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]:");
                 QRegExp r2("\".*\"");
                 int len;
@@ -323,29 +332,38 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
                     pos = r2.match(err, 0, &len);
                     text += err.mid(pos + 1, len - 2);
                     msg->setText(text);
-                    msg->setContact((*it).msg->contact());
-                    msg->setClient((*it).msg->client());
-                    msg->setFlags((*it).msg->getFlags());
                     delete (*it).msg;
                     (*it).msg = msg;
 
                     QString home = GpgPlugin::plugin->getHomeDir();
 
-                    QString gpg;
-                    gpg += "\"";
-                    gpg += GPG();
-                    gpg += "\" --no-tty --homedir \"";
-                    gpg += home;
-                    gpg += "\" ";
-                    gpg += getPublicList();
+                    QStringList sl;
+                    sl += GPG();
+                    sl += "--no-tty";
+                    sl += "--homedir";
+                    sl += home;
+                    sl += QStringList::split(' ', getPublicList());
+
+                    QProcess *proc = new QProcess(sl, this);
+
                     DecryptMsg dm;
-                    dm.exec    = new Exec;
+                    dm.process = proc;
                     dm.contact = msg->contact();
                     dm.outfile = key_name;
                     m_public.push_back(dm);
-                    connect(dm.exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(publicReady(Exec*,int,const char*)));
-                    dm.exec->execute(gpg.local8Bit(), "\n");
+                    connect(dm.process, SIGNAL(processExited()), this, SLOT(publicReady()));
+                    dm.process->start();
+                } else {
+                    QString str;
+                    if(!err.isEmpty())
+                        str = "(" + err + ")";
+                    msg->setText(i18n("Importing public key failed") + str);
                 }
+            } else {
+                QString str;
+                if(!err.isEmpty())
+                    str = "(" + err + ")";
+                msg->setText(i18n("Importing public key failed") + str);
             }
             Event e(EventMessageReceived, (*it).msg);
             if (!e.process(this))
@@ -358,12 +376,11 @@ void GpgPlugin::importReady(Exec *exec, int res, const char*)
     log(L_WARN, "No decrypt exec");
 }
 
-string GpgPlugin::getConfig()
+std::string GpgPlugin::getConfig()
 {
     QStringList keys;
     QStringList passphrases;
-    unsigned i;
-    for (i = 1; i <= getnPassphrases(); i++){
+    for (unsigned i = 1; i <= getnPassphrases(); i++){
         keys.append(getKeys(i));
         passphrases.append(getPassphrases(i));
     }
@@ -371,9 +388,9 @@ string GpgPlugin::getConfig()
         clearKeys();
         clearPassphrases();
     }
-    string res = save_data(gpgData, &data);
-    for (i = 0; i < getnPassphrases(); i++){
-        setKeys(i + 1, keys[i].latin1());
+    std::string res = save_data(gpgData, &data);
+    for (unsigned i = 0; i < getnPassphrases(); i++){
+        setKeys(i + 1, keys[i]);
         setPassphrases(i + 1, passphrases[i]);
     }
     return res;
@@ -398,7 +415,7 @@ void *GpgPlugin::processEvent(Event *e)
                     if (contact == NULL)
                         return NULL;
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if ((data == NULL) || (data->Key.ptr == NULL))
+                    if (!data || data->Key.str().isEmpty())
                         return NULL;
                     if (data->Use.toBool())
                         cmd->flags |= COMMAND_CHECKED;
@@ -414,7 +431,7 @@ void *GpgPlugin::processEvent(Event *e)
                 if (contact == NULL)
                     return NULL;
                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                if (data && data->Key.ptr)
+                if (data && !data->Key.str().isEmpty())
                     data->Use.asBool() = (cmd->flags & COMMAND_CHECKED) != 0;
                 return e->param();
             }
@@ -428,11 +445,11 @@ void *GpgPlugin::processEvent(Event *e)
         }
     case EventMessageSent:{
             Message *msg = (Message*)(e->param());
-            for (list<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
+            for (QValueList<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
                 if ((*it).msg == msg){
-                    if ((msg->getError() == NULL) || (*msg->getError() == 0)){
+                    if (msg->getError().isEmpty()){
                         Message m(MessageGPGKey);
-                        m.setText((*it).key.c_str());
+                        m.setText((*it).key);
                         m.setClient(msg->client());
                         m.setContact(msg->contact());
                         Event e(EventSent, &m);
@@ -450,7 +467,7 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Key.ptr && data->Use.toBool()){
+                    if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
                         msg->setFlags(msg->getFlags() | MESSAGE_SECURE);
                         if (msg->getFlags() & MESSAGE_RICHTEXT){
                             QString text = msg->getPlainText();
@@ -469,34 +486,40 @@ void *GpgPlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(ms->msg->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
-                    if (data && data->Key.ptr && data->Use.toBool()){
+                    if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
                         QString output = user_file("m.");
                         output += QString::number((unsigned long)ms->msg);
                         QString input = output + ".in";
                         QFile in(input);
                         if (!in.open(IO_WriteOnly | IO_Truncate)){
-                            string s;
-                            s = input.local8Bit();
-                            log(L_WARN, "Can't create %s", s.c_str());
+                            log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
                             return NULL;
                         }
-                        in.writeBlock(ms->text->c_str(), ms->text->length());
+                        QCString *cstr = ms->text;
+                        in.writeBlock(cstr->data(), cstr->length());
                         in.close();
                         QString home = GpgPlugin::plugin->getHomeDir();
 
-                        QString gpg;
-                        gpg += "\"";
-                        gpg += GPG();
-                        gpg += "\" --no-tty --homedir \"";
-                        gpg += home;
-                        gpg += "\" ";
-                        gpg += getEncrypt();
-                        gpg = gpg.replace(QRegExp("\\%plainfile\\%"), input);
-                        gpg = gpg.replace(QRegExp("\\%cipherfile\\%"), output);
-                        gpg = gpg.replace(QRegExp("\\%userid\\%"), data->Key.ptr);
-                        Exec exec;
-                        exec.execute(gpg.local8Bit(), "\n", true);
-                        if (exec.result){
+                        QStringList sl;
+                        sl += GPG();
+                        sl += "--no-tty";
+                        sl += "--homedir";
+                        sl += home;
+                        sl += QStringList::split(' ', getEncrypt());
+                        sl = sl.gres(QRegExp("\\%plainfile\\%"), input);
+                        sl = sl.gres(QRegExp("\\%cipherfile\\%"), output);
+                        sl = sl.gres(QRegExp("\\%userid\\%"), data->Key.str());
+
+                        QProcess proc(sl, this);
+
+                        if(!proc.start())
+                            return ms->msg;
+
+                        // FIXME: not soo good...
+                        while(proc.isRunning())
+                            qApp->processEvents();
+
+                        if (!proc.normalExit() || proc.exitStatus() != 0){
                             ms->msg->setError(I18N_NOOP("Encrypt failed"));
                             QFile::remove(input);
                             QFile::remove(output);
@@ -509,9 +532,7 @@ void *GpgPlugin::processEvent(Event *e)
                             ms->msg->setError(I18N_NOOP("Encrypt failed"));
                             return ms->msg;
                         }
-                        *ms->text = "";
-                        ms->text->append(out.size(), '\x00');
-                        out.readBlock((char*)(ms->text->c_str()), out.size());
+                        *ms->text = out.readAll();
                         out.close();
                         QFile::remove(output);
                         return NULL;
@@ -522,49 +543,48 @@ void *GpgPlugin::processEvent(Event *e)
         }
     case EventMessageReceived:{
             Message *msg = (Message*)(e->param());
-            if (((msg->getFlags() & MESSAGE_RICHTEXT) == 0)
-                    && (msg->baseType() == MessageGeneric)
-                    && m_bMessage){
+            if(!msg)
+                return NULL;
+            if ((msg->baseType() == MessageGeneric) && m_bMessage){
                 QString text = msg->getPlainText();
-                char SIGN_MSG[] = "-----BEGIN PGP MESSAGE-----";
-                char SIGN_KEY[] = "-----BEGIN PGP PUBLIC KEY BLOCK-----";
-                if (text.left(strlen(SIGN_MSG)) == SIGN_MSG){
+                const char SIGN_MSG[] = "-----BEGIN PGP MESSAGE-----";
+                const char SIGN_KEY[] = "-----BEGIN PGP PUBLIC KEY BLOCK-----";
+                if (text.startsWith(SIGN_MSG)){
                     if (decode(msg, "", ""))
                         return msg;
                     return NULL;
                 }
-                if (text.left(strlen(SIGN_KEY)) == SIGN_KEY){
+                if (text.startsWith(SIGN_KEY)){
                     QString input = user_file("m.");
                     input  += QString::number((unsigned long)msg);
                     input += ".in";
                     QFile in(input);
                     if (!in.open(IO_WriteOnly | IO_Truncate)){
-                        string s;
-                        s = input.local8Bit();
-                        log(L_WARN, "Can't create %s", s.c_str());
+                        log(L_WARN, "Can't create %s", input.local8Bit().data());
                         return NULL;
                     }
-                    string t;
-                    t = text.latin1();
-                    in.writeBlock(t.c_str(), t.length());
+                    QCString cstr = text.utf8();
+                    in.writeBlock(cstr.data(), cstr.length());
                     in.close();
                     QString home = GpgPlugin::plugin->getHomeDir();
 
-                    QString gpg;
-                    gpg += "\"";
-                    gpg += GPG();
-                    gpg += "\" --no-tty --homedir \"";
-                    gpg += home;
-                    gpg += "\" ";
-                    gpg += getImport();
-                    gpg = gpg.replace(QRegExp("\\%keyfile\\%"), input);
+                    QStringList sl;
+                    sl += GPG();
+                    sl += "--no-tty";
+                    sl += "--homedir";
+                    sl += home;
+                    sl += QStringList::split(' ', getImport());
+                    sl = sl.gres(QRegExp("\\%keyfile\\%"), input);
+
+                    QProcess *proc = new QProcess(sl, this);
+
                     DecryptMsg dm;
-                    dm.exec = new Exec;
-                    dm.msg  = msg;
+                    dm.process = proc;
+                    dm.msg     = msg;
                     dm.infile  = input;
                     m_import.push_back(dm);
-                    connect(dm.exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(importReady(Exec*,int,const char*)));
-                    dm.exec->execute(gpg.local8Bit(), "\n");
+                    connect(dm.process, SIGNAL(processExited()), this, SLOT(importReady()));
+                    dm.process->launch("\n");
                     return msg;
                 }
             }
@@ -576,80 +596,77 @@ void *GpgPlugin::processEvent(Event *e)
 
 static unsigned decode_index = 0;
 
-bool GpgPlugin::decode(Message *msg, const char *aPassphrase, const char *key)
+bool GpgPlugin::decode(Message *msg, const QString &aPassphrase, const QString &key)
 {
     QString output = user_file("md.");
     output += QString::number(decode_index++);
     QString input = output + ".in";
     QFile in(input);
     if (!in.open(IO_WriteOnly | IO_Truncate)){
-        string s;
-        s = input.local8Bit();
-        log(L_WARN, "Can't create %s", s.c_str());
+        log(L_WARN, "Can't create %s", input.local8Bit().data());
         return false;
     }
-    string t = msg->getPlainText().latin1();
-    in.writeBlock(t.c_str(), t.length());
+    QCString cstr = msg->getPlainText().utf8();
+    in.writeBlock(cstr.data(), cstr.length());
     in.close();
     QString home = GpgPlugin::plugin->getHomeDir();
 
-    QString gpg;
-    gpg += "\"";
-    gpg += GPG();
-    gpg += "\" --no-tty --homedir \"";
-    gpg += home;
-    gpg += "\" ";
-    gpg += getDecrypt();
-    gpg = gpg.replace(QRegExp("\\%plainfile\\%"), output);
-    gpg = gpg.replace(QRegExp("\\%cipherfile\\%"), input);
+    QStringList sl;
+    sl += GPG();
+    sl += "--no-tty";
+    sl += "--homedir";
+    sl += home;
+    sl += QStringList::split(' ', getDecrypt());
+    sl = sl.gres(QRegExp("\\%plainfile\\%"), output);
+    sl = sl.gres(QRegExp("\\%cipherfile\\%"), input);
+
+    QProcess *proc = new QProcess(sl, this);
+
     DecryptMsg dm;
-    dm.exec = new Exec;
-    dm.exec->setCLocale(true);
-    dm.msg  = msg;
+    dm.process = proc;
+    dm.msg     = msg;
     dm.infile  = input;
     dm.outfile = output;
-    dm.passphrase = QString::fromUtf8(aPassphrase);
-    dm.key = key;
+    dm.passphrase = aPassphrase;
+    dm.key        = key;
     m_decrypt.push_back(dm);
-    string passphrase = aPassphrase;
-    passphrase += "\n";
-    connect(dm.exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(decryptReady(Exec*,int,const char*)));
-    dm.exec->execute(gpg.local8Bit(), passphrase.c_str());
+
+    connect(dm.process, SIGNAL(processExited()), this, SLOT(decryptReady()));
+    dm.process->launch(aPassphrase);
     return true;
 }
 
-void GpgPlugin::publicReady(Exec *exec, int res, const char*)
+void GpgPlugin::publicReady()
 {
-    for (list<DecryptMsg>::iterator it = m_public.begin(); it != m_public.end(); ++it){
-        if ((*it).exec == exec){
-            if (res == 0){
-                Buffer *b = &exec->bOut;
+    for (QValueList<DecryptMsg>::iterator it = m_public.begin(); it != m_public.end(); ++it){
+        QProcess *p = (*it).process;
+        if (p && !p->isRunning()){
+            if (p->normalExit() && p->exitStatus() == 0){
+                QCString str(p->readStdout());
                 for (;;){
-                    string line;
-                    bool bRes = b->scan("\n", line);
-                    if (!bRes)
-                        line.append(b->data(b->readPos()), b->size() - b->readPos());
-                    string type = getToken(line, ':');
+                    QCString line;
+                    line = getToken(str, '\n');
+                    if(line.isEmpty())
+                        break;
+                    QCString type = getToken(line, ':');
                     if (type == "pub"){
                         getToken(line, ':');
                         getToken(line, ':');
                         getToken(line, ':');
-                        string sign = getToken(line, ':');
+                        QCString sign = getToken(line, ':');
                         QString name = (*it).outfile;
                         int pos = sign.length() - name.length();
                         if (pos < 0)
                             pos = 0;
-                        if (sign.substr(pos) == name.latin1()){
+                        if (sign.mid(pos) == name.latin1()){
                             Contact *contact = getContacts()->contact((*it).contact);
                             if (contact){
                                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, true));
-                                set_str(&data->Key.ptr, sign.c_str());
+                                data->Key.str() = sign;
                             }
                             break;
                         }
                     }
-                    if (!bRes)
-                        break;
                 }
             }
             (*it).contact = 0;
@@ -660,11 +677,11 @@ void GpgPlugin::publicReady(Exec *exec, int res, const char*)
 
 void GpgPlugin::passphraseApply(const QString &passphrase)
 {
-    for (list<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end(); ++it){
+    for (QValueList<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end(); ++it){
         if ((*it).key == m_passphraseDlg->m_key){
             Message *msg = (*it).msg;
             m_wait.erase(it);
-            decode(msg, passphrase.utf8(), m_passphraseDlg->m_key.c_str());
+            decode(msg, passphrase, m_passphraseDlg->m_key);
             return;
         }
     }
@@ -680,7 +697,7 @@ QWidget *GpgPlugin::createConfigWindow(QWidget *parent)
 
 void GpgPlugin::reset()
 {
-    if (!GPG().isEmpty() && *getHome() && *getKey()){
+    if (!GPG().isEmpty() && !getHome().isEmpty() && !getKey().isEmpty()){
 #ifdef HAVE_CHMOD
         chmod(QFile::encodeName(user_file(getHome())), 0700);
 #endif
@@ -692,7 +709,7 @@ void GpgPlugin::reset()
 
 QString GpgPlugin::getHomeDir()
 {
-    QString home = user_file(QFile::decodeName(GpgPlugin::plugin->getHome()));
+    QString home = user_file(getHome());
     if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
     return home;
@@ -757,7 +774,7 @@ void GpgPlugin::registerMessage()
 
     cmd->id			 = MessageGPGUse;
     cmd->text		 = I18N_NOOP("Use GPG encryption");
-    cmd->icon		 = NULL;
+    cmd->icon		 = QString::null;
     cmd->param		 = &defGPGUse;
     cmd->menu_grp	 = 0x4080;
     eMsg.process();
@@ -787,7 +804,7 @@ void GpgPlugin::askPassphrase()
 {
     if (m_passphraseDlg || m_wait.empty())
         return;
-    m_passphraseDlg = new PassphraseDlg(this, m_wait.front().key.c_str());
+    m_passphraseDlg = new PassphraseDlg(this, m_wait.front().key);
     connect(m_passphraseDlg, SIGNAL(finished()), this, SLOT(passphraseFinished()));
     connect(m_passphraseDlg, SIGNAL(apply(const QString&)), this, SLOT(passphraseApply(const QString&)));
     raiseWindow(m_passphraseDlg);
@@ -796,7 +813,7 @@ void GpgPlugin::askPassphrase()
 void GpgPlugin::passphraseFinished()
 {
     if (m_passphraseDlg){
-        for (list<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end();){
+        for (QValueList<DecryptMsg>::iterator it = m_wait.begin(); it != m_wait.end();){
             if ((*it).key != m_passphraseDlg->m_key){
                 ++it;
                 continue;
@@ -867,8 +884,9 @@ void MsgGPGKey::exportReady()
             QByteArray ba2 = m_process->readStderr();
             QString errStr;
             if(!ba2.isEmpty())
-                errStr = " (" + QString::fromLocal8Bit( ba2.data(), ba2.size() ) + ")";
-            BalloonMsg::message(i18n("Can't read gpg key") + errStr, m_edit->m_edit);
+                errStr = " (" + QString::fromLocal8Bit( ba2.data(), ba2.size() ) + ") ";
+            BalloonMsg::message(i18n("Can't read gpg key ") + errStr +
+                                     " Command: " + m_process->arguments().join(" "), m_edit->m_edit);
         }
     }
 
@@ -917,7 +935,7 @@ void *MsgGPGKey::processEvent(Event *e)
                 Message *msg = new Message;
                 msg->setText(msgText);
                 msg->setContact(m_edit->m_userWnd->id());
-                msg->setClient(m_client.c_str());
+                msg->setClient(m_client);
                 msg->setFlags(MESSAGE_NOHISTORY);
                 KeyMsg km;
                 km.key = m_key;

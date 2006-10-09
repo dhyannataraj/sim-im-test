@@ -106,7 +106,7 @@ std::string UserWnd::getConfig()
 QString UserWnd::getName()
 {
     Contact *contact = getContacts()->contact(m_id);
-    return contact->getName();
+    return contact ? contact->getName() : QString::null;
 }
 
 QString UserWnd::getLongName()
@@ -142,16 +142,16 @@ QString UserWnd::getLongName()
         if (bFrom){
             res += " ";
             if (m_edit->m_bReceived){
-                res += i18n("to %1") .arg(client->name().c_str());
+                res += i18n("to %1") .arg(client->name());
             }else{
-                res += i18n("from %1") .arg(client->name().c_str());
+                res += i18n("from %1") .arg(client->name());
             }
         }
     }
     return res;
 }
 
-const char *UserWnd::getIcon()
+QString UserWnd::getIcon()
 {
     Contact *contact = getContacts()->contact(m_id);
     if(!contact) {
@@ -160,7 +160,7 @@ const char *UserWnd::getIcon()
     }
     unsigned long status = STATUS_UNKNOWN;
     unsigned style;
-    const char *statusIcon = NULL;
+    QString statusIcon;
     void *data;
     Client *client = m_edit->client(data, false, true, id());
     if (client){
@@ -300,7 +300,7 @@ void UserWnd::markAsRead()
             ++it;
             continue;
         }
-        Message *msg = History::load((*it).id, (*it).client.c_str(), (*it).contact);
+        Message *msg = History::load((*it).id, (*it).client, (*it).contact);
         CorePlugin::m_plugin->unread.erase(it);
         if (msg){
             Event e(EventMessageRead, msg);

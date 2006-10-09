@@ -303,8 +303,8 @@ void MainInfo::apply()
     contact->setPhones(phones);
     /* Christian: The checks if the name has changed took longer
        than setting the new value directly */
-    contact->setFirstName(edtFirstName->text(), NULL);
-    contact->setLastName(edtLastName->text(), NULL);
+    contact->setFirstName(edtFirstName->text(), QString::null);
+    contact->setLastName(edtLastName->text(), QString::null);
 
     QString name = cmbDisplay->lineEdit()->text();
     if (name.isEmpty()){
@@ -533,7 +533,7 @@ void MainInfo::fillEncoding()
         str = str.mid(n + 1);
         n = str.find(')');
         str = str.left(n);
-        if (str.latin1() == contact->getEncoding())
+        if (str == contact->getEncoding())
             current = n_item;
         cmbEncoding->insertItem(*it);
     }
@@ -542,7 +542,7 @@ void MainInfo::fillEncoding()
 
 void MainInfo::getEncoding(bool SendContactChangedEvent)
 {
-    string encoding;
+    QString encoding;
     int n = cmbEncoding->currentItem();
     QString t = cmbEncoding->currentText();
     Contact *contact = m_contact;
@@ -580,12 +580,12 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
                 str = str.mid(n + 1);
                 n = str.find(')');
                 str = str.left(n);
-                encoding = str.latin1();
+                encoding = str;
                 break;
             }
         }
     }
-    if (!contact->setEncoding(encoding.c_str()))
+    if (!contact->setEncoding(encoding))
         return;
     if (SendContactChangedEvent){
         Event e(EventContactChanged, contact);

@@ -117,7 +117,7 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         if (tag.isEmpty())
             continue;
         Contact *contact;
-        if (tag.left(2) == "My"){
+        if (tag.startsWith("My")){
             contact = getContacts()->owner();
             tag = tag.mid(2);
         }else{
@@ -208,7 +208,7 @@ bool Tmpl::getTag(const QString &name, void *_data, const DataDef *def, QString 
     char *data = (char*)_data;
     const DataDef *d;
     for (d = def; d->name; d++){
-        if (name == QString::fromLatin1(d->name))
+        if (name == d->name)
             break;
         data += d->n_values * sizeof(void*);
     }

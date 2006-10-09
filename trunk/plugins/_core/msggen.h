@@ -32,9 +32,9 @@ protected slots:
     void emptyChanged(bool bEmpty);
 protected:
     void *processEvent(SIM::Event*);
-    std::string m_client;
-    bool   m_bCanSend;
-    MsgEdit	*m_edit;
+    QString     m_client;
+    bool        m_bCanSend;
+    MsgEdit    *m_edit;
 };
 
 #endif

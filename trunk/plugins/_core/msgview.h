@@ -27,16 +27,16 @@ class XSL;
 
 typedef struct CutHistory
 {
-    unsigned	contact;
-    std::string	client;
-    unsigned	from;
-    unsigned	size;
+    unsigned    contact;
+    QString     client;
+    unsigned    from;
+    unsigned    size;
 } CutHistory;
 
 typedef struct Msg_Id
 {
-    unsigned	id;
-    std::string		client;
+    unsigned    id;
+    QString     client;
 } Msg_Id;
 
 class MsgViewBase : public TextShow, public SIM::EventReceiver
@@ -62,7 +62,7 @@ protected:
     void		setSource(const QString&);
     void		setColors();
     void		reload();
-    unsigned	messageId(const QString&, std::string &client);
+    unsigned    messageId(const QString&, QString &client);
     QString		messageText(SIM::Message *msg, bool bUnread);
     QPoint		m_popupPos;
     QString		m_selectStr;

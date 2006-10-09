@@ -23,14 +23,14 @@
 
 #include<qthread.h>
 
-typedef std::map<std::string, unsigned> MAP_TYPES;
+typedef std::map<QString, unsigned> MAP_TYPES;
 
 typedef struct msg_id
 {
-    unsigned	id;
-    unsigned	contact;
-    unsigned	type;
-    std::string		client;
+    unsigned    id;
+    unsigned    contact;
+    unsigned    type;
+    QString     client;
 } msg_id;
 
 class FileLock;
@@ -415,10 +415,10 @@ class HistoryThread : public QThread
 public:
     virtual void run();
     void set_id(unsigned id) {m_id=id;}
-    void set_Viewer(std::string Viewer) {m_Viewer=Viewer;}
+    void set_Viewer(const QString &Viewer) {m_Viewer=Viewer;}
 protected:
     unsigned m_id;
-    std::string m_Viewer;
+    QString m_Viewer;
 };
 
 class CorePlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
@@ -538,7 +538,7 @@ protected:
     void loadClients(ClientList&);
     void loadMenu();
     QString poFile(const char *lang);
-    SIM::Client *loadClient(const char *name, Buffer *cfg);
+    SIM::Client *loadClient(const QString &name, Buffer *cfg);
     bool adjustClientItem(unsigned id, SIM::CommandDef *cmd);
     void showPanel();
     void hideWindows();
@@ -549,9 +549,9 @@ protected:
     void loadUnread();
     void clearUnread(unsigned contact_id);
     void getWays(std::vector<clientContact> &ways, SIM::Contact *contact);
-    std::string typeName(const char *name);
+    QString typeName(const QString &name);
     void setAutoReplies();
-    bool lockProfile(const char*, bool bSend = false);
+    bool lockProfile(const QString &profile, bool bSend = false);
     bool                m_bInit;
     QStringList         m_profiles;
     QWidget             *m_cfg;
@@ -573,7 +573,7 @@ protected:
     bool                m_RegNew;
     QString             m_ICQUIN;
     QString             m_ICQPassword;
-    HistoryThread       *m_HistoryThread;
+    HistoryThread      *m_HistoryThread;
 
     friend class MainWindow;
     friend class UserView;

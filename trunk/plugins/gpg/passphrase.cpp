@@ -27,7 +27,7 @@
 
 using namespace SIM;
 
-PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const char *key)
+PassphraseDlg::PassphraseDlg(GpgPlugin *plugin, const QString &key)
         : PassphraseDlgBase(NULL, "passphrase", false, WDestructiveClose)
 {
     m_plugin = plugin;

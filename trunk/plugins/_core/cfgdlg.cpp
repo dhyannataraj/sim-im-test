@@ -220,15 +220,13 @@ ClientItem::ClientItem(QListView *view, Client *client, CommandDef *cmd)
 
 void ClientItem::init()
 {
-    if (m_cmd->text_wrk){
-        QString text = QString::fromUtf8(m_cmd->text_wrk);
-        setText(0, text);
-        free(m_cmd->text_wrk);
-        m_cmd->text_wrk = NULL;
+    if (!m_cmd->text_wrk.isEmpty()){
+        setText(0, m_cmd->text_wrk);
+        m_cmd->text_wrk = QString::null;
     }else{
         setText(0, i18n(m_cmd->text));
     }
-    if (m_cmd->icon)
+    if (!m_cmd->icon.isEmpty())
         setPixmap(0, Pict(m_cmd->icon, listView()->colorGroup().base()));
 }
 
@@ -253,7 +251,7 @@ private:
 ARItem::ARItem(QListViewItem *item, const CommandDef *d)
         : ConfigItem(item, 0)
 {
-    string icon;
+    QString icon;
 
     m_status = d->id;
     setText(0, i18n(d->text));
@@ -280,7 +278,7 @@ ARItem::ARItem(QListViewItem *item, const CommandDef *d)
         icon=d->icon;
         break;
     }
-    setPixmap(0, Pict(icon.c_str(), listView()->colorGroup().base()));
+    setPixmap(0, Pict(icon, listView()->colorGroup().base()));
 }
 
 QWidget *ARItem::getWidget(ConfigureDialog *dlg)
@@ -370,7 +368,7 @@ void ConfigureDialog::fill(unsigned id)
         CommandDef *cmds = client->configWindows();
         if (cmds){
             parentItem = NULL;
-            for (; cmds->text; cmds++){
+            for (; !cmds->text.isEmpty(); cmds++){
                 if (parentItem){
                     new ClientItem(parentItem, client, cmds);
                 }else{
@@ -393,7 +391,7 @@ void ConfigureDialog::fill(unsigned id)
             parentItem->setText(0, i18n("Autoreply"));
             parentItem->setOpen(true);
         }
-        for (const CommandDef *d = protocol->statusList(); d->text; d++){
+        for (const CommandDef *d = protocol->statusList(); !d->text.isEmpty(); d++){
             if (((protocol->description()->flags & PROTOCOL_AR_OFFLINE) == 0) &&
                     ((d->id == STATUS_ONLINE) || (d->id == STATUS_OFFLINE)))
                 continue;
@@ -497,7 +495,7 @@ void ConfigureDialog::apply()
             continue;
         size_t size = 0;
         for (const DataDef *d = def; d->name; ++d)
-            size += sizeof(Data) * d->n_values;
+            size += d->n_values;
         Data *data = new Data[size];
         string cfg = client->getConfig();
         if (cfg.empty()){

@@ -38,7 +38,6 @@
 #include <qfontdialog.h>
 #endif
 
-using std::string;
 using namespace SIM;
 
 MsgGen::MsgGen(MsgEdit *parent, Message *msg)
@@ -116,13 +115,11 @@ void *MsgGen::processEvent(Event *e)
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
             if (!msgText.isEmpty()){
-                string s;
-                s = msgText.local8Bit();
-                log(L_DEBUG, "Send: %s", s.c_str());
+                log(L_DEBUG, "Send: %s", msgText.local8Bit().data());
                 Message *msg = new Message;
                 msg->setText(msgText);
                 msg->setContact(m_edit->m_userWnd->id());
-                msg->setClient(m_client.c_str());
+                msg->setClient(m_client);
                 msg->setFlags(MESSAGE_RICHTEXT);
                 msg->setForeground(m_edit->m_edit->foreground().rgb() & 0xFFFFFF);
                 msg->setBackground(m_edit->m_edit->background().rgb() & 0xFFFFFF);

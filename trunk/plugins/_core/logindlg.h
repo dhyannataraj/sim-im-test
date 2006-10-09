@@ -48,7 +48,7 @@ protected:
     virtual void closeEvent(QCloseEvent *e);
     virtual void accept();
     virtual void reject();
-    std::string m_profile;
+    QString m_profile;
     QString m_loginProfile;
     void clearInputs();
     void fill();

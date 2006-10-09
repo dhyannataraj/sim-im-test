@@ -18,7 +18,6 @@
 #ifndef _PASSPHRASE_H
 #define _PASSPHRASE_H
 
-#include "simapi.h"
 #include "passphrasebase.h"
 
 class GpgPlugin;
@@ -27,9 +26,9 @@ class PassphraseDlg : public PassphraseDlgBase
 {
     Q_OBJECT
 public:
-    PassphraseDlg(GpgPlugin *plugin, const char *key);
+    PassphraseDlg(GpgPlugin *plugin, const QString &key);
     ~PassphraseDlg();
-    std::string m_key;
+    QString m_key;
     void error();
 signals:
     void finished();

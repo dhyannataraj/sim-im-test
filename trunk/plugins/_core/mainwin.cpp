@@ -83,7 +83,7 @@ MainWindow::MainWindow(Geometry &geometry)
 
     SET_WNDPROC("mainwnd");
     m_icon = "SIM";
-    setIcon(Pict(m_icon.c_str()));
+    setIcon(Pict(m_icon));
     setTitle();
 
 #ifdef WIN32
@@ -203,7 +203,7 @@ void *MainWindow::processEvent(Event *e)
     switch(e->type()){
     case EventSetMainIcon:
         m_icon = (const char*)(e->param());
-        setIcon(Pict(m_icon.c_str()));
+        setIcon(Pict(m_icon));
         break;
     case EventInit:{
             setTitle();
@@ -230,7 +230,7 @@ void *MainWindow::processEvent(Event *e)
         addStatus(wnd->widget, wnd->bDown);
         return e->param();
     case EventIconChanged:
-        setIcon(Pict(m_icon.c_str()));
+        setIcon(Pict(m_icon));
         break;
     case EventContactChanged:{
             Contact *contact = (Contact*)(e->param());

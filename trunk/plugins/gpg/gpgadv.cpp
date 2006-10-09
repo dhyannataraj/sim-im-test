@@ -39,13 +39,13 @@ GpgAdvanced::~GpgAdvanced()
 
 void GpgAdvanced::apply()
 {
-    m_plugin->setGenKey(edtGenKey->text().latin1());
-    m_plugin->setPublicList(edtPublic->text().latin1());
-    m_plugin->setSecretList(edtSecret->text().latin1());
-    m_plugin->setExport(edtExport->text().latin1());
-    m_plugin->setImport(edtImport->text().latin1());
-    m_plugin->setEncrypt(edtEncrypt->text().latin1());
-    m_plugin->setDecrypt(edtDecrypt->text().latin1());
+    m_plugin->setGenKey(edtGenKey->text());
+    m_plugin->setPublicList(edtPublic->text());
+    m_plugin->setSecretList(edtSecret->text());
+    m_plugin->setExport(edtExport->text());
+    m_plugin->setImport(edtImport->text());
+    m_plugin->setEncrypt(edtEncrypt->text());
+    m_plugin->setDecrypt(edtDecrypt->text());
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -47,7 +47,7 @@ StatusLabel::StatusLabel(QWidget *parent, Client *client, unsigned id)
 
 void StatusLabel::setPict()
 {
-    string icon;
+    QString icon;
     const char *text;
     if (m_client->getState() == Client::Connecting){
         if (getSocketFactory()->isActive()){
@@ -68,7 +68,7 @@ void StatusLabel::setPict()
                 status = STATUS_OFFLINE;
             }
             if (protocol){
-                for (const CommandDef *cmd = protocol->statusList(); cmd->text; cmd++){
+                for (const CommandDef *cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++){
                     if (cmd->id == status){
                         icon = cmd->icon;
                         break;
@@ -86,7 +86,7 @@ void StatusLabel::setPict()
             icon = cmd->icon;
             int n = icon.find('_');
             if (n > 0)
-                icon = icon.substr(0, n);
+                icon = icon.left(n);
             icon += "_inactive";
             text = I18N_NOOP("Inactive");
         }
@@ -103,7 +103,7 @@ void StatusLabel::setPict()
             const CommandDef *cmd = protocol->description();
             icon = cmd->icon;
             text = cmd->text;
-            for (cmd = protocol->statusList(); cmd->text; cmd++){
+            for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++){
                 if (cmd->id == m_client->getStatus()){
                     icon = cmd->icon;
                     text = cmd->text;
@@ -112,7 +112,7 @@ void StatusLabel::setPict()
             }
         }
     }
-    QPixmap p = Pict(icon.c_str());
+    QPixmap p = Pict(icon);
     setPixmap(p);
     QString tip = CorePlugin::m_plugin->clientName(m_client);
     tip += "\n";
@@ -205,7 +205,6 @@ void *StatusFrame::processEvent(Event *e)
                 delete l;
             }
             CommandDef *cmds = new CommandDef[n + 1];
-            memset(cmds, 0, sizeof(CommandDef) * (n + 1));
             QObjectList *l = queryList("StatusLabel");
             QObjectListIt itObject(*l);
             QObject *obj;
@@ -216,7 +215,7 @@ void *StatusFrame::processEvent(Event *e)
                 if (lbl->x() + lbl->width() > width()){
                     cmds[n].id = 1;
                     cmds[n].text = "_";
-                    cmds[n].text_wrk = strdup(CorePlugin::m_plugin->clientName(lbl->m_client).utf8());
+                    cmds[n].text_wrk = CorePlugin::m_plugin->clientName(lbl->m_client);
                     cmds[n].popup_id = lbl->m_id;
                     if (lbl->m_client->getState() == Client::Error){
                         cmds[n].icon = "error";
@@ -224,7 +223,7 @@ void *StatusFrame::processEvent(Event *e)
                         Protocol *protocol = lbl->m_client->protocol();
                         const CommandDef *cmd = protocol->description();
                         cmds[n].icon = cmd->icon;
-                        for (cmd = protocol->statusList(); cmd->text; cmd++){
+                        for (cmd = protocol->statusList(); !cmd->text.isEmpty(); cmd++){
                             if (cmd->id == lbl->m_client->getStatus()){
                                 cmds[n].icon = cmd->icon;
                                 break;

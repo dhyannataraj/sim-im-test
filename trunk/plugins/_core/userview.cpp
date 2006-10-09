@@ -653,7 +653,7 @@ void *UserView::processEvent(Event *e)
                 if (cmd->id == CmdContactTitle){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
-                        cmd->text_wrk = strdup(contact->getName().utf8());
+                        cmd->text_wrk = contact->getName();
                         return e->param();
                     }
                 }
@@ -695,7 +695,6 @@ void *UserView::processEvent(Event *e)
                     }
 
                     CommandDef *cmds = new CommandDef[nCmds];
-                    memset(cmds, 0, sizeof(CommandDef) * nCmds);
                     nCmds = 0;
 
                     CommandsList it(*cmdsMsg, true);
@@ -749,7 +748,7 @@ void *UserView::processEvent(Event *e)
                         c.flags = COMMAND_DEFAULT;
                         if ((grp->id() == grpId) && contact->id())
                             c.flags |= COMMAND_CHECKED;
-                        c.text_wrk = strdup(grp->getName().utf8());
+                        c.text_wrk = grp->getName();
                     }
                     CommandDef &c = cmds[nGroups++];
                     c = *cmd;
@@ -758,7 +757,7 @@ void *UserView::processEvent(Event *e)
                     c.flags = COMMAND_DEFAULT;
                     if (grpId == 0)
                         c.flags = COMMAND_CHECKED;
-                    memset(&cmds[nGroups], 0, sizeof(CommandDef));
+                    cmds[nGroups].clear();
                     cmd->flags |= COMMAND_RECURSIVE;
                     cmd->param = cmds;
                     return e->param();
@@ -770,7 +769,7 @@ void *UserView::processEvent(Event *e)
                     if (cmd->id == CmdGrpTitle){
                         Group *g = getContacts()->group(grp_id);
                         if (g)
-                            cmd->text_wrk = strdup(g->getName().utf8());
+                            cmd->text_wrk = g->getName();
                         return e->param();
                     }
                     if ((cmd->id == CmdGrpDelete) || (cmd->id == CmdGrpRename)){

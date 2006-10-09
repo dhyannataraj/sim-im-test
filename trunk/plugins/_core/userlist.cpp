@@ -205,7 +205,7 @@ void GroupItem::setOpen(bool bOpen)
     }
 }
 
-ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread)
+ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
         : UserViewItemBase(view)
 {
     m_id = contact->id();
@@ -213,7 +213,7 @@ ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned stat
     setDragEnabled(true);
 }
 
-void ContactItem::init(Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread)
+void ContactItem::init(Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
 {
     m_bOnline    = false;
     m_bBlink	 = false;
@@ -221,19 +221,16 @@ void ContactItem::init(Contact *contact, unsigned status, unsigned style, const 
     update(contact, status, style, icons, unread);
 }
 
-bool ContactItem::update(Contact *contact, unsigned status, unsigned style, const char *icons, unsigned unread)
+bool ContactItem::update(Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
 {
     m_unread = unread;
     m_style  = style;
     m_status = status;
-    QString icons_str;
-    if (icons)
-        icons_str = icons;
     QString name = contact->getName();
     QString active;
     active.sprintf("%08lX", 0xFFFFFFFF - contact->getLastActive());
     setText(CONTACT_TEXT, name);
-    setText(CONTACT_ICONS, icons_str);
+    setText(CONTACT_ICONS, icons);
     setText(CONTACT_ACTIVE, active);
     setText(CONTACT_STATUS, QString::number(9 - status));
     setup();
@@ -372,7 +369,7 @@ void UserListBase::drawUpdates()
         ContactItem *contactItem;
         GroupItem *grpItem;
         unsigned style;
-        string icons;
+        QString icons;
         unsigned status = getUserStatus(contact, style, icons);
         unsigned unread = getUnread(contact->id());
         bool bShow = false;
@@ -414,11 +411,11 @@ void UserListBase::drawUpdates()
                 }
                 contactItem = findContactItem(contact->id(), itemOffline);
                 if (contactItem){
-                    if (contactItem->update(contact, status, style, icons.c_str(), unread))
+                    if (contactItem->update(contact, status, style, icons, unread))
                         addSortItem(itemOffline);
                     addUpdatedItem(contactItem);
                 }else{
-                    contactItem = new ContactItem(itemOffline, contact, status, style, icons.c_str(), unread);
+                    contactItem = new ContactItem(itemOffline, contact, status, style, icons, unread);
                     bChanged = true;
                 }
             }else{
@@ -440,11 +437,11 @@ void UserListBase::drawUpdates()
                 }
                 contactItem = findContactItem(contact->id(), itemOnline);
                 if (contactItem){
-                    if (contactItem->update(contact, status, style, icons.c_str(), unread))
+                    if (contactItem->update(contact, status, style, icons, unread))
                         addSortItem(itemOnline);
                     addUpdatedItem(contactItem);
                 }else{
-                    contactItem = new ContactItem(itemOnline, contact, status, style, icons.c_str(), unread);
+                    contactItem = new ContactItem(itemOnline, contact, status, style, icons, unread);
                     bChanged = true;
                 }
             }
@@ -481,7 +478,7 @@ void UserListBase::drawUpdates()
                 }
                 if (grpItem){
                     if (contactItem){
-                        if (contactItem->update(contact, status, style, icons.c_str(), unread))
+                        if (contactItem->update(contact, status, style, icons, unread))
                             addSortItem(grpItem);
                         addUpdatedItem(contactItem);
                         if (!m_bShowOnline &&
@@ -497,7 +494,7 @@ void UserListBase::drawUpdates()
                         }
                     }else{
                         bChanged = true;
-                        contactItem = new ContactItem(grpItem, contact, status, style, icons.c_str(), unread);
+                        contactItem = new ContactItem(grpItem, contact, status, style, icons, unread);
                         grpItem->m_nContacts++;
                         if (!m_bShowOnline && (status > STATUS_OFFLINE)){
                             grpItem->m_nContactsOnline++;
@@ -570,11 +567,11 @@ void UserListBase::drawUpdates()
             }
             contactItem = findContactItem(contact->id(), grpItem);
             if (contactItem){
-                if (contactItem->update(contact, status, style, icons.c_str(), unread))
+                if (contactItem->update(contact, status, style, icons, unread))
                     addSortItem(grpItem);
             }else{
                 bChanged = true;
-                new ContactItem(grpItem, contact, status, style, icons.c_str(), unread);
+                new ContactItem(grpItem, contact, status, style, icons, unread);
                 grpItem->m_nContacts++;
                 addGroupForUpdate(grpItem->id());
             }
@@ -699,7 +696,7 @@ void UserListBase::fill()
             if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
-            string icons;
+            QString icons;
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
@@ -720,7 +717,7 @@ void UserListBase::fill()
                     divItem = divItemOnline;
                 }
             }
-            new ContactItem(divItem, contact, status, style, icons.c_str(), unread);
+            new ContactItem(divItem, contact, status, style, icons, unread);
         }
         break;
     case 1:
@@ -736,7 +733,7 @@ void UserListBase::fill()
             if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
-            string icons;
+            QString icons;
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
@@ -753,7 +750,7 @@ void UserListBase::fill()
                 if (grpItem == NULL)
                     continue;
             }
-            contactItem = new ContactItem(grpItem, contact, status, style, icons.c_str(), unread);
+            contactItem = new ContactItem(grpItem, contact, status, style, icons, unread);
             grpItem->m_nContacts++;
             if ((status > STATUS_OFFLINE) && !m_bShowOnline){
                 grpItem->m_nContactsOnline++;
@@ -789,7 +786,7 @@ void UserListBase::fill()
             if (contact->getIgnore() || (contact->getFlags() & CONTACT_TEMPORARY))
                 continue;
             unsigned style;
-            string icons;
+            QString icons;
             unsigned status = getUserStatus(contact, style, icons);
             unsigned unread = getUnread(contact->id());
             bool bShow = false;
@@ -814,7 +811,7 @@ void UserListBase::fill()
                     continue;
                 grpItem = new GroupItem(divItem, grp, true);
             }
-            new ContactItem(grpItem, contact, status, style, icons.c_str(), unread);
+            new ContactItem(grpItem, contact, status, style, icons, unread);
             grpItem->m_nContacts++;
         }
         break;
@@ -966,11 +963,11 @@ ContactItem *UserListBase::findContactItem(unsigned id, QListViewItem *p)
     return NULL;
 }
 
-unsigned UserListBase::getUserStatus(Contact *contact, unsigned &style, string &icons)
+unsigned UserListBase::getUserStatus(Contact *contact, unsigned &style, QString &icons)
 {
     style = 0;
-    string wrkIcons;
-    const char *statusIcon;
+    QString wrkIcons;
+    QString statusIcon;
     unsigned long status = contact->contactInfo(style, statusIcon, &wrkIcons);
     if (statusIcon)
         icons = statusIcon;

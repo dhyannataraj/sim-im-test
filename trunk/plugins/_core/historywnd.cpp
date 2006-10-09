@@ -274,7 +274,7 @@ void HistoryWindow::fill()
         m_it->begin();
     }
     if (m_states.size()){
-        m_it->setState(m_states[m_page].c_str());
+        m_it->setState(m_states[m_page]);
     }else{
         m_states.push_back(m_it->state());
     }
@@ -298,7 +298,7 @@ void HistoryWindow::next()
         return;
 
     for (;;){
-        std::string state = m_it->state();
+        QString state = m_it->state();
         Message *msg = NULL;
         if (m_bDirection){
             msg = --(*m_it);

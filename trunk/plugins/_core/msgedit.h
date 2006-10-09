@@ -80,7 +80,7 @@ signals:
     void init();
     void finished();
 public slots:
-    void insertSmile(const char *id);
+    void insertSmile(const QString &id);
     void modeChanged();
     void editLostFocus();
     void editTextChanged();
@@ -105,27 +105,27 @@ protected:
     void changeTyping(SIM::Client *client, void *data);
     void setEmptyMessage();
     bool setType(unsigned type);
-    bool	m_bTyping;
-    std::string	m_typingClient;
+    bool        m_bTyping;
+    QString     m_typingClient;
     bool send();
     std::list<unsigned> multiply;
     std::list<unsigned>::iterator multiply_it;
-    SIM::CommandDef	m_cmd;
-    SIM::Message	*m_msg;
-    MsgSend			m_retry;
-    std::string m_client;
+    SIM::CommandDef m_cmd;
+    SIM::Message   *m_msg;
+    MsgSend         m_retry;
+    QString         m_client;
 };
 
 class SmileLabel : public QLabel
 {
     Q_OBJECT
 public:
-    SmileLabel(const char *id, QWidget *parent);
+    SmileLabel(const QString &id, QWidget *parent);
 signals:
-    void clicked(const char *id);
+    void clicked(const QString &id);
 protected:
     void mouseReleaseEvent(QMouseEvent*);
-    std::string id;
+    QString id;
 };
 
 class SmilePopup : public QFrame
@@ -134,9 +134,9 @@ class SmilePopup : public QFrame
 public:
     SmilePopup(QWidget *parent);
 signals:
-    void insert(const char *id);
+    void insert(const QString &id);
 protected slots:
-    void labelClicked(const char *id);
+    void labelClicked(const QString &id);
 };
 
 #endif

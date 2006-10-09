@@ -246,16 +246,16 @@ void Container::init()
         addUserWnd((*it), false);
     m_childs.clear();
 
-    string windows = getWindows();
-    while (!windows.empty()){
-        unsigned long id = strtoul(getToken(windows, ',').c_str(), NULL, 10);
+    QString windows = getWindows();
+    while (!windows.isEmpty()){
+        unsigned long id = getToken(windows, ',').toULong();
         Contact *contact = getContacts()->contact(id);
         if (contact == NULL)
             continue;
         Buffer config;
-        const char *cfg = getWndConfig(id);
-        if (cfg && *cfg){
-            config << "[Title]\n" << cfg;
+        QString cfg = getWndConfig(id);
+        if (!cfg.isEmpty()){
+            config << "[Title]\n" << (const char*)cfg.local8Bit();
             config.setWritePos(0);
             config.getSection();
         }
@@ -264,7 +264,7 @@ void Container::init()
 
     if (m_tabBar->count() == 0)
         QTimer::singleShot(0, this, SLOT(close()));
-    setWindows(NULL);
+    setWindows(QString::null);
     clearWndConfig();
     m_tabBar->raiseTab(getActiveWindow());
 
@@ -294,7 +294,7 @@ void Container::setupAccel()
     CommandsList it(*cmdsMsg, true);
     CommandDef *c;
     while ((c = ++it) != NULL){
-        if ((c->accel == NULL) || (*c->accel == 0))
+        if (c->accel.isEmpty())
             continue;
         m_accel->insertItem(QAccel::stringToKey(c->accel), ACCEL_MESSAGE + c->id);
     }
@@ -313,17 +313,17 @@ list<UserWnd*> Container::windows()
 string Container::getState()
 {
     clearWndConfig();
-    string windows;
+    QString windows;
     if (m_tabBar == NULL)
         return save_data(containerData, &data);
     list<UserWnd*> userWnds = m_tabBar->windows();
     for (list<UserWnd*>::iterator it = userWnds.begin(); it != userWnds.end(); ++it){
-        if (!windows.empty())
+        if (!windows.isEmpty())
             windows += ',';
-        windows += number((*it)->id());
+        windows += QString::number((*it)->id());
         setWndConfig((*it)->id(), (*it)->getConfig().c_str());
     }
-    setWindows(windows.c_str());
+    setWindows(windows);
     UserWnd *userWnd = m_tabBar->currentWnd();
     if (userWnd)
         setActiveWindow(userWnd->id());
@@ -449,12 +449,9 @@ void Container::contactSelected(int)
     m_wnds->raiseWidget(userWnd);
     userWnd->setFocus();
     m_bar->setParam((void*)userWnd->id());
-    QString name = userWnd->getName();
     Command cmd;
     cmd->id = CmdContainerContact;
-    cmd->text_wrk = NULL;
-    if (!name.isEmpty())
-        cmd->text_wrk = strdup(name.utf8());
+    cmd->text_wrk = userWnd->getName();
     cmd->icon  = userWnd->getIcon();
     cmd->param = (void*)(userWnd->id());
     cmd->popup_id = MenuContainerContact;
@@ -709,11 +706,11 @@ void *Container::processEvent(Event *e)
         userWnd = m_tabBar->wnd(contact->id());
         if (userWnd){
             unsigned style = 0;
-            string wrkIcons;
-            const char *statusIcon = NULL;
+            QString wrkIcons;
+            QString statusIcon;
             contact->contactInfo(style, statusIcon, &wrkIcons);
             bool bTyping = false;
-            while (!wrkIcons.empty()){
+            while (!wrkIcons.isEmpty()){
                 if (getToken(wrkIcons, ',') == "typing"){
                     bTyping = true;
                     break;
@@ -768,12 +765,11 @@ void *Container::processEvent(Event *e)
                 (cmd->id == CmdContainerContacts)){
             list<UserWnd*> userWnds = m_tabBar->windows();
             CommandDef *cmds = new CommandDef[userWnds.size() + 1];
-            memset(cmds, 0, sizeof(CommandDef) * (userWnds.size() + 1));
             unsigned n = 0;
             for (list<UserWnd*>::iterator it = userWnds.begin(); it != userWnds.end(); ++it){
                 cmds[n].id = (*it)->id();
                 cmds[n].flags = COMMAND_DEFAULT;
-                cmds[n].text_wrk = strdup((*it)->getName().utf8());
+                cmds[n].text_wrk = (*it)->getName();
                 cmds[n].icon  = (*it)->getIcon();
                 cmds[n].text  = "_";
                 cmds[n].menu_id = n + 1;
@@ -856,10 +852,9 @@ void Container::contactChanged(Contact *contact)
         userWnd = m_childs.front();
     }
     if (userWnd && contact && (contact->id() == userWnd->id())){
-        QString name = userWnd->getName();
         Command cmd;
         cmd->id = CmdContainerContact;
-        cmd->text_wrk = strdup(name.utf8());
+        cmd->text_wrk = userWnd->getName();
         cmd->icon  = userWnd->getIcon();
         cmd->param = (void*)(contact->id());
         cmd->popup_id = MenuContainerContact;

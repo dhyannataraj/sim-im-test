@@ -258,14 +258,14 @@ void HistoryConfig::apply()
         if ((int)i == cmbStyle->currentItem())
             bChanged = true;
         QString name = STYLES;
-        name += QFile::encodeName(m_styles[i].name);
+        name += m_styles[i].name;
         name += EXT;
         name = user_file(name);
         QFile f(name + BACKUP_SUFFIX); // use backup file for this ...
         if (f.open(IO_WriteOnly | IO_Truncate)){
-            string s;
-            s = m_styles[i].text.utf8();
-            f.writeBlock(s.c_str(), s.length());
+            QString s;
+            s = m_styles[i].text;
+            f.writeBlock(s.utf8(), s.utf8().length());
 
             const int status = f.status();
             const QString errorMessage = f.errorString();
@@ -291,8 +291,8 @@ void HistoryConfig::apply()
     int cur = cmbStyle->currentItem();
     if ((cur >= 0) && m_styles.size() &&
             (m_styles[cur].bChanged ||
-             (m_styles[cur].name != QFile::decodeName(CorePlugin::m_plugin->getHistoryStyle())))){
-        CorePlugin::m_plugin->setHistoryStyle(QFile::encodeName(m_styles[cur].name));
+             (m_styles[cur].name != CorePlugin::m_plugin->getHistoryStyle()))){
+        CorePlugin::m_plugin->setHistoryStyle(m_styles[cur].name);
         bChanged = true;
         delete CorePlugin::m_plugin->historyXSL;
         CorePlugin::m_plugin->historyXSL = new XSL(m_styles[cur].name);
@@ -418,10 +418,9 @@ void HistoryConfig::copy()
         log(L_WARN, "Cam't create %s", n.local8Bit().data());
         return;
     }
-    string s;
-    s.append(from.size(), '\x00');
-    from.readBlock((char*)(s.c_str()), from.size());
-    to.writeBlock(s.c_str(), s.length());
+    QDataStream ds1(&from);
+    QDataStream ds2(&to);
+    ds2 << ds1;
     from.close();
 
     const int status = to.status();
@@ -444,15 +443,14 @@ void HistoryConfig::copy()
         return;
     }
 
-    s = "";
     StyleDef d;
     d.name    = newName;
     d.bCustom = true;
     m_styles.push_back(d);
-    fillCombo(QFile::encodeName(newName));
+    fillCombo(newName);
 }
 
-void HistoryConfig::fillCombo(const char *current)
+void HistoryConfig::fillCombo(const QString &current)
 {
     sort(m_styles.begin(), m_styles.end());
     unsigned cur = 0;
@@ -460,7 +458,7 @@ void HistoryConfig::fillCombo(const char *current)
     for (unsigned i = 0; i < m_styles.size(); i++){
         QString name = m_styles[i].name;
         cmbStyle->insertItem(name);
-        if (name == QFile::decodeName(current))
+        if (name == current)
             cur = i;
     }
     cmbStyle->setCurrentItem(cur);
@@ -544,7 +542,7 @@ void HistoryConfig::realRename()
         if (m_styles[m_edit].text.isEmpty()){
             QFile f(nn);
             if (f.open(IO_ReadOnly)){
-				QTextStream ts(&f);
+                QTextStream ts(&f);
                 m_styles[m_edit].text = ts.read();
             }
         }
@@ -595,8 +593,8 @@ void HistoryConfig::viewChanged(QWidget *w)
             name = m_styles[cur].bCustom ? user_file(name) : app_file(name);
             QFile f(name);
             if (f.open(IO_ReadOnly)){
-				QTextStream ts(&f);
-				xsl = ts.read();
+                QTextStream ts(&f);
+                xsl = ts.read();
             }else{
                 log(L_WARN, "Can't open %s", name.local8Bit().data());
             }
@@ -676,7 +674,7 @@ void HistoryConfig::fillPreview()
     m5.setTime(now);
     m5.setContact(contact->id());
     if (getContacts()->nClients())
-        m5.setClient((getContacts()->getClient(0)->name() + ".").c_str());
+        m5.setClient((getContacts()->getClient(0)->name() + "."));
     edtPreview->addMessage(&m5);
     delete contact;
     CorePlugin::m_plugin->setUseSmiles(saveSmiles);

@@ -54,17 +54,14 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     s->param = m_param;
     if (s->flags & COMMAND_CHECK_STATE){
         s->flags &= ~COMMAND_DISABLED;
-        s->text_wrk = NULL;
+        s->text_wrk = QString::null;
         Event e(EventCheckState, s);
         s->flags |= COMMAND_CHECK_STATE;
-        if (!e.process()){
-            if (s->text_wrk)
-                free(s->text_wrk);
+        if (!e.process())
             return;
-        }
         if (s->flags & COMMAND_RECURSIVE){
             CommandDef *cmds = (CommandDef*)(s->param);
-            for (CommandDef *cmd = cmds; cmd->text; cmd++){
+            for (CommandDef *cmd = cmds; !cmd->text.isEmpty(); cmd++){
                 processItem(cmd, bSeparator, bFirst, s->id);
             }
             delete[] cmds;
@@ -93,16 +90,16 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         bSeparator = false;
     }
     QIconSet icons;
-    if ((s->flags & COMMAND_CHECKED) && s->icon_on)
+    if ((s->flags & COMMAND_CHECKED) && !s->icon_on.isEmpty())
         icons = Icon(s->icon_on);
-    if (icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull() && s->icon)
+    if (icons.pixmap(QIconSet::Small, QIconSet::Normal).isNull() && !s->icon.isEmpty())
         icons = Icon(s->icon);
     QString title = i18n(s->text);
-    if (s->text_wrk){
-        title = QString::fromUtf8(s->text_wrk);
-        free(s->text_wrk);
+    if (!s->text_wrk.isEmpty()){
+        title = s->text_wrk;
+        s->text_wrk = QString::null;
     }
-    if (s->accel){
+    if (!s->accel.isEmpty()){
         title += "\t";
         title += i18n(s->accel);
     }
@@ -147,7 +144,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     if (id){
         if (s->flags & COMMAND_DISABLED)
             m_wrk->setItemEnabled(id, false);
-        if (s->accel)
+        if (!s->accel.isEmpty())
             m_wrk->setAccel(QAccel::stringToKey(i18n(s->accel)), id);
         m_wrk->setItemChecked(id, (s->flags & COMMAND_CHECKED) != 0);
     }
@@ -206,25 +203,18 @@ void CMenu::menuActivated(int n)
     CommandDef *s;
     while ((s = ++list) != NULL){
         if (s->id == id){
-            s->text_wrk = NULL;
+            s->text_wrk = QString::null;
             if (s->flags & COMMAND_CHECK_STATE){
                 s->param = m_param;
                 Event e(EventCheckState, s);
                 s->flags |= COMMAND_CHECK_STATE;
                 if (!e.process()){
-                    if (s->text_wrk){
-                        free(s->text_wrk);
-                        s->text_wrk = NULL;
-                    }
+                    s->text_wrk = QString::null;
                     return;
                 }
                 s->flags ^= COMMAND_CHECKED;
                 if (s->flags & COMMAND_RECURSIVE){
                     CommandDef *cmds = (CommandDef*)(s->param);
-                    for (CommandDef *c = cmds; c->text; c++){
-                        if (c->text_wrk)
-                            free(c->text_wrk);
-                    }
                     delete[] cmds;
                 }
             }
@@ -233,8 +223,7 @@ void CMenu::menuActivated(int n)
             s->param = m_param;
             Event e(EventCommandExec, s);
             e.process();
-            if (s->text_wrk)
-                free(s->text_wrk);
+            s->text_wrk = QString::null;
             s->id = id;
             break;
         }

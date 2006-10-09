@@ -20,8 +20,8 @@
 
 #include "simapi.h"
 
-#include <list>
-#include <string>
+#include <qvaluelist.h>
+#include <qstring.h>
 
 const unsigned long MessageGPGKey       = 0x5000;
 const unsigned long MessageGPGUse       = 0x5001;
@@ -46,31 +46,28 @@ typedef struct GpgData
 
 typedef struct GpgUserData
 {
-    SIM::Data	Key;
-    SIM::Data	Use;
+    SIM::Data   Key;
+    SIM::Data   Use;
 } GpgUserData;
 
-class Exec;
 class QProcess;
 
 typedef struct DecryptMsg
 {
     SIM::Message *msg;
-    Exec		*exec;
-    QString		infile;
-    QString		outfile;
-    unsigned	contact;
-    QString		passphrase;
-    std::string	key;
+    QProcess    *process;
+    QString     infile;
+    QString     outfile;
+    unsigned    contact;
+    QString     passphrase;
+    QString     key;
 } DecryptMsg;
 
 typedef struct KeyMsg
 {
-    std::string	key;
-    SIM::Message *msg;
+    QString         key;
+    SIM::Message   *msg;
 } KeyMsg;
-
-class PassphraseDlg;
 
 class GpgPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {
@@ -95,13 +92,13 @@ public:
     QString GPG();
     void reset();
     static GpgPlugin *plugin;
-    std::list<KeyMsg>	 m_sendKeys;
+    QValueList<KeyMsg>	 m_sendKeys;
     unsigned long user_data_id;
     QString getHomeDir();
 protected slots:
-    void decryptReady(Exec*,int,const char*);
-    void importReady(Exec*,int,const char*);
-    void publicReady(Exec*,int,const char*);
+    void decryptReady();
+    void importReady();
+    void publicReady();
     void clear();
     void passphraseFinished();
     void passphraseApply(const QString&);
@@ -112,13 +109,13 @@ protected:
     void registerMessage();
     void unregisterMessage();
     void askPassphrase();
-    bool decode(SIM::Message *msg, const char *pass, const char *key);
+    bool decode(SIM::Message *msg, const QString &pass, const QString &key);
     bool m_bMessage;
-    std::list<DecryptMsg> m_decrypt;
-    std::list<DecryptMsg> m_import;
-    std::list<DecryptMsg> m_public;
-    std::list<DecryptMsg> m_wait;
-    PassphraseDlg	 *m_passphraseDlg;
+    QValueList<DecryptMsg> m_decrypt;
+    QValueList<DecryptMsg> m_import;
+    QValueList<DecryptMsg> m_public;
+    QValueList<DecryptMsg> m_wait;
+    class PassphraseDlg     *m_passphraseDlg;
     GpgData data;
 };
 
@@ -135,9 +132,9 @@ protected slots:
     void exportReady();
 protected:
     void *processEvent(SIM::Event*);
-    std::string     m_client;
-    std::string     m_key;
-    MsgEdit	*m_edit;
+    QString     m_client;
+    QString     m_key;
+    MsgEdit     *m_edit;
     QProcess    *m_process;
 };
 
