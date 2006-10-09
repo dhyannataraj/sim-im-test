@@ -218,7 +218,7 @@ class RTFGenParser : public HTMLParser
 {
 public:
     RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact, unsigned max_size);
-    string parse(const QString &text);
+    QCString parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
     // Returns the font face's index in the fonts table, adding the font face if necessary.
@@ -231,11 +231,11 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
     virtual void tag_end(const QString &tag);
-    string res;
+    QCString res;
     ICQClient  *m_client;
     Contact    *m_contact;
     QTextCodec *m_codec;
-    bool		m_bSpace;
+    bool        m_bSpace;
     unsigned	m_max_size;
 
     TagStack m_tags;
@@ -319,7 +319,7 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
     return m_fontFaces.size() - 1;
 }
 
-string RTFGenParser::parse(const QString &text)
+QCString RTFGenParser::parse(const QString &text)
 {
     res = "";
     m_res_size = 0;
@@ -375,18 +375,18 @@ string RTFGenParser::parse(const QString &text)
     m_bSpace = true;
     HTMLParser::parse(text);
 
-    string s;
+    QCString s;
     s = "{\\rtf1\\ansi";
     if (ansicpg){
         s += "\\ansicpg";
-        s += number(ansicpg);
+        s += QString::number(ansicpg);
     }
     s += "\\deff0\r\n";
     s += "{\\fonttbl";
     unsigned n = 0;
     for (list<QString>::iterator it_face = m_fontFaces.begin(); it_face != m_fontFaces.end(); it_face++, n++){
         s += "{\\f";
-        s += number(n);
+        s += QString::number(n);
         QString face = (*it_face);
         if (face.find("Times") >= 0){
             s += "\\froman";
@@ -397,7 +397,7 @@ string RTFGenParser::parse(const QString &text)
         }
         if (charset){
             s += "\\fcharset";
-            s += number(charset);
+            s += QString::number(charset);
         }
         s += " ";
         int pos = face.find(QRegExp(" +["));
@@ -411,11 +411,11 @@ string RTFGenParser::parse(const QString &text)
     for (list<QColor>::iterator it_colors = m_colors.begin(); it_colors != m_colors.end(); ++it_colors){
         QColor c = *it_colors;
         s += "\\red";
-        s += number(c.red());
+        s += QString::number(c.red());
         s += "\\green";
-        s += number(c.green());
+        s += QString::number(c.green());
         s += "\\blue";
-        s += number(c.blue());
+        s += QString::number(c.blue());
         s += ";";
     }
     s += "}\r\n";
@@ -424,7 +424,7 @@ string RTFGenParser::parse(const QString &text)
     s += res;
     s += "\r\n}\r\n";
 
-    log(L_DEBUG, "Resulting RTF: %s", s.c_str());
+    log(L_DEBUG, "Resulting RTF: %s", s.data());
 
     return s;
 }
@@ -493,9 +493,8 @@ void RTFGenParser::text(const QString &text)
         QString s;
         s += c;
         if (m_codec){
-            string plain;
-            plain = m_codec->fromUnicode(s);
-            if ((plain.length() == 1) && (m_codec->toUnicode(plain.c_str()) == s)){
+            QCString plain = m_codec->fromUnicode(s);
+            if ((plain.length() == 1) && (m_codec->toUnicode(plain) == s)){
                 char b[5];
                 snprintf(b, sizeof(b), "\\\'%02x", plain[0] & 0xFF);
                 res += b;
@@ -504,7 +503,7 @@ void RTFGenParser::text(const QString &text)
             }
         }
         res += "\\u";
-        res += number(s[0].unicode());
+        res += QString::number(s[0].unicode());
         res += "?";
         m_bSpace = false;
     }
@@ -653,10 +652,10 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
                 break;
             }
         }
-        if (src.left(5) == "icon:"){
-            list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
-            for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
-                string s = *its;
+        if (src.startsWith("icon:")){
+            QStringList smiles = getIcons()->getSmile(src.mid(5));
+            for (QStringList::iterator its = smiles.begin(); its != smiles.end(); ++its){
+                QString s = *its;
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if (s != def_smiles[nSmile])
                         continue;
@@ -669,7 +668,7 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
                 }
             }
             if (!smiles.empty()){
-                text(QString::fromUtf8(smiles.front().c_str()));
+                text(smiles.front());
                 return;
             }
         }
@@ -843,10 +842,10 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-string ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
+QCString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
 {
     RTFGenParser p(this, foreColor, contact, max_size);
-    string res = p.parse(text);
+    QCString res = p.parse(text);
     if (p.m_res_size == 0){
         part = text;
         text = "";
@@ -878,7 +877,7 @@ protected:
     virtual void tag_end(const QString &tag);
     void startBody();
     void endBody();
-    QString res;
+    QCString res;
     bool	 m_bBody;
     bool	 m_bIcq;
 };
@@ -952,13 +951,13 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
             text(alt);
             return;
         }
-        list<string> smiles = getIcons()->getSmile(src.mid(5).latin1());
+        QStringList smiles = getIcons()->getSmile(src.mid(5));
         if (smiles.empty()){
             text(alt);
             return;
         }
         if (m_bIcq){
-            for (list<string>::iterator its = smiles.begin(); its != smiles.end(); ++its){
+            for (QValueListIterator<QString> its = smiles.begin(); its != smiles.end(); ++its){
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if ((*its) != def_smiles[nSmile])
                         continue;
@@ -971,7 +970,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
                 }
             }
         }
-        text(QString::fromUtf8(smiles.front().c_str()));
+        text(smiles.front());
         return;
     }
     res += "<";

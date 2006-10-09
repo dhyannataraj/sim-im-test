@@ -51,11 +51,10 @@ void HomeInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    Contact *contact = getContacts()->contact(m_contact);
-    set_str(&data->Address.ptr, getContacts()->fromUnicode(contact, edtAddress->text()).c_str());
-    set_str(&data->City.ptr, getContacts()->fromUnicode(contact, edtCity->text()).c_str());
-    set_str(&data->State.ptr, getContacts()->fromUnicode(contact, edtState->text()).c_str());
-    set_str(&data->Zip.ptr, getContacts()->fromUnicode(contact, edtZip->text()).c_str());
+    data->Address.str() = edtAddress->text();
+    data->City.str()    = edtCity->text();
+    data->State.str()   = edtState->text();
+    data->Zip.str()     = edtZip->text();
     data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
@@ -83,8 +82,10 @@ static QString formatTime(char n)
 
 static void initTZCombo(QComboBox *cmb, char tz)
 {
-    if (tz < -24) tz = 0;
-    if (tz > 24) tz = 0;
+    if (tz < -24)
+        tz = 0;
+    if (tz > 24)
+        tz = 0;
     if (cmb->isEnabled()){
         unsigned nSel = 12;
         unsigned n = 0;
@@ -101,12 +102,12 @@ static void initTZCombo(QComboBox *cmb, char tz)
 void HomeInfo::fill()
 {
     ICQUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
-    Contact *contact = getContacts()->contact(m_contact);
-    edtAddress->setText(getContacts()->toUnicode(contact ,data->Address.ptr));
-    edtCity->setText(getContacts()->toUnicode(contact ,data->City.ptr));
-    edtState->setText(getContacts()->toUnicode(contact ,data->State.ptr));
-    edtZip->setText(getContacts()->toUnicode(contact ,data->Zip.ptr));
+    if (data == NULL)
+        data = &m_client->data.owner;
+    edtAddress->setText(data->Address.str());
+    edtCity->setText(data->City.str());
+    edtState->setText(data->State.str());
+    edtZip->setText(data->Zip.str());
     initCombo(cmbCountry, data->Country.toULong(), getCountries());
     initTZCombo(cmbZone, data->TimeZone.toULong());
 }

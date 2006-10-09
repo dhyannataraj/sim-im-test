@@ -25,7 +25,6 @@
 #include <qpixmap.h>
 #include <qapplication.h>
 
-using std::string;
 using namespace SIM;
 
 const unsigned short ICQ_SNACxLOGIN_ERROR			= 0x0001;
@@ -95,44 +94,44 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:
         log(L_DEBUG, "Sending MD5 key");
-        if (data.owner.Screen.ptr || data.owner.Uin.toULong()){
-            string md5_key;
+        if (!data.owner.Screen.str().isEmpty() || data.owner.Uin.toULong()){
+            QCString md5_key;
             m_socket->readBuffer.unpackStr(md5_key);
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
-	    if (data.owner.Uin.toULong()){
+            if (data.owner.Uin.toULong()){
                 char uin[20];
                 sprintf(uin, "%lu", data.owner.Uin.toULong());
                 m_socket->writeBuffer.tlv(0x0001, uin);
-	    }else{
-                m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
-	    }
-            string md = md5_key;
+            }else{
+                m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.str());
+            }
+            QCString md = md5_key;
             md += getContacts()->fromUnicode(NULL, getPassword());
             md += "AOL Instant Messenger (SM)";
-            md = md5(md.c_str());
-            m_socket->writeBuffer.tlv(0x0025, md.c_str(), md.length());
-	    if (data.owner.Uin.toULong()){
-		m_socket->writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");
-		m_socket->writeBuffer.tlv(0x0016, 0x010A);
-		m_socket->writeBuffer.tlv(0x0017, 0x0002);
-		m_socket->writeBuffer.tlv(0x0018, 0x0038);
-		m_socket->writeBuffer.tlv(0x0019, 0x0001);
-		m_socket->writeBuffer.tlv(0x001A, 0x0F4C);
-		m_socket->writeBuffer.tlv(0x0014, 0x00000055L);
-		m_socket->writeBuffer.tlv(0x000f, "en");
-		m_socket->writeBuffer.tlv(0x000e, "us");
-	    }else{
-		m_socket->writeBuffer.tlv(0x0003, "AOL Instant Messenger, version 5.1.3036/WIN32");
-		m_socket->writeBuffer.tlv(0x0016, (unsigned short)0x0109);
-		m_socket->writeBuffer.tlv(0x0017, (unsigned short)0x0005);
-		m_socket->writeBuffer.tlv(0x0018, (unsigned short)0x0001);
-		m_socket->writeBuffer.tlv(0x0019, (unsigned short)0x0000);
-		m_socket->writeBuffer.tlv(0x001A, (unsigned short)0x0BDC);
-		m_socket->writeBuffer.tlv(0x0014, 0x000000D2L);
-		m_socket->writeBuffer.tlv(0x000F, "en");
-		m_socket->writeBuffer.tlv(0x000E, "us");
-		m_socket->writeBuffer.tlv(0x004A, "\x01");
-	    }
+            md = md5(md);
+            m_socket->writeBuffer.tlv(0x0025, md.data(), md.length());
+	        if (data.owner.Uin.toULong()){
+                m_socket->writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");
+                m_socket->writeBuffer.tlv(0x0016, 0x010A);
+                m_socket->writeBuffer.tlv(0x0017, 0x0002);
+                m_socket->writeBuffer.tlv(0x0018, 0x0038);
+                m_socket->writeBuffer.tlv(0x0019, 0x0001);
+                m_socket->writeBuffer.tlv(0x001A, 0x0F4C);
+                m_socket->writeBuffer.tlv(0x0014, 0x00000055L);
+                m_socket->writeBuffer.tlv(0x000f, "en");
+                m_socket->writeBuffer.tlv(0x000e, "us");
+	        }else{
+                m_socket->writeBuffer.tlv(0x0003, "AOL Instant Messenger, version 5.1.3036/WIN32");
+                m_socket->writeBuffer.tlv(0x0016, (unsigned short)0x0109);
+                m_socket->writeBuffer.tlv(0x0017, (unsigned short)0x0005);
+                m_socket->writeBuffer.tlv(0x0018, (unsigned short)0x0001);
+                m_socket->writeBuffer.tlv(0x0019, (unsigned short)0x0000);
+                m_socket->writeBuffer.tlv(0x001A, (unsigned short)0x0BDC);
+                m_socket->writeBuffer.tlv(0x0014, 0x000000D2L);
+                m_socket->writeBuffer.tlv(0x000F, "en");
+                m_socket->writeBuffer.tlv(0x000E, "us");
+                m_socket->writeBuffer.tlv(0x004A, "\x01");
+	        }
             sendPacket(true);
         }
         break;
@@ -171,10 +170,10 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             << 0x00000000L << 0x94680000L << 0x94680000L
             << 0x00000000L << 0x00000000L << 0x00000000L
             << 0x00000000L;
-            string pswd = getContacts()->fromUnicode(NULL, getPassword());
+            QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
             unsigned short len = (unsigned short)(pswd.length() + 1);
             msg.pack(len);
-            msg.pack(pswd.c_str(), len);
+            msg.pack(pswd.data(), len);
             msg << 0x94680000L << 0x00000602L;
             m_socket->writeBuffer.tlv(0x0001, msg);
             m_socket->writeBuffer.tlv(0x0009, verifyStr.latin1(), verifyStr.length());
@@ -198,40 +197,39 @@ void ICQClient::chn_login()
         return;
     }
     if (data.owner.Uin.toULong() && ! getUseMD5()){
-        string pswd = cryptPassword();
-        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.toULong(), pswd.c_str());
+        QCString pswd = cryptPassword();
+        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.toULong(), pswd.data());
         char uin[20];
         sprintf(uin, "%lu", data.owner.Uin.toULong());
 
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
         m_socket->writeBuffer.tlv(0x0001, uin);
-        m_socket->writeBuffer.tlv(0x0002, pswd.c_str(), pswd.length());
-        m_socket->writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");
-        m_socket->writeBuffer.tlv(0x0016, 0x010A);
-        m_socket->writeBuffer.tlv(0x0017, 0x0002);
-        m_socket->writeBuffer.tlv(0x0018, 0x0038);
-        m_socket->writeBuffer.tlv(0x0019, 0x0001);
-        m_socket->writeBuffer.tlv(0x001A, 0x0F4C);
-        m_socket->writeBuffer.tlv(0x0014, 0x00000055L);
+        m_socket->writeBuffer.tlv(0x0002, pswd.data(), pswd.length());
+        m_socket->writeBuffer.tlv(0x0003, "ICQBasic");  // ID String, currently ICQ 5.1 (21.08.2006)
+        m_socket->writeBuffer.tlv(0x0016, 0x010A);      // ID Number
+        m_socket->writeBuffer.tlv(0x0017, 0x0014);      // major
+        m_socket->writeBuffer.tlv(0x0018, 0x0034);      // minor
+        m_socket->writeBuffer.tlv(0x0019, 0x0000);      // lesser
+        m_socket->writeBuffer.tlv(0x001A, 0x0bb8);      // build number
+        m_socket->writeBuffer.tlv(0x0014, 0x00000442L); // distribution number
         m_socket->writeBuffer.tlv(0x000f, "en");
         m_socket->writeBuffer.tlv(0x000e, "us");
         sendPacket(true);
         return;
     }
-    if (data.owner.Screen.ptr && *data.owner.Screen.ptr || getUseMD5()){
+    if (!data.owner.Screen.str().isEmpty() || getUseMD5()){
         log(L_DEBUG, "Requesting MD5 salt");
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
         sendPacket(true);
         snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
-	if (data.owner.Uin.toULong()){
-            char uin[20];
-            sprintf(uin, "%lu", data.owner.Uin.toULong());
-	    m_socket->writeBuffer.tlv(0x0001, uin);
-	}else{
-	    m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.ptr);
-	}
+        if (data.owner.Uin.toULong()){
+            QString uin = QString::number(data.owner.Uin.toULong());
+            m_socket->writeBuffer.tlv(0x0001, uin);
+        }else{
+            m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.str());
+        }
         m_socket->writeBuffer.tlv(0x004B);
         m_socket->writeBuffer.tlv(0x005A);
         sendPacket(true);
@@ -257,10 +255,10 @@ void ICQClient::chn_login()
     << 0x00000000L << 0x94680000L << 0x94680000L
     << 0x00000000L << 0x00000000L << 0x00000000L
     << 0x00000000L;
-    string pswd = getContacts()->fromUnicode(NULL, getPassword());
+    QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
     unsigned short len = (unsigned short)(pswd.length() + 1);
     msg.pack(len);
-    msg.pack(pswd.c_str(), len);
+    msg.pack(pswd.data(), len);
     msg << 0x94680000L << 0x00000602L;
     m_socket->writeBuffer.tlv(0x0001, msg);
     sendPacket(true);
@@ -273,7 +271,7 @@ void ICQClient::chn_close()
     Tlv *tlv_error = tlv(8);
     if (tlv_error){
         unsigned short err = *tlv_error;
-        string errString;
+        QString errString;
         switch (err){
         case ICQ_LOGIN_ERRxOLDCLIENT1:
         case ICQ_LOGIN_ERRxOLDCLIENT2:
@@ -338,17 +336,19 @@ void ICQClient::chn_close()
             break;
         default:
             errString = "Unknown error ";
-            errString += number(err);
+            errString += QString::number(err);
         }
         if (err){
-            log(L_ERROR, "%s", errString.c_str());
-            m_socket->error_state(errString.c_str(), errorCode);
+            log(L_ERROR, errString.local8Bit().data());
+            m_socket->error_state(errString, errorCode);
+            flap(ICQ_CHNxCLOSE);
+            sendPacket(true);
             return;
         }
     }
     tlv_error = tlv(9);
     if (tlv_error){
-        string errString;
+        QString errString;
         unsigned short err = *tlv_error;
         switch (err){
         case 0x1:{
@@ -360,11 +360,11 @@ void ICQClient::chn_close()
             break;
         default:
             errString = "Unknown run-time error ";
-            errString += number(err);
+            errString += QString::number(err);
         }
         if (err){
-            log(L_ERROR, "%s", errString.c_str());
-            m_socket->error_state(errString.c_str());
+            log(L_ERROR, errString.local8Bit().data());
+            m_socket->error_state(errString);
             return;
         }
     }
@@ -382,6 +382,8 @@ void ICQClient::chn_close()
         m_socket->error_state(I18N_NOOP("Bad host address"));
         return;
     }
+    flap(ICQ_CHNxCLOSE);
+    sendPacket(true);
 
     *port = 0;
     port++;

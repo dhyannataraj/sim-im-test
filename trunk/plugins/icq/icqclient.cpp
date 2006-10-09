@@ -180,14 +180,14 @@ static DataDef _icqUserData[] =
         { "LastName", DATA_STRING, 1, 0 },
         { "MiddleName", DATA_STRING, 1, 0 },
         { "Maiden", DATA_STRING, 1, 0 },
-        { "", DATA_STRING, 1, 0 },
-        { "", DATA_BOOL, 1, 0 },
+        { "EMail", DATA_STRING, 1, 0 },
+        { "HiddenEMail", DATA_BOOL, 1, 0 },
         { "City", DATA_STRING, 1, 0 },
         { "State", DATA_STRING, 1, 0 },
-        { "", DATA_STRING, 1, 0 },
-        { "", DATA_STRING, 1, 0 },
-        { "Address", DATA_STRING, 1, 0 },
-        { "", DATA_STRING, 1, 0 },
+        { "HomePhone", DATA_STRING, 1, 0 },
+        { "HomeFax", DATA_STRING, 1, 0 },
+        { "Address", DATA_UTF, 1, 0 },
+        { "PrivateCellular", DATA_STRING, 1, 0 },
         { "Zip", DATA_STRING, 1, 0 },
         { "Country", DATA_ULONG, 1, 0 },
         { "TimeZone", DATA_ULONG, 1, 0 },
@@ -271,8 +271,6 @@ static DataDef icqClientData[] =
         { "DisableAutoUpdate", DATA_BOOL, 1, 0 },
         { "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
         { "DisableTypingNotification", DATA_BOOL, 1, 0 },
-//        { "AutoCheckInvisible", DATA_BOOL, 1, 0 },
-//        { "CheckInvisibleInterval", DATA_ULONG, 1, DATA(15) },
         { "AcceptInDND", DATA_BOOL, 1, 0 },
         { "AcceptInOccupied", DATA_BOOL, 1, 0 },
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
@@ -295,7 +293,7 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
     load_data(icqClientData, &data, cfg);
     if (data.owner.Uin.toULong() != 0)
         m_bAIM = false;
-    if (data.owner.Screen.ptr && *data.owner.Screen.ptr)
+    if (!data.owner.Screen.str().isEmpty())
         m_bAIM = true;
 
     m_bVerifying = false;
@@ -310,16 +308,14 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
     connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
     m_processTimer = new QTimer(this);
     connect(m_processTimer, SIGNAL(timeout()), this, SLOT(processSendQueue()));
-    if (getListRequests()){
-        string requests = getListRequests();
-        while (requests.length()){
-            string req = getToken(requests, ';');
-            string n = getToken(req, ',');
-            ListRequest lr;
-            lr.type   = atol(n.c_str());
-            lr.screen = req;
-            listRequests.push_back(lr);
-        }
+    QString requests = getListRequests();
+    while (requests.length()){
+        QString req = getToken(requests, ';');
+        QString n = getToken(req, ',');
+        ListRequest lr;
+        lr.type   = n.toUInt();
+        lr.screen = req;
+        listRequests.push_back(lr);
     }
     disconnected();
     m_bFirstTry = false;
@@ -329,7 +325,7 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         ClientDataIterator itd(contact->clientData, this);
         ICQUserData *data;
         while ((data = (ICQUserData*)(++itd)) != NULL)
-            set_str(&data->Alias.ptr, contact->getName().utf8());
+            data->Alias.str() = contact->getName();
     }
 }
 
@@ -359,14 +355,15 @@ void ICQClient::contactsLoaded()
 {
     /* outdated
     QTextCodec *codec = getContacts()->getCodec(NULL);
-    if (codec && (QString(codec->name()).lower().find("utf") >= 0)){
-        const char *_def_enc = I18N_NOOP("Dear translator! type this default encoding for your language");
+    QString cdc = codec->name();
+    if (codec && (cdc.lower().find("utf") >= 0)){
+        QString _def_enc = I18N_NOOP("Dear translator! type this default encoding for your language");
         QString def_enc = i18n(_def_enc);
         if (def_enc == _def_enc){
             EncodingDlg dlg(NULL, this);
             dlg.exec();
         }else{
-            getContacts()->owner()->setEncoding(def_enc.latin1());
+            getContacts()->owner()->setEncoding(def_enc);
         }
     }
     */
@@ -390,38 +387,31 @@ bool ICQClient::compareData(void *d1, void *d2)
         return data1->Uin.toULong() == data2->Uin.toULong();
     if (data2->Uin.toULong())
         return false;
-    return strcmp(data1->Screen.ptr, data2->Screen.ptr) == 0;
+    return (data1->Screen.str() == data2->Screen.str());
 }
 
 string ICQClient::getConfig()
 {
-    string listRequest;
+    QString listRequest;
     for (list<ListRequest>::iterator it = listRequests.begin(); it != listRequests.end(); ++it){
         if (listRequest.length())
             listRequest += ';';
-        listRequest += number((*it).type);
+        listRequest += QString::number((*it).type);
         listRequest += ',';
         listRequest += (*it).screen;
     }
-    setListRequests(listRequest.c_str());
+    setListRequests(listRequest);
     string res = Client::getConfig();
     if (res.length())
         res += "\n";
     return res += save_data(icqClientData, &data);
 }
 
-string ICQClient::name()
+QString ICQClient::name()
 {
-    string res;
-    if (m_bAIM){
-        res = "AIM.";
-        if (data.owner.Screen.ptr)
-            res += data.owner.Screen.ptr;
-        return res;
-    }
-    res = "ICQ.";
-    res += number(data.owner.Uin.toULong());
-    return res;
+    if (m_bAIM)
+        return "AIM." + data.owner.Screen.str();
+    return "ICQ." + QString::number(data.owner.Uin.toULong());
 }
 
 QWidget	*ICQClient::setupWnd()
@@ -434,18 +424,19 @@ QWidget	*ICQClient::setupWnd()
 static const char aim_server[] = "login.oscar.aol.com";
 static const char icq_server[] = "login.icq.com";
 
-const char *ICQClient::getServer() const
+QString ICQClient::getServer() const
 {
-    if (data.Server.ptr && *data.Server.ptr)
-        return data.Server.ptr;
+    if (!data.Server.str().isEmpty())
+        return data.Server.str();
     return m_bAIM ? aim_server : icq_server;
 }
 
-void ICQClient::setServer(const char *server)
+void ICQClient::setServer(const QString &server)
 {
-    if (server && !strcmp(server, m_bAIM ? aim_server : icq_server))
-        server = NULL;
-    set_str(&data.Server.ptr, server);
+    if (server == (m_bAIM ? aim_server : icq_server))
+        data.Server.str() = QString::null;
+    else
+        data.Server.str() = server;
 }
 
 void ICQClient::setUin(unsigned long uin)
@@ -453,9 +444,9 @@ void ICQClient::setUin(unsigned long uin)
     data.owner.Uin.asULong() = uin;
 }
 
-void ICQClient::setScreen(const char *screen)
+void ICQClient::setScreen(const QString &screen)
 {
-    set_str(&data.owner.Screen.ptr, screen);
+    data.owner.Screen.str() = screen;
 }
 
 unsigned long ICQClient::getUin()
@@ -469,18 +460,16 @@ bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
         return false;
     ICQUserData *data = (ICQUserData*)_data;
     if (m_bAIM){
-        if (data->Screen.ptr && this->data.owner.Screen.ptr &&
-                (QString(data->Screen.ptr).lower() == QString(this->data.owner.Screen.ptr).lower()))
+        if (!data->Screen.str().isEmpty() && !this->data.owner.Screen.str().isEmpty() &&
+                (data->Screen.str().lower() == this->data.owner.Screen.str().lower()))
             return false;
     }else{
         if (data->Uin.toULong() == this->data.owner.Uin.toULong())
             return false;
     }
-    ICQUserData *my_data = findContact(screen(data).c_str(), NULL, false, contact);
+    ICQUserData *my_data = findContact(screen(data), NULL, false, contact);
     if (my_data){
         data = my_data;
-        string s;
-        s = contact->getName().local8Bit();
     }else{
         contact = NULL;
     }
@@ -492,7 +481,7 @@ bool ICQClient::createData(clientData *&_data, Contact *contact)
     ICQUserData *data = (ICQUserData*)_data;
     ICQUserData *new_data = (ICQUserData*)(contact->clientData.createData(this));
     new_data->Uin = data->Uin;
-    set_str(&new_data->Screen.ptr, data->Screen.ptr);
+    new_data->Screen.str() = data->Screen.str();
     _data = (clientData*)new_data;
     return true;
 }
@@ -667,7 +656,7 @@ void ICQClient::disconnected()
                 setOffline(data);
                 StatusMessage *m = new StatusMessage();
                 m->setContact(contact->id());
-                m->setClient(dataName(data).c_str());
+                m->setClient(dataName(data));
                 m->setStatus(STATUS_OFFLINE);
                 m->setFlags(MESSAGE_RECEIVED);
                 Event e(EventMessageReceived, m);
@@ -902,20 +891,20 @@ void ICQClient::sendPacket(bool bSend)
     m_processTimer->start(delay);
 }
 
-string ICQClient::cryptPassword()
+QCString ICQClient::cryptPassword()
 {
-    string pswd = getContacts()->fromUnicode(NULL, getPassword());
-    const char *p = pswd.c_str();
-    string res;
     unsigned char xor_table[] =
         {
             0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
             0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
         };
-    int j;
-    for (j = 0; j < 8; j++){
-        if (p[j] == 0) break;
-        char c = (char)(p[j] ^ xor_table[j]);
+    QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    QCString res;
+    for (int j = 0; j < 8; j++){
+        char c = pswd[j];
+        if (c == 0)
+            break;
+        c = (char)(c ^ xor_table[j]);
         res += c;
     }
     return res;
@@ -967,34 +956,35 @@ unsigned long ICQClient::fullStatus(unsigned s)
     return status;
 }
 
-ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
+ICQUserData *ICQClient::findContact(unsigned long l, const QString *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
 {
-    if ((screen == NULL) || (*screen == 0))
+    return findContact(QString::number(l), alias, bCreate, contact, grp, bJoin);
+}
+
+ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias, bool bCreate, Contact *&contact, Group *grp, bool bJoin)
+{
+    if (screen.isEmpty())
         return NULL;
 
-    string s;
-    for (const char *p = screen; *p; p++)
-        s += (char)tolower(*p);
+    QString s = screen.lower();
 
     ContactList::ContactIterator it;
     ICQUserData *data;
-    unsigned long uin = atol(screen);
+    unsigned long uin = screen.toULong();
 
     while ((contact = ++it) != NULL){
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
             if (uin && (data->Uin.toULong() != uin))
                 continue;
-            if ((uin == 0) &&
-                    ((data->Screen.ptr == NULL) || (s != data->Screen.ptr)))
+            if ((uin == 0) && (s != data->Screen.str()))
                 continue;
             bool bChanged = false;
             if (alias){
-                if (*alias){
-                    QString name = QString::fromUtf8(alias);
-                    bChanged = contact->setName(name);
+                if (!alias->isEmpty()){
+                    bChanged = contact->setName(*alias);
                 }
-                set_str(&data->Alias.ptr, alias);
+                data->Alias.str() = *alias;
             }
             if (grp){
                 if (contact->getGroup() != grp->id()){
@@ -1025,20 +1015,18 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                 while ((data = (ICQUserData*)(++it)) != NULL){
                     if (uin && (data->Uin.toULong() != uin))
                         continue;
-                    if ((uin == 0) &&
-                            ((data->Screen.ptr == NULL) || (s != data->Screen.ptr)))
+                    if ((uin == 0) && (s != data->Screen.str()))
                         continue;
                     data = (ICQUserData*)(contact->clientData.createData(this));
                     data->Uin.asULong() = uin;
                     if (uin == 0)
-                        set_str(&data->Screen.ptr, s.c_str());
+                        data->Screen.str() = s;
                     bool bChanged = false;
                     if (alias){
                         if (*alias){
-                            QString name = QString::fromUtf8(alias);
-                            bChanged = contact->setName(name);
+                            bChanged = contact->setName(*alias);
                         }
-                        set_str(&data->Alias.ptr, alias);
+                        data->Alias.str() = *alias;
                     }
                     if (grp){
                         if (grp->id() != contact->getGroup()){
@@ -1056,16 +1044,16 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
                 }
             }
         }
-        if (alias && *alias){
-            QString name = QString::fromUtf8(alias).lower();
+        if (alias && !alias->isEmpty()){
+            QString name = alias->lower();
             it.reset();
             while ((contact = ++it) != NULL){
                 if (contact->getName().lower() == name){
                     ICQUserData *data = (ICQUserData*)(contact->clientData.createData(this));
                     data->Uin.asULong() = uin;
                     if (uin == 0)
-                        set_str(&data->Screen.ptr, screen);
-                    set_str(&data->Alias.ptr, alias);
+                        data->Screen.str() = screen;
+                    data->Alias.str() = alias ? *alias : QString::null;
                     Event e(EventContactChanged, contact);
                     e.process();
                     m_bJoin = true;
@@ -1079,16 +1067,17 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     data = (ICQUserData*)(contact->clientData.createData(this));
     data->Uin.asULong() = uin;
     if (uin == 0)
-        set_str(&data->Screen.ptr, s.c_str());
+        data->Screen.str() = s;
     QString name;
-    if (alias && *alias){
-        name = QString::fromUtf8(alias);
+    if (alias){
+        name = *alias;
     }else if (uin){
         name = QString::number(uin);
     }else{
         name = screen;
     }
-    set_str(&data->Alias.ptr, alias);
+    if(alias)
+        data->Alias.str() = *alias;
     contact->setName(name);
     if (grp)
         contact->setGroup(grp->id());
@@ -1098,7 +1087,7 @@ ICQUserData *ICQClient::findContact(const char *screen, const char *alias, bool 
     return data;
 }
 
-ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
+ICQUserData *ICQClient::findGroup(unsigned id, const QString *alias, Group *&grp)
 {
     ContactList::GroupIterator it;
     ICQUserData *data;
@@ -1106,27 +1095,27 @@ ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
         data = (ICQUserData*)(grp->clientData.getData(this));
         if (data && (data->IcqID.toULong() == id)){
             if (alias)
-                set_str(&data->Alias.ptr, alias);
+                data->Alias.str() = *alias;
             return data;
         }
     }
     if (alias == NULL)
         return NULL;
     it.reset();
-    QString name = QString::fromUtf8(alias);
+    QString name = *alias;
     while ((grp = ++it) != NULL){
         if (grp->getName() == name){
             data = (ICQUserData*)(grp->clientData.createData(this));
             data->IcqID.asULong() = id;
-            set_str(&data->Alias.ptr, alias);
+            data->Alias.str() = *alias;
             return data;
         }
     }
     grp = getContacts()->group(0, true);
-    grp->setName(QString::fromUtf8(alias));
+    grp->setName(name);
     data = (ICQUserData*)(grp->clientData.createData(this));
     data->IcqID.asULong() = id;
-    set_str(&data->Alias.ptr, alias);
+    data->Alias.str() = *alias;
     Event e(EventGroupChanged, grp);
     e.process();
     return data;
@@ -1134,7 +1123,7 @@ ICQUserData *ICQClient::findGroup(unsigned id, const char *alias, Group *&grp)
 
 void ICQClient::setOffline(ICQUserData *data)
 {
-    string name = dataName(data);
+    QString name = dataName(data);
     for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ){
         Message *msg = *it;
         if (msg->client() && (name == msg->client())){
@@ -1165,29 +1154,27 @@ void ICQClient::setOffline(ICQUserData *data)
     data->bBadClient.asBool() = false;
     data->bInvisible.asBool() = false;
     data->StatusTime.asULong()= time(NULL);
-    set_str(&data->AutoReply.ptr, NULL);
+    data->AutoReply.str() = QString::null;
 }
 
-static void addIcon(string *s, const char *icon, const char *statusIcon)
+static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 {
     if (s == NULL)
         return;
-
-    if (statusIcon && !strcmp(statusIcon, icon))
-
+    if (statusIcon == icon)
         return;
-    string str = *s;
-    while (!str.empty()){
-        string item = getToken(str, ',');
+    QString str = *s;
+    while (!str.isEmpty()){
+        QString item = getToken(str, ',');
         if (item == icon)
             return;
     }
-    if (!s->empty())
+    if (!s->isEmpty())
         *s += ',';
     *s += icon;
 }
 
-void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, const char *&statusIcon, string *icons)
+void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &style, QString &statusIcon, QString *icons)
 {
     ICQUserData *data = (ICQUserData*)(_data);
     unsigned status = STATUS_ONLINE;
@@ -1239,15 +1226,15 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         status = STATUS_ONLINE;
     if (status > curStatus){
         curStatus = status;
-        if (statusIcon && icons){
-            string iconSave = *icons;
+        if (!statusIcon.isEmpty() && icons){
+            QString iconSave = *icons;
             *icons = statusIcon;
             if (iconSave.length())
-                addIcon(icons, iconSave.c_str(), statusIcon);
+                addIcon(icons, iconSave, statusIcon);
         }
         statusIcon = dicon;
     }else{
-        if (statusIcon){
+        if (!statusIcon.isEmpty()){
             addIcon(icons, dicon, statusIcon);
         }else{
             statusIcon = dicon;
@@ -1341,73 +1328,73 @@ void ICQClient::setupContact(Contact *contact, void *_data)
 {
     ICQUserData *data = (ICQUserData*)_data;
     QString phones;
-    if (data->HomePhone.ptr){
-        phones += getContacts()->toUnicode(contact, trimPhone(data->HomePhone.ptr).c_str());
+    if (!data->HomePhone.str().isEmpty()){
+        phones += trimPhone(data->HomePhone.str());
         phones += ",Home Phone,";
-        phones += number(PHONE).c_str();
+        phones += QString::number(PHONE);
     }
-    if (data->HomeFax.ptr){
+    if (!data->HomeFax.str().isEmpty()){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, trimPhone(data->HomeFax.ptr).c_str());
+        phones += trimPhone(data->HomeFax.str());
         phones += ",Home Fax,";
-        phones += number(FAX).c_str();
+        phones += QString::number(FAX);
     }
-    if (data->WorkPhone.ptr){
+    if (!data->WorkPhone.str().isEmpty()){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, trimPhone(data->WorkPhone.ptr).c_str());
+        phones += trimPhone(data->WorkPhone.str());
         phones += ",Work Phone,";
-        phones += number(PHONE).c_str();
+        phones += QString::number(PHONE);
     }
-    if (data->WorkFax.ptr){
+    if (!data->WorkFax.str().isEmpty()){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, trimPhone(data->WorkFax.ptr).c_str());
+        phones += trimPhone(data->WorkFax.str());
         phones += ",Work Fax,";
-        phones += number(FAX).c_str();
+        phones += QString::number(FAX);
     }
-    if (data->PrivateCellular.ptr){
+    if (!data->PrivateCellular.str().isEmpty()){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, trimPhone(data->PrivateCellular.ptr).c_str());
+        phones += trimPhone(data->PrivateCellular.str());
         phones += ",Private Cellular,";
-        phones += number(CELLULAR).c_str();
+        phones += QString::number(CELLULAR);
     }
-    if (data->PhoneBook.ptr){
+    if (!data->PhoneBook.str()){
         if (phones.length())
             phones += ";";
-        phones += getContacts()->toUnicode(contact, data->PhoneBook.ptr);
+        phones += data->PhoneBook.str();
     }
-    string n = name();
-    contact->setPhones(phones, n.c_str());
+    contact->setPhones(phones, name());
     QString mails;
-    if (data->EMail.ptr)
-        mails += getContacts()->toUnicode(contact, trim(data->EMail.ptr).c_str());
-    if (data->EMails.ptr){
-        string emails = data->EMails.ptr;
+    if (!data->EMail.str().isEmpty())
+        mails += data->EMail.str().stripWhiteSpace();
+    if (!data->EMail.str().isEmpty()) {
+        QString emails = data->EMails.str();
         while (emails.length()){
-            string mailItem = getToken(emails, ';', false);
-            string mail = trim(getToken(mailItem, '/').c_str());
+            QString mailItem = getToken(emails, ';', false);
+            QString mail = getToken(mailItem, '/').stripWhiteSpace();
             if (mail.length()){
                 if (mails.length())
                     mails += ";";
-                mails += getContacts()->toUnicode(contact, mail.c_str());
+                mails += mail;
             }
         }
     }
-    contact->setEMails(mails, n.c_str());
-    QString firstName = getContacts()->toUnicode(contact, data->FirstName.ptr);
+    QString n = name();
+    contact->setEMails(mails, n);
+    QString firstName = data->FirstName.str();
     if (firstName.length())
-        contact->setFirstName(firstName, n.c_str());
-    QString lastName = getContacts()->toUnicode(contact, data->LastName.ptr);
+        contact->setFirstName(firstName, n);
+    QString lastName = data->LastName.str();
     if (lastName.length())
-        contact->setLastName(lastName, n.c_str());
+        contact->setLastName(lastName, n);
     if (contact->getName().isEmpty())
         contact->setName(QString::number(data->Uin.toULong()));
-    QString nick = getContacts()->toUnicode(contact, data->Nick.ptr);
+    QString nick = data->Nick.str();
     if (nick.isEmpty())
-        nick = QString::fromUtf8(data->Alias.ptr);
+        nick = data->Alias.str();
     if (!nick.isEmpty()){
         QString name = QString::number(data->Uin.toULong());
         if (name == contact->getName())
@@ -1415,16 +1402,16 @@ void ICQClient::setupContact(Contact *contact, void *_data)
     }
 }
 
-string ICQClient::trimPhone(const char *from)
+QString ICQClient::trimPhone(const QString &from)
 {
-    string res;
-    if (from == NULL)
+    QString res;
+    if (from.isEmpty())
         return res;
     res = from;
-    char *p = strstr((char*)res.c_str(), "SMS");
-    if (p)
-        *p = 0;
-    return trim(res.c_str());
+    int idx = res.find("SMS");
+    if(idx != -1)
+        res = res.left(idx);
+    return res.stripWhiteSpace();
 }
 
 QString ICQClient::contactTip(void *_data)
@@ -1434,7 +1421,7 @@ QString ICQClient::contactTip(void *_data)
     QString statusText;
     unsigned long status = STATUS_OFFLINE;
     unsigned style  = 0;
-    const char *statusIcon = NULL;
+    QString statusIcon;
     contactInfo(data, status, style, statusIcon);
     if (status == STATUS_INVISIBLE){
         res += "<img src=\"icon:ICQ_invisible\">";
@@ -1443,12 +1430,12 @@ QString ICQClient::contactTip(void *_data)
         res += "<img src=\"icon:";
         res += statusIcon;
         res += "\">";
-        if (!strcmp(statusIcon, "ICQ_invisible")){
+        if (statusIcon == "ICQ_invisible"){
             res += " ";
             res += i18n("Invisible");
         }else  if (data->Uin.toULong()){
             for (const CommandDef *cmd = ICQProtocol::_statusList(); cmd->text; cmd++){
-                if (!strcmp(cmd->icon, statusIcon)){
+                if (cmd->icon == statusIcon){
                     res += " ";
                     statusText += i18n(cmd->text);
                     res += statusText;
@@ -1475,7 +1462,7 @@ QString ICQClient::contactTip(void *_data)
         res += "</b>";
     }else{
         res += "<b>";
-        res += data->Screen.ptr;
+        res += data->Screen.str();
         res += "</b>";
     }
     if (data->WarningLevel.toULong()){
@@ -1519,7 +1506,7 @@ QString ICQClient::contactTip(void *_data)
         res += "<br>";
         res += quoteString(client_name);
     }
-    if (data->PictureWidth.toULong() && data->PictureHeight.toULong()){
+    if (data->PictureWidth.toULong() && data->PictureHeight.toULong()) {
         QImage img(pictureFile(data));
         if (!img.isNull()){
             QPixmap pict;
@@ -1537,9 +1524,8 @@ QString ICQClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QString url="pict://icq.";
-            url += data->Uin.ptr;
-            QMimeSourceFactory::defaultFactory()->setPixmap(static_cast<const char *>(url.utf8()), pict);
+            QString url="pict://icq." + data->Uin.str();
+            QMimeSourceFactory::defaultFactory()->setPixmap(static_cast<const char *>(url), pict);
             res += "<br><img src=\"";
             res += static_cast<const char *>(url.utf8());
             res += "\" width=\"";
@@ -1549,13 +1535,9 @@ QString ICQClient::contactTip(void *_data)
             res += "\">";
         }
     }
-    if (data->AutoReply.ptr && *data->AutoReply.ptr){
+    if (!data->AutoReply.str().isEmpty()){
         res += "<br><br>";
-        if (data->Uin.toULong()){
-            res += quoteString(getContacts()->toUnicode(getContact(data), data->AutoReply.ptr));
-        }else{
-            res += quoteString(QString::fromUtf8(data->AutoReply.ptr));
-        }
+        res += quoteString(data->AutoReply.str());
     }
     return res;
 }
@@ -1568,7 +1550,7 @@ unsigned long ICQClient::warnLevel(unsigned long level)
     return level;
 }
 
-bool ICQClient::hasCap(ICQUserData *data, cap_id_t n)
+bool ICQClient::hasCap(const ICQUserData *data, cap_id_t n)
 {
     unsigned long val = n > 31 ? data->Caps2.toULong() : data->Caps.toULong();
     int pos = (int)n % 32;
@@ -1852,12 +1834,12 @@ const unsigned SECURITY  = 10;
 
 static CommandDef icqWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "ICQ_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1865,14 +1847,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             HOME_INFO,
             I18N_NOOP("Home info"),
             "home",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1880,14 +1862,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             WORK_INFO,
             I18N_NOOP("Work info"),
             "work",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1895,14 +1877,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             MORE_INFO,
             I18N_NOOP("More info"),
             "more",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1910,14 +1892,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1925,14 +1907,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             INTERESTS_INFO,
             I18N_NOOP("Interests"),
             "interest",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1940,14 +1922,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PAST_INFO,
             I18N_NOOP("Group/Past"),
             "past",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1955,14 +1937,14 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PICTURE_INFO,
             I18N_NOOP("Picture"),
             "pict",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -1970,33 +1952,19 @@ static CommandDef icqWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef aimWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "AIM_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2004,14 +1972,14 @@ static CommandDef aimWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2019,33 +1987,19 @@ static CommandDef aimWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef icqConfigWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "ICQ_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2053,14 +2007,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             HOME_INFO,
             I18N_NOOP("Home info"),
             "home",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2068,14 +2022,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             WORK_INFO,
             I18N_NOOP("Work info"),
             "work",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2083,14 +2037,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             MORE_INFO,
             I18N_NOOP("More info"),
             "more",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2098,14 +2052,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2113,14 +2067,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             INTERESTS_INFO,
             I18N_NOOP("Interests"),
             "interest",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2128,14 +2082,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PAST_INFO,
             I18N_NOOP("Group/Past"),
             "past",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2143,14 +2097,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             PICTURE_INFO,
             I18N_NOOP("Picture"),
             "pict",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2158,14 +2112,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             NETWORK,
             I18N_NOOP("Network"),
             "network",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2173,14 +2127,14 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             SECURITY,
             I18N_NOOP("Security"),
             "security",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2188,33 +2142,19 @@ static CommandDef icqConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 static CommandDef aimConfigWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "AIM_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2222,14 +2162,14 @@ static CommandDef aimConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             ABOUT_INFO,
             I18N_NOOP("About info"),
             "info",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2237,14 +2177,14 @@ static CommandDef aimConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             NETWORK,
             I18N_NOOP("Network"),
             "network",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -2252,23 +2192,9 @@ static CommandDef aimConfigWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        },
+            QString::null
+        ),
+        CommandDef (),
     };
 
 CommandDef *ICQClient::infoWindows(Contact*, void *_data)
@@ -2280,9 +2206,9 @@ CommandDef *ICQClient::infoWindows(Contact*, void *_data)
     if (data->Uin.toULong()){
         name += QString::number(data->Uin.toULong());
     }else{
-        name += data->Screen.ptr;
+        name += data->Screen.str();
     }
-    def->text_wrk = strdup(name.utf8());
+    def->text_wrk = name;
     return def;
 }
 
@@ -2292,12 +2218,12 @@ CommandDef *ICQClient::configWindows()
     QString name = i18n(protocol()->description()->text);
     name += " ";
     if (m_bAIM){
-        name += QString::fromUtf8(data.owner.Screen.ptr);
+        name += data.owner.Screen.str();
         def = aimConfigWnd;
     }else{
         name += QString::number(data.owner.Uin.toULong());
     }
-    def->text_wrk = strdup(name.utf8());
+    def->text_wrk = name;
     return def;
 }
 
@@ -2394,10 +2320,11 @@ void *ICQClient::processEvent(Event *e)
     TCPClient::processEvent(e);
     if (e->type() == EventAddContact){
         addContact *ac = (addContact*)(e->param());
-        if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
+        if (protocol()->description()->text == ac->proto){
             Group *grp = getContacts()->group(ac->group);
             Contact *contact;
-            findContact(ac->addr, ac->nick, true, contact, grp);
+            QString tmp = ac->nick;
+            findContact(ac->addr, &tmp, true, contact, grp);
             return contact;
         }
         return NULL;
@@ -2410,7 +2337,7 @@ void *ICQClient::processEvent(Event *e)
             ICQUserData *data;
             ClientDataIterator itc(contact->clientData, this);
             while ((data = (ICQUserData*)(++itc)) != NULL){
-                if (!strcmp(data->Screen.ptr, addr)){
+                if (data->Screen.str() == QString::fromUtf8(addr)){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
@@ -2467,10 +2394,7 @@ void *ICQClient::processEvent(Event *e)
         }
         btns.append(i18n("Send to &list"));
         btns.append(i18n("&Cancel"));
-        QString err;
-        const char *err_str = m->msg->getError();
-        if (err_str && *err_str)
-            err = i18n(err_str);
+        QString err = i18n(m->msg->getError());
         Command cmd;
         cmd->id		= CmdSend;
         cmd->param	= m->edit;
@@ -2509,23 +2433,23 @@ void *ICQClient::processEvent(Event *e)
         ar_request ar = (*it);
         if (ar.bDirect){
             Contact *contact;
-            ICQUserData *data = findContact(ar.screen.c_str(), NULL, false, contact);
+            ICQUserData *data = findContact(ar.screen, NULL, false, contact);
             DirectClient *dc = dynamic_cast<DirectClient*>(data ? data->Direct.object() : 0);
             if (dc){
-                QString answer;
+                QCString answer;
                 if (data->Version.toULong() >= 10){
                     answer = t->tmpl.utf8();
                 }else{
-                    answer = getContacts()->fromUnicode(contact, t->tmpl).c_str();
+                    answer = getContacts()->fromUnicode(contact, t->tmpl);
                 }
                 dc->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
             }
         }else{
             Buffer copy;
-            string response;
+            QCString response;
             response = t->tmpl.utf8();
-            sendAutoReply(ar.screen.c_str(), ar.id, plugins[PLUGIN_NULL],
-                          ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response.c_str(), 0, copy);
+            sendAutoReply(ar.screen, ar.id, plugins[PLUGIN_NULL],
+                          ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response, 0, copy);
         }
         arRequests.erase(it);
         return e->param();
@@ -2537,13 +2461,13 @@ void *ICQClient::processEvent(Event *e)
                 addBuddy(contact);
             if (contact == getContacts()->owner()){
                 time_t now = time(NULL);
-                if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook.ptr)){
-                    set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().utf8());
+                if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){
+                    data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
                     data.owner.PluginInfoTime.asULong() = now;
                     sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
                 }
-                if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
-                    set_str(&data.owner.Picture.ptr, getPicture().utf8());
+                if (getPicture() != data.owner.Picture.str()){
+                    data.owner.Picture.str() = getPicture();
                     data.owner.PluginInfoTime.asULong() = now;
                     sendPluginInfoUpdate(PLUGIN_PICTURE);
                 }
@@ -2689,7 +2613,7 @@ void *ICQClient::processEvent(Event *e)
             while ((data = (ICQUserData*)(++it)) != NULL){
                 unsigned long status = STATUS_OFFLINE;
                 unsigned style  = 0;
-                const char *statusIcon = NULL;
+                QString statusIcon;
                 contactInfo(data, status, style, statusIcon);
                 if(status != STATUS_ONLINE && status != STATUS_OFFLINE) {
                     cmd->flags &= ~BTN_HIDE;
@@ -2780,7 +2704,7 @@ void *ICQClient::processEvent(Event *e)
             while ((data = (ICQUserData*)(++it)) != NULL){
                 unsigned long status = STATUS_OFFLINE;
                 unsigned style  = 0;
-                const char *statusIcon = NULL;
+                QString statusIcon;
                 contactInfo(data, status, style, statusIcon);
                 if(status != STATUS_ONLINE && status != STATUS_OFFLINE)
                     fetchAwayMessage(data);
@@ -2818,22 +2742,25 @@ void *ICQClient::processEvent(Event *e)
         }
     }
     if (e->type() == EventGoURL){
-        string url = (const char*)(e->param());
-        string proto;
+        QString *u = (QString*)(e->param());
+		if(!u)
+			return NULL;
+		QString url = *u;
+        QString proto;
         int n = url.find(':');
         if (n < 0)
             return NULL;
-        proto = url.substr(0, n);
+        proto = url.left(n);
         if ((proto != "icq") && (proto != "aim"))
             return NULL;
-        url = url.substr(proto.length() + 1);
-        while (url[0] == '/')
-            url = url.substr(1);
-        QString s = unquoteString(QString(url.c_str()));
+        url = url.mid(proto.length() + 1);
+        while (url.startsWith("/"))
+            url = url.mid(1);
+        QString s = unquoteString(url);
         QString screen = getToken(s, ',');
         if (!screen.isEmpty()){
             Contact *contact;
-            findContact(screen.latin1(), s.utf8(), true, contact);
+            findContact(screen, &s, true, contact);
             Command cmd;
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;
@@ -2975,13 +2902,13 @@ bool ICQClient::send(Message *msg, void *_data)
         }
         if (!hasCap(data, CAP_TYPING) && !hasCap(data, CAP_AIM_BUDDYCON))
             return false;
-        sendMTN(screen(data).c_str(), ICQ_MTN_START);
+        sendMTN(screen(data), ICQ_MTN_START);
         delete msg;
         return true;
     case MessageTypingStop:
         if (data == NULL)
             return false;
-        sendMTN(screen(data).c_str(), ICQ_MTN_FINISH);
+        sendMTN(screen(data), ICQ_MTN_FINISH);
         delete msg;
         return true;
 #ifdef USE_OPENSSL
@@ -3026,7 +2953,7 @@ bool ICQClient::send(Message *msg, void *_data)
         if (!bCreateDirect &&
                 (msg->type() == MessageGeneric) &&
                 (data->Status.toULong() != ICQ_STATUS_OFFLINE) &&
-                get_ip(data->IP) &&
+                (get_ip(data->IP)) &&
                 (msg->getPlainText().length() >= MAX_TYPE2_MESSAGE_SIZE))
             bCreateDirect = true;
         if ((getInvisible() && (data->VisibleId.toULong() == 0)) ||
@@ -3093,27 +3020,24 @@ bool ICQClient::canSend(unsigned type, void *_data)
     return false;
 }
 
-string ICQClient::dataName(void *data)
+QString ICQClient::dataName(void *data)
 {
-    return dataName(screen((ICQUserData*)data).c_str());
+    return dataName(screen((ICQUserData*)data));
 }
 
-string ICQClient::dataName(const char *screen)
+QString ICQClient::dataName(const QString &screen)
 {
-    string res = name();
-    res += ".";
-    res += screen;
-    return res;
+    return name() + "." + screen;
 }
 
-string ICQClient::screen(ICQUserData *data)
+QString ICQClient::screen(const ICQUserData *data)
 {
     if (data->Uin.toULong() == 0)
-        return data->Screen.ptr ? data->Screen.ptr : "";
-    return number(data->Uin.toULong());
+        return data->Screen.str();
+    return QString::number(data->Uin.toULong());
 }
 
-bool ICQClient::messageReceived(Message *msg, const char *screen)
+bool ICQClient::messageReceived(Message *msg, const QString &screen)
 {
     msg->setFlags(msg->getFlags() | MESSAGE_RECEIVED);
     if (msg->contact() == 0){
@@ -3129,7 +3053,7 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
             Event e(EventContactChanged, contact);
             e.process();
         }
-        msg->setClient(dataName(data).c_str());
+        msg->setClient(dataName(data));
         msg->setContact(contact->id());
         if (data->bTyping.toBool()){
             data->bTyping.asBool() = false;
@@ -3163,18 +3087,17 @@ bool ICQClient::messageReceived(Message *msg, const char *screen)
     return !bAccept;
 }
 
-
 QString ICQClient::contactName(void *clientData)
 {
     QString res;
     ICQUserData *data = (ICQUserData*)clientData;
     res = data->Uin.toULong() ? "ICQ: " : "AIM: ";
-    if (data->Nick.ptr && *data->Nick.ptr){
-        res += getContacts()->toUnicode(getContact(data), data->Nick.ptr);
+    if (!data->Nick.str().isEmpty()){
+        res += data->Nick.str();
         res += " (";
     }
-    res += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : QString(data->Screen.ptr);
-    if (data->Nick.ptr && *data->Nick.ptr)
+    res += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : data->Screen.str();
+    if (!data->Nick.str().isEmpty())
         res += ")";
     return res;
 }
@@ -3208,9 +3131,9 @@ bool ICQClient::isSupportPlugins(ICQUserData *data)
 void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
 {
     Contact *contact;
-    ICQUserData *data = findContact(number(uin).c_str(), NULL, false, contact);
+    ICQUserData *data = findContact(uin, NULL, false, contact);
     if (data && !data->bNoDirect.toBool() &&
-            (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
+            get_ip(data->IP) && (get_ip(data->IP) == get_ip(this->data.owner.IP)) &&
             ((getInvisible() && data->VisibleId.toULong()) ||
              (!getInvisible() && (data->InvisibleId.toULong() == 0)))){
         switch (plugin_index){
@@ -3267,13 +3190,13 @@ void ICQClient::addPluginInfoRequest(unsigned long uin, unsigned plugin_index)
     list<SendMsg>::iterator it;
     for (it = sendBgQueue.begin(); it != sendBgQueue.end(); ++it){
         SendMsg &s = *it;
-        if (((unsigned)atol(s.screen.c_str()) == uin) && (s.flags == plugin_index) && (s.msg == NULL))
+        if ((s.screen.toULong() == uin) && (s.flags == plugin_index) && (s.msg == NULL))
             break;
     }
     if (it != sendBgQueue.end())
         return;
     SendMsg s;
-    s.screen = number(uin);
+    s.screen = QString::number(uin);
     s.flags  = plugin_index;
     sendBgQueue.push_back(s);
     processSendQueue();
@@ -3289,13 +3212,9 @@ unsigned short ICQClient::msgStatus()
     return (unsigned short)(fullStatus(getStatus()) & 0xFF);
 }
 
-#ifdef WIN32
-static char PICT_PATH[] = "pictures\\";
-#else
 static char PICT_PATH[] = "pictures/";
-#endif
 
-QString ICQClient::pictureFile(ICQUserData *data)
+QString ICQClient::pictureFile(const ICQUserData *data)
 {
     QString f = PICT_PATH;
     f += "icq.";
@@ -3334,13 +3253,13 @@ void ICQClient::retry(int n, void *p)
     e.process();
 }
 
-bool ICQClient::isOwnData(const char *screen)
+bool ICQClient::isOwnData(const QString &screen)
 {
-    if ((screen == NULL) || (data.owner.Screen.ptr == NULL))
+    if (screen.isEmpty())
         return false;
-    QString s1(screen);
-    QString s2(data.owner.Screen.ptr);
-    return (s1.lower() == s2.lower());
+    if(data.owner.Uin.toULong())
+        return (data.owner.Uin.toULong() == screen.toULong());
+    return (screen.lower() == data.owner.Screen.str().lower());
 }
 
 QString ICQClient::addCRLF(const QString &str)
@@ -3352,7 +3271,7 @@ QString ICQClient::addCRLF(const QString &str)
 Contact *ICQClient::getContact(ICQUserData *data)
 {
     Contact *contact = NULL;
-    findContact(screen(data).c_str(), NULL, false, contact);
+    findContact(screen(data), NULL, false, contact);
     return contact;
 }
 

@@ -29,7 +29,6 @@
 #include <qlabel.h>
 #include <qtabwidget.h>
 
-using std::string;
 using namespace SIM;
 
 const ext_info chat_groups[] =
@@ -123,9 +122,9 @@ void ICQInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName.ptr, getContacts()->fromUnicode(NULL, edtFirst->text()).c_str());
-    set_str(&data->LastName.ptr, getContacts()->fromUnicode(NULL, edtLast->text()).c_str());
-    set_str(&data->Nick.ptr, getContacts()->fromUnicode(NULL, edtNick->text()).c_str());
+    data->FirstName.str() = edtFirst->text();
+    data->LastName.str()  = edtLast->text();
+    data->Nick.str()      = edtNick->text();
 }
 
 void *ICQInfo::processEvent(Event *e)
@@ -156,10 +155,9 @@ void ICQInfo::fill()
     if (data == NULL) data = &m_client->data.owner;
 
     edtUin->setText(QString::number(data->Uin.toULong()));
-    Contact *contact = getContacts()->contact(m_contact);
-    edtFirst->setText(getContacts()->toUnicode(contact, data->FirstName.ptr));
-    edtLast->setText(getContacts()->toUnicode(contact, data->LastName.ptr));
-    edtNick->setText(getContacts()->toUnicode(contact, data->Nick.ptr));
+    edtFirst->setText(data->FirstName.str());
+    edtLast->setText(data->LastName.str());
+    edtNick->setText(data->Nick.str());
 
     if (m_data == NULL){
         if (edtFirst->text().isEmpty()) {
@@ -197,7 +195,7 @@ void ICQInfo::fill()
         initCombo(cmbRandom, m_client->getRandomChatGroup(), chat_groups);
     }
     if ((status != STATUS_ONLINE) && (status != STATUS_OFFLINE) && m_data){
-        edtAutoReply->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), m_data->AutoReply.ptr));
+        edtAutoReply->setText(m_data->AutoReply.str());
     }else{
         edtAutoReply->hide();
     }

@@ -275,7 +275,7 @@ void DirectSocket::packet_ready()
     }
     if (m_state != Logged){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     }
     switch (m_state){
     case Logged:{
@@ -322,7 +322,7 @@ void DirectSocket::packet_ready()
             m_socket->readBuffer.unpack(p_uin);
             if (m_data == NULL){
                 Contact *contact;
-                m_data = m_client->findContact(number(p_uin).c_str(), NULL, false, contact);
+                m_data = m_client->findContact(p_uin, NULL, false, contact);
                 if ((m_data == NULL) || contact->getIgnore()){
                     m_socket->error_state("User not found");
                     return;
@@ -400,7 +400,7 @@ void DirectSocket::sendInit()
     if (m_version >= 7)
         m_socket->writeBuffer.pack(0x00000000L);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     m_socket->write();
 }
 
@@ -411,7 +411,7 @@ void DirectSocket::sendInitAck()
     m_socket->writeBuffer.pack((unsigned short)0x0001);
     m_socket->writeBuffer.pack((unsigned short)0x0000);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     m_socket->write();
 }
 
@@ -515,7 +515,7 @@ void DirectClient::processPacket()
                 break;
             }
             plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, number((unsigned long)this).c_str());
+            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
             m_socket->readBuffer.incReadPos(13);
             char p[16];
             m_socket->readBuffer.unpack(p, 16);
@@ -656,10 +656,9 @@ void DirectClient::processPacket()
     m_socket->readBuffer.unpack(type);
     m_socket->readBuffer.unpack(ackFlags);
     m_socket->readBuffer.unpack(msgFlags);
-    string msg_str;
+    QCString msg_str;
     m_socket->readBuffer >> msg_str;
     Message *m;
-    list<SendDirectMsg>::iterator it;
     switch (command){
     case TCP_START:
         switch (type){
@@ -694,7 +693,7 @@ void DirectClient::processPacket()
                 m_client->arRequests.push_back(req);
 
                 Contact *contact = NULL;
-                m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact);
+                m_client->findContact(m_client->screen(m_data), NULL, false, contact);
                 ARRequest ar;
                 ar.contact  = contact;
                 ar.param    = &m_client->arRequests.back();
@@ -710,7 +709,7 @@ void DirectClient::processPacket()
 #ifdef USE_OPENSSL
             msg_str = "1";
 #endif
-            sendAck(seq, type, msgFlags, msg_str.c_str());
+            sendAck(seq, type, msgFlags, msg_str);
 #ifdef USE_OPENSSL
             if (type == ICQ_MSGxSECURExOPEN){
                 secureListen();
@@ -723,7 +722,7 @@ void DirectClient::processPacket()
         if (m_channel == PLUGIN_NULL){
             MessageId id;
             id.id_l = seq;
-            m = m_client->parseMessage(type, m_client->screen(m_data).c_str(), msg_str, m_socket->readBuffer, id, 0);
+            m = m_client->parseMessage(type, m_client->screen(m_data), msg_str, m_socket->readBuffer, id, 0);
             if (m == NULL){
                 m_socket->error_state("Start without message");
                 return;
@@ -750,7 +749,7 @@ void DirectClient::processPacket()
                     m->setFlags(m->getFlags() | MESSAGE_URGENT);
                 if (msgFlags & ICQ_TCPxMSG_LIST)
                     m->setFlags(m->getFlags() | MESSAGE_LIST);
-                if (m_client->messageReceived(m, m_client->screen(m_data).c_str()))
+                if (m_client->messageReceived(m, m_client->screen(m_data)))
                     sendAck(seq, type, msgFlags);
             }else{
                 sendAck(seq, type, ICQ_TCPxMSG_AUTOxREPLY);
@@ -793,15 +792,18 @@ void DirectClient::processPacket()
     case TCP_CANCEL:
 	case TCP_ACK: {
         log(L_DEBUG, "Ack %X %X", ackFlags, msgFlags);
-		bool itDeleted = false;
+        bool itDeleted = false;
+        QValueList<SendDirectMsg>::iterator it;
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
             if ((*it).seq != seq)
                 continue;
             if ((*it).msg == NULL){
                 if ((*it).type == PLUGIN_AR){
-                    set_str(&m_data->AutoReply.ptr, msg_str.c_str());
+                    Contact *contact = NULL;
+                    m_client->findContact(m_client->screen(m_data), NULL, false, contact);
+                    m_data->AutoReply.str() = getContacts()->toUnicode(contact,msg_str);
                     m_queue.erase(it);
-					itDeleted = true;
+                    itDeleted = true;
                     break;
                 }
                 unsigned plugin_index = (*it).type;
@@ -829,14 +831,14 @@ void DirectClient::processPacket()
             }
             MessageId id;
             id.id_l = seq;
-            Message *m = m_client->parseMessage(type, m_client->screen(m_data).c_str(), msg_str, m_socket->readBuffer, id, 0);
+            Message *m = m_client->parseMessage(type, m_client->screen(m_data), msg_str, m_socket->readBuffer, id, 0);
             switch (msg->type()){
 #ifdef USE_OPENSSL
             case MessageCloseSecure:
                 secureStop(true);
                 break;
             case MessageOpenSecure:
-                if (*msg_str.c_str() == 0){
+                if (msg_str.isEmpty()){
                     msg->setError(I18N_NOOP("Other side does not support the secure connection"));
                 }else{
                     secureConnect();
@@ -849,11 +851,11 @@ void DirectClient::processPacket()
                     return;
                 }
                 if (ackFlags){
-                    if (msg_str.empty()){
+                    if (msg_str.isEmpty()){
                         msg->setError(I18N_NOOP("Send message fail"));
                     }else{
-                        QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str.c_str());
-                        msg->setError(err.utf8());
+                        QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str);
+                        msg->setError(err);
                     }
                     Event e(EventMessageSent, msg);
                     e.process();
@@ -876,7 +878,7 @@ void DirectClient::processPacket()
             unsigned flags = msg->getFlags() | MESSAGE_DIRECT;
             if (isSecure())
                 flags |= MESSAGE_SECURE;
-            if (m_client->ackMessage(msg, ackFlags, msg_str.c_str())){
+            if (m_client->ackMessage(msg, ackFlags, msg_str)){
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                     if (msg->type() == MessageGeneric){
                         Message m;
@@ -908,10 +910,10 @@ void DirectClient::processPacket()
             delete msg;
             break;
         }
-        if (!itDeleted && it == m_queue.end()){
+        if (!itDeleted && (m_queue.size() == 0 || it == m_queue.end())){
             list<Message*>::iterator it;
             for (it = m_client->m_acceptMsg.begin(); it != m_client->m_acceptMsg.end(); ++it){
-                string name = m_client->dataName(m_data);
+                QString name = m_client->dataName(m_data);
                 Message *msg = *it;
                 if ((msg->getFlags() & MESSAGE_DIRECT) &&
                         msg->client() && (name == msg->client())){
@@ -945,7 +947,7 @@ bool DirectClient::copyQueue(DirectClient *to)
 {
     if (m_state == Logged)
         return false;
-    for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it)
+    for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it)
         to->m_queue.push_back(*it);
     m_queue.clear();
     return true;
@@ -959,7 +961,7 @@ void DirectClient::connect_ready()
         return;
     }
     if (m_state == SSLconnect){
-        for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+        for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
             SendDirectMsg &sm = *it;
             if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
                 continue;
@@ -971,14 +973,14 @@ void DirectClient::connect_ready()
         }
         m_state = Logged;
         Contact *contact;
-        if (m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact)){
+        if (m_client->findContact(m_client->screen(m_data), NULL, false, contact)){
             Event e(EventContactStatus, contact);
             e.process();
         }
         return;
     }
     if (m_state == SSLconnect){
-        for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+        for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
             SendDirectMsg &sm = *it;
             if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
                 continue;
@@ -990,7 +992,7 @@ void DirectClient::connect_ready()
         }
         m_state = Logged;
         Contact *contact;
-        if (m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact)){
+        if (m_client->findContact(m_client->screen(m_data), NULL, false, contact)){
             Event e(EventContactStatus, contact);
             e.process();
         }
@@ -998,7 +1000,7 @@ void DirectClient::connect_ready()
     }
     if (m_bIncoming){
         Contact *contact;
-        m_data = m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact);
+        m_data = m_client->findContact(m_client->screen(m_data), NULL, false, contact);
         if ((m_data == NULL) || contact->getIgnore()){
             m_socket->error_state("Connection from unknown user");
             return;
@@ -1053,7 +1055,7 @@ bool DirectClient::error_state(const char *err, unsigned code)
     }
     if (err == NULL)
         err = I18N_NOOP("Send message fail");
-    for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+    for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
         SendDirectMsg &sm = *it;
         if (sm.msg){
             if (!m_client->sendThruServer(sm.msg, m_data)){
@@ -1128,7 +1130,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         }
 
         Contact *contact = NULL;
-        m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact);
+        m_client->findContact(m_client->screen(m_data), NULL, false, contact);
         ARRequest ar;
         ar.contact  = contact;
         ar.param    = &m_client->arRequests.back();
@@ -1139,7 +1141,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         return;
     }
 
-    string message;
+    QCString message;
     if (msg)
         message = msg;
 
@@ -1255,15 +1257,15 @@ void DirectClient::acceptMessage(Message *msg)
     }
 }
 
-void DirectClient::declineMessage(Message *msg, const char *reason)
+void DirectClient::declineMessage(Message *msg, const QString &reason)
 {
-    string r;
-    r = getContacts()->fromUnicode(m_client->getContact(m_data), QString::fromUtf8(reason));
+    QCString r;
+    r = getContacts()->fromUnicode(m_client->getContact(m_data), reason);
     unsigned short seq = 0;
     switch (msg->type()){
     case MessageICQFile:
         seq = (unsigned short)(static_cast<ICQFileMessage*>(msg)->getID_L());
-        sendAck(seq, static_cast<ICQFileMessage*>(msg)->getExtended() ? ICQ_MSGxEXT : ICQ_MSGxFILE, 0, r.c_str(), ICQ_TCPxACK_REFUSE, msg);
+        sendAck(seq, static_cast<ICQFileMessage*>(msg)->getExtended() ? ICQ_MSGxEXT : ICQ_MSGxFILE, 0, r, ICQ_TCPxACK_REFUSE, msg);
         break;
     default:
         log(L_WARN, "Unknown type for direct decline");
@@ -1288,14 +1290,14 @@ void DirectClient::processMsgQueue()
 {
     if (m_state != Logged)
         return;
-    for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end();){
+    for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end();){
         SendDirectMsg &sm = *it;
         if (sm.seq){
             ++it;
             continue;
         }
         if (sm.msg){
-            string message;
+            QCString message;
             Buffer &mb = m_socket->writeBuffer;
             unsigned short flags = ICQ_TCPxMSG_NORMAL;
             if (sm.msg->getFlags() & MESSAGE_URGENT)
@@ -1411,7 +1413,7 @@ void DirectClient::processMsgQueue()
 
 bool DirectClient::cancelMessage(Message *msg)
 {
-    for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+    for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
         if ((*it).msg == msg){
             if ((*it).seq){
                 Buffer &mb = m_socket->writeBuffer;
@@ -1419,7 +1421,7 @@ bool DirectClient::cancelMessage(Message *msg)
                 mb.pack((unsigned short)(*it).icq_type);
                 mb.pack((unsigned short)0);
                 mb.pack((unsigned short)0);
-                string message;
+                QCString message;
                 mb << message;
                 sendPacket();
             }
@@ -1432,7 +1434,7 @@ bool DirectClient::cancelMessage(Message *msg)
 
 void DirectClient::addPluginInfoRequest(unsigned plugin_index)
 {
-    for (list<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
+    for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
         SendDirectMsg &sm = *it;
         if (sm.msg)
             continue;
@@ -1501,7 +1503,7 @@ void DirectClient::secureStop(bool bShutdown)
         delete m_ssl;
         m_ssl = NULL;
         Contact *contact;
-        if (m_client->findContact(m_client->screen(m_data).c_str(), NULL, false, contact)){
+        if (m_client->findContact(m_client->screen(m_data), NULL, false, contact)){
             Event e(EventContactStatus, contact);
             e.process();
         }
@@ -1509,11 +1511,11 @@ void DirectClient::secureStop(bool bShutdown)
 }
 #endif
 
-const char *DirectClient::name()
+QString DirectClient::name()
 {
     if (m_data == NULL)
-        return NULL;
-    m_name = "";
+        return QString::null;
+    m_name = QString::null;
     switch (m_channel){
     case PLUGIN_NULL:
         break;
@@ -1526,10 +1528,10 @@ const char *DirectClient::name()
     default:
         m_name = "Unknown.";
     }
-    m_name += number(m_data->Uin.toULong());
+    m_name += QString::number(m_data->Uin.toULong());
     m_name += ".";
-    m_name += number((unsigned long)this);
-    return m_name.c_str();
+    m_name += QString::number((unsigned long)this);
+    return m_name;
 }
 
 ICQFileTransfer::ICQFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient *client)
@@ -1637,7 +1639,7 @@ void ICQFileTransfer::processPacket()
             setSpeed(m_speed);
             startPacket(FT_INIT_ACK);
             m_socket->writeBuffer.pack((unsigned long)m_speed);
-            string uin = m_client->screen(&m_client->data.owner);
+            QString uin = m_client->screen(&m_client->data.owner);
             m_socket->writeBuffer << uin;
             sendPacket();
             FileTransfer::m_state = Negotiation;
@@ -1699,18 +1701,18 @@ void ICQFileTransfer::initReceive(char cmd)
         m_socket->error_state("Bad command in init receive");
         return;
     }
-    string fileName;
+    QCString fileName;
     char isDir;
     m_socket->readBuffer >> isDir >> fileName;
-    QString fName = getContacts()->toUnicode(m_client->getContact(m_data), fileName.c_str());
-    string dir;
+    QString fName = getContacts()->toUnicode(m_client->getContact(m_data), fileName);
+    QCString dir;
     unsigned long n;
     m_socket->readBuffer >> dir;
     m_socket->readBuffer.unpack(n);
     if (m_notify)
         m_notify->transfer(false);
-    if (!dir.empty())
-        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir.c_str()) + "/" + fName;
+    if (!dir.isEmpty())
+        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir) + "/" + fName;
     if (isDir)
         fName += "/";
     m_state = Wait;
@@ -1742,7 +1744,7 @@ void ICQFileTransfer::bind_ready(unsigned short port)
 {
     m_localPort = port;
     if (m_state == WaitReverse){
-        m_client->requestReverseConnection(m_client->screen(m_data).c_str(), this);
+        m_client->requestReverseConnection(m_client->screen(m_data), this);
         return;
     }
     m_state = Listen;
@@ -1820,7 +1822,7 @@ void ICQFileTransfer::sendInit()
     m_socket->writeBuffer.pack((unsigned long)m_nFiles);			// nFiles
     m_socket->writeBuffer.pack((unsigned long)m_totalSize);		// Total size
     m_socket->writeBuffer.pack((unsigned long)m_speed);			// speed
-    m_socket->writeBuffer << number(m_client->data.owner.Uin.toULong());
+    m_socket->writeBuffer << QString::number(m_client->data.owner.Uin.toULong());
     sendPacket();
     if ((m_nFiles == 0) || (m_totalSize == 0))
         m_socket->error_state(I18N_NOOP("No files for transfer"));
@@ -1842,12 +1844,12 @@ void ICQFileTransfer::sendPacket(bool dump)
     p[1] = (unsigned char)((size >> 8) & 0xFF);
     if (dump){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        string name = "FileTranfer";
+        QString name = "FileTranfer";
         if (m_data){
             name += ".";
-            name += number(m_data->Uin.toULong());
+            name += QString::number(m_data->Uin.toULong());
         }
-        log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name.c_str());
+        log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name);
     }
     m_socket->write();
 }
@@ -1937,11 +1939,11 @@ void ICQFileTransfer::sendFileInfo()
         dir = dir.replace(QRegExp("/"), "\\");
         fn  = fn.mid(n);
     }
-    string s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
-    string s2;
+    QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
+    QCString s2;
     if (!dir.isEmpty())
         s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir);
-    m_socket->writeBuffer << s1 << s2;
+    m_socket->writeBuffer << s1.data() << s2.data();
     m_socket->writeBuffer.pack((unsigned long)m_fileSize);
     m_socket->writeBuffer.pack((unsigned long)0);
     m_socket->writeBuffer.pack((unsigned long)m_speed);
@@ -2031,7 +2033,7 @@ void AIMFileTransfer::packet_ready()
     if (m_socket->readBuffer.readPos() <= m_socket->readBuffer.writePos())
         return;
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->AIMDirectPacket, m_client->screen(m_data).c_str());
+    log_packet(m_socket->readBuffer, false, plugin->AIMDirectPacket, m_client->screen(m_data));
     m_socket->readBuffer.init(0);
 }
 

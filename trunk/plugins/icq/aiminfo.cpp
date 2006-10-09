@@ -27,7 +27,6 @@
 #include <qpixmap.h>
 #include <qlabel.h>
 
-using std::string;
 using namespace SIM;
 
 AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
@@ -72,15 +71,15 @@ void AIMInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->FirstName.ptr, edtFirst->text().utf8());
-    set_str(&data->LastName.ptr, edtLast->text().utf8());
-    set_str(&data->MiddleName.ptr, edtMiddle->text().utf8());
-    set_str(&data->Maiden.ptr, edtMaiden->text().utf8());
-    set_str(&data->Nick.ptr, edtNick->text().utf8());
-    set_str(&data->Address.ptr, edtStreet->text().utf8());
-    set_str(&data->City.ptr, edtCity->text().utf8());
-    set_str(&data->State.ptr, edtState->text().utf8());
-    set_str(&data->Zip.ptr, edtZip->text().utf8());
+    data->FirstName.str()   = edtFirst->text();
+    data->LastName.str()    = edtLast->text();
+    data->MiddleName.str()  = edtMiddle->text();
+    data->Maiden.str()      = edtMaiden->text();
+    data->Nick.str()        = edtNick->text();
+    data->Address.str()     = edtStreet->text();
+    data->City.str()        = edtCity->text();
+    data->State.str()       = edtState->text();
+    data->Zip.str()         = edtZip->text();
     data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
@@ -106,28 +105,21 @@ void *AIMInfo::processEvent(Event *e)
     return NULL;
 }
 
-static void setText(QLineEdit *edit, const char *str)
-{
-    if (str == NULL)
-        str = "";
-    edit->setText(QString::fromUtf8(str));
-}
-
 void AIMInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
 
-    setText(edtScreen, data->Screen.ptr);
-    setText(edtFirst, data->FirstName.ptr);
-    setText(edtLast, data->LastName.ptr);
-    setText(edtMiddle, data->MiddleName.ptr);
-    setText(edtMaiden, data->Maiden.ptr);
-    setText(edtNick, data->Nick.ptr);
-    setText(edtStreet, data->Address.ptr);
-    setText(edtCity, data->City.ptr);
-    setText(edtState, data->State.ptr);
-    setText(edtZip, data->Zip.ptr);
+    edtScreen->setText(data->Screen.str());
+    edtFirst->setText(data->FirstName.str());
+    edtLast->setText(data->LastName.str());
+    edtMiddle->setText(data->MiddleName.str());
+    edtMaiden->setText(data->Maiden.str());
+    edtNick->setText(data->Nick.str());
+    edtStreet->setText(data->Address.str());
+    edtCity->setText(data->City.str());
+    edtState->setText(data->State.str());
+    edtZip->setText(data->Zip.str());
     initCombo(cmbCountry, data->Country.toULong(), getCountries());
 
     if (m_data == NULL){
@@ -157,8 +149,8 @@ void AIMInfo::fill()
     }else{
         status = m_client->getStatus();
     }
-    if (m_data && m_data->AutoReply.ptr && *m_data->AutoReply.ptr){
-        edtAutoReply->setText(QString::fromUtf8(m_data->AutoReply.ptr));
+    if (m_data && !m_data->AutoReply.str().isEmpty()){
+        edtAutoReply->setText(m_data->AutoReply.str());
     }else{
         edtAutoReply->hide();
     }

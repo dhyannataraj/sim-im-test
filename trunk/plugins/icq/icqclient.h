@@ -59,7 +59,7 @@ const unsigned short ICQ_SNACxFAM_BOS              = 0x0009;
 const unsigned short ICQ_SNACxFAM_PING             = 0x000B;
 const unsigned short ICQ_SNACxFAM_CHATxNAVIGATION  = 0x000D;
 const unsigned short ICQ_SNACxFAM_CHAT			   = 0x000E;
-const unsigned short ICQ_SNACxFAM_SERVERBUDDYICONS = 0x0010;
+const unsigned short ICQ_SNACxFAM_SSBI             = 0x0010;
 const unsigned short ICQ_SNACxFAM_LISTS            = 0x0013;
 const unsigned short ICQ_SNACxFAM_VARIOUS          = 0x0015;
 const unsigned short ICQ_SNACxFAM_LOGIN            = 0x0017;
@@ -156,9 +156,8 @@ const unsigned short SEARCH_DONE = (unsigned short)(-1);
 
 class DirectClient;
 
-typedef struct ICQUserData
+struct ICQUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data        Alias;
     SIM::Data        Cellular;
     SIM::Data		Status;
@@ -250,7 +249,7 @@ typedef struct ICQUserData
     SIM::Data		DirectPluginStatus;
     SIM::Data		bNoDirect;
     SIM::Data		bInvisible;
-} ICQUserData;
+};
 
 typedef struct ICQClientData
 {
@@ -370,17 +369,19 @@ class ICQClient;
 
 const unsigned LIST_USER_CHANGED    = 0;
 const unsigned LIST_USER_DELETED    = 1;
-const unsigned LIST_GROUP_CHANGED    = 2;
-const unsigned LIST_GROUP_DELETED    = 3;
+const unsigned LIST_GROUP_CHANGED   = 2;
+const unsigned LIST_GROUP_DELETED   = 3;
 
 class ListRequest
 {
 public:
-ListRequest() : type(0),icq_id(0),grp_id(0),visible_id(0),invisible_id(0),ignore_id(0) {}
+    ListRequest()
+        : type(0), icq_id(0), grp_id(0), visible_id(0), invisible_id(0), ignore_id(0)
+          {}
 
 public:
     unsigned          type;
-    std::string       screen;
+    QString           screen;
     unsigned short    icq_id;
     unsigned short    grp_id;
     unsigned short    visible_id;
@@ -416,7 +417,7 @@ bool operator == (const MessageId &m1, const MessageId &m2);
 
 typedef struct SendMsg
 {
-    std::string		screen;
+    QString 		screen;
     MessageId		id;
     SIM::Message	*msg;
     QString			text;
@@ -439,16 +440,16 @@ const unsigned SEND_1STPART		= 0x0010;
 typedef struct ar_request
 {
     unsigned short    type;
-    unsigned short	  flags;
+    unsigned short    flags;
     unsigned short    ack;
     MessageId         id;
     unsigned short    id1;
     unsigned short    id2;
-    std::string       screen;
+    QString           screen;
     bool              bDirect;
 } ar_request;
 
-typedef std::map<unsigned short, std::string> INFO_REQ_MAP;
+typedef std::map<unsigned short, QString> INFO_REQ_MAP;
 
 class DirectSocket;
 class ServiceSocket;
@@ -474,8 +475,8 @@ protected:
 
 typedef struct alias_group
 {
-    std::string	alias;
-    unsigned	grp;
+    QString     alias;
+    unsigned    grp;
 } alias_group;
 
 typedef struct RateInfo
@@ -504,15 +505,16 @@ class ICQClient : public SIM::TCPClient, public OscarSocket
 public:
     ICQClient(SIM::Protocol*, Buffer *cfg, bool bAIM);
     ~ICQClient();
-    virtual std::string name();
+    virtual QString     name();
+    virtual QString     dataName(void*);
     virtual QWidget    *setupWnd();
     virtual std::string getConfig();
     virtual void contactsLoaded();
     void setUin(unsigned long);
-    void setScreen(const char*);
+    void setScreen(const QString &);
     unsigned long getUin();
-    const char *getServer() const;
-    void setServer(const char*);
+    QString getServer() const;
+    void setServer(const QString &);
     PROP_USHORT(Port);
     PROP_ULONG(ContactsTime);
     PROP_USHORT(ContactsLength);
@@ -542,25 +544,26 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_BOOL(KeepAlive);
-    ICQClientData    data;
+    ICQClientData   data;
     unsigned short findByUin(unsigned long uin);
-    unsigned short findByMail(const char *mail);
-    unsigned short findWP(const char *first, const char *last, const char *nick,
-                          const char *email, char age, char nGender,
-                          unsigned short nLanguage, const char *city, const char *szState,
+    unsigned short findByMail(const QString &mail);
+    unsigned short findWP(const QString &first, const QString &last, const QString &nick,
+                          const QString &email, char age, char nGender,
+                          unsigned short nLanguage, const QString &city, const QString &szState,
                           unsigned short nCountryCode,
-                          const char *cCoName, const char *szCoDept, const char *szCoPos,
+                          const QString &cCoName, const QString &szCoDept, const QString &szCoPos,
                           unsigned short nOccupation,
-                          unsigned short nPast, const char *szPast,
-                          unsigned short nInterests, const char *szInterests,
-                          unsigned short nAffiliation, const char *szAffiliation,
-                          unsigned short nHomePoge, const char *szHomePage,
-                          const char *sKeyWord, bool bOnlineOnly);
+                          unsigned short nPast, const QString &szPast,
+                          unsigned short nInterests, const QString &szInterests,
+                          unsigned short nAffiliation, const QString &szAffiliation,
+                          unsigned short nHomePoge, const QString &szHomePage,
+                          const QString &sKeyWord, bool bOnlineOnly);
     SIM::Contact *getContact(ICQUserData*);
-    ICQUserData *findContact(const char *screen, const char *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
-    ICQUserData *findGroup(unsigned id, const char *name, SIM::Group *&group);
+    ICQUserData *findContact(unsigned long uin,     const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
+    ICQUserData *findContact(const QString &screen, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
+    ICQUserData *findGroup(unsigned id, const QString *name, SIM::Group *&group);
     void addFullInfoRequest(unsigned long uin);
-    ListRequest *findContactListRequest(const char *screen);
+    ListRequest *findContactListRequest(const QString &screen);
     ListRequest *findGroupListRequest(unsigned short id);
     void removeListRequest(ListRequest *lr);
     virtual void setupContact(SIM::Contact*, void *data);
@@ -570,24 +573,23 @@ public:
     void changePassword(const QString &new_pswd);
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
-    unsigned short aimEMailSearch(const char *name);
-    unsigned short aimInfoSearch(const char *first, const char *last, const char *middle,
-                                 const char *maiden, const char *country, const char *street,
-                                 const char *city, const char *nick, const char *zip,
-                                 const char *state);
-    virtual std::string dataName(void*);
-    void requestReverseConnection(const char *screen, DirectSocket *socket);
+    unsigned short aimEMailSearch(const QString &name);
+    unsigned short aimInfoSearch(const QString &first, const QString &last, const QString &middle,
+                                 const QString &maiden, const QString &country, const QString &street,
+                                 const QString &city, const QString &nick, const QString &zip,
+                                 const QString &state);
+    void requestReverseConnection(const QString &screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
-    SIM::Message *parseMessage(unsigned short type, const char *screen,
-                          std::string &p, Buffer &packet, MessageId &id, unsigned cookie);
-    bool messageReceived(SIM::Message*, const char *screen);
-    static bool parseRTF(const char *str, SIM::Contact *contact, QString &result);
-    static QString pictureFile(ICQUserData *data);
+    SIM::Message *parseMessage(unsigned short type, const QString &screen,
+                          const QCString &p, Buffer &packet, MessageId &id, unsigned cookie);
+    bool messageReceived(SIM::Message*, const QString &screen);
+    static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
+    static QString pictureFile(const ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);
     static QString convert(const char *text, unsigned size, TlvList &tlvs, unsigned n);
-    std::string screen(ICQUserData*);
+    static QString screen(const ICQUserData*);
     static unsigned long warnLevel(unsigned long);
     static unsigned clearTags(QString &text);
     bool m_bAIM;
@@ -605,7 +607,7 @@ protected:
     virtual void disconnected();
     virtual void *processEvent(SIM::Event*);
     virtual bool compareData(void*, void*);
-    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, const char *&statusIcon, std::string *icons = NULL);
+    virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL);
     virtual bool send(SIM::Message*, void*);
     virtual bool canSend(unsigned type, void*);
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
@@ -620,7 +622,7 @@ protected:
     virtual void setClientInfo(void *data);
     virtual SIM::Socket  *createSocket();
     virtual QString contactName(void *clientData);
-    std::string dataName(const char *screen);
+    QString dataName(const QString &screen);
     Buffer  m_cookie;
     virtual SIM::ClientSocket *socket();
     virtual void packet();
@@ -633,7 +635,7 @@ protected:
     void snac_lists(unsigned short, unsigned short);
     void snac_various(unsigned short, unsigned short);
     void snac_login(unsigned short, unsigned short);
-    void parseRosterItem(unsigned short type, std::string str,unsigned short grp_id,
+    void parseRosterItem(unsigned short type, const QString &str,unsigned short grp_id,
                          unsigned short id, TlvList *inf, bool &bIgnoreTime);
     void chn_login();
     void chn_close();
@@ -642,6 +644,7 @@ protected:
     void buddyRequest();
     void icmbRequest();
     void bosRequest();
+    void addCapability(Buffer &cap, cap_id_t id);   // helper for sendCapability()
     void sendCapability(const QString &msg=QString::null);
     void sendICMB(unsigned short channel, unsigned long flags);
     void sendLogonStatus();
@@ -658,7 +661,7 @@ protected:
     void removeFullInfoRequest(unsigned long uin);
     void requestService(ServiceSocket*);
     unsigned long fullStatus(unsigned status);
-    std::string cryptPassword();
+    QCString cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
     const char* error_message(unsigned short error);
@@ -670,13 +673,12 @@ protected:
     unsigned short m_sendSmsId;
     unsigned short m_offlineMessagesRequestId;
     ListServerRequest *m_listRequest;
-    time_t m_listRequestTime;
     bool m_bRosters;
     bool m_bBirthday;
     bool m_bNoSend;
     std::list<ServerRequest*> varRequests;
     std::list<InfoRequest>	infoRequests;
-    std::list<std::string>	buddies;
+    QStringList         	buddies;
     std::list<ListRequest>	listRequests;
     std::list<SendMsg>		smsQueue;
     std::list<SendMsg>		sendFgQueue;
@@ -701,57 +703,57 @@ protected:
     void sendPluginInfoUpdate(unsigned plugin_id);
     void sendPluginStatusUpdate(unsigned plugin_id, unsigned long status);
     bool m_bIdleTime;
-    static bool hasCap(ICQUserData *data, cap_id_t fcap);
+    static bool hasCap(const ICQUserData *data, cap_id_t fcap);
     static void setCap(ICQUserData *data, cap_id_t fcap);
     bool isSupportPlugins(ICQUserData *data);
-    std::string trimPhone(const char *phone);
+    QString trimPhone(const QString &phone);
     unsigned short getListId();
     TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
-    unsigned short sendRoster(unsigned short cmd, const char *name,
+    unsigned short sendRoster(unsigned short cmd, const QString &name,
                               unsigned short grp_id,  unsigned short usr_id,
                               unsigned short subCmd=0, TlvList *tlv = NULL);
-    void sendRosterGrp(const char *name, unsigned short grpId, unsigned short usrId);
+    void sendRosterGrp(const QString &name, unsigned short grpId, unsigned short usrId);
     bool isContactRenamed(ICQUserData *data, SIM::Contact *contact);
     bool sendThruServer(SIM::Message *msg, void *data);
-    std::string getUserCellular(SIM::Contact *contact);
+    QString getUserCellular(SIM::Contact *contact);
     void setMainInfo(ICQUserData *d);
     void setAIMInfo(ICQUserData *data);
     void setProfile(ICQUserData *data);
-    bool isOwnData(const char *screen);
-    void packInfoList(char *str);
+    bool isOwnData(const QString &screen);
+    void packInfoList(const QString &str);
     QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    std::string createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
+    QCString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, bool icqSmiles);
     void ackMessage(SendMsg &s);
     void accept(SIM::Message *msg, const QString &dir, SIM::OverwriteMode overwrite);
-    void decline(SIM::Message *msg, const char *reason);
-    void sendThroughServer(const char *screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck);
+    void decline(SIM::Message *msg, const QString &reason);
+    void sendThroughServer(const QString &screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck);
     bool sendAuthRequest(SIM::Message *msg, void *data);
     bool sendAuthGranted(SIM::Message *msg, void *data);
     bool sendAuthRefused(SIM::Message *msg, void *data);
-    void sendAdvMessage(const char *screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
-    void sendType2(const char *screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
+    void sendAdvMessage(const QString &screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
+    void sendType2(const QString &screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
     void sendType1(const QString &text, bool bWide, ICQUserData *data);
-    void parseAdvancedMessage(const char *screen, Buffer &msg, bool needAck, MessageId id);
-    void sendAutoReply(const char *screen, MessageId id,
+    void parseAdvancedMessage(const QString &screen, Buffer &msg, bool needAck, MessageId id);
+    void sendAutoReply(const QString &screen, MessageId id,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
                        unsigned short  msgType, char msgFlags, unsigned short msgState,
-                       const char *response, unsigned short response_type, Buffer &copy);
+                       const QString &response, unsigned short response_type, Buffer &copy);
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
-    void sendMTN(const char *screen, unsigned short type);
+    void sendMTN(const QString &screen, unsigned short type);
     void setChatGroup();
-    SIM::Message *parseExtendedMessage(const char *screen, Buffer &packet, MessageId &id, unsigned cookie);
+    SIM::Message *parseExtendedMessage(const QString &screen, Buffer &packet, MessageId &id, unsigned cookie);
     void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
     void packMessage(Buffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
     void packExtendedMessage(SIM::Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data);
-    bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const char *str);
+    bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const QCString &str);
     void fetchProfile(ICQUserData *data);
     void fetchAwayMessage(ICQUserData *data);
     void fetchProfiles();
-    void setAwayMessage(const QString &msg=QString::null);
-    void encodeString(const QString &text, const char *type, unsigned short charsetTlv, unsigned short infoTlv);
-    void encodeString(const char *_str, unsigned short nTlv, bool bWide);
+    void setAwayMessage(const QString &msg = QString::null);
+    void encodeString(const QString &text, const QString &type, unsigned short charsetTlv, unsigned short infoTlv);
+    void encodeString(const QString &_str, unsigned short nTlv, bool bWide);
     bool processMsg();
     void packTlv(unsigned short tlv, unsigned short code, const char *keywords);
     ICQUserData *findInfoRequest(unsigned short seq, SIM::Contact *&contact);
@@ -780,7 +782,7 @@ protected:
     friend class DirectClient;
     friend class ICQListener;
     friend class AIMFileTransfer;
-	friend class ICQFileTransfer;
+    friend class ICQFileTransfer;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket
@@ -859,9 +861,9 @@ protected:
 typedef struct SendDirectMsg
 {
     SIM::Message        *msg;
-    unsigned    type;
-    unsigned short    seq;
-    unsigned short    icq_type;
+    unsigned            type;
+    unsigned short      seq;
+    unsigned short      icq_type;
 } SendDirectMsg;
 
 class DirectClient : public DirectSocket
@@ -872,7 +874,7 @@ public:
     ~DirectClient();
     bool sendMessage(SIM::Message*);
     void acceptMessage(SIM::Message*);
-    void declineMessage(SIM::Message*, const char *reason);
+    void declineMessage(SIM::Message*, const QString &reason);
     bool cancelMessage(SIM::Message*);
     void sendAck(unsigned short, unsigned short msgType, unsigned short msgFlags,
                  const char *message=NULL, unsigned short status=ICQ_TCPxACK_ACCEPT, SIM::Message *m=NULL);
@@ -894,13 +896,12 @@ protected:
     bool error_state(const char *err, unsigned code);
     void sendInit2();
     void startPacket(unsigned short cms, unsigned short seq);
-    void startMsgPacket(unsigned short msgType, const std::string &s);
     void sendPacket();
     void processMsgQueue();
     bool copyQueue(DirectClient *to);
-    std::list<SendDirectMsg> m_queue;
-    const char *name();
-    std::string m_name;
+    QValueList<SendDirectMsg> m_queue;
+    QString name();
+    QString m_name;
 #ifdef USE_OPENSSL
     void secureConnect();
     void secureListen();

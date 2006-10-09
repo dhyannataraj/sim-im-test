@@ -32,8 +32,7 @@ LiveJournalCfg::LiveJournalCfg(QWidget *parent, LiveJournalClient *client, bool 
 {
     m_client = client;
     m_bConfig = bConfig;
-    if (client->data.owner.User.ptr)
-        edtName->setText(QString::fromUtf8(client->data.owner.User.ptr));
+    edtName->setText(client->data.owner.User.str());
     if (bConfig){
         edtPassword->setText(client->getPassword());
         lblLnk->setText(i18n("Register new user"));
@@ -72,13 +71,13 @@ void LiveJournalCfg::changed()
 void LiveJournalCfg::apply()
 {
     if (m_bConfig){
-        set_str(&m_client->data.owner.User.ptr, edtName->text().utf8());
-        m_client->setPassword(edtPassword->text().utf8());
+        m_client->data.owner.User.str() = edtName->text();
+        m_client->setPassword(edtPassword->text());
     }
-    m_client->setServer(edtServer->text().latin1());
-    m_client->setURL(edtPath->text().latin1());
-    m_client->setPort(atol(edtPort->text()));
-    m_client->setInterval(atol(edtInterval->text()));
+    m_client->setServer(edtServer->text());
+    m_client->setURL(edtPath->text());
+    m_client->setPort(edtPort->text().toUShort());
+    m_client->setInterval(edtInterval->text().toULong());
     m_client->setFastServer(chkFastServer->isChecked());
     m_client->setUseFormatting(chkUseFormatting->isChecked());
     m_client->setUseSignature(chkUseSignature->isChecked());

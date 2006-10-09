@@ -167,9 +167,9 @@ void ICQSearch::createContact(unsigned tmpFlags, Contact *&contact)
 
 void ICQSearch::add(const QString &screen, unsigned tmpFlags, Contact *&contact)
 {
-    if (m_client->findContact(screen.utf8(), NULL, false, contact))
+    if (m_client->findContact(screen, NULL, false, contact))
         return;
-    m_client->findContact(screen.utf8(), screen.utf8(), true, contact, NULL, false);
+    m_client->findContact(screen, &screen, true, contact, NULL, false);
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
@@ -189,22 +189,22 @@ void ICQSearch::icq_search()
         m_id_icq = m_client->findByUin(m_uin);
         break;
     case Mail:
-        m_id_icq = m_client->findByMail(m_mail.c_str());
+        m_id_icq = m_client->findByMail(m_mail);
         break;
     case Name:
-        m_id_icq = m_client->findWP(m_first.c_str(), m_last.c_str(), m_nick.c_str(),
+        m_id_icq = m_client->findWP(m_first, m_last, m_nick,
                                     NULL, 0, 0, 0, NULL, NULL, 0, NULL, NULL, NULL,
                                     0, 0, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, false);
         break;
     case Full:
-        m_id_icq = m_client->findWP(m_first.c_str(), m_last.c_str(), m_nick.c_str(),
-                                    m_mail.c_str(), m_age, m_gender, m_lang,
-                                    m_city.c_str(), m_state.c_str(), m_country,
-                                    m_company.c_str(), m_depart.c_str(), m_position.c_str(),
-                                    m_occupation, m_past, m_past_text.c_str(),
-                                    m_interests, m_interests_text.c_str(),
-                                    m_affilations, m_affilations_text.c_str(), 0, NULL,
-                                    m_keywords.c_str(), m_bOnline);
+        m_id_icq = m_client->findWP(m_first, m_last, m_nick,
+                                    m_mail, m_age, m_gender, m_lang,
+                                    m_city, m_state, m_country,
+                                    m_company, m_depart, m_position,
+                                    m_occupation, m_past, m_past_text,
+                                    m_interests, m_interests_text,
+                                    m_affilations, m_affilations_text, 0, NULL,
+                                    m_keywords, m_bOnline);
         break;
     case None:
         m_id_icq = 0;
@@ -214,7 +214,7 @@ void ICQSearch::icq_search()
 
 const QString ICQSearch::extractUIN(const QString& str)
 {
-    if (!str || str.isEmpty())
+    if (str.isEmpty())
         return QString::null; 
     QString s = str;
     return s.remove(' ').remove('-');
@@ -265,16 +265,16 @@ void ICQSearch::search()
             }
         }
         m_id_aim = m_client->aimInfoSearch(
-                       adv->edtFirst->text().utf8(),
-                       adv->edtLast->text().utf8(),
-                       adv->edtMiddle->text().utf8(),
-                       adv->edtMaiden->text().utf8(),
+                       adv->edtFirst->text(),
+                       adv->edtLast->text(),
+                       adv->edtMiddle->text(),
+                       adv->edtMaiden->text(),
                        country,
-                       adv->edtStreet->text().utf8(),
-                       adv->edtCity->text().utf8(),
-                       adv->edtNick->text().utf8(),
-                       adv->edtZip->text().utf8(),
-                       adv->edtState->text().utf8());
+                       adv->edtStreet->text(),
+                       adv->edtCity->text(),
+                       adv->edtNick->text(),
+                       adv->edtZip->text(),
+                       adv->edtState->text());
     }else if (!m_client->m_bAIM && grpUin->isChecked() && !edtUIN->text().isEmpty()){
         m_type = UIN;
         m_uin  = extractUIN(edtUIN->text()).toULong();
@@ -285,7 +285,7 @@ void ICQSearch::search()
             m_mail = getContacts()->fromUnicode(0, edtMail->text());
             icq_search();
         }
-        m_id_aim = m_client->aimEMailSearch(edtMail->text().utf8());
+        m_id_aim = m_client->aimEMailSearch(edtMail->text());
     }else if (!m_client->m_bAIM && grpName->isChecked() &&
               (!edtFirst->text().isEmpty() || !edtLast->text().isEmpty() || !edtNick->text().isEmpty())){
         m_type = Name;
@@ -293,8 +293,8 @@ void ICQSearch::search()
         m_last		= getContacts()->fromUnicode(0, edtLast->text());
         m_nick		= getContacts()->fromUnicode(0, edtNick->text());
         icq_search();
-        m_id_aim = m_client->aimInfoSearch(edtFirst->text().utf8(), edtLast->text().utf8(), NULL,
-                                           NULL, NULL, NULL, NULL, edtNick->text().utf8(), NULL, NULL);
+        m_id_aim = m_client->aimInfoSearch(edtFirst->text(), edtLast->text(), QString::null, QString::null,
+                                           QString::null, QString::null, QString::null, edtNick->text(), QString::null, QString::null);
     }
     if ((m_id_icq == 0) && (m_id_aim == 0))
         return;
@@ -339,7 +339,7 @@ void ICQSearch::searchMail(const QString &mail)
             m_mail = mail.utf8();
         icq_search();
     }
-    m_id_aim = m_client->aimEMailSearch(mail.utf8());
+    m_id_aim = m_client->aimEMailSearch(mail);
     addColumns();
 }
 
@@ -358,7 +358,8 @@ void ICQSearch::searchName(const QString &first, const QString &last, const QStr
             m_nick		= nick.utf8();
         icq_search();
     }
-    m_id_aim = m_client->aimInfoSearch(first.utf8(), last.utf8(), NULL, NULL, NULL, NULL, NULL, nick.utf8(), NULL, NULL);
+    m_id_aim = m_client->aimInfoSearch(first, last, QString::null, QString::null, QString::null,
+                                       QString::null, QString::null, nick, QString::null, QString::null);
     addColumns();
 }
 
@@ -399,11 +400,7 @@ void *ICQSearch::processEvent(Event *e)
             default:
                 icon += "inactive";
             }
-            list<unsigned>::iterator it;
-            for (it = m_uins.begin(); it != m_uins.end(); ++it)
-                if ((*it) == res->data.Uin.toULong())
-                    break;
-            if (it != m_uins.end())
+            if (m_uins.findIndex (res->data.Uin.toULong()) != -1)
                 return NULL;
             m_bAdd = true;
             m_uins.push_back(res->data.Uin.toULong());
@@ -424,35 +421,20 @@ void *ICQSearch::processEvent(Event *e)
             age = QString::number(res->data.Age.toULong());
         QStringList l;
         l.append(icon);
-        QString key = m_client->screen(&res->data).c_str();
+        QString key = m_client->screen(&res->data);
         if (res->data.Uin.toULong()){
             while (key.length() < 13)
                 key = QString(".") + key;
         }
         l.append(key);
-        l.append(m_client->screen(&res->data).c_str());;
+        l.append(m_client->screen(&res->data));;
         if (m_client->m_bAIM){
             QString s;
-            if (res->data.Nick.ptr)
-                s = QString::fromUtf8(res->data.Nick.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.FirstName.ptr)
-                s = QString::fromUtf8(res->data.FirstName.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.LastName.ptr)
-                s = QString::fromUtf8(res->data.LastName.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.City.ptr)
-                s = QString::fromUtf8(res->data.City.ptr);
-            l.append(s);
-            s = "";
-            if (res->data.State.ptr)
-                s = QString::fromUtf8(res->data.State.ptr);
-            l.append(s);
-            s = "";
+            l.append(res->data.Nick.str());
+            l.append(res->data.FirstName.str());
+            l.append(res->data.LastName.str());
+            l.append(res->data.City.str());
+            l.append(res->data.State.str());
             if (res->data.Country.toULong()){
                 for (const ext_info *info = getCountries(); info->szName; info++){
                     if (info->nCode == res->data.Country.toULong()){
@@ -463,12 +445,12 @@ void *ICQSearch::processEvent(Event *e)
             }
             l.append(s);
         }else{
-            l.append(getContacts()->toUnicode(NULL, res->data.Nick.ptr));
-            l.append(getContacts()->toUnicode(NULL, res->data.FirstName.ptr));
-            l.append(getContacts()->toUnicode(NULL, res->data.LastName.ptr));
+            l.append(res->data.Nick.str());
+            l.append(res->data.FirstName.str());
+            l.append(res->data.LastName.str());
             l.append(gender);
             l.append(age);
-            l.append(getContacts()->toUnicode(NULL, res->data.EMail.ptr));
+            l.append(res->data.EMail.str());
         }
         emit addItem(l, this);
     }
@@ -477,9 +459,9 @@ void *ICQSearch::processEvent(Event *e)
 
 void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
 {
-    if (m_client->findContact(name.utf8(), NULL, false, contact))
+    if (m_client->findContact(name, NULL, false, contact))
         return;
-    if (m_client->findContact(name.utf8(), name.utf8(), true, contact, NULL, false) == NULL)
+    if (m_client->findContact(name, &name, true, contact, NULL, false) == NULL)
         return;
     contact->setFlags(contact->getFlags() | tmpFlags);
 }

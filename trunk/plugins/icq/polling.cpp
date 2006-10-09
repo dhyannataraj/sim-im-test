@@ -76,7 +76,7 @@ public:
 protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     virtual HttpPacket *packet()     = 0;
-    virtual const char *url()		 = 0;
+    virtual QString url()            = 0;
     virtual void data_ready(Buffer*) = 0;
     HttpPool *m_pool;
 };
@@ -144,7 +144,7 @@ public:
     HelloRequest(HttpPool *poll, bool bAIM);
 protected:
     virtual HttpPacket *packet();
-    virtual const char *url();
+    virtual QString url();
     virtual void data_ready(Buffer*);
     bool m_bAIM;
 };
@@ -161,7 +161,7 @@ HttpPacket *HelloRequest::packet()
     return NULL;
 }
 
-const char *HelloRequest::url()
+QString HelloRequest::url()
 {
     return m_bAIM ? "http://aimhttp.oscar.aol.com/hello" : "http://http.proxy.icq.com/hello";
 }
@@ -187,9 +187,8 @@ public:
     MonitorRequest(HttpPool *pool);
 protected:
     virtual HttpPacket *packet();
-    virtual const char *url();
+    virtual QString url();
     virtual void data_ready(Buffer*);
-    string sURL;
 };
 
 MonitorRequest::MonitorRequest(HttpPool *pool)
@@ -203,13 +202,14 @@ HttpPacket *MonitorRequest::packet()
     return NULL;
 }
 
-const char *MonitorRequest::url()
+QString MonitorRequest::url()
 {
+    QString sURL;
     sURL  = "http://";
-    sURL += m_pool->m_host.c_str();
+    sURL += m_pool->m_host;
     sURL += "/monitor?sid=";
-    sURL += m_pool->sid.c_str();
-    return sURL.c_str();
+    sURL += m_pool->sid;
+    return sURL;
 }
 
 void MonitorRequest::data_ready(Buffer *bIn)
@@ -264,9 +264,8 @@ public:
     PostRequest(HttpPool *proxy);
 protected:
     virtual HttpPacket *packet();
-    virtual const char *url();
+    virtual QString url();
     virtual void data_ready(Buffer *b);
-    string sURL;
 };
 
 PostRequest::PostRequest(HttpPool *proxy)
@@ -282,17 +281,18 @@ HttpPacket *PostRequest::packet()
     return NULL;
 }
 
-const char *PostRequest::url()
+QString PostRequest::url()
 {
+    QString sURL;
     sURL  = "http://";
-    sURL += m_pool->m_host.c_str();
+    sURL += m_pool->m_host;
     sURL += "/data?sid=";
-    sURL += m_pool->sid.c_str();
+    sURL += m_pool->sid;
     sURL += "&seq=";
     char b[15];
     snprintf(b, sizeof(b), "%u", ++m_pool->seq);
     sURL += b;
-    return sURL.c_str();
+    return sURL;
 }
 
 void PostRequest::data_ready(Buffer*)
@@ -350,7 +350,7 @@ void HttpPool::connect(const char *host, unsigned short port)
 {
     state = None;
     Buffer b;
-    unsigned short len = (unsigned short)strlen(host);
+    unsigned short len = strlen(host);
     b << len << host << port;
     nSock++;
     queue.push_back(new HttpPacket(b.data(0), (unsigned short)(b.size()), HTTP_PROXY_LOGIN, nSock));

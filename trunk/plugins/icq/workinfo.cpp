@@ -24,7 +24,6 @@
 #include <qmultilineedit.h>
 #include <qcombobox.h>
 
-using std::string;
 using namespace SIM;
 
 WorkInfo::WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
@@ -109,18 +108,18 @@ const ext_info *p_occupations = occupations;
 void WorkInfo::fill()
 {
     ICQUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
-    Contact *contact = getContacts()->contact(m_contact);
-    edtAddress->setText(getContacts()->toUnicode(contact, data->WorkAddress.ptr));
-    edtCity->setText(getContacts()->toUnicode(contact, data->WorkCity.ptr));
-    edtState->setText(getContacts()->toUnicode(contact, data->WorkState.ptr));
-    edtZip->setText(getContacts()->toUnicode(contact, data->WorkZip.ptr));
+    if (data == NULL)
+        data = &m_client->data.owner;
+    edtAddress->setText(data->WorkAddress.str());
+    edtCity->setText(data->WorkCity.str());
+    edtState->setText(data->WorkState.str());
+    edtZip->setText(data->WorkZip.str());
     initCombo(cmbCountry, (unsigned short)(data->WorkCountry.toULong()), getCountries());
     initCombo(cmbOccupation, (unsigned short)(data->Occupation.toULong()), occupations);
-    edtName->setText(getContacts()->toUnicode(contact, data->WorkName.ptr));
-    edtDept->setText(getContacts()->toUnicode(contact, data->WorkDepartment.ptr));
-    edtPosition->setText(getContacts()->toUnicode(contact, data->WorkPosition.ptr));
-    edtSite->setText(getContacts()->toUnicode(contact, data->WorkHomepage.ptr));
+    edtName->setText(data->WorkName.str());
+    edtDept->setText(data->WorkDepartment.str());
+    edtPosition->setText(data->WorkPosition.str());
+    edtSite->setText(data->WorkHomepage.str());
     urlChanged(edtSite->text());
 }
 
@@ -129,9 +128,7 @@ void WorkInfo::goUrl()
     QString url = edtSite->text();
     if (url.isEmpty())
         return;
-    string url_str;
-    url_str = url.local8Bit();
-    Event e(EventGoURL, (void*)url_str.c_str());
+    Event e(EventGoURL, (void*)&url);
     e.process();
 }
 
@@ -145,16 +142,16 @@ void WorkInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->WorkAddress.ptr, getContacts()->fromUnicode(NULL, edtAddress->text()).c_str());
-    set_str(&data->WorkCity.ptr, getContacts()->fromUnicode(NULL, edtCity->text()).c_str());
-    set_str(&data->WorkState.ptr, getContacts()->fromUnicode(NULL, edtState->text()).c_str());
-    set_str(&data->WorkZip.ptr, getContacts()->fromUnicode(NULL, edtZip->text()).c_str());
+    data->WorkAddress.str()     = edtAddress->text();
+    data->WorkCity.str()        = edtCity->text();
+    data->WorkState.str()       = edtState->text();
+    data->WorkZip.str()         = edtZip->text();
     data->WorkCountry.asULong() = getComboValue(cmbCountry, getCountries());
-    data->Occupation.asULong() = getComboValue(cmbOccupation, occupations);
-    set_str(&data->WorkName.ptr, getContacts()->fromUnicode(NULL, edtName->text()).c_str());
-    set_str(&data->WorkDepartment.ptr, getContacts()->fromUnicode(NULL, edtDept->text()).c_str());
-    set_str(&data->WorkPosition.ptr, getContacts()->fromUnicode(NULL, edtPosition->text()).c_str());
-    set_str(&data->WorkHomepage.ptr, getContacts()->fromUnicode(NULL, edtSite->text()).c_str());
+    data->Occupation.asULong()  = getComboValue(cmbOccupation, occupations);
+    data->WorkName.str()        = edtName->text();
+    data->WorkDepartment.str()  = edtDept->text();
+    data->WorkPosition.str()    = edtPosition->text();
+    data->WorkHomepage.str()    = edtSite->text();
 }
 
 #ifndef NO_MOC_INCLUDES

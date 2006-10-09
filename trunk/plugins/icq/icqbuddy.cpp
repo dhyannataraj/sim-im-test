@@ -28,7 +28,6 @@
 #include <netinet/in.h>
 #endif
 
-using namespace std;
 using namespace SIM;
 
 const unsigned short ICQ_SNACxBDY_REQUESTxRIGHTS   = 0x0002;
@@ -37,6 +36,18 @@ const unsigned short ICQ_SNACxBDY_ADDxTOxLIST      = 0x0004;
 const unsigned short ICQ_SNACxBDY_REMOVExFROMxLIST = 0x0005;
 const unsigned short ICQ_SNACxBDY_USERONLINE	   = 0x000B;
 const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
+
+const unsigned short TLV_USER_CLASS         = 0x0001;
+const unsigned short TLV_USER_SIGNON_TIME   = 0x0003;
+const unsigned short TLV_USER_MEMBER_SINCE  = 0x0005; // not interpreted
+const unsigned short TLV_USER_STATUS        = 0x0006;
+const unsigned short TLV_USER_EXT_IP        = 0x000A;
+const unsigned short TLV_USER_DC_INFO       = 0x000C;
+const unsigned short TLV_USER_CAPS          = 0x000D;
+const unsigned short TLV_USER_ONLINE_TIME   = 0x000F; // not interpreted
+const unsigned short TLV_USER_TIMES_UPDATED = 0x0011; // ????
+const unsigned short TLV_USER_NEWCAPS       = 0x0019;
+const unsigned short TLV_USER_BUDDYINFO     = 0x001D;
 
 static QString makeCapStr( const capability cap, unsigned size )
 {
@@ -49,7 +60,7 @@ static QString makeCapStr( const capability cap, unsigned size )
 
 void ICQClient::snac_buddy(unsigned short type, unsigned short)
 {
-    string screen;
+    QString screen;
     Contact *contact;
     ICQUserData *data;
     switch (type){
@@ -58,12 +69,12 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxBDY_USEROFFLINE:
         screen = m_socket->readBuffer.unpackScreen();
-        data = findContact(screen.c_str(), NULL, false, contact);
+        data = findContact(screen, NULL, false, contact);
         if (data && (data->Status.toULong() != ICQ_STATUS_OFFLINE)){
             setOffline(data);
-            StatusMessage *m = new StatusMessage();
+            StatusMessage *m = new StatusMessage;
             m->setContact(contact->id());
-            m->setClient(dataName(data).c_str());
+            m->setClient(dataName(data));
             m->setStatus(STATUS_OFFLINE);
             m->setFlags(MESSAGE_RECEIVED);
             Event e(EventMessageReceived, m);
@@ -73,7 +84,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxBDY_USERONLINE:
         screen = m_socket->readBuffer.unpackScreen();
-        data = findContact(screen.c_str(), NULL, false, contact);
+        data = findContact(screen, NULL, false, contact);
         if (data){
             bool bChanged     = false;
             bool bAwayChanged = false;
@@ -85,7 +96,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
             TlvList tlv(m_socket->readBuffer);
 
-            Tlv *tlvClass = tlv(0x0001);
+            Tlv *tlvClass = tlv(TLV_USER_CLASS);
             if (tlvClass){
                 unsigned short userClass = *tlvClass;
                 if (userClass != data->Class.toULong()){
@@ -100,19 +111,19 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     if (userClass & CLASS_AWAY){
                         fetchAwayMessage(data);
                     }else{
-                        set_str(&data->AutoReply.ptr, NULL);
+                        data->AutoReply.str() = QString::null;
                     }
                 }
             }
 
             // Status TLV
-            Tlv *tlvStatus = tlv(0x0006);
+            Tlv *tlvStatus = tlv(TLV_USER_STATUS);
             if (tlvStatus){
                 uint32_t status = *tlvStatus;
                 if (status != data->Status.toULong()){
                     data->Status.asULong() = status;
                     if ((status & 0xFF) == 0)
-                        set_str(&data->AutoReply.ptr, NULL);
+                        data->AutoReply.str() = QString::null;
                     data->StatusTime.asULong() = (unsigned long)time(NULL);
                 }
             }else if (data->Status.toULong() == ICQ_STATUS_OFFLINE){
@@ -121,7 +132,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             // Online time TLV
-            Tlv *tlvOnlineTime = tlv(0x0003);
+            Tlv *tlvOnlineTime = tlv(TLV_USER_SIGNON_TIME);
             if (tlvOnlineTime){
                 uint32_t OnlineTime = *tlvOnlineTime;
                 if (OnlineTime != data->OnlineTime.toULong()){
@@ -140,12 +151,12 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             // IP TLV
-            Tlv *tlvIP = tlv(0x000A);
+            Tlv *tlvIP = tlv(TLV_USER_EXT_IP);
             if (tlvIP)
                 bChanged |= set_ip(&data->IP, htonl((uint32_t)(*tlvIP)));
 
             // short caps tlv
-            Tlv *tlvCapShort = tlv(0x0019);
+            Tlv *tlvCapShort = tlv(TLV_USER_NEWCAPS);
             if(tlvCapShort) {
                 data->Caps.asULong() = 0;
                 data->Caps2.asULong() = 0;
@@ -170,7 +181,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 }
             }
             // normal cap tlv
-            Tlv *tlvCapability = tlv(0x000D);
+            Tlv *tlvCapability = tlv(TLV_USER_CAPS);
             if (tlvCapability) {
                 if (!tlvCapShort) {
                     data->Caps.asULong() = 0;
@@ -246,7 +257,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             unsigned long pluginStatusTime = 0;
 
             // Direct connection info
-            Tlv *tlvDirect = tlv(0x000C);
+            Tlv *tlvDirect = tlv(TLV_USER_DC_INFO);
             if (tlvDirect){
                 Buffer info(*tlvDirect);
                 unsigned long  realIP;
@@ -415,7 +426,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     status = STATUS_AWAY;
                 StatusMessage *m = new StatusMessage();
                 m->setContact(contact->id());
-                m->setClient(dataName(data).c_str());
+                m->setClient(dataName(data));
                 m->setStatus(status);
                 m->setFlags(MESSAGE_RECEIVED);
                 Event e(EventMessageReceived, m);
@@ -462,7 +473,8 @@ void ICQClient::sendContactList()
                 buddies.push_back(screen(data));
         }
     }
-    if (buddies.empty()) return;
+    if (buddies.empty())
+        return;
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
     it.reset();
     while ((contact = ++it) != NULL){
@@ -470,7 +482,7 @@ void ICQClient::sendContactList()
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
             if (data->IgnoreId.toULong() == 0)
-                m_socket->writeBuffer.packScreen(screen(data).c_str());
+                m_socket->writeBuffer.packScreen(screen(data));
         }
     }
     sendPacket(true);
@@ -485,16 +497,12 @@ void ICQClient::addBuddy(Contact *contact)
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, this);
     while ((data = (ICQUserData*)(++it_data)) != NULL){
-        list<string>::iterator it;
-        for (it = buddies.begin(); it != buddies.end(); ++it){
-            if (screen(data) == *it)
-                break;
-        }
+        QStringList::iterator it = buddies.find(screen(data));
         if (it != buddies.end())
             continue;
         if ((data->IgnoreId.toULong() == 0)  && (data->WaitAuth.toBool() || (data->GrpId.toULong() == 0))){
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
-            m_socket->writeBuffer.packScreen(screen(data).c_str());
+            m_socket->writeBuffer.packScreen(screen(data));
             sendPacket(true);
             buddies.push_back(screen(data));
         }
@@ -510,15 +518,11 @@ void ICQClient::removeBuddy(Contact *contact)
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, this);
     while ((data = (ICQUserData*)(++it_data)) != NULL){
-        list<string>::iterator it;
-        for (it = buddies.begin(); it != buddies.end(); ++it){
-            if (screen(data) == *it)
-                break;
-        }
+        QStringList::iterator it = buddies.find(screen(data));
         if (it == buddies.end())
             continue;
         snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
-        m_socket->writeBuffer.packScreen(screen(data).c_str());
+        m_socket->writeBuffer.packScreen(screen(data));
         sendPacket(true);
         buddies.erase(it);
     }

@@ -37,8 +37,7 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
     m_bConfig = bConfig;
     if (m_bConfig){
         QTimer::singleShot(0, this, SLOT(changed()));
-        if (m_client->data.owner.Screen.ptr)
-            edtScreen->setText(m_client->data.owner.Screen.ptr);
+        edtScreen->setText(m_client->data.owner.Screen.str());
         edtPasswd->setText(m_client->getPassword());
         connect(edtScreen, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -47,7 +46,7 @@ AIMConfig::AIMConfig(QWidget *parent, ICQClient *client, bool bConfig)
     }else{
         tabConfig->removePage(tabAIM);
     }
-    edtServer->setText(QString::fromLocal8Bit(m_client->getServer()));
+    edtServer->setText(m_client->getServer());
     edtPort->setValue(m_client->getPort());
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPort, SIGNAL(valueChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -69,10 +68,10 @@ void AIMConfig::apply(Client*, void*)
 void AIMConfig::apply()
 {
     if (m_bConfig){
-        m_client->setScreen(edtScreen->text().lower().latin1());
+        m_client->setScreen(edtScreen->text().lower());
         m_client->setPassword(edtPasswd->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
+    m_client->setServer(edtServer->text());
     m_client->setPort(edtPort->text().toUShort());
     m_client->setUseHTTP(chkHTTP->isChecked());
     m_client->setAutoHTTP(chkAuto->isChecked());

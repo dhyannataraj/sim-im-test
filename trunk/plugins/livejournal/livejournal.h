@@ -37,13 +37,12 @@ const unsigned COMMENT_ENABLE	= 0;
 const unsigned COMMENT_NO_MAIL	= 1;
 const unsigned COMMENT_DISABLE	= 2;
 
-typedef struct LiveJournalUserData
+struct LiveJournalUserData : public SIM::clientData
 {
-    SIM::clientData		base;
     SIM::Data	User;
     SIM::Data	Shared;
     SIM::Data	bChecked;
-} LiveJournalUserData;
+};
 
 typedef struct JournalMessageData
 {
@@ -123,13 +122,13 @@ class LiveJournalRequest
 public:
     LiveJournalRequest(LiveJournalClient *client, const char *mode);
     virtual ~LiveJournalRequest();
-    void addParam(const char *key, const char *value);
+    void addParam(const QString &key, const QString &value);
     void result(Buffer*);
-    virtual void result(const char *key, const char *value) = 0;
+    virtual void result(const QString &key, const QString &value) = 0;
 protected:
     LiveJournalClient *m_client;
     Buffer *m_buffer;
-    bool getLine(Buffer *b, std::string &line);
+    bool getLine(Buffer *b, QCString &line);
     friend class LiveJournalClient;
 };
 
@@ -157,10 +156,10 @@ public:
     QString getSignatureText();
     void auth_fail(const char *err);
     void auth_ok();
-    LiveJournalUserData	*findContact(const char *user, SIM::Contact *&contact, bool bCreate=true, bool bJoin=true);
+    LiveJournalUserData	*findContact(const QString &user, SIM::Contact *&contact, bool bCreate=true, bool bJoin=true);
     QTimer  *m_timer;
     virtual bool error_state(const char *err, unsigned code);
-    bool add(const char *name);
+    bool add(const QString &name);
 public slots:
     void timeout();
     void send();
@@ -168,8 +167,8 @@ public slots:
 protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     virtual std::string getConfig();
-    virtual std::string name();
-    virtual std::string dataName(void*);
+    virtual QString name();
+    virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool createData(SIM::clientData*&, SIM::Contact*);
@@ -181,7 +180,7 @@ protected:
     virtual void disconnected();
     virtual void packet_ready();
     virtual void *processEvent(SIM::Event*);
-    virtual void contactInfo(void*, unsigned long &curStatus, unsigned&, const char *&statusIcon, std::string *icons);
+    virtual void contactInfo(void*, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons);
     QWidget *searchWindow(QWidget *parent);
     SIM::CommandDef *configWindows();
     QWidget *configWindow(QWidget *parent, unsigned id);

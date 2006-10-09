@@ -228,15 +228,15 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         sendPacket(true);
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
-            string screen = m_socket->readBuffer.unpackScreen();
+            QString screen = m_socket->readBuffer.unpackScreen();
             if (screen.length() == 0){
                 char n;
                 m_socket->readBuffer >> n;
                 m_socket->readBuffer.incReadPos(n);
                 screen = m_socket->readBuffer.unpackScreen();
             }
-            if ((unsigned)atol(screen.c_str()) != data.owner.Uin.toULong()){
-                log(L_WARN, "No my name info (%s)", screen.c_str());
+            if (screen.toULong() != data.owner.Uin.toULong()){
+                log(L_WARN, "Not my name info (%s)", screen.latin1());
                 break;
             }
             m_socket->readBuffer.incReadPos(4);
@@ -292,23 +292,20 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_EVIL:{
             unsigned short level;
             m_socket->readBuffer.unpack(level);
-            string from = m_socket->readBuffer.unpackScreen();
+            QString from = m_socket->readBuffer.unpackScreen();
             data.owner.WarningLevel.asULong() = level;
-            QString f;
-            f = from.c_str();
-            if (f.isEmpty())
-                f = i18n("anonymous");
+            if (from.isEmpty())
+                from = i18n("anonymous");
             clientErrorData d;
             d.client  = this;
             d.code    = 0;
             d.err_str = I18N_NOOP("You've been warned by %1");
-            d.args    = strdup(f.utf8());
+            d.args    = from;
             d.flags   = ERR_INFO;
             d.options = NULL;
-            d.id	  = CmdShowWarning;
+            d.id      = CmdShowWarning;
             Event e(EventClientError, &d);
             e.process();
-            free(d.args);
             break;
         }
     default:
@@ -381,12 +378,12 @@ void ICQClient::sendLogonStatus()
     if (data.owner.InfoUpdateTime.toULong() == 0)
         data.owner.InfoUpdateTime.asULong() = now;
     data.owner.OnlineTime.asULong() = now;
-    if (getContacts()->owner()->getPhones() != QString::fromUtf8(data.owner.PhoneBook.ptr)){
-        set_str(&data.owner.PhoneBook.ptr, getContacts()->owner()->getPhones().utf8());
+    if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){
+        data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
         data.owner.PluginInfoTime.asULong() = now;
     }
-    if (getPicture() != QString::fromUtf8(data.owner.Picture.ptr)){
-        set_str(&data.owner.Picture.ptr, getPicture().utf8());
+    if (getPicture() != data.owner.Picture.str()){
+        data.owner.Picture.str() = getPicture();
         data.owner.PluginInfoTime.asULong() = now;
     }
     if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.toULong()){

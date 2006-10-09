@@ -319,9 +319,9 @@ void SerialPort::setTimeout(unsigned read_time)
     SetEvent(d->hEvent);
 }
 
-string SerialPort::readLine()
+QCString SerialPort::readLine()
 {
-    string res;
+    QCString res;
     if (d->hPort == INVALID_HANDLE_VALUE)
         return res;
     if (d->m_buff.scan("\n", res)){
@@ -382,14 +382,12 @@ QStringList SerialPort::devices()
 {
     QStringList res;
     for (unsigned i = 1; i <= 8; i++){
-        string port = "COM";
-        port += number(i);
-        string fullPort = "\\\\.\\";
-        fullPort += port;
-        HANDLE hPort = CreateFileA(fullPort.c_str(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
+        QString port = "COM" + QString::number(i);
+        QString fullPort = "\\\\.\\" + port;
+        HANDLE hPort = CreateFile((LPCWSTR)fullPort.ucs2(),GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL );
         if (hPort == INVALID_HANDLE_VALUE)
             continue;
-        res.append(port.c_str());
+        res.append(port);
         CloseHandle(hPort);
     }
     return res;
@@ -552,9 +550,9 @@ void SerialPort::setTimeout(unsigned timeRead)
     d->m_readTimer->start(d->m_timeout, true);
 }
 
-string SerialPort::readLine()
+QCString SerialPort::readLine()
 {
-    string res;
+    QCString res;
     if (d->fd == -1)
         return res;
     if (d->m_buf.scan("\n", res)){

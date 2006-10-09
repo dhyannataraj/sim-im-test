@@ -191,12 +191,12 @@ Client *SMSProtocol::createClient(Buffer *cfg)
 }
 
 static CommandDef sms_descr =
-    {
+    CommandDef (
         0,
         I18N_NOOP("SMS"),
         "SMS",
-        NULL,
-        NULL,
+        QString::null,
+        QString::null,
         0,
         0,
         0,
@@ -204,8 +204,8 @@ static CommandDef sms_descr =
         0,
         PROTOCOL_NOPROXY | PROTOCOL_TEMP_DATA | PROTOCOL_NODATA | PROTOCOL_NO_AUTH,
         NULL,
-        NULL
-    };
+        QString::null
+    );
 
 const CommandDef *SMSProtocol::description()
 {
@@ -214,12 +214,12 @@ const CommandDef *SMSProtocol::description()
 
 static CommandDef sms_status_list[] =
     {
-        {
+        CommandDef (
             STATUS_ONLINE,
             I18N_NOOP("Online"),
             "SMS_online",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -227,14 +227,14 @@ static CommandDef sms_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
+            QString::null
+        ),
+        CommandDef (
             STATUS_OFFLINE,
             I18N_NOOP("Offline"),
             "SMS_offline",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -242,23 +242,9 @@ static CommandDef sms_status_list[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 const CommandDef *SMSProtocol::statusList()
@@ -313,23 +299,23 @@ string SMSClient::getConfig()
     return cfg;
 }
 
-string SMSClient::model()
+QCString SMSClient::model() const
 {
     if (getState() == Connected)
         return m_ta->model();
     return "";
 }
 
-string SMSClient::oper()
+QCString SMSClient::oper() const
 {
     if (getState() == Connected)
         return m_ta->oper();
     return "";
 }
 
-string SMSClient::name()
+QString SMSClient::name()
 {
-    string res = "SMS.";
+    QString res = "SMS.";
     if (getState() == Connected){
         res += model();
         res += " ";
@@ -340,7 +326,7 @@ string SMSClient::name()
     return res;
 }
 
-string SMSClient::dataName(void*)
+QString SMSClient::dataName(void*)
 {
     return "";
 }
@@ -380,12 +366,12 @@ const unsigned MAIN_INFO = 1;
 
 static CommandDef cfgSmsWnd[] =
     {
-        {
+        CommandDef (
             MAIN_INFO,
-            "",
+            " ",
             "SMS",
-            NULL,
-            NULL,
+            QString::null,
+            QString::null,
             0,
             0,
             0,
@@ -393,32 +379,18 @@ static CommandDef cfgSmsWnd[] =
             0,
             0,
             NULL,
-            NULL
-        },
-        {
-            0,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            NULL,
-            NULL
-        }
+            QString::null
+        ),
+        CommandDef ()
     };
 
 CommandDef *SMSClient::configWindows()
 {
-    QString title = QString::fromUtf8(name().c_str());
+    QString title = name();
     int n = title.find(".");
     if (n > 0)
         title = title.left(n) + " " + title.mid(n + 1);
-    cfgSmsWnd[0].text_wrk = strdup(title.utf8());
+    cfgSmsWnd[0].text_wrk = title;
     return cfgSmsWnd;
 }
 
@@ -475,14 +447,14 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
         smsUserData *data;
         ClientDataIterator itd(contact->clientData);
         while ((data = (smsUserData*)(++itd)) != NULL){
-            if (name == QString::fromUtf8(data->Name.ptr))
+            if (name == data->Name.str())
                 break;
         }
         if (data)
             break;
     }
     if (contact == NULL){
-        contact = getContacts()->contactByPhone(phone.latin1());
+        contact = getContacts()->contactByPhone(phone);
         if (contact->getFlags() & CONTACT_TEMPORARY){
             bNew = true;
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
@@ -506,8 +478,8 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
         contact->setPhones(phones + phone + ",,2/-");
     }
     smsUserData *data = (smsUserData*)contact->clientData.createData(this);
-    set_str(&data->Phone.ptr, phone.utf8());
-    set_str(&data->Name.ptr, name.utf8());
+    data->Phone.str() = phone;
+    data->Name.str()  = name;
     data->Index.asULong() = index;
     data->Type.asULong()  = type;
     if (bNew){
@@ -516,9 +488,9 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
     }
 }
 
-const char *SMSClient::getServer() const
+QString SMSClient::getServer() const
 {
-    return NULL;
+    return QString::null;
 }
 
 unsigned short SMSClient::getPort() const
@@ -590,7 +562,7 @@ void SMSClient::phoneCall(const QString &number)
     m_call = new Message(MessagePhoneCall);
     if (!number.isEmpty()){
         bool bNew = false;
-        Contact *contact = getContacts()->contactByPhone(number.latin1());
+        Contact *contact = getContacts()->contactByPhone(number);
         if (contact->getFlags() & CONTACT_TEMPORARY){
             bNew = true;
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);

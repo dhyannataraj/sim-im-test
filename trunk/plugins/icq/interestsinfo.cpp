@@ -70,7 +70,7 @@ void InterestsInfo::apply(Client *client, void *_data)
             res += ";";
         res += info[i];
     }
-    set_str(&data->Interests.ptr, getContacts()->fromUnicode(NULL, res).c_str());
+    data->Interests.str() = res;
 }
 
 void *InterestsInfo::processEvent(Event *e)
@@ -151,7 +151,7 @@ void InterestsInfo::fill()
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
     unsigned i = 0;
-    QString str = getContacts()->toUnicode(getContacts()->contact(m_contact), data->Interests.ptr);
+    QString str = data->Interests.str();
     while (str.length()){
         QString info = getToken(str, ';', false);
         QString n = getToken(info, ',');

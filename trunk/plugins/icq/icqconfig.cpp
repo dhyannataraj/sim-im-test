@@ -108,7 +108,7 @@ void ICQConfig::apply()
         m_client->setUin(edtUin->text().toULong());
         m_client->setPassword(edtPasswd->text());
     }
-    m_client->setServer(edtServer->text().local8Bit());
+    m_client->setServer(edtServer->text());
     m_client->setPort(edtPort->text().toUShort());
     m_client->setMinPort(edtMinPort->text().toUShort());
     m_client->setMaxPort(edtMaxPort->text().toUShort());

@@ -39,7 +39,7 @@ protected slots:
 protected:
     void *processEvent(SIM::Event*);
     void fill();
-    void setPict(QImage &img);
+    void setPict(const QImage &img);
     struct ICQUserData	*m_data;
     ICQClient	*m_client;
 };

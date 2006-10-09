@@ -26,7 +26,6 @@
 #include <qcombobox.h>
 #include <qlineedit.h>
 
-using std::string;
 using namespace SIM;
 
 MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
@@ -156,7 +155,7 @@ void MoreInfo::fill()
 {
     ICQUserData *data = m_data;
     if (data == NULL) data = &m_client->data.owner;
-    edtHomePage->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), data->Homepage.ptr));
+    edtHomePage->setText(data->Homepage.str());
     initCombo(cmbGender, (unsigned short)(data->Gender.toULong()), genders);
     if (spnAge->text() == "0") spnAge->setSpecialValueText("");
     edtDate->setDate(data->BirthDay.toULong(), data->BirthMonth.toULong(), data->BirthYear.toULong());
@@ -197,9 +196,7 @@ void MoreInfo::goUrl()
     QString url = edtHomePage->text();
     if (url.isEmpty())
         return;
-    string url_str;
-    url_str = url.local8Bit();
-    Event e(EventGoURL, (void*)url_str.c_str());
+    Event e(EventGoURL, (void*)&url);
     e.process();
 }
 
@@ -226,7 +223,7 @@ void MoreInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->Homepage.ptr, getContacts()->fromUnicode(NULL, edtHomePage->text()).c_str());
+    data->Homepage.str() = edtHomePage->text();
     data->Gender.asULong() = getComboValue(cmbGender, genders);
     int day, month, year;
     edtDate->getDate(day, month, year);

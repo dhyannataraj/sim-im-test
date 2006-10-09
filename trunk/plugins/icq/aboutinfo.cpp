@@ -42,7 +42,7 @@ void AboutInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    set_str(&data->About.ptr, getContacts()->fromUnicode(getContacts()->contact(m_contact), edtAbout->text()).c_str());
+    data->About.str() = edtAbout->text();
 }
 
 void *AboutInfo::processEvent(Event *e)
@@ -66,11 +66,10 @@ void AboutInfo::fill()
     if (data == NULL) data = &m_client->data.owner;
     if (data->Uin.toULong()){
         edtAbout->setTextFormat(QTextEdit::PlainText);
-        edtAbout->setText(getContacts()->toUnicode(getContacts()->contact(m_contact), data->About.ptr));
+        edtAbout->setText(data->About.str());
     }else{
         edtAbout->setTextFormat(QTextEdit::RichText);
-        if (data->About.ptr)
-            edtAbout->setText(QString::fromUtf8(data->About.ptr));
+        edtAbout->setText(data->About.str());
         if (m_data == NULL)
             edtAbout->showBar();
     }

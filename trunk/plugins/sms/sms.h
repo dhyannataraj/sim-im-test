@@ -67,14 +67,13 @@ typedef struct SMSClientData
 
 const unsigned SMS_SIGN	= 6;
 
-typedef struct smsUserData
+struct smsUserData : public SIM::clientData
 {
-    SIM::clientData	base;
     SIM::Data	Name;
     SIM::Data	Phone;
     SIM::Data	Index;
     SIM::Data	Type;
-} smsUserData;
+};
 
 class SMSClient : public SIM::TCPClient
 {
@@ -88,8 +87,8 @@ public:
     PROP_ULONG(Charge);
     PROP_BOOL(Charging);
     PROP_ULONG(Quality);
-    std::string model();
-    std::string oper();
+    QCString model() const;
+    QCString oper() const;
 protected slots:
     void error();
     void init();
@@ -100,13 +99,13 @@ protected slots:
     void phonebookEntry(int, int, const QString&, const QString&);
     void callTimeout();
 protected:
-    virtual const char		*getServer() const;
-    virtual unsigned short	getPort() const;
+    virtual QString         getServer() const;
+    virtual unsigned short  getPort() const;
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
     virtual std::string getConfig();
-    virtual std::string name();
-    virtual std::string dataName(void*);
+    virtual QString name();
+    virtual QString dataName(void*);
     virtual bool	isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool	createData(SIM::clientData*&, SIM::Contact*);
     virtual void	setupContact(SIM::Contact*, void *data);
@@ -118,6 +117,7 @@ protected:
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual QWidget	*setupWnd();
     virtual QWidget *searchWindow(QWidget*);
+	virtual void contactInfo(void *,unsigned long &,unsigned int &,QString &,QString *) {}
     QString			m_callNumber;
     QTimer			*m_callTimer;
     SIM::Message	*m_call;
