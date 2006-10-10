@@ -447,7 +447,7 @@ void SOCKS4_Proxy::connect(const char *host, unsigned short port)
     }
     m_host = host;
     m_port = port;
-    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", getHost(), getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", static_cast<const char *>(getHost().local8Bit()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -499,7 +499,7 @@ void SOCKS4_Proxy::read_ready()
 SOCKS4_Listener::SOCKS4_Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip)
         : Listener(plugin, data, notify, ip)
 {
-    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", getHost(), getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS4 %s:%u", static_cast<const char *>(getHost().local8Bit()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -618,7 +618,7 @@ void SOCKS5_Proxy::connect(const char *host, unsigned short port)
     }
     m_host = host;
     m_port = port;
-    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", getHost(), getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", static_cast<const char *>(getHost().local8Bit()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -719,7 +719,7 @@ void SOCKS5_Proxy::send_connect()
 SOCKS5_Listener::SOCKS5_Listener(ProxyPlugin *plugin, ProxyData *data, ServerSocketNotify *notify, unsigned long ip)
         : Listener(plugin, data, notify, ip)
 {
-    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", getHost(), getPort());
+    log(L_DEBUG, "Connect to proxy SOCKS5 %s:%u", static_cast<const char *>(getHost().local8Bit()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }
@@ -862,7 +862,7 @@ void HTTPS_Proxy::connect(const char *host, unsigned short port)
     m_port = port;
     if ((m_client != (TCPClient*)(-1)) && (m_client->protocol()->description()->flags & PROTOCOL_ANY_PORT))
         m_port = 443;
-    log(L_DEBUG, "Connect to proxy HTTPS %s:%u", getHost(), getPort());
+    log(L_DEBUG, "Connect to proxy HTTPS %s:%u", static_cast<const char *>(getHost().local8Bit()), getPort());
     m_sock->connect(getHost(), getPort());
     m_state = Connect;
 }

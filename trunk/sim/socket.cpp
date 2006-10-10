@@ -395,7 +395,7 @@ void TCPClient::socketConnect()
         m_socket->close();
     if (m_socket == NULL)
         m_socket = new ClientSocket(this, createSocket());
-    log(L_DEBUG, "Start connect %s:%u", getServer(), getPort());
+    log(L_DEBUG, "Start connect %s:%u", static_cast<const char *>(getServer().local8Bit()), getPort());
     m_socket->connect(getServer(), getPort(), this);
 }
 

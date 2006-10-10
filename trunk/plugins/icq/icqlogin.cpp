@@ -339,7 +339,7 @@ void ICQClient::chn_close()
             errString += QString::number(err);
         }
         if (err){
-            log(L_ERROR, errString.local8Bit().data());
+            log(L_ERROR, "%s", static_cast<const char *>(errString.local8Bit()));
             m_socket->error_state(errString, errorCode);
             flap(ICQ_CHNxCLOSE);
             sendPacket(true);
@@ -363,7 +363,7 @@ void ICQClient::chn_close()
             errString += QString::number(err);
         }
         if (err){
-            log(L_ERROR, errString.local8Bit().data());
+            log(L_ERROR, "%s", static_cast<const char *>(errString.local8Bit()));
             m_socket->error_state(errString);
             return;
         }

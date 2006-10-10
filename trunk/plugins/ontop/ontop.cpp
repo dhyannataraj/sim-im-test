@@ -265,12 +265,12 @@ void OnTopPlugin::setState()
     delete list;
 }
 
+#if defined(USE_KDE) || defined(WIN32)
 QWidget *OnTopPlugin::createConfigWindow(QWidget *parent)
 {
-#if defined(USE_KDE) || defined(WIN32)
     return new OnTopCfg(parent, this);
-#endif
 }
+#endif
 
 bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
 {

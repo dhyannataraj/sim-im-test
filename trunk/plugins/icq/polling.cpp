@@ -112,7 +112,7 @@ void HttpRequest::send()
 bool HttpRequest::done(unsigned code, Buffer &data, const char*)
 {
     if (code != 200){
-        log(L_DEBUG, "Res: %u %s", code, url());
+        log(L_DEBUG, "Res: %u %s", code, static_cast<const char *>(url().local8Bit()));
         m_pool->error(ANSWER_ERROR);
         return false;
     }
