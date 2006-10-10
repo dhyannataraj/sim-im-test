@@ -767,8 +767,6 @@ EXPORT string save_data(const DataDef *def, void *_data)
             case DATA_STRING:{
                     for (i = 0; i < def->n_values; i++, ld++){
                         QString &str = ld->str();
-                        if(str.startsWith("Peter"))
-                            log(L_DEBUG, "Peter!");
                         if (value.length())
                             value += ",";
                         if (def->def_value){

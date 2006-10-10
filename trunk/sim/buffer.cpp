@@ -186,18 +186,19 @@ void Buffer::pack(const char *d, unsigned size)
     if (m_posWrite > m_size) m_size = m_posWrite;
 }
 
-unsigned Buffer::unpack(char *d, unsigned size)
+unsigned Buffer::unpack(char *d, unsigned s)
 {
     unsigned readn = m_size - m_posRead;
-    if (size < readn) readn = size;
-    memcpy(d, m_data + m_posRead, readn);
+    if (s < readn)
+        readn = s;
+    memcpy(d, data() + m_posRead, readn);
     m_posRead += readn;
     return readn;
 }
 
 unsigned Buffer::unpack(QString &d, unsigned s)
 {
-    unsigned readn = size() - m_posRead;
+    unsigned readn = m_size - m_posRead;
     if (s < readn)
         readn = s;
     d = QString::fromUtf8(data() + m_posRead, readn);
@@ -207,7 +208,7 @@ unsigned Buffer::unpack(QString &d, unsigned s)
 
 unsigned Buffer::unpack(QCString &d, unsigned s)
 {
-    unsigned readn = size() - m_posRead;
+    unsigned readn = m_size - m_posRead;
     if (s < readn)
         readn = s;
     d = QCString(data() + m_posRead, readn + 1);
@@ -215,19 +216,16 @@ unsigned Buffer::unpack(QCString &d, unsigned s)
     return readn;
 }
 
-QString Buffer::unpackScreen()
+unsigned Buffer::unpack(QByteArray &d, unsigned s)
 {
-    char len;
-    QString res;
-
-    *this >> len;
-    /* 13 isn't right, AIM allows 16. But when we get a longer
-    name, we *must* unpack them if we won't lose the TLVs
-    behind the Screenname ... */
-    if (len > 16)
-        log(L_DEBUG,"Too long Screenname! Length: %d",len);
-    unpack(res, len);
-    return res;
+    unsigned readn = m_size - m_posRead;
+    if (s < readn)
+        readn = s;
+    d.resize(readn + 1);
+    memcpy(d.data(), data() + m_posRead, readn);
+    d.data()[readn] = '\0';
+    m_posRead += readn;
+    return readn;
 }
 
 bool Buffer::unpackStr(QString &str)
@@ -243,41 +241,60 @@ bool Buffer::unpackStr(QString &str)
     return true;
 }
 
-void Buffer::unpack(QCString &s)
-{
-    unsigned short size;
-    unpack(size);
-    s = "";
-    if (size == 0)
-        return;
-    if (size > m_size - m_posRead)
-        size = (unsigned short)(m_size - m_posRead);
-    unpack(s, size);
-}
-
-void Buffer::unpackStr(QCString &s)
+bool Buffer::unpackStr(QCString &s)
 {
     unsigned short size;
     *this >> size;
     s = "";
     if (size == 0)
-        return;
+        return false;
     if (size > m_size - m_posRead)
         size = (unsigned short)(m_size - m_posRead);
     unpack(s, size);
+    return true;
 }
 
-void Buffer::unpackStr32(QCString &s)
+bool Buffer::unpackStr32(QCString &str)
 {
-    unsigned long size;
-    *this >> size;
-    size = htonl(size);
-    s = "";
-    if (size == 0)
-        return;
-    if (size > m_size - m_posRead)
-        size = m_size - m_posRead;
-    unpack(s, size);
+    unsigned long s;
+    *this >> s;
+    s = ntohl(s);
+    str = "";
+    if (s == 0)
+        return false;
+    if (s > size() - m_posRead)
+        s = size() - m_posRead;
+    unpack(str, s);
+    return true;
+}
+
+bool Buffer::unpackStr32(QByteArray &str)
+{
+    unsigned long s;
+    *this >> s;
+    s = ntohl(s);
+    str = QByteArray();
+    if (s == 0)
+        return false;
+    if (s > size() - m_posRead)
+        s = size() - m_posRead;
+    unpack(str, s);
+    return true;
+}
+
+QString Buffer::unpackScreen()
+{
+    char len;
+    QString res;
+
+    *this >> len;
+    /* 13 isn't right, AIM allows 16. But when we get a longer
+    name, we *must* unpack them if we won't lose the TLVs
+    behind the Screenname ... */
+    if (len > 16)
+        log(L_DEBUG,"Too long Screenname! Length: %d",len);
+    unpack(res, len);
+    return res;
 }
 
 Buffer &Buffer::operator >> (QCString &str)
@@ -323,11 +340,6 @@ Buffer &Buffer::operator >> (int &c)
 }
 
 void Buffer::unpack(char &c)
-{
-    *this >> c;
-}
-
-void Buffer::unpack(unsigned char &c)
 {
     *this >> c;
 }

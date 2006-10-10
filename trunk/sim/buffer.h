@@ -78,10 +78,6 @@ public:
     unsigned long packetStartPos();
 
     void pack(const char *d, unsigned size);
-    unsigned unpack(char *d, unsigned size);
-    unsigned unpack(QString &d, unsigned s);    // utf8
-    unsigned unpack(QCString &d, unsigned size);
-
     void pack(char c) { pack(&c, 1); }
     void pack(unsigned short c);
     void pack(unsigned long c);
@@ -95,14 +91,21 @@ public:
     Buffer &operator >> (QCString &s);  // size is 2 byte & little endian!
 
     void unpack(char &c);
-    void unpack(unsigned char &c);
+    void unpack(unsigned char &c) { unpack((char&)c); }
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
-    QString unpackScreen();
-    void unpack(QCString &s);
-    void unpackStr(QCString &s);
+    unsigned unpack(char *d, unsigned size);
+    unsigned unpack(QString &d, unsigned size); // utf8
+    unsigned unpack(QCString &d, unsigned size);
+    unsigned unpack(QByteArray &d, unsigned size);
+    // 2 byte size + string
     bool unpackStr(QString &s);     // utf8
-    void unpackStr32(QCString &s);
+    bool unpackStr(QCString &s);
+    // 4 byte size  + string
+    bool unpackStr32(QCString &s);
+    bool unpackStr32(QByteArray &s);
+
+    QString unpackScreen();
 
     void pack(const QString &s);
     void pack(const QCString &s);
