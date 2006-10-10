@@ -224,7 +224,7 @@ void FetchThread::run()
         if (postSize != NO_POSTSIZE){
             INTERNET_BUFFERS BufferIn;
             memset(&BufferIn, 0, sizeof(BufferIn));
-            BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERSA);
+            BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERS);
             BufferIn.lpcszHeader     = (LPCWSTR)headers.ucs2();
             BufferIn.dwHeadersLength = headers.length();
             BufferIn.dwHeadersTotal  = headers.length();
@@ -638,7 +638,7 @@ FetchClientPrivate::~FetchClientPrivate()
 
 void FetchClientPrivate::stop()
 {
-    m_hIn = "";
+    m_hIn = QString::null;
 #ifdef WIN32
     if (m_thread){
         m_thread->close();
@@ -729,7 +729,7 @@ bool FetchClientPrivate::error_state(const QString &err, unsigned)
             m_socket = NULL;
         }
         m_code = 0;
-        m_hIn  = "";
+        m_hIn  = QString::null;
         m_state = None;
         _fetch();
         return false;
