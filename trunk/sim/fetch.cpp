@@ -25,22 +25,21 @@
 #ifdef HAVE_UNAME
 #include <sys/utsname.h>
 #endif
+#include <time.h>
+#include <qthread.h>
+#include <qtimer.h>
+
 #include "fetch.h"
 #include "buffer.h"
 #include "socket.h"
 #include "stl.h"
-
-#include <qthread.h>
-#include <qtimer.h>
-
-#include <time.h>
 
 using namespace std;
 using namespace SIM;
 
 const unsigned HTTPPacket   = 0x100;
 
-typedef std::map<my_string, string> HEADERS_MAP;
+typedef std::map<my_string, QString> HEADERS_MAP;
 
 class FetchThread;
 
@@ -50,22 +49,22 @@ public:
     FetchClientPrivate(FetchClient*);
     ~FetchClientPrivate();
 protected:
-    void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
-    void _fetch(const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
+    void fetch(const QString &url, const QString &headers, Buffer *postData, bool bRedirect);
+    void _fetch(const QString &headers = QString::null, Buffer *postData = NULL, bool bRedirect = false);
     void stop();
     FetchClient *m_client;
     void		fail();
-    string		m_uri;
-    string		m_hIn;
+    QString		m_uri;
+    QString		m_hIn;
     HEADERS_MAP	m_hOut;
     unsigned	m_code;
-    bool		m_bRedirect;
+    bool        m_bRedirect;
     unsigned    m_sendTime;
     unsigned    m_sendSize;
     unsigned	m_speed;
 #ifdef WIN32
     FetchThread	*m_thread;
-    string		m_err;
+    QString		m_err;
     unsigned	m_errCode;
     bool event(QEvent* event);
 #endif
@@ -80,8 +79,8 @@ protected:
     unsigned	m_id;
     bool		m_bDone;
     unsigned	m_size;
-    void		addHeader(const char *key, const char *value);
-    bool		findHeader(const char *key);
+    void		addHeader(const QString &key, const QString &value);
+    bool		findHeader(const QString &key);
     Buffer		m_data;
     Buffer		*m_postData;
     enum State{
@@ -106,36 +105,6 @@ protected:
 #ifdef WIN32
 #include <windows.h>
 #include <wininet.h>
-
-static BOOL (WINAPI *_InternetGetConnectedState)(LPDWORD lpdwFlags, DWORD dwReserved) = NULL;
-static HINTERNET (WINAPI *_InternetOpen)(LPCSTR lpszAgent, DWORD dwAccessType,
-        LPCSTR lpszProxy, LPCSTR lpszProxyBypass, DWORD dwFlags) = NULL;
-static BOOL (WINAPI *_InternetCloseHandle)(HINTERNET hInternet) = NULL;
-static BOOL (WINAPI *_InternetCrackUrl)(LPCSTR lpszUrl, DWORD dwUrlLength, DWORD dwFlags,
-                                        LPURL_COMPONENTSA lpUrlComponents);
-static HINTERNET (WINAPI *_InternetConnect)(HINTERNET hInternet, LPCSTR lpszServerName,
-        INTERNET_PORT nServerPort, LPCSTR lpszUserName, LPCSTR lpszPassword,
-        DWORD dwService, DWORD dwFlags, DWORD dwContext);
-static HINTERNET (WINAPI *_HttpOpenRequest)(HINTERNET hConnect, LPCSTR lpszVerb,
-        LPCSTR lpszObjectName, LPCSTR lpszVersion, LPCSTR lpszReferrer,
-        LPCSTR *lplpszAcceptTypes, DWORD dwFlags, DWORD dwContext);
-static BOOL (WINAPI *_HttpSendRequest)(HINTERNET hRequest, LPCSTR lpszHeaders,
-                                       DWORD dwHeadersLength, LPVOID lpOptional, DWORD dwOptionalLength);
-static BOOL (WINAPI *_HttpSendRequestEx)(HINTERNET hRequest,
-        LPINTERNET_BUFFERSA lpBuffersIn, LPINTERNET_BUFFERSA lpBuffersOut,
-        DWORD dwFlags, DWORD dwContext);
-static BOOL (WINAPI *_HttpQueryInfo)(HINTERNET hRequest, DWORD dwInfoLevel,
-                                     LPVOID lpBuffer, LPDWORD lpdwBufferLength, LPDWORD lpdwIndex);
-static BOOL (WINAPI *_InternetReadFile)(HINTERNET hFile, LPVOID lpBuffer,
-                                        DWORD dwNumberOfBytesToRead, LPDWORD lpdwNumberOfBytesRead);
-static BOOL (WINAPI *_InternetWriteFile)(HINTERNET hFile, LPVOID lpBuffer,
-        DWORD dwNumberOfBytesToRead, LPDWORD lpdwNumberOfBytesRead);
-static BOOL (WINAPI *_InternetQueryOption)(HINTERNET hInternet, DWORD dwOption,
-        LPVOID lpBuffer, LPDWORD lpdwBufferLength);
-static BOOL (WINAPI *_HttpEndRequest)(HINTERNET hRequest, LPINTERNET_BUFFERS lpBuffersOut,
-                                      DWORD dwFlags, DWORD dwContext);
-static DWORD (WINAPI *_InternetErrorDlg)(HWND hWnd, HINTERNET hRequest, DWORD dwError,
-        DWORD dwFlags, LPVOID * lppvData);
 
 static HINTERNET hInet = NULL;
 
@@ -170,11 +139,11 @@ FetchThread::~FetchThread()
 void FetchThread::close()
 {
     if (hReq){
-        _InternetCloseHandle(hReq);
+        InternetCloseHandle(hReq);
         hReq = NULL;
     }
     if (hCon){
-        _InternetCloseHandle(hCon);
+        InternetCloseHandle(hCon);
         hCon = NULL;
     }
 }
@@ -189,33 +158,33 @@ void FetchThread::error(const char *name)
 
 void FetchThread::run()
 {
-    string headers;
+    QString headers;
     DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_AUTH | INTERNET_FLAG_NO_COOKIES;
     if (!m_client->m_bRedirect)
         flags |= INTERNET_FLAG_NO_AUTO_REDIRECT;
-    const char *verb = "GET";
+    QString verb = "GET";
     unsigned postSize = m_client->m_client->post_size();
     if (postSize != NO_POSTSIZE)
         verb = "POST";
-    URL_COMPONENTSA url;
+    URL_COMPONENTS url;
     memset(&url, 0, sizeof(url));
     url.dwStructSize = sizeof(url);
-    char host[256];
+    WCHAR host[256];
     url.lpszHostName      = host;
-    url.dwHostNameLength  = sizeof(host);
-    char user[256];
+    url.dwHostNameLength  = sizeof(host)/sizeof(WCHAR);
+    WCHAR user[256];
     url.lpszUserName      = user;
-    url.dwUserNameLength  = sizeof(user);
-    char pass[256];
+    url.dwUserNameLength  = sizeof(user)/sizeof(WCHAR);
+    WCHAR pass[256];
     url.lpszPassword	  = pass;
-    url.dwPasswordLength  = sizeof(pass);
-    char urlPath[1024];
+    url.dwPasswordLength  = sizeof(pass)/sizeof(WCHAR);
+    WCHAR urlPath[1024];
     url.lpszUrlPath		  = urlPath;
-    url.dwUrlPathLength   = sizeof(urlPath);
-    char extra[1024];
+    url.dwUrlPathLength   = sizeof(urlPath)/sizeof(WCHAR);
+    WCHAR extra[1024];
     url.lpszExtraInfo	  = extra;
-    url.dwExtraInfoLength = sizeof(extra);
-    if (!_InternetCrackUrl(m_client->m_uri.c_str(), 0, ICU_DECODE, &url)){
+    url.dwExtraInfoLength = sizeof(extra)/sizeof(WCHAR);
+    if (!InternetCrackUrl((LPCWSTR)m_client->m_uri.ucs2(), 0, ICU_DECODE, &url)){
         error("InternetCrackUrl");
         return;
     }
@@ -225,42 +194,42 @@ void FetchThread::run()
         error("Unsupported scheme");
         return;
     }
-    hCon = _InternetConnect(hInet, url.lpszHostName, url.nPort,
+    hCon = InternetConnect(hInet, url.lpszHostName, url.nPort,
                             url.lpszUserName, url.lpszPassword, INTERNET_SERVICE_HTTP, 0, 0);
     if (hCon == NULL){
         error("InternetConnect");
         return;
     }
-    string uri = url.lpszUrlPath;
+    QString uri = QString::fromUcs2((unsigned short*)url.lpszUrlPath);
     if (url.lpszExtraInfo)
-        uri += url.lpszExtraInfo;
-    hReq = _HttpOpenRequest(hCon, verb, uri.c_str(), NULL, NULL, NULL, flags, 0);
+        uri += QString::fromUcs2((unsigned short*)url.lpszExtraInfo);
+    hReq = HttpOpenRequest(hCon, (LPCWSTR)verb.ucs2(), (LPCWSTR)uri.ucs2(), NULL, NULL, NULL, flags, 0);
     if (hReq == NULL){
         error("HttpOpenRequest error");
         return;
     }
     for (HEADERS_MAP::iterator it = m_client->m_hOut.begin(); it != m_client->m_hOut.end(); ++it){
-        string name = (*it).first.str().local8Bit().data();
-        if (!headers.empty())
+        QString name = (*it).first.str();
+        if (!headers.isEmpty())
             headers += "\r\n";
         headers += name;
         headers += ": ";
-        headers += (*it).second.c_str();
+        headers += (*it).second;
     }
     Buffer b;
     b.packetStart();
-    b << verb << " " << uri.c_str() << " HTTP/1.0\r\n" << headers.c_str() << "\r\n";
+    b << verb << " " << uri.latin1() << " HTTP/1.0\r\n" << headers.latin1() << "\r\n";
     log_packet(b, true, HTTPPacket);
     for (;;){
         if (postSize != NO_POSTSIZE){
-            INTERNET_BUFFERSA BufferIn;
+            INTERNET_BUFFERS BufferIn;
             memset(&BufferIn, 0, sizeof(BufferIn));
-            BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERSA);
-            BufferIn.lpcszHeader     = headers.c_str();
+            BufferIn.dwStructSize    = sizeof(INTERNET_BUFFERS);
+            BufferIn.lpcszHeader     = (LPCWSTR)headers.ucs2();
             BufferIn.dwHeadersLength = headers.length();
             BufferIn.dwHeadersTotal  = headers.length();
             BufferIn.dwBufferTotal   = (postSize != NO_POSTSIZE) ? postSize : 0;
-            if (!_HttpSendRequestEx(hReq, &BufferIn, NULL, HSR_INITIATE | HSR_SYNC, 0)){
+            if (!HttpSendRequestEx(hReq, &BufferIn, NULL, HSR_INITIATE | HSR_SYNC, 0)){
                 error("HttpSendRequestEx");
                 return;
             }
@@ -278,7 +247,7 @@ void FetchThread::run()
                 DWORD res;
                 if (m_bClose)
                     return;
-                if (!_InternetWriteFile(hReq, (void*)data, tail, &res)){
+                if (!InternetWriteFile(hReq, (void*)data, tail, &res)){
                     error("InternetWriteFile");
                     return;
                 }
@@ -298,22 +267,22 @@ void FetchThread::run()
             }
             if (m_bClose)
                 return;
-            if(!_HttpEndRequest(hReq, NULL, 0, 0)){
+            if(!HttpEndRequest(hReq, NULL, 0, 0)){
                 error("HttpEndRequest");
                 return;
             }
         }else{
-            if (!_HttpSendRequest(hReq, headers.c_str(), headers.length(), NULL, 0)){
+            if (!HttpSendRequest(hReq, (LPCWSTR)headers.ucs2(), headers.length(), NULL, 0)){
                 error("HttpSendRequest");
                 return;
             }
         }
         DWORD dwCode;
         DWORD dwSize = sizeof(dwCode);
-        _HttpQueryInfo (hReq, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &dwCode, &dwSize, NULL);
+        HttpQueryInfo (hReq, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &dwCode, &dwSize, NULL);
         if (dwCode != HTTP_STATUS_PROXY_AUTH_REQ)
             break;
-        DWORD res = _InternetErrorDlg (GetDesktopWindow(),
+        DWORD res = InternetErrorDlg ( GetDesktopWindow(),
                                        hReq, ERROR_INTERNET_INCORRECT_PASSWORD,
                                        FLAGS_ERROR_UI_FILTER_FOR_ERRORS |
                                        FLAGS_ERROR_UI_FLAGS_GENERATE_DATA |
@@ -324,47 +293,34 @@ void FetchThread::run()
 
     DWORD size = 0;
     DWORD err  = 0;
-    _HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, NULL, &size, 0);
+    HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, NULL, &size, 0);
     err = GetLastError();
     if (err != ERROR_INSUFFICIENT_BUFFER ){
         error("HttpQueryInfo");
         return;
     }
-    Buffer in_headers;
-    in_headers.packetStart();
-    in_headers.init(size);
-    if (!_HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, in_headers.data(), &size, 0)){
+    QByteArray ba(size);
+    if (!HttpQueryInfo(hReq, HTTP_QUERY_RAW_HEADERS_CRLF, ba.data(), &size, 0)){
         error("HttpQueryInfo");
         return;
     }
-    in_headers.setWritePos(size);
-    log_packet(in_headers, false, HTTPPacket);
-    string line;
-    bool bFirst = true;
-    for (; in_headers.readPos() < in_headers.writePos(); ){
-        if (!in_headers.scan("\r\n", line)){
-            line = "";
-            unsigned size = in_headers.writePos() - in_headers.readPos();
-            line.append(size, '\x00');
-            in_headers.unpack((char*)line.c_str(), size);
-        }
-        if (bFirst){
-            bFirst = false;
-            getToken(line, ' ');
-            m_client->m_code = atol(line.c_str());
-            continue;
-        }
-        m_client->m_hIn += line;
-        m_client->m_hIn += '\x00';
-    }
-    if (bFirst){
-        error("Bas answer");
+    QString str = QString::fromUcs2((unsigned short*)ba.data());
+    QCString cstr = str.latin1();
+    Buffer buf(cstr.length() + 1);
+    memcpy(buf.data(), cstr.data(), cstr.length() + 1);
+    log_packet(buf, false, HTTPPacket);
+    getToken(str, ' '); // HTTP/1.1
+    QString line = getToken(str, ' ');  // 200 (or an error code)
+    m_client->m_code = line.toLong();
+    m_client->m_hIn = str;
+    if (line.isEmpty()){
+        error("Bad answer");
         return;
     }
     for (;;){
         DWORD readn;
         char buff[4096];
-        if (!_InternetReadFile(hReq, buff, sizeof(buff), &readn)){
+        if (!InternetReadFile(hReq, buff, sizeof(buff), &readn)){
             error("InternetReadFile");
             return;
         }
@@ -467,9 +423,9 @@ FetchManager::FetchManager()
             user_agent += "2000";
         }else{
             user_agent += "NT ";
-            user_agent += number(osvi.dwMajorVersion);
+            user_agent += QString::number(osvi.dwMajorVersion);
             user_agent += ".";
-            user_agent += number(osvi.dwMinorVersion);
+            user_agent += QString::number(osvi.dwMinorVersion);
         }
         break;
     case VER_PLATFORM_WIN32_WINDOWS:
@@ -492,36 +448,15 @@ FetchManager::FetchManager()
         break;
     }
 #else
-#ifdef HAVE_UNAME
     struct utsname unamebuf;
     if (uname(&unamebuf) == 0)
         user_agent = user_agent + unamebuf.sysname + " " + unamebuf.machine;
 #endif
-#endif
     user_agent += ")";
 #ifdef WIN32
-    HINSTANCE hLib = LoadLibraryA("wininet.dll");
-    if (hLib != NULL){
-        (DWORD&)_InternetGetConnectedState = (DWORD)GetProcAddress(hLib, "InternetGetConnectedState");
-        (DWORD&)_InternetOpen = (DWORD)GetProcAddress(hLib, "InternetOpenA");
-        (DWORD&)_InternetCloseHandle = (DWORD)GetProcAddress(hLib, "InternetCloseHandle");
-        (DWORD&)_InternetCrackUrl = (DWORD)GetProcAddress(hLib, "InternetCrackUrlA");
-        (DWORD&)_InternetConnect = (DWORD)GetProcAddress(hLib, "InternetConnectA");
-        (DWORD&)_HttpOpenRequest = (DWORD)GetProcAddress(hLib, "HttpOpenRequestA");
-        (DWORD&)_HttpSendRequest = (DWORD)GetProcAddress(hLib, "HttpSendRequestA");
-        (DWORD&)_HttpSendRequestEx = (DWORD)GetProcAddress(hLib, "HttpSendRequestExA");
-        (DWORD&)_HttpQueryInfo = (DWORD)GetProcAddress(hLib, "HttpQueryInfoA");
-        (DWORD&)_HttpEndRequest = (DWORD)GetProcAddress(hLib, "HttpEndRequestA");
-        (DWORD&)_InternetReadFile = (DWORD)GetProcAddress(hLib, "InternetReadFile");
-        (DWORD&)_InternetWriteFile = (DWORD)GetProcAddress(hLib, "InternetWriteFile");
-        (DWORD&)_InternetQueryOption = (DWORD)GetProcAddress(hLib, "InternetQueryOptionA");
-        (DWORD&)_InternetErrorDlg = (DWORD)GetProcAddress(hLib, "InternetErrorDlg");
-    }
-    if (_InternetOpen && _HttpSendRequestEx){
-        hInet = _InternetOpen(user_agent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
-        if (hInet == NULL)
-            log(L_WARN, "Internet open error %u", GetLastError());
-    }
+    hInet = InternetOpen((LPCWSTR)user_agent.ucs2(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+    if (hInet == NULL)
+        log(L_WARN, "Internet open error %u", GetLastError());
 #endif
     getContacts()->addPacketType(HTTPPacket, _HTTP, true);
 }
@@ -530,7 +465,7 @@ FetchManager::~FetchManager()
 {
 #ifdef WIN32
     if (hInet)
-        _InternetCloseHandle(hInet);
+        InternetCloseHandle(hInet);
 #endif
     getContacts()->removePacketType(HTTPPacket);
     delete m_done;
@@ -572,7 +507,7 @@ void FetchClient::set_speed(unsigned speed)
     p->m_speed = speed;
 }
 
-void FetchClient::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
+void FetchClient::fetch(const QString &url, const QString &headers, Buffer *postData, bool bRedirect)
 {
     getSocketFactory()->checkState();
     p->fetch(url, headers, postData, bRedirect);
@@ -617,13 +552,13 @@ bool FetchClientPrivate::event(QEvent* e)
 }
 #endif
 
-void FetchClientPrivate::fetch(const char *url, const char *headers, Buffer *postData, bool bRedirect)
+void FetchClientPrivate::fetch(const QString &url, const QString &headers, Buffer *postData, bool bRedirect)
 {
     m_uri = url;
     _fetch(headers, postData, bRedirect);
 }
 
-void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRedirect)
+void FetchClientPrivate::_fetch(const QString &headers, Buffer *postData, bool bRedirect)
 {
     stop();
     m_bDone = false;
@@ -637,17 +572,13 @@ void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRed
 #ifdef WIN32
     m_thread	= NULL;
 #endif
-    if (headers){
-        string head = headers;
-        while (!head.empty()){
-            string header = getToken(head, '\n');
-            string key = getToken(header, ':');
-            unsigned n;
-            for (n = 0; n < header.length(); n++)
-                if (header[n] != ' ')
-                    break;
-            header = header.substr(n);
-            addHeader(key.c_str(), header.c_str());
+    if (!headers.isEmpty()){
+        QString head = headers;
+        while (!head.isEmpty()){
+            QString header = getToken(head, '\n');
+            QString key = getToken(header, ':');
+            header = header.stripWhiteSpace();
+            addHeader(key, header);
         }
     }
 #ifdef WIN32
@@ -671,7 +602,7 @@ void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRed
     string uri;
     string extra;
     unsigned short port;
-    if (!FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra)){
+    if (!FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra)){
         m_socket->error_state("Bad URL");
         return;
     }
@@ -681,7 +612,7 @@ void FetchClientPrivate::_fetch(const char *headers, Buffer *postData, bool bRed
             m_bHTTPS = true;
         }else{
 #endif
-            log(L_WARN, "Unsupported protocol %s", m_uri.c_str());
+            log(L_WARN, "Unsupported protocol %s", (const char*)m_uri.local8Bit());
             return;
 #ifdef USE_OPENSSL
         }
@@ -709,7 +640,7 @@ FetchClientPrivate::~FetchClientPrivate()
 
 void FetchClientPrivate::stop()
 {
-    m_hIn = "";
+    m_hIn = QString::null;
 #ifdef WIN32
     if (m_thread){
         m_thread->close();
@@ -763,7 +694,7 @@ bool FetchClient::crackUrl(const char *_url, string &protocol, string &host, uns
     return true;
 }
 
-void FetchClientPrivate::addHeader(const char *key, const char *value)
+void FetchClientPrivate::addHeader(const QString &key, const QString &value)
 {
     HEADERS_MAP::iterator it = m_hOut.find(key);
     if (it == m_hOut.end()){
@@ -773,30 +704,21 @@ void FetchClientPrivate::addHeader(const char *key, const char *value)
     }
 }
 
-bool FetchClientPrivate::findHeader(const char *key)
+bool FetchClientPrivate::findHeader(const QString &key)
 {
     HEADERS_MAP::iterator it = m_hOut.find(key);
     return (it != m_hOut.end());
 }
 
-static string tobase64(const char *s)
+QCString basic_auth(const QString &user, const QString &pass)
 {
+    QString auth = user + ":" + pass;
     Buffer from;
     Buffer to;
-    from << s;
+    from << auth.local8Bit();
     to.toBase64(from);
-    string res;
-    res.append(to.data(), to.size());
-    return res;
-}
-
-string basic_auth(const char *user, const char *pass)
-{
-    string auth = user;
-    auth += ":";
-    if (pass)
-        auth += pass;
-    return tobase64(auth.c_str());
+    QCString cstr = to.data();
+    return cstr;
 }
 
 bool FetchClientPrivate::error_state(const char *err, unsigned)
@@ -809,7 +731,7 @@ bool FetchClientPrivate::error_state(const char *err, unsigned)
             m_socket = NULL;
         }
         m_code = 0;
-        m_hIn  = "";
+        m_hIn  = QString::null;
         m_state = None;
         _fetch();
         return false;
@@ -822,7 +744,7 @@ bool FetchClientPrivate::error_state(const char *err, unsigned)
     m_state = None;
     if (m_socket)
         m_socket->close();
-    return m_client->done(m_code, m_data, m_hIn.c_str());
+    return m_client->done(m_code, m_data, m_hIn);
 }
 
 void FetchClientPrivate::connect_ready()
@@ -854,7 +776,7 @@ void FetchClientPrivate::connect_ready()
     string uri;
     string extra;
     unsigned short port;
-    FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra);
+    FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra);
     if (!extra.empty()){
         uri += "?";
         uri += extra;
@@ -871,25 +793,25 @@ void FetchClientPrivate::connect_ready()
         << "\r\n";
     if (!findHeader("User-Agent"))
         m_socket->writeBuffer
-        << "User-Agent: " << FetchManager::manager->user_agent.c_str() << "\r\n";
+        << "User-Agent: " << FetchManager::manager->user_agent.latin1() << "\r\n";
     if (!findHeader("Authorization") && !user.empty())
         m_socket->writeBuffer
         << "Authorization: basic "
-        << basic_auth(user.c_str(), pass.c_str()).c_str()
+        << basic_auth(user.c_str(), pass.c_str()).data()
         << "\r\n";
     if (postSize != NO_POSTSIZE){
         if (!findHeader("Content-Length"))
             m_socket->writeBuffer
             << "Content-Length: "
-            << number(postSize).c_str()
+            << QString::number(postSize)
             << "\r\n";
         m_postSize = postSize;
     }
     for (HEADERS_MAP::iterator it = m_hOut.begin(); it != m_hOut.end(); ++it){
         m_socket->writeBuffer
-        << (*it).first.str().local8Bit().data()
+        << (*it).first.str().latin1()
         << ": "
-        << (*it).second.c_str()
+        << (*it).second.latin1()
         << "\r\n";
     }
     m_socket->writeBuffer
@@ -1001,7 +923,7 @@ void FetchClientPrivate::packet_ready()
                 string extra;
                 unsigned short port;
                 if (!FetchClient::crackUrl(p, proto, host, port, user, pass, uri, extra)){
-                    FetchClient::crackUrl(m_uri.c_str(), proto, host, port, user, pass, uri, extra);
+                    FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra);
                     extra = "";
                     if (*p == '/'){
                         uri = p;
@@ -1015,7 +937,7 @@ void FetchClientPrivate::packet_ready()
                 m_uri += "://";
                 m_uri += host;
                 m_uri += ":";
-                m_uri += number(port);
+                m_uri += QString::number(port);
                 m_uri += uri;
                 if (!extra.empty()){
                     m_uri += "?";
@@ -1072,10 +994,8 @@ unsigned FetchClient::post_size()
 
 bool get_connection_state(bool &bState)
 {
-    if (_InternetGetConnectedState == NULL)
-        return false;
     DWORD flags;
-    bState = _InternetGetConnectedState(&flags, 0);
+    bState = InternetGetConnectedState(&flags, 0);
     if (bState)
         return true;
     if (flags & 0x40){
@@ -1094,7 +1014,7 @@ bool get_connection_state(bool&)
 
 #endif
 
-string get_user_agent()
+QString get_user_agent()
 {
     return FetchManager::manager->user_agent;
 }

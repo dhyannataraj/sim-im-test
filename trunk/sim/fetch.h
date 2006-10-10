@@ -28,6 +28,7 @@ class Buffer;
 
 const unsigned NO_POSTSIZE	= (unsigned)(-1);
 
+class FetchClientPrivate;
 class FetchManager;
 
 class EXPORT FetchClient
@@ -35,7 +36,7 @@ class EXPORT FetchClient
 public:
     FetchClient();
     virtual ~FetchClient();
-    void fetch(const char *url, const char *headers = NULL, Buffer *postData = NULL, bool bRedirect = true);
+    void fetch(const QString &url, const QString &headers = QString::null, Buffer *postData = NULL, bool bRedirect = true);
     virtual const char *read_data(char *buf, unsigned &size);
     virtual bool     write_data(const char *buf, unsigned size);
     virtual unsigned post_size();
@@ -45,7 +46,7 @@ public:
     void	set_speed(unsigned speed);
     static bool	crackUrl(const char *url, std::string &proto, std::string &host, unsigned short &port, std::string &user, std::string &pass, std::string &uri, std::string &extra);
 private:
-    class FetchClientPrivate *p;
+    FetchClientPrivate *p;
     friend class FetchClientPrivate;
     friend class FetchManager;
 
@@ -60,14 +61,14 @@ public:
     ~FetchManager();
     static FetchManager *manager;
     void done(FetchClient *client);
-    std::string user_agent;
+    QString user_agent;
 protected slots:
     void timeout();
 };
 
-EXPORT std::string basic_auth(const char *user, const char *pass);
+EXPORT QCString basic_auth(const QString &user, const QString &pass);
 EXPORT bool get_connection_state(bool &state);
-EXPORT std::string get_user_agent();
+EXPORT QString get_user_agent();
 
 #endif
 

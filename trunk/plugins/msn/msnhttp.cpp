@@ -76,7 +76,7 @@ void MSNHttpPool::write(const char *buf, unsigned size)
     const char *headers =
         "Content-Type: application/x-msn-messenger\n"
         "Proxy-Connection: Keep-Alive";
-    fetch(url.local8Bit(), headers, writeData);
+    fetch(url, headers, writeData);
     writeData = new Buffer;
 }
 

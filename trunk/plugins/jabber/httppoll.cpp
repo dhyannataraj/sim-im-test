@@ -24,7 +24,7 @@ using namespace SIM;
 class JabberHttpPool : public Socket, public FetchClient
 {
 public:
-    JabberHttpPool(const char *url);
+    JabberHttpPool(const QString &url);
     ~JabberHttpPool();
     virtual void connect(const char *host, unsigned short port);
     virtual int  read(char *buf, unsigned size);
@@ -36,7 +36,7 @@ protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     Buffer readData;
     Buffer writeData;
-    string m_url;
+    QString m_url;
     string m_key;
     string m_seed;
     string m_cookie;
@@ -46,9 +46,9 @@ protected:
 
 // ______________________________________________________________________________________
 
-JabberHttpPool::JabberHttpPool(const char *url)
+JabberHttpPool::JabberHttpPool(const QString &url)
+    : m_url(url)
 {
-    m_url = url;
     m_cookie = "0";
 #ifdef USE_OPENSSL
     /*
@@ -115,7 +115,7 @@ void JabberHttpPool::write(const char *buf, unsigned size)
     log(L_DEBUG, "%s;%s,", m_cookie.c_str(), key.c_str());
     packet->pack(writeData.data(), writeData.writePos());
     char headers[] = "Content-Type: application/x-www-form-urlencoded";
-    fetch(m_url.c_str(), headers, packet);
+    fetch(m_url, headers, packet);
     writeData.init(0);
 }
 
@@ -186,7 +186,7 @@ void JabberHttpPool::pause(unsigned)
 
 Socket *JabberClient::createSocket()
 {
-    m_bHTTP = getUseHTTP() && *getURL();
+    m_bHTTP = getUseHTTP() && !getURL().isEmpty();
     if (m_bHTTP)
         return new JabberHttpPool(getURL());
     return NULL;

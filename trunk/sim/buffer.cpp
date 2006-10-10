@@ -429,7 +429,9 @@ Buffer &Buffer::operator << (const QCString &s)
 
 Buffer &Buffer::operator << (const char *str)
 {
-    pack(str, strlen(str));
+     if(!str)
+		return *this;
+   pack(str, strlen(str));
     return *this;
 }
 

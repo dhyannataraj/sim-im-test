@@ -881,7 +881,7 @@ void HTTPS_Proxy::connect_ready()
     << number(m_port).c_str()
     << " HTTP/1.0\r\n"
     << "User-Agent: "
-    << get_user_agent().c_str()
+    << (const char*)get_user_agent().latin1()
     << "\r\n";
     send_auth();
     bOut << "\r\n";
