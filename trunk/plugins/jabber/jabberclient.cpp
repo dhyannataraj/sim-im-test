@@ -257,7 +257,7 @@ std::string JabberClient::getConfig()
 QString JabberClient::name()
 {
     QString res = "Jabber.";
-    if (data.owner.ID.str().isEmpty()){
+    if (!data.owner.ID.str().isEmpty()){
         QString server;
         if (getUseVHost())
             server = getVHost();
