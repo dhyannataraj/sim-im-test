@@ -29,18 +29,6 @@
 using namespace std;
 using namespace SIM;
 
-#ifdef WORDS_BIGENDIAN
-
-#define SWAP_S(s)	s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);  
-#define SWAP_L(s)	s = ((s&0xFF)<<24) + ((s&0xFF00)<<8) + ((s&0xFF0000)>>8) + ((s&0xFF000000)>>24); 
-
-#else
-
-#define SWAP_S(s)
-#define SWAP_L(s)
-
-#endif
-
 // Tlv
 Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
         : m_nNum(num), m_nSize(size)
@@ -172,7 +160,8 @@ void Buffer::setWritePos(unsigned n)
 
 void Buffer::setReadPos(unsigned n)
 {
-    if (n > m_posWrite) n = m_posWrite;
+    if (n > m_posWrite)
+        n = m_posWrite;
     m_posRead = n;
 }
 
@@ -241,16 +230,16 @@ bool Buffer::unpackStr(QString &str)
     return true;
 }
 
-bool Buffer::unpackStr(QCString &s)
+bool Buffer::unpackStr(QCString &str)
 {
-    unsigned short size;
-    *this >> size;
-    s = "";
-    if (size == 0)
+    unsigned short s;
+    *this >> s;
+    str = "";
+    if (s == 0)
         return false;
-    if (size > m_size - m_posRead)
-        size = (unsigned short)(m_size - m_posRead);
-    unpack(s, size);
+    if (s > m_size - m_posRead)
+        s = (unsigned short)(m_size - m_posRead);
+    unpack(str, s);
     return true;
 }
 
@@ -314,28 +303,32 @@ Buffer &Buffer::operator >> (QCString &str)
 
 Buffer &Buffer::operator >> (char &c)
 {
-    if (unpack(&c, 1) != 1) c = 0;
+    if (unpack(&c, 1) != 1)
+        c = 0;
     return *this;
 }
 
 Buffer &Buffer::operator >> (unsigned short &c)
 {
-    if (unpack((char*)&c, 2) != 2) c = 0;
-    c = htons(c);
+    if (unpack((char*)&c, 2) != 2)
+        c = 0;
+    c = ntohs(c);
     return *this;
 }
 
 Buffer &Buffer::operator >> (unsigned long &c)
 {
-    if (unpack((char*)&c, 4) != 4) c = 4;
-    c = htonl(c);
+    if (unpack((char*)&c, 4) != 4)
+        c = 0;
+    c = ntohl(c);
     return *this;
 }
 
 Buffer &Buffer::operator >> (int &c)
 {
-    if (unpack((char*)&c, 4) != 4) c = 4;
-    c = htonl(c);
+    if (unpack((char*)&c, 4) != 4)
+        c = 0;
+    c = ntohl(c);
     return *this;
 }
 
@@ -346,17 +339,20 @@ void Buffer::unpack(char &c)
 
 void Buffer::unpack(unsigned short &c)
 {
-    if (unpack((char*)&c, 2) != 2) c = 0;
-    SWAP_S(c)
+    if (unpack((char*)&c, 2) != 2)
+        c = 0;
+    ntohs(c);
 }
 
 void Buffer::unpack(unsigned long &c)
 {
     // FIXME: This needs to be rewritten for 64-bit machines.
     // Kludge for now.
-    c = 0;
-    if (unpack((char*)&c, 4) != 4) c = 0;
-    SWAP_L(c);
+    unsigned int i;
+    if (unpack((char*)&i, 4) != 4)
+        i = 0;
+    ntohs(i);
+    c = i;
 }
 
 void Buffer::pack(const QCString &s)
@@ -376,14 +372,15 @@ void Buffer::pack(const QString &s)
 
 void Buffer::pack(unsigned short s)
 {
-    SWAP_S(s)
+    htons(s);
     pack((char*)&s, 2);
 }
 
 void Buffer::pack(unsigned long s)
 {
-    SWAP_L(s)
-    pack((char*)&s, 4);
+    unsigned long int i = s;
+    htonl(i);
+    pack((char*)&i, 4);
 }
 
 void Buffer::packStr32(const QCString &s)
