@@ -1524,7 +1524,7 @@ QString ICQClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QString url="pict://icq." + data->Uin.str();
+            QString url="pict://icq." + QString::number(data->Uin.toULong());
             QMimeSourceFactory::defaultFactory()->setPixmap(static_cast<const char *>(url), pict);
             res += "<br><img src=\"";
             res += static_cast<const char *>(url.utf8());
