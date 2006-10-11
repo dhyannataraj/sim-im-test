@@ -266,7 +266,7 @@ static CommandDef livejournal_descr =
         I18N_NOOP("LiveJournal"),
         "LiveJournal",
         QString::null,
-        I18N_NOOP("http://www.livejournal.com/lostinfo.bml"),
+        "http://www.livejournal.com/lostinfo.bml",
         0,
         0,
         0,
