@@ -394,6 +394,7 @@ i18n("weather", "Scattered Snow")
 i18n("weather", "Clear")
 i18n("weather", "Clearing")
 i18n("weather", "Showers")
+i18n("weather", "Showers in the Vicinity")
 i18n("weather", "Mostly Clear")
 i18n("weather", "Sunny")
 i18n("weather", "Fair")
@@ -415,6 +416,7 @@ i18n("weather", "steady")
 i18n("weather", "rising")
 i18n("weather", "falling")
 i18n("weather", "Unlimited")
+
 i18n("weather", "N")
 i18n("weather", "NNW")
 i18n("weather", "NW")
@@ -433,12 +435,18 @@ i18n("weather", "NE")
 i18n("weather", "NNE")
 i18n("weather", "VAR")
 i18n("weather", "CALM")
-i18n("km")
-i18n("km/h")
+
+i18n("weather", "km")
+i18n("weather", "mi")
+i18n("weather", "km/h")
+i18n("weather", "mph")
+i18n("weather", "mmHg");
+i18n("weather", "inHg");
+
 i18n("weather", "Low")
 i18n("weather", "Moderate")
 i18n("weather", "High")
-i18n("weather", "Showers in the Vicinity")
+
 i18n("moonphase", "New")
 i18n("moonphase", "Waxing Crescent")
 i18n("moonphase", "First Quarter")
@@ -502,12 +510,12 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%f"), QString::number((int)getFeelsLike()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%d"), QString::number((int)getDewPoint()) + QChar((unsigned short)176) + getUT());
     res = res.replace(QRegExp("\\%h"), QString::number(getHumidity()) + "%");
-    res = res.replace(QRegExp("\\%w"), QString::number(getWind_speed()) + " " + i18n(getUS()));
+    res = res.replace(QRegExp("\\%w"), QString::number(getWind_speed()) + " " + i18n("weather",getUS()));
     res = res.replace(QRegExp("\\%x"), QString::number(getWind_speed() * 10 / 36) + " " + i18n("m/s"));
-    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("(") + i18n("gust ") + QString::number(getWindGust()) + i18n(getUS()) + QString(")") : QString(""));
+    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("(") + i18n("gust ") + QString::number(getWindGust()) + i18n("weather",getUS()) + QString(")") : QString(""));
     res = res.replace(QRegExp("\\%y"), getWindGust() ? QString("(") + i18n("gust ") + QString::number(getWindGust() * 10 / 36) + QString(" ") + i18n("m/s") + QString(")") : QString(""));
-    res = res.replace(QRegExp("\\%p"), QString::number(getPressure()) + " " + i18n(getUP()));
-    res = res.replace(QRegExp("\\%a"), QString::number(getPressure() * 75 / 100));
+    res = res.replace(QRegExp("\\%p"), QString::number(getPressure()) + " " + i18n("weather",getUP()));
+    res = res.replace(QRegExp("\\%a"), QString::number(getPressure() * 75 / 100)); // depricated!
     res = res.replace(QRegExp("\\%q"), i18n("weather", getPressureD()));
     res = res.replace(QRegExp("\\%l"), getLocation());
     res = res.replace(QRegExp("\\%b"), i18n("weather", getWind()));
@@ -515,7 +523,7 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%r"), sun_raise);
     res = res.replace(QRegExp("\\%s"), sun_set);
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getConditions()));
-    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (atol(getVisibility()) ? QString(" ") + i18n(getUD()) : QString("")));
+    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (atol(getVisibility()) ? QString(" ") + i18n("weather",getUD()) : QString("")));
     res = res.replace(QRegExp("\\%i"), QString::number(getIcon()));
     return res;
 }
@@ -562,23 +570,23 @@ QString WeatherPlugin::getTipText()
 {
     QString str = getTip();
     if (str.isEmpty())
-        str = i18n("%l<br><br>\n"
-                   "<b>Current Weather:</b><br>\n"
-                   "<img src=\"icon:weather%i\"> %c<br>\n"
-                   "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
-                   "Humidity: <b>%h</b><br>\n"
-                   "Chance of Precipitation: <b>%pp%</b><br>\n"
-                   "Pressure: <b>%p</b> (%q)<br>\n"
-                   "Wind: <b>%b</b> <b>%w %g</b><br>\n"
-                   "Visibility: <b>%v</b><br>\n"
-                   "Dew Point: <b>%d</b><br>\n"
-                   "Sunrise: %r<br>\n"
-                   "Sunset: %s<br>\n"
-                   "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
-                   "<b>Moonphase: </b>%mp<br>\n"
-                   "<img src=\"icon:moon%mi\"><br>\n"
-                   "<br>\n"
-                   "Updated: %u<br>\n");
+        str =	"%l<br><br>\n"
+		"<b>"+i18n("weather","Current Weather")+":</b><br>\n"
+		"<img src=\"icon:weather%i\"> %c<br>\n"+
+		i18n("weather","Temperature")+": <b>%t</b> ("+i18n("weather","feels like")+": <b>%f</b>)<br>\n"+
+		i18n("weather","Humidity")+": <b>%h</b><br>\n"+
+		i18n("weather","Chance of Precipitation")+": <b>%pp%</b><br>\n"+
+		i18n("weather","Pressure")+": <b>%p</b> (%q)<br>\n"+
+		i18n("weather","Wind")+": <b>%b</b> <b>%w %g</b><br>\n"+
+		i18n("weather","Visibility")+": <b>%v</b><br>\n"+
+		i18n("weather","Dew Point")+": <b>%d</b><br>\n"+
+		i18n("weather","Sunrise")+": %r<br>\n"+
+		i18n("weather","Sunset")+": %s<br>\n"+
+		i18n("weather","UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)")+"<br>\n"
+		"<b>"+i18n("weather","Moonphase")+": </b>%mp<br>\n"
+		"<img src=\"icon:moon%mi\"><br>\n"
+		"<br>\n"+
+		i18n("weather","Updated")+": %u<br>\n";
     return str;
 }
 
@@ -815,7 +823,11 @@ void WeatherPlugin::element_end(const char *el)
         return;
     }
     if (!strcmp(el, "up")){
-        setUP(m_data);
+        if (m_data == "in"){
+	    setUP("inHg");
+	} else {
+	    setUP(m_data);
+	}
         m_data = QString::null;
         return;
     }
@@ -844,7 +856,13 @@ void WeatherPlugin::element_end(const char *el)
     }
     if (!strcmp(el, "r") && m_bBar && m_bCC){
         unsigned long v = (unsigned long)m_data.toFloat();
-        setPressure(v);
+	if ( QString(getUP()) == "mb" ){
+	    v=v * 75 / 100;
+	    setPressure(v);
+	    setUP("mmHg");
+	} else{
+	    setPressure(v);
+	}
         return;
     }
     if (!strcmp(el, "d") && m_bBar && m_bCC){
