@@ -246,7 +246,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     if (!m_values.empty()){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             size += 4;
-            size += (*it).second.size();
+            size += (*it).second.length();
             size += QString::number((*it).first).length();
         }
     }
