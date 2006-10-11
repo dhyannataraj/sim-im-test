@@ -137,6 +137,10 @@ void *JIDSearch::processEvent(Event *e)
             icon = "MSN";
         }else if (m_type == "yahoo"){
             icon = "Yahoo!";
+        }else if (m_type == "sms"){
+            icon = "sms";
+        }else if ((m_type == "x-gadugadu") || (m_type == "gg")){
+            icon = "GG";
         }
         if (!data->Status.str().isEmpty()){
             if (data->Status.str() == "online"){

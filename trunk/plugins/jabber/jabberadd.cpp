@@ -371,6 +371,10 @@ void *JabberAdd::processEvent(Event *e)
             icon = "MSN";
         }else if ((*it).type == "yahoo"){
             icon = "Yahoo!";
+        }else if ((*it).type == "sms"){
+            icon = "sms";
+        }else if (((*it).type == "x-gadugadu") || ((*it).type == "gg")){
+            icon = "GG";
         }
         if (!data->Status.str().isEmpty()){
             if (data->Status.str() == "online"){

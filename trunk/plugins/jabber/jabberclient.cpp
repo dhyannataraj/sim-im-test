@@ -981,7 +981,7 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
         JabberUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (JabberUserData*)(++it)) != NULL){
-            if (jid != data->ID.str())
+          if (jid.upper() != data->ID.str().upper())
                 continue;
             if (!resource.isEmpty())
                 data->Resource.str() = resource;
@@ -1149,6 +1149,48 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     break;
                 case STATUS_FFC:
                     dicon = "Yahoo!_ffc";
+                    break;
+                }
+            }else if (h == "sms"){
+                switch (status){
+                case STATUS_ONLINE:
+                    dicon = "sms_online";
+                    break;
+                case STATUS_OFFLINE:
+                    dicon = "sms_offline";
+                    break;
+                case STATUS_AWAY:
+                    dicon = "sms_away";
+                    break;
+                case STATUS_NA:
+                    dicon = "sms_na";
+                    break;
+                case STATUS_DND:
+                    dicon = "sms_dnd";
+                    break;
+                case STATUS_FFC:
+                    dicon = "sms_ffc";
+                    break;
+                }
+            }else if (h == "x-gadugadu" || h == "gg"){
+                switch (status){
+                case STATUS_ONLINE:
+                    dicon = "GG_online";
+                    break;
+                case STATUS_OFFLINE:
+                    dicon = "GG_offline";
+                    break;
+                case STATUS_AWAY:
+                    dicon = "GG_away";
+                    break;
+                case STATUS_NA:
+                    dicon = "GG_na";
+                    break;
+                case STATUS_DND:
+                    dicon = "GG_dnd";
+                    break;
+                case STATUS_FFC:
+                    dicon = "GG_ffc";
                     break;
                 }
             }
@@ -2449,8 +2491,7 @@ JabberListRequest *JabberClient::findRequest(const QString &jid, bool bRemove)
 
 bool JabberClient::isAgent(const QString &jid)
 {
-    int idx = jid.find('/');
-    if (idx != -1 && jid.mid(idx+1) == "registered")
+    if (jid.find("@")==-1)
         return true;
     return false;
 }
