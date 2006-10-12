@@ -21,6 +21,7 @@ IF(WIN32 AND NOT UNIX)
   SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\www.sim-im.org")
   SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\www.sim-im.org")
   SET(CPACK_NSIS_CONTACT "sim-im-main@lists.sim-im.org")
+  SET(CPACK_NSIS_COMPRESSOR lzma)
 
   SET(CPACK_SOURCE_GENERATOR "NSIS")
   SET(CPACK_SOURCE_IGNORE_FILES "/\\\\.svn/")
