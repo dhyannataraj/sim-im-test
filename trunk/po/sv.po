@@ -5296,7 +5296,7 @@ msgstr "Luftfuktighet"
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
-msgstr "Nederbörd"
+msgstr "Chans för nederbörd"
 
 msgid ""
 "_: weather\n"
