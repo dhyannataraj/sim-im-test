@@ -1066,8 +1066,13 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
     if (getProtocolIcons()){
         QString id = data->ID.str();
         int host = id.find( '@' );
-        if (host != -1){
-            QString h = id.mid(host + 1);
+
+        QString h;
+        if (host != -1)
+            h = id.mid(host + 1);
+        else
+            h = id;
+
             int p = h.find( '.' );
             if (p)
                 h = h.left( p );
@@ -1172,7 +1177,7 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     dicon = "sms_ffc";
                     break;
                 }
-            }else if (h == "x-gadugadu" || h == "gg"){
+            }else if ((h == "x-gadugadu") || (h == "gg")){
                 switch (status){
                 case STATUS_ONLINE:
                     dicon = "GG_online";
@@ -1194,7 +1199,6 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     break;
                 }
             }
-        }
     }
     return dicon;
 }
