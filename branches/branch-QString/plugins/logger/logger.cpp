@@ -77,11 +77,13 @@ LoggerPlugin::LoggerPlugin(unsigned base, ConfigBuffer *add_info)
 {
     m_file = NULL;
     load_data(loggerData, &data, add_info);
-    QString value;
-    CmdParam p = { "-d:", I18N_NOOP("Set debug level"), value };
+    CmdParam p;
+    p.arg   = "-d:";
+    p.descr = I18N_NOOP("Set debug level");
+
     Event e(EventArg, &p);
-    if (e.process() && !value.isEmpty())
-        setLogLevel(value.toULong());
+    if (e.process() && !p.value.isEmpty())
+        setLogLevel(p.value.toULong());
     QString packets = getLogPackets();
     while (packets.length()){
         QString v = getToken(packets, ',');

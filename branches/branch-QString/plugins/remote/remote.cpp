@@ -903,9 +903,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     return true;
                 }
             }
-            string s;
-            s = args[0].utf8();
-            Event e(EventDeleteContact, (void*)(s.c_str()));
+            Event e(EventDeleteContact, &args[0]);
             if (e.process())
                 return true;
             out = "Contact ";

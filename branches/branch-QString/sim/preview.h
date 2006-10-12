@@ -33,11 +33,11 @@ class EXPORT FilePreview : public QFilePreview, public QWidget
 public:
     FilePreview(QWidget *parent);
     ~FilePreview();
-    virtual void showPreview(const char *file) = 0;
 #ifdef USE_KDE
     virtual void showPreview(const KURL &url);
     virtual void clearPreview();
 #else
+    virtual void showPreview(const QString &file) = 0;
     virtual void previewUrl(const QUrl&);
 #endif
 };
@@ -50,7 +50,7 @@ public:
     PictPreview(QWidget *parent);
 protected:
     QLabel  *label;
-    void showPreview(const char*);
+    void showPreview(const QString &);
 };
 
 #endif

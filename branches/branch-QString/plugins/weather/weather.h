@@ -68,10 +68,10 @@ typedef struct WeatherData
     SIM::Data	MaxT;
     SIM::Data	DayIcon;
     SIM::Data	DayConditions;
-	SIM::Data	UV_Intensity;
-	SIM::Data	UV_Description;
-	SIM::Data	MoonIcon;
-	SIM::Data	MoonPhase;
+    SIM::Data	UV_Intensity;
+    SIM::Data	UV_Description;
+    SIM::Data	MoonIcon;
+    SIM::Data	MoonPhase;
 } WeatherData;
 
 class WeatherPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public FetchClient, public SAXParser
@@ -109,16 +109,16 @@ public:
     PROP_STR(US);
     PROP_STR(UP);
     PROP_STR(UD);
-    PROP_STRLIST(Day);
-    PROP_STRLIST(WDay);
-    PROP_STRLIST(MinT);
-    PROP_STRLIST(MaxT);
-    PROP_STRLIST(DayIcon);
-    PROP_STRLIST(DayConditions);
-	PROP_LONG(UV_Intensity);
-	PROP_STR(UV_Description);
-	PROP_LONG(MoonIcon);
-	PROP_STR(MoonPhase);
+    PROP_UTFLIST(Day);
+    PROP_UTFLIST(WDay);
+    PROP_UTFLIST(MinT);
+    PROP_UTFLIST(MaxT);
+    PROP_UTFLIST(DayIcon);
+    PROP_UTFLIST(DayConditions);
+    PROP_LONG(UV_Intensity);
+    PROP_STR(UV_Description);
+    PROP_LONG(MoonIcon);
+    PROP_STR(MoonPhase);
 
     QString getButtonText();
     QString getTipText();

@@ -358,14 +358,14 @@ void *JabberClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventDeleteContact){
-        char *addr = (char*)(e->param());
+        QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
         ContactList::ContactIterator it;
         Contact *contact;
         while ((contact = ++it) != NULL){
             JabberUserData *data;
             ClientDataIterator itc(contact->clientData, this);
             while ((data = (JabberUserData*)(++itc)) != NULL){
-                if (data->ID.str() == QString::fromUtf8(addr)){
+                if (data->ID.str() == addr){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)

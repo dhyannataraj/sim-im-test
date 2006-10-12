@@ -111,7 +111,7 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
             res += unquoteString(alt);
             return;
         }
-        if (src.left(5) == "icon:"){
+        if (src.startsWith("icon:")){
             QStringList smiles = getIcons()->getSmile(src.mid(5));
             if (!smiles.empty()){
                 res += smiles.front();

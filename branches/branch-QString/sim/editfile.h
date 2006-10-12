@@ -23,7 +23,6 @@
 #include <qframe.h>
 #include <qlineedit.h>
 #include <qmultilineedit.h>
-#include <qfiledialog.h>
 
 class QHBoxLayout;
 class EditFile;

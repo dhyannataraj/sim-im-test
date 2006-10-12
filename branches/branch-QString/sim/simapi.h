@@ -664,7 +664,7 @@ typedef struct addContact
 const unsigned EventAddContact      = 0x0930;
 
 /* Event for remove contact
-   param is char *address
+   param is QString *address
 */
 const unsigned EventDeleteContact   = 0x0931;
 

@@ -21,9 +21,9 @@
 #ifndef CS_ZIP_H
 #define CS_ZIP_H
 
-#include "simapi.h"
-#include<qstring.h>
-#include<qcstring.h>
+#include <simapi.h>
+#include <qstring.h>
+#include <qcstring.h>
 
 class QStringList;
 

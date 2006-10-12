@@ -28,21 +28,17 @@
 #include <qptrlist.h>
 #include <qvaluelist.h>
 
-#ifdef WIN32
-#pragma warning(disable: 4251)
-#endif
-
 namespace SIM
 {
 
 typedef struct PictDef
 {
-    QImage          image;
-    QString         file;
+    QImage      image;
+    QString     file;
 #ifdef USE_KDE
-    QString         system;
+    QString     system;
 #endif
-    unsigned        flags;
+    unsigned    flags;
 } PictDef;
 
 typedef QMap<QString, PictDef> PIXMAP_MAP;
@@ -81,14 +77,14 @@ public:
     void getSmiles(QStringList &smiles);
     QString getSmileName(const QString &name);
     static unsigned nSmile;
-    IconSet *addIconSet(const QString &, bool bDefault);
+    IconSet *addIconSet(const QString &name, bool bDefault);
     void removeIconSet(IconSet*);
     QValueList<IconSet*> m_customSets;
 protected slots:
     void iconChanged(int);
 protected:
     void *processEvent(Event*);
-    QValueList<IconSet*> m_defSets;
+    QValueList<IconSet*>    m_defSets;
 };
 
 EXPORT Icons *getIcons();

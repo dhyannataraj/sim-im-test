@@ -692,25 +692,23 @@ bool PluginManagerPrivate::findParam(const QString &p, const QString &descriptor
         cmds.push_back(p);
         descrs.push_back(descriptor);
     }
-    value = "";
+    value = QString::null;
     if (p.endsWith(":")){
-        unsigned size = p.length() - 1;
+        unsigned size = p.length();
         for (QStringList::iterator it = args.begin(); it != args.end(); ++it){
-            if ((*it).length() < size)
-                continue;
             if (!(*it).startsWith(p))
                 continue;
             value = (*it).mid(size);
             if (value.length()){
-                *it = "";
+                *it = QString::null;
                 return true;
             }
             ++it;
             if (it != args.end()){
                 value = (*it);
-                *it = "";
+                *it = QString::null;
                 --it;
-                *it = "";
+                *it = QString::null;
                 return true;
             } else {
                 return true;
@@ -720,7 +718,7 @@ bool PluginManagerPrivate::findParam(const QString &p, const QString &descriptor
         QStringList::iterator it = args.find(p);
         if(it != args.end()) {
             value = (*it);
-            *it = "";
+            *it = QString::null;
             return true;
         }
     }

@@ -34,7 +34,6 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <winsock.h>
 #else
 #include <sys/stat.h>
 #include <unistd.h>
@@ -53,21 +52,8 @@
 #include "kdeisversion.h"
 #endif
 
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(push)
-#pragma warning(disable: 4512)
-#endif
-#endif
-
 #include <map>
 using namespace std;
-
-#ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(pop)
-#endif
-#endif
 
 namespace SIM
 {
@@ -139,7 +125,7 @@ EXPORT bool makedir(char *p)
 
 EXPORT QString app_file(const QString &f)
 {
-    QString app_file_name = "";
+    QString app_file_name;
     QString fname = f;
 #ifdef WIN32
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
@@ -162,7 +148,7 @@ EXPORT QString app_file(const QString &f)
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
             QFile fi(*it + f);
             if (fi.exists()){
-                app_file_name = (const char*)QFile::encodeName(fi.name());
+                app_file_name = QDir::convertSeparators(fi.name());
                 return app_file_name;
             }
         }

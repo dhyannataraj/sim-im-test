@@ -17,13 +17,12 @@
 
 #include "linklabel.h"
 
-#include <qsimplerichtext.h>
 #include <qcursor.h>
-#include <qtooltip.h>
+#include <qvaluevector.h>
 #include <qstylesheet.h>
+#include <qtooltip.h>
 #include <qpainter.h>
-
-#include <vector>
+#include <qsimplerichtext.h>
 
 using namespace SIM;
 
@@ -44,7 +43,6 @@ void LinkLabel::setUrl(const QString &url)
 void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 {
     if ((e->button() == LeftButton) && !m_url.isEmpty()){
-        QString url;
         Event e(EventGoURL, (void*)&m_url);
         e.process();
     }
@@ -81,7 +79,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
     int y = 0;
     unsigned totalH = 0;
     QStringList l;
-    std::vector<unsigned> heights;
+    QValueVector<unsigned> heights;
     QRect rc = screenGeometry();
     for (unsigned nDiv = 0;; nDiv++){
         bool bState = _bState;

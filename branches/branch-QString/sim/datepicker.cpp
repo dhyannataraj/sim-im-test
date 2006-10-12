@@ -18,15 +18,14 @@
 #include "datepicker.h"
 #include "toolbtn.h"
 
-#include <qlineedit.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qiconset.h>
-#include <qspinbox.h>
+#include <qdatetime.h>
 #include <qfontmetrics.h>
+#include <qlineedit.h>
+#include <qlayout.h>
+#include <qpushbutton.h>
+#include <qspinbox.h>
 #include <qpainter.h>
 #include <qvalidator.h>
-#include <qdatetime.h>
 
 class DateValidator : public QValidator
 {
@@ -353,9 +352,9 @@ PickerPopup::~PickerPopup()
 
 void PickerPopup::dayClick(PickerLabel *lbl)
 {
-    unsigned year  = m_yearBox->text().toLong();
+    unsigned year  = m_yearBox->text().toULong();
     unsigned month = m_monthBox->value() + 1;
-    unsigned day   = lbl->text().toLong();
+    unsigned day   = lbl->text().toULong();
     m_picker->setDate(day, month, year);
     close();
 }
@@ -364,12 +363,12 @@ void PickerPopup::monthChanged(int v)
 {
     if (v < 0){
         v += 12;
-        m_yearBox->setValue(m_yearBox->text().toLong() - 1);
+        m_yearBox->setValue(m_yearBox->text().toULong() - 1);
         m_monthBox->setValue(v);
     }
     if (v >= 12){
         v -= 12;
-        m_yearBox->setValue(m_yearBox->text().toLong() + 1);
+        m_yearBox->setValue(m_yearBox->text().toULong() + 1);
         m_monthBox->setValue(v);
     }
     fill();
@@ -398,7 +397,7 @@ void PickerPopup::fill()
         month += 12;
     if (month > 12)
         month -= 12;
-    QDate d(m_yearBox->text().toLong(), month, 1);
+    QDate d(m_yearBox->text().toULong(), month, 1);
     unsigned n = d.dayOfWeek() - 1;
     unsigned s = d.daysInMonth();
     unsigned i;
