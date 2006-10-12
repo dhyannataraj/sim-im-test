@@ -51,7 +51,7 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
     if (bSound){
         lblPlayer->setText(i18n("Qt provides sound output so you just need to set a player if you don't like Qt's sound."));
     }
-    edtPlayer->setText(QString::fromLocal8Bit(plugin->getPlayer()));
+    edtPlayer->setText(plugin->getPlayer());
 #endif
     edtStartup->setText(plugin->fullName(plugin->getStartUp()));
     edtFileDone->setText(plugin->fullName(plugin->getFileDone()));
@@ -93,17 +93,17 @@ void SoundConfig::apply()
     if (bSound)
         m_plugin->setPlayer("");
     else
-        m_plugin->setPlayer(edtPlayer->text().local8Bit());
+        m_plugin->setPlayer(edtPlayer->text());
     m_plugin->setStartUp(sound(edtStartup->text(), "startup.wav"));
     m_plugin->setFileDone(sound(edtFileDone->text(), "startup.wav"));
     m_plugin->setMessageSent(sound(edtSent->text(), "startup.wav"));
 }
 
-QString SoundConfig::sound(QString text, const char *def)
+QString SoundConfig::sound(QString text, const QString &def)
 {
-    QString defFile = m_plugin->fullName(QFile::decodeName(def));
+    QString defFile = m_plugin->fullName(def);
     if (defFile == text)
-        text = QFile::decodeName(def);
+        return def;
     return text;
 }
 
