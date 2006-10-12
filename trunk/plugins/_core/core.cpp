@@ -3650,28 +3650,34 @@ bool CorePlugin::init(bool bInit)
     bool bNew = false;
     bool bCmdLineProfile = false;
 
-    string cmd_line_profile;
-    CmdParam p = { "-profile:", I18N_NOOP("Use specified profile"), &cmd_line_profile };
+    CmdParam p;
+    p.arg   = "-profile:";
+    p.descr = I18N_NOOP("Use specified profile");
+
     Event e(EventArg, &p);
-    if (e.process() && cmd_line_profile != ""){
+    e.process();
+    QString cmd_line_profile = p.value;
+    if (!cmd_line_profile.isEmpty()){
         bCmdLineProfile = true;
         setProfile(QString::null);
-        QString profileDir = user_file(QFile::decodeName(cmd_line_profile.c_str()));
+        QString profileDir = user_file(cmd_line_profile);
         QDir d(profileDir);
         if (d.exists()) {
             bCmdLineProfile = false;
-            setProfile(cmd_line_profile.c_str());
+            setProfile(cmd_line_profile);
         }
     }
 
-    string value="";
-    CmdParam p1 = { "-uin:", I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password"), &value };
-    Event e1(EventArg, &p1);
-    if (e1.process() && !value.empty()) {
-        QString  uinValue=value;
-        QString uin=uinValue.left(uinValue.find(':'));
+    p.arg   = "-uin:";
+    p.descr = I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password");
+    p.value = QString::null;
+
+    Event e1(EventArg, &p);
+    if (e1.process() && !p.value.isEmpty()){
+        int idx = p.value.find(':');
+        QString uin      = p.value.left(idx);
+        QString passwd   = (idx != -1) ? p.value.mid(idx + 1) : QString::null;
         setICQUIN(uin);
-        QString passwd=uinValue.right(uinValue.length()-uinValue.find(':')-1);
         setICQPassword(passwd);
 
         if (!bCmdLineProfile){
@@ -3690,7 +3696,7 @@ bool CorePlugin::init(bool bInit)
         } else
            setRegNew(true);
     }
-    if ((!bInit || getProfile().isEmpty() || !getNoShow() || !getSavePasswd()) &&(cmd_line_profile=="" || (cmd_line_profile!="" && !getSavePasswd()))){
+    if ((!bInit || getProfile().isEmpty() || !getNoShow() || !getSavePasswd()) && (cmd_line_profile.isEmpty() || (!cmd_line_profile.isEmpty() && !getSavePasswd()))){
         if (!bInit || m_profiles.size()){
             if (bInit)
                 hideWindows();

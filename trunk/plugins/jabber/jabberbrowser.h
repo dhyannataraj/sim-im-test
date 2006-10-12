@@ -51,7 +51,7 @@ class JabberWizard : public QWizard, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type);
+    JabberWizard(QWidget *parent, const QString &title, const QString &icon, JabberClient *client, const QString &jid, const QString &node, const QString &type);
     JabberSearch *m_search;
     QLabel		 *m_result;
     void initTitle();

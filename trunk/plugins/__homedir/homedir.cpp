@@ -85,11 +85,12 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
     m_bDefault = m_homeDir.isNull();
 #endif
     QString d;
-    string value;
-    CmdParam p = { "-b:", I18N_NOOP("Set home directory"), &value };
+    CmdParam p;
+    p.arg   = "-b:";
+    p.descr = I18N_NOOP("Set home directory");
     Event e(EventArg, &p);
-    if (e.process() && !value.empty()){
-        d = QFile::decodeName(value.c_str());
+    if (e.process() && !p.value.isEmpty()){
+        d = p.value;
 #ifdef WIN32
         m_bSave   = false;
 #endif

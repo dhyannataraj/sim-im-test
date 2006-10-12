@@ -76,11 +76,11 @@ JabberSearch::JabberSearch(QWidget *parent, const char *name)
 {
 }
 
-void JabberSearch::init(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name, bool bRegister)
+void JabberSearch::init(QWidget *receiver, JabberClient *client, const QString &jid, const QString &node, const QString &name, bool bRegister)
 {
     m_client    = client;
-    m_jid       = jid ? QString::fromUtf8(jid) : "";
-    m_node      = node ? QString::fromUtf8(node) : "";
+    m_jid       = jid;
+    m_node      = node;
     m_name	= name;
     m_receiver	= receiver;
     m_bXData	= false;

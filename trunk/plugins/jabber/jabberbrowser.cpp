@@ -37,10 +37,10 @@ using namespace SIM;
 
 const unsigned BROWSE_INFO	= 8;
 
-JabberWizard::JabberWizard(QWidget *parent, const QString &title, const char *icon, JabberClient *client, const char *jid, const char *node, const char *type)
+JabberWizard::JabberWizard(QWidget *parent, const QString &title, const QString &icon, JabberClient *client, const QString &jid, const QString &node, const QString &type)
         : QWizard(parent, NULL, FALSE, WType_TopLevel | WDestructiveClose)
 {
-    m_type = QString::fromUtf8(type);
+    m_type = type;
     m_search = new JabberSearch;
     m_search->init(this, client, jid, node, title, m_type == "register");
     addPage(m_search, title);
@@ -473,7 +473,7 @@ void *JabberBrowser::processEvent(Event *e)
             if (cmd->id == CmdRegister){
                 if (m_reg)
                     delete m_reg;
-                m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME)), "reg", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "register");
+                m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME)), "reg", m_client, item->text(COL_JID), item->text(COL_NODE), "register");
                 connect(m_reg, SIGNAL(destroyed()), this, SLOT(regFinished()));
                 m_reg_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "register");
                 return e->param();
@@ -481,7 +481,7 @@ void *JabberBrowser::processEvent(Event *e)
             if (cmd->id == CmdBrowseConfigure){
                 if (m_config)
                     delete m_config;
-                m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME)), "configure", m_client, item->text(COL_JID).utf8(), item->text(COL_NODE).utf8(), "data");
+                m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME)), "configure", m_client, item->text(COL_JID), item->text(COL_NODE), "data");
                 connect(m_config, SIGNAL(destroyed()), this, SLOT(configFinished()));
                 m_config_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "data");
                 return e->param();

@@ -284,9 +284,9 @@ const unsigned EventArg = 0x0201;
 
 typedef struct CmdParam
 {
-    const char  *arg;
-    const char  *descr;
-    std::string *value;
+    QString     arg;        // in
+    QString     descr;      // in
+    QString     value;      // out
 } CmdParam;
 
 const unsigned EventArgc = 0x0202;
@@ -553,7 +553,7 @@ const unsigned EventCommandWidget   = 0x0526;
 const unsigned EventClientChanged   = 0x0530;
 
 /* Event - get home dir
-   param is QString fileName
+   param is QString *fileName
 */
 
 const unsigned EventHomeDir     = 0x0601;
@@ -565,7 +565,7 @@ const unsigned EventHomeDir     = 0x0601;
 const unsigned EventGoURL       = 0x0602;
 
 /* Event get URL
-   return char *url
+   return QString *url
 */
 
 const unsigned EventGetURL      = 0x0603;
@@ -659,7 +659,7 @@ typedef struct addContact
 const unsigned EventAddContact      = 0x0930;
 
 /* Event for remove contact
-   param is char *address
+   param is QString *address
 */
 const unsigned EventDeleteContact   = 0x0931;
 

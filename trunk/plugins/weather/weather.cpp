@@ -160,7 +160,7 @@ void WeatherPlugin::timeout()
     m_bForecast = false;
     if ((unsigned)now >= getForecastTime() + CHECK2_INTERVAL)
         m_bForecast = true;
-    QCString url = "http://xoap.weather.com/weather/local/";
+    QString url = "http://xoap.weather.com/weather/local/";
     url += getID();
     url += "?cc=*&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
     url += getUnits() ? "s" : "m";
@@ -168,7 +168,7 @@ void WeatherPlugin::timeout()
         url += "&dayf=";
         url += QString::number(getForecast());
     }
-    fetch(url.data());
+    fetch(url);
 }
 
 void *WeatherPlugin::processEvent(Event *e)

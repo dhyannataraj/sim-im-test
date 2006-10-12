@@ -2330,14 +2330,14 @@ void *ICQClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventDeleteContact){
-        char *addr = (char*)(e->param());
+        QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
         ContactList::ContactIterator it;
         Contact *contact;
         while ((contact = ++it) != NULL){
             ICQUserData *data;
             ClientDataIterator itc(contact->clientData, this);
             while ((data = (ICQUserData*)(++itc)) != NULL){
-                if (data->Screen.str() == QString::fromUtf8(addr)){
+                if (data->Screen.str() == addr){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)

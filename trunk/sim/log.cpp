@@ -98,7 +98,7 @@ void log(unsigned short l, const char *fmt, ...)
 
 void log(unsigned short l, const QString &str)
 {
-	log_string(l, str.local8Bit().data());
+    log_string(l, str.local8Bit().data());
 }
 
 EXPORT QString make_packet_string(LogInfo *l)

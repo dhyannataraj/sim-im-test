@@ -44,7 +44,7 @@ class JabberSearch : public QChildWidget
     Q_OBJECT
 public:
     JabberSearch(QWidget *parent = NULL, const char *name = NULL);
-    void init(QWidget *receiver, JabberClient *client, const char *jid, const char *node, const QString &name, bool bRegister);
+    void init(QWidget *receiver, JabberClient *client, const QString &jid, const QString &node, const QString &name, bool bRegister);
     bool canSearch();
     QString condition(QWidget *w);
     const QString &id() { return m_jid; }

@@ -360,14 +360,14 @@ void *JabberClient::processEvent(Event *e)
         return NULL;
     }
     if (e->type() == EventDeleteContact){
-        char *addr = (char*)(e->param());
+        QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
         ContactList::ContactIterator it;
         Contact *contact;
         while ((contact = ++it) != NULL){
             JabberUserData *data;
             ClientDataIterator itc(contact->clientData, this);
             while ((data = (JabberUserData*)(++itc)) != NULL){
-                if (data->ID.str() == QString::fromUtf8(addr)){
+                if (data->ID.str() == addr){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
@@ -826,13 +826,14 @@ void JabberClient::ServerRequest::add_attribute(const QString &name, const QStri
     if(value.isEmpty())
         return;
     m_client->m_socket->writeBuffer
-    << " " << (const char*)name.utf8()
-	<< "=\'" << (const char*)JabberClient::encodeXML(value).utf8() << "\'";
+        << " " << (const char*)name.utf8()
+        << "=\'" << (const char*)JabberClient::encodeXML(value).utf8() << "\'";
 }
 
 void JabberClient::ServerRequest::add_attribute(const QString &name, const char *value)
 {
-    add_attribute(name, value ? QString::fromUtf8(value) : QString());
+    if(value)
+        add_attribute(name, QString::fromUtf8(value));
 }
 
 void JabberClient::ServerRequest::end_element(bool bNewLevel)
@@ -2584,7 +2585,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
     msg->setClient(dataName(data));
     msg->setFlags(MESSAGE_RECEIVED);
     if (text)
-        msg->setText(unquoteString(QString::fromUtf8(text)));
+        msg->setText(unquoteString(text));
     Event e(EventMessageReceived, msg);
     e.process();
     if (JabberAuthMessage::remove(tempAuthMessages, msg))

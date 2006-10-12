@@ -97,8 +97,8 @@ public:
 protected:
     void *processEvent(Event *e);
 
-    bool findParam(const char *param, const char *descr, string *res);
-    void usage(const char*);
+    bool findParam(const QString &param, const QString &descr, QString &res);
+    void usage(const QString &);
 
     bool create(pluginInfo&);
     bool createPlugin(pluginInfo&);
@@ -126,11 +126,11 @@ protected:
     int m_argc;
     char **m_argv;
 
-    string app_name;
-    list<string> args;
+    QString app_name;
+    QStringList args;
     vector<pluginInfo> plugins;
-    list<string> cmds;
-    list<string> descrs;
+    QStringList cmds;
+    QStringList descrs;
 
     unsigned m_base;
     bool m_bLoaded;
@@ -191,9 +191,9 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
 
     m_exec = new ExecManager;
 
-    app_name = *argv;
+    app_name = QString::fromLocal8Bit(*argv);
     for (argv++, argc--; argc > 0; argv++, argc--)
-        args.push_back(string(*argv));
+        args.push_back(QString::fromLocal8Bit(*argv));
 
     m_base = 0;
     m_bLoaded = false;
@@ -266,14 +266,14 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
             return;
     }
     Event eStart(EventInit);
-    if ((long)eStart.process() == -1) {
+    if (eStart.process() == (void*)~0U) {
         log(L_ERROR,"EventInit failed - aborting!");
         m_bAbort = true;
         return;
     }
-    for (list<string>::iterator it_args = args.begin(); it_args != args.end(); ++it_args){
+    for (QStringList::iterator it_args = args.begin(); it_args != args.end(); ++it_args){
         if ((*it_args).length()){
-            usage((*it_args).c_str());
+            usage(*it_args);
             break;
         }
     }
@@ -425,21 +425,16 @@ bool PluginManagerPrivate::create(pluginInfo &info)
 {
     if (info.plugin)
         return true;
-    QCString short_name = QFile::encodeName(info.name);
-    while(short_name[0] >= '0' && short_name[0] <= '9')
-        short_name = short_name.mid(1);
-    string param;
-    string descr;
-    string value;
+    QString param, descr, value;
     param = "--enable-";
-    param += short_name;
-    if (findParam(param.c_str(), NULL, &value)){
+    param += info.name;
+    if (findParam(param, QString::null, value)){
         info.bDisabled = false;
         info.bFromCfg = true;
     }
     param = "--disable-";
-    param += short_name;
-    if (findParam(param.c_str(), NULL, &value)){
+    param += info.name;
+    if (findParam(param, QString::null, value)){
         info.bDisabled = true;
         info.bFromCfg = true;
     }
@@ -722,68 +717,68 @@ void PluginManagerPrivate::loadState()
     }
 }
 
-bool PluginManagerPrivate::findParam(const char *p, const char *descriptor, string *value)
+bool PluginManagerPrivate::findParam(const QString &p, const QString &descriptor, QString &value)
 {
-    if (descriptor){
-        cmds.push_back(string(p));
-        descrs.push_back(string(descriptor));
+    if (!descriptor.isEmpty()){
+        cmds.push_back(p);
+        descrs.push_back(descriptor);
     }
-    (*value) = "";
-    if (*p && p[strlen(p) - 1] == ':'){
-        unsigned size = strlen(p) - 1;
-        for (list<string>::iterator it = args.begin(); it != args.end(); ++it){
-            if ((*it).length() < size) continue;
-            if (memcmp((*it).c_str(), p, size)) continue;
-            *value = (*it).c_str() + size;
-            if (value->length()){
-                *it = "";
+    value = QString::null;
+    if (p.endsWith(":")){
+        unsigned size = p.length();
+        for (QStringList::iterator it = args.begin(); it != args.end(); ++it){
+            if (!(*it).startsWith(p))
+                continue;
+            value = (*it).mid(size);
+            if (value.length()){
+                *it = QString::null;
                 return true;
             }
             ++it;
             if (it != args.end()){
-                *value = (*it);
-                *it = "";
+                value = (*it);
+                *it = QString::null;
                 --it;
-                *it = "";
+                *it = QString::null;
                 return true;
             } else {
                 return true;
             }
         }
     }else{
-        for (list<string>::iterator it = args.begin(); it != args.end(); ++it){
-            if (strcmp((*it).c_str(), p)) continue;
-            *value = (*it);
-            *it = "";
+        QStringList::iterator it = args.find(p);
+        if(it != args.end()) {
+            value = (*it);
+            *it = QString::null;
             return true;
         }
     }
     return false;
 }
 
-void PluginManagerPrivate::usage(const char *err)
+void PluginManagerPrivate::usage(const QString &err)
 {
-    QString title = i18n("Bad option %1") .arg(err);
-    QString text = i18n("Usage: %1 ") .arg(app_name.c_str());
+    QString title = i18n("Bad option %1").arg(err);
+    QString text = i18n("Usage: %1 ").arg(app_name);
     QString comment;
-    list<string>::iterator itc = cmds.begin();
-    list<string>::iterator itd = descrs.begin();
+    QStringList::iterator itc = cmds.begin();
+    QStringList::iterator itd = descrs.begin();
     for (; itc != cmds.end(); ++itc, ++itd){
-        string p = *itc;
+        QString p = *itc;
         bool bParam = false;
-        if (p[p.length() - 1] == ':'){
+        if (p.endsWith(":")){
             bParam = true;
-            p = p.substr(0, p.length() - 1);
+            p = p.left(p.length() - 1);
         }
-        text += "[";
-        text += p.c_str();
-        if (bParam) text += "<arg>";
+        text += "[" + p;
+        if (bParam)
+            text += "<arg>";
         text += "] ";
-        comment += "\t";
-        comment += p.c_str();
-        if (bParam) comment += "<arg>";
+        comment += "\t" + p;
+        if (bParam)
+            comment += "<arg>";
         comment += "\t - ";
-        comment += i18n((*itd).c_str());
+        comment += i18n((*itd));
         comment += "\n";
     }
     text += "\n";
