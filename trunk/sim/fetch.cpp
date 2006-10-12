@@ -715,7 +715,7 @@ QCString basic_auth(const QString &user, const QString &pass)
     QString auth = user + ":" + pass;
     Buffer from;
     Buffer to;
-    from << auth.local8Bit();
+    from <<  (const char*)auth.local8Bit().data();
     to.toBase64(from);
     QCString cstr = to.data();
     return cstr;

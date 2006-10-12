@@ -894,9 +894,9 @@ static char HTTP[] = "HTTP/";
 void HTTPS_Proxy::send_auth()
 {
     if (getAuth()){
-        QString s = basic_auth(getUser(), getPassword());
+        QCString s = basic_auth(getUser(), getPassword());
         bOut << "Proxy-Authorization: Basic ";
-        bOut << s.ascii();
+        bOut << s.data();
         bOut << "\r\n";
     }
 }
