@@ -1188,7 +1188,9 @@ msgstr ""
 msgid ""
 "_n: SMS\n"
 "%n SMSs"
-msgstr "%n SMS"
+msgstr ""
+"SMS\n"
+"%n SMS"
 
 #: plugins/_core/msgedit.cpp:476
 #, c-format
@@ -1224,7 +1226,7 @@ msgstr "&Acceptera"
 
 #: plugins/_core/msgedit.cpp:608
 msgid "&Decline"
-msgstr "&Neka"
+msgstr "&Avslå"
 
 #: plugins/_core/msgedit.cpp:661
 #, c-format
@@ -1233,7 +1235,7 @@ msgid ""
 "%n authorize requests"
 msgstr ""
 "Auktorisera begäran\n"
-"%n auktorisera begäran"
+"%n auktoriseringsbegäran"
 
 #: plugins/_core/msgedit.cpp:668
 msgid "&Grant"
@@ -1305,7 +1307,7 @@ msgstr "&Meddelande"
 #: plugins/_core/msgedit.cpp:1659
 #: plugins/netmonitor/monitor.cpp:73
 msgid "&File"
-msgstr "&Fil"
+msgstr "&Arkiv"
 
 #: plugins/_core/msgedit.cpp:1668
 #: plugins/icq/icqmessage.cpp:869
@@ -1318,15 +1320,15 @@ msgstr "&Kontaktlista"
 
 #: plugins/_core/msgedit.cpp:1694
 msgid "&Authorization request"
-msgstr "&Begäran om auktorisation"
+msgstr "&Begäran om auktorisering"
 
 #: plugins/_core/msgedit.cpp:1703
 msgid "&Grant autorization"
-msgstr "&Tillåt auktorisation"
+msgstr "&Tillåt auktorisering"
 
 #: plugins/_core/msgedit.cpp:1712
 msgid "&Refuse autorization"
-msgstr "&Vägra auktorisation"
+msgstr "&Vägra auktorisering"
 
 #: plugins/_core/msgedit.cpp:1721
 msgid "Added"
@@ -1959,7 +1961,7 @@ msgstr "Upptagen"
 #: plugins/jabber/jabber.cpp:144
 #, no-c-format
 msgid "Free for chat"
-msgstr "Ledig för chatt"
+msgstr "Klar för chatt"
 
 #: plugins/icq/icq.cpp:231
 msgid "AIM"
@@ -4746,7 +4748,7 @@ msgstr "Inte ansluten"
 msgid ""
 "_: weather\n"
 "Weather data provided by weather.com&reg;"
-msgstr ""
+msgstr "Väderdata från weather.com&reg;"
 
 #: plugins/weather/weather.cpp:367
 msgid "Monday"
@@ -5152,7 +5154,7 @@ msgstr "km"
 msgid ""
 "_: weather\n"
 "mi"
-msgstr ""
+msgstr "mi"
 
 #: plugins/weather/weather.cpp:438
 msgid  ""
@@ -5163,17 +5165,17 @@ msgstr "km/h"
 msgid ""
 "_: weather\n"
 "mph"
-msgstr ""
+msgstr "mph"
 
 msgid ""
 "_: weather\n"
 "mmHg"
-msgstr ""
+msgstr "mmHg"
 
 msgid ""
 "_: weather\n"
 "inHg"
-msgstr ""
+msgstr "inHg"
 
 #: plugins/weather/weather.cpp:439
 msgid ""
