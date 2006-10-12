@@ -266,7 +266,7 @@ static DataDef icqClientData[] =
         { "Picture", DATA_UTF, 1, 0 },
         { "RandomChatGroup", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
-        { "SendFormat", DATA_ULONG, 1, 1 }, // use utf-8 whereever possible
+        { "SendFormat", DATA_ULONG, 1, DATA(1) }, // use utf-8 whereever possible
         { "DisablePlugins", DATA_BOOL, 1, 0 },
         { "DisableAutoUpdate", DATA_BOOL, 1, 0 },
         { "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
