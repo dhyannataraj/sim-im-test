@@ -642,7 +642,7 @@ void PluginManagerPrivate::loadState()
 
     if (!f.exists()) {
         /* Maybe first start ? */
-        QDir dir(user_file(NULL));
+        QDir dir(user_file(QString::null));
         if (!dir.exists()) {
             log(L_WARN, "Creating directory %s",dir.absPath().ascii());
             if (!dir.mkdir(dir.absPath())) {

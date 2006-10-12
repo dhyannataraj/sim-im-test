@@ -130,11 +130,11 @@ void Contact::setup()
     QString str = getFirstName();
     getToken(str, '/');
     if (str != "-")
-        setFirstName(NULL);
+        setFirstName(QString::null);
     str = getLastName();
     getToken(str, '/');
     if (str != "-")
-        setLastName(NULL);
+        setLastName(QString::null);
     QString res;
     str = getEMails();
     while (!str.isEmpty()){

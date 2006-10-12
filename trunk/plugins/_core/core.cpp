@@ -3926,7 +3926,7 @@ string CorePlugin::getConfig()
     QString def_ef = FontEdit::font2str(QApplication::font(), false);
     setEditFont(ef);
     if ((ef == def_ef) || !getEditSaveFont())
-        setEditFont(NULL);
+        setEditFont(QString::null);
 
     clearContainer();
     QString containers;
@@ -4070,7 +4070,7 @@ void CorePlugin::loadUnread()
         m.type    = msg->baseType();
         unread.push_back(m);
     }
-    setUnread(NULL);
+    setUnread(QString::null);
 }
 
 void CorePlugin::clearUnread(unsigned contact_id)
