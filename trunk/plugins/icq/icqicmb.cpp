@@ -1448,7 +1448,9 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
 
 void AIMParser::tag_end(const QString &tag)
 {
-    QString dummytag=tag; //remove this cramp later
+    if(tag == "p") {
+        res += "\n";
+    }
     /*QString otag;
     if ((tag == "font") || (tag == "b") || (tag == "u") || (tag == "i"))
         otag = tag.upper();
