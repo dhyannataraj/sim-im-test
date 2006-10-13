@@ -91,14 +91,14 @@ class SIMResolver : public QObject
 {
     Q_OBJECT
 public:
-    SIMResolver(QObject *parent, const char *host);
+    SIMResolver(QObject *parent, const QString &host);
     ~SIMResolver();
     QTimer *timer;
     QDns   *dns;
     bool   bDone;
     bool   bTimeout;
     unsigned long addr();
-    QString host();
+    QString host() const;
 protected slots:
     void   resolveTimeout();
     void   resolveReady();

@@ -110,7 +110,7 @@ bool ProxyData::operator == (const ProxyData &d) const
         return false;
     if (Type.toULong() == PROXY_NONE)
         return true;
-    if ((Port.toULong() != d.Port.toULong()) && Host.str() != d.Host.str())
+    if ((Port.toULong() != d.Port.toULong()) && (Host.str() != d.Host.str()))
         return false;
     if (Type.toULong() == PROXY_SOCKS4)
         return true;
@@ -118,7 +118,7 @@ bool ProxyData::operator == (const ProxyData &d) const
         return false;
     if (!d.Auth.toBool())
         return true;
-    return ((User.str() == d.User.str()) && Password.str() == d.Password.str());
+    return ((User.str() == d.User.str()) && (Password.str() == d.Password.str()));
 }
 
 ProxyData& ProxyData::operator = (const ProxyData &d)
@@ -162,7 +162,7 @@ public:
     virtual void close();
     virtual unsigned long localHost();
     virtual void pause(unsigned);
-    virtual Mode mode() { return Indirect; }
+    virtual Mode mode() const { return Indirect; }
     PROP_ULONG(Type);
     PROP_STR(Host);
     PROP_USHORT(Port);
@@ -183,6 +183,8 @@ protected:
     Buffer		bOut;
     Buffer		bIn;
     ProxyData	data;
+    QString         m_host;
+    unsigned short  m_port;
 };
 
 class Listener : public SocketNotify, public ServerSocket
@@ -397,10 +399,6 @@ protected:
     virtual void connect_ready();
     virtual void read_ready();
     virtual void error_state(const QString &text, unsigned code);
-
-    QString			m_host;
-    unsigned short	m_port;
-
     enum State
     {
         None,
@@ -418,7 +416,6 @@ protected:
     virtual void connect_ready();
     virtual void read_ready();
     virtual void error_state(const QString &text, unsigned code);
-
     enum State
     {
         Connect,
@@ -566,8 +563,6 @@ protected:
     virtual void connect_ready();
     virtual void read_ready();
     virtual void error_state(const QString &text, unsigned code);
-    QString m_host;
-    unsigned short m_port;
     enum State
     {
         None,
@@ -830,8 +825,6 @@ protected:
     virtual void read_ready();
     void error_state(const QString &text, unsigned code);
     void send_auth();
-    QString m_host;
-    unsigned short m_port;
     enum State
     {
         None,
@@ -873,7 +866,7 @@ void HTTPS_Proxy::connect_ready()
     }
     bIn.packetStart();
     bOut << "CONNECT "
-    << m_host.ascii()
+    << (const char*)m_host.local8Bit().data()
     << ":"
     << (const char*)QString::number(m_port).latin1()
     << " HTTP/1.0\r\n"
@@ -1107,9 +1100,9 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
         bOut
         << getToken(line, ' ', false).data()
         << " http://"
-        << m_host.ascii();
+        << m_host.local8Bit().data();
         if (m_port != 80)
-            bOut << ":" << (const char*)QString::number(m_port);
+            bOut << ":" << QString::number(m_port).latin1();
         bOut << getToken(line, ' ', false).data();
         bOut << " HTTP/1.1\r\n";
         m_state = Headers;

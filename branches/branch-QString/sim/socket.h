@@ -61,7 +61,7 @@ public:
         Indirect,
         Web
     };
-    virtual Mode mode() { return Direct; }
+    virtual Mode mode() const { return Direct; }
     SocketNotify *notify;
 };
 
@@ -224,8 +224,8 @@ public:
     virtual void close();
     virtual unsigned long localHost();
     virtual void pause(unsigned);
-    bool connected() { return m_bSecure; }
-    Socket *socket() { return sock; }
+    bool connected() const { return m_bSecure; }
+    Socket *socket() const { return sock; }
     void setSocket(Socket *s);
     bool init();
     void accept();

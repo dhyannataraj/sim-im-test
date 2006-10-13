@@ -30,7 +30,7 @@ public:
     virtual int  read(char *buf, unsigned size);
     virtual void write(const char *buf, unsigned size);
     virtual void close();
-    virtual Mode mode() { return Web; }
+    virtual Mode mode() const { return Web; }
 protected:
     string getKey();
     virtual bool done(unsigned code, Buffer &data, const char *headers);

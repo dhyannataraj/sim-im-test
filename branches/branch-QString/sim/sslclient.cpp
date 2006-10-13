@@ -348,7 +348,8 @@ void SSLClient::pause(unsigned n)
 void SSLClient::connect_ready()
 {
     if (!init())
-        if (notify) notify->error_state(I18N_NOOP("SSL init error"));
+        if (notify)
+            notify->error_state(I18N_NOOP("SSL init error"));
     connect();
 }
 

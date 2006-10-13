@@ -2082,15 +2082,15 @@ QTextCodec *ContactList::getCodec(Contact *contact)
     return getCodecByName(owner()->getEncoding());
 }
 
-QString ContactList::toUnicode(Contact *contact, const char *str, int length)
+QString ContactList::toUnicode(Contact *contact, const QCString &str, int length)
 {
-    if (str && *str){
+    if (!str.isEmpty()){
         if (length < 0)
-            length = strlen(str);
+            length = str.length();
         QString res = getCodec(contact)->toUnicode(str, length);
         return res.replace(QRegExp("\r"), "");
     }
-    return QString::null;   // much better than "" !
+    return QString::null;
 }
 
 QCString ContactList::fromUnicode(Contact *contact, const QString &str)

@@ -391,7 +391,7 @@ void Buffer::pack32(const Buffer &b)
 Buffer &Buffer::operator << (const QString &s)
 {
     QCString utf8 = s.utf8();
-	unsigned short size = (unsigned short)(utf8.length() + 1);
+    unsigned short size = (unsigned short)(utf8.length() + 1);
     *this << (unsigned short)htons(size);
     pack(utf8, size);
     return *this;
@@ -399,7 +399,7 @@ Buffer &Buffer::operator << (const QString &s)
 
 Buffer &Buffer::operator << (const QCString &s)
 {
-	unsigned short size = (unsigned short)(s.length() + 1);
+    unsigned short size = (unsigned short)(s.length() + 1);
     *this << (unsigned short)htons(size);
     pack(s, size);
     return *this;
@@ -408,7 +408,7 @@ Buffer &Buffer::operator << (const QCString &s)
 Buffer &Buffer::operator << (const char *str)
 {
     if(!str)
-		return *this;
+        return *this;
     pack(str, strlen(str));
     return *this;
 }

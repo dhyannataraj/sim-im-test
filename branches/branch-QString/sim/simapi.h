@@ -1694,7 +1694,7 @@ public:
     Contact *contactByPhone(const QString &phone);
     Contact *contactByMail(const QString &_mail, const QString &_name);
     static bool cmpPhone(const QString &p1, const QString &p2);
-    QString toUnicode(Contact *contact, const char *str, int length=-1);
+    QString toUnicode(Contact *contact, const QCString &str, int length=-1);
     QCString fromUnicode(Contact *contact, const QString &str);
     QTextCodec *getCodec(Contact *contact);
     QTextCodec *getCodecByName(const char *encoding);
