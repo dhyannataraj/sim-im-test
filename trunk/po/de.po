@@ -1,4 +1,4 @@
-# translation of de.po to Deutsch
+# translation of de.po to
 # Copyright (C) 2002 - 2006 Free Software Foundation, Inc.
 # Christoph Thielecke <crissi99@gmx.de>, 2002 - 2006.
 # Christian Ehrlicher <Ch.Ehrlicher@gmx.de>, 2003 - 2006.
@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-13 18:43+0200\n"
-"PO-Revision-Date: 2006-08-23 00:26+0100\n"
-"Last-Translator: Tobias Franz <noragen@gmx.net>\n"
-"Language-Team: Deutsch <de@li.org>\n"
+"PO-Revision-Date: 2006-10-13 18:59+0200\n"
+"Last-Translator: Christian Ehrlicher\n"
+"Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: E:\\sim-icq\\simsim\\sim-im\\sim\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: _translatorinfo.cpp:1 plugins/about/about.cpp:114
 msgid ""
@@ -684,15 +685,13 @@ msgid "Please enter a new name for the profile."
 msgstr "Bitte geben Sie den gewünschten Profilnamen ein."
 
 #: plugins/_core/core.cpp:3742 plugins/_core/logindlg.cpp:406
-msgid ""
-"There is already another profile with this name.  Please choose another."
+msgid "There is already another profile with this name.  Please choose another."
 msgstr ""
 "Es gibt leider schon ein Profil mit diesem Namen. Bitte geben Sie einen "
 "anderen Namen an."
 
 #: plugins/_core/core.cpp:3746
-msgid ""
-"Unable to create the profile.  Please do not use any special characters."
+msgid "Unable to create the profile.  Please do not use any special characters."
 msgstr ""
 "Ich konnte das Profil nicht erstellen.  Bitte verwenden Sie keine "
 "außergewöhnlichen Buchstaben/Zeichen."
@@ -1029,8 +1028,7 @@ msgid "Rename Profile"
 msgstr "Profil umbenennen"
 
 #: plugins/_core/logindlg.cpp:410
-msgid ""
-"Unable to rename the profile.  Please do not use any special characters."
+msgid "Unable to rename the profile.  Please do not use any special characters."
 msgstr ""
 "Ich konnte das Profil nicht umbenennen.  Bitte verwenden Sie keine "
 "außergewöhnlichen Buchstaben/Zeichen."
@@ -1504,8 +1502,7 @@ msgstr "Aktion"
 
 #: plugins/action/action.cpp:37
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Plugin führt externe Programme bei einem Ereignis oder vom Kontaktmenü aus"
+msgstr "Plugin führt externe Programme bei einem Ereignis oder vom Kontaktmenü aus"
 
 #: plugins/action/action.cpp:87
 msgid "&Action"
@@ -1724,9 +1721,8 @@ msgstr ""
 "GPG nicht in Pfad gefunden"
 
 #: plugins/gpg/gpg.cpp:360 plugins/gpg/gpg.cpp:366
-#, fuzzy
 msgid "Importing public key failed"
-msgstr "Öffentlichen Schlüssel importieren:"
+msgstr "Öffentlichen Schlüssel importieren fehlgeschlagen"
 
 #: plugins/gpg/gpg.cpp:523 plugins/gpg/gpg.cpp:532
 msgid "Encrypt failed"
@@ -1754,7 +1750,7 @@ msgid "&GPG key"
 msgstr "&GPG-Schlüssel"
 
 #: plugins/gpg/gpg.cpp:888
-#, fuzzy
+
 msgid "Can't read gpg key "
 msgstr "Der GPG-Schlüssel konnte nicht gelesen werden."
 
@@ -3158,11 +3154,10 @@ msgid "Low level network error"
 msgstr "Netzwerkfehler auf niedriger Ebene"
 
 #: plugins/jabber/jabber_rosters.cpp:2847
-#, fuzzy
 msgid ""
 "Please translate this to short language name like 'ru' or 'de'. Do not "
 "translate this sentence!)"
-msgstr "Bitte dies zu kurzem Namen für Sprache übersetzen (ru, de)"
+msgstr "de"
 
 #: plugins/jabber/jabberbrowser.cpp:49
 msgid "Process"
@@ -4148,8 +4143,7 @@ msgid "Navigate"
 msgstr "Navigation"
 
 #: plugins/navigate/navigate.cpp:228
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
 "Plugin stellt Navigation von Hyperlinks bereit und ruft externe Browser- "
 "oder Mailprogramme auf"
@@ -4247,8 +4241,7 @@ msgid "OSD"
 msgstr "OSD"
 
 #: plugins/osd/osd.cpp:72
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Plugin stellt Bildschirmbenachrichtigungen über Nachrichten und "
 "Kontaktstatus bereit"
@@ -4391,8 +4384,7 @@ msgstr "Proxy"
 
 #: plugins/proxy/proxy.cpp:1147
 msgid "Plugin provides proxy support (SOCKS4, SOCKS5, HTTPS/HTTP)"
-msgstr ""
-"Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
+msgstr "Plugin stellt Proxy-Unterstützung (SOCKS4, SOCKS5, HTTPS und HTTP) bereit"
 
 #: plugins/proxy/proxycfg.cpp:46
 msgid "&Proxy"
@@ -4420,8 +4412,7 @@ msgstr "Text ersetzen"
 
 #: plugins/replace/replace.cpp:37
 msgid "Plugin provides text replacing in message edit window"
-msgstr ""
-"Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
+msgstr "Dieses Plugin stellt Textersetzung im Nachrichtbearbeitung-Fenster bereit"
 
 #: plugins/replace/replacecfg.cpp:34
 msgid "You type"
@@ -4589,8 +4580,7 @@ msgstr "Aktualisieren"
 
 #: plugins/update/update.cpp:44
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
+msgstr "Plugin stellt Benachrichtigungen über SIM-Softwareaktualisierungen bereit"
 
 #: plugins/update/update.cpp:128
 msgid "Show details"
@@ -4620,7 +4610,7 @@ msgstr "Nicht verbunden"
 msgid ""
 "_: weather\n"
 "Weather data provided by weather.com&reg;"
-msgstr ""
+msgstr "Wetterinformationen bereitgestellt von weather.com&reg"
 
 #: plugins/weather/weather.cpp:366
 msgid "Monday"
@@ -5023,46 +5013,40 @@ msgid ""
 msgstr "Ruhiges Wetter"
 
 #: plugins/weather/weather.cpp:439
-#, fuzzy
 msgid ""
 "_: weather\n"
 "km"
-msgstr "N"
+msgstr "km"
 
 #: plugins/weather/weather.cpp:440
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mi"
-msgstr "N"
+msgstr "mi"
 
 #: plugins/weather/weather.cpp:441
-#, fuzzy
 msgid ""
 "_: weather\n"
 "km/h"
-msgstr "N"
+msgstr "km/h"
 
 #: plugins/weather/weather.cpp:442
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mph"
-msgstr "N"
+msgstr "mph"
 
 #: plugins/weather/weather.cpp:443
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mmHg"
-msgstr "hoch"
+msgstr "mmHg"
 
 #: plugins/weather/weather.cpp:444
-#, fuzzy
 msgid ""
 "_: weather\n"
 "inHg"
-msgstr "Ansteigend"
+msgstr "inHg"
 
 #: plugins/weather/weather.cpp:446
 msgid ""
@@ -5083,11 +5067,10 @@ msgid ""
 msgstr "hoch"
 
 #: plugins/weather/weather.cpp:450
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "New"
-msgstr "Vollmond"
+msgstr "Neumond"
 
 #: plugins/weather/weather.cpp:451
 msgid ""
@@ -5160,95 +5143,83 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:574
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
-msgstr "Klar"
+msgstr "Aktuelle Wetterlage"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
-msgstr "mittel"
+msgstr "Temperatur"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
-msgstr "Fallend"
+msgstr "gefühlt wie"
 
 #: plugins/weather/weather.cpp:577
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
-msgstr "Windig"
+msgstr "Luftfeuchtigkeit"
 
 #: plugins/weather/weather.cpp:578
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
-msgstr "Schneegraupel"
+msgstr "Niederschlagswahrscheinlichkeit"
 
 #: plugins/weather/weather.cpp:579
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
-msgstr "Klar"
+msgstr "Luftdruck"
 
 #: plugins/weather/weather.cpp:581
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
-msgstr "Nebelschwaden"
+msgstr "Sichtweite"
 
 #: plugins/weather/weather.cpp:582
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
-msgstr "Etwas Schnee"
+msgstr "Taupunkt"
 
 #: plugins/weather/weather.cpp:583
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
-msgstr "Sonnig"
+msgstr "Sonnenaufgang"
 
 #: plugins/weather/weather.cpp:584
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
-msgstr "Sonnig"
+msgstr "Sonnenuntergang"
 
 #: plugins/weather/weather.cpp:585
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
-msgstr ""
+msgstr "UV-Intensität beträgt <b>%ut</b> von <b>%ui</b>"
 
 #: plugins/weather/weather.cpp:586
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
-msgstr "mittel"
+msgstr "Mondphase"
 
 #: plugins/weather/weather.cpp:589
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
-msgstr "Spät"
+msgstr "Aktualisiert"
 
 #: plugins/weather/weather.cpp:597
 msgid ""
@@ -5395,9 +5366,8 @@ msgid "Yahoo! login lock"
 msgstr "Yahoo!-Loginsperre"
 
 #: plugins/yahoo/yahooclient.cpp:368
-#, fuzzy
 msgid "Wrong password"
-msgstr "Passwort vergessen?"
+msgstr "Falsches Passwort"
 
 #: plugins/yahoo/yahooclient.cpp:372
 msgid "Your account has been locked"
@@ -6305,8 +6275,7 @@ msgstr "Antworten auf Telefonbuch und Bilderanfragen verweigern"
 #: rc.cpp:501
 #, no-c-format
 msgid "Disable automatically &request autoreply on change status"
-msgstr ""
-"Automatische Anfragen nach Autoantworten bei Statusänderungen verweigern"
+msgstr "Automatische Anfragen nach Autoantworten bei Statusänderungen verweigern"
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 635
 #: rc.cpp:504
@@ -6473,8 +6442,7 @@ msgstr "Bei Nachrichteneingang informieren (per OSD)"
 #: rc.cpp:764
 #, no-c-format
 msgid "Enable &status notification"
-msgstr ""
-"Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
+msgstr "Bildschirm-Benachrichtigung über Statusänderungen von Benutzern (per OSD)"
 
 #. i18n: file ./plugins/osd/osdconfigbase.ui line 138
 #: rc.cpp:788 rc.cpp:2094
@@ -7744,8 +7712,7 @@ msgstr "Status \"Offline\" setzen nach"
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 138
 #: rc.cpp:1899
 #, no-c-format
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Kein Online Alarm im \"Abwesend\", \"N/A\", \"DND\" und \"Beschäftigt\" "
 "Modus "
@@ -7842,8 +7809,7 @@ msgstr ""
 #: rc.cpp:1987
 #, no-c-format
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
+msgstr "Nachrichten von unbekannten Benutzern ablehnen, die folgende Worte enthalten:"
 
 #. i18n: file ./plugins/filter/filtercfgbase.ui line 90
 #: rc.cpp:1990
@@ -8151,13 +8117,11 @@ msgstr "Nur transparent wenn inaktiv "
 
 #: sim/aboutdata.cpp:266
 msgid "replace this with information about your translation team"
-msgstr ""
-"Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
+msgstr "Christoph Thielecke <u15119@hs-harz.de>Tobias Franz <Tobias_Franz@gmx.de>"
 
 #: sim/aboutdata.cpp:282
 msgid "This program is distributed under the terms of the GPL v2."
-msgstr ""
-"Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
+msgstr "Dieses Programm wird unter den Bestimmungen der GPL Version 2 verbreitet."
 
 #: sim/ballonmsg.cpp:341
 msgid "&Ok"
@@ -9453,541 +9417,3 @@ msgstr "SSL-Fehler bei der SSL- Initialisierung"
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
-#~ msgid "Dear translator! type this default encoding for your language"
-#~ msgstr "UTF8 / ISO 8859-15"
-
-#~ msgid "http://www.livejournal.com/lostinfo.bml"
-#~ msgstr "http://www.livejournal.com/lostinfo.bml"
-
-#~ msgid "km"
-#~ msgstr "km"
-
-#~ msgid "km/h"
-#~ msgstr "km/h"
-
-#~ msgid ""
-#~ "%l<br><br>\n"
-#~ "<b>Current Weather:</b><br>\n"
-#~ "<img src=\"icon:weather%i\"> %c<br>\n"
-#~ "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
-#~ "Humidity: <b>%h</b><br>\n"
-#~ "Chance of Precipitation: <b>%pp%</b><br>\n"
-#~ "Pressure: <b>%p</b> (%q)<br>\n"
-#~ "Wind: <b>%b</b> <b>%w %g</b><br>\n"
-#~ "Visibility: <b>%v</b><br>\n"
-#~ "Dew Point: <b>%d</b><br>\n"
-#~ "Sunrise: %r<br>\n"
-#~ "Sunset: %s<br>\n"
-#~ "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
-#~ "<b>Moonphase: </b>%mp<br>\n"
-#~ "<img src=\"icon:moon%mi\"><br>\n"
-#~ "<br>\n"
-#~ "Updated: %u<br>\n"
-#~ msgstr ""
-#~ "%l<br><br>\n"
-#~ "<b>Aktuelles Wetter:</b><br>\n"
-#~ "<img src=\"icon:weather%i\"> %c<br>\n"
-#~ "Temperatur: <b>%t</b> (gefühlt wie: <b>%f</b>)<br>\n"
-#~ "Luftfeuchtigkeit: <b>%h</b><br>\n"
-#~ "Niederschlag: <b>%pp %</b><br>\n"
-#~ "Luftdruck: <b>%p</b> (%q)<br>\n"
-#~ "Wind: <b>%b</b> <b>%w %g</b><br>\n"
-#~ "Sichtweite: <b>%v</b><br>\n"
-#~ "Taupunkt: <b>%d</b><br>\n"
-#~ "Sonnenaufgang: %r<br>\n"
-#~ "Sonnenuntergang: %s<br>\n"
-#~ "UV-Intensität ist <b>%ut</b> mit Wert <b>%ui</b> (von 11)<br>\n"
-#~ "<b>Mondphase: </b>%mp<br>\n"
-#~ "<img src=\"icon:moon%mi\"><br>\n"
-#~ "<br>\n"
-#~ "Aktualisiert am: %u<br>\n"
-
-#~ msgid "kB/s"
-#~ msgstr "kB/s"
-
-#~ msgid "Taiwanese"
-#~ msgstr "Taiwanesisch"
-
-#~ msgid ""
-#~ "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content"
-#~ "$/xptroublesignin.htm"
-#~ msgstr ""
-#~ "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content"
-#~ "$/xptroublesignin.htm"
-
-#~ msgid "Metal style"
-#~ msgstr "Metall-Stil"
-
-#~ msgid "Norwegian Wood"
-#~ msgstr "Norwegischer Wald"
-
-#~ msgid "Windows XP style"
-#~ msgstr "Windows XP-Stil"
-
-#~ msgid "Cut"
-#~ msgstr "Ausschneiden"
-
-#~ msgid "Copy"
-#~ msgstr "Kopieren"
-
-#~ msgid "Paste"
-#~ msgstr "Einfügen"
-
-#~ msgid "Hu&e:"
-#~ msgstr "Farb&e:"
-
-#~ msgid "&Sat:"
-#~ msgstr "&Sättigung:"
-
-#~ msgid "&Val:"
-#~ msgstr "&Wert:"
-
-#~ msgid "&Red:"
-#~ msgstr "&Rot:"
-
-#~ msgid "&Green:"
-#~ msgstr "&Grün:"
-
-#~ msgid "Bl&ue:"
-#~ msgstr "Bla&u:"
-
-#~ msgid "A&lpha channel:"
-#~ msgstr "A&lphakanal:"
-
-#~ msgid "&Basic colors"
-#~ msgstr "&Einfache Farben"
-
-#~ msgid "&Custom colors"
-#~ msgstr "&Benutzerdefinierte Farben"
-
-#~ msgid "&Define Custom Colors >>"
-#~ msgstr "Benutzerdefinierte Farben &definieren >>"
-
-#~ msgid "&Add To Custom Colors"
-#~ msgstr "Zur benutzerdefinierten Farben &hinzufügen"
-
-#~ msgid "Select color"
-#~ msgstr "Farbe auswählen"
-
-#~ msgid "Copy or Move a File"
-#~ msgstr "Datei kopieren oder verschieben"
-
-#~ msgid "Read: %1"
-#~ msgstr "Lesen: %1"
-
-#~ msgid "Write: %1"
-#~ msgstr "Schreiben: %1"
-
-#~ msgid "All files (*)"
-#~ msgstr "Alle Dateien (*)"
-
-#~ msgid "Size"
-#~ msgstr "Grösse"
-
-#~ msgid "Attributes"
-#~ msgstr "Attribute"
-
-#~ msgid "Look &in:"
-#~ msgstr "Suchen &in:"
-
-#~ msgid "File &name:"
-#~ msgstr "Datei&name:"
-
-#~ msgid "File &type:"
-#~ msgstr "Datei&typ:"
-
-#~ msgid "Back"
-#~ msgstr "Zurück"
-
-#~ msgid "One directory up"
-#~ msgstr "Ein Verzeichnis hoch"
-
-#~ msgid "Create New Folder"
-#~ msgstr "Neuen Ordner erstellen"
-
-#~ msgid "List View"
-#~ msgstr "Listenansicht"
-
-#~ msgid "Detail View"
-#~ msgstr "Detailansicht"
-
-#~ msgid "Preview File Info"
-#~ msgstr "Vorschau Dateiinfo"
-
-#~ msgid "Preview File Contents"
-#~ msgstr "Vorschau Dateiinhalte"
-
-#~ msgid "Read-write"
-#~ msgstr "Lesen/schreiben"
-
-#~ msgid "Read-only"
-#~ msgstr "Nur lesbar"
-
-#~ msgid "Write-only"
-#~ msgstr "Nur schreibbar"
-
-#~ msgid "Inaccessible"
-#~ msgstr "Nicht zugreifbar"
-
-#~ msgid "Symlink to File"
-#~ msgstr "Symbolische Verknüpfung zu Datei"
-
-#~ msgid "Symlink to Directory"
-#~ msgstr "Symbolische Verknüpfung zu Verzeichnis"
-
-#~ msgid "Symlink to Special"
-#~ msgstr "Symbolische Verknüpfung zu Spezialdatei"
-
-#~ msgid "Dir"
-#~ msgstr "Verzeichnis"
-
-#~ msgid "Special"
-#~ msgstr "Spezialdatei"
-
-#~ msgid "Save as"
-#~ msgstr "Speichern als"
-
-#~ msgid "&Open"
-#~ msgstr "&Öffnen"
-
-#~ msgid "R&eload"
-#~ msgstr "&Erneut laden"
-
-#~ msgid "Sort by &Name"
-#~ msgstr "Nach &Name sortieren"
-
-#~ msgid "Sort by &Size"
-#~ msgstr "Nach Grö&sse sortieren"
-
-#~ msgid "Sort by &Date"
-#~ msgstr "Nach &Datum sortieren"
-
-#~ msgid "&Unsorted"
-#~ msgstr "&Unsortiert"
-
-#~ msgid "Sort"
-#~ msgstr "Sortiert"
-
-#~ msgid "Show &hidden files"
-#~ msgstr "Ver&steckte Dateien anzeigen"
-
-#~ msgid "the file"
-#~ msgstr "die Datei"
-
-#~ msgid "the directory"
-#~ msgstr "das Verzeichnis"
-
-#~ msgid "the symlink"
-#~ msgstr "die symbolische Verknüpfung"
-
-#~ msgid "Delete %1"
-#~ msgstr "%1 löschen"
-
-#~ msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-#~ msgstr "<qt>Soll %1 \"%2\" wirklich gelöscht werden?</qt>"
-
-#~ msgid "New Folder 1"
-#~ msgstr "Neuer Ordner 1"
-
-#~ msgid "New Folder"
-#~ msgstr "Neuer Ordner"
-
-#~ msgid "New Folder %1"
-#~ msgstr "Neuer Ordner %1"
-
-#~ msgid "Find Directory"
-#~ msgstr "Verzeichnis finden"
-
-#~ msgid "Directories"
-#~ msgstr "Verzeichnisse"
-
-#~ msgid "Save"
-#~ msgstr "Speichern"
-
-#~ msgid ""
-#~ "%1\n"
-#~ "File not found.\n"
-#~ "Check path and filename."
-#~ msgstr ""
-#~ "%1\n"
-#~ "Datei nicht gefunden.\n"
-#~ "Bitte Pfad und Dateiname überprüfen."
-
-#~ msgid "ERROR"
-#~ msgstr "FEHLER"
-
-#~ msgid "&Font"
-#~ msgstr "Schrif&tart:"
-
-#~ msgid "Font st&yle"
-#~ msgstr "Schrift&stil"
-
-#~ msgid "&Size"
-#~ msgstr "Grö&sse"
-
-#~ msgid "Effects"
-#~ msgstr "Effekte"
-
-#~ msgid "Stri&keout"
-#~ msgstr "Durch&gestrichen"
-
-#~ msgid "&Color"
-#~ msgstr "&Farbe"
-
-#~ msgid "Sample"
-#~ msgstr "Beispiel"
-
-#~ msgid "Scr&ipt"
-#~ msgstr "Skr&ipt"
-
-#~ msgid "Apply"
-#~ msgstr "Anwenden"
-
-#~ msgid "Close"
-#~ msgstr "Schließen"
-
-#~ msgid "Select Font"
-#~ msgstr "Schriftart auswählen"
-
-#~ msgid ""
-#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ "
-#~ "GUI toolkit from Trolltech. Qt provides single-source portability across "
-#~ "Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of "
-#~ "Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
-#~ "information.</p>"
-#~ msgstr ""
-#~ "<h3>AÜber Qt</h3><p>Dieses Programm benutzt Qt in Version %1, ein "
-#~ "Multiplattform-C++-GUI-Toolkit von Trolltech. Qt stellt "
-#~ "Quellcodeportabilität zwischen Windows 95/98/NT/2000, Linux, Solaris, HP-"
-#~ "UX un vielen anderen Versionen von Unix mit X11 bereit.</p><p>Für weitere "
-#~ "Informationen, <tt>http://www.trolltech.com/qt/</tt> besuchen.</p>"
-
-#~ msgid "Help"
-#~ msgstr "Hilfe"
-
-#~ msgid "Defaults"
-#~ msgstr "Standard"
-
-#~ msgid "< &Back"
-#~ msgstr "< Zurück"
-
-#~ msgid "&Next >"
-#~ msgstr "Weiter >"
-
-#~ msgid "&Finish"
-#~ msgstr "&Fertig"
-
-#~ msgid "+"
-#~ msgstr "+"
-
-#~ msgid "F%1"
-#~ msgstr "F%1"
-
-#~ msgid "ctrl"
-#~ msgstr "Strg"
-
-#~ msgid "shift"
-#~ msgstr "Umschalt"
-
-#~ msgid "alt"
-#~ msgstr "Alt"
-
-#~ msgid ""
-#~ "Could not rename\n"
-#~ "%1\n"
-#~ "to\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Umbenennen nicht möglich\n"
-#~ "%1\n"
-#~ "in\n"
-#~ "%2"
-
-#~ msgid ""
-#~ "Could not open\n"
-#~ "%1"
-#~ msgstr ""
-#~ "Öffnen nicht möglich\n"
-#~ "%1"
-
-#~ msgid ""
-#~ "Could not write\n"
-#~ "%1"
-#~ msgstr ""
-#~ "Schreiben nicht möglich\n"
-#~ "%1"
-
-#~ msgid "Operation stopped by the user"
-#~ msgstr "Operation vom Benutzer gestoppt"
-
-#~ msgid "(unknown)"
-#~ msgstr "(unbekannt)"
-
-#~ msgid "Host %1 found"
-#~ msgstr "Host %1 nicht gefunden"
-
-#~ msgid "Host found"
-#~ msgstr "Host gefunden"
-
-#~ msgid "Connected to host %1"
-#~ msgstr "Verbunden zu Host %1"
-
-#~ msgid "Connected to host"
-#~ msgstr "Zu Host verbunden"
-
-#~ msgid "Connection to %1 closed"
-#~ msgstr "Verbindung zu %1 geschlossen"
-
-#~ msgid "Login Incorrect"
-#~ msgstr "Login fehlgeschlagen"
-
-#~ msgid "Col %1"
-#~ msgstr "Spalte %1"
-
-#~ msgid "Row %1"
-#~ msgstr "Zeile %1"
-
-#~ msgid "Undo"
-#~ msgstr "Rückgängig"
-
-#~ msgid "Redo"
-#~ msgstr "Wiederherstellen"
-
-#~ msgid "&Left"
-#~ msgstr "&Links"
-
-#~ msgid "&Right"
-#~ msgstr "&Rechts"
-
-#~ msgid "&Top"
-#~ msgstr "&Oben"
-
-#~ msgid "&Bottom"
-#~ msgstr "&Unten"
-
-#~ msgid "R&estore"
-#~ msgstr "Wiederh&erstellen"
-
-#~ msgid "&Hide"
-#~ msgstr "Aus&blenden"
-
-#~ msgid "Line Up Toolbars (compact)"
-#~ msgstr "Werkzeugleisten anordnen (kompakt)"
-
-#~ msgid "Line Up Toolbars (normal)"
-#~ msgstr "Werkzeugleisten anordnen (normal)"
-
-#~ msgid "Paste special..."
-#~ msgstr "Speziell einfügen..."
-
-#~ msgid "What's this?"
-#~ msgstr "Was ist das?"
-
-#~ msgid "&Restore"
-#~ msgstr "Wiederhe&rstellen"
-
-#~ msgid "&Move"
-#~ msgstr "Ver&schieben"
-
-#~ msgid "Mi&nimize"
-#~ msgstr "Mi&nimieren"
-
-#~ msgid "Ma&ximize"
-#~ msgstr "Ma&ximieren"
-
-#~ msgid "&Roll up"
-#~ msgstr "Nach oben &rollen"
-
-#~ msgid "Minimize"
-#~ msgstr "Minimieren"
-
-#~ msgid "Restore Down"
-#~ msgstr "Unten wiedeherstellen"
-
-#~ msgid "Maximize"
-#~ msgstr "Maximieren"
-
-#~ msgid "Roll up"
-#~ msgstr "Nach oben rollen"
-
-#~ msgid "Restore Up"
-#~ msgstr "Oben wiederherstellen"
-
-#~ msgid "Roll down"
-#~ msgstr "Nach unten rollen"
-
-#~ msgid "&Use artsd"
-#~ msgstr "Arts &benutzen"
-
-#~ msgid ""
-#~ "_n: Check invisible\n"
-#~ "%n times check invisible"
-#~ msgstr ""
-#~ "Einmal unsichtbar prüfen\n"
-#~ "%n Mal unsichbar prüfen"
-
-#~ msgid "Check invisible"
-#~ msgstr "Auf Unsichtbarkeit überprüfen"
-
-#~ msgid "Check &invisible"
-#~ msgstr "Auf Uns&ichtbarkeit prüfen"
-
-#~ msgid "&All"
-#~ msgstr "&Alle überprüfen"
-
-#~ msgid "&Only invisible"
-#~ msgstr "U&nsichtbare Kontakte erneut prüfen"
-
-#~ msgid "Maintainer"
-#~ msgstr "Betreuer"
-
-#~ msgid "%n day"
-#~ msgstr "%n Tage"
-
-#~ msgid "%n file"
-#~ msgstr "%n Dateien"
-
-#~ msgid "WWW-panel message"
-#~ msgstr "WWW-Pinboard Nachricht"
-
-#~ msgid "Email pager message"
-#~ msgstr "E-Mail Pager Nachricht"
-
-#~ msgid "Contact request"
-#~ msgstr "Kontaktanfrage"
-
-#~ msgid "%n contact found"
-#~ msgstr "Es wurden %n Kontakte gefunden"
-
-#~ msgid "Close after %n second"
-#~ msgstr "Schließt in %n Sekunden"
-
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-#~ msgid "Authorize request"
-#~ msgstr "Autorisierungsanfrage"
-
-#~ msgid "Authorization granted"
-#~ msgstr "Autorisierung bewilligt"
-
-#~ msgid "Authorization refused"
-#~ msgstr "Autorisierung verweigert"
-
-#~ msgid "Add to contacts"
-#~ msgstr "In die Kontaktliste aufgenommen"
-
-#~ msgid "Removed from contacts"
-#~ msgstr "Von der Kontaktliste gelöscht"
-
-#~ msgid "LiveJournal post"
-#~ msgstr "LiveJournal-Beitrag"
-
-#~ msgid "You have %n unread message"
-#~ msgstr "Sie haben %n neue E-Mail bekommen."
-
-#~ msgid "weather"
-#~ msgstr "Wetter"
-
-#~ msgid "%n GPG key"
-#~ msgstr "%n GPG-Schlüssel"
