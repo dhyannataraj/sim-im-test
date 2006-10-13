@@ -19,8 +19,8 @@
 #include "transtop.h"
 
 #include <krootpixmap.h>
-#include <kimageeffect.h>
-#include <qimage.h>
+#include <kpixmap.h>
+#include <kpixmapeffect.h>
 
 TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
         : QObject(parent)
@@ -50,11 +50,8 @@ QPixmap TransparentTop::background(const QColor &c)
 {
     if (bg.isNull())
         return QPixmap();
-    QImage img = bg.convertToImage();
-    img = KImageEffect::fade(img, m_transparent, c);
-    QPixmap res;
-    res.convertFromImage(img);
-    return res;
+    KPixmap pix = KPixmap(bg);
+    return KPixmapEffect::fade(pix, m_transparent, c);
 }
 
 void TransparentTop::backgroundUpdated( const QPixmap &pm )
