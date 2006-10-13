@@ -75,8 +75,8 @@ void SIMSockets::idle()
     SocketFactory::idle();
 }
 
-SIMResolver::SIMResolver(QObject *parent, const char *host)
-        : QObject(parent)
+SIMResolver::SIMResolver(QObject *parent, const QString &host)
+    : QObject(parent)
 {
     bDone = false;
     bTimeout = false;
@@ -121,12 +121,12 @@ unsigned long SIMResolver::addr()
     return htonl(dns->addresses().first().ip4Addr());
 }
 
-string SIMResolver::host()
+QString SIMResolver::host() const
 {
-    return dns->label().latin1();
+    return dns->label();
 }
 
-void SIMSockets::resolve(const char *host)
+void SIMSockets::resolve(const QString &host)
 {
     SIMResolver *resolver = new SIMResolver(this, host);
     resolvers.push_back(resolver);
@@ -155,7 +155,7 @@ void SIMSockets::resultsReady()
             isActive = bState;
 #endif
         setActive(isActive);
-        emit resolveReady(r->addr(), r->host().c_str());
+        emit resolveReady(r->addr(), r->host());
         resolvers.remove(r);
         delete r;
         it = resolvers.begin();
@@ -245,7 +245,7 @@ void SIMClientSocket::write(const char *buf, unsigned int size)
         QTimer::singleShot(0, this, SLOT(slotBytesWritten()));
 }
 
-void SIMClientSocket::connect(const char *_host, unsigned short _port)
+void SIMClientSocket::connect(const QString &_host, unsigned short _port)
 {
     port = _port;
     host = _host;
@@ -256,22 +256,22 @@ void SIMClientSocket::connect(const char *_host, unsigned short _port)
         return;
     }
 #endif
-    log(L_DEBUG, "Connect to %s:%u", host.c_str(), port);
-    if (inet_addr(host.c_str()) == INADDR_NONE){
-//        if (!host.empty() && (host[host.length() - 1] != '.'))
-//            host += ".";
-        log(L_DEBUG, "Start resolve %s", host.c_str());
+    log(L_DEBUG, QString("Connect to %1:%2").arg(host).arg(port));
+    if (inet_addr(host) == INADDR_NONE){
+        log(L_DEBUG, QString("Start resolve %1").arg(host));
         SIMSockets *s = static_cast<SIMSockets*>(getSocketFactory());
-        QObject::connect(s, SIGNAL(resolveReady(unsigned long, const char*)), this, SLOT(resolveReady(unsigned long, const char*)));
-        s->resolve(host.c_str());
+        QObject::connect(s, SIGNAL(resolveReady(unsigned long, const QString&)),
+                         this, SLOT(resolveReady(unsigned long, const QString&)));
+        s->resolve(host);
         return;
     }
-    resolveReady(inet_addr(host.c_str()), host.c_str());
+    resolveReady(inet_addr(host), host);
 }
 
-void SIMClientSocket::resolveReady(unsigned long addr, const char *_host)
+void SIMClientSocket::resolveReady(unsigned long addr, const QString &_host)
 {
-    if (strcmp(_host, host.c_str())) return;
+    if (_host != host)
+        return;
     if (addr == INADDR_NONE){
         if (notify) notify->error_state(I18N_NOOP("Can't resolve host"));
         return;
@@ -281,12 +281,12 @@ void SIMClientSocket::resolveReady(unsigned long addr, const char *_host)
     in_addr a;
     a.s_addr = addr;
     host = inet_ntoa(a);
-    log(L_DEBUG, "Resolve ready %s", host.c_str());
+    log(L_DEBUG, QString("Resolve ready %1").arg(host));
     timerStop();
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
     timer->start(CONNECT_TIMEOUT * 1000);
-    sock->connectToHost(host.c_str(), port);
+    sock->connectToHost(host, port);
 }
 
 void SIMClientSocket::slotConnected()

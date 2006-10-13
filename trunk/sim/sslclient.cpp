@@ -199,6 +199,10 @@ void SSLClient::shutdown()
         notify->error_state(errStr, err);
         return;
     }
+    case SSL_ERROR_SYSCALL: {
+        log(L_WARN, "SSL: SSL_shutdown errno: = %d ", errno);
+        return;
+    }
     case SSL_ERROR_WANT_READ:
     case SSL_ERROR_WANT_WRITE:
         state = SSLShutdown;
@@ -318,7 +322,7 @@ void SSLClient::write()
     process(false, true);
 }
 
-void SSLClient::connect(const char *host, unsigned short port)
+void SSLClient::connect(const QString &host, unsigned short port)
 {
     sock->connect(host, port);
 }
@@ -344,7 +348,8 @@ void SSLClient::pause(unsigned n)
 void SSLClient::connect_ready()
 {
     if (!init())
-        if (notify) notify->error_state(I18N_NOOP("SSL init error"));
+        if (notify)
+            notify->error_state(I18N_NOOP("SSL init error"));
     connect();
 }
 

@@ -590,7 +590,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 if (*value == 'u'){
                     ld->str() = QString::fromUtf8(v.c_str());
                 }else{
-                    ld->str() = QString::fromLocal8Bit(v.c_str());
+                    ld->str() = QString::fromAscii(v.c_str());
                 }
                 i++;
                 value = strchr(value, ',');
@@ -793,8 +793,6 @@ EXPORT string save_data(const DataDef *def, void *_data)
             case DATA_UTF:{
                     for (i = 0; i < def->n_values; i++, ld++){
                         QString &str = ld->str();
-                        if(str.startsWith("Peter"))
-                            log(L_DEBUG, "Peter!");
                         if (value.length())
                             value += ",";
                         if (def->def_value){

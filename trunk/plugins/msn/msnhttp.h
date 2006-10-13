@@ -30,11 +30,11 @@ class MSNHttpPool : public QObject, public SIM::Socket, public FetchClient
 public:
     MSNHttpPool(MSNClient *client, bool bSB);
     ~MSNHttpPool();
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
     virtual int  read(char *buf, unsigned size);
     virtual void write(const char *buf, unsigned size);
     virtual void close();
-    virtual Mode mode() { return Web; }
+    virtual Mode mode() const { return Web; }
 protected slots:
     void idle();
 protected:

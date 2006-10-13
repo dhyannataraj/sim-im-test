@@ -25,11 +25,11 @@ class YahooHttpPool : public SIM::Socket, public FetchClient
 public:
     YahooHttpPool();
     ~YahooHttpPool();
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
     virtual int  read(char *buf, unsigned size);
     virtual void write(const char *buf, unsigned size);
     virtual void close();
-    virtual Mode mode() { return Web; }
+    virtual Mode mode() const { return Web; }
 protected:
     virtual bool done(unsigned code, Buffer &data, const char *headers);
     Buffer readData;
@@ -80,7 +80,7 @@ void YahooHttpPool::close()
     stop();
 }
 
-void YahooHttpPool::connect(const char*, unsigned short)
+void YahooHttpPool::connect(const QString&, unsigned short)
 {
     if (notify)
         notify->connect_ready();

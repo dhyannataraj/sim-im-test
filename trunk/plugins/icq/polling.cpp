@@ -346,12 +346,12 @@ void HttpPool::close()
     readData.init(0);
 }
 
-void HttpPool::connect(const char *host, unsigned short port)
+void HttpPool::connect(const QString &host, unsigned short port)
 {
     state = None;
     Buffer b;
-    unsigned short len = strlen(host);
-    b << len << host << port;
+    unsigned short len = host.length();
+    b << len << host.local8Bit().data() << port;
     nSock++;
     queue.push_back(new HttpPacket(b.data(0), (unsigned short)(b.size()), HTTP_PROXY_LOGIN, nSock));
     if (sid.length()){

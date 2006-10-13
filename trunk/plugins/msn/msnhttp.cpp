@@ -89,9 +89,9 @@ void MSNHttpPool::close()
     stop();
 }
 
-void MSNHttpPool::connect(const char *host, unsigned short)
+void MSNHttpPool::connect(const QString &host, unsigned short)
 {
-    m_ip = QString::fromUtf8(host); // for now
+    m_ip = host;
     if (notify)
         notify->connect_ready();
 }

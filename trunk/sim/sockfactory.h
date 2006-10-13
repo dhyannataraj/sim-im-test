@@ -39,7 +39,7 @@ public:
     virtual ~SIMClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual void close();
@@ -51,12 +51,12 @@ protected slots:
     void slotBytesWritten();
     void slotError(int);
     void slotLookupFinished(int);
-    void resolveReady(unsigned long addr, const char *host);
+    void resolveReady(unsigned long addr, const QString &host);
     void timeout();
 protected:
     void timerStop();
     unsigned short port;
-    std::string host;
+    QString host;
     QSocket *sock;
     QTimer  *timer;
     bool bInWrite;
@@ -91,14 +91,14 @@ class SIMResolver : public QObject
 {
     Q_OBJECT
 public:
-    SIMResolver(QObject *parent, const char *host);
+    SIMResolver(QObject *parent, const QString &host);
     ~SIMResolver();
     QTimer *timer;
     QDns   *dns;
     bool   bDone;
     bool   bTimeout;
     unsigned long addr();
-    std::string host();
+    QString host() const;
 protected slots:
     void   resolveTimeout();
     void   resolveReady();
@@ -112,9 +112,9 @@ public:
     ~SIMSockets();
     virtual Socket *createSocket();
     virtual ServerSocket *createServerSocket();
-    void resolve(const char *host);
+    void resolve(const QString &host);
 signals:
-    void resolveReady(unsigned long res, const char*);
+    void resolveReady(unsigned long res, const QString &);
 public slots:
     void resultsReady();
     void idle();

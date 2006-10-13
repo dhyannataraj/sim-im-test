@@ -26,11 +26,11 @@ class JabberHttpPool : public Socket, public FetchClient
 public:
     JabberHttpPool(const QString &url);
     ~JabberHttpPool();
-    virtual void connect(const char *host, unsigned short port);
+    virtual void connect(const QString &host, unsigned short port);
     virtual int  read(char *buf, unsigned size);
     virtual void write(const char *buf, unsigned size);
     virtual void close();
-    virtual Mode mode() { return Web; }
+    virtual Mode mode() const { return Web; }
 protected:
     string getKey();
     virtual bool done(unsigned code, Buffer &data, const char *headers);
@@ -125,7 +125,7 @@ void JabberHttpPool::close()
     stop();
 }
 
-void JabberHttpPool::connect(const char*, unsigned short)
+void JabberHttpPool::connect(const QString&, unsigned short)
 {
     if (notify)
         notify->connect_ready();

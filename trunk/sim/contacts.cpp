@@ -2106,7 +2106,8 @@ QCString ContactList::fromUnicode(Contact *contact, const QString &str)
     s = s.replace(QRegExp("\r?\n"), "\r\n");
     return getCodec(contact)->fromUnicode(s);
 }
-}
+
+}   // namespace sim
 
 EXPORT QString g_i18n(const char *text, SIM::Contact *contact)
 {
