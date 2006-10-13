@@ -6256,30 +6256,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath="..\..\po\zh_TW.po"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="msg2qm on $(InputPath)"
-						CommandLine="msg2qm $(InputPath)&#x0D;&#x0A;move tr.qm $(OutDir)\po\$(InputName).qm&#x0D;&#x0A;"
-						Outputs="$(OutDir)\po\$(InputName).qm"
-					/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 		<Filter
 			Name="Pict"
