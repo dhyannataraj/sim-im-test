@@ -5568,659 +5568,586 @@ msgstr "Dimanche"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:374
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Squalls"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:375
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Overcast"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:376
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fog"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:377
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mist"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:378
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Haze"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:379
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:380
-#, fuzzy
 msgid ""
 "_: weather\n"
 "T-Storm"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:381
-#, fuzzy
 msgid ""
 "_: weather\n"
 "T-Storms"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:382
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered T-Storms"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:383
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Thunder"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:384
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Rain with Thunder"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:385
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Thunder in the Vicinity"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:386
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Rain"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:387
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Rain"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:409
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Freezing Rain"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:389
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Rain to Snow"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:390
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:391
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:392
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:393
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:394
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clear"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:395
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clearing"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:396
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Showers"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:397
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:398
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Clear"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:399
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunny"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:400
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:401
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Cloudy"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:402
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clouds"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:403
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:404
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:580
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Wind"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:406
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:407
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:408
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Freezing Drizzle"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:410
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Drizzle"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:411
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:412
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Snow Grains"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:413
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:414
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:415
-#, fuzzy
 msgid ""
 "_: weather\n"
 "steady"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:416
-#, fuzzy
 msgid ""
 "_: weather\n"
 "rising"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:417
-#, fuzzy
 msgid ""
 "_: weather\n"
 "falling"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:418
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Unlimited"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:420
-#, fuzzy
 msgid ""
 "_: weather\n"
 "N"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:421
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNW"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:422
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NW"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:423
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WNW"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:424
-#, fuzzy
 msgid ""
 "_: weather\n"
 "W"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:425
-#, fuzzy
 msgid ""
 "_: weather\n"
 "WSW"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:426
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SW"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:427
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSW"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:428
-#, fuzzy
 msgid ""
 "_: weather\n"
 "S"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:429
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SSE"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:430
-#, fuzzy
 msgid ""
 "_: weather\n"
 "SE"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:431
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ESE"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:432
-#, fuzzy
 msgid ""
 "_: weather\n"
 "E"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:433
-#, fuzzy
 msgid ""
 "_: weather\n"
 "ENE"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:434
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NE"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:435
-#, fuzzy
 msgid ""
 "_: weather\n"
 "NNE"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:436
-#, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:437
-#, fuzzy
 msgid ""
 "_: weather\n"
 "CALM"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:439
-#, fuzzy
 msgid ""
 "_: weather\n"
 "km"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:440
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mi"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:441
-#, fuzzy
 msgid ""
 "_: weather\n"
 "km/h"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:442
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mph"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:443
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mmHg"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:444
-#, fuzzy
 msgid ""
 "_: weather\n"
 "inHg"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:446
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:447
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:448
-#, fuzzy
 msgid ""
 "_: weather\n"
 "High"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:450
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "New"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:451
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
-msgstr "Météo"
+msgstr ""
 
 #: plugins/weather/weather.cpp:452
 msgid ""
@@ -6231,11 +6158,10 @@ msgstr ""
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:453
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
-msgstr "Météo"
+msgstr ""
 
 #: plugins/weather/weather.cpp:454
 msgid ""
@@ -6246,11 +6172,10 @@ msgstr ""
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:455
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
-msgstr "Météo"
+msgstr ""
 
 #: plugins/weather/weather.cpp:456
 msgid ""
@@ -6261,11 +6186,10 @@ msgstr ""
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:457
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:109
 #: plugins/weather/weather.cpp:469
@@ -6275,20 +6199,18 @@ msgstr "et"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:472
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:475
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
-msgstr "Météo"
+msgstr ""
 
 #: plugins/weather/weather.cpp:514 plugins/weather/weather.cpp:516
 msgid "m/s"
@@ -6306,120 +6228,107 @@ msgstr "%t | %c"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:574
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
-msgstr "Météo"
+msgstr "Température"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
-msgstr "Météo"
+msgstr "sensation"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:577
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
-msgstr "Météo"
+msgstr "Humidité"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:578
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
-msgstr "Météo"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:579
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
-msgstr "Météo"
+msgstr "Pression"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:581
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
-msgstr "Météo"
+msgstr "Visibilité"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:582
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
-msgstr "Météo"
+msgstr "Température de rosée"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:583
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
-msgstr "Météo"
+msgstr "Levé du soleil"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:584
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
-msgstr "Météo"
+msgstr "Couché du soleil"
 
 #: plugins/weather/weather.cpp:585
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
-msgstr ""
+msgstr "L'intensité des UV est <b>%ut</b>, d'une valeur de <b>%ui</b> sur 11"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:586
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
-msgstr "Météo"
+msgstr "Lune"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:589
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
-msgstr "Météo"
+msgstr "Dernière mise à jour"
 
 #: plugins/weather/weather.cpp:597
-#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
