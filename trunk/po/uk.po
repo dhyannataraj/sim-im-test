@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-13 18:43+0200\n"
-"PO-Revision-Date: 2006-08-22 23:18+0300\n"
+"PO-Revision-Date: 2006-10-14 14:43+0300\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -679,13 +679,11 @@ msgid "Please enter a new name for the profile."
 msgstr "Будь-ласка введіть ім'я нового профілю"
 
 #: plugins/_core/core.cpp:3742 plugins/_core/logindlg.cpp:406
-msgid ""
-"There is already another profile with this name.  Please choose another."
+msgid "There is already another profile with this name.  Please choose another."
 msgstr "Профіль з таким іменем вже існує. Виберіть інше ім'я."
 
 #: plugins/_core/core.cpp:3746
-msgid ""
-"Unable to create the profile.  Please do not use any special characters."
+msgid "Unable to create the profile.  Please do not use any special characters."
 msgstr "Неможливо створити профіль. Не використовуйте в імені спецсимволи."
 
 #. i18n: file ./plugins/_core/managerbase.ui line 20
@@ -1020,10 +1018,8 @@ msgid "Rename Profile"
 msgstr "Перейменувати профіль"
 
 #: plugins/_core/logindlg.cpp:410
-msgid ""
-"Unable to rename the profile.  Please do not use any special characters."
-msgstr ""
-"Неможливо перейменувати профіль. Не використовуйте в імені спецсимволи."
+msgid "Unable to rename the profile.  Please do not use any special characters."
+msgstr "Неможливо перейменувати профіль. Не використовуйте в імені спецсимволи."
 
 #: plugins/_core/logindlg.cpp:500 plugins/jabber/jabberclient.cpp:963
 #: plugins/livejournal/livejournal.cpp:890 plugins/msn/msnclient.cpp:814
@@ -1508,8 +1504,7 @@ msgstr "Дія"
 
 #: plugins/action/action.cpp:37
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
+msgstr "Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
 
 #: plugins/action/action.cpp:87
 msgid "&Action"
@@ -1625,8 +1620,7 @@ msgstr "Системний лоток"
 
 #: plugins/dock/dock.cpp:43
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Модуль забезпечує згортання головного вікна в іконку в системному лотку"
+msgstr "Модуль забезпечує згортання головного вікна в іконку в системному лотку"
 
 #: plugins/dock/dock.cpp:45 plugins/windock/windock.cpp:46
 msgid "Dock"
@@ -1722,9 +1716,8 @@ msgstr ""
 "GPG не знайдено в змінній PATH"
 
 #: plugins/gpg/gpg.cpp:360 plugins/gpg/gpg.cpp:366
-#, fuzzy
 msgid "Importing public key failed"
-msgstr "Імпортувати публічний ключ:"
+msgstr "Помилка імпорту публічого ключа"
 
 #: plugins/gpg/gpg.cpp:523 plugins/gpg/gpg.cpp:532
 msgid "Encrypt failed"
@@ -1753,9 +1746,8 @@ msgid "&GPG key"
 msgstr "&GPG ключ"
 
 #: plugins/gpg/gpg.cpp:888
-#, fuzzy
 msgid "Can't read gpg key "
-msgstr "Неможливо знайти gpg ключ"
+msgstr "Неможливо прочитати gpg ключ"
 
 #: plugins/gpg/gpgcfg.cpp:44
 msgid "GPG(gpg.exe)"
@@ -3161,7 +3153,6 @@ msgid "Low level network error"
 msgstr "Низькорівнева мережева помилка"
 
 #: plugins/jabber/jabber_rosters.cpp:2847
-#, fuzzy
 msgid ""
 "Please translate this to short language name like 'ru' or 'de'. Do not "
 "translate this sentence!)"
@@ -4149,8 +4140,7 @@ msgid "Navigate"
 msgstr "Навігація"
 
 #: plugins/navigate/navigate.cpp:228
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr "Модуль забезпечує навігацію по гіперпосиланнях"
 
 #: plugins/navigate/navigate.cpp:278
@@ -4246,8 +4236,7 @@ msgid "OSD"
 msgstr "Екран"
 
 #: plugins/osd/osd.cpp:72
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Модуль забезпечує вивід попереджень на екран про прихід повідомлень або "
 "зміну статусу"
@@ -4587,8 +4576,7 @@ msgstr "Поновлення"
 
 #: plugins/update/update.cpp:44
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
+msgstr "Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
 
 #: plugins/update/update.cpp:128
 msgid "Show details"
@@ -4618,7 +4606,7 @@ msgstr "Нема з'єднання"
 msgid ""
 "_: weather\n"
 "Weather data provided by weather.com&reg;"
-msgstr ""
+msgstr "За даними weather.com&reg;"
 
 #: plugins/weather/weather.cpp:366
 msgid "Monday"
@@ -5021,46 +5009,40 @@ msgid ""
 msgstr "відсутній"
 
 #: plugins/weather/weather.cpp:439
-#, fuzzy
 msgid ""
 "_: weather\n"
 "km"
-msgstr "північний"
+msgstr "км"
 
 #: plugins/weather/weather.cpp:440
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mi"
-msgstr "північний"
+msgstr "миль"
 
 #: plugins/weather/weather.cpp:441
-#, fuzzy
 msgid ""
 "_: weather\n"
 "km/h"
-msgstr "північний"
+msgstr "км/год"
 
 #: plugins/weather/weather.cpp:442
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mph"
-msgstr "північний"
+msgstr "миль/год"
 
 #: plugins/weather/weather.cpp:443
-#, fuzzy
 msgid ""
 "_: weather\n"
 "mmHg"
-msgstr "сильною"
+msgstr "мм.рт.ст."
 
 #: plugins/weather/weather.cpp:444
-#, fuzzy
 msgid ""
 "_: weather\n"
 "inHg"
-msgstr "росте"
+msgstr "дюйм.рт.ст."
 
 #: plugins/weather/weather.cpp:446
 msgid ""
@@ -5081,11 +5063,10 @@ msgid ""
 msgstr "сильною"
 
 #: plugins/weather/weather.cpp:450
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "New"
-msgstr "Повний"
+msgstr "Новий"
 
 #: plugins/weather/weather.cpp:451
 msgid ""
@@ -5158,74 +5139,64 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:574
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
-msgstr "Ясно"
+msgstr "Актуальна погода"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
-msgstr "помірною"
+msgstr "Температура"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
-msgstr "падає"
+msgstr "відчувається"
 
 #: plugins/weather/weather.cpp:577
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
-msgstr "Вітряно"
+msgstr "Вологість"
 
 #: plugins/weather/weather.cpp:578
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
-msgstr "Снігова крупа"
+msgstr "Ймовірність опадів"
 
 #: plugins/weather/weather.cpp:579
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
-msgstr "Ясно"
+msgstr "Тиск"
 
 #: plugins/weather/weather.cpp:581
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
-msgstr "Мряка"
+msgstr "Видимість"
 
 #: plugins/weather/weather.cpp:582
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
-msgstr "Незначний снігопад"
+msgstr "Точка роси"
 
 #: plugins/weather/weather.cpp:583
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
-msgstr "Сонячно"
+msgstr "Схід"
 
 #: plugins/weather/weather.cpp:584
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
-msgstr "Сонячно"
+msgstr "Захід"
 
 #: plugins/weather/weather.cpp:585
 #, c-format
@@ -5233,20 +5204,20 @@ msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
 msgstr ""
+"Інтенсивність УФ випромінювання є <b>%ut</b>, і дорівнює <b>%ui</b> (з "
+"11)"
 
 #: plugins/weather/weather.cpp:586
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
-msgstr "помірною"
+msgstr "Фаза Місяця"
 
 #: plugins/weather/weather.cpp:589
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
-msgstr "під вечір"
+msgstr "Поновлено"
 
 #: plugins/weather/weather.cpp:597
 msgid ""
@@ -5354,8 +5325,7 @@ msgstr "Дата"
 
 #: plugins/windock/windock.cpp:47
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr ""
-"Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
+msgstr "Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
 
 #: plugins/windock/windock.cpp:188
 msgid ""
@@ -5390,9 +5360,8 @@ msgid "Yahoo! login lock"
 msgstr "Yahoo! вхід закрито"
 
 #: plugins/yahoo/yahooclient.cpp:368
-#, fuzzy
 msgid "Wrong password"
-msgstr "Забули пароль?"
+msgstr "Помилка з паролем?"
 
 #: plugins/yahoo/yahooclient.cpp:372
 msgid "Your account has been locked"
@@ -6218,8 +6187,7 @@ msgstr "-"
 #: rc.cpp:462 rc.cpp:620 rc.cpp:724 rc.cpp:1814 rc.cpp:2064
 #, no-c-format
 msgid "Note: For HTTP-polling using proxy settings for HTTP"
-msgstr ""
-"Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
+msgstr "Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 431
 #: rc.cpp:465 rc.cpp:623
@@ -7728,8 +7696,7 @@ msgstr "Встановити статус \"Вимкнений\" через"
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 138
 #: rc.cpp:1899
 #, no-c-format
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані \"Відійшов\", \"Неактивний\", \"Не турбувати"
 "\", \"Зайнятий\""
@@ -7818,8 +7785,7 @@ msgstr "&Приймати повідомлення тільки від конт�
 #: rc.cpp:1984
 #, no-c-format
 msgid "&Receive authorization and system messages only from contacts from list"
-msgstr ""
-"&Приймати авторизації і системні повідомлення тільки від контактів в списку"
+msgstr "&Приймати авторизації і системні повідомлення тільки від контактів в списку"
 
 #. i18n: file ./plugins/filter/filtercfgbase.ui line 61
 #: rc.cpp:1987
@@ -9333,7 +9299,7 @@ msgstr "Пасивність"
 
 #: sim/simapi.cpp:670
 msgid "Skeptical"
-msgstr "Скептик"
+msgstr "Скептично"
 
 #: sim/simapi.cpp:671
 msgid "Sad"
@@ -9985,3 +9951,4 @@ msgstr "Власний"
 #, fuzzy
 #~ msgid "%n GPG key"
 #~ msgstr "GPG ключ"
+
