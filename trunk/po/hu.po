@@ -5297,92 +5297,64 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:574
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
 msgstr ""
-"Az idő: \n"
-"Tiszta"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
-msgstr ""
-"Az idő: \n"
-"Borult"
+msgstr "Hőmérséklet"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
 msgstr ""
-"Az idő: \n"
-"Esős"
 
 #: plugins/weather/weather.cpp:577
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
-msgstr ""
-"Az idő: \n"
-"Szél"
+msgstr "Páratartalom"
 
 #: plugins/weather/weather.cpp:578
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
 msgstr ""
-"Az idő: \n"
-"Hó"
 
 #: plugins/weather/weather.cpp:579
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
-msgstr ""
-"Az idő: \n"
-"Tiszta"
+msgstr "Nyomás"
 
 #: plugins/weather/weather.cpp:581
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
-msgstr "K"
+msgstr "Látási viszonyok"
 
 #: plugins/weather/weather.cpp:582
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
-msgstr ""
-"Az idő: \n"
-"Enyhe havazás"
+msgstr "Fagypont"
 
 #: plugins/weather/weather.cpp:583
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
-msgstr ""
-"Az idő: \n"
-"Napos"
+msgstr "Napkelte"
 
 #: plugins/weather/weather.cpp:584
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
-msgstr ""
-"Az idő: \n"
-"Napos"
+msgstr "Napnyugta"
 
 #: plugins/weather/weather.cpp:585
 #, c-format
@@ -5392,25 +5364,18 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:586
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
 msgstr ""
-"Az idő: \n"
-"Borult"
 
 #: plugins/weather/weather.cpp:589
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
-msgstr ""
-"Az idő: \n"
-"Párás"
+msgstr "Frissítve"
 
 #: plugins/weather/weather.cpp:597
-#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
