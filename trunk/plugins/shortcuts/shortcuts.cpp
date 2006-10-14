@@ -209,9 +209,8 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     getKey(cmd->accel, mod, key);
     QWidget *main = ShortcutsPlugin::getMainWindow();
     if (key && main){
-        string atom = "sim_";
-        atom += number(cmd->id);
-        m_key = GlobalAddAtomA(atom.c_str());
+        QString atom = "sim_" + QString::number(cmd->id);
+        m_key = GlobalAddAtom((LPCWSTR)atom.ucs2());
         RegisterHotKey(main->winId(), m_key, mod, key);
     }
 }
@@ -252,10 +251,9 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     m_cmd = *cmd;
     QKeySequence keys(cmd->accel);
     if (keys != QKeySequence(0)){
-        string shortName = "sim_";
-        shortName += number(cmd->id);
+        QString shortName = "sim_" + QString::number(cmd->id);
         accel = new KGlobalAccel(this);
-        accel->insert(shortName.c_str(),
+        accel->insert(shortName,
                       i18n(cmd->text), i18n(cmd->text),
                       keys, keys, this, SLOT(execute()));
         accel->updateConnections();
@@ -649,29 +647,27 @@ static const char *states[] =
         NULL
     };
 
-unsigned ShortcutsPlugin::stringToButton(const char *cfg)
+unsigned ShortcutsPlugin::stringToButton(const QString &cfg)
 {
     unsigned res = 0;
-    string config;
-    if (cfg)
-        config = cfg;
+    QString config = cfg;
     for (; config.length(); ){
-        string t = getToken(config, '+');
-        if (!strcmp(t.c_str(), "Alt")){
+        QString t = getToken(config, '+');
+        if (t == "Alt"){
             res |= AltButton;
             continue;
         }
-        if (!strcmp(t.c_str(), "Ctrl")){
+        if (t == "Ctrl"){
             res |= ControlButton;
             continue;
         }
-        if (!strcmp(t.c_str(), "Shift")){
+        if (t == "Shift"){
             res |= ShiftButton;
             continue;
         }
         unsigned i = 1;
         for (const char **p = states; *p; p++, i++){
-            if (!strcmp(t.c_str(), *p)){
+            if (t == *p){
                 res |= i;
                 return res;
             }
@@ -681,9 +677,9 @@ unsigned ShortcutsPlugin::stringToButton(const char *cfg)
     return 0;
 }
 
-string ShortcutsPlugin::buttonToString(unsigned n)
+QString ShortcutsPlugin::buttonToString(unsigned n)
 {
-    string res;
+    QString res;
     if (n & AltButton)
         res = "Alt+";
     if (n & ControlButton)
@@ -692,12 +688,12 @@ string ShortcutsPlugin::buttonToString(unsigned n)
         res = "Shift+";
     n = n & 7;
     if (n == 0)
-        return "";
+        return QString::null;
     n--;
     const char **p;
     for (p = states; *p && n; p++, n--);
     if (*p == NULL)
-        return "";
+        return QString::null;
     res += *p;
     return res;
 }
@@ -705,8 +701,8 @@ string ShortcutsPlugin::buttonToString(unsigned n)
 void ShortcutsPlugin::applyKey(CommandDef *s)
 {
     if (s->popup_id){
-        const char *cfg = getMouse(s->id);
-        if (cfg && *cfg){
+        QString cfg = getMouse(s->id);
+        if (!cfg.isEmpty()){
             unsigned btn = stringToButton(cfg);
             if (mouseCmds.size() == 0)
                 qApp->installEventFilter(this);
@@ -717,16 +713,16 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
     QString cfg = getKey(s->id);
     if (!cfg.isEmpty()){
         oldKeys.insert(MAP_STR::value_type(s->id, s->accel));
-        if (strcmp(cfg, "-")){
+        if (cfg != "-"){
             s->accel = cfg;
         }else{
             s->accel = QString::null;
         }
     }
     cfg = getGlobal(s->id);
-    if (cfg && *cfg){
+    if (!cfg.isEmpty()){
         oldGlobals.insert(MAP_BOOL::value_type(s->id, (s->flags & COMMAND_GLOBAL_ACCEL) != 0));
-        if (*cfg == '-'){
+        if (cfg.startsWith("-")){
             s->flags &= ~COMMAND_GLOBAL_ACCEL;
         }else{
             s->flags |= COMMAND_GLOBAL_ACCEL;
