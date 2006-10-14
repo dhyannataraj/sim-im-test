@@ -1,4 +1,4 @@
-# translation of cs.po to
+# translation of cs.po to Czech
 # Pavel Rousar <rousarp@fel.cvut.cz>, 2002.
 # Pavel Rousar <p.rousar@sh.cvut.cz>, 2003, 2004.
 # Jiri Sedlak <jiri_sedlak@users.sourceforge.net>, 2004.
@@ -5178,98 +5178,86 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:574
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
-msgstr "Jasno"
+msgstr ""
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
-msgstr "Zataženo"
+msgstr "Teplota"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
-msgstr "klesající"
+msgstr "vypadá jako"
 
 #: plugins/weather/weather.cpp:577
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
-msgstr "Větrno"
+msgstr "Vlhkost"
 
 #: plugins/weather/weather.cpp:578
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
-msgstr "Sněžení"
+msgstr "Proměnlivost"
 
 #: plugins/weather/weather.cpp:579
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
-msgstr "Jasno"
+msgstr "Tlak"
 
 #: plugins/weather/weather.cpp:581
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
-msgstr "V"
+msgstr "Viditelnost"
 
 #: plugins/weather/weather.cpp:582
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
-msgstr "Ojedinělé sněžení"
+msgstr "Rosný bod"
 
 #: plugins/weather/weather.cpp:583
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
-msgstr "Slunečno"
+msgstr "Východ slunce"
 
 #: plugins/weather/weather.cpp:584
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
-msgstr "Slunečno"
+msgstr "Západ slunce"
 
 #: plugins/weather/weather.cpp:585
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
-msgstr ""
+msgstr "Intenzita UV-záření <b>%ut</b> s hodnotou <b>%ui</b> (z 11)"
 
 #: plugins/weather/weather.cpp:586
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
-msgstr "Zataženo"
+msgstr ""
 
 #: plugins/weather/weather.cpp:589
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
-msgstr "Lehká mlha"
+msgstr "Aktualizováno"
 
 #: plugins/weather/weather.cpp:597
-#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
