@@ -5171,98 +5171,86 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:574
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
-msgstr "Chiaro"
+msgstr ""
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
-msgstr "Coperto"
+msgstr "Temperatura"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
-msgstr "in diminuzione"
+msgstr "sembra"
 
 #: plugins/weather/weather.cpp:577
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
-msgstr "Ventoso"
+msgstr "Umidità"
 
 #: plugins/weather/weather.cpp:578
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
-msgstr "Neve"
+msgstr "Precipitazioni"
 
 #: plugins/weather/weather.cpp:579
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
-msgstr "Chiaro"
+msgstr "Pressione"
 
 #: plugins/weather/weather.cpp:581
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
-msgstr "E"
+msgstr "Visibilità"
 
 #: plugins/weather/weather.cpp:582
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
-msgstr "Poca neve"
+msgstr "Punto di rugiada"
 
 #: plugins/weather/weather.cpp:583
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
-msgstr "Soleggiato"
+msgstr "Alba"
 
 #: plugins/weather/weather.cpp:584
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
-msgstr "Soleggiato"
+msgstr "Tramonto"
 
 #: plugins/weather/weather.cpp:585
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
-msgstr ""
+msgstr "Intensità UV è <b>%ut</b> con valore <b>%ui</b> (su 11)"
 
 #: plugins/weather/weather.cpp:586
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
-msgstr "Coperto"
+msgstr ""
 
 #: plugins/weather/weather.cpp:589
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
-msgstr "Foschia"
+msgstr ""
 
 #: plugins/weather/weather.cpp:597
-#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
@@ -9455,41 +9443,7 @@ msgstr "Personalizzato"
 #~ msgid "km/h"
 #~ msgstr "km/h"
 
-#, fuzzy
-#~ msgid ""
-#~ "%l<br><br>\n"
-#~ "<b>Current Weather:</b><br>\n"
-#~ "<img src=\"icon:weather%i\"> %c<br>\n"
-#~ "Temperature: <b>%t</b> (feels like: <b>%f</b>)<br>\n"
-#~ "Humidity: <b>%h</b><br>\n"
-#~ "Chance of Precipitation: <b>%pp%</b><br>\n"
-#~ "Pressure: <b>%p</b> (%q)<br>\n"
-#~ "Wind: <b>%b</b> <b>%w %g</b><br>\n"
-#~ "Visibility: <b>%v</b><br>\n"
-#~ "Dew Point: <b>%d</b><br>\n"
-#~ "Sunrise: %r<br>\n"
-#~ "Sunset: %s<br>\n"
-#~ "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)<br>\n"
-#~ "<b>Moonphase: </b>%mp<br>\n"
-#~ "<img src=\"icon:moon%mi\"><br>\n"
-#~ "<br>\n"
-#~ "Updated: %u<br>\n"
-#~ msgstr ""
-#~ "%l<br><br>\n"
-#~ "<img src=\"icon:weather%i\"> %c<br>\n"
-#~ "Temperatura: <b>%t</b> (sembra: <b>%f</b>)<br>\n"
-#~ "Umidità: <b>%h</b><br>\n"
-#~ "Precipitazioni: <b>%pp %</b><br>\n"
-#~ "Pressione: <b>%p</b> (%q)<br>\n"
-#~ "Vento: <b>%b</b> <b>%w %g</b><br>\n"
-#~ "Visibilità: <b>%v</b><br>\n"
-#~ "Punto di rugiada: <b>%d</b><br>\n"
-#~ "Alba: %r<br>\n"
-#~ "Tramonto: %s<br>\n"
-#~ "<img src=\"icon:moon%mi\"> %mp<br>\n"
-#~ "Intensità UV è <b>%ut</b> con valore <b>%ui</b> (su 11)<br>\n"
-#~ "<br>\n"
-#~ "Updated: %u<br>\n"
+
 
 #~ msgid "Taiwanese"
 #~ msgstr "Taiwanese"
