@@ -84,7 +84,7 @@ static CommandDef yahoo_descr =
         I18N_NOOP("Yahoo!"),
         "Yahoo!_online",
         "Yahoo!_invisible",
-        I18N_NOOP("http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"),
+        "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER",
         0,
         0,
         0,

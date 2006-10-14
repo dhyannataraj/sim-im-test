@@ -230,7 +230,7 @@ void ZodiakWnd::view()
     m_picker->getDate(day, month, year);
     if (day && month && year){
         int n = getSign(day, month);
-        QString s = i18n("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]);
+        QString s = QString("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]);
         Event e(EventGoURL, (void*)&s);
         e.process();
     }
