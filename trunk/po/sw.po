@@ -5221,74 +5221,64 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:574
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
-msgstr "Klar"
+msgstr ""
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
-msgstr "Bewelkd"
+msgstr "Demberadur"
 
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
-msgstr "Fallend"
+msgstr "gfihld wie"
 
 #: plugins/weather/weather.cpp:577
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
-msgstr "Wend"
+msgstr "Feichdigkeid"
 
 #: plugins/weather/weather.cpp:578
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
-msgstr "Schnee"
+msgstr ""
 
 #: plugins/weather/weather.cpp:579
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
-msgstr "Klar"
+msgstr "Drugg"
 
 #: plugins/weather/weather.cpp:581
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
-msgstr "O"
+msgstr "Sichdbarkeid"
 
 #: plugins/weather/weather.cpp:582
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
-msgstr "Edwas Schnee"
+msgstr "Daubunkd"
 
 #: plugins/weather/weather.cpp:583
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
-msgstr "Sonning"
+msgstr "Sonnenaufgang"
 
 #: plugins/weather/weather.cpp:584
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
-msgstr "Sonning"
+msgstr "Sonnenondergang"
 
 #: plugins/weather/weather.cpp:585
 #, c-format
@@ -5298,18 +5288,16 @@ msgid ""
 msgstr ""
 
 #: plugins/weather/weather.cpp:586
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
-msgstr "Bewelkd"
+msgstr ""
 
 #: plugins/weather/weather.cpp:589
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
-msgstr "Nebl"
+msgstr "Akdualisierd"
 
 #: plugins/weather/weather.cpp:597
 #, fuzzy
