@@ -6276,120 +6276,107 @@ msgstr "%t | %c"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:574
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
-msgstr "Jasno"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
-msgstr "Stredne"
+msgstr "Teplota"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:576
-#, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
-msgstr "klesanie"
+msgstr "ako keby"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:577
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
-msgstr "Veterne"
+msgstr "Vlhkosť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:578
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
-msgstr "Snehové zrnká"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:579
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
-msgstr "Jasno"
+msgstr "Tlak"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:581
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
-msgstr "Opar"
+msgstr "Viditenosť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:582
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
-msgstr "Občasné sneženie"
+msgstr "Rosný bod"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:583
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
-msgstr "Slnečno"
+msgstr "Východ slnka"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:584
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
-msgstr "Slnečno"
+msgstr "Západ slnka"
 
 #: plugins/weather/weather.cpp:585
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
-msgstr ""
+msgstr "UV žiarenie je <b>%ut</b> z hodnotou <b>%ui</b> (z 11)"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:586
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
-msgstr "Stredne"
+msgstr ""
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:589
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
-msgstr "Neskôr"
+msgstr "Aktualizované"
 
 #: plugins/weather/weather.cpp:597
-#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
