@@ -322,11 +322,8 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
         }
         m_processor = processor;
     }
-    if (msg->client()){
-        m_client = msg->client();
-    }else{
-        m_client = "";
-    }
+    m_client = msg->client();
+
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
         Event e(EventContactClient, contact);
@@ -591,9 +588,9 @@ static CommandDef fileCommands[] =
         CommandDef (
             CmdFileAccept,
             I18N_NOOP("&Accept"),
-            "",
-            "",
-            "",
+            QString::null,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1090,
             MenuMessage,
@@ -601,14 +598,14 @@ static CommandDef fileCommands[] =
             0,
             COMMAND_CHECK_STATE,
             NULL,
-            ""
+            QString::null
         ),
         CommandDef (
             CmdFileDecline,
             I18N_NOOP("&Decline"),
-            "",
-            "",
-            "",
+            QString::null,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1091,
             MenuMessage,
@@ -616,7 +613,7 @@ static CommandDef fileCommands[] =
             MenuFileDecline,
             COMMAND_CHECK_STATE,
             NULL,
-            ""
+            QString::null
         ),
         CommandDef ()
     };
@@ -1704,7 +1701,7 @@ void MsgEdit::setupMessages()
 
     cmd->id			= MessageStatus;
     cmd->text		= I18N_NOOP("Status");
-    cmd->icon		= "";
+    cmd->icon		= QString::null;
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defStatus;

@@ -222,7 +222,7 @@ void ClientItem::init()
 {
     if (!m_cmd->text_wrk.isEmpty()){
         setText(0, m_cmd->text_wrk);
-        m_cmd->text_wrk = "";
+        m_cmd->text_wrk = QString::null;
     }else{
         setText(0, i18n(m_cmd->text));
     }
@@ -484,7 +484,7 @@ void ConfigureDialog::apply()
         emit applyChanges(client, data);
         client->setClientInfo(data);
         free_data(def, data);
-        delete[] data;;
+        delete[] data;
     }
     for (QListViewItem *item = lstBox->firstChild(); item; item = item->nextSibling()){
         apply(item);

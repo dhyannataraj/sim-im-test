@@ -122,7 +122,7 @@ void LoginDialog::accept()
     if ((n < 0) || (n >= cmbProfile->count() - 1)){
         CorePlugin::m_plugin->setSavePasswd(chkSave->isChecked());
         CorePlugin::m_plugin->setNoShow(chkNoShow->isChecked());
-        CorePlugin::m_plugin->setProfile(NULL);
+        CorePlugin::m_plugin->setProfile(QString::null);
         CorePlugin::m_plugin->changeProfile();
         LoginDialogBase::accept();
         return;
@@ -341,7 +341,7 @@ void LoginDialog::fill()
         CorePlugin::m_plugin->setProfile(save_profile);
     }else{
         cmbProfile->setCurrentItem(cmbProfile->count() - 1);
-        CorePlugin::m_plugin->setProfile(NULL);
+        CorePlugin::m_plugin->setProfile(QString::null);
     }
 }
 
@@ -380,7 +380,7 @@ void LoginDialog::profileDelete()
     QString curProfile = CorePlugin::m_plugin->m_profiles[n];
     CorePlugin::m_plugin->setProfile(curProfile);
     rmDir(user_file(""));
-    CorePlugin::m_plugin->setProfile(NULL);
+    CorePlugin::m_plugin->setProfile(QString::null);
     CorePlugin::m_plugin->changeProfile();
     CorePlugin::m_plugin->m_profiles.clear();
     CorePlugin::m_plugin->loadDir();

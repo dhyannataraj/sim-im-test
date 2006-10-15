@@ -259,7 +259,7 @@ void Container::init()
 
     if (m_tabBar->count() == 0)
         QTimer::singleShot(0, this, SLOT(close()));
-    setWindows(NULL);
+    setWindows(QString::null);
     clearWndConfig();
     m_tabBar->raiseTab(getActiveWindow());
 
@@ -444,10 +444,9 @@ void Container::contactSelected(int)
     m_wnds->raiseWidget(userWnd);
     userWnd->setFocus();
     m_bar->setParam((void*)userWnd->id());
-    QString name = userWnd->getName();
     Command cmd;
     cmd->id = CmdContainerContact;
-    cmd->text_wrk = name;
+    cmd->text_wrk = userWnd->getName();
     cmd->icon  = userWnd->getIcon();
     cmd->param = (void*)(userWnd->id());
     cmd->popup_id = MenuContainerContact;
@@ -604,7 +603,7 @@ void Container::flash()
     if (!initFlash){
         HINSTANCE hLib = GetModuleHandleA("user32");
         if (hLib != NULL)
-			(DWORD&)fwe = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
+            (DWORD&)fwe = (DWORD)GetProcAddress(hLib,"FlashWindowEx");
         initFlash = true;
     }
     if (fwe){
@@ -848,10 +847,9 @@ void Container::contactChanged(Contact *contact)
         userWnd = m_childs.front();
     }
     if (userWnd && contact && (contact->id() == userWnd->id())){
-        QString name = userWnd->getName();
         Command cmd;
         cmd->id = CmdContainerContact;
-        cmd->text_wrk = name;
+        cmd->text_wrk = userWnd->getName();
         cmd->icon  = userWnd->getIcon();
         cmd->param = (void*)(contact->id());
         cmd->popup_id = MenuContainerContact;

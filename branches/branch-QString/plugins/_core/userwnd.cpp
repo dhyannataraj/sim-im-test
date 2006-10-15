@@ -106,7 +106,7 @@ QString UserWnd::getConfig()
 QString UserWnd::getName()
 {
     Contact *contact = getContacts()->contact(m_id);
-    return contact ? contact->getName() : "";
+    return contact ? contact->getName() : QString::null;
 }
 
 QString UserWnd::getLongName()

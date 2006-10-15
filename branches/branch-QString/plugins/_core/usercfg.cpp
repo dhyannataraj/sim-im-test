@@ -165,7 +165,7 @@ void ClientItem::init(CommandDef *cmd)
     m_cmd = cmd;
     if (!cmd->text_wrk.isEmpty()){
         setText(0, cmd->text_wrk);
-        cmd->text_wrk = "";
+        cmd->text_wrk = QString::null;
     }else{
         setText(0, i18n(cmd->text));
     }

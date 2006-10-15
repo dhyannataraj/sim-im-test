@@ -54,13 +54,11 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     s->param = m_param;
     if (s->flags & COMMAND_CHECK_STATE){
         s->flags &= ~COMMAND_DISABLED;
-        s->text_wrk = "";
+        s->text_wrk = QString::null;
         Event e(EventCheckState, s);
         s->flags |= COMMAND_CHECK_STATE;
-        if (!e.process()){
-            s->text_wrk = "";
+        if (!e.process())
             return;
-        }
         if (s->flags & COMMAND_RECURSIVE){
             CommandDef *cmds = (CommandDef*)(s->param);
             for (CommandDef *cmd = cmds; !cmd->text.isEmpty(); cmd++){
@@ -98,7 +96,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     QString title = i18n(s->text);
     if (!s->text_wrk.isEmpty()){
         title = s->text_wrk;
-        s->text_wrk = "";
+        s->text_wrk = QString::null;
     }
     if (!s->accel.isEmpty()){
         title += "\t";
@@ -204,13 +202,13 @@ void CMenu::menuActivated(int n)
     CommandDef *s;
     while ((s = ++list) != NULL){
         if (s->id == id){
-            s->text_wrk = "";
+            s->text_wrk = QString::null;
             if (s->flags & COMMAND_CHECK_STATE){
                 s->param = m_param;
                 Event e(EventCheckState, s);
                 s->flags |= COMMAND_CHECK_STATE;
                 if (!e.process()){
-                    s->text_wrk = "";
+                    s->text_wrk = QString::null;
                     return;
                 }
                 s->flags ^= COMMAND_CHECKED;
@@ -224,7 +222,7 @@ void CMenu::menuActivated(int n)
             s->param = m_param;
             Event e(EventCommandExec, s);
             e.process();
-            s->text_wrk = "";
+            s->text_wrk = QString::null;
             s->id = id;
             break;
         }

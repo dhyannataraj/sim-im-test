@@ -221,7 +221,7 @@ void ContactItem::init(Contact *contact, unsigned status, unsigned style, const 
     update(contact, status, style, icons, unread);
 }
 
-bool ContactItem::update(Contact *contact, unsigned status, unsigned style, const  QString &icons, unsigned unread)
+bool ContactItem::update(Contact *contact, unsigned status, unsigned style, const QString &icons, unsigned unread)
 {
     m_unread = unread;
     m_style  = style;

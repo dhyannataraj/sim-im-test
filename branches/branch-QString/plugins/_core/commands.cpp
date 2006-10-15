@@ -88,6 +88,7 @@ CommandsDef *Commands::createMenu(unsigned id)
     MenuDef def;
     def.def  = new CommandsDef(id, true);
     def.menu = NULL;
+    def.param = NULL;
     menues.insert(MENU_MAP::value_type(id, def));
     return def.def;
 }

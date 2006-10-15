@@ -62,7 +62,7 @@ protected:
     void fillPreview();
     bool eventFilter(QObject *o, QEvent *e);
     void addStyles(const QString &dir, bool bName);
-    void fillCombo(const char *current);
+    void fillCombo(const QString &current);
     bool m_bDirty;
     int  m_cur;
     int  m_edit;

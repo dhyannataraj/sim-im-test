@@ -158,7 +158,7 @@ void CommonStatus::setBarStatus()
                         }
                     }
                     if (i >= getContacts()->nClients()){
-                        for (d = client->protocol()->statusList(); d->text; d++){
+                        for (d = client->protocol()->statusList(); !d->text.isEmpty(); d++){
                             if (d->id == status){
                                 icon = d->icon;
                                 text = d->text;

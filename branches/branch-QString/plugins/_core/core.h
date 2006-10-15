@@ -28,10 +28,10 @@ typedef std::map<QString, unsigned> MAP_TYPES;
 
 typedef struct msg_id
 {
-    unsigned	id;
-    unsigned	contact;
-    unsigned	type;
-    QString		client;
+    unsigned    id;
+    unsigned    contact;
+    unsigned    type;
+    QString     client;
 } msg_id;
 
 class FileLock;
@@ -574,7 +574,7 @@ protected:
     bool                m_RegNew;
     QString             m_ICQUIN;
     QString             m_ICQPassword;
-    HistoryThread*      m_HistoryThread;
+    HistoryThread      *m_HistoryThread;
 
     friend class MainWindow;
     friend class UserView;

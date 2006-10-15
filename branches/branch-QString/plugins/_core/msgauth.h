@@ -31,9 +31,9 @@ protected slots:
     void init();
 protected:
     void *processEvent(SIM::Event*);
-    QString m_client;
-    unsigned m_type;
-    MsgEdit *m_edit;
+    QString     m_client;
+    unsigned    m_type;
+    MsgEdit    *m_edit;
 };
 
 #endif

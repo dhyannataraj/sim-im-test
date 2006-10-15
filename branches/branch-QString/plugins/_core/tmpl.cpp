@@ -20,16 +20,10 @@
 #include "core.h"
 #include <sockfactory.h>
 
-#ifdef WIN32
-#include <windows.h>
+#ifdef Q_OS_WIN
 #include <winsock.h>
 #else
-#include <sys/stat.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <sys/time.h>
 #include <netinet/in.h>
-#include <netdb.h>
 #include <arpa/inet.h>
 #endif
 
@@ -123,7 +117,7 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         if (tag.isEmpty())
             continue;
         Contact *contact;
-        if (tag.left(2) == "My"){
+        if (tag.startsWith("My")){
             contact = getContacts()->owner();
             tag = tag.mid(2);
         }else{

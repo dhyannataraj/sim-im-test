@@ -292,7 +292,7 @@ void HistoryConfig::apply()
     if ((cur >= 0) && m_styles.size() &&
             (m_styles[cur].bChanged ||
              (m_styles[cur].name != CorePlugin::m_plugin->getHistoryStyle()))){
-        CorePlugin::m_plugin->setHistoryStyle(QFile::encodeName(m_styles[cur].name));
+        CorePlugin::m_plugin->setHistoryStyle(m_styles[cur].name);
         bChanged = true;
         delete CorePlugin::m_plugin->historyXSL;
         CorePlugin::m_plugin->historyXSL = new XSL(m_styles[cur].name);
@@ -410,7 +410,7 @@ void HistoryConfig::copy()
         return;
     }
     n = STYLES;
-    n += QFile::encodeName(newName);
+    n += newName;
     n += EXT;
     n = user_file(n);
     QFile to(n + BACKUP_SUFFIX);
@@ -447,10 +447,10 @@ void HistoryConfig::copy()
     d.name    = newName;
     d.bCustom = true;
     m_styles.push_back(d);
-    fillCombo(QFile::encodeName(newName));
+    fillCombo(newName);
 }
 
-void HistoryConfig::fillCombo(const char *current)
+void HistoryConfig::fillCombo(const QString &current)
 {
     sort(m_styles.begin(), m_styles.end());
     unsigned cur = 0;
@@ -458,7 +458,7 @@ void HistoryConfig::fillCombo(const char *current)
     for (unsigned i = 0; i < m_styles.size(); i++){
         QString name = m_styles[i].name;
         cmbStyle->insertItem(name);
-        if (name == QFile::decodeName(current))
+        if (name == current)
             cur = i;
     }
     cmbStyle->setCurrentItem(cur);
@@ -542,7 +542,7 @@ void HistoryConfig::realRename()
         if (m_styles[m_edit].text.isEmpty()){
             QFile f(nn);
             if (f.open(IO_ReadOnly)){
-				QTextStream ts(&f);
+                QTextStream ts(&f);
                 m_styles[m_edit].text = ts.read();
             }
         }
@@ -593,8 +593,8 @@ void HistoryConfig::viewChanged(QWidget *w)
             name = m_styles[cur].bCustom ? user_file(name) : app_file(name);
             QFile f(name);
             if (f.open(IO_ReadOnly)){
-				QTextStream ts(&f);
-				xsl = ts.read();
+                QTextStream ts(&f);
+                xsl = ts.read();
             }else{
                 log(L_WARN, "Can't open %s", name.local8Bit().data());
             }

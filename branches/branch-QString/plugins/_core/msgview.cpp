@@ -336,9 +336,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         icon = "empty";
         StatusMessage *sm = static_cast<StatusMessage*>(msg);
         Client *client = NULL;
-        QString clientStr;
-        if (msg->client())
-            clientStr = msg->client();
+        QString clientStr = msg->client();
         int n = clientStr.findRev('.');
         if (n >= 0){
             clientStr = clientStr.left(n);
@@ -429,9 +427,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     if (!CorePlugin::m_plugin->getOwnColors() && (msg->getBackground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
         id += QString::number(msg->getBackground());
     // </hack>
-    QString client_str;
-    if (msg->client())
-        client_str = msg->client();
+    QString client_str = msg->client();
     if (!client_str.isEmpty()){
         id += ",";
         id += quoteString(client_str);
@@ -541,13 +537,13 @@ void MsgViewBase::setSource(const QString &url)
         return;
     }
     QString id = url.mid(proto.length() + 3);
-    unsigned msg_id = getToken(id, ',').toLong();
+    unsigned msg_id = getToken(id, ',').toULong();
     getToken(id, ',');
     id = getToken(id, '/');
     QString client = SIM::unquoteString(id);
     if (client.isEmpty())
         client = QString::number(m_id);
-    Message *msg = History::load(msg_id, client.utf8(), m_id);
+    Message *msg = History::load(msg_id, client, m_id);
     if (msg){
         Event e(EventOpenMessage, &msg);
         e.process();
@@ -740,10 +736,8 @@ void MsgViewBase::reload()
         n = s.find("\"");
         if (n < 0)
             continue;
-        QString client;
         Msg_Id id;
-        id.id = messageId(s.left(n), client);
-        id.client = client;
+        id.id = messageId(s.left(n), id.client);
         unsigned nn;
         for (nn = 0; nn < msgs.size(); nn++){
             if ((msgs[nn].id == id.id) && (msgs[nn].client == id.client))
@@ -1336,7 +1330,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
                 break;
             }
         }
-        if (src.left(10) == "icon:smile"){
+        if (src.startsWith("icon:smile")){
             bool bOK;
             unsigned nSmile = src.mid(10).toUInt(&bOK, 16);
             if (bOK && (nSmile < 26)){
