@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-15 15:45+0200\n"
+"POT-Creation-Date: 2006-10-15 16:05+0200\n"
 "PO-Revision-Date: 2006-02-12 20:03+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -4716,10 +4716,6 @@ msgstr "Prenos prerušený"
 msgid "Register in .NET Passport"
 msgstr "Registrova v .NET Passport"
 
-#: plugins/msn/msnconfig.cpp:45
-msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-
 #: plugins/msn/msnpacket.cpp:468
 #, c-format
 msgid ""
@@ -6104,10 +6100,6 @@ msgstr "Automaticky skry"
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: plugins/yahoo/yahoo.cpp:84
-msgid "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
-msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
-
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
 msgstr "Získať Yahoo! ID"
@@ -6228,11 +6220,6 @@ msgstr "Vodnár"
 #: plugins/zodiak/zodiak.cpp:190
 msgid "Pisces"
 msgstr "Ryby"
-
-#: plugins/zodiak/zodiak.cpp:232
-#, c-format
-msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #: rc.cpp:3
 #, no-c-format
@@ -11081,6 +11068,15 @@ msgstr "Chyba pri inicializácii SSL (init error)"
 #: sim/textshow.cpp:851
 msgid "Custom"
 msgstr "Vlastné"
+
+#~ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
+#~ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
+
+#~ msgid "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
+#~ msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
+
+#~ msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
+#~ msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #, fuzzy
 #~ msgid "https://accountservices.passport.net/uiresetpw.srf?lc=1033"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-15 15:45+0200\n"
+"POT-Creation-Date: 2006-10-15 16:05+0200\n"
 "PO-Revision-Date: 2005-04-20 21:07+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
@@ -4182,10 +4182,6 @@ msgstr "已開始傳送"
 msgid "Register in .NET Passport"
 msgstr "註冊"
 
-#: plugins/msn/msnconfig.cpp:45
-msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-msgstr ""
-
 #: plugins/msn/msnpacket.cpp:468
 #, fuzzy, c-format
 msgid ""
@@ -5426,10 +5422,6 @@ msgstr ""
 msgid "Yahoo!"
 msgstr ""
 
-#: plugins/yahoo/yahoo.cpp:84
-msgid "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
-msgstr ""
-
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
 msgstr ""
@@ -5547,11 +5539,6 @@ msgstr ""
 #, fuzzy
 msgid "Pisces"
 msgstr "埠："
-
-#: plugins/zodiak/zodiak.cpp:232
-#, c-format
-msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-msgstr ""
 
 #: rc.cpp:3
 #, fuzzy, no-c-format

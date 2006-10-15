@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-15 15:45+0200\n"
+"POT-Creation-Date: 2006-10-15 16:05+0200\n"
 "PO-Revision-Date: 2005-05-05 07:36+0100\n"
 "Last-Translator: Lapo Luchini <lapo@lapo.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -3849,10 +3849,6 @@ msgstr "Trasferimento annullato"
 msgid "Register in .NET Passport"
 msgstr "Registrati su .NET Passport"
 
-#: plugins/msn/msnconfig.cpp:45
-msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-msgstr "https://register.passport.net/reg.srf?lc=1040&langid=1040&sl=1"
-
 #: plugins/msn/msnpacket.cpp:468
 #, fuzzy, c-format
 msgid ""
@@ -5000,10 +4996,6 @@ msgstr "AutoNascondimento"
 msgid "Yahoo!"
 msgstr "Yahoo!"
 
-#: plugins/yahoo/yahoo.cpp:84
-msgid "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
-msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER&.intl=it"
-
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
 msgstr "Ottieni uno Yahoo! ID"
@@ -5111,11 +5103,6 @@ msgstr "Acquario"
 #: plugins/zodiak/zodiak.cpp:190
 msgid "Pisces"
 msgstr "Pesci"
-
-#: plugins/zodiak/zodiak.cpp:232
-#, c-format
-msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #: rc.cpp:3
 #, no-c-format
@@ -9098,6 +9085,15 @@ msgstr "SSL: errore di inizializzazione"
 #: sim/textshow.cpp:851
 msgid "Custom"
 msgstr "Personalizzato"
+
+#~ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
+#~ msgstr "https://register.passport.net/reg.srf?lc=1040&langid=1040&sl=1"
+
+#~ msgid "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
+#~ msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER&.intl=it"
+
+#~ msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
+#~ msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
 
 #, fuzzy
 #~ msgid "https://accountservices.passport.net/uiresetpw.srf?lc=1033"

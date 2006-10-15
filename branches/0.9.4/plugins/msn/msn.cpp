@@ -59,7 +59,7 @@ static CommandDef msn_descr =
         I18N_NOOP("MSN"),
         "MSN_online",
         "MSN_invisible",
-        I18N_NOOP("https://accountservices.passport.net/uiresetpw.srf?lc=1033"),
+        "https://accountservices.passport.net/uiresetpw.srf?lc=1033",
         0,
         0,
         0,
