@@ -49,7 +49,7 @@ const unsigned short TLV_USER_BUDDYINFO     = 0x001D;
 
 static QString makeCapStr( const capability cap, unsigned size )
 {
-    QString str = "", tmp;
+    QString str, tmp;
     for(unsigned int i = 0; i < size; i++ ) {
         str += tmp.sprintf( "0x%02x ", cap[i] );
     }

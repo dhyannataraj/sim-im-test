@@ -89,27 +89,3 @@ QWidget *IconsPlugin::createConfigWindow(QWidget *parent)
 {
     return new IconCfg(parent, this);
 }
-
-#ifdef WIN32
-
-#include <windows.h>
-
-/**
- * DLL's entry point
- **/
-int WINAPI DllMain(HINSTANCE, DWORD, LPVOID)
-{
-    return TRUE;
-}
-
-/**
- * This is to prevent the CRT from loading, thus making this a smaller
- * and faster dll.
- **/
-extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
-    return DllMain( hinstDLL, fdwReason, lpvReserved );
-}
-
-#endif
-
-
