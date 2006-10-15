@@ -77,7 +77,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             m->setClient(dataName(data));
             m->setStatus(STATUS_OFFLINE);
             m->setFlags(MESSAGE_RECEIVED);
-            Event e(EventMessageReceived, &m);
+            Event e(EventMessageReceived, m);
             if(!e.process())
                 delete m;
         }
