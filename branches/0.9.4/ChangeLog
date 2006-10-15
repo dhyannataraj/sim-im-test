@@ -25,7 +25,8 @@ ICQ plugin
 [+] Add MD5 auth support for ICQ accounts.
 [*] Disable "Automatically use HTTP polling if proxy required" by
     default.
-[*] honor ansicp - tag in rtf messages
+[*] Honor ansicp tag in rtf messages.
+[-] Fix client detection.
 
 Jabber plugin
 ~~~~~~~~~~~~~
@@ -35,6 +36,8 @@ Jabber plugin
 [+] Allow auth messages for transports.
 [*] Show protocol icons for jabber transports in roster.
 [*] Ignore JID letter case.
+[+] Replace typing notification implementation with JEP-0022 conformant
+    one.
 
 MSN plugin
 ~~~~~~~~~~
@@ -45,8 +48,9 @@ Misc plugins
 [*] Shortcuts: fix global shortcuts on X11 Qt-only build.
 [*] LiveJournal: add password recovery URL.
 [*] Transparent: use KPixmapEffect instead KImageEffect to avoid
-                 useless QImage <-> QPixmap conversions (should
-                 speed up painting background a little bit)
+    useless QImage <-> QPixmap conversions (should speed up painting
+    background a little bit).
+
 
 === SIM 0.9.4 (29.06.2006) ===
 
