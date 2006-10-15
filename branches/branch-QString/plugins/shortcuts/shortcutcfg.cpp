@@ -129,7 +129,7 @@ void ShortcutsConfig::saveMenu(unsigned long id)
                 int key = QAccel::stringToKey(item->text(1));
                 const char *cfg_key = m_plugin->getOldKey(s);
                 if (key == QAccel::stringToKey(cfg_key)){
-                    m_plugin->setKey(s->id, NULL);
+                    m_plugin->setKey(s->id, QString::null);
                 }else{
                     QString t = item->text(1);
                     if (t.isEmpty())
@@ -143,7 +143,7 @@ void ShortcutsConfig::saveMenu(unsigned long id)
                     bCfgGlobal = false;
                 }
                 if (bGlobal == bCfgGlobal){
-                    m_plugin->setGlobal(s->id, NULL);
+                    m_plugin->setGlobal(s->id, QString::null);
                 }else{
                     m_plugin->setGlobal(s->id, bGlobal ? "1" : "-1");
                 }
@@ -172,7 +172,7 @@ void ShortcutsConfig::selectionChanged()
 {
     QListViewItem *item = lstKeys->currentItem();
     if (item == NULL){
-        lblKey->setText("");
+        lblKey->setText(QString::null);
         edtKey->setEnabled(false);
         btnClear->setEnabled(false);
         chkGlobal->setEnabled(false);
@@ -196,8 +196,8 @@ void ShortcutsConfig::keyClear()
     QListViewItem *item = lstKeys->currentItem();
     if (item == NULL)
         return;
-    item->setText(1, "");
-    edtKey->setText("");
+    item->setText(1, QString::null);
+    edtKey->setText(QString::null);
     edtKey->clearFocus();
 }
 

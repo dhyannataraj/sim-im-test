@@ -1517,7 +1517,7 @@ void ICQClient::processSendQueue()
                 break;
             send_delay = delayTime(r);
             if (send_delay){
-                log(L_DEBUG, "Delay: %u", send_delay);
+                log(L_DEBUG, "Delay for group %d: %u", i, send_delay);
                 m_processTimer->start(send_delay);
                 return;
             }

@@ -209,9 +209,8 @@ GlobalKey::GlobalKey(CommandDef *cmd)
     getKey(cmd->accel, mod, key);
     QWidget *main = ShortcutsPlugin::getMainWindow();
     if (key && main){
-        QString atom = "sim_";
-        atom += QString::number(cmd->id);
-        m_key = GlobalAddAtomA(atom.latin1());
+        QString atom = "sim_" + QString::number(cmd->id);
+        m_key = GlobalAddAtom((LPCWSTR)atom.ucs2());
         RegisterHotKey(main->winId(), m_key, mod, key);
     }
 }
@@ -643,12 +642,12 @@ QString ShortcutsPlugin::buttonToString(unsigned n)
         res = "Shift+";
     n = n & 7;
     if (n == 0)
-        return "";
+        return QString::null;
     n--;
     const char **p;
     for (p = states; *p && n; p++, n--);
     if (*p == NULL)
-        return "";
+        return QString::null;
     res += *p;
     return res;
 }
@@ -668,10 +667,10 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
     QString cfg = getKey(s->id);
     if (!cfg.isEmpty()){
         oldKeys.insert(MAP_STR::value_type(s->id, s->accel));
-        if (cfg == "-"){
+        if (cfg != "-"){
             s->accel = cfg;
         }else{
-            s->accel = "";
+            s->accel = QString::null;
         }
     }
     cfg = getGlobal(s->id);
