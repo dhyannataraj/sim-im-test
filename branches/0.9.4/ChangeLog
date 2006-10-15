@@ -21,9 +21,11 @@ ICQ plugin
 ~~~~~~~~~~
 [-] Fix birthday flag handling.
 [-] Fix user info saving.
+[-] Fix icq capability support (fixes also typing notification)
 [+] Add MD5 auth support for ICQ accounts.
 [*] Disable "Automatically use HTTP polling if proxy required" by
     default.
+[*] honor ansicp - tag in rtf messages
 
 Jabber plugin
 ~~~~~~~~~~~~~
@@ -42,7 +44,9 @@ Misc plugins
 ~~~~~~~~~~~~
 [*] Shortcuts: fix global shortcuts on X11 Qt-only build.
 [*] LiveJournal: add password recovery URL.
-
+[*] Transparent: use KPixmapEffect instead KImageEffect to avoid
+                 useless QImage <-> QPixmap conversions (should
+                 speed up painting background a little bit)
 
 === SIM 0.9.4 (29.06.2006) ===
 

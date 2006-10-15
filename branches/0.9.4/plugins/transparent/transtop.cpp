@@ -19,8 +19,9 @@
 #include "transtop.h"
 
 #include <krootpixmap.h>
-#include <kimageeffect.h>
-#include <qimage.h>
+#include <kpixmapeffect.h>
+#include <kpixmap.h>
+#include <qpixmap.h>
 
 TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
         : QObject(parent)
@@ -30,7 +31,7 @@ TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
 #if COMPAT_QT_VERSION < 0x030000
     parent->installEventFilter(this);
 #else
-rootpixmap->setCustomPainting(true);
+    rootpixmap->setCustomPainting(true);
     connect(rootpixmap, SIGNAL(backgroundUpdated(const QPixmap&)), this, SLOT(backgroundUpdated(const QPixmap&)));
 #endif
     transparentChanged();
@@ -55,18 +56,15 @@ QPixmap TransparentTop::background(const QColor &c)
 #if COMPAT_QT_VERSION < 0x030000
     QWidget *w = (QWidget*)parent();
     const QPixmap *bg = w->backgroundPixmap();
-    if (bg == NULL)
+    if (bg == NULL || bg->isNull())
         return QPixmap();
-    QImage img = bg->convertToImage();
+    KPixmap pix(*bg);
 #else
     if (bg.isNull())
         return QPixmap();
-    QImage img = bg.convertToImage();
+    KPixmap pix(bg);
 #endif
-    img = KImageEffect::fade(img, m_transparent, c);
-    QPixmap res;
-    res.convertFromImage(img);
-    return res;
+    return KPixmapEffect::fade(pix, m_transparent, c);
 }
 
 #if COMPAT_QT_VERSION < 0x030000

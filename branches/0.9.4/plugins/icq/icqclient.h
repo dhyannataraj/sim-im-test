@@ -577,7 +577,7 @@ public:
     Message *parseMessage(unsigned short type, const char *screen,
                           string &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(Message*, const char *screen);
-    static bool parseRTF(const char *str, Contact *contact, QString &result);
+    static bool parseRTF(const QCString &str, Contact *contact, QString &result);
     static QString pictureFile(ICQUserData *data);
     static const capability *capabilities;
     static const plugin *plugins;
