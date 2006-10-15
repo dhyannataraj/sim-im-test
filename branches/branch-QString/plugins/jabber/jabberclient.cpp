@@ -225,7 +225,7 @@ bool JabberClient::compareData(void *d1, void *d2)
 {
     JabberUserData *data1 = static_cast<JabberUserData*>(d1);
     JabberUserData *data2 = static_cast<JabberUserData*>(d2);
-    return (data1->ID.str() == data2->ID.str());
+	return (data1->ID.str().lower() == data2->ID.str().lower());
 }
 
 void JabberClient::setID(const QString &id)
