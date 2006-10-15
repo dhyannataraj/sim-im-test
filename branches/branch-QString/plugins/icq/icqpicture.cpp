@@ -98,6 +98,7 @@ void ICQPicture::fill()
         return;
     if (m_data->PictureHeight.toULong() && m_data->PictureWidth.toULong()){
         setPict(QImage(m_client->pictureFile(m_data)));
+        return;
     }
     setPict(QImage());
 }

@@ -28,9 +28,6 @@
 #include <netinet/in.h>
 #endif
 
-#include <qfileinfo.h>
-
-using namespace std;
 using namespace SIM;
 
 const unsigned short ICQ_SNACxBDY_REQUESTxRIGHTS   = 0x0002;
@@ -75,13 +72,14 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         data = findContact(screen, NULL, false, contact);
         if (data && (data->Status.toULong() != ICQ_STATUS_OFFLINE)){
             setOffline(data);
-            StatusMessage m;
-            m.setContact(contact->id());
-            m.setClient(dataName(data));
-            m.setStatus(STATUS_OFFLINE);
-            m.setFlags(MESSAGE_RECEIVED);
+            StatusMessage *m = new StatusMessage;
+            m->setContact(contact->id());
+            m->setClient(dataName(data));
+            m->setStatus(STATUS_OFFLINE);
+            m->setFlags(MESSAGE_RECEIVED);
             Event e(EventMessageReceived, &m);
-            e.process();
+            if(!e.process())
+                delete m;
         }
         break;
     case ICQ_SNACxBDY_USERONLINE:
@@ -448,13 +446,14 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 }
                 if ((status == STATUS_ONLINE) && (data->Class.toULong() & CLASS_AWAY))
                     status = STATUS_AWAY;
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(dataName(data));
-                m.setStatus(status);
-                m.setFlags(MESSAGE_RECEIVED);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(dataName(data));
+                m->setStatus(status);
+                m->setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, m);
+                if(!e.process())
+                    delete m;
                 if (!contact->getIgnore() &&
                         ((data->Class.toULong() & CLASS_AWAY) == 0) &&
                         (((data->Status.toULong() & 0xFF) == ICQ_STATUS_ONLINE) &&
@@ -496,7 +495,8 @@ void ICQClient::sendContactList()
                 buddies.push_back(screen(data));
         }
     }
-    if (buddies.empty()) return;
+    if (buddies.empty())
+        return;
     snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
     it.reset();
     while ((contact = ++it) != NULL){

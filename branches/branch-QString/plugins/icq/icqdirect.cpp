@@ -405,7 +405,7 @@ void DirectSocket::sendInit()
     m_socket->writeBuffer.pack((unsigned short)((m_version >= 7) ? 0x002b : 0x0027));
     m_socket->writeBuffer.pack(m_data->Uin.toULong());
     m_socket->writeBuffer.pack((unsigned short)0x0000);
-    m_socket->writeBuffer.pack((unsigned long)m_data->Port.toULong());
+    m_socket->writeBuffer.pack(m_data->Port.toULong());
     m_socket->writeBuffer.pack(m_client->data.owner.Uin.toULong());
     m_socket->writeBuffer.pack(get_ip(m_client->data.owner.IP));
     m_socket->writeBuffer.pack(get_ip(m_client->data.owner.RealIP));
@@ -813,14 +813,16 @@ void DirectClient::processPacket()
             log(L_DEBUG, "TCP_ACK/TCP_CANCEL with empty queue");
             break;
         }
-		bool itDeleted = false;
+        bool itDeleted = false;
         QValueList<SendDirectMsg>::iterator it;
         for (it = m_queue.begin(); it != m_queue.end(); ++it){
             if ((*it).seq != seq)
                 continue;
             if ((*it).msg == NULL){
                 if ((*it).type == PLUGIN_AR){
-                    m_data->AutoReply.str() = msg_str;
+                    Contact *contact = NULL;
+                    m_client->findContact(m_client->screen(m_data), NULL, false, contact);
+                    m_data->AutoReply.str() = getContacts()->toUnicode(contact,msg_str);
                     m_queue.erase(it);
                     itDeleted = true;
                     break;
@@ -1298,6 +1300,7 @@ bool DirectClient::sendMessage(Message *msg)
     sm.msg	= msg;
     sm.seq	= 0;
     sm.type	= 0;
+    sm.icq_type = 0;
     m_queue.push_back(sm);
     processMsgQueue();
     return true;
@@ -1533,8 +1536,8 @@ void DirectClient::secureStop(bool bShutdown)
 QString DirectClient::name()
 {
     if (m_data == NULL)
-        return QString();
-    m_name = "";
+        return QString::null;
+    m_name = QString::null;
     switch (m_channel){
     case PLUGIN_NULL:
         break;
@@ -1868,7 +1871,7 @@ void ICQFileTransfer::sendPacket(bool dump)
             name += ".";
             name += QString::number(m_data->Uin.toULong());
         }
-        log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name.latin1());
+        log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name);
     }
     m_socket->write();
 }

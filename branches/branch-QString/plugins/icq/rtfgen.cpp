@@ -652,9 +652,9 @@ void RTFGenParser::tag_start(const QString &tagName, const list<QString> &attrs)
                 break;
             }
         }
-        if (src.left(5) == "icon:"){
+        if (src.startsWith("icon:")){
             QStringList smiles = getIcons()->getSmile(src.mid(5));
-            for (QValueListIterator<QString> its = smiles.begin(); its != smiles.end(); ++its){
+            for (QStringList::iterator its = smiles.begin(); its != smiles.end(); ++its){
                 QString s = *its;
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if (s != def_smiles[nSmile])

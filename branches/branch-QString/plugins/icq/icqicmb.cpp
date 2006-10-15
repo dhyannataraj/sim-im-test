@@ -151,7 +151,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxMSG_SRV_MISSED_MSG: {
             unsigned short mFormat; // missed channel
-            QString screen;			// screen
+            QString screen;         // screen
             unsigned short wrnLevel;// warning level
             unsigned short nTlv;    // number of tlvs
             TlvList  lTlv;          // all tlvs in message
@@ -377,7 +377,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                             msg->setBackground(bgColor);
                             msg->setFlags(MESSAGE_RICHTEXT);
                         }
-                        log(L_DEBUG, "Message %s", text.latin1());
+                        log(L_DEBUG, "Message %s", (const char*)text.local8Bit().data());
                         messageReceived(msg, screen);
                         break;
                     }
@@ -461,9 +461,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         return;
                     }
                     unsigned char type, flags;
+                    QCString msg_str;
                     msg >> type;
                     msg >> flags;
-                    QCString msg_str;
                     msg >> msg_str;
                     Message *m = parseMessage(type, screen, msg_str, msg, id, 0);
                     if (m)
@@ -700,18 +700,16 @@ void ICQClient::ackMessage(SendMsg &s)
     processSendQueue();
 }
 
-bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const char *str)
+bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const QCString &msg_str)
 {
-    QCString msg_str;
-    if (str)
-        msg_str = str;
     switch (ackFlags){
     case ICQ_TCPxACK_OCCUPIED:
     case ICQ_TCPxACK_DND:
     case ICQ_TCPxACK_REFUSE:
         if (msg_str.isEmpty())
-            msg_str = I18N_NOOP("Message declined");
-        msg->setError(msg_str);
+            msg->setError(I18N_NOOP("Message declined"));
+        else
+            msg->setError(msg_str);
         switch (ackFlags){
         case ICQ_TCPxACK_OCCUPIED:
             msg->setRetryCode(static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied);
@@ -867,12 +865,14 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                 continue;
             ICQFileTransfer *ft = static_cast<ICQFileTransfer*>(msg->m_transfer);
             if (ft->m_localPort == remotePort){
-                log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu", screen.latin1(), inet_ntoa(addr), localPort);
+                log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu",
+                    screen.local8Bit().data(), inet_ntoa(addr), localPort);
                 ft->reverseConnect(localIP, (unsigned short)localPort);
                 return;
             }
         }
-        log(L_DEBUG, "Setup reverse connect to %s %s:%lu", screen.latin1(), inet_ntoa(addr), localPort);
+        log(L_DEBUG, "Setup reverse connect to %s %s:%lu",
+            screen.local8Bit().data(), inet_ntoa(addr), localPort);
         DirectClient *direct = new DirectClient(data, this);
         m_sockets.push_back(direct);
         direct->reverseConnect(localIP, (unsigned short)localPort);
@@ -1098,7 +1098,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
         Buffer info;
         pluginAnswer(plugin_type, screen.toULong(), info);
         sendAutoReply(screen, id, plugins[plugin_index],
-                      cookie1, cookie2, 0, 0, 0x0200, NULL, 1, info);
+                      cookie1, cookie2, 0, 0, 0x0200, QString::null, 1, info);
         return;
     }
 
@@ -1285,13 +1285,13 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
     }
     if (!needAck) return;
     sendAutoReply(screen, id, p, cookie1, cookie2,
-                  msgType, 0, 0, NULL, 0, copy);
+                  msgType, 0, 0, QString::null, 0, copy);
 }
 
 void ICQClient::sendAutoReply(const QString &screen, MessageId id,
                               const plugin p, unsigned short cookie1, unsigned short cookie2,
                               unsigned short msgType, char msgFlags, unsigned short msgState,
-                              const char *response, unsigned short response_type, Buffer &copy)
+                              const QString &response, unsigned short response_type, Buffer &copy)
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
     m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;
@@ -1305,11 +1305,11 @@ void ICQClient::sendAutoReply(const QString &screen, MessageId id,
     m_socket->writeBuffer << 0x00000000L << 0x00000000L << 0x00000000L;
     m_socket->writeBuffer.pack(msgType);
     m_socket->writeBuffer << msgFlags << msgState << (char)0;
-    if (response){
+    if (!response.isEmpty()){
         Contact *contact = NULL;
         findContact(screen, NULL, false, contact);
         QCString r;
-        r = getContacts()->fromUnicode(contact, QString::fromUtf8(response));
+        r = getContacts()->fromUnicode(contact, response);
         unsigned short size = (unsigned short)(r.length() + 1);
         m_socket->writeBuffer.pack(size);
         m_socket->writeBuffer.pack(r.data(), size);
@@ -1949,7 +1949,7 @@ bool ICQClient::processMsg()
         sendAdvMessage(m_send.screen, b, PLUGIN_RANDOMxCHAT, m_send.id, false, false);
     }else{
         unsigned plugin_index = m_send.flags;
-        //log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen, plugin_index); // crissi: crash
+        log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen.latin1(), plugin_index);
 
         Buffer b;
         unsigned short type = 0;
@@ -2153,7 +2153,8 @@ void ICQClient::decline(Message *msg, const QString &reason)
                 b.pack(buf.data(0), buf.size());
                 b.pack32(msgBuf);
                 unsigned short type = ICQ_MSGxEXT;
-                sendAutoReply(screen(data), id, plugins[PLUGIN_NULL], (unsigned short)(cookie & 0xFFFF), (unsigned short)((cookie >> 16) & 0xFFFF), type, 1, 0, reason, 2, b);
+                sendAutoReply(screen(data), id, plugins[PLUGIN_NULL], (unsigned short)(cookie & 0xFFFF),
+                              (unsigned short)((cookie >> 16) & 0xFFFF), type, 1, 0, reason, 2, b);
             }else{
                 snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
                 m_socket->writeBuffer << id.id_l << id.id_h << 0x0002;

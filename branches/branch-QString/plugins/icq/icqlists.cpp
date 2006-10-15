@@ -104,9 +104,9 @@ public:
     GroupServerRequest(unsigned short seq, unsigned long id, unsigned short icq_id, const QString &name);
     virtual void process(ICQClient *client, unsigned short res);
 protected:
-    unsigned long      m_id;
-    unsigned short     m_icqId;
-    QString             m_name;
+    unsigned long   m_id;
+    unsigned short  m_icqId;
+    QString         m_name;
 };
 
 class ContactServerRequest : public ListServerRequest
@@ -117,10 +117,10 @@ public:
     ~ContactServerRequest();
     virtual void process(ICQClient *client, unsigned short res);
 protected:
-    QString		       m_screen;
-    unsigned short     m_icqId;
-    unsigned short     m_grpId;
-    TlvList            *m_tlv;
+    QString         m_screen;
+    unsigned short  m_icqId;
+    unsigned short  m_grpId;
+    TlvList        *m_tlv;
 };
 
 class SetListRequest : public ListServerRequest
@@ -347,25 +347,23 @@ void ICQClient::parseRosterItem(unsigned short type,
 	case ICQ_UNKNOWN:
         break;
 	case ICQ_UNKNOWN3:
-			if(inf) {
-	            Tlv *tlv_uk3 = NULL;
-                tlv_uk3 = (*inf)(TLV_UNKNOWN3);
-			}
-		break;
-	case ICQ_SHORTCUT_BAR: {
-			if(inf) {
-	            Tlv *tlv_sc = NULL;
-                tlv_sc = (*inf)(TLV_SHORTCUT_BAR);
-			}
-			break;
-		}
-	case ICQ_UNKNOWN2:{
-			if(inf) {
-	            Tlv *tlv_uk2 = NULL;
-                tlv_uk2 = (*inf)(TLV_UNKNOWN2);
-			}
-		    break;
-		}
+        if(inf) {
+            Tlv *tlv_uk3 = NULL;
+            tlv_uk3 = (*inf)(TLV_UNKNOWN3);
+        }
+        break;
+	case ICQ_SHORTCUT_BAR:
+        if(inf) {
+            Tlv *tlv_sc = NULL;
+            tlv_sc = (*inf)(TLV_SHORTCUT_BAR);
+        }
+        break;
+	case ICQ_UNKNOWN2:
+        if(inf) {
+            Tlv *tlv_uk2 = NULL;
+            tlv_uk2 = (*inf)(TLV_UNKNOWN2);
+        }
+        break;
     case ICQ_NON_IM: {
             Tlv *tlv_name = NULL;
             Tlv *tlv_phone = NULL;
@@ -1096,13 +1094,10 @@ void ICQClient::sendRosterGrp(const QString &name, unsigned short grpId, unsigne
     sendPacket(true);
 }
 
-static QString userStr(Contact *contact, ICQUserData *data)
+static QString userStr(Contact *contact, const ICQUserData *data)
 {
-    QString res;
     QString name = contact ? contact->getName() : "unknown";
-    QTextOStream( &res ) << data->Uin.toULong()  << "[" << (name.isNull() ? "unknown" : name) << "]";
-    
-    return res;
+    return QString::number(data->Uin.toULong()) + "[" + name + "]";
 }
 
 unsigned ICQClient::processListRequest()
@@ -1116,7 +1111,6 @@ unsigned ICQClient::processListRequest()
         if (delay)
             return delay;
         ListRequest &lr = listRequests.front();
-        QString name;
         unsigned short seq = 0;
         unsigned short icq_id;
         Group *group = NULL;
@@ -1243,7 +1237,7 @@ unsigned ICQClient::processListRequest()
         case LIST_GROUP_CHANGED:
             group = getContacts()->group(lr.screen.toULong());
             if (group){
-                name = group->getName();
+                QString name = group->getName();
                 data = (ICQUserData*)(group->clientData.getData(this));
                 if (data){
                     icq_id = (unsigned short)(data->IcqID.toULong());
@@ -1273,7 +1267,7 @@ unsigned ICQClient::processListRequest()
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", lr.icq_id, 0, ICQ_GROUPS);
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
                 sendPacket(true);
-                m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, name);
+                m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, QString::null);
             }
             break;
         case LIST_BUDDY_CHECKSUM:

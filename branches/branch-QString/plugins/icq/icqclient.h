@@ -25,7 +25,6 @@
 #include "icq.h"
 
 #include <qdatetime.h>
-#include <qimage.h>
 
 #include <map>
 
@@ -381,7 +380,7 @@ class ListRequest
 public:
     ListRequest()
         : type(0), icq_id(0), grp_id(0), visible_id(0), invisible_id(0), ignore_id(0),
-          icqUserData(0) {}
+          icqUserData(NULL) {}
 
 public:
     unsigned          type;
@@ -480,8 +479,8 @@ protected:
 
 typedef struct alias_group
 {
-    QString 	alias;
-    unsigned	grp;
+    QString     alias;
+    unsigned    grp;
 } alias_group;
 
 typedef struct RateInfo
@@ -511,11 +510,10 @@ class ICQClient : public SIM::TCPClient, public OscarSocket
 public:
     ICQClient(SIM::Protocol*, ConfigBuffer *cfg, bool bAIM);
     ~ICQClient();
-    virtual QString name();
-    virtual QString dataName(void*);
+    virtual QString     name();
+    virtual QString     dataName(void*);
     virtual QWidget    *setupWnd();
     virtual QString getConfig();
-    virtual unsigned getStatus();
     virtual void contactsLoaded();
     void setUin(unsigned long);
     void setScreen(const QString &);
@@ -565,7 +563,7 @@ public:
                           unsigned short nHomePoge, const QString &szHomePage,
                           const QString &sKeyWord, bool bOnlineOnly);
     SIM::Contact *getContact(ICQUserData*);
-    ICQUserData *findContact(unsigned long uin, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
+    ICQUserData *findContact(unsigned long uin,     const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
     ICQUserData *findContact(const QString &screen, const QString *alias, bool bCreate, SIM::Contact *&contact, SIM::Group *grp=NULL, bool bJoin=true);
     ICQUserData *findGroup(unsigned id, const QString *name, SIM::Group *&group);
     void addFullInfoRequest(unsigned long uin);
@@ -587,7 +585,7 @@ public:
     void requestReverseConnection(const QString &screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
-                          QCString &p, Buffer &packet, MessageId &id, unsigned cookie);
+                          const QCString &p, Buffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(SIM::Message*, const QString &screen);
     static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(const ICQUserData *data);
@@ -629,7 +627,6 @@ protected:
     virtual void updateInfo(SIM::Contact *contact, void *_data);
     virtual void setClientInfo(void *data);
     virtual SIM::Socket  *createSocket();
-    virtual QString ownerName();
     virtual QString contactName(void *clientData);
     QString dataName(const QString &screen);
     Buffer  m_cookie;
@@ -747,7 +744,7 @@ protected:
     void sendAutoReply(const QString &screen, MessageId id,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
                        unsigned short  msgType, char msgFlags, unsigned short msgState,
-                       const char *response, unsigned short response_type, Buffer &copy);
+                       const QString &response, unsigned short response_type, Buffer &copy);
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(const QString &screen, unsigned short type);
     void setChatGroup();
@@ -756,7 +753,7 @@ protected:
     void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
     void packMessage(Buffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
     void packExtendedMessage(SIM::Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data);
-    bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const char *str);
+    bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const QCString &str);
     void fetchProfile(ICQUserData *data);
     void fetchAwayMessage(ICQUserData *data);
     void fetchProfiles();

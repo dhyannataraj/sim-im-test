@@ -203,7 +203,12 @@ void ICQClient::chn_login()
         m_socket->writeBuffer << 0x00000001L;
         sendPacket(true);
         snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
-        m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.str());
+        if (data.owner.Uin.toULong()){
+            QString uin = QString::number(data.owner.Uin.toULong());
+            m_socket->writeBuffer.tlv(0x0001, uin);
+        }else{
+            m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.str());
+        }
         m_socket->writeBuffer.tlv(0x004B);
         m_socket->writeBuffer.tlv(0x005A);
         sendPacket(true);

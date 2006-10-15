@@ -300,7 +300,7 @@ QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)
 {
     unsigned n = getComboValue(cmb, info);
     if (n == 0)
-        return "";
+        return QString::null;
     QString res = QString::number(n) + ",";
     res += quoteChars(edt->text(), ",;");
     return res;

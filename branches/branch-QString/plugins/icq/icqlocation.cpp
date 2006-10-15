@@ -37,14 +37,13 @@ const unsigned short ICQ_SNACxLOC_RESPONSExSETxINFO	= 0x000A;
 const unsigned short ICQ_SNACxLOC_REQUESTxDIRxINFO  = 0x000B;
 const unsigned short ICQ_SNACxLOC_DIRxINFO          = 0x000C;
 
-static bool extractInfo(TlvList &tlvs, unsigned short id, SIM::Data &data)
+static bool extractInfo(TlvList &tlvs, unsigned short id, SIM::Data &data, Contact *c = NULL)
 {
     const char *info = NULL;
     Tlv *tlv = tlvs(id);
     if (tlv)
         info = *tlv;
-    // FIXME! use toUnicode() here?
-    return data.setStr(QString::fromUtf8(info));
+    return data.setStr(getContacts()->toUnicode(c, info));
 }
 
 QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
@@ -56,7 +55,7 @@ QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 
 QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsigned n)
 {
-    QString charset = "us-ascii";
+    QCString charset = "us-ascii";
     Tlv *tlvCharset = NULL;
     for (unsigned i = 0;; i++){
         Tlv *tlv = tlvs[i];
@@ -94,7 +93,7 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
             res = codec->toUnicode(text, size);
         }else{
             res = QString::fromUtf8(text, size);
-            log(L_WARN, "Unknown encoding %s", charset.latin1());
+            log(L_WARN, "Unknown encoding %s", charset.data());
         }
     }
     return res;
@@ -119,7 +118,6 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             data = findContact(screen, NULL, false, contact);
         }
         if (data){
-            QString charset = "us-ascii";
             m_socket->readBuffer.incReadPos(4);
             TlvList tlvs(m_socket->readBuffer);
             Tlv *tlvInfo = tlvs(0x02);
@@ -164,15 +162,16 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             unsigned country = 0;
             m_socket->readBuffer.incReadPos(4);
             TlvList tlvs(m_socket->readBuffer);
-            bChanged |= extractInfo(tlvs, 0x01, data->FirstName);
-            bChanged |= extractInfo(tlvs, 0x02, data->LastName);
-            bChanged |= extractInfo(tlvs, 0x03, data->MiddleName);
-            bChanged |= extractInfo(tlvs, 0x04, data->Maiden);
-            bChanged |= extractInfo(tlvs, 0x07, data->State);
-            bChanged |= extractInfo(tlvs, 0x08, data->City);
-            bChanged |= extractInfo(tlvs, 0x0C, data->Nick);
-            bChanged |= extractInfo(tlvs, 0x0D, data->Zip);
-            bChanged |= extractInfo(tlvs, 0x21, data->Address);
+            Contact *c = getContact(data);
+            bChanged |= extractInfo(tlvs, 0x01, data->FirstName, c);
+            bChanged |= extractInfo(tlvs, 0x02, data->LastName, c);
+            bChanged |= extractInfo(tlvs, 0x03, data->MiddleName, c);
+            bChanged |= extractInfo(tlvs, 0x04, data->Maiden, c);
+            bChanged |= extractInfo(tlvs, 0x07, data->State, c);
+            bChanged |= extractInfo(tlvs, 0x08, data->City, c);
+            bChanged |= extractInfo(tlvs, 0x0C, data->Nick, c);
+            bChanged |= extractInfo(tlvs, 0x0D, data->Zip, c);
+            bChanged |= extractInfo(tlvs, 0x21, data->Address, c);
             Tlv *tlvCountry = tlvs(0x06);
             if (tlvCountry){
                 const char *code = *tlvCountry;
@@ -411,9 +410,8 @@ static unsigned char get_ver(const char *&v)
 
 static bool isWide(const QString &str)
 {
-    QString m = str;
-    for (int i = 0; i < (int)(m.length()); i++)
-        if (m[i].unicode() > 0x7F)
+    for (int i = 0; i < (int)(str.length()); i++)
+        if (str[i].unicode() > 0x7F)
             return true;
     return true;
 }
@@ -445,8 +443,7 @@ void ICQClient::encodeString(const QString &str, unsigned short nTlv, bool bWide
 void ICQClient::encodeString(const QString &m, const QString &type, unsigned short charsetTlv, unsigned short infoTlv)
 {
     bool bWide = isWide(m);
-    QString content_type = type;
-    content_type += "; charset=\"";
+    QString content_type = type + "; charset=\"";
     if (bWide){
         unsigned short *unicode = new unsigned short[m.length()];
         unsigned short *t = unicode;

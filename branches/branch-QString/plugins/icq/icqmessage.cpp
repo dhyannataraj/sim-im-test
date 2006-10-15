@@ -196,7 +196,7 @@ static bool parseFE(const char *str, vector<string> &l, unsigned n)
 
 static Message *parseTextMessage(const QCString &str, const QCString &_pp, Contact *contact)
 {
-    if (*str == 0)
+    if (str.isEmpty())
         return NULL;
     log(L_DEBUG, "Text message: %s %s", str.data(), _pp.data());
     if (_pp.length() == 38){
@@ -445,7 +445,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
     return NULL;
 }
 
-Message *ICQClient::parseMessage(unsigned short type, const QString &screen, QCString &p, Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const QCString &p, Buffer &packet, MessageId &id, unsigned cookie)
 {
     if (screen.toULong() == 0x0A){
         vector<string> l;
@@ -482,7 +482,7 @@ Message *ICQClient::parseMessage(unsigned short type, const QString &screen, QCS
                 if (data == NULL) {
                    return NULL;
                 }
-                contact-> setFlags(contact->getFlags() | CONTACT_TEMP);
+                contact->setFlags(contact->getFlags() | CONTACT_TEMP);
             }
             msg = parseTextMessage(p, cap_str, contact);
             if (msg == NULL)
@@ -925,7 +925,7 @@ void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, I
         buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
         buf.packStr32("File");
         buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
-        msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()).data());
+        msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
         msgBuf << port << (unsigned short)0;
         // FIXME: is this correct here? -> iserverd.ru/oscar
         msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription()).data();
@@ -944,7 +944,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
         QString url = getToken(contact, ',');
         QString proto = getToken(url, ':');
         if (proto == "sim"){
-            Contact *contact = getContacts()->contact(url.toLong());
+            Contact *contact = getContacts()->contact(url.toULong());
             if (contact){
                 ClientDataIterator it(contact->clientData);
                 clientData *cdata;
@@ -1017,7 +1017,7 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
 {
     Buffer msgBuf;
     Buffer buf;
-    QString res;
+    QCString res;
     switch (msg->type()){
     case MessageUrl:
         res = getContacts()->fromUnicode(getContact(data), msg->getPlainText());
@@ -1036,9 +1036,9 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
             res = QString::number(c.size());
             for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
                 res += '\xFE';
-                res += (*it).first.str();
+                res += getContacts()->fromUnicode(getContact(data), (*it).first.str());
                 res += '\xFE';
-                res += (*it).second.alias;
+                res += getContacts()->fromUnicode(getContact(data), (*it).second.alias);
             }
             res += '\xFE';
             type = ICQ_MSGxCONTACTxLIST;
@@ -1092,7 +1092,6 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
     vector<QCString> phonebook;
     vector<QCString> numbers;
     vector<QCString> phonedescr;
-    QString phones;
     Contact *contact = NULL;
     unsigned long state, time, size, nEntries;
     unsigned i;
@@ -1220,6 +1219,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
             break;
         case PLUGIN_PHONEBOOK:
             if (data){
+                QString phones;
                 nActive = (unsigned)(-1);
                 if (nEntries > 0x80){
                     log(L_DEBUG, "Bad entries value %lX", nEntries);
@@ -1560,7 +1560,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
             answer.packStr32(plugin_descr[PLUGIN_FILESERVER]);
             answer.pack((unsigned long)0);
         }
-        if (this->data.owner.ICQPhone.asULong()){
+        if (this->data.owner.ICQPhone.toULong()){
             nEntries++;
             answer.pack((char*)plugins[PLUGIN_ICQPHONE], sizeof(plugin));
             answer.pack((unsigned short)0);

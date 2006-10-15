@@ -71,16 +71,16 @@ void AIMInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     ICQUserData *data = (ICQUserData*)_data;
-    data->FirstName.str() = edtFirst->text();
-    data->LastName.str() = edtLast->text();
-    data->MiddleName.str() = edtMiddle->text();
-    data->Maiden.str() = edtMaiden->text();
-    data->Nick.str() = edtNick->text();
-    data->Address.str() = edtStreet->text();
-    data->City.str() = edtCity->text();
-    data->State.str() = edtState->text();
-    data->Zip.str() = edtZip->text();
-    data->Country.asULong() = getComboValue(cmbCountry,getCountries());
+    data->FirstName.str()   = edtFirst->text();
+    data->LastName.str()    = edtLast->text();
+    data->MiddleName.str()  = edtMiddle->text();
+    data->Maiden.str()      = edtMaiden->text();
+    data->Nick.str()        = edtNick->text();
+    data->Address.str()     = edtStreet->text();
+    data->City.str()        = edtCity->text();
+    data->State.str()       = edtState->text();
+    data->Zip.str()         = edtZip->text();
+    data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
 void *AIMInfo::processEvent(Event *e)

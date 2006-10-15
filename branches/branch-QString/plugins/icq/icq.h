@@ -34,7 +34,7 @@ const unsigned EventRandomChatInfo	= IcqCmdBase + 4;
 const unsigned EventServiceReady	= IcqCmdBase + 5;
 
 const unsigned long CmdVisibleList		= IcqCmdBase;
-const unsigned long CmdInvisibleList		= IcqCmdBase + 1;
+const unsigned long CmdInvisibleList    = IcqCmdBase + 1;
 const unsigned long CmdGroups			= IcqCmdBase + 2;
 const unsigned long CmdIcqSendMessage	= IcqCmdBase + 5;
 const unsigned long CmdShowWarning		= IcqCmdBase + 6;
