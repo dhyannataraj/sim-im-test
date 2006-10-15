@@ -226,7 +226,7 @@ bool JabberClient::compareData(void *d1, void *d2)
 {
     JabberUserData *data1 = (JabberUserData*)d1;
     JabberUserData *data2 = (JabberUserData*)d2;
-    return strcmp(data1->ID.ptr, data2->ID.ptr) == 0;
+    return stricmp(data1->ID.ptr, data2->ID.ptr) == 0;
 }
 
 void JabberClient::setID(const QString &id)
