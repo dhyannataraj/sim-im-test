@@ -470,10 +470,10 @@ void init_data(const DataDef *d, Data *data)
                 break;
            }
             case DATA_ULONG:
-                data->asULong() = (unsigned long)def->def_value;
+                data->asULong() = (unsigned long)(def->def_value);
                 break;
             case DATA_LONG:
-                data->asLong() = (long)def->def_value;
+                data->asLong() = (long)(def->def_value);
                 break;
             case DATA_BOOL:
                 data->asBool() = (def->def_value != NULL);
@@ -488,7 +488,6 @@ void init_data(const DataDef *d, Data *data)
                 data += (def->n_values - 1);
                 i += (def->n_values - 1);
                 break;
-            case DATA_UNKNOWN:
             default:
                 break;
             }
@@ -1014,8 +1013,7 @@ void Data::clear(bool bNew)
     if(data) {
         delete data->m_dataAsQString;
         delete data->m_dataAsQStringMap;
-        if(data->m_dataAsBinary)
-            delete data->m_dataAsBinary;
+        delete data->m_dataAsBinary;
         delete data;
     }
     data = bNew ? new DataPrivate : NULL;

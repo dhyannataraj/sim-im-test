@@ -67,6 +67,7 @@ CToolItem::CToolItem(CommandDef *def)
         m_text = def->text_wrk;
         def->text_wrk = QString::null;
     }
+    def->text_wrk = QString::null;
 }
 
 void CToolItem::setCommand(CommandDef *def)
@@ -77,6 +78,7 @@ void CToolItem::setCommand(CommandDef *def)
     }else{
         m_text = QString::null;
     }
+    def->text_wrk = QString::null;
     def->bar_id  = m_def.bar_id;
     def->bar_grp = m_def.bar_grp;
     m_def = *def;

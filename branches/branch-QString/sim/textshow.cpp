@@ -177,7 +177,7 @@ void TextEdit::fgColorChanged(QColor c)
 
 void TextEdit::focusOutEvent(QFocusEvent *e)
 {
-    if(e->lostFocus())
+    if (e->lostFocus())
         emit lostFocus();
 }
 

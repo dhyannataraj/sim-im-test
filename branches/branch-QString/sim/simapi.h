@@ -204,12 +204,6 @@ typedef struct pluginInfo
     unsigned        base;           // base for plugin types
 } pluginInfo;
 
-typedef struct StyleInfo
-{
-    const char      *title;
-    createStyle     *create;
-} StyleInfo;
-
 EXPORT_PROC PluginInfo *GetPluginInfo();
 
 // _____________________________________________________________________________________
@@ -380,7 +374,7 @@ struct EXPORT CommandDef
     unsigned    popup_id;      // Popup ID
     unsigned    flags;         // Command flags
     void        *param;        // Paramether from MenuSetParam
-    QString     text_wrk;      // Text for check state (utf8)
+    QString     text_wrk;      // Text for check state
 
     void clear()
     {
@@ -872,42 +866,45 @@ public:
 
     ~Data() { clear(false); }
 
+    // DataName
     void setName(const QString &name);
     const QString &name() const;
 
-    void setType(DataType type);
+    // DataType
+    void setType(DataType eType);
     DataType type() const;
 
     void clear(bool bNew = true);
 
+    // QString
     const QString &str() const;
     QString &str();
     bool setStr(const QString &s);
-
+    // StringMap
     const STRING_MAP &strMap() const;
     STRING_MAP &strMap();
     bool setStrMap(const STRING_MAP &s);
-
+    // Long
     long toLong() const;
     long &asLong();
     bool setLong(long d);
-
+    // ULong
     unsigned long toULong() const;
     unsigned long &asULong();
     bool setULong(unsigned long d);
-
+    // Bool
     bool toBool() const;
     bool &asBool();
     bool setBool(bool d);
-
+    // class QObject
     const QObject* object() const;
     QObject* object();
     bool setObject(const QObject *);
-
+    // class IP
     const IP* ip() const;
     IP* ip();
     bool setIP(const IP *);
-
+    // Binary
     const QByteArray &toBinary() const;
     QByteArray &asBinary();
     bool setBinary(const QByteArray &d);
@@ -964,7 +961,7 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 
 #define PROP_USHORT(A) \
     unsigned short get##A() const { return (unsigned short)(data.A.toULong()); } \
-    void set##A(unsigned short r) { data.A.asULong() = r; }
+    void set##A(unsigned short r) { data.A.setULong(r); }
 
 #define PROP_BOOL(A) \
     bool get##A() const { return data.A.toBool(); } \
@@ -1550,7 +1547,6 @@ public:
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;
     virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL) = 0;
-    virtual QString ownerName();
     virtual QString contactName(void *clientData);
     virtual void setupContact(Contact*, void *data) = 0;
     virtual bool send(Message*, void *data) = 0;
@@ -1728,7 +1724,7 @@ EXPORT ContactList *getContacts();
 
 enum quoteMode
 {
-    quoteHTML ,
+    quoteHTML,
     quoteXML,
     quoteNOBR
 };

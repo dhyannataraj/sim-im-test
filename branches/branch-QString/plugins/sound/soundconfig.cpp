@@ -25,6 +25,7 @@
 #include <qlineedit.h>
 #include <qtabwidget.h>
 #include <qsound.h>
+#include <qfile.h>
 
 using SIM::getContacts;
 

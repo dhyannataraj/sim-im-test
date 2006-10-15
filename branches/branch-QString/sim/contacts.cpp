@@ -438,9 +438,9 @@ static bool cmp_sd(sortClientData p1, sortClientData p2)
 unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString *icons)
 {
     style = 0;
-    statusIcon = "";
+    statusIcon = QString::null;
     if (icons)
-        *icons = "";
+        *icons = QString::null;
     unsigned long status = STATUS_UNKNOWN;
     void *data;
     ClientDataIterator it(clientData, NULL);
@@ -518,11 +518,6 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
 }
 
 QString Client::resources(void*)
-{
-    return "";
-}
-
-QString Client::ownerName()
 {
     return "";
 }
@@ -1936,7 +1931,7 @@ Contact *ContactList::contactByPhone(const QString &_phone)
         QString phones = c->getPhones();
         while (!phones.isEmpty()){
             QString phoneItem = getToken(phones, ';', false);
-            if (cmpPhone(getToken(phoneItem, ',').utf8(), _phone))
+            if (cmpPhone(getToken(phoneItem, ','), _phone))
                 return c;
         }
     }
