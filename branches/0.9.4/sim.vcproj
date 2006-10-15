@@ -78,7 +78,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AdvAPI32.Lib User32.Lib Gdi32.Lib WS2_32.Lib sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib"
+				AdditionalDependencies="AdvAPI32.Lib User32.Lib Gdi32.Lib WS2_32.Lib sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32MD.lib sim\win32\ssleay32MD.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib"
 				OutputFile=".\Release/sim.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
+				AdditionalIncludeDirectories="&quot;$(QTDIR)\include&quot;;sim;sim\win32"
 				PreprocessorDefinitions="_DEBUG;_USRDLL;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.4\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -178,10 +178,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="User32.Lib Gdi32.Lib WS2_32.Lib sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32.lib sim\win32\ssleay32.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib"
+				AdditionalDependencies="User32.Lib Gdi32.Lib WS2_32.Lib Advapi32.lib sim\win32\libxml.lib sim\win32\libxslt.lib sim\win32\libz.a sim\win32\libjpeg.lib sim\win32\libeay32MDd.lib sim\win32\ssleay32MDd.lib odbc32.lib odbccp32.lib $(QTDIR)\lib\$(QTLIB) $(QTDIR)\lib\qtmain.lib"
 				OutputFile=".\Debug/sim.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/sim.pdb"
 				SubSystem="2"

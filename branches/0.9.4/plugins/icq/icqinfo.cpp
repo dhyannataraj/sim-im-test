@@ -249,9 +249,9 @@ void ICQInfo::fill()
         edtIntIP->hide();
     }
     if (m_data){
-        string client_name = m_client->clientName(data);
-        if (client_name.length()){
-            edtClient->setText(client_name.c_str());
+        QString client_name = m_client->clientName(data);
+        if (!client_name.isEmpty()){
+            edtClient->setText(client_name);
         }else{
             lblClient->hide();
             edtClient->hide();

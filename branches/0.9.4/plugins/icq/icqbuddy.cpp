@@ -35,6 +35,27 @@ const unsigned short ICQ_SNACxBDY_REMOVExFROMxLIST = 0x0005;
 const unsigned short ICQ_SNACxBDY_USERONLINE	   = 0x000B;
 const unsigned short ICQ_SNACxBDY_USEROFFLINE	   = 0x000C;
 
+const unsigned short TLV_USER_CLASS         = 0x0001;
+const unsigned short TLV_USER_SIGNON_TIME   = 0x0003;
+const unsigned short TLV_USER_MEMBER_SINCE  = 0x0005; // not interpreted
+const unsigned short TLV_USER_STATUS        = 0x0006;
+const unsigned short TLV_USER_EXT_IP        = 0x000A;
+const unsigned short TLV_USER_DC_INFO       = 0x000C;
+const unsigned short TLV_USER_CAPS          = 0x000D;
+const unsigned short TLV_USER_ONLINE_TIME   = 0x000F; // not interpreted
+const unsigned short TLV_USER_TIMES_UPDATED = 0x0011; // ????
+const unsigned short TLV_USER_NEWCAPS       = 0x0019;
+const unsigned short TLV_USER_BUDDYINFO     = 0x001D;
+
+static QString makeCapStr( const capability cap, unsigned size )
+{
+    QString str = "", tmp;
+    for(unsigned int i = 0; i < size; i++ ) {
+        str += tmp.sprintf( "0x%02x ", cap[i] );
+    }
+    return str;
+}
+
 void ICQClient::snac_buddy(unsigned short type, unsigned short)
 {
     string screen;
@@ -75,7 +96,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
             TlvList tlv(m_socket->readBuffer);
 
-            Tlv *tlvClass = tlv(0x0001);
+            Tlv *tlvClass = tlv(TLV_USER_CLASS);
             if (tlvClass){
                 unsigned short userClass = *tlvClass;
                 if (userClass != data->Class.value){
@@ -96,7 +117,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             // Status TLV
-            Tlv *tlvStatus = tlv(0x0006);
+            Tlv *tlvStatus = tlv(TLV_USER_STATUS);
             if (tlvStatus){
                 unsigned long status = *tlvStatus;
                 if (status != data->Status.value){
@@ -111,7 +132,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             // Online time TLV
-            Tlv *tlvOnlineTime = tlv(0x0003);
+            Tlv *tlvOnlineTime = tlv(TLV_USER_SIGNON_TIME);
             if (tlvOnlineTime){
                 unsigned long OnlineTime = *tlvOnlineTime;
                 if (OnlineTime != data->OnlineTime.value){
@@ -130,22 +151,63 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
 
             // IP TLV
-            Tlv *tlvIP = tlv(0x000A);
+            Tlv *tlvIP = tlv(TLV_USER_EXT_IP);
             if (tlvIP)
                 bChanged |= set_ip(&data->IP, htonl((unsigned long)(*tlvIP)));
 
-            Tlv *tlvCapability = tlv(0x000D);
-            if (tlvCapability){
+            // short caps tlv
+            Tlv *tlvCapShort = tlv(TLV_USER_NEWCAPS);
+            if(tlvCapShort) {
                 data->Caps.value = 0;
+                data->Caps2.value = 0;
+
+                Buffer info(*tlvCapShort);
+
+                for (; info.readPos() < info.size(); ){
+                    unsigned char shortcap[2];
+                    info.unpack((char*)shortcap, sizeof(shortcap));
+                    for (unsigned i = 0;; i++) {
+                        if(!memcmp(&capabilities[i][2], shortcap, sizeof(shortcap))) {
+                            setCap(data, (cap_id_t)i);
+                            break;
+                        }
+                        // we don't go through all caps, only the first ones starting with 0x09
+                        if (*capabilities[i] != '\x09') {
+                            log( L_DEBUG, "%lu unknown cap %s", data->Uin.value,
+                                          makeCapStr( shortcap, sizeof(shortcap) ).latin1() );
+                            break;
+                        }
+                    }
+                }
+            }
+            // normal cap tlv
+            Tlv *tlvCapability = tlv(TLV_USER_CAPS);
+            if (tlvCapability) {
+                if (!tlvCapShort) {
+                    data->Caps.value = 0;
+                    data->Caps2.value = 0;
+                }
                 Buffer info(*tlvCapability);
                 for (; info.readPos() < info.size(); ){
                     capability cap;
                     info.unpack((char*)cap, sizeof(capability));
                     for (unsigned i = 0;; i++){
-                        if (*capabilities[i] == 0) break;
                         unsigned size = sizeof(capability);
-                        if (i == CAP_SIMOLD) size--;
-                        if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE)) size -= 4;
+                        if (i == CAP_SIMOLD)
+                            size--;
+
+                        if (*capabilities[i] == 0) {
+                            log( L_DEBUG, "%lu unknown cap %s", data->Uin.value, makeCapStr( cap, size ).latin1() );
+                            break;
+                        }
+                        if ((i == CAP_MICQ) || (i == CAP_LICQ) || (i == CAP_SIM) || (i == CAP_KOPETE))
+                            size -= 4;
+                        if ((i == CAP_ANDRQ))
+                            size -= 7;
+                        if ((i == CAP_MIRANDA))
+                            size -= 8;
+                        if ((i == CAP_JIMM))
+                            size -= 11;
                         if (!memcmp(cap, capabilities[i], size)){
                             if (i == CAP_SIMOLD){
                                 unsigned char build = cap[sizeof(capability)-1];
@@ -157,7 +219,33 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                                 p += 12;
                                 data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
                             }
-                            data->Caps.value |= (1 << i);
+                            if ((i == CAP_ANDRQ)) {
+                                unsigned char *p = (unsigned char*)cap;
+                                p += 9;
+                                data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
+                            }
+                            if ((i == CAP_MIRANDA)) {
+                                unsigned char *p = (unsigned char*)cap;
+                                p += 8;
+                                data->Build.value = (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
+                            }
+                            if ((i == CAP_JIMM)) {
+                                char *p = (char*)cap;
+                                p += 5;
+                                QString str = QString::fromAscii(p, 10);
+                                QStringList sl = QStringList::split('.', str);
+                                unsigned char maj = 0, min = 0;
+                                unsigned short rev = 0;
+                                if(sl.count() > 0)
+                                    maj = sl[0].toUShort();
+                                if(sl.count() > 1)
+                                    min = sl[1].toUShort();
+                                if(sl.count() > 2)
+                                    rev = sl[2].toUShort();
+
+                                data->Build.value = (maj << 24) + (min << 16) + rev;
+                            }
+                            setCap(data, (cap_id_t)i);
                             break;
                         }
                     }
@@ -169,7 +257,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             unsigned long pluginStatusTime = 0;
 
             // Direct connection info
-            Tlv *tlvDirect = tlv(0x000C);
+            Tlv *tlvDirect = tlv(TLV_USER_DC_INFO);
             if (tlvDirect){
                 Buffer info(*tlvDirect);
                 unsigned long  realIP;

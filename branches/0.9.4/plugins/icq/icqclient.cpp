@@ -74,6 +74,7 @@ typedef struct ICQUserData
     unsigned long	Port;
     unsigned long	DCcookie;
     unsigned long	Caps;
+    unsigned long	Caps2;
     char			*AutoReply;
     unsigned long	Uin;
     unsigned long	IcqID;
@@ -147,6 +148,7 @@ static DataDef _icqUserData[] =
         { "Port", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// DCcookie
         { "Caps", DATA_ULONG, 1, 0 },
+        { "Caps2", DATA_ULONG, 1, 0 },
         { "", DATA_STRING, 1, 0 },				// AutoReply
         { "Uin", DATA_ULONG, 1, 0 },
         { "Screen", DATA_STRING, 1, 0 },
@@ -1512,10 +1514,10 @@ QString ICQClient::contactTip(void *_data)
         res += "<br>";
         res += formatAddr(data->RealIP, data->Port.value);
     }
-    string client_name = clientName(data);
-    if (client_name.length()){
+    QString client_name = clientName(data);
+    if (!client_name.isEmpty()){
         res += "<br>";
-        res += quoteString(client_name.c_str());
+        res += quoteString(client_name);
     }
     if (data->PictureWidth.value && data->PictureHeight.value){
         QImage img(pictureFile(data));
@@ -1566,71 +1568,118 @@ unsigned ICQClient::warnLevel(unsigned short level)
     return level;
 }
 
-bool ICQClient::hasCap(ICQUserData *data, int n)
+bool ICQClient::hasCap(const ICQUserData *data, cap_id_t n)
 {
-    return (data->Caps.value & (1 << n)) != 0;
+    unsigned long val = n > 31 ? data->Caps2.value : data->Caps.value;
+    int pos = (int)n % 32;
+    return (val & (1 << pos)) != 0;
 }
 
-static string verString(unsigned ver)
+void ICQClient::setCap(ICQUserData *data, cap_id_t n)
 {
-    string res;
-    if (ver == 0) return res;
+    unsigned long &val = n > 31 ? data->Caps2.value : data->Caps.value;
+    int pos = (int)n % 32;
+    val |= (1 << pos);
+}
+
+static QString verString(unsigned ver)
+{
+    QString res;
+    if (ver == 0)
+        return res;
     unsigned char v[4];
     v[0] = (unsigned char)((ver >> 24) & 0xFF);
     v[1] = (unsigned char)((ver >> 16) & 0xFF);
-    v[2] = (unsigned char)((ver >> 8) & 0xFF);
-    v[3] = (unsigned char)(ver & 0xFF);
+    v[2] = (unsigned char)((ver >>  8) & 0xFF);
+    v[3] = (unsigned char)((ver >>  0) & 0xFF);
     if ((v[0] & 0x80) || (v[1] & 0x80) || (v[2] & 0x80) || (v[3] & 0x80))
         return res;
-    char b[32];
-    snprintf(b, sizeof(b), " %u.%u", v[0], v[1]);
-    res = b;
+
+    res.sprintf(" %u.%u", v[0], v[1]);
     if (v[2] || v[3]){
-        snprintf(b, sizeof(b), ".%u", v[2]);
-        res += b;
+        QString s;
+        s.sprintf(".%u", v[2]);
+        res += s;
     }
     if (v[3]){
-        snprintf(b, sizeof(b), ".%u", v[3]);
-        res += b;
+        QString s;
+        s.sprintf(".%u", v[3]);
+        res += s;
     }
     return res;
 }
 
-string ICQClient::clientName(ICQUserData *data)
+QString ICQClient::clientName(ICQUserData *data)
 {
-    string res;
-    char b[32];
+    QString res;
     if (data->Version.value)
-    {
-        snprintf(b, sizeof(b), "v%lu ", data->Version.value);
-        res = b;
+        res.sprintf("v%lu ", data->Version.value);
+
+    if (hasCap(data, CAP_MIRANDA)) {
+        QString r;
+        unsigned ver1 = (data->Build.value >> 24) & 0xFF;
+        unsigned ver2 = (data->Build.value >> 16) & 0xFF;
+        unsigned ver3 = (data->Build.value >>  8) & 0xFF;
+        unsigned ver4 = (data->Build.value >>  0) & 0xFF;
+        r.sprintf("Miranda %u.%u.%u.%u", ver1, ver2, ver3, ver4);
+        return res + r;
     }
-    if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN))
-    {
+    if (hasCap(data, CAP_QIP)) {
+        res += "QIP 2005a";
+        return res;
+    }
+    if (hasCap(data, CAP_JIMM)) {
+        QString r;
+        unsigned maj = (data->Build.value >> 24) & 0xFF;
+        unsigned min = (data->Build.value >> 16) & 0xFF;
+        unsigned rev = (data->Build.value >>  0) & 0xFFFF;
+        if(rev)
+            r.sprintf("Jimm %d.%d.%d", maj, min, rev);
+        else
+            r.sprintf("Jimm %d.%d", maj, min);
+        return res + r;
+    }
+    if (hasCap(data, CAP_ICQ51)) {
+        res += "ICQ 5.1";
+        return res;
+    }
+    if (hasCap(data, CAP_ICQ5_1) && hasCap(data, CAP_ICQ5_3) && hasCap(data, CAP_ICQ5_4)) {
+        res += "ICQ 5.0";
+        return res;
+    }
+    if (hasCap(data, CAP_ICQ5_1)) {
+        log( L_DEBUG, "CAP_ICQ5_1 without all others" );
+    }
+    if (hasCap(data, CAP_ICQ5_3)) {
+        log( L_DEBUG, "CAP_ICQ5_3 without all others" );
+    }
+    if (hasCap(data, CAP_ICQ5_4)) {
+        log( L_DEBUG, "CAP_ICQ5_4 without all others" );
+    }
+    if (hasCap(data, CAP_TRIL_CRYPT) || hasCap(data, CAP_TRILLIAN)) {
         res += "Trillian";
         return res;
     }
 
-    if (hasCap(data, CAP_SIMOLD))
-    {
-        int hiVersion = (data->Build.value >> 6) - 1;
+    if (hasCap(data, CAP_SIMOLD)) {
+        QString r;
+        unsigned hiVersion = (data->Build.value >> 6) - 1;
         unsigned loVersion = data->Build.value & 0x1F;
-        snprintf(b, sizeof(b), "SIM %u.%u", (unsigned)hiVersion, loVersion);
-        res += b;
-        return res;
+        r.sprintf("SIM %u.%u", hiVersion, loVersion);
+        return res + r;
     }
 
-    if (hasCap(data, CAP_SIM))
-    {
+    if (hasCap(data, CAP_SIM)) {
+        QString r;
         unsigned ver1 = (data->Build.value >> 24) & 0xFF;
         unsigned ver2 = (data->Build.value >> 16) & 0xFF;
         unsigned ver3 = (data->Build.value >> 8) & 0xFF;
         if (ver3){
-            snprintf(b, sizeof(b), "SIM %u.%u.%u", ver1, ver2, ver3);
+            r.sprintf("SIM %u.%u.%u", ver1, ver2, ver3);
         }else{
-            snprintf(b, sizeof(b), "SIM %u.%u", ver1, ver2);
+            r.sprintf("SIM %u.%u", ver1, ver2);
         }
-        res += b;
+        res += r;
         if (data->Build.value & 0x80)
             res += "/win32";
 
@@ -1639,36 +1688,32 @@ string ICQClient::clientName(ICQUserData *data)
         return res;
     }
 
-    if (hasCap(data, CAP_LICQ))
-    {
+    if (hasCap(data, CAP_LICQ)) {
+        QString r;
         unsigned ver1 = (data->Build.value >> 24) & 0xFF;
         unsigned ver2 = (data->Build.value >> 16) & 0xFF;
         unsigned ver3 = (data->Build.value >> 8) & 0xFF;
-        if (ver3){
-            snprintf(b, sizeof(b), "Licq %u.%u.%u", ver1, ver2, ver3);
-        }else{
-            snprintf(b, sizeof(b), "Licq %u.%u", ver1, ver2);
-        }
-        res += b;
-        if (data->Build.value & 0xFF)
+        ver2 %=100;	// see licq source
+        r.sprintf("Licq %u.%u.%u", ver1, ver2, ver3);
+        res += r;
+        if ((data->Build.value & 0xFF) == 1)
             res += "/SSL";
         return res;
     }
-    if (hasCap(data, CAP_KOPETE))
-    {
+    if (hasCap(data, CAP_KOPETE)) {
         // last 4 bytes determine version
         // NOTE change with each Kopete Release!
         // first number, major version
         // second number,  minor version
         // third number, point version 100+
         // fourth number,  point version 0-99
+        QString r;
         unsigned ver1 =  (data->Build.value >> 24) & 0xFF;	// major
         unsigned ver2 =  (data->Build.value >> 16) & 0xFF;	// minor
         unsigned ver3 = ((data->Build.value >>  8) & 0xFF) * 100;
         ver3         +=  (data->Build.value >>  0) & 0xFF;
-        snprintf(b, sizeof(b), "%u.%u.%u", ver1, ver2, ver3);
-        res = "Kopete ";
-        res += b;
+        r.sprintf("Kopete %u.%u.%u", ver1, ver2, ver3);
+        res += r;
         return res;
     }
     if (hasCap(data, CAP_XTRAZ)){
@@ -1684,13 +1729,14 @@ string ICQClient::clientName(ICQUserData *data)
         return res;
     }
     if ((data->InfoUpdateTime.value & 0xFF7F0000L) == 0x7D000000L){
+        QString r;
         unsigned ver = data->InfoUpdateTime.value & 0xFFFF;
         if (ver % 10){
-            snprintf(b, sizeof(b), "Licq %u.%u.%u", ver / 1000, (ver / 10) % 100, ver % 10);
+            r.sprintf("Licq %u.%u.%u", ver / 1000, (ver / 10) % 100, ver % 10);
         }else{
-            snprintf(b, sizeof(b), "Licq %u.%u", ver / 1000, (ver / 10) % 100);
+            r.sprintf("Licq %u.%u", ver / 1000, (ver / 10) % 100);
         }
-        res += b;
+        res += r;
         if (data->InfoUpdateTime.value & 0x00800000L)
             res += "/SSL";
         return res;
@@ -1725,10 +1771,12 @@ string ICQClient::clientName(ICQUserData *data)
         res += "YSM";
         res += verString(data->PluginInfoTime.value & 0xFFFF);
         return res;
-    case 0x04031980L:
-        snprintf(b, sizeof(b), "vICQ 0.43.%lu.%lu", data->PluginInfoTime.value & 0xffff, data->PluginInfoTime.value & (0x7fff0000) >> 16);
-        res += b;
+    case 0x04031980L: {
+        QString r;
+        r.sprintf("vICQ 0.43.%lu.%lu", data->PluginInfoTime.value & 0xffff, data->PluginInfoTime.value & (0x7fff0000) >> 16);
+        res += r;
         return res;
+    }
     case 0x3AA773EEL:
         if ((data->PluginStatusTime.value == 0x3AA66380L) && (data->PluginInfoTime.value == 0x3A877A42L))
         {
@@ -1738,8 +1786,7 @@ string ICQClient::clientName(ICQUserData *data)
         break;
     }
 
-    if (hasCap(data, CAP_TYPING))
-    {
+    if (hasCap(data, CAP_TYPING)) {
         switch (data->Version.value){
         case 10:
             res += "ICQ 2003b";
@@ -1754,7 +1801,8 @@ string ICQClient::clientName(ICQUserData *data)
     }
     if (data->InfoUpdateTime.value &&
             (data->InfoUpdateTime.value == data->PluginStatusTime.value) &&
-            (data->PluginStatusTime.value == data->PluginInfoTime.value) && (data->Caps.value == 0)){
+            (data->PluginStatusTime.value == data->PluginInfoTime.value) &&
+            (data->Caps.value == 0) && (data->Caps2.value == 0)){
         res += "vICQ";
         return res;
     }
@@ -1781,6 +1829,11 @@ string ICQClient::clientName(ICQUserData *data)
     }
     if ((data->Version.value == 7) && hasCap(data, CAP_RTF)){
         res += "GnomeICU";
+        return res;
+    }
+    // ICQ2go doesn't use CAP_TYPING anymore
+    if ((data->Version.value == 7) && hasCap(data, CAP_UTF)){
+        res += "ICQ2go";
         return res;
     }
     return res;
@@ -2438,7 +2491,7 @@ void *ICQClient::processEvent(Event *e)
                 if ((*it).bDirect){
                     setAwayMessage(t->tmpl.utf8());
                 }else{
-                    sendCapability(t->tmpl.utf8());
+                    sendCapability(t->tmpl);
                     sendICMB(1, 11);
                     sendICMB(0, 11);
                     processSendQueue();
