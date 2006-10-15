@@ -921,11 +921,6 @@ QCString ICQClient::cryptPassword()
     return res;
 }
 
-unsigned ICQClient::getStatus()
-{
-    return m_status;
-}
-
 unsigned long ICQClient::fullStatus(unsigned s)
 {
     unsigned long status = 0;
@@ -3121,11 +3116,6 @@ bool ICQClient::messageReceived(Message *msg, const QString &screen)
             delete msg;
     }
     return !bAccept;
-}
-
-QString ICQClient::ownerName()
-{
-    return contactName(&data.owner);
 }
 
 QString ICQClient::contactName(void *clientData)
