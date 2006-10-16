@@ -1537,9 +1537,8 @@ QString ICQClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QString url="pict://icq.";
-            url += data->Uin.ptr;
-            QMimeSourceFactory::defaultFactory()->setPixmap(static_cast<const char *>(url.utf8()), pict);
+            QString url="pict://icq." + QString::number(data->Uin.value);
+            QMimeSourceFactory::defaultFactory()->setPixmap(static_cast<const char *>(url), pict);
             res += "<br><img src=\"";
             res += static_cast<const char *>(url.utf8());
             res += "\" width=\"";
