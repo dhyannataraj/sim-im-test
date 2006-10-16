@@ -879,14 +879,15 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
         move(-21, -21);
         resize(22, 22);
     }
-    show();
-    QApplication::syncX();
-    if (wharfIcon){
+    /*
+    * show dockWnd only if there is nowhere to dock(e.g. WindowMaker)
+    * */
+    if (manager_window == None){
 	resize(64, 64);
 	QApplication::syncX();
+	show();
     }
 #endif
-    show();
 #endif
     setTip(text);
     reset();
@@ -1145,7 +1146,13 @@ void DockWnd::setIcon(const char *icon)
     if (wharfIcon)
         return;
 #endif
-    repaint();
+    // from PSI:
+    // thanks to Robert Spier for this:
+    // for some reason the repaint() isn't being honored, or isn't for
+    // the icon.  So force one on the widget behind the icon
+    erase();
+    QPaintEvent pe( rect() );
+    paintEvent(&pe);
 #endif
 }
 
@@ -1183,12 +1190,10 @@ void DockWnd::setTip(const char *text)
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
     if (wharfIcon == NULL){
-        if (isVisible()){
 #endif
             QToolTip::remove(this);
             QToolTip::add(this, tip);
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-        }
     }else{
         if (wharfIcon->isVisible()){
             QToolTip::remove(wharfIcon);
