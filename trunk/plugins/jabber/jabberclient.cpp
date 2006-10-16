@@ -2560,6 +2560,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
         case MessageAuthGranted:{
                 if (data == NULL)
                     data = findContact(jid, QString::null, true, contact, resource);
+                data->Subscribe.asULong() |= SUBSCRIBE_TO;
                 Event e(EventContactChanged, contact);
                 e.process();
                 return;
@@ -2591,6 +2592,16 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
     if (JabberAuthMessage::remove(tempAuthMessages, msg))
     {
         delete msg;
+    }
+    if (type == MessageAuthGranted) {
+        data->Subscribe.asULong() |= SUBSCRIBE_TO;
+        Event e(EventContactChanged, contact);
+        e.process();
+    } else
+    if (type == MessageAuthRefused) {
+        data->Subscribe.asULong() &= ~SUBSCRIBE_TO;
+        Event e(EventContactChanged, contact);
+        e.process();
     }
 }
 
