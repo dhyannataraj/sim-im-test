@@ -34,7 +34,7 @@ using namespace std;
 static DataDef	messageData[] =
     {
         { "Text", DATA_UTF, 1, 0 },
-        { "ServerText", DATA_STRING, 1, 0 },
+        { "ServerText", DATA_CSTRING, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
         // Use impossible RGB values as defaults, to signify there's no color set.
         { "Background", DATA_ULONG, 1, (const char*)~0U },
@@ -105,8 +105,8 @@ QString Message::getText() const
     if (!data.Text.str().isEmpty())
         return data.Text.str();
     // FIXME: Take a look on ServerText!
-    if (!data.ServerText.str().isEmpty())
-        return getContacts()->toUnicode(getContacts()->contact(m_contact), data.ServerText.str().ascii());
+    if (!data.ServerText.cstr().isEmpty())
+        return getContacts()->toUnicode(getContacts()->contact(m_contact), data.ServerText.cstr());
     return "";
 }
 

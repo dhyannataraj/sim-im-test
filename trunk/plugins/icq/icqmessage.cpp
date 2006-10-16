@@ -105,10 +105,10 @@ IcqContactsMessage::~IcqContactsMessage()
 
 QString IcqContactsMessage::getContacts() const
 {
-    QString serverText = getServerText();
+    QCString serverText = getServerText();
     if (serverText.isEmpty())
         return ContactsMessage::getContacts();
-    return serverText;
+    return serverText;  // this is wrong ... but I'm currently unsure what'ssaved in there
 }
 
 static DataDef icqAuthMessageData[] =
@@ -131,7 +131,7 @@ ICQAuthMessage::~ICQAuthMessage()
 
 QString ICQAuthMessage::getText() const
 {
-    QString serverText = getServerText();
+    QCString serverText = getServerText();
     if (serverText.isEmpty())
         return Message::getText();
     QString charset = getCharset();

@@ -166,12 +166,12 @@ void HistoryFileIterator::createMessage(unsigned id, const char *type, Buffer *c
         Message m(MessageGeneric, cfg);
         QString text = m.data.Text.str();
         if (text.isEmpty()){
-            const char *serverText = m.getServerText();
-            if (*serverText == 0)
+            QCString serverText = m.getServerText();
+            if (serverText.isEmpty())
                 return;
             if (m_codec == NULL)
                 m_codec = getContacts()->getCodec(getContacts()->contact(m_contact));
-            text = m_codec->toUnicode(serverText, strlen(serverText));
+            text = m_codec->toUnicode(serverText);
         }
         if (text.isEmpty())
             return;

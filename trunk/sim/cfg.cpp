@@ -433,6 +433,10 @@ void init_data(const DataDef *d, Data *data)
                 // when all our sources are utf-8, use QString::fromUtf8() here!
                 data->str() = def->def_value ? QString(def->def_value) : QString::null;
                 break;
+            case DATA_CSTRING:
+                // when all our sources are utf-8, use QString::fromUtf8() here!
+                data->str() = def->def_value ? QCString(def->def_value) : "";
+                break;
             case DATA_STRLIST: {
                 // this breaks on non latin1 defaults!
                 QStringList sl = QStringList::split(',',def->def_value);
@@ -599,6 +603,21 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 value++;
             }
             break;
+        case DATA_CSTRING:
+            for (i = 0; i < def->n_values; ld++){
+                value = strchr(value, '\"');
+                if (value == NULL)
+                    break;
+                value++;
+                v = getToken(value, '\"');
+                ld->cstr() = v.c_str();
+                i++;
+                value = strchr(value, ',');
+                if (value == NULL)
+                    break;
+                value++;
+            }
+            break;
         case DATA_LONG:
             for (i = 0; i < def->n_values; ld++){
                 if (*value != ',')
@@ -648,43 +667,41 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
 static char toHex(char c)
 {
     c &= 0x0F;
-    if (c < 10) return (char)(c + '0');
+    if (c < 10)
+        return (char)(c + '0');
     return (char)(c - 10 + 'a');
 }
 
-static string quoteString(const char *str)
+static QCString quoteInternal(const QCString &str)
 {
-    Buffer quoted;
-    if (str)
-        quoted.init(strlen(str) + 5);
-    quoted << "\"";
-    if (str){
-        for (unsigned char *p = (unsigned char*)str; *p; p++){
+    QCString res("\"");
+    if (!str.isEmpty()){
+        for (char *p = str.data(); *p; p++){
             switch (*p){
             case '\\':
-                quoted << "\\\\";
+                res += "\\\\";
                 break;
             case '\r':
                 break;
             case '\n':
-                quoted << "\\n";
+                res += "\\n";
                 break;
             case '\"':
-                quoted << "\\\"";
+                res += "\\\"";
                 break;
             default:
                 if (*p >= ' '){
-                    quoted << *p;
+                    res += *p;
                 }else if (*p){
-                    quoted << "\\x";
-                    quoted << toHex((char)(*p >> 4));
-                    quoted << toHex(*p);
+                    res += "\\x";
+                    res += toHex((char)(*p >> 4));
+                    res += toHex(*p);
                 }
             }
         }
     }
-    quoted << "\"" << (char)0;
-    return quoted.data();
+    res += "\"";
+    return res;
 }
 
 EXPORT string save_data(const DataDef *def, void *_data)
@@ -733,9 +750,9 @@ EXPORT string save_data(const DataDef *def, void *_data)
                             QString s = it.data();
                             QCString ls = s.local8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
-                                res += quoteString((const char*)ls);
+                                res += quoteInternal(ls);
                             }else{
-                                res += quoteString((const char*)(s.utf8()));
+                                res += quoteInternal(s.utf8());
                                 res += "u";
                             }
                         }
@@ -755,9 +772,9 @@ EXPORT string save_data(const DataDef *def, void *_data)
                             QString s = it.data();
                             QCString ls = s.local8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
-                                res += quoteString((const char*)ls);
+                                res += quoteInternal(ls);
                             }else{
-                                res += quoteString((const char*)(s.utf8()));
+                                res += quoteInternal(s.utf8());
                                 res += "u";
                             }
                         }
@@ -781,12 +798,31 @@ EXPORT string save_data(const DataDef *def, void *_data)
                         if (bSave){
                             QCString ls = str.local8Bit();
                             if (QString::fromLocal8Bit(ls) == str){
-                                value += quoteString((const char*)ls);
+                                value += quoteInternal(ls);
                             }else{
-                                value += quoteString((const char*)(str.utf8()));
+                                value += quoteInternal(str.utf8());
                                 value += "u";
                             }
                         }
+                    }
+                    break;
+                }
+            case DATA_CSTRING:{
+                    for (i = 0; i < def->n_values; i++, ld++){
+                        QCString &str = ld->cstr();
+                        if (value.length())
+                            value += ",";
+                        if (def->def_value){
+                            if (str != def->def_value){
+                                bSave = true;
+                            }
+                        }else{
+                            if (str.length()){
+                                bSave = true;
+                            }
+                        }
+                        if (bSave)
+                            value += quoteInternal(str);
                     }
                     break;
                 }
@@ -805,9 +841,9 @@ EXPORT string save_data(const DataDef *def, void *_data)
                         if (bSave){
                             QCString ls = str.local8Bit();
                             if (QString::fromLocal8Bit(ls) == str){
-                                value += quoteString((const char*)ls);
+                                value += quoteInternal(ls);
                             }else{
-                                value += quoteString((const char*)(str.utf8()));
+                                value += quoteInternal(str.utf8());
                                 value += "u";
                             }
                         }
@@ -1019,10 +1055,11 @@ public:
     Data::STRING_MAP    *m_dataAsQStringMap;
     QObject             *m_dataAsObject;
     IP                  *m_dataAsIP;
-    QByteArray          *m_dataAsBinary; 
+    QByteArray          *m_dataAsBinary;
+    QCString            *m_dataAsQCString;
     DataPrivate() : m_dataAsValue(0), m_dataAsBool(false), m_dataAsQString(NULL),
                     m_dataAsQStringMap(NULL), m_dataAsObject(NULL), m_dataAsIP(NULL),
-                    m_dataAsBinary(NULL) {}
+                    m_dataAsBinary(NULL), m_dataAsQCString(NULL) {}
 };
 
 Data::Data()
@@ -1065,6 +1102,9 @@ Data &Data::operator =(const Data &d)
         case DATA_BINARY:
             this->asBinary() = d.toBinary();
             break;
+        case DATA_CSTRING:
+            this->cstr() = d.cstr();
+            break;
         case DATA_UNKNOWN:
         case DATA_STRUCT:
         default:
@@ -1079,6 +1119,7 @@ void Data::clear(bool bNew)
         delete data->m_dataAsQString;
         delete data->m_dataAsQStringMap;
         delete data->m_dataAsBinary;
+        delete data->m_dataAsQCString;
         delete data;
     }
     data = bNew ? new DataPrivate : NULL;
@@ -1271,6 +1312,34 @@ bool Data::setIP(const IP *d)
     return true;
 }
 
+const QCString &Data::cstr() const
+{
+    checkType(DATA_CSTRING);
+    if(!data->m_dataAsQCString)
+        data->m_dataAsQCString = new QCString();
+    return *data->m_dataAsQCString;
+}
+
+QCString &Data::cstr()
+{
+    checkType(DATA_CSTRING);
+    if(!data->m_dataAsQCString)
+        data->m_dataAsQCString = new QCString();
+    return *data->m_dataAsQCString;
+}
+
+bool Data::setCStr(const QCString &s)
+{
+    checkType(DATA_CSTRING);
+    if(data->m_dataAsQCString && s == *data->m_dataAsQCString)
+        return false;
+    if(!data->m_dataAsQCString)
+        data->m_dataAsQCString = new QCString(s);
+    else
+        *data->m_dataAsQCString = s;
+    return true;
+}
+
 static const char *dataType2Name(DataType type)
 {
     switch(type) {
@@ -1294,6 +1363,8 @@ static const char *dataType2Name(DataType type)
             return "object";
         case DATA_BINARY:
             return "binary";
+        case DATA_CSTRING:
+            return "cstr";
     }
     return "unknown";
 }

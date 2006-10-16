@@ -847,7 +847,8 @@ enum DataType {
     DATA_STRUCT,
     DATA_UTFLIST,
     DATA_OBJECT,
-    DATA_BINARY     // QByteArray
+    DATA_BINARY,    // QByteArray
+    DATA_CSTRING    // to store data in an unknown encoding (icq's ServerText)
 };
 
 typedef struct DataDef
@@ -912,6 +913,10 @@ public:
     const QByteArray &toBinary() const;
     QByteArray &asBinary();
     bool setBinary(const QByteArray &d);
+    // QString
+    const QCString &cstr() const;
+    QCString &cstr();
+    bool setCStr(const QCString &s);
 
 protected:
     void checkType(DataType type) const;
@@ -979,6 +984,10 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
     const char *host##A() { return (data.A.ip() ? data.A.ip()->host() : ""); } \
     void set##A(unsigned long r) { SIM::set_ip(&data.A, r); }
 
+#define PROP_CSTR(A) \
+    QCString get##A() const { return data.A.cstr(); } \
+    bool set##A(const QCString &r) { return data.A.setCStr( r ); }
+
 const int LEFT      = 0;
 const int TOP       = 1;
 const int WIDTH     = 2;
@@ -1007,7 +1016,7 @@ EXPORT bool makedir(char *p);
 /* Save state */
 EXPORT void save_state();
 
-EXPORT std::string number(unsigned n);
+EXPORT DEPRECATED std::string number(unsigned n);
 EXPORT DEPRECATED std::string trim(const char *str);
 EXPORT QString formatDateTime(unsigned long t);
 EXPORT QString formatDate(unsigned long t);
@@ -1089,7 +1098,7 @@ public:
     QString getRichText();
     virtual QString getText() const;
     void setText(const QString &text);
-    PROP_STR(ServerText)
+    PROP_CSTR(ServerText)
     PROP_ULONG(Flags)
     PROP_ULONG(Background)
     PROP_ULONG(Foreground)
