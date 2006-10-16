@@ -76,7 +76,7 @@ class IPC : public QThread
 public:
     IPC();
     ~IPC();
-    string prefix();
+    QString prefix();
     void    process();
 protected:
     unsigned *s;
@@ -101,18 +101,18 @@ protected:
 IPC::IPC()
 {
     s = NULL;
-    string name = prefix() + "mem";
-    hMem = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, N_SLOTS * sizeof(unsigned), name.c_str());
+    QString name = prefix() + "mem";
+    hMem = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, N_SLOTS * sizeof(unsigned), name.latin1());
     if (hMem)
         s = (unsigned*)MapViewOfFile(hMem, FILE_MAP_ALL_ACCESS, 0, 0, 0);
     if (s)
         memset(s, 0, N_SLOTS * sizeof(unsigned));
     name = prefix() + "mutex";
-    hMutex = CreateMutexA(NULL, FALSE, name.c_str());
+    hMutex = CreateMutexA(NULL, FALSE, name.latin1());
     name = prefix() + "in";
-    hEventIn = CreateEventA(NULL, TRUE, FALSE, name.c_str());
+    hEventIn = CreateEventA(NULL, TRUE, FALSE, name.latin1());
     name = prefix() + "out";
-    hEventOut = CreateEventA(NULL, TRUE, FALSE, name.c_str());
+    hEventOut = CreateEventA(NULL, TRUE, FALSE, name.latin1());
     bExit = false;
     start();
 }
@@ -153,9 +153,8 @@ void IPC::process()
             continue;
         QString in;
         QString out;
-        string name = prefix();
-        name += number(i);
-        HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.c_str());
+        QString name = prefix() + QString::number(i);
+        HANDLE hMem = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.latin1());
         if (hMem == NULL){
             s[i] = SLOT_NONE;
             PulseEvent(hEventOut);
@@ -203,9 +202,9 @@ void IPC::process()
 #define SM_REMOTESESSION	0x1000
 #endif
 
-string IPC::prefix()
+QString IPC::prefix()
 {
-    string res;
+    QString res;
     if (GetSystemMetrics(SM_REMOTECONTROL) || GetSystemMetrics(SM_REMOTESESSION))
         res = "Global/";
     res += SIM_SHARED;

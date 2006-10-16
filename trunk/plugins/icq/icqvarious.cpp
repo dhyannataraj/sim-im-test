@@ -256,7 +256,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                     Message *m = parseMessage(type, QString::number(uin), message, msg, id, 0);
                     if (m){
                         m->setTime(send_time);
-                        messageReceived(m, number(uin).c_str());
+                        messageReceived(m, QString::number(uin));
                     }
                     break;
                 }

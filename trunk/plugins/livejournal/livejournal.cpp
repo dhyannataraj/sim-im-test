@@ -1157,7 +1157,7 @@ void LiveJournalClient::send()
     url += getServer();
     if (getPort() != 80){
         url += ":";
-        url += number(getPort());
+        url += QString::number(getPort());
     }
     url += getURL();
     QString headers = "Content-Type: application/x-www-form-urlencoded";
