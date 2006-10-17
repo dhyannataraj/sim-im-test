@@ -435,7 +435,7 @@ void init_data(const DataDef *d, Data *data)
                 break;
             case DATA_CSTRING:
                 // when all our sources are utf-8, use QString::fromUtf8() here!
-                data->str() = def->def_value ? QCString(def->def_value) : "";
+                data->cstr() = def->def_value ? QCString(def->def_value) : "";
                 break;
             case DATA_STRLIST: {
                 // this breaks on non latin1 defaults!
