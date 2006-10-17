@@ -2604,6 +2604,7 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
         case MessageAuthGranted:{
                 if (data == NULL)
                     data = findContact(jid, NULL, true, contact, resource);
+                data->Subscribe.value |= SUBSCRIBE_TO;
                 Event e(EventContactChanged, contact);
                 e.process();
                 return;
@@ -2640,6 +2641,16 @@ void JabberClient::auth_request(const char *jid, unsigned type, const char *text
     if (JabberAuthMessage::remove(tempAuthMessages, msg))
     {
         delete msg;
+    }
+    if (type == MessageAuthGranted) {
+        data->Subscribe.value |= SUBSCRIBE_TO;
+        Event e(EventContactChanged, contact);
+        e.process();
+    } else
+    if (type == MessageAuthRefused) {
+        data->Subscribe.value &= ~SUBSCRIBE_TO;
+        Event e(EventContactChanged, contact);
+        e.process();
     }
 }
 
