@@ -58,7 +58,8 @@ icq_la_SOURCES = \
  rtf.ll \
  verifydlg.cpp \
  verifydlgbase.ui \
- xml.cpp
+ xml.cpp \
+ icqssbi.cpp
 
 SUBDIRS = sounds
 

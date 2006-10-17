@@ -27,6 +27,7 @@ SET(icq_SRCS
         icqsearch.cpp
         icqsecure.cpp
         icqservice.cpp
+        icqssbi.cpp
         icqvarious.cpp
         interestsinfo.cpp
         moreinfo.cpp

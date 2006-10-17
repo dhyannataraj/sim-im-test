@@ -503,7 +503,6 @@ typedef struct InfoRequest
 typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
 typedef std::map<unsigned, unsigned>			RATE_MAP;
 
-class SSBISocket;
 class ICQClient : public SIM::TCPClient, public OscarSocket
 {
     Q_OBJECT
@@ -666,7 +665,7 @@ protected:
     void fillDirectInfo(Buffer &directInfo);
     void removeFullInfoRequest(unsigned long uin);
     void requestService(ServiceSocket*);
-    SSBISocket *getSSBISocket();
+    class SSBISocket *getSSBISocket();
     unsigned long fullStatus(unsigned status);
     QCString cryptPassword();
     virtual void connect_ready();
@@ -815,23 +814,6 @@ protected:
     bool    m_bConnected;
     SIM::ClientSocket *m_socket;
     ICQClient *m_client;
-};
-
-class SSBISocket : public ServiceSocket
-{
-public:
-    SSBISocket(ICQClient *client);
-    void requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash);
-    void uploadBuddyIcon(unsigned short refNumber, const QImage &img);
-protected:
-    virtual void data(unsigned short fam, unsigned short type, unsigned short seq);
-    void snac_service(unsigned short type, unsigned short seq);
-    void snac_ssbi(unsigned short type, unsigned short seq);
-    void process();
-
-    QStringList m_buddyRequests;
-    QImage m_img;   // image to upload
-    unsigned short m_refNumber; // the ref number for the image
 };
 
 class DirectSocket : public QObject, public SIM::ClientSocketNotify
