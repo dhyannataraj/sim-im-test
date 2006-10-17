@@ -803,7 +803,7 @@ void FetchClientPrivate::connect_ready()
         if (!findHeader("Content-Length"))
             m_socket->writeBuffer
             << "Content-Length: "
-            << QString::number(postSize)
+            << (const char*)QString::number(postSize).latin1()
             << "\r\n";
         m_postSize = postSize;
     }
