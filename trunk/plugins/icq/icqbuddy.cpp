@@ -252,6 +252,29 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 }
             }
 
+            // buddy info
+            Tlv *tlvBuddy = tlv(TLV_USER_BUDDYINFO);
+            if (tlvBuddy) {
+                const QByteArray &ba = data->buddyHash.toBinary();
+                unsigned short iconID;
+                unsigned char iconFlags, hashSize;
+                Buffer info(*tlvBuddy);
+                QByteArray hash(16);
+                QString fname = ICQClient::avatarFile(data);
+                QFileInfo fi(fname);
+
+                info >> iconID >> iconFlags >> hashSize;
+                hash.resize(hashSize);
+                info.unpack(hash.data(), hashSize);
+                if( data->buddyID.toULong() != iconID ||
+                    ba.data() != hash.data() ||
+                   !fi.exists() || fi.size() == 0) {
+                    data->buddyID.asULong() = iconID;
+                    data->buddyHash.asBinary() = hash;
+                    requestBuddy(data);
+                }
+            }
+
             unsigned long infoUpdateTime = 0;
             unsigned long pluginInfoTime = 0;
             unsigned long pluginStatusTime = 0;

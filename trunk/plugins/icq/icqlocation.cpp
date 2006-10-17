@@ -487,7 +487,7 @@ void ICQClient::sendCapability(const QString &away_msg)
     *(pack_ver++) = os_ver;
     addCapability(cap, CAP_AIM_SHORTCAPS);
     addCapability(cap, CAP_AIM_SUPPORT);
-//    addCapability(cap, CAP_AVATAR);
+    addCapability(cap, CAP_AVATAR);
     if (m_bAIM){
         addCapability(cap, CAP_AIM_CHAT);
         addCapability(cap, CAP_AIM_BUDDYCON);

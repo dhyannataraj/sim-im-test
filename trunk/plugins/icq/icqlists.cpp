@@ -32,6 +32,7 @@ using namespace std;
 using namespace SIM;
 
 #include <qtimer.h>
+#include <qbuffer.h>
 
 const unsigned short ICQ_SNACxLISTS_ERROR          = 0x0001;
 const unsigned short ICQ_SNACxLISTS_REQxRIGHTS     = 0x0002;
@@ -131,6 +132,15 @@ protected:
     QString             m_screen;
     unsigned short	m_icqId;
     unsigned short	m_type;
+};
+
+class SetBuddyRequest : public ListServerRequest
+{
+public:
+    SetBuddyRequest(unsigned short seq, const ICQUserData *icqUserData);
+    virtual void process(ICQClient *client, unsigned short res);
+protected:
+    const ICQUserData *m_icqUserData;
 };
 
 static char PLEASE_UPGRADE[] = "PleaseUpgrade";
@@ -308,7 +318,30 @@ void ICQClient::parseRosterItem(unsigned short type,
         setContactsInvisible(id);
         break;
     case ICQ_PRESENCE_INFO:
-    case ICQ_BUDDY_CHECKSUM:
+        break;
+    case ICQ_BUDDY_CHECKSUM: {
+            if (str.length()){
+                Tlv *tlv_buddyHash = (*inf)(TLV_BUDDYHASH);
+                if(tlv_buddyHash) {
+                    const QByteArray &ba = data.owner.buddyHash.toBinary();
+                    unsigned char flag, size;
+                    QByteArray buddyHash;
+
+                    flag = tlv_buddyHash->Data()[0];
+                    size = tlv_buddyHash->Data()[1];
+                    buddyHash.resize(size);
+                    memcpy(buddyHash.data(), &tlv_buddyHash->Data()[2], size);
+
+                    if(memcmp(ba.data(), buddyHash.data(), min(ba.size(), (unsigned int)size))) {
+                        data.owner.buddyHash.asBinary() = buddyHash;
+                        data.owner.buddyID.asULong() = flag;
+                        requestBuddy(&data.owner);
+                    }
+                    data.owner.buddyRosterID.asULong() = id;
+                }
+            }
+            break;
+        }
     case ICQ_LAST_UPDATE:
 	case ICQ_UNKNOWN:
         break;
@@ -933,6 +966,28 @@ void SetListRequest::process(ICQClient *client, unsigned short)
 }
 
 //-----------------------------------------------------------------------------
+SetBuddyRequest::SetBuddyRequest(unsigned short seq, const ICQUserData *icqUserData)
+        : ListServerRequest(seq), m_icqUserData(icqUserData)
+{
+}
+
+void SetBuddyRequest::process(ICQClient *client, unsigned short res)
+{
+    client->listRequests.erase(client->listRequests.begin());
+    // item does not exist
+    if(res == 2) {
+        ListRequest lr;
+        lr.type        = LIST_BUDDY_CHECKSUM;
+        lr.icq_id      = m_icqUserData->buddyRosterID.toULong();
+        lr.icqUserData = m_icqUserData;
+        client->listRequests.push_back(lr);
+        client->processSendQueue();
+    }
+    if(res != 0)
+        return;
+}
+
+//-----------------------------------------------------------------------------
 
 unsigned short ICQClient::getListId()
 {
@@ -982,6 +1037,16 @@ TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
     if (cell.length())
         *tlv += new Tlv(TLV_CELLULAR, (unsigned short)(cell.length()), cell.latin1());
     return tlv;
+}
+
+void ICQClient::uploadBuddy(const ICQUserData *data)
+{
+    ListRequest lr;
+    lr.type        = LIST_BUDDY_CHECKSUM;
+    lr.icq_id      = data->buddyRosterID.toULong();
+    lr.icqUserData = data;
+    listRequests.push_back(lr);
+    processSendQueue();
 }
 
 unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, unsigned short grp_id,
@@ -1201,6 +1266,41 @@ unsigned ICQClient::processListRequest()
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
                 sendPacket(true);
                 m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, QString::null);
+            }
+            break;
+        case LIST_BUDDY_CHECKSUM:
+            if (lr.icqUserData){
+                log(L_DEBUG, "Add/Modify buddy icon checksum");
+
+                QImage img(getPicture());
+                if(img.isNull())
+                    break;
+
+                QByteArray ba;
+                QBuffer buf(ba);
+                if(!buf.open(IO_WriteOnly)) {
+                    log(L_ERROR, "Can't open QByteArray for writing!");
+                    break;
+                }
+                if(!img.save(&buf, "JPEG")) {
+                    log(L_ERROR, "Can't save QImage to QBuffer");
+                    break;
+                }
+                buf.close();
+                QByteArray hash = md5(ba.data(), ba.size());
+
+                TlvList *tlvList = new TlvList;
+
+                ba.resize(hash.size() + 2);
+                ba.data()[0] = 0x01;
+                ba.data()[1] = hash.size();
+                memcpy(&ba.data()[2], hash.data(), hash.size());
+                *tlvList += new Tlv(TLV_BUDDYHASH, ba.size(), ba.data());
+                *tlvList += new Tlv(TLV_ALIAS, 0, NULL);
+
+                unsigned short seq = sendRoster(lr.icq_id ? ICQ_SNACxLISTS_UPDATE : ICQ_SNACxLISTS_CREATE,
+                                                "1", lr.grp_id, lr.icq_id, ICQ_BUDDY_CHECKSUM, tlvList);
+                m_listRequest = new SetBuddyRequest(seq, &this->data.owner);
             }
             break;
         }

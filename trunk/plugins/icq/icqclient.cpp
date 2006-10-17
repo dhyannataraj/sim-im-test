@@ -230,6 +230,9 @@ static DataDef _icqUserData[] =
         { "", DATA_OBJECT, 1, 0 },				// DirectPluginStatus
         { "", DATA_BOOL, 1, 0 },				// bNoDirect
         { "", DATA_BOOL, 1, 0 },				// bInviisble
+        { "", DATA_ULONG, 1, 0},                // buddyRosterID
+        { "buddyID", DATA_ULONG, 1, 0},
+        { "buddyHash", DATA_BINARY, 1, 0},
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -1199,7 +1202,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             dicon = "ICQ_invisible";
         }else{
             const CommandDef *def = ICQProtocol::_statusList();
-            for (; def->text; def++){
+            for (; !def->text.isEmpty(); def++){
                 if (def->id == iconStatus){
                     dicon = def->icon;
                     break;
@@ -1434,7 +1437,7 @@ QString ICQClient::contactTip(void *_data)
             res += " ";
             res += i18n("Invisible");
         }else  if (data->Uin.toULong()){
-            for (const CommandDef *cmd = ICQProtocol::_statusList(); cmd->text; cmd++){
+            for (const CommandDef *cmd = ICQProtocol::_statusList(); !cmd->text.isEmpty(); cmd++){
                 if (cmd->icon == statusIcon){
                     res += " ";
                     statusText += i18n(cmd->text);
@@ -1506,6 +1509,33 @@ QString ICQClient::contactTip(void *_data)
         res += "<br>";
         res += quoteString(client_name);
     }
+    if (data->buddyHash.toBinary().size() != 0 && data->buddyID.toULong() == 1) {
+        QImage img(avatarFile(data));
+        if (!img.isNull()){
+            QPixmap pict;
+            pict.convertFromImage(img);
+            int w = pict.width();
+            int h = pict.height();
+            if (h > w){
+                if (h > 60){
+                    w = w * 60 / h;
+                    h = 60;
+                }
+            }else{
+                if (w > 60){
+                    h = h * 60 / w;
+                    w = 60;
+                }
+            }
+            QString url="pict://icqavatar." + QString::number(data->Uin.toULong());
+            QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
+            res += "<br><img src=\"" + url + "\" width=\"";
+            res += QString::number(w);
+            res += "\" height=\"";
+            res += QString::number(h);
+            res += "\">";
+        }
+    }
     if (data->PictureWidth.toULong() && data->PictureHeight.toULong()) {
         QImage img(pictureFile(data));
         if (!img.isNull()){
@@ -1525,10 +1555,8 @@ QString ICQClient::contactTip(void *_data)
                 }
             }
             QString url="pict://icq." + QString::number(data->Uin.toULong());
-            QMimeSourceFactory::defaultFactory()->setPixmap(static_cast<const char *>(url), pict);
-            res += "<br><img src=\"";
-            res += static_cast<const char *>(url.utf8());
-            res += "\" width=\"";
+            QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
+            res += "<br><img src=\"" + url + "\" width=\"";
             res += QString::number(w);
             res += "\" height=\"";
             res += QString::number(h);
@@ -2308,6 +2336,7 @@ void ICQClient::updateInfo(Contact *contact, void *_data)
     }else{
         fetchProfile(data);
     }
+    requestBuddy(data);
 }
 
 void ICQClient::fetchAwayMessage(ICQUserData *data)
@@ -3219,6 +3248,16 @@ QString ICQClient::pictureFile(const ICQUserData *data)
     QString f = PICT_PATH;
     f += "icq.";
 	f += QString::number(data->Uin.toULong());
+    f = user_file(f);
+    return f;
+}
+
+QString ICQClient::avatarFile(const ICQUserData *data)
+{
+    QString f = PICT_PATH;
+    f += "icq.avatar.";
+	f += QString::number(data->Uin.toULong());
+    f += (data->buddyID.toULong() == 1) ? ".jpg" : ".xml";
     f = user_file(f);
     return f;
 }

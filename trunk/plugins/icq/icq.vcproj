@@ -1019,6 +1019,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\icqssbi.cpp"
+				>
+			</File>
+			<File
 				RelativePath="icqvarious.cpp"
 				>
 				<FileConfiguration
