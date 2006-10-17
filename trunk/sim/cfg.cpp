@@ -664,19 +664,19 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
     cfg->setReadPos(read_pos);
 }
 
-static char toHex(char c)
+static unsigned char toHex(unsigned char c)
 {
     c &= 0x0F;
     if (c < 10)
-        return (char)(c + '0');
-    return (char)(c - 10 + 'a');
+        return (unsigned char)(c + '0');
+    return (unsigned char)(c - 10 + 'a');
 }
 
 static QCString quoteInternal(const QCString &str)
 {
     QCString res("\"");
     if (!str.isEmpty()){
-        for (char *p = str.data(); *p; p++){
+        for (unsigned char *p = (unsigned char*)str.data(); *p; p++){
             switch (*p){
             case '\\':
                 res += "\\\\";
@@ -694,7 +694,7 @@ static QCString quoteInternal(const QCString &str)
                     res += *p;
                 }else if (*p){
                     res += "\\x";
-                    res += toHex((char)(*p >> 4));
+                    res += toHex((unsigned char)(*p >> 4));
                     res += toHex(*p);
                 }
             }
