@@ -1011,9 +1011,9 @@ bool LiveJournalClient::done(unsigned code, Buffer &data, const char*)
     if (code == 200){
         m_request->result(&data);
     }else{
-        string err = "Fetch error ";
-        err += number(code);
-        error_state(err.c_str(), 0);
+        QString err = "Fetch error ";
+        err += QString::number(code);
+        error_state(err, 0);
         statusChanged();
     }
     delete m_request;

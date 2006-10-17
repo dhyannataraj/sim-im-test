@@ -291,7 +291,7 @@ protected:
     virtual bool	error(const char *err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
     bool get_line(const char *str);
-    void send_line(const char *str);
+    void send_line(const QString &str);
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;
