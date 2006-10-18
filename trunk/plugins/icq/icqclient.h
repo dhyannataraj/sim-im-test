@@ -591,6 +591,7 @@ public:
     static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(const ICQUserData *data);
     static QString avatarFile(const ICQUserData *data);
+    bool hasAvatar(const ICQUserData *data) const;
     static const capability *capabilities;
     static const plugin *plugins;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);

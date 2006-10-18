@@ -263,7 +263,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 unsigned char iconFlags, hashSize;
                 Buffer info(*tlvBuddy);
                 QByteArray hash(16);
-                QString fname = ICQClient::avatarFile(data);
+                QString fname = avatarFile(data);
                 QFileInfo fi(fname);
 
                 info >> iconID >> iconFlags >> hashSize;
@@ -341,7 +341,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             break;
                         case PLUGIN_PICTURE:
                             log(L_DEBUG, "Updated picture");
-                            addPluginInfoRequest(data->Uin.toULong(), plugin_index);
+                            if(!hasAvatar(data))
+                                addPluginInfoRequest(data->Uin.toULong(), plugin_index);
                             break;
                         case PLUGIN_QUERYxINFO:
                             log(L_DEBUG, "Updated info plugin list");

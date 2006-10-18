@@ -3262,6 +3262,21 @@ QString ICQClient::avatarFile(const ICQUserData *data)
     return f;
 }
 
+bool ICQClient::hasAvatar(const ICQUserData *d) const
+{
+    // only support jpg
+    if(d->buddyID.toULong() != 1)
+        return false;
+    // buddyHashsize must be 16
+    if(d->buddyHash.toBinary().size() != 16)
+        return false;
+    QString f = avatarFile(d);
+    QFileInfo fi(f);
+    if(!fi.exists() || fi.size() == 0)
+        return false;
+    return true;
+}
+
 void ICQClient::retry(int n, void *p)
 {
     MsgSend *m = (MsgSend*)p;
