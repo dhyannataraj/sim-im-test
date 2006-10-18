@@ -28,6 +28,9 @@
 #include <netinet/in.h>
 #endif
 
+#include <qimage.h>
+#include <qfileinfo.h>
+
 using namespace SIM;
 
 const unsigned short ICQ_SNACxBDY_REQUESTxRIGHTS   = 0x0002;
