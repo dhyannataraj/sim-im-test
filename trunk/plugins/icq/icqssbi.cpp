@@ -70,7 +70,7 @@ SSBISocket *ICQClient::getSSBISocket()
 
 void ICQClient::requestBuddy(const ICQUserData *data)
 {
-    if(!hasCap(data, CAP_AVATAR) && !isOwnData(screen(data)))
+    if(isOwnData(screen(data)))
         return;
     if(!data->buddyHash.toBinary().size())
         return;
@@ -236,7 +236,6 @@ void SSBISocket::process()
             return;
         }
     }
-    m_buddyRequests.clear();
     if(!m_img.isNull()) {
         uploadBuddyIcon(m_refNumber, m_img);
         m_refNumber = 0;

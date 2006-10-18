@@ -1480,7 +1480,7 @@ void ICQClient::changePassword(const QString &new_pswd)
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
     << ICQ_SRVxREQ_CHANGE_PASSWD
-    << getContacts()->fromUnicode(NULL, pwd);
+    << (const char*)getContacts()->fromUnicode(NULL, pwd).data();
     sendServerRequest();
     varRequests.push_back(new SetPasswordRequest(this, m_nMsgSequence, new_pswd));
 }

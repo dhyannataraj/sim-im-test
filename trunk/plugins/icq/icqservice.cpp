@@ -226,6 +226,10 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxSRV_MOTD:
         break;
+    case ICQ_SNACxSRV_ACKxIMxICQ:
+        snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
+        sendPacket(true);
+        break;
     case ICQ_SNACxSRV_EXT_STATUS: {
             QByteArray shash(16);
             unsigned short nType;
@@ -265,10 +269,6 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
 
             uploadBuddyIcon(1, img);
         }
-        break;
-    case ICQ_SNACxSRV_ACKxIMxICQ:
-        snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
-        sendPacket(true);
         break;
     case ICQ_SNACxSRV_NAMExINFO:{
             QString screen = m_socket->readBuffer.unpackScreen();

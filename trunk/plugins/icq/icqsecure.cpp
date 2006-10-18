@@ -103,8 +103,6 @@ void ICQSecure::fill()
     chkIgnoreAuth->setChecked(m_client->getIgnoreAuth());
     chkUseMD5->setChecked(m_client->getUseMD5());
     grpDirect->setButton(m_client->getDirectMode());
-    //fillListView(lstVisible, offsetof(ICQUserData, VisibleId));
-    //fillListView(lstInvisible, offsetof(ICQUserData, InvisibleId));
     fillListView(lstVisible, &ICQUserData::VisibleId);
     fillListView(lstInvisible, &ICQUserData::InvisibleId);
     hideIpToggled(m_client->getHideIP());
@@ -117,8 +115,6 @@ void *ICQSecure::processEvent(Event *e)
             fill();
     }
     if (e->type() == EventContactChanged){
-        //fillListView(lstVisible, offsetof(ICQUserData, VisibleId));
-        //fillListView(lstInvisible, offsetof(ICQUserData, InvisibleId));
         fillListView(lstVisible, &ICQUserData::VisibleId);
         fillListView(lstInvisible, &ICQUserData::InvisibleId);
     }
@@ -168,8 +164,7 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, m_client);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            // if (*((unsigned short*)(((char*)data) + offs))){
-            if ((data->*field).asULong()){
+            if ((data->*field).toULong()){
                 QString firstName = contact->getFirstName();
                 QString lastName  = contact->getLastName();
                 firstName = getToken(firstName, '/');

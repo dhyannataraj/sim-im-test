@@ -1501,18 +1501,10 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
             typeAnswer = 0x00000001;
             QString pictFile = getPicture();
             if (!pictFile.isEmpty()){
-#ifdef WIN32
-                pictFile = pictFile.replace(QRegExp("/"), "\\");
-#endif
                 QFile f(pictFile);
                 if (f.open(IO_ReadOnly)){
-#ifdef WIN32
-                    int n = pictFile.findRev("\\");
-#else
-                    int n = pictFile.findRev("/");
-#endif
-                    if (n >= 0)
-                        pictFile = pictFile.mid(n + 1);
+                    QFileInfo fi(f);
+                    pictFile = fi.fileName();
                     nEntries = pictFile.length();
                     answer.pack(pictFile.local8Bit(), pictFile.length());
                     unsigned long size = f.size();
