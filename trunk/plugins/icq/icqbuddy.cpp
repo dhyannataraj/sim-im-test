@@ -270,7 +270,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 hash.resize(hashSize);
                 info.unpack(hash.data(), hashSize);
                 if( data->buddyID.toULong() != iconID ||
-                    ba.data() != hash.data() ||
+                    ba != hash ||
                    !fi.exists() || fi.size() == 0) {
                     data->buddyID.asULong() = iconID;
                     data->buddyHash.asBinary() = hash;

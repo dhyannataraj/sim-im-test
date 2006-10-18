@@ -657,6 +657,25 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 value++;
             }
             break;
+        case DATA_BINARY: {
+            // ok here since they're only latin1 chars
+            QStringList sl = QStringList::split(',',value,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                int size = s.length() / 2;
+                QByteArray ba(size);
+                for(int cnt = 0; cnt < size; cnt++) {
+                    ba.data()[cnt] = (char)s.mid(cnt * 2, 2).toShort(NULL, 16);
+                }
+                ld->setBinary(ba);
+            }
+            break;
+        }
+        case DATA_UNKNOWN:
+        case DATA_STRUCT:
+        case DATA_OBJECT:
 	default:
 	    break;
         }
@@ -894,6 +913,23 @@ EXPORT string save_data(const DataDef *def, void *_data)
                     }
                     break;
                 }
+            case DATA_BINARY: {
+                for (unsigned i = 0; i < def->n_values; i++) {
+                    QByteArray &ba = ld->asBinary();
+                    for(unsigned i = 0; i < ba.size(); i++) {
+                        unsigned char c = ba.data()[i];
+                        QString s;
+                        s.sprintf("%02X", c);
+                        value += s.latin1();    // ok here since they're only latin1 chars
+                    }
+                    if(!bSave)
+                        bSave = (ba.size() != 0);
+                }
+                break;
+            }
+            case DATA_UNKNOWN:
+            case DATA_STRUCT:
+            case DATA_OBJECT:
             default:
                 break;
             }

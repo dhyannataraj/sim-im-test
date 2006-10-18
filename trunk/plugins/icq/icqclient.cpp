@@ -3247,7 +3247,7 @@ QString ICQClient::pictureFile(const ICQUserData *data)
 {
     QString f = PICT_PATH;
     f += "icq.";
-	f += QString::number(data->Uin.toULong());
+    f += QString::number(data->Uin.toULong());
     f = user_file(f);
     return f;
 }
@@ -3256,7 +3256,7 @@ QString ICQClient::avatarFile(const ICQUserData *data)
 {
     QString f = PICT_PATH;
     f += "icq.avatar.";
-	f += QString::number(data->Uin.toULong());
+    f += QString::number(data->Uin.toULong());
     f += (data->buddyID.toULong() == 1) ? ".jpg" : ".xml";
     f = user_file(f);
     return f;
