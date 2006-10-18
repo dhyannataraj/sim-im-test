@@ -1365,6 +1365,11 @@ QString ClientUserData::save()
 
 void ClientUserData::load(Client *client, ConfigBuffer *cfg)
 {
+    for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
+        Client *c = (*it).client;
+        if(c == client)
+            return;
+    }
     _ClientUserData data;
     data.client = client;
     const DataDef *def = client->protocol()->userDataDef();
