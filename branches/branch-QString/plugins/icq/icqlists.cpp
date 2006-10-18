@@ -29,6 +29,7 @@
 #include <time.h>
 #include <vector>
 #include <qbuffer.h>
+#include <qimage.h>
 
 using namespace std;
 using namespace SIM;

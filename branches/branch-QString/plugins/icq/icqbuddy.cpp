@@ -276,7 +276,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     data->buddyHash.asBinary() = hash;
                     requestBuddy(data);
                 }
-           }
+            }
 
             unsigned long infoUpdateTime = 0;
             unsigned long pluginInfoTime = 0;

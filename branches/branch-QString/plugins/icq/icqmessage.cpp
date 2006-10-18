@@ -28,6 +28,7 @@
 #include <qfile.h>
 #include <qimage.h>
 #include <qregexp.h>
+#include <qfileinfo.h>
 
 using namespace std;
 using namespace SIM;

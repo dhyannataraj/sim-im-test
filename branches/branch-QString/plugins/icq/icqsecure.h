@@ -20,9 +20,9 @@
 
 #include "simapi.h"
 #include "listview.h"
+#include "icqclient.h"
 #include "icqsecurebase.h"
 
-class ICQClient;
 class ListView;
 
 class ICQSecure : public ICQSecureBase, public SIM::EventReceiver

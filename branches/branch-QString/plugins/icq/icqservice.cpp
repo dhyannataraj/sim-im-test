@@ -27,6 +27,7 @@
 
 #include <qtimer.h>
 #include <qbuffer.h>
+#include <qimage.h>
 
 using namespace std;
 using namespace SIM;
