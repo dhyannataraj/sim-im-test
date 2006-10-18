@@ -1363,6 +1363,11 @@ string ClientUserData::save()
 
 void ClientUserData::load(Client *client, Buffer *cfg)
 {
+    for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
+        Client *c = (*it).client;
+        if(c == client)
+            return;
+    }
     _ClientUserData data;
     data.client = client;
     const DataDef *def = client->protocol()->userDataDef();
