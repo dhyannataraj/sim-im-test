@@ -356,7 +356,7 @@ ICQPlugin::ICQPlugin(unsigned base)
 
     cmd->id			 = CmdGroups;
     cmd->text		 = I18N_NOOP("&Add to group");
-    cmd->icon		 = "";
+    cmd->icon		 = QString::null;
     cmd->menu_grp	 = 0x1002;
     cmd->popup_id	 = MenuIcqGroups;
     eCmd.process();

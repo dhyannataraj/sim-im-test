@@ -182,6 +182,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 f.writeBlock(icon);
                 f.close();
             }
+            process();
             break;
         }
     case ICQ_SNACxSSBI_REQ_ICQ_ACK: {
@@ -213,6 +214,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 f.writeBlock(icon);
                 f.close();
             }
+            process();
             break;
         }
     default:
@@ -223,15 +225,16 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 
 void SSBISocket::process()
 {
-    for(unsigned i = 0; i < m_buddyRequests.count(); i++) {
+    while(m_buddyRequests.count()) {
         Contact *contact;
-        QString screen = m_buddyRequests[(int)i];
+        QString screen =  m_buddyRequests[0];
+        m_buddyRequests.pop_front();
         ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
         if(data) {
             requestBuddy(screen, data->buddyID.toULong(), data->buddyHash.toBinary());
+            return;
         }
     }
-    m_buddyRequests.clear();
     if(!m_img.isNull()) {
         uploadBuddyIcon(m_refNumber, m_img);
         m_refNumber = 0;

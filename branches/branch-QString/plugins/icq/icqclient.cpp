@@ -268,21 +268,19 @@ static DataDef icqClientData[] =
         { "Picture", DATA_UTF, 1, 0 },
         { "RandomChatGroup", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },			// RandomChatGroupCurrent
-        { "SendFormat", DATA_ULONG, 1, 0 },
+        { "SendFormat", DATA_ULONG, 1, DATA(1) }, // use utf-8 whereever possible
         { "DisablePlugins", DATA_BOOL, 1, 0 },
         { "DisableAutoUpdate", DATA_BOOL, 1, 0 },
         { "DisableAutoReplyUpdate", DATA_BOOL, 1, 0 },
         { "DisableTypingNotification", DATA_BOOL, 1, 0 },
-//        { "AutoCheckInvisible", DATA_BOOL, 1, 0 },
-//        { "CheckInvisibleInterval", DATA_ULONG, 1, DATA(15) },
-        { "AcceptInDND", DATA_BOOL, 1, DATA(1) }, //accept default on
-        { "AcceptInOccupied", DATA_BOOL, 1, DATA(1) }, //accept default on
+        { "AcceptInDND", DATA_BOOL, 1, 0 },
+        { "AcceptInOccupied", DATA_BOOL, 1, 0 },
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFE) },
         { "WarnAnonimously", DATA_BOOL, 1, 0 },
         { "ACKMode", DATA_ULONG, 1, DATA(1) },
         { "UseHTTP", DATA_BOOL, 1, DATA(0) },
-        { "AutoHTTP", DATA_BOOL, 1, DATA(1) },
+        { "AutoHTTP", DATA_BOOL, 1, DATA(0) },
         { "KeepAlive", DATA_BOOL, 1, DATA(1) },
         { "", DATA_STRUCT, sizeof(ICQUserData) / sizeof(Data), DATA(_icqUserData) },
         { NULL, DATA_UNKNOWN, 0, 0 }
@@ -312,16 +310,14 @@ ICQClient::ICQClient(Protocol *protocol, ConfigBuffer *cfg, bool bAIM)
     connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
     m_processTimer = new QTimer(this);
     connect(m_processTimer, SIGNAL(timeout()), this, SLOT(processSendQueue()));
-    if (getListRequests()){
-        QString requests = getListRequests();
-        while (requests.length()){
-            QString req = getToken(requests, ';');
-            QString n = getToken(req, ',');
-            ListRequest lr;
-            lr.type   = n.toULong();
-            lr.screen = req;
-            listRequests.push_back(lr);
-        }
+    QString requests = getListRequests();
+    while (requests.length()){
+        QString req = getToken(requests, ';');
+        QString n = getToken(req, ',');
+        ListRequest lr;
+        lr.type   = n.toUInt();
+        lr.screen = req;
+        listRequests.push_back(lr);
     }
     disconnected();
     m_bFirstTry = false;
@@ -415,15 +411,9 @@ QString ICQClient::getConfig()
 
 QString ICQClient::name()
 {
-    QString res;
-    if (m_bAIM){
-        res = "AIM.";
-        res += data.owner.Screen.str();
-        return res;
-    }
-    res = "ICQ.";
-    res += QString::number(data.owner.Uin.toULong());
-    return res;
+    if (m_bAIM)
+        return "AIM." + data.owner.Screen.str();
+    return "ICQ." + QString::number(data.owner.Uin.toULong());
 }
 
 QWidget	*ICQClient::setupWnd()
@@ -666,13 +656,14 @@ void ICQClient::disconnected()
         while ((data = (ICQUserData*)(++it)) != NULL){
             if ((data->Status.toULong() != ICQ_STATUS_OFFLINE) || data->bInvisible.toBool()){
                 setOffline(data);
-                StatusMessage m;
-                m.setContact(contact->id());
-                m.setClient(dataName(data));
-                m.setStatus(STATUS_OFFLINE);
-                m.setFlags(MESSAGE_RECEIVED);
-                Event e(EventMessageReceived, &m);
-                e.process();
+                StatusMessage *m = new StatusMessage();
+                m->setContact(contact->id());
+                m->setClient(dataName(data));
+                m->setStatus(STATUS_OFFLINE);
+                m->setFlags(MESSAGE_RECEIVED);
+                Event e(EventMessageReceived, m);
+                if(!e.process())
+                    delete m;
             }
         }
     }
@@ -1180,7 +1171,6 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
         if (item == icon)
             return;
     }
-
     if (!s->isEmpty())
         *s += ',';
     *s += icon;
@@ -1536,8 +1526,9 @@ QString ICQClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QMimeSourceFactory::defaultFactory()->setPixmap("pict://icqavatar", pict);
-            res += "<br><img src=\"pict://icqavatar\" width=\"";
+            QString url="pict://icqavatar." + QString::number(data->Uin.toULong());
+            QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
+            res += "<br><img src=\"" + url + "\" width=\"";
             res += QString::number(w);
             res += "\" height=\"";
             res += QString::number(h);
@@ -1562,8 +1553,9 @@ QString ICQClient::contactTip(void *_data)
                     w = 60;
                 }
             }
-            QMimeSourceFactory::defaultFactory()->setPixmap("pict://icq", pict);
-            res += "<br><img src=\"pict://icq\" width=\"";
+            QString url="pict://icq." + QString::number(data->Uin.toULong());
+            QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
+            res += "<br><img src=\"" + url + "\" width=\"";
             res += QString::number(w);
             res += "\" height=\"";
             res += QString::number(h);
@@ -3055,10 +3047,7 @@ QString ICQClient::dataName(void *data)
 
 QString ICQClient::dataName(const QString &screen)
 {
-    QString res = name();
-    res += ".";
-    res += screen;
-    return res;
+    return name() + "." + screen;
 }
 
 QString ICQClient::screen(const ICQUserData *data)

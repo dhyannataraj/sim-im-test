@@ -28,6 +28,9 @@
 #include <netinet/in.h>
 #endif
 
+#include <qimage.h>
+#include <qfileinfo.h>
+
 using namespace SIM;
 
 const unsigned short ICQ_SNACxBDY_REQUESTxRIGHTS   = 0x0002;
@@ -51,7 +54,7 @@ const unsigned short TLV_USER_BUDDYINFO     = 0x001D;
 
 static QString makeCapStr( const capability cap, unsigned size )
 {
-    QString str = "", tmp;
+    QString str, tmp;
     for(unsigned int i = 0; i < size; i++ ) {
         str += tmp.sprintf( "0x%02x ", cap[i] );
     }
@@ -251,6 +254,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     }
                 }
             }
+
             // buddy info
             Tlv *tlvBuddy = tlv(TLV_USER_BUDDYINFO);
             if (tlvBuddy) {
@@ -266,7 +270,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 hash.resize(hashSize);
                 info.unpack(hash.data(), hashSize);
                 if( data->buddyID.toULong() != iconID ||
-                    ba.data() != hash.data() ||
+                    ba != hash ||
                    !fi.exists() || fi.size() == 0) {
                     data->buddyID.asULong() = iconID;
                     data->buddyHash.asBinary() = hash;
