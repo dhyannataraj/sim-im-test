@@ -263,10 +263,10 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             QByteArray hash = md5(ba.data(), ba.size());
 
             if(hash != shash) {
-                log(L_WARN, "can't upload buddy icon due to different hash keys");
+                log(L_WARN, "The buddyIcon on server does not match the local one - updating");
+                uploadBuddy(&data.owner);
                 break;
             }
-
             uploadBuddyIcon(1, img);
         }
         break;

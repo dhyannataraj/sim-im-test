@@ -175,7 +175,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 icon.resize(iconSize);
                 m_socket->readBuffer.unpack(icon.data(), iconSize);
 
-                QString filename = ICQClient::avatarFile(data);
+                QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
                 f.open(IO_WriteOnly);
                 f.writeBlock(icon);
@@ -211,7 +211,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 icon.resize(iconSize);
                 m_socket->readBuffer.unpack(icon.data(), iconSize);
 
-                QString filename = ICQClient::avatarFile(data);
+                QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
                 f.open(IO_WriteOnly);
                 f.writeBlock(icon);
@@ -253,6 +253,11 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
 {
     if(img.isNull()) {
         log(L_ERROR, "Uploaded Buddy icon is empty!");
+        return;
+    }
+
+    if(!m_img.isNull()) {
+        log(L_ERROR, "Already in upload mode");
         return;
     }
 

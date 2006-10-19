@@ -1195,8 +1195,13 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     }
                     break;
                 case PLUGIN_PICTURE:
-                    if (plugin_type == PLUGIN_QUERYxINFO)
-                        addPluginInfoRequest(uin, plugin_index);
+                    if (plugin_type == PLUGIN_QUERYxINFO) {
+                        // when buddyID -> new avatar support, no need to ask for old picture plugin
+                        if(data->buddyID.toULong() == 0 || data->buddyHash.toBinary().size() != 16) {
+                            data->buddyID.asULong() = 0;
+                            addPluginInfoRequest(uin, plugin_index);
+                        }
+                    }
                     break;
                 case PLUGIN_FILESERVER:
                 case PLUGIN_ICQPHONE:

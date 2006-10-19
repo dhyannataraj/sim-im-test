@@ -1510,59 +1510,30 @@ QString ICQClient::contactTip(void *_data)
         res += "<br>";
         res += quoteString(client_name);
     }
-    if (data->buddyHash.toBinary().size() != 0 && data->buddyID.toULong() == 1) {
-        QImage img(avatarFile(data));
-        if (!img.isNull()){
-            QPixmap pict;
-            pict.convertFromImage(img);
-            int w = pict.width();
-            int h = pict.height();
-            if (h > w){
-                if (h > 60){
-                    w = w * 60 / h;
-                    h = 60;
-                }
-            }else{
-                if (w > 60){
-                    h = h * 60 / w;
-                    w = 60;
-                }
+    QImage img(pictureFile(data));
+    if (!img.isNull()){
+        QPixmap pict;
+        pict.convertFromImage(img);
+        int w = pict.width();
+        int h = pict.height();
+        if (h > w){
+            if (h > 60){
+                w = w * 60 / h;
+                h = 60;
             }
-            QString url="pict://icqavatar." + QString::number(data->Uin.toULong());
-            QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
-            res += "<br><img src=\"" + url + "\" width=\"";
-            res += QString::number(w);
-            res += "\" height=\"";
-            res += QString::number(h);
-            res += "\">";
-        }
-    } else  // prefer avatar
-    if (data->PictureWidth.toULong() && data->PictureHeight.toULong()) {
-        QImage img(pictureFile(data));
-        if (!img.isNull()){
-            QPixmap pict;
-            pict.convertFromImage(img);
-            int w = pict.width();
-            int h = pict.height();
-            if (h > w){
-                if (h > 60){
-                    w = w * 60 / h;
-                    h = 60;
-                }
-            }else{
-                if (w > 60){
-                    h = h * 60 / w;
-                    w = 60;
-                }
+        }else{
+            if (w > 60){
+                h = h * 60 / w;
+                w = 60;
             }
-            QString url="pict://icq." + QString::number(data->Uin.toULong());
-            QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
-            res += "<br><img src=\"" + url + "\" width=\"";
-            res += QString::number(w);
-            res += "\" height=\"";
-            res += QString::number(h);
-            res += "\">";
         }
+        QString url="pict://icqavatar." + QString::number(data->Uin.toULong());
+        QMimeSourceFactory::defaultFactory()->setPixmap(url, pict);
+        res += "<br><img src=\"" + url + "\" width=\"";
+        res += QString::number(w);
+        res += "\" height=\"";
+        res += QString::number(h);
+        res += "\">";
     }
     if (!data->AutoReply.str().isEmpty()){
         res += "<br><br>";
@@ -3247,51 +3218,19 @@ static char PICT_PATH[] = "pictures/";
 QString ICQClient::pictureFile(const ICQUserData *data)
 {
     QString f = PICT_PATH;
-    f += "icq.";
-    f += QString::number(data->Uin.toULong());
-    f = user_file(f);
-    return f;
-}
-
-QString ICQClient::avatarFile(const ICQUserData *data)
-{
-    QString f = PICT_PATH;
     f += "icq.avatar.";
     f += QString::number(data->Uin.toULong());
-    f += (data->buddyID.toULong() == 1) ? ".jpg" : ".xml";
+    f += ".";
+    f += QString::number(data->buddyID.toULong());
     f = user_file(f);
     return f;
 }
 
-QImage ICQClient::userPicture(const ICQUserData *data)
+QImage ICQClient::userPicture(const ICQUserData *d)
 {
-    if(!data)
-        return QImage();
-    if(data->buddyID.toULong() == 1) {
-        QImage img(avatarFile(data));
-        if(!img.isNull())
-            return img;
-    }
-    if (data->PictureHeight.toULong() && data->PictureWidth.toULong()){
-        QImage img(pictureFile(data));
-        return img;
-    }
-    return QImage();
-}
-
-bool ICQClient::hasAvatar(const ICQUserData *d) const
-{
-    // only support jpg
-    if(d->buddyID.toULong() != 1)
-        return false;
-    // buddyHashsize must be 16
-    if(d->buddyHash.toBinary().size() != 16)
-        return false;
-    QString f = avatarFile(d);
-    QFileInfo fi(f);
-    if(!fi.exists() || fi.size() == 0)
-        return false;
-    return true;
+    if(!d)
+        return QImage(data.owner.Picture.str());
+    return QImage(pictureFile(d));
 }
 
 void ICQClient::retry(int n, void *p)

@@ -263,7 +263,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 unsigned char iconFlags, hashSize;
                 Buffer info(*tlvBuddy);
                 QByteArray hash(16);
-                QString fname = avatarFile(data);
+                QString fname = pictureFile(data);
                 QFileInfo fi(fname);
 
                 info >> iconID >> iconFlags >> hashSize;
@@ -276,6 +276,8 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     data->buddyHash.asBinary() = hash;
                     requestBuddy(data);
                 }
+            } else {
+                data->buddyID.asULong() = 0;
             }
 
             unsigned long infoUpdateTime = 0;
@@ -341,8 +343,11 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             break;
                         case PLUGIN_PICTURE:
                             log(L_DEBUG, "Updated picture");
-                            if(!hasAvatar(data))
+                            // when buddyID -> new avatar support, no need to ask for old picture plugin
+                            if(data->buddyID.toULong() == 0 || data->buddyHash.toBinary().size() != 16) {
+                                data->buddyID.asULong() = 0;
                                 addPluginInfoRequest(data->Uin.toULong(), plugin_index);
+                            }
                             break;
                         case PLUGIN_QUERYxINFO:
                             log(L_DEBUG, "Updated info plugin list");

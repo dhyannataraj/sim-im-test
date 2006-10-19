@@ -336,7 +336,6 @@ void ICQClient::parseRosterItem(unsigned short type,
                     if(ba != buddyHash) {
                         data.owner.buddyHash.asBinary() = buddyHash;
                         data.owner.buddyID.asULong() = flag;
-                        requestBuddy(&data.owner);
                     }
                     data.owner.buddyRosterID.asULong() = id;
                 }

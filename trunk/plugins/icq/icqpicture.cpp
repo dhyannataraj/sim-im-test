@@ -100,7 +100,7 @@ void ICQPicture::fill()
 
 void ICQPicture::clearPicture()
 {
-    edtPict->setText("");
+    edtPict->setText(QString::null);
 }
 
 const unsigned short MAX_PICTURE_SIZE      = 8081;
