@@ -26,6 +26,7 @@
 #include <qlayout.h>
 #include <qtextcodec.h>
 #include <qfile.h>
+#include <qfileinfo.h>
 #include <qimage.h>
 #include <qregexp.h>
 

@@ -49,6 +49,7 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 #include <qfile.h>
+#include <qfileinfo.h>
 
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
