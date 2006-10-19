@@ -126,16 +126,13 @@ unsigned long SIMResolver::addr()
 {
     if (dns->addresses().isEmpty())
         return INADDR_NONE;
-#ifdef WIN32
-    return htonl(dns->addresses().first().ip4Addr()); //FIXME: Repair the QDNS-Issue for WIN32: use system dns resolving
-#else
     // crissi
     struct hostent * server_entry;
     if ( ( server_entry = gethostbyname( dns->label().ascii() ) ) == NULL ) {
-	log(L_WARN, "gethostbyname failed");
-    } else
+        log( L_WARN, "gethostbyname failed\n" );
+        return htonl(dns->addresses().first().ip4Addr());
+    } 
     return inet_addr(inet_ntoa(*( struct in_addr* ) server_entry->h_addr_list[ 0 ] ));
-#endif
 }
 
 QString SIMResolver::host() const
