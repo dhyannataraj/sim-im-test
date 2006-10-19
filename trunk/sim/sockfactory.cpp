@@ -40,7 +40,15 @@
 #include <qsocketdevice.h>
 #include <qsocketnotifier.h>
 #include <qtimer.h>
+
+#ifndef WIN32
+// name resolving
+#include <netdb.h> 
+#include <arpa/inet.h>
 #include <qdns.h>
+#else
+#include <qdns.h>
+#endif
 
 #ifndef INADDR_NONE
 #define INADDR_NONE     0xFFFFFFFF
@@ -118,7 +126,17 @@ unsigned long SIMResolver::addr()
 {
     if (dns->addresses().isEmpty())
         return INADDR_NONE;
-    return htonl(dns->addresses().first().ip4Addr());
+#ifdef WIN32
+//    return htonl(dns->addresses().first().isIPv4Address());
+   
+#else
+    // crissi
+    struct hostent * server_entry;
+    if ( ( server_entry = gethostbyname( dns->label().ascii() ) ) == NULL ) {
+	printf( "gethostbyname failed\n" );
+    } else
+    return inet_addr(inet_ntoa(*( struct in_addr* ) server_entry->h_addr_list[ 0 ] ));
+#endif
 }
 
 QString SIMResolver::host() const
