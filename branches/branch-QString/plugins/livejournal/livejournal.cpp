@@ -760,7 +760,7 @@ void LiveJournalClient::auth_ok()
 {
     m_status = STATUS_ONLINE;
     setState(Connected);
-    setPreviousPassword(NULL);
+    setPreviousPassword(QString::null);
     statusChanged();
     list<Contact*> forDelete;
     Contact *contact;

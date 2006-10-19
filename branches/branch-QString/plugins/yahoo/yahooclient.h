@@ -150,7 +150,7 @@ typedef struct Message_ID
 typedef struct ListRequest
 {
     unsigned	type;
-    QString		name;
+    QString     name;
 } ListRequest;
 
 class YahooClient : public SIM::TCPClient
@@ -169,7 +169,7 @@ public:
     virtual QString getConfig();
     QString getLogin();
     void setLogin(const QString&);
-    QString	name();
+    QString name();
     QString dataName(void*);
     YahooClientData	data;
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL);
@@ -205,6 +205,8 @@ protected:
     void process_auth_0x0b(const char *seed, const char *sn);
     void sendPacket(unsigned short service, unsigned long status=YAHOO_STATUS_AVAILABLE);
     void addParam(unsigned key, const char *value);
+    void addParam(unsigned key, const QCString &value);
+    void addParam(unsigned key, const QString &value);
     void loadList(const char *data);
     void contact_added(const char *id, const char *message);
     void contact_rejected(const char *id, const char *message);
@@ -221,8 +223,8 @@ protected:
     void addBuddy(YahooUserData*);
     void removeBuddy(YahooUserData*);
     void moveBuddy(YahooUserData *data, const char *grp);
-    void sendStatus(unsigned long status, const char *msg = NULL);
-    ListRequest *findRequest(const char *login);
+    void sendStatus(unsigned long status, const QString &msg = QString::null);
+    ListRequest *findRequest(const QString &login);
     std::list<PARAM>	   m_values;
     std::list<ListRequest> m_requests;
     unsigned long  m_session;
@@ -230,7 +232,7 @@ protected:
     unsigned short m_data_size;
     unsigned short m_service;
     unsigned	   m_ft_id;
-    std::string	m_session_id;
+    QString        m_session_id;
     bool m_bHeader;
     bool m_bHTTP;
     bool m_bFirstTry;
@@ -289,7 +291,7 @@ protected:
     virtual bool	error(const char *err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
     bool get_line(const char *str);
-    void send_line(const char *str);
+    void send_line(const QString &str);
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;

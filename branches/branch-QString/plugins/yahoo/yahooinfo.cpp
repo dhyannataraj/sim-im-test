@@ -141,9 +141,9 @@ void YahooInfo::apply(Client *client, void *_data)
     if (client != m_client)
         return;
     YahooUserData *data = (YahooUserData*)_data;
-    data->Nick.str() = edtNick->text();
+    data->Nick.str()  = edtNick->text();
     data->First.str() = edtFirst->text();
-    data->Last.str() = edtLast->text();
+    data->Last.str()  = edtLast->text();
 }
 
 #ifndef NO_MOC_INCLUDES

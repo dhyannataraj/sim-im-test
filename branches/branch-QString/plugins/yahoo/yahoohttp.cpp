@@ -80,7 +80,7 @@ void YahooHttpPool::close()
     stop();
 }
 
-void YahooHttpPool::connect(const QString &, unsigned short)
+void YahooHttpPool::connect(const QString&, unsigned short)
 {
     if (notify)
         notify->connect_ready();

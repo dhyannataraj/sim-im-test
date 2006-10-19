@@ -939,7 +939,7 @@ void JabberClient::auth_ok()
         return;
     }
     setState(Connected);
-    setPreviousPassword(NULL);
+    setPreviousPassword(QString::null);
     rosters_request();
     if (getInfoUpdated()){
         setClientInfo(&data.owner);

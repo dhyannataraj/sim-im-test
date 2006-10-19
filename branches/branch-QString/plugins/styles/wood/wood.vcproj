@@ -71,7 +71,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\styles\$(ProjectName).dll"
 				SuppressStartupBanner="true"
 				TargetMachine="1"
@@ -160,7 +159,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalDependencies="$(SolutionDir)$(ConfigurationName)\sim.lib"
 				OutputFile="$(OutDir)\plugins\styles\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

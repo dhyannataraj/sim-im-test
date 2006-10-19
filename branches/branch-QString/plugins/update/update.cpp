@@ -164,7 +164,7 @@ void *UpdatePlugin::processEvent(Event *e)
             Event eGo(EventGoURL, (void*)&m_url);
             eGo.process();
             setTime(time(NULL));
-            m_url = "";
+            m_url = QString::null;
             Event eSave(EventSaveState);
             eSave.process();
             return e->param();

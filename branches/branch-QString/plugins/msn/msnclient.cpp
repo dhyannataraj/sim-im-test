@@ -816,7 +816,7 @@ void MSNClient::authOk()
     m_authChallenge = QString::null;
     m_pingTime = time(NULL);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
-    setPreviousPassword(NULL);
+    setPreviousPassword(QString::null);
     MSNPacket *packet = new SynPacket(this);
     packet->send();
 }
