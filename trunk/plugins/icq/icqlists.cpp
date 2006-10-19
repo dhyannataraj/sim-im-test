@@ -581,7 +581,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         {
             log(L_DEBUG, "Rosters OK");
             QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
-            setPreviousPassword(NULL);
+            setPreviousPassword(QString::null);
             if (m_bAIM){
                 Group *grp;
                 ContactList::GroupIterator it;

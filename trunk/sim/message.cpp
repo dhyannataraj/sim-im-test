@@ -104,10 +104,9 @@ QString Message::getText() const
 {
     if (!data.Text.str().isEmpty())
         return data.Text.str();
-    // FIXME: Take a look on ServerText!
     if (!data.ServerText.cstr().isEmpty())
         return getContacts()->toUnicode(getContacts()->contact(m_contact), data.ServerText.cstr());
-    return "";
+    return QString::null;
 }
 
 void Message::setText(const QString &text)

@@ -169,7 +169,8 @@ public:
     virtual std::string getConfig();
     QString getLogin();
     void setLogin(const QString&);
-    QString  dataName(void*);
+    QString name();
+    QString dataName(void*);
     YahooClientData	data;
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL);
     YahooUserData *findContact(const char *id, const char *grp, SIM::Contact *&contact, bool bSend=true, bool bJoin=true);
@@ -184,7 +185,6 @@ protected:
     virtual void setInvisible(bool bState);
     void	disconnected();
     SIM::Socket  *createSocket();
-    QString	name();
     QWidget	*setupWnd();
     bool isMyData(SIM::clientData*&, SIM::Contact*&);
     bool createData(SIM::clientData*&, SIM::Contact*);
@@ -223,7 +223,7 @@ protected:
     void addBuddy(YahooUserData*);
     void removeBuddy(YahooUserData*);
     void moveBuddy(YahooUserData *data, const char *grp);
-    void sendStatus(unsigned long status, const char *msg = NULL);
+    void sendStatus(unsigned long status, const QString &msg = QString::null);
     ListRequest *findRequest(const QString &login);
     std::list<PARAM>	   m_values;
     std::list<ListRequest> m_requests;

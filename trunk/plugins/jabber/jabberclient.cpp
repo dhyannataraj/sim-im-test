@@ -202,7 +202,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
             lr.bDelete = true;
         m_listRequests.push_back(lr);
     }
-    setListRequest(NULL);
+    setListRequest(QString::null);
 
     m_bSSL		 = false;
     m_curRequest = NULL;
@@ -380,9 +380,9 @@ void *JabberClient::processEvent(Event *e)
     }
     if (e->type() == EventGoURL){
         QString *u = (QString*)(e->param());
-		if(!u)
-			return NULL;
-		QString url = *u;
+        if(!u)
+            return NULL;
+        QString url = *u;
         QString proto;
         int n = url.find(':');
         if (n < 0)
@@ -946,7 +946,7 @@ void JabberClient::auth_ok()
         return;
     }
     setState(Connected);
-    setPreviousPassword(NULL);
+    setPreviousPassword(QString::null);
     rosters_request();
     if (getInfoUpdated()){
         setClientInfo(&data.owner);
@@ -1320,7 +1320,7 @@ QString JabberClient::contactTip(void *_data)
             res += get_icon(data, status, false);
             res += "\">";
             QString statusText;
-            for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+            for (const CommandDef *cmd = protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
                 if (cmd->id == status){
                     statusText = i18n(cmd->text);
                     res += statusText;

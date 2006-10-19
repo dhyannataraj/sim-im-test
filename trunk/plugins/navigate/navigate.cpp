@@ -322,9 +322,9 @@ void *NavigatePlugin::processEvent(Event *e)
 #endif
     if (e->type() == EventGoURL){
         QString *u = (QString*)(e->param());
-		if(!u)
-			return NULL;
-		QString url = *u;
+        if(!u)
+            return NULL;
+        QString url = *u;
         QString proto;
         if (url.length() == 0)
             return NULL;

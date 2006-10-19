@@ -820,7 +820,7 @@ void MSNClient::authOk()
     m_authChallenge = QString::null;
     m_pingTime = time(NULL);
     QTimer::singleShot(TYPING_TIME * 1000, this, SLOT(ping()));
-    setPreviousPassword(NULL);
+    setPreviousPassword(QString::null);
     MSNPacket *packet = new SynPacket(this);
     packet->send();
 }
@@ -1786,7 +1786,7 @@ QString MSNClient::contactTip(void *_data)
     res += statusIcon;
     res += "\">";
     QString statusText;
-    for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+    for (const CommandDef *cmd = protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
         if (!strcmp(cmd->icon, statusIcon)){
             res += " ";
             statusText = i18n(cmd->text);

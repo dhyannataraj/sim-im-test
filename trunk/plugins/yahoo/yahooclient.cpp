@@ -392,7 +392,7 @@ void YahooClient::process_packet(Params &params)
     case YAHOO_SERVICE_LOGON:
         if (params[1]){
             if (params[24])
-                m_session_id = params[24];
+                m_session_id = QString::fromUtf8(params[24]);
             authOk();
         }
     case YAHOO_SERVICE_USERSTAT:
@@ -1012,7 +1012,7 @@ void YahooClient::process_fileurl(const char *id, const char *msg, const char *u
 void YahooClient::disconnected()
 {
     m_values.clear();
-    m_session_id = "";
+    m_session_id = QString::null;
     Contact *contact;
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
@@ -1096,7 +1096,7 @@ void YahooClient::authOk()
     if (m_bHTTP && m_session_id.isEmpty())
         return;
     setState(Connected);
-    setPreviousPassword(NULL);
+    setPreviousPassword(QString::null);
     setStatus(m_logonStatus);
     QTimer::singleShot(PING_TIMEOUT * 1000, this, SLOT(ping()));
 }
@@ -1361,7 +1361,7 @@ QString YahooClient::contactTip(void *_data)
     res += statusIcon;
     res += "\">";
     QString statusText;
-    for (const CommandDef *cmd = protocol()->statusList(); cmd->text; cmd++){
+    for (const CommandDef *cmd = protocol()->statusList(); !cmd->text.isEmpty(); cmd++){
         if (!strcmp(cmd->icon, statusIcon)){
             res += " ";
             statusText = i18n(cmd->text);
@@ -1880,7 +1880,7 @@ void *YahooClient::processEvent(Event *e)
     }
     if (e->type() == EventTemplateExpanded){
         TemplateExpand *t = (TemplateExpand*)(e->param());
-        sendStatus(YAHOO_STATUS_CUSTOM, getContacts()->fromUnicode(NULL, t->tmpl));
+        sendStatus(YAHOO_STATUS_CUSTOM, t->tmpl);
     }
     if (e->type() == EventMessageCancel){
         Message *msg = (Message*)(e->param());
@@ -1981,30 +1981,31 @@ void YahooClient::setInvisible(bool bState)
     TCPClient::setInvisible(bState);
     if (getState() != Connected)
         return;
-    sendStatus(data.owner.Status.toULong(), getContacts()->fromUnicode(NULL, data.owner.AwayMessage.str()));
+    sendStatus(data.owner.Status.toULong(), data.owner.AwayMessage.str());
 }
 
-void YahooClient::sendStatus(unsigned long _status, const char *msg)
+void YahooClient::sendStatus(unsigned long _status, const QString &msg)
 {
     unsigned long status = _status;
     if (getInvisible())
         status = YAHOO_STATUS_INVISIBLE;
     unsigned long service = YAHOO_SERVICE_ISAWAY;
-    if (msg)
+    if (!msg.isEmpty())
         status = YAHOO_STATUS_CUSTOM;
     /* data.owner.Status contains sim-status, not protocol-status! */
     if (data.owner.Status.toULong() == STATUS_ONLINE)
         service = YAHOO_SERVICE_ISBACK;
     addParam(10, QString::number(status));
-    if ((status == YAHOO_STATUS_CUSTOM) && msg) {
+    if ((status == YAHOO_STATUS_CUSTOM) && !msg.isEmpty()) {
         addParam(19, msg);
         addParam(47, "1");
     }
     sendPacket(service);
     if (data.owner.Status.toULong() != status)
         data.owner.StatusTime.asULong() = time(NULL);
+
     data.owner.Status.asULong() = _status;
-    data.owner.AwayMessage.str() = getContacts()->toUnicode(NULL, msg);
+    data.owner.AwayMessage.str() = msg;
 }
 
 void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port)
