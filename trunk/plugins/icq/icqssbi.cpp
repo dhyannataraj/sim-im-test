@@ -70,8 +70,6 @@ SSBISocket *ICQClient::getSSBISocket()
 
 void ICQClient::requestBuddy(const ICQUserData *data)
 {
-    if(isOwnData(screen(data)))
-        return;
     if(!data->buddyHash.toBinary().size())
         return;
     SSBISocket *s = getSSBISocket();
@@ -187,6 +185,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxSSBI_REQ_ICQ_ACK: {
+            ICQUserData *data;
             Contact *contact;
             QString screen;
             QByteArray hash(16), icon(1024);
@@ -194,7 +193,10 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             char iconFlags, hashSize, unknown1;
 
             screen = m_socket->readBuffer.unpackScreen();
-            ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
+            if(m_client->screen(&m_client->data.owner) == screen)
+                data = &m_client->data.owner;
+            else 
+              data = m_client->findContact(screen, NULL, false, contact);
             if(data) {
                 m_socket->readBuffer >> iconID >> iconFlags >> hashSize;
                 hash.resize(hashSize);
@@ -227,10 +229,14 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 void SSBISocket::process()
 {
     while(m_buddyRequests.count()) {
+        ICQUserData *data;
         Contact *contact;
         QString screen =  m_buddyRequests[0];
         m_buddyRequests.pop_front();
-        ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
+        if(m_client->screen(&m_client->data.owner) == screen)
+            data = &m_client->data.owner;
+        else 
+          data = m_client->findContact(screen, NULL, false, contact);
         if(data) {
             requestBuddy(screen, data->buddyID.toULong(), data->buddyHash.toBinary());
             return;
@@ -289,7 +295,8 @@ void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, con
     // buddyID == 8 -> xml/swf
     if(!connected()) {
         // wait
-        m_buddyRequests.append(screen);
+        if(!m_buddyRequests.contains(screen))
+            m_buddyRequests.append(screen);
         return;
     }
 

@@ -1535,7 +1535,7 @@ QString ICQClient::contactTip(void *_data)
             res += QString::number(h);
             res += "\">";
         }
-    }
+    } else  // prefer avatar
     if (data->PictureWidth.toULong() && data->PictureHeight.toULong()) {
         QImage img(pictureFile(data));
         if (!img.isNull()){
