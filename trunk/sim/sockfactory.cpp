@@ -127,7 +127,7 @@ unsigned long SIMResolver::addr()
     if (dns->addresses().isEmpty())
         return INADDR_NONE;
 #ifdef WIN32
-    return htonl(dns->addresses().first().isIPv4Address());
+    return htonl(dns->addresses().first().ip4Addr()); //FIXME: Repair the QDNS-Issue for WIN32: use system dns resolving
 #else
     // crissi
     struct hostent * server_entry;
