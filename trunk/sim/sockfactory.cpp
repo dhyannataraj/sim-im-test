@@ -132,7 +132,7 @@ unsigned long SIMResolver::addr()
     // crissi
     struct hostent * server_entry;
     if ( ( server_entry = gethostbyname( dns->label().ascii() ) ) == NULL ) {
-	printf( "gethostbyname failed\n" );
+	log(L_WARN, "gethostbyname failed");
     } else
     return inet_addr(inet_ntoa(*( struct in_addr* ) server_entry->h_addr_list[ 0 ] ));
 #endif
