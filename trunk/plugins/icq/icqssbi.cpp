@@ -159,6 +159,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
         break;
     }
     case ICQ_SNACxSSBI_REQ_AIM_ACK: {
+            ICQUserData *data;
             Contact *contact;
             QString screen;
             QByteArray hash(16), icon(1024);
@@ -166,7 +167,10 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             char iconFlags, hashSize;
 
             screen = m_socket->readBuffer.unpackScreen();
-            ICQUserData *data = m_client->findContact(screen, NULL, false, contact);
+            if(m_client->screen(&m_client->data.owner) == screen)
+                data = &m_client->data.owner;
+            else 
+                data = m_client->findContact(screen, NULL, false, contact);
             if(data) {
                 m_socket->readBuffer >> iconID >> iconFlags >> hashSize;
                 hash.resize(hashSize);
@@ -174,6 +178,9 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 m_socket->readBuffer >> iconSize;
                 icon.resize(iconSize);
                 m_socket->readBuffer.unpack(icon.data(), iconSize);
+
+                if(icon.isEmpty())
+                    break;
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
@@ -196,7 +203,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             if(m_client->screen(&m_client->data.owner) == screen)
                 data = &m_client->data.owner;
             else 
-              data = m_client->findContact(screen, NULL, false, contact);
+                data = m_client->findContact(screen, NULL, false, contact);
             if(data) {
                 m_socket->readBuffer >> iconID >> iconFlags >> hashSize;
                 hash.resize(hashSize);
@@ -210,6 +217,9 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 m_socket->readBuffer >> iconSize;
                 icon.resize(iconSize);
                 m_socket->readBuffer.unpack(icon.data(), iconSize);
+
+                if(icon.isEmpty())
+                    break;
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
