@@ -3262,6 +3262,22 @@ QString ICQClient::avatarFile(const ICQUserData *data)
     return f;
 }
 
+QImage ICQClient::userPicture(const ICQUserData *data)
+{
+    if(!data)
+        return QImage();
+    if(data->buddyID.toULong() == 1) {
+        QImage img(avatarFile(data));
+        if(!img.isNull())
+            return img;
+    }
+    if (data->PictureHeight.toULong() && data->PictureWidth.toULong()){
+        QImage img(pictureFile(data));
+        return img;
+    }
+    return QImage();
+}
+
 bool ICQClient::hasAvatar(const ICQUserData *d) const
 {
     // only support jpg

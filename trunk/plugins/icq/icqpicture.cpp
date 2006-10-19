@@ -76,7 +76,7 @@ void ICQPicture::apply(Client *client, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
     QString pict = edtPict->text();
     if (lblPict->pixmap() == NULL)
-        pict = "";
+        pict = QString::null;
     if (pict != m_client->getPicture()){
         m_client->setPicture(pict);
         data->PluginInfoTime.asULong() = time(NULL);
@@ -95,13 +95,7 @@ void *ICQPicture::processEvent(Event *e)
 
 void ICQPicture::fill()
 {
-    if (m_data == NULL)
-        return;
-    if (m_data->PictureHeight.toULong() && m_data->PictureWidth.toULong()){
-        setPict(QImage(m_client->pictureFile(m_data)));
-        return;
-    }
-    setPict(QImage());
+    setPict(m_client->userPicture(m_data));
 }
 
 void ICQPicture::clearPicture()
