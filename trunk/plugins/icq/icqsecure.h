@@ -21,7 +21,6 @@
 #include "simapi.h"
 #include "listview.h"
 #include "icqsecurebase.h"
-#include "icqclient.h"
 
 class ICQClient;
 class ListView;

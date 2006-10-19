@@ -28,7 +28,6 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qimage.h>
-#include "icqservice.h"
 
 using namespace std;
 using namespace SIM;
