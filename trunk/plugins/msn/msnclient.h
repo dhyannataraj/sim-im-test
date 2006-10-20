@@ -111,7 +111,7 @@ protected:
         WaitJoin,
         Connected
     };
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     virtual void connect_ready();
     virtual void packet_ready();
     void send(const QString &cmd, const QString &args);
@@ -304,14 +304,14 @@ protected:
         WaitDisconnect,
         WaitBye
     };
-    virtual bool    error_state(const char *err, unsigned code);
+    virtual bool    error_state(const QString &err, unsigned code);
     virtual void    packet_ready();
     virtual void    connect_ready();
     virtual void    write_ready();
     virtual void    startReceive(unsigned pos);
     virtual bool    accept(SIM::Socket*, unsigned long ip);
     virtual void    bind_ready(unsigned short port);
-    virtual bool    error(const char *err);
+    virtual bool    error(const QString &err);
     void            send(const QString &line);
     bool            getLine(const QCString &line);
     bool            m_bHeader;

@@ -85,12 +85,10 @@ LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
     Event e(EventArg, &p);
     if (e.process())
         setLogLevel(p.value.toULong());
-    if (getLogPackets()){
-        QString packets = getLogPackets();
-        while (packets.length()){
-            QString v = getToken(packets, ',');
-            setLogType(v.toULong(), true);
-        }
+    QString packets = getLogPackets();
+    while (packets.length()){
+        QString v = getToken(packets, ',');
+        setLogType(v.toULong(), true);
     }
     m_bFilter = false;
     openFile();
@@ -98,8 +96,7 @@ LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
 
 LoggerPlugin::~LoggerPlugin()
 {
-    if (m_file)
-        delete m_file;
+    delete m_file;
     free_data(loggerData, &data);
 }
 
@@ -109,7 +106,7 @@ string LoggerPlugin::getConfig()
     for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
         if (packets.length())
             packets += ',';
-		packets += QString::number(*it);
+        packets += QString::number(*it);
     }
     setLogPackets(packets);
     return save_data(loggerData, &data);
@@ -134,11 +131,11 @@ void LoggerPlugin::openFile()
         delete m_file;
         m_file = NULL;
     }
-    const char *fname = getFile();
-    if ((fname == NULL) || (*fname == 0))
+    QString fname = getFile();
+    if (fname.isEmpty())
         return;
     // This si because sim crashes when a logfile is larger than 100MB ...
-    QFileInfo fileInfo(QFile::decodeName(fname));
+    QFileInfo fileInfo(fname);
     if (fileInfo.size() > 1024 * 1024 * 50) {	// 50MB ...
         QString desiredFileName = fileInfo.fileName() + ".old";
 #ifdef Q_OS_WIN
@@ -150,7 +147,7 @@ void LoggerPlugin::openFile()
         }
     }
     // now open file
-    m_file = new QFile(QFile::decodeName(fname));
+    m_file = new QFile(fname);
     if (!m_file->open(IO_Append | IO_ReadWrite)){
         delete m_file;
         m_file = NULL;

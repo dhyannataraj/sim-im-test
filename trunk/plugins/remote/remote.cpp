@@ -290,10 +290,10 @@ void RemotePlugin::bind_ready(unsigned short)
 {
 }
 
-bool RemotePlugin::error(const char *err)
+bool RemotePlugin::error(const QString &err)
 {
-    if (*err)
-        log(L_DEBUG, "Remote: %s", err);
+    if (!err.isEmpty())
+        log(L_DEBUG, "Remote: %s", err.local8Bit().data());
     return true;
 }
 
@@ -996,10 +996,10 @@ void ControlSocket::write(const char *msg)
     m_socket->write();
 }
 
-bool ControlSocket::error_state(const char *err, unsigned)
+bool ControlSocket::error_state(const QString &err, unsigned)
 {
-    if (err && *err)
-        log(L_WARN, "ControlSocket error %s", err);
+    if (!err.isEmpty())
+        log(L_WARN, "ControlSocket error %s", err.local8Bit().data());
     return true;
 }
 

@@ -1943,7 +1943,7 @@ bool SBSocket::send(Message *msg)
     return true;
 }
 
-bool SBSocket::error_state(const char*, unsigned)
+bool SBSocket::error_state(const QString&, unsigned)
 {
     if (m_queue.size()){
         m_socket->close();
@@ -2690,7 +2690,7 @@ void MSNFileTransfer::connect()
     error_state(I18N_NOOP("Can't established direct connection"), 0);
 }
 
-bool MSNFileTransfer::error_state(const char *err, unsigned)
+bool MSNFileTransfer::error_state(const QString &err, unsigned)
 {
     if (m_state == WaitDisconnect)
         FileTransfer::m_state = FileTransfer::Done;
@@ -2989,7 +2989,7 @@ void MSNFileTransfer::bind_ready(unsigned short port)
     sock->acceptMessage(port, cookie, auth_cookie);
 }
 
-bool MSNFileTransfer::error(const char *err)
+bool MSNFileTransfer::error(const QString &err)
 {
     return error_state(err, 0);
 }

@@ -52,7 +52,7 @@ DDEbase::DDEbase()
 {
     m_idDDE = 0;
     FARPROC lpDdeProc = MakeProcInstance((FARPROC) DDECallback, hInstance);
-    DdeInitializeA((LPDWORD) &m_idDDE, (PFNCALLBACK) lpDdeProc,	APPCMD_CLIENTONLY, 0L);
+    DdeInitialize((LPDWORD) &m_idDDE, (PFNCALLBACK) lpDdeProc,	APPCMD_CLIENTONLY, 0L);
     base = this;
 }
 
@@ -80,9 +80,6 @@ protected:
 
 DDEstring::DDEstring(const QString &name) : hSz(NULL)
 {
-    /*
-	Was aeeror with invalid converting to (CHAR*)
-    */
     hSz = DdeCreateStringHandle(*DDEbase::base, (WCHAR*)name.ucs2(), CP_WINANSI);
 }
 

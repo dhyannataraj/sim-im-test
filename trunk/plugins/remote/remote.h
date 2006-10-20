@@ -65,7 +65,7 @@ public slots:
 protected:
     virtual bool accept(SIM::Socket*, unsigned long ip);
     virtual void bind_ready(unsigned short port);
-    virtual bool error(const char *err);
+    virtual bool error(const QString &err);
 
     virtual void *processEvent(SIM::Event*);
     virtual std::string getConfig();
@@ -85,7 +85,7 @@ protected:
     SIM::ClientSocket	*m_socket;
     RemotePlugin	*m_plugin;
     void write(const char*);
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     virtual void connect_ready();
     virtual void packet_ready();
 };

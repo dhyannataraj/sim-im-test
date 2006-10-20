@@ -61,9 +61,9 @@ void ServiceSocket::close()
     m_socket->close();
 }
 
-bool ServiceSocket::error_state(const char *err, unsigned)
+bool ServiceSocket::error_state(const QString &err, unsigned)
 {
-    log(L_DEBUG, "Service error %s", err);
+    log(L_DEBUG, "Service error %s", err.local8Bit().data());
     return true;
 }
 

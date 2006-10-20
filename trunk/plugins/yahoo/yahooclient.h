@@ -265,7 +265,7 @@ public:
     ~YahooFileTransfer();
     void listen();
     void connect();
-    virtual bool    error_state(const char *err, unsigned code);
+    virtual bool    error_state(const QString &err, unsigned code);
 protected:
     YahooClient	*m_client;
     YahooUserData	*m_data;
@@ -288,7 +288,7 @@ protected:
     virtual void	write_ready();
     virtual void	startReceive(unsigned pos);
     virtual void	bind_ready(unsigned short port);
-    virtual bool	error(const char *err);
+    virtual bool	error(const QString &err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
     bool get_line(const char *str);
     void send_line(const QString &str);

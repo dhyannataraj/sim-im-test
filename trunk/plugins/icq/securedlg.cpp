@@ -84,7 +84,7 @@ void *SecureDlg::processEvent(Event *e)
     return NULL;
 }
 
-void SecureDlg::error(const char *err)
+void SecureDlg::error(const QString &err)
 {
     QString errText = i18n(err);
     m_msg = NULL;

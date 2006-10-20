@@ -2699,7 +2699,7 @@ void JabberFileTransfer::bind_ready(unsigned short port)
     m_client->sendFileRequest(m_msg, port, m_data, m_url, m_fileSize);
 }
 
-bool JabberFileTransfer::error(const char *err)
+bool JabberFileTransfer::error(const QString &err)
 {
     error_state(err, 0);
     return true;
@@ -2723,7 +2723,7 @@ bool JabberFileTransfer::accept(Socket *s, unsigned long)
     return true;
 }
 
-bool JabberFileTransfer::error_state(const char *err, unsigned)
+bool JabberFileTransfer::error_state(const QString &err, unsigned)
 {
     if (m_state == Wait)
         return false;

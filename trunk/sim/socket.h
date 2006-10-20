@@ -38,7 +38,7 @@ public:
     virtual void connect_ready() = 0;
     virtual void read_ready() = 0;
     virtual void write_ready() = 0;
-    virtual void error_state(const char *err_text, unsigned code=0) = 0;
+    virtual void error_state(const QString &err_text, unsigned code=0) = 0;
     virtual void resolve_ready(unsigned long) {}
 };
 
@@ -74,7 +74,7 @@ public:
     virtual ~ServerSocketNotify();
     virtual bool accept(Socket*, unsigned long ip) = 0;
     virtual void bind_ready(unsigned short port) = 0;
-    virtual bool error(const char *err) = 0;
+    virtual bool error(const QString &err) = 0;
     virtual void bind(unsigned short mixPort, unsigned short maxPort, TCPClient *client);
 #ifndef WIN32
     virtual void bind(const char *path);
@@ -130,7 +130,7 @@ class EXPORT ClientSocketNotify
 public:
     ClientSocketNotify() {}
     virtual ~ClientSocketNotify() {}
-    virtual bool error_state(const char *err, unsigned code) = 0;
+    virtual bool error_state(const QString &err, unsigned code) = 0;
     virtual void connect_ready() = 0;
     virtual void packet_ready() = 0;
     virtual void write_ready() {}
@@ -146,7 +146,7 @@ public:
     ~ClientSocket();
     Buffer readBuffer;
     Buffer writeBuffer;
-    virtual void error_state(const char *err, unsigned code = 0);
+    virtual void error_state(const QString &err, unsigned code = 0);
     void connect(const char *host, unsigned short port, TCPClient *client);
     void write();
     void pause(unsigned);
@@ -158,7 +158,7 @@ public:
     Socket *socket() { return m_sock; }
     void setSocket(Socket *s, bool bClearError = true);
     void setNotify(ClientSocketNotify*);
-    const char *errorString();
+    const QString &errorString() const;
 protected:
     virtual void connect_ready();
     virtual void write_ready();
@@ -170,7 +170,7 @@ protected:
     bool bClosed;
 
     unsigned	errCode;
-    std::string	errString;
+    QString     errString;
     friend class SocketFactory;
 };
 
@@ -195,7 +195,7 @@ protected:
 
     virtual void	resolve_ready(unsigned long);
     virtual void	connect_ready();
-    virtual bool	error_state(const char *err, unsigned code);
+    virtual bool	error_state(const QString &err, unsigned code);
     virtual void	socketConnect();
     virtual void	*processEvent(Event*);
     virtual Socket  *createSocket();
@@ -242,7 +242,7 @@ protected:
     virtual void connect_ready();
     virtual void read_ready();
     virtual void write_ready();
-    virtual void error_state(const char *err, unsigned code);
+    virtual void error_state(const QString &err, unsigned code);
     Socket *sock;
     enum State
     {

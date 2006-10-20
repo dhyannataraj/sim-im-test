@@ -2199,7 +2199,7 @@ void YahooFileTransfer::bind_ready(unsigned short port)
     m_client->sendFile(m_msg, m_file, m_data, port);
 }
 
-bool YahooFileTransfer::error(const char *err)
+bool YahooFileTransfer::error(const QString &err)
 {
     error_state(err, 0);
     return true;
@@ -2226,7 +2226,7 @@ bool YahooFileTransfer::accept(Socket *s, unsigned long)
     return false;
 }
 
-bool YahooFileTransfer::error_state(const char *err, unsigned)
+bool YahooFileTransfer::error_state(const QString &err, unsigned)
 {
     if ((m_state == Wait) || (m_state == Skip))
         return false;

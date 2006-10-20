@@ -359,13 +359,15 @@ void SSLClient::read_ready()
         char b[2048];
         int n = sock->read(b, sizeof(b));
         if (n == -1){
-            if (notify) notify->error_state(I18N_NOOP("SSL read error"));
+            if (notify)
+                notify->error_state(I18N_NOOP("SSL read error"));
             return;
         }
         if (n == 0) break;
         n = BIO_write(mrBIO, b, n);
         if (n == -1)
-            if (notify) notify->error_state(I18N_NOOP("SSL read error"));
+            if (notify)
+                notify->error_state(I18N_NOOP("SSL read error"));
         process();
     }
     if (state == SSLConnected)
@@ -376,7 +378,7 @@ void SSLClient::write_ready()
 {
 }
 
-void SSLClient::error_state(const char *err, unsigned code)
+void SSLClient::error_state(const QString &err, unsigned code)
 {
     if (notify)
         notify->error_state(err, code);

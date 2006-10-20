@@ -179,7 +179,7 @@ public:
 protected:
     virtual void write();
     virtual void write_ready();
-    virtual void error_state(const char *text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code);
     virtual void proxy_connect_ready();
     void read(unsigned size, unsigned minsize=0);
     bool		m_bClosed;
@@ -290,7 +290,7 @@ void Proxy::write_ready()
 {
 }
 
-void Proxy::error_state(const char *err, unsigned code)
+void Proxy::error_state(const QString &err, unsigned code)
 {
     if (notify){
         if (code == m_plugin->ProxyErr){
@@ -403,7 +403,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    virtual void error_state(const char *text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code);
     enum State
     {
         None,
@@ -420,7 +420,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    virtual void error_state(const char *text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code);
     enum State
     {
         Connect,
@@ -449,11 +449,11 @@ void SOCKS4_Proxy::connect(const QString &host, unsigned short port)
     m_state = Connect;
 }
 
-void SOCKS4_Proxy::error_state(const char *text, unsigned code)
+void SOCKS4_Proxy::error_state(const QString &text, unsigned code)
 {
     if (m_state == Connect){
-        text = CONNECT_ERROR;
-        code = m_plugin->ProxyErr;
+        Proxy::error_state(CONNECT_ERROR, m_plugin->ProxyErr);
+        return;
     }
     Proxy::error_state(text, code);
 }
@@ -550,7 +550,7 @@ void SOCKS4_Listener::read_ready()
     }
 }
 
-void SOCKS4_Listener::error_state(const char *err, unsigned)
+void SOCKS4_Listener::error_state(const QString &err, unsigned)
 {
     if (notify)
         notify->error(err);
@@ -566,7 +566,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    virtual void error_state(const char *text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code);
     enum State
     {
         None,
@@ -586,7 +586,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    virtual void error_state(const char *text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code);
     void send_listen();
     enum State
     {
@@ -683,11 +683,11 @@ void SOCKS5_Proxy::read_ready()
     }
 }
 
-void SOCKS5_Proxy::error_state(const char *text, unsigned code)
+void SOCKS5_Proxy::error_state(const QString &text, unsigned code)
 {
     if (m_state == Connect){
-        text = CONNECT_ERROR;
-        code = m_plugin->ProxyErr;
+        Proxy::error_state(CONNECT_ERROR, m_plugin->ProxyErr);
+        return;
     }
     Proxy::error_state(text, code);
 }
@@ -810,7 +810,7 @@ void SOCKS5_Listener::send_listen()
     m_state = WaitListen;
 }
 
-void SOCKS5_Listener::error_state(const char *err, unsigned)
+void SOCKS5_Listener::error_state(const QString &err, unsigned)
 {
     if (notify)
         notify->error(err);
@@ -826,7 +826,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    void error_state(const char *text, unsigned code);
+    void error_state(const QString &text, unsigned code);
     void send_auth();
     enum State
     {
@@ -894,11 +894,11 @@ void HTTPS_Proxy::send_auth()
     }
 }
 
-void HTTPS_Proxy::error_state(const char *text, unsigned code)
+void HTTPS_Proxy::error_state(const QString &text, unsigned code)
 {
     if (m_state == Connect){
-        text = CONNECT_ERROR;
-        code = m_plugin->ProxyErr;
+        Proxy::error_state(CONNECT_ERROR, m_plugin->ProxyErr);
+        return;
     }
     Proxy::error_state(text, code);
 }

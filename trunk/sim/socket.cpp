@@ -87,11 +87,9 @@ void ClientSocket::close()
     bClosed = true;
 }
 
-const char *ClientSocket::errorString()
+const QString &ClientSocket::errorString() const
 {
-    if (errString.length())
-        return errString.c_str();
-    return NULL;
+    return errString;
 }
 
 void ClientSocket::connect(const char *host, unsigned short port, TCPClient *client)
@@ -214,15 +212,14 @@ void ClientSocket::setNotify(ClientSocketNotify *notify)
     m_notify = notify;
 }
 
-void ClientSocket::error_state(const char *err, unsigned code)
+void ClientSocket::error_state(const QString &err, unsigned code)
 {
     list<ClientSocket*>::iterator it;
     for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it)
-        if ((*it) == this) return;
-    errString = "";
+        if ((*it) == this)
+            return;
+    errString = err;
     errCode = code;
-    if (err)
-        errString = err;
     getSocketFactory()->p->errSockets.push_back(this);
     QTimer::singleShot(0, getSocketFactory(), SLOT(idle()));
 }
@@ -281,11 +278,9 @@ void SocketFactory::idle()
         ClientSocket *s = *it;
         ClientSocketNotify *n = s->m_notify;
         if (n){
-            std::string errString;
-            if (s->errorString())
-                errString = s->errorString();
-            s->errString = "";
-            if (n->error_state(errString.c_str(), s->errCode))
+            QString errString = s->errorString();
+            s->errString = QString::null;
+            if (n->error_state(errString, s->errCode))
                 delete n;
         }
     }
@@ -324,9 +319,9 @@ void TCPClient::resolve_ready(unsigned long ip)
     m_ip = ip;
 }
 
-bool TCPClient::error_state(const char *err, unsigned code)
+bool TCPClient::error_state(const QString &err, unsigned code)
 {
-    log(L_DEBUG, "Socket error %s (%u)", err, code);
+    log(L_DEBUG, "Socket error %s (%u)", err.local8Bit().data(), code);
     m_loginTimer->stop();
     if (m_reconnect == NO_RECONNECT){
         m_timer->stop();

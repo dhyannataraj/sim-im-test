@@ -436,13 +436,13 @@ protected:
         Receive
     };
     State m_state;
-    virtual bool        error_state(const char *err, unsigned code);
+    virtual bool        error_state(const QString &err, unsigned code);
     virtual void	packet_ready();
     virtual void	connect_ready();
     virtual void	write_ready();
     virtual void	startReceive(unsigned pos);
     virtual void	bind_ready(unsigned short port);
-    virtual bool	error(const char *err);
+    virtual bool	error(const QString &err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
     bool get_line(const QCString &str);
     void send_line(const QCString &str);

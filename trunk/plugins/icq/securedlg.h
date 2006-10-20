@@ -36,7 +36,7 @@ protected slots:
     void start();
 protected:
     void *processEvent(SIM::Event*);
-    void error(const char *err);
+    void error(const QString &err);
     SIM::Message *m_msg;
 };
 

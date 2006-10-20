@@ -68,7 +68,7 @@ protected:
     unsigned	m_errCode;
     bool event(QEvent* event);
 #endif
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     virtual void connect_ready();
     virtual void packet_ready();
     virtual void write_ready();
@@ -721,7 +721,7 @@ QCString basic_auth(const QString &user, const QString &pass)
     return cstr;
 }
 
-bool FetchClientPrivate::error_state(const char *err, unsigned)
+bool FetchClientPrivate::error_state(const QString &err, unsigned)
 {
     if (m_state == None)
         return false;
@@ -738,7 +738,7 @@ bool FetchClientPrivate::error_state(const char *err, unsigned)
     }
     if ((m_state != Done) && ((m_state != Data) || (m_size != UNKNOWN_SIZE))){
         m_code = 0;
-        log(L_DEBUG, "HTTP: %s", err);
+        log(L_DEBUG, "HTTP: %s", err.local8Bit().data());
     }
     m_bDone = true;
     m_state = None;

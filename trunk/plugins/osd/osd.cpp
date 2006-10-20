@@ -684,7 +684,7 @@ void *OSDPlugin::processEvent(Event *e)
         if (data){
             unsigned style = 0;
             QString wrkIcons;
-            QString statusIcon = NULL;
+            QString statusIcon;
             contact->contactInfo(style, statusIcon, &wrkIcons);
             bool bTyping = false;
             while (!wrkIcons.isEmpty()){

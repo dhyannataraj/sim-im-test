@@ -1197,7 +1197,7 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
         status = STATUS_FFC;
     }
     unsigned iconStatus = status;
-    const char *dicon = NULL;
+    QString dicon;
     if (data->Uin.toULong()){
         if ((iconStatus == STATUS_ONLINE) && (s & ICQ_STATUS_FxPRIVATE)){
             dicon = "ICQ_invisible";
