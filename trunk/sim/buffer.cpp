@@ -318,6 +318,8 @@ Buffer &Buffer::operator >> (unsigned short &c)
 
 Buffer &Buffer::operator >> (unsigned long &c)
 {
+    /* XXX:
+     * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     if (unpack((char*)&c, 4) != 4)
         c = 0;
     c = ntohl(c);
@@ -341,7 +343,7 @@ void Buffer::unpack(unsigned short &c)
 {
     if (unpack((char*)&c, 2) != 2)
         c = 0;
-    ntohs(c);
+    c = ntohs(c);
 }
 
 void Buffer::unpack(unsigned long &c)
@@ -351,8 +353,7 @@ void Buffer::unpack(unsigned long &c)
     unsigned int i;
     if (unpack((char*)&i, 4) != 4)
         i = 0;
-    ntohs(i);
-    c = i;
+    c = ntohl(i);
 }
 
 void Buffer::pack(const QCString &s)
@@ -372,14 +373,16 @@ void Buffer::pack(const QString &s)
 
 void Buffer::pack(unsigned short s)
 {
-    htons(s);
+    s = htons(s);
     pack((char*)&s, 2);
 }
 
 void Buffer::pack(unsigned long s)
 {
+    /* XXX:
+     * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     unsigned long int i = s;
-    htonl(i);
+    i = htonl(i);
     pack((char*)&i, 4);
 }
 
@@ -400,6 +403,8 @@ Buffer &Buffer::operator << (const Buffer &b)
 
 void Buffer::pack32(const Buffer &b)
 {
+    /* XXX:
+     * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     unsigned long size = b.size() - b.readPos();
     *this << (unsigned long)htonl(size);
     pack(b.data(b.readPos()), size);
@@ -454,6 +459,8 @@ Buffer &Buffer::operator << (unsigned short c)
 
 Buffer &Buffer::operator << (unsigned long c)
 {
+    /* XXX:
+     * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     c = htonl(c);
     pack((char*)&c, 4);
     return *this;
@@ -563,12 +570,16 @@ void Buffer::tlvLE(unsigned short n, unsigned short c)
 
 void Buffer::tlv(unsigned short n, unsigned long c)
 {
+    /* XXX:
+     * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     c = htonl(c);
     tlv(n, (char*)&c, 4);
 }
 
 void Buffer::tlvLE(unsigned short n, unsigned long c)
 {
+    /* XXX:
+     * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     pack(n);
     pack((unsigned short)4);
     pack(c);
