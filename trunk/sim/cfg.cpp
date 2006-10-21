@@ -764,7 +764,7 @@ EXPORT string save_data(const DataDef *def, void *_data)
                                 res += "\n";
                             res += def->name;
                             res += "=";
-                            res += number(it.key());
+                            res += it.key();
                             res += ",";
                             QString s = it.data();
                             QCString ls = s.local8Bit();
@@ -786,7 +786,7 @@ EXPORT string save_data(const DataDef *def, void *_data)
                                 res += "\n";
                             res += def->name;
                             res += "=";
-                            res += number(it.key());
+                            res += it.key();
                             res += ",";
                             QString s = it.data();
                             QCString ls = s.local8Bit();

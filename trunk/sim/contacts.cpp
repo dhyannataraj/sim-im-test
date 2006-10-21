@@ -1695,10 +1695,10 @@ void ContactList::save()
     }
     line = save_data(contactData, &owner()->data);
     if (line.length()){
-        string cfg  = "[";
+        QCString cfg  = "[";
         cfg += OWNER;
         cfg += "]\n";
-        f.writeBlock(cfg.c_str(), cfg.length());
+        f.writeBlock(cfg, cfg.length());
         f.writeBlock(line.c_str(), line.length());
         f.writeBlock("\n", 1);
     }
@@ -1706,7 +1706,7 @@ void ContactList::save()
         Group *grp = *it_g;
         line = "[";
         line += GROUP;
-        line += number(grp->id());
+        line += grp->id();
         line += "]\n";
         f.writeBlock(line.c_str(), line.length());
         line = save_data(groupData, &grp->data);
@@ -1736,7 +1736,7 @@ void ContactList::save()
             continue;
         line = "[";
         line += CONTACT;
-        line += number(contact->id());
+        line += contact->id();
         line += "]\n";
         f.writeBlock(line.c_str(), line.length());
         line = save_data(contactData, &contact->data);
