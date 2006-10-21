@@ -879,7 +879,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
     YahooUserData *data = findContact(id, NULL, contact);
     if (data == NULL)
         return;
-    unsigned state = 0;
+    unsigned long state = 0;
     unsigned away  = 0;
     unsigned idle  = 0;
     if (_state)
