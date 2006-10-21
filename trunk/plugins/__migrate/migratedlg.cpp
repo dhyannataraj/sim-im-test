@@ -284,13 +284,13 @@ void MigrateDialog::process()
 
 void MigrateDialog::flush()
 {
-    string output;
+    QCString output;
     switch (m_state){
     case 0:
         output = "[icq/ICQ]\n";
-        clientsConf.writeBlock(output.c_str(), output.length());
+        clientsConf.writeBlock(output, output.length());
         output = "Uin=";
-        output += number(m_uin);
+        output += m_uin;
         output += "\n";
         if (!m_passwd.empty()){
             m_passwd = unquoteString(m_passwd.c_str()).ascii();
@@ -302,7 +302,7 @@ void MigrateDialog::flush()
             unsigned i;
             for (i = 0; i < m_passwd.length(); i++)
                 m_passwd[i] = (char)(m_passwd[i] ^ xor_table[i]);
-            string new_passwd;
+            QCString new_passwd;
             unsigned short temp = 0x4345;
             for (i = 0; i < m_passwd.length(); i++) {
                 temp ^= m_passwd[i];
@@ -315,43 +315,43 @@ void MigrateDialog::flush()
             output += new_passwd;
             output += "\"\n";
         }
-        clientsConf.writeBlock(output.c_str(), output.length());
+        clientsConf.writeBlock(output, output.length());
         m_owner = "ICQ.";
-        m_owner += number(m_uin);
+        m_owner += m_uin;
         break;
     case 1:
         if (!m_name.empty()){
             output = "[Group=";
-            output += number(++m_grpId);
+            output += ++m_grpId;
             output += "]\n";
             output += "Name=\"";
-            output += m_name;
+            output += m_name.c_str();
             output += "\"\n";
-            contactsConf.writeBlock(output.c_str(), output.length());
+            contactsConf.writeBlock(output, output.length());
         }
         break;
     case 2:
         output = "[Contact=";
-        output += number(++m_contactId);
+        output += ++m_contactId;
         output += "]\n";
         if (m_uin >= 0x80000000)
             m_uin = 0;
         if (m_name.empty())
-            m_name = number(m_uin);
+            m_name = m_uin;
         if (!m_name.empty()){
             output += "Name=\"";
-            output += m_name;
+            output += m_name.c_str();
             output += "\"\n";
         }
         if (m_uin){
             output += "[";
-            output += m_owner;
+            output += m_owner.c_str();
             output += "]\n";
             output += "Uin=";
-            output += number(m_uin);
+            output += m_uin;
             output += "\n";
         }
-        contactsConf.writeBlock(output.c_str(), output.length());
+        contactsConf.writeBlock(output, output.length());
         break;
     case 4:
         if (!m_message.empty()){
@@ -373,7 +373,7 @@ void MigrateDialog::flush()
             output += "Time=";
             output += m_time.c_str();
             output += "\n";
-            hTo.writeBlock(output.c_str(), output.length());
+            hTo.writeBlock(output, output.length());
         }
         break;
     }
