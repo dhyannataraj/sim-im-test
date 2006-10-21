@@ -138,21 +138,21 @@ bool JabberHttpPool::done(unsigned code, Buffer &data, const char *headers)
         error("Bad result");
         return false;
     }
-    string cookie;
+    QCString cookie;
     for (const char *p = headers; *p; p += strlen(p) + 1){
-        string h = p;
+        QCString h = p;
         if (getToken(h, ':') != "Set-Cookie")
             continue;
-        while (!h.empty()){
-            string part = trim(getToken(h, ';').c_str());
+        while (h.size()){
+            QCString part = getToken(h, ';').stripWhiteSpace();
             if (getToken(part, '=') == "ID")
                 cookie = part;
         }
-        if (!cookie.empty())
+        if (cookie.size())
             break;
     }
     m_cookie = cookie;
-    int err_code = atol(getToken(cookie, ':').c_str());
+    int err_code = getToken(cookie, ':').toInt();
     if (cookie == "0"){
         const char *err = "Unknown poll error";
         switch (err_code){
