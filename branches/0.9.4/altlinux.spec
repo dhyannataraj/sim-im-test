@@ -15,8 +15,8 @@
 %endif
 
 Name: sim
-Version: 0.9.4
-Release: alt13
+Version: 0.9.4.1
+Release: alt1
 Serial: 1
 
 Group: Networking/Instant messaging
@@ -35,10 +35,11 @@ Patch0: %name-alt-play_wrapper.patch
 %endif
 Patch1: %name-0.9.4-alt-simqt.patch
 
+BuildPreReq: libXScrnSaver-devel
+
 BuildPreReq: gcc-c++ flex libqt3-devel libltdl-devel
 BuildPreReq: libssl-devel libxslt-devel zip
-BuildPreReq: XFree86-devel libpng-devel 
-#libjpeg-devel
+BuildPreReq: libpng-devel 
 %if_disabled M22
 BuildPreReq: libqt3-devel-cxx = %__gcc_version_base
 %endif
@@ -155,13 +156,14 @@ echo "Building for Master 2.2"
 %endif
 %patch1 -p1
 
-%__subst 's,\.la\>,.so,' admin/acinclude.m4.in
-%__subst "s/\-ansi /\-fPIC -DPIC /g" admin/acinclude.m4.in
+#%%__subst 's,\.la\>,.so,' admin/acinclude.m4.in
+#%%__subst "s/\-ansi /\-fPIC -DPIC /g" admin/acinclude.m4.in
 
 [ -f admin/Makefile.common ] && %make_build -f admin/Makefile.common
 
 %build
-unset QTDIR || : ; . /etc/profile.d/qt3dir.sh
+#unset QTDIR || : ; . /etc/profile.d/qt3dir.sh
+export PATH=$PATH:%_qt3dir/bin
 
 ## Without KDE ##
 %if_enabled simqt
@@ -249,6 +251,14 @@ unset QTDIR || : ; . /etc/profile.d/qt3dir.sh
 %_iconsdir/*/*/*/*.png
 
 %changelog
+* Sat Oct 21 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4.1-alt1
+- 0.9.4.1
+- spec cleanup
+- update BuildRequires
+
+* Thu Jul 06 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt14
+- bump release
+
 * Thu Jun 29 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt13
 - 0.9.4 release, finally :)
 
