@@ -137,6 +137,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             }else{
                 err_str = error_message(error);
             }
+            if(error == 2)
+                requestRateInfo();
             if (m_send.msg){
                 m_send.msg->setError(err_str);
                 Event e(EventMessageSent, m_send.msg);

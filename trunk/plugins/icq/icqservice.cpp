@@ -156,8 +156,9 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             }
             break;
         }
-    case ICQ_SNACxSRV_RATExINFO:
-        if (m_rates.size() == 0){
+    case ICQ_SNACxSRV_RATExINFO: {
+            bool bNew =  m_rates.size() == 0;
+            m_rates.clear();
             unsigned short n_rates;
             m_socket->readBuffer >> n_rates;
             unsigned n;
@@ -183,9 +184,9 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 >> max_level
                 >> last_send
                 >> current_state;
-                log(L_DEBUG, "grp: %02X, ws: %04lX, cl %04lX, al %04lX, ll %04lX, dl: %04lX, cur %04lX, ml %04lX",
+                log(L_DEBUG, "grp: %02X, ws: %04lX, cl %04lX, al %04lX, ll %04lX, dl: %04lX, cur %04lX, ml %04lX, cs: %d",
                     class_id,window_size,clear_level,alert_level,limit_level,discon_level,
-                    current_level,max_level);
+                    current_level,max_level, current_state);
                 RateInfo r;
                 r.m_winSize		= window_size;
                 r.m_minLevel	= alert_level;
@@ -215,6 +216,8 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
             m_socket->writeBuffer << 0x00010002L << 0x00030004L << 0x0005;
             sendPacket(true);
+            if(!bNew)
+                break;
             snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_GETxUSERxINFO);
             sendPacket(true);
             listsRequest();
@@ -227,8 +230,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_MOTD:
         break;
     case ICQ_SNACxSRV_ACKxIMxICQ:
-        snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
-        sendPacket(true);
+        requestRateInfo();
         break;
     case ICQ_SNACxSRV_EXT_STATUS: {
             QByteArray shash(16);
@@ -354,6 +356,12 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     default:
         log(L_WARN, "Unknown service family type %04X", type);
     }
+}
+
+void ICQClient::requestRateInfo()
+{
+    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
+    sendPacket(true);
 }
 
 void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service)

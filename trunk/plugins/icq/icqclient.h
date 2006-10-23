@@ -657,6 +657,7 @@ protected:
     void sendLogonStatus();
     void sendClientReady();
     void sendMessageRequest();
+    void requestRateInfo();
     void setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service);
     void serverRequest(unsigned short cmd, unsigned short seq=0);
     void sendServerRequest();
