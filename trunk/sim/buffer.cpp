@@ -29,6 +29,14 @@
 using namespace std;
 using namespace SIM;
 
+#ifdef WORDS_BIGENDIAN
+# define SWAP_S(s)  s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);  
+# define SWAP_L(s)  s = ((s&0xFF)<<24) + ((s&0xFF00)<<8) + ((s&0xFF0000)>>8) + ((s&0xFF000000)>>24); 
+#else
+# define SWAP_S(s)
+# define SWAP_L(s)
+#endif
+
 // Tlv
 Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
         : m_nNum(num), m_nSize(size)
@@ -343,7 +351,7 @@ void Buffer::unpack(unsigned short &c)
 {
     if (unpack((char*)&c, 2) != 2)
         c = 0;
-    c = ntohs(c);
+    SWAP_S(c);
 }
 
 void Buffer::unpack(unsigned long &c)
@@ -353,7 +361,8 @@ void Buffer::unpack(unsigned long &c)
     unsigned int i;
     if (unpack((char*)&i, 4) != 4)
         i = 0;
-    c = ntohl(i);
+    SWAP_L(i);
+    c = i;
 }
 
 void Buffer::pack(const QCString &s)
@@ -373,7 +382,7 @@ void Buffer::pack(const QString &s)
 
 void Buffer::pack(unsigned short s)
 {
-    s = htons(s);
+    SWAP_S(s);
     pack((char*)&s, 2);
 }
 
@@ -381,8 +390,8 @@ void Buffer::pack(unsigned long s)
 {
     /* XXX:
      * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
-    unsigned long int i = s;
-    i = htonl(i);
+    unsigned int i = s;
+    SWAP_L(i);
     pack((char*)&i, 4);
 }
 
@@ -431,9 +440,9 @@ Buffer &Buffer::operator << (const QCString &s)
 
 Buffer &Buffer::operator << (const char *str)
 {
-     if(!str)
-		return *this;
-   pack(str, strlen(str));
+    if(!str)
+        return *this;
+    pack(str, strlen(str));
     return *this;
 }
 
