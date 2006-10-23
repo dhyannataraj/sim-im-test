@@ -2,7 +2,7 @@
 AC_PREREQ(2.50)
 AC_LANG_CPLUSPLUS
 AC_LANG_C
-AM_INIT_AUTOMAKE(sim,0.9.4.1)
+AM_INIT_AUTOMAKE(sim,0.9.4.2)
 AC_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_C_BIGENDIAN
@@ -27,7 +27,7 @@ if ! echo $CXXFLAGS | fgrep '-fno-strict-aliasing' >/dev/null 2>&1 ; then
     CXXFLAGS="$CXXFLAGS -fno-strict-aliasing" 
     AC_TRY_COMPILE([], [return 0;], , CXXFLAGS=$old_cxxflags) 
 fi 
-RELEASE_BUILD="yes"
+RELEASE_BUILD="no"
 AC_ARG_ENABLE(
  release,
  [  --enable-release        enable release build],
