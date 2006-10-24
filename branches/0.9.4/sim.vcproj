@@ -48,8 +48,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				InlineFunctionExpansion="1"
+				Optimization="2"
 				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
 				PreprocessorDefinitions="NDEBUG;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.4\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1"
 				StringPooling="true"
@@ -60,7 +59,7 @@
 				AssemblerListingLocation=".\Release_Wrk/"
 				ObjectFile="Release/"
 				ProgramDataBaseFileName="Release/"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DisableSpecificWarnings="4996"
 				ForcedIncludeFiles="sim_pch.h"
@@ -159,7 +158,7 @@
 				ObjectFile="Debug/"
 				ProgramDataBaseFileName="Debug/"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996"

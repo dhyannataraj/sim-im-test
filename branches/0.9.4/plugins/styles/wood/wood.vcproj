@@ -49,7 +49,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\..\sim"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_USRDLL;wood_EXPORTS;QT_DLL;UNICODE;QT_THREAD_SUPPORT"
 				StringPooling="true"
@@ -59,7 +58,7 @@
 				AssemblerListingLocation=".\..\Release_Wrk/"
 				ObjectFile=".\..\Release_Wrk/"
 				ProgramDataBaseFileName=".\..\Release_Wrk/"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -156,7 +155,7 @@
 				ObjectFile=".\..\Debug_Wrk/"
 				ProgramDataBaseFileName=".\..\Debug_Wrk/"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>

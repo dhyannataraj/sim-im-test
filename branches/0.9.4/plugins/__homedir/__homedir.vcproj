@@ -49,7 +49,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="../../sim,$(QTDIR)\include,..\..\sim"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_USRDLL;QT_DLL;MY__homedir_EXPORTS;VERSION=\&quot;0.9.4\&quot;"
 				StringPooling="true"
@@ -59,7 +58,7 @@
 				AssemblerListingLocation=".\$(ConfigurationName)/"
 				ObjectFile=".\$(ConfigurationName)/"
 				ProgramDataBaseFileName=".\$(ConfigurationName)/"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DisableSpecificWarnings="4996"
 			/>
@@ -157,7 +156,7 @@
 				ObjectFile=".\$(ConfigurationName)/"
 				ProgramDataBaseFileName=".\$(ConfigurationName)/"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996"

@@ -57,7 +57,7 @@
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="jabber_pch.h"
 				BrowseInformation="1"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996"
@@ -147,8 +147,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				InlineFunctionExpansion="1"
+				Optimization="2"
 				AdditionalIncludeDirectories="$(QTDIR)\include,..\..\sim,..\_core"
 				PreprocessorDefinitions="WIN32;_WINDOWS;QT_DLL;UNICODE;QT_THREAD_SUPPORT;VERSION=\&quot;0.9.4\&quot;;PACKAGE=\&quot;SIM\&quot;;USE_QT=1;USE_OPENSSL"
 				StringPooling="true"
@@ -156,7 +155,7 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="jabber_pch.h"
-				WarningLevel="3"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DisableSpecificWarnings="4996"
 				ForcedIncludeFiles="jabber_pch.h"

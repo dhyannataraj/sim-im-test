@@ -150,7 +150,7 @@ void shutdown()
 // DLL entry point
 //
 
-BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID)
 {
     switch (reason)
     {
