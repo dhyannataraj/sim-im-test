@@ -86,13 +86,19 @@ Tlv *TlvList::operator()(unsigned short num)
 
 // Buffer
 Buffer::Buffer(unsigned size)
-        : m_alloc_size(0), m_data(NULL)
+        : QByteArray(size)
 {
     init(size);
 }
 
+Buffer::Buffer(const QByteArray &ba)
+    : QByteArray(ba)
+{
+    init(ba.size());
+}
+
 Buffer::Buffer(Tlv &tlv)
-        : m_alloc_size(0), m_data(NULL)
+    : QByteArray(tlv.Size())
 {
     init(tlv.Size());
     pack((char*)tlv, tlv.Size());
@@ -100,43 +106,15 @@ Buffer::Buffer(Tlv &tlv)
 
 Buffer::~Buffer()
 {
-    if (m_data) free(m_data);
 }
 
 void Buffer::init(unsigned size)
 {
-    allocate(size, 0);
-    m_size = size;
     m_posRead = 0;
     m_posWrite = 0;
     m_packetStartPos = 0;
-}
-
-void Buffer::add(unsigned size)
-{
-    allocate(m_size + size, 0);
-    m_size += size;
-}
-
-void Buffer::allocate(unsigned size, unsigned add_size)
-{
-    if (size <= m_alloc_size) return;
-    m_alloc_size = size + add_size;
-    if (m_data){
-        m_data = (char*)realloc(m_data, m_alloc_size);
-    }else{
-        m_data = (char*)malloc(m_alloc_size);
-    }
-}
-
-void Buffer::insert(unsigned size)
-{
-    if (size == 0)
-        return;
-    allocate(m_size + size, 0);
-    if (m_size)
-        memmove(data(size), data(), m_size);
-    m_size += size;
+    m_startSection = 0;
+    resize(size);
 }
 
 void Buffer::incReadPos(int n)
@@ -145,25 +123,27 @@ void Buffer::incReadPos(int n)
     if (m_posRead > m_posWrite) m_posRead = m_posWrite;
 }
 
-void Buffer::setSize(unsigned size)
+bool Buffer::add(uint addSize)
 {
-    if (size >= m_alloc_size)
-        return;
-    m_size = size;
-    if (m_posWrite > m_size)
-        m_posWrite = m_size;
-    if (m_posRead > m_size)
-        m_posRead = m_size;
+    return(resize(size()+addSize));
+}
+
+bool Buffer::resize(uint size)
+{
+    bool bRet = QByteArray::resize(size);
+    if (m_posWrite > size)
+        m_posWrite = size;
+    if (m_posRead > size)
+        m_posRead = size;
+    return bRet;
 }
 
 void Buffer::setWritePos(unsigned n)
 {
     m_posWrite = n;
     if (m_posRead > m_posWrite) m_posRead = m_posWrite;
-    if (m_posWrite > m_size){
-        m_size = m_posWrite;
-        allocate(m_size, 0);
-    }
+    if (m_posWrite > size())
+        resize(m_posWrite);
 }
 
 void Buffer::setReadPos(unsigned n)
@@ -173,19 +153,23 @@ void Buffer::setReadPos(unsigned n)
     m_posRead = n;
 }
 
-void Buffer::pack(const char *d, unsigned size)
+void Buffer::pack(const char *d, unsigned s)
 {
-    if(!d)
-        return;
-    allocate(m_posWrite + size, 1024);
-    memcpy(m_data + m_posWrite, d, size);
-    m_posWrite += size;
-    if (m_posWrite > m_size) m_size = m_posWrite;
+    if(s == 0)
+		return;
+    if(m_posWrite+s > size())
+        resize(m_posWrite+s);
+    if(d) {
+        memcpy(data() + m_posWrite, d, s);
+    } else {
+        memcpy(data() + m_posWrite, "", 1);
+    }
+    m_posWrite += s;
 }
 
 unsigned Buffer::unpack(char *d, unsigned s)
 {
-    unsigned readn = m_size - m_posRead;
+    unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
     memcpy(d, data() + m_posRead, readn);
@@ -195,7 +179,7 @@ unsigned Buffer::unpack(char *d, unsigned s)
 
 unsigned Buffer::unpack(QString &d, unsigned s)
 {
-    unsigned readn = m_size - m_posRead;
+    unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
     d = QString::fromUtf8(data() + m_posRead, readn);
@@ -205,7 +189,7 @@ unsigned Buffer::unpack(QString &d, unsigned s)
 
 unsigned Buffer::unpack(QCString &d, unsigned s)
 {
-    unsigned readn = m_size - m_posRead;
+    unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
     d = QCString(data() + m_posRead, readn + 1);
@@ -215,12 +199,13 @@ unsigned Buffer::unpack(QCString &d, unsigned s)
 
 unsigned Buffer::unpack(QByteArray &d, unsigned s)
 {
-    unsigned readn = m_size - m_posRead;
+    unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d.resize(readn + 1);
-    memcpy(d.data(), data() + m_posRead, readn);
-    d.data()[readn] = '\0';
+    d = QByteArray::duplicate(data() + m_posRead, readn);
+    unsigned size = d.size();
+    d.resize(size + 1);
+    d.data()[size] = '\0';
     m_posRead += readn;
     return readn;
 }
@@ -241,12 +226,12 @@ bool Buffer::unpackStr(QString &str)
 bool Buffer::unpackStr(QCString &str)
 {
     unsigned short s;
-    *this >> s;
     str = "";
+    *this >> s;
     if (s == 0)
         return false;
-    if (s > m_size - m_posRead)
-        s = (unsigned short)(m_size - m_posRead);
+    if (s > size() - m_posRead)
+        s = (unsigned short)(size() - m_posRead);
     unpack(str, s);
     return true;
 }
@@ -599,11 +584,6 @@ void Buffer::packetStart()
     m_packetStartPos = writePos();
 }
 
-unsigned long Buffer::packetStartPos()
-{
-    return m_packetStartPos;
-}
-
 Buffer &Buffer::operator << (TlvList &tlvList)
 {
     unsigned size = 0;
@@ -616,17 +596,6 @@ Buffer &Buffer::operator << (TlvList &tlvList)
         pack(*tlv, tlv->Size());
     }
     return *this;
-}
-
-EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)
-{
-    LogInfo li;
-    li.log_level = bOut ? L_PACKET_OUT : L_PACKET_IN;
-    li.log_info  = &buf;
-    li.packet_id = packet_id;
-    li.add_info  = add_info;
-    Event e(EventLog, &li);
-    e.process();
 }
 
 void Buffer::fromBase64(Buffer &from)
@@ -725,10 +694,10 @@ string Buffer::getSection(bool bSkip)
     if (bSkip){
         /* skip until next '[' */
         for (;;){
-            for (; m_posRead < m_size; p++, m_posRead++)
+            for (; m_posRead < size(); p++, m_posRead++)
                 if ((*p == '\n') || (*p == 0))
                     break;
-            if (m_posRead >= m_size){
+            if (m_posRead >= size()){
                 m_posRead = posRead;
                 return "";
             }
@@ -740,16 +709,16 @@ string Buffer::getSection(bool bSkip)
     }
     for (;;){
         /* Search for '[' */
-        if (m_posRead >= m_size){
+        if (m_posRead >= size()){
             m_posRead = posRead;
             return "";
         }
         if (*p == '[')
             break;
-        for (; m_posRead < m_size; p++, m_posRead++)
+        for (; m_posRead < size(); p++, m_posRead++)
             if ((*p == '\n') || (*p == 0))
                 break;
-        if (m_posRead >= m_size){
+        if (m_posRead >= size()){
             m_posRead = posRead;
             return "";
         }
@@ -762,7 +731,7 @@ string Buffer::getSection(bool bSkip)
     string section;
     char *s = p;
     /* Search for ']' and get section name when found */
-    for (; m_posRead < m_size; p++, m_posRead++){
+    for (; m_posRead < size(); p++, m_posRead++){
         if (*p == ']'){
             *p = 0;
             section = s;
@@ -772,34 +741,35 @@ string Buffer::getSection(bool bSkip)
         if ((*p == '\n') || (*p == 0))
             break;
     }
-    if (m_posRead >= m_size){
+    if (m_posRead >= size()){
         m_posRead = posRead;
         return "";
     }
     /* next line with data */
-    for (;m_posRead < m_size; p++, m_posRead++){
+    for (;m_posRead < size(); p++, m_posRead++){
         if ((*p != '\n') || (*p == 0))
             break;
     }
     m_posWrite = m_posRead;
     /* when current line starts with '[' we have a section
        without any data */
-    if ((m_posRead >= m_size) || (*p == '[')) {
+    if ((m_posRead >= size()) || (*p == '[')) {
         return section;
     }
     /* put m_posWrite to (next section start) - 1 */
-    for (; m_posWrite < m_size; p++, m_posWrite++){
+    for (; m_posWrite < size(); p++, m_posWrite++){
         if ((*p == '\r') || (*p == '\n') || (*p == 0)){
             *p = 0;
-            if ((m_posWrite + 1 < m_size) && (p[1] == '[')){
+            if ((m_posWrite + 1 < size()) && (p[1] == '[')){
                 m_posWrite++;
                 break;
             }
         }
     }
-    if (m_posWrite >= m_size){
-        allocate(m_size + 1, 0);
-        m_data[m_size] = 0;
+    unsigned long ulSize = size();
+    if (m_posWrite >= ulSize){
+        resize(ulSize + 1);
+        data()[ulSize] = 0;
     }
     return section;
 }
@@ -810,13 +780,13 @@ char *Buffer::getLine()
         return NULL;
     char *res = data(m_posRead);
     /* handle cases when the buffer is not \n-terminated (avoid returning non-null-terminated string) */
-    int maxLength = m_size-m_posRead, length = 0;
+    int maxLength = size()-m_posRead, length = 0;
     while ((length < maxLength) && (res[length] != '\0'))
         ++length;
-    if (length == maxLength)
-    {
-        allocate(m_size + 1, 0);
-        m_data[m_size] = 0;
+    unsigned long s = size();
+    if (length == maxLength) {
+        resize(s + 1);
+        data()[s] = 0;
     }
     char *p;
     for (p = res; (m_posRead < m_posWrite) && *p ; p++)
@@ -827,3 +797,13 @@ char *Buffer::getLine()
 }
 
 
+EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info)
+{
+    LogInfo li;
+    li.log_level = bOut ? L_PACKET_OUT : L_PACKET_IN;
+    li.log_info  = &buf;
+    li.packet_id = packet_id;
+    li.add_info  = add_info;
+    Event e(EventLog, &li);
+    e.process();
+}

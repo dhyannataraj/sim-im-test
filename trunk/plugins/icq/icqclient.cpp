@@ -890,7 +890,7 @@ void ICQClient::sendPacket(bool bSend)
     }
     OscarSocket::sendPacket(false);
     r->delayed.pack(writeBuffer.data(writeBuffer.packetStartPos()), writeBuffer.size() - writeBuffer.packetStartPos());
-    writeBuffer.setSize(writeBuffer.packetStartPos());
+    writeBuffer.resize(writeBuffer.packetStartPos());
     m_processTimer->stop();
     m_processTimer->start(delay);
 }
@@ -3219,7 +3219,7 @@ QString ICQClient::pictureFile(const ICQUserData *data)
 {
     QString f = PICT_PATH;
     f += "icq.avatar.";
-    f += QString::number(data->Uin.toULong());
+    f += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : data->Screen.str();
     f += ".";
     f += QString::number(data->buddyID.toULong());
     f = user_file(f);
@@ -3228,9 +3228,7 @@ QString ICQClient::pictureFile(const ICQUserData *data)
 
 QImage ICQClient::userPicture(const ICQUserData *d)
 {
-    if(!d)
-        return QImage(data.owner.Picture.str());
-    return QImage(pictureFile(d));
+    return QImage(d ? pictureFile(d) : data.owner.Picture.str());
 }
 
 void ICQClient::retry(int n, void *p)

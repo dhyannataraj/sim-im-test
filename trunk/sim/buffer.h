@@ -56,15 +56,16 @@ public:
     TlvList &operator+= (const Tlv *tlv) { append(tlv); return *this; }
 };
 
-class EXPORT Buffer
+class EXPORT Buffer : public QByteArray
 {
 public:
     Buffer(unsigned size=0);
+    Buffer(const QByteArray &ba);
     Buffer(Tlv&);
     ~Buffer();
-    void add(unsigned size);
-    unsigned size() const { return m_size; }
-    void setSize(unsigned size);
+
+    bool add(uint size);
+    bool resize(uint size);
     unsigned readPos() const { return m_posRead; }
     void incReadPos(int size);
     void decReadPos(int size) { incReadPos(-size); }
@@ -72,10 +73,10 @@ public:
     void setWritePos(unsigned size);
     void setReadPos(unsigned size);
 
-    char* data(unsigned pos=0) const { return m_data + pos; }
+    char* data(unsigned pos=0) const { return QByteArray::data() + pos; }
 
     void packetStart();
-    unsigned long packetStartPos();
+    unsigned long packetStartPos() const { return m_packetStartPos; }
 
     void pack(const char *d, unsigned size);
     void pack(char c) { pack(&c, 1); }
@@ -147,9 +148,6 @@ public:
     bool scan(const char *substr, QCString &res);
 
     void init(unsigned size);
-    unsigned allocSize() { return m_alloc_size; }
-    void allocate(unsigned size, unsigned add_size);
-    void insert(unsigned size);
 
     void fromBase64(Buffer &from);
     void toBase64(Buffer &from);
@@ -159,12 +157,9 @@ public:
     char	*getLine();
 protected:
     unsigned m_packetStartPos;
-    unsigned m_size;
-    unsigned m_alloc_size;
     unsigned m_posRead;
     unsigned m_posWrite;
     unsigned m_startSection;
-    char *m_data;
 };
 
 EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info=NULL);
