@@ -695,8 +695,9 @@ static QCString quoteInternal(const QCString &str)
 {
     QCString res("\"");
     if (!str.isEmpty()){
-        for (unsigned char *p = (unsigned char*)str.data(); *p; p++){
-            switch (*p){
+        for (unsigned i = 0; i < str.length(); i++){
+            unsigned char p = str[(int)i];
+            switch (p){
             case '\\':
                 res += "\\\\";
                 break;
@@ -709,12 +710,12 @@ static QCString quoteInternal(const QCString &str)
                 res += "\\\"";
                 break;
             default:
-                if (*p >= ' '){
-                    res += *p;
-                }else if (*p){
+                if (p >= ' '){
+                    res += p;
+                }else if (p){
                     res += "\\x";
-                    res += toHex((unsigned char)(*p >> 4));
-                    res += toHex(*p);
+                    res += toHex((unsigned char)(p >> 4));
+                    res += toHex(p);
                 }
             }
         }
@@ -1381,6 +1382,7 @@ static const char *dataType2Name(DataType type)
     switch(type) {
         case DATA_UNKNOWN:
             return "uninitialized";
+        case DATA_UTF:
         case DATA_STRING:
             return "string";
         case DATA_LONG:
@@ -1389,6 +1391,7 @@ static const char *dataType2Name(DataType type)
             return "ulong";
         case DATA_BOOL:
             return "bool";
+        case DATA_UTFLIST:
         case DATA_STRMAP:
             return "stringmap";
         case DATA_IP:
