@@ -581,14 +581,14 @@ void PluginManagerPrivate::saveState()
     }
     for (unsigned i = 0; i < plugins.size(); i++){
         pluginInfo &info = plugins[i];
-        QCString line = "[";
+        string line = "[";
         line += QFile::encodeName(info.name);
         line += "]\n";
         line += info.bDisabled ? DISABLE : ENABLE;
         line += ",";
-        line += info.base;
+        line += number(info.base);
         line += "\n";
-        f.writeBlock(line, line.length());
+        f.writeBlock(line.c_str(), line.length());
         if (info.plugin){
             string cfg = info.plugin->getConfig();
             if (cfg.length()){

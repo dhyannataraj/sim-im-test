@@ -3960,12 +3960,12 @@ string CorePlugin::getConfig()
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.local8Bit().data());
     }else{
-        QCString write = "[_core]\n";
+        string write = "[_core]\n";
         write += "enable,";
-        write += m_base;
+        write += number(m_base);
         write += "\n";
-        write += cfg.c_str();
-        fCFG.writeBlock(write, write.length());
+        write += cfg;
+        fCFG.writeBlock(write.c_str(), write.length());
 
         const int status = fCFG.status();
         const QString errorMessage = fCFG.errorString();
