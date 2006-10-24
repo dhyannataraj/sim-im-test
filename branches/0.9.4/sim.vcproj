@@ -50,7 +50,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories="$(QTDIR)\include,sim,sim\win32"
-				PreprocessorDefinitions="NDEBUG;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.4\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1"
+				PreprocessorDefinitions="NDEBUG;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.4.2\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -148,7 +148,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(QTDIR)\include&quot;;sim;sim\win32"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.4\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1"
+				PreprocessorDefinitions="_DEBUG;_USRDLL;QT_DLL;WIN32;_WINDOWS;VERSION=\&quot;0.9.4.2\&quot;;PACKAGE=\&quot;SIM\&quot;;UNICODE;USE_OPENSSL;LTDL_SHLIB_EXT=\&quot;.dll\&quot;;LTDL_OBJDIR=\&quot;\&quot;;HAVE_STDIO_H;HAVE_STRING_H;HAVE_MALLOC_H;SIMAPI_EXPORTS;CVS_BUILD=1"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -2007,6 +2007,10 @@
 			>
 			<File
 				RelativePath=".\sim\icq.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\sim.ico"
 				>
 			</File>
 			<File
