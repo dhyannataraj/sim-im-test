@@ -69,8 +69,6 @@
 #include "qchildwidget.h"
 #include "qcolorbutton.h"
 #include "qkeybutton.h"
-#include "qregexp.h"
-#include "qsimplerichtext.h"
 #include "qzip.h"
 #include "sax.h"
 #include "socket.h"
