@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 
-typedef struct DockData
+typedef struct DockPluginData
 {
     SIM::Data		AutoHide;
     SIM::Data		AutoHideInterval;
@@ -30,7 +30,7 @@ typedef struct DockData
     SIM::Data		DockY;
 #endif
     SIM::Data		Desktop;
-} DockData;
+} DockPluginData;
 
 class DockWnd;
 class QPopupMenu;
@@ -66,7 +66,7 @@ protected:
     unsigned long CmdCustomize;
     bool m_bQuit;
     time_t m_inactiveTime;
-    DockData data;
+    DockPluginData data;
 
     PROP_BOOL(AutoHide);
     PROP_ULONG(AutoHideInterval);
