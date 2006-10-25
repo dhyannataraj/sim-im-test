@@ -163,5 +163,6 @@ ADD_JISP_ARCHIVE(icq5.1     icq5.1.jisp     _core_SRCS)
 ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_SRCS)
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)
 ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
+ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_SRCS)
 
 SIM_ADD_PLUGIN(_core)
