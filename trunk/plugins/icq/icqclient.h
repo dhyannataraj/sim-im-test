@@ -630,7 +630,7 @@ protected:
     virtual SIM::Socket  *createSocket();
     virtual QString contactName(void *clientData);
     QString dataName(const QString &screen);
-    Buffer  m_cookie;
+    QByteArray  m_cookie;
     virtual SIM::ClientSocket *socket();
     virtual void packet();
     void snac_service(unsigned short, unsigned short);
@@ -816,7 +816,7 @@ protected:
     virtual void packet();
     virtual void data(unsigned short fam, unsigned short type, unsigned short seq) = 0;
     unsigned short m_id;
-    Buffer  m_cookie;
+    QByteArray  m_cookie;
     bool    m_bConnected;
     SIM::ClientSocket *m_socket;
     ICQClient *m_client;

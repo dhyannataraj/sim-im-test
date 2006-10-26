@@ -680,7 +680,7 @@ void ICQClient::disconnected()
     m_bIdleTime = false;
     m_bNoSend	= true;
     m_bReady	= false;
-    m_cookie.init(0);
+    m_cookie.resize(0);
     m_advCounter = 0;
     m_nUpdates = 0;
     m_info_req.clear();

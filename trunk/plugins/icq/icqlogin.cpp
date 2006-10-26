@@ -187,7 +187,7 @@ void ICQClient::chn_login()
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
         m_socket->writeBuffer.tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
-        m_cookie.init(0);
+        m_cookie.resize(0);
         sendPacket(true);
         return;
     }
@@ -384,7 +384,7 @@ void ICQClient::chn_close()
 
     m_socket->close();
     m_socket->connect(host, port, this);
-    m_cookie.init(0);
-    m_cookie.pack(*tlv_cookie, tlv_cookie->Size());
+    m_cookie = tlv_cookie->byteArray();
+    m_cookie.resize(m_cookie.size() - 1);   // tlv has \0 terminator... time for Qt4
 }
 

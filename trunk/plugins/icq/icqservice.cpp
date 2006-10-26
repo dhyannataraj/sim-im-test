@@ -394,7 +394,9 @@ void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short 
     }
     if (s->connected())
         s->close();
-    s->connect(addr, port, tlv_cookie->byteArray());
+    QByteArray ba = tlv_cookie->byteArray();
+    ba.resize(ba.size()-1);
+    s->connect(addr, port, ba);
 }
 void ICQClient::sendClientReady()
 {

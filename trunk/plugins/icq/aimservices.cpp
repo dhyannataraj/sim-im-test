@@ -51,8 +51,7 @@ ClientSocket *ServiceSocket::socket()
 void ServiceSocket::connect(const char *addr, unsigned short port, const QByteArray &cookie)
 {
     log(L_DEBUG, "%s: connect to %s:%d ", serviceSocketName(), addr, port);
-    m_cookie.init(0);
-    m_cookie.pack(cookie);
+    m_cookie = cookie;
     m_socket = new ClientSocket(this);
     m_socket->connect(addr, port, m_client);
 }
@@ -89,7 +88,7 @@ void ServiceSocket::packet()
         flap(ICQ_CHNxNEW);
         m_socket->writeBuffer << 0x00000001L;
         m_socket->writeBuffer.tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
-        m_cookie.init(0);
+        m_cookie.resize(0);
         sendPacket();
         break;
     case ICQ_CHNxDATA:
