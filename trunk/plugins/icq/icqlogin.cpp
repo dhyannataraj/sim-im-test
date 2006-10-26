@@ -372,10 +372,10 @@ void ICQClient::chn_close()
         m_socket->error_state(I18N_NOOP("Close packet from server"));
         return;
     }
-    QCString host = tlv_host->byteArray();
+    QCString host = tlv_host->byteArray().data();
     int idx = host.find(':');
     if (idx == -1){
-        log(L_ERROR, "Bad host address %s", host);
+        log(L_ERROR, "Bad host address %s", host.data());
         m_socket->error_state(I18N_NOOP("Bad host address"));
         return;
     }
