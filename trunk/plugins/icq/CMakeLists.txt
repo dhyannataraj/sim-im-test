@@ -57,6 +57,7 @@ SET(icq_HDRS
         icqpicture.h
         icqsearch.h
         icqsecure.h
+        icqssbi.h
         interestsinfo.h
         moreinfo.h
         pastinfo.h

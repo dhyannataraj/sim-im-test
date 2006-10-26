@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icqclient.h"
+#include "icqssbi.h"
 
 #include <list>
 
@@ -33,27 +34,6 @@ const unsigned short ICQ_SNACxSSBI_REQ_AIM          = 0x0004;   // cli -> srv
 const unsigned short ICQ_SNACxSSBI_REQ_AIM_ACK      = 0x0005;   // src -> cli
 const unsigned short ICQ_SNACxSSBI_REQ_ICQ          = 0x0006;   // cli -> srv
 const unsigned short ICQ_SNACxSSBI_REQ_ICQ_ACK      = 0x0007;   // src -> cli
-
-class SSBISocket : public ServiceSocket
-{
-public:
-    SSBISocket(ICQClient *client);
-    ~SSBISocket();
-    void requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash);
-    void uploadBuddyIcon(unsigned short refNumber, const QImage &img);
-protected:
-    virtual bool error_state(const QString &err, unsigned code);
-    virtual const char *serviceSocketName() { return "SSBISocket"; }
-    virtual void data(unsigned short fam, unsigned short type, unsigned short seq);
-    void snac_service(unsigned short type, unsigned short seq);
-    void snac_ssbi(unsigned short type, unsigned short seq);
-    void process();
-
-    QStringList m_buddyRequests;
-    QImage m_img;   // image to upload
-    unsigned short m_refNumber; // the ref number for the image
-    unsigned m_retryCount;
-};
 
 SSBISocket *ICQClient::getSSBISocket()
 {
@@ -98,7 +78,8 @@ bool SSBISocket::error_state(const QString &err, unsigned code)
     bool bRet = ServiceSocket::error_state(err, code);
     if(m_retryCount && (!m_img.isNull() || m_buddyRequests.count())) {
         m_retryCount--;
-        m_client->requestService(this);
+        QTimer::singleShot(5000, this, SLOT(requestService()));
+        return false;
     }
     return bRet;
 }
@@ -347,3 +328,7 @@ void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, con
     m_socket->writeBuffer.pack(buddyHash.data(), len);
     sendPacket();
 }
+
+#ifndef NO_MOC_INCLUDES
+#include "moc_icqssbi.cpp"
+#endif
