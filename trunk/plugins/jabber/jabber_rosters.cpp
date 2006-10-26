@@ -1059,6 +1059,7 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
     if (!strcmp(el, "iq")){
         m_from = JabberClient::get_attr("from", attr);
         m_id   = JabberClient::get_attr("id", attr);
+        m_type = JabberClient::get_attr("type", attr);
         return;
     }
     if (!strcmp(el, "query")){
@@ -1100,6 +1101,29 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                         }
                     }
                 }
+            }
+        // XEP-0092: Software Version
+        }else if (m_query == "jabber:iq:version"){
+            if (m_type == "get"){
+                // send our version
+                JabberClient::ServerRequest *req = new JabberClient::ServerRequest(m_client, JabberClient::ServerRequest::_RESULT, NULL, m_from, m_id);
+                req->start_element("query");
+                req->add_attribute("xmlns", "jabber:iq:version");
+                req->text_tag("name", PACKAGE);
+                req->text_tag("version", VERSION);
+                QString version;
+                // FIXME: more systems and more system version information 
+#ifdef WIN32
+                version = "Win32";
+#else
+                version = "Linux";
+#endif
+                req->text_tag("os", version);
+                req->send();
+                m_client->m_requests.push_back(req);
+            }else if (m_type == "result"){
+                // update contact's client version
+                // here we can use VersionInfoRequest, but it needs some cleanup
             }
         }
     }

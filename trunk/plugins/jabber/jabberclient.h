@@ -210,6 +210,7 @@ class IqRequest : public ServerRequest
         QString		m_query;
         QString		m_from;
         QString		m_id;
+        QString		m_type;
         QString		m_file_name;
         unsigned	m_file_size;
     };
