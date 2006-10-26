@@ -2,6 +2,7 @@
 #define ICQSSBI_H
 
 #include <qobject.h>
+#include <qimage.h>
 #include "icqclient.h"
 
 class SSBISocket : public QObject, public ServiceSocket

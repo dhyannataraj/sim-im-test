@@ -23,6 +23,7 @@
 #include <qbuffer.h>
 #include <qimage.h>
 #include <qfile.h>
+#include <qtimer.h>
 
 using namespace std;
 using namespace SIM;
@@ -330,5 +331,5 @@ void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, con
 }
 
 #ifndef NO_MOC_INCLUDES
-#include "moc_icqssbi.cpp"
+#include "icqssbi.moc"
 #endif
