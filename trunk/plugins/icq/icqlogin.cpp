@@ -148,15 +148,10 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         if (!tlvImage)
             break;
         log(L_DEBUG, "Image length: %d bytes", tlvImage->Size());
-        uchar* buf = new uchar[tlvImage->Size()];
-        memcpy(buf, *tlvImage, tlvImage->Size());
+        QByteArray buf = tlvImage->byteArray();
         QPixmap pict;
-        if (!pict.loadFromData(buf, tlvImage->Size()))
-        {
-            delete[] buf;
+        if (!pict.loadFromData(buf))
             break;
-        }
-        delete[] buf;
         log(L_DEBUG, "Received verification image");
         VerifyDlg verdlg(qApp->activeWindow(), pict);
         if (verdlg.exec() == QDialog::Accepted) // what to do if the user has cancelled the dialog?
@@ -368,6 +363,8 @@ void ICQClient::chn_close()
             return;
         }
     }
+    flap(ICQ_CHNxCLOSE);
+    sendPacket(true);
 
     Tlv *tlv_host = tlv(5);
     Tlv *tlv_cookie = tlv(6);
@@ -375,20 +372,18 @@ void ICQClient::chn_close()
         m_socket->error_state(I18N_NOOP("Close packet from server"));
         return;
     }
-    char *host = *tlv_host;
-    char *port = strchr(host, ':');
-    if (port == NULL){
+    QCString host = tlv_host->byteArray();
+    int idx = host.find(':');
+    if (idx == -1){
         log(L_ERROR, "Bad host address %s", host);
         m_socket->error_state(I18N_NOOP("Bad host address"));
         return;
     }
-    flap(ICQ_CHNxCLOSE);
-    sendPacket(true);
+    unsigned short port = host.mid(idx + 1).toUShort();
+    host = host.left(idx);
 
-    *port = 0;
-    port++;
     m_socket->close();
-    m_socket->connect(host, (unsigned short)atol(port), this);
+    m_socket->connect(host, port, this);
     m_cookie.init(0);
     m_cookie.pack(*tlv_cookie, tlv_cookie->Size());
 }

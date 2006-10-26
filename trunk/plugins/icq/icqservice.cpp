@@ -386,16 +386,15 @@ void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short 
         return;
     }
     unsigned short port = getPort();
-    string addr;
-    addr = (const char*)(*tlv_addr);
-    char *p = (char*)strchr(addr.c_str(), ':');
-    if (p){
-        *p = 0;
-        port = (unsigned short)atol(p + 1);
+    QCString addr(tlv_addr->byteArray());
+    int idx = addr.find(':');
+    if(idx != -1) {
+        port = addr.mid(idx + 1).toUShort();
+        addr = addr.left(idx);
     }
     if (s->connected())
         s->close();
-    s->connect(addr.c_str(), port, *tlv_cookie, tlv_cookie->Size());
+    s->connect(addr, port, tlv_cookie->byteArray());
 }
 void ICQClient::sendClientReady()
 {

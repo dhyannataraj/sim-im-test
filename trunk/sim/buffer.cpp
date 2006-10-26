@@ -46,12 +46,12 @@ Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
     m_data[(int)m_nSize] = 0;
 }
 
-Tlv::operator uint16_t ()
+Tlv::operator uint16_t () const
 {
     return (m_nSize >= 2) ? htons(*((uint16_t*)m_data.data())) : 0;
 }
 
-Tlv::operator uint32_t ()
+Tlv::operator uint32_t () const
 {
     return (m_nSize >= 4) ? htonl(*((uint32_t*)m_data.data())) : 0;
 }

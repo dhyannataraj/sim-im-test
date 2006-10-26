@@ -34,12 +34,13 @@ class EXPORT Tlv
 {
 public:
     Tlv(unsigned short num = 0, unsigned short size = 0, const char *data = NULL);
-    unsigned short Num() { return m_nNum; }
-    unsigned short Size() { return m_nSize; }
-    const char *Data() { return m_data.data(); }
-    operator char *() { return m_data.data(); }
-    operator uint16_t ();
-    operator uint32_t ();
+    unsigned short Num() const { return m_nNum; }
+    unsigned short Size() const { return m_nSize; }
+    const char *Data() const { return m_data.data(); }
+    operator char *() const { return m_data.data(); }
+    const QByteArray &byteArray() const { return m_data; }
+    operator uint16_t () const;
+    operator uint32_t () const;
 protected:
     unsigned int m_nNum;
     unsigned int m_nSize;
