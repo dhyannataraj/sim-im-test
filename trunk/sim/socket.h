@@ -44,16 +44,24 @@ public:
 
 class EXPORT Socket
 {
+protected:
+    QString m_host;
+    unsigned short m_port;
+    SocketNotify *notify;
 public:
-    Socket();
+    Socket() : m_port(0), notify(NULL) {}
     virtual ~Socket() {}
     virtual int read(char *buf, unsigned int size) = 0;
     virtual void write(const char *buf, unsigned int size) = 0;
-    virtual void connect(const QString &host, unsigned short port) = 0;
+    virtual void connect(const QString &host, unsigned short port)
+    {
+        m_host = host;
+        m_port = port;
+    }
     virtual void close() = 0;
     virtual unsigned long localHost() = 0;
     virtual void pause(unsigned) = 0;
-    void error(const char *err_text, unsigned code=0);
+    void error(const QString &err_text, unsigned code=0);
     void setNotify(SocketNotify *n) { notify = n; }
     enum Mode
     {
@@ -62,7 +70,9 @@ public:
         Web
     };
     virtual Mode mode() const { return Direct; }
-    SocketNotify *notify;
+    const QString &getHost() const { return m_host; }
+    unsigned short getPort() const { return m_port; }
+    const SocketNotify *getNotify() const { return notify; }
 };
 
 class ServerSocket;
@@ -147,7 +157,7 @@ public:
     Buffer readBuffer;
     Buffer writeBuffer;
     virtual void error_state(const QString &err, unsigned code = 0);
-    void connect(const char *host, unsigned short port, TCPClient *client);
+    void connect(const QString &host, unsigned short port, TCPClient *client);
     void write();
     void pause(unsigned);
     unsigned long localHost();
@@ -155,9 +165,9 @@ public:
     virtual void read_ready();
     void close();
     void setRaw(bool mode);
-    Socket *socket() { return m_sock; }
+    Socket *socket() const { return m_sock; }
     void setSocket(Socket *s, bool bClearError = true);
-    void setNotify(ClientSocketNotify*);
+    void setNotify(ClientSocketNotify *n) { m_notify = n; }
     const QString &errorString() const;
 protected:
     virtual void connect_ready();

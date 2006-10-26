@@ -42,12 +42,7 @@ public:
     list<ServerSocket*> removedServerSockets;
 };
 
-Socket::Socket()
-{
-    notify = NULL;
-}
-
-void Socket::error(const char *err_text, unsigned code)
+void Socket::error(const QString &err_text, unsigned code)
 {
     if (notify)
         notify->error_state(err_text, code);
@@ -92,7 +87,7 @@ const QString &ClientSocket::errorString() const
     return errString;
 }
 
-void ClientSocket::connect(const char *host, unsigned short port, TCPClient *client)
+void ClientSocket::connect(const QString &host, unsigned short port, TCPClient *client)
 {
     if (client){
         ConnectParam p;
@@ -108,7 +103,8 @@ void ClientSocket::connect(const char *host, unsigned short port, TCPClient *cli
 
 void ClientSocket::write()
 {
-    if (writeBuffer.size() == 0) return;
+    if (writeBuffer.size() == 0)
+        return;
     m_sock->write(writeBuffer.data(), writeBuffer.size());
     writeBuffer.init(0);
 }
@@ -190,7 +186,7 @@ void ClientSocket::pause(unsigned n)
 void ClientSocket::setSocket(Socket *s, bool bClearError)
 {
     if (m_sock){
-        if (m_sock->notify == this)
+        if (m_sock->getNotify() == this)
             m_sock->setNotify(NULL);
         if (bClearError){
             list<ClientSocket*>::iterator it;
@@ -205,11 +201,6 @@ void ClientSocket::setSocket(Socket *s, bool bClearError)
     m_sock = s;
     if (s)
         s->setNotify(this);
-}
-
-void ClientSocket::setNotify(ClientSocketNotify *notify)
-{
-    m_notify = notify;
 }
 
 void ClientSocket::error_state(const QString &err, unsigned code)

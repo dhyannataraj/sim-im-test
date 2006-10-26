@@ -795,6 +795,7 @@ protected:
     friend class AIMFileTransfer;
     friend class ICQFileTransfer;
     friend class SetBuddyRequest;
+    friend class SSBISocket;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket
@@ -802,12 +803,13 @@ class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket
 public:
     ServiceSocket(ICQClient*, unsigned short id);
     ~ServiceSocket();
-    unsigned short id() { return m_id; }
-    void connect(const char *addr, unsigned short port, const char *cookie, unsigned cookie_size);
+    unsigned short id() const { return m_id; }
+    void connect(const char *addr, unsigned short port, const QByteArray &cookie);
     virtual bool error_state(const QString &err, unsigned code);
-    bool connected() { return m_bConnected; }
+    bool connected() const { return m_bConnected; }
     void close();
 protected:
+    virtual const char *serviceSocketName() = 0;
     virtual void connect_ready();
     virtual void packet_ready();
     virtual SIM::ClientSocket *socket();

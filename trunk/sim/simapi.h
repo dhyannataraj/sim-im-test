@@ -685,7 +685,7 @@ typedef struct ConnectParam
 {
     ClientSocket    *socket;
     TCPClient       *client;
-    const char      *host;
+    QString         host;
     unsigned short  port;
 } ConnectParam;
 

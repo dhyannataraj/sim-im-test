@@ -48,32 +48,36 @@ ClientSocket *ServiceSocket::socket()
     return m_socket;
 }
 
-void ServiceSocket::connect(const char *addr, unsigned short port, const char *cookie, unsigned cookie_size)
+void ServiceSocket::connect(const char *addr, unsigned short port, const QByteArray &cookie)
 {
+    log(L_DEBUG, "%s: connect to %s:%d ", serviceSocketName(), addr, port);
     m_cookie.init(0);
-    m_cookie.pack(cookie, cookie_size);
+    m_cookie.pack(cookie);
     m_socket = new ClientSocket(this);
     m_socket->connect(addr, port, m_client);
 }
 
 void ServiceSocket::close()
 {
+    log(L_DEBUG, "%s: close()", serviceSocketName());
     m_socket->close();
 }
 
 bool ServiceSocket::error_state(const QString &err, unsigned)
 {
-    log(L_DEBUG, "Service error %s", err.local8Bit().data());
+    log(L_DEBUG, "%s: Service error %s", serviceSocketName(), err.local8Bit().data());
     return true;
 }
 
 void ServiceSocket::connect_ready()
 {
+    log(L_DEBUG, "%s: connect_ready()", serviceSocketName());
     OscarSocket::connect_ready();
 }
 
 void ServiceSocket::packet_ready()
 {
+    log(L_DEBUG, "%s: packet_ready()", serviceSocketName());
     OscarSocket::packet_ready();
 }
 
@@ -103,14 +107,14 @@ void ServiceSocket::packet()
         if (type == 0x0001) {
             unsigned short err_code;
             m_socket->readBuffer >> err_code;
-            log(L_DEBUG,"Error! family: %04X reason",fam);
+            log(L_DEBUG,"%s: Error! family: %04X reason", serviceSocketName(), fam);
             // now decrease for icqicmb & icqvarious
             m_socket->readBuffer.decReadPos(sizeof(unsigned short));
         }
         data(fam, type, seq);
         break;
     default:
-        log(L_ERROR, "Unknown channel %u", m_nChannel & 0xFF);
+        log(L_ERROR, "%s: Unknown channel %u", serviceSocketName(), m_nChannel & 0xFF);
     }
     m_socket->readBuffer.init(6);
     m_socket->readBuffer.packetStart();
@@ -139,6 +143,7 @@ public:
     SearchSocket(ICQClient*);
     unsigned short add(const QStringList &str);
 protected:
+    virtual const char *serviceSocketName() { return "SearchSocket"; }
     void data(unsigned short fam, unsigned short type, unsigned short seq);
     void snac_service(unsigned short type);
     void snac_search(unsigned short type, unsigned short seq);
@@ -342,7 +347,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                     tlv = tlvs(0x06);
                     if (tlv){
                         QString country_text;
-                        country_text.setLatin1(*tlv, tlv->Size());
+                        country_text.setLatin1(tlv->Data());
                         country_text = country_text.lower();
                         for (const ext_info *info = getCountryCodes(); info->szName; ++info){
                             if (country_text == info->szName){

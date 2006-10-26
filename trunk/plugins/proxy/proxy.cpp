@@ -1216,7 +1216,7 @@ void *ProxyPlugin::processEvent(Event *e)
         ConnectParam *p = (ConnectParam*)(e->param());
         list<Proxy*>::iterator it;
         for (it = proxies.begin(); it != proxies.end(); ++it){
-            if ((*it)->notify == p->socket)
+            if ((*it)->getNotify() == p->socket)
                 return NULL;
         }
         ProxyData data;

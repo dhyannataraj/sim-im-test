@@ -38,9 +38,12 @@ class SSBISocket : public ServiceSocket
 {
 public:
     SSBISocket(ICQClient *client);
+    ~SSBISocket();
     void requestBuddy(const QString &screen, unsigned short buddyID, const QByteArray &buddyHash);
     void uploadBuddyIcon(unsigned short refNumber, const QImage &img);
 protected:
+    virtual bool error_state(const QString &err, unsigned code);
+    virtual const char *serviceSocketName() { return "SSBISocket"; }
     virtual void data(unsigned short fam, unsigned short type, unsigned short seq);
     void snac_service(unsigned short type, unsigned short seq);
     void snac_ssbi(unsigned short type, unsigned short seq);
@@ -49,6 +52,7 @@ protected:
     QStringList m_buddyRequests;
     QImage m_img;   // image to upload
     unsigned short m_refNumber; // the ref number for the image
+    unsigned m_retryCount;
 };
 
 SSBISocket *ICQClient::getSSBISocket()
@@ -83,8 +87,21 @@ void ICQClient::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
 }
 
 SSBISocket::SSBISocket(ICQClient *client)
-    : ServiceSocket(client, ICQ_SNACxFAM_SSBI), m_refNumber(0)
+    : ServiceSocket(client, ICQ_SNACxFAM_SSBI), m_refNumber(0), m_retryCount(3)
 {}
+
+SSBISocket::~SSBISocket()
+{}
+
+bool SSBISocket::error_state(const QString &err, unsigned code)
+{
+    bool bRet = ServiceSocket::error_state(err, code);
+    if(m_retryCount && (!m_img.isNull() || m_buddyRequests.count())) {
+        m_retryCount--;
+        m_client->requestService(this);
+    }
+    return bRet;
+}
 
 void SSBISocket::data(unsigned short fam, unsigned short type, unsigned short seq)
 {
@@ -179,8 +196,10 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 icon.resize(iconSize);
                 m_socket->readBuffer.unpack(icon.data(), iconSize);
 
-                if(icon.isEmpty())
+                if(icon.isEmpty()) {
+                    process();
                     break;
+                }
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
@@ -218,8 +237,10 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
                 icon.resize(iconSize);
                 m_socket->readBuffer.unpack(icon.data(), iconSize);
 
-                if(icon.isEmpty())
+                if(icon.isEmpty()) {
+                    process();
                     break;
+                }
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
