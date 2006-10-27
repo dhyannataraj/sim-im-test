@@ -64,6 +64,7 @@ protected slots:
     void dbl_click();
     void showPopup();
 protected:
+    virtual bool winEvent(MSG *msg);
     virtual void *processEvent(SIM::Event *e);
     void  reset();
     bool  bNoToggle;
@@ -91,7 +92,6 @@ protected:
     friend class WharfIcon;
 #endif
 #else
-    void				*hShell;
     bool				m_bBalloon;
     std::list<BalloonItem>	m_queue;
     bool				showBalloon();

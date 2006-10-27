@@ -59,8 +59,6 @@ using namespace SIM;
 
 const unsigned TIP_TIMEOUT = 24 * 60 * 60 * 1000;
 
-static WNDPROC oldDockProc;
-static DockWnd *gDock;
 static UINT	   WM_DOCK = 0;
 
 #ifndef NIN_BALLOONSHOW
@@ -79,14 +77,11 @@ static UINT	   WM_DOCK = 0;
 #define NIN_BALLOONUSERCLICK	(WM_USER + 5)
 #endif
 
-LRESULT CALLBACK DockWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+bool DockWnd::winEvent(MSG *msg)
 {
-    if ((msg == WM_DOCK) || (msg == 0)){
-        gDock->callProc(lParam);
-    }
-    if (oldDockProc)
-        return oldDockProc(hWnd, msg, wParam, lParam);
-    return 0;
+    if(msg->message == WM_DOCK || msg->message == 0)
+        callProc(msg->lParam);
+    return false;
 }
 
 void DockWnd::callProc(unsigned long param)
@@ -621,13 +616,10 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
 #ifdef WIN32
     m_bBalloon = false;
-    hShell = NULL;
     setIcon(icon);
     QWidget::hide();
-    gDock = this;
     WM_DOCK = RegisterWindowMessageA("SIM dock");
     if (IsWindowUnicode(winId())){
-        oldDockProc = (WNDPROC)SetWindowLongW(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
         OSVERSIONINFOA osvi;
         osvi.dwOSVersionInfoSize = sizeof(osvi);
         GetVersionExA(&osvi);
@@ -648,7 +640,6 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
         notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
         Shell_NotifyIconW(NIM_ADD, &notifyIconData);
     }else{
-        oldDockProc = (WNDPROC)SetWindowLongA(winId(), GWL_WNDPROC, (LONG)DockWindowProc);
         NOTIFYICONDATAA notifyIconData;
         memset(&notifyIconData, 0, sizeof(notifyIconData));
         notifyIconData.cbSize = sizeof(notifyIconData);
@@ -832,29 +823,15 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
 DockWnd::~DockWnd()
 {
     quit();
-#ifdef WIN32
-    if (hShell)
-        FreeLibrary((HMODULE)hShell);
-#endif
 }
 
 void DockWnd::quit()
 {
-#ifdef WIN32
-    if (IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hWnd = winId();
-        Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
-    }else{
-        NOTIFYICONDATAA notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hWnd = winId();
-        Shell_NotifyIconA(NIM_DELETE, &notifyIconData);
-    }
-#endif
+    NOTIFYICONDATAW notifyIconData;
+    memset(&notifyIconData, 0, sizeof(notifyIconData));
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hWnd = winId();
+    Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
 }
 
 void DockWnd::dbl_click()
@@ -1028,7 +1005,8 @@ void DockWnd::paintEvent( QPaintEvent* )
 {
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (!bInit) return;
+    if (!bInit)
+        return;
 #endif
 #endif
     QPainter p(this);
@@ -1057,23 +1035,13 @@ void DockWnd::setIcon(const char *icon)
 #endif
 #ifdef WIN32
     QWidget::setIcon(drawIcon);
-    if (IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.uFlags = NIF_ICON;
-        Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
-    }else{
-        NOTIFYICONDATAA notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.uFlags = NIF_ICON;
-        Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
-    }
+    NOTIFYICONDATAW notifyIconData;
+    memset(&notifyIconData, 0, sizeof(notifyIconData));
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hWnd = winId();
+    notifyIconData.uFlags = NIF_ICON;
+    Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
     if (wharfIcon)
@@ -1098,28 +1066,17 @@ void DockWnd::setTip(const char *text)
         tip = tip.replace(QRegExp("\\&"), "");
     }
 #ifdef WIN32
-    if (IsWindowUnicode(winId())){
-        NOTIFYICONDATAW notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        unsigned size = tip.length();
-        if (size >= sizeof(notifyIconData.szTip) / sizeof(wchar_t))
-            size = sizeof(notifyIconData.szTip) / sizeof(wchar_t) - 1;
-        memcpy(notifyIconData.szTip, tip.unicode(), size * sizeof(wchar_t));
-        notifyIconData.uFlags = NIF_TIP;
-        Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
-    }else{
-        NOTIFYICONDATAA notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        strncpy(notifyIconData.szTip, tip.local8Bit(), sizeof(notifyIconData.szTip));
-        notifyIconData.uFlags = NIF_TIP;
-        Shell_NotifyIconA(NIM_MODIFY, &notifyIconData);
-    }
+    NOTIFYICONDATAW notifyIconData;
+    memset(&notifyIconData, 0, sizeof(notifyIconData));
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hWnd = winId();
+    unsigned size = tip.length();
+    if (size >= sizeof(notifyIconData.szTip) / sizeof(wchar_t))
+        size = sizeof(notifyIconData.szTip) / sizeof(wchar_t) - 1;
+    memcpy(notifyIconData.szTip, tip.unicode(), size * sizeof(wchar_t));
+    notifyIconData.uFlags = NIF_TIP;
+    Shell_NotifyIconW(NIM_MODIFY, &notifyIconData);
 #else
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
     if (wharfIcon == NULL){
