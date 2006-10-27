@@ -103,7 +103,7 @@ QString XSL::process(const QString &my_xml)
     if (doc == NULL){
         xmlErrorPtr ptr = xmlGetLastError();
         log(L_WARN, "Parse XML error (%s): %s", ptr ? ptr->message : "", my_xsl.local8Bit().data());
-        return QString::null;
+        return QString(ptr ? ptr->message : "Parse XML error!");
     }
     const char *params[1];
     params[0] = NULL;
@@ -112,7 +112,7 @@ QString XSL::process(const QString &my_xml)
         xmlErrorPtr ptr = xmlGetLastError();
         log(L_WARN, "Apply stylesheet error (%s)", ptr ? ptr->message : "");
         xmlFreeDoc(doc);
-        return QString::null;
+        return QString(ptr ? ptr->message : "Apply stylesheet error!");
     }
     xmlFreeDoc(doc);
 
