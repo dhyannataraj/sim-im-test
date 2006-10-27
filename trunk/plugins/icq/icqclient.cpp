@@ -2877,7 +2877,7 @@ bool ICQClient::send(Message *msg, void *_data)
                 if (!dc){
                     if (data->bNoDirect.toBool())
                         return sendThruServer(msg, data);
-                    DirectClient *dc = new DirectClient(data, this, PLUGIN_NULL);
+                    dc = new DirectClient(data, this, PLUGIN_NULL);
                     data->Direct.setObject(dc);
                     dc->connect();
                 }
