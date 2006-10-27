@@ -3,55 +3,135 @@
   <meta>
     <name>SIM smiles</name>
     <version>0.9.5</version>
-    <description>GPL Sim-IM icons</description>
-    <author jid="N@shaplov.ru">Nikolay Shplov</author>
+    <description>GPL icons for Sim-IM</description>
+    <author jid="shaplov@irrc.ru">Nikolay Shplov</author>
     <creation>2004-06-11</creation>
     <home>http://www.sim-im.org</home>
   </meta>
-    <icon name="ICQ" flags="65340">
-	<object mime="image/png">icq_online.png</object>
-	<!-- Licence: GNU/GPL -->
-	<!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/cr16-action-icq_online.png -->
-    </icon>
+ 
+  <icon name="Jabber">
+    <object mime="image/png">jabber.png</object>
+    <!-- Licence: TODO: Find out where this icon came from -->
+  </icon>
+  
+  <icon name="ICQ" flags="65340">
+    <object mime="image/png">icq_online.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/cr16-action-icq_online.png -->
+  </icon>
     
-    <icon name="MSN" flags="512">
-	<object mime="image/png">msn_online.png</object>
-	<!-- Licence: GNU/GPL -->
-	<!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/msn/icons/cr16-action-msn_online.png -->
-    </icon>
+  <icon name="MSN" flags="512">
+    <object mime="image/png">msn_online.png</object>
+     <!-- Licence: GNU/GPL -->
+     <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/msn/icons/cr16-action-msn_online.png -->
+  </icon>
     
-    <icon name="AIM">
+  <icon name="AIM">
+    <object mime="image/png">aim_online.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/cr16-action-aim_online.png -->
+  </icon>
     
-        <object mime="image/png">aim_online.png</object>
-	<!-- Licence: GNU/GPL -->
-	<!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/cr16-action-aim_online.png -->
-     </icon>
-    
-     <icon name="Yahoo!">
-	<object mime="image/png">yahoo_online.png</object>
-	<!-- Licence: GNU/GPL -->
-	<!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
-      </icon>
-      <icon name="Yahoo!_offline">
-  	  <object mime="image/png">yahoo_offline.png</object>
-	  <!-- Licence: GNU/GPL -->
-	  <!-- Author: Nikolay Shaplov N@shaplov.ru -->
-	  <!-- Source: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
-      </icon>
-      <icon name="Yahoo!_away">
-	<object mime="image/png">yahoo_away.png</object>
-	  <!-- Licence: GNU/GPL -->
-	  <!-- Author: Nikolay Shaplov N@shaplov.ru -->
-	  <!-- Sources: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
-	  <!--          http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-action-yahoo_idle.png --> 
-      </icon>
-      
- <!--<icon name="Yahoo!_na">
-	<object mime="image/png">yahoo_na.png</object>
+  <icon name="Yahoo!">
+    <object mime="image/png">yahoo_online.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
+  </icon>
+  <icon name="Yahoo!_offline">
+    <object mime="image/png">yahoo_offline.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Source: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
+  </icon>
+  <icon name="Yahoo!_away">
+    <object mime="image/png">yahoo_away.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
+    <!--          http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-action-yahoo_idle.png --> 
+  </icon>
+  <icon name="Yahoo!_na">
+    <object mime="image/png">yahoo_na.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
+    <!--          http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-action-yahoo_away.png -->
   </icon>
   <icon name="Yahoo!_dnd">
-	<object mime="image/png">yahoo_dnd.png</object>
+    <object mime="image/png">yahoo_dnd.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
+    <!--          http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-action-yahoo_busy.png -->
+  </icon>      
+  <icon name="Yahoo!_invisible">
+    <object mime="image/png">yahoo_invisible.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-app-yahoo_protocol.png --> 
+    <!--          http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-action-yahoo_invisible.png -->
+  </icon>
+  
+  <icon name="GG">
+    <object mime="image/png">gadu_online.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/gadu/icons/cr16-app-gadu_protocol.png -->
+  </icon>
+  <icon name="GG_away">
+    <object mime="image/png">gadu_away.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/gadu/icons/cr16-action-gg_away.png -->
+  </icon>
+  <!-- Let it be with default NA label
+  <icon name="GG_na">
+    <object mime="image/png">gadu_na.png</object>
   </icon> -->
+  <icon name="GG_dnd">
+    <object mime="image/png">gadu_dnd.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/gadu/icons/cr16-app-gadu_protocol.png -->
+    <!--          http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-action-gg_busy.png -->
+  </icon>
+  <icon name="GG_invisible">
+    <object mime="image/png">gadu_invisible.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/gadu/icons/cr16-app-gadu_protocol.png -->
+    <!--          http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/yahoo/icons/cr16-action-yahoo_invisible.png -->
+  </icon>
+  <icon name="GG_offline">
+    <object mime="image/png">gadu_offline.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/gadu/icons/cr16-action-gg_away.png -->
+  </icon>
 
+  <icon name="away">
+    <object mime="image/png">def_status_away.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/hi16-action-icq_away.png -->
+  </icon>
+  
+  <icon name="na">
+    <object mime="image/png">def_status_na.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/hi16-action-icq_na.png -->
+  </icon>
+  <icon name="dnd">
+    <object mime="image/png">def_status_dnd.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/hi16-action-icq_dnd.png -->
+  </icon>
+  <icon name="occupied">
+    <object mime="image/png">def_status_occupied.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/hi16-action-icq_occupied.png -->
+  </icon>
+  
+  <icon name="ffc">
+    <object mime="image/png">def_status_ffc.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/hi16-action-icq_ffc.png -->
+  </icon>
     
 </icondef>
