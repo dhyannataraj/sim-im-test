@@ -31,6 +31,7 @@ public:
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
+    void goUrl();
 protected:
     void *processEvent(SIM::Event*);
     void fill();

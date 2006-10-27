@@ -40,6 +40,8 @@ HomeInfo::HomeInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, 
         disableWidget(cmbZone);
     }
     fill();
+    btnWebLocation->setText(i18n("map"));
+    connect(btnWebLocation, SIGNAL(clicked()), this, SLOT(goUrl()));
 }
 
 void HomeInfo::apply()
@@ -110,6 +112,20 @@ void HomeInfo::fill()
     edtZip->setText(data->Zip.str());
     initCombo(cmbCountry, data->Country.toULong(), getCountries());
     initTZCombo(cmbZone, data->TimeZone.toULong());
+}
+
+void HomeInfo::goUrl()
+{
+    ICQUserData *data = m_data;
+    if (data == NULL)
+        data = &m_client->data.owner;
+    QString url = QString("http://www.mapquest.com/maps/map.adp?city=%1&state=%2&country=%3&zip=%4")
+                    .arg(edtCity->text())
+                    .arg(edtState->text())
+                    .arg(cmbCountry->currentText())
+                    .arg(edtZip->text());
+    Event e(EventGoURL, (void*)&url);
+    e.process();
 }
 
 #ifndef NO_MOC_INCLUDES

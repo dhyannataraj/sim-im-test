@@ -196,6 +196,8 @@ void MoreInfo::goUrl()
     QString url = edtHomePage->text();
     if (url.isEmpty())
         return;
+    if(!url.startsWith("http://"))
+        url = "http://" + url;
     Event e(EventGoURL, (void*)&url);
     e.process();
 }
@@ -208,7 +210,8 @@ void MoreInfo::setLang(int)
     l[2] = cmbLang3->currentItem();
     unsigned j = 0;
     for (unsigned i = 0; i < 3; i++)
-        if (l[i]) sl[j++] = l[i];
+        if (l[i])
+            sl[j++] = l[i];
     for (; j < 3; j++)
         sl[j] = 0;
     cmbLang1->setCurrentItem(sl[0]);

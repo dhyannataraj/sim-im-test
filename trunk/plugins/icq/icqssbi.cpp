@@ -242,6 +242,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 void SSBISocket::process()
 {
     while(m_buddyRequests.count()) {
+        // implement me: we can also request more than one buddy at a time !
         ICQUserData *data;
         Contact *contact;
         QString screen =  m_buddyRequests[0];
@@ -270,7 +271,7 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
     }
 
     if(!m_img.isNull()) {
-        log(L_ERROR, "Already in upload mode");
+        log(L_WARN, "Already in upload mode");
         return;
     }
 
