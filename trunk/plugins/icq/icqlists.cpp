@@ -1288,6 +1288,11 @@ unsigned ICQClient::processListRequest()
                 }
                 buf.close();
                 QByteArray hash = md5(ba.data(), ba.size());
+                if(hash == this->data.owner.buddyHash.toBinary() &&
+                   1 == this->data.owner.buddyID.toULong()) {
+                    log(L_DEBUG, "No need to upload buddy");
+                    break;
+                }
 
                 TlvList *tlvList = new TlvList;
 

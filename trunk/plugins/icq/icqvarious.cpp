@@ -27,6 +27,8 @@
 #endif
 
 #include <qtimer.h>
+#include <qbuffer.h>
+#include <qfile.h>
 #include "xml.h"
 
 using namespace std;
@@ -117,8 +119,8 @@ const unsigned short TLV_WORK_ZIP                   = 0x02BC;
 const unsigned short TLV_WORK_PHONE                 = 0x02C6;
 const unsigned short TLV_WORK_FAX                   = 0x02D0;
 const unsigned short TLV_WORK_HOMEPAGE              = 0x02DA;
-const unsigned short TLV_SHOW_WEB                   = 0x02F8;   // was changed with TLV_NEED_AUTH before merge
-const unsigned short TLV_NEED_AUTH                  = 0x030C;   // take a look at iserverd when it's online again
+const unsigned short TLV_SHOW_WEB                   = 0x02F8;
+const unsigned short TLV_NEED_AUTH                  = 0x030C;
 const unsigned short TLV_TIMEZONE                   = 0x0316;
 const unsigned short TLV_ORIGINALLY_CITY            = 0x0320;
 const unsigned short TLV_ORIGINALLY_STATE           = 0x032A;
@@ -150,6 +152,7 @@ ServerRequest::ServerRequest(unsigned short id)
 
 ServerRequest *ICQClient::findServerRequest(unsigned short id)
 {
+    log(L_DEBUG,"Searching for event id %d (%p)", id, this);
     for (list<ServerRequest*>::iterator it = varRequests.begin(); it != varRequests.end(); ++it){
         if ((*it)->id() == id)
             return *it;
@@ -163,6 +166,7 @@ void ServerRequest::fail(unsigned short)
 
 void ICQClient::clearServerRequests()
 {
+    log(L_DEBUG,"Clearing server requests (%p)", this);
     for (list<ServerRequest*>::iterator it_req = varRequests.begin(); it_req != varRequests.end(); ++it_req){
         (*it_req)->fail();
         delete *it_req;
@@ -271,6 +275,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                             break;
                         }
                         req->fail();
+                        log(L_DEBUG, "removing server request %d (%p)", nId, this);
                         varRequests.remove(req);
                         delete req;
                         break;
@@ -281,6 +286,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                         break;
                     }
                     if (req->answer(msg, nSubtype)){
+                        log(L_DEBUG, "removing server request %d (%p)", nId, this);
                         varRequests.remove(req);
                         delete req;
                     }
@@ -308,6 +314,7 @@ void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 
 void ICQClient::sendServerRequest()
 {
+    log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
     Buffer &b = m_socket->writeBuffer;
     char *packet = b.data(b.packetStartPos());
     unsigned short packet_size = (unsigned short)(b.size() - b.packetStartPos());
@@ -603,6 +610,7 @@ unsigned ICQClient::processInfoRequest()
         sendServerRequest();
         (*it).request_id = m_nMsgSequence;
         (*it).start_time = time(NULL);
+        log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
         varRequests.push_back(new FullInfoRequest(this, m_nMsgSequence, uin));
     }
     return 0;
@@ -830,15 +838,15 @@ unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, 
         break;
     }
 
-    if (szCity && *szCity)
+    if (!szCity.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_CITY, szCity);
-    if (szState && *szState)
+    if (!szState.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_STATE, szState);
-    if (szCoName && *szCoName)
+    if (!szCoName.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, szCoName);
-    if (szCoDept && *szCoDept)
+    if (!szCoDept.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, szCoDept);
-    if (szCoPos && *szCoPos)
+    if (!szCoPos.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, szCoPos);
     if (nMinAge || nMaxAge)
         m_socket->writeBuffer.tlvLE(TLV_AGE_RANGE, (nMaxAge << 16) + nMinAge);
@@ -854,15 +862,15 @@ unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, 
     packTlv(TLV_INTERESTS, nInterests, szInterests);
     packTlv(TLV_AFFILATIONS, nAffilation, szAffilation);
     packTlv(TLV_HOMEPAGE, nHomePage, szHomePage);
-    if (szFirst && *szFirst)
+    if (!szFirst.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, szFirst);
-    if (szLast && *szLast)
+    if (!szLast.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, szLast);
-    if (szNick && *szNick)
+    if (!szNick.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_NICK, szNick);
-    if (szKeyWords && *szKeyWords)
+    if (!szKeyWords.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_KEYWORDS, szKeyWords);
-    if (szEmail && *szEmail)
+    if (!szEmail.isEmpty())
         m_socket->writeBuffer.tlvLE(TLV_EMAIL, szEmail);
     if (bOnlineOnly)
         m_socket->writeBuffer.tlvLE(TLV_SEARCH_ONLINE, (char)1);
@@ -938,242 +946,332 @@ bool SetMainInfoRequest::answer(Buffer&, unsigned short)
     return true;
 }
 
-class SetWorkInfoRequest : public ServerRequest
+// ******************************************
+//  static helper functions
+// ******************************************
+static Tlv makeSString(unsigned id, const QString &str)
+{
+    QCString cstr = getContacts()->fromUnicode(NULL, str);
+    unsigned len = cstr.length() + 1; // including '\0'
+    QByteArray ba( len + 2 );
+    ba[0] = (char)((len     ) & 0xff);
+    ba[1] = (char)((len >> 8) & 0xff);
+    memcpy( ba.data() + 2, cstr, len );
+    return Tlv( id, ba.size(), ba.data() );
+}
+
+static Tlv makeBCombo(unsigned id, unsigned long y, unsigned long m, unsigned long d)
+{
+    unsigned short buf[4];
+    buf[0] = (unsigned short)(y);
+    buf[1] = (unsigned short)(m);
+    buf[2] = (unsigned short)(d);
+    buf[3] = '\0';
+
+    return Tlv( id, 6, (const char*)buf );
+}
+
+static Tlv makeECombo(unsigned id, const QString &str)
+{
+    QCString cstr = getContacts()->fromUnicode(NULL, str);
+    unsigned len = cstr.length() + 1; // including '\0'
+    QByteArray ba( len + 3 );
+    ba[0] = (char)((len     ) & 0xff);
+    ba[1] = (char)((len >> 8) & 0xff);
+    memcpy( ba.data() + 2, cstr, len  );
+    ba[ (int)len + 2 ] = '\0';  // permission (don't use in icq directories)
+    return Tlv( id, ba.size(), ba.data() );
+}
+
+static QValueList<Tlv> makeICombo(unsigned id, const QString &str)
+{
+    QValueList<Tlv> list;
+    if ( str.isEmpty() )
+        return list;
+
+    QCString cstr = getContacts()->fromUnicode(NULL, str);
+    int cur = 0;
+    int idx = 0;
+    do {
+        idx = cstr.find( ',', cur );
+        if( idx == -1 )
+            break;
+
+        int cat = cstr.mid( cur, idx - cur ).toULong();
+        cur = idx + 1;
+
+        idx = cstr.find( ';', cur );
+        if( idx == -1 )
+            idx = cstr.length();
+
+        QCString data = cstr.mid( cur, idx - cur);
+        cur = idx + 1;
+
+        int len = data.length();
+
+        QByteArray ba( len + 4 );
+        ba[0] = (char)((cat     ) & 0xff);
+        ba[1] = (char)((cat >> 8) & 0xff);
+        ba[2] = (char)((len     ) & 0xff);
+        ba[3] = (char)((len >> 8) & 0xff);
+        memcpy( ba.data() + 4, data.data(), len  );
+
+        list.append( Tlv( id, ba.size(), ba.data() ) );
+    } while( idx != (int)cstr.length() );
+    return list;
+}
+
+static Tlv makeUInt32(unsigned id, unsigned long d)
+{
+    char data[4];
+
+    data[0] = (char)((d >>  0) & 0xff);
+    data[1] = (char)((d >>  8) & 0xff);
+    data[2] = (char)((d >> 16) & 0xff);
+    data[3] = (char)((d >> 24) & 0xff);
+    return Tlv( id, 4, data );
+}
+
+static Tlv makeUInt16(unsigned id, unsigned short d)
+{
+    char data[2];
+
+    data[0] = (char)((d >> 0) & 0xff);
+    data[1] = (char)((d >> 8) & 0xff);
+    return Tlv( id, 2, data );
+}
+
+static Tlv makeUInt8(unsigned id, unsigned char d)
+{
+    char data[1];
+
+    data[0] = (char)((d >> 0) & 0xff);
+    return Tlv( id, 1, data );
+}
+
+static QString getSString(const char *tlvData)
+{
+    unsigned len;
+    len = tlvData[0] | ( tlvData[1] << 8 );
+    QString ret = getContacts()->toUnicode(NULL, &tlvData[2], len);
+    return ret;
+}
+
+static void getBCombo(const char *tlvData, unsigned long &y, unsigned long &m, unsigned long &d)
+{
+    unsigned short *buf = (unsigned short*)tlvData;
+    y = buf[0];
+    m = buf[1];
+    d = buf[2];
+}
+
+static QString getECombo(const char *tlvData)
+{
+    unsigned len;
+    len = tlvData[0] | ( tlvData[1] << 8 );
+    QString ret = getContacts()->toUnicode(NULL, QCString( &tlvData[2], len));
+    return ret;
+}
+
+static QString getICombo(const char *tlvData, const QString &o)
+{
+    QString ret;
+    QString others = o;
+    const unsigned char *data = (const unsigned char*)tlvData;
+
+    unsigned cat = data[0] | ( data[1] << 8 );
+    ret = QString::number( cat ) + "," + getSString( &tlvData[2] );
+    if( others.isEmpty() )
+        return ret;
+    return others + ';' + ret;
+}
+
+static unsigned long getUInt32(const char *tlvData)
+{
+    unsigned long ret;
+    ret = tlvData[0] | ( tlvData[1] << 8 ) | ( tlvData[2] << 16 ) |  ( tlvData[3] << 24 );
+    return ret;
+}
+
+static unsigned short getUInt16(const char *tlvData)
+{
+    unsigned short ret;
+    ret = tlvData[0] | ( tlvData[1] << 8 );
+    return ret;
+}
+
+static char getUInt8(const char *tlvData)
+{
+    unsigned char ret;
+    ret = tlvData[0];
+    return ret;
+}
+
+class ChangeInfoRequest : public ServerRequest
 {
 public:
-    SetWorkInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
+    ChangeInfoRequest(ICQClient *client, unsigned short id, const QValueList<Tlv> &clientInfoTLVs);
 protected:
     bool answer(Buffer &b, unsigned short nSubtype);
-    QString m_workCity;
-    QString m_workState;
-    QString m_workAddress;
-    QString m_workZip;
-    unsigned m_workCountry;
-    QString m_workName;
-    QString m_workDepartment;
-    QString m_workPosition;
-    QString m_workPhone;
-    QString m_workFax;
-    unsigned m_occupation;
-    QString m_workHomepage;
     ICQClient *m_client;
+    QValueList<Tlv> m_clientInfoTLVs;
 };
 
-SetWorkInfoRequest::SetWorkInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data)
-        : ServerRequest(id)
+ChangeInfoRequest::ChangeInfoRequest(ICQClient *client, unsigned short id, const QValueList<Tlv> &clientInfoTLVs)
+        : ServerRequest(id), m_client(client), m_clientInfoTLVs(clientInfoTLVs)
 {
-    m_client = client;
-    m_workCity = data->WorkCity.str();
-    m_workState = data->WorkState.str();
-    m_workAddress = data->WorkAddress.str();
-    m_workZip = data->WorkZip.str();
-    m_workCountry = data->WorkCountry.toULong();
-    m_workName = data->WorkName.str();
-    m_workDepartment = data->WorkDepartment.str();
-    m_workPosition = data->WorkPosition.str();
-    m_occupation = data->Occupation.toULong();
-    m_workHomepage = data->WorkHomepage.str();
-    m_workPhone = data->WorkPhone.str();
-    m_workFax = data->WorkFax.str();
 }
 
-bool SetWorkInfoRequest::answer(Buffer&, unsigned short)
+bool ChangeInfoRequest::answer(Buffer&, unsigned short)
 {
-    m_client->data.owner.WorkCity.str() = m_workCity;
-    m_client->data.owner.WorkState.str() = m_workState;
-    m_client->data.owner.WorkAddress.str() = m_workAddress;
-    m_client->data.owner.WorkZip.str() = m_workZip;
-    m_client->data.owner.WorkName.str() = m_workName;
-    m_client->data.owner.WorkDepartment.str() = m_workDepartment;
-    m_client->data.owner.WorkPosition.str() = m_workPosition;
-    m_client->data.owner.WorkHomepage.str() = m_workHomepage;
-    m_client->data.owner.WorkPhone.str() = m_workPhone;
-    m_client->data.owner.WorkFax.str() = m_workFax;
-    m_client->data.owner.WorkCountry.asULong() = m_workCountry;
-    m_client->data.owner.Occupation.asULong() = m_occupation;
-    Event e(EventClientChanged, m_client);
-    e.process();
-    m_client->sendUpdate();
-    return true;
-}
-
-class SetMoreInfoRequest : public ServerRequest
-{
-public:
-    SetMoreInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
-protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
-    unsigned m_age;
-    unsigned m_gender;
-    unsigned m_birthYear;
-    unsigned m_birthMonth;
-    unsigned m_birthDay;
-    unsigned m_language;
-    QString  m_homepage;
-    ICQClient *m_client;
-};
-
-SetMoreInfoRequest::SetMoreInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data)
-        : ServerRequest(id)
-{
-    m_client = client;
-    m_age = data->Age.toULong();
-    m_gender = data->Gender.toULong();
-    m_birthYear = data->BirthYear.toULong();
-    m_birthMonth = data->BirthMonth.toULong();
-    m_birthDay = data->BirthDay.toULong();
-    m_language = data->Language.toULong();
-    m_homepage = data->Homepage.str();
-}
-
-bool SetMoreInfoRequest::answer(Buffer&, unsigned short)
-{
-    m_client->data.owner.Homepage.str() = m_homepage;
-    m_client->data.owner.Age.asULong() = m_age;
-    m_client->data.owner.Gender.asULong() = m_gender;
-    m_client->data.owner.BirthYear.asULong() = m_birthYear;
-    m_client->data.owner.BirthMonth.asULong() = m_birthMonth;
-    m_client->data.owner.BirthDay.asULong() = m_birthDay;
-    m_client->data.owner.Language.asULong() = m_language;
-    Event e(EventClientChanged, m_client);
-    e.process();
-    m_client->sendUpdate();
-    return true;
-}
-
-class SetAboutInfoRequest : public ServerRequest
-{
-public:
-    SetAboutInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
-protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
-    QString   m_about;
-    ICQClient *m_client;
-};
-
-SetAboutInfoRequest::SetAboutInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data)
-        : ServerRequest(id)
-{
-    m_client = client;
-    m_about = data->About.str();
-}
-
-bool SetAboutInfoRequest::answer(Buffer&, unsigned short)
-{
-    m_client->data.owner.About.str() = m_about;
-    Event e(EventClientChanged, m_client);
-    e.process();
-    m_client->sendUpdate();
-    return true;
-}
-
-class SetMailInfoRequest : public ServerRequest
-{
-public:
-    SetMailInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
-protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
-    QString   m_emails;
-    ICQClient *m_client;
-};
-
-SetMailInfoRequest::SetMailInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data)
-        : ServerRequest(id)
-{
-    m_client = client;
-    m_emails = data->EMails.str();
-}
-
-bool SetMailInfoRequest::answer(Buffer&, unsigned short)
-{
-    m_client->data.owner.EMails.str() = m_emails;
-    Event e(EventClientChanged, m_client);
-    e.process();
-    m_client->sendUpdate();
-    return true;
-}
-
-class SetInterestsInfoRequest : public ServerRequest
-{
-public:
-    SetInterestsInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
-protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
-    QString   m_interests;
-    ICQClient *m_client;
-};
-
-SetInterestsInfoRequest::SetInterestsInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data)
-        : ServerRequest(id)
-{
-    m_client = client;
-    m_interests = data->Interests.str();
-}
-
-bool SetInterestsInfoRequest::answer(Buffer&, unsigned short)
-{
-    m_client->data.owner.Interests.str() = m_interests;
-    Event e(EventClientChanged, m_client);
-    e.process();
-    m_client->sendUpdate();
-    return true;
-}
-
-class SetBackgroundsInfoRequest : public ServerRequest
-{
-public:
-    SetBackgroundsInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
-protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
-    QString   m_backgrounds;
-    QString   m_affilations;
-    ICQClient *m_client;
-};
-
-SetBackgroundsInfoRequest::SetBackgroundsInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data)
-        : ServerRequest(id)
-{
-    m_client = client;
-    m_backgrounds = data->Backgrounds.str();
-    m_affilations = data->Affilations.str();
-}
-
-bool SetBackgroundsInfoRequest::answer(Buffer&, unsigned short)
-{
-    m_client->data.owner.Backgrounds.str() = m_backgrounds;
-    m_client->data.owner.Affilations.str() = m_affilations;
-    Event e(EventClientChanged, m_client);
-    e.process();
-    m_client->sendUpdate();
-    return true;
-}
-
-class SetSecurityInfoRequest : public ServerRequest
-{
-public:
-    SetSecurityInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
-protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
-    bool m_bWebAware;
-    bool m_bWaitAuth;
-    ICQClient *m_client;
-};
-
-SetSecurityInfoRequest::SetSecurityInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data)
-        : ServerRequest(id)
-{
-    m_client  = client;
-    m_bWebAware = data->WebAware.toBool();
-    m_bWaitAuth = data->WaitAuth.toBool();
-}
-
-bool SetSecurityInfoRequest::answer(Buffer&, unsigned short)
-{
-    if (m_client->data.owner.WebAware.toBool() != m_bWebAware){
-        m_client->data.owner.WebAware.asBool() = m_bWebAware;
-        m_client->sendStatus();
+    bool bFirstAffilation = true;
+    bool bFirstInterest = true;
+    bool bFirstBackground = true;
+    for( unsigned i = 0; i < m_clientInfoTLVs.count(); i++ ) {
+        Tlv *tlv = &m_clientInfoTLVs[i];
+        switch(tlv->Num()) {
+            case TLV_FIRST_NAME:
+                m_client->data.owner.FirstName.str() = getSString(tlv->Data());
+                break;
+            case TLV_LAST_NAME:
+                m_client->data.owner.LastName.str() = getSString(tlv->Data());
+                break;
+            case TLV_NICK:
+                m_client->data.owner.Nick.str() = getSString(tlv->Data());
+                break;
+            case TLV_EMAIL:
+                m_client->data.owner.EMail.str() = getECombo(tlv->Data());
+                break;
+            case TLV_AGE:
+                m_client->data.owner.Age.asULong() = getUInt16(tlv->Data());
+                break;
+            case TLV_GENDER:
+                m_client->data.owner.Gender.asULong() = getUInt8(tlv->Data());
+                break;
+            case TLV_LANGUAGE:
+                m_client->data.owner.Language.asULong() = getUInt16(tlv->Data());
+                break;
+            case TLV_CITY:
+                m_client->data.owner.City.str() = getSString(tlv->Data());
+                break;
+            case TLV_STATE:
+                m_client->data.owner.State.str() = getSString(tlv->Data());
+                break;
+            case TLV_COUNTRY:
+                m_client->data.owner.Country.asULong() = getUInt16(tlv->Data());
+                break;
+            case TLV_WORK_COMPANY:
+                m_client->data.owner.WorkName.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_DEPARTMENT:
+                m_client->data.owner.WorkDepartment.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_POSITION:
+                m_client->data.owner.WorkPosition.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_OCCUPATION:
+                m_client->data.owner.Occupation.asULong() = getUInt16(tlv->Data());
+                break;
+            case TLV_AFFILATIONS: {
+                if( bFirstAffilation ) {
+                    m_client->data.owner.Affilations.clear();
+                    bFirstAffilation = false;
+                }
+                m_client->data.owner.Affilations.str() = getICombo(tlv->Data(), m_client->data.owner.Affilations.str());
+                break;
+            }
+            case TLV_INTERESTS:
+                if( bFirstInterest ) {
+                    m_client->data.owner.Interests.clear();
+                    bFirstInterest = false;
+                }
+                m_client->data.owner.Interests.str() = getICombo(tlv->Data(), m_client->data.owner.Interests.str());
+                break;
+            case TLV_PAST: {
+                if( bFirstBackground ) {
+                    m_client->data.owner.Backgrounds.clear();
+                    bFirstBackground = false;
+                }
+                m_client->data.owner.Backgrounds.str() = getICombo(tlv->Data(), m_client->data.owner.Backgrounds.str());
+                break;
+            }
+//  530       0x0212      icombo     User homepage category/keywords
+            case TLV_HOMEPAGE:
+                m_client->data.owner.Homepage.str() = getSString(tlv->Data());
+                break;
+            case TLV_BIRTHDAY: {
+                getBCombo(tlv->Data(), m_client->data.owner.BirthYear.asULong(),
+                                       m_client->data.owner.BirthMonth.asULong(),
+                                       m_client->data.owner.BirthDay.asULong());
+                break;
+            }
+            case TLV_NOTES:
+                m_client->data.owner.About.str() = getSString(tlv->Data());
+                break;
+            case TLV_STREET:
+                m_client->data.owner.Address.str() = getSString(tlv->Data());
+                break;
+            case TLV_ZIP: {
+                QString str;
+                str.sprintf("%lu", getUInt32(tlv->Data()));
+                m_client->data.owner.Zip.str() = str;
+                break;
+            }
+            case TLV_PHONE:
+                m_client->data.owner.HomePhone.str() = getSString(tlv->Data());
+                break;
+            case TLV_FAX:
+                m_client->data.owner.HomeFax.str() = getSString(tlv->Data());
+                break;
+            case TLV_CELLULAR:
+                m_client->data.owner.PrivateCellular.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_STREET:
+                m_client->data.owner.WorkAddress.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_CITY:
+                m_client->data.owner.WorkCity.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_STATE:
+                m_client->data.owner.WorkState.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_COUNTRY:
+                m_client->data.owner.WorkCountry.asULong() = getUInt16((tlv->Data()));
+                break;
+            case TLV_WORK_ZIP: {
+                QString str;
+                str.sprintf("%lu", getUInt32(tlv->Data()));
+                m_client->data.owner.WorkZip.str() = str;
+                break;
+            }
+            case TLV_WORK_PHONE:
+                m_client->data.owner.WorkPhone.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_FAX:
+                m_client->data.owner.WorkFax.str() = getSString(tlv->Data());
+                break;
+            case TLV_WORK_HOMEPAGE:
+                m_client->data.owner.WorkHomepage.str() = getSString(tlv->Data());
+                break;
+            case TLV_SHOW_WEB:
+                m_client->data.owner.WebAware.asBool() = !getUInt8(tlv->Data());
+                break;
+            case TLV_NEED_AUTH:
+                m_client->data.owner.WaitAuth.asBool() = getUInt8(tlv->Data());
+                break;
+            case TLV_TIMEZONE:
+                m_client->data.owner.TimeZone.asBool() = getUInt8(tlv->Data());
+                break;
+  /*
+  800         0x0320      sstring   User originally from city
+  810         0x032A      sstring   User originally from state
+  820         0x0334      uint16    User originally from country (code)
+    */
+            default:
+                break;
+        }
     }
-    m_client->data.owner.WaitAuth.asBool() = m_bWaitAuth;
+    m_client->sendStatus();
     Event e(EventClientChanged, m_client);
     e.process();
     return true;
@@ -1182,51 +1280,24 @@ bool SetSecurityInfoRequest::answer(Buffer&, unsigned short)
 void ICQClient::setMainInfo(ICQUserData *d)
 {
     serverRequest(ICQ_SRVxREQ_MORE);
-    m_socket->writeBuffer << ICQ_SRVxWP_SET;
-    m_socket->writeBuffer.pack(TLV_TIMEZONE);
-    m_socket->writeBuffer.pack((unsigned short)1);
-    m_socket->writeBuffer << (char)(d->TimeZone.toULong());
-    m_socket->writeBuffer.tlvLE(TLV_NICK, d->Nick.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, d->FirstName.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, d->LastName.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_EMAIL, d->EMail.str().utf8());
-    m_socket->writeBuffer << d->HiddenEMail.toBool();
-    m_socket->writeBuffer.tlvLE(TLV_CITY, d->City.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_STATE, d->State.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_PHONE, d->HomePhone.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_FAX, d->HomeFax.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_STREET, d->Address.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_CELLULAR, d->PrivateCellular.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_ZIP, d->Zip.str().utf8());
-    m_socket->writeBuffer.tlvLE(TLV_COUNTRY, (unsigned short)(d->Country.toULong()));
+    m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_MAIN
+    << d->Nick.str()
+    << d->FirstName.str()
+    << d->LastName.str()
+    << d->EMail.str()
+    << d->City.str()
+    << d->State.str()
+    << d->HomePhone.str()
+    << d->HomeFax.str()
+    << d->Address.str()
+    << d->PrivateCellular.str()
+    << d->Zip.str();
+    m_socket->writeBuffer.pack((unsigned short)(d->Country.toULong()));
+    m_socket->writeBuffer.pack((char)(d->TimeZone.toULong()));
+    m_socket->writeBuffer.pack((char)(d->HiddenEMail.toBool()));
     sendServerRequest();
 
     varRequests.push_back(new SetMainInfoRequest(this, m_nMsgSequence, d));
-}
-
-void ICQClient::packInfoList(const QString &str)
-{
-    list<unsigned short> category;
-    QStringList spec;
-
-    QString s = str;
-    while (s.length()){
-        QString item = getToken(s, ';');
-        QString cat = getToken(item, ',');
-        category.push_back(cat.toUShort());
-        spec.push_back(item);
-    }
-
-    char n = (char)(category.size());
-    m_socket->writeBuffer << n;
-
-    list<unsigned short>::iterator itc = category.begin();
-    QStringList::iterator its = spec.begin();
-
-    for (; itc != category.end(); ++itc, ++its){
-        m_socket->writeBuffer.pack(*itc);
-        m_socket->writeBuffer << *its;
-    }
 }
 
 void ICQClient::setClientInfo(void *_data)
@@ -1244,197 +1315,137 @@ void ICQClient::setClientInfo(void *_data)
         return;
     }
 
-    d->HomePhone.clear();
-    d->HomeFax.clear();
-    d->WorkPhone.clear();
-    d->WorkFax.clear();
-    d->PrivateCellular.clear();
-    d->EMail.clear();
-    d->EMails.clear();
+    QValueList<Tlv> clientInfoTLVs;
 
-    QString phones = getContacts()->owner()->getPhones();
-    while (phones.length()){
-        QString phoneItem = getToken(phones, ';', false);
-        QString phoneValue = getToken(phoneItem, '/', false);
-        if (phoneItem.length())
-            continue;
-        QString number = getToken(phoneValue, ',');
-        QString type = getToken(phoneValue, ',');
-        if (type == "Home Phone"){
-            d->HomePhone.str() = number;
-        }else if (type == "Home Fax"){
-            d->HomeFax.str() = number;
-        }else if (type == "Work Phone"){
-            d->WorkPhone.str() = number;
-        }else if (type == "Work Fax"){
-            d->WorkFax.str() = number;
-        }else if (type == "Private Cellular"){
-            number += " SMS";
-            d->PrivateCellular.str() = number;
-        }
-    }
-    d->HiddenEMail.asBool() = false;
-    QString mails = getContacts()->owner()->getEMails();
-    QString s;
-    while (mails.length()){
-        QString mailItem = getToken(mails, ';', false);
-        QString mail = getToken(mailItem, '/');
-        if (!s.isEmpty())
-            s += ';';
-        s += mail;
-        s += '/';
-        if (mailItem.length())
-            s += '-';
-        if (d->EMail.str().isEmpty()){
-            d->EMail.str() = mail;
-            d->HiddenEMail.asBool() = !mailItem.isEmpty();
-        }
-    }
-    d->EMails.str() = s;
+    if (d->FirstName.str() != data.owner.FirstName.str())
+        clientInfoTLVs.append(makeSString(TLV_FIRST_NAME, d->FirstName.str()));
 
-    if ((d->Country.toULong() != data.owner.Country.toULong()) ||
-            (d->HiddenEMail.toBool() != data.owner.HiddenEMail.toBool()) ||
-            d->Nick.str() != data.owner.Nick.str() ||
-            d->FirstName.str() != data.owner.FirstName.str() ||
-            d->LastName.str() != data.owner.LastName.str() ||
-            d->EMail.str() != data.owner.EMail.str() ||
-            d->HomePhone.str() != data.owner.HomePhone.str() ||
-            d->HomeFax.str() != data.owner.HomeFax.str() ||
-            d->PrivateCellular.str() != data.owner.PrivateCellular.str() ||
-            d->City.str() != data.owner.City.str() ||
-            d->State.str() != data.owner.State.str() ||
-            d->Address.str() != data.owner.Address.str() ||
-            d->Zip.str() != data.owner.Zip.str()){
-        setMainInfo(d);
-        m_nUpdates++;
-    }
+    if (d->LastName.str() != data.owner.LastName.str())
+        clientInfoTLVs.append(makeSString(TLV_LAST_NAME, d->LastName.str()));
 
-    if ((d->WorkCountry.toULong() != data.owner.WorkCountry.toULong()) ||
-            (d->Occupation.toULong() != data.owner.Occupation.toULong()) ||
-            d->WorkCity.str() != data.owner.WorkCity.str() ||
-            d->WorkState.str() != data.owner.WorkState.str() ||
-            d->WorkAddress.str() != data.owner.WorkAddress.str() ||
-            d->WorkZip.str() != data.owner.WorkZip.str() ||
-            d->WorkName.str() != data.owner.WorkName.str() ||
-            d->WorkDepartment.str() != data.owner.WorkDepartment.str() ||
-            d->WorkPosition.str() != data.owner.WorkPosition.str() ||
-            d->WorkPhone.str() != data.owner.WorkPhone.str() ||
-            d->WorkFax.str() != data.owner.WorkFax.str() ||
-            d->WorkHomepage.str() != data.owner.WorkHomepage.str()){
+    if (d->Nick.str() != data.owner.Nick.str())
+        clientInfoTLVs.append(makeSString(TLV_NICK, d->Nick.str()));
 
-        serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxWP_SET;
-        m_socket->writeBuffer.tlvLE(TLV_WORK_CITY, d->WorkCity.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_STATE, d->WorkState.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_PHONE, d->WorkPhone.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_FAX, d->WorkFax.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_STREET, d->WorkAddress.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_ZIP, d->WorkZip.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_COUNTRY, (unsigned short)d->WorkCountry.toULong());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, d->WorkName.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, d->WorkDepartment.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, d->WorkPosition.str().utf8());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_OCCUPATION, (unsigned short)d->Occupation.toULong());
-        m_socket->writeBuffer.tlvLE(TLV_WORK_HOMEPAGE, d->WorkHomepage.str().utf8());
-        sendServerRequest();
-        varRequests.push_back(new SetWorkInfoRequest(this, m_nMsgSequence, d));
-        m_nUpdates++;
-    }
-    if ((d->Age.toULong() != data.owner.Age.toULong()) ||
-            (d->Gender.toULong() != data.owner.Gender.toULong()) ||
-            (d->BirthYear.toULong() != data.owner.BirthYear.toULong()) ||
-            (d->BirthMonth.toULong() != data.owner.BirthMonth.toULong()) ||
-            (d->BirthDay.toULong() != data.owner.BirthDay.toULong()) ||
-            (d->Language.toULong() != data.owner.Language.toULong()) ||
-            d->Homepage.str() != data.owner.Homepage.str()){
+    if (d->EMail.str() != data.owner.EMail.str())
+        clientInfoTLVs.append(makeECombo(TLV_EMAIL, d->EMail.str()));
 
-        serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxWP_SET;
-        m_socket->writeBuffer.tlvLE(TLV_AGE, (unsigned short)(d->Age.toULong()));
-        m_socket->writeBuffer.pack(TLV_GENDER);
-        m_socket->writeBuffer.pack((unsigned short)1);
-        m_socket->writeBuffer << (char)(d->Gender.toULong());
-        m_socket->writeBuffer.tlvLE(TLV_HOMEPAGE, d->Homepage.str().utf8());
-        m_socket->writeBuffer.pack(TLV_BIRTHDAY);
-        m_socket->writeBuffer.pack((unsigned short)6);
-        m_socket->writeBuffer.pack((unsigned short)d->BirthYear.toULong());
-        m_socket->writeBuffer.pack((unsigned short)d->BirthMonth.toULong());
-        m_socket->writeBuffer.pack((unsigned short)d->BirthDay.toULong());
-        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)(d->Language.toULong() & 0xFF));
-        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.toULong() >> 8) & 0xFF));
-        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, (unsigned short)((d->Language.toULong() >> 16) & 0xFF));
-        sendServerRequest();
-        varRequests.push_back(new SetMoreInfoRequest(this, m_nMsgSequence, d));
-        m_nUpdates++;
+    if (d->Age.toULong() != data.owner.Age.toULong())
+        clientInfoTLVs.append(makeUInt16(TLV_AGE, d->Age.toULong()));
+
+    if (d->Gender.toULong() != data.owner.Gender.toULong())
+        clientInfoTLVs.append(makeUInt8(TLV_GENDER, d->Gender.toULong()));
+
+    if (d->Language.toULong() != data.owner.Language.toULong())
+        clientInfoTLVs.append(makeUInt16(TLV_LANGUAGE, d->Language.toULong()));
+
+    if (d->City.str() != data.owner.City.str())
+        clientInfoTLVs.append(makeSString(TLV_CITY, d->City.str()));
+
+    if (d->State.str() != data.owner.State.str())
+        clientInfoTLVs.append(makeSString(TLV_STATE, d->State.str()));
+
+    if (d->Country.toULong() != data.owner.Country.toULong())
+        clientInfoTLVs.append(makeUInt16(TLV_COUNTRY, d->Country.toULong()));
+
+    if (d->WorkName.str() != data.owner.WorkName.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_COMPANY, d->WorkName.str()));
+
+    if (d->WorkDepartment.str() != data.owner.WorkDepartment.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_DEPARTMENT, d->WorkDepartment.str()));
+
+    if (d->WorkPosition.str() != data.owner.WorkPosition.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_POSITION, d->WorkPosition.str()));
+
+    if (d->Occupation.toULong() != data.owner.Occupation.toULong())
+        clientInfoTLVs.append(makeUInt16(TLV_WORK_OCCUPATION, d->Occupation.toULong()));
+
+    if (d->Affilations.str() != data.owner.Affilations.str())
+        clientInfoTLVs += makeICombo(TLV_AFFILATIONS, d->Affilations.str());
+
+    if (d->Interests.str() != data.owner.Interests.str())
+        clientInfoTLVs += makeICombo(TLV_INTERESTS, d->Interests.str());
+
+    if (d->Backgrounds.str() != data.owner.Backgrounds.str())
+        clientInfoTLVs += makeICombo(TLV_PAST, d->Backgrounds.str());
+
+//  530       0x0212      icombo     User homepage category/keywords
+
+    if (d->Homepage.str() != data.owner.Homepage.str())
+        clientInfoTLVs.append(makeSString(TLV_HOMEPAGE, d->Homepage.str()));
+
+    if (d->BirthDay.toULong() != data.owner.BirthDay.toULong() ||
+        d->BirthMonth.toULong() != data.owner.BirthMonth.toULong() ||
+        d->BirthYear.toULong() != data.owner.BirthYear.toULong()) {
+        clientInfoTLVs.append(makeBCombo(TLV_BIRTHDAY, d->BirthYear.toULong(), d->BirthMonth.toULong(), d->BirthDay.toULong()));
     }
 
-    if (d->About.str() != data.owner.About.str()){
-        serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxWP_SET;
-        m_socket->writeBuffer.tlvLE(TLV_NOTES, d->About.str().utf8());
-        sendServerRequest();
-        varRequests.push_back(new SetAboutInfoRequest(this, m_nMsgSequence, d));
-        m_nUpdates++;
-    }
+    if (d->About.str() != data.owner.About.str())
+        clientInfoTLVs.append(makeSString(TLV_NOTES, d->About.str()));
 
-    if (d->EMails.str() != data.owner.EMails.str()){
-        serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer   << ICQ_SRVxREQ_MODIFY_MAIL;
-        QString emails;
-        QStringList mails;
-        list<bool> hiddens;
-        emails = d->EMails.str();
-        while (emails.length()){
-            QString mailItem = getToken(emails, ';', false);
-            QString mail = getToken(mailItem, '/');
-            mails.push_back(mail);
-            hiddens.push_back(mailItem.length() != 0);
-        }
-        m_socket->writeBuffer << (char)(mails.size());
-        QStringList::iterator its = mails.begin();
-        list<bool>::iterator ith = hiddens.begin();
-        for (; its != mails.end(); ++its, ++ith){
-            char hide = (char)((*ith) ? 1 : 0);
-            m_socket->writeBuffer << hide << (*its);
-        }
-        sendServerRequest();
-        varRequests.push_back(new SetMailInfoRequest(this, m_nMsgSequence, d));
-        m_nUpdates++;
-    }
+    if (d->Address.str() != data.owner.Address.str())
+        clientInfoTLVs.append(makeSString(TLV_STREET, d->Address.str()));
 
-    if (d->Interests.str() != data.owner.Interests.str()){
-        varRequests.push_back(new SetInterestsInfoRequest(this, m_nMsgSequence, d));
-        serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_INTERESTS;
-        packInfoList(d->Interests.str());
-        sendServerRequest();
-        varRequests.push_back(new SetInterestsInfoRequest(this, m_nMsgSequence, d));
-        m_nUpdates++;
-    }
+    if (d->Zip.str() != data.owner.Zip.str())
+        clientInfoTLVs.append(makeUInt32(TLV_ZIP, QString(d->Zip.str()).toULong()));
 
-    if (d->Backgrounds.str() != data.owner.Backgrounds.str() ||
-        d->Affilations.str() != data.owner.Affilations.str()){
-        serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer << ICQ_SRVxREQ_MODIFY_BACKGROUND;
-        packInfoList(d->Backgrounds.str());
-        packInfoList(d->Affilations.str());
-        sendServerRequest();
-        varRequests.push_back(new SetBackgroundsInfoRequest(this, m_nMsgSequence, d));
-        m_nUpdates++;
-    }
+    if (d->HomePhone.str() != data.owner.HomePhone.str())
+        clientInfoTLVs.append(makeSString(TLV_PHONE, d->HomePhone.str()));
 
-    if ((d->WaitAuth.toBool() != data.owner.WaitAuth.toBool()) ||
-            (d->WebAware.toBool() != data.owner.WebAware.toBool())){
-        serverRequest(ICQ_SRVxREQ_MORE);
-        m_socket->writeBuffer  << ICQ_SRVxREQ_PERMISSIONS
-        << (char)(d->WaitAuth.toBool() ? 0 : 0x01)
-        << (char)(d->WebAware.toBool() ? 0x01 : 0)
-        << (char)0x02
-        << (char)0;
-        sendServerRequest();
-        varRequests.push_back(new SetSecurityInfoRequest(this, m_nMsgSequence, d));
-    }
+    if (d->HomeFax.str() != data.owner.HomeFax.str())
+        clientInfoTLVs.append(makeSString(TLV_FAX, d->HomeFax.str()));
+
+    if (d->PrivateCellular.str() != data.owner.PrivateCellular.str())
+        clientInfoTLVs.append(makeSString(TLV_CELLULAR, d->PrivateCellular.str()));
+
+    if (d->WorkAddress.str() != data.owner.WorkAddress.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_STREET, d->WorkAddress.str()));
+
+    if (d->WorkCity.str() != data.owner.WorkCity.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_CITY, d->WorkCity.str()));
+
+    if (d->WorkState.str() != data.owner.WorkState.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_STATE, d->WorkState.str()));
+
+     if (d->WorkCountry.toULong() != data.owner.WorkCountry.toULong())
+        clientInfoTLVs.append(makeUInt16(TLV_WORK_COUNTRY, d->WorkCountry.toULong()));
+
+    if (d->WorkZip.str() != data.owner.WorkZip.str())
+        clientInfoTLVs.append(makeUInt32(TLV_WORK_ZIP, QString(d->WorkZip.str()).toULong()));
+
+    if (d->WorkPhone.str() != data.owner.WorkPhone.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_PHONE, d->WorkPhone.str()));
+
+    if (d->WorkFax.str() != data.owner.WorkFax.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_FAX, d->WorkFax.str()));
+
+    if (d->WorkHomepage.str() != data.owner.WorkHomepage.str())
+        clientInfoTLVs.append(makeSString(TLV_WORK_HOMEPAGE, d->WorkHomepage.str()));
+
+    if (d->WebAware.toBool() != data.owner.WebAware.toBool())
+        clientInfoTLVs.append(makeUInt8(TLV_SHOW_WEB, !d->WebAware.toBool()));
+
+    if (d->WaitAuth.toBool() != data.owner.WaitAuth.toBool())
+        clientInfoTLVs.append(makeUInt8(TLV_NEED_AUTH, d->WaitAuth.toBool()));
+
+    if (d->TimeZone.toULong() != data.owner.TimeZone.toULong())
+        clientInfoTLVs.append(makeUInt8(TLV_TIMEZONE, d->TimeZone.toULong()));
+  /*
+  800         0x0320      sstring   User originally from city
+  810         0x032A      sstring   User originally from state
+  820         0x0334      uint16    User originally from country (code)
+  */
     uploadBuddy(&data.owner);
+    if (!clientInfoTLVs.isEmpty()) {
+        serverRequest(ICQ_SRVxREQ_MORE);
+        m_socket->writeBuffer << ICQ_SRVxWP_SET;
+        for( unsigned i =0; i < clientInfoTLVs.count(); i++ ) {
+            Tlv *tlv = &clientInfoTLVs[i];
+            m_socket->writeBuffer.tlvLE( tlv->Num(), *tlv, tlv->Size() );
+        }
+        sendServerRequest();
+        varRequests.push_back(new ChangeInfoRequest(this, m_nMsgSequence, clientInfoTLVs));
+    }
+
     setChatGroup();
     sendStatus();
 }
@@ -1517,11 +1528,11 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
     if (code == 0x0100){
         if (m_client->smsQueue.empty())
             return true;
-        string errStr = b.data(b.readPos());
+        QCString errStr = b.data(b.readPos());
         SendMsg &s = m_client->smsQueue.front();
         SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
         m_client->smsQueue.erase(m_client->smsQueue.begin());
-        sms->setError(errStr.c_str());
+        sms->setError(errStr.data());
         Event e(EventMessageSent, sms);
         e.process();
         delete sms;
