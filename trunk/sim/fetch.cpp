@@ -22,9 +22,6 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 #endif
-#ifdef HAVE_UNAME
-#include <sys/utsname.h>
-#endif
 #include <time.h>
 #include <qthread.h>
 #include <qtimer.h>
@@ -408,50 +405,7 @@ FetchManager::FetchManager()
 {
     m_done = new list<FetchClientPrivate*>;
     user_agent = "Mozilla/4.0 (" PACKAGE "/" VERSION " ";
-#ifdef WIN32
-    user_agent += "Windows ";
-    OSVERSIONINFOA osvi;
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionExA(&osvi);
-    switch (osvi.dwPlatformId){
-    case VER_PLATFORM_WIN32_NT:
-        if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 2)){
-            user_agent += "2003";
-        }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 1)){
-            user_agent += "XP";
-        }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 0 )){
-            user_agent += "2000";
-        }else{
-            user_agent += "NT ";
-            user_agent += QString::number(osvi.dwMajorVersion);
-            user_agent += ".";
-            user_agent += QString::number(osvi.dwMinorVersion);
-        }
-        break;
-    case VER_PLATFORM_WIN32_WINDOWS:
-        if (osvi.dwMajorVersion == 4){
-            if (osvi.dwMinorVersion == 0){
-                user_agent += "95";
-                if ((osvi.szCSDVersion[1] == 'C') || (osvi.szCSDVersion[1] == 'B'))
-                    user_agent += " OSR2";
-            }else if (osvi.dwMinorVersion == 10){
-                user_agent += "98";
-                if ( osvi.szCSDVersion[1] == 'A' )
-                    user_agent += " SE";
-            }else if (osvi.dwMinorVersion == 90){
-                user_agent += "Millennium";
-            }
-        }
-        break;
-    case VER_PLATFORM_WIN32s:
-        user_agent += "32s";
-        break;
-    }
-#else
-    struct utsname unamebuf;
-    if (uname(&unamebuf) == 0)
-        user_agent = user_agent + unamebuf.sysname + " " + unamebuf.machine;
-#endif
+    user_agent += get_os_version();
     user_agent += ")";
 #ifdef WIN32
     hInet = InternetOpen((LPCWSTR)user_agent.ucs2(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);

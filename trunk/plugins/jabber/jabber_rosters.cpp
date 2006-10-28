@@ -1111,13 +1111,7 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                 req->add_attribute("xmlns", "jabber:iq:version");
                 req->text_tag("name", PACKAGE);
                 req->text_tag("version", VERSION);
-                QString version;
-                // FIXME: more systems and more system version information 
-#ifdef WIN32
-                version = "Win32";
-#else
-                version = "Linux";
-#endif
+                QString version=get_os_version();
                 req->text_tag("os", version);
                 req->send();
                 m_client->m_requests.push_back(req);
