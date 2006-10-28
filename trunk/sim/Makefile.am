@@ -17,6 +17,7 @@ libsim_la_SOURCES = \
  country.cpp \
  datepicker.cpp \
  editfile.cpp \
+ event.cpp \
  exec.cpp \
  fetch.cpp \
  fontedit.cpp \

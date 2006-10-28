@@ -17,6 +17,7 @@ SET(sim_LIB_SRCS
         country.cpp
         datepicker.cpp
         editfile.cpp
+        event.cpp
         exec.cpp
         fetch.cpp
         fontedit.cpp
@@ -53,6 +54,7 @@ SET(sim_LIB_HDRS
         builtinlogger.h
         datepicker.h
         editfile.h
+        event.h
         exec.h
         fetch.h
         fontedit.h

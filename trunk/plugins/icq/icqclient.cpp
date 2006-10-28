@@ -758,7 +758,7 @@ void ICQClient::packet_ready()
 void ICQClient::packet()
 {
     ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->OscarPacket);
+    EventLog::log_packet(m_socket->readBuffer, false, plugin->OscarPacket);
     switch (m_nChannel){
     case ICQ_CHNxNEW:
         chn_login();
@@ -857,7 +857,7 @@ void OscarSocket::sendPacket(bool bSend)
         ++m_nFlapSequence;
         packet[2] = (m_nFlapSequence >> 8);
         packet[3] = m_nFlapSequence;
-        log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+        EventLog::log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
         socket()->write();
     }
 }

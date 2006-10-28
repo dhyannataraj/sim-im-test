@@ -163,7 +163,5 @@ protected:
     unsigned m_startSection;
 };
 
-EXPORT void log_packet(Buffer &buf, bool bOut, unsigned packet_id, const char *add_info=NULL);
-
 #endif
 

@@ -217,13 +217,13 @@ void *MonitorWindow::processEvent(Event *e)
     if (!e) {
         return 0;
     }
-    if ((e->type() == EventLog) && !bPause){
-        LogInfo *li = (LogInfo*)e->param();
-        if (((li->packet_id == 0) && (li->log_level & m_plugin->getLogLevel())) ||
-                (li->packet_id && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(li->packet_id)))){
+    if ((e->type() == eEventLog) && !bPause){
+        EventLog *l = static_cast<EventLog*>(e);
+        if (((l->getPacketID() == 0) && (l->getLogLevel() & m_plugin->getLogLevel())) ||
+                (l->getPacketID() && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(l->getPacketID())))){
             const char *font = NULL;
             for (const LevelColorDef *d = levelColors; d->color; d++){
-                if (li->log_level == d->level){
+                if (l->getLogLevel() == d->level){
                     font = d->color;
                     break;
                 }
@@ -231,7 +231,7 @@ void *MonitorWindow::processEvent(Event *e)
             QString logString = "<p><pre>";
             if (font)
                 logString += QString("<font color=\"#%1\">") .arg(font);
-            QString s = make_packet_string(li);
+            QString s = EventLog::make_packet_string(*l);
             logString += quoteString(s);
             if (font)
                 logString += QString("</font>");

@@ -194,12 +194,12 @@ QWidget *LoggerPlugin::createConfigWindow(QWidget *parent)
 
 void *LoggerPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventLog){
-        LogInfo *li = (LogInfo*)e->param();
-        if (((li->packet_id == 0) && (li->log_level & getLogLevel())) ||
-                (li->packet_id && ((getLogLevel() & L_PACKETS) || isLogType(li->packet_id)))){
+    if (e->type() == eEventLog){
+        EventLog *l = static_cast<EventLog*>(e);
+        if (((l->getPacketID() == 0) && (l->getLogLevel() & getLogLevel())) ||
+                (l->getPacketID() && ((getLogLevel() & L_PACKETS) || isLogType(l->getPacketID())))){
             QString s;
-            s = make_packet_string(li);
+            s = EventLog::make_packet_string(*l);
             if (m_file){
 #ifdef Q_OS_WIN
                 s += "\r\n";

@@ -271,65 +271,6 @@ NoTranslate:
 namespace SIM
 {
 
-using namespace std;
-
-static list<EventReceiver*> *receivers = NULL;
-
-EventReceiver::EventReceiver(unsigned priority)
-{
-    m_priority = priority;
-    list<EventReceiver*>::iterator it;
-    for (it = receivers->begin(); it != receivers->end(); ++it)
-        if ((*it)->priority() >= priority)
-            break;
-    receivers->insert(it, this);
-}
-
-EventReceiver::~EventReceiver()
-{
-    list<EventReceiver*>::iterator it;
-    for (it = receivers->begin(); it != receivers->end(); ++it){
-        if ((*it) == this){
-            receivers->erase(it);
-            break;
-        }
-    }
-}
-
-void *Event::process(EventReceiver *from)
-{
-    if (receivers == NULL)
-        return NULL;
-    list<EventReceiver*>::iterator it = receivers->begin();
-    if (from){
-        for (; it != receivers->end(); ++it){
-            if ((*it) == from){
-                ++it;
-                break;
-            }
-        }
-    }
-    for (; it != receivers->end(); ++it){
-        EventReceiver *receiver = *it;
-        if (receiver) {
-            void *res = receiver->processEvent(this);
-            if (res)
-                return res;
-        }
-    }
-    return NULL;
-}
-
-void EventReceiver::initList()
-{
-    receivers = new list<EventReceiver*>;
-}
-
-void EventReceiver::destroyList()
-{
-    delete receivers;
-}
-
 #ifdef WIN32
 
 static WNDPROC oldWndProc = 0;

@@ -311,15 +311,16 @@ void Proxy::read(unsigned size, unsigned minsize)
     bIn.packetStart();
     int readn = m_sock->read(bIn.data(0), size);
     if ((readn != (int)size) || (minsize && (readn < (int)minsize))){
-        if (notify) notify->error_state("Error proxy read");
+        if (notify)
+            notify->error_state("Error proxy read");
         return;
     }
-    log_packet(bIn, false, m_plugin->ProxyPacket);
+    EventLog::log_packet(bIn, false, m_plugin->ProxyPacket);
 }
 
 void Proxy::write()
 {
-    log_packet(bOut, true, m_plugin->ProxyPacket);
+    EventLog::log_packet(bOut, true, m_plugin->ProxyPacket);
     m_sock->write(bOut.data(0), bOut.size());
     bOut.init(0);
     bOut.packetStart();
@@ -370,7 +371,7 @@ void Listener::close()
 
 void Listener::write()
 {
-    log_packet(bOut, true, m_plugin->ProxyPacket);
+    EventLog::log_packet(bOut, true, m_plugin->ProxyPacket);
     m_sock->write(bOut.data(0), bOut.size());
     bOut.init(0);
     bOut.packetStart();
@@ -386,7 +387,7 @@ void Listener::read(unsigned size, unsigned minsize)
             delete notify;
         return;
     }
-    log_packet(bIn, false, m_plugin->ProxyPacket);
+    EventLog::log_packet(bIn, false, m_plugin->ProxyPacket);
 }
 
 void Listener::write_ready()
@@ -953,7 +954,7 @@ bool HTTPS_Proxy::readLine(string &s)
         if (c == '\n') break;
         bIn << c;
     }
-    log_packet(bIn, false, m_plugin->ProxyPacket);
+    EventLog::log_packet(bIn, false, m_plugin->ProxyPacket);
     if(bIn.size())
         s.assign(bIn.data(0), bIn.size());
     bIn.init(0);

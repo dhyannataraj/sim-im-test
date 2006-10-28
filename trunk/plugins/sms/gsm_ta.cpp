@@ -75,10 +75,8 @@ void GsmTA::read_ready()
     if (!line.isEmpty() && (line[(int)line.length() - 1] == '\r'))
         line = line.left(line.length() - 1);
     if (!line.isEmpty()){
-        Buffer b;
-        b.packetStart();
-        b.pack(line.data(), line.length());
-        log_packet(b, false, SMSPlugin::SerialPacket);
+        Buffer b(line);
+        EventLog::log_packet(b, false, SMSPlugin::SerialPacket);
     }
     OpInfo	 opInfo;
     unsigned value1;
@@ -300,10 +298,8 @@ void GsmTA::at(const QCString &str, unsigned timeout)
     QCString cmd = "AT";
     cmd += str;
     m_cmd = cmd;
-    Buffer b;
-    b.packetStart();
-    b.pack(cmd.data(), cmd.length());
-    log_packet(b, true, SMSPlugin::SerialPacket);
+    Buffer b(cmd);
+    EventLog::log_packet(b, true, SMSPlugin::SerialPacket);
     cmd += "\r\n";
     m_tries = 5;
     m_response = "";

@@ -1532,7 +1532,7 @@ void ICQClient::processSendQueue()
             packet[3] = m_nFlapSequence;
             socket()->writeBuffer.packetStart();
             socket()->writeBuffer.pack(r.delayed.data(r.delayed.readPos()), size);
-            log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+            EventLog::log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
             r.delayed.incReadPos(size);
             setNewLevel(r);
             socket()->write();

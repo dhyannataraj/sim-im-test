@@ -229,7 +229,7 @@ void YahooClient::packet_ready()
             return;
         }
     }
-    log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
+    EventLog::log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
     scan_packet();
     m_socket->readBuffer.init(20);
     m_socket->readBuffer.packetStart();
@@ -263,7 +263,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
         }
     }
     m_values.clear();
-    log_packet(m_socket->writeBuffer, true, YahooPlugin::YahooPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, YahooPlugin::YahooPacket);
     m_socket->write();
 }
 
@@ -2251,7 +2251,7 @@ void YahooFileTransfer::packet_ready()
     if (m_state == Skip)
         return;
     if (m_state != Receive){
-        log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
+        EventLog::log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
         for (;;){
             string s;
             if (!m_socket->readBuffer.scan("\n", s))
@@ -2548,7 +2548,7 @@ void YahooFileTransfer::send_line(const QString &line)
     m_socket->writeBuffer.packetStart();
     m_socket->writeBuffer << (const char*)line.utf8();
     m_socket->writeBuffer << "\r\n";
-    log_packet(m_socket->writeBuffer, true, YahooPlugin::YahooPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, YahooPlugin::YahooPacket);
     m_socket->write();
 }
 

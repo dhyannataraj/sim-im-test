@@ -44,26 +44,24 @@ void *BuiltinLogger::processEvent(Event *e)
     if (!e) {
         return 0;
     }
-    if (e->type() != EventLog) {
+    if (e->type() != eEventLog) {
         return 0;
     }
-    LogInfo *li = static_cast<LogInfo*>(e->param());
-    if (!li) {
-        return 0;
-    }
+    EventLog *l = static_cast<EventLog*>(e);
+
     // filter by log level
-    if (!(li->log_level & m_logLevel)) {
+    if (!(l->getLogLevel() & m_logLevel))
         return 0;
-    }
+
     // filter out packets: there is LoggerPlugin for packets logging.
-    if (li->packet_id) {
+    if (l->getPacketID()) {
         return 0;
     }
     cout << "SIM-IM: ";
-    if (li->log_info) {
-        cout << static_cast<char*>(li->log_info);
+    if (!l->getLogData().isEmpty()) {
+        cout << l->getLogData().data();
     } else {
-        cout << "Some log event of type " << level_name(li->log_level) << " occured";
+        cout << "Some log event of type " << level_name(l->getLogLevel()) << " occured";
     }
     cout << endl;
     return e;

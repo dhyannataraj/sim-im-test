@@ -296,7 +296,7 @@ void MSNClient::packet_ready()
     if (m_socket->readBuffer.writePos() == 0)
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
     if (m_msg){
         if (!m_msg->packet())
             return;
@@ -804,7 +804,7 @@ void MSNClient::sendLine(const QString &line, bool crlf)
     if (crlf)
         m_socket->writeBuffer << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -1984,7 +1984,7 @@ void SBSocket::packet_ready()
     if (m_socket->readBuffer.writePos() == 0)
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
     for (;;){
         if (m_messageSize && !getMessage())
             break;
@@ -2033,7 +2033,7 @@ void SBSocket::send(const QString &cmd, const QString &args)
     }
     m_socket->writeBuffer << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -2452,7 +2452,7 @@ void SBSocket::sendMessage(const QString &str, const char *type)
     << "\r\n"
     << (const char*)str.utf8();
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -2758,7 +2758,7 @@ void MSNFileTransfer::packet_ready()
     if (m_socket->readBuffer.writePos() == 0)
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
     for (;;){
         string s;
         if (!m_socket->readBuffer.scan("\r\n", s))
@@ -2810,7 +2810,7 @@ void MSNFileTransfer::send(const QString &line)
     m_socket->writeBuffer << (const char*)line.utf8();
     m_socket->writeBuffer << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
     m_socket->write();
 }
 

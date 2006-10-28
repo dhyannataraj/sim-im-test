@@ -82,7 +82,7 @@ void ServiceSocket::packet_ready()
 
 void ServiceSocket::packet()
 {
-    log_packet(m_socket->readBuffer, false,ICQPlugin::icq_plugin->OscarPacket);
+    EventLog::log_packet(m_socket->readBuffer, false,ICQPlugin::icq_plugin->OscarPacket);
     switch (m_nChannel){
     case ICQ_CHNxNEW:
         flap(ICQ_CHNxNEW);

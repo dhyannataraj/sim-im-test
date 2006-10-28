@@ -216,7 +216,7 @@ void FetchThread::run()
     Buffer b;
     b.packetStart();
     b << verb << " " << uri.latin1() << " HTTP/1.0\r\n" << headers.latin1() << "\r\n";
-    log_packet(b, true, HTTPPacket);
+    EventLog::log_packet(b, true, HTTPPacket);
     for (;;){
         if (postSize != NO_POSTSIZE){
             INTERNET_BUFFERS BufferIn;
@@ -305,7 +305,7 @@ void FetchThread::run()
     QCString cstr = str.latin1();
     Buffer buf(cstr.length() + 1);
     memcpy(buf.data(), cstr.data(), cstr.length() + 1);
-    log_packet(buf, false, HTTPPacket);
+    EventLog::log_packet(buf, false, HTTPPacket);
     getToken(str, ' '); // HTTP/1.1
     QString line = getToken(str, ' ');  // 200 (or an error code)
     m_client->m_code = line.toLong();
@@ -770,7 +770,7 @@ void FetchClientPrivate::connect_ready()
     }
     m_socket->writeBuffer
     << "\r\n";
-    log_packet(m_socket->writeBuffer, true, HTTPPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, HTTPPacket);
     m_socket->write();
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
@@ -829,7 +829,7 @@ void FetchClientPrivate::packet_ready()
             m_socket->readBuffer.packetStart();
             return;
         }
-        log_packet(m_socket->readBuffer, false, HTTPPacket);
+        EventLog::log_packet(m_socket->readBuffer, false, HTTPPacket);
         string line;
         string opt;
         if (!read_line(line)){

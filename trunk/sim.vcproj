@@ -406,6 +406,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\sim\event.cpp"
+				>
+			</File>
+			<File
 				RelativePath="sim\exec.cpp"
 				>
 				<FileConfiguration
@@ -1209,6 +1213,10 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\sim\event.h"
+				>
 			</File>
 			<File
 				RelativePath="sim\exec.h"

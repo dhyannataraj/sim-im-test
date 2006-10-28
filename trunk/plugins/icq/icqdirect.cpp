@@ -275,7 +275,7 @@ void DirectSocket::packet_ready()
     }
     if (m_state != Logged){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
+        EventLog::log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     }
     switch (m_state){
     case Logged:{
@@ -400,7 +400,7 @@ void DirectSocket::sendInit()
     if (m_version >= 7)
         m_socket->writeBuffer.pack(0x00000000L);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, QString::number((unsigned long)this));
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     m_socket->write();
 }
 
@@ -411,7 +411,7 @@ void DirectSocket::sendInitAck()
     m_socket->writeBuffer.pack((unsigned short)0x0001);
     m_socket->writeBuffer.pack((unsigned short)0x0000);
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, QString::number((unsigned long)this));
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, QString::number((unsigned long)this));
     m_socket->write();
 }
 
@@ -504,7 +504,7 @@ void DirectClient::processPacket()
     case WaitInit2:
         if (m_bIncoming){
             ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
+            EventLog::log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
             if (m_version < 8){
                 if (m_data->Direct.object()){
                     m_socket->error_state("Direct connection already established");
@@ -515,7 +515,7 @@ void DirectClient::processPacket()
                 break;
             }
             plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-            log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
+            EventLog::log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QString::number((unsigned long)this));
             m_socket->readBuffer.incReadPos(13);
             char p[16];
             m_socket->readBuffer.unpack(p, 16);
@@ -632,7 +632,7 @@ void DirectClient::processPacket()
         }
     }
     ICQPlugin *icq_plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, icq_plugin->ICQDirectPacket, name());
+    EventLog::log_packet(m_socket->readBuffer, false, icq_plugin->ICQDirectPacket, name());
 
     m_socket->readBuffer.setReadPos(2);
     if (m_version >= 7){
@@ -1035,7 +1035,7 @@ void DirectClient::sendInit2()
         m_socket->writeBuffer.pack(0x00040001L);
     }
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name());
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name());
     m_socket->write();
 }
 
@@ -1206,7 +1206,7 @@ void DirectClient::sendPacket()
     p[1] = (unsigned char)((size >> 8) & 0xFF);
 
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name());
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name());
 
     unsigned long hex, key, B1, M1;
     unsigned long i, check;
@@ -1571,7 +1571,7 @@ void ICQFileTransfer::processPacket()
     m_socket->readBuffer >> cmd;
     if (cmd != FT_DATA){
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-        log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, "File transfer");
+        EventLog::log_packet(m_socket->readBuffer, false, plugin->ICQDirectPacket, QCString("File transfer"));
     }
     if (cmd == FT_SPEED){
         char speed;
@@ -1850,7 +1850,7 @@ void ICQFileTransfer::sendPacket(bool dump)
             name += ".";
             name += QString::number(m_data->Uin.toULong());
         }
-        log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name);
+        EventLog::log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name);
     }
     m_socket->write();
 }
@@ -2034,7 +2034,7 @@ void AIMFileTransfer::packet_ready()
     if (m_socket->readBuffer.readPos() <= m_socket->readBuffer.writePos())
         return;
     ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->AIMDirectPacket, m_client->screen(m_data));
+    EventLog::log_packet(m_socket->readBuffer, false, plugin->AIMDirectPacket, m_client->screen(m_data));
     m_socket->readBuffer.init(0);
 }
 

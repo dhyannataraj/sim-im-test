@@ -334,7 +334,7 @@ void JabberClient::packet_ready()
     if (m_socket->readBuffer.writePos() == 0)
         return;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
-    log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
+    EventLog::log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
     if (!parse(m_socket->readBuffer.data(), m_socket->readBuffer.size(), true))
         m_socket->error_state("XML parse error");
     m_socket->readBuffer.init(0);
@@ -666,7 +666,7 @@ void JabberClient::init()
 void JabberClient::sendPacket()
 {
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->JabberPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->JabberPacket);
     m_socket->write();
 }
 
@@ -2745,7 +2745,7 @@ void JabberFileTransfer::packet_ready()
         return;
     if (m_state != Receive){
         JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
-        log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
+        EventLog::log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
         for (;;){
             string s;
             if (!m_socket->readBuffer.scan("\n", s))
@@ -3044,7 +3044,7 @@ void JabberFileTransfer::send_line(const QCString &line)
     m_socket->writeBuffer << (const char*)line.data();
     m_socket->writeBuffer << "\r\n";
     JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
-    log_packet(m_socket->writeBuffer, true, plugin->JabberPacket);
+    EventLog::log_packet(m_socket->writeBuffer, true, plugin->JabberPacket);
     m_socket->write();
 }
 
