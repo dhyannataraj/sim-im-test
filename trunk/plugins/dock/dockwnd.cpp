@@ -827,11 +827,13 @@ DockWnd::~DockWnd()
 
 void DockWnd::quit()
 {
+#ifdef WIN32
     NOTIFYICONDATAW notifyIconData;
     memset(&notifyIconData, 0, sizeof(notifyIconData));
     notifyIconData.cbSize = sizeof(notifyIconData);
     notifyIconData.hWnd = winId();
     Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
+#endif
 }
 
 void DockWnd::dbl_click()

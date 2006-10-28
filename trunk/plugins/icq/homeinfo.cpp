@@ -22,6 +22,7 @@
 #include <qlineedit.h>
 #include <qmultilineedit.h>
 #include <qcombobox.h>
+#include <qpushbutton.h>
 
 using namespace SIM;
 

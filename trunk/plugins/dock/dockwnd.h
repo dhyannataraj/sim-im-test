@@ -64,7 +64,9 @@ protected slots:
     void dbl_click();
     void showPopup();
 protected:
+#ifdef WIN32
     virtual bool winEvent(MSG *msg);
+#endif
     virtual void *processEvent(SIM::Event *e);
     void  reset();
     bool  bNoToggle;
