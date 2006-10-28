@@ -1688,30 +1688,30 @@ void ContactList::save()
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
-    string line = p->userData.save();
+    QCString line = p->userData.save().c_str();
     if (line.length()){
-        f.writeBlock(line.c_str(), line.length());
+        f.writeBlock(line);
         f.writeBlock("\n", 1);
     }
-    line = save_data(contactData, &owner()->data);
+    line = save_data(contactData, &owner()->data).c_str();
     if (line.length()){
-        string cfg  = "[";
+        QCString cfg  = "[";
         cfg += OWNER;
         cfg += "]\n";
-        f.writeBlock(cfg.c_str(), cfg.length());
-        f.writeBlock(line.c_str(), line.length());
+        f.writeBlock(cfg);
+        f.writeBlock(line);
         f.writeBlock("\n", 1);
     }
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
         line = "[";
         line += GROUP;
-        line += number(grp->id());
+        line += QString::number(grp->id());
         line += "]\n";
-        f.writeBlock(line.c_str(), line.length());
-        line = save_data(groupData, &grp->data);
+        f.writeBlock(line);
+        line = save_data(groupData, &grp->data).c_str();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
+            f.writeBlock(line);
             f.writeBlock("\n", 1);
         } else {
             /* Group has no name --> Not In List
@@ -1719,14 +1719,14 @@ void ContactList::save()
                entries, this must be ...*/
             f.writeBlock("Name=\"NIL\"\n", 11);
         }
-        line = grp->userData.save();
+        line = grp->userData.save().c_str();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
+            f.writeBlock(line);
             f.writeBlock("\n", 1);
         }
-        line = grp->clientData.save();
+        line = grp->clientData.save().c_str();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
+            f.writeBlock(line);
             f.writeBlock("\n", 1);
         }
     }
@@ -1736,22 +1736,22 @@ void ContactList::save()
             continue;
         line = "[";
         line += CONTACT;
-        line += number(contact->id());
+        line += QString::number(contact->id());
         line += "]\n";
-        f.writeBlock(line.c_str(), line.length());
-        line = save_data(contactData, &contact->data);
+        f.writeBlock(line);
+        line = save_data(contactData, &contact->data).c_str();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
+            f.writeBlock(line);
             f.writeBlock("\n", 1);
         }
-        line = contact->userData.save();
+        line = contact->userData.save().c_str();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
+            f.writeBlock(line);
             f.writeBlock("\n", 1);
         }
-        line = contact->clientData.save();
+        line = contact->clientData.save().c_str();
         if (line.length()){
-            f.writeBlock(line.c_str(), line.length());
+            f.writeBlock(line);
             f.writeBlock("\n", 1);
         }
     }
