@@ -136,9 +136,8 @@ void Buffer::setWritePos(unsigned n)
 {
     m_posWrite = n;
     if (m_posRead > m_posWrite) m_posRead = m_posWrite;
-    if (m_posWrite > size()){
+    if (m_posWrite > size())
         resize(m_posWrite);
-    }
 }
 
 void Buffer::setReadPos(unsigned n)
@@ -533,11 +532,6 @@ void Buffer::tlvLE(unsigned short n, unsigned long c)
 void Buffer::packetStart()
 {
     m_packetStartPos = writePos();
-}
-
-unsigned long Buffer::packetStartPos()
-{
-    return m_packetStartPos;
 }
 
 Buffer &Buffer::operator << (TlvList &tlvList)

@@ -76,7 +76,7 @@ public:
     char* data(unsigned pos=0) const { return QByteArray::data() + pos; }
 
     void packetStart();
-    unsigned long packetStartPos();
+    unsigned long packetStartPos() const { return m_packetStartPos; }
 
     void pack(char c) { pack(&c, 1); }
     void pack(long c) { pack((unsigned long)c); }
