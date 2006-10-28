@@ -1706,6 +1706,15 @@ QString ICQClient::clientName(ICQUserData *data)
         res += "ICQ for Mac";
         return res;
     }
+    //  gaim 2.0 development
+    if (hasCap(data, CAP_AIM_SENDFILE) &&
+        hasCap(data, CAP_AIM_IMIMAGE) &&
+        hasCap(data, CAP_AIM_BUDDYCON) &&
+        hasCap(data, CAP_UTF) &&
+        hasCap(data, CAP_AIM_CHAT)){
+        res += "gaim 2.0dev";
+        return res;
+    }
     if (hasCap(data, CAP_AIM_CHAT)){
         res += "AIM";
         return res;
