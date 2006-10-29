@@ -19,6 +19,7 @@
 #define _ICONS_H
 
 #include "simapi.h"
+#include "event.h"
 
 #include <qiconset.h>
 #include <qimage.h>

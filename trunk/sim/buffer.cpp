@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "buffer.h"
-
 #include <stdio.h>
 
 #ifdef WIN32
@@ -26,6 +24,10 @@
 #endif
 
 #include <vector>
+
+#include "buffer.h"
+#include "simapi.h"
+
 using namespace std;
 using namespace SIM;
 

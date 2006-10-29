@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "event.h"
 
 #ifdef WIN32
 #include <windows.h>

@@ -17,6 +17,7 @@
 
 #include "editfile.h"
 #include "preview.h"
+#include "event.h"
 
 #include <qlineedit.h>
 #include <qpushbutton.h>

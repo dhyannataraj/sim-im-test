@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "linklabel.h"
+#include "event.h"
 
 #include <qcursor.h>
 #include <qvaluevector.h>

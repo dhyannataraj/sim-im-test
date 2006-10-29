@@ -19,6 +19,7 @@
 #define _TEXTSHOW_H
 
 #include "simapi.h"
+#include "event.h"
 
 #include <qglobal.h>
 #include <qmainwindow.h>

@@ -18,6 +18,9 @@
 #ifndef SIM_EVENT_H
 #define SIM_EVENT_H
 
+#include <qpoint.h>
+#include <qsize.h>
+
 #include "buffer.h"
 
 namespace SIM {
@@ -305,7 +308,7 @@ const unsigned EventShowBar = 0x0508;
 
 typedef struct BarShow
 {
-    QMainWindow *parent;
+    class QMainWindow *parent;
     unsigned    bar_id;
 } ToolBarShow;
 
@@ -327,7 +330,7 @@ const unsigned EventAddStatus = 0x050B;
 
 typedef struct WindowDef
 {
-    QWidget *widget;
+    class QWidget *widget;
     bool    bDown;
 } WindowDef;
 
@@ -429,7 +432,7 @@ const unsigned EventPaintView = 0x0701;
 
 typedef struct PaintView
 {
-    QPainter *p;        // painter
+    class QPainter *p;        // painter
     QPoint   pos;       // position
     QSize    size;      // size
     int      height;    // item height

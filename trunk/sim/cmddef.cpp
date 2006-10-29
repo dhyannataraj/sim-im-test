@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "simapi.h"
+#include "event.h"
 #include "stl.h"
 
 namespace SIM

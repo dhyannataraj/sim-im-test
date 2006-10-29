@@ -22,6 +22,7 @@
 #define SIMBUILTINLOGGER_H
 
 #include "simapi.h"
+#include "event.h"
 
 namespace SIM {
 

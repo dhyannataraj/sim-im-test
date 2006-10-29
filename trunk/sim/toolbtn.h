@@ -19,6 +19,7 @@
 #define _TOOLBTN_H
 
 #include "simapi.h"
+#include "event.h"
 #include "stl.h"
 
 #include <qtoolbar.h>

@@ -15,7 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+// system includes
+#include <qvaluelist.h>
+// own header
 #include "event.h"
+// local includes
+#include "simapi.h"
 
 namespace SIM
 {

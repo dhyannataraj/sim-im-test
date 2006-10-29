@@ -17,6 +17,7 @@
 
 #include "simapi.h"
 #include "buffer.h"
+#include "event.h"
 
 #include <stdio.h>
 #include <stdarg.h>

@@ -20,6 +20,7 @@
 
 #include "simapi.h"
 #include "buffer.h"
+#include "event.h"
 
 #ifdef USE_OPENSSL
 typedef struct ssl_ctx_st SSL_CTX;
@@ -76,6 +77,7 @@ public:
 };
 
 class ServerSocket;
+class TCPClient;
 
 class EXPORT ServerSocketNotify
 {

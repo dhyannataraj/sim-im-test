@@ -18,6 +18,7 @@ email                : vovan@shutoff.ru
 #include "simapi.h"
 #include "stl.h"
 #include "buffer.h"
+#include "event.h"
 
 #include <qfile.h>
 #include <qdir.h>

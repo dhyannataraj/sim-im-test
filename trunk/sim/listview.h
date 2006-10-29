@@ -19,6 +19,7 @@
 #define _LISTVIEW_H
 
 #include "simapi.h"
+#include "event.h"
 
 #include <qlistview.h>
 #include <qdragobject.h>

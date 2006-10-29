@@ -18,15 +18,18 @@
 #ifndef _BUFFER_H
 #define _BUFFER_H
 
-#include "simapi.h"
+#include <qcstring.h>
 #include <qptrlist.h>
+#include <qstring.h>
 
-#ifndef Q_CC_MSVC
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
 #else
 typedef unsigned short  uint16_t;
 typedef unsigned        uint32_t;
 #endif
+
+#include "sim_export.h"
 
 class Buffer;
 
