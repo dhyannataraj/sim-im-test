@@ -82,9 +82,6 @@
   <icon name="1downarrow" kicon="1downarrow">
 	<object mime="image/png">1downarrow.png</object>
   </icon>
-  <icon name="1downarrow" kicon="1downarrow">
-	<object mime="image/png">1downarrow.png</object>
-  </icon>
   <icon name="1uparrow" kicon="1uparrow">
 	<object mime="image/png">1uparrow.png</object>
   </icon>
