@@ -158,7 +158,7 @@ public:
     void auth_ok();
     LiveJournalUserData	*findContact(const QString &user, SIM::Contact *&contact, bool bCreate=true, bool bJoin=true);
     QTimer  *m_timer;
-    virtual bool error_state(const char *err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     bool add(const QString &name);
 public slots:
     void timeout();

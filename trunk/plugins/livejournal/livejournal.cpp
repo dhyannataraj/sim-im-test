@@ -1167,7 +1167,7 @@ void LiveJournalClient::send()
     m_request->m_buffer = NULL;
 }
 
-bool LiveJournalClient::error_state(const char *err, unsigned code)
+bool LiveJournalClient::error_state(const QString &err, unsigned code)
 {
     return TCPClient::error_state(err, code);
 }
