@@ -588,7 +588,7 @@ void PluginManagerPrivate::saveState()
         line += ",";
         line += QString::number(info.base);
         line += "\n";
-        f.writeBlock(line);
+        f.writeBlock(line, line.length());
         if (info.plugin){
             string cfg = info.plugin->getConfig();
             if (cfg.length()){

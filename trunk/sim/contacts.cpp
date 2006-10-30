@@ -1691,7 +1691,7 @@ void ContactList::save()
     }
     QCString line = p->userData.save().c_str();
     if (line.length()){
-        f.writeBlock(line);
+        f.writeBlock(line, line.length());
         f.writeBlock("\n", 1);
     }
     line = save_data(contactData, &owner()->data).c_str();
@@ -1699,8 +1699,8 @@ void ContactList::save()
         QCString cfg  = "[";
         cfg += OWNER;
         cfg += "]\n";
-        f.writeBlock(cfg);
-        f.writeBlock(line);
+        f.writeBlock(cfg, cfg.length());
+        f.writeBlock(line, line.length());
         f.writeBlock("\n", 1);
     }
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
@@ -1709,10 +1709,10 @@ void ContactList::save()
         line += GROUP;
         line += QString::number(grp->id());
         line += "]\n";
-        f.writeBlock(line);
+        f.writeBlock(line, line.length());
         line = save_data(groupData, &grp->data).c_str();
         if (line.length()){
-            f.writeBlock(line);
+            f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         } else {
             /* Group has no name --> Not In List
@@ -1722,12 +1722,12 @@ void ContactList::save()
         }
         line = grp->userData.save().c_str();
         if (line.length()){
-            f.writeBlock(line);
+            f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         }
         line = grp->clientData.save().c_str();
         if (line.length()){
-            f.writeBlock(line);
+            f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         }
     }
@@ -1739,20 +1739,20 @@ void ContactList::save()
         line += CONTACT;
         line += QString::number(contact->id());
         line += "]\n";
-        f.writeBlock(line);
+        f.writeBlock(line, line.length());
         line = save_data(contactData, &contact->data).c_str();
         if (line.length()){
-            f.writeBlock(line);
+            f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         }
         line = contact->userData.save().c_str();
         if (line.length()){
-            f.writeBlock(line);
+            f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         }
         line = contact->clientData.save().c_str();
         if (line.length()){
-            f.writeBlock(line);
+            f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         }
     }

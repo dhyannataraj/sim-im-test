@@ -158,7 +158,7 @@ void Buffer::setReadPos(unsigned n)
 void Buffer::pack(const char *d, unsigned s)
 {
     if(s == 0)
-		return;
+        return;
     if(m_posWrite+s > size())
         resize(m_posWrite+s);
     if(d) {
