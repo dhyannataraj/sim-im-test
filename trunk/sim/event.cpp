@@ -80,28 +80,30 @@ void EventReceiver::destroyList()
 }
 
 // Some event functions
-
+// ********************
+// EventLog
+// ********************
 QString EventLog::make_packet_string(const EventLog &l)
 {
     QString m;
     if (l.isPacketLog()){
-        PacketType *type = getContacts()->getPacketType(l.getPacketID());
+        PacketType *type = getContacts()->getPacketType(l.packetID());
         if (type == NULL)
             return m;
-        const Buffer &b = l.getBuffer();
+        const Buffer &b = l.buffer();
         unsigned start = b.packetStartPos();
         time_t now = time(NULL);
         struct tm *tm = localtime(&now);
         QString name = type->name();
-        if (!l.getAdditionalInfo().isEmpty()){
+        if (!l.additionalInfo().isEmpty()){
             name += ".";
-            name += l.getAdditionalInfo();
+            name += l.additionalInfo();
         }
         m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
                tm->tm_mday, tm->tm_mon + 1, tm->tm_year + 1900,
                tm->tm_hour, tm->tm_min, tm->tm_sec,
                name.latin1(),
-               (l.getLogLevel() & L_PACKET_IN) ? "Read" : "Write",
+               (l.logLevel() & L_PACKET_IN) ? "Read" : "Write",
                b.size() - start);
         if (type->isText()){
             m += QString::fromLatin1(b.data(start), b.size() - start);
@@ -139,7 +141,7 @@ QString EventLog::make_packet_string(const EventLog &l)
                 m += line;
         }
     }else{
-        m = QString::fromAscii(l.getLogData());
+        m = QString::fromAscii(l.logData());
     }
     return m;
 }

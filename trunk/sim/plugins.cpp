@@ -97,7 +97,7 @@ public:
 protected:
     void *processEvent(Event *e);
 
-    bool findParam(const QString &param, const QString &descr, QString &res);
+    bool findParam(EventArg *a);
     void usage(const QString &);
 
     bool create(pluginInfo&);
@@ -265,7 +265,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         if (m_bAbort)
             return;
     }
-    Event eStart(EventInit);
+    EventInit eStart;
     if (eStart.process() == (void*)~0U) {
         log(L_ERROR,"EventInit failed - aborting!");
         m_bAbort = true;
@@ -291,14 +291,11 @@ PluginManagerPrivate::~PluginManagerPrivate()
 
 void *PluginManagerPrivate::processEvent(Event *e)
 {
-    CmdParam *p;
-#ifndef WIN32
-    ExecParam *exec;
-#endif
     switch (e->type()){
-    case EventArg:
-        p = (CmdParam*)(e->param());
-        return (void*)findParam(p->arg, p->descr, p->value);
+	case eEventArg: {
+        EventArg *a = static_cast<EventArg*>(e);
+        return (void*)findParam(a);
+	}
     case EventPluginGetInfo:
         return getInfo((unsigned long)(e->param()));
     case EventApplyPlugin:
@@ -325,9 +322,10 @@ void *PluginManagerPrivate::processEvent(Event *e)
     case EventArgv:
         return (void*)(long)m_argv;
 #ifndef WIN32
-    case EventExec:
-        exec = (ExecParam*)(e->param());
-        return (void*)execute(exec->cmd, exec->arg);
+	case eEventExec: {
+        EventExec *exec = static_cast<EventExec*>(e);
+        return (void*)execute(exec->cmd(), exec->arg());
+	}
 #endif
     default:
         break;
@@ -425,16 +423,13 @@ bool PluginManagerPrivate::create(pluginInfo &info)
 {
     if (info.plugin)
         return true;
-    QString param, descr, value;
-    param = "--enable-";
-    param += info.name;
-    if (findParam(param, QString::null, value)){
+	EventArg a1("--enable-" + info.name);
+    if (findParam(&a1)){
         info.bDisabled = false;
         info.bFromCfg = true;
     }
-    param = "--disable-";
-    param += info.name;
-    if (findParam(param, QString::null, value)){
+	EventArg a2("--disable-" + info.name);
+    if (findParam(&a2)){
         info.bDisabled = true;
         info.bFromCfg = true;
     }
@@ -717,22 +712,24 @@ void PluginManagerPrivate::loadState()
     }
 }
 
-bool PluginManagerPrivate::findParam(const QString &p, const QString &descriptor, QString &value)
+bool PluginManagerPrivate::findParam(EventArg *a)
 {
-    if (!descriptor.isEmpty()){
-        cmds.push_back(p);
-        descrs.push_back(descriptor);
+	bool bRet = false;
+	if (!a->desc().isEmpty()){
+        cmds.push_back(a->arg());
+        descrs.push_back(a->desc());
     }
-    value = QString::null;
-    if (p.endsWith(":")){
-        unsigned size = p.length();
+    QString value = QString::null;
+    if (a->arg().endsWith(":")){
+        unsigned size = a->arg().length();
         for (QStringList::iterator it = args.begin(); it != args.end(); ++it){
-            if (!(*it).startsWith(p))
+            if (!(*it).startsWith(a->arg()))
                 continue;
             value = (*it).mid(size);
             if (value.length()){
                 *it = QString::null;
-                return true;
+                bRet = true;
+				break;
             }
             ++it;
             if (it != args.end()){
@@ -740,20 +737,20 @@ bool PluginManagerPrivate::findParam(const QString &p, const QString &descriptor
                 *it = QString::null;
                 --it;
                 *it = QString::null;
-                return true;
-            } else {
-                return true;
             }
+			bRet = true;
+			break;
         }
     }else{
-        QStringList::iterator it = args.find(p);
+        QStringList::iterator it = args.find(a->arg());
         if(it != args.end()) {
             value = (*it);
             *it = QString::null;
-            return true;
+            bRet = true;
         }
     }
-    return false;
+	a->setValue(value);
+    return bRet;
 }
 
 void PluginManagerPrivate::usage(const QString &err)
@@ -787,19 +784,14 @@ void PluginManagerPrivate::usage(const QString &err)
 }
 
 #ifndef WIN32
-unsigned long PluginManagerPrivate::execute(const char *prg, const char *arg)
+unsigned long PluginManagerPrivate::execute(const QString &prg, const QStringList &args)
 {
-    if (*prg == 0)
+    if (prg.isEmpty() == 0)
         return 0;
-    QString p = QString::fromLocal8Bit(prg);
-    if (p.find("%s") >= 0){
-        p.replace(QRegExp("%s"), arg);
-    }else{
-        p += " ";
-        p += QString::fromLocal8Bit(arg);
-    }
-    log(L_DEBUG, "Exec: %s", (const char*)p.local8Bit());
-    QStringList s = QStringList::split(" ", p);
+
+	log(L_DEBUG, "Exec: %s", (const char*)p.local8Bit());
+	// FIXME: use QProcess instead!
+    QStringList s = args;
     char **arglist = new char*[s.count()+1];
     unsigned i = 0;
     for ( QStringList::Iterator it = s.begin(); it != s.end(); ++it, i++ ) {
@@ -848,7 +840,7 @@ void deleteResolver();
 
 PluginManager::~PluginManager()
 {
-    Event e(EventQuit);
+    EventQuit e;
     e.process();
     contacts->clearClients();
     delete p;

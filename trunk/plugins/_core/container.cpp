@@ -732,7 +732,7 @@ void *Container::processEvent(Event *e)
     case EventContactClient:
         contactChanged((Contact*)(e->param()));
         break;
-    case EventInit:
+    case eEventInit:
         init();
         break;
     case EventCommandExec:

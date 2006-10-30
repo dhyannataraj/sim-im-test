@@ -205,7 +205,7 @@ void *MainWindow::processEvent(Event *e)
         m_icon = (const char*)(e->param());
         setIcon(Pict(m_icon));
         break;
-    case EventInit:{
+    case eEventInit:{
             setTitle();
             BarShow b;
             b.bar_id = ToolBarMain;

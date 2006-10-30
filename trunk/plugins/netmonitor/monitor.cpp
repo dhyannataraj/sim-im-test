@@ -219,11 +219,11 @@ void *MonitorWindow::processEvent(Event *e)
     }
     if ((e->type() == eEventLog) && !bPause){
         EventLog *l = static_cast<EventLog*>(e);
-        if (((l->getPacketID() == 0) && (l->getLogLevel() & m_plugin->getLogLevel())) ||
-                (l->getPacketID() && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(l->getPacketID())))){
+        if (((l->packetID() == 0) && (l->logLevel() & m_plugin->getLogLevel())) ||
+                (l->packetID() && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(l->packetID())))){
             const char *font = NULL;
             for (const LevelColorDef *d = levelColors; d->color; d++){
-                if (l->getLogLevel() == d->level){
+                if (l->logLevel() == d->level){
                     font = d->color;
                     break;
                 }

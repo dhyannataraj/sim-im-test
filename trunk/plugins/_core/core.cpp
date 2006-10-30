@@ -1834,12 +1834,12 @@ void *CorePlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventInit:
+    case eEventInit:
         if (!m_bInit && !init(true))
             return (void*)ABORT_LOADING;
         QTimer::singleShot(0, this, SLOT(checkHistory()));
         return NULL;
-    case EventQuit:
+    case eEventQuit:
         destroy();
         m_cmds->clear();
         return NULL;
@@ -3636,7 +3636,7 @@ void CorePlugin::selectProfile()
     Event e(EventSaveState);
     e.process();
     init(false);
-    Event e2(EventInit);
+    EventInit e2;
     e2.process();
 }
 
@@ -3648,13 +3648,9 @@ bool CorePlugin::init(bool bInit)
     bool bNew = false;
     bool bCmdLineProfile = false;
 
-    CmdParam p;
-    p.arg   = "-profile:";
-    p.descr = I18N_NOOP("Use specified profile");
-
-    Event e(EventArg, &p);
-    e.process();
-    QString cmd_line_profile = p.value;
+    EventArg e1("-profile:", I18N_NOOP("Use specified profile"));
+    e1.process();
+    QString cmd_line_profile = e1.value();
     if (!cmd_line_profile.isEmpty()){
         bCmdLineProfile = true;
         setProfile(QString::null);
@@ -3666,15 +3662,11 @@ bool CorePlugin::init(bool bInit)
         }
     }
 
-    p.arg   = "-uin:";
-    p.descr = I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password");
-    p.value = QString::null;
-
-    Event e1(EventArg, &p);
-    if (e1.process() && !p.value.isEmpty()){
-        int idx = p.value.find(':');
-        QString uin      = p.value.left(idx);
-        QString passwd   = (idx != -1) ? p.value.mid(idx + 1) : QString::null;
+    EventArg e2("-uin:", I18N_NOOP("Add new ICQ UIN to profile. You need to specify uin:password"));
+    if (e2.process() && !e2.value().isEmpty()){
+        int idx = e2.value().find(':');
+        QString uin      = e2.value().left(idx);
+        QString passwd   = (idx != -1) ? e2.value().mid(idx + 1) : QString::null;
         setICQUIN(uin);
         setICQPassword(passwd);
 
@@ -3960,12 +3952,12 @@ string CorePlugin::getConfig()
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
         log(L_ERROR, "Can't create %s", cfgName.local8Bit().data());
     }else{
-        string write = "[_core]\n";
+        QCString write = "[_core]\n";
         write += "enable,";
-        write += number(m_base);
+		write += QString::number(m_base);
         write += "\n";
-        write += cfg;
-        fCFG.writeBlock(write.c_str(), write.length());
+        write += cfg.c_str();
+        fCFG.writeBlock(write, write.length());
 
         const int status = fCFG.status();
         const QString errorMessage = fCFG.errorString();

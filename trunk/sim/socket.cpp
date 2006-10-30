@@ -237,7 +237,7 @@ void SocketFactory::setActive(bool isActive)
     if (isActive == m_bActive)
         return;
     m_bActive = isActive;
-    Event e(EventSocketActive, (void*)m_bActive);
+    EventSocketActive e(m_bActive);
     e.process();
 }
 
@@ -298,8 +298,9 @@ TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority)
 
 void *TCPClient::processEvent(Event *e)
 {
-    if (e->type() == EventSocketActive){
-        if (m_bWaitReconnect && e->param())
+    if (e->type() == eEventSocketActive){
+		EventSocketActive *s = static_cast<EventSocketActive*>(e);
+        if (m_bWaitReconnect && s->active())
             reconnect();
     }
     return NULL;

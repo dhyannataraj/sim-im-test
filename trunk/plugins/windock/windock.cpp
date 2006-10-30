@@ -422,7 +422,7 @@ void *WinDockPlugin::processEvent(Event *e)
             return cmd;
         }
     }
-    if ((e->type() == EventInit) && !m_bInit)
+    if ((e->type() == eEventInit) && !m_bInit)
         init();
     if (e->type() == EventInTaskManager){
         if ((dock->getState() != ABE_FLOAT) && e->param()){

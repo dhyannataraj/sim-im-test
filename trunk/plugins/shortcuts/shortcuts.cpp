@@ -530,7 +530,7 @@ void ShortcutsPlugin::init()
 void *ShortcutsPlugin::processEvent(Event *e)
 {
 #ifdef WIN32
-    if (e->type() == EventInit){
+    if (e->type() == eEventInit){
         init();
         return NULL;
     }

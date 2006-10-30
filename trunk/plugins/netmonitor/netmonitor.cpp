@@ -92,11 +92,7 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
     Event eCmd(EventCommandCreate, cmd);
     eCmd.process();
 
-    CmdParam p;
-    p.arg   = "-m";
-    p.descr = I18N_NOOP("Show network monitor");
-
-    Event e(EventArg, &p);
+    EventArg e("-m", I18N_NOOP("Show network monitor"));
     if (e.process() || getShow())
         showMonitor();
 }

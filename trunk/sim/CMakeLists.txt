@@ -67,6 +67,7 @@ SET(sim_LIB_HDRS
         qcolorbutton.h
         qkeybutton.h
         sax.h
+        sim_export.h
         simapi.h
         socket.h
         sockfactory.h

@@ -373,8 +373,8 @@ void *CommonStatus::processEvent(Event *e)
             return e->param();
         }
     case EventClientStatus:
-    case EventSocketActive:
-    case EventInit:
+    case eEventSocketActive:
+    case eEventInit:
         setBarStatus();
         break;
     case EventClientsChanged:{

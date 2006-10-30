@@ -223,10 +223,10 @@ void *DockPlugin::processEvent(Event *e)
 {
     CommandDef *def;
     switch (e->type()){
-    case EventInit:
+    case eEventInit:
         init();
         break;
-    case EventQuit:
+    case eEventQuit:
         if (m_dock){
             delete m_dock;
             m_dock = NULL;

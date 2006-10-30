@@ -50,18 +50,18 @@ void *BuiltinLogger::processEvent(Event *e)
     EventLog *l = static_cast<EventLog*>(e);
 
     // filter by log level
-    if (!(l->getLogLevel() & m_logLevel))
+    if (!(l->logLevel() & m_logLevel))
         return 0;
 
     // filter out packets: there is LoggerPlugin for packets logging.
-    if (l->getPacketID()) {
+    if (l->packetID()) {
         return 0;
     }
     cout << "SIM-IM: ";
-    if (!l->getLogData().isEmpty()) {
-        cout << l->getLogData().data();
+    if (!l->logData().isEmpty()) {
+        cout << l->logData().data();
     } else {
-        cout << "Some log event of type " << level_name(l->getLogLevel()) << " occured";
+        cout << "Some log event of type " << level_name(l->logLevel()) << " occured";
     }
     cout << endl;
     return e;

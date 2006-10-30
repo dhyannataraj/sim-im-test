@@ -102,7 +102,7 @@ void ZodiakPlugin::createLabel(DatePicker *picker)
 
 void *ZodiakPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventQuit)
+    if (e->type() == eEventQuit)
         m_pickers.clear();
     return NULL;
 }

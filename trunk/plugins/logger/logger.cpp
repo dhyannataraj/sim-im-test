@@ -78,13 +78,10 @@ LoggerPlugin::LoggerPlugin(unsigned base, Buffer *add_info)
 {
     m_file = NULL;
     load_data(loggerData, &data, add_info);
-    CmdParam p;
-    p.arg   = "-d:";
-    p.descr = I18N_NOOP("Set debug level");
 
-    Event e(EventArg, &p);
+    EventArg e("-d:", I18N_NOOP("Set debug level"));
     if (e.process())
-        setLogLevel(p.value.toULong());
+        setLogLevel(e.value().toULong());
     QString packets = getLogPackets();
     while (packets.length()){
         QString v = getToken(packets, ',');
@@ -196,8 +193,8 @@ void *LoggerPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventLog){
         EventLog *l = static_cast<EventLog*>(e);
-        if (((l->getPacketID() == 0) && (l->getLogLevel() & getLogLevel())) ||
-                (l->getPacketID() && ((getLogLevel() & L_PACKETS) || isLogType(l->getPacketID())))){
+        if (((l->packetID() == 0) && (l->logLevel() & getLogLevel())) ||
+                (l->packetID() && ((getLogLevel() & L_PACKETS) || isLogType(l->packetID())))){
             QString s;
             s = EventLog::make_packet_string(*l);
             if (m_file){

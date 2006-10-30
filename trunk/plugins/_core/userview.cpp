@@ -388,7 +388,7 @@ void *UserView::processEvent(Event *e)
     case EventRepaintView:
         setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? QScrollView::AlwaysOff : QScrollView::Auto);
         break;
-    case EventInit:
+    case eEventInit:
         m_bInit = true;
         fill();
         break;

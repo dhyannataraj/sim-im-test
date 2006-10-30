@@ -864,7 +864,7 @@ void *DockWnd::processEvent(Event *e)
     case EventLanguageChanged:
         setTip(m_tip);
         break;
-    case EventQuit:
+    case eEventQuit:
         quit();
         break;
 #ifdef WIN32

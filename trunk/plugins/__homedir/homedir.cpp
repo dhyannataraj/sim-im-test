@@ -85,12 +85,9 @@ HomeDirPlugin::HomeDirPlugin(unsigned base)
     m_bDefault = m_homeDir.isNull();
 #endif
     QString d;
-    CmdParam p;
-    p.arg   = "-b:";
-    p.descr = I18N_NOOP("Set home directory");
-    Event e(EventArg, &p);
-    if (e.process() && !p.value.isEmpty()){
-        d = p.value;
+    EventArg e("-b:", I18N_NOOP("Set home directory"));
+    if (e.process() && !e.value().isEmpty()){
+        d = e.value();
 #ifdef WIN32
         m_bSave   = false;
 #endif

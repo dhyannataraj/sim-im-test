@@ -24,6 +24,7 @@
 #include <qapplication.h>
 #include <qfile.h>
 #include <qpainter.h>
+#include <qsplashscreen.h>
 
 using namespace SIM;
 
@@ -54,56 +55,57 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
     m_bStart = bStart;
     if (m_bStart){
         QPixmap pict(app_file("pict/splash.png"));
+		// FIXME: better use QSplash with QSplashScreen::drawContents()
         if (!pict.isNull()){
-            KAboutData *about_data = getAboutData();
+			KAboutData *about_data = getAboutData();
 			QString text = QString("%1%2").arg(about_data->appName()).arg("-IM");
-            text += " ";
-            text += about_data->version();
-            QPainter p(&pict);
-            QFont f = qApp->font();
-            f.setBold(true);
-            p.setFont(f);
-            QRect rc = p.boundingRect(0, 0, pict.width(), pict.height(), Qt::AlignLeft | Qt::AlignTop, text);
-            int x = pict.width() - 7 - rc.width();
-            int y = 7 + rc.height();
-            p.setPen(QColor(0x80, 0x80, 0x80));
-            p.drawText(x, y, text);
-            x -= 2;
-            y -= 2;
-            p.setPen(QColor(0xFF, 0xFF, 0xE0));
-            p.drawText(x, y, text);
-            splash = new QWidget(NULL, "splash",
-                                 QWidget::WType_TopLevel | QWidget::WStyle_Customize |
-                                 QWidget::WStyle_NoBorderEx | QWidget::WStyle_StaysOnTop);
-            
+			text += " ";
+			text += about_data->version();
+			QPainter p(&pict);
+			QFont f = qApp->font();
+			f.setBold(true);
+			p.setFont(f);
+			QRect rc = p.boundingRect(0, 0, pict.width(), pict.height(), Qt::AlignLeft | Qt::AlignTop, text);
+			int x = pict.width() - 7 - rc.width();
+			int y = 7 + rc.height();
+			p.setPen(QColor(0x80, 0x80, 0x80));
+			p.drawText(x, y, text);
+			x -= 2;
+			y -= 2;
+			p.setPen(QColor(0xFF, 0xFF, 0xE0));
+			p.drawText(x, y, text);
+			splash = new QWidget(NULL, "splash",
+								 QWidget::WType_TopLevel | QWidget::WStyle_Customize |
+								 QWidget::WStyle_NoBorderEx | QWidget::WStyle_StaysOnTop);
+
 			QWidget *desktop =  qApp->desktop();  //QApplication::desktop();
 			int desk_width = desktop->geometry().width();
 			int desk_height = desktop->geometry().height();
-            if ((desk_width/desk_height)==2) //widescreen or double screen
+			if ((desk_width/desk_height)==2) //widescreen or double screen
 				splash->move((desktop->width()/2 - pict.width()) / 2, (desktop->height() - pict.height()) / 2);
 			else //normal screen 
 				splash->move((desktop->width() - pict.width()) / 2, (desktop->height() - pict.height()) / 2);
-            splash->setBackgroundPixmap(pict);
+			splash->setBackgroundPixmap(pict);
 			splash->resize(pict.width(), pict.height());
 			splash->repaint();
-            const QBitmap *mask = pict.mask();
+			const QBitmap *mask = pict.mask();
 			p.end();
-            if (mask) splash->setMask(*mask);
-				splash->show();
+			if (mask)
+				splash->setMask(*mask);
+			splash->show();
         }
     }
 }
 
 SplashPlugin::~SplashPlugin()
 {
-    if (splash)
-        delete splash;
+    delete splash;
 }
 
 void *SplashPlugin::processEvent(Event *e)
 {
     switch(e->type()){
-    case EventInit:
+    case eEventInit:
         if (splash){
             delete splash;
             splash = NULL;

@@ -387,18 +387,17 @@ void *NavigatePlugin::processEvent(Event *e)
             return e->param();
         }
 #endif // USE_KDE
-        ExecParam execParam;
+        QString param;
         if (proto == "mailto"){
-            execParam.cmd = getMailer();
+            param = getMailer();
             url = url.mid(proto.length() + 1);
         }else{
-            execParam.cmd = getBrowser();
+            param = getBrowser();
 			QUrl qurl(url);
 			QString encodedUrl = qurl.toString(true, false);
 			url = encodedUrl;
         }
-        execParam.arg = url;
-        Event eExec(EventExec, &execParam);
+        EventExec eExec(param, url);
         eExec.process();
 #endif // WIN32
         return e->param();

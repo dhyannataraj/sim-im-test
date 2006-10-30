@@ -174,7 +174,7 @@ void *StatusFrame::processEvent(Event *e)
 {
     CommandDef *cmd;
     switch (e->type()){
-    case EventSocketActive:{
+    case eEventSocketActive:{
             {
                 QObjectList *l = queryList("StatusLabel");
                 QObjectListIt itObject(*l);

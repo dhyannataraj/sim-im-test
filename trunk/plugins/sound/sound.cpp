@@ -377,20 +377,17 @@ void SoundPlugin::processQueue()
         return; // QSound
     }
 #ifndef WIN32
-    ExecParam p;
-    p.cmd = getPlayer();
-    if (*p.cmd == 0) {
-        m_current="";
+    if (getPlayer().isEmpty()) {
+		m_current = QString::null;
         return;
     }
-    p.arg = sound.latin1();
-    Event e(EventExec, &p);
+    EventExec e(getPlayer(), sound);
     m_player = (long)e.process();
     if (m_player == 0){
         log(L_WARN, "Can't execute player");
         m_queue.clear();
     }
-    m_current = "";
+    m_current = QString::null;
     return; // external Player
 #endif
 }

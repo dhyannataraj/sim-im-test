@@ -133,7 +133,7 @@ FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
 void *FloatyPlugin::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventInit:{
+    case eEventInit:{
             Contact *contact;
             ContactList::ContactIterator it;
             while ((contact = ++it) != NULL){

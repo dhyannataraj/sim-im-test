@@ -65,7 +65,12 @@ protected:
 
 enum SIMEvents
 {
-    eEventLog = 0x0001, // Log Output
+    eEventLog	= 0x0001,	// Log Output
+	eEventInit	= 0x0101,	// application init after all plugins are loaded
+	eEventQuit	= 0x0102,	// last event until plugins are unloaded
+	eEventExec	= 0x0110,	// execute an external programm
+	eEventSocketActive = 0x0112,	// change socket activity state
+	eEventArg	= 0x0201,	// get command line argument
 };
 
 class EXPORT EventLog : public Event
@@ -81,12 +86,12 @@ public:
           m_packetID(packetID), m_addInfo(addInfo), m_Buffer(packetBuf)
     {}
 
-    unsigned getLogLevel() const { return m_logLevel; }
-    const QCString &getLogData() const { return m_logData; }
-    unsigned getPacketID() const { return m_packetID; }
-    const QCString &getAdditionalInfo() const { return m_addInfo; }
-    const Buffer &getBuffer() const { return m_Buffer; }
-    bool isPacketLog() const { return m_Buffer.size(); }
+    unsigned logLevel() const { return m_logLevel; }
+    const QCString &logData() const { return m_logData; }
+    unsigned packetID() const { return m_packetID; }
+    const QCString &additionalInfo() const { return m_addInfo; }
+    const Buffer &buffer() const { return m_Buffer; }
+    bool isPacketLog() const { return m_Buffer.size() > 0; }
 
     static QString make_packet_string(const EventLog &l);
     static void log_packet(const Buffer &packetBuf, bool bOut, unsigned packetID, const QCString addInfo = QCString());
@@ -100,36 +105,58 @@ protected:
     Buffer m_Buffer;
 };
 
+class EXPORT EventInit : public Event
+{
+public:
+	EventInit() : Event(eEventInit) {}
+};
+
+class EXPORT EventQuit : public Event
+{
+public:
+	EventQuit() : Event(eEventQuit) {}
+};
+
+class EXPORT EventExec : public Event
+{
+public:
+	EventExec(const QString &cmd, const QStringList &args)
+		: Event(eEventInit), m_cmd(cmd), m_args(args) {}
+	const QString &cmd() const { return m_cmd; }
+	const QStringList &args() const { return m_args; }
+protected:
+	QString		m_cmd;
+	QStringList m_args;
+};
+
+class EXPORT EventSocketActive : public Event
+{
+public:
+	EventSocketActive(bool bActive)
+		: Event(eEventSocketActive), m_bActive(bActive) {}
+	bool active() const { return m_bActive; }
+protected:
+	bool		m_bActive;
+};
+
+class EXPORT EventArg : public Event
+{
+public:
+	EventArg(const QString &arg, const QString &desc = QString())
+		: Event(eEventArg), m_arg(arg), m_desc(desc) {}
+	const QString &arg()  const { return m_arg; }
+	const QString &desc() const { return m_desc; }
+	// out
+	void setValue(const QString &value) { m_value = value; }
+	const QString &value() const { return m_value; }
+protected:
+	QString		m_arg;
+	QString		m_desc;
+	QString		m_value;
+};
+
 // _____________________________________________________________________________________
 // Default events
-
-/* Init application - after load all plugins */
-const unsigned EventInit = 0x0101;
-
-/* Execute cmd - param is ExecParam* */
-const unsigned EventExec = 0x0110;
-
-typedef struct ExecParam
-{
-    const char *cmd;
-    const char *arg;
-} ExecParam;
-
-const unsigned EventQuit = 0x0111;
-
-/* Event change socket activity state
-*/
-const unsigned EventSocketActive = 0x0112;
-
-/* Get arg param is CmdParam */
-const unsigned EventArg = 0x0201;
-
-typedef struct CmdParam
-{
-    QString     arg;        // in
-    QString     descr;      // in
-    QString     value;      // out
-} CmdParam;
 
 const unsigned EventArgc = 0x0202;
 const unsigned EventArgv = 0x0203;

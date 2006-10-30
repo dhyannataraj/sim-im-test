@@ -175,7 +175,7 @@ void *WeatherPlugin::processEvent(Event *e)
 {
     if (e->type() == EventLanguageChanged)
         updateButton();
-    if (e->type() == EventInit)
+    if (e->type() == eEventInit)
         showBar();
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());

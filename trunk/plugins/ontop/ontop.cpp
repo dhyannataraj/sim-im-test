@@ -111,7 +111,7 @@ OnTopPlugin::~OnTopPlugin()
 
 void *OnTopPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventInit)
+    if (e->type() == eEventInit)
         setState();
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
