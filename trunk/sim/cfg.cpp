@@ -706,9 +706,14 @@ static QCString quoteInternal(const QCString &str)
             case '\n':
                 res += "\\n";
                 break;
-            case '\"':
-                res += "\\\"";
+            case '\"': {
+                res += "\\x";
+                res += toHex((unsigned char)(p >> 4));
+                res += toHex(p);
+// wrong because we put it inside "<TEXT>" ...
+//                res += "\\\"";
                 break;
+            }
             default:
                 if (p >= ' '){
                     res += p;
