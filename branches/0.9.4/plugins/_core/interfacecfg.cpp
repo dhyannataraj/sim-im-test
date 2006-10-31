@@ -257,7 +257,7 @@ void InterfaceConfig::apply()
             if (res != ERROR_SUCCESS)
                 log(L_WARN, "RegSetValue fail %u", res);
         }else{
-            DWORD res = RegDeleteKeyA(subKey, value_name);
+            DWORD res = RegDeleteValueA(subKey, value_name);
             if (res!= ERROR_SUCCESS)
                 log(L_WARN, "RegSetValue fail %u", res);
         }
