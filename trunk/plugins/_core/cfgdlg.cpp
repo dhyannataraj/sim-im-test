@@ -537,7 +537,7 @@ void ConfigureDialog::apply()
 
 void *ConfigureDialog::processEvent(Event *e)
 {
-    if (e->type() == EventLanguageChanged)
+    if (e->type() == eEventLanguageChanged)
         bLanguageChanged = true;
     if (e->type() == EventPluginChanged){
         pluginInfo *info = (pluginInfo*)(e->param());

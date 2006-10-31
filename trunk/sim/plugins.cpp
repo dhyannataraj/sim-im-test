@@ -123,9 +123,6 @@ protected:
     unsigned long execute(const char *prg, const char *arg);
 #endif
 
-    int m_argc;
-    char **m_argv;
-
     QString app_name;
     QStringList args;
     vector<pluginInfo> plugins;
@@ -181,8 +178,6 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         : EventReceiver(LowPriority)
 {
     m_bAbort = false;
-    m_argc = argc;
-    m_argv = argv;
     unsigned logLevel = L_ERROR | L_WARN;
     // #ifdef DEBUG // zowers: commented out ifdef to be able to get some output from users even on production systems
     logLevel |= L_DEBUG;
@@ -317,10 +312,11 @@ void *PluginManagerPrivate::processEvent(Event *e)
         break;
     case EventGetPluginInfo:
         return getInfo((QString*)(e->param()));
-    case EventArgc:
-        return (void*)(long)m_argc;
-    case EventArgv:
-        return (void*)(long)m_argv;
+    case eEventGetArgs: {
+        EventGetArgs *ga = static_cast<EventGetArgs*>(e);
+        ga->setArgs(qApp->argc(), qApp->argv());
+        return (void*)1;
+    }
 #ifndef WIN32
 	case eEventExec: {
         EventExec *exec = static_cast<EventExec*>(e);

@@ -796,10 +796,10 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     XSetWMHints(dsp, win, hints);
     XFree( hints );
 
-    Event eArgc(EventArgc);
-    long argc = (long)eArgc.process();
-    Event eArgv(EventArgv);
-    char **argv = (char**)eArgv.process();
+    EventGetArgs e;
+    e.process();
+    long argc = e.argc();
+    const char **argv = e.argv();
     XSetCommand(dsp, win, argv, argc);
 
     if (!inNetTray){
@@ -861,7 +861,7 @@ void *DockWnd::processEvent(Event *e)
     case EventIconChanged:
         setIcon((bBlink && m_unread) ? m_unread : m_state);
         break;
-    case EventLanguageChanged:
+    case eEventLanguageChanged:
         setTip(m_tip);
         break;
     case eEventQuit:

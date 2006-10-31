@@ -1590,7 +1590,7 @@ void CorePlugin::installTranslator()
 #if !defined(WIN32) && !defined(USE_KDE)
     resetPlural();
 #endif
-    Event e(EventLanguageChanged, m_translator);
+    EventLanguageChanged e(m_translator);
     e.process();
 }
 
@@ -1603,7 +1603,7 @@ void CorePlugin::removeTranslator()
 #if !defined(WIN32) && !defined(USE_KDE)
         resetPlural();
 #endif
-        Event e(EventLanguageChanged, NULL);
+        EventLanguageChanged e(NULL);
         e.process();
     }
 }

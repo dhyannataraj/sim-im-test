@@ -636,7 +636,7 @@ void* CToolBar::processEvent(Event *e)
                 return (*it).second->widget();
         }
         return NULL;
-    case EventLanguageChanged:
+    case eEventLanguageChanged:
     case EventIconChanged:
         for (it = buttons->begin(); it != buttons->end(); ++it){
             (*it).second->setState();

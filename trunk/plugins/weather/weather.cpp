@@ -173,7 +173,7 @@ void WeatherPlugin::timeout()
 
 void *WeatherPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventLanguageChanged)
+    if (e->type() == eEventLanguageChanged)
         updateButton();
     if (e->type() == eEventInit)
         showBar();

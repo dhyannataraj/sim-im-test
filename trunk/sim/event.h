@@ -24,6 +24,8 @@
 
 #include "buffer.h"
 
+class QTranslator;
+
 namespace SIM {
 
 // ___________________________________________________________________________________
@@ -71,7 +73,9 @@ enum SIMEvents
 	eEventQuit	= 0x0102,	// last event until plugins are unloaded
 	eEventExec	= 0x0110,	// execute an external programm
 	eEventSocketActive = 0x0112,	// change socket activity state
-	eEventArg	= 0x0201,	// get command line argument
+	eEventArg	    = 0x0201,	// get command line argument
+    eEventGetArgs   = 0x0202,   // get all command line arguments
+    eEventLanguageChanged   = 0x0301,   // i18n changed
 };
 
 class EXPORT EventLog : public Event
@@ -156,15 +160,35 @@ protected:
 	QString		m_value;
 };
 
+class EXPORT EventGetArgs : public Event
+{
+public:
+	EventGetArgs() : Event(eEventGetArgs) {}
+    // FIXME for Qt4!
+    void setArgs(unsigned argc, char **argv)
+    {
+        m_argc = argc;
+        m_argv = argv;
+    }
+    unsigned argc() const { return m_argc; }
+    char **argv() const { return m_argv; }
+protected:
+	unsigned      m_argc;
+    char        **m_argv;
+};
+
+class EXPORT EventLanguageChanged : public Event
+{
+public:
+	EventLanguageChanged(QTranslator *translator)
+		: Event(eEventLanguageChanged), m_translator(translator) {}
+	QTranslator *translator() const { return m_translator; }
+protected:
+	QTranslator *m_translator;
+};
+
 // _____________________________________________________________________________________
 // Default events
-
-const unsigned EventArgc = 0x0202;
-const unsigned EventArgv = 0x0203;
-
-/* Notification langauge changed
-   param is new translator */
-const unsigned EventLanguageChanged = 0x0301;
 
 /* Notification about change plugin state
    param is pluginInfo* */
