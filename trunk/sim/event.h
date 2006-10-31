@@ -28,6 +28,8 @@ class QTranslator;
 
 namespace SIM {
 
+struct pluginInfo;
+
 // ___________________________________________________________________________________
 // Event receiver
 
@@ -76,6 +78,12 @@ enum SIMEvents
 	eEventArg	    = 0x0201,	// get command line argument
     eEventGetArgs   = 0x0202,   // get all command line arguments
     eEventLanguageChanged   = 0x0301,   // i18n changed
+    eEventPluginChanged     = 0x0302,   // a plugin was (un)loaded
+    eEventGetPluginInfo     = 0x0303,   // get plugin at pluginidx n, ret: pluginInfo
+    eEventApplyPlugin       = 0x0304,   // ?
+    eEventLoadPlugin        = 0x0305,   // a plugin should be loaded
+    eEventUnloadPlugin      = 0x0306,   // a plugin should be unloaded
+
 };
 
 class EXPORT EventLog : public Event
@@ -187,29 +195,69 @@ protected:
 	QTranslator *m_translator;
 };
 
+class EXPORT EventPluginChanged : public Event
+{
+public:
+	EventPluginChanged(pluginInfo *info)
+		: Event(eEventPluginChanged), m_info(info) {}
+	pluginInfo *info() const { return m_info; }
+protected:
+	pluginInfo *m_info;
+};
+
+class EXPORT EventGetPluginInfo : public Event
+{
+public:
+	EventGetPluginInfo(unsigned idx)
+		: Event(eEventGetPluginInfo), m_idx(idx), m_pluginName(), m_info(0) {}
+	EventGetPluginInfo(const QString &pluginName)
+		: Event(eEventGetPluginInfo), m_idx(0), m_pluginName(pluginName), m_info(0) {}
+    unsigned idx() const { return m_idx; }
+    const QString &pluginName() const { return m_pluginName; }
+    // out
+    void setInfo(pluginInfo *info) { m_info = info; }
+	pluginInfo *info() const { return m_info; }
+protected:
+    unsigned    m_idx;
+    QString     m_pluginName;
+	pluginInfo *m_info;
+};
+
+class EXPORT EventApplyPlugin : public Event
+{
+public:
+	EventApplyPlugin(const QString &pluginName)
+		: Event(eEventApplyPlugin), m_pluginName(pluginName) {}
+	const QString &pluginName() const { return m_pluginName; }
+protected:
+	QString     m_pluginName;
+};
+
+class EXPORT EventLoadPlugin : public Event
+{
+public:
+	EventLoadPlugin(const QString &pluginName)
+		: Event(eEventLoadPlugin), m_pluginName(pluginName) {}
+	const QString &pluginName() const { return m_pluginName; }
+protected:
+	QString     m_pluginName;
+};
+
+class EXPORT EventUnloadPlugin : public Event
+{
+public:
+	EventUnloadPlugin(const QString &pluginName)
+		: Event(eEventUnloadPlugin), m_pluginName(pluginName) {}
+	const QString &pluginName() const { return m_pluginName; }
+protected:
+	QString     m_pluginName;
+};
+
 // _____________________________________________________________________________________
 // Default events
 
-/* Notification about change plugin state
-   param is pluginInfo* */
-const unsigned EventPluginChanged   = 0x0302;
-
-/* Event get plugin info param is plugin number
-   return pluginInfo* 
-*/
-const unsigned EventPluginGetInfo   = 0x0303;
-/* param is plugin string (QString*)
-*/
-const unsigned EventApplyPlugin     = 0x0304;
-const unsigned EventLoadPlugin      = 0x0305;
-const unsigned EventUnloadPlugin    = 0x0306;
-
 const unsigned EventPluginsUnload   = 0x0307;
 const unsigned EventPluginsLoad     = 0x0308;
-
-/* param is plugin string (QString*)
-*/
-const unsigned EventGetPluginInfo   = 0x0309;
 
 /* Event - save state
 */

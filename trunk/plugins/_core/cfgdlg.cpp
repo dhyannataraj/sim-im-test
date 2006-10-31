@@ -179,7 +179,7 @@ void PluginItem::apply()
             m_widget = NULL;
         }
     }
-    Event e(EventApplyPlugin, &m_info->name);
+    EventApplyPlugin e(m_info->name);
     e.process();
 }
 
@@ -336,12 +336,15 @@ ConfigureDialog::~ConfigureDialog()
 {
     lstBox->clear();
     for (unsigned long n = 0;; n++){
-        Event e(EventPluginGetInfo, (void*)n);
-        pluginInfo *info = (pluginInfo*)e.process();
-        if (info == NULL) break;
-        if (info->plugin == NULL) continue;
+        EventGetPluginInfo e(n);
+        e.process();
+        const pluginInfo *info = e.info();
+        if (info == NULL)
+            break;
+        if (info->plugin == NULL)
+            continue;
         if (info->bDisabled){
-            Event eUnload(EventUnloadPlugin, &info->name);
+            EventUnloadPlugin eUnload(info->name);
             eUnload.process();
         }
     }
@@ -412,11 +415,13 @@ void ConfigureDialog::fill(unsigned id)
     parentItem->setOpen(true);
 
     for ( n = 0;; n++){
-        Event e(EventPluginGetInfo, (void*)n);
-        pluginInfo *info = (pluginInfo*)e.process();
-        if (info == NULL) break;
+        EventGetPluginInfo e(n);
+        e.process();
+        pluginInfo *info = e.info();
+        if (info == NULL)
+            break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, &info->name);
+            EventLoadPlugin e(info->name);
             e.process();
         }
         if ((info->info == NULL) || (info->info->title == NULL)) continue;
@@ -539,9 +544,10 @@ void *ConfigureDialog::processEvent(Event *e)
 {
     if (e->type() == eEventLanguageChanged)
         bLanguageChanged = true;
-    if (e->type() == EventPluginChanged){
-        pluginInfo *info = (pluginInfo*)(e->param());
-        if (info->plugin == NULL){
+    if (e->type() == eEventPluginChanged){
+        EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
+        pluginInfo *info = p->info();
+        if (info && info->plugin == NULL){
             for (QListViewItem *i = lstBox->firstChild(); i; i = i->nextSibling()){
                 ConfigItem *item = static_cast<ConfigItem*>(i);
                 if (item->type() != PLUGIN_ITEM)

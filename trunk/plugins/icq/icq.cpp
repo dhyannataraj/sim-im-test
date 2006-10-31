@@ -298,9 +298,9 @@ ICQPlugin *ICQPlugin::icq_plugin = NULL;
 ICQPlugin::ICQPlugin(unsigned base)
         : Plugin(base)
 {
-    QString pluginName("_core");
-    Event ePlugin(EventGetPluginInfo, &pluginName);
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 
     icq_plugin = this;

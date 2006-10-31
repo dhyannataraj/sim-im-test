@@ -47,9 +47,9 @@ CorePlugin *YahooPlugin::core = NULL;
 YahooPlugin::YahooPlugin(unsigned base)
         : Plugin(base)
 {
-    QString pluginName("_core");
-    Event ePlugin(EventGetPluginInfo, &pluginName);
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
     YahooPacket = registerType();
     getContacts()->addPacketType(YahooPacket, "Yahoo!");

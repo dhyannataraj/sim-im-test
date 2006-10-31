@@ -160,9 +160,9 @@ OSDPlugin::OSDPlugin(unsigned base)
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 
-    QString pluginName("_core");
-    Event ePlugin(EventGetPluginInfo, &pluginName);
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 }
 

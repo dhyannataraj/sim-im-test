@@ -104,20 +104,20 @@ protected:
     bool createPlugin(pluginInfo&);
 
     void release(pluginInfo&, bool bFree = true);
-    void release(const QString *name);
+    void release(const QString &name);
     void release_all(Plugin *to);
 
     void load(pluginInfo&);
-    void load(const QString *name);
+    void load(const QString &name);
     void load_all(Plugin *to);
 
     void saveState();
     void loadState();
     void reloadState();
 
-    pluginInfo *getInfo(const QString *name);
+    pluginInfo *getInfo(const QString &name);
     pluginInfo *getInfo(unsigned n);
-    bool setInfo(const QString *name);
+    bool setInfo(const QString &name);
 
 #ifndef WIN32
     unsigned long execute(const QString &prg, const QStringList &args);
@@ -246,9 +246,9 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         plugins.push_back(info);
         log(L_DEBUG,"Found plugin %s",info.name.local8Bit().data());
     }
-    QString pluginName("_core");
-    Event eCorePlugin(EventGetPluginInfo, &pluginName);
-    pluginInfo *coreInfo = static_cast<pluginInfo*>(eCorePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *coreInfo = ePlugin.info();
     if (!coreInfo) {
         log(L_ERROR,"Fatal error: Core plugin failed to load. Aborting!");
         m_bAbort = true;
@@ -291,27 +291,37 @@ void *PluginManagerPrivate::processEvent(Event *e)
         EventArg *a = static_cast<EventArg*>(e);
         return (void*)findParam(a);
 	}
-    case EventPluginGetInfo:
-        return getInfo((unsigned long)(e->param()));
-    case EventApplyPlugin:
-        return (void*)setInfo((QString*)e->param());
+    case eEventGetPluginInfo: {
+        EventGetPluginInfo *info = static_cast<EventGetPluginInfo*>(e);
+        if(info->pluginName().isEmpty())
+            info->setInfo(getInfo(info->idx()));
+        else
+            info->setInfo(getInfo(info->pluginName()));
+        return (void*)1;
+    }
+    case eEventApplyPlugin: {
+        EventApplyPlugin *p = static_cast<EventApplyPlugin*>(e);
+        return (void*)setInfo(p->pluginName());
+    }
     case EventPluginsUnload:
         release_all((Plugin*)(e->param()));
         return e->param();
     case EventPluginsLoad:
         load_all((Plugin*)(e->param()));
         return e->param();
-    case EventUnloadPlugin:
-        release((QString*)e->param());
+    case eEventUnloadPlugin: {
+        EventUnloadPlugin *p = static_cast<EventUnloadPlugin*>(e);
+        release(p->pluginName());
+        return (void*)1;
+    }
+    case eEventLoadPlugin: {
+        EventLoadPlugin *p = static_cast<EventLoadPlugin*>(e);
+        load(p->pluginName());
         return e->param();
-    case EventLoadPlugin:
-        load((QString*)e->param());
-        return e->param();
+    }
     case EventSaveState:
         saveState();
         break;
-    case EventGetPluginInfo:
-        return getInfo((QString*)(e->param()));
     case eEventGetArgs: {
         EventGetArgs *ga = static_cast<EventGetArgs*>(e);
         ga->setArgs(qApp->argc(), qApp->argv());
@@ -329,13 +339,13 @@ void *PluginManagerPrivate::processEvent(Event *e)
     return NULL;
 }
 
-pluginInfo *PluginManagerPrivate::getInfo(const QString *name)
+pluginInfo *PluginManagerPrivate::getInfo(const QString &name)
 {
-    if (!name || name->isEmpty())
+    if (name.isEmpty())
         return NULL;
     for (size_t n = 0; n < plugins.size(); n++){
         pluginInfo &info = plugins[n];
-        if (info.name == *name)
+        if (info.name == name)
             return &info;
     }
     return NULL;
@@ -359,7 +369,7 @@ void PluginManagerPrivate::release_all(Plugin *to)
     }
 }
 
-void PluginManagerPrivate::load(const QString *name)
+void PluginManagerPrivate::load(const QString &name)
 {
     pluginInfo *info = getInfo(name);
     if (info)
@@ -479,7 +489,7 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         reloadState();
         loadState();
     }
-    Event e(EventPluginChanged, &info);
+    EventPluginChanged e(&info);
     e.process();
     return true;
 }
@@ -502,7 +512,7 @@ void PluginManagerPrivate::load_all(Plugin *from)
         create(plugins[i]);
 }
 
-void PluginManagerPrivate::release(const QString *name)
+void PluginManagerPrivate::release(const QString &name)
 {
     pluginInfo *info = getInfo(name);
     if (info)
@@ -515,7 +525,7 @@ void PluginManagerPrivate::release(pluginInfo &info, bool bFree)
         log(L_DEBUG, "Unload plugin %s", info.name.local8Bit().data());
         delete info.plugin;
         info.plugin = NULL;
-        Event e(EventPluginChanged, &info);
+        EventPluginChanged e(&info);
         e.process();
     }
     if (info.module){
@@ -534,7 +544,7 @@ pluginInfo *PluginManagerPrivate::getInfo(unsigned n)
     return &info;
 }
 
-bool PluginManagerPrivate::setInfo(const QString *name)
+bool PluginManagerPrivate::setInfo(const QString &name)
 {
     pluginInfo *info = getInfo(name);
     if (info == NULL)

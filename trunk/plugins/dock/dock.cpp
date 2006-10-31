@@ -87,9 +87,9 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
     m_inactiveTime = 0;
     m_popup = NULL;
 
-    QString pluginName("_core");
-    Event ePlugin(EventGetPluginInfo, &pluginName);
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     m_core = static_cast<CorePlugin*>(info->plugin);
 
     DockMenu     = registerType();

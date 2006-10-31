@@ -17,6 +17,7 @@
 
 // system includes
 #include <qvaluelist.h>
+#include <time.h>
 // own header
 #include "event.h"
 // local includes

@@ -35,9 +35,9 @@ ICQConfig::ICQConfig(QWidget *parent, ICQClient *client, bool bConfig)
 {
     m_client = client;
     m_bConfig = bConfig;
-    QString pluginName("_core");
-    Event ePlugin(EventGetPluginInfo, &pluginName);
-    pluginInfo *info = (pluginInfo*)(ePlugin.process());
+    EventGetPluginInfo ePlugin("_core");
+    ePlugin.process();
+    const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
     if (m_bConfig){
         QTimer::singleShot(0, this, SLOT(changed()));

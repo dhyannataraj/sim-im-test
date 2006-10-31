@@ -492,7 +492,7 @@ void *UserConfig::processEvent(Event *e)
         removeCommand((unsigned long)(e->param()));
         return NULL;
     case eEventLanguageChanged:
-    case EventPluginChanged:
+    case eEventPluginChanged:
     case EventClientsChanged:
         fill();
         return NULL;

@@ -1816,8 +1816,9 @@ void *CorePlugin::processEvent(Event *e)
             setAutoReplies();
             return this;
         }
-    case EventPluginChanged:{
-            pluginInfo *info = (pluginInfo*)(e->param());
+    case eEventPluginChanged:{
+            EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
+            pluginInfo *info = p->info();
             if (info->plugin == this){
                 QString profile = getProfile();
                 free_data(coreData, &data);
@@ -3615,9 +3616,9 @@ void CorePlugin::changeProfile()
     preferences.clear();
     Event eLoad(EventPluginsLoad, static_cast<Plugin*>(this));
     eLoad.process();
-    QString pluginName("_core");
-    Event eInfo(EventGetPluginInfo, &pluginName);
-    pluginInfo *info = (pluginInfo*)(eInfo.process());
+    EventGetPluginInfo eInfo("_core");
+    eInfo.process();
+    pluginInfo *info = eInfo.info();
     free_data(coreData, &data);
     load_data(coreData, &data, info->cfg);
     setStatusTime(time(NULL));
@@ -3989,8 +3990,9 @@ string CorePlugin::getConfig()
             Protocol *protocol = client->protocol();
             pluginInfo *info = NULL;
             for (unsigned long n = 0;; n++){
-                Event e(EventPluginGetInfo, (void*)n);
-                info = (pluginInfo*)e.process();
+                EventGetPluginInfo e(n);
+                e.process();
+                info = e.info();
                 if (info == NULL)
                     break;
                 if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
@@ -4125,22 +4127,23 @@ Client *CorePlugin::loadClient(const QString &name, Buffer *cfg)
     QString pluginName = getToken(clientName, '/');
     if ((pluginName.isEmpty()) || (clientName.length() == 0))
         return NULL;
-    Event e(EventGetPluginInfo, &pluginName);
-    pluginInfo *info = (pluginInfo*)e.process();
+    EventGetPluginInfo e(pluginName);
+    e.process();
+    pluginInfo *info = e.info();
     if (info == NULL){
         log(L_WARN, "Plugin %s not found", pluginName.local8Bit().data());
         return NULL;
     }
     if (info->info == NULL){
-        Event e(EventLoadPlugin, &pluginName);
+        EventLoadPlugin e(pluginName);
         e.process();
     }
     if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-        log(L_DEBUG, "Plugin %s no protocol", pluginName.local8Bit().data());
+        log(L_DEBUG, "Plugin %s is not a protocol plugin", pluginName.local8Bit().data());
         return NULL;
     }
     info->bDisabled = false;
-    Event eApply(EventApplyPlugin, &pluginName);
+    EventApplyPlugin eApply(pluginName);
     eApply.process();
     Protocol *protocol;
     ContactList::ProtocolIterator it;

@@ -52,22 +52,23 @@ NewProtocol::NewProtocol(QWidget *parent, int default_protocol, bool bConnect)
     setCaption(caption());
     helpButton()->hide();
     for (unsigned long n = 0;; n++){
-        Event e(EventPluginGetInfo, (void*)n);
-        pluginInfo *info = (pluginInfo*)e.process();
+        EventGetPluginInfo e(n);
+        e.process();
+        pluginInfo *info = e.info();
         if (info == NULL)
             break;
         if (info->info == NULL){
-            Event e(EventLoadPlugin, &info->name);
+            EventLoadPlugin e(info->name);
             e.process();
             if (info->info && !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT))){
-                Event e(EventUnloadPlugin, &info->name);
+                EventUnloadPlugin e(info->name);
                 e.process();
             }
         }
         if ((info->info == NULL) || !(info->info->flags & (PLUGIN_PROTOCOL & ~PLUGIN_NOLOAD_DEFAULT)))
             continue;
         info->bDisabled = false;
-        Event eApply(EventApplyPlugin, &info->name);
+        EventApplyPlugin eApply(info->name);
         eApply.process();
     }
     Protocol *protocol;
@@ -102,8 +103,9 @@ NewProtocol::~NewProtocol()
     if (m_client)
         delete m_client;
     for (unsigned long n = 0;; n++){
-        Event e(EventPluginGetInfo, (void*)n);
-        pluginInfo *info = (pluginInfo*)e.process();
+        EventGetPluginInfo e(n);
+        e.process();
+        pluginInfo *info = e.info();
         if (info == NULL)
             break;
         if ((info->info == NULL) ||
@@ -118,9 +120,9 @@ NewProtocol::~NewProtocol()
         if (i < getContacts()->nClients())
             continue;
         info->bDisabled = true;
-        Event eApply(EventApplyPlugin, &info->name);
+        EventApplyPlugin eApply(info->name);
         eApply.process();
-        Event eUnload(EventUnloadPlugin, &info->name);
+        EventUnloadPlugin eUnload(info->name);
         eUnload.process();
     }
 }

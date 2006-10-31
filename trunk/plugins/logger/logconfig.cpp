@@ -141,7 +141,7 @@ int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
 
 void *LogConfig::processEvent(Event *e)
 {
-    if ((e->type() == EventPluginChanged) || (e->type() == eEventLanguageChanged))
+    if ((e->type() == eEventPluginChanged) || (e->type() == eEventLanguageChanged))
         fill();
     return NULL;
 }
