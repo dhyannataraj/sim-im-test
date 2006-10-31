@@ -35,8 +35,8 @@
 #ifdef WIN32
 #include <windows.h>
 
-static char key_name[]   = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
-static char value_name[] = "SIM";
+static WCHAR key_name[]   = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+static WCHAR value_name[] = L"SIM";
 
 #endif
 
@@ -148,11 +148,11 @@ InterfaceConfig::InterfaceConfig(QWidget *parent)
     chkOwnerName->setChecked(CorePlugin::m_plugin->getShowOwnerName());
 #ifdef WIN32
     HKEY subKey;
-    if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
+    if (RegOpenKeyExW(HKEY_CURRENT_USER, key_name, 0,
                       KEY_READ | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
         DWORD vType = REG_SZ;
         DWORD vCount = 0;
-        if (RegQueryValueExA(subKey, value_name, NULL, &vType, NULL, &vCount) == ERROR_SUCCESS)
+        if (RegQueryValueExW(subKey, value_name, NULL, &vType, NULL, &vCount) == ERROR_SUCCESS)
             chkStart->setChecked(true);
         RegCloseKey(subKey);
     }
@@ -253,17 +253,17 @@ void InterfaceConfig::apply()
 #endif
 #ifdef WIN32
     HKEY subKey;
-    if (RegOpenKeyExA(HKEY_CURRENT_USER, key_name, 0,
+    if (RegOpenKeyExW(HKEY_CURRENT_USER, key_name, 0,
                       KEY_WRITE | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
         if (chkStart->isChecked()){
             QString path = app_file("sim.exe");
-            DWORD res = RegSetValueExA(subKey, value_name, 0, REG_SZ, (unsigned char*)path.latin1(), path.length());
+            DWORD res = RegSetValueExW(subKey, value_name, 0, REG_MULTI_SZ, (BYTE*)path.ucs2(), (path.length() + 1) * 2);
             if (res != ERROR_SUCCESS)
                 log(L_WARN, "RegSetValue fail %u", res);
         }else{
-            DWORD res = RegDeleteKeyA(subKey, value_name);
+            DWORD res = RegDeleteValueW(subKey, value_name);
             if (res!=ERROR_SUCCESS && res!=ERROR_FILE_NOT_FOUND)
-                log(L_WARN, "RegDeleteKey fail %u", res);
+                log(L_WARN, "RegDeleteValue fail %u", res);
         }
     }
     RegCloseKey(subKey);
