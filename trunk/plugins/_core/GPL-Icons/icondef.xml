@@ -196,15 +196,16 @@
     <!-- Origin: http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr16-action-remove.png?rev=518495 -->
   </icon>
 
-<!--  <icon name="collapsed">
-        <object mime="image/png">collapsed.png</object>
+  <icon name="collapsed">
+    <object mime="image/png">group_collapsed.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Modification of: http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr22-action-1downarrow.png?rev=518495 -->
   </icon>
   <icon name="expanded">
-        <object mime="image/png">expanded.png</object>
-  </icon> -->
-
-  
-
+    <object mime="image/png">group_expanded.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Modification of: http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr22-action-1downarrow.png?rev=518495 -->
+  </icon>
 
 
 </icondef>
