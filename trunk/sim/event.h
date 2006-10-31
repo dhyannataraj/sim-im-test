@@ -20,6 +20,7 @@
 
 #include <qpoint.h>
 #include <qsize.h>
+#include <qstringlist.h>
 
 #include "buffer.h"
 
