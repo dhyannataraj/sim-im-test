@@ -799,7 +799,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     EventGetArgs e;
     e.process();
     long argc = e.argc();
-    const char **argv = e.argv();
+    char **argv = e.argv();
     XSetCommand(dsp, win, argv, argc);
 
     if (!inNetTray){

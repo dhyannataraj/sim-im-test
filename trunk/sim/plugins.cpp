@@ -120,7 +120,7 @@ protected:
     bool setInfo(const QString *name);
 
 #ifndef WIN32
-    unsigned long execute(const char *prg, const char *arg);
+    unsigned long execute(const QString &prg, const QStringList &args);
 #endif
 
     QString app_name;
@@ -320,7 +320,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
 #ifndef WIN32
 	case eEventExec: {
         EventExec *exec = static_cast<EventExec*>(e);
-        return (void*)execute(exec->cmd(), exec->arg());
+        return (void*)execute(exec->cmd(), exec->args());
 	}
 #endif
     default:
@@ -785,8 +785,8 @@ unsigned long PluginManagerPrivate::execute(const QString &prg, const QStringLis
     if (prg.isEmpty() == 0)
         return 0;
 
-	log(L_DEBUG, "Exec: %s", (const char*)p.local8Bit());
-	// FIXME: use QProcess instead!
+    log(L_DEBUG, "Exec: %s", (const char*)prg.local8Bit());
+    // FIXME: use QProcess instead!
     QStringList s = args;
     char **arglist = new char*[s.count()+1];
     unsigned i = 0;
