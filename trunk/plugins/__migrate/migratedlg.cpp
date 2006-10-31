@@ -169,8 +169,8 @@ void MigrateDialog::process()
         cfg.init(icqConf.size());
         icqConf.readBlock(cfg.data(), icqConf.size());
         for (;;){
-            string section = cfg.getSection();
-            if (section.empty())
+            QCString section = cfg.getSection();
+            if (section.isEmpty())
                 break;
             m_state = 3;
             if (section == "Group")
@@ -180,13 +180,13 @@ void MigrateDialog::process()
             if (!m_bProcess)
                 return;
             for (;;){
-                char *l = cfg.getLine();
-                if (l == NULL)
+                QCString l = cfg.getLine();
+                if (l.isEmpty())
                     break;
-                string line = l;
-                string name = getToken(line, '=');
+                QCString line = l;
+                QCString name = getToken(line, '=');
                 if (name == "UIN")
-                    m_uin = atol(line.c_str());
+                    m_uin = line.toUInt();
                 if (name == "EncryptPassword")
                     m_passwd = line;
                 if (name == "Name")
@@ -220,7 +220,7 @@ void MigrateDialog::process()
             hTo.close();
             hFrom.setName(h_path + (*it));
             lblStatus->setText(h_path + (*it));
-            hTo.setName(h_path + m_owner.c_str() + "." + (*it).left((*it).find(".")));
+            hTo.setName(h_path + QString(m_owner) + "." + (*it).left((*it).find(".")));
             if (!hFrom.open(IO_ReadOnly)){
                 error(i18n("Can't open %1") .arg(hFrom.name()));
                 return;
@@ -232,8 +232,8 @@ void MigrateDialog::process()
             cfg.init(hFrom.size());
             hFrom.readBlock(cfg.data(), hFrom.size());
             for (;;){
-                string section = cfg.getSection();
-                if (section.empty())
+                QCString section = cfg.getSection();
+                if (section.isEmpty())
                     break;
                 m_state = 3;
                 if (section == "Message")
@@ -241,11 +241,11 @@ void MigrateDialog::process()
                 if (!m_bProcess)
                     return;
                 for (;;){
-                    char *l = cfg.getLine();
-                    if (l == NULL)
+                    QCString l = cfg.getLine();
+                    if (l.isEmpty())
                         break;
-                    string line = l;
-                    string name = getToken(line, '=');
+                    QCString line = l;
+                    QCString name = getToken(line, '=');
                     if (name == "Message")
                         m_message = line;
                     if (name == "Time")
@@ -284,27 +284,26 @@ void MigrateDialog::process()
 
 void MigrateDialog::flush()
 {
-    string output;
+    QCString output;
     switch (m_state){
     case 0:
         output = "[icq/ICQ]\n";
-        clientsConf.writeBlock(output.c_str(), output.length());
+        clientsConf.writeBlock(output, output.length());
         output = "Uin=";
-        output += number(m_uin);
+		output += QString::number(m_uin);
         output += "\n";
-        if (!m_passwd.empty()){
-            m_passwd = unquoteString(m_passwd.c_str()).ascii();
+        if (!m_passwd.isEmpty()){
+            m_passwd = unquoteString(m_passwd);
             unsigned char xor_table[] =
                 {
                     0xf3, 0x26, 0x81, 0xc4, 0x39, 0x86, 0xdb, 0x92,
                     0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
                 };
-            unsigned i;
-            for (i = 0; i < m_passwd.length(); i++)
+            for (int i = 0; i < (int)m_passwd.length(); i++)
                 m_passwd[i] = (char)(m_passwd[i] ^ xor_table[i]);
-            string new_passwd;
+            QCString new_passwd;
             unsigned short temp = 0x4345;
-            for (i = 0; i < m_passwd.length(); i++) {
+            for (int i = 0; i < (int)m_passwd.length(); i++) {
                 temp ^= m_passwd[i];
                 new_passwd += '$';
                 char buff[8];
@@ -315,30 +314,30 @@ void MigrateDialog::flush()
             output += new_passwd;
             output += "\"\n";
         }
-        clientsConf.writeBlock(output.c_str(), output.length());
+        clientsConf.writeBlock(output, output.length());
         m_owner = "ICQ.";
-        m_owner += number(m_uin);
+        m_owner += QString::number(m_uin);
         break;
     case 1:
-        if (!m_name.empty()){
+        if (!m_name.isEmpty()){
             output = "[Group=";
-            output += number(++m_grpId);
+            output += QString::number(++m_grpId);
             output += "]\n";
             output += "Name=\"";
             output += m_name;
             output += "\"\n";
-            contactsConf.writeBlock(output.c_str(), output.length());
+            contactsConf.writeBlock(output, output.length());
         }
         break;
     case 2:
         output = "[Contact=";
-        output += number(++m_contactId);
+        output += QString::number(++m_contactId);
         output += "]\n";
         if (m_uin >= 0x80000000)
             m_uin = 0;
-        if (m_name.empty())
-            m_name = number(m_uin);
-        if (!m_name.empty()){
+        if (m_name.isEmpty())
+			m_name = QString::number(m_uin);
+        if (!m_name.isEmpty()){
             output += "Name=\"";
             output += m_name;
             output += "\"\n";
@@ -348,32 +347,32 @@ void MigrateDialog::flush()
             output += m_owner;
             output += "]\n";
             output += "Uin=";
-            output += number(m_uin);
+            output += QString::number(m_uin);
             output += "\n";
         }
-        contactsConf.writeBlock(output.c_str(), output.length());
+        contactsConf.writeBlock(output, output.length());
         break;
     case 4:
-        if (!m_message.empty()){
-            QString msg = QString::fromLocal8Bit(m_message.c_str());
-            if (!m_charset.empty()){
-                QTextCodec *codec = QTextCodec::codecForName(m_charset.c_str());
+        if (!m_message.isEmpty()){
+            QString msg = QString::fromLocal8Bit(m_message);
+            if (!m_charset.isEmpty()){
+                QTextCodec *codec = QTextCodec::codecForName(m_charset);
                 if (codec)
-                    msg = codec->toUnicode(m_message.c_str());
+                    msg = codec->toUnicode(m_message);
             }
             output = "[Message]\n";
             output += "Text=\"";
             output += quoteChars(msg, "\"", false).local8Bit();
             output += "\"\n";
-            if (m_direction.empty()){
+            if (m_direction.isEmpty()){
                 output += "Flags=2\n";
             }else{
                 output += "Flags=3\n";
             }
             output += "Time=";
-            output += m_time.c_str();
+            output += m_time;
             output += "\n";
-            hTo.writeBlock(output.c_str(), output.length());
+            hTo.writeBlock(output, output.length());
         }
         break;
     }

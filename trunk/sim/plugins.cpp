@@ -636,7 +636,8 @@ void PluginManagerPrivate::reloadState()
 
 void PluginManagerPrivate::loadState()
 {
-    if (m_bLoaded) return;
+    if (m_bLoaded)
+		return;
 
     m_bLoaded = true;
     QFile f(user_file(PLUGINS_CONF));
@@ -664,21 +665,14 @@ void PluginManagerPrivate::loadState()
         return;
     }
 
-    Buffer cfg;
-    cfg.init(f.size());
-    int n = f.readBlock(cfg.data(), f.size());
-
-    if (n < 0){
-        log(L_ERROR, "Can't read %s", f.name().ascii());
-        return;
-    }
+    Buffer cfg = f.readAll();
 
     bool continous=TRUE;
     while(continous) {
 
-        string section = cfg.getSection();
+        QCString section = cfg.getSection();
 
-        if (section.empty())
+        if (section.isEmpty())
             return;
         unsigned long i = NO_PLUGIN;
         for (unsigned n = 0; n < plugins.size(); n++)
@@ -691,11 +685,11 @@ void PluginManagerPrivate::loadState()
             continue;
 
         pluginInfo &info = plugins[i];
-        const char *line = cfg.getLine();
+        QCString line = cfg.getLine();
 
-        if (line == NULL)
+        if (line.isEmpty())
             continue;
-        string token = getToken(line, ',');
+        QCString token = getToken(line, ',');
         if (token == ENABLE){
             info.bDisabled = false;
             info.bFromCfg  = true;
@@ -704,9 +698,10 @@ void PluginManagerPrivate::loadState()
             info.bDisabled = true;
             info.bFromCfg  = true;
         }
-        else {continue;}
+        else
+			continue;
 
-        info.base = atol(line);
+        info.base = line.toULong();
 
         if (info.base > m_base)
             m_base = info.base;

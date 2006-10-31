@@ -4109,10 +4109,10 @@ void CorePlugin::loadClients(ClientList &clients)
         return;
     }
     for (;;){
-        string section = cfg.getSection();
-        if (section.empty())
+        QCString section = cfg.getSection();
+        if (section.isEmpty())
             break;
-        QString s = section.c_str();
+        QString s = section;	// ?
         Client *client = loadClient(s, &cfg);
         if (client)
             clients.push_back(client);

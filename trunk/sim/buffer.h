@@ -156,9 +156,9 @@ public:
     void fromBase64(Buffer &from);
     void toBase64(Buffer &from);
 
-    std::string	getSection(bool bSkip=false);
+    QCString	getSection(bool bSkip=false);
     unsigned	startSection() { return m_startSection; }
-    char	*getLine();
+    QCString	getLine();
 protected:
     unsigned m_packetStartPos;
     unsigned m_posRead;

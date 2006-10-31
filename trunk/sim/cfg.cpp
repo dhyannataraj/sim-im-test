@@ -505,36 +505,42 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
     if (cfg == NULL)
         return;
     unsigned read_pos = cfg->readPos();
-    char *line;
     for (;;){
-        line = cfg->getLine();
-        if (line == NULL)
+        QCString line = cfg->getLine();
+        if (line.isEmpty())
             break;
-        char *p = strchr(line, '=');
-        if (p == NULL)
+        int idx = line.find('=');
+        if(idx == -1)
             continue;
-        *p = 0;
-        const char *value = p + 1;
+        QCString name = line.left( idx );
+        QCString val  = line.mid( idx + 1 );
+        if(name.isEmpty() || val.isEmpty())
+            continue;
+
         unsigned offs = 0;
-        const DataDef *def = find_key(d, line, offs);
-        *p = '=';
+        const DataDef *def = find_key(d, name, offs);
         if (def == NULL)
             continue;
-        unsigned i;
-        string v;
         Data *ld = data + offs;
         ld->setType(def->type);
+		// FIXME:
+		char *p = NULL;
+		const char *value = val.data();
+		unsigned i = 0;
+		string v;
         switch (def->type){
-        case DATA_IP:
-            p = (char*) strchr(value, ',');
-            if (p){
-                *p = 0;
-                p++;
-            }
+		case DATA_IP: {
+			int idx = val.find(',');
+			QCString ip, url;
+			if(idx == -1) {
+				ip = value;
+			} else {
+				ip = val.left(idx);
+				url = val.mid(idx + 1);
+			}
             set_ip(ld, inet_addr(value), p);
-            if (p)
-                p[-1] = ',';
             break;
+		}
         case DATA_STRLIST:
             i = strtoul(value, NULL, 10);
             if (i == 0)
@@ -618,45 +624,36 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 value++;
             }
             break;
-        case DATA_LONG:
-            for (i = 0; i < def->n_values; ld++){
-                if (*value != ',')
-                    ld->asLong() = atol(value);
-                value = strchr(value, ',');
-                i++;
-                if (value == NULL)
-                    break;
-                value++;
+		case DATA_LONG: {
+            QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                ld->setLong(s.toLong());
             }
             break;
-        case DATA_ULONG:
-            for (i = 0; i < def->n_values; ld++){
-                if (*value != ',')
-                    ld->asULong() = strtoul(value, NULL, 10);
-                value = strchr(value, ',');
-                if (value == NULL)
-                    break;
-                value++;
+		}
+        case DATA_ULONG: {
+            QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                ld->setULong(s.toULong());
             }
             break;
-        case DATA_BOOL:
-            for (i = 0; i < def->n_values; i++, ld++){
-                p = (char *)strchr(value, ',');
-                if (p)
-                    *p = 0;
-                if (*value){
-                    if (!strcasecmp(value, "false") || !strcmp(value, "0")){
-                        ld->asBool() = false;
-                    }else{
-                        ld->asBool() = true;
-                    }
-                }
-                value = p;
-                if (value == NULL)
-                    break;
-                value++;
+        }
+        case DATA_BOOL: {
+            QStringList sl = QStringList::split(',',val,true);
+            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
+                QString s = sl[i];
+                if(s.isEmpty())
+                    continue;
+                ld->setBool(s.lower() != "false" && s != "0");
             }
             break;
+        }
         case DATA_BINARY: {
             // ok here since they're only latin1 chars
             QStringList sl = QStringList::split(',',value,true);

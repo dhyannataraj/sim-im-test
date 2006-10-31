@@ -1802,28 +1802,29 @@ void ContactList::load()
     Contact *c = NULL;
     Group   *g = NULL;
     for (;;){
-        string s = cfg.getSection();
-        if (s.empty())
+        QCString s = cfg.getSection();
+		QString section = s;	// is ascii - ok here
+        if (section.isEmpty())
             break;
-        if (s == OWNER){
+        if (section == OWNER){
             p->flush(c, g);
             c = owner();
             g = NULL;
             s = "";
-        }else if ((s.length() > strlen(GROUP)) && !memcmp(s.c_str(), GROUP, strlen(GROUP))){
+        }else if (section.startsWith(GROUP)){
             p->flush(c, g);
             c = NULL;
-            unsigned long id = atol(s.c_str() + strlen(GROUP));
+            unsigned long id = section.mid(strlen(GROUP)).toLong();
             g = group(id, id != 0);
             s = "";
-        }else if ((s.length() > strlen(CONTACT)) && !memcmp(s.c_str(), CONTACT, strlen(CONTACT))){
+        }else if (section.startsWith(CONTACT)){
             p->flush(c, g);
             g = NULL;
-            unsigned long id = atol(s.c_str() + strlen(CONTACT));
+            unsigned long id = section.mid(strlen(CONTACT)).toLong();
             c = contact(id, true);
             s = "";
         }
-        p->flush(c, g, s.c_str(), &cfg);
+        p->flush(c, g, s, &cfg);
     }
     p->flush(c, g);
     // Notify the clients about the newly loaded contact list

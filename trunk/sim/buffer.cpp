@@ -688,112 +688,78 @@ void Buffer::toBase64(Buffer &from)
     }
 }
 
-string Buffer::getSection(bool bSkip)
+static int findStartSection(const Buffer *pBuf, unsigned start)
 {
-    m_posRead = m_posWrite;
-    unsigned posRead = m_posRead;
-    char *p = data(m_posRead);
-    if (bSkip){
-        /* skip until next '[' */
-        for (;;){
-            for (; m_posRead < size(); p++, m_posRead++)
-                if ((*p == '\n') || (*p == 0))
-                    break;
-            if (m_posRead >= size()){
-                m_posRead = posRead;
-                return "";
-            }
-            m_posRead++;
-            p++;
-            if (*p == '[')
-                break;
-        }
-    }
-    for (;;){
-        /* Search for '[' */
-        if (m_posRead >= size()){
-            m_posRead = posRead;
-            return "";
-        }
-        if (*p == '[')
-            break;
-        for (; m_posRead < size(); p++, m_posRead++)
-            if ((*p == '\n') || (*p == 0))
-                break;
-        if (m_posRead >= size()){
-            m_posRead = posRead;
-            return "";
-        }
-        m_posRead++;
-        p++;
-    }
-    m_startSection = m_posRead;
-    m_posRead++;
-    p++;
-    string section;
-    char *s = p;
-    /* Search for ']' and get section name when found */
-    for (; m_posRead < size(); p++, m_posRead++){
-        if (*p == ']'){
-            *p = 0;
-            section = s;
-            *p = ']';
-        }
-        /* no ']' or end of stream */
-        if ((*p == '\n') || (*p == 0))
-            break;
-    }
-    if (m_posRead >= size()){
-        m_posRead = posRead;
-        return "";
-    }
-    /* next line with data */
-    for (;m_posRead < size(); p++, m_posRead++){
-        if ((*p != '\n') || (*p == 0))
-            break;
-    }
-    m_posWrite = m_posRead;
-    /* when current line starts with '[' we have a section
-       without any data */
-    if ((m_posRead >= size()) || (*p == '[')) {
-        return section;
-    }
-    /* put m_posWrite to (next section start) - 1 */
-    for (; m_posWrite < size(); p++, m_posWrite++){
-        if ((*p == '\r') || (*p == '\n') || (*p == 0)){
-            *p = 0;
-            if ((m_posWrite + 1 < size()) && (p[1] == '[')){
-                m_posWrite++;
-                break;
-            }
-        }
-    }
-    unsigned long ulSize = size();
-    if (m_posWrite >= ulSize){
-        resize(ulSize + 1);
-        data()[ulSize] = 0;
-    }
-    return section;
+    int idx = start == ~0U ? 0 : start;
+
+    do {
+        idx = pBuf->find( '[', idx);
+        if(idx == -1)
+            return -1;
+        if( idx == 0 || pBuf->at( idx - 1 ) == '\n' )
+            return idx;
+        idx++;
+    } while(true);
 }
 
-char *Buffer::getLine()
+static int findEndSection(const Buffer *pBuf, unsigned start)
+{
+    int idx = start == ~0U ? 0 : start;
+
+    do {
+        idx = pBuf->find( ']', idx);
+        if(idx == -1)
+            return -1;
+        if( idx == (int)pBuf->size() - 1 || pBuf->at( idx + 1 ) == '\n' )
+            return idx;
+        idx++;
+    } while(true);
+}
+
+QCString Buffer::getSection(bool bSkip)
+{
+    QCString str;
+    unsigned start = m_posRead;
+    unsigned end = m_posRead;
+
+    if( bSkip )
+        start = findStartSection(this, m_posRead + 1);
+    if( start == ~0U )
+        return str;
+    start = findStartSection( this, start );
+    end   = findEndSection( this, start );
+    if( start == ~0U || end == ~0U )
+        return str;
+    m_startSection = m_posRead = start;
+
+    str = QCString( data() + start + 1, end - start );
+
+    m_posRead = end + 1;
+    if ( m_posRead < size() )
+        if ( at(m_posRead) == '\n' )
+            m_posRead++;
+    if ( m_posRead >= size() )
+        m_posRead = size() - 1;
+    m_posWrite = findStartSection( this, end );
+    if( m_posWrite == ~0U )
+        m_posWrite = size();
+
+    return str;
+}
+
+QCString Buffer::getLine()
 {
     if (readPos() >= writePos())
         return NULL;
-    char *res = data(m_posRead);
-    /* handle cases when the buffer is not \n-terminated (avoid returning non-null-terminated string) */
-    int maxLength = size()-m_posRead, length = 0;
-    while ((length < maxLength) && (res[length] != '\0'))
-        ++length;
-    unsigned long s = size();
-    if (length == maxLength) {
-        resize(s + 1);
-        data()[s] = 0;
-    }
-    char *p;
-    for (p = res; (m_posRead < m_posWrite) && *p ; p++)
-        m_posRead++;
-    for (; (m_posRead < m_posWrite) && (*p == 0) ; p++)
-        m_posRead++;
-    return res;
+    unsigned start = m_posRead;
+	unsigned end = find('\n', start);
+	if(end == -1)
+		end = size();
+	QCString res = QCString(data() + start, end - start + 1);
+	m_posRead = end + 1; 
+    if ( m_posRead < size() )
+        if ( at(m_posRead) == '\n' )
+            m_posRead++;
+
+	return res;
 }
