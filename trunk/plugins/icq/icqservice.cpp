@@ -585,17 +585,21 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
 
 void ICQClient::sendIdleTime()
 {
-    if (getIdleTime() == 0){
-        m_bIdleTime = false;
+    // avoid traffic
+    if(!m_bIdleTime && getIdleTime())
         return;
-    }
-    unsigned long idle = time(NULL) - getIdleTime();
-    if (idle <= 0)
-        idle = 1;
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxIDLE);
-    m_socket->writeBuffer << idle;
+    if(getIdleTime()) {
+        unsigned long idle = time(NULL) - getIdleTime();
+        if (idle <= 0)
+            idle = 1;
+        m_socket->writeBuffer << idle;
+        m_bIdleTime = true;
+    } else {
+        m_socket->writeBuffer << (unsigned long)0;
+        m_bIdleTime = false;
+    }
     sendPacket(false);
-    m_bIdleTime = true;
 }
 
 void ICQClient::requestService(ServiceSocket *s)
