@@ -9,6 +9,7 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 Core
 ~~~~
 [-] win32: fix (un)setting autostart (bug #9283)
+[-] fix restoring font sizes
 
 === SIM 0.9.4.1 (21.10.2006) ===
 

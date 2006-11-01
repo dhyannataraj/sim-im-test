@@ -169,18 +169,18 @@ QFont FontEdit::str2font(const char *str, const QFont &def)
             weight = QFont::Black;
             continue;
         }
-        int p = s.find(QRegExp("[0-9]+ *pt"));
+        int p = s.find(QRegExp(" pt.$"));
         if (p >= 0){
-            s = s.mid(p);
-            int size = atol(s.latin1());
+            s = s.left(p);
+            int size = s.toInt();
             if (size > 0)
                 f.setPointSize(size);
             continue;
         }
-        p = s.find(QRegExp("[0-9]+ *pix"));
+        p = s.find(QRegExp(" pix.$"));
         if (p >= 0){
-            s = s.mid(p);
-            int size = atol(s.latin1());
+            s = s.left(p);
+            int size = s.toInt();
             if (size > 0)
                 f.setPixelSize(size);
             continue;
