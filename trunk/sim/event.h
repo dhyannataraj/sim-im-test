@@ -95,7 +95,7 @@ public:
     {}
     // FIXME: 0x10 / 0x20
     EventLog(const Buffer &packetBuf, bool bOut, unsigned packetID, const QCString addInfo = QCString())
-        : Event(eEventLog), m_logLevel(bOut ? 0x10 : 0x20), m_logData(),
+        : Event(eEventLog), m_logLevel(bOut ? 0x20 : 0x10), m_logData(),
           m_packetID(packetID), m_addInfo(addInfo), m_Buffer(packetBuf)
     {}
 
