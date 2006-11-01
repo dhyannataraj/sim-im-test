@@ -4847,7 +4847,7 @@ msgstr "Nicht verbunden"
 msgid ""
 "_: weather\n"
 "Weather data provided by weather.com&reg;"
-msgstr "Wetterinformationen bereitgestellt von weather.com&reg"
+msgstr "Wetterinformationen bereitgestellt von weather.com&reg;"
 
 #: plugins/weather/weather.cpp:366
 msgid "Monday"
