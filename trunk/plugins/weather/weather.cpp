@@ -510,8 +510,8 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%h"), QString::number(getHumidity()) + "%");
     res = res.replace(QRegExp("\\%w"), QString::number(getWind_speed()) + " " + i18n("weather",getUS()));
     res = res.replace(QRegExp("\\%x"), QString::number(getWind_speed() * 10 / 36) + " " + i18n("m/s"));
-    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("(") + i18n("gust ") + QString::number(getWindGust()) + i18n("weather",getUS()) + QString(")") : QString(""));
-    res = res.replace(QRegExp("\\%y"), getWindGust() ? QString("(") + i18n("gust ") + QString::number(getWindGust() * 10 / 36) + QString(" ") + i18n("m/s") + QString(")") : QString(""));
+    res = res.replace(QRegExp("\\%g"), getWindGust() ? QString("(") + i18n("gust") + QString(" ") + QString::number(getWindGust()) + i18n("weather",getUS()) + QString(")") : QString(""));
+    res = res.replace(QRegExp("\\%y"), getWindGust() ? QString("(") + i18n("gust") + QString(" ") + QString::number(getWindGust() * 10 / 36) + QString(" ") + i18n("m/s") + QString(")") : QString(""));
     res = res.replace(QRegExp("\\%p"), QString::number(getPressure()) + " " + i18n("weather",getUP()));
     res = res.replace(QRegExp("\\%a"), QString::number(getPressure() * 75 / 100)); // depricated!
     res = res.replace(QRegExp("\\%q"), i18n("weather", getPressureD()));

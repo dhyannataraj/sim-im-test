@@ -4972,31 +4972,31 @@ msgstr "Gefrierender Regen"
 msgid ""
 "_: weather\n"
 "Rain to Snow"
-msgstr "Regen bis Schnee"
+msgstr "Schneeregen"
 
 #: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Snow"
-msgstr "Schnee"
+msgstr "Schneefall"
 
 #: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Light Snow"
-msgstr "Leichter Schnee"
+msgstr "Leichter Schneefall"
 
 #: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Few Snow"
-msgstr "Etwas Schnee"
+msgstr "Etwas Schneefall"
 
 #: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
 "Scattered Snow"
-msgstr "Vereinzelter Schnee"
+msgstr "Vereinzelter Schneefall"
 
 #: plugins/weather/weather.cpp:394
 msgid ""
@@ -5376,8 +5376,8 @@ msgstr "m/s"
 
 #: plugins/weather/weather.cpp:515
 #: plugins/weather/weather.cpp:516
-msgid "gust "
-msgstr "Böig "
+msgid "gust"
+msgstr "Böig"
 
 #: plugins/weather/weather.cpp:565
 msgid "%t | %c"
