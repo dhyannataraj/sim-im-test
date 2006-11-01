@@ -750,16 +750,16 @@ QCString Buffer::getSection(bool bSkip)
 QCString Buffer::getLine()
 {
     if (readPos() >= writePos())
-        return NULL;
+        return "";
     unsigned start = m_posRead;
-	unsigned end = find('\n', start);
-	if(end == -1)
-		end = size();
-	QCString res = QCString(data() + start, end - start + 1);
-	m_posRead = end + 1; 
+    int end = find('\n', start);
+    if(end == -1)
+        end = size();
+    QCString res = QCString(data() + start, end - start + 1);
+    m_posRead = end + 1; 
     if ( m_posRead < size() )
         if ( at(m_posRead) == '\n' )
             m_posRead++;
 
-	return res;
+    return res;
 }
