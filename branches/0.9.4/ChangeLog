@@ -4,6 +4,11 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 [-] Fixed error
 [*] Changes
 
+=== SIM 0.9.4.2 (not released yet) ===
+
+Core
+~~~~
+[-] win32: fix (un)setting autostart (bug #9283)
 
 === SIM 0.9.4.1 (21.10.2006) ===
 
