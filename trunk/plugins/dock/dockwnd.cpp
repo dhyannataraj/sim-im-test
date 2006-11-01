@@ -60,6 +60,7 @@ using namespace SIM;
 const unsigned TIP_TIMEOUT = 24 * 60 * 60 * 1000;
 
 static UINT	   WM_DOCK = 0;
+static UINT    WM_TASKBARCREATED = 0;
 
 #ifndef NIN_BALLOONSHOW
 #define NIN_BALLOONSHOW		(WM_USER + 2)
@@ -81,7 +82,27 @@ bool DockWnd::winEvent(MSG *msg)
 {
     if(msg->message == WM_DOCK || msg->message == 0)
         callProc(msg->lParam);
+    if(msg->message == WM_TASKBARCREATED)
+        addIconToTaskbar();
     return false;
+}
+
+void DockWnd::addIconToTaskbar()
+{
+    NOTIFYICONDATAW notifyIconData;
+    if (m_bBalloon){
+        memset(&notifyIconData, 0, sizeof(notifyIconData));
+        notifyIconData.cbSize = sizeof(notifyIconData);
+        notifyIconData.uVersion = NOTIFYICON_VERSION;
+        Shell_NotifyIconW(NIM_SETVERSION, (NOTIFYICONDATAW*)&notifyIconData);
+    }
+    memset(&notifyIconData, 0, sizeof(notifyIconData));
+    notifyIconData.cbSize = sizeof(notifyIconData);
+    notifyIconData.hIcon = topData()->winIcon;
+    notifyIconData.hWnd = winId();
+    notifyIconData.uCallbackMessage = WM_DOCK;
+    notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+    Shell_NotifyIconW(NIM_ADD, &notifyIconData);
 }
 
 void DockWnd::callProc(unsigned long param)
@@ -615,40 +636,16 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
     blinkTimer = new QTimer(this);
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(blink()));
 #ifdef WIN32
-    m_bBalloon = false;
+    if((QApplication::winVersion() & WV_NT_based) &&
+       (QApplication::winVersion() & WV_NT) == 0)
+        m_bBalloon = true;
+    else
+        m_bBalloon = false;
     setIcon(icon);
     QWidget::hide();
     WM_DOCK = RegisterWindowMessageA("SIM dock");
-    if (IsWindowUnicode(winId())){
-        OSVERSIONINFOA osvi;
-        osvi.dwOSVersionInfoSize = sizeof(osvi);
-        GetVersionExA(&osvi);
-        if ((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) && (osvi.dwMajorVersion > 4))
-            m_bBalloon = true;
-        NOTIFYICONDATAW notifyIconData;
-        if (m_bBalloon){
-            memset(&notifyIconData, 0, sizeof(notifyIconData));
-            notifyIconData.cbSize = sizeof(notifyIconData);
-            notifyIconData.uVersion = NOTIFYICON_VERSION;
-            Shell_NotifyIconW(NIM_SETVERSION, (NOTIFYICONDATAW*)&notifyIconData);
-        }
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.uCallbackMessage = WM_DOCK;
-        notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-        Shell_NotifyIconW(NIM_ADD, &notifyIconData);
-    }else{
-        NOTIFYICONDATAA notifyIconData;
-        memset(&notifyIconData, 0, sizeof(notifyIconData));
-        notifyIconData.cbSize = sizeof(notifyIconData);
-        notifyIconData.hIcon = topData()->winIcon;
-        notifyIconData.hWnd = winId();
-        notifyIconData.uCallbackMessage = WM_DOCK;
-        notifyIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
-        Shell_NotifyIconA(NIM_ADD, &notifyIconData);
-    }
+    WM_TASKBARCREATED = RegisterWindowMessageA("TaskbarCreated");
+    addIconToTaskbar();
 #else
     setMinimumSize(22, 22);
     resize(22, 22);

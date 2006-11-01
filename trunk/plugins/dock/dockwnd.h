@@ -51,6 +51,7 @@ public:
     void setTip(const char *text);
 #ifdef WIN32
     void callProc(unsigned long);
+    void addIconToTaskbar();
 #endif
     void mouseEvent( QMouseEvent *e);
     virtual void mouseDoubleClickEvent( QMouseEvent *e);
