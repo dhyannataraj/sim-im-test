@@ -586,7 +586,7 @@ void ICQClient::fillDirectInfo(Buffer &directInfo)
 void ICQClient::sendIdleTime()
 {
     // avoid traffic
-    if(!m_bIdleTime && getIdleTime())
+    if(!m_bIdleTime && getIdleTime() == 0)
         return;
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxIDLE);
     if(getIdleTime()) {
