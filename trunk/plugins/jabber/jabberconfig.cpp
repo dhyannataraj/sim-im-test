@@ -71,7 +71,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     chkSubscribe->setChecked(m_client->getAutoSubscribe());
     chkAccept->setChecked(m_client->getAutoAccept());
     lnkPublic->setText(i18n("List of public servers"));
-    lnkPublic->setUrl("http://www.jabber.org/user/publicservers.php");
+    lnkPublic->setUrl("http://www.xmpp.net/servers");
     connect(edtID, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPasswd, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtServer, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
