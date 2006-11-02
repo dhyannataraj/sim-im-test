@@ -58,7 +58,7 @@ namespace SIM
 
 void save_state()
 {
-    Event e(EventSaveState, NULL);
+    EventSaveState e;
     e.process();
 }
 

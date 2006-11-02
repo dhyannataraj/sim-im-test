@@ -310,7 +310,7 @@ void SearchDialog::toggled(bool)
 void *SearchDialog::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventClientsChanged:
+    case eEventClientsChanged:
     case EventClientChanged:
         fillClients();
         break;

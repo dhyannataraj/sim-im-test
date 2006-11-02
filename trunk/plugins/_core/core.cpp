@@ -1805,7 +1805,7 @@ void *CorePlugin::processEvent(Event *e)
             eTmpl.process();
             return e->param();
         }
-    case EventSaveState:{
+    case eEventSaveState:{
             ARUserData *ar = (ARUserData*)getContacts()->getUserData(ar_data_id);
             for (autoReply *a = autoReplies; a->text; a++){
                 QString t = get_str(ar->AutoReply, a->status);
@@ -1835,11 +1835,15 @@ void *CorePlugin::processEvent(Event *e)
             }
             break;
         }
-    case eEventInit:
-        if (!m_bInit && !init(true))
-            return (void*)ABORT_LOADING;
+    case eEventInit: {
+        EventInit *i = static_cast<EventInit*>(e);
+        if (!m_bInit && !init(true)) {
+            i->setAbortLoading();
+            return (void*)1;
+        }
         QTimer::singleShot(0, this, SLOT(checkHistory()));
         return NULL;
+    }
     case eEventQuit:
         destroy();
         m_cmds->clear();
@@ -1885,7 +1889,7 @@ void *CorePlugin::processEvent(Event *e)
             preferences.erase(id);
             return e->param();
         }
-    case EventClientsChanged:
+    case eEventClientsChanged:
         if (m_bInit)
             loadMenu();
     case EventClientChanged:		// FALLTHROW
@@ -3610,11 +3614,11 @@ void CorePlugin::changeProfile()
     QString saveProfile = getProfile();
     destroy();
     getContacts()->clearClients();
-    Event eUnload(EventPluginsUnload, static_cast<Plugin*>(this));
+    EventPluginsUnload eUnload(this);
     eUnload.process();
     getContacts()->clear();
     preferences.clear();
-    Event eLoad(EventPluginsLoad, static_cast<Plugin*>(this));
+    EventPluginsLoad eLoad(this);
     eLoad.process();
     EventGetPluginInfo eInfo("_core");
     eInfo.process();
@@ -3634,7 +3638,7 @@ void CorePlugin::changeProfile()
 
 void CorePlugin::selectProfile()
 {
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
     init(false);
     EventInit e2;
@@ -3694,7 +3698,7 @@ bool CorePlugin::init(bool bInit)
             LoginDialog dlg(bInit, NULL, "", bInit ? "" : getProfile());
             if (dlg.exec() == 0){
                 if (bInit || dlg.isChanged()){
-                    Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+                    EventPluginsLoad eAbort;
                     eAbort.process();
                 }
                 return false;
@@ -3705,7 +3709,7 @@ bool CorePlugin::init(bool bInit)
         }
     }else if (bInit && !getProfile().isEmpty() && !bCmdLineProfile){
         if (!lockProfile(getProfile(), true)){
-            Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+            EventPluginsLoad eAbort;
             eAbort.process();
             return false;
         }
@@ -3722,7 +3726,7 @@ bool CorePlugin::init(bool bInit)
               bool ok = false;
               name = QInputDialog::getText(i18n("Create Profile"), i18n("Please enter a new name for the profile."),         QLineEdit::Normal, name, &ok, NULL);
               if(!ok){
-                 Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+                 EventPluginsLoad eAbort;
                  eAbort.process();
                  return false;
               }
@@ -3753,7 +3757,7 @@ bool CorePlugin::init(bool bInit)
             delete(pDlg);
             if (d.exists(name))
                 d.rmdir(name);
-            Event eAbort(EventPluginsLoad, (void*)ABORT_LOADING);
+            EventPluginsLoad eAbort;
             eAbort.process();
             return false;
         }
@@ -3805,7 +3809,7 @@ bool CorePlugin::init(bool bInit)
     m_bInit = true;
     loadMenu();
     if (!bRes){
-        Event eSave(EventSaveState);
+        EventSaveState eSave;
         eSave.process();
         return true;
     }

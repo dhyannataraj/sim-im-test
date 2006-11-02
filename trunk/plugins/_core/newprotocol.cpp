@@ -230,7 +230,7 @@ void NewProtocol::loginComplete()
     m_client = NULL;
     cancelButton()->hide();
     backButton()->hide();
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
     accept();
 }

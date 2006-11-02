@@ -1104,7 +1104,7 @@ void Client::freeData()
             continue;
         p->clients.erase(it);
         if (!getContacts()->p->bNoRemove){
-            Event e(EventClientsChanged);
+            EventClientsChanged e;
             e.process();
         }
         break;
@@ -1223,7 +1223,7 @@ bool ContactList::moveClient(Client *client, bool bUp)
     Client *c = p->clients[i];
     p->clients[i] = p->clients[i-1];
     p->clients[i-1] = c;
-    Event e(EventClientsChanged);
+    EventClientsChanged e;
     e.process();
     Contact *contact;
     ContactList::ContactIterator it;
@@ -1671,7 +1671,7 @@ void UserData::load(unsigned long id, const DataDef *def, Buffer *cfg)
 void ContactList::addClient(Client *client)
 {
     p->clients.push_back(client);
-    Event e(EventClientsChanged);
+    EventClientsChanged e;
     e.process();
 }
 
@@ -1907,7 +1907,7 @@ void ContactList::clearClients()
     while (!p->clients.empty())
         delete p->clients[0];
     p->bNoRemove = false;
-    Event eClients(EventClientsChanged);
+    EventClientsChanged eClients;
     eClients.process();
 }
 

@@ -437,7 +437,7 @@ void UserConfig::apply()
     emit applyChanges();
     if (m_contact)
         getContacts()->addContact(m_contact);
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
 }
 
@@ -493,7 +493,7 @@ void *UserConfig::processEvent(Event *e)
         return NULL;
     case eEventLanguageChanged:
     case eEventPluginChanged:
-    case EventClientsChanged:
+    case eEventClientsChanged:
         fill();
         return NULL;
     }

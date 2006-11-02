@@ -698,7 +698,7 @@ void *Container::processEvent(Event *e)
             m_tabBar->changeTab(contact->id());
             contactChanged(contact);
         }
-    case EventClientsChanged:
+    case eEventClientsChanged:
         setupAccel();
         break;
     case EventContactStatus:

@@ -195,7 +195,7 @@ void ProxyConfig::clientChanged(int)
 
 void *ProxyConfig::processEvent(Event *e)
 {
-    if ((m_client == NULL) && (e->type() == EventClientsChanged))
+    if ((m_client == NULL) && (e->type() == eEventClientsChanged))
         fillClients();
     return NULL;
 }

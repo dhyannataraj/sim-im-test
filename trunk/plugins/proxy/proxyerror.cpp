@@ -53,7 +53,7 @@ ProxyError::~ProxyError()
 
 void *ProxyError::processEvent(Event *e)
 {
-    if (e->type() == EventClientsChanged){
+    if (e->type() == eEventClientsChanged){
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             if (getContacts()->getClient(i) == m_client)
                 return NULL;

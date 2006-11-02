@@ -536,7 +536,7 @@ void ConfigureDialog::apply()
     }
     if (lstBox->currentItem())
         static_cast<ConfigItem*>(lstBox->currentItem())->show();
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
 }
 
@@ -559,7 +559,7 @@ void *ConfigureDialog::processEvent(Event *e)
             }
         }
     }
-    if (e->type() == EventClientsChanged){
+    if (e->type() == eEventClientsChanged){
         unsigned id = 0;
         if (lstBox->currentItem())
             id = static_cast<ConfigItem*>(lstBox->currentItem())->id();

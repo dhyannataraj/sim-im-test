@@ -239,7 +239,7 @@ void *StatusFrame::processEvent(Event *e)
             return e->param();
         }
         break;
-    case EventClientsChanged:
+    case eEventClientsChanged:
         addClients();
         break;
     case EventClientChanged:{

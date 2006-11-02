@@ -189,7 +189,7 @@ void *Commands::processEvent(Event *e)
     BarShow *b;
     ProcessMenuParam *mp;
     switch (e->type()){
-    case EventPluginsUnload:
+    case eEventPluginsUnload:
         clear();
         break;
     case EventToolbarCreate:

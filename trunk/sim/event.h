@@ -29,6 +29,7 @@ class QTranslator;
 namespace SIM {
 
 struct pluginInfo;
+class Plugin;
 
 // ___________________________________________________________________________________
 // Event receiver
@@ -83,7 +84,10 @@ enum SIMEvents
     eEventApplyPlugin       = 0x0304,   // ?
     eEventLoadPlugin        = 0x0305,   // a plugin should be loaded
     eEventUnloadPlugin      = 0x0306,   // a plugin should be unloaded
-
+    eEventPluginsLoad       = 0x0307,   // load all plugins
+    eEventPluginsUnload     = 0x0308,   // unload all plugins
+    eEventSaveState         = 0x0309,   // plugins should save their config
+    eEventClientsChanged    = 0x0311,   // a client was added/removed
 };
 
 class EXPORT EventLog : public Event
@@ -121,7 +125,11 @@ protected:
 class EXPORT EventInit : public Event
 {
 public:
-	EventInit() : Event(eEventInit) {}
+	EventInit() : Event(eEventInit), m_bAbortLoading(false) {}
+    void setAbortLoading() { m_bAbortLoading = true; }
+    bool abortLoading() const { return m_bAbortLoading; }
+protected:
+    bool    m_bAbortLoading;
 };
 
 class EXPORT EventQuit : public Event
@@ -253,19 +261,44 @@ protected:
 	QString     m_pluginName;
 };
 
+class EXPORT EventPluginsLoad : public Event
+{
+public:
+    EventPluginsLoad()
+        : Event(eEventPluginsLoad), m_bAbort(true), m_plugin(NULL) {}
+	EventPluginsLoad(Plugin *plugin)
+		: Event(eEventPluginsLoad), m_bAbort(false), m_plugin(plugin) {}
+    bool abortLoading() const { return m_bAbort; }
+	Plugin *plugin() const { return m_plugin; }
+protected:
+    bool       m_bAbort;
+	Plugin    *m_plugin;
+};
+
+class EXPORT EventPluginsUnload : public Event
+{
+public:
+	EventPluginsUnload(Plugin *plugin)
+		: Event(eEventPluginsUnload), m_plugin(plugin) {}
+	Plugin *plugin() const { return m_plugin; }
+protected:
+	Plugin    *m_plugin;
+};
+
+class EXPORT EventSaveState : public Event
+{
+public:
+    EventSaveState() : Event(eEventSaveState) {}
+};
+
+class EXPORT EventClientsChanged : public Event
+{
+public:
+    EventClientsChanged() : Event(eEventClientsChanged) {}
+};
+
 // _____________________________________________________________________________________
 // Default events
-
-const unsigned EventPluginsUnload   = 0x0307;
-const unsigned EventPluginsLoad     = 0x0308;
-
-/* Event - save state
-*/
-const unsigned EventSaveState       = 0x0310;
-
-/* Event clients changes
-*/
-const unsigned EventClientsChanged  = 0x0311;
 
 /* Event icons changed */
 const unsigned EventIconChanged     = 0x0400;

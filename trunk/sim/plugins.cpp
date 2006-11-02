@@ -109,7 +109,7 @@ protected:
 
     void load(pluginInfo&);
     void load(const QString &name);
-    void load_all(Plugin *to);
+    void load_all(EventPluginsLoad *p);
 
     void saveState();
     void loadState();
@@ -261,7 +261,8 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
             return;
     }
     EventInit eStart;
-    if (eStart.process() == (void*)~0U) {
+    eStart.process();
+    if (eStart.abortLoading()) {
         log(L_ERROR,"EventInit failed - aborting!");
         m_bAbort = true;
         return;
@@ -303,12 +304,16 @@ void *PluginManagerPrivate::processEvent(Event *e)
         EventApplyPlugin *p = static_cast<EventApplyPlugin*>(e);
         return (void*)setInfo(p->pluginName());
     }
-    case EventPluginsUnload:
-        release_all((Plugin*)(e->param()));
-        return e->param();
-    case EventPluginsLoad:
-        load_all((Plugin*)(e->param()));
-        return e->param();
+    case eEventPluginsUnload: {
+        EventPluginsUnload *p = static_cast<EventPluginsUnload*>(e);
+        release_all(p->plugin());
+        return (void*)1;
+    }
+    case eEventPluginsLoad: {
+        EventPluginsLoad *p = static_cast<EventPluginsLoad*>(e);
+        load_all(p);
+        return (void*)1;
+    }
     case eEventUnloadPlugin: {
         EventUnloadPlugin *p = static_cast<EventUnloadPlugin*>(e);
         release(p->pluginName());
@@ -319,7 +324,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
         load(p->pluginName());
         return e->param();
     }
-    case EventSaveState:
+    case eEventSaveState:
         saveState();
         break;
     case eEventGetArgs: {
@@ -472,10 +477,6 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
         info.base = m_base;
     }
     info.plugin = info.info->create(info.base, m_bInInit, info.cfg);
-    if ((unsigned long)(info.plugin) == ABORT_LOADING){
-        m_bAbort = true;
-        info.plugin = NULL;
-    }
     if (info.plugin == NULL){
         info.bNoCreate = true;
         info.bDisabled = true;
@@ -494,13 +495,14 @@ bool PluginManagerPrivate::createPlugin(pluginInfo &info)
     return true;
 }
 
-void PluginManagerPrivate::load_all(Plugin *from)
+void PluginManagerPrivate::load_all(EventPluginsLoad *p)
 {
-    if (from == (Plugin*)ABORT_LOADING){
+    if (p->abortLoading()){
         m_bAbort = true;
         qApp->quit();
         return;
     }
+    Plugin *from = p->plugin();
     reloadState();
     unsigned i;
     for (i = 0; i < plugins.size(); i++){

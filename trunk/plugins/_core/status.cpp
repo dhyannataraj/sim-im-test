@@ -377,7 +377,7 @@ void *CommonStatus::processEvent(Event *e)
     case eEventInit:
         setBarStatus();
         break;
-    case EventClientsChanged:{
+    case eEventClientsChanged:{
             unsigned i;
             bool bCommon		  = false;
             for (i = 0; i < getContacts()->nClients(); i++){

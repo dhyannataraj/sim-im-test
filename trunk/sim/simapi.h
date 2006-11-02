@@ -147,7 +147,6 @@ protected:
 };
 
 typedef Plugin *createPlugin(unsigned base, bool bStart, Buffer *cfg);
-typedef QStyle *createStyle();
 
 const unsigned PLUGIN_KDE_COMPILE    = 0x0001;
 #ifdef USE_KDE
@@ -161,8 +160,6 @@ const unsigned PLUGIN_NOLOAD_DEFAULT = 0x0004 | PLUGIN_DEFAULT;
 const unsigned PLUGIN_PROTOCOL       = 0x0008 | PLUGIN_NOLOAD_DEFAULT;
 const unsigned PLUGIN_NODISABLE      = 0x0010;
 const unsigned PLUGIN_RELOAD         = 0x0020;
-
-const unsigned long ABORT_LOADING    = (unsigned long)(-1);
 
 typedef struct PluginInfo           // Information in plugin
 {

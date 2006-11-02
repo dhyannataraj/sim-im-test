@@ -152,7 +152,7 @@ bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
         e.process();
     }
     setTime(time(NULL));
-    Event e(EventSaveState);
+    EventSaveState e;
     e.process();
     return false;
 }
@@ -166,7 +166,7 @@ void *UpdatePlugin::processEvent(Event *e)
             eGo.process();
             setTime(time(NULL));
             m_url = QString::null;
-            Event eSave(EventSaveState);
+            EventSaveState eSave;
             eSave.process();
             return e->param();
         }
