@@ -693,6 +693,8 @@ static int findStartSection(const Buffer *pBuf, unsigned start)
     int idx = start == ~0U ? 0 : start;
 
     do {
+        if(idx >= (int)pBuf->size())
+            return -1;
         idx = pBuf->find( '[', idx);
         if(idx == -1)
             return -1;
