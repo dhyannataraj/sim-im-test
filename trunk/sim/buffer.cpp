@@ -97,6 +97,7 @@ Buffer::Buffer(const QByteArray &ba)
     : QByteArray(ba)
 {
     init(ba.size());
+    m_posWrite = ba.size();
 }
 
 Buffer::Buffer(Tlv &tlv)
@@ -113,7 +114,7 @@ Buffer::~Buffer()
 void Buffer::init(unsigned size)
 {
     m_posRead = 0;
-    m_posWrite = size;
+    m_posWrite = 0;
     m_packetStartPos = 0;
     m_startSection = 0;
     resize(size);
