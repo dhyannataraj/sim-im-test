@@ -68,9 +68,12 @@ void save_state()
 
 EXPORT bool makedir(const QString &p)
 {
-    if(QDir(p).exists())
+    QFileInfo fi(p);
+    QDir path = fi.dir(true);
+
+    if(path.exists())
         return true;
-    QString r = QDir::convertSeparators(QDir(p).absPath());
+    QString r = QDir::convertSeparators(path.absPath());
 
     SECURITY_ATTRIBUTES sa;
     SECURITY_DESCRIPTOR sd;
@@ -93,13 +96,17 @@ EXPORT bool makedir(const QString &p)
 
 EXPORT bool makedir(const QString &p)
 {
-    if(QDir(p).exists())
+    QFileInfo fi(p);
+    QDir path = fi.dir(true);
+
+    if(path.exists())
         return true;
-    QString r = QDir::convertSeparators(QDir(p).absPath());
+    QString r = QDir::convertSeparators(path.absPath());
+    fprintf(stderr, "file: %s", r.local8Bit().data());
 
     struct stat st;
     if (stat(QFile::encodeName(r).data(), &st)){
-        QString upper = r.findRev('/');
+        int idx = r.findRev('/');
         if(idx == -1)
             return false;
         if (makedir(r.left(idx))){
@@ -112,7 +119,7 @@ EXPORT bool makedir(const QString &p)
         }
     }
     if ((st.st_mode & S_IFMT) != S_IFDIR){
-        log(L_ERROR, "%s no directory", p);
+        log(L_ERROR, "%s no directory", p.local8Bit().data());
         return false;
     }
     return true;

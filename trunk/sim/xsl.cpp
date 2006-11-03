@@ -65,10 +65,10 @@ XSL::XSL(const QString &name)
     QString fname = STYLES + name + EXT;
     QFile f(user_file(fname));
     bool bOK = true;
-    if (!f.open(IO_ReadOnly)){
+    if (f.size() == 0 || !f.open(IO_ReadOnly)){
         f.setName(app_file(fname));
-        if (!f.open(IO_ReadOnly)){
-            log(L_WARN, "Can't open %s", fname.local8Bit().data());
+        if (f.size() == 0 || !f.open(IO_ReadOnly)){
+            log(L_WARN, "Can't open / empty file %s", fname.local8Bit().data());
             bOK = false;
         }
     }
