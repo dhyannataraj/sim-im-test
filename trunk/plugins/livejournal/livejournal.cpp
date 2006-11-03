@@ -1040,7 +1040,7 @@ void *LiveJournalClient::processEvent(Event *e)
             url += QString::number(getPort());
         }
         url += '/';
-        Event eGo(EventGoURL, (void*)&url);
+        EventGoURL eGo(url);
         eGo.process();
         if (getState() == Connected)
             m_timer->start(getInterval() * 60 * 1000, true);
@@ -1081,7 +1081,7 @@ void *LiveJournalClient::processEvent(Event *e)
         QString url = getMenuUrl(menu_id * 0x100 + item_id);
         if (url.isEmpty())
             return NULL;
-		Event eUrl(EventGoURL, (void*)&url);
+		EventGoURL eUrl(url);
         eUrl.process();
         return e->param();
     }

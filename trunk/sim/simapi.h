@@ -431,7 +431,7 @@ EXPORT QString app_file(const QString &f);
 EXPORT QString user_file(const QString &f);
 
 /* Make directory */
-EXPORT bool makedir(char *p);
+EXPORT bool makedir(const QString &dir);
 
 /* Save state */
 EXPORT void save_state();

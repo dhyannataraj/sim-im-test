@@ -855,7 +855,7 @@ void *DockWnd::processEvent(Event *e)
         m_tip = (const char*)(e->param());
         setTip(m_tip);
         break;
-    case EventIconChanged:
+    case eEventIconChanged:
         setIcon((bBlink && m_unread) ? m_unread : m_state);
         break;
     case eEventLanguageChanged:

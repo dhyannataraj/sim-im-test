@@ -311,17 +311,15 @@ NavigatePlugin::~NavigatePlugin()
 void *NavigatePlugin::processEvent(Event *e)
 {
 #ifdef WIN32
-    if (e->type() == EventGetURL){
-        QString *url = (QString*)(e->param());
-        *url = getCurrentUrl();
-        return e->param();
+    if (e->type() == eEventGetURL){
+        EventGetURL *u = static_cast<EventGetURL*>(e);
+        u->setUrl(getCurrentUrl());
+        return (void*)1;
     }
 #endif
-    if (e->type() == EventGoURL){
-        QString *u = (QString*)(e->param());
-        if(!u)
-            return NULL;
-        QString url = *u;
+    if (e->type() == eEventGoURL){
+        EventGoURL *u = static_cast<EventGoURL*>(e);
+        QString url = u->url();
         QString proto;
         if (url.length() == 0)
             return NULL;
@@ -467,7 +465,7 @@ void *NavigatePlugin::processEvent(Event *e)
             mail = getToken(mail, '/');
             if (mail.length()){
                 QString addr = "mailto:" + mail;
-                Event eMail(EventGoURL, (void*)&addr);
+                EventGoURL eMail(addr);
                 eMail.process();
             }
             return e->param();
@@ -484,7 +482,7 @@ void *NavigatePlugin::processEvent(Event *e)
                     mail = getToken(mail, '/');
                     if (mail.length()){
                         QString addr = "mailto:" + mail;
-                        Event eMail(EventGoURL, (void*)&addr);
+                        EventGoURL eMail(addr);
                         eMail.process();
                     }
                     break;

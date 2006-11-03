@@ -2751,11 +2751,9 @@ void *ICQClient::processEvent(Event *e)
             }
         }
     }
-    if (e->type() == EventGoURL){
-        QString *u = (QString*)(e->param());
-        if(!u)
-            return NULL;
-        QString url = *u;
+    if (e->type() == eEventGoURL){
+        EventGoURL *u = static_cast<EventGoURL*>(e);
+        QString url = u->url();
         QString proto;
         int n = url.find(':');
         if (n < 0)

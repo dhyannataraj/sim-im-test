@@ -248,7 +248,7 @@ void *StatusFrame::processEvent(Event *e)
                 lbl->setPict();
             break;
         }
-    case EventIconChanged:{
+    case eEventIconChanged:{
             QObjectList *l = queryList("StatusLabel");
             QObjectListIt itObject(*l);
             QObject *obj;

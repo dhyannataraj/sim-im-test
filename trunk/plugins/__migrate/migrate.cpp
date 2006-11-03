@@ -57,7 +57,7 @@ MigratePlugin::~MigratePlugin()
 
 bool MigratePlugin::init()
 {
-    QString dir = user_file("");
+    QString dir = user_file(QString::null);
     QDir d(dir);
     if (!d.exists())
         return false;

@@ -221,7 +221,7 @@ void *SoundPlugin::processEvent(Event *e)
         Contact *contact = (Contact*)(e->param());
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
         if (data && !data->Alert.str().isEmpty() && !data->Disable.toBool()){
-            Event eSound(EventPlaySound, &data->Alert.str());
+            EventPlaySound eSound(data->Alert.str());
             eSound.process();
         }
         return NULL;
@@ -240,7 +240,7 @@ void *SoundPlugin::processEvent(Event *e)
             sound = getMessageSent();
         }
         if (!sound.isEmpty()){
-            Event eSound(EventPlaySound, (void*)&sound);
+            EventPlaySound eSound(sound);
             eSound.process();
         }
         return NULL;
@@ -270,9 +270,9 @@ void *SoundPlugin::processEvent(Event *e)
         }
         return NULL;
     }
-    if (e->type() == EventPlaySound){
-        const QString *name = (const QString*)(e->param());
-        playSound(*name);
+    if (e->type() == eEventPlaySound){
+        EventPlaySound *s = static_cast<EventPlaySound*>(e);
+        playSound(s->sound());
         return e->param();
     }
     return NULL;

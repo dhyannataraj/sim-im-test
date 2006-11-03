@@ -801,12 +801,13 @@ void *UserView::processEvent(Event *e)
             }
             break;
         }
-    case EventIconChanged:
+    case eEventIconChanged:
         viewport()->repaint();
         break;
-    case EventRaiseWindow:{
-            QObject *o = (QObject*)(e->param());
-            if (o->inherits("MainWindow"))
+    case eEventRaiseWindow:{
+            EventRaiseWindow *w = static_cast<EventRaiseWindow*>(e);
+            QWidget *o = w->widget();
+            if (o && o->inherits("MainWindow"))
                 QTimer::singleShot(0, this, SLOT(adjustColumn()));
             break;
         }

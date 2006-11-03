@@ -66,11 +66,12 @@ void save_state()
 
 #ifdef WIN32
 
-EXPORT bool makedir(char *p)
+EXPORT bool makedir(const QString &p)
 {
-    char *r = strrchr(p, '\\');
-    if (r == NULL) return true;
-    *r = 0;
+    if(QDir(p).exists())
+        return true;
+    QString r = QDir::convertSeparators(QDir(p).absPath());
+
     SECURITY_ATTRIBUTES sa;
     SECURITY_DESCRIPTOR sd;
     ZeroMemory(&sa, sizeof(sa));
@@ -81,40 +82,40 @@ EXPORT bool makedir(char *p)
         SetSecurityDescriptorDacl(&sd, TRUE, NULL, FALSE);
         sa.lpSecurityDescriptor = &sd;
     }
-    CreateDirectoryA(p, &sa);
-    DWORD dwAttr = GetFileAttributesA(p);
+    CreateDirectoryW((LPCWSTR)p.ucs2(), &sa);
+    DWORD dwAttr = GetFileAttributesW((LPCWSTR)p.ucs2());
     if (dwAttr & FILE_ATTRIBUTE_READONLY)
-        SetFileAttributesA(p, dwAttr & ~FILE_ATTRIBUTE_READONLY);
-    *r = '\\';
+        SetFileAttributesW((LPCWSTR)p.ucs2(), dwAttr & ~FILE_ATTRIBUTE_READONLY);
     return true;
 }
 
 #else
 
-EXPORT bool makedir(char *p)
+EXPORT bool makedir(const QString &p)
 {
-    bool res = true;
-    char *r = strrchr(p, '/');
-    if (r == NULL) return res;
-    *r = 0;
+    if(QDir(p).exists())
+        return true;
+    QString r = QDir::convertSeparators(QDir(p).absPath());
+
     struct stat st;
-    if (stat(p, &st)){
-        if (makedir(p)){
-            if (mkdir(p, 0700)){
-                log(L_ERROR, "Can't create %s: %s", p, strerror(errno));
-                res = false;
+    if (stat(QFile::encodeName(r).data(), &st)){
+        QString upper = r.findRev('/');
+        if(idx == -1)
+            return false;
+        if (makedir(r.left(idx))){
+            if (mkdir(QFile::encodeName(r).data(), 0700)){
+                log(L_ERROR, "Can't create %s: %s", QFile::encodeName(r).data(), strerror(errno));
+                return false;
             }
-        }else{
-            res = false;
-        }
-    }else{
-        if ((st.st_mode & S_IFMT) != S_IFDIR){
-            log(L_ERROR, "%s no directory", p);
-            res = false;
+        } else {
+            return false;
         }
     }
-    *r = '/';
-    return res;
+    if ((st.st_mode & S_IFMT) != S_IFDIR){
+        log(L_ERROR, "%s no directory", p);
+        return false;
+    }
+    return true;
 }
 
 #endif
@@ -161,9 +162,9 @@ EXPORT QString app_file(const QString &f)
 EXPORT QString user_file(const QString &f)
 {
     QString res = f;
-    Event e(EventHomeDir, &res);
+    EventHomeDir e(f);
     if (e.process())
-        return res;
+        return e.homeDir();
     return app_file(f);
 }
 

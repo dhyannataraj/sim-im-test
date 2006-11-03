@@ -232,14 +232,16 @@ void *DockPlugin::processEvent(Event *e)
             m_dock = NULL;
         }
         break;
-    case EventRaiseWindow:
-        if (e->param() == getMainWindow()){
+    case eEventRaiseWindow: {
+        EventRaiseWindow *w = static_cast<EventRaiseWindow*>(e);
+        if (w->widget() == getMainWindow()){
             if (m_dock == NULL)
                 init();
             if (!getShowMain())
-                return e->param();
+                return (void*)w;
         }
         break;
+    }
     case EventCommandCreate:
         def = (CommandDef*)(e->param());
         if (def->menu_id == MenuMain){

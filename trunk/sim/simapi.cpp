@@ -350,7 +350,7 @@ bool raiseWindow(QWidget *w, unsigned desk)
 bool raiseWindow(QWidget *w, unsigned)
 #endif
 {
-    Event e(EventRaiseWindow, w);
+    EventRaiseWindow e(w);
     if (e.process())
         return false;
 #ifdef USE_KDE

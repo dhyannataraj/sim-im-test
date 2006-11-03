@@ -125,7 +125,7 @@ void HomeInfo::goUrl()
                     .arg(edtState->text())
                     .arg(cmbCountry->currentText())
                     .arg(edtZip->text());
-    Event e(EventGoURL, (void*)&url);
+    EventGoURL e(url);
     e.process();
 }
 

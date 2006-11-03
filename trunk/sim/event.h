@@ -88,6 +88,13 @@ enum SIMEvents
     eEventPluginsUnload     = 0x0308,   // unload all plugins
     eEventSaveState         = 0x0309,   // plugins should save their config
     eEventClientsChanged    = 0x0311,   // a client was added/removed
+    eEventIconChanged       = 0x0400,   // icons changed
+
+    eEventHomeDir           = 0x0601,   // get home dir for config
+    eEventGoURL             = 0x0602,   // open url in browser / mail / ...
+    eEventGetURL            = 0x0603,   // ???? win32 only
+    eEventPlaySound         = 0x0604,   // play way-file
+    eEventRaiseWindow       = 0x0605,   // raise this widget
 };
 
 class EXPORT EventLog : public Event
@@ -297,11 +304,66 @@ public:
     EventClientsChanged() : Event(eEventClientsChanged) {}
 };
 
+class EXPORT EventIconChanged : public Event
+{
+public:
+    EventIconChanged() : Event(eEventIconChanged) {}
+};
+
+class EXPORT EventHomeDir : public Event
+{
+public:
+    EventHomeDir(const QString &dir)
+        : Event(eEventHomeDir), m_dir(dir) {}
+    const QString &homeDir()  const { return m_dir; }
+    void setHomeDir(const QString &dir) { m_dir = dir; }
+protected:
+    QString m_dir;
+};
+
+class EXPORT EventGoURL : public Event
+{
+public:
+    EventGoURL(const QString &url)
+        : Event(eEventGoURL), m_url(url) {}
+    const QString &url()  const { return m_url; }
+protected:
+    QString m_url;
+};
+
+class EXPORT EventPlaySound : public Event
+{
+public:
+    EventPlaySound(const QString &sound)
+        : Event(eEventPlaySound), m_sound(sound) {}
+    const QString &sound()  const { return m_sound; }
+protected:
+    QString m_sound;
+};
+
+class EXPORT EventRaiseWindow : public Event
+{
+public:
+    EventRaiseWindow(QWidget *widgetToRaise)
+        : Event(eEventRaiseWindow), m_widget(widgetToRaise) {}
+    QWidget *widget()  const { return m_widget; }
+protected:
+    QWidget *m_widget;
+};
+
+class EXPORT EventGetURL : public Event
+{
+public:
+    EventGetURL() : Event(eEventGetURL) {}
+    // out!
+    void setUrl(const QString &url) { m_url = url; }
+    const QString &url()  const { return m_url; }
+protected:
+    QString m_url;
+};
+
 // _____________________________________________________________________________________
 // Default events
-
-/* Event icons changed */
-const unsigned EventIconChanged     = 0x0400;
 
 /* Toolbar (create and remove)
    param is toolbar id */
@@ -526,37 +588,6 @@ const unsigned EventCommandShow     = 0x0525;
 const unsigned EventCommandWidget   = 0x0526;
 
 const unsigned EventClientChanged   = 0x0530;
-
-/* Event - get home dir
-   param is QString *fileName
-*/
-
-const unsigned EventHomeDir     = 0x0601;
-
-/* Event go URL
-   param is QString *url
-*/
-
-const unsigned EventGoURL       = 0x0602;
-
-/* Event get URL
-   return QString *url
-*/
-
-const unsigned EventGetURL      = 0x0603;
-
-/* Event play sound
-   param is QString *wav
-*/
-
-const unsigned EventPlaySound   = 0x0604;
-
-/* Event raise window
-   param is QWidget *
-*/
-
-const unsigned EventRaiseWindow = 0x0605;
-
 
 /* Event - draw user list background
    param is PaintListView*

@@ -222,7 +222,7 @@ void JabberInfo::goUrl()
     QString url = edtUrl->text();
     if (url.isEmpty())
         return;
-    Event e(EventGoURL, (void*)&url);
+    EventGoURL e(url);
     e.process();
 }
 

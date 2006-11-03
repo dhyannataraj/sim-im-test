@@ -115,7 +115,7 @@ Icons::~Icons()
 
 void *Icons::processEvent(Event *e)
 {
-    if (e->type() == EventIconChanged){
+    if (e->type() == eEventIconChanged){
         QValueListIterator<IconSet*> it;
         for (it = m_customSets.begin(); it != m_customSets.end(); ++it)
             (*it)->clear();
@@ -127,7 +127,7 @@ void *Icons::processEvent(Event *e)
 
 void Icons::iconChanged(int)
 {
-    Event e(EventIconChanged, NULL);
+    EventIconChanged e;
     e.process();
 }
 

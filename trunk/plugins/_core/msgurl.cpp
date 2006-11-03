@@ -49,8 +49,9 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
         edtUrl->setText(static_cast<UrlMessage*>(msg)->getUrl());
         if (edtUrl->text().isEmpty()){
             QString url;
-            Event e(EventGetURL, &url);
+            EventGetURL e;
             e.process();
+            url = e.url();
             if (!url.isEmpty()){
                 url = url.mid(1);
                 int n = url.find('\"');

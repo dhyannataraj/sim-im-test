@@ -182,7 +182,7 @@ void *WeatherPlugin::processEvent(Event *e)
         if ((cmd->id == CmdWeather) && !getID().isEmpty()){
             QString url = "http://www.weather.com/outlook/travel/pastweather/";
             url += getID();
-            Event eGo(EventGoURL, (void*)&url);
+            EventGoURL eGo(url);
             eGo.process();
             return e->param();
         }

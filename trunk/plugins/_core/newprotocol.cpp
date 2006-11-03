@@ -171,7 +171,7 @@ void NewProtocol::protocolChanged(int n)
     }
     setNextEnabled(currentPage(), true);
     setIcon(Pict(protocol->description()->icon));
-    Event e(EventRaiseWindow, this);
+    EventRaiseWindow e(this);
     e.process();
 }
 

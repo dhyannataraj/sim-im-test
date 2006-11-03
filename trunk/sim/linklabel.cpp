@@ -44,7 +44,7 @@ void LinkLabel::setUrl(const QString &url)
 void LinkLabel::mouseReleaseEvent(QMouseEvent * e)
 {
     if ((e->button() == LeftButton) && !m_url.isEmpty()){
-        Event e(EventGoURL, (void*)&m_url);
+        EventGoURL e(m_url);
         e.process();
     }
 }

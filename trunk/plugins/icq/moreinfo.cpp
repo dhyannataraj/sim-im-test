@@ -198,7 +198,7 @@ void MoreInfo::goUrl()
         return;
     if(!url.startsWith("http://"))
         url = "http://" + url;
-    Event e(EventGoURL, (void*)&url);
+    EventGoURL e(url);
     e.process();
 }
 

@@ -300,9 +300,9 @@ void AutoAwayPlugin::timeout()
 
 void *AutoAwayPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventPlaySound){
+    if (e->type() == eEventPlaySound){
         if (getDisableAlert() && (bAway || bNA || bOff))
-            return e->param();
+            return (void*)1;
     }
     if (e->type() == EventContactOnline){
         unsigned long commonStatus = STATUS_UNKNOWN;

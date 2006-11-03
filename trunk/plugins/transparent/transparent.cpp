@@ -297,9 +297,9 @@ void *TransparentPlugin::processEvent(Event *e)
             pv->isStatic = true;
         }
     }
-    if (e->type() == EventRaiseWindow){
-        QWidget *w = (QWidget*)(e->param());
-        if (w == getMainWindow())
+    if (e->type() == eEventRaiseWindow){
+        EventRaiseWindow *w = static_cast<EventRaiseWindow*>(e);
+        if (w->widget() == getMainWindow())
             setState();
     }
 #endif

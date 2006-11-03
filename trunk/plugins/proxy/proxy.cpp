@@ -1259,9 +1259,10 @@ void *ProxyPlugin::processEvent(Event *e)
         if (listener)
             return e->param();
     }
-    if (e->type() == EventRaiseWindow){
-        QWidget *w = (QWidget*)(e->param());
-        if (!w->inherits("NewProtocol"))
+    if (e->type() == eEventRaiseWindow){
+        EventRaiseWindow *win = static_cast<EventRaiseWindow*>(e);
+        QWidget *w = win->widget();
+        if (!w || !w->inherits("NewProtocol"))
             return NULL;
         NewProtocol *p = static_cast<NewProtocol*>(w);
         if (p->m_client->protocol()->description()->flags & PROTOCOL_NOPROXY)

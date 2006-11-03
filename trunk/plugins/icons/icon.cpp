@@ -79,7 +79,7 @@ void IconsPlugin::setIcons(bool bForce)
         for (unsigned i = 1; i <= getNIcons(); i++)
             getIcons()->addIconSet(getIcon(i), false);
     }
-    Event e(EventIconChanged, NULL);
+    EventIconChanged e;
     e.process();
 }
 

@@ -231,7 +231,7 @@ void ZodiakWnd::view()
     if (day && month && year){
         int n = getSign(day, month);
         QString s = QString("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]);
-        Event e(EventGoURL, (void*)&s);
+        EventGoURL e(s);
         e.process();
     }
 }

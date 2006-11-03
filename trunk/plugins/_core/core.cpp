@@ -1704,7 +1704,7 @@ I18N_NOOP("female", "%1 wrote:" )
 void *CorePlugin::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventIconChanged:{
+    case eEventIconChanged:{
             QStringList smiles;
             getIcons()->getSmiles(smiles);
             unsigned flags = 0;
@@ -1848,29 +1848,24 @@ void *CorePlugin::processEvent(Event *e)
         destroy();
         m_cmds->clear();
         return NULL;
-    case EventHomeDir:{
-            QString *cfg = (QString*)(e->param());
-            QString fname = *cfg;
+    case eEventHomeDir:{
+            EventHomeDir *homedir = static_cast<EventHomeDir*>(e);
+            QString fname = homedir->homeDir();
             QString profile;
-#ifdef WIN32
-            if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
-#else
-            if (fname[0] != '/')
-#endif
+            if(!QDir(fname).isRoot())
                 profile = getProfile();
             if (profile.length())
                 profile += "/";
             profile += fname;
-            if (profile.isEmpty()){
-                *cfg = "";
-            }else{
-                *cfg = profile;
-            }
-            Event eProfile(EventHomeDir, cfg);
+            homedir->setHomeDir(profile);
+            // dunno knowif this is correct... :(
+            EventHomeDir eProfile(homedir->homeDir());
             if (!eProfile.process(this))
-                *cfg = app_file(*cfg);
-            makedir(QFile::encodeName(*cfg).data());
-            return cfg;
+                homedir->setHomeDir(app_file(homedir->homeDir()));
+            else
+                homedir->setHomeDir(eProfile.homeDir());
+            makedir(homedir->homeDir());
+            return (void*)1;
         }
     case EventAddPreferences:{
             CommandDef *cmd = (CommandDef*)(e->param());
@@ -3490,8 +3485,9 @@ void *CorePlugin::processEvent(Event *e)
             }
         }
         return NULL;
-    case EventGoURL:{
-            QString url = *((QString*)(e->param()));
+    case eEventGoURL:{
+            EventGoURL *u = static_cast<EventGoURL*>(e);
+            QString url = u->url();
             QString proto;
             int n = url.find(':');
             if (n < 0)
@@ -3870,7 +3866,7 @@ void CorePlugin::loadDir()
     QString saveProfile = getProfile();
     setProfile(QString::null);
     bool bOK = false;
-    QString baseName = user_file("");
+    QString baseName = user_file(QString::null);
     QDir dir(baseName);
     dir.setFilter(QDir::Dirs);
     QStringList list = dir.entryList();
@@ -4106,12 +4102,7 @@ void CorePlugin::loadClients(ClientList &clients)
         log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
         return;
     }
-    Buffer cfg;
-    cfg.init(f.size());
-    if (f.readBlock(cfg.data(), f.size()) < 0){
-        log(L_ERROR, "Can't read %s", cfgName.local8Bit().data());
-        return;
-    }
+    Buffer cfg = f.readAll();
     for (;;){
         QCString section = cfg.getSection();
         if (section.isEmpty())

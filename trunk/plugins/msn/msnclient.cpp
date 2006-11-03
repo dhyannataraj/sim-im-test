@@ -1345,12 +1345,12 @@ void *MSNClient::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNInitMail){
-            Event eGo(EventGoURL, (void*)&m_init_mail);
+            EventGoURL eGo(m_init_mail);
             eGo.process();
             return e->param();
         }
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNNewMail){
-            Event eGo(EventGoURL, (void*)&m_new_mail);
+            EventGoURL eGo(m_new_mail);
             eGo.process();
             return e->param();
         }

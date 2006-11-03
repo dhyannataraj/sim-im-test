@@ -160,9 +160,8 @@ void EditFile::showFiles()
     }else{
         if (s.isEmpty()){
             s = startDir;
-            if (!s.isEmpty()){
-                makedir(QFile::encodeName(QDir::convertSeparators(s)).data());
-            }
+            if (!s.isEmpty())
+                makedir(s);
         }
         if (createPreview){
             FileDialog *dlg = new FileDialog( s, filter, topLevelWidget(), title.isEmpty() ? i18n("Open") : title);
@@ -247,8 +246,7 @@ EditSound::~EditSound()
 
 void EditSound::play()
 {
-    QString s = edtFile->text();
-    Event e(EventPlaySound, (void*)&s);
+    EventPlaySound e(edtFile->text());
     e.process();
 }
 

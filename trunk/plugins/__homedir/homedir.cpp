@@ -146,7 +146,7 @@ QString HomeDirPlugin::defaultPath()
         defPath += "sim";
         QString ss = defPath;
         ss += "\\";
-        makedir(QFile::encodeName(ss).data());
+        makedir(ss);
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);
         if (!f.open(IO_ReadWrite | IO_Truncate))
@@ -190,15 +190,11 @@ string HomeDirPlugin::getConfig()
 
 #endif
 
-QString HomeDirPlugin::buildFileName(const QString *name)
+QString HomeDirPlugin::buildFileName(const QString &name)
 {
     QString s;
-    QString fname = name ? *name : "!INVALID!";
-#ifdef WIN32
-    if ((fname[1] != ':') && (fname.left(2) != "\\\\")){
-#else
-    if (fname[0] != '/'){
-#endif
+    QString fname = name;
+    if(!QDir(fname).isRoot()) {
         s += m_homeDir;
         s += '/';
     }
@@ -208,12 +204,10 @@ QString HomeDirPlugin::buildFileName(const QString *name)
 
 void *HomeDirPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventHomeDir){
-        QString *cfg = (QString*)(e->param());
-        if(!cfg)
-            return NULL;
-        *cfg = buildFileName(cfg); 
-        return (void*)(!cfg->isEmpty());
+    if (e->type() == eEventHomeDir){
+        EventHomeDir *homedir = static_cast<EventHomeDir*>(e);
+        homedir->setHomeDir(buildFileName(homedir->homeDir()));
+        return (void*)(!homedir->homeDir().isEmpty());
     }
     return NULL;
 }

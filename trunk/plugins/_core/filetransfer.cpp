@@ -512,7 +512,7 @@ void FileTransferDlg::goDir()
        are there any other separators we need to care of ?*/
     path.replace(QRegExp(" "),"%20");
 
-    Event e(EventGoURL, (void*)&path);
+    EventGoURL e(path);
     e.process();
 }
 

@@ -229,7 +229,7 @@ void *MainWindow::processEvent(Event *e)
         wnd = (WindowDef*)(e->param());
         addStatus(wnd->widget, wnd->bDown);
         return e->param();
-    case EventIconChanged:
+    case eEventIconChanged:
         setIcon(Pict(m_icon));
         break;
     case EventContactChanged:{

@@ -113,7 +113,7 @@ Buffer::~Buffer()
 void Buffer::init(unsigned size)
 {
     m_posRead = 0;
-    m_posWrite = 0;
+    m_posWrite = size;
     m_packetStartPos = 0;
     m_startSection = 0;
     resize(size);
@@ -709,6 +709,8 @@ static int findEndSection(const Buffer *pBuf, unsigned start)
     int idx = start == ~0U ? 0 : start;
 
     do {
+        if(idx >= (int)pBuf->size())
+            return -1;
         idx = pBuf->find( ']', idx);
         if(idx == -1)
             return -1;
