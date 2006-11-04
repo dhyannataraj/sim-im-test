@@ -1295,11 +1295,12 @@ QString JabberClient::contactTip(void *_data)
         res += "<br/>";
         res += "ID: <b>";
         res += data->ID.str();
-        res += "</b>";
         if (!data->Resource.str().isEmpty()){
-            res += "<br/>";
+            res += "/";
             res += data->Resource.str();
         }
+        res += "</b>";
+
         if (data->StatusTime.toULong()){
             res += "<br/><font size=-1>";
             res += i18n("Last online");
@@ -1327,9 +1328,12 @@ QString JabberClient::contactTip(void *_data)
             }
             res += "<br/>ID: <b>";
             res += data->ID.str();
+            QString resource = get_str(data->Resources, i);
+            if (!resource.isEmpty()){
+                res += "/";
+                res += resource;
+            }
             res += "</b><br/>";
-            res += get_str(data->Resources, i);
-            res += "<br/>";
             unsigned onlineTime = get_str(data->ResourceOnlineTime, i).toUInt();
             unsigned statusTime = get_str(data->ResourceStatusTime, i).toUInt();
             if (onlineTime){
