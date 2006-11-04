@@ -42,7 +42,6 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     setTitle();
     setButtonsPict(this);
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
-    m_bVersion = true;
     m_bTime    = true;
     m_bLast	   = true;
     m_bStat	   = true;
@@ -102,7 +101,6 @@ void DiscoInfo::reset()
     edtType->setText(m_type);
     edtCategory->setText(m_category);
     edtNameSpace->setText(m_features);
-    bool bVersion = false;
     bool bTime    = false;
     bool bLast	  = false;
     bool bStat	  = false;
@@ -110,8 +108,6 @@ void DiscoInfo::reset()
     QString mf = m_features;
     while (!mf.isEmpty()){
         QString f = getToken(mf, '\n');
-        if (f == "jabber:iq:version")
-            bVersion = true;
         if (f == "jabber:iq:time")
             bTime = true;
         if (f == "jabber:iq:last")
@@ -121,17 +117,7 @@ void DiscoInfo::reset()
         if (f == "vcard-temp")
             bVCard = true;
     }
-    int pos = 1;
-    if (bVersion != m_bVersion){
-        m_bVersion = bVersion;
-        if (m_bVersion){
-            tabInfo->insertTab(tabVersion, i18n("&Version"), pos++);
-        }else{
-            tabInfo->removePage(tabVersion);
-        }
-    }else if (m_bVersion){
-        pos++;
-    }
+    int pos = 2;
     edtName->setText("");
     edtVersion->setText("");
     edtSystem->setText("");

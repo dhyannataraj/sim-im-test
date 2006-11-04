@@ -50,7 +50,6 @@ protected:
     void *processEvent(SIM::Event *e);
     void resizeEvent(QResizeEvent*);
     void setTitle();
-    bool m_bVersion;
     bool m_bTime;
     bool m_bLast;
     bool m_bStat;
