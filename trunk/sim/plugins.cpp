@@ -335,7 +335,8 @@ void *PluginManagerPrivate::processEvent(Event *e)
 #ifndef WIN32
 	case eEventExec: {
         EventExec *exec = static_cast<EventExec*>(e);
-        return (void*)execute(exec->cmd(), exec->args());
+        exec->setPid(execute(exec->cmd(), exec->args()));
+        return (void*)1;
 	}
 #endif
     default:

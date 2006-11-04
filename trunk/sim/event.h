@@ -72,12 +72,12 @@ protected:
 enum SIMEvents
 {
     eEventLog	= 0x0001,	// Log Output
-	eEventInit	= 0x0101,	// application init after all plugins are loaded
-	eEventQuit	= 0x0102,	// last event until plugins are unloaded
-	eEventExec	= 0x0110,	// execute an external programm
-	eEventSocketActive = 0x0112,	// change socket activity state
-	eEventArg	    = 0x0201,	// get command line argument
-    eEventGetArgs   = 0x0202,   // get all command line arguments
+    eEventInit	= 0x0101,	// application init after all plugins are loaded
+    eEventQuit	= 0x0102,	// last event until plugins are unloaded
+    eEventExec	= 0x0110,	// execute an external programm
+    eEventSocketActive      = 0x0112,	// change socket activity state
+    eEventArg               = 0x0201,   // get command line argument
+    eEventGetArgs           = 0x0202,   // get all command line arguments
     eEventLanguageChanged   = 0x0301,   // i18n changed
     eEventPluginChanged     = 0x0302,   // a plugin was (un)loaded
     eEventGetPluginInfo     = 0x0303,   // get plugin at pluginidx n, ret: pluginInfo
@@ -149,9 +149,12 @@ class EXPORT EventExec : public Event
 {
 public:
 	EventExec(const QString &cmd, const QStringList &args)
-		: Event(eEventInit), m_cmd(cmd), m_args(args) {}
+		: Event(eEventExec), m_cmd(cmd), m_args(args) {}
 	const QString &cmd() const { return m_cmd; }
 	const QStringList &args() const { return m_args; }
+	// out
+	void setPid(unsigned long pid) { m_pid = pid; }
+	unsigned long pid() const { return m_pid; }
 protected:
 	QString		m_cmd;
 	QStringList m_args;

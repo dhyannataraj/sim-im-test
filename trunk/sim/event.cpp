@@ -52,12 +52,9 @@ void *Event::process(EventReceiver *from)
         return NULL;
     QValueList<EventReceiver*>::iterator it = receivers->begin();
     if (from){
-        for (; it != receivers->end(); ++it){
-            if ((*it) == from){
-                ++it;
-                break;
-            }
-        }
+        it = receivers->find(from);
+        if(it != receivers->end())
+            ++it;
     }
     for (; it != receivers->end(); ++it){
         EventReceiver *receiver = *it;

@@ -105,7 +105,7 @@ EXPORT bool makedir(const QString &p)
     fprintf(stderr, "file: %s", r.local8Bit().data());
 
     struct stat st;
-    if (stat(QFile::encodeName(r).data(), &st)){
+    if (stat(QFile::encodeName(r).data(), &st) != 0){
         int idx = r.findRev('/');
         if(idx == -1)
             return false;
@@ -114,9 +114,8 @@ EXPORT bool makedir(const QString &p)
                 log(L_ERROR, "Can't create %s: %s", QFile::encodeName(r).data(), strerror(errno));
                 return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
     if ((st.st_mode & S_IFMT) != S_IFDIR){
         log(L_ERROR, "%s no directory", p.local8Bit().data());
