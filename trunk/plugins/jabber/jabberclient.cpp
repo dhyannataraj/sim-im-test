@@ -128,6 +128,9 @@ DataDef jabberUserData[] =
         { "", DATA_STRLIST, 1, 0 },			// ResourceStatusTime
         { "", DATA_STRLIST, 1, 0 },			// ResourceOnlineTime
         { "AutoReply", DATA_UTF, 1, 0 },
+        { "", DATA_STRLIST, 1, 0 },			// ResourceClientName
+        { "", DATA_STRLIST, 1, 0 },			// ResourceClientVersion
+        { "", DATA_STRLIST, 1, 0 },			// ResourceClientOS
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -518,6 +521,27 @@ void *JabberClient::processEvent(Event *e)
                 e.process();
                 delete msg;
                 return msg;
+            }
+        }
+        return NULL;
+    }
+    if (e->type() == EventClientVersion){
+        ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
+        if (!info->jid.isEmpty()){
+            Contact *contact;
+            QString resource;
+            JabberUserData* data = findContact(info->jid, QString::null, false, contact, resource);
+            if (!data)
+                return NULL;
+            unsigned i;
+            for (i = 1; i <= data->nResources.toULong(); i++){
+                if (resource == get_str(data->Resources, i))
+                    break;
+            }
+            if (i <= data->nResources.toULong()){
+                set_str(&data->ResourceClientName, i, info->name);
+                set_str(&data->ResourceClientVersion, i, info->version);
+                set_str(&data->ResourceClientOS, i, info->os);
             }
         }
         return NULL;

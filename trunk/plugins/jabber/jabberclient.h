@@ -78,6 +78,9 @@ struct JabberUserData : public SIM::clientData
     SIM::Data		ResourceStatusTime;
     SIM::Data		ResourceOnlineTime;
     SIM::Data		AutoReply;
+    SIM::Data		ResourceClientName;
+    SIM::Data		ResourceClientVersion;
+    SIM::Data		ResourceClientOS;
 };
 
 typedef struct JabberClientData
@@ -163,6 +166,16 @@ typedef struct DiscoItem
     QString             category;
     QString             features;
 } DiscoItem;
+
+struct ClientVersionInfo
+{
+    QString             jid;
+    QString             node;
+    QString             resource;
+    QString             name;
+    QString             version;
+    QString             os;
+};
 
 class JabberClient : public SIM::TCPClient, public SAXParser
 {
@@ -332,7 +345,7 @@ class MessageRequest : public ServerRequest
     QString discoItems(const QString &jid, const QString &node);
     QString discoInfo(const QString &jid, const QString &node);
     QString browse(const QString &jid);
-    QString versionInfo(const QString &jid, const QString &node);
+    QString versionInfo(const QString &jid, const QString &node = QString::null);
     QString timeInfo(const QString &jid, const QString &node);
     QString lastInfo(const QString &jid, const QString &node);
     QString statInfo(const QString &jid, const QString &node);

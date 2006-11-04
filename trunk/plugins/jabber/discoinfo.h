@@ -56,7 +56,6 @@ protected:
     bool m_bStat;
     bool m_bVCard;
     JabberBrowser *m_browser;
-    QString m_versionId;
     QString m_timeId;
     QString m_lastId;
     QString m_statId;

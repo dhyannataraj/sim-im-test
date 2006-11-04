@@ -862,6 +862,9 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     vector<QString> resourceStatus;
                     vector<QString> resourceStatusTime;
                     vector<QString> resourceOnlineTime;
+                    vector<QString> resourceClientName;
+                    vector<QString> resourceClientVersion;
+                    vector<QString> resourceClientOS;
                     for (unsigned n = 1; n <= data->nResources.toULong(); n++){
                         if (i == n)
                             continue;
@@ -870,18 +873,27 @@ JabberClient::PresenceRequest::~PresenceRequest()
                         resourceStatus.push_back(get_str(data->ResourceStatus, n));
                         resourceStatusTime.push_back(get_str(data->ResourceStatusTime, n));
                         resourceOnlineTime.push_back(get_str(data->ResourceOnlineTime, n));
+                        resourceClientName.push_back(get_str(data->ResourceClientName, n));
+                        resourceClientVersion.push_back(get_str(data->ResourceClientVersion, n));
+                        resourceClientOS.push_back(get_str(data->ResourceClientOS, n));
                     }
                     data->Resources.clear();
                     data->ResourceReply.clear();
                     data->ResourceStatus.clear();
                     data->ResourceStatusTime.clear();
                     data->ResourceOnlineTime.clear();
+                    data->ResourceClientName.clear();
+                    data->ResourceClientVersion.clear();
+                    data->ResourceClientOS.clear();
                     for (i = 0; i < resources.size(); i++){
                         set_str(&data->Resources, i + 1, resources[i]);
                         set_str(&data->ResourceReply, i + 1, resourceReply[i]);
                         set_str(&data->ResourceStatus, i + 1, resourceStatus[i]);
                         set_str(&data->ResourceStatusTime, i + 1, resourceStatusTime[i]);
                         set_str(&data->ResourceOnlineTime, i + 1, resourceOnlineTime[i]);
+                        set_str(&data->ResourceClientName, i + 1, resourceClientName[i]);
+                        set_str(&data->ResourceClientVersion, i + 1, resourceClientVersion[i]);
+                        set_str(&data->ResourceClientOS, i + 1, resourceClientOS[i]);
                     }
                     data->nResources.asULong() = resources.size();
                 }
@@ -893,6 +905,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     data->nResources.asULong() = i;
                     set_str(&data->Resources, i, resource);
                     set_str(&data->ResourceOnlineTime, i, QString::number(time2 ? time2 : time1));
+                    m_client->versionInfo(m_from);
                 }
                 if (QString::number(status) != get_str(data->ResourceStatus, i)){
                     bChanged = true;
@@ -1111,13 +1124,10 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                 req->add_attribute("xmlns", "jabber:iq:version");
                 req->text_tag("name", PACKAGE);
                 req->text_tag("version", VERSION);
-                QString version=get_os_version();
+                QString version = get_os_version();
                 req->text_tag("os", version);
                 req->send();
                 m_client->m_requests.push_back(req);
-            }else if (m_type == "result"){
-                // update contact's client version
-                // here we can use VersionInfoRequest, but it needs some cleanup
             }
         }
     }
@@ -1382,12 +1392,6 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
             m_bCompose = true;
         return;
     }
-    /*
-    if (!strcmp(el, "id")){
-        m_data = &m_id;
-        return;
-    }
-    */
     if (!strcmp(el, "url-data")){
         m_target = JabberClient::get_attr("target", attr);
         m_desc = "";
@@ -2600,32 +2604,37 @@ QString JabberClient::browse(const QString &jid)
 class VersionInfoRequest : public JabberClient::ServerRequest
 {
 public:
-    VersionInfoRequest(JabberClient *client, const QString &jid);
+    VersionInfoRequest(JabberClient *client, const QString &jid, const QString &node);
     ~VersionInfoRequest();
 protected:
     virtual void	element_start(const char *el, const char **attr);
     virtual void	element_end(const char *el);
     virtual	void	char_data(const char *str, int len);
     QString			*m_data;
+    QString			m_jid;
+    QString			m_node;
     QString			m_name;
     QString			m_version;
     QString			m_os;
 };
 
-VersionInfoRequest::VersionInfoRequest(JabberClient *client, const QString &jid)
+VersionInfoRequest::VersionInfoRequest(JabberClient *client, const QString &jid, const QString &node)
         : JabberClient::ServerRequest(client, _GET, NULL, jid)
 {
     m_data = NULL;
+    m_jid = jid;
+    m_node = node;
 }
 
 VersionInfoRequest::~VersionInfoRequest()
 {
-    DiscoItem item;
-    item.id     = m_id;
-    item.jid    = m_version;
-    item.name   = m_name;
-    item.node   = m_os;
-    Event e(EventDiscoItem, &item);
+    ClientVersionInfo info;
+    info.jid = m_jid;
+    info.node = m_node;
+    info.name = m_name;
+    info.version = m_version;
+    info.os = m_os;
+    Event e(EventClientVersion, &info);
     e.process();
 }
 
@@ -2654,7 +2663,7 @@ QString JabberClient::versionInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
-    VersionInfoRequest *req = new VersionInfoRequest(this, jid);
+    VersionInfoRequest *req = new VersionInfoRequest(this, jid, node);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:version");
     req->add_attribute("node", node);

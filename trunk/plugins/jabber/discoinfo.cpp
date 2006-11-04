@@ -135,7 +135,7 @@ void DiscoInfo::reset()
     edtName->setText("");
     edtVersion->setText("");
     edtSystem->setText("");
-    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url, m_node) : "";
+    m_browser->m_client->versionInfo(m_url, m_node);
     if ((bTime || bLast) != (m_bTime || m_bLast)){
         m_bTime = bTime;
         m_bLast = bLast;
@@ -214,13 +214,6 @@ void *DiscoInfo::processEvent(Event *e)
     }
     if (e->type() == EventDiscoItem){
         DiscoItem *item = (DiscoItem*)(e->param());
-        if (m_versionId == item->id){
-            m_versionId = "";
-            edtName->setText(item->name);
-            edtVersion->setText(item->jid);
-            edtSystem->setText(item->node);
-            return e->param();
-        }
         if (m_timeId == item->id){
             m_timeId = "";
             edtTime->setText(item->jid);
@@ -256,6 +249,14 @@ void *DiscoInfo::processEvent(Event *e)
             date += time;
             edtLast->setText(date);
             return e->param();
+        }
+    }
+    if (e->type() == EventClientVersion){
+        ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
+        if (m_data.ID.str() == info->jid && m_data.Node.str() == info->node){
+            edtName->setText(info->name);
+            edtVersion->setText(info->version);
+            edtSystem->setText(info->os);
         }
     }
     return NULL;
