@@ -531,24 +531,24 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             continue;
         Data *ld = data + offs;
         ld->setType(def->type);
-		// FIXME:
-		char *p = NULL;
-		const char *value = val.data();
-		unsigned i = 0;
-		string v;
+        // FIXME:
+        char *p = NULL;
+        const char *value = val.data();
+        unsigned i = 0;
+        string v;
         switch (def->type){
-		case DATA_IP: {
-			int idx = val.find(',');
-			QCString ip, url;
-			if(idx == -1) {
-				ip = value;
-			} else {
-				ip = val.left(idx);
-				url = val.mid(idx + 1);
-			}
-            set_ip(ld, inet_addr(value), p);
-            break;
-		}
+        case DATA_IP: {
+                int idx = val.find(',');
+                QCString ip, url;
+                if(idx == -1) {
+                        ip = value;
+                } else {
+                        ip = val.left(idx);
+                        url = val.mid(idx + 1);
+                }
+                set_ip(ld, inet_addr(value), p);
+                break;
+        }
         case DATA_STRLIST:
             i = strtoul(value, NULL, 10);
             if (i == 0)
@@ -608,7 +608,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 if (*value == 'u'){
                     ld->str() = QString::fromUtf8(v.c_str());
                 }else{
-                    ld->str() = QString::fromAscii(v.c_str());
+                    ld->str() = QString::fromLocal8Bit(v.c_str());
                 }
                 i++;
                 value = strchr(value, ',');
@@ -771,6 +771,8 @@ EXPORT string save_data(const DataDef *def, void *_data)
                     const Data::STRING_MAP &p = ld->strMap();
                     if (p.count()){
                         for (Data::STRING_MAP::ConstIterator it = p.begin(); it != p.end(); ++it){
+                            if(it.data().isEmpty())
+                                continue;
                             if (res.length())
                                 res += "\n";
                             res += def->name;
@@ -793,6 +795,8 @@ EXPORT string save_data(const DataDef *def, void *_data)
                     const Data::STRING_MAP &p = ld->strMap();
                     if (p.count()){
                         for (Data::STRING_MAP::ConstIterator it = p.begin(); it != p.end(); ++it){
+                            if(it.data().isEmpty())
+                                continue;
                             if (res.length())
                                 res += "\n";
                             res += def->name;
