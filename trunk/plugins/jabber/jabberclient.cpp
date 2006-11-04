@@ -186,11 +186,6 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
     }
     if (data.owner.Resource.str().isEmpty()){
         QString resource = PACKAGE;
-        resource += "_";
-        resource += VERSION;
-#ifdef WIN32
-        resource += "/win32";
-#endif
         data.owner.Resource.str() = resource.simplifyWhiteSpace();
     }
 
