@@ -2783,10 +2783,8 @@ if (fname[0] != '/')
             }
             if (cmd->id == CmdUnread){
                 unsigned contact_id = 0;
-                if (cmd->menu_id == MenuContact){
-                    Contact *contact = (Contact*)(e->param());
-                    contact_id = contact->id();
-                }
+                if (cmd->menu_id == MenuContact)
+                    contact_id = (unsigned long)(e->param());
                 MAP_COUNT count;
                 MAP_COUNT::iterator itc;
                 CommandDef *def;
