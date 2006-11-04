@@ -38,8 +38,7 @@ const unsigned WAIT_SOUND_TIMEOUT	= 1000;
 
 Plugin *createSoundPlugin(unsigned base, bool bFirst, Buffer *config)
 {
-    Plugin *plugin = new SoundPlugin(base, bFirst, config);
-    return plugin;
+    return new SoundPlugin(base, bFirst, config);
 }
 
 static PluginInfo info =
@@ -115,15 +114,15 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     EventSoundChanged = registerType();
 
     Command cmd;
-    cmd->id		 = user_data_id + 1;
-    cmd->text	 = I18N_NOOP("&Sound");
-    cmd->icon	 = "sound";
+    cmd->id       = user_data_id + 1;
+    cmd->text	  = I18N_NOOP("&Sound");
+    cmd->icon	  = "sound";
     cmd->icon_on  = QString::null;
-    cmd->param	 = (void*)getSoundSetup;
+    cmd->param	  = (void*)getSoundSetup;
     Event e(EventAddPreferences, cmd);
     e.process();
 
-    cmd->id		  = CmdSoundDisable;
+    cmd->id       = CmdSoundDisable;
     cmd->text	  = I18N_NOOP("&Sound");
     cmd->icon	  = "nosound";
     cmd->icon_on  = "sound";
@@ -382,7 +381,8 @@ void SoundPlugin::processQueue()
         return;
     }
     EventExec e(getPlayer(), sound);
-    m_player = (long)e.process();
+    e.process();
+    m_player = e.pid();
     if (m_player == 0){
         log(L_WARN, "Can't execute player");
         m_queue.clear();
