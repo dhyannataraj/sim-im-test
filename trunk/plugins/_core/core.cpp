@@ -2772,11 +2772,9 @@ void *CorePlugin::processEvent(Event *e)
                 return e->param();
             }
             if (cmd->id == CmdUnread){
-                unsigned contact_id = 0;
-                if (cmd->menu_id == MenuContact){
-                    Contact *contact = (Contact*)(e->param());
-                    contact_id = contact->id();
-                }
+                unsigned long contact_id = 0;
+                if (cmd->menu_id == MenuContact)
+                    contact_id = (unsigned long)cmd->param;
                 MAP_COUNT count;
                 MAP_COUNT::iterator itc;
                 CommandDef *def;
