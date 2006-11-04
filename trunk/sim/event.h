@@ -158,6 +158,7 @@ public:
 protected:
 	QString		m_cmd;
 	QStringList m_args;
+    unsigned long m_pid;
 };
 
 class EXPORT EventSocketActive : public Event
