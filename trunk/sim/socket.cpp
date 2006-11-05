@@ -90,12 +90,7 @@ const QString &ClientSocket::errorString() const
 void ClientSocket::connect(const QString &host, unsigned short port, TCPClient *client)
 {
     if (client){
-        ConnectParam p;
-        p.socket = this;
-        p.host = host;
-        p.port = port;
-        p.client = client;
-        Event e(EventSocketConnect, &p);
+        EventSocketConnect e(this, client, host, port);
         e.process();
     }
     m_sock->connect(host, port);

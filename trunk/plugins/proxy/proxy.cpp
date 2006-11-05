@@ -1213,53 +1213,56 @@ static QObject *findObject(QObject *w, const char *className)
 
 void *ProxyPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventSocketConnect){
-        ConnectParam *p = (ConnectParam*)(e->param());
+    switch (e->type()) {
+    case eEventSocketConnect: {
+        EventSocketConnect *esc = static_cast<EventSocketConnect*>(e);
         list<Proxy*>::iterator it;
         for (it = proxies.begin(); it != proxies.end(); ++it){
-            if ((*it)->getNotify() == p->socket)
+            if ((*it)->getNotify() == esc->socket())
                 return NULL;
         }
         ProxyData data;
-        clientData(p->client, data);
+        clientData(esc->client(), data);
         Proxy *proxy = NULL;
         switch (data.Type.toULong()){
         case PROXY_SOCKS4:
-            proxy = new SOCKS4_Proxy(this, &data, p->client);
+            proxy = new SOCKS4_Proxy(this, &data, esc->client());
             break;
         case PROXY_SOCKS5:
-            proxy = new SOCKS5_Proxy(this, &data, p->client);
+            proxy = new SOCKS5_Proxy(this, &data, esc->client());
             break;
         case PROXY_HTTPS:
-            if (p->client == (TCPClient*)(-1)){
-                proxy = new HTTP_Proxy(this, &data, p->client);
+            if (esc->client() == (TCPClient*)(-1)){
+                proxy = new HTTP_Proxy(this, &data, esc->client());
             }else{
-                proxy = new HTTPS_Proxy(this, &data, p->client);
+                proxy = new HTTPS_Proxy(this, &data, esc->client());
             }
             break;
         }
         if (proxy){
-            proxy->setSocket(p->socket);
-            return e->param();
+            proxy->setSocket(esc->socket());
+            return (void*)1;
         }
+        break;
     }
-    if (e->type() == EventSocketListen){
-        ListenParam *p = (ListenParam*)(e->param());
+    case eEventSocketListen: {
+        EventSocketListen *esl = static_cast<EventSocketListen*>(e);
         ProxyData data;
-        clientData(p->client, data);
+        clientData(esl->client(), data);
         Listener *listener = NULL;
         switch (data.Type.toULong()){
         case PROXY_SOCKS4:
-            listener = new SOCKS4_Listener(this, &data, p->notify, p->client->ip());
+            listener = new SOCKS4_Listener(this, &data, esl->notify(), esl->client()->ip());
             break;
         case PROXY_SOCKS5:
-            listener = new SOCKS5_Listener(this, &data, p->notify, p->client->ip());
+            listener = new SOCKS5_Listener(this, &data, esl->notify(), esl->client()->ip());
             break;
         }
         if (listener)
-            return e->param();
+            return (void*)1;
+        break;
     }
-    if (e->type() == eEventRaiseWindow){
+    case eEventRaiseWindow: {
         EventRaiseWindow *win = static_cast<EventRaiseWindow*>(e);
         QWidget *w = win->widget();
         if (!w || !w->inherits("NewProtocol"))
@@ -1275,8 +1278,9 @@ void *ProxyPlugin::processEvent(Event *e)
             cfg = new ProxyConfig(tab, this, tab, p->m_client);
             QObject::connect(tab->topLevelWidget(), SIGNAL(apply()), cfg, SLOT(apply()));
         }
+        break;
     }
-    if (e->type() == EventClientError){
+    case EventClientError: {
         clientErrorData *data = (clientErrorData*)(e->param());
         if (data->code == ProxyErr){
             QString msg = i18n(data->err_str);
@@ -1289,6 +1293,10 @@ void *ProxyPlugin::processEvent(Event *e)
             raiseWindow(err);
             return e->param();
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }

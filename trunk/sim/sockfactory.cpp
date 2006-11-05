@@ -414,10 +414,7 @@ void SIMServerSocket::close()
 void SIMServerSocket::bind(unsigned short minPort, unsigned short maxPort, TCPClient *client)
 {
     if (client && notify){
-        ListenParam p;
-        p.notify = notify;
-        p.client = client;
-        Event e(EventSocketListen, &p);
+        EventSocketListen e(notify, client);
         if (e.process())
             return;
     }

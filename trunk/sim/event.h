@@ -33,7 +33,9 @@ class Plugin;
 class Group;
 class Contact;
 class IP;
-
+class ClientSocket;
+class ServerSocketNotify;
+class TCPClient;
 // ___________________________________________________________________________________
 // Event receiver
 
@@ -112,6 +114,9 @@ enum SIMEvents
     eEventAddContact        = 0x0930,   // add contact
     eEventDeleteContact     = 0x0931,   // delete contact
     eEventGetContactIP      = 0x0932,   // retrieve IP adress for contact
+
+    eEventSocketConnect     = 0x1001,   // connect to host:port
+    eEventSocketListen      = 0x1002,   // listen to host:port
 };
 
 class EXPORT EventLog : public Event
@@ -505,6 +510,35 @@ protected:
     IP *m_ip;
 };
 
+class EXPORT EventSocketConnect : public Event
+{
+public:
+    EventSocketConnect(ClientSocket *socket, TCPClient *client, QString host, unsigned short port)
+        : Event(eEventSocketConnect),
+          m_socket(socket), m_client(client), m_host(host), m_port(port) {}
+    ClientSocket *socket() const { return m_socket; }
+    TCPClient *client()    const { return m_client; }
+    const QString &host()  const { return m_host; }
+    unsigned short port()  const { return m_port; }
+protected:
+    ClientSocket  *m_socket;
+    TCPClient     *m_client;
+    QString        m_host;
+    unsigned short m_port;
+};
+
+class EXPORT EventSocketListen : public Event
+{
+public:
+    EventSocketListen(ServerSocketNotify *notify, TCPClient *client)
+        : Event(eEventSocketListen), m_notify(notify), m_client(client) {}
+    ServerSocketNotify *notify() const { return m_notify; }
+    TCPClient *client() const { return m_client; }
+protected:
+    ServerSocketNotify *m_notify;
+    TCPClient    *m_client;
+};
+
 // _____________________________________________________________________________________
 // Default events
 
@@ -732,38 +766,6 @@ const unsigned EventCommandWidget   = 0x0526;
 
 const unsigned EventClientChanged   = 0x0530;
 
-
-/* Event netvork state changed
-*/
-const unsigned EventNetworkChanged  = 0x1000;
-
-/* Event socket connect
-   param is ConnectParam *
-*/
-const unsigned EventSocketConnect   = 0x1001;
-
-class ClientSocket;
-class ServerSocketNotify;
-class TCPClient;
-
-typedef struct ConnectParam
-{
-    ClientSocket    *socket;
-    TCPClient       *client;
-    QString         host;
-    unsigned short  port;
-} ConnectParam;
-
-/* Event socket listen
-   param is ListenParam *
-*/
-const unsigned EventSocketListen     = 0x1002;
-
-typedef struct ListenParam
-{
-    ServerSocketNotify  *notify;
-    TCPClient           *client;
-} ListenParam;
 
 /* Event send & receive message
 */
