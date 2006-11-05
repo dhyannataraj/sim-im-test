@@ -291,7 +291,7 @@ void FileTransferDlg::process()
                 btnGo->show();
             break;
         case FileTransfer::Error:
-            if (m_msg->getError())
+            if (!m_msg->getError().isEmpty())
                 status = i18n(m_msg->getError());
             break;
         default:
@@ -351,7 +351,7 @@ void FileTransferDlg::notifyDestroyed()
             close();
         return;
     }
-    if (m_msg->getError()){
+    if (!m_msg->getError().isEmpty()){
         lblState->setText(i18n(m_msg->getError()));
     }else{
         lblState->setText(i18n("Transfer failed"));

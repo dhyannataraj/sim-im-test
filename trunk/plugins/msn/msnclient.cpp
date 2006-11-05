@@ -465,7 +465,7 @@ void MSNClient::checkEndSync()
                     }
                 }
                 setupContact(contact, data);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }else{
                 forRemove.push_back(data);
@@ -560,7 +560,7 @@ void MSNClient::getLine(const char *line)
             }
             if (bChanged){
                 setupContact(contact, data);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
         }
@@ -613,7 +613,7 @@ void MSNClient::getLine(const char *line)
             if(!e.process())
                 delete m;
             if ((status == STATUS_ONLINE) && !contact->getIgnore()){
-                Event e(EventContactOnline, contact);
+                EventContact e(contact, EventContact::eOnline);
                 e.process();
             }
         }
@@ -679,7 +679,7 @@ void MSNClient::getLine(const char *line)
         if (data == NULL){
             data = findContact(email, nick, contact);
             contact->setFlags(CONTACT_TEMP);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
@@ -734,7 +734,7 @@ void MSNClient::getLine(const char *line)
         MSNUserData *data = findContact(m_curBuddy, contact);
         if (data == NULL)
             return;
-        Event e(EventContactChanged, contact);
+         EventContact e(contact, EventContact::eChanged);
         e.process();
         QString cmd = getToken(l, ' ');
         if (cmd == "PHH")
@@ -1102,7 +1102,7 @@ void MSNClient::setupContact(Contact *contact, void *_data)
         bChanged |= contact->setName(name);
     }
     if (bChanged){
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
 }
@@ -1196,7 +1196,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
                 data->EMail.str() = mail;
                 data->ScreenName.str() = name;
                 setupContact(contact, data);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 return data;
             }
@@ -1208,7 +1208,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
                 data->EMail.str() = mail;
                 data->ScreenName.str() = name;
                 setupContact(contact, data);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 m_bJoin = true;
                 return data;
@@ -1224,7 +1224,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
                     data->EMail.str() = mail;
                     data->ScreenName.str() = name;
                     setupContact(contact, data);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                     m_bJoin = true;
                     return data;
@@ -1237,7 +1237,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
     data->EMail.str() = mail;
     data->ScreenName.str() = name;
     contact->setName(name_str);
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     return data;
 }
@@ -1364,7 +1364,7 @@ void *MSNClient::processEvent(Event *e)
             findContact(ac->addr, ac->nick, contact);
             if (contact && (contact->getGroup() != ac->group)){
                 contact->setGroup(ac->group);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
             return contact;
@@ -1434,49 +1434,56 @@ void *MSNClient::processEvent(Event *e)
         }
         break;
     }
-    case EventContactChanged: {
-        Contact *contact = (Contact*)(e->param());
-        MSNUserData *data;
-        ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
-            bool bChanged = false;
-            if (contact->getIgnore() != ((data->Flags.toULong() & MSN_BLOCKED) != 0))
-                bChanged = true;
-            if (contact->getGroup() != (data->Group.toULong()))
-                bChanged = true;
-            if (contact->getName() != data->ScreenName.str())
-                bChanged = true;
-            if (!bChanged)
-                continue;
-            findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
-            MSNListRequest lr;
-            lr.Type = LR_CONTACTxCHANGED;
-            lr.Name = data->EMail.str();
-            m_requests.push_back(lr);
-        }
-        processRequests();
-        break;
-    }
-    case EventContactDeleted: {
-        Contact *contact = (Contact*)(e->param());
-        MSNUserData *data;
-        ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
-            findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
-            MSNListRequest lr;
-            if (data->Group.toULong() != NO_GROUP){
-                lr.Type  = LR_CONTACTxREMOVED;
-                lr.Name  = data->EMail.str();
-                lr.Group = data->Group.toULong();
-                m_requests.push_back(lr);
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                MSNUserData *data;
+                ClientDataIterator it(contact->clientData, this);
+                while ((data = (MSNUserData*)(++it)) != NULL){
+                    findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
+                    MSNListRequest lr;
+                    if (data->Group.toULong() != NO_GROUP){
+                        lr.Type  = LR_CONTACTxREMOVED;
+                        lr.Name  = data->EMail.str();
+                        lr.Group = data->Group.toULong();
+                        m_requests.push_back(lr);
+                    }
+                    if (data->Flags.toULong() & MSN_BLOCKED){
+                        lr.Type = LR_CONTACTxREMOVED_BL;
+                        lr.Name  = data->EMail.str();
+                        m_requests.push_back(lr);
+                    }
+                }
+                processRequests();
+                break;
             }
-            if (data->Flags.toULong() & MSN_BLOCKED){
-                lr.Type = LR_CONTACTxREMOVED_BL;
-                lr.Name  = data->EMail.str();
-                m_requests.push_back(lr);
+            case EventContact::eChanged: {
+                MSNUserData *data;
+                ClientDataIterator it(contact->clientData, this);
+                while ((data = (MSNUserData*)(++it)) != NULL){
+                    bool bChanged = false;
+                    if (contact->getIgnore() != ((data->Flags.toULong() & MSN_BLOCKED) != 0))
+                        bChanged = true;
+                    if (contact->getGroup() != (data->Group.toULong()))
+                        bChanged = true;
+                    if (contact->getName() != data->ScreenName.str())
+                        bChanged = true;
+                    if (!bChanged)
+                        continue;
+                    findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
+                    MSNListRequest lr;
+                    lr.Type = LR_CONTACTxCHANGED;
+                    lr.Name = data->EMail.str();
+                    m_requests.push_back(lr);
+                }
+                processRequests();
+                break;
             }
+            default:
+                break;
         }
-        processRequests();
         break;
     }
     case eEventGroup: {
@@ -1723,7 +1730,7 @@ bool MSNClient::add(const QString &mail, const QString &name, unsigned grp)
     if (data){
         if (contact->getGroup() != grp){
             contact->setGroup(grp);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         return false;
@@ -1732,7 +1739,7 @@ bool MSNClient::add(const QString &mail, const QString &name, unsigned grp)
     if (data == NULL)
         return false;
     contact->setGroup(grp);
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     return true;
 }

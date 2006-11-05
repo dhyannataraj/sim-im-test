@@ -46,7 +46,7 @@ void ICQSecure::deleteVisibleItem(QListViewItem *item)
         ClientDataIterator it(contact->clientData);
         while ((data = (ICQUserData*)(++it)) != NULL){
             data->VisibleId.asULong() = 0;
-            Event eContact(EventContactChanged, contact);
+            EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
         }
     }
@@ -60,7 +60,7 @@ void ICQSecure::deleteInvisibleItem(QListViewItem *item)
         ClientDataIterator it(contact->clientData);
         while ((data = (ICQUserData*)(++it)) != NULL){
             data->InvisibleId.asULong() = 0;
-            Event eContact(EventContactChanged, contact);
+            EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
         }
     }
@@ -114,7 +114,10 @@ void *ICQSecure::processEvent(Event *e)
         if ((Client*)(e->param()) == m_client)
             fill();
     }
-    if (e->type() == EventContactChanged){
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return NULL;
         fillListView(lstVisible, &ICQUserData::VisibleId);
         fillListView(lstInvisible, &ICQUserData::InvisibleId);
     }

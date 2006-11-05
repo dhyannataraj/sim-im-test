@@ -449,50 +449,56 @@ void UserConfig::itemSelected(QListViewItem *item)
 void *UserConfig::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventContactDeleted:{
-            Contact *contact = (Contact*)(e->param());
-            if (contact == m_contact)
+    case eEventGroup:{
+        EventGroup *ev = static_cast<EventGroup*>(e);
+        Group *group = ev->group();
+        switch(ev->action()) {
+        case EventGroup::eDeleted:
+            if (group == m_group)
                 close();
             return NULL;
-        }
-    case eEventGroup:{
-            EventGroup *ev = static_cast<EventGroup*>(e);
-            Group *group = ev->group();
-            switch(ev->action()) {
-            case EventGroup::eDeleted:
-                if (group == m_group)
-                    close();
-                return NULL;
-            case EventGroup::eChanged:
-                if (group == m_group)
-                    setTitle();
-                return NULL;
-            case EventGroup::eAdded:
-                return NULL;
-            }
-            break;
-        }
-    case EventFetchInfoFail:{
-            Contact *contact = (Contact*)(e->param());
-            if ((contact == m_contact) && m_nUpdates){
-                if (--m_nUpdates == 0){
-                    btnUpdate->setEnabled(true);
-                    setTitle();
-                }
-            }
+        case EventGroup::eChanged:
+            if (group == m_group)
+                setTitle();
+            return NULL;
+        case EventGroup::eAdded:
             return NULL;
         }
-    case EventContactCreated:
-    case EventContactChanged:{
-            Contact *contact = (Contact*)(e->param());
-            if (contact == m_contact){
+        break;
+    }
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        if (contact != m_contact)
+            break;
+        switch(ec->action()) {
+            case EventContact::eCreated:
                 if (m_nUpdates)
                     m_nUpdates--;
                 btnUpdate->setEnabled(m_nUpdates == 0);
                 setTitle();
-            }
-            return NULL;
+            case EventContact::eDeleted:
+                close();
+                break;
+            case EventContact::eChanged:
+                if (m_nUpdates)
+                    m_nUpdates--;
+                btnUpdate->setEnabled(m_nUpdates == 0);
+                setTitle();
+                break;
+            case EventContact::eFetchInfoFailed:
+                if (m_nUpdates){
+                    if (--m_nUpdates == 0){
+                        btnUpdate->setEnabled(true);
+                        setTitle();
+                    }
+                }
+                break;
+            default:
+                break;
         }
+        break;
+    }
     case EventCommandRemove:
         removeCommand((unsigned long)(e->param()));
         return NULL;

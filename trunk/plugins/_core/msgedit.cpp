@@ -1064,15 +1064,19 @@ bool MsgEdit::adjustType()
 
 void *MsgEdit::processEvent(Event *e)
 {
-    if ((e->type() == EventContactChanged) && (((Contact*)(e->param()))->id() == m_userWnd->m_id)){
+    switch (e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if (ec->contact()->id() != m_userWnd->m_id)
+            break;
         adjustType();
-        return NULL;
+        break;
     }
-    if (e->type() == EventClientChanged){
+    case EventClientChanged: {
         adjustType();
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageReceived){
+    case EventMessageReceived: {
         Message *msg = (Message*)(e->param());
         if (msg->getFlags() & MESSAGE_NOVIEW)
             return NULL;
@@ -1090,15 +1094,17 @@ void *MsgEdit::processEvent(Event *e)
                     QTimer::singleShot(0, this, SLOT(setupNext()));
             }
         }
+        break;
     }
-    if (e->type() == EventRealSendMessage){
+    case EventRealSendMessage: {
         MsgSend *s = (MsgSend*)(e->param());
         if (s->edit == this){
             sendMessage(s->msg);
             return e->param();
         }
+        break;
     }
-    if (e->type() == EventCheckState){
+    case EventCheckState: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->param == this) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
@@ -1149,9 +1155,9 @@ void *MsgEdit::processEvent(Event *e)
                 cmd->flags |= COMMAND_DISABLED;
             return e->param();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventCommandExec){
+    case EventCommandExec: {
         CommandDef *cmd = (CommandDef*)(e->param());
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
@@ -1231,15 +1237,15 @@ void *MsgEdit::processEvent(Event *e)
             m_edit->selectAll();
             return e->param();
         }
-        return NULL;
+        break;
     }
-    if ((e->type() == EventMessageSent) || (e->type() == EventMessageAcked)){
+    case EventMessageSent:
+    case EventMessageAcked: {
         Message *msg = (Message*)(e->param());
         if (msg == m_msg){
-            QString err;
-            const char *err_str = msg->getError();
-            if (err_str && *err_str)
-                err = i18n(err_str);
+            QString err = msg->getError();
+            if (!err.isEmpty())
+                err = i18n(err);
             Contact *contact = getContacts()->contact(msg->contact());
             if (err){
                 stopSend();
@@ -1311,8 +1317,11 @@ void *MsgEdit::processEvent(Event *e)
                     m_edit->setBackground(CorePlugin::m_plugin->getEditBackground());
                 }
             }
-            return NULL;
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }

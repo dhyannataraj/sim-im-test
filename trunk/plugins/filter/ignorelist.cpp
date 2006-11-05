@@ -44,24 +44,33 @@ IgnoreList::IgnoreList(QWidget *parent)
 
 void *IgnoreList::processEvent(Event *e)
 {
-    Contact *contact;
-    QListViewItem *item;
     switch (e->type()){
-    case EventContactDeleted:
-        contact = (Contact*)(e->param());
-        removeItem(findItem(contact));
-        return e->param();
-    case EventContactCreated:
-    case EventContactChanged:
-        contact = (Contact*)(e->param());
-        item = findItem(contact);
-        if (contact->getIgnore()){
-            if (item == NULL)
-                item = new QListViewItem(lstIgnore);
-            updateItem(item, contact);
-        }else{
-            removeItem(item);
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        QListViewItem *item = findItem(contact);
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                removeItem(findItem(contact));
+                break;
+            }
+            case EventContact::eCreated: {
+                if (contact->getIgnore()){
+                    if (item == NULL)
+                        item = new QListViewItem(lstIgnore);
+                    updateItem(item, contact);
+                }else{
+                    removeItem(item);
+                }
+                break;
+            }
+            default:
+                break;
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }
@@ -110,7 +119,7 @@ void IgnoreList::deleteItem(QListViewItem *item)
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
     if (contact) {
         contact->setIgnore(false);
-        Event e1(EventContactChanged, contact);
+        EventContact e1(contact, EventContact::eChanged);
         e1.process();
         /*      Don't delete user - move them to NotInList
                 Maybe add a second menuitem  - one with delete, one with remove
@@ -119,7 +128,7 @@ void IgnoreList::deleteItem(QListViewItem *item)
                 But I don't know how to create a second item
                 Christian
                 
-                Event e2(EventContactDeleted, contact);
+                EventContactDeleted e2(contact,EventContact::eDeleted);
                 e2.process();
                 delete contact; */
     }
@@ -158,7 +167,7 @@ void IgnoreList::drop(QMimeSource *s)
         if (contact){
             if (!contact->getIgnore()){
                 contact->setIgnore(true);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 return;
             }

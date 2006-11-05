@@ -198,8 +198,7 @@ void *FloatyPlugin::processEvent(Event *e)
             break;
         }
     case EventContactClient:
-    case EventContactStatus:
-    case EventContactChanged:{
+    case EventContactStatus:{
             Contact *contact = (Contact*)(e->param());
             FloatyWnd *wnd = findFloaty(contact->id());
             if (wnd){
@@ -208,18 +207,26 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventContactOnline:{
-            Contact *contact = (Contact*)(e->param());
+    case eEventContact: {
+            EventContact *ec = static_cast<EventContact*>(e);
+            Contact *contact = ec->contact();
             FloatyWnd *wnd = findFloaty(contact->id());
-            if (wnd)
-                wnd->startBlink();
-            break;
-        }
-    case EventContactDeleted:{
-            Contact *contact = (Contact*)(e->param());
-            FloatyWnd *wnd = findFloaty(contact->id());
-            if (wnd)
-                delete wnd;
+            if(!wnd)
+                break;
+            switch(ec->action()) {
+                case EventContact::eDeleted:
+                    delete wnd;
+                    break;
+                case EventContact::eChanged:
+                    wnd->init();
+                    wnd->repaint();
+                    break;
+                case EventContact::eOnline:
+                    wnd->startBlink();
+                    break;
+                default:
+                    break;
+            }
             break;
         }
     case eEventRepaintView:{

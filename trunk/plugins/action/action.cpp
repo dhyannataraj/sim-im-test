@@ -134,7 +134,8 @@ MsgExec() : Exec() {}
 
 void *ActionPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
+    switch (e->type() ) {
+    case EventCheckState: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->id == CmdAction) && (cmd->menu_id == MenuContact)){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -177,9 +178,9 @@ void *ActionPlugin::processEvent(Event *e)
             cmd->flags |= COMMAND_RECURSIVE;
             return e->param();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventCommandExec){
+    case EventCommandExec: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->menu_id == MenuContact) && (cmd->id >= CmdAction)){
             unsigned n = cmd->id - CmdAction;
@@ -200,10 +201,13 @@ void *ActionPlugin::processEvent(Event *e)
             eTmpl.process();
             return e->param();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventContactOnline){
-        Contact *contact = (Contact*)(e->param());
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eOnline)
+            break;
+        Contact *contact = ec->contact();
         if (contact == NULL)
             return NULL;
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
@@ -216,9 +220,9 @@ void *ActionPlugin::processEvent(Event *e)
         t.param    = NULL;
         Event eTmpl(EventTemplateExpand, &t);
         eTmpl.process();
-        return e->param();
+        return (void*)1;
     }
-    if (e->type() == EventMessageReceived){
+    case EventMessageReceived: {
         Message *msg = (Message*)(e->param());
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
@@ -250,7 +254,7 @@ void *ActionPlugin::processEvent(Event *e)
         eTmpl.process();
         return e->param();
     }
-    if (e->type() == EventTemplateExpanded){
+    case EventTemplateExpanded: {
         TemplateExpand *t = (TemplateExpand*)(e->param());
         Message *msg = (Message*)(t->param);
         if (msg){
@@ -266,6 +270,10 @@ void *ActionPlugin::processEvent(Event *e)
             connect(exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(ready(Exec*,int,const char*)));
             exec->execute(t->tmpl.local8Bit(), NULL);
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }

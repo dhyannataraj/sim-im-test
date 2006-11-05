@@ -95,7 +95,7 @@ Contact::Contact(unsigned long id, Buffer *cfg)
 Contact::~Contact()
 {
     if (!getContacts()->p->bNoRemove){
-        Event e(EventContactDeleted, this);
+        EventContact e(this, EventContact::eDeleted);
         e.process();
     }
     free_data(contactData, &data);
@@ -550,13 +550,13 @@ QWidget *Client::configWindow(QWidget*, unsigned)
 
 QString Client::contactTip(void*)
 {
-    return "";
+    return QString::null;
 }
 
 void Client::updateInfo(Contact *contact, void *data)
 {
     if (data){
-        Event e(EventFetchInfoFail, contact);
+        EventContact e(contact, EventContact::eFetchInfoFailed);
         e.process();
     }else{
         Event e(EventClientChanged, this);
@@ -591,7 +591,7 @@ Group::~Group()
             if (contact->getGroup() != id())
                 continue;
             contact->setGroup(0);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         EventGroup e(this, EventGroup::eDeleted);
@@ -725,7 +725,7 @@ Contact *ContactList::contact(unsigned long id, bool isNew)
     }
     Contact *res = new Contact(id);
     p->contacts.push_back(res);
-    Event e(EventContactCreated, res);
+    EventContact e(res, EventContact::eCreated);
     e.process();
     return res;
 }
@@ -742,7 +742,7 @@ void ContactList::addContact(Contact *contact)
     }
     contact->m_id = id;
     p->contacts.push_back(contact);
-    Event e(EventContactCreated, contact);
+    EventContact e(contact, EventContact::eCreated);
     e.process();
 }
 
@@ -1131,7 +1131,7 @@ void Client::freeData()
         if (contact->clientData.size()){
             if (!getContacts()->p->bNoRemove){
                 contact->setup();
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
             continue;
@@ -1229,7 +1229,7 @@ bool ContactList::moveClient(Client *client, bool bUp)
     ContactList::ContactIterator it;
     while ((contact = ++it) != NULL){
         contact->clientData.sort();
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
     return true;
@@ -1955,7 +1955,7 @@ Contact *ContactList::contactByPhone(const QString &_phone)
     c = contact(0, true);
     c->setFlags(CONTACT_TEMP);
     c->setName(_phone);
-    Event e(EventContactChanged, c);
+    EventContact e(c, EventContact::eChanged);
     e.process();
     return c;
 }
@@ -1973,7 +1973,7 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
         c = contact(0, true);
         c->setFlags(CONTACT_TEMP);
         c->setName(name);
-        Event e(EventContactChanged, c);
+        EventContact e(c, EventContact::eChanged);
         e.process();
         return c;
     }
@@ -1992,7 +1992,7 @@ Contact *ContactList::contactByMail(const QString &_mail, const QString &_name)
     c->setFlags(CONTACT_TEMP);
     c->setName(name);
     c->setEMails(_mail + "/-");
-    Event e(EventContactChanged, c);
+    EventContact e(c, EventContact::eChanged);
     e.process();
     return c;
 }

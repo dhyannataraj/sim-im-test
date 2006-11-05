@@ -64,11 +64,20 @@ void SecureDlg::start()
 
 void *SecureDlg::processEvent(Event *e)
 {
-    if (e->type() == EventContactDeleted){
-        close();
-        return NULL;
+    switch(e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                close();
+                break;
+            }
+            default:
+                break;
+        }
+        break;
     }
-    if (e->type() == EventMessageSent){
+    case EventMessageSent: {
         Message *msg = (Message*)(e->param());
         if (msg != m_msg)
             return NULL;
@@ -80,6 +89,9 @@ void *SecureDlg::processEvent(Event *e)
             close();
         }
         return e->param();
+    }
+    default:
+        break;
     }
     return NULL;
 }

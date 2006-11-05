@@ -326,7 +326,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 Contact *contact;
                 ICQUserData *data = findContact(screen, NULL, false, contact);
                 if (data && data->AutoReply.setStr(getContacts()->toUnicode(contact, answer))){
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
             }
@@ -1164,7 +1164,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                 ICQUserData *data = findContact(screen, NULL, false, contact);
                 QString m = getContacts()->toUnicode(contact, msg);
                 data->AutoReply.str() = m;
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
             return;

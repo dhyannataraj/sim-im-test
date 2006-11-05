@@ -232,8 +232,9 @@ void *MainWindow::processEvent(Event *e)
     case eEventIconChanged:
         setIcon(Pict(m_icon));
         break;
-    case EventContactChanged:{
-            Contact *contact = (Contact*)(e->param());
+    case eEventContact:{
+            EventContact *ec = static_cast<EventContact*>(e);
+            Contact *contact = ec->contact();
             if (contact == getContacts()->owner())
                 setTitle();
             break;

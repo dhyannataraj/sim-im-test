@@ -107,6 +107,7 @@ enum SIMEvents
     eEventAddHyperlinks     = 0x0801,   // replace all hyperlinks with correct html tags
 
     eEventGroup             = 0x0901,   // a group was added/changed/deleted
+    eEventContact           = 0x0902,   // a contact was added/changed/deleted
 };
 
 class EXPORT EventLog : public Event
@@ -422,7 +423,7 @@ public:
     enum Action {
         eAdded,
         eDeleted,
-        eChanged
+        eChanged,
     };
 public:
     EventGroup(Group *grp, enum Action action)
@@ -431,6 +432,27 @@ public:
     Action action() const { return m_action; }
 protected:
     Group *m_grp;
+    Action m_action;
+};
+
+class EXPORT EventContact : public Event
+{
+public:
+    enum Action {
+        eCreated,
+//        eAdded,
+        eDeleted,
+        eChanged,
+        eFetchInfoFailed,
+        eOnline,
+    };
+public:
+    EventContact(Contact *contact, enum Action action)
+        : Event(eEventContact), m_contact(contact), m_action(action) {}
+    Contact *contact() const { return m_contact; }
+    Action action() const { return m_action; }
+protected:
+    Contact *m_contact;
     Action m_action;
 };
 
@@ -662,22 +684,8 @@ const unsigned EventCommandWidget   = 0x0526;
 const unsigned EventClientChanged   = 0x0530;
 
 
-/* Event group created
-   param is Group*
-*/
-const unsigned EventContactCreated = 0x0911;
 
-/* Event group deleted
-   param is Group*
-*/
-const unsigned EventContactDeleted = 0x0912;
 
-/* Event group changed
-   param is Group*
-*/
-const unsigned EventContactChanged = 0x0913;
-const unsigned EventFetchInfoFail  = 0x0914;
-const unsigned EventContactOnline  = 0x0915;
 const unsigned EventContactStatus  = 0x0916;
 
 typedef struct addContact

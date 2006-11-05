@@ -300,11 +300,16 @@ void AutoAwayPlugin::timeout()
 
 void *AutoAwayPlugin::processEvent(Event *e)
 {
-    if (e->type() == eEventPlaySound){
+    switch (e->type()) {
+    case eEventPlaySound: {
         if (getDisableAlert() && (bAway || bNA || bOff))
             return (void*)1;
+        break;
     }
-    if (e->type() == EventContactOnline){
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eOnline)
+            break;
         unsigned long commonStatus = STATUS_UNKNOWN;
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             Client *client = getContacts()->getClient(i);
@@ -317,6 +322,10 @@ void *AutoAwayPlugin::processEvent(Event *e)
             return NULL;
         if (getDisableAlert() && (bAway || bNA || bOff))
             return (void*)commonStatus;
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }

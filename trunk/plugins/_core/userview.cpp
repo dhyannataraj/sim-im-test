@@ -392,9 +392,12 @@ void *UserView::processEvent(Event *e)
         m_bInit = true;
         fill();
         break;
-    case EventContactOnline:
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eOnline)
+            break;
+        Contact *contact = ec->contact();
         if (m_bInit){
-            Contact *contact = (Contact*)(e->param());
             bool bStart = blinks.empty();
             list<BlinkCount>::iterator it;
             for (it = blinks.begin(); it != blinks.end(); ++it){
@@ -414,6 +417,7 @@ void *UserView::processEvent(Event *e)
             return NULL;
         }
         break;
+    }
     case EventMessageDeleted:
     case EventMessageRead:
     case EventMessageReceived:{
@@ -457,7 +461,7 @@ void *UserView::processEvent(Event *e)
                                 bShow = true;
                             if (data->ShowAlways.toBool() != bShow){
                                 data->ShowAlways.asBool() = bShow;
-                                Event e(EventContactChanged, contact);
+                                EventContact e(contact, EventContact::eChanged);
                                 e.process();
                             }
                         }
@@ -501,7 +505,7 @@ void *UserView::processEvent(Event *e)
                     Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
                     if (grp && (grp->id() != contact->getGroup())){
                         contact->setGroup(grp->id());
-                        Event eChanged(EventContactChanged, contact);
+                        EventContact eChanged(contact, EventContact::eChanged);
                         eChanged.process();
                         return e->param();
                     }
@@ -1212,7 +1216,7 @@ void UserView::editContactEnter()
     Contact *c = getContacts()->contact(edtContact->id);
     if (!(c && edtContact->text().length())) return;
     c->setName(edtContact->text());
-    Event e(EventContactChanged, c);
+    EventContact e(c, EventContact::eChanged);
     e.process();
 }
 
@@ -1548,7 +1552,7 @@ void UserView::doDrop()
             contact->setGroup(grp_item->id());
             contact->setIgnore(false);
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
-            Event eContact(EventContactChanged, contact);
+            EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
             break;
         }
@@ -1600,7 +1604,7 @@ void UserView::joinContacts(void*)
     }
     delete contact2;
     contact1->setup();
-    Event e(EventContactChanged, contact1);
+    EventContact e(contact1, EventContact::eChanged);
     e.process();
 }
 

@@ -251,7 +251,7 @@ void *MsgSMS::processEvent(Event *e)
                                 contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
                                 delete m_panel;
                             }
-                            Event e(EventContactChanged, contact);
+                            EventContact e(contact, EventContact::eChanged);
                             e.process();
                         }
                         QString newPhones;
@@ -283,7 +283,7 @@ void *MsgSMS::processEvent(Event *e)
                             phone += ";";
                         newPhones = phone + newPhones;
                         if (contact->setPhones(newPhones)){
-                            Event e(EventContactChanged, contact);
+                            EventContact e(contact, EventContact::eChanged);
                             e.process();
                         }
                     }

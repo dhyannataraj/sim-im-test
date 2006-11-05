@@ -681,23 +681,31 @@ void *Container::processEvent(Event *e)
         if (userWnd)
             return (void*)(userWnd->id());
         break;
-    case EventContactDeleted:
-        contact = (Contact*)(e->param());
-        userWnd = wnd(contact->id());
-        if (userWnd)
-            removeUserWnd(userWnd);
-        break;
-    case EventContactChanged:
-        contact = (Contact*)(e->param());
-        userWnd = wnd(contact->id());
-        if (userWnd){
-            if (contact->getIgnore()){
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        UserWnd *userWnd = wnd(contact->id());
+        if(!userWnd)
+            break;
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
                 removeUserWnd(userWnd);
                 break;
             }
-            m_tabBar->changeTab(contact->id());
-            contactChanged(contact);
+            case EventContact::eChanged: {
+                if (contact->getIgnore()){
+                    removeUserWnd(userWnd);
+                    break;
+                }
+                m_tabBar->changeTab(contact->id());
+                contactChanged(contact);
+                break;
+            }
+            default:
+                break;
         }
+        break;
+    }
     case eEventClientsChanged:
         setupAccel();
         break;

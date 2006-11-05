@@ -220,7 +220,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                         data->Cellular.clear();
                     }
                     if (bChanged){
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                     }
                     if ((data->InfoFetchTime.toULong() == 0) && data->Uin.toULong())
@@ -266,7 +266,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                     data->ContactVisibleId.asULong() = id;
                     if ((lr == NULL) && (data->VisibleId.toULong() != id)){
                         data->VisibleId.asULong() = id;
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                     }
                     if ((data->InfoFetchTime.toULong() == 0) && data->Uin.toULong())
@@ -287,7 +287,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                     data->ContactInvisibleId.asULong() = id;
                     if ((lr == NULL) && (data->InvisibleId.toULong() != id)){
                         data->InvisibleId.asULong() = id;
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                     }
                     if ((data->InfoFetchTime.toULong() == 0) && data->Uin.toULong())
@@ -308,7 +308,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                     data->IgnoreId.asULong() = id;
                     if (lr == NULL){
                         contact->setIgnore(true);
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                     }
                 }
@@ -564,7 +564,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                             addContactRequest(contact);
                     }else{
                         contact->setGroup(newGroup);
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                     }
                 }
@@ -690,7 +690,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             ICQUserData *data = findContact(screen, NULL, false, contact);
             if (data){
                 data->WaitAuth.asBool() = false;
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 addPluginInfoRequest(data->Uin.toULong(), PLUGIN_QUERYxSTATUS);
                 addPluginInfoRequest(data->Uin.toULong(), PLUGIN_QUERYxINFO);
@@ -727,7 +727,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 ICQUserData *data = findContact(screen, NULL, false, contact);
                 if (data){
                     data->WaitAuth.asBool() = false;
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                     addPluginInfoRequest(data->Uin.toULong(), PLUGIN_QUERYxSTATUS);
                     addPluginInfoRequest(data->Uin.toULong(), PLUGIN_QUERYxINFO);
@@ -897,7 +897,7 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
     ICQUserData *data = client->findContact(m_screen, NULL, true, contact);
     if ((res == 0x0E) && !data->WaitAuth.toBool()){
         data->WaitAuth.asBool() = true;
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
         return;
     }
@@ -905,7 +905,7 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
     data->GrpId.asULong() = m_grpId;
     if ((data->GrpId.toULong() == 0) && data->WaitAuth.toBool()){
         data->WaitAuth.asBool() = false;
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
     if (m_tlv){

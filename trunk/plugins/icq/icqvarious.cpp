@@ -177,7 +177,7 @@ void ICQClient::clearServerRequests()
         Contact *contact = getContacts()->contact((*it).uin);
         if (contact == NULL)
             continue;
-        Event e(EventFetchInfoFail, contact);
+        EventContact e(contact, EventContact::eFetchInfoFailed);
         e.process();
     }
     infoRequests.clear();
@@ -367,13 +367,13 @@ void FullInfoRequest::fail(unsigned short)
         }else{
             m_client->findContact(m_uin, NULL, false, contact);
             if (contact){
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
         }
     }
     if (contact){
-        Event e(EventFetchInfoFail, contact);
+        EventContact e(contact, EventContact::eFetchInfoFailed);
         e.process();
     }
     m_client->removeFullInfoRequest(m_uin);
@@ -564,7 +564,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
         data->InfoFetchTime.asULong() = data->InfoUpdateTime.toULong() ? data->InfoUpdateTime.toULong() : 1;
         if (contact != NULL){
             m_client->setupContact(contact, data);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }else{
             int tz;
@@ -582,7 +582,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 data->TimeZone.asULong() = tz;
                 m_client->setMainInfo(data);
             }
-            Event eContact(EventContactChanged, getContacts()->owner());
+            EventContact eContact(getContacts()->owner(), EventContact::eChanged);
             eContact.process();
             Event e(EventClientChanged, m_client);
             e.process();

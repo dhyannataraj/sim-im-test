@@ -615,14 +615,19 @@ void *OSDPlugin::processEvent(Event *e)
     Message *msg;
     OSDUserData *data;
     switch (e->type()){
-    case EventContactOnline:
-        contact = (Contact*)(e->param());
-        if (contact->getIgnore()) break;
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eOnline)
+            break;
+        Contact *contact = ec->contact();
+        if (contact->getIgnore())
+            break;
         osd.contact = contact->id();
         osd.type    = OSD_ALERTONLINE;
         queue.push_back(osd);
         processQueue();
         break;
+    }
     case EventMessageDeleted:
     case EventMessageRead:
     case EventMessageReceived:

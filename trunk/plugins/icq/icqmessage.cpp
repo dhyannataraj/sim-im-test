@@ -1332,7 +1332,7 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 findContact(data->Uin.toULong(), NULL, false, contact);
                 if (contact){
                     setupContact(contact, data);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
             }
@@ -1352,21 +1352,21 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
             case PLUGIN_FILESERVER:
                 if ((state != 0) != (data->SharedFiles.toBool() != 0)){
                     data->SharedFiles.asBool() = (state != 0);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
                 break;
             case PLUGIN_FOLLOWME:
                 if (state != data->FollowMe.toULong()){
                     data->FollowMe.asULong() = state;
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
                 break;
             case PLUGIN_ICQPHONE:
                 if ((state != 0) != (data->ICQPhone.toULong() != 0)){
                     data->ICQPhone.asULong() = (state != 0);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
                 break;

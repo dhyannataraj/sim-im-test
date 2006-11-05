@@ -149,8 +149,12 @@ std::string FilterPlugin::getConfig()
 
 void *FilterPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    switch (e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            break;
+        Contact *contact = ec->contact();
         if (contact->getGroup()){
             Command cmd;
             cmd->id		= CmdIgnore;
@@ -159,9 +163,9 @@ void *FilterPlugin::processEvent(Event *e)
             Event eShow(EventCommandShow, cmd);
             eShow.process();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageReceived){
+    case EventMessageReceived: {
         Message *msg = (Message*)(e->param());
         if (!msg || (msg->type() == MessageStatus))
             return NULL;
@@ -195,9 +199,9 @@ void *FilterPlugin::processEvent(Event *e)
                 return msg;
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventCheckState){
+    case EventCheckState: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdIgnore){
             cmd->flags &= ~BTN_HIDE;
@@ -230,8 +234,9 @@ void *FilterPlugin::processEvent(Event *e)
                 return e->param();
             }
         }
+        break;
     }
-    if (e->type() == EventCommandExec){
+    case EventCommandExec: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdIgnore){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -300,11 +305,15 @@ void *FilterPlugin::processEvent(Event *e)
                 if (contact == NULL)
                     return NULL;
                 contact->setIgnore((cmd->flags & COMMAND_CHECKED) == 0);
-                Event eContact(EventContactChanged, contact);
+                EventContact eContact(contact, EventContact::eChanged);
                 eContact.process();
                 return e->param();
             }
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }
@@ -408,7 +417,7 @@ void FilterPlugin::addToIgnore(void *p)
     Contact *contact = getContacts()->contact((unsigned long)p);
     if (contact && !contact->getIgnore()){
         contact->setIgnore(true);
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
 }

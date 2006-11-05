@@ -133,17 +133,25 @@ void HistoryWindow::setName()
 
 void *HistoryWindow::processEvent(Event *e)
 {
-    if (e->type() == EventContactDeleted){
-        Contact *contact = (Contact*)(e->param());
-        if (contact->id() == m_id)
-            QTimer::singleShot(0, this, SLOT(close()));
+    switch(e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        if (contact->id() != m_id)
+            break;
+        switch(ec->action()) {
+            case EventContact::eDeleted:
+                QTimer::singleShot(0, this, SLOT(close()));
+                break;
+            case EventContact::eChanged:
+                setName();
+                break;
+            default:
+                break;
+        }
+        break;
     }
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
-        if (contact->id() == m_id)
-            setName();
-    }
-    if (e->type() == EventCheckState){
+    case EventCheckState: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->id == CmdHistoryDirection) && ((unsigned long)(cmd->param) == m_id)){
             cmd->flags &= ~COMMAND_CHECKED;
@@ -158,7 +166,7 @@ void *HistoryWindow::processEvent(Event *e)
         }
         return NULL;
     }
-    if (e->type() == EventCommandExec){
+    case EventCommandExec: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((unsigned long)(cmd->param) != m_id)
             return NULL;
@@ -238,6 +246,10 @@ void *HistoryWindow::processEvent(Event *e)
             fill();
             return e->param();
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }

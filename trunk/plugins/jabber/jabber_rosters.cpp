@@ -164,7 +164,7 @@ void RostersRequest::element_end(const char *el)
                 data = m_client->findContact(m_jid, m_name, true, contact, resource);
                 if (m_bSubscription){
                     contact->setFlags(CONTACT_TEMP);
-                    Event eContact(EventContactChanged, contact);
+                    EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
                     m_client->auth_request(m_jid, MessageAuthRequest, m_subscription, true);
                     data = m_client->findContact(m_jid, m_name, false, contact, resource);
@@ -218,7 +218,7 @@ void RostersRequest::element_end(const char *el)
             }
         }
         if (bChanged){
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
     }
@@ -406,7 +406,7 @@ InfoRequest::~InfoRequest()
         if (bChanged){
             if (contact){
                 m_client->setupContact(contact, data);
-                Event e(EventContactChanged, (Client*)contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }else{
                 Event e(EventClientChanged, (Client*)m_client);
@@ -711,7 +711,7 @@ void AddRequest::element_start(const char *el, const char **attr)
             JabberUserData *data = m_client->findContact(m_jid, QString::null, true, contact, resource);
             if (data && (contact->getGroup() != m_grp)){
                 contact->setGroup(m_grp);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
         }
@@ -724,7 +724,7 @@ bool JabberClient::add_contact(const char *_jid, unsigned grp)
     QString resource;
     QString jid = QString::fromUtf8(_jid);
     if (findContact(jid, QString::null, false, contact, resource)){
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
         return false;
     }
@@ -957,7 +957,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     delete m;
             }
             if (bOnLine && !contact->getIgnore() && !m_client->isAgent(data->ID.str())){
-                Event e(EventContactOnline, contact);
+                EventContact e(contact, EventContact::eOnline);
                 e.process();
             }
         }
@@ -1104,7 +1104,7 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
                     }
                     if (data && (data->Subscribe.toULong() != subscribe)){
                         data->Subscribe.asULong() = subscribe;
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                         if (m_client->getAutoSubscribe() && ((subscribe & SUBSCRIBE_FROM) == 0)){
                             AuthMessage *msg = new AuthMessage(MessageAuthRequest);

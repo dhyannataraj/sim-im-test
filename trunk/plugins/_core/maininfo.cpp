@@ -118,12 +118,17 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
 
 void *MainInfo::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
-        if (contact == m_contact)
-            fill();
+    switch (e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() == EventContact::eChanged) {
+            Contact *contact = ec->contact();
+            if (contact == m_contact)
+                fill();
+        }
+        break;
     }
-    if (e->type() == EventCheckState){
+    case EventCheckState: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->menu_id == MenuMailList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
@@ -149,8 +154,9 @@ void *MainInfo::processEvent(Event *e)
                 cmd->flags |= COMMAND_DISABLED;
             return e->param();
         }
+        break;
     }
-    if (e->type() == EventCommandExec){
+    case EventCommandExec: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->menu_id == MenuMailList){
             QListViewItem *item = (QListViewItem*)(cmd->param);
@@ -184,6 +190,10 @@ void *MainInfo::processEvent(Event *e)
                 return e->param();
             }
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }
@@ -318,7 +328,7 @@ void MainInfo::apply()
     }
     contact->setName(name);
 
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
 }
 
@@ -588,7 +598,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
     if (!contact->setEncoding(encoding))
         return;
     if (SendContactChangedEvent){
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
     Event eh(EventHistoryConfig, (void*)(contact->id()));

@@ -483,7 +483,7 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
     data->Index.asULong() = index;
     data->Type.asULong()  = type;
     if (bNew){
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
 }
@@ -585,7 +585,7 @@ void SMSClient::phoneCall(const QString &number)
             contact->setPhones(phones + number + ",,2/-");
         }
         if (bNew){
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         m_call->setContact(contact->id());

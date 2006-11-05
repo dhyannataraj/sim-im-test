@@ -345,7 +345,7 @@ void *SearchDialog::processEvent(Event *e)
                         }
                         contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
                         contact->setGroup(grp->id());
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                     }
                 }

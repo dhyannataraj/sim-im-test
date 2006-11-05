@@ -351,7 +351,7 @@ void *JabberClient::processEvent(Event *e)
             findContact(ac->addr, ac->nick, true, contact, resource);
             if (contact && contact->getGroup() != ac->group){
                 contact->setGroup(ac->group);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
             return contact;
@@ -411,39 +411,46 @@ void *JabberClient::processEvent(Event *e)
         setStatus((unsigned long)(t->param), quoteString(t->tmpl, quoteNOBR, false));
         break;
     }
-    case EventContactChanged: {
-        Contact *contact = (Contact*)(e->param());
-        QString grpName;
-        QString name;
-        name = contact->getName();
-        Group *grp = NULL;
-        if (contact->getGroup())
-            grp = getContacts()->group(contact->getGroup());
-        if (grp)
-            grpName = grp->getName();
-        ClientDataIterator it(contact->clientData, this);
-        JabberUserData *data;
-        while ((data = (JabberUserData*)(++it)) != NULL){
-            if (grpName == data->Group.str()){
-                listRequest(data, name, grpName, false);
-                continue;
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                ClientDataIterator it(contact->clientData, this);
+                JabberUserData *data;
+                while ((data = (JabberUserData*)(++it)) != NULL){
+                    listRequest(data, QString::null, QString::null, true);
+                }
+                break;
             }
-            if (!data->Name.str().isEmpty()){
-                if (name == data->Name.str())
-                    listRequest(data, name, grpName, false);
-                continue;
+            case EventContact::eChanged: {
+                QString grpName;
+                QString name;
+                name = contact->getName();
+                Group *grp = NULL;
+                if (contact->getGroup())
+                    grp = getContacts()->group(contact->getGroup());
+                if (grp)
+                    grpName = grp->getName();
+                ClientDataIterator it(contact->clientData, this);
+                JabberUserData *data;
+                while ((data = (JabberUserData*)(++it)) != NULL){
+                    if (grpName == data->Group.str()){
+                        listRequest(data, name, grpName, false);
+                        continue;
+                    }
+                    if (!data->Name.str().isEmpty()){
+                        if (name == data->Name.str())
+                            listRequest(data, name, grpName, false);
+                        continue;
+                    }
+                    if (name == data->ID.str())
+                        listRequest(data, name, grpName, false);
+                }
+                break;
             }
-            if (name == data->ID.str())
-                listRequest(data, name, grpName, false);
-        }
-        break;
-    }
-    case EventContactDeleted: {
-        Contact *contact = (Contact*)(e->param());
-        ClientDataIterator it(contact->clientData, this);
-        JabberUserData *data;
-        while ((data = (JabberUserData*)(++it)) != NULL){
-            listRequest(data, QString::null, QString::null, true);
+            default:
+                break;
         }
         break;
     }
@@ -1040,7 +1047,7 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
                 if (name)
                     data->Name.str() = name;
                 info_request(data, false);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 m_bJoin = true;
                 return data;
@@ -1056,7 +1063,7 @@ JabberUserData *JabberClient::findContact(const QString &_jid, const QString &na
         data->Name.str() = name;
     contact->setName(sname);
     info_request(data, false);
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     return data;
 }
@@ -2586,7 +2593,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
                 << "\' type=\'subscribe\'><status>"
                 << "</status></presence>";
                 sendPacket();
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 return;
             }
@@ -2594,7 +2601,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
                 if (data == NULL)
                     data = findContact(jid, QString::null, true, contact, resource);
                 data->Subscribe.asULong() |= SUBSCRIBE_TO;
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 return;
             }
@@ -2610,7 +2617,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
     if (((type == MessageAuthGranted) || (type ==MessageAuthRefused)) &&
             (contact->getFlags() & CONTACT_TEMP)){
         contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
         return;
     }
@@ -2628,12 +2635,12 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
     }
     if (type == MessageAuthGranted) {
         data->Subscribe.asULong() |= SUBSCRIBE_TO;
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     } else
     if (type == MessageAuthRefused) {
         data->Subscribe.asULong() &= ~SUBSCRIBE_TO;
-        Event e(EventContactChanged, contact);
+        EventContact e(contact, EventContact::eChanged);
         e.process();
     }
 }

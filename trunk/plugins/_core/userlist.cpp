@@ -839,33 +839,84 @@ void *UserListBase::processEvent(Event *e)
     if (m_bInit){
         switch (e->type()){
         case eEventGroup:{
-                EventGroup *ev = static_cast<EventGroup*>(e);
-                Group *g = ev->group();
-                switch (ev->action()) {
-                    case EventGroup::eAdded:
-                    case EventGroup::eChanged:
-                        addGroupForUpdate(g->id());
-                        break;
-                    case EventGroup::eDeleted:
-                        for (list<unsigned long>::iterator it = updGroups.begin(); it != updGroups.end(); ++it){
-                            if (*it == g->id()){
-                                updGroups.erase(it);
-                                break;
-                            }
+            EventGroup *ev = static_cast<EventGroup*>(e);
+            Group *g = ev->group();
+            switch (ev->action()) {
+                case EventGroup::eAdded:
+                case EventGroup::eChanged:
+                    addGroupForUpdate(g->id());
+                    break;
+                case EventGroup::eDeleted:
+                    for (list<unsigned long>::iterator it = updGroups.begin(); it != updGroups.end(); ++it){
+                        if (*it == g->id()){
+                            updGroups.erase(it);
+                            break;
                         }
-                        QListViewItem *item = findGroupItem(g->id());
-                        deleteItem(item);
-                        break;
-                }
-                break;
+                    }
+                    QListViewItem *item = findGroupItem(g->id());
+                    deleteItem(item);
+                    break;
             }
-        case EventContactStatus:
-        case EventContactChanged:{
+            break;
+        }
+        case eEventContact: {
+            EventContact *ec = static_cast<EventContact*>(e);
+            Contact *contact = ec->contact();
+            switch(ec->action()) {
+                case EventContact::eDeleted: {
+                    for (list<unsigned long>::iterator it = updContacts.begin(); it != updContacts.end(); ++it){
+                        if (*it == contact->id()){
+                            updContacts.erase(it);
+                            break;
+                        }
+                    }
+                    ContactItem *item = findContactItem(contact->id());
+                    if (item){
+                        if (m_groupMode){
+                            GroupItem *grpItem = static_cast<GroupItem*>(item->parent());
+                            grpItem->m_nContacts--;
+                            if (item->m_bOnline)
+                                grpItem->m_nContactsOnline--;
+                            addGroupForUpdate(grpItem->id());
+                            deleteItem(item);
+                            if ((m_groupMode == 2) &&
+                                    (grpItem->firstChild() == NULL) &&
+                                    m_bShowOnline){
+                                DivItem *div = static_cast<DivItem*>(grpItem->parent());
+                                if (div->state() == DIV_OFFLINE){
+                                    deleteItem(grpItem);
+                                    if (div->firstChild() == NULL)
+                                        deleteItem(div);
+                                }
+                            }
+                        }else{
+                            QListViewItem *p = item->parent();
+                            deleteItem(item);
+                            if (p->firstChild() == NULL)
+                                deleteItem(p);
+                        }
+                    }
+                    break;
+                }
+                case EventContact::eChanged: {
+                    if (!contact->getIgnore() && ((contact->getFlags() & CONTACT_TEMPORARY) == 0)){
+                        addContactForUpdate(contact->id());
+                    }else{
+                        EventContact e(contact, EventContact::eDeleted);
+                        processEvent(&e);
+                    }
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+        case EventContactStatus:{
                 Contact *c = (Contact*)(e->param());
                 if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0)){
                     addContactForUpdate(c->id());
                 }else{
-                    Event e(EventContactDeleted, c);
+                    EventContact e(c, EventContact::eDeleted);
                     processEvent(&e);
                 }
                 break;
@@ -876,42 +927,6 @@ void *UserListBase::processEvent(Event *e)
                     Contact *contact = getContacts()->contact(msg->contact());
                     if (contact)
                         addContactForUpdate(contact->id());
-                }
-                break;
-            }
-        case EventContactDeleted:{
-                Contact *g = (Contact*)(e->param());
-                for (list<unsigned long>::iterator it = updContacts.begin(); it != updContacts.end(); ++it){
-                    if (*it == g->id()){
-                        updContacts.erase(it);
-                        break;
-                    }
-                }
-                ContactItem *item = findContactItem(g->id());
-                if (item){
-                    if (m_groupMode){
-                        GroupItem *grpItem = static_cast<GroupItem*>(item->parent());
-                        grpItem->m_nContacts--;
-                        if (item->m_bOnline)
-                            grpItem->m_nContactsOnline--;
-                        addGroupForUpdate(grpItem->id());
-                        deleteItem(item);
-                        if ((m_groupMode == 2) &&
-                                (grpItem->firstChild() == NULL) &&
-                                m_bShowOnline){
-                            DivItem *div = static_cast<DivItem*>(grpItem->parent());
-                            if (div->state() == DIV_OFFLINE){
-                                deleteItem(grpItem);
-                                if (div->firstChild() == NULL)
-                                    deleteItem(div);
-                            }
-                        }
-                    }else{
-                        QListViewItem *p = item->parent();
-                        deleteItem(item);
-                        if (p->firstChild() == NULL)
-                            deleteItem(p);
-                    }
                 }
                 break;
             }

@@ -921,7 +921,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
                 delete m;
             if ((new_status == STATUS_ONLINE) && !contact->getIgnore() && (getState() == Connected) &&
                     (data->StatusTime.toULong() > this->data.owner.OnlineTime.toULong() + 30)){
-                Event e(EventContactOnline, contact);
+                        EventContact e(contact, EventContact::eOnline);
                 e.process();
             }
         }else{
@@ -1182,7 +1182,7 @@ void YahooClient::loadList(const char *str)
         for (list<YahooUserData*>::iterator it = dataForRemove.begin(); it != dataForRemove.end(); ++it)
             contact->clientData.freeData(*it);
         if (contact->clientData.size()){
-            Event e(EventContactChanged, contact);
+             EventContact e(contact, EventContact::eChanged);
             e.process();
         }else{
             forRemove.push_back(contact);
@@ -1211,7 +1211,7 @@ YahooUserData *YahooClient::findContact(const char *_id, const char *grpname, Co
                 YahooUserData *data = (YahooUserData*)contact->clientData.createData(this);
                 data->Login.str() = id;
                 data->Group.str() = QString::fromUtf8(grpname);
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
                 return data;
             }
@@ -1239,7 +1239,7 @@ YahooUserData *YahooClient::findContact(const char *_id, const char *grpname, Co
     data->Login.str() = id;
     contact->setName(id);
     contact->setGroup(grp->id());
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     if (bSend)
         addBuddy(data);
@@ -1259,7 +1259,7 @@ void YahooClient::messageReceived(Message *msg, const char *id)
                 return;
             }
             contact->setFlags(CONTACT_TEMP);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         msg->setClient(dataName(data));
@@ -1834,55 +1834,64 @@ void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
 void *YahooClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
-        string grpName;
-        string name;
-        name = contact->getName().utf8();
-        Group *grp = NULL;
-        if (contact->getGroup())
-            grp = getContacts()->group(contact->getGroup());
-        if (grp)
-            grpName = grp->getName().utf8();
-        ClientDataIterator it(contact->clientData, this);
-        YahooUserData *data;
-        while ((data = (YahooUserData*)(++it)) != NULL){
-            if (getState() == Connected){
-                moveBuddy(data, grpName.c_str());
-            }else{
-                ListRequest *lr = findRequest(data->Login.str());
-                if (lr == NULL){
-                    ListRequest r;
-                    r.type = LR_CHANGE;
-                    r.name = data->Login.str();
-                    m_requests.push_back(r);
+    switch(e->type()) {
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                ClientDataIterator it(contact->clientData, this);
+                YahooUserData *data;
+                while ((data = (YahooUserData*)(++it)) != NULL){
+                    if (getState() == Connected){
+                        removeBuddy(data);
+                    }else{
+                        ListRequest *lr = findRequest(data->Login.str());
+                        if (lr == NULL){
+                            ListRequest r;
+                            r.type = LR_DELETE;
+                            r.name = data->Login.str();
+                            m_requests.push_back(r);
+                        }
+                    }
                 }
+                break;
             }
-        }
-    }
-    if (e->type() == EventContactDeleted){
-        Contact *contact = (Contact*)(e->param());
-        ClientDataIterator it(contact->clientData, this);
-        YahooUserData *data;
-        while ((data = (YahooUserData*)(++it)) != NULL){
-            if (getState() == Connected){
-                removeBuddy(data);
-            }else{
-                ListRequest *lr = findRequest(data->Login.str());
-                if (lr == NULL){
-                    ListRequest r;
-                    r.type = LR_DELETE;
-                    r.name = data->Login.str();
-                    m_requests.push_back(r);
+            case EventContact::eChanged: {
+                QString grpName;
+                Group *grp = NULL;
+                if (contact->getGroup())
+                    grp = getContacts()->group(contact->getGroup());
+                if (grp)
+                    grpName = grp->getName();
+                ClientDataIterator it(contact->clientData, this);
+                YahooUserData *data;
+                while ((data = (YahooUserData*)(++it)) != NULL){
+                    if (getState() == Connected){
+                        moveBuddy(data, grpName.utf8());
+                    }else{
+                        ListRequest *lr = findRequest(data->Login.str());
+                        if (lr == NULL){
+                            ListRequest r;
+                            r.type = LR_CHANGE;
+                            r.name = data->Login.str();
+                            m_requests.push_back(r);
+                        }
+                    }
                 }
+                break;
             }
+            default:
+                break;
         }
+        break;
     }
-    if (e->type() == EventTemplateExpanded){
+    case EventTemplateExpanded: {
         TemplateExpand *t = (TemplateExpand*)(e->param());
         sendStatus(YAHOO_STATUS_CUSTOM, t->tmpl);
+        break;
     }
-    if (e->type() == EventMessageCancel){
+    case EventMessageCancel: {
         Message *msg = (Message*)(e->param());
         for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
             if ((*it).msg == msg){
@@ -1891,9 +1900,9 @@ void *YahooClient::processEvent(Event *e)
                 return e->param();
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageAccept){
+    case EventMessageAccept: {
         messageAccept *ma = static_cast<messageAccept*>(e->param());
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
             if ((*it)->id() == ma->msg->id()){
@@ -1921,9 +1930,9 @@ void *YahooClient::processEvent(Event *e)
                 return msg;
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageDecline){
+    case EventMessageDecline: {
         messageDecline *md = (messageDecline*)(e->param());
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
             if ((*it)->id() == md->msg->id()){
@@ -1962,7 +1971,10 @@ void *YahooClient::processEvent(Event *e)
                 return msg;
             }
         }
-        return NULL;
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }

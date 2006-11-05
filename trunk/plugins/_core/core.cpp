@@ -1987,19 +1987,34 @@ void *CorePlugin::processEvent(Event *e)
             messageTypes.erase(id);
             return e->param();
         }
-    case EventContactDeleted:{
-            Contact *contact = (Contact*)(e->param());
-            clearUnread(contact->id());
-            History::remove(contact);
-            return NULL;
-        }
-    case EventContactChanged:{
-            if (m_bIgnoreEvents)
-                return e->param();
-            Contact *contact = (Contact*)(e->param());
-            if (contact->getIgnore())
-                clearUnread(contact->id());
-            return NULL;
+    case eEventContact: {
+            EventContact *ec = static_cast<EventContact*>(e);
+            Contact *contact = ec->contact();
+            switch(ec->action()) {
+                case EventContact::eDeleted:
+                    clearUnread(contact->id());
+                    History::remove(contact);
+                    break;
+                case EventContact::eChanged:
+                    if (m_bIgnoreEvents)
+                        return e->param();
+                    if (contact->getIgnore())
+                        clearUnread(contact->id());
+                    break;
+                case EventContact::eOnline: {
+                    CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
+                    if (data->OpenOnOnline.toBool()){
+                        Message *msg = new Message(MessageGeneric);
+                        msg->setContact(contact->id());
+                        Event e(EventOpenMessage, &msg);
+                        e.process();
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
         }
     case EventMessageAcked:{
             Message *msg = (Message*)(e->param());
@@ -2082,7 +2097,7 @@ void *CorePlugin::processEvent(Event *e)
                     Contact *contact = getContacts()->contact(msg->contact());
                     if (contact && (contact->getFlags() & CONTACT_TEMPORARY)){
                         contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                     }
                     if (contact){
@@ -2168,7 +2183,7 @@ void *CorePlugin::processEvent(Event *e)
             if (userWnd == NULL){
                 if (contact->getFlags() & CONTACT_TEMP){
                     contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
                 userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED, (*msg)->getFlags() & MESSAGE_RECEIVED);
@@ -2257,19 +2272,6 @@ void *CorePlugin::processEvent(Event *e)
                 disconnect(m_focus, SIGNAL(destroyed()), this, SLOT(focusDestroyed()));
             m_focus = NULL;
             return e->param();
-        }
-    case EventContactOnline:{
-            Contact *contact = getContacts()->contact((unsigned long)(e->param()));
-            if (contact){
-                CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
-                if (data->OpenOnOnline.toBool()){
-                    Message *msg = new Message(MessageGeneric);
-                    msg->setContact(contact->id());
-                    Event e(EventOpenMessage, &msg);
-                    e.process();
-                }
-            }
-            return NULL;
         }
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
@@ -2974,8 +2976,8 @@ void *CorePlugin::processEvent(Event *e)
                 if (codec == NULL)
                     return NULL;
                 if (contact->setEncoding(codec)){
-                    Event eContact(EventContactChanged, contact);
-                    eContact.process();
+                    EventContact e(contact, EventContact::eChanged);
+                    e.process();
                     Event eh(EventHistoryConfig, (void*)(contact->id()));
                     eh.process();
                 }
@@ -3113,9 +3115,9 @@ void *CorePlugin::processEvent(Event *e)
                 newContact->clientData.join(data, contact->clientData);
                 contact->setup();
                 newContact->setup();
-                Event e1(EventContactChanged, contact);
+                EventContact e1(contact, EventContact::eChanged);
                 e1.process();
-                Event e2(EventContactChanged, newContact);
+                EventContact e2(newContact, EventContact::eChanged);
                 e2.process();
                 return e->param();
             }
@@ -3127,7 +3129,7 @@ void *CorePlugin::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(0, true);
                 contact->setFlags(CONTACT_TEMP);
                 contact->setName(i18n("Send SMS"));
-                Event eChanged(EventContactChanged, contact);
+                EventContact eChanged(contact, EventContact::eChanged);
                 eChanged.process();
                 Command cmd;
                 cmd->id      = MessageSMS;
@@ -3218,7 +3220,7 @@ void *CorePlugin::processEvent(Event *e)
                 Contact *owner = getContacts()->owner();
                 if (owner->getPhoneStatus() != cmd->id - CmdPhoneNoShow){
                     owner->setPhoneStatus(cmd->id - CmdPhoneNoShow);
-                    Event e(EventContactChanged, owner);
+                    EventContact e(owner, EventContact::eChanged);
                     e.process();
                 }
                 return e->param();
@@ -3243,7 +3245,7 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 if (res != owner->getPhones()){
                     owner->setPhones(res);
-                    Event e(EventContactChanged, owner);
+                    EventContact e(owner, EventContact::eChanged);
                     e.process();
                 }
                 return e->param();
@@ -3428,7 +3430,7 @@ void *CorePlugin::processEvent(Event *e)
                                 if (data == NULL){
                                     data = cc.data;
                                     cc.client->createData(data, contact);
-                                    Event e(EventContactChanged, contact);
+                                    EventContact e(contact, EventContact::eChanged);
                                     e.process();
                                 }
                                 getToken(res, ',');
@@ -3466,7 +3468,7 @@ void *CorePlugin::processEvent(Event *e)
                         if (data == NULL){
                             data = cc.data;
                             cc.client->createData(data, contact);
-                            Event e(EventContactChanged, contact);
+                            EventContact e(contact, EventContact::eChanged);
                             e.process();
                         }
 

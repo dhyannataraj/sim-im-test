@@ -997,7 +997,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                 }
             }
             if (bChanged){
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
             return data;
@@ -1039,7 +1039,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                         }
                     }
                     if (bChanged){
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                         updateInfo(contact, data);
                     }
@@ -1058,7 +1058,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
                     if (uin == 0)
                         data->Screen.str() = screen;
                     data->Alias.str() = alias ? *alias : QString::null;
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                     m_bJoin = true;
                     updateInfo(contact, data);
@@ -1085,7 +1085,7 @@ ICQUserData *ICQClient::findContact(const QString &screen, const QString *alias,
     contact->setName(name);
     if (grp)
         contact->setGroup(grp->id());
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     updateInfo(contact, data);
     return data;
@@ -2465,69 +2465,76 @@ void *ICQClient::processEvent(Event *e)
         arRequests.erase(it);
         return e->param();
     }
-    case EventContactChanged: {
-        Contact *contact = (Contact*)(e->param());
-        if (getState() == Connected){
-            if (!m_bAIM)
-                addBuddy(contact);
-            if (contact == getContacts()->owner()){
-                time_t now = time(NULL);
-                if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){
-                    data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
-                    data.owner.PluginInfoTime.asULong() = now;
-                    sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        Contact *contact = ec->contact();
+        switch(ec->action()) {
+            case EventContact::eDeleted: {
+                ICQUserData *data;
+                ClientDataIterator it(contact->clientData, this);
+                while ((data = (ICQUserData*)(++it)) != NULL){
+                    if (data->IcqID.toULong() == 0)
+                        continue;
+                    list<ListRequest>::iterator it;
+                    for (it = listRequests.begin(); it != listRequests.end(); it++){
+                        if ((*it).type != LIST_USER_CHANGED)
+                            continue;
+                        if ((*it).screen == screen(data))
+                            break;
+                    }
+                    if (it != listRequests.end())
+                        listRequests.erase(it);
+                    ListRequest lr;
+                    lr.type = LIST_USER_DELETED;
+                    lr.screen = screen(data);
+                    lr.icq_id = (unsigned short)(data->IcqID.toULong());
+                    lr.grp_id = (unsigned short)(data->GrpId.toULong());
+                    lr.visible_id   = (unsigned short)(data->ContactVisibleId.toULong());
+                    lr.invisible_id = (unsigned short)(data->ContactInvisibleId.toULong());
+                    lr.ignore_id    = (unsigned short)(data->IgnoreId.toULong());
+                    listRequests.push_back(lr);
+                    processSendQueue();
                 }
-                if (getPicture() != data.owner.Picture.str()){
-                    data.owner.Picture.str() = getPicture();
-                    data.owner.PluginInfoTime.asULong() = now;
-                    sendPluginInfoUpdate(PLUGIN_PICTURE);
-                }
-                if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.toULong()){
-                    data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
-                    data.owner.PluginStatusTime.asULong() = now;
-                    sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.toULong());
-                }
-                return NULL;
+                removeBuddy(contact);
+                break;
             }
-            ICQUserData *data;
-            ClientDataIterator it(contact->clientData, this);
-            while ((data = (ICQUserData*)(++it)) != NULL){
-                if (data->Uin.toULong() || data->ProfileFetch.toBool())
-                    continue;
-                fetchProfile(data);
+            case EventContact::eChanged: {
+                if (getState() == Connected){
+                    if (!m_bAIM)
+                        addBuddy(contact);
+                    if (contact == getContacts()->owner()){
+                        time_t now = time(NULL);
+                        if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){
+                            data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
+                            data.owner.PluginInfoTime.asULong() = now;
+                            sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
+                        }
+                        if (getPicture() != data.owner.Picture.str()){
+                            data.owner.Picture.str() = getPicture();
+                            data.owner.PluginInfoTime.asULong() = now;
+                            sendPluginInfoUpdate(PLUGIN_PICTURE);
+                        }
+                        if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.toULong()){
+                            data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
+                            data.owner.PluginStatusTime.asULong() = now;
+                            sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.toULong());
+                        }
+                        return NULL;
+                    }
+                    ICQUserData *data;
+                    ClientDataIterator it(contact->clientData, this);
+                    while ((data = (ICQUserData*)(++it)) != NULL){
+                        if (data->Uin.toULong() || data->ProfileFetch.toBool())
+                            continue;
+                        fetchProfile(data);
+                    }
+                }
+                addContactRequest(contact);
+                break;
             }
+            default:
+                break;
         }
-        addContactRequest(contact);
-        break;
-    }
-    case EventContactDeleted: {
-        Contact *contact =(Contact*)(e->param());
-        ICQUserData *data;
-        ClientDataIterator it(contact->clientData, this);
-        while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->IcqID.toULong() == 0)
-                continue;
-            list<ListRequest>::iterator it;
-            for (it = listRequests.begin(); it != listRequests.end(); it++){
-                if ((*it).type != LIST_USER_CHANGED)
-                    continue;
-                if ((*it).screen == screen(data))
-                    break;
-            }
-            if (it != listRequests.end())
-                listRequests.erase(it);
-            ListRequest lr;
-            lr.type = LIST_USER_DELETED;
-            lr.screen = screen(data);
-            lr.icq_id = (unsigned short)(data->IcqID.toULong());
-            lr.grp_id = (unsigned short)(data->GrpId.toULong());
-            lr.visible_id   = (unsigned short)(data->ContactVisibleId.toULong());
-            lr.invisible_id = (unsigned short)(data->ContactInvisibleId.toULong());
-            lr.ignore_id    = (unsigned short)(data->IgnoreId.toULong());
-            listRequests.push_back(lr);
-            processSendQueue();
-        }
-        removeBuddy(contact);
         break;
     }
     case eEventGroup: {
@@ -2743,7 +2750,7 @@ void *ICQClient::processEvent(Event *e)
                 ClientDataIterator it(contact->clientData);
                 while ((data = (ICQUserData*)(++it)) != NULL){
                     data->VisibleId.asULong() = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
-                    Event eContact(EventContactChanged, contact);
+                    EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
                 }
                 return e->param();
@@ -2756,7 +2763,7 @@ void *ICQClient::processEvent(Event *e)
                 ClientDataIterator it(contact->clientData);
                 while ((data = (ICQUserData*)(++it)) != NULL){
                     data->InvisibleId.asULong() = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
-                    Event eContact(EventContactChanged, contact);
+                    EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
                 }
                 return e->param();
@@ -3076,7 +3083,7 @@ bool ICQClient::messageReceived(Message *msg, const QString &screen)
                 return true;
             }
             contact->setFlags(CONTACT_TEMP);
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
         msg->setClient(dataName(data));

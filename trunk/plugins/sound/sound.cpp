@@ -182,7 +182,7 @@ QWidget *SoundPlugin::createConfigWindow(QWidget *parent)
 
 void *SoundPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventSoundChanged){
+    if(e->type() == EventSoundChanged) {
         Command cmd;
         cmd->id    = CmdSoundDisable;
         SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
@@ -194,7 +194,8 @@ void *SoundPlugin::processEvent(Event *e)
         m_bChanged = false;
         return NULL;
     }
-    if (e->type() == EventCheckState){
+    switch (e->type()) {
+    case EventCheckState: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdSoundDisable){
             cmd->flags &= ~COMMAND_CHECKED;
@@ -203,9 +204,9 @@ void *SoundPlugin::processEvent(Event *e)
                 cmd->flags |= COMMAND_CHECKED;
             return e->param();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventCommandExec){
+    case EventCommandExec: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if (!m_bChanged && (cmd->id == CmdSoundDisable)){
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
@@ -214,18 +215,21 @@ void *SoundPlugin::processEvent(Event *e)
             eChanged.process();
             return e->param();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventContactOnline){
-        Contact *contact = (Contact*)(e->param());
+    case eEventContact: {
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eOnline)
+            break;
+        Contact *contact = ec->contact();
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
         if (data && !data->Alert.str().isEmpty() && !data->Disable.toBool()){
             EventPlaySound eSound(data->Alert.str());
             eSound.process();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageSent){
+    case EventMessageSent: {
         Message *msg = (Message*)(e->param());
         QString err = msg->getError();
         if (!err.isEmpty())
@@ -242,9 +246,9 @@ void *SoundPlugin::processEvent(Event *e)
             EventPlaySound eSound(sound);
             eSound.process();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageReceived){
+    case EventMessageReceived: {
         Message *msg = (Message*)(e->param());
         if (msg->type() == MessageStatus)
             return NULL;
@@ -267,12 +271,15 @@ void *SoundPlugin::processEvent(Event *e)
             QString sound = messageSound(msg->baseType(), data);
             playSound(sound);
         }
-        return NULL;
+        break;
     }
-    if (e->type() == eEventPlaySound){
+    case eEventPlaySound: {
         EventPlaySound *s = static_cast<EventPlaySound*>(e);
         playSound(s->sound());
         return e->param();
+    }
+    default:
+        break;
     }
     return NULL;
 }

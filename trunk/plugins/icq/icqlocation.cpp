@@ -130,7 +130,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                 if (data->About.setStr(info)){
                     data->ProfileFetch.asBool() = true;
                     if (contact){
-                        Event e(EventContactChanged, contact);
+                        EventContact e(contact, EventContact::eChanged);
                         e.process();
                     }else{
                         Event e(EventClientChanged, this);
@@ -188,7 +188,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             data->ProfileFetch.asBool() = true;
             if (bChanged){
                 if (contact){
-                    Event e(EventContactChanged, contact);
+                    EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }else{
                     Event e(EventClientChanged, this);

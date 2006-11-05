@@ -748,7 +748,7 @@ LiveJournalUserData *LiveJournalClient::findContact(const QString &user, Contact
     }
     LiveJournalUserData *data = (LiveJournalUserData*)(contact->clientData.createData(this));
     data->User.str() = user;
-    Event e(EventContactChanged, contact);
+    EventContact e(contact, EventContact::eChanged);
     e.process();
     return data;
 }
@@ -788,7 +788,7 @@ void LiveJournalClient::statusChanged()
     while ((contact = ++it) != NULL){
         ClientDataIterator itc(contact->clientData, this);
         if ((++itc) != NULL){
-            Event e(EventContactChanged, contact);
+            EventContact e(contact, EventContact::eChanged);
             e.process();
         }
     }

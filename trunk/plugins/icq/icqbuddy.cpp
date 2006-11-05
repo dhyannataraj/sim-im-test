@@ -433,7 +433,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 bChanged = true;
             }
             if (bChanged){
-                Event e(EventContactChanged, contact);
+                EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
             if ((data->Status.toULong() != prevStatus) || bAwayChanged){
@@ -468,7 +468,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                          (((prevStatus & 0xFF) != ICQ_STATUS_ONLINE)) || bAwayChanged) &&
                         (((prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE) ||
                          (data->OnlineTime.toULong() > this->data.owner.OnlineTime.toULong()))){
-                    Event e(EventContactOnline, contact);
+                    EventContact e(contact, EventContact::eOnline);
                     e.process();
                 }
                 if (!getDisableAutoReplyUpdate() && ((data->Status.toULong() & 0xFF) != ICQ_STATUS_ONLINE)){

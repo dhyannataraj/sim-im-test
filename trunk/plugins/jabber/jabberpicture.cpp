@@ -89,8 +89,11 @@ void JabberPicture::apply(Client *client, void*)
 
 void *JabberPicture::processEvent(Event *e)
 {
-    if (e->type() == EventContactChanged){
-        Contact *contact = (Contact*)(e->param());
+    if (e->type() == eEventContact){
+        EventContact *ec = static_cast<EventContact*>(e);
+        if(ec->action() != EventContact::eChanged)
+            return NULL;
+        Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
     }
