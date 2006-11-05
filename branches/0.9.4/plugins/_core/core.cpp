@@ -2256,7 +2256,7 @@ if (fname[0] != '/')
             return e->param();
         }
     case EventContactOnline:{
-            Contact *contact = getContacts()->contact((unsigned long)(e->param()));
+            Contact *contact = (Contact*)(e->param());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
                 if (data->OpenOnOnline.bValue){
