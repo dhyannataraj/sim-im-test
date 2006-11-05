@@ -32,6 +32,7 @@ struct pluginInfo;
 class Plugin;
 class Group;
 class Contact;
+class IP;
 
 // ___________________________________________________________________________________
 // Event receiver
@@ -108,6 +109,9 @@ enum SIMEvents
 
     eEventGroup             = 0x0901,   // a group was added/changed/deleted
     eEventContact           = 0x0902,   // a contact was added/changed/deleted
+    eEventAddContact        = 0x0930,   // add contact
+    eEventDeleteContact     = 0x0931,   // delete contact
+    eEventGetContactIP      = 0x0932,   // retrieve IP adress for contact
 };
 
 class EXPORT EventLog : public Event
@@ -456,6 +460,51 @@ protected:
     Action m_action;
 };
 
+class EXPORT EventAddContact : public Event
+{
+public:
+    typedef struct AddContact {
+        QString         proto;
+        QString         addr;
+        QString         nick;
+        unsigned        group;
+    };
+public:
+    EventAddContact(AddContact *ac)
+        : Event(eEventAddContact), m_ac(ac), m_contact(NULL) {}
+    AddContact *addContact() const { return m_ac; }
+    // out
+    void setContact(Contact *c) { m_contact = c; }
+    Contact *contact() const { return m_contact; }
+protected:
+    AddContact *m_ac;
+    Contact *m_contact;
+};
+
+class EXPORT EventDeleteContact : public Event
+{
+public:
+    EventDeleteContact(const QString &alias)
+        : Event(eEventDeleteContact), m_alias(alias) {}
+    const QString &alias() const { return m_alias; }
+protected:
+    QString m_alias;
+};
+
+class EXPORT EventGetContactIP : public Event
+{
+public:
+    EventGetContactIP(Contact *contact)
+        : Event(eEventGetContactIP), m_contact(contact), m_ip(NULL) {}
+    Contact *contact() const { return m_contact; }
+    // out
+    void setIP(IP *ip) { m_ip = ip; }
+    IP *ip() const { return m_ip; }
+protected:
+    Contact *m_contact;
+    IP *m_ip;
+};
+
 // _____________________________________________________________________________________
 // Default events
 
@@ -683,32 +732,6 @@ const unsigned EventCommandWidget   = 0x0526;
 
 const unsigned EventClientChanged   = 0x0530;
 
-
-
-
-typedef struct addContact
-{
-    QString         proto;
-    QString         addr;
-    QString         nick;
-    unsigned        group;
-} addContact;
-
-/* Event for add contact
-   param is addContact*
-   return Contact*
-*/
-const unsigned EventAddContact      = 0x0930;
-
-/* Event for remove contact
-   param is QString *address
-*/
-const unsigned EventDeleteContact   = 0x0931;
-
-/* Event for get contact IP
-   param is Contact*
-*/
-const unsigned EventGetContactIP    = 0x0932;
 
 /* Event netvork state changed
 */

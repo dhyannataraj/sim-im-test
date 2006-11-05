@@ -151,7 +151,7 @@ void *ActionPlugin::processEvent(Event *e)
                 QString item = getToken(str, ';');
                 int pos = item.find("&IP;");
                 if (pos >= 0){
-                    Event e(EventGetContactIP, contact);
+                    EventGetContactIP e(contact);
                     if (e.process() == NULL)
                         continue;
                 }

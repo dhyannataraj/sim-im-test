@@ -141,11 +141,11 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
         }
 
         if (tag == "IP"){
-            Event e(EventGetContactIP, contact);
+            EventGetContactIP e(contact);
             struct in_addr addr;
-            IP* ip = (IP*)e.process();
-            if (ip)
-                addr.s_addr = ip->ip();
+            e.process();
+            if (e.ip())
+                addr.s_addr = e.ip()->ip();
             else
                 addr.s_addr = 0;
             res += inet_ntoa(addr);

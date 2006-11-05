@@ -2329,19 +2329,22 @@ void *ICQClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
     switch (e->type()) {
-    case EventAddContact: {
-        addContact *ac = (addContact*)(e->param());
+    case eEventAddContact: {
+        EventAddContact *ec = static_cast<EventAddContact*>(e);
+        EventAddContact::AddContact *ac = ec->addContact();
         if (protocol()->description()->text == ac->proto){
             Group *grp = getContacts()->group(ac->group);
             Contact *contact;
             QString tmp = ac->nick;
             findContact(ac->addr, &tmp, true, contact, grp);
-            return contact;
+            ec->setContact(contact);
+            return (void*)1;
         }
         break;
     }
-    case EventDeleteContact: {
-        QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
+    case eEventDeleteContact: {
+        EventDeleteContact *ec = static_cast<EventDeleteContact*>(e);
+        QString addr = ec->alias();
         ContactList::ContactIterator it;
         Contact *contact;
         while ((contact = ++it) != NULL){
@@ -2359,15 +2362,20 @@ void *ICQClient::processEvent(Event *e)
         }
         break;
     }
-    case EventGetContactIP: {
-        Contact *contact = (Contact*)(e->param());
+    case eEventGetContactIP: {
+        EventGetContactIP *ei = static_cast<EventGetContactIP*>(e);
+        Contact *contact = ei->contact();
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (ICQUserData*)(++it)) != NULL){
-            if (data->RealIP.ip())
-                return (void*)(data->RealIP.ip());
-            if (data->IP.ip())
-                return (void*)(data->IP.ip());
+            if (data->RealIP.ip()) {
+                ei->setIP(data->RealIP.ip());
+                return (void*)1;
+            }
+            if (data->IP.ip()) {
+                ei->setIP(data->IP.ip());
+                return (void*)1;
+            }
         }
         break;
     }

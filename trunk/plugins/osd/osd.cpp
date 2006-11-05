@@ -675,7 +675,7 @@ void *OSDPlugin::processEvent(Event *e)
     }
     case EventMessageDeleted:
     case EventMessageRead:
-    case EventMessageReceived:
+    case EventMessageReceived: {
         msg = (Message*)(e->param());
         contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
@@ -727,6 +727,10 @@ void *OSDPlugin::processEvent(Event *e)
             }
         }
         break;
+    }
+    default:
+        break;
+    }
     return NULL;
 }
 

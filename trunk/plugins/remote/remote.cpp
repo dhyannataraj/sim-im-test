@@ -705,13 +705,14 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += args[0];
                 return false;
             }
-            addContact ac;
+            EventAddContact::AddContact ac;
             ac.proto = "ICQ";
             ac.addr  = QString::number(uin);
             ac.nick  = QString::null;
             ac.group = 0;
-            Event e(EventAddContact, &ac);
-            Contact *contact = (Contact*)(e.process());
+            EventAddContact e(&ac);
+            e.process();
+            Contact *contact = e.contact();
             if (contact == NULL){
                 out = "Can't add user";
                 return false;
@@ -861,19 +862,15 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     bNewGrp = true;
                 }
             }
-            addContact ac;
+            EventAddContact::AddContact ac;
             ac.proto = args[0];
             ac.addr  = args[1];
-            if (args.size() > 2){
+            if (args.size() > 2)
                 ac.nick = args[2];
-            }else{
-                ac.nick = QString::null;
-            }
-            ac.group = 0;
-            if (grp)
-                ac.group = grp->id();
-            Event e(EventAddContact, &ac);
-            Contact *contact = (Contact*)(e.process());
+            ac.group = grp ? grp->id() : 0;
+            EventAddContact e(&ac);
+            e.process();
+            Contact *contact = e.contact();
             if (contact){
                 if (bNewGrp){
                     EventGroup e(grp, EventGroup::eChanged);
@@ -903,7 +900,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                     return true;
                 }
             }
-            Event e(EventDeleteContact, &args[0]);
+            EventDeleteContact e(args[0]);
             if (e.process())
                 return true;
             out = "Contact ";

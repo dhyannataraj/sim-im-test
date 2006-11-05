@@ -1357,8 +1357,9 @@ void *MSNClient::processEvent(Event *e)
         }
         break;
     }
-    case EventAddContact: {
-        addContact *ac = (addContact*)(e->param());
+    case eEventAddContact: {
+        EventAddContact *ec = static_cast<EventAddContact*>(e);
+        EventAddContact::AddContact *ac = ec->addContact();
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
             Contact *contact = NULL;
             findContact(ac->addr, ac->nick, contact);
@@ -1367,12 +1368,14 @@ void *MSNClient::processEvent(Event *e)
                 EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
-            return contact;
+            ec->setContact(contact);
+            return (void*)1;
         }
         break;
     }
-    case EventDeleteContact: {
-        QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
+    case eEventDeleteContact: {
+        EventDeleteContact *ec = static_cast<EventDeleteContact*>(e);
+        QString addr = ec->alias();
         ContactList::ContactIterator it;
         Contact *contact;
         while ((contact = ++it) != NULL){
@@ -1390,13 +1393,16 @@ void *MSNClient::processEvent(Event *e)
         }
         break;
     }
-    case EventGetContactIP: {
-        Contact *contact = (Contact*)(e->param());
+    case eEventGetContactIP: {
+        EventGetContactIP *ei = static_cast<EventGetContactIP*>(e);
+        Contact *contact = ei->contact();
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
-            if (data->IP.ip())
-                return data->IP.ip();
+            if (data->IP.ip()) {
+                ei->setIP(data->IP.ip());
+                return (void*)1;
+            }
         }
         break;
     }

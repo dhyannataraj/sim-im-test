@@ -343,8 +343,9 @@ void *JabberClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
     switch (e->type()) {
-    case EventAddContact:{
-        addContact *ac = (addContact*)(e->param());
+    case eEventAddContact: {
+        EventAddContact *ec = static_cast<EventAddContact*>(e);
+        EventAddContact::AddContact *ac = ec->addContact();
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
             Contact *contact = NULL;
             QString resource;
@@ -354,12 +355,14 @@ void *JabberClient::processEvent(Event *e)
                 EventContact e(contact, EventContact::eChanged);
                 e.process();
             }
-            return contact;
+            ec->setContact(contact);
+            return (void*)1;
         }
         break;
     }
-    case EventDeleteContact: {
-        QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
+    case eEventDeleteContact: {
+        EventDeleteContact *ec = static_cast<EventDeleteContact*>(e);
+        QString addr = ec->alias();
         ContactList::ContactIterator it;
         Contact *contact;
         while ((contact = ++it) != NULL){
