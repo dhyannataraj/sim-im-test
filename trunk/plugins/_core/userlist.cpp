@@ -61,7 +61,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     QPainter pp(&bg);
     int margin = 0;
     pp.fillRect(QRect(0, 0, width, height()), cg.base());
-    PaintView pv;
+    EventPaintView::PaintView pv;
     pv.p        = &pp;
     pv.pos      = view->viewport()->mapToParent(view->itemRect(this).topLeft());
     pv.size		= QSize(width, height());
@@ -75,7 +75,7 @@ void UserViewItemBase::paintCell(QPainter *p, const QColorGroup &cg, int, int wi
     }else{
         pp.setPen(QColor(CorePlugin::m_plugin->getColorOnline()));
     }
-    Event e(EventPaintView, &pv);
+    EventPaintView e(&pv);
     e.process();
     view->setStaticBackground(pv.isStatic);
     margin = pv.margin;
@@ -830,7 +830,7 @@ static void resort(QListViewItem *item)
 
 void *UserListBase::processEvent(Event *e)
 {
-    if (e->type() == EventRepaintView){
+    if (e->type() == eEventRepaintView){
         sort();
         for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
             resort(item);
@@ -838,32 +838,25 @@ void *UserListBase::processEvent(Event *e)
     }
     if (m_bInit){
         switch (e->type()){
-        case EventGroupCreated:{
-                Group *g = (Group*)(e->param());
-                addGroupForUpdate(g->id());
-                break;
-            }
-        case EventGroupChanged:{
-                Group *g = (Group*)(e->param());
-                addGroupForUpdate(g->id());
-                break;
-            }
-        case EventGroupDeleted:{
-                Group *g = (Group*)(e->param());
-                for (list<unsigned long>::iterator it = updGroups.begin(); it != updGroups.end(); ++it){
-                    if (*it == g->id()){
-                        updGroups.erase(it);
+        case eEventGroup:{
+                EventGroup *ev = static_cast<EventGroup*>(e);
+                Group *g = ev->group();
+                switch (ev->action()) {
+                    case EventGroup::eAdded:
+                    case EventGroup::eChanged:
+                        addGroupForUpdate(g->id());
                         break;
-                    }
+                    case EventGroup::eDeleted:
+                        for (list<unsigned long>::iterator it = updGroups.begin(); it != updGroups.end(); ++it){
+                            if (*it == g->id()){
+                                updGroups.erase(it);
+                                break;
+                            }
+                        }
+                        QListViewItem *item = findGroupItem(g->id());
+                        deleteItem(item);
+                        break;
                 }
-                QListViewItem *item = findGroupItem(g->id());
-                deleteItem(item);
-                break;
-            }
-        case EventContactCreated:{
-                Contact *c = (Contact*)(e->param());
-                if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0))
-                    addContactForUpdate(c->id());
                 break;
             }
         case EventContactStatus:

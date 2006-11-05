@@ -594,7 +594,7 @@ Group::~Group()
             Event e(EventContactChanged, contact);
             e.process();
         }
-        Event e(EventGroupDeleted, this);
+        EventGroup e(this, EventGroup::eDeleted);
         e.process();
     }
     free_data(groupData, &data);
@@ -765,7 +765,7 @@ Group *ContactList::group(unsigned long id, bool isNew)
     }
     Group *res = new Group(id);
     p->groups.push_back(res);
-    Event e(EventGroupCreated, res);
+    EventGroup e(res, EventGroup::eAdded);
     e.process();
     return res;
 }
@@ -798,8 +798,8 @@ bool ContactList::moveGroup(unsigned long id, bool bUp)
             Group *g = p->groups[i];
             p->groups[i] = p->groups[i+1];
             p->groups[i+1] = g;
-            Event e1(EventGroupChanged, p->groups[i]);
-            Event e2(EventGroupChanged, p->groups[i+1]);
+            EventGroup e1(p->groups[i], EventGroup::eChanged);
+            EventGroup e2(p->groups[i+1], EventGroup::eChanged);
             e1.process();
             e2.process();
             return true;
@@ -1116,7 +1116,7 @@ void Client::freeData()
             continue;
         grp->clientData.freeClientData(this);
         if (!getContacts()->p->bNoRemove){
-            Event e(EventGroupChanged, grp);
+            EventGroup e(grp, EventGroup::eChanged);
             e.process();
         }
     }

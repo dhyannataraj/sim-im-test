@@ -135,7 +135,7 @@ void JabberConfig::apply()
     m_client->setAutoAccept(chkAccept->isChecked());
     if (m_client->getProtocolIcons() != chkIcons->isChecked()){
         m_client->setProtocolIcons(chkIcons->isChecked());
-        Event e(EventRepaintView);
+        EventRepaintView e;
         e.process();
     }
     m_client->data.owner.Resource.str() = edtResource->text();

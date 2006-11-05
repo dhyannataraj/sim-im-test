@@ -1745,10 +1745,14 @@ void *CorePlugin::processEvent(Event *e)
             connect(m_alert, SIGNAL(finished()), this, SLOT(alertFinished()));
         }
         return e->param();
-    case EventGroupChanged:
+    case eEventGroup: {
+        EventGroup *ev = static_cast<EventGroup*>(e);
+        if (ev->action() != EventGroup::eChanged) 
+            return NULL;
         if (m_bIgnoreEvents)
-            return e->param();
+            return (void*)1;
         break;
+    }
     case EventDeleteMessage:{
             Message *msg = (Message*)(e->param());
             History::del(msg);

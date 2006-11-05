@@ -116,7 +116,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     QPixmap pict(w, h);
     QPainter p(&pict);
     p.fillRect(QRect(0, 0, width(), height()), colorGroup().base());
-    PaintView pv;
+    EventPaintView::PaintView pv;
     pv.p        = &p;
     pv.pos      = QPoint(2, 2);
     pv.size		= QSize(w, h);
@@ -128,7 +128,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     }else{
         p.setPen(QColor(m_plugin->core->getColorOnline()));
     }
-    Event e(EventPaintView, &pv);
+    EventPaintView e(&pv);
     e.process();
 
     if (m_plugin->core->getUseSysColors()){

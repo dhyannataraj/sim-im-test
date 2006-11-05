@@ -1252,7 +1252,7 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *
             continue;
         if (!name.isEmpty() && res->ScreenName.setStr(name)){
             grp->setName(name);
-            Event e(EventGroupChanged, grp);
+            EventGroup e(grp, EventGroup::eChanged);
             e.process();
         }
         return res;
@@ -1274,7 +1274,7 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *
     res->Group.asULong() = id;
     res->ScreenName.str() = name;
     grp->setName(grpName);
-    Event e(EventGroupChanged, grp);
+    EventGroup e(grp, EventGroup::eChanged);
     e.process();
     return res;
 }
@@ -1342,7 +1342,8 @@ bool MSNClient::done(unsigned code, Buffer&, const char *headers)
 void *MSNClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
-    if (e->type() == EventCommandExec){
+    switch(e->type()) {
+    case EventCommandExec: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNInitMail){
             EventGoURL eGo(m_init_mail);
@@ -1354,8 +1355,9 @@ void *MSNClient::processEvent(Event *e)
             eGo.process();
             return e->param();
         }
+        break;
     }
-    if (e->type() == EventAddContact){
+    case EventAddContact: {
         addContact *ac = (addContact*)(e->param());
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
             Contact *contact = NULL;
@@ -1367,9 +1369,9 @@ void *MSNClient::processEvent(Event *e)
             }
             return contact;
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventDeleteContact){
+    case EventDeleteContact: {
         QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
         ContactList::ContactIterator it;
         Contact *contact;
@@ -1386,9 +1388,9 @@ void *MSNClient::processEvent(Event *e)
                 }
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventGetContactIP){
+    case EventGetContactIP: {
         Contact *contact = (Contact*)(e->param());
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
@@ -1396,9 +1398,9 @@ void *MSNClient::processEvent(Event *e)
             if (data->IP.ip())
                 return data->IP.ip();
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageAccept){
+    case EventMessageAccept: {
         messageAccept *ma = static_cast<messageAccept*>(e->param());
         Contact *contact = getContacts()->contact(ma->msg->contact());
         if (contact == NULL)
@@ -1413,8 +1415,9 @@ void *MSNClient::processEvent(Event *e)
                 return e->param();
             }
         }
+        break;
     }
-    if (e->type() == EventMessageDecline){
+    case EventMessageDecline: {
         messageDecline *md = (messageDecline*)(e->param());
         Contact *contact = getContacts()->contact(md->msg->contact());
         if (contact == NULL)
@@ -1429,8 +1432,9 @@ void *MSNClient::processEvent(Event *e)
                 return e->param();
             }
         }
+        break;
     }
-    if (e->type() == EventContactChanged){
+    case EventContactChanged: {
         Contact *contact = (Contact*)(e->param());
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
@@ -1451,9 +1455,9 @@ void *MSNClient::processEvent(Event *e)
             m_requests.push_back(lr);
         }
         processRequests();
-        return NULL;
+        break;
     }
-    if (e->type() == EventContactDeleted){
+    case EventContactDeleted: {
         Contact *contact = (Contact*)(e->param());
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
@@ -1473,41 +1477,53 @@ void *MSNClient::processEvent(Event *e)
             }
         }
         processRequests();
-        return NULL;
+        break;
     }
-    if (e->type() == EventGroupChanged){
-        Group *grp = (Group*)(e->param());
-        ClientDataIterator it(grp->clientData, this);
-        MSNUserData *data = (MSNUserData*)(++it);
-        if ((data == NULL) || (grp->getName() != data->ScreenName.str())){
-            findRequest(grp->id(), LR_GROUPxCHANGED, true);
-            MSNListRequest lr;
-            lr.Type = LR_GROUPxCHANGED;
-            lr.Name = QString::number(grp->id());
-            m_requests.push_back(lr);
-            processRequests();
+    case eEventGroup: {
+        EventGroup *ev = static_cast<EventGroup*>(e);
+        Group *grp = ev->group();
+        switch (ev->action()) {
+        case EventGroup::eChanged: {
+            ClientDataIterator it(grp->clientData, this);
+            MSNUserData *data = (MSNUserData*)(++it);
+            if ((data == NULL) || (grp->getName() != data->ScreenName.str())){
+                findRequest(grp->id(), LR_GROUPxCHANGED, true);
+                MSNListRequest lr;
+                lr.Type = LR_GROUPxCHANGED;
+                lr.Name = QString::number(grp->id());
+                m_requests.push_back(lr);
+                processRequests();
+            }
+            break;
         }
-        return NULL;
-    }
-    if (e->type() == EventGroupDeleted){
-        Group *grp = (Group*)(e->param());
-        ClientDataIterator it(grp->clientData, this);
-        MSNUserData *data = (MSNUserData*)(++it);
-        if (data){
-            findRequest(grp->id(), LR_GROUPxCHANGED, true);
-            MSNListRequest lr;
-            lr.Type = LR_GROUPxREMOVED;
-            lr.Name = QString::number(data->Group.toULong());
-            m_requests.push_back(lr);
-            processRequests();
+        case EventGroup::eDeleted: {
+            ClientDataIterator it(grp->clientData, this);
+            MSNUserData *data = (MSNUserData*)(++it);
+            if (data){
+                findRequest(grp->id(), LR_GROUPxCHANGED, true);
+                MSNListRequest lr;
+                lr.Type = LR_GROUPxREMOVED;
+                lr.Name = QString::number(data->Group.toULong());
+                m_requests.push_back(lr);
+                processRequests();
+            }
+            break;
         }
+        case EventGroup::eAdded:
+            break;
+        }
+        break;
     }
-    if (e->type() == EventMessageCancel){
+    case EventMessageCancel: {
         Message *msg = (Message*)(e->param());
         for (list<SBSocket*>::iterator it = m_SBsockets.begin(); it != m_SBsockets.end(); ++it){
             if ((*it)->cancelMessage(msg))
                 return msg;
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }

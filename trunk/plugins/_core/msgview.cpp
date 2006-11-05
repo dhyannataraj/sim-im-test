@@ -480,10 +480,10 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     }else{
         msgText = status;
     }
-    Event e(EventAddHyperlinks, &msgText);
+    EventAddHyperlinks e(msgText);
     e.process();
     ViewParser parser(CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
-    msgText = parser.parse(msgText);
+    msgText = parser.parse(e.text());
     s += "<body";
     if (!CorePlugin::m_plugin->getOwnColors() && (msg->getForeground() != 0xFFFFFFFF) && (msg->getForeground() != msg->getBackground()))
     {

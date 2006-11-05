@@ -249,7 +249,7 @@ void ICQClient::parseRosterItem(unsigned short type,
             data->bChecked.asBool() = true;
             if (grp->getName() != str){
                 grp->setName(str);
-                Event e(EventGroupChanged, grp);
+                EventGroup e(grp, EventGroup::eChanged);
                 e.process();
             }
             break;
@@ -591,7 +591,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 if (grp == NULL){
                     grp = getContacts()->group(0, true);
                     grp->setName("General");
-                    Event e(EventGroupChanged, grp);
+                    EventGroup e(grp, EventGroup::eChanged);
                     e.process();
                 }
                 data.owner.OnlineTime.asULong() = time(NULL);

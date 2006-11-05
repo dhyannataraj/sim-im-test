@@ -129,7 +129,7 @@ void UserViewConfig::apply()
     if (btnInvisible2->isOn()) style |= STYLE_ITALIC;
     if (btnInvisible3->isOn()) style |= STYLE_UNDER;
     CorePlugin::m_plugin->setInvisibleStyle(style);
-    Event e(EventRepaintView);
+    EventRepaintView e;
     e.process();
 }
 

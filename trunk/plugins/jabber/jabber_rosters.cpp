@@ -194,7 +194,7 @@ void RostersRequest::element_end(const char *el)
                     group = getContacts()->group(0, true);
                     group->setName(m_grp);
                     grp = group->id();
-                    Event e(EventGroupChanged, group);
+                    EventGroup e(group, EventGroup::eChanged);
                     e.process();
                 }
             }

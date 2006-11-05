@@ -1228,7 +1228,7 @@ YahooUserData *YahooClient::findContact(const char *_id, const char *grpname, Co
         if (grp == NULL){
             grp = getContacts()->group(0, true);
             grp->setName(getContacts()->toUnicode(NULL, grpname));
-            Event e(EventGroupChanged, grp);
+            EventGroup e(grp, EventGroup::eChanged);
             e.process();
         }
     }

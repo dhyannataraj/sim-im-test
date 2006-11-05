@@ -132,7 +132,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     QPixmap bg(r.width(), r.height());
     QPainter pp(&bg);
     pp.fillRect(QRect(0, 0, r.width(), r.height()), colorGroup().base());
-    PaintView pv;
+    EventPaintView::PaintView pv;
     pv.p        = &pp;
     pv.pos      = viewport()->mapToParent(r.topLeft());
     pv.size	= r.size();
@@ -144,7 +144,7 @@ void UserView::paintEmptyArea(QPainter *p, const QRect &r)
     QListViewItem *item = firstChild();
     if (item)
         pv.height = item->height();
-    Event e(EventPaintView, &pv);
+    EventPaintView e(&pv);
     e.process();
     pp.end();
     p->drawPixmap(r.topLeft(), bg);
@@ -385,7 +385,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
 void *UserView::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventRepaintView:
+    case eEventRepaintView:
         setVScrollBarMode(CorePlugin::m_plugin->getNoScroller() ? QScrollView::AlwaysOff : QScrollView::Auto);
         break;
     case eEventInit:
@@ -1202,7 +1202,7 @@ void UserView::editGroupEnter()
     Group *g = getContacts()->group(edtGroup->id);
     if (!(g && edtGroup->text().length())) return;
     g->setName(edtGroup->text());
-    Event e(EventGroupChanged, g);
+    EventGroup e(g, EventGroup::eChanged);
     e.process();
 }
 

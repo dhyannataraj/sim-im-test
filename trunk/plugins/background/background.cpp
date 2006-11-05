@@ -86,8 +86,9 @@ QWidget *BackgroundPlugin::createConfigWindow(QWidget *parent)
 
 void *BackgroundPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventPaintView){
-        PaintView *pv = (PaintView*)(e->param());
+    if (e->type() == eEventPaintView){
+        EventPaintView *ev = static_cast<EventPaintView*>(e);
+        EventPaintView::PaintView *pv = ev->paintView();;
         if (!bgImage.isNull()){
             unsigned w = bgImage.width();
             unsigned h = bgImage.height();
@@ -140,7 +141,7 @@ void BackgroundPlugin::redraw()
     if (getBackground().isEmpty())
         return;
     bgImage = QImage(getBackground());
-    Event e(EventRepaintView);
+    EventRepaintView e;
     e.process();
 }
 

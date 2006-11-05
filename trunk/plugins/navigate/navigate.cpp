@@ -400,11 +400,9 @@ void *NavigatePlugin::processEvent(Event *e)
 #endif // WIN32
         return e->param();
     }
-    if (e->type() == EventAddHyperlinks){
-        QString *text = (QString*)(e->param());
-        if(!text)
-            return NULL;
-        *text = parseUrl(*text);
+    if (e->type() == eEventAddHyperlinks){
+        EventAddHyperlinks *h = static_cast<EventAddHyperlinks*>(e);
+        h->setText(parseUrl(h->text()));
         return e->param();
     }
     if (e->type() == EventCheckState){

@@ -222,7 +222,7 @@ void *FloatyPlugin::processEvent(Event *e)
                 delete wnd;
             break;
         }
-    case EventRepaintView:{
+    case eEventRepaintView:{
             QWidgetList *list = QApplication::topLevelWidgets();
             QWidgetListIt it(*list);
             QWidget * w;

@@ -284,10 +284,11 @@ void *TransparentPlugin::processEvent(Event *e)
         setState();
     }
 #ifndef WIN32
-    if (e->type() == EventPaintView){
+    if (e->type() == eEventPaintView){
         if (top == NULL)
             return NULL;
-        PaintView *pv = (PaintView*)(e->param());
+        EventPaintView *ev = static_cast<EventPaintView*>(e);
+        EventPaintView::PaintView *pv = ev->paintView();
         QPixmap pict = top->background(pv->win->colorGroup().background());
         if (!pict.isNull()){
             QPoint p = pv->pos;

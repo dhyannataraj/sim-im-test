@@ -876,7 +876,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Contact *contact = (Contact*)(e.process());
             if (contact){
                 if (bNewGrp){
-                    Event e(EventGroupChanged, grp);
+                    EventGroup e(grp, EventGroup::eChanged);
                     e.process();
                 }
                 if (nCmd == CMD_OPEN){

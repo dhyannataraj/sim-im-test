@@ -50,9 +50,9 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
         QString p = msg->presentation();
         if (p.isEmpty())
             p = msg->getRichText();
-        Event e(EventAddHyperlinks, &p);
+        EventAddHyperlinks e(p);
         e.process();
-        p = MsgViewBase::parseText(p, CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
+        p = MsgViewBase::parseText(e.text(), CorePlugin::m_plugin->getOwnColors(), CorePlugin::m_plugin->getUseSmiles());
         m_edit->m_edit->setText(p);
         if ((msg->getBackground() != msg->getForeground()) && !CorePlugin::m_plugin->getOwnColors()){
             m_edit->m_edit->setBackground(msg->getBackground());

@@ -30,6 +30,8 @@ namespace SIM {
 
 struct pluginInfo;
 class Plugin;
+class Group;
+class Contact;
 
 // ___________________________________________________________________________________
 // Event receiver
@@ -76,8 +78,10 @@ enum SIMEvents
     eEventQuit	= 0x0102,	// last event until plugins are unloaded
     eEventExec	= 0x0110,	// execute an external programm
     eEventSocketActive      = 0x0112,	// change socket activity state
+
     eEventArg               = 0x0201,   // get command line argument
     eEventGetArgs           = 0x0202,   // get all command line arguments
+
     eEventLanguageChanged   = 0x0301,   // i18n changed
     eEventPluginChanged     = 0x0302,   // a plugin was (un)loaded
     eEventGetPluginInfo     = 0x0303,   // get plugin at pluginidx n, ret: pluginInfo
@@ -88,6 +92,7 @@ enum SIMEvents
     eEventPluginsUnload     = 0x0308,   // unload all plugins
     eEventSaveState         = 0x0309,   // plugins should save their config
     eEventClientsChanged    = 0x0311,   // a client was added/removed
+
     eEventIconChanged       = 0x0400,   // icons changed
 
     eEventHomeDir           = 0x0601,   // get home dir for config
@@ -95,6 +100,13 @@ enum SIMEvents
     eEventGetURL            = 0x0603,   // ???? win32 only
     eEventPlaySound         = 0x0604,   // play way-file
     eEventRaiseWindow       = 0x0605,   // raise this widget
+
+    eEventPaintView         = 0x0701,   // draw user list background
+    eEventRepaintView       = 0x0702,   // repaint list view
+
+    eEventAddHyperlinks     = 0x0801,   // replace all hyperlinks with correct html tags
+
+    eEventGroup             = 0x0901,   // a group was added/changed/deleted
 };
 
 class EXPORT EventLog : public Event
@@ -366,6 +378,62 @@ protected:
     QString m_url;
 };
 
+class EXPORT EventPaintView : public Event
+{
+public:
+    typedef struct PaintView {
+        QPainter *p;        // painter
+        QPoint   pos;       // position
+        QSize    size;      // size
+        int      height;    // item height
+        int      margin;    // icon margin
+        QWidget  *win;      // window
+        bool     isStatic;  // need static background
+        bool     isGroup;   // draw group
+    };
+public:
+    EventPaintView(PaintView *pv)
+        : Event(eEventPaintView), m_pv(pv) {}
+    PaintView *paintView() const { return m_pv; }
+protected:
+    PaintView *m_pv;
+};
+
+class EXPORT EventRepaintView : public Event
+{
+public:
+    EventRepaintView() : Event(eEventRepaintView) {}
+};
+
+class EXPORT EventAddHyperlinks : public Event
+{
+public:
+    EventAddHyperlinks(const QString &text)
+        : Event(eEventAddHyperlinks), m_text(text) {}
+    const QString &text()  const { return m_text; }
+    void setText(const QString &text) { m_text = text; }
+protected:
+    QString m_text;
+};
+
+class EXPORT EventGroup : public Event
+{
+public:
+    enum Action {
+        eAdded,
+        eDeleted,
+        eChanged
+    };
+public:
+    EventGroup(Group *grp, enum Action action)
+        : Event(eEventGroup), m_grp(grp), m_action(action) {}
+    Group *group() const { return m_grp; }
+    Action action() const { return m_action; }
+protected:
+    Group *m_grp;
+    Action m_action;
+};
+
 // _____________________________________________________________________________________
 // Default events
 
@@ -593,48 +661,6 @@ const unsigned EventCommandWidget   = 0x0526;
 
 const unsigned EventClientChanged   = 0x0530;
 
-/* Event - draw user list background
-   param is PaintListView*
-*/
-const unsigned EventPaintView = 0x0701;
-
-typedef struct PaintView
-{
-    class QPainter *p;        // painter
-    QPoint   pos;       // position
-    QSize    size;      // size
-    int      height;    // item height
-    int      margin;    // icon margin
-    QWidget  *win;      // window
-    bool     isStatic;  // need static background
-    bool     isGroup;   // draw group
-} PaintView;
-
-/* Event repaint list view */
-const unsigned EventRepaintView = 0x0702;
-
-/* Event draw view item */
-const unsigned EventDrawItem = 0x0703;
-
-/* Event replace all hyperlinks with correct html tags
-   param is QString*
-*/
-const unsigned EventAddHyperlinks = 0x0801;
-
-/* Event group created
-   param is Group*
-*/
-const unsigned EventGroupCreated = 0x0901;
-
-/* Event group deleted
-   param is Group*
-*/
-const unsigned EventGroupDeleted = 0x0902;
-
-/* Event group changed
-   param is Group*
-*/
-const unsigned EventGroupChanged = 0x0903;
 
 /* Event group created
    param is Group*

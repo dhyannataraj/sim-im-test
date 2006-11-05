@@ -455,11 +455,22 @@ void *UserConfig::processEvent(Event *e)
                 close();
             return NULL;
         }
-    case EventGroupDeleted:{
-            Group *group = (Group*)(e->param());
-            if (group == m_group)
-                close();
-            return NULL;
+    case eEventGroup:{
+            EventGroup *ev = static_cast<EventGroup*>(e);
+            Group *group = ev->group();
+            switch(ev->action()) {
+            case EventGroup::eDeleted:
+                if (group == m_group)
+                    close();
+                return NULL;
+            case EventGroup::eChanged:
+                if (group == m_group)
+                    setTitle();
+                return NULL;
+            case EventGroup::eAdded:
+                return NULL;
+            }
+            break;
         }
     case EventFetchInfoFail:{
             Contact *contact = (Contact*)(e->param());
@@ -480,12 +491,6 @@ void *UserConfig::processEvent(Event *e)
                 btnUpdate->setEnabled(m_nUpdates == 0);
                 setTitle();
             }
-            return NULL;
-        }
-    case EventGroupChanged:{
-            Group *group = (Group*)(e->param());
-            if (group == m_group)
-                setTitle();
             return NULL;
         }
     case EventCommandRemove:

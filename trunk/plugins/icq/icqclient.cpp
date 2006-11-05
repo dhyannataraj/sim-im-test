@@ -1120,7 +1120,7 @@ ICQUserData *ICQClient::findGroup(unsigned id, const QString *alias, Group *&grp
     data = (ICQUserData*)(grp->clientData.createData(this));
     data->IcqID.asULong() = id;
     data->Alias.str() = *alias;
-    Event e(EventGroupChanged, grp);
+    EventGroup e(grp, EventGroup::eChanged);
     e.process();
     return data;
 }
@@ -2328,7 +2328,8 @@ void ICQClient::fetchAwayMessage(ICQUserData *data)
 void *ICQClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
-    if (e->type() == EventAddContact){
+    switch (e->type()) {
+    case EventAddContact: {
         addContact *ac = (addContact*)(e->param());
         if (protocol()->description()->text == ac->proto){
             Group *grp = getContacts()->group(ac->group);
@@ -2337,9 +2338,9 @@ void *ICQClient::processEvent(Event *e)
             findContact(ac->addr, &tmp, true, contact, grp);
             return contact;
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventDeleteContact){
+    case EventDeleteContact: {
         QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
         ContactList::ContactIterator it;
         Contact *contact;
@@ -2356,9 +2357,9 @@ void *ICQClient::processEvent(Event *e)
                 }
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventGetContactIP){
+    case EventGetContactIP: {
         Contact *contact = (Contact*)(e->param());
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
@@ -2368,9 +2369,9 @@ void *ICQClient::processEvent(Event *e)
             if (data->IP.ip())
                 return (void*)(data->IP.ip());
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageAccept){
+    case EventMessageAccept: {
         messageAccept *ma = static_cast<messageAccept*>(e->param());
         for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
             if ((*it)->id() == ma->msg->id()){
@@ -2380,9 +2381,9 @@ void *ICQClient::processEvent(Event *e)
                 return msg;
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageDecline){
+    case EventMessageDecline: {
         messageDecline *md = (messageDecline*)(e->param());
         for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
             if ((*it)->id() == md->msg->id()){
@@ -2392,9 +2393,9 @@ void *ICQClient::processEvent(Event *e)
                 return msg;
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageRetry){
+    case EventMessageRetry: {
         MsgSend *m = (MsgSend*)(e->param());
         QStringList btns;
         if (m->msg->getRetryCode() == static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied){
@@ -2417,7 +2418,7 @@ void *ICQClient::processEvent(Event *e)
         msg->show();
         return e->param();
     }
-    if (e->type() == EventTemplateExpanded){
+    case EventTemplateExpanded: {
         TemplateExpand *t = (TemplateExpand*)(e->param());
         list<ar_request>::iterator it;
         for (it = arRequests.begin(); it != arRequests.end(); ++it)
@@ -2464,7 +2465,7 @@ void *ICQClient::processEvent(Event *e)
         arRequests.erase(it);
         return e->param();
     }
-    if (e->type() == EventContactChanged){
+    case EventContactChanged: {
         Contact *contact = (Contact*)(e->param());
         if (getState() == Connected){
             if (!m_bAIM)
@@ -2497,8 +2498,9 @@ void *ICQClient::processEvent(Event *e)
             }
         }
         addContactRequest(contact);
+        break;
     }
-    if (e->type() == EventContactDeleted){
+    case EventContactDeleted: {
         Contact *contact =(Contact*)(e->param());
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, this);
@@ -2526,26 +2528,34 @@ void *ICQClient::processEvent(Event *e)
             processSendQueue();
         }
         removeBuddy(contact);
+        break;
     }
-    if (e->type() == EventGroupChanged){
-        Group *group = (Group*)(e->param());
-        if (group->id())
-            addGroupRequest(group);
-    }
-    if (e->type() == EventGroupDeleted){
-        Group *group =(Group*)(e->param());
-        if (group->id()){
-            ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
-            if (data){
-                ListRequest lr;
-                lr.type   = LIST_GROUP_DELETED;
-                lr.icq_id = (unsigned short)(data->IcqID.toULong());
-                listRequests.push_back(lr);
-                processSendQueue();
+    case eEventGroup: {
+        EventGroup *ev = static_cast<EventGroup*>(e);
+        Group *group = ev->group();
+        if(!group->id())
+            return NULL;
+        switch(ev->action()) {
+            case EventGroup::eChanged: 
+                addGroupRequest(group);
+                break;
+            case EventGroup::eDeleted: {
+                ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
+                if (data){
+                    ListRequest lr;
+                    lr.type   = LIST_GROUP_DELETED;
+                    lr.icq_id = (unsigned short)(data->IcqID.toULong());
+                    listRequests.push_back(lr);
+                    processSendQueue();
+                }
+                break;
             }
+            case EventGroup::eAdded:
+                return NULL;
         }
+        break;
     }
-    if (e->type() == EventMessageCancel){
+    case EventMessageCancel: {
         Message *msg = (Message*)(e->param());
         list<Message*>::iterator it;
         for (it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
@@ -2608,8 +2618,9 @@ void *ICQClient::processEvent(Event *e)
                 }
             }
         }
+        break;
     }
-    if (e->type() == EventCheckState){
+    case EventCheckState: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if (cmd->id == CmdPhones){
             if (!m_bAIM)
@@ -2704,8 +2715,9 @@ void *ICQClient::processEvent(Event *e)
                 return bOK ? e->param() : NULL;
             }
         }
+        break;
     }
-    if (e->type() == EventCommandExec){
+    case EventCommandExec: {
         CommandDef *cmd = (CommandDef*)(e->param());
         if(cmd->id == CmdFetchAway) {
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2750,8 +2762,9 @@ void *ICQClient::processEvent(Event *e)
                 return e->param();
             }
         }
+        break;
     }
-    if (e->type() == eEventGoURL){
+    case eEventGoURL: {
         EventGoURL *u = static_cast<EventGoURL*>(e);
         QString url = u->url();
         QString proto;
@@ -2777,8 +2790,9 @@ void *ICQClient::processEvent(Event *e)
             eCmd.process();
             return e->param();
         }
+        break;
     }
-    if (e->type() == EventOpenMessage){
+    case EventOpenMessage: {
         if (getState() != Connected)
             return NULL;
         Message **msg = (Message**)(e->param());
@@ -2845,6 +2859,10 @@ void *ICQClient::processEvent(Event *e)
                 delete m;
             return e->param();
         }
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }

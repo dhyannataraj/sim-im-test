@@ -342,7 +342,8 @@ void JabberClient::packet_ready()
 void *JabberClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
-    if (e->type() == EventAddContact){
+    switch (e->type()) {
+    case EventAddContact:{
         addContact *ac = (addContact*)(e->param());
         if (ac->proto && !strcmp(protocol()->description()->text, ac->proto)){
             Contact *contact = NULL;
@@ -355,9 +356,9 @@ void *JabberClient::processEvent(Event *e)
             }
             return contact;
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventDeleteContact){
+    case EventDeleteContact: {
         QString addr = (e->param()) ? *((QString*)e->param()) : QString::null;
         ContactList::ContactIterator it;
         Contact *contact;
@@ -374,9 +375,9 @@ void *JabberClient::processEvent(Event *e)
                 }
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == eEventGoURL){
+    case eEventGoURL: {
         EventGoURL *u = static_cast<EventGoURL*>(e);
         QString url = u->url();
         QString proto;
@@ -403,12 +404,14 @@ void *JabberClient::processEvent(Event *e)
             eCmd.process();
             return e->param();
         }
+        break;
     }
-    if (e->type() == EventTemplateExpanded){
+    case EventTemplateExpanded: {
         TemplateExpand *t = (TemplateExpand*)(e->param());
         setStatus((unsigned long)(t->param), quoteString(t->tmpl, quoteNOBR, false));
+        break;
     }
-    if (e->type() == EventContactChanged){
+    case EventContactChanged: {
         Contact *contact = (Contact*)(e->param());
         QString grpName;
         QString name;
@@ -433,19 +436,22 @@ void *JabberClient::processEvent(Event *e)
             if (name == data->ID.str())
                 listRequest(data, name, grpName, false);
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventContactDeleted){
+    case EventContactDeleted: {
         Contact *contact = (Contact*)(e->param());
         ClientDataIterator it(contact->clientData, this);
         JabberUserData *data;
         while ((data = (JabberUserData*)(++it)) != NULL){
             listRequest(data, QString::null, QString::null, true);
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventGroupChanged){
-        Group *grp = (Group*)(e->param());
+    case eEventGroup: {
+        EventGroup *ev = static_cast<EventGroup*>(e);
+        if (ev->action() != EventGroup::eChanged) 
+            return NULL;
+        Group *grp = ev->group();
         QString grpName;
         grpName = grp->getName();
         ContactList::ContactIterator itc;
@@ -460,8 +466,9 @@ void *JabberClient::processEvent(Event *e)
                     listRequest(data, contact->getName().utf8(), grpName.utf8(), false);
             }
         }
+        break;
     }
-    if (e->type() == EventMessageCancel){
+    case EventMessageCancel: {
         Message *msg = (Message*)(e->param());
         for (list<Message*>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
             if ((*it) == msg){
@@ -470,9 +477,9 @@ void *JabberClient::processEvent(Event *e)
                 return e->param();
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageAccept){
+    case EventMessageAccept: {
         messageAccept *ma = static_cast<messageAccept*>(e->param());
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
             if ((*it)->id() == ma->msg->id()){
@@ -496,9 +503,9 @@ void *JabberClient::processEvent(Event *e)
                 return msg;
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventMessageDecline){
+    case EventMessageDecline: {
         messageDecline *md = (messageDecline*)(e->param());
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
             if ((*it)->id() == md->msg->id()){
@@ -518,9 +525,9 @@ void *JabberClient::processEvent(Event *e)
                 return msg;
             }
         }
-        return NULL;
+        break;
     }
-    if (e->type() == EventClientVersion){
+    case EventClientVersion: {
         ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
         if (!info->jid.isEmpty()){
             Contact *contact;
@@ -539,7 +546,10 @@ void *JabberClient::processEvent(Event *e)
                 set_str(&data->ResourceClientOS, i, info->os);
             }
         }
-        return NULL;
+        break;
+    }
+    default:
+        break;
     }
     return NULL;
 }
