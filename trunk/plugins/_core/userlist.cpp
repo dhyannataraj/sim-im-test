@@ -898,6 +898,7 @@ void *UserListBase::processEvent(Event *e)
                     }
                     break;
                 }
+                case EventContact::eStatus:
                 case EventContact::eChanged: {
                     if (!contact->getIgnore() && ((contact->getFlags() & CONTACT_TEMPORARY) == 0)){
                         addContactForUpdate(contact->id());
@@ -905,22 +906,13 @@ void *UserListBase::processEvent(Event *e)
                         EventContact e(contact, EventContact::eDeleted);
                         processEvent(&e);
                     }
+                    break;
                 }
                 default:
                     break;
             }
             break;
         }
-        case EventContactStatus:{
-                Contact *c = (Contact*)(e->param());
-                if (!c->getIgnore() && ((c->getFlags() & CONTACT_TEMPORARY) == 0)){
-                    addContactForUpdate(c->id());
-                }else{
-                    EventContact e(c, EventContact::eDeleted);
-                    processEvent(&e);
-                }
-                break;
-            }
         case EventMessageReceived:{
                 Message *msg = (Message*)(e->param());
                 if (msg->type() == MessageStatus){

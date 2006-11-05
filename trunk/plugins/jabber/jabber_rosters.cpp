@@ -936,7 +936,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 }
                 if (status == STATUS_OFFLINE && data->IsTyping.toBool()){
                     data->IsTyping.asBool() = false;
-                    Event e(EventContactStatus, contact);
+                    EventContact e(contact, EventContact::eStatus);;
                     e.process();
                 }
                 data->Status.asULong() = status;
@@ -1276,7 +1276,7 @@ JabberClient::MessageRequest::~MessageRequest()
             // also, incoming message implicitly means that user has stopped typing
             if (data->IsTyping.toBool()){
                 data->IsTyping.asBool() = false;
-                Event e(EventContactStatus, contact);
+                EventContact e(contact, EventContact::eStatus);;
                 e.process();
             }
         }
@@ -1284,7 +1284,7 @@ JabberClient::MessageRequest::~MessageRequest()
             // Msg has no body ==> it is event message. 
             // Presence of <composing/> here means "I'm typing", absence - "I'm not typing anymore".
             data->IsTyping.asBool() = m_bCompose;
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
     }

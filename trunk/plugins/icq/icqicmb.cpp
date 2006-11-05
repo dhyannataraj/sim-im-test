@@ -83,7 +83,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             if (data->bTyping.toBool() == bType)
                 break;
             data->bTyping.asBool() = bType;
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
             break;
         }

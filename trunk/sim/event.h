@@ -440,11 +440,11 @@ class EXPORT EventContact : public Event
 public:
     enum Action {
         eCreated,
-//        eAdded,
         eDeleted,
-        eChanged,
-        eFetchInfoFailed,
-        eOnline,
+        eChanged,   // contact changed
+        eFetchInfoFailed,   // fetch contact info from server failed
+        eOnline,    // contact goes online
+        eStatus,    // contact changed status
     };
 public:
     EventContact(Contact *contact, enum Action action)
@@ -685,8 +685,6 @@ const unsigned EventClientChanged   = 0x0530;
 
 
 
-
-const unsigned EventContactStatus  = 0x0916;
 
 typedef struct addContact
 {

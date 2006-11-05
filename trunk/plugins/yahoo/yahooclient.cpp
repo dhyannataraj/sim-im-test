@@ -849,7 +849,7 @@ void YahooClient::notify(const char *id, const char *msg, const char *state)
     if (!strcasecmp(msg, "TYPING")){
         if (data->bTyping.toBool() != bState){
             data->bTyping.asBool() = bState;
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
     }
@@ -925,7 +925,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
                 e.process();
             }
         }else{
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
     }

@@ -701,6 +701,30 @@ void *Container::processEvent(Event *e)
                 contactChanged(contact);
                 break;
             }
+            case EventContact::eStatus: {
+                unsigned style = 0;
+                QString wrkIcons;
+                QString statusIcon;
+                contact->contactInfo(style, statusIcon, &wrkIcons);
+                bool bTyping = false;
+                while (!wrkIcons.isEmpty()){
+                    if (getToken(wrkIcons, ',') == "typing"){
+                        bTyping = true;
+                        break;
+                    }
+                }
+                if (userWnd->m_bTyping != bTyping){
+                    userWnd->m_bTyping = bTyping;
+                    if (bTyping){
+                        userWnd->setStatus(g_i18n("%1 is typing", contact) .arg(contact->getName()));
+                    }else{
+                        userWnd->setStatus("");
+                    }
+                    userWnd = m_tabBar->currentWnd();
+                    if (userWnd && (contact->id() == userWnd->id()))
+                        m_status->message(userWnd->status());
+                }
+            }
             default:
                 break;
         }
@@ -708,34 +732,6 @@ void *Container::processEvent(Event *e)
     }
     case eEventClientsChanged:
         setupAccel();
-        break;
-    case EventContactStatus:
-        contact = (Contact*)(e->param());
-        userWnd = m_tabBar->wnd(contact->id());
-        if (userWnd){
-            unsigned style = 0;
-            QString wrkIcons;
-            QString statusIcon;
-            contact->contactInfo(style, statusIcon, &wrkIcons);
-            bool bTyping = false;
-            while (!wrkIcons.isEmpty()){
-                if (getToken(wrkIcons, ',') == "typing"){
-                    bTyping = true;
-                    break;
-                }
-            }
-            if (userWnd->m_bTyping != bTyping){
-                userWnd->m_bTyping = bTyping;
-                if (bTyping){
-                    userWnd->setStatus(g_i18n("%1 is typing", contact) .arg(contact->getName()));
-                }else{
-                    userWnd->setStatus("");
-                }
-                userWnd = m_tabBar->currentWnd();
-                if (userWnd && (contact->id() == userWnd->id()))
-                    m_status->message(userWnd->status());
-            }
-        }
         break;
     case EventContactClient:
         contactChanged((Contact*)(e->param()));

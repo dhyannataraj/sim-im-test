@@ -974,7 +974,7 @@ void DirectClient::connect_ready()
         m_state = Logged;
         Contact *contact;
         if (m_client->findContact(m_client->screen(m_data), NULL, false, contact)){
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
         return;
@@ -993,7 +993,7 @@ void DirectClient::connect_ready()
         m_state = Logged;
         Contact *contact;
         if (m_client->findContact(m_client->screen(m_data), NULL, false, contact)){
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
         return;
@@ -1505,7 +1505,7 @@ void DirectClient::secureStop(bool bShutdown)
         m_ssl = NULL;
         Contact *contact;
         if (m_client->findContact(m_client->screen(m_data), NULL, false, contact)){
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
     }

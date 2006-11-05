@@ -2075,7 +2075,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                 }else{
                     contact->setLastActive(time(NULL));
-                    Event e(EventContactStatus, contact);
+                    EventContact e(contact, EventContact::eStatus);
                     e.process();
                 }
             }

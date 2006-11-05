@@ -1272,7 +1272,7 @@ void *MsgEdit::processEvent(Event *e)
             }else{
                 if (contact){
                     contact->setLastActive(time(NULL));
-                    Event e(EventContactStatus, contact);
+                    EventContact e(contact, EventContact::eStatus);
                     e.process();
                 }
                 if (!multiply.empty() && (multiply_it != multiply.end())){

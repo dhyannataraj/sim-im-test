@@ -617,16 +617,61 @@ void *OSDPlugin::processEvent(Event *e)
     switch (e->type()){
     case eEventContact: {
         EventContact *ec = static_cast<EventContact*>(e);
-        if(ec->action() != EventContact::eOnline)
-            break;
         Contact *contact = ec->contact();
         if (contact->getIgnore())
             break;
-        osd.contact = contact->id();
-        osd.type    = OSD_ALERTONLINE;
-        queue.push_back(osd);
-        processQueue();
-        break;
+        switch(ec->action()) {
+        case EventContact::eOnline: {
+            osd.contact = contact->id();
+            osd.type    = OSD_ALERTONLINE;
+            queue.push_back(osd);
+            processQueue();
+            break;
+        }
+        case EventContact::eStatus: {
+            data = (OSDUserData*)(contact->getUserData(user_data_id));
+            if (data){
+                unsigned style = 0;
+                QString wrkIcons;
+                QString statusIcon;
+                contact->contactInfo(style, statusIcon, &wrkIcons);
+                bool bTyping = false;
+                while (!wrkIcons.isEmpty()){
+                    if (getToken(wrkIcons, ',') == "typing"){
+                        bTyping = true;
+                        break;
+                    }
+                }
+                if (bTyping){
+                    list<unsigned>::iterator it;
+                    for (it = typing.begin(); it != typing.end(); ++it)
+                        if ((*it) == contact->id())
+                            break;
+                    if (it == typing.end()){
+                        typing.push_back(contact->id());
+                        osd.contact = contact->id();
+                        osd.type    = OSD_TYPING;
+                        queue.push_back(osd);
+                        processQueue();
+                    }
+                }else{
+                    list<unsigned>::iterator it;
+                    for (it = typing.begin(); it != typing.end(); ++it)
+                        if ((*it) == contact->id())
+                            break;
+                    if (it != typing.end())
+                        typing.erase(it);
+                    if ((m_request.type == OSD_TYPING) && (m_request.contact == contact->id())){
+                        m_timer->stop();
+                        m_timer->start(100);
+                    }
+                }
+            }
+            break;
+        }
+        default:
+            break;
+        }
     }
     case EventMessageDeleted:
     case EventMessageRead:
@@ -682,49 +727,6 @@ void *OSDPlugin::processEvent(Event *e)
             }
         }
         break;
-    case EventContactStatus:
-        contact = (Contact*)(e->param());
-        if (contact->getIgnore()) break;
-        data = (OSDUserData*)(contact->getUserData(user_data_id));
-        if (data){
-            unsigned style = 0;
-            QString wrkIcons;
-            QString statusIcon;
-            contact->contactInfo(style, statusIcon, &wrkIcons);
-            bool bTyping = false;
-            while (!wrkIcons.isEmpty()){
-                if (getToken(wrkIcons, ',') == "typing"){
-                    bTyping = true;
-                    break;
-                }
-            }
-            if (bTyping){
-                list<unsigned>::iterator it;
-                for (it = typing.begin(); it != typing.end(); ++it)
-                    if ((*it) == contact->id())
-                        break;
-                if (it == typing.end()){
-                    typing.push_back(contact->id());
-                    osd.contact = contact->id();
-                    osd.type    = OSD_TYPING;
-                    queue.push_back(osd);
-                    processQueue();
-                }
-            }else{
-                list<unsigned>::iterator it;
-                for (it = typing.begin(); it != typing.end(); ++it)
-                    if ((*it) == contact->id())
-                        break;
-                if (it != typing.end())
-                    typing.erase(it);
-                if ((m_request.type == OSD_TYPING) && (m_request.contact == contact->id())){
-                    m_timer->stop();
-                    m_timer->start(100);
-                }
-            }
-        }
-        break;
-    }
     return NULL;
 }
 

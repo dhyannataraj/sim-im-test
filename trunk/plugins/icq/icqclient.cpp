@@ -3090,7 +3090,7 @@ bool ICQClient::messageReceived(Message *msg, const QString &screen)
         msg->setContact(contact->id());
         if (data->bTyping.toBool()){
             data->bTyping.asBool() = false;
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
     }

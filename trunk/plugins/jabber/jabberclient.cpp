@@ -1469,7 +1469,7 @@ void JabberClient::setOffline(JabberUserData *data)
         Contact *contact;
         QString resource;
         if (findContact(data->ID.str(), QString::null, false, contact, resource)){
-            Event e(EventContactStatus, contact);
+            EventContact e(contact, EventContact::eStatus);;
             e.process();
         }
     }
