@@ -679,7 +679,6 @@ void *OSDPlugin::processEvent(Event *e)
     case EventMessageRead:
     case EventMessageReceived: {
         msg = (Message*)(e->param());
-	std::cout << "blah: " << msg << std::endl;
 	contact = NULL;
 	if( msg != 0)
         	contact = getContacts()->contact(msg->contact());
