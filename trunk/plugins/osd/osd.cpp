@@ -37,6 +37,8 @@
 #include <qregexp.h>
 #include <qpushbutton.h>
 
+#include <iostream>
+
 #ifdef WIN32
 #include <windows.h>
 #ifndef CS_DROPSHADOW
@@ -677,7 +679,10 @@ void *OSDPlugin::processEvent(Event *e)
     case EventMessageRead:
     case EventMessageReceived: {
         msg = (Message*)(e->param());
-        contact = getContacts()->contact(msg->contact());
+	std::cout << "blah: " << msg << std::endl;
+	contact = NULL;
+	if( msg != 0)
+        	contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;
         data = (OSDUserData*)(contact->getUserData(user_data_id));
