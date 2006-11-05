@@ -57,7 +57,7 @@ QPixmap TransparentTop::background(const QColor &c)
 void TransparentTop::backgroundUpdated( const QPixmap &pm )
 {
     bg = pm;
-    SIM::Event e(SIM::EventRepaintView);
+    SIM::EventRepaintView e;
     e.process();
 }
 
