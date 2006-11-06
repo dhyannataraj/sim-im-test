@@ -1372,7 +1372,16 @@ QString JabberClient::contactTip(void *_data)
                 res += "/";
                 res += resource;
             }
-            res += "</b><br/>";
+            res += "</b>";
+
+            QString clientName = get_str(data->ResourceClientName, i);
+            QString clientVersion = get_str(data->ResourceClientVersion, i);
+            QString clientOS = get_str(data->ResourceClientOS, i);
+            if (!clientName.isEmpty()) {
+                res += "<br/>" + clientName + " " + clientVersion;
+                if (!clientOS.isEmpty())
+                    res += " / " + clientOS;
+            }
             unsigned onlineTime = get_str(data->ResourceOnlineTime, i).toUInt();
             unsigned statusTime = get_str(data->ResourceStatusTime, i).toUInt();
             if (onlineTime){
