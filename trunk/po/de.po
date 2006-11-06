@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-13 18:43+0200\n"
-"PO-Revision-Date: 2006-10-31 00:43+0100\n"
+"PO-Revision-Date: 2006-11-06 14:48+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,14 +23,14 @@ msgstr ""
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "Christoph Thielecke, Tobias Franz"
+msgstr "Christoph Thielecke,Tobias Franz"
 
 #: _translatorinfo.cpp:3
 #: plugins/about/about.cpp:115
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "crissi99@gmx.de, noragen@gmx.net"
+msgstr "crissi99@gmx.de,noragen@gmx.net"
 
 #: plugins/__homedir/homedir.cpp:54
 msgid "Home directory"
@@ -1644,7 +1644,7 @@ msgstr "Plugin stellt die \"Über SIM\"-Information bereit"
 
 #: plugins/about/about.cpp:63
 msgid "&Bug report / Requests"
-msgstr "Be&richten Sie Probleme oder Wünsche"
+msgstr "Probleme oder Wünsche &berichten"
 
 #: plugins/about/about.cpp:73
 msgid "&About SIM"
