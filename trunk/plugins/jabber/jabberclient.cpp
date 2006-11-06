@@ -1374,14 +1374,6 @@ QString JabberClient::contactTip(void *_data)
             }
             res += "</b>";
 
-            QString clientName = get_str(data->ResourceClientName, i);
-            QString clientVersion = get_str(data->ResourceClientVersion, i);
-            QString clientOS = get_str(data->ResourceClientOS, i);
-            if (!clientName.isEmpty()) {
-                res += "<br/>" + clientName + " " + clientVersion;
-                if (!clientOS.isEmpty())
-                    res += " / " + clientOS;
-            }
             unsigned onlineTime = get_str(data->ResourceOnlineTime, i).toUInt();
             unsigned statusTime = get_str(data->ResourceStatusTime, i).toUInt();
             if (onlineTime){
@@ -1396,9 +1388,19 @@ QString JabberClient::contactTip(void *_data)
                 res += ": </font>";
                 res += formatDateTime(statusTime);
             }
+
+            QString clientName = get_str(data->ResourceClientName, i);
+            QString clientVersion = get_str(data->ResourceClientVersion, i);
+            QString clientOS = get_str(data->ResourceClientOS, i);
+            if (!clientName.isEmpty()) {
+                res += "<br/>" + clientName + " " + clientVersion;
+                if (!clientOS.isEmpty())
+                    res += " / " + clientOS;
+            }
+
             const QString &reply = get_str(data->ResourceReply, i);
             if (!reply.isEmpty()){
-                res += "<br/>";
+                res += "<br/><br/>";
                 QString r = reply;
                 r = r.replace(QRegExp("\n"), "<br/>");
                 res += r;
