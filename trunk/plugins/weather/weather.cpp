@@ -180,7 +180,7 @@ void *WeatherPlugin::processEvent(Event *e)
     if (e->type() == EventCommandExec){
         CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->id == CmdWeather) && !getID().isEmpty()){
-            QString url = "http://www.weather.com/outlook/travel/pastweather/";
+            QString url = "http://www.weather.com/outlook/travel/local/";
             url += getID();
             EventGoURL eGo(url);
             eGo.process();
@@ -538,7 +538,7 @@ QString WeatherPlugin::forecastReplace(const QString &text)
     temp += QChar((unsigned short)176);
     temp += getUT();
     if ((strcmp(getMaxT(m_day), "N/A")) && (maxT != -255)) {
-        temp += "-";
+        temp += "/";
         temp += QString::number(maxT);
         temp += QChar((unsigned short)176);
         temp += getUT();
