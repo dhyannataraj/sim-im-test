@@ -40,7 +40,7 @@ public:
     virtual const char *read_data(char *buf, unsigned &size);
     virtual bool     write_data(const char *buf, unsigned size);
     virtual unsigned post_size();
-    virtual bool	 done(unsigned code, Buffer &data, const char *headers) = 0;
+    virtual bool	 done(unsigned code, Buffer &data, const QString &headers) = 0;
     bool	isDone();
     void    stop();
     void	set_speed(unsigned speed);

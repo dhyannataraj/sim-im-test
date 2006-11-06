@@ -190,7 +190,7 @@ void *WeatherPlugin::processEvent(Event *e)
     return NULL;
 }
 
-bool WeatherPlugin::done(unsigned code, Buffer &data, const char*)
+bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)
 {
     if (code != 200)
         return false;

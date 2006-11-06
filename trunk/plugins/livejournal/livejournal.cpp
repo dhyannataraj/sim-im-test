@@ -1006,7 +1006,7 @@ QWidget *LiveJournalClient::searchWindow(QWidget *parent)
     return new JournalSearch(this, parent);
 }
 
-bool LiveJournalClient::done(unsigned code, Buffer &data, const char*)
+bool LiveJournalClient::done(unsigned code, Buffer &data, const QString &)
 {
     if (code == 200){
         m_request->result(&data);

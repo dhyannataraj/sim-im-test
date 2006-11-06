@@ -37,7 +37,7 @@ public slots:
     void activated(int index);
     void textChanged(const QString&);
 protected:
-    bool done(unsigned code, Buffer &data, const char *headers);
+    bool done(unsigned code, Buffer &data, const QString &headers);
     void *processEvent(SIM::Event*);
     void fill();
     WeatherPlugin *m_plugin;

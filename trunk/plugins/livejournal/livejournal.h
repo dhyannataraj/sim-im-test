@@ -165,7 +165,7 @@ public slots:
     void send();
     void messageUpdated();
 protected:
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
     virtual std::string getConfig();
     virtual QString name();
     virtual QString dataName(void*);

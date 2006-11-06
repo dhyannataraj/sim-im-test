@@ -129,9 +129,9 @@ I18N_NOOP("Show details")
 I18N_NOOP("Remind later")
 #endif
 
-bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
+bool UpdatePlugin::done(unsigned, Buffer&, const QString &headers)
 {
-    QString h = getHeader("Location", headers).c_str();	// fixme!
+    QString h = getHeader("Location", headers);	
     if (!h.isEmpty()){
         Command cmd;
         cmd->id		= CmdStatusBar;
@@ -174,20 +174,19 @@ void *UpdatePlugin::processEvent(Event *e)
     return NULL;
 }
 
-string UpdatePlugin::getHeader(const char *name, const char *headers)
+QString UpdatePlugin::getHeader(const QString &name, const QString &headers)
 {
-    for (const char *h = headers; *h; h += strlen(h) + 1){
-        string header = h;
-        string key = getToken(header, ':');
-        if (key != name)
-            continue;
-        const char *p;
-        for (p = header.c_str(); *p; p++)
-            if (*p != ' ')
-                break;
-        return p;
+    int idx = headers.find(name + ":");
+    if(idx != -1) {
+        int end = headers.find('\n', idx);
+        QString res;
+        if(end == -1)
+            res = headers.mid(idx);
+        else
+            res = headers.mid(idx, end - idx + 1);
+        return res.stripWhiteSpace();
     }
-    return "";
+    return QString::null;
 }
 
 #ifndef NO_MOC_INCLUDES

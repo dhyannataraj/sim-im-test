@@ -43,7 +43,7 @@ protected:
     QString m_ip;
     Buffer readData;
     Buffer *writeData;
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     bool m_bSB;

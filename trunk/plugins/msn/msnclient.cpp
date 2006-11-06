@@ -1290,42 +1290,40 @@ void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
         delete msg;
 }
 
-bool MSNClient::done(unsigned code, Buffer&, const char *headers)
+bool MSNClient::done(unsigned code, Buffer&, const QString &headers)
 {
-    string h;
     switch (m_state){
     case LoginHost:
         if (code == 200){
-            h = getHeader("PassportURLs", headers);
-            if (h.empty()){
+            QString h = getHeader("PassportURLs", headers);
+            if (h.isEmpty()){
                 m_socket->error_state("No PassportURLs answer");
                 break;
             }
-            string loginHost = getValue("DALogin", h.c_str());
-            if (loginHost.empty()){
+            QString loginHost = getValue("DALogin", h);
+            if (loginHost.isEmpty()){
                 m_socket->error_state("No DALogin in PassportURLs answer");
                 break;
             }
-            string loginUrl = "https://";
-            loginUrl += loginHost;
-            requestTWN(loginUrl.c_str());
+            QString loginUrl = "https://" + loginHost;
+            requestTWN(loginUrl);
         }else{
             m_socket->error_state("Bad answer code");
         }
         break;
     case TWN:
         if (code == 200){
-            h = getHeader("Authentication-Info", headers);
-            if (h.empty()){
+            QString h = getHeader("Authentication-Info", headers);
+            if (h.isEmpty()){
                 m_socket->error_state("No Authentication-Info answer");
                 break;
             }
-            string twn = getValue("from-PP", h.c_str());
-            if (twn.empty()){
+            QString twn = getValue("from-PP", h);
+            if (twn.isEmpty()){
                 m_socket->error_state("No from-PP in Authentication-Info answer");
                 break;
             }
-            MSNPacket *packet = new UsrPacket(this, twn.c_str());
+            MSNPacket *packet = new UsrPacket(this, twn);
             packet->send();
         }else if (code == 401){
             authFailed();
@@ -1541,7 +1539,7 @@ void *MSNClient::processEvent(Event *e)
     return NULL;
 }
 
-void MSNClient::requestLoginHost(const char *url)
+void MSNClient::requestLoginHost(const QString &url)
 {
     if (!isDone())
         return;
@@ -1549,7 +1547,7 @@ void MSNClient::requestLoginHost(const char *url)
     fetch(url);
 }
 
-void MSNClient::requestTWN(const char *url)
+void MSNClient::requestTWN(const QString &url)
 {
     if (!isDone())
         return;
@@ -1563,13 +1561,13 @@ void MSNClient::requestTWN(const char *url)
     fetch(url, auth);
 }
 
-string MSNClient::getValue(const char *key, const char *str)
+QString MSNClient::getValue(const QString &key, const QString &str)
 {
-    string s = str;
-    while (!s.empty()){
-        string k = getToken(s, '=');
-        string v;
-        if (s[0] == '\''){
+    QString s = str;
+    while (!s.isEmpty()){
+        QString k = getToken(s, '=');
+        QString v;
+        if (s.startsWith("\'")){
             getToken(s, '\'');
             v = getToken(s, '\'');
             getToken(s, ',');
@@ -1579,22 +1577,22 @@ string MSNClient::getValue(const char *key, const char *str)
         if (k == key)
             return v;
     }
-    return "";
+    return QString::null;
 }
 
-string MSNClient::getHeader(const char *_name, const char *_headers)
+QString MSNClient::getHeader(const QString &name, const QString &headers)
 {
-    QCString hdr = _headers;
-    QCString name = _name;
-    int idx = hdr.find(name + ":");
+    int idx = headers.find(name + ":");
     if(idx != -1) {
-        const char *p;
-        for (p = &hdr[idx]; *p; p++)
-            if (*p != ' ')
-                break;
-        return p;
+        int end = headers.find('\n', idx);
+        QString res;
+        if(end == -1)
+            res = headers.mid(idx);
+        else
+            res = headers.mid(idx, end - idx + 1);
+        return res.stripWhiteSpace();
     }
-    return "";
+    return QString::null;
 }
 
 MSNListRequest *MSNClient::findRequest(unsigned long id, unsigned type, bool bDelete)

@@ -104,13 +104,14 @@ void MSNHttpPool::idle()
     }
 }
 
-bool MSNHttpPool::done(unsigned code, Buffer &data, const char *headers)
+bool MSNHttpPool::done(unsigned code, Buffer &data, const QString &headers)
 {
     if (code != 200){
         log(L_DEBUG, "HTTP result %u", code);
         error("Bad result");
         return false;
     }
+    // FIXME
     for (const char *p = headers; *p; p += strlen(p) + 1){
         string h = p;
         if (getToken(h, ':') == "X-MSN-Messenger"){

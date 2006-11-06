@@ -81,7 +81,7 @@ void WeatherCfg::search()
     fetch(url);
 }
 
-bool WeatherCfg::done(unsigned, Buffer &data, const char*)
+bool WeatherCfg::done(unsigned, Buffer &data, const QString&)
 {
     m_ids.clear();
     m_names.clear();

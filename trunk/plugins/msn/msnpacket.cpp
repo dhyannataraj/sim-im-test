@@ -183,11 +183,11 @@ void CvrPacket::answer(const QStringList &arg)
     packet->send();
 }
 
-UsrPacket::UsrPacket(MSNClient *client, const char *digest)
+UsrPacket::UsrPacket(MSNClient *client, const QString &digest)
         : MSNPacket(client, "USR")
 {
     addArg("TWN");
-    if (digest){
+    if (!digest.isEmpty()){
         addArg("S");
         addArg(digest);
     }else{

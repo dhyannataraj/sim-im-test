@@ -210,7 +210,7 @@ protected slots:
     void authOk();
     void authFailed();
 protected:
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
     virtual QString contactName(void *clientData);
     virtual void setInvisible(bool bState);
     virtual bool compareData(void*, void*);
@@ -237,15 +237,15 @@ protected:
     virtual void	connect_ready();
     virtual void	setStatus(unsigned status);
     virtual void	disconnected();
-    std::string		getValue(const char *key, const char *str);
-    std::string		getHeader(const char *name, const char *headers);
+    QString		    getValue(const QString &key, const QString &str);
+    QString		    getHeader(const QString &name, const QString &headers);
     unsigned			m_packetId;
     unsigned			m_pingTime;
     std::list<MSNPacket*>m_packets;
     MSNServerMessage   *m_msg;
     QString             m_curBuddy;
-    void                requestLoginHost(const char *url);
-    void                requestTWN(const char *url);
+    void                requestLoginHost(const QString &url);
+    void                requestTWN(const QString &url);
     enum AuthState
     {
         None,

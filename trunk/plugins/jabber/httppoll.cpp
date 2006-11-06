@@ -32,14 +32,14 @@ public:
     virtual void close();
     virtual Mode mode() const { return Web; }
 protected:
-    string getKey();
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
+    QString getKey();
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
     Buffer readData;
     Buffer writeData;
     QString m_url;
     string m_key;
     string m_seed;
-    string m_cookie;
+    QString m_cookie;
     virtual unsigned long localHost();
     virtual void pause(unsigned);
 };
@@ -69,7 +69,7 @@ JabberHttpPool::~JabberHttpPool()
 {
 }
 
-string JabberHttpPool::getKey()
+QString JabberHttpPool::getKey()
 {
 #ifdef USE_OPENSSL
     if (m_key.empty()){
@@ -85,7 +85,7 @@ string JabberHttpPool::getKey()
     m_key.append(r.data(), r.size());
     return m_key;
 #else
-    return "";
+    return QString::null;
 #endif
 }
 
@@ -106,13 +106,12 @@ void JabberHttpPool::write(const char *buf, unsigned size)
     if (!isDone())
         return;
     Buffer *packet = new Buffer;
-    string key = getKey();
-    *packet << m_cookie.c_str();
+    *packet << (const char*)m_cookie.local8Bit().data();
 #ifdef USE_OPENSSL
-    *packet << ";" << key.c_str();
+    *packet << ";" << (const char*)getKey().local8Bit().data();
 #endif
     *packet << ",";
-    log(L_DEBUG, "%s;%s,", m_cookie.c_str(), key.c_str());
+    log(L_DEBUG, "%s;%s,", m_cookie.latin1(), getKey().latin1());
     packet->pack(writeData.data(), writeData.writePos());
     char headers[] = "Content-Type: application/x-www-form-urlencoded";
     fetch(m_url, headers, packet);
@@ -131,25 +130,21 @@ void JabberHttpPool::connect(const QString&, unsigned short)
         notify->connect_ready();
 }
 
-bool JabberHttpPool::done(unsigned code, Buffer &data, const char *headers)
+bool JabberHttpPool::done(unsigned code, Buffer &data, const QString &headers)
 {
     if (code != 200){
         log(L_DEBUG, "HTTP result %u", code);
         error("Bad result");
         return false;
     }
-    QCString cookie;
-    for (const char *p = headers; *p; p += strlen(p) + 1){
-        QCString h = p;
-        if (getToken(h, ':') != "Set-Cookie")
-            continue;
-        while (!h.isEmpty()){
-            QCString part = getToken(h, ';').stripWhiteSpace();
-            if (getToken(part, '=') == "ID")
-                cookie = part;
-        }
-        if (!cookie.isEmpty())
-            break;
+    QString cookie;
+    int idx = headers.find("Set-Cookie:");
+    if(idx != -1) {
+        int end = headers.find("\n", idx);
+        if(end == -1)
+            m_cookie = headers.mid(idx);
+        else
+            m_cookie = headers.mid(end - idx + 1);
     }
     m_cookie = cookie;
     int err_code = getToken(cookie, ':').toInt();

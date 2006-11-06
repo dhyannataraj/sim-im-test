@@ -31,7 +31,7 @@ public:
     virtual void close();
     virtual Mode mode() const { return Web; }
 protected:
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
     Buffer readData;
     Buffer *writeData;
     virtual unsigned long localHost();
@@ -86,7 +86,7 @@ void YahooHttpPool::connect(const QString&, unsigned short)
         notify->connect_ready();
 }
 
-bool YahooHttpPool::done(unsigned code, Buffer &data, const char*)
+bool YahooHttpPool::done(unsigned code, Buffer &data, const QString&)
 {
     if (code != 200){
         log(L_DEBUG, "HTTP result %u", code);

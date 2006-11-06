@@ -36,10 +36,10 @@ protected slots:
     void timeout();
 protected:
     unsigned CmdGo;
-    bool done(unsigned code, Buffer &data, const char *headers);
+    bool done(unsigned code, Buffer &data, const QString &headers);
     virtual std::string getConfig();
     void *processEvent(SIM::Event*);
-    std::string getHeader(const char *name, const char *headers);
+    QString getHeader(const QString &name, const QString &headers);
     QString m_url;
     PROP_ULONG(Time);
     UpdateData data;

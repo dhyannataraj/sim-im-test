@@ -855,7 +855,7 @@ void FetchClientPrivate::packet_ready()
                 break;
             }
             m_hIn += line;
-            m_hIn += '\x00';
+            m_hIn += '\n';
             opt = getToken(line, ':');
             if (opt == "Content-Length"){
                 const char *p;

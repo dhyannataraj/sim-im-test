@@ -58,7 +58,7 @@ public:
 class UsrPacket : public MSNPacket
 {
 public:
-    UsrPacket(MSNClient *client, const char *hash = NULL);
+    UsrPacket(MSNClient *client, const QString &hash = QString::null);
     void answer(const QStringList &args);
 };
 

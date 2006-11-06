@@ -74,7 +74,7 @@ public:
     HttpRequest(HttpPool *pool);
     void send();
 protected:
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
     virtual HttpPacket *packet()     = 0;
     virtual QString url()            = 0;
     virtual void data_ready(Buffer*) = 0;
@@ -109,7 +109,7 @@ void HttpRequest::send()
     fetch(url(), headers, postData);
 }
 
-bool HttpRequest::done(unsigned code, Buffer &data, const char*)
+bool HttpRequest::done(unsigned code, Buffer &data, const QString &)
 {
     if (code != 200){
         log(L_DEBUG, "Res: %u %s", code, static_cast<const char *>(url().local8Bit()));

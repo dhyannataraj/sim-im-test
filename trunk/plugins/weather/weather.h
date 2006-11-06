@@ -152,7 +152,7 @@ protected:
     bool parseTime(const QString &str, int &h, int &m);
     bool parseDateTime(const QString &str, QDateTime &dt);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual bool done(unsigned code, Buffer &data, const char *headers);
+    virtual bool done(unsigned code, Buffer &data, const QString &headers);
     void *processEvent(SIM::Event*);
     WeatherData data;
     SIM::IconSet *m_icons;
