@@ -45,7 +45,7 @@ protected:
     YahooClient *m_client;
     void showEvent(QShowEvent*);
     void search(const QString&, int type);
-    bool done(unsigned code, Buffer &data, const char *headers);
+    bool done(unsigned code, Buffer &data, const QString &headers);
 };
 
 #endif

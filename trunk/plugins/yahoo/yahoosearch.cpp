@@ -123,7 +123,7 @@ void YahooSearch::searchName(const QString &first, const QString &last, const QS
     search(s, 2);
 }
 
-bool YahooSearch::done(unsigned code, Buffer &b, const char*)
+bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
 {
     if (code == 200){
         QStringList l;
