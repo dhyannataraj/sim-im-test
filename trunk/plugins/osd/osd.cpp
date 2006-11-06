@@ -37,8 +37,6 @@
 #include <qregexp.h>
 #include <qpushbutton.h>
 
-#include <iostream>
-
 #ifdef WIN32
 #include <windows.h>
 #ifndef CS_DROPSHADOW
@@ -613,9 +611,6 @@ void OSDPlugin::dblClick()
 void *OSDPlugin::processEvent(Event *e)
 {
     OSDRequest osd;
-    Contact *contact;
-    Message *msg;
-    OSDUserData *data;
     switch (e->type()){
     case eEventContact: {
         EventContact *ec = static_cast<EventContact*>(e);
@@ -631,7 +626,7 @@ void *OSDPlugin::processEvent(Event *e)
             break;
         }
         case EventContact::eStatus: {
-            data = (OSDUserData*)(contact->getUserData(user_data_id));
+            OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
             if (data){
                 unsigned style = 0;
                 QString wrkIcons;
@@ -674,17 +669,16 @@ void *OSDPlugin::processEvent(Event *e)
         default:
             break;
         }
+        break;
     }
     case EventMessageDeleted:
     case EventMessageRead:
     case EventMessageReceived: {
-        msg = (Message*)(e->param());
-	contact = NULL;
-	if( msg != 0)
-        	contact = getContacts()->contact(msg->contact());
+        Message *msg = (Message*)(e->param());
+        Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;
-        data = (OSDUserData*)(contact->getUserData(user_data_id));
+        OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
         if (data == NULL)
             break;
         osd.contact = msg->contact();
