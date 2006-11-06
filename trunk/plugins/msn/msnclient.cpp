@@ -1125,17 +1125,18 @@ QString MSNClient::unquote(const QString &s)
     return res;
 }
 
+// FIXME: what's with non-latin1 characters here?
 QString MSNClient::quote(const QString &s)
 {
     QString res;
     for (int i = 0; i < (int)(s.length()); i++){
         QChar c = s[i];
-        if ((c == '%') || (c == ' ')){
+        if ((c == '%') || (c == ' ') || (c == '+')){
             char b[4];
-            sprintf(b, "%%%2X", (unsigned)c);
+            sprintf(b, "%%%2X", c.latin1());
             res += b;
         }else{
-            res += QChar(c);
+            res += c;
         }
     }
     return res;
