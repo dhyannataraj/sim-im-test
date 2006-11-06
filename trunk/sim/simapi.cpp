@@ -758,6 +758,8 @@ EXPORT QString get_os_version()
     if (uname(&unamebuf) == 0)
         res = unamebuf.sysname;
         res += " ";
+        res = unamebuf.release;
+        res += " ";
         res += unamebuf.machine;
 #endif
     return res;
