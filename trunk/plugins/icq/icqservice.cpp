@@ -341,15 +341,15 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             data.owner.WarningLevel.asULong() = level;
             if (from.isEmpty())
                 from = i18n("anonymous");
-            clientErrorData d;
+            EventError::ClientErrorData d;
             d.client  = this;
             d.code    = 0;
             d.err_str = I18N_NOOP("You've been warned by %1");
             d.args    = from;
-            d.flags   = ERR_INFO;
+            d.flags   = EventError::ClientErrorData::E_INFO;
             d.options = NULL;
             d.id      = CmdShowWarning;
-            Event e(EventClientError, &d);
+            EventClientError e(d);
             e.process();
             break;
         }

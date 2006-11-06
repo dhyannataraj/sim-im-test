@@ -30,12 +30,13 @@ namespace SIM {
 
 struct pluginInfo;
 class Plugin;
-class Group;
-class Contact;
-class IP;
+class Client;
 class ClientSocket;
 class ServerSocketNotify;
 class TCPClient;
+class Group;
+class Contact;
+class IP;
 // ___________________________________________________________________________________
 // Event receiver
 
@@ -117,6 +118,9 @@ enum SIMEvents
 
     eEventSocketConnect     = 0x1001,   // connect to host:port
     eEventSocketListen      = 0x1002,   // listen to host:port
+
+    eEventClientError       = 0x1301,
+    eEventShowError         = 0x1302,
 };
 
 class EXPORT EventLog : public Event
@@ -539,6 +543,40 @@ protected:
     TCPClient    *m_client;
 };
 
+class EXPORT EventError : public Event
+{
+public:
+    typedef struct ClientErrorData {
+        Client     *client;
+        QString     err_str;
+        const char *options;
+        QString     args;
+        unsigned    code;
+        enum { E_ERROR = 0x0001, E_INFO = 0x0002 } flags;
+        unsigned    id;
+    };
+public:
+    EventError(SIMEvents ev, const ClientErrorData &data)
+        : Event(ev), m_data(data) {}
+    const ClientErrorData &data() const { return m_data; }
+protected:
+    ClientErrorData m_data;
+};
+
+class EXPORT EventClientError : public EventError
+{
+public:
+    EventClientError(const ClientErrorData &data)
+        : EventError(eEventClientError, data) {}
+};
+
+class EXPORT EventShowError : public EventError
+{
+public:
+    EventShowError(const ClientErrorData &data)
+        : EventError(eEventShowError, data) {}
+};
+
 // _____________________________________________________________________________________
 // Default events
 
@@ -814,23 +852,6 @@ const unsigned EventMessageAccept   = 0x1108;
 const unsigned EventMessageDecline  = 0x1109;
 const unsigned EventMessageSend     = 0x110A;
 const unsigned EventSend            = 0x110B;
-
-const unsigned EventClientError     = 0x1301;
-const unsigned EventShowError       = 0x1302;
-
-const unsigned ERR_ERROR    = 0x0000;
-const unsigned ERR_INFO     = 0x0001;
-
-typedef struct clientErrorData
-{
-    class Client *client;
-    QString     err_str;
-    const char  *options;
-    QString     args;
-    unsigned    code;
-    unsigned    flags;
-    unsigned    id;
-} clientErrorData;
 
 const unsigned EventUser            = 0x10000;
 

@@ -316,25 +316,26 @@ void *CommonStatus::processEvent(Event *e)
         checkInvisible();
         setBarStatus();
         break;
-    case EventShowError:{
-            clientErrorData *data = (clientErrorData*)(e->param());
+    case eEventShowError:{
+            EventShowError *ee = static_cast<EventShowError*>(e);
+            const EventError::ClientErrorData &data = ee->data();
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-                if ((*it).id == data->id)
+                if ((*it).id == data.id)
                     return e->param();
             }
             BalloonItem item;
-            item.id     = data->id;
-            item.client = data->client;
-            item.text   = i18n(data->err_str);
-            if (!data->args.isEmpty()){
+            item.id     = data.id;
+            item.client = data.client;
+            item.text   = i18n(data.err_str);
+            if (!data.args.isEmpty()){
                 if (item.text.find("%1") >= 0)
-                    item.text = item.text.arg(data->args);
+                    item.text = item.text.arg(data.args);
             }
             QString title = "SIM";
             if (getContacts()->nClients() > 1){
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i) == data->client){
-                        title = data->client->name();
+                    if (getContacts()->getClient(i) == data.client){
+                        title = data.client->name();
                         int n = title.find(".");
                         if (n > 0)
                             title = title.left(n) + " " + title.mid(n + 1);
@@ -343,10 +344,10 @@ void *CommonStatus::processEvent(Event *e)
                 }
             }
             item.text	= QString("<img src=\"icon:%1\">&nbsp;<b><nobr>%2</nobr></b><br><center>")
-                        .arg((data->flags & ERR_INFO) ? "info" : "error")
+                .arg((data.flags & EventError::ClientErrorData::E_INFO) ? "info" : "error")
                         .arg(title) + quoteString(item.text) + "</center>";
-            if (data->options){
-                for (const char *p = data->options; *p; p += strlen(p) + 1)
+            if (data.options){
+                for (const char *p = data.options; *p; p += strlen(p) + 1)
                     item.buttons.append(i18n(p));
             }else{
                 item.buttons.append(i18n("OK"));
@@ -356,21 +357,20 @@ void *CommonStatus::processEvent(Event *e)
                 showBalloon();
             break;
         }
-    case EventClientError:{
-            clientErrorData *data = (clientErrorData*)(e->param());
-            if (data->code == AuthError){
+    case eEventClientError:{
+            EventClientError *ee = static_cast<EventClientError*>(e);
+            const EventError::ClientErrorData &data = ee->data();
+            if (data.code == AuthError){
                 QString msg;
-                if (!data->err_str.isEmpty()){
-                    msg = i18n(data->err_str);
-                    msg = msg.arg(data->args);
-                }
-                LoginDialog *loginDlg = new LoginDialog(false, data->client, msg, NULL);
+                if (!data.err_str.isEmpty())
+                    msg = i18n(data.err_str).arg(data.args);
+                LoginDialog *loginDlg = new LoginDialog(false, data.client, msg, NULL);
                 raiseWindow(loginDlg);
             }else{
-                Event eShow(EventShowError, data);
+                EventShowError eShow(data);
                 eShow.process();
             }
-            return e->param();
+            return (void*)1;
         }
     case EventClientStatus:
     case eEventSocketActive:

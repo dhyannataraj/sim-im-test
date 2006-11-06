@@ -865,23 +865,24 @@ void *DockWnd::processEvent(Event *e)
         quit();
         break;
 #ifdef WIN32
-    case EventShowError:{
+    case eEventShowError:{
             if (!m_bBalloon)
                 return NULL;
-            clientErrorData *data = (clientErrorData*)(e->param());
-            if (data->id == 0)
+            EventShowError *ee = static_cast<EventShowError*>(e);
+            const EventError::ClientErrorData &data = ee->data();
+            if (data.id == 0)
                 return NULL;
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-                if ((*it).id == data->id)
+                if ((*it).id == data.id)
                     return e->param();
             }
-            QString arg = data->args;
+            QString arg = data.args;
 
             BalloonItem item;
-            item.id   = data->id;
-            item.client = data->client;
-            item.flags  = (data->flags & ERR_INFO) ? NIIF_INFO : NIIF_ERROR;
-            item.text = i18n(data->err_str);
+            item.id   = data.id;
+            item.client = data.client;
+            item.flags  = (data.flags & EventError::ClientErrorData::E_INFO) ? NIIF_INFO : NIIF_ERROR;
+            item.text = i18n(data.err_str);
             if (item.text.find("%1") >= 0)
                 item.text = item.text.arg(arg);
             if (!m_queue.empty()){
@@ -891,7 +892,7 @@ void *DockWnd::processEvent(Event *e)
             item.title = "SIM";
             if (getContacts()->nClients() > 1){
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
-                    if (getContacts()->getClient(i) == data->client){
+                    if (getContacts()->getClient(i) == data.client){
                         item.title = getContacts()->getClient(i)->name();
                         int n = item.title.find(".");
                         if (n > 0)
@@ -901,7 +902,7 @@ void *DockWnd::processEvent(Event *e)
             }
             m_queue.push_back(item);
             if (showBalloon())
-                return e->param();
+                return (void*)1;
             return NULL;
         }
 #endif

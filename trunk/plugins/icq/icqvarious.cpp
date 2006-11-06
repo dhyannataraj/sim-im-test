@@ -1474,15 +1474,15 @@ bool SetPasswordRequest::answer(Buffer&, unsigned short)
 void SetPasswordRequest::fail(unsigned short error_code)
 {
     log(L_DEBUG, "Password change fail: %X", error_code);
-    clientErrorData d;
+    EventError::ClientErrorData d;
     d.client  = m_client;
     d.code    = 0;
     d.err_str = I18N_NOOP("Change password fail");
     d.args    = QString::null;
-    d.flags   = ERR_ERROR;
+    d.flags   = EventError::ClientErrorData::E_ERROR;
     d.options = NULL;
     d.id      = CmdPasswordFail;
-    Event e(EventClientError, &d);
+    EventClientError e(d);
     e.process();
 }
 

@@ -50,9 +50,9 @@ SerialEvent::SerialEvent(unsigned reason)
     m_reason = reason;
 }
 
-const unsigned EventComplete	= 0;
-const unsigned EventError		= 1;
-const unsigned EventTimeout		= 2;
+const unsigned SerialEventComplete	= 0;
+const unsigned SerialEventError		= 1;
+const unsigned SerialEventTimeout   = 2;
 
 enum PortState
 {
@@ -108,7 +108,7 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
                 DWORD err = GetLastError();
                 if (err != ERROR_IO_PENDING){
                     p->m_state = None;
-                    QApplication::postEvent(p->m_port, new SerialEvent(EventError));
+                    QApplication::postEvent(p->m_port, new SerialEvent(SerialEventError));
                 }else{
                     timeout = p->m_read_time;
                 }
@@ -124,7 +124,7 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
                 DWORD err = GetLastError();
                 if (err != ERROR_IO_PENDING){
                     p->m_state = None;
-                    QApplication::postEvent(p->m_port, new SerialEvent(EventError));
+                    QApplication::postEvent(p->m_port, new SerialEvent(SerialEventError));
                 }else{
                     timeout = SERIAL_TIMEOUT;
                 }
@@ -133,9 +133,9 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
         case Read:
         case Write:
             if (res == WAIT_TIMEOUT){
-                QApplication::postEvent(p->m_port, new SerialEvent(EventTimeout));
+                QApplication::postEvent(p->m_port, new SerialEvent(SerialEventTimeout));
             }else{
-                QApplication::postEvent(p->m_port, new SerialEvent(EventComplete));
+                QApplication::postEvent(p->m_port, new SerialEvent(SerialEventComplete));
             }
             break;
         default:
@@ -336,7 +336,7 @@ bool SerialPort::event(QEvent *e)
     if (e->type() != QEvent::User)
         return QObject::event(e);
     switch (static_cast<SerialEvent*>(e)->reason()){
-    case EventComplete:{
+    case SerialEventComplete:{
             DWORD bytes;
             if (GetOverlappedResult(d->hPort, &d->over, &bytes, true)){
                 if (d->m_state == Read){
@@ -358,14 +358,14 @@ bool SerialPort::event(QEvent *e)
             emit error();
             break;
         }
-    case EventTimeout:{
+    case SerialEventTimeout:{
             log(L_WARN, "IO timeout");
             CancelIo(d->hPort);
             close();
             emit error();
             break;
         }
-    case EventError:{
+    case SerialEventError:{
             log(L_WARN, "IO error");
             close();
             emit error();

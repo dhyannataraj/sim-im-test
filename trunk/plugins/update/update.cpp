@@ -44,7 +44,7 @@ static PluginInfo info =
         I18N_NOOP("Plugin provides notifications about update SIM software"),
         VERSION,
         createUpdatePlugin,
-        PLUGIN_DEFAULT
+        PLUGIN_NOLOAD_DEFAULT
     };
 
 EXPORT_PROC PluginInfo* GetPluginInfo()
@@ -140,15 +140,15 @@ bool UpdatePlugin::done(unsigned, Buffer&, const char *headers)
         if (statusWidget == NULL)
             return false;
         m_url = h;
-        clientErrorData d;
+        EventError::ClientErrorData d;
         d.client  = NULL;
         d.err_str = I18N_NOOP("New version SIM is released");
         d.code	  = 0;
         d.args    = QString::null;
-        d.flags	  = ERR_INFO;
+        d.flags	  = EventError::ClientErrorData::E_INFO;
         d.options = "Show details\x00Remind later\x00\x00";
         d.id	  = CmdGo;
-        Event e(EventShowError, &d);
+        EventShowError e(d);
         e.process();
     }
     setTime(time(NULL));

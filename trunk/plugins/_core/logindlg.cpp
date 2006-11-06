@@ -478,24 +478,24 @@ void *LoginDialog::processEvent(Event *e)
             }
         }
         break;
-    case EventClientError:
+    case eEventClientError:
         if (m_bLogin){
-            clientErrorData *d = (clientErrorData*)(e->param());
+            EventClientError *ee = static_cast<EventClientError*>(e);
+            const EventError::ClientErrorData &d = ee->data();
             if (m_client){
-                if (d->client != m_client)
+                if (d.client != m_client)
                     return NULL;
             }else{
                 for (unsigned i = 0; i < passwords.size(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->getState() != Client::Error)
-                        return e->param();
+                        return (void*)1;
                 }
             }
             stopLogin();
             QString msg;
-            if (!d->err_str.isEmpty()){
-                msg = i18n(d->err_str);
-                msg = msg.arg(d->args);
+            if (!d.err_str.isEmpty()){
+                msg = i18n(d.err_str).arg(d.args);
             }else{
                 msg = i18n("Login failed");
             }
@@ -503,7 +503,7 @@ void *LoginDialog::processEvent(Event *e)
                 raiseWindow(this);
                 BalloonMsg::message(msg, buttonOk);
             }
-            return e->param();
+            return (void*)1;
         }
         break;
     }

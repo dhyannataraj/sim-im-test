@@ -240,7 +240,6 @@ void *NewProtocol::processEvent(Event *e)
     if (m_client == NULL)
         return NULL;
     if (m_bConnect){
-        clientErrorData *d;
         switch (e->type()){
         case EventClientChanged:
             if (m_client->getState() == Client::Connected){
@@ -248,16 +247,17 @@ void *NewProtocol::processEvent(Event *e)
                 return NULL;
             }
             break;
-        case EventClientError:
-            d = (clientErrorData*)(e->param());
-            if (d->client == m_client){
-                m_connectWnd->setErr(i18n(d->err_str),
-                    (d->code == AuthError) ? m_client->protocol()->description()->accel : QString::null);
+        case eEventClientError:
+            EventClientError *ee = static_cast<EventClientError*>(e);
+            const EventError::ClientErrorData &d = ee->data();
+            if (d.client == m_client){
+                m_connectWnd->setErr(i18n(d.err_str),
+                    (d.code == AuthError) ? m_client->protocol()->description()->accel : QString::null);
                 m_bConnect = false;
                 m_client->setStatus(STATUS_OFFLINE, false);
                 setBackEnabled(m_connectWnd, true);
                 setFinishEnabled(m_connectWnd, false);
-                return e->param();
+                return (void*)1;
             }
             break;
         }
