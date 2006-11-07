@@ -531,7 +531,6 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         Data *ld = data + offs;
         ld->setType(def->type);
         // FIXME:
-        char *p = NULL;
         const char *value = val.data();
         unsigned i = 0;
         string v;
@@ -545,7 +544,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                         ip = val.left(idx);
                         url = val.mid(idx + 1);
                 }
-                set_ip(ld, inet_addr(value), p);
+                set_ip(ld, inet_addr(ip), url);
                 break;
         }
         case DATA_STRLIST:
