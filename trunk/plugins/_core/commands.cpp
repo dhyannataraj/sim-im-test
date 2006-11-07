@@ -192,19 +192,25 @@ void *Commands::processEvent(Event *e)
     case eEventPluginsUnload:
         clear();
         break;
-    case EventToolbarCreate:
-        return (void*)createBar((unsigned long)(e->param()));
-    case EventToolbarRemove:
-        removeBar((unsigned long)(e->param()));
-        break;
+    case eEventToolbar: {
+        EventToolbar *et = static_cast<EventToolbar*>(e);
+        if(et->action() == EventToolbar::eAdd)
+            createBar(et->id());
+        else
+            removeBar(et->id());
+        return(void*)1;
+    }
     case EventShowBar:
         b = (BarShow*)(e->param());
         return show(b->bar_id, b->parent);
-    case EventMenuCreate:
-        return (void*)createMenu((unsigned long)(e->param()));
-    case EventMenuRemove:
-        removeMenu((unsigned long)(e->param()));
-        break;
+    case eEventMenu: {
+        EventMenu *em = static_cast<EventMenu*>(e);
+        if(em->action() == EventMenu::eAdd)
+            createMenu(em->id());
+        else
+            removeMenu(em->id());
+        return (void*)1;
+    }
     case EventGetMenu:
         return (void*)get((CommandDef*)(e->param()));
     case EventGetMenuDef:

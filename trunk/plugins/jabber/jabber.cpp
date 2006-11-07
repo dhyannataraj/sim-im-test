@@ -196,14 +196,11 @@ JabberPlugin::JabberPlugin(unsigned base, Buffer *cfg)
     JabberPacket = registerType();
     getContacts()->addPacketType(JabberPacket, jabber_descr.text, true);
 
-    Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
-    eMenuSearch.process();
-    Event eMenuGroups(EventMenuCreate, (void*)MenuJabberGroups);
-    eMenuGroups.process();
-    Event eMenuBrowser(EventMenuCreate, (void*)MenuBrowser);
-    eMenuBrowser.process();
-    Event eToolbar(EventToolbarCreate, (void*)BarBrowser);
-    eToolbar.process();
+    EventMenu(MenuSearchResult, EventMenu::eAdd).process();
+    EventMenu(MenuJabberGroups, EventMenu::eAdd).process();
+    EventMenu(MenuBrowser, EventMenu::eAdd).process();
+
+    EventToolbar(BarBrowser, EventToolbar::eAdd).process();
 
     Command	cmd;
     cmd->id			 = CmdJabberMessage;
@@ -345,17 +342,11 @@ JabberPlugin::~JabberPlugin()
 {
     unregisterMessages();
 
-    Event eMenuSearch(EventMenuRemove, (void*)MenuSearchResult);
-    eMenuSearch.process();
+    EventMenu(MenuSearchResult, EventMenu::eRemove).process();
+    EventMenu(MenuJabberGroups, EventMenu::eRemove).process();
+    EventMenu(MenuBrowser,      EventMenu::eRemove).process();
 
-    Event eMenuGroups(EventMenuRemove, (void*)MenuJabberGroups);
-    eMenuGroups.process();
-
-    Event eMenuBrowser(EventMenuRemove, (void*)MenuBrowser);
-    eMenuBrowser.process();
-
-    Event eToolbar(EventToolbarRemove, (void*)BarBrowser);
-    eToolbar.process();
+    EventToolbar(BarBrowser, EventToolbar::eRemove).process();
 
     delete m_protocol;
     getContacts()->removePacketType(JabberPacket);

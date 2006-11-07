@@ -267,8 +267,7 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
     MenuMail = registerType();
     CmdCopyLocation = registerType();
 
-    Event eMenu(EventMenuCreate, (void*)MenuMail);
-    eMenu.process();
+    EventMenu(MenuMail, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdMail;
@@ -303,8 +302,8 @@ NavigatePlugin::~NavigatePlugin()
 {
     Event eCmd(EventCommandRemove, (void*)CmdMail);
     eCmd.process();
-    Event eMenuRemove(EventMenuRemove, (void*)MenuMail);
-    eMenuRemove.process();
+    EventMenu(MenuMail, EventMenu::eRemove).process();
+
     free_data(navigateData, &data);
 }
 

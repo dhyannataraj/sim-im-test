@@ -99,6 +99,9 @@ enum SIMEvents
 
     eEventIconChanged       = 0x0400,   // icons changed
 
+    eEventToolbar           = 0x0501,   // add/remove a toolbar
+    eEventMenu              = 0x0502,   // add/remove a menu
+
     eEventHomeDir           = 0x0601,   // get home dir for config
     eEventGoURL             = 0x0602,   // open url in browser / mail / ...
     eEventGetURL            = 0x0603,   // ???? win32 only
@@ -577,32 +580,60 @@ public:
         : EventError(eEventShowError, data) {}
 };
 
-// _____________________________________________________________________________________
-// Default events
-
-/* Toolbar (create and remove)
-   param is toolbar id */
-const unsigned EventToolbarCreate = 0x0501;
-const unsigned EventToolbarRemove = 0x0502;
-
 /* Base bar for mainwindow */
+// FIXME: put them into class EventToolbar?
 const unsigned long ToolBarMain      = 1;
 const unsigned long ToolBarContainer = 2;
 const unsigned long ToolBarTextEdit  = 3;
 const unsigned long ToolBarMsgEdit  = 4;
 
-/* Menu (create and remove)
-   param is toolbar id */
-const unsigned EventMenuCreate = 0x0503;
-const unsigned EventMenuRemove = 0x0504;
+class EXPORT EventToolbar : public Event
+{
+public:
+    enum Action {
+        eAdd,
+        eRemove,
+    };
+public:
+    EventToolbar(unsigned long id, Action action)
+        : Event(eEventToolbar), m_id(id), m_action(action) {}
+
+    unsigned long id() const { return m_id; }
+    Action action() const { return m_action; }
+protected:
+    unsigned long m_id;
+    Action m_action;
+};
 
 /* Base menu for mainwindow */
+// FIXME: put them into class EventMenu?
 const unsigned long MenuMain = 1;
 const unsigned long MenuGroup = 2;
 const unsigned long MenuContact = 3;
 const unsigned long MenuContactGroup = 4;
 const unsigned long MenuContainer = 5;
 const unsigned long MenuMessage = 6;
+
+class EXPORT EventMenu : public Event
+{
+public:
+    enum Action {
+        eAdd,
+        eRemove,
+    };
+public:
+    EventMenu(unsigned long id, Action action)
+        : Event(eEventMenu), m_id(id), m_action(action) {}
+
+    unsigned long id() const { return m_id; }
+    Action action() const { return m_action; }
+protected:
+    unsigned long m_id;
+    Action m_action;
+};
+
+// _____________________________________________________________________________________
+// Default events
 
 /* Commands - process command
    param is CommandDef* */
@@ -852,8 +883,6 @@ const unsigned EventMessageAccept   = 0x1108;
 const unsigned EventMessageDecline  = 0x1109;
 const unsigned EventMessageSend     = 0x110A;
 const unsigned EventSend            = 0x110B;
-
-const unsigned EventUser            = 0x10000;
 
 } // namespace SIM
 

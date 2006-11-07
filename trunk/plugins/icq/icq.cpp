@@ -315,14 +315,8 @@ ICQPlugin::ICQPlugin(unsigned base)
     m_icq = new ICQProtocol(this);
     m_aim = new AIMProtocol(this);
 
-    Event eMenuSearch(EventMenuCreate, (void*)MenuSearchResult);
-    eMenuSearch.process();
-    Event eMenuGroups(EventMenuCreate, (void*)MenuIcqGroups);
-    eMenuGroups.process();
-    /*
-    Event eMenuCheckInvisible(EventMenuCreate, (void*)MenuCheckInvisible);
-    eMenuCheckInvisible.process();
-    */
+    EventMenu(MenuSearchResult, EventMenu::eAdd).process();
+    EventMenu(MenuIcqGroups, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdVisibleList;
@@ -391,9 +385,6 @@ ICQPlugin::~ICQPlugin()
     Event eInvisible(EventCommandRemove, (void*)CmdInvisibleList);
     eInvisible.process();
 
-    Event eMenuSearch(EventMenuRemove, (void*)MenuSearchResult);
-    eMenuSearch.process();
-
-    Event eMenuGroups(EventMenuRemove, (void*)MenuIcqGroups);
-    eMenuGroups.process();
+    EventMenu(MenuSearchResult, EventMenu::eRemove).process();
+    EventMenu(MenuIcqGroups, EventMenu::eRemove).process();
 }

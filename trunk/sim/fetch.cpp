@@ -215,7 +215,7 @@ void FetchThread::run()
     }
     Buffer b;
     b.packetStart();
-    b << verb << " " << uri.latin1() << " HTTP/1.0\r\n" << headers.latin1() << "\r\n";
+    b << verb.latin1() << " " << uri.latin1() << " HTTP/1.0\r\n" << headers.latin1() << "\r\n";
     EventLog::log_packet(b, true, HTTPPacket);
     for (;;){
         if (postSize != NO_POSTSIZE){

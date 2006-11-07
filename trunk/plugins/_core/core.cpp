@@ -509,40 +509,24 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     m_cmds	= new Commands;
     boundTypes();
 
-    Event eToolbar(EventToolbarCreate, (void*)ToolBarMain);
-    eToolbar.process();
-    Event eToolbarContainer(EventToolbarCreate, (void*)ToolBarContainer);
-    eToolbarContainer.process();
-    Event eToolbarTextEdit(EventToolbarCreate, (void*)ToolBarTextEdit);
-    eToolbarTextEdit.process();
-    Event eToolbarMsgEdit(EventToolbarCreate, (void*)ToolBarMsgEdit);
-    eToolbarMsgEdit.process();
-    Event eToolbarHistory(EventToolbarCreate, (void*)BarHistory);
-    eToolbarHistory.process();
-    Event eMenu(EventMenuCreate, (void*)MenuMain);
-    eMenu.process();
-    Event eMenuPhones(EventMenuCreate, (void*)MenuPhones);
-    eMenuPhones.process();
-    Event eMenuLocation(EventMenuCreate, (void*)MenuLocation);
-    eMenuLocation.process();
-    Event eMenuPhoneState(EventMenuCreate, (void*)MenuPhoneState);
-    eMenuPhoneState.process();
-    Event eMenuFileDecline(EventMenuCreate, (void*)MenuFileDecline);
-    eMenuFileDecline.process();
-    Event eMenuMailList(EventMenuCreate, (void*)MenuMailList);
-    eMenuMailList.process();
-    Event eMenuPhoneList(EventMenuCreate, (void*)MenuPhoneList);
-    eMenuPhoneList.process();
-    Event eMenuStatusWnd(EventMenuCreate, (void*)MenuStatusWnd);
-    eMenuStatusWnd.process();
-    Event eMenuEncoding(EventMenuCreate, (void*)MenuEncoding);
-    eMenuEncoding.process();
-    Event eMenuSearch(EventMenuCreate, (void*)MenuSearchItem);
-    eMenuSearch.process();
-    Event eMenuSearchGroups(EventMenuCreate, (void*)MenuSearchGroups);
-    eMenuSearchGroups.process();
-    Event eMenuSearchOptions(EventMenuCreate, (void*)MenuSearchOptions);
-    eMenuSearchOptions.process();
+    EventToolbar(ToolBarMain, EventToolbar::eAdd).process();
+    EventToolbar(ToolBarContainer, EventToolbar::eAdd).process();
+    EventToolbar(ToolBarTextEdit, EventToolbar::eAdd).process();
+    EventToolbar(ToolBarMsgEdit, EventToolbar::eAdd).process();
+    EventToolbar(BarHistory, EventToolbar::eAdd).process();
+
+    EventMenu(MenuMain, EventMenu::eAdd).process();
+    EventMenu(MenuPhones, EventMenu::eAdd).process();
+    EventMenu(MenuLocation, EventMenu::eAdd).process();
+    EventMenu(MenuPhoneState, EventMenu::eAdd).process();
+    EventMenu(MenuFileDecline, EventMenu::eAdd).process();
+    EventMenu(MenuMailList, EventMenu::eAdd).process();
+    EventMenu(MenuPhoneList, EventMenu::eAdd).process();
+    EventMenu(MenuStatusWnd, EventMenu::eAdd).process();
+    EventMenu(MenuEncoding, EventMenu::eAdd).process();
+    EventMenu(MenuSearchItem, EventMenu::eAdd).process();
+    EventMenu(MenuSearchGroups, EventMenu::eAdd).process();
+    EventMenu(MenuSearchOptions, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdConfigure;
@@ -657,8 +641,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_grp	 = 0xF000;
     eCmd.process();
 
-    Event eMenuContainerContact(EventMenuCreate, (void*)MenuContainerContact);
-    eMenuContainerContact.process();
+    EventMenu(MenuContainerContact, EventMenu::eAdd).process();
 
     cmd->id			= CmdContainerContacts;
     cmd->text		= "_";
@@ -671,8 +654,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->flags		= COMMAND_CHECK_STATE;
     eCmd.process();
 
-    Event eMenuMessage(EventMenuCreate, (void*)MenuMessage);
-    eMenuMessage.process();
+    EventMenu(MenuMessage, EventMenu::eAdd).process();
 
     MsgEdit::setupMessages();
 
@@ -881,20 +863,11 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_grp	= 0x3000;
     eCmd.process();
 
-    Event eMenuGroup(EventMenuCreate, (void*)MenuGroup);
-    eMenuGroup.process();
-
-    Event eMenuContact(EventMenuCreate, (void*)MenuContact);
-    eMenuContact.process();
-
-    Event eMenuContactGroup(EventMenuCreate, (void*)MenuContactGroup);
-    eMenuContactGroup.process();
-
-    Event eMenuMsgView(EventMenuCreate, (void*)MenuMsgView);
-    eMenuMsgView.process();
-
-    Event eMenuMsgCommand(EventMenuCreate, (void*)MenuMsgCommand);
-    eMenuMsgCommand.process();
+    EventMenu(MenuGroup, EventMenu::eAdd).process();
+    EventMenu(MenuContact, EventMenu::eAdd).process();
+    EventMenu(MenuContactGroup, EventMenu::eAdd).process();
+    EventMenu(MenuMsgView, EventMenu::eAdd).process();
+    EventMenu(MenuMsgCommand, EventMenu::eAdd).process();
 
     cmd->id			= CmdMsgOpen;
     cmd->text		= I18N_NOOP("&Open message");
@@ -971,14 +944,9 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_grp	= 0x8000;
     eCmd.process();
 
-    Event eMenuTextEdit(EventMenuCreate, (void*)MenuTextEdit);
-    eMenuTextEdit.process();
-
-    Event eMenuGroups(EventMenuCreate, (void*)MenuGroups);
-    eMenuGroups.process();
-
-    Event eMenuContainer(EventMenuCreate, (void*)MenuContainer);
-    eMenuContainer.process();
+    EventMenu(MenuTextEdit, EventMenu::eAdd).process();
+    EventMenu(MenuGroups, EventMenu::eAdd).process();
+    EventMenu(MenuContainer, EventMenu::eAdd).process();
 
     cmd->id			= CmdUndo;
     cmd->text		= I18N_NOOP("&Undo");
@@ -2391,8 +2359,7 @@ void *CorePlugin::processEvent(Event *e)
                             unsigned long id = CmdContactResource + n;
                             if (n > m_nResourceMenu){
                                 m_nResourceMenu = n;
-                                Event eMenu(EventMenuCreate, (void*)id);
-                                eMenu.process();
+                                EventMenu(id, EventMenu::eAdd).process();
                                 Command cmd;
                                 cmd->id			= CmdContactClients;
                                 cmd->text		= "_";
@@ -2423,8 +2390,7 @@ void *CorePlugin::processEvent(Event *e)
                         unsigned long id  = CmdContactClients + n;
                         if (n > m_nClientsMenu){
                             m_nClientsMenu = n;
-                            Event eMenu(EventMenuCreate, (void*)id);
-                            eMenu.process();
+                            EventMenu(id, EventMenu::eAdd).process();
 
                             Command cmd;
                             cmd->id			= CmdContactClients;
@@ -2586,8 +2552,7 @@ void *CorePlugin::processEvent(Event *e)
                             unsigned long id = CmdContactResource + nRes;
                             if (nRes > m_nResourceMenu){
                                 m_nResourceMenu = nRes;
-                                Event eMenu(EventMenuCreate, (void*)id);
-                                eMenu.process();
+                                EventMenu(id, EventMenu::eAdd).process();
                                 Command cmd;
                                 cmd->id			= CmdContactClients;
                                 cmd->text		= "_";
@@ -2605,8 +2570,7 @@ void *CorePlugin::processEvent(Event *e)
                         unsigned long id = CmdContactResource + nRes;
                         if (nRes > m_nResourceMenu){
                             m_nResourceMenu = nRes;
-                            Event eMenu(EventMenuCreate, (void*)id);
-                            eMenu.process();
+                            EventMenu(id, EventMenu::eAdd).process();
                             Command cmd;
                             cmd->id			= CmdContactClients;
                             cmd->text		= "_";
@@ -4193,13 +4157,11 @@ QString CorePlugin::typeName(const QString &name)
 
 void CorePlugin::loadMenu()
 {
-    Event eMenuRemove(EventMenuRemove, (void*)MenuConnections);
-    eMenuRemove.process();
+    EventMenu(MenuConnections, EventMenu::eRemove).process();
 
     unsigned nClients = getContacts()->nClients();
 
-    Event eMenu(EventMenuCreate, (void*)MenuConnections);
-    eMenu.process();
+    EventMenu(MenuConnections, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdCM;
@@ -4242,13 +4204,11 @@ void CorePlugin::loadMenu()
         m_status = new CommonStatus;
 
     for (unsigned i = 0; i < m_nClients; i++){
-        Event e(EventMenuRemove, (void*)(CmdClient + i));
-        e.process();
+        EventMenu(CmdClient + i, EventMenu::eRemove).process();
     }
     for (m_nClients = 0; m_nClients < getContacts()->nClients(); m_nClients++){
         unsigned long menu_id = CmdClient + m_nClients;
-        Event e(EventMenuCreate, (void*)menu_id);
-        e.process();
+        EventMenu(menu_id, EventMenu::eAdd).process();
         Client *client = getContacts()->getClient(m_nClients);
         Protocol *protocol = client->protocol();
         const CommandDef *cmd = protocol->statusList();

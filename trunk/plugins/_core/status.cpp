@@ -42,8 +42,7 @@ CommonStatus::CommonStatus()
     m_timer   = NULL;
     m_balloon = NULL;
 
-    Event eMenu(EventMenuCreate, (void*)MenuStatus);
-    eMenu.process();
+    EventMenu(MenuStatus, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdStatusMenu;
@@ -65,8 +64,7 @@ CommonStatus::~CommonStatus()
 {
     Event eGroup(EventCommandRemove, (void*)CmdStatusBar);
     eGroup.process();
-    Event eMenuRemove(EventMenuRemove, (void*)MenuStatus);
-    eMenuRemove.process();
+    EventMenu(MenuStatus, EventMenu::eRemove).process();
 }
 
 void CommonStatus::setBarStatus()

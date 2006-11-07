@@ -185,8 +185,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
 {
     m_protocol = new LiveJournalProtocol(this);
 
-    Event eMenu(EventMenuCreate, (void*)MenuWeb);
-    eMenu.process();
+    EventMenu(MenuWeb, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id			 = CmdMenuWeb;
@@ -235,8 +234,8 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
 
 LiveJournalPlugin::~LiveJournalPlugin()
 {
-    Event eMenu(EventMenuRemove, (void*)MenuWeb);
-    eMenu.process();
+    EventMenu(MenuWeb, EventMenu::eRemove).process();
+
     Event eMsg(EventRemoveMessageType, (void*)MessageJournal);
     eMsg.process();
     Event eMsgWWW(EventRemoveMessageType, (void*)CmdMenuWeb);
@@ -1120,8 +1119,7 @@ void *LiveJournalClient::processEvent(Event *e)
                         unsigned nSub = url.toUInt();
                         while (nSub > LiveJournalPlugin::MenuCount){
                             unsigned long menu_id = MenuWeb + (++LiveJournalPlugin::MenuCount);
-                            Event eMenu(EventMenuCreate, (void*)menu_id);
-                            eMenu.process();
+                            EventMenu(menu_id, EventMenu::eAdd).process();
                             Command cmd;
                             cmd->id       = CmdMenuWeb;
                             cmd->text     = "_";

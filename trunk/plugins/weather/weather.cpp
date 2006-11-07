@@ -114,8 +114,8 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
     // work around a cmake 2.4.3 bug (vs only)
     if(!m_icons)
         m_icons = getIcons()->addIconSet("icons/weather_.jisp", true);
-    Event eBar(EventToolbarCreate, (void*)BarWeather);
-    eBar.process();
+    EventToolbar(BarWeather, EventToolbar::eAdd).process();
+
     Command cmd;
     cmd->id = CmdWeather;
     cmd->text = I18N_NOOP("Not connected");
@@ -135,10 +135,9 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
 
 WeatherPlugin::~WeatherPlugin()
 {
-    if (m_bar)
-        delete m_bar;
-    Event eCmd(EventCommandRemove, (void*)CmdWeather);
-    Event eBar(EventToolbarRemove, (void*)BarWeather);
+    delete m_bar;
+    Event(EventCommandRemove, (void*)CmdWeather).process();
+    EventToolbar(BarWeather, EventToolbar::eRemove).process();
     free_data(weatherData, &data);
     getIcons()->removeIconSet(m_icons);
 }

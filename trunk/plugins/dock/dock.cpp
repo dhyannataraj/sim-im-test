@@ -97,8 +97,7 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
     CmdToggle    = registerType();
     CmdCustomize = registerType();
 
-    Event eMenu(EventMenuCreate, (void*)DockMenu);
-    eMenu.process();
+    EventMenu(DockMenu, EventMenu::eAdd).process();
 
     Command cmd;
     cmd->id          = CmdTitle;
@@ -159,8 +158,7 @@ DockPlugin::~DockPlugin()
     Event eCmd(EventCommandRemove, (void*)CmdToggle);
     eCmd.process();
 
-    Event eMenu(EventMenuRemove, (void*)DockMenu);
-    eMenu.process();
+    EventMenu(DockMenu, EventMenu::eRemove).process();
     delete m_dock;
     free_data(dockData, &data);
 }

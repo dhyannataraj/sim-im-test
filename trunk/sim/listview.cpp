@@ -32,8 +32,7 @@ ListView::ListView(QWidget *parent, const char *name)
     m_menuId = MenuListView;
     if (!s_bInit){
         s_bInit = true;
-        Event eMenu(EventMenuCreate, (void*)MenuListView);
-        eMenu.process();
+        EventMenu(MenuListView, EventMenu::eAdd).process();
 
         Command cmd;
         cmd->id			= CmdListDelete;
