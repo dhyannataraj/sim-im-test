@@ -721,7 +721,9 @@ EXPORT QString get_os_version()
     GetVersionExA(&osvi);
     switch (osvi.dwPlatformId){
     case VER_PLATFORM_WIN32_NT:
-        if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 2)){
+	if ((osvi.dwMajorVersion == 6) && (osvi.dwMinorVersion == 0)){
+            res += "Vista";
+	}else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 2)){
             res += "2003";
         }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 1)){
             res += "XP";
@@ -729,10 +731,15 @@ EXPORT QString get_os_version()
             res += "2000";
         }else{
             res += "NT ";
-            res += QString::number(osvi.dwMajorVersion);
-            res += ".";
-            res += QString::number(osvi.dwMinorVersion);
-        }
+	}
+        res += " ";
+        res += QString::number(osvi.dwMajorVersion);
+        res += ".";
+        res += QString::number(osvi.dwMinorVersion);
+        res += ".";
+        res += QString::number(osvi.dwBuildNumber);
+        res += " ";
+        res += osvi.szCSDVersion;
         break;
     case VER_PLATFORM_WIN32_WINDOWS:
         if (osvi.dwMajorVersion == 4){
@@ -747,6 +754,10 @@ EXPORT QString get_os_version()
             }else if (osvi.dwMinorVersion == 90){
                 res += "Millennium";
             }
+            res += " ";
+            res += QString::number(osvi.dwMajorVersion);
+            res += ".";
+            res += QString::number(osvi.dwMinorVersion);
         }
         break;
     case VER_PLATFORM_WIN32s:
