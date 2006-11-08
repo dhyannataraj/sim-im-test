@@ -1016,7 +1016,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 #endif
 #endif
 
-    cmd->id			= user_data_id + 1;
+    cmd->id			= user_data_id;
     cmd->text		= I18N_NOOP("&Messages");
     cmd->accel		= QString::null;
     cmd->icon		= "message";
@@ -1025,7 +1025,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     Event ePrefMsg(EventAddPreferences, cmd);
     ePrefMsg.process();
 
-    cmd->id			= sms_data_id + 1;
+    cmd->id			= sms_data_id;
     cmd->text		= I18N_NOOP("&SMS");
     cmd->icon		= "cell";
     cmd->icon_on	= QString::null;
@@ -1033,7 +1033,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     Event ePrefSMS(EventAddPreferences, cmd);
     ePrefSMS.process();
 
-    cmd->id			= history_data_id + 1;
+    cmd->id			= history_data_id;
     cmd->text		= I18N_NOOP("&History setup");
     cmd->icon		= "history";
     cmd->icon_on	= QString::null;
@@ -1841,6 +1841,7 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventAddPreferences:{
             CommandDef *cmd = (CommandDef*)(e->param());
+            cmd->id |= EventPreferencesBase;
             cmd->menu_id = MenuGroup;
             Event eCmd(EventCommandCreate, cmd);
             eCmd.process();
@@ -1851,6 +1852,7 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventRemovePreferences:{
             unsigned long id = (unsigned long)(e->param());
+            id |= EventPreferencesBase;
             Event eCmd(EventCommandRemove, (void*)id);
             eCmd.process();
             preferences.erase(id);

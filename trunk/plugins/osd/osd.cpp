@@ -146,7 +146,7 @@ OSDPlugin::OSDPlugin(unsigned base)
 
     user_data_id = getContacts()->registerUserData(info.title, osdUserData);
     Command cmd;
-    cmd->id		 = user_data_id + 1;
+    cmd->id		 = user_data_id;
     cmd->text	 = I18N_NOOP("&OSD");
     cmd->icon	 = "alert";
     cmd->param	 = (void*)getOSDSetup;
@@ -168,8 +168,7 @@ OSDPlugin::OSDPlugin(unsigned base)
 
 OSDPlugin::~OSDPlugin()
 {
-    if (m_osd)
-        delete m_osd;
+    delete m_osd;
     osdPlugin = NULL;
     Event e(EventRemovePreferences, (void*)user_data_id);
     getContacts()->unregisterUserData(user_data_id);

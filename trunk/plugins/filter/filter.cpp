@@ -119,7 +119,7 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
     cmd->menu_id     = MenuMsgView;
     eCmd.process();
 
-    cmd->id			 = user_data_id + 1;
+    cmd->id			 = user_data_id;
     cmd->text		 = I18N_NOOP("&Filter");
     cmd->icon		 = "filter";
     cmd->menu_id	 = 0;

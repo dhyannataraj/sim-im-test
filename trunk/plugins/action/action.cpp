@@ -83,7 +83,7 @@ ActionPlugin::ActionPlugin(unsigned base)
     CmdAction = registerType();
 
     Command cmd;
-    cmd->id		 = action_data_id + 1;
+    cmd->id		 = action_data_id;
     cmd->text	 = I18N_NOOP("&Action");
     cmd->icon	 = "run";
     cmd->param	 = (void*)getActionSetup;

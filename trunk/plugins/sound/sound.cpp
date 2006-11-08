@@ -114,7 +114,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     EventSoundChanged = registerType();
 
     Command cmd;
-    cmd->id       = user_data_id + 1;
+    cmd->id       = user_data_id;
     cmd->text	  = I18N_NOOP("&Sound");
     cmd->icon	  = "sound";
     cmd->icon_on  = QString::null;
@@ -159,8 +159,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 
 SoundPlugin::~SoundPlugin()
 {
-    if (m_sound)
-        delete m_sound;
+    delete m_sound;
     soundPlugin = NULL;
     Event eCmd(EventCommandRemove, (void*)CmdSoundDisable);
     eCmd.process();

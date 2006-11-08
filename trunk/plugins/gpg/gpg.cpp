@@ -779,7 +779,7 @@ void GpgPlugin::registerMessage()
     cmd->menu_grp	 = 0x4080;
     eMsg.process();
 
-    cmd->id		 = user_data_id + 1;
+    cmd->id		 = user_data_id;
     cmd->text	 = I18N_NOOP("&GPG key");
     cmd->icon	 = "encrypted";
     cmd->param	 = (void*)getGpgSetup;

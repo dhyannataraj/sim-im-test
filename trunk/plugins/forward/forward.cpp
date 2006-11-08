@@ -63,7 +63,7 @@ ForwardPlugin::ForwardPlugin(unsigned base)
     forwardPlugin = this;
     user_data_id = getContacts()->registerUserData(info.title, forwardUserData);
     Command cmd;
-    cmd->id		  = user_data_id + 1;
+    cmd->id		  = user_data_id;
     cmd->text	  = I18N_NOOP("&Forward");
     cmd->icon	  = "cell";
     cmd->param	 = (void*)getForwardSetup;
