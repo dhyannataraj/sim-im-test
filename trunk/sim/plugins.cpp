@@ -333,11 +333,11 @@ void *PluginManagerPrivate::processEvent(Event *e)
         return (void*)1;
     }
 #ifndef WIN32
-	case eEventExec: {
+    case eEventExec: {
         EventExec *exec = static_cast<EventExec*>(e);
         exec->setPid(execute(exec->cmd(), exec->args()));
         return (void*)1;
-	}
+    }
 #endif
     default:
         break;
@@ -790,14 +790,15 @@ void PluginManagerPrivate::usage(const QString &err)
 #ifndef WIN32
 unsigned long PluginManagerPrivate::execute(const QString &prg, const QStringList &args)
 {
-    if (prg.isEmpty() == 0)
+    if (prg.isEmpty())
         return 0;
 
     log(L_DEBUG, "Exec: %s", (const char*)prg.local8Bit());
     // FIXME: use QProcess instead!
     QStringList s = args;
     char **arglist = new char*[s.count()+1];
-    unsigned i = 0;
+    arglist[0] = strdup((const char*)prg.local8Bit());
+    unsigned i = 1;
     for ( QStringList::Iterator it = s.begin(); it != s.end(); ++it, i++ ) {
         string arg;
         arg = (*it).local8Bit();
