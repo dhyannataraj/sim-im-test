@@ -167,7 +167,8 @@ OSDPlugin::~OSDPlugin()
     if (m_osd)
         delete m_osd;
     osdPlugin = NULL;
-    Event e(EventRemovePreferences, (void*)user_data_id);
+    unsigned long id = user_data_id + 1;
+    Event(EventRemovePreferences, (void*)id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 

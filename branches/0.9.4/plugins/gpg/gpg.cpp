@@ -779,8 +779,8 @@ void GpgPlugin::unregisterMessage()
     e.process();
     Event eUse(EventRemoveMessageType, (void*)MessageGPGUse);
     eUse.process();
-    Event eUser(EventRemovePreferences, (void*)user_data_id);
-    eUser.process();
+    unsigned long id = user_data_id + 1;
+    Event(EventRemovePreferences, (void*)id).process();
 }
 
 void GpgPlugin::askPassphrase()

@@ -110,8 +110,8 @@ ActionPlugin::~ActionPlugin()
     m_exec.clear();
     Event eCmd(EventCommandRemove, (void*)CmdAction);
     eCmd.process();
-    Event e(EventRemovePreferences, (void*)action_data_id);
-    e.process();
+    unsigned long id = action_data_id + 1;
+    Event(EventRemovePreferences, (void*)id).process();
     getContacts()->unregisterUserData(action_data_id);
 }
 

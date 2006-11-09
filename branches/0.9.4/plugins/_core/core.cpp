@@ -1487,6 +1487,13 @@ CorePlugin::~CorePlugin()
     if (historyXSL)
         delete historyXSL;
 
+    unsigned long id1 = history_data_id + 1;
+    unsigned long id2 = sms_data_id + 1;
+    unsigned long id3 = user_data_id + 1;
+    Event(EventRemovePreferences, (void*)id1).process();
+    Event(EventRemovePreferences, (void*)id2).process();
+    Event(EventRemovePreferences, (void*)id3).process();
+
     getContacts()->unregisterUserData(history_data_id);
     getContacts()->unregisterUserData(translit_data_id);
     getContacts()->unregisterUserData(list_data_id);

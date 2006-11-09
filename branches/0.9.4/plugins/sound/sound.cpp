@@ -160,8 +160,8 @@ SoundPlugin::~SoundPlugin()
     soundPlugin = NULL;
     Event eCmd(EventCommandRemove, (void*)CmdSoundDisable);
     eCmd.process();
-    Event e(EventRemovePreferences, (void*)user_data_id);
-    e.process();
+    unsigned long id = user_data_id + 1;
+    Event(EventRemovePreferences, (void*)id).process();
     free_data(soundData, &data);
     getContacts()->unregisterUserData(user_data_id);
 }

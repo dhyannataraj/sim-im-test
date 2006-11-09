@@ -74,8 +74,8 @@ ForwardPlugin::ForwardPlugin(unsigned base)
 
 ForwardPlugin::~ForwardPlugin()
 {
-    Event e(EventRemovePreferences, (void*)user_data_id);
-    e.process();
+    unsigned long id = user_data_id + 1;
+    Event(EventRemovePreferences, (void*)id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 
