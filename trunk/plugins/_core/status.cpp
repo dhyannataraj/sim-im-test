@@ -194,11 +194,8 @@ void CommonStatus::setBarStatus()
 
     m_bInit = true;
 
-    Event eIcon(EventSetMainIcon, (void*)icon);
-    eIcon.process();
-
-    Event eText(EventSetMainText, (void*)text);
-    eText.process();
+    EventSetMainIcon(icon).process();
+    EventSetMainText(text).process();
 }
 
 void CommonStatus::timeout()

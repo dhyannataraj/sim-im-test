@@ -47,8 +47,8 @@ class DockWnd : public QWidget, public SIM::EventReceiver
 public:
     DockWnd(DockPlugin *plugin, const char *icon, const char *text);
     ~DockWnd();
-    void setIcon(const char *icon);
-    void setTip(const char *text);
+    void setIcon(const QString &icon);
+    void setTip(const QString &text);
 #ifdef WIN32
     void callProc(unsigned long);
     void addIconToTaskbar();

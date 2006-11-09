@@ -97,7 +97,10 @@ enum SIMEvents
     eEventSaveState         = 0x0309,   // plugins should save their config
     eEventClientsChanged    = 0x0311,   // a client was added/removed
 
-    eEventIconChanged       = 0x0400,   // icons changed
+    eEventIconChanged       = 0x0401,   // icons changed
+    eEventSetMainIcon       = 0x0402,   // set the main icon
+    eEventSetMainText       = 0x0403,   // set main window text
+
 
     eEventToolbar           = 0x0501,   // add/remove a toolbar
     eEventMenu              = 0x0502,   // add/remove a menu
@@ -341,6 +344,26 @@ class EXPORT EventIconChanged : public Event
 {
 public:
     EventIconChanged() : Event(eEventIconChanged) {}
+};
+
+class EXPORT EventSetMainIcon : public Event
+{
+public:
+    EventSetMainIcon(const QString &icon)
+        : Event(eEventSetMainIcon), m_icon(icon) {}
+    const QString &icon() const { return m_icon; }
+protected:
+    QString m_icon;
+};
+
+class EXPORT EventSetMainText : public Event
+{
+public:
+    EventSetMainText(const QString &text)
+        : Event(eEventSetMainText), m_text(text) {}
+    const QString &text() const { return m_text; }
+protected:
+    QString m_text;
 };
 
 class EXPORT EventHomeDir : public Event
@@ -823,9 +846,6 @@ typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);
 */
 
 const unsigned EventRemovePreferences = 0x0512;
-
-const unsigned EventSetMainIcon     = 0x0520;
-const unsigned EventSetMainText     = 0x0521;
 
 const unsigned EventCommandChange   = 0x0522;
 const unsigned EventCommandChecked  = 0x0523;

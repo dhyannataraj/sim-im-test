@@ -846,15 +846,18 @@ void *DockWnd::processEvent(Event *e)
     case EventMessageDeleted:
         reset();
         break;
-    case EventSetMainIcon:
-        m_state = (const char*)(e->param());
-        if (!bBlink)
-            setIcon(m_state);
+    case eEventSetMainIcon: {
+        if (bBlink)
+            break;
+        EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
+        setIcon(smi->icon());
         break;
-    case EventSetMainText:
-        m_tip = (const char*)(e->param());
-        setTip(m_tip);
+    }
+    case eEventSetMainText: {
+        EventSetMainText *smt = static_cast<EventSetMainText*>(e);
+        setTip(smt->text());
         break;
+    }
     case eEventIconChanged:
         setIcon((bBlink && m_unread) ? m_unread : m_state);
         break;
@@ -1013,7 +1016,7 @@ void DockWnd::paintEvent( QPaintEvent* )
     p.drawPixmap((width() - drawIcon.width())/2, (height() - drawIcon.height())/2, drawIcon);
 }
 
-void DockWnd::setIcon(const char *icon)
+void DockWnd::setIcon(const QString &icon)
 {
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
@@ -1057,7 +1060,7 @@ void DockWnd::setIcon(const char *icon)
 #endif
 }
 
-void DockWnd::setTip(const char *text)
+void DockWnd::setTip(const QString &text)
 {
     m_tip = text;
     QString tip = m_unreadText;

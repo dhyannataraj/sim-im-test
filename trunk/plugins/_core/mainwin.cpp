@@ -201,10 +201,12 @@ void *MainWindow::processEvent(Event *e)
     CommandDef *cmd;
     WindowDef  *wnd;
     switch(e->type()){
-    case EventSetMainIcon:
-        m_icon = (const char*)(e->param());
+    case eEventSetMainIcon: {
+        EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
+        m_icon = smi->icon();
         setIcon(Pict(m_icon));
         break;
+    }
     case eEventInit:{
             setTitle();
             BarShow b;
