@@ -814,7 +814,6 @@ typedef struct ProcessMenuParam
    param is CommandDef*
    CommandDef->param is getPreferencesWindow
 */
-const unsigned EventPreferencesBase = 0x80000000;
 const unsigned EventAddPreferences = 0x0511;
 
 typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);

@@ -170,7 +170,7 @@ OSDPlugin::~OSDPlugin()
 {
     delete m_osd;
     osdPlugin = NULL;
-    Event e(EventRemovePreferences, (void*)user_data_id);
+    Event(EventRemovePreferences, (void*)user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 

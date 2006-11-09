@@ -653,7 +653,7 @@ void ContactListPrivate::clear(bool bClearAll)
 
 unsigned ContactListPrivate::registerUserData(const QString &name, const DataDef *def)
 {
-    unsigned id = 0;
+    unsigned id = 0x1000;   // must be unique...
     for (list<UserDataDef>::iterator it = userDataDef.begin(); it != userDataDef.end(); ++it){
         if (id <= (*it).id)
             id = (*it).id + 1;

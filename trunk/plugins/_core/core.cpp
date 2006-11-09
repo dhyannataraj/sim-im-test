@@ -1841,7 +1841,6 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventAddPreferences:{
             CommandDef *cmd = (CommandDef*)(e->param());
-            cmd->id |= EventPreferencesBase;
             cmd->menu_id = MenuGroup;
             Event eCmd(EventCommandCreate, cmd);
             eCmd.process();
@@ -1852,7 +1851,6 @@ void *CorePlugin::processEvent(Event *e)
         }
     case EventRemovePreferences:{
             unsigned long id = (unsigned long)(e->param());
-            id |= EventPreferencesBase;
             Event eCmd(EventCommandRemove, (void*)id);
             eCmd.process();
             preferences.erase(id);
@@ -3583,7 +3581,7 @@ void CorePlugin::changeProfile()
     EventPluginsUnload eUnload(this);
     eUnload.process();
     getContacts()->clear();
-    preferences.clear();
+//    preferences.clear();
     EventPluginsLoad eLoad(this);
     eLoad.process();
     EventGetPluginInfo eInfo("_core");
