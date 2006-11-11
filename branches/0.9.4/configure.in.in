@@ -62,8 +62,6 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_FUNC_STAT
 
-AC_LIB_LTDL
-
 AC_CHECK_HEADERS([arpa/inet.h netinet/in.h sys/ioctl.h sys/socket.h])
 AC_CHECK_HEADERS([fcntl.h limits.h netdb.h stddef.h termios.h])
 
