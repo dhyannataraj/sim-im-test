@@ -1120,6 +1120,7 @@ QString MSNClient::unquote(const QString &s)
         if (i + 2 > (int)(s.length()))
             break;
         res += QChar((char)((fromHex(s[i]) << 4) + fromHex(s[i+1])));
+        i++;
     }
     return res;
 }
