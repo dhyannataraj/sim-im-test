@@ -930,7 +930,9 @@ const char *FetchClient::read_data(char*, unsigned &size)
     unsigned tail = p->m_postData->size() - p->m_postData->readPos();
     if (size > tail)
         size = tail;
-    return p->m_postData->data(p->m_postData->readPos());
+    const char* res = p->m_postData->data(p->m_postData->readPos());
+    p->m_postData->incReadPos(size);
+    return res;
 }
 
 bool FetchClient::write_data(const char *buf, unsigned size)
