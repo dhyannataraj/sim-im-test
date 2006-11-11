@@ -59,7 +59,7 @@ public:
     ~FetchManager();
     static FetchManager *manager;
     void done(FetchClient *client);
-    string user_agent;
+    QString user_agent;
 protected slots:
     void timeout();
 };

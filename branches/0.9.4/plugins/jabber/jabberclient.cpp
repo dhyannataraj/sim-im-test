@@ -127,6 +127,9 @@ DataDef jabberUserData[] =
         { "", DATA_STRLIST, 1, 0 },			// ResourceStatusTime
         { "", DATA_STRLIST, 1, 0 },			// ResourceOnlineTime
         { "AutoReply", DATA_UTF, 1, 0 },
+        { "", DATA_STRLIST, 1, 0 },			// ResourceClientName
+        { "", DATA_STRLIST, 1, 0 },			// ResourceClientVersion
+        { "", DATA_STRLIST, 1, 0 },			// ResourceClientOS
         { NULL, 0, 0, 0 }
     };
 
@@ -182,11 +185,6 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
     }
     if (data.owner.Resource.ptr == NULL){
         string resource = PACKAGE;
-        resource += "_";
-        resource += VERSION;
-#ifdef WIN32
-        resource += "/win32";
-#endif
         set_str(&data.owner.Resource.ptr, resource.c_str());
     }
 
@@ -523,6 +521,27 @@ void *JabberClient::processEvent(Event *e)
                 e.process();
                 delete msg;
                 return msg;
+            }
+        }
+        return NULL;
+    }
+    if (e->type() == EventClientVersion){
+        ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
+        if (!info->jid.isEmpty()){
+            Contact *contact;
+            string resource;
+            JabberUserData* data = findContact(info->jid.utf8(), NULL, false, contact, resource);
+            if (!data)
+                return NULL;
+            unsigned i;
+            for (i = 1; i <= data->nResources.value; i++){
+                if (resource == get_str(data->Resources, i))
+                    break;
+            }
+            if (i <= data->nResources.value){
+                set_str(&data->ResourceClientName, i, info->name);
+                set_str(&data->ResourceClientVersion, i, info->version);
+                set_str(&data->ResourceClientOS, i, info->os);
             }
         }
         return NULL;
@@ -1305,11 +1324,12 @@ QString JabberClient::contactTip(void *_data)
         res += "<br/>";
         res += "ID: <b>";
         res += QString::fromUtf8(data->ID.ptr);
-        res += "</b>";
         if (data->Resource.ptr && *data->Resource.ptr){
-            res += "<br/>";
+            res += "/";
             res += QString::fromUtf8(data->Resource.ptr);
         }
+        res += "</b>";
+
         if (data->StatusTime.value){
             res += "<br/><font size=-1>";
             res += i18n("Last online");
@@ -1339,9 +1359,13 @@ QString JabberClient::contactTip(void *_data)
             }
             res += "<br/>ID: <b>";
             res += QString::fromUtf8(data->ID.ptr);
-            res += "</b><br/>";
-            res += QString::fromUtf8(get_str(data->Resources, i));
-            res += "<br/>";
+            QString resource = get_str(data->Resources, i);
+            if (!resource.isEmpty()){
+                res += "/";
+                res += resource;
+            }
+            res += "</b>";
+
             unsigned onlineTime = atol(get_str(data->ResourceOnlineTime, i));
             unsigned statusTime = atol(get_str(data->ResourceStatusTime, i));
             if (onlineTime){
@@ -1356,9 +1380,19 @@ QString JabberClient::contactTip(void *_data)
                 res += ": </font>";
                 res += formatDateTime(statusTime);
             }
+
+            QString clientName = get_str(data->ResourceClientName, i);
+            QString clientVersion = get_str(data->ResourceClientVersion, i);
+            QString clientOS = get_str(data->ResourceClientOS, i);
+            if (!clientName.isEmpty()) {
+                res += "<br/>" + clientName + " " + clientVersion;
+                if (!clientOS.isEmpty())
+                    res += " / " + clientOS;
+            }
+
             const char *reply = get_str(data->ResourceReply, i);
             if (reply && *reply){
-                res += "<br/>";
+                res += "<br/><br/>";
                 QString r = QString::fromUtf8(reply);
                 r = r.replace(QRegExp("\n"), "<br/>");
                 res += r;

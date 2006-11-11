@@ -32,6 +32,10 @@
 #endif
 #endif
 
+#ifdef HAVE_UNAME
+#include <sys/utsname.h>
+#endif
+
 #include <time.h>
 
 #include <stdio.h>
@@ -875,5 +879,68 @@ EXPORT int strcasecmp(const char *a, const char *b)
 
 #endif
 
-
+EXPORT QString get_os_version()
+{
+    QString res;
+#ifdef WIN32
+    res += "Windows ";
+    OSVERSIONINFOA osvi;
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionExA(&osvi);
+    switch (osvi.dwPlatformId){
+    case VER_PLATFORM_WIN32_NT:
+	if ((osvi.dwMajorVersion == 6) && (osvi.dwMinorVersion == 0)){
+            res += "Vista";
+	}else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 2)){
+            res += "2003";
+        }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 1)){
+            res += "XP";
+        }else if ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion == 0 )){
+            res += "2000";
+        }else{
+            res += "NT ";
+	}
+        res += " ";
+        res += QString::number(osvi.dwMajorVersion);
+        res += ".";
+        res += QString::number(osvi.dwMinorVersion);
+        res += ".";
+        res += QString::number(osvi.dwBuildNumber);
+        res += " ";
+        res += osvi.szCSDVersion;
+        break;
+    case VER_PLATFORM_WIN32_WINDOWS:
+        if (osvi.dwMajorVersion == 4){
+            if (osvi.dwMinorVersion == 0){
+                res += "95";
+                if ((osvi.szCSDVersion[1] == 'C') || (osvi.szCSDVersion[1] == 'B'))
+                    res += " OSR2";
+            }else if (osvi.dwMinorVersion == 10){
+                res += "98";
+                if ( osvi.szCSDVersion[1] == 'A' )
+                    res += " SE";
+            }else if (osvi.dwMinorVersion == 90){
+                res += "Millennium";
+            }
+            res += " ";
+            res += QString::number(osvi.dwMajorVersion);
+            res += ".";
+            res += QString::number(osvi.dwMinorVersion);
+        }
+        break;
+    case VER_PLATFORM_WIN32s:
+        res += "32s";
+        break;
+    }
+#else
+    struct utsname unamebuf;
+    if (uname(&unamebuf) == 0)
+        res = unamebuf.sysname;
+        res += " ";
+        res += unamebuf.release;
+        res += " ";
+        res += unamebuf.machine;
+#endif
+    return res;
+}
 

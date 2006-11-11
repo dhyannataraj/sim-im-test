@@ -40,7 +40,6 @@ DiscoInfo::DiscoInfo(JabberBrowser *browser, const QString &features,
     setTitle();
     setButtonsPict(this);
     connect(buttonApply, SIGNAL(clicked()), this, SLOT(apply()));
-    m_bVersion = true;
     m_bTime    = true;
     m_bLast	   = true;
     m_bStat	   = true;
@@ -100,7 +99,6 @@ void DiscoInfo::reset()
     edtType->setText(m_type);
     edtCategory->setText(m_category);
     edtNameSpace->setText(m_features);
-    bool bVersion = false;
     bool bTime    = false;
     bool bLast	  = false;
     bool bStat	  = false;
@@ -108,8 +106,6 @@ void DiscoInfo::reset()
     QString mf = m_features;
     while (!mf.isEmpty()){
         QString f = getToken(mf, '\n');
-        if (f == "jabber:iq:version")
-            bVersion = true;
         if (f == "jabber:iq:time")
             bTime = true;
         if (f == "jabber:iq:last")
@@ -119,21 +115,11 @@ void DiscoInfo::reset()
         if (f == "vcard-temp")
             bVCard = true;
     }
-    int pos = 1;
-    if (bVersion != m_bVersion){
-        m_bVersion = bVersion;
-        if (m_bVersion){
-            tabInfo->insertTab(tabVersion, i18n("&Version"), pos++);
-        }else{
-            tabInfo->removePage(tabVersion);
-        }
-    }else if (m_bVersion){
-        pos++;
-    }
+    int pos = 2;
     edtName->setText("");
     edtVersion->setText("");
     edtSystem->setText("");
-    m_versionId = m_bVersion ? m_browser->m_client->versionInfo(m_url.utf8(), m_node.utf8()) : "";
+    m_browser->m_client->versionInfo(m_url.utf8(), m_node.utf8());
     if ((bTime || bLast) != (m_bTime || m_bLast)){
         m_bTime = bTime;
         m_bLast = bLast;
@@ -214,13 +200,6 @@ void *DiscoInfo::processEvent(Event *e)
     }
     if (e->type() == EventDiscoItem){
         DiscoItem *item = (DiscoItem*)(e->param());
-        if (m_versionId == item->id){
-            m_versionId = "";
-            edtName->setText(QString::fromUtf8(item->name.c_str()));
-            edtVersion->setText(QString::fromUtf8(item->jid.c_str()));
-            edtSystem->setText(QString::fromUtf8(item->node.c_str()));
-            return e->param();
-        }
         if (m_timeId == item->id){
             m_timeId = "";
             edtTime->setText(QString::fromUtf8(item->jid.c_str()));
@@ -256,6 +235,14 @@ void *DiscoInfo::processEvent(Event *e)
             date += time;
             edtLast->setText(date);
             return e->param();
+        }
+    }
+    if (e->type() == EventClientVersion){
+        ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
+        if (!str_cmp(m_data.ID.ptr, info->jid.utf8()) && !str_cmp(m_data.Node.ptr, info->node.utf8())){
+            edtName->setText(info->name);
+            edtVersion->setText(info->version);
+            edtSystem->setText(info->os);
         }
     }
     return NULL;

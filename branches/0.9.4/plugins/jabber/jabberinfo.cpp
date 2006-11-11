@@ -40,6 +40,7 @@ JabberInfo::JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClien
     edtOnline->setReadOnly(true);
     edtNA->setReadOnly(true);
     edtID->setReadOnly(true);
+    edtClient->setReadOnly(true);
     if (m_data){
         edtFirstName->setReadOnly(true);
         edtNick->setReadOnly(true);
@@ -102,6 +103,7 @@ void JabberInfo::resourceActivated(int i)
     unsigned statusTime;
     unsigned onlineTime;
     QString autoReply;
+    QString clientName, clientVersion, clientOS;
     if ((n == 0) || (n > data->nResources.value)){
         status = m_data ? m_data->Status.value : m_client->getStatus();
         statusTime = data->StatusTime.value;
@@ -111,6 +113,9 @@ void JabberInfo::resourceActivated(int i)
         statusTime = atol(get_str(data->ResourceStatusTime, n));
         onlineTime = atol(get_str(data->ResourceOnlineTime, n));
         autoReply = QString::fromUtf8(get_str(data->ResourceReply, n));
+        clientName = get_str(data->ResourceClientName, n);
+        clientVersion = get_str(data->ResourceClientVersion, n);
+        clientOS = get_str(data->ResourceClientOS, n);
     }
     int current = 0;
     const char *text = NULL;
@@ -156,6 +161,15 @@ void JabberInfo::resourceActivated(int i)
     }else{
         edtAutoReply->show();
         edtAutoReply->setText(autoReply);
+    }
+    if (clientName.isEmpty()){
+        edtClient->setEnabled(false);
+    }else{
+        edtClient->setEnabled(true);
+        QString clientString = clientName + " " + clientVersion;
+        if (!clientOS.isEmpty())
+            clientString += " / " + clientOS;
+        edtClient->setText(clientString);
     }
 }
 

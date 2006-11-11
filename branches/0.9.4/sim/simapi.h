@@ -1824,5 +1824,5 @@ EXPORT void setLogEnable(bool);
 using namespace SIM;
 
 EXPORT QString g_i18n(const char *text, Contact *contact);
-
+EXPORT QString get_os_version();
 #endif

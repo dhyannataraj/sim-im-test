@@ -12,6 +12,11 @@ Core
 [-] Fix restoring font sizes.
 [*] Use QLibrary for plugins instead of libltdl.
 
+Jabber plugin
+~~~~~~~~~~~~~
+[+] Add support for XEP-0092 client version info requests/replies.
+[*] Show resource as a part of JID in contact tip, not as separate line.
+[*] Remove SIM version from default resource value.
 
 === SIM 0.9.4.1 (21.10.2006) ===
 

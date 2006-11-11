@@ -50,13 +50,11 @@ protected:
     void *processEvent(Event *e);
     void resizeEvent(QResizeEvent*);
     void setTitle();
-    bool m_bVersion;
     bool m_bTime;
     bool m_bLast;
     bool m_bStat;
     bool m_bVCard;
     JabberBrowser *m_browser;
-    string m_versionId;
     string m_timeId;
     string m_lastId;
     string m_statId;

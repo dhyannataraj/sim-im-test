@@ -79,6 +79,9 @@ typedef struct JabberUserData
     Data		ResourceStatusTime;
     Data		ResourceOnlineTime;
     Data		AutoReply;
+    Data		ResourceClientName;
+    Data		ResourceClientVersion;
+    Data		ResourceClientOS;
 } JabberUserData;
 
 typedef struct JabberClientData
@@ -165,6 +168,16 @@ typedef struct DiscoItem
     string			features;
 } DiscoItem;
 
+struct ClientVersionInfo
+{
+    QString             jid;
+    QString             node;
+    QString             resource;
+    QString             name;
+    QString             version;
+    QString             os;
+};
+
 class JabberClient : public TCPClient, public SAXParser
 {
     Q_OBJECT
@@ -210,6 +223,7 @@ class IqRequest : public ServerRequest
         string		m_query;
         string		m_from;
         string		m_id;
+        string		m_type;
         string		m_file_name;
         unsigned	m_file_size;
     };
@@ -332,7 +346,7 @@ class MessageRequest : public ServerRequest
     string discoItems(const char *jid, const char *node);
     string discoInfo(const char *jid, const char *node);
     string browse(const char *jid);
-    string versionInfo(const char *jid, const char *node);
+    string versionInfo(const char *jid, const char *node = "");
     string timeInfo(const char *jid, const char *node);
     string lastInfo(const char *jid, const char *node);
     string statInfo(const char *jid, const char *node);
