@@ -15,15 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icqclient.h"
-#include "icqssbi.h"
-
 #include <list>
 
 #include <qbuffer.h>
 #include <qimage.h>
 #include <qfile.h>
 #include <qtimer.h>
+
+#include "icqclient.h"
+#include "icqssbi.h"
 
 using namespace std;
 using namespace SIM;
@@ -241,6 +241,13 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 
 void SSBISocket::process()
 {
+    if(!m_img.isNull()) {
+        unsigned short ref = m_refNumber;
+        QImage img = m_img;
+        m_refNumber = 0;
+        m_img = QImage();
+        uploadBuddyIcon(ref, img);
+    }
     while(m_buddyRequests.count()) {
         // implement me: we can also request more than one buddy at a time !
         ICQUserData *data;
@@ -255,11 +262,6 @@ void SSBISocket::process()
             requestBuddy(screen, data->buddyID.toULong(), data->buddyHash.toBinary());
             return;
         }
-    }
-    if(!m_img.isNull()) {
-        uploadBuddyIcon(m_refNumber, m_img);
-        m_refNumber = 0;
-        m_img = QImage();
     }
 }
 
@@ -296,6 +298,11 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
     buf.close();
 
     len = ba.size();
+    if(ba.size() > 0xffff) {
+        log(L_ERROR, "Image is to big (max: %d bytes)", 0xffff);
+        len = 0xffff;
+    }
+
     snac(ICQ_SNACxFAM_SSBI, ICQ_SNACxSSBI_UPLOAD, true);
     m_socket->writeBuffer << refNumber;
     m_socket->writeBuffer << len;
