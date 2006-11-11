@@ -73,6 +73,7 @@ protected:
     bool  bNoToggle;
     QString m_tip;
     QString m_curTipText;
+    QString m_curIcon;
     QString m_state;
     QString m_unread;
     QString m_unreadText;

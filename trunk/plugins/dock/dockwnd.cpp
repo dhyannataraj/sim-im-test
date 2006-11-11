@@ -1026,6 +1026,9 @@ void DockWnd::setIcon(const QString &icon)
     }
 #endif
 #endif
+    if(m_curIcon == icon)
+        return;
+    m_curIcon = icon;
     drawIcon = Pict(icon);
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
