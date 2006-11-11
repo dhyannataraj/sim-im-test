@@ -193,8 +193,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->menu_id	 = MenuWeb;
     cmd->menu_grp	 = 0x1000;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = MessageJournal;
     cmd->text		 = I18N_NOOP("LiveJournal &post");
@@ -392,7 +391,7 @@ string LiveJournalClient::getConfig()
 class MessageRequest : public LiveJournalRequest
 {
 public:
-    MessageRequest(LiveJournalClient *client, JournalMessage *msg, const char *journal);
+    MessageRequest(LiveJournalClient *client, JournalMessage *msg, const QString &journal);
     ~MessageRequest();
 protected:
     void result(const QString &key, const QString &value);
@@ -500,7 +499,7 @@ void BRParser::add_color()
     m_str += s;
 }
 
-MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, const char *journal)
+MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, const QString &journal)
         : LiveJournalRequest(client, msg->getID() ? "editevent" : "postevent")
 {
     m_msg = msg;
@@ -552,7 +551,7 @@ MessageRequest::MessageRequest(LiveJournalClient *client, JournalMessage *msg, c
     }
     if (msg->getMood())
         addParam("prop_current_moodid", QString::number(msg->getMood()));
-    if (journal)
+    if (!journal.isEmpty())
         addParam("usejournal", journal);
     if (msg->getComments() == COMMENT_NO_MAIL){
         addParam("prop%5Fopt%5Fnoemail", "1");
@@ -887,7 +886,7 @@ LoginRequest::~LoginRequest()
             return;
         if (m_err.isEmpty())
             m_err = I18N_NOOP("Login failed");
-        m_client->auth_fail(m_err.utf8());
+        m_client->auth_fail(m_err);
     }
     Event e(EventClientChanged, m_client);
     e.process();
@@ -994,7 +993,7 @@ void LiveJournalClient::packet_ready()
 {
 }
 
-void LiveJournalClient::auth_fail(const char *err)
+void LiveJournalClient::auth_fail(const QString &err)
 {
     m_reconnect = NO_RECONNECT;
     error_state(err, AuthError);
@@ -1045,8 +1044,9 @@ void *LiveJournalClient::processEvent(Event *e)
             m_timer->start(getInterval() * 60 * 1000, true);
         return e->param();
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdDeleteJournalMessage){
             Message *msg = (Message*)(cmd->param);
             Contact *contact = getContacts()->contact(msg->contact());
@@ -1066,7 +1066,7 @@ void *LiveJournalClient::processEvent(Event *e)
                     m->setText("");
                     if (!send(m, data))
                         delete m;
-                    return e->param();
+                    return (void*)1;
                 }
             }
             return NULL;
@@ -1082,7 +1082,7 @@ void *LiveJournalClient::processEvent(Event *e)
             return NULL;
 		EventGoURL eUrl(url);
         eUrl.process();
-        return e->param();
+        return (void*)1;
     }
     if (e->type() == EventCheckState){
         CommandDef *cmd = (CommandDef*)(e->param());
@@ -1093,8 +1093,7 @@ void *LiveJournalClient::processEvent(Event *e)
             unsigned nItems = 0;
             unsigned list_id = menu_id * 0x100 + 1;
             for (;;){
-                const char *text = getMenu(list_id);
-                if ((text == NULL) || (*text == 0))
+                if (getMenu(list_id).isEmpty())
                     break;
                 nItems++;
                 list_id++;
@@ -1108,11 +1107,10 @@ void *LiveJournalClient::processEvent(Event *e)
                 if (text.isEmpty())
                     break;
                 cmds[i].text = "_";
-                if (text ==  "-"){
+                if (text !=  "-"){
                     cmds[i].id = CmdMenuWeb + i + 1;
                     cmds[i].text = "_";
-                    QString s = i18n(text);
-                    cmds[i].text_wrk = s;
+                    cmds[i].text_wrk = i18n(text);
                     QString url = getMenuUrl(list_id);
                     if (url.startsWith("@")){
                         url = url.mid(1);
@@ -1120,14 +1118,13 @@ void *LiveJournalClient::processEvent(Event *e)
                         while (nSub > LiveJournalPlugin::MenuCount){
                             unsigned long menu_id = MenuWeb + (++LiveJournalPlugin::MenuCount);
                             EventMenu(menu_id, EventMenu::eAdd).process();
-                            Command cmd;
-                            cmd->id       = CmdMenuWeb;
-                            cmd->text     = "_";
-                            cmd->menu_id  = menu_id;
-                            cmd->menu_grp = 0x1000;
-                            cmd->flags    = COMMAND_CHECK_STATE;
-                            Event e(EventCommandCreate, cmd);
-                            e.process();
+                            CommandDef c;
+                            c.id       = CmdMenuWeb;
+                            c.text     = "_";
+                            c.menu_id  = menu_id;
+                            c.menu_grp = 0x1000;
+                            c.flags    = COMMAND_CHECK_STATE;
+                            EventCommandCreate(&c).process();
                         }
                         cmds[i].popup_id = MenuWeb + nSub;
                     }
@@ -1464,7 +1461,9 @@ I18N_NOOP("Your To-Do List")
 I18N_NOOP("Change Settings")
 I18N_NOOP("Support")
 I18N_NOOP("Personal Info")
+I18N_NOOP("Customize Journal")
 I18N_NOOP("Journal Settings")
+I18N_NOOP("Upgrade your account")
 
 #endif
 

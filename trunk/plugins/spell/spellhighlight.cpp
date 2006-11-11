@@ -24,6 +24,7 @@
 #include <qtimer.h>
 
 using namespace std;
+using namespace SIM;
 const unsigned ErrorColor = 0xFF0101;
 
 SpellHighlighter::SpellHighlighter(QTextEdit *edit, SpellPlugin *plugin)
@@ -267,8 +268,9 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
             return cmd;
         }
     }
-    if (e->type() == SIM::EventCommandExec){
-        SIM::CommandDef *cmd = (SIM::CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdSend){
             if (((MsgEdit*)(cmd->param))->m_edit == textEdit()){
                 m_bDisable = true;

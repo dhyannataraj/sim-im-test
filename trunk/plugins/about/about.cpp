@@ -64,22 +64,20 @@ AboutPlugin::AboutPlugin(unsigned base)
     cmd->bar_id		= ToolBarMain;
     cmd->menu_id	= MenuMain;
     cmd->menu_grp	= 0xF000;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     about = NULL;
     cmd->id			= CmdAbout;
     cmd->text		= I18N_NOOP("&About SIM");
     cmd->icon		= "SIM";
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
 #ifdef USE_KDE
     about_kde = NULL;
     cmd->id			= CmdAboutKDE;
     cmd->text		= I18N_NOOP("About &KDE");
     cmd->icon		= "about_kde";
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 #endif
 }
 
@@ -91,16 +89,15 @@ AboutPlugin::~AboutPlugin()
     if (about_kde)
         delete about_kde;
 #endif
-    Event eBug(EventCommandRemove, (void*)CmdBugReport);
-    eBug.process();
-    Event eAbout(EventCommandRemove, (void*)CmdAbout);
-    eAbout.process();
+    EventCommandRemove(CmdBugReport).process();
+    EventCommandRemove(CmdAbout).process();
 }
 
 void *AboutPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdBugReport){
 			QString s = "http://developer.berlios.de/bugs/?group_id=4482";
             EventGoURL eURL(s);

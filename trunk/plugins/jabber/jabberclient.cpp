@@ -403,9 +403,8 @@ void *JabberClient::processEvent(Event *e)
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;
             cmd->param	 = (void*)(contact->id());
-            Event eCmd(EventCommandExec, cmd);
-            eCmd.process();
-            return e->param();
+            EventCommandExec(cmd).process();
+            return (void*)1;
         }
         break;
     }

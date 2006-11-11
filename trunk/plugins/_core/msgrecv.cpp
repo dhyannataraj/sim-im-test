@@ -76,8 +76,9 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
 
 void *MsgReceived::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         unsigned id = cmd->bar_grp;
         if (cmd->param == m_edit){
             MessageDef *mdef = NULL;

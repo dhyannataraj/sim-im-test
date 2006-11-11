@@ -424,8 +424,9 @@ void *GpgPlugin::processEvent(Event *e)
             }
             return NULL;
         }
-    case EventCommandExec:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if ((cmd->menu_id == MenuMessage) && (cmd->id == MessageGPGUse)){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
@@ -927,8 +928,9 @@ void *MsgGPGKey::processEvent(Event *e)
             }
         }
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
             if (!msgText.isEmpty()){

@@ -198,7 +198,6 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 void *MainWindow::processEvent(Event *e)
 {
-    CommandDef *cmd;
     WindowDef  *wnd;
     switch(e->type()){
     case eEventSetMainIcon: {
@@ -218,11 +217,13 @@ void *MainWindow::processEvent(Event *e)
             raiseWindow(this);
             break;
         }
-    case EventCommandExec:
-        cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdQuit)
             quit();
         break;
+    }
     case EventAddWindow:
         wnd = (WindowDef*)(e->param());
         addWidget(wnd->widget, wnd->bDown);

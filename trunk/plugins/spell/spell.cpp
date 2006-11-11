@@ -97,16 +97,14 @@ SpellPlugin::SpellPlugin(unsigned base, Buffer *config)
     cmd->menu_id     = MenuTextEdit;
     cmd->menu_grp    = 0x0100;
     cmd->flags		 = SIM::COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
-    SIM::Event eCmd(SIM::EventCommandCreate, cmd);
-    eCmd.process();
     reset();
 }
 
 SpellPlugin::~SpellPlugin()
 {
-    SIM::Event eCmd(SIM::EventCommandRemove, (void*)CmdSpell);
-    eCmd.process();
+    EventCommandRemove(CmdSpell).process();
     deactivate();
     for (list<Speller*>::iterator it = m_spellers.begin(); it != m_spellers.end(); ++it)
         delete (*it);

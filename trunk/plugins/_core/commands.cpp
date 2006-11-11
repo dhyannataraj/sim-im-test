@@ -148,7 +148,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
                 cmdKey = QAccel::shortcutKey(i18n(cmd->text));
                 if ((cmdKey & ~UNICODE_ACCEL) == key){
                     cmd->param = param;
-                    Event eCmd(EventCommandExec, cmd);
+                    EventCommandExec eCmd(cmd);
                     if (eCmd.process())
                         break;
                 }
@@ -158,7 +158,7 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
             cmdKey = QAccel::stringToKey(i18n(cmd->accel));
             if (cmdKey == key){
                 cmd->param = param;
-                Event eCmd(EventCommandExec, cmd);
+                EventCommandExec eCmd(cmd);
                 if (eCmd.process())
                     break;
             }

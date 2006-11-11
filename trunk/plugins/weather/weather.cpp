@@ -123,8 +123,8 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
     cmd->bar_id = BarWeather;
     cmd->bar_grp = 0x1000;
     cmd->flags = BTN_PICT | BTN_DIV;
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
+
     m_bar = NULL;
     if (!bInit){
         showBar();
@@ -136,7 +136,7 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
 WeatherPlugin::~WeatherPlugin()
 {
     delete m_bar;
-    Event(EventCommandRemove, (void*)CmdWeather).process();
+    EventCommandRemove(CmdWeather).process();
     EventToolbar(BarWeather, EventToolbar::eRemove).process();
     free_data(weatherData, &data);
     getIcons()->removeIconSet(m_icons);
@@ -176,8 +176,9 @@ void *WeatherPlugin::processEvent(Event *e)
         updateButton();
     if (e->type() == eEventInit)
         showBar();
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdWeather) && !getID().isEmpty()){
             QString url = "http://www.weather.com/outlook/travel/local/";
             url += getID();
@@ -323,8 +324,7 @@ void WeatherPlugin::updateButton()
     cmd->bar_id  = BarWeather;
     cmd->bar_grp = 0x1000;
     cmd->flags   = BTN_PICT | BTN_DIV;
-    Event eCmd(EventCommandChange, cmd);
-    eCmd.process();
+    EventCommandChange(cmd).process();
 
     QString text = unquoteText(getButtonText());
     QString tip  = getTipText();

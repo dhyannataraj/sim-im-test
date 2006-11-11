@@ -43,8 +43,7 @@ ListView::ListView(QWidget *parent, const char *name)
         cmd->menu_grp	= 0x1000;
         cmd->flags		= COMMAND_DEFAULT;
 
-        Event eCmd(EventCommandCreate, cmd);
-        eCmd.process();
+        EventCommandCreate(cmd).process();
     }
     setAllColumnsShowFocus(true);
     m_bAcceptDrop = false;
@@ -83,8 +82,9 @@ void ListView::setMenu(unsigned long menuId)
 
 void *ListView::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdListDelete) && (cmd->menu_id == MenuListView)){
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() == this){

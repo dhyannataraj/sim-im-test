@@ -324,14 +324,12 @@ ICQPlugin::ICQPlugin(unsigned base)
     cmd->menu_id     = MenuContactGroup;
     cmd->menu_grp    = 0x8010;
     cmd->flags		 = COMMAND_CHECK_STATE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdInvisibleList;
     cmd->text		 = I18N_NOOP("Invisible list");
     cmd->menu_grp	 = 0x8011;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdIcqSendMessage;
     cmd->text		 = I18N_NOOP("&Message");
@@ -341,26 +339,26 @@ ICQPlugin::ICQPlugin(unsigned base)
     cmd->bar_id		 = 0;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdInfo;
     cmd->text		 = I18N_NOOP("User &info");
     cmd->icon		 = "info";
     cmd->menu_grp	 = 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdGroups;
     cmd->text		 = I18N_NOOP("&Add to group");
     cmd->icon		 = QString::null;
     cmd->menu_grp	 = 0x1002;
     cmd->popup_id	 = MenuIcqGroups;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdGroups;
     cmd->text		 = "_";
     cmd->menu_id	 = MenuIcqGroups;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     registerMessages();
 
@@ -379,11 +377,8 @@ ICQPlugin::~ICQPlugin()
     getContacts()->removePacketType(ICQDirectPacket);
     getContacts()->removePacketType(AIMDirectPacket);
 
-    Event eVisible(EventCommandRemove, (void*)CmdVisibleList);
-    eVisible.process();
-
-    Event eInvisible(EventCommandRemove, (void*)CmdInvisibleList);
-    eInvisible.process();
+    EventCommandRemove(CmdVisibleList).process();
+    EventCommandRemove(CmdInvisibleList).process();
 
     EventMenu(MenuSearchResult, EventMenu::eRemove).process();
     EventMenu(MenuIcqGroups, EventMenu::eRemove).process();

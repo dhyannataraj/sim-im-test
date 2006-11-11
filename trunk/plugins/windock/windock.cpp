@@ -372,8 +372,8 @@ WinDockPlugin::WinDockPlugin(unsigned base, Buffer *config)
     m_autoHide = new QTimer(this);
     connect(m_autoHide, SIGNAL(timeout()), this, SLOT(slotAutoHide()));
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
+
     WM_APPBAR = RegisterWindowMessageA("AppBarNotify");
     init();
 }
@@ -381,8 +381,7 @@ WinDockPlugin::WinDockPlugin(unsigned base, Buffer *config)
 WinDockPlugin::~WinDockPlugin()
 {
     uninit();
-    Event eCmd(EventCommandRemove, (void*)CmdAutoHide);
-    eCmd.process();
+    EventCommandRemove(CmdAutoHide).process();
     free_data(winDockData, &data);
 }
 
@@ -403,8 +402,9 @@ void WinDockPlugin::uninit()
 
 void *WinDockPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdAutoHide){
             dock->setAutoHide((cmd->flags & COMMAND_CHECKED) != 0);
             bAutoHideVisible = true;

@@ -131,15 +131,14 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     cmd->menu_id  = 0;
     cmd->menu_grp = 0;
     cmd->flags	  = COMMAND_CHECK_STATE;
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->icon	  = QString::null;
     cmd->icon_on  = QString::null;
     cmd->bar_id   = 0;
     cmd->menu_id  = MenuMain;
     cmd->flags	  = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
@@ -161,8 +160,7 @@ SoundPlugin::~SoundPlugin()
 {
     delete m_sound;
     soundPlugin = NULL;
-    Event eCmd(EventCommandRemove, (void*)CmdSoundDisable);
-    eCmd.process();
+    EventCommandRemove(CmdSoundDisable).process();
     Event e(EventRemovePreferences, (void*)user_data_id);
     e.process();
     free_data(soundData, &data);
@@ -205,8 +203,9 @@ void *SoundPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventCommandExec: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (!m_bChanged && (cmd->id == CmdSoundDisable)){
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
             data->Disable.asBool() = !data->Disable.toBool();

@@ -222,8 +222,9 @@ void *MsgSMS::processEvent(Event *e)
         }
         return e->param();
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             unsigned flags = 0;
             QString msgText = m_edit->m_edit->text();

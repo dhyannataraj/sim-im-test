@@ -86,8 +86,7 @@ FloatyPlugin::FloatyPlugin(unsigned base)
     cmd->menu_id  = MenuContact;
     cmd->menu_grp = 0xB000;
     cmd->flags	  = COMMAND_CHECK_STATE;
-    Event e(EventCommandCreate, cmd);
-    e.process();
+    EventCommandCreate(cmd).process();
 
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
@@ -106,8 +105,7 @@ FloatyPlugin::~FloatyPlugin()
         ++it;
     }
     delete list;
-    Event e(EventCommandRemove, (void*)CmdFloaty);
-    e.process();
+    EventCommandRemove(CmdFloaty).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 
@@ -164,8 +162,9 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventCommandExec:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){

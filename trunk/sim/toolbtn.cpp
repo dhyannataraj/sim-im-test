@@ -218,8 +218,7 @@ void CToolButton::btnClicked()
     }
     if (isToggleButton())
         return;
-    Event e(EventCommandExec, &m_def);
-    e.process();
+    EventCommandExec(&m_def).process();
 }
 
 void CToolButton::btnToggled(bool state)
@@ -232,8 +231,7 @@ void CToolButton::btnToggled(bool state)
     }else{
         m_def.flags &= ~COMMAND_CHECKED;
     }
-    Event e(EventCommandExec, &m_def);
-    e.process();
+    EventCommandExec(&m_def).process();
 }
 
 QPoint CToolButton::popupPos(QWidget *p)
@@ -615,70 +613,80 @@ void CToolBar::contextMenuEvent(QContextMenuEvent *e)
 
 void* CToolBar::processEvent(Event *e)
 {
-    CToolItem *button;
-    CommandDef *cmd;
     ButtonsMap::iterator it;
     switch (e->type()){
     case EventToolbarChanged:
         if ((CommandsDef*)(e->param()) == m_def)
             toolBarChanged();
         break;
-    case EventCommandRemove:
-        button = buttons->remove((unsigned long)(e->param()));
+    case eEventCommandRemove: {
+        EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
+        CToolItem *button = buttons->remove(ecr->id());
         if (button)
             delete button;
         break;
-    case EventCommandWidget:
-        cmd = (CommandDef*)(e->param());
+    }
+    case EventCommandWidget: {
+        CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())
                 return (*it).second->widget();
         }
         return NULL;
+    }
     case eEventLanguageChanged:
     case eEventIconChanged:
         for (it = buttons->begin(); it != buttons->end(); ++it){
             (*it).second->setState();
         }
         return NULL;
-    case EventCommandCreate:
-        cmd = (CommandDef*)(e->param());
+    case eEventCommandCreate: {
+        EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
+        CommandDef *cmd = ecc->cmd();
         if (cmd->bar_id == m_def->id())
             toolBarChanged();
         break;
-    case EventCommandChange:
-        cmd = (CommandDef*)(e->param());
+    }
+    case eEventCommandChange: {
+        EventCommandChange *ecc = static_cast<EventCommandChange*>(e);
+        CommandDef *cmd = ecc->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setCommand(cmd);
         }
         return NULL;
-    case EventCommandChecked:
-        cmd = (CommandDef*)(e->param());
+    }
+    case EventCommandChecked: {
+        CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setChecked(cmd);
         }
         return NULL;
-    case EventCommandDisabled:
-        cmd = (CommandDef*)(e->param());
+    }
+    case EventCommandDisabled: {
+        CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setDisabled(cmd);
         }
         return NULL;
-    case EventCommandShow:
-        cmd = (CommandDef*)(e->param());
+    }
+    case EventCommandShow: {
+        CommandDef *cmd = (CommandDef*)(e->param());
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setShow(cmd);
         }
         return NULL;
+    }
+    default:
+        break;
     }
     return NULL;
 }

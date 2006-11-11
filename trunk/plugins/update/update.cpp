@@ -159,8 +159,9 @@ bool UpdatePlugin::done(unsigned, Buffer&, const QString &headers)
 
 void *UpdatePlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdGo){
             EventGoURL eGo(m_url);
             eGo.process();

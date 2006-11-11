@@ -1342,8 +1342,9 @@ void *MSNClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
     switch(e->type()) {
-    case EventCommandExec: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNInitMail){
             EventGoURL eGo(m_init_mail);
             eGo.process();

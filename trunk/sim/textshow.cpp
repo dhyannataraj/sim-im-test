@@ -270,8 +270,9 @@ void *TextEdit::processEvent(Event *e)
             return NULL;
         }
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->param != m_param)
             return NULL;
         switch (cmd->id){

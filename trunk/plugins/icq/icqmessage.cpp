@@ -877,8 +877,7 @@ void ICQPlugin::registerMessages()
     cmd->menu_grp	= 0;
     cmd->flags		= BTN_EDIT | BTN_NO_BUTTON | COMMAND_CHECK_STATE;
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
 }
 
@@ -923,8 +922,7 @@ void ICQPlugin::unregisterMessages()
     Event eWarning(EventRemoveMessageType, (void*)MessageWarning);
     eWarning.process();
 
-    Event eURL(EventCommandRemove, (void*)CmdUrlInput);
-    eURL.process();
+    EventCommandRemove(CmdUrlInput).process();
 }
 
 void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data)

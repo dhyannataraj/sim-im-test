@@ -259,8 +259,7 @@ void JabberBrowser::startProcess()
     cmd->bar_grp	 = 0x2000;
     cmd->flags		 = BTN_COMBO_CHECK;
     cmd->param		 = this;
-    Event e(EventCommandChange, cmd);
-    e.process();
+    EventCommandChange(cmd).process();
 }
 
 void JabberBrowser::showEvent(QShowEvent *e)
@@ -417,15 +416,16 @@ void *JabberBrowser::processEvent(Event *e)
             return e->param();
         }
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (((cmd->menu_id == MenuSearchItem) || (cmd->menu_id == MenuSearchOptions)) && isVisible()){
             Command c;
             c->id    = cmd->id;
             if (cmd->id == CmdSearchInfo)
                 c->id = CmdBrowseInfo;
             c->param = this;
-            Event e(EventCommandExec, c);
+            EventCommandExec e(c);
             return e.process();
         }
         if (cmd->param != this)
@@ -795,8 +795,7 @@ void JabberBrowser::stop(const QString &err)
     cmd->bar_grp	 = 0x2000;
     cmd->flags		 = BTN_COMBO_CHECK;
     cmd->param		 = this;
-    Event e(EventCommandChange, cmd);
-    e.process();
+    EventCommandChange(cmd).process();
     if (!err.isEmpty()){
         Command cmd;
         cmd->id		= CmdUrl;

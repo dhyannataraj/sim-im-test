@@ -88,9 +88,7 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
     cmd->menu_id     = MenuMain;
     cmd->menu_grp    = 0x8000;
     cmd->flags		= COMMAND_DEFAULT;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     EventArg e("-m", I18N_NOOP("Show network monitor"));
     if (e.process() || getShow())
@@ -99,8 +97,7 @@ NetmonitorPlugin::NetmonitorPlugin(unsigned base, Buffer *config)
 
 NetmonitorPlugin::~NetmonitorPlugin()
 {
-    Event eCmd(EventCommandRemove, (void*)CmdNetMonitor);
-    eCmd.process();
+    EventCommandRemove(CmdNetMonitor).process();
 
     delete monitor;
 
@@ -155,8 +152,9 @@ void NetmonitorPlugin::showMonitor()
 
 void *NetmonitorPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdNetMonitor){
             showMonitor();
             return monitor;

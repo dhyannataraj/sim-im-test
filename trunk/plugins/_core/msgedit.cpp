@@ -235,8 +235,7 @@ void MsgEdit::execCommand()
     if (m_cmd.param == NULL)
         return;
     Message *msg = (Message*)(m_cmd.param);
-    Event e(EventCommandExec, &m_cmd);
-    e.process();
+    EventCommandExec(&m_cmd).process();
     delete msg;
     m_cmd.param = NULL;
     switch (m_cmd.id){
@@ -260,8 +259,7 @@ void MsgEdit::showCloseSend(bool bState)
     cmd->param		= this;
     if (CorePlugin::m_plugin->getCloseSend())
         cmd->flags |= COMMAND_CHECKED;
-    Event eCmd(EventCommandChange, cmd);
-    eCmd.process();
+    EventCommandChange(cmd).process();
 }
 
 void MsgEdit::resizeEvent(QResizeEvent *e)
@@ -900,8 +898,7 @@ bool MsgEdit::sendMessage(Message *msg)
     cmd->icon	= "cancel";
     cmd->flags	= BTN_PICT;
     cmd->param	= this;
-    Event eCmd(EventCommandChange, cmd);
-    eCmd.process();
+    EventCommandChange(cmd).process();
     m_msg = msg;
     return send();
 }
@@ -978,8 +975,7 @@ void MsgEdit::stopSend(bool bCheck)
         cmd->icon_on	= "1leftarrow";
         cmd->flags		= COMMAND_DEFAULT;
         cmd->param		= this;
-        Event eChange(EventCommandChange, cmd);
-        eChange.process();
+        EventCommandChange(cmd).process();
     }
     multiply.clear();
     Command cmd;
@@ -990,8 +986,7 @@ void MsgEdit::stopSend(bool bCheck)
     cmd->bar_grp	= 0x8000;
     cmd->flags		= BTN_PICT;
     cmd->param		= this;
-    Event eCmd(EventCommandChange, cmd);
-    eCmd.process();
+    EventCommandChange(cmd).process();
     if (bCheck && (m_msg == NULL))
         return;
     if (m_msg)
@@ -1157,8 +1152,9 @@ void *MsgEdit::processEvent(Event *e)
         }
         break;
     }
-    case EventCommandExec: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
 #if defined(USE_KDE)
 #if KDE_IS_VERSION(3,2,0)
         if (cmd->id == CmdEnableSpell){
@@ -1525,8 +1521,7 @@ void MsgEdit::editEnterPressed()
     Command cmd;
     cmd->id = CmdSend;
     cmd->param = this;
-    Event e(EventCommandExec, cmd);
-    e.process();
+    EventCommandExec(cmd).process();
 }
 
 SmileLabel::SmileLabel(const QString &_id, QWidget *parent)

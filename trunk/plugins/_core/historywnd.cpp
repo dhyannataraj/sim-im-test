@@ -166,8 +166,9 @@ void *HistoryWindow::processEvent(Event *e)
         }
         return NULL;
     }
-    case EventCommandExec: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((unsigned long)(cmd->param) != m_id)
             return NULL;
         if (cmd->id == CmdHistoryDirection){

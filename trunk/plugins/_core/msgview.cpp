@@ -1012,8 +1012,9 @@ void *MsgViewBase::processEvent(Event *e)
             return NULL;
         }
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))
             return NULL;
         Message *msg;
@@ -1072,9 +1073,8 @@ void *MsgViewBase::processEvent(Event *e)
                                 CommandDef cmd = *d;
                                 cmd.param = msg;
                                 cmd.menu_id = 0;
-                                Event eCmd(EventCommandExec, &cmd);
-                                eCmd.process();
-                                return e->param();
+                                EventCommandExec(&cmd).process();
+                                return (void*)1;
                             }
                         }
                     }
@@ -1083,7 +1083,7 @@ void *MsgViewBase::processEvent(Event *e)
                 c->id = cmd->id;
                 c->menu_id = MenuMsgCommand;
                 c->param = msg;
-                Event e(EventCommandExec, c);
+                EventCommandExec e(c);
                 void *res = e.process();
                 delete msg;
                 return res;

@@ -535,9 +535,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id      = ToolBarMain;
     cmd->menu_id     = MenuMain;
     cmd->menu_grp    = 0x8080;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdUnread;
     cmd->text		 = I18N_NOOP("Unread messages");
@@ -545,7 +543,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		 = 0;
     cmd->menu_grp	 = 0x3000;
     cmd->flags		 = COMMAND_IMPORTANT | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id          = CmdQuit;
     cmd->text        = I18N_NOOP("Quit");
@@ -554,7 +552,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id     = MenuMain;
     cmd->menu_grp    = 0x10080;
     cmd->flags		 = COMMAND_IMPORTANT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdMenu;
     cmd->text        = I18N_NOOP("&Menu");
@@ -564,7 +562,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id     = 0;
     cmd->menu_grp    = 0;
     cmd->popup_id    = MenuMain;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id          = CmdSearch;
     cmd->text        = I18N_NOOP("Search / Add contact");
@@ -575,14 +573,14 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp    = 0x2080;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdSendSMS;
     cmd->text		 = I18N_NOOP("&Send SMS");
     cmd->icon		 = "sms";
     cmd->menu_grp	 = 0x2081;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdPhones;
     cmd->text		 = I18N_NOOP("&Phone service");
@@ -592,7 +590,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	 = 0x60F0;
     cmd->popup_id	 = MenuPhones;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdMessageType;
     cmd->text		 = I18N_NOOP("Message");
@@ -603,14 +601,14 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	 = 0;
     cmd->popup_id	 = MenuMessage;
     cmd->flags		 = BTN_PICT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdContainerContact;
     cmd->text		 = I18N_NOOP("Contact");
     cmd->icon		 = "empty";
     cmd->bar_grp	 = 0x6000;
     cmd->popup_id	 = MenuContainerContact;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdContactGroup;
     cmd->text		 = I18N_NOOP("Group");
@@ -618,28 +616,28 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_grp	 = 0x7000;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->popup_id	 = MenuContactGroup;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdInfo;
     cmd->text		 = I18N_NOOP("User &info");
     cmd->icon		 = "info";
     cmd->popup_id	 = 0;
     cmd->bar_grp	 = 0x8000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdHistory;
     cmd->text		 = I18N_NOOP("&History");
     cmd->icon		 = "history";
     cmd->popup_id	 = 0;
     cmd->bar_grp	 = 0x8010;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdClose;
     cmd->text		 = I18N_NOOP("&Close");
     cmd->icon		 = "exit";
     cmd->accel		 = "Esc";
     cmd->bar_grp	 = 0xF000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     EventMenu(MenuContainerContact, EventMenu::eAdd).process();
 
@@ -652,7 +650,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		= 0;
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     EventMenu(MenuMessage, EventMenu::eAdd).process();
 
@@ -664,7 +662,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	= MenuMessage;
     cmd->menu_grp	= 0x30FF;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdSend;
     cmd->text		= I18N_NOOP("&Send");
@@ -674,7 +672,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		= ToolBarMsgEdit;
     cmd->bar_grp	= 0x8000;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     QStringList smiles;
     getIcons()->getSmiles(smiles);
@@ -691,7 +689,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon		= smile_icon;
     cmd->bar_grp	= 0x7000;
     cmd->flags		= COMMAND_CHECK_STATE | flags;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdTranslit;
     cmd->text		= I18N_NOOP("Send in &translit");
@@ -699,7 +697,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon_on	= "translit";
     cmd->bar_grp	= 0x7010;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdSendClose;
     cmd->text		= I18N_NOOP("C&lose after send");
@@ -707,7 +705,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon_on	= "fileclose";
     cmd->bar_grp	= 0x7020;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMultiply;
     cmd->text		= I18N_NOOP("&Multiply send");
@@ -715,7 +713,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon_on	= "1leftarrow";
     cmd->bar_grp	= 0xF010;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdBgColor;
     cmd->text		= I18N_NOOP("Back&ground color");
@@ -723,41 +721,41 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon_on	= QString::null;
     cmd->bar_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFgColor;
     cmd->text		= I18N_NOOP("&Foreground color");
     cmd->icon		= "fgcolor";
     cmd->bar_grp	= 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdBold;
     cmd->text		= I18N_NOOP("&Bold");
     cmd->icon		= "text_bold";
     cmd->icon_on	= "text_bold";
     cmd->bar_grp	= 0x1002;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdItalic;
     cmd->text		= I18N_NOOP("&Italic");
     cmd->icon		= "text_italic";
     cmd->icon_on	= "text_italic";
     cmd->bar_grp	= 0x1003;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdUnderline;
     cmd->text		= I18N_NOOP("&Underline");
     cmd->icon		= "text_under";
     cmd->icon_on	= "text_under";
     cmd->bar_grp	= 0x1004;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFont;
     cmd->text		= I18N_NOOP("Select &font");
     cmd->icon		= "text";
     cmd->icon_on	= QString::null;
     cmd->bar_grp	= 0x1005;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFileName;
     cmd->text		= I18N_NOOP("Select &file");
@@ -765,7 +763,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon_on	= QString::null;
     cmd->bar_grp	= 0x1010;
     cmd->flags		= BTN_EDIT | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdPhoneNumber;
     cmd->text		= I18N_NOOP("&Phone number");
@@ -773,14 +771,14 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon_on	= QString::null;
     cmd->bar_grp	= 0x1020;
     cmd->flags		= BTN_COMBO | BTN_NO_BUTTON | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdNextMessage;
     cmd->text		= I18N_NOOP("&Next");
     cmd->icon		= "message";
     cmd->bar_grp	= 0x8000;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdHistoryDirection;
     cmd->text		= I18N_NOOP("&Direction");
@@ -789,7 +787,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		= BarHistory;
     cmd->bar_grp	= 0x2000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdHistoryFind;
     cmd->text		= I18N_NOOP("&Filter");
@@ -797,7 +795,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon_on	= "filter";
     cmd->bar_grp	= 0x3000;
     cmd->flags		= BTN_COMBO_CHECK;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdHistoryPrev;
     cmd->text		= I18N_NOOP("&Previous page");
@@ -805,20 +803,20 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon_on	= QString::null;
     cmd->bar_grp	= 0x5000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdHistoryNext;
     cmd->text		= I18N_NOOP("&Next page");
     cmd->icon		= "1rightarrow";
     cmd->bar_grp	= 0x5001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdHistorySave;
     cmd->text		= I18N_NOOP("&Save as text");
     cmd->icon		= "filesave";
     cmd->accel		= "Ctrl+S";
     cmd->bar_grp	= 0x6000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdBgColor;
     cmd->text		= I18N_NOOP("Back&ground color");
@@ -827,41 +825,41 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		= ToolBarTextEdit;
     cmd->bar_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFgColor;
     cmd->text		= I18N_NOOP("&Foreground color");
     cmd->icon		= "fgcolor";
     cmd->bar_grp	= 0x1010;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdBold;
     cmd->text		= I18N_NOOP("&Bold");
     cmd->icon		= "text_bold";
     cmd->icon_on	= "text_bold";
     cmd->bar_grp	= 0x2000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdItalic;
     cmd->text		= I18N_NOOP("&Italic");
     cmd->icon		= "text_italic";
     cmd->icon_on	= "text_italic";
     cmd->bar_grp	= 0x2010;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdUnderline;
     cmd->text		= I18N_NOOP("&Underline");
     cmd->icon		= "text_under";
     cmd->icon_on	= "text_under";
     cmd->bar_grp	= 0x2020;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFont;
     cmd->text		= I18N_NOOP("Select &font");
     cmd->icon		= "text";
     cmd->icon_on	= "text";
     cmd->bar_grp	= 0x3000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     EventMenu(MenuGroup, EventMenu::eAdd).process();
     EventMenu(MenuContact, EventMenu::eAdd).process();
@@ -879,32 +877,32 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		= 0;
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgSpecial;
     cmd->text		= "_";
     cmd->icon		= QString::null;
     cmd->menu_grp	= 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdCopy;
     cmd->text		= I18N_NOOP("&Copy");
     cmd->accel		= "Ctrl+C";
     cmd->icon		= "editcopy";
     cmd->menu_grp	= 0x2000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeleteMessage;
     cmd->text		= I18N_NOOP("&Delete message");
     cmd->accel		= QString::null;
     cmd->icon		= "remove";
     cmd->menu_grp	= 0x3000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdCutHistory;
     cmd->text		= I18N_NOOP("&Cut history");
     cmd->menu_grp	= 0x3001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgQuote;
     cmd->text		= I18N_NOOP("&Quote");
@@ -915,13 +913,13 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		= 0;
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgQuote + CmdReceived;
     cmd->bar_id		= ToolBarMsgEdit;
     cmd->bar_grp	= 0x1041;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgForward;
     cmd->text		= I18N_NOOP("&Forward");
@@ -930,19 +928,19 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		= 0;
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgForward + CmdReceived;
     cmd->bar_id		= ToolBarMsgEdit;
     cmd->bar_grp	= 0x1042;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgAnswer;
     cmd->text		= I18N_NOOP("&Answer");
     cmd->icon		= "mail_generic";
     cmd->bar_grp	= 0x8000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     EventMenu(MenuTextEdit, EventMenu::eAdd).process();
     EventMenu(MenuGroups, EventMenu::eAdd).process();
@@ -957,48 +955,48 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		= 0;
     cmd->bar_grp	= 0;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdRedo;
     cmd->text		= I18N_NOOP("&Redo");
     cmd->accel		= "Ctrl+Y";
     cmd->icon		= "redo";
     cmd->menu_grp	= 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdCut;
     cmd->text		= I18N_NOOP("Cu&t");
     cmd->icon		= "editcut";
     cmd->accel		= "Ctrl+X";
     cmd->menu_grp	= 0x2000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdCopy;
     cmd->text		= I18N_NOOP("&Copy");
     cmd->icon		= "editcopy";
     cmd->accel		= "Ctrl+C";
     cmd->menu_grp	= 0x2001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdPaste;
     cmd->text		= I18N_NOOP("&Paste");
     cmd->icon		= "editpaste";
     cmd->accel		= "Ctrl+V";
     cmd->menu_grp	= 0x2002;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdClear;
     cmd->text		= I18N_NOOP("Clear");
     cmd->icon		= QString::null;
     cmd->accel		= QString::null;
     cmd->menu_grp	= 0x3000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdSelectAll;
     cmd->text		= I18N_NOOP("Select All");
     cmd->accel		= "Ctrl+A";
     cmd->menu_grp	= 0x3001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
 #ifdef USE_KDE
 #if KDE_IS_VERSION(3,2,0)
@@ -1006,13 +1004,13 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->text		= I18N_NOOP("Enable spell check");
     cmd->accel		= QString::null;
     cmd->menu_grp	= 0x4000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id		= CmdSpell;
     cmd->text		= I18N_NOOP("Spell check");
     cmd->menu_grp	= 0x4001;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 #endif
 #endif
 
@@ -1051,7 +1049,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp    = 0;
     if (getShowOnLine())
         cmd->flags |= COMMAND_CHECKED;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpOff;
     cmd->text		= I18N_NOOP("Do&n't show groups");
@@ -1061,69 +1059,69 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	= MenuGroups;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpMode1;
     cmd->text		= I18N_NOOP("Group mode 1");
     cmd->icon		= "grp_on";
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpMode2;
     cmd->text		= I18N_NOOP("Group mode 2");
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdOnline;
     cmd->text		= I18N_NOOP("Show &offline");
     cmd->icon		= "online_off";
     cmd->icon_on	= "online_on";
     cmd->menu_grp	= 0x8000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdEmptyGroup;
     cmd->text		= I18N_NOOP("Show &empty groups");
     cmd->icon		= QString::null;
     cmd->icon_on	= QString::null;
     cmd->menu_grp	= 0x8001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpCreate;
     cmd->text		= I18N_NOOP("&Create group");
     cmd->icon		= "grp_create";
     cmd->icon_on	= QString::null;
     cmd->menu_grp	= 0xA000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->menu_id	= MenuGroup;
     cmd->menu_grp	= 0x4000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpRename;
     cmd->text		= I18N_NOOP("&Rename group");
     cmd->icon		= "grp_rename";
     cmd->accel		= "F2";
     cmd->menu_grp	= 0x4001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpDelete;
     cmd->text		= I18N_NOOP("&Delete group");
     cmd->icon		= "remove";
     cmd->accel		= "Del";
     cmd->menu_grp	= 0x4002;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpUp;
     cmd->text		= I18N_NOOP("Up");
     cmd->icon		= "1uparrow";
     cmd->accel		= "Ctrl+Up";
     cmd->menu_grp	= 0x6000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpDown;
     cmd->text		= I18N_NOOP("Down");
     cmd->icon		= "1downarrow";
     cmd->accel		= "Ctrl+Down";
     cmd->menu_grp	= 0x6001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdGrpTitle;
     cmd->text		= "_";
@@ -1131,14 +1129,14 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->accel		= QString::null;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE | COMMAND_TITLE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdConfigure;
     cmd->text		= I18N_NOOP("Setup");
     cmd->icon		= "configure";
     cmd->menu_grp	= 0xB000;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactTitle;
     cmd->text		= "_";
@@ -1148,24 +1146,24 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	= 0x1000;
     cmd->popup_id	= 0;
     cmd->flags		= COMMAND_CHECK_STATE | COMMAND_TITLE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdUnread;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdSendMessage;
     cmd->menu_grp	= 0x2000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdClose;
     cmd->text		= "&Close";
     cmd->icon		= "exit";
     cmd->menu_id	= MenuContact;
     cmd->menu_grp	= 0xF000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactGroup;
     cmd->text		= I18N_NOOP("Group");
@@ -1173,7 +1171,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	= 0x8000;
     cmd->popup_id	= MenuContactGroup;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactRename;
     cmd->text		= I18N_NOOP("&Rename");
@@ -1182,7 +1180,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->popup_id	= 0;
     cmd->accel		= "F2";
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactDelete;
     cmd->text		= I18N_NOOP("&Delete");
@@ -1190,7 +1188,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	= 0x8002;
     cmd->accel		= "Del";
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdShowAlways;
     cmd->text		= I18N_NOOP("Show &always");
@@ -1198,14 +1196,14 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	= 0x8003;
     cmd->accel		= QString::null;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id         = CmdFetchAway;
     cmd->text       = I18N_NOOP("&Fetch away message");
     cmd->icon       = "message";
     cmd->menu_grp   = 0x8020;
     cmd->flags      = COMMAND_CHECK_STATE | BTN_HIDE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdInfo;
     cmd->text		= I18N_NOOP("User &info");
@@ -1213,21 +1211,21 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	= 0x7010;
     cmd->accel		= QString::null;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdHistory;
     cmd->text		= I18N_NOOP("&History");
     cmd->icon		= "history";
     cmd->menu_grp	= 0x7020;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdConfigure;
     cmd->text		= I18N_NOOP("Setup");
     cmd->icon		= "configure";
     cmd->menu_grp	= 0x7020;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContainer;
     cmd->text		= I18N_NOOP("To container");
@@ -1236,7 +1234,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	= 0x8010;
     cmd->accel		= QString::null;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContainer;
     cmd->text		= "_";
@@ -1244,7 +1242,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	= MenuContainer;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdContactGroup;
     cmd->text		= "_";
@@ -1252,7 +1250,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->accel		= QString::null;
     cmd->menu_id	= MenuContactGroup;
     cmd->menu_grp	= 0x2000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdLocation;
     cmd->text		= I18N_NOOP("&Location");
@@ -1260,28 +1258,28 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	= 0x1000;
     cmd->popup_id   = MenuLocation;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdPhoneState;
     cmd->text		= I18N_NOOP("&Status");
     cmd->menu_id	= MenuPhones;
     cmd->menu_grp   = 0x1010;
     cmd->popup_id   = MenuPhoneState;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdPhoneBook;
     cmd->text		= I18N_NOOP("&Phone book");
     cmd->menu_id	= MenuPhones;
     cmd->menu_grp   = 0x1020;
     cmd->popup_id   = 0;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdPhoneNoShow;
     cmd->text		= I18N_NOOP("&No show");
     cmd->menu_id	= MenuPhoneState;
     cmd->menu_grp   = 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdPhoneAvailable;
     cmd->text		= I18N_NOOP("&Available");
@@ -1289,7 +1287,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	= MenuPhoneState;
     cmd->menu_grp   = 0x1001;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdPhoneBusy;
     cmd->text		= I18N_NOOP("&Busy");
@@ -1297,7 +1295,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	= MenuPhoneState;
     cmd->menu_grp   = 0x1002;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdLocation;
     cmd->text		= "_";
@@ -1305,7 +1303,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	= MenuLocation;
     cmd->menu_grp   = 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineWithoutReason;
     cmd->text		= I18N_NOOP("Decline file without reason");
@@ -1313,22 +1311,22 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	= MenuFileDecline;
     cmd->menu_grp   = 0x1000;
     cmd->flags		= COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineReasonBusy;
     cmd->text		= I18N_NOOP("Sorry, I'm busy right now, and can not respond to your request");
     cmd->menu_grp   = 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineReasonLater;
     cmd->text		= I18N_NOOP("Sorry, I'm busy right now, but I'll be able to respond to you later");
     cmd->menu_grp   = 0x1002;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineReasonInput;
     cmd->text		= I18N_NOOP("Enter a decline reason");
     cmd->menu_grp   = 0x1004;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdEditList;
     cmd->text		= I18N_NOOP("&Edit");
@@ -1336,44 +1334,44 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	= MenuMailList;
     cmd->menu_grp	= 0x1000;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdRemoveList;
     cmd->text		= I18N_NOOP("&Delete");
     cmd->icon		= "remove";
     cmd->menu_grp	= 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdEditList;
     cmd->text		= I18N_NOOP("&Edit");
     cmd->icon		= "phone";
     cmd->menu_id	= MenuPhoneList;
     cmd->menu_grp	= 0x1000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdRemoveList;
     cmd->text		= I18N_NOOP("&Delete");
     cmd->icon		= "remove";
     cmd->menu_grp	= 0x1001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdStatusWnd;
     cmd->text		= "_";
     cmd->icon		= QString::null;
     cmd->menu_id	= MenuStatusWnd;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdChangeEncoding;
     cmd->text		 = "_";
     cmd->menu_id	 = MenuEncoding;
     cmd->menu_grp	 = 0x1000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdAllEncodings;
     cmd->text		 = I18N_NOOP("&Show all encodings");
     cmd->menu_id	 = MenuEncoding;
     cmd->menu_grp	 = 0x8000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdChangeEncoding;
     cmd->text		 = I18N_NOOP("Change &encoding");
@@ -1383,7 +1381,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		 = ToolBarContainer;
     cmd->bar_grp	 = 0x8080;
     cmd->popup_id	 = MenuEncoding;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdChangeEncoding;
     cmd->text		 = I18N_NOOP("Change &encoding");
@@ -1393,7 +1391,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_id		 = BarHistory;
     cmd->bar_grp	 = 0x8080;
     cmd->popup_id	 = MenuEncoding;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdContactGroup;
     cmd->text		 = I18N_NOOP("Add to &group");
@@ -1404,7 +1402,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->bar_grp	 = 0;
     cmd->popup_id	 = MenuSearchGroups;
     cmd->flags		 = COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdSearchOptions;
     cmd->text		 = "_";
@@ -1413,7 +1411,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	 = 0x3000;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdSearchInfo;
     cmd->text		 = I18N_NOOP("&Info");
@@ -1422,21 +1420,21 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_grp	 = 0x3000;
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdSearchMsg;
     cmd->text		 = I18N_NOOP("Send &message");
     cmd->icon		 = "message";
     cmd->menu_id	 = MenuSearchOptions;
     cmd->menu_grp	 = 0x3001;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdContactGroup;
     cmd->text		 = "_";
     cmd->flags		 = COMMAND_CHECK_STATE;
     cmd->menu_id	 = MenuSearchGroups;
     cmd->menu_grp	 = 0x1000;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 }
 
 void CorePlugin::initData()
@@ -1689,8 +1687,7 @@ void *CorePlugin::processEvent(Event *e)
             cmd->bar_id		= ToolBarMsgEdit;
             cmd->bar_grp	= 0x7000;
             cmd->flags		= COMMAND_CHECK_STATE | flags;
-            Event eCmd(EventCommandChange, cmd);
-            eCmd.process();
+            EventCommandChange(cmd).process();
             return NULL;
         }
     case EventJoinAlert:
@@ -1842,17 +1839,15 @@ void *CorePlugin::processEvent(Event *e)
     case EventAddPreferences:{
             CommandDef *cmd = (CommandDef*)(e->param());
             cmd->menu_id = MenuGroup;
-            Event eCmd(EventCommandCreate, cmd);
-            eCmd.process();
+            EventCommandCreate(cmd).process();
             cmd->menu_id = MenuContact;
-            eCmd.process();
+            EventCommandCreate(cmd).process();
             preferences.add(cmd);
             return e->param();
         }
     case EventRemovePreferences:{
             unsigned long id = (unsigned long)(e->param());
-            Event eCmd(EventCommandRemove, (void*)id);
-            eCmd.process();
+            EventCommandRemove(id).process();
             preferences.erase(id);
             return e->param();
         }
@@ -1879,8 +1874,7 @@ void *CorePlugin::processEvent(Event *e)
             if (cmd->menu_grp){
                 cmd->menu_id = MenuMessage;
                 cmd->flags   = COMMAND_CHECK_STATE;
-                Event eCmd(EventCommandCreate, cmd);
-                eCmd.process();
+                EventCommandCreate(cmd).process();
             }
             if (cmd->param){
                 MessageDef *mdef = (MessageDef*)(cmd->param);
@@ -1895,8 +1889,7 @@ void *CorePlugin::processEvent(Event *e)
                         cmd.menu_id  = 0;
                         cmd.menu_grp = 0;
                         cmd.flags	|= COMMAND_CHECK_STATE;
-                        Event eCmd(EventCommandCreate, &cmd);
-                        eCmd.process();
+                        EventCommandCreate(&cmd).process();
                     }
                 }
                 if (mdef->cmdSent){
@@ -1910,8 +1903,7 @@ void *CorePlugin::processEvent(Event *e)
                         cmd.menu_id  = 0;
                         cmd.menu_grp = 0;
                         cmd.flags	|= COMMAND_CHECK_STATE;
-                        Event eCmd(EventCommandCreate, &cmd);
-                        eCmd.process();
+                        EventCommandCreate(&cmd).process();
                     }
                 }
             }
@@ -1933,14 +1925,12 @@ void *CorePlugin::processEvent(Event *e)
                 MessageDef *mdef = (MessageDef*)(def->param);
                 if (mdef->cmdReceived){
                     for (const CommandDef *c = mdef->cmdReceived; !c->text.isEmpty(); c++){
-                        Event eCmd(EventCommandRemove, (void*)(c->id + CmdReceived));
-                        eCmd.process();
+                        EventCommandRemove(c->id + CmdReceived).process();
                     }
                 }
                 if (mdef->cmdSent){
                     for (const CommandDef *c = mdef->cmdSent; !c->text.isEmpty(); c++){
-                        Event eCmd(EventCommandRemove, (void*)(c->id + CmdReceived));
-                        eCmd.process();
+                        EventCommandRemove(c->id + CmdReceived).process();
                     }
                 }
             }
@@ -1950,8 +1940,7 @@ void *CorePlugin::processEvent(Event *e)
                     break;
                 }
             }
-            Event eCmd(EventCommandRemove, (void*)id);
-            eCmd.process();
+            EventCommandRemove(id).process();
             messageTypes.erase(id);
             return e->param();
         }
@@ -2092,7 +2081,7 @@ void *CorePlugin::processEvent(Event *e)
                 Command cmd;
                 cmd->id = CmdUnread + index;
                 cmd->menu_id = MenuMain;
-                Event e(EventCommandExec, cmd);
+                EventCommandExec e(cmd);
                 return e.process();
             }
             Event eMenu(EventGetMenuDef, (void*)MenuMessage);
@@ -2103,8 +2092,7 @@ void *CorePlugin::processEvent(Event *e)
                 c->param = (void*)(contact_id);
                 Event eCheck(EventCheckState, c);
                 if (eCheck.process()){
-                    Event eCmd(EventCommandExec, c);
-                    return eCmd.process();
+                    return EventCommandExec(c).process();
                 }
             }
             return NULL;
@@ -2366,8 +2354,7 @@ void *CorePlugin::processEvent(Event *e)
                                 cmd->menu_id	= id;
                                 cmd->menu_grp	= 0x1000;
                                 cmd->flags		= COMMAND_CHECK_STATE;
-                                Event eCmd(EventCommandCreate, cmd);
-                                eCmd.process();
+                                EventCommandCreate(cmd).process();
                             }
                             cmds[n].id		 = id;
                             cmds[n].text	 = "_";
@@ -2398,14 +2385,13 @@ void *CorePlugin::processEvent(Event *e)
                             cmd->menu_id	= id;
                             cmd->menu_grp	= 0x1000;
                             cmd->flags		= COMMAND_CHECK_STATE;
-                            Event eCmd(EventCommandCreate, cmd);
-                            eCmd.process();
+                            EventCommandCreate(cmd).process();
 
                             cmd->id			= CmdSeparate;
                             cmd->text		= I18N_NOOP("&Separate");
                             cmd->menu_grp	= 0x2000;
                             cmd->flags		= COMMAND_DEFAULT;
-                            eCmd.process();
+                            EventCommandCreate(cmd).process();
                         }
                         cmds[n].id		 = id;
                         cmds[n].text	 = "_";
@@ -2559,8 +2545,7 @@ void *CorePlugin::processEvent(Event *e)
                                 cmd->menu_id	= id;
                                 cmd->menu_grp	= 0x1000;
                                 cmd->flags		= COMMAND_CHECK_STATE;
-                                Event eCmd(EventCommandCreate, cmd);
-                                eCmd.process();
+                                EventCommandCreate(cmd).process();
                             }
                             nRes++;
                         }
@@ -2577,8 +2562,7 @@ void *CorePlugin::processEvent(Event *e)
                             cmd->menu_id	= id;
                             cmd->menu_grp	= 0x1000;
                             cmd->flags		= COMMAND_CHECK_STATE;
-                            Event eCmd(EventCommandCreate, cmd);
-                            eCmd.process();
+                            EventCommandCreate(cmd).process();
                         }
                         cmds[nCmds].id		 = id;
                         cmds[nCmds].text	 = "_";
@@ -2876,8 +2860,9 @@ void *CorePlugin::processEvent(Event *e)
             }
             return e->param();
         }
-    case EventCommandExec:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuEncoding){
                 if (cmd->id == CmdAllEncodings){
                     Command c;
@@ -3099,9 +3084,8 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->id      = MessageSMS;
                 cmd->menu_id = MenuMessage;
                 cmd->param   = (void*)(contact->id());
-                Event eCmd(EventCommandExec, cmd);
-                eCmd.process();
-                return e->param();
+                EventCommandExec(cmd).process();
+                return (void*)1;
             }
             if (cmd->id == CmdHistory){
                 unsigned long id = (unsigned long)(cmd->param);
@@ -3471,10 +3455,9 @@ void *CorePlugin::processEvent(Event *e)
                     cmd->id		 = MessageSMS;
                     cmd->menu_id = MenuMessage;
                     cmd->param	 = (void*)(contact->id());
-                    Event eCmd(EventCommandExec, cmd);
-                    eCmd.process();
+                    EventCommandExec(cmd).process();
                 }
-                return e->param();
+                return (void*)1;
             }
             if (proto != "sim")
                 return NULL;
@@ -3485,8 +3468,7 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->id		 = MessageGeneric;
                 cmd->menu_id = MenuMessage;
                 cmd->param	 = (void*)contact_id;
-                Event eCmd(EventCommandExec, cmd);
-                eCmd.process();
+                EventCommandExec(cmd).process();
             }
         }
         return NULL;
@@ -4169,14 +4151,13 @@ void CorePlugin::loadMenu()
     cmd->menu_id     = MenuConnections;
     cmd->menu_grp    = 0x8000;
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdShowPanel;
     cmd->text		= I18N_NOOP("Show status panel");
     cmd->menu_grp	= 0x8001;
     cmd->flags		= COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     if (nClients >= 2){
         cmd->id          = CmdConnections;
@@ -4192,13 +4173,13 @@ void CorePlugin::loadMenu()
         cmd->menu_id	= MenuMain;
         cmd->flags		= COMMAND_DEFAULT;
     }
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdChange;
     cmd->text		= I18N_NOOP("Change profile");
     cmd->menu_grp	= 0x10040;
     cmd->popup_id	= 0;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     if (m_status == NULL)
         m_status = new CommonStatus;
@@ -4211,7 +4192,8 @@ void CorePlugin::loadMenu()
         EventMenu(menu_id, EventMenu::eAdd).process();
         Client *client = getContacts()->getClient(m_nClients);
         Protocol *protocol = client->protocol();
-        const CommandDef *cmd = protocol->statusList();
+        // FIXME
+        CommandDef *cmd = const_cast<CommandDef*>(protocol->statusList());
         if (cmd){
             Command c;
             c->id       = CmdTitle;
@@ -4219,21 +4201,20 @@ void CorePlugin::loadMenu()
             c->menu_id  = menu_id;
             c->menu_grp = 0x0001;
             c->flags    = COMMAND_CHECK_STATE | COMMAND_TITLE;
-            Event eCmd(EventCommandCreate, c);
-            eCmd.process();
+            EventCommandCreate(c).process();
             c->id		= CmdCommonStatus;
             c->text		= I18N_NOOP("Common status");
             c->menu_id	= menu_id;
             c->menu_grp = 0x3000;
             c->flags	= COMMAND_CHECK_STATE;
-            eCmd.process();
+            EventCommandCreate(c).process();
             c->id		= CmdSetup;
             c->text		= I18N_NOOP("Configure client");
             c->icon		= "configure";
             c->menu_id	= menu_id;
             c->menu_grp = 0x3001;
             c->flags	= COMMAND_DEFAULT;
-            eCmd.process();
+            EventCommandCreate(c).process();
             c->id		= menu_id;
             c->text		= "_";
             c->icon		= QString::null;
@@ -4241,7 +4222,7 @@ void CorePlugin::loadMenu()
             c->menu_grp	= 0x1000 + menu_id;
             c->popup_id	= menu_id;
             c->flags	= COMMAND_CHECK_STATE;
-            eCmd.process();
+            EventCommandCreate(c).process();
             unsigned id = 0x100;
 //            for (; cmd->id; cmd++){
             for (; !cmd->text.isEmpty(); cmd++){
@@ -4249,7 +4230,7 @@ void CorePlugin::loadMenu()
                 c->menu_id = menu_id;
                 c->menu_grp = id++;
                 c->flags = COMMAND_CHECK_STATE;
-                eCmd.process();
+                EventCommandCreate(c).process();
             }
             if (protocol->description()->flags & PROTOCOL_INVISIBLE){
                 c->id		= CmdInvisible;
@@ -4257,7 +4238,7 @@ void CorePlugin::loadMenu()
                 c->icon		= protocol->description()->icon_on;
                 c->menu_grp	= 0x1000;
                 c->flags	= COMMAND_CHECK_STATE;
-                eCmd.process();
+                EventCommandCreate(c).process();
             }
         }
     }

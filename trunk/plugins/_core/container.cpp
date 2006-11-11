@@ -456,7 +456,7 @@ void Container::contactSelected(int)
     cmd->param = (void*)(userWnd->id());
     cmd->popup_id = MenuContainerContact;
     cmd->flags = BTN_PICT;
-    Event e(EventCommandChange, cmd);
+    EventCommandChange e(cmd);
     m_bar->processEvent(&e);
     setMessageType(userWnd->type());
     setIcon(Pict(cmd->icon));
@@ -483,7 +483,7 @@ void Container::setMessageType(unsigned type)
     cmd->menu_grp	 = 0;
     cmd->popup_id	 = MenuMessage;
     cmd->flags		 = BTN_PICT;
-    Event eCmd(EventCommandChange, cmd);
+    EventCommandChange eCmd(cmd);
     m_bar->processEvent(&eCmd);
 }
 
@@ -536,8 +536,7 @@ void Container::accelActivated(int id)
         cmd->id      = id - ACCEL_MESSAGE;
         cmd->menu_id = MenuMessage;
         cmd->param   = (void*)(m_tabBar->currentWnd()->id());
-        Event e(EventCommandExec, cmd);
-        e.process();
+        EventCommandExec(cmd).process();
         return;
     }
     switch (id){
@@ -739,8 +738,9 @@ void *Container::processEvent(Event *e)
     case eEventInit:
         init();
         break;
-    case EventCommandExec:
-        cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         userWnd = m_tabBar->currentWnd();
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id())){
             if (cmd->menu_id == MenuContainerContact){
@@ -755,12 +755,12 @@ void *Container::processEvent(Event *e)
                 CommandDef c = *cmd;
                 c.menu_id = MenuContact;
                 c.param   = (void*)userWnd->id();
-                Event eExec(EventCommandExec, &c);
-                eExec.process();
-                return e->param();
+                EventCommandExec(&c).process();
+                return (void*)1;
             }
         }
         break;
+    }
     case EventCheckState:
         cmd = (CommandDef*)(e->param());
         userWnd = m_tabBar->currentWnd();
@@ -863,7 +863,7 @@ void Container::contactChanged(Contact *contact)
         cmd->param = (void*)(contact->id());
         cmd->popup_id = MenuContainerContact;
         cmd->flags = BTN_PICT;
-        Event e(EventCommandChange, cmd);
+        EventCommandChange e(cmd);
         m_bar->processEvent(&e);
         setIcon(Pict(cmd->icon));
         setCaption(userWnd->getLongName());

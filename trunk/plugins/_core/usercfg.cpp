@@ -499,9 +499,11 @@ void *UserConfig::processEvent(Event *e)
         }
         break;
     }
-    case EventCommandRemove:
-        removeCommand((unsigned long)(e->param()));
+    case eEventCommandRemove: {
+        EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
+        removeCommand(ecr->id());
         return NULL;
+    }
     case eEventLanguageChanged:
     case eEventPluginChanged:
     case eEventClientsChanged:

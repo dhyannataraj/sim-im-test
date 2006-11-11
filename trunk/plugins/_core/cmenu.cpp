@@ -221,8 +221,7 @@ void CMenu::menuActivated(int n)
             if (c.base_id)
                 s->id = c.id;
             s->param = m_param;
-            Event e(EventCommandExec, s);
-            e.process();
+            EventCommandExec(s).process();
             s->text_wrk = QString::null;
             s->id = id;
             break;

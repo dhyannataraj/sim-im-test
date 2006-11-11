@@ -84,9 +84,7 @@ OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
     cmd->menu_id     = MenuMain;
     cmd->menu_grp    = 0x7000;
     cmd->flags		= COMMAND_CHECK_STATE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
 #ifdef WIN32
     m_state = HWND_NOTOPMOST;
@@ -101,8 +99,7 @@ OnTopPlugin::OnTopPlugin(unsigned base, Buffer *config)
 
 OnTopPlugin::~OnTopPlugin()
 {
-    Event eCmd(EventCommandRemove, (void*)(unsigned long)CmdOnTop);
-    eCmd.process();
+    EventCommandRemove(CmdOnTop).process();
 
     setOnTop(false);
     setState();
@@ -113,8 +110,9 @@ void *OnTopPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventInit)
         setState();
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdOnTop){
             setOnTop(!getOnTop());
             setState();

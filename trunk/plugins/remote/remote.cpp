@@ -824,8 +824,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 }else{
                     Command cc;
                     cc->id = CmdSearch;
-                    Event e(EventCommandExec, cc);
-                    e.process();
+                    EventCommandExec(cc).process();
                 }
             }else{
                 if (w)
@@ -839,8 +838,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     case CMD_QUIT:{
             Command cc;
             cc->id = CmdQuit;
-            Event e(EventCommandExec, cc);
-            e.process();
+            EventCommandExec(cc).process();
             break;
         }
     case CMD_CLOSE:
@@ -912,9 +910,9 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Command cmd;
             if (core->unread.size())
                 cmd->id = CmdUnread;
-            else return false;
-            Event e(EventCommandExec, cmd);
-            e.process();
+            else
+                return false;
+            EventCommandExec(cmd).process();
             return true;
         }
     case CMD_SMS:{

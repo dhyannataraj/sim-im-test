@@ -92,9 +92,7 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
     cmd->menu_id     = MenuContactGroup;
     cmd->menu_grp    = 0x8080;
     cmd->flags		 = COMMAND_CHECK_STATE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id          = CmdIgnore;
     cmd->text        = I18N_NOOP("Ignore user");
@@ -104,7 +102,7 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
     cmd->bar_id		 = ToolBarContainer;
     cmd->bar_grp	 = 0x7001;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id          = CmdIgnoreText;
     cmd->text        = I18N_NOOP("Ignore this phrase");
@@ -114,10 +112,10 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
     cmd->bar_id		 = 0;
     cmd->bar_grp	 = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->menu_id     = MenuMsgView;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = user_data_id;
     cmd->text		 = I18N_NOOP("&Filter");
@@ -136,8 +134,7 @@ FilterPlugin::~FilterPlugin()
     Event ePref(EventRemovePreferences, (void*)user_data_id);
     ePref.process();
 
-    Event eCmd(EventCommandRemove, (void*)CmdIgnoreList);
-    eCmd.process();
+    EventCommandRemove(CmdIgnoreList).process();
 
     getContacts()->unregisterUserData(user_data_id);
 }
@@ -236,8 +233,9 @@ void *FilterPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventCommandExec: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdIgnore){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact){

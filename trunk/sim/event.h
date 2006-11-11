@@ -104,6 +104,10 @@ enum SIMEvents
 
     eEventToolbar           = 0x0501,   // add/remove a toolbar
     eEventMenu              = 0x0502,   // add/remove a menu
+    eEventCommandExec       = 0x0503,
+    eEventCommandCreate     = 0x0504,
+    eEventCommandChange     = 0x0505,
+    eEventCommandRemove     = 0x0506,
 
     eEventHomeDir           = 0x0601,   // get home dir for config
     eEventGoURL             = 0x0602,   // open url in browser / mail / ...
@@ -658,16 +662,9 @@ protected:
 // _____________________________________________________________________________________
 // Default events
 
-/* Commands - process command
-   param is CommandDef* */
-
-const unsigned EventCommandExec = 0x0505;
-
 /* Commands - create command
    menu items & bar buttons
    param is CommandDef* */
-
-const unsigned EventCommandCreate = 0x0506;
 
 struct EXPORT CommandDef
 {
@@ -761,8 +758,53 @@ const unsigned BTN_HIDE             = 0x10000;
 const unsigned BTN_NO_BUTTON        = 0x20000;
 const unsigned BTN_DIV              = 0x40000;
 
-/* Command - remove command id */
-const unsigned EventCommandRemove = 0x0507;
+class EXPORT EventCommand : public Event
+{
+public:
+    EventCommand(SIMEvents e, CommandDef *cmd)
+        : Event(e), m_cmd(cmd) {}
+
+    CommandDef *cmd() const { return m_cmd; }
+protected:
+    CommandDef *m_cmd;
+};
+
+class EXPORT EventCommandExec : public EventCommand
+{
+public:
+    EventCommandExec(CommandDef *cmd)
+        : EventCommand(eEventCommandExec, cmd) {}
+};
+
+class EXPORT EventCommandCreate : public EventCommand
+{
+public:
+    EventCommandCreate(CommandDef *cmd)
+        : EventCommand(eEventCommandCreate, cmd) {}
+};
+
+class EXPORT EventCommandChange : public EventCommand
+{
+public:
+    EventCommandChange(CommandDef *cmd)
+        : EventCommand(eEventCommandChange, cmd) {}
+};
+
+class EXPORT EventCommandRemove : public Event
+{
+public:
+    EventCommandRemove(unsigned long id)
+        : Event(eEventCommandRemove), m_id(id) {}
+
+    unsigned long id() const { return m_id; }
+protected:
+    unsigned long m_id;
+};
+
+const unsigned EventCommandChecked  = 0x0523;
+const unsigned EventCommandDisabled = 0x0524;
+const unsigned EventCommandShow     = 0x0525;
+const unsigned EventCommandWidget   = 0x0526;
 
 
 /* Event real create toolbar
@@ -846,12 +888,6 @@ typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);
 */
 
 const unsigned EventRemovePreferences = 0x0512;
-
-const unsigned EventCommandChange   = 0x0522;
-const unsigned EventCommandChecked  = 0x0523;
-const unsigned EventCommandDisabled = 0x0524;
-const unsigned EventCommandShow     = 0x0525;
-const unsigned EventCommandWidget   = 0x0526;
 
 const unsigned EventClientChanged   = 0x0530;
 

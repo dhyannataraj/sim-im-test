@@ -97,8 +97,7 @@ ActionPlugin::ActionPlugin(unsigned base)
     cmd->menu_id = MenuContact;
     cmd->menu_grp = 0xC000;
     cmd->param	 = NULL;
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
@@ -112,8 +111,7 @@ ActionPlugin::~ActionPlugin()
     for (list<Exec*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it)
         delete *it;
     m_exec.clear();
-    Event eCmd(EventCommandRemove, (void*)CmdAction);
-    eCmd.process();
+    EventCommandRemove(CmdAction).process();
     Event e(EventRemovePreferences, (void*)action_data_id);
     e.process();
     getContacts()->unregisterUserData(action_data_id);
@@ -180,8 +178,9 @@ void *ActionPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventCommandExec: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if ((cmd->menu_id == MenuContact) && (cmd->id >= CmdAction)){
             unsigned n = cmd->id - CmdAction;
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));

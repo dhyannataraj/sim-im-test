@@ -425,8 +425,9 @@ void *UserView::processEvent(Event *e)
             addContactForUpdate(msg->contact());
             break;
         }
-    case EventCommandExec:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuContact){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
@@ -493,7 +494,7 @@ void *UserView::processEvent(Event *e)
                         c->menu_id = MenuMessage;
                         c->param   = (void*)(contact->id());
                         c->flags   = cmd->flags;
-                        Event eCmd(EventCommandExec, c);
+                        EventCommandExec eCmd(c);
                         if (eCmd.process())
                             return e->param();
                     }
@@ -560,8 +561,7 @@ void *UserView::processEvent(Event *e)
                     CommandDef c = *cmd;
                     c.bar_id	= ToolBarMain;
                     c.bar_grp   = 0x4000;
-                    Event eCmd(EventCommandChange, &c);
-                    eCmd.process();
+                    EventCommandChange(&c).process();
                 }
                 fill();
             }
@@ -904,8 +904,7 @@ void UserView::setGroupMode(unsigned mode, bool bFirst)
     cmd->menu_grp    = 0x6001;
     cmd->popup_id    = MenuGroups;
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     fill();
 }

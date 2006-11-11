@@ -154,7 +154,7 @@ public:
     PROP_UTF8(Signature);
     PROP_STR(LastUpdate);
     QString getSignatureText();
-    void auth_fail(const char *err);
+    void auth_fail(const QString &err);
     void auth_ok();
     LiveJournalUserData	*findContact(const QString &user, SIM::Contact *&contact, bool bCreate=true, bool bJoin=true);
     QTimer  *m_timer;

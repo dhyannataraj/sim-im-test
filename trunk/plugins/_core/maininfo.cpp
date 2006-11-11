@@ -156,8 +156,9 @@ void *MainInfo::processEvent(Event *e)
         }
         break;
     }
-    case EventCommandExec: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->menu_id == MenuMailList){
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstMails)

@@ -2732,8 +2732,9 @@ void *ICQClient::processEvent(Event *e)
         }
         break;
     }
-    case EventCommandExec: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandExec: {
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if(cmd->id == CmdFetchAway) {
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             ClientDataIterator it(contact->clientData, this);
@@ -2801,9 +2802,8 @@ void *ICQClient::processEvent(Event *e)
             cmd->id		 = MessageGeneric;
             cmd->menu_id = MenuMessage;
             cmd->param	 = (void*)(contact->id());
-            Event eCmd(EventCommandExec, cmd);
-            eCmd.process();
-            return e->param();
+            EventCommandExec(cmd).process();
+            return (void*)1;
         }
         break;
     }
@@ -3297,8 +3297,7 @@ void ICQClient::retry(int n, void *p)
     Command cmd;
     cmd->id    = CmdSend;
     cmd->param = m->edit;
-    Event e(EventCommandExec, cmd);
-    e.process();
+    EventCommandExec(cmd).process();
 }
 
 bool ICQClient::isOwnData(const QString &screen)

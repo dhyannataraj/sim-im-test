@@ -52,8 +52,7 @@ CommonStatus::CommonStatus()
     cmd->popup_id    = MenuStatus;
     cmd->flags		 = COMMAND_IMPORTANT;
 
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     m_bInit = false;
     rebuildStatus();
@@ -62,8 +61,7 @@ CommonStatus::CommonStatus()
 
 CommonStatus::~CommonStatus()
 {
-    Event eGroup(EventCommandRemove, (void*)CmdStatusBar);
-    eGroup.process();
+    EventCommandRemove(CmdStatusBar).process();
     EventMenu(MenuStatus, EventMenu::eRemove).process();
 }
 
@@ -189,8 +187,10 @@ void CommonStatus::setBarStatus()
     cmd->popup_id    = MenuStatus;
     cmd->flags		 = BTN_PICT;
 
-    Event eCmd(m_bInit ? EventCommandChange : EventCommandCreate, cmd);
-    eCmd.process();
+    if(!m_bInit)
+        EventCommandCreate(cmd).process();
+    else
+        EventCommandChange(cmd).process();
 
     m_bInit = true;
 
@@ -232,8 +232,7 @@ void CommonStatus::rebuildStatus()
         cmd->menu_id	= MenuStatus;
         cmd->menu_grp	= 0x2000;
         cmd->flags		= COMMAND_CHECK_STATE;
-        Event e(EventCommandCreate, &cmd);
-        e.process();
+        EventCommandCreate(cmd).process();
     }
     Client *client = getContacts()->getClient(0);
     unsigned id = 0x1000;
@@ -273,8 +272,7 @@ void CommonStatus::rebuildStatus()
         c.menu_id  = MenuStatus;
         c.menu_grp = id++;
         c.flags = COMMAND_CHECK_STATE;
-        Event e(EventCommandCreate, &c);
-        e.process();
+        EventCommandCreate(&c).process();
     }
     if (ManualStatus == 0)
         ManualStatus = FirstStatus;
@@ -427,8 +425,9 @@ void *CommonStatus::processEvent(Event *e)
             }
             return 0;
         }
-    case EventCommandExec:{
-            CommandDef *def = (CommandDef*)(e->param());
+    case eEventCommandExec:{
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *def = ece->cmd();
             if (def->menu_id == MenuStatus){
                 if (def->id == CmdInvisible){
                     CorePlugin::m_plugin->setInvisible(!CorePlugin::m_plugin->getInvisible());
@@ -513,8 +512,7 @@ void CommonStatus::yes_action(void*)
         Command cmd;
         cmd->id    = item.id;
         cmd->param = item.client;
-        Event e(EventCommandExec, cmd);
-        e.process();
+        EventCommandExec(cmd).process();
     }
 }
 

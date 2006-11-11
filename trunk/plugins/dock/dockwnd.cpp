@@ -135,8 +135,7 @@ void DockWnd::callProc(unsigned long param)
             Command cmd;
             cmd->id    = id;
             cmd->param = client;
-            Event e(EventCommandExec, cmd);
-            e.process();
+            EventCommandExec(cmd).process();
         }
         return;
     }

@@ -277,31 +277,28 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
     cmd->menu_grp    = 0x30F0;
     cmd->popup_id    = 0;
     cmd->flags		 = COMMAND_CHECK_STATE;
-
-    Event eCmd(EventCommandCreate, cmd);
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdMailList;
     cmd->text		 = "_";
     cmd->menu_grp	 = 0x1000;
     cmd->menu_id	 = MenuMail;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->id         = CmdCopyLocation;
     cmd->text		= I18N_NOOP("Copy &location");
     cmd->icon		= QString::null;
     cmd->menu_id	= MenuTextEdit;
     cmd->menu_grp	= 0x7010;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 
     cmd->menu_id	= MenuMsgView;
-    eCmd.process();
+    EventCommandCreate(cmd).process();
 }
 
 NavigatePlugin::~NavigatePlugin()
 {
-    Event eCmd(EventCommandRemove, (void*)CmdMail);
-    eCmd.process();
+    EventCommandRemove(CmdMail).process();
     EventMenu(MenuMail, EventMenu::eRemove).process();
 
     free_data(navigateData, &data);
@@ -451,8 +448,9 @@ void *NavigatePlugin::processEvent(Event *e)
             return e->param();
         }
     }
-    if (e->type() == EventCommandExec){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandExec){
+        EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+        CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdMail){
             QString mail;
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));

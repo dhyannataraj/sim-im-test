@@ -314,10 +314,11 @@ void *SearchDialog::processEvent(Event *e)
     case EventClientChanged:
         fillClients();
         break;
-    case EventCommandExec:{
+    case eEventCommandExec:{
             if (m_result != m_currentResult)
                 return NULL;
-            CommandDef *cmd = (CommandDef*)(e->param());
+            EventCommandExec *ece = static_cast<EventCommandExec*>(e);
+            CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuSearchGroups){
                 Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
                 if (grp){
@@ -597,8 +598,7 @@ void SearchDialog::searchClick()
             cmd->id = CmdContactGroup;
             cmd->menu_id = MenuSearchGroups;
             cmd->param = m_search->btnSearch;
-            Event e(EventCommandExec, cmd);
-            e.process();
+            EventCommandExec(cmd).process();
         }
         return;
     }
@@ -751,8 +751,7 @@ void SearchDialog::addClick()
         cmd->id = CmdContactGroup;
         cmd->menu_id = MenuSearchGroups;
         cmd->param = m_search->btnAdd;
-        Event e(EventCommandExec, cmd);
-        e.process();
+        EventCommandExec(cmd).process();
     }
 }
 

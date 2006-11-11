@@ -80,8 +80,7 @@ static DataDef shortcutsData[] =
 
 void GlobalKey::execute()
 {
-    Event e(EventCommandExec, &m_cmd);
-    e.process();
+    EventCommandExec(&m_cmd).process();;
 }
 
 list<GlobalKey*> *globalKeys = NULL;
@@ -535,8 +534,9 @@ void *ShortcutsPlugin::processEvent(Event *e)
         return NULL;
     }
 #endif
-    if (e->type() == EventCommandCreate){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCommandCreate){
+        EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
+        CommandDef *cmd = ecc->cmd();
         if ((cmd->menu_id == MenuMain) ||
                 (cmd->menu_id == MenuContact) ||
                 (cmd->menu_id == MenuStatus) ||
@@ -544,8 +544,9 @@ void *ShortcutsPlugin::processEvent(Event *e)
             applyKey(cmd);
         }
     }
-    if (e->type() == EventCommandRemove){
-        unsigned long id = (unsigned long)(e->param());
+    if (e->type() == eEventCommandRemove){
+        EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
+        unsigned long id = ecr->id();
         MAP_STR::iterator it_key = oldKeys.find(id);
         if (it_key != oldKeys.end())
             oldKeys.erase(it_key);

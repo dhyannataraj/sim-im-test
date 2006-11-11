@@ -102,18 +102,20 @@ bool CommandsDefPrivate::delCommand(unsigned id)
 
 void *CommandsDefPrivate::processEvent(Event *e)
 {
-    CommandDef *def;
     list<CommandDef>::iterator it;
     switch (e->type()){
-    case EventCommandCreate:
-        def = (CommandDef*)(e->param());
+    case eEventCommandCreate: {
+        EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
+        CommandDef *def = ecc->cmd();
         if (((m_bMenu ? def->menu_id : def->bar_id) == m_id) && (m_bMenu || def->icon)){
             if (addCommand(def))
                 cfg.clear();
         }
         break;
-    case EventCommandChange:
-        def = (CommandDef*)(e->param());
+    }
+    case eEventCommandChange: {
+        EventCommandChange *ecc = static_cast<EventCommandChange*>(e);
+        CommandDef *def = ecc->cmd();
         if (def->param == NULL){
             for (it = buttons.begin(); it != buttons.end(); ++it){
                 if ((*it).id == def->id){
@@ -123,9 +125,14 @@ void *CommandsDefPrivate::processEvent(Event *e)
             }
         }
         break;
-    case EventCommandRemove:
-        if (delCommand((unsigned long)(e->param())))
+    }
+    case eEventCommandRemove: {
+        EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
+        if (delCommand(ecr->id()))
             cfg.clear();
+        break;
+    }
+    default:
         break;
     }
     return NULL;
@@ -403,6 +410,7 @@ bool CommandsMap::erase(unsigned id)
 
 void CommandsMap::clear()
 {
+    log(L_DEBUG, "CommandsMap::clear %p", this);
     p->clear();
 }
 
@@ -418,6 +426,7 @@ CommandsMapIteratorPrivate(CommandsMapPrivate &_map) : map(_map)
 
 CommandsMapIterator::CommandsMapIterator(CommandsMap &m)
 {
+    log(L_DEBUG, "CommandsMapIterator for %p", &m);
     p = new CommandsMapIteratorPrivate(*m.p);
 }
 
