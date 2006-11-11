@@ -858,7 +858,7 @@ void *DockWnd::processEvent(Event *e)
         break;
     }
     case eEventIconChanged:
-        setIcon((bBlink && m_unread) ? m_unread : m_state);
+        setIcon((bBlink && !m_unread.isEmpty()) ? m_unread : m_state);
         break;
     case eEventLanguageChanged:
         setTip(m_tip);
@@ -1067,6 +1067,9 @@ void DockWnd::setTip(const QString &text)
         tip = i18n(text);
         tip = tip.replace(QRegExp("\\&"), "");
     }
+    if(tip == m_curTipText)
+        return;
+    m_curTipText = tip;
 #ifdef WIN32
     NOTIFYICONDATAW notifyIconData;
     memset(&notifyIconData, 0, sizeof(notifyIconData));
@@ -1128,7 +1131,8 @@ void DockWnd::mousePressEvent( QMouseEvent *e)
     QWidget::mousePressEvent(e);
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (inTray || wharfIcon) return;
+    if (inTray || wharfIcon)
+        return;
 #endif
     grabMouse();
     mousePos = e->pos();
@@ -1164,9 +1168,11 @@ void DockWnd::mouseMoveEvent( QMouseEvent *e)
     QWidget::mouseMoveEvent(e);
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (inTray || wharfIcon) return;
+    if (inTray || wharfIcon)
+        return;
 #endif
-    if (mousePos.isNull()) return;
+    if (mousePos.isNull())
+        return;
     move(e->globalPos().x() - mousePos.x(), e->globalPos().y() - mousePos.y());
 #endif
 }
@@ -1181,7 +1187,8 @@ void DockWnd::enterEvent( QEvent* )
 {
 #ifndef WIN32
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-    if (wharfIcon != NULL) return;
+    if (wharfIcon != NULL)
+        return;
     if ( !qApp->focusWidget() ) {
         XEvent ev;
         memset(&ev, 0, sizeof(ev));
@@ -1201,7 +1208,7 @@ void DockWnd::enterEvent( QEvent* )
 
 void DockWnd::blink()
 {
-    if (m_unread == NULL){
+    if (m_unread.isEmpty()){
         bBlink = false;
         blinkTimer->stop();
         setIcon(m_state);
@@ -1230,13 +1237,13 @@ typedef map<msgIndex, unsigned> MAP_COUNT;
 
 void DockWnd::reset()
 {
-    m_unread = NULL;
+    m_unread = QString::null;
     QString oldUnreadText = m_unreadText;
-    m_unreadText = "";
+    m_unreadText = QString::null;
     MAP_COUNT count;
     MAP_COUNT::iterator itc;
     for (list<msg_id>::iterator it = m_plugin->m_core->unread.begin(); it != m_plugin->m_core->unread.end(); ++it){
-        if (m_unread == NULL){
+        if (m_unread.isEmpty()){
             CommandDef *def = m_plugin->m_core->messageTypes.find((*it).type);
             if (def)
                 m_unread = def->icon;
@@ -1281,7 +1288,7 @@ void DockWnd::reset()
             m_unreadText += msg;
         }
     }
-    if (m_unread && !blinkTimer->isActive())
+    if (!m_unread.isEmpty() && !blinkTimer->isActive())
         blinkTimer->start(1500);
     if (m_unreadText != oldUnreadText)
         setTip(m_tip);

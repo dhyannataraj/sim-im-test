@@ -71,9 +71,10 @@ protected:
     virtual void *processEvent(SIM::Event *e);
     void  reset();
     bool  bNoToggle;
-    const char *m_tip;
-    const char *m_state;
-    const char *m_unread;
+    QString m_tip;
+    QString m_curTipText;
+    QString m_state;
+    QString m_unread;
     QString m_unreadText;
     QPixmap drawIcon;
     virtual void enterEvent( QEvent *e);
