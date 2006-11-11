@@ -228,20 +228,38 @@
     <!-- Licence: GNU/GPL -->
     <!-- Modification of: http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr32-action-fonts.png?rev=518495& -->
   </icon>
+  
   <icon name="phone">
     <object mime="image/png">phone.png</object>
     <!-- Licence: GNU/LGPL -->
     <!-- From: http://www.kde-look.org/content/show.php?content=8341 -->
+    <!-- /16x16/apps/linphone.png-->
   </icon>
- <!--  <icon name="fax">
-	<object mime="image/png">fax.png</object>
-  </icon>-->
+  <icon name="fax">
+    <object mime="image/png">fax.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Origin:  http://websvn.kde.org/trunk/KDE/kdegraphics/kfax/hi16-app-kfax.png?rev=517323  -->
+  </icon>
   <icon name="cell">
     <object mime="image/png">cell.png</object>
     <!-- Licence: GNU/GPL -->
     <!-- Origin: http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/sms/icons/cr16-app-sms_protocol.png?rev=518176 -->
   </icon>
- 
+   <icon name="pager">
+     <object mime="image/png">pager.png</object>
+     <!-- Licence: GNU/LGPL -->
+     <!-- From: http://www.kde-look.org/content/show.php?content=8341 -->
+     <!-- Modification of: 128x128/devices/pda_black.png-->
+     <!-- TODO: Resize it again -->
+  </icon>
+  <icon name="nophone">
+    <object mime="image/png">no_phone.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!-- Modification of : http://www.kde-look.org/content/show.php?content=8341 /16x16/apps/linphone.png -->
+    <!-- and http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr32-action-button_cancel.png?rev=518495 -->
+    
+  </icon>
+
   
 
 
