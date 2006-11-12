@@ -846,10 +846,11 @@ void *DockWnd::processEvent(Event *e)
         reset();
         break;
     case eEventSetMainIcon: {
+        EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
+        m_state = smi->icon();
         if (bBlink)
             break;
-        EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
-        setIcon(smi->icon());
+        setIcon(m_state);
         break;
     }
     case eEventSetMainText: {
