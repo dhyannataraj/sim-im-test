@@ -51,8 +51,9 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     Command cmd;
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolCombo *cmbPhone = (CToolCombo*)(e.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbPhone)
         connect(cmbPhone->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(textChanged(const QString&)));
     connect(m_edit->m_edit, SIGNAL(textChanged()), this, SLOT(textChanged()));
@@ -122,8 +123,9 @@ void MsgSMS::init()
     Command cmd;
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolCombo *cmbPhone = (CToolCombo*)(e.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbPhone && cmbPhone->lineEdit()->text().isEmpty()){
         cmbPhone->setFocus();
         return;
@@ -143,14 +145,16 @@ void MsgSMS::textChanged()
     Command cmd;
     cmd->id    = CmdTranslit;
     cmd->param = m_edit;
-    Event eBtn(EventCommandWidget, cmd);
-    CToolButton *btnTranslit = (CToolButton*)(eBtn.process());
+    EventCommandWidget eWidget1(cmd);
+    eWidget1.process();
+    CToolButton *btnTranslit = dynamic_cast<CToolButton*>(eWidget1.widget());
     if (btnTranslit && btnTranslit->isOn())
         msgText = toTranslit(msgText);
     cmd->id    = CmdPhoneNumber;
     cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolCombo *cmbPhone = (CToolCombo*)(e.process());
+    EventCommandWidget eWidget2(cmd);
+    eWidget2.process();
+    CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget2.widget());
     if (cmbPhone)
         phone = cmbPhone->lineEdit()->text();
     bool bCanSend = !phone.isEmpty() || !msgText.isEmpty();
@@ -158,8 +162,7 @@ void MsgSMS::textChanged()
         m_bCanSend = bCanSend;
         cmd->id    = CmdSend;
         cmd->flags = m_bCanSend ? 0 : COMMAND_DISABLED;
-        Event e(EventCommandDisabled, cmd);
-        e.process();
+        EventCommandDisabled(cmd).process();
     }
     unsigned size = msgText.length();
     unsigned max_size = MAX_SMS_LEN_UNICODE;
@@ -232,8 +235,9 @@ void *MsgSMS::processEvent(Event *e)
             Command c;
             c->id    = CmdPhoneNumber;
             c->param = m_edit;
-            Event eWidget(EventCommandWidget, c);
-            CToolCombo *cmbPhone = (CToolCombo*)(eWidget.process());
+            EventCommandWidget eWidget(cmd);
+            eWidget.process();
+            CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
             if (cmbPhone)
                 phone = cmbPhone->lineEdit()->text();
 

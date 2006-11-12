@@ -844,8 +844,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
     cmd->id    = CmdSend;
     cmd->flags = COMMAND_DISABLED;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 
     QString gpg  = GpgPlugin::plugin->GPG();
     QString home = GpgPlugin::plugin->getHomeDir();
@@ -895,8 +894,7 @@ void MsgGPGKey::exportReady()
     cmd->id    = CmdSend;
     cmd->flags = 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 
     delete m_process;
     m_process = 0;

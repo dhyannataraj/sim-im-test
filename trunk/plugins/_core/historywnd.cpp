@@ -100,8 +100,10 @@ HistoryWindow::HistoryWindow(unsigned long id)
     Command cmd;
     cmd->id		= CmdHistoryFind;
     cmd->param	= (void*)m_id;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    // FIXME: use qobject_cast in Qt4
+    CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbFind){
         QString history = CorePlugin::m_plugin->getHistorySearch();
         while (history.length()){
@@ -231,8 +233,10 @@ void *HistoryWindow::processEvent(Event *e)
                 Command cmd;
                 cmd->id		= CmdHistoryFind;
                 cmd->param	= (void*)m_id;
-                Event eWidget(EventCommandWidget, cmd);
-                CToolCombo *cmbFind = (CToolCombo*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                // FIXME: use qobject_cast in Qt4
+                CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eWidget.widget());
                 if (cmbFind){
                     QString text = cmbFind->lineEdit()->text();
                     if (!text.isEmpty()){
@@ -297,12 +301,10 @@ void HistoryWindow::fill()
     cmd->id		= CmdHistoryNext;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= (void*)m_id;
-    Event eNext(EventCommandDisabled, cmd);
-    eNext.process();
+    EventCommandDisabled(cmd).process();
     cmd->id		= CmdHistoryPrev;
     cmd->flags  = (m_page > 0) ? 0 : COMMAND_DISABLED;
-    Event ePrev(EventCommandDisabled, cmd);
-    ePrev.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void HistoryWindow::next()
@@ -325,8 +327,7 @@ void HistoryWindow::next()
                 cmd->id		= CmdHistoryNext;
                 cmd->flags  = 0;
                 cmd->param	= (void*)m_id;
-                Event eNext(EventCommandDisabled, cmd);
-                eNext.process();
+                EventCommandDisabled(cmd).process();
                 msg = NULL;
                 if (m_page+1>=m_states.size())
                    m_states.push_back(state);

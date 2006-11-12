@@ -197,8 +197,7 @@ void TextEdit::fontChanged(const QFont &f)
         cmd->id    = CmdBold;
         cmd->flags = m_bBold ? COMMAND_CHECKED : 0;
         cmd->param = m_param;
-        Event e(EventCommandChecked, cmd);
-        e.process();
+        EventCommandChecked(cmd).process();
     }
     if (f.italic() != m_bItalic){
         m_bItalic = f.italic();
@@ -206,8 +205,7 @@ void TextEdit::fontChanged(const QFont &f)
         cmd->id    = CmdItalic;
         cmd->flags = m_bItalic ? COMMAND_CHECKED : 0;
         cmd->param = m_param;
-        Event e(EventCommandChecked, cmd);
-        e.process();
+         EventCommandChecked(cmd).process();
     }
     if (f.underline() != m_bUnderline){
         m_bUnderline = f.underline();
@@ -215,8 +213,7 @@ void TextEdit::fontChanged(const QFont &f)
         cmd->id    = CmdUnderline;
         cmd->flags = m_bUnderline ? COMMAND_CHECKED : 0;
         cmd->param = m_param;
-        Event e(EventCommandChecked, cmd);
-        e.process();
+         EventCommandChecked(cmd).process();
     }
     m_bChanged = false;
 }
@@ -277,8 +274,9 @@ void *TextEdit::processEvent(Event *e)
             return NULL;
         switch (cmd->id){
         case CmdBgColor:{
-                Event eWidget(EventCommandWidget, cmd);
-                CToolButton *btnBg = (CToolButton*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                CToolButton *btnBg = dynamic_cast<CToolButton*>(eWidget.widget());
                 if (btnBg){
                     ColorPopup *popup = new ColorPopup(this, background());
                     popup->move(CToolButton::popupPos(btnBg, popup));
@@ -288,8 +286,9 @@ void *TextEdit::processEvent(Event *e)
                 return e->param();
             }
         case CmdFgColor:{
-                Event eWidget(EventCommandWidget, cmd);
-                CToolButton *btnFg = (CToolButton*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                CToolButton *btnFg = dynamic_cast<CToolButton*>(eWidget.widget());
                 if (btnFg){
                     ColorPopup *popup = new ColorPopup(this, foreground());
                     popup->move(CToolButton::popupPos(btnFg, popup));

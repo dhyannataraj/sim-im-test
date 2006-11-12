@@ -42,8 +42,9 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
     Command cmd;
     cmd->id    = CmdUrlInput;
     cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolEdit *edtUrl = (CToolEdit*)(e.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolEdit *edtUrl = dynamic_cast<CToolEdit*>(eWidget.widget());
     if (edtUrl){
         connect(edtUrl, SIGNAL(textChanged(const QString&)), this, SLOT(urlChanged(const QString&)));
         edtUrl->setText(static_cast<UrlMessage*>(msg)->getUrl());
@@ -81,8 +82,9 @@ void MsgUrl::init()
     Command cmd;
     cmd->id    = CmdUrlInput;
     cmd->param = m_edit;
-    Event e(EventCommandWidget, cmd);
-    CToolEdit *edtUrl = (CToolEdit*)(e.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolEdit *edtUrl = dynamic_cast<CToolEdit*>(eWidget.widget());
     if (edtUrl && edtUrl->text().isEmpty()){
         edtUrl->setFocus();
         return;
@@ -96,8 +98,7 @@ void MsgUrl::urlChanged(const QString &str)
     cmd->id = CmdSend;
     cmd->flags = str.isEmpty() ? COMMAND_DISABLED : 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void *MsgUrl::processEvent(Event *e)
@@ -137,8 +138,9 @@ void *MsgUrl::processEvent(Event *e)
             Command cmd;
             cmd->id    = CmdUrlInput;
             cmd->param = m_edit;
-            Event eUrl(EventCommandWidget, cmd);
-            CToolEdit *edtUrl = (CToolEdit*)(eUrl.process());
+            EventCommandWidget eWidget(cmd);
+            eWidget.process();
+            CToolEdit *edtUrl = dynamic_cast<CToolEdit*>(eWidget.widget());
             if (edtUrl)
                 urlText = edtUrl->text();
             if (!urlText.isEmpty()){

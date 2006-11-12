@@ -1694,8 +1694,9 @@ void *CorePlugin::processEvent(Event *e)
         if (!getNoJoinAlert() && (m_alert == NULL)){
             Command cmd;
             cmd->id = CmdStatusBar;
-            Event eWidget(EventCommandWidget, cmd);
-            QWidget *widget = (QWidget*)(eWidget.process());
+            EventCommandWidget eWidget(cmd);
+            eWidget.process();
+            QWidget *widget = eWidget.widget();
             if (widget == NULL)
                 return e->param();
             raiseWindow(widget->topLevelWidget());
@@ -2868,8 +2869,10 @@ void *CorePlugin::processEvent(Event *e)
                     Command c;
                     c->id     = CmdChangeEncoding;
                     c->param  = cmd->param;
-                    Event eWidget(EventCommandWidget, c);
-                    QToolButton *btn = (QToolButton*)(eWidget.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    // FIXME: use qobject_cast in Qt4
+                    QToolButton *btn = dynamic_cast<QToolButton*>(eWidget.widget());
                     if (btn)
                         QTimer::singleShot(0, btn, SLOT(animateClick()));
                     setShowAllEncodings(!getShowAllEncodings());

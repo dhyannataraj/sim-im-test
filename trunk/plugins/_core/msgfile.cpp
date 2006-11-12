@@ -53,8 +53,9 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
     Command cmd;
     cmd->id		= CmdFileName;
     cmd->param	= parent;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
     if (edtName){
         connect(edtName, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
         edtName->setText(static_cast<FileMessage*>(msg)->getFile());
@@ -69,8 +70,9 @@ void MsgFile::init()
     Command cmd;
     cmd->id		= CmdFileName;
     cmd->param	= m_edit;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
     if (edtName){
         if (edtName->text().isEmpty()){
             selectFile();
@@ -89,8 +91,7 @@ void MsgFile::changed(const QString &str)
     cmd->id    = CmdSend;
     cmd->flags = m_bCanSend ? 0 : COMMAND_DISABLED;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void MsgFile::selectFile()
@@ -98,29 +99,21 @@ void MsgFile::selectFile()
     Command cmd;
     cmd->id		= CmdFileName;
     cmd->param	= m_edit;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
     if (edtName == NULL)
         return;
     QString s = edtName->text();
-#ifdef WIN32
-    s.replace(QRegExp("\\\\"), "/");
-#endif
     QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
     if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-#ifdef WIN32
-            (*it).replace(QRegExp("/"), "\\");
-#endif
-            *it = QString("\"") + *it + QString("\"");
+            *it = QString("\"") + QDir::convertSeparators(*it) + QString("\"");
         }
-#ifdef WIN32
     }else{
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-            QString &s = *it;
-            s.replace(QRegExp("/"), "\\");
+            *it = QDir::convertSeparators(*it);
         }
-#endif
     }
     edtName->setText(lst.join(" "));
 }
@@ -161,8 +154,9 @@ void *MsgFile::processEvent(Event *e)
                 Command cmd;
                 cmd->id		= CmdFileName;
                 cmd->param	= m_edit;
-                Event eWidget(EventCommandWidget, cmd);
-                CToolEdit *edtName = (CToolEdit*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
                 if (edtName == NULL)
                     return NULL;
                 QString msgText = m_edit->m_edit->text();

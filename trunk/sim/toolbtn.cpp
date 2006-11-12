@@ -626,12 +626,14 @@ void* CToolBar::processEvent(Event *e)
             delete button;
         break;
     }
-    case EventCommandWidget: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandWidget: {
+        EventCommandWidget *ecw = static_cast<EventCommandWidget*>(e);
+        CommandDef *cmd = ecw->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())
-                return (*it).second->widget();
+                ecw->setWidget((*it).second->widget());
+                return (void*)1;
         }
         return NULL;
     }
@@ -658,8 +660,9 @@ void* CToolBar::processEvent(Event *e)
         }
         return NULL;
     }
-    case EventCommandChecked: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandChecked: {
+        EventCommandChecked *ecc = static_cast<EventCommandChecked*>(e);
+        CommandDef *cmd = ecc->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())
@@ -667,8 +670,9 @@ void* CToolBar::processEvent(Event *e)
         }
         return NULL;
     }
-    case EventCommandDisabled: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandDisabled: {
+        EventCommandDisabled *ecd = static_cast<EventCommandDisabled*>(e);
+        CommandDef *cmd = ecd->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())
@@ -676,8 +680,9 @@ void* CToolBar::processEvent(Event *e)
         }
         return NULL;
     }
-    case EventCommandShow: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCommandShow: {
+        EventCommandShow *ecs = static_cast<EventCommandShow*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
             it = buttons->find(cmd->id);
             if (it != buttons->end())

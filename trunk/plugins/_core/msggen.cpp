@@ -80,8 +80,7 @@ void MsgGen::emptyChanged(bool bEmpty)
     cmd->id    = CmdSend;
     cmd->flags = bEmpty ? COMMAND_DISABLED : 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void *MsgGen::processEvent(Event *e)

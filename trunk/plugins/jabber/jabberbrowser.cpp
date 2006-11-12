@@ -136,8 +136,9 @@ JabberBrowser::JabberBrowser()
     Command cmd;
     cmd->id		= CmdUrl;
     cmd->param	= this;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbUrl = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbUrl){
         QString h = JabberPlugin::plugin->getBrowserHistory();
         while (h.length())
@@ -201,20 +202,23 @@ void JabberBrowser::go(const QString &url, const QString &node)
     cmd->id		= CmdBrowseInfo;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= this;
-    Event eNext(EventCommandDisabled, cmd);
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdBrowseSearch;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= this;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdRegister;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= this;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdBrowseConfigure;
     cmd->flags	= COMMAND_DISABLED;
     cmd->param	= this;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     m_bInProcess = true;
     QListViewItem *item = new QListViewItem(m_list);
     item->setText(COL_JID, url);
@@ -237,8 +241,9 @@ void JabberBrowser::go(const QString &url, const QString &node)
     item->setPixmap(COL_NAME, Pict("empty"));
     cmd->id		= CmdUrl;
     cmd->param	= this;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbUrl = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbUrl)
         cmbUrl->setText(url);
     cmd->id		= CmdNode;
@@ -292,8 +297,9 @@ void *JabberBrowser::processEvent(Event *e)
                     Command cmd;
                     cmd->id		= CmdBrowseSearch;
                     cmd->param	= this;
-                    Event eWidget(EventCommandWidget, cmd);
-                    QWidget *parent = (QWidget*)(eWidget.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    QWidget *parent = eWidget.widget();
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
@@ -323,8 +329,9 @@ void *JabberBrowser::processEvent(Event *e)
                     Command cmd;
                     cmd->id		= CmdRegister;
                     cmd->param	= this;
-                    Event eWidget(EventCommandWidget, cmd);
-                    QWidget *parent = (QWidget*)(eWidget.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    QWidget *parent = eWidget.widget();
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
@@ -351,8 +358,9 @@ void *JabberBrowser::processEvent(Event *e)
                     Command cmd;
                     cmd->id		= CmdBrowseConfigure;
                     cmd->param	= this;
-                    Event eWidget(EventCommandWidget, cmd);
-                    QWidget *parent = (QWidget*)(eWidget.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    QWidget *parent = eWidget.widget();
                     if (parent == NULL)
                         parent = this;
                     BalloonMsg::message(err, parent);
@@ -520,8 +528,9 @@ void *JabberBrowser::processEvent(Event *e)
             Command cmd;
             cmd->id		= CmdUrl;
             cmd->param	= this;
-            Event eWidget(EventCommandWidget, cmd);
-            CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+            EventCommandWidget eWidget(cmd);
+            eWidget.process();
+            CToolCombo *cmbUrl = dynamic_cast<CToolCombo*>(eWidget.widget());
             if (cmbUrl)
                 jid = cmbUrl->lineEdit()->text();
             cmd->id		= CmdNode;
@@ -687,12 +696,12 @@ void JabberBrowser::setNavigation()
     cmd->id		= CmdBack;
     cmd->flags	= m_historyPos ? 0 : COMMAND_DISABLED;
     cmd->param	= this;
-    Event eNext(EventCommandDisabled, cmd);
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdForward;
     cmd->flags	= (m_historyPos + 1 < (int)(m_history.size())) ? 0 : COMMAND_DISABLED;
     cmd->param	= this;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void JabberBrowser::currentChanged(QListViewItem*)
@@ -701,17 +710,20 @@ void JabberBrowser::currentChanged(QListViewItem*)
     cmd->id		= CmdBrowseInfo;
     cmd->flags	= m_list->currentItem() ? 0 : COMMAND_DISABLED;
     cmd->param	= this;
-    Event eNext(EventCommandDisabled, cmd);
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdBrowseSearch;
     cmd->flags	= haveFeature("jabber:iq:search") ? 0 : COMMAND_DISABLED;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdRegister;
     cmd->flags	= haveFeature("jabber:iq:register") ? 0 : COMMAND_DISABLED;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     cmd->id		= CmdBrowseConfigure;
     cmd->flags	= haveFeature("jabber:iq:data") ? 0 : COMMAND_DISABLED;
-    eNext.process();
+    EventCommandDisabled(cmd).process();
+
     QListViewItem *item = m_list->currentItem();
     if (item == NULL)
         return;
@@ -800,8 +812,9 @@ void JabberBrowser::stop(const QString &err)
         Command cmd;
         cmd->id		= CmdUrl;
         cmd->param	= this;
-        Event eWidget(EventCommandWidget, cmd);
-        QWidget *parent = (QWidget*)(eWidget.process());
+        EventCommandWidget eWidget(cmd);
+        eWidget.process();
+        QWidget *parent = eWidget.widget();
         if (parent == NULL)
             parent = this;
         BalloonMsg::message(err, parent);
@@ -829,8 +842,9 @@ void JabberBrowser::addHistory(const QString &str)
     Command cmd;
     cmd->id		= CmdUrl;
     cmd->param	= this;
-    Event eWidget(EventCommandWidget, cmd);
-    CToolCombo *cmbUrl = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolCombo *cmbUrl = dynamic_cast<CToolCombo*>(eWidget.widget());
     if (cmbUrl)
         cmbUrl->clear();
     unsigned i = 0;

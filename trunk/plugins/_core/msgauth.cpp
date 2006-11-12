@@ -45,8 +45,7 @@ MsgAuth::MsgAuth(MsgEdit *parent, Message *msg)
     cmd->id    = CmdSend;
     cmd->flags = 0;
     cmd->param = parent;
-    Event e(EventCommandChecked, cmd);
-    e.process();
+    EventCommandChecked(cmd).process();
 }
 
 void MsgAuth::init()

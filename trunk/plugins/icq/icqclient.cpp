@@ -2417,8 +2417,9 @@ void *ICQClient::processEvent(Event *e)
         Command cmd;
         cmd->id		= CmdSend;
         cmd->param	= m->edit;
-        Event eWidget(EventCommandWidget, cmd);
-        QWidget *msgWidget = (QWidget*)(eWidget.process());
+        EventCommandWidget eWidget(cmd);
+        eWidget.process();
+        QWidget *msgWidget = eWidget.widget();
         if (msgWidget == NULL)
             msgWidget = m->edit;
         BalloonMsg *msg = new BalloonMsg(m, quoteString(err), btns, msgWidget, NULL, false);

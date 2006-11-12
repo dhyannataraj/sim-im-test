@@ -487,8 +487,9 @@ void CommonStatus::showBalloon()
         return;
     Command cmd;
     cmd->id = CmdStatusBar;
-    Event eWidget(EventCommandWidget, cmd);
-    QWidget *widget = (QWidget*)(eWidget.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    QWidget *widget = eWidget.widget();
     if (widget == NULL){
         m_queue.erase(m_queue.begin());
         return;

@@ -26,6 +26,7 @@
 namespace SIM
 {
 
+// todo: use QMultiMap or similar in Qt4
 static QValueList<EventReceiver*> *receivers = NULL;
 
 EventReceiver::EventReceiver(unsigned priority)

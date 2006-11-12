@@ -157,8 +157,7 @@ void *FilterPlugin::processEvent(Event *e)
             cmd->id		= CmdIgnore;
             cmd->flags	= BTN_HIDE;
             cmd->param  = (void*)(contact->id());
-            Event eShow(EventCommandShow, cmd);
-            eShow.process();
+            EventCommandShow(cmd).process();
         }
         break;
     }
@@ -243,8 +242,9 @@ void *FilterPlugin::processEvent(Event *e)
                 Command cmd;
                 cmd->id		= CmdIgnore;
                 cmd->param	= (void*)(contact->id());
-                Event e(EventCommandWidget, cmd);
-                QWidget *w = (QWidget*)(e.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                QWidget *w = eWidget.widget();
                 BalloonMsg::ask((void*)(contact->id()), text, w, SLOT(addToIgnore(void*)), NULL, NULL, this);
             }
             return e->param();

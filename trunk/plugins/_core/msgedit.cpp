@@ -339,8 +339,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
         cmd->flags = COMMAND_CHECKED;
         m_userWnd->showListView(true);
     }
-    Event eChange(EventCommandChecked, cmd);
-    eChange.process();
+    EventCommandChecked(cmd).process();
 
     if (m_processor && bSetFocus)
         QTimer::singleShot(0, m_processor, SLOT(init()));
@@ -848,8 +847,10 @@ bool MsgEdit::sendMessage(Message *msg)
         Command cmd;
         cmd->id		= CmdSendClose;
         cmd->param	= this;
-        Event e(EventCommandWidget, cmd);
-        QToolButton *btnClose = (QToolButton*)(e.process());
+        EventCommandWidget eWidget(cmd);
+        eWidget.process();
+        // FIXME: use qobject_cast in Qt4
+        QToolButton *btnClose = dynamic_cast<QToolButton*>(eWidget.widget());
         if (btnClose)
             bClose = btnClose->isOn();
     }
@@ -949,13 +950,12 @@ bool MsgEdit::send()
             m_msg = NULL;
         }
         stopSend();
-        CToolButton *btnSend = NULL;
         Command cmd;
         cmd->id		= CmdSend;
         cmd->param	= this;
-        Event e(EventCommandWidget, cmd);
-        btnSend = (CToolButton*)(e.process());
-        QWidget *msgWidget = btnSend;
+        EventCommandWidget eWidget(cmd);
+        eWidget.process();
+        QWidget *msgWidget = eWidget.widget();
         if (msgWidget == NULL)
             msgWidget = this;
         BalloonMsg::message(i18n("No such client for send message"), msgWidget);
@@ -1168,8 +1168,9 @@ void *MsgEdit::processEvent(Event *e)
 #endif
 #endif
         if ((cmd->id == CmdSmile) && (cmd->param == this)){
-            Event eBtn(EventCommandWidget, cmd);
-            QToolButton *btnSmile = (QToolButton*)(eBtn.process());
+            EventCommandWidget eWidget(cmd);
+            eWidget.process();
+            QToolButton *btnSmile = dynamic_cast<QToolButton*>(eWidget.widget());
             if (btnSmile){
                 SmilePopup *popup = new SmilePopup(this);
                 QSize s = popup->minimumSizeHint();
@@ -1248,8 +1249,9 @@ void *MsgEdit::processEvent(Event *e)
                 Command cmd;
                 cmd->id		= CmdSend;
                 cmd->param	= this;
-                Event e(EventCommandWidget, cmd);
-                QWidget *msgWidget = (QWidget*)(e.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                QWidget *msgWidget = eWidget.widget();
                 if (msgWidget == NULL)
                     msgWidget = this;
                 if (msg->getRetryCode()){
@@ -1298,8 +1300,9 @@ void *MsgEdit::processEvent(Event *e)
                     Command cmd;
                     cmd->id		= CmdSendClose;
                     cmd->param	= this;
-                    Event e(EventCommandWidget, cmd);
-                    QToolButton *btnClose = (QToolButton*)(e.process());
+                    EventCommandWidget eWidget(cmd);
+                    eWidget.process();
+                    QToolButton *btnClose = dynamic_cast<QToolButton*>(eWidget.widget());
                     if (btnClose)
                         bClose = btnClose->isOn();
                 }
@@ -1483,8 +1486,9 @@ void MsgEdit::setupNext()
     Command cmd;
     cmd->id    = CmdNextMessage;
     cmd->param = this;
-    Event e(EventCommandWidget, cmd);
-    CToolButton *btnNext = (CToolButton*)(e.process());
+    EventCommandWidget eWidget(cmd);
+    eWidget.process();
+    CToolButton *btnNext = dynamic_cast<CToolButton*>(eWidget.widget());
     if (btnNext == NULL)
         return;
 

@@ -335,7 +335,6 @@ void FetchThread::run()
     QCustomEvent* ce = new QCustomEvent(Q_EVENT_SIM_FETCH_DONE);
     ce->setData(m_client->m_client);
     postEvent(m_client, ce);
-    log(L_DEBUG,"EventPosted!");
 }
 
 #endif
@@ -497,7 +496,6 @@ FetchClientPrivate::FetchClientPrivate(FetchClient *client)
 bool FetchClientPrivate::event(QEvent* e)
 {
     if (e->type() == Q_EVENT_SIM_FETCH_DONE) {
-        log(L_DEBUG,"customEvent!");
         FetchClient *client = (FetchClient*)((QCustomEvent*)e)->data();
         FetchManager::manager->done(client);
         return true;

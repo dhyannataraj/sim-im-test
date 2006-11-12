@@ -103,8 +103,7 @@ void MsgJournal::emptyChanged(bool bEmpty)
     cmd->id    = CmdSend;
     cmd->flags = bEmpty ? COMMAND_DISABLED : 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void *MsgJournal::processEvent(Event *e)
@@ -150,8 +149,9 @@ void *MsgJournal::processEvent(Event *e)
                 Command cmd;
                 cmd->id		= CmdDeleteJournalMessage + CmdReceived;
                 cmd->param	= m_edit;
-                Event eWidget(EventCommandWidget, cmd);
-                QWidget *btnRemove = (QWidget*)(eWidget.process());
+                EventCommandWidget eWidget(cmd);
+                eWidget.process();
+                QWidget *btnRemove = eWidget.widget();
                 if (btnRemove)
                     w = btnRemove;
                 BalloonMsg::ask(NULL, i18n("Remove record from journal?"), w, SLOT(removeRecord(void*)), NULL, NULL, this);

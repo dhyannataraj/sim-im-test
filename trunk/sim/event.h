@@ -108,6 +108,10 @@ enum SIMEvents
     eEventCommandCreate     = 0x0504,
     eEventCommandChange     = 0x0505,
     eEventCommandRemove     = 0x0506,
+    eEventCommandChecked    = 0x0507,
+    eEventCommandDisabled   = 0x0513,   // fixme
+    eEventCommandShow       = 0x0514,
+    eEventCommandWidget     = 0x0515,
 
     eEventHomeDir           = 0x0601,   // get home dir for config
     eEventGoURL             = 0x0602,   // open url in browser / mail / ...
@@ -801,11 +805,38 @@ protected:
     unsigned long m_id;
 };
 
-const unsigned EventCommandChecked  = 0x0523;
-const unsigned EventCommandDisabled = 0x0524;
-const unsigned EventCommandShow     = 0x0525;
-const unsigned EventCommandWidget   = 0x0526;
+class EXPORT EventCommandChecked : public EventCommand
+{
+public:
+    EventCommandChecked(CommandDef *cmd)
+        : EventCommand(eEventCommandChecked, cmd) {}
+};
 
+class EXPORT EventCommandDisabled : public EventCommand
+{
+public:
+    EventCommandDisabled(CommandDef *cmd)
+        : EventCommand(eEventCommandDisabled, cmd) {}
+};
+
+class EXPORT EventCommandShow : public EventCommand
+{
+public:
+    EventCommandShow(CommandDef *cmd)
+        : EventCommand(eEventCommandShow, cmd) {}
+};
+
+class EXPORT EventCommandWidget : public EventCommand
+{
+public:
+    EventCommandWidget(CommandDef *cmd)
+        : EventCommand(eEventCommandWidget, cmd), m_widget(NULL) {}
+    // out
+    void setWidget(QWidget *w) { m_widget = w; }
+    QWidget *widget() const { return m_widget; }
+protected:
+    QWidget *m_widget;
+};
 
 /* Event real create toolbar
    param is ToolBarShow*

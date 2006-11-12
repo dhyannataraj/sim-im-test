@@ -135,8 +135,9 @@ bool UpdatePlugin::done(unsigned, Buffer&, const QString &headers)
     if (!h.isEmpty()){
         Command cmd;
         cmd->id		= CmdStatusBar;
-        Event eWidget(EventCommandWidget, cmd);
-        QWidget *statusWidget = (QWidget*)(eWidget.process());
+        EventCommandWidget eWidget(cmd);
+        eWidget.process();
+        QWidget *statusWidget = eWidget.widget();
         if (statusWidget == NULL)
             return false;
         m_url = h;

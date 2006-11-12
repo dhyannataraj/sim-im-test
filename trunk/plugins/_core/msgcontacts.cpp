@@ -78,8 +78,7 @@ void MsgContacts::changed()
     cmd->id    = CmdSend;
     cmd->flags = m_list->selected.empty() ? COMMAND_DISABLED : 0;
     cmd->param = m_edit;
-    Event e(EventCommandDisabled, cmd);
-    e.process();
+    EventCommandDisabled(cmd).process();
 }
 
 void MsgContacts::init()

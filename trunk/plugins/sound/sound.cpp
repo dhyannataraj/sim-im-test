@@ -186,8 +186,7 @@ void *SoundPlugin::processEvent(Event *e)
         if (!data->Disable.toBool())
             cmd->flags |= COMMAND_CHECKED;
         m_bChanged = true;
-        Event e(EventCommandChecked, cmd);
-        e.process();
+         EventCommandChecked(cmd).process();
         m_bChanged = false;
         return NULL;
     }
