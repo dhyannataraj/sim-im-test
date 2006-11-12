@@ -26,8 +26,10 @@
 namespace SIM
 {
 
-// todo: use QMultiMap or similar in Qt4
+// this is all not thread-safe!
 static QValueList<EventReceiver*> *receivers = NULL;
+static bool g_bChanged = false;
+static int g_iLevel = 0;
 
 EventReceiver::EventReceiver(unsigned priority)
 {
@@ -37,20 +39,20 @@ EventReceiver::EventReceiver(unsigned priority)
         if ((*it)->priority() >= priority)
             break;
     receivers->insert(it, this);
+    g_bChanged = true;
 }
 
 EventReceiver::~EventReceiver()
 {
-    QValueList<EventReceiver*>::iterator it;
-    it = receivers->find(this);
-    if(it != receivers->end())
-        receivers->erase(it);
+    receivers->remove(this);
+    g_bChanged = true;
 }
 
 void *Event::process(EventReceiver *from)
 {
     if (receivers == NULL)
         return NULL;
+    g_iLevel++;
     QValueList<EventReceiver*>::iterator it = receivers->begin();
     if (from){
         it = receivers->find(from);
@@ -61,10 +63,23 @@ void *Event::process(EventReceiver *from)
         EventReceiver *receiver = *it;
         if (receiver) {
             void *res = receiver->processEvent(this);
-            if (res)
+            if (res) {
+                g_iLevel--;
+                if(g_iLevel == 0 && g_bChanged)
+                    g_bChanged = false;
                 return res;
+            }
+            if(g_bChanged) {
+                // adjust
+                it = receivers->find(receiver);
+                if(it == receivers->end())
+                    return NULL;
+            }
         }
     }
+    g_iLevel--;
+    if(g_iLevel == 0 && g_bChanged)
+        g_bChanged = false;
     return NULL;
 }
 
