@@ -140,8 +140,8 @@ static DataDef _icqUserData[] =
     {
         { "", DATA_ULONG, 1, DATA(1) },		// Sign
         { "LastSend", DATA_ULONG, 1, 0 },
-        { "", DATA_UTF, 1, 0 },					// Alias
-        { "", DATA_UTF, 1, 0 },					// Cellular
+        { "Alias", DATA_UTF, 1, 0 },					// Alias
+        { "Cellular", DATA_UTF, 1, 0 },					// Cellular
         { "", DATA_ULONG, 1, DATA(0xFFFF) },		// Status
         { "", DATA_ULONG, 1, 0 },				// Class
         { "StatusTime", DATA_ULONG, 1, 0 },
