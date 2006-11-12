@@ -349,7 +349,7 @@ void WeatherPlugin::updateButton()
     Command cmdw;
     cmdw->id	= CmdWeather;
     cmdw->param	= m_bar;
-    EventCommandWidget eWidget(cmd);
+    EventCommandWidget eWidget(cmdw);
     eWidget.process();
     CToolButton *btn = dynamic_cast<CToolButton*>(eWidget.widget());
     if (btn == NULL)
