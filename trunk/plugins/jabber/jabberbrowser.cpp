@@ -247,7 +247,9 @@ void JabberBrowser::go(const QString &url, const QString &node)
     if (cmbUrl)
         cmbUrl->setText(url);
     cmd->id		= CmdNode;
-    CToolCombo *cmbNode = (CToolCombo*)(eWidget.process());
+    EventCommandWidget eWidget2(cmd);
+    eWidget2.process();
+    CToolCombo *cmbNode = dynamic_cast<CToolCombo*>(eWidget2.widget());
     if (cmbNode)
         cmbNode->setText(node);
     startProcess();
@@ -534,7 +536,9 @@ void *JabberBrowser::processEvent(Event *e)
             if (cmbUrl)
                 jid = cmbUrl->lineEdit()->text();
             cmd->id		= CmdNode;
-            CToolCombo *cmbNode = (CToolCombo*)(eWidget.process());
+            EventCommandWidget eWidget2(cmd);
+            eWidget2.process();
+            CToolCombo *cmbNode = dynamic_cast<CToolCombo*>(eWidget2.widget());
             if (cmbNode)
                 node = cmbNode->lineEdit()->text();
             if (!jid.isEmpty()){
