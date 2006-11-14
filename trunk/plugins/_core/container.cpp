@@ -749,7 +749,7 @@ void *Container::processEvent(Event *e)
                 delete userWnd;
                 return e->param();
             }
-            if (cmd->id == CmdInfo){
+            if (cmd->id == CmdInfo && cmd->menu_id != MenuContact){
                 CommandDef c = *cmd;
                 c.menu_id = MenuContact;
                 c.param   = (void*)userWnd->id();
