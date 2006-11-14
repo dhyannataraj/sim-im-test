@@ -192,11 +192,9 @@ MsgEdit::MsgEdit(QWidget *parent, UserWnd *userWnd)
     m_edit->setMinimumSize(QSize(fm.maxWidth(), fm.height() + 10));
     m_layout->addWidget(m_edit);
 
-    BarShow b;
-    b.bar_id = ToolBarMsgEdit;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)(e.process());
+    EventToolbar e(ToolBarMsgEdit, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bar->setParam(this);
 
     if (CorePlugin::m_plugin->getContainerMode() == 0)

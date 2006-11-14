@@ -51,7 +51,7 @@ protected:
     void removeBar(unsigned id);
     SIM::CommandsDef *createMenu(unsigned id);
     void removeMenu(unsigned id);
-    void *show(unsigned id, QMainWindow *parent);
+    CToolBar *show(unsigned id, QMainWindow *parent);
     CMenu *get(SIM::CommandDef *cmd);
     SIM::CommandsDef *getDef(unsigned id);
     CMenu *processMenu(unsigned id, void *param, int key);

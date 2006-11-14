@@ -291,19 +291,20 @@ void WeatherPlugin::showBar()
     QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it( *list );
     QWidget *w;
+    QMainWindow *main = NULL;
     while ((w=it.current()) != 0) {
         ++it;
-        if (w->inherits("MainWindow"))
+        if (w->inherits("MainWindow")) {
+            main = static_cast<QMainWindow*>(w);
             break;
+        }
     }
     delete list;
-    if (w == NULL)
+    if (main == NULL)
         return;
-    BarShow b;
-    b.bar_id = BarWeather;
-    b.parent = (QMainWindow*)w;
-    Event e(EventShowBar, &b);
-    m_bar = (QToolBar*)e.process();
+    EventToolbar e(BarWeather, main);
+    e.process();
+    m_bar = e.toolBar();
     restoreToolbar(m_bar, data.bar);
     connect(m_bar, SIGNAL(destroyed()), this, SLOT(barDestroyed()));
     QTimer *timer = new QTimer(this);

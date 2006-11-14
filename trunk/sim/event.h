@@ -25,6 +25,8 @@
 #include "buffer.h"
 
 class QTranslator;
+class QMainWindow;
+class CToolBar;
 
 namespace SIM {
 
@@ -37,6 +39,7 @@ class TCPClient;
 class Group;
 class Contact;
 class IP;
+
 // ___________________________________________________________________________________
 // Event receiver
 
@@ -102,7 +105,7 @@ enum SIMEvents
     eEventSetMainText       = 0x0403,   // set main window text
 
 
-    eEventToolbar           = 0x0501,   // add/remove a toolbar
+    eEventToolbar           = 0x0501,   // add/show/remove a toolbar
     eEventMenu              = 0x0502,   // add/remove a menu
     eEventCommandExec       = 0x0503,
     eEventCommandCreate     = 0x0504,
@@ -623,17 +626,26 @@ class EXPORT EventToolbar : public Event
 public:
     enum Action {
         eAdd,
+        eShow,
         eRemove,
     };
 public:
+    EventToolbar(unsigned long id, QMainWindow *parent, Action action = eShow)
+        : Event(eEventToolbar), m_id(id), m_parent(parent), m_action(action) {}
     EventToolbar(unsigned long id, Action action)
-        : Event(eEventToolbar), m_id(id), m_action(action) {}
+        : Event(eEventToolbar), m_id(id), m_parent(NULL), m_action(action) {}
 
     unsigned long id() const { return m_id; }
+    QMainWindow *parent() const { return m_parent; }
     Action action() const { return m_action; }
+    // out
+    void setToolbar(CToolBar *bar) { m_bar = bar; }
+    CToolBar *toolBar() const { return m_bar; }
 protected:
     unsigned long m_id;
+    QMainWindow *m_parent;
     Action m_action;
+    CToolBar *m_bar;
 };
 
 /* Base menu for mainwindow */
@@ -837,17 +849,6 @@ public:
 protected:
     QWidget *m_widget;
 };
-
-/* Event real create toolbar
-   param is ToolBarShow*
-*/
-const unsigned EventShowBar = 0x0508;
-
-typedef struct BarShow
-{
-    class QMainWindow *parent;
-    unsigned    bar_id;
-} ToolBarShow;
 
 /* Event get real menu
    param is CommandDef

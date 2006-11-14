@@ -121,11 +121,9 @@ JabberBrowser::JabberBrowser()
     connect(m_list, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
     connect(m_list, SIGNAL(dragStart()), this, SLOT(dragStart()));
 
-    BarShow b;
-    b.bar_id = BarBrowser;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)e.process();
+    EventToolbar e(BarBrowser, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bar->setParam(this);
     restoreToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
     m_bar->show();

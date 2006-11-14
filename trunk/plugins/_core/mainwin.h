@@ -40,7 +40,7 @@ protected slots:
     void setGrip();
 protected:
     QWidget		*main;
-    QToolBar	*bar;
+    CToolBar	*m_bar;
     QVBoxLayout	*lay;
     QHBoxLayout	*h_lay;
     QSizeGrip	*m_grip;

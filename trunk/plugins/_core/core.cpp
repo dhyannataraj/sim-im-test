@@ -49,6 +49,7 @@
 #include "ballonmsg.h"
 #include "icons.h"
 #include "kdeisversion.h"
+#include "toolbtn.h"
 
 #include <qtimer.h>
 #include <qapplication.h>
@@ -3896,7 +3897,7 @@ string CorePlugin::getConfig()
     setContainers(containers);
     if (m_main){
         saveGeometry(m_main, data.geometry);
-        saveToolbar(m_main->bar, data.toolBarState);
+        saveToolbar(m_main->m_bar, data.toolBarState);
     }
     string cfg = save_data(coreData, &data);
     QString saveProfile = getProfile();

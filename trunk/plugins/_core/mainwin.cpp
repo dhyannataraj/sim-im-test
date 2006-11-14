@@ -19,6 +19,7 @@
 #include "simapi.h"
 #include "core.h"
 #include "userview.h"
+#include "toolbtn.h"
 
 #include <qapplication.h>
 #include <qpixmap.h>
@@ -95,7 +96,7 @@ MainWindow::MainWindow(Geometry &geometry)
     }
 #endif
 
-    bar = NULL;
+    m_bar = NULL;
 
     main = new MainWindowWidget(this);
     setCentralWidget(main);
@@ -208,12 +209,10 @@ void *MainWindow::processEvent(Event *e)
     }
     case eEventInit:{
             setTitle();
-            BarShow b;
-            b.bar_id = ToolBarMain;
-            b.parent = this;
-            Event e(EventShowBar, &b);
-            bar = (QToolBar*)e.process();
-            restoreToolbar(bar, CorePlugin::m_plugin->data.toolBarState);
+            EventToolbar e(ToolBarMain, this);
+            e.process();
+            m_bar = e.toolBar();
+            restoreToolbar(m_bar, CorePlugin::m_plugin->data.toolBarState);
             raiseWindow(this);
             break;
         }

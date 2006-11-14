@@ -546,11 +546,9 @@ void RichTextEdit::showBar()
 {
     if (m_bar)
         return;
-    BarShow b;
-    b.bar_id = ToolBarTextEdit;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)(e.process());
+    EventToolbar e(ToolBarTextEdit, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bar->setParam(this);
     m_edit->setParam(this);
 }

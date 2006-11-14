@@ -85,11 +85,10 @@ HistoryWindow::HistoryWindow(unsigned long id)
     setName();
     m_view = new MsgViewBase(this, NULL, id);
     setCentralWidget(m_view);
-    BarShow b;
-    b.bar_id = BarHistory;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)e.process();
+
+    EventToolbar e(BarHistory, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bar->setParam((void*)m_id);
     restoreToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
     connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));

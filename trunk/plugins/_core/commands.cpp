@@ -104,7 +104,7 @@ void Commands::removeMenu(unsigned id)
     menues.erase(it);
 }
 
-void *Commands::show(unsigned id, QMainWindow *parent)
+CToolBar *Commands::show(unsigned id, QMainWindow *parent)
 {
     CMDS_MAP::iterator it = bars.find(id);
     if (it == bars.end())
@@ -186,7 +186,6 @@ CommandsDef *Commands::getDef(unsigned id)
 
 void *Commands::processEvent(Event *e)
 {
-    BarShow *b;
     ProcessMenuParam *mp;
     switch (e->type()){
     case eEventPluginsUnload:
@@ -194,15 +193,19 @@ void *Commands::processEvent(Event *e)
         break;
     case eEventToolbar: {
         EventToolbar *et = static_cast<EventToolbar*>(e);
-        if(et->action() == EventToolbar::eAdd)
-            createBar(et->id());
-        else
-            removeBar(et->id());
+        switch(et->action()) {
+            case EventToolbar::eAdd:
+                createBar(et->id());
+                break;
+            case EventToolbar::eShow:
+                et->setToolbar(show(et->id(), et->parent()));
+                break;
+            case EventToolbar::eRemove:
+                removeBar(et->id());
+                break;
+        }
         return(void*)1;
     }
-    case EventShowBar:
-        b = (BarShow*)(e->param());
-        return show(b->bar_id, b->parent);
     case eEventMenu: {
         EventMenu *em = static_cast<EventMenu*>(e);
         if(em->action() == EventMenu::eAdd)

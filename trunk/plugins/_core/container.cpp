@@ -429,11 +429,9 @@ UserWnd *Container::wnd()
 
 void Container::showBar()
 {
-    BarShow b;
-    b.bar_id = ToolBarContainer;
-    b.parent = this;
-    Event e(EventShowBar, &b);
-    m_bar = (CToolBar*)e.process();
+    EventToolbar e(ToolBarContainer, this);
+    e.process();
+    m_bar = e.toolBar();
     m_bBarChanged = true;
     restoreToolbar(m_bar, data.barState);
     m_bar->show();
