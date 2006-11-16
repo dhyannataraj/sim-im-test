@@ -1,5 +1,0 @@
-if test "$have_ssl" != yes; then
-  AC_MSG_WARN([OpenSSL library disabled. MSN plugin is disabled])
-fi
-
-AM_CONDITIONAL(ENABLE_MSN, test "$have_ssl" = "yes")

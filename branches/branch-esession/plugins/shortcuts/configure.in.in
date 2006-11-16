@@ -1,1 +1,0 @@
-AM_CONDITIONAL(ENABLE_SHORTCUTS, test "$kde_use_qt_mac" != "yes")
