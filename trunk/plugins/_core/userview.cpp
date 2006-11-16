@@ -86,11 +86,7 @@ UserView::UserView()
 
     setFrameStyle(QFrame::Panel);
     setFrameShadow(QFrame::Sunken);
-    WindowDef wnd;
-    wnd.widget = this;
-    wnd.bDown  = true;
-    Event e(EventAddWindow, &wnd);
-    e.process();
+    EventAddWidget(this, true, EventAddWidget::eMainWindow).process();
     clear();
 
     setGroupMode(CorePlugin::m_plugin->getGroupMode(), true);
@@ -689,8 +685,9 @@ void *UserView::processEvent(Event *e)
                         return e->param();
                 }
                 if (cmd->id == CmdSendMessage){
-                    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-                    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                    EventMenuGetDef eMenu(MenuMessage);
+                    eMenu.process();
+                    CommandsDef *cmdsMsg = eMenu.defs();
                     unsigned nCmds = 1;
                     {
                         CommandsList it(*cmdsMsg, true);

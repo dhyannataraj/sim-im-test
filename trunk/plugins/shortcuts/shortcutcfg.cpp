@@ -62,8 +62,9 @@ ShortcutsConfig::~ShortcutsConfig()
 
 void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;
@@ -116,8 +117,9 @@ void ShortcutsConfig::apply()
 
 void ShortcutsConfig::saveMenu(unsigned long id)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;

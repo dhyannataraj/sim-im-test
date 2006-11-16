@@ -614,12 +614,13 @@ void CToolBar::contextMenuEvent(QContextMenuEvent *e)
 
 void* CToolBar::processEvent(Event *e)
 {
-    ButtonsMap::iterator it;
     switch (e->type()){
-    case EventToolbarChanged:
-        if ((CommandsDef*)(e->param()) == m_def)
+    case eEventToolbarChanged: {
+        EventToolbarChanged *tc = static_cast<EventToolbarChanged*>(e);
+        if (tc->defs() == m_def)
             toolBarChanged();
         break;
+    }
     case eEventCommandRemove: {
         EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
         CToolItem *button = buttons->remove(ecr->id());
@@ -631,7 +632,7 @@ void* CToolBar::processEvent(Event *e)
         EventCommandWidget *ecw = static_cast<EventCommandWidget*>(e);
         CommandDef *cmd = ecw->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
-            it = buttons->find(cmd->id);
+            ButtonsMap::iterator it = buttons->find(cmd->id);
             if (it != buttons->end())
                 ecw->setWidget((*it).second->widget());
                 return (void*)1;
@@ -639,11 +640,13 @@ void* CToolBar::processEvent(Event *e)
         return NULL;
     }
     case eEventLanguageChanged:
-    case eEventIconChanged:
+    case eEventIconChanged: {
+        ButtonsMap::iterator it;
         for (it = buttons->begin(); it != buttons->end(); ++it){
             (*it).second->setState();
         }
         return NULL;
+    }
     case eEventCommandCreate: {
         EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
         CommandDef *cmd = ecc->cmd();
@@ -655,7 +658,7 @@ void* CToolBar::processEvent(Event *e)
         EventCommandChange *ecc = static_cast<EventCommandChange*>(e);
         CommandDef *cmd = ecc->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
-            it = buttons->find(cmd->id);
+            ButtonsMap::iterator it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setCommand(cmd);
         }
@@ -665,7 +668,7 @@ void* CToolBar::processEvent(Event *e)
         EventCommandChecked *ecc = static_cast<EventCommandChecked*>(e);
         CommandDef *cmd = ecc->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
-            it = buttons->find(cmd->id);
+            ButtonsMap::iterator it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setChecked(cmd);
         }
@@ -675,7 +678,7 @@ void* CToolBar::processEvent(Event *e)
         EventCommandDisabled *ecd = static_cast<EventCommandDisabled*>(e);
         CommandDef *cmd = ecd->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
-            it = buttons->find(cmd->id);
+            ButtonsMap::iterator it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setDisabled(cmd);
         }
@@ -685,7 +688,7 @@ void* CToolBar::processEvent(Event *e)
         EventCommandShow *ecs = static_cast<EventCommandShow*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->param == NULL) || (cmd->param == m_param)){
-            it = buttons->find(cmd->id);
+            ButtonsMap::iterator it = buttons->find(cmd->id);
             if (it != buttons->end())
                 (*it).second->setShow(cmd);
         }

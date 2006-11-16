@@ -199,7 +199,6 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
 
 void *MainWindow::processEvent(Event *e)
 {
-    WindowDef  *wnd;
     switch(e->type()){
     case eEventSetMainIcon: {
         EventSetMainIcon *smi = static_cast<EventSetMainIcon*>(e);
@@ -223,14 +222,20 @@ void *MainWindow::processEvent(Event *e)
             quit();
         break;
     }
-    case EventAddWindow:
-        wnd = (WindowDef*)(e->param());
-        addWidget(wnd->widget, wnd->bDown);
-        return e->param();
-    case EventAddStatus:
-        wnd = (WindowDef*)(e->param());
-        addStatus(wnd->widget, wnd->bDown);
-        return e->param();
+    case eEventAddWidget: {
+        EventAddWidget *aw = static_cast<EventAddWidget*>(e);
+        switch(aw->place()) {
+        case EventAddWidget::eMainWindow:
+            addWidget(aw->widget(), aw->down());
+            break;
+        case EventAddWidget::eStatusWindow:
+            addStatus(aw->widget(), aw->down());
+            break;
+        default:
+            return (void*)0;
+        }
+        return (void*)1;
+    }
     case eEventIconChanged:
         setIcon(Pict(m_icon));
         break;

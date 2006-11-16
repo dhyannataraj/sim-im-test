@@ -784,8 +784,7 @@ void GpgPlugin::registerMessage()
     cmd->text	 = I18N_NOOP("&GPG key");
     cmd->icon	 = "encrypted";
     cmd->param	 = (void*)getGpgSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
+    EventAddPreferences(cmd).process();
 }
 
 void GpgPlugin::unregisterMessage()
@@ -797,8 +796,7 @@ void GpgPlugin::unregisterMessage()
     e.process();
     Event eUse(EventRemoveMessageType, (void*)MessageGPGUse);
     eUse.process();
-    Event eUser(EventRemovePreferences, (void*)user_data_id);
-    eUser.process();
+    EventRemovePreferences(user_data_id).process();
 }
 
 void GpgPlugin::askPassphrase()

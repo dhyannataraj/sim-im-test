@@ -87,8 +87,7 @@ ActionPlugin::ActionPlugin(unsigned base)
     cmd->text	 = I18N_NOOP("&Action");
     cmd->icon	 = "run";
     cmd->param	 = (void*)getActionSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
+    EventAddPreferences(cmd).process();
 
     cmd->id		 = CmdAction;
     cmd->text	 = "_";
@@ -112,8 +111,7 @@ ActionPlugin::~ActionPlugin()
         delete *it;
     m_exec.clear();
     EventCommandRemove(CmdAction).process();
-    Event e(EventRemovePreferences, (void*)action_data_id);
-    e.process();
+    EventRemovePreferences(action_data_id).process();
     getContacts()->unregisterUserData(action_data_id);
 }
 

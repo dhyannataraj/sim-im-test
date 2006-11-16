@@ -378,8 +378,9 @@ void *SearchDialog::processEvent(Event *e)
     case EventCheckState:{
             CommandDef *cmd = (CommandDef*)(e->param());
             if ((cmd->id == CmdSearchOptions) && (cmd->menu_id == MenuSearchItem)){
-                Event eDef(EventGetMenuDef, (void*)MenuSearchOptions);
-                CommandsDef *def = (CommandsDef*)(eDef.process());
+                EventMenuGetDef eMenu(MenuSearchOptions);
+                eMenu.process();
+                CommandsDef *def = eMenu.defs();
                 if (def){
                     CommandsList list(*def, true);
                     CommandDef *s;

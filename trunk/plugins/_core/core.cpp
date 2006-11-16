@@ -1021,24 +1021,21 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon		= "message";
     cmd->icon_on	= QString::null;
     cmd->param		= (void*)getInterfaceSetup;
-    Event ePrefMsg(EventAddPreferences, cmd);
-    ePrefMsg.process();
+    EventAddPreferences(cmd).process();
 
     cmd->id			= sms_data_id;
     cmd->text		= I18N_NOOP("&SMS");
     cmd->icon		= "cell";
     cmd->icon_on	= QString::null;
     cmd->param		= (void*)getSMSSetup;
-    Event ePrefSMS(EventAddPreferences, cmd);
-    ePrefSMS.process();
+    EventAddPreferences(cmd).process();
 
     cmd->id			= history_data_id;
     cmd->text		= I18N_NOOP("&History setup");
     cmd->icon		= "history";
     cmd->icon_on	= QString::null;
     cmd->param		= (void*)getHistorySetup;
-    Event ePrefHistory(EventAddPreferences, cmd);
-    ePrefHistory.process();
+    EventAddPreferences(cmd).process();
 
     cmd->id          = CmdOnline;
     cmd->text        = I18N_NOOP("Show &offline");
@@ -1838,20 +1835,22 @@ void *CorePlugin::processEvent(Event *e)
             makedir(homedir->homeDir());
             return (void*)1;
         }
-    case EventAddPreferences:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventAddPreferences:{
+            EventAddPreferences *ap = static_cast<EventAddPreferences*>(e);
+            CommandDef *cmd = ap->def();
             cmd->menu_id = MenuGroup;
             EventCommandCreate(cmd).process();
             cmd->menu_id = MenuContact;
             EventCommandCreate(cmd).process();
             preferences.add(cmd);
-            return e->param();
+            return (void*)1;
         }
-    case EventRemovePreferences:{
-            unsigned long id = (unsigned long)(e->param());
+    case eEventRemovePreferences:{
+            EventRemovePreferences *rm = static_cast<EventRemovePreferences*>(e);
+            unsigned long id = rm->id();
             EventCommandRemove(id).process();
             preferences.erase(id);
-            return e->param();
+            return (void*)1;
         }
     case eEventClientsChanged:
         if (m_bInit)
@@ -2086,8 +2085,9 @@ void *CorePlugin::processEvent(Event *e)
                 EventCommandExec e(cmd);
                 return e.process();
             }
-            Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-            CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+            EventMenuGetDef eMenu(MenuMessage);
+            eMenu.process();
+            CommandsDef *cmdsMsg = eMenu.defs();
             CommandsList itc(*cmdsMsg, true);
             CommandDef *c;
             while ((c = ++itc) != NULL){
@@ -2445,8 +2445,9 @@ void *CorePlugin::processEvent(Event *e)
                             getToken(resources, ';');
                             if (nRes-- == 0){
                                 clientContact &cc = ways[n];
-                                Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-                                CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                                EventMenuGetDef eMenu(MenuMessage);
+                                eMenu.process();
+                                CommandsDef *cmdsMsg = eMenu.defs();
                                 unsigned nCmds = 0;
                                 {
                                     CommandsList it(*cmdsMsg, true);
@@ -2489,8 +2490,9 @@ void *CorePlugin::processEvent(Event *e)
                     return NULL;
                 clientContact &cc = ways[n];
 
-                Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-                CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                EventMenuGetDef eMenu(MenuMessage);
+                eMenu.process();
+                CommandsDef *cmdsMsg = eMenu.defs();
                 unsigned nCmds = 0;
                 {
                     CommandsList it(*cmdsMsg, true);

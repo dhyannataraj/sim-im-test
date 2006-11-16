@@ -289,8 +289,9 @@ void Container::setupAccel()
     m_accel->insertItem(Key_Home + ALT, 13);
     m_accel->insertItem(Key_End + ALT, 14);
 
-    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+    EventMenuGetDef eMenu(MenuMessage);
+    eMenu.process();
+    CommandsDef *cmdsMsg = eMenu.defs();
     CommandsList it(*cmdsMsg, true);
     CommandDef *c;
     while ((c = ++it) != NULL){

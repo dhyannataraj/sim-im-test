@@ -123,19 +123,15 @@ FilterPlugin::FilterPlugin(unsigned base, Buffer *cfg)
     cmd->menu_id	 = 0;
     cmd->menu_grp	 = 0;
     cmd->param		 = (void*)getFilterConfig;
-    Event ePref(EventAddPreferences, cmd);
-    ePref.process();
+    EventAddPreferences(cmd).process();
 }
 
 FilterPlugin::~FilterPlugin()
 {
     free_data(filterData, &data);
 
-    Event ePref(EventRemovePreferences, (void*)user_data_id);
-    ePref.process();
-
     EventCommandRemove(CmdIgnoreList).process();
-
+    EventRemovePreferences(user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 

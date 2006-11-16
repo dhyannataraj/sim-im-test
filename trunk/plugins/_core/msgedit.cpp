@@ -1034,8 +1034,9 @@ bool MsgEdit::adjustType()
     Event e(EventCheckState, cmd);
     if (e.process())
         return true;
-    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+    EventMenuGetDef eMenu(MenuMessage);
+    eMenu.process();
+    CommandsDef *cmdsMsg = eMenu.defs();
     CommandsList itc(*cmdsMsg, true);
     CommandDef *c;
     unsigned desired = m_userWnd->getMessageType();
@@ -1326,9 +1327,10 @@ void *MsgEdit::processEvent(Event *e)
 
 void MsgEdit::setEmptyMessage()
 {
-    m_edit->setText("");
-    Event eMenu(EventGetMenuDef, (void*)MenuMessage);
-    CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+    m_edit->setText(QString::null);
+    EventMenuGetDef eMenu(MenuMessage);
+    eMenu.process();
+    CommandsDef *cmdsMsg = eMenu.defs();
     CommandsList itc(*cmdsMsg, true);
     CommandDef *c;
     while ((c = ++itc) != NULL){

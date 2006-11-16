@@ -119,8 +119,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     cmd->icon	  = "sound";
     cmd->icon_on  = QString::null;
     cmd->param	  = (void*)getSoundSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
+    EventAddPreferences(cmd).process();
 
     cmd->id       = CmdSoundDisable;
     cmd->text	  = I18N_NOOP("&Sound");
@@ -161,8 +160,7 @@ SoundPlugin::~SoundPlugin()
     delete m_sound;
     soundPlugin = NULL;
     EventCommandRemove(CmdSoundDisable).process();
-    Event e(EventRemovePreferences, (void*)user_data_id);
-    e.process();
+    EventRemovePreferences(user_data_id).process();
     free_data(soundData, &data);
     getContacts()->unregisterUserData(user_data_id);
 }

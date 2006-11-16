@@ -951,8 +951,9 @@ void *MsgViewBase::processEvent(Event *e)
         case CmdMsgSpecial:
             msg = currentMessage();
             if (msg){
-                Event eMenu(EventGetMenuDef, (void*)MenuMsgCommand);
-                CommandsDef *cmdsMsg = (CommandsDef*)(eMenu.process());
+                EventMenuGetDef eMenu(MenuMsgCommand);
+                eMenu.process();
+                CommandsDef *cmdsMsg = eMenu.defs();
 
                 unsigned n = 0;
                 MessageDef *mdef = NULL;

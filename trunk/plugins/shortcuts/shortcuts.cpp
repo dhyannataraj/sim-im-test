@@ -625,8 +625,9 @@ void ShortcutsPlugin::releaseKeys()
 
 void ShortcutsPlugin::applyKeys(unsigned long id)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;
@@ -738,8 +739,9 @@ void ShortcutsPlugin::applyKey(CommandDef *s)
 
 void ShortcutsPlugin::releaseKeys(unsigned long id)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;

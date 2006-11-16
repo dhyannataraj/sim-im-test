@@ -67,8 +67,8 @@ ForwardPlugin::ForwardPlugin(unsigned base)
     cmd->text	  = I18N_NOOP("&Forward");
     cmd->icon	  = "cell";
     cmd->param	 = (void*)getForwardSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
+    EventAddPreferences(cmd).process();
+
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
     const pluginInfo *info = ePlugin.info();
@@ -77,8 +77,7 @@ ForwardPlugin::ForwardPlugin(unsigned base)
 
 ForwardPlugin::~ForwardPlugin()
 {
-    Event e(EventRemovePreferences, (void*)user_data_id);
-    e.process();
+    EventRemovePreferences(user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 

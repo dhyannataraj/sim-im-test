@@ -81,8 +81,9 @@ void MouseConfig::adjustColumns()
 
 void MouseConfig::loadMenu(unsigned long id)
 {
-    Event eDef(EventGetMenuDef, (void*)id);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(id);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;

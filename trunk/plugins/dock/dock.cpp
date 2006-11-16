@@ -117,8 +117,9 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
     cmd->flags       = COMMAND_DEFAULT;
     EventCommandCreate(cmd).process();
 
-    Event eDef(EventGetMenuDef, (void*)MenuMain);
-    CommandsDef *def = (CommandsDef*)(eDef.process());
+    EventMenuGetDef eMenu(MenuMain);
+    eMenu.process();
+    CommandsDef *def = eMenu.defs();
     if (def){
         CommandsList list(*def, true);
         CommandDef *s;

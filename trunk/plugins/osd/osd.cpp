@@ -150,8 +150,7 @@ OSDPlugin::OSDPlugin(unsigned base)
     cmd->text	 = I18N_NOOP("&OSD");
     cmd->icon	 = "alert";
     cmd->param	 = (void*)getOSDSetup;
-    Event e(EventAddPreferences, cmd);
-    e.process();
+    EventAddPreferences(cmd).process();
 
     m_request.contact = 0;
     m_request.type    = OSD_NONE;
@@ -170,7 +169,7 @@ OSDPlugin::~OSDPlugin()
 {
     delete m_osd;
     osdPlugin = NULL;
-    Event(EventRemovePreferences, (void*)user_data_id).process();
+    EventRemovePreferences(user_data_id).process();
     getContacts()->unregisterUserData(user_data_id);
 }
 

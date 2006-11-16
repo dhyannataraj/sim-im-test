@@ -34,6 +34,7 @@ namespace SIM {
 struct pluginInfo;
 class Client;
 class ClientSocket;
+class CommandsDef;
 class Contact;
 class Group;
 class IP;
@@ -107,17 +108,24 @@ enum SIMEvents
 
 
     eEventToolbar           = 0x0501,   // add/show/remove a toolbar
+    eEventToolbarChanged    = 0x050D,   // toolbar should be changed
     eEventMenu              = 0x0502,   // add/remove a menu
     eEventMenuShow          = 0x0503,
     eEventMenuGet           = 0x0504,
-    eEventCommandExec       = 0x0505,
-    eEventCommandCreate     = 0x0506,
-    eEventCommandChange     = 0x0507,
-    eEventCommandRemove     = 0x0508,
-    eEventCommandChecked    = 0x0509,
-    eEventCommandDisabled   = 0x0513,   // fixme
-    eEventCommandShow       = 0x0514,
-    eEventCommandWidget     = 0x0515,
+    eEventMenuGetDef        = 0x0505,
+    eEventCommandExec       = 0x0506,
+    eEventCommandCreate     = 0x0507,
+    eEventCommandChange     = 0x0508,
+    eEventCommandRemove     = 0x0509,
+    eEventCommandChecked    = 0x0513,   // fixme
+    eEventCommandDisabled   = 0x0514,
+    eEventCommandShow       = 0x0515,
+    eEventCommandWidget     = 0x0516,
+
+    eEventAddWidget         = 0x0570,
+
+    eEventAddPreferences    = 0x0580,
+    eEventRemovePreferences = 0x0581,
 
     eEventHomeDir           = 0x0601,   // get home dir for config
     eEventGoURL             = 0x0602,   // open url in browser / mail / ...
@@ -651,6 +659,17 @@ protected:
     CToolBar *m_bar;
 };
 
+class EXPORT EventToolbarChanged : public Event
+{
+public:
+    EventToolbarChanged(CommandsDef *defs)
+        : Event(eEventToolbarChanged), m_defs(defs) {}
+    
+    CommandsDef *defs() const { return m_defs; }
+protected:
+    CommandsDef *m_defs;
+};
+
 /* Base menu for mainwindow */
 // FIXME: put them into class EventMenu?
 const unsigned long MenuMain = 1;
@@ -705,8 +724,64 @@ protected:
     QPopupMenu *m_menu;
 };
 
-// _____________________________________________________________________________________
-// Default events
+class EXPORT EventMenuGetDef : public Event
+{
+public:
+    EventMenuGetDef(unsigned long id)
+        : Event(eEventMenuGetDef), m_id(id), m_defs(NULL) {}
+    
+    unsigned long id() const { return m_id; }
+    // out
+    void setCommandsDef(CommandsDef *defs) { m_defs = defs; }
+    CommandsDef *defs() const { return m_defs; }
+protected:
+    unsigned long m_id;
+    CommandsDef *m_defs;
+};
+
+class EXPORT EventAddWidget : public Event
+{
+public:
+    enum Place {
+        eMainWindow,
+        eStatusWindow,
+    };
+public:
+    EventAddWidget(QWidget *w, bool bDown, Place place)
+        : Event(eEventAddWidget), m_widget(w), m_bDown(bDown), m_place(place) {}
+    
+    QWidget *widget() const { return m_widget; }
+    bool down() const { return m_bDown; }
+    Place place() const { return m_place; }
+protected:
+    QWidget *m_widget;
+    bool m_bDown;
+    Place m_place;
+};
+
+// CommandDef->param is getPreferencesWindow
+typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);
+class EventAddPreferences : public Event
+{
+public:
+    EventAddPreferences(CommandDef *def)
+        : Event(eEventAddPreferences), m_def(def) {}
+
+    CommandDef *def() const { return m_def; }
+protected:
+    CommandDef *m_def;
+};
+
+class EventRemovePreferences : public Event
+{
+public:
+    EventRemovePreferences(unsigned long id)
+        : Event(eEventRemovePreferences), m_id(id) {}
+
+    unsigned long id() const { return m_id; }
+protected:
+    unsigned long m_id;
+};
 
 /* Commands - create command
    menu items & bar buttons
@@ -880,38 +955,10 @@ protected:
     QWidget *m_widget;
 };
 
-/* Event - add widget into main window param is WindowDef*
-*/
-
-const unsigned EventAddWindow = 0x050A;
-
-/* Event - add widget into status param is WindowDef*
-*/
-
-const unsigned EventAddStatus = 0x050B;
-
-typedef struct WindowDef
-{
-    class QWidget *widget;
-    bool    bDown;
-} WindowDef;
-
 /* Event Check command state
    param is CommandDef*
 */
 const unsigned EventCheckState  = 0x050C;
-
-/* Event - toolbar changed
-   param is ToolBarDef*
-*/
-
-const unsigned EventToolbarChanged = 0x050D;
-
-/* Event get menu def
-   param is menu_id
-   return CommandsDef*
-*/
-const unsigned EventGetMenuDef = 0x050E;
 
 /* Event menu customize
    param menu_id
@@ -931,19 +978,6 @@ typedef struct ProcessMenuParam
     int      key;           // If key != 0 process accel
 } ProcessMenuParam;
 
-/* Event register user preferences
-   param is CommandDef*
-   CommandDef->param is getPreferencesWindow
-*/
-const unsigned EventAddPreferences = 0x0511;
-
-typedef QWidget* (*getPreferencesWindow)(QWidget *parent, void *data);
-
-/* Event remove user preferences
-   param is id
-*/
-
-const unsigned EventRemovePreferences = 0x0512;
 
 const unsigned EventClientChanged   = 0x0530;
 

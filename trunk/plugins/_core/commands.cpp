@@ -219,8 +219,11 @@ void *Commands::processEvent(Event *e)
         egm->setMenu(get(egm->def()));
         return (void*)1;
     }
-    case EventGetMenuDef:
-        return (void*)getDef((unsigned long)(e->param()));
+    case eEventMenuGetDef: {
+        EventMenuGetDef *mgd = static_cast<EventMenuGetDef*>(e);
+        mgd->setCommandsDef(getDef(mgd->id()));
+        return (void*)1;
+    }
     case EventProcessMenu:
         mp = (ProcessMenuParam*)(e->param());
         return (void*)processMenu(mp->id, mp->param, mp->key);
@@ -300,8 +303,7 @@ void Commands::set(CommandsDef *def, const char *str)
         CorePlugin::m_plugin->setMenues(def->id(), str);
     }else{
         CorePlugin::m_plugin->setButtons(def->id(), str);
-        Event e(EventToolbarChanged, def);
-        e.process();
+        EventToolbarChanged(def).process();
     }
 }
 

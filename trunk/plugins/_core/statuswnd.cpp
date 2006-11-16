@@ -367,11 +367,7 @@ StatusWnd::StatusWnd()
     m_lay->addWidget(m_btn);
     connect(m_frame, SIGNAL(showButton(bool)), this, SLOT(showButton(bool)));
     connect(m_btn, SIGNAL(clicked()), this, SLOT(clicked()));
-    WindowDef wnd;
-    wnd.widget = this;
-    wnd.bDown  = true;
-    Event e(EventAddStatus, &wnd);
-    e.process();
+    EventAddWidget(this, true, EventAddWidget::eStatusWindow).process();
 }
 
 void StatusWnd::showButton(bool bState)
