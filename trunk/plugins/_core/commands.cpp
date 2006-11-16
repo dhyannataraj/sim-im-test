@@ -214,8 +214,11 @@ void *Commands::processEvent(Event *e)
             removeMenu(em->id());
         return (void*)1;
     }
-    case EventGetMenu:
-        return (void*)get((CommandDef*)(e->param()));
+    case eEventMenuGet: {
+        EventMenuGet *egm = static_cast<EventMenuGet*>(e);
+        egm->setMenu(get(egm->def()));
+        return (void*)1;
+    }
     case EventGetMenuDef:
         return (void*)getDef((unsigned long)(e->param()));
     case EventProcessMenu:

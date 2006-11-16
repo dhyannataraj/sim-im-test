@@ -208,8 +208,9 @@ void CToolButton::btnClicked()
 {
     m_def.param = static_cast<CToolBar*>(parent())->param();
     if (m_def.popup_id){
-        Event e(EventGetMenu, &m_def);
-        QPopupMenu *popup = (QPopupMenu*)(e.process());
+        EventMenuGet e(&m_def);
+        e.process();
+        QPopupMenu *popup = e.menu();
         if (popup){
             QPoint pos = popupPos(popup);
             popup->popup(pos);

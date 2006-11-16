@@ -799,9 +799,10 @@ bool ShortcutsPlugin::eventFilter(QObject *o, QEvent *e)
         button |= me->state() & (AltButton | ControlButton | ShiftButton);
         MAP_CMDS::iterator it = mouseCmds.find(button);
         if (it != mouseCmds.end()){
-            const CommandDef &cmd = (*it).second;
-            Event e(EventGetMenu, (void*)&cmd);
-            QPopupMenu *popup = (QPopupMenu*)(e.process());
+            CommandDef *cmd = &(*it).second;
+            EventMenuGet e(cmd);
+            e.process();
+            QPopupMenu *popup = e.menu();
             if (popup){
                 popup->popup(me->globalPos());
                 return true;

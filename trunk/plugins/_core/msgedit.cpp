@@ -79,8 +79,9 @@ QPopupMenu *MsgTextEdit::createPopupMenu(const QPoint &pos)
     cmd->param		= parentWidget()->parentWidget();
     cmd->flags		= COMMAND_NEW_POPUP;
     m_popupPos = pos;
-    Event e(EventGetMenu, cmd);
-    return (QPopupMenu*)(e.process());
+    EventMenuGet e(cmd);
+    e.process();
+    return e.menu();
 }
 
 Message *MsgTextEdit::createMessage(QMimeSource *src)

@@ -304,8 +304,9 @@ void DockPlugin::showPopup(QPoint p)
         return;
     Command cmd;
     cmd->popup_id = DockMenu;
-    Event e(EventGetMenu, cmd);
-    m_popup = (QPopupMenu*)e.process();
+    EventMenuGet e(cmd);
+    e.process();
+    m_popup = e.menu();
     if (m_popup){
         m_popup->installEventFilter(this);
         m_popup->popup(p);

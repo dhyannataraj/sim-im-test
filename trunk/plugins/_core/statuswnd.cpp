@@ -163,8 +163,9 @@ void StatusFrame::mousePressEvent(QMouseEvent *me)
     if (me->button() == RightButton){
         Command cmd;
         cmd->id = MenuConnections;
-        Event e(EventGetMenu, &cmd);
-        QPopupMenu *popup = (QPopupMenu*)(e.process());
+        EventMenuGet e(cmd);
+        e.process();
+        QPopupMenu *popup = e.menu();
         if (popup)
             popup->popup(me->globalPos());
     }
@@ -387,8 +388,9 @@ void StatusWnd::clicked()
     Command cmd;
     cmd->popup_id = MenuStatusWnd;
     cmd->flags    = COMMAND_NEW_POPUP;
-    Event e(EventGetMenu, cmd);
-    QPopupMenu *popup = (QPopupMenu*)(e.process());
+    EventMenuGet e(cmd);
+    e.process();
+    QPopupMenu *popup = e.menu();
     if (popup){
         QPoint pos = CToolButton::popupPos(m_btn, popup);
         popup->popup(pos);

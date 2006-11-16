@@ -24,21 +24,22 @@
 
 #include "buffer.h"
 
-class QTranslator;
-class QMainWindow;
 class CToolBar;
+class QMainWindow;
+class QPopupMenu;
+class QTranslator;
 
 namespace SIM {
 
 struct pluginInfo;
-class Plugin;
 class Client;
 class ClientSocket;
+class Contact;
+class Group;
+class IP;
+class Plugin;
 class ServerSocketNotify;
 class TCPClient;
-class Group;
-class Contact;
-class IP;
 
 // ___________________________________________________________________________________
 // Event receiver
@@ -107,11 +108,13 @@ enum SIMEvents
 
     eEventToolbar           = 0x0501,   // add/show/remove a toolbar
     eEventMenu              = 0x0502,   // add/remove a menu
-    eEventCommandExec       = 0x0503,
-    eEventCommandCreate     = 0x0504,
-    eEventCommandChange     = 0x0505,
-    eEventCommandRemove     = 0x0506,
-    eEventCommandChecked    = 0x0507,
+    eEventMenuShow          = 0x0503,
+    eEventMenuGet           = 0x0504,
+    eEventCommandExec       = 0x0505,
+    eEventCommandCreate     = 0x0506,
+    eEventCommandChange     = 0x0507,
+    eEventCommandRemove     = 0x0508,
+    eEventCommandChecked    = 0x0509,
     eEventCommandDisabled   = 0x0513,   // fixme
     eEventCommandShow       = 0x0514,
     eEventCommandWidget     = 0x0515,
@@ -675,6 +678,33 @@ protected:
     Action m_action;
 };
 
+struct CommandDef;
+class EXPORT EventMenuShow : public Event
+{
+public:
+    EventMenuShow(CommandDef *def)
+        : Event(eEventMenuShow), m_def(def) {}
+    
+    CommandDef *def() const { return m_def; }
+protected:
+    CommandDef *m_def;
+};
+
+class EXPORT EventMenuGet : public Event
+{
+public:
+    EventMenuGet(CommandDef *def)
+        : Event(eEventMenuGet), m_def(def), m_menu(NULL) {}
+    
+    CommandDef *def() const { return m_def; }
+    // out
+    void setMenu(QPopupMenu *m) { m_menu = m; }
+    QPopupMenu *menu() const { return m_menu; }
+protected:
+    CommandDef *m_def;
+    QPopupMenu *m_menu;
+};
+
 // _____________________________________________________________________________________
 // Default events
 
@@ -849,12 +879,6 @@ public:
 protected:
     QWidget *m_widget;
 };
-
-/* Event get real menu
-   param is CommandDef
-   return QPopupMenu*
-*/
-const unsigned EventGetMenu = 0x0509;
 
 /* Event - add widget into main window param is WindowDef*
 */
