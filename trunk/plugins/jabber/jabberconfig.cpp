@@ -70,6 +70,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     chkIcons->setChecked(m_client->getProtocolIcons());
     chkSubscribe->setChecked(m_client->getAutoSubscribe());
     chkAccept->setChecked(m_client->getAutoAccept());
+    chkVersion->setChecked(m_client->getUseVersion());
     lnkPublic->setText(i18n("List of public servers"));
     lnkPublic->setUrl("http://www.xmpp.net/servers");
     connect(edtID, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
@@ -81,10 +82,13 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
     connect(chkVHost, SIGNAL(toggled(bool)), this, SLOT(toggledVHost(bool)));
     chkHTTP->setChecked(m_client->getUseHTTP());
     edtUrl->setText(m_client->getURL());
+    edtVHost->setEnabled(m_client->getUseVHost());
     lnkRich->setText("(XEP-0071)");
     lnkRich->setUrl("http://www.xmpp.org/extensions/xep-0071.html");
     lnkTyping->setText("(XEP-0022)");
     lnkTyping->setUrl("http://www.xmpp.org/extensions/xep-0022.html");
+    lnkVersion->setText("(XEP-0092)");
+    lnkVersion->setUrl("http://www.xmpp.org/extensions/xep-0092.html");
 }
 
 void JabberConfig::apply(Client*, void*)
@@ -131,6 +135,7 @@ void JabberConfig::apply()
     m_client->setMaxPort(edtMaxPort->text().toUShort());
     m_client->setTyping(chkTyping->isChecked());
     m_client->setRichText(chkRichText->isChecked());
+    m_client->setUseVersion(chkVersion->isChecked());
     m_client->setAutoSubscribe(chkSubscribe->isChecked());
     m_client->setAutoAccept(chkAccept->isChecked());
     if (m_client->getProtocolIcons() != chkIcons->isChecked()){

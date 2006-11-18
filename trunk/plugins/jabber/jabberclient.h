@@ -96,6 +96,7 @@ typedef struct JabberClientData
     SIM::Data		VHost;
     SIM::Data		Typing;
     SIM::Data		RichText;
+    SIM::Data		UseVersion;
     SIM::Data		ProtocolIcons;
     SIM::Data		MinPort;
     SIM::Data		MaxPort;
@@ -300,6 +301,7 @@ class MessageRequest : public ServerRequest
     PROP_UTF8(ListRequest);
     PROP_BOOL(Typing);
     PROP_BOOL(RichText);
+    PROP_BOOL(UseVersion);
     PROP_BOOL(ProtocolIcons);
     PROP_USHORT(MinPort);
     PROP_USHORT(MaxPort);
