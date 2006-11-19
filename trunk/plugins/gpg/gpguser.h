@@ -20,6 +20,7 @@
 
 #include "gpguserbase.h"
 
+struct GpgUserData;
 class GpgPlugin;
 class QProcess;
 
@@ -27,7 +28,7 @@ class GpgUser : public GpgUserBase
 {
     Q_OBJECT
 public:
-    GpgUser(QWidget *parent, struct GpgUserData *data);
+    GpgUser(QWidget *parent, GpgUserData *data);
     ~GpgUser();
 public slots:
     void apply(void *data);

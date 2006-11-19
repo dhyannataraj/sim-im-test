@@ -27,7 +27,7 @@
 
 using namespace SIM;
 
-SecureDlg::SecureDlg(ICQClient *client, unsigned contact, struct ICQUserData *data)
+SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data)
         : SecureDlgBase(NULL, "securedlg", false, WDestructiveClose)
 {
     SET_WNDPROC("secure")

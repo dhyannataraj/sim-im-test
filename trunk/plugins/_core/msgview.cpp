@@ -33,13 +33,13 @@ using namespace SIM;
 static char MSG_ANCHOR[] = "<a name=\"m:";
 static char MSG_BEGIN[]  = "<a name=\"b\">";
 
-typedef struct Smile
+struct Smile
 {
     unsigned	nSmile;
     int			pos;
     int			size;
     QRegExp		re;
-} Smile;
+};
 
 class ViewParser : public HTMLParser
 {

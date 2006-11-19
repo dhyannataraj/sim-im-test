@@ -22,13 +22,13 @@
 #include "socket.h"
 #include "stl.h"
 
-typedef struct RemoteData
+struct RemoteData
 {
     SIM::Data	Path;
 #ifdef WIN32
     SIM::Data	EnableMenu;
 #endif
-} RemoteData;
+};
 
 class ControlSocket;
 class CorePlugin;

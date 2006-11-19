@@ -25,7 +25,7 @@
 
 using namespace SIM;
 
-MenuConfig::MenuConfig(QWidget *parent, struct ActionUserData *data)
+MenuConfig::MenuConfig(QWidget *parent, ActionUserData *data)
         : MenuConfigBase(parent)
 {
     m_data   = data;

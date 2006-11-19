@@ -46,7 +46,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 }
 
 /*
-typedef struct BackgroundData
+struct BackgroundData
 {
     char			*Background;
     unsigned long	Position;

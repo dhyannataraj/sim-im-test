@@ -20,13 +20,13 @@
 
 #include "simapi.h"
 
-typedef struct TransparentData
+struct TransparentData
 {
     SIM::Data	Transparency;
 #ifdef WIN32
     SIM::Data	IfInactive;
 #endif
-} TransparentData;
+};
 
 class QTimer;
 class TransparentTop;

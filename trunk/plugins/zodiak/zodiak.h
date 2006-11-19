@@ -43,11 +43,11 @@ protected:
     int	getSign(int day, int month);
 };
 
-typedef struct Picker
+struct Picker
 {
     DatePicker	*picker;
     ZodiakWnd	*label;
-} Picker;
+};
 
 class ZodiakPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {

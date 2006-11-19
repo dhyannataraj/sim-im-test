@@ -21,10 +21,10 @@
 #include "simapi.h"
 #include "fetch.h"
 
-typedef struct UpdateData
+struct UpdateData
 {
     SIM::Data	Time;
-} UpdateData;
+};
 
 class UpdatePlugin : public QObject, public SIM::Plugin, public FetchClient, public SIM::EventReceiver
 {

@@ -83,11 +83,11 @@ string Plugin::getConfig()
     return "";
 }
 
-typedef struct CmdDescr
+struct CmdDescr
 {
     string arg;
     string descr;
-} CmdDescr;
+};
 
 class PluginManagerPrivate : public EventReceiver
 {

@@ -27,14 +27,14 @@ class JabberWorkInfo : public JabberWorkInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JabberWorkInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client);
+    JabberWorkInfo(QWidget *parent, JabberUserData *data, JabberClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
 protected:
     void *processEvent(SIM::Event *e);
     void fill(JabberUserData *data);
-    struct JabberUserData *m_data;
+    JabberUserData *m_data;
     JabberClient *m_client;
 };
 

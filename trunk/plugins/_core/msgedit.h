@@ -32,12 +32,12 @@ class QVBoxLayout;
 class QFrame;
 class TextEdit;
 
-typedef struct ClientStatus
+struct ClientStatus
 {
     unsigned long	status;
     unsigned		client;
     SIM::clientData	*data;
-} ClientStatus;
+};
 
 class MsgTextEdit : public TextEdit
 {

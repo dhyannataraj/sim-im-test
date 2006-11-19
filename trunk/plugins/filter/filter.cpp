@@ -48,12 +48,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct FilterData
-{
-	unsigned FromList;
-} FilterData;
-*/
 static DataDef filterData[] =
     {
         { "FromList", DATA_BOOL, 1, 0 },

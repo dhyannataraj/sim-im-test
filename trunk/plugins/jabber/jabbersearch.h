@@ -25,6 +25,7 @@
 #include <qpushbutton.h>
 
 class JabberClient;
+struct JabberAgentInfo;
 
 class QGridLayout;
 
@@ -48,7 +49,7 @@ public:
     bool canSearch();
     QString condition(QWidget *w);
     const QString &id() { return m_jid; }
-    void addWidget(struct JabberAgentInfo *data);
+    void addWidget(JabberAgentInfo *data);
     JabberClient   *m_client;
     QString         m_jid;
     QString         m_node;

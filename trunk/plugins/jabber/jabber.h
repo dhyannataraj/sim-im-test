@@ -69,13 +69,13 @@ public:
     virtual const SIM::DataDef *userDataDef();
 };
 
-typedef struct JabberData
+struct JabberData
 {
     SIM::Data		browser_bar[7];
     SIM::Data		BrowserHistory;
     SIM::Data		AllLevels;
     SIM::Data		BrowseType;
-} JabberData;
+};
 
 class JabberPlugin : public SIM::Plugin
 {

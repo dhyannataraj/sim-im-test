@@ -24,14 +24,14 @@
 class CorePlugin;
 class Exec;
 
-typedef struct ActionUserData
+struct ActionUserData
 {
     SIM::Data	OnLine;
     SIM::Data	Status;
     SIM::Data	Message;
     SIM::Data	Menu;
     SIM::Data	NMenu;
-} ActionUserData;
+};
 
 class ActionPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {

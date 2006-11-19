@@ -22,13 +22,13 @@
 
 #include <qvaluelist.h>
 
-typedef struct NetMonitorData
+struct NetMonitorData
 {
     SIM::Data	LogLevel;
     SIM::Data	LogPackets;
     SIM::Data	geometry[5];
     SIM::Data	Show;
-} NetMonitorData;
+};
 
 class MonitorWindow;
 

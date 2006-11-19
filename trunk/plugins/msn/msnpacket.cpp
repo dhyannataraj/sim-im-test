@@ -64,11 +64,11 @@ void MSNPacket::send()
     m_client->m_packets.push_back(this);
 }
 
-typedef struct err_str
+struct err_str
 {
     unsigned	code;
     const char	*str;
-} err_str;
+};
 
 static err_str msn_errors[] =
     {

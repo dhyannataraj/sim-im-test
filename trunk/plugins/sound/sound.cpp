@@ -55,17 +55,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct SoundData
-{
-#ifdef USE_KDE
-    bool	UseArts;
-#endif
-    char	*Player;
-    char	*StartUp;
-    char	*FileDone;
-} SoundData;
-*/
 static DataDef soundData[] =
     {
 #ifdef USE_KDE
@@ -78,13 +67,6 @@ static DataDef soundData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-/*
-typedef struct SoundUserData
-{
-    char	*Alert;
-	void	*Receive;
-} SoundUserData;
-*/
 static DataDef soundUserData[] =
     {
         { "Alert", DATA_STRING, 1, "alert.wav" },

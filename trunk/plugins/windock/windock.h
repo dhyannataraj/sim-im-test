@@ -20,13 +20,13 @@
 
 #include "simapi.h"
 
-typedef struct WinDockData
+struct WinDockData
 {
     SIM::Data	AutoHide;
     SIM::Data	State;
     SIM::Data	Height;
     SIM::Data	Width;
-} WinDocData;
+};
 
 class QTimer;
 

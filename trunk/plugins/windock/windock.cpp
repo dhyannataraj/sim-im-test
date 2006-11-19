@@ -336,12 +336,6 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return oldProc(hWnd, msg, wParam, lParam);
 }
 
-/*
-typedef struct WinDockData
-{
-    bool AutoHide;
-} WinDocData;
-*/
 static DataDef winDockData[] =
     {
         { "AutoHide", DATA_BOOL, 1, 0 },

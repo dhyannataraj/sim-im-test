@@ -254,7 +254,7 @@ struct ICQUserData : public SIM::clientData
     SIM::Data       buddyHash;
 };
 
-typedef struct ICQClientData
+struct ICQClientData
 {
     SIM::Data        Server;
     SIM::Data		Port;
@@ -287,23 +287,23 @@ typedef struct ICQClientData
     SIM::Data		AutoHTTP;
     SIM::Data		KeepAlive;
     ICQUserData	owner;
-} ICQClientData;
+};
 
 class ICQClient;
 
-typedef struct SearchResult
+struct SearchResult
 {
     ICQUserData       data;
     unsigned short    id;
     ICQClient         *client;
-} SearchResult;
+};
 
 class QTimer;
 
 typedef unsigned char capability[0x10];
 typedef unsigned char plugin[0x12];
 
-typedef enum {
+enum cap_id_t {
     CAP_AIM_SHORTCAPS = 0,      // 0x00000001
     CAP_AIM_VOICE,              // 0x00000002
     CAP_AIM_SENDFILE,           // 0x00000004
@@ -346,7 +346,7 @@ typedef enum {
     CAP_ICQ51,                  // 0x00000080
     CAP_JIMM,                   // 0x00000100
     CAP_NULL,                   // 0x00000200
-} cap_id_t;
+};
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
@@ -411,16 +411,16 @@ class ServerRequest;
 class ListServerRequest;
 class QTextCodec;
 
-typedef struct MessageId
+struct MessageId
 {
     unsigned long    id_l;
     unsigned long    id_h;
     MessageId() : id_l(0), id_h(0) {}
-} MessageId;
+};
 
 bool operator == (const MessageId &m1, const MessageId &m2);
 
-typedef struct SendMsg
+struct SendMsg
 {
     QString 		screen;
     MessageId		id;
@@ -430,7 +430,7 @@ typedef struct SendMsg
     unsigned		flags;
     DirectSocket    *socket;
     SendMsg() : msg(NULL), socket(NULL) {}
-} SendMsg;
+};
 
 const unsigned SEND_PLAIN		= 0x0001;
 const unsigned SEND_UTF			= 0x0002;
@@ -442,7 +442,7 @@ const unsigned SEND_HTML_PLAIN	= 0x0007;
 const unsigned SEND_MASK		= 0x000F;
 const unsigned SEND_1STPART		= 0x0010;
 
-typedef struct ar_request
+struct ar_request
 {
     unsigned short    type;
     unsigned short    flags;
@@ -452,7 +452,7 @@ typedef struct ar_request
     unsigned short    id2;
     QString           screen;
     bool              bDirect;
-} ar_request;
+};
 
 typedef std::map<unsigned short, QString> INFO_REQ_MAP;
 
@@ -478,13 +478,13 @@ protected:
     unsigned short m_nMsgSequence;
 };
 
-typedef struct alias_group
+struct alias_group
 {
     QString     alias;
     unsigned    grp;
-} alias_group;
+};
 
-typedef struct RateInfo
+struct RateInfo
 {
     Buffer				delayed;
     QDateTime			m_lastSend;
@@ -492,14 +492,14 @@ typedef struct RateInfo
     unsigned			m_maxLevel;
     unsigned			m_minLevel;
     unsigned			m_winSize;
-} RateInfo;
+};
 
-typedef struct InfoRequest
+struct InfoRequest
 {
     unsigned	uin;
     unsigned	request_id;
     unsigned	start_time;
-} InfoRequest;
+};
 
 typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
 typedef std::map<unsigned, unsigned>			RATE_MAP;
@@ -872,13 +872,13 @@ protected:
     unsigned long m_ip;
 };
 
-typedef struct SendDirectMsg
+struct SendDirectMsg
 {
     SIM::Message        *msg;
     unsigned            type;
     unsigned short      seq;
     unsigned short      icq_type;
-} SendDirectMsg;
+};
 
 class DirectClient : public DirectSocket
 {

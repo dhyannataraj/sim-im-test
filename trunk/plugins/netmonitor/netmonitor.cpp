@@ -46,15 +46,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct NetMonitorData
-{
-    unsigned long	LogLevel;
-	char			*LogPackets;
-    long			geometry[5];
-    bool			Show;
-} NetMonitorData;
-*/
 static DataDef monitorData[] =
     {
         { "LogLevel", DATA_ULONG, 1, DATA(7) },

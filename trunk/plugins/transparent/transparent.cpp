@@ -86,15 +86,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct TransparentData
-{
-    unsigned long	Transparency;
-#ifdef WIN32
-    bool		IfInactive;
-#endif
-} TransparentData;
-*/
 static DataDef transparentData[] =
     {
         { "Transparency", DATA_ULONG, 1, DATA(60) },

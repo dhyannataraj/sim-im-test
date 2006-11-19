@@ -28,7 +28,7 @@
 
 using namespace SIM;
 
-MoreInfo::MoreInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+MoreInfo::MoreInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : MoreInfoBase(parent)
 {
     m_data    = data;

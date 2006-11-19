@@ -44,32 +44,13 @@
 #include <qfile.h>
 
 using namespace std;
+using namespace SIM;
 
 const unsigned long PING_TIMEOUT	= 60;
 
 const unsigned long FT_TIMEOUT		= 60;
 const unsigned long TYPING_TIME		= 10;
 const unsigned MAX_FT_PACKET		= 2045;
-
-/*
-typedef struct MSNUserData
-{
-    char		*EMail;
-    char		*ScreenName;
-    unsigned	Status;
-    unsigned	StatusTime;
-    unsigned	OnlineTime;
-	char		*PhoneHome;
-	char		*PhoneWork;
-	char		*PhoneMobile;
-	unsigned	Mobile;
-	unsigned	Group;
-	unsigned	Flags;
-	unsigned	sFlags;
-} MSNUserData;
-*/
-
-using namespace SIM;
 
 static DataDef msnUserData[] =
     {
@@ -95,14 +76,6 @@ static DataDef msnUserData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-/*
-typedef struct MSNClientData
-{
-    char		*Server;
-    unsigned	Port;
-	MSNUserData	owner;
-} MSNClientData;
-*/
 static DataDef msnClientData[] =
     {
         { "Server", DATA_STRING, 1, "messenger.hotmail.com" },
@@ -313,11 +286,11 @@ void MSNClient::packet_ready()
         m_socket->readBuffer.init(0);
 }
 
-typedef struct statusText
+struct statusText
 {
     unsigned	status;
     const char	*name;
-} statusText;
+};
 
 statusText st[] =
     {

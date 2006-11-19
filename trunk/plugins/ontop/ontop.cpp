@@ -56,13 +56,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct OnTopData
-{
-    bool OnTop;
-    bool InTask;
-} OnTopData;
-*/
 static DataDef onTopData[] =
     {
         { "OnTop", DATA_BOOL, 1, DATA(1) },

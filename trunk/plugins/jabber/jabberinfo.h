@@ -27,7 +27,7 @@ class JabberInfo : public JabberInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JabberInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client);
+    JabberInfo(QWidget *parent, JabberUserData *data, JabberClient *client);
 signals:
     void raise(QWidget*);
 public slots:
@@ -39,7 +39,7 @@ public slots:
 protected:
     void *processEvent(SIM::Event *e);
     void fill();
-    struct JabberUserData *m_data;
+    JabberUserData *m_data;
     JabberClient *m_client;
 };
 

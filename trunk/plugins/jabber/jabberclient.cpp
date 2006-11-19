@@ -57,29 +57,6 @@ using namespace SIM;
 
 unsigned PING_TIMEOUT = 50;
 
-/*
-typedef struct JabberUserData
-{
-    char		*ID;
-    char		*Resource;
-	unsigned	Status;
-	char		*FirstName;
-	char		*Nick;
-	char		*Desc;
-	char		*Bday;
-	char		*Url;
-	char		*OrgName;
-	char		*OrgUnit;
-	char		*Title;
-	char		*Role;
-	char		*Street;
-	char		*City;
-	char		*Region;
-	char		*PCode;
-	char		*Country;
-} JabberUserData;
-*/
-
 DataDef jabberUserData[] =
     {
         { "", DATA_ULONG, 1, DATA(2) },		// Sign
@@ -134,19 +111,6 @@ DataDef jabberUserData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-/*
-typedef struct JabberClientData
-{
-    char		*ID;
-    char		*Server;
-    unsigned	Port;
-	unsigned	UseSSL;
-	unsigned	UsePlain;
-	unsigned	UseVHost;
-	unsigned	Register;
-	char		*ListRequest;
-} JabberClientData;
-*/
 static DataDef jabberClientData[] =
     {
         { "Server", DATA_STRING, 1, "jabber.org" },

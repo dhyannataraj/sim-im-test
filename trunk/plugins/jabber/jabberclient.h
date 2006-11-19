@@ -83,7 +83,7 @@ struct JabberUserData : public SIM::clientData
     SIM::Data		ResourceClientOS;
 };
 
-typedef struct JabberClientData
+struct JabberClientData
 {
     SIM::Data		Server;
     SIM::Data		Port;
@@ -108,9 +108,9 @@ typedef struct JabberClientData
     SIM::Data		URL;
     SIM::Data		InfoUpdated;
     JabberUserData	owner;
-} JabberClientData;
+};
 
-typedef struct JabberAgentsInfo
+struct JabberAgentsInfo
 {
     SIM::Data		VHost;
     SIM::Data		ID;
@@ -118,9 +118,9 @@ typedef struct JabberAgentsInfo
     SIM::Data		Search;
     SIM::Data		Register;
     JabberClient	*Client;
-} JabberAgentsInfo;
+};
 
-typedef struct JabberAgentInfo
+struct JabberAgentInfo
 {
     SIM::Data		ReqID;
     SIM::Data		VHost;
@@ -134,9 +134,9 @@ typedef struct JabberAgentInfo
     SIM::Data		OptionLabels;
     SIM::Data		nOptions;
     SIM::Data		bRequired;
-} JabberAgentInfo;
+};
 
-typedef struct JabberSearchData
+struct JabberSearchData
 {
     SIM::Data		ID;
     SIM::Data		JID;
@@ -147,17 +147,17 @@ typedef struct JabberSearchData
     SIM::Data		Status;
     SIM::Data		Fields;
     SIM::Data		nFields;
-} JabberSearchData;
+};
 
-typedef struct JabberListRequest
+struct JabberListRequest
 {
     QString             jid;
     QString             grp;
     QString             name;
     bool                bDelete;
-} JabberListRequest;
+};
 
-typedef struct DiscoItem
+struct DiscoItem
 {
     QString             id;
     QString             jid;
@@ -166,7 +166,7 @@ typedef struct DiscoItem
     QString             type;
     QString             category;
     QString             features;
-} DiscoItem;
+};
 
 struct ClientVersionInfo
 {
@@ -471,12 +471,12 @@ protected:
 
 class JabberSearch;
 
-typedef struct agentRegisterInfo
+struct agentRegisterInfo
 {
     QString		id;
     unsigned		err_code;
     QString		error;
-} agentRegisterInfo;
+};
 
 #endif
 

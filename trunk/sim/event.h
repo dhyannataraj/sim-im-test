@@ -443,7 +443,7 @@ protected:
 class EXPORT EventPaintView : public Event
 {
 public:
-    typedef struct PaintView {
+    struct PaintView {
         QPainter *p;        // painter
         QPoint   pos;       // position
         QSize    size;      // size
@@ -520,7 +520,7 @@ protected:
 class EXPORT EventAddContact : public Event
 {
 public:
-    typedef struct AddContact {
+    struct AddContact {
         QString         proto;
         QString         addr;
         QString         nick;
@@ -594,7 +594,7 @@ protected:
 class EXPORT EventError : public Event
 {
 public:
-    typedef struct ClientErrorData {
+    struct ClientErrorData {
         Client     *client;
         QString     err_str;
         const char *options;
@@ -971,12 +971,12 @@ const unsigned EventMenuCustomize = 0x050F;
 */
 const unsigned EventProcessMenu   = 0x0510;
 
-typedef struct ProcessMenuParam
+struct ProcessMenuParam
 {
     unsigned id;
     void     *param;
     int      key;           // If key != 0 process accel
-} ProcessMenuParam;
+};
 
 
 const unsigned EventClientChanged   = 0x0530;
@@ -995,24 +995,24 @@ enum OverwriteMode
     Replace
 };
 
-typedef struct messageAccept
+struct messageAccept
 {
     Message         *msg;
     QString         dir;
     OverwriteMode   overwrite;
-} messageAccept;
+};
 
-typedef struct messageDecline
+struct messageDecline
 {
     Message     *msg;
     QString     reason;
-} messageDecline;
+};
 
-typedef struct messageSend
+struct messageSend
 {
     Message     *msg;
     QCString    *text;      // locale dependent !
-} messageSend;
+};
 
 // Param: Message*
 // Make sure Message * is a pointer to the heap since the message

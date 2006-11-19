@@ -27,11 +27,11 @@
 #include "kpopup.h"
 #endif
 
-typedef struct CMD
+struct CMD
 {
     unsigned	id;
     unsigned	base_id;
-} CMD;
+};
 
 class CMenu : public KPopupMenu
 {

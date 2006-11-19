@@ -1510,19 +1510,6 @@ protected:
     bool m_bError;
 };
 
-/*
-
-typedef struct JabberAgentsInfo
-{
-	char			*VHost;
-	char			*ID;
-	char			*Name;
-	unsigned		Search;
-	unsigned		Register;
-} JabberAgentsInfo;
-
-*/
-
 static DataDef jabberAgentsInfo[] =
     {
         { "", DATA_STRING, 1, 0 },
@@ -1687,23 +1674,6 @@ protected:
     virtual void element_end(const char *el);
     virtual void char_data(const char *el, int len);
 };
-
-/*
-
-typedef struct JabberAgentInfo
-{
-	char			*VHost;
-	char			*ID;
-	char			*Field;
-	char			*Type;
-	char			*Label;
-	char			*Value;
-	void			*Options;
-	void			*OptionLabels;
-	unsigned		nOptions;
-} JabberAgentInfo;
-
-*/
 
 static DataDef jabberAgentInfo[] =
     {
@@ -1878,20 +1848,6 @@ protected:
     virtual void element_end(const char *el);
     virtual void char_data(const char *el, int len);
 };
-
-/*
-
-typedef struct JabberSearchData
-{
-	char			*ID;
-	char			*JID;
-	char			*First;
-	char			*Last;
-	char			*Nick;
-	char			*EMail;
-} JabberSearchData;
-
-*/
 
 static DataDef jabberSearchData[] =
     {

@@ -20,11 +20,11 @@
 
 #include "simapi.h"
 
-typedef struct FloatyUserData
+struct FloatyUserData
 {
     SIM::Data	X;
     SIM::Data	Y;
-} FloatyUserData;
+};
 
 class FloatyWnd;
 class CorePlugin;

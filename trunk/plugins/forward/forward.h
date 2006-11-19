@@ -20,12 +20,12 @@
 
 #include "simapi.h"
 
-typedef struct ForwardUserData
+struct ForwardUserData
 {
     SIM::Data	Phone;
     SIM::Data	Send1st;
     SIM::Data	Translit;
-} ForwardUserData;
+};
 
 class CorePlugin;
 

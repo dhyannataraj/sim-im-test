@@ -26,13 +26,13 @@
 
 using std::list;
 
-typedef struct SpellData
+struct SpellData
 {
 #ifdef WIN32
     SIM::Data	Path;
 #endif
     SIM::Data	Lang;
-} SpellData;
+};
 
 class TextEdit;
 class QSyntaxHighlighter;

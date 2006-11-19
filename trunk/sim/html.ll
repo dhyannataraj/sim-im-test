@@ -174,11 +174,11 @@ void HTMLParser::parse(Buffer &buf)
 	yy_delete_buffer(yy_current_buffer);
 }
 
-typedef struct Symbol
+struct Symbol
 {
 	const char		*name;
 	unsigned short	value;
-} Symbol;
+};
 
 static Symbol symbols[] = 
 {

@@ -26,11 +26,11 @@ class IntLineEdit;
 class QTimer;
 class TipLabel;
 
-typedef struct BlinkCount
+struct BlinkCount
 {
     unsigned long	id;
     unsigned		count;
-} BlinkCount;
+};
 
 class UserView : public UserListBase
 {

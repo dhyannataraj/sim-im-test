@@ -20,16 +20,16 @@
 
 #include "simapi.h"
 
-typedef struct FilterData
+struct FilterData
 {
     SIM::Data	FromList;
     SIM::Data	AuthFromList;
-} FilterData;
+};
 
-typedef struct FilterUserData
+struct FilterUserData
 {
     SIM::Data	SpamList;
-} FilterUserData;
+};
 
 class QStringList;
 

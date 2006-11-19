@@ -26,7 +26,7 @@
 
 using namespace SIM;
 
-WorkInfo::WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+WorkInfo::WorkInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : WorkInfoBase(parent)
 {
     m_data    = data;

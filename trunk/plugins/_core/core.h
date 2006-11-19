@@ -25,13 +25,13 @@
 
 typedef std::map<QString, unsigned> MAP_TYPES;
 
-typedef struct msg_id
+struct msg_id
 {
     unsigned    id;
     unsigned    contact;
     unsigned    type;
     QString     client;
-} msg_id;
+};
 
 class FileLock;
 class QWidget;
@@ -45,7 +45,7 @@ class CommonStatus;
 class StatusWnd;
 class ConnectionManager;
 
-typedef struct CoreData
+struct CoreData
 {
     SIM::Data	Profile;
     SIM::Data	SavePasswd;
@@ -113,7 +113,7 @@ typedef struct CoreData
     SIM::Data	SearchClient;
     SIM::Data	NoScroller;
     SIM::Data	CfgGeometry[5];
-} CoreData;
+};
 
 const unsigned CONTAINER_SIMPLE	= 0;
 const unsigned CONTAINER_NEW	= 1;
@@ -131,7 +131,7 @@ const unsigned NEW_MSG_NOOPEN	= 0;
 const unsigned NEW_MSG_MINIMIZE	= 1;
 const unsigned NEW_MSG_RAISE	= 2;
 
-typedef struct CoreUserData
+struct CoreUserData
 {
     SIM::Data	LogStatus;
     SIM::Data	LogMessage;
@@ -141,38 +141,38 @@ typedef struct CoreUserData
     SIM::Data	AcceptMode;
     SIM::Data	OverwriteFiles;
     SIM::Data	DeclineMessage;
-} CoreUserData;
+};
 
-typedef struct SMSUserData
+struct SMSUserData
 {
     SIM::Data	SMSSignatureBefore;
     SIM::Data	SMSSignatureAfter;
-} SMSUserData;
+};
 
-typedef struct ARUserData
+struct ARUserData
 {
     SIM::Data	AutoReply;
-} ARUserData;
+};
 
-typedef struct ListUserData
+struct ListUserData
 {
     SIM::Data	OfflineOpen;
     SIM::Data	OnlineOpen;
     SIM::Data	ShowAlways;
-} ListUserData;
+};
 
-typedef struct TranslitUserData
+struct TranslitUserData
 {
     SIM::Data	Translit;
-} TranslitUserData;
+};
 
-typedef struct HistoryUserData
+struct HistoryUserData
 {
     SIM::Data	CutSize;
     SIM::Data	MaxSize;
     SIM::Data	CutDays;
     SIM::Data	Days;
-} HistoryUserData;
+};
 
 class ClientList : public std::vector<SIM::Client*>
 {
@@ -336,41 +336,41 @@ const unsigned long BarHistory				= (CmdBase + 1);
 class MsgEdit;
 class Tmpl;
 
-typedef struct CheckSend
+struct CheckSend
 {
     unsigned		id;
     SIM::Client		*client;
     void			*data;
-} CheckSend;
+};
 
-typedef struct MessageID
+struct MessageID
 {
     unsigned	id;
     const char	*client;
     unsigned	contact;
-} MessageID;
+};
 
-typedef struct ARRequest
+struct ARRequest
 {
     SIM::Contact		*contact;
     unsigned			status;
     SIM::EventReceiver	*receiver;
     void				*param;
-} ARReuest;
+};
 
-typedef struct TemplateExpand
+struct TemplateExpand
 {
     QString				tmpl;
     SIM::Contact		*contact;
     SIM::EventReceiver	*receiver;
     void				*param;
-} TemplateExpand;
+};
 
-typedef struct MsgSend
+struct MsgSend
 {
     SIM::Message *msg;
     MsgEdit		 *edit;
-} MsgSend;
+};
 
 const unsigned	MESSAGE_DEFAULT		= 0x0000;
 const unsigned	MESSAGE_SILENT		= 0x0001;
@@ -388,7 +388,7 @@ const unsigned  STYLE_UNDER		= 1;
 const unsigned  STYLE_ITALIC	= 2;
 const unsigned  STYLE_STRIKE	= 4;
 
-typedef struct MessageDef
+struct MessageDef
 {
     const SIM::CommandDef	*cmdReceived;
     const SIM::CommandDef	*cmdSent;
@@ -398,14 +398,14 @@ typedef struct MessageDef
     SIM::Message*		(*create)(Buffer *cfg);
     QObject*			(*generate)(MsgEdit *edit, SIM::Message *msg);
     SIM::Message*		(*drag)(QMimeSource*);
-} MessageDef;
+};
 
-typedef struct clientContact
+struct clientContact
 {
     SIM::clientData	*data;
     SIM::Client	*client;
     bool		bNew;
-} clientContact;
+};
 
 class XSL;
 class BalloonMsg;

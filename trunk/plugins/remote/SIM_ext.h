@@ -31,12 +31,12 @@
 #include <list>
 #include <map>
 
-typedef struct ItemInfo
+struct ItemInfo
 {
     std::string		text;
     HICON		icon;
     unsigned	id;
-} ItemInfo;
+};
 
 typedef std::map<std::string, HICON>		ICON_MAP;
 typedef std::map<unsigned, ItemInfo>	ITEM_MAP;

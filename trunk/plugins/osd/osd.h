@@ -23,7 +23,7 @@
 
 #include <qpixmap.h>
 
-typedef struct OSDUserData
+struct OSDUserData
 {
     SIM::Data	EnableMessage;
     SIM::Data    EnableMessageShowContent;
@@ -46,7 +46,7 @@ typedef struct OSDUserData
     SIM::Data	Background;
     SIM::Data	BgColor;
     SIM::Data	Screen;
-} OSDUserData;
+};
 
 enum OSDType
 {
@@ -62,11 +62,11 @@ enum OSDType
     OSD_MESSAGE
 };
 
-typedef struct OSDRequest
+struct OSDRequest
 {
     unsigned long	contact;
     OSDType			type;
-} OSDRequest;
+};
 
 class QTimer;
 class QPushButton;

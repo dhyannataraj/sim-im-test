@@ -41,11 +41,11 @@ using namespace SIM;
 const unsigned BLINK_TIMEOUT    = 500;
 const unsigned BLINK_COUNT      = 8;
 
-typedef struct JoinContacts
+struct JoinContacts
 {
     unsigned	contact1;
     unsigned	contact2;
-} JoinContacts;
+};
 
 static JoinContacts joinContactsData;
 

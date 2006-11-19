@@ -30,14 +30,14 @@ class DockPlugin;
 
 #ifdef WIN32
 
-typedef struct BalloonItem
+struct BalloonItem
 {
     QString		text;
     QString		title;
     unsigned	id;
     unsigned	flags;
     SIM::Client	*client;
-} BallonItem;
+};
 
 #endif
 

@@ -1542,14 +1542,14 @@ public:
     string res;
     bool bUtf;
 protected:
-    typedef struct style
+    struct style
     {
         QString		tag;
         QString		face;
         unsigned	size;
         unsigned	color;
         unsigned	state;
-    } style;
+    };
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);

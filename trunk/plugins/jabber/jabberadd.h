@@ -27,14 +27,14 @@ class JabberClient;
 class JabberBrowser;
 class GroupRadioButton;
 
-typedef struct ItemInfo
+struct ItemInfo
 {
     QString	jid;
     QString	node;
     QString	id;
-} ItemInfo;
+};
 
-typedef struct AgentSearch
+struct AgentSearch
 {
     QString		jid;
     QString		node;
@@ -44,7 +44,7 @@ typedef struct AgentSearch
     unsigned		fill;
     std::vector<QString>	fields;
     QString		type;
-} AgentSearch;
+};
 
 class JabberAdd : public JabberAddBase, public SIM::EventReceiver
 {

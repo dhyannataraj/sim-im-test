@@ -89,12 +89,12 @@ void JabberSearch::init(QWidget *receiver, JabberClient *client, const QString &
     m_bDirty = false;
 }
 
-typedef struct defFlds
+struct defFlds
 {
     const char  *tag;
     const char  *name;
     bool        bRequired;
-} defFlds;
+};
 
 static defFlds fields[] =
     {

@@ -67,75 +67,6 @@
 using namespace std;
 using namespace SIM;
 
-/*
-typedef struct ICQUserData
-{
-    unsigned long	Status;
-    unsigned long	StatusTime;
-    unsigned long	OnlineTime;
-    void			*IP;
-    void			*RealIP;
-    unsigned long	Port;
-    unsigned long	DCcookie;
-    unsigned long	Caps;
-    unsigned long	Caps2;
-    char			*AutoReply;
-    unsigned long	Uin;
-    unsigned long	IcqID;
-    unsigned long	bChecked;
-    unsigned long	GrpId;
-    unsigned long	IgnoreId;
-    unsigned long	VisibleId;
-    unsigned long	InvisibleId;
-    unsigned long	WaitAuth;
-    unsigned long	PhoneState;
-    unsigned long	PhoneBookTime;
-    unsigned long	PhoneStatusTime;
-    unsigned long	InfoUpdateTime;
-    unsigned long	Mode;
-    unsigned long	Version;
-    unsigned long	Build;
-    char			*Nick;
-    char			*FirstName;
-    char			*LastName;
-    char			*EMail;
-	unsigned long	HiddenEmail;
-    char			*City;
-    char			*State;
-    char			*HomePhone;
-    char			*HomeFax;
-    char			*Address;
-    char			*PrivateCellular;
-    char			*Zip;
-	unsigned long	Country;
-	unsigned long	TimeZone;
-    unsigned long	Age;
-    unsigned long	Gender;
-    char			*Homepage;
-    unsigned long	BirthYear;
-    unsigned long	BirthMonth;
-    unsigned long	BirthDay;
-    unsigned long	Language;
-	char			*EMails;
-    char			*WorkCity;
-    char			*WorkState;
-    char			*WorkPhone;
-    char			*WorkFax;
-    char			*WorkAddress;
-    char			*WorkZip;;
-    unsigned long	WorkCountry;
-    char			*WorkName;
-    char			*WorkDepartment;
-    char			*WorkPosition;
-    unsigned long	Occupation;
-    char			*WorkHomepage;
-	char			*About;
-	char			*Interests;
-	char			*Backgrounds;
-	char			*Affilations;
-	unsigned long	InfoFetchTime;
-} ICQUserData;
-*/
 static DataDef _icqUserData[] =
     {
         { "", DATA_ULONG, 1, DATA(1) },		// Sign
@@ -238,21 +169,6 @@ static DataDef _icqUserData[] =
     };
 
 const DataDef *ICQProtocol::icqUserData = _icqUserData;
-
-/*
-typedef struct ICQClientData
-{
-    unsigned	ContactsTime;
-    unsigned	ContactsLength;
-    unsigned	ContactsInvisible;
-    unsigned	WebAware;
-    unsigned	HideIP;
-	unsigned	IgnoreAuth;
-	unsigned	DirectMode;
-	char		*ListRequests;
-	ICQUserData	owner;
-} ICQClientData;
-*/
 
 static DataDef icqClientData[] =
     {

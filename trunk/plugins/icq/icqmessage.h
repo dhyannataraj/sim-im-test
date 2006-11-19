@@ -48,10 +48,10 @@ public:
     virtual unsigned baseType() { return SIM::MessageContacts; }
 };
 
-typedef struct ICQAuthMessageData
+struct ICQAuthMessageData
 {
     SIM::Data	Charset;
-} ICQAuthMessageData;
+};
 
 class ICQAuthMessage : public SIM::AuthMessage
 {
@@ -67,7 +67,7 @@ protected:
     ICQAuthMessageData data;
 };
 
-typedef struct ICQFileMessageData
+struct ICQFileMessageData
 {
     SIM::Data	ServerDescr;
     SIM::Data	IP;
@@ -76,7 +76,7 @@ typedef struct ICQFileMessageData
     SIM::Data	ID_H;
     SIM::Data	Cookie;
     SIM::Data	Extended;
-} ICQFileMessageData;
+};
 
 class ICQFileMessage : public SIM::FileMessage
 {
@@ -97,12 +97,12 @@ protected:
     ICQFileMessageData data;
 };
 
-typedef struct AIMFileMessageData
+struct AIMFileMessageData
 {
     SIM::Data	Port;
     SIM::Data	ID_L;
     SIM::Data	ID_H;
-} AIMFileMessageData;
+};
 
 class AIMFileMessage : public SIM::FileMessage
 {
@@ -117,12 +117,12 @@ protected:
     AIMFileMessageData data;
 };
 
-typedef struct MessageWarningData
+struct MessageWarningData
 {
     SIM::Data	Anonymous;
     SIM::Data	OldLevel;
     SIM::Data	NewLevel;
-} MessageWarningData;
+};
 
 class WarningMessage : public SIM::AuthMessage
 {

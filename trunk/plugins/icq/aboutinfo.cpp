@@ -22,7 +22,7 @@
 
 using namespace SIM;
 
-AboutInfo::AboutInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+AboutInfo::AboutInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : AboutInfoBase(parent)
 {
     m_data   = data;

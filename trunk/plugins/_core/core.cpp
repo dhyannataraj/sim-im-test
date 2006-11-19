@@ -137,9 +137,9 @@ struct loaded_l10nfile
 };
 
 
-void k_nl_load_domain (struct loaded_l10nfile *domain_file);
-void k_nl_unload_domain (struct loaded_domain *domain);
-char *k_nl_find_msg (struct loaded_l10nfile *domain_file, const char *msgid);
+void k_nl_load_domain (loaded_l10nfile *domain_file);
+void k_nl_unload_domain (loaded_domain *domain);
+char *k_nl_find_msg (loaded_l10nfile *domain_file, const char *msgid);
 
 class SIMTranslator : public QTranslator
 {
@@ -207,59 +207,6 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
 
 #endif
 
-/*
-typedef struct CoreData
-{
-    char		*Profile;
-    unsigned	SavePasswd;
-    unsigned	NoShow;
-    unsigned	ShowPanel;
-    unsigned	ManualStatus;
-    unsigned	Invisible;
-    long		geometry[5];
-    long		toolBarState[7];
-    void		*Buttons;
-    void		*Menues;
-    unsigned	ShowOnLine;
-    unsigned	GroupMode;
-    unsigned	UseDblClick;
-    unsigned	UseSysColors;
-    unsigned	ColorOnline;
-    unsigned	ColorOffline;
-    unsigned	ColorAway;
-    unsigned	ColorNA;
-    unsigned	ColorDND;
-    unsigned	ColorGroup;
-    unsigned	GroupSeparator;
-    char		*Lang;
-    unsigned	ContainerMode;
-    unsigned	SendOnEnter;
-    unsigned	containerGeo[5];
-    unsigned	containerBar[7];
-    unsigned	ContainerStatusSize;
-    char		*Containers;
-    void		*Container;
-    unsigned	CopyMessages;
-    unsigned	EditHeight;
-    unsigned	editBar[7];
-    unsigned	EditBackground;
-    unsigned	EditForeground;
-    char		*EditFont;
-    unsigned	OwnColors;
-    unsigned	UseSmiles;
-    unsigned	CloseSend;
-    unsigned	HistoryPage;
-    unsigned	HistoryDirection;
-    unsigned	historySize[2];
-    long		historyBar[7];
-    char		*HistorySearch;
-    char		*Unread;
-    void		*NoShowAutoReply;
-    unsigned	SortMode;
-    unsigned	CloseTransfer;
-	char		*HistoryStyle;
-} CoreData;
-*/
 static DataDef coreData[] =
     {
         { "Profile", DATA_STRING, 1, 0 },
@@ -339,23 +286,6 @@ static DataDef coreData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-/*
-typedef struct CoreUserData
-{
-    unsigned	OfflineOpen;
-    unsigned	OnlineOpen;
-    unsigned	SMSTranslit;
-    char		*SMSSignatureBefore;
-    char		*SMSSignatureAfter;
-	unsigned	OpenOnReceive;
-	unsigned	OpenOnOnline;
-	char		*IncomingPath;
-	unsigned	AcceptMode;
-	unsigned	OverwriteFiles;
-	char		*DeclineMessage;
-} CoreUserData;
-
-*/
 static DataDef coreUserData[] =
     {
         { "LogStatus", DATA_BOOL, 1, 0 },
@@ -382,15 +312,6 @@ static DataDef arUserData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-/*
-typedef struct ListUserData
-{
-    unsigned	OfflineOpen;
-    unsigned	OnlineOpen;
-	unsigned	ShowAlways;
-} ListUserData;
-*/
-
 static DataDef listUserData[] =
     {
         { "OfflineOpen", DATA_BOOL, 1, DATA(1) },
@@ -398,13 +319,6 @@ static DataDef listUserData[] =
         { "ShowAlways", DATA_BOOL, 1, 0 },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
-
-/*
-typedef struct TranslitUserData
-{
-    unsigned	Translit;
-} TranslitUserData;
-*/
 
 static DataDef translitUserData[] =
     {
@@ -438,11 +352,11 @@ static QWidget *getHistorySetup(QWidget *parent, void *data)
     return new UserHistoryCfg(parent, data);
 }
 
-typedef struct autoReply
+struct autoReply
 {
     unsigned	status;
     const char	*text;
-} autoReply;
+};
 
 static autoReply autoReplies[] =
     {
@@ -1572,19 +1486,19 @@ void CorePlugin::removeTranslator()
     }
 }
 
-typedef struct msgIndex
+struct msgIndex
 {
     unsigned	contact;
     unsigned	type;
-} msgIndex;
+};
 
-typedef struct msgCount
+struct msgCount
 {
     unsigned	count;
     unsigned	index;
-} msgCount;
+};
 
-bool operator < (const struct msgIndex &a, const struct msgIndex &b)
+bool operator < (const msgIndex &a, const msgIndex &b)
 {
     if (a.contact < b.contact)
         return true;

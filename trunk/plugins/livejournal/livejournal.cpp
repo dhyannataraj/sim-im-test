@@ -844,11 +844,11 @@ void LiveJournalClient::contactInfo(void*, unsigned long &curStatus, unsigned&, 
     }
 }
 
-typedef struct Mood
+struct Mood
 {
     unsigned	id;
     QString     name;
-} Mood;
+};
 
 class LoginRequest : public LiveJournalRequest
 {

@@ -48,7 +48,7 @@ const ext_info chat_groups[] =
 
 const ext_info *p_chat_groups = chat_groups;
 
-ICQInfo::ICQInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+ICQInfo::ICQInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : ICQInfoBase(parent)
 {
     m_client	= client;

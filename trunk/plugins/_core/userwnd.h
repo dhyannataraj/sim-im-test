@@ -28,12 +28,12 @@ class CorePlugin;
 class QToolBar;
 class UserList;
 
-typedef struct UserWndData
+struct UserWndData
 {
     SIM::Data	EditHeight;
     SIM::Data	editBar[7];
     SIM::Data	MessageType;
-} UserWndData;
+};
 
 class UserWnd : public QSplitter
 {

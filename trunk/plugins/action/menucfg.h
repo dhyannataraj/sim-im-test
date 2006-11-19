@@ -22,12 +22,13 @@
 #include "simapi.h"
 
 class QListViewItem;
+struct ActionUserData;
 
 class MenuConfig : public MenuConfigBase
 {
     Q_OBJECT
 public:
-    MenuConfig(QWidget *parent, struct ActionUserData *data);
+    MenuConfig(QWidget *parent, ActionUserData *data);
     virtual ~MenuConfig();
 public slots:
     void apply(void*);
@@ -37,7 +38,7 @@ public slots:
     void remove();
 protected:
     void resizeEvent(QResizeEvent *e);
-    struct ActionUserData	*m_data;
+    ActionUserData *m_data;
 };
 
 #endif

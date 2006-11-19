@@ -161,16 +161,16 @@ const unsigned PLUGIN_PROTOCOL       = 0x0008 | PLUGIN_NOLOAD_DEFAULT;
 const unsigned PLUGIN_NODISABLE      = 0x0010;
 const unsigned PLUGIN_RELOAD         = 0x0020;
 
-typedef struct PluginInfo           // Information in plugin
+struct PluginInfo           // Information in plugin
 {
     const char      *title;         // User title
     const char      *description;   // Description
     const char      *version;       // Version
     createPlugin    *create;        // create proc
     unsigned        flags;          // plugin flags
-} PluginInfo;
+};
 
-typedef struct pluginInfo
+struct pluginInfo
 {
     Plugin          *plugin;
     QString         name;
@@ -182,7 +182,7 @@ typedef struct pluginInfo
     QLibrary        *module;        // so or dll handle
     PluginInfo      *info;
     unsigned        base;           // base for plugin types
-} pluginInfo;
+};
 
 SIM_EXPORT PluginInfo *GetPluginInfo();
 
@@ -271,13 +271,13 @@ enum DataType {
     DATA_CSTRING    // to store data in an unknown encoding (icq's ServerText)
 };
 
-typedef struct DataDef
+struct DataDef
 {
     const char  *name;
     DataType    type;
     unsigned    n_values;
     const char  *def_value;
-} DataDef;
+};
 
 class IP;
 class EXPORT Data
@@ -488,7 +488,7 @@ const unsigned  MESSAGE_OPEN        = 0x00800000;
 const unsigned  MESSAGE_NORAISE     = 0x01000000;
 const unsigned  MESSAGE_TEMP        = 0x10000000;
 
-typedef struct MessageData
+struct MessageData
 {
     Data        Text;           // Message text (locale independent)
     Data        ServerText;     // Message text (locale dependent 8bit endcoding!)
@@ -500,7 +500,7 @@ typedef struct MessageData
     Data        Error;
     Data        RetryCode;
     Data        Resource;
-} MessageData;
+};
 
 class EXPORT Message
 {
@@ -538,11 +538,11 @@ protected:
     QString     m_client;
 };
 
-typedef struct MessageSMSData
+struct MessageSMSData
 {
     Data    Phone;
     Data    Network;
-} MessageSMSData;
+};
 
 class EXPORT SMSMessage : public Message
 {
@@ -557,12 +557,12 @@ protected:
     MessageSMSData data;
 };
 
-typedef struct MessageFileData
+struct MessageFileData
 {
     Data        File;
     Data        Description;
     Data        Size;
-} MessageFileData;
+};
 
 class FileMessage;
 
@@ -689,10 +689,10 @@ public:
     virtual QString presentation();
 };
 
-typedef struct MessageUrlData
+struct MessageUrlData
 {
     Data    Url;
-} MessageUrlData;
+};
 
 class EXPORT UrlMessage : public Message
 {
@@ -706,10 +706,10 @@ protected:
     MessageUrlData data;
 };
 
-typedef struct MessageContactsData
+struct MessageContactsData
 {
     Data    Contacts;
-} MessageContactsData;
+};
 
 class EXPORT ContactsMessage : public Message
 {
@@ -723,10 +723,10 @@ protected:
     MessageContactsData data;
 };
 
-typedef struct MessageStatusData
+struct MessageStatusData
 {
     Data    Status;
-} MessageStatusData;
+};
 
 class EXPORT StatusMessage : public Message
 {
@@ -824,7 +824,7 @@ const unsigned FAX      = 1;
 const unsigned CELLULAR = 2;
 const unsigned PAGER    = 3;
 
-typedef struct ContactData
+struct ContactData
 {
     Data            Group;      // Group ID
     Data            Name;       // Contact Display Name (UTF-8)
@@ -838,7 +838,7 @@ typedef struct ContactData
     Data            Notes;
     Data            Flags;
     Data            Encoding;
-} ContactData;
+};
 
 const unsigned CONTACT_TEMP             = 0x0001;
 const unsigned CONTACT_DRAG             = 0x0002;
@@ -882,10 +882,10 @@ protected:
     friend class ContactListPrivate;
 };
 
-typedef struct GroupData
+struct GroupData
 {
     Data        Name;       // Display name (UTF-8)
-} GroupData;
+};
 
 class EXPORT Group
 {
@@ -946,7 +946,7 @@ protected:
     Plugin *m_plugin;
 };
 
-typedef struct ClientData
+struct ClientData
 {
     Data    ManualStatus;
     Data    CommonStatus;
@@ -955,7 +955,7 @@ typedef struct ClientData
     Data    PreviousPassword;
     Data    Invisible;
     Data    LastSend;
-} ClientData;
+};
 
 const unsigned AuthError = 1;
 
@@ -1014,14 +1014,14 @@ protected:
     Protocol    *m_protocol;
 };
 
-typedef struct UserDataDef
+struct UserDataDef
 {
     unsigned        id;
     QString         name;
     const DataDef   *def;
-} UserDataDef;
+};
 
-typedef struct ENCODING
+struct ENCODING
 {
     const char *language;
     const char *codec;
@@ -1029,7 +1029,7 @@ typedef struct ENCODING
     int         rtf_code;
     int         cp_code;
     bool        bMain;
-} ENCODING;
+};
 
 class EXPORT ContactList
 {
@@ -1191,20 +1191,20 @@ EXPORT const char *level_name(unsigned short n);
 // _____________________________________________________________________________________
 // Data
 
-typedef struct ext_info
+struct ext_info
 {
     const char *szName;
     unsigned short nCode;
-} ext_info;
+};
 
 EXPORT const ext_info *getCountries();
 EXPORT const ext_info *getCountryCodes();
 
-typedef struct pager_provider
+struct pager_provider
 {
     const char *szName;
     const char *szGate;
-} pager_provider;
+};
 
 EXPORT const pager_provider *getProviders();
 

@@ -26,7 +26,7 @@
 
 using namespace SIM;
 
-HomeInfo::HomeInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+HomeInfo::HomeInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : HomeInfoBase(parent)
 {
     m_data    = data;

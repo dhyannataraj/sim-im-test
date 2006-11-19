@@ -37,7 +37,7 @@ class CorePlugin;
 class Container;
 class QAccel;
 
-typedef struct ContainerData
+struct ContainerData
 {
     SIM::Data	Id;
     SIM::Data	Windows;
@@ -46,7 +46,7 @@ typedef struct ContainerData
     SIM::Data	barState[7];
     SIM::Data	StatusSize;
     SIM::Data	WndConfig;
-} ContainerData;
+};
 
 class ContainerStatus : public QStatusBar
 {

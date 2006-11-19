@@ -226,11 +226,11 @@ void SpellPlugin::add(const QString &word)
     }
 }
 
-typedef struct WordWeight
+struct WordWeight
 {
     QString		word;
     unsigned	weight;
-} WordWeight;
+};
 
 bool operator < (const WordWeight &w1, const WordWeight &w2) { return w1.weight > w2.weight; }
 

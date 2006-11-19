@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "stl.h"
 
-typedef struct SoundData
+struct SoundData
 {
 #ifdef USE_KDE
     SIM::Data	UseArts;
@@ -30,15 +30,15 @@ typedef struct SoundData
     SIM::Data	StartUp;
     SIM::Data	FileDone;
     SIM::Data	MessageSent;
-} SoundData;
+};
 
-typedef struct SoundUserData
+struct SoundUserData
 {
     SIM::Data	Alert;
     SIM::Data	Receive;
     SIM::Data	NoSoundIfActive;
     SIM::Data	Disable;
-} SoundUserData;
+};
 
 class CorePlugin;
 class QTimer;

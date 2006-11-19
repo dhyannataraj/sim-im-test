@@ -30,7 +30,7 @@ namespace SIM
 class IconSet;
 };
 
-typedef struct WeatherData
+struct WeatherData
 {
     SIM::Data	ID;
     SIM::Data	Location;
@@ -72,7 +72,7 @@ typedef struct WeatherData
     SIM::Data	UV_Description;
     SIM::Data	MoonIcon;
     SIM::Data	MoonPhase;
-} WeatherData;
+};
 
 class WeatherPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public FetchClient, public SAXParser
 {

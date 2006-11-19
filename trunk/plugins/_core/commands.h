@@ -24,12 +24,12 @@
 class CorePlugin;
 class CMenu;
 
-typedef struct MenuDef
+struct MenuDef
 {
     SIM::CommandsDef *def;
     CMenu			*menu;
     void			*param;
-} MenuDef;
+};
 
 typedef std::map<unsigned, SIM::CommandsDef*> CMDS_MAP;
 typedef std::map<unsigned, MenuDef>		MENU_MAP;

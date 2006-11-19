@@ -40,7 +40,7 @@ static FilePreview *createPreview(QWidget *parent)
 
 #endif
 
-ICQPicture::ICQPicture(QWidget *parent, struct ICQUserData *data, ICQClient *client)
+ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client)
         : ICQPictureBase(parent)
 {
     m_data   = data;

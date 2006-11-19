@@ -41,7 +41,7 @@ static FilePreview *createPreview(QWidget *parent)
 
 #endif
 
-JabberPicture::JabberPicture(QWidget *parent, struct JabberUserData *data, JabberClient *client, bool bPhoto)
+JabberPicture::JabberPicture(QWidget *parent, JabberUserData *data, JabberClient *client, bool bPhoto)
         : JabberPictureBase(parent)
 {
     m_data   = data;

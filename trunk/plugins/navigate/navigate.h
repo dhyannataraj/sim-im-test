@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 
-typedef struct NavigateData
+struct NavigateData
 {
 #ifdef WIN32
     SIM::Data NewWindow;
@@ -31,7 +31,7 @@ typedef struct NavigateData
 #ifdef USE_KDE
     SIM::Data UseKDE;
 #endif
-} NavigateData;
+};
 
 class NavigatePlugin : public SIM::Plugin, public SIM::EventReceiver
 {

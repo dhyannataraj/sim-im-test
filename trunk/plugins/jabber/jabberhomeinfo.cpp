@@ -26,7 +26,7 @@
 
 using namespace SIM;
 
-JabberHomeInfo::JabberHomeInfo(QWidget *parent, struct JabberUserData *data, JabberClient *client)
+JabberHomeInfo::JabberHomeInfo(QWidget *parent, JabberUserData *data, JabberClient *client)
         : JabberHomeInfoBase(parent)
 {
     m_client  = client;

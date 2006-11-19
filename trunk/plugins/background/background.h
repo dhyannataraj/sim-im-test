@@ -23,13 +23,13 @@
 #include <qimage.h>
 #include <qpixmap.h>
 
-typedef struct BackgroundData
+struct BackgroundData
 {
     SIM::Data	Background;
     SIM::Data	Position;
     SIM::Data	MarginContact;
     SIM::Data	MarginGroup;
-} BackgroundData;
+};
 
 const unsigned ContactLeft  = 0;
 const unsigned ContactScale = 1;

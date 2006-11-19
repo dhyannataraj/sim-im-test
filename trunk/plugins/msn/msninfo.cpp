@@ -28,7 +28,7 @@
 
 using namespace SIM;
 
-MSNInfo::MSNInfo(QWidget *parent, struct MSNUserData *data, MSNClient *client)
+MSNInfo::MSNInfo(QWidget *parent, MSNUserData *data, MSNClient *client)
         : MSNInfoBase(parent)
 {
     m_client  = client;

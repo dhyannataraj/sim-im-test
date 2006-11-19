@@ -1222,13 +1222,13 @@ void DockWnd::blink()
     setIcon(bBlink ? m_unread : m_state);
 }
 
-typedef struct msgIndex
+struct msgIndex
 {
     unsigned	contact;
     unsigned	type;
-} msgIndex;
+};
 
-bool operator < (const struct msgIndex &a, const struct msgIndex &b)
+bool operator < (const msgIndex &a, const msgIndex &b)
 {
     if (a.contact < b.contact)
         return true;

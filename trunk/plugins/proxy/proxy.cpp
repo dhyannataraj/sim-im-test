@@ -47,18 +47,6 @@ static const char *ANSWER_ERROR  = I18N_NOOP("Bad proxy answer");
 static const char *AUTH_ERROR    = I18N_NOOP("Proxy authorization failed");
 static const char *STATE_ERROR	 = "Connect in bad state";
 
-/*
-typedef struct ProxyData
-{
-    unsigned long	Type;
-	char			*Host;
-	unsigned long	Port;
-	unsigned		Auth;
-	char			*User;
-	char			*Password;
-} ProxyData;
-*/
-
 static DataDef _proxyData[] =
     {
         { "Client", DATA_STRING, 1, 0 },

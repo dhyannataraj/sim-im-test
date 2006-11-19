@@ -24,12 +24,12 @@
 const unsigned short L_PACKETS = 0x08;
 // const unsigned short L_EVENTS  = 0x10;
 
-typedef struct LoggerData
+struct LoggerData
 {
     SIM::Data LogLevel;
     SIM::Data LogPackets;
     SIM::Data File;
-} LoggerData;
+};
 
 class QFile;
 

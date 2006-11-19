@@ -27,12 +27,12 @@
 const unsigned EventInTaskManager = 0x00030000;
 const unsigned EventOnTop		  = 0x00030001;
 
-typedef struct OnTopData
+struct OnTopData
 {
     SIM::Data	OnTop;
     SIM::Data	InTask;
     SIM::Data	ContainerOnTop;
-} OnTopData;
+};
 
 class OnTopPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {

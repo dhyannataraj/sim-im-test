@@ -21,12 +21,12 @@
 #include "simapi.h"
 #include "stl.h"
 
-typedef struct ShortcutsData
+struct ShortcutsData
 {
     SIM::Data	Key;
     SIM::Data	Global;
     SIM::Data	Mouse;
-} ShortcutsData;
+};
 
 typedef std::map<unsigned, const char*>	MAP_STR;
 typedef std::map<unsigned, bool>		MAP_BOOL;

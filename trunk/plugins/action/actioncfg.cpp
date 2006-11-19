@@ -32,7 +32,7 @@ using namespace SIM;
 unsigned CONTACT_ONLINE = 0x10000;
 unsigned CONTACT_STATUS = 0x10001;
 
-ActionConfig::ActionConfig(QWidget *parent, struct ActionUserData *data, ActionPlugin *plugin)
+ActionConfig::ActionConfig(QWidget *parent, ActionUserData *data, ActionPlugin *plugin)
         : ActionConfigBase(parent)
 {
     m_data   = data;

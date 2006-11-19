@@ -45,11 +45,11 @@ using namespace SIM;
 
 #ifndef USE_KDE
 
-typedef struct language
+struct language
 {
     const char *code;
     const char *name;
-} language;
+};
 
 static language langs[] =
     {

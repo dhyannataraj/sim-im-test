@@ -233,13 +233,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct NavigateData
-{
-     char *Browser;
-     char *Mailer;
-} NavigateData;
-*/
 static DataDef navigateData[] =
     {
 #ifdef WIN32

@@ -55,7 +55,7 @@ public:
     const SIM::DataDef *userDataDef();
 };
 
-typedef struct SMSClientData
+struct SMSClientData
 {
     SIM::Data	Device;
     SIM::Data	BaudRate;
@@ -63,7 +63,7 @@ typedef struct SMSClientData
     SIM::Data	Charge;
     SIM::Data	Charging;
     SIM::Data	Quality;
-} SMSClientData;
+};
 
 const unsigned SMS_SIGN	= 6;
 

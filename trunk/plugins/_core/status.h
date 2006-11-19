@@ -26,13 +26,13 @@ class QTimer;
 class CorePlugin;
 class BalloonMsg;
 
-typedef struct BalloonItem
+struct BalloonItem
 {
     QString		text;
     QStringList	buttons;
     unsigned	id;
     SIM::Client	*client;
-} BalloonItem;
+};
 
 class CommonStatus : public QObject, public SIM::EventReceiver
 {

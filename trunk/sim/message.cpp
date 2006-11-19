@@ -244,11 +244,11 @@ QString ContactsMessage::presentation()
     return res;
 }
 
-typedef struct fileItem
+struct fileItem
 {
     QString		name;
     unsigned	size;
-} fileItem;
+};
 
 class FileMessageIteratorPrivate : public vector<fileItem>
 {

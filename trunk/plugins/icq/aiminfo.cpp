@@ -29,7 +29,7 @@
 
 using namespace SIM;
 
-AIMInfo::AIMInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+AIMInfo::AIMInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : AIMInfoBase(parent)
 {
     m_client  = client;

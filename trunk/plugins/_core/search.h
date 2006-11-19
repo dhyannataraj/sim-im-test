@@ -29,12 +29,12 @@ class SearchBase;
 class QStatusBar;
 class QTimer;
 
-typedef struct ClientWidget
+struct ClientWidget
 {
     SIM::Client	*client;
     QWidget		*widget;
     QString		name;
-} ClientWidget;
+};
 
 class SearchDialog : public QMainWindow, public SIM::EventReceiver
 {

@@ -30,7 +30,7 @@
 
 using namespace SIM;
 
-YahooInfo::YahooInfo(QWidget *parent, struct YahooUserData *data, YahooClient *client)
+YahooInfo::YahooInfo(QWidget *parent, YahooUserData *data, YahooClient *client)
         : YahooInfoBase(parent)
 {
     m_client  = client;

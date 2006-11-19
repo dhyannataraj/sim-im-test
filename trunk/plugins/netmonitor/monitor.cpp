@@ -165,11 +165,11 @@ void MonitorWindow::pause()
     bPause = !bPause;
 }
 
-typedef struct level_def
+struct level_def
 {
     unsigned	level;
     const char	*name;
-} level_def;
+};
 
 static level_def levels[] =
     {
@@ -196,11 +196,11 @@ void MonitorWindow::adjustLog()
     }
 }
 
-typedef struct LevelColorDef
+struct LevelColorDef
 {
     unsigned	level;
     const char	*color;
-} LevelColorDef;
+};
 
 static LevelColorDef levelColors[] =
     {

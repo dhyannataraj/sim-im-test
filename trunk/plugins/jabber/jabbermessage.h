@@ -25,10 +25,10 @@ const unsigned long MessageJabberOnline	= 0x202;
 const unsigned long MessageJabberOffline	= 0x203;
 const unsigned long MessageJabberError	= 0x204;
 
-typedef struct JabberMessageData
+struct JabberMessageData
 {
     SIM::Data	Subject;
-} JabberMessageData;
+};
 
 class JabberMessage : public SIM::Message
 {
@@ -43,11 +43,11 @@ protected:
     JabberMessageData	data;
 };
 
-typedef struct JabberMessageErrorData
+struct JabberMessageErrorData
 {
     SIM::Data	Error;
     SIM::Data	Code;
-} JabberMessageErrorData;
+};
 
 class JabberMessageError : public SIM::Message
 {
@@ -62,13 +62,13 @@ protected:
     JabberMessageErrorData	data;
 };
 
-typedef struct JabberMessageFileData
+struct JabberMessageFileData
 {
     SIM::Data	ID;
     SIM::Data	From;
     SIM::Data	Host;
     SIM::Data	Port;
-} JabberMessageFileData;
+};
 
 class JabberFileMessage : public SIM::FileMessage
 {

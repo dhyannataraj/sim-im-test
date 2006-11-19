@@ -269,11 +269,11 @@ RTFGenParser::RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *
 
 #ifdef WIN32
 
-typedef struct rtf_cp
+struct rtf_cp
 {
     unsigned cp;
     unsigned charset;
-} rtf_cp;
+};
 
 rtf_cp rtf_cps[] =
     {

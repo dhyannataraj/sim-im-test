@@ -20,12 +20,12 @@
 
 #include "simapi.h"
 
-typedef struct ReplaceData
+struct ReplaceData
 {
     SIM::Data	Keys;
     SIM::Data	Key;
     SIM::Data	Value;
-} ReplaceData;
+};
 
 class ReplacePlugin : public QObject, public SIM::Plugin
 {

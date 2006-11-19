@@ -80,32 +80,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-
-typedef struct OSDUserData
-{
-	unsigned	EnableMessage;
-	unsigned	EnableAlert;
-	unsigned	EnableAlertOnline;,
-	unsigned	EnableAlertAway;
-	unsigned	EnableAlertNA;
-	unsigned	EnableAlertDND;
-	unsigned	EnableAlertOccupied;
-	unsigned	EnableAlertFFC;
-	unsigned	EnableAlertOffline;
-	unsigned	EnableTyping;
-	unsigned	Position;
-	unsigned	Offset;
-	unsigned	Color;
-	char		*Font;
-	unsigned	Timeout;
-	unsigned	Shadow;
-	unsigned	Background;
-	unsigned	BgColor;
-} OSDUserData;
-
-*/
-
 static DataDef osdUserData[] =
     {
         { "EnableMessage", DATA_BOOL, 1, DATA(1) },

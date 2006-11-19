@@ -53,22 +53,6 @@ public:
     bool			bNoRemove;
 };
 
-/*
-typedef struct ContactData
-{
-   unsigned long	Group;		// Group ID
-   char			*Name;		// Contact Display Name (UTF-8)
-unsigned long	Ignore;		// In ignore list
-unsigned long	LastActive;
-char			*EMails;
-char			*Phones;
-char			*FirstName;
-char			*LastName;
-char			*Notes;
-unsigned long	Temp;
-} ContactData;
-*/
-
 static DataDef contactData[] =
     {
         { "Group", DATA_ULONG, 1, 0 },
@@ -167,11 +151,11 @@ void Contact::setup()
         it.client()->setupContact(this, data);
 }
 
-typedef struct STR_ITEM
+struct STR_ITEM
 {
     QString     value;
     QStringList proto;
-} STR_ITEM;
+};
 
 typedef list<STR_ITEM> STR_LIST;
 
@@ -420,12 +404,12 @@ QString Contact::tipText()
     return tip;
 }
 
-typedef struct sortClientData
+struct sortClientData
 {
     void		*data;
     Client		*client;
     unsigned	nClient;
-} sortClientData;
+};
 
 static bool cmp_sd(sortClientData p1, sortClientData p2)
 {
@@ -564,12 +548,6 @@ void Client::updateInfo(Contact *contact, void *data)
     }
 }
 
-/*
-typedef struct GroupData
-{
-   char			*Name;		// Display name (UTF-8)
-} GroupData;
-*/
 static DataDef groupData[] =
     {
         { "Name", DATA_UTF, 1, 0 },
@@ -1034,18 +1012,6 @@ PacketType *ContactList::getPacketType(unsigned id)
     return (*it).second;
 }
 
-/*
-typedef struct ClientData
-{
-   unsigned	ManualStatus;
-   unsigned	CommonStatus;
-   char		*Password;
-   unsigned	SavePassword;
-char		*PreviousPassword;
-   unsigned	Invisible;
-} ClientData;
-*/
-
 static DataDef _clientData[] =
     {
         { "ManualStatus", DATA_ULONG, 1, DATA(1) },
@@ -1235,11 +1201,11 @@ bool ContactList::moveClient(Client *client, bool bUp)
     return true;
 }
 
-typedef struct _ClientUserData
+struct _ClientUserData
 {
     Client  *client;
     Data    *data;
-} _ClientUserData;
+};
 
 class ClientUserDataPrivate : public vector<_ClientUserData>
 {

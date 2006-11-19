@@ -29,7 +29,7 @@ class JabberPicture : public JabberPictureBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JabberPicture(QWidget *parent, struct JabberUserData *data, JabberClient *client, bool bPhoto);
+    JabberPicture(QWidget *parent, JabberUserData *data, JabberClient *client, bool bPhoto);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
@@ -41,7 +41,7 @@ protected:
     void fill();
     void setPict(QImage &img);
     bool m_bPhoto;
-    struct JabberUserData	*m_data;
+    JabberUserData	*m_data;
     JabberClient			*m_client;
 };
 

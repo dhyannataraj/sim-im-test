@@ -60,7 +60,7 @@ struct MSNUserData : public SIM::clientData
     SIM::Data	sb;
 };
 
-typedef struct MSNClientData
+struct MSNClientData
 {
     SIM::Data	Server;
     SIM::Data	Port;
@@ -75,16 +75,16 @@ typedef struct MSNClientData
     SIM::Data	NDeleted;
     SIM::Data	AutoAuth;
     MSNUserData	owner;
-} MSNClientData;
+};
 
 class MSNClient;
 class XfrPacket;
 
-typedef struct msgInvite
+struct msgInvite
 {
     SIM::Message		*msg;
     unsigned	cookie;
-} msgInvite;
+};
 
 class SBSocket : public QObject, public SIM::ClientSocketNotify
 {
@@ -153,12 +153,12 @@ const unsigned LR_GROUPxREMOVED			= 4;
 
 const unsigned NO_GROUP					= (unsigned)(-1);
 
-typedef struct MSNListRequest
+struct MSNListRequest
 {
     unsigned	Type;
     QString     Name;
     unsigned	Group;
-} MSNListRequest;
+};
 
 class MSNPacket;
 class MSNServerMessage;

@@ -24,7 +24,7 @@
 
 using namespace SIM;
 
-PastInfo::PastInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+PastInfo::PastInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : PastInfoBase(parent)
 {
     m_data   = data;

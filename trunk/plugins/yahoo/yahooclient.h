@@ -118,7 +118,7 @@ struct YahooUserData : public SIM::clientData
     SIM::Data		bTyping;
 };
 
-typedef struct YahooClientData
+struct YahooClientData
 {
     SIM::Data	Server;
     SIM::Data	Port;
@@ -128,7 +128,7 @@ typedef struct YahooClientData
     SIM::Data	AutoHTTP;
     SIM::Data	ListRequests;
     YahooUserData	owner;
-} YahooClientData;
+};
 
 typedef std::pair<unsigned, QCString> PARAM;
 
@@ -141,17 +141,17 @@ public:
 
 class QTextCodec;
 
-typedef struct Message_ID
+struct Message_ID
 {
     SIM::Message	*msg;
     unsigned		id;
-} Message_ID;
+};
 
-typedef struct ListRequest
+struct ListRequest
 {
     unsigned	type;
     QString     name;
-} ListRequest;
+};
 
 class YahooClient : public SIM::TCPClient
 {
@@ -239,11 +239,11 @@ protected:
     void authOk();
 };
 
-typedef struct YahooFileData
+struct YahooFileData
 {
     SIM::Data	Url;
     SIM::Data	MsgID;
-} YahooFileData;
+};
 
 class YahooFileMessage : public SIM::FileMessage
 {

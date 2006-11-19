@@ -32,7 +32,7 @@
 namespace SIM
 {
 
-typedef struct PictDef
+struct PictDef
 {
     QImage      image;
     QString     file;
@@ -40,15 +40,15 @@ typedef struct PictDef
     QString     system;
 #endif
     unsigned    flags;
-} PictDef;
+};
 
 typedef QMap<QString, PictDef> PIXMAP_MAP;
 
-typedef struct
+struct smileDef
 {
     QString smile;
     QString name;
-} smileDef;
+};
 
 class IconSet
 {

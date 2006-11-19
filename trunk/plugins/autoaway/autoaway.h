@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 
-typedef struct AutoAwayData
+struct AutoAwayData
 {
     SIM::Data	AwayTime;
     SIM::Data	EnableAway;
@@ -29,7 +29,7 @@ typedef struct AutoAwayData
     SIM::Data	OffTime;
     SIM::Data	EnableOff;
     SIM::Data	DisableAlert;
-} AutoAwayData;
+};
 
 class QTimer;
 class CorePlugin;

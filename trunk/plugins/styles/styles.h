@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 
-typedef struct StylesData
+struct StylesData
 {
     SIM::Data	Style;
     SIM::Data	SystemFonts;
@@ -30,7 +30,7 @@ typedef struct StylesData
     SIM::Data	SystemColors;
     SIM::Data	BtnColor;
     SIM::Data	BgColor;
-} StylesData;
+};
 
 class StylesPlugin : public SIM::Plugin
 {

@@ -25,19 +25,19 @@
 class CorePlugin;
 class XSL;
 
-typedef struct CutHistory
+struct CutHistory
 {
     unsigned    contact;
     QString     client;
     unsigned    from;
     unsigned    size;
-} CutHistory;
+};
 
-typedef struct Msg_Id
+struct Msg_Id
 {
     unsigned    id;
     QString     client;
-} Msg_Id;
+};
 
 class MsgViewBase : public TextShow, public SIM::EventReceiver
 {

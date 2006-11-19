@@ -58,13 +58,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct LoggerData
-{
-    unsigned LogLevel;
-	char	 *LogPackets;
-} LoggerData;
-*/
 static DataDef loggerData[] =
     {
         { "LogLevel", DATA_ULONG, 1, DATA(3) },

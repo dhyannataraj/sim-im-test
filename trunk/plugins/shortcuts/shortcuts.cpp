@@ -62,14 +62,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-typedef struct ShortcutsData
-{
-    void	*Key;
-    void	*Global;
-    void	*Mouse;
-} ShortcutsData;
-*/
 static DataDef shortcutsData[] =
     {
         { "Key", DATA_STRLIST, 1, 0 },
@@ -87,11 +79,11 @@ list<GlobalKey*> *globalKeys = NULL;
 
 #ifdef WIN32
 
-typedef struct vkCode
+struct vkCode
 {
     int vk;
     Qt::Key key;
-} vkCode;
+};
 
 static vkCode vkCodes[] =
     {
@@ -267,11 +259,11 @@ GlobalKey::~GlobalKey()
 
 #else
 
-typedef struct TransKey
+struct TransKey
 {
     unsigned qt_key;
     unsigned x_key;
-} TransKey;
+};
 
 static const TransKey g_rgQtToSymX[] =
     {

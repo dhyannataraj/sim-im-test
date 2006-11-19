@@ -575,14 +575,14 @@ static const char *accels[] =
 extern bool bFullScreen;
 
 #ifndef FLASHW_TRAY
-typedef struct FLASHWINFO
+struct FLASHWINFO
 {
     unsigned long cbSize;
     HWND hwnd;
     unsigned long dwFlags;
     unsigned long uCount;
     unsigned long dwTimeout;
-} FLASHWINFO;
+};
 
 
 #define FLASHW_TRAY         0x00000002

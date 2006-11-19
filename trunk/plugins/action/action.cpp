@@ -45,18 +45,6 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
     return &info;
 }
 
-/*
-
-typedef struct ActionUserData
-{
-	char	*OnLine;
-	char	*Status;
-	char	*Message;
-	char	*Menu;
-} ActionUserData;
-
-*/
-
 static DataDef actionUserData[] =
     {
         { "OnLine", DATA_UTF, 1, 0 },

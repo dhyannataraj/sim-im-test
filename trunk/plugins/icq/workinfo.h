@@ -22,12 +22,13 @@
 #include "workinfobase.h"
 
 class ICQClient;
+struct ICQUserData;
 
 class WorkInfo : public WorkInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    WorkInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
+    WorkInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
@@ -36,7 +37,7 @@ public slots:
 protected:
     void *processEvent(SIM::Event*);
     void fill();
-    struct ICQUserData *m_data;
+    ICQUserData *m_data;
     unsigned  m_contact;
     ICQClient *m_client;
 };

@@ -24,7 +24,7 @@
 
 using namespace SIM;
 
-InterestsInfo::InterestsInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client)
+InterestsInfo::InterestsInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client)
         : InterestsInfoBase(parent)
 {
     m_data    = data;

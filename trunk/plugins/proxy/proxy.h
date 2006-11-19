@@ -26,7 +26,7 @@ const unsigned PROXY_SOCKS4	= 1;
 const unsigned PROXY_SOCKS5 = 2;
 const unsigned PROXY_HTTPS	= 3;
 
-typedef struct ProxyData
+struct ProxyData
 {
     SIM::Data	Client;
     SIM::Data	Clients;
@@ -46,7 +46,7 @@ typedef struct ProxyData
     bool operator == (const ProxyData&) const;
     ProxyData& operator = (const ProxyData&);
     ProxyData& operator = (Buffer *cfg);
-} ProxyData;
+};
 
 class Proxy;
 class Listener;

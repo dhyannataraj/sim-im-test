@@ -24,11 +24,11 @@
 class SerialPort;
 class QTimer;
 
-typedef struct OpInfo
+struct OpInfo
 {
     unsigned	oper;
     std::string	param;
-} OpInfo;
+};
 
 class Phonebook
 {

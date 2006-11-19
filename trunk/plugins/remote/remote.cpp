@@ -324,14 +324,14 @@ const unsigned CMD_SMS			= 15;
 const unsigned CMD_ICON			= 16;
 #endif
 
-typedef struct cmdDef
+struct cmdDef
 {
     const char *cmd;
     const char *shortDescr;
     const char *longDescr;
     unsigned minArgs;
     unsigned maxArgs;
-} cmdDef;
+};
 
 static cmdDef cmds[] =
     {
@@ -393,14 +393,14 @@ static QWidget *findWidget(const char *className)
     return w;
 }
 
-typedef struct ContactInfo
+struct ContactInfo
 {
     QString		name;
     unsigned	id;
     unsigned	group;
     QString		key;
     QString		icon;
-} ContactInfo;
+};
 
 static bool cmp_info(const ContactInfo &p1, const ContactInfo &p2)
 {

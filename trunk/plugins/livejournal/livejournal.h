@@ -44,7 +44,7 @@ struct LiveJournalUserData : public SIM::clientData
     SIM::Data	bChecked;
 };
 
-typedef struct JournalMessageData
+struct JournalMessageData
 {
     SIM::Data	Subject;
     SIM::Data	Private;
@@ -53,7 +53,7 @@ typedef struct JournalMessageData
     SIM::Data	OldID;
     SIM::Data	Mood;
     SIM::Data	Comments;
-} JournalMessageData;
+};
 
 class JournalMessage : public SIM::Message
 {
@@ -97,7 +97,7 @@ public:
     const SIM::DataDef *userDataDef();
 };
 
-typedef struct LiveJournalClientData
+struct LiveJournalClientData
 {
     SIM::Data	Server;
     SIM::Data	URL;
@@ -113,7 +113,7 @@ typedef struct LiveJournalClientData
     SIM::Data	Signature;
     SIM::Data	LastUpdate;
     LiveJournalUserData	owner;
-} LiveJournalClientData;
+};
 
 class LiveJournalClient;
 

@@ -27,12 +27,12 @@ class QFile;
 class HistoryFile;
 class HistoryFileIterator;
 
-typedef struct msg_save
+struct msg_save
 {
     std::string	msg;
     QString     client;
     unsigned    contact;
-} msg_save;
+};
 
 typedef std::map<unsigned, msg_save>	MAP_MSG;
 

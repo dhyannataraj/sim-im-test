@@ -26,7 +26,7 @@
 const unsigned long MessageGPGKey       = 0x5000;
 const unsigned long MessageGPGUse       = 0x5001;
 
-typedef struct GpgData
+struct GpgData
 {
     SIM::Data   GPG;
     SIM::Data   Home;
@@ -42,17 +42,17 @@ typedef struct GpgData
     SIM::Data   Keys;
     SIM::Data   nPassphrases;
     SIM::Data   SavePassphrase;
-} GpgData;
+};
 
-typedef struct GpgUserData
+struct GpgUserData
 {
     SIM::Data   Key;
     SIM::Data   Use;
-} GpgUserData;
+};
 
 class QProcess;
 
-typedef struct DecryptMsg
+struct DecryptMsg
 {
     SIM::Message *msg;
     QProcess    *process;
@@ -61,13 +61,13 @@ typedef struct DecryptMsg
     unsigned    contact;
     QString     passphrase;
     QString     key;
-} DecryptMsg;
+};
 
-typedef struct KeyMsg
+struct KeyMsg
 {
     QString         key;
     SIM::Message   *msg;
-} KeyMsg;
+};
 
 class GpgPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {

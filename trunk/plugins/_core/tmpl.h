@@ -23,13 +23,13 @@
 
 class Exec;
 
-typedef struct TmplExpand
+struct TmplExpand
 {
     TemplateExpand	tmpl;
     Exec			*exec;
     bool			bReady;
     QString			res;
-} TmplExpand;
+};
 
 class Tmpl : public QObject, public SIM::EventReceiver
 {

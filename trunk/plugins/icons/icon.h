@@ -20,12 +20,12 @@
 
 #include "simapi.h"
 
-typedef struct IconsData
+struct IconsData
 {
     SIM::Data	Icon;
     SIM::Data	NIcons;
     SIM::Data	Default;
-} IconsData;
+};
 
 class IconsPlugin : public SIM::Plugin
 {

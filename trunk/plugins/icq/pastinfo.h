@@ -22,12 +22,13 @@
 #include "pastinfobase.h"
 
 class ICQClient;
+struct ICQUserData;
 
 class PastInfo : public PastInfoBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    PastInfo(QWidget *parent, struct ICQUserData *data, unsigned contact, ICQClient *client);
+    PastInfo(QWidget *parent, ICQUserData *data, unsigned contact, ICQClient *client);
 public slots:
     void apply();
     void apply(SIM::Client*, void*);
@@ -37,7 +38,7 @@ protected:
     void *processEvent(SIM::Event*);
     QString getInfo(QComboBox *cmb, QLineEdit *edt, const SIM::ext_info*);
     void fill();
-    struct ICQUserData *m_data;
+    ICQUserData *m_data;
     unsigned  m_contact;
     ICQClient *m_client;
 };
