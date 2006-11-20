@@ -27,13 +27,13 @@ SET(sim_LIB_SRCS
         listview.cpp
         log.cpp
         message.cpp
+        misc.cpp
         plugins.cpp
         preview.cpp
         qchildwidget.cpp
         qcolorbutton.cpp
         qkeybutton.cpp
         sax.cpp
-        simapi.cpp
         socket.cpp
         sockfactory.cpp
         sslclient.cpp
@@ -68,6 +68,7 @@ SET(sim_LIB_HDRS
         listview.h
         log.h
         message.h
+        misc.h
         plugins.h
         preview.h
         qchildwidget.h

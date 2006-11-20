@@ -18,6 +18,12 @@
 #ifndef _CFG_H
 #define _CFG_H
 
+#include <qmap.h>
+
+class QToolBar;
+
+class Buffer;
+
 namespace SIM {
 
 enum DataType {

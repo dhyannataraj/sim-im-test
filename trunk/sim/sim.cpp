@@ -20,11 +20,6 @@
 #ifdef WIN32
 #include <windows.h>
 #include <qlibrary.h>
-#else
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-#include <X11/X.h>
-#include <X11/Xlib.h>
-#endif
 #endif
 
 #ifdef USE_KDE
@@ -35,6 +30,11 @@
 #else
 #include "aboutdata.h"
 #include <qapplication.h>
+#endif
+
+#if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+//#include <X11/X.h>
+#include <X11/Xlib.h>
 #endif
 
 using namespace SIM;

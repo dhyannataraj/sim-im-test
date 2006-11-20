@@ -26,11 +26,6 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-#include <X11/X.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#endif
 #endif
 
 #ifdef HAVE_UNAME
@@ -62,9 +57,13 @@
 #include "kdeisversion.h"
 #endif
 
-#include "stl.h"
+#if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+//#include <X11/X.h>
+//#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#endif
 
-// _____________________________________________________________________________________
+#include "stl.h"
 
 #ifndef USE_KDE
 
