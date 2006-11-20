@@ -52,6 +52,10 @@ SET(sim_LIB_HDRS
         ballonmsg.h
         buffer.h
         builtinlogger.h
+        cfg.h
+        cmddef.h
+        contacts.h
+        country.h
         datepicker.h
         editfile.h
         event.h
@@ -62,6 +66,9 @@ SET(sim_LIB_HDRS
         intedit.h
         linklabel.h
         listview.h
+        log.h
+        message.h
+        plugins.h
         preview.h
         qchildwidget.h
         qcolorbutton.h
@@ -74,6 +81,7 @@ SET(sim_LIB_HDRS
         textshow.h
         toolbtn.h
         translit.h
+        unquot.h
         xsl.h
         qzip/ioapi.h
         qzip/qzip.h
