@@ -1163,7 +1163,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\sim\cfg.h"
+				>
+			</File>
+			<File
 				RelativePath="sim\cjk_variants.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\cmddef.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\contacts.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\country.h"
 				>
 			</File>
 			<File
@@ -1403,6 +1419,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\sim\log.h"
+				>
+			</File>
+			<File
 				RelativePath="sim\md32_common.h"
 				>
 			</File>
@@ -1412,6 +1432,14 @@
 			</File>
 			<File
 				RelativePath="sim\md5_locl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\message.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\plugins.h"
 				>
 			</File>
 			<File
@@ -1631,6 +1659,10 @@
 			</File>
 			<File
 				RelativePath="sim\translit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\unquot.h"
 				>
 			</File>
 			<File
