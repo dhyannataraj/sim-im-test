@@ -1,5 +1,5 @@
 /***************************************************************************
-                          simapi.cpp  -  description
+                          misc.cpp  -  description
                              -------------------
     begin                : Sun Mar 10 2002
     copyright            : (C) 2002 by Vladimir Shutoff
