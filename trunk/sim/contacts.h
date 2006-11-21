@@ -39,7 +39,7 @@ protected:
     COPY_RESTRICTED(UserData)
 };
 
-class EXPORT Client;
+class Client;
 class ClientDataIterator;
 
 struct clientData       // Base struct for all clientData
