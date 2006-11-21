@@ -9,11 +9,20 @@
     <home>http://www.sim-im.org</home>
   </meta>
   
+  <icon name="SIM">
+    <object mime="image/png">sim.png</object>
+  </icon>
 
   <icon name="Jabber">
     <object mime="image/png">jabber.png</object>
     <!-- Licence: TODO: Find out where this icon came from -->
   </icon>
+  
+  <icon name="Jabber_offline">
+    <object mime="image/png">jabber_offline.png</object>
+    <!-- Licence: TODO: Find out where this icon came from -->
+  </icon>
+  
   
   <icon name="ICQ" flags="65340">
     <object mime="image/png">icq_online.png</object>
@@ -257,10 +266,18 @@
     <!-- Licence: GNU/LGPL -->
     <!-- Modification of : http://www.kde-look.org/content/show.php?content=8341 /16x16/apps/linphone.png -->
     <!-- and http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr32-action-button_cancel.png?rev=518495 -->
-    
   </icon>
 
-  
+  <icon name="webpress">
+    <object mime="image/png">webpress.png</object>
+      <!--     reload-->
+  </icon>
+
+  <icon name="find">
+	<object mime="image/png">find_user.png</object>
+	<!-- act find and app kuser -->
+  </icon>
+
 
 
 </icondef>
