@@ -476,28 +476,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\html.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="sim\html.ll"
 				>
 				<FileConfiguration
@@ -676,71 +654,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\sim\moc_ballonmsg.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_datepicker.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_editfile.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_exec.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_fetch.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_fontedit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_icons.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_intedit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_linklabel.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_listview.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_qchildwidget.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_qcolorbutton.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_qkeybutton.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_socket.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_sockfactory.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_textshow.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\sim\moc_toolbtn.cpp"
+				RelativePath=".\sim\misc.cpp"
 				>
 			</File>
 			<File
@@ -881,28 +795,6 @@
 			</File>
 			<File
 				RelativePath="sim\sim.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="sim\simapi.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1121,6 +1013,100 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<Filter
+				Name="generated"
+				>
+				<File
+					RelativePath="sim\html.cpp"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions=""
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\sim\moc_ballonmsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_datepicker.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_editfile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_exec.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_fetch.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_fontedit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_icons.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_intedit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_linklabel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_listview.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_qchildwidget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_qcolorbutton.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_qkeybutton.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_socket.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_sockfactory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_textshow.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\sim\moc_toolbtn.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -1436,6 +1422,10 @@
 			</File>
 			<File
 				RelativePath=".\sim\message.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sim\misc.h"
 				>
 			</File>
 			<File
