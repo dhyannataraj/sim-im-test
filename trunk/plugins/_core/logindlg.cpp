@@ -470,14 +470,17 @@ void LoginDialog::loginComplete()
 void *LoginDialog::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventClientChanged:
-        if (m_bLogin && ((m_client == NULL) || ((Client*)(e->param()) == m_client))){
-            if (((Client*)(e->param()))->getState() == Client::Connected){
+    case eEventClientChanged: {
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        Client *c = ecc->client();
+        if (m_bLogin && ((m_client == NULL) || (c == m_client))){
+            if (c->getState() == Client::Connected){
                 QTimer::singleShot(0, this, SLOT(loginComplete()));
                 return NULL;
             }
         }
         break;
+    }
     case eEventClientError:
         if (m_bLogin){
             EventClientError *ee = static_cast<EventClientError*>(e);

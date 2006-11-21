@@ -533,8 +533,7 @@ void SMSClient::charge(bool bCharge, unsigned capacity)
         setCharge(capacity);
     }
     if (bChange){
-        Event e(EventClientChanged, this);
-        e.process();
+        EventClientChanged(this).process();
     }
 }
 
@@ -542,8 +541,7 @@ void SMSClient::quality(unsigned quality)
 {
     if (quality != getQuality()){
         setQuality(quality);
-        Event e(EventClientChanged, this);
-        e.process();
+        EventClientChanged(this).process();
     }
 }
 

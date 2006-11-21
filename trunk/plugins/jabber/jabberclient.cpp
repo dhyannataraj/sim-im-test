@@ -533,8 +533,7 @@ void JabberClient::setStatus(unsigned status)
     if (getInvisible() && (status != STATUS_OFFLINE)){
         if (m_status != status){
             m_status = status;
-            Event e(EventClientChanged, static_cast<Client*>(this));
-            e.process();
+            EventClientChanged(this).process();
         }
         return;
     }
@@ -594,8 +593,7 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
             m_socket->writeBuffer << "<priority>" << (const char*)priority.utf8() << "</priority>\n";
         m_socket->writeBuffer << "</presence>";
         sendPacket();
-        Event e(EventClientChanged, static_cast<Client*>(this));
-        e.process();
+        EventClientChanged(this).process();
     }
     if (status == STATUS_OFFLINE){
         if (m_socket){

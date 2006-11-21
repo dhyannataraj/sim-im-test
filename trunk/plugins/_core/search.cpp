@@ -311,7 +311,7 @@ void *SearchDialog::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventClientsChanged:
-    case EventClientChanged:
+    case eEventClientChanged:
         fillClients();
         break;
     case eEventCommandExec:{

@@ -181,7 +181,7 @@ void *JabberInfo::processEvent(Event *e)
         Message *msg = (Message*)(e->param());
         if ((msg->type() == MessageStatus) && (m_client->dataName(m_data) == msg->client()))
             fill();
-    }
+    } else
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eChanged)
@@ -189,10 +189,10 @@ void *JabberInfo::processEvent(Event *e)
         Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
     }
     return NULL;

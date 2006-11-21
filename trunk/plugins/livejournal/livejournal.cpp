@@ -888,8 +888,7 @@ LoginRequest::~LoginRequest()
             m_err = I18N_NOOP("Login failed");
         m_client->auth_fail(m_err);
     }
-    Event e(EventClientChanged, m_client);
-    e.process();
+    EventClientChanged(m_client).process();
 }
 
 void LoginRequest::result(const QString &key, const QString &value)

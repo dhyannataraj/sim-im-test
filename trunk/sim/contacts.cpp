@@ -540,11 +540,9 @@ QString Client::contactTip(void*)
 void Client::updateInfo(Contact *contact, void *data)
 {
     if (data){
-        EventContact e(contact, EventContact::eFetchInfoFailed);
-        e.process();
+        EventContact(contact, EventContact::eFetchInfoFailed).process();
     }else{
-        Event e(EventClientChanged, this);
-        e.process();
+        EventClientChanged(this).process();
     }
 }
 
@@ -1053,8 +1051,7 @@ void Client::setStatus(unsigned status, bool bCommon)
 {
     setManualStatus(status);
     setCommonStatus(bCommon);
-    Event e(EventClientChanged, this);
-    e.process();
+    EventClientChanged(this).process();
 }
 
 Client::~Client()
@@ -1150,8 +1147,7 @@ bool Client::compareData(void*, void*)
 void Client::setState(State state, const QString &text, unsigned code)
 {
     m_state = state;
-    Event e(EventClientChanged, this);
-    e.process();
+    EventClientChanged(this).process();
     if (state == Error){
         EventError::ClientErrorData d;
         d.client  = this;

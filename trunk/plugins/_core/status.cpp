@@ -305,7 +305,7 @@ void CommonStatus::checkInvisible()
 void *CommonStatus::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventClientChanged:
+    case eEventClientChanged:
         checkInvisible();
         setBarStatus();
         break;
@@ -382,8 +382,7 @@ void *CommonStatus::processEvent(Event *e)
                 Client *client = getContacts()->getClient(0);
                 if (client){
                     client->setCommonStatus(true);
-                    Event e(EventClientChanged, client);
-                    e.process();
+                    EventClientChanged(client).process();
                 }
             }
             checkInvisible();

@@ -243,12 +243,13 @@ void *StatusFrame::processEvent(Event *e)
     case eEventClientsChanged:
         addClients();
         break;
-    case EventClientChanged:{
-            StatusLabel *lbl = findLabel((Client*)(e->param()));
-            if (lbl)
-                lbl->setPict();
-            break;
-        }
+    case eEventClientChanged:{
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        StatusLabel *lbl = findLabel(ecc->client());
+        if (lbl)
+            lbl->setPict();
+        break;
+    }
     case eEventIconChanged:{
             QObjectList *l = queryList("StatusLabel");
             QObjectListIt itObject(*l);

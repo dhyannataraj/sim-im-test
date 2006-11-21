@@ -241,7 +241,7 @@ void *NewProtocol::processEvent(Event *e)
         return NULL;
     if (m_bConnect){
         switch (e->type()){
-        case EventClientChanged:
+        case eEventClientChanged:
             if (m_client->getState() == Client::Connected){
                 QTimer::singleShot(0, this, SLOT(loginComplete()));
                 return NULL;

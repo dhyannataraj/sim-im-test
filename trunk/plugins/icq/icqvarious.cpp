@@ -362,8 +362,7 @@ void FullInfoRequest::fail(unsigned short)
     Contact *contact = NULL;
     if (m_nParts){
         if (m_client->data.owner.Uin.toULong() == m_uin){
-            Event e(EventClientChanged, m_client);
-            e.process();
+            EventClientChanged(m_client).process();
         }else{
             m_client->findContact(m_uin, NULL, false, contact);
             if (contact){
@@ -584,8 +583,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
             }
             EventContact eContact(getContacts()->owner(), EventContact::eChanged);
             eContact.process();
-            Event e(EventClientChanged, m_client);
-            e.process();
+            EventClientChanged(m_client).process();
         }
         m_client->removeFullInfoRequest(m_uin);
         return true;
@@ -940,8 +938,7 @@ bool SetMainInfoRequest::answer(Buffer&, unsigned short)
     m_client->data.owner.Country.asULong() = m_country;
     m_client->data.owner.TimeZone.asULong() = m_tz;
     m_client->data.owner.HiddenEMail.asBool() = m_hiddenEMail;
-    Event e(EventClientChanged, m_client);
-    e.process();
+    EventClientChanged(m_client).process();
     m_client->sendUpdate();
     return true;
 }
@@ -1272,8 +1269,7 @@ bool ChangeInfoRequest::answer(Buffer&, unsigned short)
         }
     }
     m_client->sendStatus();
-    Event e(EventClientChanged, m_client);
-    e.process();
+    EventClientChanged(m_client).process();
     return true;
 }
 

@@ -406,11 +406,9 @@ InfoRequest::~InfoRequest()
         if (bChanged){
             if (contact){
                 m_client->setupContact(contact, data);
-                EventContact e(contact, EventContact::eChanged);
-                e.process();
+                EventContact(contact, EventContact::eChanged).process();
             }else{
-                Event e(EventClientChanged, (Client*)m_client);
-                e.process();
+                EventClientChanged(m_client).process();
             }
         }
     }
@@ -559,7 +557,7 @@ protected:
 };
 
 SetInfoRequest::SetInfoRequest(JabberClient *client, JabberUserData *data)
-        : JabberClient::ServerRequest(client, _SET, NULL, NULL)
+        : JabberClient::ServerRequest(client, _SET, NULL, client->buildId(data))
 {
 }
 

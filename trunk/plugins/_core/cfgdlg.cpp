@@ -565,7 +565,7 @@ void *ConfigureDialog::processEvent(Event *e)
             id = static_cast<ConfigItem*>(lstBox->currentItem())->id();
         fill(id);
     }
-    if (e->type() == EventClientChanged){
+    if (e->type() == eEventClientChanged){
         if (m_nUpdates){
             if (--m_nUpdates == 0){
                 setTitle();

@@ -130,11 +130,9 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                 if (data->About.setStr(info)){
                     data->ProfileFetch.asBool() = true;
                     if (contact){
-                        EventContact e(contact, EventContact::eChanged);
-                        e.process();
+                        EventContact(contact, EventContact::eChanged).process();
                     }else{
-                        Event e(EventClientChanged, this);
-                        e.process();
+                        EventClientChanged(this).process();
                     }
                 }
                 break;	/* Because we won't find tlv(0x03) which is
@@ -144,8 +142,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
             if (tlvAway){
                 QString info = convert(tlvAway, tlvs, 0x03);
                 data->AutoReply.str() = info;
-                Event e(EventClientChanged, contact);
-                e.process();
+                EventClientChanged(this).process();
             }
         }
         break;
@@ -191,8 +188,7 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
                     EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }else{
-                    Event e(EventClientChanged, this);
-                    e.process();
+                    EventClientChanged(this).process();
                 }
             }
         }

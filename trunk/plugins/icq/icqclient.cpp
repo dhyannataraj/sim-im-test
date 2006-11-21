@@ -508,8 +508,7 @@ void ICQClient::setStatus(unsigned status)
             if (m_status != STATUS_ONLINE){
                 m_status = STATUS_ONLINE;
                 setAwayMessage();
-                Event e(EventClientChanged, this);
-                e.process();
+                EventClientChanged(this).process();
             }
         }else{
             m_status = STATUS_AWAY;
@@ -525,16 +524,14 @@ void ICQClient::setStatus(unsigned status)
             ar.status   = status;
             Event eAR(EventARRequest, &ar);
             eAR.process();
-            Event e(EventClientChanged, this);
-            e.process();
+            EventClientChanged(this).process();
         }
         return;
     }
     if (status != m_status){
         m_status = status;
         sendStatus();
-        Event e(EventClientChanged, this);
-        e.process();
+        EventClientChanged(this).process();
     }
 }
 
@@ -549,8 +546,7 @@ void ICQClient::setInvisible(bool bState)
         TCPClient::setInvisible(bState);
         if (getState() == Connected)
             setInvisible();
-        Event e(EventClientChanged, this);
-        e.process();
+        EventClientChanged(this).process();
     }
 }
 

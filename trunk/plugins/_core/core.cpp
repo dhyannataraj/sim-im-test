@@ -1769,7 +1769,7 @@ void *CorePlugin::processEvent(Event *e)
     case eEventClientsChanged:
         if (m_bInit)
             loadMenu();
-    case EventClientChanged:		// FALLTHROW
+    case eEventClientChanged:		// FALLTHROUGH
         if (getContacts()->nClients()){
             unsigned i;
             for (i = 0; i < getContacts()->nClients(); i++)
@@ -1779,8 +1779,7 @@ void *CorePlugin::processEvent(Event *e)
                 Client *client = getContacts()->getClient(0);
                 setManualStatus(client->getManualStatus());
                 client->setCommonStatus(true);
-                Event e(EventClientChanged, client);
-                e.process();
+                EventClientChanged(client).process();
             }
         }
         return NULL;
@@ -3157,8 +3156,7 @@ void *CorePlugin::processEvent(Event *e)
                 client = getContacts()->getClient(0);
                 if (client){
                     client->setCommonStatus(true);
-                    Event e(EventClientChanged, client);
-                    e.process();
+                    EventClientChanged(client).process();
                 }
                 return e->param();
             }

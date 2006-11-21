@@ -43,8 +43,6 @@ void JabberWorkInfo::apply()
 {
 }
 
-int str_cmp(const char *s1, const char *s2);
-
 void *JabberWorkInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
@@ -54,12 +52,12 @@ void *JabberWorkInfo::processEvent(Event *e)
         Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill(m_data);
-    }
-    if ((e->type() == EventClientChanged) && (m_data == 0)){
-        Client *client = (Client*)(e->param());
-        if (client == m_client)
+    } else
+    if ((e->type() == eEventClientChanged) && (m_data == 0)){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill(m_data);
-    }
+    } else
     if (m_data && (e->type() == EventVCard)){
         JabberUserData *data = (JabberUserData*)(e->param());
         if (m_data->ID.str() == data->ID.str() && m_data->Node.str() == data->Node.str())

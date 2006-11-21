@@ -122,10 +122,12 @@ enum SIMEvents
     eEventCommandShow       = 0x0515,
     eEventCommandWidget     = 0x0516,
 
-    eEventAddWidget         = 0x0570,
+    eEventAddWidget         = 0x0570,   // add a widget to main/statuswindow
 
     eEventAddPreferences    = 0x0580,
     eEventRemovePreferences = 0x0581,
+
+    eEventClientChanged     = 0x0590,   // a client changed status
 
     eEventHomeDir           = 0x0601,   // get home dir for config
     eEventGoURL             = 0x0602,   // open url in browser / mail / ...
@@ -783,6 +785,17 @@ protected:
     unsigned long m_id;
 };
 
+class EventClientChanged : public Event
+{
+public:
+    EventClientChanged(Client *c)
+        : Event(eEventClientChanged), m_client(c) {}
+
+    Client *client() const { return m_client; }
+protected:
+    Client *m_client;
+};
+
 /* Commands - create command
    menu items & bar buttons
    param is CommandDef* */
@@ -977,9 +990,6 @@ struct ProcessMenuParam
     void     *param;
     int      key;           // If key != 0 process accel
 };
-
-
-const unsigned EventClientChanged   = 0x0530;
 
 
 /* Event send & receive message

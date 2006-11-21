@@ -1067,7 +1067,7 @@ void *MsgEdit::processEvent(Event *e)
         adjustType();
         break;
     }
-    case EventClientChanged: {
+    case eEventClientChanged: {
         adjustType();
         break;
     }

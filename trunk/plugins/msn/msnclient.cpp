@@ -174,8 +174,7 @@ void MSNClient::setStatus(unsigned status)
     data.owner.StatusTime.asULong() = now;
     m_status = status;
     data.owner.Status.asULong() = m_status;
-    Event e(EventClientChanged, static_cast<Client*>(this));
-    e.process();
+    EventClientChanged(this).process();
     if (status == STATUS_OFFLINE){
         if (m_status != STATUS_OFFLINE){
             m_status = status;

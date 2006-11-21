@@ -110,10 +110,11 @@ void ICQSecure::fill()
 
 void *ICQSecure::processEvent(Event *e)
 {
-    if (e->type() == EventClientChanged){
-        if ((Client*)(e->param()) == m_client)
+    if (e->type() == eEventClientChanged){
+        EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
+        if (ecc->client() == m_client)
             fill();
-    }
+    } else
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eChanged)
