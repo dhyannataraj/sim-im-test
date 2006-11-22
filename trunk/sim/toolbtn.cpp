@@ -308,19 +308,19 @@ void CToolButton::enableAccel(bool bState)
 }
 
 /*****************************
- *  PictButton               *
+ *  CToolPictButton          *
 ******************************/
-PictButton::PictButton(CToolBar *parent, CommandDef *def)
+CToolPictButton::CToolPictButton(CToolBar *parent, CommandDef *def)
         : CToolButton(parent, def)
 {
     setState();
 }
 
-PictButton::~PictButton()
+CToolPictButton::~CToolPictButton()
 {
 }
 
-QSizePolicy PictButton::sizePolicy() const
+QSizePolicy CToolPictButton::sizePolicy() const
 {
     QSizePolicy p = QToolButton::sizePolicy();
     QToolBar *bar = static_cast<QToolBar*>(parent());
@@ -332,7 +332,7 @@ QSizePolicy PictButton::sizePolicy() const
     return p;
 }
 
-QSize PictButton::minimumSizeHint() const
+QSize CToolPictButton::minimumSizeHint() const
 {
     int wChar = QFontMetrics(font()).width('0');
     QSize p = QToolButton:: minimumSizeHint();
@@ -354,7 +354,7 @@ QSize PictButton::minimumSizeHint() const
     return p;
 }
 
-QSize PictButton::sizeHint() const
+QSize CToolPictButton::sizeHint() const
 {
     int wChar = QFontMetrics(font()).width('0');
     QSize p = QToolButton:: sizeHint();
@@ -376,7 +376,7 @@ QSize PictButton::sizeHint() const
     return p;
 }
 
-void PictButton::setState()
+void CToolPictButton::setState()
 {
     setIconSet(QIconSet());
     setTextLabel();
@@ -384,7 +384,7 @@ void PictButton::setState()
     repaint();
 }
 
-void PictButton::paintEvent(QPaintEvent*)
+void CToolPictButton::paintEvent(QPaintEvent*)
 {
     QPixmap pict(width(), height());
     QPainter p(&pict);
@@ -719,7 +719,7 @@ void CToolBar::toolBarChanged()
         CToolItem *btn = NULL;
         switch (s->flags & BTN_TYPE){
         case BTN_PICT:
-            btn = new PictButton(this, s);
+            btn = new CToolPictButton(this, s);
             connect(btn->widget(), SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
             break;
         case BTN_COMBO:

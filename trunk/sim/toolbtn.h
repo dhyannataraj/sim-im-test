@@ -82,12 +82,12 @@ protected:
 };
 
 // A simple QToolButton with an picture -> type: BTN_PICT
-class EXPORT PictButton : public CToolButton
+class EXPORT CToolPictButton : public CToolButton
 {
     Q_OBJECT
 public:
-    PictButton(CToolBar *parent, SIM::CommandDef *def);
-    ~PictButton();
+    CToolPictButton(CToolBar *parent, SIM::CommandDef *def);
+    ~CToolPictButton();
 protected:
     virtual void setState();
     void paintEvent(QPaintEvent*);
