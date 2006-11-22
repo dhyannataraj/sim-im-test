@@ -1509,7 +1509,7 @@ void MsgEdit::setupNext()
     CommandDef *def = NULL;
     def = CorePlugin::m_plugin->messageTypes.find(type);
 
-    CommandDef c = *btnNext->def();
+    CommandDef c = btnNext->def();
     c.text_wrk = str;
     if (def)
         c.icon     = def->icon;

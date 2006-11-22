@@ -17,26 +17,25 @@
 
 #include "toolbtn.h"
 
+#include <qaccel.h>
+#include <qapplication.h>
+#include <qcombobox.h>
+#include <qlayout.h>
+#include <qiconset.h>
+#include <qlayout.h>
+#include <qmainwindow.h>
 #include <qpainter.h>
+#include <qpopupmenu.h>
+#include <qstyle.h>
 #include <qtimer.h>
 #include <qtoolbar.h>
 #include <qtooltip.h>
-#include <qlayout.h>
-#include <qpopupmenu.h>
-#include <qstyle.h>
-#include <qmainwindow.h>
-#include <qiconset.h>
-#include <qpalette.h>
-#include <qaccel.h>
-#include <qregexp.h>
-#include <qapplication.h>
-#include <qcombobox.h>
-#include <qobjectlist.h>
-#include <qlayout.h>
-#include <qobjectlist.h>
 
 using namespace SIM;
 
+/*****************************
+ *  internal ButtonsMap      *
+******************************/
 class ButtonsMap : public std::map<unsigned, CToolItem*>
 {
 public:
@@ -60,25 +59,22 @@ void ButtonsMap::add(unsigned id, CToolItem *w)
     insert(value_type(id, w));
 }
 
+/*****************************
+ *  CToolButton              *
+******************************/
 CToolItem::CToolItem(CommandDef *def)
 {
     m_def = *def;
-    if (!def->text_wrk.isEmpty()){
-        m_text = def->text_wrk;
-        def->text_wrk = QString::null;
-    }
+    m_text = def->text_wrk;
+    def->text_wrk = QString::null;
 }
 
 void CToolItem::setCommand(CommandDef *def)
 {
-    if (!def->text_wrk.isEmpty()){
-        m_text = def->text_wrk;
-        def->text_wrk = QString::null;
-    }else{
-        m_text = QString::null;
-    }
-    def->bar_id  = m_def.bar_id;
-    def->bar_grp = m_def.bar_grp;
+    m_text = def->text_wrk;
+    def->text_wrk = QString::null;
+    def->bar_id   = m_def.bar_id;
+    def->bar_grp  = m_def.bar_grp;
     m_def = *def;
     setState();
 }
@@ -119,20 +115,17 @@ void CToolItem::checkState()
 {
     if (m_def.flags & COMMAND_CHECK_STATE){
         m_def.param = static_cast<CToolBar*>(widget()->parent())->param();
-        Event e(EventCheckState, &m_def);
-        e.process();
+        Event(EventCheckState, &m_def).process();
         m_def.flags |= COMMAND_CHECK_STATE;
         setState();
     }
 }
 
-CommandDef *CToolItem::def()
-{
-    return &m_def;
-}
-
-CToolButton::CToolButton (QWidget * parent, CommandDef *def)
-        : QToolButton( parent), CToolItem(def)
+/*****************************
+ *  CToolButton              *
+******************************/
+CToolButton::CToolButton (CToolBar *parent, CommandDef *def)
+        : QToolButton(parent), CToolItem(def)
 {
     accelKey = 0;
     connect(this, SIGNAL(clicked()), this, SLOT(btnClicked()));
@@ -314,10 +307,10 @@ void CToolButton::enableAccel(bool bState)
         accel->setEnabled(bState);
 }
 
-// ______________________________________________________________________________________
-
-
-PictButton::PictButton(QToolBar *parent, CommandDef *def)
+/*****************************
+ *  PictButton               *
+******************************/
+PictButton::PictButton(CToolBar *parent, CommandDef *def)
         : CToolButton(parent, def)
 {
     setState();
@@ -463,7 +456,10 @@ void PictButton::paintEvent(QPaintEvent*)
     p.end();
 }
 
-CToolCombo::CToolCombo(QToolBar* parent, CommandDef *def, bool bCheck)
+/*****************************
+ *  CToolCombo               *
+******************************/
+CToolCombo::CToolCombo(CToolBar *parent, CommandDef *def, bool bCheck)
         : QComboBox(parent), CToolItem(def)
 {
     m_bCheck = bCheck;
@@ -482,8 +478,7 @@ CToolCombo::CToolCombo(QToolBar* parent, CommandDef *def, bool bCheck)
 
 CToolCombo::~CToolCombo()
 {
-    if (m_btn)
-        delete m_btn;
+    delete m_btn;
 }
 
 void CToolCombo::setText(const QString &str)
@@ -514,7 +509,7 @@ void CToolCombo::setState()
         QToolTip::add(this, t);
     }
     if (m_btn){
-        *m_btn->def() = m_def;
+        m_btn->setDef(m_def);
         m_btn->setState();
         if (m_bCheck)
             m_btn->setEnabled(!lineEdit()->text().isEmpty());
@@ -545,7 +540,10 @@ QSize CToolCombo::sizeHint() const
 }
 
 
-CToolEdit::CToolEdit(QToolBar* parent, CommandDef *def)
+/*****************************
+ *  CToolEdit                *
+******************************/
+CToolEdit::CToolEdit(CToolBar *parent, CommandDef *def)
         : QLineEdit(parent), CToolItem(def)
 {
     m_btn = NULL;
@@ -559,8 +557,7 @@ CToolEdit::CToolEdit(QToolBar* parent, CommandDef *def)
 
 CToolEdit::~CToolEdit()
 {
-    if (m_btn)
-        delete m_btn;
+    delete m_btn;
 }
 
 void CToolEdit::btnDestroyed()
@@ -572,11 +569,14 @@ void CToolEdit::setState()
 {
     CToolItem::setState();
     if (m_btn){
-        *m_btn->def() = m_def;
+        m_btn->setDef(m_def);
         m_btn->setState();
     }
 }
 
+/*****************************
+ *  CToolBar                 *
+******************************/
 CToolBar::CToolBar(CommandsDef *def, QMainWindow *parent)
         : QToolBar(parent), EventReceiver(LowPriority)
 {
@@ -623,9 +623,7 @@ void* CToolBar::processEvent(Event *e)
     }
     case eEventCommandRemove: {
         EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
-        CToolItem *button = buttons->remove(ecr->id());
-        if (button)
-            delete button;
+        delete  buttons->remove(ecr->id());
         break;
     }
     case eEventCommandWidget: {

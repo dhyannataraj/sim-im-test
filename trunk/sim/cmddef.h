@@ -45,7 +45,8 @@ public:
     unsigned id();
     bool isMenu();
     void setConfig(const char*);
-    void set(CommandDef*);
+    void set(const CommandDef *def);
+    void set(const CommandDef &def);
 private:
     class CommandsDefPrivate *p;
     friend class CommandsList;

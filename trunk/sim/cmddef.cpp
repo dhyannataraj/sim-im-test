@@ -41,8 +41,8 @@ public:
     CommandsDefPrivate(unsigned id, bool bMenu);
     void setConfig(const char *cfg_str);
     void *processEvent(Event*);
-    bool addCommand(CommandDef*);
-    bool changeCommand(CommandDef*);
+    bool addCommand(const CommandDef *cmd);
+    bool changeCommand(const CommandDef *cmd);
     bool delCommand(unsigned id);
     void generateConfig();
     list<CommandDef> buttons;
@@ -58,7 +58,7 @@ CommandsDefPrivate::CommandsDefPrivate(unsigned id, bool bMenu)
     m_bMenu = bMenu;
 }
 
-bool CommandsDefPrivate::changeCommand(CommandDef *cmd)
+bool CommandsDefPrivate::changeCommand(const CommandDef *cmd)
 {
     list<CommandDef>::iterator it;
     for (it = buttons.begin(); it != buttons.end(); ++it){
@@ -70,7 +70,7 @@ bool CommandsDefPrivate::changeCommand(CommandDef *cmd)
     return false;
 }
 
-bool CommandsDefPrivate::addCommand(CommandDef *cmd)
+bool CommandsDefPrivate::addCommand(const CommandDef *cmd)
 {
     if (changeCommand(cmd))
         return false;
@@ -356,9 +356,14 @@ bool CommandsDef::isMenu()
     return p->m_bMenu;
 }
 
-void CommandsDef::set(CommandDef *cmd)
+void CommandsDef::set(const CommandDef *cmd)
 {
     p->changeCommand(cmd);
+}
+
+void CommandsDef::set(const CommandDef &cmd)
+{
+    p->changeCommand(&cmd);
 }
 
 void CommandsDef::setConfig(const char *cfg_str)

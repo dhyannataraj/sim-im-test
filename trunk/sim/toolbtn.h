@@ -19,21 +19,18 @@
 #define _TOOLBTN_H
 
 #include "simapi.h"
-#include "event.h"
-#include "stl.h"
 
 #include <qtoolbar.h>
 #include <qtoolbutton.h>
 #include <qpushbutton.h>
-#include <qlabel.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
 
 class QMainWindow;
-class QPopupMenu;
 class QAccel;
-class ToolBarStates;
+class ButtonsMap;
 
+// Base class for all Widgets in CToolBar
 class EXPORT CToolItem
 {
 public:
@@ -46,17 +43,19 @@ public:
     void setChecked(SIM::CommandDef *def);
     void setDisabled(SIM::CommandDef *def);
     void setShow(SIM::CommandDef *def);
-    SIM::CommandDef *def();
+    const SIM::CommandDef &def() const { return m_def; };
+    void setDef(SIM::CommandDef &def) { m_def = def; }
 protected:
     SIM::CommandDef m_def;
     QString m_text;
 };
 
+// A simple QToolButton -> type: BTN_DEFAULT
 class EXPORT CToolButton : public QToolButton, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolButton(QWidget * parent, SIM::CommandDef *def);
+    CToolButton(CToolBar *parent, SIM::CommandDef *def);
     ~CToolButton();
     virtual void setState();
     virtual QWidget *widget() { return this; }
@@ -82,11 +81,12 @@ protected:
     QPoint popupPos(QWidget *p);
 };
 
+// A simple QToolButton with an picture -> type: BTN_PICT
 class EXPORT PictButton : public CToolButton
 {
     Q_OBJECT
 public:
-    PictButton(QToolBar*, SIM::CommandDef *def);
+    PictButton(CToolBar *parent, SIM::CommandDef *def);
     ~PictButton();
 protected:
     virtual void setState();
@@ -96,12 +96,14 @@ protected:
     QSize sizeHint() const;
 };
 
+// A  QComboBox -> type: BTN_COMBO or BTN_COMBO_CHECK
 class EXPORT CToolCombo : public QComboBox, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolCombo(QToolBar*, SIM::CommandDef *def, bool bCheck);
+    CToolCombo(CToolBar *parent, SIM::CommandDef *def, bool bCheck);
     ~CToolCombo();
+    virtual QWidget *widget() { return this; }
     void setText(const QString&);
 protected slots:
     void slotTextChanged(const QString &str);
@@ -113,24 +115,22 @@ protected:
     virtual void setState();
     CToolButton	*m_btn;
     bool m_bCheck;
-    virtual QWidget *widget() { return this; }
 };
 
+// A  QLineEdit -> type: BTN_EDIT
 class EXPORT CToolEdit : public QLineEdit, public CToolItem
 {
     Q_OBJECT
 public:
-    CToolEdit(QToolBar*, SIM::CommandDef *def);
+    CToolEdit(CToolBar *parent, SIM::CommandDef *def);
     ~CToolEdit();
+    virtual QWidget *widget() { return this; }
 protected slots:
     void btnDestroyed();
 protected:
     virtual void setState();
-    virtual QWidget *widget() { return this; }
     CToolButton	*m_btn;
 };
-
-class ButtonsMap;
 
 class EXPORT CToolBar : public QToolBar, public SIM::EventReceiver
 {
