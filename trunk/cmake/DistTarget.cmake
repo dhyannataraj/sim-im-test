@@ -12,16 +12,16 @@ SET(CPACK_PACKAGE_VERSION_PATCH "5")
 SET(CPACK_PACKAGE_INSTALL_DIRECTORY "Sim-IM ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 
 IF(WIN32 AND NOT UNIX)
+  SET(CPACK_GENERATOR NSIS)     # can be NSIS, STGZ, TBZ2, TGZ, TZ and ZIP
+  SET(CPACK_NSIS_COMPRESSOR "/SOLID lzma")
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
-  SET(CPACK_GENERATOR NSIS)     # can be NSIS, STGZ, TBZ2, TGZ, TZ and ZIP
   SET(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/install_win32\\\\sim-window-small.bmp")
   SET(CPACK_NSIS_INSTALLED_ICON_NAME "sim.exe")
   SET(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
   SET(CPACK_NSIS_HELP_LINK "http:\\\\\\\\www.sim-im.org")
   SET(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\www.sim-im.org")
   SET(CPACK_NSIS_CONTACT "sim-im-main@lists.sim-im.org")
-  SET(CPACK_NSIS_COMPRESSOR lzma)
 
   SET(CPACK_SOURCE_GENERATOR "NSIS")
   SET(CPACK_SOURCE_IGNORE_FILES "/\\\\.svn/")
