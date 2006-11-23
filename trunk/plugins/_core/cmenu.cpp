@@ -114,12 +114,9 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     }
     QPopupMenu *popup = NULL;
     if (s->popup_id){
-        ProcessMenuParam mp;
-        mp.id = s->popup_id;
-        mp.param = s->param;
-        mp.key	 = 0;
-        Event e(EventProcessMenu, &mp);
-        popup = (QPopupMenu*)(e.process());
+        EventMenuProcess e(s->popup_id, s->param, 0);
+        e.process();
+        popup = e.menu();
     }
     unsigned id = 0;
     if (popup){

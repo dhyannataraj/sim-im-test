@@ -65,14 +65,13 @@ void ListView::sizeChange(int,int,int)
     QTimer::singleShot(0, this, SLOT(adjustColumn()));
 }
 
-ProcessMenuParam *ListView::getMenu(QListViewItem *item)
+bool ListView::getMenu(QListViewItem *item, unsigned long &id, void *&param)
 {
     if (m_menuId == 0)
-        return NULL;
-    m_mp.id    = m_menuId;
-    m_mp.param = item;
-    m_mp.key   = 0;
-    return &m_mp;
+        return false;
+    id    = m_menuId;
+    param = item;
+    return true;
 }
 
 void ListView::setMenu(unsigned long menuId)
@@ -108,11 +107,10 @@ void ListView::keyPressEvent(QKeyEvent *e)
             key |= ALT;
         QListViewItem *item = currentItem();
         if (item){
-            ProcessMenuParam *mp = getMenu(item);
-            if (mp){
-                mp->key	 = key;
-                Event eMenu(EventProcessMenu, mp);
-                if (eMenu.process())
+            unsigned long id;
+            void *param;
+            if (getMenu(item, id, param)){
+                if (EventMenuProcess(id, param, key).process())
                     return;
             }
         }
@@ -168,18 +166,22 @@ void ListView::viewportContextMenuEvent( QContextMenuEvent *e)
 
 void ListView::showPopup(QListViewItem *item, QPoint p)
 {
-    if (item == NULL) return;
-    ProcessMenuParam *mp = getMenu(item);
-    if (mp == NULL)
+    unsigned long id;
+    void *param;
+
+    if (item == NULL)
+        return;
+
+    if (!getMenu(item, id, param))
         return;
     if (p.isNull()){
         QRect rc = itemRect(item);
         p = QPoint(rc.x() + rc.width() / 2, rc.y() + rc.height() / 2);
         p = viewport()->mapToGlobal(p);
     }
-    mp->key	 = 0;
-    Event eMenu(EventProcessMenu, mp);
-    QPopupMenu *menu = (QPopupMenu*)eMenu.process();
+    EventMenuProcess eMenu(id, param);
+    eMenu.process();
+    QPopupMenu *menu = eMenu.menu();
     if (menu){
         setCurrentItem(item);
         menu->popup(p);

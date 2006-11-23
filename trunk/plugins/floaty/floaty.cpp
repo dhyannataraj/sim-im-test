@@ -242,13 +242,11 @@ void *FloatyPlugin::processEvent(Event *e)
 
 void FloatyPlugin::showPopup()
 {
-    ProcessMenuParam mp;
-    mp.id    = MenuContact;
-    mp.param = (void*)(popupId);
-    mp.key	 = 0;
-    Event eMenu(EventProcessMenu, &mp);
-    QPopupMenu *menu = (QPopupMenu*)eMenu.process();
-    menu->popup(popupPos);
+    EventMenuProcess eMenu(MenuContact, (void*)popupId);
+    eMenu.process();
+    QPopupMenu *popup = eMenu.menu();
+    if(popup)
+        popup->popup(popupPos);
 }
 
 void FloatyPlugin::startBlink()

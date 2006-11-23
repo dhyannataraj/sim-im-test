@@ -586,12 +586,9 @@ void SearchDialog::searchClick()
 {
     if (m_bAdd){
         if (CorePlugin::m_plugin->getGroupMode()){
-            ProcessMenuParam mp;
-            mp.id    = MenuSearchGroups;
-            mp.param = m_search->btnSearch;
-            mp.key	= 0;
-            Event eMenu(EventProcessMenu, &mp);
-            QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+            EventMenuProcess eMenu(MenuSearchGroups, m_search->btnSearch);
+            eMenu.process();
+            QPopupMenu *popup = eMenu.menu();
             if (popup)
                 popup->popup(CToolButton::popupPos(m_search->btnSearch, popup));
         }else{
@@ -739,12 +736,9 @@ void SearchDialog::enableOptions(bool bEnable)
 void SearchDialog::addClick()
 {
     if (CorePlugin::m_plugin->getGroupMode()){
-        ProcessMenuParam mp;
-        mp.id    = MenuSearchGroups;
-        mp.param = m_search->btnAdd;
-        mp.key	= 0;
-        Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+        EventMenuProcess eMenu(MenuSearchGroups, m_search->btnAdd);
+        eMenu.process();
+        QPopupMenu *popup = eMenu.menu();
         if (popup)
             popup->popup(CToolButton::popupPos(m_search->btnAdd, popup));
     }else{
@@ -779,12 +773,9 @@ void SearchDialog::dragStart()
 
 void SearchDialog::optionsClick()
 {
-    ProcessMenuParam mp;
-    mp.id    = MenuSearchOptions;
-    mp.param = NULL;
-    mp.key	= 0;
-    Event eMenu(EventProcessMenu, &mp);
-    QPopupMenu *popup = (QPopupMenu*)(eMenu.process());
+    EventMenuProcess eMenu(MenuSearchOptions, NULL);
+    eMenu.process();
+    QPopupMenu *popup = eMenu.menu();
     if (popup)
         popup->popup(CToolButton::popupPos(m_search->btnOptions, popup));
 }

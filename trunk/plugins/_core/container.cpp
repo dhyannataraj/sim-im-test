@@ -1029,12 +1029,10 @@ void UserTabBar::mousePressEvent(QMouseEvent *e)
         QTab *t = selectTab(e->pos());
         if (t == NULL) return;
         UserTab *tab = static_cast<UserTab*>(t);
-        ProcessMenuParam mp;
-        mp.id = MenuContact;
-        mp.param = (void*)(tab->wnd()->id());
-        mp.key = 0;
-        Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *menu = (QPopupMenu*)eMenu.process();
+
+        EventMenuProcess eMenu(MenuContact, (void*)tab->wnd()->id());
+        eMenu.process();
+        QPopupMenu *menu = eMenu.menu();
         if (menu)
             menu->popup(e->globalPos());
         return;

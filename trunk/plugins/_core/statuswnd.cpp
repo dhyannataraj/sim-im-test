@@ -131,12 +131,9 @@ void StatusLabel::timeout()
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
     if (me->button() == RightButton){
-        ProcessMenuParam mp;
-        mp.id = m_id;
-        mp.param = (void*)winId();
-        mp.key	 = 0;
-        Event eMenu(EventProcessMenu, &mp);
-        QPopupMenu *popup = (QPopupMenu*)eMenu.process();
+        EventMenuProcess eMenu(m_id, winId());
+        eMenu.process();
+        QPopupMenu *popup = eMenu.menu();
         if (popup){
             QPoint pos = CToolButton::popupPos(this, popup);
             popup->popup(pos);

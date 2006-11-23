@@ -281,8 +281,7 @@ void *DockPlugin::processEvent(Event *e)
             return e->param();
         }
         if (def->id == CmdCustomize){
-            Event eCustomize(EventMenuCustomize, (void*)DockMenu);
-            eCustomize.process();
+            EventMenu(DockMenu, EventMenu::eCustomize).process();
             return (void*)1;
         }
         if (def->id == CmdQuit)

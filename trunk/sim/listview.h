@@ -53,7 +53,7 @@ public slots:
     virtual void startDrag();
     void sizeChange(int,int,int);
 protected:
-    virtual SIM::ProcessMenuParam *getMenu(QListViewItem *item);
+    virtual bool getMenu(QListViewItem *item, unsigned long &id, void *&param);
     virtual void *processEvent(SIM::Event*);
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void resizeEvent(QResizeEvent*);
@@ -70,7 +70,6 @@ protected:
     void showPopup(QListViewItem *item, QPoint p);
     int m_expandingColumn;
     unsigned long m_menuId;
-    SIM::ProcessMenuParam m_mp;
     QTimer	 *m_resizeTimer;
     bool m_bAcceptDrop;
     static bool s_bInit;

@@ -113,6 +113,7 @@ enum SIMEvents
     eEventMenuShow          = 0x0503,
     eEventMenuGet           = 0x0504,
     eEventMenuGetDef        = 0x0505,
+    eEventMenuProcess       = 0x050f,
     eEventCommandExec       = 0x0506,
     eEventCommandCreate     = 0x0507,
     eEventCommandChange     = 0x0508,
@@ -689,6 +690,7 @@ public:
     enum Action {
         eAdd,
         eRemove,
+        eCustomize, // execute customize dialog
     };
 public:
     EventMenu(unsigned long id, Action action)
@@ -742,6 +744,26 @@ protected:
     unsigned long m_id;
     CommandsDef *m_defs;
 };
+
+class EventMenuProcess : public Event
+{
+public:
+    EventMenuProcess(unsigned long id, void *param, int key = 0)
+        : Event(eEventMenuProcess), m_id(id), m_param(param), m_key(key), m_menu(NULL) {}
+    
+    unsigned long id() const { return m_id; }
+    void *param() const { return m_param; }
+    int key() const { return m_key; }
+    // out
+    void setMenu(QPopupMenu *m) { m_menu = m; }
+    QPopupMenu *menu() const { return m_menu; }
+protected:
+    unsigned long m_id;
+    void *m_param;
+    int m_key;
+    QPopupMenu *m_menu;
+};
+
 
 class EXPORT EventAddWidget : public Event
 {
@@ -976,25 +998,6 @@ public:
     EventCheckState(CommandDef *cmd)
         : EventCommand(eEventCheckState, cmd) {}
 };
-
-/* Event menu customize
-   param menu_id
-*/
-const unsigned EventMenuCustomize = 0x050F;
-
-/* Event set menu param
-   param is ProcessMenuParam*
-   return QPopupMenu*
-*/
-const unsigned EventProcessMenu   = 0x0510;
-
-struct ProcessMenuParam
-{
-    unsigned id;
-    void     *param;
-    int      key;           // If key != 0 process accel
-};
-
 
 /* Event send & receive message
 */

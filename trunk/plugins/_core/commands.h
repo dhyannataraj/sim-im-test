@@ -56,7 +56,7 @@ protected:
     SIM::CommandsDef *getDef(unsigned id);
     CMenu *processMenu(unsigned id, void *param, int key);
     void customize(SIM::CommandsDef *def);
-    void customizeMenu(unsigned id);
+    void customizeMenu(unsigned long id);
     unsigned cur_id;
     CMDS_MAP bars;
     MENU_MAP menues;

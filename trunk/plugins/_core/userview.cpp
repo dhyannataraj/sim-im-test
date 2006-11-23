@@ -1165,28 +1165,27 @@ void UserView::stopSearch()
         m_searchTip->hide();
 }
 
-ProcessMenuParam *UserView::getMenu(QListViewItem *list_item)
+bool UserView::getMenu(QListViewItem *list_item, unsigned long &id, void* &param)
 {
     if (list_item == NULL)
-        return NULL;
+        return false;
+
     UserViewItemBase *item = static_cast<UserViewItemBase*>(list_item);
     switch (item->type()){
     case GRP_ITEM:{
             GroupItem *grpItem = static_cast<GroupItem*>(item);
-            m_mp.id    = MenuGroup;
-            m_mp.param = (void*)(grpItem->id());
-            m_mp.key	 = 0;
-            return &m_mp;
+            id    = MenuGroup;
+            param = (void*)(grpItem->id());
+            return true;
         }
     case USR_ITEM:{
             ContactItem *contactItem = static_cast<ContactItem*>(item);
-            m_mp.id    = MenuContact;
-            m_mp.param = (void*)(contactItem->id());
-            m_mp.key	 = 0;
-            return &m_mp;
+            id    = MenuContact;
+            param = (void*)(contactItem->id());
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void UserView::editEscape()

@@ -186,7 +186,6 @@ CommandsDef *Commands::getDef(unsigned id)
 
 void *Commands::processEvent(Event *e)
 {
-    ProcessMenuParam *mp;
     switch (e->type()){
     case eEventPluginsUnload:
         clear();
@@ -208,10 +207,17 @@ void *Commands::processEvent(Event *e)
     }
     case eEventMenu: {
         EventMenu *em = static_cast<EventMenu*>(e);
-        if(em->action() == EventMenu::eAdd)
-            createMenu(em->id());
-        else
-            removeMenu(em->id());
+        switch(em->action()) {
+            case EventMenu::eAdd:
+                createMenu(em->id());
+                break;
+            case EventMenu::eRemove:
+                removeMenu(em->id());
+                break;
+            case EventMenu::eCustomize:
+                customizeMenu(em->id());
+                break;
+        }
         return (void*)1;
     }
     case eEventMenuGet: {
@@ -224,12 +230,11 @@ void *Commands::processEvent(Event *e)
         mgd->setCommandsDef(getDef(mgd->id()));
         return (void*)1;
     }
-    case EventProcessMenu:
-        mp = (ProcessMenuParam*)(e->param());
-        return (void*)processMenu(mp->id, mp->param, mp->key);
-    case EventMenuCustomize:
-        customizeMenu((unsigned long)(e->param()));
-        break;
+    case eEventMenuProcess: {
+        EventMenuProcess *emp = static_cast<EventMenuProcess*>(e);
+        emp->setMenu(processMenu(emp->id(), emp->param(), emp->key()));
+        return emp->menu();
+    }
     default:
         break;
     }
@@ -276,18 +281,21 @@ void Commands::customize(CommandsDef *def)
     ToolBarSetup *wnd = NULL;
     while ( (w=it.current()) != 0 ){
         ++it;
-        if (!w->inherits("ToolBarSetup")) continue;
+        if (!w->inherits("ToolBarSetup"))
+            continue;
         ToolBarSetup *swnd = static_cast<ToolBarSetup*>(w);
-        if (swnd->m_def != def) continue;
+        if (swnd->m_def != def)
+            continue;
         wnd = swnd;
         break;
     }
-    if (wnd == NULL) wnd= new ToolBarSetup(this, def);
+    if (wnd == NULL)
+        wnd = new ToolBarSetup(this, def);
     raiseWindow(wnd);
     delete list;
 }
 
-void Commands::customizeMenu(unsigned id)
+void Commands::customizeMenu(unsigned long id)
 {
     MENU_MAP::iterator it = menues.find(id);
     if (it == menues.end())
