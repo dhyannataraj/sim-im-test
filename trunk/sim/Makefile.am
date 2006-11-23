@@ -33,7 +33,7 @@ libsim_la_SOURCES = \
  qcolorbutton.cpp \
  qkeybutton.cpp \
  sax.cpp \
- simapi.cpp \
+ misc.cpp \
  socket.cpp \
  sockfactory.cpp \
  sslclient.cpp \
