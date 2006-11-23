@@ -131,7 +131,7 @@ void StatusLabel::timeout()
 void StatusLabel::mousePressEvent(QMouseEvent *me)
 {
     if (me->button() == RightButton){
-        EventMenuProcess eMenu(m_id, winId());
+        EventMenuProcess eMenu(m_id, (void *)winId());
         eMenu.process();
         QPopupMenu *popup = eMenu.menu();
         if (popup){
