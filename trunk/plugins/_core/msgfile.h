@@ -18,7 +18,10 @@
 #ifndef _MSGFILE_H
 #define _MSGFILE_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
 
 class MsgEdit;
 

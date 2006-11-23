@@ -18,7 +18,13 @@
 #ifndef _MESSAGE_H
 #define _MESSAGE_H
 
+#include <qstring.h>
+
+#include "sim_export.h"
 #include "event.h"
+
+class QFile;
+class Buffer;
 
 namespace SIM {
 

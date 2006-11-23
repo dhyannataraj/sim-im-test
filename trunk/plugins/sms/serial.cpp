@@ -15,15 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "serial.h"
-#include "buffer.h"
-
 #include <qapplication.h>
 #include <qevent.h>
 #include <qstringlist.h>
 #include <qtimer.h>
 #include <qdir.h>
 #include <qsocketnotifier.h>
+
+#include "buffer.h"
+#include "log.h"
+#include "serial.h"
 
 using namespace SIM;
 
@@ -495,7 +496,7 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
     }
     int mctl = TIOCM_DTR;
     if (ioctl(d->fd, TIOCMBIC, &mctl) < 0){
-        log(L_WARN, "Clear ÂÅÊ failed %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Clear ï¿½ï¿½failed %s: %s", fname.c_str(), strerror(errno));
         close();
         return false;
     }

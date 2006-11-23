@@ -18,7 +18,10 @@
 #ifndef _MSGAUTH_H
 #define _MSGAUTH_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
 
 class MsgEdit;
 

@@ -58,6 +58,8 @@ void *Event::process(EventReceiver *from)
         it = receivers->find(from);
         if(it != receivers->end())
             ++it;
+        else
+            return NULL;
     }
     for (; it != receivers->end(); ++it){
         EventReceiver *receiver = *it;

@@ -18,7 +18,11 @@
 #ifndef _FETCH_H
 #define _FETCH_H
 
-#include "simapi.h"
+#include <qcstring.h>
+#include <qobject.h>
+#include <qstring.h>
+
+#include "sim_export.h"
 
 #ifdef WIN32
     #define Q_EVENT_SIM_FETCH_DONE (QEvent::User+1)

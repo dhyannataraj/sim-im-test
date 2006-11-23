@@ -18,7 +18,10 @@
 #ifndef _DOCK_H
 #define _DOCK_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
 
 struct DockPluginData
 {

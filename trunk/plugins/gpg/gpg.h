@@ -18,10 +18,12 @@
 #ifndef _GPG_H
 #define _GPG_H
 
-#include "simapi.h"
-
-#include <qvaluelist.h>
+#include <qobject.h>
 #include <qstring.h>
+#include <qvaluelist.h>
+
+#include "event.h"
+#include "plugins.h"
 
 const unsigned long MessageGPGKey       = 0x5000;
 const unsigned long MessageGPGUse       = 0x5001;

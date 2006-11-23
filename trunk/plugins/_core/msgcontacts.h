@@ -18,7 +18,10 @@
 #ifndef _MSGCONTACTS_H
 #define _MSGCONTACTS_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
 
 class MsgEdit;
 class UserList;

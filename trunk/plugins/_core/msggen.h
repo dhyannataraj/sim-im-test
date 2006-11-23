@@ -18,7 +18,10 @@
 #ifndef _MSGGEN_H
 #define _MSGGEN_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
 
 class MsgEdit;
 

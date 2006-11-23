@@ -31,11 +31,13 @@
 #include <qtimer.h>
 #include <qtooltip.h>
 
+#include "misc.h"
+
 #ifdef WIN32
-#include <windows.h>
-#ifndef CS_DROPSHADOW
-#define CS_DROPSHADOW   0x00020000
-#endif
+# include <windows.h>
+# ifndef CS_DROPSHADOW
+#  define CS_DROPSHADOW   0x00020000
+# endif
 #endif
 
 #define BALLOON_R			10
@@ -46,7 +48,7 @@
 
 using namespace SIM;
 
-EXPORT QPixmap& intensity(QPixmap &pict, float percent)
+QPixmap& intensity(QPixmap &pict, float percent)
 {
     QImage image = pict.convertToImage();
     int i, tmp, r, g, b;

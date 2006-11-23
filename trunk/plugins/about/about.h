@@ -18,7 +18,12 @@
 #ifndef _ABOUT_H
 #define _ABOUT_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
 
 class AboutPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {

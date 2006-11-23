@@ -18,8 +18,9 @@
 #ifndef _GSM_TA_H
 #define _GSM_TA_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qcstring.h>
+#include <qobject.h>
+#include <vector>
 
 class SerialPort;
 class QTimer;

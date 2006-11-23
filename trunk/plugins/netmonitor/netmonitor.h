@@ -18,9 +18,11 @@
 #ifndef _NETMONITOR_H
 #define _NETMONITOR_H
 
-#include "simapi.h"
-
+#include <qobject.h>
 #include <qvaluelist.h>
+
+#include "event.h"
+#include "plugins.h"
 
 struct NetMonitorData
 {

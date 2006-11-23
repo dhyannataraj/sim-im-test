@@ -18,9 +18,11 @@
 #ifndef _STATUS_H
 #define _STATUS_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
+#include <qstring.h>
 #include <qstringlist.h>
+
+#include "event.h"
 
 class QTimer;
 class CorePlugin;

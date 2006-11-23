@@ -18,7 +18,13 @@
 #ifndef _TRANSPARENT_H
 #define _TRANSPARENT_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
+class QTimer;
 
 struct TransparentData
 {

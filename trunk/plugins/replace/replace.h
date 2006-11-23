@@ -18,7 +18,9 @@
 #ifndef _REPLACE_H
 #define _REPLACE_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "plugins.h"
 
 struct ReplaceData
 {

@@ -18,7 +18,11 @@
 #ifndef _STYLES_H
 #define _STYLES_H
 
-#include "simapi.h"
+#include "plugins.h"
+
+class QFont;
+class QStyle;
+class QPalette;
 
 struct StylesData
 {

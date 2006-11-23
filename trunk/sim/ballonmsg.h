@@ -18,12 +18,12 @@
 #ifndef _BALLONMSG_H
 #define _BALLONMSG_H
 
-#include "simapi.h"
-
 #include <qstring.h>
 #include <qdialog.h>
 #include <qbitmap.h>
 #include <qpushbutton.h>
+
+#include "sim_export.h"
 
 class QStringList;
 class QCheckBox;

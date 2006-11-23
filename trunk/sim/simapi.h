@@ -36,22 +36,6 @@
 #include <unistd.h>
 #endif
 
-#include <qglobal.h>
-#include <qdockwindow.h>
-#include <qstring.h>
-#include <qwidget.h>
-
-class KAboutData;
-class QComboBox;
-class QMainWindow;
-class QFile;
-class QIconSet;
-class QIcon;
-class QLibrary;
-class QObject;
-class QPixmap;
-class QToolBar;
-
 #ifdef Q_CC_MSVC
 // "conditional expression is constant" (W4)
 # pragma warning(disable: 4127)

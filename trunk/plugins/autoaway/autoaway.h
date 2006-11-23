@@ -18,7 +18,13 @@
 #ifndef _AUTOAWAY_H
 #define _AUTOAWAY_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
+
+class QTimer;
+class CorePlugin;
 
 struct AutoAwayData
 {
@@ -30,9 +36,6 @@ struct AutoAwayData
     SIM::Data	EnableOff;
     SIM::Data	DisableAlert;
 };
-
-class QTimer;
-class CorePlugin;
 
 class AutoAwayPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 {

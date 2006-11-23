@@ -18,9 +18,12 @@
 #ifndef _ACTION_H
 #define _ACTION_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
 
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
 class CorePlugin;
 class Exec;
 

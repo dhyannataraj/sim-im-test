@@ -18,7 +18,12 @@
 #ifndef _FILTER_H
 #define _FILTER_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
 
 struct FilterData
 {

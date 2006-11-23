@@ -18,7 +18,13 @@
 #ifndef _FLOATY_H
 #define _FLOATY_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qpoint.h>
+
+#include "event.h"
+#include "plugins.h"
+
+class QTimer;
 
 struct FloatyUserData
 {

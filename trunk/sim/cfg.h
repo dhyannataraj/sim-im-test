@@ -18,11 +18,17 @@
 #ifndef _CFG_H
 #define _CFG_H
 
+#include <qcstring.h>
 #include <qmap.h>
+#include <qstring.h>
 
+#include "sim_export.h"
+
+class QObject;
 class QToolBar;
 
 class Buffer;
+class IP;
 
 namespace SIM {
 

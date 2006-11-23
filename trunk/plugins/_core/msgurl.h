@@ -18,7 +18,10 @@
 #ifndef _MSGURL_H
 #define _MSGURL_H
 
-#include "simapi.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
 
 class MsgEdit;
 

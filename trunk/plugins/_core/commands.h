@@ -18,8 +18,9 @@
 #ifndef _COMMANDS_H
 #define _COMMANDS_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
+
+#include "event.h"
 
 class CorePlugin;
 class CMenu;

@@ -18,9 +18,13 @@
 #ifndef _SOCKET_H
 #define _SOCKET_H
 
-#include "simapi.h"
+#include <qobject.h>
 #include "buffer.h"
 #include "event.h"
+#include "sim_export.h"
+#include "simapi.h"	// COPY_RESTRICTED
+
+class QTimer;
 
 #ifdef USE_OPENSSL
 typedef struct ssl_ctx_st SSL_CTX;

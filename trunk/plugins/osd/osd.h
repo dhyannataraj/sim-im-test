@@ -18,15 +18,20 @@
 #ifndef _WINDOCK_H
 #define _WINDOCK_H
 
-#include "simapi.h"
-#include "stl.h"
-
+#include <qfont.h>
 #include <qpixmap.h>
+#include <qwidget.h>
+
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
+
+class QPushButton;
 
 struct OSDUserData
 {
     SIM::Data	EnableMessage;
-    SIM::Data    EnableMessageShowContent;
+    SIM::Data	EnableMessageShowContent;
     SIM::Data	ContentLines;
     SIM::Data	EnableAlert;
     SIM::Data	EnableAlertOnline;

@@ -18,7 +18,9 @@
 #ifndef _QCHILDWIDGET_H
 #define _QCHILDWIDGET_H
 
-#include "simapi.h"
+#include <qwidget.h>
+
+#include "sim_export.h"
 
 class EXPORT QChildWidget : public QWidget
 {

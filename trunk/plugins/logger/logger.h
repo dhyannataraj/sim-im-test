@@ -18,9 +18,12 @@
 #ifndef _LOGGER_H
 #define _LOGGER_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
 
+#include "event.h"
+#include "plugins.h"
+
+class QFile;
 const unsigned short L_PACKETS = 0x08;
 // const unsigned short L_EVENTS  = 0x10;
 

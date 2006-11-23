@@ -18,8 +18,8 @@
 #ifndef _SERIAL_H
 #define _SERIAL_H
 
-#include "simapi.h"
-#include <qiodevice.h>
+#include <qcstring.h>
+#include <qobject.h>
 
 class SerialPortPrivate;
 class QEvent;

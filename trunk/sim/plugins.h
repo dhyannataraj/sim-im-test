@@ -18,13 +18,22 @@
 #ifndef _PLUGINS_H
 #define _PLUGINS_H
 
+#include <qstring.h>
+#include "sim_export.h"
+#include "simapi.h"	// COPY_RESTRICTED
+
+class QFile;
+class QLibrary;
+class QWidget;
+class Buffer;
+
 namespace SIM {
 
 /* PluginManager - base class for main application */
 
+class Client;
 class ContactList;
 class SocketFactory;
-class Client;
 
 class EXPORT PluginManager
 {

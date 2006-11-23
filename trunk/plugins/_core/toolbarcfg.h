@@ -18,7 +18,7 @@
 #ifndef _TOOLBARCFG_H
 #define _TOOLBARCFG_H
 
-#include "simapi.h"
+#include "qobject.h"
 
 class ToolbarsCfg : public QObject
 {

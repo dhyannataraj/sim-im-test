@@ -18,8 +18,10 @@
 #ifndef _SOUND_H
 #define _SOUND_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
 
 struct SoundData
 {

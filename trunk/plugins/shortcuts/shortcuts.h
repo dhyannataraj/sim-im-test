@@ -18,8 +18,11 @@
 #ifndef _SHORTCUTS_H
 #define _SHORTCUTS_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <qobject.h>
+#include <qstring.h>
+
+#include "event.h"
+#include "plugins.h"
 
 struct ShortcutsData
 {

@@ -18,11 +18,14 @@
 #ifndef _ONTOP_H
 #define _ONTOP_H
 
-#include "simapi.h"
-
 #ifdef WIN32
 #include <windows.h>
 #endif
+
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
 
 const unsigned EventInTaskManager = 0x00030000;
 const unsigned EventOnTop		  = 0x00030001;
