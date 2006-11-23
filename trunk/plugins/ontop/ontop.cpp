@@ -103,6 +103,7 @@ void *OnTopPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventInit)
         setState();
+    else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
@@ -111,9 +112,10 @@ void *OnTopPlugin::processEvent(Event *e)
             setState();
             return cmd;
         }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdOnTop){
             getState();
             cmd->flags &= ~COMMAND_CHECKED;

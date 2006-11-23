@@ -136,8 +136,9 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState:{
+            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if (cmd->id == CmdFloaty){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact){
@@ -150,7 +151,7 @@ void *FloatyPlugin::processEvent(Event *e)
                         cmd->flags &= ~COMMAND_CHECKED;
                     }
                 }
-                return e->param();
+                return (void*)1;
             }
             break;
         }
@@ -173,7 +174,7 @@ void *FloatyPlugin::processEvent(Event *e)
                         wnd->show();
                     }
                 }
-                return e->param();
+                return (void*)1;
             }
             break;
         }

@@ -151,16 +151,19 @@ ENDIF(WIN32)
 SET(sim_EXE_SRCS
     sim.cpp
 )
-if(MINGW)
-  # resource compilation for mingw
-  ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o
-                     COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR}
-                                         -i${CMAKE_CURRENT_SOURCE_DIR}/sim.rc
-                                         -o ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
-  SET(sim_EXE_SRCS ${sim_EXE_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
-else(MINGW)
-  SET(sim_EXE_SRCS ${sim_EXE_SRCS} sim.rc)
-endif(MINGW)
+
+if(WIN32)
+  if(MINGW)
+    # resource compilation for mingw
+    ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o
+                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR}
+                                           -i${CMAKE_CURRENT_SOURCE_DIR}/sim.rc
+                                           -o ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
+    SET(sim_EXE_SRCS ${sim_EXE_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/sim_rc.o)
+  else(MINGW)
+    SET(sim_EXE_SRCS ${sim_EXE_SRCS} sim.rc)
+  endif(MINGW)
+endif(WIN32)
 
 # i18n
 COMPILE_PO_FILES(${CMAKE_SOURCE_DIR}/po sim_EXE_SRCS)

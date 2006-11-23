@@ -377,8 +377,7 @@ void FloatyWnd::dragEvent(QDropEvent *e, bool isDrop)
                 cmd->id      = type;
                 cmd->menu_id = MenuMessage;
                 cmd->param	 = (void*)m_id;
-                Event e(EventCheckState, cmd);
-                if (e.process())
+                if (EventCheckState(cmd).process())
                     break;
             }
         }

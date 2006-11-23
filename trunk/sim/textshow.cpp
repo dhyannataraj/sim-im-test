@@ -246,8 +246,9 @@ void *TextEdit::processEvent(Event *e)
 {
     if (m_param == NULL)
         return NULL;
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param != m_param)
             return NULL;
         switch (cmd->id){
@@ -262,9 +263,9 @@ void *TextEdit::processEvent(Event *e)
             }else{
                 cmd->flags |= BTN_HIDE;
             }
-            return e->param();
+            return (void*)1;
         default:
-            return NULL;
+            break;
         }
     }
     if (e->type() == eEventCommandExec){

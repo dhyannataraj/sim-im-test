@@ -119,8 +119,9 @@ MsgExec() : Exec() {}
 void *ActionPlugin::processEvent(Event *e)
 {
     switch (e->type() ) {
-    case EventCheckState: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->id == CmdAction) && (cmd->menu_id == MenuContact)){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
@@ -160,7 +161,7 @@ void *ActionPlugin::processEvent(Event *e)
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return (void*)1;
         }
         break;
     }
@@ -184,7 +185,7 @@ void *ActionPlugin::processEvent(Event *e)
             t.param    = NULL;
             Event eTmpl(EventTemplateExpand, &t);
             eTmpl.process();
-            return e->param();
+            return (void*)1;
         }
         break;
     }

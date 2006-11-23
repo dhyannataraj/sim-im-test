@@ -633,7 +633,6 @@ void *Container::processEvent(Event *e)
         return NULL;
     UserWnd *userWnd;
     Contact *contact;
-    CommandDef *cmd;
     Message *msg;
     switch (e->type()){
     case EventMessageReceived:
@@ -740,7 +739,7 @@ void *Container::processEvent(Event *e)
     case eEventCommandExec: {
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
-        userWnd = m_tabBar->currentWnd();
+        UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id())){
             if (cmd->menu_id == MenuContainerContact){
                 m_tabBar->raiseTab(cmd->id);
@@ -760,8 +759,9 @@ void *Container::processEvent(Event *e)
         }
         break;
     }
-    case EventCheckState:
-        cmd = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         userWnd = m_tabBar->currentWnd();
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id()) &&
                 (cmd->menu_id == MenuContainerContact) &&
@@ -784,8 +784,11 @@ void *Container::processEvent(Event *e)
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return (void*)1;
         }
+        break;
+    }
+    default:
         break;
     }
     return NULL;

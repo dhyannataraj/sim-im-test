@@ -221,8 +221,9 @@ void SpellHighlighter::slotConfigChanged()
 
 void *SpellHighlighter::processEvent(SIM::Event *e)
 {
-    if (e->type() == SIM::EventCheckState){
-        SIM::CommandDef *cmd = (SIM::CommandDef*)(e->param());
+    if (e->type() == SIM::eEventCheckState){
+        SIM::EventCheckState *ecs = static_cast<SIM::EventCheckState*>(e);
+        SIM::CommandDef *cmd = ecs->cmd();
         if (cmd->id == m_plugin->CmdSpell){
             MsgEdit *m_edit = (MsgEdit*)(cmd->param);
             if (m_edit->m_edit != textEdit())
@@ -267,7 +268,7 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
             cmd->flags |= SIM::COMMAND_RECURSIVE;
             return cmd;
         }
-    }
+    } else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();

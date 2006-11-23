@@ -231,7 +231,7 @@ void *DockPlugin::processEvent(Event *e)
             if (m_dock == NULL)
                 init();
             if (!getShowMain())
-                return (void*)w;
+                return (void*)1;
         }
         break;
     }
@@ -252,14 +252,15 @@ void *DockPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventCheckState: {
-        CommandDef *def = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *def = ecs->cmd();
         if (def->id == CmdToggle){
             def->flags &= ~COMMAND_CHECKED;
             def->text = isMainShow() ?
                         I18N_NOOP("Hide main window") :
                         I18N_NOOP("Show main window");
-            return e->param();
+            return (void*)1;
         }
         break;
     }
@@ -282,7 +283,7 @@ void *DockPlugin::processEvent(Event *e)
         if (def->id == CmdCustomize){
             Event eCustomize(EventMenuCustomize, (void*)DockMenu);
             eCustomize.process();
-            return e->param();
+            return (void*)1;
         }
         if (def->id == CmdQuit)
             m_bQuit = true;

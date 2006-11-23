@@ -2548,11 +2548,12 @@ void *ICQClient::processEvent(Event *e)
         }
         break;
     }
-    case EventCheckState: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdPhones){
             if (!m_bAIM)
-                return e->param();
+                return (void*)1;
             return NULL;
         }
         if(cmd->id == CmdFetchAway) {
@@ -2566,7 +2567,7 @@ void *ICQClient::processEvent(Event *e)
                 contactInfo(data, status, style, statusIcon);
                 if(status != STATUS_ONLINE && status != STATUS_OFFLINE) {
                     cmd->flags &= ~BTN_HIDE;
-                    return e->param();
+                    return (void*)1;
                 }
             }
             return NULL;
@@ -2576,7 +2577,7 @@ void *ICQClient::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL){
                     cmd->flags |= BTN_HIDE;
-                    return e->param();
+                    return (void*)1;
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
@@ -2590,7 +2591,7 @@ void *ICQClient::processEvent(Event *e)
                 ClientDataIterator it(contact->clientData, this);
                 if ((++it) != NULL){
                     cmd->flags &= ~BTN_HIDE;
-                    return e->param();
+                    return (void*)1;
                 }
                 return NULL;
             }
@@ -2617,7 +2618,7 @@ void *ICQClient::processEvent(Event *e)
                     if (data->VisibleId.toULong())
                         cmd->flags |= COMMAND_CHECKED;
                 }
-                return bOK ? e->param() : NULL;
+                return (void*)bOK;
             }
             if (cmd->id == CmdInvisibleList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2640,7 +2641,7 @@ void *ICQClient::processEvent(Event *e)
                     if (data->InvisibleId.toULong())
                         cmd->flags |= COMMAND_CHECKED;
                 }
-                return bOK ? e->param() : NULL;
+                return (void*)bOK;
             }
         }
         break;
@@ -2675,7 +2676,7 @@ void *ICQClient::processEvent(Event *e)
                     EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdInvisibleList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2688,7 +2689,7 @@ void *ICQClient::processEvent(Event *e)
                     EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
                 }
-                return e->param();
+                return (void*)1;
             }
         }
         break;

@@ -921,11 +921,13 @@ void *MsgViewBase::processEvent(Event *e)
         if (id && (id != m_id))
             return NULL;
         reload();
-    }
-    if (e->type() == EventHistoryColors)
+    } else
+    if (e->type() == EventHistoryColors) {
         setColors();
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))
             return NULL;
         Message *msg;
@@ -934,7 +936,7 @@ void *MsgViewBase::processEvent(Event *e)
             cmd->flags &= ~(COMMAND_DISABLED | COMMAND_CHECKED);
             if (!hasSelectedText())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return (void*)1;
         case CmdMsgOpen:
             msg = currentMessage();
             if (msg){
@@ -945,7 +947,7 @@ void *MsgViewBase::processEvent(Event *e)
                     return NULL;
                 cmd->icon = def->icon;
                 cmd->flags &= ~COMMAND_CHECKED;
-                return e->param();
+                return (void*)1;
             }
             return NULL;
         case CmdMsgSpecial:
@@ -999,8 +1001,7 @@ void *MsgViewBase::processEvent(Event *e)
                     CommandDef cmd = *c;
                     cmd.menu_id = MenuMsgCommand;
                     cmd.param   = msg;
-                    Event e(EventCheckState, &cmd);
-                    if (!e.process())
+                    if (!EventCheckState(&cmd).process())
                         continue;
                     cmd.flags &= ~COMMAND_CHECK_STATE;
                     cmds[n++] = cmd;
@@ -1008,11 +1009,11 @@ void *MsgViewBase::processEvent(Event *e)
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
                 delete msg;
-                return e->param();
+                return (void*)1;
             }
             return NULL;
         }
-    }
+    } else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
@@ -1025,7 +1026,7 @@ void *MsgViewBase::processEvent(Event *e)
             if (msg){
                 History::cut(msg, 0, 0);
                 delete msg;
-                return e->param();
+                return (void*)1;
             }
             return NULL;
         case CmdDeleteMessage:
@@ -1033,12 +1034,12 @@ void *MsgViewBase::processEvent(Event *e)
             if (msg){
                 History::del(msg);
                 delete msg;
-                return e->param();
+                return (void*)1;
             }
             return NULL;
         case CmdCopy:
             copy();
-            return e->param();
+            return (void*)1;
         case CmdMsgOpen:
             msg = currentMessage();
             if (msg){
@@ -1046,7 +1047,7 @@ void *MsgViewBase::processEvent(Event *e)
                 Event eOpen(EventOpenMessage, &msg);
                 eOpen.process();
                 delete msg;
-                return e->param();
+                return (void*)1;
             }
             return NULL;
         default:

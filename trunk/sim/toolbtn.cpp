@@ -115,7 +115,7 @@ void CToolItem::checkState()
 {
     if (m_def.flags & COMMAND_CHECK_STATE){
         m_def.param = static_cast<CToolBar*>(widget()->parent())->param();
-        Event(EventCheckState, &m_def).process();
+        EventCheckState(&m_def).process();
         m_def.flags |= COMMAND_CHECK_STATE;
         setState();
     }

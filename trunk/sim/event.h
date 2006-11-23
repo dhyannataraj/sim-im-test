@@ -122,6 +122,8 @@ enum SIMEvents
     eEventCommandShow       = 0x0515,
     eEventCommandWidget     = 0x0516,
 
+    eEventCheckState        = 0x0520,   // check state of a Command
+
     eEventAddWidget         = 0x0570,   // add a widget to main/statuswindow
 
     eEventAddPreferences    = 0x0580,
@@ -968,10 +970,12 @@ protected:
     QWidget *m_widget;
 };
 
-/* Event Check command state
-   param is CommandDef*
-*/
-const unsigned EventCheckState  = 0x050C;
+class EXPORT EventCheckState : public EventCommand
+{
+public:
+    EventCheckState(CommandDef *cmd)
+        : EventCommand(eEventCheckState, cmd) {}
+};
 
 /* Event menu customize
    param menu_id

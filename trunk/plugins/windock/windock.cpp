@@ -406,16 +406,17 @@ void *WinDockPlugin::processEvent(Event *e)
             enableAutoHide(getAutoHide());
             return cmd;
         }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->id == CmdAutoHide) && (dock->getState() != ABE_FLOAT)){
             cmd->flags &= ~COMMAND_CHECKED;
             if (dock->getAutoHide())
                 cmd->flags |= COMMAND_CHECKED;
             return cmd;
         }
-    }
+    } else
     if ((e->type() == eEventInit) && !m_bInit)
         init();
     if (e->type() == EventInTaskManager){

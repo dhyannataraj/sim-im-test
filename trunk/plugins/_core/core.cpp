@@ -2005,8 +2005,7 @@ void *CorePlugin::processEvent(Event *e)
             CommandDef *c;
             while ((c = ++itc) != NULL){
                 c->param = (void*)(contact_id);
-                Event eCheck(EventCheckState, c);
-                if (eCheck.process()){
+                if(EventCheckState(c).process()) {
                     return EventCommandExec(c).process();
                 }
             }
@@ -2144,8 +2143,9 @@ void *CorePlugin::processEvent(Event *e)
             m_focus = NULL;
             return e->param();
         }
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState:{
+            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuEncoding){
                 if (cmd->id == CmdChangeEncoding){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2208,20 +2208,20 @@ void *CorePlugin::processEvent(Event *e)
                         cmds[nEncoding].text_wrk = (*it);
                         nEncoding++;
                     }
-                    return e->param();
+                    return (void*)1;
                 }
                 if (cmd->id == CmdAllEncodings){
                     cmd->flags &= ~COMMAND_CHECKED;
                     if (getShowAllEncodings())
                         cmd->flags |= COMMAND_CHECKED;
-                    return e->param();
+                    return (void*)1;
                 }
             }
             if (cmd->id == CmdEnableSpell){
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (getEnableSpell())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdSendClose){
                 cmd->flags &= ~COMMAND_CHECKED;
@@ -2232,7 +2232,7 @@ void *CorePlugin::processEvent(Event *e)
             if ((cmd->id == CmdFileAccept) || (cmd->id == CmdFileDecline)){
                 Message *msg = (Message*)(cmd->param);
                 if (msg->getFlags() & MESSAGE_TEMP)
-                    return e->param();
+                    return (void*)1;
                 return NULL;
             }
             if (cmd->id == CmdContactClients){
@@ -2283,7 +2283,7 @@ void *CorePlugin::processEvent(Event *e)
                         }
                         cmd->param = cmds;
                         cmd->flags |= COMMAND_RECURSIVE;
-                        return e->param();
+                        return (void*)1;
                     }
                     CommandDef *cmds = new CommandDef[n + 2];
                     cmds[0].text = "_";
@@ -2347,7 +2347,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
-                    return e->param();
+                    return (void*)1;
                 }
                 if (cmd->menu_id > CmdContactResource){
                     unsigned nRes = cmd->menu_id - CmdContactResource - 1;
@@ -2392,7 +2392,7 @@ void *CorePlugin::processEvent(Event *e)
                                 }
                                 cmd->param = cmds;
                                 cmd->flags |= COMMAND_RECURSIVE;
-                                return e->param();
+                                return (void*)1;
                             }
                         }
                     }
@@ -2495,7 +2495,7 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
 
-                return e->param();
+                return (void*)1;
             }
             if (cmd->menu_id == MenuContainer){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2533,7 +2533,7 @@ void *CorePlugin::processEvent(Event *e)
                     delete list;
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
-                    return e->param();
+                    return (void*)1;
                 }
             }
             if (cmd->menu_id == MenuMessage){
@@ -2546,7 +2546,7 @@ void *CorePlugin::processEvent(Event *e)
                         if ((cmd->id == MessageSMS) && ((*it).client->protocol()->description()->flags & PROTOCOL_NOSMS))
                             return NULL;
                         if ((*it).client->canSend(cmd->id, (*it).data)){
-                            return e->param();
+                            return (void*)1;
                         }
                     }
                     if ((cmd->id == MessageSMS) && !ways.empty()){
@@ -2561,7 +2561,7 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i)->canSend(cmd->id, NULL))
-                        return e->param();
+                        return (void*)1;
                 }
                 return NULL;
             }
@@ -2580,7 +2580,7 @@ void *CorePlugin::processEvent(Event *e)
                             return NULL;
                         }
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return e->param();
+                        return (void*)1;
                     }
                     break;
                 }
@@ -2590,7 +2590,7 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (cmd->id == CmdPhoneNoShow + getContacts()->owner()->getPhoneStatus())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return (void*)1;
             }
             if ((cmd->menu_id == MenuLocation) && (cmd->id == CmdLocation)){
                 unsigned n = 2;
@@ -2640,7 +2640,7 @@ void *CorePlugin::processEvent(Event *e)
                     cmds[0].flags = COMMAND_CHECKED;
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdUnread){
                 unsigned long contact_id = 0;
@@ -2707,14 +2707,14 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdSendSMS){
                 cmd->flags &= COMMAND_CHECKED;
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->canSend(MessageSMS, NULL))
-                        return e->param();
+                        return (void*)1;
                 }
                 return NULL;
             }
@@ -2722,11 +2722,11 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (m_statusWnd)
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return (void*)1;
             }
             if ((cmd->id == CmdContainer) && (cmd->menu_id == MenuContact)){
                 if (getContainerMode())
-                    return e->param();
+                    return (void*)1;
                 return NULL;
             }
             if (cmd->id == CmdCommonStatus){
@@ -2737,16 +2737,15 @@ void *CorePlugin::processEvent(Event *e)
                 cmd->flags &= ~COMMAND_CHECKED;
                 if (client->getCommonStatus())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return (void*)1;
             }
-            if (cmd->id == CmdTitle)
-                if (cmd->param && adjustClientItem(cmd->menu_id, cmd)){
-                    return e->param();
-                }else{
-                    return NULL;
-                }
+            if (cmd->id == CmdTitle) {
+                if (cmd->param && adjustClientItem(cmd->menu_id, cmd))
+                    return (void*)1;
+                return NULL;
+            }
             if (adjustClientItem(cmd->id, cmd))
-                return e->param();
+                return (void*)1;
             unsigned n = cmd->menu_id - CmdClient;
             if (n > getContacts()->nClients())
                 return NULL;
@@ -2757,7 +2756,7 @@ void *CorePlugin::processEvent(Event *e)
                 }else{
                     cmd->flags &= ~COMMAND_CHECKED;
                 }
-                return e->param();
+                return (void*)1;
             }
             const CommandDef *curStatus = NULL;
             const CommandDef *d;
@@ -2775,7 +2774,7 @@ void *CorePlugin::processEvent(Event *e)
             }else{
                 cmd->flags &= ~COMMAND_CHECKED;
             }
-            return e->param();
+            return (void*)1;
         }
     case eEventCommandExec:{
             EventCommandExec *ece = static_cast<EventCommandExec*>(e);

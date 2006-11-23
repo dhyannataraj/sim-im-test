@@ -98,8 +98,7 @@ Message *MsgTextEdit::createMessage(QMimeSource *src)
                 c->id      = cmd->id;
                 c->menu_id = MenuMessage;
                 c->param	 = (void*)(m_edit->m_userWnd->id());
-                Event e(EventCheckState, c);
-                if (e.process())
+                if (EventCheckState(c).process())
                     break;
                 delete msg;
                 msg = NULL;
@@ -1025,14 +1024,13 @@ bool MsgEdit::adjustType()
     cmd->menu_id = MenuMessage;
     cmd->param = (void*)(m_userWnd->m_id);
     cmd->id = m_userWnd->getMessageType();
-    Event e1(EventCheckState, cmd);
+    EventCheckState e1(cmd);
     if ((m_userWnd->getMessageType() != m_type) && e1.process()){
         if (setType(m_userWnd->getMessageType()))
             return true;
     }
     cmd->id = m_type;
-    Event e(EventCheckState, cmd);
-    if (e.process())
+    if(EventCheckState(cmd).process())
         return true;
     EventMenuGetDef eMenu(MenuMessage);
     eMenu.process();
@@ -1045,8 +1043,7 @@ bool MsgEdit::adjustType()
         if (c->id == CmdContactClients)
             continue;
         c->param = (void*)(m_userWnd->m_id);
-        Event eCheck(EventCheckState, c);
-        if (!eCheck.process())
+        if (!EventCheckState(c).process())
             continue;
         if (setType(c->id)){
             bSet = true;
@@ -1099,8 +1096,9 @@ void *MsgEdit::processEvent(Event *e)
         }
         break;
     }
-    case EventCheckState: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->param == this) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
             if (contact){
@@ -1109,6 +1107,7 @@ void *MsgEdit::processEvent(Event *e)
                     cmd->flags &= ~COMMAND_CHECKED;
                     if (data->Translit.toBool())
                         cmd->flags |= COMMAND_CHECKED;
+                    // FIXME: return (void*)1; missing here?
                 }
             }
             return NULL;
@@ -1335,8 +1334,7 @@ void MsgEdit::setEmptyMessage()
     CommandDef *c;
     while ((c = ++itc) != NULL){
         c->param = (void*)(m_userWnd->m_id);
-        Event eCheck(EventCheckState, c);
-        if (eCheck.process()){
+        if (EventCheckState(c).process()){
             Message *msg;
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(c->id);
             if (def == NULL)

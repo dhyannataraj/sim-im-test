@@ -94,7 +94,7 @@ void *MsgReceived::processEvent(Event *e)
                             c.param = msg;
                             m_edit->execCommand(&c);
                         }
-                        return e->param();
+                        return (void*)1;
                     }
                 }
             }
@@ -107,12 +107,13 @@ void *MsgReceived::processEvent(Event *e)
                     c.param = msg;
                     m_edit->execCommand(&c);
                 }
-                return e->param();
+                return (void*)1;
             }
         }
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= 0x1000) && (id < MAX_INPUT_BAR_ID)){
@@ -127,13 +128,12 @@ void *MsgReceived::processEvent(Event *e)
                         if (msg){
                             c.id   -= CmdReceived;
                             c.param = msg;
-                            Event e(EventCheckState, &c);
-                            if (e.process())
+                            if (EventCheckState(&c).process())
                                 cmd->flags &= ~BTN_HIDE;
                             if (m_msg == NULL)
                                 delete msg;
                         }
-                        return e->param();
+                        return (void*)1;
                     }
                 }
                 MessageDef *mdef = NULL;
@@ -150,8 +150,7 @@ void *MsgReceived::processEvent(Event *e)
                                 if (msg){
                                     CommandDef c = *d;
                                     c.param = msg;
-                                    Event e(EventCheckState, &c);
-                                    if (e.process())
+                                    if (EventCheckState(&c).process())
                                         cmd->flags &= ~BTN_HIDE;
                                     if (m_msg == NULL)
                                         delete msg;
@@ -159,18 +158,18 @@ void *MsgReceived::processEvent(Event *e)
                             }else{
                                 cmd->flags &= ~BTN_HIDE;
                             }
-                            return e->param();
+                            return (void*)1;
                         }
                     }
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdMsgAnswer){
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
                 if (CorePlugin::m_plugin->getContainerMode() == 0)
                     cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return (void*)1;
             }
 
             if (m_bOpen){
@@ -181,17 +180,17 @@ void *MsgReceived::processEvent(Event *e)
                 case CmdSendClose:
                     e->process(this);
                     cmd->flags |= BTN_HIDE;
-                    return e->param();
+                    return (void*)1;
                 case CmdNextMessage:
                     e->process(this);
                     cmd->flags |= BTN_HIDE;
                     if (CorePlugin::m_plugin->getContainerMode() == 0)
                         cmd->flags &= ~BTN_HIDE;
-                    return e->param();;
+                    return (void*)1;
                 }
             }
         }
-    }
+    } else
     if (e->type() == EventMessageDeleted){
         Message *msg = (Message*)(e->param());
         if (msg->id() == m_id)

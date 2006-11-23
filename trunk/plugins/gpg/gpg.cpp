@@ -399,15 +399,15 @@ std::string GpgPlugin::getConfig()
 void *GpgPlugin::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState:{
+            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuMessage){
                 if (cmd->id == MessageGPGKey){
                     cmd->flags &= ~COMMAND_CHECKED;
                     CommandDef c = *cmd;
                     c.id = MessageGeneric;
-                    Event eCheck(EventCheckState, &c);
-                    return eCheck.process();
+                    return EventCheckState(&c).process();
                 }
                 if (cmd->id == MessageGPGUse){
                     cmd->flags &= ~COMMAND_CHECKED;
@@ -419,7 +419,7 @@ void *GpgPlugin::processEvent(Event *e)
                         return NULL;
                     if (data->Use.toBool())
                         cmd->flags |= COMMAND_CHECKED;
-                    return e->param();
+                    return (void*)1;
                 }
             }
             return NULL;
@@ -434,7 +434,7 @@ void *GpgPlugin::processEvent(Event *e)
                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                 if (data && !data->Key.str().isEmpty())
                     data->Use.asBool() = (cmd->flags & COMMAND_CHECKED) != 0;
-                return e->param();
+                return (void*)1;
             }
             return NULL;
         }
@@ -900,27 +900,28 @@ void MsgGPGKey::exportReady()
 
 void *MsgGPGKey::processEvent(Event *e)
 {
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return (void*)1;
             }
             switch (cmd->id){
             case CmdSend:
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return e->param();
+                return (void*)1;
             case CmdTranslit:
             case CmdSmile:
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return e->param();
+                return (void*)1;
             }
         }
     }
@@ -945,7 +946,7 @@ void *MsgGPGKey::processEvent(Event *e)
                 Event e(EventRealSendMessage, &s);
                 e.process();
             }
-            return e->param();
+            return (void*)1;
         }
     }
     return NULL;

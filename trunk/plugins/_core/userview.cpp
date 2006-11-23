@@ -632,8 +632,9 @@ void *UserView::processEvent(Event *e)
             }
             break;
         }
-    case EventCheckState:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState:{
+            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+            CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuGroups){
                 cmd->flags = cmd->flags & (~COMMAND_CHECKED);
                 if (((cmd->id == CmdGrpOff) && (CorePlugin::m_plugin->getGroupMode() == 0)) ||
@@ -647,14 +648,14 @@ void *UserView::processEvent(Event *e)
                     if (CorePlugin::m_plugin->getShowEmptyGroup())
                         cmd->flags |= COMMAND_CHECKED;
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->menu_id == MenuContact){
                 if (cmd->id == CmdContactTitle){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
                         cmd->text_wrk = contact->getName();
-                        return e->param();
+                        return (void*)1;
                     }
                 }
                 if (cmd->id == CmdShowAlways){
@@ -664,7 +665,7 @@ void *UserView::processEvent(Event *e)
                         cmd->flags &= ~COMMAND_CHECKED;
                         if (data && data->ShowAlways.toBool())
                             cmd->flags |= COMMAND_CHECKED;
-                        return e->param();
+                        return (void*)1;
                     }
                 }
                 if (cmd->id == CmdClose){
@@ -681,8 +682,7 @@ void *UserView::processEvent(Event *e)
                         ++it;
                     }
                     delete list;
-                    if (wnd)
-                        return e->param();
+                    return wnd; // ok
                 }
                 if (cmd->id == CmdSendMessage){
                     EventMenuGetDef eMenu(MenuMessage);
@@ -708,15 +708,14 @@ void *UserView::processEvent(Event *e)
                     }
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
-                    return e->param();
+                    return (void*)1;
                 }
                 if (cmd->id > CmdSendMessage){
                     Command c;
                     c->id	   = cmd->id - CmdSendMessage;
                     c->menu_id = MenuMessage;
                     c->param   = cmd->param;
-                    Event eCmd(EventCheckState, c);
-                    void *res = eCmd.process();
+                    void *res = EventCheckState(c).process();
                     if (res && (c->flags & COMMAND_RECURSIVE)){
                         cmd->flags |= COMMAND_RECURSIVE;
                         cmd->param = c->param;
@@ -761,7 +760,7 @@ void *UserView::processEvent(Event *e)
                     cmds[nGroups].clear();
                     cmd->flags |= COMMAND_RECURSIVE;
                     cmd->param = cmds;
-                    return e->param();
+                    return (void*)1;
                 }
             }
             if (cmd->menu_id == MenuGroup){
@@ -775,24 +774,24 @@ void *UserView::processEvent(Event *e)
                     }
                     if ((cmd->id == CmdGrpDelete) || (cmd->id == CmdGrpRename)){
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return e->param();
+                        return (void*)1;
                     }
                     if (cmd->id == CmdGrpUp){
                         if (getContacts()->groupIndex(grp_id) <= 1)
                             cmd->flags |= COMMAND_DISABLED;
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return e->param();
+                        return (void*)1;
                     }
                     if (cmd->id == CmdGrpDown){
                         if (getContacts()->groupIndex(grp_id) >= getContacts()->groupCount() - 1)
                             cmd->flags |= COMMAND_DISABLED;
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return e->param();
+                        return (void*)1;
                     }
                 }else{
                     if (cmd->id == CmdGrpTitle){
                         cmd->text = I18N_NOOP("Not in list");
-                        return e->param();
+                        return (void*)1;
                     }
                 }
             }
@@ -1499,8 +1498,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                         cmd->id      = type;
                         cmd->menu_id = MenuMessage;
                         cmd->param	 = (void*)(static_cast<ContactItem*>(item)->id());
-                        Event e(EventCheckState, cmd);
-                        if (e.process())
+                        if (EventCheckState(cmd).process())
                             break;
                     }
                 }

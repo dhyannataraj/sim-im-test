@@ -173,24 +173,22 @@ void StatusFrame::mousePressEvent(QMouseEvent *me)
 
 void *StatusFrame::processEvent(Event *e)
 {
-    CommandDef *cmd;
     switch (e->type()){
     case eEventSocketActive:{
-            {
-                QObjectList *l = queryList("StatusLabel");
-                QObjectListIt itObject(*l);
-                QObject *obj;
-                while ((obj=itObject.current()) != NULL) {
-                    ++itObject;
-                    StatusLabel *lbl = static_cast<StatusLabel*>(obj);
-                    lbl->setPict();
-                }
-                delete l;
-            }
-            break;
+        QObjectList *l = queryList("StatusLabel");
+        QObjectListIt itObject(*l);
+        QObject *obj;
+        while ((obj=itObject.current()) != NULL) {
+            ++itObject;
+            StatusLabel *lbl = static_cast<StatusLabel*>(obj);
+            lbl->setPict();
         }
-    case EventCheckState:
-        cmd = (CommandDef*)(e->param());
+        delete l;
+        break;
+    }
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
             unsigned n = 0;
             {
@@ -237,9 +235,10 @@ void *StatusFrame::processEvent(Event *e)
             delete l;
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return (void*)1;
         }
         break;
+    }
     case eEventClientsChanged:
         addClients();
         break;

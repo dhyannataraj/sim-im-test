@@ -1082,9 +1082,10 @@ void *LiveJournalClient::processEvent(Event *e)
 		EventGoURL eUrl(url);
         eUrl.process();
         return (void*)1;
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    } else
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdMenuWeb){
             unsigned menu_id = cmd->menu_id - MenuWeb;
             if (menu_id > LiveJournalPlugin::MenuCount)
@@ -1134,7 +1135,7 @@ void *LiveJournalClient::processEvent(Event *e)
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return (void*)1;
         }
     }
     return NULL;

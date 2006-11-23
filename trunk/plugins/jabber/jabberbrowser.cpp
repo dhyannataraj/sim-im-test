@@ -376,22 +376,23 @@ void *JabberBrowser::processEvent(Event *e)
             return e->param();
         }
     }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->menu_id == MenuSearchOptions) && isVisible()){
             cmd->flags &= ~COMMAND_CHECKED;
             switch (cmd->id){
             case CmdBrowseSearch:
                 if (haveFeature("jabber:iq:search"))
-                    return e->param();
+                    return (void*)1;
                 break;
             case CmdRegister:
                 if (haveFeature("jabber:iq:register"))
-                    return e->param();
+                    return (void*)1;
                 break;
             case CmdBrowseConfigure:
                 if (haveFeature("jabber:iq:data"))
-                    return e->param();
+                    return (void*)1;
                 break;
             }
             return NULL;
@@ -405,23 +406,23 @@ void *JabberBrowser::processEvent(Event *e)
         case CmdOneLevel:
             if (!JabberPlugin::plugin->getAllLevels())
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return (void*)1;
         case CmdAllLevels:
             if (JabberPlugin::plugin->getAllLevels())
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return (void*)1;
         case CmdModeDisco:
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_DISCO)
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return (void*)1;
         case CmdModeBrowse:
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_BROWSE)
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return (void*)1;
         case CmdModeAgents:
             if (JabberPlugin::plugin->getBrowseType() & BROWSE_AGENTS)
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return (void*)1;
         }
     }
     if (e->type() == eEventCommandExec){
@@ -446,26 +447,26 @@ void *JabberBrowser::processEvent(Event *e)
             case CmdOneLevel:
                 JabberPlugin::plugin->setAllLevels(false);
                 changeMode();
-                return e->param();
+                return (void*)1;
             case CmdAllLevels:
                 JabberPlugin::plugin->setAllLevels(true);
                 changeMode();
-                return e->param();
+                return (void*)1;
             case CmdModeDisco:
                 mode ^= BROWSE_DISCO;
                 JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
-                return e->param();
+                return (void*)1;
             case CmdModeBrowse:
                 mode ^= BROWSE_BROWSE;
                 JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
-                return e->param();
+                return (void*)1;
             case CmdModeAgents:
                 mode ^= BROWSE_AGENTS;
                 JabberPlugin::plugin->setBrowseType(mode);
                 changeMode();
-                return e->param();
+                return (void*)1;
             }
             return NULL;
         }
@@ -476,7 +477,7 @@ void *JabberBrowser::processEvent(Event *e)
                 m_search = new JIDSearch(this, m_client, item->text(COL_JID), item->text(COL_NODE), item->text(COL_TYPE).utf8());
                 m_search->jidSearch->init(this, m_client, m_search->m_jid, m_search->m_node, "", false);
                 m_search_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "search");
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdRegister){
                 if (m_reg)
@@ -484,7 +485,7 @@ void *JabberBrowser::processEvent(Event *e)
                 m_reg = new JabberWizard(this, i18n("%1 Register") .arg(item->text(COL_NAME)), "reg", m_client, item->text(COL_JID), item->text(COL_NODE), "register");
                 connect(m_reg, SIGNAL(destroyed()), this, SLOT(regFinished()));
                 m_reg_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "register");
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdBrowseConfigure){
                 if (m_config)
@@ -492,14 +493,14 @@ void *JabberBrowser::processEvent(Event *e)
                 m_config = new JabberWizard(this, i18n("%1 Configure") .arg(item->text(COL_NAME)), "configure", m_client, item->text(COL_JID), item->text(COL_NODE), "data");
                 connect(m_config, SIGNAL(destroyed()), this, SLOT(configFinished()));
                 m_config_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "data");
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdBrowseInfo){
                 if (m_info == NULL)
                     m_info = new DiscoInfo(this, m_list->currentItem()->text(COL_FEATURES), item->text(COL_NAME), item->text(COL_TYPE), item->text(COL_CATEGORY));
                 m_info->reset();
                 raiseWindow(m_info);
-                return e->param();
+                return (void*)1;
             }
         }
         if (cmd->id == CmdBack){
@@ -520,8 +521,8 @@ void *JabberBrowser::processEvent(Event *e)
         }
         if (cmd->id == CmdUrl){
             if (m_bInProcess){
-                stop("");
-                return e->param();
+                stop(QString::null);
+                return (void*)1;
             }
             QString jid;
             QString node;
@@ -543,7 +544,7 @@ void *JabberBrowser::processEvent(Event *e)
                 addHistory(jid);
                 goUrl(jid, node);
             }
-            return e->param();
+            return (void*)1;
         }
     }
     if (e->type() == EventDiscoItem){

@@ -371,7 +371,7 @@ void *NavigatePlugin::processEvent(Event *e)
                 kapp->invokeMailer(QString(url.mid(proto.length() + 1)), QString::null);
             else
                 kapp->invokeBrowser(url);
-            return e->param();
+            return (void*)1;
         }
 #endif // USE_KDE
         QString param;
@@ -387,15 +387,16 @@ void *NavigatePlugin::processEvent(Event *e)
         EventExec eExec(param, url);
         eExec.process();
 #endif // WIN32
-        return e->param();
-    }
+        return (void*)1;
+    } else
     if (e->type() == eEventAddHyperlinks){
         EventAddHyperlinks *h = static_cast<EventAddHyperlinks*>(e);
         h->setText(parseUrl(h->text()));
-        return e->param();
-    }
-    if (e->type() == EventCheckState){
-        CommandDef *cmd = (CommandDef*)(e->param());
+        return (void*)1;
+    } else
+    if (e->type() == eEventCheckState){
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdMail){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
@@ -438,9 +439,9 @@ void *NavigatePlugin::processEvent(Event *e)
             cmds[n].clear();
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return e->param();
+            return (void*)1;
         }
-    }
+    } else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
@@ -456,7 +457,7 @@ void *NavigatePlugin::processEvent(Event *e)
                 EventGoURL eMail(addr);
                 eMail.process();
             }
-            return e->param();
+            return (void*)1;
         }
         if (cmd->menu_id == MenuMail){
             unsigned n = cmd->id - CmdMailList;
@@ -476,7 +477,7 @@ void *NavigatePlugin::processEvent(Event *e)
                     break;
                 }
             }
-            return e->param();
+            return (void*)1;
         }
     }
     return NULL;

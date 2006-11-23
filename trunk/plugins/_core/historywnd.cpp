@@ -152,18 +152,19 @@ void *HistoryWindow::processEvent(Event *e)
         }
         break;
     }
-    case EventCheckState: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if ((cmd->id == CmdHistoryDirection) && ((unsigned long)(cmd->param) == m_id)){
             cmd->flags &= ~COMMAND_CHECKED;
             if (m_bDirection)
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return (void*)1;
         }
         if (((cmd->id == CmdDeleteMessage) || (cmd->id == CmdCutHistory)) &&
                 (cmd->param == m_view) && m_view->currentMessage()){
             cmd->flags &= ~COMMAND_CHECKED;
-            return e->param();
+            return (void*)1;
         }
         return NULL;
     }

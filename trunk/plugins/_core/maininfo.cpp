@@ -92,8 +92,7 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
     }
     Command cmd;
     cmd->id = CmdPhones;
-    Event eCheck(EventCheckState, cmd);
-    if (!eCheck.process()){
+    if (!EventCheckState(cmd).process()){
         lblCurrent->hide();
         cmbCurrent->hide();
         lblStatus->hide();
@@ -128,8 +127,9 @@ void *MainInfo::processEvent(Event *e)
         }
         break;
     }
-    case EventCheckState: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->menu_id == MenuMailList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
                 return NULL;
@@ -140,7 +140,7 @@ void *MainInfo::processEvent(Event *e)
             bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
             if (!bEnable)
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return (void*)1;
         }
         if (cmd->menu_id == MenuPhoneList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
@@ -152,7 +152,7 @@ void *MainInfo::processEvent(Event *e)
             bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
             if (!bEnable)
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return (void*)1;
         }
         break;
     }

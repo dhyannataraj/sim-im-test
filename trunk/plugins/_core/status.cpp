@@ -314,7 +314,7 @@ void *CommonStatus::processEvent(Event *e)
             const EventError::ClientErrorData &data = ee->data();
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
                 if ((*it).id == data.id)
-                    return e->param();
+                    return (void*)1;
             }
             BalloonItem item;
             item.id     = data.id;
@@ -389,8 +389,9 @@ void *CommonStatus::processEvent(Event *e)
             rebuildStatus();
             break;
         }
-    case EventCheckState:{
-            CommandDef *def = (CommandDef*)(e->param());
+    case eEventCheckState:{
+            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+            CommandDef *def = ecs->cmd();
             if (def->menu_id == MenuStatus){
                 if (def->id == CmdInvisible){
                     if (CorePlugin::m_plugin->getInvisible()){
@@ -398,7 +399,7 @@ void *CommonStatus::processEvent(Event *e)
                     }else{
                         def->flags &= ~COMMAND_CHECKED;
                     }
-                    return e->param();
+                    return (void*)1;
                 }
                 Client *client = getContacts()->getClient(0);
                 if (client == NULL)
@@ -420,7 +421,7 @@ void *CommonStatus::processEvent(Event *e)
                 }else{
                     def->flags &= ~COMMAND_CHECKED;
                 }
-                return e->param();
+                return (void*)1;
             }
             return 0;
         }

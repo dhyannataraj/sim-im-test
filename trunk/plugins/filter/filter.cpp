@@ -187,25 +187,27 @@ void *FilterPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventCheckState: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdIgnore){
             cmd->flags &= ~BTN_HIDE;
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact && contact->getGroup())
                 cmd->flags |= BTN_HIDE;
-            return e->param();
+            return (void*)1;
         }
         if (cmd->id == CmdIgnoreText){
             cmd->flags &= ~COMMAND_CHECKED;
             if (cmd->menu_id == MenuMsgView){
                 MsgViewBase *edit = (MsgViewBase*)(cmd->param);
                 if (edit->hasSelectedText())
-                    return e->param();
-            }else if (cmd->menu_id == MenuTextEdit){
+                    return (void*)1;
+            } else
+            if (cmd->menu_id == MenuTextEdit){
                 TextEdit *edit = ((MsgEdit*)(cmd->param))->m_edit;
                 if (edit->hasSelectedText())
-                    return e->param();
+                    return (void*)1;
             }
             return NULL;
         }
@@ -217,7 +219,7 @@ void *FilterPlugin::processEvent(Event *e)
                 cmd->flags &= COMMAND_CHECKED;
                 if (contact->getIgnore())
                     cmd->flags |= COMMAND_CHECKED;
-                return e->param();
+                return (void*)1;
             }
         }
         break;
@@ -237,7 +239,7 @@ void *FilterPlugin::processEvent(Event *e)
                 QWidget *w = eWidget.widget();
                 BalloonMsg::ask((void*)(contact->id()), text, w, SLOT(addToIgnore(void*)), NULL, NULL, this);
             }
-            return e->param();
+            return (void*)1;
         }
         if (cmd->id == CmdIgnoreText){
             QString text;
@@ -295,7 +297,7 @@ void *FilterPlugin::processEvent(Event *e)
                 contact->setIgnore((cmd->flags & COMMAND_CHECKED) == 0);
                 EventContact eContact(contact, EventContact::eChanged);
                 eContact.process();
-                return e->param();
+                return (void*)1;
             }
         }
         break;

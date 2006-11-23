@@ -171,14 +171,15 @@ void *SoundPlugin::processEvent(Event *e)
         return NULL;
     }
     switch (e->type()) {
-    case EventCheckState: {
-        CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCheckState: {
+        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+        CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdSoundDisable){
             cmd->flags &= ~COMMAND_CHECKED;
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
             if (!data->Disable.toBool())
                 cmd->flags |= COMMAND_CHECKED;
-            return e->param();
+            return (void*)1;
         }
         break;
     }
@@ -190,7 +191,7 @@ void *SoundPlugin::processEvent(Event *e)
             data->Disable.asBool() = !data->Disable.toBool();
             Event eChanged(EventSoundChanged);
             eChanged.process();
-            return e->param();
+            return (void*)1;
         }
         break;
     }
@@ -253,7 +254,7 @@ void *SoundPlugin::processEvent(Event *e)
     case eEventPlaySound: {
         EventPlaySound *s = static_cast<EventPlaySound*>(e);
         playSound(s->sound());
-        return e->param();
+        return (void*)1;
     }
     default:
         break;
