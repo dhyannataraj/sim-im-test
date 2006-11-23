@@ -55,12 +55,6 @@
 
 #include "sim_export.h"
 
-#ifdef Q_OS_WIN
-# ifndef snprintf
-#  define snprintf _snprintf
-# endif
-#endif
-
 #ifndef COPY_RESTRICTED
 # define COPY_RESTRICTED(A) \
     private: \

@@ -21,7 +21,7 @@
 // own header
 #include "event.h"
 // local includes
-#include "simapi.h"
+#include "misc.h"   // sprintf
 
 namespace SIM
 {

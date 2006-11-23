@@ -18,6 +18,10 @@
 #ifndef _MISC_H
 #define _MISC_H
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <qcolor.h>
 #include "contacts.h"
 
@@ -27,6 +31,12 @@ class QIconSet;
 
 //class Data;
 //struct ext_info;
+
+#ifdef Q_OS_WIN
+# ifndef snprintf
+#  define snprintf _snprintf
+# endif
+#endif
 
 #ifndef HAVE_STRCASECMP
 EXPORT int strcasecmp(const char *a, const char *b);

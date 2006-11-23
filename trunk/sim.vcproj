@@ -1517,6 +1517,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\sim\sim_export.h"
+				>
+			</File>
+			<File
 				RelativePath=".\sim\sim_pch.h"
 				>
 				<FileConfiguration
