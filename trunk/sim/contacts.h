@@ -22,6 +22,8 @@
 #include "plugins.h"
 #include "message.h"
 
+#include <qimage.h>
+
 namespace SIM {
 
 class EXPORT UserData
@@ -263,6 +265,7 @@ public:
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;
     virtual void contactInfo(void *clientData, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL) = 0;
+    virtual QImage userPicture(unsigned) {return NULL;};
     virtual QString contactName(void *clientData);
     virtual void setupContact(Contact*, void *data) = 0;
     virtual bool send(Message*, void *data) = 0;

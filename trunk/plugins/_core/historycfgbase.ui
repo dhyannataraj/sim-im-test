@@ -11,7 +11,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>595</width>
+            <width>587</width>
             <height>340</height>
         </rect>
     </property>
@@ -28,18 +28,7 @@
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget row="2"  column="0" >
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkSmile</cstring>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>Use emotional &amp;icons</string>
-            </property>
-        </widget>
-        <widget row="1"  column="1" >
+        <widget row="1"  column="2" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -50,7 +39,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget row="1"  column="3" >
+        <widget row="1"  column="4" >
             <class>QSpinBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -61,7 +50,7 @@
                 <number>1000</number>
             </property>
         </widget>
-        <widget row="1"  column="4" >
+        <widget row="1"  column="5" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -72,7 +61,7 @@
                 <string>Mb</string>
             </property>
         </widget>
-        <widget row="2"  column="1" >
+        <widget row="2"  column="2" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -83,7 +72,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget row="2"  column="3" >
+        <widget row="2"  column="4" >
             <class>QSpinBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -94,7 +83,7 @@
                 <number>1000</number>
             </property>
         </widget>
-        <widget row="2"  column="4" >
+        <widget row="2"  column="5" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -105,7 +94,7 @@
                 <string>days</string>
             </property>
         </widget>
-        <widget row="4"  column="0"  rowspan="1"  colspan="6" >
+        <widget row="5"  column="0"  rowspan="1"  colspan="7" >
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -173,7 +162,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget row="5"  column="0"  rowspan="1"  colspan="6" >
+        <widget row="6"  column="0"  rowspan="1"  colspan="7" >
             <class>QTabWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -246,7 +235,7 @@
                 </vbox>
             </widget>
         </widget>
-        <widget row="2"  column="2" >
+        <widget row="2"  column="3" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -264,7 +253,7 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="1"  column="0" >
+        <widget row="1"  column="0"  rowspan="1"  colspan="2" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -275,7 +264,7 @@
                 <string>Use &amp;own colors and fonts settings</string>
             </property>
         </widget>
-        <widget row="1"  column="2" >
+        <widget row="1"  column="3" >
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
@@ -293,7 +282,7 @@
                 <name>hAlign</name>
             </property>
         </widget>
-        <widget row="0"  column="0"  rowspan="1"  colspan="6" >
+        <widget row="0"  column="0"  rowspan="1"  colspan="7" >
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -335,7 +324,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget row="3"  column="0"  rowspan="1"  colspan="6" >
+        <widget row="4"  column="0"  rowspan="1"  colspan="7" >
             <class>QLayoutWidget</class>
             <property stdset="1">
                 <name>name</name>
@@ -406,7 +395,7 @@
                 </widget>
             </hbox>
         </widget>
-        <spacer row="1"  column="5" >
+        <spacer row="1"  column="6" >
             <property>
                 <name>name</name>
                 <cstring>Spacer2</cstring>
@@ -427,6 +416,28 @@
                 </size>
             </property>
         </spacer>
+        <widget row="2"  column="0"  rowspan="1"  colspan="2" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkSmile</cstring>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Use emotional &amp;icons</string>
+            </property>
+        </widget>
+        <widget row="3"  column="0" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkAvatar</cstring>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Show user avatar</string>
+            </property>
+        </widget>
     </grid>
 </widget>
 <customwidgets>

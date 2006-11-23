@@ -3111,6 +3111,48 @@ void JabberClient::setupContact(Contact *contact, void *_data)
         contact->setName(data->ID.str());
 }
 
+QImage JabberClient::userPicture(JabberUserData *d)
+{
+    QImage img = QImage(d ? photoFile(d) : photoFile(&data.owner));
+    if (img.isNull()) {
+        img=QImage(d ? logoFile(d) : logoFile(&data.owner));
+    }
+
+    int w = img.width();
+    int h = img.height();
+    if (h > w){
+        if (h > 60){
+            w = w * 60 / h;
+            h = 60;
+        }
+    }else{
+        if (w > 60){
+            h = h * 60 / w;
+            w = 60;
+        }
+   }
+
+    return img.scale(w, h);
+}
+
+QImage JabberClient::userPicture(unsigned id)
+{
+    if (id==0)
+        return NULL;
+
+    Contact *contact = getContacts()->contact(id);
+    ClientDataIterator it(contact->clientData, this);
+
+    void *d;
+    QImage img;
+    while ((d = ++it) != NULL){
+        if((img=userPicture(static_cast<JabberUserData*>(d)))!=NULL)
+            return img;
+    }
+
+    return NULL;
+}
+
 #ifndef NO_MOC_INCLUDES
 #include "jabberclient.moc"
 #endif

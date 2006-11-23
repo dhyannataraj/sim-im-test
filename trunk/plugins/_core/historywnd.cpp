@@ -30,6 +30,9 @@
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <qmessagebox.h>
+#include <qpixmap.h>
+#include <qlabel.h>
+#include <qdockarea.h>
 
 #ifdef USE_KDE
 #include <kfiledialog.h>
@@ -74,9 +77,28 @@ void HistoryProgressBar::setProgress(unsigned n)
     m_bar->setProgress(n);
 }
 
-HistoryWindow::HistoryWindow(unsigned long id)
+HistoryWindow::HistoryWindow(unsigned long id) :m_avatar_window(this), m_avatar_label(&m_avatar_window)
 {
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
+
+    if (CorePlugin::m_plugin->getShowAvatarInHistory()) {
+        Client *client;
+        unsigned j=0;
+        while (j < getContacts()->nClients()){
+           client = getContacts()->getClient(j++);
+           if (client->userPicture(id)!=NULL)
+               break;
+           client = NULL;
+        }
+
+        if (client) {
+            m_avatar_pixmap=client->userPicture(id);
+            m_avatar_label.setPixmap(m_avatar_pixmap);
+        }
+
+        m_avatar_window.setWidget(&m_avatar_label);
+        m_avatar_window.setOrientation(Qt::Vertical);
+    }
 
     setWFlags(WDestructiveClose);
     m_id = id;
@@ -95,6 +117,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
     m_status = statusBar();
     m_progress = NULL;
     m_page = 0;
+    m_avatar_window.area()->moveDockWindow(&m_avatar_window, 0);
 
     Command cmd;
     cmd->id		= CmdHistoryFind;

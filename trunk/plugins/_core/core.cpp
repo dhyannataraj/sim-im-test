@@ -283,6 +283,8 @@ static DataDef coreData[] =
         { "SearchClient", DATA_STRING, 1, DATA(0) },
         { "NoScroller", DATA_BOOL, 1, DATA(0) },
         { "CfgGeometry", DATA_LONG, 5, DATA(0) },
+        { "ShowAvatarInHistory", DATA_BOOL, 1, DATA(1) },
+        { "ShowAvatarInContainer", DATA_BOOL, 1, DATA(1) },
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 

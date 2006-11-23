@@ -284,6 +284,8 @@ class MessageRequest : public ServerRequest
     virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
     virtual std::string getConfig();
+    virtual QImage userPicture(unsigned id);
+    QImage userPicture(JabberUserData *d);
 
     void setID(const QString &id);
     QString getID()

@@ -24,6 +24,8 @@
 #include <qmainwindow.h>
 #include <qstatusbar.h>
 #include <qtabbar.h>
+#include <qpixmap.h>
+#include <qlabel.h>
 
 const unsigned NEW_CONTAINER	= (unsigned)(-1);
 const unsigned GRP_CONTAINER	= 0x80000000;
@@ -134,6 +136,9 @@ protected:
     bool			m_bReceived;
     bool			m_bNoSwitch;
     CToolBar		*m_bar;
+    QDockWindow		m_avatar_window;
+    QLabel		m_avatar_label;
+    QPixmap		m_avatar_pixmap;
     QSplitter		*m_tabSplitter;
     UserTabBar		*m_tabBar;
     ContainerStatus	*m_status;

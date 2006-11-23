@@ -590,7 +590,8 @@ public:
     bool messageReceived(SIM::Message*, const QString &screen);
     static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(const ICQUserData *data);
-    QImage userPicture(const ICQUserData *data);    // add this to class Client + virtual
+    virtual QImage userPicture(unsigned id);
+    QImage userPicture(ICQUserData *d);
     static const capability *capabilities;
     static const plugin *plugins;
     static QString convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n);

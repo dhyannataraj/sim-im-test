@@ -22,6 +22,8 @@
 #include "stl.h"
 
 #include <qmainwindow.h>
+#include <qpixmap.h>
+#include <qlabel.h>
 
 class MsgViewBase;
 class CToolBar;
@@ -58,6 +60,9 @@ protected:
     unsigned m_page;
     std::vector<QString> m_states;
     unsigned m_history_page_count;
+    QDockWindow		m_avatar_window;
+    QLabel		m_avatar_label;
+    QPixmap		m_avatar_pixmap;
 };
 
 #endif

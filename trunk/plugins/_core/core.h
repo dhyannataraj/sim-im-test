@@ -113,6 +113,8 @@ struct CoreData
     SIM::Data	SearchClient;
     SIM::Data	NoScroller;
     SIM::Data	CfgGeometry[5];
+    SIM::Data	ShowAvatarInHistory;
+    SIM::Data	ShowAvatarInContainer;
 };
 
 const unsigned CONTAINER_SIMPLE	= 0;
@@ -487,6 +489,8 @@ public:
     PROP_BOOL(RemoveHistory);
     PROP_STR(SearchClient);
     PROP_BOOL(NoScroller);
+    PROP_BOOL(ShowAvatarInHistory);
+    PROP_BOOL(ShowAvatarInContainer);
     void setRegNew(bool p_new) {m_RegNew=p_new;}
     bool getRegNew() const {return m_RegNew;}
     void setICQUIN(QString p_uin) {m_ICQUIN=p_uin;}

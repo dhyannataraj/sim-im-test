@@ -35,6 +35,9 @@
 #include <qpainter.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
+#include <qpixmap.h>
+#include <qlabel.h>
+#include <qdockarea.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -112,7 +115,7 @@ static DataDef containerData[] =
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
-Container::Container(unsigned id, const char *cfg)
+Container::Container(unsigned id, const char *cfg) :m_avatar_window(this), m_avatar_label(&m_avatar_window)
 {
     m_bInit   = false;
     m_bInSize = false;
@@ -123,6 +126,9 @@ Container::Container(unsigned id, const char *cfg)
     m_bNoRead   = false;
     m_wnds		= NULL;
     m_tabBar	= NULL;
+
+    m_avatar_window.setWidget(&m_avatar_label);
+    m_avatar_window.setOrientation(Qt::Vertical);
 
     SET_WNDPROC("container")
     setWFlags(WDestructiveClose);
@@ -438,6 +444,8 @@ void Container::showBar()
     m_bar->show();
     m_bBarChanged = false;
     contactSelected(0);
+
+    m_avatar_window.area()->moveDockWindow(&m_avatar_window, 0);
 }
 
 void Container::contactSelected(int)
@@ -464,6 +472,24 @@ void Container::contactSelected(int)
     m_status->message(userWnd->status());
     if (isActiveWindow())
         userWnd->markAsRead();
+
+    if (CorePlugin::m_plugin->getShowAvatarInContainer()) {
+        Client *client;
+        unsigned j=0;
+        while (j < getContacts()->nClients()){
+               client = getContacts()->getClient(j++);
+               if (client->userPicture(userWnd->id())!=NULL)
+                   break;
+               client = NULL;
+        }
+
+        if (client) {
+            m_avatar_pixmap=client->userPicture(userWnd->id());
+            m_avatar_label.setPixmap(m_avatar_pixmap);
+        } else {
+            m_avatar_label.clear();
+        }
+    }
 }
 
 void Container::setMessageType(unsigned type)

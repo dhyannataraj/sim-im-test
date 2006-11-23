@@ -182,6 +182,7 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     chkSmile->setChecked(CorePlugin::m_plugin->getUseSmiles());
     chkExtViewer->setChecked(CorePlugin::m_plugin->getUseExtViewer());
     edtExtViewer->setText(CorePlugin::m_plugin->getExtViewer());
+    chkAvatar->setChecked(CorePlugin::m_plugin->getShowAvatarInHistory());
     m_cur = -1;
     cmbPage->setEditable(true);
     m_bDirty = false;
@@ -204,6 +205,8 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     addStyles(user_file(STYLES), true);
     str1 = i18n("Use external viewer");
     chkExtViewer->setText(str1);
+    str1 = i18n("Show user avatar");
+    chkAvatar->setText(str1);
 #ifdef USE_KDE
     QStringList lst = KGlobal::dirs()->findDirs("data", "sim");
     for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
@@ -309,6 +312,10 @@ void HistoryConfig::apply()
     if (chkExtViewer->isChecked() != CorePlugin::m_plugin->getUseExtViewer()){
         bChanged = true;
         CorePlugin::m_plugin->setUseExtViewer(chkExtViewer->isChecked());
+    }
+    if (chkAvatar->isChecked() != CorePlugin::m_plugin->getShowAvatarInHistory()){
+        bChanged = true;
+        CorePlugin::m_plugin->setShowAvatarInHistory(chkAvatar->isChecked());
     }
     CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().local8Bit());
     CorePlugin::m_plugin->setHistoryPage(cmbPage->lineEdit()->text().toULong());

@@ -3180,10 +3180,45 @@ QString ICQClient::pictureFile(const ICQUserData *data)
     return f;
 }
 
-QImage ICQClient::userPicture(const ICQUserData *d)
+QImage ICQClient::userPicture(unsigned id)
 {
-    return QImage(d ? pictureFile(d) : data.owner.Picture.str());
+    if (id==0)
+        return NULL;
+
+    Contact *contact = getContacts()->contact(id);
+    ClientDataIterator it(contact->clientData, this);
+
+    void *d;
+    QImage img;
+    while ((d = ++it) != NULL){
+            if ((img=userPicture(static_cast<ICQUserData*>(d)))!=NULL)
+            return img;
+    }
+
+    return NULL;
 }
+
+QImage ICQClient::userPicture(ICQUserData *d)
+{
+    QImage img=QImage(d ? pictureFile(d) : data.owner.Picture.str());
+
+    int w = img.width();
+    int h = img.height();
+    if (h > w){
+        if (h > 60){
+            w = w * 60 / h;
+            h = 60;
+        }
+    }else{
+        if (w > 60){
+            h = h * 60 / w;
+            w = 60;
+        }
+   }
+
+   return img.scale(w, h);
+}
+
 
 void ICQClient::retry(int n, void *p)
 {
