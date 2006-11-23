@@ -1,0 +1,61 @@
+<ui version="4.0" >
+ <class>PrefConfigBase</class>
+ <widget class="QWidget" name="PrefConfigBase" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>354</width>
+    <height>266</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form1</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>11</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWnd" >
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string/>
+      </attribute>
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>11</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QCheckBox" name="chkOverride" >
+         <property name="text" >
+          <string>&amp;Override global settings</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QChildWidget" native="1" name="addWnd" />
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChildWidget</class>
+   <extends>QWidget</extends>
+   <header>qchildwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
