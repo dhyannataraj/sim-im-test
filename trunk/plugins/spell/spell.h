@@ -18,11 +18,13 @@
 #ifndef _SPELL_H
 #define _SPELL_H
 
-#include "simapi.h"
-#include "stl.h"
-
+#include <qobject.h>
 #include <qdict.h>
 #include <qstringlist.h>
+
+#include "event.h"
+#include "plugins.h"
+
 
 using std::list;
 

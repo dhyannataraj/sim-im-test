@@ -18,7 +18,13 @@
 #ifndef _WINDOCK_H
 #define _WINDOCK_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "event.h"
+#include "plugins.h"
+
+class QWidget;
+class QTimer;
 
 struct WinDockData
 {

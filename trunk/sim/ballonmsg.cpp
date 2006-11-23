@@ -48,7 +48,7 @@
 
 using namespace SIM;
 
-QPixmap& intensity(QPixmap &pict, float percent)
+SIM_EXPORT QPixmap& intensity(QPixmap &pict, float percent)
 {
     QImage image = pict.convertToImage();
     int i, tmp, r, g, b;
