@@ -294,7 +294,7 @@ static QImage makeInactive(const QImage &p)
 
 static QImage makeInvisible(unsigned flags, const QImage &p)
 {
-    QImage image = (image.depth() != 32) ? p.convertDepth(32) : p.copy();
+    QImage image = (p.depth() != 32) ? p.convertDepth(32) : p.copy();
     unsigned swapColor = flags & ICON_COLOR_MASK;
     char shift = (flags >> 8) & 0xFF;
     unsigned int *data = (unsigned int*)image.bits();
