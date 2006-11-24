@@ -18,20 +18,15 @@
 
 #include <stdio.h>
 
-#ifdef WIN32
-#define vsnprintf _vsnprintf
-#pragma warning(disable:4355)
-#endif
-
-#include "icqclient.h"
-#include "core.h"
-
-#include <qtextcodec.h>
-
 #include <vector>
 #include <stack>
 #include <stdarg.h>
 
+#include <qtextcodec.h>
+
+#include "icqclient.h"
+#include "core.h"
+#include "unquot.h"
 
 #define UP				1	
 #define DOWN			2

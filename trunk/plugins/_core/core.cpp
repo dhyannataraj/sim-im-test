@@ -15,9 +15,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "core.h"
+#include <time.h>
+
+#ifdef WIN32
+#include <windows.h>
+#include <io.h>
+#else
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#endif
+
+#include <qtimer.h>
+#include <qapplication.h>
+#include <qwidgetlist.h>
+#include <qfile.h>
+#include <qdir.h>
+#include <qpopupmenu.h>
+#include <qthread.h>
+#include <qtextcodec.h>
+#include <qprocess.h>
+#include <qinputdialog.h>
+#include <qmessagebox.h>
+
+// simlib
 #include "simapi.h"
+#include "ballonmsg.h"
 #include "buffer.h"
+#include "icons.h"
+#include "kdeisversion.h"
+#include "toolbtn.h"
+#include "unquot.h"
+#include "xsl.h"
+// _core
+#include "core.h"
 #include "cfgdlg.h"
 #include "mainwin.h"
 #include "userview.h"
@@ -44,35 +75,7 @@
 #include "textshow.h"
 #include "filetransfer.h"
 #include "declinedlg.h"
-#include "xsl.h"
 #include "userhistorycfg.h"
-#include "ballonmsg.h"
-#include "icons.h"
-#include "kdeisversion.h"
-#include "toolbtn.h"
-
-#include <qtimer.h>
-#include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qpopupmenu.h>
-#include <qthread.h>
-#include <qtextcodec.h>
-#include <qprocess.h>
-#include <qinputdialog.h>
-#include <qmessagebox.h>
-
-#include <time.h>
-
-#ifdef WIN32
-#include <windows.h>
-#include <io.h>
-#else
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#endif
 
 using namespace std;
 using namespace SIM;

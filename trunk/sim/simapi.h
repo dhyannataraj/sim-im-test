@@ -71,7 +71,5 @@
 #include "message.h"
 #include "misc.h"
 #include "plugins.h"
-#include "unquot.h"
-
 
 #endif

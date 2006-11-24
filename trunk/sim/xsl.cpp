@@ -21,10 +21,11 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 
-#include "xsl.h"
-
 #include <qfile.h>
 #include <qregexp.h>
+
+#include "unquot.h"
+#include "xsl.h"
 
 using namespace SIM;
 

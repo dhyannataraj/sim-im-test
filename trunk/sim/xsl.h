@@ -18,7 +18,9 @@
 #ifndef _XSL_H
 #define _XSL_H
 
-#include "simapi.h"
+#include <qstring.h>
+
+#include "sim_export.h"
 
 class EXPORT XSL
 {

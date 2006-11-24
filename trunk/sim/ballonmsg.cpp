@@ -32,6 +32,7 @@
 #include <qtooltip.h>
 
 #include "misc.h"
+#include "unquot.h"
 
 #ifdef WIN32
 # include <windows.h>

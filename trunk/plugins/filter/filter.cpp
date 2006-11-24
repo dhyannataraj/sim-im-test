@@ -15,16 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filter.h"
-#include "filtercfg.h"
-#include "simapi.h"
+#include <qregexp.h>
+
 #include "ballonmsg.h"
+#include "unquot.h"
 #include "core.h"
 #include "msgedit.h"
 #include "msgview.h"
 #include "userwnd.h"
 
-#include <qregexp.h>
+#include "filter.h"
+#include "filtercfg.h"
 
 using namespace SIM;
 

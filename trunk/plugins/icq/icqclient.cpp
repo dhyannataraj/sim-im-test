@@ -15,6 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef TM_IN_SYS_TIME
+#include <sys/time.h>
+#else
+#include <time.h>
+#endif
+
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <netinet/in.h>
+#include <ctype.h>
+#endif
+
+#include <qtimer.h>
+#include <qtextcodec.h>
+#include <qregexp.h>
+#include <qimage.h>
+#include <qpixmap.h>
+#include <qapplication.h>
+#include <qwidgetlist.h>
+#include <qfile.h>
+#include <qfileinfo.h>
+
+#include "buffer.h"
+#include "socket.h"
+#include "unquot.h"
+#include "core.h"
+
 #include "icq.h"
 #include "icqconfig.h"
 #include "aimconfig.h"
@@ -31,38 +59,10 @@
 #include "icqsecure.h"
 #include "icqmessage.h"
 #include "securedlg.h"
-#include "core.h"
 #include "msgedit.h"
 #include "ballonmsg.h"
 #include "encodingdlg.h"
 #include "warndlg.h"
-
-#include "simapi.h"
-#include "buffer.h"
-#include "socket.h"
-
-#include <qtimer.h>
-#include <qtextcodec.h>
-#include <qregexp.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qapplication.h>
-#include <qwidgetlist.h>
-#include <qfile.h>
-#include <qfileinfo.h>
-
-#ifdef TM_IN_SYS_TIME
-#include <sys/time.h>
-#else
-#include <time.h>
-#endif
-
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <netinet/in.h>
-#include <ctype.h>
-#endif
 
 using namespace std;
 using namespace SIM;

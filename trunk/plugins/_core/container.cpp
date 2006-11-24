@@ -474,7 +474,7 @@ void Container::contactSelected(int)
         userWnd->markAsRead();
 
     if (CorePlugin::m_plugin->getShowAvatarInContainer()) {
-        Client *client;
+        Client *client = NULL;
         unsigned j=0;
         while (j < getContacts()->nClients()){
                client = getContacts()->getClient(j++);

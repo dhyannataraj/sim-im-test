@@ -15,11 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "textshow.h"
-#include "toolbtn.h"
-#include "html.h"
-#include "simapi.h"
-
 #ifdef USE_KDE
 #include <keditcl.h>
 #include <kstdaccel.h>
@@ -57,6 +52,12 @@
 #include <qstatusbar.h>
 #include <qtooltip.h>
 #include <qlayout.h>
+
+#include "textshow.h"
+#include "toolbtn.h"
+#include "html.h"
+#include "simapi.h"
+#include "unquot.h"
 
 #define MAX_HISTORY	100
 

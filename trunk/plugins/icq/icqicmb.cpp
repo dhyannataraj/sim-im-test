@@ -15,12 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icqclient.h"
-#include "icqmessage.h"
-#include "icq.h"
-#include "core.h"
-#include "html.h"
-
 #include <stdio.h>
 #ifdef WIN32
 #include <winsock.h>
@@ -38,6 +32,14 @@
 #include <qtimer.h>
 #include <qimage.h>
 #include <qregexp.h>
+
+#include "html.h"
+#include "unquot.h"
+#include "core.h"
+
+#include "icqclient.h"
+#include "icqmessage.h"
+#include "icq.h"
 
 using namespace std;
 using namespace SIM;

@@ -1409,15 +1409,7 @@
 				>
 			</File>
 			<File
-				RelativePath="sim\md32_common.h"
-				>
-			</File>
-			<File
 				RelativePath="sim\md5.h"
-				>
-			</File>
-			<File
-				RelativePath="sim\md5_locl.h"
 				>
 			</File>
 			<File

@@ -15,13 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "weather.h"
-#include "weathercfg.h"
-#include "buffer.h"
-#include "socket.h"
-#include "toolbtn.h"
-#include "icons.h"
-
 #include <time.h>
 
 #include <qapplication.h>
@@ -32,6 +25,15 @@
 #include <qfile.h>
 #include <qregexp.h>
 #include <qtooltip.h>
+
+#include "buffer.h"
+#include "socket.h"
+#include "toolbtn.h"
+#include "icons.h"
+#include "unquot.h"
+
+#include "weather.h"
+#include "weathercfg.h"
 
 using namespace SIM;
 

@@ -15,20 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "status.h"
-#include "simapi.h"
-#include "core.h"
-#include "socket.h"
-#include "ballonmsg.h"
-#include "statuswnd.h"
-#include "logindlg.h"
-#include "autoreply.h"
+#include <map>
 
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qwidgetlist.h>
 
-#include <map>
+#include "ballonmsg.h"
+#include "simapi.h"
+#include "unquot.h"
+
+#include "status.h"
+#include "core.h"
+#include "socket.h"
+#include "statuswnd.h"
+#include "logindlg.h"
+#include "autoreply.h"
 
 using namespace std;
 using namespace SIM;

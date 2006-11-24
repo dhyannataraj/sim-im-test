@@ -15,9 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filetransfer.h"
-#include "core.h"
-#include "ballonmsg.h"
+#include <time.h>
 
 #include <qpixmap.h>
 #include <qlineedit.h>
@@ -31,7 +29,11 @@
 #include <qdir.h>
 #include <qregexp.h>
 
-#include <time.h>
+#include "ballonmsg.h"
+#include "unquot.h"
+
+#include "filetransfer.h"
+#include "core.h"
 
 using namespace SIM;
 

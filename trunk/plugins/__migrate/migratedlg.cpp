@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "migratedlg.h"
-#include "ballonmsg.h"
-#include "buffer.h"
-
 #include <qlayout.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
@@ -29,6 +25,12 @@
 #include <qlabel.h>
 #include <qapplication.h>
 #include <qtextcodec.h>
+
+#include "ballonmsg.h"
+#include "buffer.h"
+#include "unquot.h"
+
+#include "migratedlg.h"
 
 using namespace std;
 using namespace SIM;

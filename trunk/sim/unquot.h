@@ -18,6 +18,10 @@
 #ifndef _UNQUOT_H
 #define _UNQUOT_H
 
+#include <qstring.h>
+
+#include "sim_export.h"
+
 namespace SIM {
 
 enum quoteMode

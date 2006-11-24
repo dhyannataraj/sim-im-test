@@ -15,17 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msgview.h"
-#include "core.h"
-#include "icons.h"
-#include "history.h"
-#include "html.h"
-#include "xsl.h"
-
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qdatetime.h>
+
+#include "icons.h"
+#include "html.h"
+#include "unquot.h"
+#include "xsl.h"
+
+#include "msgview.h"
+#include "core.h"
+#include "history.h"
 
 using namespace std;
 using namespace SIM;

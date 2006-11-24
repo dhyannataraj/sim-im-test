@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "stl.h"
-
 #include <time.h>
 
 #include <qfile.h>
@@ -25,6 +22,8 @@
 #include <qdir.h>
 #include <qstringlist.h>
 #include <qregexp.h>
+
+#include "unquot.h"
 
 namespace SIM
 {

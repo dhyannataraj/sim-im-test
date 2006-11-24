@@ -15,14 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "livejournal.h"
-#include "livejournalcfg.h"
-#include "msgjournal.h"
-#include "journalsearch.h"
-#include "fetch.h"
-#include "html.h"
-#include "core.h"
-
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
 #else
@@ -32,6 +24,16 @@
 #include <qtimer.h>
 #include <qregexp.h>
 #include <stdio.h>
+
+#include "fetch.h"
+#include "html.h"
+#include "unquot.h"
+#include "core.h"
+
+#include "livejournal.h"
+#include "livejournalcfg.h"
+#include "msgjournal.h"
+#include "journalsearch.h"
 
 using namespace std;
 using namespace SIM;

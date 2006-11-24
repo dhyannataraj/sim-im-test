@@ -15,15 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "icqclient.h"
-#include "html.h"
-#include "core.h"
-#include "icons.h"
-
-#include <qtextcodec.h>
-#include <qregexp.h>
-
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -32,6 +23,16 @@
 #include <stdio.h>
 #include <stack>
 #include <cctype>
+
+#include <qtextcodec.h>
+#include <qregexp.h>
+
+#include "html.h"
+#include "icons.h"
+#include "unquot.h"
+#include "core.h"
+
+#include "icqclient.h"
 
 using namespace std;
 using namespace SIM;

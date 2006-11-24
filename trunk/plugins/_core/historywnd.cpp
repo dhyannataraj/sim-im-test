@@ -82,7 +82,7 @@ HistoryWindow::HistoryWindow(unsigned long id) :m_avatar_window(this), m_avatar_
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
 
     if (CorePlugin::m_plugin->getShowAvatarInHistory()) {
-        Client *client;
+        Client *client = NULL;
         unsigned j=0;
         while (j < getContacts()->nClients()){
            client = getContacts()->getClient(j++);

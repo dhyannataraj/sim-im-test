@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "sax.h"
-#include "icons.h"
-#include "qzip/qzip.h"
-
 #include <qiconset.h>
 #include <qmime.h>
 #include <qimage.h>
@@ -37,6 +33,11 @@
 #include <kipc.h>
 #include <kiconloader.h>
 #endif
+
+#include "sax.h"
+#include "icons.h"
+#include "qzip/qzip.h"
+#include "unquot.h"
 
 const unsigned ICON_COLOR_MASK  = 0x000000FF;
 

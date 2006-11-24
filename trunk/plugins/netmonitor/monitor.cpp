@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "monitor.h"
-#include "netmonitor.h"
-#include "textshow.h"
-
 #include <qmenubar.h>
 #include <qpopupmenu.h>
 #include <qfile.h>
@@ -31,6 +27,12 @@
 #else
 #include <qfiledialog.h>
 #endif
+
+#include "textshow.h"
+#include "unquot.h"
+
+#include "monitor.h"
+#include "netmonitor.h"
 
 using std::string;
 using namespace SIM;

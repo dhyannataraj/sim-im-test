@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qregexp.h>
+
 #include "html.h"
 #include "icons.h"
-
-#include <qregexp.h>
+#include "unquot.h"
 
 using namespace std;
 using namespace SIM;

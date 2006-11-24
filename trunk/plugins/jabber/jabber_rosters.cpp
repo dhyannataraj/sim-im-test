@@ -15,12 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "jabber.h"
-#include "jabbermessage.h"
-#include "html.h"
-#include "core.h"
-
 #include <time.h>
 
 #ifdef WIN32
@@ -35,6 +29,14 @@
 
 #include <qimage.h>
 #include <qfile.h>
+
+#include "html.h"
+#include "unquot.h"
+#include "core.h"
+
+#include "jabberclient.h"
+#include "jabber.h"
+#include "jabbermessage.h"
 
 using namespace std;
 using namespace SIM;

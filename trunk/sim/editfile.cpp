@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "editfile.h"
-#include "preview.h"
-#include "event.h"
-
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qiconset.h>
@@ -35,6 +31,11 @@
 #else
 #include <qfiledialog.h>
 #endif
+
+#include "editfile.h"
+#include "event.h"
+#include "preview.h"
+#include "unquot.h"
 
 using namespace SIM;
 

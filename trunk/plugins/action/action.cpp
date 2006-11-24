@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qtimer.h>
+
 #include "action.h"
 #include "actioncfg.h"
 #include "core.h"
 #include "exec.h"
-
-#include <qtimer.h>
+#include "unquot.h"
 
 using namespace std;
 using namespace SIM;

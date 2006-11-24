@@ -15,17 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-
-#include <qsyntaxhighlighter.h>
-
-#include "historycfg.h"
-#include "core.h"
-#include "textshow.h"
-#include "msgview.h"
-#include "xsl.h"
-#include "ballonmsg.h"
-
 #include <time.h>
 
 #include <qcheckbox.h>
@@ -40,12 +29,23 @@
 #include <qtimer.h>
 #include <qtabwidget.h>
 #include <qspinbox.h>
+#include <qsyntaxhighlighter.h>
 
 #ifdef USE_KDE
 #include <qapplication.h>
 #include <kglobal.h>
 #include <kstddirs.h>
 #endif
+
+#include "ballonmsg.h"
+#include "simapi.h"
+#include "unquot.h"
+#include "xsl.h"
+
+#include "historycfg.h"
+#include "core.h"
+#include "textshow.h"
+#include "msgview.h"
 
 static char STYLES[] = "styles/";
 static char EXT[]    = ".xsl";

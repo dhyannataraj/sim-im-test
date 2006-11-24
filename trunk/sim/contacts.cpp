@@ -15,15 +15,14 @@ email                : vovan@shutoff.ru
 *                                                                         *
 ***************************************************************************/
 
-#include "simapi.h"
-#include "stl.h"
-#include "buffer.h"
-#include "event.h"
-
 #include <qfile.h>
 #include <qdir.h>
 #include <qtextcodec.h>
 #include <qregexp.h>
+
+#include "buffer.h"
+#include "event.h"
+#include "unquot.h"
 
 namespace SIM
 {

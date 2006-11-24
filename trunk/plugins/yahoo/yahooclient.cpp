@@ -36,16 +36,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "yahoo.h"
-#include "yahooclient.h"
-#include "yahoocfg.h"
-#include "yahooinfo.h"
-#include "yahoosearch.h"
-
-#include "html.h"
-#include "core.h"
-#include "icons.h"
-
 #ifdef WIN32
 #include <winsock.h>
 #else
@@ -62,6 +52,17 @@
 #include <qtextcodec.h>
 #include <qregexp.h>
 #include <qfile.h>
+
+#include "html.h"
+#include "icons.h"
+#include "unquot.h"
+#include "core.h"
+
+#include "yahoo.h"
+#include "yahooclient.h"
+#include "yahoocfg.h"
+#include "yahooinfo.h"
+#include "yahoosearch.h"
 
 using namespace std;
 using namespace SIM;
