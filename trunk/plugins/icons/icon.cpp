@@ -66,21 +66,14 @@ void IconsPlugin::setIcons(bool bForce)
 {
     if (!bForce && getDefault())
         return;
-    QValueList<IconSet*> &sets = getIcons()->m_customSets;
-    for (QValueListIterator<IconSet*> it = sets.begin(); it != sets.end(); ){
-        IconSet *set = *it;
-        it++;
-        delete set;
-    }
-    sets.clear();
+    getIcons()->removeIconSet(NULL);
     if (getDefault()){
         getIcons()->addIconSet("icons/smile.jisp", false);
     }else{
         for (unsigned i = 1; i <= getNIcons(); i++)
             getIcons()->addIconSet(getIcon(i), false);
     }
-    EventIconChanged e;
-    e.process();
+    EventIconChanged().process();
 }
 
 string IconsPlugin::getConfig()

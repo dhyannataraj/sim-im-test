@@ -828,20 +828,17 @@ unsigned long PluginManagerPrivate::execute(const QString &prg, const QStringLis
 }
 #endif
 
-void createIcons();
-void deleteIcons();
-
 PluginManager::PluginManager(int argc, char **argv)
 {
     EventReceiver::initList();
     factory = new SIMSockets;
     contacts = new ContactList;
     FetchManager::manager = new FetchManager;
-    createIcons();
     p = new PluginManagerPrivate(argc, argv);
 }
 
 void deleteResolver();
+void deleteIcons();
 
 PluginManager::~PluginManager()
 {

@@ -32,6 +32,8 @@
 namespace SIM
 {
 
+class IconSet;
+
 struct PictDef
 {
     QImage      image;
@@ -40,30 +42,6 @@ struct PictDef
     QString     system;
 #endif
     unsigned    flags;
-};
-
-typedef QMap<QString, PictDef> PIXMAP_MAP;
-
-struct smileDef
-{
-    QString smile;
-    QString name;
-};
-
-class IconSet
-{
-public:
-    IconSet();
-    virtual ~IconSet();
-    virtual PictDef *getPict(const QString &name) = 0;
-    virtual void clear() = 0;
-    void parseSmiles(const QString&, unsigned &start, unsigned &size, QString &name);
-    QStringList getSmile(const QString &name);
-    QString getSmileName(const QString &name);
-    void getSmiles(QStringList &smiles, QStringList &used);
-protected:
-    PIXMAP_MAP      m_icons;
-    QValueList<smileDef>    m_smiles;
 };
 
 class EXPORT Icons : public QObject, public EventReceiver
@@ -80,12 +58,12 @@ public:
     static unsigned nSmile;
     IconSet *addIconSet(const QString &name, bool bDefault);
     void removeIconSet(IconSet*);
-    QValueList<IconSet*> m_customSets;
 protected slots:
     void iconChanged(int);
 protected:
     void *processEvent(Event*);
-    QValueList<IconSet*>    m_defSets;
+    class IconsPrivate *d;
+    COPY_RESTRICTED(Icons);
 };
 
 EXPORT Icons *getIcons();

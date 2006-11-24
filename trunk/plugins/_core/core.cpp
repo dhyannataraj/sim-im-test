@@ -3585,7 +3585,7 @@ bool CorePlugin::init(bool bInit)
 
         QString name;
         setProfile(QString::null);
-        QDir d(user_file(""));
+        QDir d(user_file(QString::null));
         while(1) {
           if (!bCmdLineProfile){
               bool ok = false;
