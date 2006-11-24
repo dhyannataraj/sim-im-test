@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #ifdef USE_KDE
 #include <keditcl.h>
 #include <kstdaccel.h>

@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include <qlineedit.h>
 #include <qpushbutton.h>
 #include <qiconset.h>

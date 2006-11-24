@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include <qiconset.h>
 #include <qmime.h>
 #include <qimage.h>
