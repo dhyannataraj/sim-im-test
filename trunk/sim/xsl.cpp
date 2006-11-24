@@ -24,6 +24,7 @@
 #include <qfile.h>
 #include <qregexp.h>
 
+#include "simapi.h"
 #include "unquot.h"
 #include "xsl.h"
 

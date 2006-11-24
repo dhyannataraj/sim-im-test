@@ -17,6 +17,8 @@
 
 #include <time.h>
 
+#include <vector>
+
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qdir.h>
@@ -24,6 +26,8 @@
 #include <qregexp.h>
 
 #include "unquot.h"
+
+#include "message.h"
 
 namespace SIM
 {

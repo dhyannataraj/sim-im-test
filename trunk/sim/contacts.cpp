@@ -15,6 +15,8 @@ email                : vovan@shutoff.ru
 *                                                                         *
 ***************************************************************************/
 
+#include <vector>
+
 #include <qfile.h>
 #include <qdir.h>
 #include <qtextcodec.h>
@@ -23,6 +25,8 @@ email                : vovan@shutoff.ru
 #include "buffer.h"
 #include "event.h"
 #include "unquot.h"
+
+#include "contacts.h"
 
 namespace SIM
 {
