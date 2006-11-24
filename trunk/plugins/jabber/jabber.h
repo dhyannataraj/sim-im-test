@@ -31,6 +31,7 @@ const unsigned EventDiscoItem		= JabberCmdBase + 6;
 const unsigned EventVCard			= JabberCmdBase + 7;
 const unsigned EventClientVersion	= JabberCmdBase + 8;
 const unsigned EventClientLastInfo	= JabberCmdBase + 9;
+const unsigned EventClientTimeInfo	= JabberCmdBase + 10;
 
 const unsigned long CmdJabberMessage		= JabberCmdBase + 1;
 const unsigned long CmdGroups			= JabberCmdBase + 2;

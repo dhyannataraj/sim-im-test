@@ -2639,28 +2639,38 @@ protected:
     virtual void	element_end(const char *el);
     virtual	void	char_data(const char *str, int len);
     QString			*m_data;
-    QString			m_time;
+    QString			m_jid;
+    QString			m_utc;
+    QString			m_tz;
+    QString			m_display;
 };
 
 TimeInfoRequest::TimeInfoRequest(JabberClient *client, const QString &jid)
         : JabberClient::ServerRequest(client, _GET, NULL, jid)
 {
     m_data = NULL;
+    m_jid = jid;
 }
 
 TimeInfoRequest::~TimeInfoRequest()
 {
-    DiscoItem item;
-    item.id     = m_id;
-    item.jid    = m_time;
-    Event e(EventDiscoItem, &item);
+    ClientTimeInfo info;
+    info.jid = m_jid;
+    info.utc = m_utc;
+    info.tz = m_tz;
+    info.display = m_display;
+    Event e(EventClientTimeInfo, &info);
     e.process();
 }
 
 void TimeInfoRequest::element_start(const char *el, const char**)
 {
     if (!strcmp(el, "utc"))
-        m_data = &m_time;
+        m_data = &m_utc;
+    if (!strcmp(el, "tz"))
+        m_data = &m_tz;
+    if (!strcmp(el, "display"))
+        m_data = &m_display;
 }
 
 void TimeInfoRequest::element_end(const char*)

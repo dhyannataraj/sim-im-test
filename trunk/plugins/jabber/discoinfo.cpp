@@ -137,10 +137,9 @@ void DiscoInfo::reset()
     edtLast->setText("");
     if (m_bTime){
         edtTime->show();
-        m_timeId = m_browser->m_client->timeInfo(m_url, m_node);
+        m_browser->m_client->timeInfo(m_url, m_node);
     }else{
         edtTime->hide();
-        m_timeId = "";
     }
     if (m_bLast){
         edtLast->show();
@@ -199,11 +198,6 @@ void *DiscoInfo::processEvent(Event *e)
     }
     if (e->type() == EventDiscoItem){
         DiscoItem *item = (DiscoItem*)(e->param());
-        if (m_timeId == item->id){
-            m_timeId = "";
-            edtTime->setText(item->jid);
-            return e->param();
-        }
         if (m_statId == item->id){
             if (item->jid.isEmpty()){
                 m_statId = "";
@@ -243,6 +237,17 @@ void *DiscoInfo::processEvent(Event *e)
             time.sprintf("%02u:%02u:%02u", hh, mm, ss);
             date += time;
             edtLast->setText(date);
+        }
+    }
+    if (e->type() == EventClientTimeInfo){
+        ClientTimeInfo* info = static_cast<ClientTimeInfo*>(e->param());
+        if (m_data.ID.str() == info->jid){
+          /*
+            if (!info->display.isEmpty())
+                edtTime->setText(info->display);
+            else
+          */
+                edtTime->setText(info->utc);
         }
     }
     return NULL;

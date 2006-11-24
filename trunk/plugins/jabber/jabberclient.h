@@ -185,6 +185,15 @@ struct ClientLastInfo
     unsigned int        seconds;
 };
 
+// XEP-0090 Entity Time
+struct ClientTimeInfo
+{
+    QString             jid;
+    QString             utc;
+    QString             tz;
+    QString             display;
+};
+
 class JabberClient : public SIM::TCPClient, public SAXParser
 {
     Q_OBJECT
