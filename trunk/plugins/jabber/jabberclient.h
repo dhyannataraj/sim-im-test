@@ -168,14 +168,21 @@ struct DiscoItem
     QString             features;
 };
 
+// XEP-0092 Software Version
 struct ClientVersionInfo
 {
     QString             jid;
     QString             node;
-    QString             resource;
     QString             name;
     QString             version;
     QString             os;
+};
+
+// XEP-0012 Last Activity
+struct ClientLastInfo
+{
+    QString             jid;
+    unsigned int        seconds;
 };
 
 class JabberClient : public SIM::TCPClient, public SAXParser

@@ -144,10 +144,9 @@ void DiscoInfo::reset()
     }
     if (m_bLast){
         edtLast->show();
-        m_lastId = m_browser->m_client->lastInfo(m_url, m_node);
+        m_browser->m_client->lastInfo(m_url, m_node);
     }else{
         edtLast->hide();
-        m_lastId = "";
     }
     lstStat->clear();
     if (bStat != m_bStat){
@@ -216,9 +215,19 @@ void *DiscoInfo::processEvent(Event *e)
             i->setText(2, item->node);
             return e->param();
         }
-        if (m_lastId == item->id){
-            m_lastId = "";
-            unsigned ss = item->jid.toUInt();
+    }
+    if (e->type() == EventClientVersion){
+        ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
+        if (m_data.ID.str() == info->jid && m_data.Node.str() == info->node){
+            edtName->setText(info->name);
+            edtVersion->setText(info->version);
+            edtSystem->setText(info->os);
+        }
+    }
+    if (e->type() == EventClientLastInfo){
+        ClientLastInfo* info = static_cast<ClientLastInfo*>(e->param());
+        if (m_data.ID.str() == info->jid){
+            unsigned ss = info->seconds;
             unsigned mm = ss / 60;
             ss -= mm * 60;
             unsigned hh = mm / 60;
@@ -234,15 +243,6 @@ void *DiscoInfo::processEvent(Event *e)
             time.sprintf("%02u:%02u:%02u", hh, mm, ss);
             date += time;
             edtLast->setText(date);
-            return e->param();
-        }
-    }
-    if (e->type() == EventClientVersion){
-        ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
-        if (m_data.ID.str() == info->jid && m_data.Node.str() == info->node){
-            edtName->setText(info->name);
-            edtVersion->setText(info->version);
-            edtSystem->setText(info->os);
         }
     }
     return NULL;

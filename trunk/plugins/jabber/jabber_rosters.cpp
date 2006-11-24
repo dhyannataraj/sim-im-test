@@ -2693,20 +2693,22 @@ public:
     LastInfoRequest(JabberClient *client, const QString &jid);
 protected:
     virtual void	element_start(const char *el, const char **attr);
+    QString			m_jid;
 };
 
 LastInfoRequest::LastInfoRequest(JabberClient *client, const QString &jid)
         : JabberClient::ServerRequest(client, _GET, NULL, jid)
 {
+    m_jid = jid;
 }
 
 void LastInfoRequest::element_start(const char *el, const char **attr)
 {
     if (!strcmp(el, "query")){
-        DiscoItem item;
-        item.id		= m_id;
-        item.jid	= JabberClient::get_attr("seconds", attr);
-        Event e(EventDiscoItem, &item);
+        ClientLastInfo info;
+        info.jid = m_jid;
+        info.seconds = JabberClient::get_attr("seconds", attr).toUInt();
+        Event e(EventClientLastInfo, &info);
         e.process();
     }
 }
