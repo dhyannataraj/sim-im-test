@@ -33,9 +33,9 @@
 #include <qmap.h>
 
 #ifdef USE_KDE
-#include <kapp.h>
-#include <kipc.h>
-#include <kiconloader.h>
+# include <kapp.h>
+# include <kipc.h>
+# include <kiconloader.h>
 #endif
 
 #include "sax.h"

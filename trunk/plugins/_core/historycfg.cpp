@@ -36,9 +36,9 @@
 #include <qsyntaxhighlighter.h>
 
 #ifdef USE_KDE
-#include <qapplication.h>
-#include <kglobal.h>
-#include <kstddirs.h>
+# include <qapplication.h>
+# include <kglobal.h>
+# include <kstddirs.h>
 #endif
 
 #include "ballonmsg.h"

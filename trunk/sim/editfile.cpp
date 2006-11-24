@@ -28,12 +28,13 @@
 #include <qregexp.h>
 #include <qpopupmenu.h>
 #include <qclipboard.h>
+
 #ifdef USE_KDE
-#include <kfiledialog.h>
-#include <kdiroperator.h>
-#define QFileDialog	KFileDialog
+# include <kfiledialog.h>
+# include <kdiroperator.h>
+# define QFileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+# include <qfiledialog.h>
 #endif
 
 #include "editfile.h"

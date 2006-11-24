@@ -20,21 +20,21 @@
 #endif
 
 #ifdef USE_KDE
-#include <keditcl.h>
-#include <kstdaccel.h>
-#include <kglobal.h>
-#include <kfiledialog.h>
-#define QFileDialog	KFileDialog
+# include <keditcl.h>
+# include <kstdaccel.h>
+# include <kglobal.h>
+# include <kfiledialog.h>
+# define QFileDialog	KFileDialog
 #else
-#include <qfiledialog.h>
+# include <qfiledialog.h>
 #endif
 
 #ifdef USE_KDE
-#include <kcolordialog.h>
-#include <kfontdialog.h>
+# include <kcolordialog.h>
+# include <kfontdialog.h>
 #else
-#include <qcolordialog.h>
-#include <qfontdialog.h>
+# include <qcolordialog.h>
+# include <qfontdialog.h>
 #endif
 
 #include <qdatetime.h>
