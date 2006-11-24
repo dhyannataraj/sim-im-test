@@ -199,6 +199,27 @@ EXPORT void restoreGeometry(QWidget*, Geometry, bool bPos, bool bSize);
 EXPORT void saveToolbar(QToolBar*, Data[7]);
 EXPORT void restoreToolbar(QToolBar*, Data[7]);
 
+/* Get full path */
+EXPORT QString app_file(const QString &f);
+
+/* Get user file */
+EXPORT QString user_file(const QString &f);
+
+/* Make directory */
+EXPORT bool makedir(const QString &dir);
+
+/* Save state */
+EXPORT void save_state();
+
+EXPORT DEPRECATED std::string number(unsigned n);
+EXPORT DEPRECATED std::string trim(const char *str);
+EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
+EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
+EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
+EXPORT QCString getToken(QCString &from, char c, bool bUnEsacpe=true);
+EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
+EXPORT char fromHex(char);
+
 } // namespace SIM
 
 #endif

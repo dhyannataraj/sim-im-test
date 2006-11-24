@@ -45,14 +45,6 @@
 # pragma warning(disable: 4710)
 #endif
 
-#ifdef Q_CC_MSVC
-# define DEPRECATED __declspec(deprecated)
-#elif defined Q_CC_GNU
-# define DEPRECATED __attribute__ ((deprecated))
-#else
-# define DEPRECATED
-#endif
-
 #include "sim_export.h"
 
 #ifndef COPY_RESTRICTED

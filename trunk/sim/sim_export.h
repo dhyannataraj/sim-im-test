@@ -25,4 +25,12 @@
 # define EXPORT SIM_IMPORT
 #endif
 
+#ifdef Q_CC_MSVC
+# define DEPRECATED __declspec(deprecated)
+#elif defined Q_CC_GNU
+# define DEPRECATED __attribute__ ((deprecated))
+#else
+# define DEPRECATED
+#endif
+
 #endif // _SIM_EXPORT_H
