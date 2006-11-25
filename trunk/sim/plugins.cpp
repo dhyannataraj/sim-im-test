@@ -33,7 +33,6 @@
 #include "sockfactory.h"
 #include "fetch.h"
 #include "exec.h"
-#include "sax.h"
 #include "xsl.h"
 #include "builtinlogger.h"
 
@@ -282,7 +281,6 @@ PluginManagerPrivate::~PluginManagerPrivate()
     delete m_exec;
     setLogEnable(false);
     XSL::cleanup();
-    SAXParser::cleanup();
 }
 
 void *PluginManagerPrivate::processEvent(Event *e)

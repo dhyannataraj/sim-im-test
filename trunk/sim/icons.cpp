@@ -461,7 +461,7 @@ FileIconSet::FileIconSet(const QString &file)
     QByteArray arr;
     m_data = NULL;
     if (m_zip->open() && (m_zip->readFile("icondef.xml", &arr) || m_zip->readFile(QFileInfo(m_zip->name()).baseName(true) + QDir::separator() + "icondef.xml", &arr)))
-        parse(arr.data(), arr.size(), false);
+        parse(arr, false);
 }
 
 FileIconSet::~FileIconSet()

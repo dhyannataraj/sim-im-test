@@ -18,7 +18,8 @@
 #ifndef _SAX_H
 #define _SAX_H
 
-#include "simapi.h"
+#include <qcstring.h>
+#include "sim_export.h"
 
 class SAXParserPrivate;
 
@@ -28,8 +29,7 @@ public:
     SAXParser();
     virtual ~SAXParser();
     void reset();
-    bool parse(const char *data, unsigned size, bool bChunk);
-    static void cleanup();
+    bool parse(const QByteArray& data, bool bChunk);
 protected:
     virtual	void		element_start(const char *el, const char **attr) = 0;
     virtual	void		element_end(const char *el) = 0;
