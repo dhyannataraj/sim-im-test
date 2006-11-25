@@ -37,6 +37,7 @@ public:
     QColor color() const
         {	return col; }
     void setColor( const QColor &c );
+    QSize sizeHint() const;
 
 signals:
     void changed( const QColor &newColor );
