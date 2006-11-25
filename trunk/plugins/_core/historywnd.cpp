@@ -77,9 +77,11 @@ void HistoryProgressBar::setProgress(unsigned n)
     m_bar->setProgress(n);
 }
 
-HistoryWindow::HistoryWindow(unsigned long id) :m_avatar_window(this), m_avatar_label(&m_avatar_window)
+HistoryWindow::HistoryWindow(unsigned long id)
 {
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
+    m_avatar_window=NULL;
+    m_avatar_label=NULL;
 
     if (CorePlugin::m_plugin->getShowAvatarInHistory()) {
         Client *client = NULL;
@@ -92,12 +94,12 @@ HistoryWindow::HistoryWindow(unsigned long id) :m_avatar_window(this), m_avatar_
         }
 
         if (client) {
-            m_avatar_pixmap=client->userPicture(id);
-            m_avatar_label.setPixmap(m_avatar_pixmap);
+            m_avatar_window=new QDockWindow(this);
+            m_avatar_label=new QLabel(m_avatar_window);
+            m_avatar_label->setPixmap(client->userPicture(id));
+            m_avatar_window->setWidget(m_avatar_label);
+            m_avatar_window->setOrientation(Qt::Vertical);
         }
-
-        m_avatar_window.setWidget(&m_avatar_label);
-        m_avatar_window.setOrientation(Qt::Vertical);
     }
 
     setWFlags(WDestructiveClose);
@@ -117,7 +119,9 @@ HistoryWindow::HistoryWindow(unsigned long id) :m_avatar_window(this), m_avatar_
     m_status = statusBar();
     m_progress = NULL;
     m_page = 0;
-    m_avatar_window.area()->moveDockWindow(&m_avatar_window, 0);
+
+    if (m_avatar_window && CorePlugin::m_plugin->getShowAvatarInHistory())
+        m_avatar_window->area()->moveDockWindow(m_avatar_window, 0);
 
     Command cmd;
     cmd->id		= CmdHistoryFind;
@@ -144,6 +148,8 @@ HistoryWindow::~HistoryWindow()
 {
     if (m_it)
         delete m_it;
+    if (m_avatar_window)
+        delete m_avatar_window;
 }
 
 void HistoryWindow::setName()

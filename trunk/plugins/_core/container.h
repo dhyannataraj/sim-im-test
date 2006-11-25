@@ -138,7 +138,6 @@ protected:
     CToolBar		*m_bar;
     QDockWindow		m_avatar_window;
     QLabel		m_avatar_label;
-    QPixmap		m_avatar_pixmap;
     QSplitter		*m_tabSplitter;
     UserTabBar		*m_tabBar;
     ContainerStatus	*m_status;

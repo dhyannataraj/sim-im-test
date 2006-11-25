@@ -129,7 +129,6 @@ Container::Container(unsigned id, const char *cfg) :m_avatar_window(this), m_ava
 
     m_avatar_window.setWidget(&m_avatar_label);
     m_avatar_window.setOrientation(Qt::Vertical);
-
     SET_WNDPROC("container")
     setWFlags(WDestructiveClose);
 
@@ -484,11 +483,16 @@ void Container::contactSelected(int)
         }
 
         if (client) {
-            m_avatar_pixmap=client->userPicture(userWnd->id());
-            m_avatar_label.setPixmap(m_avatar_pixmap);
+            m_avatar_label.setPixmap(client->userPicture(userWnd->id()));
+            if (!m_avatar_label.isVisible())
+                m_avatar_window.show();
         } else {
             m_avatar_label.clear();
+            m_avatar_window.hide();
         }
+    } else {
+	m_avatar_label.clear();
+        m_avatar_window.hide();
     }
 }
 
