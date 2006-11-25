@@ -5,7 +5,30 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_GCC_VISIBILITY      // @linux: all gcc >= 4.0 have visibility support - please add a check for configure
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_INTTYPES_H
+#include <inttypes.h>
+#else
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+#ifdef Q_CC_MSVC
+// "conditional expression is constant" (W4)
+# pragma warning(disable: 4127)
+// "'identifier' : class 'type' needs to have dll-interface to be used by clients of class 'type2'" (W1)
+# pragma warning(disable: 4251)
+// "function' : function not inlined" (W4)4786
+# pragma warning(disable: 4710)
+#endif
+
+#ifdef HAVE_GCC_VISIBILITY
 # define SIM_EXPORT __attribute__ ((visibility("default")))
 # define SIM_IMPORT __attribute__ ((visibility("default")))
 # define EXPORT_PROC extern "C" __attribute__ ((visibility("default")))
@@ -31,6 +54,13 @@
 # define DEPRECATED __attribute__ ((deprecated))
 #else
 # define DEPRECATED
+#endif
+
+#ifndef COPY_RESTRICTED
+# define COPY_RESTRICTED(A) \
+    private: \
+        A(const A&); \
+        A &operator = (const A&);
 #endif
 
 #endif // _SIM_EXPORT_H
