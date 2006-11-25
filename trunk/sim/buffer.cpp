@@ -693,7 +693,7 @@ static int findStartSection(const Buffer *pBuf, unsigned start)
 {
     int idx = start == ~0U ? 0 : start;
 
-    do {
+    for ( ; ; ) {
         if(idx >= (int)pBuf->size())
             return -1;
         idx = pBuf->find( '[', idx);
@@ -702,14 +702,14 @@ static int findStartSection(const Buffer *pBuf, unsigned start)
         if( idx == 0 || pBuf->at( idx - 1 ) == '\n' )
             return idx;
         idx++;
-    } while(true);
+    }
 }
 
 static int findEndSection(const Buffer *pBuf, unsigned start)
 {
     int idx = start == ~0U ? 0 : start;
 
-    do {
+	for ( ; ; ) {
         if(idx >= (int)pBuf->size())
             return -1;
         idx = pBuf->find( ']', idx);
@@ -718,7 +718,7 @@ static int findEndSection(const Buffer *pBuf, unsigned start)
         if( idx == (int)pBuf->size() - 1 || pBuf->at( idx + 1 ) == '\n' )
             return idx;
         idx++;
-    } while(true);
+    }
 }
 
 QCString Buffer::getSection(bool bSkip)
