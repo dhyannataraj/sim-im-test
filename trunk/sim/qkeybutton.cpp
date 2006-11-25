@@ -21,10 +21,6 @@
 #include <qcursor.h>
 #include <qstringlist.h>
 
-#ifdef USE_KDE
-#include <kglobalaccel.h>
-#endif
-
 QKeyButton::QKeyButton(QWidget *parent, const char *name)
         :	QPushButton( parent, name )
 {
