@@ -67,7 +67,7 @@ private:
     bool m_setCLocale;
 };
 
-class ExecManager : public QObject
+class EXPORT ExecManager : public QObject
 {
     Q_OBJECT
 public:
