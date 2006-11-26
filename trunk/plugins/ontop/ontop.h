@@ -46,7 +46,9 @@ public:
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void *processEvent(SIM::Event*);
+#if defined(USE_KDE) || defined(WIN32)
     virtual QWidget *createConfigWindow(QWidget *parent);
+#endif
     virtual std::string getConfig();
     void getState();
     void setState();
