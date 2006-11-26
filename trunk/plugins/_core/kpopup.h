@@ -12,9 +12,11 @@
 
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.
+   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+   Boston, MA 02110-1301, USA.
 */
+#ifndef _KPOPUP_H
+#define _KPOPUP_H "$Id: kpopupmenu.h 465272 2005-09-29 09:47:40Z mueller $"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -22,22 +24,19 @@
 
 #ifndef USE_KDE
 
-#ifndef _KPOPUP_H
-#define _KPOPUP_H "$Id: kpopup.h,v 1.2 2003-08-02 19:21:24 shutoff Exp $"
-
 #define INCLUDE_MENUITEM_DEF
 
 #include <qpopupmenu.h>
-
 /**
- * Title widget for use in @ref KPopupMenu.
+ * @short KPopupMenu title widget.
+ *
+ * Title widget for use in KPopupMenu.
  *
  * You usually don't have to create this manually since
- * @ref KPopupMenu::insertTitle will do it for you, but it is allowed if
+ * KPopupMenu::insertTitle will do it for you, but it is allowed if
  * you wish to customize it's look.
  *
  * @author Daniel M. Duley <mosfet@kde.org>
- * @short KPopupMenu title widget.
  */
 class KPopupTitle : public QWidget
 {
@@ -54,31 +53,43 @@ public:
      *
      * You will want to call this before inserting into a menu.
      */
-    void setTitle(const QString &text, const QPixmap *icon=NULL);
+    void setTitle(const QString &text, const QPixmap *icon=0);
     /**
      * Returns the current title.
      */
-    QString title() const { return(titleStr); }
+    QString title() const { return titleStr; }
     /**
      * Returns the current icon.
      */
-    QPixmap icon() const { return(miniicon); }
+    QPixmap icon() const { return miniicon; }
 
     QSize sizeHint() const;
 
 public slots:
+    /// @since 3.1
     void setText( const QString &text );
+    /// @since 3.1
     void setIcon( const QPixmap &pix );
 
 protected:
+    void calcSize();
     void paintEvent(QPaintEvent *ev);
 
     QString titleStr;
     QPixmap miniicon;
-    QColor fgColor, bgColor;
+    QColor fgColor, bgColor, grHigh, grLow;
+    bool useGradient;
+
+protected:
+    virtual void virtual_hook( int id, void* data );
+private:
+    class KPopupTitlePrivate;
+    KPopupTitlePrivate *d;
 };
 
 /**
+ * @short A menu with title items.
+ *
  * KPopupMenu is a class for menus with standard title items and keyboard
  * accessibility for popups with many options and/or varying options. It acts
  * identically to QPopupMenu, with the addition of insertTitle(),
@@ -91,9 +102,8 @@ protected:
  * The keyboard search algorithm is incremental with additional underlining
  * for user feedback.
  *
- * @short A menu with title items.
  * @author Daniel M. Duley <mosfet@kde.org>
- * @author Hamish Rodda <meddie@yoyo.its.monash.edu.au>
+ * @author Hamish Rodda <rodda@kde.org>
  */
 class KPopupMenu : public QPopupMenu {
     Q_OBJECT
@@ -149,34 +159,104 @@ public:
      * WARNING: though pre-existing keyboard shortcuts will not interfere with the
      * operation of this feature, they may be confusing to the user as the existing
      * shortcuts will not work.
+     * @since 3.1
      */
     void setKeyboardShortcutsEnabled(bool enable);
 
     /**
      * Enables execution of the menu item once it is uniquely specified.
      * Defaults to off.
+     * @since 3.1
      */
     void setKeyboardShortcutsExecute(bool enable);
 
     /**
+     * @deprecated
      * Obsolete method provided for backwards compatibility only. Use the
      * normal constructor and insertTitle instead.
      */
     KPopupMenu(const QString &title, QWidget *parent=0, const char *name=0);
+
     /**
+     * @deprecated
      * Obsolete method provided for backwards compatibility only. Use
      * insertTitle and changeTitle instead.
      */
     void setTitle(const QString &title);
 
+    /**
+     * Returns the context menu associated with this menu
+     * @since 3.2
+     */
+    QPopupMenu* contextMenu();
+
+    /**
+     * Returns the context menu associated with this menu
+     * @since 3.2
+     */
+    const QPopupMenu* contextMenu() const;
+
+    /**
+     * Hides the context menu if shown
+     * @since 3.2
+     */
+    void hideContextMenu();
+
+    /**
+     * Returns the KPopupMenu associated with the current context menu
+     * @since 3.2
+     */
+    static KPopupMenu* contextMenuFocus();
+
+    /**
+     * returns the ID of the menuitem associated with the current context menu
+     * @since 3.2
+     */
+    static int contextMenuFocusItem();
+
+    /**
+     * Reimplemented for internal purposes
+     * @since 3.4
+     */
+    virtual void activateItemAt(int index);
+    /**
+     * Return the state of the mouse button and keyboard modifiers
+     * when the last menuitem was activated.
+     * @since 3.4
+     */
+    Qt::ButtonState state() const;
+
+signals:
+    /**
+     * connect to this signal to be notified when a context menu is about to be shown
+     * @param menu The menu that the context menu is about to be shown for
+     * @param menuItem The menu item that the context menu is currently on
+     * @param ctxMenu The context menu itself
+     * @since 3.2
+     */
+    void aboutToShowContextMenu(KPopupMenu* menu, int menuItem, QPopupMenu* ctxMenu);
+
 protected:
     virtual void closeEvent(QCloseEvent *);
     virtual void keyPressEvent(QKeyEvent* e);
+    /// @since 3.4
+    virtual void mouseReleaseEvent(QMouseEvent* e);
+    virtual void mousePressEvent(QMouseEvent* e);
+    virtual bool focusNextPrevChild( bool next );
+    virtual void contextMenuEvent(QContextMenuEvent *e);
+    virtual void hideEvent(QHideEvent*);
+
+    virtual void virtual_hook( int id, void* data );
 
 protected slots:
+    /// @since 3.1
     QString underlineText(const QString& text, uint length);
-    void resetKeyboardVars(bool noMatches);
-    void resetKeyboardVars();
+    /// @since 3.1
+    void resetKeyboardVars(bool noMatches = false);
+    void itemHighlighted(int whichItem);
+    void showCtxMenu(QPoint pos);
+    void ctxMenuHiding();
+    void ctxMenuHideShowingMenu();
 
 private:
     class KPopupMenuPrivate;

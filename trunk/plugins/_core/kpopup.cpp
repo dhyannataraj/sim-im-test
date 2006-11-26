@@ -1,6 +1,6 @@
 /* This file is part of the KDE libraries
    Copyright (C) 2000 Daniel M. Duley <mosfet@kde.org>
-   Copyright (C) 2002 Hamish Rodda <meddie@yoyo.its.monash.edu.au>
+   Copyright (C) 2002 Hamish Rodda <rodda@kde.org>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -13,55 +13,54 @@
 
    You should have received a copy of the GNU Library General Public License
    along with this library; see the file COPYING.LIB.  If not, write to
-   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.
+   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+   Boston, MA 02110-1301, USA.
 */
 
-#include "simapi.h"
 #include "kpopup.h"
 
 #ifndef USE_KDE
 
+#include <qcursor.h>
 #include <qpainter.h>
-#include <qdrawutil.h>
 #include <qtimer.h>
-#include <qfont.h>
 #include <qfontmetrics.h>
-#include <qregexp.h>
+#include <qstyle.h>
 
 KPopupTitle::KPopupTitle(QWidget *parent, const char *name)
-        : QWidget(parent, name)
+    : QWidget(parent, name)
 {
-    bgColor = colorGroup().mid();
-    fgColor = colorGroup().highlightedText();
+    setMinimumSize(16, fontMetrics().height()+8);
 }
 
 void KPopupTitle::setTitle(const QString &text, const QPixmap *icon)
 {
     titleStr = text;
-    if(icon){
+    if (icon)
         miniicon = *icon;
-    }
     else
         miniicon.resize(0, 0);
 
-    int w = miniicon.width()+fontMetrics().width(titleStr);
-    int h = QMAX( fontMetrics().height(), miniicon.height() );
-    setMinimumSize( w+16, h+8 );
+    calcSize();
 }
 
 void KPopupTitle::setText( const QString &text )
 {
     titleStr = text;
-    int w = miniicon.width()+fontMetrics().width(titleStr);
-    int h = QMAX( fontMetrics().height(), miniicon.height() );
-    setMinimumSize( w+16, h+8 );
+    calcSize();
 }
 
 void KPopupTitle::setIcon( const QPixmap &pix )
 {
     miniicon = pix;
-    int w = miniicon.width()+fontMetrics().width(titleStr);
+    calcSize();
+}
+
+void KPopupTitle::calcSize()
+{
+    QFont f = font();
+    f.setBold(true);
+    int w = miniicon.width()+QFontMetrics(f).width(titleStr);
     int h = QMAX( fontMetrics().height(), miniicon.height() );
     setMinimumSize( w+16, h+8 );
 }
@@ -70,58 +69,81 @@ void KPopupTitle::paintEvent(QPaintEvent *)
 {
     QRect r(rect());
     QPainter p(this);
+    style().drawPrimitive(QStyle::PE_HeaderSection, &p, r, palette().active());
 
-    p.fillRect(2, 2, r.width()-4, r.height()-4, QBrush(bgColor));
-
-    if(!miniicon.isNull())
+    if (!miniicon.isNull())
         p.drawPixmap(4, (r.height()-miniicon.height())/2, miniicon);
-    if(!titleStr.isNull()){
-        p.setPen(fgColor);
+
+    if (!titleStr.isNull())
+    {
+        p.setPen(palette().active().text());
+        QFont f = p.font();
+        f.setBold(true);
+        p.setFont(f);
         if(!miniicon.isNull())
+        {
             p.drawText(miniicon.width()+8, 0, width()-(miniicon.width()+8),
                        height(), AlignLeft | AlignVCenter | SingleLine,
                        titleStr);
+        }
         else
+        {
             p.drawText(0, 0, width(), height(),
                        AlignCenter | SingleLine, titleStr);
+        }
     }
-    p.setPen(Qt::black);
-    p.drawRect(r);
 }
 
 QSize KPopupTitle::sizeHint() const
 {
-    return(minimumSize());
+    return minimumSize();
 }
 
 class KPopupMenu::KPopupMenuPrivate
 {
 public:
     KPopupMenuPrivate ()
-: noMatches(false)
-    , shortcuts(false)
-    , autoExec(false)
-    , lastHitIndex(-1)
+        : noMatches(false)
+        , shortcuts(false)
+        , autoExec(false)
+        , lastHitIndex(-1)
+        , state(Qt::NoButton)
+        , m_ctxMenu(0)
     {}
+
+    ~KPopupMenuPrivate ()
+    {
+        delete m_ctxMenu;
+    }
 
     QString m_lastTitle;
 
     // variables for keyboard navigation
     QTimer clearTimer;
 
-bool noMatches : 1;
-bool shortcuts : 1;
-bool autoExec : 1;
+    bool noMatches : 1;
+    bool shortcuts : 1;
+    bool autoExec : 1;
 
     QString keySeq;
     QString originalText;
 
     int lastHitIndex;
+    Qt::ButtonState state;
+
+    // support for RMB menus on menus
+    QPopupMenu* m_ctxMenu;
+    static bool s_continueCtxMenuShow;
+    static int s_highlightedItem;
+    static KPopupMenu* s_contextedMenu;
 };
 
+int KPopupMenu::KPopupMenuPrivate::s_highlightedItem(-1);
+KPopupMenu* KPopupMenu::KPopupMenuPrivate::s_contextedMenu(0);
+bool KPopupMenu::KPopupMenuPrivate::s_continueCtxMenuShow(true);
 
 KPopupMenu::KPopupMenu(QWidget *parent, const char *name)
-        : QPopupMenu(parent, name)
+    : QPopupMenu(parent, name)
 {
     d = new KPopupMenuPrivate;
     resetKeyboardVars();
@@ -130,6 +152,12 @@ KPopupMenu::KPopupMenu(QWidget *parent, const char *name)
 
 KPopupMenu::~KPopupMenu()
 {
+    if (KPopupMenuPrivate::s_contextedMenu == this)
+    {
+        KPopupMenuPrivate::s_contextedMenu = 0;
+        KPopupMenuPrivate::s_highlightedItem = -1;
+    }
+
     delete d;
 }
 
@@ -137,7 +165,9 @@ int KPopupMenu::insertTitle(const QString &text, int id, int index)
 {
     KPopupTitle *titleItem = new KPopupTitle();
     titleItem->setTitle(text);
-    return(insertItem(titleItem, id, index));
+    int ret = insertItem(titleItem, id, index);
+    setItemEnabled(ret, false);
+    return ret;
 }
 
 int KPopupMenu::insertTitle(const QPixmap &icon, const QString &text, int id,
@@ -145,7 +175,9 @@ int KPopupMenu::insertTitle(const QPixmap &icon, const QString &text, int id,
 {
     KPopupTitle *titleItem = new KPopupTitle();
     titleItem->setTitle(text, &icon);
-    return(insertItem(titleItem, id, index));
+    int ret = insertItem(titleItem, id, index);
+    setItemEnabled(ret, false);
+    return ret;
 }
 
 void KPopupMenu::changeTitle(int id, const QString &text)
@@ -154,11 +186,7 @@ void KPopupMenu::changeTitle(int id, const QString &text)
     if(item){
         if(item->widget())
             ((KPopupTitle *)item->widget())->setTitle(text);
-        else
-            qWarning("KPopupMenu: changeTitle() called with non-title id %d.", id);
     }
-    else
-        qWarning("KPopupMenu: changeTitle() called with invalid id %d.", id);
 }
 
 void KPopupMenu::changeTitle(int id, const QPixmap &icon, const QString &text)
@@ -167,27 +195,23 @@ void KPopupMenu::changeTitle(int id, const QPixmap &icon, const QString &text)
     if(item){
         if(item->widget())
             ((KPopupTitle *)item->widget())->setTitle(text, &icon);
-        else
-            qWarning("KPopupMenu: changeTitle() called with non-title id %d.", id);
     }
-    else
-        qWarning("KPopupMenu: changeTitle() called with invalid id %d.", id);
 }
 
 QString KPopupMenu::title(int id) const
 {
     if(id == -1) // obsolete
-        return(d->m_lastTitle);
+        return d->m_lastTitle;
     QMenuItem *item = findItem(id);
     if(item){
         if(item->widget())
-            return(((KPopupTitle *)item->widget())->title());
+            return ((KPopupTitle *)item->widget())->title();
         else
             qWarning("KPopupMenu: title() called with non-title id %d.", id);
     }
     else
         qWarning("KPopupMenu: title() called with invalid id %d.", id);
-    return(QString::null);
+    return QString::null;
 }
 
 QPixmap KPopupMenu::titlePixmap(int id) const
@@ -195,30 +219,44 @@ QPixmap KPopupMenu::titlePixmap(int id) const
     QMenuItem *item = findItem(id);
     if(item){
         if(item->widget())
-            return(((KPopupTitle *)item->widget())->icon());
+            return ((KPopupTitle *)item->widget())->icon();
         else
             qWarning("KPopupMenu: titlePixmap() called with non-title id %d.", id);
     }
     else
         qWarning("KPopupMenu: titlePixmap() called with invalid id %d.", id);
     QPixmap tmp;
-    return(tmp);
+    return tmp;
 }
 
 /**
  * This is re-implemented for keyboard navigation.
  */
-void KPopupMenu::closeEvent(QCloseEvent*)
+void KPopupMenu::closeEvent(QCloseEvent*e)
 {
     if (d->shortcuts)
         resetKeyboardVars();
+    QPopupMenu::closeEvent(e);
+}
+
+void KPopupMenu::activateItemAt(int index)
+{
+    d->state = Qt::NoButton;
+    QPopupMenu::activateItemAt(index);
+}
+
+Qt::ButtonState KPopupMenu::state() const
+{
+    return d->state;
 }
 
 void KPopupMenu::keyPressEvent(QKeyEvent* e)
 {
+    d->state = Qt::NoButton;
     if (!d->shortcuts) {
         // continue event processing by Qpopup
         //e->ignore();
+        d->state = e->state();
         QPopupMenu::keyPressEvent(e);
         return;
     }
@@ -236,13 +274,15 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
         resetKeyboardVars();
         // continue event processing by Qpopup
         //e->ignore();
+        d->state = e->state();
         QPopupMenu::keyPressEvent(e);
         return;
-    }
+    } else if ( key == Key_Shift || key == Key_Control || key == Key_Alt || key == Key_Meta )
+	return QPopupMenu::keyPressEvent(e);
 
     // check to see if the user wants to remove a key from the sequence (backspace)
     // or clear the sequence (delete)
-    if (d->keySeq != QString::null) {
+    if (!d->keySeq.isNull()) {
 
         if (key == Key_Backspace) {
 
@@ -290,7 +330,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
         // compare typed text with text of this entry
         int j = idAt(i);
 
-        // dont search disabled entries
+        // don't search disabled entries
         if (!isItemEnabled(j))
             continue;
 
@@ -305,31 +345,31 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
 
         // if there is an accelerator present, remove it
         if ((int)accel(j) != 0)
-            thisText = thisText.replace(QRegExp("&"), "");
+            thisText = thisText.replace("&", QString::null);
 
         // chop text to the search length
         thisText = thisText.left(seqLen);
 
         // do the search
-        if (thisText.find(d->keySeq, 0, false) == 0) {
+        if (!thisText.find(d->keySeq, 0, false)) {
 
             if (firstpass) {
                 // match
                 setActiveItem(i);
 
-                // check to see if were underlining a different item
+                // check to see if we're underlining a different item
                 if (d->lastHitIndex != i)
                     // yes; revert the underlining
                     changeItem(idAt(d->lastHitIndex), d->originalText);
 
-                // set the original text if its a different item
+                // set the original text if it's a different item
                 if (d->lastHitIndex != i || d->lastHitIndex == -1)
                     d->originalText = text(j);
 
                 // underline the currently selected item
                 changeItem(j, underlineText(d->originalText, d->keySeq.length()));
 
-                // remeber whats going on
+                // remember what's going on
                 d->lastHitIndex = i;
 
                 // start/restart the clear timer
@@ -338,7 +378,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
                 // go around for another try, to see if we can execute
                 firstpass = false;
             } else {
-                // dont allow execution
+                // don't allow execution
                 return;
             }
         }
@@ -353,7 +393,7 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
             resetKeyboardVars();
 
         } else if (findItem(idAt(d->lastHitIndex)) &&
-                   findItem(idAt(d->lastHitIndex))->popup()) {
+                 findItem(idAt(d->lastHitIndex))->popup()) {
             // only activate sub-menus
             activateItemAt(d->lastHitIndex);
             resetKeyboardVars();
@@ -368,22 +408,23 @@ void KPopupMenu::keyPressEvent(QKeyEvent* e)
     QPopupMenu::keyPressEvent(e);
 }
 
+bool KPopupMenu::focusNextPrevChild( bool next )
+{
+    resetKeyboardVars();
+    return QPopupMenu::focusNextPrevChild( next );
+}
+
 QString KPopupMenu::underlineText(const QString& text, uint length)
 {
     QString ret = text;
-    for (int i = 0; i < (int)length; i++) {
+    for (uint i = 0; i < length; i++) {
         if (ret[2*i] != '&')
             ret.insert(2*i, "&");
     }
     return ret;
 }
 
-void KPopupMenu::resetKeyboardVars()
-{
-    resetKeyboardVars(false);
-}
-
-void KPopupMenu::resetKeyboardVars(bool noMatches)
+void KPopupMenu::resetKeyboardVars(bool noMatches /* = false */)
 {
     // Clean up keyboard variables
     if (d->lastHitIndex != -1) {
@@ -411,12 +452,191 @@ void KPopupMenu::setKeyboardShortcutsExecute(bool enable)
  * End keyboard navigation.
  */
 
+/**
+ * RMB menus on menus
+ */
+
+void KPopupMenu::mousePressEvent(QMouseEvent* e)
+{
+    if (d->m_ctxMenu && d->m_ctxMenu->isVisible())
+    {
+        // hide on a second context menu event
+        d->m_ctxMenu->hide();
+    }
+
+    QPopupMenu::mousePressEvent(e);
+}
+
+void KPopupMenu::mouseReleaseEvent(QMouseEvent* e)
+{
+    // Save the button, and the modifiers from state()
+    d->state = Qt::ButtonState(e->button() | (e->state() & KeyButtonMask));
+    
+    if ( !d->m_ctxMenu || !d->m_ctxMenu->isVisible() )
+	QPopupMenu::mouseReleaseEvent(e);
+}
+
+QPopupMenu* KPopupMenu::contextMenu()
+{
+    if (!d->m_ctxMenu)
+    {
+        d->m_ctxMenu = new QPopupMenu(this);
+        connect(d->m_ctxMenu, SIGNAL(aboutToHide()), this, SLOT(ctxMenuHiding()));
+    }
+
+    return d->m_ctxMenu;
+}
+
+const QPopupMenu* KPopupMenu::contextMenu() const
+{
+    return const_cast< KPopupMenu* >( this )->contextMenu();
+}
+
+void KPopupMenu::hideContextMenu()
+{
+    KPopupMenuPrivate::s_continueCtxMenuShow = false;
+}
+
+int KPopupMenu::contextMenuFocusItem()
+{
+    return KPopupMenuPrivate::s_highlightedItem;
+}
+
+KPopupMenu* KPopupMenu::contextMenuFocus()
+{
+    return KPopupMenuPrivate::s_contextedMenu;
+}
+
+void KPopupMenu::itemHighlighted(int /* whichItem */)
+{
+    if (!d->m_ctxMenu || !d->m_ctxMenu->isVisible())
+    {
+        return;
+    }
+
+    d->m_ctxMenu->hide();
+    showCtxMenu(mapFromGlobal(QCursor::pos()));
+}
+
+void KPopupMenu::showCtxMenu(QPoint pos)
+{
+    QMenuItem* item = findItem(KPopupMenuPrivate::s_highlightedItem);
+    if (item)
+    {
+        QPopupMenu* subMenu = item->popup();
+        if (subMenu)
+        {
+            disconnect(subMenu, SIGNAL(aboutToShow()), this, SLOT(ctxMenuHideShowingMenu()));
+        }
+    }
+
+    KPopupMenuPrivate::s_highlightedItem = idAt(pos);
+
+    if (KPopupMenuPrivate::s_highlightedItem == -1)
+    {
+        KPopupMenuPrivate::s_contextedMenu = 0;
+        return;
+    }
+
+    emit aboutToShowContextMenu(this, KPopupMenuPrivate::s_highlightedItem, d->m_ctxMenu);
+
+    QPopupMenu* subMenu = findItem(KPopupMenuPrivate::s_highlightedItem)->popup();
+    if (subMenu)
+    {
+        connect(subMenu, SIGNAL(aboutToShow()), SLOT(ctxMenuHideShowingMenu()));
+        QTimer::singleShot(100, subMenu, SLOT(hide()));
+    }
+
+    if (!KPopupMenuPrivate::s_continueCtxMenuShow)
+    {
+        KPopupMenuPrivate::s_continueCtxMenuShow = true;
+        return;
+    }
+
+    KPopupMenuPrivate::s_contextedMenu = this;
+    d->m_ctxMenu->popup(this->mapToGlobal(pos));
+    connect(this, SIGNAL(highlighted(int)), this, SLOT(itemHighlighted(int)));
+}
+
+/*
+ * this method helps prevent submenus popping up while we have a context menu
+ * showing
+ */
+void KPopupMenu::ctxMenuHideShowingMenu()
+{
+    QMenuItem* item = findItem(KPopupMenuPrivate::s_highlightedItem);
+    if (item)
+    {
+        QPopupMenu* subMenu = item->popup();
+        if (subMenu)
+        {
+            QTimer::singleShot(0, subMenu, SLOT(hide()));
+        }
+    }
+}
+
+void KPopupMenu::ctxMenuHiding()
+{
+    if (KPopupMenuPrivate::s_highlightedItem)
+    {
+        QPopupMenu* subMenu = findItem(KPopupMenuPrivate::s_highlightedItem)->popup();
+        if (subMenu)
+        {
+            disconnect(subMenu, SIGNAL(aboutToShow()), this, SLOT(ctxMenuHideShowingMenu()));
+        }
+    }
+
+    disconnect(this, SIGNAL(highlighted(int)), this, SLOT(itemHighlighted(int)));
+    KPopupMenuPrivate::s_continueCtxMenuShow = true;
+}
+
+void KPopupMenu::contextMenuEvent(QContextMenuEvent* e)
+{
+    if (d->m_ctxMenu)
+    {
+        if (e->reason() == QContextMenuEvent::Mouse)
+        {
+            showCtxMenu(e->pos());
+        }
+        else if (actItem != -1)
+        {
+            showCtxMenu(itemGeometry(actItem).center());
+        }
+
+        e->accept();
+        return;
+    }
+
+    QPopupMenu::contextMenuEvent(e);
+}
+
+void KPopupMenu::hideEvent(QHideEvent*)
+{
+    if (d->m_ctxMenu && d->m_ctxMenu->isVisible())
+    {
+        // we need to block signals here when the ctxMenu is showing
+        // to prevent the QPopupMenu::activated(int) signal from emitting
+        // when hiding with a context menu, the user doesn't expect the
+        // menu to actually do anything.
+        // since hideEvent gets called very late in the process of hiding
+        // (deep within QWidget::hide) the activated(int) signal is the
+        // last signal to be emitted, even after things like aboutToHide()
+        // AJS
+        blockSignals(true);
+        d->m_ctxMenu->hide();
+        blockSignals(false);
+    }
+}
+/**
+ * end of RMB menus on menus support
+ */
+
 // Obsolete
 KPopupMenu::KPopupMenu(const QString& title, QWidget *parent, const char *name)
-        : QPopupMenu(parent, name)
+    : QPopupMenu(parent, name)
 {
     d = new KPopupMenuPrivate;
-    setTitle(title);
+    insertTitle(title);
 }
 
 // Obsolete
@@ -427,6 +647,12 @@ void KPopupMenu::setTitle(const QString &title)
     insertItem(titleItem);
     d->m_lastTitle = title;
 }
+
+void KPopupTitle::virtual_hook( int, void* )
+{ /*BASE::virtual_hook( id, data );*/ }
+
+void KPopupMenu::virtual_hook( int, void* )
+{ /*BASE::virtual_hook( id, data );*/ }
 
 #ifndef NO_MOC_INCLUDES
 #include "kpopup.moc"
