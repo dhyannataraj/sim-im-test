@@ -3117,7 +3117,7 @@ void *CorePlugin::processEvent(Event *e)
                     EventContact e(owner, EventContact::eChanged);
                     e.process();
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdSetup){
                 unsigned n = cmd->menu_id - CmdClient;
@@ -3130,7 +3130,7 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 static_cast<ConfigureDialog*>(m_cfg)->raisePage(client);
                 raiseWindow(m_cfg);
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdPhoneBook){
                 if (m_cfg == NULL){
@@ -3139,7 +3139,7 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 static_cast<ConfigureDialog*>(m_cfg)->raisePhoneBook();
                 raiseWindow(m_cfg);
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdCommonStatus){
                 unsigned n = cmd->menu_id - CmdClient;
@@ -3153,25 +3153,25 @@ void *CorePlugin::processEvent(Event *e)
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     if (getContacts()->getClient(i)->getCommonStatus())
-                        return e->param();
+                        return (void*)1;
                 }
                 client = getContacts()->getClient(0);
                 if (client){
                     client->setCommonStatus(true);
                     EventClientChanged(client).process();
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdChange){
                 QTimer::singleShot(0, this, SLOT(selectProfile()));
-                return e->param();
+                return (void*)1;
             }
             unsigned n = cmd->menu_id - CmdClient;
             if (n < getContacts()->nClients()){
                 Client *client = getContacts()->getClient(n);
                 if (cmd->id == CmdInvisible){
                     client->setInvisible(!client->getInvisible());
-                    return e->param();
+                    return (void*)1;
                 }
                 const CommandDef *d;
                 const CommandDef *curStatus = NULL;
@@ -3188,11 +3188,11 @@ void *CorePlugin::processEvent(Event *e)
                     if (noShow.isEmpty()){
                         AutoReplyDialog dlg(cmd->id);
                         if (!dlg.exec())
-                            return e->param();
+                            return (void*)1;
                     }
                 }
                 client->setStatus(cmd->id, false);
-                return e->param();
+                return (void*)1;
             }
             if ((cmd->id == CmdCM) || (cmd->id == CmdConnections)){
                 if (m_manager == NULL){
@@ -3200,7 +3200,7 @@ void *CorePlugin::processEvent(Event *e)
                     connect(m_manager, SIGNAL(finished()), this, SLOT(managerFinished()));
                 }
                 raiseWindow(m_manager);
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdFileAccept){
                 Message *msg = (Message*)(cmd->param);
@@ -3274,7 +3274,7 @@ void *CorePlugin::processEvent(Event *e)
                         }
                     }
                 }
-                return e->param();
+                return (void*)1;
             }
             if ((cmd->menu_id > CmdContactResource) && (cmd->menu_id <= CmdContactResource + 0x100)){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -3310,7 +3310,7 @@ void *CorePlugin::processEvent(Event *e)
                                 Event eOpen(EventOpenMessage, &msg);
                                 eOpen.process();
                                 delete msg;
-                                return e->param();
+                                return (void*)1;
                             }
                         }
                     }
@@ -3347,7 +3347,7 @@ void *CorePlugin::processEvent(Event *e)
                         Event eOpen(EventOpenMessage, &msg);
                         eOpen.process();
                         delete msg;
-                        return e->param();
+                        return (void*)1;
                     }
                 }
             }

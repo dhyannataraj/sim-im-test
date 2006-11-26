@@ -877,7 +877,7 @@ void *DockWnd::processEvent(Event *e)
                 return NULL;
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
                 if ((*it).id == data.id)
-                    return e->param();
+                    return (void*)1;
             }
             QString arg = data.args;
 
@@ -890,7 +890,7 @@ void *DockWnd::processEvent(Event *e)
                 item.text = item.text.arg(arg);
             if (!m_queue.empty()){
                 m_queue.push_back(item);
-                return e->param();
+                return (void*)1;
             }
             item.title = "SIM";
             if (getContacts()->nClients() > 1){

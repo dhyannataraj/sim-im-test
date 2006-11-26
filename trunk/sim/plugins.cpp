@@ -320,7 +320,7 @@ void *PluginManagerPrivate::processEvent(Event *e)
     case eEventLoadPlugin: {
         EventLoadPlugin *p = static_cast<EventLoadPlugin*>(e);
         load(p->pluginName());
-        return e->param();
+        return (void*)1;
     }
     case eEventSaveState:
         saveState();

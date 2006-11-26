@@ -289,7 +289,7 @@ void *TextEdit::processEvent(Event *e)
                     connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
                     popup->show();
                 }
-                return e->param();
+                return (void*)1;
             }
         case CmdFgColor:{
                 EventCommandWidget eWidget(cmd);
@@ -301,26 +301,26 @@ void *TextEdit::processEvent(Event *e)
                     connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
                     popup->show();
                 }
-                return e->param();
+                return (void*)1;
             }
         case CmdBold:
             if (!m_bChanged){
                 m_bSelected = true;
                 setBold((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return e->param();
+            return (void*)1;
         case CmdItalic:
             if (!m_bChanged){
                 m_bSelected = true;
                 setItalic((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return e->param();
+            return (void*)1;
         case CmdUnderline:
             if (!m_bChanged){
                 m_bSelected = true;
                 setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return e->param();
+            return (void*)1;
         case CmdFont:{
 #ifdef USE_KDE
                 QFont f = font();

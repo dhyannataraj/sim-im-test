@@ -211,21 +211,21 @@ void *HistoryWindow::processEvent(Event *e)
                 m_states.clear();
                 fill();
             }
-            return e->param();
+            return (void*)1;
         }
         if (cmd->id == CmdHistoryNext){
             if (m_page + 1 < m_states.size()){
                 m_page++;
                 fill();
             }
-            return e->param();
+            return (void*)1;
         }
         if (cmd->id == CmdHistoryPrev){
             if (m_page > 0){
                 m_page--;
                 fill();
             }
-            return e->param();
+            return (void*)1;
         }
         if (cmd->id == CmdHistorySave){
             QString str = QFileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
@@ -254,7 +254,7 @@ void *HistoryWindow::processEvent(Event *e)
                 if (!res)
                     QMessageBox::critical(this, i18n("Error"), i18n("Save failed"), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
             }
-            return e->param();
+            return (void*)1;
         }
         if (cmd->id == CmdHistoryFind){
             m_filter = "";
@@ -278,7 +278,7 @@ void *HistoryWindow::processEvent(Event *e)
             m_states.clear();
             m_view->setSelect(m_filter);
             fill();
-            return e->param();
+            return (void*)1;
         }
         break;
     }

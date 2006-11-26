@@ -1277,7 +1277,7 @@ void *ProxyPlugin::processEvent(Event *e)
                 msg = i18n(data.err_str).arg(data.args);
             ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data.client), msg);
             raiseWindow(err);
-            return e->param();
+            return(void*)1;
         }
         break;
     }

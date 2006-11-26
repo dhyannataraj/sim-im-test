@@ -278,7 +278,7 @@ void *DockPlugin::processEvent(Event *e)
                 setShowMain(true);
                 raiseWindow(main,getDesktop());
             }
-            return e->param();
+            return (void*)1;
         }
         if (def->id == CmdCustomize){
             EventMenu(DockMenu, EventMenu::eCustomize).process();

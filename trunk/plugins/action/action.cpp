@@ -237,8 +237,7 @@ void *ActionPlugin::processEvent(Event *e)
         t.contact  = contact;
         t.receiver = this;
         t.param	   = msg;
-        Event eTmpl(EventTemplateExpand, &t);
-        eTmpl.process();
+        Event(EventTemplateExpand, &t).process();
         return e->param();
     }
     case EventTemplateExpanded: {

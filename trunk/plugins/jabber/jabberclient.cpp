@@ -340,7 +340,7 @@ void *JabberClient::processEvent(Event *e)
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
                         delete contact;
-                    return e->param();
+                    return (void*)1;
                 }
             }
         }

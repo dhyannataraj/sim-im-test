@@ -1318,14 +1318,12 @@ void *MSNClient::processEvent(Event *e)
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNInitMail){
-            EventGoURL eGo(m_init_mail);
-            eGo.process();
-            return e->param();
+            EventGoURL(m_init_mail).process();
+            return (void*)1;
         }
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNNewMail){
-            EventGoURL eGo(m_new_mail);
-            eGo.process();
-            return e->param();
+            EventGoURL(m_new_mail).process();
+            return (void*)1;
         }
         break;
     }
@@ -1359,7 +1357,7 @@ void *MSNClient::processEvent(Event *e)
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
                         delete contact;
-                    return e->param();
+                    return (void*)1;
                 }
             }
         }

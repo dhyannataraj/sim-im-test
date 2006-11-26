@@ -769,7 +769,7 @@ void *UserView::processEvent(Event *e)
                         Group *g = getContacts()->group(grp_id);
                         if (g)
                             cmd->text_wrk = g->getName();
-                        return e->param();
+                        return (void*)1;
                     }
                     if ((cmd->id == CmdGrpDelete) || (cmd->id == CmdGrpRename)){
                         cmd->flags &= ~COMMAND_CHECKED;

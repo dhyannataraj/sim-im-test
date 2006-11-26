@@ -342,7 +342,7 @@ void *SearchDialog::processEvent(Event *e)
                             }else{
                                 BalloonMsg::message(err, m_result);
                             }
-                            return e->param();
+                            return (void*)1;
                         }
                         contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
                         contact->setGroup(grp->id());
@@ -350,23 +350,23 @@ void *SearchDialog::processEvent(Event *e)
                         e.process();
                     }
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdSearchInfo){
                 Contact *contact = createContact(CONTACT_TEMP);
                 if (contact == NULL)
-                    return e->param();
+                    return (void*)1;
                 Command cmd;
                 cmd->id		 = CmdInfo;
                 cmd->menu_id = MenuContact;
                 cmd->param   = (void*)(contact->id());
                 CorePlugin::m_plugin->showInfo(cmd);
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdSearchMsg){
                 Contact *contact = createContact(CONTACT_TEMP);
                 if (contact == NULL)
-                    return e->param();
+                    return (void*)1;
                 Message *m = new Message(MessageGeneric);
                 m->setContact(contact->id());
                 Event e(EventOpenMessage, &m);

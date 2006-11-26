@@ -164,13 +164,11 @@ void *UpdatePlugin::processEvent(Event *e)
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdGo){
-            EventGoURL eGo(m_url);
-            eGo.process();
+            EventGoURL(m_url).process();
             setTime(time(NULL));
             m_url = QString::null;
-            EventSaveState eSave;
-            eSave.process();
-            return e->param();
+            EventSaveState().process();
+            return (void*)1;
         }
     }
     return NULL;

@@ -88,7 +88,7 @@ void *ListView::processEvent(Event *e)
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() == this){
                 emit deleteItem(item);
-                return e->param();
+                return (void*)1;
             }
         }
     }
