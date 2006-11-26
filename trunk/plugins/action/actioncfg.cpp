@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "actioncfg.h"
 #include "menucfg.h"
 #include "listview.h"

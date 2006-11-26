@@ -17,6 +17,7 @@
 
 #include "proxycfg.h"
 #include "proxy.h"
+#include "icons.h"
 #include "socket.h"
 #include "fetch.h"
 

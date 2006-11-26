@@ -15,9 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
+#include "textshow.h"
 
 #ifdef USE_KDE
 # include <keditcl.h>
@@ -57,10 +55,9 @@
 #include <qtooltip.h>
 #include <qlayout.h>
 
-#include "textshow.h"
 #include "toolbtn.h"
 #include "html.h"
-#include "simapi.h"
+#include "misc.h"
 #include "unquot.h"
 
 #define MAX_HISTORY	100

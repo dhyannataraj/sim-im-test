@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "gpg.h"
 #include "gpgcfg.h"
 #include "ballonmsg.h"

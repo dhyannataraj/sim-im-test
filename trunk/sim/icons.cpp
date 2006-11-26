@@ -39,7 +39,9 @@
 #endif
 
 #include "sax.h"
+#include "contacts.h"
 #include "icons.h"
+#include "log.h"
 #include "qzip/qzip.h"
 #include "unquot.h"
 

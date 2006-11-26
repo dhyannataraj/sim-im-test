@@ -24,6 +24,8 @@ email                : vovan@shutoff.ru
 
 #include "buffer.h"
 #include "event.h"
+#include "log.h"
+#include "misc.h"
 #include "unquot.h"
 
 #include "contacts.h"

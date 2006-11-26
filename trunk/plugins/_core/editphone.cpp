@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "editphone.h"
 #include "phonedetails.h"
 #include "pagerdetails.h"

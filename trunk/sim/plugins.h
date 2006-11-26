@@ -20,7 +20,7 @@
 
 #include <qstring.h>
 #include "sim_export.h"
-#include "simapi.h"	// COPY_RESTRICTED
+#include "sim_export.h"	// COPY_RESTRICTED
 
 class QFile;
 class QLibrary;

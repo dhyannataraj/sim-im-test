@@ -18,6 +18,8 @@
 #ifndef _CMDDEF_H
 #define _CMDDEF_H
 
+#include "sim_export.h"
+
 namespace SIM {
 
 struct CommandDef;

@@ -30,6 +30,7 @@
 #include <qregexp.h>
 
 #include "ballonmsg.h"
+#include "icons.h"
 #include "unquot.h"
 
 #include "filetransfer.h"

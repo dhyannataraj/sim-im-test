@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "newprotocol.h"
 #include "connectwnd.h"
 #include "core.h"

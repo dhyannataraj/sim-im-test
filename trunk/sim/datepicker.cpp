@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "datepicker.h"
+#include "icons.h"
+#include "misc.h"
 #include "toolbtn.h"
 
 #include <qdatetime.h>

@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
+#include "misc.h"
+
 #include "passphrase.h"
 #include "gpg.h"
 #include "ballonmsg.h"

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "additem.h"
 #include "ballonmsg.h"
 #include "core.h"

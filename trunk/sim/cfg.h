@@ -25,6 +25,7 @@
 #include "sim_export.h"
 
 class QObject;
+class QWidget;
 class QToolBar;
 
 class Buffer;

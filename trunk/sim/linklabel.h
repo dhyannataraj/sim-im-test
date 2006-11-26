@@ -18,7 +18,7 @@
 #ifndef _LINKLABEL_H
 #define _LINKLABEL_H
 
-#include "simapi.h"
+#include "sim_export.h"
 
 #include <qlabel.h>
 

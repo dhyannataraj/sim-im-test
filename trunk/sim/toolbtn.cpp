@@ -31,6 +31,11 @@
 #include <qtoolbar.h>
 #include <qtooltip.h>
 
+#include "cmddef.h"
+#include "log.h"
+#include "icons.h"
+#include "misc.h"
+
 using namespace SIM;
 
 /*****************************

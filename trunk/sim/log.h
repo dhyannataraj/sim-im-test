@@ -18,6 +18,10 @@
 #ifndef _LOG_H
 #define _LOG_H
 
+#include "sim_export.h"
+
+class QString;
+
 namespace SIM {
 
 const unsigned short L_ERROR        = 0x01;

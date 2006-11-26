@@ -17,7 +17,7 @@
 #ifndef PREVIEW_H
 #define PREVIEW_H
 
-#include "simapi.h"
+#include "sim_export.h"
 #ifdef USE_KDE
 #include <kpreviewwidgetbase.h>
 #else

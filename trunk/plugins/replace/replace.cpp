@@ -19,6 +19,7 @@
 #include "replacecfg.h"
 #include "textshow.h"
 #include "html.h"
+#include "misc.h"
 
 #include <qapplication.h>
 

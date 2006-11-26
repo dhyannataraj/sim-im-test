@@ -20,6 +20,7 @@
 #include "core.h"
 #include "toolbtn.h"
 #include "buffer.h"
+#include "icons.h"
 
 #include <qmainwindow.h>
 #include <qframe.h>

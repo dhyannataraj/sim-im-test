@@ -28,6 +28,7 @@
 #include <qfiledialog.h>
 #endif
 
+#include "icons.h"
 #include "textshow.h"
 #include "unquot.h"
 

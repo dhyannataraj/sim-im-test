@@ -20,6 +20,7 @@
 
 #include <qobject.h>
 
+#include "cfg.h"
 #include "plugins.h"
 
 struct ReplaceData

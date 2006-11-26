@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "simapi.h"
 #include "moreinfo.h"
 #include "icqclient.h"

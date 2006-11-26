@@ -28,6 +28,9 @@
 #include <qfontdialog.h>
 #endif
 
+#include "icons.h"
+#include "misc.h"
+
 FontEdit::FontEdit(QWidget *parent, const char *name) : QFrame(parent, name)
 {
     QHBoxLayout *lay = new QHBoxLayout(this);

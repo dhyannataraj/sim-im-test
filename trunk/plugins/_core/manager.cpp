@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "manager.h"
 #include "newprotocol.h"
 #include "connectionsettings.h"

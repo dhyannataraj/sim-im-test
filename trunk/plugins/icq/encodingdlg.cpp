@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "encodingdlg.h"
 #include "icqclient.h"
 

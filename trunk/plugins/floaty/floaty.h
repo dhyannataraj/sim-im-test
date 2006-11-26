@@ -21,6 +21,7 @@
 #include <qobject.h>
 #include <qpoint.h>
 
+#include "cfg.h"
 #include "event.h"
 #include "plugins.h"
 

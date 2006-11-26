@@ -18,19 +18,17 @@
 #ifndef _MISC_H
 #define _MISC_H
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "sim_export.h"
 
 #include <qcolor.h>
 #include "contacts.h"
+#include "country.h"
 
 class KAboutData;
 class QComboBox;
 class QIconSet;
 
 //class Data;
-//struct ext_info;
 
 #ifdef Q_OS_WIN
 # ifndef snprintf
@@ -79,10 +77,6 @@ EXPORT void setWndClass(QWidget*, const char*);
 /* Raises widget w (on the KDE-Desktop desk) */
 EXPORT bool raiseWindow(QWidget *w, unsigned desk = 0);
 EXPORT void setButtonsPict(QWidget *w);
-
-EXPORT QIconSet Icon(const QString &name);
-EXPORT QPixmap Pict(const QString &name, const QColor &bgColor = QColor());
-EXPORT QImage  Image(const QString &name);
 
 EXPORT void setAboutData(KAboutData*);
 EXPORT KAboutData *getAboutData();

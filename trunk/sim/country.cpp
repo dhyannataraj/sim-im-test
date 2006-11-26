@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "country.h"
+#include "misc.h"
 
 namespace SIM
 {

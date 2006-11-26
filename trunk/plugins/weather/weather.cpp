@@ -30,6 +30,8 @@
 #include "socket.h"
 #include "toolbtn.h"
 #include "icons.h"
+#include "log.h"
+#include "misc.h"
 #include "unquot.h"
 
 #include "weather.h"

@@ -18,6 +18,7 @@
 
 #include "html.h"
 #include "buffer.h"
+#include "log.h"
 
 #define YY_NEVER_INTERACTIVE    1
 #define YY_ALWAYS_INTERACTIVE   0

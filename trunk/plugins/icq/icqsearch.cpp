@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "icqsearch.h"
 #include "icqclient.h"
 #include "advsearch.h"

@@ -22,7 +22,7 @@
 #include <qobject.h>
 #include <qstring.h>
 
-#include "simapi.h"     // COPY_RESTRICTED
+#include "sim_export.h"     // COPY_RESTRICTED
 #include "sim_export.h"
 
 #ifdef WIN32

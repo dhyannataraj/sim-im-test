@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "qkeybutton.h"
+#include "log.h"
 
 #include <qaccel.h>
 #include <qcursor.h>

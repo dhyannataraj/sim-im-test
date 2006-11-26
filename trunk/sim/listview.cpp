@@ -22,6 +22,8 @@
 #include <qapplication.h>
 #include <qheader.h>
 
+#include "misc.h"
+
 using namespace SIM;
 
 bool ListView::s_bInit = false;

@@ -18,8 +18,7 @@
 #ifndef SOCKFACTORY_H
 #define SOCKFACTORY_H	1
 
-#include "simapi.h"
-#include "stl.h"
+#include "sim_export.h"
 #include "socket.h"
 
 class QDns;

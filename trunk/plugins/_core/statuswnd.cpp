@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "statuswnd.h"
 #include "core.h"
 #include "ballonmsg.h"

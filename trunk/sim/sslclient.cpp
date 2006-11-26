@@ -21,14 +21,14 @@
 
 #ifdef USE_OPENSSL
 
-#include "simapi.h"
-
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 #include <openssl/md5.h>
 
+#include "log.h"
+#include "misc.h"
 #include "socket.h"
 
 namespace SIM

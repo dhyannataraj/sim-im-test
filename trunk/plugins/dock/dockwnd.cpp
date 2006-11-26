@@ -21,6 +21,7 @@
 #include <shellapi.h>
 #endif
 
+#include "icons.h"
 #include "simapi.h"
 #include "dockwnd.h"
 #include "dock.h"

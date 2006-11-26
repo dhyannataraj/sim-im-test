@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "sim_export.h"
+
 #ifdef USE_OPENSSL
 #include <openssl/ssl.h>
 #include <openssl/err.h>
@@ -28,8 +29,9 @@
 
 #include "fetch.h"
 #include "buffer.h"
+#include "log.h"
+#include "misc.h"
 #include "socket.h"
-#include "stl.h"
 
 using namespace std;
 using namespace SIM;

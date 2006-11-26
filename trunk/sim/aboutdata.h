@@ -43,7 +43,7 @@
 *
 */
 
-#include "simapi.h"
+#include "sim_export.h"
 
 #include <qvaluelist.h>
 #include <qstring.h>

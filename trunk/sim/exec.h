@@ -18,7 +18,7 @@
 #ifndef _EXEC_H
 #define _EXEC_H
 
-#include "simapi.h"
+#include "sim_export.h"
 #include "buffer.h"
 #include <qobject.h>
 

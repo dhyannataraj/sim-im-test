@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "warndlg.h"
 #include "ballonmsg.h"
 #include "icqclient.h"

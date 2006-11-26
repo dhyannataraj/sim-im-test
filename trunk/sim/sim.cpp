@@ -15,7 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "sim_export.h"
+#include "log.h"
+#include "misc.h"
 
 #ifdef WIN32
 #include <windows.h>

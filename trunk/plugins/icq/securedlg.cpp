@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "securedlg.h"
 #include "icqclient.h"
 #include "icqmessage.h"

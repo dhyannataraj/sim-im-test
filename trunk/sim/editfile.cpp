@@ -39,6 +39,8 @@
 
 #include "editfile.h"
 #include "event.h"
+#include "icons.h"
+#include "misc.h"
 #include "preview.h"
 #include "unquot.h"
 

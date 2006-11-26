@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "sockfactory.h"
 #include "socket.h"
+#include "log.h"
 #include "misc.h"   // sprintf
 
 #include <errno.h>

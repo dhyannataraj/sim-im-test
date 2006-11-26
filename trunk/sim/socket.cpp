@@ -16,7 +16,8 @@
  ***************************************************************************/
 
 #include "socket.h"
-#include "stl.h"
+#include "misc.h"
+#include "log.h"
 
 #include <qtimer.h>
 

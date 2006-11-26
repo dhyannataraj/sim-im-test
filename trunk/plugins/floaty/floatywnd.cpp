@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "floatywnd.h"
 #include "floaty.h"
 #include "simapi.h"

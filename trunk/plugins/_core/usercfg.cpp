@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "usercfg.h"
 #include "prefcfg.h"
 #include "maininfo.h"

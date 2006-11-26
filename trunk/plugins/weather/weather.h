@@ -19,7 +19,10 @@
 #define _WEATHER_H
 
 #include "sax.h"
+#include "cfg.h"
+#include "event.h"
 #include "fetch.h"
+#include "plugins.h"
 
 #include <qdatetime.h>
 

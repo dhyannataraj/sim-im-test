@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "simapi.h"
 #include "core.h"
 #include "logindlg.h"

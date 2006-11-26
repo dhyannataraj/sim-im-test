@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
+
 #include "autoreply.h"
 #include "core.h"
 #include "ballonmsg.h"

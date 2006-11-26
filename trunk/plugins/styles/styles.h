@@ -18,6 +18,7 @@
 #ifndef _STYLES_H
 #define _STYLES_H
 
+#include "cfg.h"
 #include "plugins.h"
 
 class QFont;

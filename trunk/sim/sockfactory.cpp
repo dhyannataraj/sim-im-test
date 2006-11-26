@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "sockfactory.h"
 #include "fetch.h"
+#include "log.h"
+#include "misc.h"
 
 #ifdef WIN32
 #include <winsock.h>

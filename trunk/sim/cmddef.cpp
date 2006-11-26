@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "cmddef.h"
 #include "event.h"
-#include "stl.h"
+#include "log.h"
+#include "misc.h"
 
 namespace SIM
 {

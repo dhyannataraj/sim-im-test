@@ -15,8 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "event.h"
+#include "log.h"
+#include "icons.h"
+#include "misc.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -63,7 +65,6 @@
 #include <X11/Xutil.h>
 #endif
 
-#include "stl.h"
 
 #ifndef USE_KDE
 

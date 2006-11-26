@@ -35,7 +35,7 @@
 #include <sys/wait.h>
 #endif
 
-#include "stl.h"
+#include "log.h"
 
 using namespace std;
 using namespace SIM;

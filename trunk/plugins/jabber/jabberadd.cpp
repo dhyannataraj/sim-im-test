@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "jabberclient.h"
 #include "jabberadd.h"
 #include "jabber.h"

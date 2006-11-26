@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "search.h"
 #include "usercfg.h"
 #include "core.h"

@@ -18,7 +18,8 @@
 #ifndef _TOOLBTN_H
 #define _TOOLBTN_H
 
-#include "simapi.h"
+#include "sim_export.h"
+#include "event.h"
 
 #include <qtoolbar.h>
 #include <qtoolbutton.h>

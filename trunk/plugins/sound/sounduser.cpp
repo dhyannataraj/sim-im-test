@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "sounduser.h"
 #include "sound.h"
 #include "listview.h"

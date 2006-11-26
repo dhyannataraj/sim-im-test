@@ -18,10 +18,11 @@
 #ifndef _HTML_H
 #define _HTML_H	1
 
-#include "simapi.h"
-#include "stl.h"
+#include "sim_export.h"
+#include <list>
 
 class Buffer;
+class QString;
 
 namespace SIM
 {

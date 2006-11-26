@@ -18,7 +18,7 @@
 #ifndef _ICONS_H
 #define _ICONS_H
 
-#include "simapi.h"
+#include "sim_export.h"
 #include "event.h"
 
 #include <qiconset.h>
@@ -67,6 +67,10 @@ protected:
 };
 
 EXPORT Icons *getIcons();
+
+EXPORT QIconSet Icon(const QString &name);
+EXPORT QPixmap Pict(const QString &name, const QColor &bgColor = QColor());
+EXPORT QImage  Image(const QString &name);
 
 };
 

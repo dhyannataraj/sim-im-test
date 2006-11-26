@@ -18,6 +18,8 @@
 #ifndef _COUNTRY_H
 #define _COUNTRY_H
 
+#include "sim_export.h"
+
 namespace SIM {
 
 // _____________________________________________________________________________________

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "simapi.h"
 #include "proxyerror.h"
 #include "proxycfg.h"

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
+#include "log.h"
 #include "buffer.h"
 #include "event.h"
 

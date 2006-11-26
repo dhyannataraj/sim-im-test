@@ -25,9 +25,10 @@
 #include <qstringlist.h>
 #include <qregexp.h>
 
+#include "message.h"
+#include "misc.h"
 #include "unquot.h"
 
-#include "message.h"
 
 namespace SIM
 {

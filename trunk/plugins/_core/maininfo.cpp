@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "maininfo.h"
 #include "editmail.h"
 #include "editphone.h"

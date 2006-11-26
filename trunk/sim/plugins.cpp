@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include <vector>
+
+#include "plugins.h"
 
 #include <qapplication.h>
 #include <qdir.h>
@@ -29,10 +29,10 @@
 #include <qstringlist.h>
 #include <qtextstream.h>
 
-#include "simapi.h"
 #include "sockfactory.h"
 #include "fetch.h"
 #include "exec.h"
+#include "misc.h"
 #include "xsl.h"
 #include "builtinlogger.h"
 

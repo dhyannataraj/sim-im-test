@@ -20,12 +20,11 @@
 
 #include <qstring.h>
 
-#include "simapi.h"
 #include "sim_export.h"
 #include "event.h"
+#include "cfg.h"
 
 class QFile;
-class Buffer;
 
 namespace SIM {
 

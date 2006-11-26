@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+#include "icons.h"
+
 #include "gpggen.h"
 #include "gpgcfg.h"
 #include "gpg.h"

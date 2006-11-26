@@ -26,7 +26,8 @@
 #include <vector>
 
 #include "buffer.h"
-#include "simapi.h"
+#include "event.h"
+#include "log.h"
 
 using namespace std;
 using namespace SIM;

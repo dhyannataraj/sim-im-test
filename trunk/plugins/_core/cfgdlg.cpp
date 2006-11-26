@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
 #include "cfgdlg.h"
 #include "plugincfg.h"
 #include "maininfo.h"

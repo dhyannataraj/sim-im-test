@@ -20,6 +20,7 @@
 #include "msgview.h"
 #include "toolbtn.h"
 #include "history.h"
+#include "icons.h"
 
 #include <qpixmap.h>
 #include <qtimer.h>

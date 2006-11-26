@@ -22,6 +22,7 @@
 #include <qstring.h>
 #include <qvaluelist.h>
 
+#include "cfg.h"
 #include "event.h"
 #include "plugins.h"
 

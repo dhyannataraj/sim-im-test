@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "jabberclient.h"
+#include "log.h"
 #include "fetch.h"
 
 using std::string;
