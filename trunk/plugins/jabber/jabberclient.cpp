@@ -299,7 +299,7 @@ void JabberClient::packet_ready()
         return;
     JabberPlugin *plugin = static_cast<JabberPlugin*>(protocol()->plugin());
     EventLog::log_packet(m_socket->readBuffer, false, plugin->JabberPacket);
-    if (!parse(m_socket->readBuffer.data(), m_socket->readBuffer.size(), true))
+    if (!parse(m_socket->readBuffer, true))
         m_socket->error_state("XML parse error");
     m_socket->readBuffer.init(0);
     m_socket->readBuffer.packetStart();
@@ -670,33 +670,20 @@ void JabberClient::sendPacket()
     m_socket->write();
 }
 
-QString JabberClient::get_attr(const char *name, const char **attr)
+void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (attr == NULL)
-        return "";
-    for (const char **p = attr; *p; ){
-        QString tag = QString::fromUtf8(*(p++)).lower();
-        if (tag == name){
-            return QString::fromUtf8(*p);
-        }
-    }
-    return "";
-}
-
-void JabberClient::element_start(const char *el, const char **attr)
-{
-    QCString element = QCString(el).lower();
+    QString element = el.lower();
     const char *id = NULL;
     if (m_depth){
         if (m_curRequest){
-            m_curRequest->element_start(element, attr);
+            m_curRequest->element_start(element, attrs);
         }else{
             if (element == "iq"){
-                QString id = get_attr("id", attr);
-                QString type = get_attr("type", attr);
-                if (id.isEmpty() || (type == "set") || (type == "get")){
+                QString id = attrs.value("id");
+                QString type = attrs.value("type");
+                if (id.isEmpty() || type == "set" || type == "get"){
                     m_curRequest = new IqRequest(this);
-                    m_curRequest->element_start(element, attr);
+                    m_curRequest->element_start(element, attrs);
                 }else{
                     list<ServerRequest*>::iterator it;
                     for (it = m_requests.begin(); it != m_requests.end(); ++it){
@@ -706,30 +693,24 @@ void JabberClient::element_start(const char *el, const char **attr)
                     if (it != m_requests.end()){
                         m_curRequest = *it;
                         m_requests.erase(it);
-                        m_curRequest->element_start(element, attr);
+                        m_curRequest->element_start(element, attrs);
                     }else{
                         log(L_WARN, "Packet %s not found", id.latin1());
                     }
                 }
             }else if (element == "presence"){
                 m_curRequest = new PresenceRequest(this);
-                m_curRequest->element_start(element, attr);
+                m_curRequest->element_start(element, attrs);
             }else if (element == "message"){
                 m_curRequest = new MessageRequest(this);
-                m_curRequest->element_start(element, attr);
+                m_curRequest->element_start(element, attrs);
             }else if (element != "a"){
                 log(L_DEBUG, "Bad tag %s", element.data());
             }
         }
     }else{
-        if (element == "stream:stream" && attr){
-            for (const char **p = attr; *p; ){
-                QCString tag = QCString(*(p++)).lower();
-                if (tag == "id"){
-                    id = *p;
-                    break;
-                }
-            }
+        if (element == "stream:stream"){
+            id = attrs.value("id");
         }
         log(L_DEBUG, "Handshake %s (%s)", id, element.data());
         handshake(id);
@@ -737,11 +718,11 @@ void JabberClient::element_start(const char *el, const char **attr)
     m_depth++;
 }
 
-void JabberClient::element_end(const char *el)
+void JabberClient::element_end(const QString& el)
 {
     m_depth--;
     if (m_curRequest){
-        QCString element = QCString(el).lower();
+        QString element = el.lower();
         m_curRequest->element_end(element);
         if (m_depth == 1){
             delete m_curRequest;
@@ -750,10 +731,10 @@ void JabberClient::element_end(const char *el)
     }
 }
 
-void JabberClient::char_data(const char *str, int len)
+void JabberClient::char_data(const QString& str)
 {
     if (m_curRequest)
-        m_curRequest->char_data(str, len);
+        m_curRequest->char_data(str);
 }
 
 QString JabberClient::get_unique_id()
@@ -801,15 +782,15 @@ void JabberClient::ServerRequest::send()
     m_client->sendPacket();
 }
 
-void JabberClient::ServerRequest::element_start(const char*, const char**)
+void JabberClient::ServerRequest::element_start(const QString&, const QXmlAttributes&)
 {
 }
 
-void JabberClient::ServerRequest::element_end(const char*)
+void JabberClient::ServerRequest::element_end(const QString&)
 {
 }
 
-void JabberClient::ServerRequest::char_data(const char*, int)
+void JabberClient::ServerRequest::char_data(const QString&)
 {
 }
 

@@ -156,9 +156,9 @@ protected:
     void *processEvent(SIM::Event*);
     WeatherData data;
     SIM::IconSet *m_icons;
-    void		element_start(const char *el, const char **attr);
-    void		element_end(const char *el);
-    void		char_data(const char *str, int len);
+    void		element_start(const QString& el, const QXmlAttributes& attrs);
+    void		element_end(const QString& el);
+    void		char_data(const QString& str);
 };
 
 #endif

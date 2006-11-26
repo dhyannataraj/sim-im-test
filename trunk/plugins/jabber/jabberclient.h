@@ -215,9 +215,9 @@ public:
         static const char *_SET;
         static const char *_RESULT;
     protected:
-        virtual void	element_start(const char *el, const char **attr);
-        virtual void	element_end(const char *el);
-        virtual	void	char_data(const char *str, int len);
+        virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+        virtual void element_end(const QString& el);
+        virtual void char_data(const QString& str);
         QString  		m_element;
         std::stack<QString>	m_els;
         QString		    m_id;
@@ -231,9 +231,9 @@ class IqRequest : public ServerRequest
         IqRequest(JabberClient *client);
         ~IqRequest();
     public:
-        virtual void	element_start(const char *el, const char **attr);
-        virtual void	element_end(const char *el);
-        virtual	void	char_data(const char *str, int len);
+        virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+        virtual void element_end(const QString& el);
+        virtual void char_data(const QString& str);
         QString		*m_data;
         QString		m_url;
         QString		m_descr;
@@ -251,9 +251,9 @@ class PresenceRequest : public ServerRequest
         PresenceRequest(JabberClient *client);
         ~PresenceRequest();
     protected:
-        virtual void element_start(const char *el, const char **attr);
-        virtual void element_end(const char *el);
-        virtual void char_data(const char *str, int len);
+        virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+        virtual void element_end(const QString& el);
+        virtual void char_data(const QString& str);
         QString m_from;
         QString m_data;
         QString m_type;
@@ -269,9 +269,9 @@ class MessageRequest : public ServerRequest
         MessageRequest(JabberClient *client);
         ~MessageRequest();
     protected:
-        virtual void element_start(const char *el, const char **attr);
-        virtual void element_end(const char *el);
-        virtual void char_data(const char *str, int len);
+        virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+        virtual void element_end(const QString& el);
+        virtual void char_data(const QString& str);
         QString m_from;
         QString *m_data;
         QString m_body;
@@ -419,9 +419,10 @@ protected:
     unsigned	m_msg_id;
 
     bool		m_bHTTP;
-    void		element_start(const char *el, const char **attr);
-    void		element_end(const char *el);
-    void		char_data(const char *str, int len);
+
+    void element_start(const QString& el, const QXmlAttributes& attrs);
+    void element_end(const QString& el);
+    void char_data(const QString& str);
 
     std::list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;

@@ -88,7 +88,7 @@ bool WeatherCfg::done(unsigned, Buffer &data, const QString&)
     m_id = "";
     m_data = "";
     reset();
-    if (!parse(data.data(), data.size(), false))
+    if (!parse(data, false))
         log(L_WARN, "XML parse error");
     btnSearch->setText(i18n("&Search"));
     QString oldText = cmbLocation->lineEdit()->text();
@@ -147,21 +147,16 @@ void WeatherCfg::apply()
     }
 }
 
-void WeatherCfg::element_start(const char *el, const char **attr)
+void WeatherCfg::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "loc") && attr){
-        for (const char **p = attr; *p;){
-            QCString key  = *(p++);
-            QString value = *(p++);
-            if (key == "id")
-                m_id = value;
-        }
+    if (el == "loc"){
+        m_id = attrs.value("id");
     }
 }
 
-void WeatherCfg::element_end(const char *el)
+void WeatherCfg::element_end(const QString& el)
 {
-    if (!strcmp(el, "loc") && !m_id.isEmpty() && !m_data.isEmpty()){
+    if (el == "loc" && !m_id.isEmpty() && !m_data.isEmpty()){
         m_ids.append(m_id);
         m_names.append(m_data);
         m_id = "";
@@ -169,10 +164,10 @@ void WeatherCfg::element_end(const char *el)
     }
 }
 
-void WeatherCfg::char_data(const char *str, int len)
+void WeatherCfg::char_data(const QString& str)
 {
     if (!m_id.isEmpty())
-		m_data += QString::fromLatin1(str, len);
+        m_data += str;
 }
 
 #ifndef NO_MOC_INCLUDES

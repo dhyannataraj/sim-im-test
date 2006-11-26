@@ -201,7 +201,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)
     m_bCC	= false;
     m_bMoon	= false;
     reset();
-    if (!parse(data.data(), data.size(), false)){
+    if (!parse(data, false)){
         log(L_WARN, "XML parse error");
         return false;
     }
@@ -633,71 +633,49 @@ static const char *tags[] =
         NULL,
     };
 
-void WeatherPlugin::element_start(const char *el, const char **attr)
+void WeatherPlugin::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     m_bData = false;
-    if (!strcmp(el, "cc")){
+    if (el == "cc"){
         m_bCC = true;
         return;
     }
-    if (!strcmp(el, "bar")){
+    if (el == "bar"){
         m_bBar = true;
         return;
     }
-    if (!strcmp(el, "wind")){
+    if (el == "wind"){
         m_bWind = true;
         return;
     }
-    if (!strcmp(el, "uv")) {
-		m_bUv = true;
+    if (el == "uv") {
+        m_bUv = true;
         return;
     }
-    if (!strcmp(el, "moon")) {
+    if (el == "moon") {
         m_bMoon = true;
         return;
     }
-    if (!strcmp(el, "day")){
+    if (el == "day"){
         m_bDayForecastIsValid = true; // Initial value
-        QString wday;
-        QString day;
-        for (const char **p = attr; *p;){
-            QCString key  = *(p++);
-            QString value = *(p++);
-            if (key == "d"){
-                m_day = value.toLong();
-                continue;
-            }
-            if (key == "dt"){
-                day = value;
-                continue;
-            }
-            if (key == "t"){
-                wday = value;
-                continue;
-            }
-            if (m_day > getForecast()){
-                m_day = 0;
-                continue;
-            }
-        }
+        m_day = attrs.value("d").toLong();
+        QString day = attrs.value("dt");
+        QString wday = attrs.value("t");
+        if (m_day > getForecast())
+            m_day = 0;
         m_day++;
         setDay(m_day, day);
         setWDay(m_day, wday);
         return;
     }
-    if (!strcmp(el, "part")){
-	for (const char **p = attr; *p;){
-	    QCString key  = *(p++);
-	    QString value = *(p++);
-	    if (key == "p"){
-		if (value == "d") m_bDayPart = 'd';
-		if (value == "n") m_bDayPart = 'n';
-	    }
-	}
-	return;
+    if (el == "part"){
+        QString value = attrs.value("p");
+        if (value == "d") m_bDayPart = 'd';
+        if (value == "n") m_bDayPart = 'n';
+        return;
     }
     for (const char **p = tags; *p; p++){
-        if (!strcmp(*p, el)){
+        if (*p == el){
             m_bData = true;
             m_data = QString::null;
             return;
@@ -705,80 +683,80 @@ void WeatherPlugin::element_start(const char *el, const char **attr)
     }
 }
 
-void WeatherPlugin::element_end(const char *el)
+void WeatherPlugin::element_end(const QString& el)
 {
-    if (!strcmp(el, "day")){
+    if (el == "day"){
         if (getMinT(m_day).isEmpty() || getMaxT(m_day).isEmpty())
             m_day--;
         return;
     }
-    if (!strcmp(el, "obst")){
+    if (el == "obst"){
         setLocation(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "lsup")){
+    if (el == "lsup"){
         setUpdated(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "sunr") && (m_day == 0)){
+    if (el == "sunr" && m_day == 0){
         setSun_raise(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "suns") && (m_day == 0)){
+    if (el == "suns" && m_day == 0){
         setSun_set(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "vis") && m_bCC){
+    if (el == "vis" && m_bCC){
         setVisibility(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "tmp") && m_bCC){
+    if (el == "tmp" && m_bCC){
         setTemperature(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "flik") && m_bCC){
+    if (el == "flik" && m_bCC){
         setFeelsLike(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "dewp") && m_bCC){
+    if (el == "dewp" && m_bCC){
         setDewPoint(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "ppcp") && (m_day == 1) ) {
+    if (el == "ppcp" && (m_day == 1) ) {
         if (((m_bDayPart == 'd') && m_bDayForecastIsValid) || ((m_bDayPart == 'n') && ! m_bDayForecastIsValid )){
     	    setPrecipitation(m_data.toLong());
             m_data = QString::null;
     	    return;
 	}
     }
-    if (!strcmp(el, "hmid") && m_bCC){
+    if (el == "hmid" && m_bCC){
         setHumidity(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "low") && m_day){
+    if (el == "low" && m_day){
         if (m_data == "N/A")
             m_data = QString::null;
         setMinT(m_day, m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "hi") && m_day){
+    if (el == "hi" && m_day){
         if (m_data == "N/A")
             m_data = "-255";
         setMaxT(m_day, m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "t")){
+    if (el == "t"){
         if (!m_bBar && !m_bWind && !m_bUv && !m_bMoon){
             if (m_bCC){
                 setConditions(m_data);
@@ -798,13 +776,13 @@ void WeatherPlugin::element_end(const char *el)
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "i")) {
+    if (el == "i") {
         if (m_bUv && m_bCC)
             setUV_Intensity(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "icon")){
+    if (el == "icon"){
         if (m_bMoon && m_bCC) {
             setMoonIcon(m_data.toLong());
         } else if (m_bCC){
@@ -815,12 +793,12 @@ void WeatherPlugin::element_end(const char *el)
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "ut")){
+    if (el == "ut"){
         setUT(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "up")){
+    if (el == "up"){
         if (m_data == "in"){
 	    setUP("inHg");
 	} else {
@@ -829,30 +807,30 @@ void WeatherPlugin::element_end(const char *el)
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "us")){
+    if (el == "us"){
         setUS(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "ud")){
+    if (el == "ud"){
         setUD(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "gust") && m_bCC){
+    if (el == "gust" && m_bCC){
         setWindGust(m_data.toLong());
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "bar")){
+    if (el == "bar"){
         m_bBar = false;
         return;
     }
-    if (!strcmp(el, "cc")){
+    if (el == "cc"){
         m_bCC = false;
         return;
     }
-    if (!strcmp(el, "r") && m_bBar && m_bCC){
+    if (el == "r" && m_bBar && m_bCC){
         unsigned long v = (unsigned long)m_data.toFloat();
 	if ( QString(getUP()) == "mb" ){
 	    v=v * 75 / 100;
@@ -863,33 +841,33 @@ void WeatherPlugin::element_end(const char *el)
 	}
         return;
     }
-    if (!strcmp(el, "d") && m_bBar && m_bCC){
+    if (el == "d" && m_bBar && m_bCC){
         setPressureD(m_data);
         m_data = QString::null;
         return;
     }
-    if (!strcmp(el, "wind")){
+    if (el == "wind"){
         m_bWind = false;
         return;
     }
-    if (!strcmp(el, "s") && m_bWind && m_bCC){
+    if (el == "s" && m_bWind && m_bCC){
         setWind_speed(m_data.toLong());
         return;
     }
-    if (!strcmp(el, "uv")){
+    if (el == "uv"){
         m_bUv = false;
         return;
     }
-    if (!strcmp(el, "moon")){
+    if (el == "moon"){
         m_bMoon = false;
         return;
     }
 }
 
-void WeatherPlugin::char_data(const char *str, int len)
+void WeatherPlugin::char_data(const QString& str)
 {
     if (m_bData)
-        m_data += QString::fromLatin1(str, len);
+        m_data += str;
 }
 
 #ifndef NO_MOC_INCLUDES

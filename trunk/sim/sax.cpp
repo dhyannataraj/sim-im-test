@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qxml.h>
 #include "sax.h"
 #include "log.h"
 
@@ -58,14 +57,7 @@ bool SAXParserPrivate::startElement(const QString&,
                                     const QString &qName,
                                     const QXmlAttributes &attribs)
 {
-    char** attr = new char*[2 * attribs.count() + 1];
-    for (int i = 0; i < attribs.count(); i++)
-    {
-        attr[2 * i] = strdup(attribs.qName(i).utf8().data());
-        attr[2 * i + 1] = strdup(attribs.value(i).utf8().data());
-    }
-    attr[2 * attribs.count()] = NULL;
-    m_parser->element_start(qName.utf8().data(), (const char**)attr);
+    m_parser->element_start(qName, attribs);
     return true;
 }
 
@@ -73,13 +65,13 @@ bool SAXParserPrivate::endElement(const QString&,
                                   const QString&,
                                   const QString &qName)
 {
-    m_parser->element_end(qName.utf8().data());
+    m_parser->element_end(qName);
     return true;
 }
 
 bool SAXParserPrivate::characters(const QString &str)
 {
-    m_parser->char_data(str.utf8().data(), strlen(str.utf8().data()));
+    m_parser->char_data(str);
     return true;
 }
     

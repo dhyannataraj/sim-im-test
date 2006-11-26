@@ -94,9 +94,9 @@ public:
     PictDef *getPict(const QString &name);
     void clear();
 protected:
-    virtual void element_start(const char *el, const char **attr);
-    virtual void element_end(const char *el);
-    virtual void char_data(const char *str, int len);
+    virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+    virtual void element_end(const QString& el);
+    virtual void char_data(const QString& str);
     QString     m_name;
     QString     m_file;
     QString     m_smile;
@@ -508,9 +508,9 @@ void FileIconSet::clear()
     }
 }
 
-void FileIconSet::element_start(const char *el, const char **args)
+void FileIconSet::element_start(const QString& el, const QXmlAttributes& attrs)
 {
-    if (!strcmp(el, "icon")){
+    if (el == "icon"){
         m_name  = "";
         m_smile = "";
         m_flags = 0;
@@ -518,36 +518,19 @@ void FileIconSet::element_start(const char *el, const char **args)
 #ifdef USE_KDE
         m_system = "";
 #endif
-        if (args){
-            for (; *args; ){
-                const char *key = *(args++);
-                const char *value = *(args++);
-                if (!strcmp(key, "name"))
-                    m_name = value;
-                if (!strcmp(key, "flags"))
-                    m_flags = atol(value);
+        m_name = attrs.value("name");
+        m_flags = attrs.value("value").toUInt();
 #ifdef USE_KDE
-                if (!strcmp(key, "kicon"))
-                    m_system = value;
+        m_system = attrs.value("kicon");
 #endif
-            }
-        }
         if (m_name.isEmpty()){
             m_name = "s_";
             m_name += QString::number(++Icons::nSmile);
         }
         return;
     }
-    if (!strcmp(el, "object") && m_file.isEmpty()){
-        QString mime;
-        if (args){
-            for (; *args; ){
-                const char *key = *(args++);
-                const char *value = *(args++);
-                if (!strcmp(key, "mime"))
-                    mime = value;
-            }
-        }
+    if (el == "object" && m_file.isEmpty()){
+        QString mime = attrs.value("mime");
         if (mime.isEmpty())
             return;
         int n = mime.find('/');
@@ -565,15 +548,15 @@ void FileIconSet::element_start(const char *el, const char **args)
         }
         return;
     }
-    if (!strcmp(el, "text")){
+    if (el == "text"){
         m_smile = "";
         m_data = &m_smile;
     }
 }
 
-void FileIconSet::element_end(const char *el)
+void FileIconSet::element_end(const QString& el)
 {
-    if (!strcmp(el, "icon")){
+    if (el == "icon"){
         PictDef p;
         p.file   = m_file;
         p.flags  = m_flags;
@@ -595,7 +578,7 @@ void FileIconSet::element_end(const char *el)
         }
 #endif
     }
-    if (!strcmp(el, "text")){
+    if (el == "text"){
         if (!m_smile.isEmpty() && !m_name.isEmpty()){
             smileDef s;
             s.name  = m_name;
@@ -607,10 +590,10 @@ void FileIconSet::element_end(const char *el)
     m_data = NULL;
 }
 
-void FileIconSet::char_data(const char *data, int size)
+void FileIconSet::char_data(const QString& str)
 {
     if (m_data)
-        *m_data += QString::fromLatin1(data, size);
+        *m_data += str;
 }
 
 /*************************************
