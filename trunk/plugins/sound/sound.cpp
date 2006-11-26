@@ -202,8 +202,7 @@ void *SoundPlugin::processEvent(Event *e)
         Contact *contact = ec->contact();
         SoundUserData *data = (SoundUserData*)(contact->getUserData(user_data_id));
         if (data && !data->Alert.str().isEmpty() && !data->Disable.toBool()){
-            EventPlaySound eSound(data->Alert.str());
-            eSound.process();
+            EventPlaySound(data->Alert.str()).process();
         }
         break;
     }
@@ -221,8 +220,7 @@ void *SoundPlugin::processEvent(Event *e)
             sound = getMessageSent();
         }
         if (!sound.isEmpty()){
-            EventPlaySound eSound(sound);
-            eSound.process();
+            EventPlaySound(sound).process();
         }
         break;
     }

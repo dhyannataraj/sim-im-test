@@ -200,11 +200,11 @@ void *MsgFile::processEvent(Event *e)
                     msg->setClient(m_client);
                     m_edit->sendMessage(msg);
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdFileName){
                 selectFile();
-                return e->param();
+                return (void*)1;
             }
         }
     }

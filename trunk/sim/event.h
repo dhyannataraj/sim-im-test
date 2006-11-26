@@ -920,7 +920,7 @@ class EXPORT EventCommand : public Event
 {
 public:
     EventCommand(SIMEvents e, CommandDef *cmd)
-        : Event(e), m_cmd(cmd) {}
+        : Event(e, (void*)1), m_cmd(cmd) {}
 
     CommandDef *cmd() const { return m_cmd; }
 protected:

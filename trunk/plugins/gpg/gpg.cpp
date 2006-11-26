@@ -943,8 +943,7 @@ void *MsgGPGKey::processEvent(Event *e)
                 MsgSend s;
                 s.edit = m_edit;
                 s.msg  = msg;
-                Event e(EventRealSendMessage, &s);
-                e.process();
+                Event(EventRealSendMessage, &s).process();
             }
             return (void*)1;
         }

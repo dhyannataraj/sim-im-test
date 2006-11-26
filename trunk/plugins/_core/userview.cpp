@@ -440,7 +440,7 @@ void *UserView::processEvent(Event *e)
                                             this, SLOT(deleteContact(void*)), NULL, &rc, NULL,
                                             i18n("Remove history"), &m_bRemoveHistory);
                         }
-                        return e->param();
+                        return (void*)1;
                     }
                     if (cmd->id == CmdContactRename){
                         QListViewItem *item = findContactItem(contact->id());
@@ -448,7 +448,7 @@ void *UserView::processEvent(Event *e)
                             setCurrentItem(item);
                             renameContact();
                         }
-                        return e->param();
+                        return (void*)1;
                     }
                     if (cmd->id == CmdShowAlways){
                         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
@@ -458,11 +458,10 @@ void *UserView::processEvent(Event *e)
                                 bShow = true;
                             if (data->ShowAlways.toBool() != bShow){
                                 data->ShowAlways.asBool() = bShow;
-                                EventContact e(contact, EventContact::eChanged);
-                                e.process();
+                                EventContact(contact, EventContact::eChanged).process();
                             }
                         }
-                        return e->param();
+                        return (void*)1;
                     }
                     if (cmd->id == CmdClose){
                         UserWnd *wnd = NULL;
@@ -481,7 +480,7 @@ void *UserView::processEvent(Event *e)
                         delete list;
                         if (wnd){
                             delete wnd;
-                            return e->param();
+                            return (void*)1;
                         }
                     }
                     if (cmd->id > CmdSendMessage){
@@ -492,7 +491,7 @@ void *UserView::processEvent(Event *e)
                         c->flags   = cmd->flags;
                         EventCommandExec eCmd(c);
                         if (eCmd.process())
-                            return e->param();
+                            return (void*)1;
                     }
                 }
             }
@@ -504,7 +503,7 @@ void *UserView::processEvent(Event *e)
                         contact->setGroup(grp->id());
                         EventContact eChanged(contact, EventContact::eChanged);
                         eChanged.process();
-                        return e->param();
+                        return (void*)1;
                     }
                 }
             }
@@ -532,7 +531,7 @@ void *UserView::processEvent(Event *e)
                         ++it;
                     }
                     if (from && to && (from == to))
-                        return e->param();
+                        return (void*)1;
                     UserWnd *userWnd = NULL;
                     if (from){
                         userWnd = from->wnd(contact->id());
@@ -548,7 +547,7 @@ void *UserView::processEvent(Event *e)
                     raiseWindow(to);
                     to->setNoSwitch(false);
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdOnline){
                 CorePlugin::m_plugin->setShowOnLine((cmd->flags & COMMAND_CHECKED) != 0);
@@ -586,7 +585,7 @@ void *UserView::processEvent(Event *e)
                         QTimer::singleShot(0, this, SLOT(renameGroup()));
                     }
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdGrpRename){
                 QListViewItem *item = findGroupItem((unsigned long)(cmd->param));
@@ -594,7 +593,7 @@ void *UserView::processEvent(Event *e)
                     setCurrentItem(item);
                     renameGroup();
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdGrpUp){
                 unsigned long grp_id = (unsigned long)(cmd->param);
@@ -604,7 +603,7 @@ void *UserView::processEvent(Event *e)
                     ensureItemVisible(item);
                     setCurrentItem(item);
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdGrpDown){
                 unsigned long grp_id = (unsigned long)(cmd->param);
@@ -614,7 +613,7 @@ void *UserView::processEvent(Event *e)
                     ensureItemVisible(item);
                     setCurrentItem(item);
                 }
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdGrpDelete){
                 unsigned long grp_id = (unsigned long)(cmd->param);

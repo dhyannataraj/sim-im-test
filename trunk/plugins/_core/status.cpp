@@ -436,7 +436,7 @@ void *CommonStatus::processEvent(Event *e)
                     for (unsigned i = 0; i < getContacts()->nClients(); i++){
                         getContacts()->getClient(i)->setInvisible(CorePlugin::m_plugin->getInvisible());
                     }
-                    return e->param();
+                    return (void*)1;
                 }
                 Client *client = getContacts()->getClient(0);
                 if (client == NULL)
@@ -466,7 +466,7 @@ void *CommonStatus::processEvent(Event *e)
                     if (noShow.isEmpty()){
                         AutoReplyDialog dlg(def->id);
                         if (!dlg.exec())
-                            return e->param();
+                            return (void*)1;
                     }
                 }
                 CorePlugin::m_plugin->setManualStatus(def->id);
@@ -475,7 +475,7 @@ void *CommonStatus::processEvent(Event *e)
                     if (client->getCommonStatus())
                         client->setStatus(def->id, true);
                 }
-                return e->param();
+                return (void*)1;
             }
             break;
         }

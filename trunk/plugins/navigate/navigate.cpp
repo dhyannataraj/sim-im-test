@@ -384,8 +384,7 @@ void *NavigatePlugin::processEvent(Event *e)
 			QString encodedUrl = qurl.toString(true, false);
 			url = encodedUrl;
         }
-        EventExec eExec(param, url);
-        eExec.process();
+        EventExec(param, url).process();
 #endif // WIN32
         return (void*)1;
     } else
@@ -410,7 +409,7 @@ void *NavigatePlugin::processEvent(Event *e)
                 nMails++;
             }
             cmd->popup_id = (nMails <= 1) ? 0 : MenuMail;
-            return e->param();
+            return (void*)1;
         }
         if (cmd->id == CmdMailList){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -471,8 +470,7 @@ void *NavigatePlugin::processEvent(Event *e)
                     mail = getToken(mail, '/');
                     if (mail.length()){
                         QString addr = "mailto:" + mail;
-                        EventGoURL eMail(addr);
-                        eMail.process();
+                        EventGoURL(addr).process();
                     }
                     break;
                 }

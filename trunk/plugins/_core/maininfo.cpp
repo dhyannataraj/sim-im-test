@@ -168,11 +168,11 @@ void *MainInfo::processEvent(Event *e)
                 return NULL;
             if (cmd->id == CmdEditList){
                 editMail(item);
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdRemoveList){
                 deleteMail(item);
-                return e->param();
+                return (void*)1;
             }
         }
         if (cmd->menu_id == MenuPhoneList){
@@ -184,11 +184,11 @@ void *MainInfo::processEvent(Event *e)
                 return NULL;
             if (cmd->id == CmdEditList){
                 editPhone(item);
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdRemoveList){
                 deletePhone(item);
-                return e->param();
+                return (void*)1;
             }
         }
         break;

@@ -773,11 +773,11 @@ void *Container::processEvent(Event *e)
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id())){
             if (cmd->menu_id == MenuContainerContact){
                 m_tabBar->raiseTab(cmd->id);
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdClose){
                 delete userWnd;
-                return e->param();
+                return (void*)1;
             }
             if (cmd->id == CmdInfo && cmd->menu_id != MenuContact){
                 CommandDef c = *cmd;

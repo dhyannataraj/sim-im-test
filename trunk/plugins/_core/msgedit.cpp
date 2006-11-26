@@ -1121,33 +1121,33 @@ void *MsgEdit::processEvent(Event *e)
                 return NULL;
             if (!m_edit->isUndoAvailable())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return (void*)1;
         case CmdRedo:
             if (m_edit->isReadOnly())
                 return NULL;
             if (!m_edit->isRedoAvailable())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return (void*)1;
         case CmdCut:
             if (m_edit->isReadOnly())
                 return NULL;
         case CmdCopy:
             if (!m_edit->hasSelectedText())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return (void*)1;
         case CmdPaste:
             if (m_edit->isReadOnly())
                 return NULL;
             if (QApplication::clipboard()->text().isEmpty())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return (void*)1;
         case CmdClear:
             if (m_edit->isReadOnly())
                 return NULL;
         case CmdSelectAll:
             if (m_edit->text().isEmpty())
                 cmd->flags |= COMMAND_DISABLED;
-            return e->param();
+            return (void*)1;
         }
         break;
     }
@@ -1162,7 +1162,7 @@ void *MsgEdit::processEvent(Event *e)
         }
         if ((cmd->id == CmdSpell) && (cmd->param == this)){
             m_edit->checkSpelling();
-            return e->param();
+            return (void*)1;
         }
 #endif
 #endif
@@ -1179,7 +1179,7 @@ void *MsgEdit::processEvent(Event *e)
                 popup->move(p);
                 popup->show();
             }
-            return e->param();
+            return (void*)1;
         }
         if ((cmd->param == this) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
@@ -1187,11 +1187,11 @@ void *MsgEdit::processEvent(Event *e)
                 TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id, true));
                 data->Translit.asBool() = ((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return e->param();;
+            return (void*)1;
         }
         if ((cmd->id == CmdMultiply) && (cmd->param == this)){
             m_userWnd->showListView((cmd->flags & COMMAND_CHECKED) != 0);
-            return e->param();
+            return (void*)1;
         }
         if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == this)){
             switch (cmd->id){
@@ -1213,25 +1213,25 @@ void *MsgEdit::processEvent(Event *e)
         switch (cmd->id){
         case CmdUndo:
             m_edit->undo();
-            return e->param();
+            return (void*)1;
         case CmdRedo:
             m_edit->redo();
-            return e->param();
+            return (void*)1;
         case CmdCut:
             m_edit->cut();
-            return e->param();
+            return (void*)1;
         case CmdCopy:
             m_edit->copy();
-            return e->param();
+            return (void*)1;
         case CmdPaste:
             m_edit->paste();
-            return e->param();
+            return (void*)1;
         case CmdClear:
             m_edit->clear();
-            return e->param();
+            return (void*)1;
         case CmdSelectAll:
             m_edit->selectAll();
-            return e->param();
+            return (void*)1;
         }
         break;
     }

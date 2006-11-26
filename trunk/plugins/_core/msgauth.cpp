@@ -90,7 +90,7 @@ void *MsgAuth::processEvent(Event *e)
             msg->setContact(m_edit->m_userWnd->id());
             msg->setClient(m_client);
             m_edit->sendMessage(msg);
-            return e->param();
+            return (void*)1;
         }
     }
     return NULL;

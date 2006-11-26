@@ -434,8 +434,7 @@ void *JabberBrowser::processEvent(Event *e)
             if (cmd->id == CmdSearchInfo)
                 c->id = CmdBrowseInfo;
             c->param = this;
-            EventCommandExec e(c);
-            return e.process();
+            EventCommandExec(c).process();
         }
         if (cmd->param != this)
             return NULL;
