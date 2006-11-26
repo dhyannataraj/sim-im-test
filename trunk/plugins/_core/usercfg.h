@@ -18,7 +18,6 @@
 #ifndef _USERCFG_H
 #define _USERCFG_H
 
-#include "simapi.h"
 #include "cfgdlgbase.h"
 
 class CorePlugin;

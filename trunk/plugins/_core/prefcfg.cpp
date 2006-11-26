@@ -15,8 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "prefcfg.h"
-#include "simapi.h"
 #include "qchildwidget.h"
 
 #include <qlayout.h>

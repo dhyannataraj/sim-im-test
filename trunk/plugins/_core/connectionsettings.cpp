@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icons.h"
+#include "misc.h"
 #include "connectionsettings.h"
 
 #include <qlayout.h>

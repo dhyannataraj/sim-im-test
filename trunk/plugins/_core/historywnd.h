@@ -18,8 +18,8 @@
 #ifndef _HISTORYWND_H
 #define _HISTORYWND_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
+#include "event.h"
 
 #include <qmainwindow.h>
 #include <qpixmap.h>

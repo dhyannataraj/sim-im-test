@@ -18,7 +18,6 @@
 #ifndef _PAGERDETAILS_H
 #define _PAGERDETAILS_H
 
-#include "simapi.h"
 #include "pagerbase.h"
 
 class PagerDetails : public PagerDetailsBase

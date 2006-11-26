@@ -18,8 +18,6 @@
 #ifndef _USERLIST_H
 #define _USERLIST_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "listview.h"
 
 class UserListBase;

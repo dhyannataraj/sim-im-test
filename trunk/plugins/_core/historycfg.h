@@ -18,8 +18,7 @@
 #ifndef _HISTORYCFG_H
 #define _HISTORYCFG_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
 
 #include "qcolorbutton.h"
 #include "historycfgbase.h"

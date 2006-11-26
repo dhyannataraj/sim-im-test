@@ -20,7 +20,6 @@
 #include "plugincfg.h"
 #include "maininfo.h"
 #include "arcfg.h"
-#include "stl.h"
 #include "buffer.h"
 #include "core.h"
 

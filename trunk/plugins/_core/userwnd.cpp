@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "log.h"
+
 #include "userwnd.h"
 #include "msgedit.h"
 #include "msgview.h"

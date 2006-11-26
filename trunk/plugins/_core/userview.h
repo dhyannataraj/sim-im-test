@@ -18,7 +18,6 @@
 #ifndef _USERVIEW_H
 #define _USERVIEW_H
 
-#include "simapi.h"
 #include "userlist.h"
 
 class CorePlugin;

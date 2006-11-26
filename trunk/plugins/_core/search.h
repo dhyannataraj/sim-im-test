@@ -18,8 +18,8 @@
 #ifndef _SEARCH_H
 #define _SEARCH_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
+#include "contacts.h"
 
 #include <qmainwindow.h>
 

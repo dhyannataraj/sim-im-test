@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "icons.h"
+#include "misc.h"
 #include "declinedlg.h"
 
 #include <qpixmap.h>

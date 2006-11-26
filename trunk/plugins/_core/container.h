@@ -18,8 +18,9 @@
 #ifndef _CONTAINER_H
 #define _CONTAINER_H
 
-#include "simapi.h"
-#include "stl.h"
+#include "cfg.h"
+#include "event.h"
+#include "message.h"
 
 #include <qmainwindow.h>
 #include <qstatusbar.h>

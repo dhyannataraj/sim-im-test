@@ -18,7 +18,6 @@
 #ifndef _EDITMAIL_H
 #define _EDITMAIL_H
 
-#include "simapi.h"
 #include "editmailbase.h"
 
 class EditMail : public EditMailBase

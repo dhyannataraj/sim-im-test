@@ -18,7 +18,6 @@
 #ifndef _DECLINEDLG_H
 #define _DECLINEDLG_H
 
-#include "simapi.h"
 #include "declinedlgbase.h"
 
 class DeclineDlg : public DeclineDlgBase, public SIM::EventReceiver

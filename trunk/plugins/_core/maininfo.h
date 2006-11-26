@@ -18,7 +18,6 @@
 #ifndef _MAININFO_H
 #define _MAININFO_H
 
-#include "simapi.h"
 #include "maininfobase.h"
 
 class QListViewItem;

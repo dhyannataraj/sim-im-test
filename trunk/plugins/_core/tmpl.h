@@ -18,7 +18,6 @@
 #ifndef _TMPL_H
 #define _TMPL_H
 
-#include "simapi.h"
 #include "core.h"
 
 class Exec;

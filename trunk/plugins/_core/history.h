@@ -18,8 +18,11 @@
 #ifndef _HISTORY_H
 #define _HISTORY_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <map>
+#include <string>
+#include <qstring.h>
+
+#include "message.h"
 
 class CorePlugin;
 class QFile;

@@ -18,8 +18,8 @@
 #ifndef _MSGVIEW_H
 #define _MSGVIEW_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
+
 #include "textshow.h"
 
 class CorePlugin;

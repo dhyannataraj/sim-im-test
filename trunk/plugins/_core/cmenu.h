@@ -18,8 +18,7 @@
 #ifndef _CMENU_H
 #define _CMENU_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
 
 #ifdef USE_KDE
 #include <kpopupmenu.h>

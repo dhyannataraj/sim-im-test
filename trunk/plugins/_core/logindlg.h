@@ -18,8 +18,6 @@
 #ifndef _LOGINDLG_H
 #define _LOGINDLG_H
 
-#include "simapi.h"
-#include "stl.h"
 
 #include "logindlgbase.h"
 

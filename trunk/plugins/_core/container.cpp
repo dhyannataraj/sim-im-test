@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "log.h"
+
 #include "container.h"
 #include "userwnd.h"
 #include "core.h"

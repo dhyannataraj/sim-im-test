@@ -39,10 +39,10 @@
 #include <qmessagebox.h>
 
 // simlib
-#include "simapi.h"
 #include "ballonmsg.h"
 #include "buffer.h"
 #include "icons.h"
+#include "log.h"
 #include "kdeisversion.h"
 #include "toolbtn.h"
 #include "unquot.h"

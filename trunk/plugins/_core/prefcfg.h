@@ -18,7 +18,9 @@
 #ifndef _PREFCFG_H
 #define _PREFCFG_H
 
-#include "simapi.h"
+#include "cmddef.h"
+#include "contacts.h"
+
 #include "prefcfgbase.h"
 
 class PrefConfig : public PrefConfigBase

@@ -18,7 +18,6 @@
 #ifndef _AUTOREPLY_H
 #define _AUTOREPLY_H
 
-#include "simapi.h"
 #include "autoreplybase.h"
 
 class AutoReplyDialog : public AutoReplyBase

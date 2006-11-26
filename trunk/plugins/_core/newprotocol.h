@@ -18,8 +18,8 @@
 #ifndef _NEWPROTOCOL_H
 #define _NEWPROTOCOL_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
+#include "contacts.h"
 
 #include "newprotocolbase.h"
 

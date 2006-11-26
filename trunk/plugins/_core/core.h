@@ -18,15 +18,17 @@
 #ifndef _CORE_H
 #define _CORE_H
 
+#include <vector>
+
 #include <qfont.h>
 #include <qobject.h>
+#include <qthread.h>
 
+#include "cmddef.h"
 #include "event.h"
+#include "misc.h"
 #include "plugins.h"
-#include "simapi.h"
-#include "stl.h"
 
-#include<qthread.h>
 
 typedef std::map<QString, unsigned> MAP_TYPES;
 

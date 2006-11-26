@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "log.h"
+
 #include "gpg.h"
 #include "gpgcfg.h"
 #include "gpguser.h"

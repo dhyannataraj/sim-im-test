@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "cmddef.h"
+#include "misc.h"
 #include "icons.h"
 #include "cmenu.h"
 #include "commands.h"

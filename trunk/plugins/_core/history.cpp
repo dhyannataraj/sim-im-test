@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "log.h"
+
 #include "history.h"
 #include "core.h"
 #include "msgview.h"

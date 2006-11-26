@@ -18,7 +18,7 @@
 #ifndef _MSGRECV_H
 #define _MSGRECV_H
 
-#include "simapi.h"
+#include "event.h"
 
 #include <qtoolbutton.h>
 

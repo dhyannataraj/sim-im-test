@@ -19,7 +19,6 @@
 #include "usercfg.h"
 #include "prefcfg.h"
 #include "maininfo.h"
-#include "simapi.h"
 #include "core.h"
 #include "arcfg.h"
 

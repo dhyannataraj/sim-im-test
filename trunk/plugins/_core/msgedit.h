@@ -18,7 +18,6 @@
 #ifndef _MSGEDIT_H
 #define _MSGEDIT_H
 
-#include "simapi.h"
 #include "core.h"
 #include "textshow.h"
 

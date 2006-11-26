@@ -18,7 +18,6 @@
 #ifndef _USERVIEWCFG_H
 #define _USERVIEWCFG_H
 
-#include "simapi.h"
 #include "qcolorbutton.h"
 #include "userviewcfgbase.h"
 

@@ -15,7 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "cmddef.h"
 #include "icons.h"
+#include "misc.h"
+
 #include "toolsetup.h"
 #include "commands.h"
 

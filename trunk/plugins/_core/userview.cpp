@@ -16,8 +16,9 @@
  ***************************************************************************/
 
 #include "icons.h"
+#include "log.h"
+
 #include "userview.h"
-#include "simapi.h"
 #include "core.h"
 #include "intedit.h"
 #include "ballonmsg.h"

@@ -18,7 +18,6 @@
 #ifndef _CFGDLG_H
 #define _CFGDLG_H
 
-#include "simapi.h"
 #include "cfgdlgbase.h"
 
 class ConfigureDialog : public ConfigureDialogBase, public SIM::EventReceiver

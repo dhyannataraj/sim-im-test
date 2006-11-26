@@ -18,7 +18,6 @@
 #ifndef _NONIM_H
 #define _NONIM_H
 
-#include "simapi.h"
 #include "nonimbase.h"
 
 class NonIM : public NonIMBase

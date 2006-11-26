@@ -18,7 +18,6 @@
 #ifndef _STATUSWND_H
 #define _STATUSWND_H
 
-#include "simapi.h"
 
 #include <qframe.h>
 #include <qlabel.h>

@@ -17,7 +17,6 @@
 
 #include "icons.h"
 #include "mainwin.h"
-#include "simapi.h"
 #include "core.h"
 #include "userview.h"
 #include "toolbtn.h"

@@ -42,7 +42,7 @@
 #endif
 
 #include "ballonmsg.h"
-#include "simapi.h"
+#include "log.h"
 #include "unquot.h"
 #include "xsl.h"
 

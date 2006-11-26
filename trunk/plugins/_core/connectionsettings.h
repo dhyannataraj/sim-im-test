@@ -18,7 +18,6 @@
 #ifndef _CONNECTIONSETTINGS_H
 #define _CONNECTIONSETTINGS_H
 
-#include "simapi.h"
 #include "connectionsettingsbase.h"
 
 class ConnectionSettings : public ConnectionSettingsBase

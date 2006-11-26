@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "phonedetails.h"
 
 #include <qcombobox.h>

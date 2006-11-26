@@ -18,8 +18,7 @@
 #ifndef _TOOLSETUP_H
 #define _TOOLSETUP_H
 
-#include "simapi.h"
-#include "stl.h"
+#include <vector>
 
 #include "toolsetupbase.h"
 

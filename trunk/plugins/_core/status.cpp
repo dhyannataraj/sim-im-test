@@ -22,7 +22,6 @@
 #include <qwidgetlist.h>
 
 #include "ballonmsg.h"
-#include "simapi.h"
 #include "unquot.h"
 
 #include "status.h"

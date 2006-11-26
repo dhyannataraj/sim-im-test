@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "country.h"
+#include "misc.h"
+
 #include "pagerdetails.h"
 
 #include <qcombobox.h>

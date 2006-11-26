@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "log.h"
+
 #include "msggen.h"
 #include "toolbtn.h"
 #include "msgedit.h"

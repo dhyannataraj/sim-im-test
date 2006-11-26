@@ -18,7 +18,6 @@
 #include "commands.h"
 #include "toolbtn.h"
 #include "toolsetup.h"
-#include "simapi.h"
 #include "core.h"
 #include "cmenu.h"
 

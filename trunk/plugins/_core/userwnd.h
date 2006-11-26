@@ -18,7 +18,9 @@
 #ifndef _USERWND_H
 #define _USERWND_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "message.h"
+
 #include <qsplitter.h>
 
 class MsgEdit;

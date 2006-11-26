@@ -18,8 +18,6 @@
 #ifndef _SEARCHALL_H
 #define _SEARCHALL_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "searchallbase.h"
 
 typedef std::map<QWidget*, QStringList>	WND_MAP;

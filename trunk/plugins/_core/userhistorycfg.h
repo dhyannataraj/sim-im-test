@@ -18,7 +18,6 @@
 #ifndef _USERHISTORYCFG_H
 #define _USERHISTORYCFG_H
 
-#include "simapi.h"
 
 #include "userhistorycfgbase.h"
 

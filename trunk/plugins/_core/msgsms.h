@@ -18,9 +18,10 @@
 #ifndef _MSGSMS_H
 #define _MSGSMS_H
 
-#include "simapi.h"
 #include <qcombobox.h>
 #include <qframe.h>
+
+#include "event.h"
 
 class QToolButton;
 class QCheckBox;
