@@ -49,7 +49,7 @@ public:
     QString getLongName();
     QString getIcon();
     unsigned type();
-    void setMessage(SIM::Message**);
+    void setMessage(SIM::Message*);
     void setStatus(const QString&);
     void showListView(bool bShow);
     QString status() { return m_status; }

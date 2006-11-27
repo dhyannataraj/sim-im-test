@@ -63,8 +63,7 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
                     ((*it).contact == msg->contact()) &&
                     ((*it).client == msg->client())){
                 CorePlugin::m_plugin->unread.erase(it);
-                Event eRead(EventMessageRead, msg);
-                eRead.process();
+                EventMessageRead(msg).process();
                 break;
             }
         }
@@ -191,8 +190,9 @@ void *MsgReceived::processEvent(Event *e)
             }
         }
     } else
-    if (e->type() == EventMessageDeleted){
-        Message *msg = (Message*)(e->param());
+    if (e->type() == eEventMessageDeleted){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->id() == m_id)
             QTimer::singleShot(0, m_edit, SLOT(goNext()));
     }

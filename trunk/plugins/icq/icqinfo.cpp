@@ -137,14 +137,15 @@ void *ICQInfo::processEvent(Event *e)
         Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
-    if ((e->type() == EventMessageReceived) && m_data){
-        Message *msg = (Message*)(e->param());
+    } else
+    if ((e->type() == eEventMessageReceived) && m_data){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->type() == MessageStatus){
             if (m_client->dataName(m_data) == msg->client())
                 fill();
         }
-    }
+    } else
     if ((e->type() == eEventClientChanged) && (m_data == 0)){
         EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
         if (ecc->client() == m_client)

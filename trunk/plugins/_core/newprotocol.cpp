@@ -15,15 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icons.h"
-#include "newprotocol.h"
-#include "connectwnd.h"
-#include "core.h"
+#include <algorithm>
 
 #include <qpixmap.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qtimer.h>
+
+#include "icons.h"
+
+#include "newprotocol.h"
+#include "connectwnd.h"
+#include "core.h"
 
 using namespace std;
 using namespace SIM;

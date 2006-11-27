@@ -950,7 +950,7 @@ JabberClient::PresenceRequest::~PresenceRequest()
                 m->setClient(m_client->dataName(data));
                 m->setFlags(MESSAGE_RECEIVED);
                 m->setStatus(status);
-                Event e(EventMessageReceived, m);
+                EventMessageReceived e(m);
                 if(!e.process())
                     delete m;
             }
@@ -1053,7 +1053,7 @@ JabberClient::IqRequest::~IqRequest()
         msg->setClient(m_client->dataName(data));
         msg->setContact(contact->id());
         m_client->m_ackMsg.push_back(msg);
-        Event e(EventMessageReceived, msg);
+        EventMessageReceived e(msg);
         if (e.process()){
             for (list<Message*>::iterator it = m_client->m_ackMsg.begin(); it != m_client->m_ackMsg.end(); ++it){
                 if ((*it) == msg){
@@ -1338,7 +1338,7 @@ JabberClient::MessageRequest::~MessageRequest()
     msg->setFlags(msg->getFlags() | MESSAGE_RECEIVED);
     msg->setClient(m_client->dataName(data));
     msg->setContact(contact->id());
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     if (!e.process())
         delete msg;
 }

@@ -1529,8 +1529,7 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
         SMSMessage *sms = static_cast<SMSMessage*>(s.msg);
         m_client->smsQueue.erase(m_client->smsQueue.begin());
         sms->setError(errStr.data());
-        Event e(EventMessageSent, sms);
-        e.process();
+        EventMessageSent(sms).process();
         delete sms;
     }else{
         b.incReadPos(6);
@@ -1576,16 +1575,14 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
                     m.setText(s.part);
                     m.setPhone(sms->getPhone());
                     m.setNetwork(network);
-                    Event e(EventSent, &m);
-                    e.process();
+                    EventSent(&m).process();
                 }
             }
         }else{
             if (!m_client->smsQueue.empty()){
                 SendMsg &s = m_client->smsQueue.front();
                 s.msg->setError(error);
-                Event e(EventMessageSent, s.msg);
-                e.process();
+                EventMessageSent(s.msg).process();
                 delete s.msg;
                 m_client->smsQueue.erase(m_client->smsQueue.begin());
             }
@@ -1603,8 +1600,7 @@ void SMSRequest::fail(unsigned short)
     Message *sms = s.msg;
     sms->setError(I18N_NOOP("SMS send fail"));
     m_client->smsQueue.erase(m_client->smsQueue.begin());
-    Event e(EventMessageSent, sms);
-    e.process();
+    EventMessageSent(sms).process();
     delete sms;
     m_client->m_sendSmsId = 0;
     m_client->processSendQueue();
@@ -1652,8 +1648,7 @@ unsigned ICQClient::processSMSQueue()
             return delay;
         SendMsg &s = smsQueue.front();
         if (s.text.isEmpty() || (!(s.flags & SEND_1STPART) && (s.msg->getFlags() & MESSAGE_1ST_PART))){
-            Event e(EventMessageSent, s.msg);
-            e.process();
+            EventMessageSent(s.msg).process();
             delete s.msg;
             smsQueue.erase(smsQueue.begin());
             continue;
@@ -1711,8 +1706,7 @@ void ICQClient::clearSMSQueue()
 {
     for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
         (*it).msg->setError(I18N_NOOP("Client go offline"));
-        Event e(EventMessageSent, (*it).msg);
-        e.process();
+        EventMessageSent((*it).msg).process();
         delete (*it).msg;
     }
     smsQueue.clear();

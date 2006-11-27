@@ -577,8 +577,7 @@ MessageRequest::~MessageRequest()
                 }
             }else{
                 m_msg->setID(m_id);
-                Event e(EventSent, m_msg);
-                e.process();
+                EventSent(m_msg).process();
             }
         }
     }else{
@@ -586,8 +585,7 @@ MessageRequest::~MessageRequest()
             m_err = I18N_NOOP("Posting failed");
         m_msg->setError(m_err);
     }
-    Event e(EventMessageSent, m_msg);
-    e.process();
+    EventMessageSent(m_msg).process();
     delete m_msg;
 }
 
@@ -1024,14 +1022,14 @@ bool LiveJournalClient::done(unsigned code, Buffer &data, const QString &)
 void *LiveJournalClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
-    if (e->type() == EventOpenMessage){
-        Message **msg = (Message**)(e->param());
-        if ((*msg)->type() != MessageUpdated)
+    if (e->type() == eEventOpenMessage){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        if (msg->type() != MessageUpdated)
             return NULL;
-        if (dataName(&data.owner) != (*msg)->client())
+        if (dataName(&data.owner) != msg->client())
             return NULL;
-        Event eDel(EventMessageDeleted, msg);
-        eDel.process();
+        EventMessageDeleted(msg).process();
         QString url = "http://";
         url += getServer();
         if (getPort() != 80){
@@ -1039,11 +1037,10 @@ void *LiveJournalClient::processEvent(Event *e)
             url += QString::number(getPort());
         }
         url += '/';
-        EventGoURL eGo(url);
-        eGo.process();
+        EventGoURL(url).process();
         if (getState() == Connected)
             m_timer->start(getInterval() * 60 * 1000, true);
-        return e->param();
+        return (void*)1;
     }
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
@@ -1201,7 +1198,7 @@ void LiveJournalClient::messageUpdated()
     msg->setContact(contact->id());
     msg->setClient(dataName(data));
     msg->setFlags(MESSAGE_TEMP | MESSAGE_NOVIEW);
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     if (!e.process())
         delete msg;
 }

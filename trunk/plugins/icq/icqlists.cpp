@@ -1514,10 +1514,8 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
     sendPacket(true);
 
     msg->setClient(dataName(data));
-    Event eSent(EventSent, msg);
-    eSent.process();
-    Event e(EventMessageSent, msg);
-    e.process();
+    EventSent(msg).process();
+    EventMessageSent(msg).process();
     delete msg;
     return true;
 }
@@ -1537,10 +1535,8 @@ bool ICQClient::sendAuthGranted(Message *msg, void *_data)
     sendPacket(true);
 
     msg->setClient(dataName(data));
-    Event eSent(EventSent, msg);
-    eSent.process();
-    Event e(EventMessageSent, msg);
-    e.process();
+    EventSent(msg).process();
+    EventMessageSent(msg).process();
     delete msg;
     return true;
 }
@@ -1579,10 +1575,8 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     sendPacket(true);
 
     msg->setClient(dataName(data));
-    Event eSent(EventSent, msg);
-    eSent.process();
-    Event e(EventMessageSent, msg);
-    e.process();
+    EventSent(msg).process();
+    EventMessageSent(msg).process();
     delete msg;
     return true;
 }

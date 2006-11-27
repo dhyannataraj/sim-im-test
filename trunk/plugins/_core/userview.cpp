@@ -416,13 +416,14 @@ void *UserView::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageDeleted:
-    case EventMessageRead:
-    case EventMessageReceived:{
-            Message *msg = (Message*)(e->param());
-            addContactForUpdate(msg->contact());
-            break;
-        }
+    case eEventMessageReceived:
+    case eEventMessageDeleted:
+    case eEventMessageRead:{
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        addContactForUpdate(msg->contact());
+        break;
+    }
     case eEventCommandExec:{
             EventCommandExec *ece = static_cast<EventCommandExec*>(e);
             CommandDef *cmd = ece->cmd();
@@ -1506,8 +1507,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
             if (msg){
                 if (isDrop){
                     msg->setContact(static_cast<ContactItem*>(item)->id());
-                    Event e(EventOpenMessage, &msg);
-                    e.process();
+                    EventOpenMessage(msg).process();
                 }
                 delete msg;
                 return;
@@ -1520,8 +1520,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                         Message *msg = new Message(MessageGeneric);
                         msg->setText(str);
                         msg->setContact(static_cast<ContactItem*>(item)->id());
-                        Event e(EventOpenMessage, &msg);
-                        e.process();
+                        EventOpenMessage(msg).process();
                         delete msg;
                     }
                     return;

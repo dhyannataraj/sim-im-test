@@ -459,8 +459,7 @@ void YahooClient::process_packet(Params &params)
                         break;
                     }
                     msg->setError(I18N_NOOP("Message declined"));
-                    Event e(EventMessageSent, msg);
-                    e.process();
+                    EventMessageSent(msg).process();
                     delete msg;
                     break;
                 }
@@ -917,7 +916,7 @@ void YahooClient::processStatus(unsigned short service, const char *id,
             m->setClient(dataName(data));
             m->setFlags(MESSAGE_RECEIVED);
             m->setStatus(STATUS_OFFLINE);
-            Event e(EventMessageReceived, m);
+            EventMessageReceived e(m);
             if(!e.process())
                 delete m;
             if ((new_status == STATUS_ONLINE) && !contact->getIgnore() && (getState() == Connected) &&
@@ -1026,7 +1025,7 @@ void YahooClient::disconnected()
                 m->setClient(dataName(data));
                 m->setStatus(STATUS_OFFLINE);
                 m->setFlags(MESSAGE_RECEIVED);
-                Event e(EventMessageReceived, m);
+                EventMessageReceived e(m);
                 if(!e.process())
                     delete m;
             }
@@ -1035,16 +1034,14 @@ void YahooClient::disconnected()
     list<Message*>::iterator itm;
     for (itm = m_ackMsg.begin(); itm != m_ackMsg.end(); ++itm){
         Message *msg = *itm;
-        Event e(EventMessageDeleted, msg);
-        e.process();
+        EventMessageDeleted(msg).process();
         delete msg;
     }
     list<Message_ID>::iterator itw;
     for (itw = m_waitMsg.begin(); itw != m_waitMsg.end(); itw = m_waitMsg.begin()){
         Message *msg = (*itw).msg;
         msg->setError(I18N_NOOP("Client go offline"));
-        Event e(EventMessageSent, msg);
-        e.process();
+        EventMessageSent(msg).process();
         delete msg;
     }
 }
@@ -1270,7 +1267,7 @@ void YahooClient::messageReceived(Message *msg, const char *id)
         msg->setFlags(msg->getFlags() | MESSAGE_TEMP);
         m_ackMsg.push_back(msg);
     }
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     if (e.process() && bAck){
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
             if ((*it) == msg){
@@ -1766,11 +1763,9 @@ void YahooClient::sendMessage(const QString &msgText, Message *msg, YahooUserDat
     sendPacket(YAHOO_SERVICE_MESSAGE, 0x5A55AA56);
     if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
         msg->setClient(dataName(data));
-        Event e(EventSent, msg);
-        e.process();
+        EventSent(msg).process();
     }
-    Event e(EventMessageSent, msg);
-    e.process();
+    EventMessageSent(msg).process();
     delete msg;
 }
 
@@ -1891,21 +1886,22 @@ void *YahooClient::processEvent(Event *e)
         sendStatus(YAHOO_STATUS_CUSTOM, t->tmpl);
         break;
     }
-    case EventMessageCancel: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageCancel: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         for (list<Message_ID>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
             if ((*it).msg == msg){
                 m_waitMsg.erase(it);
                 delete msg;
-                return e->param();
+                return (void*)1;
             }
         }
         break;
     }
-    case EventMessageAccept: {
-        messageAccept *ma = static_cast<messageAccept*>(e->param());
+    case eEventMessageAccept: {
+        EventMessageAccept *ema = static_cast<EventMessageAccept*>(e);
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
-            if ((*it)->id() == ma->msg->id()){
+            if ((*it)->id() == ema->msg()->id()){
                 YahooFileMessage *msg = static_cast<YahooFileMessage*>(*it);
                 m_ackMsg.erase(it);
                 Contact *contact = getContacts()->contact(msg->contact());
@@ -1917,14 +1913,12 @@ void *YahooClient::processEvent(Event *e)
                 }
                 if (data){
                     YahooFileTransfer *ft = new YahooFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                    ft->setDir(ma->dir);
-                    ft->setOverwrite(ma->overwrite);
-                    Event e(EventMessageAcked, msg);
-                    e.process();
+                    ft->setDir(ema->dir());
+                    ft->setOverwrite(ema->mode());
+                    EventMessageAcked(msg).process();
                     ft->connect();
                 }
-                Event eDel(EventMessageDeleted, msg);
-                eDel.process();
+                EventMessageDeleted(msg).process();
                 if (data == NULL)
                     delete msg;
                 return msg;
@@ -1932,10 +1926,10 @@ void *YahooClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageDecline: {
-        messageDecline *md = (messageDecline*)(e->param());
+    case eEventMessageDecline: {
+        EventMessageDecline *emd = static_cast<EventMessageDecline*>(e);
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
-            if ((*it)->id() == md->msg->id()){
+            if ((*it)->id() == emd->msg()->id()){
                 YahooFileMessage *msg = static_cast<YahooFileMessage*>(*it);
                 m_ackMsg.erase(it);
                 YahooUserData *data = NULL;
@@ -1957,9 +1951,8 @@ void *YahooClient::processEvent(Event *e)
                     addParam(11, QString::number(msg->getMsgID()));
                     sendPacket(YAHOO_SERVICE_P2PFILEXFER);
                 }
-                QString reason = md->reason;
-                Event e(EventMessageDeleted, msg);
-                e.process();
+                QString reason = emd->reason();
+                EventMessageDeleted(msg).process();
                 delete msg;
                 if (!reason.isEmpty() && data){
                     Message *m = new Message(MessageGeneric);
@@ -2220,8 +2213,7 @@ bool YahooFileTransfer::error(const QString &err)
 bool YahooFileTransfer::accept(Socket *s, unsigned long)
 {
     if (m_state == Listen){
-        Event e(EventMessageAcked, m_msg);
-        e.process();
+        EventMessageAcked(m_msg).process();
     }
     m_state = ListenWait;
     log(L_DEBUG, "Accept connection");
@@ -2251,8 +2243,7 @@ bool YahooFileTransfer::error_state(const QString &err, unsigned)
     }
     m_msg->m_transfer = NULL;
     m_msg->setFlags(m_msg->getFlags() & ~MESSAGE_TEMP);
-    Event e(EventMessageSent, m_msg);
-    e.process();
+    EventMessageSent(m_msg).process();
     return true;
 }
 

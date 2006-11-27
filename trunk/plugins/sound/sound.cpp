@@ -206,8 +206,9 @@ void *SoundPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageSent: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageSent: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         QString err = msg->getError();
         if (!err.isEmpty())
             return NULL;
@@ -224,8 +225,9 @@ void *SoundPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageReceived: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->type() == MessageStatus)
             return NULL;
         if (msg->getFlags() & MESSAGE_LIST)

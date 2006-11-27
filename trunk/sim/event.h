@@ -23,6 +23,7 @@
 #include <qstringlist.h>
 
 #include "buffer.h"
+#include "message.h"
 
 class CToolBar;
 class QMainWindow;
@@ -31,16 +32,17 @@ class QTranslator;
 
 namespace SIM {
 
-struct pluginInfo;
 class Client;
 class ClientSocket;
 class CommandsDef;
 class Contact;
 class Group;
 class IP;
+class Message;
 class Plugin;
 class ServerSocketNotify;
 class TCPClient;
+struct pluginInfo;
 
 // ___________________________________________________________________________________
 // Event receiver
@@ -67,20 +69,7 @@ protected:
 // _____________________________________________________________________________________
 // Event
 
-class EXPORT Event
-{
-public:
-    Event(unsigned type, void *param = NULL) : m_type(type), m_param(param) {}
-    virtual ~Event() {}
-    unsigned type() const { return m_type; }
-    void *param() { return m_param; }   // deprecated
-    void *process(EventReceiver *from = NULL);  // should return true/false
-protected:
-    unsigned m_type;
-    void *m_param;
-};
-
-enum SIMEvents
+enum SIMEvent
 {
     eEventLog	= 0x0001,	// Log Output
     eEventInit	= 0x0101,	// application init after all plugins are loaded
@@ -152,8 +141,44 @@ enum SIMEvents
     eEventSocketConnect     = 0x1001,   // connect to host:port
     eEventSocketListen      = 0x1002,   // listen to host:port
 
+    eEventMessageReceived   = 0x1100,
+    eEventMessageSent       = 0x1101,
+    eEventMessageCancel     = 0x1102,
+    eEventSent              = 0x1103,
+    eEventOpenMessage       = 0x1104,
+    eEventMessageRead       = 0x1105,
+    eEventMessageAcked      = 0x1106,
+    eEventMessageDeleted    = 0x1107,
+    eEventMessageAccept     = 0x1108,
+    eEventMessageDecline    = 0x1109,
+    eEventMessageSend       = 0x110A,
+    eEventSend              = 0x110B,
+
     eEventClientError       = 0x1301,
     eEventShowError         = 0x1302,
+};
+
+
+class EXPORT Event
+{
+public:
+    // change after all is converted
+    Event(unsigned long type, void *param = NULL)
+        : m_type((SIMEvent)type), m_param(param) {}
+    virtual ~Event();
+    // change after all is converted
+    unsigned long type() const { return (unsigned long)m_type; }
+    void *param() { return m_param; }   // deprecated
+    void *process(EventReceiver *from = NULL);  // should return true/false
+
+    // for custom plugin events
+    static SIMEvent registerEvent() { return (SIMEvent)EventCounter++; }
+protected:
+    SIMEvent m_type;
+    void *m_param;
+    bool m_bProcessed;
+
+    static unsigned long EventCounter;
 };
 
 class EXPORT EventLog : public Event
@@ -609,7 +634,7 @@ public:
         unsigned    id;
     };
 public:
-    EventError(SIMEvents ev, const ClientErrorData &data)
+    EventError(SIMEvent ev, const ClientErrorData &data)
         : Event(ev), m_data(data) {}
     const ClientErrorData &data() const { return m_data; }
 protected:
@@ -919,7 +944,7 @@ const unsigned BTN_DIV              = 0x40000;
 class EXPORT EventCommand : public Event
 {
 public:
-    EventCommand(SIMEvents e, CommandDef *cmd)
+    EventCommand(SIMEvent e, CommandDef *cmd)
         : Event(e, (void*)1), m_cmd(cmd) {}
 
     CommandDef *cmd() const { return m_cmd; }
@@ -999,53 +1024,124 @@ public:
         : EventCommand(eEventCheckState, cmd) {}
 };
 
-/* Event send & receive message
-*/
-
-class Message;
-
-enum OverwriteMode
+class EventMessage : public Event
 {
+public:
+    EventMessage(SIMEvent e, Message *msg)
+        : Event(e), m_msg(msg) {}
+
+    Message *msg() const { return m_msg; }
+protected:
+    Message *m_msg;
+};
+
+
+class EventMessageReceived : public EventMessage
+{
+public:
+    EventMessageReceived(Message *msg)
+        : EventMessage(eEventMessageReceived, msg) {}
+};
+
+class EventMessageSent : public EventMessage
+{
+public:
+    EventMessageSent(Message *msg)
+        : EventMessage(eEventMessageSent, msg) {}
+};
+
+class EventMessageCancel : public EventMessage
+{
+public:
+    EventMessageCancel(Message *msg)
+        : EventMessage(eEventMessageCancel, msg) {}
+};
+
+class EventSent : public EventMessage
+{
+public:
+    EventSent(Message *msg)
+        : EventMessage(eEventSent, msg) {}
+};
+
+class EventOpenMessage : public EventMessage
+{
+public:
+    EventOpenMessage(Message *msg)
+        : EventMessage(eEventOpenMessage, msg) {}
+};
+
+class EventMessageRead : public EventMessage
+{
+public:
+    EventMessageRead(Message *msg)
+        : EventMessage(eEventMessageRead, msg) {}
+};
+
+class EventMessageAcked : public EventMessage
+{
+public:
+    EventMessageAcked(Message *msg)
+        : EventMessage(eEventMessageAcked, msg) {}
+};
+
+class EventMessageDeleted : public EventMessage
+{
+public:
+    EventMessageDeleted(Message *msg)
+        : EventMessage(eEventMessageDeleted, msg) {}
+};
+
+// Move this into EventMessageAccept? Better into class FileTransfer ?
+enum OverwriteMode {
     Ask,
     Skip,
     Resume,
     Replace
 };
-
-struct messageAccept
+class EventMessageAccept : public EventMessage
 {
-    Message         *msg;
-    QString         dir;
-    OverwriteMode   overwrite;
+public:
+    EventMessageAccept(Message *msg, const QString &dir, OverwriteMode mode)
+        : EventMessage(eEventMessageAccept, msg), m_dir(dir), m_mode(mode) {}
+
+    const QString &dir() const { return m_dir; }
+    OverwriteMode mode() const { return m_mode; }
+protected:
+    QString m_dir;
+    OverwriteMode m_mode;
 };
 
-struct messageDecline
+class EventMessageDecline : public EventMessage
 {
-    Message     *msg;
-    QString     reason;
+public:
+    EventMessageDecline(Message *msg, const QString &reason = QString::null)
+        : EventMessage(eEventMessageDecline, msg), m_reason(reason) {}
+
+    const QString &reason() const { return m_reason; }
+protected:
+    QString m_reason;
 };
 
-struct messageSend
+class EventMessageSend : public EventMessage
 {
-    Message     *msg;
-    QCString    *text;      // locale dependent !
+public:
+    EventMessageSend(Message *msg)
+        : EventMessage(eEventMessageSend, msg) {}
 };
 
-// Param: Message*
-// Make sure Message * is a pointer to the heap since the message
-// maybe gets destroyed during it's way through the plugins
-const unsigned EventMessageReceived = 0x1100;
-const unsigned EventMessageSent     = 0x1101;
-const unsigned EventMessageCancel   = 0x1102;
-const unsigned EventSent            = 0x1103;
-const unsigned EventOpenMessage     = 0x1104;
-const unsigned EventMessageRead     = 0x1105;
-const unsigned EventMessageAcked    = 0x1106;
-const unsigned EventMessageDeleted  = 0x1107;
-const unsigned EventMessageAccept   = 0x1108;
-const unsigned EventMessageDecline  = 0x1109;
-const unsigned EventMessageSend     = 0x110A;
-const unsigned EventSend            = 0x110B;
+class EventSend : public EventMessage
+{
+public:
+    EventSend(Message *msg, const QCString &localeText)
+        : EventMessage(eEventSend, msg), m_text(localeText) {}
+
+    // in & out
+    const QCString &localeText() const { return m_text; }
+    void setLocaleText(const QCString &text) { m_text = text; }
+protected:
+    QCString m_text;
+};
 
 } // namespace SIM
 

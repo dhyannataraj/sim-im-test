@@ -50,10 +50,8 @@ WarnDlg::WarnDlg(QWidget *parent, ICQUserData *data, ICQClient *client)
 
 WarnDlg::~WarnDlg()
 {
-    if (m_msg){
-        Event e(EventMessageCancel, m_msg);
-        e.process();
-    }
+    if (m_msg)
+        EventMessageCancel(m_msg).process();
 }
 
 void WarnDlg::accept()
@@ -80,8 +78,9 @@ void WarnDlg::showError(const char *error)
 
 void *WarnDlg::processEvent(Event *e)
 {
-    if (e->type() == EventMessageSent){
-        Message *msg = (Message*)(e->param());
+    if (e->type() == eEventMessageSent){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg == m_msg){
             m_msg = NULL;
             QString err = msg->getError();

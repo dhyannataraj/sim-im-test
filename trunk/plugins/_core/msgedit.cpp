@@ -15,24 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msgedit.h"
-#include "icons.h"
-#include "textshow.h"
-#include "toolbtn.h"
-#include "core.h"
-#include "msgsms.h"
-#include "msgfile.h"
-#include "msggen.h"
-#include "msgauth.h"
-#include "msgurl.h"
-#include "msgcontacts.h"
-#include "msgrecv.h"
-#include "ballonmsg.h"
-#include "userwnd.h"
-#include "userlist.h"
-#include "history.h"
-#include "container.h"
-#include "buffer.h"
+#include <time.h>
+#include <stdio.h>
+
+#include <algorithm>
 
 #include <qfontmetrics.h>
 #include <qtoolbar.h>
@@ -45,12 +31,29 @@
 #include <qregexp.h>
 #include <qtooltip.h>
 
-#include <time.h>
-#include <stdio.h>
-
 #ifdef USE_KDE
 #include "kdeisversion.h"
 #endif
+
+#include "ballonmsg.h"
+#include "buffer.h"
+#include "icons.h"
+#include "textshow.h"
+#include "toolbtn.h"
+
+#include "msgedit.h"
+#include "core.h"
+#include "msgsms.h"
+#include "msgfile.h"
+#include "msggen.h"
+#include "msgauth.h"
+#include "msgurl.h"
+#include "msgcontacts.h"
+#include "msgrecv.h"
+#include "userwnd.h"
+#include "userlist.h"
+#include "history.h"
+#include "container.h"
 
 using namespace std;
 using namespace SIM;
@@ -114,8 +117,7 @@ void MsgTextEdit::contentsDropEvent(QDropEvent *e)
     if (msg){
         e->accept();
         msg->setContact(m_edit->m_userWnd->id());
-        Event eOpen(EventOpenMessage, &msg);
-        eOpen.process();
+        EventOpenMessage(msg).process();
         delete msg;
         return;
     }
@@ -833,8 +835,7 @@ bool MsgEdit::sendMessage(Message *msg)
     }
     if (m_msg){
         delete msg;
-        Event e(EventMessageCancel, m_msg);
-        if (e.process())
+        if (EventMessageCancel(m_msg).process())
             m_msg = NULL;
         stopSend(false);
         return false;
@@ -909,8 +910,7 @@ bool MsgEdit::send()
     bool bSent = false;
     void *data = NULL;
     if (contact){
-        Event e(EventMessageSend, m_msg);
-        e.process();
+        EventMessageSend(m_msg).process();
         if (client_str.isEmpty()){
             m_type = m_msg->type();
             Client *c = client(data, true, false, m_msg->contact(), (m_msg->getFlags() & MESSAGE_MULTIPLY) == 0);
@@ -1011,7 +1011,7 @@ bool MsgEdit::setType(unsigned type)
     Message *msg = mdef->create(NULL);
     if (msg == NULL)
         return false;
-    m_userWnd->setMessage(&msg);
+    m_userWnd->setMessage(msg);
     delete msg;
     return true;
 }
@@ -1068,8 +1068,9 @@ void *MsgEdit::processEvent(Event *e)
         adjustType();
         break;
     }
-    case EventMessageReceived: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->getFlags() & MESSAGE_NOVIEW)
             return NULL;
         if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
@@ -1199,8 +1200,7 @@ void *MsgEdit::processEvent(Event *e)
                     Message *msg = new Message(MessageGeneric);
                     msg->setContact(m_userWnd->id());
                     msg->setClient(m_client);
-                    Event e(EventOpenMessage, &msg);
-                    e.process();
+                    EventOpenMessage(msg).process();
                     delete msg;
                 }
             case CmdNextMessage:
@@ -1235,9 +1235,10 @@ void *MsgEdit::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageSent:
-    case EventMessageAcked: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageSent:
+    case eEventMessageAcked: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg == m_msg){
             QString err = msg->getError();
             if (!err.isEmpty())
@@ -1347,8 +1348,7 @@ void MsgEdit::setEmptyMessage()
             if (mdef->flags & MESSAGE_SILENT)
                 continue;
             msg->setFlags(MESSAGE_NORAISE);
-            Event eOpen(EventOpenMessage, &msg);
-            eOpen.process();
+            EventOpenMessage(msg).process();
             delete msg;
             return;
         }
@@ -1468,8 +1468,7 @@ void MsgEdit::goNext()
         Message *msg = History::load((*it).id, (*it).client, (*it).contact);
         if (msg == NULL)
             continue;
-        Event e(EventOpenMessage, &msg);
-        e.process();
+        EventOpenMessage(msg).process();
         delete msg;
         return;
     }

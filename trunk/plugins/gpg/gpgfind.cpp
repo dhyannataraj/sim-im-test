@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "gpgfind.h"
-#include "editfile.h"
+#include <windows.h>
 
 #include <qpixmap.h>
 #include <qpushbutton.h>
@@ -25,7 +24,10 @@
 #include <qtimer.h>
 #include <qregexp.h>
 
-#include <windows.h>
+#include "editfile.h"
+#include "icons.h"
+
+#include "gpgfind.h"
 
 using namespace SIM;
 

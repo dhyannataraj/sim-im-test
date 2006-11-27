@@ -664,14 +664,12 @@ void *Container::processEvent(Event *e)
 {
     if (m_tabBar == NULL)
         return NULL;
-    UserWnd *userWnd;
-    Contact *contact;
-    Message *msg;
     switch (e->type()){
-    case EventMessageReceived:
-        msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->type() == MessageStatus){
-            contact = getContacts()->contact(msg->contact());
+            Contact *contact = getContacts()->contact(msg->contact());
             if (contact)
                 contactChanged(contact);
             return NULL;
@@ -680,19 +678,21 @@ void *Container::processEvent(Event *e)
             return NULL;
         if (CorePlugin::m_plugin->getContainerMode()){
             if (isActiveWindow() && !isMinimized()){
-                userWnd = m_tabBar->currentWnd();
+                UserWnd *userWnd = m_tabBar->currentWnd();
                 if (userWnd && (userWnd->id() == msg->contact()))
                     userWnd->markAsRead();
             }else{
-                msg = (Message*)(e->param());
-                userWnd = wnd(msg->contact());
+                UserWnd *userWnd = wnd(msg->contact());
                 if (userWnd)
                     QTimer::singleShot(0, this, SLOT(flash()));
             }
         }
-    case EventMessageRead:
-        msg = (Message*)(e->param());
-        userWnd = wnd(msg->contact());
+        break;
+    }
+    case eEventMessageRead: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        UserWnd *userWnd = wnd(msg->contact());
         if (userWnd){
             bool bBold = false;
             for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
@@ -704,13 +704,15 @@ void *Container::processEvent(Event *e)
             m_tabBar->setBold(msg->contact(), bBold);
         }
         break;
-    case EventActiveContact:
+    }
+    case EventActiveContact: {
         if (!isActiveWindow())
             return NULL;
-        userWnd = m_tabBar->currentWnd();
+        UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd)
             return (void*)(userWnd->id());
         break;
+    }
     case eEventContact: {
         EventContact *ec = static_cast<EventContact*>(e);
         Contact *contact = ec->contact();
@@ -795,7 +797,7 @@ void *Container::processEvent(Event *e)
     case eEventCheckState: {
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
         CommandDef *cmd = ecs->cmd();
-        userWnd = m_tabBar->currentWnd();
+        UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id()) &&
                 (cmd->menu_id == MenuContainerContact) &&
                 (cmd->id == CmdContainerContacts)){

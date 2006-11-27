@@ -1882,8 +1882,8 @@ void *CorePlugin::processEvent(Event *e)
                     if (data->OpenOnOnline.toBool()){
                         Message *msg = new Message(MessageGeneric);
                         msg->setContact(contact->id());
-                        Event e(EventOpenMessage, &msg);
-                        e.process();
+                        EventOpenMessage(msg).process();
+                        delete msg; // wasn't here before event changes...
                     }
                     break;
                 }
@@ -1892,16 +1892,18 @@ void *CorePlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventMessageAcked:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageAcked:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             if (msg->baseType() == MessageFile){
                 QWidget *w = new FileTransferDlg(static_cast<FileMessage*>(msg));
                 raiseWindow(w);
             }
             return NULL;
         }
-    case EventMessageDeleted:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageDeleted:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             History::del(msg->id());
             for (list<msg_id>::iterator it = unread.begin(); it != unread.end(); ++it){
                 msg_id &m = *it;
@@ -1912,8 +1914,9 @@ void *CorePlugin::processEvent(Event *e)
             }
             return NULL;
         }
-    case EventMessageReceived:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageReceived:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 if (msg->getTime() == 0){
@@ -1932,36 +1935,30 @@ void *CorePlugin::processEvent(Event *e)
                             if (!dir.isEmpty() && !dir.endsWith("/") && !dir.endsWith("\\"))
                                 dir += '/';
                             dir = user_file(dir);
-                            messageAccept ma;
-                            ma.msg       = msg;
-                            ma.dir       = dir;
-                            ma.overwrite = data->OverwriteFiles.toBool() ? Replace : Skip;
-                            Event e(EventMessageAccept, &ma);
-                            e.process();
+                            EventMessageAccept(msg, dir,
+                                               data->OverwriteFiles.toBool() ?
+                                                Replace : Skip).process();
                             return msg;
                         }
                         if (data->AcceptMode.toULong() == 2){
-                            messageDecline md;
-                            md.msg    = msg;
-                            md.reason = data->DeclineMessage.str();
-                            Event e(EventMessageDecline, &md);
-                            e.process();
+                            EventMessageDecline(msg, data->DeclineMessage.str()).process();
                             return msg;
                         }
                     }
                 }else{
                     contact->setLastActive(time(NULL));
-                    EventContact e(contact, EventContact::eStatus);
-                    e.process();
+                    EventContact(contact, EventContact::eStatus).process();
                 }
             }
+            // correct
         }
-    case EventSent:{
-            Message *msg = (Message*)(e->param());
+    case eEventSent:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             CommandDef *def = messageTypes.find(msg->type());
             if (def){
                 History::add(msg, typeName(def->text));
-                if ((e->type() == EventMessageReceived) && (msg->type() != MessageStatus)){
+                if ((e->type() == eEventMessageReceived) && (msg->type() != MessageStatus)){
                     msg_id m;
                     m.id = msg->id();
                     m.contact = msg->contact();
@@ -1981,8 +1978,7 @@ void *CorePlugin::processEvent(Event *e)
                         if (data->OpenNewMessage.toULong()){
                             if (data->OpenNewMessage.toULong() == NEW_MSG_MINIMIZE)
                                 msg->setFlags(msg->getFlags() | MESSAGE_NORAISE);
-                            Event e(EventOpenMessage, &msg);
-                            e.process();
+                            EventOpenMessage(msg).process();
                         }
                     }
                 }
@@ -2021,11 +2017,12 @@ void *CorePlugin::processEvent(Event *e)
             Message *msg = History::load(m->id, m->client, m->contact);
             return msg;
         }
-    case EventOpenMessage:{
-            Message **msg = (Message**)(e->param());
-            if ((*msg)->getFlags() & MESSAGE_NOVIEW)
+    case eEventOpenMessage:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
+            if (msg->getFlags() & MESSAGE_NOVIEW)
                 return NULL;
-            Contact *contact = getContacts()->contact((*msg)->contact());
+            Contact *contact = getContacts()->contact(msg->contact());
             m_focus = qApp->focusWidget();
             if (m_focus)
                 connect(m_focus, SIGNAL(destroyed()), this, SLOT(focusDestroyed()));
@@ -2041,7 +2038,7 @@ void *CorePlugin::processEvent(Event *e)
                 if (w->inherits("Container")){
                     container =  static_cast<Container*>(w);
                     if (getContainerMode() == 0){
-                        if (container->isReceived() != (((*msg)->getFlags() & MESSAGE_RECEIVED) != 0)){
+                        if (container->isReceived() != ((msg->getFlags() & MESSAGE_RECEIVED) != 0)){
                             container = NULL;
                             ++itw;
                             continue;
@@ -2058,10 +2055,9 @@ void *CorePlugin::processEvent(Event *e)
             if (userWnd == NULL){
                 if (contact->getFlags() & CONTACT_TEMP){
                     contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
-                    EventContact e(contact, EventContact::eChanged);
-                    e.process();
+                    EventContact(contact, EventContact::eChanged).process();
                 }
-                userWnd = new UserWnd(contact->id(), NULL, (*msg)->getFlags() & MESSAGE_RECEIVED, (*msg)->getFlags() & MESSAGE_RECEIVED);
+                userWnd = new UserWnd(contact->id(), NULL, msg->getFlags() & MESSAGE_RECEIVED, msg->getFlags() & MESSAGE_RECEIVED);
                 if (getContainerMode() == 3){
                     QWidgetList  *list = QApplication::topLevelWidgets();
                     QWidgetListIt it(*list);
@@ -2116,16 +2112,16 @@ void *CorePlugin::processEvent(Event *e)
                     container = new Container(max_id + 1);
                     bNew = true;
                     if (getContainerMode() == 0)
-                        container->setReceived((*msg)->getFlags() & MESSAGE_RECEIVED);
+                        container->setReceived(msg->getFlags() & MESSAGE_RECEIVED);
                 }
-                container->addUserWnd(userWnd, ((*msg)->getFlags() & MESSAGE_NORAISE) == 0);
+                container->addUserWnd(userWnd, (msg->getFlags() & MESSAGE_NORAISE) == 0);
             }else{
-                if (((*msg)->getFlags() & MESSAGE_NORAISE) == 0)
+                if ((msg->getFlags() & MESSAGE_NORAISE) == 0)
                     container->raiseUserWnd(userWnd);
             }
             container->setNoSwitch(true);
             userWnd->setMessage(msg);
-            if ((*msg)->getFlags() & MESSAGE_NORAISE){
+            if (msg->getFlags() & MESSAGE_NORAISE){
                 if (bNew){
                     container->m_bNoRead = true;
 #ifdef WIN32
@@ -2146,7 +2142,7 @@ void *CorePlugin::processEvent(Event *e)
             if (m_focus)
                 disconnect(m_focus, SIGNAL(destroyed()), this, SLOT(focusDestroyed()));
             m_focus = NULL;
-            return e->param();
+            return (void*)1;
         }
     case eEventCheckState:{
             EventCheckState *ecs = static_cast<EventCheckState*>(e);
@@ -2880,8 +2876,7 @@ void *CorePlugin::processEvent(Event *e)
                     }
                     return (void*)1;
                 }
-                Event eOpen(EventOpenMessage, &msg);
-                eOpen.process();
+                EventOpenMessage(msg).process();
                 delete msg;
                 return (void*)1;
             }
@@ -2919,8 +2914,7 @@ void *CorePlugin::processEvent(Event *e)
                         m->setFlags(MESSAGE_INSERT);
                     }
                     m->setText(p);
-                    Event eOpen(EventOpenMessage, &m);
-                    eOpen.process();
+                    EventOpenMessage(m).process();
                     delete m;
                     return (void*)1;
                 }
@@ -2954,8 +2948,7 @@ void *CorePlugin::processEvent(Event *e)
                 Message *msg = new AuthMessage(MessageAuthRefused);
                 msg->setContact(from->contact());
                 msg->setClient(from->client());
-                Event eOpen(EventOpenMessage, &msg);
-                eOpen.process();
+                EventOpenMessage(msg).process();
                 delete msg;
                 return (void*)1;
             }
@@ -3202,8 +3195,8 @@ void *CorePlugin::processEvent(Event *e)
                 raiseWindow(m_manager);
                 return (void*)1;
             }
+            Message *msg = (Message*)(cmd->param);
             if (cmd->id == CmdFileAccept){
-                Message *msg = (Message*)(cmd->param);
                 Contact *contact = getContacts()->contact(msg->contact());
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));
                 QString dir;
@@ -3212,33 +3205,18 @@ void *CorePlugin::processEvent(Event *e)
                 if (!dir.isEmpty() && (!dir.endsWith("/")) && (!dir.endsWith("\\")))
                     dir += '/';
                 dir = user_file(dir);
-                messageAccept ma;
-                ma.msg	     = msg;
-                ma.dir	     = dir;
-                ma.overwrite = Ask;
-                Event e(EventMessageAccept, &ma);
-                e.process();
+                EventMessageAccept(msg, dir, Ask).process();
             }
             if (cmd->id == CmdDeclineWithoutReason){
-                messageDecline md;
-                md.msg    = (Message*)(cmd->param);
-                md.reason = QString::null;
-                Event e(EventMessageDecline, &md);
-                e.process();
+                EventMessageDecline(msg).process();
             }
             if (cmd->id == CmdDeclineReasonBusy){
-                messageDecline md;
-                md.msg    = (Message*)(cmd->param);
-                md.reason = i18n("Sorry, I'm busy right now, and can not respond to your request");
-                Event e(EventMessageDecline, &md);
-                e.process();
+                QString reason = i18n("Sorry, I'm busy right now, and can not respond to your request");
+                EventMessageDecline(msg, reason).process();
             }
             if (cmd->id == CmdDeclineReasonLater){
-                messageDecline md;
-                md.msg    = (Message*)(cmd->param);
-                md.reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later");
-                Event e(EventMessageDecline, &md);
-                e.process();
+                QString reason = i18n("Sorry, I'm busy right now, but I'll be able to respond to you later");
+                EventMessageDecline(msg, reason).process();
             }
             if (cmd->id == CmdDeclineReasonInput){
                 Message *msg = (Message*)(cmd->param);
@@ -3267,8 +3245,7 @@ void *CorePlugin::processEvent(Event *e)
                         Message *msg = History::load((*it).id, (*it).client, (*it).contact);
                         if (msg){
                             msg->setFlags(msg->getFlags() & ~MESSAGE_NORAISE);
-                            Event e(EventOpenMessage, &msg);
-                            e.process();
+                            EventOpenMessage(msg).process();
                             delete msg;
                             break;
                         }
@@ -3307,8 +3284,7 @@ void *CorePlugin::processEvent(Event *e)
                                 msg->setContact((unsigned long)(cmd->param));
                                 msg->setClient(cc.client->dataName(data));
                                 msg->setResource(res);
-                                Event eOpen(EventOpenMessage, &msg);
-                                eOpen.process();
+                                EventOpenMessage(msg).process();
                                 delete msg;
                                 return (void*)1;
                             }
@@ -3344,8 +3320,7 @@ void *CorePlugin::processEvent(Event *e)
                         Message *msg = mdef->create(NULL);
                         msg->setContact((unsigned long)(cmd->param));
                         msg->setClient(cc.client->dataName(data));
-                        Event eOpen(EventOpenMessage, &msg);
-                        eOpen.process();
+                        EventOpenMessage(msg).process();
                         delete msg;
                         return (void*)1;
                     }

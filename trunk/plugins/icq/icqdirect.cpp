@@ -824,8 +824,7 @@ void DirectClient::processPacket()
             }
             Message *msg = (*it).msg;
             if (command == TCP_CANCEL){
-                Event e(EventMessageCancel, msg);
-                e.process();
+                EventMessageCancel(msg).process();
                 delete msg;
                 break;
             }
@@ -857,8 +856,7 @@ void DirectClient::processPacket()
                         QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str);
                         msg->setError(err);
                     }
-                    Event e(EventMessageSent, msg);
-                    e.process();
+                    EventMessageSent(msg).process();
                     m_queue.erase(it);
                     delete msg;
                 }else{
@@ -867,8 +865,7 @@ void DirectClient::processPacket()
                         return;
                     }
                     ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), m_data, m_client);
-                    Event e(EventMessageAcked, msg);
-                    e.process();
+                    EventMessageAcked(msg).process();
                     m_queue.erase(it);
                     m_client->m_processMsg.push_back(msg);
                     ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
@@ -895,17 +892,14 @@ void DirectClient::processPacket()
                             m.setForeground(msg->getForeground());
                             m.setBackground(msg->getBackground());
                         }
-                        Event e(EventSent, &m);
-                        e.process();
+                        EventSent(&m).process();
                     }else if ((msg->type() != MessageOpenSecure) && (msg->type() != MessageCloseSecure)){
                         msg->setFlags(flags);
-                        Event e(EventSent, msg);
-                        e.process();
+                        EventSent(msg).process();
                     }
                 }
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             m_queue.erase(it);
             delete msg;
             break;
@@ -926,8 +920,7 @@ void DirectClient::processPacket()
                     }
                     if (bFound){
                         m_client->m_acceptMsg.erase(it);
-                        Event e(EventMessageDeleted, msg);
-                        e.process();
+                        EventMessageDeleted(msg).process();
                         delete msg;
                         break;
                     }
@@ -965,8 +958,7 @@ void DirectClient::connect_ready()
             SendDirectMsg &sm = *it;
             if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
                 continue;
-            Event e(EventMessageSent, sm.msg);
-            e.process();
+            EventMessageSent(sm.msg).process();
             delete sm.msg;
             m_queue.erase(it);
             break;
@@ -984,8 +976,7 @@ void DirectClient::connect_ready()
             SendDirectMsg &sm = *it;
             if ((sm.msg == NULL) || (sm.msg->type() != MessageOpenSecure))
                 continue;
-            Event e(EventMessageSent, sm.msg);
-            e.process();
+            EventMessageSent(sm.msg).process();
             delete sm.msg;
             m_queue.erase(it);
             break;
@@ -1061,8 +1052,7 @@ bool DirectClient::error_state(const QString &_err, unsigned code)
         if (sm.msg){
             if (!m_client->sendThruServer(sm.msg, m_data)){
                 sm.msg->setError(err);
-                Event e(EventMessageSent, sm.msg);
-                e.process();
+                EventMessageSent(sm.msg).process();
                 delete sm.msg;
             }
         }else{
@@ -1325,11 +1315,9 @@ void DirectClient::processMsgQueue()
                     sm.type = CAP_UTF;
                 }else{
                     message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());
-                    messageSend ms;
-                    ms.msg  = sm.msg;
-                    ms.text = &message;
-                    Event e(EventSend, &ms);
+                    EventSend e(sm.msg, message);
                     e.process();
+                    message = e.localeText();
                 }
                 mb << message;
                 if (sm.msg->getBackground() == sm.msg->getForeground()){
@@ -1357,8 +1345,7 @@ void DirectClient::processMsgQueue()
                 break;
             default:
                 sm.msg->setError(I18N_NOOP("Unknown message type"));
-                Event e(EventMessageSent, sm.msg);
-                e.process();
+                EventMessageSent(sm.msg).process();
                 delete sm.msg;
                 m_queue.erase(it);
                 it = m_queue.begin();
@@ -1781,8 +1768,7 @@ bool ICQFileTransfer::error_state(const QString &err, unsigned code)
     }
     m_msg->m_transfer = NULL;
     m_msg->setFlags(m_msg->getFlags() & ~MESSAGE_TEMP);
-    Event e(EventMessageSent, m_msg);
-    e.process();
+    EventMessageSent(m_msg).process();
     return true;
 }
 
@@ -2049,8 +2035,7 @@ void AIMFileTransfer::connect_ready()
 bool AIMFileTransfer::error_state(const QString &err, unsigned)
 {
     m_msg->setError(err);
-    Event e(EventMessageSent, m_msg);
-    e.process();
+    EventMessageSent(m_msg).process();
     return true;
 }
 

@@ -15,12 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "interfacecfg.h"
-#include "userviewcfg.h"
-#include "historycfg.h"
-#include "msgcfg.h"
-#include "smscfg.h"
-#include "core.h"
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 #include <qtabwidget.h>
 #include <qcombobox.h>
@@ -31,12 +28,18 @@
 #include <qlabel.h>
 #include <qdir.h>
 
-#ifdef WIN32
-#include <windows.h>
+#include "log.h"
 
+#include "interfacecfg.h"
+#include "userviewcfg.h"
+#include "historycfg.h"
+#include "msgcfg.h"
+#include "smscfg.h"
+#include "core.h"
+
+#ifdef WIN32
 static WCHAR key_name[]   = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
 static WCHAR value_name[] = L"SIM";
-
 #endif
 
 using namespace std;

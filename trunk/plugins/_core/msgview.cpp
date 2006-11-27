@@ -544,8 +544,7 @@ void MsgViewBase::setSource(const QString &url)
         client = QString::number(m_id);
     Message *msg = History::load(msg_id, client, m_id);
     if (msg){
-        Event e(EventOpenMessage, &msg);
-        e.process();
+        EventOpenMessage(msg).process();
         delete msg;
     }
 }
@@ -772,8 +771,9 @@ void MsgViewBase::reload()
 
 void *MsgViewBase::processEvent(Event *e)
 {
-    if ((e->type() == EventRewriteMessage) || (e->type() == EventMessageRead)){
-        Message *msg = (Message*)(e->param());
+    if ((e->type() == EventRewriteMessage) || (e->type() == eEventMessageRead)){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = e->type() == eEventMessageRead ? em->msg() : (Message*)(e->param());
         if (msg->contact() != m_id)
             return NULL;
         unsigned i;
@@ -866,8 +866,9 @@ void *MsgViewBase::processEvent(Event *e)
         m_cut.push_back(*ch);
         return NULL;
     }
-    if (e->type() == EventMessageDeleted){
-        Message *msg = (Message*)(e->param());
+    if (e->type() == eEventMessageDeleted){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->contact() != m_id)
             return NULL;
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
@@ -1046,8 +1047,7 @@ void *MsgViewBase::processEvent(Event *e)
             msg = currentMessage();
             if (msg){
                 msg->setFlags(msg->getFlags() | MESSAGE_OPEN);
-                Event eOpen(EventOpenMessage, &msg);
-                eOpen.process();
+                EventOpenMessage(msg).process();
                 delete msg;
                 return (void*)1;
             }
@@ -1185,8 +1185,9 @@ void MsgView::init()
 
 void *MsgView::processEvent(Event *e)
 {
-    if ((e->type() == EventSent) || (e->type() == EventMessageReceived)){
-        Message *msg = (Message*)(e->param());
+    if ((e->type() == eEventSent) || (e->type() == eEventMessageReceived)){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->contact() != m_id)
             return NULL;
         if (msg->getFlags() & MESSAGE_NOVIEW)
@@ -1201,7 +1202,7 @@ void *MsgView::processEvent(Event *e)
                     bAdd = true;
             }
         }
-        if (bAdd && (e->type() == EventMessageReceived)){
+        if (bAdd && (e->type() == eEventMessageReceived)){
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact){
                 CoreUserData *data = (CoreUserData*)(contact->getUserData(CorePlugin::m_plugin->user_data_id));

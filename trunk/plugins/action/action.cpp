@@ -209,8 +209,9 @@ void *ActionPlugin::processEvent(Event *e)
         eTmpl.process();
         return (void*)1;
     }
-    case EventMessageReceived: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             return NULL;
@@ -225,8 +226,7 @@ void *ActionPlugin::processEvent(Event *e)
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
-            Event eTmpl(EventTemplateExpand, &t);
-            eTmpl.process();
+            Event(EventTemplateExpand, &t).process();
             return NULL;
         }
         QString cmd = get_str(data->Message, msg->baseType());
@@ -238,7 +238,7 @@ void *ActionPlugin::processEvent(Event *e)
         t.receiver = this;
         t.param	   = msg;
         Event(EventTemplateExpand, &t).process();
-        return e->param();
+        return (void*)1;
     }
     case EventTemplateExpanded: {
         TemplateExpand *t = (TemplateExpand*)(e->param());
@@ -286,14 +286,14 @@ void ActionPlugin::msg_ready(Exec *exec, int code, const char *out)
             m_delete.push_back(exec);
             Message *msg = static_cast<MsgExec*>(exec)->msg;
             if (code){
-                Event e(EventMessageReceived, msg);
+                EventMessageReceived e(msg);
                 if (e.process(this) == NULL)
                     delete msg;
             }else{
                 if (out && *out){
                     msg->setFlags(msg->getFlags() & ~MESSAGE_RICHTEXT);
                     msg->setText(QString::fromLocal8Bit(out));
-                    Event e(EventMessageReceived, msg);
+                    EventMessageReceived e(msg);
                     if (e.process(this) == NULL)
                         delete msg;
                 }else{

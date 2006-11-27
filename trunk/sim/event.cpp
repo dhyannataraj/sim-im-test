@@ -49,8 +49,21 @@ EventReceiver::~EventReceiver()
     g_bChanged = true;
 }
 
+/*********************
+ * class Event
+ *********************/
+unsigned long Event::EventCounter = 0x2000;
+
+Event::~Event()
+{
+    if(!m_bProcessed)
+        log(L_ERROR, "Event::~Event() without call to Event::process(), Event: %x", m_type);
+}
+
 void *Event::process(EventReceiver *from)
 {
+    m_bProcessed = true;
+
     if (receivers == NULL)
         return NULL;
     g_iLevel++;

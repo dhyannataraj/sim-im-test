@@ -178,10 +178,20 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventMessageDeleted:
-    case EventMessageRead:
-    case EventMessageReceived:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageDeleted:
+    case eEventMessageRead:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
+            FloatyWnd *wnd = findFloaty(msg->contact());
+            if (wnd){
+                wnd->init();
+                wnd->repaint();
+            }
+            break;
+        }
+    case eEventMessageReceived:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             FloatyWnd *wnd = findFloaty(msg->contact());
             if (wnd){
                 wnd->init();

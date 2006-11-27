@@ -15,21 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "remote.h"
-#include "remotecfg.h"
-#include "simapi.h"
-#include "stl.h"
-
-#include "core.h"
+#include <time.h>
 
 #include <qapplication.h>
-#include <qwidgetlist.h>
+#include <qfile.h>
+#include <qpixmap.h>
 #include <qregexp.h>
 #include <qtimer.h>
-#include <qfile.h>
 #include <qthread.h>
-#include <qpixmap.h>
-#include <time.h>
+#include <qwidgetlist.h>
+
+#include "icons.h"
+
+#include "remote.h"
+#include "remotecfg.h"
+#include "core.h"
 
 using namespace std;
 using namespace SIM;
@@ -569,8 +569,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             FileMessage *msg = new FileMessage;
             msg->setContact(args[1].toUInt());
             msg->setFile(args[0]);
-            Event e(EventOpenMessage, &msg);
-            e.process();
+            EventOpenMessage(msg).process();
             delete msg;
             return true;
         }
@@ -719,8 +718,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             if (bOpen){
                 Message *m = new Message(MessageGeneric);
                 m->setContact(contact->id());
-                Event e(EventOpenMessage, &m);
-                e.process();
+                EventOpenMessage(m).process();
                 delete m;
             }
             return true;
@@ -876,8 +874,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 if (nCmd == CMD_OPEN){
                     Message *m = new Message(MessageGeneric);
                     m->setContact(contact->id());
-                    Event e(EventOpenMessage, &m);
-                    e.process();
+                    EventOpenMessage(m).process();
                     delete m;
                 }
                 return true;

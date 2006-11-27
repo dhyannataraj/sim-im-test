@@ -370,8 +370,7 @@ void *SearchDialog::processEvent(Event *e)
                     return (void*)1;
                 Message *m = new Message(MessageGeneric);
                 m->setContact(contact->id());
-                Event e(EventOpenMessage, &m);
-                e.process();
+                EventOpenMessage(m).process();
                 delete m;
             }
             break;

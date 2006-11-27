@@ -21,6 +21,8 @@
 
 #include <time.h>
 
+#include <algorithm>
+
 #include <qcheckbox.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>

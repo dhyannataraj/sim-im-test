@@ -298,7 +298,7 @@ void GpgPlugin::decryptReady()
                     msg->setText(key + "\n" + str);
                 }
             }
-            Event e(EventMessageReceived, msg);
+            EventMessageReceived e(msg);
             if ((res == 0) && processEvent(&e))
                 return;
             if (!e.process(this))
@@ -367,7 +367,7 @@ void GpgPlugin::importReady()
                     str = "(" + err + ")";
                 msg->setText(i18n("Importing public key failed") + str);
             }
-            Event e(EventMessageReceived, (*it).msg);
+            EventMessageReceived e((*it).msg);
             if (!e.process(this))
                 delete (*it).msg;
             (*it).msg = NULL;
@@ -446,8 +446,9 @@ void *GpgPlugin::processEvent(Event *e)
                 return e->param();
             return NULL;
         }
-    case EventMessageSent:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageSent:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             for (QValueList<KeyMsg>::iterator it = m_sendKeys.begin(); it != m_sendKeys.end(); ++it){
                 if ((*it).msg == msg){
                     if (msg->getError().isEmpty()){
@@ -455,8 +456,7 @@ void *GpgPlugin::processEvent(Event *e)
                         m.setText((*it).key);
                         m.setClient(msg->client());
                         m.setContact(msg->contact());
-                        Event e(EventSent, &m);
-                        e.process();
+                        EventSent(&m).process();
                     }
                     m_sendKeys.erase(it);
                     break;
@@ -464,8 +464,9 @@ void *GpgPlugin::processEvent(Event *e)
             }
             return NULL;
         }
-    case EventMessageSend:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageSend:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             if (msg->type() == MessageGeneric){
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
@@ -482,24 +483,23 @@ void *GpgPlugin::processEvent(Event *e)
             }
             return NULL;
         }
-    case EventSend:{
-            messageSend *ms = (messageSend*)(e->param());
-            if ((ms->msg->type() == MessageGeneric) &&
-                    (ms->msg->getFlags() & MESSAGE_SECURE)){
-                Contact *contact = getContacts()->contact(ms->msg->contact());
+    case eEventSend:{
+            EventSend *es = static_cast<EventSend*>(e);
+            if ((es->msg()->type() == MessageGeneric) &&
+                (es->msg()->getFlags() & MESSAGE_SECURE)){
+                Contact *contact = getContacts()->contact(es->msg()->contact());
                 if (contact){
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (data && !data->Key.str().isEmpty() && data->Use.toBool()){
                         QString output = user_file("m.");
-                        output += QString::number((unsigned long)ms->msg);
+                        output += QString::number((unsigned long)es->msg());
                         QString input = output + ".in";
                         QFile in(input);
                         if (!in.open(IO_WriteOnly | IO_Truncate)){
                             log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
                             return NULL;
                         }
-                        QCString *cstr = ms->text;
-                        in.writeBlock(cstr->data(), cstr->length());
+                        in.writeBlock(es->localeText());
                         in.close();
                         QString home = GpgPlugin::plugin->getHomeDir();
 
@@ -516,26 +516,26 @@ void *GpgPlugin::processEvent(Event *e)
                         QProcess proc(sl, this);
 
                         if(!proc.start())
-                            return ms->msg;
+                            return (void*)1;
 
                         // FIXME: not soo good...
                         while(proc.isRunning())
                             qApp->processEvents();
 
                         if (!proc.normalExit() || proc.exitStatus() != 0){
-                            ms->msg->setError(I18N_NOOP("Encrypt failed"));
+                            es->msg()->setError(I18N_NOOP("Encrypt failed"));
                             QFile::remove(input);
                             QFile::remove(output);
-                            return ms->msg;
+                            return (void*)1;
                         }
                         QFile::remove(input);
                         QFile out(output);
                         if (!out.open(IO_ReadOnly)){
                             QFile::remove(output);
-                            ms->msg->setError(I18N_NOOP("Encrypt failed"));
-                            return ms->msg;
+                            es->msg()->setError(I18N_NOOP("Encrypt failed"));
+                            return (void*)1;
                         }
-                        *ms->text = out.readAll();
+                        es->setLocaleText(QCString(out.readAll()));
                         out.close();
                         QFile::remove(output);
                         return NULL;
@@ -544,8 +544,9 @@ void *GpgPlugin::processEvent(Event *e)
             }
             return NULL;
         }
-    case EventMessageReceived:{
-            Message *msg = (Message*)(e->param());
+    case eEventMessageReceived:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            Message *msg = em->msg();
             if(!msg)
                 return NULL;
             if ((msg->baseType() == MessageGeneric) && m_bMessage){
@@ -819,7 +820,7 @@ void GpgPlugin::passphraseFinished()
                 ++it;
                 continue;
             }
-            Event e(EventMessageReceived, (*it).msg);
+            EventMessageReceived e((*it).msg);
             if (!e.process(this))
                 delete (*it).msg;
             m_wait.erase(it);

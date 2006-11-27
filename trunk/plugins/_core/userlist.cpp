@@ -913,8 +913,9 @@ void *UserListBase::processEvent(Event *e)
             }
             break;
         }
-        case EventMessageReceived:{
-                Message *msg = (Message*)(e->param());
+        case eEventMessageReceived:{
+                EventMessage *em = static_cast<EventMessage*>(e);
+                Message *msg = em->msg();
                 if (msg->type() == MessageStatus){
                     Contact *contact = getContacts()->contact(msg->contact());
                     if (contact)

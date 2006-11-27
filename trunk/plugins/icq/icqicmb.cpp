@@ -143,8 +143,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 requestRateInfo();
             if (m_send.msg){
                 m_send.msg->setError(err_str);
-                Event e(EventMessageSent, m_send.msg);
-                e.process();
+                EventMessageSent(m_send.msg).process();
                 delete m_send.msg;
             }
             m_send.msg    = NULL;
@@ -286,8 +285,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 if (ackMessage((*it).msg, ackFlags, answer)){
                     ackMessage(*it);
                 }else{
-                    Event e(EventMessageSent, (*it).msg);
-                    e.process();
+                    EventMessageSent((*it).msg).process();
                     delete (*it).msg;
                 }
                 replyQueue.erase(it);
@@ -433,8 +431,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                                         }
                                         if (msg_id == id){
                                             m_acceptMsg.erase(it);
-                                            Event e(EventMessageDeleted, msg);
-                                            e.process();
+                                            EventMessageDeleted(msg).process();
                                             delete msg;
                                             break;
                                         }
@@ -656,8 +653,7 @@ void ICQClient::ackMessage(SendMsg &s)
 {
     if (s.flags == PLUGIN_AIM_FT){
         s.msg->setError(I18N_NOOP("File transfer declined"));
-        Event e(EventMessageSent, s.msg);
-        e.process();
+        EventMessageSent(s.msg).process();
         delete s.msg;
         s.msg = NULL;
         s.screen = QString::null;
@@ -668,8 +664,7 @@ void ICQClient::ackMessage(SendMsg &s)
     if ((s.msg->getFlags() & MESSAGE_NOHISTORY) == 0){
         if ((s.flags & SEND_MASK) == SEND_RAW){
             s.msg->setClient(dataName(m_send.screen));
-            Event e(EventSent, s.msg);
-            e.process();
+            EventSent(s.msg).process();
         }else if (!s.part.isEmpty()){
             Message m(MessageGeneric);
             m.setContact(s.msg->contact());
@@ -687,16 +682,14 @@ void ICQClient::ackMessage(SendMsg &s)
             }
             m.setFlags(flags);
             m.setClient(dataName(s.screen));
-            Event e(EventSent, &m);
-            e.process();
+            EventSent(&m).process();
         }
     }
     if ((s.text.length() == 0) || (s.msg->type() == MessageWarning)){
-        Event e(EventMessageSent, s.msg);
-        e.process();
+        EventMessageSent(s.msg).process();
         delete s.msg;
         s.msg = NULL;
-        s.screen = "";
+        s.screen = QString::null;
     }else{
         sendFgQueue.push_front(s);
     }
@@ -793,8 +786,7 @@ void ICQClient::clearMsgQueue()
         }
         if ((*it).msg) {
             (*it).msg->setError(I18N_NOOP("Client go offline"));
-            Event e(EventMessageSent, (*it).msg);
-            e.process();
+            EventMessageSent((*it).msg).process();
             delete (*it).msg;
         }
     }
@@ -807,16 +799,14 @@ void ICQClient::clearMsgQueue()
         }
         if ((*it).msg) {
             (*it).msg->setError(I18N_NOOP("Client go offline"));
-            Event e(EventMessageSent, (*it).msg);
-            e.process();
+            EventMessageSent((*it).msg).process();
             delete (*it).msg;
         }
     }
     sendBgQueue.clear();
     if (m_send.msg){
         m_send.msg->setError(I18N_NOOP("Client go offline"));
-        Event e(EventMessageSent, m_send.msg);
-        e.process();
+        EventMessageSent(m_send.msg).process();
         delete m_send.msg;
     }
     m_send.msg    = NULL;
@@ -924,8 +914,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                     FileMessage *m = static_cast<FileMessage*>((*it).msg);
                     replyQueue.erase(it);
                     m_processMsg.push_back(m);
-                    Event e(EventMessageAcked, m);
-                    e.process();
+                    EventMessageAcked(m).process();
                     AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
                     ft->connect(port);
                     return;
@@ -1261,21 +1250,18 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                         if ((m->type() != MessageICQFile) || (data == NULL)){
                             log(L_WARN, "Bad answer type");
                             msg->setError(I18N_NOOP("Send failed"));
-                            Event e(EventMessageSent, msg);
-                            e.process();
+                            EventMessageSent(msg).process();
                             delete msg;
                             return;
                         }
                         if (m_state == 1){
                             msg->setError(I18N_NOOP("Message declined"));
-                            Event e(EventMessageSent, msg);
-                            e.process();
+                            EventMessageSent(msg).process();
                             delete msg;
                             return;
                         }
                         ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                        Event e(EventMessageAcked, msg);
-                        e.process();
+                        EventMessageAcked(msg).process();
                         m_processMsg.push_back(msg);
                         ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
                     }else{
@@ -1474,8 +1460,7 @@ void ICQClient::sendTimeout()
         log(L_WARN, "Send timeout");
         if (m_send.msg){
             m_send.msg->setError(I18N_NOOP("Send timeout"));
-            Event e(EventMessageSent, m_send.msg);
-            e.process();
+            EventMessageSent(m_send.msg).process();
             delete m_send.msg;
         }
         m_send.msg = NULL;
@@ -1622,8 +1607,7 @@ bool ICQClient::processMsg()
         if (m_send.msg != NULL)
         {
             m_send.msg->setError(I18N_NOOP("No contact"));
-            Event e(EventMessageSent, m_send.msg);
-            e.process();
+            EventMessageSent(m_send.msg).process();
             delete m_send.msg;
             m_send.msg = NULL;
         }
@@ -1646,11 +1630,10 @@ bool ICQClient::processMsg()
                 QString nc = packContacts(static_cast<ContactsMessage*>(m_send.msg), data, c);
                 if (c.empty()){
                     m_send.msg->setError(I18N_NOOP("No contacts for send"));
-                    Event e(EventMessageSent, m_send.msg);
-                    e.process();
+                    EventMessageSent(m_send.msg).process();
                     delete m_send.msg;
                     m_send.msg = NULL;
-                    m_send.screen = "";
+                    m_send.screen = QString::null;
                     return false;
                 }
                 static_cast<ContactsMessage*>(m_send.msg)->setContacts(nc);
@@ -1709,11 +1692,10 @@ bool ICQClient::processMsg()
                 packMessage(b, m_send.msg, data, type, false);
                 QString err = m_send.msg->getError();
                 if (!err.isEmpty()){
-                    Event e(EventMessageSent, m_send.msg);
-                    e.process();
+                    EventMessageSent(m_send.msg).process();
                     delete m_send.msg;
                     m_send.msg = NULL;
-                    m_send.screen = "";
+                    m_send.screen = QString::null;
                     return false;
                 }
                 sendThroughServer(screen(data), 4, b, m_send.id, true, false);
@@ -1752,11 +1734,9 @@ bool ICQClient::processMsg()
         case SEND_TYPE2:{
                 m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
                 text = getContacts()->fromUnicode(contact, m_send.part);
-                messageSend ms;
-                ms.msg  = m_send.msg;
-                ms.text = &text;
-                Event e(EventSend, &ms);
+                EventSend e(m_send.msg, text);
                 e.process();
+                text = e.localeText();
                 break;
             }
         case SEND_HTML:
@@ -1781,13 +1761,9 @@ bool ICQClient::processMsg()
                     AIMParser p;
                     t += p.parse(m_send.part);
                 }else{
-                    QCString cstr = m_send.part.utf8();
-                    messageSend ms;
-                    ms.msg  = m_send.msg;
-                    ms.text = &cstr;
-                    Event e(EventSend, &ms);
+                    EventSend e(m_send.msg, m_send.part.utf8());
                     e.process();
-                    m_send.part = QString::fromUtf8( cstr );
+                    m_send.part = QString::fromUtf8( e.localeText() );
                     t += quoteString(m_send.part);
                 }
                 //t += "</BODY></HTML>";
@@ -1998,11 +1974,9 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msgBuf.pack(ba.data(), ba.size());
     }else{
         QCString msg_text = getContacts()->fromUnicode(getContact(data), text);
-        messageSend ms;
-        ms.msg  = m_send.msg;
-        ms.text = &msg_text;
-        Event e(EventSend, &ms);
+        EventSend e(m_send.msg, msg_text);
         e.process();
+        msg_text = e.localeText();
         msgBuf << 0x0000FFFFL;
         msgBuf << msg_text.data();
     }
@@ -2070,8 +2044,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
                 ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
                 ft->setDir(dir);
                 ft->setOverwrite(overwrite);
-                Event e(EventMessageAcked, msg);
-                e.process();
+                EventMessageAcked(msg).process();
                 m_processMsg.push_back(msg);
                 bDelete = false;
                 ft->listen();
@@ -2081,8 +2054,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
                 AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
                 ft->setDir(dir);
                 ft->setOverwrite(overwrite);
-                Event e(EventMessageAcked, msg);
-                e.process();
+                EventMessageAcked(msg).process();
                 m_processMsg.push_back(msg);
                 bDelete = false;
                 ft->accept();
@@ -2092,8 +2064,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
             log(L_DEBUG, "Bad message type %u for accept", msg->type());
         }
     }
-    Event e(EventMessageDeleted, msg);
-    e.process();
+    EventMessageDeleted(msg).process();
     if (bDelete)
         delete msg;
 }
@@ -2178,8 +2149,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
             }
         }
     }
-    Event e(EventMessageDeleted, msg);
-    e.process();
+    EventMessageDeleted(msg).process();
     delete msg;
 }
 

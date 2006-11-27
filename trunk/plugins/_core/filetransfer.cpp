@@ -252,8 +252,7 @@ FileTransferDlg::~FileTransferDlg()
         return;
     if (m_msg->m_transfer)
         m_msg->m_transfer->setNotify(NULL);
-    Event e(EventMessageCancel, m_msg);
-    e.process();
+    EventMessageCancel(m_msg).process();
 }
 
 void FileTransferDlg::process()
@@ -348,8 +347,7 @@ void FileTransferDlg::notifyDestroyed()
     m_timer->stop();
     btnCancel->setText(i18n("&Close"));
     if (m_state == FileTransfer::Done){
-        Event e(EventSent, m_msg);
-        e.process();
+        EventSent(m_msg).process();
         if (chkClose->isChecked())
             close();
         return;

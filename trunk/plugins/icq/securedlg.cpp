@@ -45,10 +45,8 @@ SecureDlg::SecureDlg(ICQClient *client, unsigned contact, ICQUserData *data)
 
 SecureDlg::~SecureDlg()
 {
-    if (m_msg){
-        Event e(EventMessageCancel, m_msg);
-        e.process();
-    }
+    if (m_msg)
+        EventMessageCancel(m_msg).process();
 }
 
 void SecureDlg::start()
@@ -78,8 +76,9 @@ void *SecureDlg::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageSent: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageSent: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg != m_msg)
             return NULL;
         QString err = msg->getError();
@@ -89,7 +88,7 @@ void *SecureDlg::processEvent(Event *e)
             m_msg = NULL;
             close();
         }
-        return e->param();
+        return (void*)1;
     }
     default:
         break;

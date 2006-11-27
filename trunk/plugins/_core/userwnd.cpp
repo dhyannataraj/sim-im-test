@@ -83,7 +83,7 @@ UserWnd::UserWnd(unsigned long id, Buffer *cfg, bool bReceived, bool bAdjust)
     if (!m_edit->adjustType()){
         unsigned type = getMessageType();
         Message *msg = new Message(MessageGeneric);
-        setMessage(&msg);
+        setMessage(msg);
         delete msg;
         setMessageType(type);
     }
@@ -221,7 +221,7 @@ unsigned UserWnd::type()
     return m_edit->type();
 }
 
-void UserWnd::setMessage(Message **msg)
+void UserWnd::setMessage(Message *msg)
 {
     bool bSetFocus = false;
 
@@ -231,21 +231,22 @@ void UserWnd::setMessage(Message **msg)
         if (container->wnd() == this)
             bSetFocus = true;
     }
-    if (!m_edit->setMessage(*msg, bSetFocus)){
-        delete *msg;
-        *msg = new Message(MessageGeneric);
-        m_edit->setMessage(*msg, bSetFocus);
+    if (!m_edit->setMessage(msg, bSetFocus)){
+        // if this does not work as expected, we have to go back
+        // to EventOpenMessage with Message** :(
+        *msg = Message(MessageGeneric);
+        m_edit->setMessage(msg, bSetFocus);
     }
     if (container){
-        container->setMessageType((*msg)->baseType());
+        container->setMessageType(msg->baseType());
         container->contactChanged(getContacts()->contact(m_id));
     }
 
-    if ((m_view == NULL) || ((*msg)->id() == 0))
+    if ((m_view == NULL) || (msg->id() == 0))
         return;
-    if (m_view->findMessage(*msg))
+    if (m_view->findMessage(msg))
         return;
-    m_view->addMessage(*msg);
+    m_view->addMessage(msg);
     if (!m_view->hasSelectedText())
         m_view->scrollToBottom();
 }
@@ -305,8 +306,7 @@ void UserWnd::markAsRead()
         Message *msg = History::load((*it).id, (*it).client, (*it).contact);
         CorePlugin::m_plugin->unread.erase(it);
         if (msg){
-            Event e(EventMessageRead, msg);
-            e.process();
+            EventMessageRead(msg).process();
             delete msg;
         }
         it = CorePlugin::m_plugin->unread.begin();

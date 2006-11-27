@@ -562,8 +562,7 @@ void OSDPlugin::closeClick()
             Message *msg = (Message*)(e.process());
             core->unread.erase(it);
             if (msg){
-                Event e(EventMessageRead, msg);
-                e.process();
+                EventMessageRead(msg).process();
                 delete msg;
             }
             it = core->unread.begin();
@@ -643,10 +642,64 @@ void *OSDPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageDeleted:
-    case EventMessageRead:
-    case EventMessageReceived: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        Contact *contact = getContacts()->contact(msg->contact());
+        if (contact == NULL)
+            break;
+        OSDUserData *data = (OSDUserData*)(contact->getUserData(user_data_id));
+        if (data == NULL)
+            break;
+        osd.contact = msg->contact();
+        if (msg->type() == MessageStatus) {
+            StatusMessage *smsg = (StatusMessage*)msg;
+            switch (smsg->getStatus()) {
+            case STATUS_AWAY:
+                osd.type = OSD_ALERTAWAY;
+                break;
+            case STATUS_NA:
+                osd.type = OSD_ALERTNA;
+                break;
+            case STATUS_DND:
+                osd.type = OSD_ALERTDND;
+                break;
+            case 100:    /* STATUS_OCCUPIED, but defined in icqclient.h ! */
+                osd.type = OSD_ALERTOCCUPIED;
+                break;
+            case STATUS_FFC:
+                osd.type = OSD_ALERTFFC;
+                break;
+            case STATUS_OFFLINE:
+                osd.type = OSD_ALERTOFFLINE;
+                break;
+            case STATUS_ONLINE:
+                osd.type = OSD_NONE;
+                return NULL;
+            default:
+                log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
+                osd.type = OSD_NONE;
+                return NULL;
+            }
+            queue.push_back(osd);
+            processQueue();
+        }else{
+            osd.type    = OSD_MESSAGE;
+            if ((m_request.type == OSD_MESSAGE) && (m_request.contact == msg->contact())){
+                queue.push_front(osd);
+                m_timer->stop();
+                m_timer->start(100);
+            }else{
+                queue.push_back(osd);
+                processQueue();
+            }
+        }
+        break;
+    }
+    case eEventMessageDeleted:
+    case eEventMessageRead: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             break;

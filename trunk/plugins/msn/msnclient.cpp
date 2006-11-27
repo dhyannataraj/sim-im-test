@@ -238,7 +238,7 @@ void MSNClient::disconnected()
                 m->setClient(dataName(data));
                 m->setFlags(MESSAGE_RECEIVED);
                 m->setStatus(STATUS_OFFLINE);
-                Event e(EventMessageReceived, m);
+                EventMessageReceived e(m);
                 if(!e.process())
                     delete m;
             }
@@ -557,7 +557,7 @@ void MSNClient::getLine(const char *line)
             m->setClient(dataName(data));
             m->setFlags(MESSAGE_RECEIVED);
             m->setStatus(status);
-            Event e(EventMessageReceived, m);
+            EventMessageReceived e(m);
             if(!e.process())
                 delete m;
         }
@@ -581,7 +581,7 @@ void MSNClient::getLine(const char *line)
             m->setClient(dataName(data));
             m->setFlags(MESSAGE_RECEIVED);
             m->setStatus(status);
-            Event e(EventMessageReceived, m);
+            EventMessageReceived e(m);
             if(!e.process())
                 delete m;
             if ((status == STATUS_ONLINE) && !contact->getIgnore()){
@@ -602,7 +602,7 @@ void MSNClient::getLine(const char *line)
             m->setClient(dataName(data));
             m->setFlags(MESSAGE_RECEIVED);
             m->setStatus(STATUS_OFFLINE);
-            Event e(EventMessageReceived, m);
+            EventMessageReceived e(m);
             if(!e.process())
                 delete m;
         }
@@ -958,11 +958,9 @@ bool MSNClient::send(Message *msg, void *_data)
         if (msg->getText().isEmpty()){
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 msg->setClient(dataName(data));
-                Event e(EventSent, msg);
-                e.process();
+                EventSent(msg).process();
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             return true;
         }
@@ -1258,7 +1256,7 @@ void MSNClient::auth_message(Contact *contact, unsigned type, MSNUserData *data)
     msg->setClient(dataName(data));
     msg->setContact(contact->id());
     msg->setFlags(MESSAGE_RECEIVED);
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     if(!e.process())
         delete msg;
 }
@@ -1376,36 +1374,36 @@ void *MSNClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageAccept: {
-        messageAccept *ma = static_cast<messageAccept*>(e->param());
-        Contact *contact = getContacts()->contact(ma->msg->contact());
+    case eEventMessageAccept: {
+        EventMessageAccept *ema = static_cast<EventMessageAccept*>(e);
+        Contact *contact = getContacts()->contact(ema->msg()->contact());
         if (contact == NULL)
             return NULL;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
-            if (dataName(data) == ma->msg->client()){
+            if (dataName(data) == ema->msg()->client()){
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock)
-                    sock->acceptMessage(ma->msg, ma->dir, ma->overwrite);
-                return e->param();
+                    sock->acceptMessage(ema->msg(), ema->dir(), ema->mode());
+                return (void*)1;
             }
         }
         break;
     }
-    case EventMessageDecline: {
-        messageDecline *md = (messageDecline*)(e->param());
-        Contact *contact = getContacts()->contact(md->msg->contact());
+    case eEventMessageDecline: {
+        EventMessageDecline *emd = static_cast<EventMessageDecline*>(e);
+        Contact *contact = getContacts()->contact(emd->msg()->contact());
         if (contact == NULL)
             return NULL;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
-            if (dataName(data) == md->msg->client()){
+            if (dataName(data) == emd->msg()->client()){
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock)
-                    sock->declineMessage(md->msg, md->reason);
-                return e->param();
+                    sock->declineMessage(emd->msg(), emd->reason());
+                return (void*)1;
             }
         }
         break;
@@ -1497,8 +1495,9 @@ void *MSNClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageCancel: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageCancel: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         for (list<SBSocket*>::iterator it = m_SBsockets.begin(); it != m_SBsockets.end(); ++it){
             if ((*it)->cancelMessage(msg))
                 return msg;
@@ -1870,22 +1869,19 @@ SBSocket::~SBSocket()
     for (itm = m_queue.begin(); itm != m_queue.end(); ++itm){
         Message *msg = (*itm);
         msg->setError(I18N_NOOP("Contact go offline"));
-        Event e(EventMessageSent, msg);
-        e.process();
+        EventMessageSent(msg).process();
         delete msg;
     }
     list<msgInvite>::iterator itw;
     for (itw = m_waitMsg.begin(); itw != m_waitMsg.end(); ++itw){
         Message *msg = (*itw).msg;
         msg->setError(I18N_NOOP("Contact go offline"));
-        Event e(EventMessageSent, msg);
-        e.process();
+        EventMessageSent(msg).process();
         delete msg;
     }
     for (itw = m_acceptMsg.begin(); itw != m_acceptMsg.end(); ++itw){
         Message *msg = (*itw).msg;
-        Event e(EventMessageDeleted, msg);
-        e.process();
+        EventMessageDeleted(msg).process();
         delete msg;
     }
 }
@@ -2072,8 +2068,7 @@ void SBSocket::getLine(const QCString &_line)
         if (cmd == "NAK"){
             m_msgText = "";
             msg->setError(I18N_NOOP("Send message failed"));
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             m_queue.erase(m_queue.begin());
             process(false);
@@ -2087,15 +2082,13 @@ void SBSocket::getLine(const QCString &_line)
             m.setForeground(msg->getForeground());
             m.setBackground(0xFFFFFF);
             m.setFont(msg->getFont());
-            Event e(EventSent, &m);
-            e.process();
+            EventSent(&m).process();
         }
         if (m_msgText.isEmpty()){
             if (msg->type() == MessageFile){
                 sendFile();
             }else{
-                Event e(EventMessageSent, msg);
-                e.process();
+                EventMessageSent(msg).process();
                 delete msg;
                 m_queue.erase(m_queue.begin());
             }
@@ -2202,7 +2195,7 @@ void SBSocket::messageReady()
         msg->setText(msg_text);
         msg->setContact(m_contact->id());
         msg->setClient(m_client->dataName(m_data));
-        Event e(EventMessageReceived, msg);
+        EventMessageReceived e(msg);
         if (!e.process())
             delete msg;
         return;
@@ -2310,7 +2303,7 @@ void SBSocket::messageReady()
             m.msg    = msg;
             m.cookie = cookie;
             m_acceptMsg.push_back(m);
-            Event e(EventMessageReceived, msg);
+            EventMessageReceived e(msg);
             if (e.process()){
                 for (list<msgInvite>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
                     if ((*it).msg == msg){
@@ -2350,15 +2343,13 @@ void SBSocket::messageReady()
                         ft->auth_cookie = auth_cookie;
 
                         if (bNew){
-                            Event e(EventMessageAcked, msg);
-                            e.process();
+                            EventMessageAcked(msg).process();
                         }
                         ft->connect();
                         break;
                     }
                     msg->setError("Bad type");
-                    Event e(EventMessageSent, msg);
-                    e.process();
+                    EventMessageSent(msg).process();
                     delete msg;
                     return;
                 }
@@ -2373,8 +2364,7 @@ void SBSocket::messageReady()
                     if ((*it).cookie == cookie){
                         Message *msg = (*it).msg;
                         msg->setError(I18N_NOOP("Message declined"));
-                        Event e(EventMessageSent, msg);
-                        e.process();
+                        EventMessageSent(msg).process();
                         delete msg;
                         m_waitMsg.erase(it);
                         break;
@@ -2388,8 +2378,7 @@ void SBSocket::messageReady()
             for (it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
                 if ((*it).cookie == cookie){
                     Message *msg = (*it).msg;
-                    Event e(EventMessageDeleted, msg);
-                    e.process();
+                    EventMessageDeleted(msg).process();
                     delete msg;
                     m_acceptMsg.erase(it);
                     break;
@@ -2532,13 +2521,9 @@ void SBSocket::process(bool bTyping)
         sendTyping();
     if (m_msgText.isEmpty() && !m_queue.empty()){
         Message *msg = m_queue.front();
-        QCString text = msg->getPlainText().utf8();
-        messageSend ms;
-        ms.msg  = msg;
-        ms.text = &text;
-        Event e(EventSend, &ms);
+        EventSend e(msg, msg->getPlainText().utf8());
         e.process();
-        m_msgText = QString::fromUtf8(text);
+        m_msgText = QString::fromUtf8( e.localeText() );
         if (msg->type() == MessageUrl){
             UrlMessage *m = static_cast<UrlMessage*>(msg);
             QString msgText = m->getUrl();
@@ -2553,8 +2538,7 @@ void SBSocket::process(bool bTyping)
                 sendFile();
                 return;
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             m_queue.erase(m_queue.begin());
         }
@@ -2706,8 +2690,7 @@ bool MSNFileTransfer::error_state(const QString &err, unsigned)
     }
     m_msg->m_transfer = NULL;
     m_msg->setFlags(m_msg->getFlags() & ~MESSAGE_TEMP);
-    Event e(EventMessageSent, m_msg);
-    e.process();
+    EventMessageSent(m_msg).process();
     return true;
 }
 
@@ -3036,11 +3019,9 @@ bool SBSocket::acceptMessage(Message *msg, const QString &dir, OverwriteMode mod
         ft->setOverwrite(mode);
         ft->auth_cookie = get_random();
         ft->cookie = cookie;
-        Event e(EventMessageAcked, msg);
-        e.process();
+        EventMessageAcked(msg).process();
         ft->listen();
-        Event eDel(EventMessageDeleted, msg);
-        eDel.process();
+        EventMessageDeleted(msg).process();
         return true;
     }
     return false;

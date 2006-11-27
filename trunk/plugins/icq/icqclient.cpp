@@ -575,15 +575,14 @@ void ICQClient::disconnected()
                 m->setClient(dataName(data));
                 m->setStatus(STATUS_OFFLINE);
                 m->setFlags(MESSAGE_RECEIVED);
-                Event e(EventMessageReceived, m);
+                EventMessageReceived e(m);
                 if(!e.process())
                     delete m;
             }
         }
     }
     for (list<Message*>::iterator itm = m_acceptMsg.begin(); itm != m_acceptMsg.end(); ++itm){
-        Event e(EventMessageDeleted, *itm);
-        e.process();
+        EventMessageDeleted(*itm).process();
         delete *itm;
     }
     m_acceptMsg.clear();
@@ -1043,8 +1042,7 @@ void ICQClient::setOffline(ICQUserData *data)
     for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ){
         Message *msg = *it;
         if (msg->client() && (name == msg->client())){
-            Event e(EventMessageDeleted, msg);
-            e.process();
+            EventMessageDeleted(msg).process();
             delete msg;
             m_acceptMsg.erase(it);
             it = m_acceptMsg.begin();
@@ -2291,25 +2289,25 @@ void *ICQClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageAccept: {
-        messageAccept *ma = static_cast<messageAccept*>(e->param());
+    case eEventMessageAccept: {
+        EventMessageAccept *ema = static_cast<EventMessageAccept*>(e);
         for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-            if ((*it)->id() == ma->msg->id()){
+            if ((*it)->id() == ema->msg()->id()){
                 Message *msg = *it;
                 m_acceptMsg.erase(it);
-                accept(msg, ma->dir, ma->overwrite);
+                accept(msg, ema->dir(), ema->mode());
                 return msg;
             }
         }
         break;
     }
-    case EventMessageDecline: {
-        messageDecline *md = (messageDecline*)(e->param());
+    case eEventMessageDecline: {
+        EventMessageDecline *emd = static_cast<EventMessageDecline*>(e);
         for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-            if ((*it)->id() == md->msg->id()){
+            if ((*it)->id() == emd->msg()->id()){
                 Message *msg = *it;
                 m_acceptMsg.erase(it);
-                decline(msg, md->reason);
+                decline(msg, emd->reason());
                 return msg;
             }
         }
@@ -2483,8 +2481,9 @@ void *ICQClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageCancel: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageCancel: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         list<Message*>::iterator it;
         for (it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
             if (*it == msg)
@@ -2721,18 +2720,17 @@ void *ICQClient::processEvent(Event *e)
         }
         break;
     }
-    case EventOpenMessage: {
+    case eEventOpenMessage: {
         if (getState() != Connected)
             return NULL;
-        Message **msg = (Message**)(e->param());
-        if (((*msg)->type() != MessageOpenSecure) &&
-                ((*msg)->type() != MessageCloseSecure) &&
-                ((*msg)->type() != MessageWarning))
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
+        if ((msg->type() != MessageOpenSecure) &&
+            (msg->type() != MessageCloseSecure) &&
+            (msg->type() != MessageWarning))
             return NULL;
-        const char *client = (*msg)->client();
-        if (client && (*client == 0))
-            client = NULL;
-        Contact *contact = getContacts()->contact((*msg)->contact());
+        QString client = msg->client();
+        Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
             return NULL;
         ICQUserData *data = NULL;
@@ -2748,7 +2746,7 @@ void *ICQClient::processEvent(Event *e)
         }
         if (data == NULL)
             return NULL;
-        if ((*msg)->type() == MessageOpenSecure){
+        if (msg->type() == MessageOpenSecure){
             SecureDlg *dlg = NULL;
             QWidgetList  *list = QApplication::topLevelWidgets();
             QWidgetListIt it(*list);
@@ -2768,25 +2766,25 @@ void *ICQClient::processEvent(Event *e)
             if (dlg == NULL)
                 dlg = new SecureDlg(this, contact->id(), data);
             raiseWindow(dlg);
-            return e->param();
-        }
-        if ((*msg)->type() == MessageWarning){
+            return (void*)1;
+        } else
+        if (msg->type() == MessageWarning){
             if (data && (m_bAIM || (data->Uin.toULong() == 0))){
                 WarnDlg *dlg = new WarnDlg(NULL, data, this);
                 raiseWindow(dlg);
-                return e->param();
+                return (void*)1;
             }
             return NULL;
         }
         DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
         if (dc && dc->isSecure()){
             Message *m = new Message(MessageCloseSecure);
-            m->setContact((*msg)->contact());
-            m->setClient((*msg)->client());
+            m->setContact(msg->contact());
+            m->setClient(msg->client());
             m->setFlags(MESSAGE_NOHISTORY);
             if (!dc->sendMessage(m))
                 delete m;
-            return e->param();
+            return(void*)1;
         }
         break;
     }
@@ -3025,7 +3023,7 @@ bool ICQClient::messageReceived(Message *msg, const QString &screen)
     }
     if (bAccept)
         m_acceptMsg.push_back(msg);
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     if (e.process()){
         if (bAccept){
             for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){

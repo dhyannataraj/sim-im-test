@@ -443,8 +443,9 @@ void *JabberClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageCancel: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageCancel: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         for (list<Message*>::iterator it = m_waitMsg.begin(); it != m_waitMsg.end(); ++it){
             if ((*it) == msg){
                 m_waitMsg.erase(it);
@@ -454,10 +455,10 @@ void *JabberClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageAccept: {
-        messageAccept *ma = static_cast<messageAccept*>(e->param());
+    case eEventMessageAccept: {
+        EventMessageAccept *ema = static_cast<EventMessageAccept*>(e);
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
-            if ((*it)->id() == ma->msg->id()){
+            if ((*it)->id() == ema->msg()->id()){
                 JabberFileMessage *msg = static_cast<JabberFileMessage*>(*it);
                 m_ackMsg.erase(it);
                 Contact *contact;
@@ -465,14 +466,12 @@ void *JabberClient::processEvent(Event *e)
                 JabberUserData *data = findContact(msg->getFrom(), QString::null, false, contact, resource);
                 if (data){
                     JabberFileTransfer *ft = new JabberFileTransfer(static_cast<FileMessage*>(msg), data, this);
-                    ft->setDir(ma->dir);
-                    ft->setOverwrite(ma->overwrite);
-                    Event e(EventMessageAcked, msg);
-                    e.process();
+                    ft->setDir(ema->dir());
+                    ft->setOverwrite(ema->mode());
+                    EventMessageAcked(msg).process();
                     ft->connect();
                 }
-                Event eDel(EventMessageDeleted, msg);
-                eDel.process();
+                EventMessageDeleted(msg).process();
                 if (data == NULL)
                     delete msg;
                 return msg;
@@ -480,22 +479,21 @@ void *JabberClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageDecline: {
-        messageDecline *md = (messageDecline*)(e->param());
+    case eEventMessageDecline: {
+        EventMessageDecline *emd = static_cast<EventMessageDecline*>(e);
         for (list<Message*>::iterator it = m_ackMsg.begin(); it != m_ackMsg.end(); ++it){
-            if ((*it)->id() == md->msg->id()){
+            if ((*it)->id() == emd->msg()->id()){
                 JabberFileMessage *msg = static_cast<JabberFileMessage*>(*it);
                 m_ackMsg.erase(it);
-                QString reason = "File transfer declined";
-                if (!md->reason.isEmpty())
-                    reason = md->reason;
+                QString reason = emd->reason();
+                if (reason.isEmpty())
+                    reason = i18n("File transfer declined");
                 ServerRequest req(this, "error", NULL, msg->getFrom(), msg->getID());
                 req.start_element("error");
                 req.add_attribute("code", "403");
                 req.add_text(reason);
                 req.send();
-                Event e(EventMessageDeleted, msg);
-                e.process();
+                EventMessageDeleted(msg).process();
                 delete msg;
                 return msg;
             }
@@ -620,7 +618,7 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
                 m->setClient(dataName(data));
                 m->setFlags(MESSAGE_RECEIVED);
                 m->setStatus(STATUS_OFFLINE);
-                Event e(EventMessageReceived, m);
+                EventMessageReceived e(m);
                 if(!e.process())
                     delete m;
             }
@@ -640,15 +638,13 @@ void JabberClient::disconnected()
     list<Message*>::iterator itm;
     for (itm = m_ackMsg.begin(); itm != m_ackMsg.end(); ++itm){
         Message *msg = *itm;
-        Event e(EventMessageDeleted, msg);
-        e.process();
+        EventMessageDeleted(msg).process();
         delete msg;
     }
     for (itm = m_waitMsg.begin(); itm != m_waitMsg.end(); itm = m_waitMsg.begin()){
         Message *msg = *itm;
         msg->setError(I18N_NOOP("Client go offline"));
-        Event e(EventMessageSent, msg);
-        e.process();
+        EventMessageSent(msg).process();
         delete msg;
     }
     m_ackMsg.clear();
@@ -2085,11 +2081,9 @@ bool JabberClient::send(Message *msg, void *_data)
                 sendPacket();
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                     msg->setClient(dataName(data));
-                    Event e(EventSent, msg);
-                    e.process();
+                    EventSent(msg).process();
                 }
-                Event e(EventMessageSent, msg);
-                e.process();
+                EventMessageSent(msg).process();
                 delete msg;
                 return true;
             }
@@ -2099,13 +2093,9 @@ bool JabberClient::send(Message *msg, void *_data)
             if ((contact == NULL) || (data == NULL))
                 return false;
             QString text = msg->getPlainText();
-            QCString cstr = text.utf8();
-            messageSend ms;
-            ms.msg  = msg;
-            ms.text = &cstr;
-            Event eSend(EventSend, &ms);
-            eSend.process();
-            text = QString::fromUtf8(cstr);
+            EventSend e(msg, text.utf8());
+            e.process();
+            text = QString::fromUtf8( e.localeText() );
             m_socket->writeBuffer.packetStart();
             m_socket->writeBuffer
             << "<message type=\'chat\' to=\'"
@@ -2145,19 +2135,16 @@ bool JabberClient::send(Message *msg, void *_data)
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 if (data->richText.toBool()){
                     msg->setClient(dataName(data));
-                    Event e(EventSent, msg);
-                    e.process();
+                    EventSent(msg).process();
                 }else{
                     Message m(MessageGeneric);
                     m.setContact(msg->contact());
                     m.setClient(dataName(data));
                     m.setText(msg->getPlainText());
-                    Event e(EventSent, msg);
-                    e.process();
+                    EventSent(msg).process();
                 }
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             return true;
         }
@@ -2208,19 +2195,16 @@ bool JabberClient::send(Message *msg, void *_data)
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 if (data->richText.toBool()){
                     msg->setClient(dataName(data));
-                    Event e(EventSent, msg);
-                    e.process();
+                    EventSent(msg).process();
                 }else{
                     Message m(MessageGeneric);
                     m.setContact(msg->contact());
                     m.setClient(dataName(data));
                     m.setText(msg->getPlainText());
-                    Event e(EventSent, msg);
-                    e.process();
+                    EventSent(msg).process();
                 }
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             return true;
         }
@@ -2268,8 +2252,7 @@ bool JabberClient::send(Message *msg, void *_data)
             }
             if (jids.empty()){
                 msg->setError(I18N_NOOP("No contacts for send"));
-                Event e(EventMessageSent, msg);
-                e.process();
+                EventMessageSent(msg).process();
                 delete msg;
                 return true;
             }
@@ -2323,19 +2306,16 @@ bool JabberClient::send(Message *msg, void *_data)
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 if (data->richText.toBool()){
                     msg->setClient(dataName(data));
-                    Event e(EventSent, msg);
-                    e.process();
+                    EventSent(msg).process();
                 }else{
                     Message m(MessageGeneric);
                     m.setContact(msg->contact());
                     m.setClient(dataName(data));
                     m.setText(msg->getPlainText());
-                    Event e(EventSent, msg);
-                    e.process();
+                    EventSent(&m).process();
                 }
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             return true;
         }
@@ -2358,11 +2338,9 @@ bool JabberClient::send(Message *msg, void *_data)
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 msg->setClient(dataName(data));
-                Event e(EventSent, msg);
-                e.process();
+                EventSent(msg).process();
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             return true;
         }
@@ -2375,11 +2353,9 @@ bool JabberClient::send(Message *msg, void *_data)
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 msg->setClient(dataName(data));
-                Event e(EventSent, msg);
-                e.process();
+                EventSent(msg).process();
             }
-            Event e(EventMessageSent, msg);
-            e.process();
+            EventMessageSent(msg).process();
             delete msg;
             return true;
         }
@@ -2585,7 +2561,7 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
     msg->setFlags(MESSAGE_RECEIVED);
     if (text)
         msg->setText(unquoteString(text));
-    Event e(EventMessageReceived, msg);
+    EventMessageReceived e(msg);
     e.process();
     if (JabberAuthMessage::remove(tempAuthMessages, msg))
     {
@@ -2704,8 +2680,7 @@ bool JabberFileTransfer::error(const QString &err)
 bool JabberFileTransfer::accept(Socket *s, unsigned long)
 {
     if (m_state == Listen){
-        Event e(EventMessageAcked, m_msg);
-        e.process();
+        EventMessageAcked(m_msg).process();
         m_state = ListenWait;
     }
     log(L_DEBUG, "Accept connection");
@@ -2730,8 +2705,7 @@ bool JabberFileTransfer::error_state(const QString &err, unsigned)
     }
     m_msg->m_transfer = NULL;
     m_msg->setFlags(m_msg->getFlags() & ~MESSAGE_TEMP);
-    Event e(EventMessageSent, m_msg);
-    e.process();
+    EventMessageSent(m_msg).process();
     return true;
 }
 

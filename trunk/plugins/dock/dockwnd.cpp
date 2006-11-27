@@ -841,9 +841,9 @@ void DockWnd::dbl_click()
 void *DockWnd::processEvent(Event *e)
 {
     switch (e->type()){
-    case EventMessageReceived:
-    case EventMessageRead:
-    case EventMessageDeleted:
+    case eEventMessageReceived:
+    case eEventMessageRead:
+    case eEventMessageDeleted:
         reset();
         break;
     case eEventSetMainIcon: {

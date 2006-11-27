@@ -83,8 +83,9 @@ ForwardPlugin::~ForwardPlugin()
 
 void *ForwardPlugin::processEvent(Event *e)
 {
-    if (e->type() == EventMessageReceived){
-        Message *msg = (Message*)(e->param());
+    if (e->type() == eEventMessageReceived){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (msg->type() == MessageStatus)
             return NULL;
         QString text = msg->getPlainText();
@@ -138,7 +139,7 @@ void *ForwardPlugin::processEvent(Event *e)
                             }
                             if (data == NULL)
                                 delete msg;
-                            return e->param();
+                            return (void*)1;
                         }
                     }
                 }

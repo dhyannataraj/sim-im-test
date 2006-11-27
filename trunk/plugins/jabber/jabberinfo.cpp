@@ -178,8 +178,9 @@ void JabberInfo::resourceActivated(int i)
 
 void *JabberInfo::processEvent(Event *e)
 {
-    if ((e->type() == EventMessageReceived) && m_data){
-        Message *msg = (Message*)(e->param());
+    if ((e->type() == eEventMessageReceived) && m_data){
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if ((msg->type() == MessageStatus) && (m_client->dataName(m_data) == msg->client()))
             fill();
     } else

@@ -551,8 +551,7 @@ void SMSClient::phoneCall(const QString &number)
         return;
     if (m_call){
         m_callTimer->stop();
-        Event e(EventMessageDeleted, m_call);
-        e.process();
+        EventMessageDeleted(m_call).process();
         delete m_call;
         m_call = NULL;
     }
@@ -589,7 +588,7 @@ void SMSClient::phoneCall(const QString &number)
         m_call->setContact(contact->id());
     }
     m_call->setFlags(MESSAGE_RECEIVED | MESSAGE_TEMP);
-    Event e(EventMessageReceived, m_call);
+    EventMessageReceived e(m_call);
     if (e.process()){
         m_call = NULL;
         return;
@@ -606,8 +605,7 @@ void SMSClient::callTimeout()
     }
     if (m_call == NULL)
         return;
-    Event e(EventMessageDeleted, m_call);
-    e.process();
+    EventMessageDeleted(m_call).process();
     delete m_call;
     m_call = NULL;
     m_callTimer->stop();

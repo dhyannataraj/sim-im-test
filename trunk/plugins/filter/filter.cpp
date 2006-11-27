@@ -152,8 +152,9 @@ void *FilterPlugin::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageReceived: {
-        Message *msg = (Message*)(e->param());
+    case eEventMessageReceived: {
+        EventMessage *em = static_cast<EventMessage*>(e);
+        Message *msg = em->msg();
         if (!msg || (msg->type() == MessageStatus))
             return NULL;
         Contact *contact = getContacts()->contact(msg->contact());
