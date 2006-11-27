@@ -14,6 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <algorithm>
 
 #include "spell.h"
 #include "spellcfg.h"
@@ -276,7 +277,7 @@ QStringList SpellPlugin::suggestions(const QString &word)
         ww.weight = w;
         words.push_back(ww);
     }
-    sort(words.begin(), words.end());
+	sort(words.begin(), words.end());
     unsigned size = words.size();
     if (size > 15)
         size = 15;

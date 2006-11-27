@@ -27,6 +27,8 @@
 #include <ctype.h>
 #endif
 
+#include <algorithm>
+
 #include <qtextcodec.h>
 #include <qfile.h>
 #include <qtimer.h>
