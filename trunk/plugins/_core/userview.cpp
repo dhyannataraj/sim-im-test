@@ -968,8 +968,7 @@ void UserView::doClick()
         m_current->setOpen(!m_current->isOpen());
     }else if (static_cast<UserViewItemBase*>(m_current)->type() == USR_ITEM){
         ContactItem *item = static_cast<ContactItem*>(m_current);
-        Event e(EventDefaultAction, (void*)(item->id()));
-        e.process();
+        EventDefaultAction(item->id()).process();
     }
     m_current = NULL;
 }

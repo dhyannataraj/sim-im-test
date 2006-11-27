@@ -366,7 +366,7 @@ void *CommonStatus::processEvent(Event *e)
             }
             return (void*)1;
         }
-    case EventClientStatus:
+    case eEventClientStatus:
     case eEventSocketActive:
     case eEventInit:
         setBarStatus();

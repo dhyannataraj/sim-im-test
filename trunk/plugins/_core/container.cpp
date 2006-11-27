@@ -765,9 +765,11 @@ void *Container::processEvent(Event *e)
     case eEventClientsChanged:
         setupAccel();
         break;
-    case EventContactClient:
-        contactChanged((Contact*)(e->param()));
+    case eEventContactClient: {
+        EventContactClient *ecc = static_cast<EventContactClient*>(e);
+        contactChanged(ecc->contact());
         break;
+    }
     case eEventInit:
         init();
         break;

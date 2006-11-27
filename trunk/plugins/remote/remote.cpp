@@ -751,8 +751,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 return true;
             core->data.ManualStatus.asULong()  = status;
             core->data.StatusTime.asULong() = time(NULL);
-            Event e(EventClientStatus);
-            e.process();
+            EventClientStatus().process();
             return true;
         }
         for (n = 0; n < getContacts()->nClients(); n++){

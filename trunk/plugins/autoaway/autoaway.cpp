@@ -294,8 +294,7 @@ void AutoAwayPlugin::timeout()
         return;
     core->data.StatusTime.asULong() = time(NULL);
     core->data.ManualStatus.asULong() = newStatus;
-    Event e(EventClientStatus);
-    e.process();
+    EventClientStatus().process();
 }
 
 void *AutoAwayPlugin::processEvent(Event *e)

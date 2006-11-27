@@ -13,13 +13,7 @@ struct CheckSend
     SIM::Client		*client;
     void			*data;
 };
-// EventLoadMessage
-struct MessageID
-{
-    unsigned	id;
-    const char	*client;
-    unsigned	contact;
-};
+
 // EventARRequest
 struct ARRequest
 {
@@ -43,6 +37,10 @@ const SIM::SIMEvent eEventRealSendMessage	= ((SIM::SIMEvent)(CmdBase +  3));
 const SIM::SIMEvent eEventHistoryConfig	    = ((SIM::SIMEvent)(CmdBase +  4));
 const SIM::SIMEvent eEventTemplateExpand    = ((SIM::SIMEvent)(CmdBase +  5));
 const SIM::SIMEvent eEventTemplateExpanded  = ((SIM::SIMEvent)(CmdBase +  6));
+const SIM::SIMEvent eEventClientStatus		= ((SIM::SIMEvent)(CmdBase +  8));
+const SIM::SIMEvent eEventLoadMessage		= ((SIM::SIMEvent)(CmdBase +  9));
+const SIM::SIMEvent eEventDefaultAction		= ((SIM::SIMEvent)(CmdBase + 10));
+const SIM::SIMEvent eEventContactClient     = ((SIM::SIMEvent)(CmdBase + 11));
 const SIM::SIMEvent eEventHistoryColors	    = ((SIM::SIMEvent)(CmdBase + 16));
 
 class EventCreateMessageType : public SIM::Event
@@ -127,15 +125,55 @@ public:
         : EventTemplate(eEventTemplateExpanded, te) {}
 };
 
-// EventRealSendMessage
+class EventClientStatus : public SIM::Event
+{
+public:
+    EventClientStatus() : Event(eEventClientStatus) {}
+};
+
+class EventLoadMessage : public SIM::Event
+{
+public:
+    EventLoadMessage(unsigned long id, const QString &client, unsigned long contact)
+        : Event(eEventLoadMessage), m_id(id), m_client(client),
+          m_contact(contact), m_msg(NULL) {}
+
+    unsigned long id()      const { return m_id; }
+    const QString client()  const { return m_client; }
+    unsigned long contact() const { return m_contact; }
+    // out
+    void setMessage(SIM::Message *msg) { m_msg = msg; }
+    SIM::Message *message() const { return m_msg; }
+protected:
+    unsigned long m_id;
+    QString       m_client;
+    unsigned long m_contact;
+    SIM::Message *m_msg;
+};
+
+class EventDefaultAction : public SIM::Event
+{
+public:
+    EventDefaultAction(unsigned long contact_id)
+        : Event(eEventDefaultAction), m_id(contact_id) {}
+
+    unsigned long id() const { return m_id; }
+protected:
+    unsigned long m_id;
+};
+
+class EventContactClient : public SIM::Event
+{
+public:
+    EventContactClient(SIM::Contact *contact)
+        : Event(eEventContactClient), m_contact(contact) {}
+
+    SIM::Contact *contact() const { return m_contact; }
+protected:
+    SIM::Contact *m_contact;
+};
 
 const unsigned long EventARRequest			= (CmdBase + 7);
-const unsigned long EventClientStatus		= (CmdBase + 8);
-const unsigned long EventLoadMessage		= (CmdBase + 9);
-const unsigned long EventDefaultAction		= (CmdBase + 10);
-const unsigned long EventContactClient      = (CmdBase + 11);
-const unsigned long EventGetIcons			= (CmdBase + 12);
-const unsigned long EventSortChanged		= (CmdBase + 13);
 const unsigned long EventActiveContact		= (CmdBase + 14);
 const unsigned long EventMessageRetry		= (CmdBase + 15);
 const unsigned long EventCheckSend			= (CmdBase + 18);

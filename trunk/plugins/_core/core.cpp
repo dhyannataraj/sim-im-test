@@ -1988,8 +1988,9 @@ void *CorePlugin::processEvent(Event *e)
             }
             return NULL;
         }
-    case EventDefaultAction:{
-            unsigned long contact_id = (unsigned long)(e->param());
+    case eEventDefaultAction:{
+            EventDefaultAction *eda = static_cast<EventDefaultAction*>(e);
+            unsigned long contact_id = eda->id();
             unsigned index = 0;
             for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it, index++){
                 if ((*it).contact != contact_id)
@@ -1997,8 +1998,7 @@ void *CorePlugin::processEvent(Event *e)
                 Command cmd;
                 cmd->id = CmdUnread + index;
                 cmd->menu_id = MenuMain;
-                EventCommandExec e(cmd);
-                return e.process();
+                return EventCommandExec(cmd).process();
             }
             EventMenuGetDef eMenu(MenuMessage);
             eMenu.process();
@@ -2013,10 +2013,11 @@ void *CorePlugin::processEvent(Event *e)
             }
             return NULL;
         }
-    case EventLoadMessage:{
-            MessageID *m = (MessageID*)(e->param());
-            Message *msg = History::load(m->id, m->client, m->contact);
-            return msg;
+    case eEventLoadMessage:{
+            EventLoadMessage *elm = static_cast<EventLoadMessage*>(e);
+            Message *msg = History::load(elm->id(), elm->client(), elm->contact());
+            elm->setMessage(msg);
+            return (void*)1;
         }
     case eEventOpenMessage:{
             EventMessage *em = static_cast<EventMessage*>(e);

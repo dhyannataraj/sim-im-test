@@ -190,8 +190,11 @@ void *FloatyPlugin::processEvent(Event *e)
             }
             break;
         }
-    case EventContactClient: {
-            Contact *contact = (Contact*)(e->param());
+    case eEventContactClient: {
+            EventContactClient *ecc = static_cast<EventContactClient*>(e);
+            Contact *contact = ecc->contact();
+            if(!contact)
+                break;
             FloatyWnd *wnd = findFloaty(contact->id());
             if (wnd){
                 wnd->init();

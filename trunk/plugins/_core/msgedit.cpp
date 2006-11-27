@@ -322,8 +322,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
 
     Contact *contact = getContacts()->contact(m_userWnd->id());
     if (contact){
-        Event e(EventContactClient, contact);
-        e.process();
+        EventContactClient(contact).process();
     }
 
     m_bar->checkState();

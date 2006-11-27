@@ -484,12 +484,9 @@ void OSDPlugin::processQueue()
                     }
                     if (!data->EnableMessageShowContent.toBool())
                         continue;
-                    MessageID id;
-                    id.id      = (*it).id;
-                    id.contact = (*it).contact;
-                    id.client  = (*it).client;
-                    Event e(EventLoadMessage, &id);
-                    Message *msg = (Message*)(e.process());
+                    EventLoadMessage e((*it).id, (*it).client, (*it).contact);
+                    e.process();
+                    Message *msg = e.message();
                     if (msg == NULL)
                         continue;
                     QString msgText = msg->getPlainText().stripWhiteSpace();
@@ -554,12 +551,9 @@ void OSDPlugin::closeClick()
                 ++it;
                 continue;
             }
-            MessageID id;
-            id.id      = (*it).id;
-            id.contact = (*it).contact;
-            id.client  = (*it).client;
-            Event e(EventLoadMessage, &id);
-            Message *msg = (Message*)(e.process());
+            EventLoadMessage e((*it).id, (*it).client, (*it).contact);
+            e.process();
+            Message *msg = e.message();
             core->unread.erase(it);
             if (msg){
                 EventMessageRead(msg).process();
@@ -573,8 +567,7 @@ void OSDPlugin::closeClick()
 
 void OSDPlugin::dblClick()
 {
-    Event e(EventDefaultAction, (void*)(m_request.contact));
-    e.process();
+    EventDefaultAction(m_request.contact).process();
     m_timer->stop();
     m_timer->start(100);
 }
