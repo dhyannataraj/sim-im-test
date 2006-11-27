@@ -22,14 +22,14 @@
 #include <qptrlist.h>
 #include <qstring.h>
 
+#include "sim_export.h"
+
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #else
 typedef unsigned short  uint16_t;
 typedef unsigned        uint32_t;
 #endif
-
-#include "sim_export.h"
 
 class Buffer;
 

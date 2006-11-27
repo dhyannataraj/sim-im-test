@@ -23,7 +23,6 @@
 #include <qstringlist.h>
 
 #include "buffer.h"
-#include "message.h"
 
 class CToolBar;
 class QMainWindow;

@@ -31,6 +31,8 @@
 #include <qregexp.h>
 #include <qtooltip.h>
 
+#include "sim_export.h"
+
 #ifdef USE_KDE
 #include "kdeisversion.h"
 #endif
