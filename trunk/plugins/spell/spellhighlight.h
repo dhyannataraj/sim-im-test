@@ -18,13 +18,13 @@
 #ifndef _SPELLHIGHLIGHT_H
 #define _SPELLHIGHLIGHT_H
 
-#include "simapi.h"
-#include "html.h"
+#include <stack>
 
+#include <qstring.h>
+#include <qstringlist.h>
 #include <qsyntaxhighlighter.h>
 
-#include <qdict.h>
-#include <qstringlist.h>
+#include "html.h"
 
 #include "spell.h"
 

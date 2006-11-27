@@ -19,12 +19,12 @@
 #define _SPELL_H
 
 #include <qobject.h>
-#include <qdict.h>
 #include <qstringlist.h>
 
+#include "cfg.h"
 #include "event.h"
+#include "misc.h"
 #include "plugins.h"
-
 
 using std::list;
 

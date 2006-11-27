@@ -18,9 +18,11 @@
 #ifndef _WEATHERCFG_H
 #define _WEATHERCFG_H
 
-#include "sax.h"
-#include "weathercfgbase.h"
+#include "event.h"
 #include "fetch.h"
+#include "sax.h"
+
+#include "weathercfgbase.h"
 
 class WeatherPlugin;
 class WIfaceCfg;

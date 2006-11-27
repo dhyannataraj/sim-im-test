@@ -15,17 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "spellfind.h"
-#include "editfile.h"
+#include <windows.h>
 
-#include <qpixmap.h>
-#include <qpushbutton.h>
 #include <qdir.h>
 #include <qlabel.h>
-#include <qtimer.h>
+#include <qpixmap.h>
+#include <qpushbutton.h>
 #include <qregexp.h>
+#include <qtimer.h>
 
-#include <windows.h>
+#include "icons.h"
+#include "editfile.h"
+
+#include "spellfind.h"
 
 using namespace std;
 using namespace SIM;

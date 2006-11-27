@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qtimer.h>
+
+#include "log.h"
+#include "textshow.h"
+
 #include "spellhighlight.h"
 #include "spell.h"
-#include "textshow.h"
 #include "msgedit.h"
 #include "core.h"
-
-#include <qtimer.h>
 
 using namespace std;
 using namespace SIM;
