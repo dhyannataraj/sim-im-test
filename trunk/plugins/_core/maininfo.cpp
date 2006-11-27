@@ -603,8 +603,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
         EventContact e(contact, EventContact::eChanged);
         e.process();
     }
-    Event eh(EventHistoryConfig, (void*)(contact->id()));
-    eh.process();
+    EventHistoryConfig(contact->id()).process();
 }
 
 #ifndef NO_MOC_INCLUDES

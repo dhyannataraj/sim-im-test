@@ -99,9 +99,7 @@ SMSPlugin::SMSPlugin(unsigned base)
     cmd->icon		 = "phone";
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defPhoneCall;
-
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     m_protocol = new SMSProtocol(this);
 
@@ -114,8 +112,7 @@ SMSPlugin::~SMSPlugin()
     removePhoneCol();
     delete m_protocol;
     getContacts()->removePacketType(SerialPacket);
-    Event eCall(EventRemoveMessageType, (void*)MessagePhoneCall);
-    eCall.process();
+    EventRemoveMessageType(MessagePhoneCall).process();
 }
 
 void SMSPlugin::setPhoneCol()

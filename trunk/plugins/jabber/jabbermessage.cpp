@@ -210,8 +210,7 @@ void JabberPlugin::registerMessages()
     cmd->icon		 = "message";
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defJabber;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = MessageJabberOnline;
     cmd->text		 = I18N_NOOP("Log On");
@@ -219,30 +218,26 @@ void JabberPlugin::registerMessages()
     cmd->accel		 = "Ctrl+L";
     cmd->menu_grp	 = 0x3020;
     cmd->param		 = &defJabberOnline;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = MessageJabberOffline;
     cmd->text		 = I18N_NOOP("Log Off");
     cmd->icon		 = "Jabber_offline";
     cmd->param		 = &defJabberOffline;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = MessageJabberError;
     cmd->text		 = I18N_NOOP("Error");
     cmd->icon		 = "error";
     cmd->param		 = &defJabberError;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 }
 
 void JabberPlugin::unregisterMessages()
 {
-    Event eMsg(EventRemoveMessageType, (void*)MessageJabber);
-    eMsg.process();
-    Event eMsgOnline(EventRemoveMessageType, (void*)MessageJabberOnline);
-    eMsgOnline.process();
-    Event eMsgOffline(EventRemoveMessageType, (void*)MessageJabberOffline);
-    eMsgOffline.process();
-    Event eMsgError(EventRemoveMessageType, (void*)MessageJabberError);
-    eMsgError.process();
+    EventRemoveMessageType(MessageJabber).process();
+    EventRemoveMessageType(MessageJabberOnline).process();
+    EventRemoveMessageType(MessageJabberOffline).process();
+    EventRemoveMessageType(MessageJabberError).process();
 }
 

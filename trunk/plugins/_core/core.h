@@ -335,6 +335,8 @@ const unsigned  STYLE_UNDER		= 1;
 const unsigned  STYLE_ITALIC	= 2;
 const unsigned  STYLE_STRIKE	= 4;
 
+class MsgEdit;
+
 struct MessageDef
 {
     const SIM::CommandDef	*cmdReceived;
@@ -354,6 +356,8 @@ struct clientContact
     bool		bNew;
 };
 
+
+class Tmpl;
 class XSL;
 class BalloonMsg;
 

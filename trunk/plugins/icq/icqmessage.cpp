@@ -800,72 +800,70 @@ void ICQPlugin::registerMessages()
     cmd->text		 = "ICQContacts";
     cmd->icon		 = "contacts";
     cmd->param		 = &defIcqContacts;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageICQFile;
     cmd->text		= "ICQFile";
     cmd->icon		= "file";
     cmd->param		= &defIcqFile;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageContactRequest;
     cmd->text		= I18N_NOOP("Contact Request");
     cmd->icon		= "contacts";
     cmd->param		= &defContactRequest;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id         = MessageICQAuthRequest;
     cmd->text       = "ICQAuthRequest";
     cmd->icon       = "auth";
     cmd->param      = &defIcqAuthRequest;
-    eMsg.process();
-
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageICQAuthGranted;
     cmd->text		= "ICQAuthGranted";
     cmd->icon		= "auth";
     cmd->param		= &defIcqAuthGranted;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageICQAuthRefused;
     cmd->text		= "ICQAuthRefused";
     cmd->icon		= "auth";
     cmd->param		= &defIcqAuthRefused;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageWebPanel;
     cmd->text		= I18N_NOOP("Web panel");
     cmd->icon		= "web";
     cmd->param		= &defWebPanel;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageEmailPager;
     cmd->text		= I18N_NOOP("Email pager");
     cmd->icon		= "mailpager";
     cmd->param		= &defEmailPager;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageOpenSecure;
     cmd->text		= I18N_NOOP("Request secure channel");
     cmd->icon		= "encrypted";
     cmd->menu_grp	= 0x30F0;
     cmd->param		= &defOpenSecure;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageCloseSecure;
     cmd->text		= I18N_NOOP("Close secure channel");
     cmd->icon		= "encrypted";
     cmd->menu_grp	= 0x30F0;
     cmd->param		= &defCloseSecure;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageWarning;
     cmd->text		= I18N_NOOP("Warning");
     cmd->icon		= "error";
     cmd->menu_grp	= 0x30F2;
     cmd->param		= &defWarning;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= CmdUrlInput;
     cmd->text		= I18N_NOOP("&URL");
@@ -876,51 +874,24 @@ void ICQPlugin::registerMessages()
     cmd->menu_id	= 0;
     cmd->menu_grp	= 0;
     cmd->flags		= BTN_EDIT | BTN_NO_BUTTON | COMMAND_CHECK_STATE;
-
     EventCommandCreate(cmd).process();
-
 }
 
 void ICQPlugin::unregisterMessages()
 {
-    Event eUrl(EventRemoveMessageType, (void*)MessageICQUrl);
-    eUrl.process();
-
-    Event eContact(EventRemoveMessageType, (void*)MessageICQContacts);
-    eContact.process();
-
-    Event eIcq(EventRemoveMessageType, (void*)MessageICQ);
-    eIcq.process();
-
-    Event eIcqFile(EventRemoveMessageType, (void*)MessageICQFile);
-    eIcqFile.process();
-
-    Event eAuthRequest(EventRemoveMessageType, (void*)MessageICQAuthRequest);
-    eAuthRequest.process();
-
-    Event eAuthGranted(EventRemoveMessageType, (void*)MessageICQAuthGranted);
-    eAuthGranted.process();
-
-    Event eAuthRefused(EventRemoveMessageType, (void*)MessageICQAuthRefused);
-    eAuthRefused.process();
-
-    Event eRequest(EventRemoveMessageType, (void*)MessageContactRequest);
-    eRequest.process();
-
-    Event eWeb(EventRemoveMessageType, (void*)MessageWebPanel);
-    eWeb.process();
-
-    Event ePager(EventRemoveMessageType, (void*)MessageEmailPager);
-    ePager.process();
-
-    Event eOpenSecure(EventRemoveMessageType, (void*)MessageOpenSecure);
-    eOpenSecure.process();
-
-    Event eCloseSecure(EventRemoveMessageType, (void*)MessageCloseSecure);
-    eCloseSecure.process();
-
-    Event eWarning(EventRemoveMessageType, (void*)MessageWarning);
-    eWarning.process();
+    EventRemoveMessageType(MessageICQUrl).process();
+    EventRemoveMessageType(MessageICQContacts).process();
+    EventRemoveMessageType(MessageICQ).process();
+    EventRemoveMessageType(MessageICQFile).process();
+    EventRemoveMessageType(MessageICQAuthRequest).process();
+    EventRemoveMessageType(MessageICQAuthGranted).process();
+    EventRemoveMessageType(MessageICQAuthRefused).process();
+    EventRemoveMessageType(MessageContactRequest).process();
+    EventRemoveMessageType(MessageWebPanel).process();
+    EventRemoveMessageType(MessageEmailPager).process();
+    EventRemoveMessageType(MessageOpenSecure).process();
+    EventRemoveMessageType(MessageCloseSecure).process();
+    EventRemoveMessageType(MessageWarning).process();
 
     EventCommandRemove(CmdUrlInput).process();
 }

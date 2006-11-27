@@ -19,16 +19,9 @@
 #define _TMPL_H
 
 #include "core.h"
+#include "core_events.h"
 
 class Exec;
-
-struct TmplExpand
-{
-    TemplateExpand	tmpl;
-    Exec			*exec;
-    bool			bReady;
-    QString			res;
-};
 
 class Tmpl : public QObject, public SIM::EventReceiver
 {
@@ -40,6 +33,13 @@ protected slots:
     void ready(Exec*, int res, const char *out);
     void clear();
 protected:
+    struct TmplExpand
+    {
+        EventTemplate::TemplateExpand	tmpl;
+        Exec			*exec;
+        bool			bReady;
+        QString			res;
+    };
     void *processEvent(SIM::Event*);
     bool process(TmplExpand*);
     QString process(TmplExpand*, const QString &str);

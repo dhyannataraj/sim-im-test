@@ -111,7 +111,7 @@ protected:
     std::list<unsigned>::iterator multiply_it;
     SIM::CommandDef m_cmd;
     SIM::Message   *m_msg;
-    MsgSend         m_retry;
+    MsgSend m_retry;
     QString         m_client;
 };
 

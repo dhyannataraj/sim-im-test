@@ -374,8 +374,9 @@ void *JabberClient::processEvent(Event *e)
         }
         break;
     }
-    case EventTemplateExpanded: {
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    case eEventTemplateExpanded: {
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         setStatus((unsigned long)(t->param), quoteString(t->tmpl, quoteNOBR, false));
         break;
     }

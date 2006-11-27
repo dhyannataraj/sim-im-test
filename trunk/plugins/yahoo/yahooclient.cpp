@@ -1881,8 +1881,9 @@ void *YahooClient::processEvent(Event *e)
         }
         break;
     }
-    case EventTemplateExpanded: {
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    case eEventTemplateExpanded: {
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         sendStatus(YAHOO_STATUS_CUSTOM, t->tmpl);
         break;
     }
@@ -2109,14 +2110,12 @@ void YahooPlugin::registerMessages()
     cmd->text		= "YahooFile";
     cmd->icon		= "file";
     cmd->param		= &defYahooFile;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 }
 
 void YahooPlugin::unregisterMessages()
 {
-    Event eFile(EventRemoveMessageType, (void*)MessageYahooFile);
-    eFile.process();
+    EventRemoveMessageType(MessageYahooFile).process();
 }
 
 ListRequest *YahooClient::findRequest(const QString &name)

@@ -204,8 +204,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->menu_grp	 = 0x3080;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defJournalMessage;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = CmdMenuWeb;
     cmd->text		 = I18N_NOOP("LiveJournal &WWW");
@@ -215,7 +214,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->popup_id	 = MenuWeb;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defWWWJournalMessage;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = MessageUpdated;
     cmd->text		 = I18N_NOOP("Friends updated");
@@ -225,7 +224,7 @@ LiveJournalPlugin::LiveJournalPlugin(unsigned base)
     cmd->popup_id	 = 0;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defUpdatedMessage;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
@@ -237,12 +236,10 @@ LiveJournalPlugin::~LiveJournalPlugin()
 {
     EventMenu(MenuWeb, EventMenu::eRemove).process();
 
-    Event eMsg(EventRemoveMessageType, (void*)MessageJournal);
-    eMsg.process();
-    Event eMsgWWW(EventRemoveMessageType, (void*)CmdMenuWeb);
-    eMsgWWW.process();
-    Event eMsgUpd(EventRemoveMessageType, (void*)MessageUpdated);
-    eMsgUpd.process();
+    EventRemoveMessageType(MessageJournal).process();
+    EventRemoveMessageType(CmdMenuWeb).process();
+    EventRemoveMessageType(MessageUpdated).process();
+
     delete m_protocol;
 }
 

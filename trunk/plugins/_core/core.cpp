@@ -1683,13 +1683,12 @@ void *CorePlugin::processEvent(Event *e)
                 if (tmpl.isEmpty())
                     tmpl = get_str(ar->AutoReply, STATUS_AWAY);
             }
-            TemplateExpand t;
+            EventTemplate::TemplateExpand t;
             t.contact	= r->contact;
             t.param		= r->param;
             t.receiver	= r->receiver;
             t.tmpl		= tmpl;
-            Event eTmpl(EventTemplateExpand, &t);
-            eTmpl.process();
+            EventTemplateExpand(&t).process();
             return e->param();
         }
     case eEventSaveState:{
@@ -1788,8 +1787,9 @@ void *CorePlugin::processEvent(Event *e)
             }
         }
         return NULL;
-    case EventCreateMessageType:{
-            CommandDef *cmd = (CommandDef*)(e->param());
+    case eEventCreateMessageType:{
+            EventCreateMessageType *ecmt = static_cast<EventCreateMessageType*>(e);
+            CommandDef *cmd = ecmt->def();
             if (cmd->menu_grp){
                 cmd->menu_id = MenuMessage;
                 cmd->flags   = COMMAND_CHECK_STATE;
@@ -1834,10 +1834,11 @@ void *CorePlugin::processEvent(Event *e)
             }else{
                 (*itt).second = cmd->id;
             }
-            return e->param();
+            return (void*)1;
         }
-    case EventRemoveMessageType:{
-            unsigned long id = (unsigned long)(e->param());
+    case eEventRemoveMessageType:{
+            EventRemoveMessageType *ermt = static_cast<EventRemoveMessageType*>(e);
+            unsigned long id = ermt->id();
             CommandDef *def;
             def = CorePlugin::m_plugin->messageTypes.find(id);
             if (def){
@@ -2845,7 +2846,7 @@ void *CorePlugin::processEvent(Event *e)
                     return NULL;
                 if (contact->setEncoding(codec)){
                     EventContact(contact, EventContact::eChanged).process();
-                    Event(EventHistoryConfig, (void*)(contact->id())).process();
+                    EventHistoryConfig(contact->id()).process();
                 }
                 return NULL;
             }

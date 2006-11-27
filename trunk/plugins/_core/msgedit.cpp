@@ -273,8 +273,6 @@ void MsgEdit::editFontChanged(const QFont &f)
     if (!CorePlugin::m_plugin->getEditSaveFont())
         return;
     CorePlugin::m_plugin->editFont = f;
-    Event e(EventHistoryFont);
-    e.process();
 }
 
 bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
@@ -1089,11 +1087,11 @@ void *MsgEdit::processEvent(Event *e)
         }
         break;
     }
-    case EventRealSendMessage: {
-        MsgSend *s = (MsgSend*)(e->param());
-        if (s->edit == this){
-            sendMessage(s->msg);
-            return e->param();
+    case eEventRealSendMessage: {
+        EventRealSendMessage *ersm = static_cast<EventRealSendMessage*>(e);
+        if (ersm->edit() == this){
+            sendMessage(ersm->msg());
+            return (void*)1;
         }
         break;
     }
@@ -1431,8 +1429,7 @@ void MsgEdit::colorsChanged()
 {
     CorePlugin::m_plugin->setEditBackground(m_edit->background().rgb());
     CorePlugin::m_plugin->setEditForeground(m_edit->foreground().rgb());
-    Event e(EventHistoryColors);
-    e.process();
+    EventHistoryColors().process();
 }
 
 void MsgEdit::insertSmile(const QString &id)
@@ -1625,8 +1622,7 @@ void MsgEdit::setupMessages()
     cmd->accel		= "Ctrl+M";
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defGeneric;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageFile;
     cmd->text		= I18N_NOOP("&File");
@@ -1635,7 +1631,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3020;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defFile;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = MessageUrl;
     cmd->text		 = I18N_NOOP("&URL");
@@ -1644,7 +1640,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	 = 0x3030;
     cmd->flags		 = COMMAND_DEFAULT;
     cmd->param		 = &defUrl;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageSMS;
     cmd->text		= I18N_NOOP("&SMS");
@@ -1653,7 +1649,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3040;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defSMS;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageContacts;
     cmd->text		= I18N_NOOP("&Contact list");
@@ -1661,7 +1657,7 @@ void MsgEdit::setupMessages()
     cmd->accel		= "Ctrl+L";
     cmd->menu_grp	= 0x3050;
     cmd->param		= &defContacts;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageAuthRequest;
     cmd->text		= I18N_NOOP("&Authorization request");
@@ -1670,7 +1666,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3060;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthRequest;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageAuthGranted;
     cmd->text		= I18N_NOOP("&Grant autorization");
@@ -1679,7 +1675,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3070;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthGranted;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageAuthRefused;
     cmd->text		= I18N_NOOP("&Refuse autorization");
@@ -1688,7 +1684,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0x3071;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAuthRefused;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageAdded;
     cmd->text		= I18N_NOOP("Added");
@@ -1696,7 +1692,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defAdded;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageRemoved;
     cmd->text		= I18N_NOOP("Removed");
@@ -1704,7 +1700,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defRemoved;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageStatus;
     cmd->text		= I18N_NOOP("Status");
@@ -1712,7 +1708,7 @@ void MsgEdit::setupMessages()
     cmd->menu_grp	= 0;
     cmd->flags		= COMMAND_DEFAULT;
     cmd->param		= &defStatus;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 }
 
 #ifndef NO_MOC_INCLUDES

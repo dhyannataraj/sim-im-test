@@ -260,8 +260,9 @@ ICQClient::~ICQClient()
     for (list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it){
         Message *msg = *it;
         msg->setError(I18N_NOOP("Process message failed"));
-        Event e(EventRealSendMessage, msg);
-        e.process();
+ // FIXME: this does not work and could crash !!!!
+ //       Event e(EventRealSendMessage, msg);
+ //       e.process();
         delete msg;
     }
     while (!m_sockets.empty())
@@ -2337,8 +2338,9 @@ void *ICQClient::processEvent(Event *e)
         msg->show();
         return e->param();
     }
-    case EventTemplateExpanded: {
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    case eEventTemplateExpanded: {
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         list<ar_request>::iterator it;
         for (it = arRequests.begin(); it != arRequests.end(); ++it)
             if (&(*it) == t->param)
@@ -2358,7 +2360,7 @@ void *ICQClient::processEvent(Event *e)
                     fetchProfiles();
                 }
             }
-            return e->param();
+            return (void*)1;
         }
         ar_request ar = (*it);
         if (ar.bDirect){
@@ -2382,7 +2384,7 @@ void *ICQClient::processEvent(Event *e)
                           ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response, 0, copy);
         }
         arRequests.erase(it);
-        return e->param();
+        return (void*)1;
     }
     case eEventContact: {
         EventContact *ec = static_cast<EventContact*>(e);

@@ -179,13 +179,12 @@ void *ActionPlugin::processEvent(Event *e)
                 return NULL;
             QString str = get_str(data->Menu, n + 1);
             getToken(str, ';');
-            TemplateExpand t;
+            EventTemplate::TemplateExpand t;
             t.tmpl     = str;
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
-            Event eTmpl(EventTemplateExpand, &t);
-            eTmpl.process();
+            EventTemplateExpand(&t).process();
             return (void*)1;
         }
         break;
@@ -200,13 +199,12 @@ void *ActionPlugin::processEvent(Event *e)
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
         if ((data == NULL) || (data->OnLine.str().isEmpty()))
             return NULL;
-        TemplateExpand t;
+        EventTemplate::TemplateExpand t;
         t.tmpl     = data->OnLine.str();
         t.contact  = contact;
         t.receiver = this;
         t.param    = NULL;
-        Event eTmpl(EventTemplateExpand, &t);
-        eTmpl.process();
+        EventTemplateExpand(&t).process();
         return (void*)1;
     }
     case eEventMessageReceived: {
@@ -221,27 +219,28 @@ void *ActionPlugin::processEvent(Event *e)
         if (msg->type() == MessageStatus){
             if (data->Status.str().isEmpty())
                 return NULL;
-            TemplateExpand t;
+            EventTemplate::TemplateExpand t;
             t.tmpl     = data->Status.str();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
-            Event(EventTemplateExpand, &t).process();
+            EventTemplateExpand(&t).process();
             return NULL;
         }
         QString cmd = get_str(data->Message, msg->baseType());
         if (cmd.isEmpty())
             return NULL;
-        TemplateExpand t;
+        EventTemplate::TemplateExpand t;
         t.tmpl	   = cmd;
         t.contact  = contact;
         t.receiver = this;
         t.param	   = msg;
-        Event(EventTemplateExpand, &t).process();
+        EventTemplateExpand(&t).process();
         return (void*)1;
     }
-    case EventTemplateExpanded: {
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    case eEventTemplateExpanded: {
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         Message *msg = (Message*)(t->param);
         if (msg){
             MsgExec *exec = new MsgExec;

@@ -919,13 +919,14 @@ void *MsgViewBase::processEvent(Event *e)
         }
         return NULL;
     }
-    if (e->type() == EventHistoryConfig){
-        unsigned long id = (unsigned long)(e->param());
+    if (e->type() == eEventHistoryConfig){
+        EventHistoryConfig *ehc = static_cast<EventHistoryConfig*>(e);
+        unsigned long id = ehc->id();
         if (id && (id != m_id))
             return NULL;
         reload();
     } else
-    if (e->type() == EventHistoryColors) {
+    if (e->type() == eEventHistoryColors) {
         setColors();
     } else
     if (e->type() == eEventCheckState){

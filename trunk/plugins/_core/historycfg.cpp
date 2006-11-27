@@ -326,8 +326,7 @@ void HistoryConfig::apply()
     CorePlugin::m_plugin->setExtViewer(edtExtViewer->text().local8Bit());
     CorePlugin::m_plugin->setHistoryPage(cmbPage->lineEdit()->text().toULong());
     if (bChanged){
-        Event e(EventHistoryConfig);
-        e.process();
+        EventHistoryConfig(0).process();
     }
     fillPreview();
     HistoryUserData *data = (HistoryUserData*)(getContacts()->getUserData(CorePlugin::m_plugin->history_data_id));

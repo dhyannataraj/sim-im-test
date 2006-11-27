@@ -186,11 +186,8 @@ void MsgJournal::send(const QString& msgText)
     msg->setPrivate(m_wnd->cmbSecurity->currentItem());
     msg->setMood(m_wnd->cmbMood->currentItem());
     msg->setComments(m_wnd->cmbComment->currentItem());
-    MsgSend ms;
-    ms.edit = m_edit;
-    ms.msg  = msg;
-    Event e(EventRealSendMessage, &ms);
-    e.process();
+
+    EventRealSendMessage(msg, m_edit).process();
 }
 
 void MsgJournal::frameDestroyed()

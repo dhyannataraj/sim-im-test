@@ -83,14 +83,13 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
         m_panel->show();
     }
     if (m_edit->m_edit->text().isEmpty()){
-        TemplateExpand t;
+        EventTemplate::TemplateExpand t;
         if (!data->SMSSignatureBefore.str().isEmpty()){
             t.tmpl = data->SMSSignatureBefore.str();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
-            Event eTmpl(EventTemplateExpand, &t);
-            eTmpl.process();
+            EventTemplateExpand(&t).process();
         }else{
             m_bExpand = true;
             if (!data->SMSSignatureAfter.str().isEmpty()){
@@ -98,8 +97,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
                 t.contact = contact;
                 t.receiver = this;
                 t.param = NULL;
-                Event eTmpl(EventTemplateExpand, &t);
-                eTmpl.process();
+                EventTemplateExpand(&t).process();
             }
         }
     }
@@ -206,8 +204,9 @@ void *MsgSMS::processEvent(Event *e)
             }
         }
     } else
-    if (e->type() == EventTemplateExpanded){
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    if (e->type() == eEventTemplateExpanded){
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         if (m_bExpand){
             m_edit->m_edit->append(t->tmpl);
         }else{
@@ -219,12 +218,11 @@ void *MsgSMS::processEvent(Event *e)
                 SMSUserData *data = (SMSUserData*)(contact->getUserData(CorePlugin::m_plugin->sms_data_id));
                 if (!data->SMSSignatureAfter.str().isEmpty()){
                     t->tmpl = data->SMSSignatureAfter.str();
-                    Event eTmpl(EventTemplateExpand, t);
-                    eTmpl.process();
+                    EventTemplateExpand(t).process();
                 }
             }
         }
-        return e->param();
+        return(void*)1;
     }
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);

@@ -773,15 +773,14 @@ void GpgPlugin::registerMessage()
     cmd->icon		 = "encrypted";
     cmd->param		 = &defGPGKey;
     cmd->menu_grp	= 0x4081;
-    Event eMsg(EventCreateMessageType, cmd);
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id			 = MessageGPGUse;
     cmd->text		 = I18N_NOOP("Use GPG encryption");
     cmd->icon		 = QString::null;
     cmd->param		 = &defGPGUse;
     cmd->menu_grp	 = 0x4080;
-    eMsg.process();
+    EventCreateMessageType(cmd).process();
 
     cmd->id		 = user_data_id;
     cmd->text	 = I18N_NOOP("&GPG key");
@@ -795,10 +794,8 @@ void GpgPlugin::unregisterMessage()
     if (!m_bMessage)
         return;
     m_bMessage = false;
-    Event e(EventRemoveMessageType, (void*)MessageGPGKey);
-    e.process();
-    Event eUse(EventRemoveMessageType, (void*)MessageGPGUse);
-    eUse.process();
+    EventRemoveMessageType(MessageGPGKey).process();
+    EventRemoveMessageType(MessageGPGUse).process();
     EventRemovePreferences(user_data_id).process();
 }
 
@@ -943,10 +940,7 @@ void *MsgGPGKey::processEvent(Event *e)
                 km.key = m_key;
                 km.msg = msg;
                 GpgPlugin::plugin->m_sendKeys.push_back(km);
-                MsgSend s;
-                s.edit = m_edit;
-                s.msg  = msg;
-                Event(EventRealSendMessage, &s).process();
+                EventRealSendMessage(msg, m_edit).process();
             }
             return (void*)1;
         }

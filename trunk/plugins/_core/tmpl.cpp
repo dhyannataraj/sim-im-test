@@ -45,8 +45,9 @@ Tmpl::~Tmpl()
 
 void *Tmpl::processEvent(Event *e)
 {
-    if (e->type() == EventTemplateExpand){
-        TemplateExpand *t = (TemplateExpand*)(e->param());
+    if (e->type() == eEventTemplateExpand){
+        EventTemplate *et = static_cast<EventTemplate*>(e);
+        EventTemplate::TemplateExpand *t = et->templateExpand();
         TmplExpand tmpl;
         tmpl.tmpl = *t;
         tmpl.exec = NULL;
@@ -95,7 +96,7 @@ bool Tmpl::process(TmplExpand *t)
     t->res += process(t, head);
     if (t->tmpl.tmpl.isEmpty()){
         t->tmpl.tmpl = t->res;
-        Event e(EventTemplateExpanded, t);
+        EventTemplateExpanded e(&t->tmpl);
         t->tmpl.receiver->processEvent(&e);
         return true;
     }
