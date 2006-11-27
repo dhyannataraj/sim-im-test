@@ -15,13 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "proxy.h"
-#include "proxycfg.h"
-#include "socket.h"
-#include "newprotocol.h"
-#include "proxyerror.h"
-#include "fetch.h"
-
 #include <qtabwidget.h>
 #include <qobjectlist.h>
 
@@ -34,6 +27,16 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #endif
+
+#include "fetch.h"
+#include "log.h"
+#include "misc.h"
+#include "socket.h"
+
+#include "proxy.h"
+#include "proxycfg.h"
+#include "newprotocol.h"
+#include "proxyerror.h"
 
 using namespace std;
 using namespace SIM;

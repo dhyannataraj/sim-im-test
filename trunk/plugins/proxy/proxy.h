@@ -18,8 +18,9 @@
 #ifndef _PROXY_H
 #define _PROXY_H
 
-#include "simapi.h"
-#include "stl.h"
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
 
 const unsigned PROXY_NONE	= 0;
 const unsigned PROXY_SOCKS4	= 1;

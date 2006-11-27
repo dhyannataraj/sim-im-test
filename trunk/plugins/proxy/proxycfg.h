@@ -18,7 +18,6 @@
 #ifndef _PROXYCFG_H
 #define _PROXYCFG_H
 
-#include "simapi.h"
 #include "proxy.h"
 #include "proxycfgbase.h"
 

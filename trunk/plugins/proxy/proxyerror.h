@@ -18,7 +18,6 @@
 #ifndef _PROXYERROR_H
 #define _PROXYERROR_H
 
-#include "simapi.h"
 #include "socket.h"
 #include "proxyerrorbase.h"
 

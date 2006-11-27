@@ -15,14 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icons.h"
-#include "simapi.h"
-#include "proxyerror.h"
-#include "proxycfg.h"
-
 #include <qpixmap.h>
 #include <qlayout.h>
 #include <qlabel.h>
+
+#include "icons.h"
+#include "misc.h"
+
+#include "proxyerror.h"
+#include "proxycfg.h"
 
 using namespace SIM;
 

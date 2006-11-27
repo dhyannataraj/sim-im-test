@@ -15,12 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "proxycfg.h"
-#include "proxy.h"
-#include "icons.h"
-#include "socket.h"
-#include "fetch.h"
-
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
@@ -29,6 +23,14 @@
 #include <qlayout.h>
 #include <qpainter.h>
 #include <qtabwidget.h>
+
+#include "icons.h"
+#include "misc.h"
+#include "socket.h"
+#include "fetch.h"
+
+#include "proxycfg.h"
+#include "proxy.h"
 
 using std::string;
 using namespace SIM;
