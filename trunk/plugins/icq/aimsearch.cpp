@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "aimsearch.h"
 
 using namespace SIM;

@@ -30,7 +30,12 @@
 #include "html.h"
 #include "icons.h"
 #include "unquot.h"
+#include "log.h"
 #include "core.h"
+
+#include "icqclient.h"
+#include "polling.h"
+
 
 #include "icqclient.h"
 

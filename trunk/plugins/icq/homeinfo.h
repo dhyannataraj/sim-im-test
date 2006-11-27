@@ -18,7 +18,9 @@
 #ifndef _HOMEINFO_H
 #define _HOMEINFO_H
 
-#include "simapi.h"
+#include "contacts.h"
+#include "event.h"
+
 #include "homeinfobase.h"
 
 class ICQClient;

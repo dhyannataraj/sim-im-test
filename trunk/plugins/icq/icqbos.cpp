@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "log.h"
+
 #include "icqclient.h"
 
 using namespace SIM;

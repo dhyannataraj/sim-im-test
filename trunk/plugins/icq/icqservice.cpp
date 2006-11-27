@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icqclient.h"
-
 #include <time.h>
 #ifdef WIN32
 #include <winsock.h>
@@ -28,6 +26,10 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qimage.h>
+
+#include "log.h"
+
+#include "icqclient.h"
 
 using namespace std;
 using namespace SIM;

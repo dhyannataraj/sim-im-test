@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 
 #include "icqclient.h"
 #include "icqmessage.h"
@@ -37,6 +36,8 @@
 #include <qfile.h>
 #include <qtimer.h>
 #include <qregexp.h>
+
+#include "log.h"
 
 using namespace std;
 using namespace SIM;

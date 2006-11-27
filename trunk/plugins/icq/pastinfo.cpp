@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "pastinfo.h"
 #include "icqclient.h"
 

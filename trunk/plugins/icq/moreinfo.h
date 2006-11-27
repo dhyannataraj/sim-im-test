@@ -18,7 +18,6 @@
 #ifndef _MOREINFO_H
 #define _MOREINFO_H
 
-#include "simapi.h"
 #include "moreinfobase.h"
 
 class ICQClient;

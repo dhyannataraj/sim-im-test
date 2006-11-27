@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "aboutinfo.h"
 #include "icqclient.h"
 #include "textshow.h"

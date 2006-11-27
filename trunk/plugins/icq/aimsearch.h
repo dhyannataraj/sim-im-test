@@ -18,7 +18,6 @@
 #ifndef _AIMSEARCH_H
 #define _AIMSEARCH_H
 
-#include "simapi.h"
 #include "aimsearchbase.h"
 
 class AIMSearch : public AIMSearchBase

@@ -18,7 +18,6 @@
 #ifndef _AIMCONFIG_H
 #define _AIMCONFIG_H
 
-#include "simapi.h"
 #include "aimconfigbase.h"
 #include "icqclient.h"
 

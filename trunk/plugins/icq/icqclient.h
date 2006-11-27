@@ -18,15 +18,15 @@
 #ifndef _ICQCLIENT_H
 #define _ICQCLIENT_H
 
-#include "simapi.h"
-#include "stl.h"
-
-#include "socket.h"
-#include "icq.h"
+#include <map>
+#include <vector>
 
 #include <qdatetime.h>
 
-#include <map>
+#include "misc.h"
+
+#include "socket.h"
+#include "icq.h"
 
 const unsigned ICQ_SIGN			= 0x0001;
 

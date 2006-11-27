@@ -18,7 +18,8 @@
 #ifndef _ICQPICTURE_H
 #define _ICQPICTURE_H
 
-#include "simapi.h"
+#include "event.h"
+
 #include "icqpicturebase.h"
 
 class ICQClient;

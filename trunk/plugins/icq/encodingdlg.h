@@ -18,7 +18,6 @@
 #ifndef _ENCODINGDLG_H
 #define _ENCODINGDLG_H
 
-#include "simapi.h"
 #include "encodingdlgbase.h"
 
 class ICQClient;

@@ -15,13 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "icqclient.h"
-#include "fetch.h"
-#include "polling.h"
-
 #include <qtimer.h>
 #include <stdio.h>
+
+#include "fetch.h"
+#include "log.h"
+
+#include "icqclient.h"
+#include "polling.h"
 
 using namespace std;
 using namespace SIM;

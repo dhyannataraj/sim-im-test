@@ -31,6 +31,8 @@
 #include <qimage.h>
 #include <qfileinfo.h>
 
+#include "log.h"
+
 using namespace SIM;
 
 const unsigned short ICQ_SNACxBDY_REQUESTxRIGHTS   = 0x0002;

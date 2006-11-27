@@ -22,6 +22,8 @@
 #include <qfile.h>
 #include <qtimer.h>
 
+#include "log.h"
+
 #include "icqclient.h"
 #include "icqssbi.h"
 

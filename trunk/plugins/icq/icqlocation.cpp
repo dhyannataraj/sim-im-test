@@ -24,6 +24,8 @@
 # include <netinet/in.h>
 #endif
 
+#include "log.h"
+
 using namespace SIM;
 
 const unsigned short ICQ_SNACxLOC_ERROR             = 0x0001;

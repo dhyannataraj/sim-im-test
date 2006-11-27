@@ -18,7 +18,6 @@
 #ifndef _ICQSEARCH_H
 #define _ICQSEARCH_H
 
-#include "simapi.h"
 #include "icqsearchbase.h"
 #include <qvaluelist.h>
 

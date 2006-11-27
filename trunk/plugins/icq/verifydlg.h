@@ -18,7 +18,7 @@
 #ifndef _VERIFYDLG_H
 #define _VERIFYDLG_H
 
-#include "simapi.h"
+#include "event.h"
 #include "verifydlgbase.h"
 #include <qlineedit.h>
 

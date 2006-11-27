@@ -15,11 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "verifydlg.h"
 #include <qtimer.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
+
+#include "log.h"
+
+#include "verifydlg.h"
 
 using namespace SIM;
 

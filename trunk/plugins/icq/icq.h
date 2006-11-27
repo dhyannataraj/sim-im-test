@@ -18,7 +18,7 @@
 #ifndef _ICQ_H
 #define _ICQ_H
 
-#include "simapi.h"
+#include "contacts.h"
 
 class CorePlugin;
 

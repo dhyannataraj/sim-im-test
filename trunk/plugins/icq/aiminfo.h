@@ -18,7 +18,6 @@
 #ifndef _AIMINFO_H
 #define _AIMINFO_H
 
-#include "simapi.h"
 #include "aiminfobase.h"
 
 class ICQClient;

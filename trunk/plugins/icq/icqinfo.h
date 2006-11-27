@@ -18,7 +18,6 @@
 #ifndef _ICQINFO_H
 #define _ICQINFO_H
 
-#include "simapi.h"
 #include "icqinfobase.h"
 
 class ICQClient;

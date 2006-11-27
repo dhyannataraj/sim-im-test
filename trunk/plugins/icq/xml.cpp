@@ -19,7 +19,6 @@
  *
  */
 
-#include "simapi.h"
 #include "xml.h"
 
 using namespace std;

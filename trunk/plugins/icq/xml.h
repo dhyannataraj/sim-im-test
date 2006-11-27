@@ -23,9 +23,8 @@
 #ifndef XML_H
 #define XML_H
 
-#include "simapi.h"
-#include "stl.h"
-
+#include <list>
+#include <string>
 #include <ctype.h>
 
 class XmlNode {

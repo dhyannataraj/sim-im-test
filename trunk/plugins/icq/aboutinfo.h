@@ -18,7 +18,8 @@
 #ifndef _ABOUTINFO_H
 #define _ABOUTINFO_H
 
-#include "simapi.h"
+#include "contacts.h"
+
 #include "aboutinfobase.h"
 
 class ICQClient;

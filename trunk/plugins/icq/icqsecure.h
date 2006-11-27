@@ -18,7 +18,8 @@
 #ifndef _ICQSECURE_H
 #define _ICQSECURE_H
 
-#include "simapi.h"
+#include "cfg.h"
+
 #include "listview.h"
 #include "icqsecurebase.h"
 

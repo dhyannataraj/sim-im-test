@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "homeinfo.h"
 #include "icqclient.h"
 

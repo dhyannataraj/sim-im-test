@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "icons.h"
-#include "simapi.h"
 #include "icqinfo.h"
 #include "icqclient.h"
 #include "core.h"

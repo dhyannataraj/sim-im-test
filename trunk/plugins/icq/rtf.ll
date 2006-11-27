@@ -24,9 +24,11 @@
 
 #include <qtextcodec.h>
 
-#include "icqclient.h"
-#include "core.h"
 #include "unquot.h"
+#include "log.h"
+#include "core.h"
+
+#include "icqclient.h"
 
 #define UP				1	
 #define DOWN			2

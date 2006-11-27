@@ -18,7 +18,6 @@
 #ifndef _WARNDLG_H
 #define _WARNDLG_H
 
-#include "simapi.h"
 #include "warndlgbase.h"
 #include "icqclient.h"
 

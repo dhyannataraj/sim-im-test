@@ -15,15 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-#include "buffer.h"
-#include "socket.h"
-#include "icqclient.h"
-#include "verifydlg.h"
-
 #include <stdio.h>
 #include <qpixmap.h>
 #include <qapplication.h>
+
+#include "log.h"
+#include "buffer.h"
+#include "socket.h"
+
+#include "icqclient.h"
+#include "verifydlg.h"
 
 using namespace SIM;
 

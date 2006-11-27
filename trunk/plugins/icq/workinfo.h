@@ -18,7 +18,6 @@
 #ifndef _WORKINFO_H
 #define _WORKINFO_H
 
-#include "simapi.h"
 #include "workinfobase.h"
 
 class ICQClient;

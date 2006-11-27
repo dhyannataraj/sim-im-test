@@ -15,13 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icqmessage.h"
-#include "icqclient.h"
-#include "icq.h"
-#include "toolbtn.h"
-#include "core.h"
-#include "xml.h"
-
 #include <qtimer.h>
 #include <qlayout.h>
 #include <qtextcodec.h>
@@ -29,6 +22,15 @@
 #include <qfileinfo.h>
 #include <qimage.h>
 #include <qregexp.h>
+
+#include "toolbtn.h"
+#include "log.h"
+
+#include "icqmessage.h"
+#include "icqclient.h"
+#include "icq.h"
+#include "core.h"
+#include "xml.h"
 
 using namespace std;
 using namespace SIM;

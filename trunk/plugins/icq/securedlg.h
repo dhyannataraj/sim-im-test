@@ -18,7 +18,6 @@
 #ifndef _SECUREDLG_H
 #define _SECUREDLG_H
 
-#include "simapi.h"
 #include "securedlgbase.h"
 
 class ICQClient;

@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icqclient.h"
 
 #include <time.h>
 #include <stdio.h>
@@ -29,6 +28,10 @@
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qfile.h>
+
+#include "log.h"
+
+#include "icqclient.h"
 #include "xml.h"
 
 using namespace std;

@@ -28,12 +28,14 @@
 #include <time.h>
 #include <vector>
 
-using namespace std;
-using namespace SIM;
-
 #include <qtimer.h>
 #include <qbuffer.h>
 #include <qimage.h>
+
+#include "log.h"
+
+using namespace std;
+using namespace SIM;
 
 const unsigned short ICQ_SNACxLISTS_ERROR          = 0x0001;
 const unsigned short ICQ_SNACxLISTS_REQxRIGHTS     = 0x0002;

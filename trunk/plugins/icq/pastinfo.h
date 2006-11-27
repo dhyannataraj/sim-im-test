@@ -18,7 +18,9 @@
 #ifndef _PASTINFO_H
 #define _PASTINFO_H
 
-#include "simapi.h"
+#include "country.h"
+#include "event.h"
+
 #include "pastinfobase.h"
 
 class ICQClient;

@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "icqpicture.h"
 #include "icqclient.h"
 #include "editfile.h"

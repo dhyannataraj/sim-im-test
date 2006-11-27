@@ -18,7 +18,8 @@
 #ifndef _INTERESTSINFO_H
 #define _INTERESTSINFO_H
 
-#include "simapi.h"
+#include "event.h"
+
 #include "interestsinfobase.h"
 
 class ICQClient;

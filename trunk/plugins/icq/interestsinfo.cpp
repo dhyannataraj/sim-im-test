@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "interestsinfo.h"
 #include "icqclient.h"
 

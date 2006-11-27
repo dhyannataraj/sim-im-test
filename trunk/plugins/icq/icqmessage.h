@@ -18,7 +18,7 @@
 #ifndef _ICQMESSAGE_H
 #define _ICQMESSAGE_H
 
-#include "simapi.h"
+#include "contacts.h"
 
 #include <qlineedit.h>
 #include <qtoolbutton.h>

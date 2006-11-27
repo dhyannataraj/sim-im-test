@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "country.h"
+#include "misc.h"
+
 #include "advsearch.h"
 
 using namespace SIM;
