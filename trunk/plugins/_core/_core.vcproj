@@ -3929,6 +3929,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\core_events.h"
+				>
+			</File>
+			<File
 				RelativePath=".\core_pch.h"
 				>
 				<FileConfiguration

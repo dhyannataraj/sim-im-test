@@ -78,6 +78,8 @@ SET(_core_HDRS
         connectwnd.h
         container.h
         core.h
+        core.h
+        core_events.h
         declinedlg.h
         editmail.h
         editphone.h

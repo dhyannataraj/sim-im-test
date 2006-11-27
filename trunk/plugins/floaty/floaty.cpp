@@ -179,16 +179,7 @@ void *FloatyPlugin::processEvent(Event *e)
             break;
         }
     case eEventMessageDeleted:
-    case eEventMessageRead:{
-            EventMessage *em = static_cast<EventMessage*>(e);
-            Message *msg = em->msg();
-            FloatyWnd *wnd = findFloaty(msg->contact());
-            if (wnd){
-                wnd->init();
-                wnd->repaint();
-            }
-            break;
-        }
+    case eEventMessageRead:
     case eEventMessageReceived:{
             EventMessage *em = static_cast<EventMessage*>(e);
             Message *msg = em->msg();
