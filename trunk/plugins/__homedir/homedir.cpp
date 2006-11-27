@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "homedir.h"
-#include "simapi.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -38,6 +37,9 @@ static BOOL (WINAPI *_SHGetSpecialFolderPathW)(HWND hwndOwner, LPSTR lpszPath, i
 
 #include <qdir.h>
 #include <qfile.h>
+
+#include "log.h"
+#include "misc.h"
 
 using namespace std;
 using namespace SIM;

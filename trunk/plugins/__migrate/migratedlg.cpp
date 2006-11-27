@@ -29,6 +29,7 @@
 #include "ballonmsg.h"
 #include "buffer.h"
 #include "unquot.h"
+#include "misc.h"
 
 #include "migratedlg.h"
 

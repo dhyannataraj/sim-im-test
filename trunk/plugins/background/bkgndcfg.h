@@ -18,7 +18,6 @@
 #ifndef _BKGNDCFG_H
 #define _BKGNDCFG_H
 
-#include "simapi.h"
 #include "bkgndcfgbase.h"
 
 class BackgroundPlugin;

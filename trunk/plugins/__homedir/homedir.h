@@ -18,7 +18,8 @@
 #ifndef _HOMEDIR_H
 #define _HOMEDIR_H
 
-#include "simapi.h"
+#include "event.h"
+#include "plugins.h"
 
 class HomeDirPlugin : public SIM::Plugin, public SIM::EventReceiver
 {

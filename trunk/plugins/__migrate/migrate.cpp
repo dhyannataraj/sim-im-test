@@ -15,10 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qdir.h>
+
+#include "misc.h"
+
 #include "migrate.h"
 #include "migratedlg.h"
-
-#include <qdir.h>
 
 using namespace SIM;
 

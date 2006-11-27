@@ -15,13 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icons.h"
+#include "sim_export.h"
 
-#include "aboutdlg.h"
-#include "about.h"
-#include "simapi.h"
-#include "textshow.h"
-#include "aboutdata.h"
 #ifndef USE_KDE
 
 #include <qlabel.h>
@@ -30,6 +25,14 @@
 #include <qtabwidget.h>
 #include <qfile.h>
 #include <qlineedit.h>
+
+#include "aboutdata.h"
+#include "icons.h"
+#include "misc.h"
+#include "textshow.h"
+
+#include "aboutdlg.h"
+#include "about.h"
 
 using namespace SIM;
 

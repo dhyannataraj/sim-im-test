@@ -18,10 +18,12 @@
 #ifndef _BACKGROUND_H
 #define _BACKGROUND_H
 
-#include "simapi.h"
-
 #include <qimage.h>
 #include <qpixmap.h>
+
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
 
 struct BackgroundData
 {

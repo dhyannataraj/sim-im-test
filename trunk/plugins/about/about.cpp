@@ -15,9 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "about.h"
-#include "aboutdata.h"
-#include "simapi.h"
+#include "sim_export.h"
 
 #ifdef USE_KDE
 #include <kaboutapplication.h>
@@ -26,6 +24,11 @@
 #include "aboutdlg.h"
 #endif
 #include <qtimer.h>
+
+#include "misc.h"
+
+#include "about.h"
+#include "aboutdata.h"
 
 using namespace SIM;
 

@@ -18,7 +18,7 @@
 #ifndef _MIGRATE_H
 #define _MIGRATE_H
 
-#include "simapi.h"
+#include "plugins.h"
 
 class MigratePlugin : public SIM::Plugin
 {

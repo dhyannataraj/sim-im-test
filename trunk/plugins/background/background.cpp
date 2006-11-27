@@ -15,13 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "background.h"
-#include "simapi.h"
-
-#include "bkgndcfg.h"
-
 #include <qpainter.h>
 #include <qfile.h>
+
+#include "misc.h"
+
+#include "background.h"
+#include "bkgndcfg.h"
 
 using namespace SIM;
 

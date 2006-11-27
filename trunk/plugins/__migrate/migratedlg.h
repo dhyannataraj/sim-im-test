@@ -18,9 +18,6 @@
 #ifndef _MIGRATEDLG_H
 #define _MIGRATEDLG_H
 
-#include "simapi.h"
-#include "stl.h"
-
 #include "migratedlgbase.h"
 
 #include <qcheckbox.h>
