@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
+
 #include "aboutdlg.h"
 #include "about.h"
 #include "simapi.h"
