@@ -4,6 +4,7 @@
 #include <qstring.h>
 
 #include "event.h"
+#include "jabberclient.h"
 
 struct ClientLastInfo;
 struct ClientTimeInfo;
