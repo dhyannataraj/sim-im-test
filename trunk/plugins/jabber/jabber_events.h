@@ -4,7 +4,6 @@
 #include <qstring.h>
 
 #include "event.h"
-#include "jabberclient.h"
 
 struct ClientLastInfo;
 struct ClientTimeInfo;
@@ -13,6 +12,7 @@ struct DiscoItem;
 struct JabberAgentInfo;
 struct JabberSearchData;
 struct agentRegisterInfo;
+struct JabberUserData;
 
 // not nice, but currently no other idea :(
 // not handled ...
