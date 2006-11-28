@@ -481,7 +481,7 @@ protected slots:
     void focusDestroyed();
     void showMain();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void showInfo(SIM::CommandDef *cmd);

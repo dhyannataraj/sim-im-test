@@ -50,7 +50,7 @@ protected slots:
     void finished();
     void realFinished();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual std::string getConfig();
     void showMonitor();
     void saveState();

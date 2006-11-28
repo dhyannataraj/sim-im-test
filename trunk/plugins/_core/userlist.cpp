@@ -828,7 +828,7 @@ static void resort(QListViewItem *item)
         resort(item);
 }
 
-void *UserListBase::processEvent(Event *e)
+bool UserListBase::processEvent(Event *e)
 {
     if (e->type() == eEventRepaintView){
         sort();

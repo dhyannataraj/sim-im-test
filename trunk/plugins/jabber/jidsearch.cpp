@@ -110,12 +110,12 @@ void JIDSearch::search()
 
 void JIDSearch::searchStop()
 {
-    m_search_id = "";
+    m_search_id = QString::null;
 }
 
-void *JIDSearch::processEvent(Event *e)
+bool JIDSearch::processEvent(Event *e)
 {
-    if (e->type() == eEventSearch){
+    if (e->type() == eEventJabberSearch){
         EventSearch *es = static_cast<EventSearch*>(e);
         JabberSearchData *data = es->searchData();
         if (m_search_id != data->ID.str())
@@ -129,7 +129,7 @@ void *JIDSearch::processEvent(Event *e)
                 l.append(i18n(get_str(data->Fields, i * 2 + 1)));
             }
             emit setColumns(l, 0, this);
-            return e->param();
+            return true;
         }
         QString icon = "Jabber";
         if (m_type == "icq"){
@@ -160,7 +160,7 @@ void *JIDSearch::processEvent(Event *e)
             l.append(get_str(data->Fields, n));
         emit addItem(l, this);
     }
-    if (e->type() == eEventSearchDone){
+    if (e->type() == eEventJabberSearchDone){
         EventSearchDone *esd = static_cast<EventSearchDone*>(e);
         QString id = esd->userID();
         if (m_search_id == id){

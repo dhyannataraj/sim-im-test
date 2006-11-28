@@ -126,7 +126,7 @@ protected:
     virtual void resizeEvent(QResizeEvent*);
     virtual void moveEvent(QMoveEvent*);
     virtual bool event(QEvent*);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void showBar();
     void setupAccel();
     ContainerData	data;

@@ -40,7 +40,7 @@ public slots:
     void textChanged(const QString&);
 protected:
     bool done(unsigned code, Buffer &data, const QString &headers);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     WeatherPlugin *m_plugin;
     WIfaceCfg	  *m_iface;

@@ -41,7 +41,7 @@ class CommandsDefPrivate : public EventReceiver
 public:
     CommandsDefPrivate(unsigned id, bool bMenu);
     void setConfig(const char *cfg_str);
-    void *processEvent(Event*);
+    virtual bool processEvent(Event *e);
     bool addCommand(const CommandDef *cmd);
     bool changeCommand(const CommandDef *cmd);
     bool delCommand(unsigned id);
@@ -101,7 +101,7 @@ bool CommandsDefPrivate::delCommand(unsigned id)
     return false;
 }
 
-void *CommandsDefPrivate::processEvent(Event *e)
+bool CommandsDefPrivate::processEvent(Event *e)
 {
     list<CommandDef>::iterator it;
     switch (e->type()){
@@ -136,7 +136,7 @@ void *CommandsDefPrivate::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void CommandsDefPrivate::setConfig(const char *cfg_str)

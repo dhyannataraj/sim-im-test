@@ -83,7 +83,7 @@ void AIMInfo::apply(Client *client, void *_data)
     data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
-void *AIMInfo::processEvent(Event *e)
+bool AIMInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

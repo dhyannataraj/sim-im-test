@@ -370,13 +370,14 @@ void ICQSearch::searchStop()
     m_id_aim = 0;
 }
 
-void *ICQSearch::processEvent(Event *e)
+bool ICQSearch::processEvent(Event *e)
 {
-    if ((e->type() == EventSearch) || (e->type() == EventSearchDone)){
-        SearchResult *res = (SearchResult*)(e->param());
+    if ((e->type() == eEventICQSearch) || (e->type() == eEventICQSearchDone)){
+        EventSearchInternal *es = static_cast<EventSearchInternal*>(e);
+        SearchResult *res = es->searchResult();
         if ((res->id != m_id_aim) && (res->id != m_id_icq) && (res->client != m_client))
             return NULL;
-        if (e->type() == EventSearchDone){
+        if (e->type() == eEventICQSearchDone){
             if (res->id == m_id_icq){
                 m_id_icq = 0;
                 if (res->data.Uin.toULong() && m_bAdd)

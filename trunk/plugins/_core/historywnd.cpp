@@ -164,7 +164,7 @@ void HistoryWindow::setName()
     setCaption(i18n("History") + " " + name);
 }
 
-void *HistoryWindow::processEvent(Event *e)
+bool HistoryWindow::processEvent(Event *e)
 {
     switch(e->type()) {
     case eEventContact: {
@@ -191,12 +191,12 @@ void *HistoryWindow::processEvent(Event *e)
             cmd->flags &= ~COMMAND_CHECKED;
             if (m_bDirection)
                 cmd->flags |= COMMAND_CHECKED;
-            return (void*)1;
+            return true;
         }
         if (((cmd->id == CmdDeleteMessage) || (cmd->id == CmdCutHistory)) &&
                 (cmd->param == m_view) && m_view->currentMessage()){
             cmd->flags &= ~COMMAND_CHECKED;
-            return (void*)1;
+            return true;
         }
         return NULL;
     }
@@ -214,21 +214,21 @@ void *HistoryWindow::processEvent(Event *e)
                 m_states.clear();
                 fill();
             }
-            return (void*)1;
+            return true;
         }
         if (cmd->id == CmdHistoryNext){
             if (m_page + 1 < m_states.size()){
                 m_page++;
                 fill();
             }
-            return (void*)1;
+            return true;
         }
         if (cmd->id == CmdHistoryPrev){
             if (m_page > 0){
                 m_page--;
                 fill();
             }
-            return (void*)1;
+            return true;
         }
         if (cmd->id == CmdHistorySave){
             QString str = QFileDialog::getSaveFileName(QString::null, i18n("Textfile (*.txt)"), this);
@@ -257,7 +257,7 @@ void *HistoryWindow::processEvent(Event *e)
                 if (!res)
                     QMessageBox::critical(this, i18n("Error"), i18n("Save failed"), QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);
             }
-            return (void*)1;
+            return true;
         }
         if (cmd->id == CmdHistoryFind){
             m_filter = "";
@@ -281,14 +281,14 @@ void *HistoryWindow::processEvent(Event *e)
             m_states.clear();
             m_view->setSelect(m_filter);
             fill();
-            return (void*)1;
+            return true;
         }
         break;
     }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void HistoryWindow::resizeEvent(QResizeEvent *e)

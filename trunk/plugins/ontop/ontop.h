@@ -28,16 +28,11 @@
 #include "event.h"
 #include "plugins.h"
 
-// not nice, but currently no other idea :(
-// maybe move to simlib?
-const SIM::SIMEvent eEventInTaskManager	= ((SIM::SIMEvent)0x00030000);
-const SIM::SIMEvent eEventOnTop     	= ((SIM::SIMEvent)0x00030001);
-
 class EventInTaskManager : public SIM::Event
 {
 public:
     EventInTaskManager(bool bShowInTask)
-        : Event(eEventInTaskManager), m_bShowInTask(bShowInTask) {}
+        : Event(SIM::eEventInTaskManager), m_bShowInTask(bShowInTask) {}
 
     bool showInTaskmanager() const { return m_bShowInTask; }
 protected:
@@ -49,7 +44,7 @@ class EventOnTop : public SIM::Event
 public:
     // bShowOnTop is maybe wrong, rename if someone knows what it means
     EventOnTop(bool bShowOnTop)
-        : Event(eEventOnTop), m_bShowOnTop(bShowOnTop) {}
+        : Event(SIM::eEventOnTop), m_bShowOnTop(bShowOnTop) {}
 
     bool showOnTop() const { return m_bShowOnTop; }
 protected:
@@ -71,7 +66,7 @@ public:
     virtual ~OnTopPlugin();
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
 #if defined(USE_KDE) || defined(WIN32)
     virtual QWidget *createConfigWindow(QWidget *parent);
 #endif

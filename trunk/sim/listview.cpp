@@ -81,7 +81,7 @@ void ListView::setMenu(unsigned long menuId)
     m_menuId = menuId;
 }
 
-void *ListView::processEvent(Event *e)
+bool ListView::processEvent(Event *e)
 {
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
@@ -90,11 +90,11 @@ void *ListView::processEvent(Event *e)
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() == this){
                 emit deleteItem(item);
-                return (void*)1;
+                return true;
             }
         }
     }
-    return NULL;
+    return false;
 }
 
 void ListView::keyPressEvent(QKeyEvent *e)

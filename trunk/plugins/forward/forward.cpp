@@ -81,7 +81,7 @@ ForwardPlugin::~ForwardPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-void *ForwardPlugin::processEvent(Event *e)
+bool ForwardPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventMessageReceived){
         EventMessage *em = static_cast<EventMessage*>(e);

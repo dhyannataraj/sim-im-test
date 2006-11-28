@@ -39,7 +39,7 @@ protected slots:
     void authToggled(bool auth);
 protected:
     void paintEvent(QPaintEvent*);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fillClients();
     void fill(ProxyData*);
     void get(ProxyData*);

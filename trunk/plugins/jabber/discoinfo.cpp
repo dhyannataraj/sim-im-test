@@ -185,7 +185,7 @@ void DiscoInfo::reset()
     }
 }
 
-void *DiscoInfo::processEvent(Event *e)
+bool DiscoInfo::processEvent(Event *e)
 {
     if (e->type() == eEventVCard){
         EventVCard *evc = static_cast<EventVCard*>(e);
@@ -247,7 +247,8 @@ void *DiscoInfo::processEvent(Event *e)
         }
     } else
     if (e->type() == eEventClientTimeInfo){
-        ClientTimeInfo* info = static_cast<ClientTimeInfo*>(e->param());
+        EventClientTimeInfo *ecti = static_cast<EventClientTimeInfo*>(e);
+        ClientTimeInfo* info = ecti->info();
         if (m_data.ID.str() == info->jid){
           /*
             if (!info->display.isEmpty())

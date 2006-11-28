@@ -42,7 +42,7 @@ protected slots:
     void pageChanged(const QString&);
     void loginComplete();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     virtual void reject();
     std::vector<SIM::Protocol*>	m_protocols;
     ConnectWnd	*m_connectWnd;

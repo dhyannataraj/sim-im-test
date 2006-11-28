@@ -76,7 +76,7 @@ void WarnDlg::showError(const char *error)
     BalloonMsg::message(i18n(error), buttonOk);
 }
 
-void *WarnDlg::processEvent(Event *e)
+bool WarnDlg::processEvent(Event *e)
 {
     if (e->type() == eEventMessageSent){
         EventMessage *em = static_cast<EventMessage*>(e);

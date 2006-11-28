@@ -31,7 +31,7 @@ public:
     ~WarnDlg();
 protected:
     void accept();
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void showError(const char*);
     ICQClient		*m_client;
     ICQUserData		*m_data;

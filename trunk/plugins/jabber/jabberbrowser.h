@@ -59,7 +59,7 @@ protected slots:
     void textChanged(const QString&);
     void slotSelected(const QString&);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     QString m_type;
     QString m_id;
 };
@@ -89,7 +89,7 @@ protected slots:
     void configFinished();
     void regFinished();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void setNavigation();
     void stop(const QString &err);
     void go(const QString &url, const QString &node);

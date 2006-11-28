@@ -51,7 +51,7 @@ protected slots:
     void unreadBlink();
 protected:
     FloatyWnd *findFloaty(unsigned id);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     unsigned long CmdFloaty;
     unsigned long user_data_id;
     QPoint	 popupPos;

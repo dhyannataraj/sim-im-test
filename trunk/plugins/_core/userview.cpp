@@ -380,7 +380,7 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
     UserListBase::drawItem(base, p, cg, width, margin);
 }
 
-void *UserView::processEvent(Event *e)
+bool UserView::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventRepaintView:
@@ -717,7 +717,7 @@ void *UserView::processEvent(Event *e)
                     c->id	   = cmd->id - CmdSendMessage;
                     c->menu_id = MenuMessage;
                     c->param   = cmd->param;
-                    void *res = EventCheckState(c).process();
+                    bool res = EventCheckState(c).process();
                     if (res && (c->flags & COMMAND_RECURSIVE)){
                         cmd->flags |= COMMAND_RECURSIVE;
                         cmd->param = c->param;

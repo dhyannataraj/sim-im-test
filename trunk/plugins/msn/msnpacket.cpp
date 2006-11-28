@@ -366,14 +366,16 @@ void AddPacket::error(unsigned)
         if (contact->clientData.size() == 0)
             delete contact;
     }
-    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddFail, (void*)(m_mail.latin1()));
-    e.process();
+// not handled anywhere
+//    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddFail, (void*)(m_mail.latin1()));
+//    e.process();
 }
 
 void AddPacket::answer(const QStringList&)
 {
-    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.latin1()));
-    e.process();
+// not handled anywhere
+//    Event e(static_cast<MSNPlugin*>(m_client->protocol()->plugin())->EventAddOk, (void*)(m_mail.latin1()));
+//    e.process();
 }
 
 RemPacket::RemPacket(MSNClient *client, const QString &listType, const QString &mail, unsigned group)

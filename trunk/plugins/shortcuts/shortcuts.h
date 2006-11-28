@@ -87,7 +87,7 @@ public:
     static QString buttonToString(unsigned button);
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void applyKeys(unsigned long);

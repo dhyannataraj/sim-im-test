@@ -26,12 +26,7 @@ class CorePlugin;
 
 const unsigned IcqCmdBase	= 0x00040000;
 
-const unsigned EventSearch			= IcqCmdBase;
-const unsigned EventSearchDone		= IcqCmdBase + 1;
-const unsigned EventAutoReplyFail	= IcqCmdBase + 2;
-const unsigned EventRandomChat		= IcqCmdBase + 3;
-const unsigned EventRandomChatInfo	= IcqCmdBase + 4;
-const unsigned EventServiceReady	= IcqCmdBase + 5;
+#include "icq_events.h"
 
 const unsigned long CmdVisibleList		= IcqCmdBase;
 const unsigned long CmdInvisibleList    = IcqCmdBase + 1;

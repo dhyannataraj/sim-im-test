@@ -96,7 +96,7 @@ AboutPlugin::~AboutPlugin()
     EventCommandRemove(CmdAbout).process();
 }
 
-void *AboutPlugin::processEvent(Event *e)
+bool AboutPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
@@ -130,7 +130,7 @@ void *AboutPlugin::processEvent(Event *e)
         }
 #endif
     }
-    return NULL;
+    return false;
 }
 
 void AboutPlugin::aboutDestroyed()

@@ -53,7 +53,7 @@ protected:
     std::list<Exec*> m_exec;
     std::list<Exec*> m_delete;
     unsigned long CmdAction;
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     QWidget *createConfigWindow(QWidget *parent);
 };
 

@@ -91,7 +91,7 @@ protected slots:
     void fgColorChanged(QColor c);
     void fontChanged(const QFont &f);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual void focusOutEvent(QFocusEvent *e);
     void keyPressEvent(QKeyEvent *e);
     QPopupMenu *createPopupMenu(const QPoint& pos);

@@ -1825,7 +1825,7 @@ void YahooClient::moveBuddy(YahooUserData *data, const char *grp)
     data->Group.str() = QString::fromUtf8(grp);
 }
 
-void *YahooClient::processEvent(Event *e)
+bool YahooClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
     switch(e->type()) {
@@ -1893,7 +1893,7 @@ void *YahooClient::processEvent(Event *e)
             if ((*it).msg == msg){
                 m_waitMsg.erase(it);
                 delete msg;
-                return (void*)1;
+                return true;
             }
         }
         break;
@@ -1921,7 +1921,7 @@ void *YahooClient::processEvent(Event *e)
                 EventMessageDeleted(msg).process();
                 if (data == NULL)
                     delete msg;
-                return msg;
+                return true;
             }
         }
         break;
@@ -1961,7 +1961,7 @@ void *YahooClient::processEvent(Event *e)
                     if (!send(m, data))
                         delete m;
                 }
-                return msg;
+                return true;
             }
         }
         break;
@@ -1969,7 +1969,7 @@ void *YahooClient::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 QWidget *YahooClient::searchWindow(QWidget *parent)

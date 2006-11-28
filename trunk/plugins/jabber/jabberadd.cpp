@@ -212,7 +212,7 @@ void JabberAdd::addAttrs()
     emit setColumns(attrs, 0, this);
 }
 
-void *JabberAdd::processEvent(Event *e)
+bool JabberAdd::processEvent(Event *e)
 {
     if (e->type() == eEventDiscoItem){
         EventDiscoItem *edi = static_cast<EventDiscoItem*>(e);
@@ -350,7 +350,7 @@ void *JabberAdd::processEvent(Event *e)
         }
         return (void*)1;
     }
-    if (e->type() == eEventSearch){
+    if (e->type() == eEventJabberSearch){
         EventSearch *es = static_cast<EventSearch*>(e);
         JabberSearchData *data = es->searchData();
         list<AgentSearch>::iterator it;
@@ -366,7 +366,7 @@ void *JabberAdd::processEvent(Event *e)
                 (*it).fields.push_back(get_str(data->Fields, i * 2));
             }
             addAttrs();
-            return e->param();
+            return true;
         }
         QString icon = "Jabber";
         if ((*it).type == "icq"){
@@ -416,7 +416,7 @@ void *JabberAdd::processEvent(Event *e)
         }
         emit addItem(l, this);
     }
-    if (e->type() == eEventSearchDone){
+    if (e->type() == eEventJabberSearchDone){
         EventSearchDone *esd = static_cast<EventSearchDone*>(e);
         QString id = esd->userID();
         list<AgentSearch>::iterator it;

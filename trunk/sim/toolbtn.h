@@ -142,7 +142,7 @@ public:
     SIM::CommandsDef *m_def;
     void *param()				{ return m_param; }
     void setParam(void *param)	{ m_param = param; }
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
 public slots:
     void showPopup(QPoint p);
     void toolBarChanged();

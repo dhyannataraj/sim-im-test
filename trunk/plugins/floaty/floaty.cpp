@@ -120,7 +120,7 @@ FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
     return NULL;
 }
 
-void *FloatyPlugin::processEvent(Event *e)
+bool FloatyPlugin::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventInit:{

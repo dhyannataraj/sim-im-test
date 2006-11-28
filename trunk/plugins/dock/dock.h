@@ -52,7 +52,7 @@ protected slots:
     void doubleClicked();
     void timer();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual std::string getConfig();
     virtual bool eventFilter(QObject*, QEvent*);

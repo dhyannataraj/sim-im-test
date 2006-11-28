@@ -1115,8 +1115,9 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                 data.Country.asULong() = country;
                 data.Language.asULong() = language;
                 data.Homepage.str() = QString::fromUtf8(homepage);
-                Event e(EventRandomChatInfo, &data);
-                e.process();
+// currently unhandled
+//                Event e(EventRandomChatInfo, &data);
+//                e.process();
                 free_data(static_cast<ICQProtocol*>(protocol())->icqUserData, &data);
                 break;
             }

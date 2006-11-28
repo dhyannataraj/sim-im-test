@@ -221,7 +221,7 @@ void SpellHighlighter::slotConfigChanged()
     rehighlight();
 }
 
-void *SpellHighlighter::processEvent(SIM::Event *e)
+bool SpellHighlighter::processEvent(SIM::Event *e)
 {
     if (e->type() == SIM::eEventCheckState){
         SIM::EventCheckState *ecs = static_cast<SIM::EventCheckState*>(e);
@@ -268,7 +268,7 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
 
             cmd->param  = cmds;
             cmd->flags |= SIM::COMMAND_RECURSIVE;
-            return cmd;
+            return true;
         }
     } else
     if (e->type() == eEventCommandExec){
@@ -292,7 +292,7 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
                     m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
                 }else{
                     if ((*it).second)
-                        return NULL;
+                        return false;
                     (*it).second = true;
                 }
                 m_bDirty = true;
@@ -306,7 +306,7 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
                     m_words.insert(MAP_BOOL::value_type(SIM::my_string(m_word), true));
                 }else{
                     if ((*it).second)
-                        return NULL;
+                        return false;
                     (*it).second = true;
                 }
                 m_bDirty = true;
@@ -319,7 +319,7 @@ void *SpellHighlighter::processEvent(SIM::Event *e)
             }
         }
     }
-    return NULL;
+    return false;
 }
 
 void SpellHighlighter::restore()

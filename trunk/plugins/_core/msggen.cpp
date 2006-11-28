@@ -85,7 +85,7 @@ void MsgGen::emptyChanged(bool bEmpty)
     EventCommandDisabled(cmd).process();
 }
 
-void *MsgGen::processEvent(Event *e)
+bool MsgGen::processEvent(Event *e)
 {
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
@@ -94,7 +94,7 @@ void *MsgGen::processEvent(Event *e)
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
             switch (cmd->id){
             case CmdTranslit:
@@ -103,12 +103,12 @@ void *MsgGen::processEvent(Event *e)
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
         }
     } else
@@ -129,10 +129,10 @@ void *MsgGen::processEvent(Event *e)
                 msg->setFont(CorePlugin::m_plugin->getEditFont());
                 m_edit->sendMessage(msg);
             }
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

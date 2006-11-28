@@ -50,7 +50,7 @@ protected slots:
     void showBalloon();
 protected:
     QTimer *m_timer;
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void rebuildStatus();
     void checkInvisible();
     bool m_bInit;

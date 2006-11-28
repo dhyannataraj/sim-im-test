@@ -175,7 +175,7 @@ void MsgSMS::textChanged()
     m_edit->m_userWnd->setStatus(status);
 }
 
-void *MsgSMS::processEvent(Event *e)
+bool MsgSMS::processEvent(Event *e)
 {
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
@@ -186,7 +186,7 @@ void *MsgSMS::processEvent(Event *e)
                 cmd->flags |= BTN_HIDE;
                 if (cmd->id == CmdPhoneNumber)
                     cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             }
             switch (cmd->id){
             case CmdTranslit:
@@ -195,12 +195,12 @@ void *MsgSMS::processEvent(Event *e)
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
         }
     } else
@@ -293,10 +293,10 @@ void *MsgSMS::processEvent(Event *e)
                     }
                 }
             }
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 SMSPanel::SMSPanel(QWidget *parent)

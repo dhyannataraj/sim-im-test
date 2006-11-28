@@ -34,7 +34,7 @@ protected slots:
     void init();
     void emptyChanged(bool bEmpty);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     QString     m_client;
     bool        m_bCanSend;
     MsgEdit    *m_edit;

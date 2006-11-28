@@ -310,7 +310,7 @@ void JabberClient::packet_ready()
     m_socket->readBuffer.packetStart();
 }
 
-void *JabberClient::processEvent(Event *e)
+bool JabberClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
     switch (e->type()) {
@@ -456,7 +456,7 @@ void *JabberClient::processEvent(Event *e)
             if ((*it) == msg){
                 m_waitMsg.erase(it);
                 delete msg;
-                return e->param();
+                return true;
             }
         }
         break;

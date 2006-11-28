@@ -197,7 +197,7 @@ bool MainWindow::eventFilter(QObject *o, QEvent *e)
     return QMainWindow::eventFilter(o, e);
 }
 
-void *MainWindow::processEvent(Event *e)
+bool MainWindow::processEvent(Event *e)
 {
     switch(e->type()){
     case eEventSetMainIcon: {
@@ -232,9 +232,9 @@ void *MainWindow::processEvent(Event *e)
             addStatus(aw->widget(), aw->down());
             break;
         default:
-            return (void*)0;
+            return false;
         }
-        return (void*)1;
+        return true;
     }
     case eEventIconChanged:
         setIcon(Pict(m_icon));
@@ -247,7 +247,7 @@ void *MainWindow::processEvent(Event *e)
             break;
         }
     }
-    return NULL;
+    return false;
 }
 
 void MainWindow::quit()

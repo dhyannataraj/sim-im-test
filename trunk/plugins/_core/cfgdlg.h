@@ -43,7 +43,7 @@ protected:
     void accept();
     void reject();
     void apply(QListViewItem *item);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void fill(unsigned id);
     void setTitle();
     bool setCurrentItem(QListViewItem *parent, unsigned id);

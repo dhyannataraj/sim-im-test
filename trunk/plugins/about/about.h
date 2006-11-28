@@ -35,7 +35,7 @@ protected slots:
     void aboutDestroyed();
     void realDestroy();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     unsigned long CmdBugReport;
     unsigned long CmdAbout;
     QWidget *about;

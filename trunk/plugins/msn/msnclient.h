@@ -222,7 +222,7 @@ protected:
     virtual QWidget *configWindow(QWidget *parent, unsigned id);
     virtual bool send(SIM::Message*, void*);
     virtual bool canSend(unsigned, void*);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual QWidget *searchWindow(QWidget *parent);
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool createData(SIM::clientData*&, SIM::Contact*);

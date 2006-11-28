@@ -39,7 +39,7 @@ public:
     NavigatePlugin(unsigned, Buffer *name);
     virtual ~NavigatePlugin();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     QString parseUrl(const QString &text);
     unsigned long CmdMail;
     unsigned long CmdMailList;

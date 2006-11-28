@@ -34,7 +34,7 @@ public:
     virtual ~BuiltinLogger();
 
 private:
-    virtual void *processEvent(Event *e);
+    virtual bool processEvent(Event *e);
     unsigned m_logLevel;
 };
 

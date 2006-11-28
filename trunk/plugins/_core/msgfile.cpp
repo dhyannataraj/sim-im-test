@@ -118,7 +118,7 @@ void MsgFile::selectFile()
     edtName->setText(lst.join(" "));
 }
 
-void *MsgFile::processEvent(Event *e)
+bool MsgFile::processEvent(Event *e)
 {
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
@@ -129,7 +129,7 @@ void *MsgFile::processEvent(Event *e)
                 cmd->flags |= BTN_HIDE;
                 if (cmd->id == CmdFileName)
                     cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             }
             switch (cmd->id){
             case CmdTranslit:
@@ -138,12 +138,12 @@ void *MsgFile::processEvent(Event *e)
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
         }
     } else
@@ -159,7 +159,7 @@ void *MsgFile::processEvent(Event *e)
                 eWidget.process();
                 CToolEdit *edtName = dynamic_cast<CToolEdit*>(eWidget.widget());
                 if (edtName == NULL)
-                    return NULL;
+                    return false;
                 QString msgText = m_edit->m_edit->text();
                 QString file = edtName->text();
                 QStringList files;
@@ -200,15 +200,15 @@ void *MsgFile::processEvent(Event *e)
                     msg->setClient(m_client);
                     m_edit->sendMessage(msg);
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdFileName){
                 selectFile();
-                return (void*)1;
+                return true;
             }
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

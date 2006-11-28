@@ -184,9 +184,9 @@ QWidget *SpellPlugin::createConfigWindow(QWidget *parent)
     return new SpellConfig(parent, this);
 }
 
-void *SpellPlugin::processEvent(SIM::Event*)
+bool SpellPlugin::processEvent(SIM::Event*)
 {
-    return NULL;
+    return false;
 }
 
 bool SpellPlugin::eventFilter(QObject *o, QEvent *e)

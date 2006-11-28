@@ -106,7 +106,7 @@ void MsgJournal::emptyChanged(bool bEmpty)
     EventCommandDisabled(cmd).process();
 }
 
-void *MsgJournal::processEvent(Event *e)
+bool MsgJournal::processEvent(Event *e)
 {
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);

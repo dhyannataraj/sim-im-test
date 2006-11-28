@@ -35,18 +35,14 @@ BuiltinLogger::~BuiltinLogger()
 {
 }
 
-void *BuiltinLogger::processEvent(Event *e)
+bool BuiltinLogger::processEvent(Event *e)
 {
-    using namespace SIM;
     using namespace std;
 
     // validate params
-    if (!e) {
-        return 0;
-    }
-    if (e->type() != eEventLog) {
-        return 0;
-    }
+    if (!e || e->type() != eEventLog)
+        return false;
+
     EventLog *l = static_cast<EventLog*>(e);
 
     // filter by log level
@@ -64,7 +60,7 @@ void *BuiltinLogger::processEvent(Event *e)
         cout << "Some log event of type " << level_name(l->logLevel()) << " occured";
     }
     cout << endl;
-    return e;
+    return true;
 }
 
 }

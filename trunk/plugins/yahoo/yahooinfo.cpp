@@ -54,7 +54,7 @@ void YahooInfo::apply()
         data = &m_client->data.owner;
 }
 
-void *YahooInfo::processEvent(Event *e)
+bool YahooInfo::processEvent(Event *e)
 {
     if ((e->type() == eEventMessageReceived) && m_data){
         EventMessage *em = static_cast<EventMessage*>(e);
@@ -75,7 +75,7 @@ void *YahooInfo::processEvent(Event *e)
         if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void YahooInfo::fill()

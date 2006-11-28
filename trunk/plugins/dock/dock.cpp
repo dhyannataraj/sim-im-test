@@ -213,7 +213,7 @@ bool DockPlugin::isMainShow()
     return false;
 }
 
-void *DockPlugin::processEvent(Event *e)
+bool DockPlugin::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventInit:

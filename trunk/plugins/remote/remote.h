@@ -67,7 +67,7 @@ protected:
     virtual void bind_ready(unsigned short port);
     virtual bool error(const QString &err);
 
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
 #ifdef WIN32

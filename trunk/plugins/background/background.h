@@ -46,7 +46,7 @@ public:
     BackgroundPlugin(unsigned, Buffer *name);
     virtual ~BackgroundPlugin();
 protected:
-    virtual void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     PROP_STR(Background);

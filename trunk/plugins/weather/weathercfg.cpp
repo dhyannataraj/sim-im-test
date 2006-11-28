@@ -105,11 +105,11 @@ bool WeatherCfg::done(unsigned, Buffer &data, const QString&)
     return false;
 }
 
-void *WeatherCfg::processEvent(Event *e)
+bool WeatherCfg::processEvent(Event *e)
 {
     if (e->type() == m_plugin->EventWeather)
         fill();
-    return NULL;
+    return false;
 }
 
 void WeatherCfg::fill()

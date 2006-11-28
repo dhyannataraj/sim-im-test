@@ -113,7 +113,7 @@ WeatherPlugin::WeatherPlugin(unsigned base, bool bInit, Buffer *config)
     load_data(weatherData, &data, config);
     BarWeather = registerType();
     CmdWeather = registerType();
-    EventWeather = registerType();
+    EventWeather = (SIM::SIMEvent)registerType();
     m_icons = getIcons()->addIconSet("icons/weather.jisp", true);
     EventToolbar(BarWeather, EventToolbar::eAdd).process();
 
@@ -171,7 +171,7 @@ void WeatherPlugin::timeout()
     fetch(url);
 }
 
-void *WeatherPlugin::processEvent(Event *e)
+bool WeatherPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventLanguageChanged)
         updateButton();
@@ -184,10 +184,10 @@ void *WeatherPlugin::processEvent(Event *e)
             QString url = "http://www.weather.com/outlook/travel/local/";
             url += getID();
             EventGoURL(url).process();
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)

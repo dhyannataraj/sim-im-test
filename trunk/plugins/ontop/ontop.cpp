@@ -99,7 +99,7 @@ OnTopPlugin::~OnTopPlugin()
     free_data(onTopData, &data);
 }
 
-void *OnTopPlugin::processEvent(Event *e)
+bool OnTopPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventInit)
         setState();
@@ -110,7 +110,7 @@ void *OnTopPlugin::processEvent(Event *e)
         if (cmd->id == CmdOnTop){
             setOnTop(!getOnTop());
             setState();
-            return cmd;
+            return true;
         }
     } else
     if (e->type() == eEventCheckState){
@@ -121,7 +121,7 @@ void *OnTopPlugin::processEvent(Event *e)
             cmd->flags &= ~COMMAND_CHECKED;
             if (getOnTop())
                 cmd->flags |= COMMAND_CHECKED;
-            return cmd;
+            return true;
         }
     }
 #ifdef WIN32
@@ -174,10 +174,10 @@ void *OnTopPlugin::processEvent(Event *e)
                 }
             }
         }
-        return (void*)1;
+        return true;
     }
 #endif
-    return NULL;
+    return false;
 }
 
 std::string OnTopPlugin::getConfig()

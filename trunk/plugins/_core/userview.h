@@ -67,7 +67,7 @@ protected:
     virtual int heightItem(UserViewItemBase *base);
     virtual unsigned getUnread(unsigned contact_id);
     virtual bool getMenu(QListViewItem *item, unsigned long &id, void* &param);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void paintEmptyArea(QPainter *p, const QRect &r);
     bool eventFilter(QObject *obj, QEvent *e);
     void setGroupMode(unsigned mode, bool bFirst=false);

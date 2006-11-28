@@ -48,7 +48,7 @@ protected slots:
     void textChanged();
     void panelDestroyed();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     MsgEdit		*m_edit;
     SMSPanel	*m_panel;
     unsigned	m_id;

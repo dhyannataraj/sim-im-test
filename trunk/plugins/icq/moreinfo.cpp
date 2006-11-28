@@ -60,7 +60,7 @@ void MoreInfo::apply()
 {
 }
 
-void *MoreInfo::processEvent(Event *e)
+bool MoreInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

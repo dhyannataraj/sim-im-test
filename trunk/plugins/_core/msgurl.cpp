@@ -101,7 +101,7 @@ void MsgUrl::urlChanged(const QString &str)
     EventCommandDisabled(cmd).process();
 }
 
-void *MsgUrl::processEvent(Event *e)
+bool MsgUrl::processEvent(Event *e)
 {
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);

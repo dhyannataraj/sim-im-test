@@ -72,7 +72,7 @@ void InterestsInfo::apply(Client *client, void *_data)
     data->Interests.str() = res;
 }
 
-void *InterestsInfo::processEvent(Event *e)
+bool InterestsInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

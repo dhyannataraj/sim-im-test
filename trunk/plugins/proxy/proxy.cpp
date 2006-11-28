@@ -1202,7 +1202,7 @@ static QObject *findObject(QObject *w, const char *className)
     return res;
 }
 
-void *ProxyPlugin::processEvent(Event *e)
+bool ProxyPlugin::processEvent(Event *e)
 {
     switch (e->type()) {
     case eEventSocketConnect: {
@@ -1210,7 +1210,7 @@ void *ProxyPlugin::processEvent(Event *e)
         list<Proxy*>::iterator it;
         for (it = proxies.begin(); it != proxies.end(); ++it){
             if ((*it)->getNotify() == esc->socket())
-                return NULL;
+                return false;
         }
         ProxyData data;
         clientData(esc->client(), data);
@@ -1232,7 +1232,7 @@ void *ProxyPlugin::processEvent(Event *e)
         }
         if (proxy){
             proxy->setSocket(esc->socket());
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -1250,20 +1250,20 @@ void *ProxyPlugin::processEvent(Event *e)
             break;
         }
         if (listener)
-            return (void*)1;
+            return true;
         break;
     }
     case eEventRaiseWindow: {
         EventRaiseWindow *win = static_cast<EventRaiseWindow*>(e);
         QWidget *w = win->widget();
         if (!w || !w->inherits("NewProtocol"))
-            return NULL;
+            return false;
         NewProtocol *p = static_cast<NewProtocol*>(w);
         if (p->m_client->protocol()->description()->flags & PROTOCOL_NOPROXY)
-            return NULL;
+            return false;
         ProxyConfig *cfg = static_cast<ProxyConfig*>(findObject(w, "ProxyConfig"));
         if (cfg)
-            return NULL;
+            return false;
         QTabWidget *tab  = static_cast<QTabWidget*>(findObject(w, "QTabWidget"));
         if (tab){
             cfg = new ProxyConfig(tab, this, tab, p->m_client);
@@ -1280,14 +1280,14 @@ void *ProxyPlugin::processEvent(Event *e)
                 msg = i18n(data.err_str).arg(data.args);
             ProxyError *err = new ProxyError(this, static_cast<TCPClient*>(data.client), msg);
             raiseWindow(err);
-            return(void*)1;
+            return true;
         }
         break;
     }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 string ProxyPlugin::getConfig()

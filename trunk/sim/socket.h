@@ -213,7 +213,7 @@ protected:
     virtual void	connect_ready();
     virtual bool	error_state(const QString &err, unsigned code);
     virtual void	socketConnect();
-    virtual void	*processEvent(Event*);
+    virtual bool    processEvent(Event *e);
     virtual Socket  *createSocket();
     void			setClientStatus(unsigned status);
     ClientSocket	*m_socket;

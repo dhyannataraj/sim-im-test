@@ -398,7 +398,7 @@ std::string GpgPlugin::getConfig()
     return res;
 }
 
-void *GpgPlugin::processEvent(Event *e)
+bool GpgPlugin::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventCheckState:{
@@ -898,7 +898,7 @@ void MsgGPGKey::exportReady()
     m_process = 0;
 }
 
-void *MsgGPGKey::processEvent(Event *e)
+bool MsgGPGKey::processEvent(Event *e)
 {
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);

@@ -158,7 +158,7 @@ bool UpdatePlugin::done(unsigned, Buffer&, const QString &headers)
     return false;
 }
 
-void *UpdatePlugin::processEvent(Event *e)
+bool UpdatePlugin::processEvent(Event *e)
 {
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
@@ -168,10 +168,10 @@ void *UpdatePlugin::processEvent(Event *e)
             setTime(time(NULL));
             m_url = QString::null;
             EventSaveState().process();
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 QString UpdatePlugin::getHeader(const QString &name, const QString &headers)

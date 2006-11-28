@@ -303,7 +303,7 @@ void CommonStatus::checkInvisible()
     }
 }
 
-void *CommonStatus::processEvent(Event *e)
+bool CommonStatus::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventClientChanged:
@@ -315,7 +315,7 @@ void *CommonStatus::processEvent(Event *e)
             const EventError::ClientErrorData &data = ee->data();
             for (list<BalloonItem>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
                 if ((*it).id == data.id)
-                    return (void*)1;
+                    return true;
             }
             BalloonItem item;
             item.id     = data.id;
@@ -364,7 +364,7 @@ void *CommonStatus::processEvent(Event *e)
                 EventShowError eShow(data);
                 eShow.process();
             }
-            return (void*)1;
+            return true;
         }
     case eEventClientStatus:
     case eEventSocketActive:
@@ -372,9 +372,8 @@ void *CommonStatus::processEvent(Event *e)
         setBarStatus();
         break;
     case eEventClientsChanged:{
-            unsigned i;
-            bool bCommon		  = false;
-            for (i = 0; i < getContacts()->nClients(); i++){
+            bool bCommon = false;
+            for (unsigned i = 0; i < getContacts()->nClients(); i++){
                 Client *client = getContacts()->getClient(i);
                 if (client->getCommonStatus())
                     bCommon = true;
@@ -400,7 +399,7 @@ void *CommonStatus::processEvent(Event *e)
                     }else{
                         def->flags &= ~COMMAND_CHECKED;
                     }
-                    return (void*)1;
+                    return true;
                 }
                 Client *client = getContacts()->getClient(0);
                 if (client == NULL)
@@ -422,7 +421,7 @@ void *CommonStatus::processEvent(Event *e)
                 }else{
                     def->flags &= ~COMMAND_CHECKED;
                 }
-                return (void*)1;
+                return true;
             }
             return 0;
         }
@@ -435,7 +434,7 @@ void *CommonStatus::processEvent(Event *e)
                     for (unsigned i = 0; i < getContacts()->nClients(); i++){
                         getContacts()->getClient(i)->setInvisible(CorePlugin::m_plugin->getInvisible());
                     }
-                    return (void*)1;
+                    return true;
                 }
                 Client *client = getContacts()->getClient(0);
                 if (client == NULL)
@@ -447,10 +446,9 @@ void *CommonStatus::processEvent(Event *e)
                         curStatus = d;
                 }
                 if (curStatus == NULL)
-                    return 0;
-                unsigned i;
+                    return false;
                 bool bOfflineStatus = false;
-                for (i = 0; i < getContacts()->nClients(); i++){
+                for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->getCommonStatus() &&
                             (client->protocol()->description()->flags & PROTOCOL_AR_OFFLINE)){
@@ -465,21 +463,21 @@ void *CommonStatus::processEvent(Event *e)
                     if (noShow.isEmpty()){
                         AutoReplyDialog dlg(def->id);
                         if (!dlg.exec())
-                            return (void*)1;
+                            return true;
                     }
                 }
                 CorePlugin::m_plugin->setManualStatus(def->id);
-                for (i = 0; i < getContacts()->nClients(); i++){
+                for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->getCommonStatus())
                         client->setStatus(def->id, true);
                 }
-                return (void*)1;
+                return true;
             }
             break;
         }
     }
-    return NULL;
+    return false;
 }
 
 void CommonStatus::showBalloon()

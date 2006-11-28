@@ -27,7 +27,7 @@ class SplashPlugin : public SIM::Plugin, public SIM::EventReceiver
 public:
     SplashPlugin(unsigned base, bool bStart);
     virtual ~SplashPlugin();
-    virtual void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
 protected:
     QWidget *splash;
     bool m_bStart;

@@ -95,7 +95,7 @@ protected:
     QObject  *m_processor;
     QObject	 *m_recvProcessor;
     unsigned m_type;
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void resizeEvent(QResizeEvent*);
     void stopSend(bool bCheck=true);
     void showCloseSend(bool bShow);

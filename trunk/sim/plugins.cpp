@@ -94,7 +94,7 @@ public:
     PluginManagerPrivate(int argc, char **argv);
     ~PluginManagerPrivate();
 protected:
-    void *processEvent(Event *e);
+    virtual bool processEvent(Event *e);
 
     bool findParam(EventArg *a);
     void usage(const QString &);
@@ -283,12 +283,12 @@ PluginManagerPrivate::~PluginManagerPrivate()
     XSL::cleanup();
 }
 
-void *PluginManagerPrivate::processEvent(Event *e)
+bool PluginManagerPrivate::processEvent(Event *e)
 {
     switch (e->type()){
 	case eEventArg: {
         EventArg *a = static_cast<EventArg*>(e);
-        return (void*)findParam(a);
+        return findParam(a);
 	}
     case eEventGetPluginInfo: {
         EventGetPluginInfo *info = static_cast<EventGetPluginInfo*>(e);
@@ -296,31 +296,31 @@ void *PluginManagerPrivate::processEvent(Event *e)
             info->setInfo(getInfo(info->idx()));
         else
             info->setInfo(getInfo(info->pluginName()));
-        return (void*)1;
+        return true;
     }
     case eEventApplyPlugin: {
         EventApplyPlugin *p = static_cast<EventApplyPlugin*>(e);
-        return (void*)setInfo(p->pluginName());
+        return setInfo(p->pluginName());
     }
     case eEventPluginsUnload: {
         EventPluginsUnload *p = static_cast<EventPluginsUnload*>(e);
         release_all(p->plugin());
-        return (void*)1;
+        return true;
     }
     case eEventPluginsLoad: {
         EventPluginsLoad *p = static_cast<EventPluginsLoad*>(e);
         load_all(p);
-        return (void*)1;
+        return true;
     }
     case eEventUnloadPlugin: {
         EventUnloadPlugin *p = static_cast<EventUnloadPlugin*>(e);
         release(p->pluginName());
-        return (void*)1;
+        return true;
     }
     case eEventLoadPlugin: {
         EventLoadPlugin *p = static_cast<EventLoadPlugin*>(e);
         load(p->pluginName());
-        return (void*)1;
+        return true;
     }
     case eEventSaveState:
         saveState();
@@ -328,19 +328,19 @@ void *PluginManagerPrivate::processEvent(Event *e)
     case eEventGetArgs: {
         EventGetArgs *ga = static_cast<EventGetArgs*>(e);
         ga->setArgs(qApp->argc(), qApp->argv());
-        return (void*)1;
+        return true;
     }
 #ifndef WIN32
     case eEventExec: {
         EventExec *exec = static_cast<EventExec*>(e);
         exec->setPid(execute(exec->cmd(), exec->args()));
-        return (void*)1;
+        return true;
     }
 #endif
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 pluginInfo *PluginManagerPrivate::getInfo(const QString &name)

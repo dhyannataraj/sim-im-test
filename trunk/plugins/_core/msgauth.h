@@ -33,7 +33,7 @@ public:
 protected slots:
     void init();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     QString     m_client;
     unsigned    m_type;
     MsgEdit    *m_edit;

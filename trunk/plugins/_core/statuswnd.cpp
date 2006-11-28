@@ -169,7 +169,7 @@ void StatusFrame::mousePressEvent(QMouseEvent *me)
     }
 }
 
-void *StatusFrame::processEvent(Event *e)
+bool StatusFrame::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventSocketActive:{

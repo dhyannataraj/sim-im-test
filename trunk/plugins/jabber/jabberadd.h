@@ -68,7 +68,7 @@ protected slots:
     void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
     void createContact(unsigned tmpFlags, SIM::Contact *&contact);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void setBrowser(bool bBrowser);
     void showEvent(QShowEvent*);
     void startSearch();

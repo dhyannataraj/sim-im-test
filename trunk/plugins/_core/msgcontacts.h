@@ -38,7 +38,7 @@ protected slots:
     void editFinished();
     void listFinished();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     UserList   *m_list;
     MsgEdit    *m_edit;
     QString     m_client;

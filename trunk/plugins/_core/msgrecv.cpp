@@ -73,7 +73,7 @@ MsgReceived::MsgReceived(MsgEdit *parent, Message *msg, bool bOpen)
     }
 }
 
-void *MsgReceived::processEvent(Event *e)
+bool MsgReceived::processEvent(Event *e)
 {
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
@@ -93,7 +93,7 @@ void *MsgReceived::processEvent(Event *e)
                             c.param = msg;
                             m_edit->execCommand(&c);
                         }
-                        return (void*)1;
+                        return true;
                     }
                 }
             }
@@ -106,7 +106,7 @@ void *MsgReceived::processEvent(Event *e)
                     c.param = msg;
                     m_edit->execCommand(&c);
                 }
-                return (void*)1;
+                return true;
             }
         }
     } else
@@ -132,7 +132,7 @@ void *MsgReceived::processEvent(Event *e)
                             if (m_msg == NULL)
                                 delete msg;
                         }
-                        return (void*)1;
+                        return true;
                     }
                 }
                 MessageDef *mdef = NULL;
@@ -157,18 +157,18 @@ void *MsgReceived::processEvent(Event *e)
                             }else{
                                 cmd->flags &= ~BTN_HIDE;
                             }
-                            return (void*)1;
+                            return true;
                         }
                     }
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdMsgAnswer){
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
                 if (CorePlugin::m_plugin->getContainerMode() == 0)
                     cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             }
 
             if (m_bOpen){
@@ -179,13 +179,13 @@ void *MsgReceived::processEvent(Event *e)
                 case CmdSendClose:
                     e->process(this);
                     cmd->flags |= BTN_HIDE;
-                    return (void*)1;
+                    return true;
                 case CmdNextMessage:
                     e->process(this);
                     cmd->flags |= BTN_HIDE;
                     if (CorePlugin::m_plugin->getContainerMode() == 0)
                         cmd->flags &= ~BTN_HIDE;
-                    return (void*)1;
+                    return true;
                 }
             }
         }
@@ -196,7 +196,7 @@ void *MsgReceived::processEvent(Event *e)
         if (msg->id() == m_id)
             QTimer::singleShot(0, m_edit, SLOT(goNext()));
     }
-    return NULL;
+    return false;
 }
 
 void MsgReceived::init()

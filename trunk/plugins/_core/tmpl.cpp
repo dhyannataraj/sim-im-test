@@ -43,7 +43,7 @@ Tmpl::~Tmpl()
 {
 }
 
-void *Tmpl::processEvent(Event *e)
+bool Tmpl::processEvent(Event *e)
 {
     if (e->type() == eEventTemplateExpand){
         EventTemplate *et = static_cast<EventTemplate*>(e);

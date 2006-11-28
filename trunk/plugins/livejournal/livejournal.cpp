@@ -1014,7 +1014,7 @@ bool LiveJournalClient::done(unsigned code, Buffer &data, const QString &)
     return false;
 }
 
-void *LiveJournalClient::processEvent(Event *e)
+bool LiveJournalClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
     if (e->type() == eEventOpenMessage){

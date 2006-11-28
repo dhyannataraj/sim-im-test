@@ -39,7 +39,7 @@ public slots:
     void deleteVisibleItem(QListViewItem *item);
     void deleteInvisibleItem(QListViewItem *item);
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     void setListView(ListView*);
     void fillListView(ListView *lst, SIM::Data ICQUserData::* field);

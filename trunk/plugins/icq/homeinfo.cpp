@@ -60,7 +60,7 @@ void HomeInfo::apply(Client *client, void *_data)
     data->Country.asULong() = getComboValue(cmbCountry, getCountries());
 }
 
-void *HomeInfo::processEvent(Event *e)
+bool HomeInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

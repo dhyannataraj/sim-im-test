@@ -68,7 +68,7 @@ protected:
 #ifdef WIN32
     virtual bool winEvent(MSG *msg);
 #endif
-    virtual void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void  reset();
     bool  bNoToggle;
     QString m_tip;

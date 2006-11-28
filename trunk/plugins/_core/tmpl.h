@@ -40,7 +40,7 @@ protected:
         bool			bReady;
         QString			res;
     };
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     bool process(TmplExpand*);
     QString process(TmplExpand*, const QString &str);
     bool getTag(const QString &name, void *data, const SIM::DataDef *def, QString &res);

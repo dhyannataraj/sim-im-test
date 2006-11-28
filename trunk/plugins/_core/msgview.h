@@ -57,7 +57,7 @@ protected slots:
     void		update();
 protected:
     virtual		QPopupMenu *createPopupMenu( const QPoint& pos );
-    void		*processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void		setBackground(unsigned start);
     void		setSource(const QString&);
     void		setColors();
@@ -81,7 +81,7 @@ public:
 protected slots:
     void		init();
 protected:
-    void		*processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
 };
 
 #endif

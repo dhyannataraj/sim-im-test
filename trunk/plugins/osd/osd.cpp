@@ -572,7 +572,7 @@ void OSDPlugin::dblClick()
     m_timer->start(100);
 }
 
-void *OSDPlugin::processEvent(Event *e)
+bool OSDPlugin::processEvent(Event *e)
 {
     OSDRequest osd;
     switch (e->type()){
@@ -668,11 +668,11 @@ void *OSDPlugin::processEvent(Event *e)
                 break;
             case STATUS_ONLINE:
                 osd.type = OSD_NONE;
-                return NULL;
+                return false;
             default:
                 log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
                 osd.type = OSD_NONE;
-                return NULL;
+                return false;
             }
             queue.push_back(osd);
             processQueue();
@@ -723,7 +723,7 @@ void *OSDPlugin::processEvent(Event *e)
                 break;
             case STATUS_ONLINE:
                 osd.type = OSD_NONE;
-                return NULL;
+                return false;
             default:
                 log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
                 osd.type = OSD_NONE;
@@ -747,7 +747,7 @@ void *OSDPlugin::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

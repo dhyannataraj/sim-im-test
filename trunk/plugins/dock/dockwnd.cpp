@@ -838,7 +838,7 @@ void DockWnd::dbl_click()
     emit doubleClicked();
 }
 
-void *DockWnd::processEvent(Event *e)
+bool DockWnd::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventMessageReceived:

@@ -196,11 +196,11 @@ void ProxyConfig::clientChanged(int)
         fill(&m_data[m_current]);
 }
 
-void *ProxyConfig::processEvent(Event *e)
+bool ProxyConfig::processEvent(Event *e)
 {
     if ((m_client == NULL) && (e->type() == eEventClientsChanged))
         fillClients();
-    return NULL;
+    return false;
 }
 
 void ProxyConfig::fillClients()

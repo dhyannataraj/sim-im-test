@@ -183,7 +183,7 @@ CommandsDef *Commands::getDef(unsigned id)
     return (*it).second.def;
 }
 
-void *Commands::processEvent(Event *e)
+bool Commands::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventPluginsUnload:
@@ -202,7 +202,7 @@ void *Commands::processEvent(Event *e)
                 removeBar(et->id());
                 break;
         }
-        return(void*)1;
+        return true;
     }
     case eEventMenu: {
         EventMenu *em = static_cast<EventMenu*>(e);
@@ -217,27 +217,27 @@ void *Commands::processEvent(Event *e)
                 customizeMenu(em->id());
                 break;
         }
-        return (void*)1;
+        return true;
     }
     case eEventMenuGet: {
         EventMenuGet *egm = static_cast<EventMenuGet*>(e);
         egm->setMenu(get(egm->def()));
-        return (void*)1;
+        return true;
     }
     case eEventMenuGetDef: {
         EventMenuGetDef *mgd = static_cast<EventMenuGetDef*>(e);
         mgd->setCommandsDef(getDef(mgd->id()));
-        return (void*)1;
+        return true;
     }
     case eEventMenuProcess: {
         EventMenuProcess *emp = static_cast<EventMenuProcess*>(e);
         emp->setMenu(processMenu(emp->id(), emp->param(), emp->key()));
-        return emp->menu();
+        return true;
     }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 bool Commands::eventFilter(QObject *o, QEvent *e)

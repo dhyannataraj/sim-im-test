@@ -47,7 +47,7 @@ void MSNInfo::apply()
 {
 }
 
-void *MSNInfo::processEvent(Event *e)
+bool MSNInfo::processEvent(Event *e)
 {
     if ((e->type() == eEventMessageReceived) && m_data){
         EventMessage *em = static_cast<EventMessage*>(e);
@@ -68,7 +68,7 @@ void *MSNInfo::processEvent(Event *e)
         if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 void MSNInfo::fill()

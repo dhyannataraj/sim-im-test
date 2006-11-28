@@ -110,7 +110,7 @@ protected slots:
     void closeClick();
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void processQueue();
     OSDRequest			m_request;
     std::list<OSDRequest>	queue;

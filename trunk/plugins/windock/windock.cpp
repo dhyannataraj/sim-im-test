@@ -392,7 +392,7 @@ void WinDockPlugin::uninit()
 }
 
 
-void *WinDockPlugin::processEvent(Event *e)
+bool WinDockPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
@@ -402,7 +402,7 @@ void *WinDockPlugin::processEvent(Event *e)
             bAutoHideVisible = true;
             setBarState();
             enableAutoHide(getAutoHide());
-            return cmd;
+            return true;
         }
     } else
     if (e->type() == eEventCheckState){
@@ -412,7 +412,7 @@ void *WinDockPlugin::processEvent(Event *e)
             cmd->flags &= ~COMMAND_CHECKED;
             if (dock->getAutoHide())
                 cmd->flags |= COMMAND_CHECKED;
-            return cmd;
+            return true;
         }
     } else
     if ((e->type() == eEventInit) && !m_bInit)
@@ -421,10 +421,10 @@ void *WinDockPlugin::processEvent(Event *e)
         EventInTaskManager *eitm = static_cast<EventInTaskManager*>(e);
         if ((dock->getState() != ABE_FLOAT) && eitm->showInTaskmanager()){
             EventInTaskManager(false).process();
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void WinDockPlugin::init()

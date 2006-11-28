@@ -44,7 +44,7 @@ protected slots:
     void fill();
     void next();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void resizeEvent(QResizeEvent*);
     void setName();
     void addHistory(const QString &str);

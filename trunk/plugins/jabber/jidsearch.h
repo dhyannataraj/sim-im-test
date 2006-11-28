@@ -45,7 +45,7 @@ protected slots:
     void searchStop();
     void createContact(const QString&, unsigned tmpFlags, SIM::Contact *&contact);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void showEvent(QShowEvent*);
     QString	 m_search_id;
     QString	 m_type;

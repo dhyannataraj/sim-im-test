@@ -61,7 +61,7 @@ void SecureDlg::start()
     }
 }
 
-void *SecureDlg::processEvent(Event *e)
+bool SecureDlg::processEvent(Event *e)
 {
     switch(e->type()) {
     case eEventContact: {

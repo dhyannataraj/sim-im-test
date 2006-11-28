@@ -61,13 +61,13 @@ public:
     PROP_STR(FileDone);
     PROP_STR(MessageSent);
     unsigned long CmdSoundDisable;
-    unsigned EventSoundChanged;
+    SIM::SIMEvent EventSoundChanged;
 protected slots:
     void checkSound();
     void childExited(int, int);
 protected:
     unsigned long user_data_id;
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     QString fullName(const QString &name);

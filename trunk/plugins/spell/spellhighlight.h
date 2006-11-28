@@ -50,7 +50,7 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &options);
     virtual void tag_end(const QString &tag);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void flush();
     void flushText();
     int m_pos;

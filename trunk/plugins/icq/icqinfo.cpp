@@ -127,7 +127,7 @@ void ICQInfo::apply(Client *client, void *_data)
     data->Nick.str()      = edtNick->text();
 }
 
-void *ICQInfo::processEvent(Event *e)
+bool ICQInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

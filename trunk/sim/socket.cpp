@@ -292,14 +292,14 @@ TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority)
     connect(m_loginTimer, SIGNAL(timeout()), this, SLOT(loginTimeout()));
 }
 
-void *TCPClient::processEvent(Event *e)
+bool TCPClient::processEvent(Event *e)
 {
     if (e->type() == eEventSocketActive){
 		EventSocketActive *s = static_cast<EventSocketActive*>(e);
         if (m_bWaitReconnect && s->active())
             reconnect();
     }
-    return NULL;
+    return false;
 }
 
 void TCPClient::resolve_ready(unsigned long ip)

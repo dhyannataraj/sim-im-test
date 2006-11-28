@@ -41,7 +41,7 @@ protected slots:
     void updateInfo();
 protected:
     virtual void accept();
-    virtual void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event*);
     void resizeEvent(QResizeEvent*);
     void setTitle();
     void fill();

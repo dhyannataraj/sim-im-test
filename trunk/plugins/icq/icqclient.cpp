@@ -2236,7 +2236,7 @@ void ICQClient::fetchAwayMessage(ICQUserData *data)
     addPluginInfoRequest(data->Uin.toULong(), PLUGIN_AR);
 }
 
-void *ICQClient::processEvent(Event *e)
+bool ICQClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
     switch (e->type()) {

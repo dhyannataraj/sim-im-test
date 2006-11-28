@@ -1307,7 +1307,7 @@ bool MSNClient::done(unsigned code, Buffer&, const QString &headers)
     return false;
 }
 
-void *MSNClient::processEvent(Event *e)
+bool MSNClient::processEvent(Event *e)
 {
     TCPClient::processEvent(e);
     switch(e->type()) {

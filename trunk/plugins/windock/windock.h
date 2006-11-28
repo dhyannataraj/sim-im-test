@@ -52,7 +52,7 @@ protected slots:
     void slotSetState();
     void slotAutoHide();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual bool eventFilter(QObject*, QEvent*);
     virtual std::string getConfig();
     QWidget *getMainWindow();

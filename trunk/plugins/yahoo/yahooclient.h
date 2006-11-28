@@ -180,7 +180,7 @@ public:
 protected slots:
     void ping();
 protected:
-    void	*processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void	setStatus(unsigned status);
     virtual void setInvisible(bool bState);
     void	disconnected();

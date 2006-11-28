@@ -141,17 +141,17 @@ void NetmonitorPlugin::showMonitor()
     raiseWindow(monitor);
 }
 
-void *NetmonitorPlugin::processEvent(Event *e)
+bool NetmonitorPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if (cmd->id == CmdNetMonitor){
             showMonitor();
-            return monitor;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void NetmonitorPlugin::finished()

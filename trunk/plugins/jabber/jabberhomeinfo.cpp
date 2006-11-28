@@ -54,7 +54,7 @@ int str_cmp(const char *s1, const char *s2)
     return strcmp(s1, s2);
 }
 
-void *JabberHomeInfo::processEvent(Event *e)
+bool JabberHomeInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

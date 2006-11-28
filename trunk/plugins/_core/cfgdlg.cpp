@@ -540,7 +540,7 @@ void ConfigureDialog::apply()
     e.process();
 }
 
-void *ConfigureDialog::processEvent(Event *e)
+bool ConfigureDialog::processEvent(Event *e)
 {
     if (e->type() == eEventLanguageChanged)
         bLanguageChanged = true;
@@ -573,7 +573,7 @@ void *ConfigureDialog::processEvent(Event *e)
             }
         }
     }
-    return NULL;
+    return false;
 }
 
 void ConfigureDialog::setTitle()

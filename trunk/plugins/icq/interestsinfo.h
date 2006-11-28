@@ -35,7 +35,7 @@ public slots:
     void apply(SIM::Client*, void*);
     void cmbChanged(int);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     QString getInfo(QComboBox *cmb, QLineEdit *edt);
     ICQUserData *m_data;

@@ -59,7 +59,7 @@ protected:
     virtual bool eventFilter(QObject*, QEvent*);
     QWidget *getMainWindow();
     bool    m_bState;
-    virtual void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
 #ifdef WIN32
     unsigned startTime;
     QTimer   *timer;

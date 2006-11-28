@@ -36,7 +36,7 @@ public slots:
     void apply(SIM::Client*, void*);
     void goUrl();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     ICQUserData *m_data;
     unsigned m_contact;

@@ -297,12 +297,12 @@ void AutoAwayPlugin::timeout()
     EventClientStatus().process();
 }
 
-void *AutoAwayPlugin::processEvent(Event *e)
+bool AutoAwayPlugin::processEvent(Event *e)
 {
     switch (e->type()) {
     case eEventPlaySound: {
         if (getDisableAlert() && (bAway || bNA || bOff))
-            return (void*)1;
+            return true;
         break;
     }
     case eEventContact: {
@@ -320,13 +320,13 @@ void *AutoAwayPlugin::processEvent(Event *e)
         if ((commonStatus == STATUS_ONLINE) || (commonStatus == STATUS_OFFLINE))
             return NULL;
         if (getDisableAlert() && (bAway || bNA || bOff))
-            return (void*)commonStatus;
+            return true;
         break;
     }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 unsigned AutoAwayPlugin::getIdleTime()

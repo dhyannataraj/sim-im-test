@@ -82,7 +82,7 @@ void ICQPicture::apply(Client *client, void *_data)
     }
 }
 
-void *ICQPicture::processEvent(Event *e)
+bool ICQPicture::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

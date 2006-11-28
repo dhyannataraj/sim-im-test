@@ -80,7 +80,7 @@ protected:
     QWidget		*m_current;
     QWidget		*m_currentResult;
     QWidget		*m_active;
-    void		*processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void		resizeEvent(QResizeEvent*);
     void		moveEvent(QMoveEvent*);
     void		closeEvent(QCloseEvent*);

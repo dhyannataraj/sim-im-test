@@ -73,7 +73,7 @@ public:
     unsigned ProxyErr;
     QString clientName(SIM::TCPClient *client);
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual std::string getConfig();
 };

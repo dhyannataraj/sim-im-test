@@ -135,7 +135,7 @@ std::string FilterPlugin::getConfig()
     return save_data(filterData, &data);
 }
 
-void *FilterPlugin::processEvent(Event *e)
+bool FilterPlugin::processEvent(Event *e)
 {
     switch (e->type()) {
     case eEventContact: {

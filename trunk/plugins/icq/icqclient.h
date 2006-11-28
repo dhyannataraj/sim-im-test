@@ -613,7 +613,7 @@ protected:
     virtual void setStatus(unsigned status, bool bCommon);
     virtual void setStatus(unsigned status);
     virtual void disconnected();
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual bool compareData(void*, void*);
     virtual void contactInfo(void *_data, unsigned long &status, unsigned &style, QString &statusIcon, QString *icons = NULL);
     virtual bool send(SIM::Message*, void*);

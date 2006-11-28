@@ -769,7 +769,7 @@ void MsgViewBase::reload()
     }
 }
 
-void *MsgViewBase::processEvent(Event *e)
+bool MsgViewBase::processEvent(Event *e)
 {
     if ((e->type() == eEventRewriteMessage) || (e->type() == eEventMessageRead)){
         EventMessage *em = static_cast<EventMessage*>(e);
@@ -1090,7 +1090,7 @@ void *MsgViewBase::processEvent(Event *e)
                 c->menu_id = MenuMsgCommand;
                 c->param = msg;
                 EventCommandExec e(c);
-                void *res = e.process();
+                bool res = e.process();
                 delete msg;
                 return res;
             }
@@ -1185,7 +1185,7 @@ void MsgView::init()
     scrollToBottom();
 }
 
-void *MsgView::processEvent(Event *e)
+bool MsgView::processEvent(Event *e)
 {
     if ((e->type() == eEventSent) || (e->type() == eEventMessageReceived)){
         EventMessage *em = static_cast<EventMessage*>(e);

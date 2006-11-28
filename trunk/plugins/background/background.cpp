@@ -84,7 +84,7 @@ QWidget *BackgroundPlugin::createConfigWindow(QWidget *parent)
     return new BkgndCfg(parent, this);
 }
 
-void *BackgroundPlugin::processEvent(Event *e)
+bool BackgroundPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventPaintView){
         EventPaintView *ev = static_cast<EventPaintView*>(e);

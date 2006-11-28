@@ -100,11 +100,11 @@ void ZodiakPlugin::createLabel(DatePicker *picker)
     p.label->show();
 }
 
-void *ZodiakPlugin::processEvent(Event *e)
+bool ZodiakPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventQuit)
         m_pickers.clear();
-    return NULL;
+    return false;
 }
 
 bool ZodiakPlugin::eventFilter(QObject *o, QEvent *e)

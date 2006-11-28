@@ -45,7 +45,7 @@ protected slots:
     void emptyChanged(bool bEmpty);
     void removeRecord(void*);
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void		send(const QString&);
     QString         m_client;
     unsigned        m_ID;

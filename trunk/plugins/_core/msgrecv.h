@@ -32,7 +32,7 @@ public:
 public slots:
     void init();
 protected:
-    void           *processEvent(SIM::Event*);
+    virtual bool    processEvent(SIM::Event*);
     unsigned        m_type;
     unsigned        m_id;
     unsigned        m_contact;

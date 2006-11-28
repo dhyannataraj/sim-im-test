@@ -204,7 +204,7 @@ QString HomeDirPlugin::buildFileName(const QString &name)
     return QDir::convertSeparators(s);
 }
 
-void *HomeDirPlugin::processEvent(Event *e)
+bool HomeDirPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventHomeDir){
         EventHomeDir *homedir = static_cast<EventHomeDir*>(e);

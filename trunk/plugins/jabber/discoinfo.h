@@ -46,7 +46,7 @@ protected:
     QString m_name;
     QString m_type;
     QString m_category;
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void resizeEvent(QResizeEvent*);
     void setTitle();
     bool m_bTime;

@@ -28,7 +28,7 @@ public:
     ~DeclineDlg();
     SIM::Message *message() { return m_msg; }
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event*);
     void accept();
     SIM::Message *m_msg;
 };

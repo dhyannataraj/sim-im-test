@@ -74,7 +74,7 @@ void JabberWizard::slotSelected(const QString&)
     m_id = m_search->m_client->process(m_search->m_jid, m_search->m_node, condition, m_type);
 }
 
-void *JabberWizard::processEvent(Event *e)
+bool JabberWizard::processEvent(Event *e)
 {
     if (e->type() == eEventAgentRegister){
         EventAgentRegister *ear = static_cast<EventAgentRegister*>(e);
@@ -285,7 +285,7 @@ void JabberBrowser::save()
     saveToolbar(m_bar, JabberPlugin::plugin->data.browser_bar);
 }
 
-void *JabberBrowser::processEvent(Event *e)
+bool JabberBrowser::processEvent(Event *e)
 {
     if (e->type() == eEventAgentInfo){
         EventAgentInfo *eai = static_cast<EventAgentInfo*>(e);
@@ -343,11 +343,11 @@ void *JabberBrowser::processEvent(Event *e)
                     QTimer::singleShot(0, this, SLOT(showReg()));
                 }
                 m_reg_id = "";
-                return e->param();
+                return true;
             }
             if (m_reg)
                 m_reg->m_search->addWidget(data);
-            return e->param();
+            return true;
         }
         if (m_config_id == data->ReqID.str()){
             if (data->Type.str().isEmpty()){
@@ -372,11 +372,11 @@ void *JabberBrowser::processEvent(Event *e)
                     QTimer::singleShot(0, this, SLOT(showConfig()));
                 }
                 m_config_id = "";
-                return e->param();
+                return true;
             }
             if (m_config)
                 m_config->m_search->addWidget(data);
-            return e->param();
+            return true;
         }
     } else
     if (e->type() == eEventCheckState){

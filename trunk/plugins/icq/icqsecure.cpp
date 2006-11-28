@@ -109,7 +109,7 @@ void ICQSecure::fill()
     hideIpToggled(m_client->getHideIP());
 }
 
-void *ICQSecure::processEvent(Event *e)
+bool ICQSecure::processEvent(Event *e)
 {
     if (e->type() == eEventClientChanged){
         EventClientChanged *ecc = static_cast<EventClientChanged*>(e);

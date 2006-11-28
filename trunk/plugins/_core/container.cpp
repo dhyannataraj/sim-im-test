@@ -660,10 +660,10 @@ void Container::flash()
 #endif	/* ndef WIN32 */
 }
 
-void *Container::processEvent(Event *e)
+bool Container::processEvent(Event *e)
 {
     if (m_tabBar == NULL)
-        return NULL;
+        return false;
     switch (e->type()){
     case eEventMessageReceived: {
         EventMessage *em = static_cast<EventMessage*>(e);
@@ -672,10 +672,10 @@ void *Container::processEvent(Event *e)
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact)
                 contactChanged(contact);
-            return NULL;
+            return false;
         }
         if (msg->getFlags() & MESSAGE_NOVIEW)
-            return NULL;
+            return false;
         if (CorePlugin::m_plugin->getContainerMode()){
             if (isActiveWindow() && !isMinimized()){
                 UserWnd *userWnd = m_tabBar->currentWnd();
@@ -712,7 +712,7 @@ void *Container::processEvent(Event *e)
         UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd) {
             eac->setContactID(userWnd->id());
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -783,18 +783,18 @@ void *Container::processEvent(Event *e)
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id())){
             if (cmd->menu_id == MenuContainerContact){
                 m_tabBar->raiseTab(cmd->id);
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdClose){
                 delete userWnd;
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdInfo && cmd->menu_id != MenuContact){
                 CommandDef c = *cmd;
                 c.menu_id = MenuContact;
                 c.param   = (void*)userWnd->id();
                 EventCommandExec(&c).process();
-                return (void*)1;
+                return true;
             }
         }
         break;
@@ -824,14 +824,14 @@ void *Container::processEvent(Event *e)
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return (void*)1;
+            return true;
         }
         break;
     }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void Container::modeChanged()

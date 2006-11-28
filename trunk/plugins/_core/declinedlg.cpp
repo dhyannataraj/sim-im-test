@@ -44,7 +44,7 @@ void DeclineDlg::accept()
     DeclineDlgBase::accept();
 }
 
-void *DeclineDlg::processEvent(Event *e)
+bool DeclineDlg::processEvent(Event *e)
 {
     if (e->type() == eEventMessageDeleted){
         EventMessage *em = static_cast<EventMessage*>(e);
@@ -52,7 +52,7 @@ void *DeclineDlg::processEvent(Event *e)
         if (msg->id() == m_msg->id())
             close();
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

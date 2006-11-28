@@ -52,15 +52,13 @@ EventReceiver::~EventReceiver()
 /*********************
  * class Event
  *********************/
-unsigned long Event::EventCounter = 0x2000;
-
 Event::~Event()
 {
     if(!m_bProcessed)
         log(L_ERROR, "Event::~Event() without call to Event::process(), Event: %x", m_type);
 }
 
-void *Event::process(EventReceiver *from)
+bool Event::process(EventReceiver *from)
 {
     m_bProcessed = true;
 
@@ -78,7 +76,7 @@ void *Event::process(EventReceiver *from)
     for (; it != receivers->end(); ++it){
         EventReceiver *receiver = *it;
         if (receiver) {
-            void *res = receiver->processEvent(this);
+            bool res = receiver->processEvent(this);
             if (res) {
                 g_iLevel--;
                 if(g_iLevel == 0 && g_bChanged)
@@ -96,7 +94,7 @@ void *Event::process(EventReceiver *from)
     g_iLevel--;
     if(g_iLevel == 0 && g_bChanged)
         g_bChanged = false;
-    return NULL;
+    return false;
 }
 
 void EventReceiver::initList()

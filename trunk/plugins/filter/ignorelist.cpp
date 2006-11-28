@@ -43,7 +43,7 @@ IgnoreList::IgnoreList(QWidget *parent)
     }
 }
 
-void *IgnoreList::processEvent(Event *e)
+bool IgnoreList::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventContact: {

@@ -93,7 +93,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     m_bChanged = false;
 
     CmdSoundDisable   = registerType();
-    EventSoundChanged = registerType();
+    EventSoundChanged = (SIM::SIMEvent)registerType();
 
     Command cmd;
     cmd->id       = user_data_id;
@@ -157,7 +157,7 @@ QWidget *SoundPlugin::createConfigWindow(QWidget *parent)
     return new SoundConfig(parent, this);
 }
 
-void *SoundPlugin::processEvent(Event *e)
+bool SoundPlugin::processEvent(Event *e)
 {
     if(e->type() == EventSoundChanged) {
         Command cmd;
@@ -166,9 +166,9 @@ void *SoundPlugin::processEvent(Event *e)
         if (!data->Disable.toBool())
             cmd->flags |= COMMAND_CHECKED;
         m_bChanged = true;
-         EventCommandChecked(cmd).process();
+        EventCommandChecked(cmd).process();
         m_bChanged = false;
-        return NULL;
+        return false;
     }
     switch (e->type()) {
     case eEventCheckState: {
@@ -179,7 +179,7 @@ void *SoundPlugin::processEvent(Event *e)
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
             if (!data->Disable.toBool())
                 cmd->flags |= COMMAND_CHECKED;
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -191,7 +191,7 @@ void *SoundPlugin::processEvent(Event *e)
             data->Disable.asBool() = !data->Disable.toBool();
             Event eChanged(EventSoundChanged);
             eChanged.process();
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -211,7 +211,7 @@ void *SoundPlugin::processEvent(Event *e)
         Message *msg = em->msg();
         QString err = msg->getError();
         if (!err.isEmpty())
-            return NULL;
+            return false;
         QString sound;
         if (msg->type() == MessageFile){
             sound = getFileDone();
@@ -229,9 +229,9 @@ void *SoundPlugin::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->type() == MessageStatus)
-            return NULL;
+            return false;
         if (msg->getFlags() & MESSAGE_LIST)
-            return NULL;
+            return false;
         Contact *contact = getContacts()->contact(msg->contact());
         SoundUserData *data;
         if (contact){
@@ -255,12 +255,12 @@ void *SoundPlugin::processEvent(Event *e)
     case eEventPlaySound: {
         EventPlaySound *s = static_cast<EventPlaySound*>(e);
         playSound(s->sound());
-        return (void*)1;
+        return true;
     }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)

@@ -38,7 +38,7 @@ public:
 protected:
     CorePlugin	*core;
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
 };
 
 #endif

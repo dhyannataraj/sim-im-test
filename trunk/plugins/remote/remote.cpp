@@ -259,9 +259,9 @@ QWidget *RemotePlugin::createConfigWindow(QWidget *parent)
     return new RemoteConfig(parent, this);
 }
 
-void *RemotePlugin::processEvent(Event*)
+bool RemotePlugin::processEvent(Event*)
 {
-    return NULL;
+    return false;
 }
 
 static char TCP[] = "tcp:";

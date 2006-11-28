@@ -108,7 +108,7 @@ protected slots:
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual std::string getConfig();
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void registerMessage();
     void unregisterMessage();
     void askPassphrase();
@@ -134,7 +134,7 @@ protected slots:
     void init();
     void exportReady();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     QString     m_client;
     QString     m_key;
     MsgEdit     *m_edit;

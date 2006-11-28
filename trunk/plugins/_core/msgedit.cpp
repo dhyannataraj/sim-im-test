@@ -1053,7 +1053,7 @@ bool MsgEdit::adjustType()
     return bSet;
 }
 
-void *MsgEdit::processEvent(Event *e)
+bool MsgEdit::processEvent(Event *e)
 {
     switch (e->type()) {
     case eEventContact: {
@@ -1071,7 +1071,7 @@ void *MsgEdit::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->getFlags() & MESSAGE_NOVIEW)
-            return NULL;
+            return false;
         if ((msg->contact() == m_userWnd->id()) && (msg->type() != MessageStatus)){
             if (CorePlugin::m_plugin->getContainerMode()){
                 bool bSetFocus = false;
@@ -1092,7 +1092,7 @@ void *MsgEdit::processEvent(Event *e)
         EventRealSendMessage *ersm = static_cast<EventRealSendMessage*>(e);
         if (ersm->edit() == this){
             sendMessage(ersm->msg());
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -1107,47 +1107,47 @@ void *MsgEdit::processEvent(Event *e)
                     cmd->flags &= ~COMMAND_CHECKED;
                     if (data->Translit.toBool())
                         cmd->flags |= COMMAND_CHECKED;
-                    // FIXME: return (void*)1; missing here?
+                    // FIXME: return true; missing here?
                 }
             }
-            return NULL;
+            return false;
         }
         if ((cmd->menu_id != MenuTextEdit) || (cmd->param != this))
-            return NULL;
+            return false;
         cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
         switch (cmd->id){
         case CmdUndo:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
             if (!m_edit->isUndoAvailable())
                 cmd->flags |= COMMAND_DISABLED;
-            return (void*)1;
+            return true;
         case CmdRedo:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
             if (!m_edit->isRedoAvailable())
                 cmd->flags |= COMMAND_DISABLED;
-            return (void*)1;
+            return true;
         case CmdCut:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
         case CmdCopy:
             if (!m_edit->hasSelectedText())
                 cmd->flags |= COMMAND_DISABLED;
-            return (void*)1;
+            return true;
         case CmdPaste:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
             if (QApplication::clipboard()->text().isEmpty())
                 cmd->flags |= COMMAND_DISABLED;
-            return (void*)1;
+            return true;
         case CmdClear:
             if (m_edit->isReadOnly())
-                return NULL;
+                return false;
         case CmdSelectAll:
             if (m_edit->text().isEmpty())
                 cmd->flags |= COMMAND_DISABLED;
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -1158,11 +1158,11 @@ void *MsgEdit::processEvent(Event *e)
 #if KDE_IS_VERSION(3,2,0)
         if (cmd->id == CmdEnableSpell){
             m_edit->setCheckSpellingEnabled(cmd->flags & COMMAND_CHECKED);
-            return NULL;
+            return false;
         }
         if ((cmd->id == CmdSpell) && (cmd->param == this)){
             m_edit->checkSpelling();
-            return (void*)1;
+            return true;
         }
 #endif
 #endif
@@ -1179,7 +1179,7 @@ void *MsgEdit::processEvent(Event *e)
                 popup->move(p);
                 popup->show();
             }
-            return (void*)1;
+            return true;
         }
         if ((cmd->param == this) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
@@ -1187,11 +1187,11 @@ void *MsgEdit::processEvent(Event *e)
                 TranslitUserData *data = (TranslitUserData*)(contact->getUserData(CorePlugin::m_plugin->translit_data_id, true));
                 data->Translit.asBool() = ((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return (void*)1;
+            return true;
         }
         if ((cmd->id == CmdMultiply) && (cmd->param == this)){
             m_userWnd->showListView((cmd->flags & COMMAND_CHECKED) != 0);
-            return (void*)1;
+            return true;
         }
         if ((cmd->bar_id == ToolBarMsgEdit) && m_edit->isReadOnly() && (cmd->param == this)){
             switch (cmd->id){
@@ -1208,29 +1208,29 @@ void *MsgEdit::processEvent(Event *e)
             }
         }
         if ((cmd->menu_id != MenuTextEdit) || (cmd->param != this))
-            return NULL;
+            return false;
         switch (cmd->id){
         case CmdUndo:
             m_edit->undo();
-            return (void*)1;
+            return true;
         case CmdRedo:
             m_edit->redo();
-            return (void*)1;
+            return true;
         case CmdCut:
             m_edit->cut();
-            return (void*)1;
+            return true;
         case CmdCopy:
             m_edit->copy();
-            return (void*)1;
+            return true;
         case CmdPaste:
             m_edit->paste();
-            return (void*)1;
+            return true;
         case CmdClear:
             m_edit->clear();
-            return (void*)1;
+            return true;
         case CmdSelectAll:
             m_edit->selectAll();
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -1262,7 +1262,7 @@ void *MsgEdit::processEvent(Event *e)
                     m_retry.msg->setError(msg->getError());
                     EventMessageRetry e(&m_retry);
                     if (e.process())
-                        return NULL;
+                        return false;
                 }else{
                     BalloonMsg::message(err, msgWidget);
                 }
@@ -1289,7 +1289,7 @@ void *MsgEdit::processEvent(Event *e)
                         if (multiply_it == multiply.end())
                             m_msg->setFlags(m_msg->getFlags() | MESSAGE_LAST);
                         send();
-                        return NULL;
+                        return false;
                     }
                 }
                 stopSend();
@@ -1321,7 +1321,7 @@ void *MsgEdit::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void MsgEdit::setEmptyMessage()

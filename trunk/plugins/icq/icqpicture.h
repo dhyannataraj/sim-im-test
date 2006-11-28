@@ -39,7 +39,7 @@ protected slots:
     void clearPicture();
     void pictSelected(const QString&);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     void setPict(const QImage &img);
     ICQUserData	*m_data;

@@ -518,13 +518,13 @@ void ShortcutsPlugin::init()
 
 #endif
 
-void *ShortcutsPlugin::processEvent(Event *e)
+bool ShortcutsPlugin::processEvent(Event *e)
 {
 #ifdef WIN32
     if (e->type() == eEventInit){
         init();
-        return NULL;
-    }
+        return false;
+    } else
 #endif
     if (e->type() == eEventCommandCreate){
         EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
@@ -535,7 +535,7 @@ void *ShortcutsPlugin::processEvent(Event *e)
                 (cmd->menu_id == MenuGroup)){
             applyKey(cmd);
         }
-    }
+    } else
     if (e->type() == eEventCommandRemove){
         EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
         unsigned long id = ecr->id();
@@ -568,7 +568,7 @@ void *ShortcutsPlugin::processEvent(Event *e)
         if (mouseCmds.size() == 0)
             qApp->removeEventFilter(this);
     }
-    return NULL;
+    return false;
 }
 
 const char *ShortcutsPlugin::getOldKey(CommandDef *cmd)

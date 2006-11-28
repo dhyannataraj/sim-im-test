@@ -139,7 +139,7 @@ int w = style().pixelMetric(QStyle::PM_IndicatorWidth);
     item->setPixmap(COL_CHECK, pixInd);
 }
 
-void *LogConfig::processEvent(Event *e)
+bool LogConfig::processEvent(Event *e)
 {
     if ((e->type() == eEventPluginChanged) || (e->type() == eEventLanguageChanged))
         fill();

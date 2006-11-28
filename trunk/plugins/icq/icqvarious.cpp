@@ -684,8 +684,7 @@ void SearchWPRequest::fail(unsigned short)
     res.id = m_id;
     res.client = m_client;
     load_data(ICQProtocol::icqUserData, &res.data, NULL);
-    Event e(EventSearchDone, &res);
-    e.process();
+    EventSearchDone(&res).process();
     free_data(ICQProtocol::icqUserData, &res.data);
 }
 
@@ -736,8 +735,7 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     res.data.Age.asULong()    = age;
 
     if (res.data.Uin.toULong() != m_client->data.owner.Uin.toULong()){
-        Event e(EventSearch, &res);
-        e.process();
+        EventSearch(&res).process();
     }
     free_data(ICQProtocol::icqUserData, &res.data);
 
@@ -746,8 +744,7 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
         b >> all;
         load_data(ICQProtocol::icqUserData, &res.data, NULL);
         res.data.Uin.asULong() = all;
-        Event e(EventSearchDone, &res);
-        e.process();
+        EventSearchDone(&res).process();
         free_data(ICQProtocol::icqUserData, &res.data);
         return true;
     }
@@ -1764,22 +1761,25 @@ bool RandomChatRequest::answer(Buffer &b, unsigned short)
 {
     unsigned long uin;
     b.unpack(uin);
-    Event e(EventRandomChat, (void*)uin);
-    e.process();
+// currently unhandled
+//    Event e(EventRandomChat, (void*)uin);
+//    e.process();
     return true;
 }
 
 void RandomChatRequest::fail(unsigned short)
 {
-    Event e(EventRandomChat, NULL);
-    e.process();
+// currently unhandled
+//    Event e(EventRandomChat, NULL);
+//    e.process();
 }
 
 void ICQClient::searchChat(unsigned short group)
 {
     if (getState() != Connected){
-        Event e(EventRandomChat, NULL);
-        e.process();
+// currently unhandled
+//        Event e(EventRandomChat, NULL);
+//        e.process();
         return;
     }
     serverRequest(ICQ_SRVxREQ_MORE);

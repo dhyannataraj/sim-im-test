@@ -644,7 +644,7 @@ Icons::~Icons()
     delete d;
 }
 
-void *Icons::processEvent(Event *e)
+bool Icons::processEvent(Event *e)
 {
     if (e->type() == eEventIconChanged){
         QValueListIterator<IconSet*> it;
@@ -653,7 +653,7 @@ void *Icons::processEvent(Event *e)
         for (it = d->defSets.begin(); it != d->defSets.end(); ++it)
             (*it)->clear();
     }
-    return NULL;
+    return false;
 }
 
 void Icons::iconChanged(int)

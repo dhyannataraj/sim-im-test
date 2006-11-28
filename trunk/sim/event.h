@@ -57,7 +57,9 @@ class EXPORT EventReceiver
 public:
     EventReceiver(unsigned priority = DefaultPriority);
     virtual ~EventReceiver();
-    virtual void *processEvent(class Event*) { return NULL; }
+    // true  -> stop event handling
+    // false -> don't stop event handling
+    virtual bool processEvent(class Event*) { return false; }
     unsigned priority() const { return m_priority; }
     static void initList();
     static void destroyList();
@@ -155,6 +157,54 @@ enum SIMEvent
 
     eEventClientError       = 0x1301,
     eEventShowError         = 0x1302,
+
+    // for _core plugin
+    eEventCreateMessageType	= 0x1401,
+    eEventRemoveMessageType	= 0x1402,
+    eEventRealSendMessage	= 0x1403,
+    eEventHistoryConfig	    = 0x1404,
+    eEventTemplateExpand    = 0x1405,
+    eEventTemplateExpanded  = 0x1406,
+    eEventARRequest			= 0x1407,
+    eEventClientStatus		= 0x1408,
+    eEventLoadMessage		= 0x1409,
+    eEventDefaultAction		= 0x1410,
+    eEventContactClient     = 0x1411,
+    eEventActiveContact		= 0x1414,
+    eEventMessageRetry		= 0x1415,
+    eEventHistoryColors	    = 0x1416,
+    eEventCheckSend			= 0x1418,
+    eEventCutHistory		= 0x1419,
+    eEventTmplHelp			= 0x1420,
+    eEventTmplHelpList		= 0x1421,
+    eEventDeleteMessage		= 0x1422,
+    eEventRewriteMessage	= 0x1423,
+    eEventJoinAlert			= 0x1424,
+
+    // for jabber-plugin
+// not nice, but currently no other idea :(
+// not handled ...
+//    eEventAgentFound		= 0x1501,
+    eEventAgentInfo		    = 0x1502,
+    eEventAgentRegister 	= 0x1503,
+    eEventJabberSearch		= 0x1504,
+    eEventJabberSearchDone	= 0x1505,
+    eEventDiscoItem		    = 0x1506,
+    eEventVCard			    = 0x1507,
+    eEventClientVersion	    = 0x1508,
+    eEventClientLastInfo	= 0x1509,
+    eEventClientTimeInfo	= 0x1510,
+
+    // for jabber-plugin
+    eEventICQSearch			= 0x16001,
+    eEventICQSearchDone		= 0x16002,
+// currently unhandled
+//    eEventRandomChat          = 0x16003,
+//    eEventRandomChatInfo      = 0x16004,
+
+    // for ontop-plugins
+    eEventInTaskManager	    = 0x1701,
+    eEventOnTop     	    = 0x1702,
 };
 
 
@@ -162,22 +212,14 @@ class EXPORT Event
 {
 public:
     // change after all is converted
-    Event(unsigned long type, void *param = NULL)
-        : m_type((SIMEvent)type), m_param(param) {}
+    Event(SIMEvent type) : m_type(type) {}
     virtual ~Event();
     // change after all is converted
-    unsigned long type() const { return (unsigned long)m_type; }
-    void *param() { return m_param; }   // deprecated
-    void *process(EventReceiver *from = NULL);  // should return true/false
-
-    // for custom plugin events
-    static SIMEvent registerEvent() { return (SIMEvent)EventCounter++; }
+    SIMEvent type() const { return m_type; }
+    bool process(EventReceiver *from = NULL);  // should return true/false
 protected:
     SIMEvent m_type;
-    void *m_param;
     bool m_bProcessed;
-
-    static unsigned long EventCounter;
 };
 
 class EXPORT EventLog : public Event
@@ -944,7 +986,7 @@ class EXPORT EventCommand : public Event
 {
 public:
     EventCommand(SIMEvent e, CommandDef *cmd)
-        : Event(e, (void*)1), m_cmd(cmd) {}
+        : Event(e), m_cmd(cmd) {}
 
     CommandDef *cmd() const { return m_cmd; }
 protected:

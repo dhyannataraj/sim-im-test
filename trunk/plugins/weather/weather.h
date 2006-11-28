@@ -129,7 +129,7 @@ public:
     void updateButton();
     void showBar();
     void hideBar();
-    unsigned EventWeather;
+    SIM::SIMEvent EventWeather;
     QToolBar *m_bar;
 protected slots:
     void timeout();
@@ -156,7 +156,7 @@ protected:
     bool parseDateTime(const QString &str, QDateTime &dt);
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool done(unsigned code, Buffer &data, const QString &headers);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     WeatherData data;
     SIM::IconSet *m_icons;
     void		element_start(const QString& el, const QXmlAttributes& attrs);

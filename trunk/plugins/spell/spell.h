@@ -69,7 +69,7 @@ protected slots:
     void check(const QString &word);
 protected:
     bool eventFilter(QObject *o, QEvent *e);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual std::string getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void activate();

@@ -33,7 +33,7 @@ public slots:
     void apply();
     void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     YahooUserData *m_data;
     YahooClient *m_client;

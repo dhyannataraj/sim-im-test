@@ -47,7 +47,7 @@ protected slots:
     void adjustEdit();
     void adjustLog();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void closeEvent(QCloseEvent*);
     bool bPause;
     bool bAutoscroll;

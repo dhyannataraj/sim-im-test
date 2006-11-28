@@ -53,7 +53,7 @@ protected:
     std::list<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual std::string getConfig();
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void openFile();
     QFile *m_file;
     LoggerData data;

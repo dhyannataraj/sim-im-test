@@ -117,7 +117,7 @@ MsgExec() : Exec() {}
     Message *msg;
 };
 
-void *ActionPlugin::processEvent(Event *e)
+bool ActionPlugin::processEvent(Event *e)
 {
     switch (e->type() ) {
     case eEventCheckState: {

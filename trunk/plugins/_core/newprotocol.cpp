@@ -239,7 +239,7 @@ void NewProtocol::loginComplete()
     accept();
 }
 
-void *NewProtocol::processEvent(Event *e)
+bool NewProtocol::processEvent(Event *e)
 {
     if (m_client == NULL)
         return NULL;

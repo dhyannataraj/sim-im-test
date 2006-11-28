@@ -33,7 +33,7 @@ public:
 signals:
     void apply();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual void accept();
     ProxyPlugin *m_plugin;
     SIM::TCPClient	*m_client;

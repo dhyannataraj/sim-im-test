@@ -446,7 +446,7 @@ void UserConfig::itemSelected(QListViewItem *item)
     static_cast<ConfigItem*>(item)->show();
 }
 
-void *UserConfig::processEvent(Event *e)
+bool UserConfig::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventGroup:{

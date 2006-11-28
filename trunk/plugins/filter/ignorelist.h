@@ -34,7 +34,7 @@ protected slots:
     void dragEnter(QMimeSource*);
     void drop(QMimeSource*);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void removeItem(QListViewItem*);
     void updateItem(QListViewItem*, SIM::Contact*);
     QListViewItem *findItem(SIM::Contact*);

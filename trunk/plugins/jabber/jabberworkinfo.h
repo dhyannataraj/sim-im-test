@@ -31,7 +31,7 @@ public slots:
     void apply();
     void apply(SIM::Client*, void*);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void fill(JabberUserData *data);
     JabberUserData *m_data;
     JabberClient *m_client;

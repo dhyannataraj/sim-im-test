@@ -59,7 +59,7 @@ protected:
     QValueList<Picker>	m_pickers;
     bool eventFilter(QObject*, QEvent*);
     void createLabel(DatePicker *picker);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
 };
 
 #endif

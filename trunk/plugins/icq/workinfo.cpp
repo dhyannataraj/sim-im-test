@@ -55,7 +55,7 @@ void WorkInfo::apply()
 {
 }
 
-void *WorkInfo::processEvent(Event *e)
+bool WorkInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

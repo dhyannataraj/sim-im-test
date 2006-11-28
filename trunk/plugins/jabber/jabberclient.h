@@ -382,7 +382,7 @@ protected slots:
     void	auth_failed();
     void	auth_ok();
 protected:
-    virtual void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     SIM::Socket *createSocket();
 
     virtual QString contactName(void *clientData);

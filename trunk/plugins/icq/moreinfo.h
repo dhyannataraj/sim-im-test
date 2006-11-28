@@ -36,7 +36,7 @@ public slots:
     void setLang(int);
     void birthDayChanged();
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     ICQUserData *m_data;
     unsigned  m_contact;

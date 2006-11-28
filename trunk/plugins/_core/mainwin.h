@@ -43,7 +43,7 @@ protected:
     QVBoxLayout	*lay;
     QHBoxLayout	*h_lay;
     QSizeGrip	*m_grip;
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void focusInEvent(QFocusEvent*);
     void setTitle();
     void closeEvent(QCloseEvent *e);

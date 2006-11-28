@@ -116,7 +116,7 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
     connect(btnPhoneDelete, SIGNAL(clicked()), this, SLOT(deletePhone()));
 }
 
-void *MainInfo::processEvent(Event *e)
+bool MainInfo::processEvent(Event *e)
 {
     switch (e->type()) {
     case eEventContact: {
@@ -133,27 +133,27 @@ void *MainInfo::processEvent(Event *e)
         CommandDef *cmd = ecs->cmd();
         if (cmd->menu_id == MenuMailList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
-                return NULL;
+                return false;
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstMails)
-                return NULL;
+                return false;
             cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
             bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
             if (!bEnable)
                 cmd->flags |= COMMAND_DISABLED;
-            return (void*)1;
+            return true;
         }
         if (cmd->menu_id == MenuPhoneList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
-                return NULL;
+                return false;
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstPhones)
-                return NULL;
+                return false;
             cmd->flags &= ~(COMMAND_CHECKED | COMMAND_DISABLED);
             bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
             if (!bEnable)
                 cmd->flags |= COMMAND_DISABLED;
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -163,33 +163,33 @@ void *MainInfo::processEvent(Event *e)
         if (cmd->menu_id == MenuMailList){
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstMails)
-                return NULL;
+                return false;
             bool bEnable = ((item != NULL) && (item->text(MAIL_PROTO).isEmpty() || (item->text(MAIL_PROTO) == "-")));
             if (!bEnable)
-                return NULL;
+                return false;
             if (cmd->id == CmdEditList){
                 editMail(item);
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdRemoveList){
                 deleteMail(item);
-                return (void*)1;
+                return true;
             }
         }
         if (cmd->menu_id == MenuPhoneList){
             QListViewItem *item = (QListViewItem*)(cmd->param);
             if (item->listView() != lstPhones)
-                return NULL;
+                return false;
             bool bEnable = ((item != NULL) && (item->text(PHONE_PROTO).isEmpty() || (item->text(PHONE_PROTO) == "-")));
             if (!bEnable)
-                return NULL;
+                return false;
             if (cmd->id == CmdEditList){
                 editPhone(item);
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdRemoveList){
                 deletePhone(item);
-                return (void*)1;
+                return true;
             }
         }
         break;
@@ -197,7 +197,7 @@ void *MainInfo::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void MainInfo::fill()

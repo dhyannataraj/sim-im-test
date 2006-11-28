@@ -297,7 +297,7 @@ NavigatePlugin::~NavigatePlugin()
     free_data(navigateData, &data);
 }
 
-void *NavigatePlugin::processEvent(Event *e)
+bool NavigatePlugin::processEvent(Event *e)
 {
 #ifdef WIN32
     if (e->type() == eEventGetURL){

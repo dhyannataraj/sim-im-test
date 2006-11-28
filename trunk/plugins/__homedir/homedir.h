@@ -27,7 +27,7 @@ public:
     HomeDirPlugin(unsigned base);
     QString defaultPath();
 protected:
-    void *processEvent(SIM::Event *e);
+    bool processEvent(SIM::Event *e);
     QString buildFileName(const QString &name);
 #ifdef WIN32
     virtual QWidget *createConfigWindow(QWidget *parent);

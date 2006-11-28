@@ -617,7 +617,7 @@ void CToolBar::contextMenuEvent(QContextMenuEvent *e)
     showPopup(e->globalPos());
 }
 
-void* CToolBar::processEvent(Event *e)
+bool CToolBar::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventToolbarChanged: {
@@ -638,9 +638,9 @@ void* CToolBar::processEvent(Event *e)
             ButtonsMap::iterator it = buttons->find(cmd->id);
             if (it != buttons->end())
                 ecw->setWidget((*it).second->widget());
-                return (void*)1;
+                return true;
         }
-        return NULL;
+        return false;
     }
     case eEventLanguageChanged:
     case eEventIconChanged: {
@@ -648,7 +648,7 @@ void* CToolBar::processEvent(Event *e)
         for (it = buttons->begin(); it != buttons->end(); ++it){
             (*it).second->setState();
         }
-        return NULL;
+        return false;
     }
     case eEventCommandCreate: {
         EventCommandCreate *ecc = static_cast<EventCommandCreate*>(e);
@@ -665,7 +665,7 @@ void* CToolBar::processEvent(Event *e)
             if (it != buttons->end())
                 (*it).second->setCommand(cmd);
         }
-        return NULL;
+        return false;
     }
     case eEventCommandChecked: {
         EventCommandChecked *ecc = static_cast<EventCommandChecked*>(e);
@@ -675,7 +675,7 @@ void* CToolBar::processEvent(Event *e)
             if (it != buttons->end())
                 (*it).second->setChecked(cmd);
         }
-        return NULL;
+        return false;
     }
     case eEventCommandDisabled: {
         EventCommandDisabled *ecd = static_cast<EventCommandDisabled*>(e);
@@ -685,7 +685,7 @@ void* CToolBar::processEvent(Event *e)
             if (it != buttons->end())
                 (*it).second->setDisabled(cmd);
         }
-        return NULL;
+        return false;
     }
     case eEventCommandShow: {
         EventCommandShow *ecs = static_cast<EventCommandShow*>(e);
@@ -695,12 +695,12 @@ void* CToolBar::processEvent(Event *e)
             if (it != buttons->end())
                 (*it).second->setShow(cmd);
         }
-        return NULL;
+        return false;
     }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void CToolBar::toolBarChanged()

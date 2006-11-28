@@ -61,7 +61,7 @@ public:
 protected slots:
     void iconChanged(int);
 protected:
-    void *processEvent(Event*);
+    virtual bool processEvent(Event *e);
     class IconsPrivate *d;
     COPY_RESTRICTED(Icons);
 };

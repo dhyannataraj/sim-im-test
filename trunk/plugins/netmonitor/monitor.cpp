@@ -215,10 +215,10 @@ static LevelColorDef levelColors[] =
         { 0,			NULL }
     };
 
-void *MonitorWindow::processEvent(Event *e)
+bool MonitorWindow::processEvent(Event *e)
 {
     if (!e) {
-        return 0;
+        return false;
     }
     if ((e->type() == eEventLog) && !bPause){
         EventLog *l = static_cast<EventLog*>(e);
@@ -244,7 +244,7 @@ void *MonitorWindow::processEvent(Event *e)
             QTimer::singleShot(10, this, SLOT(outputLog()));
         }
     }
-    return NULL;
+    return false;
 }
 
 void MonitorWindow::outputLog()

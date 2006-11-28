@@ -36,7 +36,7 @@ public slots:
     void urlChanged(const QString&);
     void resourceActivated(int);
 protected:
-    void *processEvent(SIM::Event *e);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     JabberUserData *m_data;
     JabberClient *m_client;

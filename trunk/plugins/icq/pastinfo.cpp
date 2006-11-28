@@ -57,7 +57,7 @@ void PastInfo::apply()
 {
 }
 
-void *PastInfo::processEvent(Event *e)
+bool PastInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

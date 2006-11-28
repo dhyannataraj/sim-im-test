@@ -244,10 +244,10 @@ void TextEdit::keyPressEvent(QKeyEvent *e)
     TextShow::keyPressEvent(e);
 }
 
-void *TextEdit::processEvent(Event *e)
+bool TextEdit::processEvent(Event *e)
 {
     if (m_param == NULL)
-        return NULL;
+        return false;
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
         CommandDef *cmd = ecs->cmd();
@@ -265,16 +265,16 @@ void *TextEdit::processEvent(Event *e)
             }else{
                 cmd->flags |= BTN_HIDE;
             }
-            return (void*)1;
+            return true;
         default:
             break;
         }
-    }
+    } else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if (cmd->param != m_param)
-            return NULL;
+            return false;
         switch (cmd->id){
         case CmdBgColor:{
                 EventCommandWidget eWidget(cmd);
@@ -286,7 +286,7 @@ void *TextEdit::processEvent(Event *e)
                     connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(bgColorChanged(QColor)));
                     popup->show();
                 }
-                return (void*)1;
+                return true;
             }
         case CmdFgColor:{
                 EventCommandWidget eWidget(cmd);
@@ -298,26 +298,26 @@ void *TextEdit::processEvent(Event *e)
                     connect(popup, SIGNAL(colorChanged(QColor)), this, SLOT(fgColorChanged(QColor)));
                     popup->show();
                 }
-                return (void*)1;
+                return true;
             }
         case CmdBold:
             if (!m_bChanged){
                 m_bSelected = true;
                 setBold((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return (void*)1;
+            return true;
         case CmdItalic:
             if (!m_bChanged){
                 m_bSelected = true;
                 setItalic((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return (void*)1;
+            return true;
         case CmdUnderline:
             if (!m_bChanged){
                 m_bSelected = true;
                 setUnderline((cmd->flags & COMMAND_CHECKED) != 0);
             }
-            return (void*)1;
+            return true;
         case CmdFont:{
 #ifdef USE_KDE
                 QFont f = font();
@@ -334,10 +334,10 @@ void *TextEdit::processEvent(Event *e)
                 break;
             }
         default:
-            return NULL;
+            return false;
         }
     }
-    return NULL;
+    return false;
 }
 
 void TextEdit::setForeground(const QColor& c, bool bDef)

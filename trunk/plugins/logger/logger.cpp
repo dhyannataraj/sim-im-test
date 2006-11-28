@@ -182,7 +182,7 @@ QWidget *LoggerPlugin::createConfigWindow(QWidget *parent)
     return new LogConfig(parent, this);
 }
 
-void *LoggerPlugin::processEvent(Event *e)
+bool LoggerPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventLog){
         EventLog *l = static_cast<EventLog*>(e);

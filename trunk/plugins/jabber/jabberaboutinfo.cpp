@@ -37,7 +37,7 @@ void JabberAboutInfo::apply()
 {
 }
 
-void *JabberAboutInfo::processEvent(Event *e)
+bool JabberAboutInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

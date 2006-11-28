@@ -179,7 +179,7 @@ protected:
     virtual void socketConnect();
     virtual void disconnected();
     virtual void packet_ready();
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual void contactInfo(void*, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons);
     QWidget *searchWindow(QWidget *parent);
     SIM::CommandDef *configWindows();

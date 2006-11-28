@@ -47,7 +47,7 @@ protected slots:
     void popupActivated();
 protected:
     bool eventFilter(QObject *o, QEvent *e);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     SIM::CommandsDef *createBar(unsigned id);
     void removeBar(unsigned id);
     SIM::CommandsDef *createMenu(unsigned id);

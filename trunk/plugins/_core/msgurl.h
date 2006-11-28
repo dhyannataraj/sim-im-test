@@ -34,7 +34,7 @@ protected slots:
     void init();
     void urlChanged(const QString&);
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     QString     m_client;
     MsgEdit    *m_edit;
 };

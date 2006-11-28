@@ -36,7 +36,7 @@ protected slots:
     void clearPicture();
     void pictSelected(const QString&);
 protected:
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void fill();
     void setPict(QImage &img);
     bool m_bPhoto;

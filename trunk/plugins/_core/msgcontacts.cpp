@@ -88,7 +88,7 @@ void MsgContacts::init()
     m_list->setFocus();
 }
 
-void *MsgContacts::processEvent(Event *e)
+bool MsgContacts::processEvent(Event *e)
 {
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
@@ -97,21 +97,21 @@ void *MsgContacts::processEvent(Event *e)
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
             switch (cmd->id){
             case CmdSend:
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             case CmdTranslit:
             case CmdSmile:
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
         }
     } else
@@ -136,10 +136,10 @@ void *MsgContacts::processEvent(Event *e)
                 msg->setClient(m_client);
                 m_edit->sendMessage(msg);
             }
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 

@@ -43,7 +43,7 @@ protected slots:
     void deletePhone();
 protected:
     void fill();
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     void fillPhoneItem(QListViewItem *item, const QString &number, const QString &type, unsigned icon, const QString &proto);
     void fillCurrentCombo();
     void fillEncoding();

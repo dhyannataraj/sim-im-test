@@ -44,7 +44,7 @@ void AboutInfo::apply(Client *client, void *_data)
     data->About.str() = edtAbout->text();
 }
 
-void *AboutInfo::processEvent(Event *e)
+bool AboutInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);

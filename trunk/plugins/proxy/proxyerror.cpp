@@ -53,17 +53,17 @@ ProxyError::~ProxyError()
         m_client->setStatus(STATUS_OFFLINE, false);
 }
 
-void *ProxyError::processEvent(Event *e)
+bool ProxyError::processEvent(Event *e)
 {
     if (e->type() == eEventClientsChanged){
         for (unsigned i = 0; i < getContacts()->nClients(); i++){
             if (getContacts()->getClient(i) == m_client)
-                return NULL;
+                return false;
         }
         m_client = NULL;
         close();
     }
-    return NULL;
+    return false;
 }
 
 void ProxyError::accept()

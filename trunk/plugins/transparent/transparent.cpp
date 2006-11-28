@@ -266,7 +266,7 @@ void TransparentPlugin::tick()
 #endif
 }
 
-void *TransparentPlugin::processEvent(Event *e)
+bool TransparentPlugin::processEvent(Event *e)
 {
     if (e->type() == eEventInit) {
 #ifndef WIN32
@@ -277,7 +277,7 @@ void *TransparentPlugin::processEvent(Event *e)
 #ifndef WIN32
     if (e->type() == eEventPaintView){
         if (top == NULL)
-            return NULL;
+            return false;
         EventPaintView *ev = static_cast<EventPaintView*>(e);
         EventPaintView::PaintView *pv = ev->paintView();
         QPixmap pict = top->background(pv->win->colorGroup().background());
@@ -295,7 +295,7 @@ void *TransparentPlugin::processEvent(Event *e)
             setState();
     }
 #endif
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

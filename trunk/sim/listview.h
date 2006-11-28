@@ -54,7 +54,7 @@ public slots:
     void sizeChange(int,int,int);
 protected:
     virtual bool getMenu(QListViewItem *item, unsigned long &id, void *&param);
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     virtual bool eventFilter(QObject*, QEvent*);
     virtual void resizeEvent(QResizeEvent*);
     virtual QDragObject *dragObject();

@@ -42,7 +42,7 @@ protected slots:
     void loginComplete();
     void adjust();
 protected:
-    virtual void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event*);
     virtual void closeEvent(QCloseEvent *e);
     virtual void accept();
     virtual void reject();

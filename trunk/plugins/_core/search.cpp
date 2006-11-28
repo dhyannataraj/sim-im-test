@@ -308,7 +308,7 @@ void SearchDialog::toggled(bool)
     textChanged("");
 }
 
-void *SearchDialog::processEvent(Event *e)
+bool SearchDialog::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventClientsChanged:

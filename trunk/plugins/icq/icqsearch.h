@@ -59,7 +59,7 @@ protected:
         Full
     };
     static inline const QString extractUIN(const QString& str);
-    void *processEvent(SIM::Event*);
+    virtual bool processEvent(SIM::Event *e);
     void showEvent(QShowEvent*);
     void setAdv(bool);
     void icq_search();

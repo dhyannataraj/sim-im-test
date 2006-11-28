@@ -177,7 +177,7 @@ void JabberInfo::resourceActivated(int i)
     }
 }
 
-void *JabberInfo::processEvent(Event *e)
+bool JabberInfo::processEvent(Event *e)
 {
     if ((e->type() == eEventMessageReceived) && m_data){
         EventMessage *em = static_cast<EventMessage*>(e);

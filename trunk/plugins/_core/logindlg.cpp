@@ -467,7 +467,7 @@ void LoginDialog::loginComplete()
     setResult(true);
 }
 
-void *LoginDialog::processEvent(Event *e)
+bool LoginDialog::processEvent(Event *e)
 {
     switch (e->type()){
     case eEventClientChanged: {
@@ -476,7 +476,7 @@ void *LoginDialog::processEvent(Event *e)
         if (m_bLogin && ((m_client == NULL) || (c == m_client))){
             if (c->getState() == Client::Connected){
                 QTimer::singleShot(0, this, SLOT(loginComplete()));
-                return NULL;
+                return false;
             }
         }
         break;
@@ -487,12 +487,12 @@ void *LoginDialog::processEvent(Event *e)
             const EventError::ClientErrorData &d = ee->data();
             if (m_client){
                 if (d.client != m_client)
-                    return NULL;
+                    return false;
             }else{
                 for (unsigned i = 0; i < passwords.size(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client->getState() != Client::Error)
-                        return (void*)1;
+                        return true;
                 }
             }
             stopLogin();
@@ -506,11 +506,11 @@ void *LoginDialog::processEvent(Event *e)
                 raiseWindow(this);
                 BalloonMsg::message(msg, buttonOk);
             }
-            return (void*)1;
+            return true;
         }
         break;
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -357,15 +357,13 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
                             }
                         }
                     }
-                    Event e(EventSearch, &res);
-                    e.process();
+                    EventSearch(&res).process();
                     free_data(ICQProtocol::icqUserData, &res.data);
                 }
             }
             if (r != 6){
                 load_data(ICQProtocol::icqUserData, &res.data, NULL);
-                Event e(EventSearchDone, &res);
-                e.process();
+                EventSearchDone(&res).process();
                 free_data(ICQProtocol::icqUserData, &res.data);
                 m_seq.erase(it);
             }
