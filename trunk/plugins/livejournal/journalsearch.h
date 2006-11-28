@@ -18,7 +18,8 @@
 #ifndef _JOURNALSEARCH_H
 #define _JOURNALSEARCH_H
 
-#include "simapi.h"
+#include "contacts.h"
+
 #include "journalsearchbase.h"
 
 class LiveJournalClient;

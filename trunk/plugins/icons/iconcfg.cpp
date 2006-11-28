@@ -15,9 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "iconcfg.h"
-#include "icon.h"
-#include "icons.h"
+#include "sim_export.h"
 
 #include <qpushbutton.h>
 #include <qlistbox.h>
@@ -28,6 +26,12 @@
 #else
 #include <qfiledialog.h>
 #endif
+
+#include "icons.h"
+#include "misc.h"
+
+#include "iconcfg.h"
+#include "icon.h"
 
 IconCfg::IconCfg(QWidget *parent, IconsPlugin *plugin)
         : IconCfgBase(parent)

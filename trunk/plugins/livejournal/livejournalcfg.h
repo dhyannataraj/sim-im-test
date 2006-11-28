@@ -18,8 +18,9 @@
 #ifndef _LIVEJOURNALCFG_H
 #define _LIVEJOURNALCFG_H
 
+#include "contacts.h"
+
 #include "livejournalcfgbase.h"
-#include "simapi.h"
 
 class LiveJournalClient;
 

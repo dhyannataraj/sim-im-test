@@ -18,7 +18,8 @@
 #ifndef _ICON_H
 #define _ICON_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "plugins.h"
 
 struct IconsData
 {

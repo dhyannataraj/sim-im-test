@@ -19,7 +19,6 @@
 #define _ADDITEM_H
 
 #include "additembase.h"
-#include "simapi.h"
 
 class AddItem : public AddItemBase
 {

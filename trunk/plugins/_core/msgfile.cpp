@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #include "msgfile.h"
 #include "toolbtn.h"
 #include "msgedit.h"

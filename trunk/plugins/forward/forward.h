@@ -18,7 +18,9 @@
 #ifndef _FORWARD_H
 #define _FORWARD_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
 
 struct ForwardUserData
 {

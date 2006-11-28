@@ -18,7 +18,6 @@
 #ifndef _IGNORELIST_H
 #define _IGNORELIST_H
 
-#include "simapi.h"
 #include "ignorelistbase.h"
 
 class QListViewItem;

@@ -18,6 +18,8 @@
 #ifndef _INTERFACECFG_H
 #define _INTERFACECFG_H
 
+#include "sim_export.h"
+
 #include "interfacecfgbase.h"
 
 class UserViewConfig;

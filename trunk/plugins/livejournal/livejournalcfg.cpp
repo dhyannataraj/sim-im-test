@@ -15,15 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "livejournalcfg.h"
-#include "livejournal.h"
-#include "linklabel.h"
-
 #include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qmultilineedit.h>
 #include <qspinbox.h>
 #include <qtimer.h>
+
+#include "linklabel.h"
+#include "misc.h"
+
+#include "livejournalcfg.h"
+#include "livejournal.h"
 
 using namespace SIM;
 

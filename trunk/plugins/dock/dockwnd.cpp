@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #ifdef WIN32
 #define _WIN32_IE 0x0500
 #include <windows.h>
@@ -22,7 +24,7 @@
 #endif
 
 #include "icons.h"
-#include "simapi.h"
+#include "log.h"
 #include "dockwnd.h"
 #include "dock.h"
 #include "core.h"

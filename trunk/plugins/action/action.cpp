@@ -17,11 +17,13 @@
 
 #include <qtimer.h>
 
+#include "exec.h"
+#include "log.h"
+#include "unquot.h"
+#include "core.h"
+
 #include "action.h"
 #include "actioncfg.h"
-#include "core.h"
-#include "exec.h"
-#include "unquot.h"
 
 using namespace std;
 using namespace SIM;

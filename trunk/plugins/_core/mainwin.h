@@ -18,6 +18,8 @@
 #ifndef _MAINWIN_H
 #define _MAINWIN_H
 
+#include "sim_export.h"
+
 #include "cfg.h"
 
 #include <qmainwindow.h>

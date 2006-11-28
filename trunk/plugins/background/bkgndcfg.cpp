@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qlabel.h>

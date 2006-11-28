@@ -15,12 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "forwardcfg.h"
-#include "forward.h"
-
 #include <qcombobox.h>
 #include <qcheckbox.h>
 #include <qlineedit.h>
+
+#include "misc.h"
+
+#include "forwardcfg.h"
+#include "forward.h"
 
 using namespace SIM;
 

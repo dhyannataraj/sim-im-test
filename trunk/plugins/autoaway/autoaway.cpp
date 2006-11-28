@@ -23,6 +23,9 @@ Copyright (C) 2003  Tarkvara Design Inc.
 // This is required to use Xlibint (which isn't very clean itself)
 #define QT_CLEAN_NAMESPACE
 
+#include "sim_export.h"
+
+#include "log.h"
 #include "autoaway.h"
 #include "autoawaycfg.h"
 #include "core.h"

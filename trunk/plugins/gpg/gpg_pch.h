@@ -1,6 +1,5 @@
 #pragma once
 
-#include "simapi.h"	// before Qt headers!
 
 #include <qglobal.h>
 

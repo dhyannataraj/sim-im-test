@@ -18,7 +18,6 @@
 #ifndef _FILTERCFG_H
 #define _FILTERCFG_H
 
-#include "simapi.h"
 #include "filtercfgbase.h"
 
 struct FilterUserData;

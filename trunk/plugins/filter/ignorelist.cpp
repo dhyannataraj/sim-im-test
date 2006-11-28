@@ -16,8 +16,11 @@
  ***************************************************************************/
 
 #include "icons.h"
-#include "ignorelist.h"
 #include "listview.h"
+#include "log.h"
+#include "misc.h"
+
+#include "ignorelist.h"
 
 #include <qpixmap.h>
 

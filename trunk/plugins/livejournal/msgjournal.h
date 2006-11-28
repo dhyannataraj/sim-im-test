@@ -18,7 +18,8 @@
 #ifndef _MSGJOURNAL_H
 #define _MSGJOURNAL_H
 
-#include "simapi.h"
+#include "event.h"
+
 #include "msgjournalbase.h"
 
 class MsgEdit;

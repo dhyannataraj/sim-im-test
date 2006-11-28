@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "logger.h"
-#include "logconfig.h"
-
 #include <stdio.h>
 #include <qapplication.h>
 #include <qdir.h>
@@ -27,6 +24,12 @@
 #ifdef Q_OS_WIN
 # include <windows.h>
 #endif
+
+#include "log.h"
+#include "misc.h"
+
+#include "logger.h"
+#include "logconfig.h"
 
 using namespace std;
 using namespace SIM;

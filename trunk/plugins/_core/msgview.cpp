@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #include <qstringlist.h>
 #include <qregexp.h>
 #include <qtimer.h>

@@ -15,17 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "log.h"
+#include "sim_export.h"
 
-#include "gpg.h"
-#include "gpgcfg.h"
-#include "gpguser.h"
-#include "core.h"
+#include "log.h"
 #include "msgedit.h"
 #include "textshow.h"
 #include "userwnd.h"
 #include "passphrase.h"
 #include "ballonmsg.h"
+#include "core.h"
+
+#include "gpg.h"
+#include "gpgcfg.h"
+#include "gpguser.h"
 
 #include <qtimer.h>
 #include <qfile.h>

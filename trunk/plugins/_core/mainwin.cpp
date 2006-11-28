@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #include "icons.h"
 #include "mainwin.h"
 #include "core.h"

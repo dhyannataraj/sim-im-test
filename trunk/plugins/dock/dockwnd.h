@@ -18,7 +18,6 @@
 #ifndef _DOCKWND_H
 #define _DOCKWND_H
 
-#include "simapi.h"
 #include "stl.h"
 
 #include <qwidget.h>

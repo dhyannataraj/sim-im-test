@@ -19,7 +19,6 @@
 #define _ACTIONCFG_H
 
 #include "actioncfgbase.h"
-#include "simapi.h"
 
 struct ActionUserData;
 class ActionPlugin;

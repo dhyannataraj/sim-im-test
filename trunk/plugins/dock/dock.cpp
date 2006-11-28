@@ -18,7 +18,6 @@
 #include "dock.h"
 #include "dockcfg.h"
 #include "dockwnd.h"
-#include "simapi.h"
 #include "core.h"
 #include "mainwin.h"
 

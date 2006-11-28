@@ -18,8 +18,6 @@
 #ifndef _LIVEJOURNAL_H
 #define _LIVEJOURNAL_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "buffer.h"
 #include "socket.h"
 #include "fetch.h"

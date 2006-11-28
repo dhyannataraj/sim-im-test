@@ -15,11 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "logconfig.h"
-#include "logger.h"
-#include "editfile.h"
-#include "listview.h"
-
 #include <qstyle.h>
 #include <qlayout.h>
 #include <qheader.h>
@@ -28,6 +23,14 @@
 #include <qpainter.h>
 #include <qbutton.h>
 #include <qfileinfo.h>
+
+#include "editfile.h"
+#include "listview.h"
+#include "log.h"
+#include "misc.h"
+
+#include "logconfig.h"
+#include "logger.h"
 
 using namespace SIM;
 

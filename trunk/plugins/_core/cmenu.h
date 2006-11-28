@@ -18,6 +18,8 @@
 #ifndef _CMENU_H
 #define _CMENU_H
 
+#include "sim_export.h"
+
 #include <vector>
 
 #ifdef USE_KDE

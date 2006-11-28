@@ -15,14 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icons.h"
-#include "floatywnd.h"
-#include "floaty.h"
-#include "simapi.h"
-#include "userview.h"
-#include "linklabel.h"
-
-#include "core.h"
+#include "sim_export.h"
 
 #include <qpixmap.h>
 #include <qpainter.h>
@@ -32,6 +25,14 @@
 #ifdef USE_KDE
 #include <kwin.h>
 #endif
+
+#include "icons.h"
+#include "linklabel.h"
+#include "userview.h"
+#include "core.h"
+
+#include "floatywnd.h"
+#include "floaty.h"
 
 using namespace std;
 using namespace SIM;

@@ -17,7 +17,6 @@
 
 #include "forward.h"
 #include "forwardcfg.h"
-#include "simapi.h"
 #include "core.h"
 
 using namespace SIM;

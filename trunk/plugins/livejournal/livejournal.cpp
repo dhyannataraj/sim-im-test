@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
 #else
@@ -27,6 +29,7 @@
 
 #include "fetch.h"
 #include "html.h"
+#include "log.h"
 #include "unquot.h"
 #include "core.h"
 

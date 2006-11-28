@@ -17,7 +17,6 @@
 
 #include "floaty.h"
 #include "floatywnd.h"
-#include "simapi.h"
 
 #include "core.h"
 

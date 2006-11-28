@@ -15,9 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "icons.h"
+#include "misc.h"
+
 #include "icon.h"
 #include "iconcfg.h"
-#include "icons.h"
 
 using namespace std;
 using namespace SIM;

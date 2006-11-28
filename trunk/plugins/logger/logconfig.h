@@ -18,7 +18,8 @@
 #ifndef _LOGCONFIG_H
 #define _LOGCONFIG_H
 
-#include "simapi.h"
+#include "event.h"
+
 #include "logconfigbase.h"
 
 class LoggerPlugin;

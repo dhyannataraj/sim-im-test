@@ -18,7 +18,6 @@
 #ifndef _FLOATYWND_H
 #define _FLOATYWND_H
 
-#include "simapi.h"
 
 #include <qwidget.h>
 

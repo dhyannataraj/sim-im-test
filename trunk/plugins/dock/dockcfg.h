@@ -18,7 +18,6 @@
 #ifndef _DOCKCFG_H
 #define _DOCKCFG_H
 
-#include "simapi.h"
 #include "dockcfgbase.h"
 
 class DockPlugin;

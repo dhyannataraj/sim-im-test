@@ -19,7 +19,6 @@
 #define _MENUCFG_H
 
 #include "menucfgbase.h"
-#include "simapi.h"
 
 class QListViewItem;
 struct ActionUserData;
