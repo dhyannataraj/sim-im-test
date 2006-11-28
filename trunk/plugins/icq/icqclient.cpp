@@ -3205,6 +3205,9 @@ QImage ICQClient::userPicture(ICQUserData *d)
 {
     QImage img=QImage(d ? pictureFile(d) : data.owner.Picture.str());
 
+    if(img.isNull)
+        return img;
+
     int w = img.width();
     int h = img.height();
     if (h > w){
