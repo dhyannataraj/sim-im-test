@@ -150,7 +150,7 @@ bool FloatyPlugin::processEvent(Event *e)
                         cmd->flags &= ~COMMAND_CHECKED;
                     }
                 }
-                return (void*)1;
+                return true;
             }
             break;
         }
@@ -173,7 +173,7 @@ bool FloatyPlugin::processEvent(Event *e)
                         wnd->show();
                     }
                 }
-                return (void*)1;
+                return true;
             }
             break;
         }
@@ -239,8 +239,10 @@ bool FloatyPlugin::processEvent(Event *e)
             delete list;
             break;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void FloatyPlugin::showPopup()

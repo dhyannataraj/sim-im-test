@@ -211,7 +211,7 @@ bool HomeDirPlugin::processEvent(Event *e)
     if (e->type() == eEventHomeDir){
         EventHomeDir *homedir = static_cast<EventHomeDir*>(e);
         homedir->setHomeDir(buildFileName(homedir->homeDir()));
-        return (void*)(!homedir->homeDir().isEmpty());
+        return true;
     }
-    return NULL;
+    return false;
 }

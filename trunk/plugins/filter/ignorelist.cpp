@@ -76,7 +76,7 @@ bool IgnoreList::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void IgnoreList::updateItem(QListViewItem *item, Contact *contact)

@@ -417,16 +417,16 @@ bool GpgPlugin::processEvent(Event *e)
                     cmd->flags &= ~COMMAND_CHECKED;
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact == NULL)
-                        return NULL;
+                        return false;
                     GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                     if (!data || data->Key.str().isEmpty())
-                        return NULL;
+                        return false;
                     if (data->Use.toBool())
                         cmd->flags |= COMMAND_CHECKED;
-                    return (void*)1;
+                    return true;
                 }
             }
-            return NULL;
+            return false;
         }
     case eEventCommandExec:{
             EventCommandExec *ece = static_cast<EventCommandExec*>(e);
@@ -434,19 +434,19 @@ bool GpgPlugin::processEvent(Event *e)
             if ((cmd->menu_id == MenuMessage) && (cmd->id == MessageGPGUse)){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 GpgUserData *data = (GpgUserData*)(contact->userData.getUserData(user_data_id, false));
                 if (data && !data->Key.str().isEmpty())
                     data->Use.asBool() = (cmd->flags & COMMAND_CHECKED) != 0;
-                return (void*)1;
+                return true;
             }
-            return NULL;
+            return false;
         }
     case eEventCheckSend:{
             EventCheckSend *ecs = static_cast<EventCheckSend*>(e);
             if ((ecs->id() == MessageGPGKey) && ecs->client()->canSend(MessageGeneric, ecs->data()))
-                return (void*)1;
-            return NULL;
+                return true;
+            return false;
         }
     case eEventMessageSent:{
             EventMessage *em = static_cast<EventMessage*>(e);
@@ -464,7 +464,7 @@ bool GpgPlugin::processEvent(Event *e)
                     break;
                 }
             }
-            return NULL;
+            return false;
         }
     case eEventMessageSend:{
             EventMessage *em = static_cast<EventMessage*>(e);
@@ -483,7 +483,7 @@ bool GpgPlugin::processEvent(Event *e)
                     }
                 }
             }
-            return NULL;
+            return false;
         }
     case eEventSend:{
             EventSend *es = static_cast<EventSend*>(e);
@@ -499,7 +499,7 @@ bool GpgPlugin::processEvent(Event *e)
                         QFile in(input);
                         if (!in.open(IO_WriteOnly | IO_Truncate)){
                             log(L_WARN, "Can't create %s", (const char *)input.local8Bit());
-                            return NULL;
+                            return false;
                         }
                         in.writeBlock(es->localeText());
                         in.close();
@@ -518,7 +518,7 @@ bool GpgPlugin::processEvent(Event *e)
                         QProcess proc(sl, this);
 
                         if(!proc.start())
-                            return (void*)1;
+                            return true;
 
                         // FIXME: not soo good...
                         while(proc.isRunning())
@@ -528,37 +528,37 @@ bool GpgPlugin::processEvent(Event *e)
                             es->msg()->setError(I18N_NOOP("Encrypt failed"));
                             QFile::remove(input);
                             QFile::remove(output);
-                            return (void*)1;
+                            return true;
                         }
                         QFile::remove(input);
                         QFile out(output);
                         if (!out.open(IO_ReadOnly)){
                             QFile::remove(output);
                             es->msg()->setError(I18N_NOOP("Encrypt failed"));
-                            return (void*)1;
+                            return true;
                         }
                         es->setLocaleText(QCString(out.readAll()));
                         out.close();
                         QFile::remove(output);
-                        return NULL;
+                        return false;
                     }
                 }
             }
-            return NULL;
+            return false;
         }
     case eEventMessageReceived:{
             EventMessage *em = static_cast<EventMessage*>(e);
             Message *msg = em->msg();
             if(!msg)
-                return NULL;
+                return false;
             if ((msg->baseType() == MessageGeneric) && m_bMessage){
                 QString text = msg->getPlainText();
                 const char SIGN_MSG[] = "-----BEGIN PGP MESSAGE-----";
                 const char SIGN_KEY[] = "-----BEGIN PGP PUBLIC KEY BLOCK-----";
                 if (text.startsWith(SIGN_MSG)){
                     if (decode(msg, "", ""))
-                        return msg;
-                    return NULL;
+                        return true;
+                    return false;
                 }
                 if (text.startsWith(SIGN_KEY)){
                     QString input = user_file("m.");
@@ -567,7 +567,7 @@ bool GpgPlugin::processEvent(Event *e)
                     QFile in(input);
                     if (!in.open(IO_WriteOnly | IO_Truncate)){
                         log(L_WARN, "Can't create %s", input.local8Bit().data());
-                        return NULL;
+                        return false;
                     }
                     QCString cstr = text.utf8();
                     in.writeBlock(cstr.data(), cstr.length());
@@ -594,10 +594,12 @@ bool GpgPlugin::processEvent(Event *e)
                     return msg;
                 }
             }
-            return NULL;
+            return false;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 static unsigned decode_index = 0;
@@ -909,21 +911,21 @@ bool MsgGPGKey::processEvent(Event *e)
             unsigned id = cmd->bar_grp;
             if ((id >= MIN_INPUT_BAR_ID) && (id < MAX_INPUT_BAR_ID)){
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
             switch (cmd->id){
             case CmdSend:
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             case CmdTranslit:
             case CmdSmile:
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
         }
     }
@@ -944,10 +946,10 @@ bool MsgGPGKey::processEvent(Event *e)
                 GpgPlugin::plugin->m_sendKeys.push_back(km);
                 EventRealSendMessage(msg, m_edit).process();
             }
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES
