@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #include <qtabwidget.h>
 #include <qpushbutton.h>
 #include <qlabel.h>

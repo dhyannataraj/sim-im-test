@@ -15,9 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "log.h"
+#include "sim_export.h"
+
 #include "fetch.h"
+#include "log.h"
+
+#include "jabberclient.h"
 
 using std::string;
 using namespace SIM;

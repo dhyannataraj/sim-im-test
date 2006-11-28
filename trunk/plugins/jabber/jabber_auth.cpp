@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #include "jabberclient.h"
 
 #include <qtimer.h>

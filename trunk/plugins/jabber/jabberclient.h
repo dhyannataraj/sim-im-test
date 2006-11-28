@@ -18,6 +18,8 @@
 #ifndef _JABBERCLIENT_H
 #define _JABBERCLIENT_H
 
+#include "sim_export.h"
+
 #include <stack>
 
 #include "sax.h"
