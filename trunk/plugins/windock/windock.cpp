@@ -169,8 +169,7 @@ void slideWindow (const QRect &rcEnd, bool bAnimate)
         }
         static_cast<MainWindow*>(pMain)->m_bNoResize = false;
     }
-    Event e(EventInTaskManager, (void*)(dock->getState() == ABE_FLOAT));
-    e.process();
+    EventInTaskManager((dock->getState() == ABE_FLOAT)).process();
     SetWindowPos(pMain->winId(), NULL,
                  rcEnd.left(), rcEnd.top(), rcEnd.width(), rcEnd.height(),
                  SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME);
@@ -224,8 +223,7 @@ void setBarState(bool bAnimate = false)
         slideWindow(rc, bAnimate);
     }
     if (pMain->isVisible()){
-        Event eOnTop(EventOnTop, (void*)bFullScreen);
-        eOnTop.process();
+        EventOnTop(bFullScreen).process();
         if (!bFullScreen && (qApp->activeWindow() == pMain))
             appBarMessage(ABM_ACTIVATE);
     }
@@ -419,11 +417,11 @@ void *WinDockPlugin::processEvent(Event *e)
     } else
     if ((e->type() == eEventInit) && !m_bInit)
         init();
-    if (e->type() == EventInTaskManager){
-        if ((dock->getState() != ABE_FLOAT) && e->param()){
-            Event eMy(EventInTaskManager, (void*)false);
-            eMy.process();
-            return e->param();
+    if (e->type() == eEventInTaskManager){
+        EventInTaskManager *eitm = static_cast<EventInTaskManager*>(e);
+        if ((dock->getState() != ABE_FLOAT) && eitm->showInTaskmanager()){
+            EventInTaskManager(false).process();
+            return (void*)1;
         }
     }
     return NULL;

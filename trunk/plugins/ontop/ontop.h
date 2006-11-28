@@ -28,8 +28,33 @@
 #include "event.h"
 #include "plugins.h"
 
-const unsigned EventInTaskManager = 0x00030000;
-const unsigned EventOnTop		  = 0x00030001;
+// not nice, but currently no other idea :(
+// maybe move to simlib?
+const SIM::SIMEvent eEventInTaskManager	= ((SIM::SIMEvent)0x00030000);
+const SIM::SIMEvent eEventOnTop     	= ((SIM::SIMEvent)0x00030001);
+
+class EventInTaskManager : public SIM::Event
+{
+public:
+    EventInTaskManager(bool bShowInTask)
+        : Event(eEventInTaskManager), m_bShowInTask(bShowInTask) {}
+
+    bool showInTaskmanager() const { return m_bShowInTask; }
+protected:
+    bool m_bShowInTask;
+};
+
+class EventOnTop : public SIM::Event
+{
+public:
+    // bShowOnTop is maybe wrong, rename if someone knows what it means
+    EventOnTop(bool bShowOnTop)
+        : Event(eEventOnTop), m_bShowOnTop(bShowOnTop) {}
+
+    bool showOnTop() const { return m_bShowOnTop; }
+protected:
+    bool m_bShowOnTop;
+};
 
 struct OnTopData
 {

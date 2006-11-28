@@ -124,25 +124,29 @@ void *OnTopPlugin::processEvent(Event *e)
             return cmd;
         }
     }
-    if (e->type() == EventOnTop){
-        QWidget *main = getMainWindow();
-        if (main == NULL) return NULL;
 #ifdef WIN32
+    if (e->type() == eEventOnTop){
+        EventOnTop *eot = static_cast<EventOnTop*>(e);
+        QWidget *main = getMainWindow();
+        if (main == NULL)
+            return NULL;
         HWND hState = HWND_NOTOPMOST;
-        if (getOnTop()) hState = HWND_TOPMOST;
-        if (e->param()) hState = HWND_BOTTOM;
+        if (getOnTop())
+            hState = HWND_TOPMOST;
+        if (eot->showOnTop())
+            hState = HWND_BOTTOM;
         if (m_state != hState){
             SetWindowPos(main->winId(), hState, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
             m_state = hState;
         }
-#endif
-    }
-    if (e->type() == EventInTaskManager){
+    } else
+    if (e->type() == eEventInTaskManager){
+        EventInTaskManager *eitm = static_cast<EventInTaskManager*>(e);
         QWidget *main = getMainWindow();
-        if (main == NULL) return NULL;
-#ifdef WIN32
+        if (main == NULL)
+            return NULL;
         if (IsWindowUnicode(main->winId())){
-            if (e->param() && getInTask()){
+            if (eitm->showInTaskmanager() && getInTask()){
                 SetWindowLongW(main->winId(), GWL_EXSTYLE,
                                (GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
             }else{
@@ -157,7 +161,7 @@ void *OnTopPlugin::processEvent(Event *e)
                 }
             }
         }else{
-            if (e->param() && getInTask()){
+            if (eitm->showInTaskmanager() && getInTask()){
                 SetWindowLongA(main->winId(), GWL_EXSTYLE,
                                (GetWindowLongA(main->winId(), GWL_EXSTYLE) | WS_EX_APPWINDOW) & (~WS_EX_TOOLWINDOW));
             }else{
@@ -170,8 +174,9 @@ void *OnTopPlugin::processEvent(Event *e)
                 }
             }
         }
-#endif
+        return (void*)1;
     }
+#endif
     return NULL;
 }
 
@@ -215,10 +220,8 @@ void OnTopPlugin::setState()
     QWidget *main = getMainWindow();
     if (main){
 #ifdef WIN32
-        Event eTop(EventOnTop, (void*)0);
-        eTop.process();
-        Event eTask(EventInTaskManager, (void*)getInTask());
-        eTask.process();
+        EventOnTop(false).process();
+        EventInTaskManager(getInTask()).process();
 #else
 #ifdef USE_KDE
         if (getOnTop()){
