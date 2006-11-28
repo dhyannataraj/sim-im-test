@@ -455,8 +455,7 @@ void MSNClient::checkEndSync()
     for (list<Group*>::iterator rg = grpRemove.begin(); rg != grpRemove.end(); ++rg)
         delete *rg;
     if (m_bJoin){
-        Event e(EventJoinAlert, this);
-        e.process();
+        EventJoinAlert(this).process();
     }
     m_bFirst = false;
     connected();

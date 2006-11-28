@@ -980,8 +980,7 @@ void YahooClient::setStatus(unsigned status)
     ar.status   = status;
     ar.receiver = this;
     ar.param	= (void*)(unsigned long)status;
-    Event eAR(EventARRequest, &ar);
-    eAR.process();
+    EventARRequest(&ar).process();
 }
 
 void YahooClient::process_file(const char *id, const char *fileName, const char *fileSize, const char *msg, const char *url, const char *msgid)

@@ -134,8 +134,9 @@ void ActionConfig::selectionChanged(QListViewItem *item)
         return;
     m_editItem = item;
     m_edit = new LineEdit(lstEvent->viewport());
-    Event e(EventTmplHelpList);
-    m_edit->helpList = (const char**)e.process();
+    EventTmplHelpList e;
+    e.process();
+    m_edit->helpList = e.helpList();
     QRect rc = lstEvent->itemRect(m_editItem);
     rc.setLeft(rc.left() + lstEvent->columnWidth(0) + 2);
     m_edit->setGeometry(rc);
@@ -177,10 +178,10 @@ void ActionConfig::setEnabled(bool state)
 
 void ActionConfig::help()
 {
-    QString helpString = i18n("In command line you can use:");
-    helpString += "\n";
-    Event e(EventTmplHelp, &helpString);
+    QString helpString = i18n("In command line you can use:") + "\n";
+    EventTmplHelp e(helpString);
     e.process();
+    helpString = e.help();
     helpString += "\n\n";
     helpString += i18n("For message events message text will be sent on standard input of the program.\n"
                        "If the program will return a zero error code message text will be replaced with program output.\n"

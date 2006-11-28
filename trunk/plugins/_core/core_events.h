@@ -6,13 +6,7 @@
 class Tmpl;
 class MsgEdit;
 
-// EventCheckSend
-struct CheckSend
-{
-    unsigned		id;
-    SIM::Client		*client;
-    void			*data;
-};
+struct CutHistory;
 
 // EventARRequest
 struct ARRequest
@@ -23,12 +17,6 @@ struct ARRequest
     void				*param;
 };
 
-struct MsgSend
-{
-    SIM::Message *msg;
-    MsgEdit *edit;
-};
-
 // not nice, but currently no other idea :(
 // maybe move to simlib?
 const SIM::SIMEvent eEventCreateMessageType	= ((SIM::SIMEvent)(CmdBase +  1));
@@ -37,11 +25,21 @@ const SIM::SIMEvent eEventRealSendMessage	= ((SIM::SIMEvent)(CmdBase +  3));
 const SIM::SIMEvent eEventHistoryConfig	    = ((SIM::SIMEvent)(CmdBase +  4));
 const SIM::SIMEvent eEventTemplateExpand    = ((SIM::SIMEvent)(CmdBase +  5));
 const SIM::SIMEvent eEventTemplateExpanded  = ((SIM::SIMEvent)(CmdBase +  6));
+const SIM::SIMEvent eEventARRequest			= ((SIM::SIMEvent)(CmdBase +  7));
 const SIM::SIMEvent eEventClientStatus		= ((SIM::SIMEvent)(CmdBase +  8));
 const SIM::SIMEvent eEventLoadMessage		= ((SIM::SIMEvent)(CmdBase +  9));
 const SIM::SIMEvent eEventDefaultAction		= ((SIM::SIMEvent)(CmdBase + 10));
 const SIM::SIMEvent eEventContactClient     = ((SIM::SIMEvent)(CmdBase + 11));
+const SIM::SIMEvent eEventActiveContact		= ((SIM::SIMEvent)(CmdBase + 14));
+const SIM::SIMEvent eEventMessageRetry		= ((SIM::SIMEvent)(CmdBase + 15));
 const SIM::SIMEvent eEventHistoryColors	    = ((SIM::SIMEvent)(CmdBase + 16));
+const SIM::SIMEvent eEventCheckSend			= ((SIM::SIMEvent)(CmdBase + 18));
+const SIM::SIMEvent eEventCutHistory		= ((SIM::SIMEvent)(CmdBase + 19));
+const SIM::SIMEvent eEventTmplHelp			= ((SIM::SIMEvent)(CmdBase + 20));
+const SIM::SIMEvent eEventTmplHelpList		= ((SIM::SIMEvent)(CmdBase + 21));
+const SIM::SIMEvent eEventDeleteMessage		= ((SIM::SIMEvent)(CmdBase + 22));
+const SIM::SIMEvent eEventRewriteMessage	= ((SIM::SIMEvent)(CmdBase + 23));
+const SIM::SIMEvent eEventJoinAlert			= ((SIM::SIMEvent)(CmdBase + 24));
 
 class EventCreateMessageType : public SIM::Event
 {
@@ -125,6 +123,17 @@ public:
         : EventTemplate(eEventTemplateExpanded, te) {}
 };
 
+class EventARRequest : public SIM::Event
+{
+public:
+    EventARRequest(ARRequest *ar)
+        : Event(eEventARRequest), m_ar(ar){}
+
+    ARRequest *request() const { return m_ar; }
+protected:
+    ARRequest *m_ar;
+};
+
 class EventClientStatus : public SIM::Event
 {
 public:
@@ -173,16 +182,112 @@ protected:
     SIM::Contact *m_contact;
 };
 
-const unsigned long EventARRequest			= (CmdBase + 7);
-const unsigned long EventActiveContact		= (CmdBase + 14);
-const unsigned long EventMessageRetry		= (CmdBase + 15);
-const unsigned long EventCheckSend			= (CmdBase + 18);
-const unsigned long EventCutHistory			= (CmdBase + 19);
-const unsigned long EventTmplHelp			= (CmdBase + 20);
-const unsigned long EventTmplHelpList		= (CmdBase + 21);
-const unsigned long EventDeleteMessage		= (CmdBase + 22);
-const unsigned long EventRewriteMessage		= (CmdBase + 23);
-const unsigned long EventJoinAlert			= (CmdBase + 24);
+class EventActiveContact : public SIM::Event
+{
+public:
+    EventActiveContact()
+        : Event(eEventActiveContact), m_id(0) {}
+
+    // out
+    void setContactID(unsigned long id) { m_id = id; }
+    unsigned long contactID() const { return m_id; }
+protected:
+    unsigned long m_id;
+};
+
+class EventMessageRetry : public SIM::Event
+{
+public:
+    struct MsgSend
+    {
+        SIM::Message *msg;
+        MsgEdit *edit;
+    };
+public:
+    EventMessageRetry(MsgSend *msgRetry)
+        : Event(eEventMessageRetry), m_msgRetry(msgRetry) {}
+
+    MsgSend *msgRetry() const { return m_msgRetry; }
+protected:
+    MsgSend *m_msgRetry;
+};
+
+class EventCheckSend : public SIM::Event
+{
+public:
+    // FIXME: void *data
+    EventCheckSend(unsigned long id, SIM::Client *client, void *data)
+        : Event(eEventCheckSend), m_id(id), m_client(client), m_data(data) {}
+
+    unsigned long id() const { return m_id; }
+    SIM::Client *client() const { return m_client; }
+    void *data() const { return m_data; }
+protected:
+    unsigned long m_id;
+    SIM::Client *m_client;
+    void *m_data;
+};
+
+class EventCutHistory : public SIM::Event
+{
+public:
+    EventCutHistory(CutHistory *cut)
+        : Event(eEventCutHistory), m_cut(cut) {}
+
+    CutHistory *cut() const { return m_cut; }
+protected:
+    CutHistory *m_cut;
+};
+
+class EventTmplHelp : public SIM::Event
+{
+public:
+    EventTmplHelp(const QString &helpString)
+        : Event(eEventTmplHelp), m_help(helpString) {}
+
+    // in & out
+    void setHelp(const QString &help) { m_help = help; }
+    const QString &help() const { return m_help; }
+protected:
+    QString m_help;
+};
+
+class EventTmplHelpList : public SIM::Event
+{
+public:
+    EventTmplHelpList() : Event(eEventTmplHelpList) {}
+
+    // out, fixme - use QStringList
+    void setHelpList(const char **helpList) { m_helpList = helpList; }
+    const char **helpList() const { return m_helpList; }
+protected:
+    const char **m_helpList;
+};
+
+class EventJoinAlert : public SIM::Event
+{
+public:
+    EventJoinAlert(SIM::Client *client)
+        : Event(eEventJoinAlert), m_client(client) {}
+
+    SIM::Client *client() const { return m_client; }
+protected:
+    SIM::Client *m_client;
+};
+
+class EventDeleteMessage : public SIM::EventMessage
+{
+public:
+    EventDeleteMessage(SIM::Message *msg)
+        : EventMessage(eEventDeleteMessage, msg) {}
+};
+
+class EventRewriteMessage : public SIM::EventMessage
+{
+public:
+    EventRewriteMessage(SIM::Message *msg)
+        : EventMessage(eEventRewriteMessage, msg) {}
+};
 
 #endif
 

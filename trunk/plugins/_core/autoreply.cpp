@@ -83,8 +83,9 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     connect(edtAutoResponse, SIGNAL(textChanged()), this, SLOT(textChanged()));
     connect(chkNoShow, SIGNAL(toggled(bool)), this, SLOT(toggled(bool)));
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
-    Event e(EventTmplHelpList);
-    edtAutoResponse->helpList = (const char**)e.process();
+    EventTmplHelpList e;
+    e.process();
+    edtAutoResponse->helpList = e.helpList();
 }
 
 AutoReplyDialog::~AutoReplyDialog()
@@ -130,11 +131,10 @@ void AutoReplyDialog::accept()
 void AutoReplyDialog::help()
 {
     stopTimer();
-    QString helpString = i18n("In text you can use:");
-    helpString += "\n";
-    Event e(EventTmplHelp, &helpString);
+    QString helpString = i18n("In text you can use:") + "\n";
+    EventTmplHelp e(helpString);
     e.process();
-    BalloonMsg::message(helpString, btnHelp, false, 400);
+    BalloonMsg::message(e.help(), btnHelp, false, 400);
 }
 
 #ifndef NO_MOC_INCLUDES

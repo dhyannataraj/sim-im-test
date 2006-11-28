@@ -542,8 +542,7 @@ void JabberClient::setStatus(unsigned status)
     ar.status   = status;
     ar.receiver = this;
     ar.param	= (void*)(long)status;
-    Event e(EventARRequest, &ar);
-    e.process();
+    EventARRequest(&ar).process();
 }
 
 void JabberClient::setStatus(unsigned status, const QString &ar)

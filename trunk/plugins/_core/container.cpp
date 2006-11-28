@@ -705,12 +705,15 @@ void *Container::processEvent(Event *e)
         }
         break;
     }
-    case EventActiveContact: {
+    case eEventActiveContact: {
+        EventActiveContact *eac = static_cast<EventActiveContact*>(e);
         if (!isActiveWindow())
             return NULL;
         UserWnd *userWnd = m_tabBar->currentWnd();
-        if (userWnd)
-            return (void*)(userWnd->id());
+        if (userWnd) {
+            eac->setContactID(userWnd->id());
+            return (void*)1;
+        }
         break;
     }
     case eEventContact: {

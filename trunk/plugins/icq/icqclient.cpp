@@ -524,8 +524,7 @@ void ICQClient::setStatus(unsigned status)
             ar.param    = &arRequests.back();
             ar.receiver = this;
             ar.status   = status;
-            Event eAR(EventARRequest, &ar);
-            eAR.process();
+            EventARRequest(&ar).process();
             EventClientChanged(this).process();
         }
         return;
@@ -2315,8 +2314,9 @@ void *ICQClient::processEvent(Event *e)
         }
         break;
     }
-    case EventMessageRetry: {
-        MsgSend *m = (MsgSend*)(e->param());
+    case eEventMessageRetry: {
+        EventMessageRetry *emr = static_cast<EventMessageRetry*>(e);
+        EventMessageRetry::MsgSend *m = emr->msgRetry();
         QStringList btns;
         if (m->msg->getRetryCode() == static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied){
             btns.append(i18n("Send &urgent"));
@@ -2337,7 +2337,7 @@ void *ICQClient::processEvent(Event *e)
         BalloonMsg *msg = new BalloonMsg(m, quoteString(err), btns, msgWidget, NULL, false);
         connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));
         msg->show();
-        return e->param();
+        return (void*)1;
     }
     case eEventTemplateExpanded: {
         EventTemplate *et = static_cast<EventTemplate*>(e);
@@ -3223,7 +3223,7 @@ QImage ICQClient::userPicture(ICQUserData *d)
 
 void ICQClient::retry(int n, void *p)
 {
-    MsgSend *m = (MsgSend*)p;
+    EventMessageRetry::MsgSend *m = reinterpret_cast<EventMessageRetry::MsgSend*>(p);
     if (m->msg->getRetryCode() == static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendDND){
         if (n == 0){
             m->edit->m_flags = MESSAGE_LIST;

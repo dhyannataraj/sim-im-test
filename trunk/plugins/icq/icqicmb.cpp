@@ -1150,8 +1150,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             ar.param    = &arRequests.back();
             ar.receiver = this;
             ar.status   = req_status;
-            Event e(EventARRequest, &ar);
-            e.process();
+            EventARRequest(&ar).process();
 
             if (!msg.isEmpty()){
                 Contact *contact;
@@ -1234,8 +1233,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                             ar.param    = &arRequests.back();
                             ar.receiver = this;
                             ar.status   = getStatus();
-                            Event e(EventARRequest, &ar);
-                            e.process();
+                            EventARRequest(&ar).process();
                             return;
                         }
                     }

@@ -771,9 +771,9 @@ void MsgViewBase::reload()
 
 void *MsgViewBase::processEvent(Event *e)
 {
-    if ((e->type() == EventRewriteMessage) || (e->type() == eEventMessageRead)){
+    if ((e->type() == eEventRewriteMessage) || (e->type() == eEventMessageRead)){
         EventMessage *em = static_cast<EventMessage*>(e);
-        Message *msg = e->type() == eEventMessageRead ? em->msg() : (Message*)(e->param());
+        Message *msg = em->msg();
         if (msg->contact() != m_id)
             return NULL;
         unsigned i;
@@ -799,8 +799,9 @@ void *MsgViewBase::processEvent(Event *e)
         QTimer::singleShot(0, this, SLOT(update()));
         return NULL;
     }
-    if (e->type() == EventCutHistory){
-        CutHistory *ch = (CutHistory*)(e->param());
+    if (e->type() == eEventCutHistory){
+        EventCutHistory *ech = static_cast<EventCutHistory*>(e);
+        CutHistory *ch = ech->cut();
         if (ch->contact != m_id)
             return NULL;
 

@@ -38,8 +38,9 @@ AddItem::AddItem(QWidget *parent)
     connect(edtItem, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(edtPrg, SIGNAL(textChanged(const QString&)), this, SLOT(changed(const QString&)));
     connect(buttonHelp, SIGNAL(clicked()), this, SLOT(help()));
-    Event e(EventTmplHelpList);
-    edtPrg->helpList = (const char**)e.process();
+    EventTmplHelpList e;
+    e.process();
+    edtPrg->helpList = e.helpList();
 }
 
 void AddItem::changed()
@@ -54,11 +55,10 @@ void AddItem::changed(const QString&)
 
 void AddItem::help()
 {
-    QString helpString = i18n("In command line you can use:");
-    helpString += "\n";
-    Event e(EventTmplHelp, &helpString);
+    QString helpString = i18n("In command line you can use:") + "\n";
+    EventTmplHelp e(helpString);
     e.process();
-    BalloonMsg::message(helpString, buttonHelp, false, 400);
+    BalloonMsg::message(e.help(), buttonHelp, false, 400);
 }
 
 #ifndef NO_MOC_INCLUDES

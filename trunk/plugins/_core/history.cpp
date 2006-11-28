@@ -771,8 +771,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
         ch.from    = skip_start;
         ch.size	   = skip_start + skip_size;
     }
-    Event e(EventCutHistory, &ch);
-    e.process();
+    EventCutHistory(&ch).process();
 }
 
 void History::del(unsigned msg_id)

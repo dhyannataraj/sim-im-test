@@ -103,8 +103,7 @@ RostersRequest::~RostersRequest()
         delete *itr;
     m_client->processList();
     if (m_client->m_bJoin){
-        Event e(EventJoinAlert, m_client);
-        e.process();
+        EventJoinAlert(m_client).process();
     }
 }
 

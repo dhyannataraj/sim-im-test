@@ -54,7 +54,7 @@ void *Tmpl::processEvent(Event *e)
         tmpl.bReady = false;
         if (!process(&tmpl))
             tmpls.push_back(tmpl);
-        return e->param();
+        return (void*)1;
     }
     return NULL;
 }

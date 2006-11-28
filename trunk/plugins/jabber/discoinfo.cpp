@@ -159,7 +159,7 @@ void DiscoInfo::reset()
     }else if (m_bStat){
         pos++;
     }
-    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url, m_node) : "";
+    m_statId = m_bStat ? m_browser->m_client->statInfo(m_url, m_node) : QString::null;
     if (bVCard != m_bVCard){
         m_bVCard = bVCard;
         if (m_bVCard || m_bVCard){
@@ -201,7 +201,7 @@ void *DiscoInfo::processEvent(Event *e)
         DiscoItem *item = (DiscoItem*)(e->param());
         if (m_statId == item->id){
             if (item->jid.isEmpty()){
-                m_statId = "";
+                m_statId = QString::null;
                 return e->param();
             }
             QListViewItem *i = new QListViewItem(lstStat);

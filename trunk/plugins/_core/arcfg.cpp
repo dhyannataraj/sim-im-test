@@ -64,8 +64,9 @@ ARConfig::ARConfig(QWidget *p, unsigned status, const QString &name, Contact *co
             text = get_str(ar->AutoReply, STATUS_AWAY);
     }
     edtAutoReply->setText(text);
-    Event e(EventTmplHelpList);
-    edtAutoReply->helpList = (const char**)e.process();
+    EventTmplHelpList e;
+    e.process();
+    edtAutoReply->helpList = e.helpList();
     connect(btnHelp, SIGNAL(clicked()), this, SLOT(help()));
 }
 
@@ -94,11 +95,10 @@ void ARConfig::toggled(bool bState)
 
 void ARConfig::help()
 {
-    QString helpString = i18n("In text you can use:");
-    helpString += "\n";
-    Event e(EventTmplHelp, &helpString);
+    QString helpString = i18n("In text you can use:") + "\n";
+    EventTmplHelp e(helpString);
     e.process();
-    BalloonMsg::message(helpString, btnHelp, false, 400);
+    BalloonMsg::message(e.help(), btnHelp, false, 400);
 }
 
 #ifndef NO_MOC_INCLUDES

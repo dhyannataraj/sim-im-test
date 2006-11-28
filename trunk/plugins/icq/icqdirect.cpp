@@ -700,8 +700,7 @@ void DirectClient::processPacket()
                 ar.param    = &m_client->arRequests.back();
                 ar.receiver = m_client;
                 ar.status   = req_status;
-                Event e(EventARRequest, &ar);
-                e.process();
+                EventARRequest(&ar).process();
                 return;
             }
         case ICQ_MSGxSECURExOPEN:
@@ -1128,8 +1127,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         ar.param    = &m_client->arRequests.back();
         ar.receiver = m_client;
         ar.status   = req_status;
-        Event e(EventARRequest, &ar);
-        e.process();
+        EventARRequest(&ar).process();
         return;
     }
 

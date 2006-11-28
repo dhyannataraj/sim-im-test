@@ -1607,7 +1607,7 @@ void *CorePlugin::processEvent(Event *e)
             EventCommandChange(cmd).process();
             return NULL;
         }
-    case EventJoinAlert:
+    case eEventJoinAlert:
         if (!getNoJoinAlert() && (m_alert == NULL)){
             Command cmd;
             cmd->id = CmdStatusBar;
@@ -1615,7 +1615,7 @@ void *CorePlugin::processEvent(Event *e)
             eWidget.process();
             QWidget *widget = eWidget.widget();
             if (widget == NULL)
-                return e->param();
+                return (void*)1;
             raiseWindow(widget->topLevelWidget());
             QStringList l;
             l.append(i18n("OK"));
@@ -1627,7 +1627,7 @@ void *CorePlugin::processEvent(Event *e)
                                      l, widget, NULL, false, true, 150, i18n("Don't show this message in next time"));
             connect(m_alert, SIGNAL(finished()), this, SLOT(alertFinished()));
         }
-        return e->param();
+        return (void*)1;
     case eEventGroup: {
         EventGroup *ev = static_cast<EventGroup*>(e);
         if (ev->action() != EventGroup::eChanged) 
@@ -1636,32 +1636,38 @@ void *CorePlugin::processEvent(Event *e)
             return (void*)1;
         break;
     }
-    case EventDeleteMessage:{
-            Message *msg = (Message*)(e->param());
-            History::del(msg);
-            return e->param();
+    case eEventDeleteMessage:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            History::del(em->msg());
+            return (void*)1;
         }
-    case EventRewriteMessage:{
-            Message *msg = (Message*)(e->param());
-            History::rewrite(msg);
+    case eEventRewriteMessage:{
+            EventMessage *em = static_cast<EventMessage*>(e);
+            History::rewrite(em->msg());
             return NULL;
         }
-    case EventTmplHelp:{
-            QString *str = (QString*)(e->param());
+    case eEventTmplHelp:{
+            EventTmplHelp *eth = static_cast<EventTmplHelp*>(e);
+            QString str = eth->help();
             for (const char **p = helpList; *p;){
-                *str += *(p++);
-                *str += " - ";
-                *str += i18n(*(p++));
-                *str += "\n";
+                str += *(p++);
+                str += " - ";
+                str += i18n(*(p++));
+                str += "\n";
             }
-            *str += "\n";
-            *str += i18n("`<command>` - call <command> and substitute command output\n");
-            return e->param();
+            str += "\n";
+            str += i18n("`<command>` - call <command> and substitute command output\n");
+            eth->setHelp(str);
+            return (void*)1;
         }
-    case EventTmplHelpList:
-        return helpList;
-    case EventARRequest:{
-            ARRequest *r = (ARRequest*)(e->param());
+    case eEventTmplHelpList: {
+        EventTmplHelpList *ethl = static_cast<EventTmplHelpList*>(e);
+        ethl->setHelpList(helpList);
+        return (void*)1;
+    }
+    case eEventARRequest:{
+            EventARRequest *ear = static_cast<EventARRequest*>(e);
+            ARRequest *r = ear->request();
             ARUserData *ar;
             QString tmpl;
             if (r->contact){
@@ -1689,7 +1695,7 @@ void *CorePlugin::processEvent(Event *e)
             t.receiver	= r->receiver;
             t.tmpl		= tmpl;
             EventTemplateExpand(&t).process();
-            return e->param();
+            return (void*)1;
         }
     case eEventSaveState:{
             ARUserData *ar = (ARUserData*)getContacts()->getUserData(ar_data_id);
@@ -1700,7 +1706,7 @@ void *CorePlugin::processEvent(Event *e)
             }
             e->process(this);
             setAutoReplies();
-            return this;
+            return (void*)1;
         }
     case eEventPluginChanged:{
             EventPluginChanged *p = static_cast<EventPluginChanged*>(e);
@@ -1862,7 +1868,7 @@ void *CorePlugin::processEvent(Event *e)
             }
             EventCommandRemove(id).process();
             messageTypes.erase(id);
-            return e->param();
+            return (void*)1;
         }
     case eEventContact: {
             EventContact *ec = static_cast<EventContact*>(e);
@@ -2379,11 +2385,7 @@ void *CorePlugin::processEvent(Event *e)
                                     if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
                                         continue;
                                     if (!cc.client->canSend(c->id, cc.data)){
-                                        CheckSend cs;
-                                        cs.id     = c->id;
-                                        cs.data   = cc.data;
-                                        cs.client = cc.client;
-                                        Event e(EventCheckSend, &cs);
+                                        EventCheckSend e(c->id, cc.client, cc.data);
                                         if (!e.process())
                                             continue;
                                     }
@@ -2433,11 +2435,7 @@ void *CorePlugin::processEvent(Event *e)
                     if ((c->id == MessageSMS) && (cc.client->protocol()->description()->flags & PROTOCOL_NOSMS))
                         continue;
                     if (!cc.client->canSend(c->id, cc.data)){
-                        CheckSend cs;
-                        cs.id     = c->id;
-                        cs.data   = cc.data;
-                        cs.client = cc.client;
-                        Event e(EventCheckSend, &cs);
+                        EventCheckSend e(c->id, cc.client, cc.data);
                         if (!e.process())
                             continue;
                     }

@@ -440,10 +440,10 @@ void *GpgPlugin::processEvent(Event *e)
             }
             return NULL;
         }
-    case EventCheckSend:{
-            CheckSend *cs = (CheckSend*)(e->param());
-            if ((cs->id == MessageGPGKey) && cs->client->canSend(MessageGeneric, cs->data))
-                return e->param();
+    case eEventCheckSend:{
+            EventCheckSend *ecs = static_cast<EventCheckSend*>(e);
+            if ((ecs->id() == MessageGPGKey) && ecs->client()->canSend(MessageGeneric, ecs->data()))
+                return (void*)1;
             return NULL;
         }
     case eEventMessageSent:{

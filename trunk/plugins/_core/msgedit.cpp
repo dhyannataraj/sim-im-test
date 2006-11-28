@@ -1260,7 +1260,7 @@ void *MsgEdit::processEvent(Event *e)
                     m_retry.msg  = new Message(msg->type());
                     m_retry.msg->setRetryCode(msg->getRetryCode());
                     m_retry.msg->setError(msg->getError());
-                    Event e(EventMessageRetry, &m_retry);
+                    EventMessageRetry e(&m_retry);
                     if (e.process())
                         return NULL;
                 }else{

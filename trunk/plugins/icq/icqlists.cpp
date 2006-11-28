@@ -574,8 +574,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
         getContacts()->save();
         if (m_bJoin){
-            Event e(EventJoinAlert, this);
-            e.process();
+            EventJoinAlert(this).process();
             m_bJoin = false;
         }
     case ICQ_SNACxLISTS_ROSTERxOK:	// FALLTHROUGH
@@ -616,8 +615,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     ar.param    = &arRequests.back();
                     ar.receiver = this;
                     ar.status   = m_logonStatus;
-                    Event eAR(EventARRequest, &ar);
-                    eAR.process();
+                    EventARRequest(&ar).process();
                 }
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
                 sendPacket(true);

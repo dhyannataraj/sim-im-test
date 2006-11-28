@@ -566,11 +566,9 @@ MessageRequest::~MessageRequest()
             if (m_bEdit){
                 m_msg->setId(m_msg->getOldID());
                 if (m_msg->getRichText().isEmpty()){
-                    Event e(EventDeleteMessage, m_msg);
-                    e.process();
+                    EventDeleteMessage(m_msg).process();
                 }else{
-                    Event e(EventRewriteMessage, m_msg);
-                    e.process();
+                    EventRewriteMessage(m_msg).process();
                 }
             }else{
                 m_msg->setID(m_id);
