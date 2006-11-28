@@ -15,8 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ontop.h"
-#include "ontopcfg.h"
+#include "sim_export.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
@@ -29,6 +28,11 @@
 #include <kwin.h>
 #endif
 #endif
+
+#include "misc.h"
+
+#include "ontop.h"
+#include "ontopcfg.h"
 
 using namespace SIM;
 

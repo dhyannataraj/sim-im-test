@@ -18,7 +18,6 @@
 #ifndef _OSDCONFIG_H
 #define _OSDCONFIG_H
 
-#include "simapi.h"
 #include "osdconfigbase.h"
 
 class OSDPlugin;

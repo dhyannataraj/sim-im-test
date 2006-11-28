@@ -15,12 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "navcfg.h"
-#include "navigate.h"
+#include "sim_export.h"
 
 #include <qlineedit.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+
+#include "navcfg.h"
+#include "navigate.h"
 
 NavCfg::NavCfg(QWidget *parent, NavigatePlugin *plugin)
         : NavCfgBase(parent)

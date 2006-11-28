@@ -18,7 +18,6 @@
 #ifndef _OSDIFACE_H
 #define _OSDIFACE_H
 
-#include "simapi.h"
 #include "osdifacebase.h"
 
 class OSDPlugin;

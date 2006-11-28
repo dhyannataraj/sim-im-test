@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
 #include <qmenubar.h>
 #include <qpopupmenu.h>
 #include <qfile.h>
@@ -29,6 +31,8 @@
 #endif
 
 #include "icons.h"
+#include "log.h"
+#include "misc.h"
 #include "textshow.h"
 #include "unquot.h"
 

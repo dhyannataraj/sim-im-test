@@ -18,7 +18,11 @@
 #ifndef _NAVIGATE_H
 #define _NAVIGATE_H
 
-#include "simapi.h"
+#include "sim_export.h"
+
+#include "cfg.h"
+#include "event.h"
+#include "plugins.h"
 
 struct NavigateData
 {

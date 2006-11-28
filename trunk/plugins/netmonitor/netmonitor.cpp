@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "netmonitor.h"
-#include "simapi.h"
-#include "monitor.h"
-
 #include <qtimer.h>
 #include <qwidget.h>
+
+#include "misc.h"
+
+#include "netmonitor.h"
+#include "monitor.h"
 
 using namespace std;
 using namespace SIM;

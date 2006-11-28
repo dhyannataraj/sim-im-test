@@ -15,17 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "osdconfig.h"
-#include "osdiface.h"
-#include "osd.h"
-#include "qcolorbutton.h"
-#include "fontedit.h"
-
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
 #include <qlabel.h>
+
+#include "fontedit.h"
+#include "misc.h"
+#include "qcolorbutton.h"
+
+#include "osdconfig.h"
+#include "osdiface.h"
+#include "osd.h"
 
 using SIM::getContacts;
 

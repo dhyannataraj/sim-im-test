@@ -18,7 +18,6 @@
 #ifndef _MONITOR_H
 #define _MONITOR_H
 
-#include "simapi.h"
 #include <qmainwindow.h>
 #include <qmutex.h>
 

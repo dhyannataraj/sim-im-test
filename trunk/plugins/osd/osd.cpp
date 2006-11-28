@@ -20,13 +20,6 @@
 
 */
 
-#include "osd.h"
-#include "osdconfig.h"
-#include "simapi.h"
-#include "core.h"
-
-#include "fontedit.h"
-
 #include <qtimer.h>
 #include <qpainter.h>
 #include <qapplication.h>
@@ -36,6 +29,13 @@
 #include <qstyle.h>
 #include <qregexp.h>
 #include <qpushbutton.h>
+
+#include "fontedit.h"
+#include "log.h"
+#include "core.h"
+
+#include "osd.h"
+#include "osdconfig.h"
 
 #ifdef WIN32
 #include <windows.h>
