@@ -55,7 +55,7 @@ EventReceiver::~EventReceiver()
 Event::~Event()
 {
     if(!m_bProcessed)
-        log(L_ERROR, "Event::~Event() without call to Event::process(), Event: %x", m_type);
+        log(L_ERROR, "Event::~Event() without call to Event::process(), Event: 0x%04x", m_type);
 }
 
 bool Event::process(EventReceiver *from)
@@ -63,7 +63,7 @@ bool Event::process(EventReceiver *from)
     m_bProcessed = true;
 
     if (receivers == NULL)
-        return NULL;
+        return false;
     g_iLevel++;
     QValueList<EventReceiver*>::iterator it = receivers->begin();
     if (from){
@@ -71,7 +71,7 @@ bool Event::process(EventReceiver *from)
         if(it != receivers->end())
             ++it;
         else
-            return NULL;
+            return false;
     }
     for (; it != receivers->end(); ++it){
         EventReceiver *receiver = *it;
@@ -87,7 +87,7 @@ bool Event::process(EventReceiver *from)
                 // adjust
                 it = receivers->find(receiver);
                 if(it == receivers->end())
-                    return NULL;
+                    return false;
             }
         }
     }

@@ -286,10 +286,10 @@ PluginManagerPrivate::~PluginManagerPrivate()
 bool PluginManagerPrivate::processEvent(Event *e)
 {
     switch (e->type()){
-	case eEventArg: {
+    case eEventArg: {
         EventArg *a = static_cast<EventArg*>(e);
         return findParam(a);
-	}
+    }
     case eEventGetPluginInfo: {
         EventGetPluginInfo *info = static_cast<EventGetPluginInfo*>(e);
         if(info->pluginName().isEmpty())
@@ -433,13 +433,13 @@ bool PluginManagerPrivate::create(pluginInfo &info)
 {
     if (info.plugin)
         return true;
-	EventArg a1("--enable-" + info.name);
-    if (findParam(&a1)){
+    EventArg a1("--enable-" + info.name);
+    if (a1.process()){
         info.bDisabled = false;
         info.bFromCfg = true;
     }
-	EventArg a2("--disable-" + info.name);
-    if (findParam(&a2)){
+    EventArg a2("--disable-" + info.name);
+    if (a2.process()){
         info.bDisabled = true;
         info.bFromCfg = true;
     }
@@ -716,8 +716,8 @@ void PluginManagerPrivate::loadState()
 
 bool PluginManagerPrivate::findParam(EventArg *a)
 {
-	bool bRet = false;
-	if (!a->desc().isEmpty()){
+    bool bRet = false;
+    if (!a->desc().isEmpty()){
         cmds.push_back(a->arg());
         descrs.push_back(a->desc());
     }
@@ -731,7 +731,7 @@ bool PluginManagerPrivate::findParam(EventArg *a)
             if (value.length()){
                 *it = QString::null;
                 bRet = true;
-				break;
+                break;
             }
             ++it;
             if (it != args.end()){
@@ -740,8 +740,8 @@ bool PluginManagerPrivate::findParam(EventArg *a)
                 --it;
                 *it = QString::null;
             }
-			bRet = true;
-			break;
+            bRet = true;
+            break;
         }
     }else{
         QStringList::iterator it = args.find(a->arg());
@@ -751,7 +751,7 @@ bool PluginManagerPrivate::findParam(EventArg *a)
             bRet = true;
         }
     }
-	a->setValue(value);
+    a->setValue(value);
     return bRet;
 }
 
