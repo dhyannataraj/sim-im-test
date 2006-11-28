@@ -2249,7 +2249,7 @@ bool ICQClient::processEvent(Event *e)
             QString tmp = ac->nick;
             findContact(ac->addr, &tmp, true, contact, grp);
             ec->setContact(contact);
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -2267,7 +2267,7 @@ bool ICQClient::processEvent(Event *e)
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
                         delete contact;
-                    return (void*)1;
+                    return true;
                 }
             }
         }
@@ -2281,11 +2281,11 @@ bool ICQClient::processEvent(Event *e)
         while ((data = (ICQUserData*)(++it)) != NULL){
             if (data->RealIP.ip()) {
                 ei->setIP(data->RealIP.ip());
-                return (void*)1;
+                return true;
             }
             if (data->IP.ip()) {
                 ei->setIP(data->IP.ip());
-                return (void*)1;
+                return true;
             }
         }
         break;
@@ -2321,7 +2321,7 @@ bool ICQClient::processEvent(Event *e)
         if (m->msg->getRetryCode() == static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendOccupied){
             btns.append(i18n("Send &urgent"));
         }else if (m->msg->getRetryCode() != static_cast<ICQPlugin*>(protocol()->plugin())->RetrySendDND){
-            return NULL;
+            return false;
         }
         btns.append(i18n("Send to &list"));
         btns.append(i18n("&Cancel"));
@@ -2337,7 +2337,7 @@ bool ICQClient::processEvent(Event *e)
         BalloonMsg *msg = new BalloonMsg(m, quoteString(err), btns, msgWidget, NULL, false);
         connect(msg, SIGNAL(action(int, void*)), this, SLOT(retry(int, void*)));
         msg->show();
-        return (void*)1;
+        return true;
     }
     case eEventTemplateExpanded: {
         EventTemplate *et = static_cast<EventTemplate*>(e);
@@ -2347,7 +2347,7 @@ bool ICQClient::processEvent(Event *e)
             if (&(*it) == t->param)
                 break;
         if (it == arRequests.end())
-            return NULL;
+            return false;
         if (m_bAIM){
             if ((getState() == Connected) && (m_status == STATUS_AWAY)){
                 if ((*it).bDirect){
@@ -2361,7 +2361,7 @@ bool ICQClient::processEvent(Event *e)
                     fetchProfiles();
                 }
             }
-            return (void*)1;
+            return true;
         }
         ar_request ar = (*it);
         if (ar.bDirect){
@@ -2385,7 +2385,7 @@ bool ICQClient::processEvent(Event *e)
                           ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response, 0, copy);
         }
         arRequests.erase(it);
-        return (void*)1;
+        return true;
     }
     case eEventContact: {
         EventContact *ec = static_cast<EventContact*>(e);
@@ -2441,7 +2441,7 @@ bool ICQClient::processEvent(Event *e)
                             data.owner.PluginStatusTime.asULong() = now;
                             sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.toULong());
                         }
-                        return NULL;
+                        return false;
                     }
                     ICQUserData *data;
                     ClientDataIterator it(contact->clientData, this);
@@ -2463,7 +2463,7 @@ bool ICQClient::processEvent(Event *e)
         EventGroup *ev = static_cast<EventGroup*>(e);
         Group *group = ev->group();
         if(!group->id())
-            return NULL;
+            return false;
         switch(ev->action()) {
             case EventGroup::eChanged: 
                 addGroupRequest(group);
@@ -2480,7 +2480,7 @@ bool ICQClient::processEvent(Event *e)
                 break;
             }
             case EventGroup::eAdded:
-                return NULL;
+                return false;
         }
         break;
     }
@@ -2555,8 +2555,8 @@ bool ICQClient::processEvent(Event *e)
         CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdPhones){
             if (!m_bAIM)
-                return (void*)1;
-            return NULL;
+                return true;
+            return false;
         }
         if(cmd->id == CmdFetchAway) {
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
@@ -2569,17 +2569,17 @@ bool ICQClient::processEvent(Event *e)
                 contactInfo(data, status, style, statusIcon);
                 if(status != STATUS_ONLINE && status != STATUS_OFFLINE) {
                     cmd->flags &= ~BTN_HIDE;
-                    return (void*)1;
+                    return true;
                 }
             }
-            return NULL;
+            return false;
         }
         if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
             if (cmd->id == CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL){
                     cmd->flags |= BTN_HIDE;
-                    return (void*)1;
+                    return true;
                 }
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
@@ -2593,16 +2593,16 @@ bool ICQClient::processEvent(Event *e)
                 ClientDataIterator it(contact->clientData, this);
                 if ((++it) != NULL){
                     cmd->flags &= ~BTN_HIDE;
-                    return (void*)1;
+                    return true;
                 }
-                return NULL;
+                return false;
             }
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdVisibleList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client == this){
@@ -2625,7 +2625,7 @@ bool ICQClient::processEvent(Event *e)
             if (cmd->id == CmdInvisibleList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 for (unsigned i = 0; i < getContacts()->nClients(); i++){
                     Client *client = getContacts()->getClient(i);
                     if (client == this){
@@ -2664,13 +2664,13 @@ bool ICQClient::processEvent(Event *e)
                     fetchAwayMessage(data);
             }
             cmd->flags &= ~COMMAND_CHECKED;
-            return NULL;
+            return false;
         }
         if (cmd->menu_id == MenuContactGroup){
             if (cmd->id == CmdVisibleList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 ICQUserData *data;
                 ClientDataIterator it(contact->clientData);
                 while ((data = (ICQUserData*)(++it)) != NULL){
@@ -2678,12 +2678,12 @@ bool ICQClient::processEvent(Event *e)
                     EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdInvisibleList){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
-                    return NULL;
+                    return false;
                 ICQUserData *data;
                 ClientDataIterator it(contact->clientData);
                 while ((data = (ICQUserData*)(++it)) != NULL){
@@ -2691,7 +2691,7 @@ bool ICQClient::processEvent(Event *e)
                     EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
                 }
-                return (void*)1;
+                return true;
             }
         }
         break;
@@ -2702,10 +2702,10 @@ bool ICQClient::processEvent(Event *e)
         QString proto;
         int n = url.find(':');
         if (n < 0)
-            return NULL;
+            return false;
         proto = url.left(n);
         if ((proto != "icq") && (proto != "aim"))
-            return NULL;
+            return false;
         url = url.mid(proto.length() + 1);
         while (url.startsWith("/"))
             url = url.mid(1);
@@ -2719,23 +2719,23 @@ bool ICQClient::processEvent(Event *e)
             cmd->menu_id = MenuMessage;
             cmd->param	 = (void*)(contact->id());
             EventCommandExec(cmd).process();
-            return (void*)1;
+            return true;
         }
         break;
     }
     case eEventOpenMessage: {
         if (getState() != Connected)
-            return NULL;
+            return false;
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if ((msg->type() != MessageOpenSecure) &&
             (msg->type() != MessageCloseSecure) &&
             (msg->type() != MessageWarning))
-            return NULL;
+            return false;
         QString client = msg->client();
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         ICQUserData *data = NULL;
         ClientDataIterator it(contact->clientData, this);
         if (client){
@@ -2748,7 +2748,7 @@ bool ICQClient::processEvent(Event *e)
                 break;
         }
         if (data == NULL)
-            return NULL;
+            return false;
         if (msg->type() == MessageOpenSecure){
             SecureDlg *dlg = NULL;
             QWidgetList  *list = QApplication::topLevelWidgets();
@@ -2769,15 +2769,15 @@ bool ICQClient::processEvent(Event *e)
             if (dlg == NULL)
                 dlg = new SecureDlg(this, contact->id(), data);
             raiseWindow(dlg);
-            return (void*)1;
+            return true;
         } else
         if (msg->type() == MessageWarning){
             if (data && (m_bAIM || (data->Uin.toULong() == 0))){
                 WarnDlg *dlg = new WarnDlg(NULL, data, this);
                 raiseWindow(dlg);
-                return (void*)1;
+                return true;
             }
-            return NULL;
+            return false;
         }
         DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
         if (dc && dc->isSecure()){
@@ -2794,7 +2794,7 @@ bool ICQClient::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 bool ICQClient::send(Message *msg, void *_data)

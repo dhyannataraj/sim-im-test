@@ -65,17 +65,17 @@ bool HomeInfo::processEvent(Event *e)
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eChanged)
-            return NULL;
+            return false;
         Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
-    }
+    } else
     if ((e->type() == eEventClientChanged) && (m_data == 0)){
         EventClientChanged *ecc = static_cast<EventClientChanged*>(e);
         if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 static QString formatTime(char n)

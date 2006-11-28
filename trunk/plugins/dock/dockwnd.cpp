@@ -906,12 +906,14 @@ bool DockWnd::processEvent(Event *e)
             }
             m_queue.push_back(item);
             if (showBalloon())
-                return (void*)1;
-            return NULL;
+                return true;
+            return false;
         }
 #endif
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 #ifdef WIN32

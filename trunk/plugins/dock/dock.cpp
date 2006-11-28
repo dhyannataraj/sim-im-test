@@ -269,7 +269,8 @@ bool DockPlugin::processEvent(Event *e)
         CommandDef *def = ece->cmd();
         if (def->id == CmdToggle){
             QWidget *main = getMainWindow();
-            if(!main) return NULL;
+            if(!main)
+                return false;
             if (isMainShow()){
                 setShowMain(false);
                 main->hide();
@@ -291,7 +292,7 @@ bool DockPlugin::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 std::string DockPlugin::getConfig()

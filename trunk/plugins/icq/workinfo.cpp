@@ -60,7 +60,7 @@ bool WorkInfo::processEvent(Event *e)
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eChanged)
-            return NULL;
+            return false;
         Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();
@@ -70,7 +70,7 @@ bool WorkInfo::processEvent(Event *e)
         if (ecc->client() == m_client)
             fill();
     }
-    return NULL;
+    return false;
 }
 
 static const ext_info occupations[] =

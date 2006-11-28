@@ -376,7 +376,7 @@ bool ICQSearch::processEvent(Event *e)
         EventSearchInternal *es = static_cast<EventSearchInternal*>(e);
         SearchResult *res = es->searchResult();
         if ((res->id != m_id_aim) && (res->id != m_id_icq) && (res->client != m_client))
-            return NULL;
+            return false;
         if (e->type() == eEventICQSearchDone){
             if (res->id == m_id_icq){
                 m_id_icq = 0;
@@ -387,7 +387,7 @@ bool ICQSearch::processEvent(Event *e)
                 m_id_aim = 0;
             if ((m_id_icq == 0) && (m_id_aim == 0))
                 emit searchDone(this);
-            return NULL;
+            return false;
         }
         QString icon;
         if (res->data.Uin.toULong()){
@@ -403,7 +403,7 @@ bool ICQSearch::processEvent(Event *e)
                 icon += "inactive";
             }
             if (m_uins.findIndex (res->data.Uin.toULong()) != -1)
-                return NULL;
+                return false;
             m_bAdd = true;
             m_uins.push_back(res->data.Uin.toULong());
         }else{
@@ -456,7 +456,7 @@ bool ICQSearch::processEvent(Event *e)
         }
         emit addItem(l, this);
     }
-    return NULL;
+    return false;
 }
 
 void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)

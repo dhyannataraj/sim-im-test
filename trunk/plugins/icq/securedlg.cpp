@@ -80,7 +80,7 @@ bool SecureDlg::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg != m_msg)
-            return NULL;
+            return false;
         QString err = msg->getError();
         if (!err.isEmpty()){
             error(err);

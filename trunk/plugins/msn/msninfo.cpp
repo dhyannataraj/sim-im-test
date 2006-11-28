@@ -58,7 +58,7 @@ bool MSNInfo::processEvent(Event *e)
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eChanged)
-            return NULL;
+            return false;
         Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill();

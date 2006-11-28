@@ -104,13 +104,11 @@ SplashPlugin::~SplashPlugin()
 
 bool SplashPlugin::processEvent(Event *e)
 {
-    switch(e->type()){
-    case eEventInit:
+    if(e->type() == eEventInit) {
         if (splash){
             delete splash;
             splash = NULL;
         }
-        break;
     }
     return false;
 }

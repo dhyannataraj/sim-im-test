@@ -82,7 +82,7 @@ bool WarnDlg::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg == m_msg){
-            m_msg = NULL;
+            m_msg = false;
             QString err = msg->getError();
             if (!err.isEmpty()){
                 showError(err);
@@ -91,7 +91,7 @@ bool WarnDlg::processEvent(Event *e)
             }
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

@@ -727,7 +727,7 @@ bool OSDPlugin::processEvent(Event *e)
             default:
                 log(L_DEBUG,"OSD: Unknown status %ld",smsg->getStatus());
                 osd.type = OSD_NONE;
-                return NULL;
+                return false;
             }
             queue.push_back(osd);
             processQueue();
