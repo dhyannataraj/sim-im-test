@@ -187,8 +187,9 @@ void DiscoInfo::reset()
 
 void *DiscoInfo::processEvent(Event *e)
 {
-    if (e->type() == EventVCard){
-        JabberUserData *data = (JabberUserData*)(e->param());
+    if (e->type() == eEventVCard){
+        EventVCard *evc = static_cast<EventVCard*>(e);
+        JabberUserData *data = evc->data();
         if (m_data.ID.str() == data->ID.str() && m_data.Node.str() == data->Node.str()){
             edtFirstName->setText(data->FirstName.str());
             edtNick->setText(data->Nick.str());
@@ -198,31 +199,34 @@ void *DiscoInfo::processEvent(Event *e)
             edtEMail->setText(data->EMail.str());
             edtPhone->setText(data->Phone.str());
         }
-    }
-    if (e->type() == EventDiscoItem){
-        DiscoItem *item = (DiscoItem*)(e->param());
+    } else
+    if (e->type() == eEventDiscoItem){
+        EventDiscoItem *edi = static_cast<EventDiscoItem*>(e);
+        DiscoItem *item = edi->item();
         if (m_statId == item->id){
             if (item->jid.isEmpty()){
                 m_statId = QString::null;
-                return e->param();
+                return (void*)1;
             }
             QListViewItem *i = new QListViewItem(lstStat);
             i->setText(0, item->jid);
             i->setText(1, item->name);
             i->setText(2, item->node);
-            return e->param();
+            return (void*)1;
         }
-    }
-    if (e->type() == EventClientVersion){
-        ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
+    } else
+    if (e->type() == eEventClientVersion){
+        EventClientVersion *ecv = static_cast<EventClientVersion*>(e);
+        ClientVersionInfo* info = ecv->info();
         if (m_data.ID.str() == info->jid && m_data.Node.str() == info->node){
             edtName->setText(info->name);
             edtVersion->setText(info->version);
             edtSystem->setText(info->os);
         }
-    }
-    if (e->type() == EventClientLastInfo){
-        ClientLastInfo* info = static_cast<ClientLastInfo*>(e->param());
+    } else
+    if (e->type() == eEventClientLastInfo){
+        EventClientLastInfo *ecli = static_cast<EventClientLastInfo*>(e);
+        ClientLastInfo* info = ecli->info();
         if (m_data.ID.str() == info->jid){
             unsigned ss = info->seconds;
             unsigned mm = ss / 60;
@@ -241,8 +245,8 @@ void *DiscoInfo::processEvent(Event *e)
             date += time;
             edtLast->setText(date);
         }
-    }
-    if (e->type() == EventClientTimeInfo){
+    } else
+    if (e->type() == eEventClientTimeInfo){
         ClientTimeInfo* info = static_cast<ClientTimeInfo*>(e->param());
         if (m_data.ID.str() == info->jid){
           /*

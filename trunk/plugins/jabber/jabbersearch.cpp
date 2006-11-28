@@ -201,7 +201,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             widget = box;
         }else if (data->Type.str() == "key"){
             if (!data->Value.str().isEmpty())
-                m_key = data->Value.str().utf8();
+                m_key = data->Value.str();
         }else if (data->Type.str() == "password"){
             widget = new QLineEdit(this, "password");
             static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);

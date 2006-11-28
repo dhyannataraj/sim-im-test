@@ -22,16 +22,7 @@
 
 const unsigned JabberCmdBase	= 0x00050000;
 
-const unsigned EventAgentFound		= JabberCmdBase + 1;
-const unsigned EventAgentInfo		= JabberCmdBase + 2;
-const unsigned EventAgentRegister	= JabberCmdBase + 3;
-const unsigned EventSearch			= JabberCmdBase + 4;
-const unsigned EventSearchDone		= JabberCmdBase + 5;
-const unsigned EventDiscoItem		= JabberCmdBase + 6;
-const unsigned EventVCard			= JabberCmdBase + 7;
-const unsigned EventClientVersion	= JabberCmdBase + 8;
-const unsigned EventClientLastInfo	= JabberCmdBase + 9;
-const unsigned EventClientTimeInfo	= JabberCmdBase + 10;
+#include "jabber_events.h"
 
 const unsigned long CmdJabberMessage		= JabberCmdBase + 1;
 const unsigned long CmdGroups			= JabberCmdBase + 2;

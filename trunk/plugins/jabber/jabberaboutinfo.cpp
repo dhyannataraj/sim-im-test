@@ -52,8 +52,9 @@ void *JabberAboutInfo::processEvent(Event *e)
         if (ecc->client() == m_client)
             fill(m_data);
     } else
-    if (m_data && (e->type() == EventVCard)){
-        JabberUserData *data = (JabberUserData*)(e->param());
+    if (m_data && (e->type() == eEventVCard)){
+        EventVCard *evc = static_cast<EventVCard*>(e);
+        JabberUserData *data = evc->data();
         if (m_data->ID.str() == data->ID.str() && m_data->Node.str() == data->Node.str())
             fill(data);
     }

@@ -28,6 +28,7 @@ SET(jabber_HDRS
         discoinfo.h
         infoproxy.h
         jabber.h
+        jabber_events.h
         jabber_ssl.h
         jabberaboutinfo.h
         jabberadd.h

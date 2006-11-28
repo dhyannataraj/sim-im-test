@@ -96,8 +96,8 @@ protected:
     void addHistory(const QString &str);
     bool haveFeature(const char*);
     bool haveFeature(const char*, const QString&);
-    QListViewItem *findItem(unsigned col, const char *id);
-    QListViewItem *findItem(unsigned col, const char *id, QListViewItem *item);
+    QListViewItem *findItem(unsigned col, const QString &id);
+    QListViewItem *findItem(unsigned col, const QString &id, QListViewItem *item);
     void setItemPict(QListViewItem *item);
     void adjustColumn(QListViewItem *item);
     void loadItem(QListViewItem *item);

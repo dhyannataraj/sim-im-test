@@ -27,7 +27,7 @@ class JIDSearch : public JIDSearchBase, public SIM::EventReceiver
 {
     Q_OBJECT
 public:
-    JIDSearch(QWidget *parent, JabberClient *client, const QString &jid, const QString &m_node, const char *type);
+    JIDSearch(QWidget *parent, JabberClient *client, const QString &jid, const QString &m_node, const QString &type);
     QString m_jid;
     QString m_node;
 signals:

@@ -23,6 +23,8 @@
 #include <ctype.h>
 #endif
 
+#include <algorithm>
+
 #include <qtimer.h>
 #include <qregexp.h>
 #include <qimage.h>
@@ -442,7 +444,7 @@ void *JabberClient::processEvent(Event *e)
             JabberUserData *data;
             while ((data = (JabberUserData*)(++it)) != NULL){
                 if (grpName == data->Group.str())
-                    listRequest(data, contact->getName().utf8(), grpName.utf8(), false);
+                    listRequest(data, contact->getName(), grpName, false);
             }
         }
         break;
@@ -504,8 +506,9 @@ void *JabberClient::processEvent(Event *e)
         }
         break;
     }
-    case EventClientVersion: {
-        ClientVersionInfo* info = static_cast<ClientVersionInfo*>(e->param());
+    case eEventClientVersion: {
+        EventClientVersion *ecv = static_cast<EventClientVersion*>(e);
+        ClientVersionInfo* info = ecv->info();
         if (!info->jid.isEmpty()){
             Contact *contact;
             QString resource;

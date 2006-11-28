@@ -30,14 +30,13 @@
 using namespace SIM;
 
 JIDSearch::JIDSearch(QWidget *parent, JabberClient *client, const QString &jid,
-                     const QString &node, const char *type)
+                     const QString &node, const QString &type)
         : JIDSearchBase(parent)
 {
     m_client = client;
     m_jid    = jid;
     m_node	 = node;
-    if (type)
-        m_type	 = type;
+    m_type	 = type;
     connect(btnBrowser, SIGNAL(clicked()), this, SLOT(browserClicked()));
     connect(btnAdvanced, SIGNAL(clicked()), this, SLOT(advancedClicked()));
     QIconSet is = Icon("1rightarrow");
@@ -116,8 +115,9 @@ void JIDSearch::searchStop()
 
 void *JIDSearch::processEvent(Event *e)
 {
-    if (e->type() == EventSearch){
-        JabberSearchData *data = (JabberSearchData*)(e->param());
+    if (e->type() == eEventSearch){
+        EventSearch *es = static_cast<EventSearch*>(e);
+        JabberSearchData *data = es->searchData();
         if (m_search_id != data->ID.str())
             return NULL;
         if (data->JID.str().isEmpty()){
@@ -160,10 +160,11 @@ void *JIDSearch::processEvent(Event *e)
             l.append(get_str(data->Fields, n));
         emit addItem(l, this);
     }
-    if (e->type() == EventSearchDone){
-        const char *id = (const char*)(e->param());
+    if (e->type() == eEventSearchDone){
+        EventSearchDone *esd = static_cast<EventSearchDone*>(e);
+        QString id = esd->userID();
         if (m_search_id == id){
-            m_search_id = "";
+            m_search_id = QString::null;
             emit searchDone(this);
         }
     }

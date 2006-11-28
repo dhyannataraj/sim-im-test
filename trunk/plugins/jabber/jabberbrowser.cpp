@@ -76,8 +76,9 @@ void JabberWizard::slotSelected(const QString&)
 
 void *JabberWizard::processEvent(Event *e)
 {
-    if (e->type() == EventAgentRegister){
-        agentRegisterInfo *ai = (agentRegisterInfo*)(e->param());
+    if (e->type() == eEventAgentRegister){
+        EventAgentRegister *ear = static_cast<EventAgentRegister*>(e);
+        agentRegisterInfo *ai = ear->registerInfo();
         if (m_id == ai->id){
             if (ai->err_code){
                 QString err = i18n(ai->error);
@@ -89,7 +90,7 @@ void *JabberWizard::processEvent(Event *e)
                 setFinishEnabled(m_result, true);
                 QTimer::singleShot(0, this, SLOT(close()));
             }
-            return e->param();
+            return (void*)1;
         }
     }
     return NULL;
@@ -286,15 +287,16 @@ void JabberBrowser::save()
 
 void *JabberBrowser::processEvent(Event *e)
 {
-    if (e->type() == EventAgentInfo){
-        JabberAgentInfo *data = (JabberAgentInfo*)(e->param());
+    if (e->type() == eEventAgentInfo){
+        EventAgentInfo *eai = static_cast<EventAgentInfo*>(e);
+        JabberAgentInfo *data = eai->agentInfo();
         if (m_search_id == data->ReqID.str()){
             if (data->Type.str().isEmpty()){
                 if (data->nOptions.toULong()){
                     QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
-                    m_search_id = "";
+                    m_search_id = QString::null;
                     Command cmd;
                     cmd->id		= CmdBrowseSearch;
                     cmd->param	= this;
@@ -311,12 +313,12 @@ void *JabberBrowser::processEvent(Event *e)
                     emit addSearch(m_search, m_client, m_search->m_jid);
                     disconnect(this, SIGNAL(addSearch(QWidget*, SIM::Client*, const QString&)), topLevelWidget(), SLOT(addSearch(QWidget*, SIM::Client*, const QString&)));
                 }
-                m_search_id = "";
+                m_search_id = QString::null;
                 m_search    = NULL;
-                return e->param();
+                return (void*)1;
             }
             m_search->jidSearch->addWidget(data);
-            return e->param();
+            return (void*)1;
         }
         if (m_reg_id == data->ReqID.str()) {
             if (data->Type.str().isEmpty()){
@@ -376,7 +378,7 @@ void *JabberBrowser::processEvent(Event *e)
                 m_config->m_search->addWidget(data);
             return e->param();
         }
-    }
+    } else
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
         CommandDef *cmd = ecs->cmd();
@@ -425,7 +427,7 @@ void *JabberBrowser::processEvent(Event *e)
                 cmd->flags |= COMMAND_CHECKED;
             return (void*)1;
         }
-    }
+    } else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
@@ -474,7 +476,7 @@ void *JabberBrowser::processEvent(Event *e)
             if (cmd->id == CmdBrowseSearch){
                 if (m_search)
                     delete m_search;
-                m_search = new JIDSearch(this, m_client, item->text(COL_JID), item->text(COL_NODE), item->text(COL_TYPE).utf8());
+                m_search = new JIDSearch(this, m_client, item->text(COL_JID), item->text(COL_NODE), item->text(COL_TYPE));
                 m_search->jidSearch->init(this, m_client, m_search->m_jid, m_search->m_node, "", false);
                 m_search_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "search");
                 return (void*)1;
@@ -546,19 +548,20 @@ void *JabberBrowser::processEvent(Event *e)
             }
             return (void*)1;
         }
-    }
-    if (e->type() == EventDiscoItem){
+    } else
+    if (e->type() == eEventDiscoItem){
         if (!m_bInProcess)
             return NULL;
-        DiscoItem *item = (DiscoItem*)(e->param());
-        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id.utf8());
+        EventDiscoItem *edi = static_cast<EventDiscoItem*>(e);
+        DiscoItem *item = edi->item();
+        QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id);
         if (it){
             if (item->jid.isEmpty()){
                 it->setText(COL_ID_DISCO_ITEMS, "");
                 if (it != m_list->firstChild()){
                     checkDone();
                     adjustColumn(it);
-                    return e->param();
+                    return (void*)1;
                 }
                 QString err;
                 if (!item->name.isEmpty()){
@@ -574,7 +577,7 @@ void *JabberBrowser::processEvent(Event *e)
                 }
                 checkDone();
                 adjustColumn(it);
-                return e->param();
+                return (void*)1;
             }
             if (it->firstChild() == NULL){
                 it->setExpandable(true);
@@ -585,7 +588,7 @@ void *JabberBrowser::processEvent(Event *e)
             for (i = it->firstChild(); i; i = i->nextSibling()){
                 if ((i->text(COL_JID) == item->jid) &&
                         (i->text(COL_NODE) == item->node))
-                    return e->param();
+                    return (void*)1;
             }
             i = new QListViewItem(it);
             i->setText(COL_JID, item->jid);
@@ -599,15 +602,15 @@ void *JabberBrowser::processEvent(Event *e)
             i->setText(COL_MODE, QString::number(mode));
             if (JabberPlugin::plugin->getAllLevels())
                 loadItem(i);
-            return e->param();
+            return (void*)1;
         }
-        it = findItem(COL_ID_DISCO_INFO, item->id.utf8());
+        it = findItem(COL_ID_DISCO_INFO, item->id);
         if (it){
             if (item->jid.isEmpty()){
                 it->setText(COL_ID_DISCO_INFO, "");
                 checkDone();
                 adjustColumn(it);
-                return e->param();
+                return (void*)1;
             }
             if (it->text(COL_NAME) == it->text(COL_JID))
                 it->setText(COL_NAME, item->name);
@@ -619,16 +622,16 @@ void *JabberBrowser::processEvent(Event *e)
             setItemPict(it);
             if (it == m_list->currentItem())
                 currentChanged(it);
-            return e->param();
+            return (void*)1;
         }
-        it = findItem(COL_ID_BROWSE, item->id.utf8());
+        it = findItem(COL_ID_BROWSE, item->id);
         if (it){
             if (item->jid.isEmpty()){
                 it->setText(COL_ID_BROWSE, "");
                 if (it != m_list->firstChild()){
                     checkDone();
                     adjustColumn(it);
-                    return e->param();
+                    return (void*)1;
                 }
                 QString err;
                 if (!item->name.isEmpty()){
@@ -644,7 +647,7 @@ void *JabberBrowser::processEvent(Event *e)
                 }
                 checkDone();
                 adjustColumn(it);
-                return e->param();
+                return (void*)1;
             }
             if (it->text(COL_JID) != item->jid){
                 QListViewItem *i;
@@ -677,7 +680,7 @@ void *JabberBrowser::processEvent(Event *e)
             if (JabberPlugin::plugin->getAllLevels() || (it == m_list->currentItem()))
                 loadItem(it);
             setItemPict(it);
-            return e->param();
+            return (void*)1;
         }
     }
     return NULL;
@@ -901,14 +904,14 @@ void JabberBrowser::showConfig()
     }
 }
 
-QListViewItem *JabberBrowser::findItem(unsigned col, const char *id)
+QListViewItem *JabberBrowser::findItem(unsigned col, const QString &id)
 {
     if (m_list->firstChild() == NULL)
         return NULL;
     return findItem(col, id, m_list->firstChild());
 }
 
-QListViewItem *JabberBrowser::findItem(unsigned col, const char *id, QListViewItem *item)
+QListViewItem *JabberBrowser::findItem(unsigned col, const QString &id, QListViewItem *item)
 {
     if (item->text(col) == id)
         return item;

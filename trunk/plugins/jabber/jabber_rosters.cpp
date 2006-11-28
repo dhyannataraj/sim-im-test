@@ -343,8 +343,7 @@ InfoRequest::~InfoRequest()
         bChanged |= data->Phone.setStr(m_phone);
 
         if (m_bVCard){
-            Event e(EventVCard, data);
-            e.process();
+            EventVCard(data).process();
             free_data(jabberUserData, &u_data);
             return;
         }
@@ -1539,8 +1538,9 @@ AgentDiscoRequest::~AgentDiscoRequest()
     if (!data.Name.str().isEmpty()){
         data.VHost.str() = m_client->VHost();
         data.Client = m_client;
-        Event e(EventAgentFound, &data);
-        e.process();
+// unhandled ...
+//        Event e(EventAgentFound, &data);
+//        e.process();
     }
     free_data(jabberAgentsInfo, &data);
 }
@@ -1626,8 +1626,9 @@ void AgentRequest::element_end(const QString& el)
         if (!data.ID.str().isEmpty()){
             data.VHost.str() = m_client->VHost();
             data.Client = m_client;
-            Event e(EventAgentFound, &data);
-            e.process();
+// unhandled ...
+//            Event e(EventAgentFound, &data);
+//            e.process();
         }
     }else if (el == "name"){
         data.Name.str() = m_data;
@@ -1704,8 +1705,7 @@ AgentInfoRequest::~AgentInfoRequest()
     data.ReqID.str() = m_id;
     data.nOptions.asULong() = m_error_code;
     data.Label.str() = m_error;
-    Event e(EventAgentInfo, &data);
-    e.process();
+    EventAgentInfo(&data).process();
     free_data(jabberAgentInfo, &data);
 }
 
@@ -1738,8 +1738,7 @@ void AgentInfoRequest::element_start(const QString& el, const QXmlAttributes& at
         data.Type.str() = "x";
         data.ReqID.str() = m_id;
         data.ID.str() = m_jid;
-        Event e(EventAgentInfo, &data);
-        e.process();
+        EventAgentInfo(&data).process();
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
     }
@@ -1765,8 +1764,7 @@ void AgentInfoRequest::element_end(const QString& el)
             data.VHost.str() = m_client->VHost();
             data.ReqID.str() = m_id;
             data.ID.str() = m_jid;
-            Event e(EventAgentInfo, &data);
-            e.process();
+            EventAgentInfo(&data).process();
             free_data(jabberAgentInfo, &data);
             load_data(jabberAgentInfo, &data, NULL);
         }
@@ -1788,8 +1786,7 @@ void AgentInfoRequest::element_end(const QString& el)
         data.ID.str() = m_jid;
         data.ReqID.str() = m_id;
         data.Type.str() = QString::fromUtf8(el);
-        Event e(EventAgentInfo, &data);
-        e.process();
+        EventAgentInfo(&data).process();
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
     }else if (el != "error" && el != "iq" && el != "query" && el != "x"){
@@ -1797,8 +1794,7 @@ void AgentInfoRequest::element_end(const QString& el)
         data.ID.str() = m_jid;
         data.ReqID.str() = m_id;
         data.Type.str() = QString::fromUtf8(el);
-        Event e(EventAgentInfo, &data);
-        e.process();
+        EventAgentInfo(&data).process();
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
     }
@@ -1820,7 +1816,7 @@ QString JabberClient::get_agent_info(const QString &jid, const QString &node, co
     addLang(req);
     req->send();
     m_requests.push_back(req);
-    return req->m_id.utf8();
+    return req->m_id;
 }
 
 typedef map<my_string, QString> VALUE_MAP;
@@ -1866,8 +1862,7 @@ SearchRequest::SearchRequest(JabberClient *client, const QString &jid)
 
 SearchRequest::~SearchRequest()
 {
-    Event e(EventSearchDone, (void*)m_id.utf8().data());
-    e.process();
+    EventSearchDone(m_id).process();
     free_data(jabberSearchData, &data);
 }
 
@@ -1913,8 +1908,7 @@ void SearchRequest::element_end(const QString& el)
             data.nFields.asULong()++;
         }
         data.ID.str() = m_id;
-        Event e(EventSearch, &data);
-        e.process();
+        EventSearch(&data).process();
         m_values.clear();
     }else if (el == "item"){
         if (!data.JID.str().isEmpty()){
@@ -1927,8 +1921,7 @@ void SearchRequest::element_end(const QString& el)
                 data.nFields.asULong()++;
             }
             data.ID.str() = m_id;
-            Event e(EventSearch, &data);
-            e.process();
+            EventSearch(&data).process();
             m_values.clear();
         }
     }else if (el == "value" || el == "field"){
@@ -2002,8 +1995,7 @@ RegisterRequest::~RegisterRequest()
     ai.id = m_id;
     ai.err_code = m_error_code;
     ai.error = m_error;
-    Event e(EventAgentRegister, &ai);
-    e.process();
+    EventAgentRegister(&ai).process();
 }
 
 void RegisterRequest::element_start(const QString& el, const QXmlAttributes& attrs)
@@ -2118,7 +2110,7 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
         jid += "/";
         jid += msg->getResource();
     }
-    SendFileRequest *req = new SendFileRequest(this, jid.utf8(), msg);
+    SendFileRequest *req = new SendFileRequest(this, jid, msg);
     req->start_element("si");
     req->add_attribute("xmlns", "http://jabber.org/protocol/si");
     req->add_attribute("profile", "http://jabber.org/protocol/si/profile/file-transfer");
@@ -2216,8 +2208,7 @@ DiscoItemsRequest::~DiscoItemsRequest()
         item.name	= m_error;
         item.node	= QString::number(m_code);
     }
-    Event e(EventDiscoItem, &item);
-    e.process();
+    EventDiscoItem(&item).process();
 }
 
 void DiscoItemsRequest::element_start(const QString& el, const QXmlAttributes& attrs)
@@ -2229,8 +2220,7 @@ void DiscoItemsRequest::element_start(const QString& el, const QXmlAttributes& a
         item.name	= attrs.value("name");
         item.node	= attrs.value("node");
         if (!item.jid.isEmpty()){
-            Event e(EventDiscoItem, &item);
-            e.process();
+            EventDiscoItem(&item).process();
         }
     }
     if (el == "error"){
@@ -2255,7 +2245,7 @@ QString JabberClient::discoItems(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return "";
-    DiscoItemsRequest *req = new DiscoItemsRequest(this, jid.utf8());
+    DiscoItemsRequest *req = new DiscoItemsRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#items");
     req->add_attribute("node", node);
@@ -2300,8 +2290,7 @@ DiscoInfoRequest::~DiscoInfoRequest()
         item.category	= m_category;
         item.type       = m_type;
         item.features	= m_features;
-        Event e(EventDiscoItem, &item);
-        e.process();
+        EventDiscoItem(&item).process();
     }
     DiscoItem item;
     item.id		= m_id;
@@ -2309,8 +2298,7 @@ DiscoInfoRequest::~DiscoInfoRequest()
         item.name	= m_error;
         item.node	= QString::number(m_code);
     }
-    Event e(EventDiscoItem, &item);
-    e.process();
+    EventDiscoItem(&item).process();
 }
 
 void DiscoInfoRequest::element_start(const QString& el, const QXmlAttributes& attrs)
@@ -2397,8 +2385,7 @@ BrowseRequest::~BrowseRequest()
         item.type       = m_type;
         item.category   = m_category;
         item.features   = m_features.utf8();
-        Event e(EventDiscoItem, &item);
-        e.process();
+        EventDiscoItem(&item).process();
     }
     DiscoItem item;
     item.id		= m_id;
@@ -2406,8 +2393,7 @@ BrowseRequest::~BrowseRequest()
         item.name	= m_error;
         item.node	= QString::number(m_code);
     }
-    Event e(EventDiscoItem, &item);
-    e.process();
+    EventDiscoItem(&item).process();
 }
 
 void BrowseRequest::element_start(const QString& el, const QXmlAttributes& attrs)
@@ -2425,8 +2411,7 @@ void BrowseRequest::element_start(const QString& el, const QXmlAttributes& attrs
             item.type       = m_type;
             item.category   = m_category;
             item.features   = m_features;
-            Event e(EventDiscoItem, &item);
-            e.process();
+            EventDiscoItem(&item).process();
         }
         m_jid		= attrs.value("jid");
         m_name		= attrs.value("name");
@@ -2466,9 +2451,8 @@ void BrowseRequest::element_end(const QString& el)
         item.type       = m_type;
         item.category   = m_category;
         item.features   = m_features;
-        Event e(EventDiscoItem, &item);
-        e.process();
-        m_jid = "";
+        EventDiscoItem(&item).process();
+        m_jid = QString::null;
     }
 }
 
@@ -2523,8 +2507,7 @@ VersionInfoRequest::~VersionInfoRequest()
     info.name = m_name;
     info.version = m_version;
     info.os = m_os;
-    Event e(EventClientVersion, &info);
-    e.process();
+    EventClientVersion(&info).process();
 }
 
 void VersionInfoRequest::element_start(const QString& el, const QXmlAttributes&)
@@ -2591,8 +2574,7 @@ TimeInfoRequest::~TimeInfoRequest()
     info.utc = m_utc;
     info.tz = m_tz;
     info.display = m_display;
-    Event e(EventClientTimeInfo, &info);
-    e.process();
+    EventClientTimeInfo(&info).process();
 }
 
 void TimeInfoRequest::element_start(const QString& el, const QXmlAttributes&)
@@ -2650,8 +2632,7 @@ void LastInfoRequest::element_start(const QString& el, const QXmlAttributes& att
         ClientLastInfo info;
         info.jid = m_jid;
         info.seconds = attrs.value("seconds").toUInt();
-        Event e(EventClientLastInfo, &info);
-        e.process();
+        EventClientLastInfo(&info).process();
     }
 }
 
@@ -2688,9 +2669,8 @@ StatRequest::~StatRequest()
 {
     DiscoItem item;
     item.id     = m_id;
-    item.jid    = "";
-    Event e(EventDiscoItem, &item);
-    e.process();
+    item.jid    = QString::null;
+    EventDiscoItem(&item).process();
 }
 
 void StatRequest::element_start(const QString& el, const QXmlAttributes& attrs)
@@ -2701,8 +2681,7 @@ void StatRequest::element_start(const QString& el, const QXmlAttributes& attrs)
         item.jid	= attrs.value("name");
         item.name	= attrs.value("units");
         item.node	= attrs.value("value");
-        Event e(EventDiscoItem, &item);
-        e.process();
+        EventDiscoItem(&item).process();
     }
 }
 
@@ -2730,9 +2709,8 @@ StatItemsRequest::~StatItemsRequest()
     if (m_stats.empty()){
         DiscoItem item;
         item.id		= m_id;
-        item.jid	= "";
-        Event e(EventDiscoItem, &item);
-        e.process();
+        item.jid	= QString::null;
+        EventDiscoItem(&item).process();
         return;
     }
     StatRequest *req = new StatRequest(m_client, m_jid, m_id);
