@@ -88,12 +88,12 @@ bool SecureDlg::processEvent(Event *e)
             m_msg = NULL;
             close();
         }
-        return (void*)1;
+        return true;
     }
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void SecureDlg::error(const QString &err)

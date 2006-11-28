@@ -242,13 +242,13 @@ void NewProtocol::loginComplete()
 bool NewProtocol::processEvent(Event *e)
 {
     if (m_client == NULL)
-        return NULL;
+        return false;
     if (m_bConnect){
         switch (e->type()){
         case eEventClientChanged:
             if (m_client->getState() == Client::Connected){
                 QTimer::singleShot(0, this, SLOT(loginComplete()));
-                return NULL;
+                return false;
             }
             break;
         case eEventClientError:
@@ -261,12 +261,12 @@ bool NewProtocol::processEvent(Event *e)
                 m_client->setStatus(STATUS_OFFLINE, false);
                 setBackEnabled(m_connectWnd, true);
                 setFinishEnabled(m_connectWnd, false);
-                return (void*)1;
+                return true;
             }
             break;
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

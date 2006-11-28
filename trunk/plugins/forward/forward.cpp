@@ -139,7 +139,7 @@ bool ForwardPlugin::processEvent(Event *e)
                             }
                             if (data == NULL)
                                 delete msg;
-                            return (void*)1;
+                            return true;
                         }
                     }
                 }
@@ -147,10 +147,10 @@ bool ForwardPlugin::processEvent(Event *e)
         }
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         ForwardUserData *data = (ForwardUserData*)(contact->getUserData(user_data_id));
         if ((data == NULL) || (data->Phone.str().isEmpty()))
-            return NULL;
+            return false;
         unsigned status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA)){
             text = contact->getName() + ": " + text;
@@ -173,7 +173,7 @@ bool ForwardPlugin::processEvent(Event *e)
                 delete m;
         }
     }
-    return NULL;
+    return false;
 }
 
 QWidget *ForwardPlugin::createConfigWindow(QWidget *parent)

@@ -1316,11 +1316,11 @@ bool MSNClient::processEvent(Event *e)
         CommandDef *cmd = ece->cmd();
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNInitMail){
             EventGoURL(m_init_mail).process();
-            return (void*)1;
+            return true;
         }
         if (cmd->id == static_cast<MSNPlugin*>(protocol()->plugin())->MSNNewMail){
             EventGoURL(m_new_mail).process();
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -1336,7 +1336,7 @@ bool MSNClient::processEvent(Event *e)
                 e.process();
             }
             ec->setContact(contact);
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -1354,7 +1354,7 @@ bool MSNClient::processEvent(Event *e)
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
                         delete contact;
-                    return (void*)1;
+                    return true;
                 }
             }
         }
@@ -1368,7 +1368,7 @@ bool MSNClient::processEvent(Event *e)
         while ((data = (MSNUserData*)(++it)) != NULL){
             if (data->IP.ip()) {
                 ei->setIP(data->IP.ip());
-                return (void*)1;
+                return true;
             }
         }
         break;
@@ -1377,7 +1377,7 @@ bool MSNClient::processEvent(Event *e)
         EventMessageAccept *ema = static_cast<EventMessageAccept*>(e);
         Contact *contact = getContacts()->contact(ema->msg()->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
@@ -1385,7 +1385,7 @@ bool MSNClient::processEvent(Event *e)
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock)
                     sock->acceptMessage(ema->msg(), ema->dir(), ema->mode());
-                return (void*)1;
+                return true;
             }
         }
         break;
@@ -1394,7 +1394,7 @@ bool MSNClient::processEvent(Event *e)
         EventMessageDecline *emd = static_cast<EventMessageDecline*>(e);
         Contact *contact = getContacts()->contact(emd->msg()->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         while ((data = (MSNUserData*)(++it)) != NULL){
@@ -1402,7 +1402,7 @@ bool MSNClient::processEvent(Event *e)
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock)
                     sock->declineMessage(emd->msg(), emd->reason());
-                return (void*)1;
+                return true;
             }
         }
         break;
@@ -1506,7 +1506,7 @@ bool MSNClient::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void MSNClient::requestLoginHost(const QString &url)

@@ -3080,7 +3080,7 @@ QImage JabberClient::userPicture(JabberUserData *d)
         img=QImage(d ? logoFile(d) : logoFile(&data.owner));
     }
 
-    if(img.isNull()
+    if(img.isNull())
         return img;
 
     int w = img.width();

@@ -233,7 +233,7 @@ bool StatusFrame::processEvent(Event *e)
             delete l;
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -259,7 +259,7 @@ bool StatusFrame::processEvent(Event *e)
             break;
         }
     }
-    return NULL;
+    return false;
 }
 
 void StatusFrame::addClients()

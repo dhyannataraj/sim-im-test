@@ -303,7 +303,7 @@ bool NavigatePlugin::processEvent(Event *e)
     if (e->type() == eEventGetURL){
         EventGetURL *u = static_cast<EventGetURL*>(e);
         u->setUrl(getCurrentUrl());
-        return (void*)1;
+        return true;
     }
 #endif
     if (e->type() == eEventGoURL){
@@ -311,10 +311,10 @@ bool NavigatePlugin::processEvent(Event *e)
         QString url = u->url();
         QString proto;
         if (url.length() == 0)
-            return NULL;
+            return false;
         int n = url.find(':');
         if (n < 0)
-            return NULL;
+            return false;
         proto = url.left(n);
         if ((proto != "http") &&
                 (proto != "https") &&
@@ -322,7 +322,7 @@ bool NavigatePlugin::processEvent(Event *e)
                 (proto != "file") &&
                 (proto != "mailto") &&
                 (proto != "file"))
-            return NULL;
+            return false;
 #ifdef WIN32
         bool bExec = false;
         if (getNewWindow()){
@@ -371,7 +371,7 @@ bool NavigatePlugin::processEvent(Event *e)
                 kapp->invokeMailer(QString(url.mid(proto.length() + 1)), QString::null);
             else
                 kapp->invokeBrowser(url);
-            return (void*)1;
+            return true;
         }
 #endif // USE_KDE
         QString param;
@@ -386,12 +386,12 @@ bool NavigatePlugin::processEvent(Event *e)
         }
         EventExec(param, url).process();
 #endif // WIN32
-        return (void*)1;
+        return true;
     } else
     if (e->type() == eEventAddHyperlinks){
         EventAddHyperlinks *h = static_cast<EventAddHyperlinks*>(e);
         h->setText(parseUrl(h->text()));
-        return (void*)1;
+        return true;
     } else
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
@@ -399,25 +399,25 @@ bool NavigatePlugin::processEvent(Event *e)
         if (cmd->id == CmdMail){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
-                return NULL;
+                return false;
             QString mails = contact->getEMails();
             if (mails.length() == 0)
-                return NULL;
+                return false;
             int nMails = 0;
             while (mails.length()){
                 getToken(mails, ';');
                 nMails++;
             }
             cmd->popup_id = (nMails <= 1) ? 0 : MenuMail;
-            return (void*)1;
+            return true;
         }
         if (cmd->id == CmdMailList){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
-                return NULL;
+                return false;
             QString mails = contact->getEMails();
             if (mails.length() == 0)
-                return NULL;
+                return false;
             int nMails = 0;
             while (mails.length()){
                 getToken(mails, ';');
@@ -438,7 +438,7 @@ bool NavigatePlugin::processEvent(Event *e)
             cmds[n].clear();
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return (void*)1;
+            return true;
         }
     } else
     if (e->type() == eEventCommandExec){
@@ -456,7 +456,7 @@ bool NavigatePlugin::processEvent(Event *e)
                 EventGoURL eMail(addr);
                 eMail.process();
             }
-            return (void*)1;
+            return true;
         }
         if (cmd->menu_id == MenuMail){
             unsigned n = cmd->id - CmdMailList;
@@ -475,10 +475,10 @@ bool NavigatePlugin::processEvent(Event *e)
                     break;
                 }
             }
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 string NavigatePlugin::getConfig()

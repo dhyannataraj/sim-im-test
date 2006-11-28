@@ -54,9 +54,9 @@ bool Tmpl::processEvent(Event *e)
         tmpl.bReady = false;
         if (!process(&tmpl))
             tmpls.push_back(tmpl);
-        return (void*)1;
+        return true;
     }
-    return NULL;
+    return false;
 }
 
 void Tmpl::clear()
