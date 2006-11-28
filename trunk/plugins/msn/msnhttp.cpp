@@ -15,11 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qtimer.h>
+
+#include "fetch.h"
+#include "log.h"
+
 #include "msnhttp.h"
 #include "msnclient.h"
-#include "fetch.h"
-
-#include <qtimer.h>
 
 using std::string;
 using namespace SIM;

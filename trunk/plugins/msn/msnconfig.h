@@ -18,7 +18,8 @@
 #ifndef _MSNCONFIG_H
 #define _MSNCONFIG_H
 
-#include "simapi.h"
+#include "contacts.h"
+
 #include "msnconfigbase.h"
 
 class MSNClient;

@@ -18,7 +18,8 @@
 #ifndef _YAHOOCFG_H
 #define _YAHOOCFG_H
 
-#include "simapi.h"
+#include "contacts.h"
+
 #include "yahoocfgbase.h"
 
 class YahooClient;

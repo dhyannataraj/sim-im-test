@@ -18,8 +18,6 @@
 #ifndef _MSNPACKET_H
 #define _MSNPACKET_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "msnclient.h"
 
 class MSNPacket

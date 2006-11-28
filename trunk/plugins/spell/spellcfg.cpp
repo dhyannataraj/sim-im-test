@@ -15,13 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "spellcfg.h"
-#include "spell.h"
-#include "speller.h"
-#include "editfile.h"
-#include "linklabel.h"
-#include "listview.h"
-
 #ifdef WIN32
 #include "spellfind.h"
 #endif
@@ -32,6 +25,15 @@
 #include <qbitmap.h>
 #include <qpainter.h>
 #include <qstyle.h>
+
+#include "editfile.h"
+#include "linklabel.h"
+#include "listview.h"
+#include "log.h"
+
+#include "spellcfg.h"
+#include "spell.h"
+#include "speller.h"
 
 using namespace SIM;
 

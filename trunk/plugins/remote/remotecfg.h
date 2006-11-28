@@ -18,7 +18,6 @@
 #ifndef _REMOTECFG_H
 #define _REMOTECFG_H
 
-#include "simapi.h"
 #include "remotecfgbase.h"
 
 class RemotePlugin;

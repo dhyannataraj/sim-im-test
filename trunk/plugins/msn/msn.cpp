@@ -15,9 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "misc.h"
+
 #include "msn.h"
 #include "msnclient.h"
-#include "simapi.h"
 
 using namespace SIM;
 

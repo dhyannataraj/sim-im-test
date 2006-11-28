@@ -48,6 +48,8 @@
 
 #include <time.h>
 
+#include <stack>
+
 #include <qtimer.h>
 #include <qtextcodec.h>
 #include <qregexp.h>
@@ -55,6 +57,7 @@
 
 #include "html.h"
 #include "icons.h"
+#include "log.h"
 #include "unquot.h"
 #include "core.h"
 

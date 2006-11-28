@@ -15,12 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "yahoosearch.h"
-#include "yahooclient.h"
-#include "intedit.h"
-
 #include <qlabel.h>
 #include <qcombobox.h>
+
+#include "country.h"
+#include "intedit.h"
+#include "log.h"
+#include "misc.h"
+
+#include "yahoosearch.h"
+#include "yahooclient.h"
 
 using std::string;
 using namespace SIM;

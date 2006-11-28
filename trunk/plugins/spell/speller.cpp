@@ -15,10 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "speller.h"
-
 #include <qfile.h>
 #include <qstringlist.h>
+
+#include "log.h"
+
+#include "speller.h"
 
 #ifdef WIN32
 

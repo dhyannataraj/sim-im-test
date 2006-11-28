@@ -18,8 +18,9 @@
 #ifndef _YAHOOSEARCH_H
 #define _YAHOOSEARCH_H
 
-#include "simapi.h"
+#include "contacts.h"
 #include "fetch.h"
+
 #include "yahoosearchbase.h"
 
 class YahooClient;

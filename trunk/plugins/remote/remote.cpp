@@ -26,6 +26,7 @@
 #include <qwidgetlist.h>
 
 #include "icons.h"
+#include "log.h"
 
 #include "remote.h"
 #include "remotecfg.h"

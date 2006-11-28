@@ -15,14 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msnclient.h"
-#include "msnconfig.h"
-#include "msnpacket.h"
-#include "msn.h"
-#include "msninfo.h"
-#include "msnsearch.h"
-#include "core.h"
-
 #ifdef WIN32
 #include <winsock.h>
 #else
@@ -40,8 +32,17 @@
 #include <time.h>
 #include <qtimer.h>
 #include <qregexp.h>
-
 #include <qfile.h>
+
+#include "log.h"
+
+#include "msnclient.h"
+#include "msnconfig.h"
+#include "msnpacket.h"
+#include "msn.h"
+#include "msninfo.h"
+#include "msnsearch.h"
+#include "core.h"
 
 using namespace std;
 using namespace SIM;

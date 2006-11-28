@@ -18,7 +18,7 @@
 #ifndef _YAHOO_H
 #define _YAHOO_H
 
-#include "simapi.h"
+#include "contacts.h"
 
 class YahooProtocol : public SIM::Protocol
 {

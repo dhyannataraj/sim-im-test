@@ -18,9 +18,7 @@
 #ifndef _YAHOOCLIENT_H
 #define _YAHOOCLIENT_H
 
-#include "simapi.h"
 #include "socket.h"
-#include "stl.h"
 #include "fetch.h"
 
 const unsigned YAHOO_SIGN = 9;

@@ -18,7 +18,6 @@
 #ifndef MSNHTTP_H
 #define MSNHTTP_H	1
 
-#include "simapi.h"
 #include "socket.h"
 #include "fetch.h"
 

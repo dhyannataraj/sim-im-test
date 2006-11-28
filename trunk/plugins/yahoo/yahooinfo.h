@@ -18,7 +18,6 @@
 #ifndef _YAHOOINFO_H
 #define _YAHOOINFO_H
 
-#include "simapi.h"
 #include "yahooinfobase.h"
 
 class YahooClient;

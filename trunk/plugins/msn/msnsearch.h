@@ -18,7 +18,8 @@
 #ifndef _MSNSEARCH_H
 #define _MSNSEARCH_H
 
-#include "simapi.h"
+#include "contacts.h"
+
 #include "msnsearchbase.h"
 
 class MSNClient;

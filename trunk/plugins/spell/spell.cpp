@@ -19,7 +19,6 @@
 #include "spell.h"
 #include "spellcfg.h"
 #include "speller.h"
-#include "simapi.h"
 #include "textshow.h"
 #include "spellhighlight.h"
 #include "core.h"

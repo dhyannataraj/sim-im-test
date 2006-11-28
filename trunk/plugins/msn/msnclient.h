@@ -18,8 +18,6 @@
 #ifndef _MSNCLIENT_H
 #define _MSNCLIENT_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "socket.h"
 #include "fetch.h"
 

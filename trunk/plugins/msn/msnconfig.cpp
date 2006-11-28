@@ -15,15 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msnconfig.h"
-#include "msnclient.h"
-#include "linklabel.h"
-
 #include <qtimer.h>
 #include <qlineedit.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
 #include <qcheckbox.h>
+
+#include "linklabel.h"
+#include "misc.h"
+
+#include "msnconfig.h"
+#include "msnclient.h"
 
 using namespace SIM;
 

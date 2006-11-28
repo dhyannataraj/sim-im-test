@@ -15,8 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "yahooclient.h"
 #include "fetch.h"
+#include "log.h"
+
+#include "yahooclient.h"
 
 using namespace SIM;
 

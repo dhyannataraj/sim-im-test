@@ -18,9 +18,7 @@
 #ifndef _REMOTE_H
 #define _REMOTE_H
 
-#include "simapi.h"
 #include "socket.h"
-#include "stl.h"
 
 struct RemoteData
 {

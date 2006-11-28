@@ -18,7 +18,6 @@
 #ifndef _MSNINFO_H
 #define _MSNINFO_H
 
-#include "simapi.h"
 #include "msninfobase.h"
 
 struct MSNUserData;

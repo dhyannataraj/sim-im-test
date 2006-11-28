@@ -18,9 +18,11 @@
 #ifndef _SPELLER_H
 #define _SPELLER_H
 
-#include "simapi.h"
+#include "sim_export.h"
 
 #include <aspell.h>
+#include <qstring.h>
+#include <qstringlist.h>
 
 #ifdef WIN32
 #include <windows.h>

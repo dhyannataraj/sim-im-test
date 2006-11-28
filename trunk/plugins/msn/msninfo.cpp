@@ -15,17 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icons.h"
-#include "simapi.h"
-#include "msninfo.h"
-#include "msnclient.h"
-
 #include <qlineedit.h>
 #include <qstringlist.h>
 #include <qcombobox.h>
 #include <qpushbutton.h>
 #include <qpixmap.h>
 #include <qlabel.h>
+
+#include "icons.h"
+#include "misc.h"
+
+#include "msninfo.h"
+#include "msnclient.h"
 
 using namespace SIM;
 

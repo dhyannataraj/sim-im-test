@@ -18,8 +18,6 @@
 #ifndef _DOCKWND_H
 #define _DOCKWND_H
 
-#include "stl.h"
-
 #include <qwidget.h>
 #include <qtooltip.h>
 #include <qpixmap.h>

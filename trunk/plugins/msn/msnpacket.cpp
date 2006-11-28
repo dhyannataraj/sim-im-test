@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "msnpacket.h"
-#include "msnclient.h"
-#include "msn.h"
-
 #ifdef WIN32
 #include <winsock.h>
 #else
@@ -31,6 +27,13 @@
 
 #include <stdio.h>
 #include <qtimer.h>
+
+#include "log.h"
+#include "misc.h"
+
+#include "msnpacket.h"
+#include "msnclient.h"
+#include "msn.h"
 
 using namespace std;
 using namespace SIM;

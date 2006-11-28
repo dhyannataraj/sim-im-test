@@ -18,8 +18,6 @@
 #ifndef _SPELLFIND_H
 #define _SPELLFIND_H
 
-#include "simapi.h"
-#include "stl.h"
 #include "spellfindbase.h"
 
 #include <qdir.h>

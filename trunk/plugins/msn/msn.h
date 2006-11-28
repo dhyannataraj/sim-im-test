@@ -18,7 +18,7 @@
 #ifndef _MSN_H
 #define _MSN_H
 
-#include "simapi.h"
+#include "contacts.h"
 
 class MSNProtocol : public SIM::Protocol
 {

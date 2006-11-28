@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "icons.h"
-#include "simapi.h"
 #include "yahoo.h"
 #include "yahooinfo.h"
 #include "yahooclient.h"
