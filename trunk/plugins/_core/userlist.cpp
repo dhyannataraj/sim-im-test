@@ -923,6 +923,8 @@ bool UserListBase::processEvent(Event *e)
                 }
                 break;
             }
+        default:
+            break;
         }
     }
     return ListView::processEvent(e);

@@ -198,13 +198,13 @@ bool HistoryWindow::processEvent(Event *e)
             cmd->flags &= ~COMMAND_CHECKED;
             return true;
         }
-        return NULL;
+        return false;
     }
     case eEventCommandExec: {
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((unsigned long)(cmd->param) != m_id)
-            return NULL;
+            return false;
         if (cmd->id == CmdHistoryDirection){
             bool bDirection = ((cmd->flags & COMMAND_CHECKED) != 0);
             CorePlugin::m_plugin->setHistoryDirection(bDirection);

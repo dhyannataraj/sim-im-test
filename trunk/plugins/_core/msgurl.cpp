@@ -152,10 +152,10 @@ bool MsgUrl::processEvent(Event *e)
                 msg->setClient(m_client);
                 m_edit->sendMessage(msg);
             }
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

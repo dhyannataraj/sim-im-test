@@ -246,6 +246,8 @@ bool MainWindow::processEvent(Event *e)
                 setTitle();
             break;
         }
+    default:
+        break;
     }
     return false;
 }

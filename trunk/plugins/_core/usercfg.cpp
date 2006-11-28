@@ -456,13 +456,13 @@ bool UserConfig::processEvent(Event *e)
         case EventGroup::eDeleted:
             if (group == m_group)
                 close();
-            return NULL;
+            return false;
         case EventGroup::eChanged:
             if (group == m_group)
                 setTitle();
-            return NULL;
+            return false;
         case EventGroup::eAdded:
-            return NULL;
+            return false;
         }
         break;
     }
@@ -502,15 +502,17 @@ bool UserConfig::processEvent(Event *e)
     case eEventCommandRemove: {
         EventCommandRemove *ecr = static_cast<EventCommandRemove*>(e);
         removeCommand(ecr->id());
-        return NULL;
+        return false;
     }
     case eEventLanguageChanged:
     case eEventPluginChanged:
     case eEventClientsChanged:
         fill();
-        return NULL;
+        return false;
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void UserConfig::removeCommand(unsigned id)

@@ -775,7 +775,7 @@ bool MsgViewBase::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->contact() != m_id)
-            return NULL;
+            return false;
         unsigned i;
         for (i = 0; i < (unsigned)paragraphs(); i++){
             QString s = text(i);
@@ -791,19 +791,19 @@ bool MsgViewBase::processEvent(Event *e)
                 break;
         }
         if (i >= (unsigned)paragraphs())
-            return NULL;
+            return false;
         Msg_Id id;
         id.id     = msg->id();
         id.client = msg->client();
         m_updated.push_back(id);
         QTimer::singleShot(0, this, SLOT(update()));
-        return NULL;
+        return false;
     }
     if (e->type() == eEventCutHistory){
         EventCutHistory *ech = static_cast<EventCutHistory*>(e);
         CutHistory *ch = ech->cut();
         if (ch->contact != m_id)
-            return NULL;
+            return false;
 
         bool bDelete = false;
         vector<unsigned> start_pos;
@@ -865,13 +865,13 @@ bool MsgViewBase::processEvent(Event *e)
             repaint();
         }
         m_cut.push_back(*ch);
-        return NULL;
+        return false;
     }
     if (e->type() == eEventMessageDeleted){
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->contact() != m_id)
-            return NULL;
+            return false;
         for (unsigned i = 0; i < (unsigned)paragraphs(); i++){
             unsigned j;
             QString s = text(i);
@@ -918,13 +918,13 @@ bool MsgViewBase::processEvent(Event *e)
             }
             break;
         }
-        return NULL;
+        return false;
     }
     if (e->type() == eEventHistoryConfig){
         EventHistoryConfig *ehc = static_cast<EventHistoryConfig*>(e);
         unsigned long id = ehc->id();
         if (id && (id != m_id))
-            return NULL;
+            return false;
         reload();
     } else
     if (e->type() == eEventHistoryColors) {
@@ -934,14 +934,14 @@ bool MsgViewBase::processEvent(Event *e)
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))
-            return NULL;
+            return false;
         Message *msg;
         switch (cmd->id){
         case CmdCopy:
             cmd->flags &= ~(COMMAND_DISABLED | COMMAND_CHECKED);
             if (!hasSelectedText())
                 cmd->flags |= COMMAND_DISABLED;
-            return (void*)1;
+            return true;
         case CmdMsgOpen:
             msg = currentMessage();
             if (msg){
@@ -949,12 +949,12 @@ bool MsgViewBase::processEvent(Event *e)
                 delete msg;
                 CommandDef *def = CorePlugin::m_plugin->messageTypes.find(type);
                 if (def == NULL)
-                    return NULL;
+                    return false;
                 cmd->icon = def->icon;
                 cmd->flags &= ~COMMAND_CHECKED;
-                return (void*)1;
+                return true;
             }
-            return NULL;
+            return false;
         case CmdMsgSpecial:
             msg = currentMessage();
             if (msg){
@@ -987,7 +987,7 @@ bool MsgViewBase::processEvent(Event *e)
                         n++;
                 }
                 if (n == 0)
-                    return NULL;
+                    return false;
 
                 n++;
                 CommandDef *cmds = new CommandDef[n];
@@ -1014,16 +1014,16 @@ bool MsgViewBase::processEvent(Event *e)
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
                 delete msg;
-                return (void*)1;
+                return true;
             }
-            return NULL;
+            return false;
         }
     } else
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
         CommandDef *cmd = ece->cmd();
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))
-            return NULL;
+            return false;
         Message *msg;
         switch (cmd->id){
         case CmdCutHistory:
@@ -1031,29 +1031,29 @@ bool MsgViewBase::processEvent(Event *e)
             if (msg){
                 History::cut(msg, 0, 0);
                 delete msg;
-                return (void*)1;
+                return true;
             }
-            return NULL;
+            return false;
         case CmdDeleteMessage:
             msg = currentMessage();
             if (msg){
                 History::del(msg);
                 delete msg;
-                return (void*)1;
+                return true;
             }
-            return NULL;
+            return false;
         case CmdCopy:
             copy();
-            return (void*)1;
+            return true;
         case CmdMsgOpen:
             msg = currentMessage();
             if (msg){
                 msg->setFlags(msg->getFlags() | MESSAGE_OPEN);
                 EventOpenMessage(msg).process();
                 delete msg;
-                return (void*)1;
+                return true;
             }
-            return NULL;
+            return false;
         default:
             msg = currentMessage();
             if (msg){
@@ -1080,7 +1080,7 @@ bool MsgViewBase::processEvent(Event *e)
                                 cmd.param = msg;
                                 cmd.menu_id = 0;
                                 EventCommandExec(&cmd).process();
-                                return (void*)1;
+                                return true;
                             }
                         }
                     }
@@ -1094,10 +1094,10 @@ bool MsgViewBase::processEvent(Event *e)
                 delete msg;
                 return res;
             }
-            return NULL;
+            return false;
         }
     }
-    return NULL;
+    return false;
 }
 
 Message *MsgViewBase::currentMessage()
@@ -1191,9 +1191,9 @@ bool MsgView::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->contact() != m_id)
-            return NULL;
+            return false;
         if (msg->getFlags() & MESSAGE_NOVIEW)
-            return NULL;
+            return false;
         bool bAdd = true;
         if (msg->type() == MessageStatus){
             bAdd = false;

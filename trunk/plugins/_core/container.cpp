@@ -709,7 +709,7 @@ bool Container::processEvent(Event *e)
     case eEventActiveContact: {
         EventActiveContact *eac = static_cast<EventActiveContact*>(e);
         if (!isActiveWindow())
-            return NULL;
+            return false;
         UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd) {
             eac->setContactID(userWnd->id());

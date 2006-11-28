@@ -3367,6 +3367,8 @@ bool CorePlugin::processEvent(Event *e)
             }
         }
         return false;
+    default:
+        break;
     }
     return false;
 }

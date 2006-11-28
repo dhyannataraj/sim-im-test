@@ -241,17 +241,17 @@ void NewProtocol::loginComplete()
 
 bool NewProtocol::processEvent(Event *e)
 {
-    if (m_client == NULL)
+    if (m_client == NULL || m_bConnect)
         return false;
-    if (m_bConnect){
-        switch (e->type()){
+
+    switch (e->type()){
         case eEventClientChanged:
             if (m_client->getState() == Client::Connected){
                 QTimer::singleShot(0, this, SLOT(loginComplete()));
                 return false;
             }
             break;
-        case eEventClientError:
+        case eEventClientError: {
             EventClientError *ee = static_cast<EventClientError*>(e);
             const EventError::ClientErrorData &d = ee->data();
             if (d.client == m_client){
@@ -265,6 +265,8 @@ bool NewProtocol::processEvent(Event *e)
             }
             break;
         }
+        default:
+            break;
     }
     return false;
 }

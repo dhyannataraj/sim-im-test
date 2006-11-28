@@ -404,7 +404,7 @@ bool UserView::processEvent(Event *e)
             }
             if (it != blinks.end()){
                 (*it).count = BLINK_COUNT;
-                return NULL;
+                return false;
             }
             BlinkCount bc;
             bc.id = contact->id();
@@ -412,7 +412,7 @@ bool UserView::processEvent(Event *e)
             blinks.push_back(bc);
             if (bStart)
                 blinkTimer->start(BLINK_TIMEOUT);
-            return NULL;
+            return false;
         }
         break;
     }
@@ -443,7 +443,7 @@ bool UserView::processEvent(Event *e)
                                             this, SLOT(deleteContact(void*)), NULL, &rc, NULL,
                                             i18n("Remove history"), &m_bRemoveHistory);
                         }
-                        return (void*)1;
+                        return true;
                     }
                     if (cmd->id == CmdContactRename){
                         QListViewItem *item = findContactItem(contact->id());
@@ -451,7 +451,7 @@ bool UserView::processEvent(Event *e)
                             setCurrentItem(item);
                             renameContact();
                         }
-                        return (void*)1;
+                        return true;
                     }
                     if (cmd->id == CmdShowAlways){
                         ListUserData *data = (ListUserData*)(contact->getUserData(CorePlugin::m_plugin->list_data_id, true));
@@ -464,7 +464,7 @@ bool UserView::processEvent(Event *e)
                                 EventContact(contact, EventContact::eChanged).process();
                             }
                         }
-                        return (void*)1;
+                        return true;
                     }
                     if (cmd->id == CmdClose){
                         UserWnd *wnd = NULL;
@@ -483,7 +483,7 @@ bool UserView::processEvent(Event *e)
                         delete list;
                         if (wnd){
                             delete wnd;
-                            return (void*)1;
+                            return true;
                         }
                     }
                     if (cmd->id > CmdSendMessage){
@@ -494,7 +494,7 @@ bool UserView::processEvent(Event *e)
                         c->flags   = cmd->flags;
                         EventCommandExec eCmd(c);
                         if (eCmd.process())
-                            return (void*)1;
+                            return true;
                     }
                 }
             }
@@ -506,7 +506,7 @@ bool UserView::processEvent(Event *e)
                         contact->setGroup(grp->id());
                         EventContact eChanged(contact, EventContact::eChanged);
                         eChanged.process();
-                        return (void*)1;
+                        return true;
                     }
                 }
             }
@@ -534,7 +534,7 @@ bool UserView::processEvent(Event *e)
                         ++it;
                     }
                     if (from && to && (from == to))
-                        return (void*)1;
+                        return true;
                     UserWnd *userWnd = NULL;
                     if (from){
                         userWnd = from->wnd(contact->id());
@@ -550,7 +550,7 @@ bool UserView::processEvent(Event *e)
                     raiseWindow(to);
                     to->setNoSwitch(false);
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdOnline){
                 CorePlugin::m_plugin->setShowOnLine((cmd->flags & COMMAND_CHECKED) != 0);
@@ -588,7 +588,7 @@ bool UserView::processEvent(Event *e)
                         QTimer::singleShot(0, this, SLOT(renameGroup()));
                     }
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdGrpRename){
                 QListViewItem *item = findGroupItem((unsigned long)(cmd->param));
@@ -596,7 +596,7 @@ bool UserView::processEvent(Event *e)
                     setCurrentItem(item);
                     renameGroup();
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdGrpUp){
                 unsigned long grp_id = (unsigned long)(cmd->param);
@@ -606,7 +606,7 @@ bool UserView::processEvent(Event *e)
                     ensureItemVisible(item);
                     setCurrentItem(item);
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdGrpDown){
                 unsigned long grp_id = (unsigned long)(cmd->param);
@@ -616,7 +616,7 @@ bool UserView::processEvent(Event *e)
                     ensureItemVisible(item);
                     setCurrentItem(item);
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdGrpDelete){
                 unsigned long grp_id = (unsigned long)(cmd->param);
@@ -646,18 +646,18 @@ bool UserView::processEvent(Event *e)
                     cmd->flags |= COMMAND_CHECKED;
                 if (cmd->id == CmdEmptyGroup){
                     if (CorePlugin::m_plugin->getGroupMode() == 0)
-                        return NULL;
+                        return false;
                     if (CorePlugin::m_plugin->getShowEmptyGroup())
                         cmd->flags |= COMMAND_CHECKED;
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->menu_id == MenuContact){
                 if (cmd->id == CmdContactTitle){
                     Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                     if (contact){
                         cmd->text_wrk = contact->getName();
-                        return (void*)1;
+                        return true;
                     }
                 }
                 if (cmd->id == CmdShowAlways){
@@ -667,7 +667,7 @@ bool UserView::processEvent(Event *e)
                         cmd->flags &= ~COMMAND_CHECKED;
                         if (data && data->ShowAlways.toBool())
                             cmd->flags |= COMMAND_CHECKED;
-                        return (void*)1;
+                        return true;
                     }
                 }
                 if (cmd->id == CmdClose){
@@ -710,7 +710,7 @@ bool UserView::processEvent(Event *e)
                     }
                     cmd->param = cmds;
                     cmd->flags |= COMMAND_RECURSIVE;
-                    return (void*)1;
+                    return true;
                 }
                 if (cmd->id > CmdSendMessage){
                     Command c;
@@ -762,7 +762,7 @@ bool UserView::processEvent(Event *e)
                     cmds[nGroups].clear();
                     cmd->flags |= COMMAND_RECURSIVE;
                     cmd->param = cmds;
-                    return (void*)1;
+                    return true;
                 }
             }
             if (cmd->menu_id == MenuGroup){
@@ -772,28 +772,28 @@ bool UserView::processEvent(Event *e)
                         Group *g = getContacts()->group(grp_id);
                         if (g)
                             cmd->text_wrk = g->getName();
-                        return (void*)1;
+                        return true;
                     }
                     if ((cmd->id == CmdGrpDelete) || (cmd->id == CmdGrpRename)){
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return (void*)1;
+                        return true;
                     }
                     if (cmd->id == CmdGrpUp){
                         if (getContacts()->groupIndex(grp_id) <= 1)
                             cmd->flags |= COMMAND_DISABLED;
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return (void*)1;
+                        return true;
                     }
                     if (cmd->id == CmdGrpDown){
                         if (getContacts()->groupIndex(grp_id) >= getContacts()->groupCount() - 1)
                             cmd->flags |= COMMAND_DISABLED;
                         cmd->flags &= ~COMMAND_CHECKED;
-                        return (void*)1;
+                        return true;
                     }
                 }else{
                     if (cmd->id == CmdGrpTitle){
                         cmd->text = I18N_NOOP("Not in list");
-                        return (void*)1;
+                        return true;
                     }
                 }
             }
@@ -813,6 +813,8 @@ bool UserView::processEvent(Event *e)
                 QTimer::singleShot(0, this, SLOT(adjustColumn()));
             break;
         }
+    default:
+        break;
     }
     return UserListBase::processEvent(e);
 }

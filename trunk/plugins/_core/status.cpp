@@ -476,6 +476,8 @@ bool CommonStatus::processEvent(Event *e)
             }
             break;
         }
+    default:
+        break;
     }
     return false;
 }

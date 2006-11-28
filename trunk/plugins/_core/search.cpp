@@ -317,7 +317,7 @@ bool SearchDialog::processEvent(Event *e)
         break;
     case eEventCommandExec:{
             if (m_result != m_currentResult)
-                return NULL;
+                return false;
             EventCommandExec *ece = static_cast<EventCommandExec*>(e);
             CommandDef *cmd = ece->cmd();
             if (cmd->menu_id == MenuSearchGroups){
@@ -343,7 +343,7 @@ bool SearchDialog::processEvent(Event *e)
                             }else{
                                 BalloonMsg::message(err, m_result);
                             }
-                            return (void*)1;
+                            return true;
                         }
                         contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
                         contact->setGroup(grp->id());
@@ -351,23 +351,23 @@ bool SearchDialog::processEvent(Event *e)
                         e.process();
                     }
                 }
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdSearchInfo){
                 Contact *contact = createContact(CONTACT_TEMP);
                 if (contact == NULL)
-                    return (void*)1;
+                    return true;
                 Command cmd;
                 cmd->id		 = CmdInfo;
                 cmd->menu_id = MenuContact;
                 cmd->param   = (void*)(contact->id());
                 CorePlugin::m_plugin->showInfo(cmd);
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdSearchMsg){
                 Contact *contact = createContact(CONTACT_TEMP);
                 if (contact == NULL)
-                    return (void*)1;
+                    return true;
                 Message *m = new Message(MessageGeneric);
                 m->setContact(contact->id());
                 EventOpenMessage(m).process();
@@ -406,10 +406,10 @@ bool SearchDialog::processEvent(Event *e)
                         }
                         cmd->param = cmds;
                         cmd->flags |= COMMAND_RECURSIVE;
-                        return (void*)1;
+                        return true;
                     }
                 }
-                return NULL;
+                return false;
             }
             if ((cmd->id == CmdContactGroup) && (cmd->menu_id == MenuSearchGroups)){
                 Group *grp;
@@ -435,12 +435,14 @@ bool SearchDialog::processEvent(Event *e)
 
                 cmd->param = cmds;
                 cmd->flags |= COMMAND_RECURSIVE;
-                return (void*)1;
+                return true;
             }
             break;
         }
+    default:
+        break;
     }
-    return NULL;
+    return false;
 }
 
 void SearchDialog::textChanged(const QString&)

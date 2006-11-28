@@ -258,6 +258,8 @@ bool StatusFrame::processEvent(Event *e)
             delete l;
             break;
         }
+    default:
+        break;
     }
     return false;
 }
