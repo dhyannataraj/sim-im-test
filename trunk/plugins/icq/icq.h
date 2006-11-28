@@ -26,7 +26,6 @@ class CorePlugin;
 
 const unsigned IcqCmdBase	= 0x00040000;
 
-#include "icq_events.h"
 
 const unsigned long CmdVisibleList		= IcqCmdBase;
 const unsigned long CmdInvisibleList    = IcqCmdBase + 1;
