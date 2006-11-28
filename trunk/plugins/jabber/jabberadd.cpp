@@ -15,18 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qlineedit.h>
+#include <qpushbutton.h>
+#include <qlabel.h>
+
 #include "icons.h"
+#include "intedit.h"
+#include "listview.h"
+#include "misc.h"
+
 #include "jabberclient.h"
 #include "jabberadd.h"
 #include "jabber.h"
 #include "jabbersearch.h"
 #include "jabberbrowser.h"
-#include "listview.h"
-#include "intedit.h"
-
-#include <qlineedit.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
 
 using namespace std;
 using namespace SIM;

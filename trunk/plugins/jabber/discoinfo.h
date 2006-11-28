@@ -19,7 +19,6 @@
 #define _DISCOINFO_H
 
 #include "jabberclient.h"
-#include "simapi.h"
 #include "discoinfobase.h"
 
 class JabberBrowser;

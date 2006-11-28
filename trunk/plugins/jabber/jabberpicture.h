@@ -18,7 +18,6 @@
 #ifndef _JABBERPICTURE_H
 #define _JABBERPICTURE_H
 
-#include "simapi.h"
 #include "jabberpicturebase.h"
 
 class JabberClient;

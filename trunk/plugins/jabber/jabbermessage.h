@@ -18,7 +18,8 @@
 #ifndef _JABBERMESSAGE_H
 #define _JABBERMESSAGE_H
 
-#include "simapi.h"
+#include "cfg.h"
+#include "message.h"
 
 const unsigned long MessageJabber		= 0x201;
 const unsigned long MessageJabberOnline	= 0x202;

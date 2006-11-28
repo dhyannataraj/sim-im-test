@@ -15,13 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "jabberclient.h"
-#include "simapi.h"
-#include "jabberpicture.h"
-#include "editfile.h"
-#include "preview.h"
-#include "ballonmsg.h"
-
 #include <qtabwidget.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
@@ -29,6 +22,14 @@
 #include <qpixmap.h>
 #include <qfile.h>
 #include <time.h>
+
+#include "ballonmsg.h"
+#include "editfile.h"
+#include "misc.h"
+#include "preview.h"
+
+#include "jabberclient.h"
+#include "jabberpicture.h"
 
 using namespace SIM;
 

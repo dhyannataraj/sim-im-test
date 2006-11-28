@@ -18,7 +18,6 @@
 #ifndef _JIDSEARCH_H
 #define _JIDSEARCH_H
 
-#include "simapi.h"
 #include "jidsearchbase.h"
 
 class JabberClient;

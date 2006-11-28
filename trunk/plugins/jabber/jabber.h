@@ -18,7 +18,7 @@
 #ifndef _JABBER_H
 #define _JABBER_H
 
-#include "simapi.h"
+#include "contacts.h"
 
 const unsigned JabberCmdBase	= 0x00050000;
 

@@ -18,11 +18,12 @@
 #ifndef _JABBERSEARCH_H
 #define _JABBERSEARCH_H
 
-#include "simapi.h"
-#include "stl.h"
-#include "qchildwidget.h"
+#include <list>
+#include <vector>
 
 #include <qpushbutton.h>
+
+#include "qchildwidget.h"
 
 class JabberClient;
 struct JabberAgentInfo;

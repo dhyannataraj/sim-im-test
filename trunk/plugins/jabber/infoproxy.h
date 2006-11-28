@@ -18,7 +18,8 @@
 #ifndef _INFOPROXY_H
 #define _INFOPROXY_H
 
-#include "simapi.h"
+#include "event.h"
+
 #include "infoproxybase.h"
 
 class InfoProxy : public InfoProxyBase, public SIM::EventReceiver

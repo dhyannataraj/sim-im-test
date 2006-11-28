@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "jabberclient.h"
-#include "simapi.h"
 #include "jabberworkinfo.h"
 #include "jabber.h"
 

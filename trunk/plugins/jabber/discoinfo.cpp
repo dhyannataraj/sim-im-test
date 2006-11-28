@@ -15,19 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icons.h"
-#include "jabberclient.h"
-#include "discoinfo.h"
-#include "jabberbrowser.h"
-#include "jabber.h"
-#include "jabberaboutinfo.h"
-#include "listview.h"
-
 #include <qpixmap.h>
 #include <qlineedit.h>
 #include <qmultilineedit.h>
 #include <qtabwidget.h>
 #include <qpushbutton.h>
+
+#include "icons.h"
+#include "listview.h"
+#include "misc.h"
+
+#include "jabberclient.h"
+#include "discoinfo.h"
+#include "jabberbrowser.h"
+#include "jabber.h"
+#include "jabberaboutinfo.h"
 
 using namespace SIM;
 

@@ -15,12 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "icons.h"
-#include "jabberclient.h"
-#include "jabbersearch.h"
-#include "jabber.h"
-#include "jidadvsearch.h"
-#include "ballonmsg.h"
+#include <vector>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -35,7 +30,14 @@
 #include <qcheckbox.h>
 #include <qgroupbox.h>
 
-#include <vector>
+#include "ballonmsg.h"
+#include "icons.h"
+#include "misc.h"
+
+#include "jabberclient.h"
+#include "jabbersearch.h"
+#include "jabber.h"
+#include "jidadvsearch.h"
 
 using namespace std;
 using namespace SIM;

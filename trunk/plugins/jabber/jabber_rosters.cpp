@@ -31,6 +31,7 @@
 #include <qfile.h>
 
 #include "html.h"
+#include "log.h"
 #include "unquot.h"
 #include "core.h"
 

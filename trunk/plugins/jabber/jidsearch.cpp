@@ -15,15 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qpushbutton.h>
+#include <qgroupbox.h>
+
 #include "icons.h"
+#include "misc.h"
+
 #include "jabberclient.h"
 #include "jidsearch.h"
 #include "jabbersearch.h"
 #include "jidadvsearch.h"
 #include "jabber.h"
-
-#include <qpushbutton.h>
-#include <qgroupbox.h>
 
 using namespace SIM;
 

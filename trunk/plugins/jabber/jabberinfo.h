@@ -18,7 +18,6 @@
 #ifndef _JABBERINFO_H
 #define _JABBERINFO_H
 
-#include "simapi.h"
 #include "jabberinfobase.h"
 
 class JabberClient;

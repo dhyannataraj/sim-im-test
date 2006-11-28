@@ -18,8 +18,9 @@
 #ifndef _JABBERCLIENT_H
 #define _JABBERCLIENT_H
 
+#include <stack>
+
 #include "sax.h"
-#include "stl.h"
 #include "socket.h"
 
 class JabberProtocol;
