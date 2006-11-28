@@ -478,15 +478,16 @@ void Container::contactSelected(int)
     if (CorePlugin::m_plugin->getShowAvatarInContainer()) {
         Client *client = NULL;
         unsigned j=0;
+        QImage img;
         while (j < getContacts()->nClients()){
                client = getContacts()->getClient(j++);
-               if (client->userPicture(userWnd->id())!=NULL)
+               img = client->userPicture(userWnd->id());
+               if (!img.isNull())
                    break;
-               client = NULL;
         }
 
-        if (client) {
-            m_avatar_label.setPixmap(client->userPicture(userWnd->id()));
+        if (!img.isNull()) {
+            m_avatar_label.setPixmap(img);
             if (!m_avatar_label.isVisible())
                 m_avatar_window.show();
         } else {
@@ -494,7 +495,7 @@ void Container::contactSelected(int)
             m_avatar_window.hide();
         }
     } else {
-	m_avatar_label.clear();
+        m_avatar_label.clear();
         m_avatar_window.hide();
     }
 }

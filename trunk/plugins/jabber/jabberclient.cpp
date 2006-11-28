@@ -3099,20 +3099,22 @@ QImage JabberClient::userPicture(JabberUserData *d)
 
 QImage JabberClient::userPicture(unsigned id)
 {
-    if (id==0)
-        return NULL;
+    QImage img;
 
+    if (id==0)
+        return img;
     Contact *contact = getContacts()->contact(id);
+    if(!contact)
+        return img;
     ClientDataIterator it(contact->clientData, this);
 
-    void *d;
-    QImage img;
-    while ((d = ++it) != NULL){
-        if((img=userPicture(static_cast<JabberUserData*>(d)))!=NULL)
-            return img;
+    JabberUserData *d;
+    while ((d = static_cast<JabberUserData*>(++it)) != NULL){
+        img = userPicture(d);
+        if(!img.isNull())
+            break;
     }
-
-    return NULL;
+    return img;
 }
 
 #ifndef NO_MOC_INCLUDES

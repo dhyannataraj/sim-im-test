@@ -3183,20 +3183,22 @@ QString ICQClient::pictureFile(const ICQUserData *data)
 
 QImage ICQClient::userPicture(unsigned id)
 {
-    if (id==0)
-        return NULL;
+    QImage img;
 
+    if (id==0)
+        return img;
     Contact *contact = getContacts()->contact(id);
+    if(!contact)
+        return img;
     ClientDataIterator it(contact->clientData, this);
 
-    void *d;
-    QImage img;
-    while ((d = ++it) != NULL){
-            if ((img=userPicture(static_cast<ICQUserData*>(d)))!=NULL)
-            return img;
+    ICQUserData *d;
+    while ((d = static_cast<ICQUserData*>(++it)) != NULL){
+        img = userPicture(d);
+        if(!img.isNull())
+            break;
     }
-
-    return NULL;
+    return img;
 }
 
 QImage ICQClient::userPicture(ICQUserData *d)

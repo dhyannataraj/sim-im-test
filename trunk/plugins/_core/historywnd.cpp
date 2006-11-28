@@ -87,19 +87,19 @@ HistoryWindow::HistoryWindow(unsigned long id)
     m_avatar_label=NULL;
 
     if (CorePlugin::m_plugin->getShowAvatarInHistory()) {
-        Client *client = NULL;
         unsigned j=0;
+        QImage img;
         while (j < getContacts()->nClients()){
-           client = getContacts()->getClient(j++);
-           if (client->userPicture(id)!=NULL)
+           Client *client = getContacts()->getClient(j++);
+           img = client->userPicture(id);
+           if (!img.isNull())
                break;
-           client = NULL;
         }
 
-        if (client) {
+        if (!img.isNull()) {
             m_avatar_window=new QDockWindow(this);
             m_avatar_label=new QLabel(m_avatar_window);
-            m_avatar_label->setPixmap(client->userPicture(id));
+            m_avatar_label->setPixmap(img);
             m_avatar_window->setWidget(m_avatar_label);
             m_avatar_window->setOrientation(Qt::Vertical);
         }
