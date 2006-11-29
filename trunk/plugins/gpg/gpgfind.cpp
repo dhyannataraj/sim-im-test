@@ -26,6 +26,7 @@
 
 #include "editfile.h"
 #include "icons.h"
+#include "misc.h"
 
 #include "gpgfind.h"
 

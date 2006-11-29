@@ -502,13 +502,12 @@ void ConfigureDialog::apply()
         for (const DataDef *d = def; d->name; ++d)
             size += d->n_values;
         Data *data = new Data[size];
-        QString cfg = client->getConfig();
+        QCString cfg = client->getConfig();
         if (cfg.isEmpty()){
             load_data(def, data, NULL);
         }else{
             Buffer config;
-            config << "[Title]\n";
-            config.pack(cfg.ascii(), cfg.length());
+            config = "[Title]\n" + cfg;
             config.setWritePos(0);
             config.getSection();
             load_data(def, data, &config);
