@@ -85,12 +85,12 @@ QString ICQFileMessage::getDescription()
     return serverText;
 }
 
-string ICQFileMessage::save()
+QCString ICQFileMessage::save()
 {
-    string s = FileMessage::save();
-    string s1 = save_data(icqFileMessageData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QCString s = FileMessage::save();
+    QCString s1 = save_data(icqFileMessageData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }
@@ -146,12 +146,12 @@ QString ICQAuthMessage::getText() const
     return Message::getText();
 }
 
-string ICQAuthMessage::save()
+QCString ICQAuthMessage::save()
 {
-    string s = Message::save();
-    string s1 = save_data(icqAuthMessageData, &data);
-    if (!s1.empty()){
-        if (!s.empty())
+    QCString s = Message::save();
+    QCString s1 = save_data(icqAuthMessageData, &data);
+    if (!s1.isEmpty()){
+        if (!s.isEmpty())
             s += '\n';
         s += s1;
     }
@@ -673,10 +673,10 @@ WarningMessage::WarningMessage(Buffer *cfg)
     load_data(warningMessageData, &data, cfg);
 }
 
-string WarningMessage::save()
+QCString WarningMessage::save()
 {
-    string res = AuthMessage::save();
-    if (!res.empty())
+    QCString res = AuthMessage::save();
+    if (!res.isEmpty())
         res += "\n";
     return res + save_data(warningMessageData, &data);
 }

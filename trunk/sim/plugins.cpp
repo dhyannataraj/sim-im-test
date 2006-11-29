@@ -78,7 +78,7 @@ QWidget *Plugin::createConfigWindow(QWidget*)
     return NULL;
 }
 
-string Plugin::getConfig()
+QCString Plugin::getConfig()
 {
     return "";
 }
@@ -593,9 +593,9 @@ void PluginManagerPrivate::saveState()
         line += "\n";
         f.writeBlock(line, line.length());
         if (info.plugin){
-            string cfg = info.plugin->getConfig();
+            QCString cfg = info.plugin->getConfig();
             if (cfg.length()){
-                f.writeBlock(cfg.c_str(), cfg.length());
+                f.writeBlock(cfg, cfg.length());
                 f.writeBlock("\n", 1);
             }
         }

@@ -240,7 +240,7 @@ AutoAwayPlugin::~AutoAwayPlugin()
     free_data(autoAwayData, &data);
 }
 
-std::string AutoAwayPlugin::getConfig()
+QCString AutoAwayPlugin::getConfig()
 {
     return save_data(autoAwayData, &data);
 }

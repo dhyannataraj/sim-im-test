@@ -84,12 +84,12 @@ JournalMessage::~JournalMessage()
     free_data(journalMessageData, &data);
 }
 
-string JournalMessage::save()
+QCString JournalMessage::save()
 {
-    string cfg = Message::save();
-    string my_cfg = save_data(journalMessageData, &data);
-    if (!my_cfg.empty()){
-        if (!cfg.empty())
+    QCString cfg = Message::save();
+    QCString my_cfg = save_data(journalMessageData, &data);
+    if (!my_cfg.isEmpty()){
+        if (!cfg.isEmpty())
             cfg += "\n";
         cfg += my_cfg;
     }
@@ -378,12 +378,12 @@ LiveJournalClient::~LiveJournalClient()
     free_data(liveJournalClientData, &data);
 }
 
-string LiveJournalClient::getConfig()
+QCString LiveJournalClient::getConfig()
 {
-    string cfg = TCPClient::getConfig();
-    string my_cfg = save_data(liveJournalClientData, &data);
-    if (!my_cfg.empty()){
-        if (!cfg.empty())
+    QCString cfg = TCPClient::getConfig();
+    QCString my_cfg = save_data(liveJournalClientData, &data);
+    if (!my_cfg.isEmpty()){
+        if (!cfg.isEmpty())
             cfg += "\n";
         cfg += my_cfg;
     }
@@ -1053,7 +1053,7 @@ bool LiveJournalClient::processEvent(Event *e)
             while ((data = (LiveJournalUserData*)(++it)) != NULL){
                 if (dataName(data) == msg->client()){
                     Buffer cfg;
-                    cfg << "[Title]\n" << msg->save().c_str();
+                    cfg = "[Title]\n" + msg->save();
                     cfg.setWritePos(0);
                     cfg.getSection();
                     JournalMessage *m = new JournalMessage(&cfg);

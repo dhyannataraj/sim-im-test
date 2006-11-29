@@ -70,7 +70,7 @@ protected slots:
 protected:
     bool eventFilter(QObject *o, QEvent *e);
     virtual bool processEvent(SIM::Event *e);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void activate();
     void deactivate();

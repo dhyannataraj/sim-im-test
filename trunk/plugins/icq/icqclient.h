@@ -513,7 +513,7 @@ public:
     virtual QString     name();
     virtual QString     dataName(void*);
     virtual QWidget    *setupWnd();
-    virtual std::string getConfig();
+    virtual QCString    getConfig();
     virtual void contactsLoaded();
     void setUin(unsigned long);
     void setScreen(const QString &);

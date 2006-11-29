@@ -74,7 +74,7 @@ BackgroundPlugin::~BackgroundPlugin()
     free_data(backgroundData, &data);
 }
 
-std::string BackgroundPlugin::getConfig()
+QCString BackgroundPlugin::getConfig()
 {
     return save_data(backgroundData, &data);
 }

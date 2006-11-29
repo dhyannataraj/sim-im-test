@@ -47,7 +47,7 @@ public:
     virtual ~BackgroundPlugin();
 protected:
     virtual bool processEvent(SIM::Event *e);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     PROP_STR(Background);
     PROP_ULONG(Position);

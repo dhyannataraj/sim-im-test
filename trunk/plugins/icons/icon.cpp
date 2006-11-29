@@ -78,7 +78,7 @@ void IconsPlugin::setIcons(bool bForce)
     EventIconChanged().process();
 }
 
-string IconsPlugin::getConfig()
+QCString IconsPlugin::getConfig()
 {
     return save_data(iconsData, &data);
 }

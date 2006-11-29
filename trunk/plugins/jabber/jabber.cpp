@@ -353,7 +353,7 @@ JabberPlugin::~JabberPlugin()
     free_data(jabberData, &data);
 }
 
-std::string JabberPlugin::getConfig()
+QCString JabberPlugin::getConfig()
 {
     return save_data(jabberData, &data);
 }

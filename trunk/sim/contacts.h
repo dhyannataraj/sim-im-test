@@ -31,7 +31,7 @@ class EXPORT UserData
 public:
     UserData();
     ~UserData();
-    std::string save();
+    QCString save();
     void load(unsigned long id, const DataDef *def, Buffer *cfg);
     void *getUserData(unsigned id, bool bCreate);
     void freeUserData(unsigned id);
@@ -55,7 +55,7 @@ class EXPORT ClientUserData
 public:
     ClientUserData();
     ~ClientUserData();
-    std::string save();
+    QCString save();
     void load(Client *client, Buffer *cfg);
     void *getData(Client *client);
     bool have(void*);
@@ -260,7 +260,7 @@ public:
     Protocol *protocol() const { return m_protocol; }
     virtual QWidget *setupWnd() = 0;
     virtual void setStatus(unsigned status, bool bCommon);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual bool compareData(void*, void*);
     virtual bool isMyData(clientData*&, Contact*&) = 0;
     virtual bool createData(clientData*&, Contact*) = 0;

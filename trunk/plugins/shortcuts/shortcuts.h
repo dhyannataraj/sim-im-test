@@ -88,7 +88,7 @@ public:
 protected:
     virtual bool eventFilter(QObject*, QEvent*);
     virtual bool processEvent(SIM::Event *e);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     void applyKeys(unsigned long);
     void applyKey(SIM::CommandDef*);

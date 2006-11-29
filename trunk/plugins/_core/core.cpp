@@ -3736,7 +3736,7 @@ void CorePlugin::loadDir()
 }
 
 static char BACKUP_SUFFIX[] = "~";
-string CorePlugin::getConfig()
+QCString CorePlugin::getConfig()
 {
     QString unread_str;
     for (list<msg_id>::iterator itUnread = unread.begin(); itUnread != unread.end(); ++itUnread){
@@ -3784,7 +3784,7 @@ string CorePlugin::getConfig()
             if (!containers.isEmpty())
                 containers += ',';
             containers += QString::number(c->getId());
-            setContainer(c->getId(), c->getState().c_str());
+            setContainer(c->getId(), c->getState());
         }
         ++it;
     }
@@ -3794,7 +3794,7 @@ string CorePlugin::getConfig()
         saveGeometry(m_main, data.geometry);
         saveToolbar(m_main->m_bar, data.toolBarState);
     }
-    string cfg = save_data(coreData, &data);
+    QCString cfg = save_data(coreData, &data);
     QString saveProfile = getProfile();
     setProfile(QString::null);
     QString cfgName = user_file("plugins.conf");
@@ -3806,7 +3806,7 @@ string CorePlugin::getConfig()
         write += "enable,";
 		write += QString::number(m_base);
         write += "\n";
-        write += cfg.c_str();
+        write += cfg;
         fCFG.writeBlock(write, write.length());
 
         const int status = fCFG.status();
@@ -3851,15 +3851,15 @@ string CorePlugin::getConfig()
             }
             if (info == NULL)
                 continue;
-            string line = "[";
+            QCString line = "[";
             line += QFile::encodeName(info->name).data();
             line += "/";
-            line += protocol->description()->text.latin1();
+            line += protocol->description()->text;
             line += "]\n";
-            f.writeBlock(line.c_str(), line.length());
+            f.writeBlock(line, line.length());
             line = client->getConfig();
             if (line.length()){
-                f.writeBlock(line.c_str(), line.length());
+                f.writeBlock(line, line.length());
                 f.writeBlock("\n", 1);
             }
         }
@@ -3887,7 +3887,7 @@ string CorePlugin::getConfig()
     QString dir = user_file("");
     chmod(QFile::encodeName(dir),S_IRUSR | S_IWUSR | S_IXUSR);
 #endif
-    string res = save_data(coreData, &data);
+    QCString res = save_data(coreData, &data);
     setEditBackground(editBgColor);
     setEditForeground(editFgColor);
     return res;

@@ -302,7 +302,7 @@ class MessageRequest : public ServerRequest
     virtual QString name();
     virtual QString dataName(void*);
     virtual QWidget	*setupWnd();
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual QImage userPicture(unsigned id);
     QImage userPicture(JabberUserData *d);
 

@@ -66,7 +66,7 @@ ReplacePlugin::~ReplacePlugin()
     free_data(replaceData, &data);
 }
 
-string ReplacePlugin::getConfig()
+QCString ReplacePlugin::getConfig()
 {
     return save_data(replaceData, &data);
 }

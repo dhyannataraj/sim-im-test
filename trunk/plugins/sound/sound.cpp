@@ -147,7 +147,7 @@ SoundPlugin::~SoundPlugin()
     getContacts()->unregisterUserData(user_data_id);
 }
 
-string SoundPlugin::getConfig()
+QCString SoundPlugin::getConfig()
 {
     return save_data(soundData, &data);
 }

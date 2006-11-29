@@ -70,7 +70,7 @@ protected:
 #if defined(USE_KDE) || defined(WIN32)
     virtual QWidget *createConfigWindow(QWidget *parent);
 #endif
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     void getState();
     void setState();
     QWidget *getMainWindow();

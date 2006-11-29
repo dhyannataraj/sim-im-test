@@ -84,7 +84,7 @@ public:
     PROP_ULONG(BrowseType);
     static JabberPlugin *plugin;
 protected:
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     SIM::Protocol *m_protocol;
 };
 

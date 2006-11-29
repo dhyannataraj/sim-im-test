@@ -294,7 +294,7 @@ bool DockPlugin::processEvent(Event *e)
     return false;
 }
 
-std::string DockPlugin::getConfig()
+QCString DockPlugin::getConfig()
 {
     return save_data(dockData, &data);
 }

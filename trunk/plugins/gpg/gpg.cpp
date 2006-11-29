@@ -380,7 +380,7 @@ void GpgPlugin::importReady()
     log(L_WARN, "No decrypt exec");
 }
 
-std::string GpgPlugin::getConfig()
+QCString GpgPlugin::getConfig()
 {
     QStringList keys;
     QStringList passphrases;
@@ -392,7 +392,7 @@ std::string GpgPlugin::getConfig()
         clearKeys();
         clearPassphrases();
     }
-    std::string res = save_data(gpgData, &data);
+    QCString res = save_data(gpgData, &data);
     for (unsigned i = 0; i < getnPassphrases(); i++){
         setKeys(i + 1, keys[i]);
         setPassphrases(i + 1, passphrases[i]);

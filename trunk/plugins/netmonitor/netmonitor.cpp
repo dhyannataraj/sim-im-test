@@ -96,7 +96,7 @@ NetmonitorPlugin::~NetmonitorPlugin()
     free_data(monitorData, &data);
 }
 
-string NetmonitorPlugin::getConfig()
+QCString NetmonitorPlugin::getConfig()
 {
     saveState();
     setShow(monitor != NULL);

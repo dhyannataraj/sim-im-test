@@ -246,6 +246,8 @@ LRESULT CALLBACK dockWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             break;
         }
     }
+    if(!oldProc)
+        return DefWindowProc(hWnd, msg, wParam, lParam);
     unsigned type;
     RECT  *prc;
     RECT  rcWnd;
@@ -485,7 +487,7 @@ bool WinDockPlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-string WinDockPlugin::getConfig()
+QCString WinDockPlugin::getConfig()
 {
     return save_data(winDockData, &data);
 }

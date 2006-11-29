@@ -93,7 +93,7 @@ LoggerPlugin::~LoggerPlugin()
     free_data(loggerData, &data);
 }
 
-string LoggerPlugin::getConfig()
+QCString LoggerPlugin::getConfig()
 {
     QString packets;
     for (list<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){

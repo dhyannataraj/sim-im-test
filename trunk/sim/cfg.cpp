@@ -733,16 +733,16 @@ static QCString quoteInternal(const QCString &str)
     return res;
 }
 
-EXPORT string save_data(const DataDef *def, void *_data)
+EXPORT QCString save_data(const DataDef *def, void *_data)
 {
     Data *data = (Data*)_data;
-    string res;
+    QCString res;
     for (; def->name; def++){
-        string value;
+        QCString value;
         bool bSave = false;
         unsigned i;
         if (def->type == DATA_STRUCT){
-            string s = save_data((DataDef*)(def->def_value), data);
+            QCString s = save_data((DataDef*)(def->def_value), data);
             if (s.length()){
                 if (res.length())
                     res += "\n";
@@ -776,7 +776,7 @@ EXPORT string save_data(const DataDef *def, void *_data)
                                 res += "\n";
                             res += def->name;
                             res += "=";
-                            res += number(it.key());
+                            res += QString::number(it.key());
                             res += ",";
                             QString s = it.data();
                             QCString ls = s.local8Bit();
@@ -800,7 +800,7 @@ EXPORT string save_data(const DataDef *def, void *_data)
                                 res += "\n";
                             res += def->name;
                             res += "=";
-                            res += number(it.key());
+                            res += QString::number(it.key());
                             res += ",";
                             QString s = it.data();
                             QCString ls = s.local8Bit();
@@ -905,9 +905,9 @@ EXPORT string save_data(const DataDef *def, void *_data)
                         if (value.length())
                             value += ",";
                         if (p != (long)(def->def_value)){
-                            char b[32];
-                            snprintf(b, sizeof(b), "%li", p);
-                            value += b;
+                            QString s;
+                            s.sprintf("%li", p);
+                            value += s;
                             bSave = true;
                         }
                     }
@@ -919,9 +919,9 @@ EXPORT string save_data(const DataDef *def, void *_data)
                         if (value.length())
                             value += ",";
                         if (p != (unsigned long)(def->def_value)){
-                            char b[32];
-                            snprintf(b, sizeof(b), "%lu", p);
-                            value += b;
+                            QString s;
+                            s.sprintf("%lu", p);
+                            value += s;
                             bSave = true;
                         }
                     }

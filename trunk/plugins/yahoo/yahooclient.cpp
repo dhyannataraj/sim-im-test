@@ -143,9 +143,9 @@ YahooClient::~YahooClient()
     free_data(yahooClientData, &data);
 }
 
-string YahooClient::getConfig()
+QCString YahooClient::getConfig()
 {
-    string res = TCPClient::getConfig();
+    QCString res = TCPClient::getConfig();
     if (res.length())
         res += "\n";
     QString requests;
@@ -2100,7 +2100,7 @@ YahooFileMessage::~YahooFileMessage()
     free_data(yahoMessageFile, &data);
 }
 
-string YahooFileMessage::save()
+QCString YahooFileMessage::save()
 {
     return save_data(yahoMessageFile, &data);
 }

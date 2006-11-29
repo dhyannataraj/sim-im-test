@@ -123,7 +123,7 @@ ProxyData& ProxyData::operator = (const ProxyData &d)
     }
     if (d.bInit){
         Buffer cfg;
-        cfg << "[Title]\n" << save_data(_proxyData, (void*)(&d)).c_str();
+        cfg = "[Title]\n" + save_data(_proxyData, (void*)(&d));
         cfg.setWritePos(0);
         cfg.getSection();
         load_data(_proxyData, this, &cfg);
@@ -1290,7 +1290,7 @@ bool ProxyPlugin::processEvent(Event *e)
     return false;
 }
 
-string ProxyPlugin::getConfig()
+QCString ProxyPlugin::getConfig()
 {
     return save_data(_proxyData, &data);
 }

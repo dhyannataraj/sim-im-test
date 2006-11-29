@@ -37,7 +37,7 @@ protected slots:
 protected:
     unsigned CmdGo;
     bool done(unsigned code, Buffer &data, const QString &headers);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual bool processEvent(SIM::Event *e);
     QString getHeader(const QString &name, const QString &headers);
     QString m_url;

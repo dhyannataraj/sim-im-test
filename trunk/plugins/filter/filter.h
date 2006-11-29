@@ -56,7 +56,7 @@ protected:
     unsigned long CmdIgnoreText;
     virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     bool checkSpam(const QString &text, const QString &filter);
     void getWords(const QString &text, QStringList &words, bool bPattern);
     FilterData data;

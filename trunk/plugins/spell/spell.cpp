@@ -173,7 +173,7 @@ void SpellPlugin::deactivate()
     m_edits.clear();
 }
 
-std::string SpellPlugin::getConfig()
+QCString SpellPlugin::getConfig()
 {
     return save_data(spellData, &data);
 }

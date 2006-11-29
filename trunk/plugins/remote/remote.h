@@ -66,7 +66,7 @@ protected:
     virtual bool error(const QString &err);
 
     virtual bool processEvent(SIM::Event *e);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
 #ifdef WIN32
     IPC		*ipc;

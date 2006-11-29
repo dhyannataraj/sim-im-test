@@ -543,7 +543,7 @@ Message *History::load(unsigned id, const QString &client, unsigned contact)
             return NULL;
         msg_save &ms = (*it).second;
         Buffer config;
-        config << ms.msg.c_str();
+        config = ms.msg;
         config.setWritePos(0);
         QCString type = config.getSection();
         Message *msg = createMessage(id, type, &config);
@@ -562,8 +562,8 @@ Message *History::load(unsigned id, const QString &client, unsigned contact)
 
 void History::add(Message *msg, const QString &type)
 {
-    string line = "[";
-    line += type.latin1();
+    QCString line = "[";
+    line += type;
     line += "]\n";
     line += msg->save();
     line += "\n";
@@ -580,7 +580,7 @@ void History::add(Message *msg, const QString &type)
         return;
     }
 
-    if (!line.empty() && (line[line.length() - 1] != '\n'))
+    if (!line.isEmpty() && (line.at(line.length() - 1) != '\n'))
         line += '\n';
 
     QString name = msg->client();
@@ -610,7 +610,7 @@ void History::add(Message *msg, const QString &type)
         return;
     }
     unsigned id = f.at();
-    f.writeBlock(line.c_str(), line.size());
+    f.writeBlock(line, line.length());
 
     msg->setId(id);
 }

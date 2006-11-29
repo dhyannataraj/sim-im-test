@@ -89,7 +89,7 @@ StylesPlugin::~StylesPlugin()
         delete m_savePalette;
 }
 
-std::string StylesPlugin::getConfig()
+QCString StylesPlugin::getConfig()
 {
     return save_data(stylesData, &data);
 }

@@ -54,7 +54,7 @@ public slots:
     void tickMouse();
     void topDestroyed();
 protected:
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool eventFilter(QObject*, QEvent*);
     QWidget *getMainWindow();

@@ -164,7 +164,7 @@ public:
     PROP_BOOL(UseHTTP);
     PROP_BOOL(AutoHTTP);
     PROP_STR(ListRequests);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     QString getLogin();
     void setLogin(const QString&);
     QString name();
@@ -250,7 +250,7 @@ public:
     ~YahooFileMessage();
     PROP_STR(Url);
     PROP_ULONG(MsgID);
-    virtual	std::string save();
+    virtual	QCString save();
     virtual unsigned baseType() { return SIM::MessageFile; }
 protected:
     YahooFileData data;

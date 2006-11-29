@@ -58,7 +58,7 @@ class JournalMessage : public SIM::Message
 public:
     JournalMessage(Buffer *cfg = NULL);
     ~JournalMessage();
-    std::string save();
+    virtual QCString save();
     PROP_UTF8(Subject);
     PROP_ULONG(Private);
     PROP_ULONG(Time);
@@ -164,7 +164,7 @@ public slots:
     void messageUpdated();
 protected:
     virtual bool done(unsigned code, Buffer &data, const QString &headers);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual QString name();
     virtual QString dataName(void*);
     virtual QWidget	*setupWnd();

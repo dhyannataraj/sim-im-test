@@ -1276,9 +1276,9 @@ bool MsgEdit::processEvent(Event *e)
                     CommandDef *def = CorePlugin::m_plugin->messageTypes.find(m_msg->type());
                     if (def){
                         MessageDef *mdef = (MessageDef*)(def->param);
-                        string cfg = m_msg->save();
+                        QCString cfg = m_msg->save();
                         Buffer config;
-                        config << "[Title]\n" << cfg.c_str();
+                        config = "[Title]\n" + cfg;
                         config.setWritePos(0);
                         config.getSection();
                         m_msg = (mdef->create)(&config);

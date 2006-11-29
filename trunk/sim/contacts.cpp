@@ -1115,7 +1115,7 @@ void Client::freeData()
     free_data(_clientData, &data);
 }
 
-string Client::getConfig()
+QCString Client::getConfig()
 {
     QString real_pswd = getPassword();
     QString pswd = getPassword();
@@ -1136,7 +1136,7 @@ string Client::getConfig()
         setPassword(prev);
     if (!getSavePassword())
         setPassword(NULL);
-    string res = save_data(_clientData, &data);
+    QCString res = save_data(_clientData, &data);
     setPassword(real_pswd);
     return res;
 }
@@ -1310,14 +1310,14 @@ Client *ClientUserData::activeClient(void *&data, Client *client)
     return client;
 }
 
-string ClientUserData::save()
+QCString ClientUserData::save()
 {
-    string res;
+    QCString res;
     for (ClientUserDataPrivate::iterator it = p->begin(); it != p->end(); ++it){
         _ClientUserData &d = *it;
         if (d.client->protocol()->description()->flags & PROTOCOL_TEMP_DATA)
             continue;
-        string cfg = save_data(d.client->protocol()->userDataDef(), d.data);
+        QCString cfg = save_data(d.client->protocol()->userDataDef(), d.data);
         if (cfg.length()){
             if (res.length())
                 res += "\n";
@@ -1603,21 +1603,21 @@ void UserData::freeUserData(unsigned id)
     }
 }
 
-string UserData::save()
+QCString UserData::save()
 {
-    string res;
+    QCString res;
     UserDataMap::Iterator userDataIt;
     for(userDataIt = d->m_userData.begin(); userDataIt != d->m_userData.end(); ++userDataIt) {
         list<UserDataDef> &d = getContacts()->p->userDataDef;
         for (list<UserDataDef>::iterator it = d.begin(); it != d.end(); ++it){
             if ((*it).id != userDataIt.key())
                 continue;
-            string cfg = save_data((*it).def, userDataIt.data());
+            QCString cfg = save_data((*it).def, userDataIt.data());
             if (cfg.length()){
                 if (res.length())
                     res += "\n";
                 res += "[";
-                res += (*it).name.latin1();
+                res += (*it).name;
                 res += "]\n";
                 res += cfg;
             }
@@ -1657,12 +1657,12 @@ void ContactList::save()
         log(L_ERROR, "Can't create %s", (const char*)f.name().local8Bit());
         return;
     }
-    QCString line = p->userData.save().c_str();
+    QCString line = p->userData.save();
     if (line.length()){
         f.writeBlock(line, line.length());
         f.writeBlock("\n", 1);
     }
-    line = save_data(contactData, &owner()->data).c_str();
+    line = save_data(contactData, &owner()->data);
     if (line.length()){
         QCString cfg  = "[";
         cfg += OWNER;
@@ -1678,7 +1678,7 @@ void ContactList::save()
         line += QString::number(grp->id());
         line += "]\n";
         f.writeBlock(line, line.length());
-        line = save_data(groupData, &grp->data).c_str();
+        line = save_data(groupData, &grp->data);
         if (line.length()){
             f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
@@ -1688,12 +1688,12 @@ void ContactList::save()
                entries, this must be ...*/
             f.writeBlock("Name=\"NIL\"\n", 11);
         }
-        line = grp->userData.save().c_str();
+        line = grp->userData.save();
         if (line.length()){
             f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         }
-        line = grp->clientData.save().c_str();
+        line = grp->clientData.save();
         if (line.length()){
             f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
@@ -1708,17 +1708,17 @@ void ContactList::save()
         line += QString::number(contact->id());
         line += "]\n";
         f.writeBlock(line, line.length());
-        line = save_data(contactData, &contact->data).c_str();
+        line = save_data(contactData, &contact->data);
         if (line.length()){
             f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         }
-        line = contact->userData.save().c_str();
+        line = contact->userData.save();
         if (line.length()){
             f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);
         }
-        line = contact->clientData.save().c_str();
+        line = contact->clientData.save();
         if (line.length()){
             f.writeBlock(line, line.length());
             f.writeBlock("\n", 1);

@@ -37,7 +37,7 @@ public:
     JabberMessage(Buffer *cfg = NULL);
     ~JabberMessage();
     PROP_UTF8(Subject);
-    virtual std::string save();
+    virtual QCString save();
     virtual QString presentation();
     virtual unsigned baseType() { return SIM::MessageGeneric; }
 protected:
@@ -57,7 +57,7 @@ public:
     ~JabberMessageError();
     PROP_UTF8(Error);
     PROP_ULONG(Code);
-    virtual std::string save();
+    virtual QCString save();
     virtual QString presentation();
 protected:
     JabberMessageErrorData	data;

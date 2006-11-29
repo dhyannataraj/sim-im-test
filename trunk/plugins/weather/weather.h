@@ -150,7 +150,7 @@ protected:
     char   m_bDayPart;
     bool   m_bDayForecastIsValid;
     unsigned m_day;
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     bool isDay();
     bool parseTime(const QString &str, int &h, int &m);
     bool parseDateTime(const QString &str, QDateTime &dt);

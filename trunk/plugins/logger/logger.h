@@ -52,7 +52,7 @@ protected:
 //    bool eventFilter(QObject *o, QEvent *e);
     std::list<unsigned> m_packets;
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     virtual bool processEvent(SIM::Event *e);
     void openFile();
     QFile *m_file;

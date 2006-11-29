@@ -128,7 +128,7 @@ protected:
 
 EXPORT void free_data(const DataDef *def, void *data);
 EXPORT void load_data(const DataDef *def, void *data, Buffer *config);
-EXPORT std::string save_data(const DataDef *def, void *data);
+EXPORT QCString save_data(const DataDef *def, void *data);
 
 EXPORT const QString &get_str(const Data &strlist, unsigned index);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);

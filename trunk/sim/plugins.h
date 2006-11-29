@@ -57,7 +57,7 @@ public:
     Plugin(unsigned base);
     virtual ~Plugin() {}
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
     unsigned registerType();
     void boundTypes();
 protected:

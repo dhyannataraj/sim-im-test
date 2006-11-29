@@ -204,7 +204,7 @@ void JabberClient::setID(const QString &id)
     data.owner.ID.str() = id;
 }
 
-std::string JabberClient::getConfig()
+QCString JabberClient::getConfig()
 {
     QString lr;
     for (list<JabberListRequest>::iterator it = m_listRequests.begin(); it != m_listRequests.end(); ++it){
@@ -217,7 +217,7 @@ std::string JabberClient::getConfig()
             lr += ",1";
     }
     setListRequest(lr);
-    std::string res = Client::getConfig();
+    QCString res = Client::getConfig();
     if (res.length())
         res += "\n";
     return res += save_data(jabberClientData, &data);

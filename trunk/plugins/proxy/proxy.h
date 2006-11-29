@@ -75,7 +75,7 @@ public:
 protected:
     virtual bool processEvent(SIM::Event *e);
     virtual QWidget *createConfigWindow(QWidget *parent);
-    virtual std::string getConfig();
+    virtual QCString getConfig();
 };
 
 #endif

@@ -480,7 +480,7 @@ bool NavigatePlugin::processEvent(Event *e)
     return false;
 }
 
-string NavigatePlugin::getConfig()
+QCString NavigatePlugin::getConfig()
 {
     return save_data(navigateData, &data);
 }
