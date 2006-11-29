@@ -1592,10 +1592,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\stl.h"
-				>
-			</File>
-			<File
 				RelativePath="sim\textshow.h"
 				>
 				<FileConfiguration

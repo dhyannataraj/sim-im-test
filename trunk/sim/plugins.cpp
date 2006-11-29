@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <vector>
+#include <algorithm>
 
 #include "plugins.h"
 
