@@ -521,7 +521,7 @@ void FileIconSet::element_start(const QString& el, const QXmlAttributes& attrs)
         m_system = "";
 #endif
         m_name = attrs.value("name");
-        m_flags = attrs.value("value").toUInt();
+        m_flags = attrs.value("flags").toUInt();
 #ifdef USE_KDE
         m_system = attrs.value("kicon");
 #endif
