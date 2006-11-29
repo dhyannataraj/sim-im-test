@@ -20,6 +20,8 @@
 
 #include "ignorelistbase.h"
 
+#include "event.h"
+
 class QListViewItem;
 
 class IgnoreList : public IgnoreListBase, public SIM::EventReceiver

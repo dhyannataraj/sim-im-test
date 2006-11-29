@@ -21,6 +21,8 @@
 #include <qmainwindow.h>
 #include <qmutex.h>
 
+#include "event.h"
+
 class TextShow;
 class QPopupMenu;
 class NetmonitorPlugin;

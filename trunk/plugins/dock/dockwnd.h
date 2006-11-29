@@ -19,8 +19,9 @@
 #define _DOCKWND_H
 
 #include <qwidget.h>
-#include <qtooltip.h>
 #include <qpixmap.h>
+
+#include "event.h"
 
 class WharfIcon;
 class DockPlugin;

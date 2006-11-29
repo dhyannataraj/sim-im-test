@@ -17,6 +17,8 @@
 
 #include <time.h>
 
+#include <algorithm>
+
 #include <qapplication.h>
 #include <qfile.h>
 #include <qpixmap.h>

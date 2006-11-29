@@ -80,7 +80,7 @@ protected:
 
 DDEstring::DDEstring(const QString &name) : hSz(NULL)
 {
-    hSz = DdeCreateStringHandle(*DDEbase::base, (WCHAR*)name.ucs2(), CP_WINANSI);
+    hSz = DdeCreateStringHandle(*DDEbase::base, (WCHAR*)name.ucs2(), CP_WINUNICODE);
 }
 
 DDEstring::~DDEstring()
@@ -326,8 +326,7 @@ bool NavigatePlugin::processEvent(Event *e)
 #ifdef WIN32
         bool bExec = false;
         if (getNewWindow()){
-            QString key_name = proto;
-            key_name += "\\Shell\\Open";
+            QString key_name = proto + "\\Shell\\Open";
             RegEntry rp(HKEY_CLASSES_ROOT, key_name);
             QString prg    = rp.value("command");
             QString action = rp.value("ddeexec");

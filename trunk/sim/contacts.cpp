@@ -15,6 +15,7 @@ email                : vovan@shutoff.ru
 *                                                                         *
 ***************************************************************************/
 
+#include <algorithm>
 #include <vector>
 
 #include <qfile.h>

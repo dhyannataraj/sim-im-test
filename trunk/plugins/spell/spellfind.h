@@ -18,9 +18,9 @@
 #ifndef _SPELLFIND_H
 #define _SPELLFIND_H
 
-#include "spellfindbase.h"
-
+#include <stack>
 #include <qdir.h>
+#include "spellfindbase.h"
 
 class EditFile;
 

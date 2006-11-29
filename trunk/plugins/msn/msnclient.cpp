@@ -24,17 +24,16 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #endif
-
-#ifndef INADDR_NONE
-#define INADDR_NONE     0xFFFFFFFF
-#endif
-
 #include <time.h>
+
+#include <algorithm>
+
 #include <qtimer.h>
 #include <qregexp.h>
 #include <qfile.h>
 
 #include "log.h"
+#include "core.h"
 
 #include "msnclient.h"
 #include "msnconfig.h"
@@ -42,7 +41,10 @@
 #include "msn.h"
 #include "msninfo.h"
 #include "msnsearch.h"
-#include "core.h"
+
+#ifndef INADDR_NONE
+#define INADDR_NONE     0xFFFFFFFF
+#endif
 
 using namespace std;
 using namespace SIM;

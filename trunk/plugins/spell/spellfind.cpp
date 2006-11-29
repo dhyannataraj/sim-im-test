@@ -24,8 +24,9 @@
 #include <qregexp.h>
 #include <qtimer.h>
 
-#include "icons.h"
 #include "editfile.h"
+#include "icons.h"
+#include "misc.h"
 
 #include "spellfind.h"
 
