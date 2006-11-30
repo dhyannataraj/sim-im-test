@@ -119,7 +119,7 @@ bool MsgGen::processEvent(Event *e)
         CommandDef *cmd = ece->cmd();
         if ((cmd->id == CmdSend) && (cmd->param == m_edit)){
             QString msgText = m_edit->m_edit->text();
-            if (!msgText.isEmpty()){
+            if (msgText.isEmpty()){
                 log(L_DEBUG, "Send: %s", msgText.local8Bit().data());
                 Message *msg = new Message;
                 msg->setText(msgText);
