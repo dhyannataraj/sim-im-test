@@ -23,7 +23,6 @@
 #include "userlist.h"
 #include "core.h"
 
-using std::string;
 using namespace SIM;
 
 MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)

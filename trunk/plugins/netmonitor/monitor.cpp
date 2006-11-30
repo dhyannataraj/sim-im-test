@@ -39,7 +39,6 @@
 #include "monitor.h"
 #include "netmonitor.h"
 
-using std::string;
 using namespace SIM;
 
 const int mnuSave = 1;

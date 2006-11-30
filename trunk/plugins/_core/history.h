@@ -19,7 +19,6 @@
 #define _HISTORY_H
 
 #include <map>
-#include <string>
 #include <qstring.h>
 
 #include "message.h"

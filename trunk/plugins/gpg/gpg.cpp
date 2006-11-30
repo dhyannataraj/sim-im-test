@@ -36,8 +36,6 @@
 #include <qprocess.h>
 #include <qapplication.h> //for Linux: qApp->processEvents();
 
-#include <string>
-
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif

@@ -716,14 +716,14 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
         }
     }
     unsigned skip_size = config.writePos() - config.startSection();
-    string line = "\n";
+    QCString line = "\n";
     if (msg){
         line += msg->save();
         line += "\n";
         skip_start++;
     }
     int size = line.length();
-    int writen = t.writeBlock(line.c_str(), size);
+    int writen = t.writeBlock(line, size);
     if (writen != size){
         log(L_DEBUG, "Write history error");
         return;

@@ -28,7 +28,6 @@
 #include <qwidgetlist.h>
 #include <qobjectlist.h>
 
-using std::string;
 using namespace SIM;
 
 const unsigned COL_TYPE	= 3;

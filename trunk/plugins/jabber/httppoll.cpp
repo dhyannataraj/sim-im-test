@@ -22,7 +22,6 @@
 
 #include "jabberclient.h"
 
-using std::string;
 using namespace SIM;
 
 class JabberHttpPool : public Socket, public FetchClient
@@ -41,8 +40,8 @@ protected:
     Buffer readData;
     Buffer writeData;
     QString m_url;
-    string m_key;
-    string m_seed;
+    QCString m_key;
+    QCString m_seed;
     QString m_cookie;
     virtual unsigned long localHost();
     virtual void pause(unsigned);
@@ -76,17 +75,17 @@ JabberHttpPool::~JabberHttpPool()
 QString JabberHttpPool::getKey()
 {
 #ifdef USE_OPENSSL
-    if (m_key.empty()){
+    if (m_key.isEmpty()){
         m_key = m_seed;
         return m_key;
     }
-    QByteArray digest = sha1(m_key.c_str());
+    QByteArray digest = sha1(m_key);
     Buffer b;
     b.pack(digest, digest.size());
     Buffer r;
     r.toBase64(b);
     m_key = "";
-    m_key.append(r.data(), r.size());
+    m_key = r;
     return m_key;
 #else
     return QString::null;
