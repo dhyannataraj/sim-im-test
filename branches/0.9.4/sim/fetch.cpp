@@ -467,7 +467,7 @@ FetchManager::FetchManager()
         (DWORD&)_InternetErrorDlg = (DWORD)GetProcAddress(hLib, "InternetErrorDlg");
     }
     if (_InternetOpen && _HttpSendRequestEx){
-        hInet = _InternetOpen(user_agent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+        hInet = _InternetOpen(user_agent.latin1(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
         if (hInet == NULL)
             log(L_WARN, "Internet open error %u", GetLastError());
     }

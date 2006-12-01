@@ -647,32 +647,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="sim\libltdl\ltdl.c"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						UsePrecompiledHeader="0"
-						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						UsePrecompiledHeader="0"
-						ForcedIncludeFiles="$(NOINHERIT)"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="sim\message.cpp"
 				>
 				<FileConfiguration
