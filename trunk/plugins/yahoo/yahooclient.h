@@ -263,7 +263,7 @@ public:
     ~YahooFileTransfer();
     void listen();
     void connect();
-    virtual bool    error_state(const QString &err, unsigned code);
+    virtual bool    error_state(const QString &err, unsigned code = 0);
 protected:
     YahooClient	*m_client;
     YahooUserData	*m_data;

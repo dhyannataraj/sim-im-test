@@ -806,7 +806,7 @@ public:
     ~ServiceSocket();
     unsigned short id() const { return m_id; }
     void connect(const char *addr, unsigned short port, const QByteArray &cookie);
-    virtual bool error_state(const QString &err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code = 0);
     bool connected() const { return m_bConnected; }
     void close();
 protected:
@@ -846,7 +846,7 @@ public:
     void connect();
     void reverseConnect(unsigned long ip, unsigned short port);
     void acceptReverse(SIM::Socket *s);
-    virtual bool   error_state(const QString &err, unsigned code);
+    virtual bool   error_state(const QString &err, unsigned code = 0);
     virtual void   connect_ready();
     unsigned short localPort();
     unsigned short remotePort();
@@ -908,7 +908,7 @@ protected:
     unsigned    m_channel;
     void processPacket();
     void connect_ready();
-    bool error_state(const QString &err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code);
     void sendInit2();
     void startPacket(unsigned short cms, unsigned short seq);
     void sendPacket();

@@ -67,7 +67,7 @@ protected:
     unsigned	m_errCode;
     bool event(QEvent* event);
 #endif
-    virtual bool error_state(const QString &err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code = 0);
     virtual void connect_ready();
     virtual void packet_ready();
     virtual void write_ready();
@@ -438,7 +438,7 @@ void FetchManager::timeout()
     list<FetchClientPrivate*> done = *m_done;
     m_done->clear();
     for (list<FetchClientPrivate*>::iterator it = done.begin(); it != done.end(); ++it){
-        if ((*it)->error_state("", 0))
+        if ((*it)->error_state(""))
             delete *it;
     }
 }
@@ -557,7 +557,7 @@ void FetchClientPrivate::_fetch(const QString &headers, Buffer *postData, bool b
     string extra;
     unsigned short port;
     if (!FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra)){
-        m_socket->error_state("Bad URL", 0);
+        m_socket->error_state(I18N_NOOP("Bad URL"));
         return;
     }
     if (proto != "http"){
@@ -709,7 +709,7 @@ void FetchClientPrivate::connect_ready()
         m_socket->readBuffer.init(0);
         HTTPSClient *https = new HTTPSClient(m_socket->socket());
         if (!https->init()){
-            m_socket->error_state("Can't initialize HTTPS", 0);
+            m_socket->error_state(I18N_NOOP("Can't initialize HTTPS"));
             return;
         }
         m_state = SSLConnect;
@@ -786,7 +786,7 @@ void FetchClientPrivate::write_ready()
         tail = sizeof(buff);
     const char *data = m_client->read_data(buff, tail);
     if (data == NULL){
-        m_socket->error_state("Read error", 0);
+        m_socket->error_state(I18N_NOOP("Read error"));
         return;
     }
     m_postSize -= tail;
@@ -815,14 +815,14 @@ void FetchClientPrivate::packet_ready()
             unsigned size = m_socket->readBuffer.writePos() - m_socket->readBuffer.readPos();
             if (size){
                 if (!m_client->write_data(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), size)){
-                    m_socket->error_state("Write error", 0);
+                    m_socket->error_state(I18N_NOOP("Write error"));
                     return;
                 }
             }
             m_received += size;
             if (m_received >= m_size){
                 m_state = Done;
-                m_socket->error_state("", 0);
+                m_socket->error_state("");
                 return;
             }
             m_socket->readBuffer.init(0);
@@ -843,7 +843,7 @@ void FetchClientPrivate::packet_ready()
         case SSLConnect:
 #endif
             if (getToken(line, ' ').substr(0, 5) != "HTTP/"){
-                m_socket->error_state("Bad HTTP answer", 0);
+                m_socket->error_state(I18N_NOOP("Bad HTTP answer"));
                 return;
             }
             m_code = atol(getToken(line, ' ').c_str());
@@ -899,7 +899,7 @@ void FetchClientPrivate::packet_ready()
                 }
                 m_state = Redirect;
                 m_socket->close();
-                m_socket->error_state("", 0);
+                m_socket->error_state("");
                 return;
             }
             break;

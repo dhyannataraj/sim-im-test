@@ -156,30 +156,30 @@ QString SIM::unquoteText(const QString &text)
 QString SIM::unquoteString(const QString &text)
 {
     QString res = text;
-    res = res.replace(QRegExp("&gt;"), ">");
-    res = res.replace(QRegExp("&lt;"), "<");
-    res = res.replace(QRegExp("&quot;"), "\"");
-    res = res.replace(QRegExp("&amp;"), "&");
-    res = res.replace(QRegExp("&nbsp;"), " ");
-    res = res.replace(QRegExp("<br/?>"), "\n");
+    res = res.replace("&gt;",   ">");
+    res = res.replace("&lt;",   "<");
+    res = res.replace("&quot;", "\"");
+    res = res.replace("&amp;",  "&");
+    res = res.replace("&nbsp;", " ");
+    res = res.replace("<br/?>", "\n");
     return res;
 }
 
 EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode, bool bQuoteSpaces)
 {
     QString str = _str;
-    str.replace(QRegExp("&"), "&amp;");
-    str.replace(QRegExp("<"), "&lt;");
-    str.replace(QRegExp(">"), "&gt;");
-    str.replace(QRegExp("\""), "&quot;");
-    str.replace(QRegExp("\r"), "");
-    str.replace(QRegExp("\t"), "&nbsp;&nbsp;");
+    str.replace("&", "&amp;");
+    str.replace("<", "&lt;");
+    str.replace(">", "&gt;");
+    str.replace("\"", "&quot;");
+    str.replace("\r", "");
+    str.replace("\t", "&nbsp;&nbsp;");
     switch (mode){
     case quoteHTML:
-        str.replace(QRegExp("\n"), "<br>\n");
+        str.replace("\n", "<br>\n");
         break;
     case quoteXML:
-        str.replace(QRegExp("\n"), "<br/>\n");
+        str.replace("\n", "<br/>\n");
         break;
     default:
         break;
@@ -203,5 +203,5 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode, bool bQuote
 EXPORT QString SIM::quote_nbsp(const QString &str)
 {
     QString s = str;
-    return s.replace(QRegExp("&nbsp;"), QString("&#160;"));
+    return s.replace("&nbsp;", QString("&#160;"));
 }   

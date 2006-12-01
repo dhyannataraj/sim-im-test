@@ -170,7 +170,7 @@ public:
 protected:
     virtual void write();
     virtual void write_ready();
-    virtual void error_state(const QString &text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code = 0);
     virtual void proxy_connect_ready();
     void read(unsigned size, unsigned minsize=0);
     bool		m_bClosed;
@@ -412,7 +412,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    virtual void error_state(const QString &text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code = 0);
     enum State
     {
         Connect,
@@ -578,7 +578,7 @@ public:
 protected:
     virtual void connect_ready();
     virtual void read_ready();
-    virtual void error_state(const QString &text, unsigned code);
+    virtual void error_state(const QString &text, unsigned code = 0);
     void send_listen();
     enum State
     {

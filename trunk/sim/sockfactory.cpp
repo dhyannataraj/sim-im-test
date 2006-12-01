@@ -241,7 +241,8 @@ int SIMClientSocket::read(char *buf, unsigned int size)
     int res = sock->readBlock(buf, size);
     if (res < 0){
         log(L_DEBUG, "QClientSocket::read error %u", errno);
-        if (notify) notify->error_state("Read socket error");
+        if (notify)
+            notify->error_state(I18N_NOOP("Read socket error"));
         return -1;
     }
     return res;
@@ -253,7 +254,8 @@ void SIMClientSocket::write(const char *buf, unsigned int size)
     int res = sock->writeBlock(buf, size);
     bInWrite = false;
     if (res != (int)size){
-        if (notify) notify->error_state("Write socket error");
+        if (notify)
+            notify->error_state(I18N_NOOP("Write socket error"));
         return;
     }
     if (sock->bytesToWrite() == 0)
@@ -288,7 +290,8 @@ void SIMClientSocket::resolveReady(unsigned long addr, const QString &_host)
     if (_host != host)
         return;
     if (addr == INADDR_NONE){
-        if (notify) notify->error_state(I18N_NOOP("Can't resolve host"));
+        if (notify)
+            notify->error_state(I18N_NOOP("Can't resolve host"));
         return;
     }
     if (notify)

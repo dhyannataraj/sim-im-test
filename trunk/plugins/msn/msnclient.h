@@ -109,7 +109,7 @@ protected:
         WaitJoin,
         Connected
     };
-    virtual bool error_state(const QString &err, unsigned code);
+    virtual bool error_state(const QString &err, unsigned code = 0);
     virtual void connect_ready();
     virtual void packet_ready();
     void send(const QString &cmd, const QString &args);
@@ -302,7 +302,7 @@ protected:
         WaitDisconnect,
         WaitBye
     };
-    virtual bool    error_state(const QString &err, unsigned code);
+    virtual bool    error_state(const QString &err, unsigned code = 0);
     virtual void    packet_ready();
     virtual void    connect_ready();
     virtual void    write_ready();

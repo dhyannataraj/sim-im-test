@@ -134,7 +134,7 @@ void ClientSocket::read_ready()
             char b[2048];
             int readn = m_sock->read(b, sizeof(b));
             if (readn < 0){
-                error_state(I18N_NOOP("Read socket error"), 0);
+                error_state(I18N_NOOP("Read socket error"));
                 return;
             }
             if (readn == 0)
@@ -152,7 +152,7 @@ void ClientSocket::read_ready()
         int readn = m_sock->read(readBuffer.data(readBuffer.writePos()),
                                  readBuffer.size() - readBuffer.writePos());
         if (readn < 0){
-            error_state(I18N_NOOP("Read socket error"), 0);
+            error_state(I18N_NOOP("Read socket error"));
             return;
         }
         if (readn == 0) break;
@@ -364,7 +364,7 @@ void TCPClient::loginTimeout()
 {
     m_loginTimer->stop();
     if ((m_state != Connected) && m_socket)
-        m_socket->error_state("Login timeout", 0);
+        m_socket->error_state(I18N_NOOP("Login timeout"));
 }
 
 Socket *TCPClient::createSocket()
