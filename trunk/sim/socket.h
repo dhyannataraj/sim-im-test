@@ -162,7 +162,7 @@ public:
     ~ClientSocket();
     Buffer readBuffer;
     Buffer writeBuffer;
-    virtual void error_state(const QString &err, unsigned code = 0);
+    virtual void error_state(const QString &err, unsigned code);
     void connect(const QString &host, unsigned short port, TCPClient *client);
     void write();
     void pause(unsigned);
