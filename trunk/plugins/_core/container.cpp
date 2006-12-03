@@ -468,6 +468,7 @@ void Container::contactSelected(int)
     cmd->popup_id = MenuContainerContact;
     cmd->flags = BTN_PICT;
     EventCommandChange e(cmd);
+    e.setNoProcess();
     m_bar->processEvent(&e);
     setMessageType(userWnd->type());
     setIcon(Pict(cmd->icon));
@@ -519,6 +520,7 @@ void Container::setMessageType(unsigned type)
     cmd->popup_id	 = MenuMessage;
     cmd->flags		 = BTN_PICT;
     EventCommandChange eCmd(cmd);
+    eCmd.setNoProcess();
     m_bar->processEvent(&eCmd);
 }
 
@@ -910,6 +912,7 @@ void Container::contactChanged(Contact *contact)
         cmd->flags = BTN_PICT;
         EventCommandChange e(cmd);
         m_bar->processEvent(&e);
+        e.setNoProcess();
         setIcon(Pict(cmd->icon));
         setCaption(userWnd->getLongName());
     }

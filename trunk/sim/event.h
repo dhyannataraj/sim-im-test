@@ -217,6 +217,8 @@ public:
     // change after all is converted
     SIMEvent type() const { return m_type; }
     bool process(EventReceiver *from = NULL);  // should return true/false
+    // sometimes we need no processing / the event is processed another way.
+    void setNoProcess() { m_bProcessed = true; }
 protected:
     SIMEvent m_type;
     bool m_bProcessed;

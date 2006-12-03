@@ -98,6 +98,7 @@ bool Tmpl::process(TmplExpand *t)
         t->tmpl.tmpl = t->res;
         EventTemplateExpanded e(&t->tmpl);
         t->tmpl.receiver->processEvent(&e);
+        e.setNoProcess();
         return true;
     }
     QString prg = getToken(t->tmpl.tmpl, '`', false);

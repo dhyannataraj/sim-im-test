@@ -432,7 +432,7 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
     style = 0;
     statusIcon = QString::null;
     if (icons)
-		*icons = QString::null;
+        *icons = QString::null;
     unsigned long status = STATUS_UNKNOWN;
     void *data;
     ClientDataIterator it(clientData, NULL);
@@ -1264,8 +1264,8 @@ QString ClientUserData::property(const char *name)
                 case DATA_LONG:
                     if (user_data->toLong() != (long)(def->def_value))
                         return QString::number(user_data->toLong());
-		default:
-		    break;
+                default:
+                     break;
                 }
             }
             user_data += def->n_values;

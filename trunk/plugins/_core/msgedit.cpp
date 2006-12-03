@@ -1023,10 +1023,11 @@ bool MsgEdit::adjustType()
     cmd->menu_id = MenuMessage;
     cmd->param = (void*)(m_userWnd->m_id);
     cmd->id = m_userWnd->getMessageType();
-    EventCheckState e1(cmd);
-    if ((m_userWnd->getMessageType() != m_type) && e1.process()){
-        if (setType(m_userWnd->getMessageType()))
-            return true;
+    if (m_userWnd->getMessageType() != m_type) {
+        if(EventCheckState(cmd).process()) {
+            if (setType(m_userWnd->getMessageType()))
+                return true;
+        }
     }
     cmd->id = m_type;
     if(EventCheckState(cmd).process())
