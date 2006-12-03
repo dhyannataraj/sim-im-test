@@ -684,7 +684,8 @@ bool UserView::processEvent(Event *e)
                         ++it;
                     }
                     delete list;
-                    return wnd; // ok
+                    if (wnd)
+                        return true;
                 }
                 if (cmd->id == CmdSendMessage){
                     EventMenuGetDef eMenu(MenuMessage);
@@ -799,7 +800,7 @@ bool UserView::processEvent(Event *e)
             }
             if (cmd->id == CmdGrpCreate) {
                 cmd->flags &= ~COMMAND_CHECKED;
-                return CorePlugin::m_plugin->getGroupMode() ? (void*)1 : NULL;
+                return CorePlugin::m_plugin->getGroupMode() ? true : false;
             }
             break;
         }
