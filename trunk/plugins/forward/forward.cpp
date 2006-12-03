@@ -86,10 +86,10 @@ bool ForwardPlugin::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->type() == MessageStatus)
-            return NULL;
+            return false;
         QString text = msg->getPlainText();
         if (text.isEmpty())
-            return NULL;
+            return false;
         if (msg->type() == MessageSMS){
             SMSMessage *sms = static_cast<SMSMessage*>(msg);
             QString phone = sms->getPhone();

@@ -357,10 +357,10 @@ bool JabberClient::processEvent(Event *e)
         QString proto;
         int n = url.find(':');
         if (n < 0)
-            return NULL;
+            return false;
         proto = url.left(n);
         if (proto != "jabber")
-            return NULL;
+            return false;
         url = url.mid(n + 1);
         while (url.startsWith("/"))
             url = url.mid(1);
@@ -371,11 +371,11 @@ bool JabberClient::processEvent(Event *e)
             QString resource;
             findContact(jid, s, true, contact, resource);
             Command cmd;
-            cmd->id		 = MessageGeneric;
+            cmd->id      = MessageGeneric;
             cmd->menu_id = MenuMessage;
             cmd->param	 = (void*)(contact->id());
             EventCommandExec(cmd).process();
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -431,7 +431,7 @@ bool JabberClient::processEvent(Event *e)
     case eEventGroup: {
         EventGroup *ev = static_cast<EventGroup*>(e);
         if (ev->action() != EventGroup::eChanged) 
-            return NULL;
+            return false;
         Group *grp = ev->group();
         QString grpName;
         grpName = grp->getName();
@@ -480,7 +480,7 @@ bool JabberClient::processEvent(Event *e)
                 EventMessageDeleted(msg).process();
                 if (data == NULL)
                     delete msg;
-                return msg;
+                return true;
             }
         }
         break;
@@ -501,7 +501,7 @@ bool JabberClient::processEvent(Event *e)
                 req.send();
                 EventMessageDeleted(msg).process();
                 delete msg;
-                return msg;
+                return true;
             }
         }
         break;
@@ -514,7 +514,7 @@ bool JabberClient::processEvent(Event *e)
             QString resource;
             JabberUserData* data = findContact(info->jid, QString::null, false, contact, resource);
             if (!data)
-                return NULL;
+                return false;
             unsigned i;
             for (i = 1; i <= data->nResources.toULong(); i++){
                 if (resource == get_str(data->Resources, i))
@@ -531,7 +531,7 @@ bool JabberClient::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void JabberClient::setStatus(unsigned status)

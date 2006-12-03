@@ -128,10 +128,10 @@ bool ActionPlugin::processEvent(Event *e)
         if ((cmd->id == CmdAction) && (cmd->menu_id == MenuContact)){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
-                return NULL;
+                return false;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
             if ((data == NULL) || (data->NMenu.toULong() == 0))
-                return NULL;
+                return false;
             CommandDef *cmds = new CommandDef[data->NMenu.toULong() + 1];
             unsigned n = 0;
             for (unsigned i = 0; i < data->NMenu.toULong(); i++){
@@ -140,7 +140,7 @@ bool ActionPlugin::processEvent(Event *e)
                 int pos = item.find("&IP;");
                 if (pos >= 0){
                     EventGetContactIP e(contact);
-                    if (e.process() == NULL)
+                    if (!e.process())
                         continue;
                 }
                 pos = item.find("&Mail;");
@@ -160,11 +160,11 @@ bool ActionPlugin::processEvent(Event *e)
             }
             if (n == 0){
                 delete[] cmds;
-                return NULL;
+                return false;
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -175,10 +175,10 @@ bool ActionPlugin::processEvent(Event *e)
             unsigned n = cmd->id - CmdAction;
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
             if (contact == NULL)
-                return NULL;
+                return false;
             ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
             if ((data == NULL) || (n >= data->NMenu.toULong()))
-                return NULL;
+                return false;
             QString str = get_str(data->Menu, n + 1);
             getToken(str, ';');
             EventTemplate::TemplateExpand t;
@@ -187,7 +187,7 @@ bool ActionPlugin::processEvent(Event *e)
             t.receiver = this;
             t.param    = NULL;
             EventTemplateExpand(&t).process();
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -197,48 +197,48 @@ bool ActionPlugin::processEvent(Event *e)
             break;
         Contact *contact = ec->contact();
         if (contact == NULL)
-            return NULL;
+            return false;
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
         if ((data == NULL) || (data->OnLine.str().isEmpty()))
-            return NULL;
+            return false;
         EventTemplate::TemplateExpand t;
         t.tmpl     = data->OnLine.str();
         t.contact  = contact;
         t.receiver = this;
         t.param    = NULL;
         EventTemplateExpand(&t).process();
-        return (void*)1;
+        return true;
     }
     case eEventMessageReceived: {
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact == NULL)
-            return NULL;
+            return false;
         ActionUserData *data = (ActionUserData*)(contact->getUserData(action_data_id));
         if (data == NULL)
-            return NULL;
+            return false;
         if (msg->type() == MessageStatus){
             if (data->Status.str().isEmpty())
-                return NULL;
+                return false;
             EventTemplate::TemplateExpand t;
             t.tmpl     = data->Status.str();
             t.contact  = contact;
             t.receiver = this;
             t.param    = NULL;
             EventTemplateExpand(&t).process();
-            return NULL;
+            return false;
         }
         QString cmd = get_str(data->Message, msg->baseType());
         if (cmd.isEmpty())
-            return NULL;
+            return false;
         EventTemplate::TemplateExpand t;
         t.tmpl	   = cmd;
         t.contact  = contact;
         t.receiver = this;
         t.param	   = msg;
         EventTemplateExpand(&t).process();
-        return (void*)1;
+        return true;
     }
     case eEventTemplateExpanded: {
         EventTemplate *et = static_cast<EventTemplate*>(e);
@@ -262,7 +262,7 @@ bool ActionPlugin::processEvent(Event *e)
     default:
         break;
     }
-    return NULL;
+    return false;
 }
 
 void ActionPlugin::ready(Exec *exec, int code, const char*)
@@ -288,14 +288,14 @@ void ActionPlugin::msg_ready(Exec *exec, int code, const char *out)
             Message *msg = static_cast<MsgExec*>(exec)->msg;
             if (code){
                 EventMessageReceived e(msg);
-                if (e.process(this) == NULL)
+                if (!e.process(this))
                     delete msg;
             }else{
                 if (out && *out){
                     msg->setFlags(msg->getFlags() & ~MESSAGE_RICHTEXT);
                     msg->setText(QString::fromLocal8Bit(out));
                     EventMessageReceived e(msg);
-                    if (e.process(this) == NULL)
+                    if (!e.process(this))
                         delete msg;
                 }else{
                     delete msg;

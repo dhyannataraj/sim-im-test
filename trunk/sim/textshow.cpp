@@ -252,7 +252,7 @@ bool TextEdit::processEvent(Event *e)
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->param != m_param)
-            return NULL;
+            return false;
         switch (cmd->id){
         case CmdBgColor:
         case CmdFgColor:

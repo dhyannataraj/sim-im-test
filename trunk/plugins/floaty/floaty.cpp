@@ -28,7 +28,7 @@
 using namespace SIM;
 
 const unsigned BLINK_TIMEOUT	= 500;
-const unsigned BLINK_COUNT		= 8;
+const unsigned BLINK_COUNT      = 8;
 
 Plugin *createFloatyPlugin(unsigned base, bool, Buffer*)
 {
@@ -71,7 +71,7 @@ FloatyPlugin::FloatyPlugin(unsigned base)
     connect(unreadTimer, SIGNAL(timeout()), this, SLOT(unreadBlink()));
 
     Command cmd;
-    cmd->id		  = CmdFloaty;
+    cmd->id       = CmdFloaty;
     cmd->text	  = I18N_NOOP("Floating on");
     cmd->icon	  = "floating";
     cmd->menu_id  = MenuContact;
@@ -104,19 +104,18 @@ FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
 {
     QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);
-    QWidget * w;
+    QWidget *w;
+    FloatyWnd *wnd = NULL;
     while ((w = it.current()) != NULL) {
         if (w->inherits("FloatyWnd")){
-            FloatyWnd *wnd = static_cast<FloatyWnd*>(w);
+            wnd = static_cast<FloatyWnd*>(w);
             if (wnd->id() == id)
                 break;
         }
         ++it;
     }
     delete list;
-    if (w)
-        return static_cast<FloatyWnd*>(w);
-    return NULL;
+    return wnd;
 }
 
 bool FloatyPlugin::processEvent(Event *e)

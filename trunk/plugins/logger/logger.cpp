@@ -227,7 +227,7 @@ bool LoggerPlugin::processEvent(Event *e)
 #endif
         }
     }
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

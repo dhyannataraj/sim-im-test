@@ -119,11 +119,11 @@ bool ICQSecure::processEvent(Event *e)
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eChanged)
-            return NULL;
+            return false;
         fillListView(lstVisible, &ICQUserData::VisibleId);
         fillListView(lstInvisible, &ICQUserData::InvisibleId);
     }
-    return NULL;
+    return false;
 }
 
 void ICQSecure::setListView(ListView *lst)

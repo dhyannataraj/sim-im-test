@@ -42,7 +42,7 @@ bool JabberAboutInfo::processEvent(Event *e)
     if (e->type() == eEventContact){
         EventContact *ec = static_cast<EventContact*>(e);
         if(ec->action() != EventContact::eChanged)
-            return NULL;
+            return false;
         Contact *contact = ec->contact();
         if (contact->clientData.have(m_data))
             fill(m_data);
@@ -58,7 +58,7 @@ bool JabberAboutInfo::processEvent(Event *e)
         if (m_data->ID.str() == data->ID.str() && m_data->Node.str() == data->Node.str())
             fill(data);
     }
-    return NULL;
+    return false;
 }
 
 void JabberAboutInfo::fill(JabberUserData *data)

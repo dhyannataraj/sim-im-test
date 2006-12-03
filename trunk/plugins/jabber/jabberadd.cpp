@@ -256,7 +256,7 @@ bool JabberAdd::processEvent(Event *e)
                 break;
             }
         }
-    }
+    } else
     if (e->type() == eEventAgentInfo){
         EventAgentInfo *eai = static_cast<EventAgentInfo*>(e);
         JabberAgentInfo *data = eai->agentInfo();
@@ -265,7 +265,7 @@ bool JabberAdd::processEvent(Event *e)
             if ((*it).id_info == data->ReqID.str())
                 break;
         if (it == m_agents.end())
-            return NULL;
+            return false;
         if (data->Type.str().isEmpty()){
             (*it).id_info = "";
             if (m_first.isEmpty())
@@ -279,7 +279,7 @@ bool JabberAdd::processEvent(Event *e)
             if ((*it).fill != FILL_ALL){
                 m_agents.erase(it);
                 checkDone();
-                return (void*)1;
+                return true;
             }
             (*it).id_search = m_client->search((*it).jid, (*it).node, (*it).condition);
             if ((*it).condition.left(6) != "x:data"){
@@ -290,12 +290,12 @@ bool JabberAdd::processEvent(Event *e)
                 addAttr("email", i18n("E-Mail"));
                 addAttrs();
             }
-            return (void*)1;
+            return true;
         }
         if (data->Type.str() == "x"){
             (*it).condition = "x:data";
             (*it).fill = 0;
-            return (void*)1;
+            return true;
         }
         QString value;
         QString field;
@@ -348,7 +348,7 @@ bool JabberAdd::processEvent(Event *e)
             (*it).condition += "=";
             (*it).condition += quoteChars(value, ";");
         }
-        return (void*)1;
+        return true;
     }
     if (e->type() == eEventJabberSearch){
         EventSearch *es = static_cast<EventSearch*>(e);
@@ -358,7 +358,7 @@ bool JabberAdd::processEvent(Event *e)
             if ((*it).id_search == data->ID.str())
                 break;
         if (it == m_agents.end())
-            return NULL;
+            return false;
         if (data->JID.str().isEmpty()){
             addAttr("", i18n("JID"));
             for (unsigned i = 0; i < data->nFields.toULong(); i++){
@@ -415,7 +415,7 @@ bool JabberAdd::processEvent(Event *e)
             l.append(v);
         }
         emit addItem(l, this);
-    }
+    } else
     if (e->type() == eEventJabberSearchDone){
         EventSearchDone *esd = static_cast<EventSearchDone*>(e);
         QString id = esd->userID();
@@ -424,12 +424,12 @@ bool JabberAdd::processEvent(Event *e)
             if ((*it).id_search == id)
                 break;
         if (it == m_agents.end())
-            return NULL;
+            return false;
         m_agents.erase(it);
         checkDone();
-        return (void*)1;
+        return true;
     }
-    return NULL;
+    return false;
 }
 
 void JabberAdd::addSearch(const QString &jid, const QString &node, const QString &features, const QString &type)

@@ -121,7 +121,7 @@ void FloatyWnd::paintEvent(QPaintEvent*)
     EventPaintView::PaintView pv;
     pv.p        = &p;
     pv.pos      = QPoint(2, 2);
-    pv.size		= QSize(w, h);
+    pv.size     = QSize(w, h);
     pv.win      = this;
     pv.isStatic = false;
     pv.height   = h;
@@ -186,8 +186,8 @@ void FloatyWnd::paintEvent(QPaintEvent*)
 
     p.begin(this);
     p.drawPixmap(QPoint(2, 2), pict);
-	QColorGroup cg;
-	p.setPen(cg.dark());
+    QColorGroup cg;
+    p.setPen(cg.dark());
     p.moveTo(1, 1);
     p.lineTo(width() - 2, 1);
     p.lineTo(width() - 2, height() - 2);

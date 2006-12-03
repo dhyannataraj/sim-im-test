@@ -117,21 +117,21 @@ bool MsgJournal::processEvent(Event *e)
                 cmd->flags |= BTN_HIDE;
                 if ((cmd->id == CmdDeleteJournalMessage + CmdReceived) && m_ID)
                     cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             }
             switch (cmd->id){
             case CmdSend:
             case CmdSendClose:
                 e->process(this);
                 cmd->flags &= ~BTN_HIDE;
-                return (void*)1;
+                return true;
             case CmdTranslit:
             case CmdSmile:
             case CmdNextMessage:
             case CmdMsgAnswer:
                 e->process(this);
                 cmd->flags |= BTN_HIDE;
-                return (void*)1;
+                return true;
             }
         }
     } else
@@ -143,7 +143,7 @@ bool MsgJournal::processEvent(Event *e)
                 QString msgText = m_edit->m_edit->text();
                 if (!msgText.isEmpty())
                     send(msgText);
-                return (void*)1;
+                return true;
             }
             if (cmd->id == CmdDeleteJournalMessage + CmdReceived){
                 QWidget *w = m_edit->m_bar;
@@ -156,12 +156,12 @@ bool MsgJournal::processEvent(Event *e)
                 if (btnRemove)
                     w = btnRemove;
                 BalloonMsg::ask(NULL, i18n("Remove record from journal?"), w, SLOT(removeRecord(void*)), NULL, NULL, this);
-                return (void*)1;
+                return true;
             }
-            return NULL;
+            return false;
         }
     }
-    return NULL;
+    return false;
 }
 
 void MsgJournal::removeRecord(void*)

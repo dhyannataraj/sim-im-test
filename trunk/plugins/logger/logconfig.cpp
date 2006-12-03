@@ -146,7 +146,7 @@ bool LogConfig::processEvent(Event *e)
 {
     if ((e->type() == eEventPluginChanged) || (e->type() == eEventLanguageChanged))
         fill();
-    return NULL;
+    return false;
 }
 
 #ifndef NO_MOC_INCLUDES

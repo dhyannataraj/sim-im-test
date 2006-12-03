@@ -321,7 +321,7 @@ bool AutoAwayPlugin::processEvent(Event *e)
             break;
         }
         if ((commonStatus == STATUS_ONLINE) || (commonStatus == STATUS_OFFLINE))
-            return NULL;
+            return false;
         if (getDisableAlert() && (bAway || bNA || bOff))
             return true;
         break;

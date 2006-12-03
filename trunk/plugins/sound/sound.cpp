@@ -217,7 +217,7 @@ bool SoundPlugin::processEvent(Event *e)
             sound = getFileDone();
         }else if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
             if ((msg->getFlags() & MESSAGE_MULTIPLY) && ((msg->getFlags() & MESSAGE_LAST) == 0))
-                return NULL;
+                return false;
             sound = getMessageSent();
         }
         if (!sound.isEmpty()){

@@ -131,7 +131,7 @@ bool BackgroundPlugin::processEvent(Event *e)
         }
         pv->margin = pv->isGroup ? getMarginGroup() : getMarginContact();
     }
-    return NULL;
+    return false;
 }
 
 void BackgroundPlugin::redraw()

@@ -119,7 +119,7 @@ bool JIDSearch::processEvent(Event *e)
         EventSearch *es = static_cast<EventSearch*>(e);
         JabberSearchData *data = es->searchData();
         if (m_search_id != data->ID.str())
-            return NULL;
+            return false;
         if (data->JID.str().isEmpty()){
             QStringList l;
             l.append("");
@@ -168,7 +168,7 @@ bool JIDSearch::processEvent(Event *e)
             emit searchDone(this);
         }
     }
-    return NULL;
+    return false;
 }
 
 void JIDSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)

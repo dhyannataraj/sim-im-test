@@ -206,13 +206,13 @@ bool DiscoInfo::processEvent(Event *e)
         if (m_statId == item->id){
             if (item->jid.isEmpty()){
                 m_statId = QString::null;
-                return (void*)1;
+                return true;
             }
             QListViewItem *i = new QListViewItem(lstStat);
             i->setText(0, item->jid);
             i->setText(1, item->name);
             i->setText(2, item->node);
-            return (void*)1;
+            return true;
         }
     } else
     if (e->type() == eEventClientVersion){
@@ -258,7 +258,7 @@ bool DiscoInfo::processEvent(Event *e)
                 edtTime->setText(info->utc);
         }
     }
-    return NULL;
+    return false;
 }
 
 void DiscoInfo::resizeEvent(QResizeEvent *e)

@@ -54,18 +54,15 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         bSeparator = true;
         return;
     }
-    fprintf(stderr,"CMenu::processItem(%p, %d, %d, %x", s, bSeparator, bFirst, base_id);
     s->param = m_param;
     if (s->flags & COMMAND_CHECK_STATE){
         s->flags &= ~COMMAND_DISABLED;
         s->text_wrk = QString::null;
         s->flags |= COMMAND_CHECK_STATE;
-        fprintf(stderr,"EventCheckState: %s\n", s->text.latin1());
         if(!EventCheckState(s).process())
             return;
         if (s->flags & COMMAND_RECURSIVE){
             CommandDef *cmds = (CommandDef*)(s->param);
-            fprintf(stderr,"CommandDef: %s\n", cmds->text.latin1());
             for (CommandDef *cmd = cmds; !cmd->text.isEmpty(); cmd++){
                 processItem(cmd, bSeparator, bFirst, s->id);
             }

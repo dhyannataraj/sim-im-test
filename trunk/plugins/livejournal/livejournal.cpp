@@ -1024,9 +1024,9 @@ bool LiveJournalClient::processEvent(Event *e)
         EventMessage *em = static_cast<EventMessage*>(e);
         Message *msg = em->msg();
         if (msg->type() != MessageUpdated)
-            return NULL;
+            return false;
         if (dataName(&data.owner) != msg->client())
-            return NULL;
+            return false;
         EventMessageDeleted(msg).process();
         QString url = "http://";
         url += getServer();
@@ -1038,7 +1038,7 @@ bool LiveJournalClient::processEvent(Event *e)
         EventGoURL(url).process();
         if (getState() == Connected)
             m_timer->start(getInterval() * 60 * 1000, true);
-        return (void*)1;
+        return true;
     }
     if (e->type() == eEventCommandExec){
         EventCommandExec *ece = static_cast<EventCommandExec*>(e);
@@ -1047,7 +1047,7 @@ bool LiveJournalClient::processEvent(Event *e)
             Message *msg = (Message*)(cmd->param);
             Contact *contact = getContacts()->contact(msg->contact());
             if (contact == NULL)
-                return NULL;
+                return false;
             LiveJournalUserData *data;
             ClientDataIterator it(contact->clientData, this);
             while ((data = (LiveJournalUserData*)(++it)) != NULL){
@@ -1062,23 +1062,23 @@ bool LiveJournalClient::processEvent(Event *e)
                     m->setText("");
                     if (!send(m, data))
                         delete m;
-                    return (void*)1;
+                    return true;
                 }
             }
-            return NULL;
+            return false;
         }
         unsigned menu_id = cmd->menu_id - MenuWeb;
         if (menu_id > LiveJournalPlugin::MenuCount)
-            return NULL;
+            return false;
         unsigned item_id = cmd->id - CmdMenuWeb;
         if ((item_id == 0) || (item_id >= 0x100))
-            return NULL;
+            return false;
         QString url = getMenuUrl(menu_id * 0x100 + item_id);
         if (url.isEmpty())
-            return NULL;
-		EventGoURL eUrl(url);
+            return false;
+        EventGoURL eUrl(url);
         eUrl.process();
-        return (void*)1;
+        return true;
     } else
     if (e->type() == eEventCheckState){
         EventCheckState *ecs = static_cast<EventCheckState*>(e);
@@ -1086,7 +1086,7 @@ bool LiveJournalClient::processEvent(Event *e)
         if (cmd->id == CmdMenuWeb){
             unsigned menu_id = cmd->menu_id - MenuWeb;
             if (menu_id > LiveJournalPlugin::MenuCount)
-                return NULL;
+                return false;
             unsigned nItems = 0;
             unsigned list_id = menu_id * 0x100 + 1;
             for (;;){
@@ -1096,7 +1096,7 @@ bool LiveJournalClient::processEvent(Event *e)
                 list_id++;
             }
             if (nItems == 0)
-                return NULL;
+                return false;
             CommandDef *cmds = new CommandDef[nItems + 1];
             list_id = menu_id * 0x100 + 1;
             for (unsigned i = 0;; i++){
@@ -1132,10 +1132,10 @@ bool LiveJournalClient::processEvent(Event *e)
             }
             cmd->param = cmds;
             cmd->flags |= COMMAND_RECURSIVE;
-            return (void*)1;
+            return true;
         }
     }
-    return NULL;
+    return false;
 }
 
 void LiveJournalClient::send()
