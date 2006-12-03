@@ -26,6 +26,7 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 #include <qfile.h>
+#include <algorithm>
 
 using namespace std;
 using namespace SIM;

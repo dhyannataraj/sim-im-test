@@ -71,7 +71,7 @@ XSL::XSL(const QString &name)
     if (f.size() == 0 || !f.open(IO_ReadOnly)){
         f.setName(app_file(fname));
         if (f.size() == 0 || !f.open(IO_ReadOnly)){
-            log(L_WARN, "Can't open / empty file %s", fname.local8Bit().data());
+            log(L_WARN, "Can't open / empty file %s", f.name().local8Bit().data());
             bOK = false;
         }
     }

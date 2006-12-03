@@ -160,7 +160,10 @@ bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringLis
     // trunk/plugins/*
     const QStringList pluginDirs = pluginsDir.entryList("*", QDir::Dirs);
     for (QStringList::const_iterator it = pluginDirs.begin(); it != pluginDirs.end(); ++it) {
-        const QDir pluginDir( *it );
+        QString dir = *it;
+        if(dir == "." || dir == "..")
+            continue;
+        const QDir pluginDir( dir );
         // trunk/plugins/$plugin_name/$subdir/$plugin_name.so
         const QString pluginFilename = pluginsDir.filePath(QDir( pluginDir.filePath(subdir) ).
                                                            filePath(pluginDir.dirName() + LTDL_SHLIB_EXT));
@@ -168,7 +171,7 @@ bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringLis
             log(L_DEBUG, "Found '%s'...", static_cast<const char*>(pluginFilename));
             pluginsList.append(pluginFilename);
             count++;
-            }
+        }
     }
     log(L_DEBUG, "%i plugins found.", count);
     return count > 0;
@@ -199,7 +202,10 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
     if ( findPluginsInBuildDir(appDir, ".", pluginsList)                    // cmake location is source dir itself
          || findPluginsInBuildDir(appDir.path() + "/..", ".", pluginsList)  // 
          || findPluginsInBuildDir(appDir, ".libs", pluginsList)             // autotools location is .libs subdur
-         || findPluginsInBuildDir(appDir.path() + "/..", ".libs", pluginsList) )
+         || findPluginsInBuildDir(appDir.path() + "/..", ".libs", pluginsList) 
+         || findPluginsInBuildDir(appDir.path() + "/..", "debug", pluginsList)   // msvc + cmake
+         || findPluginsInBuildDir(appDir.path() + "/..", "release", pluginsList) // msvc + cmake
+         )
     {
         log(L_DEBUG,"Loading plugins from build directory!");
     } else {
@@ -358,6 +364,8 @@ pluginInfo *PluginManagerPrivate::getInfo(const QString &name)
 
 void PluginManagerPrivate::release_all(Plugin *to)
 {
+    if(!plugins.size())
+        return;
     for (size_t n = plugins.size() - 1; n > 0; n--){
         pluginInfo &info = plugins[n];
         if (to && (info.plugin == to))
@@ -385,8 +393,12 @@ void PluginManagerPrivate::load(pluginInfo &info)
 {
     if (info.module == NULL){
 #ifdef WIN32
+# ifdef HAVE_CONFIG_H
+        QString pluginName = info.filePath;
+# else
         QString pluginName = "plugins\\";
         pluginName += info.name;
+# endif
 #else
         QString pluginName = info.filePath;
         if( pluginName[0] != '/' ) {

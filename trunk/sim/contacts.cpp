@@ -17,6 +17,7 @@ email                : vovan@shutoff.ru
 
 #include <algorithm>
 #include <vector>
+#include <algorithm>
 
 #include <qfile.h>
 #include <qdir.h>
