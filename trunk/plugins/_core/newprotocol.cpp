@@ -241,7 +241,7 @@ void NewProtocol::loginComplete()
 
 bool NewProtocol::processEvent(Event *e)
 {
-    if (m_client == NULL || m_bConnect)
+    if (m_client == NULL || !m_bConnect)
         return false;
 
     switch (e->type()){
