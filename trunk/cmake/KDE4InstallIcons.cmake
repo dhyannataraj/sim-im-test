@@ -1,3 +1,11 @@
+# from /trunk/KDE/kdelibs/cmake/modules/KDE4Macros.cmake
+
+# Copyright (c) 2006, Alexander Neundorf, <neundorf@kde.org>
+# Copyright (c) 2006, Laurent Montel, <montel@kde.org>
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+
 # only used internally by KDE4_INSTALL_ICONS
 MACRO (_KDE4_ADD_ICON_INSTALL_RULE _install_SCRIPT _install_PATH _group _orig_NAME _install_NAME)
 
