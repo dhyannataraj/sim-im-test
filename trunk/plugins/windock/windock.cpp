@@ -15,17 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "windock.h"
-#include "ontop.h"
-#include "mainwin.h"
+#include <windows.h>
+#include <windowsx.h>
 
 #include <qapplication.h>
 #include <qwidgetlist.h>
 #include <qmessagebox.h>
 #include <qtimer.h>
 
-#include <windows.h>
-#include <windowsx.h>
+#include "misc.h"
+
+#include "windock.h"
+#include "ontop.h"
+#include "mainwin.h"
 
 using namespace std;
 using namespace SIM;

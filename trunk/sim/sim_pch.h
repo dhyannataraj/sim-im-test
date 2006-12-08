@@ -3,8 +3,6 @@
 #include <windows.h>
 #include <process.h>
 
-#include "simapi.h"	// before Qt headers!
-
 #include <qglobal.h>
 
 #include <qapplication.h>

@@ -18,8 +18,12 @@
 #ifndef _UPDATE_H
 #define _UPDATE_H
 
-#include "simapi.h"
+#include <qobject.h>
+
+#include "cfg.h"
+#include "event.h"
 #include "fetch.h"
+#include "plugins.h"
 
 struct UpdateData
 {
