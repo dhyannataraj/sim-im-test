@@ -553,6 +553,11 @@ void ICQClient::removeBuddy(Contact *contact)
         QStringList::iterator it = buddies.find(screen(data));
         if (it == buddies.end())
             continue;
+        if(data->WantAuth.toBool()) {
+            Message *msg = new Message;
+            msg->setText(i18n("removed from buddy list"));
+            sendAuthRefused(msg, data);
+        }
         snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
         m_socket->writeBuffer.packScreen(screen(data));
         sendPacket(true);
