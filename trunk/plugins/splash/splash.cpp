@@ -15,16 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "splash.h"
-#include "simapi.h"
-#include "aboutdata.h"
-
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qapplication.h>
 #include <qfile.h>
 #include <qpainter.h>
 #include <qsplashscreen.h>
+
+#include "aboutdata.h"
+#include "misc.h"
+
+#include "splash.h"
 
 using namespace SIM;
 

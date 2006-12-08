@@ -15,8 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "zodiak.h"
+#include <qapplication.h>
+#include <qlayout.h>
+#include <qframe.h>
+#include <qwidgetlist.h>
+#include <qobjectlist.h>
+#include <qpushbutton.h>
+#include <qpainter.h>
+
 #include "datepicker.h"
+#include "misc.h"
+
+#include "zodiak.h"
 
 #include "xpm/1.xpm"
 #include "xpm/2.xpm"
@@ -30,14 +40,6 @@
 #include "xpm/10.xpm"
 #include "xpm/11.xpm"
 #include "xpm/12.xpm"
-
-#include <qapplication.h>
-#include <qlayout.h>
-#include <qframe.h>
-#include <qwidgetlist.h>
-#include <qobjectlist.h>
-#include <qpushbutton.h>
-#include <qpainter.h>
 
 using namespace SIM;
 

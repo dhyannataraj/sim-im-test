@@ -15,10 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "sms.h"
-#include "smssetup.h"
-#include "serial.h"
-
 #include <qcombobox.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
@@ -26,6 +22,12 @@
 #include <qlabel.h>
 #include <qprogressbar.h>
 #include <qtabwidget.h>
+
+#include "misc.h"
+
+#include "sms.h"
+#include "smssetup.h"
+#include "serial.h"
 
 using namespace SIM;
 

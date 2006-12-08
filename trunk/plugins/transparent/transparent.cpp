@@ -15,19 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "transparent.h"
-#include "transparentcfg.h"
-#include "simapi.h"
-
-#ifndef WIN32
-#include "transtop.h"
-#endif
-
 #include <qapplication.h>
 #include <qwidgetlist.h>
 #include <qtimer.h>
 #include <qpainter.h>
 #include <qcursor.h>
+
+#include "misc.h"
+
+#include "transparent.h"
+#include "transparentcfg.h"
+
+#ifndef WIN32
+#include "transtop.h"
+#endif
 
 using namespace SIM;
 

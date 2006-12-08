@@ -15,10 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "sim_export.h"
+
+#include "log.h"
+#include "core.h"
+
 #include "shortcuts.h"
 #include "shortcutcfg.h"
-#include "simapi.h"
-#include "core.h"
 
 #include <qapplication.h>
 #include <qwidgetlist.h>

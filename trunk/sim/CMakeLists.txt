@@ -76,7 +76,6 @@ SET(sim_LIB_HDRS
         qkeybutton.h
         sax.h
         sim_export.h
-        simapi.h
         socket.h
         sockfactory.h
         textshow.h

@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "windock.h"
-#include "simapi.h"
 #include "ontop.h"
 #include "mainwin.h"
 

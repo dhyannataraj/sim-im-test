@@ -15,15 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "soundconfig.h"
-#include "sounduser.h"
-#include "sound.h"
-#include "editfile.h"
+#include "sim_export.h"
 
 #include <qcheckbox.h>
 #include <qlabel.h>
 #include <qtabwidget.h>
 #include <qsound.h>
+
+#include "editfile.h"
+#include "contacts.h"
+#include "misc.h"
+
+#include "soundconfig.h"
+#include "sounduser.h"
+#include "sound.h"
 
 using SIM::getContacts;
 

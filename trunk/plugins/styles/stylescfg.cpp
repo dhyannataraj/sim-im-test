@@ -15,16 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "stylescfg.h"
-#include "styles.h"
-#include "fontconfig.h"
-
 #include <qtabwidget.h>
 #include <qlistbox.h>
 #include <qstyle.h>
 #include <qdir.h>
 
 #include <qstylefactory.h>
+
+#include "fontconfig.h"
+#include "misc.h"
+
+#include "stylescfg.h"
+#include "styles.h"
 
 StylesConfig::StylesConfig(QWidget *parent, StylesPlugin *plugin)
         : StylesConfigBase(parent)

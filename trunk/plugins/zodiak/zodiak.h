@@ -18,7 +18,8 @@
 #ifndef _ZODIAK_H
 #define _ZODIAK_H
 
-#include "simapi.h"
+#include "event.h"
+#include "plugins.h"
 
 #include <qframe.h>
 

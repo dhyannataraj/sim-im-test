@@ -18,7 +18,6 @@
 #ifndef _MOUSECFG_H
 #define _MOUSECFG_H
 
-#include "simapi.h"
 #include "mousecfgbase.h"
 
 class ShortcutsPlugin;

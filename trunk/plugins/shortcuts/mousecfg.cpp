@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "mousecfg.h"
-#include "shortcuts.h"
-
 #include <qlistview.h>
 #include <qlabel.h>
 #include <qregexp.h>
@@ -25,6 +22,12 @@
 #include <qpushbutton.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
+
+#include "cmddef.h"
+#include "misc.h"
+
+#include "mousecfg.h"
+#include "shortcuts.h"
 
 using namespace SIM;
 

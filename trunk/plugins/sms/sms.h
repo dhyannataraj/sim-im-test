@@ -18,7 +18,6 @@
 #ifndef _SMS_H
 #define _SMS_H
 
-#include "simapi.h"
 #include "socket.h"
 
 class SMSProtocol;

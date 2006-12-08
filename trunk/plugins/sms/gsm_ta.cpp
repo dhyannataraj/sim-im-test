@@ -18,12 +18,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qtimer.h>
+#include <ctype.h>
+
+#include "log.h"
+
 #include "gsm_ta.h"
 #include "serial.h"
 #include "sms.h"
-
-#include <qtimer.h>
-#include <ctype.h>
 
 using namespace std;
 using namespace SIM;

@@ -18,6 +18,7 @@
 #include "ballonmsg.h"
 #include "editfile.h"
 #include "linklabel.h"
+#include "misc.h"
 #include "unquot.h"
 
 #include "weather.h"

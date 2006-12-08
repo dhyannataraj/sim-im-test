@@ -15,16 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "styles.h"
-#include "stylescfg.h"
-#include "simapi.h"
-#include "fontedit.h"
-
 #include <qapplication.h>
 #include <qpopupmenu.h>
 #include <qpalette.h>
 #include <qstyle.h>
 #include <qstylefactory.h>
+
+#include "fontedit.h"
+#include "misc.h"
+
+#include "styles.h"
+#include "stylescfg.h"
 
 using namespace SIM;
 

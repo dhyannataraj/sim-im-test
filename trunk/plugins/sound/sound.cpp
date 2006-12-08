@@ -15,11 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "sound.h"
-#include "soundconfig.h"
-#include "sounduser.h"
-#include "core.h"
-#include "exec.h"
+#include "sim_export.h"
 
 #include <qdir.h>
 #include <qfile.h>
@@ -29,6 +25,14 @@
 #ifdef USE_KDE
 #include <kaudioplayer.h>
 #endif
+
+#include "exec.h"
+#include "log.h"
+#include "core.h"
+
+#include "sound.h"
+#include "soundconfig.h"
+#include "sounduser.h"
 
 using namespace std;
 using namespace SIM;

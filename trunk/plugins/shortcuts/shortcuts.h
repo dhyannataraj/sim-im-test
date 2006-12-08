@@ -18,6 +18,8 @@
 #ifndef _SHORTCUTS_H
 #define _SHORTCUTS_H
 
+#include "sim_export.h"
+
 #include <qobject.h>
 #include <qstring.h>
 

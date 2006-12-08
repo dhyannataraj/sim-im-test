@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
 #include "transtop.h"
 
 #include <krootpixmap.h>
 #include <kpixmap.h>
 #include <kpixmapeffect.h>
+
+#include "event.h"
 
 TransparentTop::TransparentTop(QWidget *parent, unsigned transparent)
         : QObject(parent)

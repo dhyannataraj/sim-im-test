@@ -18,7 +18,8 @@
 #ifndef _SPLASH_H
 #define _SPLASH_H
 
-#include "simapi.h"
+#include "event.h"
+#include "plugins.h"
 
 class QWidget;
 

@@ -18,7 +18,6 @@
 #ifndef _TRANSTOP_H
 #define _TRANSTOP_H
 
-#include "simapi.h"
 
 #include <qwidget.h>
 #include <qpixmap.h>

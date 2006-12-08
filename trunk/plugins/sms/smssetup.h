@@ -19,7 +19,6 @@
 #define _SMSSETUP_H
 
 #include "smssetupbase.h"
-#include "simapi.h"
 
 class SMSClient;
 

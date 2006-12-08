@@ -15,20 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "weather.h"
-#include "weathercfg.h"
-#include "wifacecfg.h"
-#include "linklabel.h"
-#include "editfile.h"
-#include "ballonmsg.h"
-#include "buffer.h"
-
 #include <qtimer.h>
 #include <qtoolbar.h>
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
+
+#include "ballonmsg.h"
+#include "buffer.h"
+#include "editfile.h"
+#include "linklabel.h"
+#include "log.h"
+#include "misc.h"
+
+#include "weather.h"
+#include "weathercfg.h"
+#include "wifacecfg.h"
 
 using namespace SIM;
 

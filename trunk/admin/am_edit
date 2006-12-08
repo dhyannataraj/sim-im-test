@@ -1363,7 +1363,7 @@ sub tag_UIFILES ()
                 if (!$kdeopts{"qtonly"}) {
 #                    $dep_lines .= "\techo '#include <kdialog.h>' > $source.$cxxsuffix\n";
 #                    $dep_lines .= "\techo '#include <klocale.h>' >> $source.$cxxsuffix\n";
-                    $dep_lines .= "\techo '#include \"simapi.h\"' > $source.$cxxsuffix\n";
+                    $dep_lines .= "\techo '#include \"misc.h\"' > $source.$cxxsuffix\n";
                     my ($mangled_source) = $source;
                     $mangled_source =~ s/[^A-Za-z0-9]/_/g;  # get rid of garbage
                     $dep_lines .= "\t\$(UIC) -tr \${UIC_TR} -i $source.h $sourcedir$source.ui > $source.$cxxsuffix.temp ; ret=\$\$?; \\\n";
