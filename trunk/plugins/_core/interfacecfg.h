@@ -18,7 +18,7 @@
 #ifndef _INTERFACECFG_H
 #define _INTERFACECFG_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include "interfacecfgbase.h"
 

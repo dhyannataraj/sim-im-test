@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include "dockcfg.h"
 #include "dock.h"

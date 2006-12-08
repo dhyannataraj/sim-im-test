@@ -18,7 +18,7 @@
 #ifndef _JABBER_SSL_H
 #define _JABBER_SSL_H
 
-#include "sim_export.h"
+#include "simapi.h"
 #include "socket.h"
 
 #ifdef USE_OPENSSL

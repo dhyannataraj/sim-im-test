@@ -18,7 +18,7 @@
 #ifndef _DATEPICKER_H
 #define _DATEPICKER_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include <qframe.h>
 #include <qlabel.h>

@@ -1,5 +1,5 @@
-#ifndef _SIM_EXPORT_H
-#define _SIM_EXPORT_H
+#ifndef _SIMAPI_H
+#define _SIMAPI_H
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -63,4 +63,4 @@
         A &operator = (const A&);
 #endif
 
-#endif // _SIM_EXPORT_H
+#endif // _SIMAPI_H

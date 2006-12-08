@@ -20,7 +20,7 @@
 
 #include <qstring.h>
 
-#include "sim_export.h"
+#include "simapi.h"
 #include "event.h"
 #include "cfg.h"
 

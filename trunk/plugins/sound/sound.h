@@ -18,7 +18,7 @@
 #ifndef _SOUND_H
 #define _SOUND_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include <qobject.h>
 

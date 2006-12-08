@@ -21,7 +21,7 @@
 #ifndef CS_ZIP_H
 #define CS_ZIP_H
 
-#include <sim_export.h>
+#include <simapi.h>
 #include <qstring.h>
 #include <qcstring.h>
 

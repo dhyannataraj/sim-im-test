@@ -18,7 +18,7 @@
 #ifndef _EDITFILE_H
 #define _EDITFILE_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include <qframe.h>
 #include <qlineedit.h>

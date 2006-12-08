@@ -18,7 +18,7 @@
 #ifndef _CMDDEF_H
 #define _CMDDEF_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 namespace SIM {
 

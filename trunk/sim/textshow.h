@@ -18,7 +18,7 @@
 #ifndef _TEXTSHOW_H
 #define _TEXTSHOW_H
 
-#include "sim_export.h"
+#include "simapi.h"
 #include "event.h"
 
 #include <qglobal.h>

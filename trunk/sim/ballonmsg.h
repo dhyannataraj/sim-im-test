@@ -23,7 +23,7 @@
 #include <qbitmap.h>
 #include <qpushbutton.h>
 
-#include "sim_export.h"
+#include "simapi.h"
 
 class QStringList;
 class QCheckBox;

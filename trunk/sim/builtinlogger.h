@@ -21,7 +21,7 @@
 #ifndef SIMBUILTINLOGGER_H
 #define SIMBUILTINLOGGER_H
 
-#include "sim_export.h"
+#include "simapi.h"
 #include "event.h"
 #include "log.h"
 

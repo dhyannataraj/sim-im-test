@@ -18,7 +18,7 @@
 #ifndef _CMENU_H
 #define _CMENU_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include <vector>
 

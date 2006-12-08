@@ -20,7 +20,7 @@
 
 #include <qcstring.h>
 #include <qxml.h>
-#include "sim_export.h"
+#include "simapi.h"
 
 class SAXParserPrivate;
 

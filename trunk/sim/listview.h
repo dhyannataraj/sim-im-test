@@ -18,7 +18,7 @@
 #ifndef _LISTVIEW_H
 #define _LISTVIEW_H
 
-#include "sim_export.h"
+#include "simapi.h"
 #include "event.h"
 
 #include <qlistview.h>

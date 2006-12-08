@@ -22,7 +22,7 @@
 #include "buffer.h"
 #include "contacts.h"
 #include "event.h"
-#include "sim_export.h"
+#include "simapi.h"
 
 class QTimer;
 

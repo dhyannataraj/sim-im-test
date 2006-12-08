@@ -18,7 +18,7 @@
 #ifndef _KPOPUP_H
 #define _KPOPUP_H "$Id: kpopupmenu.h 465272 2005-09-29 09:47:40Z mueller $"
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #ifndef USE_KDE
 

@@ -22,7 +22,7 @@
 #include <qptrlist.h>
 #include <qstring.h>
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #ifdef HAVE_STDINT_H
 #include <stdint.h>

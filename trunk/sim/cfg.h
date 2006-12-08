@@ -22,7 +22,7 @@
 #include <qmap.h>
 #include <qstring.h>
 
-#include "sim_export.h"
+#include "simapi.h"
 
 class QObject;
 class QWidget;

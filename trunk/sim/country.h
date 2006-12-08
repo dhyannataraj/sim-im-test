@@ -18,7 +18,7 @@
 #ifndef _COUNTRY_H
 #define _COUNTRY_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 namespace SIM {
 

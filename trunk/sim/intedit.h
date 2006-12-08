@@ -18,7 +18,7 @@
 #ifndef _INTEDIT_H
 #define _INTEDIT_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include <qlineedit.h>
 #include <qgroupbox.h>

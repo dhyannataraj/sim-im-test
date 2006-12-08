@@ -19,8 +19,7 @@
 #define _PLUGINS_H
 
 #include <qstring.h>
-#include "sim_export.h"
-#include "sim_export.h"	// COPY_RESTRICTED
+#include "simapi.h"
 
 class QFile;
 class QLibrary;

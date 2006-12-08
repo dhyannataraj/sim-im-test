@@ -18,7 +18,7 @@
 #ifndef _FONTEDIT_H
 #define _FONTEDIT_H
 
-#include "sim_export.h"
+#include "simapi.h"
 #include <qframe.h>
 #include <qfont.h>
 

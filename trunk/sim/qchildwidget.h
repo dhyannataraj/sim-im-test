@@ -20,7 +20,7 @@
 
 #include <qwidget.h>
 
-#include "sim_export.h"
+#include "simapi.h"
 
 class EXPORT QChildWidget : public QWidget
 {

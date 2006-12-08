@@ -18,7 +18,7 @@
 #ifndef _QKEYBUTTON_H_
 #define _QKEYBUTTON_H_
 
-#include "sim_export.h"
+#include "simapi.h"
 #include <qpushbutton.h>
 
 class EXPORT QKeyButton: public QPushButton

@@ -18,7 +18,7 @@
 #ifndef _MISC_H
 #define _MISC_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include <qcolor.h>
 #include "contacts.h"

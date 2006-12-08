@@ -18,7 +18,7 @@
 #ifndef _LOG_H
 #define _LOG_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 class QString;
 

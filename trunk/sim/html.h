@@ -18,7 +18,7 @@
 #ifndef _HTML_H
 #define _HTML_H	1
 
-#include "sim_export.h"
+#include "simapi.h"
 #include <list>
 
 class Buffer;

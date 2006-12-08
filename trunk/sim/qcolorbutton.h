@@ -20,7 +20,7 @@
 #ifndef __QCOLBTN_H__
 #define __QCOLBTN_H__
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #ifndef USE_KDE
 #include <qpushbutton.h>

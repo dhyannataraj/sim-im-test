@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>

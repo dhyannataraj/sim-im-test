@@ -18,7 +18,7 @@
 #ifndef _SPELLER_H
 #define _SPELLER_H
 
-#include "sim_export.h"
+#include "simapi.h"
 
 #include <aspell.h>
 #include <qstring.h>

@@ -22,8 +22,8 @@
 #include <qobject.h>
 #include <qstring.h>
 
-#include "sim_export.h"     // COPY_RESTRICTED
-#include "sim_export.h"
+#include "simapi.h"     // COPY_RESTRICTED
+#include "simapi.h"
 
 #ifdef WIN32
     #define Q_EVENT_SIM_FETCH_DONE (QEvent::User+1)
