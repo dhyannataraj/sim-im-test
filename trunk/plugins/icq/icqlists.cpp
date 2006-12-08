@@ -400,10 +400,14 @@ void ICQClient::parseRosterItem(unsigned short type,
             Contact *contact;
             if (str.length()){
                 log(L_DEBUG, "%s is awaiting auth", str.latin1());
-                if (findContact(str, NULL, false, contact))
+                ICQUserData *data;
+                if ((data = findContact(str, NULL, false, contact)) == NULL) {
+                    data = findContact(str, &str, true, contact, NULL, false);
+                    addFullInfoRequest(str.toULong());
+                }
+                if(!data)   // impossible
                     break;
-                findContact(str, &str, true, contact, NULL, false);
-                addFullInfoRequest(str.toULong());
+                data->WantAuth.asBool() = true;
             }
             break;
         }
