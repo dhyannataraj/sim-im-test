@@ -692,7 +692,7 @@ bool Container::processEvent(Event *e)
                     QTimer::singleShot(0, this, SLOT(flash()));
             }
         }
-        break;
+        // no break here - otherwise we have to duplicate the code below...
     }
     case eEventMessageRead: {
         EventMessage *em = static_cast<EventMessage*>(e);
