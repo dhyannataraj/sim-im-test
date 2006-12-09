@@ -75,6 +75,8 @@ if(MSVC)
      add_definitions( -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE )
      set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4661" )
   endif(CMAKE_COMPILER_2005)
+else(MSVC)
+  add_definitions( -Wno-non-virtual-dtor )
 endif(MSVC)
 
 add_definitions( -DUNICODE )
