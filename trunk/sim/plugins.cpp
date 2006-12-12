@@ -393,12 +393,14 @@ void PluginManagerPrivate::load(pluginInfo &info)
 {
     if (info.module == NULL){
 #ifdef WIN32
-# ifdef HAVE_CONFIG_H
+//FIXME: This broke plugins loading in mingw builds,
+//      does this really need to be here?
+#if defined(HAVE_CONFIG_H) && defined(Q_CC_MSVC)
         QString pluginName = info.filePath;
-# else
+#else
         QString pluginName = "plugins\\";
         pluginName += info.name;
-# endif
+#endif
 #else
         QString pluginName = info.filePath;
         if( pluginName[0] != '/' ) {
