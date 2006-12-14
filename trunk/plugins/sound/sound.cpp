@@ -234,8 +234,6 @@ bool SoundPlugin::processEvent(Event *e)
         Message *msg = em->msg();
         if (msg->type() == MessageStatus)
             return false;
-        if (msg->getFlags() & MESSAGE_LIST)
-            return false;
         Contact *contact = getContacts()->contact(msg->contact());
         SoundUserData *data;
         if (contact){
