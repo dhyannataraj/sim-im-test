@@ -34,11 +34,15 @@
 #endif
 
 #ifndef  LTDL_SHLIB_EXT
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
-#define  LTDL_SHLIB_EXT ".so"
-#else	/* MacOS needs .a */
-#define  LTDL_SHLIB_EXT ".a"
-#endif
+# if defined(QT_MACOSX_VERSION) || defined(QT_MAC) /* MacOS needs .a */
+#  define  LTDL_SHLIB_EXT ".a"
+# else
+#  if defined(_WIN32) || defined(_WIN64)
+#   define  LTDL_SHLIB_EXT ".dll"
+#  else
+#   define  LTDL_SHLIB_EXT ".so"
+#  endif
+# endif
 #endif
 
 #include <errno.h>
@@ -340,7 +344,6 @@ void PluginManagerPrivate::load(pluginInfo &info)
     if (info.module == NULL){
 #ifdef WIN32
         string pluginName = "plugins\\";
-        pluginName += info.name;
 #else
         string pluginName = PLUGIN_PATH;
         pluginName += "/";
