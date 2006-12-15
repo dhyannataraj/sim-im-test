@@ -19,6 +19,9 @@
 #include <unistd.h>
 #endif
 
+// for Q_CC_foo - macros
+#include <qglobal.h>
+
 #ifdef Q_CC_MSVC
 // "conditional expression is constant" (W4)
 # pragma warning(disable: 4127)
@@ -32,7 +35,7 @@
 # define SIM_EXPORT __attribute__ ((visibility("default")))
 # define SIM_IMPORT __attribute__ ((visibility("default")))
 # define EXPORT_PROC extern "C" __attribute__ ((visibility("default")))
-#elif defined(_WIN32) || defined(_WIN64)
+#elif defined(Q_OS_WIN)
 # define SIM_EXPORT __declspec(dllexport)
 # define SIM_IMPORT __declspec(dllimport)
 # define EXPORT_PROC extern "C" __declspec(dllexport)
