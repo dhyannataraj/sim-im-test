@@ -2469,7 +2469,7 @@ bool YahooFileTransfer::get_line(const QCString &_line)
         return false;
     }
     if (m_state == ListenWait){
-        string t = getToken(line, ' ');
+        QCString t = getToken(line, ' ');
         if ((t == "GET") || (t == "HEAD")){
             m_method = t;
             m_answer = 200;
