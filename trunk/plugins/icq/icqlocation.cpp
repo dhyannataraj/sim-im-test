@@ -482,7 +482,7 @@ void ICQClient::sendCapability(const QString &away_msg)
     os_ver = 0;
 #endif
 #endif
-    *(pack_ver++) = os_ver;
+    *(pack_ver++) = os_ver | get_ver(ver);
     addCapability(cap, CAP_AIM_SHORTCAPS);
     addCapability(cap, CAP_AIM_SUPPORT);
     addCapability(cap, CAP_AVATAR);
