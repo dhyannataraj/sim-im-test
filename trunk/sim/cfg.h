@@ -212,7 +212,6 @@ EXPORT bool makedir(const QString &dir);
 /* Save state */
 EXPORT void save_state();
 
-EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT QCString getToken(QCString &from, char c, bool bUnEsacpe=true);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);

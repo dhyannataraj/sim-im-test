@@ -185,9 +185,9 @@ char fromHex(char c)
     return (char)0;
 }
 
-EXPORT string getToken(char const *&p, char c, bool bUnEscape)
+static QCString getToken(char const *&p, char c, bool bUnEscape = true)
 {
-    string res;
+    QCString res;
     char const *start = p;
     for (; *p; p++){
         if (*p == c)
@@ -218,9 +218,7 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
                 break;
             }
             if (start != p - 1){
-                string part;
-                part.append(start, (unsigned)(p - start - 1));
-                res += part;
+                res += QCString(start, (unsigned)(p - start - 1));
             }
             res += c;
             start = p + 1 + d;
@@ -228,9 +226,7 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
         }
     }
     if (start != p){
-        string part;
-        part.append(start, (unsigned)(p - start));
-        res += part;
+        res += QCString(start, (unsigned)(p - start));
     }
     if (*p == c)
         p++;
@@ -497,7 +493,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         // FIXME:
         const char *value = val.data();
         unsigned i = 0;
-        string v;
+        QCString v;
         switch (def->type){
         case DATA_IP: {
                 int idx = val.find(',');
@@ -521,7 +517,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 break;
             }
             value++;
-            set_str(ld, i, getToken(value, '\"').c_str());
+            set_str(ld, i, getToken(value, '\"'));
             break;
         case DATA_UTFLIST:
             i = strtoul(value, NULL, 10);
@@ -535,9 +531,9 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             value++;
             v = getToken(value, '\"');
             if (*value == 'u'){
-                set_str(ld, i, v.c_str());
+                set_str(ld, i, v);
             }else{
-                QString s = QString::fromLocal8Bit(v.c_str());
+                QString s = QString::fromLocal8Bit(v);
                 set_str(ld, i, s);
             }
             break;
@@ -549,9 +545,9 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 value++;
                 v = getToken(value, '\"');
                 if (*value == 'u'){
-                    ld->str() = QString::fromUtf8(v.c_str());
+                    ld->str() = QString::fromUtf8(v);
                 }else{
-                    ld->str() = QString::fromLocal8Bit(v.c_str());
+                    ld->str() = QString::fromLocal8Bit(v);
                 }
                 i++;
                 value = strchr(value, ',');
@@ -568,9 +564,9 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 value++;
                 v = getToken(value, '\"');
                 if (*value == 'u'){
-                    ld->str() = QString::fromUtf8(v.c_str());
+                    ld->str() = QString::fromUtf8(v);
                 }else{
-                    ld->str() = QString::fromLocal8Bit(v.c_str());
+                    ld->str() = QString::fromLocal8Bit(v);
                 }
                 i++;
                 value = strchr(value, ',');
@@ -586,7 +582,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                     break;
                 value++;
                 v = getToken(value, '\"');
-                ld->cstr() = v.c_str();
+                ld->cstr() = v;
                 i++;
                 value = strchr(value, ',');
                 if (value == NULL)
