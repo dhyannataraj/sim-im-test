@@ -1112,29 +1112,29 @@ void YahooClient::loadList(const char *str)
         }
     }
     if (str){
-        string s = str;
-        while (!s.empty()){
-            string line = getToken(s, '\n');
-            string grp = getToken(line, ':');
-            if (line.empty()){
+        QCString s = str;
+        while (!s.isEmpty()){
+            QCString line = getToken(s, '\n');
+            QCString grp = getToken(line, ':');
+            if (line.isEmpty()){
                 line = grp;
                 grp = "";
             }
-            while (!line.empty()){
-                string id = getToken(line, ',');
-                ListRequest *lr = findRequest(QString::fromUtf8(id.c_str()));
+            while (!line.isEmpty()){
+                QCString id = getToken(line, ',');
+                ListRequest *lr = findRequest(QString::fromUtf8(id));
                 if (lr)
                     continue;
                 Contact *contact;
-                YahooUserData *data = findContact(id.c_str(), grp.c_str(), contact, false);
+                YahooUserData *data = findContact(id, grp, contact, false);
                 QString grpName;
                 if (contact->getGroup()){
                     Group *grp = getContacts()->group(contact->getGroup());
                     if (grp)
                         grpName = grp->getName();
                 }
-                if (grpName != getContacts()->toUnicode(NULL, grp.c_str()))
-                    moveBuddy(data, getContacts()->toUnicode(NULL, grp.c_str()));
+                if (grpName != getContacts()->toUnicode(NULL, grp))
+                    moveBuddy(data, getContacts()->toUnicode(NULL, grp));
                 data->bChecked.asBool() = true;
             }
         }
@@ -2173,19 +2173,14 @@ void YahooFileTransfer::startReceive(unsigned pos)
 {
     m_startPos = pos;
     YahooFileMessage *msg = static_cast<YahooFileMessage*>(m_msg);
-    string proto;
-    string user;
-    string pass;
-    string uri;
-    string extra;
+    QString proto, user, pass, uri, extra;
     unsigned short port;
-    FetchClient::crackUrl(msg->getUrl(), proto, m_host, port, user, pass, uri, extra);
-    m_url = uri;
-    if (!extra.empty()){
+    FetchClient::crackUrl(msg->getUrl(), proto, m_host, port, user, pass, m_url, extra);
+    if (!extra.isEmpty()){
         m_url += "?";
         m_url += extra;
     }
-    m_socket->connect(m_host.c_str(), port, m_client);
+    m_socket->connect(m_host, port, m_client);
     m_state = Connect;
     FileTransfer::m_state = FileTransfer::Connect;
     if (m_notify)

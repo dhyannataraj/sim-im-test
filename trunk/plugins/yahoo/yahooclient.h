@@ -293,9 +293,9 @@ protected:
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;
-    std::string	m_url;
-    std::string	m_host;
-    std::string	m_method;
+    QString	m_url;
+    QString	m_host;
+    QString	m_method;
     SIM::ClientSocket	*m_socket;
 };
 

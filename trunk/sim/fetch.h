@@ -49,7 +49,7 @@ public:
     bool	isDone();
     void    stop();
     void	set_speed(unsigned speed);
-    static bool	crackUrl(const char *url, std::string &proto, std::string &host, unsigned short &port, std::string &user, std::string &pass, std::string &uri, std::string &extra);
+    static bool	crackUrl(const QString &url, QString &proto, QString &host, unsigned short &port, QString &user, QString &pass, QString &uri, QString &extra);
 private:
     FetchClientPrivate *p;
     friend class FetchClientPrivate;

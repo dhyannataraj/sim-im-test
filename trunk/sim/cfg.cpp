@@ -237,14 +237,6 @@ EXPORT string getToken(char const *&p, char c, bool bUnEscape)
     return res;
 }
 
-EXPORT string getToken(string &from, char c, bool bUnEscape)
-{
-    const char *p = from.c_str();
-    string res = getToken(p, c, bUnEscape);
-    from = string(p);
-    return res;
-}
-
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
 {
     QString     res;

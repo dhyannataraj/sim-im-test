@@ -115,27 +115,17 @@ bool MSNHttpPool::done(unsigned code, Buffer &data, const QString &headers)
     }
     // FIXME
     for (const char *p = headers; *p; p += strlen(p) + 1){
-        string h = p;
+        QCString h = p;
         if (getToken(h, ':') == "X-MSN-Messenger"){
-            const char *p1;
-            for (p1 = h.c_str(); *p1; p1++){
-                if (*p1 != ' ')
-                    break;
-            }
-            string h = p1;
-            while (!h.empty()){
-                string part = getToken(h, ';');
-                const char *p2;
-                for (p2 = part.c_str(); *p2; p2++){
-                    if (*p2 != ' ')
-                        break;
-                }
-                string v = p2;
-                string k = getToken(v, '=');
+            QCString h = h.stripWhiteSpace ();
+            while (!h.isEmpty()){
+                QCString part = getToken(h, ';');
+                QCString v = part.stripWhiteSpace ();
+                QCString k = getToken(v, '=');
                 if (k == "SessionID"){
-                    m_session_id = QString::fromUtf8(v.c_str());
+                    m_session_id = QString::fromUtf8(v);
                 }else if (k == "GW-IP"){
-                    m_host = QString::fromUtf8(v.c_str());
+                    m_host = QString::fromUtf8(v);
                 }
             }
             break;

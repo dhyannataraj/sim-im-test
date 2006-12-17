@@ -48,7 +48,7 @@ public:
     void generateConfig();
     list<CommandDef> buttons;
     list<unsigned> cfg;
-    string config;
+    QCString config;
     unsigned m_id;
     bool m_bMenu;
 };
@@ -143,7 +143,7 @@ void CommandsDefPrivate::setConfig(const char *cfg_str)
 {
     if (cfg_str == NULL)
         cfg_str = "";
-    if (!strcmp(cfg_str, config.c_str()) && cfg.size())
+    if (cfg_str == config && cfg.size())
         return;
     cfg.clear();
     config = cfg_str;
@@ -156,23 +156,23 @@ void CommandsDefPrivate::generateConfig()
         return;
     if (config.length()){
         list<unsigned> processed;
-        string active = config;
-        string noactive;
+        QCString active = config;
+        QCString noactive;
         int n = config.find('/');
         if (n >= 0){
-            active   = config.substr(0, n);
-            noactive = config.substr(n + 1);
+            active   = config.left(n);
+            noactive = config.mid(n + 1);
         }
         while (active.length()){
-            string v = getToken(active, ',');
-            unsigned id = atol(v.c_str());
+            QCString v = getToken(active, ',');
+            unsigned id = v.toUInt();
             cfg.push_back(id);
             if (id)
                 processed.push_back(id);
         }
         while (noactive.length()){
-            string v = getToken(noactive, ',');
-            unsigned id = atol(v.c_str());
+            QCString v = getToken(noactive, ',');
+            unsigned id = v.toUInt();
             if (id)
                 processed.push_back(id);
         }
