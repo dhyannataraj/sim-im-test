@@ -1673,7 +1673,10 @@ QString ICQClient::clientName(ICQUserData *data)
         unsigned ver1 = (data->Build.value >> 24) & 0xFF;
         unsigned ver2 = (data->Build.value >> 16) & 0xFF;
         unsigned ver3 = (data->Build.value >> 8) & 0xFF;
-        if (ver3){
+        unsigned ver4 = data->Build.value & 0x0F;
+        if (ver4){
+            r.sprintf("SIM %u.%u.%u.%u", ver1, ver2, ver3, ver4);
+        }else if (ver3){
             r.sprintf("SIM %u.%u.%u", ver1, ver2, ver3);
         }else{
             r.sprintf("SIM %u.%u", ver1, ver2);
