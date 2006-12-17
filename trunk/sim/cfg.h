@@ -212,8 +212,6 @@ EXPORT bool makedir(const QString &dir);
 /* Save state */
 EXPORT void save_state();
 
-EXPORT DEPRECATED std::string number(unsigned n);
-EXPORT DEPRECATED std::string trim(const char *str);
 EXPORT std::string getToken(std::string &from, char c, bool bUnEscape=true);
 EXPORT std::string getToken(const char *&from, char c, bool bUnEscape=true);
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);

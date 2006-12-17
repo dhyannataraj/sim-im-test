@@ -481,32 +481,6 @@ void Buffer::packScreen(const QString &screen)
     pack(screen.utf8(), len);
 }
 
-bool Buffer::scan(const char *substr, string &res)
-{
-    char c = *substr;
-    for (unsigned pos = readPos(); pos < writePos(); pos++){
-        if (*data(pos) != c)
-            continue;
-        const char *sp = substr;
-        for (unsigned pos1 = pos; *sp; pos1++, sp++){
-            if (pos1 >= writePos())
-                break;
-            if (*data(pos1) != *sp)
-                break;
-        }
-        if (*sp == 0){
-            res = "";
-            if (pos - readPos()){
-                res.append(pos - readPos(), '\x00');
-                unpack((char*)res.c_str(), pos - readPos());
-            }
-            incReadPos(pos + strlen(substr) - readPos());
-            return true;
-        }
-    }
-    return false;
-}
-
 bool Buffer::scan(const char *substr, QCString &res)
 {
     char c = *substr;

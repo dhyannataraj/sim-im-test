@@ -288,7 +288,7 @@ protected:
     virtual void	bind_ready(unsigned short port);
     virtual bool	error(const QString &err);
     virtual bool	accept(SIM::Socket *s, unsigned long ip);
-    bool get_line(const char *str);
+    bool get_line(const QCString &str);
     void send_line(const QString &str);
     unsigned m_startPos;
     unsigned m_endPos;

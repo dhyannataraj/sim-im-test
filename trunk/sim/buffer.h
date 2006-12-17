@@ -149,7 +149,6 @@ public:
     void tlvLE(unsigned short n, unsigned long c);
     void tlvLE(unsigned short n, Buffer &b) { tlvLE(n, b.data(), (unsigned short)(b.size())); }
 
-    bool scan(const char *substr, std::string &res);
     bool scan(const char *substr, QCString &res);
 
     void init(unsigned size);

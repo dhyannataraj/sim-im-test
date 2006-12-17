@@ -140,7 +140,7 @@ bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
         l.append("location");
         l.append(i18n("Location"));
         emit setColumns(l, 0, this);
-        string data;
+        QCString data;
         b.scan("\x04", data);
         b.scan("\x04", data);
         b.scan("\x04", data);
@@ -151,24 +151,24 @@ bool YahooSearch::done(unsigned code, Buffer &b, const QString &)
             b.scan("\x04", data);
             if (data.length() < 2)
                 break;
-            string id;
-            id = data.substr(2);
+            QCString id;
+            id = data.mid(2);
             b.scan("\x04", data);
-            string gender;
+            QCString gender, age, location;
             b.scan("\x04", gender);
-            string age;
             b.scan("\x04", age);
-            string location;
             b.scan("\x04", location);
             b.scan("\x04", data);
-            log(L_DEBUG, "%s %s", id.c_str(), data.c_str());
+
+            log(L_DEBUG, "%s %s", id.data(), data.data());
+
             QStringList l;
             l.append("Yahoo!_online");
-            l.append(id.c_str());
-            l.append(id.c_str());
-            l.append(i18n(gender.c_str()));
-            l.append(age.c_str());
-            l.append(getContacts()->toUnicode(NULL, location.c_str()));
+            l.append(id);
+            l.append(id);
+            l.append(i18n(gender));
+            l.append(age);
+            l.append(getContacts()->toUnicode(NULL, location));
             addItem(l, this);
         }
     }

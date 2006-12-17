@@ -635,17 +635,17 @@ QString TextParser::parse(const char *msg)
     Buffer b;
     b.pack(msg, strlen(msg));
     for (;;){
-        string part;
+        QCString part;
         if (!b.scan("\x1B\x5B", part))
             break;
-        addText(part.c_str(), part.length());
+        addText(part, part.length());
 
         if (!b.scan("m", part))
             break;
-        if (part.empty())
+        if (part.isEmpty())
             continue;
         if (part[0] == 'x'){
-            unsigned code = atol(part.c_str() + 1);
+            unsigned code = part.mid(1).toUInt();
             switch (code){
             case 1:
             case 2:
@@ -656,10 +656,10 @@ QString TextParser::parse(const char *msg)
             continue;
         }
         if (part[0] == '#'){
-            put_color(strtoul(part.c_str() + 1, NULL, 16));
+            put_color(part.mid(1).toUInt());
             continue;
         }
-        unsigned code = atol(part.c_str());
+        unsigned code = part.toUInt();
         switch (code){
         case 1:
         case 2:
@@ -2257,12 +2257,12 @@ void YahooFileTransfer::packet_ready()
     if (m_state != Receive){
         EventLog::log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
         for (;;){
-            string s;
+            QCString s;
             if (!m_socket->readBuffer.scan("\n", s))
                 break;
-            if (!s.empty() && (s[s.length() - 1] == '\r'))
-                s = s.substr(0, s.length() - 1);
-            if (!get_line(s.c_str()))
+            if (!s.isEmpty() && (s[(int)s.length() - 1] == '\r'))
+                s = s.left(s.length() - 1);
+            if (!get_line(s))
                 break;
         }
     }
@@ -2383,10 +2383,10 @@ void YahooFileTransfer::write_ready()
     m_socket->write();
 }
 
-bool YahooFileTransfer::get_line(const char *str)
+bool YahooFileTransfer::get_line(const QCString &_line)
 {
-    string line = str;
-    if (line.empty()){
+    QCString line = _line;
+    if (line.isEmpty()){
         if (m_state == Connect){
             m_socket->error_state(I18N_NOOP("File transfer failed"));
             return true;
@@ -2483,13 +2483,13 @@ bool YahooFileTransfer::get_line(const char *str)
         return true;
     }
     if (m_state == Connect){
-        string t = getToken(line, ' ');
+        QCString t = getToken(line, ' ');
         t = getToken(t, '/');
         if (t != "HTTP"){
             m_socket->error_state(I18N_NOOP("File transfer fail"));
             return true;
         }
-        unsigned code = atol(getToken(line, ' ').c_str());
+        unsigned code = getToken(line, ' ').toUInt();
         switch (code){
         case 200:
         case 206:
@@ -2505,17 +2505,18 @@ bool YahooFileTransfer::get_line(const char *str)
         return true;
     }
     if (m_state == ReadHeader){
-        string t = getToken(line, ':');
+        QCString t = getToken(line, ':');
+        // FIXME: this should be easier with QCString::find() !
         if ((t == "Content-Length") || (t == "Content-length")){
             const char *p;
-            for (p = line.c_str(); *p; p++)
+            for (p = line.data(); *p; p++)
                 if ((*p > '0') && (*p < '9'))
                     break;
             m_endPos = m_startPos + strtoul(p, NULL, 10);
         }
         if (t == "Range"){
             const char *p;
-            for (p = line.c_str(); *p; p++)
+            for (p = line.data(); *p; p++)
                 if ((*p > '0') && (*p < '9'))
                     break;
             m_startPos = strtoul(p, NULL, 10);
@@ -2529,9 +2530,9 @@ bool YahooFileTransfer::get_line(const char *str)
         }
         return true;
     }
-    string t = getToken(line, ':');
+    QCString t = getToken(line, ':');
     if (t == "Range"){
-        const char *p = line.c_str();
+        const char *p = line.data();
         for (; *p; p++)
             if (*p != ' ')
                 break;

@@ -279,10 +279,10 @@ void MSNClient::packet_ready()
         m_msg = NULL;
     }
     for (;;){
-        string s;
+        QCString s;
         if (!m_socket->readBuffer.scan("\r\n", s))
             break;
-        getLine(s.c_str());
+        getLine(s);
     }
     if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
         m_socket->readBuffer.init(0);
@@ -464,7 +464,7 @@ void MSNClient::checkEndSync()
     connected();
 }
 
-void MSNClient::getLine(const char *line)
+void MSNClient::getLine(const QCString &line)
 {
     QString l = QString::fromUtf8(line);
     l = l.replace(QRegExp("\r"), "");
@@ -1985,10 +1985,10 @@ void SBSocket::packet_ready()
     for (;;){
         if (m_messageSize && !getMessage())
             break;
-        string s;
+        QCString s;
         if (!m_socket->readBuffer.scan("\r\n", s))
             break;
-        getLine(s.c_str());
+        getLine(s);
     }
     if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
         m_socket->readBuffer.init(0);
@@ -2744,10 +2744,10 @@ void MSNFileTransfer::packet_ready()
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
     EventLog::log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
     for (;;){
-        string s;
+        QCString s;
         if (!m_socket->readBuffer.scan("\r\n", s))
             break;
-        if (getLine(s.c_str()))
+        if (getLine(s))
             return;
     }
     if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())

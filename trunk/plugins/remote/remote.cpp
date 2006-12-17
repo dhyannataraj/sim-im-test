@@ -692,14 +692,14 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             Buffer sf;
             sf = f.readAll();
             while (sf.readPos() < sf.size()){
-                string line;
+                QCString line;
                 sf.scan("\n", line);
-                if (!line.empty() && (line[line.length() - 1] == '\r'))
-                    line = line.substr(0, line.length() - 1);
+                if (!line.isEmpty() && (line[(int)line.length() - 1] == '\r'))
+                    line = line.left(line.length() - 1);
                 if (line == "[ICQ Message User]")
                     bOpen = true;
-                if (line.substr(0, 4) == "UIN=")
-                    uin = atol(line.substr(4).c_str());
+                if (line.left(4) == "UIN=")
+                    uin = line.mid(4).toUInt();
             }
             if (uin == 0){
                 out = "Bad file ";
@@ -1000,35 +1000,35 @@ void ControlSocket::connect_ready()
 
 void ControlSocket::packet_ready()
 {
-    string line;
+    QCString line;
     if (!m_socket->readBuffer.scan("\n", line))
         return;
-    if (line.empty())
+    if (line.isEmpty())
         return;
-    if (line[(int)line.size() - 1] == '\r')
-        line = line.substr(0, line.size() - 1);
-    log(L_DEBUG, "Remote read: %s", line.c_str());
+    if (line[(int)line.length() - 1] == '\r')
+        line = line.left(line.size() - 1);
+    log(L_DEBUG, "Remote read: %s", line.data());
     QString out;
     bool bError = false;
-    bool bRes = m_plugin->command(QString::fromLocal8Bit(line.c_str()), out, bError);
+    bool bRes = m_plugin->command(QString::fromLocal8Bit(line), out, bError);
     if (bError){
         m_socket->error_state("");
         return;
     }
     if (!bRes)
         write("? ");
-    string s;
+    QCString s;
     if (!out.isEmpty())
         s = out.local8Bit();
-    string res;
-    for (const char *p = s.c_str(); *p; p++){
+    QCString res;
+    for (const char *p = s.data(); *p; p++){
         if (*p == '\r')
             continue;
         if (*p == '\n')
             res += '\r';
         res += *p;
     }
-    write(res.c_str());
+    write(res);
     write(CRLF);
 }
 

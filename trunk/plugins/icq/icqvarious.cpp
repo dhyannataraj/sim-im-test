@@ -777,16 +777,13 @@ unsigned short ICQClient::findByMail(const QString &mail)
     return m_nMsgSequence;
 }
 
-void ICQClient::packTlv(unsigned short tlv, unsigned short code, const char *keywords)
+void ICQClient::packTlv(unsigned short tlv, unsigned short code, const QString &keywords)
 {
-    string k;
-    if (keywords)
-        k = keywords;
-    if ((code == 0) && k.empty())
+    if ((code == 0) && keywords.isEmpty())
         return;
     Buffer b;
     b.pack(code);
-    b << k;
+    b << keywords;
     m_socket->writeBuffer.tlvLE(tlv, b);
 }
 

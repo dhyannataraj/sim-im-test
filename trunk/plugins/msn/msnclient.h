@@ -225,7 +225,7 @@ protected:
     virtual bool isMyData(SIM::clientData*&, SIM::Contact*&);
     virtual bool createData(SIM::clientData*&, SIM::Contact*);
     SIM::Socket *createSocket();
-    void getLine(const char*);
+    void getLine(const QCString &line);
     void clearPackets();
     void sendStatus();
     void checkEndSync();

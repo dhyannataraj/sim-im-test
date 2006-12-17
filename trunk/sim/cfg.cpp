@@ -177,35 +177,6 @@ EXPORT QString user_file(const QString &f)
 
 // ______________________________________________________________________________________
 
-EXPORT string number(unsigned n)
-{
-    char b[32];
-    snprintf(b, sizeof(b), "%u", n);
-    return string(b);
-}
-
-EXPORT string trim(const char *from)
-{
-    string res;
-    if (from == NULL)
-        return res;
-    res = from;
-    int i;
-    for (i = 0; i < (int)(res.length()); i++){
-        if (res[i] != ' ')
-            break;
-    }
-    if (i)
-        res = res.substr(i);
-    for (i = res.length() - 1; i >= 0; i--){
-        if (res[i] != ' ')
-            break;
-    }
-    if (i < (int)(res.length() - 1))
-        res = res.substr(0, i + 1);
-    return res;
-}
-
 char fromHex(char c)
 {
     if ((c >= '0') && (c <= '9')) return (char)(c - '0');
