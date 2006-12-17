@@ -117,6 +117,7 @@ public:
 
     Buffer &operator << (const QString &s);     // utf8
     Buffer &operator << (const QCString &s);
+    Buffer &operator << (const QByteArray &s);
     Buffer &operator << (const char *str);
     Buffer &operator << (char c);
     Buffer &operator << (unsigned char c) { return operator << ((char)c); }

@@ -421,7 +421,17 @@ Buffer &Buffer::operator << (const QCString &s)
 {
     if(!s.length())
         return *this;
-    unsigned short size = (unsigned short)(s.size() + 1);
+    unsigned short size = (unsigned short)(s.length() + 1);
+    *this << (unsigned short)htons(size);
+    pack(s, size);
+    return *this;
+}
+
+Buffer &Buffer::operator << (const QByteArray &s)
+{
+    if(!s.size())
+        return *this;
+    unsigned short size = (unsigned short)(s.size());
     *this << (unsigned short)htons(size);
     pack(s, size);
     return *this;
