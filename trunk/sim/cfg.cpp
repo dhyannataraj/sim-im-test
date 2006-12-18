@@ -185,7 +185,16 @@ char fromHex(char c)
     return (char)0;
 }
 
-EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
+static unsigned char toHex(unsigned char c)
+{
+    c &= 0x0F;
+    if (c < 10)
+        return (unsigned char)(c + '0');
+    return (unsigned char)(c - 10 + 'a');
+}
+
+
+QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
 {
     QString     res;
     QString     quote_chars;
@@ -195,7 +204,7 @@ EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSla
         quote_chars += '\\';
     }
     for (int i = 0; i < (int) (from.length ()); i++) {
-        QChar       c = from[i];
+        QChar c = from[i];
         if (quote_chars.contains (c)) {
             res += '\\';
         }
@@ -417,7 +426,43 @@ const DataDef *find_key(const DataDef *def, const char *name, unsigned &offs)
     return NULL;
 }
 
-static bool getString(QCString &val, QCString &str)
+static QCString quoteInternal(const QCString &str)
+{
+    QCString res("\"");
+    if (!str.isEmpty()){
+        for (unsigned i = 0; i < str.length(); i++){
+            unsigned char p = str[(int)i];
+            switch (p){
+            case '\\':
+                res += "\\\\";
+                break;
+            case '\r':
+                break;
+            case '\n':
+                res += "\\n";
+                break;
+            case '\"': {
+                res += "\\x";
+                res += toHex((unsigned char)(p >> 4));
+                res += toHex(p);
+                break;
+            }
+            default:
+                if (p >= ' '){
+                    res += p;
+                }else if (p){
+                    res += "\\x";
+                    res += toHex((unsigned char)(p >> 4));
+                    res += toHex(p);
+                }
+            }
+        }
+    }
+    res += "\"";
+    return res;
+}
+
+static bool unquoteInternal(QCString &val, QCString &str)
 {
     int idx1 = val.find('\"');
     if(idx1 == -1)
@@ -428,6 +473,31 @@ static bool getString(QCString &val, QCString &str)
         return false;
     str = val.mid(idx1, idx2 - idx1);
     val = val.mid(idx2 + 1);
+    // now unquote
+    idx1 = 0;
+    while((idx1 = str.find('\\', idx1)) != -1) {
+        char c = str[idx1 + 1];
+        switch(c) {
+            case '\\':
+                str = str.left(idx1) + '\\' + str.mid(idx1 + 2);
+                break;
+            case 'n':
+                str = str.left(idx1) + '\n' + str.mid(idx1 + 2);
+                break;
+            case 'x': {
+                char c1 = str[idx1 + 2];
+                char c2 = c1 ? str[idx1 + 3] : 0;
+                if(!c1 || !c2)
+                    return false;
+                c = (fromHex(c1) << 4) | (fromHex(c2));
+                str = str.left(idx1) + c + str.mid(idx1 + 4);
+                break;
+            }
+            default:
+                break;
+        }
+        idx1++;
+    }
     return true;
 }
 
@@ -480,7 +550,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             if (i == 0)
                 break;
             val = val.mid(idx1 + 1);
-            if(!getString(val, v)) {
+            if(!unquoteInternal(val, v)) {
                 set_str(ld, i, "");
                 break;
             }
@@ -497,7 +567,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             // "<text>"(u),"<text>"(u),"<text>"(u),"<text>"(u),...
             for (unsigned i = 0; i < def->n_values; ld++, i++){
                 QCString v;
-                if(!getString(val, v))
+                if(!unquoteInternal(val, v))
                     break;
 
                 if(def->type == DATA_CSTRING) {
@@ -566,52 +636,6 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
     cfg->setReadPos(read_pos);
 }
 
-static unsigned char toHex(unsigned char c)
-{
-    c &= 0x0F;
-    if (c < 10)
-        return (unsigned char)(c + '0');
-    return (unsigned char)(c - 10 + 'a');
-}
-
-static QCString quoteInternal(const QCString &str)
-{
-    QCString res("\"");
-    if (!str.isEmpty()){
-        for (unsigned i = 0; i < str.length(); i++){
-            unsigned char p = str[(int)i];
-            switch (p){
-            case '\\':
-                res += "\\\\";
-                break;
-            case '\r':
-                break;
-            case '\n':
-                res += "\\n";
-                break;
-            case '\"': {
-                res += "\\x";
-                res += toHex((unsigned char)(p >> 4));
-                res += toHex(p);
-// wrong because we put it inside "<TEXT>" ...
-//                res += "\\\"";
-                break;
-            }
-            default:
-                if (p >= ' '){
-                    res += p;
-                }else if (p){
-                    res += "\\x";
-                    res += toHex((unsigned char)(p >> 4));
-                    res += toHex(p);
-                }
-            }
-        }
-    }
-    res += "\"";
-    return res;
-}
-
 EXPORT QCString save_data(const DataDef *def, void *_data)
 {
     Data *data = (Data*)_data;
@@ -619,7 +643,6 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
     for (; def->name; def++){
         QCString value;
         bool bSave = false;
-        unsigned i;
         if (def->type == DATA_STRUCT){
             QCString s = save_data((DataDef*)(def->def_value), data);
             if (s.length()){
@@ -671,7 +694,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_STRING:{
-                    for (i = 0; i < def->n_values; i++, ld++){
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
                         QString &str = ld->str();
                         if (value.length())
                             value += ",";
@@ -697,7 +720,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_UTF:{
-                    for (i = 0; i < def->n_values; i++, ld++){
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
                         QString &str = ld->str();
                         if (value.length())
                             value += ",";
@@ -721,7 +744,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_CSTRING:{
-                    for (i = 0; i < def->n_values; i++, ld++){
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
                         QCString &str = ld->cstr();
                         if (value.length())
                             value += ",";
@@ -740,7 +763,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_BOOL:{
-                    for (i = 0; i < def->n_values; i++, ld++){
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
                         bool p = ld->toBool();
                         if (value.length())
                             value += ",";
@@ -756,7 +779,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_LONG:{
-                    for (i = 0; i < def->n_values; i++, ld++){
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
                         long p = ld->toLong();
                         if (value.length())
                             value += ",";
@@ -770,7 +793,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     break;
                 }
             case DATA_ULONG:{
-                    for (i = 0; i < def->n_values; i++, ld++){
+                    for (unsigned i = 0; i < def->n_values; i++, ld++){
                         unsigned long p = ld->toULong();
                         if (value.length())
                             value += ",";
