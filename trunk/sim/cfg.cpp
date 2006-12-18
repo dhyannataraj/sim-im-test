@@ -185,54 +185,6 @@ char fromHex(char c)
     return (char)0;
 }
 
-static QCString getToken(char const *&p, char c, bool bUnEscape = true)
-{
-    QCString res;
-    char const *start = p;
-    for (; *p; p++){
-        if (*p == c)
-            break;
-        if (*p == '\\'){
-            p++;
-            if (*p == 0)
-                break;
-            if (!bUnEscape)
-                continue;
-            char c = *p;
-            int d = 0;
-            switch (c){
-            case 'n':
-                c = '\n';
-                break;
-            case 'r':
-                c = '\r';
-                break;
-            case 't':
-                c = '\t';
-                break;
-            case 'x':
-                if (p[1] && p[2]){
-                    c = (char)((fromHex(p[1]) << 4) + fromHex(p[2]));
-                    d = 2;
-                }
-                break;
-            }
-            if (start != p - 1){
-                res += QCString(start, (unsigned)(p - start - 1));
-            }
-            res += c;
-            start = p + 1 + d;
-            continue;
-        }
-    }
-    if (start != p){
-        res += QCString(start, (unsigned)(p - start));
-    }
-    if (*p == c)
-        p++;
-    return res;
-}
-
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
 {
     QString     res;
@@ -465,6 +417,20 @@ const DataDef *find_key(const DataDef *def, const char *name, unsigned &offs)
     return NULL;
 }
 
+static bool getString(QCString &val, QCString &str)
+{
+    int idx1 = val.find('\"');
+    if(idx1 == -1)
+        return false;
+    idx1++;
+    int idx2 = val.find('\"', idx1);
+    if(idx2 == -1)
+        return false;
+    str = val.mid(idx1, idx2 - idx1);
+    val = val.mid(idx2 + 1);
+    return true;
+}
+
 EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
 {
     Data *data = (Data*)_data;
@@ -490,123 +456,77 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
             continue;
         Data *ld = data + offs;
         ld->setType(def->type);
-        // FIXME:
-        const char *value = val.data();
-        unsigned i = 0;
-        QCString v;
         switch (def->type){
         case DATA_IP: {
-                int idx = val.find(',');
-                QCString ip, url;
-                if(idx == -1) {
-                        ip = value;
-                } else {
-                        ip = val.left(idx);
-                        url = val.mid(idx + 1);
-                }
-                set_ip(ld, inet_addr(ip), url);
-                break;
+            int idx = val.find(',');
+            QCString ip, url;
+            if(idx == -1) {
+                ip = val;
+            } else {
+                ip = val.left(idx);
+                url = val.mid(idx + 1);
+            }
+            set_ip(ld, inet_addr(ip), url);
+            break;
         }
-        case DATA_STRLIST:
-            i = strtoul(value, NULL, 10);
-            if (i == 0)
-                break;
-            value = strchr(value, '\"');
-            if (value == NULL){
-                set_str(ld, i, "\0");
-                break;
-            }
-            value++;
-            set_str(ld, i, getToken(value, '\"'));
-            break;
         case DATA_UTFLIST:
-            i = strtoul(value, NULL, 10);
+        case DATA_STRLIST: {
+            // <number>,"<text>"(u)
+            QCString v;
+            int idx1 = val.find(',');
+            if(idx1 == -1)
+                break;
+            unsigned i = val.left(idx1).toUInt();
             if (i == 0)
                 break;
-            value = strchr(value, '\"');
-            if (value == NULL){
-                set_str(ld, i, "\0");
+            val = val.mid(idx1 + 1);
+            if(!getString(val, v)) {
+                set_str(ld, i, "");
                 break;
             }
-            value++;
-            v = getToken(value, '\"');
-            if (*value == 'u'){
-                set_str(ld, i, v);
+            if (!val.isEmpty() && val[0] == 'u'){
+                ld->str() = QString::fromUtf8(v);
             }else{
-                QString s = QString::fromLocal8Bit(v);
-                set_str(ld, i, s);
+                ld->str() = QString::fromLocal8Bit(v);
             }
             break;
+        }
         case DATA_UTF:
-            for (i = 0; i < def->n_values; ld++){
-                value = strchr(value, '\"');
-                if (value == NULL)
-                    break;
-                value++;
-                v = getToken(value, '\"');
-                if (*value == 'u'){
-                    ld->str() = QString::fromUtf8(v);
-                }else{
-                    ld->str() = QString::fromLocal8Bit(v);
-                }
-                i++;
-                value = strchr(value, ',');
-                if (value == NULL)
-                    break;
-                value++;
-            }
-            break;
         case DATA_STRING:
-            for (i = 0; i < def->n_values; ld++){
-                value = strchr(value, '\"');
-                if (value == NULL)
+        case DATA_CSTRING: {
+            // "<text>"(u),"<text>"(u),"<text>"(u),"<text>"(u),...
+            for (unsigned i = 0; i < def->n_values; ld++, i++){
+                QCString v;
+                if(!getString(val, v))
                     break;
-                value++;
-                v = getToken(value, '\"');
-                if (*value == 'u'){
-                    ld->str() = QString::fromUtf8(v);
-                }else{
-                    ld->str() = QString::fromLocal8Bit(v);
+
+                if(def->type == DATA_CSTRING) {
+                    ld->cstr() = v;
+                } else {
+                    if (!val.isEmpty() && val[0] == 'u')
+                        ld->str() = QString::fromUtf8(v);
+                    else
+                        ld->str() = QString::fromLocal8Bit(v);
                 }
-                i++;
-                value = strchr(value, ',');
-                if (value == NULL)
+
+                idx = val.find(',');
+                if (idx == -1)
                     break;
-                value++;
+                val = val.mid(idx + 1);
             }
             break;
-        case DATA_CSTRING:
-            for (i = 0; i < def->n_values; ld++){
-                value = strchr(value, '\"');
-                if (value == NULL)
-                    break;
-                value++;
-                v = getToken(value, '\"');
-                ld->cstr() = v;
-                i++;
-                value = strchr(value, ',');
-                if (value == NULL)
-                    break;
-                value++;
-            }
-            break;
-		case DATA_LONG: {
-            QStringList sl = QStringList::split(',',val,true);
-            for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
-                QString s = sl[i];
-                if(s.isEmpty())
-                    continue;
-                ld->setLong(s.toLong());
-            }
-            break;
-		}
+        }
+		case DATA_LONG:
         case DATA_ULONG: {
             QStringList sl = QStringList::split(',',val,true);
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
                 QString s = sl[i];
                 if(s.isEmpty())
                     continue;
-                ld->setULong(s.toULong());
+                if(def->type == DATA_LONG)
+                    ld->setLong(s.toLong());
+                else
+                    ld->setULong(s.toULong());
             }
             break;
         }
@@ -622,7 +542,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
         }
         case DATA_BINARY: {
             // ok here since they're only latin1 chars
-            QStringList sl = QStringList::split(',',value,true);
+            QStringList sl = QStringList::split(',', val, true);
             for (unsigned i = 0; i < def->n_values && i < sl.count(); i++, ld++){
                 QString s = sl[i];
                 if(s.isEmpty())
@@ -725,31 +645,8 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     }
                     break;
                 }
+            case DATA_UTFLIST:
             case DATA_STRLIST:{
-                    const Data::STRING_MAP &p = ld->strMap();
-                    if (p.count()){
-                        for (Data::STRING_MAP::ConstIterator it = p.begin(); it != p.end(); ++it){
-                            if(it.data().isEmpty())
-                                continue;
-                            if (res.length())
-                                res += "\n";
-                            res += def->name;
-                            res += "=";
-                            res += QString::number(it.key());
-                            res += ",";
-                            QString s = it.data();
-                            QCString ls = s.local8Bit();
-                            if (QString::fromLocal8Bit(ls) == s){
-                                res += quoteInternal(ls);
-                            }else{
-                                res += quoteInternal(s.utf8());
-                                res += "u";
-                            }
-                        }
-                    }
-                    break;
-                }
-            case DATA_UTFLIST:{
                     const Data::STRING_MAP &p = ld->strMap();
                     if (p.count()){
                         for (Data::STRING_MAP::ConstIterator it = p.begin(); it != p.end(); ++it){
@@ -799,25 +696,6 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     }
                     break;
                 }
-            case DATA_CSTRING:{
-                    for (i = 0; i < def->n_values; i++, ld++){
-                        QCString &str = ld->cstr();
-                        if (value.length())
-                            value += ",";
-                        if (def->def_value){
-                            if (str != def->def_value){
-                                bSave = true;
-                            }
-                        }else{
-                            if (str.length()){
-                                bSave = true;
-                            }
-                        }
-                        if (bSave)
-                            value += quoteInternal(str);
-                    }
-                    break;
-                }
             case DATA_UTF:{
                     for (i = 0; i < def->n_values; i++, ld++){
                         QString &str = ld->str();
@@ -839,6 +717,25 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                                 value += "u";
                             }
                         }
+                    }
+                    break;
+                }
+            case DATA_CSTRING:{
+                    for (i = 0; i < def->n_values; i++, ld++){
+                        QCString &str = ld->cstr();
+                        if (value.length())
+                            value += ",";
+                        if (def->def_value){
+                            if (str != def->def_value){
+                                bSave = true;
+                            }
+                        }else{
+                            if (str.length()){
+                                bSave = true;
+                            }
+                        }
+                        if (bSave)
+                            value += quoteInternal(str);
                     }
                     break;
                 }
