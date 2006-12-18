@@ -1413,7 +1413,7 @@ QString CorePlugin::poFile(const char *lang)
 #else
     QString s = PREFIX "/share/locale/";
     QString l = lang;
-    int idx = l.indexOf('.');
+    int idx = l.find('.');
     if(idx != -1)
         l = l.left(idx);
     s += l;
@@ -1421,11 +1421,11 @@ QString CorePlugin::poFile(const char *lang)
     QFile f(s);
     if (!f.exists()){
         QString l = lang;
-        int idx = l.indexOf('_');
+        int idx = l.find('_');
         if(idx != -1)
             l = l.left(idx);
 
-        s  = PREFIX "/share/locale/"
+        s  = PREFIX "/share/locale/";
         s += l;
         s += "/LC_MESSAGES/sim.mo";
         f.setName(s);
