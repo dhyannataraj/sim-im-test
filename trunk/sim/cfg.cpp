@@ -485,7 +485,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 break;
             }
             if (!val.isEmpty() && val[0] == 'u'){
-                set_str(ld, i, QString::fromUtf8(v))
+                set_str(ld, i, QString::fromUtf8(v));
             }else{
                 set_str(ld, i,  QString::fromLocal8Bit(v));
             }
