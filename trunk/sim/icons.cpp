@@ -418,6 +418,10 @@ PictDef *WrkIconSet::getPict(const QString &name)
         PictDef *p = SIM::getPict(name.left(pos));
         QImage res;
         if (p){
+            if(p->image.isNull()) {
+                log(L_ERROR, "Null Image!");
+                return false;
+            }
             QString s = name.mid(pos + 1);
             if (s == "online"){
                 res = p->image;
