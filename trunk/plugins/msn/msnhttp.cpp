@@ -23,7 +23,6 @@
 #include "msnhttp.h"
 #include "msnclient.h"
 
-using std::string;
 using namespace SIM;
 
 const unsigned POLL_TIMEOUT	= 10;

@@ -1411,24 +1411,26 @@ QString CorePlugin::poFile(const char *lang)
     if (!f.exists())
         return "";
 #else
-    string s = PREFIX "/share/locale/";
-    string l;
-    if (lang)
-        l = lang;
-    char *p = (char*)(l.c_str());
-    char *r = strchr(p, '.');
-    if (r) *r = 0;
-    s += l.c_str();
+    QString s = PREFIX "/share/locale/";
+    QString l = lang;
+    int idx = l.indexOf('.');
+    if(idx != -1)
+        l = l.left(idx);
+    s += l;
     s += "/LC_MESSAGES/sim.mo";
-    QFile f(QFile::decodeName(s.c_str()));
+    QFile f(s);
     if (!f.exists()){
-        r = strchr(p, '_');
-        if (r) *r = 0;
-        s = PREFIX "/share/locale/";
-        s += l.c_str();
+        QString l = lang;
+        int idx = l.indexOf('_');
+        if(idx != -1)
+            l = l.left(idx);
+
+        s  = PREFIX "/share/locale/"
+        s += l;
         s += "/LC_MESSAGES/sim.mo";
-        f.setName(QFile::decodeName(s.c_str()));
-        if (!f.exists()) return "";
+        f.setName(s);
+        if (!f.exists())
+            return QString::null;
     }
 #endif
     return f.name();

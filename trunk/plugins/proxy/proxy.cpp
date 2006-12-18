@@ -828,7 +828,7 @@ protected:
         WaitEmpty
     };
     State m_state;
-    bool readLine(string &s);
+    bool readLine(QCString &s);
 };
 
 HTTPS_Proxy::HTTPS_Proxy(ProxyPlugin *plugin, ProxyData *d, TCPClient *client)
@@ -898,19 +898,20 @@ void HTTPS_Proxy::error_state(const QString &text, unsigned code)
 void HTTPS_Proxy::read_ready()
 {
     if (m_state == WaitConnect){
-        string s;
-        if (!readLine(s)) return;
+        QCString s;
+        if (!readLine(s))
+            return;
         if (s.length() < strlen(HTTP)){
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
-        const char *r = strchr(s.c_str(), ' ');
-        if (r == NULL){
+        int idx = s.find(' ');
+        if (idx == -1){
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return;
         }
-        r++;
-        int code = atoi(r);
+        s = s.mid(idx + 1);
+        int code = s.toInt();
         if (code == 407){
             error_state(AUTH_ERROR, m_plugin->ProxyErr);
             return;
@@ -923,15 +924,17 @@ void HTTPS_Proxy::read_ready()
     }
     if (m_state == WaitEmpty){
         for (;;){
-            string s;
-            if (!readLine(s)) return;
-            if (s.length() == 0) break;
+            QCString s;
+            if (!readLine(s))
+                return;
+            if (s.length() == 0)
+                break;
         }
         proxy_connect_ready();
     }
 }
 
-bool HTTPS_Proxy::readLine(string &s)
+bool HTTPS_Proxy::readLine(QCString &s)
 {
     for (;;){
         char c;
@@ -940,14 +943,17 @@ bool HTTPS_Proxy::readLine(string &s)
             error_state(ANSWER_ERROR, m_plugin->ProxyErr);
             return false;
         }
-        if (n == 0) return false;
-        if (c == '\r') continue;
-        if (c == '\n') break;
+        if (n == 0)
+            return false;
+        if (c == '\r')
+            continue;
+        if (c == '\n')
+            break;
         bIn << c;
     }
     EventLog::log_packet(bIn, false, m_plugin->ProxyPacket);
     if(bIn.size())
-        s.assign(bIn.data(0), bIn.size());
+        s = bIn;
     bIn.init(0);
     bIn.packetStart();
     return true;
@@ -959,7 +965,7 @@ class HTTP_Proxy : public HTTPS_Proxy
 {
 public:
     HTTP_Proxy(ProxyPlugin *plugin, ProxyData*, TCPClient *client);
-    void connect(const char *host, unsigned short port);
+    void connect(const QString &host, unsigned short port);
 protected:
     virtual void write(const char *buf, unsigned int size);
     virtual int read(char *buf, unsigned int size);
@@ -976,7 +982,7 @@ protected:
     Buffer		m_out;
     bool		m_bHTTP;
     unsigned	m_size;
-    string		m_head;
+    QCString	m_head;
 };
 
 HTTP_Proxy::HTTP_Proxy(ProxyPlugin *plugin, ProxyData *data, TCPClient *client)
@@ -993,20 +999,21 @@ void HTTP_Proxy::read_ready()
         HTTPS_Proxy::read_ready();
         return;
     }
-    if (!m_head.empty())
+    if (!m_head.isEmpty())
         return;
-    if (!readLine(m_head)) return;
+    if (!readLine(m_head))
+        return;
     if (m_head.length() < strlen(HTTP)){
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
-    const char *r = strchr(m_head.c_str(), ' ');
-    if (r == NULL){
+    int idx = m_head.find(' ');
+    if (idx == -1){
         error_state(ANSWER_ERROR, m_plugin->ProxyErr);
         return;
     }
-    r++;
-    int code = atoi(r);
+    QCString str = m_head.mid(idx + 1);
+    int code = str.toInt();
     if (code == 407){
         error_state(AUTH_ERROR, m_plugin->ProxyErr);
         return;
@@ -1016,7 +1023,7 @@ void HTTP_Proxy::read_ready()
         notify->read_ready();
 }
 
-void HTTP_Proxy::connect(const char *host, unsigned short port)
+void HTTP_Proxy::connect(const QString &host, unsigned short port)
 {
     if (port == 443)
         m_bHTTP = false;
@@ -1044,13 +1051,13 @@ int HTTP_Proxy::read(char *buf, unsigned int size)
 {
     if (!m_bHTTP)
         return HTTPS_Proxy::read(buf, size);
-    if (m_head.empty())
+    if (m_head.isEmpty())
         return 0;
     if (size > m_head.length())
         size = m_head.length();
-    memcpy(buf, m_head.c_str(), size);
-    m_head = m_head.substr(size);
-    if (m_head.empty()){
+    memcpy(buf, m_head.data(), size);
+    m_head = m_head.mid(size);
+    if (m_head.isEmpty()){
         static_cast<ClientSocket*>(notify)->setSocket(m_sock);
         m_sock = NULL;
         getSocketFactory()->remove(this);

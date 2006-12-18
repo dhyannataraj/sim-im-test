@@ -1538,7 +1538,7 @@ class YahooParser : public HTMLParser
 {
 public:
     YahooParser(const QString&);
-    string res;
+    QString res;
     bool bUtf;
 protected:
     struct style
@@ -1554,9 +1554,9 @@ protected:
     virtual void tag_end(const QString &tag);
     void set_style(const style &s);
     void set_state(unsigned oldState, unsigned newState, unsigned st);
-    void escape(const char *str);
+    void escape(const QString &str);
     bool	m_bFirst;
-    string   esc;
+    QString   esc;
     stack<style>	tags;
     style	curStyle;
 };
@@ -1586,7 +1586,7 @@ void YahooParser::text(const QString &str)
     }
     res += esc;
     esc = "";
-    res += str.utf8();
+    res += str;
 }
 
 void YahooParser::tag_start(const QString &tag, const list<QString> &options)
@@ -1723,9 +1723,9 @@ void YahooParser::set_style(const style &s)
             }
         }
         if (i >= 10){
-            char b[10];
-            sprintf(b, "#%06X", s.color & 0xFFFFFF);
-            escape(b);
+            QString str;
+            str.sprintf("#%06X", s.color & 0xFFFFFF);
+            escape(str);
         }
     }
     QString fontAttr;
@@ -1739,12 +1739,12 @@ void YahooParser::set_style(const style &s)
     }
     if (!fontAttr.isEmpty()){
         esc += "<font";
-        esc += fontAttr.utf8();
+        esc += fontAttr;
         esc += ">";
     }
 }
 
-void YahooParser::escape(const char *str)
+void YahooParser::escape(const QString &str)
 {
     esc += "\x1B\x5B";
     esc += str;
@@ -1757,7 +1757,7 @@ void YahooClient::sendMessage(const QString &msgText, Message *msg, YahooUserDat
     addParam(0, getLogin());
     addParam(1, getLogin());
     addParam(5, data->Login.str());
-    addParam(14, p.res.c_str());
+    addParam(14, p.res);
     if(p.bUtf)
         addParam(97, "1");
     addParam(63, ";0");

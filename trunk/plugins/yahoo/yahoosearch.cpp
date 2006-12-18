@@ -26,7 +26,6 @@
 #include "yahoosearch.h"
 #include "yahooclient.h"
 
-using std::string;
 using namespace SIM;
 
 const ext_info ages[] =

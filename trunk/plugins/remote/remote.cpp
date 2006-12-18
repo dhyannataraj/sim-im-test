@@ -686,7 +686,6 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += args[0];
                 return false;
             }
-            string line;
             bool bOpen = false;
             unsigned uin = 0;
             Buffer sf;
