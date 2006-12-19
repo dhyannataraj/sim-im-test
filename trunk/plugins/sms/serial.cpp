@@ -486,13 +486,13 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
     }
     fdFlags &= ~O_NONBLOCK;
     if (fcntl(d->fd, F_SETFL, fdFlags) == -1){
-        log(L_WARN, "Can't set flags %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Can't set flags %s: %s", fname.data(), strerror(errno));
         close();
         return false;
     }
     int mctl = TIOCM_DTR;
     if (ioctl(d->fd, TIOCMBIC, &mctl) < 0){
-        log(L_WARN, "Clear failed %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Clear failed %s: %s", fname.data(), strerror(errno));
         close();
         return false;
     }
