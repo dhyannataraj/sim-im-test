@@ -32,8 +32,6 @@ using namespace SIM;
 
 #include <windows.h>
 
-using std::string;
-
 const unsigned SERIAL_TIMEOUT	= 1000;
 
 class SerialEvent : public QEvent
@@ -80,7 +78,7 @@ public:
     SerialPort	*m_port;
     int			m_baudrate;
     bool		m_bXonXoff;
-    string		m_line;
+    QCString	m_line;
     PortState	m_state;
     Buffer		m_buff;
     int			m_time;
@@ -120,7 +118,7 @@ static DWORD __stdcall SerialThread(LPVOID lpParameter)
                 memset(&p->over, 0, sizeof(p->over));
                 p->over.hEvent = p->hEvent;
                 p->m_state = Write;
-                if (WriteFile(p->hPort, p->m_line.c_str(), p->m_line.length(), &bytesWritten, &p->over))
+                if (WriteFile(p->hPort, p->m_line.data(), p->m_line.length(), &bytesWritten, &p->over))
                     break;
                 DWORD err = GetLastError();
                 if (err != ERROR_IO_PENDING){
@@ -204,13 +202,13 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
     d->m_time	  = DTRtime;
     d->m_baudrate = baudrate;
     d->m_bXonXoff = bXonXoff;
-    string port; // = "\\\\.\\";
+    QCString port; // = "\\\\.\\";
     port += device;
     port += ":";
-    d->hPort = CreateFileA(port.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
+    d->hPort = CreateFileA(port.data(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
     if (d->hPort == INVALID_HANDLE_VALUE){
         close();
-        log(L_WARN, "Can' open %s", port.c_str());
+        log(L_WARN, "Can' open %s", port.data());
         return false;
     }
     FlushFileBuffers(d->hPort);
@@ -403,8 +401,6 @@ QStringList SerialPort::devices()
 #include <termios.h>
 #include <errno.h>
 
-using std::string;
-
 enum PortState
 {
     None,
@@ -472,19 +468,19 @@ SerialPort::~SerialPort()
 bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int DTRtime)
 {
     close();
-    string fname = "/dev/";
+    QCString fname = "/dev/";
     fname += device;
     d->m_time = DTRtime;
     d->m_baudrate = baudrate;
     d->m_bXonXoff = bXonXoff;
-    d->fd = open(fname.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+    d->fd = open(fname.data(), O_RDWR | O_NOCTTY | O_NONBLOCK);
     if (d->fd == -1){
-        log(L_WARN, "Can't open %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Can't open %s: %s", fname.data(), strerror(errno));
         return false;
     }
     int fdFlags;
     if ((fdFlags = fcntl(d->fd, F_GETFL)) == -1){
-        log(L_WARN, "Can't get flags %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Can't get flags %s: %s", fname.data(), strerror(errno));
         close();
         return false;
     }
@@ -496,7 +492,7 @@ bool SerialPort::openPort(const char *device, int baudrate, bool bXonXoff, int D
     }
     int mctl = TIOCM_DTR;
     if (ioctl(d->fd, TIOCMBIC, &mctl) < 0){
-        log(L_WARN, "Clear ��failed %s: %s", fname.c_str(), strerror(errno));
+        log(L_WARN, "Clear failed %s: %s", fname.c_str(), strerror(errno));
         close();
         return false;
     }

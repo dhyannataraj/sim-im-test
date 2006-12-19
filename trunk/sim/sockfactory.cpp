@@ -613,12 +613,12 @@ static inline bool isPrivate(unsigned long ip)
 void IPResolver::resolve_ready()
 {
     if (queue.empty()) return;
-    string m_host;
+    QString m_host;
     if (resolver->hostNames().count())
-        m_host = resolver->hostNames().first().latin1();
+        m_host = resolver->hostNames().first();
     struct in_addr inaddr;
     inaddr.s_addr = m_addr;
-    log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.c_str());
+    log(L_DEBUG, "Resolver ready %s %s", inet_ntoa(inaddr), m_host.local8Bit().data());
     delete resolver;
     resolver = NULL;
     for (list<IP*>::iterator it = queue.begin(); it != queue.end(); ){
@@ -626,7 +626,7 @@ void IPResolver::resolve_ready()
             ++it;
             continue;
         }
-        (*it)->set((*it)->ip(), m_host.c_str());
+        (*it)->set((*it)->ip(), m_host);
         queue.erase(it);
         it = queue.begin();
     }
