@@ -17,6 +17,8 @@
 
 #include <time.h>
 
+#include "core.h"
+
 #ifdef Q_OS_WIN
 #include <winsock.h>
 #else
@@ -30,7 +32,6 @@
 
 #include "tmpl.h"
 #include "sockfactory.h"
-#include "core.h"
 
 using namespace std;
 using namespace SIM;
