@@ -21,6 +21,7 @@
 #include <qobject.h>
 
 #include "event.h"
+#include "misc.h"
 #include "core_events.h"
 
 class QProcess;
