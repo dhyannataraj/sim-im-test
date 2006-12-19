@@ -18,10 +18,12 @@
 #ifndef _TMPL_H
 #define _TMPL_H
 
-#include "core.h"
+#include <qobject.h>
+
+#include "event.h"
 #include "core_events.h"
 
-class Exec;
+class QProcess;
 
 class Tmpl : public QObject, public SIM::EventReceiver
 {
@@ -30,21 +32,21 @@ public:
     Tmpl(QObject *parent);
     ~Tmpl();
 protected slots:
-    void ready(Exec*, int res, const char *out);
+    void ready();
     void clear();
 protected:
     struct TmplExpand
     {
         EventTemplate::TemplateExpand	tmpl;
-        Exec			*exec;
+        QProcess		*process;
         bool			bReady;
         QString			res;
     };
     virtual bool processEvent(SIM::Event*);
-    bool process(TmplExpand*);
-    QString process(TmplExpand*, const QString &str);
+    bool process(TmplExpand &t);
+    QString process(TmplExpand &t, const QString &str);
     bool getTag(const QString &name, void *data, const SIM::DataDef *def, QString &res);
-    std::list<TmplExpand> tmpls;
+    QValueList<TmplExpand> tmpls;
 };
 
 #endif

@@ -15,10 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "tmpl.h"
-#include "exec.h"
-#include "core.h"
-#include <sockfactory.h>
+#include <time.h>
 
 #ifdef Q_OS_WIN
 #include <winsock.h>
@@ -29,7 +26,11 @@
 
 #include <qtimer.h>
 #include <qdatetime.h>
-#include <time.h>
+#include <qprocess.h>
+
+#include "tmpl.h"
+#include "sockfactory.h"
+#include "core.h"
 
 using namespace std;
 using namespace SIM;
@@ -50,9 +51,9 @@ bool Tmpl::processEvent(Event *e)
         EventTemplate::TemplateExpand *t = et->templateExpand();
         TmplExpand tmpl;
         tmpl.tmpl = *t;
-        tmpl.exec = NULL;
+        tmpl.process = NULL;
         tmpl.bReady = false;
-        if (!process(&tmpl))
+        if (!process(tmpl))
             tmpls.push_back(tmpl);
         return true;
     }
@@ -61,12 +62,12 @@ bool Tmpl::processEvent(Event *e)
 
 void Tmpl::clear()
 {
-    for (list<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
-        if ((*it).bReady && (*it).exec){
-            delete (*it).exec;
-            (*it).exec = NULL;
+    for (QValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end();){
+        if ((*it).bReady && (*it).process){
+            delete (*it).process;
+            (*it).process = NULL;
             (*it).bReady = false;
-            if (process(&(*it))){
+            if (process(*it)){
                 tmpls.erase(it);
                 it = tmpls.begin();
                 continue;
@@ -78,38 +79,41 @@ void Tmpl::clear()
     }
 }
 
-void Tmpl::ready(Exec *exec, int, const char *out)
+void Tmpl::ready()
 {
-    for (list<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
-        if ((*it).exec != exec)
-            continue;
-        (*it).bReady = true;
-        (*it).res += QString::fromLocal8Bit(out);
-        QTimer::singleShot(0, this, SLOT(clear()));
-        return;
+    for (QValueList<TmplExpand>::iterator it = tmpls.begin(); it != tmpls.end(); ++it){
+        QProcess *p = (*it).process;
+        if (p && !p->isRunning()){
+            if (p->normalExit() && p->exitStatus() == 0){
+                (*it).bReady = true;
+                (*it).res += QString::fromLocal8Bit(p->readStdout());
+                QTimer::singleShot(0, this, SLOT(clear()));
+                return;
+            }
+        }
     }
 }
 
-bool Tmpl::process(TmplExpand *t)
+bool Tmpl::process(TmplExpand &t)
 {
-    QString head = getToken(t->tmpl.tmpl, '`', false);
-    t->res += process(t, head);
-    if (t->tmpl.tmpl.isEmpty()){
-        t->tmpl.tmpl = t->res;
-        EventTemplateExpanded e(&t->tmpl);
-        t->tmpl.receiver->processEvent(&e);
+    QString head = getToken(t.tmpl.tmpl, '`', false);
+    t.res += process(t, head);
+    if (t.tmpl.tmpl.isEmpty()){
+        t.tmpl.tmpl = t.res;
+        EventTemplateExpanded e(&t.tmpl);
+        t.tmpl.receiver->processEvent(&e);
         e.setNoProcess();
         return true;
     }
-    QString prg = getToken(t->tmpl.tmpl, '`', false);
+    QString prg = getToken(t.tmpl.tmpl, '`', false);
     prg = process(t, prg);
-    t->exec = new Exec;
-    connect(t->exec, SIGNAL(ready(Exec*, int, const char*)), this, SLOT(ready(Exec*, int, const char*)));
-    t->exec->execute(prg.local8Bit(), "");
+    t.process = new QProcess(prg, parent());
+    connect(t.process, SIGNAL(processExited()), this, SLOT(ready()));
+    t.process->start();
     return false;
 }
 
-QString Tmpl::process(TmplExpand *t, const QString &str)
+QString Tmpl::process(TmplExpand &t, const QString &str)
 {
     QString res;
     QString s = str;
@@ -123,16 +127,17 @@ QString Tmpl::process(TmplExpand *t, const QString &str)
             contact = getContacts()->owner();
             tag = tag.mid(2);
         }else{
-            contact = t->tmpl.contact;
+            contact = t.tmpl.contact;
         }
+
         if (contact == NULL)
             continue;
 
         if (tag == "TimeStatus"){
-            QDateTime t;
-            t.setTime_t(CorePlugin::m_plugin->getStatusTime());
+            QDateTime dt;
+            dt.setTime_t(CorePlugin::m_plugin->getStatusTime());
             QString tstr;
-            tstr.sprintf("%02u:%02u", t.time().hour(), t.time().minute());
+            tstr.sprintf("%02u:%02u", dt.time().hour(), dt.time().minute());
             res += tstr;
             continue;
         }
