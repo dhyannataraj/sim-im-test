@@ -979,6 +979,7 @@ const unsigned BTN_PICT             = 0x1000;
 const unsigned BTN_COMBO            = 0x2000;
 const unsigned BTN_COMBO_CHECK      = 0x3000;
 const unsigned BTN_EDIT             = 0x4000;
+const unsigned BTN_LABEL            = 0x5000;
 
 const unsigned BTN_HIDE             = 0x10000;
 const unsigned BTN_NO_BUTTON        = 0x20000;

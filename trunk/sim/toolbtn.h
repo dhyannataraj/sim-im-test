@@ -26,6 +26,7 @@
 #include <qpushbutton.h>
 #include <qcombobox.h>
 #include <qlineedit.h>
+#include <qlabel.h>
 
 class QMainWindow;
 class QAccel;
@@ -97,7 +98,7 @@ protected:
     QSize sizeHint() const;
 };
 
-// A  QComboBox -> type: BTN_COMBO or BTN_COMBO_CHECK
+// A QComboBox -> type: BTN_COMBO or BTN_COMBO_CHECK
 class EXPORT CToolCombo : public QComboBox, public CToolItem
 {
     Q_OBJECT
@@ -110,9 +111,9 @@ protected slots:
     void slotTextChanged(const QString &str);
     void btnDestroyed();
 protected:
-    QSizePolicy sizePolicy() const;
-    QSize minimumSizeHint() const;
-    QSize sizeHint() const;
+    virtual QSizePolicy sizePolicy() const;
+    virtual QSize minimumSizeHint() const;
+    virtual QSize sizeHint() const;
     virtual void setState();
     CToolButton	*m_btn;
     bool m_bCheck;
@@ -128,10 +129,27 @@ public:
     virtual QWidget *widget() { return this; }
 protected slots:
     void btnDestroyed();
+    virtual QSizePolicy sizePolicy() const;
+    virtual QSize minimumSizeHint() const;
+    virtual QSize sizeHint() const;
 protected:
     virtual void setState();
     CToolButton	*m_btn;
 };
+
+// A simple QLabel -> type: BTN_LABEL
+class EXPORT CToolLabel : public QLabel, public CToolItem
+{
+public:
+    CToolLabel(CToolBar *parent, SIM::CommandDef *def);
+    ~CToolLabel();
+    virtual QWidget *widget() { return this; }
+protected:
+    virtual QSizePolicy sizePolicy() const;
+    virtual QSize minimumSizeHint() const;
+    virtual QSize sizeHint() const;
+};
+
 
 class EXPORT CToolBar : public QToolBar, public SIM::EventReceiver
 {
@@ -153,6 +171,7 @@ protected:
     bool	bChanged;
     void	*m_param;
     ButtonsMap *buttons;
+    virtual QSizePolicy sizePolicy() const;
 };
 
 #endif

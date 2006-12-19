@@ -579,6 +579,47 @@ void CToolEdit::setState()
     }
 }
 
+QSizePolicy CToolEdit::sizePolicy() const
+{
+    return QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+}
+
+QSize CToolEdit::minimumSizeHint() const
+{
+    return QLineEdit::minimumSizeHint();
+}
+
+QSize CToolEdit::sizeHint() const
+{
+    return QLineEdit::sizeHint();
+}
+
+
+/*****************************
+ *  CToolLabel               *
+******************************/
+CToolLabel::CToolLabel(CToolBar *parent, CommandDef *def)
+        : QLabel(parent), CToolItem(def)
+{}
+
+CToolLabel::~CToolLabel()
+{}
+
+QSizePolicy CToolLabel::sizePolicy() const
+{
+    return QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+}
+
+QSize CToolLabel::minimumSizeHint() const
+{
+    return pixmap() ? pixmap()->size() : QSize();
+}
+
+QSize CToolLabel::sizeHint() const
+{
+    return pixmap() ? pixmap()->size() : QSize();
+}
+
 /*****************************
  *  CToolBar                 *
 ******************************/
@@ -736,6 +777,9 @@ void CToolBar::toolBarChanged()
         case BTN_EDIT:
             btn = new CToolEdit(this, s);
             break;
+        case BTN_LABEL:
+            btn = new CToolLabel(this, s);
+            break;
         case BTN_DEFAULT:
             btn = new CToolButton(this, s);
             connect(btn->widget(), SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
@@ -756,6 +800,11 @@ void CToolBar::showPopup(QPoint p)
 {
     QPopupMenu *popup = new QPopupMenu(this);
     popup->popup(p);
+}
+
+QSizePolicy CToolBar::sizePolicy() const
+{
+    return QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
 #ifndef NO_MOC_INCLUDES
