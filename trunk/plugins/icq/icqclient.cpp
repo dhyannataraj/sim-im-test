@@ -2849,8 +2849,11 @@ bool ICQClient::send(Message *msg, void *_data)
             return true;
         }
         return false;
+    case MessageTypingStop:
     case MessageTypingStart:
         if ((data == NULL) || getDisableTypingNotification())
+            return false;
+        if((data->Status.toULong() & 0xFFFF) == ICQ_STATUS_OFFLINE)
             return false;
         if (getInvisible()){
             if (data->VisibleId.toULong() == 0)
@@ -2861,13 +2864,7 @@ bool ICQClient::send(Message *msg, void *_data)
         }
         if (!hasCap(data, CAP_TYPING) && !hasCap(data, CAP_AIM_BUDDYCON))
             return false;
-        sendMTN(screen(data), ICQ_MTN_START);
-        delete msg;
-        return true;
-    case MessageTypingStop:
-        if (data == NULL)
-            return false;
-        sendMTN(screen(data), ICQ_MTN_FINISH);
+        sendMTN(screen(data), msg->type() == MessageTypingStart ? ICQ_MTN_START : ICQ_MTN_FINISH);
         delete msg;
         return true;
 #ifdef USE_OPENSSL
