@@ -969,7 +969,21 @@ void JabberClient::PresenceRequest::element_start(const QString& el, const QXmlA
         m_from = attrs.value("from");
         m_type = attrs.value("type");
     }
+    // XEP-0203: Delayed Delivery
+    if (el == "delay"){
+        if (attrs.value("xmlns") == "http://www.xmpp.org/extensions/xep-0203.html#ns"){
+            QString stamp = attrs.value("stamp");
+            if (!stamp.isEmpty()){
+                if (m_stamp1.isEmpty()){
+                    m_stamp1 = stamp;
+                }else if (m_stamp2.isEmpty()){
+                    m_stamp2 = stamp;
+                }
+            }
+        }
+    }
     if (el == "x"){
+        // XEP-0091: Delayed Delivery
         if (attrs.value("xmlns") == "jabber:x:delay"){
             QString stamp = attrs.value("stamp");
             if (!stamp.isEmpty()){
