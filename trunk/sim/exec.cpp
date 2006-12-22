@@ -17,6 +17,7 @@
 
 #include <qtimer.h>
 
+#include "misc.h"
 #include "exec.h"
 
 #ifndef Q_OS_WIN
