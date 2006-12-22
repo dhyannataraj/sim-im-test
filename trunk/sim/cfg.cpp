@@ -263,7 +263,7 @@ EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
 
 // _______________________________________________________________________________________
 
-bool set_ip(Data *p, unsigned long value, const char *host)
+bool set_ip(Data *p, unsigned long value, const QString &host)
 {
     IP *ip = p->ip();
     if (value == 0){
@@ -277,7 +277,7 @@ bool set_ip(Data *p, unsigned long value, const char *host)
         ip = new IP;
     p->setIP(ip);
     if (ip->ip() == value){
-        if (host == NULL)
+        if (host.isEmpty())
             ip->resolve();
         return false;
     }
@@ -293,12 +293,10 @@ unsigned long get_ip(const Data &p)
     return 0;
 }
 
-const char *get_host(const Data &p)
+QString get_host(const Data &p)
 {
     const IP *ip = p.ip();
-    if (ip && ip->host())
-        return ip->host();
-    return "";
+    return ip ? ip->host() : QString::null;
 }
 
 // _______________________________________________________________________________________
@@ -659,8 +657,8 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                         struct in_addr inaddr;
                         inaddr.s_addr = p->ip();
                         value = inet_ntoa(inaddr);
-                        const char *host = p->host();
-                        if (host && *host){
+                        QString host = p->host();
+                        if (!host.isEmpty()){
                             value += ",";
                             value += host;
                         }

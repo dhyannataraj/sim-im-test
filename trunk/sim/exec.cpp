@@ -15,27 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qtimer.h>
+
 #include "exec.h"
 
-#include <qtimer.h>
-#include <qsocketnotifier.h>
-
-#ifdef WIN32
-#include <qthread.h>
-#include <windows.h>
-#include <process.h>
-
-#define PIPE_SIZE	4096
-
-#else
-#include <errno.h>
-#include <fcntl.h>
-#include <sys/socket.h>
-#include <signal.h>
-#include <sys/wait.h>
+#ifndef Q_OS_WIN
+# include <sys/types.h>
+# include <sys/wait.h>
 #endif
-
-#include "log.h"
 
 using namespace SIM;
 
@@ -44,12 +31,11 @@ ExecManager *ExecManager::manager = NULL;
 ExecManager::ExecManager()
 {
     manager = this;
-#ifndef WIN32
+#ifndef Q_OS_WIN
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(checkChilds()));
     m_timer->start(500);
 #endif
-    manager = this;
 }
 
 ExecManager::~ExecManager()
@@ -59,12 +45,14 @@ ExecManager::~ExecManager()
 
 void ExecManager::checkChilds()
 {
-#ifndef WIN32
+#ifndef Q_OS_WIN
     for (;;){
         int status;
         pid_t child = waitpid(0, &status, WNOHANG);
-        if ((child == 0) || (child == -1)) break;
-        if (!WIFEXITED(status)) continue;
+        if ((child == 0) || (child == -1))
+            break;
+        if (!WIFEXITED(status))
+            continue;
         emit childExited(child, WEXITSTATUS(status));
     }
 #endif
@@ -73,4 +61,3 @@ void ExecManager::checkChilds()
 #ifndef NO_MOC_INCLUDES
 #include "exec.moc"
 #endif
-

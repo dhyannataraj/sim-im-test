@@ -133,8 +133,8 @@ EXPORT QCString save_data(const DataDef *def, void *data);
 EXPORT const QString &get_str(const Data &strlist, unsigned index);
 EXPORT void set_str(Data *strlist, unsigned index, const QString &value);
 EXPORT unsigned long get_ip(const Data &ip);
-EXPORT const char *get_host(const Data &ip);
-EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
+EXPORT QString get_host(const Data &ip);
+EXPORT bool set_ip(Data *ip, unsigned long value, const QString &host=QString::null);
 
 #define PROP_STRLIST(A) \
     QString get##A(unsigned index) { return SIM::get_str(data.A, index); } \
@@ -177,11 +177,6 @@ EXPORT bool set_ip(Data *ip, unsigned long value, const char *host=NULL);
 #define VPROP_BOOL(A) \
     virtual bool get##A() const { return data.A.toBool(); } \
     virtual void set##A(bool r) { data.A.setBool(r); }
-
-#define PROP_IP(A)  \
-    unsigned long get##A()  const { return (data.A.ip() ? data.A.ip()->ip() : 0); } \
-    const char *host##A() { return (data.A.ip() ? data.A.ip()->host() : ""); } \
-    void set##A(unsigned long r) { SIM::set_ip(&data.A, r); }
 
 #define PROP_CSTR(A) \
     QCString get##A() const { return data.A.cstr(); } \

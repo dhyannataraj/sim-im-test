@@ -457,8 +457,8 @@ EXPORT QString formatAddr(const Data &ip, unsigned port)
         res += ":";
         res += QString::number(port);
     }
-    const char *host = get_host(ip);
-    if (host && *host){
+    QString host = get_host(ip);
+    if (!host.isEmpty()){
         res += " ";
         res += host;
     }
