@@ -1107,13 +1107,8 @@ void HTTP_Proxy::write(const char *buf, unsigned int size)
                 break;
             QCString param = getToken(line, ':');
             if (param == "Content-Length"){
-                // FIXME: use QCString::find() here!
-                const char *p = line.data();
-                for (; *p; p++){
-                    if (*p != ' ')
-                        break;
-                }
-                m_size = atol(p);
+                QCString p = line.stripWhiteSpace();
+                m_size = p.toUInt();
             }
             bOut << param.data() << ":" << line.data() << "\r\n";
         }
