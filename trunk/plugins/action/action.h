@@ -26,7 +26,7 @@
 
 class QWidget;
 class CorePlugin;
-class Exec;
+class QProcess;
 
 struct ActionUserData
 {
@@ -46,12 +46,12 @@ public:
     CorePlugin	*core;
     unsigned long action_data_id;
 protected slots:
-    void ready(Exec*,int,const char*);
-    void msg_ready(Exec*,int,const char*);
+    void ready();
+    void msg_ready();
     void clear();
 protected:
-    std::list<Exec*> m_exec;
-    std::list<Exec*> m_delete;
+    QValueList<QProcess*> m_exec;
+    QValueList<QProcess*> m_delete;
     unsigned long CmdAction;
     virtual bool processEvent(SIM::Event*);
     QWidget *createConfigWindow(QWidget *parent);

@@ -18,54 +18,11 @@
 #ifndef _EXEC_H
 #define _EXEC_H
 
-#include "simapi.h"
-#include "buffer.h"
 #include <qobject.h>
 
-class QSocketNotifier;
-class QTimer;
-class QThread;
+#include "simapi.h"
 
-class EXPORT Exec : public QObject
-{
-    Q_OBJECT
-public:
-    Exec();
-    ~Exec();
-    void setCLocale(bool);  ///?< flag set C locale
-    int result;
-    Buffer bIn;
-    Buffer bOut;
-    Buffer bErr;
-    std::string prog;
-#ifdef WIN32
-    QThread *thread;
-    QThread *outThread;
-    QThread *errThread;
-#endif
-public slots:
-    void execute(const char *prog, const char *input, bool bSync = false);
-    void finished();
-signals:
-    void ready(Exec*, int res, const char *out);
-protected slots:
-    void childExited(int, int);
-    void inReady(int);
-    void outReady(int);
-    void errReady(int);
-protected:
-#ifndef WIN32
-    int child_pid;
-    int hIn;
-    int hOut;
-    int hErr;
-    QSocketNotifier *n_in;
-    QSocketNotifier *n_out;
-    QSocketNotifier *n_err;
-#endif
-private:
-    bool m_setCLocale;
-};
+class QTimer;
 
 class EXPORT ExecManager : public QObject
 {

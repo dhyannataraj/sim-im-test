@@ -16,8 +16,8 @@
  ***************************************************************************/
 
 #include <qtimer.h>
+#include <qprocess.h>
 
-#include "exec.h"
 #include "log.h"
 #include "unquot.h"
 #include "core.h"
@@ -98,9 +98,10 @@ ActionPlugin::ActionPlugin(unsigned base)
 ActionPlugin::~ActionPlugin()
 {
     clear();
-    for (list<Exec*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it)
+    for (QValueList<QProcess*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it)
         delete *it;
     m_exec.clear();
+
     EventCommandRemove(CmdAction).process();
     EventRemovePreferences(action_data_id).process();
     getContacts()->unregisterUserData(action_data_id);
@@ -112,11 +113,14 @@ QWidget *ActionPlugin::createConfigWindow(QWidget *parent)
     return new ActionConfig(parent, data, this);
 }
 
-class MsgExec : public Exec
+class MsgProcess : public QProcess
 {
+protected:
+    Message *m_msg;
 public:
-MsgExec() : Exec() {}
-    Message *msg;
+    MsgProcess(const QString &prog, Message *msg, QObject *parent = 0)
+        : QProcess(prog, parent), m_msg(msg) {}
+    Message *msg() const { return m_msg; }
 };
 
 bool ActionPlugin::processEvent(Event *e)
@@ -244,19 +248,16 @@ bool ActionPlugin::processEvent(Event *e)
         EventTemplate *et = static_cast<EventTemplate*>(e);
         EventTemplate::TemplateExpand *t = et->templateExpand();
         Message *msg = (Message*)(t->param);
+        QProcess *proc;
         if (msg){
-            MsgExec *exec = new MsgExec;
-            exec->msg = msg;
-            m_exec.push_back(exec);
-            connect(exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(msg_ready(Exec*,int,const char*)));
-            QString text = msg->presentation();
-            exec->execute(t->tmpl.local8Bit(), unquoteText(text).local8Bit());
+            QString text = t->tmpl + unquoteText(msg->presentation());
+            proc = new MsgProcess(text, msg, this);
         }else{
-            Exec *exec = new Exec;
-            m_exec.push_back(exec);
-            connect(exec, SIGNAL(ready(Exec*,int,const char*)), this, SLOT(ready(Exec*,int,const char*)));
-            exec->execute(t->tmpl.local8Bit(), NULL);
+            proc = new QProcess(t->tmpl, this);
         }
+        m_exec.push_back(proc);
+        connect(proc, SIGNAL(processExited()), this, SLOT(ready()));
+        proc->start();
         break;
     }
     default:
@@ -265,35 +266,38 @@ bool ActionPlugin::processEvent(Event *e)
     return false;
 }
 
-void ActionPlugin::ready(Exec *exec, int code, const char*)
+void ActionPlugin::ready()
 {
-    for (list<Exec*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
-        if ((*it) == exec){
+    for (QValueList<QProcess*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
+        QProcess *p = *it;
+        if (p && !p->isRunning()){
             m_exec.erase(it);
-            m_delete.push_back(exec);
-            if (code)
-                log(L_DEBUG, "Exec fail: %u", code);
+            m_delete.push_back(p);
+            if (!p->normalExit() || p->exitStatus() != 0)
+                log(L_DEBUG, "QProcess fail: %u, %u", p->normalExit(), p->exitStatus());
             QTimer::singleShot(0, this, SLOT(clear()));
             return;
         }
     }
 }
 
-void ActionPlugin::msg_ready(Exec *exec, int code, const char *out)
+void ActionPlugin::msg_ready()
 {
-    for (list<Exec*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
-        if ((*it) == exec){
+    for (QValueList<QProcess*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it){
+        QProcess *p = *it;
+        if (p && !p->isRunning()){
             m_exec.erase(it);
-            m_delete.push_back(exec);
-            Message *msg = static_cast<MsgExec*>(exec)->msg;
-            if (code){
+            m_delete.push_back(p);
+            Message *msg = static_cast<MsgProcess*>(p)->msg();
+            if (!p->normalExit() || p->exitStatus() != 0){
                 EventMessageReceived e(msg);
                 if (!e.process(this))
                     delete msg;
             }else{
-                if (out && *out){
+                QByteArray bOut = p->readStdout();
+                if (!bOut.isEmpty()){
                     msg->setFlags(msg->getFlags() & ~MESSAGE_RICHTEXT);
-                    msg->setText(QString::fromLocal8Bit(out));
+                    msg->setText(QString::fromLocal8Bit(bOut));
                     EventMessageReceived e(msg);
                     if (!e.process(this))
                         delete msg;
@@ -309,7 +313,7 @@ void ActionPlugin::msg_ready(Exec *exec, int code, const char *out)
 
 void ActionPlugin::clear()
 {
-    for (list<Exec*>::iterator it = m_delete.begin(); it != m_delete.end(); ++it)
+    for (QValueList<QProcess*>::iterator it = m_delete.begin(); it != m_delete.end(); ++it)
         delete (*it);
     m_delete.clear();
 }
