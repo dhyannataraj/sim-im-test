@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-13 18:43+0200\n"
-"PO-Revision-Date: 2006-11-06 14:48+0100\n"
+"PO-Revision-Date: 2006-12-26 14:42+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1308,8 +1308,8 @@ msgid ""
 "_n: Authorize request\n"
 "%n authorize requests"
 msgstr ""
-"Autorisierungsanfrage\n"
-"%n Autorisierungsanfragen"
+"Erlaubnisanfrage\n"
+"%n Erlaubnisanfragen"
 
 #: plugins/_core/msgedit.cpp:651
 msgid "&Grant"
@@ -1325,8 +1325,8 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
-"Autorisierung genehmigt\n"
-"%n Autorisierungen genehmigt"
+"Die Erlaubnis wurde erteilt.\n"
+"%n mal Erlaubnis erteilt."
 
 #: plugins/_core/msgedit.cpp:721
 #, c-format
@@ -1334,8 +1334,8 @@ msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 msgstr ""
-"Autorisierung abgelehnt\n"
-"%n Autorisierungen abgelehnt"
+"Die Erlaubnis wurde verweigert.\n"
+"%n mal Erlaubnis verweigert."
 
 #: plugins/_core/msgedit.cpp:742
 #, c-format
@@ -1343,8 +1343,8 @@ msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 msgstr ""
-"Hinzugefügt zur Kontaktliste\n"
-"%n Mal hinzugefügt zur Kontaktliste "
+"Zur Kontaktliste hinzugefügt.\n"
+"%n mal zur Kontaktliste hinzugefügt."
 
 #: plugins/_core/msgedit.cpp:763
 #, c-format
@@ -1352,8 +1352,8 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
-"Gelöscht von Kontaktliste\n"
-"%n Mal gelöscht von Kontaktliste "
+"Von der Kontaktliste gelöscht.\n"
+"%n mal gelöscht von Kontaktliste."
 
 #: plugins/_core/msgedit.cpp:784
 #, c-format
@@ -1362,7 +1362,7 @@ msgid ""
 "%n times status changed"
 msgstr ""
 "Status geändert\n"
-"%n Mal Status geändert "
+"%n mal Status geändert "
 
 #: plugins/_core/msgedit.cpp:899
 msgid "Cancel"
@@ -1394,15 +1394,15 @@ msgstr "&Kontaktliste"
 
 #: plugins/_core/msgedit.cpp:1661
 msgid "&Authorization request"
-msgstr "Autorisierungsanfrage"
+msgstr "Erlaubnisanfrage"
 
 #: plugins/_core/msgedit.cpp:1670
 msgid "&Grant autorization"
-msgstr "Autorisierung &gewähren"
+msgstr "Erlaubnis &erteilen"
 
 #: plugins/_core/msgedit.cpp:1679
 msgid "&Refuse autorization"
-msgstr "Autorisierung &ablehnen"
+msgstr "Erlaubnis &verweigern"
 
 #: plugins/_core/msgedit.cpp:1688
 msgid "Added"
@@ -6051,25 +6051,25 @@ msgstr "&Sicherheit"
 #: rc.cpp:165
 #, no-c-format
 msgid "My &authorization is required before users add me to Contact List"
-msgstr "&Meine Autorisierung ist zum Hinzufügen erforderlich"
+msgstr "&Meine Erlaubnis ist erforderlich, damit andere Benutzer mich zur Kontaktliste hinzufügen können."
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 75
 #: rc.cpp:168
 #, no-c-format
 msgid "Don't show my &IP-address"
-msgstr "Meine &IP-Adresse anderen nicht anzeigen"
+msgstr "Meine &IP-Adresse soll anderen nicht angezeigt werden."
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 90
 #: rc.cpp:172
 #, no-c-format
 msgid "Allow other to view my &status from the Web"
-msgstr "Erlaube anderen meinem &Status im Web anzusehen"
+msgstr "Erlaube anderen meinem &Status vom Web aus anzusehen."
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 101
 #: rc.cpp:175
 #, no-c-format
 msgid "I&gnore user authorization"
-msgstr "Benutzerauthentisierung i&gnorieren"
+msgstr "Benutzererlaubnis i&gnorieren und ohne Erlaubnisfrage zur Kontaktliste hinzufügen."
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 112
 #: rc.cpp:178
@@ -6087,31 +6087,31 @@ msgstr "Direktverbindungen"
 #: rc.cpp:184
 #, no-c-format
 msgid "Allow &direct connection from any user"
-msgstr "&Direkte Verbindung von jedem Benutzer erlauben"
+msgstr "&Direkte Verbindung von jedem Benutzer aus erlauben"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 153
 #: rc.cpp:187
 #, no-c-format
 msgid "Allow direct connection from user listed in &contact list"
-msgstr "Direkte Verbindung von Benutzer aus &Kontaktliste erlauben"
+msgstr "Direkte Verbindung von Benutzern aus der &Kontaktliste erlauben"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 164
 #: rc.cpp:190
 #, no-c-format
 msgid "Allow direct connection from user &upon authorization"
-msgstr "Direkte Verbindung von Benutzer nach &Autorisierung erlauben"
+msgstr "Direkte Verbindungen mit Benutzern nach &Erlaubnis gewähren"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 200
 #: rc.cpp:193
 #, no-c-format
 msgid "&Visible list"
-msgstr "&Sichtbarkeit-Liste"
+msgstr "Liste \"&Sichtbarkeit\""
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 228
 #: rc.cpp:196
 #, no-c-format
 msgid "&Invisible list"
-msgstr "&Unsichbarkeit-Liste"
+msgstr "Liste \"&Unsichbarkeit\""
 
 #. i18n: file ./plugins/icq/icqinfobase.ui line 20
 #: rc.cpp:199
@@ -7533,7 +7533,7 @@ msgstr "Sichtbar"
 #: rc.cpp:1237
 #, no-c-format
 msgid "Awaiting authorization"
-msgstr "Autorisierung ausstehend"
+msgstr "Warte auf Erlaubnis"
 
 #. i18n: file ./plugins/_core/userviewcfgbase.ui line 642
 #: rc.cpp:1240
@@ -8028,7 +8028,7 @@ msgstr "Rechner:"
 #: rc.cpp:1726
 #, no-c-format
 msgid "Proxy require &authorization"
-msgstr "Der Proxy-Server benötigt &Authorisation"
+msgstr "Der Proxy-Server benötigt &Anmeldedaten"
 
 #. i18n: file ./plugins/proxy/proxycfgbase.ui line 129
 #: rc.cpp:1729
