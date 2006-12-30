@@ -101,6 +101,7 @@ struct CoreData
     SIM::Data	HistoryDirection;
     SIM::Data	HistorySize[2];
     SIM::Data	HistoryBar[7];
+    SIM::Data	HistoryAvatarBar[7];
     SIM::Data	HistorySearch;
     SIM::Data	Unread;
     SIM::Data	NoShowAutoReply;
@@ -287,6 +288,7 @@ const unsigned long CmdSearchInfo			= (CmdBase + 101);
 const unsigned long CmdSearchMsg			= (CmdBase + 102);
 const unsigned long CmdSearchOptions		= (CmdBase + 103);
 const unsigned long CmdFetchAway            = (CmdBase + 104);
+const unsigned long CmdHistoryAvatar		= (CmdBase + 105);
 
 const unsigned long CmdContactGroup			= (CmdBase + 0x100);
 const unsigned long CmdUnread				= (CmdBase + 0x200);
@@ -316,6 +318,7 @@ const unsigned long MenuSearchGroups		= (CmdBase + 17);
 const unsigned long MenuSearchOptions		= (CmdBase + 18);
 
 const unsigned long BarHistory				= (CmdBase + 1);
+const unsigned long BarHistoryAvatar			= (CmdBase + 2);
 
 #include "core_events.h"
 

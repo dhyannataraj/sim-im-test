@@ -51,6 +51,7 @@ protected:
     QStatusBar	*m_status;
     MsgViewBase	*m_view;
     CToolBar	*m_bar;
+    CToolBar	*m_avatar_bar;
     QString     m_filter;
     HistoryProgressBar	*m_progress;
     HistoryIterator		*m_it;
@@ -60,8 +61,6 @@ protected:
     unsigned m_page;
     std::vector<QString> m_states;
     unsigned m_history_page_count;
-    QDockWindow		*m_avatar_window;
-    QLabel		*m_avatar_label;
 };
 
 #endif

@@ -35,8 +35,6 @@
 #include <qlayout.h>
 #include <qstringlist.h>
 #include <qmessagebox.h>
-#include <qpixmap.h>
-#include <qlabel.h>
 #include <qdockarea.h>
 
 #ifdef USE_KDE
@@ -85,8 +83,44 @@ void HistoryProgressBar::setProgress(unsigned n)
 HistoryWindow::HistoryWindow(unsigned long id)
 {
     m_history_page_count=CorePlugin::m_plugin->getHistoryPage();
-    m_avatar_window=NULL;
-    m_avatar_label=NULL;
+    m_avatar_bar=NULL;
+
+    setWFlags(WDestructiveClose);
+    m_id = id;
+    SET_WNDPROC("history")
+    setIcon(Pict("history"));
+    setName();
+    m_view = new MsgViewBase(this, NULL, id);
+    setCentralWidget(m_view);
+
+    EventToolbar eHistoryBar(BarHistory, this);
+    eHistoryBar.process();
+    m_bar = eHistoryBar.toolBar();
+    m_bar->setParam((void*)m_id);
+    restoreToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
+    connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
+    m_status = statusBar();
+    m_progress = NULL;
+    m_page = 0;
+
+    Command cmdHistory;
+    cmdHistory->id	= CmdHistoryFind;
+    cmdHistory->param	= (void*)m_id;
+    EventCommandWidget eHistoryWidget(cmdHistory);
+    eHistoryWidget.process();
+    // FIXME: use qobject_cast in Qt4
+    CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eHistoryWidget.widget());
+    if (cmbFind){
+        QString history = CorePlugin::m_plugin->getHistorySearch();
+        while (history.length()){
+            cmbFind->insertItem(getToken(history, ';'));
+        }
+        cmbFind->setText(QString::null);
+    }
+    m_it	= NULL;
+    m_bDirection = CorePlugin::m_plugin->getHistoryDirection();
+    m_bar->checkState();
+    m_bar->show();
 
     if (CorePlugin::m_plugin->getShowAvatarInHistory()) {
         unsigned j=0;
@@ -99,53 +133,40 @@ HistoryWindow::HistoryWindow(unsigned long id)
         }
 
         if (!img.isNull()) {
-            m_avatar_window=new QDockWindow(this);
-            m_avatar_label=new QLabel(m_avatar_window);
-            m_avatar_label->setPixmap(img);
-            m_avatar_window->setWidget(m_avatar_label);
-            m_avatar_window->setOrientation(Qt::Vertical);
+            EventToolbar(BarHistoryAvatar, EventToolbar::eAdd).process();
+            EventToolbar e(BarHistoryAvatar, this);
+            e.process();
+            m_avatar_bar = e.toolBar();
+            m_avatar_bar->setOrientation(Qt::Vertical);
+            m_avatar_bar->setHorizontalStretchable(false);
+            m_avatar_bar->setVerticalStretchable(false);
+            //restoreToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
+
+            Command cmd;
+            cmd->id = CmdHistoryAvatar;
+            cmd->bar_id = BarHistoryAvatar;
+            cmd->bar_grp	 = 0x2000;
+            cmd->text = QString::null;
+            cmd->icon = "empty";
+            cmd->flags = BTN_LABEL;
+
+            EventCommandCreate(cmd).process();
+
+            Command cmdw;
+            cmdw->id	= CmdHistoryAvatar;
+            EventCommandWidget eWidget(cmdw);
+            eWidget.process();
+            CToolLabel *lblAvatar = dynamic_cast<CToolLabel*>(eWidget.widget());
+
+            if (lblAvatar) {
+                lblAvatar->setPixmap(img);
+            }
+            m_avatar_bar->checkState();
+            m_avatar_bar->show();
+            m_avatar_bar->area()->moveDockWindow(m_avatar_bar, 0);
         }
     }
 
-    setWFlags(WDestructiveClose);
-    m_id = id;
-    SET_WNDPROC("history")
-    setIcon(Pict("history"));
-    setName();
-    m_view = new MsgViewBase(this, NULL, id);
-    setCentralWidget(m_view);
-
-    EventToolbar e(BarHistory, this);
-    e.process();
-    m_bar = e.toolBar();
-    m_bar->setParam((void*)m_id);
-    restoreToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
-    connect(this, SIGNAL(toolBarPositionChanged(QToolBar*)), this, SLOT(toolbarChanged(QToolBar*)));
-    m_status = statusBar();
-    m_progress = NULL;
-    m_page = 0;
-
-    if (m_avatar_window && CorePlugin::m_plugin->getShowAvatarInHistory())
-        m_avatar_window->area()->moveDockWindow(m_avatar_window, 0);
-
-    Command cmd;
-    cmd->id		= CmdHistoryFind;
-    cmd->param	= (void*)m_id;
-    EventCommandWidget eWidget(cmd);
-    eWidget.process();
-    // FIXME: use qobject_cast in Qt4
-    CToolCombo *cmbFind = dynamic_cast<CToolCombo*>(eWidget.widget());
-    if (cmbFind){
-        QString history = CorePlugin::m_plugin->getHistorySearch();
-        while (history.length()){
-            cmbFind->insertItem(getToken(history, ';'));
-        }
-        cmbFind->setText(QString::null);
-    }
-    m_it	= NULL;
-    m_bDirection = CorePlugin::m_plugin->getHistoryDirection();
-    m_bar->checkState();
-    m_bar->show();
     fill();
 }
 
@@ -153,8 +174,6 @@ HistoryWindow::~HistoryWindow()
 {
     if (m_it)
         delete m_it;
-    if (m_avatar_window)
-        delete m_avatar_window;
 }
 
 void HistoryWindow::setName()
@@ -303,6 +322,7 @@ void HistoryWindow::resizeEvent(QResizeEvent *e)
 void HistoryWindow::toolbarChanged(QToolBar*)
 {
     saveToolbar(m_bar, CorePlugin::m_plugin->data.HistoryBar);
+    //saveToolbar(m_avatar_bar, CorePlugin::m_plugin->data.HistoryAvatarBar);
 }
 
 void HistoryWindow::fill()

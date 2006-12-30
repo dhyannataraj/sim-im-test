@@ -269,6 +269,7 @@ static DataDef coreData[] =
         { "HistoryDirection", DATA_BOOL, 1, 0 },
         { "HistorySize", DATA_ULONG, 2, 0 },
         { "HistoryBar", DATA_LONG, 7, 0 },
+        { "HistoryAvatarBar", DATA_LONG, 7, 0 },
         { "HistorySearch", DATA_UTF, 1, 0 },
         { "Unread", DATA_STRING, 1, 0 },
         { "NoShowAutoReply", DATA_STRLIST, 1, 0 },
@@ -711,7 +712,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->flags		= COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
 
-    cmd->id			= CmdHistoryFind;
+    cmd->id		= CmdHistoryFind;
     cmd->text		= I18N_NOOP("&Filter");
     cmd->icon		= "filter";
     cmd->icon_on	= "filter";
