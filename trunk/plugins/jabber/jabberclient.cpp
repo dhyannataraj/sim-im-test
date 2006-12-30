@@ -3075,29 +3075,34 @@ void JabberClient::setupContact(Contact *contact, void *_data)
 
 QImage JabberClient::userPicture(JabberUserData *d)
 {
-    QImage img = QImage(d ? photoFile(d) : photoFile(&data.owner));
-    if (img.isNull()) {
-        img=QImage(d ? logoFile(d) : logoFile(&data.owner));
+    JabberUserData *_d = d ? d : &data.owner;
+    QImage img;
+
+    if (_d->PhotoWidth.toLong() && _d->PhotoHeight.toLong()) {
+        img = QImage(photoFile(_d));
+    } else if (_d->LogoWidth.toLong() && _d->LogoHeight.toLong()) {
+        img=QImage(logoFile(_d));
     }
 
-    if(img.isNull())
+    if (!img.isNull()) {
+        int w = img.width();
+        int h = img.height();
+        if (h > w){
+            if (h > 60){
+                w = w * 60 / h;
+                h = 60;
+            }
+        }else{
+            if (w > 60){
+                h = h * 60 / w;
+                w = 60;
+            }
+        }
+
+        return img.scale(w, h);
+    } else {
         return img;
-
-    int w = img.width();
-    int h = img.height();
-    if (h > w){
-        if (h > 60){
-            w = w * 60 / h;
-            h = 60;
-        }
-    }else{
-        if (w > 60){
-            h = h * 60 / w;
-            w = 60;
-        }
-   }
-
-    return img.scale(w, h);
+    }
 }
 
 QImage JabberClient::userPicture(unsigned id)
