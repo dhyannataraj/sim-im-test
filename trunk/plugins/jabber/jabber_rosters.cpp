@@ -524,7 +524,9 @@ void InfoRequest::element_end(const QString& el)
 void InfoRequest::char_data(const QString& str)
 {
     if (m_cdata){
-        m_cdata->pack(str);
+        // FIXME: packing as QSrting added 0xb2 0x20
+        //to the beginning and broked further picures decoding from base64
+        m_cdata->pack(str.ascii(), str.length());
         return;
     }
     if (m_data)
