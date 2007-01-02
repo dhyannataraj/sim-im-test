@@ -963,7 +963,8 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
             return;
         }
         if (m_bIcq){
-            for (QValueListIterator<QString> its = smiles.begin(); its != smiles.end(); ++its){
+            QStringList::ConstIterator its;
+            for (its = smiles.constBegin(); its != smiles.constEnd(); ++its){
                 for (unsigned nSmile = 0; nSmile < 26; nSmile++){
                     if ((*its) != def_smiles[nSmile])
                         continue;

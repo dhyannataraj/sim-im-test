@@ -133,18 +133,18 @@ GpgPlugin::~GpgPlugin()
     delete m_passphraseDlg;
     unregisterMessage();
     free_data(gpgData, &data);
-    QValueList<DecryptMsg>::iterator it;
-    for (it = m_decrypt.begin(); it != m_decrypt.end(); ++it){
+    QValueList<DecryptMsg>::ConstIterator it;
+    for (it = m_decrypt.constBegin(); it != m_decrypt.constEnd(); ++it){
         delete (*it).msg;
         delete (*it).process;
     }
-    for (it = m_import.begin(); it != m_import.end(); ++it){
+    for (it = m_import.constBegin(); it != m_import.constEnd(); ++it){
         delete (*it).msg;
         delete (*it).process;
     }
-    for (it = m_public.begin(); it != m_public.end(); ++it)
+    for (it = m_public.constBegin(); it != m_public.constEnd(); ++it)
         delete (*it).process;
-    for (it = m_wait.begin(); it != m_wait.end(); ++it)
+    for (it = m_wait.constBegin(); it != m_wait.constEnd(); ++it)
         delete (*it).msg;
     getContacts()->unregisterUserData(user_data_id);
 }

@@ -66,8 +66,8 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
                       .arg(quote(aboutData->bugAddress())));
     QString txt;
     QValueList<KAboutPerson>::ConstIterator it;
-    for (it = aboutData->authors().begin();
-            it != aboutData->authors().end(); ++it)
+    for (it = aboutData->authors().constBegin();
+            it != aboutData->authors().constEnd(); ++it)
     {
         txt += addPerson(&(*it));
         txt += "<br>";

@@ -940,8 +940,7 @@ bool DirectClient::copyQueue(DirectClient *to)
 {
     if (m_state == Logged)
         return false;
-    for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it)
-        to->m_queue.push_back(*it);
+    to->m_queue = m_queue;
     m_queue.clear();
     return true;
 }
@@ -1421,8 +1420,9 @@ bool DirectClient::cancelMessage(Message *msg)
 
 void DirectClient::addPluginInfoRequest(unsigned plugin_index)
 {
-    for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
-        SendDirectMsg &sm = *it;
+    QValueList<SendDirectMsg>::ConstIterator it;
+    for (it = m_queue.constBegin(); it != m_queue.constEnd(); ++it){
+        const SendDirectMsg &sm = *it;
         if (sm.msg)
             continue;
         if (sm.type == plugin_index)

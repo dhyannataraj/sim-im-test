@@ -98,7 +98,8 @@ ActionPlugin::ActionPlugin(unsigned base)
 ActionPlugin::~ActionPlugin()
 {
     clear();
-    for (QValueList<QProcess*>::iterator it = m_exec.begin(); it != m_exec.end(); ++it)
+    QValueList<QProcess*>::ConstIterator it;
+    for (it = m_exec.constBegin(); it != m_exec.constEnd(); ++it)
         delete *it;
     m_exec.clear();
 
@@ -313,7 +314,8 @@ void ActionPlugin::msg_ready()
 
 void ActionPlugin::clear()
 {
-    for (QValueList<QProcess*>::iterator it = m_delete.begin(); it != m_delete.end(); ++it)
+    QValueList<QProcess*>::ConstIterator it;
+    for (it = m_delete.constBegin(); it != m_delete.constEnd(); ++it)
         delete (*it);
     m_delete.clear();
 }

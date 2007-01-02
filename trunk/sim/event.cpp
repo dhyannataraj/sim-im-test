@@ -36,7 +36,8 @@ EventReceiver::EventReceiver(unsigned priority)
 {
     m_priority = priority;
     QValueList<EventReceiver*>::iterator it;
-    for (it = receivers->begin(); it != receivers->end(); ++it)
+    QValueList<EventReceiver*>::iterator end = receivers->end();
+    for (it = receivers->begin(); it != end; ++it)
         if ((*it)->priority() >= priority)
             break;
     receivers->insert(it, this);
@@ -65,15 +66,16 @@ bool Event::process(EventReceiver *from)
     if (receivers == NULL)
         return false;
     g_iLevel++;
-    QValueList<EventReceiver*>::iterator it = receivers->begin();
+    QValueList<EventReceiver*>::ConstIterator it = receivers->begin();
+    QValueList<EventReceiver*>::ConstIterator end = receivers->constEnd();
     if (from){
         it = receivers->find(from);
-        if(it != receivers->end())
+        if(it != end)
             ++it;
         else
             return false;
     }
-    for (; it != receivers->end(); ++it){
+    for (; it != end; ++it){
         EventReceiver *receiver = *it;
         if (receiver) {
             bool res = receiver->processEvent(this);
@@ -86,7 +88,7 @@ bool Event::process(EventReceiver *from)
             if(g_bChanged) {
                 // adjust
                 it = receivers->find(receiver);
-                if(it == receivers->end())
+                if(it == end)
                     return false;
             }
         }

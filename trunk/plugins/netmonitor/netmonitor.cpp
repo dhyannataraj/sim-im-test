@@ -101,7 +101,8 @@ QCString NetmonitorPlugin::getConfig()
     saveState();
     setShow(monitor != NULL);
     QString packets;
-    for (QValueList<unsigned>::iterator it = m_packets.begin(); it != m_packets.end(); ++it){
+    QValueList<unsigned>::ConstIterator it;
+    for (it = m_packets.constBegin(); it != m_packets.constEnd(); ++it){
         if (packets.length())
             packets += ',';
         packets += QString::number(*it);
