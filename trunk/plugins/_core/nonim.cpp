@@ -49,7 +49,7 @@ void NonIM::add(unsigned grp_id)
     if (nick.isEmpty()){
         nick = edtFirst->text();
         if (!nick.isEmpty() && !edtLast->text().isEmpty())
-            nick += " ";
+            nick += ' ';
         nick += edtLast->text();
     }
     if (nick.isEmpty())

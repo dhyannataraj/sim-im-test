@@ -92,7 +92,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
         QString p = m_name.left(n);
         while (!p.isEmpty()){
             if (!path.isEmpty())
-                path += "/";
+                path += '/';
             QString pp = getToken(p, '/');
             if (pp == ".."){
                 QString errMsg = i18n("Bad path: %1") .arg(m_name);
@@ -101,7 +101,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
                 return;
             }
             path += pp;
-            QDir dd(ft->dir() + "/" + path);
+            QDir dd(ft->dir() + '/' + path);
             if (!dd.exists()){
                 QDir d(ft->dir());
                 if (!d.mkdir(path)){
@@ -302,7 +302,7 @@ void FileTransferDlg::process()
             break;
         }
         if (!fn.isEmpty()){
-            status += " ";
+            status += ' ';
             fn = fn.replace(QRegExp("\\\\"), "/");
 #ifdef WIN32
             fn = fn.replace(QRegExp("/"), "\\");
@@ -446,7 +446,7 @@ void FileTransferDlg::calcSpeed(bool bTransfer)
     }else{
         speedText = QString::number(speed, 'f', 3);
     }
-    speedText += " ";
+    speedText += ' ';
     switch (n_speed){
     case 2:
         speedText += i18n("Mb/s");

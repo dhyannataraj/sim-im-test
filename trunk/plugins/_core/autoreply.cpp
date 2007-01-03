@@ -70,7 +70,7 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
     }
     if (text.isEmpty())
         return;
-    setCaption(i18n("Autoreply message") + " " + i18n(text));
+    setCaption(i18n("Autoreply message") + ' ' + i18n(text));
     setIcon(Pict(icon));
     m_time = 15;
     lblTime->setText(i18n("Close after %n second", "Close after %n seconds", m_time));
@@ -131,7 +131,7 @@ void AutoReplyDialog::accept()
 void AutoReplyDialog::help()
 {
     stopTimer();
-    QString helpString = i18n("In text you can use:") + "\n";
+    QString helpString = i18n("In text you can use:") + '\n';
     EventTmplHelp e(helpString);
     e.process();
     BalloonMsg::message(e.help(), btnHelp, false, 400);

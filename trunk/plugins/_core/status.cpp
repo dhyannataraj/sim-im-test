@@ -332,7 +332,7 @@ bool CommonStatus::processEvent(Event *e)
                         title = data.client->name();
                         int n = title.find(".");
                         if (n > 0)
-                            title = title.left(n) + " " + title.mid(n + 1);
+                            title = title.left(n) + ' ' + title.mid(n + 1);
                         break;
                     }
                 }

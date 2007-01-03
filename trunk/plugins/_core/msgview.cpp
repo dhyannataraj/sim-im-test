@@ -315,7 +315,7 @@ void MsgViewBase::update()
         delete msg;
     }
     viewport()->setUpdatesEnabled(true);
-    append(text);   //<= here occured a crash
+    append(text);   //<= here occurred a crash
     if (!CorePlugin::m_plugin->getOwnColors())
         setBackground(i);
     if ((paraFrom != paraTo) || (indexFrom != indexTo))

@@ -125,7 +125,7 @@ bool MsgContacts::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(*it);
                 if (contact){
                     if (!contacts.isEmpty())
-                        contacts += ";";
+                        contacts += ';';
                     contacts += QString("sim:%1,%2") .arg(*it) .arg(contact->getName());
                 }
             }

@@ -116,7 +116,7 @@ void StatusLabel::setPict()
     QPixmap p = Pict(icon);
     setPixmap(p);
     QString tip = CorePlugin::m_plugin->clientName(m_client);
-    tip += "\n";
+    tip += '\n';
     tip += i18n(text);
     QToolTip::add(this, tip);
     resize(p.width(), p.height());

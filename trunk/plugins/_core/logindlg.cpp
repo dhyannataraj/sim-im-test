@@ -53,7 +53,7 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     setButtonsPict(this);
     lblMessage->setText(text);
     if (m_client){
-        setCaption(caption() + " " + client->name());
+        setCaption(caption() + ' ' + client->name());
         setIcon(Pict(m_client->protocol()->description()->icon));
     }else{
         setCaption(i18n("Select profile"));
@@ -259,7 +259,7 @@ static void rmDir(const QString &path)
     for (it = l.begin(); it != l.end(); ++it){
         if (((*it) == ".") || ((*it) == "..")) continue;
         QString p = path;
-        p += "/";
+        p += '/';
         p += *it;
         rmDir(p);
     }
@@ -267,7 +267,7 @@ static void rmDir(const QString &path)
     for (it = l.begin(); it != l.end(); ++it){
         if (((*it) == ".") || ((*it) == "..")) continue;
         QString p = path;
-        p += "/";
+        p += '/';
         p += *it;
         d.remove(p);
     }

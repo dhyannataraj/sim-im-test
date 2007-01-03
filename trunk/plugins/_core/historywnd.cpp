@@ -182,7 +182,7 @@ void HistoryWindow::setName()
     Contact *contact = getContacts()->contact(m_id);
     if (contact)
         name = contact->getName();
-    setCaption(i18n("History") + " " + name);
+    setCaption(i18n("History") + ' ' + name);
 }
 
 bool HistoryWindow::processEvent(Event *e)
@@ -425,7 +425,7 @@ void HistoryWindow::addHistory(const QString &str)
         if (i++ > MAX_HISTORY)
             break;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += quoteChars(*it, ";");
     }
     CorePlugin::m_plugin->setHistorySearch(res);

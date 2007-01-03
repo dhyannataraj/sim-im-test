@@ -3816,7 +3816,7 @@ QCString CorePlugin::getConfig()
         const QString errorMessage = fCFG.errorString();
         fCFG.close();
         if (status != IO_Ok) {
-            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
+            log(L_ERROR, "IO error writing to file %s : %s", (const char*)fCFG.name().local8Bit(), (const char*)errorMessage.local8Bit());
         } else {
             // rename to normal file
             QFileInfo fileInfo(fCFG.name());
@@ -3871,7 +3871,7 @@ QCString CorePlugin::getConfig()
         const QString errorMessage = f.errorString();
         f.close();
         if (status != IO_Ok) {
-            log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+            log(L_ERROR, "IO error writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
         } else {
             // rename to normal file
             QFileInfo fileInfo(f.name());

@@ -278,7 +278,7 @@ void HistoryConfig::apply()
             const QString errorMessage = f.errorString();
             f.close();
             if (status != IO_Ok) {
-                log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+                log(L_ERROR, "IO error writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
             } else {
                 // rename to normal file
                 QFileInfo fileInfo(f.name());
@@ -403,7 +403,7 @@ void HistoryConfig::copy()
     }else{
         newName = name;
     }
-    newName += ".";
+    newName += '.';
     newName += QString::number(next + 1);
     QString n;
     n = STYLES;
@@ -437,7 +437,7 @@ void HistoryConfig::copy()
     const QString errorMessage = to.errorString();
     to.close();
     if (status != IO_Ok) {
-        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)to.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        log(L_ERROR, "IO error writing to file %s : %s", (const char*)to.name().local8Bit(), (const char*)errorMessage.local8Bit());
         return;
     }
 
@@ -684,7 +684,7 @@ void HistoryConfig::fillPreview()
     m5.setTime(now);
     m5.setContact(contact->id());
     if (getContacts()->nClients())
-        m5.setClient((getContacts()->getClient(0)->name() + "."));
+        m5.setClient((getContacts()->getClient(0)->name() + '.'));
     edtPreview->addMessage(&m5);
     delete contact;
     CorePlugin::m_plugin->setUseSmiles(saveSmiles);

@@ -103,7 +103,7 @@ void ConfigItem::init(unsigned id)
     m_id = id;
     QString key = QString::number(++curIndex);
     while (key.length() < 4)
-        key = "0" + key;
+        key = '0' + key;
     setText(1, key);
 }
 
@@ -581,7 +581,7 @@ void ConfigureDialog::setTitle()
     if (m_nUpdates){
         title += " [";
         title += i18n("Update info");
-        title += "]";
+        title += ']';
     }
     setCaption(title);
 }

@@ -97,14 +97,14 @@ void PhoneDetails::getNumber()
     QString res;
     bool bOK = true;
     if (cmbCountry->currentItem() > 0){
-        res = "+";
+        res = '+';
         res += QString::number(getComboValue(cmbCountry, getCountries()));
-        res += " ";
+        res += ' ';
     }else{
         bOK = false;
     }
     if (edtAreaCode->text().length() > 0){
-        res += "(";
+        res += '(';
         res += edtAreaCode->text();
         res += ") ";
     }else{

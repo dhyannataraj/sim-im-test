@@ -191,7 +191,7 @@ bool MsgFile::processEvent(Event *e)
                 file = "";
                 for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
                     if (!file.isEmpty())
-                        file += ";";
+                        file += ';';
                     file += quoteChars(*it, ";");
                 }
                 if (!file.isEmpty()){

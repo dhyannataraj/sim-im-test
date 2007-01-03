@@ -95,7 +95,7 @@ void ARConfig::toggled(bool bState)
 
 void ARConfig::help()
 {
-    QString helpString = i18n("In text you can use:") + "\n";
+    QString helpString = i18n("In text you can use:") + '\n';
     EventTmplHelp e(helpString);
     e.process();
     BalloonMsg::message(e.help(), btnHelp, false, 400);

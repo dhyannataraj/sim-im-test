@@ -83,7 +83,7 @@ void ConfigItem::init(unsigned id)
     m_id = id;
     QString key = QString::number(++curIndex);
     while (key.length() < 4)
-        key = "0" + key;
+        key = '0' + key;
     setText(1, key);
 }
 
@@ -316,7 +316,7 @@ void UserConfig::setTitle()
         title = i18n("Setting for group '%1'") .arg(groupName);
     }
     if (m_nUpdates){
-        title += " ";
+        title += ' ';
         title += i18n("[Update info]");
     }
     setCaption(title);

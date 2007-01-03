@@ -210,10 +210,10 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             text += " (";
             if (item->m_nContactsOnline){
                 text += QString::number(item->m_nContactsOnline);
-                text += "/";
+                text += '/';
             }
             text += QString::number(item->m_nContacts);
-            text += ")";
+            text += ')';
         }
         QImage img = Image(item->isOpen() ? "expanded" : "collapsed");
         if (!img.isNull())
@@ -1021,7 +1021,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
             m_searchItem = NULL;
             list<QListViewItem*>::iterator it;
             for (it = closed_items.begin(); it != closed_items.end(); ++it)
-                 (*it)->setOpen(FALSE);
+                 (*it)->setOpen(false);
         }else{
             search(new_items);
             if (new_items.empty()){
@@ -1586,14 +1586,14 @@ void UserView::joinContacts(void*)
     if (!contact2->getPhones().isEmpty()){
         QString phones = contact1->getPhones();
         if (!phones.isEmpty())
-            phones += ";";
+            phones += ';';
         phones += contact2->getPhones();
         contact1->setPhones(phones);
     }
     if (!contact2->getEMails().isEmpty()){
         QString mails = contact1->getEMails();
         if (!mails.isEmpty())
-            mails += ";";
+            mails += ';';
         mails += contact2->getEMails();
         contact1->setEMails(mails);
     }
@@ -1630,7 +1630,7 @@ void UserView::search(list<QListViewItem*> &items)
         return;
     list<QListViewItem*>::iterator it;
     for (it = closed_items.begin(); it != closed_items.end(); ++it)
-         (*it)->setOpen(FALSE);
+         (*it)->setOpen(false);
     for (QListViewItem *item = firstChild(); item; item = item->nextSibling())
         search(item, items);
 }
@@ -1650,7 +1650,7 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
     //Search for substring in contact name
     if (name.upper().find(m_search.upper())>-1) {
         log(L_DEBUG, "Contact List search: Found name %s", (const char *)name.local8Bit());
-        item->parent()->setOpen(TRUE);
+        item->parent()->setOpen(true);
         items.push_back(item);
     } else {
       void *data;
@@ -1664,7 +1664,7 @@ void UserView::search(QListViewItem *item, list<QListViewItem*> &items)
           log(L_DEBUG, "Contact List search: Examining ID %s", (const char *)contactName.local8Bit());
           if (contactName.upper().find(m_search.upper())>-1) {
               log(L_DEBUG, "Contact List search: Found ID %s", (const char *)contactName.local8Bit());
-              item->parent()->setOpen(TRUE);
+              item->parent()->setOpen(true);
               items.push_back(item);
               break;
           }

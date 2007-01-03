@@ -60,7 +60,7 @@ protected:
     void customizeMenu(unsigned long id);
     unsigned cur_id;
     CMDS_MAP bars;
-    MENU_MAP menues;
+    MENU_MAP menus;
 };
 
 #endif

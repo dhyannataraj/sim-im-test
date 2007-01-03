@@ -40,7 +40,7 @@ Commands::~Commands()
         delete (*it).second;
     }
     MENU_MAP::iterator itm;
-    for (itm = menues.begin(); itm != menues.end(); ++itm){
+    for (itm = menus.begin(); itm != menus.end(); ++itm){
         MenuDef &def = (*itm).second;
         if (def.menu)
             delete def.menu;
@@ -69,7 +69,7 @@ void Commands::removeBar(unsigned id)
 
 void Commands::clear()
 {
-    for (MENU_MAP::iterator it = menues.begin(); it != menues.end(); ++it){
+    for (MENU_MAP::iterator it = menus.begin(); it != menus.end(); ++it){
         if ((*it).second.menu){
             delete (*it).second.menu;
             (*it).second.menu = NULL;
@@ -81,26 +81,26 @@ CommandsDef *Commands::createMenu(unsigned id)
 {
     if (id == MenuLocation)
         id = MenuLocation;
-    MENU_MAP::iterator it = menues.find(id);
-    if (it != menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it != menus.end())
         return (*it).second.def;
     MenuDef def;
     def.def  = new CommandsDef(id, true);
     def.menu = NULL;
     def.param = NULL;
-    menues.insert(MENU_MAP::value_type(id, def));
+    menus.insert(MENU_MAP::value_type(id, def));
     return def.def;
 }
 
 void Commands::removeMenu(unsigned id)
 {
-    MENU_MAP::iterator it = menues.find(id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it == menus.end())
         return;
     if ((*it).second.menu)
         delete (*it).second.menu;
     delete (*it).second.def;
-    menues.erase(it);
+    menus.erase(it);
 }
 
 CToolBar *Commands::show(unsigned id, QMainWindow *parent)
@@ -114,8 +114,8 @@ CToolBar *Commands::show(unsigned id, QMainWindow *parent)
 
 CMenu *Commands::get(CommandDef *cmd)
 {
-    MENU_MAP::iterator it = menues.find(cmd->popup_id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(cmd->popup_id);
+    if (it == menus.end())
         return NULL;
     MenuDef &d = (*it).second;
     if (d.menu && ((cmd->flags & COMMAND_NEW_POPUP) == 0)){
@@ -132,8 +132,8 @@ CMenu *Commands::get(CommandDef *cmd)
 
 CMenu *Commands::processMenu(unsigned id, void *param, int key)
 {
-    MENU_MAP::iterator it = menues.find(id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it == menus.end())
         return NULL;
     MenuDef &d = (*it).second;
     if (key){
@@ -177,8 +177,8 @@ CMenu *Commands::processMenu(unsigned id, void *param, int key)
 
 CommandsDef *Commands::getDef(unsigned id)
 {
-    MENU_MAP::iterator it = menues.find(id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it == menus.end())
         return NULL;
     return (*it).second.def;
 }
@@ -296,8 +296,8 @@ void Commands::customize(CommandsDef *def)
 
 void Commands::customizeMenu(unsigned long id)
 {
-    MENU_MAP::iterator it = menues.find(id);
-    if (it == menues.end())
+    MENU_MAP::iterator it = menus.find(id);
+    if (it == menus.end())
         return;
     MenuDef &d = (*it).second;
     d.def->setConfig(CorePlugin::m_plugin->getMenues(id));

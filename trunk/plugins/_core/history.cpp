@@ -390,18 +390,18 @@ QString HistoryIterator::state()
     QString res;
     for (list<HistoryFileIterator*>::iterator it = iters.begin(); it != iters.end(); ++it){
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         Message *msg = (*it)->message();
         if (msg){
             res += QString::number(msg->id());
         }else{
             res += QString::number((*it)->m_block);
         }
-        res += ",";
+        res += ',';
         res += (*it)->file.m_name;
     }
     if (!res.isEmpty())
-        res += ";";
+        res += ';';
     res += QString::number(m_temp_id);
     res += ",temp";
     return res;
@@ -566,7 +566,7 @@ void History::add(Message *msg, const QString &type)
     line += type;
     line += "]\n";
     line += msg->save();
-    line += "\n";
+    line += '\n';
 
     if (msg->getFlags() & MESSAGE_TEMP){
         if (s_tempMsg == NULL)
@@ -666,7 +666,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
         log(L_ERROR, "Can't open %s", (const char*)f.name().local8Bit());
         return;
     }
-    QFile t(f.name() + "~");
+    QFile t(f.name() + '~');
     if (!t.open(IO_ReadWrite | IO_Truncate)){
         log(L_ERROR, "Can't open %s", (const char*)t.name().local8Bit());
         return;
@@ -719,20 +719,20 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     QCString line = "\n";
     if (msg){
         line += msg->save();
-        line += "\n";
+        line += '\n';
         skip_start++;
     }
     int size = line.length();
-    int writen = t.writeBlock(line, size);
-    if (writen != size){
+    int written = t.writeBlock(line, size);
+    if (written != size){
         log(L_DEBUG, "Write history error");
         return;
     }
     skip_size -= line.length();
     if (config.writePos() < config.size()){
-        int size = config.size() - config.writePos();
-        int writen = t.writeBlock(config.data(config.writePos()), size);
-        if (writen != size){
+        size = config.size() - config.writePos();
+        written = t.writeBlock(config.data(config.writePos()), size);
+        if (written != size){
             log(L_DEBUG, "Write history error");
             return;
         }
@@ -740,13 +740,13 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     tail = f.size() - f.at();
     for (; tail > 0; ){
         char b[2048];
-        int size = f.readBlock(b, sizeof(b));
+        size = f.readBlock(b, sizeof(b));
         if (size == -1){
             log(L_ERROR, "Read history error");
             return;
         }
-        int writen = t.writeBlock(b, size);
-        if (writen != size){
+        written = t.writeBlock(b, size);
+        if (written != size){
             log(L_DEBUG, "Write history error");
             return;
         }

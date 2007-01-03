@@ -56,7 +56,7 @@ void PagerDetails::getNumber()
         bOK = false;
     }
     if (!edtGateway->text().isEmpty()){
-        res += "@";
+        res += '@';
         res += edtGateway->text();
     }else{
         bOK = false;
@@ -64,7 +64,7 @@ void PagerDetails::getNumber()
     if (!cmbProvider->lineEdit()->text().isEmpty()){
         res += " [";
         res += cmbProvider->lineEdit()->text();
-        res += "]";
+        res += ']';
     }
     emit numberChanged(res, bOK);
 }

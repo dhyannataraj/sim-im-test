@@ -522,7 +522,7 @@ static Message *dropContacts(QMimeSource *src)
         Contact *contact = ContactDragObject::decode(src);
         ContactsMessage *msg = new ContactsMessage;
         QString name = contact->getName();
-        msg->setContacts(QString("sim:") + QString::number(contact->id()) + "," + getToken(name, '/'));
+        msg->setContacts(QString("sim:") + QString::number(contact->id()) + ',' + getToken(name, '/'));
         return msg;
     }
     return NULL;
@@ -562,7 +562,7 @@ Message *dropFile(QMimeSource *src)
             QString fileName;
             for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
                 if (!fileName.isEmpty())
-                    fileName += ",";
+                    fileName += ',';
                 fileName += "\"";
                 fileName += *it;
                 fileName += "\"";
@@ -1450,7 +1450,7 @@ void MsgEdit::insertSmile(const QString &id)
     // determine the current position of the cursor
     m_edit->insert("\255", false, true, true);
     m_edit->getCursorPosition(&para,&index);
-    // RTF doesnt like < and >
+    // RTF doesn't like < and >
     QString txt = m_edit->text();
     txt.replace(QRegExp("\255"),img_src);
     m_edit->setText(txt);
@@ -1542,7 +1542,7 @@ SmileLabel::SmileLabel(const QString &_id, QWidget *parent)
     QString tip = smiles.front();
     QString name = getIcons()->getSmileName(_id);
     if ((name[0] < '0') || (name[0] > '9')){
-        tip += " ";
+        tip += ' ';
         tip += i18n(name);
     }
     QToolTip::add(this, tip);

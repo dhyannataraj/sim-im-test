@@ -102,7 +102,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         s->text_wrk = QString::null;
     }
     if (!s->accel.isEmpty()){
-        title += "\t";
+        title += '\t';
         title += i18n(s->accel);
     }
     if (s->flags & COMMAND_TITLE){
