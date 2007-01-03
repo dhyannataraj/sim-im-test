@@ -60,6 +60,14 @@ SET(_core_SRCS
         userwnd.cpp
 )
 
+# is this really needed?
+IF(NOT WIN32)
+SET(_core_SRCS
+        ${_core_SRCS}
+        libintl.cpp
+    )
+ENDIF(NOT WIN32)
+
 SET(_core_HDRS
         arcfg.h
         autoreply.h
