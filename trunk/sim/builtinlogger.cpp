@@ -57,7 +57,7 @@ bool BuiltinLogger::processEvent(Event *e)
     if (!l->logData().isEmpty()) {
         cout << l->logData().data();
     } else {
-        cout << "Some log event of type " << level_name(l->logLevel()) << " occured";
+        cout << "Some log event of type " << level_name(l->logLevel()) << " occurred";
     }
     cout << endl;
     return true;

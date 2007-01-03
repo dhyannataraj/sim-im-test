@@ -405,7 +405,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         QString pluginName = info.filePath;
         if( pluginName[0] != '/' ) {
             pluginName = PLUGIN_PATH;
-            pluginName += "/";
+            pluginName += '/';
             pluginName += info.name;
             pluginName += LTDL_SHLIB_EXT;
         }
@@ -602,9 +602,9 @@ void PluginManagerPrivate::saveState()
         line += QFile::encodeName(info.name);
         line += "]\n";
         line += info.bDisabled ? DISABLE : ENABLE;
-        line += ",";
+        line += ',';
         line += QString::number(info.base);
-        line += "\n";
+        line += '\n';
         f.writeBlock(line, line.length());
         if (info.plugin){
             QCString cfg = info.plugin->getConfig();
@@ -683,8 +683,8 @@ void PluginManagerPrivate::loadState()
 
     Buffer cfg = f.readAll();
 
-    bool continous=TRUE;
-    while(continous) {
+    bool continuos=TRUE;
+    while(continuos) {
 
         QCString section = cfg.getSection();
 
@@ -784,18 +784,18 @@ void PluginManagerPrivate::usage(const QString &err)
             bParam = true;
             p = p.left(p.length() - 1);
         }
-        text += "[" + p;
+        text += '[' + p;
         if (bParam)
             text += "<arg>";
         text += "] ";
-        comment += "\t" + p;
+        comment += '\t' + p;
         if (bParam)
             comment += "<arg>";
         comment += "\t - ";
         comment += i18n((*itd));
-        comment += "\n";
+        comment += '\n';
     }
-    text += "\n";
+    text += '\n';
     text += comment;
     QMessageBox::critical(NULL, title, text, "Quit", 0);
 }
@@ -828,7 +828,7 @@ unsigned long PluginManagerPrivate::execute(const QString &prg, const QStringLis
     }
     if(!child) {
         execvp(arglist[0], arglist);
-        // when we're here an error occured ...
+        // when we're here an error occurred ...
         // a write to the logoutput isn't possible because we haven't
         // these descriptors anymore - so we need printf
         printf("can't execute %s: %s", arglist[0], strerror(errno));

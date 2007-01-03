@@ -75,7 +75,7 @@ enum SIMEvent
     eEventLog	= 0x0001,	// Log Output
     eEventInit	= 0x0101,	// application init after all plugins are loaded
     eEventQuit	= 0x0102,	// last event until plugins are unloaded
-    eEventExec	= 0x0110,	// execute an external programm
+    eEventExec	= 0x0110,	// execute an external program
     eEventSocketActive      = 0x0112,	// change socket activity state
 
     eEventArg               = 0x0201,   // get command line argument
@@ -137,7 +137,7 @@ enum SIMEvent
     eEventContact           = 0x0902,   // a contact was added/changed/deleted
     eEventAddContact        = 0x0930,   // add contact
     eEventDeleteContact     = 0x0931,   // delete contact
-    eEventGetContactIP      = 0x0932,   // retrieve IP adress for contact
+    eEventGetContactIP      = 0x0932,   // retrieve IP address for contact
 
     eEventSocketConnect     = 0x1001,   // connect to host:port
     eEventSocketListen      = 0x1002,   // listen to host:port

@@ -645,7 +645,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
             QCString s = save_data((DataDef*)(def->def_value), data);
             if (s.length()){
                 if (res.length())
-                    res += "\n";
+                    res += '\n';
                 res += s;
             }
         }else  if (*def->name){
@@ -659,7 +659,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                         value = inet_ntoa(inaddr);
                         QString host = p->host();
                         if (!host.isEmpty()){
-                            value += ",";
+                            value += ',';
                             value += host;
                         }
                         bSave = true;
@@ -674,18 +674,18 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                             if(it.data().isEmpty())
                                 continue;
                             if (res.length())
-                                res += "\n";
+                                res += '\n';
                             res += def->name;
-                            res += "=";
+                            res += '=';
                             res += QString::number(it.key());
-                            res += ",";
+                            res += ',';
                             QString s = it.data();
                             QCString ls = s.local8Bit();
                             if (QString::fromLocal8Bit(ls) == s){
                                 res += quoteInternal(ls);
                             }else{
                                 res += quoteInternal(s.utf8());
-                                res += "u";
+                                res += 'u';
                             }
                         }
                     }
@@ -695,7 +695,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
                         QString &str = ld->str();
                         if (value.length())
-                            value += ",";
+                            value += ',';
                         if (def->def_value){
                             if (str != QString::fromAscii(def->def_value)){
                                 bSave = true;
@@ -711,7 +711,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                                 value += quoteInternal(ls);
                             }else{
                                 value += quoteInternal(str.utf8());
-                                value += "u";
+                                value += 'u';
                             }
                         }
                     }
@@ -721,7 +721,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
                         QString &str = ld->str();
                         if (value.length())
-                            value += ",";
+                            value += ',';
                         if (def->def_value){
                             if (str != i18n(def->def_value))
                                 bSave = true;
@@ -735,7 +735,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                                 value += quoteInternal(ls);
                             }else{
                                 value += quoteInternal(str.utf8());
-                                value += "u";
+                                value += 'u';
                             }
                         }
                     }
@@ -745,7 +745,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
                         QCString &str = ld->cstr();
                         if (value.length())
-                            value += ",";
+                            value += ',';
                         if (def->def_value){
                             if (str != def->def_value){
                                 bSave = true;
@@ -764,7 +764,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
                         bool p = ld->toBool();
                         if (value.length())
-                            value += ",";
+                            value += ',';
                         if (p != (def->def_value != 0)){
                             if (p){
                                 value += "true";
@@ -780,7 +780,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
                         long p = ld->toLong();
                         if (value.length())
-                            value += ",";
+                            value += ',';
                         if (p != (long)(def->def_value)){
                             QString s;
                             s.sprintf("%li", p);
@@ -794,7 +794,7 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
                     for (unsigned i = 0; i < def->n_values; i++, ld++){
                         unsigned long p = ld->toULong();
                         if (value.length())
-                            value += ",";
+                            value += ',';
                         if (p != (unsigned long)(def->def_value)){
                             QString s;
                             s.sprintf("%lu", p);
@@ -826,9 +826,9 @@ EXPORT QCString save_data(const DataDef *def, void *_data)
             }
             if (bSave){
                 if (res.length())
-                    res += "\n";
+                    res += '\n';
                 res += def->name;
-                res += "=";
+                res += '=';
                 res += value;
             }
         }

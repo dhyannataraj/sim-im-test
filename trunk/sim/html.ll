@@ -214,7 +214,7 @@ void HTMLParser::parse()
 		case SPACE:
 			if (p->text.isEmpty())
 				p->text_pos = p->start_pos;
-			p->text += " ";
+			p->text += ' ';
 			break;
 		case SKIP:
 			break;
@@ -355,9 +355,9 @@ QString HTMLParser::makeStyle(const list<QString> &opt)
 			break;
 		QString value = (*it);
 		if (!res.isEmpty())
-			res += ";";
+			res += ';';
 		res += name;
-		res += ":";
+		res += ':';
 		int n;
 		int end = value.length();
 		for (n = 0; n < end; n++)

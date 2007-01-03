@@ -292,7 +292,7 @@ QPopupMenu *LineEdit::createPopupMenu()
             QString text = unquoteText(i18n(*p++));
             text += " (";
             text += s;
-            text += ")";
+            text += ')';
             popup->insertItem(text, id++);
         }
     }
@@ -331,7 +331,7 @@ QPopupMenu *MultiLineEdit::createPopupMenu()
             QString text = unquoteText(i18n(*p++));
             text += " (";
             text += s;
-            text += ")";
+            text += ')';
             popup->insertItem(text, id++);
         }
     }

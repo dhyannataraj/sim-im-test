@@ -442,7 +442,7 @@ void TextShow::setSource(const QString &name)
     QString txt;
 
     if (!mark.isEmpty()) {
-        url += "#";
+        url += '#';
         url += mark;
     }
 

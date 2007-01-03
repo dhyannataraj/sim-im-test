@@ -126,7 +126,7 @@ QString EventLog::make_packet_string(const EventLog &l)
         struct tm *tm = localtime(&now);
         QString name = type->name();
         if (!l.additionalInfo().isEmpty()){
-            name += ".";
+            name += '.';
             name += l.additionalInfo();
         }
         m.sprintf("%02u/%02u/%04u %02u:%02u:%02u [%s] %s %u bytes\n",
@@ -147,7 +147,7 @@ QString EventLog::make_packet_string(const EventLog &l)
                 char buf[32];
                 if (n == 16){
                     m += line;
-                    m += "\n";
+                    m += '\n';
                 }
                 if (n >= 16){
                     memset(line, ' ', 80);

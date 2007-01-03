@@ -63,7 +63,7 @@ void UnquoteParser::text(const QString &text)
     for (int i = 0; i < len; i++){
         QChar c = text[i];
         if (c.unicode() == 160){
-            res += " ";
+            res += ' ';
         }else{
             res += c;
         }
@@ -74,26 +74,26 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
 {
     if (tag == "pre"){
         if (!m_bPre)
-            res += "\n";
+            res += '\n';
     }else if (tag == "br"){
-        res += "\n";
+        res += '\n';
     }else if (tag == "hr"){
         if (!res.isEmpty() && (res[(int)(res.length() - 1)] != '\n'))
-            res += "\n";
+            res += '\n';
         res += "---------------------------------------------------\n";
     }else if (tag == "td"){
         if (m_bTD){
-            res += "\t";
+            res += '\t';
             m_bTD = false;
         }
     }else if (tag == "tr"){
         if (m_bTR){
-            res += "\n";
+            res += '\n';
             m_bTR = false;
         }
     }else if (tag == "p"){
         if (m_bPar){
-            res += "\n";
+            res += '\n';
             m_bPar = false;
         }
     }else if (tag == "img"){
@@ -126,7 +126,7 @@ void UnquoteParser::tag_start(const QString &tag, const list<QString> &options)
 void UnquoteParser::tag_end(const QString &tag)
 {
     if (tag == "pre"){
-        res += "\n";
+        res += '\n';
         m_bPre = true;
     }
     if (tag == "p")

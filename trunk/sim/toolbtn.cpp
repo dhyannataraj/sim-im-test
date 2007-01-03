@@ -445,7 +445,7 @@ void CToolPictButton::paintEvent(QPaintEvent*)
             text = "";
             for (unsigned i = 0; i < n; i++){
                 if (!text.isEmpty())
-                    text += " ";
+                    text += ' ';
                 text += parts[i];
             }
             QRect rcb(0, 0, qApp->desktop()->width(), qApp->desktop()->height());

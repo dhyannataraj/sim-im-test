@@ -407,7 +407,7 @@ FetchManager::FetchManager()
     m_done = new list<FetchClientPrivate*>;
     user_agent = "Mozilla/4.0 (" PACKAGE "/" VERSION " ";
     user_agent += get_os_version();
-    user_agent += ")";
+    user_agent += ')';
 #ifdef WIN32
     hInet = InternetOpen((LPCWSTR)user_agent.ucs2(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
     if (hInet == NULL)
@@ -661,7 +661,7 @@ bool FetchClientPrivate::findHeader(const QString &key)
 
 QCString basic_auth(const QString &user, const QString &pass)
 {
-    QString auth = user + ":" + pass;
+    QString auth = user + ':' + pass;
     Buffer from;
     Buffer to;
     from <<  (const char*)auth.local8Bit().data();
@@ -722,7 +722,7 @@ void FetchClientPrivate::connect_ready()
     unsigned short port;
     FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra);
     if (!extra.isEmpty()){
-        uri += "?";
+        uri += '?';
         uri += extra;
     }
     unsigned postSize = m_client->post_size();
@@ -876,11 +876,11 @@ void FetchClientPrivate::packet_ready()
                 m_uri = proto;
                 m_uri += "://";
                 m_uri += host;
-                m_uri += ":";
+                m_uri += ':';
                 m_uri += QString::number(port);
                 m_uri += uri;
                 if (!extra.isEmpty()){
-                    m_uri += "?";
+                    m_uri += '?';
                     m_uri += extra;
                 }
                 m_state = Redirect;

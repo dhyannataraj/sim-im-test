@@ -125,7 +125,7 @@ void Contact::setup()
         setFirstName(QString::null);
     str = getLastName();
     getToken(str, '/');
-    if (str != "-")
+    if (str != '-')
         setLastName(QString::null);
     QString res;
     str = getEMails();
@@ -135,7 +135,7 @@ void Contact::setup()
         if (item != "-")
             continue;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += value;
         res += "/-";
     }
@@ -147,7 +147,7 @@ void Contact::setup()
         if (item != "-")
             continue;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += value;
         res += "/-";
     }
@@ -263,13 +263,13 @@ static QString addStrings (const QString &old_value, const QString &values,
         if (proto.size() == 0)
             continue;
         if (res.length())
-            res += ";";
+            res += ';';
         res += quoteChars ((*it).value, ";/");
-        res += "/";
+        res += '/';
         QString     proto_str;
         for (QStringList::iterator itp = proto.begin (); itp != proto.end (); ++itp) {
             if (proto_str.length ())
-                proto_str += ",";
+                proto_str += ',';
             proto_str += quoteChars ((*itp), ",;/");
         }
         res += proto_str;
@@ -290,11 +290,11 @@ bool Contact::setPhones(const QString &phone, const QString &client)
 static QString packString(const QString &value, const QString &client)
 {
     QString res = quoteChars(value, "/");
-    res += "/";
+    res += '/';
     if (!client.isEmpty()){
         res += client;
     }else{
-        res += "-";
+        res += '-';
     }
     return res;
 }
@@ -342,7 +342,7 @@ QString Contact::tipText()
         tip += "<br>";
         if (firstName.length()){
             tip += firstName;
-            tip += " ";
+            tip += ' ';
         }
         tip += lastName;
     }
@@ -405,7 +405,7 @@ QString Contact::tipText()
             tip += icon;
             tip += "\">";
         }
-        tip += " ";
+        tip += ' ';
         tip += quoteString(phone);
     }
     return tip;
@@ -1127,7 +1127,7 @@ QCString Client::getConfig()
         unsigned short temp = 0x4345;
         for (int i = 0; i < (int)(pswd.length()); i++) {
             temp ^= (pswd[i].unicode());
-            new_passwd += "$";
+            new_passwd += '$';
             new_passwd += QString::number(temp,16);
         }
         setPassword(new_passwd);
@@ -1321,8 +1321,8 @@ QCString ClientUserData::save()
         QCString cfg = save_data(d.client->protocol()->userDataDef(), d.data);
         if (cfg.length()){
             if (res.length())
-                res += "\n";
-            res += "[";
+                res += '\n';
+            res += '[';
             res += d.client->name().utf8();
             res += "]\n";
             res += cfg;
@@ -1616,8 +1616,8 @@ QCString UserData::save()
             QCString cfg = save_data((*it).def, userDataIt.data());
             if (cfg.length()){
                 if (res.length())
-                    res += "\n";
-                res += "[";
+                    res += '\n';
+                res += '[';
                 res += (*it).name;
                 res += "]\n";
                 res += cfg;
@@ -1730,7 +1730,7 @@ void ContactList::save()
     const QString errorMessage = f.errorString();
     f.close();
     if (status != IO_Ok) {
-        log(L_ERROR, "IO error during writting to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
+        log(L_ERROR, "IO error during writing to file %s : %s", (const char*)f.name().local8Bit(), (const char*)errorMessage.local8Bit());
         return;
     }
 

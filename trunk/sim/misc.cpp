@@ -87,7 +87,7 @@ QString i18n(const char *comment, const char *text)
     QCString s;
     s = "_: ";
     s += comment;
-    s += "\n";
+    s += '\n';
     s += text;
     QString res = QObject::tr(s);
     if (res != s.data())
@@ -454,12 +454,12 @@ EXPORT QString formatAddr(const Data &ip, unsigned port)
     inaddr.s_addr = get_ip(ip);
     res += inet_ntoa(inaddr);
     if (port){
-        res += ":";
+        res += ':';
         res += QString::number(port);
     }
     QString host = get_host(ip);
     if (!host.isEmpty()){
-        res += " ";
+        res += ' ';
         res += host;
     }
     return res;
@@ -732,13 +732,13 @@ EXPORT QString get_os_version()
         }else{
             res += "NT ";
 	}
-        res += " ";
+        res += ' ';
         res += QString::number(osvi.dwMajorVersion);
-        res += ".";
+        res += '.';
         res += QString::number(osvi.dwMinorVersion);
-        res += ".";
+        res += '.';
         res += QString::number(osvi.dwBuildNumber);
-        res += " ";
+        res += ' ';
         res += osvi.szCSDVersion;
         break;
     case VER_PLATFORM_WIN32_WINDOWS:
@@ -754,9 +754,9 @@ EXPORT QString get_os_version()
             }else if (osvi.dwMinorVersion == 90){
                 res += "Millennium";
             }
-            res += " ";
+            res += ' ';
             res += QString::number(osvi.dwMajorVersion);
-            res += ".";
+            res += '.';
             res += QString::number(osvi.dwMinorVersion);
         }
         break;
@@ -768,9 +768,9 @@ EXPORT QString get_os_version()
     struct utsname unamebuf;
     if (uname(&unamebuf) == 0)
         res = unamebuf.sysname;
-        res += " ";
+        res += ' ';
         res += unamebuf.release;
-        res += " ";
+        res += ' ';
         res += unamebuf.machine;
 #endif
     return res;

@@ -153,7 +153,7 @@ QString SMSMessage::presentation()
     QString phone = quoteString(getPhone());
     QString net   = quoteString(getNetwork());
     if (!net.isEmpty())
-        net = QString(" (") + net + ")";
+        net = QString(" (") + net + ')';
     QString res = QString("<p><a href=\"sms:%1\"><img src=\"icon:cell\">%2%3</a></p>")
                   .arg(phone)
                   .arg(phone)
@@ -297,7 +297,7 @@ void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
         return;
     }
     if (!bFirst){
-        add(fn + "/", 0);
+        add(fn + '/', 0);
         m_dirs++;
     }
     QDir d(str);
@@ -307,7 +307,7 @@ void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
         if ((f == ".") || (f == ".."))
             continue;
         QString p = fn;
-        p += "/";
+        p += '/';
         p += f;
         add_file(p, false);
     }
@@ -327,9 +327,9 @@ QString FileMessageIteratorPrivate::save()
     for (iterator it = begin(); it != end(); ++it){
         fileItem &f = *it;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += f.name;
-        res += ",";
+        res += ',';
         res += QString::number(f.size);
     }
     return res;
@@ -496,7 +496,7 @@ QString FileMessage::presentation()
     unsigned size = getSize();
 
     if (size){
-        res += " ";
+        res += ' ';
 
         if (size >= 1024 * 1024){
             res += i18n("%1 Mbytes") .arg(size / (1024 * 1024));
