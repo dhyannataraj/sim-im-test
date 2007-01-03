@@ -911,6 +911,9 @@ void HTTPS_Proxy::read_ready()
             return;
         }
         s = s.mid(idx + 1);
+        idx = s.find(' ');
+        if (idx!=-1)
+            s=s.left(idx+1);
         int code = s.toInt();
         if (code == 407){
             error_state(AUTH_ERROR, m_plugin->ProxyErr);
