@@ -181,12 +181,12 @@ bool FilterPlugin::processEvent(Event *e)
 
         // get filter-data
         data = (FilterUserData*)(contact->getUserData(user_data_id));
-        if (data && !data->SpamList.str().isEmpty()){
+		if (data && !data->SpamList.str().isEmpty() && ((contact == NULL) || (contact->getFlags() & CONTACT_TEMPORARY) )) {
             if (checkSpam(msg->getPlainText(), data->SpamList.str())){
                 delete msg;
                 return true;
             }
-        }
+		}
         break;
     }
     case eEventCheckState: {
