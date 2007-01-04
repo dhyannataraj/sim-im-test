@@ -372,91 +372,123 @@ void ICQSearch::searchStop()
 
 bool ICQSearch::processEvent(Event *e)
 {
-    if ((e->type() == eEventICQSearch) || (e->type() == eEventICQSearchDone)){
-        EventSearchInternal *es = static_cast<EventSearchInternal*>(e);
-        SearchResult *res = es->searchResult();
-        if ((res->id != m_id_aim) && (res->id != m_id_icq) && (res->client != m_client))
-            return false;
-        if (e->type() == eEventICQSearchDone){
-            if (res->id == m_id_icq){
-                m_id_icq = 0;
-                if (res->data.Uin.toULong() && m_bAdd)
-                    icq_search();
-            }
-            if (res->id == m_id_aim)
-                m_id_aim = 0;
-            if ((m_id_icq == 0) && (m_id_aim == 0))
-                emit searchDone(this);
-            return false;
-        }
-        QString icon;
-        if (res->data.Uin.toULong()){
-            icon = "ICQ_";
-            switch (res->data.Status.toULong()){
-            case STATUS_ONLINE:
-                icon += "online";
-                break;
-            case STATUS_OFFLINE:
-                icon += "offline";
-                break;
-            default:
-                icon += "inactive";
-            }
-            if (m_uins.findIndex (res->data.Uin.toULong()) != -1)
-                return false;
-            m_bAdd = true;
-            m_uins.push_back(res->data.Uin.toULong());
-        }else{
-            icon = "AIM";
-        }
-        QString gender;
-        switch (res->data.Gender.toULong()){
-        case 1:
-            gender = i18n("Female");
-            break;
-        case 2:
-            gender = i18n("Male");
-            break;
-        }
-        QString age;
-        if (res->data.Age.toULong())
-            age = QString::number(res->data.Age.toULong());
-        QStringList l;
-        l.append(icon);
-        QString key = m_client->screen(&res->data);
-        if (res->data.Uin.toULong()){
-            while (key.length() < 13)
-                key = QString(".") + key;
-        }
-        l.append(key);
-        l.append(m_client->screen(&res->data));;
-        if (m_client->m_bAIM){
-            QString s;
-            l.append(res->data.Nick.str());
-            l.append(res->data.FirstName.str());
-            l.append(res->data.LastName.str());
-            l.append(res->data.City.str());
-            l.append(res->data.State.str());
-            if (res->data.Country.toULong()){
-                for (const ext_info *info = getCountries(); info->szName; info++){
-                    if (info->nCode == res->data.Country.toULong()){
-                        s = i18n(info->szName);
-                        break;
-                    }
-                }
-            }
-            l.append(s);
-        }else{
-            l.append(res->data.Nick.str());
-            l.append(res->data.FirstName.str());
-            l.append(res->data.LastName.str());
-            l.append(gender);
-            l.append(age);
-            l.append(res->data.EMail.str());
-        }
-        emit addItem(l, this);
-    }
-    return false;
+	if ((e->type() == eEventICQSearch) || (e->type() == eEventICQSearchDone))
+	{
+		EventSearchInternal *es = static_cast<EventSearchInternal*>(e);
+		SearchResult *res = es->searchResult();
+		if ((res->id != m_id_aim) && (res->id != m_id_icq) && (res->client != m_client))
+			return false;
+		if (e->type() == eEventICQSearchDone)
+		{
+			if (res->id == m_id_icq)
+			{
+				m_id_icq = 0;
+				if (res->data.Uin.toULong() && m_bAdd)
+					icq_search();
+			}
+			if (res->id == m_id_aim)
+				m_id_aim = 0;
+			if ((m_id_icq == 0) && (m_id_aim == 0))
+				emit searchDone(this);
+			return false;
+		}
+		QString icon;
+		if (res->data.Uin.toULong())
+		{
+			icon = "ICQ_";
+			switch (res->data.Status.toULong())
+			{
+			case STATUS_ONLINE:
+				icon += "online";
+				break;
+			case STATUS_OFFLINE:
+				icon += "offline";
+				break;
+			default:
+				icon += "inactive";
+			}
+			if (m_uins.findIndex (res->data.Uin.toULong()) != -1)
+				return false;
+			m_bAdd = true;
+			m_uins.push_back(res->data.Uin.toULong());
+		}
+		else
+		{
+			icon = "AIM";
+		}
+		QString gender;
+		switch (res->data.Gender.toULong())
+		{
+		case 1:
+			gender = i18n("Female");
+			break;
+		case 2:
+			gender = i18n("Male");
+			break;
+		}
+		QString age;
+		if (res->data.Age.toULong())
+			age = QString::number(res->data.Age.toULong());
+		QStringList l;
+		l.append(icon);
+		QString key = m_client->screen(&res->data);
+		if (res->data.Uin.toULong())
+		{
+			while (key.length() < 13)
+				key = QString(".") + key;
+		}
+		l.append(key);
+		l.append(m_client->screen(&res->data));;
+		if (m_client->m_bAIM)
+		{
+			QString s;
+
+			if (res->data.Nick.str())
+				s = QString::fromUtf8(res->data.Nick.str());
+			l.append(s);
+			s = "";
+			if (res->data.FirstName.str())
+				s = QString::fromUtf8(res->data.FirstName.str());
+			l.append(s);
+			s = "";
+			if (res->data.LastName.str())
+				s = QString::fromUtf8(res->data.LastName.str());
+			l.append(s);
+			s = "";
+			if (res->data.City.str())
+				s = QString::fromUtf8(res->data.City.str());
+			l.append(s);
+			s = "";
+			if (res->data.State.str())
+				s = QString::fromUtf8(res->data.State.str());
+			l.append(s);
+			s = "";
+
+			if (res->data.Country.toULong())
+			{
+				for (const ext_info *info = getCountries(); info->szName; info++)
+				{
+					if (info->nCode == res->data.Country.toULong())
+					{
+						s = i18n(info->szName);
+						break;
+					}
+				}
+			}
+			l.append(s);
+		}
+		else
+		{
+			l.append(getContacts()->toUnicode(NULL, res->data.Nick.str().local8Bit()));
+			l.append(getContacts()->toUnicode(NULL, res->data.FirstName.str().local8Bit()));
+			l.append(getContacts()->toUnicode(NULL, res->data.LastName.str().local8Bit()));
+			l.append(gender);
+			l.append(age);
+			l.append(getContacts()->toUnicode(NULL, res->data.EMail.str().local8Bit()));
+		}
+		emit addItem(l, this);
+	}
+	return false;
 }
 
 void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&contact)
