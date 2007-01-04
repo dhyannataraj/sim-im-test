@@ -112,7 +112,8 @@ void ListView::keyPressEvent(QKeyEvent *e)
             unsigned long id;
             void *param;
             if (getMenu(item, id, param)){
-                if (EventMenuProcess(id, param, key).process())
+                EventMenuProcess e(id, param, key);
+                if (e.process() && e.menu())
                     return;
             }
         }
