@@ -218,8 +218,8 @@ void MainInfo::fill()
     if (name.length())
         cmbDisplay->insertItem(name);
     if (firstName.length() && lastName.length()){
-        cmbDisplay->insertItem(firstName + " " + lastName);
-        cmbDisplay->insertItem(lastName + " " + firstName);
+        cmbDisplay->insertItem(firstName + ' ' + lastName);
+        cmbDisplay->insertItem(lastName + ' ' + firstName);
     }
     if (firstName.length())
         cmbDisplay->insertItem(firstName);
@@ -287,20 +287,20 @@ void MainInfo::apply()
     QString mails;
     for (item = lstMails->firstChild(); item; item = item->nextSibling()){
         if (mails.length())
-            mails += ";";
+            mails += ';';
         mails += quoteChars(item->text(MAIL_ADDRESS), ";/");
-        mails += "/";
+        mails += '/';
         mails += item->text(MAIL_PROTO);
     }
     contact->setEMails(mails);
     QString phones;
     for (item = lstPhones->firstChild(); item; item = item->nextSibling()){
         if (phones.length())
-            phones += ";";
+            phones += ';';
         phones += quoteChars(item->text(PHONE_NUMBER), ";/,");
-        phones += ",";
+        phones += ',';
         phones += quoteChars(item->text(PHONE_TYPE_ASIS), ";/,");
-        phones += ",";
+        phones += ',';
         phones += item->text(PHONE_ICON);
         if (m_contact){
             if (!item->text(PHONE_ACTIVE).isEmpty())
@@ -309,7 +309,7 @@ void MainInfo::apply()
             if (item->text(PHONE_NUMBER) == cmbCurrent->currentText())
                 phones += ",1";
         }
-        phones += "/";
+        phones += '/';
         phones += item->text(PHONE_PROTO);
     }
     contact->setPhones(phones);
@@ -323,7 +323,7 @@ void MainInfo::apply()
         name = edtFirstName->text();
         if (!edtLastName->text().isEmpty()){
             if (!name.isEmpty()){
-                name += " ";
+                name += ' ';
                 name += edtLastName->text();
             }
         }
@@ -516,7 +516,7 @@ void MainInfo::fillEncoding()
     for (e = getContacts()->getEncodings(); e->language; e++){
         if (!e->bMain)
             continue;
-        main.append(i18n(e->language) + " (" + e->codec + ")");
+        main.append(i18n(e->language) + " (" + e->codec + ')');
     }
     main.sort();
     Contact *contact = m_contact;
@@ -536,7 +536,7 @@ void MainInfo::fillEncoding()
     for (e = getContacts()->getEncodings(); e->language; e++){
         if (e->bMain)
             continue;
-        noMain.append(i18n(e->language) + " (" + e->codec + ")");
+        noMain.append(i18n(e->language) + " (" + e->codec + ')');
     }
     noMain.sort();
     for (it = noMain.begin(); it != noMain.end(); ++it, n_item++){
@@ -568,7 +568,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
         for (e = getContacts()->getEncodings(); e->language; e++){
             if (!e->bMain)
                 continue;
-            main.append(i18n(e->language) + " (" + e->codec + ")");
+            main.append(i18n(e->language) + " (" + e->codec + ')');
         }
         main.sort();
         QStringList::Iterator it;
@@ -579,7 +579,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
         for (e = getContacts()->getEncodings(); e->language; e++){
             if (e->bMain)
                 continue;
-            noMain.append(i18n(e->language) + " (" + e->codec + ")");
+            noMain.append(i18n(e->language) + " (" + e->codec + ')');
         }
         noMain.sort();
         for (it = noMain.begin(); it != noMain.end(); ++it){

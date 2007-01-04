@@ -123,10 +123,10 @@ QString UserWnd::getLongName()
     void *data;
     Client *client = m_edit->client(data, false, true, id());
     if (client && data){
-        res += " ";
+        res += ' ';
         res += client->contactName(data);
         if (!m_edit->m_resource.isEmpty()){
-            res += "/";
+            res += '/';
             res += m_edit->m_resource;
         }
         bool bFrom = false;
@@ -142,7 +142,7 @@ QString UserWnd::getLongName()
             }
         }
         if (bFrom){
-            res += " ";
+            res += ' ';
             if (m_edit->m_bReceived){
                 res += i18n("to %1") .arg(client->name());
             }else{

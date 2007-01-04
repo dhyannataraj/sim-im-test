@@ -138,13 +138,13 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
     }
 
     QString tagText;
-    tagText += "<";
+    tagText += '<';
     tagText += tag;
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
         QString value = *it;
-        tagText += " ";
+        tagText += ' ';
         tagText += name;
         if (!value.isEmpty()){
             tagText += "=\"";
@@ -152,7 +152,7 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
             tagText += "\"";
         }
     }
-    tagText += ">";
+    tagText += '>';
 
     if (m_bInPrepend)
     {
@@ -185,7 +185,7 @@ void XslOutputParser::tag_end(const QString &tag)
     QString tagText;
     tagText += "</";
     tagText += tag;
-    tagText += ">";
+    tagText += '>';
 
     if (m_bInPrepend)
         m_sPrepend += tagText;
@@ -419,7 +419,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         contactName = "???";
     info += QString("<from>%1</from>") .arg(quoteString(contactName));
     QString id = QString::number(msg->id());
-    id += ",";
+    id += ',';
     // <hack>
     // Terrible hack to set message bgcolor. We prefer to insert the entire history
     // in one chunk (since it's more efficient and causes less redraws), and there's
@@ -430,11 +430,11 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     // </hack>
     QString client_str = msg->client();
     if (!client_str.isEmpty()){
-        id += ",";
+        id += ',';
         id += quoteString(client_str);
     }
     if (m_cut.size()){
-        id += ",";
+        id += ',';
         id += QString::number(m_cut.size());
     }
     info += "<id>";
@@ -458,7 +458,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
 
     s = "<?xml version=\"1.0\"?><message";
     s += options;
-    s += ">";
+    s += '>';
     s += info;
 
     QString msgText;
@@ -504,7 +504,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         s += QString::number(msg->getBackground(), 16).rightJustify(6, '0');
         s += "\"";
     }
-    s += ">";
+    s += '>';
 
     // We pass the rich text quoted, since we're not sure of its' XML validity.
     // The XSL engine should copy it as-is (using xsl:value-of with disable-output-escaping="yes").
@@ -1362,7 +1362,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
     }
 
     QString tagText;
-    tagText += "<";
+    tagText += '<';
     tagText += oTag;
 
     if (tag == "p")
@@ -1378,7 +1378,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         // Handling for attributes of specific tags.
         if (tag == "body"){
             if (name == "bgcolor"){
-                style += "background-color:" + value + ";";
+                style += "background-color:" + value + ';';
                 continue;
             }
         }else if (tag == "p"){
@@ -1402,7 +1402,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
             continue;
         }
 
-        tagText += " ";
+        tagText += ' ';
         tagText += name;
         if (!value.isEmpty()){
             tagText += "=\"";
@@ -1441,7 +1441,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         if (!style.isEmpty())
             tagText += " style=\"" + style + "\"";
     }
-    tagText += ">";
+    tagText += '>';
     res += tagText;
 }
 
@@ -1472,7 +1472,7 @@ void ViewParser::tag_end(const QString &tag)
         return;
     res += "</";
     res += oTag;
-    res += ">";
+    res += '>';
 }
 
 QString MsgViewBase::parseText(const QString &text, bool bIgnoreColors, bool bUseSmiles)

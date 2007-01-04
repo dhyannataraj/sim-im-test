@@ -270,21 +270,21 @@ bool MsgSMS::processEvent(Event *e)
                             QString phoneType = getToken(phoneStr, ',');
                             if ((phone != msg->getPhone()) || (phoneStr.toUInt() != CELLULAR)){
                                 if (!newPhones.isEmpty())
-                                    newPhones += ";";
+                                    newPhones += ';';
                                 newPhones += item;
                                 continue;
                             }
                             type = phoneType;
                             src  = phoneItem;
                         }
-                        phone += ",";
+                        phone += ',';
                         phone += type;
-                        phone += ",";
+                        phone += ',';
                         phone += QString::number(CELLULAR);
-                        phone += "/";
+                        phone += '/';
                         phone += src;
                         if (!newPhones.isEmpty())
-                            phone += ";";
+                            phone += ';';
                         newPhones = phone + newPhones;
                         if (contact->setPhones(newPhones)){
                             EventContact e(contact, EventContact::eChanged);

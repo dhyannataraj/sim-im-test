@@ -191,7 +191,7 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
         string s;
         s = "_: ";
         s += message;
-        s += "\n";
+        s += '\n';
         s += sourceText;
         text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
     }
@@ -199,7 +199,7 @@ QTranslatorMessage SIMTranslator::findMessage(const char* context,
         string s;
         s = "_: ";
         s += context;
-        s += "\n";
+        s += '\n';
         s += message;
         text = k_nl_find_msg((struct loaded_l10nfile*)&domain, s.c_str());
     }
@@ -1658,9 +1658,9 @@ bool CorePlugin::processEvent(Event *e)
                 str += *(p++);
                 str += " - ";
                 str += i18n(*(p++));
-                str += "\n";
+                str += '\n';
             }
-            str += "\n";
+            str += '\n';
             str += i18n("`<command>` - call <command> and substitute command output\n");
             eth->setHelp(str);
             return true;
@@ -1752,7 +1752,7 @@ bool CorePlugin::processEvent(Event *e)
             if(!QDir(fname).isRoot())
                 profile = getProfile();
             if (profile.length())
-                profile += "/";
+                profile += '/';
             profile += fname;
             homedir->setHomeDir(profile);
             // dunno knowif this is correct... :(
@@ -2173,13 +2173,13 @@ bool CorePlugin::processEvent(Event *e)
                     const ENCODING *enc;
                     for (enc = getContacts()->getEncodings(); enc->language; enc++){
                         if (enc->bMain){
-                            main.append(i18n(enc->language) + " (" + enc->codec + ")");
+                            main.append(i18n(enc->language) + " (" + enc->codec + ')');
                             nEncoding++;
                             continue;
                         }
                         if (!getShowAllEncodings())
                             continue;
-                        nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
+                        nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
                         nEncoding++;
                     }
                     CommandDef *cmds = new CommandDef[nEncoding];
@@ -2813,12 +2813,12 @@ bool CorePlugin::processEvent(Event *e)
                     const ENCODING *enc;
                     for (enc = getContacts()->getEncodings(); enc->language; enc++){
                         if (enc->bMain){
-                            main.append(i18n(enc->language) + " (" + enc->codec + ")");
+                            main.append(i18n(enc->language) + " (" + enc->codec + ')');
                             continue;
                         }
                         if (!getShowAllEncodings())
                             continue;
-                        nomain.append(i18n(enc->language) + " (" + enc->codec + ")");
+                        nomain.append(i18n(enc->language) + " (" + enc->codec + ')');
                     }
                     QString str;
                     main.sort();
@@ -2913,7 +2913,7 @@ bool CorePlugin::processEvent(Event *e)
                         Contact *contact = getContacts()->contact(msg->contact());
                         if (contact)
                             name = contact->getName();
-                        p = g_i18n("%1 wrote:", contact) .arg(name) + "\n" + p;
+                        p = g_i18n("%1 wrote:", contact) .arg(name) + '\n' + p;
                         m->setFlags(MESSAGE_FORWARD);
                     }else{
                         m->setFlags(MESSAGE_INSERT);
@@ -3103,11 +3103,11 @@ bool CorePlugin::processEvent(Event *e)
                     QString number = getToken(v, ',', false);
                     QString type = getToken(v, ',', false);
                     QString icon = getToken(v, ',', false);
-                    v = number + "," + type + "," + icon;
+                    v = number + ',' + type + ',' + icon;
                     if (--n == 0)
                         v += ",1";
                     if (!res.isEmpty())
-                        res += ";";
+                        res += ';';
                     res += v;
                 }
                 if (res != owner->getPhones()){
@@ -3726,7 +3726,7 @@ void CorePlugin::loadDir()
         QString entry = *it;
         if (entry[0] == '.')
             continue;
-        QString fname = baseName + "/" + entry + "/" + CLIENTS_CONF;
+        QString fname = baseName + '/' + entry + '/' + CLIENTS_CONF;
         QFile f(fname);
         if (f.exists()){
             m_profiles.append(entry);
@@ -3745,11 +3745,11 @@ QCString CorePlugin::getConfig()
     for (list<msg_id>::iterator itUnread = unread.begin(); itUnread != unread.end(); ++itUnread){
         msg_id &m = (*itUnread);
         if (!unread_str.isEmpty())
-            unread_str += ";";
+            unread_str += ';';
         unread_str += QString::number(m.contact);
-        unread_str += ",";
+        unread_str += ',';
         unread_str += QString::number(m.id);
-        unread_str += ",";
+        unread_str += ',';
         unread_str += m.client;
     }
     setUnread(unread_str);
@@ -3808,7 +3808,7 @@ QCString CorePlugin::getConfig()
         QCString write = "[_core]\n";
         write += "enable,";
 		write += QString::number(m_base);
-        write += "\n";
+        write += '\n';
         write += cfg;
         fCFG.writeBlock(write, write.length());
 
@@ -3856,14 +3856,14 @@ QCString CorePlugin::getConfig()
                 continue;
             QCString line = "[";
             line += QFile::encodeName(info->name).data();
-            line += "/";
+            line += '/';
             line += protocol->description()->text;
             line += "]\n";
             f.writeBlock(line, line.length());
             line = client->getConfig();
             if (line.length()){
+                line += '\n';
                 f.writeBlock(line, line.length());
-                f.writeBlock("\n", 1);
             }
         }
 
@@ -4204,7 +4204,7 @@ QString CorePlugin::clientName(Client *client)
 {
     QString s = client->name();
     QString res = i18n(getToken(s, '.'));
-    res += " ";
+    res += ' ';
     return res + s;
 }
 
