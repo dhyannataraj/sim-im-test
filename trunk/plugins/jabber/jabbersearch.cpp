@@ -166,7 +166,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 text = text.replace(QRegExp("  +"), "\n");
                 if (m_bFirst){
                     if (!m_label.isEmpty())
-                        m_label += "\n";
+                        m_label += '\n';
                     m_label += text;
                 }else{
                     QLabel *label = new QLabel(text, this);
@@ -180,7 +180,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 QString text = i18(data->Value.str());
                 text = text.replace(QRegExp("  +"), "\n");
                 if (!m_instruction.isEmpty())
-                    m_instruction += "\n";
+                    m_instruction += '\n';
                 m_instruction += text;
             }
         }else if (data->Type.str() == "list-single"){
@@ -258,7 +258,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
         if (!bJoin && !data->Label.str().isEmpty()){
             QString text = i18(data->Label.str());
             if (!text.isEmpty() && (text[(int)(text.length() - 1)] != ':'))
-                text += ":";
+                text += ':';
             label = new QLabel(text, this);
             label->setAlignment(AlignRight);
         }
@@ -393,9 +393,9 @@ QString JabberSearch::condition(QWidget *w)
         QLineEdit *edit = static_cast<QLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
-                res += ";";
+                res += ';';
             res += edit->name();
-            res += "=";
+            res += '=';
             res += quoteChars(edit->text(), ";");
         }
         ++it;
@@ -411,9 +411,9 @@ QString JabberSearch::condition(QWidget *w)
             continue;
         }
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += box->name();
-        res += "=";
+        res += '=';
         res += quoteChars(box->value(), ";");
         ++it1;
     }
@@ -424,7 +424,7 @@ QString JabberSearch::condition(QWidget *w)
     while ((obj = it2.current()) != 0 ){
         QCheckBox *box = static_cast<QCheckBox*>(obj);
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += box->name();
         res += box->isChecked() ? "=1" : "=0";
         ++it2;
@@ -437,9 +437,9 @@ QString JabberSearch::condition(QWidget *w)
         QMultiLineEdit *edit = static_cast<QMultiLineEdit*>(obj);
         if (!edit->text().isEmpty()){
             if (!res.isEmpty())
-                res += ";";
+                res += ';';
             res += edit->name();
-            res += "=";
+            res += '=';
             res += quoteChars(edit->text(), ";");
         }
         ++it3;
@@ -448,7 +448,7 @@ QString JabberSearch::condition(QWidget *w)
 
     if (!m_key.isEmpty() && (w == NULL)){
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += "key=";
         res += quoteChars(m_key, ";");
     }

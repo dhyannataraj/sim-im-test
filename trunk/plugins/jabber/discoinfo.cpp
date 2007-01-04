@@ -238,7 +238,7 @@ bool DiscoInfo::processEvent(Event *e)
             QString date;
             if (dd){
                 date  = i18n("%n day", "%n days", dd);
-                date += " ";
+                date += ' ';
             }
             QString time;
             time.sprintf("%02u:%02u:%02u", hh, mm, ss);

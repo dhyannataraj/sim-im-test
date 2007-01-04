@@ -44,7 +44,7 @@ QCString JabberMessage::save()
     QCString s = save_data(jabberMessageData, &data);
     if (!s.isEmpty()){
         if (!res.isEmpty())
-            res += "\n";
+            res += '\n';
         res += s;
     }
     return res;
@@ -99,7 +99,7 @@ QCString JabberMessageError::save()
     QCString s = save_data(jabberMessageErrorData, &data);
     if (!s.isEmpty()){
         if (!res.isEmpty())
-            res += "\n";
+            res += '\n';
         res += s;
     }
     return res;
@@ -110,7 +110,7 @@ QString JabberMessageError::presentation()
     QString res = "<p>";
     res += i18n("Error");
     if (getCode()){
-        res += " ";
+        res += ' ';
         res += QString::number(getCode());
     }
     QString err = getError();

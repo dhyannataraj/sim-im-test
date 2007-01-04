@@ -101,7 +101,7 @@ void JIDSearch::search()
     QString condition = jidSearch->condition(NULL);
     if (m_bAdv){
         if (!condition.isEmpty())
-            condition += ";";
+            condition += ';';
         condition += jidSearch->condition(m_adv);
         advancedClicked();
     }

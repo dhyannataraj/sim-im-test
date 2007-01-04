@@ -150,7 +150,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
 {
     load_data(jabberClientData, &data, cfg);
     QString jid = data.owner.ID.str();
-    int n = jid.find("@");
+    int n = jid.find('@');
     if (n > 0){
         jid = jid.left(n);
         data.owner.ID.str() = jid;
@@ -209,9 +209,9 @@ QCString JabberClient::getConfig()
     QString lr;
     for (list<JabberListRequest>::iterator it = m_listRequests.begin(); it != m_listRequests.end(); ++it){
         if (!lr.isEmpty())
-            lr += ";";
+            lr += ';';
         lr += quoteChars((*it).jid, ",;");
-        lr += ",";
+        lr += ',';
         lr += quoteChars((*it).grp, ",;");
         if ((*it).bDelete)
             lr += ",1";
@@ -219,7 +219,7 @@ QCString JabberClient::getConfig()
     setListRequest(lr);
     QCString res = Client::getConfig();
     if (res.length())
-        res += "\n";
+        res += '\n';
     return res += save_data(jabberClientData, &data);
 }
 
@@ -1222,7 +1222,7 @@ QString JabberClient::buildId(JabberUserData *data)
     QString res = data->ID.str();
     int n = res.find('@');
     if (n < 0){
-        res += "@";
+        res += '@';
         QString server;
         if (getUseVHost())
             server = getVHost();
@@ -1260,7 +1260,7 @@ QString JabberClient::contactName(void *clientData)
         res += data->Nick.str();
         res += " (";
         res += name;
-        res += ")";
+        res += ')';
     }else{
         res += name;
     }
@@ -1281,7 +1281,7 @@ QString JabberClient::contactTip(void *_data)
         res += "ID: <b>";
         res += data->ID.str();
         if (!data->Resource.str().isEmpty()){
-            res += "/";
+            res += '/';
             res += data->Resource.str();
         }
         res += "</b>";
@@ -1315,7 +1315,7 @@ QString JabberClient::contactTip(void *_data)
             res += data->ID.str();
             QString resource = get_str(data->Resources, i);
             if (!resource.isEmpty()){
-                res += "/";
+                res += '/';
                 res += resource;
             }
             res += "</b>";
@@ -1339,7 +1339,7 @@ QString JabberClient::contactTip(void *_data)
             QString clientVersion = get_str(data->ResourceClientVersion, i);
             QString clientOS = get_str(data->ResourceClientOS, i);
             if (!clientName.isEmpty()) {
-                res += "<br/>" + clientName + " " + clientVersion;
+                res += "<br/>" + clientName + ' ' + clientVersion;
                 if (!clientOS.isEmpty())
                     res += " / " + clientOS;
             }
@@ -1652,7 +1652,7 @@ CommandDef *JabberClient::infoWindows(Contact*, void *_data)
 {
     JabberUserData *data = (JabberUserData*)_data;
     QString name = i18n(protocol()->description()->text);
-    name += " ";
+    name += ' ';
     name += data->ID.str();
     jabberWnd[0].text_wrk = name;
     return jabberWnd;
@@ -1661,9 +1661,9 @@ CommandDef *JabberClient::infoWindows(Contact*, void *_data)
 CommandDef *JabberClient::configWindows()
 {
     QString title = name();
-    int n = title.find(".");
+    int n = title.find('.');
     if (n > 0)
-        title = title.left(n) + " " + title.mid(n + 1);
+        title = title.left(n) + ' ' + title.mid(n + 1);
     cfgJabberWnd[0].text_wrk = title;
     return cfgJabberWnd;
 }
@@ -1727,10 +1727,10 @@ QString JabberClient::resources(void *_data)
     if (data->nResources.toULong() > 1){
         for (unsigned i = 1; i <= data->nResources.toULong(); i++){
             if (!resource.isEmpty())
-                resource += ";";
+                resource += ';';
             const char *dicon = get_icon(data, get_str(data->ResourceStatus, i).toUInt(), false);
             resource += QString::number((unsigned long)dicon);
-            resource += ",";
+            resource += ',';
             resource += quoteChars(get_str(data->Resources, i), ";");
         }
     }
@@ -1954,7 +1954,7 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
     }
     for (const char **t = _tags; *t; t++){
         if (tag == *t){
-            res += "<";
+            res += '<';
             res += tag;
             for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
                 QString name = *it;
@@ -1979,7 +1979,7 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
                 }
                 if ((name != "style") && (name != "href"))
                     continue;
-                res += " ";
+                res += ' ';
                 res += name;
                 if (!value.isEmpty()){
                     res += "=\'";
@@ -1987,7 +1987,7 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
                     res += "\'";
                 }
             }
-            res += ">";
+            res += '>';
             return;
         }
     }
@@ -2012,7 +2012,7 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
             QString value = *it;
             if (name == "color"){
                 if (!style.isEmpty())
-                    style += ";";
+                    style += ';';
                 style += "color: ";
                 style += value;
                 continue;
@@ -2023,7 +2023,7 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
             res += style;
             res += "\'";
         }
-        res += ">";
+        res += '>';
         return;
     }
     return;
@@ -2045,7 +2045,7 @@ void JabberImageParser::tag_end(const QString &tag)
         if (tag == *t){
             res += "</";
             res += tag;
-            res += ">";
+            res += '>';
             return;
         }
     }
@@ -2240,17 +2240,17 @@ bool JabberClient::send(Message *msg, void *_data)
                             jids.push_back(d->ID.str());
                             names.push_back(c->getName());
                             if (!nc.isEmpty())
-                                nc += ";";
+                                nc += ';';
                             nc += "jabber:";
                             nc += d->ID.str().utf8();
-                            nc += ",";
+                            nc += ',';
                             if (c->getName() == d->ID.str()){
                                 nc += d->ID.str();
                             }else{
                                 nc += c->getName();
                                 nc += " (";
                                 nc += d->ID.str();
-                                nc += ")";
+                                nc += ')';
                             }
                         }
                     }
@@ -2433,7 +2433,7 @@ QString JabberClient::dataName(void *_data)
 {
     QString res = name();
     JabberUserData *data = (JabberUserData*)_data;
-    res += "+";
+    res += '+';
     res += data->ID.str();
     res = res.replace(QRegExp("/"), "_");
     return res;
@@ -2476,7 +2476,7 @@ JabberListRequest *JabberClient::findRequest(const QString &jid, bool bRemove)
 
 bool JabberClient::isAgent(const QString &jid)
 {
-    if (jid.find("@")==-1)
+    if (jid.find('@')==-1)
         return true;
     return false;
 }
@@ -2915,7 +2915,7 @@ bool JabberFileTransfer::get_line(const QCString &str)
         if (m_answer == 206){
             s = "Range: ";
             s += QString::number(m_startPos);
-            s += "-";
+            s += '-';
             s += QString::number(m_endPos);
             send_line(s.utf8());
         }
@@ -3081,48 +3081,44 @@ QImage JabberClient::userPicture(JabberUserData *d)
     if (_d->PhotoWidth.toLong() && _d->PhotoHeight.toLong()) {
         img = QImage(photoFile(_d));
     } else if (_d->LogoWidth.toLong() && _d->LogoHeight.toLong()) {
-        img=QImage(logoFile(_d));
+        img = QImage(logoFile(_d));
     }
-
-    if (!img.isNull()) {
-        int w = img.width();
-        int h = img.height();
-        if (h > w){
-            if (h > 60){
-                w = w * 60 / h;
-                h = 60;
-            }
-        }else{
-            if (w > 60){
-                h = h * 60 / w;
-                w = 60;
-            }
-        }
-
-        return img.scale(w, h);
-    } else {
+    if(img.isNull())
         return img;
+
+    int w = img.width();
+    int h = img.height();
+    if (h > w){
+        if (h > 60){
+            w = w * 60 / h;
+            h = 60;
+        }
+    }else{
+        if (w > 60){
+            h = h * 60 / w;
+            w = 60;
+        }
     }
+
+    return img.scale(w, h);
 }
 
 QImage JabberClient::userPicture(unsigned id)
 {
-    QImage img;
-
     if (id==0)
-        return img;
+        return QImage();
     Contact *contact = getContacts()->contact(id);
     if(!contact)
-        return img;
+        return QImage();
     ClientDataIterator it(contact->clientData, this);
 
     JabberUserData *d;
     while ((d = static_cast<JabberUserData*>(++it)) != NULL){
-        img = userPicture(d);
+        QImage img = userPicture(d);
         if(!img.isNull())
-            break;
+            return img;
     }
-    return img;
+    return QImage();
 }
 
 #ifndef NO_MOC_INCLUDES

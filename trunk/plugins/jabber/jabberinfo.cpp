@@ -135,7 +135,7 @@ void JabberInfo::resourceActivated(int i)
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
-        lblOnline->setText(i18n("Last online") + ":");
+        lblOnline->setText(i18n("Last online") + ':');
         edtOnline->setText(formatDateTime(statusTime));
         lblOnline->show();
         edtOnline->show();
@@ -170,7 +170,7 @@ void JabberInfo::resourceActivated(int i)
         edtClient->setEnabled(false);
     }else{
         edtClient->setEnabled(true);
-        QString clientString = clientName + " " + clientVersion;
+        QString clientString = clientName + ' ' + clientVersion;
         if (!clientOS.isEmpty())
             clientString += " / " + clientOS;
         edtClient->setText(clientString);

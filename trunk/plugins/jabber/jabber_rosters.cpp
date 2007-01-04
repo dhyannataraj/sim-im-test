@@ -314,7 +314,7 @@ InfoRequest::~InfoRequest()
             }else{
                 QString jid = m_jid;
                 if (jid.find('@') == -1){
-                    jid += "@";
+                    jid += '@';
                     jid += m_host;
                 }
                 QString resource;
@@ -1211,13 +1211,13 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
         }
         return;
     }
-    res += "<";
+    res += '<';
     res += tag;
     for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
         QString name = *it;
         ++it;
         QString value = *it;
-        res += " ";
+        res += ' ';
         res += name;
         if (name == "style"){
             list<QString> styles = parseStyle(value);
@@ -1238,7 +1238,7 @@ void JabberBgParser::tag_start(const QString &tag, const list<QString> &attrs)
             res += "\'";
         }
     }
-    res += ">";
+    res += '>';
 }
 
 void JabberBgParser::tag_end(const QString &tag)
@@ -1248,7 +1248,7 @@ void JabberBgParser::tag_end(const QString &tag)
     }
     res += "</";
     res += tag;
-    res += ">";
+    res += '>';
 }
 
 JabberClient::MessageRequest::MessageRequest(JabberClient *client)
@@ -1363,16 +1363,16 @@ JabberClient::MessageRequest::~MessageRequest()
 void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     if (m_bRichText){
-        *m_data += "<";
+        *m_data += '<';
         *m_data += el;
         for (int i = 0; i < attrs.count(); i++){
-            *m_data += " ";
+            *m_data += ' ';
             *m_data += attrs.qName(i);
             *m_data += "=\'";
             *m_data += attrs.value(i);
             *m_data += "\'";
         }
-        *m_data += ">";
+        *m_data += '>';
         return;
     }
     m_data = NULL;
@@ -1416,7 +1416,7 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
         QString name = attrs.value("name");
         if (!jid.isEmpty()){
             if (!m_contacts.isEmpty())
-                m_contacts += ";";
+                m_contacts += ';';
             m_contacts += "jabber:";
             m_contacts += jid;
             if (name.isEmpty()){
@@ -1427,13 +1427,13 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
                     name = jid;
                 }
             }
-            m_contacts += "/";
+            m_contacts += '/';
             m_contacts += name;
-            m_contacts += ",";
+            m_contacts += ',';
             m_contacts += name;
             m_contacts += " (";
             m_contacts += jid;
-            m_contacts += ")";
+            m_contacts += ')';
         }
     }
     if (el == "x"){
@@ -1460,7 +1460,7 @@ void JabberClient::MessageRequest::element_end(const QString& el)
         }
         *m_data += "</";
         *m_data += el;
-        *m_data += ">";
+        *m_data += '>';
         return;
     }
     if (el == "x")
@@ -2119,11 +2119,11 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
     QString jid = data->ID.str();
     if (msg->getResource().isEmpty()){
         if (!data->Resource.str().isEmpty()){
-            jid += "/";
+            jid += '/';
             jid += data->Resource.str();
         }
     }else{
-        jid += "/";
+        jid += '/';
         jid += msg->getResource();
     }
     SendFileRequest *req = new SendFileRequest(this, jid, msg);
@@ -2155,9 +2155,9 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
     struct in_addr addr;
     addr.s_addr = m_socket->localHost();
     url += inet_ntoa(addr);
-    url += ":";
+    url += ':';
 	url += QString::number(port);
-    url += "/";
+    url += '/';
     url += fname;
     QString desc;
     desc = msg->getText();
@@ -2174,11 +2174,11 @@ void JabberClient::sendFileAccept(FileMessage *msg, JabberUserData *data)
     QString jid = data->ID.str();
     if (msg->getResource().isEmpty()){
         if (!data->Resource.str().isEmpty()){
-            jid += "/";
+            jid += '/';
             jid += data->Resource.str();
         }
     }else{
-        jid += "/";
+        jid += '/';
         jid += msg->getResource();
     }
     ServerRequest req(this, ServerRequest::_RESULT, NULL, jid, m->getID());
@@ -2328,7 +2328,7 @@ void DiscoInfoRequest::element_start(const QString& el, const QXmlAttributes& at
         QString feature = attrs.value("var");
         if (!feature.isEmpty()){
             if (!m_features.isEmpty())
-                m_features += "\n";
+                m_features += '\n';
             m_features += feature;
         }
     }
@@ -2452,9 +2452,9 @@ void BrowseRequest::element_end(const QString& el)
         m_data = NULL;
     if (el == "ns" && !m_ns.isEmpty()){
         if (!m_features.isEmpty())
-            m_features += "\n";
+            m_features += '\n';
         m_features += m_ns;
-        m_ns = "";
+        m_ns = QString::null;
         m_data = NULL;
     }
     if ((el == "item" || el == "service" ||

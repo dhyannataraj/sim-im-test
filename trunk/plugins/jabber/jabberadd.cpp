@@ -343,9 +343,9 @@ bool JabberAdd::processEvent(Event *e)
         }
         if (!value.isEmpty()){
             if (!(*it).condition.isEmpty())
-                (*it).condition += ";";
+                (*it).condition += ';';
             (*it).condition += field;
-            (*it).condition += "=";
+            (*it).condition += '=';
             (*it).condition += quoteChars(value, ";");
         }
         return true;
@@ -394,7 +394,7 @@ bool JabberAdd::processEvent(Event *e)
         l.append(data->JID.str());
         for (unsigned i = 0; i < m_fields.size(); i++){
             QString v;
-            if (m_fields[i] == ""){
+            if (m_fields[i].isEmpty()){
                 v = data->JID.str();
             }else if ((m_fields[i] == "first") && !data->First.str().isEmpty()){
                 v = data->First.str();

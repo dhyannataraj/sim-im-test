@@ -858,7 +858,7 @@ void JabberBrowser::addHistory(const QString &str)
         if (i++ > MAX_HISTORY)
             break;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         cmbUrl->insertItem(*it);
         res += quoteChars(*it, ";");
     }
