@@ -1099,7 +1099,7 @@ void ICQClient::sendRosterGrp(const QString &name, unsigned short grpId, unsigne
 static QString userStr(Contact *contact, const ICQUserData *data)
 {
     QString name = contact ? contact->getName() : "unknown";
-    return QString::number(data->Uin.toULong()) + "[" + name + "]";
+    return QString::number(data->Uin.toULong()) + '[' + name + ']';
 }
 
 unsigned ICQClient::processListRequest()

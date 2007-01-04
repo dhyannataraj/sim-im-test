@@ -176,7 +176,7 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
                 lastName = getToken(lastName, '/');
                 if (!lastName.isEmpty()){
                     if (!firstName.isEmpty())
-                        firstName += " ";
+                        firstName += ' ';
                     firstName += lastName;
                 }
                 QString mails;

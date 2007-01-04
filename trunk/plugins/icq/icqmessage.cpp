@@ -277,13 +277,13 @@ static Message *parseContactMessage(const QCString &str)
         QCString screen = c[i*2];
         QCString alias  = c[i*2+1];
         if (!serverText.isEmpty())
-            serverText += ";";
+            serverText += ';';
         if (screen.toULong()){
             serverText += "icq:";
             serverText += screen;
-            serverText += "/";
+            serverText += '/';
             serverText += alias;
-            serverText += ",";
+            serverText += ',';
             if (screen == alias){
                 serverText += "ICQ ";
                 serverText += screen;
@@ -291,14 +291,14 @@ static Message *parseContactMessage(const QCString &str)
                 serverText += alias;
                 serverText += " (ICQ ";
                 serverText += screen;
-                serverText += ")";
+                serverText += ')';
             }
         }else{
             serverText += "aim:";
             serverText += screen;
-            serverText += "/";
+            serverText += '/';
             serverText += alias;
-            serverText += ",";
+            serverText += ',';
             if (screen == alias){
                 serverText += "AIM ";
                 serverText += screen;
@@ -306,7 +306,7 @@ static Message *parseContactMessage(const QCString &str)
                 serverText += alias;
                 serverText += " (AIM ";
                 serverText += screen;
-                serverText += ")";
+                serverText += ')';
             }
         }
     }
@@ -677,7 +677,7 @@ QCString WarningMessage::save()
 {
     QCString res = AuthMessage::save();
     if (!res.isEmpty())
-        res += "\n";
+        res += '\n';
     return res + save_data(warningMessageData, &data);
 }
 
@@ -943,13 +943,13 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
                         ci.grp   = cc ? cc->getGroup() : 0;
                         c.insert(CONTACTS_MAP::value_type(screen, ci));
                         if (!newContacts.isEmpty())
-                            newContacts += ";";
+                            newContacts += ';';
                         if (screen.toULong()){
                             newContacts += "icq:";
                             newContacts += screen;
-                            newContacts += "/";
+                            newContacts += '/';
                             newContacts += contact->getName();
-                            newContacts += ",";
+                            newContacts += ',';
                             if (contact->getName() == screen){
                                 newContacts += "ICQ ";
                                 newContacts += screen;
@@ -957,14 +957,14 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
                                 newContacts += contact->getName();
                                 newContacts += " (ICQ ";
                                 newContacts += screen;
-                                newContacts += ")";
+                                newContacts += ')';
                             }
                         }else{
                             newContacts += "aim:";
                             newContacts += screen;
-                            newContacts += "/";
+                            newContacts += '/';
                             newContacts += contact->getName();
-                            newContacts += ",";
+                            newContacts += ',';
                             if (contact->getName() == screen){
                                 newContacts += "AIM ";
                                 newContacts += screen;
@@ -972,7 +972,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
                                 newContacts += contact->getName();
                                 newContacts += " (AIM ";
                                 newContacts += screen;
-                                newContacts += ")";
+                                newContacts += ')';
                             }
                         }
                     }
@@ -1232,13 +1232,13 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     }
                     if (!area.isEmpty()){
                         if (!value.isEmpty())
-                            value += " ";
-                        value += "(";
+                            value += ' ';
+                        value += '(';
                         value += area;
-                        value += ")";
+                        value += ')';
                     }
                     if (!value.isEmpty())
-                        value += " ";
+                        value += ' ';
                     value += phone;
                     if (!ext.isEmpty()){
                         value += " - ";
@@ -1272,16 +1272,16 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                             const pager_provider *p;
                             for (p = getProviders(); *p->szName; p++){
                                 if (gateway == p->szName){
-                                    phone += "@";
+                                    phone += '@';
                                     phone += p->szGate;
-                                    phone += "[";
+                                    phone += '[';
                                     phone += p->szName;
-                                    phone += "]";
+                                    phone += ']';
                                     break;
                                 }
                             }
                             if (*p->szName == 0){
-                                phone += "@";
+                                phone += '@';
                                 phone += gateway;
                             }
                             break;
@@ -1289,14 +1289,14 @@ void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *
                     default:
                         type = PHONE;
                     }
-                    phone += ",";
+                    phone += ',';
                     phone += phonedescr[i];
-                    phone += ",";
+                    phone += ',';
                     phone += QString::number(type);
                     if (i == nActive)
                         phone += ",1";
                     if (!phones.isEmpty())
-                        phones += ";";
+                        phones += ';';
                     phones += QString::fromUtf8(phone);
                 }
                 data->PhoneBook.str() = phones;

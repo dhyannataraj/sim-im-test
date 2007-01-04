@@ -325,7 +325,7 @@ QCString ICQClient::getConfig()
     setListRequests(listRequest);
     QCString res = Client::getConfig();
     if (res.length())
-        res += "\n";
+        res += '\n';
     return res += save_data(icqClientData, &data);
 }
 
@@ -1250,35 +1250,35 @@ void ICQClient::setupContact(Contact *contact, void *_data)
     }
     if (!data->HomeFax.str().isEmpty()){
         if (phones.length())
-            phones += ";";
+            phones += ';';
         phones += trimPhone(data->HomeFax.str());
         phones += ",Home Fax,";
         phones += QString::number(FAX);
     }
     if (!data->WorkPhone.str().isEmpty()){
         if (phones.length())
-            phones += ";";
+            phones += ';';
         phones += trimPhone(data->WorkPhone.str());
         phones += ",Work Phone,";
         phones += QString::number(PHONE);
     }
     if (!data->WorkFax.str().isEmpty()){
         if (phones.length())
-            phones += ";";
+            phones += ';';
         phones += trimPhone(data->WorkFax.str());
         phones += ",Work Fax,";
         phones += QString::number(FAX);
     }
     if (!data->PrivateCellular.str().isEmpty()){
         if (phones.length())
-            phones += ";";
+            phones += ';';
         phones += trimPhone(data->PrivateCellular.str());
         phones += ",Private Cellular,";
         phones += QString::number(CELLULAR);
     }
     if (!data->PhoneBook.str()){
         if (phones.length())
-            phones += ";";
+            phones += ';';
         phones += data->PhoneBook.str();
     }
     contact->setPhones(phones, name());
@@ -1292,7 +1292,7 @@ void ICQClient::setupContact(Contact *contact, void *_data)
             QString mail = getToken(mailItem, '/').stripWhiteSpace();
             if (mail.length()){
                 if (mails.length())
-                    mails += ";";
+                    mails += ';';
                 mails += mail;
             }
         }
@@ -1346,12 +1346,12 @@ QString ICQClient::contactTip(void *_data)
         res += statusIcon;
         res += "\">";
         if (statusIcon == "ICQ_invisible"){
-            res += " ";
+            res += ' ';
             res += i18n("Invisible");
         }else  if (data->Uin.toULong()){
             for (const CommandDef *cmd = ICQProtocol::_statusList(); !cmd->text.isEmpty(); cmd++){
                 if (cmd->icon == statusIcon){
-                    res += " ";
+                    res += ' ';
                     statusText += i18n(cmd->text);
                     res += statusText;
                     break;
@@ -2125,7 +2125,7 @@ CommandDef *ICQClient::infoWindows(Contact*, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
     CommandDef *def = data->Uin.toULong() ? icqWnd : aimWnd;
     QString name = i18n(protocol()->description()->text);
-    name += " ";
+    name += ' ';
     if (data->Uin.toULong()){
         name += QString::number(data->Uin.toULong());
     }else{
@@ -2139,7 +2139,7 @@ CommandDef *ICQClient::configWindows()
 {
     CommandDef *def = icqConfigWnd;
     QString name = i18n(protocol()->description()->text);
-    name += " ";
+    name += ' ';
     if (m_bAIM){
         name += data.owner.Screen.str();
         def = aimConfigWnd;
@@ -2983,7 +2983,7 @@ QString ICQClient::dataName(void *data)
 
 QString ICQClient::dataName(const QString &screen)
 {
-    return name() + "." + screen;
+    return name() + '.' + screen;
 }
 
 QString ICQClient::screen(const ICQUserData *data)
@@ -3054,7 +3054,7 @@ QString ICQClient::contactName(void *clientData)
     }
     res += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : data->Screen.str();
     if (!data->Nick.str().isEmpty())
-        res += ")";
+        res += ')';
     return res;
 }
 
@@ -3175,7 +3175,7 @@ QString ICQClient::pictureFile(const ICQUserData *data)
     QString f = PICT_PATH;
     f += "icq.avatar.";
     f += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : data->Screen.str();
-    f += ".";
+    f += '.';
     f += QString::number(data->buddyID.toULong());
     f = user_file(f);
     return f;
@@ -3183,22 +3183,20 @@ QString ICQClient::pictureFile(const ICQUserData *data)
 
 QImage ICQClient::userPicture(unsigned id)
 {
-    QImage img;
-
     if (id==0)
-        return img;
+        return QImage();
     Contact *contact = getContacts()->contact(id);
     if(!contact)
-        return img;
+        return QImage();
     ClientDataIterator it(contact->clientData, this);
 
     ICQUserData *d;
     while ((d = static_cast<ICQUserData*>(++it)) != NULL){
-        img = userPicture(d);
+        QImage img = userPicture(d);
         if(!img.isNull())
-            break;
+            return img;
     }
-    return img;
+    return QImage();
 }
 
 QImage ICQClient::userPicture(ICQUserData *d)

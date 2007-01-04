@@ -42,12 +42,12 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
     for (e++; e->language; e++){
         if (!e->bMain)
             continue;
-        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ")");
+        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ')');
     }
     for (e = getContacts()->getEncodings(); e->language; e++){
         if (e->bMain)
             continue;
-        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ")");
+        cmbEncoding->insertItem(i18n(e->language) + " (" + e->codec + ')');
     }
     buttonOk->setEnabled(false);
 }

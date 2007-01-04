@@ -191,7 +191,7 @@ void XmlBranch::pushnode(XmlNode *c) {
 
 string XmlBranch::toString(int n) {
     string ret(n,'\t');
-    ret += "<" + quote(tag) + ">\n";
+    ret += '<' + quote(tag) + ">\n";
     list<XmlNode*>::iterator curr = children.begin();
     while (curr != children.end()) {
         ret += (*curr)->toString(n+1);
@@ -214,6 +214,6 @@ bool XmlLeaf::isBranch() { return false; }
 string XmlLeaf::getValue() { return value; }
 
 string XmlLeaf::toString(int n) {
-    return string(n,'\t') + "<" + quote(tag) + ">" + quote(value) + "</" + quote(tag) + ">\n";
+    return string(n,'\t') + '<' + quote(tag) + '>' + quote(value) + "</" + quote(tag) + ">\n";
 }
 

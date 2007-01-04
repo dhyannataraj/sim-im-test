@@ -1516,7 +1516,7 @@ QString DirectClient::name()
         m_name = "Unknown.";
     }
     m_name += QString::number(m_data->Uin.toULong());
-    m_name += ".";
+    m_name += '.';
     m_name += QString::number((unsigned long)this);
     return m_name;
 }
@@ -1699,9 +1699,9 @@ void ICQFileTransfer::initReceive(char cmd)
     if (m_notify)
         m_notify->transfer(false);
     if (!dir.isEmpty())
-        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir) + "/" + fName;
+        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir) + '/' + fName;
     if (isDir)
-        fName += "/";
+        fName += '/';
     m_state = Wait;
     FileTransfer::m_state = FileTransfer::Read;
     if (m_notify)
@@ -1832,7 +1832,7 @@ void ICQFileTransfer::sendPacket(bool dump)
         ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
         QString name = "FileTranfer";
         if (m_data){
-            name += ".";
+            name += '.';
             name += QString::number(m_data->Uin.toULong());
         }
         EventLog::log_packet(m_socket->writeBuffer, true, plugin->ICQDirectPacket, name);

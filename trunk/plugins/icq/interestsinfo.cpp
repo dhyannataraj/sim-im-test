@@ -66,7 +66,7 @@ void InterestsInfo::apply(Client *client, void *_data)
         if (info[i].isEmpty())
             continue;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += info[i];
     }
     data->Interests.str() = res;
@@ -202,8 +202,8 @@ QString InterestsInfo::getInfo(QComboBox *cmb, QLineEdit *edt)
 {
     unsigned n = getComboValue(cmb, interests);
     if (n == 0)
-        return "";
-    QString res = QString::number(n) + ",";
+        return QString::null;
+    QString res = QString::number(n) + ',';
     res += quoteChars(edt->text(), ",;");
     return res;
 }

@@ -222,7 +222,7 @@ void ICQInfo::fill()
     cmbStatus->setCurrentItem(current);
     disableWidget(cmbStatus);
     if (status == STATUS_OFFLINE){
-        lblOnline->setText(i18n("Last online") + ":");
+        lblOnline->setText(i18n("Last online") + ':');
         edtOnline->setText(formatDateTime(data->StatusTime.toULong()));
         lblNA->hide();
         edtNA->hide();
@@ -263,7 +263,7 @@ void ICQInfo::fill()
         }
     }else{
         QString name = PACKAGE;
-        name += " ";
+        name += ' ';
         name += VERSION;
 #ifdef WIN32
         name += "/win32";

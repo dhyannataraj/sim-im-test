@@ -947,11 +947,11 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
         msg->setID_H(id.id_h);
         if (type == 2){
             d = i18n("Directory");
-            d += " ";
+            d += ' ';
             d += name;
             d += " (";
             d += i18n("%n file", "%n files", nFiles);
-            d += ")";
+            d += ')';
         }else{
             if (nFiles == 1){
                 d = name;
@@ -982,7 +982,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                 QString s;
                 adv.unpackStr(s);
                 if (!contacts.isEmpty())
-                    contacts += ";";
+                    contacts += ';';
                 if (s.toULong()){
                     contacts += "icq:";
                     contacts += s;
@@ -1440,7 +1440,7 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
 void AIMParser::tag_end(const QString &tag)
 {
     if(tag == "p") {
-        res += "\n";
+        res += '\n';
     }
     /*QString otag;
     if ((tag == "font") || (tag == "b") || (tag == "u") || (tag == "i"))

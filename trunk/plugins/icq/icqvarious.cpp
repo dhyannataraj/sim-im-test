@@ -393,9 +393,9 @@ QString FullInfoRequest::unpack_list(Buffer &b, Contact *contact)
         b >> s;
         if (c == 0) continue;
         if (res.length())
-            res += ";";
+            res += ';';
         res += QString::number(c);
-        res += ",";
+        res += ',';
         res += quoteChars(getContacts()->toUnicode(contact, s), ";");
     }
     return res;
@@ -500,7 +500,7 @@ bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
                 b >> s;
                 s = quoteChars(getContacts()->toUnicode(contact, s), ";");
                 if (mail.length())
-                    mail += ";";
+                    mail += ';';
                 mail += s;
                 mail += '/';
                 if (d)
@@ -1074,7 +1074,7 @@ static QString getICombo(const char *tlvData, const QString &o)
     const unsigned char *data = (const unsigned char*)tlvData;
 
     unsigned cat = data[0] | ( data[1] << 8 );
-    ret = QString::number( cat ) + "," + getSString( &tlvData[2] );
+    ret = QString::number( cat ) + ',' + getSString( &tlvData[2] );
     if( others.isEmpty() )
         return ret;
     return others + ';' + ret;

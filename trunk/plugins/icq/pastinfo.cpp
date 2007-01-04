@@ -279,7 +279,7 @@ void PastInfo::apply(Client *client, void *_data)
         if (bg[i].isEmpty())
             continue;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += bg[i];
     }
     data->Backgrounds.str() = res;
@@ -292,7 +292,7 @@ void PastInfo::apply(Client *client, void *_data)
         if (af[i].isEmpty())
             continue;
         if (!res.isEmpty())
-            res += ";";
+            res += ';';
         res += af[i];
     }
     data->Affilations.str() = res;
@@ -303,7 +303,7 @@ QString PastInfo::getInfo(QComboBox *cmb, QLineEdit *edt, const ext_info *info)
     unsigned n = getComboValue(cmb, info);
     if (n == 0)
         return QString::null;
-    QString res = QString::number(n) + ",";
+    QString res = QString::number(n) + ',';
     res += quoteChars(edt->text(), ",;");
     return res;
 }
