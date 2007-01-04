@@ -325,6 +325,7 @@ void MsgViewBase::update()
     viewport()->repaint();
 }
 
+//ToDo: Rewrite this ugly slow Function which is slowing down the History loading. 
 QString MsgViewBase::messageText(Message *msg, bool bUnread)
 {
     QString options;
