@@ -145,6 +145,7 @@ else(WIN32)
     SET(SIM_PICT_DIR   ${DATADIR}/pict)
     SET(SIM_SOUND_DIR  ${DATADIR}/sounds)
     SET(SIM_STYLES_DIR ${DATADIR}/styles)
+    SET(XDG_APPS_DIR   ${CMAKE_INSTALL_PREFIX}/share/applications/kde)
 endif(WIN32)	
 	
 # subdirectories
