@@ -1660,17 +1660,17 @@ void ContactList::save()
     }
     QCString line = p->userData.save();
     if (line.length()){
+        line += '\n';
         f.writeBlock(line, line.length());
-        f.writeBlock("\n", 1);
     }
     line = save_data(contactData, &owner()->data);
     if (line.length()){
         QCString cfg  = "[";
         cfg += OWNER;
         cfg += "]\n";
+        line += '\n';
         f.writeBlock(cfg, cfg.length());
         f.writeBlock(line, line.length());
-        f.writeBlock("\n", 1);
     }
     for (vector<Group*>::iterator it_g = p->groups.begin(); it_g != p->groups.end(); ++it_g){
         Group *grp = *it_g;
@@ -1681,8 +1681,8 @@ void ContactList::save()
         f.writeBlock(line, line.length());
         line = save_data(groupData, &grp->data);
         if (line.length()){
+            line += '\n';
             f.writeBlock(line, line.length());
-            f.writeBlock("\n", 1);
         } else {
             /* Group has no name --> Not In List
                since the load_data seems to have problems with totally empty
@@ -1691,13 +1691,13 @@ void ContactList::save()
         }
         line = grp->userData.save();
         if (line.length()){
+            line += '\n';
             f.writeBlock(line, line.length());
-            f.writeBlock("\n", 1);
         }
         line = grp->clientData.save();
         if (line.length()){
+            line += '\n';
             f.writeBlock(line, line.length());
-            f.writeBlock("\n", 1);
         }
     }
     for (list<Contact*>::iterator it_c = p->contacts.begin(); it_c != p->contacts.end(); ++it_c){
@@ -1711,18 +1711,18 @@ void ContactList::save()
         f.writeBlock(line, line.length());
         line = save_data(contactData, &contact->data);
         if (line.length()){
+            line += '\n';
             f.writeBlock(line, line.length());
-            f.writeBlock("\n", 1);
         }
         line = contact->userData.save();
         if (line.length()){
+            line += '\n';
             f.writeBlock(line, line.length());
-            f.writeBlock("\n", 1);
         }
         line = contact->clientData.save();
         if (line.length()){
+            line += '\n';
             f.writeBlock(line, line.length());
-            f.writeBlock("\n", 1);
         }
     }
 

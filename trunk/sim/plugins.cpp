@@ -609,8 +609,8 @@ void PluginManagerPrivate::saveState()
         if (info.plugin){
             QCString cfg = info.plugin->getConfig();
             if (cfg.length()){
+                cfg += '\n';
                 f.writeBlock(cfg, cfg.length());
-                f.writeBlock("\n", 1);
             }
         }
     }

@@ -225,14 +225,14 @@ EXPORT QString getToken(QString &from, char c, bool bUnEscape)
             if (i >= (int)from.length())
                 break;
             if (!bUnEscape)
-                res += "\\";
+                res += '\\';
         }
         res += from[i];
     }
     if (i < (int)from.length()){
         from = from.mid(i + 1);
     }else{
-        from = "";
+        from = QString::null;
     }
     return res;
 }
@@ -249,14 +249,14 @@ EXPORT QCString getToken(QCString &from, char c, bool bUnEscape)
             if (i >= (int)from.length())
                 break;
             if (!bUnEscape)
-                res += "\\";
+                res += '\\';
         }
         res += from[i];
     }
     if (i < (int)from.length()){
         from = from.mid(i + 1);
     }else{
-        from = "";
+        from = QCString();
     }
     return res;
 }

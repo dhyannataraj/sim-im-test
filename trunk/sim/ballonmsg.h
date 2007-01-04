@@ -66,7 +66,7 @@ class BalloonButton : public QPushButton
 {
     Q_OBJECT
 public:
-    BalloonButton(QString, QWidget*, int);
+    BalloonButton(const QString &text, QWidget *parent, int id);
 signals:
     void action(int);
 protected slots:
