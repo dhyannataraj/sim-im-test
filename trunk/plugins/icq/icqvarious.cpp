@@ -709,10 +709,10 @@ bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
     >> LastName
     >> EMail
     >> waitAuth;
-    res.data.Nick.str() = QString::fromUtf8(Nick);
-    res.data.FirstName.str() = QString::fromUtf8(FirstName);
-    res.data.LastName.str() = QString::fromUtf8(LastName);
-    res.data.EMail.str() = QString::fromUtf8(EMail);
+    res.data.Nick.str() = getContacts()->toUnicode(NULL, Nick);
+    res.data.FirstName.str() = getContacts()->toUnicode(NULL, FirstName);
+    res.data.LastName.str() = getContacts()->toUnicode(NULL, LastName);
+    res.data.EMail.str() = getContacts()->toUnicode(NULL, EMail);
 
     b.unpack(state);
     b >> gender;
@@ -764,10 +764,12 @@ unsigned short ICQClient::findByUin(unsigned long uin)
     return m_nMsgSequence;
 }
 
-unsigned short ICQClient::findByMail(const QString &mail)
+unsigned short ICQClient::findByMail(const QString &_mail)
 {
     if (getState() != Connected)
         return (unsigned short)(-1);
+    QCString mail = getContacts()->fromUnicode(NULL, _mail);
+    
     serverRequest(ICQ_SRVxREQ_MORE);
     m_socket->writeBuffer
     << ICQ_SRVxREQ_WP_MAIL;
@@ -777,14 +779,31 @@ unsigned short ICQClient::findByMail(const QString &mail)
     return m_nMsgSequence;
 }
 
-void ICQClient::packTlv(unsigned short tlv, unsigned short code, const QString &keywords)
+void ICQClient::packTlv(unsigned short tlv, unsigned short code, const QString &_keywords)
 {
-    if ((code == 0) && keywords.isEmpty())
+    if ((code == 0) && _keywords.isEmpty())
         return;
+    QCString data = getContacts()->fromUnicode(NULL, _keywords);
+
     Buffer b;
     b.pack(code);
-    b << keywords;
+    b << data;
     m_socket->writeBuffer.tlvLE(tlv, b);
+}
+
+void ICQClient::packTlv(unsigned short tlv, const QString &_data)
+{
+    if(_data.isEmpty())
+        return;
+    QCString data = getContacts()->fromUnicode(NULL, _data);
+    m_socket->writeBuffer.tlvLE(tlv, data);
+}
+
+void ICQClient::packTlv(unsigned short tlv, unsigned short data)
+{
+    if(data == 0)
+        return;
+    m_socket->writeBuffer.tlvLE(tlv, data);
 }
 
 unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, const QString &szNick,
@@ -833,42 +852,28 @@ unsigned short ICQClient::findWP(const QString &szFirst, const QString &szLast, 
         break;
     }
 
-    if (!szCity.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_CITY, szCity);
-    if (!szState.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_STATE, szState);
-    if (!szCoName.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_WORK_COMPANY, szCoName);
-    if (!szCoDept.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_WORK_DEPARTMENT, szCoDept);
-    if (!szCoPos.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_WORK_POSITION, szCoPos);
-    if (nMinAge || nMaxAge)
-        m_socket->writeBuffer.tlvLE(TLV_AGE_RANGE, (nMaxAge << 16) + nMinAge);
-    if (nGender)
-        m_socket->writeBuffer.tlvLE(TLV_GENDER, nGender);
-    if (nLanguage)
-        m_socket->writeBuffer.tlvLE(TLV_LANGUAGE, nLanguage);
-    if (nCountryCode)
-        m_socket->writeBuffer.tlvLE(TLV_COUNTRY, nCountryCode);
-    if (nOccupation)
-        m_socket->writeBuffer.tlvLE(TLV_WORK_OCCUPATION, nOccupation);
+    packTlv(TLV_CITY, szCity);
+    packTlv(TLV_STATE, szState);
+    packTlv(TLV_WORK_COMPANY, szCoName);
+    packTlv(TLV_WORK_DEPARTMENT, szCoDept);
+    packTlv(TLV_WORK_POSITION, szCoPos);
+    packTlv(TLV_AGE_RANGE, (nMaxAge << 16) + nMinAge);
+    packTlv(TLV_GENDER, nGender);
+    packTlv(TLV_LANGUAGE, nLanguage);
+    packTlv(TLV_COUNTRY, nCountryCode);
+    packTlv(TLV_WORK_OCCUPATION, nOccupation);
     packTlv(TLV_PAST, nPast, szPast);
     packTlv(TLV_INTERESTS, nInterests, szInterests);
     packTlv(TLV_AFFILATIONS, nAffilation, szAffilation);
     packTlv(TLV_HOMEPAGE, nHomePage, szHomePage);
-    if (!szFirst.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_FIRST_NAME, szFirst);
-    if (!szLast.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_LAST_NAME, szLast);
-    if (!szNick.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_NICK, szNick);
-    if (!szKeyWords.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_KEYWORDS, szKeyWords);
-    if (!szEmail.isEmpty())
-        m_socket->writeBuffer.tlvLE(TLV_EMAIL, szEmail);
+    packTlv(TLV_FIRST_NAME, szFirst);
+    packTlv(TLV_LAST_NAME, szLast);
+    packTlv(TLV_NICK, szNick);
+    packTlv(TLV_KEYWORDS, szKeyWords);
+    packTlv(TLV_EMAIL, szEmail);
     if (bOnlineOnly)
         m_socket->writeBuffer.tlvLE(TLV_SEARCH_ONLINE, (char)1);
+
     sendServerRequest();
     varRequests.push_back(new SearchWPRequest(this, m_nMsgSequence));
     return m_nMsgSequence;

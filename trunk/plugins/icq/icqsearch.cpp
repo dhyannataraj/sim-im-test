@@ -426,7 +426,7 @@ bool ICQSearch::processEvent(Event *e)
         QString key = m_client->screen(&res->data);
         if (res->data.Uin.toULong()){
             while (key.length() < 13)
-                key = QString(".") + key;
+                key = '.' + key;
         }
         l.append(key);
         l.append(m_client->screen(&res->data));;

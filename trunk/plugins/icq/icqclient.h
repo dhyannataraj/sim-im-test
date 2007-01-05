@@ -766,6 +766,8 @@ protected:
     void encodeString(const QString &_str, unsigned short nTlv, bool bWide);
     bool processMsg();
     void packTlv(unsigned short tlv, unsigned short code, const QString &keywords);
+    void packTlv(unsigned short tlv, const QString &_data);
+    void packTlv(unsigned short tlv, unsigned short data);
     void uploadBuddyIcon(unsigned short refNumber, const QImage &img);
     void requestBuddy(const ICQUserData *data);
     ICQUserData *findInfoRequest(unsigned short seq, SIM::Contact *&contact);

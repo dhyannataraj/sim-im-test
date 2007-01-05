@@ -96,8 +96,8 @@ static DataDef _icqUserData[] =
         { "", DATA_ULONG, 1, 0 },				// ContactVisibleId
         { "Invsible", DATA_ULONG, 1, 0 },
         { "", DATA_ULONG, 1, 0 },				// ContactInvisibleId
-        { "WaitAuth", DATA_BOOL, 1, 0 },
-        { "WantAuth", DATA_BOOL, 1, 0 },
+        { "WaitAuth", DATA_BOOL, 1, 0 },        // Need auth from to add to our contact list
+        { "WantAuth", DATA_BOOL, 1, 0 },        // Want's auth from us
         { "WebAware", DATA_BOOL, 1, DATA(1) },
         { "InfoUpdateTime", DATA_ULONG, 1, 0 },
         { "PluginInfoTime", DATA_ULONG, 1, 0 },
