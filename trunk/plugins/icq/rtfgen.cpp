@@ -327,7 +327,7 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
 
 QCString RTFGenParser::parse(const QString &text)
 {
-    res = "";
+    res = QString::null;
     m_res_size = 0;
     m_codec = getContacts()->getCodec(m_contact);
     int charset = 0;
@@ -854,7 +854,7 @@ QCString ICQClient::createRTF(QString &text, QString &part, unsigned long foreCo
     QCString res = p.parse(text);
     if (p.m_res_size == 0){
         part = text;
-        text = "";
+        text = QString::null;
         return res;
     }
     QString endTags;
@@ -895,7 +895,7 @@ ImageParser::ImageParser(bool bIcq)
 
 QString ImageParser::parse(const QString &text)
 {
-    res = "";
+    res = QString::null;
     startBody();
     HTMLParser::parse(text);
     endBody();
@@ -905,7 +905,7 @@ QString ImageParser::parse(const QString &text)
 void ImageParser::startBody()
 {
     m_bBody = true;
-    res = "";
+    res = QString::null;
 }
 
 void ImageParser::endBody()
@@ -926,7 +926,7 @@ void ImageParser::tag_start(const QString &tag, const list<QString> &attrs)
     QString oTag = tag;
 
     if (tag == "html"){
-        res = "";
+        res = QString::null;
         m_bBody = false;
         return;
     }
@@ -1056,7 +1056,7 @@ void BgParser::tag_start(const QString &tag, const list<QString> &attrs)
 {
     if (tag == "body"){
         m_bBody = true;
-        res = "";
+        res = QString::null;
         for (list<QString>::const_iterator it = attrs.begin(); it != attrs.end(); ++it){
             QString name = *it;
             ++it;

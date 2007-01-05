@@ -133,7 +133,7 @@ void ICQConfig::changed(const QString&)
 void ICQConfig::newToggled(bool bNew)
 {
     if (bNew)
-        edtUin->setText("");
+        edtUin->setText(QString::null);
     lblUin->setEnabled(!bNew);
     edtUin->setEnabled(!bNew);
 }

@@ -232,12 +232,12 @@ void InterestsInfo::cmbChanged(int)
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
     cmbs[n]->setCurrentItem(0);
-    edts[n]->setText("");
+    edts[n]->setText(QString::null);
     for (n++; n < 4; n++){
         disableWidget(cmbs[n]);
         disableWidget(edts[n]);
         initCombo(cmbs[n], 0, interests, true);
-        edts[n]->setText("");
+        edts[n]->setText(QString::null);
     }
 }
 

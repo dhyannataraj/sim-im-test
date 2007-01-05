@@ -51,7 +51,7 @@ static bool extractInfo(TlvList &tlvs, unsigned short id, SIM::Data &data, Conta
 QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 {
     if (tlvInfo == NULL)
-        return "";
+        return QString::null;
     return convert(*tlvInfo, tlvInfo->Size(), tlvs, n);
 }
 
@@ -420,7 +420,7 @@ static inline bool isWide(const SIM::Data &data)
 void ICQClient::encodeString(const QString &str, unsigned short nTlv, bool bWide)
 {
     if (str.isEmpty()){
-        m_socket->writeBuffer.tlv(nTlv, "");
+        m_socket->writeBuffer.tlv(nTlv, QString::null);
         return;
     }
     QString m = str;

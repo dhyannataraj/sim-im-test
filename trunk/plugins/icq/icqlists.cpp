@@ -168,7 +168,7 @@ void ICQClient::parseRosterItem(unsigned short type,
                 // check for own uin in contact list
                 if (!m_bAIM && (str.toULong() == getUin())) {
                     log(L_DEBUG, "Own UIN in contact list - removing!");
-                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", grp_id, id);
+                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, grp_id, id);
                     m_listRequest = new ContactServerRequest(seq, QString::number(id), 0, 0);
                     break;
                 }
@@ -892,7 +892,7 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
 {
     ListRequest *lr = client->findContactListRequest(m_screen);
     if (lr && (lr->type == LIST_USER_DELETED)){
-        lr->screen = "";
+        lr->screen = QString::null;
         lr->icq_id = 0;
         lr->grp_id = 0;
         return;
@@ -1187,7 +1187,7 @@ unsigned ICQClient::processListRequest()
                         data->IcqID.asULong() = getListId();
                     TlvList *tlv = createListTlv(data, contact);
                     if (data->GrpId.toULong())
-                        seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()));
+                        seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()));
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), grp_id, (unsigned short)(data->IcqID.toULong()), 0, tlv);
                     sendRosterGrp(group->getName(), grp_id, (unsigned short)(data->IcqID.toULong()));
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
@@ -1196,7 +1196,7 @@ unsigned ICQClient::processListRequest()
                     m_listRequest = new ContactServerRequest(seq, screen(data), (unsigned short)(data->IcqID.toULong()), grp_id, tlv);
                 }else{
                     log(L_DEBUG, "%s remove from contact list", userStr(contact, data).local8Bit().data());
-                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()));
+                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()));
                     m_listRequest = new ContactServerRequest(seq, screen(data), 0, 0);
                 }
                 break;
@@ -1232,7 +1232,7 @@ unsigned ICQClient::processListRequest()
             }
             if (lr.screen.length() && lr.grp_id){
                 log(L_DEBUG, "%s remove from contact list", lr.screen.local8Bit().data());
-                seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", lr.grp_id, lr.icq_id);
+                seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, lr.grp_id, lr.icq_id);
                 m_listRequest = new ContactServerRequest(seq, lr.screen, 0, 0);
             }
             break;
@@ -1266,7 +1266,7 @@ unsigned ICQClient::processListRequest()
                 log(L_DEBUG, "delete group");
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
                 sendPacket(true);
-                seq = sendRoster(ICQ_SNACxLISTS_DELETE, "", lr.icq_id, 0, ICQ_GROUPS);
+                seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, lr.icq_id, 0, ICQ_GROUPS);
                 snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
                 sendPacket(true);
                 m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, QString::null);

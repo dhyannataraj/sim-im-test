@@ -157,10 +157,12 @@ const ext_info *p_languages = languages;
 void MoreInfo::fill()
 {
     ICQUserData *data = m_data;
-    if (data == NULL) data = &m_client->data.owner;
+    if (data == NULL)
+        data = &m_client->data.owner;
     edtHomePage->setText(data->Homepage.str());
     initCombo(cmbGender, (unsigned short)(data->Gender.toULong()), genders);
-    if (spnAge->text() == "0") spnAge->setSpecialValueText("");
+    if (spnAge->text() == "0")
+        spnAge->setSpecialValueText(QString::null);
     edtDate->setDate(data->BirthDay.toULong(), data->BirthMonth.toULong(), data->BirthYear.toULong());
     birthDayChanged();
     unsigned l = data->Language.toULong();

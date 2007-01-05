@@ -1551,7 +1551,7 @@ bool SMSRequest::answer(Buffer &b, unsigned short code)
                 XmlBranch *msg = static_cast<XmlBranch*>(n);
                 XmlLeaf *l = msg->getLeaf("deliverable");
                 if (l && (l->getValue() == "Yes")){
-                    error = "";
+                    error = QString::null;
                     l = msg->getLeaf("network");
                     if (l)
                         network = l->getValue();

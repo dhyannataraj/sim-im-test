@@ -37,7 +37,7 @@ EncodingDlg::EncodingDlg(QWidget *parent, ICQClient *client)
     m_client = client;
     connect(buttonOk, SIGNAL(clicked()), this, SLOT(apply()));
     connect(cmbEncoding, SIGNAL(activated(int)), this, SLOT(changed(int)));
-    cmbEncoding->insertItem("");
+    cmbEncoding->insertItem(QString::null);
     const ENCODING *e = getContacts()->getEncodings();
     for (e++; e->language; e++){
         if (!e->bMain)

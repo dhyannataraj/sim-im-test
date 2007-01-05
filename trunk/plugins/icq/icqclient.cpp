@@ -2503,7 +2503,7 @@ bool ICQClient::processEvent(Event *e)
             for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){
                 if ((*it).msg == msg){
                     if (it == smsQueue.begin()){
-                        (*it).text = "";
+                        (*it).text = QString::null;
                     }else{
                         smsQueue.erase(it);
                     }
@@ -2523,7 +2523,7 @@ bool ICQClient::processEvent(Event *e)
             }
             if (m_send.msg == msg){
                 m_send.msg = NULL;
-                m_send.screen = "";
+                m_send.screen = QString::null;
                 m_sendTimer->stop();
                 processSendQueue();
                 return msg;

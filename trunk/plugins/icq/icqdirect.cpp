@@ -705,7 +705,7 @@ void DirectClient::processPacket()
             }
         case ICQ_MSGxSECURExOPEN:
         case ICQ_MSGxSECURExCLOSE:
-            msg_str = "";
+            msg_str = QString::null;
 #ifdef USE_OPENSSL
             msg_str = "1";
 #endif
@@ -1665,7 +1665,7 @@ void ICQFileTransfer::processPacket()
                     FileTransfer::m_state = FileTransfer::Done;
                     if (m_notify)
                         m_notify->process();
-                    m_socket->error_state("");
+                    m_socket->error_state(QString::null);
                     return;
                 }
                 m_state = InitReceive;
@@ -1908,7 +1908,7 @@ void ICQFileTransfer::sendFileInfo()
 {
     if (!openFile()){
         if (FileTransfer::m_state == FileTransfer::Done)
-            m_socket->error_state("");
+            m_socket->error_state(QString::null);
         if (m_notify)
             m_notify->transfer(false);
         return;

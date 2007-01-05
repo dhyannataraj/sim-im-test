@@ -222,12 +222,12 @@ void PastInfo::cmbBgChanged(int)
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
     cmbs[n]->setCurrentItem(0);
-    edts[n]->setText("");
+    edts[n]->setText(QString::null);
     for (n++; n < 3; n++){
         disableWidget(cmbs[n]);
         disableWidget(edts[n]);
         initCombo(cmbs[n], 0, pasts, true);
-        edts[n]->setText("");
+        edts[n]->setText(QString::null);
     }
 }
 
@@ -255,12 +255,12 @@ void PastInfo::cmbAfChanged(int)
     cmbs[n]->setEnabled(true);
     disableWidget(edts[n]);
     cmbs[n]->setCurrentItem(0);
-    edts[n]->setText("");
+    edts[n]->setText(QString::null);
     for (n++; n < 3; n++){
         disableWidget(cmbs[n]);
         disableWidget(edts[n]);
         initCombo(cmbs[n], 0, affilations, true);
-        edts[n]->setText("");
+        edts[n]->setText(QString::null);
     }
 }
 
@@ -283,7 +283,7 @@ void PastInfo::apply(Client *client, void *_data)
         res += bg[i];
     }
     data->Backgrounds.str() = res;
-    res = "";
+    res = QString::null;
     QString af[3];
     af[0] = getInfo(cmbAf1, edtAf1, affilations);
     af[1] = getInfo(cmbAf2, edtAf2, affilations);

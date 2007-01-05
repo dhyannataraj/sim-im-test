@@ -1417,7 +1417,7 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
                             if (country[0] == '+')
                                 country = country.mid(1);
                             unsigned code = country.toULong();
-                            country = "";
+                            country = QString::null;
                             for (const ext_info *e = getCountries(); e->nCode; e++){
                                 if (e->nCode == code){
                                     country = e->szName;

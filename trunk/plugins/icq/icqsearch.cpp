@@ -305,8 +305,8 @@ void ICQSearch::search()
 void ICQSearch::addColumns()
 {
     QStringList columns;
-    columns.append("");
-    columns.append("");
+    columns.append(QString::null);
+    columns.append(QString::null);
     columns.append("nick");
     columns.append(i18n("Nick"));
     columns.append("first");

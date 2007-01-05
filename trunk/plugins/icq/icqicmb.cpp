@@ -134,7 +134,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     if (m_send.msg)
                         sendThruServer(m_send.msg, data);
                     m_send.msg    = NULL;
-                    m_send.screen = "";
+                    m_send.screen = QString::null;
                     m_sendTimer->stop();
                     processSendQueue();
                     break;
@@ -150,7 +150,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 delete m_send.msg;
             }
             m_send.msg    = NULL;
-            m_send.screen = "";
+            m_send.screen = QString::null;
             m_sendTimer->stop();
             processSendQueue();
             break;
@@ -240,7 +240,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 }
             }
             m_send.msg    = NULL;
-            m_send.screen = "";
+            m_send.screen = QString::null;
             m_sendTimer->stop();
             processSendQueue();
             break;
@@ -813,7 +813,7 @@ void ICQClient::clearMsgQueue()
         delete m_send.msg;
     }
     m_send.msg    = NULL;
-    m_send.screen = "";
+    m_send.screen = QString::null;
 }
 
 void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool needAck, MessageId id)
@@ -1375,7 +1375,7 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
         otag = "FONT";
     if (otag.isEmpty())
         return;
-    res += "<";
+    res += '<';
     res += otag;
     for (list<QString>::const_iterator it = options.begin(); it != options.end(); ++it){
         QString key = *it;
@@ -1391,7 +1391,7 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
                 {
                     res += " FACE=\"";
                     res += value;
-                    res += "\"";
+                    res += '\"';
                 }
                 else if (key == "font-size")
                 {
@@ -1423,16 +1423,16 @@ void AIMParser::tag_start(const QString &tag, const list<QString> &options)
                 {
                     res += " COLOR=\"";
                     res += value;
-                    res += "\"";
+                    res += '\"';
                 }
             }
             continue;
         }
-        res += " ";
+        res += ' ';
         res += key.upper();
         res += "=\"";
         res += value;
-        res += "\"";
+        res += '\"';
     }
     res += ">";*/
 }
@@ -1465,7 +1465,7 @@ void ICQClient::sendTimeout()
             delete m_send.msg;
         }
         m_send.msg = NULL;
-        m_send.screen = "";
+        m_send.screen = QString::null;
     }
     processSendQueue();
 }
@@ -1560,7 +1560,7 @@ static QString getUtf8Part(QString &str, unsigned size)
 {
     if (str.utf8().length() < size){
         QString res = str;
-        str = "";
+        str = QString::null;
         return res;
     }
     unsigned s = 0;
@@ -1612,7 +1612,7 @@ bool ICQClient::processMsg()
             delete m_send.msg;
             m_send.msg = NULL;
         }
-        m_send.screen = "";
+        m_send.screen = QString::null;
         return false;
     }
     unsigned short type = 0;
@@ -1819,7 +1819,7 @@ bool ICQClient::processMsg()
             sendThroughServer(m_send.screen, 2, b, m_send.id, false, false);
             replyQueue.push_back(m_send);
             m_send.msg    = NULL;
-            m_send.screen = "";
+            m_send.screen = QString::null;
             return false;
         }
         m_send.id.id_l = rand();
