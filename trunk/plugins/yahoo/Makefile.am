@@ -8,6 +8,7 @@ yahoo_la_SOURCES = \
  yahooauth.cpp \
  yahoocfg.cpp \
  yahoocfgbase.ui \
+ yahoofiletransfer.cpp \
  yahooinfo.cpp \
  yahooinfobase.ui \
  yahoosearch.cpp \

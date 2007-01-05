@@ -7,6 +7,7 @@ msn_la_SOURCES = \
  msnconfig.cpp \
  msnconfigbase.ui \
  msnclient.cpp \
+ msnfiletransfer.cpp \
  msnpacket.cpp \
  msninfo.cpp \
  msninfobase.ui \

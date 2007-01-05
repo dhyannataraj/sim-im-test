@@ -5,6 +5,7 @@ SET(msn_SRCS
         msn.cpp
         msnclient.cpp
         msnconfig.cpp
+        msnfiletransfer.cpp
         msnhttp.cpp
         msninfo.cpp
         msnpacket.cpp

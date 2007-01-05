@@ -469,6 +469,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\msnfiletransfer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="msnhttp.cpp"
 				>
 				<FileConfiguration

@@ -14,6 +14,7 @@ SET(jabber_SRCS
         jabberbrowser.cpp
         jabberclient.cpp
         jabberconfig.cpp
+        jabberfiletransfer.cpp
         jabberhomeinfo.cpp
         jabberinfo.cpp
         jabbermessage.cpp
