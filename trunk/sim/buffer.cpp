@@ -217,7 +217,7 @@ unsigned Buffer::unpack(QByteArray &d, unsigned s)
 bool Buffer::unpackStr(QString &str)
 {
     unsigned short s;
-    str = "";
+    str = QString::null;
     *this >> s;
     if (s == 0)
         return false;

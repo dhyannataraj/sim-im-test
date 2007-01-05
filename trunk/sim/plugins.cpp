@@ -83,12 +83,6 @@ QCString Plugin::getConfig()
     return "";
 }
 
-struct CmdDescr
-{
-    string arg;
-    string descr;
-};
-
 class PluginManagerPrivate : public EventReceiver
 {
 public:
@@ -145,11 +139,7 @@ static bool cmp_plugin(pluginInfo p1, pluginInfo p2)
     QString s1 = p1.name.lower();
     QString s2 = p2.name.lower();
 
-    if(s1 < s2)
-        return true;
-    if(s1 > s2)
-        return false;
-    return false;
+    return (s1 < s2);
 }
 
 bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringList &pluginsList)

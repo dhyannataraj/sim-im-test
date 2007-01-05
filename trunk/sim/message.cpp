@@ -622,7 +622,7 @@ void FileTransfer::setNotify(FileTransferNotify *notify)
 
 QString AuthMessage::presentation()
 {
-    return "";
+    return QString::null;
 }
 
 static DataDef messageStatusData[] =
@@ -651,7 +651,7 @@ QCString StatusMessage::save()
 
 QString StatusMessage::presentation()
 {
-    return "";
+    return QString::null;
 }
 
 }

@@ -517,12 +517,12 @@ void FileIconSet::clear()
 void FileIconSet::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     if (el == "icon"){
-        m_name  = "";
-        m_smile = "";
+        m_name  = QString::null;
+        m_smile = QString::null;
         m_flags = 0;
-        m_file  = "";
+        m_file  = QString::null;
 #ifdef USE_KDE
-        m_system = "";
+        m_system = QString::null;
 #endif
         m_name = attrs.value("name");
         m_flags = attrs.value("flags").toUInt();
@@ -555,7 +555,7 @@ void FileIconSet::element_start(const QString& el, const QXmlAttributes& attrs)
         return;
     }
     if (el == "text"){
-        m_smile = "";
+        m_smile = QString::null;
         m_data = &m_smile;
     }
 }
@@ -575,7 +575,7 @@ void FileIconSet::element_end(const QString& el)
 #ifdef USE_KDE
         if (!m_name.startsWith("big.")){
             QString big_name = "big." + m_name;
-            p.file   = "";
+            p.file   = QString::null;
             p.flags  = m_flags;
             p.system = m_system;
             it = m_icons.find(big_name);
@@ -591,7 +591,7 @@ void FileIconSet::element_end(const QString& el)
             s.smile = m_smile;
             m_smiles.push_back(s);
         }
-        m_smile = "";
+        m_smile = QString::null;
     }
     m_data = NULL;
 }

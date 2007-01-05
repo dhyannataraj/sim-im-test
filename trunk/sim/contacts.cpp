@@ -511,7 +511,7 @@ unsigned long Contact::contactInfo(unsigned &style, QString &statusIcon, QString
 
 QString Client::resources(void*)
 {
-    return "";
+    return QString::null;
 }
 
 QString Client::contactName(void*)
@@ -1271,7 +1271,7 @@ QString ClientUserData::property(const char *name)
             user_data += def->n_values;
         }
     }
-    return "";
+    return QString::null;
 }
 
 bool ClientUserData::have(void *data)

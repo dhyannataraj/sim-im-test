@@ -30,7 +30,7 @@ class QStringList;
 class UnZip
 {
 public:
-    UnZip(const QString &fname="");
+    UnZip(const QString &fname = QString::null);
     ~UnZip();
 
     void setName(const QString &);

@@ -46,7 +46,7 @@ public:
     ~CommandsDef();
     unsigned id();
     bool isMenu();
-    void setConfig(const char*);
+    void setConfig(const QString &cfg);
     void set(const CommandDef *def);
     void set(const CommandDef &def);
 private:

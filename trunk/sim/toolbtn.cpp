@@ -442,7 +442,7 @@ void CToolPictButton::paintEvent(QPaintEvent*)
         QStringList parts = QStringList::split(" | ", text);
         unsigned n;
         for (n = parts.count(); n > 0; n--){
-            text = "";
+            text = QString::null;
             for (unsigned i = 0; i < n; i++){
                 if (!text.isEmpty())
                     text += ' ';

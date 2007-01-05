@@ -40,7 +40,7 @@ class CommandsDefPrivate : public EventReceiver
 {
 public:
     CommandsDefPrivate(unsigned id, bool bMenu);
-    void setConfig(const char *cfg_str);
+    void setConfig(const QString &cfg);
     virtual bool processEvent(Event *e);
     bool addCommand(const CommandDef *cmd);
     bool changeCommand(const CommandDef *cmd);
@@ -48,7 +48,7 @@ public:
     void generateConfig();
     list<CommandDef> buttons;
     list<unsigned> cfg;
-    QCString config;
+    QString config;
     unsigned m_id;
     bool m_bMenu;
 };
@@ -139,10 +139,8 @@ bool CommandsDefPrivate::processEvent(Event *e)
     return false;
 }
 
-void CommandsDefPrivate::setConfig(const char *cfg_str)
+void CommandsDefPrivate::setConfig(const QString &cfg_str)
 {
-    if (cfg_str == NULL)
-        cfg_str = "";
     if (cfg_str == config && cfg.size())
         return;
     cfg.clear();
@@ -156,22 +154,22 @@ void CommandsDefPrivate::generateConfig()
         return;
     if (config.length()){
         list<unsigned> processed;
-        QCString active = config;
-        QCString noactive;
+        QString active = config;
+        QString noactive;
         int n = config.find('/');
         if (n >= 0){
             active   = config.left(n);
             noactive = config.mid(n + 1);
         }
         while (active.length()){
-            QCString v = getToken(active, ',');
+            QString v = getToken(active, ',');
             unsigned id = v.toUInt();
             cfg.push_back(id);
             if (id)
                 processed.push_back(id);
         }
         while (noactive.length()){
-            QCString v = getToken(noactive, ',');
+            QString v = getToken(noactive, ',');
             unsigned id = v.toUInt();
             if (id)
                 processed.push_back(id);
@@ -367,7 +365,7 @@ void CommandsDef::set(const CommandDef &cmd)
     p->changeCommand(&cmd);
 }
 
-void CommandsDef::setConfig(const char *cfg_str)
+void CommandsDef::setConfig(const QString &cfg_str)
 {
     p->setConfig(cfg_str);
 }

@@ -46,7 +46,7 @@ UnquoteParser::UnquoteParser()
 
 QString UnquoteParser::parse(const QString &str)
 {
-    res = "";
+    res = QString::null;
     m_bPar = false;
     m_bTD  = false;
     m_bTR  = false;
@@ -172,7 +172,7 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode, bool bQuote
     str.replace("<", "&lt;");
     str.replace(">", "&gt;");
     str.replace("\"", "&quot;");
-    str.replace("\r", "");
+    str.replace("\r", QString::null);
     str.replace("\t", "&nbsp;&nbsp;");
     switch (mode){
     case quoteHTML:

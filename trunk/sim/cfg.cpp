@@ -549,7 +549,7 @@ EXPORT void load_data(const DataDef *d, void *_data, Buffer *cfg)
                 break;
             val = val.mid(idx1 + 1);
             if(!unquoteInternal(val, v)) {
-                set_str(ld, i, "");
+                set_str(ld, i, QString::null);
                 break;
             }
             if (!val.isEmpty() && val[0] == 'u'){

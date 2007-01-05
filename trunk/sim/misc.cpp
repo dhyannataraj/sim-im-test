@@ -421,7 +421,8 @@ void setButtonsPict(QWidget *w)
 
 EXPORT QString formatDateTime(unsigned long t)
 {
-    if (t == 0) return "";
+    if (t == 0)
+        return QString::null;
     QDateTime time;
     time.setTime_t(t);
 #ifdef USE_KDE
@@ -433,7 +434,8 @@ EXPORT QString formatDateTime(unsigned long t)
 
 EXPORT QString formatDate(unsigned long t)
 {
-    if (t == 0) return "";
+    if (t == 0)
+        return QString::null;
     QDateTime time;
     time.setTime_t(t);
 #ifdef USE_KDE
@@ -470,7 +472,7 @@ void initCombo(QComboBox *cmb, unsigned short code, const ext_info *tbl, bool bA
     if (cmb->isEnabled()){
         cmb->clear();
         if (bAddEmpty)
-            cmb->insertItem("");
+            cmb->insertItem(QString::null);
         QStringList items;
         QString current;
         for (const ext_info *i = tbl; i->nCode; i++){
@@ -590,7 +592,7 @@ EXPORT QString getPart(QString &str, unsigned size)
     QString res;
     if (str.length() < size){
         res = str;
-        str = "";
+        str = QString::null;
         return res;
     }
     int n = size;
