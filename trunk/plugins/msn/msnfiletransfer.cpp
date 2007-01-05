@@ -27,11 +27,18 @@
 #include <arpa/inet.h>
 #endif
 
+#include <qfile.h>
+#include <qtimer.h>
+#include <qregexp.h>
+
 #include "simapi.h"
 
 #include "log.h"
 #include "message.h"
 #include "misc.h"
+
+#include "msn.h"
+#include "msnclient.h"
 
 using namespace SIM;
 

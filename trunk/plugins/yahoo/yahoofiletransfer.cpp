@@ -40,11 +40,16 @@
 
 #include <list>
 
+#include <qfile.h>
+
 #include "simapi.h"
 
 #include "log.h"
 #include "message.h"
 #include "misc.h"
+
+#include "yahoo.h"
+#include "yahooclient.h"
 
 using namespace SIM;
 using namespace std;

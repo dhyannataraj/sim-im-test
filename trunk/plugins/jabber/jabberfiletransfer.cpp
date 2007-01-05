@@ -19,13 +19,17 @@
 
 #include <list>
 
+#include <qregexp.h>
+
 #include "simapi.h"
 #include "buffer.h"
 #include "log.h"
 #include "message.h"
 #include "misc.h"
 
+#include "jabber.h"
 #include "jabberclient.h"
+#include "jabbermessage.h"
 
 using namespace SIM;
 using namespace std;
