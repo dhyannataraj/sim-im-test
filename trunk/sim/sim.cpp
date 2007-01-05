@@ -198,39 +198,8 @@ Debug d;
 #endif
 #endif
 
-class base
-{
- int m_base;
-};
-
-class child : public base
-{
-int m_child;
-};
-
-class A
-{
-public:
-    A() {}
-    virtual ~A() {}
-
-    virtual base &getBase() = 0;
-};
-
-class B : public A
-{
-public:
-    B() {}
-    virtual ~B() {}
-
-    virtual child &getBase() { return m_child;}
-    child m_child;
-};
-
 int main(int argc, char *argv[])
 {
-    B *test = new B();
-    child &c = test->getBase();
     int res = 1;
 #ifdef WIN32
     HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
