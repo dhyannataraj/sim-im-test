@@ -15,22 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "simapi.h"
-
-#include "log.h"
-
-#include "history.h"
-#include "core.h"
-#include "msgview.h"
-#include "buffer.h"
-
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qdir.h>
 #include <qregexp.h>
 #include <qtextcodec.h>
 #include <qtextstream.h>
+
 #include <time.h>
+
+#include "simapi.h"
+#include "buffer.h"
+#include "log.h"
+
+#include "history.h"
+#include "core.h"
+#include "msgview.h"
 
 using namespace std;
 using namespace SIM;
@@ -110,6 +110,15 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
 
     f_name = user_file(f_name);
     setName(f_name);
+    QFileInfo fi(*this);
+    if (!fi.exists()) {
+        // make sure directory exists
+        makedir(fi.dirPath(true));
+    }
+    if (!fi.isFile()) {
+        // FIXME!
+        log(L_ERROR, "%s is not a file!", fi.dirPath(true).local8Bit().data());
+    }
     if (!exists()){
         QFile bak(name() + REMOVED);
         if (bak.exists()){
