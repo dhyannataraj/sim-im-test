@@ -231,27 +231,27 @@ void ICQSearch::search()
         m_type = Full;
         setAdv(false);
         AdvSearch *adv = static_cast<AdvSearch*>(m_adv);
-        m_first		= getContacts()->fromUnicode(0, edtFirst->text());
-        m_last		= getContacts()->fromUnicode(0, edtLast->text());
-        m_nick		= getContacts()->fromUnicode(0, edtNick->text());
-        m_mail		= getContacts()->fromUnicode(0, edtMail->text());
+        m_first		= edtFirst->text();
+        m_last		= edtLast->text();
+        m_nick		= edtNick->text();
+        m_mail		= edtMail->text();
         m_age		= getComboValue(adv->cmbAge, p_ages);
         m_gender	= getComboValue(adv->cmbGender, p_genders);
         m_lang		= getComboValue(adv->cmbLang, p_languages);
-        m_city		= getContacts()->fromUnicode(0, adv->edtCity->text());
-        m_state		= getContacts()->fromUnicode(0, adv->edtState->text());
+        m_city		= adv->edtCity->text();
+        m_state		= adv->edtState->text();
         m_country	= getComboValue(adv->cmbCountry, getCountries(), getCountryCodes());
-        m_company	= getContacts()->fromUnicode(0, adv->edtCompany->text());
-        m_depart	= getContacts()->fromUnicode(0, adv->edtDepartment->text());
-        m_position	= getContacts()->fromUnicode(0, adv->edtPosition->text());
+        m_company	= adv->edtCompany->text();
+        m_depart	= adv->edtDepartment->text();
+        m_position	= adv->edtPosition->text();
         m_occupation= getComboValue(adv->cmbOccupation, p_occupations);
         m_past		= getComboValue(adv->cmbPast, p_pasts);
-        m_past_text	= getContacts()->fromUnicode(0, adv->edtPast->text());
+        m_past_text	= adv->edtPast->text();
         m_interests	= getComboValue(adv->cmbInterests, p_interests);
-        m_interests_text = getContacts()->fromUnicode(0, adv->edtInterests->text());
+        m_interests_text = adv->edtInterests->text();
         m_affilations	 = getComboValue(adv->cmbAffilation, p_affilations);
-        m_affilations_text = getContacts()->fromUnicode(0, adv->edtAffilation->text());
-        m_keywords	= getContacts()->fromUnicode(0, adv->edtKeywords->text());
+        m_affilations_text = adv->edtAffilation->text();
+        m_keywords	= adv->edtKeywords->text();
         m_bOnline	= adv->chkOnline->isChecked();
         icq_search();
     }else if (m_client->m_bAIM && m_bAdv){
@@ -283,16 +283,16 @@ void ICQSearch::search()
     }else if (grpMail->isChecked() && !edtMail->text().isEmpty()){
         if (!m_client->m_bAIM){
             m_type = Mail;
-            m_mail = getContacts()->fromUnicode(0, edtMail->text());
+            m_mail = edtMail->text();
             icq_search();
         }
         m_id_aim = m_client->aimEMailSearch(edtMail->text());
     }else if (!m_client->m_bAIM && grpName->isChecked() &&
               (!edtFirst->text().isEmpty() || !edtLast->text().isEmpty() || !edtNick->text().isEmpty())){
         m_type = Name;
-        m_first		= getContacts()->fromUnicode(0, edtFirst->text());
-        m_last		= getContacts()->fromUnicode(0, edtLast->text());
-        m_nick		= getContacts()->fromUnicode(0, edtNick->text());
+        m_first		= edtFirst->text();
+        m_last		= edtLast->text();
+        m_nick		= edtNick->text();
         icq_search();
         m_id_aim = m_client->aimInfoSearch(edtFirst->text(), edtLast->text(), QString::null, QString::null,
                                            QString::null, QString::null, QString::null, edtNick->text(), QString::null, QString::null);
@@ -335,9 +335,7 @@ void ICQSearch::searchMail(const QString &mail)
 {
     if (!m_client->m_bAIM){
         m_type = Mail;
-        m_mail = "";
-        if (!mail.isEmpty())
-            m_mail = mail.utf8();
+        m_mail = mail;
         icq_search();
     }
     m_id_aim = m_client->aimEMailSearch(mail);
@@ -348,15 +346,9 @@ void ICQSearch::searchName(const QString &first, const QString &last, const QStr
 {
     if (!m_client->m_bAIM){
         m_type		= Name;
-        m_first		= "";
-        m_last		= "";
-        m_nick		= "";
-        if (!first.isEmpty())
-            m_first		= first.utf8();
-        if (!last.isEmpty())
-            m_last		= last.utf8();
-        if (!nick.isEmpty())
-            m_nick		= nick.utf8();
+        m_first		= first;
+        m_last		= last;
+        m_nick		= nick;
         icq_search();
     }
     m_id_aim = m_client->aimInfoSearch(first, last, QString::null, QString::null, QString::null,
