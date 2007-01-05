@@ -327,7 +327,7 @@ bool JabberClient::processEvent(Event *e)
                 e.process();
             }
             ec->setContact(contact);
-            return (void*)1;
+            return true;
         }
         break;
     }
@@ -345,7 +345,7 @@ bool JabberClient::processEvent(Event *e)
                     ClientDataIterator itc(contact->clientData);
                     if (++itc == NULL)
                         delete contact;
-                    return (void*)1;
+                    return true;
                 }
             }
         }
@@ -433,8 +433,7 @@ bool JabberClient::processEvent(Event *e)
         if (ev->action() != EventGroup::eChanged) 
             return false;
         Group *grp = ev->group();
-        QString grpName;
-        grpName = grp->getName();
+        QString grpName = grp->getName();
         ContactList::ContactIterator itc;
         Contact *contact;
         while ((contact = ++itc) != NULL){
