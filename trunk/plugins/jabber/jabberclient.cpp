@@ -580,7 +580,7 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
                 show = "chat";
                 break;
             case STATUS_OFFLINE:
-                priority = "";
+                priority = QString::null;
                 type = "unavailable";
                 break;
             }
@@ -659,7 +659,7 @@ void JabberClient::disconnected()
 
 void JabberClient::init()
 {
-    m_id = "";
+    m_id = QString::null;
     m_depth = 0;
     m_id_seed = 0xAAAA;
     m_bSSL = false;
@@ -835,7 +835,7 @@ void JabberClient::ServerRequest::end_element(bool bNewLevel)
             m_client->m_socket->writeBuffer << "</" << (const char*)m_element.utf8() << ">\n";
         }
     }
-    m_element = "";
+    m_element = QString::null;
 }
 
 void JabberClient::ServerRequest::add_text(const QString &value)
@@ -843,7 +843,7 @@ void JabberClient::ServerRequest::add_text(const QString &value)
     if (m_element.length()){
         m_client->m_socket->writeBuffer << ">";
         m_els.push(m_element);
-        m_element = "";
+        m_element = QString::null;
     }
     m_client->m_socket->writeBuffer
     << (const char*)JabberClient::encodeXML(value).utf8();
@@ -953,7 +953,7 @@ QString JabberClient::encodeXML(const QString &str)
 
 JabberUserData *JabberClient::findContact(const QString &_jid, const QString &name, bool bCreate, Contact *&contact, QString &resource, bool bJoin)
 {
-    resource = "";
+    resource = QString::null;
     QString jid = _jid;
     int n = jid.find('/');
     if (n >= 0){
@@ -1854,7 +1854,7 @@ static const char *_styles[] =
 void JabberImageParser::startBody(const list<QString> &attrs)
 {
     m_bBody = true;
-    res = "";
+    res = QString::null;
     list<QString> newStyles;
     list<QString>::const_iterator it;
     for (it = attrs.begin(); it != attrs.end(); ++it){
@@ -1906,7 +1906,7 @@ void JabberImageParser::tag_start(const QString &tag, const list<QString> &attrs
 {
     if (tag == "html"){
         m_bBody = false;
-        res = "";
+        res = QString::null;
         return;
     }
     if (tag == "body"){
@@ -2637,7 +2637,7 @@ void JabberFileTransfer::listen()
         for (;;){
             if (!openFile()){
                 if (FileTransfer::m_state == FileTransfer::Done)
-                    m_socket->error_state("");
+                    m_socket->error_state(QString::null);
                 return;
             }
             if (!isDirectory())
@@ -2734,7 +2734,7 @@ void JabberFileTransfer::packet_ready()
     }
     if (m_state == Receive){
         if (m_file == NULL){
-            m_socket->error_state("", 0);
+            m_socket->error_state(QString::null, 0);
             return;
         }
         unsigned size = m_socket->readBuffer.size() - m_socket->readBuffer.readPos();
@@ -2752,7 +2752,7 @@ void JabberFileTransfer::packet_ready()
                     m_notify->transfer(false);
                     m_notify->process();
                 }
-                m_socket->error_state("");
+                m_socket->error_state(QString::null);
             }
             if (m_notify)
                 m_notify->process();
@@ -2807,7 +2807,7 @@ void JabberFileTransfer::write_ready()
             if (!openFile()){
                 m_state = None;
                 if (FileTransfer::m_state == FileTransfer::Done)
-                    m_socket->error_state("");
+                    m_socket->error_state(QString::null);
                 break;
             }
             if (isDirectory())

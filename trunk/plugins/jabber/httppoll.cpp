@@ -84,7 +84,6 @@ QString JabberHttpPool::getKey()
     b.pack(digest, digest.size());
     Buffer r;
     r.toBase64(b);
-    m_key = "";
     m_key = r;
     return m_key;
 #else

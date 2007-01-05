@@ -121,9 +121,9 @@ void DiscoInfo::reset()
             bVCard = true;
     }
     int pos = 2;
-    edtName->setText("");
-    edtVersion->setText("");
-    edtSystem->setText("");
+    edtName->setText(QString::null);
+    edtVersion->setText(QString::null);
+    edtSystem->setText(QString::null);
     m_browser->m_client->versionInfo(m_url, m_node);
     if ((bTime || bLast) != (m_bTime || m_bLast)){
         m_bTime = bTime;
@@ -136,8 +136,8 @@ void DiscoInfo::reset()
     }else if (m_bTime || m_bLast){
         pos++;
     }
-    edtTime->setText("");
-    edtLast->setText("");
+    edtTime->setText(QString::null);
+    edtLast->setText(QString::null);
     if (m_bTime){
         edtTime->show();
         m_browser->m_client->timeInfo(m_url, m_node);
@@ -172,12 +172,12 @@ void DiscoInfo::reset()
     }else if (m_bVCard){
         pos++;
     }
-    edtFirstName->setText("");
-    edtNick->setText("");
-    edtBirthday->setText("");
-    edtUrl->setText("");
-    edtEMail->setText("");
-    edtPhone->setText("");
+    edtFirstName->setText(QString::null);
+    edtNick->setText(QString::null);
+    edtBirthday->setText(QString::null);
+    edtUrl->setText(QString::null);
+    edtEMail->setText(QString::null);
+    edtPhone->setText(QString::null);
     if (bVCard){
         m_about = new JabberAboutInfo(tabInfo, &m_data, m_browser->m_client);
         tabInfo->insertTab(m_about, i18n("About info"), pos++);

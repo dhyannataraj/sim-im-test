@@ -100,7 +100,7 @@ void JabberClient::auth_digest()
     QString digest = m_id;
     digest += getPassword();
     QByteArray md = sha1(digest.utf8());
-    digest = "";
+    digest = QString::null;
     for (unsigned i = 0; i < md.size(); i++){
         char b[3];
         sprintf(b, "%02x", md[(int)i] & 0xFF);

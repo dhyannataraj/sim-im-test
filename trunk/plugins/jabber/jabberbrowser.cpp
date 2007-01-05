@@ -170,7 +170,7 @@ void JabberBrowser::setClient(JabberClient *client)
         url = m_client->getVHost();
     if (url.isEmpty())
         url = m_client->getServer();
-    goUrl(url, "");
+    goUrl(url, QString::null);
 }
 
 void JabberBrowser::goUrl(const QString &url, const QString &node)
@@ -326,7 +326,7 @@ bool JabberBrowser::processEvent(Event *e)
                     QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
-                    m_reg_id = "";
+                    m_reg_id = QString::null;
                     delete m_reg;
                     m_reg = NULL;
                     Command cmd;
@@ -342,7 +342,7 @@ bool JabberBrowser::processEvent(Event *e)
                     m_reg->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showReg()));
                 }
-                m_reg_id = "";
+                m_reg_id = QString::null;
                 return true;
             }
             if (m_reg)
@@ -355,7 +355,7 @@ bool JabberBrowser::processEvent(Event *e)
                     QString err = i18n(data->Label.str());
                     if (err.isEmpty())
                         err = i18n("Error %1") .arg(data->nOptions.toULong());
-                    m_config_id = "";
+                    m_config_id = QString::null;
                     delete m_config;
                     m_config = NULL;
                     Command cmd;
@@ -371,7 +371,7 @@ bool JabberBrowser::processEvent(Event *e)
                     m_config->m_search->addWidget(data);
                     QTimer::singleShot(0, this, SLOT(showConfig()));
                 }
-                m_config_id = "";
+                m_config_id = QString::null;
                 return true;
             }
             if (m_config)
@@ -477,7 +477,7 @@ bool JabberBrowser::processEvent(Event *e)
                 if (m_search)
                     delete m_search;
                 m_search = new JIDSearch(this, m_client, item->text(COL_JID), item->text(COL_NODE), item->text(COL_TYPE));
-                m_search->jidSearch->init(this, m_client, m_search->m_jid, m_search->m_node, "", false);
+                m_search->jidSearch->init(this, m_client, m_search->m_jid, m_search->m_node, QString::null, false);
                 m_search_id = m_client->get_agent_info(item->text(COL_JID), item->text(COL_NODE), "search");
                 return true;
             }
@@ -557,7 +557,7 @@ bool JabberBrowser::processEvent(Event *e)
         QListViewItem *it = findItem(COL_ID_DISCO_ITEMS, item->id);
         if (it){
             if (item->jid.isEmpty()){
-                it->setText(COL_ID_DISCO_ITEMS, "");
+                it->setText(COL_ID_DISCO_ITEMS, QString::null);
                 if (it != m_list->firstChild()){
                     checkDone();
                     adjustColumn(it);
@@ -607,7 +607,7 @@ bool JabberBrowser::processEvent(Event *e)
         it = findItem(COL_ID_DISCO_INFO, item->id);
         if (it){
             if (item->jid.isEmpty()){
-                it->setText(COL_ID_DISCO_INFO, "");
+                it->setText(COL_ID_DISCO_INFO, QString::null);
                 checkDone();
                 adjustColumn(it);
                 return true;
@@ -627,7 +627,7 @@ bool JabberBrowser::processEvent(Event *e)
         it = findItem(COL_ID_BROWSE, item->id);
         if (it){
             if (item->jid.isEmpty()){
-                it->setText(COL_ID_BROWSE, "");
+                it->setText(COL_ID_BROWSE, QString::null);
                 if (it != m_list->firstChild()){
                     checkDone();
                     adjustColumn(it);
@@ -673,7 +673,7 @@ bool JabberBrowser::processEvent(Event *e)
             }
             if (it->text(COL_NAME).isEmpty() || (it->text(COL_NAME) == it->text(COL_JID)))
                 it->setText(COL_NAME, item->name);
-            it->setText(COL_NODE, "");
+            it->setText(COL_NODE, QString::null);
             it->setText(COL_CATEGORY, item->category);
             it->setText(COL_TYPE, item->type);
             it->setText(COL_FEATURES, item->features);
@@ -926,7 +926,7 @@ QListViewItem *JabberBrowser::findItem(unsigned col, const QString &id, QListVie
 void JabberBrowser::checkDone()
 {
     if (m_list->firstChild() && checkDone(m_list->firstChild()))
-        stop("");
+        stop(QString::null);
 }
 
 bool JabberBrowser::checkDone(QListViewItem *item)

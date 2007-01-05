@@ -148,9 +148,9 @@ void JabberAdd::search()
 void JabberAdd::searchMail(const QString &mail)
 {
     m_mail	= mail;
-    m_first	= "";
-    m_last	= "";
-    m_nick	= "";
+    m_first	= QString::null;
+    m_last	= QString::null;
+    m_nick	= QString::null;
     startSearch();
 }
 
@@ -159,7 +159,7 @@ void JabberAdd::searchName(const QString &first, const QString &last, const QStr
     m_first = first;
     m_last  = last;
     m_nick	= nick;
-    m_mail	= "";
+    m_mail	= QString::null;
     startSearch();
 }
 
@@ -170,7 +170,7 @@ void JabberAdd::startSearch()
     m_labels.clear();
     m_agents.clear();
     m_nFields = 0;
-    m_id_disco = "";
+    m_id_disco = QString::null;
     QString url;
     if (m_client->getUseVHost())
         url = m_client->getVHost();
@@ -191,8 +191,8 @@ void JabberAdd::addAttr(const QString &name, const QString &label)
 
 void JabberAdd::searchStop()
 {
-    m_id_browse = "";
-    m_id_disco  = "";
+    m_id_browse = QString::null;
+    m_id_disco  = QString::null;
     m_disco_items.clear();
     m_fields.clear();
     m_labels.clear();
@@ -225,27 +225,27 @@ bool JabberAdd::processEvent(Event *e)
                         url = m_client->getVHost();
                     if (url.isEmpty())
                         url = m_client->getServer();
-                    m_id_disco  = m_client->discoItems(url, "");
+                    m_id_disco  = m_client->discoItems(url, QString::null);
                 }
                 m_id_browse = QString::null;
                 checkDone();
-                return (void*)1;
+                return true;
             }
-            addSearch(item->jid, "", item->features, item->type);
-            return (void*)1;
+            addSearch(item->jid, QString::null, item->features, item->type);
+            return true;
         }
         if (m_id_disco == item->id){
             if (item->jid.isEmpty()){
-                m_id_disco = "";
+                m_id_disco = QString::null;
                 checkDone();
-                return (void*)1;
+                return true;
             }
             ItemInfo info;
             info.jid  = item->jid;
             info.node = item->node;
             info.id   = m_client->discoInfo(info.jid, info.node);
             m_disco_items.push_back(info);
-            return (void*)1;
+            return true;
         }
         list<ItemInfo>::iterator it;
         for (it = m_disco_items.begin(); it != m_disco_items.end(); ++it){
@@ -267,7 +267,7 @@ bool JabberAdd::processEvent(Event *e)
         if (it == m_agents.end())
             return false;
         if (data->Type.str().isEmpty()){
-            (*it).id_info = "";
+            (*it).id_info = QString::null;
             if (m_first.isEmpty())
                 (*it).fill |= FILL_FIRST;
             if (m_last.isEmpty())

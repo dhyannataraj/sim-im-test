@@ -122,7 +122,7 @@ bool JIDSearch::processEvent(Event *e)
             return false;
         if (data->JID.str().isEmpty()){
             QStringList l;
-            l.append("");
+            l.append(QString::null);
             l.append(i18n("JID"));
             for (unsigned i = 0; i < data->nFields.toULong(); i++){
                 l.append(get_str(data->Fields, i * 2));

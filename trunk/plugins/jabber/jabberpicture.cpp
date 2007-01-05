@@ -82,7 +82,7 @@ void JabberPicture::apply(Client *client, void*)
         return;
     QString pict = edtPict->text();
     if (lblPict->pixmap() == NULL)
-        pict = "";
+        pict = QString::null;
     if (m_bPhoto){
         m_client->setPhoto(pict);
     }else{
@@ -126,7 +126,7 @@ void JabberPicture::fill()
 
 void JabberPicture::clearPicture()
 {
-    edtPict->setText("");
+    edtPict->setText(QString::null);
 }
 
 void JabberPicture::pictSelected(const QString &file)

@@ -45,15 +45,6 @@ void JabberHomeInfo::apply()
 {
 }
 
-int str_cmp(const char *s1, const char *s2)
-{
-    if (s1 == NULL)
-        s1 = "";
-    if (s2 == NULL)
-        s2 = "";
-    return strcmp(s1, s2);
-}
-
 bool JabberHomeInfo::processEvent(Event *e)
 {
     if (e->type() == eEventContact){

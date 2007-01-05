@@ -68,7 +68,7 @@ QString CComboBox::value()
 {
     unsigned index = currentItem();
     if (index >= m_values.size())
-        return "";
+        return QString::null;
     return m_values[index];
 }
 
@@ -132,7 +132,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
                 if (*it)
                     delete (*it);
             m_descs.clear();
-            m_instruction = "";
+            m_instruction = QString::null;
         }else if (data->Type.str() == "title"){
             if (!data->Value.str().isEmpty())
                 m_title = data->Value.str();
@@ -214,7 +214,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             bJoin = true;
         }else if (data->Type.str() == "sex"){
             CComboBox *box = new CComboBox(this, data->Field.str());
-            box->addItem("", "0");
+            box->addItem(QString::null, "0");
             box->addItem(i18n("Male"), "1");
             box->addItem(i18n("Female"), "2");
             data->Label.str() == I18N_NOOP("Gender");
@@ -327,7 +327,7 @@ static const char *any_data[] =
 QString JabberSearch::i18(const char *text)
 {
     if ((text == NULL) || (*text == 0))
-        return "";
+        return QString::null;
     QString res = QString::fromUtf8(text);
     for (int i = 0; i < (int)res.length(); i++){
         if (res[i].unicode() >= 0x80)
@@ -473,7 +473,7 @@ void JabberSearch::createLayout()
             QLabel *label = new QLabel(m_label, this);
             label->setAlignment(WordBreak);
             lay->addMultiCellWidget(label, 0, 0, 0, nCols * 3 + 1);
-            m_label = "";
+            m_label = QString::null;
             start = 1;
         }
         unsigned row = start;
@@ -510,7 +510,7 @@ void JabberSearch::createLayout()
         QLabel *label = new QLabel(m_instruction, this);
         label->setAlignment(WordBreak);
         lay->addMultiCellWidget(label, nRows + start, nRows + start, 0, nCols * 3 - 1);
-        m_instruction = "";
+        m_instruction = QString::null;
     }
 }
 
@@ -660,7 +660,7 @@ void JIDJabberSearch::createLayout()
         m_adv->lblTitle->setText(m_title);
         m_adv->lblInstruction->setText(m_instruction);
     }
-    m_instruction = "";
+    m_instruction = QString::null;
 }
 
 #ifndef NO_MOC_INCLUDES

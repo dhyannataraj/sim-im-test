@@ -114,12 +114,12 @@ void RostersRequest::element_start(const QString& el, const QXmlAttributes& attr
 {
     if (el == "item"){
         m_subscribe = SUBSCRIBE_NONE;
-        m_grp = "";
+        m_grp = QString::null;
         m_jid = attrs.value("jid");
         if (m_jid.length() == 0)
             return;
         m_name = attrs.value("name");
-        m_subscription  = "";
+        m_subscription  = QString::null;
         m_bSubscription = false;
         QString subscribe = attrs.value("subscription");
         if (subscribe == "none"){
@@ -136,13 +136,13 @@ void RostersRequest::element_start(const QString& el, const QXmlAttributes& attr
         return;
     }
     if (el == "group"){
-        m_grp = "";
+        m_grp = QString::null;
         m_data = &m_grp;
         return;
     }
     if (el == "subscription"){
         m_bSubscription = true;
-        m_subscription = "";
+        m_subscription = QString::null;
         m_data = &m_subscription;
         return;
     }
@@ -751,7 +751,7 @@ JabberClient::PresenceRequest::PresenceRequest(JabberClient *client)
 static unsigned get_number(QString &s, unsigned digits)
 {
     if (s.length() < digits){
-        s = "";
+        s = QString::null;
         return 0;
     }
     QString p = s.left(digits);
@@ -997,7 +997,7 @@ void JabberClient::PresenceRequest::element_start(const QString& el, const QXmlA
             }
         }
     }
-    m_data = "";
+    m_data = QString::null;
 }
 
 void JabberClient::PresenceRequest::element_end(const QString& el)
@@ -1187,9 +1187,9 @@ JabberBgParser::JabberBgParser()
 
 QString JabberBgParser::parse(const QString &text)
 {
-    res = "";
+    // ??
     HTMLParser::parse(text);
-    return res;
+    return QString::null;
 }
 
 void JabberBgParser::text(const QString &text)
@@ -1405,7 +1405,7 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
     }
     if (el == "url-data"){
         m_target = attrs.value("target");
-        m_desc = "";
+        m_desc = QString::null;
     }
     if (el == "desc"){
         m_data = &m_desc;
@@ -1472,8 +1472,8 @@ void JabberClient::MessageRequest::element_end(const QString& el)
             m_targets.push_back(m_target);
             m_descs.push_back(m_desc);
         }
-        m_target = "";
-        m_desc = "";
+        m_target = QString::null;
+        m_desc = QString::null;
     }
     m_data = NULL;
 }
@@ -1633,7 +1633,7 @@ void AgentRequest::element_start(const QString& el, const QXmlAttributes& attrs)
     }else if (el == "error"){
         m_bError = true;
     }
-    m_data = "";
+    m_data = QString::null;
 }
 
 void AgentRequest::element_end(const QString& el)
@@ -1758,14 +1758,14 @@ void AgentInfoRequest::element_start(const QString& el, const QXmlAttributes& at
         free_data(jabberAgentInfo, &data);
         load_data(jabberAgentInfo, &data, NULL);
     }
-    m_data = "";
+    m_data = QString::null;
 }
 
 void AgentInfoRequest::element_end(const QString& el)
 {
     if (el == "error"){
         m_error = m_data;
-        m_data  = "";
+        m_data  = QString::null;
         m_bError = false;
         return;
     }
@@ -1905,7 +1905,7 @@ void SearchRequest::element_start(const QString& el, const QXmlAttributes& attrs
             m_attr = var;
         }
     }
-    m_data = "";
+    m_data = QString::null;
 }
 
 void SearchRequest::element_end(const QString& el)
@@ -1948,7 +1948,7 @@ void SearchRequest::element_end(const QString& el)
                 m_values.insert(VALUE_MAP::value_type(m_attr, m_data));
             }
         }
-        m_attr = "";
+        m_attr = QString::null;
     }else if (el == "first"){
         data.First.str() = m_data;
     }else if (el == "last"){
@@ -2260,7 +2260,7 @@ void DiscoItemsRequest::char_data(const QString& str)
 QString JabberClient::discoItems(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     DiscoItemsRequest *req = new DiscoItemsRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#items");
@@ -2353,7 +2353,7 @@ void DiscoInfoRequest::char_data(const QString& str)
 QString JabberClient::discoInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     DiscoInfoRequest *req = new DiscoInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/disco#info");
@@ -2435,7 +2435,7 @@ void BrowseRequest::element_start(const QString& el, const QXmlAttributes& attrs
         m_category	= attrs.value("category");
         if (el == "headline")
             m_category = "headline";
-        m_features	= "";
+        m_features	= QString::null;
     }
     if (el == "query"){
         m_name		= attrs.value("name");
@@ -2481,7 +2481,7 @@ void BrowseRequest::char_data(const QString& str)
 QString JabberClient::browse(const QString &jid)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     BrowseRequest *req = new BrowseRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:browse");
@@ -2550,7 +2550,7 @@ void VersionInfoRequest::char_data(const QString& str)
 QString JabberClient::versionInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     VersionInfoRequest *req = new VersionInfoRequest(this, jid, node);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:version");
@@ -2617,7 +2617,7 @@ void TimeInfoRequest::char_data(const QString& str)
 QString JabberClient::timeInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     TimeInfoRequest *req = new TimeInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:time");
@@ -2655,7 +2655,7 @@ void LastInfoRequest::element_start(const QString& el, const QXmlAttributes& att
 QString JabberClient::lastInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     LastInfoRequest *req = new LastInfoRequest(this, jid);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:last");
@@ -2755,7 +2755,7 @@ void StatItemsRequest::element_start(const QString& el, const QXmlAttributes& at
 QString JabberClient::statInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
-        return "";
+        return QString::null;
     StatItemsRequest *req = new StatItemsRequest(this, jid, node);
     req->start_element("query");
     req->add_attribute("xmlns", "http://jabber.org/protocol/stats");
