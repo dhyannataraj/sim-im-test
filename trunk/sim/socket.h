@@ -160,8 +160,7 @@ class EXPORT ClientSocket : public SocketNotify
 public:
     ClientSocket(ClientSocketNotify*, Socket *sock=NULL);
     ~ClientSocket();
-    Buffer readBuffer;
-    Buffer writeBuffer;
+
     virtual void error_state(const QString &err, unsigned code = 0);
     void connect(const QString &host, unsigned short port, TCPClient *client);
     void write();
@@ -175,6 +174,8 @@ public:
     void setSocket(Socket *s, bool bClearError = true);
     void setNotify(ClientSocketNotify *n) { m_notify = n; }
     const QString &errorString() const;
+    virtual Buffer &readBuffer() { return m_readBuffer; }
+    virtual Buffer &writeBuffer() { return m_writeBuffer; }
 protected:
     virtual void connect_ready();
     virtual void write_ready();
@@ -184,6 +185,9 @@ protected:
     ClientSocketNotify *m_notify;
     bool bRawMode;
     bool bClosed;
+
+    Buffer m_readBuffer;
+    Buffer m_writeBuffer;
 
     unsigned	errCode;
     QString     errString;

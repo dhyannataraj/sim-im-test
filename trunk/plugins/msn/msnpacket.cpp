@@ -518,7 +518,7 @@ MSNServerMessage::~MSNServerMessage()
 
 bool MSNServerMessage::packet()
 {
-    Buffer &b = m_client->m_socket->readBuffer;
+    Buffer &b = m_client->m_socket->readBuffer();
     unsigned size = b.writePos() - b.readPos();
     if (size > m_size)
         size = m_size;

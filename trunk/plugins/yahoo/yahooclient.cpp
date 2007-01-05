@@ -218,25 +218,25 @@ void YahooClient::packet_ready()
 {
     if (m_bHeader){
         char header[4];
-        m_socket->readBuffer.unpack(header, 4);
+        m_socket->readBuffer().unpack(header, 4);
         if (memcmp(header, YAHOO_PACKET_SIGN, 4)){
             m_socket->error_state("Bad packet sign");
             return;
         }
-        m_socket->readBuffer.incReadPos(4);
-        m_socket->readBuffer >> m_data_size >> m_service;
+        m_socket->readBuffer().incReadPos(4);
+        m_socket->readBuffer() >> m_data_size >> m_service;
         unsigned long session_id;
-        m_socket->readBuffer >> m_pkt_status >> session_id;
+        m_socket->readBuffer() >> m_pkt_status >> session_id;
         if (m_data_size){
-            m_socket->readBuffer.add(m_data_size);
+            m_socket->readBuffer().add(m_data_size);
             m_bHeader = false;
             return;
         }
     }
-    EventLog::log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
+    EventLog::log_packet(m_socket->readBuffer(), false, YahooPlugin::YahooPacket);
     scan_packet();
-    m_socket->readBuffer.init(20);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(20);
+    m_socket->readBuffer().packetStart();
     m_bHeader = true;
 }
 
@@ -254,12 +254,12 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
             size += QString::number((*it).first).length();
         }
     }
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer.pack(YAHOO_PACKET_SIGN, 4);
-    m_socket->writeBuffer << 0x000B0000L << size << service << status << m_session;
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer().pack(YAHOO_PACKET_SIGN, 4);
+    m_socket->writeBuffer() << 0x000B0000L << size << service << status << m_session;
     if (size){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
-            m_socket->writeBuffer
+            m_socket->writeBuffer()
             << QString::number((*it).first).latin1()
             << (unsigned short)0xC080
             << (*it).second.data()
@@ -267,7 +267,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
         }
     }
     m_values.clear();
-    EventLog::log_packet(m_socket->writeBuffer, true, YahooPlugin::YahooPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, YahooPlugin::YahooPacket);
     m_socket->write();
 }
 
@@ -289,8 +289,8 @@ void YahooClient::addParam(unsigned key, const QString &value)
 void YahooClient::connect_ready()
 {
     m_bFirstTry = false;
-    m_socket->readBuffer.init(20);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(20);
+    m_socket->readBuffer().packetStart();
     m_session = rand();
     m_bHeader = true;
     log(L_DEBUG, "Connect ready");
@@ -320,8 +320,8 @@ void YahooClient::scan_packet()
     for (;;){
         QCString key;
         QCString value;
-        if (!(m_socket->readBuffer.scan("\xC0\x80", key) &&
-                m_socket->readBuffer.scan("\xC0\x80", value)))
+        if (!(m_socket->readBuffer().scan("\xC0\x80", key) &&
+                m_socket->readBuffer().scan("\xC0\x80", value)))
             break;
         unsigned key_id = key.toUInt();
         log(L_DEBUG, "Param: %u %s", key_id, value.data());
@@ -2217,8 +2217,8 @@ bool YahooFileTransfer::accept(Socket *s, unsigned long)
     m_endPos   = 0xFFFFFFFF;
     Socket *old_s = m_socket->socket();
     m_socket->setSocket(s);
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
     m_answer = 400;
     if (old_s)
@@ -2245,15 +2245,15 @@ bool YahooFileTransfer::error_state(const QString &err, unsigned)
 
 void YahooFileTransfer::packet_ready()
 {
-    if (m_socket->readBuffer.writePos() == 0)
+    if (m_socket->readBuffer().writePos() == 0)
         return;
     if (m_state == Skip)
         return;
     if (m_state != Receive){
-        EventLog::log_packet(m_socket->readBuffer, false, YahooPlugin::YahooPacket);
+        EventLog::log_packet(m_socket->readBuffer(), false, YahooPlugin::YahooPacket);
         for (;;){
             QCString s;
-            if (!m_socket->readBuffer.scan("\n", s))
+            if (!m_socket->readBuffer().scan("\n", s))
                 break;
             if (!s.isEmpty() && (s[(int)s.length() - 1] == '\r'))
                 s = s.left(s.length() - 1);
@@ -2266,11 +2266,11 @@ void YahooFileTransfer::packet_ready()
             m_socket->error_state("", 0);
             return;
         }
-        unsigned size = m_socket->readBuffer.size() - m_socket->readBuffer.readPos();
+        unsigned size = m_socket->readBuffer().size() - m_socket->readBuffer().readPos();
         if (size > m_endPos - m_startPos)
             size = m_endPos - m_startPos;
         if (size){
-            m_file->writeBlock(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), size);
+            m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
             m_bytes += size;
             m_totalBytes += size;
             m_startPos += size;
@@ -2287,8 +2287,8 @@ void YahooFileTransfer::packet_ready()
                 m_notify->process();
         }
     }
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
-        m_socket->readBuffer.init(0);
+    if (m_socket->readBuffer().readPos() == m_socket->readBuffer().writePos())
+        m_socket->readBuffer().init(0);
 }
 
 void YahooFileTransfer::connect_ready()
@@ -2309,8 +2309,8 @@ void YahooFileTransfer::connect_ready()
     m_endPos   = 0xFFFFFFFF;
     send_line(line);
     FileTransfer::m_state = FileTransfer::Negotiation;
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
 }
 
@@ -2374,7 +2374,7 @@ void YahooFileTransfer::write_ready()
     m_bytes      += readn;
     m_totalBytes += readn;
     m_sendSize   += readn;
-    m_socket->writeBuffer.pack(buf, readn);
+    m_socket->writeBuffer().pack(buf, readn);
     m_socket->write();
 }
 
@@ -2545,10 +2545,10 @@ bool YahooFileTransfer::get_line(const QCString &_line)
 
 void YahooFileTransfer::send_line(const QString &line)
 {
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer << (const char*)line.utf8();
-    m_socket->writeBuffer << "\r\n";
-    EventLog::log_packet(m_socket->writeBuffer, true, YahooPlugin::YahooPacket);
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer() << (const char*)line.utf8();
+    m_socket->writeBuffer() << "\r\n";
+    EventLog::log_packet(m_socket->writeBuffer(), true, YahooPlugin::YahooPacket);
     m_socket->write();
 }
 

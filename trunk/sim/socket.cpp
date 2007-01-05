@@ -99,10 +99,10 @@ void ClientSocket::connect(const QString &host, unsigned short port, TCPClient *
 
 void ClientSocket::write()
 {
-    if (writeBuffer.size() == 0)
+    if (m_writeBuffer.size() == 0)
         return;
-    m_sock->write(writeBuffer.data(), writeBuffer.size());
-    writeBuffer.init(0);
+    m_sock->write(m_writeBuffer.data(), m_writeBuffer.size());
+    m_writeBuffer.init(0);
 }
 
 bool ClientSocket::created()
@@ -139,9 +139,9 @@ void ClientSocket::read_ready()
             }
             if (readn == 0)
                 break;
-            unsigned pos = readBuffer.writePos();
-            readBuffer.setWritePos(readBuffer.writePos() + readn);
-            memcpy(readBuffer.data(pos), b, readn);
+            unsigned pos = m_readBuffer.writePos();
+            m_readBuffer.setWritePos(m_readBuffer.writePos() + readn);
+            memcpy(m_readBuffer.data(pos), b, readn);
         }
         if (m_notify)
             m_notify->packet_ready();
@@ -149,15 +149,15 @@ void ClientSocket::read_ready()
     }
     for (;;){
         if (bClosed || errString.length()) break;
-        int readn = m_sock->read(readBuffer.data(readBuffer.writePos()),
-                                 readBuffer.size() - readBuffer.writePos());
+        int readn = m_sock->read(m_readBuffer.data(m_readBuffer.writePos()),
+                                 m_readBuffer.size() - m_readBuffer.writePos());
         if (readn < 0){
             error_state(I18N_NOOP("Read socket error"));
             return;
         }
         if (readn == 0) break;
-        readBuffer.setWritePos(readBuffer.writePos() + readn);
-        if (readBuffer.writePos() < readBuffer.size()) break;
+        m_readBuffer.setWritePos(m_readBuffer.writePos() + readn);
+        if (m_readBuffer.writePos() < m_readBuffer.size()) break;
         if (m_notify)
             m_notify->packet_ready();
     }

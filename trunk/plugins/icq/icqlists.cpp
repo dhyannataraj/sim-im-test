@@ -441,13 +441,13 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             unsigned short id, grp_id, type, len;
             bool tmp;
 
-            m_socket->readBuffer.unpackStr(name);
-            m_socket->readBuffer >> grp_id >> id >> type >> len;
+            m_socket->readBuffer().unpackStr(name);
+            m_socket->readBuffer() >> grp_id >> id >> type >> len;
             TlvList *inf = NULL;
             if (len){
                 Buffer b(len);
-                b.pack(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), len);
-                m_socket->readBuffer.incReadPos(len);
+                b.pack(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), len);
+                m_socket->readBuffer().incReadPos(len);
                 inf = new TlvList(b);
             }
             parseRosterItem(type,name,grp_id,id,inf,tmp);
@@ -462,7 +462,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             char c;
             unsigned short list_len;
             log(L_DEBUG,"Rosters");
-            m_socket->readBuffer >> c;
+            m_socket->readBuffer() >> c;
             if (c){
                 log(L_WARN, "Unknown SSI-Version 0x%02X", c);
                 break;
@@ -499,24 +499,24 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     }
                 }
             }
-            m_socket->readBuffer >> list_len;
+            m_socket->readBuffer() >> list_len;
             for (unsigned i = 0; i < list_len; i++){
                 QString name;
                 unsigned short id, grp_id, type, len;
-                m_socket->readBuffer.unpackStr(name);
-                m_socket->readBuffer >> grp_id >> id >> type >> len;
+                m_socket->readBuffer().unpackStr(name);
+                m_socket->readBuffer() >> grp_id >> id >> type >> len;
                 TlvList *inf = NULL;
                 if (len){
                     Buffer b(len);
-                    b.pack(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), len);
-                    m_socket->readBuffer.incReadPos(len);
+                    b.pack(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), len);
+                    m_socket->readBuffer().incReadPos(len);
                     inf = new TlvList(b);
                 }
                 parseRosterItem(type, name, grp_id, id, inf, bIgnoreTime);
                 delete inf;
             }
             unsigned long time;
-            m_socket->readBuffer >> time;
+            m_socket->readBuffer() >> time;
             if ((time == 0) && list_len && !bIgnoreTime)
                 break;
             setContactsTime(time);
@@ -644,20 +644,20 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_ADDED:{
-            QString screen = m_socket->readBuffer.unpackScreen();
+            QString screen = m_socket->readBuffer().unpackScreen();
             messageReceived(new AuthMessage(MessageAdded), screen);
             break;
         }
     case ICQ_SNACxLISTS_AUTHxREQUEST:{
-            QString screen = m_socket->readBuffer.unpackScreen();
+            QString screen = m_socket->readBuffer().unpackScreen();
             QCString message;
             QCString charset;
             unsigned short have_charset;
-            m_socket->readBuffer.unpackStr(message);
-            m_socket->readBuffer >> have_charset;
+            m_socket->readBuffer().unpackStr(message);
+            m_socket->readBuffer() >> have_charset;
             if (have_charset){
-                m_socket->readBuffer.incReadPos(2);
-                m_socket->readBuffer.unpackStr(charset);
+                m_socket->readBuffer().incReadPos(2);
+                m_socket->readBuffer().unpackStr(charset);
             }
             log(L_DEBUG, "Auth request %s", screen.latin1());
             Message *m = NULL;
@@ -681,11 +681,11 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
     case ICQ_SNACxLISTS_FUTURE_GRANT:{
             /* we treat future grant as normal grant but it isn't the same...
                http://iserverd1.khstu.ru/oscar/snac_13_15.html */
-            QString screen = m_socket->readBuffer.unpackScreen();
+            QString screen = m_socket->readBuffer().unpackScreen();
             QCString message;
             Message *m = NULL;
 
-            m_socket->readBuffer.unpackStr(message);
+            m_socket->readBuffer().unpackStr(message);
             AuthMessage *msg = new AuthMessage(MessageAuthGranted);
             msg->setText(QString::fromUtf8(message));   // toUnicode ??
             m = msg;
@@ -701,17 +701,17 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             }
         }
     case ICQ_SNACxLISTS_AUTH:{
-            QString screen = m_socket->readBuffer.unpackScreen();
+            QString screen = m_socket->readBuffer().unpackScreen();
             char auth_ok;
-            m_socket->readBuffer >> auth_ok;
+            m_socket->readBuffer() >> auth_ok;
             QCString message;
             QCString charset;
             unsigned short have_charset;
-            m_socket->readBuffer.unpackStr(message);
-            m_socket->readBuffer >> have_charset;
+            m_socket->readBuffer().unpackStr(message);
+            m_socket->readBuffer() >> have_charset;
             if (have_charset){
-                m_socket->readBuffer.incReadPos(2);
-                m_socket->readBuffer.unpackStr(charset);
+                m_socket->readBuffer().incReadPos(2);
+                m_socket->readBuffer().unpackStr(charset);
             }
             log(L_DEBUG, "Auth %u %s", auth_ok, screen.latin1());
             Message *m = NULL;
@@ -743,7 +743,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         if (m_listRequest && m_listRequest->seq() == seq){
             unsigned short res;
             const char *msg;
-            m_socket->readBuffer >> res;
+            m_socket->readBuffer() >> res;
             switch (res) {
             case 0x00:
                 msg = "No errors (success)";
@@ -792,7 +792,7 @@ void ICQClient::listsRequest()
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxROSTER);
     unsigned long	contactsTime	= getContactsTime();
     unsigned short	contactsLength	= getContactsLength();
-    m_socket->writeBuffer << contactsTime << contactsLength;
+    m_socket->writeBuffer() << contactsTime << contactsLength;
     sendPacket(true);
 }
 
@@ -1058,16 +1058,16 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
 {
     snac(ICQ_SNACxFAM_LISTS, cmd, true);
     QCString sName = name.utf8();
-    m_socket->writeBuffer.pack(htons(sName.length()));
-    m_socket->writeBuffer.pack(sName.data(), sName.length());
-    m_socket->writeBuffer
+    m_socket->writeBuffer().pack(htons(sName.length()));
+    m_socket->writeBuffer().pack(sName.data(), sName.length());
+    m_socket->writeBuffer()
     << grp_id
     << usr_id
     << subCmd;
     if (tlv){
-        m_socket->writeBuffer << *tlv;
+        m_socket->writeBuffer() << *tlv;
     }else{
-        m_socket->writeBuffer << (unsigned short)0;
+        m_socket->writeBuffer() << (unsigned short)0;
     }
     sendPacket(true);
     return m_nMsgSequence;
@@ -1077,18 +1077,18 @@ void ICQClient::sendRosterGrp(const QString &name, unsigned short grpId, unsigne
 {
     QCString sName = name.utf8();
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UPDATE, true);
-    m_socket->writeBuffer.pack(sName.data(), sName.length());
-    m_socket->writeBuffer
+    m_socket->writeBuffer().pack(sName.data(), sName.length());
+    m_socket->writeBuffer()
     << grpId
     << (unsigned long) ICQ_GROUPS;
     if (usrId){
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << (unsigned short) 6
         << (unsigned short) 0xC8
         << (unsigned short) 2
         << (unsigned short) usrId;
     }else{
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << (unsigned short) 4
         << (unsigned short) 0xC8
         << (unsigned short) 0;
@@ -1177,8 +1177,8 @@ unsigned ICQClient::processListRequest()
                 if (grp_id){
                     if (data->GrpId.toULong() == 0){
                         snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_FUTURE_AUTH);
-                        m_socket->writeBuffer.packScreen(screen(data));
-                        m_socket->writeBuffer << 0x00000000L;
+                        m_socket->writeBuffer().packScreen(screen(data));
+                        m_socket->writeBuffer() << 0x00000000L;
                         sendPacket(true);
                     }
                     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
@@ -1493,7 +1493,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
 
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
-    m_socket->writeBuffer.packScreen(screen(data));
+    m_socket->writeBuffer().packScreen(screen(data));
     QCString message;
     QString charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
@@ -1502,14 +1502,14 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
     }else{
         message = getContacts()->fromUnicode(NULL, msg->getPlainText());
     }
-    m_socket->writeBuffer
+    m_socket->writeBuffer()
     << (unsigned short)(message.length())
     << message.data()
     << (char)0x00;
     if (charset.isEmpty()){
-        m_socket->writeBuffer << (char)0x00;
+        m_socket->writeBuffer() << (char)0x00;
     }else{
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << (char)0x01
         << (unsigned short)1
         << (unsigned short)(charset.length())
@@ -1532,8 +1532,8 @@ bool ICQClient::sendAuthGranted(Message *msg, void *_data)
     data->WantAuth.asBool() = false;
 
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
-    m_socket->writeBuffer.packScreen(screen(data));
-    m_socket->writeBuffer
+    m_socket->writeBuffer().packScreen(screen(data));
+    m_socket->writeBuffer()
     << (char)0x01
     << (unsigned long)0;
     sendPacket(true);
@@ -1553,7 +1553,7 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     data->WantAuth.asBool() = false;
 
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
-    m_socket->writeBuffer.packScreen(screen(data));
+    m_socket->writeBuffer().packScreen(screen(data));
 
     QCString message;
     QCString charset;
@@ -1563,15 +1563,15 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     }else{
         message = getContacts()->fromUnicode(NULL, msg->getPlainText());
     }
-    m_socket->writeBuffer
+    m_socket->writeBuffer()
     << (char) 0
     << (unsigned short)(message.length())
     << message
     << (char)0x00;
     if (charset.isEmpty()){
-        m_socket->writeBuffer << (char)0x00;
+        m_socket->writeBuffer() << (char)0x00;
     }else{
-        m_socket->writeBuffer << (char)0x01
+        m_socket->writeBuffer() << (char)0x01
         << (unsigned short)1
         << (unsigned short)(charset.length())
         << charset;

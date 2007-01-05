@@ -701,7 +701,7 @@ void FetchClientPrivate::connect_ready()
 #ifdef USE_OPENSSL
     if ((m_state == None) & m_bHTTPS){
         m_socket->setRaw(true);
-        m_socket->readBuffer.init(0);
+        m_socket->readBuffer().init(0);
         HTTPSClient *https = new HTTPSClient(m_socket->socket());
         if (!https->init()){
             m_socket->error_state(I18N_NOOP("Can't initialize HTTPS"));
@@ -716,7 +716,7 @@ void FetchClientPrivate::connect_ready()
 #endif
     log(L_DEBUG, "HTTP connect ready");
     m_socket->setRaw(true);
-    m_socket->writeBuffer.packetStart();
+    m_socket->writeBuffer().packetStart();
 
     QString proto, host, user, pass, uri, extra;
     unsigned short port;
@@ -726,44 +726,44 @@ void FetchClientPrivate::connect_ready()
         uri += extra;
     }
     unsigned postSize = m_client->post_size();
-    m_socket->writeBuffer
+    m_socket->writeBuffer()
     << ((postSize != NO_POSTSIZE) ? "POST " : "GET ")
     << uri.data()
     << " HTTP/1.0\r\n";
     if (!findHeader("Host"))
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << "Host: "
         << host.data()
         << "\r\n";
     if (!findHeader("User-Agent"))
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << "User-Agent: " << FetchManager::manager->user_agent.latin1() << "\r\n";
     if (!findHeader("Authorization") && !user.isEmpty())
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << "Authorization: basic "
         << basic_auth(user.data(), pass.data()).data()
         << "\r\n";
     if (postSize != NO_POSTSIZE){
         if (!findHeader("Content-Length"))
-            m_socket->writeBuffer
+            m_socket->writeBuffer()
             << "Content-Length: "
             << (const char*)QString::number(postSize).latin1()
             << "\r\n";
         m_postSize = postSize;
     }
     for (HEADERS_MAP::iterator it = m_hOut.begin(); it != m_hOut.end(); ++it){
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << (*it).first.str().latin1()
         << ": "
         << (*it).second.latin1()
         << "\r\n";
     }
-    m_socket->writeBuffer
+    m_socket->writeBuffer()
     << "\r\n";
-    EventLog::log_packet(m_socket->writeBuffer, true, HTTPPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, HTTPPacket);
     m_socket->write();
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
 }
 
 void FetchClientPrivate::write_ready()
@@ -780,7 +780,7 @@ void FetchClientPrivate::write_ready()
         return;
     }
     m_postSize -= tail;
-    m_socket->writeBuffer.pack(data, tail);
+    m_socket->writeBuffer().pack(data, tail);
     m_socket->write();
     if (m_speed){
         m_sendSize += tail;
@@ -798,13 +798,13 @@ void FetchClientPrivate::write_ready()
 
 void FetchClientPrivate::packet_ready()
 {
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
+    if (m_socket->readBuffer().readPos() == m_socket->readBuffer().writePos())
         return;
     for (;;){
         if (m_state == Data){
-            unsigned size = m_socket->readBuffer.writePos() - m_socket->readBuffer.readPos();
+            unsigned size = m_socket->readBuffer().writePos() - m_socket->readBuffer().readPos();
             if (size){
-                if (!m_client->write_data(m_socket->readBuffer.data(m_socket->readBuffer.readPos()), size)){
+                if (!m_client->write_data(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size)){
                     m_socket->error_state(I18N_NOOP("Write error"));
                     return;
                 }
@@ -815,16 +815,16 @@ void FetchClientPrivate::packet_ready()
                 m_socket->error_state("");
                 return;
             }
-            m_socket->readBuffer.init(0);
-            m_socket->readBuffer.packetStart();
+            m_socket->readBuffer().init(0);
+            m_socket->readBuffer().packetStart();
             return;
         }
-        EventLog::log_packet(m_socket->readBuffer, false, HTTPPacket);
+        EventLog::log_packet(m_socket->readBuffer(), false, HTTPPacket);
         QCString line;
         QCString opt;
         if (!read_line(line)){
-            m_socket->readBuffer.init(0);
-            m_socket->readBuffer.packetStart();
+            m_socket->readBuffer().init(0);
+            m_socket->readBuffer().packetStart();
             return;
         }
         switch (m_state){
@@ -897,9 +897,9 @@ void FetchClientPrivate::packet_ready()
 
 bool FetchClientPrivate::read_line(QCString &line)
 {
-    while (m_socket->readBuffer.readPos() < m_socket->readBuffer.writePos()){
+    while (m_socket->readBuffer().readPos() < m_socket->readBuffer().writePos()){
         char c;
-        m_socket->readBuffer >> c;
+        m_socket->readBuffer() >> c;
         if (c == '\r')
             continue;
         if (c == '\n')

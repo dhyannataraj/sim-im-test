@@ -73,7 +73,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         log(L_DEBUG, "Buddy rights granted");
         break;
     case ICQ_SNACxBDY_USEROFFLINE:
-        screen = m_socket->readBuffer.unpackScreen();
+        screen = m_socket->readBuffer().unpackScreen();
         data = findContact(screen, NULL, false, contact);
         if (data && (data->Status.toULong() != ICQ_STATUS_OFFLINE)){
             setOffline(data);
@@ -88,7 +88,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         }
         break;
     case ICQ_SNACxBDY_USERONLINE:
-        screen = m_socket->readBuffer.unpackScreen();
+        screen = m_socket->readBuffer().unpackScreen();
         data = findContact(screen, NULL, false, contact);
         if (data){
             bool bChanged     = false;
@@ -96,10 +96,10 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             unsigned long prevStatus = data->Status.toULong();
 
             unsigned short level, len;
-            m_socket->readBuffer >> level >> len;
+            m_socket->readBuffer() >> level >> len;
             data->WarningLevel.asULong() = level;
 
-            TlvList tlv(m_socket->readBuffer);
+            TlvList tlv(m_socket->readBuffer());
 
             Tlv *tlvClass = tlv(TLV_USER_CLASS);
             if (tlvClass){
@@ -514,7 +514,7 @@ void ICQClient::sendContactList()
         ICQUserData *data;
         while ((data = (ICQUserData*)(++it_data)) != NULL){
             if (data->IgnoreId.toULong() == 0)
-                m_socket->writeBuffer.packScreen(screen(data));
+                m_socket->writeBuffer().packScreen(screen(data));
         }
     }
     sendPacket(true);
@@ -534,7 +534,7 @@ void ICQClient::addBuddy(Contact *contact)
             continue;
         if ((data->IgnoreId.toULong() == 0)  && (data->WaitAuth.toBool() || (data->GrpId.toULong() == 0))){
             snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
-            m_socket->writeBuffer.packScreen(screen(data));
+            m_socket->writeBuffer().packScreen(screen(data));
             sendPacket(true);
             buddies.push_back(screen(data));
         }
@@ -559,7 +559,7 @@ void ICQClient::removeBuddy(Contact *contact)
             sendAuthRefused(msg, data);
         }
         snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
-        m_socket->writeBuffer.packScreen(screen(data));
+        m_socket->writeBuffer().packScreen(screen(data));
         sendPacket(true);
         buddies.erase(it);
     }

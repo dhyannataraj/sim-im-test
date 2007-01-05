@@ -158,8 +158,8 @@ const DataDef *MSNProtocol::userDataDef()
 void MSNClient::connect_ready()
 {
     m_bFirstTry = false;
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
     log(L_DEBUG, "Connect ready");
     TCPClient::connect_ready();
@@ -268,10 +268,10 @@ void MSNClient::clearPackets()
 
 void MSNClient::packet_ready()
 {
-    if (m_socket->readBuffer.writePos() == 0)
+    if (m_socket->readBuffer().writePos() == 0)
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(protocol()->plugin());
-    EventLog::log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->readBuffer(), false, plugin->MSNPacket);
     if (m_msg){
         if (!m_msg->packet())
             return;
@@ -280,12 +280,12 @@ void MSNClient::packet_ready()
     }
     for (;;){
         QCString s;
-        if (!m_socket->readBuffer.scan("\r\n", s))
+        if (!m_socket->readBuffer().scan("\r\n", s))
             break;
         getLine(s);
     }
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
-        m_socket->readBuffer.init(0);
+    if (m_socket->readBuffer().readPos() == m_socket->readBuffer().writePos())
+        m_socket->readBuffer().init(0);
 }
 
 struct statusText
@@ -487,7 +487,7 @@ void MSNClient::getLine(const QCString &line)
             }
             clearPackets();
             m_socket->close();
-            m_socket->readBuffer.init(0);
+            m_socket->readBuffer().init(0);
             m_socket->connect(host, port, this);
             return;
         }
@@ -773,12 +773,12 @@ void MSNClient::getLine(const QCString &line)
 void MSNClient::sendLine(const QString &line, bool crlf)
 {
     log(L_DEBUG, "Send: %s", line.local8Bit().data());
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer << (const char*)line.utf8();
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer() << (const char*)line.utf8();
     if (crlf)
-        m_socket->writeBuffer << "\r\n";
+        m_socket->writeBuffer() << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(protocol()->plugin());
-    EventLog::log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -1952,8 +1952,8 @@ bool SBSocket::error_state(const QString&, unsigned)
 
 void SBSocket::connect_ready()
 {
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
     QString args = m_client->data.owner.EMail.str();
     args += " ";
@@ -1978,20 +1978,20 @@ void SBSocket::connect_ready()
 
 void SBSocket::packet_ready()
 {
-    if (m_socket->readBuffer.writePos() == 0)
+    if (m_socket->readBuffer().writePos() == 0)
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    EventLog::log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->readBuffer(), false, plugin->MSNPacket);
     for (;;){
         if (m_messageSize && !getMessage())
             break;
         QCString s;
-        if (!m_socket->readBuffer.scan("\r\n", s))
+        if (!m_socket->readBuffer().scan("\r\n", s))
             break;
         getLine(s);
     }
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
-        m_socket->readBuffer.init(0);
+    if (m_socket->readBuffer().readPos() == m_socket->readBuffer().writePos())
+        m_socket->readBuffer().init(0);
 }
 
 void SBSocket::getMessage(unsigned size)
@@ -2003,11 +2003,11 @@ void SBSocket::getMessage(unsigned size)
 
 bool SBSocket::getMessage()
 {
-    unsigned tail = m_socket->readBuffer.writePos() - m_socket->readBuffer.readPos();
+    unsigned tail = m_socket->readBuffer().writePos() - m_socket->readBuffer().readPos();
     if (tail > m_messageSize)
         tail = m_messageSize;
     QString msg;
-    m_socket->readBuffer.unpack(msg, tail);
+    m_socket->readBuffer().unpack(msg, tail);
     m_message += msg;
     m_messageSize -= tail;
     if (m_messageSize)
@@ -2018,19 +2018,19 @@ bool SBSocket::getMessage()
 
 void SBSocket::send(const QString &cmd, const QString &args)
 {
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer()
     << (const char*)cmd.utf8()
     << " "
     << (const char*)QString::number(++m_packet_id).utf8();
     if (!args.isEmpty()){
-        m_socket->writeBuffer
+        m_socket->writeBuffer()
         << " "
         << (const char*)args.utf8();
     }
-    m_socket->writeBuffer << "\r\n";
+    m_socket->writeBuffer() << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    EventLog::log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -2431,8 +2431,8 @@ void SBSocket::sendTyping()
 
 void SBSocket::sendMessage(const QString &str, const char *type)
 {
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer()
     << "MSG "
     << (const char*)QString::number(++m_packet_id).utf8()
     << " "
@@ -2442,7 +2442,7 @@ void SBSocket::sendMessage(const QString &str, const char *type)
     << "\r\n"
     << (const char*)str.utf8();
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    EventLog::log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -2625,8 +2625,8 @@ void MSNFileTransfer::setSocket(Socket *s)
 {
     m_state  = Incoming;
     m_socket->setSocket(s);
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
     send("VER MSNFTP");
     FileTransfer::m_state = FileTransfer::Negotiation;
@@ -2702,7 +2702,7 @@ void MSNFileTransfer::packet_ready()
         if (m_bHeader){
             char cmd;
             char s1, s2;
-            m_socket->readBuffer >> cmd >> s1 >> s2;
+            m_socket->readBuffer() >> cmd >> s1 >> s2;
             log(L_DEBUG, "MSN FT header: %02X %02X %02X", cmd & 0xFF, s1 & 0xFF, s2 & 0xFF);
             if (cmd != 0){
                 m_socket->error_state(I18N_NOOP("Transfer canceled"), 0);
@@ -2711,14 +2711,14 @@ void MSNFileTransfer::packet_ready()
             unsigned size = (unsigned char)s1 + ((unsigned char)s2 << 8);
             m_bHeader = false;
             log(L_DEBUG, "MSN FT header: %u", size);
-            m_socket->readBuffer.init(size);
+            m_socket->readBuffer().init(size);
         }else{
-            unsigned size = m_socket->readBuffer.size();
+            unsigned size = m_socket->readBuffer().size();
             if (size == 0)
                 return;
             log(L_DEBUG, "MSN FT data: %u", size);
-            m_file->writeBlock(m_socket->readBuffer.data(), size);
-            m_socket->readBuffer.incReadPos(size);
+            m_file->writeBlock(m_socket->readBuffer().data(), size);
+            m_socket->readBuffer().incReadPos(size);
             m_bytes      += size;
             m_totalBytes += size;
             m_transferBytes += size;
@@ -2726,7 +2726,7 @@ void MSNFileTransfer::packet_ready()
                 m_notify->process();
             m_size -= size;
             if (m_size <= 0){
-                m_socket->readBuffer.init(0);
+                m_socket->readBuffer().init(0);
                 m_socket->setRaw(true);
                 send("BYE 16777989");
                 m_state = WaitDisconnect;
@@ -2735,23 +2735,23 @@ void MSNFileTransfer::packet_ready()
                 return;
             }
             m_bHeader = true;
-            m_socket->readBuffer.init(3);
+            m_socket->readBuffer().init(3);
         }
         return;
     }
-    if (m_socket->readBuffer.writePos() == 0)
+    if (m_socket->readBuffer().writePos() == 0)
         return;
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    EventLog::log_packet(m_socket->readBuffer, false, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->readBuffer(), false, plugin->MSNPacket);
     for (;;){
         QCString s;
-        if (!m_socket->readBuffer.scan("\r\n", s))
+        if (!m_socket->readBuffer().scan("\r\n", s))
             break;
         if (getLine(s))
             return;
     }
-    if (m_socket->readBuffer.readPos() == m_socket->readBuffer.writePos())
-        m_socket->readBuffer.init(0);
+    if (m_socket->readBuffer().readPos() == m_socket->readBuffer().writePos())
+        m_socket->readBuffer().init(0);
 }
 
 void MSNFileTransfer::connect_ready()
@@ -2761,8 +2761,8 @@ void MSNFileTransfer::connect_ready()
     FileTransfer::m_state = Negotiation;
     if (m_notify)
         m_notify->process();
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
 }
 
@@ -2790,11 +2790,11 @@ void MSNFileTransfer::startReceive(unsigned pos)
 void MSNFileTransfer::send(const QString &line)
 {
     log(L_DEBUG, "Send: %s", line.local8Bit().data());
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer << (const char*)line.utf8();
-    m_socket->writeBuffer << "\r\n";
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer() << (const char*)line.utf8();
+    m_socket->writeBuffer() << "\r\n";
     MSNPlugin *plugin = static_cast<MSNPlugin*>(m_client->protocol()->plugin());
-    EventLog::log_packet(m_socket->writeBuffer, true, plugin->MSNPacket);
+    EventLog::log_packet(m_socket->writeBuffer(), true, plugin->MSNPacket);
     m_socket->write();
 }
 
@@ -2857,8 +2857,8 @@ bool MSNFileTransfer::getLine(const QCString &line)
     if (cmd == "FIL"){
         send("TFR");
         m_bHeader = true;
-        m_socket->readBuffer.init(3);
-        m_socket->readBuffer.packetStart();
+        m_socket->readBuffer().init(3);
+        m_socket->readBuffer().packetStart();
         m_state = Receive;
         m_socket->setRaw(false);
         FileTransfer::m_state = FileTransfer::Read;
@@ -2928,7 +2928,7 @@ void MSNFileTransfer::write_ready()
     }
     unsigned long tail = m_fileSize - m_bytes;
     if (tail > MAX_FT_PACKET) tail = MAX_FT_PACKET;
-    m_socket->writeBuffer.packetStart();
+    m_socket->writeBuffer().packetStart();
     char buf[MAX_FT_PACKET + 3];
     buf[0] = 0;
     buf[1] = (char)(tail & 0xFF);
@@ -2942,7 +2942,7 @@ void MSNFileTransfer::write_ready()
     m_bytes      += readn;
     m_totalBytes += readn;
     m_sendSize   += readn;
-    m_socket->writeBuffer.pack(buf, readn + 3);
+    m_socket->writeBuffer().pack(buf, readn + 3);
     m_socket->write();
 }
 
@@ -2952,8 +2952,8 @@ bool MSNFileTransfer::accept(Socket *s, unsigned long ip)
     addr.s_addr = ip;
     log(L_DEBUG, "Accept direct connection %s", inet_ntoa(addr));
     m_socket->setSocket(s);
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
     FileTransfer::m_state = Negotiation;
     m_state = Incoming;

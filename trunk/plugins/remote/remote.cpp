@@ -962,8 +962,8 @@ ControlSocket::ControlSocket(RemotePlugin *plugin, Socket *socket)
     m_socket = new ClientSocket(this);
     m_socket->setSocket(socket);
     m_socket->setRaw(true);
-    m_socket->readBuffer.init(0);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
     write(CRLF);
 }
 
@@ -981,8 +981,8 @@ ControlSocket::~ControlSocket()
 void ControlSocket::write(const char *msg)
 {
     log(L_DEBUG, "Remote write %s", msg);
-    m_socket->writeBuffer.packetStart();
-    m_socket->writeBuffer.pack(msg, strlen(msg));
+    m_socket->writeBuffer().packetStart();
+    m_socket->writeBuffer().pack(msg, strlen(msg));
     m_socket->write();
 }
 
@@ -1000,7 +1000,7 @@ void ControlSocket::connect_ready()
 void ControlSocket::packet_ready()
 {
     QCString line;
-    if (!m_socket->readBuffer.scan("\n", line))
+    if (!m_socket->readBuffer().scan("\n", line))
         return;
     if (line.isEmpty())
         return;

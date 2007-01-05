@@ -84,41 +84,41 @@ void ServiceSocket::packet_ready()
 
 void ServiceSocket::packet()
 {
-    EventLog::log_packet(m_socket->readBuffer, false,ICQPlugin::icq_plugin->OscarPacket);
+    EventLog::log_packet(m_socket->readBuffer(), false,ICQPlugin::icq_plugin->OscarPacket);
     switch (m_nChannel){
     case ICQ_CHNxNEW:
         flap(ICQ_CHNxNEW);
-        m_socket->writeBuffer << 0x00000001L;
-        m_socket->writeBuffer.tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
+        m_socket->writeBuffer() << 0x00000001L;
+        m_socket->writeBuffer().tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
         m_cookie.resize(0);
         sendPacket();
         break;
     case ICQ_CHNxDATA:
         unsigned short fam, type;
         unsigned short flags, seq, cmd;
-        m_socket->readBuffer >> fam >> type >> flags >> seq >> cmd;
+        m_socket->readBuffer() >> fam >> type >> flags >> seq >> cmd;
         if ((flags & 0x8000)) {	// some unknown data before real snac data
             // just read the length and forget it ;-)
             unsigned short unknown_length = 0;
-            m_socket->readBuffer >> unknown_length;
-            m_socket->readBuffer.incReadPos(unknown_length);
+            m_socket->readBuffer() >> unknown_length;
+            m_socket->readBuffer().incReadPos(unknown_length);
         }
         // now just take a look at the type because 0x0001 == error
         // in all families
         if (type == 0x0001) {
             unsigned short err_code;
-            m_socket->readBuffer >> err_code;
+            m_socket->readBuffer() >> err_code;
             log(L_DEBUG,"%s: Error! family: %04X reason", serviceSocketName(), fam);
             // now decrease for icqicmb & icqvarious
-            m_socket->readBuffer.decReadPos(sizeof(unsigned short));
+            m_socket->readBuffer().decReadPos(sizeof(unsigned short));
         }
         data(fam, type, seq);
         break;
     default:
         log(L_ERROR, "%s: Unknown channel %u", serviceSocketName(), m_nChannel & 0xFF);
     }
-    m_socket->readBuffer.init(6);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(6);
+    m_socket->readBuffer().packetStart();
     m_bHeader = true;
 }
 
@@ -178,7 +178,7 @@ void SearchSocket::addTlv(unsigned short n, const QString &s, bool bLatin)
     }else{
         str = s.utf8();
     }
-    m_socket->writeBuffer.tlv(n, str.data());
+    m_socket->writeBuffer().tlv(n, str.data());
 }
 
 void SearchSocket::process()
@@ -194,8 +194,8 @@ void SearchSocket::process()
             QStringList sl = (*it);
             QString mail = sl[0];
             bLatin = bLatin1(mail);
-            m_socket->writeBuffer.tlv(0x1C, bLatin ? "us-ascii" : "utf8");
-            m_socket->writeBuffer.tlv(0x0A, (unsigned short)1);
+            m_socket->writeBuffer().tlv(0x1C, bLatin ? "us-ascii" : "utf8");
+            m_socket->writeBuffer().tlv(0x0A, (unsigned short)1);
             addTlv(0x05, mail, bLatin);
         }else{
             QStringList sl = (*it);
@@ -209,8 +209,8 @@ void SearchSocket::process()
                      bLatin1(sl[7]) &&
                      bLatin1(sl[8]) &&
                      bLatin1(sl[9]);
-            m_socket->writeBuffer.tlv(0x1C, bLatin ? "us-ascii" : "utf8");
-            m_socket->writeBuffer.tlv(0x0A, (unsigned short)0);
+            m_socket->writeBuffer().tlv(0x1C, bLatin ? "us-ascii" : "utf8");
+            m_socket->writeBuffer().tlv(0x0A, (unsigned short)0);
             if (!sl[0].isEmpty())
                 addTlv(0x01, sl[0], bLatin);
             if (!sl[1].isEmpty())
@@ -264,7 +264,7 @@ void SearchSocket::snac_service(unsigned short type)
     switch (type){
     case SNACxSRV_READYxSERVER:
         snac(ICQ_SNACxFAM_SERVICE, SNACxSRV_I_AM_ICQ);
-        m_socket->writeBuffer << 0x00010004L << 0x000F0001L;
+        m_socket->writeBuffer() << 0x00010004L << 0x000F0001L;
         sendPacket();
         break;
     case SNACxSRV_ACK_ICQ:
@@ -273,10 +273,10 @@ void SearchSocket::snac_service(unsigned short type)
         break;
     case SNACxSRV_RATExINFO:
         snac(ICQ_SNACxFAM_SERVICE, SNACxSRV_RATExACK);
-        m_socket->writeBuffer << 0x00010002L << 0x00030004L << 0x0005;
+        m_socket->writeBuffer() << 0x00010002L << 0x00030004L << 0x0005;
         sendPacket();
         snac(ICQ_SNACxFAM_SERVICE, SNACxSRV_CLIENTxREADY);
-        m_socket->writeBuffer << 0x00010003L << 0x00100739L << 0x000F0001L << 0x00100739L;
+        m_socket->writeBuffer() << 0x00010003L << 0x00100739L << 0x000F0001L << 0x00100739L;
         sendPacket();
         m_bConnected = true;
         process();
@@ -297,15 +297,15 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
         }else{
             unsigned short r;
             unsigned long nSearch;
-            m_socket->readBuffer >> r >> nSearch;
+            m_socket->readBuffer() >> r >> nSearch;
 
             SearchResult res;
             res.id = (*it);
             res.client = m_client;
             for (unsigned n = 0; n < nSearch; n++){
                 unsigned short nTlvs;
-                m_socket->readBuffer >> nTlvs;
-                TlvList tlvs(m_socket->readBuffer, nTlvs);
+                m_socket->readBuffer() >> nTlvs;
+                TlvList tlvs(m_socket->readBuffer(), nTlvs);
                 Tlv *tlv = tlvs(0x09);
                 if (tlv){
                     load_data(ICQProtocol::icqUserData, &res.data, NULL);

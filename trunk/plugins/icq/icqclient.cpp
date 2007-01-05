@@ -420,8 +420,8 @@ OscarSocket::~OscarSocket()
 
 void OscarSocket::connect_ready()
 {
-    socket()->readBuffer.init(6);
-    socket()->readBuffer.packetStart();
+    socket()->readBuffer().init(6);
+    socket()->readBuffer().packetStart();
     m_bHeader = true;
 }
 
@@ -644,18 +644,18 @@ void OscarSocket::packet_ready()
 {
     if (m_bHeader){
         char c;
-        socket()->readBuffer >> c;
+        socket()->readBuffer() >> c;
         if (c != 0x2A){
             log(L_ERROR, "Server send bad packet start code: %02X", c);
             socket()->error_state(I18N_NOOP("Protocol error"));
             return;
         }
-        socket()->readBuffer >> m_nChannel;
+        socket()->readBuffer() >> m_nChannel;
         unsigned short sequence, size;
-        socket()->readBuffer >> sequence >> size;
+        socket()->readBuffer() >> sequence >> size;
         m_bHeader = false;
         if (size){
-            socket()->readBuffer.add(size);
+            socket()->readBuffer().add(size);
             return;
         }
     }
@@ -670,7 +670,7 @@ void ICQClient::packet_ready()
 void ICQClient::packet()
 {
     ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-    EventLog::log_packet(m_socket->readBuffer, false, plugin->OscarPacket);
+    EventLog::log_packet(m_socket->readBuffer(), false, plugin->OscarPacket);
     switch (m_nChannel){
     case ICQ_CHNxNEW:
         chn_login();
@@ -681,21 +681,21 @@ void ICQClient::packet()
     case ICQ_CHNxDATA:{
             unsigned short fam, type;
             unsigned short flags, seq, cmd;
-            m_socket->readBuffer >> fam >> type >> flags >> seq >> cmd;
+            m_socket->readBuffer() >> fam >> type >> flags >> seq >> cmd;
             if ((flags & 0x8000)) {	// some unknown data before real snac data
                 // just read the length and forget it ;-)
                 unsigned short unknown_length = 0;
-                m_socket->readBuffer >> unknown_length;
-                m_socket->readBuffer.incReadPos(unknown_length);
+                m_socket->readBuffer() >> unknown_length;
+                m_socket->readBuffer().incReadPos(unknown_length);
             }
             // now just take a look at the type because 0x0001 == error
             // in all families
             if (type == 0x0001) {
                 unsigned short err_code;
-                m_socket->readBuffer >> err_code;
+                m_socket->readBuffer() >> err_code;
                 log(L_DEBUG,"Error! family: %04X reason: %s",fam,error_message(err_code));
                 // now decrease for icqicmb & icqvarious
-                m_socket->readBuffer.decReadPos(sizeof(unsigned short));
+                m_socket->readBuffer().decReadPos(sizeof(unsigned short));
             }
             switch (fam){
             case ICQ_SNACxFAM_SERVICE:
@@ -733,15 +733,15 @@ void ICQClient::packet()
     default:
         log(L_ERROR, "Unknown channel %u", m_nChannel & 0xFF);
     }
-    m_socket->readBuffer.init(6);
-    m_socket->readBuffer.packetStart();
+    m_socket->readBuffer().init(6);
+    m_socket->readBuffer().packetStart();
     m_bHeader = true;
 }
 
 void OscarSocket::flap(char channel)
 {
-    socket()->writeBuffer.packetStart();
-    socket()->writeBuffer
+    socket()->writeBuffer().packetStart();
+    socket()->writeBuffer()
     << (char)0x2A
     << channel
     << 0x00000000L;
@@ -750,7 +750,7 @@ void OscarSocket::flap(char channel)
 void OscarSocket::snac(unsigned short fam, unsigned short type, bool msgId, bool bType)
 {
     flap(ICQ_CHNxDATA);
-    socket()->writeBuffer
+    socket()->writeBuffer()
     << fam
     << type
     << 0x0000
@@ -760,7 +760,7 @@ void OscarSocket::snac(unsigned short fam, unsigned short type, bool msgId, bool
 
 void OscarSocket::sendPacket(bool bSend)
 {
-    Buffer &writeBuffer = socket()->writeBuffer;
+    Buffer &writeBuffer = socket()->writeBuffer();
     char *packet = writeBuffer.data(writeBuffer.packetStartPos());
     unsigned size = writeBuffer.size() - writeBuffer.packetStartPos() - 6;
     packet[4] = (char)((size >> 8) & 0xFF);
@@ -769,14 +769,14 @@ void OscarSocket::sendPacket(bool bSend)
         ++m_nFlapSequence;
         packet[2] = (m_nFlapSequence >> 8);
         packet[3] = m_nFlapSequence;
-        EventLog::log_packet(socket()->writeBuffer, true, ICQPlugin::icq_plugin->OscarPacket);
+        EventLog::log_packet(socket()->writeBuffer(), true, ICQPlugin::icq_plugin->OscarPacket);
         socket()->write();
     }
 }
 
 void ICQClient::sendPacket(bool bSend)
 {
-    Buffer &writeBuffer = socket()->writeBuffer;
+    Buffer &writeBuffer = socket()->writeBuffer();
     unsigned char *packet = (unsigned char*)(writeBuffer.data(writeBuffer.readPos()));
     unsigned long snac = 0;
     if (writeBuffer.writePos() >= writeBuffer.readPos() + 10)

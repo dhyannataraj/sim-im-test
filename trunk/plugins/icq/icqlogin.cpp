@@ -86,8 +86,8 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             m_socket->error_state(I18N_NOOP("Registered in no register state"));
             break;
         }
-        m_socket->readBuffer.incReadPos(0x2E);
-        m_socket->readBuffer.unpack(newUin);
+        m_socket->readBuffer().incReadPos(0x2E);
+        m_socket->readBuffer().unpack(newUin);
         log(L_DEBUG, "Register %lu %08lX", newUin, newUin);
         setUin(newUin);
         setState(Connecting);
@@ -97,41 +97,41 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         log(L_DEBUG, "Sending MD5 key");
         if (!data.owner.Screen.str().isEmpty() || data.owner.Uin.toULong()){
             QCString md5_key;
-            m_socket->readBuffer.unpackStr(md5_key);
+            m_socket->readBuffer().unpackStr(md5_key);
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             if (data.owner.Uin.toULong()){
                 char uin[20];
                 sprintf(uin, "%lu", data.owner.Uin.toULong());
-                m_socket->writeBuffer.tlv(0x0001, uin);
+                m_socket->writeBuffer().tlv(0x0001, uin);
             }else{
-                m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.str());
+                m_socket->writeBuffer().tlv(0x0001, data.owner.Screen.str());
             }
             QCString md = md5_key;
             md += getContacts()->fromUnicode(NULL, getPassword());
             md += "AOL Instant Messenger (SM)";
             md = md5(md);
-            m_socket->writeBuffer.tlv(0x0025, md.data(), md.length());
+            m_socket->writeBuffer().tlv(0x0025, md.data(), md.length());
 	        if (data.owner.Uin.toULong()){
-                m_socket->writeBuffer.tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");
-                m_socket->writeBuffer.tlv(0x0016, 0x010A);
-                m_socket->writeBuffer.tlv(0x0017, 0x0002);
-                m_socket->writeBuffer.tlv(0x0018, 0x0038);
-                m_socket->writeBuffer.tlv(0x0019, 0x0001);
-                m_socket->writeBuffer.tlv(0x001A, 0x0F4C);
-                m_socket->writeBuffer.tlv(0x0014, 0x00000055L);
-                m_socket->writeBuffer.tlv(0x000f, "en");
-                m_socket->writeBuffer.tlv(0x000e, "us");
+                m_socket->writeBuffer().tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");
+                m_socket->writeBuffer().tlv(0x0016, 0x010A);
+                m_socket->writeBuffer().tlv(0x0017, 0x0002);
+                m_socket->writeBuffer().tlv(0x0018, 0x0038);
+                m_socket->writeBuffer().tlv(0x0019, 0x0001);
+                m_socket->writeBuffer().tlv(0x001A, 0x0F4C);
+                m_socket->writeBuffer().tlv(0x0014, 0x00000055L);
+                m_socket->writeBuffer().tlv(0x000f, "en");
+                m_socket->writeBuffer().tlv(0x000e, "us");
 	        }else{
-                m_socket->writeBuffer.tlv(0x0003, "AOL Instant Messenger, version 5.1.3036/WIN32");
-                m_socket->writeBuffer.tlv(0x0016, (unsigned short)0x0109);
-                m_socket->writeBuffer.tlv(0x0017, (unsigned short)0x0005);
-                m_socket->writeBuffer.tlv(0x0018, (unsigned short)0x0001);
-                m_socket->writeBuffer.tlv(0x0019, (unsigned short)0x0000);
-                m_socket->writeBuffer.tlv(0x001A, (unsigned short)0x0BDC);
-                m_socket->writeBuffer.tlv(0x0014, 0x000000D2L);
-                m_socket->writeBuffer.tlv(0x000F, "en");
-                m_socket->writeBuffer.tlv(0x000E, "us");
-                m_socket->writeBuffer.tlv(0x004A, "\x01");
+                m_socket->writeBuffer().tlv(0x0003, "AOL Instant Messenger, version 5.1.3036/WIN32");
+                m_socket->writeBuffer().tlv(0x0016, (unsigned short)0x0109);
+                m_socket->writeBuffer().tlv(0x0017, (unsigned short)0x0005);
+                m_socket->writeBuffer().tlv(0x0018, (unsigned short)0x0001);
+                m_socket->writeBuffer().tlv(0x0019, (unsigned short)0x0000);
+                m_socket->writeBuffer().tlv(0x001A, (unsigned short)0x0BDC);
+                m_socket->writeBuffer().tlv(0x0014, 0x000000D2L);
+                m_socket->writeBuffer().tlv(0x000F, "en");
+                m_socket->writeBuffer().tlv(0x000E, "us");
+                m_socket->writeBuffer().tlv(0x004A, "\x01");
 	        }
             sendPacket(true);
         }
@@ -141,7 +141,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         break;
     case ICQ_SNACxLOGIN_REGISTERxSEND_IMG: {
         m_bVerifying = false;
-        TlvList tlv(m_socket->readBuffer);
+        TlvList tlv(m_socket->readBuffer());
         // currently there are 2 TLVs in SNAC(17,0D):
         // type = 1: the value contains the mime type of the image (image/jpeg); ignored
         // type = 2: the value contains the image itself in the binary form
@@ -171,8 +171,8 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             msg.pack(len);
             msg.pack(pswd.data(), len);
             msg << 0x94680000L << 0x00000602L;
-            m_socket->writeBuffer.tlv(0x0001, msg);
-            m_socket->writeBuffer.tlv(0x0009, verifyStr.latin1(), verifyStr.length());
+            m_socket->writeBuffer().tlv(0x0001, msg);
+            m_socket->writeBuffer().tlv(0x0009, verifyStr.latin1(), verifyStr.length());
             sendPacket(true);            
         }
         break;
@@ -186,8 +186,8 @@ void ICQClient::chn_login()
 {
     if (m_cookie.size()){
         flap(ICQ_CHNxNEW);
-        m_socket->writeBuffer << 0x00000001L;
-        m_socket->writeBuffer.tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
+        m_socket->writeBuffer() << 0x00000001L;
+        m_socket->writeBuffer().tlv(6, m_cookie.data(), (unsigned short)(m_cookie.size()));
         m_cookie.resize(0);
         sendPacket(true);
         return;
@@ -199,49 +199,49 @@ void ICQClient::chn_login()
         sprintf(uin, "%lu", data.owner.Uin.toULong());
 
         flap(ICQ_CHNxNEW);
-        m_socket->writeBuffer << 0x00000001L;
-        m_socket->writeBuffer.tlv(0x0001, uin);
-        m_socket->writeBuffer.tlv(0x0002, pswd.data(), pswd.length());
-        m_socket->writeBuffer.tlv(0x0003, "ICQBasic");  // ID String, currently ICQ 5.1 (21.08.2006)
-        m_socket->writeBuffer.tlv(0x0016, 0x010A);      // ID Number
-        m_socket->writeBuffer.tlv(0x0017, 0x0014);      // major
-        m_socket->writeBuffer.tlv(0x0018, 0x0034);      // minor
-        m_socket->writeBuffer.tlv(0x0019, 0x0000);      // lesser
-        m_socket->writeBuffer.tlv(0x001A, 0x0bb8);      // build number
-        m_socket->writeBuffer.tlv(0x0014, 0x00000442L); // distribution number
-        m_socket->writeBuffer.tlv(0x000f, "en");
-        m_socket->writeBuffer.tlv(0x000e, "us");
+        m_socket->writeBuffer() << 0x00000001L;
+        m_socket->writeBuffer().tlv(0x0001, uin);
+        m_socket->writeBuffer().tlv(0x0002, pswd.data(), pswd.length());
+        m_socket->writeBuffer().tlv(0x0003, "ICQBasic");  // ID String, currently ICQ 5.1 (21.08.2006)
+        m_socket->writeBuffer().tlv(0x0016, 0x010A);      // ID Number
+        m_socket->writeBuffer().tlv(0x0017, 0x0014);      // major
+        m_socket->writeBuffer().tlv(0x0018, 0x0034);      // minor
+        m_socket->writeBuffer().tlv(0x0019, 0x0000);      // lesser
+        m_socket->writeBuffer().tlv(0x001A, 0x0bb8);      // build number
+        m_socket->writeBuffer().tlv(0x0014, 0x00000442L); // distribution number
+        m_socket->writeBuffer().tlv(0x000f, "en");
+        m_socket->writeBuffer().tlv(0x000e, "us");
         sendPacket(true);
         return;
     }
     if (!data.owner.Screen.str().isEmpty() || getUseMD5()){
         log(L_DEBUG, "Requesting MD5 salt");
         flap(ICQ_CHNxNEW);
-        m_socket->writeBuffer << 0x00000001L;
+        m_socket->writeBuffer() << 0x00000001L;
         sendPacket(true);
         snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
         if (data.owner.Uin.toULong()){
             QString uin = QString::number(data.owner.Uin.toULong());
-            m_socket->writeBuffer.tlv(0x0001, uin);
+            m_socket->writeBuffer().tlv(0x0001, uin);
         }else{
-            m_socket->writeBuffer.tlv(0x0001, data.owner.Screen.str());
+            m_socket->writeBuffer().tlv(0x0001, data.owner.Screen.str());
         }
-        m_socket->writeBuffer.tlv(0x004B);
-        m_socket->writeBuffer.tlv(0x005A);
+        m_socket->writeBuffer().tlv(0x004B);
+        m_socket->writeBuffer().tlv(0x005A);
         sendPacket(true);
         return;
     }
     if (m_bVerifying){
         log(L_DEBUG, "Requesting verification picture");
         flap(ICQ_CHNxNEW);
-        m_socket->writeBuffer << 0x00000001L;
+        m_socket->writeBuffer() << 0x00000001L;
         sendPacket(true);
         snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ_IMG);
         sendPacket(true);
         return;
     }
     flap(ICQ_CHNxNEW);
-    m_socket->writeBuffer << 0x00000001L;
+    m_socket->writeBuffer() << 0x00000001L;
     sendPacket(true);
     // first try the old registration scheme
     snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
@@ -256,14 +256,14 @@ void ICQClient::chn_login()
     msg.pack(len);
     msg.pack(pswd.data(), len);
     msg << 0x94680000L << 0x00000602L;
-    m_socket->writeBuffer.tlv(0x0001, msg);
+    m_socket->writeBuffer().tlv(0x0001, msg);
     sendPacket(true);
 }
 
 void ICQClient::chn_close()
 {
     unsigned errorCode = 0;
-    TlvList tlv(m_socket->readBuffer);
+    TlvList tlv(m_socket->readBuffer());
     Tlv *tlv_error = tlv(8);
     if (tlv_error){
         unsigned short err = *tlv_error;
