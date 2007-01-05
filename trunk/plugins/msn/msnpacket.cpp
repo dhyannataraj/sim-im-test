@@ -151,11 +151,11 @@ void MSNPacket::error(unsigned code)
         if (err->code == code)
             break;
     if (err->code){
-        m_client->m_socket->error_state(err->str);
+        m_client->socket()->error_state(err->str);
         return;
     }
     log(L_WARN, "Unknown error code %u", code);
-    m_client->m_socket->error_state("Protocol error");
+    m_client->socket()->error_state("Protocol error");
 }
 
 VerPacket::VerPacket(MSNClient *client)
@@ -518,7 +518,7 @@ MSNServerMessage::~MSNServerMessage()
 
 bool MSNServerMessage::packet()
 {
-    Buffer &b = m_client->m_socket->readBuffer();
+    Buffer &b = m_client->socket()->readBuffer();
     unsigned size = b.writePos() - b.readPos();
     if (size > m_size)
         size = m_size;

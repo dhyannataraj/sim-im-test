@@ -256,8 +256,8 @@ ICQClient::~ICQClient()
     if (m_listener)
         delete m_listener;
     free_data(icqClientData, &data);
-    if (m_socket)
-        delete m_socket;
+    if (socket())
+        delete socket();
     for (list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it){
         Message *msg = *it;
         msg->setError(I18N_NOOP("Process message failed"));
@@ -538,7 +538,7 @@ void ICQClient::setStatus(unsigned status)
 
 ClientSocket *ICQClient::socket()
 {
-    return m_socket;
+    return socket();
 }
 
 void ICQClient::setInvisible(bool bState)
@@ -670,7 +670,7 @@ void ICQClient::packet_ready()
 void ICQClient::packet()
 {
     ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-    EventLog::log_packet(m_socket->readBuffer(), false, plugin->OscarPacket);
+    EventLog::log_packet(socket()->readBuffer(), false, plugin->OscarPacket);
     switch (m_nChannel){
     case ICQ_CHNxNEW:
         chn_login();
@@ -681,21 +681,21 @@ void ICQClient::packet()
     case ICQ_CHNxDATA:{
             unsigned short fam, type;
             unsigned short flags, seq, cmd;
-            m_socket->readBuffer() >> fam >> type >> flags >> seq >> cmd;
+            socket()->readBuffer() >> fam >> type >> flags >> seq >> cmd;
             if ((flags & 0x8000)) {	// some unknown data before real snac data
                 // just read the length and forget it ;-)
                 unsigned short unknown_length = 0;
-                m_socket->readBuffer() >> unknown_length;
-                m_socket->readBuffer().incReadPos(unknown_length);
+                socket()->readBuffer() >> unknown_length;
+                socket()->readBuffer().incReadPos(unknown_length);
             }
             // now just take a look at the type because 0x0001 == error
             // in all families
             if (type == 0x0001) {
                 unsigned short err_code;
-                m_socket->readBuffer() >> err_code;
+                socket()->readBuffer() >> err_code;
                 log(L_DEBUG,"Error! family: %04X reason: %s",fam,error_message(err_code));
                 // now decrease for icqicmb & icqvarious
-                m_socket->readBuffer().decReadPos(sizeof(unsigned short));
+                socket()->readBuffer().decReadPos(sizeof(unsigned short));
             }
             switch (fam){
             case ICQ_SNACxFAM_SERVICE:
@@ -733,8 +733,8 @@ void ICQClient::packet()
     default:
         log(L_ERROR, "Unknown channel %u", m_nChannel & 0xFF);
     }
-    m_socket->readBuffer().init(6);
-    m_socket->readBuffer().packetStart();
+    socket()->readBuffer().init(6);
+    socket()->readBuffer().packetStart();
     m_bHeader = true;
 }
 

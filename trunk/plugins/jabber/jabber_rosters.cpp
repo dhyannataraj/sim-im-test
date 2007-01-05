@@ -2153,7 +2153,7 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
     req->add_attribute("xmlns", "jabber:iq:oob");
     QString url  = "http://";
     struct in_addr addr;
-    addr.s_addr = m_socket->localHost();
+    addr.s_addr = socket()->localHost();
     url += inet_ntoa(addr);
     url += ':';
 	url += QString::number(port);

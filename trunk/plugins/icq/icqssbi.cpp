@@ -116,7 +116,7 @@ void SSBISocket::snac_service(unsigned short type, unsigned short)
     switch(type) {
         case ICQ_SNACxSRV_READYxSERVER:
             snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
-            m_socket->writeBuffer() << 0x00010004L << 0x00100001L;
+            socket()->writeBuffer() << 0x00010004L << 0x00100001L;
             sendPacket();
             break;
         case ICQ_SNACxSRV_ACKxIMxICQ:
@@ -125,10 +125,10 @@ void SSBISocket::snac_service(unsigned short type, unsigned short)
             break;
         case ICQ_SNACxSRV_RATExINFO:
             snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
-            m_socket->writeBuffer() << 0x00010002L << 0x00030004L << 0x0005;
+            socket()->writeBuffer() << 0x00010002L << 0x00030004L << 0x0005;
             sendPacket();
             snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_READYxCLIENT);
-            m_socket->writeBuffer() << 0x00010004L << 0x00100739L << 0x00100001L << 0x00100739L;
+            socket()->writeBuffer() << 0x00010004L << 0x00100739L << 0x00100001L << 0x00100739L;
             sendPacket();
             m_bConnected = true;
             process();
@@ -144,7 +144,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
     switch (type){
     case ICQ_SNACxSSBI_ERROR:{
             unsigned short error_code;
-            m_socket->readBuffer() >> error_code;
+            socket()->readBuffer() >> error_code;
             log(L_WARN, "SSBI error (%04X,%04X)", seq, error_code);
             break;
         }
@@ -153,10 +153,10 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
         char size;
         QByteArray ba(16);
 
-        m_socket->readBuffer() >> unknown1 >> unknown2;
-        m_socket->readBuffer() >> size;
+        socket()->readBuffer() >> unknown1 >> unknown2;
+        socket()->readBuffer() >> size;
         ba.resize(size);
-        m_socket->readBuffer().unpack(ba.data(), size);
+        socket()->readBuffer().unpack(ba.data(), size);
         break;
     }
     case ICQ_SNACxSSBI_REQ_AIM_ACK: {
@@ -167,18 +167,18 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             unsigned short iconID, iconSize;
             char iconFlags, hashSize;
 
-            screen = m_socket->readBuffer().unpackScreen();
+            screen = socket()->readBuffer().unpackScreen();
             if(m_client->screen(&m_client->data.owner) == screen)
                 data = &m_client->data.owner;
             else 
                 data = m_client->findContact(screen, NULL, false, contact);
             if(data) {
-                m_socket->readBuffer() >> iconID >> iconFlags >> hashSize;
+                socket()->readBuffer() >> iconID >> iconFlags >> hashSize;
                 hash.resize(hashSize);
-                m_socket->readBuffer().unpack(hash.data(), hashSize);
-                m_socket->readBuffer() >> iconSize;
+                socket()->readBuffer().unpack(hash.data(), hashSize);
+                socket()->readBuffer() >> iconSize;
                 icon.resize(iconSize);
-                m_socket->readBuffer().unpack(icon.data(), iconSize);
+                socket()->readBuffer().unpack(icon.data(), iconSize);
 
                 if(icon.isEmpty()) {
                     process();
@@ -202,24 +202,24 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             unsigned short iconID, iconSize;
             char iconFlags, hashSize, unknown1;
 
-            screen = m_socket->readBuffer().unpackScreen();
+            screen = socket()->readBuffer().unpackScreen();
             if(m_client->screen(&m_client->data.owner) == screen)
                 data = &m_client->data.owner;
             else 
                 data = m_client->findContact(screen, NULL, false, contact);
             if(data) {
-                m_socket->readBuffer() >> iconID >> iconFlags >> hashSize;
+                socket()->readBuffer() >> iconID >> iconFlags >> hashSize;
                 hash.resize(hashSize);
-                m_socket->readBuffer().unpack(hash.data(), hashSize);
-                m_socket->readBuffer() >> unknown1;
+                socket()->readBuffer().unpack(hash.data(), hashSize);
+                socket()->readBuffer() >> unknown1;
                 // again ...
-                m_socket->readBuffer() >> iconID >> iconFlags >> hashSize;
+                socket()->readBuffer() >> iconID >> iconFlags >> hashSize;
                 hash.resize(hashSize);
-                m_socket->readBuffer().unpack(hash.data(), hashSize);
+                socket()->readBuffer().unpack(hash.data(), hashSize);
 
-                m_socket->readBuffer() >> iconSize;
+                socket()->readBuffer() >> iconSize;
                 icon.resize(iconSize);
-                m_socket->readBuffer().unpack(icon.data(), iconSize);
+                socket()->readBuffer().unpack(icon.data(), iconSize);
 
                 if(icon.isEmpty()) {
                     process();
@@ -306,9 +306,9 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
     }
 
     snac(ICQ_SNACxFAM_SSBI, ICQ_SNACxSSBI_UPLOAD, true);
-    m_socket->writeBuffer() << refNumber;
-    m_socket->writeBuffer() << len;
-    m_socket->writeBuffer().pack(ba.data(), len);
+    socket()->writeBuffer() << refNumber;
+    socket()->writeBuffer() << len;
+    socket()->writeBuffer().pack(ba.data(), len);
 
     sendPacket(true);
 }
@@ -331,12 +331,12 @@ void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, con
     char len = buddyHash.size();
     snac(ICQ_SNACxFAM_SSBI, m_client->m_bAIM ? ICQ_SNACxSSBI_REQ_AIM : ICQ_SNACxSSBI_REQ_ICQ, true);
 
-    m_socket->writeBuffer().packScreen(screen);
-    m_socket->writeBuffer() << (char)0x01
+    socket()->writeBuffer().packScreen(screen);
+    socket()->writeBuffer() << (char)0x01
                           << (unsigned short)buddyID
                           << (char)0x01;
-    m_socket->writeBuffer().pack(&len, 1);
-    m_socket->writeBuffer().pack(buddyHash.data(), len);
+    socket()->writeBuffer().pack(&len, 1);
+    socket()->writeBuffer().pack(buddyHash.data(), len);
     sendPacket();
 }
 
