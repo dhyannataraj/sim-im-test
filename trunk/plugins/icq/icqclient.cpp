@@ -538,7 +538,7 @@ void ICQClient::setStatus(unsigned status)
 
 ClientSocket *ICQClient::socket()
 {
-    return socket();
+    return TCPClient::socket();
 }
 
 void ICQClient::setInvisible(bool bState)
