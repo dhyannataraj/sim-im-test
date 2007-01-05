@@ -536,11 +536,6 @@ void ICQClient::setStatus(unsigned status)
     }
 }
 
-ClientSocket *ICQClient::socket()
-{
-    return TCPClient::socket();
-}
-
 void ICQClient::setInvisible(bool bState)
 {
     if (bState != getInvisible()){
@@ -3275,7 +3270,29 @@ Contact *ICQClient::getContact(ICQUserData *data)
     return contact;
 }
 
+// FIXME: move into own file
+ICQBuffer::ICQBuffer(unsigned size)
+  : Buffer(size)
+{}
+
+ICQBuffer::ICQBuffer(const QByteArray &ba)
+  : Buffer(ba)
+{}
+
+ICQBuffer::ICQBuffer(Tlv &tlv)
+  : Buffer(tlv)
+{}
+
+ICQBuffer::~ICQBuffer()
+{}
+
+ICQClientSocket::ICQClientSocket(SIM::ClientSocketNotify *notify, SIM::Socket *sock)
+ : ClientSocket(notify, sock) 
+{}
+
+ICQClientSocket::~ICQClientSocket()
+{}
+
 #ifndef NO_MOC_INCLUDES
 #include "icqclient.moc"
 #endif
-

@@ -504,6 +504,30 @@ struct InfoRequest
 typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
 typedef std::map<unsigned, unsigned>			RATE_MAP;
 
+class ICQBuffer : public Buffer
+{
+public:
+    ICQBuffer(unsigned size = 0);
+    ICQBuffer(const QByteArray &ba);
+    ICQBuffer(Tlv&);
+    ~ICQBuffer();
+
+    bool bTest() { return true; }
+};
+
+class ICQClientSocket : public SIM::ClientSocket
+{
+public:
+    ICQClientSocket(SIM::ClientSocketNotify*, SIM::Socket *sock = NULL);
+    ~ICQClientSocket();
+
+    virtual Buffer &readBuffer() { return m_readICQBuffer; }
+    virtual Buffer &writeBuffer() { return m_writeICQBuffer; }
+protected:
+    ICQBuffer m_readICQBuffer;
+    ICQBuffer m_writeICQBuffer;
+};
+
 class ICQClient : public SIM::TCPClient, public OscarSocket
 {
     Q_OBJECT
@@ -538,8 +562,6 @@ public:
     PROP_BOOL(DisableAutoUpdate);
     PROP_BOOL(DisableAutoReplyUpdate);
     PROP_BOOL(DisableTypingNotification);
-//    PROP_BOOL(AutoCheckInvisible);
-//    PROP_ULONG(CheckInvisibleInterval);
     PROP_BOOL(AcceptInDND);
     PROP_BOOL(AcceptInOccupied);
     PROP_USHORT(MinPort);
@@ -550,6 +572,10 @@ public:
     PROP_BOOL(AutoHTTP);
     PROP_BOOL(KeepAlive);
     ICQClientData   data;
+    // reimplement socket() to get correct Buffer
+    virtual ICQClientSocket *socket() { return static_cast<ICQClientSocket*>(TCPClient::socket()); }
+    virtual ICQClientSocket *createClientSocket() { return new ICQClientSocket(this, createSocket()); }
+    // icq functions
     unsigned short findByUin(unsigned long uin);
     unsigned short findByMail(const QString &mail);
     unsigned short findWP(const QString &first, const QString &last, const QString &nick,
@@ -632,7 +658,6 @@ protected:
     virtual QString contactName(void *clientData);
     QString dataName(const QString &screen);
     QByteArray  m_cookie;
-    virtual SIM::ClientSocket *socket();
     virtual void packet();
     void snac_service(unsigned short, unsigned short);
     void snac_location(unsigned short, unsigned short);
