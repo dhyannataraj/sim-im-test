@@ -201,11 +201,15 @@ class EXPORT TCPClient : public QObject, public Client, public ClientSocketNotif
     Q_OBJECT
 public:
     TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority = DefaultPriority);
+
+    virtual void	        setStatus(unsigned status, bool bCommon);
+
     virtual QString         getServer() const = 0;
     virtual unsigned short  getPort() const = 0;
-    unsigned		m_reconnect;
-    virtual void	setStatus(unsigned status, bool bCommon);
-    unsigned long	ip() { return m_ip; }
+    unsigned long	        ip() const { return m_ip; }
+    virtual ClientSocket   *socket() { return m_clientSocket; }
+
+    unsigned m_reconnect;
 protected slots:
     void reconnect();
     void loginTimeout();
@@ -219,13 +223,15 @@ protected:
     virtual void	socketConnect();
     virtual bool    processEvent(Event *e);
     virtual Socket  *createSocket();
+    virtual ClientSocket *createClientSocket();
     void			setClientStatus(unsigned status);
-    ClientSocket	*m_socket;
     unsigned		m_logonStatus;
     unsigned		m_ip;
     QTimer			*m_timer;
     QTimer			*m_loginTimer;
     bool			m_bWaitReconnect;
+private:
+    ClientSocket	*m_clientSocket;
 };
 
 #ifdef USE_OPENSSL

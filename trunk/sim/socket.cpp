@@ -282,7 +282,7 @@ void SocketFactory::idle()
 TCPClient::TCPClient(Protocol *protocol, Buffer *cfg, unsigned priority)
         : Client(protocol, cfg), EventReceiver(priority)
 {
-    m_socket = NULL;
+    m_clientSocket = NULL;
     m_ip     = 0;
     m_timer  = new QTimer(this);
     m_loginTimer = new QTimer(this);
@@ -363,8 +363,8 @@ void TCPClient::connect_ready()
 void TCPClient::loginTimeout()
 {
     m_loginTimer->stop();
-    if ((m_state != Connected) && m_socket)
-        m_socket->error_state(I18N_NOOP("Login timeout"));
+    if ((m_state != Connected) && socket())
+        socket()->error_state(I18N_NOOP("Login timeout"));
 }
 
 Socket *TCPClient::createSocket()
@@ -374,12 +374,17 @@ Socket *TCPClient::createSocket()
 
 void TCPClient::socketConnect()
 {
-    if (m_socket)
-        m_socket->close();
-    if (m_socket == NULL)
-        m_socket = new ClientSocket(this, createSocket());
+    if (socket())
+        socket()->close();
+    if (socket() == NULL)
+        m_clientSocket = createClientSocket();
     log(L_DEBUG, "Start connect %s:%u", static_cast<const char *>(getServer().local8Bit()), getPort());
-    m_socket->connect(getServer(), getPort(), this);
+    socket()->connect(getServer(), getPort(), this);
+}
+
+ClientSocket *TCPClient::createClientSocket()
+{
+    return new ClientSocket(this, createSocket());
 }
 
 void TCPClient::setClientStatus(unsigned status)
@@ -402,15 +407,15 @@ void TCPClient::setClientStatus(unsigned status)
     m_bWaitReconnect = false;
     m_timer->stop();
     m_loginTimer->stop();
-    if (m_socket)
+    if (socket())
         setStatus(STATUS_OFFLINE);
     m_status = STATUS_OFFLINE;
     setState(Offline);
     disconnected();
-    if (m_socket){
-        m_socket->close();
-        delete m_socket;
-        m_socket = NULL;
+    if (socket()){
+        socket()->close();
+        delete socket();
+        m_clientSocket = NULL;
     }
 }
 
