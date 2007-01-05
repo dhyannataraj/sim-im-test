@@ -45,16 +45,11 @@ ServiceSocket::~ServiceSocket()
     delete m_socket;
 }
 
-ClientSocket *ServiceSocket::socket()
-{
-    return m_socket;
-}
-
 void ServiceSocket::connect(const char *addr, unsigned short port, const QByteArray &cookie)
 {
     log(L_DEBUG, "%s: connect to %s:%d ", serviceSocketName(), addr, port);
     m_cookie = cookie;
-    m_socket = new ClientSocket(this);
+    m_socket = new ICQClientSocket(this);
     m_socket->connect(addr, port, m_client);
 }
 

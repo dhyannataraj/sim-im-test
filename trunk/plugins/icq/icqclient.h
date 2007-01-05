@@ -458,6 +458,7 @@ typedef std::map<unsigned short, QString> INFO_REQ_MAP;
 
 class DirectSocket;
 class ServiceSocket;
+class ICQClientSocket;
 
 class OscarSocket
 {
@@ -466,7 +467,7 @@ public:
     virtual ~OscarSocket();
 protected:
     void sendPacket(bool bSend=true);
-    virtual SIM::ClientSocket *socket() = 0;
+    virtual ICQClientSocket *socket() = 0;
     virtual void packet() = 0;
     void flap(char channel);
     void snac(unsigned short fam, unsigned short type, bool msgId=false, bool bType=true);
@@ -521,8 +522,8 @@ public:
     ICQClientSocket(SIM::ClientSocketNotify*, SIM::Socket *sock = NULL);
     ~ICQClientSocket();
 
-    virtual Buffer &readBuffer() { return m_readICQBuffer; }
-    virtual Buffer &writeBuffer() { return m_writeICQBuffer; }
+    virtual ICQBuffer &readBuffer() { return m_readICQBuffer; }
+    virtual ICQBuffer &writeBuffer() { return m_writeICQBuffer; }
 protected:
     ICQBuffer m_readICQBuffer;
     ICQBuffer m_writeICQBuffer;
@@ -840,13 +841,13 @@ protected:
     virtual const char *serviceSocketName() = 0;
     virtual void connect_ready();
     virtual void packet_ready();
-    virtual SIM::ClientSocket *socket();
+    virtual ICQClientSocket *socket() { return m_socket; }
     virtual void packet();
     virtual void data(unsigned short fam, unsigned short type, unsigned short seq) = 0;
     unsigned short m_id;
     QByteArray  m_cookie;
     bool    m_bConnected;
-    SIM::ClientSocket *m_socket;
+    ICQClientSocket *m_socket;
     ICQClient *m_client;
 };
 
