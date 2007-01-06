@@ -160,7 +160,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             QString verifyStr = verdlg.getVerifyString();
             log(L_DEBUG, "User input: %s", verifyStr.latin1());
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
-            Buffer msg;
+            ICQBuffer msg;
             msg
             << 0x00000000L << 0x28000300L << 0x00000000L
             << 0x00000000L << 0x94680000L << 0x94680000L
@@ -245,7 +245,7 @@ void ICQClient::chn_login()
     sendPacket(true);
     // first try the old registration scheme
     snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
-    Buffer msg;
+    ICQBuffer msg;
     msg
     << 0x00000000L << 0x28000300L << 0x00000000L
     << 0x00000000L << 0x94680000L << 0x94680000L

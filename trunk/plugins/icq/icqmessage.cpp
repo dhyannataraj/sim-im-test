@@ -327,11 +327,11 @@ static Message *parseAuthRequest(const QCString &str)
     return m;
 }
 
-Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packet, MessageId &id, unsigned cookie)
 {
     QCString header;
     packet >> header;
-    Buffer h(header.size());
+    ICQBuffer h(header.size());
     h.pack(header, header.size());
     h.incReadPos(16);
     unsigned short msg_type;
@@ -340,7 +340,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
     h.unpackStr32(msgType);
     QCString info;
     packet.unpackStr32(info);
-    Buffer b(info.size());
+    ICQBuffer b(info.size());
     b.pack(info, info.size());
 
     log(L_DEBUG, "Extended message %s [%04X] %u", msgType.data(), msg_type, info.size());
@@ -459,7 +459,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, Buffer &packet, 
     return NULL;
 }
 
-Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const QCString &p, Buffer &packet, MessageId &id, unsigned cookie)
+Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const QCString &p, ICQBuffer &packet, MessageId &id, unsigned cookie)
 {
     if (screen.toULong() == 0x0A){
         vector<QCString> l;
@@ -898,7 +898,7 @@ void ICQPlugin::unregisterMessages()
     EventCommandRemove(CmdUrlInput).process();
 }
 
-void ICQClient::packExtendedMessage(Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data)
+void ICQClient::packExtendedMessage(Message *msg, ICQBuffer &buf, ICQBuffer &msgBuf, ICQUserData *data)
 {
     unsigned short port = 0;
     switch (msg->type()){
@@ -995,10 +995,9 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
     return newContacts;
 }
 
-void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags)
+void ICQClient::packMessage(ICQBuffer &b, Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags)
 {
-    Buffer msgBuf;
-    Buffer buf;
+    ICQBuffer msgBuf, buf;
     QCString res;
     switch (msg->type()){
     case MessageUrl:
@@ -1065,7 +1064,7 @@ void ICQClient::packMessage(Buffer &b, Message *msg, ICQUserData *data, unsigned
     }
 }
 
-void ICQClient::parsePluginPacket(Buffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
+void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserData *data, unsigned uin, bool bDirect)
 {
     b.incReadPos(1);
     unsigned short type;
@@ -1368,19 +1367,19 @@ static const char* plugin_descr[] =
         "ICQphone Status"						// PLUGIN_ICQPHONE
     };
 
-void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &info)
+void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer &info)
 {
     Contact *contact;
     ICQUserData *data = findContact(uin, NULL, false, contact);
     log(L_DEBUG, "Request about %u", plugin_type);
-    Buffer answer;
+    ICQBuffer answer;
     unsigned long typeAnswer = 0;
     unsigned long nEntries = 0;
     unsigned long time = 0;
     switch (plugin_type){
     case PLUGIN_PHONEBOOK:{
             if (data && data->GrpId.toULong() && !contact->getIgnore()){
-                Buffer answer1;
+                ICQBuffer answer1;
                 time = this->data.owner.PluginInfoTime.toULong();
                 QString phones = getContacts()->owner()->getPhones();
                 while (!phones.isEmpty()){

@@ -351,7 +351,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         log(L_WARN, "TLV 0x0002 not found");
                         break;
                     }
-                    Buffer m(*tlv(2));
+                    ICQBuffer m(*tlv(2));
                     TlvList tlv_msg(m);
                     Tlv *m_tlv = tlv_msg(0x101);
                     if (m_tlv == NULL){
@@ -406,7 +406,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
-                    Buffer msg(*tlv(5));
+                    ICQBuffer msg(*tlv(5));
                     unsigned short type;
                     msg >> type;
                     switch (type){
@@ -457,7 +457,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         log(L_WARN, "Advanced message TLV 0x0005 not found");
                         break;
                     }
-                    Buffer msg(*tlv(5));
+                    ICQBuffer msg(*tlv(5));
                     unsigned long msg_uin;
                     msg >> msg_uin;
                     if (msg_uin == 0){
@@ -599,7 +599,7 @@ bool ICQClient::sendThruServer(Message *msg, void *_data)
     return false;
 }
 
-void ICQClient::sendThroughServer(const QString &screen, unsigned short channel, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck)
+void ICQClient::sendThroughServer(const QString &screen, unsigned short channel, ICQBuffer &b, const MessageId &id, bool bOffline, bool bReqAck)
 {
     // we need informations about channel 2 tlvs !
     unsigned short tlv_type = 5;
@@ -632,7 +632,7 @@ static void b2h(char *&p, char c)
     *(p++) = c2h(c);
 }
 
-void packCap(Buffer &b, const capability &c)
+void packCap(ICQBuffer &b, const capability &c)
 {
     char pack_cap[0x27];
     char *p = pack_cap;
@@ -723,14 +723,14 @@ bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const QCString
     return true;
 }
 
-void ICQClient::sendAdvMessage(const QString &screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
+void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
 {
     if (cookie1 == 0){
         m_advCounter--;
         cookie1 = m_advCounter;
         cookie2 = (plugin_index == PLUGIN_NULL) ? (unsigned short)0x0E : (unsigned short)0x12;
     }
-    Buffer msgBuf;
+    ICQBuffer msgBuf;
     msgBuf.pack((unsigned short)0x1B);
     msgBuf.pack((unsigned short)0x08);
     msgBuf.pack((char*)plugins[plugin_index], sizeof(plugin));
@@ -746,7 +746,7 @@ void ICQClient::sendAdvMessage(const QString &screen, Buffer &msgText, unsigned 
     sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port.toULong() : 0, NULL, type);
 }
 
-static void copyTlv(Buffer &b, TlvList *tlvs, unsigned nTlv)
+static void copyTlv(ICQBuffer &b, TlvList *tlvs, unsigned nTlv)
 {
     if (tlvs == NULL)
         return;
@@ -756,9 +756,9 @@ static void copyTlv(Buffer &b, TlvList *tlvs, unsigned nTlv)
     b.tlv(nTlv, *tlv, tlv->Size());
 }
 
-void ICQClient::sendType2(const QString &screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
+void ICQClient::sendType2(const QString &screen, ICQBuffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
 {
-    Buffer b;
+    ICQBuffer b;
     b << (unsigned short)0;
     b << id.id_l << id.id_h;
     b.pack((char*)capabilities[cap], sizeof(capability));
@@ -816,7 +816,7 @@ void ICQClient::clearMsgQueue()
     m_send.screen = QString::null;
 }
 
-void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool needAck, MessageId id)
+void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool needAck, MessageId id)
 {
     m.incReadPos(8);    /* msg-id cookie */
     capability cap;
@@ -833,7 +833,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
         unsigned long remotePort;
         unsigned long localPort1;
         char mode;
-        Buffer adv(*tlv(0x2711));
+        ICQBuffer adv(*tlv(0x2711));
         adv.unpack(req_uin);
         adv.unpack(localIP);
         adv.unpack(localPort);
@@ -932,7 +932,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             return;
         }
         QString d = convert(desc, tlv, 0x0D);
-        Buffer b(*info);
+        ICQBuffer b(*info);
         unsigned short type;
         unsigned short nFiles;
         unsigned long  size;
@@ -971,7 +971,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             log(L_WARN, "No body in ICMB message found");
             return;
         }
-        Buffer adv(*tlv(0x2711));
+        ICQBuffer adv(*tlv(0x2711));
         QString contacts;
         while (adv.readPos() < adv.size()){
             QString grp;
@@ -1023,7 +1023,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
         return;
     }
 
-    Buffer adv(*tlv(0x2711));
+    ICQBuffer adv(*tlv(0x2711));
     unsigned short len;
     unsigned short tcp_version;
     plugin p;
@@ -1091,7 +1091,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             log(L_WARN, "Unknown plugin request");
             return;
         }
-        Buffer info;
+        ICQBuffer info;
         pluginAnswer(plugin_type, screen.toULong(), info);
         sendAutoReply(screen, id, plugins[plugin_index],
                       cookie1, cookie2, 0, 0, 0x0200, QString::null, 1, info);
@@ -1163,7 +1163,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
             return;
         }
     }
-    Buffer copy;
+    ICQBuffer copy;
     if (!msg.isEmpty() || (msgType == ICQ_MSGxEXT)){
         if (adv.readPos() < adv.writePos())
             copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
@@ -1272,9 +1272,9 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
                 }
             }
         }
-        Buffer copy;
     }
-    if (!needAck) return;
+    if (!needAck)
+        return;
     sendAutoReply(screen, id, p, cookie1, cookie2,
                   msgType, 0, 0, QString::null, 0, copy);
 }
@@ -1282,7 +1282,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, Buffer &m, bool need
 void ICQClient::sendAutoReply(const QString &screen, MessageId id,
                               const plugin p, unsigned short cookie1, unsigned short cookie2,
                               unsigned short msgType, char msgFlags, unsigned short msgState,
-                              const QString &response, unsigned short response_type, Buffer &copy)
+                              const QString &response, unsigned short response_type, ICQBuffer &copy)
 {
     snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
     socket()->writeBuffer() << id.id_l << id.id_h << 0x0002;
@@ -1344,6 +1344,7 @@ protected:
 QString AIMParser::parse(const QString &str)
 {
     bPara = false;
+    res = QString::null;
     HTMLParser::parse(str);
     return res;
 }
@@ -1621,7 +1622,7 @@ bool ICQClient::processMsg()
         log(L_DEBUG, "Send: %s %u %X", m_send.screen.latin1(), type, m_send.flags);
     }
     if (m_send.msg && (m_send.socket == NULL)){
-        Buffer b;
+        ICQBuffer b;
         m_send.id.id_l = rand();
         m_send.id.id_h = rand();
         switch (m_send.msg->type()){
@@ -1638,7 +1639,7 @@ bool ICQClient::processMsg()
                     return false;
                 }
                 static_cast<ContactsMessage*>(m_send.msg)->setContacts(nc);
-                Buffer msgBuf;
+                ICQBuffer msgBuf;
                 vector<alias_group> cc;
                 for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
                     alias_group c;
@@ -1777,7 +1778,7 @@ bool ICQClient::processMsg()
             return true;
         }
 
-        Buffer msgBuf;
+        ICQBuffer msgBuf;
         unsigned short size  = (unsigned short)(text.length() + 1);
         unsigned short flags = ICQ_TCPxMSG_NORMAL;
         if (m_send.msg->getFlags() & MESSAGE_URGENT)
@@ -1804,12 +1805,12 @@ bool ICQClient::processMsg()
         return true;
     }
     if (m_send.socket){
-        Buffer msgBuf;
+        ICQBuffer msgBuf;
         if (m_send.flags == PLUGIN_AIM_FT_ACK){
             AIMFileMessage *msg = static_cast<AIMFileMessage*>(m_send.msg);
             m_send.id.id_l = msg->getID_L();
             m_send.id.id_h = msg->getID_H();
-            Buffer b;
+            ICQBuffer b;
             b << (unsigned short)0;
             b << m_send.id.id_l << m_send.id.id_h;
             b.pack((char*)capabilities[CAP_AIM_SENDFILE], sizeof(capability));
@@ -1915,7 +1916,7 @@ bool ICQClient::processMsg()
             type = ICQ_MSGxAR_FFC;
         }
 
-        Buffer msg;
+        ICQBuffer msg;
         msg.pack(type);
         msg.pack((unsigned short)(fullStatus(m_status) & 0xFFFF));
         msg << 0x0100 << 0x0100 << (char)0;
@@ -1927,14 +1928,14 @@ bool ICQClient::processMsg()
     }else if (m_send.flags == PLUGIN_RANDOMxCHAT){
         m_send.id.id_l = rand();
         m_send.id.id_h = rand();
-        Buffer b;
+        ICQBuffer b;
         b << (char)1 << 0x00000000L << 0x00010000L;
         sendAdvMessage(m_send.screen, b, PLUGIN_RANDOMxCHAT, m_send.id, false, false);
     }else{
         unsigned plugin_index = m_send.flags;
         log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen.latin1(), plugin_index);
 
-        Buffer b;
+        ICQBuffer b;
         unsigned short type = 0;
         switch (plugin_index){
         case PLUGIN_QUERYxINFO:
@@ -1961,7 +1962,7 @@ bool ICQClient::processMsg()
 
 void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
 {
-    Buffer msgBuf;
+    ICQBuffer msgBuf;
     if (bWide){
         QByteArray ba(text.length() * 2);
         for (int i = 0; i < (int)text.length(); i++) {
@@ -1981,7 +1982,7 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msgBuf << 0x0000FFFFL;
         msgBuf << msg_text.data();
     }
-    Buffer b;
+    ICQBuffer b;
     b.tlv(0x0501, "\x01", 1);
     b.tlv(0x0101, msgBuf);
     sendThroughServer(m_send.screen, 1, b, m_send.id, true, true);
@@ -2016,7 +2017,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
     }else{
         id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
         id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
-        Buffer b;
+        ICQBuffer b;
         unsigned short type = ICQ_MSGxEXT;
         packMessage(b, msg, data, type, false, 0);
         unsigned cookie  = static_cast<ICQFileMessage*>(msg)->getCookie();
@@ -2124,8 +2125,8 @@ void ICQClient::decline(Message *msg, const QString &reason)
         }
         if (data && (id.id_l || id.id_h)){
             if (msg->type() == MessageICQFile){
-                Buffer buf, msgBuf;
-                Buffer b;
+                ICQBuffer buf, msgBuf;
+                ICQBuffer b;
                 packExtendedMessage(msg, buf, msgBuf, data);
                 b.pack((unsigned short)buf.size());
                 b.pack(buf.data(0), buf.size());

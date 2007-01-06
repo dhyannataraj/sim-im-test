@@ -142,7 +142,7 @@ public:
     ServerRequest(unsigned short id);
     virtual ~ServerRequest() {}
     unsigned short id() { return m_id; }
-    virtual bool answer(Buffer&, unsigned short nSubType) = 0;
+    virtual bool answer(ICQBuffer&, unsigned short nSubType) = 0;
     virtual void fail(unsigned short error_code = 0);
 protected:
     unsigned short m_id;
@@ -214,7 +214,7 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
                 log(L_WARN, "Bad server response");
                 break;
             }
-            Buffer msg(*tlv(1));
+            ICQBuffer msg(*tlv(1));
             unsigned short len, nType, nId;
             unsigned long own_uin;
             msg >> len >> own_uin >> nType;
@@ -318,7 +318,7 @@ void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 void ICQClient::sendServerRequest()
 {
     log(L_DEBUG, "add server request %d (%p)", m_nMsgSequence, this);
-    Buffer &b = socket()->writeBuffer();
+    ICQBuffer &b = socket()->writeBuffer();
     char *packet = b.data(b.packetStartPos());
     unsigned short packet_size = (unsigned short)(b.size() - b.packetStartPos());
     unsigned short size = (unsigned short)(packet_size - 0x14);
@@ -345,8 +345,8 @@ public:
     FullInfoRequest(ICQClient *client, unsigned short id, unsigned long uin);
 protected:
     virtual void fail(unsigned short error_code);
-    bool answer(Buffer &b, unsigned short nSubtype);
-    QString unpack_list(Buffer &b, Contact *contact);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
+    QString unpack_list(ICQBuffer &b, Contact *contact);
     unsigned m_nParts;
     unsigned long m_uin;
     ICQClient *m_client;
@@ -381,7 +381,7 @@ void FullInfoRequest::fail(unsigned short)
     m_client->removeFullInfoRequest(m_uin);
 }
 
-QString FullInfoRequest::unpack_list(Buffer &b, Contact *contact)
+QString FullInfoRequest::unpack_list(ICQBuffer &b, Contact *contact)
 {
     QString res;
     char n;
@@ -401,7 +401,7 @@ QString FullInfoRequest::unpack_list(Buffer &b, Contact *contact)
     return res;
 }
 
-bool FullInfoRequest::answer(Buffer &b, unsigned short nSubtype)
+bool FullInfoRequest::answer(ICQBuffer &b, unsigned short nSubtype)
 {
     Contact *contact = NULL;
     ICQUserData *data;
@@ -667,7 +667,7 @@ public:
     SearchWPRequest(ICQClient *client, unsigned short id);
 protected:
     virtual void fail(unsigned short error_code);
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     ICQClient *m_client;
 };
 
@@ -687,7 +687,7 @@ void SearchWPRequest::fail(unsigned short)
     free_data(ICQProtocol::icqUserData, &res.data);
 }
 
-bool SearchWPRequest::answer(Buffer &b, unsigned short nSubType)
+bool SearchWPRequest::answer(ICQBuffer &b, unsigned short nSubType)
 {
     QCString Nick, FirstName, LastName, EMail;
     SearchResult res;
@@ -784,7 +784,7 @@ void ICQClient::packTlv(unsigned short tlv, unsigned short code, const QString &
         return;
     QCString data = getContacts()->fromUnicode(NULL, _keywords);
 
-    Buffer b;
+    ICQBuffer b;
     b.pack(code);
     b << data;
     socket()->writeBuffer().tlvLE(tlv, b);
@@ -885,7 +885,7 @@ class SetMainInfoRequest : public ServerRequest
 public:
     SetMainInfoRequest(ICQClient *client, unsigned short id, ICQUserData *data);
 protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     QString m_nick;
     QString m_firstName;
     QString m_lastName;
@@ -923,7 +923,7 @@ SetMainInfoRequest::SetMainInfoRequest(ICQClient *client, unsigned short id, ICQ
     m_hiddenEMail = data->HiddenEMail.toBool();
 }
 
-bool SetMainInfoRequest::answer(Buffer&, unsigned short)
+bool SetMainInfoRequest::answer(ICQBuffer&, unsigned short)
 {
     m_client->data.owner.Nick.str() = m_nick;
     m_client->data.owner.FirstName.str() = m_firstName;
@@ -1110,7 +1110,7 @@ class ChangeInfoRequest : public ServerRequest
 public:
     ChangeInfoRequest(ICQClient *client, unsigned short id, const QValueList<Tlv> &clientInfoTLVs);
 protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     ICQClient *m_client;
     QValueList<Tlv> m_clientInfoTLVs;
 };
@@ -1120,7 +1120,7 @@ ChangeInfoRequest::ChangeInfoRequest(ICQClient *client, unsigned short id, const
 {
 }
 
-bool ChangeInfoRequest::answer(Buffer&, unsigned short)
+bool ChangeInfoRequest::answer(ICQBuffer&, unsigned short)
 {
     bool bFirstAffilation = true;
     bool bFirstInterest = true;
@@ -1452,7 +1452,7 @@ class SetPasswordRequest : public ServerRequest
 public:
     SetPasswordRequest(ICQClient *client, unsigned short id, const QString &pwd);
 protected:
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     virtual void fail(unsigned short error_code);
     QString m_pwd;
     ICQClient *m_client;
@@ -1462,7 +1462,7 @@ SetPasswordRequest::SetPasswordRequest(ICQClient *client, unsigned short id, con
     : ServerRequest(id), m_pwd(pwd), m_client(client)
 {}
 
-bool SetPasswordRequest::answer(Buffer&, unsigned short)
+bool SetPasswordRequest::answer(ICQBuffer&, unsigned short)
 {
     m_client->setPassword(m_pwd);
     return true;
@@ -1498,7 +1498,7 @@ class SMSRequest : public ServerRequest
 {
 public:
     SMSRequest(ICQClient *client, unsigned short id);
-    virtual bool answer(Buffer&, unsigned short nSubType);
+    virtual bool answer(ICQBuffer&, unsigned short nSubType);
     virtual void fail(unsigned short error_code);
 protected:
     ICQClient *m_client;
@@ -1519,7 +1519,7 @@ SMSRequest::SMSRequest(ICQClient *client, unsigned short id)
     m_client = client;
 }
 
-bool SMSRequest::answer(Buffer &b, unsigned short code)
+bool SMSRequest::answer(ICQBuffer &b, unsigned short code)
 {
     m_client->m_sendSmsId = 0;
     if (code == 0x0100){
@@ -1747,7 +1747,7 @@ public:
     RandomChatRequest(ICQClient *client, unsigned short id);
 protected:
     virtual void fail(unsigned short error_code);
-    bool answer(Buffer &b, unsigned short nSubtype);
+    bool answer(ICQBuffer &b, unsigned short nSubtype);
     ICQClient *m_client;
 };
 
@@ -1758,7 +1758,7 @@ RandomChatRequest::RandomChatRequest(ICQClient *client, unsigned short id)
     m_client = client;
 }
 
-bool RandomChatRequest::answer(Buffer &b, unsigned short)
+bool RandomChatRequest::answer(ICQBuffer &b, unsigned short)
 {
     unsigned long uin;
     b.unpack(uin);

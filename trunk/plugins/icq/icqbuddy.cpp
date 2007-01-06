@@ -166,7 +166,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 data->Caps.asULong() = 0;
                 data->Caps2.asULong() = 0;
 
-                Buffer info(*tlvCapShort);
+                ICQBuffer info(*tlvCapShort);
 
                 for (; info.readPos() < info.size(); ){
                     unsigned char shortcap[2];
@@ -192,7 +192,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                     data->Caps.asULong() = 0;
                     data->Caps2.asULong() = 0;
                 }
-                Buffer info(*tlvCapability);
+                ICQBuffer info(*tlvCapability);
                 for (; info.readPos() < info.size(); ){
                     capability cap;
                     info.unpack((char*)cap, sizeof(capability));
@@ -263,7 +263,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 const QByteArray &ba = data->buddyHash.toBinary();
                 unsigned short iconID;
                 unsigned char iconFlags, hashSize;
-                Buffer info(*tlvBuddy);
+                ICQBuffer info(*tlvBuddy);
                 QByteArray hash(16);
                 QString fname = pictureFile(data);
                 QFileInfo fi(fname);
@@ -287,7 +287,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             // Direct connection info
             Tlv *tlvDirect = tlv(TLV_USER_DC_INFO);
             if (tlvDirect){
-                Buffer info(*tlvDirect);
+                ICQBuffer info(*tlvDirect);
                 unsigned long  realIP;
                 unsigned short port;
                 char mode, version, junk;
@@ -315,7 +315,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
             Tlv *tlvPlugin = tlv(0x0011);
             if (tlvPlugin && data->Uin.toULong()){
-                Buffer info(*tlvPlugin);
+                ICQBuffer info(*tlvPlugin);
                 char type;
                 unsigned long time;
                 info >> type;

@@ -95,7 +95,7 @@ bool ICQListener::error(const QString &err)
 
 DirectSocket::DirectSocket(Socket *s, ICQClient *client, unsigned long ip)
 {
-    m_socket = new ClientSocket(this);
+    m_socket = new ICQClientSocket(this);
     m_socket->setSocket(s);
     m_bIncoming = true;
     m_client = client;
@@ -109,7 +109,7 @@ DirectSocket::DirectSocket(Socket *s, ICQClient *client, unsigned long ip)
 
 DirectSocket::DirectSocket(ICQUserData *data, ICQClient *client)
 {
-    m_socket    = new ClientSocket(this);
+    m_socket    = new ICQClientSocket(this);
     m_bIncoming = false;
     m_version   = (char)(data->Version.toULong());
     m_client    = client;
@@ -763,7 +763,7 @@ void DirectClient::processPacket()
                 if (!memcmp(p, m_client->plugins[plugin_index], sizeof(p)))
                     break;
             }
-            Buffer info;
+            ICQBuffer info;
             unsigned short type = 1;
             switch (plugin_index){
             case PLUGIN_FILESERVER:
@@ -1145,8 +1145,8 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         case MessageICQFile:
             if (static_cast<ICQFileMessage*>(m)->getExtended()){
                 bExt = true;
-                Buffer buf, msgBuf;
-                Buffer b;
+                ICQBuffer buf, msgBuf;
+                ICQBuffer b;
                 m_client->packExtendedMessage(m, buf, msgBuf, m_data);
                 b.pack((unsigned short)buf.size());
                 b.pack(buf.data(0), buf.size());
@@ -1273,7 +1273,7 @@ bool DirectClient::sendMessage(Message *msg)
     return true;
 }
 
-void packCap(Buffer &b, const capability &c);
+void packCap(ICQBuffer &b, const capability &c);
 
 void DirectClient::processMsgQueue()
 {
@@ -1287,7 +1287,7 @@ void DirectClient::processMsgQueue()
         }
         if (sm.msg){
             QCString message;
-            Buffer &mb = m_socket->writeBuffer();
+            ICQBuffer &mb = m_socket->writeBuffer();
             unsigned short flags = ICQ_TCPxMSG_NORMAL;
             if (sm.msg->getFlags() & MESSAGE_URGENT)
                 flags = ICQ_TCPxMSG_URGENT;
@@ -1371,7 +1371,7 @@ void DirectClient::processMsgQueue()
                     it = m_queue.begin();
                     continue;
                 }
-                Buffer &mb = m_socket->writeBuffer();
+                ICQBuffer &mb = m_socket->writeBuffer();
                 startPacket(TCP_START, 0);
                 mb.pack(sm.icq_type);
                 mb.pack(m_client->msgStatus());
@@ -1380,7 +1380,7 @@ void DirectClient::processMsgQueue()
                 sendPacket();
                 sm.seq = m_nSequence;
             }else{
-                Buffer &mb = m_socket->writeBuffer();
+                ICQBuffer &mb = m_socket->writeBuffer();
                 startPacket(TCP_START, 0);
                 mb.pack((unsigned short)ICQ_MSGxMSG);
                 mb.pack(m_client->msgStatus());
@@ -1402,7 +1402,7 @@ bool DirectClient::cancelMessage(Message *msg)
     for (QValueList<SendDirectMsg>::iterator it = m_queue.begin(); it != m_queue.end(); ++it){
         if ((*it).msg == msg){
             if ((*it).seq){
-                Buffer &mb = m_socket->writeBuffer();
+                ICQBuffer &mb = m_socket->writeBuffer();
                 startPacket(TCP_CANCEL, (*it).seq);
                 mb.pack((unsigned short)(*it).icq_type);
                 mb.pack((unsigned short)0);
@@ -1938,7 +1938,7 @@ void ICQFileTransfer::sendFileInfo()
         m_notify->process();
 }
 
-void ICQFileTransfer::setSocket(ClientSocket *socket)
+void ICQFileTransfer::setSocket(ICQClientSocket *socket)
 {
     if (m_socket)
         delete m_socket;

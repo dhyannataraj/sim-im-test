@@ -445,7 +445,7 @@ void ICQClient::sendLogonStatus()
         data.owner.PluginStatusTime.asULong() = now;
     }
 
-    Buffer directInfo(25);
+    ICQBuffer directInfo(25);
     fillDirectInfo(directInfo);
 
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
@@ -484,10 +484,10 @@ void ICQClient::sendPluginInfoUpdate(unsigned plugin_id)
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_status));
-    Buffer directInfo(25);
+    ICQBuffer directInfo(25);
     fillDirectInfo(directInfo);
     socket()->writeBuffer().tlv(0x000C, directInfo);
-    Buffer b;
+    ICQBuffer b;
     b << (char)2;
     b.pack(data.owner.PluginInfoTime.toULong());
     b.pack((unsigned short)2);
@@ -505,10 +505,10 @@ void ICQClient::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
 {
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_logonStatus));
-    Buffer directInfo(25);
+    ICQBuffer directInfo(25);
     fillDirectInfo(directInfo);
     socket()->writeBuffer().tlv(0x000C, directInfo);
-    Buffer b;
+    ICQBuffer b;
     b << (char)3;
     b.pack(data.owner.PluginStatusTime.toULong());
     b.pack((unsigned short)0);
@@ -535,13 +535,13 @@ void ICQClient::sendUpdate()
     data.owner.InfoUpdateTime.asULong() = time(NULL);
     snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_status));
-    Buffer directInfo(25);
+    ICQBuffer directInfo(25);
     fillDirectInfo(directInfo);
     socket()->writeBuffer().tlv(0x000C, directInfo);
     sendPacket(false);
 }
 
-void ICQClient::fillDirectInfo(Buffer &directInfo)
+void ICQClient::fillDirectInfo(ICQBuffer &directInfo)
 {
     set_ip(&data.owner.RealIP, socket()->localHost());
     if (getHideIP()){

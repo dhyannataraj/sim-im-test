@@ -78,7 +78,7 @@ protected:
     virtual bool done(unsigned code, Buffer &data, const QString &headers);
     virtual HttpPacket *packet()     = 0;
     virtual QString url()            = 0;
-    virtual void data_ready(Buffer*) = 0;
+    virtual void data_ready(ICQBuffer*) = 0;
     HttpPool *m_pool;
 };
 
@@ -90,9 +90,9 @@ HttpRequest::HttpRequest(HttpPool *pool)
 void HttpRequest::send()
 {
     HttpPacket *p = packet();
-    Buffer *postData = NULL;
+    ICQBuffer *postData = NULL;
     if (p){
-        postData = new Buffer;
+        postData = new ICQBuffer;
         unsigned short len = (unsigned short)(p->size + 12);
         *postData
         << len
@@ -117,7 +117,8 @@ bool HttpRequest::done(unsigned code, Buffer &data, const QString &)
         m_pool->error(ANSWER_ERROR);
         return false;
     }
-    data_ready(&data);
+    ICQBuffer d(data);
+    data_ready(&d);
     return true;
 }
 
@@ -146,7 +147,7 @@ public:
 protected:
     virtual HttpPacket *packet();
     virtual QString url();
-    virtual void data_ready(Buffer*);
+    virtual void data_ready(ICQBuffer*);
     bool m_bAIM;
 };
 
@@ -167,7 +168,7 @@ QString HelloRequest::url()
     return m_bAIM ? "http://aimhttp.oscar.aol.com/hello" : "http://http.proxy.icq.com/hello";
 }
 
-void HelloRequest::data_ready(Buffer *bIn)
+void HelloRequest::data_ready(ICQBuffer *bIn)
 {
     m_pool->hello = NULL;
     bIn->incReadPos(12);
@@ -189,7 +190,7 @@ public:
 protected:
     virtual HttpPacket *packet();
     virtual QString url();
-    virtual void data_ready(Buffer*);
+    virtual void data_ready(ICQBuffer*);
 };
 
 MonitorRequest::MonitorRequest(HttpPool *pool)
@@ -213,7 +214,7 @@ QString MonitorRequest::url()
     return sURL;
 }
 
-void MonitorRequest::data_ready(Buffer *bIn)
+void MonitorRequest::data_ready(ICQBuffer *bIn)
 {
     m_pool->monitor = NULL;
     m_pool->readn = 0;
@@ -266,7 +267,7 @@ public:
 protected:
     virtual HttpPacket *packet();
     virtual QString url();
-    virtual void data_ready(Buffer *b);
+    virtual void data_ready(ICQBuffer *b);
 };
 
 PostRequest::PostRequest(HttpPool *proxy)
@@ -296,7 +297,7 @@ QString PostRequest::url()
     return sURL;
 }
 
-void PostRequest::data_ready(Buffer*)
+void PostRequest::data_ready(ICQBuffer*)
 {
     m_pool->post = NULL;
     m_pool->request();
@@ -350,7 +351,7 @@ void HttpPool::close()
 void HttpPool::connect(const QString &host, unsigned short port)
 {
     state = None;
-    Buffer b;
+    ICQBuffer b;
     unsigned short len = host.length();
     b << len << host.local8Bit().data() << port;
     nSock++;
@@ -366,7 +367,8 @@ void HttpPool::connect(const QString &host, unsigned short port)
 void HttpPool::request()
 {
     if (sid.length() == 0){
-        if (hello == NULL) hello = new HelloRequest(this, m_bAIM);
+        if (hello == NULL)
+            hello = new HelloRequest(this, m_bAIM);
         return;
     }
     if (monitor == NULL)

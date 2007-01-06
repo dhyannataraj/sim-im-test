@@ -2376,7 +2376,7 @@ bool ICQClient::processEvent(Event *e)
                 dc->sendAck((unsigned short)(ar.id.id_l), ar.type, ar.flags, answer);
             }
         }else{
-            Buffer copy;
+            ICQBuffer copy;
             QCString response;
             response = t->tmpl.utf8();
             sendAutoReply(ar.screen, ar.id, plugins[PLUGIN_NULL],
@@ -3269,29 +3269,6 @@ Contact *ICQClient::getContact(ICQUserData *data)
     findContact(screen(data), NULL, false, contact);
     return contact;
 }
-
-// FIXME: move into own file
-ICQBuffer::ICQBuffer(unsigned size)
-  : Buffer(size)
-{}
-
-ICQBuffer::ICQBuffer(const QByteArray &ba)
-  : Buffer(ba)
-{}
-
-ICQBuffer::ICQBuffer(Tlv &tlv)
-  : Buffer(tlv)
-{}
-
-ICQBuffer::~ICQBuffer()
-{}
-
-ICQClientSocket::ICQClientSocket(SIM::ClientSocketNotify *notify, SIM::Socket *sock)
- : ClientSocket(notify, sock) 
-{}
-
-ICQClientSocket::~ICQClientSocket()
-{}
 
 #ifndef NO_MOC_INCLUDES
 #include "icqclient.moc"

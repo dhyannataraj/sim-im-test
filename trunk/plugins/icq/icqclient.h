@@ -27,6 +27,7 @@
 
 #include "socket.h"
 #include "icq.h"
+#include "icqbuffer.h"
 
 const unsigned ICQ_SIGN			= 0x0001;
 
@@ -505,30 +506,6 @@ struct InfoRequest
 typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
 typedef std::map<unsigned, unsigned>			RATE_MAP;
 
-class ICQBuffer : public Buffer
-{
-public:
-    ICQBuffer(unsigned size = 0);
-    ICQBuffer(const QByteArray &ba);
-    ICQBuffer(Tlv&);
-    ~ICQBuffer();
-
-    bool bTest() { return true; }
-};
-
-class ICQClientSocket : public SIM::ClientSocket
-{
-public:
-    ICQClientSocket(SIM::ClientSocketNotify*, SIM::Socket *sock = NULL);
-    ~ICQClientSocket();
-
-    virtual ICQBuffer &readBuffer() { return m_readICQBuffer; }
-    virtual ICQBuffer &writeBuffer() { return m_writeICQBuffer; }
-protected:
-    ICQBuffer m_readICQBuffer;
-    ICQBuffer m_writeICQBuffer;
-};
-
 class ICQClient : public SIM::TCPClient, public OscarSocket
 {
     Q_OBJECT
@@ -613,7 +590,7 @@ public:
     void requestReverseConnection(const QString &screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
-                          const QCString &p, Buffer &packet, MessageId &id, unsigned cookie);
+                          const QCString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(SIM::Message*, const QString &screen);
     static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(const ICQUserData *data);
@@ -678,7 +655,7 @@ protected:
     void buddyRequest();
     void icmbRequest();
     void bosRequest();
-    void addCapability(Buffer &cap, cap_id_t id);   // helper for sendCapability()
+    void addCapability(ICQBuffer &cap, cap_id_t id);   // helper for sendCapability()
     void sendCapability(const QString &msg=QString::null);
     void sendICMB(unsigned short channel, unsigned long flags);
     void sendLogonStatus();
@@ -692,7 +669,7 @@ protected:
     void sendContactList();
     void setInvisible();
     void setOffline(ICQUserData*);
-    void fillDirectInfo(Buffer &directInfo);
+    void fillDirectInfo(ICQBuffer &directInfo);
     void removeFullInfoRequest(unsigned long uin);
     void requestService(ServiceSocket*);
     class SSBISocket *getSSBISocket();
@@ -763,26 +740,26 @@ protected:
     void ackMessage(SendMsg &s);
     void accept(SIM::Message *msg, const QString &dir, SIM::OverwriteMode overwrite);
     void decline(SIM::Message *msg, const QString &reason);
-    void sendThroughServer(const QString &screen, unsigned short type, Buffer &b, const MessageId &id, bool bOffline, bool bReqAck);
+    void sendThroughServer(const QString &screen, unsigned short type, ICQBuffer &b, const MessageId &id, bool bOffline, bool bReqAck);
     bool sendAuthRequest(SIM::Message *msg, void *data);
     bool sendAuthGranted(SIM::Message *msg, void *data);
     bool sendAuthRefused(SIM::Message *msg, void *data);
-    void sendAdvMessage(const QString &screen, Buffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
-    void sendType2(const QString &screen, Buffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
+    void sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1=0, unsigned short cookie2=0, unsigned short type=1);
+    void sendType2(const QString &screen, ICQBuffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs=NULL, unsigned short type=1);
     void sendType1(const QString &text, bool bWide, ICQUserData *data);
-    void parseAdvancedMessage(const QString &screen, Buffer &msg, bool needAck, MessageId id);
+    void parseAdvancedMessage(const QString &screen, ICQBuffer &msg, bool needAck, MessageId id);
     void sendAutoReply(const QString &screen, MessageId id,
                        const plugin p, unsigned short cookie1, unsigned short cookie2,
                        unsigned short  msgType, char msgFlags, unsigned short msgState,
-                       const QString &response, unsigned short response_type, Buffer &copy);
+                       const QString &response, unsigned short response_type, ICQBuffer &copy);
     void addPluginInfoRequest(unsigned long uin, unsigned plugin_index);
     void sendMTN(const QString &screen, unsigned short type);
     void setChatGroup();
-    SIM::Message *parseExtendedMessage(const QString &screen, Buffer &packet, MessageId &id, unsigned cookie);
-    void parsePluginPacket(Buffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
-    void pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &b);
-    void packMessage(Buffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
-    void packExtendedMessage(SIM::Message *msg, Buffer &buf, Buffer &msgBuf, ICQUserData *data);
+    SIM::Message *parseExtendedMessage(const QString &screen, ICQBuffer &packet, MessageId &id, unsigned cookie);
+    void parsePluginPacket(ICQBuffer &b, unsigned plugin_index, ICQUserData *data, unsigned uin, bool bDirect);
+    void pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer &b);
+    void packMessage(ICQBuffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
+    void packExtendedMessage(SIM::Message *msg, ICQBuffer &buf, ICQBuffer &msgBuf, ICQUserData *data);
     bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const QCString &str);
     void fetchProfile(ICQUserData *data);
     void fetchAwayMessage(ICQUserData *data);
@@ -896,7 +873,7 @@ protected:
     char             m_version;
     bool			 m_bHeader;
     unsigned long    m_nSessionId;
-    SIM::ClientSocket     *m_socket;
+    ICQClientSocket  *m_socket;
     ICQClient        *m_client;
     unsigned long m_ip;
 };
@@ -960,7 +937,7 @@ public:
     ~ICQFileTransfer();
     void connect(unsigned short port);
     void listen();
-    void setSocket(SIM::ClientSocket *socket);
+    void setSocket(ICQClientSocket *socket);
     virtual void processPacket();
 protected:
     enum State

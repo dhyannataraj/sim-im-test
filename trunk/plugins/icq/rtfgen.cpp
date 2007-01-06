@@ -1039,7 +1039,6 @@ BgParser::BgParser()
 
 QString BgParser::parse(const QString &text)
 {
-    // WTF?
     res = QString::null;
     HTMLParser::parse(text);
     return res;

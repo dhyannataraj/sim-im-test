@@ -445,7 +445,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             socket()->readBuffer() >> grp_id >> id >> type >> len;
             TlvList *inf = NULL;
             if (len){
-                Buffer b(len);
+                ICQBuffer b(len);
                 b.pack(socket()->readBuffer().data(socket()->readBuffer().readPos()), len);
                 socket()->readBuffer().incReadPos(len);
                 inf = new TlvList(b);
@@ -507,7 +507,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 socket()->readBuffer() >> grp_id >> id >> type >> len;
                 TlvList *inf = NULL;
                 if (len){
-                    Buffer b(len);
+                    ICQBuffer b(len);
                     b.pack(socket()->readBuffer().data(socket()->readBuffer().readPos()), len);
                     socket()->readBuffer().incReadPos(len);
                     inf = new TlvList(b);

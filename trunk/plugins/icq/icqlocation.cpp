@@ -456,14 +456,14 @@ void ICQClient::encodeString(const QString &m, const QString &type, unsigned sho
     }
 }
 
-void ICQClient::addCapability(Buffer &cap, cap_id_t id)
+void ICQClient::addCapability(ICQBuffer &cap, cap_id_t id)
 {
     cap.pack((char*)capabilities[id], sizeof(capability));
 }
 
 void ICQClient::sendCapability(const QString &away_msg)
 {
-    Buffer cap;
+    ICQBuffer cap;
     capability c;
 
     memcpy(c, capabilities[CAP_SIM], sizeof(c));
