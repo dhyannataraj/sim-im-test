@@ -1187,9 +1187,9 @@ JabberBgParser::JabberBgParser()
 
 QString JabberBgParser::parse(const QString &text)
 {
-    // ??
+    res = QString::null;
     HTMLParser::parse(text);
-    return QString::null;
+    return res;
 }
 
 void JabberBgParser::text(const QString &text)
@@ -1406,6 +1406,7 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
     if (el == "url-data"){
         m_target = attrs.value("target");
         m_desc = QString::null;
+        return;
     }
     if (el == "desc"){
         m_data = &m_desc;
@@ -1435,18 +1436,21 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
             m_contacts += jid;
             m_contacts += ')';
         }
+        return;
     }
     if (el == "x"){
         if (attrs.value("xmlns") == "jabber:x:event")
             m_bEvent = true;
         else if (attrs.value("xmlns") == "jabber:x:roster")
             m_bRosters = true;
+        return;
     }
     if (el == "html"){
         if (attrs.value("xmlns") == "http://jabber.org/protocol/xhtml-im"){
             m_bRichText = true;
             m_data = &m_richText;
         }
+        return;
     }
 }
 
