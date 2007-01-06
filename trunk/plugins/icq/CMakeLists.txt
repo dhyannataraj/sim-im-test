@@ -13,6 +13,7 @@ SET(icq_SRCS
         icq.cpp
         icqbos.cpp
         icqbuddy.cpp
+        icqbuffer.cpp
         icqclient.cpp
         icqconfig.cpp
         icqdirect.cpp
@@ -50,6 +51,7 @@ SET(icq_HDRS
         encodingdlg.h
         homeinfo.h
         icq.h
+        icqbuffer.h
         icqclient.h
         icqconfig.h
         icqinfo.h

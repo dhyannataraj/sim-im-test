@@ -447,6 +447,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\icqbuffer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="icqclient.cpp"
 				>
 				<FileConfiguration
@@ -2552,6 +2556,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\icqbuffer.h"
+				>
 			</File>
 			<File
 				RelativePath="icqclient.h"

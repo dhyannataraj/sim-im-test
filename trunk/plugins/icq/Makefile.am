@@ -11,6 +11,7 @@ icq_la_SOURCES = \
  icqlogin.cpp \
  icqbos.cpp \
  icqbuddy.cpp \
+ icqbuffer.cpp \
  icqicmb.cpp \
  icqlists.cpp \
  icqlocation.cpp \
