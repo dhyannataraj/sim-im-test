@@ -114,7 +114,7 @@ HistoryFile::HistoryFile(const QString &file_name, unsigned contact)
     if (!fi.exists()) {
         // make sure directory exists
         makedir(fi.dirPath(true));
-    }
+    } else
     if (!fi.isFile()) {
         // FIXME!
         log(L_ERROR, "%s is not a file!", fi.dirPath(true).local8Bit().data());

@@ -983,7 +983,7 @@ void JabberClient::PresenceRequest::element_start(const QString& el, const QXmlA
                 }
             }
         }
-    }
+    } else
     if (el == "x"){
         // XEP-0091: Delayed Delivery
         if (attrs.value("xmlns") == "jabber:x:delay"){

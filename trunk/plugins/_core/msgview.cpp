@@ -112,7 +112,7 @@ XslOutputParser::XslOutputParser()
 
 QString XslOutputParser::parse(const QString &str)
 {
-    res = "";
+    res = QString::null;
     HTMLParser::parse(str);
     if (!m_sPrepend.isEmpty())
         res = m_sPrepend + res;
@@ -1238,7 +1238,7 @@ ViewParser::ViewParser(bool bIgnoreColors, bool bUseSmiles)
 
 QString ViewParser::parse(const QString &str)
 {
-    res = "";
+    res = QString::null;
     HTMLParser::parse(str);
     return res;
 }

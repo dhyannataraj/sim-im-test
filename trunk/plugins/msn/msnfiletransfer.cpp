@@ -1,9 +1,9 @@
 /***************************************************************************
-                          msn.cpp  -  description
+                          msnfiltetransfer.cpp  -  description
                              -------------------
-    begin                : Sun Mar 17 2002
-    copyright            : (C) 2002 by Vladimir Shutoff
-    email                : vovan@shutoff.ru
+    begin                : Fri Jan 05 2007
+    copyright            : (C) 2007 Christian Ehrlicher
+    email                : ch.ehrlicher@gmx.de
  ***************************************************************************/
 
 /***************************************************************************
