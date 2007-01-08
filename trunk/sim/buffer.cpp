@@ -390,6 +390,7 @@ QCString Buffer::toBase64(Buffer &from)
         res[1] = alphabet[(tmp >> 12) & 0x3F];
         res[2] = (rest == 2 ? alphabet[(tmp >> 6) & 0x3F] : '=');
         res[3] = '=';
+        to += res;
     }
     return to;
 }
