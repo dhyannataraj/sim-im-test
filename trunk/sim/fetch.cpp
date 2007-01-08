@@ -662,11 +662,8 @@ bool FetchClientPrivate::findHeader(const QString &key)
 QCString basic_auth(const QString &user, const QString &pass)
 {
     QString auth = user + ':' + pass;
-    Buffer from;
-    Buffer to;
-    from <<  (const char*)auth.local8Bit().data();
-    to.toBase64(from);
-    QCString cstr = to.data();
+    Buffer from(auth.local8Bit());
+    QCString cstr = Buffer::toBase64(from);
     return cstr;
 }
 

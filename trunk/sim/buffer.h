@@ -78,12 +78,12 @@ public:
 
     void init(unsigned size);
 
-    void fromBase64(Buffer &from);
-    void toBase64(Buffer &from);
-
     QCString	getSection(bool bSkip=false);
     unsigned	startSection() { return m_startSection; }
     QCString	getLine();
+
+    static Buffer fromBase64(Buffer &from);
+    static Buffer toBase64(Buffer &from);
 
     // still needed for msn until it has an ownbuffer too
     unsigned unpack(QString &d, unsigned size); // utf8

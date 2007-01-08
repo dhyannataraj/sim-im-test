@@ -349,12 +349,10 @@ InfoRequest::~InfoRequest()
         }
         QImage photo;
         if (m_photo.size()){
-            Buffer unpack;
-            unpack.fromBase64(m_photo);
             QString fName = m_client->photoFile(data);
             QFile f(fName);
             if (f.open(IO_WriteOnly | IO_Truncate)){
-                f.writeBlock(unpack.data(), unpack.size());
+                f.writeBlock(Buffer::fromBase64(m_photo));
                 f.close();
                 photo.load(fName);
             }else{
@@ -378,12 +376,10 @@ InfoRequest::~InfoRequest()
 
         QImage logo;
         if (m_logo.size()){
-            Buffer unpack;
-            unpack.fromBase64(m_logo);
             QString fName = m_client->logoFile(data);
             QFile f(fName);
             if (f.open(IO_WriteOnly | IO_Truncate)){
-                f.writeBlock(unpack.data(), unpack.size());
+                f.writeBlock(Buffer::fromBase64(m_logo));
                 f.close();
                 logo.load(fName);
             }else{
@@ -658,8 +654,7 @@ void JabberClient::setClientInfo(void *_data)
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
-            Buffer packed;
-            packed.toBase64(b);
+            Buffer packed = Buffer::toBase64(b);
             packed << (char)0;
             req->start_element("PHOTO");
             req->text_tag("BINVAL", packed.data());
@@ -672,8 +667,7 @@ void JabberClient::setClientInfo(void *_data)
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
-            Buffer packed;
-            packed.toBase64(b);
+            Buffer packed = Buffer::toBase64(b);
             packed << (char)0;
             req->start_element("LOGO");
             req->text_tag("BINVAL", packed.data());

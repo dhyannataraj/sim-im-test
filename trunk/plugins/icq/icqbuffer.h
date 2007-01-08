@@ -1,8 +1,8 @@
 /***************************************************************************
                           icqbuffer.h  -  description
                              -------------------
-    begin                : Fri Jan 05 2006
-    copyright            : (C) 2006 by Christian Ehrlicher
+    begin                : Fri Jan 05 2007
+    copyright            : (C) 2007 by Christian Ehrlicher
     email                : ch.ehrlicher@gmx.de
  ***************************************************************************/
 

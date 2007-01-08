@@ -223,7 +223,7 @@ void MigrateDialog::process()
             hTo.close();
             hFrom.setName(h_path + (*it));
             lblStatus->setText(h_path + (*it));
-            hTo.setName(h_path + QString(m_owner) + "." + (*it).left((*it).find(".")));
+            hTo.setName(h_path + QString(m_owner) + '.' + (*it).left((*it).find('.')));
             if (!hFrom.open(IO_ReadOnly)){
                 error(i18n("Can't open %1") .arg(hFrom.name()));
                 return;
