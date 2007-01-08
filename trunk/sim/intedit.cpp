@@ -25,37 +25,24 @@
 #include <qpushbutton.h>
 #include <qtimer.h>
 
-IntLineEdit::IntLineEdit(QWidget *parent) : QLineEdit(parent)
-{
-    id = 0;
-}
-
-void IntLineEdit::focusOutEvent(QFocusEvent *e)
-{
-    QLineEdit::focusOutEvent(e);
-    emit focusOut();
-}
+IntLineEdit::IntLineEdit(QWidget *parent)
+    : QLineEdit(parent), id(0)
+{}
 
 void IntLineEdit::keyPressEvent(QKeyEvent *e)
 {
     QLineEdit::keyPressEvent(e);
-    if (e->key() == Qt::Key_Escape) emit escape();
-}
-
-RegExpValidator::RegExpValidator(const char *reg_exp, QWidget *parent)
-        : QRegExpValidator(QRegExp(reg_exp), parent)
-{
+    if (e->key() == Qt::Key_Escape)
+        emit escape();
 }
 
 EMailValidator::EMailValidator(QWidget *parent)
-        : RegExpValidator("[A-Za-z0-9\\.\\-_\\+]+@[A-Za-z0-9\\-_]+\\.[A-Za-z0-9\\.\\-_]+", parent)
-{
-}
+    : QRegExpValidator(QRegExp("[A-Za-z0-9\\.\\-_\\+]+@[A-Za-z0-9\\-_]+\\.[A-Za-z0-9\\.\\-_]+"), parent)
+{}
 
 PhoneValidator::PhoneValidator(QWidget *parent)
-        : RegExpValidator("\\+?[0-9 ]+(\\([0-9]+\\))?([0-9 ]+\\-)*[0-9 ]+", parent)
-{
-}
+    : QRegExpValidator(QRegExp("\\+?[0-9 ]+(\\([0-9]+\\))?([0-9 ]+\\-)*[0-9 ]+"), parent)
+{}
 
 const unsigned GRP_RADIO_POS = 10;
 
@@ -158,8 +145,7 @@ RadioGroup::RadioGroup(QWidget *parent, const char *name)
 
 RadioGroup::~RadioGroup()
 {
-    if (m_button)
-        delete m_button;
+    delete m_button;
 }
 
 void RadioGroup::radioDestroyed()

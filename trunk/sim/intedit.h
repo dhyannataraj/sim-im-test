@@ -22,7 +22,6 @@
 
 #include <qlineedit.h>
 #include <qgroupbox.h>
-#include <qregexp.h>
 #include <qvalidator.h>
 
 class EXPORT IntLineEdit : public QLineEdit
@@ -33,25 +32,17 @@ public:
     unsigned id;
 signals:
     void escape();
-    void focusOut();
 protected:
-    void focusOutEvent(QFocusEvent*);
     void keyPressEvent(QKeyEvent*);
 };
 
-class EXPORT RegExpValidator : public QRegExpValidator
-{
-public:
-    RegExpValidator(const char *regexp, QWidget *parent);
-};
-
-class EXPORT EMailValidator : public RegExpValidator
+class EXPORT EMailValidator : public QRegExpValidator
 {
 public:
     EMailValidator(QWidget *parent);
 };
 
-class EXPORT PhoneValidator : public RegExpValidator
+class EXPORT PhoneValidator : public QRegExpValidator
 {
 public:
     PhoneValidator(QWidget *parent);

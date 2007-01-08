@@ -109,10 +109,10 @@ UserView::UserView()
     edtGroup->setFont(font);
     connect(edtGroup, SIGNAL(escape()), this, SLOT(editEscape()));
     connect(edtGroup, SIGNAL(returnPressed()), this, SLOT(editGroupEnter()));
-    connect(edtGroup, SIGNAL(focusOut()), this, SLOT(editGroupEnter()));
+    connect(edtGroup, SIGNAL(lostFocus()), this, SLOT(editGroupEnter()));
     connect(edtContact, SIGNAL(escape()), this, SLOT(editEscape()));
     connect(edtContact, SIGNAL(returnPressed()), this, SLOT(editContactEnter()));
-    connect(edtContact, SIGNAL(focusOut()), this, SLOT(editContactEnter()));
+    connect(edtContact, SIGNAL(lostFocus()), this, SLOT(editContactEnter()));
 }
 
 UserView::~UserView()

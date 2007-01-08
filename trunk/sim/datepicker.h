@@ -23,7 +23,6 @@
 #include <qframe.h>
 #include <qlabel.h>
 
-class QLabel;
 class QLineEdit;
 class QPushButton;
 class QSpinBox;

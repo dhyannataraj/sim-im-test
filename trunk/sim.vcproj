@@ -1409,10 +1409,6 @@
 				>
 			</File>
 			<File
-				RelativePath="sim\md5.h"
-				>
-			</File>
-			<File
 				RelativePath=".\sim\message.h"
 				>
 			</File>

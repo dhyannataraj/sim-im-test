@@ -43,9 +43,9 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
     if (client->m_bAIM){
         m_adv    = new AIMSearch;
         emit addResult(m_adv);
-        //edtAOL_UIN->setValidator(new RegExpValidator("[0-9]{4,13}", this));
-        edtAOL_UIN->setValidator(new RegExpValidator("([ -]*[0-9]){4,13}[ -]*", this));
-        edtScreen->setValidator(new RegExpValidator("[0-9A-Za-z]+", this));
+
+        edtAOL_UIN->setValidator(new QRegExpValidator(QRegExp("([ -]*[0-9]){4,13}[ -]*"), this));
+        edtScreen->setValidator(new QRegExpValidator(QRegExp("[0-9A-Za-z]+"), this));
         connect(grpScreen,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         connect(grpAOL_UIN,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         grpUin->hide();
@@ -54,9 +54,9 @@ ICQSearch::ICQSearch(ICQClient *client, QWidget *parent)
     }else{
         m_adv    = new AdvSearch;
         emit addResult(m_adv);
-        //edtUIN->setValidator(new RegExpValidator("[0-9]{4,13}", this));
-        edtUIN->setValidator(new RegExpValidator("([ -]*[0-9]){4,13}[ -]*", this));
-        edtAOL->setValidator(new RegExpValidator("[0-9A-Za-z]+", this));
+
+        edtUIN->setValidator(new QRegExpValidator(QRegExp("([ -]*[0-9]){4,13}[ -]*"), this));
+        edtAOL->setValidator(new QRegExpValidator(QRegExp("[0-9A-Za-z]+"), this));
         connect(grpUin,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         connect(grpAOL,	SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
         connect(grpName, SIGNAL(toggled(bool)), this, SLOT(radioToggled(bool)));
