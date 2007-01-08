@@ -205,7 +205,6 @@ HistoryConfig::HistoryConfig(QWidget *parent)
     edtStyle->setWordWrap(QTextEdit::NoWrap);
     edtStyle->setTextFormat(QTextEdit::RichText);
     highlighter = new XmlHighlighter(edtStyle);
-    QStringList styles;
     addStyles(user_file(STYLES), true);
     str1 = i18n("Use external viewer");
     chkExtViewer->setText(str1);

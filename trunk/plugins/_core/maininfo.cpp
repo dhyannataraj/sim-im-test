@@ -247,15 +247,13 @@ void MainInfo::fill()
     cmbCurrent->clear();
     cmbCurrent->insertItem("");
     while (phones.length()){
-        QString number;
-        QString type;
         unsigned icon = 0;
-        QString proto;
         QString phone = getToken(phones, ';', false);
         QString phoneItem = getToken(phone, '/', false);
-        proto = phone;
-        number = getToken(phoneItem, ',');
-        type = getToken(phoneItem, ',');
+        QString number = getToken(phoneItem, ',');
+        QString type = getToken(phoneItem, ',');
+        QString proto = phone;
+
         if (!phoneItem.isEmpty())
             icon = getToken(phoneItem, ',').toULong();
         QListViewItem *item = new QListViewItem(lstPhones);
@@ -509,7 +507,6 @@ void MainInfo::fillEncoding()
     int n_item = 1;
     cmbEncoding->clear();
     cmbEncoding->insertItem("Default");
-    QStringList l;
     const ENCODING *e;
     QStringList main;
     QStringList::Iterator it;
@@ -556,7 +553,6 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
 {
     QString encoding;
     int n = cmbEncoding->currentItem();
-    QString t = cmbEncoding->currentText();
     Contact *contact = m_contact;
     if (contact == NULL)
         contact = getContacts()->owner();

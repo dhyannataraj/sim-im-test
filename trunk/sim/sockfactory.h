@@ -154,5 +154,3 @@ protected:
 }
 
 #endif
-
-

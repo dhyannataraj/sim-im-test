@@ -18,16 +18,14 @@
 #ifndef _ICONS_H
 #define _ICONS_H
 
-#include "simapi.h"
-#include "event.h"
-
+#include <qcolor.h>
 #include <qiconset.h>
 #include <qimage.h>
-#include <qmap.h>
 #include <qstring.h>
 #include <qstringlist.h>
-#include <qptrlist.h>
-#include <qvaluelist.h>
+
+#include "simapi.h"
+#include "event.h"
 
 namespace SIM
 {

@@ -37,14 +37,6 @@ using namespace SIM;
 static char MSG_ANCHOR[] = "<a name=\"m:";
 static char MSG_BEGIN[]  = "<a name=\"b\">";
 
-struct Smile
-{
-    unsigned	nSmile;
-    int			pos;
-    int			size;
-    QRegExp		re;
-};
-
 class ViewParser : public HTMLParser
 {
 public:
