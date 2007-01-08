@@ -127,6 +127,7 @@ protected:
     bool m_bLoaded;
     bool m_bInInit;
     bool m_bAbort;
+    bool m_bPluginsInBuildDir;  // plugins in build dir -> full path in pluginInfo.filePath
 
     ExecManager	 *m_exec;
     auto_ptr<BuiltinLogger> builtinLogger;
@@ -168,7 +169,7 @@ bool findPluginsInBuildDir(const QDir &appDir, const QString &subdir, QStringLis
 }
 
 PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
-        : EventReceiver(LowPriority)
+        : EventReceiver(LowPriority), m_bPluginsInBuildDir(false)
 {
     m_bAbort = false;
     unsigned logLevel = L_ERROR | L_WARN;
@@ -198,6 +199,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
          )
     {
         log(L_DEBUG,"Loading plugins from build directory!");
+        m_bPluginsInBuildDir = true;
     } else {
 
 #ifdef WIN32
@@ -383,14 +385,9 @@ void PluginManagerPrivate::load(pluginInfo &info)
 {
     if (info.module == NULL){
 #ifdef WIN32
-//FIXME: This broke plugins loading in mingw builds,
-//      does this really need to be here?
-#if defined(HAVE_CONFIG_H) && defined(Q_CC_MSVC)
         QString pluginName = info.filePath;
-#else
-        QString pluginName = "plugins\\";
-        pluginName += info.name;
-#endif
+        if(!m_bPluginsInBuildDir)
+            pluginName = "plugins\\" + info.name;
 #else
         QString pluginName = info.filePath;
         if( pluginName[0] != '/' ) {
