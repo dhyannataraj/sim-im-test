@@ -54,6 +54,13 @@ Buffer::Buffer(const QByteArray &ba)
     m_posWrite = ba.size();
 }
 
+Buffer::Buffer(const QCString &cstr)
+    : QByteArray(cstr)
+{
+    init(cstr.length());
+    m_posWrite = cstr.length();
+}
+
 Buffer::~Buffer()
 {
 }

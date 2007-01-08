@@ -36,6 +36,7 @@ class EXPORT Buffer : public QByteArray
 public:
     Buffer(unsigned size=0);
     Buffer(const QByteArray &ba);
+    Buffer(const QCString &cstr);
     virtual ~Buffer();
 
     bool add(uint size);
