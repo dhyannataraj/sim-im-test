@@ -273,13 +273,13 @@ protected:
     QString	m_region;
     QString	m_pcode;
     QString	m_country;
-    QString	*m_data;
-    Buffer	m_photo;
-    Buffer	m_logo;
-    Buffer	*m_cdata;
+    QString	m_photo;    // a bas64 encoded string
+    QString	m_logo;     // a bas64 encoded string
     bool	m_bPhoto;
     bool	m_bLogo;
     bool	m_bVCard;
+
+    QString	*m_data;
 };
 
 extern DataDef jabberUserData[];
@@ -291,7 +291,6 @@ InfoRequest::InfoRequest(JabberClient *client, JabberUserData *data, bool bVCard
     m_node  = data->Node.str();
     m_bStarted = false;
     m_data  = NULL;
-    m_cdata = NULL;
     m_bPhoto = false;
     m_bLogo  = false;
     m_bVCard = bVCard;
@@ -348,11 +347,12 @@ InfoRequest::~InfoRequest()
             return;
         }
         QImage photo;
-        if (m_photo.size()){
+        if (m_photo.length()){
             QString fName = m_client->photoFile(data);
             QFile f(fName);
             if (f.open(IO_WriteOnly | IO_Truncate)){
-                f.writeBlock(Buffer::fromBase64(m_photo));
+                QCString cstr = m_photo.ascii();   // ok, base64 encoded
+                f.writeBlock(Buffer::fromBase64(cstr));
                 f.close();
                 photo.load(fName);
             }else{
@@ -375,11 +375,12 @@ InfoRequest::~InfoRequest()
         }
 
         QImage logo;
-        if (m_logo.size()){
+        if (m_logo.length()){
             QString fName = m_client->logoFile(data);
             QFile f(fName);
             if (f.open(IO_WriteOnly | IO_Truncate)){
-                f.writeBlock(Buffer::fromBase64(m_logo));
+                QCString cstr = m_photo.ascii();   // ok, base64 encoded
+                f.writeBlock(Buffer::fromBase64(cstr));
                 f.close();
                 logo.load(fName);
             }else{
@@ -497,16 +498,15 @@ void InfoRequest::element_start(const QString& el, const QXmlAttributes&)
     }
     if (el == "binval"){
         if (m_bPhoto)
-            m_cdata = &m_photo;
+            m_data = &m_photo;
         if (m_bLogo)
-            m_cdata = &m_logo;
+            m_data = &m_logo;
     }
 }
 
 void InfoRequest::element_end(const QString& el)
 {
     m_data  = NULL;
-    m_cdata = NULL;
     if (el == "photo"){
         m_bPhoto = false;
         return;
@@ -519,12 +519,6 @@ void InfoRequest::element_end(const QString& el)
 
 void InfoRequest::char_data(const QString& str)
 {
-    if (m_cdata){
-        // FIXME: packing as QSrting added 0xb2 0x20
-        //to the beginning and broked further picures decoding from base64
-        m_cdata->pack(str.ascii(), str.length());
-        return;
-    }
     if (m_data)
         *m_data += str;
 }
@@ -654,10 +648,9 @@ void JabberClient::setClientInfo(void *_data)
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
-            Buffer packed = Buffer::toBase64(b);
-            packed << (char)0;
+            QCString packed = Buffer::toBase64(b);
             req->start_element("PHOTO");
-            req->text_tag("BINVAL", packed.data());
+            req->text_tag("BINVAL", packed);
             req->end_element();
         }
     }
@@ -667,8 +660,7 @@ void JabberClient::setClientInfo(void *_data)
             Buffer b;
             b.init(img.size());
             img.readBlock(b.data(), b.size());
-            Buffer packed = Buffer::toBase64(b);
-            packed << (char)0;
+            QCString packed = Buffer::toBase64(b);
             req->start_element("LOGO");
             req->text_tag("BINVAL", packed.data());
             req->end_element();

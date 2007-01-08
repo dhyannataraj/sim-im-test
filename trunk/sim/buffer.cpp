@@ -304,18 +304,16 @@ unsigned Buffer::unpack(QCString &d, unsigned s)
     return readn;
 }
 
-Buffer Buffer::fromBase64(Buffer &from)
+Buffer Buffer::fromBase64(QCString &from)
 {
     unsigned n = 0;
     unsigned tmp2 = 0;
     Buffer to;
+    int len = from.length();
 
-    for (;;) {
+    for (int i = 0; i < len; i++) {
+        char c = from[i];
         char res[3];
-        char c;
-        from >> c;
-        if (c == 0)
-            break;
         char tmp = 0;
         if ((c >= 'A') && (c <= 'Z')) {
             tmp = (char)(c - 'A');
@@ -358,41 +356,33 @@ static const char alphabet[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-Buffer Buffer::toBase64(Buffer &from)
+QCString Buffer::toBase64(Buffer &from)
 {
     unsigned char b[3];
-    char res[4];
-    unsigned tmp;
-    Buffer to;
+    char res[5];
+    QCString to;
 
+    res[4] = '\0';
     while (from.readPos() + 3 < from.size()){
         from.unpack((char*)b, 3);
-        tmp = (b[0] << 16) | (b[1] << 8) | b[2];
+        unsigned tmp = (b[0] << 16) | (b[1] << 8) | b[2];
         res[0] = alphabet[(tmp >> 18) & 0x3F];
         res[1] = alphabet[(tmp >> 12) & 0x3F];
         res[2] = alphabet[(tmp >> 6) & 0x3F];
         res[3] = alphabet[tmp & 0x3F];
-        to.pack(res, 4);
+        to += res;
     }
 
-    switch(from.size() - from.readPos()){
-    case 2:
-        from.unpack((char*)b, 2);
-        tmp = (b[0] << 16) | (b[1] << 8);
+    unsigned rest = from.size() - from.readPos();
+    if(rest == 2 || rest == 1) {
+        from.unpack((char*)b, rest);
+        unsigned tmp = (b[0] << 16);
+        if(rest == 2)
+            tmp |= (b[1] << 8);
         res[0] = alphabet[(tmp >> 18) & 0x3F];
         res[1] = alphabet[(tmp >> 12) & 0x3F];
-        res[2] = alphabet[(tmp >> 6) & 0x3F];
+        res[2] = (rest == 2 ? alphabet[(tmp >> 6) & 0x3F] : '=');
         res[3] = '=';
-        to.pack(res, 4);
-        break;
-    case 1:
-        from.unpack((char*)b, 1);
-        tmp = b[0] << 16;
-        res[0] = alphabet[(tmp >> 18) & 0x3F];
-        res[1] = alphabet[(tmp >> 12) & 0x3F];
-        res[2] = res[3] = '=';
-        to.pack(res, 4);
-        break;
     }
     return to;
 }
