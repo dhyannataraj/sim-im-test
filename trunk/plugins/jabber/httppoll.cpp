@@ -37,8 +37,8 @@ public:
 protected:
     QString getKey();
     virtual bool done(unsigned code, Buffer &data, const QString &headers);
-    Buffer readData;
-    Buffer writeData;
+    JabberBuffer readData;
+    JabberBuffer writeData;
     QString m_url;
     QCString m_key;
     QCString m_seed;
@@ -166,7 +166,7 @@ bool JabberHttpPool::done(unsigned code, Buffer &data, const QString &headers)
         error(err);
         return false;
     }
-    readData.pack(data.data(), data.writePos());
+    readData = data;
     if (notify)
         notify->read_ready();
     return false;

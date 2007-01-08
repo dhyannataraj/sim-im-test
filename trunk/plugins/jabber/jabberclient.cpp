@@ -590,11 +590,10 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
         socket()->writeBuffer() << ">\n";
         if (show)
             socket()->writeBuffer() << "<show>" << show << "</show>\n";
-        if (!ar.isEmpty()){
-            socket()->writeBuffer() << "<status>" << (const char*)ar.utf8() << "</status>\n";
-        }
+        if (!ar.isEmpty())
+            socket()->writeBuffer() << "<status>" << ar << "</status>\n";
         if (!priority.isEmpty())
-            socket()->writeBuffer() << "<priority>" << (const char*)priority.utf8() << "</priority>\n";
+            socket()->writeBuffer() << "<priority>" << priority << "</priority>\n";
         socket()->writeBuffer() << "</presence>";
         sendPacket();
         EventClientChanged(this).process();
@@ -757,14 +756,12 @@ JabberClient::ServerRequest::ServerRequest(JabberClient *client, const char *typ
     if (m_client->socket() == NULL)
         return;
     m_client->socket()->writeBuffer().packetStart();
-    m_client->socket()->writeBuffer()
-    << "<iq type=\'" << type << "\' id=\'"
-    << (const char*)m_id.utf8()
-    << "\'";;
+    m_client->socket()->writeBuffer() << "<iq type=\'" << type << "\' id=\'" << m_id << "\'";
+
     if (!from.isEmpty())
-        m_client->socket()->writeBuffer() << " from=\'" << (const char*)from.utf8() << "\'";
+        m_client->socket()->writeBuffer() << " from=\'" << from << "\'";
     if (!to.isEmpty())
-        m_client->socket()->writeBuffer() << " to=\'" << (const char*)to.utf8() << "\'";
+        m_client->socket()->writeBuffer() << " to=\'" << to << "\'";
     m_client->socket()->writeBuffer() << ">\n";
 }
 
@@ -775,7 +772,7 @@ JabberClient::ServerRequest::~ServerRequest()
 void JabberClient::ServerRequest::send()
 {
     end_element(false);
-    while (!m_els.empty()){
+    while (!m_els.isEmpty()){
         end_element(false);
     }
     m_client->socket()->writeBuffer()
@@ -798,8 +795,7 @@ void JabberClient::ServerRequest::char_data(const QString&)
 void JabberClient::ServerRequest::start_element(const QString &name)
 {
     end_element(true);
-    m_client->socket()->writeBuffer()
-    << "<" << (const char*)name.utf8();
+    m_client->socket()->writeBuffer() << "<" << name;
     m_element = name;
 }
 
@@ -808,8 +804,8 @@ void JabberClient::ServerRequest::add_attribute(const QString &name, const QStri
     if(value.isEmpty())
         return;
     m_client->socket()->writeBuffer()
-        << " " << (const char*)name.utf8()
-        << "=\'" << (const char*)JabberClient::encodeXML(value).utf8() << "\'";
+        << " " << name
+        << "=\'" << JabberClient::encodeXML(value) << "\'";
 }
 
 void JabberClient::ServerRequest::add_attribute(const QString &name, const char *value)
@@ -828,10 +824,10 @@ void JabberClient::ServerRequest::end_element(bool bNewLevel)
     }else{
         if (m_element.length()){
             m_client->socket()->writeBuffer() << "/>\n";
-        }else if (m_els.size()){
+        }else if (m_els.count()){
             m_element = m_els.top();
             m_els.pop();
-            m_client->socket()->writeBuffer() << "</" << (const char*)m_element.utf8() << ">\n";
+            m_client->socket()->writeBuffer() << "</" << m_element << ">\n";
         }
     }
     m_element = QString::null;
@@ -844,8 +840,7 @@ void JabberClient::ServerRequest::add_text(const QString &value)
         m_els.push(m_element);
         m_element = QString::null;
     }
-    m_client->socket()->writeBuffer()
-    << (const char*)JabberClient::encodeXML(value).utf8();
+    m_client->socket()->writeBuffer() << JabberClient::encodeXML(value);
 }
 
 void JabberClient::ServerRequest::text_tag(const QString &name, const QString &value)
@@ -854,9 +849,9 @@ void JabberClient::ServerRequest::text_tag(const QString &name, const QString &v
         return;
     end_element(true);
     m_client->socket()->writeBuffer()
-    << "<" << (const char*)name.utf8() << ">"
-    << (const char*)JabberClient::encodeXML(value).utf8()
-    << "</" << (const char*)name.utf8() << ">\n";
+        << "<" << name << ">"
+        << JabberClient::encodeXML(value)
+        << "</" << name << ">\n";
 }
 
 void JabberClient::ServerRequest::add_condition(const QString &condition, bool bXData)
@@ -890,10 +885,10 @@ void JabberClient::startHandshake()
 {
     socket()->writeBuffer().packetStart();
     socket()->writeBuffer()
-    << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-    << "<stream:stream to=\'"
-    << (const char*)encodeXML(VHost()).utf8()
-    << "\' xmlns=\'jabber:client\' xmlns:stream=\'http://etherx.jabber.org/streams\'>\n";
+        << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        << "<stream:stream to=\'"
+        << encodeXML(VHost())
+        << "\' xmlns=\'jabber:client\' xmlns:stream=\'http://etherx.jabber.org/streams\'>\n";
     sendPacket();
 }
 
@@ -2078,11 +2073,11 @@ bool JabberClient::send(Message *msg, void *_data)
             if (data->Subscribe.toULong() & SUBSCRIBE_FROM){
                 socket()->writeBuffer().packetStart();
                 socket()->writeBuffer()
-                << "<presence to=\'"
-                << (const char*)data->ID.str().utf8()
-                << "\' type=\'unsubscribed\'><status>"
-                << (const char*)encodeXML(msg->getPlainText()).utf8()
-                << "</status></presence>";
+                    << "<presence to=\'"
+                    << data->ID.str()
+                    << "\' type=\'unsubscribed\'><status>"
+                    << encodeXML(msg->getPlainText())
+                    << "</status></presence>";
                 sendPacket();
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                     msg->setClient(dataName(data));
@@ -2103,30 +2098,26 @@ bool JabberClient::send(Message *msg, void *_data)
             text = QString::fromUtf8( e.localeText() );
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<message type=\'chat\' to=\'"
-            << (const char*)data->ID.str().utf8();
+                << "<message type=\'chat\' to=\'"
+                << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                << "/"
-                << (const char*)msg->getResource();
+                    << "/" << msg->getResource();
             }
             if (getTyping()){
                 data->composeId.asULong() = ++m_msg_id;
                 QString msg_id = "msg";
                 msg_id += QString::number(data->composeId.asULong());
                 socket()->writeBuffer()
-                << "\' id=\'"
-                << (const char*)msg_id.utf8();
+                    << "\' id=\'" << msg_id;
             }
             socket()->writeBuffer()
-            << "\'><body>"
-            << (const char*)encodeXML(text).utf8()
-            << "</body>";
+                << "\'><body>" << encodeXML(text) << "</body>";
             if (data->richText.toBool() && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
                 socket()->writeBuffer()
-                << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
-                << (const char*)removeImages(msg->getRichText(), msg->getBackground()).utf8()
-                << "</body></html>";
+                    << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
+                    << removeImages(msg->getRichText(), msg->getBackground())
+                    << "</body></html>";
             }
             if (getTyping()){
                 socket()->writeBuffer()
@@ -2160,32 +2151,27 @@ bool JabberClient::send(Message *msg, void *_data)
             UrlMessage *m = static_cast<UrlMessage*>(msg);
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<message type=\'chat\' to=\'"
-            << (const char*)data->ID.str().utf8();
+                << "<message type=\'chat\' to=\'"
+                << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                << "/"
-                << (const char*)msg->getResource().utf8();
+                    << "/" << msg->getResource();
             }
             socket()->writeBuffer()
-            << "\'><body>"
-            << (const char*)encodeXML(m->getUrl()).utf8();
+                << "\'><body>" << encodeXML(m->getUrl());
             QString t = m->getPlainText();
             if (!t.isEmpty()){
                 socket()->writeBuffer()
-                << "\n"
-                << (const char*)encodeXML(m->getPlainText()).utf8();
+                    << "\n" << encodeXML(m->getPlainText());
             }
             socket()->writeBuffer()
             << "</body>";
             if (data->richText.toBool() && getRichText()){
                 socket()->writeBuffer()
-                << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
-                << "<a href=\'"
-                << (const char*)encodeXML(m->getUrl()).utf8()
-                << "\'>"
-                << (const char*)encodeXML(m->getUrl()).utf8()
-                << "</a>";
+                    << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
+                    << "<a href=\'"
+                    << encodeXML(m->getUrl()) << "\'>"
+                    << encodeXML(m->getUrl()) << "</a>";
                 if (!t.isEmpty()){
                     socket()->writeBuffer()
                     << "<br/>"
@@ -2241,7 +2227,7 @@ bool JabberClient::send(Message *msg, void *_data)
                             if (!nc.isEmpty())
                                 nc += ';';
                             nc += "jabber:";
-                            nc += d->ID.str().utf8();
+                            nc += d->ID.str();
                             nc += ',';
                             if (c->getName() == d->ID.str()){
                                 nc += d->ID.str();
@@ -2264,49 +2250,48 @@ bool JabberClient::send(Message *msg, void *_data)
             m->setContacts(nc);
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<message type=\'chat\' to=\'"
-            << (const char*)data->ID.str().utf8();
+                << "<message type=\'chat\' to=\'"
+                << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                << "/"
-                << (const char*)msg->getResource();
+                    << "/" << msg->getResource();
             }
             socket()->writeBuffer()
-            << "\'><x xmlns='jabber:x:roster'>";
+                << "\'><x xmlns='jabber:x:roster'>";
             list<QString>::iterator iti = jids.begin();
             list<QString>::iterator itn = names.begin();
             for (; iti != jids.end(); ++iti, ++itn){
                 socket()->writeBuffer()
-                << "<item name=\'"
-                << (const char*)encodeXML(*itn).utf8()
-                << "\' jid=\'"
-                << (const char*)encodeXML(*iti).utf8()
-                << "\'><group/></item>";
+                    << "<item name=\'"
+                    << encodeXML(*itn)
+                    << "\' jid=\'"
+                    << encodeXML(*iti)
+                    << "\'><group/></item>";
             }
             socket()->writeBuffer()
-            << "</x><body>";
+                << "</x><body>";
             iti = jids.begin();
             for (; iti != jids.end(); ++iti, ++itn){
                 socket()->writeBuffer()
-                << (const char*)encodeXML(*iti).utf8()
-                << "\n";
+                    << encodeXML(*iti)
+                    << "\n";
             }
             socket()->writeBuffer()
-            << "</body>";
+                << "</body>";
             if (data->richText.toBool() && getRichText()){
                 socket()->writeBuffer()
-                << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>";
+                    << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>";
                 iti = jids.begin();
                 for (; iti != jids.end(); ++iti, ++itn){
                     socket()->writeBuffer()
-                    << (const char*)encodeXML(*iti).utf8()
-                    << "<br/>\n";
+                        << encodeXML(*iti)
+                        << "<br/>\n";
                 }
                 socket()->writeBuffer()
-                << "</body></html>";
+                    << "</body></html>";
             }
             socket()->writeBuffer()
-            << "</message>";
+                << "</message>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 if (data->richText.toBool()){
@@ -2335,11 +2320,11 @@ bool JabberClient::send(Message *msg, void *_data)
     case MessageAuthRequest:{
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<presence to=\'"
-            << (const char*)data->ID.str().utf8()
-            << "\' type=\'subscribe\'><status>"
-            << (const char*)encodeXML(msg->getPlainText()).utf8()
-            << "</status></presence>";
+                << "<presence to=\'"
+                << data->ID.str()
+                << "\' type=\'subscribe\'><status>"
+                << encodeXML(msg->getPlainText())
+                << "</status></presence>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 msg->setClient(dataName(data));
@@ -2352,9 +2337,9 @@ bool JabberClient::send(Message *msg, void *_data)
     case MessageAuthGranted:{
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<presence to=\'"
-            << (const char*)data->ID.str().utf8()
-            << "\' type=\'subscribed\'></presence>";
+                << "<presence to=\'"
+                << data->ID.str()
+                << "\' type=\'subscribed\'></presence>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 msg->setClient(dataName(data));
@@ -2368,9 +2353,9 @@ bool JabberClient::send(Message *msg, void *_data)
         if (isAgent(data->ID.str()) && (data->Status.toULong() == STATUS_OFFLINE)){
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<presence to=\'"
-            << (const char*)data->ID.str().utf8()
-            << "\'></presence>";
+                << "<presence to=\'"
+                << data->ID.str()
+                << "\'></presence>";
             sendPacket();
             delete msg;
             return true;
@@ -2380,9 +2365,9 @@ bool JabberClient::send(Message *msg, void *_data)
         if (isAgent(data->ID.str()) && (data->Status.toULong() != STATUS_OFFLINE)){
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<presence to=\'"
-            << (const char*)data->ID.str().utf8()
-            << "\' type=\'unavailable\'></presence>";
+                << "<presence to=\'"
+                << data->ID.str()
+                << "\' type=\'unavailable\'></presence>";
             sendPacket();
             delete msg;
             return true;
@@ -2390,17 +2375,13 @@ bool JabberClient::send(Message *msg, void *_data)
         break;
     case MessageTypingStart:
         if (getTyping()){
-            //data->composeId.asULong() = ++m_msg_id;
-            //string msg_id = "msg";
-            //msg_id += number(data->composeId.asULong());
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<message to=\'"
-            << (const char*)data->ID.str().utf8()
-            << "\'><x xmlns='jabber:x:event'><composing/><id>"
-            //<< msg_id.c_str()
-            << (const char*)data->TypingId.str().utf8()
-            << "</id></x></message>";
+                << "<message to=\'"
+                << data->ID.str()
+                << "\'><x xmlns='jabber:x:event'><composing/><id>"
+                << data->TypingId.str()
+                << "</id></x></message>";
             sendPacket();
             delete msg;
             return true;
@@ -2408,17 +2389,13 @@ bool JabberClient::send(Message *msg, void *_data)
         break;
     case MessageTypingStop:
         if (getTyping()){
-            //if (data->composeId.toULong() == 0)
-            //    return false;
-            //string msg_id = "msg";
-            //msg_id += number(data->composeId.toULong());
             socket()->writeBuffer().packetStart();
             socket()->writeBuffer()
-            << "<message to=\'"
-            << (const char*)data->ID.str().utf8()
-            << "\'><x xmlns='jabber:x:event'><id>"
-            << (const char*)data->TypingId.str().utf8()    //msg_id.c_str()
-            << "</id></x></message>";
+                << "<message to=\'"
+                << data->ID.str()
+                << "\'><x xmlns='jabber:x:event'><id>"
+                << data->TypingId.str()
+                << "</id></x></message>";
             sendPacket();
             delete msg;
             return true;
@@ -2521,16 +2498,16 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
                     data = findContact(jid, QString::null, true, contact, resource);
                 socket()->writeBuffer().packetStart();
                 socket()->writeBuffer()
-                << "<presence to=\'"
-                << (const char*)data->ID.str().utf8()
-                << "\' type=\'subscribed\'></presence>";
+                    << "<presence to=\'"
+                    << data->ID.str()
+                    << "\' type=\'subscribed\'></presence>";
                 sendPacket();
                 socket()->writeBuffer().packetStart();
                 socket()->writeBuffer()
-                << "<presence to=\'"
-                << (const char*)data->ID.str().utf8()
-                << "\' type=\'subscribe\'><status>"
-                << "</status></presence>";
+                    << "<presence to=\'"
+                    << data->ID.str()
+                    << "\' type=\'subscribe\'><status>"
+                    << "</status></presence>";
                 sendPacket();
                 EventContact e(contact, EventContact::eChanged);
                 e.process();

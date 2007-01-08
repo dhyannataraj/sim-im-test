@@ -18,12 +18,13 @@
 #ifndef _JABBERCLIENT_H
 #define _JABBERCLIENT_H
 
+#include <qvaluestack.h>
+
 #include "simapi.h"
-
-#include <stack>
-
 #include "sax.h"
 #include "socket.h"
+
+#include "jabberbuffer.h"
 
 class JabberProtocol;
 class JabberClient;
@@ -222,13 +223,13 @@ public:
         virtual void element_end(const QString& el);
         virtual void char_data(const QString& str);
         QString  		m_element;
-        std::stack<QString>	m_els;
+        QValueStack<QString>	m_els;
         QString		    m_id;
         JabberClient	*m_client;
         friend class JabberClient;
     };
 
-class IqRequest : public ServerRequest
+    class IqRequest : public ServerRequest
     {
     public:
         IqRequest(JabberClient *client);
@@ -248,7 +249,7 @@ class IqRequest : public ServerRequest
         unsigned	m_file_size;
     };
 
-class PresenceRequest : public ServerRequest
+    class PresenceRequest : public ServerRequest
     {
     public:
         PresenceRequest(JabberClient *client);
@@ -266,7 +267,7 @@ class PresenceRequest : public ServerRequest
         QString m_stamp2;
     };
 
-class MessageRequest : public ServerRequest
+    class MessageRequest : public ServerRequest
     {
     public:
         MessageRequest(JabberClient *client);
@@ -377,6 +378,9 @@ class MessageRequest : public ServerRequest
     virtual void setClientInfo(void *data);
     void changePassword(const QString &pass);
 
+    // reimplement socket() to get correct Buffer
+    virtual JabberClientSocket *socket() { return static_cast<JabberClientSocket*>(TCPClient::socket()); }
+    virtual JabberClientSocket *createClientSocket() { return new JabberClientSocket(this, createSocket()); }
 protected slots:
     void	ping();
     void	auth_failed();
@@ -483,12 +487,14 @@ protected:
     virtual bool    error(const QString &err);
     virtual bool    accept(SIM::Socket *s, unsigned long ip);
     bool get_line(const QCString &str);
+    void send_line(const QString &str);
     void send_line(const QCString &str);
+    void send_line(const char *str);
     unsigned m_startPos;
     unsigned m_endPos;
     unsigned m_answer;
     QString             m_url;
-    SIM::ClientSocket	*m_socket;
+    JabberClientSocket *m_socket;
 };
 
 class JabberSearch;

@@ -513,6 +513,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\jabberbuffer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="jabberclient.cpp"
 				>
 				<FileConfiguration
@@ -1646,6 +1650,10 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\jabberbuffer.h"
+				>
 			</File>
 			<File
 				RelativePath="jabberclient.h"

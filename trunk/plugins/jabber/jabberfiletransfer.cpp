@@ -40,7 +40,7 @@ JabberFileTransfer::JabberFileTransfer(FileMessage *msg, JabberUserData *data, J
     m_data   = data;
     m_client = client;
     m_state  = None;
-    m_socket = new ClientSocket(this);
+    m_socket = new JabberClientSocket(this);
     m_startPos = 0;
     m_endPos   = 0xFFFFFFFF;
 }
@@ -205,7 +205,7 @@ void JabberFileTransfer::connect_ready()
     }
     m_startPos = 0;
     m_endPos   = 0xFFFFFFFF;
-    send_line(line.utf8());
+    send_line(line);
     FileTransfer::m_state = FileTransfer::Negotiation;
     m_socket->readBuffer().init(0);
     m_socket->readBuffer().packetStart();
@@ -331,19 +331,19 @@ bool JabberFileTransfer::get_line(const QCString &str)
         default:
             s += " Error";
         }
-        send_line(s.utf8());
+        send_line(s);
         if ((m_answer == 200) || (m_answer == 206)){
             send_line("Content-Type: application/data");
             s = "Content-Length: ";
             s += QString::number(m_endPos - m_startPos);
-            send_line(s.utf8());
+            send_line(s);
         }
         if (m_answer == 206){
             s = "Range: ";
             s += QString::number(m_startPos);
             s += '-';
             s += QString::number(m_endPos);
-            send_line(s.utf8());
+            send_line(s);
         }
         send_line("");
         if (m_answer < 300){
@@ -440,11 +440,20 @@ bool JabberFileTransfer::get_line(const QCString &str)
     return true;
 }
 
+void JabberFileTransfer::send_line(const QString &line)
+{
+    send_line(line.utf8());
+}
+
 void JabberFileTransfer::send_line(const QCString &line)
 {
+    send_line(line.data());
+}
+
+void JabberFileTransfer::send_line(const char *line)
+{
     m_socket->writeBuffer().packetStart();
-    m_socket->writeBuffer() << (const char*)line.data();
-    m_socket->writeBuffer() << "\r\n";
+    m_socket->writeBuffer() << line << "\r\n";
     JabberPlugin *plugin = static_cast<JabberPlugin*>(m_client->protocol()->plugin());
     EventLog::log_packet(m_socket->writeBuffer(), true, plugin->JabberPacket);
     m_socket->write();
