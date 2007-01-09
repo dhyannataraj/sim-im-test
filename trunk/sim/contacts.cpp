@@ -47,7 +47,7 @@ public:
     void clear(bool bClearAll);
     unsigned registerUserData(const QString &name, const DataDef *def);
     void unregisterUserData(unsigned id);
-    void flush(Contact *c, Group *g, const char *section, Buffer *cfg);
+    void flush(Contact *c, Group *g, const QCString &section, Buffer *cfg);
     void flush(Contact *c, Group *g);
     UserData userData;
     list<UserDataDef> userDataDef;
@@ -1779,19 +1779,19 @@ void ContactList::load()
             p->flush(c, g);
             c = owner();
             g = NULL;
-            s = QString::null;
+            s = "";
         }else if (section.startsWith(GROUP)){
             p->flush(c, g);
             c = NULL;
             unsigned long id = section.mid(strlen(GROUP)).toLong();
             g = group(id, id != 0);
-            s = QString::null;
+            s = "";
         }else if (section.startsWith(CONTACT)){
             p->flush(c, g);
             g = NULL;
             unsigned long id = section.mid(strlen(CONTACT)).toLong();
             c = contact(id, true);
-            s = QString::null;
+            s = "";
         }
         p->flush(c, g, s, &cfg);
     }
@@ -1814,11 +1814,13 @@ void ContactListPrivate::flush(Contact *c, Group *g)
         data->sort();
 }
 
-void ContactListPrivate::flush(Contact *c, Group *g, const char *section, Buffer *cfg)
+void ContactListPrivate::flush(Contact *c, Group *g, const QCString &_section, Buffer *cfg)
 {
     if (cfg == NULL)
         return;
-    if (*section == 0){
+    // section name is ascii every time
+    QString section(_section);
+    if (section.isEmpty()){
         if (c){
             free_data(contactData, &c->data);
             load_data(contactData, &c->data, cfg);
