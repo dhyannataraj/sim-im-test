@@ -1863,8 +1863,8 @@ bool ICQClient::processMsg()
             QString fname;
             if (it.count() == 1){
                 fname = *(it[0]);
-                fname = fname.replace(QRegExp("\\\\"), "/");
-                int n = fname.findRev("/");
+                fname = fname.replace('\\', '/');
+                int n = fname.findRev('/');
                 if (n >= 0)
                     fname = fname.mid(n + 1);
             }else{

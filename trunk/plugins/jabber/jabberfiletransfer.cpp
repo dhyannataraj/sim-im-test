@@ -95,7 +95,7 @@ void JabberFileTransfer::bind_ready(unsigned short port)
             m_notify->process();
     }
     QString fname = m_file->name();
-    fname = fname.replace(QRegExp("\\\\"), "/");
+    fname = fname.replace('\\', '/');
     int n = fname.findRev('/');
     if (n >= 0)
         fname = fname.mid(n + 1);

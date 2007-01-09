@@ -146,10 +146,10 @@ QString HomeDirPlugin::defaultPath()
     }
     if (!defPath.isEmpty()){
         if (!defPath.endsWith("\\"))
-            defPath += "\\";
+            defPath += '\\';
         defPath += "sim";
         QString ss = defPath;
-        ss += "\\";
+        ss += '\\';
         makedir(ss);
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);

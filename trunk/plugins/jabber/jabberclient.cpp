@@ -1289,7 +1289,7 @@ QString JabberClient::contactTip(void *_data)
         QString &reply = data->AutoReply.str();
         if (!reply.isEmpty()){
             res += "<br/>";
-            res += reply.replace(QRegExp("\n"), "<br/>");
+            res += reply.replace('\n', "<br/>");
         }
     }else{
         for (unsigned i = 1; i <= data->nResources.toULong(); i++){
@@ -1342,7 +1342,7 @@ QString JabberClient::contactTip(void *_data)
             if (!reply.isEmpty()){
                 res += "<br/><br/>";
                 QString r = reply;
-                r = r.replace(QRegExp("\n"), "<br/>");
+                r = r.replace('\n', "<br/>");
                 res += r;
             }
             if (i < data->nResources.toULong())
@@ -2102,7 +2102,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                    << "/" << msg->getResource();
+                    << '/' << msg->getResource();
             }
             if (getTyping()){
                 data->composeId.asULong() = ++m_msg_id;
@@ -2155,7 +2155,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                    << "/" << msg->getResource();
+                    << '/' << msg->getResource();
             }
             socket()->writeBuffer()
                 << "\'><body>" << encodeXML(m->getUrl());
@@ -2254,7 +2254,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                    << "/" << msg->getResource();
+                    << '/' << msg->getResource();
             }
             socket()->writeBuffer()
                 << "\'><x xmlns='jabber:x:roster'>";
@@ -2411,7 +2411,7 @@ QString JabberClient::dataName(void *_data)
     JabberUserData *data = (JabberUserData*)_data;
     res += '+';
     res += data->ID.str();
-    res = res.replace(QRegExp("/"), "_");
+    res = res.replace('/', '_');
     return res;
 }
 

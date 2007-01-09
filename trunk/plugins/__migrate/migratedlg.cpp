@@ -112,11 +112,11 @@ void MigrateDialog::pageSelected(const QString&)
         if (!(*it)->isChecked())
             continue;
         QString path = user_file((*it)->text());
-        path += "/";
+        path += '/';
         QFile icq_conf(path + "icq.conf");
         totalSize += icq_conf.size();
         QString history_path = path + "history";
-        history_path += "/";
+        history_path += '/';
         QDir history(history_path);
         QStringList l = history.entryList("*.history", QDir::Files);
         for (QStringList::Iterator it = l.begin(); it != l.end(); ++it){
@@ -143,7 +143,7 @@ void MigrateDialog::process()
         if (!(*it)->isChecked())
             continue;
         QString path = user_file((*it)->text());
-        path += "/";
+        path += '/';
         icqConf.close();
         clientsConf.close();
         contactsConf.close();

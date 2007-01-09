@@ -67,9 +67,9 @@ void GpgFind::next()
         QString subDir = subDirs[pos++];
         m_pos.pop();
         m_pos.push(pos);
-        if (subDir.left(1) != "."){
+        if (!subDir.startsWith(".")){
             m_path += subDir;
-            m_path += "\\";
+            m_path += '\\';
             if (checkPath())
                 return;
         }
@@ -81,7 +81,7 @@ void GpgFind::next()
         return;
     }
     m_path = m_drive->absFilePath();
-    m_path = m_path.replace(QRegExp("/"), "\\");
+    m_path = m_path.replace('/', '\\');
     if ((GetDriveTypeA(m_path.latin1()) == DRIVE_FIXED) && checkPath())
         return;
     m_drive = m_drives.next();

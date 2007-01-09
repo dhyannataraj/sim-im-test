@@ -84,9 +84,10 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
 {
     m_name = name;
     m_size = size;
-    m_name = m_name.replace(QRegExp("\\\\"), "/");
+    m_name = m_name.replace('\\', '/');
+
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
-    int n = m_name.findRev("/");
+    int n = m_name.findRev('/');
     if (n >= 0){
         QString path;
         QString p = m_name.left(n);
@@ -303,11 +304,7 @@ void FileTransferDlg::process()
         }
         if (!fn.isEmpty()){
             status += ' ';
-            fn = fn.replace(QRegExp("\\\\"), "/");
-#ifdef WIN32
-            fn = fn.replace(QRegExp("/"), "\\");
-#endif
-            status += fn;
+            status += QDir::convertSeparators(fn);
             if (m_files > 1)
                 status += QString(" %1/%2")
                           .arg(m_file + 1)
@@ -513,7 +510,7 @@ void FileTransferDlg::goDir()
     QString path = "file:" + m_dir;
     /* Now replace spaces with %20 so the path isn't truncated
        are there any other separators we need to care of ?*/
-    path.replace(QRegExp(" "),"%20");
+    path.replace(' ',"%20");
 
     EventGoURL e(path);
     e.process();

@@ -2031,7 +2031,7 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
     url += inet_ntoa(addr);
     url += ":";
     url += QString::number(port);
-    url += "/";
+    url += '/';
     QString nn;
     Contact *contact;
     findContact(data->Login.str().utf8(), NULL, contact);

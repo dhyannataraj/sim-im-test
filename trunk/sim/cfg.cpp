@@ -142,7 +142,7 @@ EXPORT QString app_file(const QString &f)
         b = b.left(idx+1);
     app_file_name = b;
     if (app_file_name.length() && (app_file_name.right(1) != "\\") && (app_file_name.right(1) != "/"))
-        app_file_name += "\\";
+        app_file_name += '\\';
 #else
     if (fname[0] == '/')
         return f;

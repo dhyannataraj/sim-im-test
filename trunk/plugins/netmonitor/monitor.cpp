@@ -114,7 +114,7 @@ void MonitorWindow::save()
         t = unquoteText(edit->text());
     }
 #ifdef WIN32
-    t.replace(QRegExp("\n"),"\r\n");
+    t.replace('\n',"\r\n");
 #endif
     ts << t;
     f.close();

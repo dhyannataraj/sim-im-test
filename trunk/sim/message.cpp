@@ -288,7 +288,7 @@ FileMessageIteratorPrivate::FileMessageIteratorPrivate(const FileMessage &msg)
 void FileMessageIteratorPrivate::add_file(const QString &str, bool bFirst)
 {
     QString fn = str;
-    fn = fn.replace(QRegExp("\\"), "/");
+    fn = fn.replace('\\', '/');
     QFileInfo f(str);
     if (!f.exists())
         return;
@@ -446,8 +446,8 @@ QString FileMessage::getDescription()
         if (name == NULL)
             return NULL;
         QString shortName = *name;
-        shortName = shortName.replace(QRegExp("\\\\"), "/");
-        int n = shortName.findRev("/");
+        shortName = shortName.replace('\\', '/');
+        int n = shortName.findRev('/');
         if (n >= 0)
             shortName = shortName.mid(n + 1);
         return shortName;
@@ -576,7 +576,7 @@ bool FileTransfer::openFile()
         m_bDir     = true;
         fn = fn.left(fn.length() - 1);
         if (m_base.isEmpty() || (fn.left(m_base.length()) != m_base)){
-            int n = fn.findRev("/");
+            int n = fn.findRev('/');
             if (n >= 0)
                 m_base = fn.left(n + 1);
         }
@@ -584,7 +584,7 @@ bool FileTransfer::openFile()
         return true;
     }
     if (m_base.isEmpty()){
-        int n = fn.findRev("/");
+        int n = fn.findRev('/');
         if (n >= 0)
             m_base = fn.left(n + 1);
     }

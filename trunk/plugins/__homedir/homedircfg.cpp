@@ -57,16 +57,12 @@ void HomeDirConfig::apply()
         d = defPath;
         bDefault = true;
     }
-    edtPath->setText(d);
+
+    if (d.endsWith('/') || d.endsWith('\\'))
+        d = d.left(d.length() - 1);
+
+    edtPath->setText(QDir::convertSeparators(d));
     m_plugin->m_bDefault = bDefault;
-#ifdef WIN32
-    d = d.replace(QRegExp("/"), "\\");
-    if (d.length() && (d[(int)(d.length() - 1)] == '\\'))
-        d = d.left(d.length() - 1);
-#else
-    if (d.length() && (d[(int)(d.length() - 1)] == '/'))
-        d = d.left(d.length() - 1);
-#endif
     m_plugin->m_homeDir  = d;
     m_plugin->m_bSave    = true;
 }
