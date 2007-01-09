@@ -991,7 +991,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
 	        }
 	        if (!store) m_searchItem = items.front();
 	    } else {
-	        m_search = "";
+	        m_search = QString::null;
 	        m_searchItem = NULL;
             }
 	    setCurrentItem(m_searchItem);
@@ -1025,7 +1025,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
         }else{
             search(new_items);
             if (new_items.empty()){
-                m_search = "";
+                m_search = QString::null;
                 m_searchItem = NULL;
             }else{
                 m_searchItem = new_items.front();
@@ -1160,7 +1160,7 @@ void UserView::stopSearch()
         hideTip();
     list<QListViewItem*> old_items;
     search(old_items);
-    m_search = "";
+    m_search = QString::null;
     m_searchItem = NULL;
     list<QListViewItem*>::iterator it_old;
     for (it_old = old_items.begin(); it_old != old_items.end(); ++it_old)

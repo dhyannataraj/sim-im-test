@@ -179,7 +179,7 @@ void YahooSearch::createContact(const QString &id, unsigned tmpFlags, Contact *&
 {
     if (m_client->findContact(id.utf8(), NULL, contact, false, false))
         return;
-    QString grpName = "";
+    QString grpName;
     Group *grp = NULL;
     ContactList::GroupIterator it;
     while ((grp = ++it) != NULL){

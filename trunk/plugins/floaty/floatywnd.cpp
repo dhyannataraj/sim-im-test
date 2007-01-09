@@ -69,7 +69,7 @@ FloatyWnd::~FloatyWnd()
 void FloatyWnd::init()
 {
     m_style = 0;
-    m_icons = "";
+    m_icons = QString::null;
     m_unread = 0;
     Contact *contact = getContacts()->contact(m_id);
     if (contact == NULL)

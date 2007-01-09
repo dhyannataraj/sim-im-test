@@ -120,7 +120,7 @@ void MSNInfo::apply(Client *client, void *_data)
         return;
     QString nick = edtNick->text();
     if (nick == edtEMail->text())
-        nick = "";
+        nick = QString::null;
     MSNUserData *data = (MSNUserData*)_data;
     data->ScreenName.str() = nick;
 }

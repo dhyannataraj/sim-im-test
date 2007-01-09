@@ -31,7 +31,7 @@ MsgUrl::MsgUrl(MsgEdit *parent, Message *msg)
     m_client = msg->client();
     m_edit   = parent;
     if (m_edit->m_edit->isReadOnly()){
-        m_edit->m_edit->setText("");
+        m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
     m_edit->m_edit->setTextFormat(PlainText);

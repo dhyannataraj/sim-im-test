@@ -161,7 +161,7 @@ void EditFile::showFiles()
         QStringList lst = QFileDialog::getOpenFileNames(filter, QString::null, topLevelWidget());
         if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
             for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-                *it = QString("\"") + *it + QString("\"");
+                *it ='\"' + *it + '\"';
             }
         }
         s = lst.join(" ");
@@ -193,7 +193,7 @@ void EditFile::showFiles()
 #endif
             dlg->setFilter(filter);
             QString result;
-            s = "";
+            s = QString::null;
             if (dlg->exec() == QDialog::Accepted){
                 s = dlg->selectedFile();
             }
@@ -288,7 +288,7 @@ QPopupMenu *LineEdit::createPopupMenu()
         int id = IdBase;
         for (const char **p = helpList; *p;){
             QString s = *p++;
-            s = s.replace(QRegExp("\\&"), "&&");
+            s = s.replace('&', "&&");
             QString text = unquoteText(i18n(*p++));
             text += " (";
             text += s;
@@ -327,7 +327,7 @@ QPopupMenu *MultiLineEdit::createPopupMenu()
         int id = IdBase;
         for (const char **p = helpList; *p;){
             QString s = *p++;
-            s = s.replace(QRegExp("\\&"), "&&");
+            s = s.replace('&', "&&");
             QString text = unquoteText(i18n(*p++));
             text += " (";
             text += s;

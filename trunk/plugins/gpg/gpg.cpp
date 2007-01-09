@@ -295,7 +295,7 @@ void GpgPlugin::decryptReady()
                     m_passphraseDlg = NULL;
                     askPassphrase();
                 } else {
-                    msg->setText(key + "\n" + str);
+                    msg->setText(key + '\n' + str);
                 }
             }
             EventMessageReceived e(msg);
@@ -330,7 +330,7 @@ void GpgPlugin::importReady()
                     QString key_name;
                     key_name  = err.mid(pos + 1, len - 2);
                     QString text = key_name;
-                    text += " ";
+                    text += ' ';
                     pos = r2.match(err, 0, &len);
                     text += err.mid(pos + 1, len - 2);
                     msg->setText(text);
@@ -358,13 +358,13 @@ void GpgPlugin::importReady()
                 } else {
                     QString str;
                     if(!err.isEmpty())
-                        str = "(" + err + ")";
+                        str = '(' + err + ')';
                     msg->setText(i18n("Importing public key failed") + str);
                 }
             } else {
                 QString str;
                 if(!err.isEmpty())
-                    str = "(" + err + ")";
+                    str = '(' + err + ')';
                 msg->setText(i18n("Importing public key failed") + str);
             }
             EventMessageReceived e((*it).msg);
@@ -835,7 +835,7 @@ MsgGPGKey::MsgGPGKey(MsgEdit *parent, Message *msg)
 {
     m_client = msg->client();
     m_edit   = parent;
-    m_edit->m_edit->setText("");
+    m_edit->m_edit->setText(QString::null);
     m_edit->m_edit->setReadOnly(true);
     m_edit->m_edit->setTextFormat(PlainText);
     m_edit->m_edit->setParam(m_edit);
@@ -953,4 +953,3 @@ bool MsgGPGKey::processEvent(Event *e)
 #ifndef NO_MOC_INCLUDES
 #include "gpg.moc"
 #endif
-

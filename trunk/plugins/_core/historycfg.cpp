@@ -90,7 +90,7 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
         QColor c;
         switch (state){
         case TEXT:
-            n = s.find("<", pos);
+            n = s.find('<', pos);
             if (n == -1){
                 n = s.length();
             }else{
@@ -128,8 +128,8 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
             default:
                 c = QColor(COLOR_TAG);
             }
-            n = s.find(">", pos);
-            n1 = s.find("\"", pos);
+            n = s.find('>', pos);
+            n1 = s.find('\"', pos);
             if ((n >= 0) && ((n < n1) || (n1 == -1))){
                 state = TEXT;
                 n++;
@@ -152,7 +152,7 @@ int XmlHighlighter::highlightParagraph(const QString &s, int state)
         case STRING:
         case XML_STRING:
         case XSL_STRING:
-            n = s.find("\"", pos + 1);
+            n = s.find('\"', pos + 1);
             if (n >= 0){
                 switch (state){
                 case XML_STRING:
@@ -339,7 +339,7 @@ void HistoryConfig::addStyles(const QString &dir, bool bCustom)
     QStringList files = d.entryList("*.xsl", QDir::Files, QDir::Name);
     for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
         QString name = *it;
-        int n = name.findRev(".");
+        int n = name.findRev('.');
         name = name.left(n);
         vector<StyleDef>::iterator its;
         for (its = m_styles.begin(); its != m_styles.end(); ++its){

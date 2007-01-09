@@ -67,11 +67,11 @@ void LogConfig::apply()
     QFile file(edtFile->text());
     if (!file.open(IO_Append | IO_ReadWrite)) {
         log(L_DEBUG,"Logfile %s isn't a valid file - discarded!",edtFile->text().latin1());
-        edtFile->setText("");
+        edtFile->setText(QString::null);
     } else {
         file.close();
     }
-    m_plugin->setFile(edtFile->text().latin1());
+    m_plugin->setFile(edtFile->text());
 
     /* check selected protocols */
     for (QListViewItem *item = lstLevel->firstChild(); item; item = item->nextSibling()){

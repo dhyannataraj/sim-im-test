@@ -57,12 +57,12 @@ int SpellHighlighter::highlightParagraph(const QString&, int state)
     m_bError = false;
     while (!m_fonts.empty())
         m_fonts.pop();
-    m_curWord = "";
+    m_curWord = QString::null;
     m_curStart = 0;
     parse(textEdit()->text(m_paragraph));
     flushText();
     flush();
-    m_curText = "";
+    m_curText = QString::null;
     return state + 1;
 }
 
@@ -90,7 +90,7 @@ void SpellHighlighter::flushText()
         m_pos++;
         i++;
     }
-    m_curText = "";
+    m_curText = QString::null;
 }
 
 void SpellHighlighter::tag_start(const QString &tag, const list<QString> &opt)
@@ -152,7 +152,7 @@ void SpellHighlighter::flush()
             m_word       = m_curWord;
             m_bInError   = m_bError;
             m_start_word = m_curStart;
-            m_curWord    = "";
+            m_curWord    = QString::null;
             return;
         }
         if (m_bError){
@@ -164,17 +164,17 @@ void SpellHighlighter::flush()
                     setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
             }
         }
-        m_curWord = "";
+        m_curWord = QString::null;
         return;
     }
     if (m_bCheck){
-        m_curWord = "";
+        m_curWord = QString::null;
         return;
     }
     if (m_bDisable){
         if (m_bError)
             setFormat(m_curStart, m_pos - m_curStart, static_cast<TextEdit*>(textEdit())->defForeground());
-        m_curWord = "";
+        m_curWord = QString::null;
         return;
     }
     MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_curWord));
@@ -190,7 +190,7 @@ void SpellHighlighter::flush()
         if (m_plugin->m_ignore.find(SIM::my_string(m_curWord)) == m_plugin->m_ignore.end())
             emit check(m_curWord);
     }
-    m_curWord = "";
+    m_curWord = QString::null;
 }
 
 void SpellHighlighter::slotMisspelling(const QString &word)
@@ -235,14 +235,14 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
             m_bError   = false;
             m_bInError = false;
             m_curStart = 0;
-            m_word     = "";
-            m_curWord  = "";
+            m_word     = QString::null;
+            m_curWord  = QString::null;
             while (!m_fonts.empty())
                 m_fonts.pop();
             m_bCheck = true;
             parse(textEdit()->text(m_paragraph));
             flushText();
-            m_curText = "";
+            m_curText = QString::null;
             m_bCheck = false;
             if (!m_bInError)
                 return NULL;

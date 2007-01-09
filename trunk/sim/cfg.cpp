@@ -426,7 +426,7 @@ const DataDef *find_key(const DataDef *def, const char *name, unsigned &offs)
 
 static QCString quoteInternal(const QCString &str)
 {
-    QCString res("\"");
+    QCString res('\"');
     if (!str.isEmpty()){
         for (unsigned i = 0; i < str.length(); i++){
             unsigned char p = str[(int)i];
@@ -456,7 +456,7 @@ static QCString quoteInternal(const QCString &str)
             }
         }
     }
-    res += "\"";
+    res += '\"';
     return res;
 }
 

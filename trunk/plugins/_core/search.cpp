@@ -305,7 +305,7 @@ void SearchDialog::setTitle()
 
 void SearchDialog::toggled(bool)
 {
-    textChanged("");
+    textChanged();
 }
 
 bool SearchDialog::processEvent(Event *e)
@@ -545,7 +545,7 @@ void SearchDialog::aboutToShow(QWidget *w)
         detach(m_current);
     m_current = w;
     attach(m_current);
-    textChanged("");
+    textChanged();
 }
 
 void SearchDialog::resultShow(QWidget *w)
@@ -561,7 +561,7 @@ void SearchDialog::resultShow(QWidget *w)
     connect(m_currentResult, SIGNAL(destroyed()), this, SLOT(resultDestroyed()));
     if (m_currentResult != m_result)
         connect(m_currentResult, SIGNAL(enableOptions(bool)), this, SLOT(enableOptions(bool)));
-    textChanged("");
+    textChanged();
 }
 
 void SearchDialog::resultDestroyed()
@@ -646,7 +646,7 @@ void SearchDialog::searchDone(QWidget*)
     disconnect(m_active, SIGNAL(addItem(const QStringList&,QWidget*)), this, SLOT(addItem(const QStringList&,QWidget*)));
     disconnect(m_active, SIGNAL(searchDone(QWidget*)), this, SLOT(searchDone(QWidget*)));
     m_active = NULL;
-    textChanged("");
+    textChanged();
     setAddButton();
 }
 

@@ -437,8 +437,8 @@ void BRParser::text(const QString &text)
     if (m_bSkip)
         return;
     QString s = text;
-    s = s.replace(QRegExp("\r"), "");
-    s = s.replace(QRegExp("\n"), "");
+    s = s.remove('\r');
+    s = s.remove('\n');
     m_str += s;
 }
 
@@ -694,9 +694,9 @@ static CommandDef cfgLiveJournalWnd[] =
 CommandDef *LiveJournalClient::configWindows()
 {
     QString title =name();
-    int n = title.find(".");
+    int n = title.find('.');
     if (n > 0)
-        title = title.left(n) + " " + title.mid(n + 1);
+        title = title.left(n) + ' ' + title.mid(n + 1);
     cfgLiveJournalWnd[0].text_wrk = title;
     return cfgLiveJournalWnd;
 }

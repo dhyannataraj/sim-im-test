@@ -48,7 +48,7 @@ public slots:
     void aboutToShow(QWidget*);
     void resultShow(QWidget*);
     void resultDestroyed();
-    void textChanged(const QString&);
+    void textChanged(const QString &txt = QString::null);
     void toggled(bool);
     void addResult(QWidget*);
     void showResult(QWidget*);

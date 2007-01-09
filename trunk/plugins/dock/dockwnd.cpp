@@ -725,7 +725,7 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
                         (unsigned char *)&val, 1);
         win_name = "SIM";
         win_version = VERSION;
-        win_info = "";
+        win_info = QString::null;
         while (!comms_win)
         {
             ECommsSetup(dsp);
@@ -1074,7 +1074,7 @@ void DockWnd::setTip(const QString &text)
     QString tip = m_unreadText;
     if (tip.isEmpty()){
         tip = i18n(text);
-        tip = tip.replace(QRegExp("\\&"), "");
+        tip = tip.remove('&');
     }
     if(tip == m_curTipText)
         return;

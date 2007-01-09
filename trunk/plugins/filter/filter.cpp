@@ -273,7 +273,7 @@ bool FilterPlugin::processEvent(Event *e)
             QString s = data->SpamList.str();
             while (!text.isEmpty()){
                 QString line = getToken(text, '\n');
-                line = line.replace(QRegExp("\r"), "");
+                line = line.remove('\r');
                 if (line.isEmpty())
                     continue;
                 bool bSpace = false;
@@ -283,9 +283,9 @@ bool FilterPlugin::processEvent(Event *e)
                         break;
                     }
                 if (bSpace)
-                    line = QString("\"") + line + "\"";
+                    line = '\"' + line + '\"';
                 if (!s.isEmpty())
-                    s += " ";
+                    s += ' ';
                 s += line;
             }
             data->SpamList.str() = s;
@@ -398,7 +398,7 @@ void FilterPlugin::getWords(const QString &text, QStringList &words, bool bPatte
         if (word.isEmpty())
             continue;
         words.append(word);
-        word = "";
+        word = QString::null;
     }
     if (!word.isEmpty())
         words.append(word);

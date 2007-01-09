@@ -245,7 +245,7 @@ void MSNFileTransfer::send(const QString &line)
 bool MSNFileTransfer::getLine(const QCString &line)
 {
     QString l = QString::fromUtf8(line);
-    l = l.replace(QRegExp("\r"), "");
+    l = l.remove('\r');
     log(L_DEBUG, "Get: %s", (const char*)l.local8Bit().data());
 
     QString cmd = getToken(l, ' ');

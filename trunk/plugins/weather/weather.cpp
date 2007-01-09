@@ -194,7 +194,7 @@ bool WeatherPlugin::done(unsigned code, Buffer &data, const QString&)
 {
     if (code != 200)
         return false;
-    m_data  = "";
+    m_data  = QString::null;
     m_day   = 0;
     m_bBar  = false;
     m_bWind = false;
@@ -459,7 +459,7 @@ i18n("moonphase", "Waning Crescent")
 static QString i18n_conditions(const QString &str)
 {
     if (str.isEmpty())
-        return "";
+        return QString::null;
     int n = str.find(" / ");
     if (n >= 0)
         return i18n_conditions(str.left(n)) + " / " + i18n_conditions(str.mid(n + 3));
@@ -473,8 +473,8 @@ static QString i18n_conditions(const QString &str)
     if (n >= 0)
         return i18n_conditions(str.left(n)) + " " + i18n("weather", "Late");
     QString s = str;
-    s = s.replace(QRegExp(" Showers"), "");
-    s = s.replace(QRegExp(" Shower"), "");
+    s = s.remove(" Showers");
+    s = s.remove(" Shower");
     return i18n("weather", s);
 }
 

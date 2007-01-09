@@ -121,7 +121,7 @@ PrefItem::PrefItem(QListViewItem *parent, CommandDef *cmd)
 {
     m_cmd = cmd;
     QString title = i18n(cmd->text);
-    title = title.replace(QRegExp("&"), "");
+    title = title.remove('&');
     setText(0, title);
     setPixmap(0, Pict(cmd->icon, listView()->colorGroup().base()));
 }

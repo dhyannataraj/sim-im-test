@@ -626,7 +626,7 @@ bool FetchClient::crackUrl(const QString &_url, QString &protocol, QString &host
     user = getToken(host, '@', false);
     if (host.isEmpty()){
         host = user;
-        user = "";
+        user = QString::null;
     }else{
         pass = user;
         user = getToken(pass, ':', false);
@@ -861,7 +861,7 @@ void FetchClientPrivate::packet_ready()
                 QString uri_qstring = p;
                 if (!FetchClient::crackUrl(uri_qstring, proto, host, port, user, pass, uri, extra)){
                     FetchClient::crackUrl(m_uri, proto, host, port, user, pass, uri, extra);
-                    extra = "";
+                    extra = QString::null;
                     if (*p == '/'){
                         uri = p;
                     }else{

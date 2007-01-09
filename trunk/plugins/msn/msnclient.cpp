@@ -465,7 +465,7 @@ void MSNClient::checkEndSync()
 void MSNClient::getLine(const QCString &line)
 {
     QString l = QString::fromUtf8(line);
-    l = l.replace(QRegExp("\r"), "");
+    l = l.remove('\r');
     QCString ll = l.local8Bit();
     log(L_DEBUG, "Get: %s", (const char*)ll);
     QString cmd = getToken(l, ' ');
@@ -1553,7 +1553,7 @@ QString MSNClient::getValue(const QString &key, const QString &str)
 
 QString MSNClient::getHeader(const QString &name, const QString &headers)
 {
-    int idx = headers.find(name + ":");
+    int idx = headers.find(name + ':');
     if(idx != -1) {
         int end = headers.find('\n', idx);
         QString res;
@@ -1954,9 +1954,9 @@ void SBSocket::connect_ready()
     m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);
     QString args = m_client->data.owner.EMail.str();
-    args += " ";
+    args += ' ';
     args += m_cookie;
-    m_cookie = "";
+    m_cookie = QString::null;
     switch (m_state){
     case ConnectingSend:
         send("USR", args);
@@ -1995,7 +1995,7 @@ void SBSocket::packet_ready()
 void SBSocket::getMessage(unsigned size)
 {
     m_messageSize = size;
-    m_message = "";
+    m_message = QString::null;
     getMessage();
 }
 
@@ -2066,7 +2066,7 @@ void SBSocket::getLine(const QCString &_line)
             return;
         Message *msg = m_queue.front();
         if (cmd == "NAK"){
-            m_msgText = "";
+            m_msgText = QString::null;
             msg->setError(I18N_NOOP("Send message failed"));
             EventMessageSent(msg).process();
             delete msg;
@@ -2184,7 +2184,7 @@ void SBSocket::messageReady()
             e.process();
         }
         QString msg_text = m_message;
-        msg_text = msg_text.replace(QRegExp("\\r"), "");
+        msg_text = msg_text.remove('\r');
         Message *msg = new Message(MessageGeneric);
         msg->setFlags(MESSAGE_RECEIVED);
         if (bColor){
@@ -2227,7 +2227,7 @@ void SBSocket::messageReady()
             int n = m_message.find("\r\n");
             if (n < 0){
                 line = m_message;
-                m_message = "";
+                m_message = QString::null;
             }else{
                 line = m_message.left(n);
                 m_message = m_message.mid(n + 2);
@@ -2449,8 +2449,8 @@ bool SBSocket::cancelMessage(Message *msg)
     if (m_queue.empty())
         return false;
     if (m_queue.front() == msg){
-        m_msgPart = "";
-        m_msgText = "";
+        m_msgPart = QString::null;
+        m_msgText = QString::null;
         m_msg_id = 0;
         m_queue.erase(m_queue.begin());
         process();
@@ -2502,8 +2502,8 @@ void SBSocket::sendFile()
             name = *it[0];
         size = it.size();
     }
-    name = name.replace(QRegExp("\\\\"), "/");
-    int n = name.findRev("/");
+    name = name.replace('\\', '/');
+    int n = name.findRev('/');
     if (n >= 0)
         name = name.mid(n + 1);
     message += m_client->quote(name);
@@ -2532,7 +2532,7 @@ void SBSocket::process(bool bTyping)
             m_msgText = msgText;
         }
         if ((msg->type() == MessageFile) && static_cast<FileMessage*>(msg)->m_transfer)
-            m_msgText = "";
+            m_msgText = QString::null;
         if (m_msgText.isEmpty()){
             if (msg->type() == MessageFile){
                 sendFile();
@@ -2542,7 +2542,7 @@ void SBSocket::process(bool bTyping)
             delete msg;
             m_queue.erase(m_queue.begin());
         }
-        m_msgText = m_msgText.replace(QRegExp("\\n"), "\r\n");
+        m_msgText = m_msgText.replace('\n', "\r\n");
     }
     if (m_msgText.isEmpty())
         return;
@@ -2573,7 +2573,7 @@ void SBSocket::process(bool bTyping)
                     type = font_type.mid(n);
                     font_type = font_type.mid(n + 2);
                 }else{
-                    font_type = "";
+                    font_type = QString::null;
                 }
                 if (type == "bold")
                     effect += "B";

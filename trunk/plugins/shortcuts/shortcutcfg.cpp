@@ -74,7 +74,7 @@ void ShortcutsConfig::loadMenu(unsigned long id, bool bCanGlobal)
             QString title = i18n(s->text);
             if (title == "_")
                 continue;
-            title = title.replace(QRegExp("&"), "");
+            title = title.remove('&');
             QString accel;
             int key = 0;
             const char *cfg_accel = m_plugin->getKey(s->id);
@@ -224,7 +224,7 @@ void ShortcutsConfig::globalChanged(bool)
     QListViewItem *item = lstKeys->currentItem();
     if ((item == NULL) || item->text(4).isEmpty())
         return;
-    item->setText(2, chkGlobal->isChecked() ? i18n("Global") : QString(""));
+    item->setText(2, chkGlobal->isChecked() ? i18n("Global") : QString::null);
 }
 
 #ifndef NO_MOC_INCLUDES

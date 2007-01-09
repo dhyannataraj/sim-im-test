@@ -88,8 +88,8 @@ bool WeatherCfg::done(unsigned, Buffer &data, const QString&)
 {
     m_ids.clear();
     m_names.clear();
-    m_id = "";
-    m_data = "";
+    m_id = QString::null;
+    m_data = QString::null;
     reset();
     if (!parse(data, false))
         log(L_WARN, "XML parse error");
@@ -162,8 +162,8 @@ void WeatherCfg::element_end(const QString& el)
     if (el == "loc" && !m_id.isEmpty() && !m_data.isEmpty()){
         m_ids.append(m_id);
         m_names.append(m_data);
-        m_id = "";
-        m_data = "";
+        m_id = QString::null;
+        m_data = QString::null;
     }
 }
 

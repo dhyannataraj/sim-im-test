@@ -103,7 +103,7 @@ void MouseConfig::loadMenu(unsigned long id)
             }
             if (item)
                 continue;
-            title = title.replace(QRegExp("&"), "");
+            title = title.remove('&');
             new QListViewItem(lstCmd, title, m_plugin->getMouse(s->id), QString::number(s->id), QString::number(s->popup_id));
         }
     }

@@ -356,7 +356,7 @@ void MainInfo::addMail()
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish){
             item->setText(MAIL_PUBLISH, i18n("Yes"));
-            proto = "";
+            proto = QString::null;
         }
         item->setText(MAIL_ADDRESS, dlg.res);
         item->setText(MAIL_PROTO, proto);
@@ -380,7 +380,7 @@ void MainInfo::editMail(QListViewItem *item)
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish){
             item->setText(MAIL_PUBLISH, i18n("Yes"));
-            proto = "";
+            proto = QString::null;
         }
         item->setText(MAIL_ADDRESS, dlg.res);
         item->setText(MAIL_PROTO, proto);
@@ -407,7 +407,7 @@ void MainInfo::addPhone()
     if (dlg.exec() && !dlg.number.isEmpty() && !dlg.type.isEmpty()){
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish)
-            proto = "";
+            proto = QString::null;
         fillPhoneItem(new QListViewItem(lstPhones), dlg.number, dlg.type, dlg.icon, proto);
         fillCurrentCombo();
     }
@@ -430,7 +430,7 @@ void MainInfo::editPhone(QListViewItem *item)
     if (dlg.exec() && !dlg.number.isEmpty() && !dlg.type.isEmpty()){
         QString proto = "-";
         if ((m_contact == NULL) && dlg.publish)
-            proto = "";
+            proto = QString::null;
         fillPhoneItem(item, dlg.number, dlg.type, dlg.icon, proto);
         fillCurrentCombo();
     }

@@ -104,7 +104,7 @@ void UpdatePlugin::timeout()
 #endif
         url += "&l=";
         QString s = i18n("Message", "%n messages", 1);
-        s = s.replace(QRegExp("1 "), "");
+        s = s.remove("1 ");
         for (int i = 0; i < (int)(s.length()); i++){
             unsigned short c = s[i].unicode();
             if ((c == ' ') || (c == '%') || (c == '=') || (c == '&')){
@@ -175,7 +175,7 @@ bool UpdatePlugin::processEvent(Event *e)
 
 QString UpdatePlugin::getHeader(const QString &name, const QString &headers)
 {
-    int idx = headers.find(name + ":");
+    int idx = headers.find(name + ':');
     if(idx != -1) {
         int end = headers.find('\n', idx);
         QString res;

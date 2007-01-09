@@ -44,7 +44,7 @@ MsgFile::MsgFile(MsgEdit *parent, Message *msg)
     m_edit     = parent;
     m_bCanSend = false;
     if (m_edit->m_edit->isReadOnly()){
-        m_edit->m_edit->setText("");
+        m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
     m_edit->m_edit->setTextFormat(PlainText);
@@ -110,7 +110,7 @@ void MsgFile::selectFile()
     QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
     if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-            *it = QString("\"") + QDir::convertSeparators(*it) + QString("\"");
+            *it = '\"' + QDir::convertSeparators(*it) + '\"';
         }
     }else{
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
@@ -171,7 +171,7 @@ bool MsgFile::processEvent(Event *e)
                         f = f.stripWhiteSpace();
                         if (!f.isEmpty())
                             files.append(f);
-                        f = "";
+                        f = QString::null;
                         for (i++; i < (int)file.length(); i++){
                             if (file[i] == '\"')
                                 break;
@@ -180,7 +180,7 @@ bool MsgFile::processEvent(Event *e)
                         f = f.stripWhiteSpace();
                         if (!f.isEmpty())
                             files.append(f);
-                        f = "";
+                        f = QString::null;
                         continue;
                     }
                     f += file[i];
@@ -188,7 +188,7 @@ bool MsgFile::processEvent(Event *e)
                 f = f.stripWhiteSpace();
                 if (!f.isEmpty())
                     files.append(f);
-                file = "";
+                file = QString::null;
                 for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
                     if (!file.isEmpty())
                         file += ';';

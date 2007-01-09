@@ -1410,7 +1410,7 @@ QString CorePlugin::poFile(const char *lang)
     QString s = "po\\" + QString(lang).lower() + ".qm";
     QFile f(app_file(s));
     if (!f.exists())
-        return "";
+        return QString::null;
 #else
     QString s = PREFIX "/share/locale/";
     QString l = lang;
@@ -4031,9 +4031,8 @@ void CorePlugin::destroyManager()
 QString CorePlugin::typeName(const QString &name)
 {
     QString text = name;
-    int n = text.find("&", 0);
-    if (n >= 0)
-        text.replace(n, 1, "");
+
+    text.remove('&');
     if (!text.length())
         log(L_DEBUG,"defText is empty!");
     return text;

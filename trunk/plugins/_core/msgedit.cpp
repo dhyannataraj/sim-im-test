@@ -305,7 +305,7 @@ bool MsgEdit::setMessage(Message *msg, bool bSetFocus)
             return false;
         create = def->generate;
         if (create){
-            m_userWnd->setStatus("");
+            m_userWnd->setStatus(QString::null);
             processor = create(this, msg);
         }
     }
@@ -563,9 +563,9 @@ Message *dropFile(QMimeSource *src)
             for (QStringList::Iterator it = files.begin(); it != files.end(); ++it){
                 if (!fileName.isEmpty())
                     fileName += ',';
-                fileName += "\"";
+                fileName += '\"';
                 fileName += *it;
-                fileName += "\"";
+                fileName += '\"';
             }
             FileMessage *m = new FileMessage;
             m->setFile(fileName);
@@ -645,9 +645,9 @@ static CommandDef authRequestCommands[] =
         CommandDef (
             CmdGrantAuth,
             I18N_NOOP("&Grant"),
-            "",
-            "",
-            "",
+            QString::null,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1080,
             MenuMessage,
@@ -660,9 +660,9 @@ static CommandDef authRequestCommands[] =
         CommandDef (
             CmdRefuseAuth,
             I18N_NOOP("&Refuse"),
-            "",
-            "",
-            "",
+            QString::null,
+            QString::null,
+            QString::null,
             ToolBarMsgEdit,
             0x1081,
             MenuMessage,
@@ -670,7 +670,7 @@ static CommandDef authRequestCommands[] =
             0,
             COMMAND_DEFAULT,
             NULL,
-            ""
+            QString::null
         ),
         CommandDef ()
     };
@@ -1401,7 +1401,7 @@ void MsgEdit::typingStop()
             break;
         }
     }
-    m_typingClient = "";
+    m_typingClient = QString::null;
 }
 
 void MsgEdit::editTextChanged()

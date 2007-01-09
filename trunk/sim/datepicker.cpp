@@ -147,11 +147,11 @@ void DatePicker::setText(const QString &s)
 {
     int day, month, year;
     if (!parseDate(s, day, month, year)){
-        m_edit->setText("");
+        m_edit->setText(QString::null);
         return;
     }
     if ((day == 0) || (month == 0) || (year == 0)){
-        m_edit->setText("");
+        m_edit->setText(QString::null);
         return;
     }
     m_edit->setText(s);
@@ -162,7 +162,7 @@ QString DatePicker::text()
     int day, month, year;
     getDate(day, month, year);
     if ((day == 0) || (month == 0) || (year == 0))
-        return "";
+        return QString::null;
     QString res;
     res.sprintf("%u/%02u/%04u", day, month, year);
     return res;
@@ -404,11 +404,11 @@ void PickerPopup::fill()
     unsigned s = d.daysInMonth();
     unsigned i;
     for (i = 0; i < n; i++)
-        m_labels[i]->setText("");
+        m_labels[i]->setText(QString::null);
     for (i = 0; i < s; i++)
         m_labels[i + n]->setText(QString::number(i + 1));
     for (i = n + s; i < 42; i++)
-        m_labels[i]->setText("");
+        m_labels[i]->setText(QString::null);
 }
 
 PickerLabel::PickerLabel(QWidget *parent)

@@ -1779,19 +1779,19 @@ void ContactList::load()
             p->flush(c, g);
             c = owner();
             g = NULL;
-            s = "";
+            s = QString::null;
         }else if (section.startsWith(GROUP)){
             p->flush(c, g);
             c = NULL;
             unsigned long id = section.mid(strlen(GROUP)).toLong();
             g = group(id, id != 0);
-            s = "";
+            s = QString::null;
         }else if (section.startsWith(CONTACT)){
             p->flush(c, g);
             g = NULL;
             unsigned long id = section.mid(strlen(CONTACT)).toLong();
             c = contact(id, true);
-            s = "";
+            s = QString::null;
         }
         p->flush(c, g, s, &cfg);
     }
@@ -2069,7 +2069,7 @@ QString ContactList::toUnicode(Contact *contact, const QCString &str, int length
         if (length < 0)
             length = str.length();
         QString res = getCodec(contact)->toUnicode(str, length);
-        return res.replace(QRegExp("\r"), "");
+        return res.remove('\r');
     }
     return QString::null;
 }

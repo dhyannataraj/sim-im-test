@@ -596,7 +596,7 @@ QString TextParser::Tag::open_tag() const
 
 QString TextParser::Tag::close_tag() const
 {
-    int n = m_tag.find(" ");
+    int n = m_tag.find(' ');
     QString res;
     res += "</";
     if (n >= 0){
@@ -807,7 +807,7 @@ void TextParser::addText(const char *str, unsigned s)
             put_style();
         m_text += quoteString(text.left(n));
         text = text.mid(n);
-        n = text.find(">");
+        n = text.find('>');
         if (n < 0)
             break;
         FaceSizeParser p(text.left(n + 1));
@@ -1585,7 +1585,7 @@ void YahooParser::text(const QString &str)
         }
     }
     res += esc;
-    esc = "";
+    esc = QString::null;
     res += str;
 }
 
@@ -2020,9 +2020,9 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
 {
     QString fn = file->name();
 #ifdef WIN32
-    fn = fn.replace(QRegExp("\\\\"), "/");
+    fn = fn.replace('\\', '/');
 #endif
-    int n = fn.findRev("/");
+    int n = fn.findRev('/');
     if (n > 0)
         fn = fn.mid(n + 1);
     QString url = "http://";

@@ -221,7 +221,7 @@ void ZodiakWnd::changed()
         m_button->show();
     }else{
         m_picture->setPixmap(QPixmap());
-        m_name->setText("");
+        m_name->setText(QString::null);
         m_button->hide();
     }
 }

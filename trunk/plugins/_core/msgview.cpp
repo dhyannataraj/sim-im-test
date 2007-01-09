@@ -141,7 +141,7 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
         if (!value.isEmpty()){
             tagText += "=\"";
             tagText += value;
-            tagText += "\"";
+            tagText += '\"';
         }
     }
     tagText += '>';
@@ -159,7 +159,7 @@ void XslOutputParser::tag_start(const QString &tag, const list<QString> &attrs)
         if ((ltag == "p") && !m_sPrepend.isEmpty())
         {
             res += m_sPrepend;
-            m_sPrepend = "";
+            m_sPrepend = QString::null;
         }
     }
 }
@@ -236,7 +236,7 @@ void MsgViewBase::update()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         QString client;
@@ -264,7 +264,7 @@ void MsgViewBase::update()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         QString client;
@@ -288,7 +288,7 @@ void MsgViewBase::update()
     setSelection(start, 0, paragraphs() - 1, 0xFFFF, 0);
     removeSelectedText();
     setReadOnly(true);
-    QString text="";
+    QString text;
     for (list<Msg_Id>::iterator it = msgs.begin(); it != msgs.end(); ++it){
         Message *msg = History::load((*it).id, (*it).client, m_id);
         if (msg == NULL)
@@ -338,7 +338,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
         if (n >= 0){
             clientStr = clientStr.left(n);
         }else{
-            clientStr = "";
+            clientStr = QString::null;
         }
         if (!clientStr.isEmpty()){
             for (unsigned i = 0; i < getContacts()->nClients(); i++){
@@ -486,7 +486,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     {
         s += " fgcolor=\"#";
         s += QString::number(msg->getForeground(), 16).rightJustify(6, '0');
-        s += "\"";
+        s += '\"';
     }
 
     // Some bright day might come when one could specify background color from inside Qt's richtext.
@@ -495,7 +495,7 @@ QString MsgViewBase::messageText(Message *msg, bool bUnread)
     {
         s += " bgcolor=\"#";
         s += QString::number(msg->getBackground(), 16).rightJustify(6, '0');
-        s += "\"";
+        s += '\"';
     }
     s += '>';
 
@@ -668,7 +668,7 @@ bool MsgViewBase::findMessage(Message *msg)
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         if (bFound){
@@ -726,7 +726,7 @@ void MsgViewBase::reload()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         Msg_Id id;
@@ -778,7 +778,7 @@ bool MsgViewBase::processEvent(Event *e)
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find("\"");
+            n = s.find('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -809,7 +809,7 @@ bool MsgViewBase::processEvent(Event *e)
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find("\"");
+            n = s.find('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -874,7 +874,7 @@ bool MsgViewBase::processEvent(Event *e)
             if (n < 0)
                 continue;
             s = s.mid(n + strlen(MSG_ANCHOR));
-            n = s.find("\"");
+            n = s.find('\"');
             if (n < 0)
                 continue;
             QString client;
@@ -887,7 +887,7 @@ bool MsgViewBase::processEvent(Event *e)
                 if (n < 0)
                     continue;
                 s = s.mid(n + strlen(MSG_ANCHOR));
-                n = s.find("\"");
+                n = s.find('\"');
                 if (n < 0)
                     continue;
                 QString client;
@@ -1106,7 +1106,7 @@ Message *MsgViewBase::currentMessage()
         if (n < 0)
             continue;
         s = s.mid(n + strlen(MSG_ANCHOR));
-        n = s.find("\"");
+        n = s.find('\"');
         if (n < 0)
             continue;
         QString client;
@@ -1400,7 +1400,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
         if (!value.isEmpty()){
             tagText += "=\"";
             tagText += value;
-            tagText += "\"";
+            tagText += '\"';
         }
     }
 
@@ -1432,7 +1432,7 @@ void ViewParser::tag_start(const QString &tag, const list<QString> &attrs)
             style = makeStyle(new_opt);
         }
         if (!style.isEmpty())
-            tagText += " style=\"" + style + "\"";
+            tagText += " style=\"" + style + '\"';
     }
     tagText += '>';
     res += tagText;

@@ -378,8 +378,8 @@ static bool cmpStatus(const char *s1, const char *s2)
 {
     QString ss1 = s1;
     QString ss2 = s2;
-    ss1 = ss1.replace(QRegExp("\\&"), "");
-    ss2 = ss2.replace(QRegExp("\\&"), "");
+    ss1 = ss1.remove('&');
+    ss2 = ss2.remove('&');
     return ss1.lower() == ss2.lower();
 }
 

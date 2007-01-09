@@ -97,7 +97,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
                     if (heights[i] >= hPart){
                         text += part;
                         text += "</td><td>";
-                        part = "";
+                        part = QString::null;
                         h = 0;
                     }else{
                         part += DIV;
@@ -108,7 +108,7 @@ void TipLabel::show(const QRect &tipRect, bool _bState)
                 if (h >= hPart){
                     text += part;
                     text += "</td><td>";
-                    part = "";
+                    part = QString::null;
                     h = 0;
                 }
             }

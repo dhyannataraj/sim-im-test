@@ -210,7 +210,7 @@ bool LoggerPlugin::processEvent(Event *e)
                         QString l;
                         if (out.length() < 256){
                             l = out;
-                            out = "";
+                            out = QString::null;
                         }else{
                             l = out.left(256);
                             out = out.mid(256);

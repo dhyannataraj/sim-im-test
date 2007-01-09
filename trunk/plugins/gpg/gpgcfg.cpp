@@ -220,12 +220,12 @@ void GpgCfg::secretReady()
             s += QString::fromLocal8Bit(ba1.data(), ba1.size());
         if (!ba2.isEmpty()) {
             if(!s.isEmpty())
-                s += " ";
+                s += ' ';
             s += QString::fromLocal8Bit(ba2.data(), ba2.size());
         }
-        s += ")";
+        s += ')';
         if(s == " ()")
-            s = "";
+            s = QString::null;
         BalloonMsg::message(i18n("Get secret list failed") + s, btnRefresh);
     }
     delete m_process;
@@ -246,4 +246,3 @@ void GpgCfg::selectKey(int n)
 #ifndef NO_MOC_INCLUDES
 #include "gpgcfg.moc"
 #endif
-

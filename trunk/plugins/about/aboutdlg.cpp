@@ -73,7 +73,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
         txt += "<br>";
     }
     txtAuthors->setText(txt);
-    txt = "";
+    txt = QString::null;
     QValueList<KAboutTranslator> translators = aboutData->translators();
     QValueList<KAboutTranslator>::ConstIterator itt;
     if (!translators.isEmpty()){
@@ -136,11 +136,11 @@ QString KAboutApplication::addPerson(const KAboutPerson *p)
 QString KAboutApplication::quote(const QString &s)
 {
     QString res = s;
-    res.replace(QRegExp("&"), "&amp;");
-    res.replace(QRegExp("\""), "&quot;");
-    res.replace(QRegExp("<"), "&lt;");
-    res.replace(QRegExp(">"), "&gt;");
-    res.replace(QRegExp("\\n"), "<br>");
+    res.replace('&',  "&amp;");
+    res.replace('\"', "&quot;");
+    res.replace('<',  "&lt;");
+    res.replace('>',  "&gt;");
+    res.replace('\n', "<br>");
     return res;
 }
 

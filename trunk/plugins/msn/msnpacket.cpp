@@ -450,7 +450,7 @@ MSNServerMessage::~MSNServerMessage()
             line = msg;
             msg  = QString::null;
         }
-        n = line.find(":");
+        n = line.find(':');
         if (n < 0)
             continue;
         values.insert(KEY_MAP::value_type(line.left(n), line.mid(n + 1).stripWhiteSpace()));
@@ -478,7 +478,7 @@ MSNServerMessage::~MSNServerMessage()
                 EventError::ClientErrorData data;
                 data.client     = m_client;
                 data.err_str    = "%1";
-                data.options    = "";
+                data.options    = QString::null;
                 data.args       = i18n("You have %n unread message.", "You have %n unread messages.", nUnread);
                 data.code       = 0;
                 data.flags      = EventError::ClientErrorData::E_INFO;
@@ -505,7 +505,7 @@ MSNServerMessage::~MSNServerMessage()
             EventError::ClientErrorData data;
             data.client     = m_client;
             data.err_str    = "%1";
-            data.options    = "";
+            data.options    = QString::null;
             data.args       = msg;
             data.code       = 0;
             data.flags      = EventError::ClientErrorData::E_INFO;

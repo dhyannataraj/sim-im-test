@@ -158,7 +158,7 @@ QString UserWnd::getIcon()
     Contact *contact = getContacts()->contact(m_id);
     if(!contact) {
         log(L_ERROR, "Contact %lu not found!", m_id);
-        return "";
+        return QString::null;
     }
     unsigned long status = STATUS_UNKNOWN;
     unsigned style;

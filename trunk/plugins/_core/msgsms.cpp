@@ -40,7 +40,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
     m_bExpand  = false;
     m_bCanSend = false;
     if (m_edit->m_edit->isReadOnly()){
-        m_edit->m_edit->setText("");
+        m_edit->m_edit->setText(QString::null);
         m_edit->m_edit->setReadOnly(false);
     }
     m_edit->m_edit->setTextFormat(PlainText);

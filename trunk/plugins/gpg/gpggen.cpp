@@ -58,7 +58,7 @@ GpgGen::GpgGen(GpgCfg *cfg)
         if (firstName.isEmpty() || lastName.isEmpty()){
             name = firstName + lastName;
         }else{
-            name = firstName + " " + lastName;
+            name = firstName + ' ' + lastName;
         }
         edtName->setText(name);
         QString mails = owner->getEMails();
@@ -148,7 +148,7 @@ void GpgGen::accept()
         edtName->setEnabled(true);
         cmbMail->setEnabled(true);
         edtComment->setEnabled(true);
-        lblProcess->setText("");
+        lblProcess->setText(QString::null);
         buttonOk->setEnabled(true);
         BalloonMsg::message(i18n("Generate key failed"), buttonOk);
         delete m_process;
@@ -170,16 +170,16 @@ void GpgGen::genKeyReady()
             s += QString::fromLocal8Bit(ba1.data(), ba1.size());
         if (!ba2.isEmpty()) {
             if(!s.isEmpty())
-                s += " ";
+                s += ' ';
             s += QString::fromLocal8Bit(ba2.data(), ba2.size());
         }
-        s += ")";
+        s += ')';
         if(s == " ()")
-            s = "";
+            s = QString::null;
         edtName->setEnabled(true);
         cmbMail->setEnabled(true);
         edtComment->setEnabled(true);
-        lblProcess->setText("");
+        lblProcess->setText(QString::null);
         buttonOk->setEnabled(true);
         BalloonMsg::message(i18n("Generate key failed") + s, buttonOk);
     }
@@ -190,4 +190,3 @@ void GpgGen::genKeyReady()
 #ifndef NO_MOC_INCLUDES
 #include "gpggen.moc"
 #endif
-
