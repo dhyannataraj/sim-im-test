@@ -58,7 +58,7 @@ void HomeDirConfig::apply()
         bDefault = true;
     }
 
-    if (d.endsWith('/') || d.endsWith('\\'))
+    if (d.endsWith("/") || d.endsWith("\\"))
         d = d.left(d.length() - 1);
 
     edtPath->setText(QDir::convertSeparators(d));
