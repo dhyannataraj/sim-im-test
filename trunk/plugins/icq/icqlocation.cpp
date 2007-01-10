@@ -59,10 +59,8 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
 {
     QCString charset = "us-ascii";
     Tlv *tlvCharset = NULL;
-    for (unsigned i = 0;; i++){
+    for (unsigned i = 0; i < tlvs.count(); i++){
         Tlv *tlv = tlvs[i];
-        if (tlv == NULL)
-            break;
         if (tlv->Num() != n)
             continue;
         if (tlvCharset && (tlv->Size() < tlvCharset->Size()))
@@ -70,16 +68,14 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
         tlvCharset = tlv;
     }
     if (tlvCharset){
-        const char *type = *tlvCharset;
-        const char *p = strchr(type, '\"');
-        if (p){
-            p++;
-            char *e = strchr((char*)p, '\"');
-            if (e)
-                *e = 0;
-            charset = p;
-        }else{
-            charset = type;
+        int idx1 = charset.find('\"');
+        if (idx1 != -1){
+            idx1++;
+            int idx2 = charset.find('\"', idx1);
+            if(idx2 != -1)
+                charset = charset.mid(idx1, idx2 - idx1);
+            else
+                charset = charset.mid(idx1);
         }
     }
     QString res;
