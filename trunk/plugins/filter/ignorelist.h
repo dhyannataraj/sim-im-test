@@ -38,6 +38,7 @@ protected:
     virtual bool processEvent(SIM::Event *e);
     void removeItem(QListViewItem*);
     void updateItem(QListViewItem*, SIM::Contact*);
+    void unignoreItem(QListViewItem*);
     QListViewItem *findItem(SIM::Contact*);
 };
 
