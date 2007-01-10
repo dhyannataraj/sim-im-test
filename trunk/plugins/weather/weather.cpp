@@ -522,7 +522,7 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%r"), sun_raise);
     res = res.replace(QRegExp("\\%s"), sun_set);
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getConditions()));
-    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (atol(getVisibility()) ? QString(" ") + i18n("weather",getUD()) : QString("")));
+    res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (getVisibility().toLong() ? ' ' + i18n("weather",getUD()) : QString::null));
     res = res.replace(QRegExp("\\%i"), QString::number(getIcon()));
     return res;
 }
