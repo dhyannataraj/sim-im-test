@@ -198,7 +198,7 @@ QString HomeDirPlugin::buildFileName(const QString &name)
 {
     QString s;
     QString fname = name;
-    if(!QDir(fname).isRoot()) {
+    if(QDir(fname).isRelative()) {
         s += m_homeDir;
         s += '/';
     }

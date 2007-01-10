@@ -1749,13 +1749,13 @@ bool CorePlugin::processEvent(Event *e)
             EventHomeDir *homedir = static_cast<EventHomeDir*>(e);
             QString fname = homedir->homeDir();
             QString profile;
-            if(!QDir(fname).isRoot())
+            if(QDir(fname).isRelative())
                 profile = getProfile();
             if (profile.length())
                 profile += '/';
             profile += fname;
             homedir->setHomeDir(profile);
-            // dunno knowif this is correct... :(
+            // dunno know if this is correct... :(
             EventHomeDir eProfile(homedir->homeDir());
             if (!eProfile.process(this))
                 homedir->setHomeDir(app_file(homedir->homeDir()));
