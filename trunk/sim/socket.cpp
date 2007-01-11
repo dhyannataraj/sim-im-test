@@ -15,11 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qmutex.h>
+#include <qtimer.h>
+
 #include "socket.h"
 #include "misc.h"
 #include "log.h"
-
-#include <qtimer.h>
 
 namespace SIM
 {
@@ -39,8 +40,11 @@ class SocketFactoryPrivate
 public:
     SocketFactoryPrivate() {}
     list<ClientSocket*> errSockets;
+    QMutex errSockMutex;
+
     list<Socket*> removedSockets;
     list<ServerSocket*> removedServerSockets;
+    QMutex removedSockMutex;
 };
 
 void Socket::error(const QString &err_text, unsigned code)
@@ -67,8 +71,9 @@ ClientSocket::ClientSocket(ClientSocketNotify *notify, Socket *sock)
 
 ClientSocket::~ClientSocket()
 {
-    if (m_sock)
-        delete m_sock;
+    delete m_sock;
+
+    QMutexLocker m(&getSocketFactory()->p->errSockMutex);
     for (list<ClientSocket*>::iterator it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it){
         if ((*it) == this){
             getSocketFactory()->p->errSockets.erase(it);
@@ -185,6 +190,7 @@ void ClientSocket::setSocket(Socket *s, bool bClearError)
         if (m_sock->getNotify() == this)
             m_sock->setNotify(NULL);
         if (bClearError){
+            QMutexLocker m(&getSocketFactory()->p->errSockMutex);
             list<ClientSocket*>::iterator it;
             for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it){
                 if ((*it) == this){
@@ -201,6 +207,7 @@ void ClientSocket::setSocket(Socket *s, bool bClearError)
 
 void ClientSocket::error_state(const QString &err, unsigned code)
 {
+    QMutexLocker m(&getSocketFactory()->p->errSockMutex);
     list<ClientSocket*>::iterator it;
     for (it = getSocketFactory()->p->errSockets.begin(); it != getSocketFactory()->p->errSockets.end(); ++it)
         if ((*it) == this)
@@ -241,8 +248,11 @@ void SocketFactory::remove(Socket *s)
 {
     s->setNotify(NULL);
     s->close();
+
+    QMutexLocker m(&getSocketFactory()->p->removedSockMutex);
     for (list<Socket*>::iterator it = p->removedSockets.begin(); it != p->removedSockets.end(); ++it)
-        if ((*it) == s) return;
+        if ((*it) == s)
+            return;
     p->removedSockets.push_back(s);
     QTimer::singleShot(0, this, SLOT(idle()));
 }
@@ -251,6 +261,8 @@ void SocketFactory::remove(ServerSocket *s)
 {
     s->setNotify(NULL);
     s->close();
+
+    QMutexLocker m(&getSocketFactory()->p->removedSockMutex);
     for (list<ServerSocket*>::iterator it = p->removedServerSockets.begin(); it != p->removedServerSockets.end(); ++it)
         if ((*it) == s) return;
     p->removedServerSockets.push_back(s);
@@ -259,8 +271,11 @@ void SocketFactory::remove(ServerSocket *s)
 
 void SocketFactory::idle()
 {
+    getSocketFactory()->p->errSockMutex.lock();
     list<ClientSocket*> err = p->errSockets;
     p->errSockets.clear();
+    getSocketFactory()->p->errSockMutex.unlock();
+
     for (list<ClientSocket*>::iterator it = err.begin(); it != err.end(); ++it){
         ClientSocket *s = *it;
         ClientSocketNotify *n = s->m_notify;
@@ -271,6 +286,8 @@ void SocketFactory::idle()
                 delete n;
         }
     }
+
+    QMutexLocker m(&getSocketFactory()->p->removedSockMutex);
     for (list<Socket*>::iterator its = p->removedSockets.begin(); its != p->removedSockets.end(); ++its)
         delete *its;
     p->removedSockets.clear();
