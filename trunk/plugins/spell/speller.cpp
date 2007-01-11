@@ -164,7 +164,7 @@ QString SpellerConfig::getLangs()
     const AspellDictInfo *entry;
     while ((entry = aspell_dict_info_enumeration_next(dels)) != NULL){
         if (!res.isEmpty())
-            res += ';'';
+            res += ';';
         res += entry->name;
     }
     delete_aspell_dict_info_enumeration(dels);

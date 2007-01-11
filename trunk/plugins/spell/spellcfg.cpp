@@ -114,7 +114,7 @@ void SpellConfig::textChanged(const QString&)
 #ifdef WIN32
         SpellerBase base(str);
 #else
-        SpellerBase base;
+        SpellerBase base(QString::null);
 #endif
         SpellerConfig cfg(base);
         langs = cfg.getLangs();
