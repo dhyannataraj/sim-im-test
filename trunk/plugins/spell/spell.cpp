@@ -123,7 +123,7 @@ void SpellPlugin::reset()
 #ifdef WIN32
     m_base = new SpellerBase(getPath());
 #else
-    m_base = new SpellerBase;
+    m_base = new SpellerBase(QString());
 #endif
     SpellerConfig cfg(*m_base);
     QString ll = getLang();

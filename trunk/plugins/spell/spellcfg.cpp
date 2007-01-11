@@ -69,22 +69,21 @@ SpellConfig::SpellConfig(QWidget *parent, SpellPlugin *plugin)
 SpellConfig::~SpellConfig()
 {
 #ifdef WIN32
-    if (m_find)
-        delete m_find;
+    delete m_find;
 #endif
 }
 
 void SpellConfig::apply()
 {
 #ifdef WIN32
-    m_plugin->setPath(QFile::encodeName(edtPath->text()));
+    m_plugin->setPath(edtPath->text());
 #endif
     QString lang;
     for (QListViewItem *item = lstLang->firstChild(); item; item = item->nextSibling()){
-        if (item->text(COL_CHECKED) == "")
+        if (item->text(COL_CHECKED).isEmpty())
             continue;
         if (!lang.isEmpty())
-            lang += ";";
+            lang += ';';
         lang += item->text(COL_NAME);
     }
     m_plugin->setLang(lang);
@@ -169,7 +168,7 @@ void SpellConfig::langClicked(QListViewItem *item)
     if(!item)
         return;
     SIM::log(SIM::L_DEBUG, "langClicked");
-    if (item->text(COL_CHECKED) == ""){
+    if (item->text(COL_CHECKED).isEmpty()){
         item->setText(COL_CHECKED, "1");
     }else{
         item->setText(COL_CHECKED, "");

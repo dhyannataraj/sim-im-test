@@ -24,19 +24,13 @@
 #include <qstring.h>
 #include <qstringlist.h>
 
-#ifdef WIN32
-#include <windows.h>
-#endif
 
 class SpellerBase
 {
 public:
-#ifdef WIN32
     SpellerBase(const QString &path);
-#else
-    SpellerBase();
-#endif
     ~SpellerBase();
+
 #ifdef WIN32
     struct AspellConfig *(*_new_aspell_config)();
     void (*_delete_aspell_config)(struct AspellConfig * ths);
@@ -58,7 +52,7 @@ public:
     int (*_aspell_speller_add_to_personal)(struct AspellSpeller * ths, const char * word, int word_size);
 protected:
     void init();
-    HINSTANCE hLib;
+    class QLibrary *m_aspellLib;
 #endif
 };
 

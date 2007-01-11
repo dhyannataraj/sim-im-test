@@ -16,13 +16,14 @@
  ***************************************************************************/
 
 #include <qfile.h>
+#include <qlibrary.h>
 #include <qstringlist.h>
 
 #include "log.h"
 
 #include "speller.h"
 
-#ifdef WIN32
+#ifdef Q_OS_WIN
 
 SpellerBase::SpellerBase(const QString &path)
 {
@@ -32,26 +33,27 @@ SpellerBase::SpellerBase(const QString &path)
     if (n >= 0)
         p = p.left(n);
     p += "\\aspell-15.dll";
-    hLib = LoadLibraryA(p.local8Bit());
-    if (hLib){
-        (DWORD&)_new_aspell_config = (DWORD)GetProcAddress(hLib, "new_aspell_config");
-        (DWORD&)_delete_aspell_config = (DWORD)GetProcAddress(hLib, "new_aspell_config");
-        (DWORD&)_get_aspell_dict_info_list = (DWORD)GetProcAddress(hLib, "get_aspell_dict_info_list");
-        (DWORD&)_aspell_dict_info_list_elements = (DWORD)GetProcAddress(hLib, "aspell_dict_info_list_elements");
-        (DWORD&)_delete_aspell_dict_info_enumeration = (DWORD)GetProcAddress(hLib, "delete_aspell_dict_info_enumeration");
-        (DWORD&)_aspell_dict_info_enumeration_next = (DWORD)GetProcAddress(hLib, "aspell_dict_info_enumeration_next");
-        (DWORD&)_aspell_config_replace = (DWORD)GetProcAddress(hLib, "aspell_config_replace");
-        (DWORD&)_new_aspell_speller = (DWORD)GetProcAddress(hLib, "new_aspell_speller");
-        (DWORD&)_to_aspell_speller = (DWORD)GetProcAddress(hLib, "to_aspell_speller");
-        (DWORD&)_delete_aspell_speller = (DWORD)GetProcAddress(hLib, "delete_aspell_speller");
-        (DWORD&)_aspell_error_message = (DWORD)GetProcAddress(hLib, "aspell_error_message");
-        (DWORD&)_aspell_error = (DWORD)GetProcAddress(hLib, "aspell_error");
-        (DWORD&)_delete_aspell_can_have_error = (DWORD)GetProcAddress(hLib, "delete_aspell_can_have_error");
-        (DWORD&)_aspell_speller_check = (DWORD)GetProcAddress(hLib, "aspell_speller_check");
-        (DWORD&)_aspell_speller_suggest = (DWORD)GetProcAddress(hLib, "aspell_speller_suggest");
-        (DWORD&)_aspell_word_list_elements = (DWORD)GetProcAddress(hLib, "aspell_word_list_elements");
-        (DWORD&)_aspell_string_enumeration_next = (DWORD)GetProcAddress(hLib, "aspell_string_enumeration_next");
-        (DWORD&)_aspell_speller_add_to_personal = (DWORD)GetProcAddress(hLib, "aspell_speller_add_to_personal");
+    m_aspellLib = new QLibrary(p);
+
+    if (m_aspellLib->load() && m_aspellLib->isLoaded()){
+        (void*&)_new_aspell_config = m_aspellLib->resolve("new_aspell_config");
+        (void*&)_delete_aspell_config = m_aspellLib->resolve("new_aspell_config");
+        (void*&)_get_aspell_dict_info_list = m_aspellLib->resolve("get_aspell_dict_info_list");
+        (void*&)_aspell_dict_info_list_elements = m_aspellLib->resolve("aspell_dict_info_list_elements");
+        (void*&)_delete_aspell_dict_info_enumeration = m_aspellLib->resolve("delete_aspell_dict_info_enumeration");
+        (void*&)_aspell_dict_info_enumeration_next = m_aspellLib->resolve("aspell_dict_info_enumeration_next");
+        (void*&)_aspell_config_replace = m_aspellLib->resolve("aspell_config_replace");
+        (void*&)_new_aspell_speller = m_aspellLib->resolve("new_aspell_speller");
+        (void*&)_to_aspell_speller = m_aspellLib->resolve("to_aspell_speller");
+        (void*&)_delete_aspell_speller = m_aspellLib->resolve("delete_aspell_speller");
+        (void*&)_aspell_error_message = m_aspellLib->resolve("aspell_error_message");
+        (void*&)_aspell_error = m_aspellLib->resolve("aspell_error");
+        (void*&)_delete_aspell_can_have_error = m_aspellLib->resolve("delete_aspell_can_have_error");
+        (void*&)_aspell_speller_check = m_aspellLib->resolve("aspell_speller_check");
+        (void*&)_aspell_speller_suggest = m_aspellLib->resolve("aspell_speller_suggest");
+        (void*&)_aspell_word_list_elements = m_aspellLib->resolve("aspell_word_list_elements");
+        (void*&)_aspell_string_enumeration_next = m_aspellLib->resolve("aspell_string_enumeration_next");
+        (void*&)_aspell_speller_add_to_personal = m_aspellLib->resolve("aspell_speller_add_to_personal");
         if ((_new_aspell_config == NULL) ||
                 (_delete_aspell_config == NULL) ||
                 (_get_aspell_dict_info_list == NULL) ||
@@ -70,7 +72,8 @@ SpellerBase::SpellerBase(const QString &path)
                 (_aspell_word_list_elements == NULL) ||
                 (_aspell_string_enumeration_next == NULL) ||
                 (_aspell_speller_add_to_personal == NULL)){
-            FreeLibrary(hLib);
+            delete m_aspellLib;
+            m_aspellLib = NULL;
             init();
         }
     }
@@ -78,8 +81,7 @@ SpellerBase::SpellerBase(const QString &path)
 
 SpellerBase::~SpellerBase()
 {
-    if (hLib)
-        FreeLibrary(hLib);
+    delete m_aspellLib;
 }
 
 void SpellerBase::init()
@@ -125,15 +127,14 @@ void SpellerBase::init()
 
 #else
 
-SpellerBase::SpellerBase()
-{
-}
+SpellerBase::SpellerBase(const QString &)
+{}
 
 SpellerBase::~SpellerBase()
-{
-}
+{}
 
 #endif
+
 
 SpellerConfig::SpellerConfig(SpellerBase &base)
         : m_base(base)
@@ -163,7 +164,7 @@ QString SpellerConfig::getLangs()
     const AspellDictInfo *entry;
     while ((entry = aspell_dict_info_enumeration_next(dels)) != NULL){
         if (!res.isEmpty())
-            res += ";";
+            res += ';'';
         res += entry->name;
     }
     delete_aspell_dict_info_enumeration(dels);
@@ -225,6 +226,3 @@ QStringList Speller::suggestions(const char *word)
     }
     return res;
 }
-
-
-
