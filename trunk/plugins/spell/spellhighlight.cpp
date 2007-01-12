@@ -229,7 +229,7 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
         if (cmd->id == m_plugin->CmdSpell){
             MsgEdit *m_edit = (MsgEdit*)(cmd->param);
             if (m_edit->m_edit != textEdit())
-                return NULL;
+                return false;
             m_index = textEdit()->charAt(static_cast<TextEdit*>(textEdit())->m_popupPos, &m_parag);
             m_pos = 0;
             m_bError   = false;
@@ -245,7 +245,7 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
             m_curText = QString::null;
             m_bCheck = false;
             if (!m_bInError)
-                return NULL;
+                return false;
             m_sug = m_plugin->suggestions(m_word);
             SIM::CommandDef *cmds = new SIM::CommandDef[m_sug.count() + 3];
             unsigned i = 0;
@@ -284,7 +284,7 @@ bool SpellHighlighter::processEvent(SIM::Event *e)
         if ((cmd->id >= m_plugin->CmdSpell) && (cmd->id < m_plugin->CmdSpell + m_sug.count() + 1)){
             MsgEdit *m_edit = (MsgEdit*)(cmd->param);
             if (m_edit->m_edit != textEdit())
-                return NULL;
+                return false;
             if (cmd->id == m_plugin->CmdSpell){
                 m_plugin->add(m_word);
                 MAP_BOOL::iterator it = m_words.find(SIM::my_string(m_word));
