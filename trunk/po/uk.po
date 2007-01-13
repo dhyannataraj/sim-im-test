@@ -4,17 +4,17 @@
 # translation of uk.po to
 # translation of uk.po to
 # translation of uk.po to Ukrainian
-# Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 #
 # Ivan Krutyholova <ivan@city.gov.te.ua>, 2002, 2003, 2004.
 #  <ivan@cit-white>, 2005.
-# Ivan O.Krutyholova <ivan@city.gov.te.ua>, 2006.
+# Ivan O.Krutyholova <ivan@city.gov.te.ua>, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-05 21:12+0100\n"
-"PO-Revision-Date: 2006-10-14 14:43+0300\n"
+"PO-Revision-Date: 2007-01-13 11:53+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -679,13 +679,11 @@ msgid "Please enter a new name for the profile."
 msgstr "Будь-ласка введіть ім'я нового профілю"
 
 #: plugins/_core/core.cpp:3585 plugins/_core/logindlg.cpp:405
-msgid ""
-"There is already another profile with this name.  Please choose another."
+msgid "There is already another profile with this name.  Please choose another."
 msgstr "Профіль з таким іменем вже існує. Виберіть інше ім'я."
 
 #: plugins/_core/core.cpp:3589
-msgid ""
-"Unable to create the profile.  Please do not use any special characters."
+msgid "Unable to create the profile.  Please do not use any special characters."
 msgstr "Неможливо створити профіль. Не використовуйте в імені спецсимволи."
 
 #. i18n: file ./plugins/_core/managerbase.ui line 20
@@ -832,9 +830,9 @@ msgstr "Використовувати зовнішній переглядач"
 #. i18n: file ./plugins/_core/interfacecfgbase.ui line 278
 #: plugins/_core/historycfg.cpp:212 plugins/_core/interfacecfg.cpp:153
 #: rc.cpp:1059 rc.cpp:1359
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Show user avatar"
-msgstr "Показувати &розподілювач груп"
+msgstr "Показувати картинку користувача"
 
 #: plugins/_core/historycfg.cpp:485
 msgid "Remove style '%1'?"
@@ -1027,10 +1025,8 @@ msgid "Rename Profile"
 msgstr "Перейменувати профіль"
 
 #: plugins/_core/logindlg.cpp:409
-msgid ""
-"Unable to rename the profile.  Please do not use any special characters."
-msgstr ""
-"Неможливо перейменувати профіль. Не використовуйте в імені спецсимволи."
+msgid "Unable to rename the profile.  Please do not use any special characters."
+msgstr "Неможливо перейменувати профіль. Не використовуйте в імені спецсимволи."
 
 #: plugins/_core/logindlg.cpp:502 plugins/jabber/jabberclient.cpp:945
 #: plugins/livejournal/livejournal.cpp:886 plugins/msn/msnclient.cpp:786
@@ -1515,8 +1511,7 @@ msgstr "Дія"
 
 #: plugins/action/action.cpp:40
 msgid "Plugin execute external programs on event or from contact menu"
-msgstr ""
-"Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
+msgstr "Модуль забезпечує запуск зовнішніх програм з подій або з меню контактів"
 
 #: plugins/action/action.cpp:78
 msgid "&Action"
@@ -1632,8 +1627,7 @@ msgstr "Системний лоток"
 
 #: plugins/dock/dock.cpp:42
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Модуль забезпечує згортання головного вікна в іконку в системному лотку"
+msgstr "Модуль забезпечує згортання головного вікна в іконку в системному лотку"
 
 #: plugins/dock/dock.cpp:44 plugins/windock/windock.cpp:47
 msgid "Dock"
@@ -1844,7 +1838,7 @@ msgstr "Останній раз в мережі"
 
 #: plugins/icq/homeinfo.cpp:43
 msgid "map"
-msgstr ""
+msgstr "карта"
 
 #: plugins/icq/icq.cpp:61
 msgid "ICQ"
@@ -1900,9 +1894,8 @@ msgid "&Add to group"
 msgstr "Додати в &групу"
 
 #: plugins/icq/icqbuddy.cpp:558
-#, fuzzy
 msgid "removed from buddy list"
-msgstr "&Знищити з журналу"
+msgstr "видалити з списку друзів"
 
 #: plugins/icq/icqclient.cpp:263
 msgid "Process message failed"
@@ -4048,9 +4041,8 @@ msgid "Personal Info"
 msgstr "Персональна інформація"
 
 #: plugins/livejournal/livejournal.cpp:1461
-#, fuzzy
 msgid "Customize Journal"
-msgstr "Пристосувати меню"
+msgstr "Пристосувати Журнал"
 
 #: plugins/livejournal/livejournal.cpp:1462
 msgid "Journal Settings"
@@ -4058,7 +4050,7 @@ msgstr "Параметри Журналу"
 
 #: plugins/livejournal/livejournal.cpp:1463
 msgid "Upgrade your account"
-msgstr ""
+msgstr "Поновити акаунт"
 
 #: plugins/livejournal/livejournalcfg.cpp:40
 msgid "Register new user"
@@ -4167,8 +4159,7 @@ msgid "Navigate"
 msgstr "Навігація"
 
 #: plugins/navigate/navigate.cpp:225
-msgid ""
-"Plugin provides navigation on hyperlinks, call an external browser and mailer"
+msgid "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr "Модуль забезпечує навігацію по гіперпосиланнях"
 
 #: plugins/navigate/navigate.cpp:267
@@ -4264,8 +4255,7 @@ msgid "OSD"
 msgstr "Екран"
 
 #: plugins/osd/osd.cpp:72
-msgid ""
-"Plugin provides on screen notification about messages and contacts status"
+msgid "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
 "Модуль забезпечує вивід попереджень на екран про прихід повідомлень або "
 "зміну статусу"
@@ -4605,8 +4595,7 @@ msgstr "Поновлення"
 
 #: plugins/update/update.cpp:43
 msgid "Plugin provides notifications about update SIM software"
-msgstr ""
-"Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
+msgstr "Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
 
 #: plugins/update/update.cpp:127
 msgid "Show details"
@@ -4751,11 +4740,10 @@ msgid ""
 msgstr "Слабкий дощ"
 
 #: plugins/weather/weather.cpp:386
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Heavy Rain"
-msgstr "Дощ"
+msgstr "Сильний дощ"
 
 #: plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:408
 msgid ""
@@ -5168,7 +5156,6 @@ msgid "m/s"
 msgstr "м/с"
 
 #: plugins/weather/weather.cpp:514 plugins/weather/weather.cpp:515
-#, fuzzy
 msgid "gust"
 msgstr "пориви"
 
@@ -5241,8 +5228,7 @@ msgstr "Захід"
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
-msgstr ""
-"Інтенсивність УФ випромінювання є <b>%ut</b>, і дорівнює <b>%ui</b> (з 11)"
+msgstr "УФ радіація є <b>%ut</b>, і рівна <b>%ui</b> (з 11)"
 
 #: plugins/weather/weather.cpp:585
 msgid ""
@@ -5362,8 +5348,7 @@ msgstr "Дата"
 
 #: plugins/windock/windock.cpp:48
 msgid "Plugin provides dock main window to left or right side of screen"
-msgstr ""
-"Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
+msgstr "Модуль забезпечує прив'язку головного вікна до лівої чи правої сторони екрана"
 
 #: plugins/windock/windock.cpp:188
 msgid ""
@@ -6212,8 +6197,7 @@ msgstr "-"
 #: rc.cpp:463 rc.cpp:621 rc.cpp:725 rc.cpp:1821 rc.cpp:2071
 #, no-c-format
 msgid "Note: For HTTP-polling using proxy settings for HTTP"
-msgstr ""
-"Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
+msgstr "Примітка: Для HTTP-з'єднання використовуйте налаштування проксі для HTTP"
 
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 431
 #: rc.cpp:466 rc.cpp:624
@@ -7722,8 +7706,7 @@ msgstr "Встановити статус \"Вимкнений\" через"
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 138
 #: rc.cpp:1906
 #, no-c-format
-msgid ""
-"Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
 "Заборонити попередження в стані \"Відійшов\", \"Неактивний\", \"Не турбувати"
 "\", \"Зайнятий\""
@@ -7812,8 +7795,7 @@ msgstr "&Приймати повідомлення тільки від конт�
 #: rc.cpp:1991
 #, no-c-format
 msgid "&Receive authorization and system messages only from contacts from list"
-msgstr ""
-"&Приймати авторизації і системні повідомлення тільки від контактів в списку"
+msgstr "&Приймати авторизації і системні повідомлення тільки від контактів в списку"
 
 #. i18n: file ./plugins/filter/filtercfgbase.ui line 61
 #: rc.cpp:1994
@@ -7901,9 +7883,9 @@ msgstr "Відправити повідомлення з &форматуванн
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 572
 #: rc.cpp:2095
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Alt+T"
-msgstr "Alt"
+msgstr "Alt+T"
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 621
 #: rc.cpp:2098
@@ -7913,9 +7895,9 @@ msgstr "Автоматично &приймати запити авторизац
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 624
 #: rc.cpp:2101
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Alt+A"
-msgstr "Alt"
+msgstr "Alt+A"
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 632
 #: rc.cpp:2104
@@ -7925,9 +7907,9 @@ msgstr "Автоматично відправляти &запити автори
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 635
 #: rc.cpp:2107
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Alt+S"
-msgstr "Alt"
+msgstr "Alt+S"
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 643
 #: rc.cpp:2110
@@ -7937,15 +7919,15 @@ msgstr "Використовувати &іконки контактних аге
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 646
 #: rc.cpp:2113
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Alt+I"
-msgstr "Alt"
+msgstr "Alt+I"
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 668
 #: rc.cpp:2116
 #, no-c-format
 msgid "Send and request version info"
-msgstr ""
+msgstr "Обмінятись інформацією про версію"
 
 #. i18n: file ./plugins/jabber/jidsearchbase.ui line 106
 #: rc.cpp:2127 rc.cpp:2267
@@ -9276,28 +9258,24 @@ msgid "Select sound"
 msgstr "Вибір звуку"
 
 #: sim/fetch.cpp:555
-#, fuzzy
 msgid "Bad URL"
-msgstr "URL:"
+msgstr "Поганий URL"
 
 #: sim/fetch.cpp:707
 msgid "Can't initialize HTTPS"
-msgstr ""
+msgstr "Неможливо запустити HTTPS"
 
 #: sim/fetch.cpp:779
-#, fuzzy
 msgid "Read error"
-msgstr "Помилка читання SSL"
+msgstr "Помилка читання"
 
 #: sim/fetch.cpp:808
-#, fuzzy
 msgid "Write error"
-msgstr "Помилка запису SSL"
+msgstr "Помилка запису"
 
 #: sim/fetch.cpp:836
-#, fuzzy
 msgid "Bad HTTP answer"
-msgstr "Погана відповідь від проксі"
+msgstr "Погана HTTP відповідь"
 
 #: sim/fontedit.cpp:103
 msgid "light"
@@ -9442,18 +9420,16 @@ msgid "Read socket error"
 msgstr "Помилка читання сокета"
 
 #: sim/socket.cpp:367
-#, fuzzy
 msgid "Login timeout"
-msgstr "Тайм аут відсилки повідомлення"
+msgstr "Тайм аут авторизації"
 
 #: sim/sockfactory.cpp:229
 msgid "Connect error"
 msgstr "Помилка з'єднання"
 
 #: sim/sockfactory.cpp:258
-#, fuzzy
 msgid "Write socket error"
-msgstr "Помилка читання сокета"
+msgstr "Помилка запису в сокет"
 
 #: sim/sockfactory.cpp:294
 msgid "Can't resolve host"
@@ -10055,3 +10031,4 @@ msgstr "Власний"
 #, fuzzy
 #~ msgid "%n GPG key"
 #~ msgstr "GPG ключ"
+
