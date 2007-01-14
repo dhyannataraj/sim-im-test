@@ -118,7 +118,6 @@ void JabberConfig::apply()
     int n = jid.find('@');
     if (n >= 0){
         QString host = jid.mid(n + 1);
-        jid = jid.left(n);
         m_client->data.VHost.str() = host;
         m_client->setUseVHost(true);
     } else if (chkVHost->isChecked()){
