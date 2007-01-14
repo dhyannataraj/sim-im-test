@@ -121,6 +121,12 @@ void JabberConfig::apply()
         jid = jid.left(n);
         m_client->data.VHost.str() = host;
         m_client->setUseVHost(true);
+    } else if (chkVHost->isChecked()){
+        jid += '@';
+        jid += edtVHost->text();
+    } else {
+        jid += '@';
+        jid += edtServer1->text();
     }
     if (!m_bConfig){
         m_client->setID(jid);

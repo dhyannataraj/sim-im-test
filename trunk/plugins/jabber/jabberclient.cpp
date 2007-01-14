@@ -150,10 +150,16 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
 {
     load_data(jabberClientData, &data, cfg);
     QString jid = data.owner.ID.str();
-    int n = jid.find('@');
-    if (n > 0){
-        jid = jid.left(n);
-        data.owner.ID.str() = jid;
+
+    //For old configs, where server part in own jid is missing
+    if (jid.find('@')==-1) {
+        jid += '@';
+        if (getUseVHost()) {
+            jid += getVHost();
+        } else {
+            jid += getServer();
+        }
+        data.owner.ID.str()=jid;
     }
     if (data.owner.Resource.str().isEmpty()){
         QString resource = PACKAGE;
@@ -226,16 +232,7 @@ QCString JabberClient::getConfig()
 QString JabberClient::name()
 {
     QString res = "Jabber.";
-    if (!data.owner.ID.str().isEmpty()){
-        QString server;
-        if (getUseVHost())
-            server = getVHost();
-        if (server.isEmpty())
-            server = getServer();
-        res += data.owner.ID.str();
-        res += '@';
-        res += server;
-    }
+    res += data.owner.ID.str();
     return res;
 }
 
@@ -1213,18 +1210,7 @@ void JabberClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &
 
 QString JabberClient::buildId(JabberUserData *data)
 {
-    QString res = data->ID.str();
-    int n = res.find('@');
-    if (n < 0){
-        res += '@';
-        QString server;
-        if (getUseVHost())
-            server = getVHost();
-        if (server.isEmpty())
-            server = getServer();
-        res += server;
-    }
-    return res;
+    return data->ID.str();
 }
 
 QWidget *JabberClient::searchWindow(QWidget *parent)
