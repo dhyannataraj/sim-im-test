@@ -379,7 +379,7 @@ InfoRequest::~InfoRequest()
             QString fName = m_client->logoFile(data);
             QFile f(fName);
             if (f.open(IO_WriteOnly | IO_Truncate)){
-                QCString cstr = m_photo.ascii();   // ok, base64 encoded
+                QCString cstr = m_logo.ascii();   // ok, base64 encoded
                 f.writeBlock(Buffer::fromBase64(cstr));
                 f.close();
                 logo.load(fName);
@@ -1268,7 +1268,7 @@ JabberClient::MessageRequest::~MessageRequest()
     if (!m_bError){
         // JEP-0022 composing event handling
         if (m_bBody){
-            // Msg contains normal message. 
+            // Msg contains normal message.
             // <composing/> here means "send me composing events, please", so we should do it.
             // But if that tag is absent, we must not send them.
             data->SendTypingEvents.asBool() = m_bCompose;
@@ -1282,7 +1282,7 @@ JabberClient::MessageRequest::~MessageRequest()
             }
         }
         else{
-            // Msg has no body ==> it is event message. 
+            // Msg has no body ==> it is event message.
             // Presence of <composing/> here means "I'm typing", absence - "I'm not typing anymore".
             data->IsTyping.asBool() = m_bCompose;
             EventContact e(contact, EventContact::eStatus);;
