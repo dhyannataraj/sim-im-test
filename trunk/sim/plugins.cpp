@@ -726,8 +726,9 @@ bool PluginManagerPrivate::findParam(EventArg *a)
     QString value = QString::null;
     if (a->arg().endsWith(":")){
         unsigned size = a->arg().length();
+        QString arg = a->arg().left(size - 1);
         for (QStringList::iterator it = args.begin(); it != args.end(); ++it){
-            if (!(*it).startsWith(a->arg()))
+            if (!(*it).startsWith(arg))
                 continue;
             value = (*it).mid(size);
             if (value.length()){
