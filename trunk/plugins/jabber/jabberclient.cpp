@@ -152,7 +152,7 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
     QString jid = data.owner.ID.str();
 
     //For old configs, where server part in own jid is missing
-    if (jid.find('@')==-1) {
+    if (!jid.isEmpty() && jid.find('@')==-1) {
         jid += '@';
         if (getUseVHost()) {
             jid += getVHost();
