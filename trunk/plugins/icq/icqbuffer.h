@@ -44,7 +44,9 @@ public:
     TlvList();
     TlvList(ICQBuffer&, unsigned nTlvs = ~0U);
     ~TlvList();
-    Tlv *operator() (unsigned short num);
+    // return Tlv<num>, since there can be more than one Tlv<num> inside
+    // a package, you can specificy how much Tlv<num> should be skipped
+    Tlv *operator() (unsigned short num, int skip = 0);
 };
 
 class ICQBuffer : public Buffer

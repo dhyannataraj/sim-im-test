@@ -402,11 +402,19 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 }
             case 0x0002:{
                     TlvList tlv(socket()->readBuffer());
-                    if (!tlv(5)){
+                    int iSkip = 0;
+                    Tlv *tlv5 = tlv(5, iSkip);
+                    // sometimes a message contains two Tlv(5) - messages
+                    // skip the one with size == 4 -> account creation time
+                    for( ; tlv5 && tlv5->Size() < 10; ) {
+                        iSkip++;
+                        tlv5 = tlv(5, iSkip);
+                    }
+                    if (!tlv5){
                         log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
-                    ICQBuffer msg(*tlv(5));
+                    ICQBuffer msg(*tlv5);
                     unsigned short type;
                     msg >> type;
                     switch (type){
@@ -447,7 +455,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         log(L_DEBUG, "File ack");
                         break;
                     default:
-                        log(L_WARN, "Unknown type: %u", type);
+                        log(L_WARN, "Unknown type: %x", type);
+                        // 0x407f
                     }
                     break;
                 }

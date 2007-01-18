@@ -81,11 +81,14 @@ TlvList::~TlvList()
         delete *at((int)i);
 }
 
-Tlv *TlvList::operator()(unsigned short num)
+Tlv *TlvList::operator()(unsigned short num, int skip)
 {
     for(uint i = 0; i < count(); i++) {
-        if ((*at(i))->Num() == num)
-            return *at(i);
+        if ((*at(i))->Num() == num) {
+            if(skip == 0)
+                return *at(i);
+            --skip;
+        }
     }
     return NULL;
 }
