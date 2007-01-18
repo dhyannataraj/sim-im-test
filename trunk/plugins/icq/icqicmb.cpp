@@ -344,9 +344,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             log(L_DEBUG, "Message from %s [%04X]", screen.latin1(), mFormat);
             unsigned short level, nTLV;
             socket()->readBuffer() >> level >> nTLV;
+            TlvList tlv(socket()->readBuffer());
             switch (mFormat){
             case 0x0001:{
-                    TlvList tlv(socket()->readBuffer());
                     if (!tlv(2)){
                         log(L_WARN, "TLV 0x0002 not found");
                         break;
@@ -401,7 +401,6 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     break;
                 }
             case 0x0002:{
-                    TlvList tlv(socket()->readBuffer());
                     int iSkip = 0;
                     Tlv *tlv5 = tlv(5, iSkip);
                     // sometimes a message contains two Tlv(5) - messages
@@ -460,12 +459,19 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     break;
                 }
             case 0x0004:{
-                    TlvList tlv(socket()->readBuffer());
-                    if (!tlv(5)){
-                        log(L_WARN, "Advanced message TLV 0x0005 not found");
+                    int iSkip = 0;
+                    Tlv *tlv5 = tlv(5, iSkip);
+                    // sometimes a message contains two Tlv(5) - messages
+                    // skip the one with size == 4 -> account creation time
+                    for( ; tlv5 && tlv5->Size() < 10; ) {
+                        iSkip++;
+                        tlv5 = tlv(5, iSkip);
+                    }
+                    if (!tlv5){
+                        log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
-                    ICQBuffer msg(*tlv(5));
+                    ICQBuffer msg(*tlv5);
                     unsigned long msg_uin;
                     msg >> msg_uin;
                     if (msg_uin == 0){
