@@ -100,9 +100,9 @@ void _UnquoteParser::text(const QString &text)
 void _UnquoteParser::tag_start(const QString &tag, const list<QString>&)
 {
     if (tag == "img")
-        m_text += " ";
+        m_text += ' ';
     if (tag == "br")
-        m_text += "\n";
+        m_text += '\n';
 }
 
 void _UnquoteParser::tag_end(const QString&)

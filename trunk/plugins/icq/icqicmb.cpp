@@ -455,8 +455,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         log(L_DEBUG, "File ack");
                         break;
                     default:
-                        log(L_WARN, "Unknown type: %x", type);
-                        // 0x407f
+                        log(L_WARN, "Unknown type: 0x%04X", type);
                     }
                     break;
                 }
