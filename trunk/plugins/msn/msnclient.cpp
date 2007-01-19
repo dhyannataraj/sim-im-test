@@ -1216,19 +1216,22 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
 MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *&grp)
 {
     ContactList::GroupIterator itg;
-    MSNUserData *res;
     while ((grp = ++itg) != NULL){
-        res = (MSNUserData*)(grp->clientData.getData(this));
-        if (res && (res->Group.toULong() == id)){
-            if (!name.isEmpty())
-                res->ScreenName.str() = name;
-            return res;
+        ClientDataIterator it(grp->clientData, this);
+        MSNUserData *res = (MSNUserData*)(++it);
+        if ((res == NULL) || (res->Group.toULong() != id))
+            continue;
+        if (!name.isEmpty() && res->ScreenName.setStr(name)){
+            grp->setName(name);
+            EventGroup e(grp, EventGroup::eChanged);
+            e.process();
         }
+        return res;
     }
     if (name.isEmpty())
         return NULL;
-    itg.reset();
     QString grpName = name;
+    itg.reset();
     while ((grp = ++itg) != NULL){
         if (grp->getName() != grpName)
             continue;
@@ -1238,7 +1241,7 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *
         return res;
     }
     grp = getContacts()->group(0, true);
-    res = (MSNUserData*)(grp->clientData.createData(this));
+    MSNUserData *res = (MSNUserData*)(grp->clientData.createData(this));
     res->Group.asULong() = id;
     res->ScreenName.str() = name;
     grp->setName(grpName);
