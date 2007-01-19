@@ -4,13 +4,18 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 [-] Fixed error
 [*] Changes
 
-=== SIM 0.9.4.2 (not released yet) ===
+=== SIM 0.9.4.2 (19.01.2007) ===
 
 Core
 ~~~~
 [-] Win32: fix (un)setting autostart (bug #9283).
 [-] Fix restoring font sizes.
 [*] Use QLibrary for plugins instead of libltdl.
+
+ICQ plugin
+~~~~~~~~~~
+[*] Send and detect SIM patchlevel in version info.
+[-] Fix receiving certain messages containing TLV(5) twice.
 
 Jabber plugin
 ~~~~~~~~~~~~~
@@ -21,6 +26,7 @@ Jabber plugin
 Misc plugins
 ~~~~~~~~~~~~
 [-] LiveJournal: fix posting messages longer than 4 Kb.
+
 
 === SIM 0.9.4.1 (21.10.2006) ===
 
