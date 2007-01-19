@@ -928,8 +928,9 @@ JabberClient::PresenceRequest::~PresenceRequest()
                     data->nResources.value = i;
                     set_str(&data->Resources, i, resource.c_str());
                     set_str(&data->ResourceOnlineTime, i, number(time2 ? time2 : time1).c_str());
-                    m_client->versionInfo(m_from.c_str());
-                }
+                    if (m_client->getUseVersion())
+                        m_client->versionInfo(m_from.c_str());
+               }
                 if (number(status) != get_str(data->ResourceStatus, i)){
                     bChanged = true;
                     set_str(&data->ResourceStatus, i, number(status).c_str());
@@ -1141,7 +1142,7 @@ void JabberClient::IqRequest::element_start(const char *el, const char **attr)
             }
         // XEP-0092: Software Version
         }else if (m_query == "jabber:iq:version"){
-            if (m_type == "get"){
+            if (m_type == "get" && m_client->getUseVersion()){
                 // send our version
                 JabberClient::ServerRequest *req = new JabberClient::ServerRequest(m_client, JabberClient::ServerRequest::_RESULT, NULL, m_from.c_str(), m_id.c_str());
                 req->start_element("query");

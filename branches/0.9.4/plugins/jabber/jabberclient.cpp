@@ -159,6 +159,7 @@ static DataDef jabberClientData[] =
         { "VHost", DATA_UTF, 1, 0 },
         { "Typing", DATA_BOOL, 1, DATA(1) },
         { "RichText", DATA_BOOL, 1, DATA(1) },
+        { "UseVersion", DATA_BOOL, 1, DATA(1) },
         { "ProtocolIcons", DATA_BOOL, 1, DATA(1) },
         { "MinPort", DATA_ULONG, 1, DATA(1024) },
         { "MaxPort", DATA_ULONG, 1, DATA(0xFFFF) },
