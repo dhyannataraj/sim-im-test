@@ -15,7 +15,7 @@
 %endif
 
 Name: sim
-Version: 0.9.4.1
+Version: 0.9.4.2
 Release: alt1
 Serial: 1
 
@@ -37,7 +37,7 @@ Patch1: %name-0.9.4-alt-simqt.patch
 
 BuildPreReq: libXScrnSaver-devel
 
-BuildPreReq: gcc-c++ flex libqt3-devel libltdl-devel
+BuildPreReq: gcc-c++ flex libqt3-devel
 BuildPreReq: libssl-devel libxslt-devel zip
 BuildPreReq: libpng-devel 
 %if_disabled M22
@@ -251,6 +251,9 @@ export PATH=$PATH:%_qt3dir/bin
 %_iconsdir/*/*/*/*.png
 
 %changelog
+* Fri Jan 19 2007 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4.2-alt1
+- 0.9.4.2
+
 * Sat Oct 21 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4.1-alt1
 - 0.9.4.1
 - spec cleanup
