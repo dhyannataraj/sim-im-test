@@ -551,11 +551,15 @@ TlvList &TlvList::operator +(Tlv *tlv)
     return *this;
 }
 
-Tlv *TlvList::operator()(unsigned short num)
+Tlv *TlvList::operator()(unsigned short num, int skip)
 {
     vector<Tlv*>::iterator it;
     for (it = static_cast<listTlv*>(m_tlv)->begin(); it != static_cast<listTlv*>(m_tlv)->end(); it++)
-        if ((*it)->Num() == num) return *it;
+      if ((*it)->Num() == num) {
+        if(skip == 0)
+          return *it;
+        --skip;
+      }
     return NULL;
 }
 

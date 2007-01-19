@@ -366,9 +366,9 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             log(L_DEBUG, "Message from %s [%04X]", screen.c_str(), mFormat);
             unsigned short level, nTLV;
             m_socket->readBuffer >> level >> nTLV;
+            TlvList tlv(m_socket->readBuffer);
             switch (mFormat){
             case 0x0001:{
-                    TlvList tlv(m_socket->readBuffer);
                     if (!tlv(2)){
                         log(L_WARN, "TLV 0x0005 not found");
                         break;
@@ -426,12 +426,19 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     break;
                 }
             case 0x0002:{
-                    TlvList tlv(m_socket->readBuffer);
-                    if (!tlv(5)){
+                    int iSkip = 0;
+                    Tlv *tlv5 = tlv(5, iSkip);
+                    // sometimes a message contains two Tlv(5) - messages
+                    // skip the one with size == 4 -> account creation time
+                    for( ; tlv5 && tlv5->Size() < 10; ) {
+                        iSkip++;
+                        tlv5 = tlv(5, iSkip);
+                    }
+                    if (!tlv5){
                         log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
-                    Buffer msg(*tlv(5));
+                    Buffer msg(*tlv5);
                     unsigned short type;
                     msg >> type;
                     switch (type){
@@ -473,17 +480,24 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         log(L_DEBUG, "File ack");
                         break;
                     default:
-                        log(L_WARN, "Unknown type: %u", type);
+                        log(L_WARN, "Unknown type: 0x%04x", type);
                     }
                     break;
                 }
             case 0x0004:{
-                    TlvList tlv(m_socket->readBuffer);
-                    if (!tlv(5)){
-                        log(L_WARN, "Advanced message tlv5 not found");
+                    int iSkip = 0;
+                    Tlv *tlv5 = tlv(5, iSkip);
+                    // sometimes a message contains two Tlv(5) - messages
+                    // skip the one with size == 4 -> account creation time
+                    for( ; tlv5 && tlv5->Size() < 10; ) {
+                        iSkip++;
+                        tlv5 = tlv(5, iSkip);
+                    }
+                    if (!tlv5){
+                        log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
-                    Buffer msg(*tlv(5));
+                    Buffer msg(*tlv5);
                     unsigned long msg_uin;
                     msg >> msg_uin;
                     if (msg_uin == 0){
@@ -501,12 +515,12 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     break;
                 }
             default:
-                log(L_WARN, "Unknown message format %04X", mFormat);
+                log(L_WARN, "Unknown message format 0x%04X", mFormat);
             }
             break;
         }
     default:
-        log(L_WARN, "Unknown message family type %04X", type);
+        log(L_WARN, "Unknown message family type 0x%04X", type);
     }
 }
 

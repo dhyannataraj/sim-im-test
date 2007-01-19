@@ -44,7 +44,7 @@ public:
     TlvList();
     TlvList(Buffer&, unsigned nTlvs = (unsigned)(-1));
     ~TlvList();
-    Tlv *operator() (unsigned short num);
+    Tlv *operator() (unsigned short num, int skip=0);
     TlvList &operator + (Tlv *tlv);
     Tlv *operator[](unsigned n);
 protected:
