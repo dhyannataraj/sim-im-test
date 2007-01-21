@@ -187,8 +187,10 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
-                f.open(IO_WriteOnly);
-                f.writeBlock(icon);
+                if(f.open(IO_WriteOnly))
+                  f.writeBlock(icon);
+                else
+                  log(L_WARN, QString("Can't open %1").arg(filename));
                 f.close();
             }
             process();
@@ -228,8 +230,10 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
 
                 QString filename = ICQClient::pictureFile(data);
                 QFile f(filename);
-                f.open(IO_WriteOnly);
-                f.writeBlock(icon);
+                if(f.open(IO_WriteOnly))
+                  f.writeBlock(icon);
+                else
+                  log(L_WARN, QString("Can't open %1").arg(filename));
                 f.close();
             }
             process();

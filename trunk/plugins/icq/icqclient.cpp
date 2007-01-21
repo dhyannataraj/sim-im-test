@@ -37,6 +37,7 @@
 #include <qwidgetlist.h>
 #include <qfile.h>
 #include <qfileinfo.h>
+#include <qdir.h>
 
 #include "buffer.h"
 #include "socket.h"
@@ -3167,12 +3168,17 @@ static char PICT_PATH[] = "pictures/";
 
 QString ICQClient::pictureFile(const ICQUserData *data)
 {
-    QString f = PICT_PATH;
+    QString f = user_file(PICT_PATH);
+    QFileInfo fi(f);
+    if(!fi.exists())
+      QDir().mkdir(f);
+    if(!fi.isDir())
+      log(L_ERROR, QString("%1 is not a directory!").arg(f));
     f += "icq.avatar.";
     f += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : data->Screen.str();
     f += '.';
     f += QString::number(data->buddyID.toULong());
-    f = user_file(f);
+    f = f;
     return f;
 }
 
