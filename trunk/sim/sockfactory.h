@@ -34,7 +34,7 @@ class SIMClientSocket : public QObject, public Socket
 {
     Q_OBJECT
 public:
-    SIMClientSocket(QSocket *s=NULL);
+    SIMClientSocket();
     virtual ~SIMClientSocket();
     virtual int read(char *buf, unsigned int size);
     virtual void write(const char *buf, unsigned int size);
@@ -42,6 +42,7 @@ public:
     virtual unsigned long localHost();
     virtual void pause(unsigned);
     virtual void close();
+    QSocket *getSocket() { return sock; } // for SIMServerSocket only
 protected slots:
     void slotConnected();
     void slotConnectionClosed();

@@ -179,7 +179,7 @@ void SIMSockets::resultsReady()
 
 Socket *SIMSockets::createSocket()
 {
-    return new SIMClientSocket;
+    return new SIMClientSocket();
 }
 
 ServerSocket *SIMSockets::createServerSocket()
@@ -187,11 +187,9 @@ ServerSocket *SIMSockets::createServerSocket()
     return new SIMServerSocket();
 }
 
-SIMClientSocket::SIMClientSocket(QSocket *s)
+SIMClientSocket::SIMClientSocket()
 {
-    sock = s;
-    if (sock == NULL)
-        sock = new QSocket(this);
+    sock = new QSocket(this);
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
     QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
@@ -311,7 +309,8 @@ void SIMClientSocket::slotConnected()
 {
     log(L_DEBUG, "Connected");
     timerStop();
-    if (notify) notify->connect_ready();
+    if (notify)
+      notify->connect_ready();
     getSocketFactory()->setActive(true);
 }
 
@@ -346,7 +345,8 @@ void SIMClientSocket::slotBytesWritten(int)
 
 void SIMClientSocket::slotBytesWritten()
 {
-    if (bInWrite || (sock == NULL)) return;
+    if (bInWrite || (sock == NULL))
+      return;
     if ((sock->bytesToWrite() == 0) && notify)
         notify->write_ready();
 }
@@ -501,14 +501,15 @@ void SIMServerSocket::listen(TCPClient*)
 
 void SIMServerSocket::activated(int)
 {
-    if (sock == NULL) return;
+    if (sock == NULL)
+      return;
     int fd = sock->accept();
     if (fd >= 0){
         log(L_DEBUG, "accept ready");
         if (notify){
-            QSocket *s = new QSocket;
-            s->setSocket(fd);
-            if (notify->accept(new SIMClientSocket(s), htonl(s->address().ip4Addr()))){
+            SIMClientSocket *cs = new SIMClientSocket();
+            cs->getSocket()->setSocket(fd);
+            if (notify->accept(cs, htonl(cs->getSocket()->address().ip4Addr()))){
                 if (notify)
                     notify->m_listener = NULL;
                 getSocketFactory()->remove(this);
@@ -539,6 +540,7 @@ static IPResolver *pResolver = NULL;
 void deleteResolver()
 {
     delete pResolver;
+    pResolver = NULL;
 }
 
 IP::IP()
@@ -612,7 +614,8 @@ static inline bool isPrivate(unsigned long ip)
 
 void IPResolver::resolve_ready()
 {
-    if (queue.empty()) return;
+    if (queue.empty())
+      return;
     QString m_host;
     if (resolver->hostNames().count())
         m_host = resolver->hostNames().first();
@@ -635,7 +638,8 @@ void IPResolver::resolve_ready()
 
 void IPResolver::start_resolve()
 {
-    if (resolver && resolver->isWorking()) return;
+    if (resolver && resolver->isWorking())
+      return;
     struct in_addr inaddr;
     for(;;) {
         if (queue.empty())
