@@ -108,7 +108,7 @@ bool IPC::process(const BSTR &in_str, BSTR *out_str)
 {
     unsigned i = 0;
     HANDLE hMem = NULL;
-    unsigned short *mem;
+    unsigned short *mem=0;
     {
         IPCLock lock(this);
         for (i = 0; i < N_SLOTS; i++){
