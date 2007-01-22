@@ -1,3 +1,10 @@
+sim (0.9.4.2-1) unstable; urgency=high
+
+  * New upstream 0.9.4.2 - bugfix release.
+  * ICQ plugin fixes (Closes: 407589)
+
+ -- Alexander Petrov <zowers@gmail.com>  Mon, 22 Jan 2007 03:59:09 +0300
+
 sim (0.9.4.1~2-1) unstable; urgency=high
 
   * SVN version rev. 1158 of bugfix release 0.9.4.1.
