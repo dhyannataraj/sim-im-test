@@ -63,7 +63,6 @@ build-sim-data: configure-sim-kde build-sim-kde-stamp
 
 build-sim-kde-stamp:
 	echo "============================= Now building sim-kde ============";
-	ls build-sim-kde-stamp
 	dh_testdir 
 	dh_testroot
 	cd $(CURDIR)/sim-kde_build-dir; $(MAKE) | perl -n -e 'print "[Sim-KDE] $$_"'
