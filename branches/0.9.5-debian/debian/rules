@@ -1,0 +1,246 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+#
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+#
+# Modified to make a template file for a multi-binary package with separated
+# build-arch and build-indep targets  by Bill Allombert 2001
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+sim_data_dirs = usr/share/apps/sim  usr/share/icons  usr/share/locale  
+# usr/share/pixmaps
+
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+# #################### Configure #####################
+configure: configure-sim-kde configure-sim-qt
+
+configure-sim-kde: configure-sim-kde-stamp 
+
+configure-sim-qt: configure-sim-qt-stamp 
+
+configure-sim-kde-stamp:
+	dh_testdir
+	mkdir -p $(CURDIR)/sim-kde_build-dir
+	cd $(CURDIR)/sim-kde_build-dir; cmake -D CMAKE_INSTALL_PREFIX=/usr $(CURDIR) 
+	touch configure-sim-kde-stamp
+
+configure-sim-qt-stamp:
+	dh_testdir
+	mkdir -p $(CURDIR)/sim-qt_build-dir
+	cd $(CURDIR)/sim-qt_build-dir; cmake -D CMAKE_INSTALL_PREFIX=/usr -D USE_KDE3:boolean=false $(CURDIR) 
+	touch configure-sim-qt-stamp
+
+# ################### Build ####################
+
+build: build-sim-kde build-sim-qt
+
+build-indep: build-sim-data
+
+build-arch: build-sim-kde build-sim-qt
+
+
+build-sim-kde: configure-sim-kde build-sim-kde-stamp
+
+build-sim-qt: configure-sim-qt build-sim-qt-stamp
+
+build-sim-data: configure-sim-kde build-sim-kde-stamp
+
+build-sim-kde-stamp:
+	echo "============================= Now building sim-kde ============";
+	ls build-sim-kde-stamp
+	dh_testdir 
+	dh_testroot
+	cd $(CURDIR)/sim-kde_build-dir; $(MAKE) | perl -n -e 'print "[Sim-KDE] $$_"'
+	touch build-sim-kde-stamp
+
+build-sim-qt-stamp:
+	echo "============================= Now building qt-kde ============";
+	dh_testdir 
+	dh_testroot
+	cd $(CURDIR)/sim-qt_build-dir; $(MAKE) | perl -n -e 'print "[Sim-Qt] $$_"'
+	touch build-sim-qt-stamp
+
+# ####################### Clean ###################
+
+clean: 
+	# =============== CLEAN ===============
+	dh_testdir
+	dh_testroot
+	rm -f $(CURDIR)/build-sim-kde-stamp
+	rm -f $(CURDIR)/build-sim-qt-stamp
+	rm -f $(CURDIR)/configure-sim-kde-stamp
+	rm -f $(CURDIR)/configure-sim-qt-stamp
+	rm -f $(CURDIR)/install-sim-data-stamp
+	rm -f $(CURDIR)/install-sim-kde-copy-data-files-stamp
+	rm -f $(CURDIR)/install-sim-kde-rm-data-files-stamp
+	rm -f $(CURDIR)/install-sim-kde-stamp
+	rm -f $(CURDIR)/install-sim-qt-copy-data-files-stamp
+	rm -f $(CURDIR)/install-sim-qt-rm-data-files-stamp
+	rm -f $(CURDIR)/install-sim-qt-stamp
+	
+	rm -r -f $(CURDIR)/sim-kde_build-dir
+	rm -r -f $(CURDIR)/sim-qt_build-dir
+	
+	rm -r -f $(CURDIR)/debian/sim
+	rm -r -f $(CURDIR)/debian/sim-qt
+	rm -r -f $(CURDIR)/debian/sim-data
+	rm -r -f $(CURDIR)/debian/files_for_sim-data
+	
+	dh_clean 
+
+# ###################### Install ###################
+
+install: install-arch install-indep
+
+install-indep: install-sim-data
+
+install-arch: install-sim-kde install-sim-qt
+
+
+install-sim-kde: build-sim-kde install-sim-kde-stamp
+
+install-sim-kde-stamp:
+	dh_testdir 
+	dh_testroot
+#	dh_clean -k 
+	dh_installdirs --package=sim
+	
+	cd $(CURDIR)/sim-kde_build-dir; $(MAKE) install DESTDIR=$(CURDIR)/debian/sim
+	$(MAKE) -f debian/rules install-sim-kde-copy-data-files-stamp
+	$(MAKE) -f debian/rules install-sim-kde-rm-data-files-stamp	
+	
+	dh_install --package=sim
+	touch install-sim-kde-stamp
+
+install-sim-qt: build-sim-qt install-sim-qt-stamp
+
+install-sim-qt-stamp:
+	dh_testdir 
+	dh_testroot
+#	dh_clean -k 
+	dh_installdirs --package=sim-qt
+	
+	cd $(CURDIR)/sim-qt_build-dir; $(MAKE) install DESTDIR=$(CURDIR)/debian/sim-qt
+	$(MAKE) -f debian/rules install-sim-qt-copy-data-files-stamp
+	$(MAKE) -f debian/rules install-sim-qt-rm-data-files-stamp
+	
+	dh_install --package=sim-qt
+	touch install-sim-qt-stamp
+
+install-sim-data: build-sim-data install-sim-data-stamp
+
+install-sim-data-stamp: 
+	dh_testdir 
+	dh_testroot
+#	dh_clean -k 
+	dh_installdirs --package=sim-data
+	
+	if [ -e "build-sim-kde-stamp" ]; \
+	then\
+	  $(MAKE) -f debian/rules install-sim-kde;\
+	  $(MAKE) -f debian/rules install-sim-kde-copy-data-files-stamp;\
+	else\
+	  $(MAKE) -f debian/rules install-sim-qt;\
+	  $(MAKE) -f debian/rules install-sim-kde-copy-qt-files-stamp;\
+	fi
+	
+	for d in  $(sim_data_dirs)  ; do \
+		mkdir -p $(CURDIR)/debian/sim-data/$$d ;\
+		rm -r $(CURDIR)/debian/sim-data/$$d/* ;\
+		mv -v $(CURDIR)/debian/files_for_sim-data/$$d/*  $(CURDIR)/debian/sim-data/$$d  ; \
+	done
+	
+	dh_install --package=sim-data
+	touch install-sim-data-stamp
+
+install-sim-kde-copy-data-files-stamp:
+	mkdir -p $(CURDIR)/debian/files_for_sim-data
+	for d in  $(sim_data_dirs)  ; do \
+		mkdir -p $(CURDIR)/debian/files_for_sim-data/$$d ; \
+		echo "cp -v -r $(CURDIR)/debian/sim/$$d/* $(CURDIR)/debian/files_for_sim-data/$$d" ;\
+		cp -v -r  $(CURDIR)/debian/sim/$$d/* $(CURDIR)/debian/files_for_sim-data/$$d; \
+	done
+	touch install-sim-kde-copy-data-files-stamp
+	touch install-sim-qt-copy-data-files-stamp # We won't need data files from sim-qt ;-)
+
+
+install-sim-qt-copy-data-files-stamp:
+	mkdir -p $(CURDIR)/debian/files_for_sim-data
+	for d in  $(sim_data_dirs)  ; do \
+		mkdir -p $(CURDIR)/debian/files_for_sim-data/$$d ; \
+		cp -v -r $(CURDIR)/debian/sim-qt/$$d/* $(CURDIR)/debian/files_for_sim-data/$$d ; \
+	done
+	touch install-sim-kde-copy-data-files-stamp # We won't need data files from sim-kde ;-)
+	touch install-sim-qt-copy-data-files-stamp
+
+install-sim-kde-rm-data-files-stamp:
+	for d in  $(sim_data_dirs)  ; do \
+		rm -v -r -f $(CURDIR)/debian/sim/$$d; \
+	done
+	touch install-sim-kde-rm-data-files-stamp
+
+install-sim-qt-rm-data-files-stamp:
+	for d in  $(sim_data_dirs)  ; do \
+		rm -v -r -f $(CURDIR)/debian/sim/$$d; \
+	done
+	touch install-sim-qt-rm-data-files-stamp
+
+
+# Must not depend on anything. This is to be called by
+# binary-arch/binary-indep
+# in another 'make' thread.
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installexamples
+#	dh_installmenu
+#	dh_installdebconf	
+#	dh_installlogrotate	
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress 
+	dh_fixperms
+#	dh_perl
+#	dh_python
+	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+# Build architecture independant packages using the common target.
+binary-indep: install-indep
+	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: install-arch
+	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
+
+binary: binary-arch binary-indep
+
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch configure

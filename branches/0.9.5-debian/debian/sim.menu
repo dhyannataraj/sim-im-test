@@ -1,0 +1,11 @@
+?package(sim):\
+        needs="x11"\
+        section="Apps/Net"\
+        hints="KDE,IM"\
+        title="SIM"\
+	longtitle="Simple Instant Messenger" \
+	description="Lets you chat with your friends via ICQ, Jabber, GTalk, AIM, Yahoo!, MSN and SMS." \
+	icon32x32="/usr/share/pixmaps/sim.xpm"\
+	icon16x16="/usr/share/pixmaps/sim-16.xpm"\
+        command="/usr/bin/sim"
+
