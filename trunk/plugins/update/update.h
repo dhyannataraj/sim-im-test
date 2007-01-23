@@ -24,6 +24,9 @@
 #include "event.h"
 #include "fetch.h"
 #include "plugins.h"
+#include <qmessagebox.h>
+#include <qhttp.h>
+#include <qbuffer.h>
 
 struct UpdateData
 {
@@ -38,15 +41,24 @@ public:
     virtual ~UpdatePlugin();
 protected slots:
     void timeout();
+	void Finished(int, bool);
 protected:
     unsigned CmdGo;
     bool done(unsigned code, Buffer &data, const QString &headers);
     virtual QCString getConfig();
     virtual bool processEvent(SIM::Event *e);
     QString getHeader(const QString &name, const QString &headers);
+	void download_and_install();
     QString m_url;
-    PROP_ULONG(Time);
+    QString location;
+	PROP_ULONG(Time);
     UpdateData data;
+	QByteArray bytes;
+	QHttp *http;
+	int Request;
+	QBuffer *buffer;
+	int msgret;
+	bool show;
 };
 
 #endif

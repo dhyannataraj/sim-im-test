@@ -26,10 +26,12 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 #include <qregexp.h>
+#include <qurloperator.h>
+
 
 using namespace SIM;
 
-const unsigned CHECK_INTERVAL = 60 * 60 * 24;
+const unsigned CHECK_INTERVAL = 30;//60 * 60 * 24;
 
 Plugin *createUpdatePlugin(unsigned base, bool, Buffer *config)
 {
@@ -64,6 +66,7 @@ UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)
     CmdGo = registerType();
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
+	this->show=false;
     timer->start(15000);
 }
 
@@ -82,27 +85,29 @@ void UpdatePlugin::timeout()
     if (!getSocketFactory()->isActive() || !isDone())
         return;
     if (((unsigned)time(NULL)) >= getTime() + CHECK_INTERVAL){
-        QString url = "http://sim.shutoff.ru/cgi-bin/update1.pl?v=" VERSION;
+		QString url="";
+        //QString url = "http://sim-im.org/index.php?v=" + VERSION;
 #ifdef WIN32
-        url += "&os=1";
+		url = "http://www.sim.gosign.de/lastversion.php?";
+        url += "os=1";
 #else
 #ifdef QT_MACOSX_VERSION
         url += "&os=2";
+		location="??";
 #endif
 #endif
 #ifdef CVS_BUILD
         url += "&cvs=";
-        for (const char *p = __DATE__; *p; p++){
-            if (*p == ' '){
-                url += "%20";
-                continue;
-            }
-            url += *p;
-        }
+		QString date(__DATE__);
+		url += date;
+		url.replace(' ',"%20");
+		#ifdef WIN32
+			location="http://www.sim.gosign.de";
+		#endif 
 #else
         url += "&release";
 #endif
-        url += "&l=";
+        /*url += "&l=";
         QString s = i18n("Message", "%n messages", 1);
         s = s.remove("1 ");
         for (int i = 0; i < (int)(s.length()); i++){
@@ -118,10 +123,57 @@ void UpdatePlugin::timeout()
             }else{
                 url += (char)c;
             }
-        }
-        fetch(url, QString::null, NULL, false);
+        }*/
+        //fetch(url, QString::null, buffer, false);
+		QUrl u(url);
+		http = new QHttp(this);
+		connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(Finished(int, bool)));
+		QBuffer *buffer = new QBuffer(bytes);
+		buffer->open(IO_ReadWrite);
+		http->setHost(u.host());
+		Request=http->get(u.path(),buffer);
     }
 }
+
+void UpdatePlugin::Finished(int requestId, bool error){
+	if (error || msgret==QMessageBox::Yes||msgret==QMessageBox::No||msgret==QMessageBox::Ok ) return;
+
+    if (Request==requestId) {
+		QString datestr(bytes);
+		QDate date=QDate::fromString(datestr,Qt::LocalDate);
+/*		if (!show) {
+			show=!show;
+			msgret = QMessageBox::question( 0, i18n("SIM-IM Update"),
+			i18n("A new update ist available.\n\n") +
+			i18n("You have: ")+ VERSION + "\n" +
+			i18n("New Version is: ") + datestr + "\n\n" +
+#ifndef WIN32
+			
+#endif
+#ifdef WIN32
+			i18n("Do you want to download the Update\n")+
+			i18n("available at: ") + location + "\n" +
+			i18n("and automatically update SIM-IM after that?"), 
+			QMessageBox::Yes,QMessageBox::No);
+
+			if (msgret == QMessageBox::Yes)
+				download_and_install();
+#else
+			i18n("Please go to ") +  location + 
+			i18n("\nand download the new version from:\n\n") + datestr, 
+			QMessageBox::Ok);
+#endif
+		}
+*/
+	}
+}
+
+
+void UpdatePlugin::download_and_install(){
+
+
+}
+
 
 #if 0
 I18N_NOOP("Show details")
