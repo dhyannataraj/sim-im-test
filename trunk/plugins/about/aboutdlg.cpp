@@ -56,7 +56,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
                        "<a href=\"%3\">%4</a><br><br>" +
                        i18n("Bug report") + ": <a href=\"mailto:%5\">%6</a><br>" +
-                       i18n("Note: This is english mailing list") +
+                       i18n("Note: This is an english mailing list") +
                        "</center>")
                       .arg(quote(aboutData->shortDescription()))
                       .arg(quote(aboutData->copyrightStatement()))
@@ -81,11 +81,11 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
                 itt != translators.end(); ++itt)
         {
             const KAboutTranslator &t = *itt;
-            txt += QString("%1 &lt;<a href=\"mailto:%2\">%3</a>&gt;<br>")
+            txt += QString("<br><center>%1<br>&lt;<a href=\"mailto:%2\">%3</a>&gt;")
                    .arg(quote(t.name()))
                    .arg(quote(t.emailAddress()))
                    .arg(quote(t.emailAddress()));
-            txt += "<br>";
+            txt += "</center>";
         }
         txtTranslations->setText(txt);
     }else{
@@ -103,6 +103,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
         }
     }
     txtLicence->setText(quote(license));
+	this->setFixedSize(this->width()+50,this->height());
 }
 
 KAboutApplication::~KAboutApplication()

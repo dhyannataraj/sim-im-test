@@ -216,9 +216,9 @@ int main(int argc, char *argv[])
                          0,
                          "http://sim-im.org/",
                          "https://mailman.dg.net.ua/listinfo/sim-im-main");
-    aboutData.addAuthor("SIM-IM Development Team",I18N_NOOP("Current development"),0,"http://sim-im.org/");
-    aboutData.addAuthor("Vladimir Shutoff",I18N_NOOP("Author"),"vovan@shutoff.ru");
-    aboutData.addAuthor("Christian Ehrlicher",I18N_NOOP("Developer"),"Ch.Ehrlicher@gmx.de");
+    aboutData.addAuthor("SIM-IM Development Team",I18N_NOOP("Current development"),	"sim-im-main@lists.sim-im.org",						"http://sim-im.org/");
+    aboutData.addAuthor("Vladimir Shutoff"		 ,I18N_NOOP("Author"),				"vovan@shutoff.ru");
+    aboutData.addAuthor("Christian Ehrlicher"	 ,I18N_NOOP("Developer"),			"Ch.Ehrlicher@gmx.de");
     setAboutData(&aboutData);
 #ifndef WIN32
     int _argc = 0;
