@@ -19,6 +19,7 @@
 #include "socket.h"
 #include "core.h"
 #include "ballonmsg.h"
+#include "aboutdata.h"
 
 #include <time.h>
 #include <stdio.h>
@@ -27,7 +28,9 @@
 #include <qwidgetlist.h>
 #include <qregexp.h>
 #include <qurloperator.h>
-
+#include <qmessagebox.h>
+#include <qfile.h>
+#include <qprocess.h>
 
 using namespace SIM;
 
@@ -88,7 +91,7 @@ void UpdatePlugin::timeout()
 		QString url="";
         //QString url = "http://sim-im.org/index.php?v=" + VERSION;
 #ifdef WIN32
-		url = "http://www.sim.gosign.de/lastversion.php?";
+		url = "http://www.sim.gosign.de/update.php?";
         url += "os=1";
 #else
 #ifdef QT_MACOSX_VERSION
@@ -138,39 +141,54 @@ void UpdatePlugin::timeout()
 void UpdatePlugin::Finished(int requestId, bool error){
 	if (error || msgret==QMessageBox::Yes||msgret==QMessageBox::No||msgret==QMessageBox::Ok ) return;
 
+	//Todo: real compare the versions
     if (Request==requestId) {
 		QString datestr(bytes);
 		QDate date=QDate::fromString(datestr,Qt::LocalDate);
-/*		if (!show) {
+		QString ver = SIM::getAboutData()->version();
+		/*
+		if (!show) {
 			show=!show;
 			msgret = QMessageBox::question( 0, i18n("SIM-IM Update"),
-			i18n("A new update ist available.\n\n") +
-			i18n("You have: ")+ VERSION + "\n" +
-			i18n("New Version is: ") + datestr + "\n\n" +
-#ifndef WIN32
-			
-#endif
+				i18n("A new update ist available.\n\n") +
+				i18n("You have: ")+ ver + "\n" +
+				i18n("New Version is: ") + datestr + "\n\n" +
 #ifdef WIN32
-			i18n("Do you want to download the Update\n")+
-			i18n("available at: ") + location + "\n" +
-			i18n("and automatically update SIM-IM after that?"), 
-			QMessageBox::Yes,QMessageBox::No);
-
+				i18n("Do you want to download the Update\n")+
+				i18n("available at: ") + location + "\n" +
+				i18n("and automatically update SIM-IM after that?"), 
+				QMessageBox::Yes,QMessageBox::No);
+			
+			QString address=QString("http://sim.gosign.de/setup.exe");
 			if (msgret == QMessageBox::Yes)
-				download_and_install();
+				download_and_install(address);
 #else
 			i18n("Please go to ") +  location + 
 			i18n("\nand download the new version from:\n\n") + datestr, 
 			QMessageBox::Ok);
 #endif
-		}
-*/
+		}*/
 	}
 }
 
 
-void UpdatePlugin::download_and_install(){
+void UpdatePlugin::download_and_install(QString &address){
+	
 
+	//ToDo: Download the file from address
+#ifdef WIN32
+	QFile launch("launch.bat");
+	launch.open(IO_WriteOnly);
+	QString strlaunch("@echo off\nsetup.exe\nkill launch.bat");
+	launch.writeBlock(strlaunch.latin1(),qstrlen(strlaunch));
+    launch.close();
+	QProcess *proc = new QProcess( this );
+	proc->addArgument( "launch.bat" );
+	if ( !proc->start() ) 
+		 QMessageBox::critical( 0, i18n("Error launching the Update-Setup"),
+				i18n("Make sure the SIM-IM Dirctory\n") +
+				i18n("is writable and you have rights to install.\n"));
+#endif
 
 }
 

@@ -24,9 +24,9 @@
 #include "event.h"
 #include "fetch.h"
 #include "plugins.h"
-#include <qmessagebox.h>
 #include <qhttp.h>
 #include <qbuffer.h>
+
 
 struct UpdateData
 {
@@ -48,7 +48,7 @@ protected:
     virtual QCString getConfig();
     virtual bool processEvent(SIM::Event *e);
     QString getHeader(const QString &name, const QString &headers);
-	void download_and_install();
+	void download_and_install(QString &address);
     QString m_url;
     QString location;
 	PROP_ULONG(Time);
