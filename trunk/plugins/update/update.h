@@ -39,26 +39,35 @@ class UpdatePlugin : public QObject, public SIM::Plugin, public FetchClient, pub
 public:
     UpdatePlugin(unsigned, Buffer*);
     virtual ~UpdatePlugin();
+	void testForUpdate();
 protected slots:
     void timeout();
-	void Finished(int, bool);
+	void Finished(int requestId, bool error);
+	void fileRequestFinished(int requestId, bool error);
 protected:
     unsigned CmdGo;
     bool done(unsigned code, Buffer &data, const QString &headers);
     virtual QCString getConfig();
     virtual bool processEvent(SIM::Event *e);
     QString getHeader(const QString &name, const QString &headers);
-	void download_and_install(QString &address);
-    QString m_url;
+	QString mergeDate(QString&, QString&);
+	void download_and_install();
+	void downloadFile();
+	void installFile();
+	QString m_url;
     QString location;
+	QString address;
 	PROP_ULONG(Time);
     UpdateData data;
 	QByteArray bytes;
 	QHttp *http;
+	QFile *file;
+    bool httpRequestAborted;
 	int Request;
 	QBuffer *buffer;
 	int msgret;
 	bool show;
+	bool ignore;
 };
 
 #endif

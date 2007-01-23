@@ -70,6 +70,7 @@ UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
 	this->show=false;
+	this->ignore=false;
     timer->start(15000);
 }
 
@@ -85,7 +86,12 @@ QCString UpdatePlugin::getConfig()
 
 void UpdatePlugin::timeout()
 {
-    if (!getSocketFactory()->isActive() || !isDone())
+    testForUpdate();
+}
+
+void UpdatePlugin::testForUpdate(){
+	if (ignore) return;
+	if (!getSocketFactory()->isActive() || !isDone())
         return;
     if (((unsigned)time(NULL)) >= getTime() + CHECK_INTERVAL){
 		QString url="";
@@ -138,59 +144,133 @@ void UpdatePlugin::timeout()
     }
 }
 
+
+
 void UpdatePlugin::Finished(int requestId, bool error){
-	if (error || msgret==QMessageBox::Yes||msgret==QMessageBox::No||msgret==QMessageBox::Ok ) return;
+	if (error || msgret==QMessageBox::Yes
+			  || msgret==QMessageBox::No 
+			  || msgret==QMessageBox::Ok ) return; //Don't show the dialog more than once SIM starts.
 
 	//Todo: real compare the versions
     if (Request==requestId) {
-		QString datestr(bytes);
-		QDate date=QDate::fromString(datestr,Qt::LocalDate);
-		QString ver = SIM::getAboutData()->version();
-		/*
-		if (!show) {
+		QString remoteVersion(bytes);
+		QDate date=QDate::fromString(remoteVersion,Qt::LocalDate);
+		QString currentVersion = SIM::getAboutData()->version();
+		
+		QString date12 = mergeDate(currentVersion, remoteVersion);
+
+		/*if (!show) {
 			show=!show;
 			msgret = QMessageBox::question( 0, i18n("SIM-IM Update"),
 				i18n("A new update ist available.\n\n") +
-				i18n("You have: ")+ ver + "\n" +
-				i18n("New Version is: ") + datestr + "\n\n" +
+				i18n("You have:\n")+ currentVersion + "\n\n" +
+				i18n("New Version is:\n") + remoteVersion + "\n\n" +
 #ifdef WIN32
 				i18n("Do you want to download the Update\n")+
 				i18n("available at: ") + location + "\n" +
 				i18n("and automatically update SIM-IM after that?"), 
 				QMessageBox::Yes,QMessageBox::No);
 			
-			QString address=QString("http://sim.gosign.de/setup.exe");
+			address=QString("http://sim.gosign.de/setup.exe");
 			if (msgret == QMessageBox::Yes)
-				download_and_install(address);
+				download_and_install();
 #else
 			i18n("Please go to ") +  location + 
 			i18n("\nand download the new version from:\n\n") + datestr, 
 			QMessageBox::Ok);
+			address=QString::null;
 #endif
 		}*/
 	}
 }
 
+QString UpdatePlugin::mergeDate(QString& current, QString& remote){
 
-void UpdatePlugin::download_and_install(QString &address){
-	
+	return QString::null;
+}
 
-	//ToDo: Download the file from address
+void UpdatePlugin::download_and_install(){
+	disconnect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(Finished(int, bool)));
+	connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(fileRequestFinished(int, bool)));
+	ignore=true;
+	downloadFile();
+}
+
+void UpdatePlugin::installFile(){
 #ifdef WIN32
 	QFile launch("launch.bat");
 	launch.open(IO_WriteOnly);
-	QString strlaunch("@echo off\nsetup.exe\nkill launch.bat");
+	QString strlaunch("@echo off\nsetup.exe\ndel launch.bat");
 	launch.writeBlock(strlaunch.latin1(),qstrlen(strlaunch));
     launch.close();
 	QProcess *proc = new QProcess( this );
 	proc->addArgument( "launch.bat" );
-	if ( !proc->start() ) 
+	if ( !proc->start() ) {
 		 QMessageBox::critical( 0, i18n("Error launching the Update-Setup"),
 				i18n("Make sure the SIM-IM Dirctory\n") +
 				i18n("is writable and you have rights to install.\n"));
+		 ignore=false;
+		 disconnect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(fileRequestFinished(int, bool)));
+		 return;
+	}
+	//Todo: Shutdown SIM here.
 #endif
-
 }
+
+
+void UpdatePlugin::downloadFile()
+ {
+     QUrl url(address);
+     QFileInfo fileInfo(url.path());
+     QString fileName = fileInfo.fileName();
+
+	 if (QFile::exists(fileName)){
+		 QFile::remove(fileName);
+         return;
+	 }
+
+     file = new QFile(fileName);
+	 if (!file->open(IO_WriteOnly)) {
+		 QMessageBox::critical( 0, i18n("HTTP"),
+				i18n("Unable to save the file %1: %2.")
+                .arg(fileName).arg(file->errorString()));
+         delete file;
+         file = 0;
+         return;
+     }
+     httpRequestAborted = false;
+     Request = http->get(url.path(), file);
+ }
+
+void UpdatePlugin::fileRequestFinished(int requestId, bool error)
+ {
+     if (httpRequestAborted) {
+         if (file) {
+             file->close();
+             file->remove();
+             delete file;
+             file = 0;
+         }
+
+         //progressDialog->hide();
+         return;
+     }
+
+     if (requestId != Request)
+         return;
+
+     //progressDialog->hide();
+     file->close();
+
+     if (error) {
+         file->remove();
+         download_and_install();
+		 return;
+     }
+     installFile();
+     //downloadButton->setEnabled(true);
+ }
+
 
 
 #if 0
