@@ -1,4 +1,4 @@
-INCLUDE(CheckIncludeFile)
+INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckSymbolExists)
 INCLUDE(CheckFunctionExists)
 INCLUDE(CheckLibraryExists)
