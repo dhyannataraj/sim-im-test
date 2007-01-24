@@ -255,7 +255,7 @@ void SocketFactory::remove(ServerSocket *s)
     if(getSocketFactory()->p->removedServerSockets.find(s) != getSocketFactory()->p->removedServerSockets.end())
       return;
     p->removedServerSockets.push_back(s);
-    idle();
+    QTimer::singleShot(0, this, SLOT(idle()));
 }
 
 void SocketFactory::idle()
