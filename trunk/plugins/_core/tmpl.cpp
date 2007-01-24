@@ -234,9 +234,13 @@ bool Tmpl::getTag(const QString &name, SIM::Data *data, const DataDef *def, QStr
         break;
     case DATA_STRING:
     case DATA_UTF:
+        if(data->str().isEmpty())
+            return false;   // mabye we get a better one in the next contact
         res += data->str();
         break;
     case DATA_CSTRING:
+        if(data->cstr().isEmpty())
+            return false;   // mabye we get a better one in the next contact
         // this is not encoded correct, but no other way atm
         res += QString::fromLocal8Bit(data->cstr());
         break;
