@@ -46,7 +46,7 @@ protected:
     virtual bool processEvent(SIM::Event*);
     bool process(TmplExpand &t);
     QString process(TmplExpand &t, const QString &str);
-    bool getTag(const QString &name, void *data, const SIM::DataDef *def, QString &res);
+    bool getTag(const QString &name, SIM::Data *data, const SIM::DataDef *def, QString &res);
     QValueList<TmplExpand> tmpls;
 };
 

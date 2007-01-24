@@ -185,13 +185,13 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
             continue;
         }
 
-        if (getTag(tag, &contact->data, contact->dataDef(), res))
+        if (getTag(tag, &(contact->data.Group), contact->dataDef(), res))
             continue;
 
-        void *data;
+        clientData *data;
         ClientDataIterator itc(contact->clientData);
         while ((data = ++itc) != NULL){
-            if (getTag(tag, data, itc.client()->protocol()->userDataDef(), res))
+            if (getTag(tag, &(data->Sign), itc.client()->protocol()->userDataDef(), res))
                 break;
         }
         if (data)
@@ -200,7 +200,7 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
         UserDataDef *def;
         ContactList::UserDataIterator it;
         while ((def = ++it) != NULL){
-            void *data = (void*)contact->getUserData(def->id);
+            SIM::Data *data = (SIM::Data*)contact->getUserData(def->id);
             if (data == NULL)
                 continue;
             if (getTag(tag, data, def->def, res)){
@@ -211,39 +211,34 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
     return res;
 }
 
-bool Tmpl::getTag(const QString &name, void *_data, const DataDef *def, QString &res)
+bool Tmpl::getTag(const QString &name, SIM::Data *data, const DataDef *def, QString &res)
 {
-    char *data = (char*)_data;
     const DataDef *d;
     for (d = def; d->name; d++){
         if (name == d->name)
             break;
-        data += d->n_values * sizeof(void*);
+        data += d->n_values;
     }
     if (d->name == NULL)
         return false;
-    char **p = (char**)data;
+
     switch (d->type){
     case DATA_BOOL:
-        if (*((unsigned*)data)){
-            res += i18n("yes");
-        }else{
-            res += i18n("no");
-        }
+        res += data->toBool() ? i18n("yes") : i18n("no");
         break;
     case DATA_ULONG:
-        res += QString::number(*((unsigned long*)data));
+        res += QString::number(data->toULong());
         break;
     case DATA_LONG:
-        res += QString::number(*((long*)data));
-        break;
-    case DATA_UTF:
-        if (*p)
-            res += QString::fromUtf8(*p);
+        res += QString::number(data->toLong());
         break;
     case DATA_STRING:
-        if (*p)
-            res += QString::fromLocal8Bit(*p);
+    case DATA_UTF:
+        res += data->str();
+        break;
+    case DATA_CSTRING:
+        // this is not encoded correct, but no other way atm
+        res += QString::fromLocal8Bit(data->cstr());
         break;
     default:
         break;
