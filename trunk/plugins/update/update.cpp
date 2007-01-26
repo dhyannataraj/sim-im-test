@@ -276,14 +276,9 @@ void UpdatePlugin::download_and_install(){
 void UpdatePlugin::installFile(){
 #ifdef WIN32
 	if (isInstalling) return;
-	QFile launch("launch.bat");
-	launch.open(IO_WriteOnly);
-	QString strlaunch("@echo off\n.\\setup.exe\ndel launch.bat");
-	launch.writeBlock(strlaunch.latin1(),qstrlen(strlaunch));
-    launch.close();
+	
 	QProcess *proc = new QProcess( this );
 	proc->addArgument( ".\\setup.exe" );
-
 
 	if ( !proc->start() ) {
 		 QMessageBox::critical( 0, i18n("Error launching the Update-Setup"),
