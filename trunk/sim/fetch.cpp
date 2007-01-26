@@ -158,7 +158,7 @@ void FetchThread::error(const char *name)
 void FetchThread::run()
 {
     QString headers;
-    DWORD flags = INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_COOKIES;
+    DWORD flags = INTERNET_FLAG_PRAGMA_NOCACHE | INTERNET_FLAG_NO_UI | INTERNET_FLAG_NO_COOKIES;
     if (!m_client->m_bRedirect)
         flags |= INTERNET_FLAG_NO_AUTO_REDIRECT;
     QString verb = "GET";
