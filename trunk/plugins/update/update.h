@@ -24,6 +24,7 @@
 #include "event.h"
 #include "fetch.h"
 #include "plugins.h"
+#include "mainwin.h"
 #include <qhttp.h>
 #include <qbuffer.h>
 
@@ -50,7 +51,8 @@ protected:
     virtual QCString getConfig();
     virtual bool processEvent(SIM::Event *e);
     QString getHeader(const QString &name, const QString &headers);
-	QString mergeDate(QString&, QString&);
+	bool isUpdateNeeded(QString&, QString&);
+	QWidget* getMainWindow();
 	void download_and_install();
 	void downloadFile();
 	void installFile();
@@ -67,7 +69,12 @@ protected:
 	QBuffer *buffer;
 	int msgret;
 	bool show;
+	bool upToDate;
 	bool ignore;
+	bool isInstalling;
+	QDate dlocal;
+	QDate dremote;
+	QTimer *timer;
 };
 
 #endif

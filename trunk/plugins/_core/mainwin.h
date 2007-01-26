@@ -37,6 +37,7 @@ public:
     MainWindow(SIM::Geometry&);
     ~MainWindow();
     bool m_bNoResize;
+	void closeEvent(QCloseEvent *e);
 protected slots:
     void setGrip();
 protected:
@@ -45,10 +46,9 @@ protected:
     QVBoxLayout	*lay;
     QHBoxLayout	*h_lay;
     QSizeGrip	*m_grip;
-    virtual bool processEvent(SIM::Event*);
     void focusInEvent(QFocusEvent*);
-    void setTitle();
-    void closeEvent(QCloseEvent *e);
+    virtual bool processEvent(SIM::Event*);
+	void setTitle();
     void resizeEvent(QResizeEvent *e);
     bool eventFilter(QObject *o, QEvent *e);
     void quit();

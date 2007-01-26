@@ -318,7 +318,7 @@ const unsigned long MenuSearchGroups		= (CmdBase + 17);
 const unsigned long MenuSearchOptions		= (CmdBase + 18);
 
 const unsigned long BarHistory				= (CmdBase + 1);
-const unsigned long BarHistoryAvatar			= (CmdBase + 2);
+const unsigned long BarHistoryAvatar		= (CmdBase + 2);
 
 #include "core_events.h"
 
