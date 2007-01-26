@@ -96,7 +96,7 @@ UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)
 	this->upToDate=false;
 	this->ignore=false;
 	this->isInstalling=false;
-    this->timer->start(1000);
+    this->timer->start(15000);
 }
 
 UpdatePlugin::~UpdatePlugin()
