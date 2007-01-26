@@ -18,6 +18,9 @@ INCLUDE(Qt3Uic)
 INCLUDE(SimPlugins)
 INCLUDE(DistTarget)
 INCLUDE(CheckCXXCompilerFlag)
+INCLUDE(MacroEnsureOutOfSourceBuild)
+
+MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
 
 OPTION(SIM_ENABLE_FPIE "Enable PIE linking")
 
