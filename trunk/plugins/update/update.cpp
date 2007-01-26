@@ -36,7 +36,7 @@
 
 using namespace SIM;
 
-const unsigned CHECK_INTERVAL = 30; //* 60;// * 60 * 24;
+const unsigned CHECK_INTERVAL = 60 * 60 * 24;
 
 
 
@@ -217,7 +217,13 @@ void UpdatePlugin::Finished(int requestId, bool error){
 
 				if (msgret == QMessageBox::No)
 					this->timer->stop();
-			
+				else {
+					connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
+					disconnect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(fileRequestFinished(int, bool)));
+					connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(Finished(int, bool)));
+					show=!show;
+					msgret=0;
+				}
 				return;
 			}
 #else
