@@ -4,5 +4,5 @@ iconsdir=$(kde_datadir)/sim/icons/
 
 all:  GPL-Icons.jisp
 
-GPL-Icons.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png
+GPL-Icons.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png $(srcdir)/../jisp/sim.png $(srcdir)/../jisp/online_o*.png
 	$(ZIP) $(ZIP_FLAGS) $@ $^
