@@ -9,10 +9,326 @@
     <home>http://www.sim-im.org</home>
   </meta>
   
+  <icon name="SIM">
+	<object mime="image/png">../jisp/sim.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: http://sim-im.org/ -->
+  </icon>
+  <icon name="about_kde" kicon="about_kde">
+	<object mime="image/png">about_kde.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
 
+  <icon name="webpress" kicon="www">
+	<object mime="image/png">www.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/filesystems/  -->
+  </icon>
+  <icon name="find" kicon="find">
+	<object mime="image/png">find.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="nonim">
+	<object mime="image/png">kverbosuser.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="online_on">
+	<object mime="image/png">../jisp/online_on.png</object>
+  </icon>
+  <icon name="online_off">
+	<object mime="image/png">../jisp/online_off.png</object>
+  </icon>
+  <!-- icon name="grp_on">
+  	<object mime="image/png">add_group.png</object>
+  </icon -->
+  <icon name="grp_off">
+	<object mime="image/png">delete_group.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalclear/16x16/actions/  -->
+  </icon>
+  <!-- TODO: icon name="grp_create">
+	<object mime="image/png">add_group.png</object>
+  </icon -->
+  <icon name="grp_rename">
+	<object mime="image/png">edit.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="home">
+	<object mime="image/png">gohome.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <!-- TODO: Work icon name="work">
+	<object mime="image/png">work.png</object>
+  </icon -->
+  <icon name="security">
+	<object mime="image/png">encrypted.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="run" kicon="run">
+	<object mime="image/png">run.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="network">
+	<object mime="image/png">package_network.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/apps/  -->
+  </icon>
+  <icon name="message">
+	<object mime="image/png">mail_generic.png</object>
+  </icon>
+  <icon name="file">
+	<object mime="image/png">binary.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/mimetypes/  -->
+  </icon>
+  <icon name="sms">
+	<object mime="image/png">sms_protocol.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/apps/kopete/icons/crystalsvg/16x16/apps/  -->
+  </icon>
+  <icon name="url">
+	<object mime="image/png">mail_generic.png</object>
+  </icon>
+  <icon name="contacts">
+	<object mime="image/png">kverbosuser.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="auth">
+	<object mime="image/png">add.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="empty">
+	<object mime="image/png">empty.png</object>
+  </icon>
+  <icon name="translit">
+	<object mime="image/png">translate.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="bgcolor">
+	<object mime="image/png">color_fill.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="fgcolor">
+	<object mime="image/png">color_line.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="pict">
+	<object mime="image/png">imagegallery.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="text_bold" kicon="text_bold">
+	<object mime="image/png">text_bold.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="text_italic" kicon="text_italic">
+	<object mime="image/png">text_italic.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="text_under" kicon="text_under">
+	<object mime="image/png">text_under.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="text_strike" kicon="text_strike">
+	<object mime="image/png">text_strike.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="cancel" kicon="cancel">
+	<object mime="image/png">cancel.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="filter" kicon="filter">
+	<object mime="image/png">filter.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="history" kicon="history">
+	<object mime="image/png">history.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="editcut" kicon="editcut">
+	<object mime="image/png">editcut.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="editcopy" kicon="editcopy">
+	<object mime="image/png">editcopy.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="editpaste" kicon="editpaste">
+	<object mime="image/png">editpaste.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="undo" kicon="undo">
+	<object mime="image/png">undo.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="redo" kicon="redo">
+	<object mime="image/png">redo.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="typing">
+	<object mime="image/png">idea.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="fileclose" kicon="fileclose">
+	<object mime="image/png">fileclose.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="encrypted" kicon="encrypted">
+	<object mime="image/png">encrypted.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="listmsg">
+	<object mime="image/png">mail_replylist.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <!-- TODO: Exlamation: icon name="urgentmsg">
+	<object mime="image/png">urgentmsg.png</object>
+  </icon -->
+  <icon name="help" kicon="help">
+	<object mime="image/png">help.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <!-- TODO: More: icon name="btn_more">
+	<object mime="image/png">btn_more.png</object>
+  </icon -->
+  <!-- TODO: chat icon name="chat">
+	<object mime="image/png">chat.png</object>
+  </icon -->
+  <icon name="encoding" kicon="charset">
+	<object mime="image/png">charset.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="add" kicon="bookmark_add">
+	<object mime="image/png">add.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="new" kicon="filenew">
+	<object mime="image/png">filenew.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <icon name="ignorelist">
+	<object mime="image/png">editshred.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/icons/crystalsvg/16x16/actions/  -->
+  </icon>
+  <!-- TODO floating contact: icon name="floating">
+	<object mime="image/png">floating.png</object>
+  </icon -->
+  <!-- TODO: don't know icon name="upd" flags="160">
+  </icon -->
+  <icon name="SMS">
+	<object mime="image/png">sms_protocol.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/apps/kopete/icons/crystalsvg/16x16/apps/  -->
+  </icon>
+  <icon name="birthday">
+	<object mime="image/png">wine.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/apps/kopete/icons/crystalsvg/16x16/apps/  -->
+  </icon>
+  <!--TODO: More: icon name="more">
+	<object mime="image/png">more.png</object>
+  </icon -->
+  <!-- TODO: Details: interest icon name="interest">
+	<object mime="image/png">interest.png</object>
+  </icon -->
+  <!-- TODO: Details: past icon name="past">
+	<object mime="image/png">past.png</object>
+  </icon -->
+  <!-- TODO: Details: status online icon name="useronline">
+	<object mime="image/png">useronline.png</object>
+  </icon -->
+  <!-- TODO: Details: status offline icon name="useroffline">
+	<object mime="image/png">useroffline.png</object>
+  </icon -->
+  <!-- TODO: Details: status unknown icon name="userunknown">
+	<object mime="image/png">userunknown.png</object>
+  </icon -->
+  <!-- TODO: Details: web address icon name="web">
+	<object mime="image/png">web.png</object>
+  </icon -->
+  <!-- TODO: Details: mailpager icon name="mailpager">
+	<object mime="image/png">mailpager.png</object>
+  </icon -->
+  <!-- TODO: Details: icq phone icon name="icqphone">
+	<object mime="image/png">icqphone.png</object>
+  </icon -->
+  <!-- TODO: Details: icq phone busy icon name="icqphonebusy">
+	<object mime="image/png">icqphonebusy.png</object>
+  </icon -->
+  <!-- TODO: icon name="sharedfiles">
+	<object mime="image/png">sharedfiles.png</object>
+  </icon -->
+  <!-- TODO: icon name="reg">
+	<object mime="image/png">register.png</object>
+  </icon -->
+  <icon name="connect" kicon="connect_established">
+	<object mime="image/png">connect_established.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: kdelibs-data debian package - /usr/share/apps/kopete/icons/crystalsvg/16x16/apps/  -->
+  </icon>
+  <!-- TODO: icon name="lunch">
+	<object mime="image/png">lunch.png</object>
+  </icon -->
+  <!-- TODO: icon name="onback">
+	<object mime="image/png">onback.png</object>
+  </icon -->
+  <!-- TODO: icon name="onphone">
+	<object mime="image/png">onphone.png</object>
+  </icon -->
+  <!-- TODO: icon name="alert">
+	<object mime="image/png">alert.png</object>
+  </icon -->
+  <!-- TODO: icon name="sound">
+	<object mime="image/png">sound.png</object>
+  </icon -->
+  <!-- TODO: icon name="nosound">
+	<object mime="image/png">nosound.png</object>
+  </icon -->
+  <icon name="LiveJournal">
+	<object mime="image/png">userinfo.png</object>
+	<!--  Licence: GNU/GPL -->
+	<!--  Origin: http:/livejournal.com  -->
+  </icon>
+  <!-- TODO: A list? icon name="simcard">
+	<object mime="image/png">simcard.png</object>
+  </icon -->
   <icon name="Jabber">
-    <object mime="image/png">jabber.png</object>
-    <!-- Licence: TODO: Find out where this icon came from -->
+    <object mime="image/png">jabber_online.png</object>
+    <!--  Licence: GNU/GPL -->
+    <!--  Origin: /usr/share/apps/kopete/icons/crystalsvg/16x16/actions/ -->
   </icon>
   
   <icon name="ICQ" flags="65340">
