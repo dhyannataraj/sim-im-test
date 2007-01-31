@@ -1303,8 +1303,7 @@ void ICQClient::sendAutoReply(const QString &screen, MessageId id,
     if (!response.isEmpty()){
         Contact *contact = NULL;
         findContact(screen, NULL, false, contact);
-        QCString r;
-        r = getContacts()->fromUnicode(contact, response);
+        QCString r = getContacts()->fromUnicode(contact, response);
         unsigned short size = (unsigned short)(r.length() + 1);
         socket()->writeBuffer().pack(size);
         socket()->writeBuffer().pack(r.data(), size);

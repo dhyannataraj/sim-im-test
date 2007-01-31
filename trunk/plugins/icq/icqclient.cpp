@@ -2378,10 +2378,8 @@ bool ICQClient::processEvent(Event *e)
             }
         }else{
             ICQBuffer copy;
-            QCString response;
-            response = t->tmpl.utf8();
             sendAutoReply(ar.screen, ar.id, plugins[PLUGIN_NULL],
-                          ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, response, 0, copy);
+                          ar.id1, ar.id2, ar.type, (char)(ar.ack), 0, t->tmpl, 0, copy);
         }
         arRequests.erase(it);
         return true;
