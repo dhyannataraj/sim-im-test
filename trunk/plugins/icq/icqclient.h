@@ -792,6 +792,7 @@ protected:
     std::list<SIM::Message*>	m_processMsg;
     std::list<DirectSocket*>	m_sockets;
     std::list<SIM::Message*>	m_acceptMsg;
+    friend class ListServerRequest;
     friend class FullInfoRequest;
     friend class SMSRequest;
     friend class ServiceSocket;

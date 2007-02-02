@@ -91,9 +91,16 @@ class ListServerRequest
 {
 public:
     ListServerRequest(unsigned short seq) : m_seq(seq), m_time(time(NULL)) {}
-    virtual ~ListServerRequest() {}
-    unsigned short seq() { return m_seq; }
-    virtual void process(ICQClient *client, unsigned short res) = 0;
+    virtual ~ListServerRequest() {};
+
+    virtual void process(ICQClient *client, unsigned short res)
+    {
+        Q_UNUSED(res);
+        client->snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
+        client->sendPacket(true);
+    }
+
+    unsigned short seq() const { return m_seq; }
     time_t getTime() const { return m_time; }
 protected:
     unsigned short m_seq;
@@ -858,8 +865,10 @@ GroupServerRequest::GroupServerRequest(unsigned short seq, unsigned long id, uns
 {
 }
 
-void GroupServerRequest::process(ICQClient *client, unsigned short)
+void GroupServerRequest::process(ICQClient *client, unsigned short res)
 {
+    ListServerRequest::process(client, res);
+
     ListRequest *lr = client->findGroupListRequest(m_icqId);
     if (lr && (lr->type == LIST_GROUP_DELETED)){
         lr->icq_id = 0;
@@ -890,6 +899,8 @@ ContactServerRequest::~ContactServerRequest()
 
 void ContactServerRequest::process(ICQClient *client, unsigned short res)
 {
+    ListServerRequest::process(client, res);
+
     ListRequest *lr = client->findContactListRequest(m_screen);
     if (lr && (lr->type == LIST_USER_DELETED)){
         lr->screen = QString::null;
@@ -937,8 +948,10 @@ SetListRequest::SetListRequest(unsigned short seq, const QString &screen,
 {
 }
 
-void SetListRequest::process(ICQClient *client, unsigned short)
+void SetListRequest::process(ICQClient *client, unsigned short res)
 {
+    ListServerRequest::process(client, res);
+
     ListRequest *lr = client->findContactListRequest(m_screen);
     if (lr && (lr->type == LIST_USER_DELETED)){
         switch (m_type){
@@ -977,6 +990,8 @@ SetBuddyRequest::SetBuddyRequest(unsigned short seq, const ICQUserData *icqUserD
 
 void SetBuddyRequest::process(ICQClient *client, unsigned short res)
 {
+    ListServerRequest::process(client, res);
+
     client->listRequests.erase(client->listRequests.begin());
     // item does not exist
     if(res == 2) {
@@ -1056,6 +1071,10 @@ void ICQClient::uploadBuddy(const ICQUserData *data)
 unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, unsigned short grp_id,
                                      unsigned short usr_id, unsigned short subCmd, TlvList *tlv)
 {
+    // start edit SSI
+    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
+    sendPacket(true);
+
     snac(ICQ_SNACxFAM_LISTS, cmd, true);
     QCString sName = name.utf8();
     socket()->writeBuffer().pack(htons(sName.length()));
@@ -1181,8 +1200,6 @@ unsigned ICQClient::processListRequest()
                         socket()->writeBuffer() << 0x00000000L;
                         sendPacket(true);
                     }
-                    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                    sendPacket(true);
                     if (data->IcqID.toULong() == 0)
                         data->IcqID.asULong() = getListId();
                     TlvList *tlv = createListTlv(data, contact);
@@ -1190,8 +1207,6 @@ unsigned ICQClient::processListRequest()
                         seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()));
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), grp_id, (unsigned short)(data->IcqID.toULong()), 0, tlv);
                     sendRosterGrp(group->getName(), grp_id, (unsigned short)(data->IcqID.toULong()));
-                    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                    sendPacket(true);
                     log(L_DEBUG, "%s move to group %s", userStr(contact, data).local8Bit().data(), (const char*)group->getName().local8Bit());
                     m_listRequest = new ContactServerRequest(seq, screen(data), (unsigned short)(data->IcqID.toULong()), grp_id, tlv);
                 }else{
@@ -1251,11 +1266,7 @@ unsigned ICQClient::processListRequest()
                 }else{
                     log(L_DEBUG, "create group %s", (const char*)group->getName().local8Bit());
                     icq_id = getListId();
-                    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                    sendPacket(true);
                     seq = sendRoster(ICQ_SNACxLISTS_CREATE, name, icq_id, 0, ICQ_GROUPS);
-                    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE, QString::null);
-                    sendPacket(true);
                 }
                 if (seq)
                     m_listRequest = new GroupServerRequest(seq, group->id(), icq_id, name);
@@ -1264,11 +1275,7 @@ unsigned ICQClient::processListRequest()
         case LIST_GROUP_DELETED:
             if (lr.icq_id){
                 log(L_DEBUG, "delete group");
-                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
-                sendPacket(true);
                 seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, lr.icq_id, 0, ICQ_GROUPS);
-                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
-                sendPacket(true);
                 m_listRequest = new GroupServerRequest(seq, 0, lr.icq_id, QString::null);
             }
             break;
