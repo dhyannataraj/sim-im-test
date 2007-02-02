@@ -75,6 +75,7 @@ protected:
 	QDate dlocal;
 	QDate dremote;
 	QTimer *timer;
+	unsigned CHECK_INTERVAL;
 };
 
 #endif

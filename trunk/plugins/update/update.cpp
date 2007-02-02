@@ -36,8 +36,6 @@
 
 using namespace SIM;
 
-const unsigned CHECK_INTERVAL = 60 * 60 * 24;
-
 
 
 QWidget *UpdatePlugin::getMainWindow()
@@ -96,6 +94,8 @@ UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)
 	this->upToDate=false;
 	this->ignore=false;
 	this->isInstalling=false;
+	this->CHECK_INTERVAL = 60; //seconds for the first time wait
+	setTime(time(NULL)); //this was missing ;)
     this->timer->start(15000);
 }
 
@@ -120,6 +120,7 @@ void UpdatePlugin::testForUpdate(){
         return;
     if (((unsigned)time(NULL)) >= getTime() + CHECK_INTERVAL){
 		QString url="";
+		this->CHECK_INTERVAL=60*60*12; //checking every half day for an update, after first time
         //url = "http://sim-im.org/index.php?v=" + VERSION;
 #ifdef WIN32
 		url = "http://www.sim.gosign.de/update.php?";
@@ -223,6 +224,7 @@ void UpdatePlugin::Finished(int requestId, bool error){
 					connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(Finished(int, bool)));
 					show=!show;
 					msgret=0;
+					setTime(time(NULL));
 				}
 				return;
 			}
@@ -242,7 +244,9 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 	remote=remote.stripWhiteSpace();
 	remote = remote.left(remote.length()-11);
 	remote=remote.stripWhiteSpace();
-
+	
+	remote	= remote.replace("  "," "); //No double whitespaces, because scanning is wrong then
+	local	= local.replace("  "," ");
 	local   = local.section (' ',3,5,QString::SectionDefault);
 	remote  = remote.section(' ',4,4,QString::SectionDefault);
 	
