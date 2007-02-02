@@ -104,7 +104,7 @@ EXPORT bool makedir(const QString &p)
 EXPORT bool makedir(const QString &p)
 {
     QDir path;
-    if(p.EndsWith('/') || p.endsWidth('\\') {
+	if(p.endsWith("/") || p.endsWith("\\")) {
         QFileInfo fi(p + "dummy.txt");
         path = fi.dir(true);
     } else {
