@@ -1050,7 +1050,8 @@ static Tlv makeUInt8(unsigned id, unsigned char d)
 static QString getSString(const char *tlvData)
 {
     unsigned len;
-    len = tlvData[0] | ( tlvData[1] << 8 );
+    const unsigned char *data = (const unsigned char*)tlvData;
+    len = data[0] | ( data[1] << 8 );
     QString ret = getContacts()->toUnicode(NULL, &tlvData[2], len);
     return ret;
 }
@@ -1066,7 +1067,8 @@ static void getBCombo(const char *tlvData, unsigned long &y, unsigned long &m, u
 static QString getECombo(const char *tlvData)
 {
     unsigned len;
-    len = tlvData[0] | ( tlvData[1] << 8 );
+    const unsigned char *data = (const unsigned char*)tlvData;
+    len = data[0] | ( data[1] << 8 );
     QString ret = getContacts()->toUnicode(NULL, QCString( &tlvData[2], len));
     return ret;
 }
@@ -1087,14 +1089,16 @@ static QString getICombo(const char *tlvData, const QString &o)
 static unsigned long getUInt32(const char *tlvData)
 {
     unsigned long ret;
-    ret = tlvData[0] | ( tlvData[1] << 8 ) | ( tlvData[2] << 16 ) |  ( tlvData[3] << 24 );
+    const unsigned char *data = (const unsigned char*)tlvData;
+    ret = data[0] | ( data[1] << 8 ) | ( data[2] << 16 ) |  ( data[3] << 24 );
     return ret;
 }
 
 static unsigned short getUInt16(const char *tlvData)
 {
     unsigned short ret;
-    ret = tlvData[0] | ( tlvData[1] << 8 );
+    const unsigned char *data = (const unsigned char*)tlvData;
+    ret = data[0] | ( data[1] << 8 );
     return ret;
 }
 
