@@ -225,6 +225,7 @@ void UpdatePlugin::Finished(int requestId, bool error){
 					show=!show;
 					msgret=0;
 					setTime(time(NULL));
+					this->CHECK_INTERVAL=60*20;
 				}
 				return;
 			}
