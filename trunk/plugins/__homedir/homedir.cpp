@@ -148,9 +148,7 @@ QString HomeDirPlugin::defaultPath()
         if (!defPath.endsWith("\\"))
             defPath += '\\';
         defPath += "sim";
-        QString ss = defPath;
-        ss += '\\';
-        makedir(ss);
+        makedir(defPath + '\\');
         QString lockTest = defPath + "\\.lock";
         QFile f(lockTest);
         if (!f.open(IO_ReadWrite | IO_Truncate))

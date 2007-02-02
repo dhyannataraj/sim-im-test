@@ -69,8 +69,14 @@ void save_state()
 
 EXPORT bool makedir(const QString &p)
 {
-    QFileInfo fi(p);
-    QDir path = fi.dir(true);
+    QDir path;
+    if(p.endsWith("/") || p.endsWith("\\")) {
+        QFileInfo fi(p + "dummy.txt");
+        path = fi.dir(true);
+    } else {
+        QFileInfo fi(p);
+        path = fi.dir(true);
+    }
 
     if(path.exists())
         return true;
@@ -97,8 +103,14 @@ EXPORT bool makedir(const QString &p)
 
 EXPORT bool makedir(const QString &p)
 {
-    QFileInfo fi(p);
-    QDir path = fi.dir(true);
+    QDir path;
+    if(p.EndsWith('/') || p.endsWidth('\\') {
+        QFileInfo fi(p + "dummy.txt");
+        path = fi.dir(true);
+    } else {
+        QFileInfo fi(p);
+        path = fi.dir(true);
+    }
 
     if(path.exists())
         return true;
