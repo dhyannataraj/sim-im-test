@@ -49,7 +49,11 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
     spnTimeout->setMaxValue(60);
     spnTimeout->setValue(data->Timeout.toULong());
     btnColor->setColor(data->Color.toULong());
-    edtFont->setFont(data->Font.str());
+    if (data->Font.str().isEmpty()){
+        edtFont->setFont(FontEdit::font2str(plugin->getBaseFont(font()), false));
+    }else{
+        edtFont->setFont(data->Font.str());
+    }
     chkShadow->setChecked(data->Shadow.toBool());
     if (data->Background.toBool()){
         chkBackground->setChecked(true);
@@ -91,7 +95,7 @@ void OSDIface::apply(void *d)
     data->Timeout.asULong()  = spnTimeout->text().toULong();
     data->Color.asULong()    = btnColor->color().rgb();
     QString f = edtFont->getFont();
-    QString base = FontEdit::font2str(font(), false);
+    QString base = FontEdit::font2str(m_plugin->getBaseFont(font()), false);
     if (f == base)
         f = "";
     data->Font.str() = f;

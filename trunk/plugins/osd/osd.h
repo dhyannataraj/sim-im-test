@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _WINDOCK_H
-#define _WINDOCK_H
+#ifndef _OSD_H
+#define _OSD_H
 
 #include <qfont.h>
 #include <qpixmap.h>
@@ -70,18 +70,19 @@ enum OSDType
 struct OSDRequest
 {
     unsigned long	contact;
-    OSDType			type;
+    OSDType		type;
 };
 
 class QTimer;
 class QPushButton;
 class CorePlugin;
+class OSDPlugin;
 
 class OSDWidget : public QWidget
 {
     Q_OBJECT
 public:
-    OSDWidget();
+    OSDWidget(OSDPlugin* plugin);
     void showOSD(const QString &text, OSDUserData *data);
 signals:
     void dblClick();
@@ -95,6 +96,7 @@ protected:
     QFont	baseFont;
     QPixmap bgPict;
     QPushButton	*m_button;
+    OSDPlugin *m_plugin;
 };
 
 class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
@@ -102,6 +104,7 @@ class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
     Q_OBJECT
 public:
     OSDPlugin(unsigned);
+    QFont getBaseFont(QFont font);
     virtual ~OSDPlugin();
     unsigned long user_data_id;
 protected slots:

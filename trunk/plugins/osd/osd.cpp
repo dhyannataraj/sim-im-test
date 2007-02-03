@@ -159,6 +159,23 @@ void OSDPlugin::timeout()
     processQueue();
 }
 
+QFont OSDPlugin::getBaseFont(QFont font)
+{
+    QFont baseFont;
+
+    baseFont = font;
+    int size = baseFont.pixelSize();
+    if (size <= 0){
+        size = baseFont.pointSize();
+        baseFont.setPointSize(size * 2);
+    }else{
+        baseFont.setPixelSize(size * 2);
+    }
+    baseFont.setBold(true);
+
+    return baseFont;
+}
+
 static const char * const arrow_h_xpm[] = {
             "9 7 3 1",
             "	    c None",
@@ -172,21 +189,14 @@ static const char * const arrow_h_xpm[] = {
             "+..++..++",
             "..++..+++"};
 
-OSDWidget::OSDWidget()
+OSDWidget::OSDWidget(OSDPlugin *plugin)
         : QWidget(NULL, "osd", WType_TopLevel |
                   WStyle_StaysOnTop |  WStyle_Customize | WStyle_NoBorder |
                   WStyle_Tool |WRepaintNoErase | WX11BypassWM)
 {
-    baseFont = font();
+    m_plugin = plugin;
+    baseFont = m_plugin->getBaseFont(font());
     m_button = NULL;
-    int size = baseFont.pixelSize();
-    if (size <= 0){
-        size = baseFont.pointSize();
-        baseFont.setPointSize(size * 2);
-    }else{
-        baseFont.setPixelSize(size * 2);
-    }
-    baseFont.setBold(true);
     setFocusPolicy(NoFocus);
 }
 
@@ -529,7 +539,7 @@ void OSDPlugin::processQueue()
         }
         if (!text.isEmpty()){
             if (m_osd == NULL){
-                m_osd = new OSDWidget;
+                m_osd = new OSDWidget(this);
                 connect(m_osd, SIGNAL(dblClick()), this, SLOT(dblClick()));
                 connect(m_osd, SIGNAL(closeClick()), this, SLOT(closeClick()));
             }
