@@ -3176,7 +3176,6 @@ QString ICQClient::pictureFile(const ICQUserData *data)
     f += data->Uin.toULong() ? QString::number(data->Uin.toULong()) : data->Screen.str();
     f += '.';
     f += QString::number(data->buddyID.toULong());
-    f = f;
     return f;
 }
 
