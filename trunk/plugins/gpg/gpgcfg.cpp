@@ -235,6 +235,8 @@ void GpgCfg::secretReady()
 void GpgCfg::selectKey(int n)
 {
     if (n == cmbKey->count() - 1){
+        if(edtHome->text().isEmpty())
+            edtHome->setText(m_plugin->getHomeDir());
         GpgGen gen(this);
         if (gen.exec()){
             m_bNew = true;

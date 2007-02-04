@@ -94,7 +94,6 @@ void GpgGen::accept()
     cmbMail->setEnabled(false);
     edtComment->setEnabled(false);
     buttonOk->setEnabled(false);
-    lblProcess->setText(i18n("Move mouse for generate random key"));
 #ifdef WIN32
     QString gpg  = m_cfg->edtGPG->text();
 #else
@@ -103,6 +102,7 @@ void GpgGen::accept()
     QString home = m_cfg->edtHome->text();
     if (gpg.isEmpty() || home.isEmpty())
         return;
+    lblProcess->setText(i18n("Move mouse for generate random key"));
     if (home.endsWith("\\") || home.endsWith("/"))
         home = home.left(home.length() - 1);
     QString in =
