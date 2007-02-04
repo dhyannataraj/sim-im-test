@@ -62,7 +62,8 @@ namespace SIM
 
 using namespace std;
 
-SIMSockets::SIMSockets()
+SIMSockets::SIMSockets(QObject *parent)
+ : SocketFactory(parent) 
 {
 }
 

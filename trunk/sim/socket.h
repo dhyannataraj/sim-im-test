@@ -120,21 +120,21 @@ class EXPORT SocketFactory : public QObject
 {
     Q_OBJECT
 public:
-    SocketFactory();
+    SocketFactory(QObject *parent);
     virtual ~SocketFactory();
     virtual Socket *createSocket() = 0;
     virtual ServerSocket *createServerSocket() = 0;
     void remove(Socket*);
     void remove(ServerSocket*);
+    bool add(ClientSocket *s);
+    bool erase(ClientSocket *s);
     void setActive(bool);
-    bool isActive();
+    bool isActive() const;
     virtual void checkState() {}
 protected slots:
     void idle();
-protected:
-    bool m_bActive;
-    class SocketFactoryPrivate *p;
-    friend class ClientSocket;
+private:
+    struct SocketFactoryPrivate *d;
 
     COPY_RESTRICTED(SocketFactory)
 };

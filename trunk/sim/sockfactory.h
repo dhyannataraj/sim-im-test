@@ -107,8 +107,8 @@ class SIMSockets : public SocketFactory
 {
     Q_OBJECT
 public:
-    SIMSockets();
-    ~SIMSockets();
+    SIMSockets(QObject *parent);
+    virtual ~SIMSockets();
     virtual Socket *createSocket();
     virtual ServerSocket *createServerSocket();
     void resolve(const QString &host);

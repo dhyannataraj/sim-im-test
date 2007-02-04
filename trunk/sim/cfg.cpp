@@ -115,7 +115,6 @@ EXPORT bool makedir(const QString &p)
     if(path.exists())
         return true;
     QString r = QDir::convertSeparators(path.absPath());
-    fprintf(stderr, "file: %s", r.local8Bit().data());
 
     struct stat st;
     if (stat(QFile::encodeName(r).data(), &st) != 0){

@@ -196,6 +196,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
          || findPluginsInBuildDir(appDir.path() + "/..", ".libs", pluginsList) 
          || findPluginsInBuildDir(appDir.path() + "/..", "debug", pluginsList)   // msvc + cmake
          || findPluginsInBuildDir(appDir.path() + "/..", "release", pluginsList) // msvc + cmake
+         || findPluginsInBuildDir(appDir.path() + "/..", "relwithdebinfo", pluginsList) // msvc + cmake
          )
     {
         log(L_DEBUG,"Loading plugins from build directory!");
@@ -832,7 +833,7 @@ unsigned long PluginManagerPrivate::execute(const QString &prg, const QStringLis
 PluginManager::PluginManager(int argc, char **argv)
 {
     EventReceiver::initList();
-    factory = new SIMSockets;
+    factory = new SIMSockets(qApp);
     contacts = new ContactList;
     FetchManager::manager = new FetchManager;
     p = new PluginManagerPrivate(argc, argv);
@@ -843,8 +844,7 @@ void deleteIcons();
 
 PluginManager::~PluginManager()
 {
-    EventQuit e;
-    e.process();
+    EventQuit().process();
     contacts->clearClients();
     delete p;
     delete FetchManager::manager;
