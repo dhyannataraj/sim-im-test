@@ -8,6 +8,7 @@ SET(CMAKE_COLOR_MAKEFILE ON)
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
+SET(QT_MT_REQUIRED True)
 INCLUDE(FindQt3)
 INCLUDE(Flex)
 INCLUDE(Jisp)
