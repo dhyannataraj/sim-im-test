@@ -17,6 +17,8 @@
 
 #include <time.h>
 
+#include "log.h"
+
 #include "core.h"
 
 #ifdef Q_OS_WIN
@@ -121,8 +123,11 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
     while (!s.isEmpty()){
         res += getToken(s, '&');
         QString tag = getToken(s, ';');
-        if (tag.isEmpty())
+        if (tag.isEmpty()) {
+            res += tag;
+            log(L_WARN, "Found '&' without ';' while parsing %s", str.local8Bit().data());
             continue;
+        }
         Contact *contact;
         if (tag.startsWith("My")){
             contact = getContacts()->owner();
@@ -137,9 +142,7 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
         if (tag == "TimeStatus"){
             QDateTime dt;
             dt.setTime_t(CorePlugin::m_plugin->getStatusTime());
-            QString tstr;
-            tstr.sprintf("%02u:%02u", dt.time().hour(), dt.time().minute());
-            res += tstr;
+            res += dt.toString("hh:mm");
             continue;
         }
 
