@@ -1628,10 +1628,12 @@ void MSNClient::processRequests()
                 unsigned grp_id = 0;
                 if (contact->getGroup()){
                     Group *grp = getContacts()->group(contact->getGroup());
-                    ClientDataIterator it(grp->clientData, this);
-                    MSNUserData *res = (MSNUserData*)(++it);
-                    if (res)
-                        grp_id = res->Group.toULong();
+                    if(grp) {
+                        ClientDataIterator it(grp->clientData, this);
+                        MSNUserData *res = (MSNUserData*)(++it);
+                        if (res)
+                            grp_id = res->Group.toULong();
+                    }
                 }
                 if (((data->Flags.toULong() & MSN_FORWARD) == 0) || (data->Group.toULong() == NO_GROUP)){
                     if (packet)
