@@ -1,0 +1,8 @@
+nodist_icons_DATA = icqlite.jisp
+
+iconsdir=$(kde_datadir)/sim/icons/
+
+all: lovenmoney.jisp
+
+lovenmoney.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png
+	$(ZIP) $(ZIP_FLAGS) $@ $^

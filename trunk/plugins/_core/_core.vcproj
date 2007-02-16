@@ -7681,6 +7681,66 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+			<Filter
+				Name="lovenmoney"
+				>
+				<File
+					RelativePath=".\lovenmoney\icondef.xml"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Make lovenmoney.jisp"
+							CommandLine="mkdir $(IntDir)\jisp&#x0D;&#x0A;copy $(InputDir)*.png $(IntDir)\jisp&#x0D;&#x0A;copy $(InputDir)icondef.xml $(IntDir)\jisp&#x0D;&#x0A;jar -cMf $(OutDir)\icons\lovenmoney.jisp -C $(IntDir)\jisp .&#x0D;&#x0A;del /Q $(IntDir)\jisp\*.*&#x0D;&#x0A;rmdir /Q $(IntDir)\jisp"
+							Outputs="$(OutDir)\icons\lovenmoney.jisp"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Make lovenmoney.jisp"
+							CommandLine="mkdir $(IntDir)\jisp&#x0D;&#x0A;copy $(InputDir)*.png $(IntDir)\jisp&#x0D;&#x0A;copy $(InputDir)icondef.xml $(IntDir)\jisp&#x0D;&#x0A;jar -cMf $(OutDir)\icons\lovenmoney.jisp -C $(IntDir)\jisp .&#x0D;&#x0A;del /Q $(IntDir)\jisp\*.*&#x0D;&#x0A;rmdir /Q $(IntDir)\jisp&#x0D;&#x0A;"
+							Outputs="$(OutDir)\icons\lovenmoney.jisp"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\lovenmoney\Love_0091.png"
+					>
+				</File>
+				<File
+					RelativePath=".\lovenmoney\Love_0311.png"
+					>
+				</File>
+				<File
+					RelativePath=".\lovenmoney\Love_0351.png"
+					>
+				</File>
+				<File
+					RelativePath=".\lovenmoney\Love_0641.png"
+					>
+				</File>
+				<File
+					RelativePath=".\lovenmoney\Love_0691.png"
+					>
+				</File>
+				<File
+					RelativePath=".\lovenmoney\Money_0011.png"
+					>
+				</File>
+				<File
+					RelativePath=".\lovenmoney\Money_0031.png"
+					>
+				</File>
+				<File
+					RelativePath=".\lovenmoney\Money_0041.png"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
