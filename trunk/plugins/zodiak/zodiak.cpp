@@ -212,8 +212,9 @@ static const char **xpms[] =
 
 void ZodiakWnd::changed()
 {
-    int day, month, year;
-    m_picker->getDate(day, month, year);
+    int day = m_picker->getDate().day();
+    int month = m_picker->getDate().month();
+    int year = m_picker->getDate().year();
     if (day && month && year){
         int n = getSign(day, month);
         m_picture->setPixmap(QPixmap(xpms[n]));
@@ -228,8 +229,9 @@ void ZodiakWnd::changed()
 
 void ZodiakWnd::view()
 {
-    int day, month, year;
-    m_picker->getDate(day, month, year);
+    int day = m_picker->getDate().day();
+    int month = m_picker->getDate().month();
+    int year = m_picker->getDate().year();
     if (day && month && year){
         int n = getSign(day, month);
         QString s = QString("http://horoscopes.swirve.com/scope.cgi?Sign=%1").arg(signes[n]);

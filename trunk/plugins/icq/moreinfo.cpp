@@ -163,7 +163,9 @@ void MoreInfo::fill()
     initCombo(cmbGender, (unsigned short)(data->Gender.toULong()), genders);
     if (spnAge->text() == "0")
         spnAge->setSpecialValueText(QString::null);
-    edtDate->setDate(data->BirthDay.toULong(), data->BirthMonth.toULong(), data->BirthYear.toULong());
+    QDate date;
+    date.setYMD(data->BirthYear.toULong(), data->BirthMonth.toULong(), data->BirthDay.toULong());
+    edtDate->setDate(date);
     birthDayChanged();
     unsigned l = data->Language.toULong();
     char l1 = (char)(l & 0xFF);
@@ -180,8 +182,9 @@ void MoreInfo::fill()
 
 void MoreInfo::birthDayChanged()
 {
-    int day, month, year;
-    edtDate->getDate(day, month, year);
+    int day = edtDate->getDate().day();
+    int month = edtDate->getDate().month();
+    int year = edtDate->getDate().year();
     if (year){
         QDate now = QDate::currentDate();
         int age = now.year() - year;
@@ -233,11 +236,9 @@ void MoreInfo::apply(Client *client, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
     data->Homepage.str() = edtHomePage->text();
     data->Gender.asULong() = getComboValue(cmbGender, genders);
-    int day, month, year;
-    edtDate->getDate(day, month, year);
-    data->BirthMonth.asULong() = month;
-    data->BirthDay.asULong()   = day;
-    data->BirthYear.asULong()  = year;
+    data->BirthMonth.asULong() = edtDate->getDate().month();
+    data->BirthDay.asULong()   = edtDate->getDate().day();
+    data->BirthYear.asULong()  = edtDate->getDate().year();
     unsigned l1 = getComboValue(cmbLang1, languages);
     unsigned l2 = getComboValue(cmbLang2, languages);
     unsigned l3 = getComboValue(cmbLang3, languages);

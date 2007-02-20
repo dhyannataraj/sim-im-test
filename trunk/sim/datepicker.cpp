@@ -41,65 +41,12 @@ DateValidator::DateValidator(QWidget *parent)
 {
 }
 
-static bool parseDate(const QString &str, int &day, int &month, int &year)
-{
-    day   = 0;
-    month = 0;
-    year  = 0;
-    int p;
-    for (p = 0; p < (int)(str.length()); p++){
-        QChar cc = str[p];
-        char c = cc;
-        if (c == '_')
-            continue;
-        if ((c < '0') || (c > '9')){
-            p++;
-            break;
-        }
-        day = day * 10 + (c - '0');
-    }
-    for (; p < (int)(str.length()); p++){
-        QChar cc = str[p];
-        char c = cc;
-        if (c == '_')
-            continue;
-        if ((c < '0') || (c > '9')){
-            p++;
-            break;
-        }
-        month = month * 10 + (c - '0');
-    }
-    for (; p < (int)(str.length()); p++){
-        QChar cc = str[p];
-        char c = cc;
-        if (c == '_')
-            continue;
-        if ((c < '0') || (c > '9'))
-            return false;
-        year = year * 10 + (c - '0');
-    }
-    if (year < 1000) {	/* Year must have 4 digits ! */
-        year = 0;
-        return true;
-    }
-    if (day && month && year){
-        QDate d(year, month, day);
-        if (d.isNull())
-            return false;
-    }
-    return true;
-}
-
 QValidator::State DateValidator::validate(QString &str, int&) const
 {
-    int day, month, year;
-    if (!parseDate(str, day, month, year))
-        return Invalid;
-    if ((day == 0) && (month == 0) && (year == 0))
+    if (QDate::fromString(str, Qt::ISODate).isValid())
         return Acceptable;
-    if ((day == 0) || (month == 0) || (year == 0))
-        return Intermediate;
-    return Acceptable;
+
+    return Invalid;
 }
 
 class DateEdit : public QLineEdit
@@ -112,7 +59,7 @@ DateEdit::DateEdit(QWidget *parent)
         : QLineEdit(parent)
 {
     setValidator(new DateValidator(this));
-    setInputMask("00/00/0000;_");
+    setInputMask("0000-00-00;_");
 }
 
 DatePicker::DatePicker(QWidget *parent, const char *name)
@@ -123,7 +70,7 @@ DatePicker::DatePicker(QWidget *parent, const char *name)
     QHBoxLayout *lay = new QHBoxLayout(this);
     m_edit = new DateEdit(this);
     QFontMetrics fm(m_edit->font());
-    m_edit->setFixedWidth(fm.width("00/00/0000") + 14);
+    m_edit->setFixedWidth(fm.width("0000-00-00") + 14);
     lay->addWidget(m_edit);
     m_button = new QPushButton(this);
     m_button->setPixmap(SIM::Pict("more"));
@@ -145,27 +92,21 @@ void DatePicker::setEnabled(bool state)
 
 void DatePicker::setText(const QString &s)
 {
-    int day, month, year;
-    if (!parseDate(s, day, month, year)){
+    if (QDate::fromString(s, Qt::ISODate).isValid()){
+        m_edit->setText(s);
+    } else {
         m_edit->setText(QString::null);
-        return;
     }
-    if ((day == 0) || (month == 0) || (year == 0)){
-        m_edit->setText(QString::null);
-        return;
-    }
-    m_edit->setText(s);
 }
 
 QString DatePicker::text()
 {
-    int day, month, year;
-    getDate(day, month, year);
-    if ((day == 0) || (month == 0) || (year == 0))
-        return QString::null;
-    QString res;
-    res.sprintf("%u/%02u/%04u", day, month, year);
-    return res;
+    return m_edit->text();
+}
+
+QDate DatePicker::getDate()
+{
+    return QDate::fromString(m_edit->text(), Qt::ISODate);
 }
 
 void DatePicker::paintEvent(QPaintEvent *e)
@@ -179,35 +120,15 @@ void DatePicker::paintEvent(QPaintEvent *e)
     QFrame::paintEvent(e);
 }
 
-void DatePicker::setDate(int day, int month, int year)
+void DatePicker::setDate(QDate date)
 {
-    QString text;
-    QDate d;
-    if (day && month && year)
-        d.setYMD(year, month, day);
-    if (!d.isNull())
-        text.sprintf("%02u/%02u/%04u", day, month, year);
-    m_edit->setText(text);
+    m_edit->setText(date.toString(Qt::ISODate));
     emit changed();
 }
 
 void DatePicker::textChanged(const QString&)
 {
     emit changed();
-}
-
-void DatePicker::getDate(int &day, int &month, int &year)
-{
-    if (!parseDate(m_edit->text(), day, month, year)){
-        day   = 0;
-        month = 0;
-        year  = 0;
-    }
-    if ((day == 0) || (month == 0) || (year == 0)){
-        day   = 0;
-        month = 0;
-        year  = 0;
-    }
 }
 
 void DatePicker::showPopup()
@@ -335,8 +256,10 @@ PickerPopup::PickerPopup(DatePicker *picker)
         if (i >= 5)
             l->setPalette(pal);
     }
-    int day, month, year;
-    m_picker->getDate(day, month, year);
+    int day = m_picker->getDate().day();
+    int month = m_picker->getDate().month();
+    int year = m_picker->getDate().year();
+
     if ((month == 0) || (year == 0)){
         month = d.month();
         year  = d.year();
@@ -357,7 +280,9 @@ void PickerPopup::dayClick(PickerLabel *lbl)
     unsigned year  = m_yearBox->text().toULong();
     unsigned month = m_monthBox->value() + 1;
     unsigned day   = lbl->text().toULong();
-    m_picker->setDate(day, month, year);
+    QDate date;
+    date.setYMD(year, month, day);
+    m_picker->setDate(date);
     close();
 }
 
