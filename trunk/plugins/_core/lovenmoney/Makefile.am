@@ -1,4 +1,4 @@
-nodist_icons_DATA = icqlite.jisp
+nodist_icons_DATA = lovenmoney.jisp
 
 iconsdir=$(kde_datadir)/sim/icons/
 
