@@ -114,17 +114,15 @@ QString UserWnd::getName()
 QString UserWnd::getLongName()
 {
     QString res;
-	if (CorePlugin::m_plugin->getShowOwnerName() && getContacts()->owner()->getName().compare("")==0)
+    if (CorePlugin::m_plugin->getShowOwnerName() && getContacts()->owner()->getName().compare("")!=0)
         res += getContacts()->owner()->getName();
-	else
-		return QString::null;
     if (!res.isEmpty())
         res += " - ";
     Contact *contact = getContacts()->contact(m_id);
     if (contact)
-		res += contact->getName();
-	else
-		return QString::null;
+        res += contact->getName();
+    else
+        return QString::null;
     void *data;
     Client *client = m_edit->client(data, false, true, id());
     if (client && data){
