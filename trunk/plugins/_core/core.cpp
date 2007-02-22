@@ -2731,7 +2731,7 @@ bool CorePlugin::processEvent(Event *e)
                 return true;
             }
             if ((cmd->id == CmdContainer) && (cmd->menu_id == MenuContact)){
-                if (getContainerMode())
+                if (getContainerMode() && getContainerMode() != 3)
                     return true;
                 return false;
             }
