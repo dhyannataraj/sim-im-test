@@ -20,6 +20,7 @@ Build system
 [+] Unix: issue error, not warning, if openssl wasn't found.
 [-] Autotools: fix SMP builds.
 [-] Autotools: add AC_LANG_C.
+[+] Add hidden visibility support for GCC4.1 and cmake.
 
 Core
 ~~~~
@@ -35,6 +36,11 @@ Core
 [+] Add profile (re)naming feature.
 [-] Fix context menu shortcuts in dialog window.
 [+] Save state on system logout with Qt Session Management.
+[-] Win32: fix (un)setting autostart.
+[-] Fix restoring font sizes.
+[-] Disable history filter when it is empty.
+[+] Replace libxml2-based SAX parser with Qt-provided one.
+[+] Show user avatars in the dialog window.
 
 ICQ plugin
 ~~~~~~~~~~
@@ -48,6 +54,9 @@ ICQ plugin
 [-] Sync language and occupation lists with ICQ server.
 [*] Disable "Automatically use HTTP polling if proxy required" by
     default.
+[+] Send and detect SIM patchlevel in version info.
+[-] Fix receiving certain messages containing TLV(5) twice.
+[-] Fix playing sounds for messages from QIP.
 
 Jabber plugin
 ~~~~~~~~~~~~~
@@ -59,6 +68,9 @@ Jabber plugin
 [+] Allow auth messages for transports.
 [*] Show protocol icons for jabber transports in roster.
 [*] Ignore JID letter case.
+[+] Add support for XEP-0092 client version info requests/replies.
+[*] Show resource as a part of JID in contact tip, not as separate line.
+[*] Remove SIM version from default resource value.
 
 Yahoo! plugin
 ~~~~~~~~~~~~~
@@ -80,3 +92,4 @@ Misc plugins
 [*] Shortcuts: fix global shortcuts on X11 Qt-only build.
 [*] LiveJournal: disable formatted messages by default.
 [*] LiveJournal: add password recovery URL.
+[-] LiveJournal: fix posting messages longer than 4 Kb.
