@@ -1,99 +1,81 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>DockCfgBase</class>
-<widget>
-    <class>QWidget</class>
-    <property>
-        <name>name</name>
+<widget class="QWidget">
+    <property name="name">
         <cstring>Form1</cstring>
     </property>
-    <property>
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>313</width>
-            <height>138</height>
+            <width>356</width>
+            <height>166</height>
         </rect>
     </property>
-    <property>
-        <name>caption</name>
+    <property name="caption">
         <string>Form1</string>
     </property>
-    <property>
-        <name>text</name>
+    <property name="text" stdset="0">
     </property>
-    <vbox>
-        <property>
-            <name>margin</name>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
             <number>11</number>
         </property>
-        <property>
-            <name>spacing</name>
+        <property name="spacing">
             <number>6</number>
         </property>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property>
-                <name>name</name>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
                 <cstring>Layout1</cstring>
             </property>
             <hbox>
-                <property>
-                    <name>margin</name>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
                     <number>0</number>
                 </property>
-                <property>
-                    <name>spacing</name>
+                <property name="spacing">
                     <number>6</number>
                 </property>
-                <widget>
-                    <class>QCheckBox</class>
-                    <property>
-                        <name>name</name>
+                <widget class="QCheckBox">
+                    <property name="name">
                         <cstring>chkAutoHide</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
+                    <property name="text">
                         <string>Hide main window after</string>
                     </property>
                 </widget>
-                <widget>
-                    <class>QSpinBox</class>
-                    <property>
-                        <name>name</name>
+                <widget class="QSpinBox">
+                    <property name="name">
                         <cstring>spnAutoHide</cstring>
                     </property>
-                    <property>
-                        <name>maxValue</name>
+                    <property name="maxValue">
                         <number>999</number>
                     </property>
                 </widget>
-                <widget>
-                    <class>QLabel</class>
-                    <property>
-                        <name>name</name>
+                <widget class="QLabel">
+                    <property name="name">
                         <cstring>TextLabel1</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
+                    <property name="text">
                         <string>seconds inactive</string>
                     </property>
                 </widget>
                 <spacer>
-                    <property>
-                        <name>name</name>
+                    <property name="name">
                         <cstring>Spacer2</cstring>
                     </property>
-                    <property>
-                        <name>orientation</name>
+                    <property name="orientation">
                         <enum>Horizontal</enum>
                     </property>
-                    <property>
-                        <name>sizeType</name>
+                    <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>20</height>
@@ -102,70 +84,56 @@
                 </spacer>
             </hbox>
         </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property>
-                <name>name</name>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
                 <cstring>Layout2</cstring>
             </property>
             <hbox>
-                <property>
-                    <name>margin</name>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
                     <number>0</number>
                 </property>
-                <property>
-                    <name>spacing</name>
+                <property name="spacing">
                     <number>6</number>
                 </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property>
-                        <name>name</name>
+                <widget class="QLabel">
+                    <property name="name">
                         <cstring>TextLabel1_2</cstring>
                     </property>
-                    <property>
-                        <name>text</name>
+                    <property name="text">
                         <string>Show Mainwin on desktop</string>
                     </property>
                 </widget>
-                <widget>
-                    <class>QSpinBox</class>
-                    <property>
-                        <name>name</name>
+                <widget class="QSpinBox">
+                    <property name="name">
                         <cstring>spn_desk</cstring>
                     </property>
-                    <property>
-                        <name>specialValueText</name>
+                    <property name="specialValueText">
                         <string>current</string>
                     </property>
-                    <property>
-                        <name>maxValue</name>
+                    <property name="maxValue">
                         <number>999</number>
                     </property>
-                    <property>
-                        <name>minValue</name>
+                    <property name="minValue">
                         <number>0</number>
                     </property>
-                    <property>
-                        <name>value</name>
+                    <property name="value">
                         <number>0</number>
                     </property>
                 </widget>
                 <spacer>
-                    <property>
-                        <name>name</name>
+                    <property name="name">
                         <cstring>Spacer3_2</cstring>
                     </property>
-                    <property>
-                        <name>orientation</name>
+                    <property name="orientation">
                         <enum>Horizontal</enum>
                     </property>
-                    <property>
-                        <name>sizeType</name>
+                    <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property>
-                        <name>sizeHint</name>
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>20</height>
@@ -174,99 +142,73 @@
                 </spacer>
             </hbox>
         </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property>
-                <name>name</name>
-                <cstring>Layout3</cstring>
-            </property>
-            <hbox>
-                <property>
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property>
-                    <name>spacing</name>
-                    <number>6</number>
-                </property>
-                <spacer>
-                    <property>
-                        <name>name</name>
-                        <cstring>Spacer3</cstring>
-                    </property>
-                    <property>
-                        <name>orientation</name>
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property>
-                        <name>sizeType</name>
-                        <enum>Expanding</enum>
-                    </property>
-                    <property>
-                        <name>sizeHint</name>
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget>
-                    <class>QPushButton</class>
-                    <property>
-                        <name>name</name>
-                        <cstring>btnCustomize</cstring>
-                    </property>
-                    <property>
-                        <name>text</name>
-                        <string>&amp;Customize dock menu</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <spacer>
-            <property>
-                <name>name</name>
+        <spacer row="4" column="0">
+            <property name="name">
                 <cstring>Spacer11</cstring>
             </property>
-            <property>
-                <name>orientation</name>
+            <property name="orientation">
                 <enum>Vertical</enum>
             </property>
-            <property>
-                <name>sizeType</name>
+            <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property>
-                <name>sizeHint</name>
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>20</height>
                 </size>
             </property>
         </spacer>
-    </vbox>
+        <widget class="QLayoutWidget" row="3" column="0">
+            <property name="name">
+                <cstring>Layout3</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>btnCustomize</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Customize dock menu</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QCheckBox" row="2" column="0">
+            <property name="name">
+                <cstring>chkOpenUnread</cstring>
+            </property>
+            <property name="text">
+                <string>Open unread messages on double click</string>
+            </property>
+        </widget>
+    </grid>
 </widget>
-<customwidgets>
-    <customwidget>
-        <class>QWidget</class>
-        <header location="global">qwidget.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>5</hordata>
-            <verdata>5</verdata>
-        </sizepolicy>
-        <pixmap>image0</pixmap>
-        <property type="String">text</property>
-    </customwidget>
-</customwidgets>
-<images>
-    <image>
-        <name>image0</name>
-        <data format="XPM.GZ" length="646">789c6dd2c10ac2300c00d07bbf2234b7229d1be245fc04c5a3201e4615f430059d0711ff5ddb2e6bb236ec90eed134cb5a19d8ef36602af5ecdbfeeac05dda0798d3abebde87e3faa374d3807fa0d633a52d38d8de6f679fe33fc776e196f53cd010188256a3600a292882096246517815ca99884606e18044a3a40d91824820924265a7923a2e8bcd05f33db1173e002913175f2a6be6d3294871a2d95fa00e8a94ee017b69d339d90df1e77c57ea072ede6758</data>
-    </image>
-</images>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

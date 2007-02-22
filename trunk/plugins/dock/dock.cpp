@@ -71,6 +71,7 @@ static DataDef dockData[] =
         { "AutoHide", DATA_BOOL, 1, DATA(1) },
         { "AutoHideInterval", DATA_ULONG, 1, DATA(60) },
         { "ShowMain", DATA_BOOL, 1, DATA(1) },
+        { "OpenUnreadOnClick", DATA_BOOL, 1, 0 },
 #ifndef WIN32
         { "DockPos", DATA_ULONG, 2, 0 },
 #endif
@@ -169,7 +170,7 @@ void DockPlugin::init()
     m_dock = new DockWnd(this, "inactive", I18N_NOOP("Inactive"));
     connect(m_dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
     connect(m_dock, SIGNAL(toggleWin()), this, SLOT(toggleWin()));
-    connect(m_dock, SIGNAL(doubleClicked()), this, SLOT(doubleClicked()));
+    connect(m_dock, SIGNAL(toggleWinWithUnread()), this, SLOT(toggleWinWithUnread()));
     m_bQuit = false;
     QApplication::syncX();
 }
@@ -328,7 +329,7 @@ void DockPlugin::toggleWin()
     EventCommandExec(cmd).process();
 }
 
-void DockPlugin::doubleClicked()
+void DockPlugin::toggleWinWithUnread()
 {
     if (m_popup)
         return;

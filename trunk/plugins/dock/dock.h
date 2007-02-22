@@ -29,6 +29,7 @@ struct DockPluginData
     SIM::Data		AutoHide;
     SIM::Data		AutoHideInterval;
     SIM::Data		ShowMain;
+    SIM::Data		OpenUnreadOnClick;
 #ifndef WIN32 
     SIM::Data		DockX;
     SIM::Data		DockY;
@@ -49,7 +50,7 @@ public:
 protected slots:
     void showPopup(QPoint);
     void toggleWin();
-    void doubleClicked();
+    void toggleWinWithUnread();
     void timer();
 protected:
     virtual bool processEvent(SIM::Event *e);
@@ -75,6 +76,7 @@ protected:
     PROP_BOOL(AutoHide);
     PROP_ULONG(AutoHideInterval);
     PROP_BOOL(ShowMain);
+    PROP_BOOL(OpenUnreadOnClick);
 #ifndef WIN32
     PROP_ULONG(DockX);
     PROP_ULONG(DockY);
