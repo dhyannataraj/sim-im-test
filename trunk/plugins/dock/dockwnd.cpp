@@ -117,10 +117,7 @@ void DockWnd::callProc(unsigned long param)
         QTimer::singleShot(0, this, SLOT(showPopup()));
         return;
     case WM_LBUTTONDOWN:
-        if (m_plugin->getOpenUnreadOnClick())
-            emit toggleWinWithUnread();
-        else
-            emit toggleWin();
+        emit toggleWin(m_plugin->getOpenUnreadOnClick());
         return;
     case NIN_BALLOONHIDE:
     case NIN_BALLOONTIMEOUT:
@@ -1098,16 +1095,13 @@ void DockWnd::mouseEvent( QMouseEvent *e)
 {
     switch(e->button()){
     case QWidget::LeftButton:
-        if (m_plugin->getOpenUnreadOnClick())
-            emit toggleWinWithUnread();
-        else
-            emit toggleWin();
+        emit toggleWin(m_plugin->getOpenUnreadOnClick());
         break;
     case QWidget::RightButton:
         emit showPopup(e->globalPos());
         break;
     case QWidget::MidButton:
-        emit toggleWinWithUnread();
+        emit toggleWin(true);
         break;
     default:
         break;

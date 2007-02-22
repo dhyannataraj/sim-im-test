@@ -54,8 +54,7 @@ public:
     void mouseEvent( QMouseEvent *e);
 signals:
     void showPopup(QPoint);
-    void toggleWin();
-    void toggleWinWithUnread();
+    void toggleWin(bool);
 protected slots:
     void toggle();
     void blink();

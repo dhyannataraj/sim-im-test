@@ -169,8 +169,7 @@ void DockPlugin::init()
     m_main->installEventFilter(this);
     m_dock = new DockWnd(this, "inactive", I18N_NOOP("Inactive"));
     connect(m_dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
-    connect(m_dock, SIGNAL(toggleWin()), this, SLOT(toggleWin()));
-    connect(m_dock, SIGNAL(toggleWinWithUnread()), this, SLOT(toggleWinWithUnread()));
+    connect(m_dock, SIGNAL(toggleWin(bool)), this, SLOT(toggleWin(bool)));
     m_bQuit = false;
     QApplication::syncX();
 }
@@ -315,7 +314,7 @@ void DockPlugin::showPopup(QPoint p)
     }
 }
 
-void DockPlugin::toggleWin()
+void DockPlugin::toggleWin(bool openUnread)
 {
     if (m_popup)
         return;
@@ -326,21 +325,7 @@ void DockPlugin::toggleWin()
     cmd->menu_grp    = 0x1000;
     cmd->flags       = COMMAND_CHECK_STATE;
 
-    EventCommandExec(cmd).process();
-}
-
-void DockPlugin::toggleWinWithUnread()
-{
-    if (m_popup)
-        return;
-
-    Command cmd;
-    cmd->id          = CmdToggle;
-    cmd->menu_id     = DockMenu;
-    cmd->menu_grp    = 0x1000;
-    cmd->flags       = COMMAND_CHECK_STATE;
-
-    if (m_core->unread.size())
+    if (openUnread && m_core->unread.size())
         cmd->id = CmdUnread;
 
     EventCommandExec(cmd).process();

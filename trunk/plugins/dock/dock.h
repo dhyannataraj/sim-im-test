@@ -49,8 +49,7 @@ public:
     virtual ~DockPlugin();
 protected slots:
     void showPopup(QPoint);
-    void toggleWin();
-    void toggleWinWithUnread();
+    void toggleWin(bool openUnread);
     void timer();
 protected:
     virtual bool processEvent(SIM::Event *e);
