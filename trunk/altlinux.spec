@@ -1,24 +1,19 @@
-%undefine __libtoolize
-%define qtdir /usr/lib/qt3
-
-#%%define do_not_compile "plugins/autoaway"
-%define do_not_compile ""
+%define versuffix %nil
 
 %def_enable simqt
 %def_enable simkde
-%def_disable M22
 
 %if_enabled simqt
-%define simqtinstalldir %_builddir/%name/qtinstalldir/
+%define simqtinstalldir %_builddir/%name-%version/qtinstalldir/
 %endif
 
 %if_enabled simkde
-%define siminstalldir %_builddir/%name/installdir/
+%define siminstalldir %_builddir/%name-%version/installdir/
 %endif
 
 Name: sim
-Version: 0.9.4
-Release: alt8
+Version: 0.9.5
+Release: alt0.2
 Serial: 1
 
 Group: Networking/Instant messaging
@@ -27,30 +22,24 @@ Summary(ru_RU.CP1251): SIM - клиент ICQ/AIM/MSN/Jabber (с поддержкой KDE)
 License: GPL
 Packager: SIM Development Team <sim@packages.altlinux.org>
 
-Url: http://sim-im.berlios.de/
+Url: http://sim-im.org/
 
-Source: %name.tar.bz2
+Source: %name-%version%versuffix.tar.bz2
 
-# ALT specific patches
-%if_disabled M22
 Patch0: %name-alt-play_wrapper.patch
-%endif
-Patch1: %name-alt-simqt.patch
 
-BuildPreReq: gcc-c++ flex libart_lgpl-devel libqt3-devel
+BuildPreReq: cmake >= 2.4.4
+
+BuildPreReq: libXScrnSaver-devel
+
+BuildPreReq: gcc-c++ flex libqt3-devel
 BuildPreReq: libssl-devel libxslt-devel zip
-BuildPreReq: XFree86-devel libpng-devel 
-#libjpeg-devel
-%if_disabled M22
+BuildPreReq: libpng-devel 
 BuildPreReq: libqt3-devel-cxx = %__gcc_version_base
-%endif
 
 %if_enabled simkde
-BuildPreReq: xml-utils
 BuildPreReq: kdelibs-devel
-%if_disabled M22
 BuildPreReq: kdelibs-devel-cxx = %__gcc_version_base
-%endif
 %endif
 %if_enabled simqt
 BuildPreReq: libaspell-devel
@@ -58,23 +47,12 @@ BuildPreReq: libaspell-devel
 
 %if_enabled simkde
 Requires: %name-common >= %version-%release
-%if_disabled M22
 Requires: sound_handler
-%endif
+
 Obsoletes: libsim sim-plugins
 #Provides: libsim sim-plugins
 Conflicts: libsim-qt
 Conflicts: sim-qt < 0.9.3-alt0.2
-%endif
-
-%if_disabled M22
-%if_enabled simkde
-%add_findprov_lib_path %_libdir/%name
-%endif
-
-%if_enabled simqt
-%add_findprov_lib_path %_libdir/%name-qt
-%endif
 %endif
 
 %description
@@ -98,10 +76,10 @@ LiveJournal. Кроме того, имеется множество плагинов, реализующих
 Group: Networking/Instant messaging
 Summary: SIM - Simple Instant Messenger (without KDE support)
 Summary(ru_RU.CP1251): SIM - клиент ICQ/AIM/MSN/Jabber (без поддержки KDE)
+
 Requires: %name-common >= %version-%release
-%if_disabled M22
 Requires: sound_handler
-%endif
+
 Obsoletes: libsim-qt sim-qt-plugins
 #Provides: libsim-qt sim-qt-plugins
 Conflicts: libsim
@@ -128,6 +106,7 @@ LiveJournal. Кроме того, имеется множество плагинов, реализующих
 Group: Networking/Instant messaging
 Summary: SIM - Simple Instant Messenger (data files)
 Summary(ru_RU.CP1251): SIM - клиент ICQ/AIM/MSN/Jabber (файлы данных)
+
 Obsoletes: sim-data sim-qt-data
 #Provides: sim-data sim-qt-data
 Conflicts: sim < 0.9.0
@@ -157,82 +136,57 @@ exit 1
 %endif
 %endif
 
-%if_enabled M22
-echo "Building for Master 2.2"
-%endif
+%setup #-n %name
 
-%setup -n %name
-
-%if_disabled M22
 %patch0 -p1
-%endif
-%patch1 -p1
-
-%__subst 's,\.la\>,.so,' admin/acinclude.m4.in
-%__subst "s/\-ansi /\-fPIC -DPIC /g" admin/acinclude.m4.in
-
-[ -f admin/Makefile.common ] && %make -f admin/Makefile.common
 
 %build
-export PATH=`pwd`:$PATH
-export QTDIR=%qtdir
-export LDFLAGS="-L%buildroot/%_libdir -lpthread"
-export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
-
 ## Without KDE ##
 %if_enabled simqt
-%configure \
-    DO_NOT_COMPILE=%do_not_compile \
-    --disable-kde \
-    --disable-rpath
+mkdir simqt
+pushd simqt
+cmake %_builddir/%name-%version \
+	-DCMAKE_C_FLAGS:STRING="%optflags" \
+	-DCMAKE_CXX_FLAGS:STRING="%optflags" \
+        -DCMAKE_INSTALL_PREFIX=%_prefix \
+        -DCMAKE_SKIP_RPATH=YES \
+        -DUSE_GCC_VISIBILITY=1 \
+        -DUSE_KDE3=0 \
+        -DSIM_FLAVOUR="-qt"
 %make_build
-%make_install install DESTDIR=%simqtinstalldir
+%makeinstall DESTDIR=%simqtinstalldir
+popd
 %endif
 
 ## With KDE ##
 %if_enabled simkde
-%make clean
-%configure \
-    DO_NOT_COMPILE=%do_not_compile \
-    --disable-rpath
+mkdir simkde
+pushd simkde
+cmake %_builddir/%name-%version \
+	-DCMAKE_C_FLAGS:STRING="%optflags" \
+	-DCMAKE_CXX_FLAGS:STRING="%optflags" \
+        -DCMAKE_INSTALL_PREFIX=%_prefix \
+        -DCMAKE_SKIP_RPATH=YES \
+        -DUSE_GCC_VISIBILITY=1 \
+        -DUSE_KDE3=1
 %make_build
-%make_install install DESTDIR=%siminstalldir
+%makeinstall DESTDIR=%siminstalldir
 %endif
 
 %install
-%if_enabled simkde
-%__cp -R %siminstalldir %buildroot
-%else
-%__cp -R %simqtinstalldir %buildroot
-%__rm -f %buildroot{%_bindir/sim,%_datadir/applnk/Internet/%name.desktop}
-%endif
+mkdir -p %buildroot/
+cp -a %siminstalldir/* %buildroot/
+cp -a %simqtinstalldir/* %buildroot/
 
 %if_enabled simqt
-%__cp %simqtinstalldir%_bindir/sim %buildroot%_bindir/sim-qt
-%__cp -R %simqtinstalldir%_libdir/* %buildroot%_libdir/
-%__cp %simqtinstalldir%_datadir/applnk/Internet/%name.desktop %buildroot%_datadir/applnk/Internet/%name-qt.desktop
-%__subst 's,^Exec=sim$,\0-qt,' %buildroot%_datadir/applnk/Internet/%name-qt.desktop
-%__subst 's,^Name.*=Sim$,\0-qt,g' %buildroot%_datadir/applnk/Internet/%name-qt.desktop
-%__subst 's,^DocPath,#\0,' %buildroot%_datadir/applnk/Internet/%name-qt.desktop
-kdedesktop2mdkmenu.pl %name-qt \
-	"Networking/Instant messaging" \
-	%buildroot%_datadir/applnk/Internet/%name-qt.desktop \
-	%buildroot%_menudir/%name-qt \
-	x11 \
-	"Sim"
+cp %buildroot%_desktopdir/kde/%name.desktop %buildroot%_desktopdir/%name-qt.desktop
+%__subst 's,^Exec=sim$,\0-qt,' %buildroot%_desktopdir/%name-qt.desktop
+%__subst 's,^Name.*=Sim.*,\0 (without KDE),g' %buildroot%_desktopdir/%name-qt.desktop
+%__subst '\,Categ,s,KDE;,,' %buildroot%_desktopdir/%name-qt.desktop
 %endif
 
-%if_enabled simkde
-%__subst 's,^DocPath,#\0,' %buildroot%_datadir/applnk/Internet/%name.desktop
-kdedesktop2mdkmenu.pl %name \
-	"Networking/Instant messaging" \
-	%buildroot%_datadir/applnk/Internet/%name.desktop \
-	%buildroot%_menudir/%name \
-	kde \
-	"Sim (for KDE)"
-%endif
-
-%__rm -rf %buildroot%_libdir/libsim.so
+rm -rf %buildroot%_libdir/libsim.so
+rm -rf %buildroot%_libdir/libsim-qt.so
 
 %find_lang %name
 
@@ -257,31 +211,68 @@ kdedesktop2mdkmenu.pl %name \
 %if_enabled simkde
 %files
 %_bindir/%name
-%_menudir/%name
-%_datadir/applnk/Internet/%name.desktop
+%_desktopdir/kde/%name.desktop
 %_libdir/libsim.so.*
 %dir %_libdir/%name
 %_libdir/%name/*.so*
+%_libdir/%name/styles/
 %endif
 
 %if_enabled simqt
 %files qt
 %_bindir/%name-qt
-%_menudir/%name-qt
-%_datadir/applnk/Internet/%name-qt.desktop
+%_desktopdir/%name-qt.desktop
 %_libdir/libsim-qt.so.*
 %dir %_libdir/%name-qt
 %_libdir/%name-qt/*.so*
+%_libdir/%name-qt/styles/
 %endif
 
 %files common -f %name.lang
 %_bindir/simctrl
 %_datadir/apps/%name
-%_iconsdir/*/*/*/*.png
 %_datadir/services/simctrl.desktop
-%_datadir/mimelnk/application/x-icq.desktop
+%_iconsdir/*/*/*/*.png
 
 %changelog
+* Tue Feb 20 2007 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.5-alt0.2
+- 0.9.5 r1860
+
+* Thu Jan 04 2007 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.5-alt0.1
+- 0.9.5 r1738
+- Daedalus build
+- use CMake
+- spec cleanup
+
+* Sat Oct 21 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4.1-alt1
+- 0.9.4.1
+- spec cleanup
+- update BuildRequires
+
+* Thu Jul 06 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt14
+- bump release
+
+* Thu Jun 29 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt13
+- 0.9.4 release, finally :)
+
+* Wed May 03 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt12
+- 0.9.4 RC2
+
+* Sat Feb 25 2006 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt11
+- 0.9.4 RC1
+- update URL
+- remove menu file
+
+* Mon Apr 11 2005 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt10
+- update from CVS 20050411
+
+* Sat Dec 11 2004 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt9
+- update from CVS 20041211
+
+* Thu Oct 07 2004 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt8.1
+- remove %_datadir/mimelnk/application/x-icq.desktop from sim-common
+  (#5278)
+
 * Tue Sep 21 2004 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4-alt8
 - CVS 20040921
 - build autoaway plugin since it now doesn't crash
