@@ -71,6 +71,7 @@ static DataDef dockData[] =
         { "AutoHide", DATA_BOOL, 1, DATA(1) },
         { "AutoHideInterval", DATA_ULONG, 1, DATA(60) },
         { "ShowMain", DATA_BOOL, 1, DATA(1) },
+        { "OpenUnreadOnClick", DATA_BOOL, 1, 0 },
 #ifndef WIN32
         { "DockPos", DATA_ULONG, 2, 0 },
 #endif
@@ -168,8 +169,7 @@ void DockPlugin::init()
     m_main->installEventFilter(this);
     m_dock = new DockWnd(this, "inactive", I18N_NOOP("Inactive"));
     connect(m_dock, SIGNAL(showPopup(QPoint)), this, SLOT(showPopup(QPoint)));
-    connect(m_dock, SIGNAL(toggleWin()), this, SLOT(toggleWin()));
-    connect(m_dock, SIGNAL(doubleClicked()), this, SLOT(doubleClicked()));
+    connect(m_dock, SIGNAL(toggleWin(bool)), this, SLOT(toggleWin(bool)));
     m_bQuit = false;
     QApplication::syncX();
 }
@@ -314,8 +314,11 @@ void DockPlugin::showPopup(QPoint p)
     }
 }
 
-void DockPlugin::toggleWin()
+const unsigned ANIMATE_TIME = 200;
+
+void DockPlugin::toggleWin(bool openUnread)
 {
+	
     if (m_popup)
         return;
 
@@ -325,24 +328,16 @@ void DockPlugin::toggleWin()
     cmd->menu_grp    = 0x1000;
     cmd->flags       = COMMAND_CHECK_STATE;
 
+    if (openUnread && m_core->unread.size())
+        cmd->id = CmdUnread;
+	if (this->getMainWindow()->isHidden())
+		disconnect(m_dock, SIGNAL(toggleWin(bool)), this, SLOT(toggleWin(bool)));
     EventCommandExec(cmd).process();
+	QTimer::singleShot(ANIMATE_TIME, this, SLOT(reactivate()));
 }
 
-void DockPlugin::doubleClicked()
-{
-    if (m_popup)
-        return;
-
-    Command cmd;
-    cmd->id          = CmdToggle;
-    cmd->menu_id     = DockMenu;
-    cmd->menu_grp    = 0x1000;
-    cmd->flags       = COMMAND_CHECK_STATE;
-
-    if (m_core->unread.size())
-        cmd->id = CmdUnread;
-
-    EventCommandExec(cmd).process();
+void DockPlugin::reactivate() {
+	connect(m_dock, SIGNAL(toggleWin(bool)), this, SLOT(toggleWin(bool)));
 }
 
 QWidget *DockPlugin::getMainWindow()
@@ -361,7 +356,6 @@ QWidget *DockPlugin::getMainWindow()
     return NULL;
 }
 
-const unsigned ANIMATE_TIME = 200;
 
 QWidget *DockPlugin::createConfigWindow(QWidget *parent)
 {

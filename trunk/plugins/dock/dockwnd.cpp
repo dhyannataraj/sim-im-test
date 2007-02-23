@@ -116,13 +116,8 @@ void DockWnd::callProc(unsigned long param)
     case WM_RBUTTONUP:
         QTimer::singleShot(0, this, SLOT(showPopup()));
         return;
-    case WM_LBUTTONDBLCLK:
-        bNoToggle = true;
-        QTimer::singleShot(0, this, SLOT(dbl_click()));
-        return;
     case WM_LBUTTONDOWN:
-        if (!bNoToggle)
-            QTimer::singleShot(500, this, SLOT(toggle()));
+        emit toggleWin(m_plugin->getOpenUnreadOnClick());
         return;
     case NIN_BALLOONHIDE:
     case NIN_BALLOONTIMEOUT:
@@ -173,7 +168,6 @@ public:
 protected:
     DockWnd *dock;
     virtual void mouseReleaseEvent(QMouseEvent *);
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
     virtual void paintEvent(QPaintEvent *);
     virtual void enterEvent(QEvent*);
 #if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
@@ -286,11 +280,6 @@ void WharfIcon::set(const char *icon, const char *msg)
 void WharfIcon::mouseReleaseEvent( QMouseEvent *e)
 {
     dock->mouseEvent(e);
-}
-
-void WharfIcon::mouseDoubleClickEvent( QMouseEvent *e)
-{
-    dock->mouseDoubleClickEvent(e);
 }
 
 void WharfIcon::paintEvent( QPaintEvent * )
@@ -632,7 +621,6 @@ DockWnd::DockWnd(DockPlugin *plugin, const char *icon, const char *text)
 #endif
     m_plugin = plugin;
     setMouseTracking(true);
-    bNoToggle = false;
     bBlink = false;
     m_state = icon;
     blinkTimer = new QTimer(this);
@@ -833,11 +821,6 @@ void DockWnd::quit()
     notifyIconData.hWnd = winId();
     Shell_NotifyIconW(NIM_DELETE, &notifyIconData);
 #endif
-}
-
-void DockWnd::dbl_click()
-{
-    emit doubleClicked();
 }
 
 bool DockWnd::processEvent(Event *e)
@@ -1108,27 +1091,17 @@ void DockWnd::setTip(const QString &text)
 #endif
 }
 
-void DockWnd::toggle()
-{
-    if (bNoToggle){
-        bNoToggle = false;
-        return;
-    }
-    emit toggleWin();
-}
-
 void DockWnd::mouseEvent( QMouseEvent *e)
 {
     switch(e->button()){
     case QWidget::LeftButton:
-        if (!bNoToggle)
-            QTimer::singleShot(700, this, SLOT(toggle()));
+        emit toggleWin(m_plugin->getOpenUnreadOnClick());
         break;
     case QWidget::RightButton:
         emit showPopup(e->globalPos());
         break;
     case QWidget::MidButton:
-        emit doubleClicked();
+        emit toggleWin(true);
         break;
     default:
         break;
@@ -1184,12 +1157,6 @@ void DockWnd::mouseMoveEvent( QMouseEvent *e)
         return;
     move(e->globalPos().x() - mousePos.x(), e->globalPos().y() - mousePos.y());
 #endif
-}
-
-void DockWnd::mouseDoubleClickEvent( QMouseEvent*)
-{
-    bNoToggle = true;
-    emit doubleClicked();
 }
 
 void DockWnd::enterEvent( QEvent* )
