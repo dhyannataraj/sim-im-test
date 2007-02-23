@@ -1137,7 +1137,7 @@ unsigned ICQClient::processListRequest()
         Group *group = NULL;
         Contact *contact;
         ICQUserData *data;
-        unsigned short grp_id = 0;
+        unsigned grp_id = 0;
         switch (lr.type){
         case LIST_USER_CHANGED:
             data = findContact(lr.screen, NULL, false, contact);
@@ -1147,12 +1147,12 @@ unsigned ICQClient::processListRequest()
                 if ((data->VisibleId.toULong() == 0) || (data->ContactVisibleId.toULong() == 0)){
                     if (data->VisibleId.toULong()){
                         log(L_DEBUG, "%s add to visible list", userStr(contact, data).local8Bit().data());
-                        seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), 0, (unsigned short)(data->VisibleId.toULong()), ICQ_VISIBLE_LIST);
+                        seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), 0, data->VisibleId.toULong(), ICQ_VISIBLE_LIST);
                     }else{
                         log(L_DEBUG, "%s remove from visible list", userStr(contact, data).local8Bit().data());
-                        seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data), 0, (unsigned short)(data->ContactVisibleId.toULong()), ICQ_VISIBLE_LIST);
+                        seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data), 0, data->ContactVisibleId.toULong(), ICQ_VISIBLE_LIST);
                     }
-                    m_listRequest = new SetListRequest(seq, screen(data), (unsigned short)(data->VisibleId.toULong()), ICQ_VISIBLE_LIST);
+                    m_listRequest = new SetListRequest(seq, screen(data), data->VisibleId.toULong(), ICQ_VISIBLE_LIST);
                     break;
                 }
                 data->VisibleId.asULong() = data->ContactVisibleId.toULong();
@@ -1161,12 +1161,12 @@ unsigned ICQClient::processListRequest()
                 if ((data->InvisibleId.toULong() == 0) || (data->ContactInvisibleId.toULong() == 0)){
                     if (data->InvisibleId.toULong()){
                         log(L_DEBUG, "%s add to invisible list", userStr(contact, data).local8Bit().data());
-                        seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), 0, (unsigned short)(data->InvisibleId.toULong()), ICQ_INVISIBLE_LIST);
+                        seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), 0, data->InvisibleId.toULong(), ICQ_INVISIBLE_LIST);
                     }else{
                         log(L_DEBUG, "%s remove from invisible list", userStr(contact, data).local8Bit().data());
-                        seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data), 0, (unsigned short)(data->ContactInvisibleId.toULong()), ICQ_INVISIBLE_LIST);
+                        seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data), 0, data->ContactInvisibleId.toULong(), ICQ_INVISIBLE_LIST);
                     }
-                    m_listRequest = new SetListRequest(seq, screen(data), (unsigned short)(data->InvisibleId.toULong()), ICQ_INVISIBLE_LIST);
+                    m_listRequest = new SetListRequest(seq, screen(data), data->InvisibleId.toULong(), ICQ_INVISIBLE_LIST);
                     break;
                 }
                 data->InvisibleId.asULong() = data->ContactInvisibleId.toULong();
@@ -1175,7 +1175,7 @@ unsigned ICQClient::processListRequest()
                 unsigned short ignore_id = 0;
                 if (data->IgnoreId.toULong()){
                     log(L_DEBUG, "%s remove from ignore list", userStr(contact, data).local8Bit().data());
-                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data), 0, (unsigned short)(data->IgnoreId.toULong()), ICQ_IGNORE_LIST);
+                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, screen(data), 0, data->IgnoreId.toULong(), ICQ_IGNORE_LIST);
                 }else{
                     ignore_id = getListId();
                     log(L_DEBUG, "%s add to ignore list", userStr(contact, data).local8Bit().data());
@@ -1189,7 +1189,7 @@ unsigned ICQClient::processListRequest()
                 if (group){
                     ICQUserData *grp_data = (ICQUserData*)(group->clientData.getData(this));
                     if (grp_data)
-                        grp_id = (unsigned short)(grp_data->IcqID.toULong());
+                        grp_id = grp_data->IcqID.toULong();
                 }
             }
             if (data->GrpId.toULong() != grp_id){
@@ -1204,14 +1204,14 @@ unsigned ICQClient::processListRequest()
                         data->IcqID.asULong() = getListId();
                     TlvList *tlv = createListTlv(data, contact);
                     if (data->GrpId.toULong())
-                        seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()));
-                    seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), grp_id, (unsigned short)(data->IcqID.toULong()), 0, tlv);
-                    sendRosterGrp(group->getName(), grp_id, (unsigned short)(data->IcqID.toULong()));
+                        seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, data->GrpId.toULong(), data->IcqID.toULong());
+                    seq = sendRoster(ICQ_SNACxLISTS_CREATE, screen(data), grp_id, data->IcqID.toULong(), 0, tlv);
+                    sendRosterGrp(group->getName(), grp_id, data->IcqID.toULong());
                     log(L_DEBUG, "%s move to group %s", userStr(contact, data).local8Bit().data(), (const char*)group->getName().local8Bit());
-                    m_listRequest = new ContactServerRequest(seq, screen(data), (unsigned short)(data->IcqID.toULong()), grp_id, tlv);
+                    m_listRequest = new ContactServerRequest(seq, screen(data), data->IcqID.toULong(), grp_id, tlv);
                 }else{
                     log(L_DEBUG, "%s remove from contact list", userStr(contact, data).local8Bit().data());
-                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()));
+                    seq = sendRoster(ICQ_SNACxLISTS_DELETE, QString::null, data->GrpId.toULong(), data->IcqID.toULong());
                     m_listRequest = new ContactServerRequest(seq, screen(data), 0, 0);
                 }
                 break;
@@ -1221,8 +1221,8 @@ unsigned ICQClient::processListRequest()
             if (isContactRenamed(data, contact)){
                 log(L_DEBUG, "%s rename", userStr(contact, data).local8Bit().data());
                 TlvList *tlv = createListTlv(data, contact);
-                seq = sendRoster(ICQ_SNACxLISTS_UPDATE, screen(data), (unsigned short)(data->GrpId.toULong()), (unsigned short)(data->IcqID.toULong()), 0, tlv);
-                m_listRequest = new ContactServerRequest(seq, screen(data), (unsigned short)(data->IcqID.toULong()), (unsigned short)(data->GrpId.toULong()), tlv);
+                seq = sendRoster(ICQ_SNACxLISTS_UPDATE, screen(data), data->GrpId.toULong(), data->IcqID.toULong(), 0, tlv);
+                m_listRequest = new ContactServerRequest(seq, screen(data), data->IcqID.toULong(), data->GrpId.toULong(), tlv);
                 break;
             }
             break;
@@ -1413,13 +1413,13 @@ void ICQClient::addContactRequest(Contact *contact)
             bChanged = true;
         }
         if (!bChanged){
-            unsigned short grp_id = 0;
+            unsigned grp_id = 0;
             if (contact->getGroup()){
                 Group *group = getContacts()->group(contact->getGroup());
                 if (group){
                     ICQUserData *grp_data = (ICQUserData*)(group->clientData.getData(this));
                     if (grp_data){
-                        grp_id = (unsigned short)(grp_data->IcqID.toULong());
+                        grp_id = grp_data->IcqID.toULong();
                     }else{
                         addGroupRequest(group);
                     }
@@ -1431,7 +1431,7 @@ void ICQClient::addContactRequest(Contact *contact)
                     // fix for #5302
                     grp_id = 1;
                     contact->setGroup(grp_id);
-                    unsigned short oldGrpId = static_cast<unsigned short>(data->GrpId.toULong());
+                    unsigned oldGrpId = data->GrpId.toULong();
                     data->GrpId.asULong() = grp_id;
                     log(L_WARN, "%s change group %u->%u, because otherewise the contact would be deleted",
                         userStr(contact, data).local8Bit().data(), oldGrpId, grp_id);

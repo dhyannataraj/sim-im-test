@@ -729,7 +729,7 @@ void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsign
     if (cookie1 == 0){
         m_advCounter--;
         cookie1 = m_advCounter;
-        cookie2 = (plugin_index == PLUGIN_NULL) ? (unsigned short)0x0E : (unsigned short)0x12;
+        cookie2 = (plugin_index == PLUGIN_NULL) ? 0x0E : 0x12;
     }
     ICQBuffer msgBuf;
     msgBuf.pack((unsigned short)0x1B);
@@ -865,7 +865,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             if (ft->m_localPort == remotePort){
                 log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu",
                     screen.local8Bit().data(), inet_ntoa(addr), localPort);
-                ft->reverseConnect(localIP, (unsigned short)localPort);
+                ft->reverseConnect(localIP, localPort);
                 return;
             }
         }
@@ -873,7 +873,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             screen.local8Bit().data(), inet_ntoa(addr), localPort);
         DirectClient *direct = new DirectClient(data, this);
         m_sockets.push_back(direct);
-        direct->reverseConnect(localIP, (unsigned short)localPort);
+        direct->reverseConnect(localIP, localPort);
         return;
     }
 

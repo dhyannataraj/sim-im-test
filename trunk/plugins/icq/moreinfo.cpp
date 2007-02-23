@@ -160,7 +160,7 @@ void MoreInfo::fill()
     if (data == NULL)
         data = &m_client->data.owner;
     edtHomePage->setText(data->Homepage.str());
-    initCombo(cmbGender, (unsigned short)(data->Gender.toULong()), genders);
+    initCombo(cmbGender, data->Gender.toULong(), genders);
     if (spnAge->text() == "0")
         spnAge->setSpecialValueText(QString::null);
     QDate date;

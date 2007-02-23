@@ -117,8 +117,8 @@ void WorkInfo::fill()
     edtCity->setText(data->WorkCity.str());
     edtState->setText(data->WorkState.str());
     edtZip->setText(data->WorkZip.str());
-    initCombo(cmbCountry, (unsigned short)(data->WorkCountry.toULong()), getCountries());
-    initCombo(cmbOccupation, (unsigned short)(data->Occupation.toULong()), occupations);
+    initCombo(cmbCountry, data->WorkCountry.toULong(), getCountries());
+    initCombo(cmbOccupation, data->Occupation.toULong(), occupations);
     edtName->setText(data->WorkName.str());
     edtDept->setText(data->WorkDepartment.str());
     edtPosition->setText(data->WorkPosition.str());
