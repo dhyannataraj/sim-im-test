@@ -35,7 +35,6 @@ DockCfg::DockCfg(QWidget *parent, DockPlugin *plugin)
     chkAutoHide->setChecked(plugin->getAutoHide());
     unsigned interval = plugin->getAutoHideInterval();
     spnAutoHide->setValue(interval);
-    chkOpenUnread->setChecked(m_plugin->getOpenUnreadOnClick());
     connect(chkAutoHide, SIGNAL(toggled(bool)), this, SLOT(autoHideToggled(bool)));
     connect(btnCustomize, SIGNAL(clicked()), this, SLOT(customize()));
     autoHideToggled(plugin->getAutoHide());
@@ -52,7 +51,6 @@ void DockCfg::apply()
 {
     m_plugin->setAutoHide(chkAutoHide->isChecked());
     m_plugin->setAutoHideInterval(spnAutoHide->text().toULong());
-    m_plugin->setOpenUnreadOnClick(chkOpenUnread->isChecked());
 #ifdef USE_KDE
     m_plugin->setDesktop(spn_desk->text().toULong());
 #endif
