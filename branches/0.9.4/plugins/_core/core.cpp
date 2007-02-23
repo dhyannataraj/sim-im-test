@@ -2872,7 +2872,7 @@ if (fname[0] != '/')
                 return e->param();
             }
             if ((cmd->id == CmdContainer) && (cmd->menu_id == MenuContact)){
-                if (getContainerMode())
+                if (getContainerMode() && getContainerMode() != 3)
                     return e->param();
                 return NULL;
             }
