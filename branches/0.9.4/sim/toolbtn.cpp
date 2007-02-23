@@ -519,8 +519,11 @@ void CToolCombo::btnDestroyed()
 
 void CToolCombo::slotTextChanged(const QString &str)
 {
-    if (m_btn && m_bCheck)
+    if (m_btn && m_bCheck){
         m_btn->setEnabled(!str.isEmpty());
+        if (str.isEmpty())
+            m_btn->setOn(false);
+    }
 }
 
 void CToolCombo::setState()
