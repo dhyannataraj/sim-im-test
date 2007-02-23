@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-15 16:05+0200\n"
-"PO-Revision-Date: 2006-08-04 22:56+0600\n"
+"PO-Revision-Date: 2007-02-24 02:56+0500\n"
 "Last-Translator: Andrey Rahmatullin <wrar@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6804,7 +6804,7 @@ msgstr "Оператор:"
 #: rc.cpp:888
 #, no-c-format
 msgid "Hide main window after"
-msgstr "Скрыть главное окно"
+msgstr "Скрыть главное окно после"
 
 # ui/statussetupbase.cpp:131
 #: rc.cpp:891
