@@ -52,15 +52,12 @@ public:
     void addIconToTaskbar();
 #endif
     void mouseEvent( QMouseEvent *e);
-    virtual void mouseDoubleClickEvent( QMouseEvent *e);
 signals:
     void showPopup(QPoint);
-    void toggleWin();
-    void doubleClicked();
+    void toggleWin(bool);
 protected slots:
     void toggle();
     void blink();
-    void dbl_click();
     void showPopup();
 protected:
 #ifdef WIN32
@@ -68,7 +65,6 @@ protected:
 #endif
     virtual bool processEvent(SIM::Event *e);
     void  reset();
-    bool  bNoToggle;
     QString m_tip;
     QString m_curTipText;
     QString m_curIcon;
