@@ -4,6 +4,19 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 [-] Fixed error
 [*] Changes
 
+
+=== SIM 0.9.4.3 (not released yet) ===
+
+Build system
+~~~~~~~~~~~~
+[-] Autotools: fix libXss detection.
+
+Core
+~~~~
+[-] Disable history filter when it is empty.
+[-] Remove "To container" menu when separate containers are disabled.
+
+
 === SIM 0.9.4.2 (19.01.2007) ===
 
 Core
@@ -16,6 +29,7 @@ ICQ plugin
 ~~~~~~~~~~
 [*] Send and detect SIM patchlevel in version info.
 [-] Fix receiving certain messages containing TLV(5) twice.
+[-] Fix playing sounds for messages from QIP.
 
 Jabber plugin
 ~~~~~~~~~~~~~
