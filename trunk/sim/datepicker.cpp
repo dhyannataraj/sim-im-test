@@ -256,7 +256,6 @@ PickerPopup::PickerPopup(DatePicker *picker)
         if (i >= 5)
             l->setPalette(pal);
     }
-    int day = m_picker->getDate().day();
     int month = m_picker->getDate().month();
     int year = m_picker->getDate().year();
 
