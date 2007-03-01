@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sim 0.9.4\n"
-"POT-Creation-Date: 2006-10-15 16:05+0200\n"
+"POT-Creation-Date: 2007-03-02 01:03+0500\n"
 "PO-Revision-Date: 2006-06-23 00:17+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -27,6 +27,21 @@ msgstr "Insticksmodul som tillhandahåller katalogval för lagring av konfigurat
 msgid "Set home directory"
 msgstr "Ställ in hemkatalog"
 
+#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78 plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:166 plugins/_core/interfacecfgbase.cpp:122 plugins/_core/maininfobase.cpp:186 plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113 plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91 plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67 plugins/autoaway/autoawaycfgbase.cpp:102 plugins/background/bkgndcfgbase.cpp:113 plugins/dock/dockcfgbase.cpp:91 plugins/filter/filtercfgbase.cpp:68 plugins/forward/forwardcfgbase.cpp:70 plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:105 plugins/gpg/gpguserbase.cpp:67 plugins/icons/iconcfgbase.cpp:73 plugins/icq/advsearchbase.cc:245 plugins/icq/aimconfigbase.cc:143 plugins/icq/aiminfobase.cc:255 plugins/icq/aimsearchbase.cc:161 plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:262 plugins/icq/icqpicturebase.cc:74 plugins/icq/icqsearchbase.cc:125 plugins/icq/icqsecurebase.cc:109 plugins/icq/pastinfobase.cc:138 plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberconfigbase.cpp:304 plugins/jabber/jabberinfobase.cpp:244 plugins/jabber/jabberpicturebase.cpp:74 plugins/jabber/jabberworkinfobase.cpp:88 plugins/jabber/jidadvsearchbase.cpp:63 plugins/jabber/jidsearchbase.cpp:74 plugins/livejournal/journalsearchbase.cpp:64 plugins/livejournal/livejournalcfgbase.cpp:158 plugins/livejournal/msgjournalbase.cpp:81 plugins/logger/logconfigbase.cpp:67 plugins/msn/msninfobase.cpp:129 plugins/msn/msnsearchbase.cpp:71 plugins/navigate/navcfgbase.cc:71 plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:108 plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:103 plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/mousecfgbase.cpp:77 plugins/shortcuts/shortcutcfgbase.cpp:79 plugins/sound/soundconfigbase.cpp:96 plugins/sound/sounduserbase.cpp:62 plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99 plugins/styles/stylescfgbase.cpp:52 plugins/transparent/transparentcfgbase.cpp:70 plugins/weather/weathercfgbase.cpp:109 plugins/weather/wifacecfgbase.cpp:80 plugins/yahoo/yahooinfobase.cpp:152 plugins/yahoo/yahoosearchbase.cpp:97 rc.cpp:3 rc.cpp:12 rc.cpp:27 rc.cpp:55 rc.cpp:82 rc.cpp:103 rc.cpp:124 rc.cpp:221 rc.cpp:227 rc.cpp:237 rc.cpp:263 rc.cpp:313 rc.cpp:403 rc.cpp:419 rc.cpp:440 rc.cpp:449 rc.cpp:473 rc.cpp:492 rc.cpp:511 rc.cpp:520 rc.cpp:530 rc.cpp:542 rc.cpp:614 rc.cpp:626 rc.cpp:693 rc.cpp:714 rc.cpp:738 rc.cpp:767 rc.cpp:779 rc.cpp:823 rc.cpp:861 rc.cpp:976 rc.cpp:1109 rc.cpp:1118 rc.cpp:1300 rc.cpp:1342 rc.cpp:1348 rc.cpp:1379 rc.cpp:1398 rc.cpp:1459 rc.cpp:1465 rc.cpp:1480 rc.cpp:1495 rc.cpp:1519 rc.cpp:1583 rc.cpp:1618 rc.cpp:1633 rc.cpp:1639 rc.cpp:1669 rc.cpp:1709 rc.cpp:1725 rc.cpp:1768 rc.cpp:1808 rc.cpp:1818 rc.cpp:1842 rc.cpp:1881 rc.cpp:1959 rc.cpp:1992 rc.cpp:2025 rc.cpp:2140 rc.cpp:2302 rc.cpp:2357 rc.cpp:2421
+#, no-c-format
+msgid "Form1"
+msgstr "Form1"
+
+#: plugins/__homedir/homedircfgbase.cpp:63 rc.cpp:617
+#, no-c-format
+msgid "Use &default path"
+msgstr "Använd &standardsökväg"
+
+#: plugins/__homedir/homedircfgbase.cpp:64 rc.cpp:620
+#, no-c-format
+msgid "Path for config files:"
+msgstr "Sökväg för konfigurationsfiler:"
+
 #: plugins/__migrate/migrate.cpp:35
 msgid "Migrate"
 msgstr "Migrera"
@@ -44,9 +59,58 @@ msgstr "Avbryt konvertering?"
 msgid "Can't open %1"
 msgstr "Kan inte öppna %1"
 
+#: plugins/__migrate/migratedlgbase.cpp:89 rc.cpp:645
+#, no-c-format
+msgid "Convert configuration from old version"
+msgstr "Konvertera konfiguration från äldre version"
+
+#: plugins/__migrate/migratedlgbase.cpp:90 rc.cpp:651
+#, no-c-format
+msgid "Directories for convert:"
+msgstr "Kataloger för konvertering:"
+
+#: plugins/__migrate/migratedlgbase.cpp:91 rc.cpp:654
+#, no-c-format
+msgid "&Remove old files"
+msgstr "&Ta bort gamla filer"
+
+#: plugins/__migrate/migratedlgbase.cpp:92 rc.cpp:657
+#, no-c-format
+msgid ""
+"Note!\n"
+"If you select an option \" Remove old files \", you can not use the old version"
+msgstr ""
+"Notera!\n"
+"Om du väljer alternativet \" Remove old files \", kan du inte använda den äldre versionen"
+
+#: plugins/__migrate/migratedlgbase.cpp:94 rc.cpp:648
+#, no-c-format
+msgid "Select directories for convert"
+msgstr "Välj kataloger för konvertering"
+
+#: plugins/__migrate/migratedlgbase.cpp:96 rc.cpp:661
+#, no-c-format
+msgid "Convert configuration"
+msgstr "Konvertera konfiguration"
+
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:133 plugins/weather/wifacecfg.cpp:107
 msgid "In text you can use:"
 msgstr "I text du kan använda:"
+
+#: plugins/_core/arcfgbase.cpp:79 plugins/_core/prefcfgbase.cpp:66 rc.cpp:669 rc.cpp:783
+#, no-c-format
+msgid "&Override global settings"
+msgstr "&Åsidosätt globala inställningar"
+
+#: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89 plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94 plugins/weather/wifacecfgbase.cpp:84 rc.cpp:786 rc.cpp:798 rc.cpp:1492 rc.cpp:1636 rc.cpp:1660 sim/simapi.cpp:490
+#, no-c-format
+msgid "&Help"
+msgstr "&Hjälp"
+
+#: plugins/_core/arcfgbase.cpp:81 rc.cpp:789
+#, no-c-format
+msgid "Don't show autoreply dialog"
+msgstr "Visa inte dialogrutan för automatiskt svar"
 
 #: plugins/_core/autoreply.cpp:70
 msgid "Autoreply message"
@@ -61,6 +125,26 @@ msgstr ""
 "Stäng efter %n sekund\n"
 "Stäng efter %n sekunder"
 
+#: plugins/_core/autoreplybase.cpp:87 plugins/_core/connectionsettingsbase.cpp:74 rc.cpp:792 rc.cpp:1265
+#, no-c-format
+msgid "MyDialog"
+msgstr "MinDialog"
+
+#: plugins/_core/autoreplybase.cpp:88 rc.cpp:795
+#, no-c-format
+msgid "Don't show this dialog"
+msgstr "Visa inte denna dialogruta"
+
+#: plugins/_core/autoreplybase.cpp:91 plugins/_core/cfgdlg.cpp:527 plugins/_core/cfgdlgbase.cpp:95 plugins/_core/connectionsettingsbase.cpp:75 plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97 plugins/_core/editphonebase.cpp:112 plugins/_core/logindlgbase.cpp:132 plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:95 plugins/gpg/gpggenbase.cpp:142 plugins/gpg/passphrasebase.cpp:91 plugins/icq/encodingdlgbase.cc:86 plugins/icq/verifydlgbase.cc:113 plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289 plugins/proxy/proxyerrorbase.cpp:80 rc.cpp:49 rc.cpp:397 rc.cpp:761 rc.cpp:802 rc.cpp:817 rc.cpp:970 rc.cpp:1009 rc.cpp:1034 rc.cpp:1268 rc.cpp:1294 rc.cpp:1663 rc.cpp:1703 rc.cpp:1762 rc.cpp:1951 rc.cpp:2265 rc.cpp:2296 sim/simapi.cpp:484
+#, no-c-format
+msgid "&OK"
+msgstr "&OK"
+
+#: plugins/_core/autoreplybase.cpp:92 plugins/_core/cfgdlg.cpp:528 plugins/_core/cfgdlgbase.cpp:96 plugins/_core/connectionsettingsbase.cpp:76 plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98 plugins/_core/editphonebase.cpp:113 plugins/_core/filetransferbase.cpp:138 plugins/_core/logindlgbase.cpp:133 plugins/_core/search.cpp:131 plugins/action/additembase.cpp:96 plugins/gpg/gpgfindbase.cpp:70 plugins/gpg/gpggenbase.cpp:143 plugins/gpg/passphrasebase.cpp:92 plugins/icq/encodingdlgbase.cc:87 plugins/icq/icqclient.cpp:2466 plugins/icq/securedlgbase.cc:78 plugins/icq/verifydlgbase.cc:115 plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81 plugins/spell/spellfindbase.cpp:68 plugins/weather/weathercfg.cpp:76 rc.cpp:52 rc.cpp:527 rc.cpp:764 rc.cpp:805 rc.cpp:820 rc.cpp:1012 rc.cpp:1037 rc.cpp:1238 rc.cpp:1271 rc.cpp:1297 rc.cpp:1666 rc.cpp:1706 rc.cpp:1722 rc.cpp:1765 rc.cpp:1955 rc.cpp:2268 rc.cpp:2280 rc.cpp:2299 sim/simapi.cpp:487
+#, no-c-format
+msgid "&Cancel"
+msgstr "&Avbryt"
+
 #: plugins/_core/cfgdlg.cpp:300 plugins/_core/usercfg.cpp:195
 msgid "User info"
 msgstr "Användarinformation"
@@ -73,22 +157,12 @@ msgstr "Automatiskt svar"
 msgid "Plugins"
 msgstr "Insticksmoduler"
 
-#: plugins/_core/cfgdlg.cpp:526 rc.cpp:1267 rc.cpp:1356 rc.cpp:2207 sim/simapi.cpp:481
+#: plugins/_core/cfgdlg.cpp:526 plugins/_core/cfgdlgbase.cpp:94 plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:288 rc.cpp:394 rc.cpp:967 rc.cpp:1031 sim/simapi.cpp:485
 #, no-c-format
 msgid "&Apply"
 msgstr "&Verkställ"
 
-#: plugins/_core/cfgdlg.cpp:527 rc.cpp:22 rc.cpp:35 rc.cpp:120 rc.cpp:403 rc.cpp:529 rc.cpp:1073 rc.cpp:1149 rc.cpp:1270 rc.cpp:1359 rc.cpp:1450 rc.cpp:1495 rc.cpp:1507 rc.cpp:1546 rc.cpp:1702 rc.cpp:1932 rc.cpp:2210 sim/qt3/i18n.cpp:174 sim/simapi.cpp:480
-#, no-c-format
-msgid "&OK"
-msgstr "&OK"
-
-#: plugins/_core/cfgdlg.cpp:528 plugins/_core/search.cpp:131 plugins/icq/icqclient.cpp:2464 plugins/weather/weathercfg.cpp:76 rc.cpp:25 rc.cpp:38 rc.cpp:72 rc.cpp:123 rc.cpp:388 rc.cpp:407 rc.cpp:532 rc.cpp:1076 rc.cpp:1152 rc.cpp:1362 rc.cpp:1384 rc.cpp:1453 rc.cpp:1498 rc.cpp:1510 rc.cpp:1549 rc.cpp:1705 rc.cpp:1751 rc.cpp:1935 sim/qt3/i18n.cpp:35 sim/simapi.cpp:483
-#, no-c-format
-msgid "&Cancel"
-msgstr "&Avbryt"
-
-#: plugins/_core/cfgdlg.cpp:529 plugins/_core/core.cpp:532 plugins/_core/core.cpp:1152 plugins/_core/core.cpp:1234 rc.cpp:1349
+#: plugins/_core/cfgdlg.cpp:529 plugins/_core/cfgdlgbase.cpp:91 plugins/_core/core.cpp:532 plugins/_core/core.cpp:1152 plugins/_core/core.cpp:1234 rc.cpp:1024
 #, no-c-format
 msgid "Setup"
 msgstr "Konfigurera"
@@ -100,6 +174,11 @@ msgstr "Konfigurera"
 #: plugins/_core/cfgdlg.cpp:577
 msgid "Update info"
 msgstr "Uppdatera information"
+
+#: plugins/_core/cfgdlgbase.cpp:93 rc.cpp:1028
+#, no-c-format
+msgid "&Update"
+msgstr "&Uppdatera"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
@@ -117,17 +196,41 @@ msgstr "Konfigurera %1-klient"
 msgid "Forgot password?"
 msgstr "Glömt ditt lösenord?"
 
+#: plugins/_core/connectwndbase.cpp:98 plugins/icq/moreinfobase.cc:152 rc.cpp:1183 rc.cpp:2115
+#, no-c-format
+msgid "Form3"
+msgstr "Form3"
+
+#: plugins/_core/connectwndbase.cpp:99 plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:58 rc.cpp:1186
+#, no-c-format
+msgid "Connecting"
+msgstr "Ansluter"
+
+#: plugins/_core/connectwndbase.cpp:101 rc.cpp:1190
+#, no-c-format
+msgid "Complete"
+msgstr "Klar"
+
+#: plugins/_core/connectwndbase.cpp:102 rc.cpp:1193
+#, no-c-format
+msgid ""
+"If you want to add connection press button \" Next\".\n"
+"You can add connection later using connection manager"
+msgstr ""
+"Om du vill lägga till en anslutning, tryck på knappen \"Nästa\".\n"
+"Du kan lägga till en anslutning sedan med anslutningshanteraren"
+
 #: plugins/_core/container.cpp:331
 msgid "Container"
 msgstr "Behållare"
 
-#: plugins/_core/container.cpp:593 plugins/osd/osd.cpp:421
+#: plugins/_core/container.cpp:593 plugins/osd/osd.cpp:422
 msgid ""
 "_: male\n"
 "%1 is typing"
 msgstr "%1 skriver"
 
-#: plugins/_core/container.cpp:594 plugins/osd/osd.cpp:422
+#: plugins/_core/container.cpp:594 plugins/osd/osd.cpp:423
 msgid ""
 "_: female\n"
 "%1 is typing"
@@ -223,7 +326,7 @@ msgstr "Användar&information"
 msgid "&History"
 msgstr "&Historik"
 
-#: plugins/_core/core.cpp:637 plugins/_core/filetransfer.cpp:344 plugins/icq/securedlg.cpp:92 rc.cpp:1273 rc.cpp:1420 rc.cpp:1670 rc.cpp:2213 sim/qt3/i18n.cpp:287 sim/simapi.cpp:483
+#: plugins/_core/core.cpp:637 plugins/_core/filetransfer.cpp:344 plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136 plugins/about/aboutdlgbase.cpp:122 plugins/icq/securedlg.cpp:92 plugins/jabber/discoinfobase.cpp:290 rc.cpp:400 rc.cpp:973 rc.cpp:1262 rc.cpp:1614 sim/simapi.cpp:487
 #, no-c-format
 msgid "&Close"
 msgstr "&Stäng"
@@ -232,12 +335,12 @@ msgstr "&Stäng"
 msgid "&Send"
 msgstr "&Skicka"
 
-#: plugins/_core/core.cpp:691 plugins/_core/core.cpp:1703
+#: plugins/_core/core.cpp:691 plugins/_core/core.cpp:1710
 msgid "&Insert smile"
 msgstr "&Infoga smilis"
 
 # Osäker på denna. Translit är ett intressant ord
-#: plugins/_core/core.cpp:698 rc.cpp:1966
+#: plugins/_core/core.cpp:698 plugins/forward/forwardcfgbase.cpp:75 rc.cpp:1596
 #, no-c-format
 msgid "Send in &translit"
 msgstr "Skicka &omkodad"
@@ -266,7 +369,7 @@ msgstr "&Fet"
 msgid "&Italic"
 msgstr "&Kursiv"
 
-#: plugins/_core/core.cpp:750 plugins/_core/core.cpp:854 sim/qt3/i18n.cpp:160
+#: plugins/_core/core.cpp:750 plugins/_core/core.cpp:854
 msgid "&Underline"
 msgstr "&Understruken"
 
@@ -310,7 +413,7 @@ msgstr "&Spara som text"
 msgid "&Open message"
 msgstr "&Öppna meddelande"
 
-#: plugins/_core/core.cpp:901 plugins/_core/core.cpp:992 plugins/netmonitor/monitor.cpp:72 rc.cpp:1323 sim/qt3/qtextedit.cpp:4238
+#: plugins/_core/core.cpp:901 plugins/_core/core.cpp:992 plugins/_core/historycfgbase.cpp:175 plugins/netmonitor/monitor.cpp:72 rc.cpp:884
 #, no-c-format
 msgid "&Copy"
 msgstr "&Kopiera"
@@ -335,27 +438,27 @@ msgstr "&Vidarebefordra"
 msgid "&Answer"
 msgstr "&Svara"
 
-#: plugins/_core/core.cpp:967 sim/qt3/qtextedit.cpp:4231
+#: plugins/_core/core.cpp:967
 msgid "&Undo"
 msgstr "&Ångra"
 
-#: plugins/_core/core.cpp:978 sim/qt3/qtextedit.cpp:4232
+#: plugins/_core/core.cpp:978
 msgid "&Redo"
 msgstr "&Gör om"
 
-#: plugins/_core/core.cpp:985 sim/qt3/qtextedit.cpp:4237
+#: plugins/_core/core.cpp:985
 msgid "Cu&t"
 msgstr "Klipp u&t"
 
-#: plugins/_core/core.cpp:999 sim/qt3/qtextedit.cpp:4240
+#: plugins/_core/core.cpp:999
 msgid "&Paste"
 msgstr "&Klistra in"
 
-#: plugins/_core/core.cpp:1006 sim/editfile.cpp:342 sim/editfile.cpp:425 sim/qt3/i18n.cpp:255 sim/qt3/qtextedit.cpp:4243
+#: plugins/_core/core.cpp:1006 sim/editfile.cpp:342 sim/editfile.cpp:425
 msgid "Clear"
 msgstr "Töm"
 
-#: plugins/_core/core.cpp:1013 sim/qt3/i18n.cpp:257 sim/qt3/qtextedit.cpp:4247 sim/qt3/qtextedit.cpp:4249
+#: plugins/_core/core.cpp:1013
 msgid "Select All"
 msgstr "Markera alla"
 
@@ -371,7 +474,7 @@ msgstr "Stavningskontroll"
 msgid "&Messages"
 msgstr "&Meddelanden"
 
-#: plugins/_core/core.cpp:1044 plugins/_core/msgedit.cpp:1675 rc.cpp:833
+#: plugins/_core/core.cpp:1044 plugins/_core/msgedit.cpp:1675 plugins/sms/smssetupbase.cpp:153 rc.cpp:1531
 #, no-c-format
 msgid "&SMS"
 msgstr "&SMS"
@@ -421,12 +524,12 @@ msgstr "Upp"
 msgid "Down"
 msgstr "Ned"
 
-#: plugins/_core/core.cpp:1194 rc.cpp:1326 sim/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:1194 plugins/_core/historycfgbase.cpp:176 rc.cpp:887
 #, no-c-format
 msgid "&Rename"
 msgstr "&Byt namn"
 
-#: plugins/_core/core.cpp:1203 plugins/_core/core.cpp:1350 plugins/_core/core.cpp:1363 rc.cpp:1329 rc.cpp:1537 rc.cpp:1582 rc.cpp:1606 rc.cpp:1917 sim/listview.cpp:38 sim/qt3/i18n.cpp:99
+#: plugins/_core/core.cpp:1203 plugins/_core/core.cpp:1350 plugins/_core/core.cpp:1363 plugins/_core/historycfgbase.cpp:177 plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:195 plugins/_core/maininfobase.cpp:205 plugins/action/menucfgbase.cpp:70 rc.cpp:890 rc.cpp:1148 rc.cpp:1172 rc.cpp:1285 rc.cpp:1648 sim/listview.cpp:38
 #, no-c-format
 msgid "&Delete"
 msgstr "&Ta bort"
@@ -443,7 +546,7 @@ msgstr "Till behållare"
 msgid "&Location"
 msgstr "&Plats"
 
-#: plugins/_core/core.cpp:1274 rc.cpp:220 rc.cpp:574 rc.cpp:742 rc.cpp:1859 rc.cpp:2260
+#: plugins/_core/core.cpp:1274 plugins/icq/aiminfobase.cc:274 plugins/icq/icqinfobase.cc:321 plugins/jabber/jabberinfobase.cpp:257 plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:161 rc.cpp:285 rc.cpp:1410 rc.cpp:2179 rc.cpp:2219 rc.cpp:2375
 #, no-c-format
 msgid "&Status"
 msgstr "&Status"
@@ -468,11 +571,11 @@ msgstr "&Upptagen"
 msgid "Decline file without reason"
 msgstr "Neka fil utan anledning"
 
-#: plugins/_core/core.cpp:1327 plugins/_core/core.cpp:3370
+#: plugins/_core/core.cpp:1327 plugins/_core/core.cpp:3375
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr "Tyvärr, jag är upptagen för tillfället och kan inte svara dig"
 
-#: plugins/_core/core.cpp:1332 plugins/_core/core.cpp:3379
+#: plugins/_core/core.cpp:1332 plugins/_core/core.cpp:3384
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "Tyvärr, jag är upptagen just nu men jag kan svara dig lite senare"
 
@@ -480,7 +583,7 @@ msgstr "Tyvärr, jag är upptagen just nu men jag kan svara dig lite senare"
 msgid "Enter a decline reason"
 msgstr "Ange en anledning för nekandet"
 
-#: plugins/_core/core.cpp:1342 plugins/_core/core.cpp:1356 plugins/netmonitor/monitor.cpp:74 rc.cpp:1579 rc.cpp:1603 rc.cpp:1914
+#: plugins/_core/core.cpp:1342 plugins/_core/core.cpp:1356 plugins/_core/maininfobase.cpp:194 plugins/_core/maininfobase.cpp:204 plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:74 rc.cpp:1145 rc.cpp:1169 rc.cpp:1645
 #, no-c-format
 msgid "&Edit"
 msgstr "&Redigera"
@@ -497,7 +600,7 @@ msgstr "Ändra &teckenkodning"
 msgid "Add to &group"
 msgstr "Lägg till i &grupp"
 
-#: plugins/_core/core.cpp:1427 plugins/jabber/discoinfo.cpp:179 rc.cpp:1555 rc.cpp:2144 rc.cpp:2184
+#: plugins/_core/core.cpp:1427 plugins/_core/maininfobase.cpp:191 plugins/jabber/discoinfo.cpp:165 plugins/jabber/discoinfobase.cpp:270 plugins/jabber/discoinfobase.cpp:287 rc.cpp:331 rc.cpp:371 rc.cpp:1121
 #, no-c-format
 msgid "&Info"
 msgstr "&Info"
@@ -506,55 +609,55 @@ msgstr "&Info"
 msgid "Send &message"
 msgstr "Skicka &meddelande"
 
-#: plugins/_core/core.cpp:1665
+#: plugins/_core/core.cpp:1672
 msgid "ip-address"
 msgstr "ip-adress"
 
-#: plugins/_core/core.cpp:1667
+#: plugins/_core/core.cpp:1674
 msgid "e-mail"
 msgstr "e-post"
 
-#: plugins/_core/core.cpp:1669
+#: plugins/_core/core.cpp:1676
 msgid "phone"
 msgstr "telefon"
 
-#: plugins/_core/core.cpp:1671
+#: plugins/_core/core.cpp:1678
 msgid "contact nick"
 msgstr "kontaktens smeknamn"
 
-#: plugins/_core/core.cpp:1673
+#: plugins/_core/core.cpp:1680
 msgid "number of unread messages from this contact"
 msgstr "antal olästa meddelanden från denna kontakt"
 
-#: plugins/_core/core.cpp:1675
+#: plugins/_core/core.cpp:1682
 msgid "contact status"
 msgstr "kontaktstatus"
 
-#: plugins/_core/core.cpp:1677
+#: plugins/_core/core.cpp:1684
 msgid "time of set status"
 msgstr "tiden för statusändring"
 
-#: plugins/_core/core.cpp:1679
+#: plugins/_core/core.cpp:1686
 msgid "time from set status"
 msgstr "tid från statusändring"
 
-#: plugins/_core/core.cpp:1684
+#: plugins/_core/core.cpp:1691
 msgid ""
 "_: male\n"
 "%1 wrote:"
 msgstr "%1 skrev:"
 
-#: plugins/_core/core.cpp:1685
+#: plugins/_core/core.cpp:1692
 msgid ""
 "_: female\n"
 "%1 wrote:"
 msgstr "%1 skrev:"
 
-#: plugins/_core/core.cpp:1722 plugins/_core/status.cpp:351 sim/qt3/i18n.cpp:21
+#: plugins/_core/core.cpp:1729 plugins/_core/status.cpp:351
 msgid "OK"
 msgstr "OK"
 
-#: plugins/_core/core.cpp:1725
+#: plugins/_core/core.cpp:1732
 msgid ""
 "At loading contact list contacts with identical names were automatically joined.\n"
 "If it is wrong, you can separate them. For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."
@@ -562,72 +665,82 @@ msgstr ""
 "Vid inläsning av kontaktlistans kontakter blev identiska namn automatiskt sammanfogade.\n"
 "Om detta är fel kan du separera dem. För denna anledning finns kommandot \"Separera\" i kontaktsmenyn, välj dock först nödvändigt namn."
 
-#: plugins/_core/core.cpp:1728
+#: plugins/_core/core.cpp:1735
 msgid "Don't show this message in next time"
 msgstr "Visa inte detta meddelande nästa gång"
 
-#: plugins/_core/core.cpp:1755
+#: plugins/_core/core.cpp:1762
 msgid "`<command>` - call <command> and substitute command output\n"
 msgstr "`<command>` - call <kommando> och ersätt kommandoutdata\n"
 
-#: plugins/_core/core.cpp:2301 plugins/_core/interfacecfg.cpp:101
+#: plugins/_core/core.cpp:2308 plugins/_core/interfacecfg.cpp:101
 msgid "System"
 msgstr "System"
 
-#: plugins/_core/core.cpp:2438
+#: plugins/_core/core.cpp:2445
 msgid "&Separate"
 msgstr "&Separat"
 
-#: plugins/_core/core.cpp:2476 plugins/_core/userwnd.cpp:134
+#: plugins/_core/core.cpp:2483 plugins/_core/userwnd.cpp:134
 #, c-format
 msgid "from %1"
 msgstr "från %1"
 
-#: plugins/_core/core.cpp:2670 rc.cpp:1686
+#: plugins/_core/core.cpp:2677 plugins/icons/iconcfgbase.cpp:77 rc.cpp:1630
 #, no-c-format
 msgid "&New"
 msgstr "&Ny"
 
-#: plugins/_core/core.cpp:2744
+#: plugins/_core/core.cpp:2751
 msgid "Not available"
 msgstr "Inte tillgänglig"
 
-#: plugins/_core/core.cpp:2843 plugins/dock/dockwnd.cpp:1368 plugins/msn/msnpacket.cpp:490 plugins/osd/osd.cpp:551
+#: plugins/_core/core.cpp:2848 plugins/dock/dockwnd.cpp:1373 plugins/msn/msnpacket.cpp:490 plugins/osd/osd.cpp:552
 msgid "%1 from %2"
 msgstr "%1 från %2"
 
-#: plugins/_core/core.cpp:3141
+#: plugins/_core/core.cpp:3146
 msgid "Send SMS"
 msgstr "Skicka SMS"
 
-#: plugins/_core/core.cpp:4177 plugins/_core/core.cpp:4199 rc.cpp:1399
+#: plugins/_core/core.cpp:4182 plugins/_core/core.cpp:4204 plugins/_core/managerbase.cpp:103 rc.cpp:1241
 #, no-c-format
 msgid "Connection manager"
 msgstr "Anslutningshanterare"
 
-#: plugins/_core/core.cpp:4185
+#: plugins/_core/core.cpp:4190
 msgid "Show status panel"
 msgstr "Visa statuspanel"
 
-#: plugins/_core/core.cpp:4192
+#: plugins/_core/core.cpp:4197
 msgid "Connections"
 msgstr "Anslutningar"
 
-#: plugins/_core/core.cpp:4207
+#: plugins/_core/core.cpp:4212
 msgid "Change profile"
 msgstr "Ändra profil"
 
-#: plugins/_core/core.cpp:4236
+#: plugins/_core/core.cpp:4241
 msgid "Common status"
 msgstr "Vanlig status"
 
-#: plugins/_core/core.cpp:4242
+#: plugins/_core/core.cpp:4247
 msgid "Configure client"
 msgstr "Konfigurera klient"
 
-#: plugins/_core/core.cpp:4266 plugins/_core/status.cpp:145 plugins/_core/status.cpp:233
+#: plugins/_core/core.cpp:4271 plugins/_core/status.cpp:145 plugins/_core/status.cpp:233
 msgid "&Invisible"
 msgstr "&Osynlig"
+
+#: plugins/_core/declinedlgbase.cpp:80 rc.cpp:755
+#, no-c-format
+msgid "Decline reason"
+msgstr "Anledning för nekande"
+
+#: plugins/_core/declinedlgbase.cpp:81 rc.cpp:758
+#, no-c-format
+msgid "Enter decline reason:"
+msgstr "Ange anledning för nekande:"
 
 #: plugins/_core/editmail.cpp:31
 msgid "Add mail address"
@@ -637,6 +750,21 @@ msgstr "Lägg till postadress"
 msgid "Edit mail address"
 msgstr "Redigera postadress"
 
+#: plugins/_core/editmailbase.cpp:94 rc.cpp:808
+#, no-c-format
+msgid "EditMail"
+msgstr "Redigera post"
+
+#: plugins/_core/editmailbase.cpp:95 rc.cpp:811
+#, no-c-format
+msgid "Enter Email address:"
+msgstr "Ange e-postadress:"
+
+#: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:111 rc.cpp:814 rc.cpp:1006
+#, no-c-format
+msgid "&Publish"
+msgstr "&Publicera"
+
 #: plugins/_core/editphone.cpp:38
 msgid "Add phone number"
 msgstr "Lägg till telefonnummer"
@@ -644,6 +772,51 @@ msgstr "Lägg till telefonnummer"
 #: plugins/_core/editphone.cpp:38
 msgid "Edit phone number"
 msgstr "Redigera telefonnummer"
+
+#: plugins/_core/editphonebase.cpp:108 rc.cpp:997
+#, no-c-format
+msgid "EditPhone"
+msgstr "Redigera telefon"
+
+#: plugins/_core/editphonebase.cpp:109 rc.cpp:1000
+#, no-c-format
+msgid "Number details:"
+msgstr "Nummerdetaljer:"
+
+#: plugins/_core/editphonebase.cpp:110 plugins/jabber/discoinfobase.cpp:268 rc.cpp:340 rc.cpp:1003
+#, no-c-format
+msgid "Type:"
+msgstr "Typ:"
+
+#: plugins/_core/filecfgbase.cpp:87 rc.cpp:979
+#, no-c-format
+msgid "Path for incoming files:"
+msgstr "Sökväg för inkommande filer:"
+
+#: plugins/_core/filecfgbase.cpp:88 rc.cpp:982
+#, no-c-format
+msgid "Accept mode"
+msgstr "Accepteringsläge"
+
+#: plugins/_core/filecfgbase.cpp:89 rc.cpp:985
+#, no-c-format
+msgid "Show response"
+msgstr "Visa svar"
+
+#: plugins/_core/filecfgbase.cpp:90 rc.cpp:988
+#, no-c-format
+msgid "Auto accept"
+msgstr "Acceptera automatiskt"
+
+#: plugins/_core/filecfgbase.cpp:91 rc.cpp:991
+#, no-c-format
+msgid "Overwrite files"
+msgstr "Skriv över filer"
+
+#: plugins/_core/filecfgbase.cpp:92 rc.cpp:994
+#, no-c-format
+msgid "Auto decline"
+msgstr "Vägra automatiskt"
 
 #: plugins/_core/filetransfer.cpp:91
 #, c-format
@@ -729,6 +902,36 @@ msgstr "kb/s"
 msgid "b/s"
 msgstr "b/s"
 
+#: plugins/_core/filetransferbase.cpp:131 rc.cpp:1219
+#, no-c-format
+msgid "File transfer"
+msgstr "Filöverföring"
+
+#: plugins/_core/filetransferbase.cpp:133 rc.cpp:1223
+#, no-c-format
+msgid "Time:"
+msgstr "Tid:"
+
+#: plugins/_core/filetransferbase.cpp:134 rc.cpp:1226
+#, no-c-format
+msgid "Estimated time:"
+msgstr "Uppskattad tid:"
+
+#: plugins/_core/filetransferbase.cpp:135 rc.cpp:1229
+#, no-c-format
+msgid "Speed:"
+msgstr "Hastighet:"
+
+#: plugins/_core/filetransferbase.cpp:136 rc.cpp:1232
+#, no-c-format
+msgid "&Go to dir"
+msgstr "&Gå till katalog"
+
+#: plugins/_core/filetransferbase.cpp:137 rc.cpp:1235
+#, no-c-format
+msgid "Close after &transfer"
+msgstr "Stäng efter &överföring"
+
 #: plugins/_core/historycfg.cpp:195
 msgid "Show %1 messages per page"
 msgstr "Visa %1 meddelanden per sida"
@@ -749,10 +952,65 @@ msgstr "Hej!"
 msgid "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> message"
 msgstr "<b><font color=\"#FF0000\">F</font><font color=\"#FFFF00\">ärgat</font></b> meddelande"
 
-#: plugins/_core/historycfg.cpp:675 rc.cpp:1125
+#: plugins/_core/historycfg.cpp:675 plugins/_core/msgcfgbase.cpp:86 rc.cpp:702
 #, no-c-format
 msgid "New message"
 msgstr "Nytt meddelande"
+
+#: plugins/_core/historycfgbase.cpp:167 rc.cpp:864
+#, no-c-format
+msgid "Use &own colors and fonts settings"
+msgstr "Använd &egna inställningar för färger och typsnitt"
+
+#: plugins/_core/historycfgbase.cpp:168 rc.cpp:867
+#, no-c-format
+msgid "Use emotional &icons"
+msgstr "Använd &humörsymboler"
+
+#: plugins/_core/historycfgbase.cpp:169 plugins/_core/userhistorycfgbase.cpp:94 rc.cpp:745 rc.cpp:870
+#, no-c-format
+msgid "Max history file size"
+msgstr "Max filstorlek för historik"
+
+#: plugins/_core/historycfgbase.cpp:171 plugins/_core/userhistorycfgbase.cpp:92 rc.cpp:741 rc.cpp:874
+#, no-c-format
+msgid "Mb"
+msgstr "Mb"
+
+#: plugins/_core/historycfgbase.cpp:173 plugins/_core/userhistorycfgbase.cpp:96 rc.cpp:751 rc.cpp:878
+#, no-c-format
+msgid "Keep history "
+msgstr "Behåll historik "
+
+#: plugins/_core/historycfgbase.cpp:174 plugins/_core/userhistorycfgbase.cpp:95 rc.cpp:748 rc.cpp:881
+#, no-c-format
+msgid "days"
+msgstr "dagar"
+
+#: plugins/_core/historycfgbase.cpp:180 rc.cpp:894
+#, no-c-format
+msgid "100"
+msgstr "100"
+
+#: plugins/_core/historycfgbase.cpp:181 rc.cpp:897
+#, no-c-format
+msgid "50"
+msgstr "50"
+
+#: plugins/_core/historycfgbase.cpp:182 rc.cpp:900
+#, no-c-format
+msgid "20"
+msgstr "20"
+
+#: plugins/_core/historycfgbase.cpp:184 rc.cpp:904
+#, no-c-format
+msgid "&Preview"
+msgstr "&Förhandsgranska"
+
+#: plugins/_core/historycfgbase.cpp:185 rc.cpp:907
+#, no-c-format
+msgid "&Source"
+msgstr "&Källa"
 
 #: plugins/_core/historywnd.cpp:59
 msgid "Loading"
@@ -766,7 +1024,7 @@ msgstr "Historik"
 msgid "Textfile (*.txt)"
 msgstr "Textfil (*.txt)"
 
-#: plugins/_core/historywnd.cpp:193 plugins/_core/historywnd.cpp:213 plugins/_core/status.cpp:131 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:96 plugins/windock/windock.cpp:187 sim/qt3/i18n.cpp:141
+#: plugins/_core/historywnd.cpp:193 plugins/_core/historywnd.cpp:213 plugins/_core/status.cpp:131 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:96 plugins/windock/windock.cpp:187
 msgid "Error"
 msgstr "Fel"
 
@@ -886,6 +1144,62 @@ msgstr "SMS"
 msgid "Copy %1 messages from history"
 msgstr "Kopiera %1 meddelanden från historik"
 
+#: plugins/_core/interfacecfgbase.cpp:123 plugins/icq/advsearchbase.cc:247 plugins/spell/spellcfgbase.cpp:86 rc.cpp:539 rc.cpp:826 rc.cpp:2308
+#, no-c-format
+msgid "Language:"
+msgstr "Språk:"
+
+#: plugins/_core/interfacecfgbase.cpp:124 rc.cpp:829
+#, no-c-format
+msgid "Message window"
+msgstr "Meddelandefönster"
+
+#: plugins/_core/interfacecfgbase.cpp:125 rc.cpp:832
+#, no-c-format
+msgid "&Simple mode"
+msgstr "&Enkelt läge"
+
+#: plugins/_core/interfacecfgbase.cpp:126 rc.cpp:835
+#, no-c-format
+msgid "&Chat mode"
+msgstr "&Chattläge"
+
+#: plugins/_core/interfacecfgbase.cpp:127 rc.cpp:838
+#, no-c-format
+msgid "&Using last selected font"
+msgstr "&Använd senast valda typsnitt"
+
+#: plugins/_core/interfacecfgbase.cpp:128 rc.cpp:841
+#, no-c-format
+msgid "Container mode"
+msgstr "Behållareläge"
+
+#: plugins/_core/interfacecfgbase.cpp:129 rc.cpp:844
+#, no-c-format
+msgid "Open each contact in &new container"
+msgstr "Öppna varje kontakt i &ny behållare"
+
+#: plugins/_core/interfacecfgbase.cpp:130 rc.cpp:847
+#, no-c-format
+msgid "Open one container for &group"
+msgstr "Öppna en behållare för &grupp"
+
+#: plugins/_core/interfacecfgbase.cpp:131 rc.cpp:850
+#, no-c-format
+msgid "Open all contacts in &one container"
+msgstr "Öppna alla kontakter i &en behållare"
+
+#: plugins/_core/interfacecfgbase.cpp:132 rc.cpp:853
+#, no-c-format
+msgid "Use \"&Enter\" for send message"
+msgstr "Använd \"&Enter\" för att skicka meddelande"
+
+# OBS, ej testat om detta är korrekt
+#: plugins/_core/interfacecfgbase.cpp:135 rc.cpp:858
+#, no-c-format
+msgid "Start SIM on every &windows startup"
+msgstr "Starta SIM vid varje uppstart av &Windows"
+
 #: plugins/_core/logindlg.cpp:57
 msgid "Select profile"
 msgstr "Välj profil"
@@ -894,7 +1208,7 @@ msgstr "Välj profil"
 msgid "Other instance of SIM use this profile"
 msgstr "Annan instans av SIM använder denna profil"
 
-#: plugins/_core/logindlg.cpp:295 rc.cpp:432 rc.cpp:602 rc.cpp:700 rc.cpp:966 rc.cpp:1723 rc.cpp:1793 rc.cpp:2013
+#: plugins/_core/logindlg.cpp:295 plugins/icq/aimconfigbase.cc:145 plugins/icq/icqconfigbase.cc:263 plugins/jabber/jabberconfigbase.cpp:305 plugins/livejournal/livejournalcfgbase.cpp:160 plugins/msn/msnconfigbase.cpp:170 plugins/proxy/proxycfgbase.cpp:135 plugins/yahoo/yahoocfgbase.cpp:176 rc.cpp:70 rc.cpp:130 rc.cpp:1309 rc.cpp:1429 rc.cpp:2001 rc.cpp:2031 rc.cpp:2394
 #, no-c-format
 msgid "Password:"
 msgstr "Lösenord:"
@@ -903,9 +1217,34 @@ msgstr "Lösenord:"
 msgid "New profile"
 msgstr "Ny profil"
 
-#: plugins/_core/logindlg.cpp:477 plugins/jabber/jabberclient.cpp:963 plugins/livejournal/livejournal.cpp:933 plugins/msn/msnclient.cpp:819 plugins/yahoo/yahooclient.cpp:358 plugins/yahoo/yahooclient.cpp:369
+#: plugins/_core/logindlg.cpp:477 plugins/jabber/jabberclient.cpp:983 plugins/livejournal/livejournal.cpp:933 plugins/msn/msnclient.cpp:819 plugins/yahoo/yahooclient.cpp:358 plugins/yahoo/yahooclient.cpp:369
 msgid "Login failed"
 msgstr "Inloggning misslyckades"
+
+#: plugins/_core/logindlgbase.cpp:124 rc.cpp:1274
+#, no-c-format
+msgid "Login"
+msgstr "Inloggning"
+
+#: plugins/_core/logindlgbase.cpp:126 rc.cpp:1278
+#, no-c-format
+msgid "Passwords:"
+msgstr "Lösenord:"
+
+#: plugins/_core/logindlgbase.cpp:128 rc.cpp:1282
+#, no-c-format
+msgid "Profile:"
+msgstr "Profil:"
+
+#: plugins/_core/logindlgbase.cpp:130 rc.cpp:1288
+#, no-c-format
+msgid "&Save password"
+msgstr "&Spara lösenord"
+
+#: plugins/_core/logindlgbase.cpp:131 rc.cpp:1291
+#, no-c-format
+msgid "&Do not show this window on startup"
+msgstr "&Visa inte detta fönster vid uppstart"
 
 #: plugins/_core/maininfo.cpp:47
 msgid "Home Phone"
@@ -931,12 +1270,12 @@ msgstr "Privat mobiltelefon"
 msgid "Wireless Pager"
 msgstr "Visare"
 
-#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:128 plugins/jabber/jabbersearch.cpp:103 rc.cpp:736
+#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:128 plugins/jabber/jabbersearch.cpp:103 plugins/msn/msninfobase.cpp:130 rc.cpp:1404
 #, no-c-format
 msgid "EMail"
 msgstr "E-post"
 
-#: plugins/_core/maininfo.cpp:72 sim/qt3/i18n.cpp:43
+#: plugins/_core/maininfo.cpp:72
 msgid "Type"
 msgstr "Typ"
 
@@ -972,10 +1311,142 @@ msgstr "Användaren är för närvarande tillgänglig på:"
 msgid "Yes"
 msgstr "Ja"
 
+#: plugins/_core/maininfobase.cpp:187 plugins/_core/nonimbase.cpp:95 plugins/icq/aiminfobase.cc:256 plugins/icq/icqinfobase.cc:312 plugins/jabber/discoinfobase.cpp:283 plugins/jabber/jabberinfobase.cpp:246 plugins/yahoo/yahooinfobase.cpp:155 rc.cpp:272 rc.cpp:383 rc.cpp:1124 rc.cpp:1204 rc.cpp:2146 rc.cpp:2213 rc.cpp:2369
+#, no-c-format
+msgid "First Name:"
+msgstr "Förnamn:"
+
+#: plugins/_core/maininfobase.cpp:188 plugins/_core/nonimbase.cpp:96 plugins/icq/aiminfobase.cc:257 plugins/icq/icqinfobase.cc:309 plugins/yahoo/yahooinfobase.cpp:156 rc.cpp:1127 rc.cpp:1207 rc.cpp:2149 rc.cpp:2204 rc.cpp:2372
+#, no-c-format
+msgid "Last Name:"
+msgstr "Efternamn:"
+
+#: plugins/_core/maininfobase.cpp:189 rc.cpp:1130
+#, no-c-format
+msgid "Display:"
+msgstr "Visningsnamn:"
+
+#: plugins/_core/maininfobase.cpp:190 rc.cpp:1133
+#, no-c-format
+msgid "Encoding:"
+msgstr "Teckenkodning:"
+
+#: plugins/_core/maininfobase.cpp:192 rc.cpp:1139
+#, no-c-format
+msgid "Email addresses:"
+msgstr "E-postadresser:"
+
+#: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203 plugins/_core/search.cpp:134 plugins/action/menucfgbase.cpp:68 rc.cpp:1142 rc.cpp:1166 rc.cpp:1642
+#, no-c-format
+msgid "&Add"
+msgstr "&Lägg till"
+
+#: plugins/_core/maininfobase.cpp:196 rc.cpp:1151
+#, no-c-format
+msgid ""
+"Note:\n"
+"You can change only those addresses which have entered.\n"
+"It is impossible to change addresses which were received from the user."
+msgstr ""
+"Notera:\n"
+"Du kan endast ändra de adresser som har matats in.\n"
+"Det är omöjligt att ändra adresser som har tagits emot från användaren."
+
+#: plugins/_core/maininfobase.cpp:199 rc.cpp:1136
+#, no-c-format
+msgid "&Mails"
+msgstr "&E-post"
+
+#: plugins/_core/maininfobase.cpp:200 rc.cpp:1159
+#, no-c-format
+msgid "Phones:"
+msgstr "Telefoner:"
+
+#: plugins/_core/maininfobase.cpp:202 rc.cpp:1163
+#, no-c-format
+msgid "Phone Status:"
+msgstr "Telefonstatus:"
+
+#: plugins/_core/maininfobase.cpp:206 rc.cpp:1175
+#, no-c-format
+msgid ""
+"Note:\n"
+"You can change only those numbers which have entered.\n"
+"It is impossible to change numbers which were received from the user."
+msgstr ""
+"Notera:\n"
+"Du kan endast ändra de nummer som har matats in.\n"
+"Det är omöjligt att ändra nummer som har tagits emot från användaren."
+
+#: plugins/_core/maininfobase.cpp:209 rc.cpp:1156
+#, no-c-format
+msgid "&Phones"
+msgstr "&Telefoner"
+
+#: plugins/_core/maininfobase.cpp:210 rc.cpp:1180
+#, no-c-format
+msgid "&Notes"
+msgstr "&Noteringar"
+
+#: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106 rc.cpp:1250
+#, no-c-format
+msgid "Connection"
+msgstr "Anslutning"
+
+#: plugins/_core/managerbase.cpp:104 rc.cpp:1244
+#, no-c-format
+msgid "&Configure"
+msgstr "&Konfigurera"
+
+#: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132 plugins/icons/iconcfgbase.cpp:74 rc.cpp:961 rc.cpp:1247 rc.cpp:1621
+#, no-c-format
+msgid "&Up"
+msgstr "&Upp"
+
+#: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133 plugins/icons/iconcfgbase.cpp:75 rc.cpp:964 rc.cpp:1253 rc.cpp:1624
+#, no-c-format
+msgid "&Down"
+msgstr "&Ned"
+
+#: plugins/_core/managerbase.cpp:108 plugins/icons/iconcfgbase.cpp:76 rc.cpp:1256 rc.cpp:1627
+#, no-c-format
+msgid "&Remove"
+msgstr "&Ta bort"
+
+#: plugins/_core/managerbase.cpp:109 rc.cpp:1259
+#, no-c-format
+msgid "&New connection"
+msgstr "&Ny anslutning"
+
 # Bör felrapporteras. File används både som menyrad och på andra ställen
-#: plugins/_core/msgcfg.cpp:38 plugins/sound/sounduser.cpp:38 sim/qt3/i18n.cpp:83
+#: plugins/_core/msgcfg.cpp:38 plugins/sound/sounduser.cpp:38
 msgid "File"
 msgstr "Fil"
+
+#: plugins/_core/msgcfgbase.cpp:84 rc.cpp:696
+#, no-c-format
+msgid "Save &status changes to history"
+msgstr "Spara &statusändringar i historik"
+
+#: plugins/_core/msgcfgbase.cpp:85 rc.cpp:699
+#, no-c-format
+msgid "Open window if user go online"
+msgstr "Öppna fönster om användare ansluter"
+
+#: plugins/_core/msgcfgbase.cpp:87 rc.cpp:705
+#, no-c-format
+msgid "&No open"
+msgstr "&Öppna inte"
+
+#: plugins/_core/msgcfgbase.cpp:88 rc.cpp:708
+#, no-c-format
+msgid "Open and &minimize"
+msgstr "Öppna och &minimera"
+
+#: plugins/_core/msgcfgbase.cpp:89 rc.cpp:711
+#, no-c-format
+msgid "Open and &raise"
+msgstr "Öppna och &höj"
 
 #: plugins/_core/msgedit.cpp:431
 #, c-format
@@ -1092,7 +1563,7 @@ msgstr ""
 "Status ändrad\n"
 "Status ändrad %n gånger"
 
-#: plugins/_core/msgedit.cpp:927 sim/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:927
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -1152,7 +1623,97 @@ msgstr "Meddelandet kommer att delas upp"
 msgid "Save phone in contact list"
 msgstr "Spara telefon i kontaktlista"
 
-#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:297 plugins/_core/search.cpp:629 rc.cpp:1513
+#: plugins/_core/newprotocolbase.cpp:67 rc.cpp:1015
+#, no-c-format
+msgid "New connection"
+msgstr "Ny anslutning"
+
+#: plugins/_core/newprotocolbase.cpp:68 rc.cpp:1021
+#, no-c-format
+msgid "Protocol:"
+msgstr "Protokoll:"
+
+#: plugins/_core/newprotocolbase.cpp:69 rc.cpp:1018
+#, no-c-format
+msgid "Select protocol"
+msgstr "Välj protokoll"
+
+#: plugins/_core/nonimbase.cpp:93 plugins/_core/pagerbase.cpp:87 plugins/_core/userviewcfgbase.cpp:252 plugins/filter/ignorelistbase.cpp:54 plugins/icq/interestsinfobase.cc:108 plugins/icq/workinfobase.cc:178 plugins/jabber/jabberhomeinfobase.cpp:104 plugins/msn/msnconfigbase.cpp:168 plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:174 rc.cpp:106 rc.cpp:584 rc.cpp:623 rc.cpp:910 rc.cpp:1040 rc.cpp:1198 rc.cpp:1420 rc.cpp:1905 rc.cpp:2250 rc.cpp:2385
+#, no-c-format
+msgid "Form2"
+msgstr "Form2"
+
+#: plugins/_core/nonimbase.cpp:94 plugins/_core/search.cpp:218 rc.cpp:1201
+#, no-c-format
+msgid "Non-IM contact"
+msgstr "Icke-IM-kontakt"
+
+#: plugins/_core/nonimbase.cpp:97 plugins/jabber/jabberaddbase.cpp:99 rc.cpp:257 rc.cpp:1210
+#, no-c-format
+msgid "Nickname:"
+msgstr "Smeknamn:"
+
+#: plugins/_core/nonimbase.cpp:98 rc.cpp:1213
+#, no-c-format
+msgid "E-Mail address:"
+msgstr "E-postadress:"
+
+#: plugins/_core/nonimbase.cpp:99 plugins/jabber/discoinfobase.cpp:286 rc.cpp:390 rc.cpp:1216
+#, no-c-format
+msgid "Phone:"
+msgstr "Telefon:"
+
+#: plugins/_core/pagerbase.cpp:88 rc.cpp:913
+#, no-c-format
+msgid "Provider:"
+msgstr "Operatör:"
+
+#: plugins/_core/pagerbase.cpp:89 rc.cpp:916
+#, no-c-format
+msgid "Email gateway:"
+msgstr "E-postgateway:"
+
+#: plugins/_core/pagerbase.cpp:90 plugins/_core/phonebase.cpp:117 rc.cpp:726 rc.cpp:919
+#, no-c-format
+msgid "Number:"
+msgstr "Nummer:"
+
+#: plugins/_core/phonebase.cpp:114 rc.cpp:717
+#, no-c-format
+msgid "Area code:"
+msgstr "Postnummer:"
+
+#: plugins/_core/phonebase.cpp:115 rc.cpp:720
+#, no-c-format
+msgid "Extension:"
+msgstr "Anknytning:"
+
+#: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118 plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:272 plugins/jabber/jabberconfigbase.cpp:314 plugins/msn/msnconfigbase.cpp:175 plugins/yahoo/yahoocfgbase.cpp:183 rc.cpp:157 rc.cpp:723 rc.cpp:729 rc.cpp:735 rc.cpp:1444 rc.cpp:2058 rc.cpp:2415
+#, no-c-format
+msgid "-"
+msgstr "-"
+
+#: plugins/_core/phonebase.cpp:119 plugins/icq/advsearchbase.cc:250 plugins/icq/aiminfobase.cc:265 plugins/icq/aimsearchbase.cc:169 plugins/icq/homeinfobase.cc:146 plugins/icq/workinfobase.cc:183 plugins/jabber/jabberhomeinfobase.cpp:107 rc.cpp:115 rc.cpp:732 rc.cpp:1866 rc.cpp:1893 rc.cpp:1923 rc.cpp:2173 rc.cpp:2317
+#, no-c-format
+msgid "Country:"
+msgstr "Land:"
+
+#: plugins/_core/plugincfgbase.cpp:70 rc.cpp:685
+#, no-c-format
+msgid "PluginCfgBaseForm"
+msgstr "PluginCfgBaseForm"
+
+#: plugins/_core/plugincfgbase.cpp:71 rc.cpp:689
+#, no-c-format
+msgid "Plugin &enabled"
+msgstr "Insticksmodul &aktiverad"
+
+#: plugins/_core/prefcfgbase.cpp:65 rc.cpp:665
+#, no-c-format
+msgid "PrefConfigBaseForm"
+msgstr "PrefConfigBaseForm"
+
+#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:297 plugins/_core/search.cpp:629 plugins/_core/searchbase.cpp:95 rc.cpp:672
 #, no-c-format
 msgid "Search"
 msgstr "Sök"
@@ -1161,12 +1722,7 @@ msgstr "Sök"
 msgid "Results"
 msgstr "Resultat"
 
-#: plugins/_core/search.cpp:134 rc.cpp:1576 rc.cpp:1600 rc.cpp:1911
-#, no-c-format
-msgid "&Add"
-msgstr "&Lägg till"
-
-#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:279 plugins/weather/weathercfg.cpp:70 plugins/weather/weathercfg.cpp:91 rc.cpp:2381
+#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:279 plugins/weather/weathercfg.cpp:70 plugins/weather/weathercfg.cpp:91 plugins/weather/weathercfgbase.cpp:111 rc.cpp:1501
 #, no-c-format
 msgid "&Search"
 msgstr "&Sök"
@@ -1174,11 +1730,6 @@ msgstr "&Sök"
 #: plugins/_core/search.cpp:196
 msgid "All networks"
 msgstr "Alla nätverk"
-
-#: plugins/_core/search.cpp:218 rc.cpp:1467
-#, no-c-format
-msgid "Non-IM contact"
-msgstr "Icke-IM-kontakt"
 
 #: plugins/_core/search.cpp:294
 msgid "Add"
@@ -1201,14 +1752,64 @@ msgstr ""
 "%n kontakt hittades\n"
 "%n kontakter hittades"
 
+#: plugins/_core/searchallbase.cpp:83 plugins/icq/aboutinfobase.cc:65 plugins/jabber/jabberaboutinfobase.cpp:56 rc.cpp:413 rc.cpp:922 rc.cpp:1833
+#, no-c-format
+msgid "Form4"
+msgstr "Form4"
+
+#: plugins/_core/searchallbase.cpp:84 plugins/icq/icqsearchbase.cc:128 plugins/jabber/jabberaddbase.cpp:95 rc.cpp:245 rc.cpp:925 rc.cpp:1968
+#, no-c-format
+msgid "&E-Mail"
+msgstr "&E-post"
+
+#: plugins/_core/searchallbase.cpp:85 plugins/icq/icqsearchbase.cc:129 plugins/jabber/jabberaddbase.cpp:96 plugins/yahoo/yahoosearchbase.cpp:99 rc.cpp:248 rc.cpp:928 rc.cpp:1971 rc.cpp:2427
+#, no-c-format
+msgid "&Name"
+msgstr "&Namn"
+
+#: plugins/_core/searchallbase.cpp:86 plugins/icq/aimsearchbase.cc:163 plugins/icq/icqsearchbase.cc:130 plugins/jabber/jabberaddbase.cpp:97 rc.cpp:251 rc.cpp:931 rc.cpp:1848 rc.cpp:1974
+#, no-c-format
+msgid "First:"
+msgstr "Förnamn:"
+
+#: plugins/_core/searchallbase.cpp:87 plugins/icq/aimsearchbase.cc:164 plugins/icq/icqsearchbase.cc:131 plugins/jabber/jabberaddbase.cpp:98 rc.cpp:254 rc.cpp:934 rc.cpp:1851 rc.cpp:1977
+#, no-c-format
+msgid "Last:"
+msgstr "Efternamn:"
+
+#: plugins/_core/searchallbase.cpp:88 plugins/icq/aiminfobase.cc:260 plugins/icq/aimsearchbase.cc:167 plugins/icq/icqinfobase.cc:311 plugins/icq/icqsearchbase.cc:132 plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:247 plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:153 rc.cpp:275 rc.cpp:374 rc.cpp:937 rc.cpp:1407 rc.cpp:1860 rc.cpp:1980 rc.cpp:2158 rc.cpp:2210 rc.cpp:2363
+#, no-c-format
+msgid "Nick:"
+msgstr "Smeknamn:"
+
+#: plugins/_core/searchbase.cpp:96 rc.cpp:675
+#, no-c-format
+msgid "&Add to list"
+msgstr "&Lägg till i listan"
+
+#: plugins/_core/searchbase.cpp:98 rc.cpp:679
+#, no-c-format
+msgid "More &options"
+msgstr "Fler &alternativ"
+
+#: plugins/_core/searchbase.cpp:99 rc.cpp:682
+#, no-c-format
+msgid "&New search"
+msgstr "&Ny sökning"
+
+#: plugins/_core/smscfgbase.cpp:65 rc.cpp:1112
+#, no-c-format
+msgid "Text before cursor:"
+msgstr "Text före markör:"
+
+#: plugins/_core/smscfgbase.cpp:66 rc.cpp:1115
+#, no-c-format
+msgid "Text after cursor:"
+msgstr "Text efter markör:"
+
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:88 plugins/dock/dock.cpp:183
 msgid "Inactive"
 msgstr "Inaktiv"
-
-#: plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:58 rc.cpp:1082
-#, no-c-format
-msgid "Connecting"
-msgstr "Ansluter"
 
 #: plugins/_core/tmpl.cpp:227
 msgid "yes"
@@ -1230,6 +1831,36 @@ msgstr "Anpassa verktygsrad"
 msgid "Separator"
 msgstr "Avgränsare"
 
+#: plugins/_core/toolsetupbase.cpp:123 rc.cpp:940
+#, no-c-format
+msgid "Toolbar setup"
+msgstr "Inställning för verktygsrad"
+
+#: plugins/_core/toolsetupbase.cpp:124 rc.cpp:943
+#, no-c-format
+msgid "All buttons:"
+msgstr "Alla knappar:"
+
+#: plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131 rc.cpp:946 rc.cpp:958
+#, no-c-format
+msgid "New Item"
+msgstr "Ny post"
+
+#: plugins/_core/toolsetupbase.cpp:127 rc.cpp:949
+#, no-c-format
+msgid "&Add ->"
+msgstr "&Lägg till ->"
+
+#: plugins/_core/toolsetupbase.cpp:128 rc.cpp:952
+#, no-c-format
+msgid "<- &Remove"
+msgstr "<- &Ta bort"
+
+#: plugins/_core/toolsetupbase.cpp:129 rc.cpp:955
+#, no-c-format
+msgid "Active:"
+msgstr "Aktiv:"
+
 #: plugins/_core/usercfg.cpp:304
 msgid "User info '%1'"
 msgstr "Användarinformation \"%1\"'"
@@ -1250,12 +1881,12 @@ msgstr "[Uppdatera information]"
 msgid "Settings"
 msgstr "Inställningar"
 
-#: plugins/_core/userlist.cpp:640 plugins/icq/icq.cpp:82 plugins/icq/icq.cpp:252 plugins/icq/icqclient.cpp:1464 plugins/icq/icqclient.cpp:1498 plugins/jabber/jabber.cpp:82 plugins/jabber/jabberclient.cpp:1349 plugins/livejournal/livejournal.cpp:299 plugins/msn/msn.cpp:82 plugins/msn/msnclient.cpp:1838 plugins/sms/sms.cpp:216 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1389 rc.cpp:767
+#: plugins/_core/userlist.cpp:640 plugins/icq/icq.cpp:82 plugins/icq/icq.cpp:252 plugins/icq/icqclient.cpp:1464 plugins/icq/icqclient.cpp:1498 plugins/jabber/jabber.cpp:82 plugins/jabber/jabberclient.cpp:1374 plugins/livejournal/livejournal.cpp:299 plugins/msn/msn.cpp:82 plugins/msn/msnclient.cpp:1838 plugins/osd/osdconfigbase.cpp:111 plugins/sms/sms.cpp:216 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1389 rc.cpp:551
 #, no-c-format
 msgid "Online"
 msgstr "Ansluten"
 
-#: plugins/_core/userlist.cpp:643 plugins/icq/icq.cpp:172 plugins/icq/icq.cpp:282 plugins/icq/icqclient.cpp:1461 plugins/jabber/jabber.cpp:157 plugins/jabber/jabberclient.cpp:1304 plugins/livejournal/livejournal.cpp:314 plugins/msn/msn.cpp:187 plugins/sms/sms.cpp:231 plugins/yahoo/yahoo.cpp:164 rc.cpp:785 rc.cpp:1180
+#: plugins/_core/userlist.cpp:643 plugins/_core/userviewcfgbase.cpp:255 plugins/icq/icq.cpp:172 plugins/icq/icq.cpp:282 plugins/icq/icqclient.cpp:1461 plugins/jabber/jabber.cpp:157 plugins/jabber/jabberclient.cpp:1324 plugins/livejournal/livejournal.cpp:314 plugins/msn/msn.cpp:187 plugins/osd/osdconfigbase.cpp:117 plugins/sms/sms.cpp:231 plugins/yahoo/yahoo.cpp:164 rc.cpp:569 rc.cpp:1049
 #, no-c-format
 msgid "Offline"
 msgstr "Frånkopplad"
@@ -1293,12 +1924,102 @@ msgstr "Tid för senaste meddelande"
 msgid "Contact name"
 msgstr "Kontaktnamn"
 
+#: plugins/_core/userviewcfgbase.cpp:253 rc.cpp:1043
+#, no-c-format
+msgid "Groups"
+msgstr "Grupper"
+
+#: plugins/_core/userviewcfgbase.cpp:254 rc.cpp:1046
+#, no-c-format
+msgid "Do not distrub"
+msgstr "Stör inte"
+
+#: plugins/_core/userviewcfgbase.cpp:256 plugins/icq/aiminfobase.cc:268 plugins/icq/icqinfobase.cc:316 plugins/jabber/jabberinfobase.cpp:255 plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:159 rc.cpp:295 rc.cpp:1052 rc.cpp:1416 rc.cpp:2182 rc.cpp:2225 rc.cpp:2381
+#, no-c-format
+msgid "Online:"
+msgstr "Ansluten:"
+
+#: plugins/_core/userviewcfgbase.cpp:257 plugins/icq/icq.cpp:97 plugins/icq/icq.cpp:267 plugins/icq/icqclient.cpp:1467 plugins/jabber/jabber.cpp:97 plugins/msn/msn.cpp:97 plugins/osd/osdconfigbase.cpp:112 plugins/yahoo/yahoo.cpp:119 rc.cpp:554 rc.cpp:1055
+#, no-c-format
+msgid "Away"
+msgstr "Frånvarande"
+
+#: plugins/_core/userviewcfgbase.cpp:258 plugins/icq/icq.cpp:112 plugins/jabber/jabber.cpp:112 plugins/msn/msn.cpp:112 plugins/osd/osdconfigbase.cpp:113 plugins/yahoo/yahoo.cpp:134 rc.cpp:557 rc.cpp:1058
+#, no-c-format
+msgid "N/A"
+msgstr "Inte tillgänglig"
+
+#: plugins/_core/userviewcfgbase.cpp:259 rc.cpp:1061
+#, no-c-format
+msgid "Colors:"
+msgstr "Färger:"
+
+#: plugins/_core/userviewcfgbase.cpp:260 rc.cpp:1064
+#, no-c-format
+msgid "Use &double click"
+msgstr "Använd &dubbelklick"
+
+#: plugins/_core/userviewcfgbase.cpp:261 plugins/styles/fontconfigbase.cpp:104 rc.cpp:97 rc.cpp:1067
+#, no-c-format
+msgid "Use system &colors"
+msgstr "Använd system&färger"
+
+#: plugins/_core/userviewcfgbase.cpp:262 rc.cpp:1070
+#, no-c-format
+msgid "Use small &font for group"
+msgstr "Använd litet &typsnitt för grupp"
+
+#: plugins/_core/userviewcfgbase.cpp:263 rc.cpp:1073
+#, no-c-format
+msgid "Show group &separator"
+msgstr "Visa grupp&avgränsare"
+
+#: plugins/_core/userviewcfgbase.cpp:264 rc.cpp:1076
+#, no-c-format
+msgid "Sorting"
+msgstr "Sortering"
+
+#: plugins/_core/userviewcfgbase.cpp:265 rc.cpp:1079
+#, no-c-format
+msgid "1st:"
+msgstr "1:a"
+
+#: plugins/_core/userviewcfgbase.cpp:266 rc.cpp:1082
+#, no-c-format
+msgid "2nd:"
+msgstr "2:a"
+
+#: plugins/_core/userviewcfgbase.cpp:267 rc.cpp:1085
+#, no-c-format
+msgid "3rd:"
+msgstr "3:e"
+
+#: plugins/_core/userviewcfgbase.cpp:271 plugins/icq/icqclient.cpp:1448 rc.cpp:1091
+#, no-c-format
+msgid "Invisible"
+msgstr "Osynlig"
+
+#: plugins/_core/userviewcfgbase.cpp:275 rc.cpp:1097
+#, no-c-format
+msgid "Visible"
+msgstr "Synlig"
+
+#: plugins/_core/userviewcfgbase.cpp:279 rc.cpp:1103
+#, no-c-format
+msgid "Awaiting authorization"
+msgstr "Väntar på auktorisation"
+
+#: plugins/_core/userviewcfgbase.cpp:280 rc.cpp:1106
+#, no-c-format
+msgid "No show scroller"
+msgstr "Visa inte rullare"
+
 #: plugins/_core/userwnd.cpp:132
 #, c-format
 msgid "to %1"
 msgstr "till %1"
 
-#: plugins/about/about.cpp:38 rc.cpp:1658
+#: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:118 rc.cpp:1602
 #, no-c-format
 msgid "About"
 msgstr "Om"
@@ -1342,6 +2063,26 @@ msgstr "Felrapport"
 #: plugins/about/aboutdlg.cpp:54
 msgid "Note: This is english mailing list"
 msgstr "Notera: Detta är en engelskspråkig sändlista"
+
+#: plugins/about/aboutdlgbase.cpp:117 rc.cpp:1599
+#, no-c-format
+msgid "About SIM"
+msgstr "Om SIM"
+
+#: plugins/about/aboutdlgbase.cpp:119 rc.cpp:1605
+#, no-c-format
+msgid "Authors"
+msgstr "Upphovsmän"
+
+#: plugins/about/aboutdlgbase.cpp:120 rc.cpp:1608
+#, no-c-format
+msgid "Translation"
+msgstr "Översättning"
+
+#: plugins/about/aboutdlgbase.cpp:121 rc.cpp:1611
+#, no-c-format
+msgid "License"
+msgstr "Licens"
 
 #: plugins/action/action.cpp:33
 msgid "Action"
@@ -1391,6 +2132,21 @@ msgstr ""
 "Om programmets utdata är tomt kommer meddelandet att förstöras.\n"
 "Det är dock möjligt att organisera ytterligare meddelandefilter.\n"
 
+#: plugins/action/additembase.cpp:91 rc.cpp:1651
+#, no-c-format
+msgid "Add Item"
+msgstr "Lägg till post"
+
+#: plugins/action/additembase.cpp:92 rc.cpp:1654
+#, no-c-format
+msgid "Item:"
+msgstr "Post:"
+
+#: plugins/action/additembase.cpp:93 rc.cpp:1657
+#, no-c-format
+msgid "Program:"
+msgstr "Program:"
+
 #: plugins/action/menucfg.cpp:31
 msgid "Item"
 msgstr "Post"
@@ -1402,6 +2158,41 @@ msgstr "Automatisk frånvaro"
 #: plugins/autoaway/autoaway.cpp:75
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr "Insticksmodul som tillhandahåller status för \"frånvarande\" och \"inte tillgänglig\" efter viss inaktivitet"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:103 rc.cpp:452
+#, no-c-format
+msgid "Set \"Away\" status after"
+msgstr "Ställ in statusen \"Frånvarande\" efter"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:104 rc.cpp:455
+#, no-c-format
+msgid "minutes not using computer"
+msgstr "minuters inaktivitet vid datorn"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:105 rc.cpp:458
+#, no-c-format
+msgid "minutes of \"Away\""
+msgstr "minuters \"Frånvarande\""
+
+#: plugins/autoaway/autoawaycfgbase.cpp:106 rc.cpp:461
+#, no-c-format
+msgid "minutes of \"N/A\""
+msgstr "minuters \"Inte tillgänglig\""
+
+#: plugins/autoaway/autoawaycfgbase.cpp:107 rc.cpp:464
+#, no-c-format
+msgid "Set \"N/A\" status after"
+msgstr "Ställ in statusen \"Inte tillgänglig\" efter"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:108 rc.cpp:467
+#, no-c-format
+msgid "Set \"Offline\" status after"
+msgstr "Ställ in statusen \"Frånkopplad\" efter"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:109 rc.cpp:470
+#, no-c-format
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "Inaktivera anslutningsalarm i \"Frånvarande\", \"Inte tillgänglig\", \"Stör inte\" och \"Upptagen\"-lista."
 
 #: plugins/background/background.cpp:34
 msgid "Background"
@@ -1451,6 +2242,26 @@ msgstr "Fönster - skala"
 msgid "Get more skins"
 msgstr "Skaffa fler skal"
 
+#: plugins/background/bkgndcfgbase.cpp:114 rc.cpp:15
+#, no-c-format
+msgid "Group margin:"
+msgstr "Gruppmarginal:"
+
+#: plugins/background/bkgndcfgbase.cpp:115 rc.cpp:18
+#, no-c-format
+msgid "Contact margin:"
+msgstr "Kontaktmarginal:"
+
+#: plugins/background/bkgndcfgbase.cpp:116 rc.cpp:21
+#, no-c-format
+msgid "Main window background:"
+msgstr "Bakgrund för huvudfönster:"
+
+#: plugins/background/bkgndcfgbase.cpp:117 plugins/osd/osdifacebase.cpp:136 rc.cpp:24 rc.cpp:608
+#, no-c-format
+msgid "Place:"
+msgstr "Placering:"
+
 #: plugins/dock/dock.cpp:49
 msgid "System tray"
 msgstr "Systembricka"
@@ -1467,7 +2278,7 @@ msgstr "Docka"
 msgid "Plugin provides dock icon"
 msgstr "Insticksmodul som tillhandahåller en dockningsikon"
 
-#: plugins/dock/dock.cpp:111 sim/sim.cpp:206
+#: plugins/dock/dock.cpp:111 sim/sim.cpp:205
 msgid "SIM"
 msgstr "SIM"
 
@@ -1482,6 +2293,31 @@ msgstr "Dölj huvudfönster"
 #: plugins/dock/dock.cpp:275
 msgid "Show main window"
 msgstr "Visa huvudfönster"
+
+#: plugins/dock/dockcfgbase.cpp:92 rc.cpp:30
+#, no-c-format
+msgid "Hide main window after"
+msgstr "Dölj huvudfönster efter"
+
+#: plugins/dock/dockcfgbase.cpp:93 rc.cpp:33
+#, no-c-format
+msgid "seconds inactive"
+msgstr "sekunders inaktivitet"
+
+#: plugins/dock/dockcfgbase.cpp:94 rc.cpp:36
+#, no-c-format
+msgid "Show Mainwin on desktop"
+msgstr "Visa huvudfönster på skrivbordet"
+
+#: plugins/dock/dockcfgbase.cpp:95 rc.cpp:39
+#, no-c-format
+msgid "current"
+msgstr "aktuell"
+
+#: plugins/dock/dockcfgbase.cpp:96 rc.cpp:42
+#, no-c-format
+msgid "&Customize dock menu"
+msgstr "&Anpassa dockningsmeny"
 
 #: plugins/filter/filter.cpp:37
 msgid "Filter"
@@ -1507,7 +2343,37 @@ msgstr "Ignorera denna fras"
 msgid "Add %1 to ignore list?"
 msgstr "Lägga till %1 i ignoreringslistan?"
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:127 plugins/jabber/discoinfo.cpp:63 plugins/jabber/jabberbrowser.cpp:114 sim/qt3/i18n.cpp:39
+#: plugins/filter/filtercfgbase.cpp:69 rc.cpp:629
+#, no-c-format
+msgid "&Receive message only from contacts from list"
+msgstr "&Ta endast emot meddelande från kontakter på listan"
+
+#: plugins/filter/filtercfgbase.cpp:70 rc.cpp:632
+#, no-c-format
+msgid "&Receive authorization and system messages only from contacts from list"
+msgstr "&Ta endast emot auktorisering och systemmeddelanden från kontakter på listan"
+
+#: plugins/filter/filtercfgbase.cpp:71 rc.cpp:635
+#, no-c-format
+msgid "Reject messages from unknown users contains this words or phrases:"
+msgstr "Vägra ta emot meddelanden från okända användare som innehåller dessa ord eller fraser:"
+
+#: plugins/filter/filtercfgbase.cpp:72 rc.cpp:638
+#, no-c-format
+msgid ""
+"Words are divided by any separators (space, comma, i.e.)\n"
+"A phrase can be specified using quotation marks\n"
+"Words can contain wildcards:\n"
+"* - any amount of symbols (or is empty)\n"
+"? - any symbol"
+msgstr ""
+"Ord är uppdelade med olika avgränsare (exempelvis blanksteg, komma)\n"
+"En fras kan anges med citattecken\n"
+"Ord kan innehålla jokertecken:\n"
+"* - oändligt antal symboler (eller tom)\n"
+"? - någon symbol"
+
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:127 plugins/jabber/discoinfo.cpp:62 plugins/jabber/jabberbrowser.cpp:114
 msgid "Name"
 msgstr "Namn"
 
@@ -1534,6 +2400,25 @@ msgstr "Vidarebefordra"
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
 msgstr "Insticksmodul som tillhandahåller vidarebefordring av meddelanden till mobiltelefon"
+
+#: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:1586
+#, no-c-format
+msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+msgstr "Skicka alla meddelanden när status \"Frånvarande\" och \"Inte tillgänglig\" är aktiva till mobiltelefonen:"
+
+#: plugins/forward/forwardcfgbase.cpp:72 rc.cpp:1589
+#, no-c-format
+msgid ""
+"For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
+"<UIN>:"
+msgstr ""
+"För svar eller sändning av nya meddelanden kan du svara på SMS:et genom att ange följande i början av meddelandet:\n"
+"<UIN>:"
+
+#: plugins/forward/forwardcfgbase.cpp:74 rc.cpp:1593
+#, no-c-format
+msgid "Send only &one message (don't split)"
+msgstr "Skicka endast &ett meddelande (dela inte upp)"
 
 #: plugins/gpg/gpg.cpp:53
 msgid "GPG"
@@ -1576,6 +2461,46 @@ msgstr "Använd GPG-kryptering"
 msgid "&GPG key"
 msgstr "&GPG-nyckel"
 
+#: plugins/gpg/gpgadvbase.cpp:125 rc.cpp:1672
+#, no-c-format
+msgid "Command arguments"
+msgstr "Kommandoargument"
+
+#: plugins/gpg/gpgadvbase.cpp:126 rc.cpp:1675
+#, no-c-format
+msgid "Generate key:"
+msgstr "Generera nyckel:"
+
+#: plugins/gpg/gpgadvbase.cpp:127 rc.cpp:1678
+#, no-c-format
+msgid "List public keys:"
+msgstr "Lista publika nycklar:"
+
+#: plugins/gpg/gpgadvbase.cpp:128 rc.cpp:1681
+#, no-c-format
+msgid "List secret keys:"
+msgstr "Lista hemliga nycklar:"
+
+#: plugins/gpg/gpgadvbase.cpp:129 rc.cpp:1684
+#, no-c-format
+msgid "Import public:"
+msgstr "Importera publik:"
+
+#: plugins/gpg/gpgadvbase.cpp:130 rc.cpp:1687
+#, no-c-format
+msgid "Export public:"
+msgstr "Exportera publik:"
+
+#: plugins/gpg/gpgadvbase.cpp:131 rc.cpp:1690
+#, no-c-format
+msgid "Encrypt:"
+msgstr "Kryptera:"
+
+#: plugins/gpg/gpgadvbase.cpp:132 rc.cpp:1693
+#, no-c-format
+msgid "Decrypt:"
+msgstr "Dekryptera:"
+
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
 msgstr "GPG(gpg.exe)"
@@ -1588,7 +2513,7 @@ msgstr "Välj hemkatalog"
 msgid "Download GPG"
 msgstr "Hämta GPG"
 
-#: plugins/gpg/gpgcfg.cpp:63 rc.cpp:2092
+#: plugins/gpg/gpgcfg.cpp:63 plugins/jabber/jidsearchbase.cpp:76 rc.cpp:231
 #, no-c-format
 msgid "&Advanced"
 msgstr "&Avancerat"
@@ -1601,6 +2526,36 @@ msgstr "Ingen"
 msgid "New"
 msgstr "Ny"
 
+#: plugins/gpg/gpgcfgbase.cpp:106 rc.cpp:1728
+#, no-c-format
+msgid "Executable:"
+msgstr "Körbar fil:"
+
+#: plugins/gpg/gpgcfgbase.cpp:107 rc.cpp:1731
+#, no-c-format
+msgid "Home directory:"
+msgstr "Hemkatalog:"
+
+#: plugins/gpg/gpgcfgbase.cpp:108 plugins/spell/spellcfgbase.cpp:85 rc.cpp:536 rc.cpp:1734
+#, no-c-format
+msgid "&Find"
+msgstr "&Sök"
+
+#: plugins/gpg/gpgcfgbase.cpp:109 rc.cpp:1737
+#, no-c-format
+msgid "Your key:"
+msgstr "Din nyckel:"
+
+#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69 rc.cpp:1715 rc.cpp:1740
+#, no-c-format
+msgid "&Refresh"
+msgstr "&Uppdatera"
+
+#: plugins/gpg/gpgfindbase.cpp:68 rc.cpp:1718
+#, no-c-format
+msgid "Find GPG"
+msgstr "Sök GPG"
+
 #: plugins/gpg/gpggen.cpp:107
 msgid "Move mouse for generate random key"
 msgstr "Flytta musen för att generera en slumpmässig nyckel"
@@ -1608,6 +2563,41 @@ msgstr "Flytta musen för att generera en slumpmässig nyckel"
 #: plugins/gpg/gpggen.cpp:177
 msgid "Generate key failed"
 msgstr "Generering av nyckel misslyckades"
+
+#: plugins/gpg/gpggenbase.cpp:135 rc.cpp:1743
+#, no-c-format
+msgid "Generate key"
+msgstr "Generera nyckel"
+
+#: plugins/gpg/gpggenbase.cpp:136 plugins/jabber/discoinfobase.cpp:285 rc.cpp:387 rc.cpp:1746
+#, no-c-format
+msgid "EMail:"
+msgstr "E-post:"
+
+#: plugins/gpg/gpggenbase.cpp:137 rc.cpp:1749
+#, no-c-format
+msgid "Comment:"
+msgstr "Kommentar:"
+
+#: plugins/gpg/gpggenbase.cpp:138 plugins/icq/workinfobase.cc:184 plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271 rc.cpp:343 rc.cpp:349 rc.cpp:1752 rc.cpp:1926
+#, no-c-format
+msgid "Name:"
+msgstr "Namn:"
+
+#: plugins/gpg/gpggenbase.cpp:139 rc.cpp:1755
+#, no-c-format
+msgid "Passphrase:"
+msgstr "Lösenfras:"
+
+#: plugins/gpg/gpggenbase.cpp:140 rc.cpp:1758
+#, no-c-format
+msgid "Retype passphrase:"
+msgstr "Lösenfras igen:"
+
+#: plugins/gpg/gpguserbase.cpp:68 rc.cpp:1712
+#, no-c-format
+msgid "Key:"
+msgstr "Nyckel:"
 
 #: plugins/gpg/passphrase.cpp:37
 #, c-format
@@ -1617,6 +2607,16 @@ msgstr "Mata in lösenfras för nyckeln %1"
 #: plugins/gpg/passphrase.cpp:62
 msgid "Bad passphrase"
 msgstr "Felaktig lösenfras"
+
+#: plugins/gpg/passphrasebase.cpp:88 rc.cpp:1696
+#, no-c-format
+msgid "Input passphrase"
+msgstr "Mata in lösenfras"
+
+#: plugins/gpg/passphrasebase.cpp:90 rc.cpp:1700
+#, no-c-format
+msgid "&Save passphrase"
+msgstr "&Spara lösenfras"
 
 #: plugins/icons/icon.cpp:30
 msgid "Icons"
@@ -1638,39 +2638,249 @@ msgstr "Ikonuppsättning(*.jisp)"
 msgid "Select icon set"
 msgstr "Välj ikonuppsättning"
 
+#: plugins/icq/aboutinfobase.cc:66 rc.cpp:1839
+#, no-c-format
+msgid "Additional information about user:"
+msgstr "Ytterligare information om användaren:"
+
+#: plugins/icq/aboutinfobase.cc:67 rc.cpp:1836
+#, no-c-format
+msgid "A&bout"
+msgstr "&Om"
+
+#: plugins/icq/advsearchbase.cc:246 plugins/jabber/jabber.cpp:296 rc.cpp:2305
+#, no-c-format
+msgid "Info"
+msgstr "Info"
+
+#: plugins/icq/advsearchbase.cc:248 plugins/icq/aiminfobase.cc:262 plugins/icq/aimsearchbase.cc:171 plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180 plugins/jabber/jabberhomeinfobase.cpp:105 rc.cpp:109 rc.cpp:1872 rc.cpp:1896 rc.cpp:1914 rc.cpp:2164 rc.cpp:2311
+#, no-c-format
+msgid "City:"
+msgstr "Stad:"
+
+#: plugins/icq/advsearchbase.cc:249 plugins/icq/aiminfobase.cc:263 plugins/icq/aimsearchbase.cc:170 plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181 plugins/jabber/jabberhomeinfobase.cpp:108 rc.cpp:118 rc.cpp:1869 rc.cpp:1887 rc.cpp:1917 rc.cpp:2167 rc.cpp:2314
+#, no-c-format
+msgid "State:"
+msgstr "Län:"
+
+#: plugins/icq/advsearchbase.cc:251 plugins/icq/moreinfobase.cc:153 plugins/yahoo/yahoosearchbase.cpp:103 rc.cpp:2121 rc.cpp:2320 rc.cpp:2439
+#, no-c-format
+msgid "Age:"
+msgstr "Ålder:"
+
+#: plugins/icq/advsearchbase.cc:252 plugins/icq/moreinfobase.cc:156 plugins/yahoo/yahoosearchbase.cpp:102 rc.cpp:2128 rc.cpp:2323 rc.cpp:2436
+#, no-c-format
+msgid "Gender:"
+msgstr "Kön:"
+
+#: plugins/icq/advsearchbase.cc:253 rc.cpp:2326
+#, no-c-format
+msgid "Work"
+msgstr "Arbete"
+
+#: plugins/icq/advsearchbase.cc:254 plugins/icq/workinfobase.cc:188 rc.cpp:1936 rc.cpp:2329
+#, no-c-format
+msgid "Occupation:"
+msgstr "Yrke:"
+
+#: plugins/icq/advsearchbase.cc:255 plugins/jabber/jabberworkinfobase.cpp:90 rc.cpp:319 rc.cpp:2332
+#, no-c-format
+msgid "Company:"
+msgstr "Företag:"
+
+#: plugins/icq/advsearchbase.cc:256 plugins/jabber/jabberworkinfobase.cpp:89 rc.cpp:316 rc.cpp:2335
+#, no-c-format
+msgid "Department:"
+msgstr "Avdelning:"
+
+#: plugins/icq/advsearchbase.cc:257 plugins/icq/workinfobase.cc:190 plugins/jabber/jabberworkinfobase.cpp:92 rc.cpp:325 rc.cpp:1942 rc.cpp:2338
+#, no-c-format
+msgid "Position:"
+msgstr "Position:"
+
+#: plugins/icq/advsearchbase.cc:258 plugins/icq/icqclient.cpp:1934 plugins/icq/icqclient.cpp:2122 rc.cpp:2341
+#, no-c-format
+msgid "Interests"
+msgstr "Intressen"
+
+#: plugins/icq/advsearchbase.cc:259 rc.cpp:2344
+#, no-c-format
+msgid "Past"
+msgstr "Tidigare"
+
+#: plugins/icq/advsearchbase.cc:261 rc.cpp:2348
+#, no-c-format
+msgid "Affilations"
+msgstr "Anknytningar"
+
+#: plugins/icq/advsearchbase.cc:262 rc.cpp:2351
+#, no-c-format
+msgid "Keywords"
+msgstr "Nyckelord"
+
+#: plugins/icq/advsearchbase.cc:263 rc.cpp:2354
+#, no-c-format
+msgid "Search &online users only"
+msgstr "Sök endast användare som är &anslutna"
+
 #: plugins/icq/aimconfig.cpp:43
 msgid "Register new ScreenName"
 msgstr "Registrera nytt skärmnamn"
 
-#: plugins/icq/aiminfo.cpp:178 plugins/icq/icqclient.cpp:1491 plugins/icq/icqinfo.cpp:220 plugins/jabber/jabberclient.cpp:1315 plugins/jabber/jabberinfo.cpp:129 plugins/msn/msnclient.cpp:1831 plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1382 plugins/yahoo/yahooinfo.cpp:109
+#: plugins/icq/aimconfigbase.cc:144 plugins/icq/aiminfobase.cc:266 rc.cpp:1998 rc.cpp:2176
+#, no-c-format
+msgid "ScreenName:"
+msgstr "Skärmnamn:"
+
+#: plugins/icq/aimconfigbase.cc:146 rc.cpp:1995
+#, no-c-format
+msgid "&AIM"
+msgstr "&AIM"
+
+#: plugins/icq/aimconfigbase.cc:147 plugins/icq/icqconfigbase.cc:270 plugins/jabber/jabberconfigbase.cpp:309 plugins/jabber/jabberconfigbase.cpp:313 plugins/livejournal/livejournalcfgbase.cpp:164 plugins/msn/msnconfigbase.cpp:173 plugins/proxy/proxycfgbase.cpp:132 plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140 plugins/yahoo/yahoocfgbase.cpp:179 rc.cpp:61 rc.cpp:142 rc.cpp:154 rc.cpp:1321 rc.cpp:1386 rc.cpp:1438 rc.cpp:1534 rc.cpp:2007 rc.cpp:2052 rc.cpp:2403
+#, no-c-format
+msgid "Port:"
+msgstr "Port:"
+
+#: plugins/icq/aimconfigbase.cc:148 plugins/icq/icqconfigbase.cc:269 plugins/jabber/jabberconfigbase.cpp:308 plugins/jabber/jabberconfigbase.cpp:312 plugins/livejournal/livejournalcfgbase.cpp:162 plugins/msn/msnconfigbase.cpp:172 plugins/yahoo/yahoocfgbase.cpp:178 rc.cpp:139 rc.cpp:151 rc.cpp:1315 rc.cpp:1435 rc.cpp:2010 rc.cpp:2049 rc.cpp:2400
+#, no-c-format
+msgid "Server:"
+msgstr "Server:"
+
+#: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:268 plugins/jabber/jabberconfigbase.cpp:318 plugins/msn/msnconfigbase.cpp:176 plugins/yahoo/yahoocfgbase.cpp:182 rc.cpp:169 rc.cpp:1447 rc.cpp:2013 rc.cpp:2046 rc.cpp:2412
+#, no-c-format
+msgid "Use &HTTP polling"
+msgstr "Använd &HTTP-polling"
+
+#: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:267 plugins/msn/msnconfigbase.cpp:177 plugins/yahoo/yahoocfgbase.cpp:181 rc.cpp:1450 rc.cpp:2016 rc.cpp:2043 rc.cpp:2409
+#, no-c-format
+msgid "&Automatically use HTTP polling if proxy required"
+msgstr "&Använd HTTP-polling automatiskt om proxyn kräver det"
+
+#: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:273 plugins/jabber/jabberconfigbase.cpp:319 plugins/msn/msnconfigbase.cpp:178 plugins/yahoo/yahoocfgbase.cpp:180 rc.cpp:172 rc.cpp:1453 rc.cpp:2019 rc.cpp:2061 rc.cpp:2406
+#, no-c-format
+msgid "Note: For HTTP-polling using proxy settings for HTTP"
+msgstr "Notera: För HTTP-polling använder proxyinställningar för HTTP"
+
+#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:274 rc.cpp:2022 rc.cpp:2064
+#, no-c-format
+msgid "&Keep-alive connection"
+msgstr "&Håll anslutning vid liv"
+
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:275 plugins/jabber/jabberconfigbase.cpp:321 plugins/livejournal/livejournalcfgbase.cpp:165 plugins/msn/msnconfigbase.cpp:180 plugins/yahoo/yahoocfgbase.cpp:185 rc.cpp:148 rc.cpp:1312 rc.cpp:1432 rc.cpp:2004 rc.cpp:2040 rc.cpp:2397
+#, no-c-format
+msgid "&Network"
+msgstr "&Nätverk"
+
+#: plugins/icq/aiminfo.cpp:178 plugins/icq/icqclient.cpp:1491 plugins/icq/icqinfo.cpp:220 plugins/jabber/jabberclient.cpp:1336 plugins/jabber/jabberinfo.cpp:134 plugins/msn/msnclient.cpp:1831 plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1382 plugins/yahoo/yahooinfo.cpp:109
 msgid "Last online"
 msgstr "Senast ansluten"
+
+#: plugins/icq/aiminfobase.cc:258 plugins/icq/aimsearchbase.cc:165 rc.cpp:1854 rc.cpp:2152
+#, no-c-format
+msgid "Middle:"
+msgstr "Mellannamn:"
+
+#: plugins/icq/aiminfobase.cc:259 plugins/icq/aimsearchbase.cc:166 rc.cpp:1857 rc.cpp:2155
+#, no-c-format
+msgid "Maiden:"
+msgstr "Födelsenamn:"
+
+#: plugins/icq/aiminfobase.cc:261 plugins/icq/aimsearchbase.cc:173 rc.cpp:1878 rc.cpp:2161
+#, no-c-format
+msgid "Street:"
+msgstr "Gata:"
+
+#: plugins/icq/aiminfobase.cc:264 plugins/icq/aimsearchbase.cc:172 rc.cpp:1875 rc.cpp:2170
+#, no-c-format
+msgid "Zip:"
+msgstr "Postnummer:"
+
+#: plugins/icq/aiminfobase.cc:267 rc.cpp:2143
+#, no-c-format
+msgid "&Profile"
+msgstr "&Profil"
+
+#: plugins/icq/aiminfobase.cc:269 plugins/icq/icqinfobase.cc:318 rc.cpp:2185 rc.cpp:2229
+#, no-c-format
+msgid "External IP:"
+msgstr "Extern IP:"
+
+#: plugins/icq/aiminfobase.cc:270 plugins/icq/icqinfobase.cc:320 plugins/jabber/jabberinfobase.cpp:256 plugins/proxy/proxycfgbase.cpp:137 rc.cpp:76 rc.cpp:298 rc.cpp:2188 rc.cpp:2235
+#, no-c-format
+msgid "Client:"
+msgstr "Klient:"
+
+#: plugins/icq/aiminfobase.cc:271 plugins/icq/icqinfobase.cc:315 plugins/jabber/jabberinfobase.cpp:252 plugins/msn/msninfobase.cpp:133 plugins/yahoo/yahooinfobase.cpp:158 rc.cpp:288 rc.cpp:1413 rc.cpp:2191 rc.cpp:2222 rc.cpp:2378
+#, no-c-format
+msgid "Status:"
+msgstr "Status:"
+
+#: plugins/icq/aiminfobase.cc:273 plugins/icq/icqinfobase.cc:319 rc.cpp:2195 rc.cpp:2232
+#, no-c-format
+msgid "Internal IP:"
+msgstr "Intern IP:"
+
+#: plugins/icq/aimsearchbase.cc:162 rc.cpp:1845
+#, no-c-format
+msgid "Names"
+msgstr "Namn"
+
+#: plugins/icq/aimsearchbase.cc:168 plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134 rc.cpp:1863
+#, no-c-format
+msgid "Location"
+msgstr "Plats"
+
+#: plugins/icq/encodingdlgbase.cc:83 rc.cpp:2256
+#, no-c-format
+msgid "Choose default encoding"
+msgstr "Välj standard för teckenkodning"
+
+#: plugins/icq/encodingdlgbase.cc:84 rc.cpp:2259
+#, no-c-format
+msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
+msgstr "Din aktuella teckenkodning (UTF-8) i systemet kan orsaka problem när din personliga information sparas och vid läsning av meddelanden i frånkopplat läge från andra användare."
+
+#: plugins/icq/encodingdlgbase.cc:85 rc.cpp:2262
+#, no-c-format
+msgid "You will choose the coding by default which want to use:"
+msgstr "Du kan välja den teckenkodning som ska användas som  standard:"
+
+#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179 plugins/jabber/jabberhomeinfobase.cpp:109 rc.cpp:121 rc.cpp:1890 rc.cpp:1911
+#, no-c-format
+msgid "Address:"
+msgstr "Adress:"
+
+#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182 plugins/jabber/jabberhomeinfobase.cpp:106 rc.cpp:112 rc.cpp:1899 rc.cpp:1920
+#, no-c-format
+msgid "Zip code:"
+msgstr "Postnummer:"
+
+#: plugins/icq/homeinfobase.cc:149 rc.cpp:1902
+#, no-c-format
+msgid "Time zone:"
+msgstr "Tidszon:"
+
+#: plugins/icq/homeinfobase.cc:150 rc.cpp:1884
+#, no-c-format
+msgid "&Home info"
+msgstr "&Heminformation"
 
 #: plugins/icq/icq.cpp:59
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/icq.cpp:97 plugins/icq/icq.cpp:267 plugins/icq/icqclient.cpp:1467 plugins/jabber/jabber.cpp:97 plugins/msn/msn.cpp:97 plugins/yahoo/yahoo.cpp:119 rc.cpp:770 rc.cpp:1186
-#, no-c-format
-msgid "Away"
-msgstr "Frånvarande"
-
-#: plugins/icq/icq.cpp:112 plugins/jabber/jabber.cpp:112 plugins/msn/msn.cpp:112 plugins/yahoo/yahoo.cpp:134 rc.cpp:773 rc.cpp:1189
-#, no-c-format
-msgid "N/A"
-msgstr "Inte tillgänglig"
-
-#: plugins/icq/icq.cpp:127 plugins/jabber/jabber.cpp:127 rc.cpp:776
+#: plugins/icq/icq.cpp:127 plugins/jabber/jabber.cpp:127 plugins/osd/osdconfigbase.cpp:114 rc.cpp:560
 #, no-c-format
 msgid "Do not Disturb"
 msgstr "Stör inte"
 
-#: plugins/icq/icq.cpp:142 rc.cpp:779
+#: plugins/icq/icq.cpp:142 plugins/osd/osdconfigbase.cpp:115 rc.cpp:563
 #, no-c-format
 msgid "Occupied"
 msgstr "Upptagen"
 
-#: plugins/icq/icq.cpp:157 plugins/jabber/jabber.cpp:142 rc.cpp:782
+#: plugins/icq/icq.cpp:157 plugins/jabber/jabber.cpp:142 plugins/osd/osdconfigbase.cpp:116 rc.cpp:566
 #, no-c-format
 msgid "Free for chat"
 msgstr "Ledig för chatt"
@@ -1807,57 +3017,47 @@ msgstr "Protokollfel"
 msgid "Possibly invisible"
 msgstr "Möjligen osynlig"
 
-#: plugins/icq/icqclient.cpp:1448 rc.cpp:1222
-#, no-c-format
-msgid "Invisible"
-msgstr "Osynlig"
-
 #: plugins/icq/icqclient.cpp:1483
 msgid "Warning level"
 msgstr "Varningsnivå"
 
-#: plugins/icq/icqclient.cpp:1872 plugins/icq/icqclient.cpp:2060 plugins/jabber/jabberclient.cpp:1483 plugins/jabber/jabberclient.cpp:1592 plugins/jabber/jabberclient.cpp:1724 plugins/jabber/jabberclient.cpp:1743
+#: plugins/icq/icqclient.cpp:1874 plugins/icq/icqclient.cpp:2062 plugins/jabber/jabberclient.cpp:1518 plugins/jabber/jabberclient.cpp:1627 plugins/jabber/jabberclient.cpp:1759 plugins/jabber/jabberclient.cpp:1778
 msgid "Home info"
 msgstr "Heminformation"
 
-#: plugins/icq/icqclient.cpp:1887 plugins/icq/icqclient.cpp:2075 plugins/jabber/jabberclient.cpp:1498 plugins/jabber/jabberclient.cpp:1607 plugins/jabber/jabberclient.cpp:1726 plugins/jabber/jabberclient.cpp:1745
+#: plugins/icq/icqclient.cpp:1889 plugins/icq/icqclient.cpp:2077 plugins/jabber/jabberclient.cpp:1533 plugins/jabber/jabberclient.cpp:1642 plugins/jabber/jabberclient.cpp:1761 plugins/jabber/jabberclient.cpp:1780
 msgid "Work info"
 msgstr "Arbetsinformation"
 
-#: plugins/icq/icqclient.cpp:1902 plugins/icq/icqclient.cpp:2090
+#: plugins/icq/icqclient.cpp:1904 plugins/icq/icqclient.cpp:2092
 msgid "More info"
 msgstr "Mer information"
 
-#: plugins/icq/icqclient.cpp:1917 plugins/icq/icqclient.cpp:2011 plugins/icq/icqclient.cpp:2105 plugins/icq/icqclient.cpp:2229 plugins/jabber/discoinfo.cpp:194 plugins/jabber/jabberclient.cpp:1513 plugins/jabber/jabberclient.cpp:1622 plugins/jabber/jabberclient.cpp:1728 plugins/jabber/jabberclient.cpp:1747
+#: plugins/icq/icqclient.cpp:1919 plugins/icq/icqclient.cpp:2013 plugins/icq/icqclient.cpp:2107 plugins/icq/icqclient.cpp:2231 plugins/jabber/discoinfo.cpp:180 plugins/jabber/jabberclient.cpp:1548 plugins/jabber/jabberclient.cpp:1657 plugins/jabber/jabberclient.cpp:1763 plugins/jabber/jabberclient.cpp:1782
 msgid "About info"
 msgstr "Information om"
 
-#: plugins/icq/icqclient.cpp:1932 plugins/icq/icqclient.cpp:2120 rc.cpp:675
-#, no-c-format
-msgid "Interests"
-msgstr "Intressen"
-
-#: plugins/icq/icqclient.cpp:1947 plugins/icq/icqclient.cpp:2135
+#: plugins/icq/icqclient.cpp:1949 plugins/icq/icqclient.cpp:2137
 msgid "Group/Past"
 msgstr "Grupp/Tidigare"
 
-#: plugins/icq/icqclient.cpp:1962 plugins/icq/icqclient.cpp:2150
+#: plugins/icq/icqclient.cpp:1964 plugins/icq/icqclient.cpp:2152
 msgid "Picture"
 msgstr "Bild"
 
-#: plugins/icq/icqclient.cpp:2165 plugins/icq/icqclient.cpp:2244 plugins/jabber/jabberclient.cpp:1667 plugins/msn/msnclient.cpp:915 plugins/yahoo/yahooclient.cpp:1493
+#: plugins/icq/icqclient.cpp:2167 plugins/icq/icqclient.cpp:2246 plugins/jabber/jabberclient.cpp:1702 plugins/msn/msnclient.cpp:915 plugins/yahoo/yahooclient.cpp:1493
 msgid "Network"
 msgstr "Nätverk"
 
-#: plugins/icq/icqclient.cpp:2180
+#: plugins/icq/icqclient.cpp:2182
 msgid "Security"
 msgstr "Säkerhet"
 
-#: plugins/icq/icqclient.cpp:2459
+#: plugins/icq/icqclient.cpp:2461
 msgid "Send &urgent"
 msgstr "Skicka &brådskande"
 
-#: plugins/icq/icqclient.cpp:2463
+#: plugins/icq/icqclient.cpp:2465
 msgid "Send to &list"
 msgstr "Skicka till &lista"
 
@@ -1872,6 +3072,106 @@ msgstr "UTF"
 #: plugins/icq/icqconfig.cpp:59
 msgid "Plain text"
 msgstr "Klartext"
+
+#: plugins/icq/icqconfigbase.cc:264 rc.cpp:2034
+#, no-c-format
+msgid "&Register new UIN"
+msgstr "&Registrera nytt UIN"
+
+#: plugins/icq/icqconfigbase.cc:265 rc.cpp:2037
+#, no-c-format
+msgid "UIN:"
+msgstr "UIN:"
+
+#: plugins/icq/icqconfigbase.cc:266 rc.cpp:2028
+#, no-c-format
+msgid "&ICQ"
+msgstr "&ICQ"
+
+#: plugins/icq/icqconfigbase.cc:271 plugins/jabber/jabberconfigbase.cpp:315 plugins/msn/msnconfigbase.cpp:174 plugins/yahoo/yahoocfgbase.cpp:184 rc.cpp:160 rc.cpp:1441 rc.cpp:2055 rc.cpp:2418
+#, no-c-format
+msgid "Port range for direct connections:"
+msgstr "Portintervall för direktanslutningar:"
+
+#: plugins/icq/icqconfigbase.cc:276 rc.cpp:2070
+#, no-c-format
+msgid "Automatically check &invisible"
+msgstr "Automatiskt kontrollera &osynlig"
+
+#: plugins/icq/icqconfigbase.cc:277 rc.cpp:2073
+#, no-c-format
+msgid "Send format:"
+msgstr "Sändningsformat:"
+
+#: plugins/icq/icqconfigbase.cc:278 rc.cpp:2076
+#, no-c-format
+msgid "Send message:"
+msgstr "Skicka meddelande:"
+
+#: plugins/icq/icqconfigbase.cc:280 rc.cpp:2079
+#, no-c-format
+msgid "No wait ack"
+msgstr "Ingen väntebekräftelse"
+
+#: plugins/icq/icqconfigbase.cc:281 rc.cpp:2082
+#, no-c-format
+msgid "Wait ack from server"
+msgstr "Väntebekräftelse från server"
+
+#: plugins/icq/icqconfigbase.cc:282 rc.cpp:2085
+#, no-c-format
+msgid "Wait ack from client"
+msgstr "Väntebekräftelse från klient"
+
+#: plugins/icq/icqconfigbase.cc:283 rc.cpp:2088
+#, no-c-format
+msgid "Accept in &occupied mode"
+msgstr "Acceptera i &Upptagen-läget"
+
+#: plugins/icq/icqconfigbase.cc:284 rc.cpp:2091
+#, no-c-format
+msgid "Accept in &DND mode"
+msgstr "Acceptera i &Stör inte-läget"
+
+#: plugins/icq/icqconfigbase.cc:285 rc.cpp:2094
+#, no-c-format
+msgid "For decrease traffic you can:"
+msgstr "För minskad trafik kan du:"
+
+#: plugins/icq/icqconfigbase.cc:286 rc.cpp:2097
+#, no-c-format
+msgid "Disable answer on phonebook and &picture requests"
+msgstr "Inaktivera svar på telefonbok och &bildbegäran"
+
+#: plugins/icq/icqconfigbase.cc:287 rc.cpp:2100
+#, no-c-format
+msgid "Disable automatically &request autoreply on change status"
+msgstr "Inaktivera automatiskt &begäran om automatiskt svar vid statusändring"
+
+#: plugins/icq/icqconfigbase.cc:288 rc.cpp:2103
+#, no-c-format
+msgid "Disable automatically &update user info"
+msgstr "Inaktivera automatisk &uppdatering av användarinformation"
+
+#: plugins/icq/icqconfigbase.cc:289 rc.cpp:2106
+#, no-c-format
+msgid "Disable &typing notification"
+msgstr "Inaktivera &skrivandenotifiering"
+
+#: plugins/icq/icqconfigbase.cc:290 rc.cpp:2109
+#, no-c-format
+msgid "Check invisible every"
+msgstr "Kontrollera osynlighet varje"
+
+#: plugins/icq/icqconfigbase.cc:291 plugins/livejournal/livejournalcfgbase.cpp:167 rc.cpp:1330 rc.cpp:2112
+#, no-c-format
+msgid "minutes"
+msgstr "minuter"
+
+#: plugins/icq/icqconfigbase.cc:292 plugins/jabber/jabberconfigbase.cpp:336 plugins/livejournal/livejournalcfgbase.cpp:171 rc.cpp:178 rc.cpp:1324 rc.cpp:2067
+#, no-c-format
+msgid "&Options"
+msgstr "&Alternativ"
 
 #: plugins/icq/icqdirect.cpp:197
 msgid "Connect to unknown port"
@@ -1913,23 +3213,23 @@ msgstr "Meddelandegräns överstigen"
 msgid "We are to evil :("
 msgstr "Vi är för onda :("
 
-#: plugins/icq/icqicmb.cpp:691 plugins/jabber/jabber_rosters.cpp:2160
+#: plugins/icq/icqicmb.cpp:692 plugins/jabber/jabber_rosters.cpp:2183
 msgid "File transfer declined"
 msgstr "Filöverföring nekades"
 
-#: plugins/icq/icqicmb.cpp:751 plugins/icq/icqicmb.cpp:1299 plugins/msn/msnclient.cpp:2403 plugins/yahoo/yahooclient.cpp:447 plugins/yahoo/yahooclient.cpp:450
+#: plugins/icq/icqicmb.cpp:752 plugins/icq/icqicmb.cpp:1300 plugins/msn/msnclient.cpp:2403 plugins/yahoo/yahooclient.cpp:447 plugins/yahoo/yahooclient.cpp:450
 msgid "Message declined"
 msgstr "Meddelande nekades"
 
-#: plugins/icq/icqicmb.cpp:831 plugins/icq/icqicmb.cpp:845 plugins/icq/icqicmb.cpp:853 plugins/icq/icqvarious.cpp:1699 plugins/jabber/jabberclient.cpp:653 plugins/yahoo/yahooclient.cpp:1048
+#: plugins/icq/icqicmb.cpp:832 plugins/icq/icqicmb.cpp:846 plugins/icq/icqicmb.cpp:854 plugins/icq/icqvarious.cpp:1699 plugins/jabber/jabberclient.cpp:673 plugins/yahoo/yahooclient.cpp:1048
 msgid "Client go offline"
 msgstr "Klient kopplade från"
 
-#: plugins/icq/icqicmb.cpp:991
+#: plugins/icq/icqicmb.cpp:992
 msgid "Directory"
 msgstr "Katalog"
 
-#: plugins/icq/icqicmb.cpp:995 plugins/icq/icqicmb.cpp:1001
+#: plugins/icq/icqicmb.cpp:996 plugins/icq/icqicmb.cpp:1002
 #, c-format
 msgid ""
 "_n: %n file\n"
@@ -1938,19 +3238,19 @@ msgstr ""
 "%n fil\n"
 "%n filer"
 
-#: plugins/icq/icqicmb.cpp:1292 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1293 plugins/icq/warndlg.cpp:66
 msgid "Send failed"
 msgstr "Sändning misslyckades"
 
-#: plugins/icq/icqicmb.cpp:1514
+#: plugins/icq/icqicmb.cpp:1515
 msgid "Send timeout"
 msgstr "Timeout vid sändning"
 
-#: plugins/icq/icqicmb.cpp:1662
+#: plugins/icq/icqicmb.cpp:1663
 msgid "No contact"
 msgstr "Ingen kontakt"
 
-#: plugins/icq/icqicmb.cpp:1686 plugins/icq/icqmessage.cpp:1068 plugins/jabber/jabberclient.cpp:2319
+#: plugins/icq/icqicmb.cpp:1687 plugins/icq/icqmessage.cpp:1068 plugins/jabber/jabberclient.cpp:2354
 msgid "No contacts for send"
 msgstr "Inga kontakter för sändning"
 
@@ -1994,17 +3294,57 @@ msgstr "Söker kvinnor"
 msgid "Seeking Men"
 msgstr "Söker män"
 
-#: plugins/icq/icqinfo.cpp:85 plugins/jabber/jabberinfo.cpp:66
+#: plugins/icq/icqinfo.cpp:85 plugins/jabber/jabberinfo.cpp:67
 msgid "Input current password"
 msgstr "Mata in aktuellt lösenord"
 
-#: plugins/icq/icqinfo.cpp:88 plugins/jabber/jabberinfo.cpp:69
+#: plugins/icq/icqinfo.cpp:88 plugins/jabber/jabberinfo.cpp:70
 msgid "Confirm password does not match"
 msgstr "Lösenordet för bekräftelse stämmer inte överens"
 
-#: plugins/icq/icqinfo.cpp:91 plugins/jabber/jabberinfo.cpp:72
+#: plugins/icq/icqinfo.cpp:91 plugins/jabber/jabberinfo.cpp:73
 msgid "Invalid password"
 msgstr "Ogiltigt lösenord"
+
+#: plugins/icq/icqinfobase.cc:308 rc.cpp:2198
+#, no-c-format
+msgid "Form5"
+msgstr "Form5"
+
+#: plugins/icq/icqinfobase.cc:310 rc.cpp:2207
+#, no-c-format
+msgid "Uin:"
+msgstr "Uin:"
+
+#: plugins/icq/icqinfobase.cc:313 rc.cpp:2216
+#, no-c-format
+msgid "Random chat group:"
+msgstr "Slumpmässig chattgrupp:"
+
+#: plugins/icq/icqinfobase.cc:314 plugins/jabber/jabberinfobase.cpp:251 plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:157 rc.cpp:266 rc.cpp:1401 rc.cpp:2201 rc.cpp:2360
+#, no-c-format
+msgid "&Names"
+msgstr "&Namn"
+
+#: plugins/icq/icqinfobase.cc:322 plugins/jabber/jabberinfobase.cpp:258 rc.cpp:304 rc.cpp:2241
+#, no-c-format
+msgid "New password:"
+msgstr "Nytt lösenord:"
+
+#: plugins/icq/icqinfobase.cc:323 plugins/jabber/jabberinfobase.cpp:259 rc.cpp:307 rc.cpp:2244
+#, no-c-format
+msgid "Retype new password:"
+msgstr "Ange nytt lösenord igen:"
+
+#: plugins/icq/icqinfobase.cc:324 plugins/jabber/jabberinfobase.cpp:260 rc.cpp:310 rc.cpp:2247
+#, no-c-format
+msgid "Current password:"
+msgstr "Aktuellt lösenord:"
+
+#: plugins/icq/icqinfobase.cc:325 plugins/jabber/jabberinfobase.cpp:261 rc.cpp:301 rc.cpp:2238
+#, no-c-format
+msgid "&Password"
+msgstr "&Lösenord"
 
 #: plugins/icq/icqlogin.cpp:70
 msgid "Login error"
@@ -2156,6 +3496,16 @@ msgstr "Bilden får inte vara större än 7 kilobyte"
 msgid "Picture is not available"
 msgstr "Bild är inte tillgänglig"
 
+#: plugins/icq/icqpicturebase.cc:76 plugins/jabber/jabberpicturebase.cpp:76 plugins/shortcuts/shortcutcfgbase.cpp:84 rc.cpp:410 rc.cpp:505 rc.cpp:1815
+#, no-c-format
+msgid "&Clear"
+msgstr "&Töm"
+
+#: plugins/icq/icqpicturebase.cc:77 rc.cpp:1811
+#, no-c-format
+msgid "&Picture"
+msgstr "&Bild"
+
 #: plugins/icq/icqsearch.cpp:307 plugins/icq/icqsecure.cpp:126 plugins/jabber/jabberadd.cpp:281 plugins/jabber/jabbersearch.cpp:102
 msgid "Nick"
 msgstr "Smeknamn"
@@ -2188,7 +3538,7 @@ msgstr "Kön"
 msgid "Age"
 msgstr "Ålder"
 
-#: plugins/icq/icqsearch.cpp:325 plugins/jabber/jabberadd.cpp:282 rc.cpp:755
+#: plugins/icq/icqsearch.cpp:325 plugins/jabber/jabberadd.cpp:282 plugins/msn/msnsearchbase.cpp:72 rc.cpp:1462
 #, no-c-format
 msgid "E-Mail"
 msgstr "E-post"
@@ -2201,9 +3551,94 @@ msgstr "Kvinna"
 msgid "Male"
 msgstr "Man"
 
+#: plugins/icq/icqsearchbase.cc:126 rc.cpp:1962
+#, no-c-format
+msgid "&UIN"
+msgstr "&UIN"
+
+#: plugins/icq/icqsearchbase.cc:127 rc.cpp:1965
+#, no-c-format
+msgid "&Screenname"
+msgstr "&Skärmnamn"
+
+#: plugins/icq/icqsearchbase.cc:133 rc.cpp:1983
+#, no-c-format
+msgid "AOL s&creenname"
+msgstr "AOL-skä&rmnamn"
+
+#: plugins/icq/icqsearchbase.cc:134 rc.cpp:1986
+#, no-c-format
+msgid "ICQ &UIN"
+msgstr "ICQ &UIN"
+
+#: plugins/icq/icqsearchbase.cc:135 rc.cpp:1989
+#, no-c-format
+msgid "Advanced"
+msgstr "Avancerat"
+
 #: plugins/icq/icqsecure.cpp:125
 msgid "UIN"
 msgstr "UIN"
+
+#: plugins/icq/icqsecurebase.cc:110 rc.cpp:1774
+#, no-c-format
+msgid "My &authorization is required before users add me to Contact List"
+msgstr "Min &auktorisering krävs innan användare kan lägga till mig till sin kontaktlista"
+
+#: plugins/icq/icqsecurebase.cc:111 rc.cpp:1777
+#, no-c-format
+msgid "Don't show my &IP-address"
+msgstr "Visa inte min &IP-adress"
+
+#: plugins/icq/icqsecurebase.cc:113 rc.cpp:1781
+#, no-c-format
+msgid "Allow other to view my &status from the Web"
+msgstr "Tillåt andra att se min &status från webben"
+
+#: plugins/icq/icqsecurebase.cc:114 rc.cpp:1784
+#, no-c-format
+msgid "I&gnore user authorization"
+msgstr "I&gnorera användarauktorisering"
+
+#: plugins/icq/icqsecurebase.cc:115 rc.cpp:1787
+#, no-c-format
+msgid "Always use &MD5 authentication"
+msgstr ""
+
+#: plugins/icq/icqsecurebase.cc:116 rc.cpp:1790
+#, no-c-format
+msgid "Direct connections"
+msgstr "Direktanslutningar"
+
+#: plugins/icq/icqsecurebase.cc:117 rc.cpp:1793
+#, no-c-format
+msgid "Allow &direct connection from any user"
+msgstr "Tillåt &direktanslutning från alla användare"
+
+#: plugins/icq/icqsecurebase.cc:118 rc.cpp:1796
+#, no-c-format
+msgid "Allow direct connection from user listed in &contact list"
+msgstr "Tillåt direktanslutning från användare listade i &kontaktlistan"
+
+#: plugins/icq/icqsecurebase.cc:119 rc.cpp:1799
+#, no-c-format
+msgid "Allow direct connection from user &upon authorization"
+msgstr "Tillåt direktanslutning från användare &vid auktorisering"
+
+#: plugins/icq/icqsecurebase.cc:120 rc.cpp:1771
+#, no-c-format
+msgid "&Security"
+msgstr "&Säkerhet"
+
+#: plugins/icq/icqsecurebase.cc:121 rc.cpp:1802
+#, no-c-format
+msgid "&Visible list"
+msgstr "&Synlig lista"
+
+#: plugins/icq/icqsecurebase.cc:122 rc.cpp:1805
+#, no-c-format
+msgid "&Invisible list"
+msgstr "&Osynlig lista"
 
 #: plugins/icq/icqservice.cpp:297
 msgid "anonymous"
@@ -2482,6 +3917,11 @@ msgstr "Publicering"
 msgid "Home automation"
 msgstr "Smarta hem"
 
+#: plugins/icq/interestsinfobase.cc:109 rc.cpp:2253
+#, no-c-format
+msgid "&Interests"
+msgstr "&Intressen"
+
 #: plugins/icq/moreinfo.cpp:87 sim/contacts.cpp:2005 sim/contacts.cpp:2006
 msgid "Arabic"
 msgstr "Arabiska"
@@ -2642,6 +4082,31 @@ msgstr "Kyrgyz"
 msgid "Maltese"
 msgstr "Maltesiska"
 
+#: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281 plugins/jabber/jabberinfobase.cpp:249 rc.cpp:281 rc.cpp:377 rc.cpp:2124
+#, no-c-format
+msgid "Homepage:"
+msgstr "Hemsida:"
+
+#: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282 plugins/jabber/jabberinfobase.cpp:248 rc.cpp:278 rc.cpp:380 rc.cpp:2131
+#, no-c-format
+msgid "Birth date:"
+msgstr "Födelsedag:"
+
+#: plugins/icq/moreinfobase.cc:158 rc.cpp:2118
+#, no-c-format
+msgid "&More info"
+msgstr "&Mer information"
+
+#: plugins/icq/moreinfobase.cc:159 rc.cpp:2137
+#, no-c-format
+msgid "Spoken languages:"
+msgstr "Talade språk:"
+
+#: plugins/icq/moreinfobase.cc:160 rc.cpp:2134
+#, no-c-format
+msgid "&Languages"
+msgstr "&Språk"
+
 #: plugins/icq/pastinfo.cpp:76
 msgid "Elementary School"
 msgstr "Grundskola"
@@ -2750,9 +4215,79 @@ msgstr "Facklig organisation"
 msgid "Volunteer Org."
 msgstr "Frivilligorganisation"
 
+#: plugins/icq/pastinfobase.cc:139 rc.cpp:1824
+#, no-c-format
+msgid "Organization, Affiliation, Group:"
+msgstr "Organisation, anknytning, grupp:"
+
+#: plugins/icq/pastinfobase.cc:140 rc.cpp:1821
+#, no-c-format
+msgid "A&ffilation"
+msgstr "A&nknytning"
+
+#: plugins/icq/pastinfobase.cc:141 rc.cpp:1830
+#, no-c-format
+msgid "Past background:"
+msgstr "Tidigare bakgrund:"
+
+#: plugins/icq/pastinfobase.cc:142 rc.cpp:1827
+#, no-c-format
+msgid "&Background"
+msgstr "&Bakgrund"
+
 #: plugins/icq/securedlg.cpp:59
 msgid "Request secure channel fail"
 msgstr "Begäran om säker kanal misslyckades"
+
+#: plugins/icq/securedlgbase.cc:73 rc.cpp:2271
+#, no-c-format
+msgid "Secure chanel request"
+msgstr "Begäran om säker kanal"
+
+#: plugins/icq/securedlgbase.cc:74 rc.cpp:2274
+#, no-c-format
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+"Säker kanal etableras genom SSL med nyckelutväxlingsmetoden Diffie-Hellman och protokollet TLS version 1.\n"
+"\n"
+"Detta fungerar endast med andra SIM- och Licq-klienter"
+
+#: plugins/icq/verifydlgbase.cc:111 rc.cpp:1945
+#, no-c-format
+msgid "Verification Dialog"
+msgstr "Valideringsdialog"
+
+#: plugins/icq/verifydlgbase.cc:112 rc.cpp:1948
+#, no-c-format
+msgid "Please retype the letters from the picture above:"
+msgstr "Ange bokstäverna igen från bilden ovan:"
+
+#: plugins/icq/warndlgbase.cc:83 rc.cpp:2283
+#, no-c-format
+msgid "Send warning"
+msgstr "Skicka varning"
+
+#: plugins/icq/warndlgbase.cc:84 rc.cpp:2286
+#, no-c-format
+msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
+msgstr "Klicka OK för att skicka en varning till %1. Detta kommer att visa en varning hos %1 och begränsa hans eller hennes aktivitet. Gör endast detta om %1 har gjort något som kräver en varning."
+
+#: plugins/icq/warndlgbase.cc:85 rc.cpp:2289
+#, no-c-format
+msgid "Warn &anonymously"
+msgstr "Varna &anonymt"
+
+#: plugins/icq/warndlgbase.cc:86 rc.cpp:2292
+#, no-c-format
+msgid ""
+"Check this if you don't want your screen name revealed.\n"
+"Anonymous warnings are less severe."
+msgstr ""
+"Kryssa denna om du inte vill få ditt skärmnamn avslöjat.\n"
+"Anonyma varningar är mindre allvarliga."
 
 #: plugins/icq/workinfo.cpp:73
 msgid "Academic"
@@ -2846,29 +4381,44 @@ msgstr "Webbtjänster"
 msgid "Other services"
 msgstr "Övrigt tjänster"
 
-#: plugins/jabber/discoinfo.cpp:64
+#: plugins/icq/workinfobase.cc:186 rc.cpp:1930
+#, no-c-format
+msgid "Web site:"
+msgstr "Webbsida:"
+
+#: plugins/icq/workinfobase.cc:187 rc.cpp:1908
+#, no-c-format
+msgid "&Company"
+msgstr "&Företag"
+
+#: plugins/icq/workinfobase.cc:189 rc.cpp:1939
+#, no-c-format
+msgid "Div / dept:"
+msgstr "Grupp / avdelning:"
+
+#: plugins/icq/workinfobase.cc:191 rc.cpp:1933
+#, no-c-format
+msgid "&Occupation"
+msgstr "&Yrke"
+
+#: plugins/jabber/discoinfo.cpp:63
 msgid "Units"
 msgstr "Enheter"
 
-#: plugins/jabber/discoinfo.cpp:65
+#: plugins/jabber/discoinfo.cpp:64
 msgid "Value"
 msgstr "Värde"
 
-#: plugins/jabber/discoinfo.cpp:126 rc.cpp:2159
-#, no-c-format
-msgid "&Version"
-msgstr "&Version"
-
-#: plugins/jabber/discoinfo.cpp:141 rc.cpp:2171
+#: plugins/jabber/discoinfo.cpp:127 plugins/jabber/discoinfobase.cpp:277 rc.cpp:358
 #, no-c-format
 msgid "&Time"
 msgstr "&Tid"
 
-#: plugins/jabber/discoinfo.cpp:168
+#: plugins/jabber/discoinfo.cpp:154
 msgid "&Stat"
 msgstr "&Statistik"
 
-#: plugins/jabber/discoinfo.cpp:251
+#: plugins/jabber/discoinfo.cpp:230
 #, c-format
 msgid ""
 "_n: %n day\n"
@@ -2876,6 +4426,51 @@ msgid ""
 msgstr ""
 "%n dag\n"
 "%n dagar"
+
+#: plugins/jabber/discoinfobase.cpp:265 rc.cpp:328
+#, no-c-format
+msgid "DiscoInfo"
+msgstr "DiscoInfo"
+
+#: plugins/jabber/discoinfobase.cpp:266 rc.cpp:334
+#, no-c-format
+msgid "Namespaces:"
+msgstr "Namnrymder:"
+
+#: plugins/jabber/discoinfobase.cpp:267 rc.cpp:337
+#, no-c-format
+msgid "Category:"
+msgstr "Kategori:"
+
+#: plugins/jabber/discoinfobase.cpp:272 rc.cpp:352
+#, no-c-format
+msgid "Version:"
+msgstr "Version:"
+
+#: plugins/jabber/discoinfobase.cpp:273 rc.cpp:355
+#, no-c-format
+msgid "System:"
+msgstr "System:"
+
+#: plugins/jabber/discoinfobase.cpp:274 rc.cpp:346
+#, no-c-format
+msgid "&Version"
+msgstr "&Version"
+
+#: plugins/jabber/discoinfobase.cpp:275 rc.cpp:361
+#, no-c-format
+msgid "UTC client time:"
+msgstr "UTC-klienttid:"
+
+#: plugins/jabber/discoinfobase.cpp:276 rc.cpp:364
+#, no-c-format
+msgid "Last activity, idle response:"
+msgstr "Senaste aktivitet, inaktivt svar:"
+
+#: plugins/jabber/discoinfobase.cpp:279 rc.cpp:367
+#, no-c-format
+msgid "&Statistic"
+msgstr "&Statistik"
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
@@ -2893,14 +4488,9 @@ msgstr "JID"
 msgid "Node"
 msgstr "Nod"
 
-#: plugins/jabber/jabber.cpp:288 sim/simapi.cpp:481
+#: plugins/jabber/jabber.cpp:288 sim/simapi.cpp:485
 msgid "&Register"
 msgstr "&Registrera"
-
-#: plugins/jabber/jabber.cpp:296 rc.cpp:639
-#, no-c-format
-msgid "Info"
-msgstr "Info"
 
 #: plugins/jabber/jabber.cpp:312
 msgid "Browser mode"
@@ -2914,17 +4504,32 @@ msgstr "Läs in en nivå"
 msgid "Load all levels"
 msgstr "Läs in alla nivåer"
 
-#: plugins/jabber/jabber_rosters.cpp:2027
+#: plugins/jabber/jabber_rosters.cpp:2050
 msgid "Password does not match"
 msgstr "Lösenorden stämmer inte överens"
 
-#: plugins/jabber/jabber_rosters.cpp:2028
+#: plugins/jabber/jabber_rosters.cpp:2051
 msgid "Low level network error"
 msgstr "Lågnivånätverksfel"
 
-#: plugins/jabber/jabber_rosters.cpp:2885
+#: plugins/jabber/jabber_rosters.cpp:2913
 msgid "Please translate this to short language name (ru, de)"
 msgstr "sv"
+
+#: plugins/jabber/jabberaboutinfobase.cpp:57 rc.cpp:416
+#, no-c-format
+msgid "Additional information:"
+msgstr "Ytterligare information:"
+
+#: plugins/jabber/jabberaddbase.cpp:94 rc.cpp:242
+#, no-c-format
+msgid "&JID"
+msgstr "&JID"
+
+#: plugins/jabber/jabberaddbase.cpp:100 plugins/jabber/jidsearchbase.cpp:77 rc.cpp:234 rc.cpp:260
+#, no-c-format
+msgid "Jabber &browser"
+msgstr "Jabber-&bläddrare"
 
 #: plugins/jabber/jabberbrowser.cpp:46
 msgid "Process"
@@ -2959,19 +4564,19 @@ msgstr "%1 Konfigurera"
 msgid "Choose a user and password to register with the server"
 msgstr "Välj en användare och lösenord för att registrera på servern"
 
-#: plugins/jabber/jabberclient.cpp:1528 plugins/jabber/jabberclient.cpp:1637
+#: plugins/jabber/jabberclient.cpp:1563 plugins/jabber/jabberclient.cpp:1672
 msgid "Photo"
 msgstr "Foto"
 
-#: plugins/jabber/jabberclient.cpp:1543 plugins/jabber/jabberclient.cpp:1652
+#: plugins/jabber/jabberclient.cpp:1578 plugins/jabber/jabberclient.cpp:1687
 msgid "Logo"
 msgstr "Logotyp"
 
-#: plugins/jabber/jabberclient.cpp:2878 plugins/jabber/jabberclient.cpp:2918 plugins/msn/msnclient.cpp:2930 plugins/yahoo/yahooclient.cpp:2380 plugins/yahoo/yahooclient.cpp:2421
+#: plugins/jabber/jabberclient.cpp:2924 plugins/jabber/jabberclient.cpp:2964 plugins/msn/msnclient.cpp:2930 plugins/yahoo/yahooclient.cpp:2380 plugins/yahoo/yahooclient.cpp:2421
 msgid "File transfer failed"
 msgstr "Filöverföring misslyckades"
 
-#: plugins/jabber/jabberclient.cpp:3016 plugins/yahoo/yahooclient.cpp:2519
+#: plugins/jabber/jabberclient.cpp:3062 plugins/yahoo/yahooclient.cpp:2519
 msgid "File transfer fail"
 msgstr "Filöverföring misslyckades"
 
@@ -2979,9 +4584,109 @@ msgstr "Filöverföring misslyckades"
 msgid "jabber.org"
 msgstr "jabber.org"
 
-#: plugins/jabber/jabberconfig.cpp:74
+#: plugins/jabber/jabberconfig.cpp:75
 msgid "List of public servers"
 msgstr "Lista på publika servrar"
+
+#: plugins/jabber/jabberconfigbase.cpp:306 plugins/livejournal/livejournalcfgbase.cpp:159 rc.cpp:133 rc.cpp:1306
+#, no-c-format
+msgid "Username:"
+msgstr "Användarnamn:"
+
+#: plugins/jabber/jabberconfigbase.cpp:307 rc.cpp:136
+#, no-c-format
+msgid "&Register new account"
+msgstr "&Registrera nytt konto"
+
+#: plugins/jabber/jabberconfigbase.cpp:310 plugins/jabber/jabberconfigbase.cpp:317 rc.cpp:145 rc.cpp:166
+#, no-c-format
+msgid "Use &SSL"
+msgstr "Använd &SSL"
+
+#: plugins/jabber/jabberconfigbase.cpp:311 rc.cpp:127
+#, no-c-format
+msgid "&Jabber"
+msgstr "&Jabber"
+
+#: plugins/jabber/jabberconfigbase.cpp:316 rc.cpp:163
+#, no-c-format
+msgid "Use &plain text login"
+msgstr "Använd inloggning i &klartext"
+
+#: plugins/jabber/jabberconfigbase.cpp:320 rc.cpp:175
+#, no-c-format
+msgid "URL:"
+msgstr "Url:"
+
+#: plugins/jabber/jabberconfigbase.cpp:322 plugins/jabber/jabberinfobase.cpp:253 rc.cpp:181 rc.cpp:291
+#, no-c-format
+msgid "Resource:"
+msgstr "Resurs:"
+
+#: plugins/jabber/jabberconfigbase.cpp:323 rc.cpp:184
+#, no-c-format
+msgid "Priority:"
+msgstr "Prioritet:"
+
+#: plugins/jabber/jabberconfigbase.cpp:324 rc.cpp:187
+#, no-c-format
+msgid "Manualy specify Jabber host:"
+msgstr "Ange Jabber-värd manuellt:"
+
+#: plugins/jabber/jabberconfigbase.cpp:325 rc.cpp:190
+#, no-c-format
+msgid "Send &rich text messages if possible"
+msgstr "Skicka meddelanden i &rich text om möjligt"
+
+#: plugins/jabber/jabberconfigbase.cpp:326 plugins/osd/osdconfigbase.cpp:118 rc.cpp:193 rc.cpp:572
+#, no-c-format
+msgid "Enable &typing notification"
+msgstr "Aktivera &skrivningsnotifiering"
+
+#: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196
+#, fuzzy, no-c-format
+msgid "Alt+T"
+msgstr "Alt"
+
+#: plugins/jabber/jabberconfigbase.cpp:328 rc.cpp:199
+#, no-c-format
+msgid "Automatically &accept subscribe requests"
+msgstr "&Acceptera automatiskt prenumerationsbegäran"
+
+#: plugins/jabber/jabberconfigbase.cpp:329 rc.cpp:202
+#, fuzzy, no-c-format
+msgid "Alt+A"
+msgstr "Alt"
+
+#: plugins/jabber/jabberconfigbase.cpp:330 rc.cpp:205
+#, no-c-format
+msgid "Automatically send &subscribe request"
+msgstr "&Skicka automatiskt prenumerationsbegäran"
+
+#: plugins/jabber/jabberconfigbase.cpp:331 rc.cpp:208
+#, fuzzy, no-c-format
+msgid "Alt+S"
+msgstr "Alt"
+
+#: plugins/jabber/jabberconfigbase.cpp:332 rc.cpp:211
+#, no-c-format
+msgid "Use protocol &icons for agents contacts"
+msgstr "Använd protokoll&ikoner för agenternas kontakter"
+
+#: plugins/jabber/jabberconfigbase.cpp:333 rc.cpp:214
+#, fuzzy, no-c-format
+msgid "Alt+I"
+msgstr "Alt"
+
+#: plugins/jabber/jabberconfigbase.cpp:334 rc.cpp:217
+#, no-c-format
+msgid "Send and request version info"
+msgstr ""
+
+#: plugins/jabber/jabberinfobase.cpp:245 rc.cpp:269
+#, no-c-format
+msgid "ID:"
+msgstr "ID:"
 
 #: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:96
 msgid "<p>Subject: %1</p>"
@@ -3012,7 +4717,7 @@ msgstr "Logga ut"
 msgid "&Logo"
 msgstr "&Logotyp"
 
-#: plugins/jabber/jabberpicture.cpp:47 rc.cpp:1994
+#: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:77 rc.cpp:406
 #, no-c-format
 msgid "&Photo"
 msgstr "&Foto"
@@ -3125,6 +4830,11 @@ msgstr "Fyll i ett fält för att söka efter matchande Jabber-användare."
 msgid "To register, please fill out the following form.  Be as accurate as possible to make it easier for people to search for you."
 msgstr "För att registrera, fyll i följande formulär. Var så exakt som möjligt för att göra det enklare för folk att söka efter dig."
 
+#: plugins/jabber/jabberworkinfobase.cpp:91 rc.cpp:322
+#, no-c-format
+msgid "Role:"
+msgstr "Roll:"
+
 #: plugins/jabber/jidsearch.cpp:179
 msgid "User"
 msgstr "Användare"
@@ -3156,6 +4866,11 @@ msgstr "Organisationsnamn"
 #: plugins/jabber/jidsearch.cpp:186
 msgid "Organization Unit"
 msgstr "Organisationsenhet"
+
+#: plugins/livejournal/journalsearchbase.cpp:65 rc.cpp:1345
+#, no-c-format
+msgid "Add community"
+msgstr "Lägg till gemenskap"
 
 #: plugins/livejournal/livejournal.cpp:102
 #, c-format
@@ -3771,9 +5486,84 @@ msgstr "Dagboksinställningar"
 msgid "Register new user"
 msgstr "Registrera ny användare"
 
+#: plugins/livejournal/livejournalcfgbase.cpp:161 rc.cpp:1303
+#, no-c-format
+msgid "&LiveJournal"
+msgstr "&LiveJournal"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:163 plugins/spell/spellcfgbase.cpp:84 rc.cpp:533 rc.cpp:1318
+#, no-c-format
+msgid "Path:"
+msgstr "Sökväg:"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:166 rc.cpp:1327
+#, no-c-format
+msgid "Check interval:"
+msgstr "Kontrollintervall:"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:168 rc.cpp:1333
+#, no-c-format
+msgid "Use &fast server - only for paying customers"
+msgstr "Använd &snabb server - endast för betalande kunder"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:169 rc.cpp:1336
+#, no-c-format
+msgid "Use formatted messages"
+msgstr "Använd formaterade meddelanden"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:170 rc.cpp:1339
+#, no-c-format
+msgid "Add signature to all messages"
+msgstr "Lägg till signatur till alla meddelanden"
+
 #: plugins/livejournal/msgjournal.cpp:153
 msgid "Remove record from journal?"
 msgstr "Ta bort post från dagbok?"
+
+#: plugins/livejournal/msgjournalbase.cpp:82 rc.cpp:1351
+#, no-c-format
+msgid "Subject:"
+msgstr "Ämne:"
+
+#: plugins/livejournal/msgjournalbase.cpp:83 rc.cpp:1354
+#, no-c-format
+msgid "Security:"
+msgstr "Säkerhet:"
+
+#: plugins/livejournal/msgjournalbase.cpp:85 rc.cpp:1357
+#, no-c-format
+msgid "Public"
+msgstr "Publik"
+
+#: plugins/livejournal/msgjournalbase.cpp:86 rc.cpp:1360
+#, no-c-format
+msgid "Friends-Only"
+msgstr "Endast vänner"
+
+#: plugins/livejournal/msgjournalbase.cpp:87 rc.cpp:1363
+#, no-c-format
+msgid "Private"
+msgstr "Privat"
+
+#: plugins/livejournal/msgjournalbase.cpp:88 rc.cpp:1366
+#, no-c-format
+msgid "Mood:"
+msgstr "Humör:"
+
+#: plugins/livejournal/msgjournalbase.cpp:92 rc.cpp:1370
+#, no-c-format
+msgid "Enable comments"
+msgstr "Aktivera kommentarer"
+
+#: plugins/livejournal/msgjournalbase.cpp:93 rc.cpp:1373
+#, no-c-format
+msgid "No email comments"
+msgstr "Inga e-postkommentarer"
+
+#: plugins/livejournal/msgjournalbase.cpp:94 rc.cpp:1376
+#, no-c-format
+msgid "Disable comments"
+msgstr "Inaktivera kommentarer"
 
 #: plugins/logger/logconfig.cpp:94
 msgid "Debug"
@@ -3782,6 +5572,16 @@ msgstr "Felsökning"
 #: plugins/logger/logconfig.cpp:95
 msgid "Packets"
 msgstr "Paket"
+
+#: plugins/logger/logconfigbase.cpp:68 rc.cpp:6
+#, no-c-format
+msgid "File:"
+msgstr "Fil:"
+
+#: plugins/logger/logconfigbase.cpp:69 rc.cpp:9
+#, no-c-format
+msgid "Log level:"
+msgstr "Loggnivå:"
 
 #: plugins/logger/logger.cpp:39
 msgid "Logger"
@@ -3843,6 +5643,21 @@ msgstr "Överföring avbröts"
 msgid "Register in .NET Passport"
 msgstr "Registrera i .NET Passport"
 
+#: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175 plugins/yahoo/yahooinfobase.cpp:154 rc.cpp:1426 rc.cpp:2366 rc.cpp:2391
+#, no-c-format
+msgid "Login:"
+msgstr "Inloggning:"
+
+#: plugins/msn/msnconfigbase.cpp:171 rc.cpp:1423
+#, no-c-format
+msgid "&MSN"
+msgstr "&MSN"
+
+#: plugins/msn/msnconfigbase.cpp:179 rc.cpp:1456
+#, no-c-format
+msgid "&Automatically add contacts in accept list"
+msgstr "&Lägg automatiskt till kontakter i acceptlistan"
+
 #: plugins/msn/msnpacket.cpp:468
 #, c-format
 msgid ""
@@ -3855,6 +5670,26 @@ msgstr ""
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
 msgstr "Du har ny post"
+
+#: plugins/navigate/navcfgbase.cc:72 rc.cpp:1468
+#, no-c-format
+msgid "Use KDE settings"
+msgstr "Använd KDE-inställningar"
+
+#: plugins/navigate/navcfgbase.cc:73 rc.cpp:1471
+#, no-c-format
+msgid "Browser:"
+msgstr "Webbläsare:"
+
+#: plugins/navigate/navcfgbase.cc:74 rc.cpp:1474
+#, no-c-format
+msgid "Mailer:"
+msgstr "E-postprogram:"
+
+#: plugins/navigate/navcfgbase.cc:75 rc.cpp:1477
+#, no-c-format
+msgid "Open links in &new window"
+msgstr "Öppna länkar i &nytt fönster"
 
 #: plugins/navigate/navigate.cpp:225
 msgid "Navigate"
@@ -3876,7 +5711,7 @@ msgstr "Kopiera &plats"
 msgid "Network monitor"
 msgstr "Nätverksövervakare"
 
-#: plugins/netmonitor/monitor.cpp:63 sim/qt3/i18n.cpp:95
+#: plugins/netmonitor/monitor.cpp:63
 msgid "&Save"
 msgstr "&Spara"
 
@@ -3949,6 +5784,16 @@ msgstr "Insticksmodul som tillhandahåller att huvudfönster och behållare allt
 msgid "Always on top"
 msgstr "Alltid överst"
 
+#: plugins/ontop/ontopcfgbase.cpp:58 rc.cpp:514
+#, no-c-format
+msgid "Show &main window in task manager"
+msgstr "Visa &huvudfönster i Aktivitetshanteraren"
+
+#: plugins/ontop/ontopcfgbase.cpp:59 rc.cpp:517
+#, no-c-format
+msgid "&Container always on top"
+msgstr "&Behållare alltid överst"
+
 #: plugins/osd/osd.cpp:68
 msgid "OSD"
 msgstr "OSD"
@@ -3961,85 +5806,85 @@ msgstr "Insticksmodul som tillhandahåller skärmnotifiering om meddelanden och 
 msgid "&OSD"
 msgstr "&OSD"
 
-#: plugins/osd/osd.cpp:407
-msgid ""
-"_: male\n"
-"%1 is online"
-msgstr "%1 är ansluten"
-
 #: plugins/osd/osd.cpp:408
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is online"
 msgstr "%1 är ansluten"
 
 #: plugins/osd/osd.cpp:409
 msgid ""
-"_: male\n"
-"%1 is away"
-msgstr "%1 är frånvarande"
+"_: female\n"
+"%1 is online"
+msgstr "%1 är ansluten"
 
 #: plugins/osd/osd.cpp:410
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is away"
 msgstr "%1 är frånvarande"
 
 #: plugins/osd/osd.cpp:411
 msgid ""
-"_: male\n"
-"%1 is not available"
-msgstr "%1 är inte tillgänglig"
+"_: female\n"
+"%1 is away"
+msgstr "%1 är frånvarande"
 
 #: plugins/osd/osd.cpp:412
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is not available"
 msgstr "%1 är inte tillgänglig"
 
 #: plugins/osd/osd.cpp:413
 msgid ""
-"_: male\n"
-"%1 doesn't want to be disturbed"
-msgstr "%1 vill inte bli störd"
+"_: female\n"
+"%1 is not available"
+msgstr "%1 är inte tillgänglig"
 
 #: plugins/osd/osd.cpp:414
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 doesn't want to be disturbed"
 msgstr "%1 vill inte bli störd"
 
 #: plugins/osd/osd.cpp:415
 msgid ""
-"_: male\n"
-"%1 is occupied"
-msgstr "%1 är upptagen"
+"_: female\n"
+"%1 doesn't want to be disturbed"
+msgstr "%1 vill inte bli störd"
 
 #: plugins/osd/osd.cpp:416
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is occupied"
 msgstr "%1 är upptagen"
 
 #: plugins/osd/osd.cpp:417
 msgid ""
-"_: male\n"
-"%1 is free for chat"
-msgstr "%1 är ledig för chatt"
+"_: female\n"
+"%1 is occupied"
+msgstr "%1 är upptagen"
 
 #: plugins/osd/osd.cpp:418
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is free for chat"
 msgstr "%1 är ledig för chatt"
 
 #: plugins/osd/osd.cpp:419
 msgid ""
+"_: female\n"
+"%1 is free for chat"
+msgstr "%1 är ledig för chatt"
+
+#: plugins/osd/osd.cpp:420
+msgid ""
 "_: male\n"
 "%1 is offline"
 msgstr "%1 är frånkopplad"
 
-#: plugins/osd/osd.cpp:420
+#: plugins/osd/osd.cpp:421
 msgid ""
 "_: female\n"
 "%1 is offline"
@@ -4048,6 +5893,31 @@ msgstr "%1 är frånkopplad"
 #: plugins/osd/osdconfig.cpp:52
 msgid "&Interface"
 msgstr "&Gränssnitt"
+
+#: plugins/osd/osdconfigbase.cpp:109 rc.cpp:545
+#, no-c-format
+msgid "Enable &messages notification"
+msgstr "Aktivera &meddelandenotifiering"
+
+#: plugins/osd/osdconfigbase.cpp:110 rc.cpp:548
+#, no-c-format
+msgid "Enable &status notification"
+msgstr "Aktivera &statusnotifiering"
+
+#: plugins/osd/osdconfigbase.cpp:119 rc.cpp:575
+#, no-c-format
+msgid "Show message &content"
+msgstr "Visa meddelandets &innehåll"
+
+#: plugins/osd/osdconfigbase.cpp:120 rc.cpp:578
+#, no-c-format
+msgid "Show lines of content:"
+msgstr "Visa innehållsrader:"
+
+#: plugins/osd/osdconfigbase.cpp:121 rc.cpp:581
+#, no-c-format
+msgid "All"
+msgstr "Alla"
 
 #: plugins/osd/osdiface.cpp:33
 msgid "Left-bottom"
@@ -4076,6 +5946,46 @@ msgstr "Center-topp"
 #: plugins/osd/osdiface.cpp:39
 msgid "Center"
 msgstr "Centrera"
+
+#: plugins/osd/osdifacebase.cpp:129 rc.cpp:587
+#, no-c-format
+msgid "Offset:"
+msgstr "Position:"
+
+#: plugins/osd/osdifacebase.cpp:130 rc.cpp:590
+#, no-c-format
+msgid "Show time:"
+msgstr "Visa tid:"
+
+#: plugins/osd/osdifacebase.cpp:131 rc.cpp:593
+#, no-c-format
+msgid "Color:"
+msgstr "Färg:"
+
+#: plugins/osd/osdifacebase.cpp:132 rc.cpp:596
+#, no-c-format
+msgid "Font:"
+msgstr "Typsnitt:"
+
+#: plugins/osd/osdifacebase.cpp:133 rc.cpp:599
+#, no-c-format
+msgid "Show sha&dow"
+msgstr "Visa sku&gga"
+
+#: plugins/osd/osdifacebase.cpp:134 rc.cpp:602
+#, no-c-format
+msgid "Show &background"
+msgstr "Visa &bakgrund"
+
+#: plugins/osd/osdifacebase.cpp:135 plugins/styles/fontconfigbase.cpp:102 rc.cpp:91 rc.cpp:605
+#, no-c-format
+msgid "Background color:"
+msgstr "Bakgrundsfärg:"
+
+#: plugins/osd/osdifacebase.cpp:137 rc.cpp:611
+#, no-c-format
+msgid "Shown on screen:"
+msgstr "Visade på skärm:"
 
 #: plugins/proxy/proxy.cpp:42
 msgid "Can't connect to proxy"
@@ -4109,6 +6019,36 @@ msgstr "Standard"
 msgid "HTTP requests"
 msgstr "HTTP-begäran"
 
+#: plugins/proxy/proxycfgbase.cpp:131 rc.cpp:58
+#, no-c-format
+msgid "Host:"
+msgstr "Värd:"
+
+#: plugins/proxy/proxycfgbase.cpp:133 rc.cpp:64
+#, no-c-format
+msgid "Proxy require &authorization"
+msgstr "Proxy kräver &auktorisering"
+
+#: plugins/proxy/proxycfgbase.cpp:134 rc.cpp:67
+#, no-c-format
+msgid "User:"
+msgstr "Användare:"
+
+#: plugins/proxy/proxycfgbase.cpp:136 rc.cpp:73
+#, no-c-format
+msgid "Proxy type:"
+msgstr "Proxytyp:"
+
+#: plugins/proxy/proxycfgbase.cpp:138 rc.cpp:79
+#, no-c-format
+msgid "Do not show error dialog (automatically reconnect)"
+msgstr "Visa inte feldialog (anslut automatiskt igen)"
+
+#: plugins/proxy/proxyerrorbase.cpp:78 rc.cpp:45
+#, no-c-format
+msgid "Proxy error"
+msgstr "Proxyfel"
+
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
 msgstr "Fjärrkontroll"
@@ -4116,6 +6056,21 @@ msgstr "Fjärrkontroll"
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
 msgstr "Insticksmodul som tillhandahåller stöd för fjärrkontroll"
+
+#: plugins/remote/remotecfgbase.cpp:105 rc.cpp:1383
+#, no-c-format
+msgid "Use &UNIX socket"
+msgstr "Använd &UNIX-uttag"
+
+#: plugins/remote/remotecfgbase.cpp:107 plugins/remote/remotecfgbase.cpp:108 rc.cpp:1389 rc.cpp:1392
+#, no-c-format
+msgid "Use &TCP socket"
+msgstr "Använd &TCP-uttag"
+
+#: plugins/remote/remotecfgbase.cpp:109 rc.cpp:1395
+#, no-c-format
+msgid "Enable IE context menu extension"
+msgstr "Aktivera IE:s utökningar för sammanhangsmeny"
 
 #: plugins/replace/replace.cpp:33
 msgid "Replace text"
@@ -4157,14 +6112,44 @@ msgstr "Högerdubbelklick"
 msgid "Middle dblclick"
 msgstr "Mittendubbelklick"
 
+#: plugins/shortcuts/mousecfgbase.cpp:36 plugins/shortcuts/mousecfgbase.cpp:78 plugins/shortcuts/shortcutcfgbase.cpp:37 plugins/shortcuts/shortcutcfgbase.cpp:80 rc.cpp:476 rc.cpp:495
+#, no-c-format
+msgid "Command"
+msgstr "Kommando"
+
+#: plugins/shortcuts/mousecfgbase.cpp:37 plugins/shortcuts/mousecfgbase.cpp:79 rc.cpp:479
+#, no-c-format
+msgid "Button"
+msgstr "Knapp"
+
+#: plugins/shortcuts/mousecfgbase.cpp:81 rc.cpp:483
+#, no-c-format
+msgid "Alt"
+msgstr "Alt"
+
+#: plugins/shortcuts/mousecfgbase.cpp:82 rc.cpp:486
+#, no-c-format
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: plugins/shortcuts/mousecfgbase.cpp:83 rc.cpp:489
+#, no-c-format
+msgid "Shift"
+msgstr "Shift"
+
 #: plugins/shortcuts/shortcutcfg.cpp:52
 msgid "Mouse"
 msgstr "Mus"
 
-#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223 rc.cpp:2313 rc.cpp:2320
+#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223 plugins/shortcuts/shortcutcfgbase.cpp:40 plugins/shortcuts/shortcutcfgbase.cpp:82 plugins/shortcuts/shortcutcfgbase.cpp:85 rc.cpp:501 rc.cpp:508
 #, no-c-format
 msgid "Global"
 msgstr "Globalt"
+
+#: plugins/shortcuts/shortcutcfgbase.cpp:38 plugins/shortcuts/shortcutcfgbase.cpp:81 rc.cpp:498
+#, no-c-format
+msgid "Key"
+msgstr "Tangent"
 
 #: plugins/shortcuts/shortcuts.cpp:50
 msgid "Shortcuts"
@@ -4199,6 +6184,86 @@ msgstr "Laddar:"
 msgid "Battery:"
 msgstr "Batteri:"
 
+#: plugins/sms/smssetupbase.cpp:139 rc.cpp:1528
+#, no-c-format
+msgid "SMSSetup"
+msgstr "SMS-inställningar"
+
+#: plugins/sms/smssetupbase.cpp:141 rc.cpp:1537
+#, no-c-format
+msgid "Baudrate:"
+msgstr "Baudhastighet:"
+
+#: plugins/sms/smssetupbase.cpp:143 rc.cpp:1540
+#, no-c-format
+msgid "115200"
+msgstr "115200"
+
+#: plugins/sms/smssetupbase.cpp:144 rc.cpp:1543
+#, no-c-format
+msgid "38400"
+msgstr "38400"
+
+#: plugins/sms/smssetupbase.cpp:145 rc.cpp:1546
+#, no-c-format
+msgid "19200"
+msgstr "19200"
+
+#: plugins/sms/smssetupbase.cpp:146 rc.cpp:1549
+#, no-c-format
+msgid "9600"
+msgstr "9600"
+
+#: plugins/sms/smssetupbase.cpp:147 rc.cpp:1552
+#, no-c-format
+msgid "4800"
+msgstr "4800"
+
+#: plugins/sms/smssetupbase.cpp:148 rc.cpp:1555
+#, no-c-format
+msgid "2400"
+msgstr "2400"
+
+#: plugins/sms/smssetupbase.cpp:149 rc.cpp:1558
+#, no-c-format
+msgid "1200"
+msgstr "1200"
+
+#: plugins/sms/smssetupbase.cpp:150 rc.cpp:1561
+#, no-c-format
+msgid "600"
+msgstr "600"
+
+#: plugins/sms/smssetupbase.cpp:151 rc.cpp:1564
+#, no-c-format
+msgid "300"
+msgstr "300"
+
+#: plugins/sms/smssetupbase.cpp:152 rc.cpp:1567
+#, no-c-format
+msgid "Software handshake"
+msgstr "Programvaruhandskakning"
+
+#: plugins/sms/smssetupbase.cpp:154 rc.cpp:1573
+#, no-c-format
+msgid "Model:"
+msgstr "Modell:"
+
+#: plugins/sms/smssetupbase.cpp:155 rc.cpp:1576
+#, no-c-format
+msgid "Signal quality:"
+msgstr "Signalkvalitet:"
+
+#: plugins/sms/smssetupbase.cpp:157 rc.cpp:1580
+#, no-c-format
+msgid "Operator:"
+msgstr "Operatör:"
+
+#: plugins/sms/smssetupbase.cpp:158 rc.cpp:1570
+#, no-c-format
+msgid "&Phone"
+msgstr "&Telefon"
+
 #: plugins/sound/sound.cpp:43 plugins/sound/sounduser.cpp:37
 msgid "Sound"
 msgstr "Ljud"
@@ -4219,9 +6284,49 @@ msgstr "Qt tillhandahåller ljudutdata så att du bara behöver ställa in en up
 msgid "Events"
 msgstr "Händelser"
 
+#: plugins/sound/soundconfigbase.cpp:97 rc.cpp:422
+#, no-c-format
+msgid "&Use KDE sound settings"
+msgstr "&Använd KDE-ljudinställningar"
+
+#: plugins/sound/soundconfigbase.cpp:98 rc.cpp:425
+#, no-c-format
+msgid "Use player defined in system notify settings in kcontrol"
+msgstr "Använd uppspelare som angivits i systemnotifierarinställningarna i kcontrol"
+
+#: plugins/sound/soundconfigbase.cpp:99 rc.cpp:428
+#, no-c-format
+msgid "Player:"
+msgstr "Uppspelare:"
+
+#: plugins/sound/soundconfigbase.cpp:100 rc.cpp:431
+#, no-c-format
+msgid "File transfer done:"
+msgstr "Filöverföring klar:"
+
+#: plugins/sound/soundconfigbase.cpp:101 rc.cpp:434
+#, no-c-format
+msgid "Message sent:"
+msgstr "Meddelande skickat:"
+
+#: plugins/sound/soundconfigbase.cpp:102 rc.cpp:437
+#, no-c-format
+msgid "Sound on startup:"
+msgstr "Uppstartsljud:"
+
 #: plugins/sound/sounduser.cpp:44
 msgid "Online alert"
 msgstr "Anslutningsalarm"
+
+#: plugins/sound/sounduserbase.cpp:63 rc.cpp:443
+#, no-c-format
+msgid "&Disable all sounds"
+msgstr "&Inaktivera alla ljud"
+
+#: plugins/sound/sounduserbase.cpp:64 rc.cpp:446
+#, no-c-format
+msgid "No sound if windows has &focus"
+msgstr "Inget ljud om fönster har &fokus"
 
 #: plugins/spell/spell.cpp:65
 msgid "Plugin provides check spelling"
@@ -4234,6 +6339,11 @@ msgstr "ASpell(aspell.exe)"
 #: plugins/spell/spellcfg.cpp:48
 msgid "Download ASpell"
 msgstr "Hämta ASpell"
+
+#: plugins/spell/spellfindbase.cpp:66 rc.cpp:523
+#, no-c-format
+msgid "Find ASpell"
+msgstr "Sök ASpell"
 
 #: plugins/spell/spellhighlight.cpp:259
 msgid "Add '%1'"
@@ -4250,6 +6360,26 @@ msgstr "Startbild"
 #: plugins/splash/splash.cpp:37
 msgid "Plugin provides splash screen"
 msgstr "Insticksmodul som tillhandahåller en startbild"
+
+#: plugins/styles/fontconfigbase.cpp:100 rc.cpp:85 rc.cpp:770
+#, no-c-format
+msgid "Use &system fonts"
+msgstr "Använd &systemtypsnitt"
+
+#: plugins/styles/fontconfigbase.cpp:101 rc.cpp:88 rc.cpp:773
+#, no-c-format
+msgid "Base font:"
+msgstr "Bastypsnitt:"
+
+#: plugins/styles/fontconfigbase.cpp:103 rc.cpp:94
+#, no-c-format
+msgid "Button color:"
+msgstr "Knappfärg:"
+
+#: plugins/styles/fontconfigbase.cpp:105 rc.cpp:100 rc.cpp:776
+#, no-c-format
+msgid "Menu font:"
+msgstr "Menytypsnitt:"
 
 #: plugins/styles/metal/metal.cpp:502
 msgid "Metal style"
@@ -4286,6 +6416,16 @@ msgstr ""
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
 msgstr "Insticksmodul som tillhandahåller genomskinlighet för fönster"
+
+#: plugins/transparent/transparentcfgbase.cpp:71 rc.cpp:1522
+#, no-c-format
+msgid "Transparency of main window:"
+msgstr "Huvudfönstrets genomskinlighet:"
+
+#: plugins/transparent/transparentcfgbase.cpp:72 rc.cpp:1525
+#, no-c-format
+msgid "Transparent only if inactive"
+msgstr "Genomskinlig endast om inaktiv"
 
 #: plugins/weather/weather.cpp:47
 msgid "Weather"
@@ -4566,263 +6706,270 @@ msgid ""
 msgstr "Snö"
 
 #: plugins/weather/weather.cpp:413
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Light Snow Grains"
+msgstr "Snö"
+
+#: plugins/weather/weather.cpp:414
 msgid ""
 "_: weather\n"
 "Scattered"
 msgstr "Spridda"
 
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:415
 msgid ""
 "_: weather\n"
 "Smoke"
 msgstr "Rök"
 
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:416
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "ihållande"
 
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:417
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "stigande"
 
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "fallande"
 
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Obegränsat"
 
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
 "N"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "NNV"
 
-#: plugins/weather/weather.cpp:421
+#: plugins/weather/weather.cpp:422
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "NV"
 
-#: plugins/weather/weather.cpp:422
+#: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
 "WNW"
 msgstr "VNV"
 
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:424
 msgid ""
 "_: weather\n"
 "W"
 msgstr "V"
 
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:425
 msgid ""
 "_: weather\n"
 "WSW"
 msgstr "VSV"
 
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:426
 msgid ""
 "_: weather\n"
 "SW"
 msgstr "SV"
 
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:427
 msgid ""
 "_: weather\n"
 "SSW"
 msgstr "SSV"
 
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:428
 msgid ""
 "_: weather\n"
 "S"
 msgstr "S"
 
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:429
 msgid ""
 "_: weather\n"
 "SSE"
 msgstr "SSÖ"
 
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
 "SE"
 msgstr "SÖ"
 
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
 "ESE"
 msgstr "ÖSÖ"
 
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:432
 msgid ""
 "_: weather\n"
 "E"
 msgstr "Ö"
 
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:433
 msgid ""
 "_: weather\n"
 "ENE"
 msgstr "ÖNÖ"
 
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:434
 msgid ""
 "_: weather\n"
 "NE"
 msgstr "NÖ"
 
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:435
 msgid ""
 "_: weather\n"
 "NNE"
 msgstr "NNÖ"
 
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:436
 msgid ""
 "_: weather\n"
 "VAR"
 msgstr "VAR"
 
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:437
 #, fuzzy
 msgid ""
 "_: weather\n"
 "CALM"
 msgstr "VAR"
 
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:438
 msgid "km"
 msgstr "km"
 
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:439
 msgid "km/h"
 msgstr "km/h"
 
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:440
 msgid ""
 "_: weather\n"
 "Low"
 msgstr "Låg"
 
-#: plugins/weather/weather.cpp:440
+#: plugins/weather/weather.cpp:441
 msgid ""
 "_: weather\n"
 "Moderate"
 msgstr "Medel"
 
-#: plugins/weather/weather.cpp:441
+#: plugins/weather/weather.cpp:442
 msgid ""
 "_: weather\n"
 "High"
 msgstr "Hög"
 
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:443
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
 msgstr "Skurar i närheten"
 
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:444
 msgid ""
 "_: moonphase\n"
 "New"
 msgstr ""
 
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:445
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
 msgstr "Avtagande månskära"
 
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:446
 msgid ""
 "_: moonphase\n"
 "First Quarter"
 msgstr ""
 
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:447
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
 msgstr "Avtagande kullrig måne"
 
-#: plugins/weather/weather.cpp:447
+#: plugins/weather/weather.cpp:448
 msgid ""
 "_: moonphase\n"
 "Full"
 msgstr ""
 
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:449
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
 msgstr "Tilltagande kullrig måne"
 
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:450
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
 msgstr ""
 
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:451
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
 msgstr "Tilltagande månskära"
 
-#: plugins/weather/weather.cpp:462
+#: plugins/weather/weather.cpp:463
 msgid "and"
 msgstr "och"
 
-#: plugins/weather/weather.cpp:465
+#: plugins/weather/weather.cpp:466
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "Tidigt"
 
-#: plugins/weather/weather.cpp:468
+#: plugins/weather/weather.cpp:469
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Sent"
 
-#: plugins/weather/weather.cpp:513 plugins/weather/weather.cpp:515
+#: plugins/weather/weather.cpp:514 plugins/weather/weather.cpp:516
 msgid "m/s"
 msgstr "m/s"
 
-#: plugins/weather/weather.cpp:514 plugins/weather/weather.cpp:515
+#: plugins/weather/weather.cpp:515 plugins/weather/weather.cpp:516
 msgid "gust "
 msgstr "kast "
 
-#: plugins/weather/weather.cpp:564
+#: plugins/weather/weather.cpp:565
 msgid "%t | %c"
 msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:572
+#: plugins/weather/weather.cpp:573
 msgid ""
 "%l<br><br>\n"
 "<b>Current Weather:</b><br>\n"
@@ -4858,7 +7005,7 @@ msgstr ""
 "<br>\n"
 "Uppdaterad: %u<br>\n"
 
-#: plugins/weather/weather.cpp:596
+#: plugins/weather/weather.cpp:597
 #, fuzzy
 msgid ""
 "<br><br>\n"
@@ -4875,6 +7022,36 @@ msgstr ""
 #: plugins/weather/weathercfg.cpp:96
 msgid "Location %1 not found"
 msgstr "Platsen %1 hittades inte"
+
+#: plugins/weather/weathercfgbase.cpp:110 rc.cpp:1498
+#, no-c-format
+msgid "Location ID:"
+msgstr "Plats-id:"
+
+#: plugins/weather/weathercfgbase.cpp:112 rc.cpp:1504
+#, no-c-format
+msgid "You can enter ID as part URL for your location on weather.com"
+msgstr "Du kan ange id som en del av url:en för din plats på weather.com"
+
+#: plugins/weather/weathercfgbase.cpp:114 rc.cpp:1507
+#, no-c-format
+msgid "Metric"
+msgstr "Metrisk"
+
+#: plugins/weather/weathercfgbase.cpp:115 rc.cpp:1510
+#, no-c-format
+msgid "Standart"
+msgstr "Standard"
+
+#: plugins/weather/weathercfgbase.cpp:116 rc.cpp:1513
+#, no-c-format
+msgid "Forecast days:"
+msgstr "Prognosdagar:"
+
+#: plugins/weather/weathercfgbase.cpp:117 rc.cpp:1516
+#, no-c-format
+msgid "Units:"
+msgstr "Enheter:"
 
 #: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:66
 msgid "Temperature"
@@ -4924,11 +7101,6 @@ msgstr "Synbarhet"
 msgid "Dew Point"
 msgstr "Daggpunkt"
 
-#: plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134 rc.cpp:272
-#, no-c-format
-msgid "Location"
-msgstr "Plats"
-
 #: plugins/weather/wifacecfg.cpp:53
 msgid "Updated"
 msgstr "Uppdaterad"
@@ -4941,7 +7113,7 @@ msgstr "Soluppgång"
 msgid "Sunset"
 msgstr "Solnedgång"
 
-#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 rc.cpp:1832
+#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 plugins/yahoo/yahoosearchbase.cpp:101 rc.cpp:2433
 #, no-c-format
 msgid "Conditions"
 msgstr "Tillstånd"
@@ -4954,9 +7126,24 @@ msgstr "Nummer"
 msgid "Day of week"
 msgstr "Veckodag"
 
-#: plugins/weather/wifacecfg.cpp:72 sim/qt3/i18n.cpp:45
+#: plugins/weather/wifacecfg.cpp:72
 msgid "Date"
 msgstr "Datum"
+
+#: plugins/weather/wifacecfgbase.cpp:81 rc.cpp:1483
+#, no-c-format
+msgid "Button text:"
+msgstr "Knapptext:"
+
+#: plugins/weather/wifacecfgbase.cpp:82 rc.cpp:1486
+#, no-c-format
+msgid "Button tip:"
+msgstr "Knapptips:"
+
+#: plugins/weather/wifacecfgbase.cpp:83 rc.cpp:1489
+#, no-c-format
+msgid "Forecast tip:"
+msgstr "Prognostips:"
 
 #: plugins/windock/windock.cpp:47
 msgid "Plugin provides dock main window to left or right side of screen"
@@ -4981,6 +7168,11 @@ msgstr "Yahoo!"
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
 msgstr "Skaffa ett Yahoo! ID"
+
+#: plugins/yahoo/yahoocfgbase.cpp:177 rc.cpp:2388
+#, no-c-format
+msgid "&Yahoo!"
+msgstr "&Yahoo!"
 
 #: plugins/yahoo/yahooclient.cpp:339
 msgid "Yahoo! login lock"
@@ -5025,6 +7217,16 @@ msgstr "kvinna"
 #: plugins/yahoo/yahoosearch.cpp:128
 msgid "Yahoo! ID"
 msgstr "Yahoo! ID"
+
+#: plugins/yahoo/yahoosearchbase.cpp:98 rc.cpp:2424
+#, no-c-format
+msgid "Yahoo! &ID"
+msgstr "Yahoo! &ID"
+
+#: plugins/yahoo/yahoosearchbase.cpp:100 rc.cpp:2430
+#, no-c-format
+msgid "&Keyword"
+msgstr "&Nyckelord"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
@@ -5086,2176 +7288,6 @@ msgstr "Vattumannen"
 msgid "Pisces"
 msgstr "Fiskarna"
 
-#: rc.cpp:3
-#, no-c-format
-msgid "Generate key"
-msgstr "Generera nyckel"
-
-#: rc.cpp:6 rc.cpp:2200
-#, no-c-format
-msgid "EMail:"
-msgstr "E-post:"
-
-#: rc.cpp:9
-#, no-c-format
-msgid "Comment:"
-msgstr "Kommentar:"
-
-#: rc.cpp:12 rc.cpp:336 rc.cpp:2156 rc.cpp:2162
-#, no-c-format
-msgid "Name:"
-msgstr "Namn:"
-
-#: rc.cpp:15
-#, no-c-format
-msgid "Passphrase:"
-msgstr "Lösenfras:"
-
-#: rc.cpp:18
-#, no-c-format
-msgid "Retype passphrase:"
-msgstr "Lösenfras igen:"
-
-#: rc.cpp:28
-#, no-c-format
-msgid "Input passphrase"
-msgstr "Mata in lösenfras"
-
-#: rc.cpp:32
-#, no-c-format
-msgid "&Save passphrase"
-msgstr "&Spara lösenfras"
-
-#: rc.cpp:41 rc.cpp:59 rc.cpp:75 rc.cpp:126 rc.cpp:159 rc.cpp:251 rc.cpp:355 rc.cpp:411 rc.cpp:426 rc.cpp:535 rc.cpp:593 rc.cpp:626 rc.cpp:636 rc.cpp:730 rc.cpp:752 rc.cpp:758 rc.cpp:885 rc.cpp:923 rc.cpp:926 rc.cpp:957 rc.cpp:999 rc.cpp:1005 rc.cpp:1020 rc.cpp:1094 rc.cpp:1103 rc.cpp:1116 rc.cpp:1276 rc.cpp:1300 rc.cpp:1387 rc.cpp:1552 rc.cpp:1617 rc.cpp:1634 rc.cpp:1674 rc.cpp:1689 rc.cpp:1708 rc.cpp:1735 rc.cpp:1754 rc.cpp:1763 rc.cpp:1820 rc.cpp:1841 rc.cpp:1869 rc.cpp:1893 rc.cpp:1908 rc.cpp:1938 rc.cpp:1944 rc.cpp:1953 rc.cpp:1969 rc.cpp:1991 rc.cpp:2007 rc.cpp:2088 rc.cpp:2098 rc.cpp:2131 rc.cpp:2135 rc.cpp:2238 rc.cpp:2285 rc.cpp:2304 rc.cpp:2323 rc.cpp:2332 rc.cpp:2351 rc.cpp:2354 rc.cpp:2375 rc.cpp:2399 rc.cpp:2414
-#, no-c-format
-msgid "Form1"
-msgstr "Form1"
-
-#: rc.cpp:44
-#, no-c-format
-msgid "Executable:"
-msgstr "Körbar fil:"
-
-#: rc.cpp:47
-#, no-c-format
-msgid "Home directory:"
-msgstr "Hemkatalog:"
-
-#: rc.cpp:50 rc.cpp:1741
-#, no-c-format
-msgid "&Find"
-msgstr "&Sök"
-
-#: rc.cpp:53
-#, no-c-format
-msgid "Your key:"
-msgstr "Din nyckel:"
-
-#: rc.cpp:56 rc.cpp:65
-#, no-c-format
-msgid "&Refresh"
-msgstr "&Uppdatera"
-
-#: rc.cpp:62
-#, no-c-format
-msgid "Key:"
-msgstr "Nyckel:"
-
-#: rc.cpp:68
-#, no-c-format
-msgid "Find GPG"
-msgstr "Sök GPG"
-
-#: rc.cpp:78
-#, no-c-format
-msgid "Command arguments"
-msgstr "Kommandoargument"
-
-#: rc.cpp:81
-#, no-c-format
-msgid "Generate key:"
-msgstr "Generera nyckel:"
-
-#: rc.cpp:84
-#, no-c-format
-msgid "List public keys:"
-msgstr "Lista publika nycklar:"
-
-#: rc.cpp:87
-#, no-c-format
-msgid "List secret keys:"
-msgstr "Lista hemliga nycklar:"
-
-#: rc.cpp:90
-#, no-c-format
-msgid "Import public:"
-msgstr "Importera publik:"
-
-#: rc.cpp:93
-#, no-c-format
-msgid "Export public:"
-msgstr "Exportera publik:"
-
-#: rc.cpp:96
-#, no-c-format
-msgid "Encrypt:"
-msgstr "Kryptera:"
-
-#: rc.cpp:99
-#, no-c-format
-msgid "Decrypt:"
-msgstr "Dekryptera:"
-
-#: rc.cpp:102 rc.cpp:1423 rc.cpp:2001
-#, no-c-format
-msgid "Form4"
-msgstr "Form4"
-
-#: rc.cpp:105
-#, no-c-format
-msgid "A&bout"
-msgstr "&Om"
-
-#: rc.cpp:108
-#, no-c-format
-msgid "Additional information about user:"
-msgstr "Ytterligare information om användaren:"
-
-#: rc.cpp:111
-#, no-c-format
-msgid "Choose default encoding"
-msgstr "Välj standard för teckenkodning"
-
-#: rc.cpp:114
-#, no-c-format
-msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
-msgstr "Din aktuella teckenkodning (UTF-8) i systemet kan orsaka problem när din personliga information sparas och vid läsning av meddelanden i frånkopplat läge från andra användare."
-
-#: rc.cpp:117
-#, no-c-format
-msgid "You will choose the coding by default which want to use:"
-msgstr "Du kan välja den teckenkodning som ska användas som  standard:"
-
-#: rc.cpp:129
-#, no-c-format
-msgid "&UIN"
-msgstr "&UIN"
-
-#: rc.cpp:132
-#, no-c-format
-msgid "&Screenname"
-msgstr "&Skärmnamn"
-
-#: rc.cpp:135 rc.cpp:1426 rc.cpp:2220
-#, no-c-format
-msgid "&E-Mail"
-msgstr "&E-post"
-
-#: rc.cpp:138 rc.cpp:1429 rc.cpp:1826 rc.cpp:2223
-#, no-c-format
-msgid "&Name"
-msgstr "&Namn"
-
-#: rc.cpp:141 rc.cpp:257 rc.cpp:1432 rc.cpp:2226
-#, no-c-format
-msgid "First:"
-msgstr "Förnamn:"
-
-#: rc.cpp:144 rc.cpp:260 rc.cpp:1435 rc.cpp:2229
-#, no-c-format
-msgid "Last:"
-msgstr "Efternamn:"
-
-#: rc.cpp:147 rc.cpp:211 rc.cpp:269 rc.cpp:553 rc.cpp:739 rc.cpp:1438 rc.cpp:1847 rc.cpp:2187 rc.cpp:2250
-#, no-c-format
-msgid "Nick:"
-msgstr "Smeknamn:"
-
-#: rc.cpp:150
-#, no-c-format
-msgid "AOL s&creenname"
-msgstr "AOL-skä&rmnamn"
-
-#: rc.cpp:153
-#, no-c-format
-msgid "ICQ &UIN"
-msgstr "ICQ &UIN"
-
-#: rc.cpp:156
-#, no-c-format
-msgid "Advanced"
-msgstr "Avancerat"
-
-#: rc.cpp:162
-#, no-c-format
-msgid "&Security"
-msgstr "&Säkerhet"
-
-#: rc.cpp:165
-#, no-c-format
-msgid "My &authorization is required before users add me to Contact List"
-msgstr "Min &auktorisering krävs innan användare kan lägga till mig till sin kontaktlista"
-
-#: rc.cpp:168
-#, no-c-format
-msgid "Don't show my &IP-address"
-msgstr "Visa inte min &IP-adress"
-
-#: rc.cpp:172
-#, no-c-format
-msgid "Allow other to view my &status from the Web"
-msgstr "Tillåt andra att se min &status från webben"
-
-#: rc.cpp:175
-#, no-c-format
-msgid "I&gnore user authorization"
-msgstr "I&gnorera användarauktorisering"
-
-#: rc.cpp:178
-#, no-c-format
-msgid "Always use &MD5 authentication"
-msgstr ""
-
-#: rc.cpp:181
-#, no-c-format
-msgid "Direct connections"
-msgstr "Direktanslutningar"
-
-#: rc.cpp:184
-#, no-c-format
-msgid "Allow &direct connection from any user"
-msgstr "Tillåt &direktanslutning från alla användare"
-
-#: rc.cpp:187
-#, no-c-format
-msgid "Allow direct connection from user listed in &contact list"
-msgstr "Tillåt direktanslutning från användare listade i &kontaktlistan"
-
-#: rc.cpp:190
-#, no-c-format
-msgid "Allow direct connection from user &upon authorization"
-msgstr "Tillåt direktanslutning från användare &vid auktorisering"
-
-#: rc.cpp:193
-#, no-c-format
-msgid "&Visible list"
-msgstr "&Synlig lista"
-
-#: rc.cpp:196
-#, no-c-format
-msgid "&Invisible list"
-msgstr "&Osynlig lista"
-
-#: rc.cpp:199
-#, no-c-format
-msgid "Form5"
-msgstr "Form5"
-
-#: rc.cpp:202 rc.cpp:733 rc.cpp:1844 rc.cpp:2241
-#, no-c-format
-msgid "&Names"
-msgstr "&Namn"
-
-#: rc.cpp:205 rc.cpp:544 rc.cpp:1473 rc.cpp:1561 rc.cpp:1856
-#, no-c-format
-msgid "Last Name:"
-msgstr "Efternamn:"
-
-#: rc.cpp:208
-#, no-c-format
-msgid "Uin:"
-msgstr "Uin:"
-
-#: rc.cpp:214 rc.cpp:541 rc.cpp:1470 rc.cpp:1558 rc.cpp:1853 rc.cpp:2196 rc.cpp:2247
-#, no-c-format
-msgid "First Name:"
-msgstr "Förnamn:"
-
-#: rc.cpp:217
-#, no-c-format
-msgid "Random chat group:"
-msgstr "Slumpmässig chattgrupp:"
-
-#: rc.cpp:223 rc.cpp:586 rc.cpp:745 rc.cpp:1862 rc.cpp:2263
-#, no-c-format
-msgid "Status:"
-msgstr "Status:"
-
-#: rc.cpp:226 rc.cpp:577 rc.cpp:748 rc.cpp:1183 rc.cpp:1865 rc.cpp:2267
-#, no-c-format
-msgid "Online:"
-msgstr "Ansluten:"
-
-#: rc.cpp:230 rc.cpp:580
-#, no-c-format
-msgid "External IP:"
-msgstr "Extern IP:"
-
-#: rc.cpp:233 rc.cpp:590
-#, no-c-format
-msgid "Internal IP:"
-msgstr "Intern IP:"
-
-#: rc.cpp:236 rc.cpp:583 rc.cpp:1729
-#, no-c-format
-msgid "Client:"
-msgstr "Klient:"
-
-#: rc.cpp:239 rc.cpp:2273
-#, no-c-format
-msgid "&Password"
-msgstr "&Lösenord"
-
-#: rc.cpp:242 rc.cpp:2276
-#, no-c-format
-msgid "New password:"
-msgstr "Nytt lösenord:"
-
-#: rc.cpp:245 rc.cpp:2279
-#, no-c-format
-msgid "Retype new password:"
-msgstr "Ange nytt lösenord igen:"
-
-#: rc.cpp:248 rc.cpp:2282
-#, no-c-format
-msgid "Current password:"
-msgstr "Aktuellt lösenord:"
-
-#: rc.cpp:254
-#, no-c-format
-msgid "Names"
-msgstr "Namn"
-
-#: rc.cpp:263 rc.cpp:547
-#, no-c-format
-msgid "Middle:"
-msgstr "Mellannamn:"
-
-#: rc.cpp:266 rc.cpp:550
-#, no-c-format
-msgid "Maiden:"
-msgstr "Födelsenamn:"
-
-#: rc.cpp:275 rc.cpp:333 rc.cpp:367 rc.cpp:568 rc.cpp:651 rc.cpp:1294 rc.cpp:2122
-#, no-c-format
-msgid "Country:"
-msgstr "Land:"
-
-#: rc.cpp:278 rc.cpp:327 rc.cpp:361 rc.cpp:562 rc.cpp:648 rc.cpp:2125
-#, no-c-format
-msgid "State:"
-msgstr "Län:"
-
-#: rc.cpp:281 rc.cpp:324 rc.cpp:370 rc.cpp:559 rc.cpp:645 rc.cpp:2116
-#, no-c-format
-msgid "City:"
-msgstr "Stad:"
-
-#: rc.cpp:284 rc.cpp:565
-#, no-c-format
-msgid "Zip:"
-msgstr "Postnummer:"
-
-#: rc.cpp:287 rc.cpp:556
-#, no-c-format
-msgid "Street:"
-msgstr "Gata:"
-
-#: rc.cpp:290 rc.cpp:1079
-#, no-c-format
-msgid "Form3"
-msgstr "Form3"
-
-#: rc.cpp:293
-#, no-c-format
-msgid "&More info"
-msgstr "&Mer information"
-
-#: rc.cpp:296 rc.cpp:654 rc.cpp:1838
-#, no-c-format
-msgid "Age:"
-msgstr "Ålder:"
-
-#: rc.cpp:299 rc.cpp:2190 rc.cpp:2256
-#, no-c-format
-msgid "Homepage:"
-msgstr "Hemsida:"
-
-#: rc.cpp:303 rc.cpp:657 rc.cpp:1835
-#, no-c-format
-msgid "Gender:"
-msgstr "Kön:"
-
-#: rc.cpp:306 rc.cpp:2193 rc.cpp:2253
-#, no-c-format
-msgid "Birth date:"
-msgstr "Födelsedag:"
-
-#: rc.cpp:309
-#, no-c-format
-msgid "&Languages"
-msgstr "&Språk"
-
-#: rc.cpp:312
-#, no-c-format
-msgid "Spoken languages:"
-msgstr "Talade språk:"
-
-#: rc.cpp:315 rc.cpp:391 rc.cpp:691 rc.cpp:800 rc.cpp:1058 rc.cpp:1171 rc.cpp:1464 rc.cpp:1784 rc.cpp:1988 rc.cpp:2113
-#, no-c-format
-msgid "Form2"
-msgstr "Form2"
-
-#: rc.cpp:318
-#, no-c-format
-msgid "&Company"
-msgstr "&Företag"
-
-#: rc.cpp:321 rc.cpp:364 rc.cpp:2128
-#, no-c-format
-msgid "Address:"
-msgstr "Adress:"
-
-#: rc.cpp:330 rc.cpp:373 rc.cpp:2119
-#, no-c-format
-msgid "Zip code:"
-msgstr "Postnummer:"
-
-#: rc.cpp:340
-#, no-c-format
-msgid "Web site:"
-msgstr "Webbsida:"
-
-#: rc.cpp:343
-#, no-c-format
-msgid "&Occupation"
-msgstr "&Yrke"
-
-#: rc.cpp:346 rc.cpp:663
-#, no-c-format
-msgid "Occupation:"
-msgstr "Yrke:"
-
-#: rc.cpp:349
-#, no-c-format
-msgid "Div / dept:"
-msgstr "Grupp / avdelning:"
-
-#: rc.cpp:352 rc.cpp:672 rc.cpp:2110
-#, no-c-format
-msgid "Position:"
-msgstr "Position:"
-
-#: rc.cpp:358
-#, no-c-format
-msgid "&Home info"
-msgstr "&Heminformation"
-
-#: rc.cpp:376
-#, no-c-format
-msgid "Time zone:"
-msgstr "Tidszon:"
-
-#: rc.cpp:379
-#, no-c-format
-msgid "Secure chanel request"
-msgstr "Begäran om säker kanal"
-
-#: rc.cpp:382
-#, no-c-format
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-"Säker kanal etableras genom SSL med nyckelutväxlingsmetoden Diffie-Hellman och protokollet TLS version 1.\n"
-"\n"
-"Detta fungerar endast med andra SIM- och Licq-klienter"
-
-#: rc.cpp:394
-#, no-c-format
-msgid "&Interests"
-msgstr "&Intressen"
-
-#: rc.cpp:397
-#, no-c-format
-msgid "Verification Dialog"
-msgstr "Valideringsdialog"
-
-#: rc.cpp:400
-#, no-c-format
-msgid "Please retype the letters from the picture above:"
-msgstr "Ange bokstäverna igen från bilden ovan:"
-
-#: rc.cpp:414
-#, no-c-format
-msgid "A&ffilation"
-msgstr "A&nknytning"
-
-#: rc.cpp:417
-#, no-c-format
-msgid "Organization, Affiliation, Group:"
-msgstr "Organisation, anknytning, grupp:"
-
-#: rc.cpp:420
-#, no-c-format
-msgid "&Background"
-msgstr "&Bakgrund"
-
-#: rc.cpp:423
-#, no-c-format
-msgid "Past background:"
-msgstr "Tidigare bakgrund:"
-
-#: rc.cpp:429
-#, no-c-format
-msgid "&ICQ"
-msgstr "&ICQ"
-
-#: rc.cpp:435
-#, no-c-format
-msgid "&Register new UIN"
-msgstr "&Registrera nytt UIN"
-
-#: rc.cpp:438
-#, no-c-format
-msgid "UIN:"
-msgstr "UIN:"
-
-#: rc.cpp:441 rc.cpp:605 rc.cpp:703 rc.cpp:969 rc.cpp:1796 rc.cpp:2031
-#, no-c-format
-msgid "&Network"
-msgstr "&Nätverk"
-
-#: rc.cpp:444 rc.cpp:617 rc.cpp:721 rc.cpp:1808
-#, no-c-format
-msgid "&Automatically use HTTP polling if proxy required"
-msgstr "&Använd HTTP-polling automatiskt om proxyn kräver det"
-
-#: rc.cpp:447 rc.cpp:614 rc.cpp:718 rc.cpp:1811 rc.cpp:2052
-#, no-c-format
-msgid "Use &HTTP polling"
-msgstr "Använd &HTTP-polling"
-
-#: rc.cpp:450 rc.cpp:611 rc.cpp:706 rc.cpp:972 rc.cpp:1799 rc.cpp:2022 rc.cpp:2034
-#, no-c-format
-msgid "Server:"
-msgstr "Server:"
-
-#: rc.cpp:453 rc.cpp:608 rc.cpp:709 rc.cpp:836 rc.cpp:978 rc.cpp:1714 rc.cpp:1802 rc.cpp:2025 rc.cpp:2037 rc.cpp:2339
-#, no-c-format
-msgid "Port:"
-msgstr "Port:"
-
-#: rc.cpp:456 rc.cpp:712 rc.cpp:1817 rc.cpp:2043
-#, no-c-format
-msgid "Port range for direct connections:"
-msgstr "Portintervall för direktanslutningar:"
-
-#: rc.cpp:459 rc.cpp:715 rc.cpp:1285 rc.cpp:1291 rc.cpp:1297 rc.cpp:1814 rc.cpp:2040
-#, no-c-format
-msgid "-"
-msgstr "-"
-
-#: rc.cpp:462 rc.cpp:620 rc.cpp:724 rc.cpp:1805 rc.cpp:2055
-#, no-c-format
-msgid "Note: For HTTP-polling using proxy settings for HTTP"
-msgstr "Notera: För HTTP-polling använder proxyinställningar för HTTP"
-
-#: rc.cpp:465 rc.cpp:623
-#, no-c-format
-msgid "&Keep-alive connection"
-msgstr "&Håll anslutning vid liv"
-
-#: rc.cpp:468 rc.cpp:981 rc.cpp:2061
-#, no-c-format
-msgid "&Options"
-msgstr "&Alternativ"
-
-#: rc.cpp:471
-#, no-c-format
-msgid "Automatically check &invisible"
-msgstr "Automatiskt kontrollera &osynlig"
-
-#: rc.cpp:474
-#, no-c-format
-msgid "Send format:"
-msgstr "Sändningsformat:"
-
-#: rc.cpp:477
-#, no-c-format
-msgid "Send message:"
-msgstr "Skicka meddelande:"
-
-#: rc.cpp:480
-#, no-c-format
-msgid "No wait ack"
-msgstr "Ingen väntebekräftelse"
-
-#: rc.cpp:483
-#, no-c-format
-msgid "Wait ack from server"
-msgstr "Väntebekräftelse från server"
-
-#: rc.cpp:486
-#, no-c-format
-msgid "Wait ack from client"
-msgstr "Väntebekräftelse från klient"
-
-#: rc.cpp:489
-#, no-c-format
-msgid "Accept in &occupied mode"
-msgstr "Acceptera i &Upptagen-läget"
-
-#: rc.cpp:492
-#, no-c-format
-msgid "Accept in &DND mode"
-msgstr "Acceptera i &Stör inte-läget"
-
-#: rc.cpp:495
-#, no-c-format
-msgid "For decrease traffic you can:"
-msgstr "För minskad trafik kan du:"
-
-#: rc.cpp:498
-#, no-c-format
-msgid "Disable answer on phonebook and &picture requests"
-msgstr "Inaktivera svar på telefonbok och &bildbegäran"
-
-#: rc.cpp:501
-#, no-c-format
-msgid "Disable automatically &request autoreply on change status"
-msgstr "Inaktivera automatiskt &begäran om automatiskt svar vid statusändring"
-
-#: rc.cpp:504
-#, no-c-format
-msgid "Disable automatically &update user info"
-msgstr "Inaktivera automatisk &uppdatering av användarinformation"
-
-#: rc.cpp:507
-#, no-c-format
-msgid "Disable &typing notification"
-msgstr "Inaktivera &skrivandenotifiering"
-
-#: rc.cpp:510
-#, no-c-format
-msgid "Check invisible every"
-msgstr "Kontrollera osynlighet varje"
-
-#: rc.cpp:513 rc.cpp:987
-#, no-c-format
-msgid "minutes"
-msgstr "minuter"
-
-#: rc.cpp:516
-#, no-c-format
-msgid "Send warning"
-msgstr "Skicka varning"
-
-#: rc.cpp:519
-#, no-c-format
-msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
-msgstr "Klicka OK för att skicka en varning till %1. Detta kommer att visa en varning hos %1 och begränsa hans eller hennes aktivitet. Gör endast detta om %1 har gjort något som kräver en varning."
-
-#: rc.cpp:522
-#, no-c-format
-msgid "Warn &anonymously"
-msgstr "Varna &anonymt"
-
-#: rc.cpp:525
-#, no-c-format
-msgid ""
-"Check this if you don't want your screen name revealed.\n"
-"Anonymous warnings are less severe."
-msgstr ""
-"Kryssa denna om du inte vill få ditt skärmnamn avslöjat.\n"
-"Anonyma varningar är mindre allvarliga."
-
-#: rc.cpp:538
-#, no-c-format
-msgid "&Profile"
-msgstr "&Profil"
-
-#: rc.cpp:571 rc.cpp:599
-#, no-c-format
-msgid "ScreenName:"
-msgstr "Skärmnamn:"
-
-#: rc.cpp:596
-#, no-c-format
-msgid "&AIM"
-msgstr "&AIM"
-
-#: rc.cpp:629
-#, no-c-format
-msgid "&Picture"
-msgstr "&Bild"
-
-#: rc.cpp:633 rc.cpp:1998 rc.cpp:2317
-#, no-c-format
-msgid "&Clear"
-msgstr "&Töm"
-
-#: rc.cpp:642 rc.cpp:1023 rc.cpp:1744
-#, no-c-format
-msgid "Language:"
-msgstr "Språk:"
-
-#: rc.cpp:660
-#, no-c-format
-msgid "Work"
-msgstr "Arbete"
-
-#: rc.cpp:666 rc.cpp:2104
-#, no-c-format
-msgid "Company:"
-msgstr "Företag:"
-
-#: rc.cpp:669 rc.cpp:2101
-#, no-c-format
-msgid "Department:"
-msgstr "Avdelning:"
-
-#: rc.cpp:678
-#, no-c-format
-msgid "Past"
-msgstr "Tidigare"
-
-#: rc.cpp:682
-#, no-c-format
-msgid "Affilations"
-msgstr "Anknytningar"
-
-#: rc.cpp:685
-#, no-c-format
-msgid "Keywords"
-msgstr "Nyckelord"
-
-#: rc.cpp:688
-#, no-c-format
-msgid "Search &online users only"
-msgstr "Sök endast användare som är &anslutna"
-
-#: rc.cpp:694
-#, no-c-format
-msgid "&MSN"
-msgstr "&MSN"
-
-#: rc.cpp:697 rc.cpp:1790 rc.cpp:1850
-#, no-c-format
-msgid "Login:"
-msgstr "Inloggning:"
-
-#: rc.cpp:727
-#, no-c-format
-msgid "&Automatically add contacts in accept list"
-msgstr "&Lägg automatiskt till kontakter i acceptlistan"
-
-#: rc.cpp:761
-#, no-c-format
-msgid "Enable &messages notification"
-msgstr "Aktivera &meddelandenotifiering"
-
-#: rc.cpp:764
-#, no-c-format
-msgid "Enable &status notification"
-msgstr "Aktivera &statusnotifiering"
-
-#: rc.cpp:788 rc.cpp:2085
-#, no-c-format
-msgid "Enable &typing notification"
-msgstr "Aktivera &skrivningsnotifiering"
-
-#: rc.cpp:791
-#, no-c-format
-msgid "Show message &content"
-msgstr "Visa meddelandets &innehåll"
-
-#: rc.cpp:794
-#, no-c-format
-msgid "Show lines of content:"
-msgstr "Visa innehållsrader:"
-
-#: rc.cpp:797
-#, no-c-format
-msgid "All"
-msgstr "Alla"
-
-#: rc.cpp:803
-#, no-c-format
-msgid "Offset:"
-msgstr "Position:"
-
-#: rc.cpp:806
-#, no-c-format
-msgid "Show time:"
-msgstr "Visa tid:"
-
-#: rc.cpp:809
-#, no-c-format
-msgid "Color:"
-msgstr "Färg:"
-
-#: rc.cpp:812
-#, no-c-format
-msgid "Font:"
-msgstr "Typsnitt:"
-
-#: rc.cpp:815
-#, no-c-format
-msgid "Show sha&dow"
-msgstr "Visa sku&gga"
-
-#: rc.cpp:818
-#, no-c-format
-msgid "Show &background"
-msgstr "Visa &bakgrund"
-
-#: rc.cpp:821 rc.cpp:2363
-#, no-c-format
-msgid "Background color:"
-msgstr "Bakgrundsfärg:"
-
-#: rc.cpp:824 rc.cpp:1905
-#, no-c-format
-msgid "Place:"
-msgstr "Placering:"
-
-#: rc.cpp:827
-#, no-c-format
-msgid "Shown on screen:"
-msgstr "Visade på skärm:"
-
-#: rc.cpp:830
-#, no-c-format
-msgid "SMSSetup"
-msgstr "SMS-inställningar"
-
-#: rc.cpp:839
-#, no-c-format
-msgid "Baudrate:"
-msgstr "Baudhastighet:"
-
-#: rc.cpp:842
-#, no-c-format
-msgid "115200"
-msgstr "115200"
-
-#: rc.cpp:845
-#, no-c-format
-msgid "38400"
-msgstr "38400"
-
-#: rc.cpp:848
-#, no-c-format
-msgid "19200"
-msgstr "19200"
-
-#: rc.cpp:851
-#, no-c-format
-msgid "9600"
-msgstr "9600"
-
-#: rc.cpp:854
-#, no-c-format
-msgid "4800"
-msgstr "4800"
-
-#: rc.cpp:857
-#, no-c-format
-msgid "2400"
-msgstr "2400"
-
-#: rc.cpp:860
-#, no-c-format
-msgid "1200"
-msgstr "1200"
-
-#: rc.cpp:863
-#, no-c-format
-msgid "600"
-msgstr "600"
-
-#: rc.cpp:866
-#, no-c-format
-msgid "300"
-msgstr "300"
-
-#: rc.cpp:869
-#, no-c-format
-msgid "Software handshake"
-msgstr "Programvaruhandskakning"
-
-#: rc.cpp:872
-#, no-c-format
-msgid "&Phone"
-msgstr "&Telefon"
-
-#: rc.cpp:875
-#, no-c-format
-msgid "Model:"
-msgstr "Modell:"
-
-#: rc.cpp:878
-#, no-c-format
-msgid "Signal quality:"
-msgstr "Signalkvalitet:"
-
-#: rc.cpp:882
-#, no-c-format
-msgid "Operator:"
-msgstr "Operatör:"
-
-#: rc.cpp:888
-#, no-c-format
-msgid "Hide main window after"
-msgstr "Dölj huvudfönster efter"
-
-#: rc.cpp:891
-#, no-c-format
-msgid "seconds inactive"
-msgstr "sekunders inaktivitet"
-
-#: rc.cpp:894
-#, no-c-format
-msgid "Show Mainwin on desktop"
-msgstr "Visa huvudfönster på skrivbordet"
-
-#: rc.cpp:897
-#, no-c-format
-msgid "current"
-msgstr "aktuell"
-
-#: rc.cpp:900
-#, no-c-format
-msgid "&Customize dock menu"
-msgstr "&Anpassa dockningsmeny"
-
-#: rc.cpp:903
-#, no-c-format
-msgid "Convert configuration from old version"
-msgstr "Konvertera konfiguration från äldre version"
-
-#: rc.cpp:906
-#, no-c-format
-msgid "Select directories for convert"
-msgstr "Välj kataloger för konvertering"
-
-#: rc.cpp:909
-#, no-c-format
-msgid "Directories for convert:"
-msgstr "Kataloger för konvertering:"
-
-#: rc.cpp:912
-#, no-c-format
-msgid "&Remove old files"
-msgstr "&Ta bort gamla filer"
-
-#: rc.cpp:915
-#, no-c-format
-msgid ""
-"Note!\n"
-"If you select an option \" Remove old files \", you can not use the old version"
-msgstr ""
-"Notera!\n"
-"Om du väljer alternativet \" Remove old files \", kan du inte använda den äldre versionen"
-
-#: rc.cpp:919
-#, no-c-format
-msgid "Convert configuration"
-msgstr "Konvertera konfiguration"
-
-#: rc.cpp:929
-#, no-c-format
-msgid "Subject:"
-msgstr "Ämne:"
-
-#: rc.cpp:932
-#, no-c-format
-msgid "Security:"
-msgstr "Säkerhet:"
-
-#: rc.cpp:935
-#, no-c-format
-msgid "Public"
-msgstr "Publik"
-
-#: rc.cpp:938
-#, no-c-format
-msgid "Friends-Only"
-msgstr "Endast vänner"
-
-#: rc.cpp:941
-#, no-c-format
-msgid "Private"
-msgstr "Privat"
-
-#: rc.cpp:944
-#, no-c-format
-msgid "Mood:"
-msgstr "Humör:"
-
-#: rc.cpp:948
-#, no-c-format
-msgid "Enable comments"
-msgstr "Aktivera kommentarer"
-
-#: rc.cpp:951
-#, no-c-format
-msgid "No email comments"
-msgstr "Inga e-postkommentarer"
-
-#: rc.cpp:954
-#, no-c-format
-msgid "Disable comments"
-msgstr "Inaktivera kommentarer"
-
-#: rc.cpp:960
-#, no-c-format
-msgid "&LiveJournal"
-msgstr "&LiveJournal"
-
-#: rc.cpp:963 rc.cpp:2016
-#, no-c-format
-msgid "Username:"
-msgstr "Användarnamn:"
-
-#: rc.cpp:975 rc.cpp:1738
-#, no-c-format
-msgid "Path:"
-msgstr "Sökväg:"
-
-#: rc.cpp:984
-#, no-c-format
-msgid "Check interval:"
-msgstr "Kontrollintervall:"
-
-#: rc.cpp:990
-#, no-c-format
-msgid "Use &fast server - only for paying customers"
-msgstr "Använd &snabb server - endast för betalande kunder"
-
-#: rc.cpp:993
-#, no-c-format
-msgid "Use formatted messages"
-msgstr "Använd formaterade meddelanden"
-
-#: rc.cpp:996
-#, no-c-format
-msgid "Add signature to all messages"
-msgstr "Lägg till signatur till alla meddelanden"
-
-#: rc.cpp:1002
-#, no-c-format
-msgid "Add community"
-msgstr "Lägg till gemenskap"
-
-#: rc.cpp:1008
-#, no-c-format
-msgid "Use KDE settings"
-msgstr "Använd KDE-inställningar"
-
-#: rc.cpp:1011
-#, no-c-format
-msgid "Browser:"
-msgstr "Webbläsare:"
-
-#: rc.cpp:1014
-#, no-c-format
-msgid "Mailer:"
-msgstr "E-postprogram:"
-
-#: rc.cpp:1017
-#, no-c-format
-msgid "Open links in &new window"
-msgstr "Öppna länkar i &nytt fönster"
-
-#: rc.cpp:1026
-#, no-c-format
-msgid "Message window"
-msgstr "Meddelandefönster"
-
-#: rc.cpp:1029
-#, no-c-format
-msgid "&Simple mode"
-msgstr "&Enkelt läge"
-
-#: rc.cpp:1032
-#, no-c-format
-msgid "&Chat mode"
-msgstr "&Chattläge"
-
-#: rc.cpp:1035
-#, no-c-format
-msgid "&Using last selected font"
-msgstr "&Använd senast valda typsnitt"
-
-#: rc.cpp:1038
-#, no-c-format
-msgid "Container mode"
-msgstr "Behållareläge"
-
-#: rc.cpp:1041
-#, no-c-format
-msgid "Open each contact in &new container"
-msgstr "Öppna varje kontakt i &ny behållare"
-
-#: rc.cpp:1044
-#, no-c-format
-msgid "Open one container for &group"
-msgstr "Öppna en behållare för &grupp"
-
-#: rc.cpp:1047
-#, no-c-format
-msgid "Open all contacts in &one container"
-msgstr "Öppna alla kontakter i &en behållare"
-
-#: rc.cpp:1050
-#, no-c-format
-msgid "Use \"&Enter\" for send message"
-msgstr "Använd \"&Enter\" för att skicka meddelande"
-
-# OBS, ej testat om detta är korrekt
-#: rc.cpp:1055
-#, no-c-format
-msgid "Start SIM on every &windows startup"
-msgstr "Starta SIM vid varje uppstart av &Windows"
-
-#: rc.cpp:1061
-#, no-c-format
-msgid "Provider:"
-msgstr "Operatör:"
-
-#: rc.cpp:1064
-#, no-c-format
-msgid "Email gateway:"
-msgstr "E-postgateway:"
-
-#: rc.cpp:1067 rc.cpp:1288
-#, no-c-format
-msgid "Number:"
-msgstr "Nummer:"
-
-#: rc.cpp:1070 rc.cpp:1485
-#, no-c-format
-msgid "MyDialog"
-msgstr "MinDialog"
-
-#: rc.cpp:1086
-#, no-c-format
-msgid "Complete"
-msgstr "Klar"
-
-#: rc.cpp:1089
-#, no-c-format
-msgid ""
-"If you want to add connection press button \" Next\".\n"
-"You can add connection later using connection manager"
-msgstr ""
-"Om du vill lägga till en anslutning, tryck på knappen \"Nästa\".\n"
-"Du kan lägga till en anslutning sedan med anslutningshanteraren"
-
-#: rc.cpp:1097
-#, no-c-format
-msgid "Text before cursor:"
-msgstr "Text före markör:"
-
-#: rc.cpp:1100
-#, no-c-format
-msgid "Text after cursor:"
-msgstr "Text efter markör:"
-
-#: rc.cpp:1107 rc.cpp:1159
-#, no-c-format
-msgid "&Override global settings"
-msgstr "&Åsidosätt globala inställningar"
-
-#: rc.cpp:1110 rc.cpp:1491 rc.cpp:1929 rc.cpp:1941 rc.cpp:2411 sim/simapi.cpp:486
-#, no-c-format
-msgid "&Help"
-msgstr "&Hjälp"
-
-#: rc.cpp:1113
-#, no-c-format
-msgid "Don't show autoreply dialog"
-msgstr "Visa inte dialogrutan för automatiskt svar"
-
-#: rc.cpp:1119
-#, no-c-format
-msgid "Save &status changes to history"
-msgstr "Spara &statusändringar i historik"
-
-#: rc.cpp:1122
-#, no-c-format
-msgid "Open window if user go online"
-msgstr "Öppna fönster om användare ansluter"
-
-#: rc.cpp:1128
-#, no-c-format
-msgid "&No open"
-msgstr "&Öppna inte"
-
-#: rc.cpp:1131
-#, no-c-format
-msgid "Open and &minimize"
-msgstr "Öppna och &minimera"
-
-#: rc.cpp:1134
-#, no-c-format
-msgid "Open and &raise"
-msgstr "Öppna och &höj"
-
-#: rc.cpp:1137
-#, no-c-format
-msgid "EditPhone"
-msgstr "Redigera telefon"
-
-#: rc.cpp:1140
-#, no-c-format
-msgid "Number details:"
-msgstr "Nummerdetaljer:"
-
-#: rc.cpp:1143 rc.cpp:2153
-#, no-c-format
-msgid "Type:"
-msgstr "Typ:"
-
-#: rc.cpp:1146 rc.cpp:1447
-#, no-c-format
-msgid "&Publish"
-msgstr "&Publicera"
-
-#: rc.cpp:1155
-#, no-c-format
-msgid "PrefConfigBaseForm"
-msgstr "PrefConfigBaseForm"
-
-#: rc.cpp:1162
-#, no-c-format
-msgid "New connection"
-msgstr "Ny anslutning"
-
-#: rc.cpp:1165
-#, no-c-format
-msgid "Select protocol"
-msgstr "Välj protokoll"
-
-#: rc.cpp:1168
-#, no-c-format
-msgid "Protocol:"
-msgstr "Protokoll:"
-
-#: rc.cpp:1174
-#, no-c-format
-msgid "Groups"
-msgstr "Grupper"
-
-#: rc.cpp:1177
-#, no-c-format
-msgid "Do not distrub"
-msgstr "Stör inte"
-
-#: rc.cpp:1192
-#, no-c-format
-msgid "Colors:"
-msgstr "Färger:"
-
-#: rc.cpp:1195
-#, no-c-format
-msgid "Use &double click"
-msgstr "Använd &dubbelklick"
-
-#: rc.cpp:1198 rc.cpp:2369
-#, no-c-format
-msgid "Use system &colors"
-msgstr "Använd system&färger"
-
-#: rc.cpp:1201
-#, no-c-format
-msgid "Use small &font for group"
-msgstr "Använd litet &typsnitt för grupp"
-
-#: rc.cpp:1204
-#, no-c-format
-msgid "Show group &separator"
-msgstr "Visa grupp&avgränsare"
-
-#: rc.cpp:1207
-#, no-c-format
-msgid "Sorting"
-msgstr "Sortering"
-
-#: rc.cpp:1210
-#, no-c-format
-msgid "1st:"
-msgstr "1:a"
-
-#: rc.cpp:1213
-#, no-c-format
-msgid "2nd:"
-msgstr "2:a"
-
-#: rc.cpp:1216
-#, no-c-format
-msgid "3rd:"
-msgstr "3:e"
-
-#: rc.cpp:1228
-#, no-c-format
-msgid "Visible"
-msgstr "Synlig"
-
-#: rc.cpp:1234
-#, no-c-format
-msgid "Awaiting authorization"
-msgstr "Väntar på auktorisation"
-
-#: rc.cpp:1237
-#, no-c-format
-msgid "No show scroller"
-msgstr "Visa inte rullare"
-
-#: rc.cpp:1240
-#, no-c-format
-msgid "Toolbar setup"
-msgstr "Inställning för verktygsrad"
-
-#: rc.cpp:1243
-#, no-c-format
-msgid "All buttons:"
-msgstr "Alla knappar:"
-
-#: rc.cpp:1246 rc.cpp:1258
-#, no-c-format
-msgid "New Item"
-msgstr "Ny post"
-
-#: rc.cpp:1249
-#, no-c-format
-msgid "&Add ->"
-msgstr "&Lägg till ->"
-
-#: rc.cpp:1252
-#, no-c-format
-msgid "<- &Remove"
-msgstr "<- &Ta bort"
-
-#: rc.cpp:1255
-#, no-c-format
-msgid "Active:"
-msgstr "Aktiv:"
-
-#: rc.cpp:1261 rc.cpp:1405 rc.cpp:1677
-#, no-c-format
-msgid "&Up"
-msgstr "&Upp"
-
-#: rc.cpp:1264 rc.cpp:1411 rc.cpp:1680
-#, no-c-format
-msgid "&Down"
-msgstr "&Ned"
-
-#: rc.cpp:1279
-#, no-c-format
-msgid "Area code:"
-msgstr "Postnummer:"
-
-#: rc.cpp:1282
-#, no-c-format
-msgid "Extension:"
-msgstr "Anknytning:"
-
-#: rc.cpp:1303
-#, no-c-format
-msgid "Use &own colors and fonts settings"
-msgstr "Använd &egna inställningar för färger och typsnitt"
-
-#: rc.cpp:1306
-#, no-c-format
-msgid "Use emotional &icons"
-msgstr "Använd &humörsymboler"
-
-#: rc.cpp:1309 rc.cpp:1624
-#, no-c-format
-msgid "Max history file size"
-msgstr "Max filstorlek för historik"
-
-#: rc.cpp:1313 rc.cpp:1620
-#, no-c-format
-msgid "Mb"
-msgstr "Mb"
-
-#: rc.cpp:1317 rc.cpp:1630
-#, no-c-format
-msgid "Keep history "
-msgstr "Behåll historik "
-
-#: rc.cpp:1320 rc.cpp:1627
-#, no-c-format
-msgid "days"
-msgstr "dagar"
-
-#: rc.cpp:1333
-#, no-c-format
-msgid "100"
-msgstr "100"
-
-#: rc.cpp:1336
-#, no-c-format
-msgid "50"
-msgstr "50"
-
-#: rc.cpp:1339
-#, no-c-format
-msgid "20"
-msgstr "20"
-
-#: rc.cpp:1343
-#, no-c-format
-msgid "&Preview"
-msgstr "&Förhandsgranska"
-
-#: rc.cpp:1346
-#, no-c-format
-msgid "&Source"
-msgstr "&Källa"
-
-#: rc.cpp:1353
-#, no-c-format
-msgid "&Update"
-msgstr "&Uppdatera"
-
-#: rc.cpp:1365
-#, no-c-format
-msgid "File transfer"
-msgstr "Filöverföring"
-
-#: rc.cpp:1369
-#, no-c-format
-msgid "Time:"
-msgstr "Tid:"
-
-#: rc.cpp:1372
-#, no-c-format
-msgid "Estimated time:"
-msgstr "Uppskattad tid:"
-
-#: rc.cpp:1375
-#, no-c-format
-msgid "Speed:"
-msgstr "Hastighet:"
-
-#: rc.cpp:1378
-#, no-c-format
-msgid "&Go to dir"
-msgstr "&Gå till katalog"
-
-#: rc.cpp:1381
-#, no-c-format
-msgid "Close after &transfer"
-msgstr "Stäng efter &överföring"
-
-#: rc.cpp:1390 rc.cpp:2357
-#, no-c-format
-msgid "Use &system fonts"
-msgstr "Använd &systemtypsnitt"
-
-#: rc.cpp:1393 rc.cpp:2360
-#, no-c-format
-msgid "Base font:"
-msgstr "Bastypsnitt:"
-
-#: rc.cpp:1396 rc.cpp:2372
-#, no-c-format
-msgid "Menu font:"
-msgstr "Menytypsnitt:"
-
-#: rc.cpp:1402
-#, no-c-format
-msgid "&Configure"
-msgstr "&Konfigurera"
-
-#: rc.cpp:1408
-#, no-c-format
-msgid "Connection"
-msgstr "Anslutning"
-
-#: rc.cpp:1414 rc.cpp:1683
-#, no-c-format
-msgid "&Remove"
-msgstr "&Ta bort"
-
-#: rc.cpp:1417
-#, no-c-format
-msgid "&New connection"
-msgstr "&Ny anslutning"
-
-#: rc.cpp:1441
-#, no-c-format
-msgid "EditMail"
-msgstr "Redigera post"
-
-#: rc.cpp:1444
-#, no-c-format
-msgid "Enter Email address:"
-msgstr "Ange e-postadress:"
-
-#: rc.cpp:1456
-#, no-c-format
-msgid "PluginCfgBaseForm"
-msgstr "PluginCfgBaseForm"
-
-#: rc.cpp:1460
-#, no-c-format
-msgid "Plugin &enabled"
-msgstr "Insticksmodul &aktiverad"
-
-#: rc.cpp:1476 rc.cpp:2232
-#, no-c-format
-msgid "Nickname:"
-msgstr "Smeknamn:"
-
-#: rc.cpp:1479
-#, no-c-format
-msgid "E-Mail address:"
-msgstr "E-postadress:"
-
-#: rc.cpp:1482 rc.cpp:2203
-#, no-c-format
-msgid "Phone:"
-msgstr "Telefon:"
-
-#: rc.cpp:1488
-#, no-c-format
-msgid "Don't show this dialog"
-msgstr "Visa inte denna dialogruta"
-
-#: rc.cpp:1501
-#, no-c-format
-msgid "Decline reason"
-msgstr "Anledning för nekande"
-
-#: rc.cpp:1504
-#, no-c-format
-msgid "Enter decline reason:"
-msgstr "Ange anledning för nekande:"
-
-#: rc.cpp:1516
-#, no-c-format
-msgid "&Add to list"
-msgstr "&Lägg till i listan"
-
-#: rc.cpp:1520
-#, no-c-format
-msgid "More &options"
-msgstr "Fler &alternativ"
-
-#: rc.cpp:1523
-#, no-c-format
-msgid "&New search"
-msgstr "&Ny sökning"
-
-#: rc.cpp:1526
-#, no-c-format
-msgid "Login"
-msgstr "Inloggning"
-
-#: rc.cpp:1530
-#, no-c-format
-msgid "Passwords:"
-msgstr "Lösenord:"
-
-#: rc.cpp:1534
-#, no-c-format
-msgid "Profile:"
-msgstr "Profil:"
-
-#: rc.cpp:1540
-#, no-c-format
-msgid "&Save password"
-msgstr "&Spara lösenord"
-
-#: rc.cpp:1543
-#, no-c-format
-msgid "&Do not show this window on startup"
-msgstr "&Visa inte detta fönster vid uppstart"
-
-#: rc.cpp:1564
-#, no-c-format
-msgid "Display:"
-msgstr "Visningsnamn:"
-
-#: rc.cpp:1567
-#, no-c-format
-msgid "Encoding:"
-msgstr "Teckenkodning:"
-
-#: rc.cpp:1570
-#, no-c-format
-msgid "&Mails"
-msgstr "&E-post"
-
-#: rc.cpp:1573
-#, no-c-format
-msgid "Email addresses:"
-msgstr "E-postadresser:"
-
-#: rc.cpp:1585
-#, no-c-format
-msgid ""
-"Note:\n"
-"You can change only those addresses which have entered.\n"
-"It is impossible to change addresses which were received from the user."
-msgstr ""
-"Notera:\n"
-"Du kan endast ändra de adresser som har matats in.\n"
-"Det är omöjligt att ändra adresser som har tagits emot från användaren."
-
-#: rc.cpp:1590
-#, no-c-format
-msgid "&Phones"
-msgstr "&Telefoner"
-
-#: rc.cpp:1593
-#, no-c-format
-msgid "Phones:"
-msgstr "Telefoner:"
-
-#: rc.cpp:1597
-#, no-c-format
-msgid "Phone Status:"
-msgstr "Telefonstatus:"
-
-#: rc.cpp:1609
-#, no-c-format
-msgid ""
-"Note:\n"
-"You can change only those numbers which have entered.\n"
-"It is impossible to change numbers which were received from the user."
-msgstr ""
-"Notera:\n"
-"Du kan endast ändra de nummer som har matats in.\n"
-"Det är omöjligt att ändra nummer som har tagits emot från användaren."
-
-#: rc.cpp:1614
-#, no-c-format
-msgid "&Notes"
-msgstr "&Noteringar"
-
-#: rc.cpp:1637
-#, no-c-format
-msgid "Path for incoming files:"
-msgstr "Sökväg för inkommande filer:"
-
-#: rc.cpp:1640
-#, no-c-format
-msgid "Accept mode"
-msgstr "Accepteringsläge"
-
-#: rc.cpp:1643
-#, no-c-format
-msgid "Show response"
-msgstr "Visa svar"
-
-#: rc.cpp:1646
-#, no-c-format
-msgid "Auto accept"
-msgstr "Acceptera automatiskt"
-
-#: rc.cpp:1649
-#, no-c-format
-msgid "Overwrite files"
-msgstr "Skriv över filer"
-
-#: rc.cpp:1652
-#, no-c-format
-msgid "Auto decline"
-msgstr "Vägra automatiskt"
-
-#: rc.cpp:1655
-#, no-c-format
-msgid "About SIM"
-msgstr "Om SIM"
-
-#: rc.cpp:1661
-#, no-c-format
-msgid "Authors"
-msgstr "Upphovsmän"
-
-#: rc.cpp:1664
-#, no-c-format
-msgid "Translation"
-msgstr "Översättning"
-
-#: rc.cpp:1667
-#, no-c-format
-msgid "License"
-msgstr "Licens"
-
-#: rc.cpp:1692
-#, no-c-format
-msgid "Show &main window in task manager"
-msgstr "Visa &huvudfönster i Aktivitetshanteraren"
-
-#: rc.cpp:1695
-#, no-c-format
-msgid "&Container always on top"
-msgstr "&Behållare alltid överst"
-
-#: rc.cpp:1698
-#, no-c-format
-msgid "Proxy error"
-msgstr "Proxyfel"
-
-#: rc.cpp:1711
-#, no-c-format
-msgid "Host:"
-msgstr "Värd:"
-
-#: rc.cpp:1717
-#, no-c-format
-msgid "Proxy require &authorization"
-msgstr "Proxy kräver &auktorisering"
-
-#: rc.cpp:1720
-#, no-c-format
-msgid "User:"
-msgstr "Användare:"
-
-#: rc.cpp:1726
-#, no-c-format
-msgid "Proxy type:"
-msgstr "Proxytyp:"
-
-#: rc.cpp:1732
-#, no-c-format
-msgid "Do not show error dialog (automatically reconnect)"
-msgstr "Visa inte feldialog (anslut automatiskt igen)"
-
-#: rc.cpp:1747
-#, no-c-format
-msgid "Find ASpell"
-msgstr "Sök ASpell"
-
-#: rc.cpp:1757
-#, no-c-format
-msgid "&Disable all sounds"
-msgstr "&Inaktivera alla ljud"
-
-#: rc.cpp:1760
-#, no-c-format
-msgid "No sound if windows has &focus"
-msgstr "Inget ljud om fönster har &fokus"
-
-#: rc.cpp:1766
-#, no-c-format
-msgid "&Use KDE sound settings"
-msgstr "&Använd KDE-ljudinställningar"
-
-#: rc.cpp:1769
-#, no-c-format
-msgid "Use player defined in system notify settings in kcontrol"
-msgstr "Använd uppspelare som angivits i systemnotifierarinställningarna i kcontrol"
-
-#: rc.cpp:1772
-#, no-c-format
-msgid "Player:"
-msgstr "Uppspelare:"
-
-#: rc.cpp:1775
-#, no-c-format
-msgid "File transfer done:"
-msgstr "Filöverföring klar:"
-
-#: rc.cpp:1778
-#, no-c-format
-msgid "Message sent:"
-msgstr "Meddelande skickat:"
-
-#: rc.cpp:1781
-#, no-c-format
-msgid "Sound on startup:"
-msgstr "Uppstartsljud:"
-
-#: rc.cpp:1787
-#, no-c-format
-msgid "&Yahoo!"
-msgstr "&Yahoo!"
-
-#: rc.cpp:1823
-#, no-c-format
-msgid "Yahoo! &ID"
-msgstr "Yahoo! &ID"
-
-#: rc.cpp:1829
-#, no-c-format
-msgid "&Keyword"
-msgstr "&Nyckelord"
-
-#: rc.cpp:1872
-#, no-c-format
-msgid "Set \"Away\" status after"
-msgstr "Ställ in statusen \"Frånvarande\" efter"
-
-#: rc.cpp:1875
-#, no-c-format
-msgid "minutes not using computer"
-msgstr "minuters inaktivitet vid datorn"
-
-#: rc.cpp:1878
-#, no-c-format
-msgid "minutes of \"Away\""
-msgstr "minuters \"Frånvarande\""
-
-#: rc.cpp:1881
-#, no-c-format
-msgid "minutes of \"N/A\""
-msgstr "minuters \"Inte tillgänglig\""
-
-#: rc.cpp:1884
-#, no-c-format
-msgid "Set \"N/A\" status after"
-msgstr "Ställ in statusen \"Inte tillgänglig\" efter"
-
-#: rc.cpp:1887
-#, no-c-format
-msgid "Set \"Offline\" status after"
-msgstr "Ställ in statusen \"Frånkopplad\" efter"
-
-#: rc.cpp:1890
-#, no-c-format
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr "Inaktivera anslutningsalarm i \"Frånvarande\", \"Inte tillgänglig\", \"Stör inte\" och \"Upptagen\"-lista."
-
-#: rc.cpp:1896
-#, no-c-format
-msgid "Group margin:"
-msgstr "Gruppmarginal:"
-
-#: rc.cpp:1899
-#, no-c-format
-msgid "Contact margin:"
-msgstr "Kontaktmarginal:"
-
-#: rc.cpp:1902
-#, no-c-format
-msgid "Main window background:"
-msgstr "Bakgrund för huvudfönster:"
-
-#: rc.cpp:1920
-#, no-c-format
-msgid "Add Item"
-msgstr "Lägg till post"
-
-#: rc.cpp:1923
-#, no-c-format
-msgid "Item:"
-msgstr "Post:"
-
-#: rc.cpp:1926
-#, no-c-format
-msgid "Program:"
-msgstr "Program:"
-
-#: rc.cpp:1947
-#, no-c-format
-msgid "Use &default path"
-msgstr "Använd &standardsökväg"
-
-#: rc.cpp:1950
-#, no-c-format
-msgid "Path for config files:"
-msgstr "Sökväg för konfigurationsfiler:"
-
-#: rc.cpp:1956
-#, no-c-format
-msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr "Skicka alla meddelanden när status \"Frånvarande\" och \"Inte tillgänglig\" är aktiva till mobiltelefonen:"
-
-#: rc.cpp:1959
-#, no-c-format
-msgid ""
-"For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
-"<UIN>:"
-msgstr ""
-"För svar eller sändning av nya meddelanden kan du svara på SMS:et genom att ange följande i början av meddelandet:\n"
-"<UIN>:"
-
-#: rc.cpp:1963
-#, no-c-format
-msgid "Send only &one message (don't split)"
-msgstr "Skicka endast &ett meddelande (dela inte upp)"
-
-#: rc.cpp:1972
-#, no-c-format
-msgid "&Receive message only from contacts from list"
-msgstr "&Ta endast emot meddelande från kontakter på listan"
-
-#: rc.cpp:1975
-#, no-c-format
-msgid "&Receive authorization and system messages only from contacts from list"
-msgstr "&Ta endast emot auktorisering och systemmeddelanden från kontakter på listan"
-
-#: rc.cpp:1978
-#, no-c-format
-msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr "Vägra ta emot meddelanden från okända användare som innehåller dessa ord eller fraser:"
-
-#: rc.cpp:1981
-#, no-c-format
-msgid ""
-"Words are divided by any separators (space, comma, i.e.)\n"
-"A phrase can be specified using quotation marks\n"
-"Words can contain wildcards:\n"
-"* - any amount of symbols (or is empty)\n"
-"? - any symbol"
-msgstr ""
-"Ord är uppdelade med olika avgränsare (exempelvis blanksteg, komma)\n"
-"En fras kan anges med citattecken\n"
-"Ord kan innehålla jokertecken:\n"
-"* - oändligt antal symboler (eller tom)\n"
-"? - någon symbol"
-
-#: rc.cpp:2004
-#, no-c-format
-msgid "Additional information:"
-msgstr "Ytterligare information:"
-
-#: rc.cpp:2010
-#, no-c-format
-msgid "&Jabber"
-msgstr "&Jabber"
-
-#: rc.cpp:2019
-#, no-c-format
-msgid "&Register new account"
-msgstr "&Registrera nytt konto"
-
-#: rc.cpp:2028 rc.cpp:2049
-#, no-c-format
-msgid "Use &SSL"
-msgstr "Använd &SSL"
-
-#: rc.cpp:2046
-#, no-c-format
-msgid "Use &plain text login"
-msgstr "Använd inloggning i &klartext"
-
-#: rc.cpp:2058
-#, no-c-format
-msgid "URL:"
-msgstr "Url:"
-
-#: rc.cpp:2064 rc.cpp:2270
-#, no-c-format
-msgid "Resource:"
-msgstr "Resurs:"
-
-#: rc.cpp:2067
-#, no-c-format
-msgid "Priority:"
-msgstr "Prioritet:"
-
-#: rc.cpp:2070
-#, no-c-format
-msgid "Manualy specify Jabber host:"
-msgstr "Ange Jabber-värd manuellt:"
-
-#: rc.cpp:2073
-#, no-c-format
-msgid "Use protocol &icons for agents contacts"
-msgstr "Använd protokoll&ikoner för agenternas kontakter"
-
-#: rc.cpp:2076
-#, no-c-format
-msgid "Automatically send &subscribe request"
-msgstr "&Skicka automatiskt prenumerationsbegäran"
-
-#: rc.cpp:2079
-#, no-c-format
-msgid "Automatically &accept subscribe requests"
-msgstr "&Acceptera automatiskt prenumerationsbegäran"
-
-#: rc.cpp:2082
-#, no-c-format
-msgid "Send &rich text messages if possible"
-msgstr "Skicka meddelanden i &rich text om möjligt"
-
-#: rc.cpp:2095 rc.cpp:2235
-#, no-c-format
-msgid "Jabber &browser"
-msgstr "Jabber-&bläddrare"
-
-#: rc.cpp:2107
-#, no-c-format
-msgid "Role:"
-msgstr "Roll:"
-
-#: rc.cpp:2141
-#, no-c-format
-msgid "DiscoInfo"
-msgstr "DiscoInfo"
-
-#: rc.cpp:2147
-#, no-c-format
-msgid "Namespaces:"
-msgstr "Namnrymder:"
-
-#: rc.cpp:2150
-#, no-c-format
-msgid "Category:"
-msgstr "Kategori:"
-
-#: rc.cpp:2165
-#, no-c-format
-msgid "Version:"
-msgstr "Version:"
-
-#: rc.cpp:2168
-#, no-c-format
-msgid "System:"
-msgstr "System:"
-
-#: rc.cpp:2174
-#, no-c-format
-msgid "UTC client time:"
-msgstr "UTC-klienttid:"
-
-#: rc.cpp:2177
-#, no-c-format
-msgid "Last activity, idle response:"
-msgstr "Senaste aktivitet, inaktivt svar:"
-
-#: rc.cpp:2180
-#, no-c-format
-msgid "&Statistic"
-msgstr "&Statistik"
-
-#: rc.cpp:2217
-#, no-c-format
-msgid "&JID"
-msgstr "&JID"
-
-#: rc.cpp:2244
-#, no-c-format
-msgid "ID:"
-msgstr "ID:"
-
-#: rc.cpp:2288 rc.cpp:2307
-#, no-c-format
-msgid "Command"
-msgstr "Kommando"
-
-#: rc.cpp:2291
-#, no-c-format
-msgid "Button"
-msgstr "Knapp"
-
-#: rc.cpp:2295 sim/qt3/i18n.cpp:197
-#, no-c-format
-msgid "Alt"
-msgstr "Alt"
-
-#: rc.cpp:2298 sim/qt3/i18n.cpp:193
-#, no-c-format
-msgid "Ctrl"
-msgstr "Ctrl"
-
-#: rc.cpp:2301 sim/qt3/i18n.cpp:199
-#, no-c-format
-msgid "Shift"
-msgstr "Shift"
-
-#: rc.cpp:2310
-#, no-c-format
-msgid "Key"
-msgstr "Tangent"
-
-#: rc.cpp:2326
-#, no-c-format
-msgid "File:"
-msgstr "Fil:"
-
-#: rc.cpp:2329
-#, no-c-format
-msgid "Log level:"
-msgstr "Loggnivå:"
-
-#: rc.cpp:2336
-#, no-c-format
-msgid "Use &UNIX socket"
-msgstr "Använd &UNIX-uttag"
-
-#: rc.cpp:2342 rc.cpp:2345
-#, no-c-format
-msgid "Use &TCP socket"
-msgstr "Använd &TCP-uttag"
-
-#: rc.cpp:2348
-#, no-c-format
-msgid "Enable IE context menu extension"
-msgstr "Aktivera IE:s utökningar för sammanhangsmeny"
-
-#: rc.cpp:2366
-#, no-c-format
-msgid "Button color:"
-msgstr "Knappfärg:"
-
-#: rc.cpp:2378
-#, no-c-format
-msgid "Location ID:"
-msgstr "Plats-id:"
-
-#: rc.cpp:2384
-#, no-c-format
-msgid "You can enter ID as part URL for your location on weather.com"
-msgstr "Du kan ange id som en del av url:en för din plats på weather.com"
-
-#: rc.cpp:2387
-#, no-c-format
-msgid "Metric"
-msgstr "Metrisk"
-
-#: rc.cpp:2390
-#, no-c-format
-msgid "Standart"
-msgstr "Standard"
-
-#: rc.cpp:2393
-#, no-c-format
-msgid "Forecast days:"
-msgstr "Prognosdagar:"
-
-#: rc.cpp:2396
-#, no-c-format
-msgid "Units:"
-msgstr "Enheter:"
-
-#: rc.cpp:2402
-#, no-c-format
-msgid "Button text:"
-msgstr "Knapptext:"
-
-#: rc.cpp:2405
-#, no-c-format
-msgid "Button tip:"
-msgstr "Knapptips:"
-
-#: rc.cpp:2408
-#, no-c-format
-msgid "Forecast tip:"
-msgstr "Prognostips:"
-
-#: rc.cpp:2417
-#, no-c-format
-msgid "Transparency of main window:"
-msgstr "Huvudfönstrets genomskinlighet:"
-
-#: rc.cpp:2420
-#, no-c-format
-msgid "Transparent only if inactive"
-msgstr "Genomskinlig endast om inaktiv"
-
 #: sim/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
 msgstr "Skicka synpunkter på översättningen till tp-sv@listor.tp-sv.se"
@@ -7268,11 +7300,11 @@ msgstr "Detta program distribueras under villkoren för GPL v2."
 msgid "&Ok"
 msgstr "&Ok"
 
-#: sim/ballonmsg.cpp:359 sim/qt3/i18n.cpp:125 sim/simapi.cpp:480
+#: sim/ballonmsg.cpp:359 sim/simapi.cpp:484
 msgid "&Yes"
 msgstr "&Ja"
 
-#: sim/ballonmsg.cpp:360 sim/qt3/i18n.cpp:127 sim/simapi.cpp:484
+#: sim/ballonmsg.cpp:360 sim/simapi.cpp:488
 msgid "&No"
 msgstr "&Nej"
 
@@ -8352,7 +8384,7 @@ msgstr "Lör"
 msgid "Sun"
 msgstr "Sön"
 
-#: sim/editfile.cpp:170 sim/qt3/i18n.cpp:89
+#: sim/editfile.cpp:170
 msgid "Open"
 msgstr "Öppna"
 
@@ -8368,15 +8400,15 @@ msgstr "Ljud(*.wav)"
 msgid "Select sound"
 msgstr "Välj ljud"
 
-#: sim/editfile.cpp:338 sim/editfile.cpp:421 sim/qt3/i18n.cpp:249
+#: sim/editfile.cpp:338 sim/editfile.cpp:421
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: sim/editfile.cpp:339 sim/editfile.cpp:422 sim/qt3/i18n.cpp:251
+#: sim/editfile.cpp:339 sim/editfile.cpp:422
 msgid "Copy"
 msgstr "Kopiera"
 
-#: sim/editfile.cpp:340 sim/editfile.cpp:423 sim/qt3/i18n.cpp:253
+#: sim/editfile.cpp:340 sim/editfile.cpp:423
 msgid "Paste"
 msgstr "Klistra in"
 
@@ -8420,602 +8452,98 @@ msgstr "%1 kbyte"
 msgid "%1 bytes"
 msgstr "%1 byte"
 
-#: sim/plugins.cpp:739
+#: sim/plugins.cpp:737
 #, c-format
 msgid "Bad option %1"
 msgstr "Felaktigt alternativ %1"
 
-#: sim/plugins.cpp:740
+#: sim/plugins.cpp:738
 msgid "Usage: %1 "
 msgstr "Användning: %1 "
 
-#: sim/qt3/i18n.cpp:1
-msgid "Hu&e:"
-msgstr "Färgto&n:"
-
-#: sim/qt3/i18n.cpp:3
-msgid "&Sat:"
-msgstr "&Mätt:"
-
-#: sim/qt3/i18n.cpp:5
-msgid "&Val:"
-msgstr "&Vär:"
-
-#: sim/qt3/i18n.cpp:7
-msgid "&Red:"
-msgstr "&Röd:"
-
-#: sim/qt3/i18n.cpp:9
-msgid "&Green:"
-msgstr "&Grön:"
-
-#: sim/qt3/i18n.cpp:11
-msgid "Bl&ue:"
-msgstr "B&lå:"
-
-#: sim/qt3/i18n.cpp:13
-msgid "A&lpha channel:"
-msgstr "A&lfakanal:"
-
-#: sim/qt3/i18n.cpp:15
-msgid "&Basic colors"
-msgstr "&Grundläggande färger"
-
-#: sim/qt3/i18n.cpp:17
-msgid "&Custom colors"
-msgstr "&Anpassade färger"
-
-#: sim/qt3/i18n.cpp:19
-msgid "&Define Custom Colors >>"
-msgstr "&Definiera anpassade färger >>"
-
-#: sim/qt3/i18n.cpp:25
-msgid "&Add To Custom Colors"
-msgstr "&Lägg till i anpassade färger"
-
-#: sim/qt3/i18n.cpp:27
-msgid "Select color"
-msgstr "Välj färg"
-
-#: sim/qt3/i18n.cpp:29
-msgid "Copy or Move a File"
-msgstr "Kopiera eller flytta en fil"
-
-#: sim/qt3/i18n.cpp:31
-#, c-format
-msgid "Read: %1"
-msgstr "Läs: %1"
-
-#: sim/qt3/i18n.cpp:33
-#, c-format
-msgid "Write: %1"
-msgstr "Skriv: %1"
-
-#: sim/qt3/i18n.cpp:37
-msgid "All files (*)"
-msgstr "Alla filer (*)"
-
-#: sim/qt3/i18n.cpp:41
-msgid "Size"
-msgstr "Storlek"
-
-#: sim/qt3/i18n.cpp:47
-msgid "Attributes"
-msgstr "Attribut"
-
-#: sim/qt3/i18n.cpp:49
-msgid "Look &in:"
-msgstr "Leta &i:"
-
-#: sim/qt3/i18n.cpp:51
-msgid "File &name:"
-msgstr "Fil&namn:"
-
-#: sim/qt3/i18n.cpp:53
-msgid "File &type:"
-msgstr "Fil&typ:"
-
-#: sim/qt3/i18n.cpp:55
-msgid "Back"
-msgstr "Tillbaka"
-
-#: sim/qt3/i18n.cpp:57
-msgid "One directory up"
-msgstr "En katalog upp"
-
-#: sim/qt3/i18n.cpp:59
-msgid "Create New Folder"
-msgstr "Skapa ny mapp"
-
-#: sim/qt3/i18n.cpp:61
-msgid "List View"
-msgstr "Listvy"
-
-#: sim/qt3/i18n.cpp:63
-msgid "Detail View"
-msgstr "Detaljerad vy"
-
-#: sim/qt3/i18n.cpp:65
-msgid "Preview File Info"
-msgstr "Förhandsgranska filinformation"
-
-#: sim/qt3/i18n.cpp:67
-msgid "Preview File Contents"
-msgstr "Förhandsgranska filinnehåll"
-
-#: sim/qt3/i18n.cpp:69
-msgid "Read-write"
-msgstr "Läs-skriv"
-
-#: sim/qt3/i18n.cpp:71
-msgid "Read-only"
-msgstr "Skrivskyddad"
-
-#: sim/qt3/i18n.cpp:73
-msgid "Write-only"
-msgstr "Endast skriv"
-
-#: sim/qt3/i18n.cpp:75
-msgid "Inaccessible"
-msgstr "Ej åtkomlig"
-
-#: sim/qt3/i18n.cpp:77
-msgid "Symlink to File"
-msgstr "Symbolisk länk till fil"
-
-#: sim/qt3/i18n.cpp:79
-msgid "Symlink to Directory"
-msgstr "Symbolisk länk till katalog"
-
-#: sim/qt3/i18n.cpp:81
-msgid "Symlink to Special"
-msgstr "Symbolisk länk till special"
-
-#: sim/qt3/i18n.cpp:85
-msgid "Dir"
-msgstr "Katalog"
-
-#: sim/qt3/i18n.cpp:87
-msgid "Special"
-msgstr "Special"
-
-#: sim/qt3/i18n.cpp:91
-msgid "Save as"
-msgstr "Spara som"
-
-#: sim/qt3/i18n.cpp:93
-msgid "&Open"
-msgstr "&Öppna"
-
-#: sim/qt3/i18n.cpp:101
-msgid "R&eload"
-msgstr "Läs &om"
-
-#: sim/qt3/i18n.cpp:103
-msgid "Sort by &Name"
-msgstr "Sortera efter &namn"
-
-#: sim/qt3/i18n.cpp:105
-msgid "Sort by &Size"
-msgstr "Sortera efter &storlek"
-
-#: sim/qt3/i18n.cpp:107
-msgid "Sort by &Date"
-msgstr "Sortera efter &datum"
-
-#: sim/qt3/i18n.cpp:109
-msgid "&Unsorted"
-msgstr "&Osorterad"
-
-#: sim/qt3/i18n.cpp:111
-msgid "Sort"
-msgstr "Sortera"
-
-#: sim/qt3/i18n.cpp:113
-msgid "Show &hidden files"
-msgstr "Visa &dolda filer"
-
-#: sim/qt3/i18n.cpp:115
-msgid "the file"
-msgstr "filen"
-
-#: sim/qt3/i18n.cpp:117
-msgid "the directory"
-msgstr "katalogen"
-
-#: sim/qt3/i18n.cpp:119
-msgid "the symlink"
-msgstr "symlänken"
-
-#: sim/qt3/i18n.cpp:121
-#, c-format
-msgid "Delete %1"
-msgstr "Ta bort %1"
-
-#: sim/qt3/i18n.cpp:123
-msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr "<qt>Är du säker på att du vill ta bort %1 \"%2\"?</qt>"
-
-#: sim/qt3/i18n.cpp:129
-msgid "New Folder 1"
-msgstr "Ny mapp 1"
-
-#: sim/qt3/i18n.cpp:131
-msgid "New Folder"
-msgstr "Ny mapp"
-
-#: sim/qt3/i18n.cpp:133
-#, c-format
-msgid "New Folder %1"
-msgstr "Ny mapp %1"
-
-#: sim/qt3/i18n.cpp:135
-msgid "Find Directory"
-msgstr "Hitta katalog"
-
-#: sim/qt3/i18n.cpp:137
-msgid "Directories"
-msgstr "Kataloger"
-
-#: sim/qt3/i18n.cpp:139
-msgid "Save"
-msgstr "Spara"
-
-#: sim/qt3/i18n.cpp:144
-msgid ""
-"%1\n"
-"File not found.\n"
-"Check path and filename."
-msgstr ""
-"%1\n"
-"Filen hittades inte.\n"
-"Kontrollera sökväg och filnamn."
-
-#: sim/qt3/i18n.cpp:148
-msgid "ERROR"
-msgstr "FEL"
-
-#: sim/qt3/i18n.cpp:150
-msgid "&Font"
-msgstr "&Typsnitt"
-
-#: sim/qt3/i18n.cpp:152
-msgid "Font st&yle"
-msgstr "Typsnittss&til"
-
-#: sim/qt3/i18n.cpp:154
-msgid "&Size"
-msgstr "&Storlek"
-
-#: sim/qt3/i18n.cpp:156
-msgid "Effects"
-msgstr "Effekter"
-
-#: sim/qt3/i18n.cpp:158
-msgid "Stri&keout"
-msgstr "Genomstru&ken"
-
-#: sim/qt3/i18n.cpp:162
-msgid "&Color"
-msgstr "Fä&rg"
-
-#: sim/qt3/i18n.cpp:164
-msgid "Sample"
-msgstr "Prov"
-
-#: sim/qt3/i18n.cpp:166
-msgid "Scr&ipt"
-msgstr "Skr&ipt"
-
-#: sim/qt3/i18n.cpp:168
-msgid "Apply"
-msgstr "Verkställ"
-
-#: sim/qt3/i18n.cpp:170
-msgid "Close"
-msgstr "Stäng"
-
-#: sim/qt3/i18n.cpp:172
-msgid "Select Font"
-msgstr "Välj typsnitt"
-
-#: sim/qt3/i18n.cpp:177
-msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-msgstr "<h3>Om Qt</h3><p>Detta program använder Qt version %1, en multiplattforms C++ GUI-verktygslåda från Trolltech. Qt tillhandahåller källkodsportabilitet mellan Windows 95/98/NT/2000, Linux, Solaris, HP-UX och många andra versioner av Unix med X11.</p><p>Se <tt>http://www.trolltech.com/qt/</tt> för mer information.</p>"
-
-#: sim/qt3/i18n.cpp:183
-msgid "Help"
-msgstr "Hjälp"
-
-#: sim/qt3/i18n.cpp:185
-msgid "Defaults"
-msgstr "Standard"
-
-#: sim/qt3/i18n.cpp:187
-msgid "< &Back"
-msgstr "< &Tillbaka"
-
-#: sim/qt3/i18n.cpp:189
-msgid "&Next >"
-msgstr "&Nästa >"
-
-#: sim/qt3/i18n.cpp:191
-msgid "&Finish"
-msgstr "&Klar"
-
-#: sim/qt3/i18n.cpp:195
-msgid "+"
-msgstr "+"
-
-#: sim/qt3/i18n.cpp:201
-#, c-format
-msgid "F%1"
-msgstr "F%1"
-
-#: sim/qt3/i18n.cpp:203
-msgid "ctrl"
-msgstr "ctrl"
-
-#: sim/qt3/i18n.cpp:205
-msgid "shift"
-msgstr "shift"
-
-#: sim/qt3/i18n.cpp:207
-msgid "alt"
-msgstr "alt"
-
-#: sim/qt3/i18n.cpp:210
-msgid ""
-"Could not rename\n"
-"%1\n"
-"to\n"
-"%2"
-msgstr ""
-"Kunde inte byta namn på\n"
-"%1\n"
-"till\n"
-"%2"
-
-#: sim/qt3/i18n.cpp:216
-#, c-format
-msgid ""
-"Could not open\n"
-"%1"
-msgstr ""
-"Kunde inte öppna\n"
-"%1"
-
-#: sim/qt3/i18n.cpp:220
-#, c-format
-msgid ""
-"Could not write\n"
-"%1"
-msgstr ""
-"Kunde inte skriva\n"
-"%1"
-
-#: sim/qt3/i18n.cpp:223
-msgid "Operation stopped by the user"
-msgstr "Operationen stoppad av användaren"
-
-#: sim/qt3/i18n.cpp:225
-msgid "(unknown)"
-msgstr "(okänd)"
-
-#: sim/qt3/i18n.cpp:227
-msgid "Host %1 found"
-msgstr "Värden %1 hittades"
-
-#: sim/qt3/i18n.cpp:229
-msgid "Host found"
-msgstr "Värden hittades inte"
-
-#: sim/qt3/i18n.cpp:231
-#, c-format
-msgid "Connected to host %1"
-msgstr "Ansluten till värden %1"
-
-#: sim/qt3/i18n.cpp:233
-msgid "Connected to host"
-msgstr "Ansluten till värd"
-
-#: sim/qt3/i18n.cpp:235
-msgid "Connection to %1 closed"
-msgstr "Anslutning till %1 stängd"
-
-#: sim/qt3/i18n.cpp:237 sim/sockfactory.cpp:303
-msgid "Connection closed"
-msgstr "Anslutning stängd"
-
-#: sim/qt3/i18n.cpp:239
-msgid "Login Incorrect"
-msgstr "Inloggning felaktig"
-
-#: sim/qt3/i18n.cpp:241
-#, c-format
-msgid "Col %1"
-msgstr "Kol %1"
-
-#: sim/qt3/i18n.cpp:243
-#, c-format
-msgid "Row %1"
-msgstr "Rad %1"
-
-#: sim/qt3/i18n.cpp:245
-msgid "Undo"
-msgstr "Ångra"
-
-#: sim/qt3/i18n.cpp:247
-msgid "Redo"
-msgstr "Gör om"
-
-#: sim/qt3/i18n.cpp:259
-msgid "&Left"
-msgstr "&Vänster"
-
-#: sim/qt3/i18n.cpp:261
-msgid "&Right"
-msgstr "&Höger"
-
-#: sim/qt3/i18n.cpp:263
-msgid "&Top"
-msgstr "&Topp"
-
-#: sim/qt3/i18n.cpp:265
-msgid "&Bottom"
-msgstr "&Botten"
-
-#: sim/qt3/i18n.cpp:267
-msgid "R&estore"
-msgstr "Åters&täll"
-
-#: sim/qt3/i18n.cpp:269
-msgid "&Hide"
-msgstr "&Dölj"
-
-#: sim/qt3/i18n.cpp:271
-msgid "Line Up Toolbars (compact)"
-msgstr "Rada upp verktygsraderna (kompakt)"
-
-#: sim/qt3/i18n.cpp:273
-msgid "Line Up Toolbars (normal)"
-msgstr "Rada upp verktygsraderna (normal)"
-
-#: sim/qt3/i18n.cpp:275
-msgid "Paste special..."
-msgstr "Klistra in special..."
-
-#: sim/qt3/i18n.cpp:277
-msgid "What's this?"
-msgstr "Vad är det här?"
-
-#: sim/qt3/i18n.cpp:279
-msgid "&Restore"
-msgstr "Åte&rställ"
-
-#: sim/qt3/i18n.cpp:281
-msgid "&Move"
-msgstr "&Flytta"
-
-#: sim/qt3/i18n.cpp:283
-msgid "Mi&nimize"
-msgstr "Mi&nimera"
-
-#: sim/qt3/i18n.cpp:285
-msgid "Ma&ximize"
-msgstr "Ma&ximera"
-
-#: sim/qt3/i18n.cpp:289
-msgid "&Roll up"
-msgstr "&Rulla uppåt"
-
-#: sim/qt3/i18n.cpp:291
-msgid "Minimize"
-msgstr "Minimera"
-
-#: sim/qt3/i18n.cpp:293
-msgid "Restore Down"
-msgstr "Återställ nedåt"
-
-#: sim/qt3/i18n.cpp:295
-msgid "Maximize"
-msgstr "Maximera"
-
-#: sim/qt3/i18n.cpp:297
-msgid "Roll up"
-msgstr "Rulla uppåt"
-
-#: sim/qt3/i18n.cpp:299
-msgid "Restore Up"
-msgstr "Återställ uppåt"
-
-#: sim/qt3/i18n.cpp:301
-msgid "Roll down"
-msgstr "Rulla nedåt"
-
-#: sim/sim.cpp:208
+#: sim/sim.cpp:207
 msgid "Multiprotocol Instant Messenger"
 msgstr "Snabbmeddelandeklient för ett flertal protokoll"
 
-#: sim/sim.cpp:215
+#: sim/sim.cpp:214
 msgid "Current development"
 msgstr "Aktuell utveckling"
 
-#: sim/sim.cpp:216
+#: sim/sim.cpp:215
 msgid "Author"
 msgstr "Upphovsman"
 
-#: sim/sim.cpp:217
+#: sim/sim.cpp:216
 msgid "Developer"
 msgstr "Utvecklare"
 
-#: sim/simapi.cpp:106
+#: sim/simapi.cpp:110
 msgid ""
 "_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "TwoForms"
 
-#: sim/simapi.cpp:693
+#: sim/simapi.cpp:697
 msgid "Smile"
 msgstr "Le"
 
-#: sim/simapi.cpp:694
+#: sim/simapi.cpp:698
 msgid "Surprised"
 msgstr "Förvånad"
 
-#: sim/simapi.cpp:695
+#: sim/simapi.cpp:699
 msgid "Indifferent"
 msgstr "Likgiltig"
 
-#: sim/simapi.cpp:696
+#: sim/simapi.cpp:700
 msgid "Skeptical"
 msgstr "Skeptisk"
 
-#: sim/simapi.cpp:697
+#: sim/simapi.cpp:701
 msgid "Sad"
 msgstr "Ledsen"
 
-#: sim/simapi.cpp:698
+#: sim/simapi.cpp:702
 msgid "Kiss"
 msgstr "Kyss"
 
-#: sim/simapi.cpp:699
+#: sim/simapi.cpp:703
 msgid "Annoyed"
 msgstr "Förargad"
 
-#: sim/simapi.cpp:700
+#: sim/simapi.cpp:704
 msgid "Crying"
 msgstr "Gråter"
 
-#: sim/simapi.cpp:701
+#: sim/simapi.cpp:705
 msgid "Wink"
 msgstr "Vink"
 
-#: sim/simapi.cpp:702
+#: sim/simapi.cpp:706
 msgid "Angry"
 msgstr "Arg"
 
-#: sim/simapi.cpp:703
+#: sim/simapi.cpp:707
 msgid "Embarrassed"
 msgstr "Generad"
 
-#: sim/simapi.cpp:704
+#: sim/simapi.cpp:708
 msgid "Uptight"
 msgstr "Rakryggad"
 
-#: sim/simapi.cpp:705
+#: sim/simapi.cpp:709
 msgid "Teaser"
 msgstr "Retas"
 
-#: sim/simapi.cpp:706
+#: sim/simapi.cpp:710
 msgid "Cool"
 msgstr "Cool"
 
-#: sim/simapi.cpp:707
+#: sim/simapi.cpp:711
 msgid "Angel"
 msgstr "Ängel"
 
-#: sim/simapi.cpp:708
+#: sim/simapi.cpp:712
 msgid "Grin"
 msgstr "Flin"
 
@@ -9030,6 +8558,10 @@ msgstr "Anslutningsfel"
 #: sim/sockfactory.cpp:274
 msgid "Can't resolve host"
 msgstr "Kan inte slå upp värd"
+
+#: sim/sockfactory.cpp:303
+msgid "Connection closed"
+msgstr "Anslutning stängd"
 
 #: sim/sockfactory.cpp:364
 msgid "Socket error"
@@ -9066,6 +8598,379 @@ msgstr "SSL-initieringsfel"
 #: sim/textshow.cpp:851
 msgid "Custom"
 msgstr "Anpassad"
+
+#~ msgid "Hu&e:"
+#~ msgstr "Färgto&n:"
+
+#~ msgid "&Sat:"
+#~ msgstr "&Mätt:"
+
+#~ msgid "&Val:"
+#~ msgstr "&Vär:"
+
+#~ msgid "&Red:"
+#~ msgstr "&Röd:"
+
+#~ msgid "&Green:"
+#~ msgstr "&Grön:"
+
+#~ msgid "Bl&ue:"
+#~ msgstr "B&lå:"
+
+#~ msgid "A&lpha channel:"
+#~ msgstr "A&lfakanal:"
+
+#~ msgid "&Basic colors"
+#~ msgstr "&Grundläggande färger"
+
+#~ msgid "&Custom colors"
+#~ msgstr "&Anpassade färger"
+
+#~ msgid "&Define Custom Colors >>"
+#~ msgstr "&Definiera anpassade färger >>"
+
+#~ msgid "&Add To Custom Colors"
+#~ msgstr "&Lägg till i anpassade färger"
+
+#~ msgid "Select color"
+#~ msgstr "Välj färg"
+
+#~ msgid "Copy or Move a File"
+#~ msgstr "Kopiera eller flytta en fil"
+
+#~ msgid "Read: %1"
+#~ msgstr "Läs: %1"
+
+#~ msgid "Write: %1"
+#~ msgstr "Skriv: %1"
+
+#~ msgid "All files (*)"
+#~ msgstr "Alla filer (*)"
+
+#~ msgid "Size"
+#~ msgstr "Storlek"
+
+#~ msgid "Attributes"
+#~ msgstr "Attribut"
+
+#~ msgid "Look &in:"
+#~ msgstr "Leta &i:"
+
+#~ msgid "File &name:"
+#~ msgstr "Fil&namn:"
+
+#~ msgid "File &type:"
+#~ msgstr "Fil&typ:"
+
+#~ msgid "Back"
+#~ msgstr "Tillbaka"
+
+#~ msgid "One directory up"
+#~ msgstr "En katalog upp"
+
+#~ msgid "Create New Folder"
+#~ msgstr "Skapa ny mapp"
+
+#~ msgid "List View"
+#~ msgstr "Listvy"
+
+#~ msgid "Detail View"
+#~ msgstr "Detaljerad vy"
+
+#~ msgid "Preview File Info"
+#~ msgstr "Förhandsgranska filinformation"
+
+#~ msgid "Preview File Contents"
+#~ msgstr "Förhandsgranska filinnehåll"
+
+#~ msgid "Read-write"
+#~ msgstr "Läs-skriv"
+
+#~ msgid "Read-only"
+#~ msgstr "Skrivskyddad"
+
+#~ msgid "Write-only"
+#~ msgstr "Endast skriv"
+
+#~ msgid "Inaccessible"
+#~ msgstr "Ej åtkomlig"
+
+#~ msgid "Symlink to File"
+#~ msgstr "Symbolisk länk till fil"
+
+#~ msgid "Symlink to Directory"
+#~ msgstr "Symbolisk länk till katalog"
+
+#~ msgid "Symlink to Special"
+#~ msgstr "Symbolisk länk till special"
+
+#~ msgid "Dir"
+#~ msgstr "Katalog"
+
+#~ msgid "Special"
+#~ msgstr "Special"
+
+#~ msgid "Save as"
+#~ msgstr "Spara som"
+
+#~ msgid "&Open"
+#~ msgstr "&Öppna"
+
+#~ msgid "R&eload"
+#~ msgstr "Läs &om"
+
+#~ msgid "Sort by &Name"
+#~ msgstr "Sortera efter &namn"
+
+#~ msgid "Sort by &Size"
+#~ msgstr "Sortera efter &storlek"
+
+#~ msgid "Sort by &Date"
+#~ msgstr "Sortera efter &datum"
+
+#~ msgid "&Unsorted"
+#~ msgstr "&Osorterad"
+
+#~ msgid "Sort"
+#~ msgstr "Sortera"
+
+#~ msgid "Show &hidden files"
+#~ msgstr "Visa &dolda filer"
+
+#~ msgid "the file"
+#~ msgstr "filen"
+
+#~ msgid "the directory"
+#~ msgstr "katalogen"
+
+#~ msgid "the symlink"
+#~ msgstr "symlänken"
+
+#~ msgid "Delete %1"
+#~ msgstr "Ta bort %1"
+
+#~ msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
+#~ msgstr "<qt>Är du säker på att du vill ta bort %1 \"%2\"?</qt>"
+
+#~ msgid "New Folder 1"
+#~ msgstr "Ny mapp 1"
+
+#~ msgid "New Folder"
+#~ msgstr "Ny mapp"
+
+#~ msgid "New Folder %1"
+#~ msgstr "Ny mapp %1"
+
+#~ msgid "Find Directory"
+#~ msgstr "Hitta katalog"
+
+#~ msgid "Directories"
+#~ msgstr "Kataloger"
+
+#~ msgid "Save"
+#~ msgstr "Spara"
+
+#~ msgid ""
+#~ "%1\n"
+#~ "File not found.\n"
+#~ "Check path and filename."
+#~ msgstr ""
+#~ "%1\n"
+#~ "Filen hittades inte.\n"
+#~ "Kontrollera sökväg och filnamn."
+
+#~ msgid "ERROR"
+#~ msgstr "FEL"
+
+#~ msgid "&Font"
+#~ msgstr "&Typsnitt"
+
+#~ msgid "Font st&yle"
+#~ msgstr "Typsnittss&til"
+
+#~ msgid "&Size"
+#~ msgstr "&Storlek"
+
+#~ msgid "Effects"
+#~ msgstr "Effekter"
+
+#~ msgid "Stri&keout"
+#~ msgstr "Genomstru&ken"
+
+#~ msgid "&Color"
+#~ msgstr "Fä&rg"
+
+#~ msgid "Sample"
+#~ msgstr "Prov"
+
+#~ msgid "Scr&ipt"
+#~ msgstr "Skr&ipt"
+
+#~ msgid "Apply"
+#~ msgstr "Verkställ"
+
+#~ msgid "Close"
+#~ msgstr "Stäng"
+
+#~ msgid "Select Font"
+#~ msgstr "Välj typsnitt"
+
+#~ msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
+#~ msgstr "<h3>Om Qt</h3><p>Detta program använder Qt version %1, en multiplattforms C++ GUI-verktygslåda från Trolltech. Qt tillhandahåller källkodsportabilitet mellan Windows 95/98/NT/2000, Linux, Solaris, HP-UX och många andra versioner av Unix med X11.</p><p>Se <tt>http://www.trolltech.com/qt/</tt> för mer information.</p>"
+
+#~ msgid "Help"
+#~ msgstr "Hjälp"
+
+#~ msgid "Defaults"
+#~ msgstr "Standard"
+
+#~ msgid "< &Back"
+#~ msgstr "< &Tillbaka"
+
+#~ msgid "&Next >"
+#~ msgstr "&Nästa >"
+
+#~ msgid "&Finish"
+#~ msgstr "&Klar"
+
+#~ msgid "+"
+#~ msgstr "+"
+
+#~ msgid "F%1"
+#~ msgstr "F%1"
+
+#~ msgid "ctrl"
+#~ msgstr "ctrl"
+
+#~ msgid "shift"
+#~ msgstr "shift"
+
+#~ msgid "alt"
+#~ msgstr "alt"
+
+#~ msgid ""
+#~ "Could not rename\n"
+#~ "%1\n"
+#~ "to\n"
+#~ "%2"
+#~ msgstr ""
+#~ "Kunde inte byta namn på\n"
+#~ "%1\n"
+#~ "till\n"
+#~ "%2"
+
+#~ msgid ""
+#~ "Could not open\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Kunde inte öppna\n"
+#~ "%1"
+
+#~ msgid ""
+#~ "Could not write\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Kunde inte skriva\n"
+#~ "%1"
+
+#~ msgid "Operation stopped by the user"
+#~ msgstr "Operationen stoppad av användaren"
+
+#~ msgid "(unknown)"
+#~ msgstr "(okänd)"
+
+#~ msgid "Host %1 found"
+#~ msgstr "Värden %1 hittades"
+
+#~ msgid "Host found"
+#~ msgstr "Värden hittades inte"
+
+#~ msgid "Connected to host %1"
+#~ msgstr "Ansluten till värden %1"
+
+#~ msgid "Connected to host"
+#~ msgstr "Ansluten till värd"
+
+#~ msgid "Connection to %1 closed"
+#~ msgstr "Anslutning till %1 stängd"
+
+#~ msgid "Login Incorrect"
+#~ msgstr "Inloggning felaktig"
+
+#~ msgid "Col %1"
+#~ msgstr "Kol %1"
+
+#~ msgid "Row %1"
+#~ msgstr "Rad %1"
+
+#~ msgid "Undo"
+#~ msgstr "Ångra"
+
+#~ msgid "Redo"
+#~ msgstr "Gör om"
+
+#~ msgid "&Left"
+#~ msgstr "&Vänster"
+
+#~ msgid "&Right"
+#~ msgstr "&Höger"
+
+#~ msgid "&Top"
+#~ msgstr "&Topp"
+
+#~ msgid "&Bottom"
+#~ msgstr "&Botten"
+
+#~ msgid "R&estore"
+#~ msgstr "Åters&täll"
+
+#~ msgid "&Hide"
+#~ msgstr "&Dölj"
+
+#~ msgid "Line Up Toolbars (compact)"
+#~ msgstr "Rada upp verktygsraderna (kompakt)"
+
+#~ msgid "Line Up Toolbars (normal)"
+#~ msgstr "Rada upp verktygsraderna (normal)"
+
+#~ msgid "Paste special..."
+#~ msgstr "Klistra in special..."
+
+#~ msgid "What's this?"
+#~ msgstr "Vad är det här?"
+
+#~ msgid "&Restore"
+#~ msgstr "Åte&rställ"
+
+#~ msgid "&Move"
+#~ msgstr "&Flytta"
+
+#~ msgid "Mi&nimize"
+#~ msgstr "Mi&nimera"
+
+#~ msgid "Ma&ximize"
+#~ msgstr "Ma&ximera"
+
+#~ msgid "&Roll up"
+#~ msgstr "&Rulla uppåt"
+
+#~ msgid "Minimize"
+#~ msgstr "Minimera"
+
+#~ msgid "Restore Down"
+#~ msgstr "Återställ nedåt"
+
+#~ msgid "Maximize"
+#~ msgstr "Maximera"
+
+#~ msgid "Roll up"
+#~ msgstr "Rulla uppåt"
+
+#~ msgid "Restore Up"
+#~ msgstr "Återställ uppåt"
+
+#~ msgid "Roll down"
+#~ msgstr "Rulla nedåt"
 
 #~ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
 #~ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"

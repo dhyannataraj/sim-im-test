@@ -3,14 +3,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TV\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-15 16:05+0200\n"
+"POT-Creation-Date: 2007-03-02 01:03+0500\n"
 "PO-Revision-Date: 2005-04-20 21:07+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: zh_TW.Big5 <zh@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: plugins/__homedir/homedir.cpp:48
 #, fuzzy
@@ -25,6 +25,21 @@ msgstr ""
 #, fuzzy
 msgid "Set home directory"
 msgstr "尋找使用者"
+
+#: plugins/__homedir/homedircfgbase.cpp:62 plugins/_core/arcfgbase.cpp:78 plugins/_core/filecfgbase.cpp:86 plugins/_core/historycfgbase.cpp:166 plugins/_core/interfacecfgbase.cpp:122 plugins/_core/maininfobase.cpp:186 plugins/_core/msgcfgbase.cpp:83 plugins/_core/phonebase.cpp:113 plugins/_core/smscfgbase.cpp:64 plugins/_core/userhistorycfgbase.cpp:91 plugins/action/actioncfgbase.cpp:61 plugins/action/menucfgbase.cpp:67 plugins/autoaway/autoawaycfgbase.cpp:102 plugins/background/bkgndcfgbase.cpp:113 plugins/dock/dockcfgbase.cpp:91 plugins/filter/filtercfgbase.cpp:68 plugins/forward/forwardcfgbase.cpp:70 plugins/gpg/gpgadvbase.cpp:124 plugins/gpg/gpgcfgbase.cpp:105 plugins/gpg/gpguserbase.cpp:67 plugins/icons/iconcfgbase.cpp:73 plugins/icq/advsearchbase.cc:245 plugins/icq/aimconfigbase.cc:143 plugins/icq/aiminfobase.cc:255 plugins/icq/aimsearchbase.cc:161 plugins/icq/homeinfobase.cc:143 plugins/icq/icqconfigbase.cc:262 plugins/icq/icqpicturebase.cc:74 plugins/icq/icqsearchbase.cc:125 plugins/icq/icqsecurebase.cc:109 plugins/icq/pastinfobase.cc:138 plugins/jabber/infoproxybase.cpp:55 plugins/jabber/jabberconfigbase.cpp:304 plugins/jabber/jabberinfobase.cpp:244 plugins/jabber/jabberpicturebase.cpp:74 plugins/jabber/jabberworkinfobase.cpp:88 plugins/jabber/jidadvsearchbase.cpp:63 plugins/jabber/jidsearchbase.cpp:74 plugins/livejournal/journalsearchbase.cpp:64 plugins/livejournal/livejournalcfgbase.cpp:158 plugins/livejournal/msgjournalbase.cpp:81 plugins/logger/logconfigbase.cpp:67 plugins/msn/msninfobase.cpp:129 plugins/msn/msnsearchbase.cpp:71 plugins/navigate/navcfgbase.cc:71 plugins/ontop/ontopcfgbase.cpp:57 plugins/osd/osdconfigbase.cpp:108 plugins/proxy/proxycfgbase.cpp:130 plugins/remote/remotecfgbase.cpp:103 plugins/replace/replacecfgbase.cpp:52 plugins/shortcuts/mousecfgbase.cpp:77 plugins/shortcuts/shortcutcfgbase.cpp:79 plugins/sound/soundconfigbase.cpp:96 plugins/sound/sounduserbase.cpp:62 plugins/spell/spellcfgbase.cpp:83 plugins/styles/fontconfigbase.cpp:99 plugins/styles/stylescfgbase.cpp:52 plugins/transparent/transparentcfgbase.cpp:70 plugins/weather/weathercfgbase.cpp:109 plugins/weather/wifacecfgbase.cpp:80 plugins/yahoo/yahooinfobase.cpp:152 plugins/yahoo/yahoosearchbase.cpp:97 rc.cpp:3 rc.cpp:12 rc.cpp:27 rc.cpp:55 rc.cpp:82 rc.cpp:103 rc.cpp:124 rc.cpp:221 rc.cpp:227 rc.cpp:237 rc.cpp:263 rc.cpp:313 rc.cpp:403 rc.cpp:419 rc.cpp:440 rc.cpp:449 rc.cpp:473 rc.cpp:492 rc.cpp:511 rc.cpp:520 rc.cpp:530 rc.cpp:542 rc.cpp:614 rc.cpp:626 rc.cpp:693 rc.cpp:714 rc.cpp:738 rc.cpp:767 rc.cpp:779 rc.cpp:823 rc.cpp:861 rc.cpp:976 rc.cpp:1109 rc.cpp:1118 rc.cpp:1300 rc.cpp:1342 rc.cpp:1348 rc.cpp:1379 rc.cpp:1398 rc.cpp:1459 rc.cpp:1465 rc.cpp:1480 rc.cpp:1495 rc.cpp:1519 rc.cpp:1583 rc.cpp:1618 rc.cpp:1633 rc.cpp:1639 rc.cpp:1669 rc.cpp:1709 rc.cpp:1725 rc.cpp:1768 rc.cpp:1808 rc.cpp:1818 rc.cpp:1842 rc.cpp:1881 rc.cpp:1959 rc.cpp:1992 rc.cpp:2025 rc.cpp:2140 rc.cpp:2302 rc.cpp:2357 rc.cpp:2421
+#, no-c-format
+msgid "Form1"
+msgstr "表格1"
+
+#: plugins/__homedir/homedircfgbase.cpp:63 rc.cpp:617
+#, no-c-format
+msgid "Use &default path"
+msgstr ""
+
+#: plugins/__homedir/homedircfgbase.cpp:64 rc.cpp:620
+#, fuzzy, no-c-format
+msgid "Path for config files:"
+msgstr "接收檔案的路徑："
 
 #: plugins/__migrate/migrate.cpp:35
 msgid "Migrate"
@@ -43,9 +58,56 @@ msgstr ""
 msgid "Can't open %1"
 msgstr "無法建立%1"
 
+#: plugins/__migrate/migratedlgbase.cpp:89 rc.cpp:645
+#, fuzzy, no-c-format
+msgid "Convert configuration from old version"
+msgstr "ICQ客戶端"
+
+#: plugins/__migrate/migratedlgbase.cpp:90 rc.cpp:651
+#, fuzzy, no-c-format
+msgid "Directories for convert:"
+msgstr "放上傳檔案的目錄"
+
+#: plugins/__migrate/migratedlgbase.cpp:91 rc.cpp:654
+#, fuzzy, no-c-format
+msgid "&Remove old files"
+msgstr "遠端檔案："
+
+#: plugins/__migrate/migratedlgbase.cpp:92 rc.cpp:657
+#, no-c-format
+msgid ""
+"Note!\n"
+"If you select an option \" Remove old files \", you can not use the old version"
+msgstr ""
+
+#: plugins/__migrate/migratedlgbase.cpp:94 rc.cpp:648
+#, fuzzy, no-c-format
+msgid "Select directories for convert"
+msgstr "放上傳檔案的目錄"
+
+#: plugins/__migrate/migratedlgbase.cpp:96 rc.cpp:661
+#, fuzzy, no-c-format
+msgid "Convert configuration"
+msgstr "ICQ客戶端"
+
 #: plugins/_core/arcfg.cpp:96 plugins/_core/autoreply.cpp:133 plugins/weather/wifacecfg.cpp:107
 msgid "In text you can use:"
 msgstr ""
+
+#: plugins/_core/arcfgbase.cpp:79 plugins/_core/prefcfgbase.cpp:66 rc.cpp:669 rc.cpp:783
+#, fuzzy, no-c-format
+msgid "&Override global settings"
+msgstr "覆蓋整體設定"
+
+#: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89 plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94 plugins/weather/wifacecfgbase.cpp:84 rc.cpp:786 rc.cpp:798 rc.cpp:1492 rc.cpp:1636 rc.cpp:1660 sim/simapi.cpp:490
+#, no-c-format
+msgid "&Help"
+msgstr ""
+
+#: plugins/_core/arcfgbase.cpp:81 rc.cpp:789
+#, fuzzy, no-c-format
+msgid "Don't show autoreply dialog"
+msgstr "不顯示此對話盒"
 
 #: plugins/_core/autoreply.cpp:70
 msgid "Autoreply message"
@@ -57,6 +119,26 @@ msgid ""
 "_n: Close after %n second\n"
 "Close after %n seconds"
 msgstr "傳送後關閉"
+
+#: plugins/_core/autoreplybase.cpp:87 plugins/_core/connectionsettingsbase.cpp:74 rc.cpp:792 rc.cpp:1265
+#, no-c-format
+msgid "MyDialog"
+msgstr ""
+
+#: plugins/_core/autoreplybase.cpp:88 rc.cpp:795
+#, no-c-format
+msgid "Don't show this dialog"
+msgstr "不顯示此對話盒"
+
+#: plugins/_core/autoreplybase.cpp:91 plugins/_core/cfgdlg.cpp:527 plugins/_core/cfgdlgbase.cpp:95 plugins/_core/connectionsettingsbase.cpp:75 plugins/_core/declinedlgbase.cpp:82 plugins/_core/editmailbase.cpp:97 plugins/_core/editphonebase.cpp:112 plugins/_core/logindlgbase.cpp:132 plugins/_core/toolsetupbase.cpp:135 plugins/action/additembase.cpp:95 plugins/gpg/gpggenbase.cpp:142 plugins/gpg/passphrasebase.cpp:91 plugins/icq/encodingdlgbase.cc:86 plugins/icq/verifydlgbase.cc:113 plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289 plugins/proxy/proxyerrorbase.cpp:80 rc.cpp:49 rc.cpp:397 rc.cpp:761 rc.cpp:802 rc.cpp:817 rc.cpp:970 rc.cpp:1009 rc.cpp:1034 rc.cpp:1268 rc.cpp:1294 rc.cpp:1663 rc.cpp:1703 rc.cpp:1762 rc.cpp:1951 rc.cpp:2265 rc.cpp:2296 sim/simapi.cpp:484
+#, fuzzy, no-c-format
+msgid "&OK"
+msgstr "確定(&O)"
+
+#: plugins/_core/autoreplybase.cpp:92 plugins/_core/cfgdlg.cpp:528 plugins/_core/cfgdlgbase.cpp:96 plugins/_core/connectionsettingsbase.cpp:76 plugins/_core/declinedlgbase.cpp:83 plugins/_core/editmailbase.cpp:98 plugins/_core/editphonebase.cpp:113 plugins/_core/filetransferbase.cpp:138 plugins/_core/logindlgbase.cpp:133 plugins/_core/search.cpp:131 plugins/action/additembase.cpp:96 plugins/gpg/gpgfindbase.cpp:70 plugins/gpg/gpggenbase.cpp:143 plugins/gpg/passphrasebase.cpp:92 plugins/icq/encodingdlgbase.cc:87 plugins/icq/icqclient.cpp:2466 plugins/icq/securedlgbase.cc:78 plugins/icq/verifydlgbase.cc:115 plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81 plugins/spell/spellfindbase.cpp:68 plugins/weather/weathercfg.cpp:76 rc.cpp:52 rc.cpp:527 rc.cpp:764 rc.cpp:805 rc.cpp:820 rc.cpp:1012 rc.cpp:1037 rc.cpp:1238 rc.cpp:1271 rc.cpp:1297 rc.cpp:1666 rc.cpp:1706 rc.cpp:1722 rc.cpp:1765 rc.cpp:1955 rc.cpp:2268 rc.cpp:2280 rc.cpp:2299 sim/simapi.cpp:487
+#, fuzzy, no-c-format
+msgid "&Cancel"
+msgstr "劃線"
 
 #: plugins/_core/cfgdlg.cpp:300 plugins/_core/usercfg.cpp:195
 msgid "User info"
@@ -72,22 +154,12 @@ msgstr "自動回應"
 msgid "Plugins"
 msgstr "公佈"
 
-#: plugins/_core/cfgdlg.cpp:526 rc.cpp:1267 rc.cpp:1356 rc.cpp:2207 sim/simapi.cpp:481
+#: plugins/_core/cfgdlg.cpp:526 plugins/_core/cfgdlgbase.cpp:94 plugins/_core/toolsetupbase.cpp:134 plugins/jabber/discoinfobase.cpp:288 rc.cpp:394 rc.cpp:967 rc.cpp:1031 sim/simapi.cpp:485
 #, fuzzy, no-c-format
 msgid "&Apply"
 msgstr "回應(&R)"
 
-#: plugins/_core/cfgdlg.cpp:527 rc.cpp:22 rc.cpp:35 rc.cpp:120 rc.cpp:403 rc.cpp:529 rc.cpp:1073 rc.cpp:1149 rc.cpp:1270 rc.cpp:1359 rc.cpp:1450 rc.cpp:1495 rc.cpp:1507 rc.cpp:1546 rc.cpp:1702 rc.cpp:1932 rc.cpp:2210 sim/qt3/i18n.cpp:174 sim/simapi.cpp:480
-#, fuzzy, no-c-format
-msgid "&OK"
-msgstr "確定(&O)"
-
-#: plugins/_core/cfgdlg.cpp:528 plugins/_core/search.cpp:131 plugins/icq/icqclient.cpp:2464 plugins/weather/weathercfg.cpp:76 rc.cpp:25 rc.cpp:38 rc.cpp:72 rc.cpp:123 rc.cpp:388 rc.cpp:407 rc.cpp:532 rc.cpp:1076 rc.cpp:1152 rc.cpp:1362 rc.cpp:1384 rc.cpp:1453 rc.cpp:1498 rc.cpp:1510 rc.cpp:1549 rc.cpp:1705 rc.cpp:1751 rc.cpp:1935 sim/qt3/i18n.cpp:35 sim/simapi.cpp:483
-#, fuzzy, no-c-format
-msgid "&Cancel"
-msgstr "劃線"
-
-#: plugins/_core/cfgdlg.cpp:529 plugins/_core/core.cpp:532 plugins/_core/core.cpp:1152 plugins/_core/core.cpp:1234 rc.cpp:1349
+#: plugins/_core/cfgdlg.cpp:529 plugins/_core/cfgdlgbase.cpp:91 plugins/_core/core.cpp:532 plugins/_core/core.cpp:1152 plugins/_core/core.cpp:1234 rc.cpp:1024
 #, no-c-format
 msgid "Setup"
 msgstr "設定"
@@ -101,6 +173,11 @@ msgstr "ICQ客戶端"
 #, fuzzy
 msgid "Update info"
 msgstr "使用者資訊"
+
+#: plugins/_core/cfgdlgbase.cpp:93 rc.cpp:1028
+#, fuzzy, no-c-format
+msgid "&Update"
+msgstr "更新"
 
 #: plugins/_core/cmenu.cpp:78
 msgid "More..."
@@ -121,19 +198,41 @@ msgstr "ICQ客戶端"
 msgid "Forgot password?"
 msgstr "密碼："
 
+#: plugins/_core/connectwndbase.cpp:98 plugins/icq/moreinfobase.cc:152 rc.cpp:1183 rc.cpp:2115
+#, no-c-format
+msgid "Form3"
+msgstr "表格3"
+
+#: plugins/_core/connectwndbase.cpp:99 plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:58 rc.cpp:1186
+#, fuzzy, no-c-format
+msgid "Connecting"
+msgstr "連線"
+
+#: plugins/_core/connectwndbase.cpp:101 rc.cpp:1190
+#, fuzzy, no-c-format
+msgid "Complete"
+msgstr "Закрыть через"
+
+#: plugins/_core/connectwndbase.cpp:102 rc.cpp:1193
+#, no-c-format
+msgid ""
+"If you want to add connection press button \" Next\".\n"
+"You can add connection later using connection manager"
+msgstr ""
+
 #: plugins/_core/container.cpp:331
 #, fuzzy
 msgid "Container"
 msgstr "至容器"
 
-#: plugins/_core/container.cpp:593 plugins/osd/osd.cpp:421
+#: plugins/_core/container.cpp:593 plugins/osd/osd.cpp:422
 #, fuzzy
 msgid ""
 "_: male\n"
 "%1 is typing"
 msgstr "已經上線"
 
-#: plugins/_core/container.cpp:594 plugins/osd/osd.cpp:422
+#: plugins/_core/container.cpp:594 plugins/osd/osd.cpp:423
 #, fuzzy
 msgid ""
 "_: female\n"
@@ -232,7 +331,7 @@ msgstr "使用者資訊"
 msgid "&History"
 msgstr "歷程"
 
-#: plugins/_core/core.cpp:637 plugins/_core/filetransfer.cpp:344 plugins/icq/securedlg.cpp:92 rc.cpp:1273 rc.cpp:1420 rc.cpp:1670 rc.cpp:2213 sim/qt3/i18n.cpp:287 sim/simapi.cpp:483
+#: plugins/_core/core.cpp:637 plugins/_core/filetransfer.cpp:344 plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136 plugins/about/aboutdlgbase.cpp:122 plugins/icq/securedlg.cpp:92 plugins/jabber/discoinfobase.cpp:290 rc.cpp:400 rc.cpp:973 rc.cpp:1262 rc.cpp:1614 sim/simapi.cpp:487
 #, fuzzy, no-c-format
 msgid "&Close"
 msgstr "Закрыть через"
@@ -241,12 +340,12 @@ msgstr "Закрыть через"
 msgid "&Send"
 msgstr "傳送(&S)"
 
-#: plugins/_core/core.cpp:691 plugins/_core/core.cpp:1703
+#: plugins/_core/core.cpp:691 plugins/_core/core.cpp:1710
 #, fuzzy
 msgid "&Insert smile"
 msgstr "興趣"
 
-#: plugins/_core/core.cpp:698 rc.cpp:1966
+#: plugins/_core/core.cpp:698 plugins/forward/forwardcfgbase.cpp:75 rc.cpp:1596
 #, no-c-format
 msgid "Send in &translit"
 msgstr ""
@@ -279,7 +378,7 @@ msgstr "粗體"
 msgid "&Italic"
 msgstr "斜體"
 
-#: plugins/_core/core.cpp:750 plugins/_core/core.cpp:854 sim/qt3/i18n.cpp:160
+#: plugins/_core/core.cpp:750 plugins/_core/core.cpp:854
 #, fuzzy
 msgid "&Underline"
 msgstr "劃線"
@@ -332,7 +431,7 @@ msgstr ""
 msgid "&Open message"
 msgstr "自動回應訊息"
 
-#: plugins/_core/core.cpp:901 plugins/_core/core.cpp:992 plugins/netmonitor/monitor.cpp:72 rc.cpp:1323 sim/qt3/qtextedit.cpp:4238
+#: plugins/_core/core.cpp:901 plugins/_core/core.cpp:992 plugins/_core/historycfgbase.cpp:175 plugins/netmonitor/monitor.cpp:72 rc.cpp:884
 #, fuzzy, no-c-format
 msgid "&Copy"
 msgstr "國家："
@@ -360,31 +459,31 @@ msgstr ""
 msgid "&Answer"
 msgstr "刪除"
 
-#: plugins/_core/core.cpp:967 sim/qt3/qtextedit.cpp:4231
+#: plugins/_core/core.cpp:967
 #, fuzzy
 msgid "&Undo"
 msgstr "Uin:"
 
-#: plugins/_core/core.cpp:978 sim/qt3/qtextedit.cpp:4232
+#: plugins/_core/core.cpp:978
 #, fuzzy
 msgid "&Redo"
 msgstr "自動回應訊息"
 
-#: plugins/_core/core.cpp:985 sim/qt3/qtextedit.cpp:4237
+#: plugins/_core/core.cpp:985
 msgid "Cu&t"
 msgstr ""
 
-#: plugins/_core/core.cpp:999 sim/qt3/qtextedit.cpp:4240
+#: plugins/_core/core.cpp:999
 #, fuzzy
 msgid "&Paste"
 msgstr "刪除"
 
-#: plugins/_core/core.cpp:1006 sim/editfile.cpp:342 sim/editfile.cpp:425 sim/qt3/i18n.cpp:255 sim/qt3/qtextedit.cpp:4243
+#: plugins/_core/core.cpp:1006 sim/editfile.cpp:342 sim/editfile.cpp:425
 #, fuzzy
 msgid "Clear"
 msgstr "Закрыть через"
 
-#: plugins/_core/core.cpp:1013 sim/qt3/i18n.cpp:257 sim/qt3/qtextedit.cpp:4247 sim/qt3/qtextedit.cpp:4249
+#: plugins/_core/core.cpp:1013
 #, fuzzy
 msgid "Select All"
 msgstr "選擇風格："
@@ -403,7 +502,7 @@ msgstr "拼字檢查"
 msgid "&Messages"
 msgstr "訊息"
 
-#: plugins/_core/core.cpp:1044 plugins/_core/msgedit.cpp:1675 rc.cpp:833
+#: plugins/_core/core.cpp:1044 plugins/_core/msgedit.cpp:1675 plugins/sms/smssetupbase.cpp:153 rc.cpp:1531
 #, fuzzy, no-c-format
 msgid "&SMS"
 msgstr "SMS"
@@ -461,12 +560,12 @@ msgstr "向上"
 msgid "Down"
 msgstr "向下"
 
-#: plugins/_core/core.cpp:1194 rc.cpp:1326 sim/qt3/i18n.cpp:97
+#: plugins/_core/core.cpp:1194 plugins/_core/historycfgbase.cpp:176 rc.cpp:887
 #, fuzzy, no-c-format
 msgid "&Rename"
 msgstr "更名"
 
-#: plugins/_core/core.cpp:1203 plugins/_core/core.cpp:1350 plugins/_core/core.cpp:1363 rc.cpp:1329 rc.cpp:1537 rc.cpp:1582 rc.cpp:1606 rc.cpp:1917 sim/listview.cpp:38 sim/qt3/i18n.cpp:99
+#: plugins/_core/core.cpp:1203 plugins/_core/core.cpp:1350 plugins/_core/core.cpp:1363 plugins/_core/historycfgbase.cpp:177 plugins/_core/logindlgbase.cpp:129 plugins/_core/maininfobase.cpp:195 plugins/_core/maininfobase.cpp:205 plugins/action/menucfgbase.cpp:70 rc.cpp:890 rc.cpp:1148 rc.cpp:1172 rc.cpp:1285 rc.cpp:1648 sim/listview.cpp:38
 #, fuzzy, no-c-format
 msgid "&Delete"
 msgstr "拒絕(&D)"
@@ -484,7 +583,7 @@ msgstr "至容器"
 msgid "&Location"
 msgstr "職業："
 
-#: plugins/_core/core.cpp:1274 rc.cpp:220 rc.cpp:574 rc.cpp:742 rc.cpp:1859 rc.cpp:2260
+#: plugins/_core/core.cpp:1274 plugins/icq/aiminfobase.cc:274 plugins/icq/icqinfobase.cc:321 plugins/jabber/jabberinfobase.cpp:257 plugins/msn/msninfobase.cpp:136 plugins/yahoo/yahooinfobase.cpp:161 rc.cpp:285 rc.cpp:1410 rc.cpp:2179 rc.cpp:2219 rc.cpp:2375
 #, fuzzy, no-c-format
 msgid "&Status"
 msgstr "狀態"
@@ -513,11 +612,11 @@ msgstr "忙碌中"
 msgid "Decline file without reason"
 msgstr "無理由拒絕檔案"
 
-#: plugins/_core/core.cpp:1327 plugins/_core/core.cpp:3370
+#: plugins/_core/core.cpp:1327 plugins/_core/core.cpp:3375
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr "抱歉，我現在正忙碌中，無法回應您的請求。"
 
-#: plugins/_core/core.cpp:1332 plugins/_core/core.cpp:3379
+#: plugins/_core/core.cpp:1332 plugins/_core/core.cpp:3384
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
 msgstr "抱歉，我現在正忙碌中，但我可隨後回應您。"
 
@@ -525,7 +624,7 @@ msgstr "抱歉，我現在正忙碌中，但我可隨後回應您。"
 msgid "Enter a decline reason"
 msgstr "輸入一個拒絕的理由"
 
-#: plugins/_core/core.cpp:1342 plugins/_core/core.cpp:1356 plugins/netmonitor/monitor.cpp:74 rc.cpp:1579 rc.cpp:1603 rc.cpp:1914
+#: plugins/_core/core.cpp:1342 plugins/_core/core.cpp:1356 plugins/_core/maininfobase.cpp:194 plugins/_core/maininfobase.cpp:204 plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:74 rc.cpp:1145 rc.cpp:1169 rc.cpp:1645
 #, no-c-format
 msgid "&Edit"
 msgstr ""
@@ -545,7 +644,7 @@ msgstr "正在傳送"
 msgid "Add to &group"
 msgstr "新增群組"
 
-#: plugins/_core/core.cpp:1427 plugins/jabber/discoinfo.cpp:179 rc.cpp:1555 rc.cpp:2144 rc.cpp:2184
+#: plugins/_core/core.cpp:1427 plugins/_core/maininfobase.cpp:191 plugins/jabber/discoinfo.cpp:165 plugins/jabber/discoinfobase.cpp:270 plugins/jabber/discoinfobase.cpp:287 rc.cpp:331 rc.cpp:371 rc.cpp:1121
 #, no-c-format
 msgid "&Info"
 msgstr ""
@@ -555,144 +654,154 @@ msgstr ""
 msgid "Send &message"
 msgstr "自動回應訊息"
 
-#: plugins/_core/core.cpp:1665
+#: plugins/_core/core.cpp:1672
 #, fuzzy
 msgid "ip-address"
 msgstr "地址："
 
-#: plugins/_core/core.cpp:1667
+#: plugins/_core/core.cpp:1674
 #, fuzzy
 msgid "e-mail"
 msgstr "Email"
 
-#: plugins/_core/core.cpp:1669
+#: plugins/_core/core.cpp:1676
 #, fuzzy
 msgid "phone"
 msgstr "電話："
 
-#: plugins/_core/core.cpp:1671
+#: plugins/_core/core.cpp:1678
 #, fuzzy
 msgid "contact nick"
 msgstr "連絡名單"
 
-#: plugins/_core/core.cpp:1673
+#: plugins/_core/core.cpp:1680
 msgid "number of unread messages from this contact"
 msgstr ""
 
-#: plugins/_core/core.cpp:1675
+#: plugins/_core/core.cpp:1682
 #, fuzzy
 msgid "contact status"
 msgstr "連絡名單"
 
-#: plugins/_core/core.cpp:1677
+#: plugins/_core/core.cpp:1684
 msgid "time of set status"
 msgstr ""
 
-#: plugins/_core/core.cpp:1679
+#: plugins/_core/core.cpp:1686
 msgid "time from set status"
 msgstr ""
 
-#: plugins/_core/core.cpp:1684
+#: plugins/_core/core.cpp:1691
 #, fuzzy
 msgid ""
 "_: male\n"
 "%1 wrote:"
 msgstr "已經上線"
 
-#: plugins/_core/core.cpp:1685
+#: plugins/_core/core.cpp:1692
 #, fuzzy
 msgid ""
 "_: female\n"
 "%1 wrote:"
 msgstr "已經上線"
 
-#: plugins/_core/core.cpp:1722 plugins/_core/status.cpp:351 sim/qt3/i18n.cpp:21
+#: plugins/_core/core.cpp:1729 plugins/_core/status.cpp:351
 #, fuzzy
 msgid "OK"
 msgstr "確定(&O)"
 
-#: plugins/_core/core.cpp:1725
+#: plugins/_core/core.cpp:1732
 msgid ""
 "At loading contact list contacts with identical names were automatically joined.\n"
 "If it is wrong, you can separate them. For this purpose in contact menu choose the necessary name and choose a command \"Separate\"."
 msgstr ""
 
-#: plugins/_core/core.cpp:1728
+#: plugins/_core/core.cpp:1735
 #, fuzzy
 msgid "Don't show this message in next time"
 msgstr "不顯示訊息對話盒"
 
-#: plugins/_core/core.cpp:1755
+#: plugins/_core/core.cpp:1762
 msgid "`<command>` - call <command> and substitute command output\n"
 msgstr ""
 
-#: plugins/_core/core.cpp:2301 plugins/_core/interfacecfg.cpp:101
+#: plugins/_core/core.cpp:2308 plugins/_core/interfacecfg.cpp:101
 msgid "System"
 msgstr ""
 
-#: plugins/_core/core.cpp:2438
+#: plugins/_core/core.cpp:2445
 #, fuzzy
 msgid "&Separate"
 msgstr "更新"
 
-#: plugins/_core/core.cpp:2476 plugins/_core/userwnd.cpp:134
+#: plugins/_core/core.cpp:2483 plugins/_core/userwnd.cpp:134
 #, fuzzy, c-format
 msgid "from %1"
 msgstr "列 1"
 
-#: plugins/_core/core.cpp:2670 rc.cpp:1686
+#: plugins/_core/core.cpp:2677 plugins/icons/iconcfgbase.cpp:77 rc.cpp:1630
 #, fuzzy, no-c-format
 msgid "&New"
 msgstr "新增"
 
-#: plugins/_core/core.cpp:2744
+#: plugins/_core/core.cpp:2751
 #, fuzzy
 msgid "Not available"
 msgstr "存在"
 
-#: plugins/_core/core.cpp:2843 plugins/dock/dockwnd.cpp:1368 plugins/msn/msnpacket.cpp:490 plugins/osd/osd.cpp:551
+#: plugins/_core/core.cpp:2848 plugins/dock/dockwnd.cpp:1373 plugins/msn/msnpacket.cpp:490 plugins/osd/osd.cpp:552
 msgid "%1 from %2"
 msgstr ""
 
-#: plugins/_core/core.cpp:3141
+#: plugins/_core/core.cpp:3146
 #, fuzzy
 msgid "Send SMS"
 msgstr "傳送(&S)"
 
-#: plugins/_core/core.cpp:4177 plugins/_core/core.cpp:4199 rc.cpp:1399
+#: plugins/_core/core.cpp:4182 plugins/_core/core.cpp:4204 plugins/_core/managerbase.cpp:103 rc.cpp:1241
 #, fuzzy, no-c-format
 msgid "Connection manager"
 msgstr "正在連線"
 
-#: plugins/_core/core.cpp:4185
+#: plugins/_core/core.cpp:4190
 #, fuzzy
 msgid "Show status panel"
 msgstr "電話狀態"
 
-#: plugins/_core/core.cpp:4192
+#: plugins/_core/core.cpp:4197
 #, fuzzy
 msgid "Connections"
 msgstr "連線"
 
-#: plugins/_core/core.cpp:4207
+#: plugins/_core/core.cpp:4212
 #, fuzzy
 msgid "Change profile"
 msgstr "傳送失敗"
 
-#: plugins/_core/core.cpp:4236
+#: plugins/_core/core.cpp:4241
 #, fuzzy
 msgid "Common status"
 msgstr "電話狀態"
 
-#: plugins/_core/core.cpp:4242
+#: plugins/_core/core.cpp:4247
 #, fuzzy
 msgid "Configure client"
 msgstr "ICQ客戶端"
 
-#: plugins/_core/core.cpp:4266 plugins/_core/status.cpp:145 plugins/_core/status.cpp:233
+#: plugins/_core/core.cpp:4271 plugins/_core/status.cpp:145 plugins/_core/status.cpp:233
 #, fuzzy
 msgid "&Invisible"
 msgstr "隱形"
+
+#: plugins/_core/declinedlgbase.cpp:80 rc.cpp:755
+#, no-c-format
+msgid "Decline reason"
+msgstr "拒絕理由"
+
+#: plugins/_core/declinedlgbase.cpp:81 rc.cpp:758
+#, fuzzy, no-c-format
+msgid "Enter decline reason:"
+msgstr "輸入一個拒絕的理由"
 
 #: plugins/_core/editmail.cpp:31
 #, fuzzy
@@ -704,6 +813,21 @@ msgstr "電郵位址："
 msgid "Edit mail address"
 msgstr "輸入電郵位址："
 
+#: plugins/_core/editmailbase.cpp:94 rc.cpp:808
+#, fuzzy, no-c-format
+msgid "EditMail"
+msgstr "編輯電郵"
+
+#: plugins/_core/editmailbase.cpp:95 rc.cpp:811
+#, no-c-format
+msgid "Enter Email address:"
+msgstr "輸入電郵位址："
+
+#: plugins/_core/editmailbase.cpp:96 plugins/_core/editphonebase.cpp:111 rc.cpp:814 rc.cpp:1006
+#, fuzzy, no-c-format
+msgid "&Publish"
+msgstr "公佈"
+
 #: plugins/_core/editphone.cpp:38
 #, fuzzy
 msgid "Add phone number"
@@ -713,6 +837,51 @@ msgstr "新增電話"
 #, fuzzy
 msgid "Edit phone number"
 msgstr "新增電話"
+
+#: plugins/_core/editphonebase.cpp:108 rc.cpp:997
+#, fuzzy, no-c-format
+msgid "EditPhone"
+msgstr "電話："
+
+#: plugins/_core/editphonebase.cpp:109 rc.cpp:1000
+#, no-c-format
+msgid "Number details:"
+msgstr "數字細項："
+
+#: plugins/_core/editphonebase.cpp:110 plugins/jabber/discoinfobase.cpp:268 rc.cpp:340 rc.cpp:1003
+#, no-c-format
+msgid "Type:"
+msgstr "種類："
+
+#: plugins/_core/filecfgbase.cpp:87 rc.cpp:979
+#, no-c-format
+msgid "Path for incoming files:"
+msgstr "接收檔案的路徑："
+
+#: plugins/_core/filecfgbase.cpp:88 rc.cpp:982
+#, no-c-format
+msgid "Accept mode"
+msgstr "接受模式"
+
+#: plugins/_core/filecfgbase.cpp:89 rc.cpp:985
+#, no-c-format
+msgid "Show response"
+msgstr "顯示反應"
+
+#: plugins/_core/filecfgbase.cpp:90 rc.cpp:988
+#, no-c-format
+msgid "Auto accept"
+msgstr "自動接受"
+
+#: plugins/_core/filecfgbase.cpp:91 rc.cpp:991
+#, no-c-format
+msgid "Overwrite files"
+msgstr "覆蓋檔案"
+
+#: plugins/_core/filecfgbase.cpp:92 rc.cpp:994
+#, no-c-format
+msgid "Auto decline"
+msgstr "自動拒絕"
 
 #: plugins/_core/filetransfer.cpp:91
 #, c-format
@@ -809,6 +978,36 @@ msgstr ""
 msgid "b/s"
 msgstr ""
 
+#: plugins/_core/filetransferbase.cpp:131 rc.cpp:1219
+#, no-c-format
+msgid "File transfer"
+msgstr "檔案傳送"
+
+#: plugins/_core/filetransferbase.cpp:133 rc.cpp:1223
+#, fuzzy, no-c-format
+msgid "Time:"
+msgstr "時區："
+
+#: plugins/_core/filetransferbase.cpp:134 rc.cpp:1226
+#, fuzzy, no-c-format
+msgid "Estimated time:"
+msgstr "自動回應訊息"
+
+#: plugins/_core/filetransferbase.cpp:135 rc.cpp:1229
+#, fuzzy, no-c-format
+msgid "Speed:"
+msgstr "Штат"
+
+#: plugins/_core/filetransferbase.cpp:136 rc.cpp:1232
+#, no-c-format
+msgid "&Go to dir"
+msgstr ""
+
+#: plugins/_core/filetransferbase.cpp:137 rc.cpp:1235
+#, fuzzy, no-c-format
+msgid "Close after &transfer"
+msgstr "傳送後關閉(&L)"
+
 #: plugins/_core/historycfg.cpp:195
 msgid "Show %1 messages per page"
 msgstr ""
@@ -829,10 +1028,65 @@ msgstr ""
 msgid "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> message"
 msgstr ""
 
-#: plugins/_core/historycfg.cpp:675 rc.cpp:1125
+#: plugins/_core/historycfg.cpp:675 plugins/_core/msgcfgbase.cpp:86 rc.cpp:702
 #, fuzzy, no-c-format
 msgid "New message"
 msgstr "自動回應訊息"
+
+#: plugins/_core/historycfgbase.cpp:167 rc.cpp:864
+#, no-c-format
+msgid "Use &own colors and fonts settings"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:168 rc.cpp:867
+#, no-c-format
+msgid "Use emotional &icons"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:169 plugins/_core/userhistorycfgbase.cpp:94 rc.cpp:745 rc.cpp:870
+#, no-c-format
+msgid "Max history file size"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:171 plugins/_core/userhistorycfgbase.cpp:92 rc.cpp:741 rc.cpp:874
+#, no-c-format
+msgid "Mb"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:173 plugins/_core/userhistorycfgbase.cpp:96 rc.cpp:751 rc.cpp:878
+#, fuzzy, no-c-format
+msgid "Keep history "
+msgstr "Штат"
+
+#: plugins/_core/historycfgbase.cpp:174 plugins/_core/userhistorycfgbase.cpp:95 rc.cpp:748 rc.cpp:881
+#, no-c-format
+msgid "days"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:180 rc.cpp:894
+#, fuzzy, no-c-format
+msgid "100"
+msgstr "100000"
+
+#: plugins/_core/historycfgbase.cpp:181 rc.cpp:897
+#, no-c-format
+msgid "50"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:182 rc.cpp:900
+#, no-c-format
+msgid "20"
+msgstr ""
+
+#: plugins/_core/historycfgbase.cpp:184 rc.cpp:904
+#, fuzzy, no-c-format
+msgid "&Preview"
+msgstr "提供者："
+
+#: plugins/_core/historycfgbase.cpp:185 rc.cpp:907
+#, fuzzy, no-c-format
+msgid "&Source"
+msgstr "埠："
 
 #: plugins/_core/historywnd.cpp:59
 #, fuzzy
@@ -847,7 +1101,7 @@ msgstr "歷程"
 msgid "Textfile (*.txt)"
 msgstr ""
 
-#: plugins/_core/historywnd.cpp:193 plugins/_core/historywnd.cpp:213 plugins/_core/status.cpp:131 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:96 plugins/windock/windock.cpp:187 sim/qt3/i18n.cpp:141
+#: plugins/_core/historywnd.cpp:193 plugins/_core/historywnd.cpp:213 plugins/_core/status.cpp:131 plugins/_core/statuswnd.cpp:97 plugins/jabber/jabbermessage.cpp:109 plugins/jabber/jabbermessage.cpp:228 plugins/logger/logconfig.cpp:92 plugins/netmonitor/monitor.cpp:96 plugins/windock/windock.cpp:187
 #, fuzzy
 msgid "Error"
 msgstr "刪除"
@@ -987,6 +1241,61 @@ msgstr "SMS"
 msgid "Copy %1 messages from history"
 msgstr ""
 
+#: plugins/_core/interfacecfgbase.cpp:123 plugins/icq/advsearchbase.cc:247 plugins/spell/spellcfgbase.cpp:86 rc.cpp:539 rc.cpp:826 rc.cpp:2308
+#, no-c-format
+msgid "Language:"
+msgstr "語言："
+
+#: plugins/_core/interfacecfgbase.cpp:124 rc.cpp:829
+#, fuzzy, no-c-format
+msgid "Message window"
+msgstr "訊息已送出"
+
+#: plugins/_core/interfacecfgbase.cpp:125 rc.cpp:832
+#, no-c-format
+msgid "&Simple mode"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:126 rc.cpp:835
+#, fuzzy, no-c-format
+msgid "&Chat mode"
+msgstr "狀態模式"
+
+#: plugins/_core/interfacecfgbase.cpp:127 rc.cpp:838
+#, no-c-format
+msgid "&Using last selected font"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:128 rc.cpp:841
+#, fuzzy, no-c-format
+msgid "Container mode"
+msgstr "至容器"
+
+#: plugins/_core/interfacecfgbase.cpp:129 rc.cpp:844
+#, no-c-format
+msgid "Open each contact in &new container"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:130 rc.cpp:847
+#, no-c-format
+msgid "Open one container for &group"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:131 rc.cpp:850
+#, no-c-format
+msgid "Open all contacts in &one container"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:132 rc.cpp:853
+#, no-c-format
+msgid "Use \"&Enter\" for send message"
+msgstr ""
+
+#: plugins/_core/interfacecfgbase.cpp:135 rc.cpp:858
+#, no-c-format
+msgid "Start SIM on every &windows startup"
+msgstr ""
+
 #: plugins/_core/logindlg.cpp:57
 #, fuzzy
 msgid "Select profile"
@@ -996,7 +1305,7 @@ msgstr "選擇風格："
 msgid "Other instance of SIM use this profile"
 msgstr ""
 
-#: plugins/_core/logindlg.cpp:295 rc.cpp:432 rc.cpp:602 rc.cpp:700 rc.cpp:966 rc.cpp:1723 rc.cpp:1793 rc.cpp:2013
+#: plugins/_core/logindlg.cpp:295 plugins/icq/aimconfigbase.cc:145 plugins/icq/icqconfigbase.cc:263 plugins/jabber/jabberconfigbase.cpp:305 plugins/livejournal/livejournalcfgbase.cpp:160 plugins/msn/msnconfigbase.cpp:170 plugins/proxy/proxycfgbase.cpp:135 plugins/yahoo/yahoocfgbase.cpp:176 rc.cpp:70 rc.cpp:130 rc.cpp:1309 rc.cpp:1429 rc.cpp:2001 rc.cpp:2031 rc.cpp:2394
 #, no-c-format
 msgid "Password:"
 msgstr "密碼："
@@ -1006,10 +1315,35 @@ msgstr "密碼："
 msgid "New profile"
 msgstr "傳送失敗"
 
-#: plugins/_core/logindlg.cpp:477 plugins/jabber/jabberclient.cpp:963 plugins/livejournal/livejournal.cpp:933 plugins/msn/msnclient.cpp:819 plugins/yahoo/yahooclient.cpp:358 plugins/yahoo/yahooclient.cpp:369
+#: plugins/_core/logindlg.cpp:477 plugins/jabber/jabberclient.cpp:983 plugins/livejournal/livejournal.cpp:933 plugins/msn/msnclient.cpp:819 plugins/yahoo/yahooclient.cpp:358 plugins/yahoo/yahooclient.cpp:369
 #, fuzzy
 msgid "Login failed"
 msgstr "正在接受的檔案"
+
+#: plugins/_core/logindlgbase.cpp:124 rc.cpp:1274
+#, no-c-format
+msgid "Login"
+msgstr "登入"
+
+#: plugins/_core/logindlgbase.cpp:126 rc.cpp:1278
+#, fuzzy, no-c-format
+msgid "Passwords:"
+msgstr "密碼："
+
+#: plugins/_core/logindlgbase.cpp:128 rc.cpp:1282
+#, fuzzy, no-c-format
+msgid "Profile:"
+msgstr "提供者："
+
+#: plugins/_core/logindlgbase.cpp:130 rc.cpp:1288
+#, fuzzy, no-c-format
+msgid "&Save password"
+msgstr "變更密碼"
+
+#: plugins/_core/logindlgbase.cpp:131 rc.cpp:1291
+#, fuzzy, no-c-format
+msgid "&Do not show this window on startup"
+msgstr "不顯示此對話盒"
 
 #: plugins/_core/maininfo.cpp:47
 #, fuzzy
@@ -1039,12 +1373,12 @@ msgstr ""
 msgid "Wireless Pager"
 msgstr ""
 
-#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:128 plugins/jabber/jabbersearch.cpp:103 rc.cpp:736
+#: plugins/_core/maininfo.cpp:71 plugins/filter/ignorelist.cpp:28 plugins/icq/icqsecure.cpp:128 plugins/jabber/jabbersearch.cpp:103 plugins/msn/msninfobase.cpp:130 rc.cpp:1404
 #, fuzzy, no-c-format
 msgid "EMail"
 msgstr "Email"
 
-#: plugins/_core/maininfo.cpp:72 sim/qt3/i18n.cpp:43
+#: plugins/_core/maininfo.cpp:72
 msgid "Type"
 msgstr "類型"
 
@@ -1084,10 +1418,136 @@ msgstr "使用者目前在："
 msgid "Yes"
 msgstr "確定(&Y)"
 
-#: plugins/_core/msgcfg.cpp:38 plugins/sound/sounduser.cpp:38 sim/qt3/i18n.cpp:83
+#: plugins/_core/maininfobase.cpp:187 plugins/_core/nonimbase.cpp:95 plugins/icq/aiminfobase.cc:256 plugins/icq/icqinfobase.cc:312 plugins/jabber/discoinfobase.cpp:283 plugins/jabber/jabberinfobase.cpp:246 plugins/yahoo/yahooinfobase.cpp:155 rc.cpp:272 rc.cpp:383 rc.cpp:1124 rc.cpp:1204 rc.cpp:2146 rc.cpp:2213 rc.cpp:2369
+#, fuzzy, no-c-format
+msgid "First Name:"
+msgstr "姓名："
+
+#: plugins/_core/maininfobase.cpp:188 plugins/_core/nonimbase.cpp:96 plugins/icq/aiminfobase.cc:257 plugins/icq/icqinfobase.cc:309 plugins/yahoo/yahooinfobase.cpp:156 rc.cpp:1127 rc.cpp:1207 rc.cpp:2149 rc.cpp:2204 rc.cpp:2372
+#, no-c-format
+msgid "Last Name:"
+msgstr "姓氏："
+
+#: plugins/_core/maininfobase.cpp:189 rc.cpp:1130
+#, no-c-format
+msgid "Display:"
+msgstr "顯示："
+
+#: plugins/_core/maininfobase.cpp:190 rc.cpp:1133
+#, fuzzy, no-c-format
+msgid "Encoding:"
+msgstr "正在傳送"
+
+#: plugins/_core/maininfobase.cpp:192 rc.cpp:1139
+#, no-c-format
+msgid "Email addresses:"
+msgstr "電郵位址："
+
+#: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203 plugins/_core/search.cpp:134 plugins/action/menucfgbase.cpp:68 rc.cpp:1142 rc.cpp:1166 rc.cpp:1642
+#, no-c-format
+msgid "&Add"
+msgstr "新增(&A)"
+
+#: plugins/_core/maininfobase.cpp:196 rc.cpp:1151
+#, no-c-format
+msgid ""
+"Note:\n"
+"You can change only those addresses which have entered.\n"
+"It is impossible to change addresses which were received from the user."
+msgstr ""
+
+#: plugins/_core/maininfobase.cpp:199 rc.cpp:1136
+#, fuzzy, no-c-format
+msgid "&Mails"
+msgstr "Email"
+
+#: plugins/_core/maininfobase.cpp:200 rc.cpp:1159
+#, fuzzy, no-c-format
+msgid "Phones:"
+msgstr "電話："
+
+#: plugins/_core/maininfobase.cpp:202 rc.cpp:1163
+#, fuzzy, no-c-format
+msgid "Phone Status:"
+msgstr "電話："
+
+#: plugins/_core/maininfobase.cpp:206 rc.cpp:1175
+#, no-c-format
+msgid ""
+"Note:\n"
+"You can change only those numbers which have entered.\n"
+"It is impossible to change numbers which were received from the user."
+msgstr ""
+
+#: plugins/_core/maininfobase.cpp:209 rc.cpp:1156
+#, fuzzy, no-c-format
+msgid "&Phones"
+msgstr "電話："
+
+#: plugins/_core/maininfobase.cpp:210 rc.cpp:1180
+#, fuzzy, no-c-format
+msgid "&Notes"
+msgstr "筆記"
+
+#: plugins/_core/managerbase.cpp:46 plugins/_core/managerbase.cpp:106 rc.cpp:1250
+#, no-c-format
+msgid "Connection"
+msgstr "連線"
+
+#: plugins/_core/managerbase.cpp:104 rc.cpp:1244
+#, fuzzy, no-c-format
+msgid "&Configure"
+msgstr "ICQ客戶端"
+
+#: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132 plugins/icons/iconcfgbase.cpp:74 rc.cpp:961 rc.cpp:1247 rc.cpp:1621
+#, fuzzy, no-c-format
+msgid "&Up"
+msgstr "向上"
+
+#: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133 plugins/icons/iconcfgbase.cpp:75 rc.cpp:964 rc.cpp:1253 rc.cpp:1624
+#, fuzzy, no-c-format
+msgid "&Down"
+msgstr "向下"
+
+#: plugins/_core/managerbase.cpp:108 plugins/icons/iconcfgbase.cpp:76 rc.cpp:1256 rc.cpp:1627
+#, fuzzy, no-c-format
+msgid "&Remove"
+msgstr "更名"
+
+#: plugins/_core/managerbase.cpp:109 rc.cpp:1259
+#, fuzzy, no-c-format
+msgid "&New connection"
+msgstr "連線"
+
+#: plugins/_core/msgcfg.cpp:38 plugins/sound/sounduser.cpp:38
 #, fuzzy
 msgid "File"
 msgstr "檔案："
+
+#: plugins/_core/msgcfgbase.cpp:84 rc.cpp:696
+#, no-c-format
+msgid "Save &status changes to history"
+msgstr ""
+
+#: plugins/_core/msgcfgbase.cpp:85 rc.cpp:699
+#, fuzzy, no-c-format
+msgid "Open window if user go online"
+msgstr "當上線時開啟使用者視窗"
+
+#: plugins/_core/msgcfgbase.cpp:87 rc.cpp:705
+#, fuzzy, no-c-format
+msgid "&No open"
+msgstr "新群組"
+
+#: plugins/_core/msgcfgbase.cpp:88 rc.cpp:708
+#, no-c-format
+msgid "Open and &minimize"
+msgstr ""
+
+#: plugins/_core/msgcfgbase.cpp:89 rc.cpp:711
+#, no-c-format
+msgid "Open and &raise"
+msgstr ""
 
 #: plugins/_core/msgedit.cpp:431
 #, fuzzy, c-format
@@ -1184,7 +1644,7 @@ msgid ""
 "%n times status changed"
 msgstr "使用者資訊"
 
-#: plugins/_core/msgedit.cpp:927 sim/qt3/i18n.cpp:23
+#: plugins/_core/msgedit.cpp:927
 #, fuzzy
 msgid "Cancel"
 msgstr "劃線"
@@ -1256,7 +1716,97 @@ msgstr "訊息已送出"
 msgid "Save phone in contact list"
 msgstr "新增至連絡名單"
 
-#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:297 plugins/_core/search.cpp:629 rc.cpp:1513
+#: plugins/_core/newprotocolbase.cpp:67 rc.cpp:1015
+#, fuzzy, no-c-format
+msgid "New connection"
+msgstr "連線"
+
+#: plugins/_core/newprotocolbase.cpp:68 rc.cpp:1021
+#, no-c-format
+msgid "Protocol:"
+msgstr ""
+
+#: plugins/_core/newprotocolbase.cpp:69 rc.cpp:1018
+#, fuzzy, no-c-format
+msgid "Select protocol"
+msgstr "文字顏色"
+
+#: plugins/_core/nonimbase.cpp:93 plugins/_core/pagerbase.cpp:87 plugins/_core/userviewcfgbase.cpp:252 plugins/filter/ignorelistbase.cpp:54 plugins/icq/interestsinfobase.cc:108 plugins/icq/workinfobase.cc:178 plugins/jabber/jabberhomeinfobase.cpp:104 plugins/msn/msnconfigbase.cpp:168 plugins/osd/osdifacebase.cpp:128 plugins/yahoo/yahoocfgbase.cpp:174 rc.cpp:106 rc.cpp:584 rc.cpp:623 rc.cpp:910 rc.cpp:1040 rc.cpp:1198 rc.cpp:1420 rc.cpp:1905 rc.cpp:2250 rc.cpp:2385
+#, no-c-format
+msgid "Form2"
+msgstr "表格2"
+
+#: plugins/_core/nonimbase.cpp:94 plugins/_core/search.cpp:218 rc.cpp:1201
+#, fuzzy, no-c-format
+msgid "Non-IM contact"
+msgstr "新增非IM連絡人"
+
+#: plugins/_core/nonimbase.cpp:97 plugins/jabber/jabberaddbase.cpp:99 rc.cpp:257 rc.cpp:1210
+#, no-c-format
+msgid "Nickname:"
+msgstr "暱稱："
+
+#: plugins/_core/nonimbase.cpp:98 rc.cpp:1213
+#, fuzzy, no-c-format
+msgid "E-Mail address:"
+msgstr "電郵位址："
+
+#: plugins/_core/nonimbase.cpp:99 plugins/jabber/discoinfobase.cpp:286 rc.cpp:390 rc.cpp:1216
+#, fuzzy, no-c-format
+msgid "Phone:"
+msgstr "電話："
+
+#: plugins/_core/pagerbase.cpp:88 rc.cpp:913
+#, fuzzy, no-c-format
+msgid "Provider:"
+msgstr "提供者："
+
+#: plugins/_core/pagerbase.cpp:89 rc.cpp:916
+#, no-c-format
+msgid "Email gateway:"
+msgstr "電郵閘道："
+
+#: plugins/_core/pagerbase.cpp:90 plugins/_core/phonebase.cpp:117 rc.cpp:726 rc.cpp:919
+#, no-c-format
+msgid "Number:"
+msgstr "數字："
+
+#: plugins/_core/phonebase.cpp:114 rc.cpp:717
+#, no-c-format
+msgid "Area code:"
+msgstr "區域碼："
+
+#: plugins/_core/phonebase.cpp:115 rc.cpp:720
+#, no-c-format
+msgid "Extension:"
+msgstr "延伸："
+
+#: plugins/_core/phonebase.cpp:116 plugins/_core/phonebase.cpp:118 plugins/_core/phonebase.cpp:120 plugins/icq/icqconfigbase.cc:272 plugins/jabber/jabberconfigbase.cpp:314 plugins/msn/msnconfigbase.cpp:175 plugins/yahoo/yahoocfgbase.cpp:183 rc.cpp:157 rc.cpp:723 rc.cpp:729 rc.cpp:735 rc.cpp:1444 rc.cpp:2058 rc.cpp:2415
+#, no-c-format
+msgid "-"
+msgstr "-"
+
+#: plugins/_core/phonebase.cpp:119 plugins/icq/advsearchbase.cc:250 plugins/icq/aiminfobase.cc:265 plugins/icq/aimsearchbase.cc:169 plugins/icq/homeinfobase.cc:146 plugins/icq/workinfobase.cc:183 plugins/jabber/jabberhomeinfobase.cpp:107 rc.cpp:115 rc.cpp:732 rc.cpp:1866 rc.cpp:1893 rc.cpp:1923 rc.cpp:2173 rc.cpp:2317
+#, no-c-format
+msgid "Country:"
+msgstr "國家："
+
+#: plugins/_core/plugincfgbase.cpp:70 rc.cpp:685
+#, no-c-format
+msgid "PluginCfgBaseForm"
+msgstr ""
+
+#: plugins/_core/plugincfgbase.cpp:71 rc.cpp:689
+#, no-c-format
+msgid "Plugin &enabled"
+msgstr ""
+
+#: plugins/_core/prefcfgbase.cpp:65 rc.cpp:665
+#, no-c-format
+msgid "PrefConfigBaseForm"
+msgstr ""
+
+#: plugins/_core/search.cpp:47 plugins/_core/search.cpp:297 plugins/_core/search.cpp:629 plugins/_core/searchbase.cpp:95 rc.cpp:672
 #, no-c-format
 msgid "Search"
 msgstr "搜尋"
@@ -1266,12 +1816,7 @@ msgstr "搜尋"
 msgid "Results"
 msgstr "選擇風格："
 
-#: plugins/_core/search.cpp:134 rc.cpp:1576 rc.cpp:1600 rc.cpp:1911
-#, no-c-format
-msgid "&Add"
-msgstr "新增(&A)"
-
-#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:279 plugins/weather/weathercfg.cpp:70 plugins/weather/weathercfg.cpp:91 rc.cpp:2381
+#: plugins/_core/search.cpp:137 plugins/jabber/jabber.cpp:279 plugins/weather/weathercfg.cpp:70 plugins/weather/weathercfg.cpp:91 plugins/weather/weathercfgbase.cpp:111 rc.cpp:1501
 #, fuzzy, no-c-format
 msgid "&Search"
 msgstr "搜尋"
@@ -1280,11 +1825,6 @@ msgstr "搜尋"
 #, fuzzy
 msgid "All networks"
 msgstr "網路"
-
-#: plugins/_core/search.cpp:218 rc.cpp:1467
-#, fuzzy, no-c-format
-msgid "Non-IM contact"
-msgstr "新增非IM連絡人"
 
 #: plugins/_core/search.cpp:294
 #, fuzzy
@@ -1307,14 +1847,64 @@ msgid ""
 "%n contacts found"
 msgstr "新增至連絡名單"
 
+#: plugins/_core/searchallbase.cpp:83 plugins/icq/aboutinfobase.cc:65 plugins/jabber/jabberaboutinfobase.cpp:56 rc.cpp:413 rc.cpp:922 rc.cpp:1833
+#, no-c-format
+msgid "Form4"
+msgstr "表格4"
+
+#: plugins/_core/searchallbase.cpp:84 plugins/icq/icqsearchbase.cc:128 plugins/jabber/jabberaddbase.cpp:95 rc.cpp:245 rc.cpp:925 rc.cpp:1968
+#, fuzzy, no-c-format
+msgid "&E-Mail"
+msgstr "Email"
+
+#: plugins/_core/searchallbase.cpp:85 plugins/icq/icqsearchbase.cc:129 plugins/jabber/jabberaddbase.cpp:96 plugins/yahoo/yahoosearchbase.cpp:99 rc.cpp:248 rc.cpp:928 rc.cpp:1971 rc.cpp:2427
+#, fuzzy, no-c-format
+msgid "&Name"
+msgstr "名稱"
+
+#: plugins/_core/searchallbase.cpp:86 plugins/icq/aimsearchbase.cc:163 plugins/icq/icqsearchbase.cc:130 plugins/jabber/jabberaddbase.cpp:97 rc.cpp:251 rc.cpp:931 rc.cpp:1848 rc.cpp:1974
+#, fuzzy, no-c-format
+msgid "First:"
+msgstr "姓名："
+
+#: plugins/_core/searchallbase.cpp:87 plugins/icq/aimsearchbase.cc:164 plugins/icq/icqsearchbase.cc:131 plugins/jabber/jabberaddbase.cpp:98 rc.cpp:254 rc.cpp:934 rc.cpp:1851 rc.cpp:1977
+#, fuzzy, no-c-format
+msgid "Last:"
+msgstr "主機："
+
+#: plugins/_core/searchallbase.cpp:88 plugins/icq/aiminfobase.cc:260 plugins/icq/aimsearchbase.cc:167 plugins/icq/icqinfobase.cc:311 plugins/icq/icqsearchbase.cc:132 plugins/jabber/discoinfobase.cpp:280 plugins/jabber/jabberinfobase.cpp:247 plugins/msn/msninfobase.cpp:131 plugins/yahoo/yahooinfobase.cpp:153 rc.cpp:275 rc.cpp:374 rc.cpp:937 rc.cpp:1407 rc.cpp:1860 rc.cpp:1980 rc.cpp:2158 rc.cpp:2210 rc.cpp:2363
+#, no-c-format
+msgid "Nick:"
+msgstr "暱稱："
+
+#: plugins/_core/searchbase.cpp:96 rc.cpp:675
+#, fuzzy, no-c-format
+msgid "&Add to list"
+msgstr "新增至忽略名單"
+
+#: plugins/_core/searchbase.cpp:98 rc.cpp:679
+#, fuzzy, no-c-format
+msgid "More &options"
+msgstr "連線"
+
+#: plugins/_core/searchbase.cpp:99 rc.cpp:682
+#, fuzzy, no-c-format
+msgid "&New search"
+msgstr "新的搜尋"
+
+#: plugins/_core/smscfgbase.cpp:65 rc.cpp:1112
+#, no-c-format
+msgid "Text before cursor:"
+msgstr ""
+
+#: plugins/_core/smscfgbase.cpp:66 rc.cpp:1115
+#, no-c-format
+msgid "Text after cursor:"
+msgstr ""
+
 #: plugins/_core/status.cpp:72 plugins/_core/statuswnd.cpp:88 plugins/dock/dock.cpp:183
 #, fuzzy
 msgid "Inactive"
-msgstr "連線"
-
-#: plugins/_core/status.cpp:99 plugins/_core/statuswnd.cpp:58 rc.cpp:1082
-#, fuzzy, no-c-format
-msgid "Connecting"
 msgstr "連線"
 
 #: plugins/_core/tmpl.cpp:227
@@ -1341,6 +1931,36 @@ msgstr "自定訊息"
 msgid "Separator"
 msgstr ""
 
+#: plugins/_core/toolsetupbase.cpp:123 rc.cpp:940
+#, no-c-format
+msgid "Toolbar setup"
+msgstr ""
+
+#: plugins/_core/toolsetupbase.cpp:124 rc.cpp:943
+#, no-c-format
+msgid "All buttons:"
+msgstr ""
+
+#: plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131 rc.cpp:946 rc.cpp:958
+#, no-c-format
+msgid "New Item"
+msgstr "新項目"
+
+#: plugins/_core/toolsetupbase.cpp:127 rc.cpp:949
+#, fuzzy, no-c-format
+msgid "&Add ->"
+msgstr "新增(&A)"
+
+#: plugins/_core/toolsetupbase.cpp:128 rc.cpp:952
+#, fuzzy, no-c-format
+msgid "<- &Remove"
+msgstr "更名"
+
+#: plugins/_core/toolsetupbase.cpp:129 rc.cpp:955
+#, fuzzy, no-c-format
+msgid "Active:"
+msgstr "連線"
+
 #: plugins/_core/usercfg.cpp:304
 #, fuzzy
 msgid "User info '%1'"
@@ -1366,12 +1986,12 @@ msgstr "使用者資訊"
 msgid "Settings"
 msgstr "正在傳送"
 
-#: plugins/_core/userlist.cpp:640 plugins/icq/icq.cpp:82 plugins/icq/icq.cpp:252 plugins/icq/icqclient.cpp:1464 plugins/icq/icqclient.cpp:1498 plugins/jabber/jabber.cpp:82 plugins/jabber/jabberclient.cpp:1349 plugins/livejournal/livejournal.cpp:299 plugins/msn/msn.cpp:82 plugins/msn/msnclient.cpp:1838 plugins/sms/sms.cpp:216 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1389 rc.cpp:767
+#: plugins/_core/userlist.cpp:640 plugins/icq/icq.cpp:82 plugins/icq/icq.cpp:252 plugins/icq/icqclient.cpp:1464 plugins/icq/icqclient.cpp:1498 plugins/jabber/jabber.cpp:82 plugins/jabber/jabberclient.cpp:1374 plugins/livejournal/livejournal.cpp:299 plugins/msn/msn.cpp:82 plugins/msn/msnclient.cpp:1838 plugins/osd/osdconfigbase.cpp:111 plugins/sms/sms.cpp:216 plugins/yahoo/yahoo.cpp:104 plugins/yahoo/yahooclient.cpp:1389 rc.cpp:551
 #, no-c-format
 msgid "Online"
 msgstr "上線"
 
-#: plugins/_core/userlist.cpp:643 plugins/icq/icq.cpp:172 plugins/icq/icq.cpp:282 plugins/icq/icqclient.cpp:1461 plugins/jabber/jabber.cpp:157 plugins/jabber/jabberclient.cpp:1304 plugins/livejournal/livejournal.cpp:314 plugins/msn/msn.cpp:187 plugins/sms/sms.cpp:231 plugins/yahoo/yahoo.cpp:164 rc.cpp:785 rc.cpp:1180
+#: plugins/_core/userlist.cpp:643 plugins/_core/userviewcfgbase.cpp:255 plugins/icq/icq.cpp:172 plugins/icq/icq.cpp:282 plugins/icq/icqclient.cpp:1461 plugins/jabber/jabber.cpp:157 plugins/jabber/jabberclient.cpp:1324 plugins/livejournal/livejournal.cpp:314 plugins/msn/msn.cpp:187 plugins/osd/osdconfigbase.cpp:117 plugins/sms/sms.cpp:231 plugins/yahoo/yahoo.cpp:164 rc.cpp:569 rc.cpp:1049
 #, no-c-format
 msgid "Offline"
 msgstr "離線"
@@ -1414,12 +2034,102 @@ msgstr "自動回應訊息"
 msgid "Contact name"
 msgstr "已傳送連絡名單"
 
+#: plugins/_core/userviewcfgbase.cpp:253 rc.cpp:1043
+#, fuzzy, no-c-format
+msgid "Groups"
+msgstr "群組"
+
+#: plugins/_core/userviewcfgbase.cpp:254 rc.cpp:1046
+#, fuzzy, no-c-format
+msgid "Do not distrub"
+msgstr "請勿干擾"
+
+#: plugins/_core/userviewcfgbase.cpp:256 plugins/icq/aiminfobase.cc:268 plugins/icq/icqinfobase.cc:316 plugins/jabber/jabberinfobase.cpp:255 plugins/msn/msninfobase.cpp:134 plugins/yahoo/yahooinfobase.cpp:159 rc.cpp:295 rc.cpp:1052 rc.cpp:1416 rc.cpp:2182 rc.cpp:2225 rc.cpp:2381
+#, fuzzy, no-c-format
+msgid "Online:"
+msgstr "上線"
+
+#: plugins/_core/userviewcfgbase.cpp:257 plugins/icq/icq.cpp:97 plugins/icq/icq.cpp:267 plugins/icq/icqclient.cpp:1467 plugins/jabber/jabber.cpp:97 plugins/msn/msn.cpp:97 plugins/osd/osdconfigbase.cpp:112 plugins/yahoo/yahoo.cpp:119 rc.cpp:554 rc.cpp:1055
+#, no-c-format
+msgid "Away"
+msgstr "離開"
+
+#: plugins/_core/userviewcfgbase.cpp:258 plugins/icq/icq.cpp:112 plugins/jabber/jabber.cpp:112 plugins/msn/msn.cpp:112 plugins/osd/osdconfigbase.cpp:113 plugins/yahoo/yahoo.cpp:134 rc.cpp:557 rc.cpp:1058
+#, no-c-format
+msgid "N/A"
+msgstr "N/A"
+
+#: plugins/_core/userviewcfgbase.cpp:259 rc.cpp:1061
+#, fuzzy, no-c-format
+msgid "Colors:"
+msgstr "Закрыть через"
+
+#: plugins/_core/userviewcfgbase.cpp:260 rc.cpp:1064
+#, fuzzy, no-c-format
+msgid "Use &double click"
+msgstr "使用者"
+
+#: plugins/_core/userviewcfgbase.cpp:261 plugins/styles/fontconfigbase.cpp:104 rc.cpp:97 rc.cpp:1067
+#, fuzzy, no-c-format
+msgid "Use system &colors"
+msgstr "使用系統字形"
+
+#: plugins/_core/userviewcfgbase.cpp:262 rc.cpp:1070
+#, fuzzy, no-c-format
+msgid "Use small &font for group"
+msgstr "使用者資訊"
+
+#: plugins/_core/userviewcfgbase.cpp:263 rc.cpp:1073
+#, no-c-format
+msgid "Show group &separator"
+msgstr ""
+
+#: plugins/_core/userviewcfgbase.cpp:264 rc.cpp:1076
+#, fuzzy, no-c-format
+msgid "Sorting"
+msgstr "埠："
+
+#: plugins/_core/userviewcfgbase.cpp:265 rc.cpp:1079
+#, fuzzy, no-c-format
+msgid "1st:"
+msgstr "主機："
+
+#: plugins/_core/userviewcfgbase.cpp:266 rc.cpp:1082
+#, fuzzy, no-c-format
+msgid "2nd:"
+msgstr "Uin:"
+
+#: plugins/_core/userviewcfgbase.cpp:267 rc.cpp:1085
+#, no-c-format
+msgid "3rd:"
+msgstr ""
+
+#: plugins/_core/userviewcfgbase.cpp:271 plugins/icq/icqclient.cpp:1448 rc.cpp:1091
+#, fuzzy, no-c-format
+msgid "Invisible"
+msgstr "隱形"
+
+#: plugins/_core/userviewcfgbase.cpp:275 rc.cpp:1097
+#, fuzzy, no-c-format
+msgid "Visible"
+msgstr "隱形"
+
+#: plugins/_core/userviewcfgbase.cpp:279 rc.cpp:1103
+#, fuzzy, no-c-format
+msgid "Awaiting authorization"
+msgstr "授權"
+
+#: plugins/_core/userviewcfgbase.cpp:280 rc.cpp:1106
+#, fuzzy, no-c-format
+msgid "No show scroller"
+msgstr "新群組"
+
 #: plugins/_core/userwnd.cpp:132
 #, fuzzy, c-format
 msgid "to %1"
 msgstr "列 1"
 
-#: plugins/about/about.cpp:38 rc.cpp:1658
+#: plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:118 rc.cpp:1602
 #, fuzzy, no-c-format
 msgid "About"
 msgstr "關於資訊"
@@ -1465,6 +2175,26 @@ msgstr ""
 #: plugins/about/aboutdlg.cpp:54
 msgid "Note: This is english mailing list"
 msgstr ""
+
+#: plugins/about/aboutdlgbase.cpp:117 rc.cpp:1599
+#, fuzzy, no-c-format
+msgid "About SIM"
+msgstr "關於資訊"
+
+#: plugins/about/aboutdlgbase.cpp:119 rc.cpp:1605
+#, fuzzy, no-c-format
+msgid "Authors"
+msgstr "自動回應"
+
+#: plugins/about/aboutdlgbase.cpp:120 rc.cpp:1608
+#, fuzzy, no-c-format
+msgid "Translation"
+msgstr "透明化"
+
+#: plugins/about/aboutdlgbase.cpp:121 rc.cpp:1611
+#, fuzzy, no-c-format
+msgid "License"
+msgstr "埠："
 
 #: plugins/action/action.cpp:33
 #, fuzzy
@@ -1515,6 +2245,21 @@ msgid ""
 "Thus it is possible to organize additional messages filters.\n"
 msgstr ""
 
+#: plugins/action/additembase.cpp:91 rc.cpp:1651
+#, fuzzy, no-c-format
+msgid "Add Item"
+msgstr "新項目"
+
+#: plugins/action/additembase.cpp:92 rc.cpp:1654
+#, fuzzy, no-c-format
+msgid "Item:"
+msgstr "新項目"
+
+#: plugins/action/additembase.cpp:93 rc.cpp:1657
+#, fuzzy, no-c-format
+msgid "Program:"
+msgstr "播放程式"
+
 #: plugins/action/menucfg.cpp:31
 #, fuzzy
 msgid "Item"
@@ -1528,6 +2273,41 @@ msgstr "離開"
 #: plugins/autoaway/autoaway.cpp:75
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
+
+#: plugins/autoaway/autoawaycfgbase.cpp:103 rc.cpp:452
+#, no-c-format
+msgid "Set \"Away\" status after"
+msgstr "設定\"離開\"狀態於"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:104 rc.cpp:455
+#, fuzzy, no-c-format
+msgid "minutes not using computer"
+msgstr "使用電腦的時間(分鐘)"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:105 rc.cpp:458
+#, no-c-format
+msgid "minutes of \"Away\""
+msgstr "\"離開\"的時間(分鐘)"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:106 rc.cpp:461
+#, fuzzy, no-c-format
+msgid "minutes of \"N/A\""
+msgstr "\"離開\"的時間(分鐘)"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:107 rc.cpp:464
+#, no-c-format
+msgid "Set \"N/A\" status after"
+msgstr "設定\"N/A\"狀態於"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:108 rc.cpp:467
+#, fuzzy, no-c-format
+msgid "Set \"Offline\" status after"
+msgstr "設定\"N/A\"狀態於"
+
+#: plugins/autoaway/autoawaycfgbase.cpp:109 rc.cpp:470
+#, no-c-format
+msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
+msgstr "關閉上線提示於\"離開\"，\"N/A\"，\"DND\"與\"佔用\"名單"
 
 #: plugins/background/background.cpp:34
 #, fuzzy
@@ -1584,6 +2364,26 @@ msgstr "Windows"
 msgid "Get more skins"
 msgstr ""
 
+#: plugins/background/bkgndcfgbase.cpp:114 rc.cpp:15
+#, fuzzy, no-c-format
+msgid "Group margin:"
+msgstr "群組"
+
+#: plugins/background/bkgndcfgbase.cpp:115 rc.cpp:18
+#, fuzzy, no-c-format
+msgid "Contact margin:"
+msgstr "連絡名單"
+
+#: plugins/background/bkgndcfgbase.cpp:116 rc.cpp:21
+#, fuzzy, no-c-format
+msgid "Main window background:"
+msgstr "Past背景："
+
+#: plugins/background/bkgndcfgbase.cpp:117 plugins/osd/osdifacebase.cpp:136 rc.cpp:24 rc.cpp:608
+#, no-c-format
+msgid "Place:"
+msgstr ""
+
 #: plugins/dock/dock.cpp:49
 #, fuzzy
 msgid "System tray"
@@ -1601,7 +2401,7 @@ msgstr ""
 msgid "Plugin provides dock icon"
 msgstr ""
 
-#: plugins/dock/dock.cpp:111 sim/sim.cpp:206
+#: plugins/dock/dock.cpp:111 sim/sim.cpp:205
 #, fuzzy
 msgid "SIM"
 msgstr "SMS"
@@ -1620,6 +2420,31 @@ msgstr "當上線時開啟使用者視窗"
 #, fuzzy
 msgid "Show main window"
 msgstr "當上線時開啟使用者視窗"
+
+#: plugins/dock/dockcfgbase.cpp:92 rc.cpp:30
+#, fuzzy, no-c-format
+msgid "Hide main window after"
+msgstr "當上線時開啟使用者視窗"
+
+#: plugins/dock/dockcfgbase.cpp:93 rc.cpp:33
+#, no-c-format
+msgid "seconds inactive"
+msgstr ""
+
+#: plugins/dock/dockcfgbase.cpp:94 rc.cpp:36
+#, fuzzy, no-c-format
+msgid "Show Mainwin on desktop"
+msgstr "當上線時開啟使用者視窗"
+
+#: plugins/dock/dockcfgbase.cpp:95 rc.cpp:39
+#, no-c-format
+msgid "current"
+msgstr ""
+
+#: plugins/dock/dockcfgbase.cpp:96 rc.cpp:42
+#, fuzzy, no-c-format
+msgid "&Customize dock menu"
+msgstr "自定訊息"
 
 #: plugins/filter/filter.cpp:37
 #, fuzzy
@@ -1649,7 +2474,32 @@ msgstr "忽略名單"
 msgid "Add %1 to ignore list?"
 msgstr "新增使用者 %1 至忽略名單嗎﹖"
 
-#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:127 plugins/jabber/discoinfo.cpp:63 plugins/jabber/jabberbrowser.cpp:114 sim/qt3/i18n.cpp:39
+#: plugins/filter/filtercfgbase.cpp:69 rc.cpp:629
+#, no-c-format
+msgid "&Receive message only from contacts from list"
+msgstr ""
+
+#: plugins/filter/filtercfgbase.cpp:70 rc.cpp:632
+#, no-c-format
+msgid "&Receive authorization and system messages only from contacts from list"
+msgstr ""
+
+#: plugins/filter/filtercfgbase.cpp:71 rc.cpp:635
+#, no-c-format
+msgid "Reject messages from unknown users contains this words or phrases:"
+msgstr ""
+
+#: plugins/filter/filtercfgbase.cpp:72 rc.cpp:638
+#, no-c-format
+msgid ""
+"Words are divided by any separators (space, comma, i.e.)\n"
+"A phrase can be specified using quotation marks\n"
+"Words can contain wildcards:\n"
+"* - any amount of symbols (or is empty)\n"
+"? - any symbol"
+msgstr ""
+
+#: plugins/filter/ignorelist.cpp:27 plugins/icq/icqsecure.cpp:127 plugins/jabber/discoinfo.cpp:62 plugins/jabber/jabberbrowser.cpp:114
 msgid "Name"
 msgstr "名稱"
 
@@ -1676,6 +2526,23 @@ msgstr "Norwegian Wood"
 
 #: plugins/forward/forward.cpp:32
 msgid "Plugin provides messages forwarding on cellular"
+msgstr ""
+
+#: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:1586
+#, no-c-format
+msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
+msgstr ""
+
+#: plugins/forward/forwardcfgbase.cpp:72 rc.cpp:1589
+#, no-c-format
+msgid ""
+"For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
+"<UIN>:"
+msgstr ""
+
+#: plugins/forward/forwardcfgbase.cpp:74 rc.cpp:1593
+#, no-c-format
+msgid "Send only &one message (don't split)"
 msgstr ""
 
 #: plugins/gpg/gpg.cpp:53
@@ -1716,6 +2583,46 @@ msgstr ""
 msgid "&GPG key"
 msgstr ""
 
+#: plugins/gpg/gpgadvbase.cpp:125 rc.cpp:1672
+#, no-c-format
+msgid "Command arguments"
+msgstr ""
+
+#: plugins/gpg/gpgadvbase.cpp:126 rc.cpp:1675
+#, fuzzy, no-c-format
+msgid "Generate key:"
+msgstr "一般"
+
+#: plugins/gpg/gpgadvbase.cpp:127 rc.cpp:1678
+#, no-c-format
+msgid "List public keys:"
+msgstr ""
+
+#: plugins/gpg/gpgadvbase.cpp:128 rc.cpp:1681
+#, no-c-format
+msgid "List secret keys:"
+msgstr ""
+
+#: plugins/gpg/gpgadvbase.cpp:129 rc.cpp:1684
+#, no-c-format
+msgid "Import public:"
+msgstr ""
+
+#: plugins/gpg/gpgadvbase.cpp:130 rc.cpp:1687
+#, no-c-format
+msgid "Export public:"
+msgstr ""
+
+#: plugins/gpg/gpgadvbase.cpp:131 rc.cpp:1690
+#, fuzzy, no-c-format
+msgid "Encrypt:"
+msgstr "接受檔案"
+
+#: plugins/gpg/gpgadvbase.cpp:132 rc.cpp:1693
+#, no-c-format
+msgid "Decrypt:"
+msgstr ""
+
 #: plugins/gpg/gpgcfg.cpp:43
 msgid "GPG(gpg.exe)"
 msgstr ""
@@ -1729,7 +2636,7 @@ msgstr "尋找使用者"
 msgid "Download GPG"
 msgstr ""
 
-#: plugins/gpg/gpgcfg.cpp:63 rc.cpp:2092
+#: plugins/gpg/gpgcfg.cpp:63 plugins/jabber/jidsearchbase.cpp:76 rc.cpp:231
 #, fuzzy, no-c-format
 msgid "&Advanced"
 msgstr "劃線"
@@ -1743,6 +2650,36 @@ msgstr "電話："
 msgid "New"
 msgstr "新增"
 
+#: plugins/gpg/gpgcfgbase.cpp:106 rc.cpp:1728
+#, no-c-format
+msgid "Executable:"
+msgstr ""
+
+#: plugins/gpg/gpgcfgbase.cpp:107 rc.cpp:1731
+#, fuzzy, no-c-format
+msgid "Home directory:"
+msgstr "尋找使用者"
+
+#: plugins/gpg/gpgcfgbase.cpp:108 plugins/spell/spellcfgbase.cpp:85 rc.cpp:536 rc.cpp:1734
+#, fuzzy, no-c-format
+msgid "&Find"
+msgstr "尋找使用者"
+
+#: plugins/gpg/gpgcfgbase.cpp:109 rc.cpp:1737
+#, no-c-format
+msgid "Your key:"
+msgstr ""
+
+#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69 rc.cpp:1715 rc.cpp:1740
+#, fuzzy, no-c-format
+msgid "&Refresh"
+msgstr "拒絕(&R)"
+
+#: plugins/gpg/gpgfindbase.cpp:68 rc.cpp:1718
+#, fuzzy, no-c-format
+msgid "Find GPG"
+msgstr "尋找使用者"
+
 #: plugins/gpg/gpggen.cpp:107
 msgid "Move mouse for generate random key"
 msgstr ""
@@ -1752,6 +2689,41 @@ msgstr ""
 msgid "Generate key failed"
 msgstr "一般"
 
+#: plugins/gpg/gpggenbase.cpp:135 rc.cpp:1743
+#, fuzzy, no-c-format
+msgid "Generate key"
+msgstr "一般"
+
+#: plugins/gpg/gpggenbase.cpp:136 plugins/jabber/discoinfobase.cpp:285 rc.cpp:387 rc.cpp:1746
+#, fuzzy, no-c-format
+msgid "EMail:"
+msgstr "Email"
+
+#: plugins/gpg/gpggenbase.cpp:137 rc.cpp:1749
+#, fuzzy, no-c-format
+msgid "Comment:"
+msgstr "ICQ客戶端"
+
+#: plugins/gpg/gpggenbase.cpp:138 plugins/icq/workinfobase.cc:184 plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271 rc.cpp:343 rc.cpp:349 rc.cpp:1752 rc.cpp:1926
+#, no-c-format
+msgid "Name:"
+msgstr "名稱："
+
+#: plugins/gpg/gpggenbase.cpp:139 rc.cpp:1755
+#, fuzzy, no-c-format
+msgid "Passphrase:"
+msgstr "密碼："
+
+#: plugins/gpg/gpggenbase.cpp:140 rc.cpp:1758
+#, fuzzy, no-c-format
+msgid "Retype passphrase:"
+msgstr "重新鍵入新密碼："
+
+#: plugins/gpg/gpguserbase.cpp:68 rc.cpp:1712
+#, no-c-format
+msgid "Key:"
+msgstr ""
+
 #: plugins/gpg/passphrase.cpp:37
 #, c-format
 msgid "Input passphrase for key %1"
@@ -1760,6 +2732,16 @@ msgstr ""
 #: plugins/gpg/passphrase.cpp:62
 msgid "Bad passphrase"
 msgstr ""
+
+#: plugins/gpg/passphrasebase.cpp:88 rc.cpp:1696
+#, fuzzy, no-c-format
+msgid "Input passphrase"
+msgstr "重新鍵入新密碼："
+
+#: plugins/gpg/passphrasebase.cpp:90 rc.cpp:1700
+#, fuzzy, no-c-format
+msgid "&Save passphrase"
+msgstr "變更密碼"
 
 #: plugins/icons/icon.cpp:30
 #, fuzzy
@@ -1783,40 +2765,250 @@ msgstr ""
 msgid "Select icon set"
 msgstr "選擇風格："
 
+#: plugins/icq/aboutinfobase.cc:66 rc.cpp:1839
+#, no-c-format
+msgid "Additional information about user:"
+msgstr "關於使用者附加的資訊："
+
+#: plugins/icq/aboutinfobase.cc:67 rc.cpp:1836
+#, fuzzy, no-c-format
+msgid "A&bout"
+msgstr "關於資訊"
+
+#: plugins/icq/advsearchbase.cc:246 plugins/jabber/jabber.cpp:296 rc.cpp:2305
+#, fuzzy, no-c-format
+msgid "Info"
+msgstr "Uin:"
+
+#: plugins/icq/advsearchbase.cc:248 plugins/icq/aiminfobase.cc:262 plugins/icq/aimsearchbase.cc:171 plugins/icq/homeinfobase.cc:147 plugins/icq/workinfobase.cc:180 plugins/jabber/jabberhomeinfobase.cpp:105 rc.cpp:109 rc.cpp:1872 rc.cpp:1896 rc.cpp:1914 rc.cpp:2164 rc.cpp:2311
+#, no-c-format
+msgid "City:"
+msgstr "城市："
+
+#: plugins/icq/advsearchbase.cc:249 plugins/icq/aiminfobase.cc:263 plugins/icq/aimsearchbase.cc:170 plugins/icq/homeinfobase.cc:144 plugins/icq/workinfobase.cc:181 plugins/jabber/jabberhomeinfobase.cpp:108 rc.cpp:118 rc.cpp:1869 rc.cpp:1887 rc.cpp:1917 rc.cpp:2167 rc.cpp:2314
+#, no-c-format
+msgid "State:"
+msgstr "省/州屬："
+
+#: plugins/icq/advsearchbase.cc:251 plugins/icq/moreinfobase.cc:153 plugins/yahoo/yahoosearchbase.cpp:103 rc.cpp:2121 rc.cpp:2320 rc.cpp:2439
+#, no-c-format
+msgid "Age:"
+msgstr "年齡："
+
+#: plugins/icq/advsearchbase.cc:252 plugins/icq/moreinfobase.cc:156 plugins/yahoo/yahoosearchbase.cpp:102 rc.cpp:2128 rc.cpp:2323 rc.cpp:2436
+#, no-c-format
+msgid "Gender:"
+msgstr "性別："
+
+#: plugins/icq/advsearchbase.cc:253 rc.cpp:2326
+#, fuzzy, no-c-format
+msgid "Work"
+msgstr "家庭資訊"
+
+#: plugins/icq/advsearchbase.cc:254 plugins/icq/workinfobase.cc:188 rc.cpp:1936 rc.cpp:2329
+#, no-c-format
+msgid "Occupation:"
+msgstr "職業："
+
+#: plugins/icq/advsearchbase.cc:255 plugins/jabber/jabberworkinfobase.cpp:90 rc.cpp:319 rc.cpp:2332
+#, fuzzy, no-c-format
+msgid "Company:"
+msgstr "國家："
+
+#: plugins/icq/advsearchbase.cc:256 plugins/jabber/jabberworkinfobase.cpp:89 rc.cpp:316 rc.cpp:2335
+#, no-c-format
+msgid "Department:"
+msgstr ""
+
+#: plugins/icq/advsearchbase.cc:257 plugins/icq/workinfobase.cc:190 plugins/jabber/jabberworkinfobase.cpp:92 rc.cpp:325 rc.cpp:1942 rc.cpp:2338
+#, no-c-format
+msgid "Position:"
+msgstr "地點："
+
+#: plugins/icq/advsearchbase.cc:258 plugins/icq/icqclient.cpp:1934 plugins/icq/icqclient.cpp:2122 rc.cpp:2341
+#, no-c-format
+msgid "Interests"
+msgstr "興趣"
+
+#: plugins/icq/advsearchbase.cc:259 rc.cpp:2344
+#, fuzzy, no-c-format
+msgid "Past"
+msgstr "刪除"
+
+#: plugins/icq/advsearchbase.cc:261 rc.cpp:2348
+#, no-c-format
+msgid "Affilations"
+msgstr ""
+
+#: plugins/icq/advsearchbase.cc:262 rc.cpp:2351
+#, fuzzy, no-c-format
+msgid "Keywords"
+msgstr "網路"
+
+#: plugins/icq/advsearchbase.cc:263 rc.cpp:2354
+#, no-c-format
+msgid "Search &online users only"
+msgstr ""
+
 #: plugins/icq/aimconfig.cpp:43
 #, fuzzy
 msgid "Register new ScreenName"
 msgstr "註冊"
 
-#: plugins/icq/aiminfo.cpp:178 plugins/icq/icqclient.cpp:1491 plugins/icq/icqinfo.cpp:220 plugins/jabber/jabberclient.cpp:1315 plugins/jabber/jabberinfo.cpp:129 plugins/msn/msnclient.cpp:1831 plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1382 plugins/yahoo/yahooinfo.cpp:109
+#: plugins/icq/aimconfigbase.cc:144 plugins/icq/aiminfobase.cc:266 rc.cpp:1998 rc.cpp:2176
+#, fuzzy, no-c-format
+msgid "ScreenName:"
+msgstr "姓名："
+
+#: plugins/icq/aimconfigbase.cc:146 rc.cpp:1995
+#, fuzzy, no-c-format
+msgid "&AIM"
+msgstr "SMS"
+
+#: plugins/icq/aimconfigbase.cc:147 plugins/icq/icqconfigbase.cc:270 plugins/jabber/jabberconfigbase.cpp:309 plugins/jabber/jabberconfigbase.cpp:313 plugins/livejournal/livejournalcfgbase.cpp:164 plugins/msn/msnconfigbase.cpp:173 plugins/proxy/proxycfgbase.cpp:132 plugins/remote/remotecfgbase.cpp:106 plugins/sms/smssetupbase.cpp:140 plugins/yahoo/yahoocfgbase.cpp:179 rc.cpp:61 rc.cpp:142 rc.cpp:154 rc.cpp:1321 rc.cpp:1386 rc.cpp:1438 rc.cpp:1534 rc.cpp:2007 rc.cpp:2052 rc.cpp:2403
+#, no-c-format
+msgid "Port:"
+msgstr "埠："
+
+#: plugins/icq/aimconfigbase.cc:148 plugins/icq/icqconfigbase.cc:269 plugins/jabber/jabberconfigbase.cpp:308 plugins/jabber/jabberconfigbase.cpp:312 plugins/livejournal/livejournalcfgbase.cpp:162 plugins/msn/msnconfigbase.cpp:172 plugins/yahoo/yahoocfgbase.cpp:178 rc.cpp:139 rc.cpp:151 rc.cpp:1315 rc.cpp:1435 rc.cpp:2010 rc.cpp:2049 rc.cpp:2400
+#, fuzzy, no-c-format
+msgid "Server:"
+msgstr "Штат"
+
+#: plugins/icq/aimconfigbase.cc:149 plugins/icq/icqconfigbase.cc:268 plugins/jabber/jabberconfigbase.cpp:318 plugins/msn/msnconfigbase.cpp:176 plugins/yahoo/yahoocfgbase.cpp:182 rc.cpp:169 rc.cpp:1447 rc.cpp:2013 rc.cpp:2046 rc.cpp:2412
+#, no-c-format
+msgid "Use &HTTP polling"
+msgstr ""
+
+#: plugins/icq/aimconfigbase.cc:150 plugins/icq/icqconfigbase.cc:267 plugins/msn/msnconfigbase.cpp:177 plugins/yahoo/yahoocfgbase.cpp:181 rc.cpp:1450 rc.cpp:2016 rc.cpp:2043 rc.cpp:2409
+#, no-c-format
+msgid "&Automatically use HTTP polling if proxy required"
+msgstr ""
+
+#: plugins/icq/aimconfigbase.cc:151 plugins/icq/icqconfigbase.cc:273 plugins/jabber/jabberconfigbase.cpp:319 plugins/msn/msnconfigbase.cpp:178 plugins/yahoo/yahoocfgbase.cpp:180 rc.cpp:172 rc.cpp:1453 rc.cpp:2019 rc.cpp:2061 rc.cpp:2406
+#, no-c-format
+msgid "Note: For HTTP-polling using proxy settings for HTTP"
+msgstr ""
+
+#: plugins/icq/aimconfigbase.cc:152 plugins/icq/icqconfigbase.cc:274 rc.cpp:2022 rc.cpp:2064
+#, fuzzy, no-c-format
+msgid "&Keep-alive connection"
+msgstr "連線"
+
+#: plugins/icq/aimconfigbase.cc:153 plugins/icq/icqconfigbase.cc:275 plugins/jabber/jabberconfigbase.cpp:321 plugins/livejournal/livejournalcfgbase.cpp:165 plugins/msn/msnconfigbase.cpp:180 plugins/yahoo/yahoocfgbase.cpp:185 rc.cpp:148 rc.cpp:1312 rc.cpp:1432 rc.cpp:2004 rc.cpp:2040 rc.cpp:2397
+#, fuzzy, no-c-format
+msgid "&Network"
+msgstr "網路"
+
+#: plugins/icq/aiminfo.cpp:178 plugins/icq/icqclient.cpp:1491 plugins/icq/icqinfo.cpp:220 plugins/jabber/jabberclient.cpp:1336 plugins/jabber/jabberinfo.cpp:134 plugins/msn/msnclient.cpp:1831 plugins/msn/msninfo.cpp:88 plugins/yahoo/yahooclient.cpp:1382 plugins/yahoo/yahooinfo.cpp:109
 msgid "Last online"
 msgstr "最後上線"
+
+#: plugins/icq/aiminfobase.cc:258 plugins/icq/aimsearchbase.cc:165 rc.cpp:1854 rc.cpp:2152
+#, fuzzy, no-c-format
+msgid "Middle:"
+msgstr "Мужчина"
+
+#: plugins/icq/aiminfobase.cc:259 plugins/icq/aimsearchbase.cc:166 rc.cpp:1857 rc.cpp:2155
+#, fuzzy, no-c-format
+msgid "Maiden:"
+msgstr "Мужчина"
+
+#: plugins/icq/aiminfobase.cc:261 plugins/icq/aimsearchbase.cc:173 rc.cpp:1878 rc.cpp:2161
+#, fuzzy, no-c-format
+msgid "Street:"
+msgstr "Штат"
+
+#: plugins/icq/aiminfobase.cc:264 plugins/icq/aimsearchbase.cc:172 rc.cpp:1875 rc.cpp:2170
+#, fuzzy, no-c-format
+msgid "Zip:"
+msgstr "郵遞區號："
+
+#: plugins/icq/aiminfobase.cc:267 rc.cpp:2143
+#, fuzzy, no-c-format
+msgid "&Profile"
+msgstr "提供者："
+
+#: plugins/icq/aiminfobase.cc:269 plugins/icq/icqinfobase.cc:318 rc.cpp:2185 rc.cpp:2229
+#, no-c-format
+msgid "External IP:"
+msgstr ""
+
+#: plugins/icq/aiminfobase.cc:270 plugins/icq/icqinfobase.cc:320 plugins/jabber/jabberinfobase.cpp:256 plugins/proxy/proxycfgbase.cpp:137 rc.cpp:76 rc.cpp:298 rc.cpp:2188 rc.cpp:2235
+#, fuzzy, no-c-format
+msgid "Client:"
+msgstr "ICQ客戶端"
+
+#: plugins/icq/aiminfobase.cc:271 plugins/icq/icqinfobase.cc:315 plugins/jabber/jabberinfobase.cpp:252 plugins/msn/msninfobase.cpp:133 plugins/yahoo/yahooinfobase.cpp:158 rc.cpp:288 rc.cpp:1413 rc.cpp:2191 rc.cpp:2222 rc.cpp:2378
+#, fuzzy, no-c-format
+msgid "Status:"
+msgstr "狀態"
+
+#: plugins/icq/aiminfobase.cc:273 plugins/icq/icqinfobase.cc:319 rc.cpp:2195 rc.cpp:2232
+#, no-c-format
+msgid "Internal IP:"
+msgstr ""
+
+#: plugins/icq/aimsearchbase.cc:162 rc.cpp:1845
+#, fuzzy, no-c-format
+msgid "Names"
+msgstr "名稱"
+
+#: plugins/icq/aimsearchbase.cc:168 plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134 rc.cpp:1863
+#, fuzzy, no-c-format
+msgid "Location"
+msgstr "職業："
+
+#: plugins/icq/encodingdlgbase.cc:83 rc.cpp:2256
+#, fuzzy, no-c-format
+msgid "Choose default encoding"
+msgstr "正在傳送"
+
+#: plugins/icq/encodingdlgbase.cc:84 rc.cpp:2259
+#, no-c-format
+msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
+msgstr ""
+
+#: plugins/icq/encodingdlgbase.cc:85 rc.cpp:2262
+#, no-c-format
+msgid "You will choose the coding by default which want to use:"
+msgstr ""
+
+#: plugins/icq/homeinfobase.cc:145 plugins/icq/workinfobase.cc:179 plugins/jabber/jabberhomeinfobase.cpp:109 rc.cpp:121 rc.cpp:1890 rc.cpp:1911
+#, no-c-format
+msgid "Address:"
+msgstr "地址："
+
+#: plugins/icq/homeinfobase.cc:148 plugins/icq/workinfobase.cc:182 plugins/jabber/jabberhomeinfobase.cpp:106 rc.cpp:112 rc.cpp:1899 rc.cpp:1920
+#, no-c-format
+msgid "Zip code:"
+msgstr "郵遞區號："
+
+#: plugins/icq/homeinfobase.cc:149 rc.cpp:1902
+#, no-c-format
+msgid "Time zone:"
+msgstr "時區："
+
+#: plugins/icq/homeinfobase.cc:150 rc.cpp:1884
+#, fuzzy, no-c-format
+msgid "&Home info"
+msgstr "家庭資訊"
 
 #: plugins/icq/icq.cpp:59
 msgid "ICQ"
 msgstr "ICQ"
 
-#: plugins/icq/icq.cpp:97 plugins/icq/icq.cpp:267 plugins/icq/icqclient.cpp:1467 plugins/jabber/jabber.cpp:97 plugins/msn/msn.cpp:97 plugins/yahoo/yahoo.cpp:119 rc.cpp:770 rc.cpp:1186
-#, no-c-format
-msgid "Away"
-msgstr "離開"
-
-#: plugins/icq/icq.cpp:112 plugins/jabber/jabber.cpp:112 plugins/msn/msn.cpp:112 plugins/yahoo/yahoo.cpp:134 rc.cpp:773 rc.cpp:1189
-#, no-c-format
-msgid "N/A"
-msgstr "N/A"
-
-#: plugins/icq/icq.cpp:127 plugins/jabber/jabber.cpp:127 rc.cpp:776
+#: plugins/icq/icq.cpp:127 plugins/jabber/jabber.cpp:127 plugins/osd/osdconfigbase.cpp:114 rc.cpp:560
 #, fuzzy, no-c-format
 msgid "Do not Disturb"
 msgstr "請勿干擾"
 
-#: plugins/icq/icq.cpp:142 rc.cpp:779
+#: plugins/icq/icq.cpp:142 plugins/osd/osdconfigbase.cpp:115 rc.cpp:563
 #, no-c-format
 msgid "Occupied"
 msgstr "佔用"
 
-#: plugins/icq/icq.cpp:157 plugins/jabber/jabber.cpp:142 rc.cpp:782
+#: plugins/icq/icq.cpp:157 plugins/jabber/jabber.cpp:142 plugins/osd/osdconfigbase.cpp:116 rc.cpp:566
 #, no-c-format
 msgid "Free for chat"
 msgstr "自由聊天"
@@ -1967,60 +3159,50 @@ msgstr ""
 msgid "Possibly invisible"
 msgstr "在不可視名單"
 
-#: plugins/icq/icqclient.cpp:1448 rc.cpp:1222
-#, fuzzy, no-c-format
-msgid "Invisible"
-msgstr "隱形"
-
 #: plugins/icq/icqclient.cpp:1483
 #, fuzzy
 msgid "Warning level"
 msgstr "正在傳送"
 
-#: plugins/icq/icqclient.cpp:1872 plugins/icq/icqclient.cpp:2060 plugins/jabber/jabberclient.cpp:1483 plugins/jabber/jabberclient.cpp:1592 plugins/jabber/jabberclient.cpp:1724 plugins/jabber/jabberclient.cpp:1743
+#: plugins/icq/icqclient.cpp:1874 plugins/icq/icqclient.cpp:2062 plugins/jabber/jabberclient.cpp:1518 plugins/jabber/jabberclient.cpp:1627 plugins/jabber/jabberclient.cpp:1759 plugins/jabber/jabberclient.cpp:1778
 msgid "Home info"
 msgstr "家庭資訊"
 
-#: plugins/icq/icqclient.cpp:1887 plugins/icq/icqclient.cpp:2075 plugins/jabber/jabberclient.cpp:1498 plugins/jabber/jabberclient.cpp:1607 plugins/jabber/jabberclient.cpp:1726 plugins/jabber/jabberclient.cpp:1745
+#: plugins/icq/icqclient.cpp:1889 plugins/icq/icqclient.cpp:2077 plugins/jabber/jabberclient.cpp:1533 plugins/jabber/jabberclient.cpp:1642 plugins/jabber/jabberclient.cpp:1761 plugins/jabber/jabberclient.cpp:1780
 msgid "Work info"
 msgstr "工作資訊"
 
-#: plugins/icq/icqclient.cpp:1902 plugins/icq/icqclient.cpp:2090
+#: plugins/icq/icqclient.cpp:1904 plugins/icq/icqclient.cpp:2092
 msgid "More info"
 msgstr "更多資訊"
 
-#: plugins/icq/icqclient.cpp:1917 plugins/icq/icqclient.cpp:2011 plugins/icq/icqclient.cpp:2105 plugins/icq/icqclient.cpp:2229 plugins/jabber/discoinfo.cpp:194 plugins/jabber/jabberclient.cpp:1513 plugins/jabber/jabberclient.cpp:1622 plugins/jabber/jabberclient.cpp:1728 plugins/jabber/jabberclient.cpp:1747
+#: plugins/icq/icqclient.cpp:1919 plugins/icq/icqclient.cpp:2013 plugins/icq/icqclient.cpp:2107 plugins/icq/icqclient.cpp:2231 plugins/jabber/discoinfo.cpp:180 plugins/jabber/jabberclient.cpp:1548 plugins/jabber/jabberclient.cpp:1657 plugins/jabber/jabberclient.cpp:1763 plugins/jabber/jabberclient.cpp:1782
 msgid "About info"
 msgstr "關於資訊"
 
-#: plugins/icq/icqclient.cpp:1932 plugins/icq/icqclient.cpp:2120 rc.cpp:675
-#, no-c-format
-msgid "Interests"
-msgstr "興趣"
-
-#: plugins/icq/icqclient.cpp:1947 plugins/icq/icqclient.cpp:2135
+#: plugins/icq/icqclient.cpp:1949 plugins/icq/icqclient.cpp:2137
 msgid "Group/Past"
 msgstr "群組/Past"
 
-#: plugins/icq/icqclient.cpp:1962 plugins/icq/icqclient.cpp:2150
+#: plugins/icq/icqclient.cpp:1964 plugins/icq/icqclient.cpp:2152
 msgid "Picture"
 msgstr ""
 
-#: plugins/icq/icqclient.cpp:2165 plugins/icq/icqclient.cpp:2244 plugins/jabber/jabberclient.cpp:1667 plugins/msn/msnclient.cpp:915 plugins/yahoo/yahooclient.cpp:1493
+#: plugins/icq/icqclient.cpp:2167 plugins/icq/icqclient.cpp:2246 plugins/jabber/jabberclient.cpp:1702 plugins/msn/msnclient.cpp:915 plugins/yahoo/yahooclient.cpp:1493
 #, fuzzy
 msgid "Network"
 msgstr "網路"
 
-#: plugins/icq/icqclient.cpp:2180
+#: plugins/icq/icqclient.cpp:2182
 msgid "Security"
 msgstr "保全"
 
-#: plugins/icq/icqclient.cpp:2459
+#: plugins/icq/icqclient.cpp:2461
 #, fuzzy
 msgid "Send &urgent"
 msgstr "自動回應訊息"
 
-#: plugins/icq/icqclient.cpp:2463
+#: plugins/icq/icqclient.cpp:2465
 #, fuzzy
 msgid "Send to &list"
 msgstr "新增至忽略名單"
@@ -2037,6 +3219,106 @@ msgstr "UTF-8"
 #: plugins/icq/icqconfig.cpp:59
 msgid "Plain text"
 msgstr ""
+
+#: plugins/icq/icqconfigbase.cc:264 rc.cpp:2034
+#, fuzzy, no-c-format
+msgid "&Register new UIN"
+msgstr "註冊"
+
+#: plugins/icq/icqconfigbase.cc:265 rc.cpp:2037
+#, no-c-format
+msgid "UIN:"
+msgstr "UIN:"
+
+#: plugins/icq/icqconfigbase.cc:266 rc.cpp:2028
+#, fuzzy, no-c-format
+msgid "&ICQ"
+msgstr "ICQ"
+
+#: plugins/icq/icqconfigbase.cc:271 plugins/jabber/jabberconfigbase.cpp:315 plugins/msn/msnconfigbase.cpp:174 plugins/yahoo/yahoocfgbase.cpp:184 rc.cpp:160 rc.cpp:1441 rc.cpp:2055 rc.cpp:2418
+#, fuzzy, no-c-format
+msgid "Port range for direct connections:"
+msgstr "連線"
+
+#: plugins/icq/icqconfigbase.cc:276 rc.cpp:2070
+#, fuzzy, no-c-format
+msgid "Automatically check &invisible"
+msgstr "隱形"
+
+#: plugins/icq/icqconfigbase.cc:277 rc.cpp:2073
+#, fuzzy, no-c-format
+msgid "Send format:"
+msgstr "傳送失敗"
+
+#: plugins/icq/icqconfigbase.cc:278 rc.cpp:2076
+#, fuzzy, no-c-format
+msgid "Send message:"
+msgstr "自動回應訊息"
+
+#: plugins/icq/icqconfigbase.cc:280 rc.cpp:2079
+#, fuzzy, no-c-format
+msgid "No wait ack"
+msgstr "斜體"
+
+#: plugins/icq/icqconfigbase.cc:281 rc.cpp:2082
+#, no-c-format
+msgid "Wait ack from server"
+msgstr ""
+
+#: plugins/icq/icqconfigbase.cc:282 rc.cpp:2085
+#, no-c-format
+msgid "Wait ack from client"
+msgstr ""
+
+#: plugins/icq/icqconfigbase.cc:283 rc.cpp:2088
+#, fuzzy, no-c-format
+msgid "Accept in &occupied mode"
+msgstr "接受模式"
+
+#: plugins/icq/icqconfigbase.cc:284 rc.cpp:2091
+#, fuzzy, no-c-format
+msgid "Accept in &DND mode"
+msgstr "接受模式"
+
+#: plugins/icq/icqconfigbase.cc:285 rc.cpp:2094
+#, no-c-format
+msgid "For decrease traffic you can:"
+msgstr ""
+
+#: plugins/icq/icqconfigbase.cc:286 rc.cpp:2097
+#, no-c-format
+msgid "Disable answer on phonebook and &picture requests"
+msgstr ""
+
+#: plugins/icq/icqconfigbase.cc:287 rc.cpp:2100
+#, no-c-format
+msgid "Disable automatically &request autoreply on change status"
+msgstr ""
+
+#: plugins/icq/icqconfigbase.cc:288 rc.cpp:2103
+#, no-c-format
+msgid "Disable automatically &update user info"
+msgstr ""
+
+#: plugins/icq/icqconfigbase.cc:289 rc.cpp:2106
+#, no-c-format
+msgid "Disable &typing notification"
+msgstr ""
+
+#: plugins/icq/icqconfigbase.cc:290 rc.cpp:2109
+#, fuzzy, no-c-format
+msgid "Check invisible every"
+msgstr "隱形"
+
+#: plugins/icq/icqconfigbase.cc:291 plugins/livejournal/livejournalcfgbase.cpp:167 rc.cpp:1330 rc.cpp:2112
+#, fuzzy, no-c-format
+msgid "minutes"
+msgstr "Закрыть через"
+
+#: plugins/icq/icqconfigbase.cc:292 plugins/jabber/jabberconfigbase.cpp:336 plugins/livejournal/livejournalcfgbase.cpp:171 rc.cpp:178 rc.cpp:1324 rc.cpp:2067
+#, fuzzy, no-c-format
+msgid "&Options"
+msgstr "連線"
 
 #: plugins/icq/icqdirect.cpp:197
 #, fuzzy
@@ -2084,47 +3366,47 @@ msgstr ""
 msgid "We are to evil :("
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:691 plugins/jabber/jabber_rosters.cpp:2160
+#: plugins/icq/icqicmb.cpp:692 plugins/jabber/jabber_rosters.cpp:2183
 #, fuzzy
 msgid "File transfer declined"
 msgstr "檔案傳送已完成"
 
-#: plugins/icq/icqicmb.cpp:751 plugins/icq/icqicmb.cpp:1299 plugins/msn/msnclient.cpp:2403 plugins/yahoo/yahooclient.cpp:447 plugins/yahoo/yahooclient.cpp:450
+#: plugins/icq/icqicmb.cpp:752 plugins/icq/icqicmb.cpp:1300 plugins/msn/msnclient.cpp:2403 plugins/yahoo/yahooclient.cpp:447 plugins/yahoo/yahooclient.cpp:450
 #, fuzzy
 msgid "Message declined"
 msgstr "訊息已送出"
 
-#: plugins/icq/icqicmb.cpp:831 plugins/icq/icqicmb.cpp:845 plugins/icq/icqicmb.cpp:853 plugins/icq/icqvarious.cpp:1699 plugins/jabber/jabberclient.cpp:653 plugins/yahoo/yahooclient.cpp:1048
+#: plugins/icq/icqicmb.cpp:832 plugins/icq/icqicmb.cpp:846 plugins/icq/icqicmb.cpp:854 plugins/icq/icqvarious.cpp:1699 plugins/jabber/jabberclient.cpp:673 plugins/yahoo/yahooclient.cpp:1048
 msgid "Client go offline"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:991
+#: plugins/icq/icqicmb.cpp:992
 #, fuzzy
 msgid "Directory"
 msgstr "放檔案的目錄"
 
-#: plugins/icq/icqicmb.cpp:995 plugins/icq/icqicmb.cpp:1001
+#: plugins/icq/icqicmb.cpp:996 plugins/icq/icqicmb.cpp:1002
 #, c-format
 msgid ""
 "_n: %n file\n"
 "%n files"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:1292 plugins/icq/warndlg.cpp:66
+#: plugins/icq/icqicmb.cpp:1293 plugins/icq/warndlg.cpp:66
 #, fuzzy
 msgid "Send failed"
 msgstr "傳送失敗"
 
-#: plugins/icq/icqicmb.cpp:1514
+#: plugins/icq/icqicmb.cpp:1515
 msgid "Send timeout"
 msgstr ""
 
-#: plugins/icq/icqicmb.cpp:1662
+#: plugins/icq/icqicmb.cpp:1663
 #, fuzzy
 msgid "No contact"
 msgstr "新增非IM連絡人"
 
-#: plugins/icq/icqicmb.cpp:1686 plugins/icq/icqmessage.cpp:1068 plugins/jabber/jabberclient.cpp:2319
+#: plugins/icq/icqicmb.cpp:1687 plugins/icq/icqmessage.cpp:1068 plugins/jabber/jabberclient.cpp:2354
 #, fuzzy
 msgid "No contacts for send"
 msgstr "新增非IM連絡人"
@@ -2172,19 +3454,59 @@ msgstr ""
 msgid "Seeking Men"
 msgstr ""
 
-#: plugins/icq/icqinfo.cpp:85 plugins/jabber/jabberinfo.cpp:66
+#: plugins/icq/icqinfo.cpp:85 plugins/jabber/jabberinfo.cpp:67
 #, fuzzy
 msgid "Input current password"
 msgstr "新密碼："
 
-#: plugins/icq/icqinfo.cpp:88 plugins/jabber/jabberinfo.cpp:69
+#: plugins/icq/icqinfo.cpp:88 plugins/jabber/jabberinfo.cpp:70
 msgid "Confirm password does not match"
 msgstr "確定密碼不對應"
 
-#: plugins/icq/icqinfo.cpp:91 plugins/jabber/jabberinfo.cpp:72
+#: plugins/icq/icqinfo.cpp:91 plugins/jabber/jabberinfo.cpp:73
 #, fuzzy
 msgid "Invalid password"
 msgstr "不合法的密碼"
+
+#: plugins/icq/icqinfobase.cc:308 rc.cpp:2198
+#, no-c-format
+msgid "Form5"
+msgstr "表格5"
+
+#: plugins/icq/icqinfobase.cc:310 rc.cpp:2207
+#, no-c-format
+msgid "Uin:"
+msgstr "Uin:"
+
+#: plugins/icq/icqinfobase.cc:313 rc.cpp:2216
+#, fuzzy, no-c-format
+msgid "Random chat group:"
+msgstr "新增群組"
+
+#: plugins/icq/icqinfobase.cc:314 plugins/jabber/jabberinfobase.cpp:251 plugins/msn/msninfobase.cpp:132 plugins/yahoo/yahooinfobase.cpp:157 rc.cpp:266 rc.cpp:1401 rc.cpp:2201 rc.cpp:2360
+#, fuzzy, no-c-format
+msgid "&Names"
+msgstr "名稱"
+
+#: plugins/icq/icqinfobase.cc:322 plugins/jabber/jabberinfobase.cpp:258 rc.cpp:304 rc.cpp:2241
+#, no-c-format
+msgid "New password:"
+msgstr "新密碼："
+
+#: plugins/icq/icqinfobase.cc:323 plugins/jabber/jabberinfobase.cpp:259 rc.cpp:307 rc.cpp:2244
+#, no-c-format
+msgid "Retype new password:"
+msgstr "重新鍵入新密碼："
+
+#: plugins/icq/icqinfobase.cc:324 plugins/jabber/jabberinfobase.cpp:260 rc.cpp:310 rc.cpp:2247
+#, fuzzy, no-c-format
+msgid "Current password:"
+msgstr "新密碼："
+
+#: plugins/icq/icqinfobase.cc:325 plugins/jabber/jabberinfobase.cpp:261 rc.cpp:301 rc.cpp:2238
+#, fuzzy, no-c-format
+msgid "&Password"
+msgstr "密碼"
 
 #: plugins/icq/icqlogin.cpp:70
 #, fuzzy
@@ -2341,6 +3663,16 @@ msgstr ""
 msgid "Picture is not available"
 msgstr "使用者目前在："
 
+#: plugins/icq/icqpicturebase.cc:76 plugins/jabber/jabberpicturebase.cpp:76 plugins/shortcuts/shortcutcfgbase.cpp:84 rc.cpp:410 rc.cpp:505 rc.cpp:1815
+#, fuzzy, no-c-format
+msgid "&Clear"
+msgstr "Закрыть через"
+
+#: plugins/icq/icqpicturebase.cc:77 rc.cpp:1811
+#, no-c-format
+msgid "&Picture"
+msgstr ""
+
 #: plugins/icq/icqsearch.cpp:307 plugins/icq/icqsecure.cpp:126 plugins/jabber/jabberadd.cpp:281 plugins/jabber/jabbersearch.cpp:102
 #, fuzzy
 msgid "Nick"
@@ -2381,7 +3713,7 @@ msgstr "性別："
 msgid "Age"
 msgstr "年齡："
 
-#: plugins/icq/icqsearch.cpp:325 plugins/jabber/jabberadd.cpp:282 rc.cpp:755
+#: plugins/icq/icqsearch.cpp:325 plugins/jabber/jabberadd.cpp:282 plugins/msn/msnsearchbase.cpp:72 rc.cpp:1462
 #, fuzzy, no-c-format
 msgid "E-Mail"
 msgstr "Email"
@@ -2395,9 +3727,94 @@ msgstr "Женщина"
 msgid "Male"
 msgstr "Мужчина"
 
+#: plugins/icq/icqsearchbase.cc:126 rc.cpp:1962
+#, fuzzy, no-c-format
+msgid "&UIN"
+msgstr "UIN"
+
+#: plugins/icq/icqsearchbase.cc:127 rc.cpp:1965
+#, fuzzy, no-c-format
+msgid "&Screenname"
+msgstr "姓名："
+
+#: plugins/icq/icqsearchbase.cc:133 rc.cpp:1983
+#, fuzzy, no-c-format
+msgid "AOL s&creenname"
+msgstr "姓名："
+
+#: plugins/icq/icqsearchbase.cc:134 rc.cpp:1986
+#, fuzzy, no-c-format
+msgid "ICQ &UIN"
+msgstr "UIN"
+
+#: plugins/icq/icqsearchbase.cc:135 rc.cpp:1989
+#, fuzzy, no-c-format
+msgid "Advanced"
+msgstr "劃線"
+
 #: plugins/icq/icqsecure.cpp:125
 msgid "UIN"
 msgstr "UIN"
+
+#: plugins/icq/icqsecurebase.cc:110 rc.cpp:1774
+#, fuzzy, no-c-format
+msgid "My &authorization is required before users add me to Contact List"
+msgstr "在使用者把我新增入連絡簿前必須先徵求我的授權"
+
+#: plugins/icq/icqsecurebase.cc:111 rc.cpp:1777
+#, fuzzy, no-c-format
+msgid "Don't show my &IP-address"
+msgstr "不顯示我的IP位址"
+
+#: plugins/icq/icqsecurebase.cc:113 rc.cpp:1781
+#, fuzzy, no-c-format
+msgid "Allow other to view my &status from the Web"
+msgstr "允許其他人從網站上檢視我的狀態"
+
+#: plugins/icq/icqsecurebase.cc:114 rc.cpp:1784
+#, fuzzy, no-c-format
+msgid "I&gnore user authorization"
+msgstr "授權"
+
+#: plugins/icq/icqsecurebase.cc:115 rc.cpp:1787
+#, no-c-format
+msgid "Always use &MD5 authentication"
+msgstr ""
+
+#: plugins/icq/icqsecurebase.cc:116 rc.cpp:1790
+#, fuzzy, no-c-format
+msgid "Direct connections"
+msgstr "連線"
+
+#: plugins/icq/icqsecurebase.cc:117 rc.cpp:1793
+#, fuzzy, no-c-format
+msgid "Allow &direct connection from any user"
+msgstr "連線"
+
+#: plugins/icq/icqsecurebase.cc:118 rc.cpp:1796
+#, no-c-format
+msgid "Allow direct connection from user listed in &contact list"
+msgstr ""
+
+#: plugins/icq/icqsecurebase.cc:119 rc.cpp:1799
+#, no-c-format
+msgid "Allow direct connection from user &upon authorization"
+msgstr ""
+
+#: plugins/icq/icqsecurebase.cc:120 rc.cpp:1771
+#, fuzzy, no-c-format
+msgid "&Security"
+msgstr "保全"
+
+#: plugins/icq/icqsecurebase.cc:121 rc.cpp:1802
+#, fuzzy, no-c-format
+msgid "&Visible list"
+msgstr "可視名單"
+
+#: plugins/icq/icqsecurebase.cc:122 rc.cpp:1805
+#, fuzzy, no-c-format
+msgid "&Invisible list"
+msgstr "不可視名單"
 
 #: plugins/icq/icqservice.cpp:297
 msgid "anonymous"
@@ -2702,6 +4119,11 @@ msgstr "公佈"
 msgid "Home automation"
 msgstr ""
 
+#: plugins/icq/interestsinfobase.cc:109 rc.cpp:2253
+#, fuzzy, no-c-format
+msgid "&Interests"
+msgstr "興趣"
+
 #: plugins/icq/moreinfo.cpp:87 sim/contacts.cpp:2005 sim/contacts.cpp:2006
 msgid "Arabic"
 msgstr ""
@@ -2884,6 +4306,31 @@ msgstr ""
 msgid "Maltese"
 msgstr "Мужчина"
 
+#: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281 plugins/jabber/jabberinfobase.cpp:249 rc.cpp:281 rc.cpp:377 rc.cpp:2124
+#, no-c-format
+msgid "Homepage:"
+msgstr "首頁："
+
+#: plugins/icq/moreinfobase.cc:157 plugins/jabber/discoinfobase.cpp:282 plugins/jabber/jabberinfobase.cpp:248 rc.cpp:278 rc.cpp:380 rc.cpp:2131
+#, no-c-format
+msgid "Birth date:"
+msgstr "生日日期："
+
+#: plugins/icq/moreinfobase.cc:158 rc.cpp:2118
+#, fuzzy, no-c-format
+msgid "&More info"
+msgstr "更多資訊"
+
+#: plugins/icq/moreinfobase.cc:159 rc.cpp:2137
+#, no-c-format
+msgid "Spoken languages:"
+msgstr "能說的語言："
+
+#: plugins/icq/moreinfobase.cc:160 rc.cpp:2134
+#, fuzzy, no-c-format
+msgid "&Languages"
+msgstr "語言："
+
 #: plugins/icq/pastinfo.cpp:76
 msgid "Elementary School"
 msgstr ""
@@ -2996,10 +4443,75 @@ msgstr "Uin:"
 msgid "Volunteer Org."
 msgstr ""
 
+#: plugins/icq/pastinfobase.cc:139 rc.cpp:1824
+#, no-c-format
+msgid "Organization, Affiliation, Group:"
+msgstr "組織，Affiliation，群組："
+
+#: plugins/icq/pastinfobase.cc:140 rc.cpp:1821
+#, no-c-format
+msgid "A&ffilation"
+msgstr ""
+
+#: plugins/icq/pastinfobase.cc:141 rc.cpp:1830
+#, no-c-format
+msgid "Past background:"
+msgstr "Past背景："
+
+#: plugins/icq/pastinfobase.cc:142 rc.cpp:1827
+#, fuzzy, no-c-format
+msgid "&Background"
+msgstr "背景顏色"
+
 #: plugins/icq/securedlg.cpp:59
 #, fuzzy
 msgid "Request secure channel fail"
 msgstr "使用者資訊"
+
+#: plugins/icq/securedlgbase.cc:73 rc.cpp:2271
+#, fuzzy, no-c-format
+msgid "Secure chanel request"
+msgstr "請求聊天"
+
+#: plugins/icq/securedlgbase.cc:74 rc.cpp:2274
+#, no-c-format
+msgid ""
+"Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
+"\n"
+"This only works with other SIM and Licq clients"
+msgstr ""
+
+#: plugins/icq/verifydlgbase.cc:111 rc.cpp:1945
+#, no-c-format
+msgid "Verification Dialog"
+msgstr ""
+
+#: plugins/icq/verifydlgbase.cc:112 rc.cpp:1948
+#, no-c-format
+msgid "Please retype the letters from the picture above:"
+msgstr ""
+
+#: plugins/icq/warndlgbase.cc:83 rc.cpp:2283
+#, fuzzy, no-c-format
+msgid "Send warning"
+msgstr "傳送失敗"
+
+#: plugins/icq/warndlgbase.cc:84 rc.cpp:2286
+#, no-c-format
+msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
+msgstr ""
+
+#: plugins/icq/warndlgbase.cc:85 rc.cpp:2289
+#, no-c-format
+msgid "Warn &anonymously"
+msgstr ""
+
+#: plugins/icq/warndlgbase.cc:86 rc.cpp:2292
+#, no-c-format
+msgid ""
+"Check this if you don't want your screen name revealed.\n"
+"Anonymous warnings are less severe."
+msgstr ""
 
 #: plugins/icq/workinfo.cpp:73
 msgid "Academic"
@@ -3099,36 +4611,96 @@ msgstr ""
 msgid "Other services"
 msgstr ""
 
-#: plugins/jabber/discoinfo.cpp:64
+#: plugins/icq/workinfobase.cc:186 rc.cpp:1930
+#, no-c-format
+msgid "Web site:"
+msgstr "網站："
+
+#: plugins/icq/workinfobase.cc:187 rc.cpp:1908
+#, fuzzy, no-c-format
+msgid "&Company"
+msgstr "國家："
+
+#: plugins/icq/workinfobase.cc:189 rc.cpp:1939
+#, no-c-format
+msgid "Div / dept:"
+msgstr "Div/部門："
+
+#: plugins/icq/workinfobase.cc:191 rc.cpp:1933
+#, fuzzy, no-c-format
+msgid "&Occupation"
+msgstr "職業："
+
+#: plugins/jabber/discoinfo.cpp:63
 msgid "Units"
 msgstr ""
 
-#: plugins/jabber/discoinfo.cpp:65
+#: plugins/jabber/discoinfo.cpp:64
 #, fuzzy
 msgid "Value"
 msgstr "Мужчина"
 
-#: plugins/jabber/discoinfo.cpp:126 rc.cpp:2159
-#, fuzzy, no-c-format
-msgid "&Version"
-msgstr "接受(&G)"
-
-#: plugins/jabber/discoinfo.cpp:141 rc.cpp:2171
+#: plugins/jabber/discoinfo.cpp:127 plugins/jabber/discoinfobase.cpp:277 rc.cpp:358
 #, fuzzy, no-c-format
 msgid "&Time"
 msgstr "時區："
 
-#: plugins/jabber/discoinfo.cpp:168
+#: plugins/jabber/discoinfo.cpp:154
 #, fuzzy
 msgid "&Stat"
 msgstr "狀態"
 
-#: plugins/jabber/discoinfo.cpp:251
+#: plugins/jabber/discoinfo.cpp:230
 #, c-format
 msgid ""
 "_n: %n day\n"
 "%n days"
 msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:265 rc.cpp:328
+#, fuzzy, no-c-format
+msgid "DiscoInfo"
+msgstr "Uin:"
+
+#: plugins/jabber/discoinfobase.cpp:266 rc.cpp:334
+#, fuzzy, no-c-format
+msgid "Namespaces:"
+msgstr "名稱："
+
+#: plugins/jabber/discoinfobase.cpp:267 rc.cpp:337
+#, no-c-format
+msgid "Category:"
+msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:272 rc.cpp:352
+#, fuzzy, no-c-format
+msgid "Version:"
+msgstr "接受(&G)"
+
+#: plugins/jabber/discoinfobase.cpp:273 rc.cpp:355
+#, fuzzy, no-c-format
+msgid "System:"
+msgstr "興趣"
+
+#: plugins/jabber/discoinfobase.cpp:274 rc.cpp:346
+#, fuzzy, no-c-format
+msgid "&Version"
+msgstr "接受(&G)"
+
+#: plugins/jabber/discoinfobase.cpp:275 rc.cpp:361
+#, fuzzy, no-c-format
+msgid "UTC client time:"
+msgstr "ICQ客戶端"
+
+#: plugins/jabber/discoinfobase.cpp:276 rc.cpp:364
+#, no-c-format
+msgid "Last activity, idle response:"
+msgstr ""
+
+#: plugins/jabber/discoinfobase.cpp:279 rc.cpp:367
+#, fuzzy, no-c-format
+msgid "&Statistic"
+msgstr "狀態"
 
 #: plugins/jabber/jabber.cpp:59
 msgid "Jabber"
@@ -3148,15 +4720,10 @@ msgstr ""
 msgid "Node"
 msgstr "電話："
 
-#: plugins/jabber/jabber.cpp:288 sim/simapi.cpp:481
+#: plugins/jabber/jabber.cpp:288 sim/simapi.cpp:485
 #, fuzzy
 msgid "&Register"
 msgstr "註冊"
-
-#: plugins/jabber/jabber.cpp:296 rc.cpp:639
-#, fuzzy, no-c-format
-msgid "Info"
-msgstr "Uin:"
 
 #: plugins/jabber/jabber.cpp:312
 #, fuzzy
@@ -3173,18 +4740,33 @@ msgstr "記錄等級"
 msgid "Load all levels"
 msgstr "本地檔案："
 
-#: plugins/jabber/jabber_rosters.cpp:2027
+#: plugins/jabber/jabber_rosters.cpp:2050
 #, fuzzy
 msgid "Password does not match"
 msgstr "確定密碼不對應"
 
-#: plugins/jabber/jabber_rosters.cpp:2028
+#: plugins/jabber/jabber_rosters.cpp:2051
 #, fuzzy
 msgid "Low level network error"
 msgstr "網路"
 
-#: plugins/jabber/jabber_rosters.cpp:2885
+#: plugins/jabber/jabber_rosters.cpp:2913
 msgid "Please translate this to short language name (ru, de)"
+msgstr ""
+
+#: plugins/jabber/jabberaboutinfobase.cpp:57 rc.cpp:416
+#, fuzzy, no-c-format
+msgid "Additional information:"
+msgstr "關於使用者附加的資訊："
+
+#: plugins/jabber/jabberaddbase.cpp:94 rc.cpp:242
+#, no-c-format
+msgid "&JID"
+msgstr ""
+
+#: plugins/jabber/jabberaddbase.cpp:100 plugins/jabber/jidsearchbase.cpp:77 rc.cpp:234 rc.cpp:260
+#, no-c-format
+msgid "Jabber &browser"
 msgstr ""
 
 #: plugins/jabber/jabberbrowser.cpp:46
@@ -3225,21 +4807,21 @@ msgstr "ICQ客戶端"
 msgid "Choose a user and password to register with the server"
 msgstr ""
 
-#: plugins/jabber/jabberclient.cpp:1528 plugins/jabber/jabberclient.cpp:1637
+#: plugins/jabber/jabberclient.cpp:1563 plugins/jabber/jabberclient.cpp:1672
 msgid "Photo"
 msgstr ""
 
-#: plugins/jabber/jabberclient.cpp:1543 plugins/jabber/jabberclient.cpp:1652
+#: plugins/jabber/jabberclient.cpp:1578 plugins/jabber/jabberclient.cpp:1687
 #, fuzzy
 msgid "Logo"
 msgstr "登入"
 
-#: plugins/jabber/jabberclient.cpp:2878 plugins/jabber/jabberclient.cpp:2918 plugins/msn/msnclient.cpp:2930 plugins/yahoo/yahooclient.cpp:2380 plugins/yahoo/yahooclient.cpp:2421
+#: plugins/jabber/jabberclient.cpp:2924 plugins/jabber/jabberclient.cpp:2964 plugins/msn/msnclient.cpp:2930 plugins/yahoo/yahooclient.cpp:2380 plugins/yahoo/yahooclient.cpp:2421
 #, fuzzy
 msgid "File transfer failed"
 msgstr "已開始傳送"
 
-#: plugins/jabber/jabberclient.cpp:3016 plugins/yahoo/yahooclient.cpp:2519
+#: plugins/jabber/jabberclient.cpp:3062 plugins/yahoo/yahooclient.cpp:2519
 #, fuzzy
 msgid "File transfer fail"
 msgstr "已開始傳送"
@@ -3248,8 +4830,108 @@ msgstr "已開始傳送"
 msgid "jabber.org"
 msgstr ""
 
-#: plugins/jabber/jabberconfig.cpp:74
+#: plugins/jabber/jabberconfig.cpp:75
 msgid "List of public servers"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:306 plugins/livejournal/livejournalcfgbase.cpp:159 rc.cpp:133 rc.cpp:1306
+#, fuzzy, no-c-format
+msgid "Username:"
+msgstr "更名"
+
+#: plugins/jabber/jabberconfigbase.cpp:307 rc.cpp:136
+#, fuzzy, no-c-format
+msgid "&Register new account"
+msgstr "註冊"
+
+#: plugins/jabber/jabberconfigbase.cpp:310 plugins/jabber/jabberconfigbase.cpp:317 rc.cpp:145 rc.cpp:166
+#, fuzzy, no-c-format
+msgid "Use &SSL"
+msgstr "傳送(&S)"
+
+#: plugins/jabber/jabberconfigbase.cpp:311 rc.cpp:127
+#, no-c-format
+msgid "&Jabber"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:316 rc.cpp:163
+#, no-c-format
+msgid "Use &plain text login"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:320 rc.cpp:175
+#, no-c-format
+msgid "URL:"
+msgstr "URL:"
+
+#: plugins/jabber/jabberconfigbase.cpp:322 plugins/jabber/jabberinfobase.cpp:253 rc.cpp:181 rc.cpp:291
+#, fuzzy, no-c-format
+msgid "Resource:"
+msgstr "更名"
+
+#: plugins/jabber/jabberconfigbase.cpp:323 rc.cpp:184
+#, fuzzy, no-c-format
+msgid "Priority:"
+msgstr "埠："
+
+#: plugins/jabber/jabberconfigbase.cpp:324 rc.cpp:187
+#, no-c-format
+msgid "Manualy specify Jabber host:"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:325 rc.cpp:190
+#, fuzzy, no-c-format
+msgid "Send &rich text messages if possible"
+msgstr "自動回應訊息"
+
+#: plugins/jabber/jabberconfigbase.cpp:326 plugins/osd/osdconfigbase.cpp:118 rc.cpp:193 rc.cpp:572
+#, no-c-format
+msgid "Enable &typing notification"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196
+#, fuzzy, no-c-format
+msgid "Alt+T"
+msgstr "警示"
+
+#: plugins/jabber/jabberconfigbase.cpp:328 rc.cpp:199
+#, fuzzy, no-c-format
+msgid "Automatically &accept subscribe requests"
+msgstr "隱形"
+
+#: plugins/jabber/jabberconfigbase.cpp:329 rc.cpp:202
+#, fuzzy, no-c-format
+msgid "Alt+A"
+msgstr "警示"
+
+#: plugins/jabber/jabberconfigbase.cpp:330 rc.cpp:205
+#, fuzzy, no-c-format
+msgid "Automatically send &subscribe request"
+msgstr "隱形"
+
+#: plugins/jabber/jabberconfigbase.cpp:331 rc.cpp:208
+#, fuzzy, no-c-format
+msgid "Alt+S"
+msgstr "警示"
+
+#: plugins/jabber/jabberconfigbase.cpp:332 rc.cpp:211
+#, no-c-format
+msgid "Use protocol &icons for agents contacts"
+msgstr ""
+
+#: plugins/jabber/jabberconfigbase.cpp:333 rc.cpp:214
+#, fuzzy, no-c-format
+msgid "Alt+I"
+msgstr "警示"
+
+#: plugins/jabber/jabberconfigbase.cpp:334 rc.cpp:217
+#, no-c-format
+msgid "Send and request version info"
+msgstr ""
+
+#: plugins/jabber/jabberinfobase.cpp:245 rc.cpp:269
+#, no-c-format
+msgid "ID:"
 msgstr ""
 
 #: plugins/jabber/jabbermessage.cpp:53 plugins/livejournal/livejournal.cpp:96
@@ -3283,7 +4965,7 @@ msgstr "登入"
 msgid "&Logo"
 msgstr "登入"
 
-#: plugins/jabber/jabberpicture.cpp:47 rc.cpp:1994
+#: plugins/jabber/jabberpicture.cpp:47 plugins/jabber/jabberpicturebase.cpp:77 rc.cpp:406
 #, fuzzy, no-c-format
 msgid "&Photo"
 msgstr "電話簿"
@@ -3405,6 +5087,11 @@ msgstr ""
 msgid "To register, please fill out the following form.  Be as accurate as possible to make it easier for people to search for you."
 msgstr ""
 
+#: plugins/jabber/jabberworkinfobase.cpp:91 rc.cpp:322
+#, fuzzy, no-c-format
+msgid "Role:"
+msgstr "提供者："
+
 #: plugins/jabber/jidsearch.cpp:179
 #, fuzzy
 msgid "User"
@@ -3442,6 +5129,11 @@ msgstr ""
 #: plugins/jabber/jidsearch.cpp:186
 msgid "Organization Unit"
 msgstr ""
+
+#: plugins/livejournal/journalsearchbase.cpp:65 rc.cpp:1345
+#, fuzzy, no-c-format
+msgid "Add community"
+msgstr "新增非IM連絡人"
 
 #: plugins/livejournal/livejournal.cpp:102
 #, c-format
@@ -4106,10 +5798,85 @@ msgstr "正在傳送"
 msgid "Register new user"
 msgstr "註冊"
 
+#: plugins/livejournal/livejournalcfgbase.cpp:161 rc.cpp:1303
+#, no-c-format
+msgid "&LiveJournal"
+msgstr ""
+
+#: plugins/livejournal/livejournalcfgbase.cpp:163 plugins/spell/spellcfgbase.cpp:84 rc.cpp:533 rc.cpp:1318
+#, fuzzy, no-c-format
+msgid "Path:"
+msgstr "刪除"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:166 rc.cpp:1327
+#, fuzzy, no-c-format
+msgid "Check interval:"
+msgstr "隱形"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:168 rc.cpp:1333
+#, no-c-format
+msgid "Use &fast server - only for paying customers"
+msgstr ""
+
+#: plugins/livejournal/livejournalcfgbase.cpp:169 rc.cpp:1336
+#, fuzzy, no-c-format
+msgid "Use formatted messages"
+msgstr "自動回應訊息"
+
+#: plugins/livejournal/livejournalcfgbase.cpp:170 rc.cpp:1339
+#, no-c-format
+msgid "Add signature to all messages"
+msgstr ""
+
 #: plugins/livejournal/msgjournal.cpp:153
 #, fuzzy
 msgid "Remove record from journal?"
 msgstr "新增非IM連絡人"
+
+#: plugins/livejournal/msgjournalbase.cpp:82 rc.cpp:1351
+#, no-c-format
+msgid "Subject:"
+msgstr ""
+
+#: plugins/livejournal/msgjournalbase.cpp:83 rc.cpp:1354
+#, fuzzy, no-c-format
+msgid "Security:"
+msgstr "保全"
+
+#: plugins/livejournal/msgjournalbase.cpp:85 rc.cpp:1357
+#, fuzzy, no-c-format
+msgid "Public"
+msgstr "公佈"
+
+#: plugins/livejournal/msgjournalbase.cpp:86 rc.cpp:1360
+#, no-c-format
+msgid "Friends-Only"
+msgstr ""
+
+#: plugins/livejournal/msgjournalbase.cpp:87 rc.cpp:1363
+#, fuzzy, no-c-format
+msgid "Private"
+msgstr "提供者："
+
+#: plugins/livejournal/msgjournalbase.cpp:88 rc.cpp:1366
+#, fuzzy, no-c-format
+msgid "Mood:"
+msgstr "更名"
+
+#: plugins/livejournal/msgjournalbase.cpp:92 rc.cpp:1370
+#, no-c-format
+msgid "Enable comments"
+msgstr ""
+
+#: plugins/livejournal/msgjournalbase.cpp:93 rc.cpp:1373
+#, no-c-format
+msgid "No email comments"
+msgstr ""
+
+#: plugins/livejournal/msgjournalbase.cpp:94 rc.cpp:1376
+#, no-c-format
+msgid "Disable comments"
+msgstr ""
 
 #: plugins/logger/logconfig.cpp:94
 msgid "Debug"
@@ -4118,6 +5885,16 @@ msgstr ""
 #: plugins/logger/logconfig.cpp:95
 msgid "Packets"
 msgstr ""
+
+#: plugins/logger/logconfigbase.cpp:68 rc.cpp:6
+#, fuzzy, no-c-format
+msgid "File:"
+msgstr "檔案："
+
+#: plugins/logger/logconfigbase.cpp:69 rc.cpp:9
+#, fuzzy, no-c-format
+msgid "Log level:"
+msgstr "記錄等級"
 
 #: plugins/logger/logger.cpp:39
 msgid "Logger"
@@ -4182,6 +5959,21 @@ msgstr "已開始傳送"
 msgid "Register in .NET Passport"
 msgstr "註冊"
 
+#: plugins/msn/msnconfigbase.cpp:169 plugins/yahoo/yahoocfgbase.cpp:175 plugins/yahoo/yahooinfobase.cpp:154 rc.cpp:1426 rc.cpp:2366 rc.cpp:2391
+#, fuzzy, no-c-format
+msgid "Login:"
+msgstr "登入"
+
+#: plugins/msn/msnconfigbase.cpp:171 rc.cpp:1423
+#, fuzzy, no-c-format
+msgid "&MSN"
+msgstr "SMS"
+
+#: plugins/msn/msnconfigbase.cpp:179 rc.cpp:1456
+#, no-c-format
+msgid "&Automatically add contacts in accept list"
+msgstr ""
+
 #: plugins/msn/msnpacket.cpp:468
 #, fuzzy, c-format
 msgid ""
@@ -4194,6 +5986,26 @@ msgstr ""
 #: plugins/msn/msnpacket.cpp:488
 msgid "You have new mail"
 msgstr ""
+
+#: plugins/navigate/navcfgbase.cc:72 rc.cpp:1468
+#, no-c-format
+msgid "Use KDE settings"
+msgstr ""
+
+#: plugins/navigate/navcfgbase.cc:73 rc.cpp:1471
+#, fuzzy, no-c-format
+msgid "Browser:"
+msgstr "埠："
+
+#: plugins/navigate/navcfgbase.cc:74 rc.cpp:1474
+#, fuzzy, no-c-format
+msgid "Mailer:"
+msgstr "Мужчина"
+
+#: plugins/navigate/navcfgbase.cc:75 rc.cpp:1477
+#, fuzzy, no-c-format
+msgid "Open links in &new window"
+msgstr "主視窗透明"
 
 #: plugins/navigate/navigate.cpp:225
 msgid "Navigate"
@@ -4218,7 +6030,7 @@ msgstr "職業："
 msgid "Network monitor"
 msgstr "網路"
 
-#: plugins/netmonitor/monitor.cpp:63 sim/qt3/i18n.cpp:95
+#: plugins/netmonitor/monitor.cpp:63
 #, fuzzy
 msgid "&Save"
 msgstr "Штат"
@@ -4298,6 +6110,16 @@ msgstr ""
 msgid "Always on top"
 msgstr "總是在最上面"
 
+#: plugins/ontop/ontopcfgbase.cpp:58 rc.cpp:514
+#, fuzzy, no-c-format
+msgid "Show &main window in task manager"
+msgstr "當上線時開啟使用者視窗"
+
+#: plugins/ontop/ontopcfgbase.cpp:59 rc.cpp:517
+#, fuzzy, no-c-format
+msgid "&Container always on top"
+msgstr "總是在最上面"
+
 #: plugins/osd/osd.cpp:68
 msgid "OSD"
 msgstr ""
@@ -4310,98 +6132,98 @@ msgstr ""
 msgid "&OSD"
 msgstr ""
 
-#: plugins/osd/osd.cpp:407
-#, fuzzy
-msgid ""
-"_: male\n"
-"%1 is online"
-msgstr "已經上線"
-
 #: plugins/osd/osd.cpp:408
 #, fuzzy
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is online"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:409
 #, fuzzy
 msgid ""
-"_: male\n"
-"%1 is away"
+"_: female\n"
+"%1 is online"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:410
 #, fuzzy
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is away"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:411
 #, fuzzy
 msgid ""
-"_: male\n"
-"%1 is not available"
+"_: female\n"
+"%1 is away"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:412
 #, fuzzy
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is not available"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:413
 #, fuzzy
 msgid ""
-"_: male\n"
-"%1 doesn't want to be disturbed"
+"_: female\n"
+"%1 is not available"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:414
 #, fuzzy
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 doesn't want to be disturbed"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:415
 #, fuzzy
 msgid ""
-"_: male\n"
-"%1 is occupied"
+"_: female\n"
+"%1 doesn't want to be disturbed"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:416
 #, fuzzy
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is occupied"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:417
 #, fuzzy
 msgid ""
-"_: male\n"
-"%1 is free for chat"
+"_: female\n"
+"%1 is occupied"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:418
 #, fuzzy
 msgid ""
-"_: female\n"
+"_: male\n"
 "%1 is free for chat"
 msgstr "已經上線"
 
 #: plugins/osd/osd.cpp:419
 #, fuzzy
 msgid ""
+"_: female\n"
+"%1 is free for chat"
+msgstr "已經上線"
+
+#: plugins/osd/osd.cpp:420
+#, fuzzy
+msgid ""
 "_: male\n"
 "%1 is offline"
 msgstr "已經上線"
 
-#: plugins/osd/osd.cpp:420
+#: plugins/osd/osd.cpp:421
 #, fuzzy
 msgid ""
 "_: female\n"
@@ -4412,6 +6234,31 @@ msgstr "已經上線"
 #, fuzzy
 msgid "&Interface"
 msgstr "興趣"
+
+#: plugins/osd/osdconfigbase.cpp:109 rc.cpp:545
+#, no-c-format
+msgid "Enable &messages notification"
+msgstr ""
+
+#: plugins/osd/osdconfigbase.cpp:110 rc.cpp:548
+#, no-c-format
+msgid "Enable &status notification"
+msgstr ""
+
+#: plugins/osd/osdconfigbase.cpp:119 rc.cpp:575
+#, fuzzy, no-c-format
+msgid "Show message &content"
+msgstr "外部未知訊息"
+
+#: plugins/osd/osdconfigbase.cpp:120 rc.cpp:578
+#, fuzzy, no-c-format
+msgid "Show lines of content:"
+msgstr "外部未知訊息"
+
+#: plugins/osd/osdconfigbase.cpp:121 rc.cpp:581
+#, fuzzy, no-c-format
+msgid "All"
+msgstr "警示"
 
 #: plugins/osd/osdiface.cpp:33
 #, fuzzy
@@ -4447,6 +6294,46 @@ msgstr "建立群組"
 #, fuzzy
 msgid "Center"
 msgstr "建立群組"
+
+#: plugins/osd/osdifacebase.cpp:129 rc.cpp:587
+#, no-c-format
+msgid "Offset:"
+msgstr ""
+
+#: plugins/osd/osdifacebase.cpp:130 rc.cpp:590
+#, fuzzy, no-c-format
+msgid "Show time:"
+msgstr "顯示離線"
+
+#: plugins/osd/osdifacebase.cpp:131 rc.cpp:593
+#, fuzzy, no-c-format
+msgid "Color:"
+msgstr "Закрыть через"
+
+#: plugins/osd/osdifacebase.cpp:132 rc.cpp:596
+#, fuzzy, no-c-format
+msgid "Font:"
+msgstr "月："
+
+#: plugins/osd/osdifacebase.cpp:133 rc.cpp:599
+#, fuzzy, no-c-format
+msgid "Show sha&dow"
+msgstr "當上線時開啟使用者視窗"
+
+#: plugins/osd/osdifacebase.cpp:134 rc.cpp:602
+#, fuzzy, no-c-format
+msgid "Show &background"
+msgstr "背景顏色"
+
+#: plugins/osd/osdifacebase.cpp:135 plugins/styles/fontconfigbase.cpp:102 rc.cpp:91 rc.cpp:605
+#, fuzzy, no-c-format
+msgid "Background color:"
+msgstr "背景顏色"
+
+#: plugins/osd/osdifacebase.cpp:137 rc.cpp:611
+#, fuzzy, no-c-format
+msgid "Shown on screen:"
+msgstr "顯示反應"
 
 #: plugins/proxy/proxy.cpp:42
 #, fuzzy
@@ -4486,12 +6373,57 @@ msgstr "選擇風格："
 msgid "HTTP requests"
 msgstr "聊天請求"
 
+#: plugins/proxy/proxycfgbase.cpp:131 rc.cpp:58
+#, no-c-format
+msgid "Host:"
+msgstr "主機："
+
+#: plugins/proxy/proxycfgbase.cpp:133 rc.cpp:64
+#, fuzzy, no-c-format
+msgid "Proxy require &authorization"
+msgstr "授權"
+
+#: plugins/proxy/proxycfgbase.cpp:134 rc.cpp:67
+#, fuzzy, no-c-format
+msgid "User:"
+msgstr "使用者"
+
+#: plugins/proxy/proxycfgbase.cpp:136 rc.cpp:73
+#, fuzzy, no-c-format
+msgid "Proxy type:"
+msgstr "埠："
+
+#: plugins/proxy/proxycfgbase.cpp:138 rc.cpp:79
+#, fuzzy, no-c-format
+msgid "Do not show error dialog (automatically reconnect)"
+msgstr "不顯示此對話盒"
+
+#: plugins/proxy/proxyerrorbase.cpp:78 rc.cpp:45
+#, fuzzy, no-c-format
+msgid "Proxy error"
+msgstr "埠："
+
 #: plugins/remote/remote.cpp:42
 msgid "Remote control"
 msgstr ""
 
 #: plugins/remote/remote.cpp:43
 msgid "Plugin provides remote control"
+msgstr ""
+
+#: plugins/remote/remotecfgbase.cpp:105 rc.cpp:1383
+#, fuzzy, no-c-format
+msgid "Use &UNIX socket"
+msgstr "使用者"
+
+#: plugins/remote/remotecfgbase.cpp:107 plugins/remote/remotecfgbase.cpp:108 rc.cpp:1389 rc.cpp:1392
+#, fuzzy, no-c-format
+msgid "Use &TCP socket"
+msgstr "使用者"
+
+#: plugins/remote/remotecfgbase.cpp:109 rc.cpp:1395
+#, no-c-format
+msgid "Enable IE context menu extension"
 msgstr ""
 
 #: plugins/replace/replace.cpp:33
@@ -4543,13 +6475,43 @@ msgstr "使用者"
 msgid "Middle dblclick"
 msgstr "使用者"
 
+#: plugins/shortcuts/mousecfgbase.cpp:36 plugins/shortcuts/mousecfgbase.cpp:78 plugins/shortcuts/shortcutcfgbase.cpp:37 plugins/shortcuts/shortcutcfgbase.cpp:80 rc.cpp:476 rc.cpp:495
+#, fuzzy, no-c-format
+msgid "Command"
+msgstr "國家："
+
+#: plugins/shortcuts/mousecfgbase.cpp:37 plugins/shortcuts/mousecfgbase.cpp:79 rc.cpp:479
+#, fuzzy, no-c-format
+msgid "Button"
+msgstr "背景顏色"
+
+#: plugins/shortcuts/mousecfgbase.cpp:81 rc.cpp:483
+#, fuzzy, no-c-format
+msgid "Alt"
+msgstr "警示"
+
+#: plugins/shortcuts/mousecfgbase.cpp:82 rc.cpp:486
+#, fuzzy, no-c-format
+msgid "Ctrl"
+msgstr "建立群組"
+
+#: plugins/shortcuts/mousecfgbase.cpp:83 rc.cpp:489
+#, no-c-format
+msgid "Shift"
+msgstr ""
+
 #: plugins/shortcuts/shortcutcfg.cpp:52
 msgid "Mouse"
 msgstr ""
 
-#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223 rc.cpp:2313 rc.cpp:2320
+#: plugins/shortcuts/shortcutcfg.cpp:90 plugins/shortcuts/shortcutcfg.cpp:223 plugins/shortcuts/shortcutcfgbase.cpp:40 plugins/shortcuts/shortcutcfgbase.cpp:82 plugins/shortcuts/shortcutcfgbase.cpp:85 rc.cpp:501 rc.cpp:508
 #, no-c-format
 msgid "Global"
+msgstr ""
+
+#: plugins/shortcuts/shortcutcfgbase.cpp:38 plugins/shortcuts/shortcutcfgbase.cpp:81 rc.cpp:498
+#, no-c-format
+msgid "Key"
 msgstr ""
 
 #: plugins/shortcuts/shortcuts.cpp:50
@@ -4587,6 +6549,86 @@ msgstr "正在傳送"
 msgid "Battery:"
 msgstr ""
 
+#: plugins/sms/smssetupbase.cpp:139 rc.cpp:1528
+#, fuzzy, no-c-format
+msgid "SMSSetup"
+msgstr "設定"
+
+#: plugins/sms/smssetupbase.cpp:141 rc.cpp:1537
+#, fuzzy, no-c-format
+msgid "Baudrate:"
+msgstr "接受(&G)"
+
+#: plugins/sms/smssetupbase.cpp:143 rc.cpp:1540
+#, fuzzy, no-c-format
+msgid "115200"
+msgstr "100000"
+
+#: plugins/sms/smssetupbase.cpp:144 rc.cpp:1543
+#, no-c-format
+msgid "38400"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:145 rc.cpp:1546
+#, fuzzy, no-c-format
+msgid "19200"
+msgstr "100000"
+
+#: plugins/sms/smssetupbase.cpp:146 rc.cpp:1549
+#, no-c-format
+msgid "9600"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:147 rc.cpp:1552
+#, no-c-format
+msgid "4800"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:148 rc.cpp:1555
+#, no-c-format
+msgid "2400"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:149 rc.cpp:1558
+#, fuzzy, no-c-format
+msgid "1200"
+msgstr "100000"
+
+#: plugins/sms/smssetupbase.cpp:150 rc.cpp:1561
+#, fuzzy, no-c-format
+msgid "600"
+msgstr "100000"
+
+#: plugins/sms/smssetupbase.cpp:151 rc.cpp:1564
+#, fuzzy, no-c-format
+msgid "300"
+msgstr "100000"
+
+#: plugins/sms/smssetupbase.cpp:152 rc.cpp:1567
+#, no-c-format
+msgid "Software handshake"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:154 rc.cpp:1573
+#, fuzzy, no-c-format
+msgid "Model:"
+msgstr "更名"
+
+#: plugins/sms/smssetupbase.cpp:155 rc.cpp:1576
+#, no-c-format
+msgid "Signal quality:"
+msgstr ""
+
+#: plugins/sms/smssetupbase.cpp:157 rc.cpp:1580
+#, fuzzy, no-c-format
+msgid "Operator:"
+msgstr "放檔案的目錄"
+
+#: plugins/sms/smssetupbase.cpp:158 rc.cpp:1570
+#, fuzzy, no-c-format
+msgid "&Phone"
+msgstr "電話："
+
 #: plugins/sound/sound.cpp:43 plugins/sound/sounduser.cpp:37
 msgid "Sound"
 msgstr "音效"
@@ -4608,10 +6650,50 @@ msgstr ""
 msgid "Events"
 msgstr ""
 
+#: plugins/sound/soundconfigbase.cpp:97 rc.cpp:422
+#, no-c-format
+msgid "&Use KDE sound settings"
+msgstr ""
+
+#: plugins/sound/soundconfigbase.cpp:98 rc.cpp:425
+#, no-c-format
+msgid "Use player defined in system notify settings in kcontrol"
+msgstr ""
+
+#: plugins/sound/soundconfigbase.cpp:99 rc.cpp:428
+#, no-c-format
+msgid "Player:"
+msgstr ""
+
+#: plugins/sound/soundconfigbase.cpp:100 rc.cpp:431
+#, fuzzy, no-c-format
+msgid "File transfer done:"
+msgstr "檔案傳送已完成"
+
+#: plugins/sound/soundconfigbase.cpp:101 rc.cpp:434
+#, fuzzy, no-c-format
+msgid "Message sent:"
+msgstr "訊息："
+
+#: plugins/sound/soundconfigbase.cpp:102 rc.cpp:437
+#, fuzzy, no-c-format
+msgid "Sound on startup:"
+msgstr "顯示反應"
+
 #: plugins/sound/sounduser.cpp:44
 #, fuzzy
 msgid "Online alert"
 msgstr "上線通知"
+
+#: plugins/sound/sounduserbase.cpp:63 rc.cpp:443
+#, no-c-format
+msgid "&Disable all sounds"
+msgstr ""
+
+#: plugins/sound/sounduserbase.cpp:64 rc.cpp:446
+#, no-c-format
+msgid "No sound if windows has &focus"
+msgstr ""
 
 #: plugins/spell/spell.cpp:65
 msgid "Plugin provides check spelling"
@@ -4623,6 +6705,11 @@ msgstr ""
 
 #: plugins/spell/spellcfg.cpp:48
 msgid "Download ASpell"
+msgstr ""
+
+#: plugins/spell/spellfindbase.cpp:66 rc.cpp:523
+#, no-c-format
+msgid "Find ASpell"
 msgstr ""
 
 #: plugins/spell/spellhighlight.cpp:259
@@ -4642,6 +6729,26 @@ msgstr "公佈"
 #: plugins/splash/splash.cpp:37
 msgid "Plugin provides splash screen"
 msgstr ""
+
+#: plugins/styles/fontconfigbase.cpp:100 rc.cpp:85 rc.cpp:770
+#, fuzzy, no-c-format
+msgid "Use &system fonts"
+msgstr "使用系統字形"
+
+#: plugins/styles/fontconfigbase.cpp:101 rc.cpp:88 rc.cpp:773
+#, fuzzy, no-c-format
+msgid "Base font:"
+msgstr "基本字型"
+
+#: plugins/styles/fontconfigbase.cpp:103 rc.cpp:94
+#, fuzzy, no-c-format
+msgid "Button color:"
+msgstr "背景顏色"
+
+#: plugins/styles/fontconfigbase.cpp:105 rc.cpp:100 rc.cpp:776
+#, fuzzy, no-c-format
+msgid "Menu font:"
+msgstr "選單字型"
 
 #: plugins/styles/metal/metal.cpp:502
 #, fuzzy
@@ -4681,6 +6788,16 @@ msgstr ""
 #: plugins/transparent/transparent.cpp:70
 msgid "Plugin provides windows transparency"
 msgstr ""
+
+#: plugins/transparent/transparentcfgbase.cpp:71 rc.cpp:1522
+#, fuzzy, no-c-format
+msgid "Transparency of main window:"
+msgstr "主視窗透明"
+
+#: plugins/transparent/transparentcfgbase.cpp:72 rc.cpp:1525
+#, fuzzy, no-c-format
+msgid "Transparent only if inactive"
+msgstr "容器透明"
 
 #: plugins/weather/weather.cpp:47
 #, fuzzy
@@ -4995,291 +7112,298 @@ msgstr "十月"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Scattered"
+"Light Snow Grains"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:414
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Smoke"
+"Scattered"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:415
 #, fuzzy
 msgid ""
 "_: weather\n"
-"steady"
+"Smoke"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:416
 #, fuzzy
 msgid ""
 "_: weather\n"
-"rising"
+"steady"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:417
 #, fuzzy
 msgid ""
 "_: weather\n"
-"falling"
+"rising"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:418
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Unlimited"
+"falling"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:419
 #, fuzzy
 msgid ""
 "_: weather\n"
-"N"
+"Unlimited"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:420
 #, fuzzy
 msgid ""
 "_: weather\n"
-"NNW"
+"N"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:421
 #, fuzzy
 msgid ""
 "_: weather\n"
-"NW"
+"NNW"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:422
 #, fuzzy
 msgid ""
 "_: weather\n"
-"WNW"
+"NW"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:423
 #, fuzzy
 msgid ""
 "_: weather\n"
-"W"
+"WNW"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:424
 #, fuzzy
 msgid ""
 "_: weather\n"
-"WSW"
+"W"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:425
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SW"
+"WSW"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:426
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SSW"
+"SW"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:427
 #, fuzzy
 msgid ""
 "_: weather\n"
-"S"
+"SSW"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:428
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SSE"
+"S"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:429
 #, fuzzy
 msgid ""
 "_: weather\n"
-"SE"
+"SSE"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:430
 #, fuzzy
 msgid ""
 "_: weather\n"
-"ESE"
+"SE"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:431
 #, fuzzy
 msgid ""
 "_: weather\n"
-"E"
+"ESE"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:432
 #, fuzzy
 msgid ""
 "_: weather\n"
-"ENE"
+"E"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:433
 #, fuzzy
 msgid ""
 "_: weather\n"
-"NE"
+"ENE"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:434
 #, fuzzy
 msgid ""
 "_: weather\n"
-"NNE"
+"NE"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:435
 #, fuzzy
 msgid ""
 "_: weather\n"
-"VAR"
+"NNE"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:436
 #, fuzzy
 msgid ""
 "_: weather\n"
-"CALM"
+"VAR"
 msgstr "十月"
 
 #: plugins/weather/weather.cpp:437
+#, fuzzy
+msgid ""
+"_: weather\n"
+"CALM"
+msgstr "十月"
+
+#: plugins/weather/weather.cpp:438
 msgid "km"
 msgstr ""
 
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:439
 msgid "km/h"
 msgstr ""
 
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:440
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:440
+#: plugins/weather/weather.cpp:441
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:441
+#: plugins/weather/weather.cpp:442
 #, fuzzy
 msgid ""
 "_: weather\n"
 "High"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:443
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:444
 msgid ""
 "_: moonphase\n"
 "New"
 msgstr ""
 
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:445
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:446
 msgid ""
 "_: moonphase\n"
 "First Quarter"
 msgstr ""
 
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:447
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:447
+#: plugins/weather/weather.cpp:448
 msgid ""
 "_: moonphase\n"
 "Full"
 msgstr ""
 
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:449
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:450
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
 msgstr ""
 
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:451
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:462
+#: plugins/weather/weather.cpp:463
 #, fuzzy
 msgid "and"
 msgstr "國家："
 
-#: plugins/weather/weather.cpp:465
+#: plugins/weather/weather.cpp:466
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:468
+#: plugins/weather/weather.cpp:469
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "十月"
 
-#: plugins/weather/weather.cpp:513 plugins/weather/weather.cpp:515
+#: plugins/weather/weather.cpp:514 plugins/weather/weather.cpp:516
 msgid "m/s"
 msgstr ""
 
-#: plugins/weather/weather.cpp:514 plugins/weather/weather.cpp:515
+#: plugins/weather/weather.cpp:515 plugins/weather/weather.cpp:516
 #, fuzzy
 msgid "gust "
 msgstr "八月"
 
-#: plugins/weather/weather.cpp:564
+#: plugins/weather/weather.cpp:565
 msgid "%t | %c"
 msgstr ""
 
-#: plugins/weather/weather.cpp:572
+#: plugins/weather/weather.cpp:573
 msgid ""
 "%l<br><br>\n"
 "<b>Current Weather:</b><br>\n"
@@ -5300,7 +7424,7 @@ msgid ""
 "Updated: %u<br>\n"
 msgstr ""
 
-#: plugins/weather/weather.cpp:596
+#: plugins/weather/weather.cpp:597
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
@@ -5311,6 +7435,36 @@ msgstr ""
 
 #: plugins/weather/weathercfg.cpp:96
 msgid "Location %1 not found"
+msgstr ""
+
+#: plugins/weather/weathercfgbase.cpp:110 rc.cpp:1498
+#, fuzzy, no-c-format
+msgid "Location ID:"
+msgstr "職業："
+
+#: plugins/weather/weathercfgbase.cpp:112 rc.cpp:1504
+#, no-c-format
+msgid "You can enter ID as part URL for your location on weather.com"
+msgstr ""
+
+#: plugins/weather/weathercfgbase.cpp:114 rc.cpp:1507
+#, no-c-format
+msgid "Metric"
+msgstr ""
+
+#: plugins/weather/weathercfgbase.cpp:115 rc.cpp:1510
+#, fuzzy, no-c-format
+msgid "Standart"
+msgstr "狀態"
+
+#: plugins/weather/weathercfgbase.cpp:116 rc.cpp:1513
+#, no-c-format
+msgid "Forecast days:"
+msgstr ""
+
+#: plugins/weather/weathercfgbase.cpp:117 rc.cpp:1516
+#, no-c-format
+msgid "Units:"
 msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:27 plugins/weather/wifacecfg.cpp:66
@@ -5368,11 +7522,6 @@ msgstr "可視名單"
 msgid "Dew Point"
 msgstr ""
 
-#: plugins/weather/wifacecfg.cpp:51 plugins/yahoo/yahoosearch.cpp:134 rc.cpp:272
-#, fuzzy, no-c-format
-msgid "Location"
-msgstr "職業："
-
 #: plugins/weather/wifacecfg.cpp:53
 #, fuzzy
 msgid "Updated"
@@ -5387,7 +7536,7 @@ msgstr ""
 msgid "Sunset"
 msgstr "音效"
 
-#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 rc.cpp:1832
+#: plugins/weather/wifacecfg.cpp:59 plugins/weather/wifacecfg.cpp:74 plugins/yahoo/yahoosearchbase.cpp:101 rc.cpp:2433
 #, fuzzy, no-c-format
 msgid "Conditions"
 msgstr "連線"
@@ -5400,8 +7549,23 @@ msgstr "數字"
 msgid "Day of week"
 msgstr ""
 
-#: plugins/weather/wifacecfg.cpp:72 sim/qt3/i18n.cpp:45
+#: plugins/weather/wifacecfg.cpp:72
 msgid "Date"
+msgstr ""
+
+#: plugins/weather/wifacecfgbase.cpp:81 rc.cpp:1483
+#, fuzzy, no-c-format
+msgid "Button text:"
+msgstr "背景顏色"
+
+#: plugins/weather/wifacecfgbase.cpp:82 rc.cpp:1486
+#, fuzzy, no-c-format
+msgid "Button tip:"
+msgstr "背景顏色"
+
+#: plugins/weather/wifacecfgbase.cpp:83 rc.cpp:1489
+#, no-c-format
+msgid "Forecast tip:"
 msgstr ""
 
 #: plugins/windock/windock.cpp:47
@@ -5425,6 +7589,11 @@ msgstr ""
 #: plugins/yahoo/yahoocfg.cpp:46
 msgid "Get a Yahoo! ID"
 msgstr ""
+
+#: plugins/yahoo/yahoocfgbase.cpp:177 rc.cpp:2388
+#, fuzzy, no-c-format
+msgid "&Yahoo!"
+msgstr "電話簿"
 
 #: plugins/yahoo/yahooclient.cpp:339
 msgid "Yahoo! login lock"
@@ -5474,6 +7643,16 @@ msgstr "Женщина"
 #, fuzzy
 msgid "Yahoo! ID"
 msgstr "電話簿"
+
+#: plugins/yahoo/yahoosearchbase.cpp:98 rc.cpp:2424
+#, fuzzy, no-c-format
+msgid "Yahoo! &ID"
+msgstr "電話簿"
+
+#: plugins/yahoo/yahoosearchbase.cpp:100 rc.cpp:2430
+#, fuzzy, no-c-format
+msgid "&Keyword"
+msgstr "網路"
 
 #: plugins/zodiak/zodiak.cpp:50
 msgid "Zodiak"
@@ -5540,2153 +7719,6 @@ msgstr ""
 msgid "Pisces"
 msgstr "埠："
 
-#: rc.cpp:3
-#, fuzzy, no-c-format
-msgid "Generate key"
-msgstr "一般"
-
-#: rc.cpp:6 rc.cpp:2200
-#, fuzzy, no-c-format
-msgid "EMail:"
-msgstr "Email"
-
-#: rc.cpp:9
-#, fuzzy, no-c-format
-msgid "Comment:"
-msgstr "ICQ客戶端"
-
-#: rc.cpp:12 rc.cpp:336 rc.cpp:2156 rc.cpp:2162
-#, no-c-format
-msgid "Name:"
-msgstr "名稱："
-
-#: rc.cpp:15
-#, fuzzy, no-c-format
-msgid "Passphrase:"
-msgstr "密碼："
-
-#: rc.cpp:18
-#, fuzzy, no-c-format
-msgid "Retype passphrase:"
-msgstr "重新鍵入新密碼："
-
-#: rc.cpp:28
-#, fuzzy, no-c-format
-msgid "Input passphrase"
-msgstr "重新鍵入新密碼："
-
-#: rc.cpp:32
-#, fuzzy, no-c-format
-msgid "&Save passphrase"
-msgstr "變更密碼"
-
-#: rc.cpp:41 rc.cpp:59 rc.cpp:75 rc.cpp:126 rc.cpp:159 rc.cpp:251 rc.cpp:355 rc.cpp:411 rc.cpp:426 rc.cpp:535 rc.cpp:593 rc.cpp:626 rc.cpp:636 rc.cpp:730 rc.cpp:752 rc.cpp:758 rc.cpp:885 rc.cpp:923 rc.cpp:926 rc.cpp:957 rc.cpp:999 rc.cpp:1005 rc.cpp:1020 rc.cpp:1094 rc.cpp:1103 rc.cpp:1116 rc.cpp:1276 rc.cpp:1300 rc.cpp:1387 rc.cpp:1552 rc.cpp:1617 rc.cpp:1634 rc.cpp:1674 rc.cpp:1689 rc.cpp:1708 rc.cpp:1735 rc.cpp:1754 rc.cpp:1763 rc.cpp:1820 rc.cpp:1841 rc.cpp:1869 rc.cpp:1893 rc.cpp:1908 rc.cpp:1938 rc.cpp:1944 rc.cpp:1953 rc.cpp:1969 rc.cpp:1991 rc.cpp:2007 rc.cpp:2088 rc.cpp:2098 rc.cpp:2131 rc.cpp:2135 rc.cpp:2238 rc.cpp:2285 rc.cpp:2304 rc.cpp:2323 rc.cpp:2332 rc.cpp:2351 rc.cpp:2354 rc.cpp:2375 rc.cpp:2399 rc.cpp:2414
-#, no-c-format
-msgid "Form1"
-msgstr "表格1"
-
-#: rc.cpp:44
-#, no-c-format
-msgid "Executable:"
-msgstr ""
-
-#: rc.cpp:47
-#, fuzzy, no-c-format
-msgid "Home directory:"
-msgstr "尋找使用者"
-
-#: rc.cpp:50 rc.cpp:1741
-#, fuzzy, no-c-format
-msgid "&Find"
-msgstr "尋找使用者"
-
-#: rc.cpp:53
-#, no-c-format
-msgid "Your key:"
-msgstr ""
-
-#: rc.cpp:56 rc.cpp:65
-#, fuzzy, no-c-format
-msgid "&Refresh"
-msgstr "拒絕(&R)"
-
-#: rc.cpp:62
-#, no-c-format
-msgid "Key:"
-msgstr ""
-
-#: rc.cpp:68
-#, fuzzy, no-c-format
-msgid "Find GPG"
-msgstr "尋找使用者"
-
-#: rc.cpp:78
-#, no-c-format
-msgid "Command arguments"
-msgstr ""
-
-#: rc.cpp:81
-#, fuzzy, no-c-format
-msgid "Generate key:"
-msgstr "一般"
-
-#: rc.cpp:84
-#, no-c-format
-msgid "List public keys:"
-msgstr ""
-
-#: rc.cpp:87
-#, no-c-format
-msgid "List secret keys:"
-msgstr ""
-
-#: rc.cpp:90
-#, no-c-format
-msgid "Import public:"
-msgstr ""
-
-#: rc.cpp:93
-#, no-c-format
-msgid "Export public:"
-msgstr ""
-
-#: rc.cpp:96
-#, fuzzy, no-c-format
-msgid "Encrypt:"
-msgstr "接受檔案"
-
-#: rc.cpp:99
-#, no-c-format
-msgid "Decrypt:"
-msgstr ""
-
-#: rc.cpp:102 rc.cpp:1423 rc.cpp:2001
-#, no-c-format
-msgid "Form4"
-msgstr "表格4"
-
-#: rc.cpp:105
-#, fuzzy, no-c-format
-msgid "A&bout"
-msgstr "關於資訊"
-
-#: rc.cpp:108
-#, no-c-format
-msgid "Additional information about user:"
-msgstr "關於使用者附加的資訊："
-
-#: rc.cpp:111
-#, fuzzy, no-c-format
-msgid "Choose default encoding"
-msgstr "正在傳送"
-
-#: rc.cpp:114
-#, no-c-format
-msgid "Your current system encoding (UTF-8) may cause problems saving your personal information and reading offline messages from other users."
-msgstr ""
-
-#: rc.cpp:117
-#, no-c-format
-msgid "You will choose the coding by default which want to use:"
-msgstr ""
-
-#: rc.cpp:129
-#, fuzzy, no-c-format
-msgid "&UIN"
-msgstr "UIN"
-
-#: rc.cpp:132
-#, fuzzy, no-c-format
-msgid "&Screenname"
-msgstr "姓名："
-
-#: rc.cpp:135 rc.cpp:1426 rc.cpp:2220
-#, fuzzy, no-c-format
-msgid "&E-Mail"
-msgstr "Email"
-
-#: rc.cpp:138 rc.cpp:1429 rc.cpp:1826 rc.cpp:2223
-#, fuzzy, no-c-format
-msgid "&Name"
-msgstr "名稱"
-
-#: rc.cpp:141 rc.cpp:257 rc.cpp:1432 rc.cpp:2226
-#, fuzzy, no-c-format
-msgid "First:"
-msgstr "姓名："
-
-#: rc.cpp:144 rc.cpp:260 rc.cpp:1435 rc.cpp:2229
-#, fuzzy, no-c-format
-msgid "Last:"
-msgstr "主機："
-
-#: rc.cpp:147 rc.cpp:211 rc.cpp:269 rc.cpp:553 rc.cpp:739 rc.cpp:1438 rc.cpp:1847 rc.cpp:2187 rc.cpp:2250
-#, no-c-format
-msgid "Nick:"
-msgstr "暱稱："
-
-#: rc.cpp:150
-#, fuzzy, no-c-format
-msgid "AOL s&creenname"
-msgstr "姓名："
-
-#: rc.cpp:153
-#, fuzzy, no-c-format
-msgid "ICQ &UIN"
-msgstr "UIN"
-
-#: rc.cpp:156
-#, fuzzy, no-c-format
-msgid "Advanced"
-msgstr "劃線"
-
-#: rc.cpp:162
-#, fuzzy, no-c-format
-msgid "&Security"
-msgstr "保全"
-
-#: rc.cpp:165
-#, fuzzy, no-c-format
-msgid "My &authorization is required before users add me to Contact List"
-msgstr "在使用者把我新增入連絡簿前必須先徵求我的授權"
-
-#: rc.cpp:168
-#, fuzzy, no-c-format
-msgid "Don't show my &IP-address"
-msgstr "不顯示我的IP位址"
-
-#: rc.cpp:172
-#, fuzzy, no-c-format
-msgid "Allow other to view my &status from the Web"
-msgstr "允許其他人從網站上檢視我的狀態"
-
-#: rc.cpp:175
-#, fuzzy, no-c-format
-msgid "I&gnore user authorization"
-msgstr "授權"
-
-#: rc.cpp:178
-#, no-c-format
-msgid "Always use &MD5 authentication"
-msgstr ""
-
-#: rc.cpp:181
-#, fuzzy, no-c-format
-msgid "Direct connections"
-msgstr "連線"
-
-#: rc.cpp:184
-#, fuzzy, no-c-format
-msgid "Allow &direct connection from any user"
-msgstr "連線"
-
-#: rc.cpp:187
-#, no-c-format
-msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-
-#: rc.cpp:190
-#, no-c-format
-msgid "Allow direct connection from user &upon authorization"
-msgstr ""
-
-#: rc.cpp:193
-#, fuzzy, no-c-format
-msgid "&Visible list"
-msgstr "可視名單"
-
-#: rc.cpp:196
-#, fuzzy, no-c-format
-msgid "&Invisible list"
-msgstr "不可視名單"
-
-#: rc.cpp:199
-#, no-c-format
-msgid "Form5"
-msgstr "表格5"
-
-#: rc.cpp:202 rc.cpp:733 rc.cpp:1844 rc.cpp:2241
-#, fuzzy, no-c-format
-msgid "&Names"
-msgstr "名稱"
-
-#: rc.cpp:205 rc.cpp:544 rc.cpp:1473 rc.cpp:1561 rc.cpp:1856
-#, no-c-format
-msgid "Last Name:"
-msgstr "姓氏："
-
-#: rc.cpp:208
-#, no-c-format
-msgid "Uin:"
-msgstr "Uin:"
-
-#: rc.cpp:214 rc.cpp:541 rc.cpp:1470 rc.cpp:1558 rc.cpp:1853 rc.cpp:2196 rc.cpp:2247
-#, fuzzy, no-c-format
-msgid "First Name:"
-msgstr "姓名："
-
-#: rc.cpp:217
-#, fuzzy, no-c-format
-msgid "Random chat group:"
-msgstr "新增群組"
-
-#: rc.cpp:223 rc.cpp:586 rc.cpp:745 rc.cpp:1862 rc.cpp:2263
-#, fuzzy, no-c-format
-msgid "Status:"
-msgstr "狀態"
-
-#: rc.cpp:226 rc.cpp:577 rc.cpp:748 rc.cpp:1183 rc.cpp:1865 rc.cpp:2267
-#, fuzzy, no-c-format
-msgid "Online:"
-msgstr "上線"
-
-#: rc.cpp:230 rc.cpp:580
-#, no-c-format
-msgid "External IP:"
-msgstr ""
-
-#: rc.cpp:233 rc.cpp:590
-#, no-c-format
-msgid "Internal IP:"
-msgstr ""
-
-#: rc.cpp:236 rc.cpp:583 rc.cpp:1729
-#, fuzzy, no-c-format
-msgid "Client:"
-msgstr "ICQ客戶端"
-
-#: rc.cpp:239 rc.cpp:2273
-#, fuzzy, no-c-format
-msgid "&Password"
-msgstr "密碼"
-
-#: rc.cpp:242 rc.cpp:2276
-#, no-c-format
-msgid "New password:"
-msgstr "新密碼："
-
-#: rc.cpp:245 rc.cpp:2279
-#, no-c-format
-msgid "Retype new password:"
-msgstr "重新鍵入新密碼："
-
-#: rc.cpp:248 rc.cpp:2282
-#, fuzzy, no-c-format
-msgid "Current password:"
-msgstr "新密碼："
-
-#: rc.cpp:254
-#, fuzzy, no-c-format
-msgid "Names"
-msgstr "名稱"
-
-#: rc.cpp:263 rc.cpp:547
-#, fuzzy, no-c-format
-msgid "Middle:"
-msgstr "Мужчина"
-
-#: rc.cpp:266 rc.cpp:550
-#, fuzzy, no-c-format
-msgid "Maiden:"
-msgstr "Мужчина"
-
-#: rc.cpp:275 rc.cpp:333 rc.cpp:367 rc.cpp:568 rc.cpp:651 rc.cpp:1294 rc.cpp:2122
-#, no-c-format
-msgid "Country:"
-msgstr "國家："
-
-#: rc.cpp:278 rc.cpp:327 rc.cpp:361 rc.cpp:562 rc.cpp:648 rc.cpp:2125
-#, no-c-format
-msgid "State:"
-msgstr "省/州屬："
-
-#: rc.cpp:281 rc.cpp:324 rc.cpp:370 rc.cpp:559 rc.cpp:645 rc.cpp:2116
-#, no-c-format
-msgid "City:"
-msgstr "城市："
-
-#: rc.cpp:284 rc.cpp:565
-#, fuzzy, no-c-format
-msgid "Zip:"
-msgstr "郵遞區號："
-
-#: rc.cpp:287 rc.cpp:556
-#, fuzzy, no-c-format
-msgid "Street:"
-msgstr "Штат"
-
-#: rc.cpp:290 rc.cpp:1079
-#, no-c-format
-msgid "Form3"
-msgstr "表格3"
-
-#: rc.cpp:293
-#, fuzzy, no-c-format
-msgid "&More info"
-msgstr "更多資訊"
-
-#: rc.cpp:296 rc.cpp:654 rc.cpp:1838
-#, no-c-format
-msgid "Age:"
-msgstr "年齡："
-
-#: rc.cpp:299 rc.cpp:2190 rc.cpp:2256
-#, no-c-format
-msgid "Homepage:"
-msgstr "首頁："
-
-#: rc.cpp:303 rc.cpp:657 rc.cpp:1835
-#, no-c-format
-msgid "Gender:"
-msgstr "性別："
-
-#: rc.cpp:306 rc.cpp:2193 rc.cpp:2253
-#, no-c-format
-msgid "Birth date:"
-msgstr "生日日期："
-
-#: rc.cpp:309
-#, fuzzy, no-c-format
-msgid "&Languages"
-msgstr "語言："
-
-#: rc.cpp:312
-#, no-c-format
-msgid "Spoken languages:"
-msgstr "能說的語言："
-
-#: rc.cpp:315 rc.cpp:391 rc.cpp:691 rc.cpp:800 rc.cpp:1058 rc.cpp:1171 rc.cpp:1464 rc.cpp:1784 rc.cpp:1988 rc.cpp:2113
-#, no-c-format
-msgid "Form2"
-msgstr "表格2"
-
-#: rc.cpp:318
-#, fuzzy, no-c-format
-msgid "&Company"
-msgstr "國家："
-
-#: rc.cpp:321 rc.cpp:364 rc.cpp:2128
-#, no-c-format
-msgid "Address:"
-msgstr "地址："
-
-#: rc.cpp:330 rc.cpp:373 rc.cpp:2119
-#, no-c-format
-msgid "Zip code:"
-msgstr "郵遞區號："
-
-#: rc.cpp:340
-#, no-c-format
-msgid "Web site:"
-msgstr "網站："
-
-#: rc.cpp:343
-#, fuzzy, no-c-format
-msgid "&Occupation"
-msgstr "職業："
-
-#: rc.cpp:346 rc.cpp:663
-#, no-c-format
-msgid "Occupation:"
-msgstr "職業："
-
-#: rc.cpp:349
-#, no-c-format
-msgid "Div / dept:"
-msgstr "Div/部門："
-
-#: rc.cpp:352 rc.cpp:672 rc.cpp:2110
-#, no-c-format
-msgid "Position:"
-msgstr "地點："
-
-#: rc.cpp:358
-#, fuzzy, no-c-format
-msgid "&Home info"
-msgstr "家庭資訊"
-
-#: rc.cpp:376
-#, no-c-format
-msgid "Time zone:"
-msgstr "時區："
-
-#: rc.cpp:379
-#, fuzzy, no-c-format
-msgid "Secure chanel request"
-msgstr "請求聊天"
-
-#: rc.cpp:382
-#, no-c-format
-msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and  the TLS version 1 protocol.\n"
-"\n"
-"This only works with other SIM and Licq clients"
-msgstr ""
-
-#: rc.cpp:394
-#, fuzzy, no-c-format
-msgid "&Interests"
-msgstr "興趣"
-
-#: rc.cpp:397
-#, no-c-format
-msgid "Verification Dialog"
-msgstr ""
-
-#: rc.cpp:400
-#, no-c-format
-msgid "Please retype the letters from the picture above:"
-msgstr ""
-
-#: rc.cpp:414
-#, no-c-format
-msgid "A&ffilation"
-msgstr ""
-
-#: rc.cpp:417
-#, no-c-format
-msgid "Organization, Affiliation, Group:"
-msgstr "組織，Affiliation，群組："
-
-#: rc.cpp:420
-#, fuzzy, no-c-format
-msgid "&Background"
-msgstr "背景顏色"
-
-#: rc.cpp:423
-#, no-c-format
-msgid "Past background:"
-msgstr "Past背景："
-
-#: rc.cpp:429
-#, fuzzy, no-c-format
-msgid "&ICQ"
-msgstr "ICQ"
-
-#: rc.cpp:435
-#, fuzzy, no-c-format
-msgid "&Register new UIN"
-msgstr "註冊"
-
-#: rc.cpp:438
-#, no-c-format
-msgid "UIN:"
-msgstr "UIN:"
-
-#: rc.cpp:441 rc.cpp:605 rc.cpp:703 rc.cpp:969 rc.cpp:1796 rc.cpp:2031
-#, fuzzy, no-c-format
-msgid "&Network"
-msgstr "網路"
-
-#: rc.cpp:444 rc.cpp:617 rc.cpp:721 rc.cpp:1808
-#, no-c-format
-msgid "&Automatically use HTTP polling if proxy required"
-msgstr ""
-
-#: rc.cpp:447 rc.cpp:614 rc.cpp:718 rc.cpp:1811 rc.cpp:2052
-#, no-c-format
-msgid "Use &HTTP polling"
-msgstr ""
-
-#: rc.cpp:450 rc.cpp:611 rc.cpp:706 rc.cpp:972 rc.cpp:1799 rc.cpp:2022 rc.cpp:2034
-#, fuzzy, no-c-format
-msgid "Server:"
-msgstr "Штат"
-
-#: rc.cpp:453 rc.cpp:608 rc.cpp:709 rc.cpp:836 rc.cpp:978 rc.cpp:1714 rc.cpp:1802 rc.cpp:2025 rc.cpp:2037 rc.cpp:2339
-#, no-c-format
-msgid "Port:"
-msgstr "埠："
-
-#: rc.cpp:456 rc.cpp:712 rc.cpp:1817 rc.cpp:2043
-#, fuzzy, no-c-format
-msgid "Port range for direct connections:"
-msgstr "連線"
-
-#: rc.cpp:459 rc.cpp:715 rc.cpp:1285 rc.cpp:1291 rc.cpp:1297 rc.cpp:1814 rc.cpp:2040
-#, no-c-format
-msgid "-"
-msgstr "-"
-
-#: rc.cpp:462 rc.cpp:620 rc.cpp:724 rc.cpp:1805 rc.cpp:2055
-#, no-c-format
-msgid "Note: For HTTP-polling using proxy settings for HTTP"
-msgstr ""
-
-#: rc.cpp:465 rc.cpp:623
-#, fuzzy, no-c-format
-msgid "&Keep-alive connection"
-msgstr "連線"
-
-#: rc.cpp:468 rc.cpp:981 rc.cpp:2061
-#, fuzzy, no-c-format
-msgid "&Options"
-msgstr "連線"
-
-#: rc.cpp:471
-#, fuzzy, no-c-format
-msgid "Automatically check &invisible"
-msgstr "隱形"
-
-#: rc.cpp:474
-#, fuzzy, no-c-format
-msgid "Send format:"
-msgstr "傳送失敗"
-
-#: rc.cpp:477
-#, fuzzy, no-c-format
-msgid "Send message:"
-msgstr "自動回應訊息"
-
-#: rc.cpp:480
-#, fuzzy, no-c-format
-msgid "No wait ack"
-msgstr "斜體"
-
-#: rc.cpp:483
-#, no-c-format
-msgid "Wait ack from server"
-msgstr ""
-
-#: rc.cpp:486
-#, no-c-format
-msgid "Wait ack from client"
-msgstr ""
-
-#: rc.cpp:489
-#, fuzzy, no-c-format
-msgid "Accept in &occupied mode"
-msgstr "接受模式"
-
-#: rc.cpp:492
-#, fuzzy, no-c-format
-msgid "Accept in &DND mode"
-msgstr "接受模式"
-
-#: rc.cpp:495
-#, no-c-format
-msgid "For decrease traffic you can:"
-msgstr ""
-
-#: rc.cpp:498
-#, no-c-format
-msgid "Disable answer on phonebook and &picture requests"
-msgstr ""
-
-#: rc.cpp:501
-#, no-c-format
-msgid "Disable automatically &request autoreply on change status"
-msgstr ""
-
-#: rc.cpp:504
-#, no-c-format
-msgid "Disable automatically &update user info"
-msgstr ""
-
-#: rc.cpp:507
-#, no-c-format
-msgid "Disable &typing notification"
-msgstr ""
-
-#: rc.cpp:510
-#, fuzzy, no-c-format
-msgid "Check invisible every"
-msgstr "隱形"
-
-#: rc.cpp:513 rc.cpp:987
-#, fuzzy, no-c-format
-msgid "minutes"
-msgstr "Закрыть через"
-
-#: rc.cpp:516
-#, fuzzy, no-c-format
-msgid "Send warning"
-msgstr "傳送失敗"
-
-#: rc.cpp:519
-#, no-c-format
-msgid "Click OK to send warning to %1. This will raise %1's warning and limit his or her activity. Do this only if %1 has done something to merit a warning."
-msgstr ""
-
-#: rc.cpp:522
-#, no-c-format
-msgid "Warn &anonymously"
-msgstr ""
-
-#: rc.cpp:525
-#, no-c-format
-msgid ""
-"Check this if you don't want your screen name revealed.\n"
-"Anonymous warnings are less severe."
-msgstr ""
-
-#: rc.cpp:538
-#, fuzzy, no-c-format
-msgid "&Profile"
-msgstr "提供者："
-
-#: rc.cpp:571 rc.cpp:599
-#, fuzzy, no-c-format
-msgid "ScreenName:"
-msgstr "姓名："
-
-#: rc.cpp:596
-#, fuzzy, no-c-format
-msgid "&AIM"
-msgstr "SMS"
-
-#: rc.cpp:629
-#, no-c-format
-msgid "&Picture"
-msgstr ""
-
-#: rc.cpp:633 rc.cpp:1998 rc.cpp:2317
-#, fuzzy, no-c-format
-msgid "&Clear"
-msgstr "Закрыть через"
-
-#: rc.cpp:642 rc.cpp:1023 rc.cpp:1744
-#, no-c-format
-msgid "Language:"
-msgstr "語言："
-
-#: rc.cpp:660
-#, fuzzy, no-c-format
-msgid "Work"
-msgstr "家庭資訊"
-
-#: rc.cpp:666 rc.cpp:2104
-#, fuzzy, no-c-format
-msgid "Company:"
-msgstr "國家："
-
-#: rc.cpp:669 rc.cpp:2101
-#, no-c-format
-msgid "Department:"
-msgstr ""
-
-#: rc.cpp:678
-#, fuzzy, no-c-format
-msgid "Past"
-msgstr "刪除"
-
-#: rc.cpp:682
-#, no-c-format
-msgid "Affilations"
-msgstr ""
-
-#: rc.cpp:685
-#, fuzzy, no-c-format
-msgid "Keywords"
-msgstr "網路"
-
-#: rc.cpp:688
-#, no-c-format
-msgid "Search &online users only"
-msgstr ""
-
-#: rc.cpp:694
-#, fuzzy, no-c-format
-msgid "&MSN"
-msgstr "SMS"
-
-#: rc.cpp:697 rc.cpp:1790 rc.cpp:1850
-#, fuzzy, no-c-format
-msgid "Login:"
-msgstr "登入"
-
-#: rc.cpp:727
-#, no-c-format
-msgid "&Automatically add contacts in accept list"
-msgstr ""
-
-#: rc.cpp:761
-#, no-c-format
-msgid "Enable &messages notification"
-msgstr ""
-
-#: rc.cpp:764
-#, no-c-format
-msgid "Enable &status notification"
-msgstr ""
-
-#: rc.cpp:788 rc.cpp:2085
-#, no-c-format
-msgid "Enable &typing notification"
-msgstr ""
-
-#: rc.cpp:791
-#, fuzzy, no-c-format
-msgid "Show message &content"
-msgstr "外部未知訊息"
-
-#: rc.cpp:794
-#, fuzzy, no-c-format
-msgid "Show lines of content:"
-msgstr "外部未知訊息"
-
-#: rc.cpp:797
-#, fuzzy, no-c-format
-msgid "All"
-msgstr "警示"
-
-#: rc.cpp:803
-#, no-c-format
-msgid "Offset:"
-msgstr ""
-
-#: rc.cpp:806
-#, fuzzy, no-c-format
-msgid "Show time:"
-msgstr "顯示離線"
-
-#: rc.cpp:809
-#, fuzzy, no-c-format
-msgid "Color:"
-msgstr "Закрыть через"
-
-#: rc.cpp:812
-#, fuzzy, no-c-format
-msgid "Font:"
-msgstr "月："
-
-#: rc.cpp:815
-#, fuzzy, no-c-format
-msgid "Show sha&dow"
-msgstr "當上線時開啟使用者視窗"
-
-#: rc.cpp:818
-#, fuzzy, no-c-format
-msgid "Show &background"
-msgstr "背景顏色"
-
-#: rc.cpp:821 rc.cpp:2363
-#, fuzzy, no-c-format
-msgid "Background color:"
-msgstr "背景顏色"
-
-#: rc.cpp:824 rc.cpp:1905
-#, no-c-format
-msgid "Place:"
-msgstr ""
-
-#: rc.cpp:827
-#, fuzzy, no-c-format
-msgid "Shown on screen:"
-msgstr "顯示反應"
-
-#: rc.cpp:830
-#, fuzzy, no-c-format
-msgid "SMSSetup"
-msgstr "設定"
-
-#: rc.cpp:839
-#, fuzzy, no-c-format
-msgid "Baudrate:"
-msgstr "接受(&G)"
-
-#: rc.cpp:842
-#, fuzzy, no-c-format
-msgid "115200"
-msgstr "100000"
-
-#: rc.cpp:845
-#, no-c-format
-msgid "38400"
-msgstr ""
-
-#: rc.cpp:848
-#, fuzzy, no-c-format
-msgid "19200"
-msgstr "100000"
-
-#: rc.cpp:851
-#, no-c-format
-msgid "9600"
-msgstr ""
-
-#: rc.cpp:854
-#, no-c-format
-msgid "4800"
-msgstr ""
-
-#: rc.cpp:857
-#, no-c-format
-msgid "2400"
-msgstr ""
-
-#: rc.cpp:860
-#, fuzzy, no-c-format
-msgid "1200"
-msgstr "100000"
-
-#: rc.cpp:863
-#, fuzzy, no-c-format
-msgid "600"
-msgstr "100000"
-
-#: rc.cpp:866
-#, fuzzy, no-c-format
-msgid "300"
-msgstr "100000"
-
-#: rc.cpp:869
-#, no-c-format
-msgid "Software handshake"
-msgstr ""
-
-#: rc.cpp:872
-#, fuzzy, no-c-format
-msgid "&Phone"
-msgstr "電話："
-
-#: rc.cpp:875
-#, fuzzy, no-c-format
-msgid "Model:"
-msgstr "更名"
-
-#: rc.cpp:878
-#, no-c-format
-msgid "Signal quality:"
-msgstr ""
-
-#: rc.cpp:882
-#, fuzzy, no-c-format
-msgid "Operator:"
-msgstr "放檔案的目錄"
-
-#: rc.cpp:888
-#, fuzzy, no-c-format
-msgid "Hide main window after"
-msgstr "當上線時開啟使用者視窗"
-
-#: rc.cpp:891
-#, no-c-format
-msgid "seconds inactive"
-msgstr ""
-
-#: rc.cpp:894
-#, fuzzy, no-c-format
-msgid "Show Mainwin on desktop"
-msgstr "當上線時開啟使用者視窗"
-
-#: rc.cpp:897
-#, no-c-format
-msgid "current"
-msgstr ""
-
-#: rc.cpp:900
-#, fuzzy, no-c-format
-msgid "&Customize dock menu"
-msgstr "自定訊息"
-
-#: rc.cpp:903
-#, fuzzy, no-c-format
-msgid "Convert configuration from old version"
-msgstr "ICQ客戶端"
-
-#: rc.cpp:906
-#, fuzzy, no-c-format
-msgid "Select directories for convert"
-msgstr "放上傳檔案的目錄"
-
-#: rc.cpp:909
-#, fuzzy, no-c-format
-msgid "Directories for convert:"
-msgstr "放上傳檔案的目錄"
-
-#: rc.cpp:912
-#, fuzzy, no-c-format
-msgid "&Remove old files"
-msgstr "遠端檔案："
-
-#: rc.cpp:915
-#, no-c-format
-msgid ""
-"Note!\n"
-"If you select an option \" Remove old files \", you can not use the old version"
-msgstr ""
-
-#: rc.cpp:919
-#, fuzzy, no-c-format
-msgid "Convert configuration"
-msgstr "ICQ客戶端"
-
-#: rc.cpp:929
-#, no-c-format
-msgid "Subject:"
-msgstr ""
-
-#: rc.cpp:932
-#, fuzzy, no-c-format
-msgid "Security:"
-msgstr "保全"
-
-#: rc.cpp:935
-#, fuzzy, no-c-format
-msgid "Public"
-msgstr "公佈"
-
-#: rc.cpp:938
-#, no-c-format
-msgid "Friends-Only"
-msgstr ""
-
-#: rc.cpp:941
-#, fuzzy, no-c-format
-msgid "Private"
-msgstr "提供者："
-
-#: rc.cpp:944
-#, fuzzy, no-c-format
-msgid "Mood:"
-msgstr "更名"
-
-#: rc.cpp:948
-#, no-c-format
-msgid "Enable comments"
-msgstr ""
-
-#: rc.cpp:951
-#, no-c-format
-msgid "No email comments"
-msgstr ""
-
-#: rc.cpp:954
-#, no-c-format
-msgid "Disable comments"
-msgstr ""
-
-#: rc.cpp:960
-#, no-c-format
-msgid "&LiveJournal"
-msgstr ""
-
-#: rc.cpp:963 rc.cpp:2016
-#, fuzzy, no-c-format
-msgid "Username:"
-msgstr "更名"
-
-#: rc.cpp:975 rc.cpp:1738
-#, fuzzy, no-c-format
-msgid "Path:"
-msgstr "刪除"
-
-#: rc.cpp:984
-#, fuzzy, no-c-format
-msgid "Check interval:"
-msgstr "隱形"
-
-#: rc.cpp:990
-#, no-c-format
-msgid "Use &fast server - only for paying customers"
-msgstr ""
-
-#: rc.cpp:993
-#, fuzzy, no-c-format
-msgid "Use formatted messages"
-msgstr "自動回應訊息"
-
-#: rc.cpp:996
-#, no-c-format
-msgid "Add signature to all messages"
-msgstr ""
-
-#: rc.cpp:1002
-#, fuzzy, no-c-format
-msgid "Add community"
-msgstr "新增非IM連絡人"
-
-#: rc.cpp:1008
-#, no-c-format
-msgid "Use KDE settings"
-msgstr ""
-
-#: rc.cpp:1011
-#, fuzzy, no-c-format
-msgid "Browser:"
-msgstr "埠："
-
-#: rc.cpp:1014
-#, fuzzy, no-c-format
-msgid "Mailer:"
-msgstr "Мужчина"
-
-#: rc.cpp:1017
-#, fuzzy, no-c-format
-msgid "Open links in &new window"
-msgstr "主視窗透明"
-
-#: rc.cpp:1026
-#, fuzzy, no-c-format
-msgid "Message window"
-msgstr "訊息已送出"
-
-#: rc.cpp:1029
-#, no-c-format
-msgid "&Simple mode"
-msgstr ""
-
-#: rc.cpp:1032
-#, fuzzy, no-c-format
-msgid "&Chat mode"
-msgstr "狀態模式"
-
-#: rc.cpp:1035
-#, no-c-format
-msgid "&Using last selected font"
-msgstr ""
-
-#: rc.cpp:1038
-#, fuzzy, no-c-format
-msgid "Container mode"
-msgstr "至容器"
-
-#: rc.cpp:1041
-#, no-c-format
-msgid "Open each contact in &new container"
-msgstr ""
-
-#: rc.cpp:1044
-#, no-c-format
-msgid "Open one container for &group"
-msgstr ""
-
-#: rc.cpp:1047
-#, no-c-format
-msgid "Open all contacts in &one container"
-msgstr ""
-
-#: rc.cpp:1050
-#, no-c-format
-msgid "Use \"&Enter\" for send message"
-msgstr ""
-
-#: rc.cpp:1055
-#, no-c-format
-msgid "Start SIM on every &windows startup"
-msgstr ""
-
-#: rc.cpp:1061
-#, fuzzy, no-c-format
-msgid "Provider:"
-msgstr "提供者："
-
-#: rc.cpp:1064
-#, no-c-format
-msgid "Email gateway:"
-msgstr "電郵閘道："
-
-#: rc.cpp:1067 rc.cpp:1288
-#, no-c-format
-msgid "Number:"
-msgstr "數字："
-
-#: rc.cpp:1070 rc.cpp:1485
-#, no-c-format
-msgid "MyDialog"
-msgstr ""
-
-#: rc.cpp:1086
-#, fuzzy, no-c-format
-msgid "Complete"
-msgstr "Закрыть через"
-
-#: rc.cpp:1089
-#, no-c-format
-msgid ""
-"If you want to add connection press button \" Next\".\n"
-"You can add connection later using connection manager"
-msgstr ""
-
-#: rc.cpp:1097
-#, no-c-format
-msgid "Text before cursor:"
-msgstr ""
-
-#: rc.cpp:1100
-#, no-c-format
-msgid "Text after cursor:"
-msgstr ""
-
-#: rc.cpp:1107 rc.cpp:1159
-#, fuzzy, no-c-format
-msgid "&Override global settings"
-msgstr "覆蓋整體設定"
-
-#: rc.cpp:1110 rc.cpp:1491 rc.cpp:1929 rc.cpp:1941 rc.cpp:2411 sim/simapi.cpp:486
-#, no-c-format
-msgid "&Help"
-msgstr ""
-
-#: rc.cpp:1113
-#, fuzzy, no-c-format
-msgid "Don't show autoreply dialog"
-msgstr "不顯示此對話盒"
-
-#: rc.cpp:1119
-#, no-c-format
-msgid "Save &status changes to history"
-msgstr ""
-
-#: rc.cpp:1122
-#, fuzzy, no-c-format
-msgid "Open window if user go online"
-msgstr "當上線時開啟使用者視窗"
-
-#: rc.cpp:1128
-#, fuzzy, no-c-format
-msgid "&No open"
-msgstr "新群組"
-
-#: rc.cpp:1131
-#, no-c-format
-msgid "Open and &minimize"
-msgstr ""
-
-#: rc.cpp:1134
-#, no-c-format
-msgid "Open and &raise"
-msgstr ""
-
-#: rc.cpp:1137
-#, fuzzy, no-c-format
-msgid "EditPhone"
-msgstr "電話："
-
-#: rc.cpp:1140
-#, no-c-format
-msgid "Number details:"
-msgstr "數字細項："
-
-#: rc.cpp:1143 rc.cpp:2153
-#, no-c-format
-msgid "Type:"
-msgstr "種類："
-
-#: rc.cpp:1146 rc.cpp:1447
-#, fuzzy, no-c-format
-msgid "&Publish"
-msgstr "公佈"
-
-#: rc.cpp:1155
-#, no-c-format
-msgid "PrefConfigBaseForm"
-msgstr ""
-
-#: rc.cpp:1162
-#, fuzzy, no-c-format
-msgid "New connection"
-msgstr "連線"
-
-#: rc.cpp:1165
-#, fuzzy, no-c-format
-msgid "Select protocol"
-msgstr "文字顏色"
-
-#: rc.cpp:1168
-#, no-c-format
-msgid "Protocol:"
-msgstr ""
-
-#: rc.cpp:1174
-#, fuzzy, no-c-format
-msgid "Groups"
-msgstr "群組"
-
-#: rc.cpp:1177
-#, fuzzy, no-c-format
-msgid "Do not distrub"
-msgstr "請勿干擾"
-
-#: rc.cpp:1192
-#, fuzzy, no-c-format
-msgid "Colors:"
-msgstr "Закрыть через"
-
-#: rc.cpp:1195
-#, fuzzy, no-c-format
-msgid "Use &double click"
-msgstr "使用者"
-
-#: rc.cpp:1198 rc.cpp:2369
-#, fuzzy, no-c-format
-msgid "Use system &colors"
-msgstr "使用系統字形"
-
-#: rc.cpp:1201
-#, fuzzy, no-c-format
-msgid "Use small &font for group"
-msgstr "使用者資訊"
-
-#: rc.cpp:1204
-#, no-c-format
-msgid "Show group &separator"
-msgstr ""
-
-#: rc.cpp:1207
-#, fuzzy, no-c-format
-msgid "Sorting"
-msgstr "埠："
-
-#: rc.cpp:1210
-#, fuzzy, no-c-format
-msgid "1st:"
-msgstr "主機："
-
-#: rc.cpp:1213
-#, fuzzy, no-c-format
-msgid "2nd:"
-msgstr "Uin:"
-
-#: rc.cpp:1216
-#, no-c-format
-msgid "3rd:"
-msgstr ""
-
-#: rc.cpp:1228
-#, fuzzy, no-c-format
-msgid "Visible"
-msgstr "隱形"
-
-#: rc.cpp:1234
-#, fuzzy, no-c-format
-msgid "Awaiting authorization"
-msgstr "授權"
-
-#: rc.cpp:1237
-#, fuzzy, no-c-format
-msgid "No show scroller"
-msgstr "新群組"
-
-#: rc.cpp:1240
-#, no-c-format
-msgid "Toolbar setup"
-msgstr ""
-
-#: rc.cpp:1243
-#, no-c-format
-msgid "All buttons:"
-msgstr ""
-
-#: rc.cpp:1246 rc.cpp:1258
-#, no-c-format
-msgid "New Item"
-msgstr "新項目"
-
-#: rc.cpp:1249
-#, fuzzy, no-c-format
-msgid "&Add ->"
-msgstr "新增(&A)"
-
-#: rc.cpp:1252
-#, fuzzy, no-c-format
-msgid "<- &Remove"
-msgstr "更名"
-
-#: rc.cpp:1255
-#, fuzzy, no-c-format
-msgid "Active:"
-msgstr "連線"
-
-#: rc.cpp:1261 rc.cpp:1405 rc.cpp:1677
-#, fuzzy, no-c-format
-msgid "&Up"
-msgstr "向上"
-
-#: rc.cpp:1264 rc.cpp:1411 rc.cpp:1680
-#, fuzzy, no-c-format
-msgid "&Down"
-msgstr "向下"
-
-#: rc.cpp:1279
-#, no-c-format
-msgid "Area code:"
-msgstr "區域碼："
-
-#: rc.cpp:1282
-#, no-c-format
-msgid "Extension:"
-msgstr "延伸："
-
-#: rc.cpp:1303
-#, no-c-format
-msgid "Use &own colors and fonts settings"
-msgstr ""
-
-#: rc.cpp:1306
-#, no-c-format
-msgid "Use emotional &icons"
-msgstr ""
-
-#: rc.cpp:1309 rc.cpp:1624
-#, no-c-format
-msgid "Max history file size"
-msgstr ""
-
-#: rc.cpp:1313 rc.cpp:1620
-#, no-c-format
-msgid "Mb"
-msgstr ""
-
-#: rc.cpp:1317 rc.cpp:1630
-#, fuzzy, no-c-format
-msgid "Keep history "
-msgstr "Штат"
-
-#: rc.cpp:1320 rc.cpp:1627
-#, no-c-format
-msgid "days"
-msgstr ""
-
-#: rc.cpp:1333
-#, fuzzy, no-c-format
-msgid "100"
-msgstr "100000"
-
-#: rc.cpp:1336
-#, no-c-format
-msgid "50"
-msgstr ""
-
-#: rc.cpp:1339
-#, no-c-format
-msgid "20"
-msgstr ""
-
-#: rc.cpp:1343
-#, fuzzy, no-c-format
-msgid "&Preview"
-msgstr "提供者："
-
-#: rc.cpp:1346
-#, fuzzy, no-c-format
-msgid "&Source"
-msgstr "埠："
-
-#: rc.cpp:1353
-#, fuzzy, no-c-format
-msgid "&Update"
-msgstr "更新"
-
-#: rc.cpp:1365
-#, no-c-format
-msgid "File transfer"
-msgstr "檔案傳送"
-
-#: rc.cpp:1369
-#, fuzzy, no-c-format
-msgid "Time:"
-msgstr "時區："
-
-#: rc.cpp:1372
-#, fuzzy, no-c-format
-msgid "Estimated time:"
-msgstr "自動回應訊息"
-
-#: rc.cpp:1375
-#, fuzzy, no-c-format
-msgid "Speed:"
-msgstr "Штат"
-
-#: rc.cpp:1378
-#, no-c-format
-msgid "&Go to dir"
-msgstr ""
-
-#: rc.cpp:1381
-#, fuzzy, no-c-format
-msgid "Close after &transfer"
-msgstr "傳送後關閉(&L)"
-
-#: rc.cpp:1390 rc.cpp:2357
-#, fuzzy, no-c-format
-msgid "Use &system fonts"
-msgstr "使用系統字形"
-
-#: rc.cpp:1393 rc.cpp:2360
-#, fuzzy, no-c-format
-msgid "Base font:"
-msgstr "基本字型"
-
-#: rc.cpp:1396 rc.cpp:2372
-#, fuzzy, no-c-format
-msgid "Menu font:"
-msgstr "選單字型"
-
-#: rc.cpp:1402
-#, fuzzy, no-c-format
-msgid "&Configure"
-msgstr "ICQ客戶端"
-
-#: rc.cpp:1408
-#, no-c-format
-msgid "Connection"
-msgstr "連線"
-
-#: rc.cpp:1414 rc.cpp:1683
-#, fuzzy, no-c-format
-msgid "&Remove"
-msgstr "更名"
-
-#: rc.cpp:1417
-#, fuzzy, no-c-format
-msgid "&New connection"
-msgstr "連線"
-
-#: rc.cpp:1441
-#, fuzzy, no-c-format
-msgid "EditMail"
-msgstr "編輯電郵"
-
-#: rc.cpp:1444
-#, no-c-format
-msgid "Enter Email address:"
-msgstr "輸入電郵位址："
-
-#: rc.cpp:1456
-#, no-c-format
-msgid "PluginCfgBaseForm"
-msgstr ""
-
-#: rc.cpp:1460
-#, no-c-format
-msgid "Plugin &enabled"
-msgstr ""
-
-#: rc.cpp:1476 rc.cpp:2232
-#, no-c-format
-msgid "Nickname:"
-msgstr "暱稱："
-
-#: rc.cpp:1479
-#, fuzzy, no-c-format
-msgid "E-Mail address:"
-msgstr "電郵位址："
-
-#: rc.cpp:1482 rc.cpp:2203
-#, fuzzy, no-c-format
-msgid "Phone:"
-msgstr "電話："
-
-#: rc.cpp:1488
-#, no-c-format
-msgid "Don't show this dialog"
-msgstr "不顯示此對話盒"
-
-#: rc.cpp:1501
-#, no-c-format
-msgid "Decline reason"
-msgstr "拒絕理由"
-
-#: rc.cpp:1504
-#, fuzzy, no-c-format
-msgid "Enter decline reason:"
-msgstr "輸入一個拒絕的理由"
-
-#: rc.cpp:1516
-#, fuzzy, no-c-format
-msgid "&Add to list"
-msgstr "新增至忽略名單"
-
-#: rc.cpp:1520
-#, fuzzy, no-c-format
-msgid "More &options"
-msgstr "連線"
-
-#: rc.cpp:1523
-#, fuzzy, no-c-format
-msgid "&New search"
-msgstr "新的搜尋"
-
-#: rc.cpp:1526
-#, no-c-format
-msgid "Login"
-msgstr "登入"
-
-#: rc.cpp:1530
-#, fuzzy, no-c-format
-msgid "Passwords:"
-msgstr "密碼："
-
-#: rc.cpp:1534
-#, fuzzy, no-c-format
-msgid "Profile:"
-msgstr "提供者："
-
-#: rc.cpp:1540
-#, fuzzy, no-c-format
-msgid "&Save password"
-msgstr "變更密碼"
-
-#: rc.cpp:1543
-#, fuzzy, no-c-format
-msgid "&Do not show this window on startup"
-msgstr "不顯示此對話盒"
-
-#: rc.cpp:1564
-#, no-c-format
-msgid "Display:"
-msgstr "顯示："
-
-#: rc.cpp:1567
-#, fuzzy, no-c-format
-msgid "Encoding:"
-msgstr "正在傳送"
-
-#: rc.cpp:1570
-#, fuzzy, no-c-format
-msgid "&Mails"
-msgstr "Email"
-
-#: rc.cpp:1573
-#, no-c-format
-msgid "Email addresses:"
-msgstr "電郵位址："
-
-#: rc.cpp:1585
-#, no-c-format
-msgid ""
-"Note:\n"
-"You can change only those addresses which have entered.\n"
-"It is impossible to change addresses which were received from the user."
-msgstr ""
-
-#: rc.cpp:1590
-#, fuzzy, no-c-format
-msgid "&Phones"
-msgstr "電話："
-
-#: rc.cpp:1593
-#, fuzzy, no-c-format
-msgid "Phones:"
-msgstr "電話："
-
-#: rc.cpp:1597
-#, fuzzy, no-c-format
-msgid "Phone Status:"
-msgstr "電話："
-
-#: rc.cpp:1609
-#, no-c-format
-msgid ""
-"Note:\n"
-"You can change only those numbers which have entered.\n"
-"It is impossible to change numbers which were received from the user."
-msgstr ""
-
-#: rc.cpp:1614
-#, fuzzy, no-c-format
-msgid "&Notes"
-msgstr "筆記"
-
-#: rc.cpp:1637
-#, no-c-format
-msgid "Path for incoming files:"
-msgstr "接收檔案的路徑："
-
-#: rc.cpp:1640
-#, no-c-format
-msgid "Accept mode"
-msgstr "接受模式"
-
-#: rc.cpp:1643
-#, no-c-format
-msgid "Show response"
-msgstr "顯示反應"
-
-#: rc.cpp:1646
-#, no-c-format
-msgid "Auto accept"
-msgstr "自動接受"
-
-#: rc.cpp:1649
-#, no-c-format
-msgid "Overwrite files"
-msgstr "覆蓋檔案"
-
-#: rc.cpp:1652
-#, no-c-format
-msgid "Auto decline"
-msgstr "自動拒絕"
-
-#: rc.cpp:1655
-#, fuzzy, no-c-format
-msgid "About SIM"
-msgstr "關於資訊"
-
-#: rc.cpp:1661
-#, fuzzy, no-c-format
-msgid "Authors"
-msgstr "自動回應"
-
-#: rc.cpp:1664
-#, fuzzy, no-c-format
-msgid "Translation"
-msgstr "透明化"
-
-#: rc.cpp:1667
-#, fuzzy, no-c-format
-msgid "License"
-msgstr "埠："
-
-#: rc.cpp:1692
-#, fuzzy, no-c-format
-msgid "Show &main window in task manager"
-msgstr "當上線時開啟使用者視窗"
-
-#: rc.cpp:1695
-#, fuzzy, no-c-format
-msgid "&Container always on top"
-msgstr "總是在最上面"
-
-#: rc.cpp:1698
-#, fuzzy, no-c-format
-msgid "Proxy error"
-msgstr "埠："
-
-#: rc.cpp:1711
-#, no-c-format
-msgid "Host:"
-msgstr "主機："
-
-#: rc.cpp:1717
-#, fuzzy, no-c-format
-msgid "Proxy require &authorization"
-msgstr "授權"
-
-#: rc.cpp:1720
-#, fuzzy, no-c-format
-msgid "User:"
-msgstr "使用者"
-
-#: rc.cpp:1726
-#, fuzzy, no-c-format
-msgid "Proxy type:"
-msgstr "埠："
-
-#: rc.cpp:1732
-#, fuzzy, no-c-format
-msgid "Do not show error dialog (automatically reconnect)"
-msgstr "不顯示此對話盒"
-
-#: rc.cpp:1747
-#, no-c-format
-msgid "Find ASpell"
-msgstr ""
-
-#: rc.cpp:1757
-#, no-c-format
-msgid "&Disable all sounds"
-msgstr ""
-
-#: rc.cpp:1760
-#, no-c-format
-msgid "No sound if windows has &focus"
-msgstr ""
-
-#: rc.cpp:1766
-#, no-c-format
-msgid "&Use KDE sound settings"
-msgstr ""
-
-#: rc.cpp:1769
-#, no-c-format
-msgid "Use player defined in system notify settings in kcontrol"
-msgstr ""
-
-#: rc.cpp:1772
-#, no-c-format
-msgid "Player:"
-msgstr ""
-
-#: rc.cpp:1775
-#, fuzzy, no-c-format
-msgid "File transfer done:"
-msgstr "檔案傳送已完成"
-
-#: rc.cpp:1778
-#, fuzzy, no-c-format
-msgid "Message sent:"
-msgstr "訊息："
-
-#: rc.cpp:1781
-#, fuzzy, no-c-format
-msgid "Sound on startup:"
-msgstr "顯示反應"
-
-#: rc.cpp:1787
-#, fuzzy, no-c-format
-msgid "&Yahoo!"
-msgstr "電話簿"
-
-#: rc.cpp:1823
-#, fuzzy, no-c-format
-msgid "Yahoo! &ID"
-msgstr "電話簿"
-
-#: rc.cpp:1829
-#, fuzzy, no-c-format
-msgid "&Keyword"
-msgstr "網路"
-
-#: rc.cpp:1872
-#, no-c-format
-msgid "Set \"Away\" status after"
-msgstr "設定\"離開\"狀態於"
-
-#: rc.cpp:1875
-#, fuzzy, no-c-format
-msgid "minutes not using computer"
-msgstr "使用電腦的時間(分鐘)"
-
-#: rc.cpp:1878
-#, no-c-format
-msgid "minutes of \"Away\""
-msgstr "\"離開\"的時間(分鐘)"
-
-#: rc.cpp:1881
-#, fuzzy, no-c-format
-msgid "minutes of \"N/A\""
-msgstr "\"離開\"的時間(分鐘)"
-
-#: rc.cpp:1884
-#, no-c-format
-msgid "Set \"N/A\" status after"
-msgstr "設定\"N/A\"狀態於"
-
-#: rc.cpp:1887
-#, fuzzy, no-c-format
-msgid "Set \"Offline\" status after"
-msgstr "設定\"N/A\"狀態於"
-
-#: rc.cpp:1890
-#, no-c-format
-msgid "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
-msgstr "關閉上線提示於\"離開\"，\"N/A\"，\"DND\"與\"佔用\"名單"
-
-#: rc.cpp:1896
-#, fuzzy, no-c-format
-msgid "Group margin:"
-msgstr "群組"
-
-#: rc.cpp:1899
-#, fuzzy, no-c-format
-msgid "Contact margin:"
-msgstr "連絡名單"
-
-#: rc.cpp:1902
-#, fuzzy, no-c-format
-msgid "Main window background:"
-msgstr "Past背景："
-
-#: rc.cpp:1920
-#, fuzzy, no-c-format
-msgid "Add Item"
-msgstr "新項目"
-
-#: rc.cpp:1923
-#, fuzzy, no-c-format
-msgid "Item:"
-msgstr "新項目"
-
-#: rc.cpp:1926
-#, fuzzy, no-c-format
-msgid "Program:"
-msgstr "播放程式"
-
-#: rc.cpp:1947
-#, no-c-format
-msgid "Use &default path"
-msgstr ""
-
-#: rc.cpp:1950
-#, fuzzy, no-c-format
-msgid "Path for config files:"
-msgstr "接收檔案的路徑："
-
-#: rc.cpp:1956
-#, no-c-format
-msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-
-#: rc.cpp:1959
-#, no-c-format
-msgid ""
-"For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:\n"
-"<UIN>:"
-msgstr ""
-
-#: rc.cpp:1963
-#, no-c-format
-msgid "Send only &one message (don't split)"
-msgstr ""
-
-#: rc.cpp:1972
-#, no-c-format
-msgid "&Receive message only from contacts from list"
-msgstr ""
-
-#: rc.cpp:1975
-#, no-c-format
-msgid "&Receive authorization and system messages only from contacts from list"
-msgstr ""
-
-#: rc.cpp:1978
-#, no-c-format
-msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-
-#: rc.cpp:1981
-#, no-c-format
-msgid ""
-"Words are divided by any separators (space, comma, i.e.)\n"
-"A phrase can be specified using quotation marks\n"
-"Words can contain wildcards:\n"
-"* - any amount of symbols (or is empty)\n"
-"? - any symbol"
-msgstr ""
-
-#: rc.cpp:2004
-#, fuzzy, no-c-format
-msgid "Additional information:"
-msgstr "關於使用者附加的資訊："
-
-#: rc.cpp:2010
-#, no-c-format
-msgid "&Jabber"
-msgstr ""
-
-#: rc.cpp:2019
-#, fuzzy, no-c-format
-msgid "&Register new account"
-msgstr "註冊"
-
-#: rc.cpp:2028 rc.cpp:2049
-#, fuzzy, no-c-format
-msgid "Use &SSL"
-msgstr "傳送(&S)"
-
-#: rc.cpp:2046
-#, no-c-format
-msgid "Use &plain text login"
-msgstr ""
-
-#: rc.cpp:2058
-#, no-c-format
-msgid "URL:"
-msgstr "URL:"
-
-#: rc.cpp:2064 rc.cpp:2270
-#, fuzzy, no-c-format
-msgid "Resource:"
-msgstr "更名"
-
-#: rc.cpp:2067
-#, fuzzy, no-c-format
-msgid "Priority:"
-msgstr "埠："
-
-#: rc.cpp:2070
-#, no-c-format
-msgid "Manualy specify Jabber host:"
-msgstr ""
-
-#: rc.cpp:2073
-#, no-c-format
-msgid "Use protocol &icons for agents contacts"
-msgstr ""
-
-#: rc.cpp:2076
-#, fuzzy, no-c-format
-msgid "Automatically send &subscribe request"
-msgstr "隱形"
-
-#: rc.cpp:2079
-#, fuzzy, no-c-format
-msgid "Automatically &accept subscribe requests"
-msgstr "隱形"
-
-#: rc.cpp:2082
-#, fuzzy, no-c-format
-msgid "Send &rich text messages if possible"
-msgstr "自動回應訊息"
-
-#: rc.cpp:2095 rc.cpp:2235
-#, no-c-format
-msgid "Jabber &browser"
-msgstr ""
-
-#: rc.cpp:2107
-#, fuzzy, no-c-format
-msgid "Role:"
-msgstr "提供者："
-
-#: rc.cpp:2141
-#, fuzzy, no-c-format
-msgid "DiscoInfo"
-msgstr "Uin:"
-
-#: rc.cpp:2147
-#, fuzzy, no-c-format
-msgid "Namespaces:"
-msgstr "名稱："
-
-#: rc.cpp:2150
-#, no-c-format
-msgid "Category:"
-msgstr ""
-
-#: rc.cpp:2165
-#, fuzzy, no-c-format
-msgid "Version:"
-msgstr "接受(&G)"
-
-#: rc.cpp:2168
-#, fuzzy, no-c-format
-msgid "System:"
-msgstr "興趣"
-
-#: rc.cpp:2174
-#, fuzzy, no-c-format
-msgid "UTC client time:"
-msgstr "ICQ客戶端"
-
-#: rc.cpp:2177
-#, no-c-format
-msgid "Last activity, idle response:"
-msgstr ""
-
-#: rc.cpp:2180
-#, fuzzy, no-c-format
-msgid "&Statistic"
-msgstr "狀態"
-
-#: rc.cpp:2217
-#, no-c-format
-msgid "&JID"
-msgstr ""
-
-#: rc.cpp:2244
-#, no-c-format
-msgid "ID:"
-msgstr ""
-
-#: rc.cpp:2288 rc.cpp:2307
-#, fuzzy, no-c-format
-msgid "Command"
-msgstr "國家："
-
-#: rc.cpp:2291
-#, fuzzy, no-c-format
-msgid "Button"
-msgstr "背景顏色"
-
-#: rc.cpp:2295 sim/qt3/i18n.cpp:197
-#, fuzzy, no-c-format
-msgid "Alt"
-msgstr "警示"
-
-#: rc.cpp:2298 sim/qt3/i18n.cpp:193
-#, fuzzy, no-c-format
-msgid "Ctrl"
-msgstr "建立群組"
-
-#: rc.cpp:2301 sim/qt3/i18n.cpp:199
-#, no-c-format
-msgid "Shift"
-msgstr ""
-
-#: rc.cpp:2310
-#, no-c-format
-msgid "Key"
-msgstr ""
-
-#: rc.cpp:2326
-#, fuzzy, no-c-format
-msgid "File:"
-msgstr "檔案："
-
-#: rc.cpp:2329
-#, fuzzy, no-c-format
-msgid "Log level:"
-msgstr "記錄等級"
-
-#: rc.cpp:2336
-#, fuzzy, no-c-format
-msgid "Use &UNIX socket"
-msgstr "使用者"
-
-#: rc.cpp:2342 rc.cpp:2345
-#, fuzzy, no-c-format
-msgid "Use &TCP socket"
-msgstr "使用者"
-
-#: rc.cpp:2348
-#, no-c-format
-msgid "Enable IE context menu extension"
-msgstr ""
-
-#: rc.cpp:2366
-#, fuzzy, no-c-format
-msgid "Button color:"
-msgstr "背景顏色"
-
-#: rc.cpp:2378
-#, fuzzy, no-c-format
-msgid "Location ID:"
-msgstr "職業："
-
-#: rc.cpp:2384
-#, no-c-format
-msgid "You can enter ID as part URL for your location on weather.com"
-msgstr ""
-
-#: rc.cpp:2387
-#, no-c-format
-msgid "Metric"
-msgstr ""
-
-#: rc.cpp:2390
-#, fuzzy, no-c-format
-msgid "Standart"
-msgstr "狀態"
-
-#: rc.cpp:2393
-#, no-c-format
-msgid "Forecast days:"
-msgstr ""
-
-#: rc.cpp:2396
-#, no-c-format
-msgid "Units:"
-msgstr ""
-
-#: rc.cpp:2402
-#, fuzzy, no-c-format
-msgid "Button text:"
-msgstr "背景顏色"
-
-#: rc.cpp:2405
-#, fuzzy, no-c-format
-msgid "Button tip:"
-msgstr "背景顏色"
-
-#: rc.cpp:2408
-#, no-c-format
-msgid "Forecast tip:"
-msgstr ""
-
-#: rc.cpp:2417
-#, fuzzy, no-c-format
-msgid "Transparency of main window:"
-msgstr "主視窗透明"
-
-#: rc.cpp:2420
-#, fuzzy, no-c-format
-msgid "Transparent only if inactive"
-msgstr "容器透明"
-
 #: sim/aboutdata.cpp:287
 msgid "replace this with information about your translation team"
 msgstr ""
@@ -7699,11 +7731,11 @@ msgstr ""
 msgid "&Ok"
 msgstr "確定(&O)"
 
-#: sim/ballonmsg.cpp:359 sim/qt3/i18n.cpp:125 sim/simapi.cpp:480
+#: sim/ballonmsg.cpp:359 sim/simapi.cpp:484
 msgid "&Yes"
 msgstr "確定(&Y)"
 
-#: sim/ballonmsg.cpp:360 sim/qt3/i18n.cpp:127 sim/simapi.cpp:484
+#: sim/ballonmsg.cpp:360 sim/simapi.cpp:488
 msgid "&No"
 msgstr "否定(&N)"
 
@@ -8879,7 +8911,7 @@ msgstr "省/州屬："
 msgid "Sun"
 msgstr "音效"
 
-#: sim/editfile.cpp:170 sim/qt3/i18n.cpp:89
+#: sim/editfile.cpp:170
 msgid "Open"
 msgstr ""
 
@@ -8897,17 +8929,17 @@ msgstr ""
 msgid "Select sound"
 msgstr "選擇風格："
 
-#: sim/editfile.cpp:338 sim/editfile.cpp:421 sim/qt3/i18n.cpp:249
+#: sim/editfile.cpp:338 sim/editfile.cpp:421
 #, fuzzy
 msgid "Cut"
 msgstr "國家："
 
-#: sim/editfile.cpp:339 sim/editfile.cpp:422 sim/qt3/i18n.cpp:251
+#: sim/editfile.cpp:339 sim/editfile.cpp:422
 #, fuzzy
 msgid "Copy"
 msgstr "國家："
 
-#: sim/editfile.cpp:340 sim/editfile.cpp:423 sim/qt3/i18n.cpp:253
+#: sim/editfile.cpp:340 sim/editfile.cpp:423
 #, fuzzy
 msgid "Paste"
 msgstr "刪除"
@@ -8953,679 +8985,109 @@ msgstr ""
 msgid "%1 bytes"
 msgstr ""
 
-#: sim/plugins.cpp:739
+#: sim/plugins.cpp:737
 #, c-format
 msgid "Bad option %1"
 msgstr ""
 
-#: sim/plugins.cpp:740
+#: sim/plugins.cpp:738
 msgid "Usage: %1 "
 msgstr ""
 
-#: sim/qt3/i18n.cpp:1
-#, fuzzy
-msgid "Hu&e:"
-msgstr "自動回應訊息"
-
-#: sim/qt3/i18n.cpp:3
-#, fuzzy
-msgid "&Sat:"
-msgstr "省/州屬："
-
-#: sim/qt3/i18n.cpp:5
-#, fuzzy
-msgid "&Val:"
-msgstr "省/州屬："
-
-#: sim/qt3/i18n.cpp:7
-#, fuzzy
-msgid "&Red:"
-msgstr "自動回應訊息"
-
-#: sim/qt3/i18n.cpp:9
-#, fuzzy
-msgid "&Green:"
-msgstr "接受(&G)"
-
-#: sim/qt3/i18n.cpp:11
-msgid "Bl&ue:"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:13
-msgid "A&lpha channel:"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:15
-#, fuzzy
-msgid "&Basic colors"
-msgstr "使用系統字形"
-
-#: sim/qt3/i18n.cpp:17
-#, fuzzy
-msgid "&Custom colors"
-msgstr "使用系統字形"
-
-#: sim/qt3/i18n.cpp:19
-#, fuzzy
-msgid "&Define Custom Colors >>"
-msgstr "使用系統字形"
-
-#: sim/qt3/i18n.cpp:25
-#, fuzzy
-msgid "&Add To Custom Colors"
-msgstr "使用系統字形"
-
-#: sim/qt3/i18n.cpp:27
-#, fuzzy
-msgid "Select color"
-msgstr "文字顏色"
-
-#: sim/qt3/i18n.cpp:29
-msgid "Copy or Move a File"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:31
-#, fuzzy, c-format
-msgid "Read: %1"
-msgstr "自動回應訊息"
-
-#: sim/qt3/i18n.cpp:33
-#, c-format
-msgid "Write: %1"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:37
-#, fuzzy
-msgid "All files (*)"
-msgstr "本地檔案："
-
-#: sim/qt3/i18n.cpp:41
-#, fuzzy
-msgid "Size"
-msgstr "檔案："
-
-#: sim/qt3/i18n.cpp:47
-#, fuzzy
-msgid "Attributes"
-msgstr "埠："
-
-#: sim/qt3/i18n.cpp:49
-#, fuzzy
-msgid "Look &in:"
-msgstr "登入"
-
-#: sim/qt3/i18n.cpp:51
-#, fuzzy
-msgid "File &name:"
-msgstr "姓名："
-
-#: sim/qt3/i18n.cpp:53
-#, fuzzy
-msgid "File &type:"
-msgstr "檔案："
-
-#: sim/qt3/i18n.cpp:55
-#, fuzzy
-msgid "Back"
-msgstr "黑"
-
-#: sim/qt3/i18n.cpp:57
-#, fuzzy
-msgid "One directory up"
-msgstr "尋找使用者"
-
-#: sim/qt3/i18n.cpp:59
-#, fuzzy
-msgid "Create New Folder"
-msgstr "傳送失敗"
-
-#: sim/qt3/i18n.cpp:61
-#, fuzzy
-msgid "List View"
-msgstr "金屬"
-
-#: sim/qt3/i18n.cpp:63
-#, fuzzy
-msgid "Detail View"
-msgstr "金屬"
-
-#: sim/qt3/i18n.cpp:65
-msgid "Preview File Info"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:67
-msgid "Preview File Contents"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:69
-msgid "Read-write"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:71
-#, fuzzy
-msgid "Read-only"
-msgstr "自動回應訊息"
-
-#: sim/qt3/i18n.cpp:73
-#, fuzzy
-msgid "Write-only"
-msgstr "自動回應訊息"
-
-#: sim/qt3/i18n.cpp:75
-#, fuzzy
-msgid "Inaccessible"
-msgstr "隱形"
-
-#: sim/qt3/i18n.cpp:77
-#, fuzzy
-msgid "Symlink to File"
-msgstr "尋找使用者"
-
-#: sim/qt3/i18n.cpp:79
-#, fuzzy
-msgid "Symlink to Directory"
-msgstr "尋找使用者"
-
-#: sim/qt3/i18n.cpp:81
-#, fuzzy
-msgid "Symlink to Special"
-msgstr "尋找使用者"
-
-#: sim/qt3/i18n.cpp:85
-msgid "Dir"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:87
-#, fuzzy
-msgid "Special"
-msgstr "Проверка орфографии"
-
-#: sim/qt3/i18n.cpp:91
-#, fuzzy
-msgid "Save as"
-msgstr "Штат"
-
-#: sim/qt3/i18n.cpp:93
-#, fuzzy
-msgid "&Open"
-msgstr "連線"
-
-#: sim/qt3/i18n.cpp:101
-#, fuzzy
-msgid "R&eload"
-msgstr "自動回應訊息"
-
-#: sim/qt3/i18n.cpp:103
-#, fuzzy
-msgid "Sort by &Name"
-msgstr "姓名："
-
-#: sim/qt3/i18n.cpp:105
-msgid "Sort by &Size"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:107
-msgid "Sort by &Date"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:109
-#, fuzzy
-msgid "&Unsorted"
-msgstr "使用者"
-
-#: sim/qt3/i18n.cpp:111
-#, fuzzy
-msgid "Sort"
-msgstr "埠："
-
-#: sim/qt3/i18n.cpp:113
-#, fuzzy
-msgid "Show &hidden files"
-msgstr "我的細項"
-
-#: sim/qt3/i18n.cpp:115
-#, fuzzy
-msgid "the file"
-msgstr "傳送失敗"
-
-#: sim/qt3/i18n.cpp:117
-#, fuzzy
-msgid "the directory"
-msgstr "尋找使用者"
-
-#: sim/qt3/i18n.cpp:119
-msgid "the symlink"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:121
-#, fuzzy, c-format
-msgid "Delete %1"
-msgstr "刪除使用者 %1嗎﹖"
-
-#: sim/qt3/i18n.cpp:123
-msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:129
-#, fuzzy
-msgid "New Folder 1"
-msgstr "傳送失敗"
-
-#: sim/qt3/i18n.cpp:131
-#, fuzzy
-msgid "New Folder"
-msgstr "傳送失敗"
-
-#: sim/qt3/i18n.cpp:133
-#, fuzzy, c-format
-msgid "New Folder %1"
-msgstr "傳送失敗"
-
-#: sim/qt3/i18n.cpp:135
-#, fuzzy
-msgid "Find Directory"
-msgstr "尋找使用者"
-
-#: sim/qt3/i18n.cpp:137
-#, fuzzy
-msgid "Directories"
-msgstr "放檔案的目錄"
-
-#: sim/qt3/i18n.cpp:139
-#, fuzzy
-msgid "Save"
-msgstr "Штат"
-
-#: sim/qt3/i18n.cpp:144
-msgid ""
-"%1\n"
-"File not found.\n"
-"Check path and filename."
-msgstr ""
-
-#: sim/qt3/i18n.cpp:148
-msgid "ERROR"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:150
-#, fuzzy
-msgid "&Font"
-msgstr "月："
-
-#: sim/qt3/i18n.cpp:152
-#, fuzzy
-msgid "Font st&yle"
-msgstr "月："
-
-#: sim/qt3/i18n.cpp:154
-#, fuzzy
-msgid "&Size"
-msgstr "檔案："
-
-#: sim/qt3/i18n.cpp:156
-msgid "Effects"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:158
-msgid "Stri&keout"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:162
-#, fuzzy
-msgid "&Color"
-msgstr "Закрыть через"
-
-#: sim/qt3/i18n.cpp:164
-#, fuzzy
-msgid "Sample"
-msgstr "檔案："
-
-#: sim/qt3/i18n.cpp:166
-#, fuzzy
-msgid "Scr&ipt"
-msgstr "保全"
-
-#: sim/qt3/i18n.cpp:168
-#, fuzzy
-msgid "Apply"
-msgstr "回應(&R)"
-
-#: sim/qt3/i18n.cpp:170
-#, fuzzy
-msgid "Close"
-msgstr "Закрыть через"
-
-#: sim/qt3/i18n.cpp:172
-#, fuzzy
-msgid "Select Font"
-msgstr "選擇風格："
-
-#: sim/qt3/i18n.cpp:177
-msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:183
-msgid "Help"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:185
-#, fuzzy
-msgid "Defaults"
-msgstr "選擇風格："
-
-#: sim/qt3/i18n.cpp:187
-#, fuzzy
-msgid "< &Back"
-msgstr "黑"
-
-#: sim/qt3/i18n.cpp:189
-#, fuzzy
-msgid "&Next >"
-msgstr "下一個"
-
-#: sim/qt3/i18n.cpp:191
-#, fuzzy
-msgid "&Finish"
-msgstr "公佈"
-
-#: sim/qt3/i18n.cpp:195
-msgid "+"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:201
-#, c-format
-msgid "F%1"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:203
-#, fuzzy
-msgid "ctrl"
-msgstr "建立群組"
-
-#: sim/qt3/i18n.cpp:205
-msgid "shift"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:207
-#, fuzzy
-msgid "alt"
-msgstr "Мужчина"
-
-#: sim/qt3/i18n.cpp:210
-#, fuzzy
-msgid ""
-"Could not rename\n"
-"%1\n"
-"to\n"
-"%2"
-msgstr "無法建立%1"
-
-#: sim/qt3/i18n.cpp:216
-#, fuzzy, c-format
-msgid ""
-"Could not open\n"
-"%1"
-msgstr "無法建立%1"
-
-#: sim/qt3/i18n.cpp:220
-#, fuzzy, c-format
-msgid ""
-"Could not write\n"
-"%1"
-msgstr "無法建立%1"
-
-#: sim/qt3/i18n.cpp:223
-msgid "Operation stopped by the user"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:225
-#, fuzzy
-msgid "(unknown)"
-msgstr "Uin:"
-
-#: sim/qt3/i18n.cpp:227
-#, fuzzy
-msgid "Host %1 found"
-msgstr "新增非IM連絡人"
-
-#: sim/qt3/i18n.cpp:229
-#, fuzzy
-msgid "Host found"
-msgstr "新增非IM連絡人"
-
-#: sim/qt3/i18n.cpp:231
-#, fuzzy, c-format
-msgid "Connected to host %1"
-msgstr "連線"
-
-#: sim/qt3/i18n.cpp:233
-#, fuzzy
-msgid "Connected to host"
-msgstr "連線"
-
-#: sim/qt3/i18n.cpp:235
-#, fuzzy
-msgid "Connection to %1 closed"
-msgstr "連線"
-
-#: sim/qt3/i18n.cpp:237 sim/sockfactory.cpp:303
-#, fuzzy
-msgid "Connection closed"
-msgstr "連線"
-
-#: sim/qt3/i18n.cpp:239
-#, fuzzy
-msgid "Login Incorrect"
-msgstr "Ошибка регистрации"
-
-#: sim/qt3/i18n.cpp:241
-#, fuzzy, c-format
-msgid "Col %1"
-msgstr "列 1"
-
-#: sim/qt3/i18n.cpp:243
-#, fuzzy, c-format
-msgid "Row %1"
-msgstr "列 1"
-
-#: sim/qt3/i18n.cpp:245
-#, fuzzy
-msgid "Undo"
-msgstr "Uin:"
-
-#: sim/qt3/i18n.cpp:247
-#, fuzzy
-msgid "Redo"
-msgstr "自動回應訊息"
-
-#: sim/qt3/i18n.cpp:259
-#, fuzzy
-msgid "&Left"
-msgstr "建立群組"
-
-#: sim/qt3/i18n.cpp:261
-#, fuzzy
-msgid "&Right"
-msgstr "細"
-
-#: sim/qt3/i18n.cpp:263
-#, fuzzy
-msgid "&Top"
-msgstr "國家："
-
-#: sim/qt3/i18n.cpp:265
-#, fuzzy
-msgid "&Bottom"
-msgstr "電話簿"
-
-#: sim/qt3/i18n.cpp:267
-#, fuzzy
-msgid "R&estore"
-msgstr "更名"
-
-#: sim/qt3/i18n.cpp:269
-#, fuzzy
-msgid "&Hide"
-msgstr "尋找使用者"
-
-#: sim/qt3/i18n.cpp:271
-msgid "Line Up Toolbars (compact)"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:273
-msgid "Line Up Toolbars (normal)"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:275
-msgid "Paste special..."
-msgstr ""
-
-#: sim/qt3/i18n.cpp:277
-msgid "What's this?"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:279
-#, fuzzy
-msgid "&Restore"
-msgstr "註冊"
-
-#: sim/qt3/i18n.cpp:281
-#, fuzzy
-msgid "&Move"
-msgstr "更名"
-
-#: sim/qt3/i18n.cpp:283
-msgid "Mi&nimize"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:285
-msgid "Ma&ximize"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:289
-msgid "&Roll up"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:291
-msgid "Minimize"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:293
-#, fuzzy
-msgid "Restore Down"
-msgstr "更名"
-
-#: sim/qt3/i18n.cpp:295
-msgid "Maximize"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:297
-msgid "Roll up"
-msgstr ""
-
-#: sim/qt3/i18n.cpp:299
-#, fuzzy
-msgid "Restore Up"
-msgstr "更名"
-
-#: sim/qt3/i18n.cpp:301
-msgid "Roll down"
-msgstr ""
-
-#: sim/sim.cpp:208
+#: sim/sim.cpp:207
 msgid "Multiprotocol Instant Messenger"
 msgstr ""
 
-#: sim/sim.cpp:215
+#: sim/sim.cpp:214
 msgid "Current development"
 msgstr ""
 
-#: sim/sim.cpp:216
+#: sim/sim.cpp:215
 #, fuzzy
 msgid "Author"
 msgstr "自動回應"
 
-#: sim/sim.cpp:217
+#: sim/sim.cpp:216
 msgid "Developer"
 msgstr ""
 
-#: sim/simapi.cpp:106
+#: sim/simapi.cpp:110
 msgid ""
 "_: Dear translator, please do not translate this string in any form, but pick the _right_ value out of NoPlural/TwoForms/French... If not sure what to do mail thd@kde.org and coolo@kde.org, they will tell you. Better leave that out if unsure, the programs will crash!!\n"
 "Definition of PluralForm - to be set by the translator of kdelibs.po"
 msgstr "NoPlural"
 
-#: sim/simapi.cpp:693
+#: sim/simapi.cpp:697
 #, fuzzy
 msgid "Smile"
 msgstr "檔案："
 
-#: sim/simapi.cpp:694
+#: sim/simapi.cpp:698
 msgid "Surprised"
 msgstr ""
 
-#: sim/simapi.cpp:695
+#: sim/simapi.cpp:699
 #, fuzzy
 msgid "Indifferent"
 msgstr "興趣"
 
-#: sim/simapi.cpp:696
+#: sim/simapi.cpp:700
 #, fuzzy
 msgid "Skeptical"
 msgstr "Проверка орфографии"
 
-#: sim/simapi.cpp:697
+#: sim/simapi.cpp:701
 #, fuzzy
 msgid "Sad"
 msgstr "當上線時開啟使用者視窗"
 
-#: sim/simapi.cpp:698
+#: sim/simapi.cpp:702
 msgid "Kiss"
 msgstr ""
 
-#: sim/simapi.cpp:699
+#: sim/simapi.cpp:703
 msgid "Annoyed"
 msgstr ""
 
-#: sim/simapi.cpp:700
+#: sim/simapi.cpp:704
 msgid "Crying"
 msgstr ""
 
-#: sim/simapi.cpp:701
+#: sim/simapi.cpp:705
 msgid "Wink"
 msgstr ""
 
-#: sim/simapi.cpp:702
+#: sim/simapi.cpp:706
 #, fuzzy
 msgid "Angry"
 msgstr "警示"
 
-#: sim/simapi.cpp:703
+#: sim/simapi.cpp:707
 #, fuzzy
 msgid "Embarrassed"
 msgstr "刪除"
 
-#: sim/simapi.cpp:704
+#: sim/simapi.cpp:708
 #, fuzzy
 msgid "Uptight"
 msgstr "細"
 
-#: sim/simapi.cpp:705
+#: sim/simapi.cpp:709
 #, fuzzy
 msgid "Teaser"
 msgstr "檔案傳送已完成"
 
-#: sim/simapi.cpp:706
+#: sim/simapi.cpp:710
 #, fuzzy
 msgid "Cool"
 msgstr "正在連線"
 
-#: sim/simapi.cpp:707
+#: sim/simapi.cpp:711
 #, fuzzy
 msgid "Angel"
 msgstr "年齡："
 
-#: sim/simapi.cpp:708
+#: sim/simapi.cpp:712
 msgid "Grin"
 msgstr ""
 
@@ -9642,6 +9104,11 @@ msgstr "連線"
 #, fuzzy
 msgid "Can't resolve host"
 msgstr "無法建立%1"
+
+#: sim/sockfactory.cpp:303
+#, fuzzy
+msgid "Connection closed"
+msgstr "連線"
 
 #: sim/sockfactory.cpp:364
 #, fuzzy
@@ -9686,6 +9153,350 @@ msgstr "連線"
 #: sim/textshow.cpp:851
 msgid "Custom"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Hu&e:"
+#~ msgstr "自動回應訊息"
+
+#, fuzzy
+#~ msgid "&Sat:"
+#~ msgstr "省/州屬："
+
+#, fuzzy
+#~ msgid "&Val:"
+#~ msgstr "省/州屬："
+
+#, fuzzy
+#~ msgid "&Red:"
+#~ msgstr "自動回應訊息"
+
+#, fuzzy
+#~ msgid "&Green:"
+#~ msgstr "接受(&G)"
+
+#, fuzzy
+#~ msgid "&Basic colors"
+#~ msgstr "使用系統字形"
+
+#, fuzzy
+#~ msgid "&Custom colors"
+#~ msgstr "使用系統字形"
+
+#, fuzzy
+#~ msgid "&Define Custom Colors >>"
+#~ msgstr "使用系統字形"
+
+#, fuzzy
+#~ msgid "&Add To Custom Colors"
+#~ msgstr "使用系統字形"
+
+#, fuzzy
+#~ msgid "Select color"
+#~ msgstr "文字顏色"
+
+#, fuzzy
+#~ msgid "Read: %1"
+#~ msgstr "自動回應訊息"
+
+#, fuzzy
+#~ msgid "All files (*)"
+#~ msgstr "本地檔案："
+
+#, fuzzy
+#~ msgid "Size"
+#~ msgstr "檔案："
+
+#, fuzzy
+#~ msgid "Attributes"
+#~ msgstr "埠："
+
+#, fuzzy
+#~ msgid "Look &in:"
+#~ msgstr "登入"
+
+#, fuzzy
+#~ msgid "File &name:"
+#~ msgstr "姓名："
+
+#, fuzzy
+#~ msgid "File &type:"
+#~ msgstr "檔案："
+
+#, fuzzy
+#~ msgid "Back"
+#~ msgstr "黑"
+
+#, fuzzy
+#~ msgid "One directory up"
+#~ msgstr "尋找使用者"
+
+#, fuzzy
+#~ msgid "Create New Folder"
+#~ msgstr "傳送失敗"
+
+#, fuzzy
+#~ msgid "List View"
+#~ msgstr "金屬"
+
+#, fuzzy
+#~ msgid "Detail View"
+#~ msgstr "金屬"
+
+#, fuzzy
+#~ msgid "Read-only"
+#~ msgstr "自動回應訊息"
+
+#, fuzzy
+#~ msgid "Write-only"
+#~ msgstr "自動回應訊息"
+
+#, fuzzy
+#~ msgid "Inaccessible"
+#~ msgstr "隱形"
+
+#, fuzzy
+#~ msgid "Symlink to File"
+#~ msgstr "尋找使用者"
+
+#, fuzzy
+#~ msgid "Symlink to Directory"
+#~ msgstr "尋找使用者"
+
+#, fuzzy
+#~ msgid "Symlink to Special"
+#~ msgstr "尋找使用者"
+
+#, fuzzy
+#~ msgid "Special"
+#~ msgstr "Проверка орфографии"
+
+#, fuzzy
+#~ msgid "Save as"
+#~ msgstr "Штат"
+
+#, fuzzy
+#~ msgid "&Open"
+#~ msgstr "連線"
+
+#, fuzzy
+#~ msgid "R&eload"
+#~ msgstr "自動回應訊息"
+
+#, fuzzy
+#~ msgid "Sort by &Name"
+#~ msgstr "姓名："
+
+#, fuzzy
+#~ msgid "&Unsorted"
+#~ msgstr "使用者"
+
+#, fuzzy
+#~ msgid "Sort"
+#~ msgstr "埠："
+
+#, fuzzy
+#~ msgid "Show &hidden files"
+#~ msgstr "我的細項"
+
+#, fuzzy
+#~ msgid "the file"
+#~ msgstr "傳送失敗"
+
+#, fuzzy
+#~ msgid "the directory"
+#~ msgstr "尋找使用者"
+
+#, fuzzy
+#~ msgid "Delete %1"
+#~ msgstr "刪除使用者 %1嗎﹖"
+
+#, fuzzy
+#~ msgid "New Folder 1"
+#~ msgstr "傳送失敗"
+
+#, fuzzy
+#~ msgid "New Folder"
+#~ msgstr "傳送失敗"
+
+#, fuzzy
+#~ msgid "New Folder %1"
+#~ msgstr "傳送失敗"
+
+#, fuzzy
+#~ msgid "Find Directory"
+#~ msgstr "尋找使用者"
+
+#, fuzzy
+#~ msgid "Directories"
+#~ msgstr "放檔案的目錄"
+
+#, fuzzy
+#~ msgid "Save"
+#~ msgstr "Штат"
+
+#, fuzzy
+#~ msgid "&Font"
+#~ msgstr "月："
+
+#, fuzzy
+#~ msgid "Font st&yle"
+#~ msgstr "月："
+
+#, fuzzy
+#~ msgid "&Size"
+#~ msgstr "檔案："
+
+#, fuzzy
+#~ msgid "&Color"
+#~ msgstr "Закрыть через"
+
+#, fuzzy
+#~ msgid "Sample"
+#~ msgstr "檔案："
+
+#, fuzzy
+#~ msgid "Scr&ipt"
+#~ msgstr "保全"
+
+#, fuzzy
+#~ msgid "Apply"
+#~ msgstr "回應(&R)"
+
+#, fuzzy
+#~ msgid "Close"
+#~ msgstr "Закрыть через"
+
+#, fuzzy
+#~ msgid "Select Font"
+#~ msgstr "選擇風格："
+
+#, fuzzy
+#~ msgid "Defaults"
+#~ msgstr "選擇風格："
+
+#, fuzzy
+#~ msgid "< &Back"
+#~ msgstr "黑"
+
+#, fuzzy
+#~ msgid "&Next >"
+#~ msgstr "下一個"
+
+#, fuzzy
+#~ msgid "&Finish"
+#~ msgstr "公佈"
+
+#, fuzzy
+#~ msgid "ctrl"
+#~ msgstr "建立群組"
+
+#, fuzzy
+#~ msgid "alt"
+#~ msgstr "Мужчина"
+
+#, fuzzy
+#~ msgid ""
+#~ "Could not rename\n"
+#~ "%1\n"
+#~ "to\n"
+#~ "%2"
+#~ msgstr "無法建立%1"
+
+#, fuzzy
+#~ msgid ""
+#~ "Could not open\n"
+#~ "%1"
+#~ msgstr "無法建立%1"
+
+#, fuzzy
+#~ msgid ""
+#~ "Could not write\n"
+#~ "%1"
+#~ msgstr "無法建立%1"
+
+#, fuzzy
+#~ msgid "(unknown)"
+#~ msgstr "Uin:"
+
+#, fuzzy
+#~ msgid "Host %1 found"
+#~ msgstr "新增非IM連絡人"
+
+#, fuzzy
+#~ msgid "Host found"
+#~ msgstr "新增非IM連絡人"
+
+#, fuzzy
+#~ msgid "Connected to host %1"
+#~ msgstr "連線"
+
+#, fuzzy
+#~ msgid "Connected to host"
+#~ msgstr "連線"
+
+#, fuzzy
+#~ msgid "Connection to %1 closed"
+#~ msgstr "連線"
+
+#, fuzzy
+#~ msgid "Login Incorrect"
+#~ msgstr "Ошибка регистрации"
+
+#, fuzzy
+#~ msgid "Col %1"
+#~ msgstr "列 1"
+
+#, fuzzy
+#~ msgid "Row %1"
+#~ msgstr "列 1"
+
+#, fuzzy
+#~ msgid "Undo"
+#~ msgstr "Uin:"
+
+#, fuzzy
+#~ msgid "Redo"
+#~ msgstr "自動回應訊息"
+
+#, fuzzy
+#~ msgid "&Left"
+#~ msgstr "建立群組"
+
+#, fuzzy
+#~ msgid "&Right"
+#~ msgstr "細"
+
+#, fuzzy
+#~ msgid "&Top"
+#~ msgstr "國家："
+
+#, fuzzy
+#~ msgid "&Bottom"
+#~ msgstr "電話簿"
+
+#, fuzzy
+#~ msgid "R&estore"
+#~ msgstr "更名"
+
+#, fuzzy
+#~ msgid "&Hide"
+#~ msgstr "尋找使用者"
+
+#, fuzzy
+#~ msgid "&Restore"
+#~ msgstr "註冊"
+
+#, fuzzy
+#~ msgid "&Move"
+#~ msgstr "更名"
+
+#, fuzzy
+#~ msgid "Restore Down"
+#~ msgstr "更名"
+
+#, fuzzy
+#~ msgid "Restore Up"
+#~ msgstr "更名"
 
 #, fuzzy
 #~ msgid "Windows XP style"
