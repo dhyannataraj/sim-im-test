@@ -200,7 +200,6 @@ int main(int argc, char *argv[])
 #ifdef WIN32
     HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
 #endif
-    QApplication::setColorSpec( QApplication::ManyColor );
     qInstallMsgHandler(simMessageOutput);
     KAboutData aboutData(PACKAGE,
                          I18N_NOOP("SIM"),
