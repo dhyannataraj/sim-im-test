@@ -10,11 +10,19 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 Build system
 ~~~~~~~~~~~~
 [-] Autotools: fix libXss detection.
+[+] Add initial CMake support.
 
 Core
 ~~~~
 [-] Disable history filter when it is empty.
 [-] Remove "To container" menu when separate containers are disabled.
+[*] Auto scroll message view only if it is scrolled to the bottom.
+[-] XFree: fix problems with Composite extension enabled.
+
+
+ICQ plugin
+~~~~~~~~~~
+[-] More fixes for receiving certain messages.
 
 
 === SIM 0.9.4.2 (19.01.2007) ===
