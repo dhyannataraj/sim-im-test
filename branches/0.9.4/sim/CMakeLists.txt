@@ -17,7 +17,6 @@ SET(sim_LIB_SRCS
         country.cpp
         datepicker.cpp
         editfile.cpp
-        event.cpp
         exec.cpp
         fetch.cpp
         fontedit.cpp
@@ -27,13 +26,13 @@ SET(sim_LIB_SRCS
         listview.cpp
         log.cpp
         message.cpp
-        misc.cpp
         plugins.cpp
         preview.cpp
         qchildwidget.cpp
         qcolorbutton.cpp
         qkeybutton.cpp
         sax.cpp
+        simapi.cpp
         socket.cpp
         sockfactory.cpp
         sslclient.cpp
@@ -42,9 +41,8 @@ SET(sim_LIB_SRCS
         translit.cpp
         unquot.cpp
         xsl.cpp
-        qzip/ioapi.c
-        qzip/qzip.cpp
-        qzip/unzip.c
+        qzip.cpp
+        unzip.c
     )
 
 SET(sim_LIB_HDRS
@@ -52,13 +50,8 @@ SET(sim_LIB_HDRS
         ballonmsg.h
         buffer.h
         builtinlogger.h
-        cfg.h
-        cmddef.h
-        contacts.h
-        country.h
         datepicker.h
         editfile.h
-        event.h
         exec.h
         fetch.h
         fontedit.h
@@ -66,10 +59,6 @@ SET(sim_LIB_HDRS
         intedit.h
         linklabel.h
         listview.h
-        log.h
-        message.h
-        misc.h
-        plugins.h
         preview.h
         qchildwidget.h
         qcolorbutton.h
@@ -81,11 +70,9 @@ SET(sim_LIB_HDRS
         textshow.h
         toolbtn.h
         translit.h
-        unquot.h
         xsl.h
-        qzip/ioapi.h
-        qzip/qzip.h
-        qzip/unzip.h
+        qzip.h
+    	unzip.h
     )
 
 # moc the sources

@@ -30,10 +30,8 @@
 #else
 #include <qtextedit.h>
 #ifdef USE_KDE
-#ifdef HAVE_KTEXTEDIT_H
 #include <ktextedit.h>
 #define QTextEdit KTextEdit
-#endif
 #endif
 #endif
 

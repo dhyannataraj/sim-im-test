@@ -112,10 +112,24 @@ using namespace std;
 #endif
 #endif
 
-#ifdef SIMAPI_EXPORTS
-#define EXPORT __declspec(dllexport)
+#ifdef HAVE_GCC_VISIBILITY
+# define SIM_EXPORT __attribute__ ((visibility("default")))
+# define SIM_IMPORT __attribute__ ((visibility("default")))
+# define EXPORT_PROC extern "C" __attribute__ ((visibility("default")))
+#elif defined(Q_OS_WIN)
+# define SIM_EXPORT __declspec(dllexport)
+# define SIM_IMPORT __declspec(dllimport)
+# define EXPORT_PROC extern "C" __declspec(dllexport)
 #else
-#define EXPORT
+# define SIM_EXPORT
+# define SIM_IMPORT
+# define EXPORT_PROC extern "C"
+#endif
+
+#ifdef SIMAPI_EXPORTS
+# define EXPORT SIM_EXPORT
+#else
+# define EXPORT SIM_IMPORT
 #endif
 
 #ifndef HAVE_STRCASECMP
@@ -270,12 +284,6 @@ typedef struct StyleInfo
     const char		*title;
     createStyle		*create;
 } StyleInfo;
-
-#ifdef WIN32
-#define EXPORT_PROC extern "C" __declspec(dllexport)
-#else
-#define EXPORT_PROC extern "C" 
-#endif
 
 EXPORT_PROC PluginInfo *GetPluginInfo();
 EXPORT_PROC StyleInfo  *GetStyleInfo();

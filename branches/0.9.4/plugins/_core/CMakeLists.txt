@@ -79,7 +79,6 @@ SET(_core_HDRS
         container.h
         core.h
         core.h
-        core_events.h
         declinedlg.h
         editmail.h
         editphone.h
@@ -166,7 +165,5 @@ ADD_JISP_ARCHIVE(icqlite    icqlite.jisp    _core_SRCS)
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)
 ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
 ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_SRCS)
-ADD_JISP_ARCHIVE(qip-icons  qip-icons.jisp  _core_SRCS)
-ADD_JISP_ARCHIVE(lovenmoney lovenmoney.jisp _core_SRCS)
 
 SIM_ADD_PLUGIN(_core)

@@ -50,4 +50,4 @@ STRING(REGEX REPLACE "image([0-9]+)_data" "img\\1_${KDE_UIC_BASENAME}" _uic_CONT
 STRING(REGEX REPLACE "#ifndef " "#ifndef UI_" _uic_CONTENTS "${_uic_CONTENTS}")
 STRING(REGEX REPLACE "#define " "#define UI_" _uic_CONTENTS "${_uic_CONTENTS}")
 
-FILE(WRITE ${KDE_UIC_CPP_FILE} "#include \"misc.h\"\n\n${_uic_CONTENTS}\n")
+FILE(WRITE ${KDE_UIC_CPP_FILE} "#include \"simapi.h\"\n\n${_uic_CONTENTS}\n")

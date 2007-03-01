@@ -1,8 +1,6 @@
 ##################
 # styles library #
 ##################
-ADD_SUBDIRECTORY(metal)
-ADD_SUBDIRECTORY(wood)
 
 SET(styles_SRCS
         fontconfig.cpp
