@@ -327,10 +327,11 @@ Processor *createProcessor(const char *addr_str)
     }
 
     char local_name[256];
-    strcpy(local_name, "/tmp/sim.XXXXX");
-    mkstemp(local_name);
-    if (local_name == NULL)
+    int tmpfd;
+    strcpy(local_name, "/tmp/sim.XXXXXX");
+    if ((tmpfd = mkstemp(local_name)) == -1)
         return NULL;
+    close(tmpfd);
 
     struct sockaddr_un sun_local;
     sun_local.sun_family = AF_UNIX;
