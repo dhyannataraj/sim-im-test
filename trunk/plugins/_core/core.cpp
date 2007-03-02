@@ -3488,9 +3488,11 @@ void CorePlugin::selectProfile()
 {
     EventSaveState e;
     e.process();
-    init(false);
-    EventInit e2;
-    e2.process();
+    bool changed = init(false);
+    if (changed){
+        EventInit e2;
+        e2.process();
+    }
 }
 
 bool CorePlugin::init(bool bInit)
