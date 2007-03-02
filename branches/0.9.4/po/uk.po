@@ -1,26 +1,22 @@
 # translation of uk.po to
-# translation of uk.po to
-# translation of uk.po to
-# translation of uk.po to
-# translation of uk.po to
-# translation of uk.po to Ukrainian
-# Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 #
 # Ivan Krutyholova <ivan@city.gov.te.ua>, 2002, 2003, 2004.
 #  <ivan@cit-white>, 2005.
 # Ivan O.Krutyholova <ivan@city.gov.te.ua>, 2006.
+# Serhiy Kachanuk <serzholino@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "POT-Creation-Date: 2007-03-02 01:03+0500\n"
-"PO-Revision-Date: 2006-03-20 10:16+0200\n"
-"Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
+"PO-Revision-Date: 2007-03-02 13:12+0200\n"
+"Last-Translator: Serhiy Kachanuk <serzholino@gmail.com>\n"
+"Language-Team:  <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.11\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: plugins/__homedir/homedir.cpp:48
 msgid "Home directory"
@@ -253,42 +249,36 @@ msgid "System interface"
 msgstr "Системний інтерфейс"
 
 #: plugins/_core/core.cpp:432
-#, fuzzy
 msgid ""
 "I am currently away from ICQ.\n"
 "Please leave your message and I will get back to you as soon as I return!"
 msgstr ""
 "Я відійшов від комп'ютера.\n"
-"Залиште Ваше повідомлення і після повернення я його прочитаю!\n"
+"Залиште Ваше повідомлення і після повернення я його прочитаю!"
 
 #: plugins/_core/core.cpp:436
-#, fuzzy
 msgid ""
 "I am out'a here.\n"
 "See you tomorrow!"
 msgstr ""
 "Відійшов надовго.\n"
-"До зустрічі!\n"
+"До зустрічі!"
 
 #: plugins/_core/core.cpp:440
-#, fuzzy
 msgid "Please do not disturb me now. Disturb me later."
-msgstr "Прохання не турбувати мене.\n"
+msgstr "Прохання не турбувати мене."
 
 #: plugins/_core/core.cpp:443
-#, fuzzy
 msgid "We'd love to hear what you have to say. Join our chat."
-msgstr "Робити нічого - приєднуюсь до чату.\n"
+msgstr "Робити нічого - приєднуюсь до чату."
 
 #: plugins/_core/core.cpp:446
-#, fuzzy
 msgid "I'm here."
-msgstr "Я на місці.\n"
+msgstr "Я на місці."
 
 #: plugins/_core/core.cpp:449
-#, fuzzy
 msgid "I'm offline."
-msgstr "Я вимкнений з мережі.\n"
+msgstr "Я вимкнений з мережі."
 
 #: plugins/_core/core.cpp:542
 msgid "Unread messages"
@@ -487,16 +477,14 @@ msgid "&SMS"
 msgstr "&SMS"
 
 #: plugins/_core/core.cpp:1052
-#, fuzzy
 msgid "&History setup"
-msgstr "Істо&рія"
+msgstr "Налаштування Істо&рії"
 
 #: plugins/_core/core.cpp:1060 plugins/_core/core.cpp:1091
 msgid "Show &offline"
 msgstr "Показувати користувачів не в &мережі"
 
 #: plugins/_core/core.cpp:1072
-#, fuzzy
 msgid "Do&n't show groups"
 msgstr "&Не показувати групи"
 
@@ -2931,7 +2919,6 @@ msgid "Process message failed"
 msgstr "Помилка обробки повідомлення"
 
 #: plugins/icq/icqclient.cpp:359
-#, fuzzy
 msgid "Dear translator! type this default encdoing for your language"
 msgstr "CP 1251"
 
@@ -3636,7 +3623,7 @@ msgstr "І&гнорувати вимоги авторизації"
 #: plugins/icq/icqsecurebase.cc:115 rc.cpp:1787
 #, no-c-format
 msgid "Always use &MD5 authentication"
-msgstr ""
+msgstr "Завжди використовувати авторизацію MD5"
 
 #: plugins/icq/icqsecurebase.cc:116 rc.cpp:1790
 #, no-c-format
@@ -4109,12 +4096,11 @@ msgstr "Вірменська"
 
 #: plugins/icq/moreinfo.cpp:145
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Киргизька"
 
 #: plugins/icq/moreinfo.cpp:146
-#, fuzzy
 msgid "Maltese"
-msgstr "Чоловік"
+msgstr "Мальтійська"
 
 #: plugins/icq/moreinfobase.cc:154 plugins/jabber/discoinfobase.cpp:281 plugins/jabber/jabberinfobase.cpp:249 rc.cpp:281 rc.cpp:377 rc.cpp:2124
 #, no-c-format
@@ -4315,7 +4301,7 @@ msgid "Warn &anonymously"
 msgstr "Попередження &анонімності"
 
 #: plugins/icq/warndlgbase.cc:86 rc.cpp:2292
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Check this if you don't want your screen name revealed.\n"
 "Anonymous warnings are less severe."
@@ -4679,9 +4665,9 @@ msgid "Enable &typing notification"
 msgstr "Увімкнути попередження про &друк"
 
 #: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Alt+T"
-msgstr "Alt"
+msgstr "Alt+T"
 
 #: plugins/jabber/jabberconfigbase.cpp:328 rc.cpp:199
 #, no-c-format
@@ -4689,9 +4675,9 @@ msgid "Automatically &accept subscribe requests"
 msgstr "Автоматично &приймати запити авторизації"
 
 #: plugins/jabber/jabberconfigbase.cpp:329 rc.cpp:202
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Alt+A"
-msgstr "Alt"
+msgstr "Alt+A"
 
 #: plugins/jabber/jabberconfigbase.cpp:330 rc.cpp:205
 #, no-c-format
@@ -4699,9 +4685,9 @@ msgid "Automatically send &subscribe request"
 msgstr "Автоматично відправляти &запити авторизації"
 
 #: plugins/jabber/jabberconfigbase.cpp:331 rc.cpp:208
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Alt+S"
-msgstr "Alt"
+msgstr "Alt+A"
 
 #: plugins/jabber/jabberconfigbase.cpp:332 rc.cpp:211
 #, no-c-format
@@ -4709,14 +4695,14 @@ msgid "Use protocol &icons for agents contacts"
 msgstr "Використовувати &іконки контактних агентів"
 
 #: plugins/jabber/jabberconfigbase.cpp:333 rc.cpp:214
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Alt+I"
-msgstr "Alt"
+msgstr "Alt+I"
 
 #: plugins/jabber/jabberconfigbase.cpp:334 rc.cpp:217
 #, no-c-format
 msgid "Send and request version info"
-msgstr ""
+msgstr "Запитувати та відсилати інформацію про версію клієнта"
 
 #: plugins/jabber/jabberinfobase.cpp:245 rc.cpp:269
 #, no-c-format
@@ -6482,7 +6468,7 @@ msgstr "Нема з'єднання"
 msgid ""
 "_: weather\n"
 "Weather data provided by weather.com&reg;"
-msgstr ""
+msgstr "За даними weather.com&reg;"
 
 #: plugins/weather/weather.cpp:367
 msgid "Monday"
@@ -6549,14 +6535,12 @@ msgid ""
 msgstr "Шторм/Гроза"
 
 #: plugins/weather/weather.cpp:381
-#, fuzzy
 msgid ""
 "_: weather\n"
 "T-Storm"
 msgstr "Шторм/Гроза"
 
 #: plugins/weather/weather.cpp:382
-#, fuzzy
 msgid ""
 "_: weather\n"
 "T-Storms"
@@ -6570,21 +6554,18 @@ msgid ""
 msgstr "Слабкий сніг"
 
 #: plugins/weather/weather.cpp:384
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Thunder"
-msgstr "Вітер"
+msgstr "Гром"
 
 #: plugins/weather/weather.cpp:385
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Rain with Thunder"
 msgstr "Слабкий дощ"
 
 #: plugins/weather/weather.cpp:386
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Thunder in the Vicinity"
@@ -6681,7 +6662,6 @@ msgid ""
 msgstr "Хмарно"
 
 #: plugins/weather/weather.cpp:402
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Clouds"
@@ -6742,7 +6722,6 @@ msgid ""
 msgstr "Град"
 
 #: plugins/weather/weather.cpp:413
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Light Snow Grains"
@@ -6887,11 +6866,10 @@ msgid ""
 msgstr "Змінний"
 
 #: plugins/weather/weather.cpp:437
-#, fuzzy
 msgid ""
 "_: weather\n"
 "CALM"
-msgstr "Змінний"
+msgstr "Тихий"
 
 #: plugins/weather/weather.cpp:438
 msgid "km"
@@ -6926,14 +6904,12 @@ msgid ""
 msgstr "Зливи в околицях"
 
 #: plugins/weather/weather.cpp:444
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "New"
 msgstr "Повний"
 
 #: plugins/weather/weather.cpp:445
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
@@ -6946,7 +6922,6 @@ msgid ""
 msgstr "Початкова чверть"
 
 #: plugins/weather/weather.cpp:447
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
@@ -6959,7 +6934,6 @@ msgid ""
 msgstr "Повний"
 
 #: plugins/weather/weather.cpp:449
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
@@ -6972,7 +6946,6 @@ msgid ""
 msgstr "Кінцева чверть"
 
 #: plugins/weather/weather.cpp:451
-#, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
@@ -7007,7 +6980,6 @@ msgid "%t | %c"
 msgstr "%t | %c"
 
 #: plugins/weather/weather.cpp:573
-#, fuzzy
 msgid ""
 "%l<br><br>\n"
 "<b>Current Weather:</b><br>\n"
@@ -7047,7 +7019,6 @@ msgstr ""
 "Поновлено: %u<br>\n"
 
 #: plugins/weather/weather.cpp:597
-#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
@@ -8641,523 +8612,3 @@ msgstr "Помилка ініціалізації SSL"
 msgid "Custom"
 msgstr "Власний"
 
-#~ msgid "Hu&e:"
-#~ msgstr "Я&скравість:"
-
-#~ msgid "&Sat:"
-#~ msgstr "&Насиченість:"
-
-#~ msgid "&Val:"
-#~ msgstr "&Значення:"
-
-#~ msgid "&Red:"
-#~ msgstr "&Червоний:"
-
-#~ msgid "&Green:"
-#~ msgstr "&Зелений:"
-
-#~ msgid "Bl&ue:"
-#~ msgstr "&Синій:"
-
-#~ msgid "A&lpha channel:"
-#~ msgstr "Про&зорість:"
-
-#~ msgid "&Basic colors"
-#~ msgstr "&Основні кольори"
-
-#~ msgid "&Custom colors"
-#~ msgstr "&Власні кольори"
-
-#~ msgid "&Define Custom Colors >>"
-#~ msgstr "&Визначити власні кольори >>"
-
-#~ msgid "&Add To Custom Colors"
-#~ msgstr "&Добавити до власних кольорів"
-
-#~ msgid "Select color"
-#~ msgstr "Вибір кольору"
-
-#~ msgid "Copy or Move a File"
-#~ msgstr "Копіювати або перемістити файл"
-
-#~ msgid "Read: %1"
-#~ msgstr "Читати: %1"
-
-#~ msgid "Write: %1"
-#~ msgstr "Записати: %1"
-
-#~ msgid "All files (*)"
-#~ msgstr "Всі файли (*)"
-
-#~ msgid "Size"
-#~ msgstr "Розмір"
-
-#~ msgid "Attributes"
-#~ msgstr "Атрибути"
-
-#~ msgid "Look &in:"
-#~ msgstr "Знайти &в:"
-
-#~ msgid "File &name:"
-#~ msgstr "&Ім'я файлу:"
-
-#~ msgid "File &type:"
-#~ msgstr "&Тип файлу:"
-
-#~ msgid "Back"
-#~ msgstr "Назад"
-
-#~ msgid "One directory up"
-#~ msgstr "Вверх"
-
-#~ msgid "Create New Folder"
-#~ msgstr "Створити нову папку"
-
-#~ msgid "List View"
-#~ msgstr "Список"
-
-#~ msgid "Detail View"
-#~ msgstr "Деталі"
-
-#~ msgid "Preview File Info"
-#~ msgstr "Попередній перегляд інформації"
-
-#~ msgid "Preview File Contents"
-#~ msgstr "Попередній перегляд змісту"
-
-#~ msgid "Read-write"
-#~ msgstr "Читати-писати"
-
-#~ msgid "Read-only"
-#~ msgstr "Тільки для читання"
-
-#~ msgid "Write-only"
-#~ msgstr "Тільки для запису"
-
-#~ msgid "Inaccessible"
-#~ msgstr "Недоступний"
-
-#~ msgid "Symlink to File"
-#~ msgstr "Посилання на файл"
-
-#~ msgid "Symlink to Directory"
-#~ msgstr "Посилання на каталог"
-
-#~ msgid "Symlink to Special"
-#~ msgstr "Спеціальне посилання"
-
-#~ msgid "Dir"
-#~ msgstr "Каталог"
-
-#~ msgid "Special"
-#~ msgstr "Спеціальний"
-
-#~ msgid "Save as"
-#~ msgstr "Зберегти як"
-
-#~ msgid "&Open"
-#~ msgstr "&Відкрити"
-
-#~ msgid "R&eload"
-#~ msgstr "Пере&читати"
-
-#~ msgid "Sort by &Name"
-#~ msgstr "Сортувати за &іменем"
-
-#~ msgid "Sort by &Size"
-#~ msgstr "Сортувати за &розміром"
-
-#~ msgid "Sort by &Date"
-#~ msgstr "Сортувати за &датою"
-
-#~ msgid "&Unsorted"
-#~ msgstr "&Не сортувати"
-
-#~ msgid "Sort"
-#~ msgstr "Сортування"
-
-#~ msgid "Show &hidden files"
-#~ msgstr "Показати &сховані файли"
-
-#~ msgid "the file"
-#~ msgstr "файл"
-
-#~ msgid "the directory"
-#~ msgstr "каталог"
-
-#~ msgid "the symlink"
-#~ msgstr "посилання"
-
-#~ msgid "Delete %1"
-#~ msgstr "Знищити %1"
-
-#~ msgid "<qt>Do you really want to delete %1 \"%2\"?</qt>"
-#~ msgstr "<qt>Ви дійсно хочете знищити %1 \"%2\"?</qt>"
-
-#~ msgid "New Folder 1"
-#~ msgstr "Нова папка 1"
-
-#~ msgid "New Folder"
-#~ msgstr "Нова папка"
-
-#~ msgid "New Folder %1"
-#~ msgstr "Нова папка %1"
-
-#~ msgid "Find Directory"
-#~ msgstr "Знайти каталог"
-
-#~ msgid "Directories"
-#~ msgstr "Каталоги"
-
-#~ msgid "Save"
-#~ msgstr "Зберегти"
-
-#~ msgid ""
-#~ "%1\n"
-#~ "File not found.\n"
-#~ "Check path and filename."
-#~ msgstr ""
-#~ "%1\n"
-#~ "Файл не знайдено.\n"
-#~ "Перевірте шлях і ім'я файлу."
-
-#~ msgid "ERROR"
-#~ msgstr "ПОМИЛКА"
-
-#~ msgid "&Font"
-#~ msgstr "&Шрифт"
-
-#~ msgid "Font st&yle"
-#~ msgstr "&Стиль шрифту"
-
-#~ msgid "&Size"
-#~ msgstr "&Розмір"
-
-#~ msgid "Effects"
-#~ msgstr "Ефекти"
-
-#~ msgid "Stri&keout"
-#~ msgstr "Пере&креслений"
-
-#~ msgid "&Color"
-#~ msgstr "&Колір"
-
-#~ msgid "Sample"
-#~ msgstr "Зразок"
-
-#~ msgid "Scr&ipt"
-#~ msgstr "На&черк"
-
-#~ msgid "Apply"
-#~ msgstr "Застосувати"
-
-#~ msgid "Close"
-#~ msgstr "Закрити"
-
-#~ msgid "Select Font"
-#~ msgstr "Вибір шрифту"
-
-#~ msgid "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more information.</p>"
-#~ msgstr "<h3>Про Qt</h3><p>Ця програма Qt версії %1, a multiplatform C++ GUI toolkit from Trolltech. Qt provides single-source portability across Windows 95/98/NT/2000, Linux, Solaris, HP-UX і інших версій Unix з X11.</p><p>Дивіться <tt>http://www.trolltech.com/qt/</tt> для детальнішої інформації.</p>"
-
-#~ msgid "Help"
-#~ msgstr "Допомога"
-
-#~ msgid "Defaults"
-#~ msgstr "По змовчуванню"
-
-#~ msgid "< &Back"
-#~ msgstr "< Назад"
-
-#~ msgid "&Next >"
-#~ msgstr "Вперед >"
-
-#~ msgid "&Finish"
-#~ msgstr "Закінчення"
-
-#~ msgid "+"
-#~ msgstr "+"
-
-#~ msgid "F%1"
-#~ msgstr "F%1"
-
-#~ msgid "ctrl"
-#~ msgstr "ctrl"
-
-#~ msgid "shift"
-#~ msgstr "shift"
-
-#~ msgid "alt"
-#~ msgstr "alt"
-
-#~ msgid ""
-#~ "Could not rename\n"
-#~ "%1\n"
-#~ "to\n"
-#~ "%2"
-#~ msgstr ""
-#~ "Неможливо перейменувати\n"
-#~ "%1\n"
-#~ "в\n"
-#~ "%2"
-
-#~ msgid ""
-#~ "Could not open\n"
-#~ "%1"
-#~ msgstr ""
-#~ "Неможливо відкрити\n"
-#~ "%1"
-
-#~ msgid ""
-#~ "Could not write\n"
-#~ "%1"
-#~ msgstr ""
-#~ "Неможливо записати\n"
-#~ "%1"
-
-#~ msgid "Operation stopped by the user"
-#~ msgstr "Операція зупинена користувачем"
-
-#~ msgid "(unknown)"
-#~ msgstr "(невідомо)"
-
-#~ msgid "Host %1 found"
-#~ msgstr "Вузол %1 знайдено"
-
-#~ msgid "Host found"
-#~ msgstr "Вузол знайдено"
-
-#~ msgid "Connected to host %1"
-#~ msgstr "З'єднання з вузлом %1"
-
-#~ msgid "Connected to host"
-#~ msgstr "З'єднання з сервером"
-
-#~ msgid "Connection to %1 closed"
-#~ msgstr "З'єднання з вузлом %1 розірвано"
-
-#~ msgid "Login Incorrect"
-#~ msgstr "Помилка реєстрації"
-
-#~ msgid "Col %1"
-#~ msgstr "Стовпчик %1"
-
-#~ msgid "Row %1"
-#~ msgstr "Стрічка %1"
-
-#~ msgid "Undo"
-#~ msgstr "Повернути"
-
-#~ msgid "Redo"
-#~ msgstr "Повторити"
-
-#~ msgid "&Left"
-#~ msgstr "&Вліво"
-
-#~ msgid "&Right"
-#~ msgstr "В&право"
-
-#~ msgid "&Top"
-#~ msgstr "В&верх"
-
-#~ msgid "&Bottom"
-#~ msgstr "В&низ"
-
-#~ msgid "R&estore"
-#~ msgstr "В&ідновити"
-
-#~ msgid "&Hide"
-#~ msgstr "&Сховати"
-
-#~ msgid "Line Up Toolbars (compact)"
-#~ msgstr "Вирівняти панелі інструментів (компактно)"
-
-#~ msgid "Line Up Toolbars (normal)"
-#~ msgstr "Вирівняти панелі інструментів (звичайно)"
-
-#~ msgid "Paste special..."
-#~ msgstr "Спеціальна вставка..."
-
-#~ msgid "What's this?"
-#~ msgstr "Що це?"
-
-#~ msgid "&Restore"
-#~ msgstr "&Відновити"
-
-#~ msgid "&Move"
-#~ msgstr "&Перенести"
-
-#~ msgid "Mi&nimize"
-#~ msgstr "З&горнути"
-
-#~ msgid "Ma&ximize"
-#~ msgstr "Ро&згорнути"
-
-#~ msgid "&Roll up"
-#~ msgstr "&Скрутити"
-
-#~ msgid "Minimize"
-#~ msgstr "Згорнути"
-
-#~ msgid "Restore Down"
-#~ msgstr "Відновити"
-
-#~ msgid "Maximize"
-#~ msgstr "Розгорнути"
-
-#~ msgid "Roll up"
-#~ msgstr "Скрутити"
-
-#~ msgid "Restore Up"
-#~ msgstr "Відновити"
-
-#~ msgid "Roll down"
-#~ msgstr "Розкрутити"
-
-#~ msgid "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-#~ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-
-#~ msgid "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
-#~ msgstr "http://edit.yahoo.com/config/eval_forgot_pw?.src=pg&.done=http://messenger.yahoo.com/&.redir_from=MESSENGER"
-
-#~ msgid "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-#~ msgstr "http://horoscopes.swirve.com/scope.cgi?Sign=%1"
-
-#, fuzzy
-#~ msgid "https://accountservices.passport.net/uiresetpw.srf?lc=1033"
-#~ msgstr "https://register.passport.net/reg.srf?lc=1033&langid=1033&sl=1"
-
-#~ msgid "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
-#~ msgstr "http://help.microsoft.com/!data/en_us/data/messengerv47_xp.its51/$content$/xptroublesignin.htm"
-
-#~ msgid "Windows XP style"
-#~ msgstr "Стиль Windows XP"
-
-#~ msgid "Use specified profile"
-#~ msgstr "Використовувати специфічний профіль"
-
-#~ msgid "Add new ICQ UIN to profile. You need to specify uin:password"
-#~ msgstr "Добавити новий ICQ UIN в профіль. Вам потрібно мати uin:пароль"
-
-#~ msgid "Use external viewer"
-#~ msgstr "Використовувати зовнішній переглядач"
-
-#~ msgid "Show own nickname in window title"
-#~ msgstr "Показувати прізвисько власника в назві вікна"
-
-#~ msgid "Taiwanese"
-#~ msgstr "Тайванська"
-
-#~ msgid "Update"
-#~ msgstr "Поновлення"
-
-#~ msgid "Plugin provides notifications about update SIM software"
-#~ msgstr "Модуль забезпечує вивід попередження про наявність поновлення SIM-програми"
-
-#~ msgid "Show details"
-#~ msgstr "Побачити деталі"
-
-#~ msgid "Remind later"
-#~ msgstr "Спробувати пізніше"
-
-#~ msgid "New version SIM is released"
-#~ msgstr "Нова версія SIM випущена"
-
-#~ msgid ""
-#~ "_: waether\n"
-#~ "Clouds"
-#~ msgstr "Хмарно"
-
-#~ msgid "&Use artsd"
-#~ msgstr "&Використовувати звуковий сервер"
-
-#~ msgid ""
-#~ "_n: Check invisible\n"
-#~ "%n times check invisible"
-#~ msgstr ""
-#~ "Перевірка невидимості\n"
-#~ "%n рази перевірка невидимості\n"
-#~ "%n разів перевірка невидимості"
-
-#~ msgid "Check invisible"
-#~ msgstr "Перевірка невидимості"
-
-#~ msgid "Check &invisible"
-#~ msgstr "Перевірка &невидимості"
-
-#~ msgid "&All"
-#~ msgstr "&Всі"
-
-#~ msgid "&Only invisible"
-#~ msgstr "&Тільки невидимі"
-
-#~ msgid "Maintainer"
-#~ msgstr "Автор"
-
-#, fuzzy
-#~ msgid "%n day"
-#~ msgstr "Неділя"
-
-#, fuzzy
-#~ msgid "%n file"
-#~ msgstr "Передача файла"
-
-#, fuzzy
-#~ msgid "WWW-panel message"
-#~ msgstr "&Відкрити повідомлення"
-
-#, fuzzy
-#~ msgid "Email pager message"
-#~ msgstr "Email пейджер"
-
-#, fuzzy
-#~ msgid "Contact request"
-#~ msgstr "Запит контакту"
-
-#, fuzzy
-#~ msgid "%n contact found"
-#~ msgstr "Нема контактів для передачі"
-
-#, fuzzy
-#~ msgid "Close after %n second"
-#~ msgstr "&Закрити після відсилання"
-
-#, fuzzy
-#~ msgid "URL"
-#~ msgstr "URL:"
-
-#, fuzzy
-#~ msgid "Authorize request"
-#~ msgstr "Запит &авторизації"
-
-#, fuzzy
-#~ msgid "Authorization granted"
-#~ msgstr "Запит &авторизації"
-
-#, fuzzy
-#~ msgid "Authorization refused"
-#~ msgstr "Запит &авторизації"
-
-#, fuzzy
-#~ msgid "Add to contacts"
-#~ msgstr "Нема контакту"
-
-#, fuzzy
-#~ msgid "Removed from contacts"
-#~ msgstr "&Знищити з журналу"
-
-#, fuzzy
-#~ msgid "LiveJournal post"
-#~ msgstr "Запи&с в LiveJournal"
-
-#, fuzzy
-#~ msgid "You have %n unread message"
-#~ msgstr "Вам прийшла нова пошта"
-
-#, fuzzy
-#~ msgid "weather"
-#~ msgstr "Погода"
-
-#, fuzzy
-#~ msgid "%n GPG key"
-#~ msgstr "GPG ключ"
