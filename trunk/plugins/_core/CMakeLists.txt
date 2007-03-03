@@ -168,5 +168,6 @@ ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
 ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_SRCS)
 ADD_JISP_ARCHIVE(qip-icons  qip-icons.jisp  _core_SRCS)
 ADD_JISP_ARCHIVE(lovenmoney lovenmoney.jisp _core_SRCS)
+ADD_JISP_ARCHIVE(yahoo      yahoo.jisp      _core_SRCS)
 
 SIM_ADD_PLUGIN(_core)

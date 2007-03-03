@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<icondef>
+  <meta>
+    <name>SIM yahoo emoticons</name>
+    <version>0.9.5</version>
+    <description>SIM yahoo emoticons.</description>
+    <author jid="noragen@gmx.net">Tobias Franz</author>
+    <creation>2007-03-03</creation>
+    <home>http://sim-im.org/</home>
+  </meta>
+  <icon>
+  	<text>>-)</text>
+  	<object  mime="image/png">alien.gif</object>
+  </icon>
+  <icon>
+  	<text>O:)</text>
+	<object  mime="image/png">angel.gif</object>
+  </icon>
+  <icon>
+  	<text>X(</text>
+	<object  mime="image/png">angry.gif</object>
+  </icon>
+  <icon>
+  	<text>=D></text>
+	<object  mime="image/png">applause.gif</object>
+  </icon>
+  <icon>
+  	<text>o-+</text>
+	<object  mime="image/png">april.gif</object>
+  </icon>
+  <icon>
+  	<text>~X(</text>
+	<object  mime="image/png">at_wits'_end.gif</object>
+  </icon>
+  <icon>
+	<text>;;)</text>
+	<object  mime="image/png">batting_eyelashes.gif</object>
+  </icon>
+  <icon>
+	<text>:D</text>
+	<object  mime="image/png">big_grin.gif</object>
+  </icon>
+  <icon>
+	<text>>:D<</text>
+	<object  mime="image/png">big_hug.gif</object>
+  </icon>
+  <icon>
+  	<text>o=></text>
+	<object  mime="image/png">billy.gif</object>
+  </icon>
+  <icon>
+  	<text>:"></text>
+	<object  mime="image/png">blushing.gif</object>
+  </icon>
+  <icon>
+  	<text>>:/</text>
+	<object  mime="image/png">bring_it_on.gif</object>
+  </icon>
+  <icon>
+  	<text>=((</text>
+	<object  mime="image/png">broken_heart.gif</object>
+  </icon>
+  <icon>
+  	<text>=:)</text>
+	<object  mime="image/png">bug.gif</object>
+  </icon>
+  <icon>
+  	<text>:-c</text>
+	<object  mime="image/png">call_me.gif</object>
+  </icon>
+  <icon>
+  	<text>:-@</text>
+	<object  mime="image/png">chatterbox.gif</object>
+  </icon>
+  <icon>
+  	<text>~:></text>
+	<object  mime="image/png">chicken.gif</object>
+  </icon>
+  <icon>
+	<text>:O)</text>
+	<object  mime="image/png">clown.gif</object>
+  </icon>
+  <icon>
+  	<text>~O)</text>
+	<object  mime="image/png">coffee.gif</object>
+  </icon>
+  <icon>
+  	<text>:-/</text>
+	<object  mime="image/png">confused.gif</object>
+  </icon>
+  <icon>
+  	<text>B-)</text>
+	<object  mime="image/png">cool.gif</object>
+  </icon>
+  <icon>
+  	<text>3:-O</text>
+	<object  mime="image/png">cow.gif</object>
+  </icon>
+  <icon>
+  	<text><):)</text>
+	<object  mime="image/png">cowboy.gif</object>
+  </icon>
+  <icon>
+  	<text>:((</text>
+	<object  mime="image/png">crying.gif</object>
+  </icon>
+  <icon>
+  	<text>#-o</text>
+	<object  mime="image/png">d'oh.gif</object>
+  </icon>
+  <icon>
+  	<text>\:D/</text>
+	<object  mime="image/png">dancing.gif</object>
+  </icon>
+  <icon>
+  	<text>8-></text>
+	<object  mime="image/png">daydreaming.gif</object>
+  </icon>
+  <icon>
+  	<text>>:)</text>
+	<object  mime="image/png">devil.gif</object>
+  </icon>
+  <icon>
+  	<text>:-$</text>
+	<object  mime="image/png">don't_tell_anyone.gif</object>
+  </icon>
+  <icon>
+  	<text>=P~</text>
+	<object  mime="image/png">drooling.gif</object>
+  </icon>
+  <icon>
+  	<text>b-(</text>
+	<object  mime="image/png">feeling_beat_up.gif</object>
+  </icon>
+  <icon>
+  	<text>**==</text>
+	<object  mime="image/png">flag.gif</object>
+  </icon>
+  <icon>
+  	<text>:-L</text>
+	<object  mime="image/png">frustrated.gif</object>
+  </icon>
+  <icon>
+  	<text>%%-</text>
+	<object  mime="image/png">good_luck.gif</object>
+  </icon>
+  <icon>
+	<text>:-)</text>
+	<text>:)</text>
+	<text>=)</text>
+	<object  mime="image/png">happy.gif</object>
+  </icon>
+  <icon>
+  	<text>;))</text>
+	<object  mime="image/png">hee_hee.gif</object>
+  </icon>
+  <icon>
+  	<text>o-></text>
+	<object  mime="image/png">hiro.gif</object>
+  </icon>
+  <icon>
+  	<text>@-)</text>
+	<object  mime="image/png">hypnotized.gif</object>
+  </icon>
+  <icon>
+	<text>=)</text>
+	<object  mime="image/png">icondef.xml
+  <icon>
+  	<text>*-:)</text>
+	<object  mime="image/png">idea.gif</object>
+  </icon>
+  <icon>
+  	<text>:-??</text>
+	<object  mime="image/png">I_don't_know.gif</object>
+  </icon>
+  <icon>
+  	<text>:-*</text>
+	<object  mime="image/png">kiss.gif</object>
+  </icon>
+  <icon>
+  	<text>:))</text>
+	<object  mime="image/png">laughing.gif</object>
+  </icon>
+  <icon>
+  	<text>:^o</text>
+	<object  mime="image/png">liar.gif</object>
+  </icon>
+  <icon>
+  	<text>L-)</text>
+	<object  mime="image/png">loser.gif</object>
+  </icon>
+  <icon>
+  	<text>:x</text>
+	<object  mime="image/png">love_struck.gif</object>
+  </icon>
+  <icon>
+  	<text>$-)</text>
+	<object  mime="image/png">money_eyes.gif</object>
+  </icon>
+  <icon>
+  	<text>:(|)</text>
+	<object  mime="image/png">monkey.gif</object>
+  </icon>
+  <icon>
+  	<text>:-SS</text>
+	<object  mime="image/png">nailbiting.gif</object>
+  </icon>
+  <icon>
+  	<text>:-B</text>
+	<object  mime="image/png">nerd.gif</object>
+  </icon>
+  <icon>
+  	<text>%-(</text>
+	<object  mime="image/png">not_listening.gif</object>
+  </icon>
+  <icon>
+  	<text>[-(</text>
+	<object  mime="image/png">not_talking.gif</object>
+  </icon>
+  <icon>
+  	<text>^:)^</text>
+	<object  mime="image/png">not_worthy.gif</object>
+  </icon>
+  <icon>
+  	<text>:-j</text>
+	<object  mime="image/png">oh_go_on.gif</object>
+  </icon>
+  <icon>
+  	<text>:)]</text>
+	<object  mime="image/png">on_the_phone.gif</object>
+  </icon>
+  <icon>
+  	<text><:-P</text>
+	<object  mime="image/png">party.gif</object>
+  </icon>
+  <icon>
+  	<text>:)>-</text>
+	<object  mime="image/png">peace_sign.gif</object>
+  </icon>
+  <icon>
+  	<text>>:P</text>
+	<object  mime="image/png">phbbbbt.gif</object>
+  </icon>
+  <icon>
+  	<text>:@)</text>
+	<object  mime="image/png">pig.gif</object>
+  </icon>
+  <icon>
+  	<text>[-O<</text>
+	<object  mime="image/png">praying.gif</object>
+  </icon>
+  <icon>
+  	<text>(~~)</text>
+	<object  mime="image/png">pumpkin.gif</object>
+  </icon>
+  <icon>
+  	<text>:o3</text>
+	<object  mime="image/png">puppy_dog_eyes.gif</object>
+  </icon>
+  <icon>
+  	<text>/:)</text>
+	<object  mime="image/png">raised_eyebrow.gif</object>
+  </icon>
+  <icon>
+  	<text>8-|</text>
+	<object  mime="image/png">rolling_eyes.gif</object>
+  </icon>
+  <icon>
+  	<text>=))</text>
+	<object  mime="image/png">rolling_on_the_floor.gif</object>
+  </icon>
+  <icon>
+  	<text>@};-</text>
+	<object  mime="image/png">rose.gif</object>
+  </icon>
+  <icon>
+	<text>:-(</text>
+	<text>:(</text>
+	<object  mime="image/png">sad.gif</object>
+  </icon>
+  <icon>
+  	<text>[-X</text>
+	<object  mime="image/png">shame_on_you.gif</object>
+  </icon>
+  <icon>
+  	<text>:-&</text>
+	<object  mime="image/png">sick.gif</object>
+  </icon>
+  <icon>
+  	<text>:-<</text>
+	<object  mime="image/png">sigh.gif</object>
+  </icon>
+  <icon>
+  	<text>8-}</text>
+	<object  mime="image/png">silly.gif</object>
+  </icon>
+  <icon>
+  	<text>8-X</text>
+	<object  mime="image/png">skull.gif</object>
+  </icon>
+  <icon>
+  	<text>I-)</text>
+	<object  mime="image/png">sleepy.gif</object>
+  </icon>
+  <icon>
+  	<text>:></text>
+	<object  mime="image/png">smug.gif</object>
+  </icon>
+  <icon>
+  	<text>(*)</text>
+	<object  mime="image/png">star.gif</object>
+  </icon>
+  <icon>
+  	<text>:|</text>
+	<object  mime="image/png">straight_face.gif</object>
+  </icon>
+  <icon>
+  	<text>:-O</text>
+	<object  mime="image/png">surprise.gif</object>
+  </icon>
+  <icon>
+  	<text>=;</text>
+	<object  mime="image/png">talk_to_the_hand.gif</object>
+  </icon>
+  <icon>
+  	<text>:-?</text>
+	<object  mime="image/png">thinking.gif</object>
+  </icon>
+  <icon>
+  	<text>:-t</text>
+	<object  mime="image/png">time_out.gif</object>
+  </icon>
+  <icon>
+	<text>:P</text>
+	<text>:-P</text>
+	<object  mime="image/png">tongue.gif</object>
+  </icon>
+  <icon>
+  	<text>:-w</text>
+	<object  mime="image/png">waiting.gif</object>
+  </icon>
+  <icon>
+  	<text>:-h</text>
+	<object  mime="image/png">wave.gif</object>
+  </icon>
+  <icon>
+  	<text>#:-S</text>
+	<object  mime="image/png">whew!.gif</object>
+  </icon>
+  <icon>
+  	<text>:-"</text>
+	<object  mime="image/png">whistling.gif</object>
+  </icon>
+  <icon>
+	<text>;)</text>
+	<object  mime="image/png">winking.gif</object>
+  </icon>
+  <icon>
+  	<text>:-S</text>
+	<object  mime="image/png">worried.gif</object>
+  </icon>
+  <icon>
+  	<text>(:|</text>
+	<object  mime="image/png">yawn.gif</object>
+  </icon>
+  <icon>
+	<text>(%)</text>
+	<object  mime="image/png">yin_yang.gif</object>
+  </icon>
+
+
+
+
+
+
