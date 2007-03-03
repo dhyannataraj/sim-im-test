@@ -3,7 +3,7 @@
 COMPILE_FIRST = sim plugins/_core
 
 EXTRA_DIST = admin AUTHORS COPYING ChangeLog INSTALL README TODO resource.h configure.in.in \
-	     AUTHORS.sim README.SVN TODO.MingW
+	     AUTHORS.sim README.SVN TODO.MingW cmake
 
 SUBDIRS = $(TOPSUBDIRS)
 DIST_SUBDIRS = $(SUBDIRS) \
