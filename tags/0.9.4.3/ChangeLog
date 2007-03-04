@@ -1,0 +1,152 @@
+USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
+
+[+] New
+[-] Fixed error
+[*] Changes
+
+
+=== SIM 0.9.4.3 (3.03.2007) ===
+
+Build system
+~~~~~~~~~~~~
+[-] Autotools: fix libXss detection.
+[+] Add initial CMake support.
+
+Core
+~~~~
+[-] Disable history filter when it is empty.
+[-] Remove "To container" menu when separate containers are disabled.
+[*] Auto scroll message view only if it is scrolled to the bottom.
+[-] XFree: fix problems with Composite extension enabled.
+
+
+ICQ plugin
+~~~~~~~~~~
+[-] More fixes for receiving certain messages.
+
+
+=== SIM 0.9.4.2 (19.01.2007) ===
+
+Core
+~~~~
+[-] Win32: fix (un)setting autostart (bug #9283).
+[-] Fix restoring font sizes.
+[*] Use QLibrary for plugins instead of libltdl.
+
+ICQ plugin
+~~~~~~~~~~
+[*] Send and detect SIM patchlevel in version info.
+[-] Fix receiving certain messages containing TLV(5) twice.
+[-] Fix playing sounds for messages from QIP.
+
+Jabber plugin
+~~~~~~~~~~~~~
+[+] Add support for XEP-0092 client version info requests/replies.
+[*] Show resource as a part of JID in contact tip, not as separate line.
+[*] Remove SIM version from default resource value.
+
+Misc plugins
+~~~~~~~~~~~~
+[-] LiveJournal: fix posting messages longer than 4 Kb.
+
+
+=== SIM 0.9.4.1 (21.10.2006) ===
+
+Build system
+~~~~~~~~~~~~
+[-] Autotools: add AC_LANG_C.
+[-] Autotools: fix SMP builds.
+
+Core
+~~~~
+[-] Fix context menu shortcuts in dialog window.
+[+] Save state on system logout with Qt Session Management.
+
+ICQ plugin
+~~~~~~~~~~
+[-] Fix birthday flag handling.
+[-] Fix user info saving.
+[-] Fix icq capability support (fixes also typing notification)
+[+] Add MD5 auth support for ICQ accounts.
+[*] Disable "Automatically use HTTP polling if proxy required" by
+    default.
+[*] Honor ansicp tag in rtf messages.
+[-] Fix client detection.
+
+Jabber plugin
+~~~~~~~~~~~~~
+[+] Add icons for sms and gadu-gadu transports.
+[*] Detect jabber transports by missing "@" symbol in jid instead of
+    "/registered" ending.
+[+] Allow auth messages for transports.
+[*] Show protocol icons for jabber transports in roster.
+[*] Ignore JID letter case.
+[+] Replace typing notification implementation with JEP-0022 conformant
+    one.
+
+MSN plugin
+~~~~~~~~~~
+[+] Add password recovery URL.
+
+Misc plugins
+~~~~~~~~~~~~
+[*] Shortcuts: fix global shortcuts on X11 Qt-only build.
+[*] LiveJournal: add password recovery URL.
+[-] Weather: fix acquisition of "Chance of Precipitation" value
+[*] Transparent: use KPixmapEffect instead KImageEffect to avoid
+    useless QImage <-> QPixmap conversions (should speed up painting
+    background a little bit).
+
+
+=== SIM 0.9.4 (29.06.2006) ===
+
+Build system
+~~~~~~~~~~~~
+[+] Unix: issue error, not warning, if openssl wasn't found.
+
+ICQ plugin
+~~~~~~~~~~
+[*] Accept messages in Occupied/DND modes by default.
+[-] Sync language and occupation lists with ICQ server.
+[+] Add new icons from ICQ 5 and ICQ 5.1.
+
+Jabber plugin
+~~~~~~~~~~~~~
+[-] Fix crash on auth request when "Receive message only from contacts
+    from list".
+[-] Fix handling of single quotes in roster item names.
+
+Misc plugins
+~~~~~~~~~~~~
+[-] Icons: fix handling of JISP files with non-ascii paths.
+[-] Icons: fix handling of JISP files containing subdirectiories.
+[*] LiveJournal: disable formatted messages by default.
+
+
+=== SIM 0.9.4 RC2 (03.05.2006) ===
+
+Build system
+~~~~~~~~~~~~
+[+] MacOSX: fix build with X11.
+[+] Win32/MSVC: use precompiled headers.
+
+Core
+~~~~
+[-] Contact list: fix deleting contacts by pressing Del.
+[-] Other fixes.
+[*] Use ICQ Lite smiles package by default.
+
+ICQ plugin
+~~~~~~~~~~
+[*] Improve client versions detection.
+[-] Do not delete contacts if group changed while offline.
+
+Misc plugins
+~~~~~~~~~~~~
+[-] LiveJournal: Security level of message was set incorrectly.
+[+] LiveJournal: Add optional signature to all messages.
+[+] LiveJournal: Option to disable message text formatting.
+[-] Proxy: fix some crashes.
+[*] Logger: remove dangerous 'Events' logging facility.
+[-] Gpg: some fixes.
+[-] Background: fix URL for additional backgrounds.

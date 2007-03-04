@@ -1,0 +1,4 @@
+if test "$use_kde" != "yes" && test "$kde_use_qt_win" != "yes"; then
+  DO_NOT_COMPILE="$DO_NOT_COMPILE plugins/ontop"
+fi
+
