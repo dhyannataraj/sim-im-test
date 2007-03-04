@@ -33,7 +33,7 @@ typedef struct CMD
     unsigned	base_id;
 } CMD;
 
-class EXPORT CMenu : public KPopupMenu
+class CMenu : public KPopupMenu
 {
     Q_OBJECT
 public:
