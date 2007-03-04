@@ -132,7 +132,7 @@ void QKeyButton::setKey(QKeyEvent *e, bool bPress)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "qkeybutton.moc"
 #endif
 

@@ -436,6 +436,6 @@ void SoundPlugin::childExited(int pid, int)
 
 #endif
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "sound.moc"
 #endif

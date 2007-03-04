@@ -315,6 +315,6 @@ bool OnTopPlugin::eventFilter(QObject *o, QEvent *e)
     return QObject::eventFilter(o, e);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "ontop.moc"
 #endif

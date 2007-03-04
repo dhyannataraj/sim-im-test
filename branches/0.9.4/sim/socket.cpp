@@ -345,7 +345,7 @@ bool TCPClient::error_state(const char *err, unsigned code)
         m_timer->start(reconnectTime * 1000);
     } else {
         /*
-          slot reconnect() neeeds this flag 
+          slot reconnect() neeeds this flag
           to be true to make actual reconnect,
           but it was somehow false. serzh.
         */
@@ -473,7 +473,7 @@ void ServerSocketNotify::bind(const char *path)
 
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "socket.moc"
 #endif
 

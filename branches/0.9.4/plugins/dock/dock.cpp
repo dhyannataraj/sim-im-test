@@ -68,7 +68,7 @@ typedef struct DockData
     bool			AutoHide;
     unsigned		AutoHideInterval;
     bool			ShowMain;
-#ifndef WIN32 
+#ifndef WIN32
     unsigned		DockX;
     unsigned		DockY;
 #endif
@@ -399,6 +399,6 @@ void DockPlugin::timer()
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "dock.moc"
 #endif

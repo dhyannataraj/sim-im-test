@@ -218,7 +218,7 @@ ARItem::ARItem(QListViewItem *item, const CommandDef *def)
     m_status = def->id;
     setText(0, i18n(def->text));
     switch (def->id){
-    case STATUS_ONLINE: 
+    case STATUS_ONLINE:
         icon="SIM_online";
         break;
     case STATUS_AWAY:
@@ -560,7 +560,7 @@ void UserConfig::resizeEvent(QResizeEvent *e)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "usercfg.moc"
 #endif
 

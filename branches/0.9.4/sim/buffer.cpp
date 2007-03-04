@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #ifdef WIN32
-#if _MSC_VER > 1020
+#if NO_MOC_INCLUDES > 1020
 #pragma warning(disable:4530)
 #endif
 #endif
@@ -30,10 +30,10 @@
 #endif
 
 #ifdef WIN32
-#if _MSC_VER > 1020
+#if NO_MOC_INCLUDES > 1020
 #pragma warning(push)
-#pragma warning(disable: 4018)  
-#pragma warning(disable: 4663)  
+#pragma warning(disable: 4018)
+#pragma warning(disable: 4663)
 #endif
 #endif
 
@@ -41,7 +41,7 @@
 using namespace std;
 
 #ifdef WIN32
-#if _MSC_VER > 1020
+#if NO_MOC_INCLUDES > 1020
 #pragma warning(pop)
 #endif
 #endif
@@ -49,8 +49,8 @@ using namespace std;
 
 #ifdef WORDS_BIGENDIAN
 
-#define SWAP_S(s)	s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);  
-#define SWAP_L(s)	s = ((s&0xFF)<<24) + ((s&0xFF00)<<8) + ((s&0xFF0000)>>8) + ((s&0xFF000000)>>24); 
+#define SWAP_S(s)	s = ((s&0xFF)<<8) + ((s&0xFF00)>>8);
+#define SWAP_L(s)	s = ((s&0xFF)<<24) + ((s&0xFF00)<<8) + ((s&0xFF0000)>>8) + ((s&0xFF000000)>>24);
 
 #else
 

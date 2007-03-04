@@ -97,7 +97,7 @@ void JabberHomeInfo::apply(Client *client, void *_data)
     set_str(&data->Country.ptr, edtCountry->text().utf8());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "jabberhomeinfo.moc"
 #endif
 

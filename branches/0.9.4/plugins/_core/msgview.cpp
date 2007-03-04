@@ -73,7 +73,7 @@ protected:
    This parser is run on the output of the 'history XSL'.
    The text which the XSL process output should generally be HTML,
    but may contain the following special tags:
- 
+
     <prepend>...</prepend>
     Strips the PREPEND tags and prepends their contents to the beginning
     of the next paragraph. Useful to make sure chat prefixes are prepended
@@ -1246,7 +1246,7 @@ void ViewParser::text(const QString &text)
 {
     if (text.isEmpty())
         return;
-        
+
     if (m_bInParagraph)
        m_bParagraphEmpty = false;
 
@@ -1481,7 +1481,7 @@ QString MsgViewBase::parseText(const QString &text, bool bIgnoreColors, bool bUs
     return parser.parse(text);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "msgview.moc"
 #endif
 

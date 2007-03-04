@@ -592,7 +592,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
     eh.process();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "maininfo.moc"
 #endif
 

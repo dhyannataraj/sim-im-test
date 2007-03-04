@@ -542,7 +542,7 @@ void ExecManager::checkChilds()
 #endif
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "exec.moc"
 #endif
 

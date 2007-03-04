@@ -192,7 +192,7 @@ void JabberConfig::changed()
     emit okEnabled(bOK);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "jabberconfig.moc"
 #endif
 

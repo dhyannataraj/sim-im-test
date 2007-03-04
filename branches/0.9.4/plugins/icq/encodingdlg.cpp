@@ -84,7 +84,7 @@ void EncodingDlg::changed(int n)
     buttonOk->setEnabled(n > 0);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "encodingdlg.moc"
 #endif
 

@@ -23,14 +23,14 @@ namespace SIM
 #include "cjk_variants.h"
 
 #ifdef WIN32
-#if _MSC_VER > 1020
+#if NO_MOC_INCLUDES > 1020
 #pragma warning(push)
-#pragma warning(disable: 4244)  
+#pragma warning(disable: 4244)
 #endif
 #endif
 #include "johab_hangul.h"
 #ifdef WIN32
-#if _MSC_VER > 1020
+#if NO_MOC_INCLUDES > 1020
 #pragma warning(pop)
 #endif
 #endif

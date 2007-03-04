@@ -42,7 +42,7 @@
 #ifndef CS_DROPSHADOW
 #define CS_DROPSHADOW   0x00020000
 #endif
-#ifndef SPI_GETSCREENSAVERRUNNING 
+#ifndef SPI_GETSCREENSAVERRUNNING
 #define SPI_GETSCREENSAVERRUNNING 114
 #endif
 
@@ -84,7 +84,7 @@ typedef struct OSDUserData
 	unsigned	EnableMessage;
 	unsigned	EnableAlert;
 	unsigned	EnableAlertOnline;,
-	unsigned	EnableAlertAway; 
+	unsigned	EnableAlertAway;
 	unsigned	EnableAlertNA;
 	unsigned	EnableAlertDND;
 	unsigned	EnableAlertOccupied;
@@ -724,6 +724,6 @@ void *OSDPlugin::processEvent(Event *e)
     return NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "osd.moc"
 #endif

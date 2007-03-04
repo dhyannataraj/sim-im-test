@@ -289,7 +289,7 @@ void Commands::set(CommandsDef *def, const char *str)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "commands.moc"
 #endif
 

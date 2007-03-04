@@ -151,7 +151,7 @@ void CommonStatus::setBarStatus()
                         for (d = client->protocol()->statusList(); d->text; d++){
                              if (d->id == status){
                                  switch (status){
-                                 case STATUS_ONLINE: 
+                                 case STATUS_ONLINE:
                                      icon="SIM_online";
                                      break;
                                  case STATUS_AWAY:
@@ -254,7 +254,7 @@ void CommonStatus::rebuildStatus()
         if ((ManualStatus == 0) && (CorePlugin::m_plugin->getManualStatus() == cmd->id))
             ManualStatus = cmd->id;
         switch (c.id){
-        case STATUS_ONLINE: 
+        case STATUS_ONLINE:
             c.icon="SIM_online";
             break;
         case STATUS_AWAY:
@@ -531,7 +531,7 @@ void CommonStatus::finished()
     QTimer::singleShot(1000, this, SLOT(showBalloon()));
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "status.moc"
 #endif
 

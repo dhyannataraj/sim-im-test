@@ -306,7 +306,7 @@ SMSPanel::SMSPanel(QWidget *parent)
 SMSPanel::~SMSPanel()
 {}
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "msgsms.moc"
 #endif
 

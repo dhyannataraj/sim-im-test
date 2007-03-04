@@ -244,7 +244,7 @@ bool Tmpl::getTag(const string &name, void *_data, const DataDef *def, QString &
     return true;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "tmpl.moc"
 #endif
 

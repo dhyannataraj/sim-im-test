@@ -287,6 +287,6 @@ QStringList SpellPlugin::suggestions(const QString &word)
     return res;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "spell.moc"
 #endif

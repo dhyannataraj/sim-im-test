@@ -1478,7 +1478,7 @@ void JabberClient::setOffline(JabberUserData *data)
     data->nResources.value = 0;
     set_str(&data->TypingId.ptr, NULL);
     if (data->IsTyping.bValue){
-        data->IsTyping.bValue = false;      
+        data->IsTyping.bValue = false;
         Contact *contact;
         string resource;
         if (findContact(data->ID.ptr, NULL, false, contact, resource)){
@@ -3163,7 +3163,7 @@ QString JabberClient::logoFile(JabberUserData *data)
     return QFile::decodeName(f.c_str());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "jabberclient.moc"
 #endif
 

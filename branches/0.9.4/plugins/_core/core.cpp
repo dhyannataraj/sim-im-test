@@ -4524,6 +4524,6 @@ bool FileLock::lock(bool)
     return true;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "core.moc"
 #endif

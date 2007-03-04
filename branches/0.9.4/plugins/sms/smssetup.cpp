@@ -85,7 +85,7 @@ void SMSSetup::init()
     emit okEnabled(true);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "smssetup.moc"
 #endif
 

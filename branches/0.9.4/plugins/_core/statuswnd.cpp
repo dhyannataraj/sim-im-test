@@ -405,7 +405,7 @@ BalloonMsg *StatusWnd::showError(const QString &text, QStringList &buttons, Clie
     return new BalloonMsg(NULL, text, buttons, lbl);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "statuswnd.moc"
 #endif
 

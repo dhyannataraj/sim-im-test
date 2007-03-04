@@ -661,6 +661,6 @@ void IPResolver::start_resolve()
 
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "sockfactory.moc"
 #endif

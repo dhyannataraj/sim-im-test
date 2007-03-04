@@ -255,7 +255,7 @@ void *NewProtocol::processEvent(Event *e)
     return NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "newprotocol.moc"
 #endif
 

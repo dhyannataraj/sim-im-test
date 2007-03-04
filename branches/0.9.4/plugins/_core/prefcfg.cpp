@@ -82,7 +82,7 @@ void PrefConfig::overrideToggled(bool bState)
     addWnd->setEnabled(bState);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "prefcfg.moc"
 #endif
 

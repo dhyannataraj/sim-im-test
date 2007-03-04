@@ -14,7 +14,7 @@
  * Yahoo Search copyright (C) 2003, Konstantin Klyagin <konst AT konst.org.ua>
  *
  * Much of this code was taken and adapted from the yahoo module for
- * gaim released under the GNU GPL.  This code is also released under the 
+ * gaim released under the GNU GPL.  This code is also released under the
  * GNU GPL.
  *
  * This code is derivitive of Gaim <http://gaim.sourceforge.net>
@@ -2593,7 +2593,7 @@ void YahooFileTransfer::connect()
         m_notify->createFile(m_msg->getDescription(), 0xFFFFFFFF, false);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "yahooclient.moc"
 #endif
 

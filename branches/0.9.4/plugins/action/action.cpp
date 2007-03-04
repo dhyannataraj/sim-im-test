@@ -316,6 +316,6 @@ void ActionPlugin::clear()
     m_delete.clear();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "action.moc"
 #endif

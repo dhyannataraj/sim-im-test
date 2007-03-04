@@ -191,6 +191,6 @@ void NetmonitorPlugin::saveState()
     saveGeometry(monitor, data.geometry);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "netmonitor.moc"
 #endif

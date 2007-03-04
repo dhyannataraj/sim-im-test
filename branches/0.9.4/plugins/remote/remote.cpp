@@ -1047,6 +1047,6 @@ void ControlSocket::packet_ready()
     write(CRLF);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "remote.moc"
 #endif

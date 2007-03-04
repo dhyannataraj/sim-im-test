@@ -211,7 +211,7 @@ ContactItem::ContactItem(UserViewItemBase *view, Contact *contact, unsigned stat
 {
     m_id = contact->id();
     init(contact, status, style, icons, unread);
-#if COMPAT_QT_VERSION >= 0x030000    
+#if COMPAT_QT_VERSION >= 0x030000
     setDragEnabled(true);
 #endif
 }
@@ -1212,7 +1212,7 @@ void UserList::contentsMouseReleaseEvent(QMouseEvent *e)
     m_pressedItem = NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "userlist.moc"
 #endif
 

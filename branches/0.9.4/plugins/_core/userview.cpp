@@ -1120,7 +1120,7 @@ void UserView::keyPressEvent(QKeyEvent *e)
             }
         }
     case Key_Delete:
-        // e->text() is not empty, but we don't need to specially handle Del 
+        // e->text() is not empty, but we don't need to specially handle Del
         UserListBase::keyPressEvent(e);
         return;
     default:
@@ -1711,7 +1711,7 @@ void UserView::dragScroll()
         ensureItemVisible(item);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "userview.moc"
 #endif
 

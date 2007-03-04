@@ -120,7 +120,7 @@ MainWindow::MainWindow(Geometry &geometry)
     QStatusBar *status = statusBar();
     status->hide();
     status->installEventFilter(this);
-    
+
     local::restoreGeometry(this, geometry);
 }
 
@@ -382,7 +382,7 @@ void MainWindow::focusInEvent(QFocusEvent *e)
         CorePlugin::m_plugin->m_view->setFocus();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "mainwin.moc"
 #endif
 

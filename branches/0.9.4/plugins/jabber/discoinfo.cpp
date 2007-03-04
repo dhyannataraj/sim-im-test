@@ -288,7 +288,7 @@ void DiscoInfo::urlChanged(const QString &text)
     btnUrl->setEnabled(!text.isEmpty());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "discoinfo.moc"
 #endif
 

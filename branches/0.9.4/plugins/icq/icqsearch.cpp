@@ -212,7 +212,7 @@ void ICQSearch::icq_search()
 const QString ICQSearch::extractUIN(const QString& str)
 {
     if (!str || str.isEmpty())
-        return QString::null; 
+        return QString::null;
     QString s = str;
     return s.remove(' ').remove('-');
 }
@@ -481,7 +481,7 @@ void ICQSearch::createContact(const QString &name, unsigned tmpFlags, Contact *&
     contact->setFlags(contact->getFlags() | tmpFlags);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "icqsearch.moc"
 #endif
 

@@ -255,7 +255,7 @@ ARItem::ARItem(QListViewItem *item, const CommandDef *d)
     m_status = d->id;
     setText(0, i18n(d->text));
     switch (d->id){
-    case STATUS_ONLINE: 
+    case STATUS_ONLINE:
         icon="SIM_online";
         break;
     case STATUS_AWAY:
@@ -684,7 +684,7 @@ QListViewItem *ConfigureDialog::findItem(QWidget *w, QListViewItem *parent)
     return NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "cfgdlg.moc"
 #endif
 

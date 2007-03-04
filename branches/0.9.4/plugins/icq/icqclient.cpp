@@ -3379,7 +3379,7 @@ Contact *ICQClient::getContact(ICQUserData *data)
     return contact;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "icqclient.moc"
 #endif
 

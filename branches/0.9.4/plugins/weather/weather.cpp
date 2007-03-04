@@ -759,7 +759,7 @@ void WeatherPlugin::element_end(const char *el)
     	    m_data = "";
     	    return;
 	}
-    }	
+    }
     if (!strcmp(el, "hmid") && m_bCC){
         setHumidity(atol(m_data.c_str()));
         m_data = "";
@@ -785,7 +785,7 @@ void WeatherPlugin::element_end(const char *el)
                 setConditions(m_data.c_str());
             }else{
                 setDayConditions(m_day, m_data.c_str());
-		if ((m_data == "N/A") && (m_bDayPart == 'd')) 
+		if ((m_data == "N/A") && (m_bDayPart == 'd'))
 		    m_bDayForecastIsValid = false;
             }
         }
@@ -890,6 +890,6 @@ void WeatherPlugin::char_data(const char *str, int len)
         m_data.append(str, len);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "weather.moc"
 #endif

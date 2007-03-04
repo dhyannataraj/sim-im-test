@@ -115,7 +115,7 @@ void SoundConfig::artsToggled(bool)
     edtPlayer->setEnabled(!chkArts->isChecked());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "soundconfig.moc"
 #endif
 

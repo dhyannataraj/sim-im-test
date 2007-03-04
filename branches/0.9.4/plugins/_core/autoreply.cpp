@@ -37,7 +37,7 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
             if (d->id == status){
                 text = d->text;
                 switch (d->id){
-                case STATUS_ONLINE: 
+                case STATUS_ONLINE:
                     icon="SIM_online";
                     break;
                 case STATUS_AWAY:
@@ -137,7 +137,7 @@ void AutoReplyDialog::help()
     BalloonMsg::message(helpString, btnHelp, false, 400);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "autoreply.moc"
 #endif
 

@@ -3106,6 +3106,6 @@ bool SBSocket::declineMessage(Message *msg, const char *reason)
     return false;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "msnclient.moc"
 #endif

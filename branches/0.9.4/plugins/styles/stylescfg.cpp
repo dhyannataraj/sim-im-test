@@ -110,7 +110,7 @@ void StylesConfig::apply()
         m_plugin->setStyles();
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "stylescfg.moc"
 #endif
 

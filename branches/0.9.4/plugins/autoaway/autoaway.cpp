@@ -38,7 +38,7 @@ Copyright (C) 2003  Tarkvara Design Inc.
 
 #ifndef __MINGW32__
 /*
-  already defined in winuser.h, which is included in windows.h 
+  already defined in winuser.h, which is included in windows.h
   (at least in MingW) headers
 */
 typedef struct tagLASTINPUTINFO {
@@ -385,6 +385,6 @@ QWidgetList *list = QApplication::topLevelWidgets();
 #endif
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "autoaway.moc"
 #endif

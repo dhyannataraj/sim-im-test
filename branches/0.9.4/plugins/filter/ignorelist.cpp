@@ -116,7 +116,7 @@ void IgnoreList::deleteItem(QListViewItem *item)
                 remove - move to NotInList
                 But I don't know how to create a second item
                 Christian
-                
+
                 Event e2(EventContactDeleted, contact);
                 e2.process();
                 delete contact; */
@@ -182,7 +182,7 @@ void IgnoreList::removeItem(QListViewItem *item)
         lstIgnore->setCurrentItem(nextItem);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "ignorelist.moc"
 #endif
 

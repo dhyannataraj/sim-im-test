@@ -47,6 +47,6 @@ void VerifyDlg::changed(const QString& text)
     buttonOk->setEnabled(!text.isEmpty());
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "verifydlg.moc"
 #endif

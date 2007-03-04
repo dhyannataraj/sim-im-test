@@ -139,7 +139,7 @@ QString KAboutApplication::quote(const QString &s)
     return res;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "aboutdlg.moc"
 #endif
 #endif

@@ -416,6 +416,6 @@ void FilterPlugin::addToIgnore(void *p)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "filter.moc"
 #endif

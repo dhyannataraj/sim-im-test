@@ -151,6 +151,6 @@ void AboutPlugin::realDestroy()
 #endif
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "about.moc"
 #endif

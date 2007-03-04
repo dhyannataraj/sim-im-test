@@ -177,7 +177,7 @@ void GpgGen::genKeyReady(Exec*,int res,const char*)
     BalloonMsg::message(i18n("Generate key failed"), buttonOk);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "gpggen.moc"
 #endif
 

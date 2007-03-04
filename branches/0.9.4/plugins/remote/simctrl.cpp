@@ -32,8 +32,8 @@
 #endif
 
 #ifdef WIN32
-#if _MSC_VER > 1020
-#pragma warning(disable: 4786)  
+#if NO_MOC_INCLUDES > 1020
+#pragma warning(disable: 4786)
 #endif
 #endif
 

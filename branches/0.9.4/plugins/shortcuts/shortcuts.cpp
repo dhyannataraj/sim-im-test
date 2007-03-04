@@ -364,8 +364,8 @@ extern "C" {
 static uint g_keyModMaskXOnOrOff = 0;
 static void initializeMods()
 {
-    uint g_modXNumLock, g_modXScrollLock, g_modXModeSwitch; 
-    g_modXNumLock = g_modXScrollLock = g_modXModeSwitch = 0; 
+    uint g_modXNumLock, g_modXScrollLock, g_modXModeSwitch;
+    g_modXNumLock = g_modXScrollLock = g_modXModeSwitch = 0;
     int min_keycode, max_keycode;
     int keysyms_per_keycode = 0;
 
@@ -381,7 +381,7 @@ static void initializeMods()
         switch( keySymX ) {
             case XK_Num_Lock:    g_modXNumLock = mask; break;     // Normally Mod2Mask
             case XK_Scroll_Lock: g_modXScrollLock = mask; break;  // Normally Mod5Mask
-            case XK_Mode_switch: g_modXModeSwitch = mask; break; 
+            case XK_Mode_switch: g_modXModeSwitch = mask; break;
         }
     }
     XFreeModifiermap( xmk );
@@ -833,6 +833,6 @@ QWidget *ShortcutsPlugin::getMainWindow()
     return NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "shortcuts.moc"
 #endif

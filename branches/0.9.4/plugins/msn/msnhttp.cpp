@@ -175,7 +175,7 @@ Socket *MSNClient::createSBSocket()
     return NULL;
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "msnhttp.moc"
 #endif
 

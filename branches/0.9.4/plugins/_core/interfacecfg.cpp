@@ -266,7 +266,7 @@ void InterfaceConfig::apply()
 #endif
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "interfacecfg.moc"
 #endif
 

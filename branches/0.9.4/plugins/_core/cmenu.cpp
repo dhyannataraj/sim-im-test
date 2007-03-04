@@ -236,7 +236,7 @@ void CMenu::menuActivated(int n)
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "cmenu.moc"
 #endif
 

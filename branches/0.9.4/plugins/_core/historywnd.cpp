@@ -190,7 +190,7 @@ void *HistoryWindow::processEvent(Event *e)
             if (str && !str.isEmpty()){
                 bool res = true;
                 if (QFile::exists(str)){
-                    QMessageBox mb(i18n("Error"), i18n("File already exists. Overwrite?"), 
+                    QMessageBox mb(i18n("Error"), i18n("File already exists. Overwrite?"),
                             QMessageBox::Warning,
                             QMessageBox::Yes | QMessageBox::Default,
                             QMessageBox::No,
@@ -361,6 +361,6 @@ void HistoryWindow::addHistory(const QString &str)
     CorePlugin::m_plugin->setHistorySearch(res);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "historywnd.moc"
 #endif

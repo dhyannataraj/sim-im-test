@@ -69,7 +69,7 @@ void AutoAwayConfig::apply()
         m_plugin->setOffTime(atol(spnOff->text().latin1()));
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "autoawaycfg.moc"
 #endif
 

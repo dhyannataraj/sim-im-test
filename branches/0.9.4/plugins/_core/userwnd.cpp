@@ -292,7 +292,7 @@ void UserWnd::markAsRead()
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "userwnd.moc"
 #endif
 

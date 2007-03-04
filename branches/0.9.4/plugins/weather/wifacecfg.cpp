@@ -115,7 +115,7 @@ void WIfaceCfg::help()
     BalloonMsg::message(str, btnHelp, false, 400);
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "wifacecfg.moc"
 #endif
 

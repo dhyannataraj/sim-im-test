@@ -181,7 +181,7 @@ void ReplaceCfg::mouseButtonPressed(int, QListViewItem *item, const QPoint&, int
     }
 }
 
-#ifndef _MSC_VER
+#ifndef NO_MOC_INCLUDES
 #include "replacecfg.moc"
 #endif
 

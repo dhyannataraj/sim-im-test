@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: qjpegio.cpp,v 1.2 2004-06-26 08:16:59 shutoff Exp $
+** $Id: qjpegio.cpp,v 1.2 2004/06/26 08:16:59 shutoff Exp $
 **
 ** Implementation of JPEG QImage IOHandler
 **
@@ -41,9 +41,9 @@
 #include "qfeatures.h"
 
 #ifdef WIN32
-#if _MSC_VER > 1020
-#include <yvals.h>              
-#pragma warning(disable: 4611)  
+#if NO_MOC_INCLUDES > 1020
+#include <yvals.h>
+#pragma warning(disable: 4611)
 #endif
 #endif
 
