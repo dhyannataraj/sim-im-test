@@ -15,7 +15,7 @@
 %endif
 
 Name: sim
-Version: 0.9.4.2
+Version: 0.9.4.3
 Release: alt1
 Serial: 1
 
@@ -173,6 +173,8 @@ export PATH=$PATH:%_qt3dir/bin
     --disable-rpath
 %make_build
 %make_install install DESTDIR=%simqtinstalldir
+rm -f %simqtinstalldir%_libdir/%name-qt/*.la
+rm -f %simqtinstalldir%_Kmimelnk/application/x-icq.desktop
 %endif
 
 ## With KDE ##
@@ -185,26 +187,28 @@ export PATH=$PATH:%_qt3dir/bin
     --disable-rpath
 %make_build
 %make_install install DESTDIR=%siminstalldir
+rm -f %siminstalldir%_libdir/%name/*.la
+rm -f %siminstalldir%_Kmimelnk/application/x-icq.desktop
 %endif
 
 %install
 %if_enabled simkde
-%__cp -R %siminstalldir %buildroot
+cp -a %siminstalldir %buildroot
 %else
-%__cp -R %simqtinstalldir %buildroot
-%__rm -f %buildroot{%_bindir/sim,%_desktopdir/%name.desktop}
+cp -a %simqtinstalldir %buildroot
+rm -f %buildroot{%_bindir/sim,%_desktopdir/%name.desktop}
 %endif
 
 %if_enabled simqt
-%__cp %simqtinstalldir%_bindir/sim %buildroot%_bindir/sim-qt
-%__cp -R %simqtinstalldir%_libdir/* %buildroot%_libdir/
-%__cp %simqtinstalldir%_desktopdir/kde/%name.desktop %buildroot%_desktopdir/%name-qt.desktop
+cp %simqtinstalldir%_bindir/sim %buildroot%_bindir/sim-qt
+cp -a %simqtinstalldir%_libdir/* %buildroot%_libdir/
+cp %simqtinstalldir%_desktopdir/kde/%name.desktop %buildroot%_desktopdir/%name-qt.desktop
 %__subst 's,^Exec=sim$,\0-qt,' %buildroot%_desktopdir/%name-qt.desktop
 %__subst 's,^Name.*=Sim.*,\0 (without KDE),g' %buildroot%_desktopdir/%name-qt.desktop
 %__subst '\,Categ,s,KDE;,,' %buildroot%_desktopdir/%name-qt.desktop
 %endif
 
-%__rm -rf %buildroot%_libdir/libsim.so
+rm -rf %buildroot%_libdir/libsim.so
 
 %find_lang %name
 
@@ -251,6 +255,10 @@ export PATH=$PATH:%_qt3dir/bin
 %_iconsdir/*/*/*/*.png
 
 %changelog
+* Sat Mar 03 2007 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4.3-alt1
+- 0.9.4.3
+- spec cleanup
+
 * Fri Jan 19 2007 Andrey Rahmatullin <wrar@altlinux.ru> 1:0.9.4.2-alt1
 - 0.9.4.2
 
