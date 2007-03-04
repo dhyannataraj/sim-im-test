@@ -12,7 +12,9 @@ SET(QT_MT_REQUIRED True)
 INCLUDE(FindQt3)
 INCLUDE(MacroEnsureOutOfSourceBuild)
 
-MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
+IF(WIN32)
+	MACRO_ENSURE_OUT_OF_SOURCE_BUILD("SIM-IM requires an out of source build. Please create a separate build directory and run 'cmake path_to_sim_im [options]' there.")
+ENDIF(WIN32)
 
 INCLUDE(Flex)
 INCLUDE(Jisp)
