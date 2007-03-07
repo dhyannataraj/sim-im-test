@@ -1055,11 +1055,12 @@ void UserList::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
         int x = drawIndicator(p, 2 + margin, item, isSelected(item->id()), cg);
         if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->getUseDblClick()){
             if (CorePlugin::m_plugin->getUseSysColors()){
-                if (item->status() != STATUS_ONLINE)
+                if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
                     p->setPen(palette().disabled().text());
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
+                case STATUS_FFC:
                     break;
                 case STATUS_AWAY:
                     p->setPen(CorePlugin::m_plugin->getColorAway());

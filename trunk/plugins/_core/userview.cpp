@@ -296,11 +296,12 @@ void UserView::drawItem(UserViewItemBase *base, QPainter *p, const QColorGroup &
             x = 24;
         if (!item->isSelected() || !hasFocus() || !CorePlugin::m_plugin->getUseDblClick()){
             if (CorePlugin::m_plugin->getUseSysColors()){
-                if (item->status() != STATUS_ONLINE)
+                if (item->status() != STATUS_ONLINE && item->status() != STATUS_FFC)
                     p->setPen(palette().disabled().text());
             }else{
                 switch (item->status()){
                 case STATUS_ONLINE:
+                case STATUS_FFC:
                     p->setPen(CorePlugin::m_plugin->getColorOnline());
                     break;
                 case STATUS_AWAY:
