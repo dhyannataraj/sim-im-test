@@ -4,5 +4,5 @@ iconsdir=$(kde_datadir)/sim/icons/
 
 all: yahoo.jisp
 
-yahoo.jisp: $(srcdir)/icondef.xml $(srcdir)/*.png
+yahoo.jisp: $(srcdir)/icondef.xml $(srcdir)/*.gif
 	$(ZIP) $(ZIP_FLAGS) $@ $^
