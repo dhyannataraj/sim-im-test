@@ -85,10 +85,9 @@ QSize QColorButton::sizeHint() const
 
 void QColorButton::chooseColor()
 {
-    QColor c = color();
-    if( QColorDialog::getColor( c, this ) != QDialog::Rejected ) {
+    QColor c = QColorDialog::getColor( color(), this );
+    if( c.isValid() )
         setColor( c );
-    }
 }
 
 #ifndef NO_MOC_INCLUDES
