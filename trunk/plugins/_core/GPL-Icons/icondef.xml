@@ -11,6 +11,8 @@
   
   <icon name="SIM">
     <object mime="image/png">sim.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Eldar Fazullin, for Alexey Panfilov (lehis) <sim-im@lehis.ru> -->
   </icon>
 
   <icon name="Jabber">
@@ -267,14 +269,12 @@
     <!-- Modification of : http://www.kde-look.org/content/show.php?content=8341 /16x16/apps/linphone.png -->
     <!-- and http://websvn.kde.org/trunk/KDE/kdelibs/pics/crystalsvg/cr32-action-button_cancel.png?rev=518495 -->
   </icon>
-
   <icon name="webpress">
     <object mime="image/png">webpress.png</object>
       <!-- Licence: GNU/LGPL -->
       <!-- From: http://www.kde-look.org/content/show.php?content=8341 -->
       <!-- 16x16/actions/reload.png --> 
   </icon>
-
   <icon name="find">
     <object mime="image/png">find_user.png</object>
       <!-- Licence: GNU/LGPL -->
@@ -283,6 +283,50 @@
       <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/apps/kuser.png -->
   </icon>
 
+  <icon name="nonim">
+    <object mime="image/png">non-im-contact.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--    From: http://www.kde-look.org/content/show.php?content=8341 16x16/apps/identity.png -->
+  </icon>
 
+  <icon name="online_on">
+    <object mime="image/png">online_on.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Eldar Fazullin, for Alexey Panfilov (lehis) <sim-im@lehis.ru> -->
+  </icon>
+  <icon name="online_off">
+    <object mime="image/png">online_off.png</object>
+    <!-- Licence: GNU/GPL -->
+    <!-- Author: Eldar Fazullin, for Alexey Panfilov (lehis) <sim-im@lehis.ru> -->
+  </icon>
 
+  <icon name="grp_on">
+    <object mime="image/png">grp_on.png</object>  
+    <!-- Licence: GNU/LGPL -->
+    <!--    From: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_family.png -->
+  </icon>
+  <icon name="grp_off">
+    <object mime="image/png">grp_off.png</object>  
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+      <!-- Sources: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_family.png -->
+      <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_action_fail.png -->
+  </icon>
+  <icon name="grp_create">
+    <object mime="image/png">grp_create.png</object>  
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_family.png -->
+    <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/add_user.png -->
+  </icon>
+  
+  <icon name="grp_rename">
+    <object mime="image/png">grp_rename.png</object>  
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_family.png -->
+    <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/ -->
+  </icon>
+  
+  
 </icondef>
