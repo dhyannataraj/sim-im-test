@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-05 21:12+0100\n"
-"PO-Revision-Date: 2007-01-09 22:08+0100\n"
+"PO-Revision-Date: 2007-03-16 17:52+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1334,8 +1334,8 @@ msgid ""
 "_n: Authorization granted\n"
 "%n authorization granted"
 msgstr ""
-"Die Erlaubnis wurde erteilt.\n"
-"%n mal Erlaubnis erteilt."
+"Die Erlaubnis wurde erteilt\n"
+"%n mal Erlaubnis erteilt"
 
 #: plugins/_core/msgedit.cpp:717
 #, c-format
@@ -1343,8 +1343,8 @@ msgid ""
 "_n: Authorization refused\n"
 "%n authorization refused"
 msgstr ""
-"Die Erlaubnis wurde verweigert.\n"
-"%n mal Erlaubnis verweigert."
+"Die Erlaubnis wurde verweigert\n"
+"%n mal Erlaubnis verweigert"
 
 #: plugins/_core/msgedit.cpp:738
 #, c-format
@@ -1352,8 +1352,8 @@ msgid ""
 "_n: Add to contacts\n"
 "%n add to contacts"
 msgstr ""
-"Zur Kontaktliste hinzugefügt.\n"
-"%n mal zur Kontaktliste hinzugefügt."
+"Zur Kontaktliste hinzugefügt\n"
+"%n mal zur Kontaktliste hinzugefügt"
 
 #: plugins/_core/msgedit.cpp:759
 #, c-format
@@ -1361,8 +1361,8 @@ msgid ""
 "_n: Removed from contacts\n"
 "%n removed from contacts"
 msgstr ""
-"Von der Kontaktliste gelöscht.\n"
-"%n mal gelöscht von Kontaktliste."
+"Von der Kontaktliste gelöscht\n"
+"%n mal gelöscht von Kontaktliste"
 
 #: plugins/_core/msgedit.cpp:780
 #, c-format
