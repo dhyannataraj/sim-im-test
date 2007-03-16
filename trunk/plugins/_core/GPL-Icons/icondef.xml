@@ -270,12 +270,17 @@
 
   <icon name="webpress">
     <object mime="image/png">webpress.png</object>
-      <!--     reload-->
+      <!-- Licence: GNU/LGPL -->
+      <!-- From: http://www.kde-look.org/content/show.php?content=8341 -->
+      <!-- 16x16/actions/reload.png --> 
   </icon>
 
   <icon name="find">
-	<object mime="image/png">find_user.png</object>
-	<!-- act find and app kuser -->
+    <object mime="image/png">find_user.png</object>
+      <!-- Licence: GNU/LGPL -->
+      <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+      <!-- Sources: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/findf.png-->
+      <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/apps/kuser.png -->
   </icon>
 
 
