@@ -358,4 +358,23 @@
     <!--             TODO: It would be good to find better icon later... This one is not good enough -->
   </icon>
   
+  <icon name="message">
+    <object mime="image/png">message.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/comment.png -->
+  </icon>  
+  <icon name="file">
+    <object mime="image/png">file.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/filesave.png -->
+    <!--    TODO: I think that floppy is not the best icon for "send file", but i do not know the better one :-( -->
+  </icon>
+  <icon name="sms">
+    <object mime="image/png">sms.png</object>  
+    <!-- Licence: GNU/LGPL -->
+    <!-- Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/comment.png -->
+    <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/msn_phone.png -->
+    <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/compfile.png -->
+  </icon>
 </icondef>
