@@ -328,5 +328,34 @@
     <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/ -->
   </icon>
   
+  <icon name="home">
+    <object mime="image/png">home.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_home.png -->
+  </icon>
+  <icon name="work">
+    <object mime="image/png">work.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_business.png -->
+  </icon>
+  <icon name="security">
+    <object mime="image/png">security.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/lock.png -->
+  </icon>
+  <icon name="run">
+    <object mime="image/png">run.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/gear.png -->
+    <!--    TODO: IMHO Jabber Browser and Configure menu shuld use two different "run" icons -->
+    <!--          I think it would be wise to rename it to plugins.png for Configure window -->
+  </icon>
+  
+  <icon name="network">
+    <object mime="image/png">network.png</object>
+    <!--          Licence: GNU/LGPL -->
+    <!--  Modification of: http://www.kde-look.org/content/show.php?content=8341 22x22/filesystems/connect_to_network.png -->
+    <!--             TODO: It would be good to find better icon later... This one is not good enough -->
+  </icon>
   
 </icondef>
