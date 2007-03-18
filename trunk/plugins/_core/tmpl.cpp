@@ -122,6 +122,8 @@ QString Tmpl::process(TmplExpand &t, const QString &str)
     QString s = str;
     while (!s.isEmpty()){
         res += getToken(s, '&');
+        if(s.isEmpty())
+            break;
         QString tag = getToken(s, ';');
         if (tag.isEmpty()) {
             res += tag;
