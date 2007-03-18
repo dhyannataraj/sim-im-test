@@ -3139,7 +3139,7 @@ void JabberFileTransfer::connect()
         m_notify->createFile(m_msg->getDescription(), 0xFFFFFFFF, false);
 }
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
 static char PICT_PATH[] = "pictures\\";
 #else
 static char PICT_PATH[] = "pictures/";

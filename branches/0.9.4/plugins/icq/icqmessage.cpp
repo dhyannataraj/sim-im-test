@@ -1523,12 +1523,12 @@ void ICQClient::pluginAnswer(unsigned plugin_type, unsigned long uin, Buffer &in
             typeAnswer = 0x00000001;
             QString pictFile = getPicture();
             if (!pictFile.isEmpty()){
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
                 pictFile = pictFile.replace(QRegExp("/"), "\\");
 #endif
                 QFile f(pictFile);
                 if (f.open(IO_ReadOnly)){
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
                     int n = pictFile.findRev("\\");
 #else
                     int n = pictFile.findRev("/");

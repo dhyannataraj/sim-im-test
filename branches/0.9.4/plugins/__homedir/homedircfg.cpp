@@ -28,12 +28,16 @@ HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
         : HomeDirConfigBase(parent)
 {
     m_plugin = plugin;
+#ifdef WIN32 // ER
     chkDefault->setChecked(plugin->m_bDefault);
+#endif    
     connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
     defaultToggled(chkDefault->isChecked());
     edtPath->setText(QFile::decodeName(plugin->m_homeDir.c_str()));
     edtPath->setDirMode(true);
+#ifdef WIN32 // ER
     chkDefault->setChecked(m_plugin->m_bDefault);
+#endif    
 }
 
 void HomeDirConfig::apply()
@@ -58,7 +62,9 @@ void HomeDirConfig::apply()
         bDefault = true;
     }
     edtPath->setText(d);
+#ifdef WIN32 // ER
     m_plugin->m_bDefault = bDefault;
+#endif    
 #ifdef WIN32
     d = d.replace(QRegExp("/"), "\\");
     if (d.length() && (d[(int)(d.length() - 1)] == '\\'))

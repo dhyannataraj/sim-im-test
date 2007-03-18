@@ -51,7 +51,11 @@
 #include <kstddirs.h>
 #endif
 
-#ifdef WIN32
+#ifdef __OS2__
+#undef COMMENT
+#endif
+
+#if defined( WIN32 ) || defined( __OS2__ )
 static char STYLES[] = "styles\\";
 #else
 static char STYLES[] = "styles/";
@@ -281,7 +285,7 @@ void HistoryConfig::apply()
                 QFileInfo fileInfo(f.name());
                 QString desiredFileName = fileInfo.fileName();
                 desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
                 fileInfo.dir().remove(desiredFileName);
 #endif
                 if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
@@ -439,7 +443,7 @@ const QString errorMessage = "write file fail";
     QFileInfo fileInfo(to.name());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {

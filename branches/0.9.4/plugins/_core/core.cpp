@@ -1507,7 +1507,7 @@ CorePlugin::~CorePlugin()
 
 QString CorePlugin::poFile(const char *lang)
 {
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     string s = "po";
     s += "\\";
     for (const char *pp = lang; *pp; pp++)
@@ -1841,14 +1841,14 @@ void *CorePlugin::processEvent(Event *e)
             string *cfg = (string*)(e->param());
             QString fname = QFile::decodeName(cfg->c_str());
             QString profile;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             if ((fname[1] != ':') && (fname.left(2) != "\\\\"))
 #else
 if (fname[0] != '/')
 #endif
                 profile = getProfile();
             if (profile.length())
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
                 profile += "\\";
 #else
                 profile += "/";
@@ -2034,7 +2034,7 @@ if (fname[0] != '/')
                             string dir;
                             if (data && data->IncomingPath.ptr)
                                 dir = data->IncomingPath.ptr;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
                             if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
                                 dir += '\\';
 #else
@@ -3348,7 +3348,7 @@ if (fname[0] != '/')
                 string dir;
                 if (data && data->IncomingPath.ptr)
                     dir = data->IncomingPath.ptr;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
                 if (!dir.empty() && (dir[dir.length() - 1] != '\\'))
                     dir += '\\';
 #else
@@ -3821,13 +3821,13 @@ void CorePlugin::loadDir()
         QString entry = *it;
         if (entry[0] == '.') continue;
         QString fname = baseName;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
         fname += "\\";
 #else
         fname += "/";
 #endif
         fname += entry;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
         fname += "\\";
 #else
         fname += "/";
@@ -3934,7 +3934,7 @@ string CorePlugin::getConfig()
             QFileInfo fileInfo(fCFG.name());
             QString desiredFileName = fileInfo.fileName();
             desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
@@ -3992,7 +3992,7 @@ const QString errorMessage = "write file fail";
             QFileInfo fileInfo(f.name());
             QString desiredFileName = fileInfo.fileName();
             desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {

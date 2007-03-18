@@ -143,7 +143,21 @@ string HomeDirPlugin::defaultPath()
     if (s[s.length()-1] != '/') s += '/';
     s += "share/apps/sim";
 #else
+    
+#ifdef __OS2__
+    char *os2home = getenv("HOME");
+    if (os2home) {
+        s = os2home;
+        s += "\\";
+    }
     s += ".sim";
+    if ( access( s.c_str(), F_OK ) != 0 ) {
+    	mkdir( s.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
+    }
+#else
+    s += ".sim";
+#endif
+
 #endif
 #else
     char szPath[1024];
@@ -218,13 +232,13 @@ string HomeDirPlugin::buildFileName(const char *name)
 {
     QString s;
     QString fname = QFile::decodeName(name);
-#ifdef WIN32
+#if defined( WIN32 ) || defined(__OS2__)
     if ((fname[1] != ':') && (fname.left(2) != "\\\\")){
 #else
     if (fname[0] != '/'){
 #endif
         s += QFile::decodeName(m_homeDir.c_str());
-#ifdef WIN32
+#if defined( WIN32 ) || defined(__OS2__)
         s += '\\';
 #else
         s += '/';

@@ -20,7 +20,7 @@
 #ifdef WIN32
 #include <windows.h>
 #else
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #endif
@@ -158,7 +158,7 @@ static const char *qt_args[] =
         NULL
     };
 
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 extern "C" {
     static int (*old_errhandler)(Display*, XErrorEvent*) = NULL;
     static int x_errhandler( Display *dpy, XErrorEvent *err )
@@ -199,6 +199,12 @@ int main(int argc, char *argv[])
     int res = 1;
 #ifdef WIN32
     HANDLE hMutex = CreateMutexA(NULL, FALSE, "SIM_Mutex");
+#elif defined(__OS2__)    
+    HMTX hMutex = NULLHANDLE;
+    if ( DosCreateMutexSem("\\SEM32\\SIM_Mutex", &hMutex, 0, FALSE) != 0 ) {
+        // prevent running another instance
+        return 1;
+    }
 #endif
     qInstallMsgHandler(simMessageOutput);
     KAboutData aboutData(PACKAGE,
@@ -280,7 +286,7 @@ int main(int argc, char *argv[])
 #else
     SimApp app(_argc, _argv);
 #endif
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
     old_errhandler = XSetErrorHandler(x_errhandler);
 #endif
 #else
@@ -309,6 +315,8 @@ int main(int argc, char *argv[])
         res = app.exec();
 #ifdef WIN32
     CloseHandle(hMutex);
+#elif defined(__OS2__)    
+    DosCloseMutexSem(hMutex);
 #endif
 	return 0;
 }

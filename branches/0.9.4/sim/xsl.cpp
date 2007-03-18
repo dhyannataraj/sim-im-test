@@ -54,7 +54,7 @@ XSLPrivate::~XSLPrivate()
         xsltFreeStylesheet(styleSheet);
 }
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
 static char STYLES[] = "styles\\";
 #else
 static char STYLES[] = "styles/";

@@ -1047,7 +1047,11 @@ bool get_connection_state(bool&)
 
 string get_user_agent()
 {
+#ifdef __OS2__
+    return (const char *)(FetchManager::manager->user_agent);
+#else    
     return FetchManager::manager->user_agent;
+#endif    
 }
 
 #ifndef NO_MOC_INCLUDES

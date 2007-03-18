@@ -143,14 +143,18 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     core = static_cast<CorePlugin*>(info->plugin);
 
     m_sound	 = NULL;
-#ifndef WIN32
+#if !defined( WIN32 ) && !defined( __OS2__ )
     m_player = 0;
     connect(ExecManager::manager, SIGNAL(childExited(int,int)), this, SLOT(childExited(int,int)));
 #endif
     m_checkTimer = new QTimer(this);
     connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
+#ifndef __OS2__
+	// Under OS/2, playing startup sound leads SIM to crash on next sounds
+	// under investigation
     if (bFirst)
         playSound(getStartUp());
+#endif        
 }
 
 SoundPlugin::~SoundPlugin()
@@ -304,7 +308,7 @@ string SoundPlugin::fullName(const char *name)
     string str_name = name;
     if ((name == NULL) || (*name == 0) || (str_name == "(nosound)"))
         return sound;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     char c = name[0];
     if (((((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z'))) && (name[1] == ':')) || ((c == '\\') && (name[1] == '\\'))){
 #else
@@ -312,7 +316,11 @@ string SoundPlugin::fullName(const char *name)
 #endif
         sound = name;
     }else{
+#if defined( WIN32 ) || defined( __OS2__ )
+        sound = "sounds\\";
+#else        
         sound = "sounds/";
+#endif        
         sound += name;
         sound = app_file(sound.c_str());
     }
@@ -354,7 +362,7 @@ void SoundPlugin::processQueue()
         return; // arts
     }
     bool bSound = false;
-#elif defined(WIN32)
+#elif defined(WIN32) || defined(__OS2__)
     bool bSound = true;
 #else
     /* If there is an external player selected, don't use Qt
@@ -381,7 +389,7 @@ void SoundPlugin::processQueue()
         m_current = "";
         return; // QSound
     }
-#ifndef WIN32
+#if !defined( WIN32 ) && !defined( __OS2__ )
     ExecParam p;
     p.cmd = getPlayer();
     if (*p.cmd == 0) {
@@ -417,7 +425,7 @@ void SoundPlugin::checkSound()
     }
 }
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
 
 void SoundPlugin::childExited(int, int)
 {

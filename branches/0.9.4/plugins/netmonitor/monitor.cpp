@@ -102,7 +102,7 @@ void MonitorWindow::save()
     }else{
         t = unquoteText(edit->text()).local8Bit();
     }
-#ifdef WIN32
+#if defined(WIN32) || defined(__OS2__)
     t.replace(QRegExp("\n"),"\r\n");
 #endif
     f.writeBlock(t, t.length());

@@ -259,7 +259,7 @@ static void rmDir(const QString &path)
     for (it = l.begin(); it != l.end(); ++it){
         if (((*it) == ".") || ((*it) == "..")) continue;
         QString p = path;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
         p += "\\";
 #else
 p += "/";
@@ -271,7 +271,7 @@ p += "/";
     for (it = l.begin(); it != l.end(); ++it){
         if (((*it) == ".") || ((*it) == "..")) continue;
         QString p = path;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
         p += "\\";
 #else
         p += "/";

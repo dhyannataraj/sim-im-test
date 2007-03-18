@@ -28,7 +28,7 @@
 #include <qtextstream.h>
 #include <time.h>
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
 static char HISTORY_PATH[] = "history\\";
 #else
 static char HISTORY_PATH[] = "history/";
@@ -772,7 +772,7 @@ void History::del(const char *name, unsigned contact, unsigned id, bool bCopy, M
     t.close();
     QFileInfo fInfo(f.name());
     QFileInfo tInfo(t.name());
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     fInfo.dir().remove(fInfo.fileName());
 #endif
     if (!tInfo.dir().rename(tInfo.fileName(), fInfo.fileName())) {

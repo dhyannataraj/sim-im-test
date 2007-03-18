@@ -298,7 +298,7 @@ void FileTransferDlg::process()
         if (!fn.isEmpty()){
             status += " ";
             fn = fn.replace(QRegExp("\\\\"), "/");
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             fn = fn.replace(QRegExp("/"), "\\");
 #endif
             status += fn;

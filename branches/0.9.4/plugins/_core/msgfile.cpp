@@ -101,18 +101,18 @@ void MsgFile::selectFile()
     if (edtName == NULL)
         return;
     QString s = edtName->text();
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     s.replace(QRegExp("\\\\"), "/");
 #endif
     QStringList lst = QFileDialog::getOpenFileNames(QString::null, QString::null, m_edit->topLevelWidget());
     if ((lst.count() > 1) || ((lst.count() > 0) && (lst[0].find(' ') >= 0))){
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             (*it).replace(QRegExp("/"), "\\");
 #endif
             *it = QString("\"") + *it + QString("\"");
         }
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     }else{
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it){
             QString &s = *it;

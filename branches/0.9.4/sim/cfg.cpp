@@ -117,7 +117,11 @@ EXPORT bool makedir(char *p)
 EXPORT bool makedir(char *p)
 {
     bool res = true;
+#ifdef __OS2__
+    char *r = strrchr(p, '\\');
+#else
     char *r = strrchr(p, '/');
+#endif
     if (r == NULL) return res;
     *r = 0;
     struct stat st;
@@ -148,11 +152,18 @@ EXPORT string app_file(const char *f)
 {
     string app_file_name = "";
     QString fname = QFile::decodeName(f);
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
         return f;
     char buff[256];
+#ifdef __OS2__
+    PPIB pib;
+    PTIB tib;
+    DosGetInfoBlocks(&tib, &pib);
+	DosQueryModuleName(pib->pib_hmte, sizeof(buff), buff);
+#else	
     GetModuleFileNameA(NULL, buff, sizeof(buff));
+#endif    
     char *p = strrchr(buff, '\\');
     if (p) *p = 0;
     app_file_name = buff;
@@ -173,7 +184,9 @@ EXPORT string app_file(const char *f)
         }
     }
 #endif
+#ifndef __OS2__
     app_file_name = PREFIX "/share/apps/sim/";
+#endif
 #endif
     app_file_name += f;
 #ifdef WIN32

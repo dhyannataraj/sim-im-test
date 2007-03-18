@@ -47,7 +47,7 @@
 #endif
 
 #else
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>

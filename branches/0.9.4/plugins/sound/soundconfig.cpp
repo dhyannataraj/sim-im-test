@@ -42,7 +42,7 @@ SoundConfig::SoundConfig(QWidget *parent, SoundPlugin *plugin)
 #endif
 #endif
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     lblPlayer->hide();
     edtPlayer->hide();
 #else

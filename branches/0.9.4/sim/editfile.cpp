@@ -131,7 +131,7 @@ void EditFile::setShowHidden(bool value)
 void EditFile::showFiles()
 {
     QString s = edtFile->text();
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     s.replace(QRegExp("\\\\"), "/");
 #endif
     if (bDirMode){
@@ -222,7 +222,7 @@ void EditFile::showFiles()
 #endif
         }
     }
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     s.replace(QRegExp("/"), "\\");
 #endif
     if (s.length()) edtFile->setText(s);

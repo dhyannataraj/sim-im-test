@@ -3312,7 +3312,7 @@ unsigned short ICQClient::msgStatus()
     return (unsigned short)(fullStatus(getStatus()) & 0xFF);
 }
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
 static char PICT_PATH[] = "pictures\\";
 #else
 static char PICT_PATH[] = "pictures/";

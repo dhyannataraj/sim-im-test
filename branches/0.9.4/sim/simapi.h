@@ -123,7 +123,11 @@ using namespace std;
 #else
 # define SIM_EXPORT
 # define SIM_IMPORT
+#ifdef __OS2__
+# define EXPORT_PROC extern "C" _System
+#else
 # define EXPORT_PROC extern "C"
+#endif
 #endif
 
 #ifdef SIMAPI_EXPORTS
