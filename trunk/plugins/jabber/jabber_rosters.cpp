@@ -2508,11 +2508,19 @@ VersionInfoRequest::VersionInfoRequest(JabberClient *client, const QString &jid,
 VersionInfoRequest::~VersionInfoRequest()
 {
     ClientVersionInfo info;
+#ifdef __OS2__    
+    info.jid = m_jid.c_str();
+    info.node = m_node.c_str();
+    info.name = m_name.c_str();
+    info.version = m_version.c_str();
+    info.os = m_os.c_str();
+#else    
     info.jid = m_jid;
     info.node = m_node;
     info.name = m_name;
     info.version = m_version;
     info.os = m_os;
+#endif
     EventClientVersion(&info).process();
 }
 

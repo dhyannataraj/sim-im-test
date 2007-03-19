@@ -77,7 +77,11 @@ void MainWindowWidget::childEvent(QChildEvent *e)
 MainWindow::MainWindow(Geometry &geometry)
         : QMainWindow(NULL, "mainwnd",
                       WType_TopLevel | WStyle_Customize |
-                      WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu),
+                      WStyle_Title | WStyle_NormalBorder| WStyle_SysMenu 
+#ifdef __OS2__                      
+	| WStyle_MinMax 
+#endif	
+	),
         EventReceiver(LowestPriority)
 {
     m_grip	 = NULL;

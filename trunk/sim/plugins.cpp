@@ -203,7 +203,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
         m_bPluginsInBuildDir = true;
     } else {
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
         QDir pluginDir(app_file("plugins"));
 #else
         QDir pluginDir(PLUGIN_PATH);
@@ -229,7 +229,7 @@ PluginManagerPrivate::PluginManagerPrivate(int argc, char **argv)
             f = f.left(p);
         pluginInfo info;
         info.plugin		 = NULL;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
         info.name        = f.lower();
 #else
         info.name		 = f;
@@ -385,7 +385,7 @@ void PluginManagerPrivate::load(const QString &name)
 void PluginManagerPrivate::load(pluginInfo &info)
 {
     if (info.module == NULL){
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
         QString pluginName = info.filePath;
         if(!m_bPluginsInBuildDir)
             pluginName = "plugins\\" + info.name;
@@ -615,7 +615,7 @@ void PluginManagerPrivate::saveState()
     QFileInfo fileInfo(f.name());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {

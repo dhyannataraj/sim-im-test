@@ -213,6 +213,84 @@ QString RegEntry::value(const QString &key)
 
 #endif
 
+#ifdef __OS2__
+
+static char browserExe[ CCHMAXPATH ] = "";
+
+static char *detectBrowser()
+{
+    char *prfApp = "WPURLDEFAULTSETTINGS";
+
+    if ( browserExe[0] == 0 ) {
+        PrfQueryProfileString( HINI_USER, prfApp, "DefaultBrowserExe", "",
+                               browserExe, CCHMAXPATH );
+    }
+
+    if ( browserExe[0] == 0 )
+    {
+        APIRET rc;
+        rc = DosSearchPath( SEARCH_CUR_DIRECTORY | SEARCH_ENVIRONMENT | SEARCH_IGNORENETERRS,
+                            "PATH", "NETSCAPE.EXE", browserExe, CCHMAXPATH );
+        if ( rc != 0 ) {
+            strcpy( browserExe , "" );
+        }
+    }
+    
+    return browserExe;
+}
+
+// Starts the browser, returns 1 if started, 0 otherwise.
+int startBrowser( const char *browser, const char *url )
+{
+    PROGDETAILS pd = { 0 };
+    HAPP happ = NULL;
+
+    if ( url == NULL ) {
+        return 0;
+    }
+    if ( browser == NULL ) {
+        return 0;
+    }
+    if ( browser[0] == 0 ) {
+        return 0;
+    }
+    
+    log(L_WARN, "Strarting '%s', url '%s'", browser, url );
+    
+    char startupDir[ CCHMAXPATH ];
+    strcpy( startupDir, browser );
+    char *slash = strrchr( startupDir, '\\' );
+    if ( slash != NULL ) {
+    	*slash = 0;
+    }
+
+    pd.Length          = sizeof( PROGDETAILS );
+    pd.progt.progc     = PROG_DEFAULT;
+    pd.progt.fbVisible = SHE_VISIBLE;
+    pd.pszTitle        = NULL;
+    pd.pszExecutable   = (char *)browser;
+    pd.pszParameters   = NULL;
+    pd.pszStartupDir   = startupDir;
+    pd.pszIcon         = NULL;
+    pd.pszEnvironment  = NULL;
+    pd.swpInitial.fl   = SWP_ACTIVATE;
+    pd.swpInitial.cy   = 0;
+    pd.swpInitial.cx   = 0;
+    pd.swpInitial.y    = 0;
+    pd.swpInitial.x    = 0;
+    pd.swpInitial.hwndInsertBehind = HWND_TOP;
+    pd.swpInitial.hwnd             = NULLHANDLE;
+    pd.swpInitial.ulReserved1      = 0;
+    pd.swpInitial.ulReserved2      = 0;
+    happ = WinStartApp( NULLHANDLE, &pd, url, NULL, 0 );
+    if ( happ == NULL ) {
+	    log(L_ERROR, "Can't start '%s', error 0x%X", browser, WinGetLastError(0) );
+    }
+    return ( happ != NULL );
+}
+
+#endif
+
 Plugin *createNavigatePlugin(unsigned base, bool, Buffer *config)
 {
     Plugin *plugin = new NavigatePlugin(base, config);
@@ -243,8 +321,13 @@ static DataDef navigateData[] =
         { "Mailer", DATA_STRING, 1, "kmail" },
         { "UseKDE", DATA_BOOL, 1, DATA(1) },
 #else
+#ifdef __OS2__
+        { "Browser", DATA_STRING, 1, detectBrowser() },
+        { "Mailer", DATA_STRING, 1, detectBrowser() },
+#else
         { "Browser", DATA_STRING, 1, "netscape" },
         { "Mailer", DATA_STRING, 1, "netscape mailto:%s" },
+#endif
 #endif
 #endif
         { NULL, DATA_UNKNOWN, 0, 0 }
@@ -373,6 +456,10 @@ bool NavigatePlugin::processEvent(Event *e)
             return true;
         }
 #endif // USE_KDE
+#ifdef __OS2__
+		startBrowser( (proto == "mailto") ? getMailer() : getBrowser(), 
+		              url.c_str() );
+#else
         QString param;
         if (proto == "mailto"){
             param = getMailer();
@@ -384,6 +471,7 @@ bool NavigatePlugin::processEvent(Event *e)
 			url = encodedUrl;
         }
         EventExec(param, url).process();
+#endif        
 #endif // WIN32
         return true;
     } else

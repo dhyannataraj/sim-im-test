@@ -765,7 +765,7 @@ void History::del(const QString &name, unsigned contact, unsigned id, bool bCopy
     t.close();
     QFileInfo fInfo(f.name());
     QFileInfo tInfo(t.name());
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     fInfo.dir().remove(fInfo.fileName());
 #endif
     if (!tInfo.dir().rename(tInfo.fileName(), fInfo.fileName())) {

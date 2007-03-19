@@ -113,7 +113,7 @@ void MonitorWindow::save()
     }else{
         t = unquoteText(edit->text());
     }
-#ifdef WIN32
+#if defined(WIN32) || defined(__OS2__)
     t.replace('\n',"\r\n");
 #endif
     ts << t;

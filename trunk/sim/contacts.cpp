@@ -60,6 +60,23 @@ public:
     bool			bNoRemove;
 };
 
+#ifdef __OS2__    
+char *getDefEncoding()
+{
+	// default charset is win1251 if cp866 used in OS/2
+    COUNTRYCODE ccode = {0};  // Country code info (0 = current country)
+    COUNTRYINFO cinfo = {0};  // Buffer for country-specific information
+    ULONG       ilen  = 0;
+
+    if ( DosQueryCtryInfo(sizeof(cinfo), &ccode, &cinfo, &ilen) == 0 ) {
+    	if ( cinfo.codepage == 866 ) {
+    		return "CP 1251";
+    	}
+    }
+    return NULL;
+}
+#endif    
+
 static DataDef contactData[] =
     {
         { "Group", DATA_ULONG, 1, 0 },
@@ -73,7 +90,11 @@ static DataDef contactData[] =
         { "LastName", DATA_UTF, 1, 0 },
         { "Notes", DATA_UTF, 1, 0 },
         { "Flags", DATA_ULONG, 1, 0 },
+#ifdef __OS2__        
+        { "Encoding", DATA_STRING, 1, getDefEncoding() },
+#else
         { "Encoding", DATA_STRING, 1, 0 },
+#endif        
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -1738,7 +1759,7 @@ void ContactList::save()
     QFileInfo fileInfo(f.name());
     QString desiredFileName = fileInfo.fileName();
     desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     fileInfo.dir().remove(desiredFileName);
 #endif
     if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {

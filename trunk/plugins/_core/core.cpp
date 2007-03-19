@@ -1405,7 +1405,7 @@ CorePlugin::~CorePlugin()
 
 QString CorePlugin::poFile(const char *lang)
 {
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     // lang is ascii, so this works fine
     QString s = "po\\" + QString(lang).lower() + ".qm";
     QFile f(app_file(s));
@@ -3824,7 +3824,7 @@ QCString CorePlugin::getConfig()
             QFileInfo fileInfo(fCFG.name());
             QString desiredFileName = fileInfo.fileName();
             desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
@@ -3879,7 +3879,7 @@ QCString CorePlugin::getConfig()
             QFileInfo fileInfo(f.name());
             QString desiredFileName = fileInfo.fileName();
             desiredFileName = desiredFileName.left(desiredFileName.length() - strlen(BACKUP_SUFFIX));
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
             fileInfo.dir().remove(desiredFileName);
 #endif
             if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {

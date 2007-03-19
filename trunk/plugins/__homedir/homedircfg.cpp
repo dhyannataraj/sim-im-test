@@ -28,12 +28,16 @@ HomeDirConfig::HomeDirConfig(QWidget *parent, HomeDirPlugin *plugin)
         : HomeDirConfigBase(parent)
 {
     m_plugin = plugin;
+#ifdef WIN32 // ER
     chkDefault->setChecked(plugin->m_bDefault);
+#endif    
     connect(chkDefault, SIGNAL(toggled(bool)), this, SLOT(defaultToggled(bool)));
     defaultToggled(chkDefault->isChecked());
     edtPath->setText(QDir::convertSeparators(plugin->m_homeDir));
     edtPath->setDirMode(true);
+#ifdef WIN32 // ER
     chkDefault->setChecked(m_plugin->m_bDefault);
+#endif    
 }
 
 void HomeDirConfig::apply()

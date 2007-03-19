@@ -49,7 +49,7 @@ static PluginInfo info =
                   "If you want to log more than one you may add the levels"),
         VERSION,
         createLoggerPlugin,
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(__OS2__)
         PLUGIN_NOLOAD_DEFAULT
 #else
         PLUGIN_DEFAULT
@@ -131,7 +131,7 @@ void LoggerPlugin::openFile()
     QFileInfo fileInfo(fname);
     if (fileInfo.size() > 1024 * 1024 * 50) {	// 50MB ...
         QString desiredFileName = fileInfo.fileName() + ".old";
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(__OS2__)
         fileInfo.dir().remove(desiredFileName);
 #endif
         if (!fileInfo.dir().rename(fileInfo.fileName(), desiredFileName)) {
@@ -194,7 +194,7 @@ bool LoggerPlugin::processEvent(Event *e)
             QString s;
             s = EventLog::make_packet_string(*l);
             if (m_file){
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(__OS2__)
                 s += "\r\n";
 #else
                 s += "\n";

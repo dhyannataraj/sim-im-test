@@ -2019,7 +2019,7 @@ void YahooClient::sendStatus(unsigned long _status, const QString &msg)
 void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port)
 {
     QString fn = file->name();
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     fn = fn.replace('\\', '/');
 #endif
     int n = fn.findRev('/');

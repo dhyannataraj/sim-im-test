@@ -80,7 +80,7 @@ protected:
     QStringList     m_queue;
     QSound         *m_sound;
     QTimer         *m_checkTimer;
-#ifndef WIN32
+#if !defined( WIN32 ) && !defined( __OS2__ )
     long             m_player;
 #endif
     SoundData	data;

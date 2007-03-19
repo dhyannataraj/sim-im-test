@@ -131,14 +131,18 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     core = static_cast<CorePlugin*>(info->plugin);
 
     m_sound	 = NULL;
-#ifndef WIN32
+#if !defined( WIN32 ) && !defined( __OS2__ )
     m_player = 0;
     connect(ExecManager::manager, SIGNAL(childExited(int,int)), this, SLOT(childExited(int,int)));
 #endif
     m_checkTimer = new QTimer(this);
     connect(m_checkTimer, SIGNAL(timeout()), this, SLOT(checkSound()));
+#ifndef __OS2__
+	// Under OS/2, playing startup sound leads SIM to crash on next sounds
+	// under investigation
     if (bFirst)
         playSound(getStartUp());
+#endif        
 }
 
 SoundPlugin::~SoundPlugin()
@@ -300,7 +304,11 @@ QString SoundPlugin::fullName(const QString &name)
     if(!d.isRelative()) {
         sound = name;
     }else{
+#if defined( WIN32 ) || defined( __OS2__ )
+        sound = "sounds\\";
+#else        
         sound = "sounds/";
+#endif        
         sound += name;
         sound = app_file(sound);
     }
@@ -340,7 +348,7 @@ void SoundPlugin::processQueue()
         return; // arts
     }
     bool bSound = false;
-#elif defined(WIN32)
+#elif defined(WIN32) || defined(__OS2__)
     bool bSound = true;
 #else
     /* If there is an external player selected, don't use Qt
@@ -363,7 +371,7 @@ void SoundPlugin::processQueue()
         m_current = QString::null;
         return; // QSound
     }
-#ifndef WIN32
+#if !defined( WIN32 ) && !defined( __OS2__ )
     if (getPlayer().isEmpty()) {
 		m_current = QString::null;
         return;
@@ -396,7 +404,7 @@ void SoundPlugin::checkSound()
     }
 }
 
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
 
 void SoundPlugin::childExited(int, int)
 {

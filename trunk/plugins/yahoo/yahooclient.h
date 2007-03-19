@@ -21,6 +21,10 @@
 #include "socket.h"
 #include "fetch.h"
 
+#ifdef __OS2__
+#define PARAM YAHOOPARAM
+#endif
+
 const unsigned YAHOO_SIGN = 9;
 
 const unsigned long YAHOO_STATUS_AVAILABLE		= 0;

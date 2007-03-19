@@ -131,7 +131,21 @@ QString HomeDirPlugin::defaultPath()
         s += '/';
     s += "share/apps/sim";
 #else
+    
+#ifdef __OS2__
+    char *os2home = getenv("HOME");
+    if (os2home) {
+        s = os2home;
+        s += "\\";
+    }
     s += ".sim";
+    if ( access( s.c_str(), F_OK ) != 0 ) {
+    	mkdir( s.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
+    }
+#else
+    s += ".sim";
+#endif
+
 #endif
 #else
     char szPath[1024];

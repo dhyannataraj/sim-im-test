@@ -142,11 +142,18 @@ EXPORT QString app_file(const QString &f)
 {
     QString app_file_name;
     QString fname = f;
-#ifdef WIN32
+#if defined( WIN32 ) || defined( __OS2__ )
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
         return f;
     WCHAR buff[MAX_PATH];
+#ifdef __OS2__
+    PPIB pib;
+    PTIB tib;
+    DosGetInfoBlocks(&tib, &pib);
+	DosQueryModuleName(pib->pib_hmte, sizeof(buff), buff);
+#else	
     GetModuleFileNameW(NULL, buff, MAX_PATH);
+#endif    
     QString b = QString::fromUcs2((unsigned short*)buff);
     int idx = b.findRev('\\');
     if(idx != -1)
@@ -169,7 +176,9 @@ EXPORT QString app_file(const QString &f)
         }
     }
 #endif
+#ifndef __OS2__
     app_file_name = PREFIX "/share/apps/sim/";
+#endif
 #endif
     app_file_name += f;
     return QDir::convertSeparators(app_file_name);
