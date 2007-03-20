@@ -325,7 +325,7 @@
     <!-- Licence: GNU/LGPL -->
     <!-- Author: Nikolay Shaplov N@shaplov.ru -->
     <!-- Sources: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_family.png -->
-    <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/ -->
+    <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/completion.png -->
   </icon>
   
   <icon name="home">
@@ -377,4 +377,17 @@
     <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/msn_phone.png -->
     <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/compfile.png -->
   </icon>
+  <icon name="url">
+    <object mime="image/png">url.png</object> 
+    <!-- Licence: GNU/LGPL -->
+    <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/agt_internet.png  -->    
+  </icon>
+  <icon name="contacts">
+    <object mime="image/png">contacts.png</object> 
+    <!-- Licence: GNU/LGPL -->
+    <!-- Sources: http://www.kde-look.org/content/show.php?content=8341 32x32/apps/identity.png -->
+    <!--          http://www.kde-look.org/content/show.php?content=8341 16x16/actions/compfile.png -->
+  </icon>
+  
+  
 </icondef>
