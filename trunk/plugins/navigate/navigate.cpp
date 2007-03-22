@@ -432,12 +432,15 @@ bool NavigatePlugin::processEvent(Event *e)
                         WaitForInputIdle(pi.hProcess, INFINITE);
                         CloseHandle(pi.hProcess);
                         CloseHandle(pi.hThread);
+                        bExec = true;
                     }
                 }
-                DDEbase b;
-                DDEconversation conv(server, topic);
-                if (conv.Execute(action))
-                    bExec = true;
+                if(!bExec) {
+                    DDEbase b;
+                    DDEconversation conv(server, topic);
+                    if (conv.Execute(action))
+                        bExec = true;
+                }
             }
         }
         if (!bExec){
