@@ -255,8 +255,7 @@ bool MsgSMS::processEvent(Event *e)
                                 contact->setFlags(contact->getFlags() & ~CONTACT_TEMP);
                                 delete m_panel;
                             }
-                            EventContact e(contact, EventContact::eChanged);
-                            e.process();
+                            EventContact(contact, EventContact::eChanged).process();
                         }
                         QString newPhones;
                         QString phones = contact->getPhones();
@@ -287,8 +286,7 @@ bool MsgSMS::processEvent(Event *e)
                             phone += ';';
                         newPhones = phone + newPhones;
                         if (contact->setPhones(newPhones)){
-                            EventContact e(contact, EventContact::eChanged);
-                            e.process();
+                            EventContact(contact, EventContact::eChanged).process();
                         }
                     }
                 }

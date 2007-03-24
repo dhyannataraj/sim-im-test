@@ -905,6 +905,7 @@ bool UserListBase::processEvent(Event *e)
                     }else{
                         EventContact e(contact, EventContact::eDeleted);
                         processEvent(&e);
+                        e.setNoProcess();
                     }
                     break;
                 }

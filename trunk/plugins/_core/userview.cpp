@@ -505,8 +505,7 @@ bool UserView::processEvent(Event *e)
                     Group *grp = getContacts()->group(cmd->id - CmdContactGroup);
                     if (grp && (grp->id() != contact->getGroup())){
                         contact->setGroup(grp->id());
-                        EventContact eChanged(contact, EventContact::eChanged);
-                        eChanged.process();
+                        EventContact(contact, EventContact::eChanged).process();
                         return true;
                     }
                 }
@@ -1215,8 +1214,7 @@ void UserView::editContactEnter()
     Contact *c = getContacts()->contact(edtContact->id);
     if (!(c && edtContact->text().length())) return;
     c->setName(edtContact->text());
-    EventContact e(c, EventContact::eChanged);
-    e.process();
+    EventContact(c, EventContact::eChanged).process();
 }
 
 unsigned UserView::getUnread(unsigned contact_id)
@@ -1548,8 +1546,7 @@ void UserView::doDrop()
             contact->setGroup(grp_item->id());
             contact->setIgnore(false);
             contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
-            EventContact eContact(contact, EventContact::eChanged);
-            eContact.process();
+            EventContact(contact, EventContact::eChanged).process();
             break;
         }
     case USR_ITEM:{
@@ -1600,8 +1597,7 @@ void UserView::joinContacts(void*)
     }
     delete contact2;
     contact1->setup();
-    EventContact e(contact1, EventContact::eChanged);
-    e.process();
+    EventContact(contact1, EventContact::eChanged).process();
 }
 
 void UserView::cancelJoinContacts(void*)

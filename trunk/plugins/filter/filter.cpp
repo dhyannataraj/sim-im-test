@@ -297,8 +297,7 @@ bool FilterPlugin::processEvent(Event *e)
                 if (contact == NULL)
                     return false;
                 contact->setIgnore((cmd->flags & COMMAND_CHECKED) == 0);
-                EventContact eContact(contact, EventContact::eChanged);
-                eContact.process();
+                EventContact(contact, EventContact::eChanged).process();
                 return true;
             }
         }
@@ -409,8 +408,7 @@ void FilterPlugin::addToIgnore(void *p)
     Contact *contact = getContacts()->contact((unsigned long)p);
     if (contact && !contact->getIgnore()){
         contact->setIgnore(true);
-        EventContact e(contact, EventContact::eChanged);
-        e.process();
+        EventContact(contact, EventContact::eChanged).process();
     }
 }
 

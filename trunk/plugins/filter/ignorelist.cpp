@@ -163,8 +163,7 @@ void IgnoreList::unignoreItem(QListViewItem *item)
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
     if (contact) {
         contact->setIgnore(false);
-        EventContact e1(contact, EventContact::eChanged);
-        e1.process();
+        EventContact(contact, EventContact::eChanged).process();
     }
 }
 
@@ -172,8 +171,7 @@ void IgnoreList::deleteItem(QListViewItem *item)
 {
     Contact *contact = getContacts()->contact(item->text(3).toUInt());
     if (contact) {
-        EventContact e2(contact,EventContact::eDeleted);
-        e2.process();
+        EventContact(contact,EventContact::eDeleted).process();
     }
 }
 
@@ -210,8 +208,7 @@ void IgnoreList::drop(QMimeSource *s)
         if (contact){
             if (!contact->getIgnore()){
                 contact->setIgnore(true);
-                EventContact e(contact, EventContact::eChanged);
-                e.process();
+                EventContact(contact, EventContact::eChanged).process();
                 return;
             }
         }

@@ -1549,13 +1549,13 @@ void CorePlugin::getWays(vector<clientContact> &ways, Contact *contact)
             if (client == it.client())
                 continue;
             Contact *clContact;
-            clientData *data1 = data;
-            if (client->isMyData(data1, clContact)){
-                if ((clContact == contact) || (clContact == NULL)){
+            clientData *data2 = data;
+            if (client->isMyData(data2, clContact)){
+                if ((clContact == contact)){
                     clientContact c;
                     c.client = client;
-                    c.data   = data1;
-                    c.bNew   = (clContact == NULL);
+                    c.data   = data2;
+                    c.bNew   = false;
                     ways.push_back(c);
                 }
             }
@@ -1982,8 +1982,7 @@ bool CorePlugin::processEvent(Event *e)
                     Contact *contact = getContacts()->contact(msg->contact());
                     if (contact && (contact->getFlags() & CONTACT_TEMPORARY)){
                         contact->setFlags(contact->getFlags() & ~CONTACT_TEMPORARY);
-                        EventContact e(contact, EventContact::eChanged);
-                        e.process();
+                        EventContact(contact, EventContact::eChanged).process();
                     }
                     if (contact){
                         CoreUserData *data = (CoreUserData*)(contact->getUserData(user_data_id));
@@ -3087,8 +3086,7 @@ bool CorePlugin::processEvent(Event *e)
                 Contact *owner = getContacts()->owner();
                 if (owner->getPhoneStatus() != cmd->id - CmdPhoneNoShow){
                     owner->setPhoneStatus(cmd->id - CmdPhoneNoShow);
-                    EventContact e(owner, EventContact::eChanged);
-                    e.process();
+                    EventContact(owner, EventContact::eChanged).process();
                 }
                 return true;
             }
@@ -3112,8 +3110,7 @@ bool CorePlugin::processEvent(Event *e)
                 }
                 if (res != owner->getPhones()){
                     owner->setPhones(res);
-                    EventContact e(owner, EventContact::eChanged);
-                    e.process();
+                    EventContact(owner, EventContact::eChanged).process();
                 }
                 return true;
             }
@@ -3280,8 +3277,7 @@ bool CorePlugin::processEvent(Event *e)
                                 if (data == NULL){
                                     data = cc.data;
                                     cc.client->createData(data, contact);
-                                    EventContact e(contact, EventContact::eChanged);
-                                    e.process();
+                                    EventContact(contact, EventContact::eChanged).process();
                                 }
                                 getToken(res, ',');
                                 MessageDef *mdef = (MessageDef*)(def->param);
@@ -3317,8 +3313,7 @@ bool CorePlugin::processEvent(Event *e)
                         if (data == NULL){
                             data = cc.data;
                             cc.client->createData(data, contact);
-                            EventContact e(contact, EventContact::eChanged);
-                            e.process();
+                            EventContact(contact, EventContact::eChanged).process();
                         }
 
                         MessageDef *mdef = (MessageDef*)(def->param);

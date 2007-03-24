@@ -58,8 +58,7 @@ void NonIM::add(unsigned grp_id)
         nick = edtPhone->text();
     contact->setName(nick);
     contact->setGroup(grp_id);
-    EventContact e(contact, EventContact::eChanged);
-    e.process();
+    EventContact(contact, EventContact::eChanged).process();
 }
 
 #ifndef NO_MOC_INCLUDES

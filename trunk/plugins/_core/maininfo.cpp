@@ -328,8 +328,7 @@ void MainInfo::apply()
     }
     contact->setName(name);
 
-    EventContact e(contact, EventContact::eChanged);
-    e.process();
+    EventContact(contact, EventContact::eChanged).process();
 }
 
 void MainInfo::mailSelectionChanged()
@@ -596,8 +595,7 @@ void MainInfo::getEncoding(bool SendContactChangedEvent)
     if (!contact->setEncoding(encoding))
         return;
     if (SendContactChangedEvent){
-        EventContact e(contact, EventContact::eChanged);
-        e.process();
+        EventContact(contact, EventContact::eChanged).process();
     }
     EventHistoryConfig(contact->id()).process();
 }

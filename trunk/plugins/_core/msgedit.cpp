@@ -1270,8 +1270,7 @@ bool MsgEdit::processEvent(Event *e)
             }else{
                 if (contact){
                     contact->setLastActive(time(NULL));
-                    EventContact e(contact, EventContact::eStatus);
-                    e.process();
+                    EventContact(contact, EventContact::eStatus).process();
                 }
                 if (!multiply.empty() && (multiply_it != multiply.end())){
                     CommandDef *def = CorePlugin::m_plugin->messageTypes.find(m_msg->type());
