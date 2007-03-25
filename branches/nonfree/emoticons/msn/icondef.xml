@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<icondef>
+        <meta>
+                <name>MSN Icons</name>
+                <version>1.0</version>
+                <description>Icons from MSN 6 (taken from AMSN)</description>
+                <creation>2003-08-16</creation>
+                <author jid='Flink@amessage.de'>Loïc Guitaut</author>
+        </meta>
+
+        <icon>
+                <text>:)</text>
+                <text>:-)</text>
+
+                <object mime='image/gif'>regular_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>;)</text>
+                <text>;-)</text>
+
+                <object mime='image/gif'>wink_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:D</text>
+                <text>:-D</text>
+
+                <object mime='image/gif'>teeth_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:p</text>
+                <text>:-p</text>
+                <text>:P</text>
+                <text>:-P</text>
+
+                <object mime='image/gif'>tongue_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:(</text>
+                <text>:-(</text>
+
+                <object mime='image/gif'>sad_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:|</text>
+                <text>:-|</text>
+
+                <object mime='image/gif'>what_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:S</text>
+                <text>:-S</text>
+		<text>:s</text>
+                <text>:-s</text>
+
+                <object mime='image/gif'>confused_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:O</text>
+                <text>:-O</text>
+		<text>:o</text>
+                <text>:-o</text>
+
+                <object mime='image/gif'>omg_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:`(</text>
+                <text>:`-(</text>
+
+                <object mime='image/gif'>smilec.gif</object>
+        </icon>
+
+        <icon>
+                <text>:'(</text>
+                <text>:'-(</text>
+
+                <object mime='image/gif'>cry_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:@</text>
+                <text>:-@</text>
+
+                <object mime='image/gif'>angry_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>8o|</text>
+
+                <object mime='image/gif'>baring_teeth_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:$</text>
+                <text>:-$</text>
+
+                <object mime='image/gif'>red_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:#</text>
+                <text>:-#</text>
+
+                <object mime='image/gif'>dont_tell_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:*</text>
+                <text>:-*</text>
+
+                <object mime='image/gif'>secret_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>:^)</text>
+
+                <object mime='image/gif'>dont_know_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>8|</text>
+                <text>8-|</text>
+
+                <object mime='image/gif'>nerd_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>8)</text>
+                <text>8-)</text>
+
+                <object mime='image/gif'>roll_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>|)</text>
+                <text>|-)</text>
+
+                <object mime='image/gif'>sleepy_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>+o(</text>
+
+                <object mime='image/gif'>sick_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>*-)</text>
+                <text>*)</text>
+
+                <object mime='image/gif'>thinking_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>^o)</text>
+
+                <object mime='image/gif'>sarcastic_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>(h)</text>
+		<text>(H)</text>
+
+                <object mime='image/gif'>shades_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>(brb)</text>
+		<text>(BRB)</text>
+
+                <object mime='image/gif'>brb.gif</object>
+        </icon>
+
+        <icon>
+                <text>&lt;:o)</text>
+
+                <object mime='image/gif'>party_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>(a)</text>
+		<text>(A)</text>
+
+                <object mime='image/gif'>angel_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>(6)</text>
+
+                <object mime='image/gif'>devil_smile.gif</object>
+        </icon>
+
+        <icon>
+                <text>(l)</text>
+                <text>(L)</text>
+
+                <object mime='image/gif'>heart.gif</object>
+        </icon>
+
+        <icon>
+                <text>(u)</text>
+                <text>(U)</text>
+
+                <object mime='image/gif'>broken_heart.gif</object>
+        </icon>
+
+        <icon>
+                <text>(k)</text>
+                <text>(K)</text>
+
+                <object mime='image/gif'>kiss.gif</object>
+        </icon>
+
+        <icon>
+                <text>(f)</text>
+                <text>(F)</text>
+
+                <object mime='image/gif'>rose.gif</object>
+        </icon>
+
+        <icon>
+                <text>(w)</text>
+                <text>(W)</text>
+
+                <object mime='image/gif'>wilted_rose.gif</object>
+        </icon>
+
+        <icon>
+                <text>(b)</text>
+                <text>(B)</text>
+
+                <object mime='image/gif'>beer_mug.gif</object>
+        </icon>
+
+        <icon>
+                <text>(D)</text>
+                <text>(d)</text>
+
+                <object mime='image/gif'>martini.gif</object>
+        </icon>
+
+        <icon>
+                <text>(C)</text>
+                <text>(c)</text>
+
+                <object mime='image/gif'>coffee.gif</object>
+        </icon>
+
+        <icon>
+                <text>(^)</text>
+
+                <object mime='image/gif'>cake.gif</object>
+        </icon>
+
+        <icon>
+                <text>(pl)</text>
+                <text>(PL)</text>
+
+                <object mime='image/gif'>plate.gif</object>
+        </icon>
+
+        <icon>
+                <text>(pi)</text>
+                <text>(PI)</text>
+
+                <object mime='image/gif'>pizza.gif</object>
+        </icon>
+
+        <icon>
+                <text>(t)</text>
+                <text>(T)</text>
+
+                <object mime='image/gif'>phone.gif</object>
+        </icon>
+
+        <icon>
+                <text>(mp)</text>
+                <text>(MP)</text>
+
+                <object mime='image/gif'>mobile_phone.gif</object>
+        </icon>
+
+        <icon>
+                <text>(e)</text>
+                <text>(E)</text>
+
+                <object mime='image/gif'>envelope.gif</object>
+        </icon>
+
+        <icon>
+                <text>(co)</text>
+                <text>(CO)</text>
+
+                <object mime='image/gif'>computer.gif</object>
+        </icon>
+
+        <icon>
+                <text>(o)</text>
+                <text>(O)</text>
+
+                <object mime='image/gif'>clock.gif</object>
+        </icon>
+
+        <icon>
+                <text>(p)</text>
+                <text>(P)</text>
+
+                <object mime='image/gif'>camera.gif</object>
+        </icon>
+
+        <icon>
+                <text>(~)</text>
+
+                <object mime='image/gif'>film.gif</object>
+        </icon>
+
+        <icon>
+                <text>(i)</text>
+                <text>(I)</text>
+
+                <object mime='image/gif'>lightbulb.gif</object>
+        </icon>
+
+        <icon>
+                <text>(%)</text>
+
+                <object mime='image/gif'>handcuffs.gif</object>
+        </icon>
+
+        <icon>
+                <text>(||)</text>
+
+                <object mime='image/gif'>bowl.gif</object>
+        </icon>
+
+        <icon>
+                <text>(um)</text>
+                <text>(UM)</text>
+
+                <object mime='image/gif'>umbrella.gif</object>
+        </icon>
+
+        <icon>
+                <text>(xx)</text>
+                <text>(XX)</text>
+
+                <object mime='image/gif'>xbox.gif</object>
+        </icon>
+
+        <icon>
+                <text>(mo)</text>
+                <text>(MO)</text>
+
+                <object mime='image/gif'>money.gif</object>
+        </icon>
+
+        <icon>
+                <text>(g)</text>
+                <text>(G)</text>
+
+                <object mime='image/gif'>present.gif</object>
+        </icon>
+
+        <icon>
+                <text>(ci)</text>
+                <text>(CI)</text>
+
+                <object mime='image/gif'>cigarette.gif</object>
+        </icon>
+
+        <icon>
+                <text>(au)</text>
+                <text>(AU)</text>
+
+                <object mime='image/gif'>auto.gif</object>
+        </icon>
+
+        <icon>
+                <text>(ap)</text>
+                <text>(AP)</text>
+
+                <object mime='image/gif'>airplane.gif</object>
+        </icon>
+
+        <icon>
+                <text>(so)</text>
+                <text>(SO)</text>
+
+                <object mime='image/gif'>soccer_ball.gif</object>
+        </icon>
+
+        <icon>
+                <text>(8)</text>
+
+                <object mime='image/gif'>note.gif</object>
+        </icon>
+
+        <icon>
+                <text>(?)</text>
+
+                <object mime='image/gif'>asl.gif</object>
+        </icon>
+
+        <icon>
+                <text>(*)</text>
+
+                <object mime='image/gif'>star.gif</object>
+        </icon>
+
+        <icon>
+                <text>(s)</text>
+                <text>(S)</text>
+
+                <object mime='image/gif'>moon.gif</object>
+        </icon>
+
+        <icon>
+                <text>(r)</text>
+                <text>(R)</text>
+
+                <object mime='image/gif'>rainbow.gif</object>
+        </icon>
+
+        <icon>
+                <text>(st)</text>
+                <text>(ST)</text>
+
+                <object mime='image/gif'>stormy.gif</object>
+        </icon>
+
+        <icon>
+                <text>(#)</text>
+
+                <object mime='image/gif'>sun.gif</object>
+        </icon>
+
+        <icon>
+                <text>(li)</text>
+                <text>(LI)</text>
+
+                <object mime='image/gif'>lightning.gif</object>
+        </icon>
+
+        <icon>
+                <text>(ip)</text>
+                <text>(IP)</text>
+
+                <object mime='image/gif'>island_palm.gif</object>
+        </icon>
+
+        <icon>
+                <text>(&amp;)</text>
+
+                <object mime='image/gif'>dog.gif</object>
+        </icon>
+
+        <icon>
+                <text>(@)</text>
+
+                <object mime='image/gif'>cat.gif</object>
+        </icon>
+
+        <icon>
+                <text>(tu)</text>
+                <text>(TU)</text>
+
+                <object mime='image/gif'>turtle.gif</object>
+        </icon>
+
+        <icon>
+                <text>(sn)</text>
+                <text>(SN)</text>
+
+                <object mime='image/gif'>snail.gif</object>
+        </icon>
+
+        <icon>
+                <text>(bah)</text>
+                <text>(BAH)</text>
+
+                <object mime='image/gif'>black_sheep.gif</object>
+        </icon>
+
+        <icon>
+                <text>:[</text>
+                <text>:-[</text>
+
+                <object mime='image/gif'>bat.gif</object>
+        </icon>
+
+        <icon>
+                <text>(m)</text>
+                <text>(M)</text>
+
+                <object mime='image/gif'>messenger.gif</object>
+        </icon>
+
+        <icon>
+                <text>({)</text>
+
+                <object mime='image/gif'>guy_hug.gif</object>
+        </icon>
+
+        <icon>
+                <text>(z)</text>
+                <text>(Z)</text>
+
+                <object mime='image/gif'>guy.gif</object>
+        </icon>
+
+        <icon>
+                <text>(})</text>
+
+                <object mime='image/gif'>girl_hug.gif</object>
+        </icon>
+
+        <icon>
+                <text>(x)</text>
+                <text>(X)</text>
+
+                <object mime='image/gif'>girl.gif</object>
+        </icon>
+
+        <icon>
+                <text>(y)</text>
+                <text>(Y)</text>
+
+                <object mime='image/gif'>thumbs_up.gif</object>
+        </icon>
+
+        <icon>
+                <text>(n)</text>
+                <text>(N)</text>
+
+                <object mime='image/gif'>thumbs_down.gif</object>
+        </icon>
+
+        <icon>
+                <text>(yn)</text>
+                <text>(YN)</text>
+
+                <object mime='image/gif'>fingerscrossed.gif</object>
+        </icon>
+
+        <icon>
+                <text>(h5)</text>
+                <text>(H5)</text>
+
+                <object mime='image/gif'>hifive.gif</object>
+        </icon>
+</icondef>
