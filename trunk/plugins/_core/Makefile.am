@@ -83,7 +83,7 @@ _core_la_SOURCES = \
  declinedlg.cpp \
  declinedlgbase.ui 
 
-SUBDIRS=pict styles jisp smiles icqlite additional lovenmoney yahoo msn icq5 icq5.1 GPL-Icons qip-icons
+SUBDIRS=pict styles jisp smiles GPL-Icons 
 
 INCLUDES=-I$(srcdir)/../../sim $(all_includes)
 
