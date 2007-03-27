@@ -17,14 +17,35 @@
 
 #ifndef _SOUND_H
 #define _SOUND_H
+//#define USE_AUDIERE
 
 #include "simapi.h"
 
 #include <qobject.h>
+#include <qthread.h>
 
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+
+
+#ifdef WIN32
+
+#include <windows.h>
+
+
+inline void sleepSecond() {
+  Sleep(1000);
+}
+
+#else  // assume POSIX
+
+#include <unistd.h>
+inline void sleepSecond() {
+  sleep(1);
+}
+
+#endif
 
 struct SoundData
 {
@@ -49,12 +70,15 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
+
 {
     Q_OBJECT
 public:
     SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
+	virtual void run();
+
 #ifdef USE_KDE
     PROP_BOOL(UseArts);
 #endif
@@ -67,6 +91,7 @@ public:
 protected slots:
     void checkSound();
     void childExited(int, int);
+
 protected:
     unsigned long user_data_id;
     virtual bool processEvent(SIM::Event *e);
@@ -80,12 +105,15 @@ protected:
     QStringList     m_queue;
     QSound         *m_sound;
     QTimer         *m_checkTimer;
+	QString		    m_snd;
 #if !defined( WIN32 ) && !defined( __OS2__ )
     long             m_player;
 #endif
     SoundData	data;
     CorePlugin	*core;
     bool	    m_bChanged;
+	bool bDone;
+	bool isPlaying;
     friend class SoundConfig;
     friend class SoundUserConfig;
 };

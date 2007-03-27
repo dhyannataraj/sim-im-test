@@ -34,8 +34,19 @@
 #include "soundconfig.h"
 #include "sounduser.h"
 
+
+
+#ifdef USE_AUDIERE
+	#include <audiere.h>
+	#include <iostream>
+	#include <qapplication.h>
+#endif
+
 using namespace std;
 using namespace SIM;
+#ifdef USE_AUDIERE
+  using namespace audiere;
+#endif
 
 const unsigned CHECK_SOUND_TIMEOUT	= 200;
 const unsigned WAIT_SOUND_TIMEOUT	= 1000;
@@ -328,6 +339,7 @@ void SoundPlugin::playSound(const QString &s)
         processQueue();
 }
 
+
 void SoundPlugin::processQueue()
 {
     if (!m_current.isEmpty() || m_queue.isEmpty())
@@ -365,11 +377,20 @@ void SoundPlugin::processQueue()
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
+#ifndef AUDIERE_H
         m_sound = new QSound(sound);
         m_sound->play();
-        m_checkTimer->start(CHECK_SOUND_TIMEOUT);
-        m_current = QString::null;
-        return; // QSound
+		m_checkTimer->start(CHECK_SOUND_TIMEOUT);
+#else
+		m_snd = sound;
+		//QTimer::singleShot(0,this,SLOT(playit()));
+		this->run();
+		
+#endif	   
+
+       
+       m_current = QString::null;
+       return; // QSound
     }
 #if !defined( WIN32 ) && !defined( __OS2__ )
     if (getPlayer().isEmpty()) {
@@ -388,17 +409,47 @@ void SoundPlugin::processQueue()
 #endif
 }
 
+void SoundPlugin::run(){
+#ifdef USE_AUDIERE
+	AudioDevicePtr device(OpenDevice());
+       if (!device) {
+	      // failure
+       }
+       QFileInfo audiereSound(m_snd);
+	   
+       OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
+       if (!sndstream) {
+	      // failure
+       }
+       else {
+	      sndstream->setVolume(0.5f);
+		  sndstream->play();
+       }
+	   while (sndstream->isPlaying()) {
+          sleepSecond();
+		  qApp->processEvents();
+		  bDone = false;
+       }
+	   bDone=true;
+#endif
+}
+
+
 void SoundPlugin::checkSound()
 {
-    bool bDone = true;
+	bDone = true;
+
+#ifndef AUDIERE_H
+
     if (m_sound && !m_sound->isFinished())
         bDone = false;
-
-    if (bDone){
+#endif
+	if (bDone){
         m_checkTimer->stop();
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
+		m_snd	  = QString::null;
         m_current = QString::null;
         processQueue();
     }
