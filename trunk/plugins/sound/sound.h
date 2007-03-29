@@ -17,7 +17,7 @@
 
 #ifndef _SOUND_H
 #define _SOUND_H
-//#define USE_AUDIERE
+#define USE_AUDIERE
 
 #include "simapi.h"
 

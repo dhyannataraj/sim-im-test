@@ -384,8 +384,8 @@ void SoundPlugin::processQueue()
 #else
 		m_snd = sound;
 		//QTimer::singleShot(0,this,SLOT(playit()));
-		this->run();
-		
+		this->start();
+
 #endif	   
 
        
@@ -413,21 +413,22 @@ void SoundPlugin::run(){
 #ifdef USE_AUDIERE
 	AudioDevicePtr device(OpenDevice());
        if (!device) {
-	      // failure
+		   log(L_WARN, "No Audio Device was found.");
+		   return;
        }
        QFileInfo audiereSound(m_snd);
 	   
        OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
        if (!sndstream) {
-	      // failure
+	      log(L_WARN, "Audiostream could not be opened.");
+		  return;
        }
        else {
-	      sndstream->setVolume(0.5f);
+	      sndstream->setVolume(1.0f);
 		  sndstream->play();
        }
 	   while (sndstream->isPlaying()) {
           sleepSecond();
-		  qApp->processEvents();
 		  bDone = false;
        }
 	   bDone=true;
