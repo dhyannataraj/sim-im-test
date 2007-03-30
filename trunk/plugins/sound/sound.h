@@ -28,6 +28,10 @@
 #include "event.h"
 #include "plugins.h"
 
+#ifdef USE_AUDIERE
+	#include <audiere.h>
+	#include <iostream>
+#endif
 
 #ifdef WIN32
 
@@ -36,6 +40,10 @@
 
 inline void sleepSecond() {
   Sleep(1000);
+}
+
+inline void sleepTime(int i) {
+  Sleep(i);
 }
 
 #else  // assume POSIX
@@ -106,6 +114,7 @@ protected:
     QSound         *m_sound;
     QTimer         *m_checkTimer;
 	QString		    m_snd;
+
 #if !defined( WIN32 ) && !defined( __OS2__ )
     long             m_player;
 #endif
@@ -113,6 +122,7 @@ protected:
     CorePlugin	*core;
     bool	    m_bChanged;
 	bool bDone;
+	bool destruct;
 	bool isPlaying;
     friend class SoundConfig;
     friend class SoundUserConfig;

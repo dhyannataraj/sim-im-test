@@ -35,13 +35,6 @@
 #include "sounduser.h"
 
 
-
-#ifdef USE_AUDIERE
-	#include <audiere.h>
-	#include <iostream>
-	#include <qapplication.h>
-#endif
-
 using namespace std;
 using namespace SIM;
 #ifdef USE_AUDIERE
@@ -151,6 +144,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 #ifndef __OS2__
 	// Under OS/2, playing startup sound leads SIM to crash on next sounds
 	// under investigation
+	this->destruct=false;
     if (bFirst)
         playSound(getStartUp());
 #endif        
@@ -158,7 +152,11 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 
 SoundPlugin::~SoundPlugin()
 {
-    delete m_sound;
+#ifdef USE_AUDIERE
+	destruct=true;    
+	while (!bDone) sleepTime(1000);
+#endif
+	delete m_sound;
     soundPlugin = NULL;
     EventCommandRemove(CmdSoundDisable).process();
     EventRemovePreferences(user_data_id).process();
@@ -419,7 +417,8 @@ void SoundPlugin::run(){
        QFileInfo audiereSound(m_snd);
 	   
        OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
-       if (!sndstream) {
+
+	   if (!sndstream) {
 	      log(L_WARN, "Audiostream could not be opened.");
 		  return;
        }
@@ -430,6 +429,14 @@ void SoundPlugin::run(){
 	   while (sndstream->isPlaying()) {
           sleepSecond();
 		  bDone = false;
+		  if (destruct) { //Plugin or SIM is shutting down, so lets fade out ;)
+		    for (int i=1000; i>0; --i) { 
+				sndstream->setVolume(i*0.001f);
+				sleepTime(2);
+			}
+			bDone=true;
+			return;
+		 }
        }
 	   bDone=true;
 #endif
