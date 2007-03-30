@@ -7231,8 +7231,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Coping EMOTICONS"
-						CommandLine="copy $(InputDir)*.jisp $(OutDir)\jisp"
-						Outputs=" $(OutDir)\jisp\*.jisp"
+						CommandLine="copy $(InputDir)*.jisp $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs=" $(SolutionDir)$(ConfigurationName)\icons\*.jisp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -7241,8 +7241,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Coping EMOTICONS"
-						CommandLine="copy $(InputDir)*.jisp $(OutDir)\jisp"
-						Outputs=" $(OutDir)\jisp\*.jisp"
+						CommandLine="copy $(InputDir)*.jisp $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\*.jisp"
 					/>
 				</FileConfiguration>
 			</File>
