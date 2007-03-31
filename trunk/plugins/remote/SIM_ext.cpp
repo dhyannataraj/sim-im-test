@@ -43,13 +43,18 @@ CSIM_ext::CSIM_ext()
 {
     lpData = NULL;
     if (ProcessStr == NULL){
-        char name[512];
+        WCHAR name[512];
         GetModuleFileName(hInstance, name, sizeof(name));
-        char *r = strrchr(name, '\\');
+		
+		char* namestr=(char *)malloc( 512 );
+		size_t   i;
+		wcstombs_s(&i, namestr, (size_t)512, name, (size_t)512 );
+
+        char *r = strrchr(namestr, '\\');
         if (r){
             r++;
         }else{
-            r = name;
+            r = namestr;
         }
         strcpy(r, "simremote.dll");
         HINSTANCE hLib = LoadLibrary(name);
@@ -139,7 +144,10 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                                         if (res[0] == '>')
                                             grp = res + 1;
                                     }
-                                    AppendMenu(hMain, MF_POPUP | MF_STRING, (unsigned)hSub, grp);
+
+									wchar_t *grpLPCWSTR      = (wchar_t *)malloc( sizeof( wchar_t ));
+									wcstombs( grp, grpLPCWSTR,  size + 1 );
+                                    AppendMenu(hMain, MF_POPUP | MF_STRING, (unsigned)hSub, grpLPCWSTR);
                                     if (res)
                                         delete[] res;
                                 }else{
@@ -155,7 +163,12 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
                         info.icon  = createIcon(icon.c_str());
                         info.id	   = id;
                         m_items.insert(ITEM_MAP::value_type(cmd_id, info));
-                        AppendMenu(hSub, MF_STRING | MF_OWNERDRAW, cmd_id, line.c_str());
+
+						const char* linestr(line.c_str());
+						wchar_t *lineLPCWSTR      = (wchar_t *)malloc( sizeof( wchar_t ));
+						wcstombs( linestr, lineLPCWSTR,  line.length() );
+
+                        AppendMenu(hSub, MF_STRING | MF_OWNERDRAW, cmd_id, lineLPCWSTR);
                         cmd_id++;
                     }
                 }
@@ -163,7 +176,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
             delete[] res;
             if (hMain != NULL)
                 InsertMenu(hmenu, indexMenu++, MF_POPUP|MF_BYPOSITION,
-                           (UINT)hMain, "Send to SIM contact");
+                           (UINT)hMain, L"Send to SIM contact");
         }
         return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, cmd_id - idCmdFirst);
     }
