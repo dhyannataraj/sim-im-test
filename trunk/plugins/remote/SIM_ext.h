@@ -8,6 +8,9 @@
 #include "shlobj.h"
 #include "IShellExtInitImpl.h"			// IShellExtInit
 #include "IContextMenuImpl.h"			// IContextMenu
+#include <shlguid.h>
+#include <shobjidl.h>
+#include <shlobj.h>
 
 #if _MSC_VER > 1020
 #include <yvals.h>              
@@ -40,6 +43,21 @@ struct ItemInfo
 
 typedef std::map<std::string, HICON>		ICON_MAP;
 typedef std::map<unsigned, ItemInfo>	ITEM_MAP;
+
+struct __declspec(uuid("000214e4-0000-0000-c000-000000000047"))
+IContextMenu;
+
+_COM_SMARTPTR_TYPEDEF(IContextMenu, __uuidof(IContextMenu));
+
+struct __declspec(uuid("000214e4-0000-0000-c000-000000000048"))
+IContextMenu2;
+
+_COM_SMARTPTR_TYPEDEF(IContextMenu2, __uuidof(IContextMenu2));
+
+struct __declspec(uuid("000214e4-0000-0000-c000-000000000049"))
+IContextMenu3;
+
+_COM_SMARTPTR_TYPEDEF(IContextMenu3, __uuidof(IContextMenu3));
 
 /////////////////////////////////////////////////////////////////////////////
 // CSIM_ext
