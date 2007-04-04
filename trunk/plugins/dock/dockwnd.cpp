@@ -121,8 +121,10 @@ void DockWnd::callProc(unsigned long param)
         QTimer::singleShot(0, this, SLOT(dbl_click()));
         return;
     case WM_LBUTTONDOWN:
-        if (!bNoToggle)
-            QTimer::singleShot(500, this, SLOT(toggle()));
+        if (bNoToggle)
+            bNoToggle = false;
+        else
+            emit toggleWin();
         return;
     case NIN_BALLOONHIDE:
     case NIN_BALLOONTIMEOUT:
@@ -1108,21 +1110,14 @@ void DockWnd::setTip(const QString &text)
 #endif
 }
 
-void DockWnd::toggle()
-{
-    if (bNoToggle){
-        bNoToggle = false;
-        return;
-    }
-    emit toggleWin();
-}
-
 void DockWnd::mouseEvent( QMouseEvent *e)
 {
     switch(e->button()){
     case QWidget::LeftButton:
-        if (!bNoToggle)
-            QTimer::singleShot(700, this, SLOT(toggle()));
+        if (bNoToggle)
+            bNoToggle = false;
+        else
+            emit toggleWin();
         break;
     case QWidget::RightButton:
         emit showPopup(e->globalPos());

@@ -333,14 +333,14 @@ void DockPlugin::doubleClicked()
     if (m_popup)
         return;
 
+    if (!m_core->unread.size())
+        return;
+
     Command cmd;
-    cmd->id          = CmdToggle;
+    cmd->id          = CmdUnread;
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x1000;
     cmd->flags       = COMMAND_CHECK_STATE;
-
-    if (m_core->unread.size())
-        cmd->id = CmdUnread;
 
     EventCommandExec(cmd).process();
 }

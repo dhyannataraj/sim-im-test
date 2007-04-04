@@ -58,7 +58,6 @@ signals:
     void toggleWin();
     void doubleClicked();
 protected slots:
-    void toggle();
     void blink();
     void dbl_click();
     void showPopup();
