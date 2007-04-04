@@ -27,7 +27,7 @@
 #include "event.h"
 #include "plugins.h"
 
-//#define USE_AUDIERE 
+//#define USE_AUDIERE
 
 #ifdef USE_AUDIERE
 	#include <audiere.h>
@@ -47,11 +47,19 @@
 #endif
 
 inline void sleepSecond() {
+#ifdef WIN32
+  Sleep(1000);
+#else
   sleep(1000);
+#endif
 }
 
 inline void sleepTime(int i) {
+#ifdef WIN32
+  Sleep(i);
+#else
   sleep(i);
+#endif
 }
 struct SoundData
 {
