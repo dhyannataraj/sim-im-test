@@ -27,6 +27,8 @@
 #include "event.h"
 #include "plugins.h"
 
+//#define USE_AUDIERE 
+
 #ifdef USE_AUDIERE
 	#include <audiere.h>
 	#include <iostream>
@@ -37,23 +39,20 @@
 #include <windows.h>
 
 
-inline void sleepSecond() {
-  Sleep(1000);
-}
-
-inline void sleepTime(int i) {
-  Sleep(i);
-}
 
 #else  // assume POSIX
 
 #include <unistd.h>
-inline void sleepSecond() {
-  sleep(1);
-}
 
 #endif
 
+inline void sleepSecond() {
+  sleep(1000);
+}
+
+inline void sleepTime(int i) {
+  sleep(i);
+}
 struct SoundData
 {
 #ifdef USE_KDE
