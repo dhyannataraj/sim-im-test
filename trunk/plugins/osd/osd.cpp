@@ -633,14 +633,12 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
 	perror("KDGETLED");
 	fprintf(stderr,
 		_("Error reading current led setting. Maybe stdin is not a VT?\n"));
-	exit(1);
     }
 
     if (ioctl(0, KDGKBLED, &oflags)) {
 	perror("KDGKBLED");
 	fprintf(stderr,
 		_("Error reading current flags setting. Maybe an old kernel?\n"));
-	exit(1);
     }
 
 
@@ -653,7 +651,6 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
 	    if (ioctl(0, KDSETLED, &nleds)) {
 		perror("KDSETLED");
 		fprintf(stderr, _("Error resetting ledmode\n"));
-		exit(1);
 	    }
 	}
 
@@ -672,7 +669,7 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
 	    printf(_("Current leds:           "));
 	    report(oleds);
 	}
-	exit(0);
+	return;
     }
 
     if (!optL)
@@ -699,7 +696,6 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
     if (optD || optF) {
 	if (ioctl(0, KDSKBLED, (ndefflags << 4) | nflags)) {
 	    perror("KDSKBLED");
-	    exit(1);
 	}
     }
     if (optL) {
@@ -712,7 +708,6 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
 	}
 	if (ioctl(0, KDSETLED, nleds)) {
 	    perror("KDSETLED");
-	    exit(1);
 	}
     }
 }
@@ -747,10 +742,8 @@ void OSDPlugin::parse_cmdline (int argc, char *argv[],
       switch (c) {
       case 'h':
 	usage(progname);
-	exit(0);
       case 'V':
 	version(progname);
-	exit(0);
       case 'v':
 	verbose = 1;
 	break;
@@ -785,7 +778,6 @@ void OSDPlugin::parse_cmdline (int argc, char *argv[],
 	} else {
 	  fprintf (stderr, _("%s: unknown argument: %s\n"),
 		   progname, optarg);
-	  exit (1);
 	}	
 	break;
       }
