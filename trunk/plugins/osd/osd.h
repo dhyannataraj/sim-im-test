@@ -136,8 +136,8 @@ protected:
 	void flashCapsLockLED(bool);
 #ifndef WIN32
 		
-	void switchLEDLinux(int, char*);
-	void report(int);
+	void switchLEDLinux();
+
 #endif
     OSDRequest			m_request;
     std::list<OSDRequest>	queue;

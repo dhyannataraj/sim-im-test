@@ -41,6 +41,7 @@
 #include "osd.h"
 #include "osdconfig.h"
 
+
 #ifdef WIN32
 	#include <windows.h>
 	#ifndef CS_DROPSHADOW
@@ -59,7 +60,8 @@
 
 	#include "local.h"
 	#include "utils.h"
-	#define onoff(a) ((a) ? _("on ") : _("off"))
+	#define KD "/dev/console"	
+
 	#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 		#include <X11/Xlib.h>
 		#include <X11/Xutil.h>
@@ -606,94 +608,19 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
 		
 #else
 		if (bCapsState)
-			switchLEDLinux(1,"+caps");
-		else
-			switchLEDLinux(1,"-caps");
+			switchLEDLinux();
 #endif
-		this->bCapsState= bCapsState;	
+		this->bCapsState= bCapsState;
 }
 
 #ifndef WIN32
-void OSDPlugin::switchLEDLinux(int argc,char* argv)
+void OSDPlugin::switchLEDLinux()
 {
-    int optL = 0, optD = 0, optF = 0;
-    char oleds, nleds, oflags, nflags, odefflags, ndefflags;
-    char nval = 0, ndef = 0;
-
-    setuplocale();
-    
-    //parse_cmdline (argc, &argv, &optL, &optD, &optF, &nval, &ndef);
-    
-    /* Use getopt rather than any other mechanism because future support in eg. bash
-     * may use it to provide command-line completion of option arguments
-     */
-	  
-	  ndef |= LED_CAP;
-	  nval |= LED_CAP;
-    /* Do these after command line handling so 'setleds --help works on a VT, etc. */
-    if (ioctl(0, KDGETLED, &oleds)) {
-	perror("KDGETLED");
-	fprintf(stderr,
-		_("Error reading current led setting. Maybe stdin is not a VT?\n"));
-    }
-
-    if (ioctl(0, KDGKBLED, &oflags)) {
-	perror("KDGKBLED");
-	fprintf(stderr,
-		_("Error reading current flags setting. Maybe an old kernel?\n"));
-    }
-
-
-    odefflags = ndefflags = ((oflags >> 4) & 7);
-    oflags = nflags = (oflags & 7);
-
-    if (argc <= 1) {
-	if (optL) {
-	    nleds = 0xff;
-	    if (ioctl(0, KDSETLED, &nleds)) {
-		perror("KDSETLED");
-		fprintf(stderr, _("Error resetting ledmode\n"));
-	    }
-	}
-
-	/* If nothing to do, report, even if not verbose */
-	if (!optD && !optL && !optF)
-	  optD = optL = optF = 1;
-	if (optD) {
-	    printf(_("Current default flags:  "));
-	    report(odefflags);
-	}
-	if (optF) {
-	    printf(_("Current flags:          "));
-	    report(oflags & 07);
-	}
-	if (optL) {
-	    printf(_("Current leds:           "));
-	    report(oleds);
-	}
-	return;
-    }
-
-    if (!optL)
-      optF = 1;
-
-    if (optD) {
-	ndefflags = (odefflags & ~ndef) | nval;
-    }
-    if (optF) {
-	nflags = ((oflags & ~ndef) | nval);
-    }
-    if (optD || optF) {
-	if (ioctl(0, KDSKBLED, (ndefflags << 4) | nflags)) {
-	    perror("KDSKBLED");
-	}
-    }
-    if (optL) {
-	nleds = (oleds & ~ndef) | nval;
-	if (ioctl(0, KDSETLED, nleds)) {
-	    perror("KDSETLED");
-	}
-    }
+	if (-1 == (kd=open(KD, O_RDONLY))) {
+		printf("\nFehler beim Oeffnen des Geraets!\n");
+    else 
+		ioctl(kd, KDSETLED, 4);
+	close(kd);
 }
 
 void OSDPlugin::report(int leds) {
