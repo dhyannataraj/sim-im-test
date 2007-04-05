@@ -57,8 +57,8 @@
 	#include <linux/kd.h>
 	#include <sys/ioctl.h>
 
-	#include <lct/local.h>
-	#include <lct/utils.h>
+	#include "local.h"
+	#include "utils.h"
 	#define onoff(a) ((a) ? _("on ") : _("off"))
 	#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 		#include <X11/Xlib.h>
