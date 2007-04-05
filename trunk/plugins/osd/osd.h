@@ -135,11 +135,12 @@ protected:
 	void processQueue();
 	void flashCapsLockLED(bool);
 #ifndef WIN32
+		
 	void switchLEDLinux(int, char*);
 	void report(int);
-	void parse_cmdline(int argc, char *argv[],
-			   int *optL, int *optD, int *optF, 
-			   char *nval, char *ndef);
+	void parse_cmdline(int, char **,
+			   int *, int *, int *, 
+			   char *, char *);
 #endif
     OSDRequest			m_request;
     std::list<OSDRequest>	queue;

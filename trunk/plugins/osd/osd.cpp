@@ -719,9 +719,9 @@ void OSDPlugin::report(int leds) {
 	   onoff(leds & LED_SCR));
 }
 
-void OSDPlugin::parse_cmdline (int, char**,
-			   int*, int*, int *, 
-			   char *, char * )
+void OSDPlugin::parse_cmdline (int argc, char *argv[],
+			   int *optL, int *optD, int *optF, 
+			   char *nval, char *ndef )
 {
   char *progname = strip_path (argv[0]);
     const struct option long_opts[] = {
