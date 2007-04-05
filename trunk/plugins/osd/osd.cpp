@@ -616,6 +616,7 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
 #ifndef WIN32
 void OSDPlugin::switchLEDLinux()
 {
+	int kd=0;
 	if (-1 == (kd=open(KD, O_RDONLY))) {
 		printf("\nFehler beim Oeffnen des Geraets!\n");
     else 
