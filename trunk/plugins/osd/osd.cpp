@@ -622,7 +622,7 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
 
     setuplocale();
     
-    parse_cmdline (argc, argv, &optL, &optD, &optF, &nval, &ndef);
+    parse_cmdline (argc, &argv, &optL, &optD, &optF, &nval, &ndef);
     
     /* Use getopt rather than any other mechanism because future support in eg. bash
      * may use it to provide command-line completion of option arguments
@@ -677,21 +677,9 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
 
     if (optD) {
 	ndefflags = (odefflags & ~ndef) | nval;
-	if (verbose) {
-	    printf(_("Old default flags:    "));
-	    report(odefflags);
-	    printf(_("New default flags:    "));
-	    report(ndefflags);
-	}
     }
     if (optF) {
 	nflags = ((oflags & ~ndef) | nval);
-	if (verbose) {
-	  printf(_("Old flags:            "));
-	    report(oflags & 07);
-	    printf(_("New flags:            "));
-	    report(nflags & 07);
-	}
     }
     if (optD || optF) {
 	if (ioctl(0, KDSKBLED, (ndefflags << 4) | nflags)) {
@@ -700,12 +688,6 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
     }
     if (optL) {
 	nleds = (oleds & ~ndef) | nval;
-	if (verbose) {
-	  printf(_("Old leds:             "));
-	  report(oleds);
-	  printf(_("New leds:             "));
-	  report(nleds);
-	}
 	if (ioctl(0, KDSETLED, nleds)) {
 	    perror("KDSETLED");
 	}
@@ -738,49 +720,6 @@ void OSDPlugin::parse_cmdline (int argc, char **argv,
     };
     int c;
     
-    while ( (c = getopt_long_only(argc, argv, "-vhVFDL", long_opts, NULL)) != EOF)       
-      switch (c) {
-      case 'h':
-	usage(progname);
-      case 'V':
-	version(progname);
-      case 'v':
-	verbose = 1;
-	break;
-      case 'L':
-	*optL = 1;
-	break;
-      case 'D':
-	*optD = 1;
-	break;
-      case 'F':
-	*optF = 1;
-	break;
-      case 'c':
-	*ndef |= LED_CAP;
-	break;
-      case 's':
-	*ndef |= LED_SCR;
-	break;
-      case 'n':
-	*ndef |= LED_NUM;
-	break;	
-      case 1:			/* non-GNU arguments */
-	if (!strcmp(optarg,"+caps")) {
-	  *ndef |= LED_CAP;
-	  *nval |= LED_CAP;
-	} else if (!strcmp(optarg,"+num")) {
-	  *ndef |= LED_NUM;
-	  *nval |= LED_NUM;
-	} else if (!strcmp(optarg, "+scroll")) {
-	  *ndef |= LED_SCR;
-	  *ndef |= LED_SCR;
-	} else {
-	  fprintf (stderr, _("%s: unknown argument: %s\n"),
-		   progname, optarg);
-	}	
-	break;
-      }
 }
 
 #endif

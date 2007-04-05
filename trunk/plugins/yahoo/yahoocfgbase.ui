@@ -104,7 +104,7 @@
                         </property>
                         <property>
                             <name>echoMode</name>
-                            <enum>Password</enum>
+                            <enum>Normal</enum>
                         </property>
                     </widget>
                     <spacer row="3"  column="0" >
