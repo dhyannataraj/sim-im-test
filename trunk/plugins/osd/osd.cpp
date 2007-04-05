@@ -623,15 +623,6 @@ void OSDPlugin::switchLEDLinux()
 		ioctl(kd, KDSETLED, 4);
 	close(kd);
 }
-
-void OSDPlugin::report(int leds) {
-    printf(_("NumLock %s   CapsLock %s   ScrollLock %s\n"),
-	   onoff(leds & LED_NUM),
-	   onoff(leds & LED_CAP),
-	   onoff(leds & LED_SCR));
-}
-
-
 #endif
 
 void OSDPlugin::closeClick()
