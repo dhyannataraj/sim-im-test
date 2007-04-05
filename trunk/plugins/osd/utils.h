@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <linux/kd.h>
-#include <lct/unicode.h>
+#include "unicode.h"
 
 struct magic
 {
