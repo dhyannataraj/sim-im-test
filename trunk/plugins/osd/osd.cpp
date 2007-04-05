@@ -622,7 +622,7 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
 
     setuplocale();
     
-    parse_cmdline (argc, &argv, &optL, &optD, &optF, &nval, &ndef);
+    //parse_cmdline (argc, &argv, &optL, &optD, &optF, &nval, &ndef);
     
     /* Use getopt rather than any other mechanism because future support in eg. bash
      * may use it to provide command-line completion of option arguments
@@ -701,26 +701,6 @@ void OSDPlugin::report(int leds) {
 	   onoff(leds & LED_SCR));
 }
 
-void OSDPlugin::parse_cmdline (int argc, char **argv,
-			   int *optL, int *optD, int *optF, 
-			   char *nval, char *ndef )
-{
-  char *progname = strip_path (argv[0]);
-    const struct option long_opts[] = {
-      { "leds-only", no_argument, NULL, 'L' },
-      { "help"     , no_argument, NULL, 'h' },
-      { "verbose"  , no_argument, NULL, 'v' },
-      { "version"  , no_argument, NULL, 'V' },
-      { "show-current", no_argument, NULL, 'F' },
-      { "set-all"     , no_argument, NULL, 'D' },
-      { "caps"    , no_argument, NULL, 'c' },
-      { "num",    no_argument, NULL, 'n' },
-      { "scroll", no_argument, NULL, 's' },
-      { NULL, 0, NULL, 0 }
-    };
-    int c;
-    
-}
 
 #endif
 

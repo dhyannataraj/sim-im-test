@@ -138,9 +138,6 @@ protected:
 		
 	void switchLEDLinux(int, char*);
 	void report(int);
-	void parse_cmdline(int, char **,
-			   int *, int *, int *, 
-			   char *, char *);
 #endif
     OSDRequest			m_request;
     std::list<OSDRequest>	queue;
