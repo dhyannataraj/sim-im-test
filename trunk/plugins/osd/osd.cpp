@@ -18,6 +18,9 @@
  Check screen saver state from xscreensaver-command, Copyright (c) 1991-1998
 	by Jamie Zawinski <jwz@jwz.org>
 
+ Set the LEDS Methods are taken from setleds. 
+ CapsLED-Notification, Copyright (c) 2007 by Tobias Franz <noragen@gmx.net>
+
 */
 
 #include <qtimer.h>
