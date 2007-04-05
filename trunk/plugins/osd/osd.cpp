@@ -29,6 +29,7 @@
 #include <qstyle.h>
 #include <qregexp.h>
 #include <qpushbutton.h>
+#include <qmessagebox.h>
 
 #include "fontedit.h"
 #include "log.h"
@@ -38,20 +39,29 @@
 #include "osdconfig.h"
 
 #ifdef WIN32
-#include <windows.h>
-#ifndef CS_DROPSHADOW
-#define CS_DROPSHADOW   0x00020000
-#endif
-#ifndef SPI_GETSCREENSAVERRUNNING
-#define SPI_GETSCREENSAVERRUNNING 114
-#endif
-
+	#include <windows.h>
+	#ifndef CS_DROPSHADOW
+		#define CS_DROPSHADOW   0x00020000
+	#endif
+	#ifndef SPI_GETSCREENSAVERRUNNING
+		#define SPI_GETSCREENSAVERRUNNING 114
+	#endif
 #else
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
-#endif
+	#include <stdio.h>
+	#include <fcntl.h>
+	#include <string.h>
+	#include <getopt.h>
+	#include <linux/kd.h>
+	#include <sys/ioctl.h>
+
+	#include <lct/local.h>
+	#include <lct/utils.h>
+	#define onoff(a) ((a) ? _("on ") : _("off"))
+	#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
+		#include <X11/Xlib.h>
+		#include <X11/Xutil.h>
+		#include <X11/Xatom.h>
+	#endif
 #endif
 
 using namespace std;
@@ -84,6 +94,7 @@ static DataDef osdUserData[] =
     {
         { "EnableMessage", DATA_BOOL, 1, DATA(1) },
         { "EnableMessageShowContent", DATA_BOOL, 1, DATA(0) },
+        { "EnableCapsLockFlash", DATA_BOOL, 1, DATA(0) },
         { "ContentTypes", DATA_ULONG, 1, DATA(3) },
         { "EnableAlert", DATA_BOOL, 1, DATA(1) },
         { "EnableAlertOnline", DATA_BOOL, 1, DATA(1) },
@@ -132,6 +143,7 @@ OSDPlugin::OSDPlugin(unsigned base)
     m_osd   = NULL;
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
+	bCapsState = false;
 
     EventGetPluginInfo ePlugin("_core");
     ePlugin.process();
@@ -477,8 +489,8 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_MESSAGE:
-            if (data->EnableMessage.toBool() && core){
-                list<msg_id>::iterator it;
+           if (data->EnableMessage.toBool() && core){
+				list<msg_id>::iterator it;
                 TYPE_MAP types;
                 TYPE_MAP::iterator itc;
                 QString msg_text;
@@ -527,7 +539,12 @@ void OSDPlugin::processQueue()
                         text += ", ";
                     text += msg;
                 }
-                text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
+
+				
+				if (core->getManualStatus()==STATUS_NA && data->EnableCapsLockFlash.toBool())
+					this->start(); //Start flashing the CapsLock if enabled
+
+				text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
                 if (msg_text.isEmpty())
                     break;
                 text += ":\n";
@@ -552,6 +569,226 @@ void OSDPlugin::processQueue()
     m_request.contact = 0;
     m_request.type = OSD_NONE;
 }
+
+void OSDPlugin::run(){
+	//core->getManualStatus()==STATUS_NA
+	while ( core->unread.size()>0 ) {
+		flashCapsLockLED(!bCapsState);
+		sleepTime(200);
+	}
+	if (bCapsState) flashCapsLockLED(!bCapsState); //switch LED off
+}
+
+void OSDPlugin::flashCapsLockLED(bool bCapsState){
+
+#ifdef WIN32
+	BYTE keyState[256];
+
+    GetKeyboardState((LPBYTE)&keyState);
+    if( ( !(keyState[VK_CAPITAL] & 1)))
+		//||
+        //(!bCapsState && (keyState[VK_CAPITAL] & 1)) )
+      
+      // Simulate a key press
+         keybd_event( VK_CAPITAL,
+                      0x45,
+                      KEYEVENTF_EXTENDEDKEY | 0,
+                      0 );
+
+	 // Simulate a key release
+         keybd_event( VK_CAPITAL,
+                      0x45,
+                      KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,
+                      0);
+		
+#else
+		if (bCapsState)
+			switchLEDLinux(1,"+caps");
+		else
+			switchLEDLinux(1,"-caps");
+#endif
+		this->bCapsState= bCapsState;	
+}
+
+#ifndef WIN32
+void OSDPlugin::switchLEDLinux(int argc,char* argv)
+{
+    int optL = 0, optD = 0, optF = 0;
+    char oleds, nleds, oflags, nflags, odefflags, ndefflags;
+    char nval = 0, ndef = 0;
+
+    setuplocale();
+    
+    parse_cmdline (argc, argv, &optL, &optD, &optF, &nval, &ndef);
+    
+    /* Use getopt rather than any other mechanism because future support in eg. bash
+     * may use it to provide command-line completion of option arguments
+     */
+
+    /* Do these after command line handling so 'setleds --help works on a VT, etc. */
+    if (ioctl(0, KDGETLED, &oleds)) {
+	perror("KDGETLED");
+	fprintf(stderr,
+		_("Error reading current led setting. Maybe stdin is not a VT?\n"));
+	exit(1);
+    }
+
+    if (ioctl(0, KDGKBLED, &oflags)) {
+	perror("KDGKBLED");
+	fprintf(stderr,
+		_("Error reading current flags setting. Maybe an old kernel?\n"));
+	exit(1);
+    }
+
+
+    odefflags = ndefflags = ((oflags >> 4) & 7);
+    oflags = nflags = (oflags & 7);
+
+    if (argc <= 1) {
+	if (optL) {
+	    nleds = 0xff;
+	    if (ioctl(0, KDSETLED, &nleds)) {
+		perror("KDSETLED");
+		fprintf(stderr, _("Error resetting ledmode\n"));
+		exit(1);
+	    }
+	}
+
+	/* If nothing to do, report, even if not verbose */
+	if (!optD && !optL && !optF)
+	  optD = optL = optF = 1;
+	if (optD) {
+	    printf(_("Current default flags:  "));
+	    report(odefflags);
+	}
+	if (optF) {
+	    printf(_("Current flags:          "));
+	    report(oflags & 07);
+	}
+	if (optL) {
+	    printf(_("Current leds:           "));
+	    report(oleds);
+	}
+	exit(0);
+    }
+
+    if (!optL)
+      optF = 1;
+
+    if (optD) {
+	ndefflags = (odefflags & ~ndef) | nval;
+	if (verbose) {
+	    printf(_("Old default flags:    "));
+	    report(odefflags);
+	    printf(_("New default flags:    "));
+	    report(ndefflags);
+	}
+    }
+    if (optF) {
+	nflags = ((oflags & ~ndef) | nval);
+	if (verbose) {
+	  printf(_("Old flags:            "));
+	    report(oflags & 07);
+	    printf(_("New flags:            "));
+	    report(nflags & 07);
+	}
+    }
+    if (optD || optF) {
+	if (ioctl(0, KDSKBLED, (ndefflags << 4) | nflags)) {
+	    perror("KDSKBLED");
+	    exit(1);
+	}
+    }
+    if (optL) {
+	nleds = (oleds & ~ndef) | nval;
+	if (verbose) {
+	  printf(_("Old leds:             "));
+	  report(oleds);
+	  printf(_("New leds:             "));
+	  report(nleds);
+	}
+	if (ioctl(0, KDSETLED, nleds)) {
+	    perror("KDSETLED");
+	    exit(1);
+	}
+    }
+}
+
+void OSDPlugin::report(int leds) {
+    printf(_("NumLock %s   CapsLock %s   ScrollLock %s\n"),
+	   onoff(leds & LED_NUM),
+	   onoff(leds & LED_CAP),
+	   onoff(leds & LED_SCR));
+}
+
+void OSDPlugin::parse_cmdline (int argc, char *argv[],
+			   int *optL, int *optD, int *optF, 
+			   char *nval, char *ndef )
+{
+  char *progname = strip_path (argv[0]);
+    const struct option long_opts[] = {
+      { "leds-only", no_argument, NULL, 'L' },
+      { "help"     , no_argument, NULL, 'h' },
+      { "verbose"  , no_argument, NULL, 'v' },
+      { "version"  , no_argument, NULL, 'V' },
+      { "show-current", no_argument, NULL, 'F' },
+      { "set-all"     , no_argument, NULL, 'D' },
+      { "caps"    , no_argument, NULL, 'c' },
+      { "num",    no_argument, NULL, 'n' },
+      { "scroll", no_argument, NULL, 's' },
+      { NULL, 0, NULL, 0 }
+    };
+    int c;
+    
+    while ( (c = getopt_long_only(argc, argv, "-vhVFDL", long_opts, NULL)) != EOF)       
+      switch (c) {
+      case 'h':
+	usage(progname);
+	exit(0);
+      case 'V':
+	version(progname);
+	exit(0);
+      case 'v':
+	verbose = 1;
+	break;
+      case 'L':
+	*optL = 1;
+	break;
+      case 'D':
+	*optD = 1;
+	break;
+      case 'F':
+	*optF = 1;
+	break;
+      case 'c':
+	*ndef |= LED_CAP;
+	break;
+      case 's':
+	*ndef |= LED_SCR;
+	break;
+      case 'n':
+	*ndef |= LED_NUM;
+	break;	
+      case 1:			/* non-GNU arguments */
+	if (!strcmp(optarg,"+caps")) {
+	  *ndef |= LED_CAP;
+	  *nval |= LED_CAP;
+	} else if (!strcmp(optarg,"+num")) {
+	  *ndef |= LED_NUM;
+	  *nval |= LED_NUM;
+	} else if (!strcmp(optarg, "+scroll")) {
+	  *ndef |= LED_SCR;
+	  *ndef |= LED_SCR;
+	} else {
+	  fprintf (stderr, _("%s: unknown argument: %s\n"),
+		   progname, optarg);
+	  exit (1);
+	}	
+	break;
+      }
+}
+
+#endif
 
 void OSDPlugin::closeClick()
 {

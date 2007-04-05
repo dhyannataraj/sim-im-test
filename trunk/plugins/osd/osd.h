@@ -18,13 +18,29 @@
 #ifndef _OSD_H
 #define _OSD_H
 
+#include <simapi.h>
 #include <qfont.h>
 #include <qpixmap.h>
 #include <qwidget.h>
+#include <qthread.h>
 
 #include "cfg.h"
 #include "event.h"
 #include "plugins.h"
+
+#ifdef WIN32
+	#include <windows.h>
+#else  // assume POSIX
+	#include <unistd.h>
+#endif
+
+inline void sleepTime(int i) {
+#ifdef WIN32
+  Sleep(i);
+#else
+  sleep(i);
+#endif
+}
 
 class QPushButton;
 
@@ -32,6 +48,7 @@ struct OSDUserData
 {
     SIM::Data	EnableMessage;
     SIM::Data	EnableMessageShowContent;
+	SIM::Data	EnableCapsLockFlash;
     SIM::Data	ContentLines;
     SIM::Data	EnableAlert;
     SIM::Data	EnableAlertOnline;
@@ -99,7 +116,7 @@ protected:
     OSDPlugin *m_plugin;
 };
 
-class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
 {
     Q_OBJECT
 public:
@@ -114,13 +131,23 @@ protected slots:
 protected:
     virtual QWidget *createConfigWindow(QWidget *parent);
     virtual bool processEvent(SIM::Event *e);
-    void processQueue();
+    virtual void run();
+	void processQueue();
+	void flashCapsLockLED(bool);
+#ifndef WIN32
+	void switchLEDLinux(int, char*);
+	void report(int);
+	void parse_cmdline(int argc, char *argv[],
+			   int *optL, int *optD, int *optF, 
+			   char *nval, char *ndef);
+#endif
     OSDRequest			m_request;
     std::list<OSDRequest>	queue;
     std::list<unsigned>		typing;
     CorePlugin	*core;
     QWidget		*m_osd;
     QTimer		*m_timer;
+	bool bCapsState;
 };
 
 #endif

@@ -39,6 +39,17 @@
                 <string>Enable &amp;messages notification</string>
             </property>
         </widget>
+        <widget row="0"  column="1" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkCapsLockFlash</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Enable Caps-Lock notification in N/A state</string>
+            </property>
+        </widget>        
         <widget row="1"  column="0" >
             <class>QCheckBox</class>
             <property stdset="1">
