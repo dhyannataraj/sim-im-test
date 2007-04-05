@@ -627,7 +627,9 @@ void OSDPlugin::switchLEDLinux(int argc,char* argv)
     /* Use getopt rather than any other mechanism because future support in eg. bash
      * may use it to provide command-line completion of option arguments
      */
-
+	  
+	  *ndef |= LED_CAP;
+	  *nval |= LED_CAP;
     /* Do these after command line handling so 'setleds --help works on a VT, etc. */
     if (ioctl(0, KDGETLED, &oleds)) {
 	perror("KDGETLED");
