@@ -616,10 +616,10 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
 void OSDPlugin::switchLEDLinux()
 {
 	int kd=0;
-	if (-1 == (kd=open("/dev/tty",O_RDWR))) 
+	if (-1 == (kd=open("/dev/console",O_RDWR))) //only with root access? 
 		printf("\nFehler beim Oeffnen des Geraets!\n");
     else 
-		ioctl(kd, KDSETLED, 4);
+		ioctl(kd, KDSETLED, LED_CAP);
 	close(kd);
 }
 #endif
