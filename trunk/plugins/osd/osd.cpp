@@ -606,20 +606,24 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
                       0);
 		
 #else
-		switchLEDLinux();
+		switchLEDLinux(bCapsState);
 #endif
 		this->bCapsState= bCapsState;
 }
 
 #ifndef WIN32
-void OSDPlugin::switchLEDLinux()
+void OSDPlugin::switchLEDLinux(bool bCapsState)
 {
-	int kd=0;
+	/*int kd=0;
 	if (-1 == (kd=open("/dev/console",O_RDWR))) //only with root access? 
 		printf("\nFehler beim Oeffnen des Geraets!\n");
     else 
 		ioctl(kd, KDSETLED, LED_CAP);
-	close(kd);
+	close(kd);*/
+	if (bCapsState) //3 is CAPS-Lock for Linux ioctl is fucky.
+		system("xset led 3");
+	else
+		system("xset -led 3");
 }
 #endif
 

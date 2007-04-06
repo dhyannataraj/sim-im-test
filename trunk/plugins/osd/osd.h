@@ -136,7 +136,7 @@ protected:
 	void flashCapsLockLED(bool);
 #ifndef WIN32
 		
-	void switchLEDLinux();
+	void switchLEDLinux(bool);
 
 #endif
     OSDRequest			m_request;
