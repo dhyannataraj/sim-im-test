@@ -606,8 +606,7 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
                       0);
 		
 #else
-		if (bCapsState)
-			switchLEDLinux();
+		switchLEDLinux();
 #endif
 		this->bCapsState= bCapsState;
 }
