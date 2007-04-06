@@ -627,10 +627,8 @@ void OSDPlugin::switchLEDLinux(bool bCapsState)
 	close(kd);*/
 	//3 is CAPS-Lock for Linux ioctl is fucky.
 	system("xset led 3");
-	//printf("led on!\n");
 	sleepTime(1);
-	//system("xset -led 3");
-	printf("led off!\n");
+	system("xset -led 3");
 }
 #endif
 
