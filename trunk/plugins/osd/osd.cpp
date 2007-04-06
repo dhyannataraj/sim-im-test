@@ -576,7 +576,6 @@ void OSDPlugin::processQueue()
 }
 
 void OSDPlugin::run(){
-	//core->getManualStatus()==STATUS_NA
 	while ( core->unread.size()>0 ) {
 		flashCapsLockLED(!bCapsState);
 		sleepTime(200);
@@ -617,7 +616,7 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
 void OSDPlugin::switchLEDLinux()
 {
 	int kd=0;
-	if (-1 == (kd=open(KD, O_RDONLY))) 
+	if (-1 == (kd=open("/dev/tty",O_RDWR))) 
 		printf("\nFehler beim Oeffnen des Geraets!\n");
     else 
 		ioctl(kd, KDSETLED, 4);
