@@ -51,7 +51,7 @@
 		#define SPI_GETSCREENSAVERRUNNING 114
 	#endif
 #else
-	#include <stdio.h>
+	/*#include <stdio.h>
 	#include <fcntl.h>
 	#include <string.h>
 	#include <getopt.h>
@@ -60,7 +60,7 @@
 
 	#include "local.h"
 	#include "utils.h"
-	#define KD "/dev/console"	
+	#define KD "/dev/console"	*/
 
 	#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 		#include <X11/Xlib.h>
@@ -611,21 +611,21 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
                       0);
 		
 #else
-		switchLEDLinux(bCapsState);
+		switchLEDLinux();
 #endif
 		this->bCapsState= bCapsState;
 }
 
 #ifndef WIN32
-void OSDPlugin::switchLEDLinux(bool bCapsState)
+void OSDPlugin::switchLEDLinux()
 {
 	/*int kd=0;
-	if (-1 == (kd=open("/dev/console",O_RDWR))) //only with root access? 
+	if (-1 == (kd=open("/dev/console",O_RDWR))) //only with root access? bööööh
 		printf("\nFehler beim Oeffnen des Geraets!\n");
     else 
 		ioctl(kd, KDSETLED, LED_CAP);
 	close(kd);*/
-	//3 is CAPS-Lock for Linux ioctl is fucky.
+	//3 is SCROLL-Lock for Linux and ioctl is fucky!!!!!!
 	system("xset led 3");
 	sleepTime(1);
 	system("xset -led 3");
