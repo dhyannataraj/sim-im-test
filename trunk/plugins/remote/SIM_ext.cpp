@@ -92,7 +92,7 @@ HRESULT CSIM_ext::QueryContextMenu(HMENU hmenu,
         HRESULT hr = lpData->GetData(&formatetc, &stgmedium);
         if (!SUCCEEDED(hr))
             return MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_NULL, 0);
-        char *drop_files = (char*)GlobalLock(stgmedium.hGlobal);
+        //char *drop_files = (char*)GlobalLock(stgmedium.hGlobal);
         GlobalUnlock(stgmedium.hGlobal);
 
         CComBSTR in("CONTACTS 3");

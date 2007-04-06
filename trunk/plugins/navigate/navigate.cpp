@@ -352,7 +352,7 @@ NavigatePlugin::NavigatePlugin(unsigned base, Buffer *config)
     cmd->menu_id     = MenuContact;
     cmd->menu_grp    = 0x30F0;
     cmd->popup_id    = 0;
-    cmd->flags		 = COMMAND_CHECK_STATE;
+    cmd->flags		 = COMMAND_DEFAULT;
     EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdMailList;

@@ -91,7 +91,7 @@ class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceive
 public:
     SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
-	virtual void run();
+	
 
 #ifdef USE_KDE
     PROP_BOOL(UseArts);
@@ -111,6 +111,7 @@ protected:
     virtual bool processEvent(SIM::Event *e);
     virtual QCString getConfig();
     virtual QWidget *createConfigWindow(QWidget *parent);
+	virtual void run();
     QString fullName(const QString &name);
     QString messageSound(unsigned type, SoundUserData *data);
     void playSound(const QString &sound);
