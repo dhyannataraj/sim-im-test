@@ -1,4 +1,4 @@
-/***************************************************************************
+/**************************************************************************
                           osd.cpp  -  description
                              -------------------
     begin                : Sun Mar 17 2002
@@ -578,7 +578,12 @@ void OSDPlugin::processQueue()
 void OSDPlugin::run(){
 	while ( core->unread.size()>0 ) {
 		flashCapsLockLED(!bCapsState);
+
+#ifdef WIN32
 		sleepTime(200);
+#else
+		sleepTime(1);
+#endif
 	}
 	if (bCapsState) flashCapsLockLED(!bCapsState); //switch LED off
 }
@@ -620,10 +625,12 @@ void OSDPlugin::switchLEDLinux(bool bCapsState)
     else 
 		ioctl(kd, KDSETLED, LED_CAP);
 	close(kd);*/
-	if (bCapsState) //3 is CAPS-Lock for Linux ioctl is fucky.
-		system("xset led 3");
-	else
-		system("xset -led 3");
+	//3 is CAPS-Lock for Linux ioctl is fucky.
+	system("xset led 3");
+	//printf("led on!\n");
+	sleepTime(1);
+	//system("xset -led 3");
+	printf("led off!\n");
 }
 #endif
 
