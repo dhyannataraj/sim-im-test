@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
+    <width>464</width>
     <height>300</height>
    </rect>
   </property>
@@ -23,6 +23,13 @@
     <widget class="QCheckBox" name="chkMessage" >
      <property name="text" >
       <string>Enable &amp;messages notification</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QCheckBox" name="chkCapsLockFlash" >
+     <property name="text" >
+      <string>Enable Caps-Lock notification in N/A state</string>
      </property>
     </widget>
    </item>
