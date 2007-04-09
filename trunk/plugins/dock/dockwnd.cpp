@@ -120,7 +120,7 @@ void DockWnd::callProc(unsigned long param)
         bNoToggle = true;
         QTimer::singleShot(0, this, SLOT(dbl_click()));
         return;
-    case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
         if (bNoToggle)
             bNoToggle = false;
         else
