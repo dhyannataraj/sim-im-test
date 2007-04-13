@@ -171,4 +171,7 @@ ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_SRCS)
 #ADD_JISP_ARCHIVE(yahoo      yahoo.jisp      _core_SRCS)
 #ADD_JISP_ARCHIVE(msn	    msn.jisp        _core_SRCS)
 
+FILE(GLOB _prebuilt emoticons_prebuilt/*.jisp)
+INSTALL(FILES ${_prebuilt} DESTINATION ${SIM_ICONS_DIR})
+
 SIM_ADD_PLUGIN(_core)
