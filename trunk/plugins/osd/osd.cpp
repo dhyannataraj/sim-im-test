@@ -611,26 +611,13 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
                       0);
 		
 #else
-		switchLEDLinux();
+    if (bCapsState)
+        system("xset led 3");
+    else
+        system("xset -led 3");
 #endif
 		this->bCapsState= bCapsState;
 }
-
-#ifndef WIN32
-void OSDPlugin::switchLEDLinux()
-{
-	/*int kd=0;
-	if (-1 == (kd=open("/dev/console",O_RDWR))) //only with root access? bööööh
-		printf("\nFehler beim Oeffnen des Geraets!\n");
-    else 
-		ioctl(kd, KDSETLED, LED_CAP);
-	close(kd);*/
-	//3 is SCROLL-Lock for Linux and ioctl is fucky!!!!!!
-	system("xset led 3");
-	sleepTime(1);
-	system("xset -led 3");
-}
-#endif
 
 void OSDPlugin::closeClick()
 {

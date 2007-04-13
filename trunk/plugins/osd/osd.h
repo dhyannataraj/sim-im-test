@@ -134,11 +134,6 @@ protected:
     virtual void run();
 	void processQueue();
 	void flashCapsLockLED(bool);
-#ifndef WIN32
-		
-	void switchLEDLinux();
-
-#endif
     OSDRequest			m_request;
     std::list<OSDRequest>	queue;
     std::list<unsigned>		typing;
