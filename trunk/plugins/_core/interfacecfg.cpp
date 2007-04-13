@@ -264,7 +264,7 @@ void InterfaceConfig::apply()
                       KEY_WRITE | KEY_QUERY_VALUE, &subKey) == ERROR_SUCCESS){
         if (chkStart->isChecked()){
             QString path = app_file("sim.exe");
-            DWORD res = RegSetValueExW(subKey, value_name, 0, REG_MULTI_SZ, (BYTE*)path.ucs2(), (path.length() + 1) * 2);
+            DWORD res = RegSetValueExW(subKey, value_name, 0, REG_SZ, (BYTE*)path.ucs2(), (path.length() + 1) * 2);
             if (res != ERROR_SUCCESS)
                 log(L_WARN, "RegSetValue fail %u", res);
         }else{
