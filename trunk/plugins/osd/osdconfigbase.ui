@@ -39,17 +39,6 @@
                 <string>Enable &amp;messages notification</string>
             </property>
         </widget>
-        <widget row="0"  column="1" >
-            <class>QCheckBox</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>chkCapsLockFlash</cstring>
-            </property>
-            <property>
-                <name>text</name>
-                <string>Enable Caps-Lock notification in N/A state</string>
-            </property>
-        </widget>        
         <widget row="1"  column="0" >
             <class>QCheckBox</class>
             <property stdset="1">
@@ -207,7 +196,18 @@
                 </size>
             </property>
         </spacer>
-        <spacer row="10"  column="0" >
+        <widget row="10"  column="0" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>chkCapsLockFlash</cstring>
+            </property>
+            <property>
+                <name>text</name>
+                <string>Enable keyboard LED-notification in N/A state</string>
+            </property>
+        </widget>        
+        <spacer row="11"  column="0" >
             <property>
                 <name>name</name>
                 <cstring>Spacer5</cstring>
