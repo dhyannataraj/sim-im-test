@@ -435,8 +435,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                 bChanged = true;
             }
             if (bChanged){
-                EventContact e(contact, EventContact::eChanged);
-                e.process();
+                EventContact(contact, EventContact::eChanged).process();
             }
             if ((data->Status.toULong() != prevStatus) || bAwayChanged){
                 unsigned status = STATUS_OFFLINE;

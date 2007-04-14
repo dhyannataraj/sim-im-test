@@ -182,21 +182,17 @@ static bool h2b(const char *&p, QCString &cap)
     return false;
 }
 
-static bool parseFE(const QCString &str, vector<QCString> &l, unsigned n)
+static bool parseFE(QCString str, QValueList<QCString> &l, unsigned n)
 {
-    const char *p = str;
-    const char *s = str;
-    for (unsigned i = 0; i < n - 1; i++){
-        for (; *s; s++)
-            if (*s == '\xFE')
-                break;
-        if (*s == 0)
-            return false;
-        l.push_back(QCString(p, s - p));
-        s++;
-        p = s;
+    int idx = str.find('\xFE');
+    while(idx != -1) {
+        l += str.left(idx);
+        str = str.mid(idx+1);
+        idx = str.find('\xFE');
     }
-    l.push_back(p);
+    l += str;
+    for( unsigned i = l.count(); i < n; i++ )
+        l += QCString();
     return true;
 }
 
@@ -244,7 +240,7 @@ static Message *parseTextMessage(const QCString &str, const QCString &_pp, Conta
 
 static Message *parseURLMessage(const QCString &str)
 {
-    vector<QCString> l;
+    QValueList<QCString> l;
     if (!parseFE(str, l, 2)){
         log(L_WARN, "Parse error URL message");
         return NULL;
@@ -257,7 +253,7 @@ static Message *parseURLMessage(const QCString &str)
 
 static Message *parseContactMessage(const QCString &str)
 {
-    vector<QCString> l;
+    QValueList<QCString> l;
     if (!parseFE(str, l, 2)){
         log(L_WARN, "Parse error contacts message");
         return NULL;
@@ -267,7 +263,7 @@ static Message *parseContactMessage(const QCString &str)
         log(L_WARN, "No contacts found");
         return NULL;
     }
-    vector<QCString> c;
+    QValueList<QCString> c;
     if (!parseFE(l[1], c, nContacts*2+1)){
         log(L_WARN, "Parse error contacts message");
         return NULL;
@@ -317,7 +313,7 @@ static Message *parseContactMessage(const QCString &str)
 
 static Message *parseAuthRequest(const QCString &str)
 {
-    vector<QCString> l;
+    QValueList<QCString> l;
     if (!parseFE(str, l, 6)){
         log(L_WARN, "Parse error auth request message");
         return NULL;
@@ -462,7 +458,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
 Message *ICQClient::parseMessage(unsigned short type, const QString &screen, const QCString &p, ICQBuffer &packet, MessageId &id, unsigned cookie)
 {
     if (screen.toULong() == 0x0A){
-        vector<QCString> l;
+        QValueList<QCString> l;
         if (!parseFE(p, l, 6)){
             log(L_WARN, "Parse error web panel message");
             return NULL;
@@ -1054,7 +1050,8 @@ void ICQClient::packMessage(ICQBuffer &b, Message *msg, ICQUserData *data, unsig
         b.pack(flags);
     }else{
         b.pack(this->data.owner.Uin.toULong());
-        b.pack(type);
+        b.pack((char)type);
+        b.pack((char)0x01);
     }
     b << res;
     if (buf.size()){
@@ -1070,9 +1067,9 @@ void ICQClient::parsePluginPacket(ICQBuffer &b, unsigned plugin_type, ICQUserDat
     unsigned short type;
     b >> type;
     b.incReadPos(bDirect ? 1 : 4);
-    vector<QCString> phonebook;
-    vector<QCString> numbers;
-    vector<QCString> phonedescr;
+    QValueList<QCString> phonebook;
+    QValueList<QCString> numbers;
+    QValueList<QCString> phonedescr;
     Contact *contact = NULL;
     unsigned long state, time, size, nEntries;
     unsigned i;
