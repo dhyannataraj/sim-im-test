@@ -207,7 +207,7 @@ void JabberSearch::addWidget(JabberAgentInfo *data)
             static_cast<QLineEdit*>(widget)->setEchoMode(QLineEdit::Password);
             connect(widget, SIGNAL(returnPressed()), m_receiver, SLOT(search()));
             connect(widget, SIGNAL(textChanged(const QString&)), m_receiver, SLOT(textChanged(const QString&)));
-            data->Label.str() == "Password";
+            data->Label.str() = "Password";
         }else if (data->Type.str() == "online"){
             widget = new QCheckBox(this, "online");
             static_cast<QCheckBox*>(widget)->setText(i18n("Online only"));
