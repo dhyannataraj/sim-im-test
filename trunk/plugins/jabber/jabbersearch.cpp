@@ -279,7 +279,8 @@ void JabberSearch::setSize()
     for (QWidget *p = this; p; p = p->parentWidget()){
         QSize s  = p->sizeHint();
         QSize s1 = QSize(p->width(), p->height());
-        p->setMinimumSize(s);
+        if (s.isValid())
+            p->setMinimumSize(s);
         p->resize(QMAX(s.width(), s1.width()), QMAX(s.height(), s1.height()));
         if (p->layout())
             p->layout()->invalidate();
