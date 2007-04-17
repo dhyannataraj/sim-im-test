@@ -55,10 +55,11 @@ Buffer::Buffer(const QByteArray &ba)
 }
 
 Buffer::Buffer(const QCString &cstr)
-    : QByteArray(cstr)
+    : QByteArray(cstr.copy())
 {
-    init(cstr.length());
-    m_posWrite = cstr.length();
+    uint len = cstr.length();
+    init(len);
+    m_posWrite = len;
 }
 
 Buffer::~Buffer()
