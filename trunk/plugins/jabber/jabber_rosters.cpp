@@ -2122,7 +2122,7 @@ void JabberClient::sendFileRequest(FileMessage *msg, unsigned short, JabberUserD
     req->add_attribute("profile", "http://jabber.org/protocol/si/profile/file-transfer");
     req->add_attribute("id", get_unique_id());
     req->start_element("file");
-    req->add_attribute("xmns", "http://jabber.org/protocol/si/profile/file-transfer");
+    req->add_attribute("xmlns", "http://jabber.org/protocol/si/profile/file-transfer");
     req->add_attribute("size", QString::number(size));
     req->add_attribute("name", fname);
     req->start_element("range");
