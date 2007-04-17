@@ -233,6 +233,7 @@ FileTransferDlg::FileTransferDlg(FileMessage *msg)
     m_timer->start(1000);
     printTime();
     m_bTransfer = false;
+    m_file = 0;
     m_transferTime = 0;
     m_displayTime  = 0;
     m_speed     = 0;
