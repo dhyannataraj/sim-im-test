@@ -7231,8 +7231,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)*.jisp $(SolutionDir)$(ConfigurationName)\icons"
-						Outputs="$(SolutionDir)$(ConfigurationName)\icons\*.jisp"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -7241,70 +7241,370 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)*.jisp $(SolutionDir)$(ConfigurationName)\icons"
-						Outputs="$(SolutionDir)$(ConfigurationName)\icons\*.jisp"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\amibulb.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\apple_ichat.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\gants.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\icq5.1.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\icq5.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\icqlite.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\lovenmoney.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\msn.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\SIM-icons-Crystal-full.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\SIM-icons-Nuvola-full.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\SIM-icons-XP-full.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\sim.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\sim2.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\smiles.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\emoticons_prebuilt\yahoo.jisp"
 				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying EMOTICONS &amp; ICONS"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>
