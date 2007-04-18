@@ -66,18 +66,28 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 static DataDef soundData[] =
     {
 #ifdef USE_KDE
-        { "UseArts", DATA_BOOL, 1, DATA(1) },
+        { "UseArts",     DATA_BOOL,   1, DATA(1) },
 #endif
-        { "Player", DATA_STRING, 1, "play" },
-        { "StartUp", DATA_STRING, 1, "startup.wav" },
-        { "FileDone", DATA_STRING, 1, "filedone.wav" },
+        { "Player",      DATA_STRING, 1, "play" },
+#ifndef USE_AUDIERE        
+        { "StartUp",     DATA_STRING, 1, "startup.wav" },
+        { "FileDone",    DATA_STRING, 1, "filedone.wav" },
         { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
-        { NULL, DATA_UNKNOWN, 0, 0 }
+#else  
+        { "StartUp",     DATA_STRING, 1, "startup.ogg" },
+        { "FileDone",    DATA_STRING, 1, "filedone.ogg" },
+        { "MessageSent", DATA_STRING, 1, "msgsent.ogg" },
+        {  NULL,         DATA_UNKNOWN,0, 0 }
+#endif
     };
 
 static DataDef soundUserData[] =
     {
+#ifndef USE_AUDIERE     	
         { "Alert", DATA_STRING, 1, "alert.wav" },
+#else
+		{ "Alert", DATA_STRING, 1, "alert.ogg" },
+#endif
         { "Receive", DATA_STRLIST, 1, 0 },
         { "NoSoundIfActive", DATA_BOOL, 1, 0 },
         { "Disable", DATA_BOOL, 1, 0 },
@@ -298,7 +308,11 @@ QString SoundPlugin::messageSound(unsigned type, SoundUserData *data)
         }else{
             sound = def->icon;
         }
-        sound += ".wav";
+#ifdef USE_AUDIERE
+		sound += ".ogg";  //FIXME:?? this is very bad
+#else
+		sound += ".wav";  //FIXME:?? this is very bad
+#endif
         sound = fullName(sound);
     }
     return sound;

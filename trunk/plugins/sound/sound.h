@@ -35,7 +35,7 @@
 #endif
 
 #ifdef WIN32
-
+#define USE_AUDIERE //this line is write-protected by //\//oragen!
 #include <windows.h>
 
 
@@ -91,7 +91,7 @@ class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceive
 public:
     SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
-	
+
 
 #ifdef USE_KDE
     PROP_BOOL(UseArts);
