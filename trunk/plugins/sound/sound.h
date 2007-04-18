@@ -29,11 +29,6 @@
 
 //#define USE_AUDIERE
 
-#ifdef USE_AUDIERE
-	#include <audiere.h>
-	#include <iostream>
-#endif
-
 #ifdef WIN32
 #define USE_AUDIERE //this line is write-protected by //\//oragen!
 #include <windows.h>
@@ -44,6 +39,11 @@
 
 #include <unistd.h>
 
+#endif
+
+#ifdef USE_AUDIERE
+	#include <audiere.h>
+	#include <iostream>
 #endif
 
 inline void sleepSecond() {
