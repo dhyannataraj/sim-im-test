@@ -200,7 +200,7 @@ void SSLClient::shutdown()
         return;
     }
     case SSL_ERROR_SYSCALL: {
-        log(L_WARN, "SSL: SSL_shutdown errno: = %d ", errno);
+        log(errno ? L_WARN : L_DEBUG, "SSL: SSL_shutdown errno: = %d ", errno);
         return;
     }
     case SSL_ERROR_WANT_READ:
