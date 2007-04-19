@@ -240,14 +240,12 @@ EditSound::EditSound(QWidget *p, const char *name)
     btnPlay->setPixmap(Pict("1rightarrow"));
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(play()));
 #ifdef USE_KDE
-#ifdef USE_AUDIERE
-    filter = i18n("*.wav *.wav *.flac *.ogg *.aiff|Sounds;");
+    filter = i18n("*.wav *.mp3 *.flac *.ogg *.aiff|Sounds");
 #else
-	filter = i18n("*.wav|Sounds;");
-#endif
+#ifdef USE_AUDIERE || (!defined(WIN32) && !defined(__OS2__))
+    filter = i18n("Sounds (*.wav *.mp3 *.flac *.ogg *.aiff *.mod *.s3m *.xm *.it)");
 #else
-#ifdef USE_AUDIERE
-    filter = i18n("Sounds (*.wav *.flac *.ogg *.aiff  *.mod *.s3m *.xm *.it)");
+    filter = i18n("Sounds(*.wav)");
 #endif
 #endif
     startDir = app_file("sound");
