@@ -30,10 +30,7 @@
 //#define USE_AUDIERE
 
 #ifdef WIN32
-#define USE_AUDIERE //this line is write-protected by //\//oragen!
 #include <windows.h>
-
-
 
 #else  // assume POSIX
 
