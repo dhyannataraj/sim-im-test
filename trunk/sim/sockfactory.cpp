@@ -192,7 +192,7 @@ SIMClientSocket::SIMClientSocket(QSocket *s)
 {
     sock = s;
     if (sock == NULL)
-        sock = new QSocket(this);
+        sock = new QSocket(NULL);
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(slotConnected()));
     QObject::connect(sock, SIGNAL(connectionClosed()), this, SLOT(slotConnectionClosed()));
     QObject::connect(sock, SIGNAL(error(int)), this, SLOT(slotError(int)));
@@ -204,8 +204,15 @@ SIMClientSocket::SIMClientSocket(QSocket *s)
 
 SIMClientSocket::~SIMClientSocket()
 {
-    close();
-    delete sock;
+    if (!sock)
+        return;
+    timerStop();
+    sock->close();
+
+    if (sock->state() == QSocket::Closing)
+        sock->connect(sock, SIGNAL(delayedCloseFinished()), SLOT(deleteLater()));
+    else
+        delete sock;
 }
 
 void SIMClientSocket::close()
