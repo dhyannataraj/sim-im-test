@@ -73,6 +73,7 @@ static DataDef soundData[] =
         { "StartUp",     DATA_STRING, 1, "startup.wav" },
         { "FileDone",    DATA_STRING, 1, "filedone.wav" },
         { "MessageSent", DATA_STRING, 1, "msgsent.wav" },
+        {  NULL,         DATA_UNKNOWN,0, 0 }
 #else  
         { "StartUp",     DATA_STRING, 1, "startup.ogg" },
         { "FileDone",    DATA_STRING, 1, "filedone.ogg" },
