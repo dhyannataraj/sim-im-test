@@ -60,8 +60,6 @@ public:
     virtual void setTitle(const QString &);
     void show();
     void hide();
-signals:
-    void toggled(bool);
 public slots:
     void slotToggled();
     void slotToggled(bool);
