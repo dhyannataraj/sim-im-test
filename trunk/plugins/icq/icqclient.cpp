@@ -1506,11 +1506,14 @@ QString ICQClient::clientName(ICQUserData *data)
 
     if (hasCap(data, CAP_MIRANDA)) {
         QString r;
-        unsigned ver1 = (data->Build.toULong() >> 24) & 0xFF;
+        unsigned ver1 = (data->Build.toULong() >> 24) & 0x7F;
         unsigned ver2 = (data->Build.toULong() >> 16) & 0xFF;
         unsigned ver3 = (data->Build.toULong() >>  8) & 0xFF;
         unsigned ver4 = (data->Build.toULong() >>  0) & 0xFF;
         r.sprintf("Miranda %u.%u.%u.%u", ver1, ver2, ver3, ver4);
+        // highest bit set -> alpha version
+        if(((data->Build.toULong() >> 24) & 0x80) == 0x80)
+            r += " (alpha)";
         return res + r;
     }
     if (hasCap(data, CAP_QIP)) {
