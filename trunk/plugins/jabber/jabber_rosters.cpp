@@ -1153,6 +1153,35 @@ void JabberClient::IqRequest::char_data(const QString& str)
         *m_data += str;
 }
 
+JabberClient::StreamErrorRequest::StreamErrorRequest(JabberClient *client)
+        : ServerRequest(client, NULL, NULL, NULL)
+{
+}
+
+JabberClient::StreamErrorRequest::~StreamErrorRequest()
+{
+    m_client->socket()->error_state(m_descr);
+}
+
+void JabberClient::StreamErrorRequest::element_start(const QString& el, const QXmlAttributes&)
+{
+    if (el == "text"){
+        m_data = &m_descr;
+        return;
+    }
+}
+
+void JabberClient::StreamErrorRequest::element_end(const QString&)
+{
+    m_data = NULL;
+}
+
+void JabberClient::StreamErrorRequest::char_data(const QString& str)
+{
+    if (m_data)
+        *m_data += str;
+}
+
 class JabberBgParser : public HTMLParser
 {
 public:

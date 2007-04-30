@@ -298,6 +298,19 @@ public:
         unsigned m_errorCode;
     };
 
+    class StreamErrorRequest : public ServerRequest
+    {
+    public:
+        StreamErrorRequest(JabberClient *client);
+        ~StreamErrorRequest();
+    protected:
+        virtual void element_start(const QString& el, const QXmlAttributes& attrs);
+        virtual void element_end(const QString& el);
+        virtual void char_data(const QString& str);
+        QString *m_data;
+        QString m_descr;
+    };
+
     JabberClient(JabberProtocol*, Buffer *cfg);
     ~JabberClient();
     virtual QString name();

@@ -701,6 +701,9 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
             }else if (element == "message"){
                 m_curRequest = new MessageRequest(this);
                 m_curRequest->element_start(element, attrs);
+            }else if (element == "stream:error"){
+                m_curRequest = new StreamErrorRequest(this);
+                m_curRequest->element_start(element, attrs);
             }else if (element != "a"){
                 log(L_DEBUG, "Bad tag %s", element.data());
             }
