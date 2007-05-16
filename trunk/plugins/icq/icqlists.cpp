@@ -331,7 +331,7 @@ void ICQClient::parseRosterItem(unsigned short type,
         break;
     case ICQ_BUDDY_CHECKSUM: {
             if (str.length()){
-                Tlv *tlv_buddyHash = (*inf)(TLV_BUDDYHASH);
+                Tlv *tlv_buddyHash = inf ? (*inf)(TLV_BUDDYHASH) : NULL;
                 if(tlv_buddyHash) {
                     const QByteArray &ba = data.owner.buddyHash.toBinary();
                     unsigned char flag, size;
