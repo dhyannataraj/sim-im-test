@@ -954,6 +954,7 @@ bool HTTPS_Proxy::readLine(QCString &s)
             break;
         bIn << c;
     }
+    bIn << '\0';
     EventLog::log_packet(bIn, false, m_plugin->ProxyPacket);
     if(bIn.size())
         s = bIn;
