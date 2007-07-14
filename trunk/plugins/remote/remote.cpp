@@ -18,6 +18,7 @@
 #include <time.h>
 
 #include <algorithm>
+#include <iostream>
 
 #include <qapplication.h>
 #include <qfile.h>
@@ -539,9 +540,10 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     }
     unsigned nCmd = 0;
     const cmdDef *c;
-    for (c = cmds; c->cmd; c++, nCmd++)
-        if (cmd == c->cmd)
+	for (c = cmds; c->cmd; c++, nCmd++)
+		if (QString(cmd) == QString(c->cmd))
             break;
+	
     if (c->cmd == NULL){
         out = "Unknown command ";
         out += cmd;
@@ -930,7 +932,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += c->cmd;
                 out += "\t";
                 out += c->shortDescr;
-                out += "\n";
+                out += "\r\n";       //Fixme WIN32
             }
         }else{
             args[0] = args[0].upper();
@@ -953,7 +955,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
     return false;
 }
 
-static char CRLF[] = "\r\n>";
+static char Prompt[] = "\r\n>"; 
 
 ControlSocket::ControlSocket(RemotePlugin *plugin, Socket *socket)
 {
@@ -964,7 +966,7 @@ ControlSocket::ControlSocket(RemotePlugin *plugin, Socket *socket)
     m_socket->setRaw(true);
     m_socket->readBuffer().init(0);
     m_socket->readBuffer().packetStart();
-    write(CRLF);
+    write(Prompt);
 }
 
 ControlSocket::~ControlSocket()
@@ -1004,31 +1006,39 @@ void ControlSocket::packet_ready()
         return;
     if (line.isEmpty())
         return;
-    if (line[(int)line.length() - 1] == '\r')
-        line = line.left(line.size() - 1);
-    log(L_DEBUG, "Remote read: %s", line.data());
+	QString strLine=QString(line.data()).stripWhiteSpace();
+    /*if (line[(int)line.length() - 1] == '\r')
+        line = line.left(line.size() - 1);*/
+    log(L_DEBUG, "Remote read: %s", strLine.latin1());
     QString out;
     bool bError = false;
-    bool bRes = m_plugin->command(QString::fromLocal8Bit(line), out, bError);
+	bool bRes = m_plugin->command(strLine.latin1(), out, bError);
     if (bError){
         m_socket->error_state("");
         return;
     }
     if (!bRes)
         write("? ");
-    if (!out.isEmpty()) {
-        QCString s = out.local8Bit();
-        QCString res;
-        for (const char *p = s.data(); *p; p++){
-            if (*p == '\r')
-                continue;
-            if (*p == '\n')
-                res += '\r';
-            res += *p;
-        }
-        write(res);
-    }
-    write(CRLF);
+    QCString s;
+    if (!out.isEmpty())
+        s = out.local8Bit();
+    QCString res;
+	strLine=QString(s).stripWhiteSpace();
+	
+	//if (!strLine.contains('\n'))
+	strLine += "\r\n";
+	if (strLine.stripWhiteSpace() == 0) return;
+	res=strLine.local8Bit();
+	
+    /*for (const char *p = s.data(); *p ; p++){
+        if (*p == '\r')
+            continue;
+        if (*p == '\n')
+            res += '\r';
+        res += *p;
+    }*/
+    write(res);
+    write(Prompt);
 }
 
 #ifndef NO_MOC_INCLUDES
