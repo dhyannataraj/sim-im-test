@@ -1016,18 +1016,18 @@ void ControlSocket::packet_ready()
     }
     if (!bRes)
         write("? ");
-    QCString s;
-    if (!out.isEmpty())
-        s = out.local8Bit();
-    QCString res;
-    for (const char *p = s.data(); *p; p++){
-        if (*p == '\r')
-            continue;
-        if (*p == '\n')
-            res += '\r';
-        res += *p;
+    if (!out.isEmpty()) {
+        QCString s = out.local8Bit();
+        QCString res;
+        for (const char *p = s.data(); *p; p++){
+            if (*p == '\r')
+                continue;
+            if (*p == '\n')
+                res += '\r';
+            res += *p;
+        }
+        write(res);
     }
-    write(res);
     write(CRLF);
 }
 
