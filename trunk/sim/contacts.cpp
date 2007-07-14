@@ -1782,13 +1782,8 @@ void ContactList::load()
         log(L_ERROR, "Can't open %s", cfgName.local8Bit().data());
         return;
     }
-    Buffer cfg;
-    cfg.init(f.size());
-    int n = f.readBlock(cfg.data(), f.size());
-    if (n < 0){
-        log(L_ERROR, "Can't read %s", cfgName.local8Bit().data());
-        return;
-    }
+    Buffer cfg = f.readAll();
+
     Contact *c = NULL;
     Group   *g = NULL;
     for (;;){
@@ -1994,9 +1989,11 @@ EXPORT ContactList *getContacts()
     return PluginManager::contacts;
 }
 
+// see also http://www.iana.org/assignments/character-sets
 static ENCODING encodings[] =
     {
-        { I18N_NOOP("Unicode"), "UTF-8", 106, 0, 65001, true },
+        { I18N_NOOP("Unicode (utf-8)"),  "UTF-8",  106, 0, 65001, true },
+        { I18N_NOOP("Unicode (utf-16)"), "UTF-16", 1015, 0, 0, false },
 
         { I18N_NOOP("Arabic"), "ISO 8859-6", 82, 180, 28596, false },
         { I18N_NOOP("Arabic"), "CP 1256", 2256, 180, 1256, true },

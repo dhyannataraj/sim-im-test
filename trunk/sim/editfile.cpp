@@ -242,7 +242,7 @@ EditSound::EditSound(QWidget *p, const char *name)
 #ifdef USE_KDE
     filter = i18n("*.wav *.mp3 *.flac *.ogg *.aiff|Sounds");
 #else
-#ifdef USE_AUDIERE || (!defined(WIN32) && !defined(__OS2__))
+#if defined(USE_AUDIERE) || (!defined(WIN32) && !defined(__OS2__))
     filter = i18n("Sounds (*.wav *.mp3 *.flac *.ogg *.aiff *.mod *.s3m *.xm *.it)");
 #else
     filter = i18n("Sounds(*.wav)");
