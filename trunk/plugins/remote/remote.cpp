@@ -570,11 +570,11 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             return true;
         }
 #endif
-    case CMD_SENDFILE:{
+    case CMD_SENDFILE:{   //fix me, concepted only for ICQ-Proto
             FileMessage *msg = new FileMessage;
-            msg->setContact(args[1].toUInt());
-            msg->setFile(args[0]);
-            EventOpenMessage(msg).process();
+            msg->setContact(args[1].toUInt());   //anyhow
+            msg->setFile(args[0]);               //this should
+            EventOpenMessage(msg).process();     //be tested, or be rewritten
             delete msg;
             return true;
         }
@@ -932,7 +932,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                 out += c->cmd;
                 out += "\t";
                 out += c->shortDescr;
-                out += "\r\n";       //Fixme WIN32
+                out += "\r\n";       
             }
         }else{
             args[0] = args[0].upper();
@@ -947,7 +947,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
             out = c->cmd;
             out += "\t";
             out += c->shortDescr;
-            out += "\n";
+            out += "\r\n";          //Fixme WIN32
             out += c->longDescr;
         }
         return true;
