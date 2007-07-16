@@ -1992,8 +1992,7 @@ EXPORT ContactList *getContacts()
 // see also http://www.iana.org/assignments/character-sets
 static ENCODING encodings[] =
     {
-        { I18N_NOOP("Unicode (utf-8)"),  "UTF-8",  106, 0, 65001, true },
-        { I18N_NOOP("Unicode (utf-16)"), "UTF-16", 1015, 0, 0, false },
+        { I18N_NOOP("Unicode"),  "UTF-8",  106, 0, 65001, true },
 
         { I18N_NOOP("Arabic"), "ISO 8859-6", 82, 180, 28596, false },
         { I18N_NOOP("Arabic"), "CP 1256", 2256, 180, 1256, true },
@@ -2030,7 +2029,7 @@ static ENCODING encodings[] =
         { I18N_NOOP("Western European"), "ISO 8859-15", 111, 0, 28605, false },
         { I18N_NOOP("Western European"), "CP 1252", 2252, 0, 1252, true },
 
-        { I18N_NOOP("Tamil"), "TSCII", 2028, 0, 0, true },
+        { I18N_NOOP("Tamil"), "TSCII", 2107, 0, 0, true },
 
         { I18N_NOOP("Thai"), "TIS-620", 2259, 222, 0, true },
 
@@ -2055,8 +2054,9 @@ QTextCodec *ContactList::getCodecByName(const char *encoding)
     }
     codec = QTextCodec::codecForLocale();
     const ENCODING *e;
+    const char *codecName = codec->name();
     for (e = encodings; e->language; e++){
-        if (!strcmp(codec->name(), e->codec))
+        if (!strcmp(codecName, e->codec))
             break;
     }
     if (e->language && !e->bMain){
