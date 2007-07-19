@@ -48,7 +48,7 @@ ICQPicture::ICQPicture(QWidget *parent, ICQUserData *data, ICQClient *client)
         edtPict->hide();
         btnClear->hide();
     }else{
-        QString format = QString("*." + QStringList::fromStrList(QImage::inputFormats()).join(" *.")).lower();
+        QString format = QString("*.jpg ") + QString("*." + QStringList::fromStrList(QImage::inputFormats()).join(" *.")).lower();
 #ifdef USE_KDE
         edtPict->setFilter(i18n("%1|Graphics") .arg(format));
 #else
