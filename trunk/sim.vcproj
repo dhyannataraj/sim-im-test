@@ -58,6 +58,7 @@
 				PrecompiledHeaderThrough="sim_pch.h"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DisableSpecificWarnings="4067"
 				ForcedIncludeFiles="sim_pch.h"
 			/>
 			<Tool
@@ -148,6 +149,7 @@
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4067"
 				ForcedIncludeFiles="sim_pch.h"
 			/>
 			<Tool

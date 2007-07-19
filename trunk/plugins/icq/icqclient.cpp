@@ -1161,9 +1161,17 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             addIcon(icons, "ICQ_invisible", statusIcon);
         if (data->bInvisible.toBool())
             addIcon(icons, "ICQ_invisible", statusIcon);
-        if (data->Status.toULong() & ICQ_STATUS_FxBIRTHDAY)
-            addIcon(icons, "birthday", statusIcon);
-        if (data->FollowMe.toULong() == 1)
+		if (data->Status.toULong() & ICQ_STATUS_FxBIRTHDAY) {
+			QDate today=QDate::currentDate();
+			if (today.day()==(int)data->BirthDay.asLong() && today.month()==(int)data->BirthMonth.asLong())
+				addIcon(icons, "partytime", statusIcon);
+			else
+				addIcon(icons, "birthday", statusIcon);
+
+			//anyhow this MessageBox causes crash in userlist.cpp line 365 ???
+			//QMessageBox::information(0, i18n("Birthday"), data->BirthDay.str(), QMessageBox::Ok);
+		}
+		if (data->FollowMe.toULong() == 1)
             addIcon(icons, "phone", statusIcon);
         if (data->FollowMe.toULong() == 2)
             addIcon(icons, "nophone", statusIcon);

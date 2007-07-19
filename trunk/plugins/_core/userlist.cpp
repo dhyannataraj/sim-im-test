@@ -362,7 +362,7 @@ void UserListBase::drawUpdates()
             }
         }
     }
-    for (it = updContacts.begin(); it != updContacts.end(); ++it){
+    for (it = updContacts.begin(); it != updContacts.end(); ++it){ //Fixme, got crash: list operator not incremenable!
         Contact *contact = getContacts()->contact(*it);
         if (contact == NULL)
             continue;
