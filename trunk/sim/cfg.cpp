@@ -20,17 +20,8 @@
 #include "log.h"
 #include "misc.h"   // sprintf
 
-#include <errno.h>
-
-#include <qfile.h>
-#include <qtoolbar.h>
-#include <qmainwindow.h>
-#include <qstringlist.h>
-#include <qapplication.h>
-#include <qdir.h>
-
 #include <stdio.h>
-
+#include <errno.h>
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -43,16 +34,22 @@
 #include <arpa/inet.h>
 #endif
 
-#ifdef USE_KDE
+#include <qfile.h>
+#include <qtoolbar.h>
+#include <qmainwindow.h>
+#include <qstringlist.h>
 #include <qapplication.h>
+#include <qdir.h>
+#ifdef _DEBUG
+# include <qmessagebox.h>
+#endif
+
+#ifdef USE_KDE
 #include <kglobal.h>
 #include <kstddirs.h>
 #include <kwin.h>
 #include "kdeisversion.h"
 #endif
-
-#include <map>
-using namespace std;
 
 namespace SIM
 {
@@ -1007,7 +1004,21 @@ public:
     DataPrivate() : m_dataAsValue(0), m_dataAsBool(false), m_dataAsQString(NULL),
                     m_dataAsQStringMap(NULL), m_dataAsObject(NULL), m_dataAsIP(NULL),
                     m_dataAsBinary(NULL), m_dataAsQCString(NULL) {}
+
+    static unsigned long myStaticDummyULong;
+    static bool myStaticDummyBool;
+    static QString myStaticDummyQString;
+    static Data::STRING_MAP myStaticDummyQStringMap;
+    static QByteArray myStaticDummyQByteArray;
+    static QCString myStaticDummyQCString;
 };
+
+unsigned long DataPrivate::myStaticDummyULong = ~0U;
+bool DataPrivate::myStaticDummyBool = false;
+QString DataPrivate::myStaticDummyQString = QString("Wrong datatype!");
+Data::STRING_MAP DataPrivate::myStaticDummyQStringMap = Data::STRING_MAP();
+QByteArray DataPrivate::myStaticDummyQByteArray = QByteArray();
+QCString DataPrivate::myStaticDummyQCString = QCString("Wrong datatype!");
 
 Data::Data()
  : m_type(DATA_UNKNOWN), m_name("unknown"), data(NULL)
@@ -1074,7 +1085,8 @@ void Data::clear(bool bNew)
 
 const QString &Data::str() const
 {
-    checkType(DATA_STRING);
+    if(!checkType(DATA_STRING))
+        return DataPrivate::myStaticDummyQString;
     if(!data->m_dataAsQString)
         data->m_dataAsQString = new QString();
     return *data->m_dataAsQString;
@@ -1082,7 +1094,8 @@ const QString &Data::str() const
 
 QString &Data::str()
 {
-    checkType(DATA_STRING);
+    if(!checkType(DATA_STRING))
+        return DataPrivate::myStaticDummyQString;
     if(!data->m_dataAsQString)
         data->m_dataAsQString = new QString();
     return *data->m_dataAsQString;
@@ -1090,7 +1103,8 @@ QString &Data::str()
 
 bool Data::setStr(const QString &s)
 {
-    checkType(DATA_STRING);
+    if(!checkType(DATA_STRING))
+        return false;
     if(data->m_dataAsQString && s == *data->m_dataAsQString)
         return false;
     if(!data->m_dataAsQString)
@@ -1102,7 +1116,8 @@ bool Data::setStr(const QString &s)
 
 const Data::STRING_MAP &Data::strMap() const
 {
-    checkType(DATA_STRMAP);
+    if(!checkType(DATA_STRMAP))
+        return DataPrivate::myStaticDummyQStringMap;
     if(!data->m_dataAsQStringMap)
         data->m_dataAsQStringMap = new STRING_MAP();
     return *data->m_dataAsQStringMap;
@@ -1110,7 +1125,8 @@ const Data::STRING_MAP &Data::strMap() const
 
 Data::STRING_MAP &Data::strMap()
 {
-    checkType(DATA_STRMAP);
+    if(!checkType(DATA_STRMAP))
+        return DataPrivate::myStaticDummyQStringMap;
     if(!data->m_dataAsQStringMap)
         data->m_dataAsQStringMap = new STRING_MAP();
     return *data->m_dataAsQStringMap;
@@ -1118,8 +1134,8 @@ Data::STRING_MAP &Data::strMap()
 
 bool Data::setStrMap(const STRING_MAP &s)
 {
-    checkType(DATA_STRMAP);
-    // ... 
+    if(!checkType(DATA_STRMAP))
+        return false;
     if(!data->m_dataAsQStringMap)
         data->m_dataAsQStringMap = new STRING_MAP(s);
     else
@@ -1129,19 +1145,22 @@ bool Data::setStrMap(const STRING_MAP &s)
 
 long Data::toLong() const
 {
-    checkType(DATA_LONG);
-    return data->m_dataAsValue;
+    if(!checkType(DATA_LONG))
+        return (long)DataPrivate::myStaticDummyULong;
+    return (long)data->m_dataAsValue;
 }
 
 long &Data::asLong()
 {
-    checkType(DATA_LONG);
+    if(!checkType(DATA_LONG))
+        return (long&)DataPrivate::myStaticDummyULong;
     return (long&)data->m_dataAsValue;
 }
 
 bool Data::setLong(long d)
 {
-    checkType(DATA_LONG);
+    if(!checkType(DATA_LONG))
+        return false;
     if(d == (long)data->m_dataAsValue)
         return false;
     data->m_dataAsValue = (unsigned long)d;
@@ -1150,18 +1169,22 @@ bool Data::setLong(long d)
 
 unsigned long Data::toULong() const
 {
-    checkType(DATA_ULONG);
+    if(!checkType(DATA_ULONG))
+        return DataPrivate::myStaticDummyULong;
     return data->m_dataAsValue;
 }
 
 unsigned long &Data::asULong()
 {
-    checkType(DATA_ULONG);
+    if(!checkType(DATA_ULONG))
+        return DataPrivate::myStaticDummyULong;
     return data->m_dataAsValue;
 }
+
 bool Data::setULong(unsigned long d)
 {
-    checkType(DATA_ULONG);
+    if(!checkType(DATA_ULONG))
+        return false;
     if(d == data->m_dataAsValue)
         return false;
     data->m_dataAsValue = d;
@@ -1170,19 +1193,22 @@ bool Data::setULong(unsigned long d)
 
 bool Data::toBool() const
 {
-    checkType(DATA_BOOL);
+    if(!checkType(DATA_BOOL))
+        return DataPrivate::myStaticDummyBool;
     return data->m_dataAsBool;
 }
 
 bool &Data::asBool()
 {
-    checkType(DATA_BOOL);
+    if(!checkType(DATA_BOOL))
+        return DataPrivate::myStaticDummyBool;
     return data->m_dataAsBool;
 }
 
 bool Data::setBool(bool d)
 {
-    checkType(DATA_BOOL);
+    if(!checkType(DATA_BOOL))
+        return false;
     if(d == data->m_dataAsBool)
         return false;
     data->m_dataAsBool = d;
@@ -1191,19 +1217,22 @@ bool Data::setBool(bool d)
 
 const QObject* Data::object() const
 {
-    checkType(DATA_OBJECT);
+    if(!checkType(DATA_OBJECT))
+        return NULL;
     return data->m_dataAsObject;
 }
 
 QObject* Data::object()
 {
-    checkType(DATA_OBJECT);
+    if(!checkType(DATA_OBJECT))
+        return NULL;
     return data->m_dataAsObject;
 }
 
 bool Data::setObject(const QObject *d)
 {
-    checkType(DATA_OBJECT);
+    if(!checkType(DATA_OBJECT))
+        return false;
     if(d == data->m_dataAsObject)
         return false;
     data->m_dataAsObject = const_cast<QObject*>(d);
@@ -1212,7 +1241,8 @@ bool Data::setObject(const QObject *d)
 
 const QByteArray &Data::toBinary() const
 {
-    checkType(DATA_BINARY);
+    if(!checkType(DATA_BINARY))
+        return DataPrivate::myStaticDummyQByteArray;
     if(!data->m_dataAsBinary)
         data->m_dataAsBinary = new QByteArray();
     return *data->m_dataAsBinary;
@@ -1220,7 +1250,8 @@ const QByteArray &Data::toBinary() const
 
 QByteArray &Data::asBinary()
 {
-    checkType(DATA_BINARY);
+    if(!checkType(DATA_BINARY))
+        return DataPrivate::myStaticDummyQByteArray;
     if(!data->m_dataAsBinary)
         data->m_dataAsBinary = new QByteArray();
     return *data->m_dataAsBinary;
@@ -1228,7 +1259,8 @@ QByteArray &Data::asBinary()
 
 bool Data::setBinary(const QByteArray &d)
 {
-    checkType(DATA_BINARY);
+    if(!checkType(DATA_BINARY))
+        return false;
     if(data->m_dataAsBinary && d == *data->m_dataAsBinary)
         return false;
     if(!data->m_dataAsBinary)
@@ -1240,19 +1272,22 @@ bool Data::setBinary(const QByteArray &d)
 
 const IP* Data::ip() const
 {
-    checkType(DATA_IP);
+    if(!checkType(DATA_IP))
+        return NULL;
     return data->m_dataAsIP;
 }
 
 IP* Data::ip()
 {
-    checkType(DATA_IP);
+    if(!checkType(DATA_IP))
+        return NULL;
     return data->m_dataAsIP;
 }
 
 bool Data::setIP(const IP *d)
 {
-    checkType(DATA_IP);
+    if(!checkType(DATA_IP))
+        return false;
     if(d == data->m_dataAsIP)
         return false;
     data->m_dataAsIP = const_cast<IP*>(d);
@@ -1261,7 +1296,8 @@ bool Data::setIP(const IP *d)
 
 const QCString &Data::cstr() const
 {
-    checkType(DATA_CSTRING);
+    if(!checkType(DATA_CSTRING))
+        return DataPrivate::myStaticDummyQCString;
     if(!data->m_dataAsQCString)
         data->m_dataAsQCString = new QCString();
     return *data->m_dataAsQCString;
@@ -1269,7 +1305,8 @@ const QCString &Data::cstr() const
 
 QCString &Data::cstr()
 {
-    checkType(DATA_CSTRING);
+    if(!checkType(DATA_CSTRING))
+        return DataPrivate::myStaticDummyQCString;
     if(!data->m_dataAsQCString)
         data->m_dataAsQCString = new QCString();
     return *data->m_dataAsQCString;
@@ -1277,7 +1314,8 @@ QCString &Data::cstr()
 
 bool Data::setCStr(const QCString &s)
 {
-    checkType(DATA_CSTRING);
+    if(!checkType(DATA_CSTRING))
+        return false;
     if(data->m_dataAsQCString && s == *data->m_dataAsQCString)
         return false;
     if(!data->m_dataAsQCString)
@@ -1318,7 +1356,7 @@ static const char *dataType2Name(DataType type)
     return "unknown";
 }
 
-void Data::checkType(DataType type) const
+bool Data::checkType(DataType type) const
 {
     DataType myType = m_type;
     if(myType == DATA_UTFLIST)
@@ -1326,10 +1364,17 @@ void Data::checkType(DataType type) const
     if(myType == DATA_UTF)
         myType = DATA_STRING;
     if(myType != type) {
-        log( L_ERROR, "Using wrong data type %s instead %s for %s!",
-             dataType2Name(type), dataType2Name(m_type), m_name.isEmpty() ? "??" : m_name.latin1() );
-//        assert(0);
+        QString errString = QString("Using wrong data type %1 instead %2 for %3!")
+                               .arg(dataType2Name(type))
+                               .arg(dataType2Name(m_type))
+                               .arg(m_name.isEmpty() ? "??" : m_name);
+        log(L_ERROR, errString);
+#ifdef _DEBUG
+        QMessageBox::information(0, "Debug error", errString, QMessageBox::Ok);
+#endif
+        return false;
     }
+    return true;
 }
 
 void Data::setName(const QString &name)

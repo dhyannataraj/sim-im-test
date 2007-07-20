@@ -118,7 +118,7 @@ public:
     bool setCStr(const QCString &s);
 
 protected:
-    void checkType(DataType type) const;
+    bool checkType(DataType type) const;
     DataType m_type;
     QString m_name;
     class DataPrivate *data;
