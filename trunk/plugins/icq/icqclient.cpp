@@ -38,6 +38,7 @@
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qdir.h>
+#include <qmessagebox.h>
 
 #include "buffer.h"
 #include "socket.h"
@@ -1163,13 +1164,10 @@ void ICQClient::contactInfo(void *_data, unsigned long &curStatus, unsigned &sty
             addIcon(icons, "ICQ_invisible", statusIcon);
 		if (data->Status.toULong() & ICQ_STATUS_FxBIRTHDAY) {
 			QDate today=QDate::currentDate();
-			if (today.day()==(int)data->BirthDay.asLong() && today.month()==(int)data->BirthMonth.asLong())
+			if (today.day()==(int)data->BirthDay.toULong() && today.month()==(int)data->BirthMonth.toULong())
 				addIcon(icons, "partytime", statusIcon);
 			else
 				addIcon(icons, "birthday", statusIcon);
-
-			//anyhow this MessageBox causes crash in userlist.cpp line 365 ???
-			//QMessageBox::information(0, i18n("Birthday"), data->BirthDay.str(), QMessageBox::Ok);
 		}
 		if (data->FollowMe.toULong() == 1)
             addIcon(icons, "phone", statusIcon);
