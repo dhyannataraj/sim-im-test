@@ -19,6 +19,7 @@
 #include <qwidgetlist.h>
 #include <qtimer.h>
 #include <qcursor.h>
+#include <qpainter.h>
 
 #include "misc.h"
 
