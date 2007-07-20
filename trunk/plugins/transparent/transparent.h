@@ -24,9 +24,6 @@
 #include "event.h"
 #include "plugins.h"
 
-class QWidget;
-class QTimer;
-
 struct TransparentData
 {
     SIM::Data	Transparency;
@@ -35,6 +32,7 @@ struct TransparentData
 #endif
 };
 
+class QWidget;
 class QTimer;
 class TransparentTop;
 

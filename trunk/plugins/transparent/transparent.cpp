@@ -18,7 +18,6 @@
 #include <qapplication.h>
 #include <qwidgetlist.h>
 #include <qtimer.h>
-#include <qpainter.h>
 #include <qcursor.h>
 
 #include "misc.h"
@@ -33,30 +32,28 @@
 using namespace SIM;
 
 #ifdef WIN32
+#include <qlibrary.h>
 #include <windows.h>
 
 #define SHOW_TIMEOUT	300
 #define HIDE_TIMEOUT	1000
 
-static BOOL (WINAPI *SetLayeredWindowAttributes)(
-    HWND hwnd,
-    COLORREF crKey,
-    BYTE bAlpha,
-    DWORD dwFlags) = NULL;
+typedef BOOL(WINAPI *slwa_ptr)(HWND, COLORREF, BYTE, DWORD);
+static slwa_ptr slwa = NULL;
 
+#if _WIN32_WINNT < 0x0500
 #define WS_EX_LAYERED           0x00080000
 #define LWA_COLORKEY            0x00000001
 #define LWA_ALPHA               0x00000002
+#endif
 
 #endif
 
 Plugin *createTransparentPlugin(unsigned base, bool, Buffer *config)
 {
 #ifdef WIN32
-    HINSTANCE hLib = LoadLibraryA("user32.dll");
-    if (hLib != NULL)
-        (DWORD&)SetLayeredWindowAttributes = (DWORD)GetProcAddress(hLib,"SetLayeredWindowAttributes");
-    if (SetLayeredWindowAttributes == NULL)
+    slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
+    if (slwa == NULL)
         return NULL;
 #endif
     Plugin *plugin = new TransparentPlugin(base, config);
@@ -222,7 +219,7 @@ void TransparentPlugin::setState()
         connect(timer, SIGNAL(timeout()), this, SLOT(tick()));
         main->installEventFilter(this);
         SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-        SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), 0, LWA_ALPHA);
+        slwa(main->winId(), main->colorGroup().background().rgb(), 0, LWA_ALPHA);
         RedrawWindow(main->winId(), NULL, NULL, RDW_UPDATENOW);
         main->setMouseTracking(true);
         m_bActive = main->isActiveWindow();
@@ -231,7 +228,7 @@ void TransparentPlugin::setState()
     bool bNewState = m_bActive || m_bHaveMouse;
     if (bNewState == m_bState){
         BYTE d = (BYTE)(bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255));
-        SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
+        slwa(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
         return;
     }
     m_bState = bNewState;
@@ -263,7 +260,7 @@ void TransparentPlugin::tick()
     if (m_bState)
         time = timeout - time;
     BYTE d = (BYTE)QMIN((100 - getTransparency() * time / timeout) * 256 / 100, 255);
-    SetLayeredWindowAttributes(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
+    slwa(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
 #endif
 }
 
