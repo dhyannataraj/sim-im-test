@@ -371,7 +371,7 @@ QCString Buffer::toBase64(Buffer &from)
     QCString to;
 
     res[4] = '\0';
-    while (from.readPos() + 3 < from.size()){
+    while (from.readPos() + 3 <= from.size()){
         from.unpack((char*)b, 3);
         unsigned tmp = (b[0] << 16) | (b[1] << 8) | b[2];
         res[0] = alphabet[(tmp >> 18) & 0x3F];
