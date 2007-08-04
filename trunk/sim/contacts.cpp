@@ -1746,7 +1746,7 @@ void ContactList::save()
             f.writeBlock(line, line.length());
         }
     }
-
+    f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
     const int status = f.status();
     const QString errorMessage = f.errorString();
     f.close();

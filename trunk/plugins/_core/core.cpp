@@ -3808,7 +3808,8 @@ QCString CorePlugin::getConfig()
         write += '\n';
         write += cfg;
         fCFG.writeBlock(write, write.length());
-
+        
+	fCFG.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on fCFG.close
         const int status = fCFG.status();
         const QString errorMessage = fCFG.errorString();
         fCFG.close();
@@ -3863,7 +3864,7 @@ QCString CorePlugin::getConfig()
                 f.writeBlock(line, line.length());
             }
         }
-
+	f.flush();  // Make shure that file is fully written and we will not get "Disk Full" error on f.close
         const int status = f.status();
         const QString errorMessage = f.errorString();
         f.close();
