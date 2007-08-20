@@ -1581,7 +1581,7 @@ QString ICQClient::clientName(ICQUserData *data)
             r.sprintf("SIM %u.%u", ver1, ver2);
         }
         res += r;
-        if (data->Build.toULong() & 0x80)
+		if (data->Build.toULong() & 0x80)
             res += "/win32";
 
         if (data->Build.toULong() & 0x40)

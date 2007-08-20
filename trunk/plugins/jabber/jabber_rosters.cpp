@@ -1271,12 +1271,13 @@ JabberClient::MessageRequest::MessageRequest(JabberClient *client)
 {
     m_data = NULL;
     m_errorCode = 0;
-    m_bBody = false;
-    m_bCompose = false;
-    m_bEvent = false;
-    m_bRichText = false;
-    m_bRosters = false;
-    m_bError = false;
+    m_bBody		= false;
+    m_bCompose	= false;
+    m_bEvent	= false;
+    m_bRichText	= false;
+	m_bEnc		= false;
+    m_bRosters	= false;
+    m_bError	= false;
 }
 
 JabberClient::MessageRequest::~MessageRequest()
@@ -1341,8 +1342,11 @@ JabberClient::MessageRequest::~MessageRequest()
     if (msg == NULL)
         return;
     if (m_bBody && m_contacts.isEmpty()){
-        if (m_richText.isEmpty()){
+        if (!m_enc.isEmpty()){
             data->richText.asBool() = false;
+			msg->setText(m_enc);
+		}else if (m_richText.isEmpty()){
+			data->richText.asBool() = false;
             msg->setText(m_body);
         }else{
             JabberBgParser p;
@@ -1414,9 +1418,10 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
     }
     if (m_bEvent){
         // Parsing <x xmlns='jabber:x:event'> tag, which contains JEP-0022 event info
-        if (el == "composing")
+        if (el == "composing"){
             m_bCompose = true;
-        return;
+			return;
+		}
     }
     if (el == "url-data"){
         m_target = attrs.value("target");
@@ -1458,6 +1463,11 @@ void JabberClient::MessageRequest::element_start(const QString& el, const QXmlAt
             m_bEvent = true;
         else if (attrs.value("xmlns") == "jabber:x:roster")
             m_bRosters = true;
+		else if (attrs.value("xmlns") == "jabber:x:encrypted"){
+		    m_data = &m_enc;
+		    *m_data += "-----BEGIN PGP MESSAGE-----\n\n";
+		    m_bEnc = true;
+		}
         return;
     }
     if (el == "html"){
@@ -1483,7 +1493,11 @@ void JabberClient::MessageRequest::element_end(const QString& el)
         return;
     }
     if (el == "x")
-        m_bRosters = false;
+        if (m_bEnc){
+            m_bEnc = false;
+            *m_data += "\n-----END PGP MESSAGE-----\n";
+        }else
+            m_bRosters = false;
     if (el == "url-data"){
         if (!m_target.isEmpty()){
             if (m_desc.isEmpty())

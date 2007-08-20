@@ -312,5 +312,5 @@ int main(int argc, char *argv[])
 #elif defined(__OS2__)    
     DosCloseMutexSem(hMutex);
 #endif
-	return 0;
+	return res;
 }

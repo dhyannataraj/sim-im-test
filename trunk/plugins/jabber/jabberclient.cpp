@@ -885,7 +885,7 @@ void JabberClient::startHandshake()
 {
     socket()->writeBuffer().packetStart();
     socket()->writeBuffer()
-        << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         << "<stream:stream to=\'"
         << encodeXML(VHost())
         << "\' xmlns=\'jabber:client\' xmlns:stream=\'http://etherx.jabber.org/streams\'>\n";
@@ -2064,9 +2064,9 @@ bool JabberClient::send(Message *msg, void *_data)
                 socket()->writeBuffer()
                     << "<presence to=\'"
                     << data->ID.str()
-                    << "\' type=\'unsubscribed\'><status>"
+                    << "\' type=\'unsubscribed\'>\n<status>"
                     << encodeXML(msg->getPlainText())
-                    << "</status></presence>";
+                    << "</status>\n</presence>";
                 sendPacket();
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                     msg->setClient(dataName(data));
@@ -2100,19 +2100,31 @@ bool JabberClient::send(Message *msg, void *_data)
                 socket()->writeBuffer()
                     << "\' id=\'" << msg_id;
             }
-            socket()->writeBuffer()
-                << "\'><body>" << encodeXML(text) << "</body>";
-            if (data->richText.toBool() && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
+            if (text.startsWith("-----BEGIN PGP MESSAGE-----")){
+				socket()->writeBuffer()
+                    << "\'>\n<body>This message is encrypted.</body>\n";
+			}else{
                 socket()->writeBuffer()
-                    << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
-                    << removeImages(msg->getRichText(), msg->getBackground())
-                    << "</body></html>";
+                    << "\'>\n<body>" << encodeXML(text) << "</body>\n";
+                if (data->richText.toBool() && getRichText() && (msg->getFlags() & MESSAGE_RICHTEXT)){
+                    socket()->writeBuffer()
+                        << "<html xmlns='http://jabber.org/protocol/xhtml-im'>\n<body>"
+                        << removeImages(msg->getRichText(), msg->getBackground())
+                        << "</body>\n</html>\n";
+                }
             }
             if (getTyping()){
                 socket()->writeBuffer()
-                << "<x xmlns='jabber:x:event'>"
-                << "<composing/>"
-                << "</x>";
+					<< "<x xmlns='jabber:x:event'>\n"
+					<< "<composing/>\n"
+					<< "</x>\n";
+            }
+            if (text.startsWith("-----BEGIN PGP MESSAGE-----")){
+                text.truncate(text.find("\n-----END PGP MESSAGE-----"));
+                socket()->writeBuffer()
+                << "<x xmlns='jabber:x:encrypted'>"
+                << text.remove(0, text.find("\n\n") + 2)
+                << "</x>\n";
             }
             socket()->writeBuffer()
             << "</message>";
@@ -2147,27 +2159,27 @@ bool JabberClient::send(Message *msg, void *_data)
                     << '/' << msg->getResource();
             }
             socket()->writeBuffer()
-                << "\'><body>" << encodeXML(m->getUrl());
+                << "\'>\n<body>" << encodeXML(m->getUrl());
             QString t = m->getPlainText();
             if (!t.isEmpty()){
                 socket()->writeBuffer()
                     << "\n" << encodeXML(m->getPlainText());
             }
             socket()->writeBuffer()
-            << "</body>";
+            << "</body>\n";
             if (data->richText.toBool() && getRichText()){
                 socket()->writeBuffer()
-                    << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>"
+                    << "<html xmlns='http://jabber.org/protocol/xhtml-im'>\n<body>"
                     << "<a href=\'"
                     << encodeXML(m->getUrl()) << "\'>"
                     << encodeXML(m->getUrl()) << "</a>";
                 if (!t.isEmpty()){
                     socket()->writeBuffer()
-                    << "<br/>"
+                    << "<br/>\n"
                     << removeImages(msg->getRichText(), msg->getBackground());
                 }
                 socket()->writeBuffer()
-                << "</body></html>";
+                << "</body>\n</html>\n";
             }
             socket()->writeBuffer()
             << "</message>";
@@ -2246,7 +2258,7 @@ bool JabberClient::send(Message *msg, void *_data)
                     << '/' << msg->getResource();
             }
             socket()->writeBuffer()
-                << "\'><x xmlns='jabber:x:roster'>";
+                << "\'>\n<x xmlns='jabber:x:roster'>\n";
             list<QString>::iterator iti = jids.begin();
             list<QString>::iterator itn = names.begin();
             for (; iti != jids.end(); ++iti, ++itn){
@@ -2255,10 +2267,10 @@ bool JabberClient::send(Message *msg, void *_data)
                     << encodeXML(*itn)
                     << "\' jid=\'"
                     << encodeXML(*iti)
-                    << "\'><group/></item>";
+                    << "\'>\n<group/>\n</item>\n";
             }
             socket()->writeBuffer()
-                << "</x><body>";
+                << "</x>\n<body>";
             iti = jids.begin();
             for (; iti != jids.end(); ++iti, ++itn){
                 socket()->writeBuffer()
@@ -2266,10 +2278,10 @@ bool JabberClient::send(Message *msg, void *_data)
                     << "\n";
             }
             socket()->writeBuffer()
-                << "</body>";
+                << "</body>\n";
             if (data->richText.toBool() && getRichText()){
                 socket()->writeBuffer()
-                    << "<html xmlns='http://jabber.org/protocol/xhtml-im'><body>";
+                    << "<html xmlns='http://jabber.org/protocol/xhtml-im'>\n<body>";
                 iti = jids.begin();
                 for (; iti != jids.end(); ++iti, ++itn){
                     socket()->writeBuffer()
@@ -2277,7 +2289,7 @@ bool JabberClient::send(Message *msg, void *_data)
                         << "<br/>\n";
                 }
                 socket()->writeBuffer()
-                    << "</body></html>";
+                    << "</body>\n</html>\n";
             }
             socket()->writeBuffer()
                 << "</message>";
@@ -2311,9 +2323,9 @@ bool JabberClient::send(Message *msg, void *_data)
             socket()->writeBuffer()
                 << "<presence to=\'"
                 << data->ID.str()
-                << "\' type=\'subscribe\'><status>"
+                << "\' type=\'subscribe\'>\n<status>"
                 << encodeXML(msg->getPlainText())
-                << "</status></presence>";
+                << "</status>\n</presence>";
             sendPacket();
             if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                 msg->setClient(dataName(data));
@@ -2368,9 +2380,9 @@ bool JabberClient::send(Message *msg, void *_data)
             socket()->writeBuffer()
                 << "<message to=\'"
                 << data->ID.str()
-                << "\'><x xmlns='jabber:x:event'><composing/><id>"
+                << "\'>\n<x xmlns='jabber:x:event'>\n<composing/>\n<id>"
                 << data->TypingId.str()
-                << "</id></x></message>";
+                << "</id>\n</x>\n</message>";
             sendPacket();
             delete msg;
             return true;
@@ -2382,9 +2394,9 @@ bool JabberClient::send(Message *msg, void *_data)
             socket()->writeBuffer()
                 << "<message to=\'"
                 << data->ID.str()
-                << "\'><x xmlns='jabber:x:event'><id>"
+                << "\'>\n<x xmlns='jabber:x:event'>\n<id>"
                 << data->TypingId.str()
-                << "</id></x></message>";
+                << "</id>\n</x>\n</message>";
             sendPacket();
             delete msg;
             return true;
@@ -2495,8 +2507,8 @@ void JabberClient::auth_request(const QString &jid, unsigned type, const QString
                 socket()->writeBuffer()
                     << "<presence to=\'"
                     << data->ID.str()
-                    << "\' type=\'subscribe\'><status>"
-                    << "</status></presence>";
+                    << "\' type=\'subscribe\'>\n<status>"
+                    << "</status>\n</presence>";
                 sendPacket();
                 EventContact e(contact, EventContact::eChanged);
                 e.process();

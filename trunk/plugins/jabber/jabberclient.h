@@ -285,6 +285,7 @@ public:
         QString m_contacts;
         QString m_target;
         QString m_desc;
+		QString m_enc;
         std::vector<QString> m_targets;
         std::vector<QString> m_descs;
 
@@ -295,6 +296,7 @@ public:
         bool   m_bCompose;
         bool   m_bEvent;
         bool   m_bRichText;
+		bool   m_bEnc;
         unsigned m_errorCode;
     };
 
