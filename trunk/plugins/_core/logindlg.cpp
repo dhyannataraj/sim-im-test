@@ -217,6 +217,7 @@ void LoginDialog::profileChanged(int)
     }else{
         btnRename->show();
         clearInputs();
+	QString save_profile = CorePlugin::m_plugin->getProfile(); // Let's remember current profile name
         CorePlugin::m_plugin->setProfile(CorePlugin::m_plugin->m_profiles[n]);
         ClientList clients;
         CorePlugin::m_plugin->loadClients(clients);
@@ -240,6 +241,9 @@ void LoginDialog::profileChanged(int)
         btnDelete->setEnabled(m_loginProfile == CorePlugin::m_plugin->m_profiles[n]);
         buttonOk->setEnabled(false);
         pswdChanged("");
+    	CorePlugin::m_plugin->setProfile(save_profile);   // We should not change Profile value in _core before "Ok" button
+							  // is pressed otherwise sim will overwrite wrong config file on 
+							  // exit.
     }
     QTimer::singleShot(0, this, SLOT(adjust()));
 }
@@ -392,7 +396,10 @@ void LoginDialog::profileRename()
   if ((n < 0) || (n >= (int)(CorePlugin::m_plugin->m_profiles.size())))
     return;
 
-  QString name;
+  QString old_name = CorePlugin::m_plugin->m_profiles[n];  
+  QString current_profile = CorePlugin::m_plugin->getProfile();
+    
+  QString name = old_name;
   CorePlugin::m_plugin->setProfile(QString::null);
   QString profileDir=user_file("");
   QDir d(user_file(""));
@@ -417,6 +424,13 @@ void LoginDialog::profileRename()
            cmbProfile->setCurrentItem(i);
            break;
        }
+  }
+  if ( current_profile != old_name )
+  {
+    CorePlugin::m_plugin->setProfile(current_profile); // Restore current profile value
+  } else
+  {
+    CorePlugin::m_plugin->setProfile(name); // If current profile were renamed, should use new name as current profile
   }
 }
 
