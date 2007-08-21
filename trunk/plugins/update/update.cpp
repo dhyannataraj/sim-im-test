@@ -94,7 +94,7 @@ UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)
 	this->upToDate=false;
 	this->ignore=false;
 	this->isInstalling=false;
-	this->CHECK_INTERVAL = 60; //seconds for the first time wait
+	this->CHECK_INTERVAL = 3;//60; //seconds for the first time wait
 	setTime(time(NULL)); //this was missing ;)
     this->timer->start(15000);
 }
@@ -242,13 +242,14 @@ void UpdatePlugin::Finished(int requestId, bool error){
 bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 
 	//Cut the Time away
-	remote=remote.stripWhiteSpace();
+	remote = remote.stripWhiteSpace();
 	remote = remote.left(remote.length()-11);
-	remote=remote.stripWhiteSpace();
+	remote = remote.stripWhiteSpace();
 	
 	remote	= remote.replace("  "," "); //No double whitespaces, because scanning is wrong then
 	local	= local.replace("  "," ");
-	local   = local.section (' ',3,5,QString::SectionDefault);
+	
+	local   = local.section (' ',2,5,QString::SectionDefault);
 	remote  = remote.section(' ',4,4,QString::SectionDefault);
 	
 	QString month("Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec");
@@ -260,6 +261,7 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 			break;
 	}
 
+	
 	this->dlocal  = QDate(local.right(4).toInt(), i+1 , local.section(' ',1,1, QString::SectionDefault).toInt());
 	this->dremote = QDate(remote.right(4).toInt(), remote.mid(3,2).toInt(), remote.left(2).toInt());
 
