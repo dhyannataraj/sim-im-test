@@ -94,7 +94,7 @@ UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)
 	this->upToDate=false;
 	this->ignore=false;
 	this->isInstalling=false;
-	this->CHECK_INTERVAL = 3;//60; //seconds for the first time wait
+	this->CHECK_INTERVAL = 60; //seconds for the first time wait
 	setTime(time(NULL)); //this was missing ;)
     this->timer->start(15000);
 }
