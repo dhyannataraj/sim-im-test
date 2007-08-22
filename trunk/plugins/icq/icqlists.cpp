@@ -408,13 +408,12 @@ void ICQClient::parseRosterItem(unsigned short type,
             if (str.length()){
                 log(L_DEBUG, "%s is awaiting auth", str.latin1());
                 ICQUserData *data;
-                if ((data = findContact(str, NULL, false, contact)) == NULL) {
-                    data = findContact(str, &str, true, contact, NULL, false);
+                if ((data = findContact(str, NULL, false, contact)) != NULL) {
                     addFullInfoRequest(str.toULong());
+                    data->WantAuth.asBool() = true;
+                } else {
+                   log(L_DEBUG, "not in contact list, skipped");
                 }
-                if(!data)   // impossible
-                    break;
-                data->WantAuth.asBool() = true;
             }
             break;
         }
