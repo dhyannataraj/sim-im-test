@@ -76,6 +76,13 @@ LoginDialog::LoginDialog(bool bInit, Client *client, const QString &text, const 
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(profileDelete()));
     connect(btnRename, SIGNAL(clicked()), this, SLOT(profileRename()));
     profileChanged(cmbProfile->currentItem());
+    
+    CorePlugin::m_plugin->setProfile(QString::null); // This will minimize the risk of loosing current profile on 
+                              // QApplication::commitData() when no profile is selected yet.
+			      
+			      // FIXME: To completely remove this risk, one should not setProfile before profile is
+			      // really loaded, or set a flag, that profile is not really loaded and check in when
+			      // writing configure files
 }
 
 LoginDialog::~LoginDialog()

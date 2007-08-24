@@ -1764,6 +1764,11 @@ bool CorePlugin::processEvent(Event *e)
             makedir(homedir->homeDir());
             return true;
         }
+    case eEventGetProfile:{
+	    EventGetProfile *e_get_profile = static_cast<EventGetProfile*>(e);
+	    e_get_profile->setProfileValue(getProfile());	
+	    return true;    
+	}
     case eEventAddPreferences:{
             EventAddPreferences *ap = static_cast<EventAddPreferences*>(e);
             CommandDef *cmd = ap->def();

@@ -575,6 +575,17 @@ static char BACKUP_SUFFIX[] = "~";
 
 void PluginManagerPrivate::saveState()
 {
+    // Check current profile name
+    QString current_profile;
+    EventGetProfile e;
+    if (e.process()) current_profile=e.getProfile();
+    if ( current_profile.isEmpty() )
+    {
+      // if current profile name is empty then shuld not write config for it.
+      log(L_DEBUG, "Refusing writing %s for empty profile", PLUGINS_CONF);
+      return;
+    }
+    
     if (m_bAbort)
         return;
     getContacts()->save();

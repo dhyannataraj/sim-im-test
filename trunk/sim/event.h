@@ -127,6 +127,7 @@ enum SIMEvent
     eEventGetURL            = 0x0603,   // ???? win32 only
     eEventPlaySound         = 0x0604,   // play way-file
     eEventRaiseWindow       = 0x0605,   // raise this widget
+    eEventGetProfile	    = 0x0606,	// get name of current profile
 
     eEventPaintView         = 0x0701,   // draw user list background
     eEventRepaintView       = 0x0702,   // repaint list view
@@ -501,6 +502,18 @@ public:
 protected:
     QWidget *m_widget;
 };
+
+class EXPORT EventGetProfile : public Event
+{
+public:
+    EventGetProfile()
+        : Event(eEventGetProfile), m_profile(QString::null) {}
+    const QString &getProfile()  const { return m_profile; }
+    void setProfileValue(const QString &profile) { m_profile = profile; }
+protected:
+    QString m_profile;
+};
+
 
 class EXPORT EventGetURL : public Event
 {
