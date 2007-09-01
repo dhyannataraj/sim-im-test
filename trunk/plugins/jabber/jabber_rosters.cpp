@@ -1078,8 +1078,8 @@ void JabberClient::IqRequest::element_start(const QString& el, const QXmlAttribu
     }
     if (el == "query"){
         m_query = attrs.value("xmlns");
-        if (m_query == "jabber:iq:roster"){
-            if (el == "item"){
+    }
+    if ( (el == "item") && (m_query == "jabber:iq:roster") ){
                 QString jid = attrs.value("jid");
                 QString subscription = attrs.value("subscription");
                 QString name = attrs.value("name");
@@ -1115,9 +1115,9 @@ void JabberClient::IqRequest::element_start(const QString& el, const QXmlAttribu
                         }
                     }
                 }
-            }
+    }
         // XEP-0092: Software Version
-        }else if (m_query == "jabber:iq:version"){
+    if ( (el == "query") && (m_query == "jabber:iq:version") ){
             if (m_type == "get" && m_client->getUseVersion()){
                 // send our version
                 JabberClient::ServerRequest *req = new JabberClient::ServerRequest(m_client, JabberClient::ServerRequest::_RESULT, NULL, m_from, m_id);
@@ -1130,7 +1130,6 @@ void JabberClient::IqRequest::element_start(const QString& el, const QXmlAttribu
                 req->send();
                 m_client->m_requests.push_back(req);
             }
-        }
     }
     if (el == "url")
         m_data = &m_url;
