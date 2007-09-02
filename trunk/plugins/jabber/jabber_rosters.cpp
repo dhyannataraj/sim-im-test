@@ -155,6 +155,19 @@ void RostersRequest::element_end(const QString& el)
         return;
     }
     if (el == "item"){
+        if ( m_jid.find('/') >= 0 )
+	{
+	   // If roster contains two contacts
+	   // user@jabber.ru and user@jabber.ru/some_resource
+	   // than it will be impossible, to move user@jabber.ru from one group to another because
+	   // after reloading sim it will be merged with user@jabber.ru/some_resource
+	   // because sim-im see no difference between them :-/
+	   // So the simplest way to fix this bus is to ignore roster records with explicit resource
+	   // This is a nasty hack, but I see no way to fix it without rewriting all jabber stuff :-(
+	   // N. Shaplov
+	   log(L_DEBUG,"Ignoring contact with explicit resource: %s",m_jid.ascii());    
+	   return;
+	}    
         bool bChanged = false;
         JabberListRequest *lr = m_client->findRequest(m_jid, false);
         Contact *contact;
