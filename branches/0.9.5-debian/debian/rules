@@ -226,7 +226,8 @@ binary-common:
 	dh_fixperms
 #	dh_perl
 #	dh_python
-	dh_makeshlibs
+	dh_makeshlibs -p sim-qt -L sim-qt
+	dh_makeshlibs -p sim -L sim
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
