@@ -196,20 +196,17 @@ install-sim-kde-rm-data-files-stamp:
 
 install-sim-qt-rm-data-files-stamp:
 	for d in  $(sim_data_dirs)  ; do \
-		rm -v -r -f $(CURDIR)/debian/sim/$$d; \
+		rm -v -r -f $(CURDIR)/debian/sim-qt/$$d; \
 	done
 	touch install-sim-qt-rm-data-files-stamp
 
 
-# Must not depend on anything. This is to be called by
-# binary-arch/binary-indep
-# in another 'make' thread.
 binary-common:
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs 
-	dh_installdocs
-	dh_installexamples
+	dh_installchangelogs -p $(pkg)
+	dh_installdocs -p $(pkg)
+	dh_installexamples -p $(pkg)
 #	dh_installmenu
 #	dh_installdebconf	
 #	dh_installlogrotate	
@@ -219,27 +216,34 @@ binary-common:
 #	dh_installinit
 #	dh_installcron
 #	dh_installinfo
-	dh_installman
-	dh_link
-	dh_strip
-	dh_compress 
-	dh_fixperms
+	dh_installman -p $(pkg)
+	dh_link -p $(pkg)
+	dh_strip -p $(pkg)
+	dh_compress -p $(pkg)
+	dh_fixperms -p $(pkg)
 #	dh_perl
 #	dh_python
-	dh_makeshlibs -p sim-qt -L sim-qt
-	dh_makeshlibs -p sim -L sim
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
+	dh_makeshlibs -p $(pkg)
+	dh_installdeb -p $(pkg)
+	dh_shlibdeps -p $(pkg) -L$(pkg)
+	dh_gencontrol -p $(pkg)
+	dh_md5sums -p $(pkg)
+	dh_builddeb -p $(pkg)
+	
+binary-sim-qt: install-sim-qt 
+	$(MAKE) -f debian/rules pkg=sim-qt binary-common
+
+binary-sim-kde: install-sim-kde 
+	$(MAKE) -f debian/rules pkg=sim binary-common
+
+binary-sim-data: install-sim-data 
+	$(MAKE) -f debian/rules pkg=sim-data binary-common
+
 # Build architecture independant packages using the common target.
-binary-indep: install-indep
-	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+binary-indep: binary-sim-data
 
 # Build architecture dependant packages using the common target.
-binary-arch: install-arch
-	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
+binary-arch: binary-sim-qt binary-sim-kde
 
 binary: binary-arch binary-indep
 
