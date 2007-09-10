@@ -483,7 +483,7 @@ static bool unquoteInternal(QCString &val, QCString &str)
     if(idx1 == -1)
         return false;
     idx1++;
-    int idx2 = val.find('\"', idx1);
+    int idx2 = val.findRev('\"');
     if(idx2 == -1)
         return false;
     str = val.mid(idx1, idx2 - idx1);
