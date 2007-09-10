@@ -1510,6 +1510,54 @@ QString ICQClient::clientName(ICQUserData *data)
     if (data->Version.toULong())
         res.sprintf("v%lu ", data->Version.toULong());
 
+    switch (data->InfoUpdateTime.toULong()){
+    case 0xFFFFFFFFL:
+        if ((data->PluginStatusTime.toULong() == 0xFFFFFFFFL) && (data->PluginInfoTime.toULong() == 0xFFFFFFFFL)){
+            res += "GAIM";
+            return res;
+        }
+        res += "MIRANDA";
+	if (hasCap(data, CAP_ICQJP)) {
+		res += verString(data->Build.toULong());
+	} else	
+		res += verString(data->PluginInfoTime.toULong() & 0xFFFFFF);
+        if (data->PluginInfoTime.toULong() & 0x80000000)
+            res += " alpha";
+        return res;
+    case 0xFFFFFF8FL:
+        res += "StrICQ";
+        res += verString(data->PluginInfoTime.toULong() & 0xFFFFFF);
+        return res;
+    case 0xFFFFFF42L:
+        res += "mICQ";
+        return res;
+    case 0xFFFFFFBEL:
+        res += "alicq";
+        res += verString(data->PluginInfoTime.toULong() & 0xFFFFFF);
+        return res;
+    case 0xFFFFFF7FL:
+        res += "&RQ";
+        res += verString(data->PluginInfoTime.toULong() & 0xFFFFFF);
+        return res;
+    case 0xFFFFFFABL:
+        res += "YSM";
+        res += verString(data->PluginInfoTime.toULong() & 0xFFFF);
+        return res;
+    case 0x04031980L: {
+        QString r;
+        r.sprintf("vICQ 0.43.%lu.%lu", data->PluginInfoTime.toULong() & 0xffff, data->PluginInfoTime.toULong() & (0x7fff0000) >> 16);
+        res += r;
+        return res;
+    }
+    case 0x3AA773EEL:
+        if ((data->PluginStatusTime.toULong() == 0x3AA66380L) && (data->PluginInfoTime.toULong() == 0x3A877A42L))
+        {
+            res += "libicq2000";
+            return res;
+        }
+        break;
+    }
+
     if (hasCap(data, CAP_MIRANDA)) {
         QString r;
         unsigned ver1 = (data->Build.toULong() >> 24) & 0x7F;
@@ -1651,50 +1699,7 @@ QString ICQClient::clientName(ICQUserData *data)
             res += "/SSL";
         return res;
     }
-    switch (data->InfoUpdateTime.toULong()){
-    case 0xFFFFFFFFL:
-        if ((data->PluginStatusTime.toULong() == 0xFFFFFFFFL) && (data->PluginInfoTime.toULong() == 0xFFFFFFFFL)){
-            res += "GAIM";
-            return res;
-        }
-        res += "MIRANDA";
-        res += verString(data->PluginInfoTime.toULong() & 0xFFFFFF);
-        if (data->PluginInfoTime.toULong() & 0x80000000)
-            res += " alpha";
-        return res;
-    case 0xFFFFFF8FL:
-        res += "StrICQ";
-        res += verString(data->PluginInfoTime.toULong() & 0xFFFFFF);
-        return res;
-    case 0xFFFFFF42L:
-        res += "mICQ";
-        return res;
-    case 0xFFFFFFBEL:
-        res += "alicq";
-        res += verString(data->PluginInfoTime.toULong() & 0xFFFFFF);
-        return res;
-    case 0xFFFFFF7FL:
-        res += "&RQ";
-        res += verString(data->PluginInfoTime.toULong() & 0xFFFFFF);
-        return res;
-    case 0xFFFFFFABL:
-        res += "YSM";
-        res += verString(data->PluginInfoTime.toULong() & 0xFFFF);
-        return res;
-    case 0x04031980L: {
-        QString r;
-        r.sprintf("vICQ 0.43.%lu.%lu", data->PluginInfoTime.toULong() & 0xffff, data->PluginInfoTime.toULong() & (0x7fff0000) >> 16);
-        res += r;
-        return res;
-    }
-    case 0x3AA773EEL:
-        if ((data->PluginStatusTime.toULong() == 0x3AA66380L) && (data->PluginInfoTime.toULong() == 0x3A877A42L))
-        {
-            res += "libicq2000";
-            return res;
-        }
-        break;
-    }
+
 
     if (hasCap(data, CAP_TYPING)) {
         switch (data->Version.toULong()){

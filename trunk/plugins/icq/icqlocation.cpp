@@ -319,6 +319,8 @@ const capability arrCapabilities[] =
         // CAP_JIMM
         { 'J', 'i', 'm', 'm', ' ', 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0 },
+	//CAP_ICQJP
+	{'i', 'c', 'q', 'p', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
  /*/*
         // from Gaim:
         // CAP_AIM_HIPTOP
@@ -626,4 +628,5 @@ void ICQClient::setProfile(ICQUserData *data)
     encodeString(profile, "text/aolrtf", 1, 2);
     sendPacket(false);
 }
+
 

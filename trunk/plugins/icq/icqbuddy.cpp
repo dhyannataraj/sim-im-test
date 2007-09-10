@@ -213,6 +213,10 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                             size -= 8;
                         if ((i == CAP_JIMM))
                             size -= 11;
+
+			if (i == CAP_ICQJP)
+				size -= (16 - 4);
+			
                         if (!memcmp(cap, capabilities[i], size)){
                             if (i == CAP_SIMOLD){
                                 unsigned char build = cap[sizeof(capability)-1];
@@ -250,6 +254,11 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
 
                                 data->Build.asULong() = (maj << 24) + (min << 16) + rev;
                             }
+			    if (i == CAP_ICQJP) {
+				    log(L_DEBUG, "%lu ICQJP cap is set", data->Uin.toULong());
+				    data->Build.asULong() = cap[0x4] << 0x18 | cap[0x5] << 0x10 |
+					    cap[0x6] << 8 | cap[0x7];				    
+			    }
                             setCap(data, (cap_id_t)i);
                             break;
                         }
@@ -563,4 +572,5 @@ void ICQClient::removeBuddy(Contact *contact)
         buddies.erase(it);
     }
 }
+
 
