@@ -347,8 +347,7 @@ enum cap_id_t {
     CAP_ICQ51,                  // 0x00000080
     CAP_JIMM,                   // 0x00000100
     CAP_ICQJP,                  // 0x00000200
-	CAP_NULL,                   // 0x00000400
-
+    CAP_NULL,                   // 0x00000400
 };
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
@@ -1009,4 +1008,5 @@ protected:
 };
 
 #endif
+
 

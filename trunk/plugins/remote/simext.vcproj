@@ -23,7 +23,7 @@
 			InheritedPropertySheets="$(SolutionDir)sim\win32\sim-default.vsprops"
 			UseOfMFC="0"
 			UseOfATL="1"
-			ATLMinimizesCRunTimeLibraryUsage="true"
+			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			BuildLogFile="$(IntDir)\$(ProjectName)_BuildLog.htm"
 			>
