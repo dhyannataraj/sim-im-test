@@ -29,7 +29,8 @@ signals:
     void setAdd(bool);
     void showError(const QString&);
 protected slots:
-    void add(unsigned grp_id);
+    void add(SIM::Contact *&contact);
+    void createContact(unsigned tmpFlags, SIM::Contact *&contact);
 protected:
     void showEvent(QShowEvent*);
 };
