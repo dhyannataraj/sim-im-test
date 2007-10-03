@@ -274,6 +274,8 @@ void SIMClientSocket::connect(const QString &_host, unsigned short _port)
 {
     port = _port;
     host = _host;
+    if (host.isNull()) 
+        host=""; // Avoid crashing when _host is NULL
 #ifdef WIN32
     bool bState;
     if (get_connection_state(bState) && !bState){
