@@ -122,8 +122,8 @@ const unsigned short TLV_WORK_ZIP                   = 0x02BC;
 const unsigned short TLV_WORK_PHONE                 = 0x02C6;
 const unsigned short TLV_WORK_FAX                   = 0x02D0;
 const unsigned short TLV_WORK_HOMEPAGE              = 0x02DA;
-const unsigned short TLV_SHOW_WEB                   = 0x02F8;
-const unsigned short TLV_NEED_AUTH                  = 0x030C;
+const unsigned short TLV_SHOW_WEB                   = 0x030C;
+const unsigned short TLV_NEED_AUTH                  = 0x02F8;
 const unsigned short TLV_TIMEZONE                   = 0x0316;
 const unsigned short TLV_ORIGINALLY_CITY            = 0x0320;
 const unsigned short TLV_ORIGINALLY_STATE           = 0x032A;
@@ -1259,7 +1259,7 @@ bool ChangeInfoRequest::answer(ICQBuffer&, unsigned short)
                 m_client->data.owner.WebAware.asBool() = getUInt8(tlv->Data());
                 break;
             case TLV_NEED_AUTH:
-                m_client->data.owner.WaitAuth.asBool() = getUInt8(tlv->Data());
+                m_client->data.owner.WaitAuth.asBool() = !getUInt8(tlv->Data());
                 break;
             case TLV_TIMEZONE:
                 m_client->data.owner.TimeZone.asBool() = getUInt8(tlv->Data());
@@ -1426,7 +1426,7 @@ void ICQClient::setClientInfo(void *_data)
         clientInfoTLVs.append(makeUInt8(TLV_SHOW_WEB, d->WebAware.toBool()));
 
     if (d->WaitAuth.toBool() != data.owner.WaitAuth.toBool())
-        clientInfoTLVs.append(makeUInt8(TLV_NEED_AUTH, d->WaitAuth.toBool()));
+	    clientInfoTLVs.append(makeUInt8(TLV_NEED_AUTH, d->WaitAuth.toBool() ? 0 : 1));
 
     if (d->TimeZone.toULong() != data.owner.TimeZone.toULong())
         clientInfoTLVs.append(makeUInt8(TLV_TIMEZONE, d->TimeZone.toULong()));
