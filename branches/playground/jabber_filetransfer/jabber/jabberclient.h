@@ -26,6 +26,8 @@
 
 #include "jabberbuffer.h"
 
+
+
 class JabberProtocol;
 class JabberClient;
 
@@ -210,7 +212,7 @@ public:
         void	send();
         void	start_element(const QString &name);
         void	end_element(bool bNewLevel = false);
-        void	add_attribute(const QString &name, const char *value);
+        void	add_attribute(const QString &name, const char *value); //FIXME Why does this function with char * still exists?
         void	add_attribute(const QString &name, const QString &value);
         void	add_condition(const QString &cond, bool bXData);
         void	add_text(const QString &text);
@@ -229,6 +231,8 @@ public:
         friend class JabberClient;
     };
 
+    class Iq;
+    
     class IqRequest : public ServerRequest
     {
     public:
@@ -448,6 +452,7 @@ protected:
 
     std::list<JabberListRequest>	m_listRequests;
     ServerRequest			*m_curRequest;
+    JabberClient::Iq			*m_iq;
 
     class JabberAuthMessage;
     std::vector<JabberAuthMessage*>	tempAuthMessages;

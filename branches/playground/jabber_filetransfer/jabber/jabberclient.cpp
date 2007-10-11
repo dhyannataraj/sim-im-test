@@ -52,6 +52,7 @@
 #include "jabbermessage.h"
 #include "jabberbrowser.h"
 #include "infoproxy.h"
+#include "iq.h"
 
 using namespace std;
 using namespace SIM;
@@ -179,10 +180,11 @@ JabberClient::JabberClient(JabberProtocol *protocol, Buffer *cfg)
     }
     setListRequest(QString::null);
 
-    m_bSSL		 = false;
+    m_bSSL	 = false;
     m_curRequest = NULL;
+    m_iq 	 = NULL;
     m_msg_id	 = 0;
-    m_bJoin		 = false;
+    m_bJoin	 = false;
     init();
 }
 
@@ -670,7 +672,12 @@ void JabberClient::sendPacket()
 void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
 {
     QString element = el.lower();
-    const char *id = NULL;
+    if (m_iq)
+    {
+      m_iq->element_start(element, attrs);
+    }
+    
+    const char *id = NULL;  // FIXME: why it is still char * ?
     if (m_depth){
         if (m_curRequest){
             m_curRequest->element_start(element, attrs);
@@ -681,6 +688,8 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
                 if (id.isEmpty() || type == "set" || type == "get"){
                     m_curRequest = new IqRequest(this);
                     m_curRequest->element_start(element, attrs);
+		    m_iq = new Iq();
+		    m_iq->element_start(element, attrs);
                 }else{
                     list<ServerRequest*>::iterator it;
                     for (it = m_requests.begin(); it != m_requests.end(); ++it){
@@ -720,6 +729,11 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
 
 void JabberClient::element_end(const QString& el)
 {
+    if (m_iq)
+    {
+      QString element = el.lower();
+      m_iq->element_end(element);
+    }
     m_depth--;
     if (m_curRequest){
         QString element = el.lower();
@@ -727,12 +741,19 @@ void JabberClient::element_end(const QString& el)
         if (m_depth == 1){
             delete m_curRequest;
             m_curRequest = NULL;
+	    delete m_iq;
+	    m_iq = NULL;
         }
     }
 }
 
 void JabberClient::char_data(const QString& str)
 {
+    if (m_iq)
+    {
+      m_iq->char_data(str);
+    }
+ 
     if (m_curRequest)
         m_curRequest->char_data(str);
 }

@@ -24,6 +24,7 @@ SET(jabber_SRCS
         jabberworkinfo.cpp
         jidadvsearch.cpp
         jidsearch.cpp
+	iq.cpp
 )
 
 SET(jabber_HDRS
@@ -46,6 +47,7 @@ SET(jabber_HDRS
         jabberworkinfo.h
         jidadvsearch.h
         jidsearch.h
+	iq.h
 )
 
 SET(jabber_UICS
