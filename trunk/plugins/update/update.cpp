@@ -196,15 +196,10 @@ void UpdatePlugin::Finished(int requestId, bool error){
 			show=!show;
 			disconnect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
 			msgret = QMessageBox::question( 0, i18n("SIM-IM Update"),
-				i18n("A new update ist available.\n\n") +
-				i18n("You have Version ") + majorVersion +":\n" + dlocal.toString() + "\n\n" +
-				i18n("New Version is:\n") + dremote.toString() + "\n\n" +
+				i18n("A new update ist available.\n\nYou have Version %1:\n%2\n\n").arg(majorVersion).arg(dlocal.toString()) +
+				i18n("New Version is:\n%1\n\n").arg(dremote.toString()) + 
 #ifdef WIN32
-				i18n("I can now DOWNLOAD the Update\n")+
-				i18n("available at: ") + location + "\n" +
-				i18n("IN BACKROUND and install the update\n") +
-				i18n("for SIM-IM, automatically after finishing.\n\n")+
-				i18n("Would like you to ALLOW to carry out THE UPDATE?"), 
+				i18n("I can now DOWNLOAD the Update\navailable at: %1\nIN BACKROUND and install the update\nfor SIM-IM, automatically after finishing.\n\nWould like you to ALLOW to carry out THE UPDATE?").arg(location), 
 				QMessageBox::Yes,QMessageBox::No);
 			
 			address=QString("http://sim.gosign.de/setup.exe");
@@ -230,8 +225,7 @@ void UpdatePlugin::Finished(int requestId, bool error){
 				return;
 			}
 #else
-			i18n("Please go to ") +  location + 
-			i18n("\nand download the new version from:\n\n") + datestr, 
+			i18n("Please go to %1\nand download the new version from:\n\n%2").arg(location).arg(datestr), 
 			QMessageBox::Ok);
 			address=QString::null;
 #endif
