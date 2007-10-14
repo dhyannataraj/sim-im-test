@@ -37,10 +37,22 @@
 using namespace std;
 using namespace SIM;
 
+namespace { namespace aux {
+
+QString
+compose_floaty_name( unsigned long id )
+{
+    return QString( "floaty-%1" ).arg( id );
+}
+
+}}
+
 FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
-        : QWidget(NULL, "floaty",
+        : QWidget(NULL, aux::compose_floaty_name( id ).ascii(),
                   WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool |
-                  WStyle_StaysOnTop | WRepaintNoErase)
+                  WStyle_StaysOnTop | WRepaintNoErase
+                    | WPaintClever
+                )
 {
     m_plugin = plugin;
     m_id = id;
