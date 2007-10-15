@@ -17,6 +17,9 @@
 
 #include "simapi.h"
 
+#include "floatywnd.h"
+#include "floaty.h"
+
 #include <qpixmap.h>
 #include <qpainter.h>
 #include <qtimer.h>
@@ -30,9 +33,6 @@
 #include "linklabel.h"
 #include "userview.h"
 #include "core.h"
-
-#include "floatywnd.h"
-#include "floaty.h"
 
 using namespace std;
 using namespace SIM;
@@ -52,6 +52,7 @@ FloatyWnd::FloatyWnd(FloatyPlugin *plugin, unsigned long id)
                   WType_TopLevel | WStyle_Customize | WStyle_NoBorder | WStyle_Tool |
                   WStyle_StaysOnTop | WRepaintNoErase
                     | WPaintClever
+                    | WX11BypassWM
                 )
 {
     m_plugin = plugin;

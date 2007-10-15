@@ -716,7 +716,11 @@ void PluginManagerPrivate::loadState()
         else
 			continue;
 
-        info.base = line.toULong();
+        bool ok = false;
+        info.base = line.toULong( &ok );
+        if ( !ok ) {
+            log(L_DEBUG, QString("Cannot convert base for config line '%1'").arg( line ) );
+        }
 
         if (info.base > m_base)
             m_base = info.base;

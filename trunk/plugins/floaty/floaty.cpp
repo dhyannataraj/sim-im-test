@@ -106,16 +106,23 @@ FloatyWnd *FloatyPlugin::findFloaty(unsigned id)
     QWidgetListIt it(*list);
     QWidget *w;
     FloatyWnd *wnd = NULL;
+    bool found = false;
     while ((w = it.current()) != NULL) {
         if (w->inherits("FloatyWnd")){
             wnd = static_cast<FloatyWnd*>(w);
-            if (wnd->id() == id)
+            if (wnd->id() == id) {
+                found = true;
                 break;
+            }
         }
         ++it;
     }
     delete list;
-    return wnd;
+    if( found ) {
+        Q_ASSERT( wnd );
+        return wnd;
+    }
+    return NULL;
 }
 
 bool FloatyPlugin::processEvent(Event *e)

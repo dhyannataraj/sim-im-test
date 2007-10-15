@@ -35,13 +35,13 @@ public:
     unsigned long id() { return m_id; }
     void init();
     void startBlink();
-protected slots:
+private slots:
     void showTip();
     void hideTip();
     void tipDestroyed();
     void startMove();
     void blink();
-protected:
+private:
     void paintEvent(QPaintEvent*);
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
