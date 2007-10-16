@@ -316,7 +316,9 @@ void FloatyWnd::mouseMoveEvent(QMouseEvent *e)
 				move(e->globalPos() - mousePos);
 				//Top left:
 				if (this->pos().x() + this->width()  - refwnd->pos().x() <= dist &&  //== x Top left
-					this->pos().y() + this->height() - refwnd->pos().y() <= dist ) {
+					this->pos().x() + this->width()  - refwnd->pos().x() >= 0 &&
+					this->pos().y() + this->height() - refwnd->pos().y() <= dist &&
+					this->pos().y() + this->height() - refwnd->pos().y() >= 0) {
 					this->move(refwnd->pos().x()-this->width(),   //== x Top left
 							   refwnd->pos().y()-this->height());
 					b_ignoreMouseClickRelease=true;
