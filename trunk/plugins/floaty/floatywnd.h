@@ -63,6 +63,7 @@ private:
     unsigned m_unread;
     unsigned m_blink;
     unsigned long m_status;
+	bool b_ignoreMouseClickRelease;
     TipLabel *m_tip;
     QTimer	 *blinkTimer;
     QTimer	 *tipTimer;
