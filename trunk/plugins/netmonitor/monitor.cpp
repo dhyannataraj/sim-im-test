@@ -223,29 +223,35 @@ bool MonitorWindow::processEvent(Event *e)
     if (!e) {
         return false;
     }
-    if ((e->type() == eEventLog) && !bPause){
-        EventLog *l = static_cast<EventLog*>(e);
-        if (((l->packetID() == 0) && (l->logLevel() & m_plugin->getLogLevel())) ||
-                (l->packetID() && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(l->packetID())))){
-            const char *font = NULL;
-            for (const LevelColorDef *d = levelColors; d->color; d++){
-                if (l->logLevel() == d->level){
-                    font = d->color;
-                    break;
-                }
-            }
-            QString logString = "<p><pre>";
-            if (font)
-                logString += QString("<font color=\"#%1\">") .arg(font);
-            QString s = EventLog::make_packet_string(*l);
-            logString += quoteString(s);
-            if (font)
-                logString += QString("</font>");
-            logString += "</pre></p>";
-            QMutexLocker lock(&m_mutex);
-            m_logStrings += logString;
-            QTimer::singleShot(10, this, SLOT(outputLog()));
-        }
+
+	EventLog *l = static_cast<EventLog*>(e);
+
+    if (e->type() == eEventLog && !bPause &&
+			(
+			((l->packetID() == 0 && (l->logLevel() & m_plugin->getLogLevel())) ||     
+			( l->packetID()      && ((m_plugin->getLogLevel() & L_PACKETS) || m_plugin->isLogType(l->packetID()))))
+			)
+		)
+	{
+
+		const char *font = NULL;
+        for (const LevelColorDef *d = levelColors; d->color; d++)
+			if (l->logLevel() == d->level){
+				font = d->color;
+				break;
+			}
+		
+		QString logString = "<p><pre>";
+		if (font)
+			logString += QString("<font color=\"#%1\">") .arg(font);
+		QString s = EventLog::make_packet_string(*l);
+		logString += quoteString(s);
+		if (font)
+			logString += QString("</font>");
+		logString += "</pre></p>";
+		QMutexLocker lock(&m_mutex);
+		m_logStrings += logString;
+		QTimer::singleShot(10, this, SLOT(outputLog()));
     }
     return false;
 }
