@@ -372,6 +372,7 @@ i18n("Sunday")
 i18n("weather", "Squalls")
 i18n("weather", "Overcast")
 i18n("weather", "Fog")
+i18n("weather", "Foggy")
 i18n("weather", "Mist")
 i18n("weather", "Haze")
 i18n("weather", "Storm")
@@ -599,8 +600,8 @@ QString WeatherPlugin::getForecastText()
         str = i18n("<br><br>\n"
                    "<b>Forecast for</b><br>\n"
                    "<nobr><b>%d %w</b></nobr><br>\n"
-                   "<img src=\"icon:weather%n\"> %c<br>\n"
-                   " Temperature: <b>%t</b><br>\n");
+                   "<img src=\"icon:weather%n\"><br>%c<br>\n"
+                   "Temperature: <b>%t</b><br>\n");
     return str;
 }
 
