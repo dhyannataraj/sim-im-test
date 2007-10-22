@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: th\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-18 14:16+0200\n"
+"POT-Creation-Date: 2007-10-22 12:42+0200\n"
 "PO-Revision-Date: 2005-04-20 21:10+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Thai <th@li.org>\n"
@@ -7460,692 +7460,699 @@ msgstr "สภาพภูมิอากาศ"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Mist"
+"Foggy"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:376
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Haze"
+"Mist"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:377
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Storm"
+"Haze"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:378
 #, fuzzy
 msgid ""
 "_: weather\n"
-"T-Storm"
+"Storm"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:379
 #, fuzzy
 msgid ""
 "_: weather\n"
-"T-Storms"
+"T-Storm"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:380
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Scattered T-Storms"
+"T-Storms"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:381
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Thunder"
+"Scattered T-Storms"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:382
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Light Rain with Thunder"
+"Thunder"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:383
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Thunder in the Vicinity"
+"Light Rain with Thunder"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:384
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Rain"
+"Thunder in the Vicinity"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:385
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Light Rain"
+"Rain"
 msgstr "สภาพภูมิอากาศ"
 
 #: plugins/weather/weather.cpp:386
 #, fuzzy
 msgid ""
 "_: weather\n"
+"Light Rain"
+msgstr "สภาพภูมิอากาศ"
+
+#: plugins/weather/weather.cpp:387
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Heavy Rain"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Freezing Rain"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:388
+#: plugins/weather/weather.cpp:389
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Rain to Snow"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:390
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Snow"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:391
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Snow"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:392
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Few Snow"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:393
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered Snow"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:394
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Ice Crystals"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:395
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:396
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Clearing"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:397
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:398
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:399
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:400
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:401
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:402
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:403
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Clouds"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:404
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:405
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:407
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:408
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Drizzle"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:409
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Heavy Drizzle"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:409
+#: plugins/weather/weather.cpp:410
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Freezing Drizzle"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:412
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Drizzle"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:413
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
 msgstr "%1 กำลังพิมพ์"
 
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:414
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Snow Grains"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:415
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Snow Grains"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:416
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:417
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:418
 #, fuzzy
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:419
 #, fuzzy
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "%1 กำลังพิมพ์"
 
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:420
 #, fuzzy
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:421
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:422
+#: plugins/weather/weather.cpp:423
 #, fuzzy
 msgid ""
 "_: weather\n"
 "N"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:424
 #, fuzzy
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:425
 #, fuzzy
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:426
 #, fuzzy
 msgid ""
 "_: weather\n"
 "WNW"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:427
 #, fuzzy
 msgid ""
 "_: weather\n"
 "W"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:428
 #, fuzzy
 msgid ""
 "_: weather\n"
 "WSW"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:429
 #, fuzzy
 msgid ""
 "_: weather\n"
 "SW"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:430
 #, fuzzy
 msgid ""
 "_: weather\n"
 "SSW"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:431
 #, fuzzy
 msgid ""
 "_: weather\n"
 "S"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:432
 #, fuzzy
 msgid ""
 "_: weather\n"
 "SSE"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:433
 #, fuzzy
 msgid ""
 "_: weather\n"
 "SE"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:434
 #, fuzzy
 msgid ""
 "_: weather\n"
 "ESE"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:435
 #, fuzzy
 msgid ""
 "_: weather\n"
 "E"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:436
 #, fuzzy
 msgid ""
 "_: weather\n"
 "ENE"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:437
 #, fuzzy
 msgid ""
 "_: weather\n"
 "NE"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:438
 #, fuzzy
 msgid ""
 "_: weather\n"
 "NNE"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:439
 #, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:440
 #, fuzzy
 msgid ""
 "_: weather\n"
 "CALM"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:441
+#: plugins/weather/weather.cpp:442
 #, fuzzy
 msgid ""
 "_: weather\n"
 "km"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:443
 #, fuzzy
 msgid ""
 "_: weather\n"
 "mi"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:444
 #, fuzzy
 msgid ""
 "_: weather\n"
 "km/h"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:445
 #, fuzzy
 msgid ""
 "_: weather\n"
 "mph"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:446
 #, fuzzy
 msgid ""
 "_: weather\n"
 "mmHg"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:447
 #, fuzzy
 msgid ""
 "_: weather\n"
 "inHg"
 msgstr "%1 กำลังพิมพ์"
 
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:449
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:450
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:451
 #, fuzzy
 msgid ""
 "_: weather\n"
 "High"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:453
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "New"
 msgstr "อารมณ์ขุ่นมัว"
 
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:454
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:455
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "First Quarter"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:456
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:457
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Full"
 msgstr "อารมณ์ขุ่นมัว"
 
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:458
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:459
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:460
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:472
 msgid "and"
 msgstr "และ"
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:475
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:478
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:516 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
 msgid "m/s"
 msgstr ""
 
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
 #, fuzzy
 msgid "gust"
 msgstr "สิงหาคม"
 
-#: plugins/weather/weather.cpp:567
+#: plugins/weather/weather.cpp:568
 msgid "%t | %c"
 msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:576
+#: plugins/weather/weather.cpp:577
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Temperature"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 #, fuzzy
 msgid ""
 "_: weather\n"
 "feels like"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:580
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Humidity"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:580
+#: plugins/weather/weather.cpp:581
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:581
+#: plugins/weather/weather.cpp:582
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Pressure"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:584
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Visibility"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:584
+#: plugins/weather/weather.cpp:585
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Dew Point"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:585
+#: plugins/weather/weather.cpp:586
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Sunrise"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:586
+#: plugins/weather/weather.cpp:587
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:587
+#: plugins/weather/weather.cpp:588
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
 msgstr ""
 
-#: plugins/weather/weather.cpp:588
+#: plugins/weather/weather.cpp:589
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:591
+#: plugins/weather/weather.cpp:592
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr "สภาพภูมิอากาศ"
 
-#: plugins/weather/weather.cpp:599
+#: plugins/weather/weather.cpp:600
 #, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
-"<img src=\"icon:weather%n\"> %c<br>\n"
-" Temperature: <b>%t</b><br>\n"
+"<img src=\"icon:weather%n\"><br>%c<br>\n"
+"Temperature: <b>%t</b><br>\n"
 msgstr ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"

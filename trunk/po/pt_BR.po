@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-18 14:16+0200\n"
+"POT-Creation-Date: 2007-10-22 12:42+0200\n"
 "PO-Revision-Date: 2005-04-20 21:07+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -9174,7 +9174,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Mist"
+"Foggy"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9182,7 +9182,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Haze"
+"Mist"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9190,7 +9190,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Storm"
+"Haze"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9198,7 +9198,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"T-Storm"
+"Storm"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9206,7 +9206,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"T-Storms"
+"T-Storm"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9214,7 +9214,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Scattered T-Storms"
+"T-Storms"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9222,7 +9222,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Thunder"
+"Scattered T-Storms"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9230,7 +9230,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Light Rain with Thunder"
+"Thunder"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9238,7 +9238,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Thunder in the Vicinity"
+"Light Rain with Thunder"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9246,7 +9246,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Rain"
+"Thunder in the Vicinity"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9254,7 +9254,7 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Light Rain"
+"Rain"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
@@ -9262,11 +9262,19 @@ msgstr "Outro"
 #, fuzzy
 msgid ""
 "_: weather\n"
+"Light Rain"
+msgstr "Outro"
+
+# plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
+#: plugins/weather/weather.cpp:387
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Heavy Rain"
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9274,7 +9282,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:388
+#: plugins/weather/weather.cpp:389
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9282,7 +9290,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:390
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9290,7 +9298,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:391
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9298,7 +9306,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:392
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9306,7 +9314,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:393
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9314,7 +9322,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:394
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9322,7 +9330,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:395
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9330,7 +9338,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:396
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9338,7 +9346,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:397
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9346,7 +9354,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:398
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9354,7 +9362,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:399
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9362,7 +9370,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:400
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9370,7 +9378,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:401
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9378,7 +9386,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:402
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9386,7 +9394,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:403
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9394,7 +9402,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:404
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9402,7 +9410,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:405
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9410,7 +9418,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9418,7 +9426,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:407
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9426,7 +9434,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:408
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9434,7 +9442,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:409
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9442,7 +9450,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:409
+#: plugins/weather/weather.cpp:410
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9450,7 +9458,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:412
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9458,7 +9466,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:413
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9466,7 +9474,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:414
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9474,7 +9482,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:415
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9482,7 +9490,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:416
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9490,7 +9498,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:417
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9498,7 +9506,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:418
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9506,7 +9514,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:419
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9514,7 +9522,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:420
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9522,7 +9530,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:421
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9530,7 +9538,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:422
+#: plugins/weather/weather.cpp:423
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9538,7 +9546,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:424
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9546,7 +9554,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:425
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9554,7 +9562,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:426
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9562,7 +9570,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:427
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9570,7 +9578,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:428
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9578,7 +9586,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:429
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9586,7 +9594,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:430
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9594,7 +9602,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:431
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9602,7 +9610,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:432
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9610,7 +9618,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:433
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9618,7 +9626,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:434
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9626,7 +9634,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:435
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9634,7 +9642,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:436
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9642,7 +9650,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:437
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9650,7 +9658,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:438
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9658,7 +9666,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:439
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9666,7 +9674,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:440
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9674,7 +9682,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:441
+#: plugins/weather/weather.cpp:442
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9682,7 +9690,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:443
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9690,7 +9698,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:444
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9698,7 +9706,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:445
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9706,7 +9714,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:446
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9714,7 +9722,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:447
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9722,7 +9730,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:449
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9730,7 +9738,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:450
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9738,7 +9746,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:451
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9746,7 +9754,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:453
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9754,7 +9762,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:454
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9762,7 +9770,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:455
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9770,7 +9778,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:456
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9778,7 +9786,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:457
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9786,7 +9794,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:458
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9794,7 +9802,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:459
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9802,7 +9810,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:460
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9810,13 +9818,13 @@ msgid ""
 msgstr "Outro"
 
 # sim/api/country.cpp:63
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:472
 #, fuzzy
 msgid "and"
 msgstr "Canada"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:475
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9824,7 +9832,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:478
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9832,23 +9840,23 @@ msgid ""
 msgstr "Outro"
 
 # plugins/_core/filetransfer.cpp:408
-#: plugins/weather/weather.cpp:516 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
 #, fuzzy
 msgid "m/s"
 msgstr "b/s"
 
 # plugins/icq/moreinfo.cpp:173
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
 #, fuzzy
 msgid "gust"
 msgstr "Agosto"
 
-#: plugins/weather/weather.cpp:567
+#: plugins/weather/weather.cpp:568
 msgid "%t | %c"
 msgstr ""
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:576
+#: plugins/weather/weather.cpp:577
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9856,7 +9864,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9864,7 +9872,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9872,7 +9880,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:580
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9880,7 +9888,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:580
+#: plugins/weather/weather.cpp:581
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9888,7 +9896,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:581
+#: plugins/weather/weather.cpp:582
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9896,7 +9904,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:584
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9904,7 +9912,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:584
+#: plugins/weather/weather.cpp:585
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9912,7 +9920,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:585
+#: plugins/weather/weather.cpp:586
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9920,14 +9928,14 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:586
+#: plugins/weather/weather.cpp:587
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
 msgstr "Outro"
 
-#: plugins/weather/weather.cpp:587
+#: plugins/weather/weather.cpp:588
 #, c-format
 msgid ""
 "_: weather\n"
@@ -9935,7 +9943,7 @@ msgid ""
 msgstr ""
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:588
+#: plugins/weather/weather.cpp:589
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9943,20 +9951,20 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:591
+#: plugins/weather/weather.cpp:592
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr "Outro"
 
-#: plugins/weather/weather.cpp:599
+#: plugins/weather/weather.cpp:600
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
-"<img src=\"icon:weather%n\"> %c<br>\n"
-" Temperature: <b>%t</b><br>\n"
+"<img src=\"icon:weather%n\"><br>%c<br>\n"
+"Temperature: <b>%t</b><br>\n"
 msgstr ""
 
 # sim/ui/qt3/i18n.cpp:227

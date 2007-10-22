@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-18 14:16+0200\n"
+"POT-Creation-Date: 2007-10-22 12:42+0200\n"
 "PO-Revision-Date: 2007-01-13 11:53+0200\n"
 "Last-Translator: Ivan O.Krutyholova <ivan@city.gov.te.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -7593,603 +7593,611 @@ msgid ""
 msgstr "Туман"
 
 #: plugins/weather/weather.cpp:375
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Foggy"
+msgstr "Туман"
+
+#: plugins/weather/weather.cpp:376
 msgid ""
 "_: weather\n"
 "Mist"
 msgstr "Мряка"
 
-#: plugins/weather/weather.cpp:376
+#: plugins/weather/weather.cpp:377
 msgid ""
 "_: weather\n"
 "Haze"
 msgstr "Серпанок"
 
-#: plugins/weather/weather.cpp:377
+#: plugins/weather/weather.cpp:378
 msgid ""
 "_: weather\n"
 "Storm"
 msgstr "Сильний вітер"
 
-#: plugins/weather/weather.cpp:378
+#: plugins/weather/weather.cpp:379
 msgid ""
 "_: weather\n"
 "T-Storm"
 msgstr "Гроза"
 
-#: plugins/weather/weather.cpp:379
+#: plugins/weather/weather.cpp:380
 msgid ""
 "_: weather\n"
 "T-Storms"
 msgstr "Грози"
 
-#: plugins/weather/weather.cpp:380
+#: plugins/weather/weather.cpp:381
 msgid ""
 "_: weather\n"
 "Scattered T-Storms"
 msgstr "Місцями грози"
 
-#: plugins/weather/weather.cpp:381
+#: plugins/weather/weather.cpp:382
 msgid ""
 "_: weather\n"
 "Thunder"
 msgstr "Грім"
 
-#: plugins/weather/weather.cpp:382
+#: plugins/weather/weather.cpp:383
 msgid ""
 "_: weather\n"
 "Light Rain with Thunder"
 msgstr "Невеликий дощ, гроза"
 
-#: plugins/weather/weather.cpp:383
+#: plugins/weather/weather.cpp:384
 msgid ""
 "_: weather\n"
 "Thunder in the Vicinity"
 msgstr "Можливі грози"
 
-#: plugins/weather/weather.cpp:384
+#: plugins/weather/weather.cpp:385
 msgid ""
 "_: weather\n"
 "Rain"
 msgstr "Дощ"
 
-#: plugins/weather/weather.cpp:385
+#: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
 "Light Rain"
 msgstr "Слабкий дощ"
 
-#: plugins/weather/weather.cpp:386
+#: plugins/weather/weather.cpp:387
 msgid ""
 "_: weather\n"
 "Heavy Rain"
 msgstr "Сильний дощ"
 
-#: plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
 msgid ""
 "_: weather\n"
 "Freezing Rain"
 msgstr "Дощ із снігом"
 
-#: plugins/weather/weather.cpp:388
+#: plugins/weather/weather.cpp:389
 msgid ""
 "_: weather\n"
 "Rain to Snow"
 msgstr "Мокрий сніг"
 
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Snow"
 msgstr "Снігопад"
 
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Light Snow"
 msgstr "Невеликий снігопад"
 
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Few Snow"
 msgstr "Незначний снігопад"
 
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
 "Scattered Snow"
 msgstr "Можливий снігопад"
 
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:394
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Ice Crystals"
 msgstr "Суцільна хмарність"
 
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:396
 msgid ""
 "_: weather\n"
 "Clearing"
 msgstr "Вияснюється"
 
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr "Дощі"
 
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:398
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
 msgstr "Зливи в околицях"
 
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:399
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr "Незначна хмарність"
 
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "Сонячно"
 
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "Ясно"
 
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "Пасмурно"
 
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:403
 msgid ""
 "_: weather\n"
 "Clouds"
 msgstr "Хмарно"
 
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:404
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "Переважно хмарно"
 
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:405
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Мінлива хмарність"
 
-#: plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Вітер"
 
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:407
 msgid ""
 "_: weather\n"
 "Windy"
 msgstr "Вітряно"
 
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:408
 msgid ""
 "_: weather\n"
 "Drizzle"
 msgstr "Мряка"
 
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:409
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Heavy Drizzle"
 msgstr "Мряка"
 
-#: plugins/weather/weather.cpp:409
+#: plugins/weather/weather.cpp:410
 msgid ""
 "_: weather\n"
 "Freezing Drizzle"
 msgstr "Мряка із снігом"
 
-#: plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:412
 msgid ""
 "_: weather\n"
 "Light Drizzle"
 msgstr "Дрібний дощ"
 
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:413
 msgid ""
 "_: weather\n"
 "Drifting Snow"
 msgstr "Заметіль"
 
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:414
 msgid ""
 "_: weather\n"
 "Snow Grains"
 msgstr "Снігова крупа"
 
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:415
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Snow Grains"
 msgstr "Снігова крупа"
 
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:416
 msgid ""
 "_: weather\n"
 "Scattered"
 msgstr "Розсіяна хмарність"
 
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:417
 msgid ""
 "_: weather\n"
 "Smoke"
 msgstr "Смог"
 
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "без змін"
 
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "росте"
 
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "падає"
 
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Необмежена"
 
-#: plugins/weather/weather.cpp:422
+#: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
 "N"
 msgstr "північний"
 
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:424
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "північно-північно-західний"
 
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:425
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "північно-західний"
 
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:426
 msgid ""
 "_: weather\n"
 "WNW"
 msgstr "західно-північно-західний"
 
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:427
 msgid ""
 "_: weather\n"
 "W"
 msgstr "західний"
 
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:428
 msgid ""
 "_: weather\n"
 "WSW"
 msgstr "південно-західний"
 
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:429
 msgid ""
 "_: weather\n"
 "SW"
 msgstr "південно-західний"
 
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
 "SSW"
 msgstr "південно-південно-західний"
 
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
 "S"
 msgstr "південний"
 
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:432
 msgid ""
 "_: weather\n"
 "SSE"
 msgstr "південно-південно-східний"
 
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:433
 msgid ""
 "_: weather\n"
 "SE"
 msgstr "південно-східний"
 
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:434
 msgid ""
 "_: weather\n"
 "ESE"
 msgstr "південно-східний"
 
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:435
 msgid ""
 "_: weather\n"
 "E"
 msgstr "східний"
 
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:436
 msgid ""
 "_: weather\n"
 "ENE"
 msgstr "північно-східний"
 
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:437
 msgid ""
 "_: weather\n"
 "NE"
 msgstr "північно-східний"
 
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:438
 msgid ""
 "_: weather\n"
 "NNE"
 msgstr "північно-північно-східний"
 
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:439
 msgid ""
 "_: weather\n"
 "VAR"
 msgstr "змінний"
 
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:440
 msgid ""
 "_: weather\n"
 "CALM"
 msgstr "відсутній"
 
-#: plugins/weather/weather.cpp:441
+#: plugins/weather/weather.cpp:442
 msgid ""
 "_: weather\n"
 "km"
 msgstr "км"
 
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:443
 msgid ""
 "_: weather\n"
 "mi"
 msgstr "миль"
 
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:444
 msgid ""
 "_: weather\n"
 "km/h"
 msgstr "км/год"
 
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:445
 msgid ""
 "_: weather\n"
 "mph"
 msgstr "миль/год"
 
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:446
 msgid ""
 "_: weather\n"
 "mmHg"
 msgstr "мм.рт.ст."
 
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:447
 msgid ""
 "_: weather\n"
 "inHg"
 msgstr "дюйм.рт.ст."
 
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:449
 msgid ""
 "_: weather\n"
 "Low"
 msgstr "cлабкою"
 
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:450
 msgid ""
 "_: weather\n"
 "Moderate"
 msgstr "помірною"
 
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:451
 msgid ""
 "_: weather\n"
 "High"
 msgstr "сильною"
 
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:453
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "New"
 msgstr "Повний"
 
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:454
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
 msgstr "Збільшення півмісяця"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:455
 msgid ""
 "_: moonphase\n"
 "First Quarter"
 msgstr "Початкова чверть"
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:456
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
 msgstr "Збільшення опуклості"
 
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:457
 msgid ""
 "_: moonphase\n"
 "Full"
 msgstr "Повний"
 
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:458
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
 msgstr "Зменшення опуклості"
 
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:459
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
 msgstr "Кінцева чверть"
 
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:460
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
 msgstr "Зменшення півмісяця"
 
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:472
 msgid "and"
 msgstr "і"
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "зранку"
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:478
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "під вечір"
 
-#: plugins/weather/weather.cpp:516 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
 msgid "m/s"
 msgstr "м/с"
 
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
 msgid "gust"
 msgstr "пориви"
 
-#: plugins/weather/weather.cpp:567
+#: plugins/weather/weather.cpp:568
 msgid "%t | %c"
 msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:576
+#: plugins/weather/weather.cpp:577
 msgid ""
 "_: weather\n"
 "Current Weather"
 msgstr "Актуальна погода"
 
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 msgid ""
 "_: weather\n"
 "Temperature"
 msgstr "Температура"
 
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 msgid ""
 "_: weather\n"
 "feels like"
 msgstr "відчувається"
 
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:580
 msgid ""
 "_: weather\n"
 "Humidity"
 msgstr "Вологість"
 
-#: plugins/weather/weather.cpp:580
+#: plugins/weather/weather.cpp:581
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
 msgstr "Ймовірність опадів"
 
-#: plugins/weather/weather.cpp:581
+#: plugins/weather/weather.cpp:582
 msgid ""
 "_: weather\n"
 "Pressure"
 msgstr "Тиск"
 
-#: plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:584
 msgid ""
 "_: weather\n"
 "Visibility"
 msgstr "Видимість"
 
-#: plugins/weather/weather.cpp:584
+#: plugins/weather/weather.cpp:585
 msgid ""
 "_: weather\n"
 "Dew Point"
 msgstr "Точка роси"
 
-#: plugins/weather/weather.cpp:585
+#: plugins/weather/weather.cpp:586
 msgid ""
 "_: weather\n"
 "Sunrise"
 msgstr "Схід"
 
-#: plugins/weather/weather.cpp:586
+#: plugins/weather/weather.cpp:587
 msgid ""
 "_: weather\n"
 "Sunset"
 msgstr "Захід"
 
-#: plugins/weather/weather.cpp:587
+#: plugins/weather/weather.cpp:588
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
 msgstr "УФ радіація є <b>%ut</b>, і рівна <b>%ui</b> (з 11)"
 
-#: plugins/weather/weather.cpp:588
+#: plugins/weather/weather.cpp:589
 msgid ""
 "_: weather\n"
 "Moonphase"
 msgstr "Фаза Місяця"
 
-#: plugins/weather/weather.cpp:591
+#: plugins/weather/weather.cpp:592
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr "Поновлено"
 
-#: plugins/weather/weather.cpp:599
+#: plugins/weather/weather.cpp:600
+#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
-"<img src=\"icon:weather%n\"> %c<br>\n"
-" Temperature: <b>%t</b><br>\n"
+"<img src=\"icon:weather%n\"><br>%c<br>\n"
+"Temperature: <b>%t</b><br>\n"
 msgstr ""
 "<br><br>\n"
 "<b>Прогноз на</b><br>\n"

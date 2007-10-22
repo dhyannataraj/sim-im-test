@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: swabian\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-18 14:16+0200\n"
+"POT-Creation-Date: 2007-10-22 12:42+0200\n"
 "PO-Revision-Date: 2005-04-20 21:08+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: schwäbisch <swabian@li.org>\n"
@@ -7627,644 +7627,651 @@ msgstr "Nebl"
 #, fuzzy
 msgid ""
 "_: weather\n"
+"Foggy"
+msgstr "Nebl"
+
+#: plugins/weather/weather.cpp:376
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Mist"
 msgstr "O"
 
-#: plugins/weather/weather.cpp:376
+#: plugins/weather/weather.cpp:377
 msgid ""
 "_: weather\n"
 "Haze"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:377
+#: plugins/weather/weather.cpp:378
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr "Schdurm"
-
-#: plugins/weather/weather.cpp:378
-#, fuzzy
-msgid ""
-"_: weather\n"
-"T-Storm"
 msgstr "Schdurm"
 
 #: plugins/weather/weather.cpp:379
 #, fuzzy
 msgid ""
 "_: weather\n"
-"T-Storms"
+"T-Storm"
 msgstr "Schdurm"
 
 #: plugins/weather/weather.cpp:380
 #, fuzzy
 msgid ""
 "_: weather\n"
+"T-Storms"
+msgstr "Schdurm"
+
+#: plugins/weather/weather.cpp:381
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Scattered T-Storms"
 msgstr "Vreinzeldr Schnee"
 
-#: plugins/weather/weather.cpp:381
+#: plugins/weather/weather.cpp:382
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Thunder"
 msgstr "Wend"
 
-#: plugins/weather/weather.cpp:382
+#: plugins/weather/weather.cpp:383
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Rain with Thunder"
 msgstr "Leichdr Rega"
 
-#: plugins/weather/weather.cpp:383
+#: plugins/weather/weather.cpp:384
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Thunder in the Vicinity"
 msgstr "Schaur"
 
-#: plugins/weather/weather.cpp:384
+#: plugins/weather/weather.cpp:385
 msgid ""
 "_: weather\n"
 "Rain"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:385
+#: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
 "Light Rain"
 msgstr "Leichdr Rega"
 
-#: plugins/weather/weather.cpp:386
+#: plugins/weather/weather.cpp:387
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Heavy Rain"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Freezing Rain"
 msgstr "Leichdr Nieselrega"
 
-#: plugins/weather/weather.cpp:388
+#: plugins/weather/weather.cpp:389
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Rain to Snow"
 msgstr "Leichdr Schnee"
 
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Snow"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Light Snow"
 msgstr "Leichdr Schnee"
 
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Few Snow"
 msgstr "Edwas Schnee"
 
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
 "Scattered Snow"
 msgstr "Vreinzeldr Schnee"
 
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:394
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Ice Crystals"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
 "Clear"
 msgstr "Klar"
 
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:396
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Clearing"
 msgstr "Klar"
 
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
 "Showers"
 msgstr "Schaur"
 
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:398
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
 msgstr "Schaur"
 
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:399
 msgid ""
 "_: weather\n"
 "Mostly Clear"
 msgstr "Meischd klar"
 
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
 "Sunny"
 msgstr "Sonning"
 
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
 "Fair"
 msgstr "Middelmässig"
 
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
 "Cloudy"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:403
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Clouds"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:404
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
 msgstr "Meischd bewelkd"
 
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:405
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
 msgstr "Doilweise bewelkd"
 
-#: plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
 msgid ""
 "_: weather\n"
 "Wind"
 msgstr "Wend"
 
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:407
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Windy"
 msgstr "Wend"
 
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:408
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr "Nieselrega"
-
-#: plugins/weather/weather.cpp:408
-#, fuzzy
-msgid ""
-"_: weather\n"
-"Heavy Drizzle"
 msgstr "Nieselrega"
 
 #: plugins/weather/weather.cpp:409
 #, fuzzy
 msgid ""
 "_: weather\n"
+"Heavy Drizzle"
+msgstr "Nieselrega"
+
+#: plugins/weather/weather.cpp:410
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Freezing Drizzle"
 msgstr "Leichdr Nieselrega"
 
-#: plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:412
 msgid ""
 "_: weather\n"
 "Light Drizzle"
 msgstr "Leichdr Nieselrega"
 
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:413
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Drifting Snow"
 msgstr "Leichdr Schnee"
 
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:414
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Snow Grains"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:415
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Light Snow Grains"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:416
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Scattered"
 msgstr "Vreinzeldr Schnee"
 
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:417
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
 msgstr "S"
 
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "Beschdändig"
 
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "Anschdeignd"
 
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
 "falling"
 msgstr "Fallend"
 
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Onbegrenzd"
 
-#: plugins/weather/weather.cpp:422
+#: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
 "N"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:424
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "NNW"
 
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:425
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "NW"
 
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:426
 msgid ""
 "_: weather\n"
 "WNW"
 msgstr "WNW"
 
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:427
 msgid ""
 "_: weather\n"
 "W"
 msgstr "W"
 
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:428
 msgid ""
 "_: weather\n"
 "WSW"
 msgstr "WSW"
 
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:429
 msgid ""
 "_: weather\n"
 "SW"
 msgstr "SW"
 
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
 "SSW"
 msgstr "SSW"
 
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
 "S"
 msgstr "S"
 
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:432
 msgid ""
 "_: weather\n"
 "SSE"
 msgstr "SSO"
 
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:433
 msgid ""
 "_: weather\n"
 "SE"
 msgstr "SO"
 
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:434
 msgid ""
 "_: weather\n"
 "ESE"
 msgstr "OSO"
 
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:435
 msgid ""
 "_: weather\n"
 "E"
 msgstr "O"
 
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:436
 msgid ""
 "_: weather\n"
 "ENE"
 msgstr "ONO"
 
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:437
 msgid ""
 "_: weather\n"
 "NE"
 msgstr "NO"
 
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:438
 msgid ""
 "_: weather\n"
 "NNE"
 msgstr "NNO"
 
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:439
 #, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:440
 #, fuzzy
 msgid ""
 "_: weather\n"
 "CALM"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:441
+#: plugins/weather/weather.cpp:442
 #, fuzzy
 msgid ""
 "_: weather\n"
 "km"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:443
 #, fuzzy
 msgid ""
 "_: weather\n"
 "mi"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:444
 #, fuzzy
 msgid ""
 "_: weather\n"
 "km/h"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:445
 #, fuzzy
 msgid ""
 "_: weather\n"
 "mph"
 msgstr "N"
 
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:446
 #, fuzzy
 msgid ""
 "_: weather\n"
 "mmHg"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:447
 #, fuzzy
 msgid ""
 "_: weather\n"
 "inHg"
 msgstr "Anschdeignd"
 
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:449
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Low"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:450
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Moderate"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:451
 #, fuzzy
 msgid ""
 "_: weather\n"
 "High"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:453
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "New"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:454
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:455
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "First Quarter"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:456
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
 msgstr "Wend"
 
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:457
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Full"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:458
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
 msgstr "Wend"
 
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:459
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:460
 #, fuzzy
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
 msgstr "Rega"
 
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:472
 msgid "and"
 msgstr "ond"
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:475
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "O"
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:478
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Nebl"
 
-#: plugins/weather/weather.cpp:516 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
 msgid "m/s"
 msgstr "m/s"
 
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
 #, fuzzy
 msgid "gust"
 msgstr "Behig"
 
-#: plugins/weather/weather.cpp:567
+#: plugins/weather/weather.cpp:568
 msgid "%t | %c"
 msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:576
+#: plugins/weather/weather.cpp:577
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Current Weather"
 msgstr "Klar"
 
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 msgid ""
 "_: weather\n"
 "Temperature"
 msgstr "Demberadur"
 
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 msgid ""
 "_: weather\n"
 "feels like"
 msgstr "gfihld wie"
 
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:580
 msgid ""
 "_: weather\n"
 "Humidity"
 msgstr "Feichdigkeid"
 
-#: plugins/weather/weather.cpp:580
+#: plugins/weather/weather.cpp:581
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
 msgstr "Schnee"
 
-#: plugins/weather/weather.cpp:581
+#: plugins/weather/weather.cpp:582
 msgid ""
 "_: weather\n"
 "Pressure"
 msgstr "Drugg"
 
-#: plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:584
 msgid ""
 "_: weather\n"
 "Visibility"
 msgstr "Sichdbarkeid"
 
-#: plugins/weather/weather.cpp:584
+#: plugins/weather/weather.cpp:585
 msgid ""
 "_: weather\n"
 "Dew Point"
 msgstr "Daubunkd"
 
-#: plugins/weather/weather.cpp:585
+#: plugins/weather/weather.cpp:586
 msgid ""
 "_: weather\n"
 "Sunrise"
 msgstr "Sonnenaufgang"
 
-#: plugins/weather/weather.cpp:586
+#: plugins/weather/weather.cpp:587
 msgid ""
 "_: weather\n"
 "Sunset"
 msgstr "Sonnenondergang"
 
-#: plugins/weather/weather.cpp:587
+#: plugins/weather/weather.cpp:588
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
 msgstr ""
 
-#: plugins/weather/weather.cpp:588
+#: plugins/weather/weather.cpp:589
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Moonphase"
 msgstr "Bewelkd"
 
-#: plugins/weather/weather.cpp:591
+#: plugins/weather/weather.cpp:592
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr "Akdualisierd"
 
-#: plugins/weather/weather.cpp:599
+#: plugins/weather/weather.cpp:600
 #, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
-"<img src=\"icon:weather%n\"> %c<br>\n"
-" Temperature: <b>%t</b><br>\n"
+"<img src=\"icon:weather%n\"><br>%c<br>\n"
+"Temperature: <b>%t</b><br>\n"
 msgstr ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"

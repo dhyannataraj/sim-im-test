@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-18 14:16+0200\n"
+"POT-Creation-Date: 2007-10-22 12:42+0200\n"
 "PO-Revision-Date: 2007-04-02 20:55+0100\n"
 "Last-Translator: Tomas Olah <tomas.olah@alert.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -8953,6 +8953,15 @@ msgstr "Hmla"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:375
+#, fuzzy
+msgid ""
+"_: weather\n"
+"Foggy"
+msgstr "Hmla"
+
+# libicq/country.cpp:406
+# libicq/country.cpp:452
+#: plugins/weather/weather.cpp:376
 msgid ""
 "_: weather\n"
 "Mist"
@@ -8960,7 +8969,7 @@ msgstr "Opar"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:376
+#: plugins/weather/weather.cpp:377
 msgid ""
 "_: weather\n"
 "Haze"
@@ -8968,7 +8977,7 @@ msgstr "Jemná hmla"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:377
+#: plugins/weather/weather.cpp:378
 msgid ""
 "_: weather\n"
 "Storm"
@@ -8976,7 +8985,7 @@ msgstr "Búrka"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:378
+#: plugins/weather/weather.cpp:379
 msgid ""
 "_: weather\n"
 "T-Storm"
@@ -8984,7 +8993,7 @@ msgstr "Hromobitie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:379
+#: plugins/weather/weather.cpp:380
 msgid ""
 "_: weather\n"
 "T-Storms"
@@ -8992,7 +9001,7 @@ msgstr "Hromobitia"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:380
+#: plugins/weather/weather.cpp:381
 msgid ""
 "_: weather\n"
 "Scattered T-Storms"
@@ -9000,7 +9009,7 @@ msgstr "Rozptýlené búrky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:381
+#: plugins/weather/weather.cpp:382
 msgid ""
 "_: weather\n"
 "Thunder"
@@ -9008,7 +9017,7 @@ msgstr "Hromy-blesky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:382
+#: plugins/weather/weather.cpp:383
 msgid ""
 "_: weather\n"
 "Light Rain with Thunder"
@@ -9016,7 +9025,7 @@ msgstr "Ľahký dážď s bleskami"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:383
+#: plugins/weather/weather.cpp:384
 msgid ""
 "_: weather\n"
 "Thunder in the Vicinity"
@@ -9024,7 +9033,7 @@ msgstr "Blýskanie v okolí"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:384
+#: plugins/weather/weather.cpp:385
 msgid ""
 "_: weather\n"
 "Rain"
@@ -9032,7 +9041,7 @@ msgstr "Dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:385
+#: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
 "Light Rain"
@@ -9040,7 +9049,7 @@ msgstr "Ľahký dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:386
+#: plugins/weather/weather.cpp:387
 msgid ""
 "_: weather\n"
 "Heavy Rain"
@@ -9048,7 +9057,7 @@ msgstr "Hustý dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
 msgid ""
 "_: weather\n"
 "Freezing Rain"
@@ -9056,7 +9065,7 @@ msgstr "Mrznúci dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:388
+#: plugins/weather/weather.cpp:389
 msgid ""
 "_: weather\n"
 "Rain to Snow"
@@ -9064,7 +9073,7 @@ msgstr "Snehoprš"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Snow"
@@ -9072,7 +9081,7 @@ msgstr "Sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Light Snow"
@@ -9080,7 +9089,7 @@ msgstr "Ľahké sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Few Snow"
@@ -9088,7 +9097,7 @@ msgstr "Občasné sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
 "Scattered Snow"
@@ -9096,7 +9105,7 @@ msgstr "Rozptýlené sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:394
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9105,7 +9114,7 @@ msgstr "Prehánky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
 "Clear"
@@ -9113,7 +9122,7 @@ msgstr "Jasno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:396
 msgid ""
 "_: weather\n"
 "Clearing"
@@ -9121,7 +9130,7 @@ msgstr "Vyjasnenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
 "Showers"
@@ -9129,7 +9138,7 @@ msgstr "Prehánky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:398
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
@@ -9137,7 +9146,7 @@ msgstr "Prehánky v okolí"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:399
 msgid ""
 "_: weather\n"
 "Mostly Clear"
@@ -9145,7 +9154,7 @@ msgstr "Prevažne jasno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
 "Sunny"
@@ -9153,7 +9162,7 @@ msgstr "Slnečno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
 "Fair"
@@ -9161,7 +9170,7 @@ msgstr "Vyjasnenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
 "Cloudy"
@@ -9169,7 +9178,7 @@ msgstr "Oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:403
 msgid ""
 "_: weather\n"
 "Clouds"
@@ -9177,7 +9186,7 @@ msgstr "Oblaky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:404
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
@@ -9185,7 +9194,7 @@ msgstr "Prevažne oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:405
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
@@ -9193,7 +9202,7 @@ msgstr "Čiastočne oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
 msgid ""
 "_: weather\n"
 "Wind"
@@ -9201,7 +9210,7 @@ msgstr "Vietor"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:407
 msgid ""
 "_: weather\n"
 "Windy"
@@ -9209,7 +9218,7 @@ msgstr "Veterne"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:408
 msgid ""
 "_: weather\n"
 "Drizzle"
@@ -9217,7 +9226,7 @@ msgstr "Mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:409
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9226,7 +9235,7 @@ msgstr "Mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:409
+#: plugins/weather/weather.cpp:410
 msgid ""
 "_: weather\n"
 "Freezing Drizzle"
@@ -9234,7 +9243,7 @@ msgstr "Mrznúce mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:412
 msgid ""
 "_: weather\n"
 "Light Drizzle"
@@ -9242,7 +9251,7 @@ msgstr "Ľahké mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:413
 msgid ""
 "_: weather\n"
 "Drifting Snow"
@@ -9250,7 +9259,7 @@ msgstr "Nestále sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:414
 msgid ""
 "_: weather\n"
 "Snow Grains"
@@ -9258,7 +9267,7 @@ msgstr "Snehové zrnká"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:415
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9267,7 +9276,7 @@ msgstr "Snehové zrnká"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:416
 msgid ""
 "_: weather\n"
 "Scattered"
@@ -9275,7 +9284,7 @@ msgstr "Kopovitá oblačnosť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:417
 msgid ""
 "_: weather\n"
 "Smoke"
@@ -9283,7 +9292,7 @@ msgstr "Dym"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
 "steady"
@@ -9291,7 +9300,7 @@ msgstr "stabilne"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
 "rising"
@@ -9299,7 +9308,7 @@ msgstr "svitanie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
 "falling"
@@ -9307,7 +9316,7 @@ msgstr "klesanie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "Unlimited"
@@ -9315,7 +9324,7 @@ msgstr "Neobmedzene"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:422
+#: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
 "N"
@@ -9323,7 +9332,7 @@ msgstr "S"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:424
 msgid ""
 "_: weather\n"
 "NNW"
@@ -9331,7 +9340,7 @@ msgstr "SSZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:425
 msgid ""
 "_: weather\n"
 "NW"
@@ -9339,7 +9348,7 @@ msgstr "SZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:426
 msgid ""
 "_: weather\n"
 "WNW"
@@ -9347,7 +9356,7 @@ msgstr "ZSZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:427
 msgid ""
 "_: weather\n"
 "W"
@@ -9355,7 +9364,7 @@ msgstr "Z"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:428
 msgid ""
 "_: weather\n"
 "WSW"
@@ -9363,7 +9372,7 @@ msgstr "ZJZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:429
 msgid ""
 "_: weather\n"
 "SW"
@@ -9371,7 +9380,7 @@ msgstr "JZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
 "SSW"
@@ -9379,7 +9388,7 @@ msgstr "JJZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
 "S"
@@ -9387,7 +9396,7 @@ msgstr "J"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:432
 msgid ""
 "_: weather\n"
 "SSE"
@@ -9395,7 +9404,7 @@ msgstr "JJV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:433
 msgid ""
 "_: weather\n"
 "SE"
@@ -9403,7 +9412,7 @@ msgstr "JV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:434
 msgid ""
 "_: weather\n"
 "ESE"
@@ -9411,7 +9420,7 @@ msgstr "VJV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:435
 msgid ""
 "_: weather\n"
 "E"
@@ -9419,7 +9428,7 @@ msgstr "V"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:436
 msgid ""
 "_: weather\n"
 "ENE"
@@ -9427,7 +9436,7 @@ msgstr "VSV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:437
 msgid ""
 "_: weather\n"
 "NE"
@@ -9435,7 +9444,7 @@ msgstr "SV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:438
 msgid ""
 "_: weather\n"
 "NNE"
@@ -9443,7 +9452,7 @@ msgstr "SSV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:439
 msgid ""
 "_: weather\n"
 "VAR"
@@ -9451,7 +9460,7 @@ msgstr "prem."
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:440
 msgid ""
 "_: weather\n"
 "CALM"
@@ -9459,7 +9468,7 @@ msgstr "bezvetrie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:441
+#: plugins/weather/weather.cpp:442
 msgid ""
 "_: weather\n"
 "km"
@@ -9467,7 +9476,7 @@ msgstr "km"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:443
 msgid ""
 "_: weather\n"
 "mi"
@@ -9475,7 +9484,7 @@ msgstr "míľ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:444
 msgid ""
 "_: weather\n"
 "km/h"
@@ -9483,7 +9492,7 @@ msgstr "km/h"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:445
 msgid ""
 "_: weather\n"
 "mph"
@@ -9491,7 +9500,7 @@ msgstr "mph"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:446
 msgid ""
 "_: weather\n"
 "mmHg"
@@ -9499,7 +9508,7 @@ msgstr "mmHg"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:447
 msgid ""
 "_: weather\n"
 "inHg"
@@ -9507,7 +9516,7 @@ msgstr "inHg"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:449
 msgid ""
 "_: weather\n"
 "Low"
@@ -9515,7 +9524,7 @@ msgstr "Nízka"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:450
 msgid ""
 "_: weather\n"
 "Moderate"
@@ -9523,13 +9532,13 @@ msgstr "Stredná"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:451
 msgid ""
 "_: weather\n"
 "High"
 msgstr "Vysoká"
 
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:453
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9538,13 +9547,13 @@ msgstr "Spln"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:454
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
 msgstr "Dorastajúci kosák"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:455
 msgid ""
 "_: moonphase\n"
 "First Quarter"
@@ -9552,13 +9561,13 @@ msgstr "Prvá štvrť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:456
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
 msgstr "Dorastajúci obojstranne vydutý"
 
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:457
 msgid ""
 "_: moonphase\n"
 "Full"
@@ -9566,13 +9575,13 @@ msgstr "Spln"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:458
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
 msgstr "Cúvajúci obojstranne vydutý"
 
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:459
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
@@ -9580,20 +9589,20 @@ msgstr "Posledná štvrť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:460
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
 msgstr "Cúvajúci kosák"
 
 # libicq/country.cpp:109
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:472
 msgid "and"
 msgstr "a"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:475
 msgid ""
 "_: weather\n"
 "Early"
@@ -9601,28 +9610,28 @@ msgstr "Skoro"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:478
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Neskôr"
 
-#: plugins/weather/weather.cpp:516 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
 msgid "m/s"
 msgstr "m/s"
 
 # ui/moreinfo.cpp:80
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
 msgid "gust"
 msgstr "nárazový "
 
-#: plugins/weather/weather.cpp:567
+#: plugins/weather/weather.cpp:568
 msgid "%t | %c"
 msgstr "%t | %c"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:576
+#: plugins/weather/weather.cpp:577
 msgid ""
 "_: weather\n"
 "Current Weather"
@@ -9630,7 +9639,7 @@ msgstr "Aktuálne počasie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 msgid ""
 "_: weather\n"
 "Temperature"
@@ -9638,7 +9647,7 @@ msgstr "Teplota"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 msgid ""
 "_: weather\n"
 "feels like"
@@ -9646,7 +9655,7 @@ msgstr "ako keby"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:580
 msgid ""
 "_: weather\n"
 "Humidity"
@@ -9654,7 +9663,7 @@ msgstr "Vlhkosť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:580
+#: plugins/weather/weather.cpp:581
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
@@ -9662,7 +9671,7 @@ msgstr "Pravdepodobnosť zrážok"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:581
+#: plugins/weather/weather.cpp:582
 msgid ""
 "_: weather\n"
 "Pressure"
@@ -9670,7 +9679,7 @@ msgstr "Tlak"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:584
 msgid ""
 "_: weather\n"
 "Visibility"
@@ -9678,7 +9687,7 @@ msgstr "Viditeľnosť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:584
+#: plugins/weather/weather.cpp:585
 msgid ""
 "_: weather\n"
 "Dew Point"
@@ -9686,7 +9695,7 @@ msgstr "Rosný bod"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:585
+#: plugins/weather/weather.cpp:586
 msgid ""
 "_: weather\n"
 "Sunrise"
@@ -9694,13 +9703,13 @@ msgstr "Východ slnka"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:586
+#: plugins/weather/weather.cpp:587
 msgid ""
 "_: weather\n"
 "Sunset"
 msgstr "Západ slnka"
 
-#: plugins/weather/weather.cpp:587
+#: plugins/weather/weather.cpp:588
 #, c-format
 msgid ""
 "_: weather\n"
@@ -9709,7 +9718,7 @@ msgstr "UV žiarenie je <b>%ut</b> s hodnotou <b>%ui</b> (z 11)"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:588
+#: plugins/weather/weather.cpp:589
 msgid ""
 "_: weather\n"
 "Moonphase"
@@ -9717,19 +9726,20 @@ msgstr "Fáza mesiaca"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:591
+#: plugins/weather/weather.cpp:592
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr "Aktualizované"
 
-#: plugins/weather/weather.cpp:599
+#: plugins/weather/weather.cpp:600
+#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
-"<img src=\"icon:weather%n\"> %c<br>\n"
-" Temperature: <b>%t</b><br>\n"
+"<img src=\"icon:weather%n\"><br>%c<br>\n"
+"Temperature: <b>%t</b><br>\n"
 msgstr ""
 "<br><br>\n"
 "<b>Predpoveď na</b><br>\n"

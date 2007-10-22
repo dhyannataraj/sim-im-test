@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sim\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-18 14:16+0200\n"
+"POT-Creation-Date: 2007-10-22 12:42+0200\n"
 "PO-Revision-Date: 2005-04-20 21:03+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Hungarian <translator@vgroup.hu>\n"
@@ -7613,10 +7613,19 @@ msgstr ""
 #, fuzzy
 msgid ""
 "_: weather\n"
+"Foggy"
+msgstr ""
+"Az idő: \n"
+"Ködös"
+
+#: plugins/weather/weather.cpp:376
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Mist"
 msgstr "K"
 
-#: plugins/weather/weather.cpp:376
+#: plugins/weather/weather.cpp:377
 msgid ""
 "_: weather\n"
 "Haze"
@@ -7624,19 +7633,10 @@ msgstr ""
 "Az idő: \n"
 "Párás"
 
-#: plugins/weather/weather.cpp:377
+#: plugins/weather/weather.cpp:378
 msgid ""
 "_: weather\n"
 "Storm"
-msgstr ""
-"Az idő: \n"
-"Vihar"
-
-#: plugins/weather/weather.cpp:378
-#, fuzzy
-msgid ""
-"_: weather\n"
-"T-Storm"
 msgstr ""
 "Az idő: \n"
 "Vihar"
@@ -7645,7 +7645,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "_: weather\n"
-"T-Storms"
+"T-Storm"
 msgstr ""
 "Az idő: \n"
 "Vihar"
@@ -7654,12 +7654,21 @@ msgstr ""
 #, fuzzy
 msgid ""
 "_: weather\n"
+"T-Storms"
+msgstr ""
+"Az idő: \n"
+"Vihar"
+
+#: plugins/weather/weather.cpp:381
+#, fuzzy
+msgid ""
+"_: weather\n"
 "Scattered T-Storms"
 msgstr ""
 "Az idő: \n"
 "Hózápor"
 
-#: plugins/weather/weather.cpp:381
+#: plugins/weather/weather.cpp:382
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7668,7 +7677,7 @@ msgstr ""
 "Az idő: \n"
 "Szél"
 
-#: plugins/weather/weather.cpp:382
+#: plugins/weather/weather.cpp:383
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7677,7 +7686,7 @@ msgstr ""
 "Az idő: \n"
 "Eső a környéken"
 
-#: plugins/weather/weather.cpp:383
+#: plugins/weather/weather.cpp:384
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7686,7 +7695,7 @@ msgstr ""
 "Az idő: \n"
 "Zivataros"
 
-#: plugins/weather/weather.cpp:384
+#: plugins/weather/weather.cpp:385
 msgid ""
 "_: weather\n"
 "Rain"
@@ -7694,7 +7703,7 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:385
+#: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
 "Light Rain"
@@ -7702,7 +7711,7 @@ msgstr ""
 "Az idő: \n"
 "Eső a környéken"
 
-#: plugins/weather/weather.cpp:386
+#: plugins/weather/weather.cpp:387
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7711,7 +7720,7 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:387 plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7720,7 +7729,7 @@ msgstr ""
 "Az idő: \n"
 "Szitáló eső a környéken"
 
-#: plugins/weather/weather.cpp:388
+#: plugins/weather/weather.cpp:389
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7729,7 +7738,7 @@ msgstr ""
 "Az idő: \n"
 "Hószálligózás"
 
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:390
 msgid ""
 "_: weather\n"
 "Snow"
@@ -7737,7 +7746,7 @@ msgstr ""
 "Az idő: \n"
 "Hó"
 
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Light Snow"
@@ -7745,7 +7754,7 @@ msgstr ""
 "Az idő: \n"
 "Hószálligózás"
 
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Few Snow"
@@ -7753,7 +7762,7 @@ msgstr ""
 "Az idő: \n"
 "Enyhe havazás"
 
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
 "Scattered Snow"
@@ -7761,7 +7770,7 @@ msgstr ""
 "Az idő: \n"
 "Hózápor"
 
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:394
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7770,7 +7779,7 @@ msgstr ""
 "Az idő: \n"
 "Borult"
 
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
 "Clear"
@@ -7778,7 +7787,7 @@ msgstr ""
 "Az idő: \n"
 "Tiszta"
 
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:396
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7787,7 +7796,7 @@ msgstr ""
 "Az idő: \n"
 "Tiszta"
 
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
 "Showers"
@@ -7795,7 +7804,7 @@ msgstr ""
 "Az idő: \n"
 "Zivataros"
 
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:398
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7804,7 +7813,7 @@ msgstr ""
 "Az idő: \n"
 "Zivataros"
 
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:399
 msgid ""
 "_: weather\n"
 "Mostly Clear"
@@ -7812,7 +7821,7 @@ msgstr ""
 "Az idő: \n"
 "Többnyire tiszta"
 
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
 "Sunny"
@@ -7820,7 +7829,7 @@ msgstr ""
 "Az idő: \n"
 "Napos"
 
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
 "Fair"
@@ -7828,7 +7837,7 @@ msgstr ""
 "Az idő: \n"
 "Jó"
 
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
 "Cloudy"
@@ -7836,7 +7845,7 @@ msgstr ""
 "Az idő: \n"
 "Felhős"
 
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:403
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7845,7 +7854,7 @@ msgstr ""
 "Az idő: \n"
 "Felhős"
 
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:404
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
@@ -7853,7 +7862,7 @@ msgstr ""
 "Az idő: \n"
 "Többnyire felhős"
 
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:405
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
@@ -7861,7 +7870,7 @@ msgstr ""
 "Az idő: \n"
 "Részben felhős"
 
-#: plugins/weather/weather.cpp:405 plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
 msgid ""
 "_: weather\n"
 "Wind"
@@ -7869,7 +7878,7 @@ msgstr ""
 "Az idő: \n"
 "Szél"
 
-#: plugins/weather/weather.cpp:406
+#: plugins/weather/weather.cpp:407
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7878,19 +7887,10 @@ msgstr ""
 "Az idő: \n"
 "Szél"
 
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:408
 msgid ""
 "_: weather\n"
 "Drizzle"
-msgstr ""
-"Az idő: \n"
-"Eső"
-
-#: plugins/weather/weather.cpp:408
-#, fuzzy
-msgid ""
-"_: weather\n"
-"Heavy Drizzle"
 msgstr ""
 "Az idő: \n"
 "Eső"
@@ -7899,15 +7899,16 @@ msgstr ""
 #, fuzzy
 msgid ""
 "_: weather\n"
-"Freezing Drizzle"
+"Heavy Drizzle"
 msgstr ""
 "Az idő: \n"
-"Szitáló eső a környéken"
+"Eső"
 
-#: plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:410
+#, fuzzy
 msgid ""
 "_: weather\n"
-"Light Drizzle"
+"Freezing Drizzle"
 msgstr ""
 "Az idő: \n"
 "Szitáló eső a környéken"
@@ -7915,12 +7916,20 @@ msgstr ""
 #: plugins/weather/weather.cpp:412
 msgid ""
 "_: weather\n"
+"Light Drizzle"
+msgstr ""
+"Az idő: \n"
+"Szitáló eső a környéken"
+
+#: plugins/weather/weather.cpp:413
+msgid ""
+"_: weather\n"
 "Drifting Snow"
 msgstr ""
 "Az idő: \n"
 "Enyhe havazás"
 
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:414
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7929,7 +7938,7 @@ msgstr ""
 "Az idő: \n"
 "Hó"
 
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:415
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -7938,7 +7947,7 @@ msgstr ""
 "Az idő: \n"
 "Hó"
 
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:416
 msgid ""
 "_: weather\n"
 "Scattered"
@@ -7946,26 +7955,26 @@ msgstr ""
 "Az idő: \n"
 "Hózápor"
 
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:417
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Smoke"
 msgstr "D"
 
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
 "steady"
 msgstr "állandó"
 
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
 "rising"
 msgstr "erősödő"
 
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
 "falling"
@@ -7973,116 +7982,116 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "Unlimited"
 msgstr "Korlátlan"
 
-#: plugins/weather/weather.cpp:422
+#: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
 "N"
 msgstr "É"
 
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:424
 msgid ""
 "_: weather\n"
 "NNW"
 msgstr "É-ÉNy"
 
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:425
 msgid ""
 "_: weather\n"
 "NW"
 msgstr "ÉNY"
 
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:426
 msgid ""
 "_: weather\n"
 "WNW"
 msgstr "Ny-ÉNy"
 
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:427
 msgid ""
 "_: weather\n"
 "W"
 msgstr "NY"
 
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:428
 msgid ""
 "_: weather\n"
 "WSW"
 msgstr "Ny-DNy"
 
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:429
 msgid ""
 "_: weather\n"
 "SW"
 msgstr "DNY"
 
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
 "SSW"
 msgstr "D-DNy"
 
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
 "S"
 msgstr "D"
 
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:432
 msgid ""
 "_: weather\n"
 "SSE"
 msgstr "D-DK"
 
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:433
 msgid ""
 "_: weather\n"
 "SE"
 msgstr "DK"
 
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:434
 msgid ""
 "_: weather\n"
 "ESE"
 msgstr "K-DK"
 
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:435
 msgid ""
 "_: weather\n"
 "E"
 msgstr "K"
 
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:436
 msgid ""
 "_: weather\n"
 "ENE"
 msgstr "K-ÉK"
 
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:437
 msgid ""
 "_: weather\n"
 "NE"
 msgstr "ÉK"
 
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:438
 msgid ""
 "_: weather\n"
 "NNE"
 msgstr "É-ÉK"
 
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:439
 #, fuzzy
 msgid ""
 "_: weather\n"
 "VAR"
 msgstr "É"
 
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:440
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8091,35 +8100,35 @@ msgstr ""
 "Az idő: \n"
 "Hó"
 
-#: plugins/weather/weather.cpp:441
+#: plugins/weather/weather.cpp:442
 #, fuzzy
 msgid ""
 "_: weather\n"
 "km"
 msgstr "É"
 
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:443
 #, fuzzy
 msgid ""
 "_: weather\n"
 "mi"
 msgstr "É"
 
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:444
 #, fuzzy
 msgid ""
 "_: weather\n"
 "km/h"
 msgstr "É"
 
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:445
 #, fuzzy
 msgid ""
 "_: weather\n"
 "mph"
 msgstr "É"
 
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:446
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8128,14 +8137,14 @@ msgstr ""
 "Az idő: \n"
 "Ködös"
 
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:447
 #, fuzzy
 msgid ""
 "_: weather\n"
 "inHg"
 msgstr "erősödő"
 
-#: plugins/weather/weather.cpp:448
+#: plugins/weather/weather.cpp:449
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8144,7 +8153,7 @@ msgstr ""
 "Az idő: \n"
 "Hó"
 
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:450
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8153,7 +8162,7 @@ msgstr ""
 "Az idő: \n"
 "Borult"
 
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:451
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8162,7 +8171,7 @@ msgstr ""
 "Az idő: \n"
 "Ködös"
 
-#: plugins/weather/weather.cpp:452
+#: plugins/weather/weather.cpp:453
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -8171,7 +8180,7 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:454
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -8180,7 +8189,7 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:455
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -8189,7 +8198,7 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:456
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -8198,7 +8207,7 @@ msgstr ""
 "Az idő: \n"
 "Szél"
 
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:457
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -8207,7 +8216,7 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:458
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -8216,7 +8225,7 @@ msgstr ""
 "Az idő: \n"
 "Szél"
 
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:459
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -8225,7 +8234,7 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:460
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -8234,18 +8243,18 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:471
+#: plugins/weather/weather.cpp:472
 msgid "and"
 msgstr "és"
 
-#: plugins/weather/weather.cpp:474
+#: plugins/weather/weather.cpp:475
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Early"
 msgstr "K"
 
-#: plugins/weather/weather.cpp:477
+#: plugins/weather/weather.cpp:478
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8254,20 +8263,20 @@ msgstr ""
 "Az idő: \n"
 "Párás"
 
-#: plugins/weather/weather.cpp:516 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
 msgid "m/s"
 msgstr "m/s"
 
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:518
+#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
 #, fuzzy
 msgid "gust"
 msgstr "vihar"
 
-#: plugins/weather/weather.cpp:567
+#: plugins/weather/weather.cpp:568
 msgid "%t | %c"
 msgstr "%t | %c"
 
-#: plugins/weather/weather.cpp:576
+#: plugins/weather/weather.cpp:577
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8276,13 +8285,13 @@ msgstr ""
 "Az idő: \n"
 "Tiszta"
 
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 msgid ""
 "_: weather\n"
 "Temperature"
 msgstr "Hőmérséklet"
 
-#: plugins/weather/weather.cpp:578
+#: plugins/weather/weather.cpp:579
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8291,13 +8300,13 @@ msgstr ""
 "Az idő: \n"
 "Esős"
 
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:580
 msgid ""
 "_: weather\n"
 "Humidity"
 msgstr "Páratartalom"
 
-#: plugins/weather/weather.cpp:580
+#: plugins/weather/weather.cpp:581
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8306,44 +8315,44 @@ msgstr ""
 "Az idő: \n"
 "Hó"
 
-#: plugins/weather/weather.cpp:581
+#: plugins/weather/weather.cpp:582
 msgid ""
 "_: weather\n"
 "Pressure"
 msgstr "Nyomás"
 
-#: plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:584
 msgid ""
 "_: weather\n"
 "Visibility"
 msgstr "Látási viszonyok"
 
-#: plugins/weather/weather.cpp:584
+#: plugins/weather/weather.cpp:585
 msgid ""
 "_: weather\n"
 "Dew Point"
 msgstr "Fagypont"
 
-#: plugins/weather/weather.cpp:585
+#: plugins/weather/weather.cpp:586
 msgid ""
 "_: weather\n"
 "Sunrise"
 msgstr "Napkelte"
 
-#: plugins/weather/weather.cpp:586
+#: plugins/weather/weather.cpp:587
 msgid ""
 "_: weather\n"
 "Sunset"
 msgstr "Napnyugta"
 
-#: plugins/weather/weather.cpp:587
+#: plugins/weather/weather.cpp:588
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
 msgstr ""
 
-#: plugins/weather/weather.cpp:588
+#: plugins/weather/weather.cpp:589
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -8352,19 +8361,20 @@ msgstr ""
 "Az idő: \n"
 "Borult"
 
-#: plugins/weather/weather.cpp:591
+#: plugins/weather/weather.cpp:592
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr "Frissítve"
 
-#: plugins/weather/weather.cpp:599
+#: plugins/weather/weather.cpp:600
+#, fuzzy
 msgid ""
 "<br><br>\n"
 "<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
-"<img src=\"icon:weather%n\"> %c<br>\n"
-" Temperature: <b>%t</b><br>\n"
+"<img src=\"icon:weather%n\"><br>%c<br>\n"
+"Temperature: <b>%t</b><br>\n"
 msgstr ""
 "<br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
