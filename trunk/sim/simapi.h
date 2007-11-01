@@ -78,9 +78,12 @@
         A(const A&); \
         A &operator = (const A&);
 #endif
-#include <list>
-#include <map>
-#include <string>
-#include <xutility>
-#include <vector>
+#ifdef WIN32
+	#include <list>
+	#include <map>
+	#include <string>
+	#include <xutility>
+	#include <vector>
+#endif
+	
 #endif // _SIMAPI_H
