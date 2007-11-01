@@ -21,6 +21,7 @@
 #include <qcstring.h>
 #include <qobject.h>
 #include <vector>
+#include "simapi.h"
 
 class SerialPort;
 class QTimer;

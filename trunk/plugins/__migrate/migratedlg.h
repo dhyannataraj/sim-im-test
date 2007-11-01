@@ -22,6 +22,7 @@
 
 #include <qcheckbox.h>
 #include <qfile.h>
+#include "simapi.h"
 
 class MigrateDialog : public MigrateDialogBase
 {
