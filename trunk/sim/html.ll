@@ -70,9 +70,9 @@ static std::string current_tag;
 <s_tag>[A-Za-z]+			{ BEGIN(s_attr); return ATTR; }
 <s_tag>.					{ return SKIP; }
 <s_attr>"="					{ BEGIN(s_value); return SKIP; }
-<s_attr>">"					{ if (current_tag == "script"){
+<s_attr>">"					{ if (current_tag.compare("script")==0){
 							    BEGIN(s_script);
-							  }else if (current_tag == "style"){
+							  }else if (current_tag.compare("style")==0){
 							    BEGIN(s_style);
 							  }else{
 								BEGIN(INITIAL); 
