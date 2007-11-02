@@ -65,17 +65,17 @@ static QString makeCapStr( const capability cap, unsigned size )
 
 void ICQClient::snac_buddy(unsigned short type, unsigned short)
 {
-    QString screen;
-    Contact *contact;
-    ICQUserData *data;
     switch (type){
     case ICQ_SNACxBDY_RIGHTSxGRANTED:
         log(L_DEBUG, "Buddy rights granted");
         break;
-    case ICQ_SNACxBDY_USEROFFLINE:
-        screen = socket()->readBuffer().unpackScreen();
-        data = findContact(screen, NULL, false, contact);
-        if (data && (data->Status.toULong() != ICQ_STATUS_OFFLINE)){
+    case ICQ_SNACxBDY_USEROFFLINE: {
+        Contact *contact;
+        QString screen = socket()->readBuffer().unpackScreen();
+        ICQUserData *data = findContact(screen, NULL, false, contact);
+        if(!data)
+            break;
+        if (data->Status.toULong() != ICQ_STATUS_OFFLINE){
             setOffline(data);
             StatusMessage *m = new StatusMessage;
             m->setContact(contact->id());
@@ -85,11 +85,17 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             EventMessageReceived e(m);
             if(!e.process())
                 delete m;
+        } else {
+            // hack for trillian
+            EventContact e(contact, EventContact::eOnline);
+            e.process();
         }
         break;
-    case ICQ_SNACxBDY_USERONLINE:
-        screen = socket()->readBuffer().unpackScreen();
-        data = findContact(screen, NULL, false, contact);
+    }
+    case ICQ_SNACxBDY_USERONLINE: {
+        Contact *contact;
+        QString screen = socket()->readBuffer().unpackScreen();
+        ICQUserData *data = findContact(screen, NULL, false, contact);
         if (data){
             bool bChanged     = false;
             bool bAwayChanged = false;
@@ -489,6 +495,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             }
         }
         break;
+    }
     default:
         log(L_WARN, "Unknown buddy family type %04X", type);
     }
