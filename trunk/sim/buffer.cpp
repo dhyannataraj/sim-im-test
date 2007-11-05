@@ -160,7 +160,7 @@ Buffer &Buffer::operator << (unsigned short c)
 Buffer &Buffer::operator << (long c)
 {
     /* XXX:
-     * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
+       FIXME WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     c = htonl(c);
     pack((char*)&c, 4);
     return *this;
@@ -184,7 +184,7 @@ Buffer &Buffer::operator >> (unsigned short &c)
 Buffer &Buffer::operator >> (long &c)
 {
     /* XXX:
-     * WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
+       FIXME WARNING! BUG HERE. sizeof(long) is not 4 on 64bit platform */
     if (unpack((char*)&c, 4) != 4)
         c = 0;
     c = ntohl(c);
