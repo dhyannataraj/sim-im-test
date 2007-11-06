@@ -1,16 +1,5 @@
 dist_sounds_DATA = \
- alert.wav \
- auth.wav \
- filedone.wav \
- file.wav \
- message.wav \
- msgsent.wav \
- sms.wav \
- startup.wav \
- contacts.wav \
- url.wav \
- system.wav \
- message2.wav \
- vip-online.wav
+ *.wav \
+ *.ogg
 
 soundsdir = $(kde_datadir)/sim/sounds/
