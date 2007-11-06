@@ -2205,8 +2205,8 @@ bool JabberClient::send(Message *msg, void *_data)
             if ((contact == NULL) || (data == NULL))
                 return false;
             ContactsMessage *m = static_cast<ContactsMessage*>(msg);
-            list<QString> jids;
-            list<QString> names;
+            QStringList jids;
+            QStringList names;
             QString contacts = m->getContacts();
             QString nc;
             while (!contacts.isEmpty()){
@@ -2223,8 +2223,8 @@ bool JabberClient::send(Message *msg, void *_data)
                             if (!isMyData(data, c))
                                 continue;
                             JabberUserData *d = (JabberUserData*)data;
-                            jids.push_back(d->ID.str());
-                            names.push_back(c->getName());
+                            jids.append(d->ID.str());
+                            names.append(c->getName());
                             if (!nc.isEmpty())
                                 nc += ';';
                             nc += "jabber:";
@@ -2242,7 +2242,7 @@ bool JabberClient::send(Message *msg, void *_data)
                     }
                 }
             }
-            if (jids.empty()){
+            if (jids.isEmpty()){
                 msg->setError(I18N_NOOP("No contacts for send"));
                 EventMessageSent(msg).process();
                 delete msg;
@@ -2259,9 +2259,9 @@ bool JabberClient::send(Message *msg, void *_data)
             }
             socket()->writeBuffer()
                 << "\'>\n<x xmlns='jabber:x:roster'>\n";
-            list<QString>::iterator iti = jids.begin();
-            list<QString>::iterator itn = names.begin();
-            for (; iti != jids.end(); ++iti, ++itn){
+            QStringList::ConstIterator iti = jids.constBegin();
+            QStringList::ConstIterator itn = names.constBegin();
+            for (; iti != jids.constEnd(); ++iti, ++itn){
                 socket()->writeBuffer()
                     << "<item name=\'"
                     << encodeXML(*itn)
@@ -2271,8 +2271,8 @@ bool JabberClient::send(Message *msg, void *_data)
             }
             socket()->writeBuffer()
                 << "</x>\n<body>";
-            iti = jids.begin();
-            for (; iti != jids.end(); ++iti, ++itn){
+            iti = jids.constBegin();
+            for (; iti != jids.constEnd(); ++iti, ++itn){
                 socket()->writeBuffer()
                     << encodeXML(*iti)
                     << "\n";
@@ -2282,8 +2282,8 @@ bool JabberClient::send(Message *msg, void *_data)
             if (data->richText.toBool() && getRichText()){
                 socket()->writeBuffer()
                     << "<html xmlns='http://jabber.org/protocol/xhtml-im'>\n<body>";
-                iti = jids.begin();
-                for (; iti != jids.end(); ++iti, ++itn){
+                iti = jids.constBegin();
+                for (; iti != jids.constEnd(); ++iti, ++itn){
                     socket()->writeBuffer()
                         << encodeXML(*iti)
                         << "<br/>\n";
