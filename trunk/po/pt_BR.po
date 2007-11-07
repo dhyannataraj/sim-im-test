@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-22 12:42+0200\n"
+"POT-Creation-Date: 2007-11-07 13:18+0100\n"
 "PO-Revision-Date: 2005-04-20 21:07+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Brazilian Portuguese\n"
@@ -93,8 +93,8 @@ msgstr "Definir diretório home"
 #: rc.cpp:1350 rc.cpp:1358 rc.cpp:1387 rc.cpp:1399 rc.cpp:1443 rc.cpp:1564
 #: rc.cpp:1616 rc.cpp:1650 rc.cpp:1671 rc.cpp:1695 rc.cpp:1860 rc.cpp:1993
 #: rc.cpp:2035 rc.cpp:2066 rc.cpp:2072 rc.cpp:2091 rc.cpp:2152 rc.cpp:2158
-#: rc.cpp:2173 rc.cpp:2188 rc.cpp:2212 rc.cpp:2276 rc.cpp:2311 rc.cpp:2326
-#: rc.cpp:2338 rc.cpp:2362 rc.cpp:2402 rc.cpp:2418
+#: rc.cpp:2173 rc.cpp:2188 rc.cpp:2212 rc.cpp:2276 rc.cpp:2292 rc.cpp:2333
+#: rc.cpp:2348 rc.cpp:2360 rc.cpp:2384 rc.cpp:2424 rc.cpp:2440
 #, no-c-format
 msgid "Form1"
 msgstr "Formulário1"
@@ -187,7 +187,7 @@ msgid "Convert configuration"
 msgstr "Converter a configuração"
 
 #: plugins/_core/arcfg.cpp:98 plugins/_core/autoreply.cpp:134
-#: plugins/weather/wifacecfg.cpp:112
+#: plugins/weather/wifacecfg.cpp:114
 msgid "In text you can use:"
 msgstr ""
 
@@ -205,7 +205,7 @@ msgstr "Substituir c&onfiguração global"
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
 #: plugins/weather/wifacecfgbase.cpp:84 rc.cpp:1702 rc.cpp:1714 rc.cpp:2185
-#: rc.cpp:2341 rc.cpp:2353 sim/misc.cpp:413
+#: rc.cpp:2363 rc.cpp:2375 sim/misc.cpp:413
 #, fuzzy, no-c-format
 msgid "&Help"
 msgstr "Ajuda"
@@ -272,8 +272,8 @@ msgstr "Não mostrar esta janela"
 #: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289
 #: plugins/proxy/proxyerrorbase.cpp:80 rc.cpp:49 rc.cpp:397 rc.cpp:918
 #: rc.cpp:1006 rc.cpp:1027 rc.cpp:1381 rc.cpp:1540 rc.cpp:1558 rc.cpp:1718
-#: rc.cpp:1733 rc.cpp:1769 rc.cpp:1785 rc.cpp:1974 rc.cpp:2356 rc.cpp:2396
-#: rc.cpp:2455 sim/misc.cpp:407
+#: rc.cpp:1733 rc.cpp:1769 rc.cpp:1785 rc.cpp:1974 rc.cpp:2378 rc.cpp:2418
+#: rc.cpp:2477 sim/misc.cpp:407
 #, no-c-format
 msgid "&OK"
 msgstr "&OK"
@@ -304,8 +304,8 @@ msgstr "&OK"
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
 #: plugins/weather/weathercfg.cpp:81 rc.cpp:52 rc.cpp:921 rc.cpp:933
 #: rc.cpp:1010 rc.cpp:1030 rc.cpp:1117 rc.cpp:1384 rc.cpp:1561 rc.cpp:1613
-#: rc.cpp:1721 rc.cpp:1736 rc.cpp:1772 rc.cpp:1788 rc.cpp:1977 rc.cpp:2359
-#: rc.cpp:2399 rc.cpp:2415 rc.cpp:2458 sim/misc.cpp:410
+#: rc.cpp:1721 rc.cpp:1736 rc.cpp:1772 rc.cpp:1788 rc.cpp:1977 rc.cpp:2381
+#: rc.cpp:2421 rc.cpp:2437 rc.cpp:2480 sim/misc.cpp:410
 #, no-c-format
 msgid "&Cancel"
 msgstr "&Cancelar"
@@ -559,7 +559,7 @@ msgstr "&Histórico"
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:122 plugins/icq/securedlg.cpp:104
 #: plugins/jabber/discoinfobase.cpp:290 rc.cpp:400 rc.cpp:1543 rc.cpp:1961
-#: rc.cpp:2307 sim/misc.cpp:410
+#: rc.cpp:2329 sim/misc.cpp:410
 #, no-c-format
 msgid "&Close"
 msgstr "&Fechar"
@@ -578,7 +578,7 @@ msgstr "Inseri&r smile"
 # plugins/forward/forwardcfgbase.cpp:106
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 94
 #: plugins/_core/core.cpp:618 plugins/forward/forwardcfgbase.cpp:75
-#: rc.cpp:2289
+#: rc.cpp:2289 rc.cpp:2298
 #, no-c-format
 msgid "Send in &translit"
 msgstr ""
@@ -835,7 +835,7 @@ msgstr "&Renomear"
 #: plugins/_core/core.cpp:1273 plugins/_core/historycfgbase.cpp:189
 #: plugins/_core/logindlgbase.cpp:142 plugins/_core/maininfobase.cpp:195
 #: plugins/_core/maininfobase.cpp:205 plugins/action/menucfgbase.cpp:70
-#: rc.cpp:1460 rc.cpp:1890 rc.cpp:1914 rc.cpp:1990 rc.cpp:2335
+#: rc.cpp:1460 rc.cpp:1890 rc.cpp:1914 rc.cpp:1990 rc.cpp:2357
 #: sim/listview.cpp:41
 #, no-c-format
 msgid "&Delete"
@@ -922,7 +922,7 @@ msgstr "Entrar o motivo da rejeição"
 #: plugins/_core/core.cpp:1252 plugins/_core/core.cpp:1266
 #: plugins/_core/maininfobase.cpp:194 plugins/_core/maininfobase.cpp:204
 #: plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:84
-#: rc.cpp:1887 rc.cpp:1911 rc.cpp:2332
+#: rc.cpp:1887 rc.cpp:1911 rc.cpp:2354
 #, no-c-format
 msgid "&Edit"
 msgstr "&Editar"
@@ -1059,7 +1059,7 @@ msgstr "de %1"
 
 # plugins/_core/core.cpp:2004
 #. i18n: file ./plugins/icons/iconcfgbase.ui line 76
-#: plugins/_core/core.cpp:2542 plugins/icons/iconcfgbase.cpp:77 rc.cpp:2323
+#: plugins/_core/core.cpp:2542 plugins/icons/iconcfgbase.cpp:77 rc.cpp:2345
 #, no-c-format
 msgid "&New"
 msgstr "&Novo"
@@ -2025,7 +2025,7 @@ msgstr "Endereço de Email"
 #. i18n: file ./plugins/_core/maininfobase.ui line 278
 #: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203
 #: plugins/_core/search.cpp:138 plugins/action/menucfgbase.cpp:68 rc.cpp:1884
-#: rc.cpp:1908 rc.cpp:2329
+#: rc.cpp:1908 rc.cpp:2351
 #, no-c-format
 msgid "&Add"
 msgstr "&Adicionar"
@@ -2111,7 +2111,7 @@ msgstr "&Configurar"
 # plugins/_core/toolsetupbase.cc:132 plugins/_core/toolsetupbase.cpp:132
 #. i18n: file ./plugins/_core/toolsetupbase.ui line 253
 #: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132
-#: plugins/icons/iconcfgbase.cpp:74 rc.cpp:1531 rc.cpp:1946 rc.cpp:2314
+#: plugins/icons/iconcfgbase.cpp:74 rc.cpp:1531 rc.cpp:1946 rc.cpp:2336
 #, no-c-format
 msgid "&Up"
 msgstr "&Acima"
@@ -2120,7 +2120,7 @@ msgstr "&Acima"
 # plugins/_core/toolsetupbase.cc:133 plugins/_core/toolsetupbase.cpp:133
 #. i18n: file ./plugins/_core/toolsetupbase.ui line 264
 #: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133
-#: plugins/icons/iconcfgbase.cpp:75 rc.cpp:1534 rc.cpp:1952 rc.cpp:2317
+#: plugins/icons/iconcfgbase.cpp:75 rc.cpp:1534 rc.cpp:1952 rc.cpp:2339
 #, no-c-format
 msgid "&Down"
 msgstr "A&baixo"
@@ -2128,7 +2128,7 @@ msgstr "A&baixo"
 # plugins/_core/managerbase.cc:108 plugins/_core/managerbase.cpp:108
 #. i18n: file ./plugins/_core/managerbase.ui line 101
 #: plugins/_core/managerbase.cpp:108 plugins/icons/iconcfgbase.cpp:76
-#: rc.cpp:1955 rc.cpp:2320
+#: rc.cpp:1955 rc.cpp:2342
 #, no-c-format
 msgid "&Remove"
 msgstr "&Remover"
@@ -3015,7 +3015,7 @@ msgstr "para %1"
 
 # plugins/about/about.cpp:38 plugins/about/aboutdlgbase.cpp:152
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 45
-#: plugins/about/about.cpp:43 plugins/about/aboutdlgbase.cpp:118 rc.cpp:2295
+#: plugins/about/about.cpp:43 plugins/about/aboutdlgbase.cpp:118 rc.cpp:2317
 #, no-c-format
 msgid "About"
 msgstr "Sobre"
@@ -3058,28 +3058,28 @@ msgstr "Nota: é uma lista em inglęs"
 
 # plugins/about/aboutdlgbase.cpp:149
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 20
-#: plugins/about/aboutdlgbase.cpp:117 rc.cpp:2292
+#: plugins/about/aboutdlgbase.cpp:117 rc.cpp:2314
 #, no-c-format
 msgid "About SIM"
 msgstr "Sobre o SIM"
 
 # plugins/about/aboutdlgbase.cpp:153
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 73
-#: plugins/about/aboutdlgbase.cpp:119 rc.cpp:2298
+#: plugins/about/aboutdlgbase.cpp:119 rc.cpp:2320
 #, no-c-format
 msgid "Authors"
 msgstr "Autores"
 
 # plugins/about/aboutdlgbase.cpp:154
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 108
-#: plugins/about/aboutdlgbase.cpp:120 rc.cpp:2301
+#: plugins/about/aboutdlgbase.cpp:120 rc.cpp:2323
 #, no-c-format
 msgid "Translation"
 msgstr "Traduçăo"
 
 # plugins/about/aboutdlgbase.cpp:155
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 136
-#: plugins/about/aboutdlgbase.cpp:121 rc.cpp:2304
+#: plugins/about/aboutdlgbase.cpp:121 rc.cpp:2326
 #, no-c-format
 msgid "License"
 msgstr "Licença"
@@ -3141,7 +3141,7 @@ msgstr ""
 # plugins/_core/toolsetupbase.cc:126 plugins/_core/toolsetupbase.cc:131
 # plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131
 #. i18n: file ./plugins/action/additembase.ui line 20
-#: plugins/action/additembase.cpp:91 rc.cpp:2344
+#: plugins/action/additembase.cpp:91 rc.cpp:2366
 #, fuzzy, no-c-format
 msgid "Add Item"
 msgstr "Novo Item"
@@ -3149,13 +3149,13 @@ msgstr "Novo Item"
 # plugins/_core/toolsetupbase.cc:126 plugins/_core/toolsetupbase.cc:131
 # plugins/_core/toolsetupbase.cpp:126 plugins/_core/toolsetupbase.cpp:131
 #. i18n: file ./plugins/action/additembase.ui line 43
-#: plugins/action/additembase.cpp:92 rc.cpp:2347
+#: plugins/action/additembase.cpp:92 rc.cpp:2369
 #, fuzzy, no-c-format
 msgid "Item:"
 msgstr "Novo Item"
 
 #. i18n: file ./plugins/action/additembase.ui line 61
-#: plugins/action/additembase.cpp:93 rc.cpp:2350
+#: plugins/action/additembase.cpp:93 rc.cpp:2372
 #, fuzzy, no-c-format
 msgid "Program:"
 msgstr "&Programa"
@@ -3516,7 +3516,7 @@ msgstr "Este plugin fornece mensagens de encaminhamento para o celular"
 
 # plugins/forward/forwardcfgbase.cpp:102
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 39
-#: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:2279
+#: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:2279 rc.cpp:2295
 #, no-c-format
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
 msgstr ""
@@ -3525,7 +3525,7 @@ msgstr ""
 
 # plugins/forward/forwardcfgbase.cpp:103
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 65
-#: plugins/forward/forwardcfgbase.cpp:72 rc.cpp:2282
+#: plugins/forward/forwardcfgbase.cpp:72 rc.cpp:2282 rc.cpp:2310
 #, no-c-format
 msgid ""
 "For the answer or sending of the new message you can answer on SMS having "
@@ -3538,7 +3538,7 @@ msgstr ""
 
 # plugins/forward/forwardcfgbase.cpp:105
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 83
-#: plugins/forward/forwardcfgbase.cpp:74 rc.cpp:2286
+#: plugins/forward/forwardcfgbase.cpp:74 rc.cpp:2286 rc.cpp:2304
 #, no-c-format
 msgid "Send only &one message (don't split)"
 msgstr "Envie apenas &uma mensagem (não dividir)"
@@ -3596,53 +3596,53 @@ msgid "Can't read gpg key "
 msgstr "Impossível criar: %1"
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 39
-#: plugins/gpg/gpgadvbase.cpp:125 rc.cpp:2365
+#: plugins/gpg/gpgadvbase.cpp:125 rc.cpp:2387
 #, no-c-format
 msgid "Command arguments"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 58
-#: plugins/gpg/gpgadvbase.cpp:126 rc.cpp:2368
+#: plugins/gpg/gpgadvbase.cpp:126 rc.cpp:2390
 #, fuzzy, no-c-format
 msgid "Generate key:"
 msgstr "General"
 
 # plugins/jabber/jabberconfig.cpp:68
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 76
-#: plugins/gpg/gpgadvbase.cpp:127 rc.cpp:2371
+#: plugins/gpg/gpgadvbase.cpp:127 rc.cpp:2393
 #, fuzzy, no-c-format
 msgid "List public keys:"
 msgstr "Lista de servidores públicos"
 
 # plugins/jabber/jabberconfig.cpp:68
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 94
-#: plugins/gpg/gpgadvbase.cpp:128 rc.cpp:2374
+#: plugins/gpg/gpgadvbase.cpp:128 rc.cpp:2396
 #, fuzzy, no-c-format
 msgid "List secret keys:"
 msgstr "Lista de servidores públicos"
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 133
-#: plugins/gpg/gpgadvbase.cpp:129 rc.cpp:2377
+#: plugins/gpg/gpgadvbase.cpp:129 rc.cpp:2399
 #, no-c-format
 msgid "Import public:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 158
-#: plugins/gpg/gpgadvbase.cpp:130 rc.cpp:2380
+#: plugins/gpg/gpgadvbase.cpp:130 rc.cpp:2402
 #, no-c-format
 msgid "Export public:"
 msgstr ""
 
 # sim/api/country.cpp:87
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 183
-#: plugins/gpg/gpgadvbase.cpp:131 rc.cpp:2383
+#: plugins/gpg/gpgadvbase.cpp:131 rc.cpp:2405
 #, fuzzy, no-c-format
 msgid "Encrypt:"
 msgstr "Egipto"
 
 # sim/api/country.cpp:87
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 208
-#: plugins/gpg/gpgadvbase.cpp:132 rc.cpp:2386
+#: plugins/gpg/gpgadvbase.cpp:132 rc.cpp:2408
 #, fuzzy, no-c-format
 msgid "Decrypt:"
 msgstr "Egipto"
@@ -3696,41 +3696,41 @@ msgid "Get secret list failed"
 msgstr "General"
 
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 39
-#: plugins/gpg/gpgcfgbase.cpp:106 rc.cpp:2421
+#: plugins/gpg/gpgcfgbase.cpp:106 rc.cpp:2443
 #, no-c-format
 msgid "Executable:"
 msgstr ""
 
 # plugins/__homedir/homedir.cpp:47
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 71
-#: plugins/gpg/gpgcfgbase.cpp:107 rc.cpp:2424
+#: plugins/gpg/gpgcfgbase.cpp:107 rc.cpp:2446
 #, fuzzy, no-c-format
 msgid "Home directory:"
 msgstr "Diretório home"
 
 #. i18n: file ./plugins/spell/spellcfgbase.ui line 86
-#: plugins/gpg/gpgcfgbase.cpp:108 rc.cpp:1126 rc.cpp:2427
+#: plugins/gpg/gpgcfgbase.cpp:108 rc.cpp:1126 rc.cpp:2449
 #, fuzzy, no-c-format
 msgid "&Find"
 msgstr "Buscar"
 
 # sim/api/country.cpp:244
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 181
-#: plugins/gpg/gpgcfgbase.cpp:109 rc.cpp:2430
+#: plugins/gpg/gpgcfgbase.cpp:109 rc.cpp:2452
 #, fuzzy, no-c-format
 msgid "Your key:"
 msgstr "TurquĂ­a"
 
 # plugins/_core/msgedit.cpp:688
 #. i18n: file ./plugins/gpg/gpguserbase.ui line 71
-#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69 rc.cpp:2408
-#: rc.cpp:2433
+#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69 rc.cpp:2430
+#: rc.cpp:2455
 #, fuzzy, no-c-format
 msgid "&Refresh"
 msgstr "&Rejeitar"
 
 #. i18n: file ./plugins/gpg/gpgfindbase.ui line 20
-#: plugins/gpg/gpgfindbase.cpp:68 rc.cpp:2411
+#: plugins/gpg/gpgfindbase.cpp:68 rc.cpp:2433
 #, fuzzy, no-c-format
 msgid "Find GPG"
 msgstr "Buscar"
@@ -3745,7 +3745,7 @@ msgid "Generate key failed"
 msgstr "General"
 
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 20
-#: plugins/gpg/gpggenbase.cpp:135 rc.cpp:2436
+#: plugins/gpg/gpggenbase.cpp:135 rc.cpp:2458
 #, fuzzy, no-c-format
 msgid "Generate key"
 msgstr "General"
@@ -3753,7 +3753,7 @@ msgstr "General"
 # plugins/msn/msnsearchbase.cpp:110
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 579
 #: plugins/gpg/gpggenbase.cpp:136 plugins/jabber/discoinfobase.cpp:285
-#: rc.cpp:387 rc.cpp:2439
+#: rc.cpp:387 rc.cpp:2461
 #, no-c-format
 msgid "EMail:"
 msgstr "E-mail:"
@@ -3761,7 +3761,7 @@ msgstr "E-mail:"
 # plugins/icq/aiminfobase.cc:301 plugins/icq/icqinfobase.cc:318
 # plugins/proxy/proxycfgbase.cpp:174
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 61
-#: plugins/gpg/gpggenbase.cpp:137 rc.cpp:2442
+#: plugins/gpg/gpggenbase.cpp:137 rc.cpp:2464
 #, fuzzy, no-c-format
 msgid "Comment:"
 msgstr "Cliente:"
@@ -3770,21 +3770,21 @@ msgstr "Cliente:"
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 150
 #: plugins/gpg/gpggenbase.cpp:138 plugins/icq/workinfobase.cc:184
 #: plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271
-#: rc.cpp:343 rc.cpp:349 rc.cpp:593 rc.cpp:2445
+#: rc.cpp:343 rc.cpp:349 rc.cpp:593 rc.cpp:2467
 #, no-c-format
 msgid "Name:"
 msgstr "Nome:"
 
 # plugins/_core/logindlgbase.cc:117 plugins/_core/logindlgbase.cpp:126
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 118
-#: plugins/gpg/gpggenbase.cpp:139 rc.cpp:2448
+#: plugins/gpg/gpggenbase.cpp:139 rc.cpp:2470
 #, fuzzy, no-c-format
 msgid "Passphrase:"
 msgstr "Senha:"
 
 # plugins/icq/icqsecurebase.cc:225
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 136
-#: plugins/gpg/gpggenbase.cpp:140 rc.cpp:2451
+#: plugins/gpg/gpggenbase.cpp:140 rc.cpp:2473
 #, fuzzy, no-c-format
 msgid "Retype passphrase:"
 msgstr "Repetir nova senha:"
@@ -3792,7 +3792,7 @@ msgstr "Repetir nova senha:"
 # plugins/shortcuts/shortcutcfgbase.cpp:97
 # plugins/shortcuts/shortcutcfgbase.cpp:140
 #. i18n: file ./plugins/gpg/gpguserbase.ui line 39
-#: plugins/gpg/gpguserbase.cpp:68 rc.cpp:2405
+#: plugins/gpg/gpguserbase.cpp:68 rc.cpp:2427
 #, fuzzy, no-c-format
 msgid "Key:"
 msgstr "Tecla"
@@ -3808,14 +3808,14 @@ msgstr ""
 
 # plugins/icq/icqsecurebase.cc:225
 #. i18n: file ./plugins/gpg/passphrasebase.ui line 20
-#: plugins/gpg/passphrasebase.cpp:88 rc.cpp:2389
+#: plugins/gpg/passphrasebase.cpp:88 rc.cpp:2411
 #, fuzzy, no-c-format
 msgid "Input passphrase"
 msgstr "Repetir nova senha:"
 
 # plugins/_core/logindlgbase.cc:119 plugins/_core/logindlgbase.cpp:130
 #. i18n: file ./plugins/gpg/passphrasebase.ui line 64
-#: plugins/gpg/passphrasebase.cpp:90 rc.cpp:2393
+#: plugins/gpg/passphrasebase.cpp:90 rc.cpp:2415
 #, fuzzy, no-c-format
 msgid "&Save passphrase"
 msgstr "&Salvar senha"
@@ -4307,7 +4307,7 @@ msgstr "Lista de invisível"
 msgid "&Add to group"
 msgstr "&Adicionar ao grupo"
 
-#: plugins/icq/icqbuddy.cpp:566
+#: plugins/icq/icqbuddy.cpp:573
 #, fuzzy
 msgid "removed from buddy list"
 msgstr "Remover dos contatos"
@@ -6660,7 +6660,7 @@ msgstr "Habilitar no&tificação de digitação"
 
 # plugins/shortcuts/mousecfgbase.cpp:112 sim/ui/qt3/i18n.cpp:197
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 572
-#: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196
+#: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196 rc.cpp:2301
 #, fuzzy, no-c-format
 msgid "Alt+T"
 msgstr "Alt"
@@ -9096,57 +9096,61 @@ msgid "Plugin provides show weather"
 msgstr "Este plugin fornece uma tela de abertura"
 
 # plugins/icq/icqicmb.cpp:1300
-#: plugins/weather/weather.cpp:122 plugins/weather/weather.cpp:323
+#: plugins/weather/weather.cpp:123 plugins/weather/weather.cpp:324
 #, fuzzy
 msgid "Not connected"
 msgstr "Sem contato"
 
-#: plugins/weather/weather.cpp:349
+#: plugins/weather/weather.cpp:333
+msgid "<b>Forecast for</b><br>\n"
+msgstr ""
+
+#: plugins/weather/weather.cpp:351
 msgid ""
 "_: weather\n"
 "Weather data provided by weather.com&reg;"
 msgstr ""
 
 # sim/api/country.cpp:170
-#: plugins/weather/weather.cpp:364
+#: plugins/weather/weather.cpp:366
 #, fuzzy
 msgid "Monday"
 msgstr "MĂłnaco"
 
 # sim/api/country.cpp:244
-#: plugins/weather/weather.cpp:365
+#: plugins/weather/weather.cpp:367
 #, fuzzy
 msgid "Tuesday"
 msgstr "TurquĂ­a"
 
-#: plugins/weather/weather.cpp:366
+#: plugins/weather/weather.cpp:368
 msgid "Wednesday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:367
+#: plugins/weather/weather.cpp:369
 msgid "Thursday"
 msgstr ""
 
 # plugins/icq/moreinfo.cpp:108
-#: plugins/weather/weather.cpp:368
+#: plugins/weather/weather.cpp:370
 #, fuzzy
 msgid "Friday"
 msgstr "Farsi"
 
 # sim/api/country.cpp:228
-#: plugins/weather/weather.cpp:369
+#: plugins/weather/weather.cpp:371
 #, fuzzy
 msgid "Saturday"
 msgstr "SudĂĄn"
 
 # sim/api/country.cpp:228
-#: plugins/weather/weather.cpp:370
+#: plugins/weather/weather.cpp:372
 #, fuzzy
 msgid "Sunday"
 msgstr "SudĂĄn"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:372
+#: plugins/weather/weather.cpp:374
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9154,7 +9158,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:373
+#: plugins/weather/weather.cpp:375
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9162,7 +9166,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:374
+#: plugins/weather/weather.cpp:376
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9170,7 +9174,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:375
+#: plugins/weather/weather.cpp:377
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9178,7 +9182,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:376
+#: plugins/weather/weather.cpp:378
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9186,7 +9190,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:377
+#: plugins/weather/weather.cpp:379
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9194,7 +9198,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:378
+#: plugins/weather/weather.cpp:380
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9202,7 +9206,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:379
+#: plugins/weather/weather.cpp:381
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9210,7 +9214,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:380
+#: plugins/weather/weather.cpp:382
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9218,7 +9222,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:381
+#: plugins/weather/weather.cpp:383
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9226,7 +9230,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:382
+#: plugins/weather/weather.cpp:384
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9234,7 +9238,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:383
+#: plugins/weather/weather.cpp:385
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9242,7 +9246,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:384
+#: plugins/weather/weather.cpp:386
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9250,7 +9254,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:385
+#: plugins/weather/weather.cpp:387
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9258,7 +9262,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:386
+#: plugins/weather/weather.cpp:388
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9266,7 +9270,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:387
+#: plugins/weather/weather.cpp:389
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9274,7 +9278,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:390 plugins/weather/weather.cpp:413
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9282,7 +9286,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:391
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9290,7 +9294,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:392
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9298,7 +9302,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:393
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9306,7 +9310,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:394
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9314,7 +9318,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:395
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9322,7 +9326,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:396
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9330,7 +9334,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:397
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9338,7 +9342,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:398
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9346,7 +9350,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:399
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9354,7 +9358,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:400
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9362,7 +9366,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:401
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9370,7 +9374,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:402
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9378,7 +9382,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:403
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9386,7 +9390,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:404
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9394,7 +9398,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:405
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9402,7 +9406,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:406
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9410,7 +9414,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:405
+#: plugins/weather/weather.cpp:407
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9418,7 +9422,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:408 plugins/weather/weather.cpp:586
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9426,7 +9430,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:409
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9434,7 +9438,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:410
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9442,7 +9446,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:409
+#: plugins/weather/weather.cpp:411
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9450,7 +9454,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:412
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9458,7 +9462,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:414
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9466,7 +9470,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:415
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9474,7 +9478,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:416
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9482,7 +9486,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:417
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9490,7 +9494,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:418
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9498,7 +9502,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:419
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9506,7 +9510,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:420
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9514,7 +9518,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:421
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9522,7 +9526,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:422
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9530,7 +9534,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:421
+#: plugins/weather/weather.cpp:423
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9538,7 +9542,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:425
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9546,7 +9550,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:426
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9554,7 +9558,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:427
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9562,7 +9566,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:428
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9570,7 +9574,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:429
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9578,7 +9582,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:430
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9586,7 +9590,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:431
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9594,7 +9598,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:432
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9602,7 +9606,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:433
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9610,7 +9614,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:434
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9618,7 +9622,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:435
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9626,7 +9630,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:436
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9634,7 +9638,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:437
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9642,7 +9646,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:438
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9650,7 +9654,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:439
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9658,7 +9662,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:440
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9666,7 +9670,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:441
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9674,7 +9678,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:440
+#: plugins/weather/weather.cpp:442
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9682,7 +9686,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:444
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9690,7 +9694,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:445
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9698,7 +9702,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:446
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9706,7 +9710,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:447
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9714,7 +9718,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:448
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9722,7 +9726,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:447
+#: plugins/weather/weather.cpp:449
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9730,7 +9734,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:451
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9738,7 +9742,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:452
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9746,7 +9750,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:451
+#: plugins/weather/weather.cpp:453
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9754,7 +9758,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:455
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9762,7 +9766,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:456
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9770,7 +9774,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:457
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9778,7 +9782,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:458
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9786,7 +9790,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:459
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9794,7 +9798,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:460
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9802,7 +9806,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:461
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9810,7 +9814,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:460
+#: plugins/weather/weather.cpp:462
 #, fuzzy
 msgid ""
 "_: moonphase\n"
@@ -9818,13 +9822,13 @@ msgid ""
 msgstr "Outro"
 
 # sim/api/country.cpp:63
-#: plugins/weather/weather.cpp:472
+#: plugins/weather/weather.cpp:474
 #, fuzzy
 msgid "and"
 msgstr "Canada"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:477
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9832,7 +9836,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:480
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9840,23 +9844,23 @@ msgid ""
 msgstr "Outro"
 
 # plugins/_core/filetransfer.cpp:408
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
+#: plugins/weather/weather.cpp:519 plugins/weather/weather.cpp:521
 #, fuzzy
 msgid "m/s"
 msgstr "b/s"
 
 # plugins/icq/moreinfo.cpp:173
-#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
+#: plugins/weather/weather.cpp:520 plugins/weather/weather.cpp:521
 #, fuzzy
 msgid "gust"
 msgstr "Agosto"
 
-#: plugins/weather/weather.cpp:568
+#: plugins/weather/weather.cpp:571
 msgid "%t | %c"
 msgstr ""
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:577
+#: plugins/weather/weather.cpp:580
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9864,7 +9868,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:582
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9872,7 +9876,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:582
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9880,7 +9884,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:580
+#: plugins/weather/weather.cpp:583
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9888,7 +9892,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:581
+#: plugins/weather/weather.cpp:584
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9896,7 +9900,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:585
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9904,7 +9908,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:584
+#: plugins/weather/weather.cpp:587
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9912,7 +9916,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:585
+#: plugins/weather/weather.cpp:588
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9920,7 +9924,7 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:586
+#: plugins/weather/weather.cpp:589
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9928,14 +9932,14 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:587
+#: plugins/weather/weather.cpp:590
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Sunset"
 msgstr "Outro"
 
-#: plugins/weather/weather.cpp:588
+#: plugins/weather/weather.cpp:591
 #, c-format
 msgid ""
 "_: weather\n"
@@ -9943,7 +9947,7 @@ msgid ""
 msgstr ""
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:589
+#: plugins/weather/weather.cpp:592
 #, fuzzy
 msgid ""
 "_: weather\n"
@@ -9951,17 +9955,15 @@ msgid ""
 msgstr "Outro"
 
 # plugins/icq/pastinfo.cpp:82 plugins/icq/pastinfo.cpp:107
-#: plugins/weather/weather.cpp:592
+#: plugins/weather/weather.cpp:595
 #, fuzzy
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr "Outro"
 
-#: plugins/weather/weather.cpp:600
+#: plugins/weather/weather.cpp:603
 msgid ""
-"<br><br>\n"
-"<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"><br>%c<br>\n"
 "Temperature: <b>%t</b><br>\n"
@@ -10014,7 +10016,7 @@ msgstr ""
 msgid "Units:"
 msgstr ""
 
-#: plugins/weather/wifacecfg.cpp:32 plugins/weather/wifacecfg.cpp:71
+#: plugins/weather/wifacecfg.cpp:32 plugins/weather/wifacecfg.cpp:73
 msgid "Temperature"
 msgstr ""
 
@@ -10096,22 +10098,26 @@ msgstr "SudĂĄn"
 
 # plugins/_core/core.cpp:3364
 #. i18n: file ./plugins/yahoo/yahoosearchbase.ui line 123
-#: plugins/weather/wifacecfg.cpp:64 plugins/weather/wifacecfg.cpp:79
+#: plugins/weather/wifacecfg.cpp:64 plugins/weather/wifacecfg.cpp:81
 #: plugins/yahoo/yahoosearchbase.cpp:101 rc.cpp:1208
 #, fuzzy, no-c-format
 msgid "Conditions"
 msgstr "Conexões"
 
-#: plugins/weather/wifacecfg.cpp:73
+#: plugins/weather/wifacecfg.cpp:66
+msgid "Obst"
+msgstr ""
+
+#: plugins/weather/wifacecfg.cpp:75
 msgid "Number"
 msgstr "NĂşmero"
 
-#: plugins/weather/wifacecfg.cpp:75
+#: plugins/weather/wifacecfg.cpp:77
 msgid "Day of week"
 msgstr ""
 
 # sim/ui/qt3/i18n.cpp:45
-#: plugins/weather/wifacecfg.cpp:77
+#: plugins/weather/wifacecfg.cpp:79
 msgid "Date"
 msgstr "Fecha"
 
@@ -10330,6 +10336,13 @@ msgstr "Figura"
 #, no-c-format
 msgid "Find ASpell"
 msgstr ""
+
+# plugins/shortcuts/mousecfgbase.cpp:112 sim/ui/qt3/i18n.cpp:197
+#. i18n: file ./plugins/forward/forwardcfgbase-neu.ui line 112
+#: rc.cpp:2307
+#, fuzzy, no-c-format
+msgid "Alt+O"
+msgstr "Alt"
 
 # sim/api/aboutdata.cpp:287
 #: sim/aboutdata.cpp:267

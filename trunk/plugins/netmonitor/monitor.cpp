@@ -210,12 +210,12 @@ struct LevelColorDef
 
 static LevelColorDef levelColors[] =
     {
-        { L_DEBUG,		"008000" },
-        { L_WARN,		"808000" },
-        { L_ERROR,		"800000" },
+        { L_DEBUG,	"008000" },
+        { L_WARN,	"808000" },
+        { L_ERROR,	"800000" },
         { L_PACKET_IN,	"000080" },
         { L_PACKET_OUT, "000000" },
-        { 0,			NULL }
+        { 0,		 NULL 	 }
     };
 
 bool MonitorWindow::processEvent(Event *e)

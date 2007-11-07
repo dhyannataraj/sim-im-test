@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-10-22 12:42+0200\n"
+"POT-Creation-Date: 2007-11-07 13:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,8 +83,8 @@ msgstr ""
 #: rc.cpp:1350 rc.cpp:1358 rc.cpp:1387 rc.cpp:1399 rc.cpp:1443 rc.cpp:1564
 #: rc.cpp:1616 rc.cpp:1650 rc.cpp:1671 rc.cpp:1695 rc.cpp:1860 rc.cpp:1993
 #: rc.cpp:2035 rc.cpp:2066 rc.cpp:2072 rc.cpp:2091 rc.cpp:2152 rc.cpp:2158
-#: rc.cpp:2173 rc.cpp:2188 rc.cpp:2212 rc.cpp:2276 rc.cpp:2311 rc.cpp:2326
-#: rc.cpp:2338 rc.cpp:2362 rc.cpp:2402 rc.cpp:2418
+#: rc.cpp:2173 rc.cpp:2188 rc.cpp:2212 rc.cpp:2276 rc.cpp:2292 rc.cpp:2333
+#: rc.cpp:2348 rc.cpp:2360 rc.cpp:2384 rc.cpp:2424 rc.cpp:2440
 #, no-c-format
 msgid "Form1"
 msgstr ""
@@ -160,7 +160,7 @@ msgid "Convert configuration"
 msgstr ""
 
 #: plugins/_core/arcfg.cpp:98 plugins/_core/autoreply.cpp:134
-#: plugins/weather/wifacecfg.cpp:112
+#: plugins/weather/wifacecfg.cpp:114
 msgid "In text you can use:"
 msgstr ""
 
@@ -175,7 +175,7 @@ msgstr ""
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
 #: plugins/weather/wifacecfgbase.cpp:84 rc.cpp:1702 rc.cpp:1714 rc.cpp:2185
-#: rc.cpp:2341 rc.cpp:2353 sim/misc.cpp:413
+#: rc.cpp:2363 rc.cpp:2375 sim/misc.cpp:413
 #, no-c-format
 msgid "&Help"
 msgstr ""
@@ -221,8 +221,8 @@ msgstr ""
 #: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289
 #: plugins/proxy/proxyerrorbase.cpp:80 rc.cpp:49 rc.cpp:397 rc.cpp:918
 #: rc.cpp:1006 rc.cpp:1027 rc.cpp:1381 rc.cpp:1540 rc.cpp:1558 rc.cpp:1718
-#: rc.cpp:1733 rc.cpp:1769 rc.cpp:1785 rc.cpp:1974 rc.cpp:2356 rc.cpp:2396
-#: rc.cpp:2455 sim/misc.cpp:407
+#: rc.cpp:1733 rc.cpp:1769 rc.cpp:1785 rc.cpp:1974 rc.cpp:2378 rc.cpp:2418
+#: rc.cpp:2477 sim/misc.cpp:407
 #, no-c-format
 msgid "&OK"
 msgstr ""
@@ -240,8 +240,8 @@ msgstr ""
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
 #: plugins/weather/weathercfg.cpp:81 rc.cpp:52 rc.cpp:921 rc.cpp:933
 #: rc.cpp:1010 rc.cpp:1030 rc.cpp:1117 rc.cpp:1384 rc.cpp:1561 rc.cpp:1613
-#: rc.cpp:1721 rc.cpp:1736 rc.cpp:1772 rc.cpp:1788 rc.cpp:1977 rc.cpp:2359
-#: rc.cpp:2399 rc.cpp:2415 rc.cpp:2458 sim/misc.cpp:410
+#: rc.cpp:1721 rc.cpp:1736 rc.cpp:1772 rc.cpp:1788 rc.cpp:1977 rc.cpp:2381
+#: rc.cpp:2421 rc.cpp:2437 rc.cpp:2480 sim/misc.cpp:410
 #, no-c-format
 msgid "&Cancel"
 msgstr ""
@@ -434,7 +434,7 @@ msgstr ""
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:122 plugins/icq/securedlg.cpp:104
 #: plugins/jabber/discoinfobase.cpp:290 rc.cpp:400 rc.cpp:1543 rc.cpp:1961
-#: rc.cpp:2307 sim/misc.cpp:410
+#: rc.cpp:2329 sim/misc.cpp:410
 #, no-c-format
 msgid "&Close"
 msgstr ""
@@ -449,7 +449,7 @@ msgstr ""
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 94
 #: plugins/_core/core.cpp:618 plugins/forward/forwardcfgbase.cpp:75
-#: rc.cpp:2289
+#: rc.cpp:2289 rc.cpp:2298
 #, no-c-format
 msgid "Send in &translit"
 msgstr ""
@@ -650,7 +650,7 @@ msgstr ""
 #: plugins/_core/core.cpp:1273 plugins/_core/historycfgbase.cpp:189
 #: plugins/_core/logindlgbase.cpp:142 plugins/_core/maininfobase.cpp:195
 #: plugins/_core/maininfobase.cpp:205 plugins/action/menucfgbase.cpp:70
-#: rc.cpp:1460 rc.cpp:1890 rc.cpp:1914 rc.cpp:1990 rc.cpp:2335
+#: rc.cpp:1460 rc.cpp:1890 rc.cpp:1914 rc.cpp:1990 rc.cpp:2357
 #: sim/listview.cpp:41
 #, no-c-format
 msgid "&Delete"
@@ -717,7 +717,7 @@ msgstr ""
 #: plugins/_core/core.cpp:1252 plugins/_core/core.cpp:1266
 #: plugins/_core/maininfobase.cpp:194 plugins/_core/maininfobase.cpp:204
 #: plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:84
-#: rc.cpp:1887 rc.cpp:1911 rc.cpp:2332
+#: rc.cpp:1887 rc.cpp:1911 rc.cpp:2354
 #, no-c-format
 msgid "&Edit"
 msgstr ""
@@ -824,7 +824,7 @@ msgid "from %1"
 msgstr ""
 
 #. i18n: file ./plugins/icons/iconcfgbase.ui line 76
-#: plugins/_core/core.cpp:2542 plugins/icons/iconcfgbase.cpp:77 rc.cpp:2323
+#: plugins/_core/core.cpp:2542 plugins/icons/iconcfgbase.cpp:77 rc.cpp:2345
 #, no-c-format
 msgid "&New"
 msgstr ""
@@ -1620,7 +1620,7 @@ msgstr ""
 #. i18n: file ./plugins/_core/maininfobase.ui line 278
 #: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203
 #: plugins/_core/search.cpp:138 plugins/action/menucfgbase.cpp:68 rc.cpp:1884
-#: rc.cpp:1908 rc.cpp:2329
+#: rc.cpp:1908 rc.cpp:2351
 #, no-c-format
 msgid "&Add"
 msgstr ""
@@ -1688,21 +1688,21 @@ msgstr ""
 
 #. i18n: file ./plugins/_core/toolsetupbase.ui line 253
 #: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132
-#: plugins/icons/iconcfgbase.cpp:74 rc.cpp:1531 rc.cpp:1946 rc.cpp:2314
+#: plugins/icons/iconcfgbase.cpp:74 rc.cpp:1531 rc.cpp:1946 rc.cpp:2336
 #, no-c-format
 msgid "&Up"
 msgstr ""
 
 #. i18n: file ./plugins/_core/toolsetupbase.ui line 264
 #: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133
-#: plugins/icons/iconcfgbase.cpp:75 rc.cpp:1534 rc.cpp:1952 rc.cpp:2317
+#: plugins/icons/iconcfgbase.cpp:75 rc.cpp:1534 rc.cpp:1952 rc.cpp:2339
 #, no-c-format
 msgid "&Down"
 msgstr ""
 
 #. i18n: file ./plugins/_core/managerbase.ui line 101
 #: plugins/_core/managerbase.cpp:108 plugins/icons/iconcfgbase.cpp:76
-#: rc.cpp:1955 rc.cpp:2320
+#: rc.cpp:1955 rc.cpp:2342
 #, no-c-format
 msgid "&Remove"
 msgstr ""
@@ -2405,7 +2405,7 @@ msgid "to %1"
 msgstr ""
 
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 45
-#: plugins/about/about.cpp:43 plugins/about/aboutdlgbase.cpp:118 rc.cpp:2295
+#: plugins/about/about.cpp:43 plugins/about/aboutdlgbase.cpp:118 rc.cpp:2317
 #, no-c-format
 msgid "About"
 msgstr ""
@@ -2439,25 +2439,25 @@ msgid "Note: This is an english mailing list"
 msgstr ""
 
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 20
-#: plugins/about/aboutdlgbase.cpp:117 rc.cpp:2292
+#: plugins/about/aboutdlgbase.cpp:117 rc.cpp:2314
 #, no-c-format
 msgid "About SIM"
 msgstr ""
 
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 73
-#: plugins/about/aboutdlgbase.cpp:119 rc.cpp:2298
+#: plugins/about/aboutdlgbase.cpp:119 rc.cpp:2320
 #, no-c-format
 msgid "Authors"
 msgstr ""
 
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 108
-#: plugins/about/aboutdlgbase.cpp:120 rc.cpp:2301
+#: plugins/about/aboutdlgbase.cpp:120 rc.cpp:2323
 #, no-c-format
 msgid "Translation"
 msgstr ""
 
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 136
-#: plugins/about/aboutdlgbase.cpp:121 rc.cpp:2304
+#: plugins/about/aboutdlgbase.cpp:121 rc.cpp:2326
 #, no-c-format
 msgid "License"
 msgstr ""
@@ -2509,19 +2509,19 @@ msgid ""
 msgstr ""
 
 #. i18n: file ./plugins/action/additembase.ui line 20
-#: plugins/action/additembase.cpp:91 rc.cpp:2344
+#: plugins/action/additembase.cpp:91 rc.cpp:2366
 #, no-c-format
 msgid "Add Item"
 msgstr ""
 
 #. i18n: file ./plugins/action/additembase.ui line 43
-#: plugins/action/additembase.cpp:92 rc.cpp:2347
+#: plugins/action/additembase.cpp:92 rc.cpp:2369
 #, no-c-format
 msgid "Item:"
 msgstr ""
 
 #. i18n: file ./plugins/action/additembase.ui line 61
-#: plugins/action/additembase.cpp:93 rc.cpp:2350
+#: plugins/action/additembase.cpp:93 rc.cpp:2372
 #, no-c-format
 msgid "Program:"
 msgstr ""
@@ -2805,13 +2805,13 @@ msgid "Plugin provides messages forwarding on cellular"
 msgstr ""
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 39
-#: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:2279
+#: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:2279 rc.cpp:2295
 #, no-c-format
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
 msgstr ""
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 65
-#: plugins/forward/forwardcfgbase.cpp:72 rc.cpp:2282
+#: plugins/forward/forwardcfgbase.cpp:72 rc.cpp:2282 rc.cpp:2310
 #, no-c-format
 msgid ""
 "For the answer or sending of the new message you can answer on SMS having "
@@ -2820,7 +2820,7 @@ msgid ""
 msgstr ""
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 83
-#: plugins/forward/forwardcfgbase.cpp:74 rc.cpp:2286
+#: plugins/forward/forwardcfgbase.cpp:74 rc.cpp:2286 rc.cpp:2304
 #, no-c-format
 msgid "Send only &one message (don't split)"
 msgstr ""
@@ -2871,49 +2871,49 @@ msgid "Can't read gpg key "
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 39
-#: plugins/gpg/gpgadvbase.cpp:125 rc.cpp:2365
+#: plugins/gpg/gpgadvbase.cpp:125 rc.cpp:2387
 #, no-c-format
 msgid "Command arguments"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 58
-#: plugins/gpg/gpgadvbase.cpp:126 rc.cpp:2368
+#: plugins/gpg/gpgadvbase.cpp:126 rc.cpp:2390
 #, no-c-format
 msgid "Generate key:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 76
-#: plugins/gpg/gpgadvbase.cpp:127 rc.cpp:2371
+#: plugins/gpg/gpgadvbase.cpp:127 rc.cpp:2393
 #, no-c-format
 msgid "List public keys:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 94
-#: plugins/gpg/gpgadvbase.cpp:128 rc.cpp:2374
+#: plugins/gpg/gpgadvbase.cpp:128 rc.cpp:2396
 #, no-c-format
 msgid "List secret keys:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 133
-#: plugins/gpg/gpgadvbase.cpp:129 rc.cpp:2377
+#: plugins/gpg/gpgadvbase.cpp:129 rc.cpp:2399
 #, no-c-format
 msgid "Import public:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 158
-#: plugins/gpg/gpgadvbase.cpp:130 rc.cpp:2380
+#: plugins/gpg/gpgadvbase.cpp:130 rc.cpp:2402
 #, no-c-format
 msgid "Export public:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 183
-#: plugins/gpg/gpgadvbase.cpp:131 rc.cpp:2383
+#: plugins/gpg/gpgadvbase.cpp:131 rc.cpp:2405
 #, no-c-format
 msgid "Encrypt:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 208
-#: plugins/gpg/gpgadvbase.cpp:132 rc.cpp:2386
+#: plugins/gpg/gpgadvbase.cpp:132 rc.cpp:2408
 #, no-c-format
 msgid "Decrypt:"
 msgstr ""
@@ -2950,38 +2950,38 @@ msgid "Get secret list failed"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 39
-#: plugins/gpg/gpgcfgbase.cpp:106 rc.cpp:2421
+#: plugins/gpg/gpgcfgbase.cpp:106 rc.cpp:2443
 #, no-c-format
 msgid "Executable:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 71
-#: plugins/gpg/gpgcfgbase.cpp:107 rc.cpp:2424
+#: plugins/gpg/gpgcfgbase.cpp:107 rc.cpp:2446
 #, no-c-format
 msgid "Home directory:"
 msgstr ""
 
 #. i18n: file ./plugins/spell/spellcfgbase.ui line 86
-#: plugins/gpg/gpgcfgbase.cpp:108 rc.cpp:1126 rc.cpp:2427
+#: plugins/gpg/gpgcfgbase.cpp:108 rc.cpp:1126 rc.cpp:2449
 #, no-c-format
 msgid "&Find"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 181
-#: plugins/gpg/gpgcfgbase.cpp:109 rc.cpp:2430
+#: plugins/gpg/gpgcfgbase.cpp:109 rc.cpp:2452
 #, no-c-format
 msgid "Your key:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpguserbase.ui line 71
-#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69 rc.cpp:2408
-#: rc.cpp:2433
+#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69 rc.cpp:2430
+#: rc.cpp:2455
 #, no-c-format
 msgid "&Refresh"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpgfindbase.ui line 20
-#: plugins/gpg/gpgfindbase.cpp:68 rc.cpp:2411
+#: plugins/gpg/gpgfindbase.cpp:68 rc.cpp:2433
 #, no-c-format
 msgid "Find GPG"
 msgstr ""
@@ -2995,20 +2995,20 @@ msgid "Generate key failed"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 20
-#: plugins/gpg/gpggenbase.cpp:135 rc.cpp:2436
+#: plugins/gpg/gpggenbase.cpp:135 rc.cpp:2458
 #, no-c-format
 msgid "Generate key"
 msgstr ""
 
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 579
 #: plugins/gpg/gpggenbase.cpp:136 plugins/jabber/discoinfobase.cpp:285
-#: rc.cpp:387 rc.cpp:2439
+#: rc.cpp:387 rc.cpp:2461
 #, no-c-format
 msgid "EMail:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 61
-#: plugins/gpg/gpggenbase.cpp:137 rc.cpp:2442
+#: plugins/gpg/gpggenbase.cpp:137 rc.cpp:2464
 #, no-c-format
 msgid "Comment:"
 msgstr ""
@@ -3016,25 +3016,25 @@ msgstr ""
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 150
 #: plugins/gpg/gpggenbase.cpp:138 plugins/icq/workinfobase.cc:184
 #: plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271
-#: rc.cpp:343 rc.cpp:349 rc.cpp:593 rc.cpp:2445
+#: rc.cpp:343 rc.cpp:349 rc.cpp:593 rc.cpp:2467
 #, no-c-format
 msgid "Name:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 118
-#: plugins/gpg/gpggenbase.cpp:139 rc.cpp:2448
+#: plugins/gpg/gpggenbase.cpp:139 rc.cpp:2470
 #, no-c-format
 msgid "Passphrase:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 136
-#: plugins/gpg/gpggenbase.cpp:140 rc.cpp:2451
+#: plugins/gpg/gpggenbase.cpp:140 rc.cpp:2473
 #, no-c-format
 msgid "Retype passphrase:"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/gpguserbase.ui line 39
-#: plugins/gpg/gpguserbase.cpp:68 rc.cpp:2405
+#: plugins/gpg/gpguserbase.cpp:68 rc.cpp:2427
 #, no-c-format
 msgid "Key:"
 msgstr ""
@@ -3049,13 +3049,13 @@ msgid "Bad passphrase"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/passphrasebase.ui line 20
-#: plugins/gpg/passphrasebase.cpp:88 rc.cpp:2389
+#: plugins/gpg/passphrasebase.cpp:88 rc.cpp:2411
 #, no-c-format
 msgid "Input passphrase"
 msgstr ""
 
 #. i18n: file ./plugins/gpg/passphrasebase.ui line 64
-#: plugins/gpg/passphrasebase.cpp:90 rc.cpp:2393
+#: plugins/gpg/passphrasebase.cpp:90 rc.cpp:2415
 #, no-c-format
 msgid "&Save passphrase"
 msgstr ""
@@ -3468,7 +3468,7 @@ msgstr ""
 msgid "&Add to group"
 msgstr ""
 
-#: plugins/icq/icqbuddy.cpp:566
+#: plugins/icq/icqbuddy.cpp:573
 msgid "removed from buddy list"
 msgstr ""
 
@@ -5331,7 +5331,7 @@ msgid "Enable &typing notification"
 msgstr ""
 
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 572
-#: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196
+#: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196 rc.cpp:2301
 #, no-c-format
 msgid "Alt+T"
 msgstr ""
@@ -7342,659 +7342,661 @@ msgstr ""
 msgid "Plugin provides show weather"
 msgstr ""
 
-#: plugins/weather/weather.cpp:122 plugins/weather/weather.cpp:323
+#: plugins/weather/weather.cpp:123 plugins/weather/weather.cpp:324
 msgid "Not connected"
 msgstr ""
 
-#: plugins/weather/weather.cpp:349
+#: plugins/weather/weather.cpp:333
+msgid "<b>Forecast for</b><br>\n"
+msgstr ""
+
+#: plugins/weather/weather.cpp:351
 msgid ""
 "_: weather\n"
 "Weather data provided by weather.com&reg;"
 msgstr ""
 
-#: plugins/weather/weather.cpp:364
+#: plugins/weather/weather.cpp:366
 msgid "Monday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:365
+#: plugins/weather/weather.cpp:367
 msgid "Tuesday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:366
+#: plugins/weather/weather.cpp:368
 msgid "Wednesday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:367
+#: plugins/weather/weather.cpp:369
 msgid "Thursday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:368
+#: plugins/weather/weather.cpp:370
 msgid "Friday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:369
+#: plugins/weather/weather.cpp:371
 msgid "Saturday"
 msgstr ""
 
-#: plugins/weather/weather.cpp:370
-msgid "Sunday"
-msgstr ""
-
 #: plugins/weather/weather.cpp:372
-msgid ""
-"_: weather\n"
-"Squalls"
-msgstr ""
-
-#: plugins/weather/weather.cpp:373
-msgid ""
-"_: weather\n"
-"Overcast"
+msgid "Sunday"
 msgstr ""
 
 #: plugins/weather/weather.cpp:374
 msgid ""
 "_: weather\n"
-"Fog"
+"Squalls"
 msgstr ""
 
 #: plugins/weather/weather.cpp:375
 msgid ""
 "_: weather\n"
-"Foggy"
+"Overcast"
 msgstr ""
 
 #: plugins/weather/weather.cpp:376
 msgid ""
 "_: weather\n"
-"Mist"
+"Fog"
 msgstr ""
 
 #: plugins/weather/weather.cpp:377
 msgid ""
 "_: weather\n"
-"Haze"
+"Foggy"
 msgstr ""
 
 #: plugins/weather/weather.cpp:378
 msgid ""
 "_: weather\n"
-"Storm"
+"Mist"
 msgstr ""
 
 #: plugins/weather/weather.cpp:379
 msgid ""
 "_: weather\n"
-"T-Storm"
+"Haze"
 msgstr ""
 
 #: plugins/weather/weather.cpp:380
 msgid ""
 "_: weather\n"
-"T-Storms"
+"Storm"
 msgstr ""
 
 #: plugins/weather/weather.cpp:381
 msgid ""
 "_: weather\n"
-"Scattered T-Storms"
+"T-Storm"
 msgstr ""
 
 #: plugins/weather/weather.cpp:382
 msgid ""
 "_: weather\n"
-"Thunder"
+"T-Storms"
 msgstr ""
 
 #: plugins/weather/weather.cpp:383
 msgid ""
 "_: weather\n"
-"Light Rain with Thunder"
+"Scattered T-Storms"
 msgstr ""
 
 #: plugins/weather/weather.cpp:384
 msgid ""
 "_: weather\n"
-"Thunder in the Vicinity"
+"Thunder"
 msgstr ""
 
 #: plugins/weather/weather.cpp:385
 msgid ""
 "_: weather\n"
-"Rain"
+"Light Rain with Thunder"
 msgstr ""
 
 #: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
-"Light Rain"
+"Thunder in the Vicinity"
 msgstr ""
 
 #: plugins/weather/weather.cpp:387
 msgid ""
 "_: weather\n"
-"Heavy Rain"
+"Rain"
 msgstr ""
 
-#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:388
 msgid ""
 "_: weather\n"
-"Freezing Rain"
+"Light Rain"
 msgstr ""
 
 #: plugins/weather/weather.cpp:389
 msgid ""
 "_: weather\n"
-"Rain to Snow"
+"Heavy Rain"
 msgstr ""
 
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:390 plugins/weather/weather.cpp:413
 msgid ""
 "_: weather\n"
-"Snow"
+"Freezing Rain"
 msgstr ""
 
 #: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
-"Light Snow"
+"Rain to Snow"
 msgstr ""
 
 #: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
-"Few Snow"
+"Snow"
 msgstr ""
 
 #: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
-"Scattered Snow"
+"Light Snow"
 msgstr ""
 
 #: plugins/weather/weather.cpp:394
 msgid ""
 "_: weather\n"
-"Ice Crystals"
+"Few Snow"
 msgstr ""
 
 #: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
-"Clear"
+"Scattered Snow"
 msgstr ""
 
 #: plugins/weather/weather.cpp:396
 msgid ""
 "_: weather\n"
-"Clearing"
+"Ice Crystals"
 msgstr ""
 
 #: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
-"Showers"
+"Clear"
 msgstr ""
 
 #: plugins/weather/weather.cpp:398
 msgid ""
 "_: weather\n"
-"Showers in the Vicinity"
+"Clearing"
 msgstr ""
 
 #: plugins/weather/weather.cpp:399
 msgid ""
 "_: weather\n"
-"Mostly Clear"
+"Showers"
 msgstr ""
 
 #: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
-"Sunny"
+"Showers in the Vicinity"
 msgstr ""
 
 #: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
-"Fair"
+"Mostly Clear"
 msgstr ""
 
 #: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
-"Cloudy"
+"Sunny"
 msgstr ""
 
 #: plugins/weather/weather.cpp:403
 msgid ""
 "_: weather\n"
-"Clouds"
+"Fair"
 msgstr ""
 
 #: plugins/weather/weather.cpp:404
 msgid ""
 "_: weather\n"
-"Mostly Cloudy"
+"Cloudy"
 msgstr ""
 
 #: plugins/weather/weather.cpp:405
 msgid ""
 "_: weather\n"
-"Partly Cloudy"
+"Clouds"
 msgstr ""
 
-#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:406
 msgid ""
 "_: weather\n"
-"Wind"
+"Mostly Cloudy"
 msgstr ""
 
 #: plugins/weather/weather.cpp:407
 msgid ""
 "_: weather\n"
-"Windy"
+"Partly Cloudy"
 msgstr ""
 
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:408 plugins/weather/weather.cpp:586
 msgid ""
 "_: weather\n"
-"Drizzle"
+"Wind"
 msgstr ""
 
 #: plugins/weather/weather.cpp:409
 msgid ""
 "_: weather\n"
-"Heavy Drizzle"
+"Windy"
 msgstr ""
 
 #: plugins/weather/weather.cpp:410
 msgid ""
 "_: weather\n"
-"Freezing Drizzle"
+"Drizzle"
+msgstr ""
+
+#: plugins/weather/weather.cpp:411
+msgid ""
+"_: weather\n"
+"Heavy Drizzle"
 msgstr ""
 
 #: plugins/weather/weather.cpp:412
 msgid ""
 "_: weather\n"
-"Light Drizzle"
-msgstr ""
-
-#: plugins/weather/weather.cpp:413
-msgid ""
-"_: weather\n"
-"Drifting Snow"
+"Freezing Drizzle"
 msgstr ""
 
 #: plugins/weather/weather.cpp:414
 msgid ""
 "_: weather\n"
-"Snow Grains"
+"Light Drizzle"
 msgstr ""
 
 #: plugins/weather/weather.cpp:415
 msgid ""
 "_: weather\n"
-"Light Snow Grains"
+"Drifting Snow"
 msgstr ""
 
 #: plugins/weather/weather.cpp:416
 msgid ""
 "_: weather\n"
-"Scattered"
+"Snow Grains"
 msgstr ""
 
 #: plugins/weather/weather.cpp:417
 msgid ""
 "_: weather\n"
-"Smoke"
+"Light Snow Grains"
 msgstr ""
 
 #: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
-"steady"
+"Scattered"
 msgstr ""
 
 #: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
-"rising"
+"Smoke"
 msgstr ""
 
 #: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
-"falling"
+"steady"
 msgstr ""
 
 #: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
-"Unlimited"
+"rising"
+msgstr ""
+
+#: plugins/weather/weather.cpp:422
+msgid ""
+"_: weather\n"
+"falling"
 msgstr ""
 
 #: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
-"N"
-msgstr ""
-
-#: plugins/weather/weather.cpp:424
-msgid ""
-"_: weather\n"
-"NNW"
+"Unlimited"
 msgstr ""
 
 #: plugins/weather/weather.cpp:425
 msgid ""
 "_: weather\n"
-"NW"
+"N"
 msgstr ""
 
 #: plugins/weather/weather.cpp:426
 msgid ""
 "_: weather\n"
-"WNW"
+"NNW"
 msgstr ""
 
 #: plugins/weather/weather.cpp:427
 msgid ""
 "_: weather\n"
-"W"
+"NW"
 msgstr ""
 
 #: plugins/weather/weather.cpp:428
 msgid ""
 "_: weather\n"
-"WSW"
+"WNW"
 msgstr ""
 
 #: plugins/weather/weather.cpp:429
 msgid ""
 "_: weather\n"
-"SW"
+"W"
 msgstr ""
 
 #: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
-"SSW"
+"WSW"
 msgstr ""
 
 #: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
-"S"
+"SW"
 msgstr ""
 
 #: plugins/weather/weather.cpp:432
 msgid ""
 "_: weather\n"
-"SSE"
+"SSW"
 msgstr ""
 
 #: plugins/weather/weather.cpp:433
 msgid ""
 "_: weather\n"
-"SE"
+"S"
 msgstr ""
 
 #: plugins/weather/weather.cpp:434
 msgid ""
 "_: weather\n"
-"ESE"
+"SSE"
 msgstr ""
 
 #: plugins/weather/weather.cpp:435
 msgid ""
 "_: weather\n"
-"E"
+"SE"
 msgstr ""
 
 #: plugins/weather/weather.cpp:436
 msgid ""
 "_: weather\n"
-"ENE"
+"ESE"
 msgstr ""
 
 #: plugins/weather/weather.cpp:437
 msgid ""
 "_: weather\n"
-"NE"
+"E"
 msgstr ""
 
 #: plugins/weather/weather.cpp:438
 msgid ""
 "_: weather\n"
-"NNE"
+"ENE"
 msgstr ""
 
 #: plugins/weather/weather.cpp:439
 msgid ""
 "_: weather\n"
-"VAR"
+"NE"
 msgstr ""
 
 #: plugins/weather/weather.cpp:440
 msgid ""
 "_: weather\n"
-"CALM"
+"NNE"
+msgstr ""
+
+#: plugins/weather/weather.cpp:441
+msgid ""
+"_: weather\n"
+"VAR"
 msgstr ""
 
 #: plugins/weather/weather.cpp:442
 msgid ""
 "_: weather\n"
-"km"
-msgstr ""
-
-#: plugins/weather/weather.cpp:443
-msgid ""
-"_: weather\n"
-"mi"
+"CALM"
 msgstr ""
 
 #: plugins/weather/weather.cpp:444
 msgid ""
 "_: weather\n"
-"km/h"
+"km"
 msgstr ""
 
 #: plugins/weather/weather.cpp:445
 msgid ""
 "_: weather\n"
-"mph"
+"mi"
 msgstr ""
 
 #: plugins/weather/weather.cpp:446
 msgid ""
 "_: weather\n"
-"mmHg"
+"km/h"
 msgstr ""
 
 #: plugins/weather/weather.cpp:447
 msgid ""
 "_: weather\n"
-"inHg"
+"mph"
+msgstr ""
+
+#: plugins/weather/weather.cpp:448
+msgid ""
+"_: weather\n"
+"mmHg"
 msgstr ""
 
 #: plugins/weather/weather.cpp:449
 msgid ""
 "_: weather\n"
-"Low"
-msgstr ""
-
-#: plugins/weather/weather.cpp:450
-msgid ""
-"_: weather\n"
-"Moderate"
+"inHg"
 msgstr ""
 
 #: plugins/weather/weather.cpp:451
 msgid ""
 "_: weather\n"
-"High"
+"Low"
+msgstr ""
+
+#: plugins/weather/weather.cpp:452
+msgid ""
+"_: weather\n"
+"Moderate"
 msgstr ""
 
 #: plugins/weather/weather.cpp:453
 msgid ""
-"_: moonphase\n"
-"New"
-msgstr ""
-
-#: plugins/weather/weather.cpp:454
-msgid ""
-"_: moonphase\n"
-"Waxing Crescent"
+"_: weather\n"
+"High"
 msgstr ""
 
 #: plugins/weather/weather.cpp:455
 msgid ""
 "_: moonphase\n"
-"First Quarter"
+"New"
 msgstr ""
 
 #: plugins/weather/weather.cpp:456
 msgid ""
 "_: moonphase\n"
-"Waxing Gibbous"
+"Waxing Crescent"
 msgstr ""
 
 #: plugins/weather/weather.cpp:457
 msgid ""
 "_: moonphase\n"
-"Full"
+"First Quarter"
 msgstr ""
 
 #: plugins/weather/weather.cpp:458
 msgid ""
 "_: moonphase\n"
-"Waning Gibbous"
+"Waxing Gibbous"
 msgstr ""
 
 #: plugins/weather/weather.cpp:459
 msgid ""
 "_: moonphase\n"
-"Last Quarter"
+"Full"
 msgstr ""
 
 #: plugins/weather/weather.cpp:460
 msgid ""
 "_: moonphase\n"
+"Waning Gibbous"
+msgstr ""
+
+#: plugins/weather/weather.cpp:461
+msgid ""
+"_: moonphase\n"
+"Last Quarter"
+msgstr ""
+
+#: plugins/weather/weather.cpp:462
+msgid ""
+"_: moonphase\n"
 "Waning Crescent"
 msgstr ""
 
-#: plugins/weather/weather.cpp:472
+#: plugins/weather/weather.cpp:474
 msgid "and"
 msgstr ""
 
-#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Early"
 msgstr ""
 
-#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:480
 msgid ""
 "_: weather\n"
 "Late"
 msgstr ""
 
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
+#: plugins/weather/weather.cpp:519 plugins/weather/weather.cpp:521
 msgid "m/s"
 msgstr ""
 
-#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
+#: plugins/weather/weather.cpp:520 plugins/weather/weather.cpp:521
 msgid "gust"
 msgstr ""
 
-#: plugins/weather/weather.cpp:568
+#: plugins/weather/weather.cpp:571
 msgid "%t | %c"
-msgstr ""
-
-#: plugins/weather/weather.cpp:577
-msgid ""
-"_: weather\n"
-"Current Weather"
-msgstr ""
-
-#: plugins/weather/weather.cpp:579
-msgid ""
-"_: weather\n"
-"Temperature"
-msgstr ""
-
-#: plugins/weather/weather.cpp:579
-msgid ""
-"_: weather\n"
-"feels like"
 msgstr ""
 
 #: plugins/weather/weather.cpp:580
 msgid ""
 "_: weather\n"
-"Humidity"
-msgstr ""
-
-#: plugins/weather/weather.cpp:581
-msgid ""
-"_: weather\n"
-"Chance of Precipitation"
+"Current Weather"
 msgstr ""
 
 #: plugins/weather/weather.cpp:582
 msgid ""
 "_: weather\n"
-"Pressure"
+"Temperature"
+msgstr ""
+
+#: plugins/weather/weather.cpp:582
+msgid ""
+"_: weather\n"
+"feels like"
+msgstr ""
+
+#: plugins/weather/weather.cpp:583
+msgid ""
+"_: weather\n"
+"Humidity"
 msgstr ""
 
 #: plugins/weather/weather.cpp:584
 msgid ""
 "_: weather\n"
-"Visibility"
+"Chance of Precipitation"
 msgstr ""
 
 #: plugins/weather/weather.cpp:585
 msgid ""
 "_: weather\n"
-"Dew Point"
-msgstr ""
-
-#: plugins/weather/weather.cpp:586
-msgid ""
-"_: weather\n"
-"Sunrise"
+"Pressure"
 msgstr ""
 
 #: plugins/weather/weather.cpp:587
 msgid ""
 "_: weather\n"
-"Sunset"
+"Visibility"
 msgstr ""
 
 #: plugins/weather/weather.cpp:588
+msgid ""
+"_: weather\n"
+"Dew Point"
+msgstr ""
+
+#: plugins/weather/weather.cpp:589
+msgid ""
+"_: weather\n"
+"Sunrise"
+msgstr ""
+
+#: plugins/weather/weather.cpp:590
+msgid ""
+"_: weather\n"
+"Sunset"
+msgstr ""
+
+#: plugins/weather/weather.cpp:591
 #, c-format
 msgid ""
 "_: weather\n"
 "UV-Intensity is <b>%ut</b> with value <b>%ui</b> (of 11)"
 msgstr ""
 
-#: plugins/weather/weather.cpp:589
+#: plugins/weather/weather.cpp:592
 msgid ""
 "_: weather\n"
 "Moonphase"
 msgstr ""
 
-#: plugins/weather/weather.cpp:592
+#: plugins/weather/weather.cpp:595
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr ""
 
-#: plugins/weather/weather.cpp:600
+#: plugins/weather/weather.cpp:603
 msgid ""
-"<br><br>\n"
-"<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"><br>%c<br>\n"
 "Temperature: <b>%t</b><br>\n"
@@ -8040,7 +8042,7 @@ msgstr ""
 msgid "Units:"
 msgstr ""
 
-#: plugins/weather/wifacecfg.cpp:32 plugins/weather/wifacecfg.cpp:71
+#: plugins/weather/wifacecfg.cpp:32 plugins/weather/wifacecfg.cpp:73
 msgid "Temperature"
 msgstr ""
 
@@ -8101,21 +8103,25 @@ msgid "Sunset"
 msgstr ""
 
 #. i18n: file ./plugins/yahoo/yahoosearchbase.ui line 123
-#: plugins/weather/wifacecfg.cpp:64 plugins/weather/wifacecfg.cpp:79
+#: plugins/weather/wifacecfg.cpp:64 plugins/weather/wifacecfg.cpp:81
 #: plugins/yahoo/yahoosearchbase.cpp:101 rc.cpp:1208
 #, no-c-format
 msgid "Conditions"
 msgstr ""
 
-#: plugins/weather/wifacecfg.cpp:73
-msgid "Number"
+#: plugins/weather/wifacecfg.cpp:66
+msgid "Obst"
 msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:75
-msgid "Day of week"
+msgid "Number"
 msgstr ""
 
 #: plugins/weather/wifacecfg.cpp:77
+msgid "Day of week"
+msgstr ""
+
+#: plugins/weather/wifacecfg.cpp:79
 msgid "Date"
 msgstr ""
 
@@ -8289,6 +8295,12 @@ msgstr ""
 #: rc.cpp:1113
 #, no-c-format
 msgid "Find ASpell"
+msgstr ""
+
+#. i18n: file ./plugins/forward/forwardcfgbase-neu.ui line 112
+#: rc.cpp:2307
+#, no-c-format
+msgid "Alt+O"
 msgstr ""
 
 #: sim/aboutdata.cpp:267

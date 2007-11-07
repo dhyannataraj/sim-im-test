@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-22 12:42+0200\n"
+"POT-Creation-Date: 2007-11-07 13:18+0100\n"
 "PO-Revision-Date: 2007-10-31 09:17+0100\n"
 "Last-Translator: Pavol Šimo <palo.simo@post.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # _translatorinfo.cpp:1
 # mainwin.cpp:3078
@@ -22,7 +22,9 @@ msgstr ""
 msgid ""
 "_: NAME OF TRANSLATORS\n"
 "Your names"
-msgstr "Paľo Šimo (palos),Tomáš Oláh (Griffin)\nGriffin ľúbi Micku! :-*"
+msgstr ""
+"Paľo Šimo (palos),Tomáš Oláh (Griffin)\n"
+"Griffin ľúbi Micku! :-*"
 
 # _translatorinfo.cpp:3
 # mainwin.cpp:3079
@@ -92,8 +94,8 @@ msgstr "Nastaviť domovský adresár"
 #: rc.cpp:1350 rc.cpp:1358 rc.cpp:1387 rc.cpp:1399 rc.cpp:1443 rc.cpp:1564
 #: rc.cpp:1616 rc.cpp:1650 rc.cpp:1671 rc.cpp:1695 rc.cpp:1860 rc.cpp:1993
 #: rc.cpp:2035 rc.cpp:2066 rc.cpp:2072 rc.cpp:2091 rc.cpp:2152 rc.cpp:2158
-#: rc.cpp:2173 rc.cpp:2188 rc.cpp:2212 rc.cpp:2276 rc.cpp:2311 rc.cpp:2326
-#: rc.cpp:2338 rc.cpp:2362 rc.cpp:2402 rc.cpp:2418
+#: rc.cpp:2173 rc.cpp:2188 rc.cpp:2212 rc.cpp:2276 rc.cpp:2292 rc.cpp:2333
+#: rc.cpp:2348 rc.cpp:2360 rc.cpp:2384 rc.cpp:2424 rc.cpp:2440
 #, no-c-format
 msgid "Form1"
 msgstr "Formulár 1"
@@ -177,7 +179,7 @@ msgid "Convert configuration"
 msgstr "Konfigurácia konverzie"
 
 #: plugins/_core/arcfg.cpp:98 plugins/_core/autoreply.cpp:134
-#: plugins/weather/wifacecfg.cpp:112
+#: plugins/weather/wifacecfg.cpp:114
 msgid "In text you can use:"
 msgstr "V texte je možné použiť:"
 
@@ -195,7 +197,7 @@ msgstr "P&otlačiť globálne nastavenia"
 #: plugins/_core/arcfgbase.cpp:80 plugins/_core/autoreplybase.cpp:89
 #: plugins/action/actioncfgbase.cpp:62 plugins/action/additembase.cpp:94
 #: plugins/weather/wifacecfgbase.cpp:84 rc.cpp:1702 rc.cpp:1714 rc.cpp:2185
-#: rc.cpp:2341 rc.cpp:2353 sim/misc.cpp:413
+#: rc.cpp:2363 rc.cpp:2375 sim/misc.cpp:413
 #, no-c-format
 msgid "&Help"
 msgstr "&Pomoc"
@@ -248,8 +250,8 @@ msgstr "Nezobrazovať tento dialóg"
 #: plugins/icq/warndlgbase.cc:88 plugins/jabber/discoinfobase.cpp:289
 #: plugins/proxy/proxyerrorbase.cpp:80 rc.cpp:49 rc.cpp:397 rc.cpp:918
 #: rc.cpp:1006 rc.cpp:1027 rc.cpp:1381 rc.cpp:1540 rc.cpp:1558 rc.cpp:1718
-#: rc.cpp:1733 rc.cpp:1769 rc.cpp:1785 rc.cpp:1974 rc.cpp:2356 rc.cpp:2396
-#: rc.cpp:2455 sim/misc.cpp:407
+#: rc.cpp:1733 rc.cpp:1769 rc.cpp:1785 rc.cpp:1974 rc.cpp:2378 rc.cpp:2418
+#: rc.cpp:2477 sim/misc.cpp:407
 #, no-c-format
 msgid "&OK"
 msgstr "&OK"
@@ -276,8 +278,8 @@ msgstr "&OK"
 #: plugins/icq/warndlgbase.cc:89 plugins/proxy/proxyerrorbase.cpp:81
 #: plugins/weather/weathercfg.cpp:81 rc.cpp:52 rc.cpp:921 rc.cpp:933
 #: rc.cpp:1010 rc.cpp:1030 rc.cpp:1117 rc.cpp:1384 rc.cpp:1561 rc.cpp:1613
-#: rc.cpp:1721 rc.cpp:1736 rc.cpp:1772 rc.cpp:1788 rc.cpp:1977 rc.cpp:2359
-#: rc.cpp:2399 rc.cpp:2415 rc.cpp:2458 sim/misc.cpp:410
+#: rc.cpp:1721 rc.cpp:1736 rc.cpp:1772 rc.cpp:1788 rc.cpp:1977 rc.cpp:2381
+#: rc.cpp:2421 rc.cpp:2437 rc.cpp:2480 sim/misc.cpp:410
 #, no-c-format
 msgid "&Cancel"
 msgstr "&Zrušiť"
@@ -541,7 +543,7 @@ msgstr "&História"
 #: plugins/_core/managerbase.cpp:110 plugins/_core/toolsetupbase.cpp:136
 #: plugins/about/aboutdlgbase.cpp:122 plugins/icq/securedlg.cpp:104
 #: plugins/jabber/discoinfobase.cpp:290 rc.cpp:400 rc.cpp:1543 rc.cpp:1961
-#: rc.cpp:2307 sim/misc.cpp:410
+#: rc.cpp:2329 sim/misc.cpp:410
 #, no-c-format
 msgid "&Close"
 msgstr "&Zavrieť"
@@ -559,7 +561,7 @@ msgstr "Vložiť emo&tikon"
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 94
 #: plugins/_core/core.cpp:618 plugins/forward/forwardcfgbase.cpp:75
-#: rc.cpp:2289
+#: rc.cpp:2289 rc.cpp:2298
 #, no-c-format
 msgid "Send in &translit"
 msgstr "Odoslať preložené"
@@ -815,7 +817,7 @@ msgstr "P&remenovať"
 #: plugins/_core/core.cpp:1273 plugins/_core/historycfgbase.cpp:189
 #: plugins/_core/logindlgbase.cpp:142 plugins/_core/maininfobase.cpp:195
 #: plugins/_core/maininfobase.cpp:205 plugins/action/menucfgbase.cpp:70
-#: rc.cpp:1460 rc.cpp:1890 rc.cpp:1914 rc.cpp:1990 rc.cpp:2335
+#: rc.cpp:1460 rc.cpp:1890 rc.cpp:1914 rc.cpp:1990 rc.cpp:2357
 #: sim/listview.cpp:41
 #, no-c-format
 msgid "&Delete"
@@ -896,7 +898,7 @@ msgstr "Vložiť dôvod odmietnutia"
 #: plugins/_core/core.cpp:1252 plugins/_core/core.cpp:1266
 #: plugins/_core/maininfobase.cpp:194 plugins/_core/maininfobase.cpp:204
 #: plugins/action/menucfgbase.cpp:69 plugins/netmonitor/monitor.cpp:84
-#: rc.cpp:1887 rc.cpp:1911 rc.cpp:2332
+#: rc.cpp:1887 rc.cpp:1911 rc.cpp:2354
 #, no-c-format
 msgid "&Edit"
 msgstr "&Upraviť"
@@ -1030,7 +1032,7 @@ msgstr "od užívateľa %1"
 
 # mainwin.cpp:2461
 #. i18n: file ./plugins/icons/iconcfgbase.ui line 76
-#: plugins/_core/core.cpp:2542 plugins/icons/iconcfgbase.cpp:77 rc.cpp:2323
+#: plugins/_core/core.cpp:2542 plugins/icons/iconcfgbase.cpp:77 rc.cpp:2345
 #, no-c-format
 msgid "&New"
 msgstr "&Nový"
@@ -1987,7 +1989,7 @@ msgstr "Email adresy:"
 #. i18n: file ./plugins/_core/maininfobase.ui line 278
 #: plugins/_core/maininfobase.cpp:193 plugins/_core/maininfobase.cpp:203
 #: plugins/_core/search.cpp:138 plugins/action/menucfgbase.cpp:68 rc.cpp:1884
-#: rc.cpp:1908 rc.cpp:2329
+#: rc.cpp:1908 rc.cpp:2351
 #, no-c-format
 msgid "&Add"
 msgstr "&Pridať"
@@ -2071,7 +2073,7 @@ msgstr "&Konfigurovať"
 # ui/toolsetupbase.cpp:132
 #. i18n: file ./plugins/_core/toolsetupbase.ui line 253
 #: plugins/_core/managerbase.cpp:105 plugins/_core/toolsetupbase.cpp:132
-#: plugins/icons/iconcfgbase.cpp:74 rc.cpp:1531 rc.cpp:1946 rc.cpp:2314
+#: plugins/icons/iconcfgbase.cpp:74 rc.cpp:1531 rc.cpp:1946 rc.cpp:2336
 #, no-c-format
 msgid "&Up"
 msgstr "Ho&re"
@@ -2079,7 +2081,7 @@ msgstr "Ho&re"
 # ui/toolsetupbase.cpp:133
 #. i18n: file ./plugins/_core/toolsetupbase.ui line 264
 #: plugins/_core/managerbase.cpp:107 plugins/_core/toolsetupbase.cpp:133
-#: plugins/icons/iconcfgbase.cpp:75 rc.cpp:1534 rc.cpp:1952 rc.cpp:2317
+#: plugins/icons/iconcfgbase.cpp:75 rc.cpp:1534 rc.cpp:1952 rc.cpp:2339
 #, no-c-format
 msgid "&Down"
 msgstr "&Dole"
@@ -2087,7 +2089,7 @@ msgstr "&Dole"
 # ui/maininfobase.cpp:325
 #. i18n: file ./plugins/_core/managerbase.ui line 101
 #: plugins/_core/managerbase.cpp:108 plugins/icons/iconcfgbase.cpp:76
-#: rc.cpp:1955 rc.cpp:2320
+#: rc.cpp:1955 rc.cpp:2342
 #, no-c-format
 msgid "&Remove"
 msgstr "Odst&rániť"
@@ -2980,7 +2982,7 @@ msgstr "užívateľovi %1"
 
 # ui/aboutdlgbase.cpp:152
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 45
-#: plugins/about/about.cpp:43 plugins/about/aboutdlgbase.cpp:118 rc.cpp:2295
+#: plugins/about/about.cpp:43 plugins/about/aboutdlgbase.cpp:118 rc.cpp:2317
 #, no-c-format
 msgid "About"
 msgstr "O ..."
@@ -3020,28 +3022,28 @@ msgstr "Poznámka: Toto je poštová diskusná skupina v angličtine."
 
 # ui/aboutdlgbase.cpp:149
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 20
-#: plugins/about/aboutdlgbase.cpp:117 rc.cpp:2292
+#: plugins/about/aboutdlgbase.cpp:117 rc.cpp:2314
 #, no-c-format
 msgid "About SIM"
 msgstr "O SIM-IM"
 
 # ui/aboutdlgbase.cpp:153
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 73
-#: plugins/about/aboutdlgbase.cpp:119 rc.cpp:2298
+#: plugins/about/aboutdlgbase.cpp:119 rc.cpp:2320
 #, no-c-format
 msgid "Authors"
 msgstr "Autori"
 
 # ui/aboutdlgbase.cpp:154
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 108
-#: plugins/about/aboutdlgbase.cpp:120 rc.cpp:2301
+#: plugins/about/aboutdlgbase.cpp:120 rc.cpp:2323
 #, no-c-format
 msgid "Translation"
 msgstr "Preklad"
 
 # ui/aboutdlgbase.cpp:155
 #. i18n: file ./plugins/about/aboutdlgbase.ui line 136
-#: plugins/about/aboutdlgbase.cpp:121 rc.cpp:2304
+#: plugins/about/aboutdlgbase.cpp:121 rc.cpp:2326
 #, no-c-format
 msgid "License"
 msgstr "Licencia"
@@ -3114,7 +3116,7 @@ msgstr ""
 # ui/toolsetupbase.cpp:131
 # ui/userinfobase.cpp:148
 #. i18n: file ./plugins/action/additembase.ui line 20
-#: plugins/action/additembase.cpp:91 rc.cpp:2344
+#: plugins/action/additembase.cpp:91 rc.cpp:2366
 #, no-c-format
 msgid "Add Item"
 msgstr "Pridať položku"
@@ -3128,7 +3130,7 @@ msgstr "Pridať položku"
 # ui/toolsetupbase.cpp:131
 # ui/userinfobase.cpp:148
 #. i18n: file ./plugins/action/additembase.ui line 43
-#: plugins/action/additembase.cpp:92 rc.cpp:2347
+#: plugins/action/additembase.cpp:92 rc.cpp:2369
 #, no-c-format
 msgid "Item:"
 msgstr "Položka:"
@@ -3136,7 +3138,7 @@ msgstr "Položka:"
 # ui/networkbase.cpp:227
 # ui/proxydlgbase.cpp:183
 #. i18n: file ./plugins/action/additembase.ui line 61
-#: plugins/action/additembase.cpp:93 rc.cpp:2350
+#: plugins/action/additembase.cpp:93 rc.cpp:2372
 #, no-c-format
 msgid "Program:"
 msgstr "Program:"
@@ -3487,14 +3489,14 @@ msgstr "Zásuvný modul umožňuje preposielať správy na mobilný telefón"
 
 # ui/smssetupbase.cpp:131
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 39
-#: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:2279
+#: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:2279 rc.cpp:2295
 #, no-c-format
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
 msgstr "Všetky správy pri statuse \"Away\" a \"N/A\" posielať na mobil:"
 
 # ui/smssetupbase.cpp:132
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 65
-#: plugins/forward/forwardcfgbase.cpp:72 rc.cpp:2282
+#: plugins/forward/forwardcfgbase.cpp:72 rc.cpp:2282 rc.cpp:2310
 #, no-c-format
 msgid ""
 "For the answer or sending of the new message you can answer on SMS having "
@@ -3506,7 +3508,7 @@ msgstr ""
 "<UIN>:"
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 83
-#: plugins/forward/forwardcfgbase.cpp:74 rc.cpp:2286
+#: plugins/forward/forwardcfgbase.cpp:74 rc.cpp:2286 rc.cpp:2304
 #, no-c-format
 msgid "Send only &one message (don't split)"
 msgstr "Od&oslať len jednu správu (nerozdeľovať)"
@@ -3562,50 +3564,50 @@ msgid "Can't read gpg key "
 msgstr "Nie je možné prečítať gpg kľúč "
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 39
-#: plugins/gpg/gpgadvbase.cpp:125 rc.cpp:2365
+#: plugins/gpg/gpgadvbase.cpp:125 rc.cpp:2387
 #, no-c-format
 msgid "Command arguments"
 msgstr "Parametre príkazu"
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 58
-#: plugins/gpg/gpgadvbase.cpp:126 rc.cpp:2368
+#: plugins/gpg/gpgadvbase.cpp:126 rc.cpp:2390
 #, no-c-format
 msgid "Generate key:"
 msgstr "Generovať kľúč:"
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 76
-#: plugins/gpg/gpgadvbase.cpp:127 rc.cpp:2371
+#: plugins/gpg/gpgadvbase.cpp:127 rc.cpp:2393
 #, no-c-format
 msgid "List public keys:"
 msgstr "Zoznam verejných kľúčov:"
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 94
-#: plugins/gpg/gpgadvbase.cpp:128 rc.cpp:2374
+#: plugins/gpg/gpgadvbase.cpp:128 rc.cpp:2396
 #, no-c-format
 msgid "List secret keys:"
 msgstr "Zoznam súkromných kľúčov:"
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 133
-#: plugins/gpg/gpgadvbase.cpp:129 rc.cpp:2377
+#: plugins/gpg/gpgadvbase.cpp:129 rc.cpp:2399
 #, no-c-format
 msgid "Import public:"
 msgstr "Importovať verejný:"
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 158
-#: plugins/gpg/gpgadvbase.cpp:130 rc.cpp:2380
+#: plugins/gpg/gpgadvbase.cpp:130 rc.cpp:2402
 #, no-c-format
 msgid "Export public:"
 msgstr "Exportovať verejný:"
 
 # libicq/country.cpp:133
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 183
-#: plugins/gpg/gpgadvbase.cpp:131 rc.cpp:2383
+#: plugins/gpg/gpgadvbase.cpp:131 rc.cpp:2405
 #, no-c-format
 msgid "Encrypt:"
 msgstr "Šifrovať:"
 
 #. i18n: file ./plugins/gpg/gpgadvbase.ui line 208
-#: plugins/gpg/gpgadvbase.cpp:132 rc.cpp:2386
+#: plugins/gpg/gpgadvbase.cpp:132 rc.cpp:2408
 #, no-c-format
 msgid "Decrypt:"
 msgstr "Dešifrovať:"
@@ -3655,43 +3657,43 @@ msgid "Get secret list failed"
 msgstr "Nastala chyba pri získavaní kľúča"
 
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 39
-#: plugins/gpg/gpgcfgbase.cpp:106 rc.cpp:2421
+#: plugins/gpg/gpgcfgbase.cpp:106 rc.cpp:2443
 #, no-c-format
 msgid "Executable:"
 msgstr "Spustiteľný súbor:"
 
 # qt3/i18n.cpp:117
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 71
-#: plugins/gpg/gpgcfgbase.cpp:107 rc.cpp:2424
+#: plugins/gpg/gpgcfgbase.cpp:107 rc.cpp:2446
 #, no-c-format
 msgid "Home directory:"
 msgstr "Domovský adresár:"
 
 # libicq/country.cpp:142
 #. i18n: file ./plugins/spell/spellcfgbase.ui line 86
-#: plugins/gpg/gpgcfgbase.cpp:108 rc.cpp:1126 rc.cpp:2427
+#: plugins/gpg/gpgcfgbase.cpp:108 rc.cpp:1126 rc.cpp:2449
 #, no-c-format
 msgid "&Find"
 msgstr "&Nájsť"
 
 # libicq/country.cpp:290
 #. i18n: file ./plugins/gpg/gpgcfgbase.ui line 181
-#: plugins/gpg/gpgcfgbase.cpp:109 rc.cpp:2430
+#: plugins/gpg/gpgcfgbase.cpp:109 rc.cpp:2452
 #, no-c-format
 msgid "Your key:"
 msgstr "Tvoj kľúč:"
 
 # msgedit.cpp:121
 #. i18n: file ./plugins/gpg/gpguserbase.ui line 71
-#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69 rc.cpp:2408
-#: rc.cpp:2433
+#: plugins/gpg/gpgcfgbase.cpp:110 plugins/gpg/gpguserbase.cpp:69 rc.cpp:2430
+#: rc.cpp:2455
 #, no-c-format
 msgid "&Refresh"
 msgstr "O&bnoviť"
 
 # libicq/country.cpp:142
 #. i18n: file ./plugins/gpg/gpgfindbase.ui line 20
-#: plugins/gpg/gpgfindbase.cpp:68 rc.cpp:2411
+#: plugins/gpg/gpgfindbase.cpp:68 rc.cpp:2433
 #, no-c-format
 msgid "Find GPG"
 msgstr "Nájsť GPG"
@@ -3706,7 +3708,7 @@ msgid "Generate key failed"
 msgstr "Nastala chyba pri generovaní kľúča"
 
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 20
-#: plugins/gpg/gpggenbase.cpp:135 rc.cpp:2436
+#: plugins/gpg/gpggenbase.cpp:135 rc.cpp:2458
 #, no-c-format
 msgid "Generate key"
 msgstr "Generovať kľúč"
@@ -3714,14 +3716,14 @@ msgstr "Generovať kľúč"
 # ui/maininfobase.cpp:327
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 579
 #: plugins/gpg/gpggenbase.cpp:136 plugins/jabber/discoinfobase.cpp:285
-#: rc.cpp:387 rc.cpp:2439
+#: rc.cpp:387 rc.cpp:2461
 #, no-c-format
 msgid "EMail:"
 msgstr "Email:"
 
 # ui/maininfobase.cpp:333
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 61
-#: plugins/gpg/gpggenbase.cpp:137 rc.cpp:2442
+#: plugins/gpg/gpggenbase.cpp:137 rc.cpp:2464
 #, no-c-format
 msgid "Comment:"
 msgstr "Komentár:"
@@ -3732,28 +3734,28 @@ msgstr "Komentár:"
 #. i18n: file ./plugins/jabber/discoinfobase.ui line 150
 #: plugins/gpg/gpggenbase.cpp:138 plugins/icq/workinfobase.cc:184
 #: plugins/jabber/discoinfobase.cpp:269 plugins/jabber/discoinfobase.cpp:271
-#: rc.cpp:343 rc.cpp:349 rc.cpp:593 rc.cpp:2445
+#: rc.cpp:343 rc.cpp:349 rc.cpp:593 rc.cpp:2467
 #, no-c-format
 msgid "Name:"
 msgstr "Meno:"
 
 # ui/logindlgbase.cpp:129
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 118
-#: plugins/gpg/gpggenbase.cpp:139 rc.cpp:2448
+#: plugins/gpg/gpggenbase.cpp:139 rc.cpp:2470
 #, no-c-format
 msgid "Passphrase:"
 msgstr "Heslová fráza:"
 
 # ui/generalsecbase.cpp:234
 #. i18n: file ./plugins/gpg/gpggenbase.ui line 136
-#: plugins/gpg/gpggenbase.cpp:140 rc.cpp:2451
+#: plugins/gpg/gpggenbase.cpp:140 rc.cpp:2473
 #, no-c-format
 msgid "Retype passphrase:"
 msgstr "Napíšte znovu heslovú frázu:"
 
 # ui/keysetup.cpp:34
 #. i18n: file ./plugins/gpg/gpguserbase.ui line 39
-#: plugins/gpg/gpguserbase.cpp:68 rc.cpp:2405
+#: plugins/gpg/gpguserbase.cpp:68 rc.cpp:2427
 #, no-c-format
 msgid "Key:"
 msgstr "Kľúč:"
@@ -3768,14 +3770,14 @@ msgid "Bad passphrase"
 msgstr "Zlá heslová fráza"
 
 #. i18n: file ./plugins/gpg/passphrasebase.ui line 20
-#: plugins/gpg/passphrasebase.cpp:88 rc.cpp:2389
+#: plugins/gpg/passphrasebase.cpp:88 rc.cpp:2411
 #, no-c-format
 msgid "Input passphrase"
 msgstr "Vložiť heslovú frázu"
 
 # ui/logindlgbase.cpp:128
 #. i18n: file ./plugins/gpg/passphrasebase.ui line 64
-#: plugins/gpg/passphrasebase.cpp:90 rc.cpp:2393
+#: plugins/gpg/passphrasebase.cpp:90 rc.cpp:2415
 #, no-c-format
 msgid "&Save passphrase"
 msgstr "Uložiť he&slovú frázu"
@@ -4259,7 +4261,7 @@ msgstr "Zoznam neviditeľných"
 msgid "&Add to group"
 msgstr "Prid&ať do skupiny"
 
-#: plugins/icq/icqbuddy.cpp:566
+#: plugins/icq/icqbuddy.cpp:573
 msgid "removed from buddy list"
 msgstr "odstránený zo zoznamu kontaktov"
 
@@ -6562,7 +6564,7 @@ msgstr "Povoliť notifikáciu &písania"
 
 # qt3/i18n.cpp:197
 #. i18n: file ./plugins/jabber/jabberconfigbase.ui line 572
-#: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196
+#: plugins/jabber/jabberconfigbase.cpp:327 rc.cpp:196 rc.cpp:2301
 #, no-c-format
 msgid "Alt+T"
 msgstr "Alt+T"
@@ -8818,7 +8820,8 @@ msgid ""
 "for SIM-IM, automatically after finishing.\n"
 "\n"
 "Would like you to ALLOW to carry out THE UPDATE?"
-msgstr "Môžem teraz STIAHNUŤ aktualizáciu\n"
+msgstr ""
+"Môžem teraz STIAHNUŤ aktualizáciu\n"
 "dostupnú na: %1\n"
 "NA POZADÍ a nainštalovať aktualizáciu\n"
 "pre SIM-IM automaticky po dokončení.\n"
@@ -8890,52 +8893,56 @@ msgstr "Zásuvný modul umožňuje zobrazenie počasia"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
-#: plugins/weather/weather.cpp:122 plugins/weather/weather.cpp:323
+#: plugins/weather/weather.cpp:123 plugins/weather/weather.cpp:324
 msgid "Not connected"
 msgstr "Nepripojený"
 
-#: plugins/weather/weather.cpp:349
+#: plugins/weather/weather.cpp:333
+msgid "<b>Forecast for</b><br>\n"
+msgstr ""
+
+#: plugins/weather/weather.cpp:351
 msgid ""
 "_: weather\n"
 "Weather data provided by weather.com&reg;"
 msgstr "Údaje o počasí poskytuje weather.com&reg;"
 
 # libicq/country.cpp:216
-#: plugins/weather/weather.cpp:364
+#: plugins/weather/weather.cpp:366
 msgid "Monday"
 msgstr "Pondelok"
 
 # libicq/country.cpp:290
-#: plugins/weather/weather.cpp:365
+#: plugins/weather/weather.cpp:367
 msgid "Tuesday"
 msgstr "Utorok"
 
-#: plugins/weather/weather.cpp:366
+#: plugins/weather/weather.cpp:368
 msgid "Wednesday"
 msgstr "Streda"
 
-#: plugins/weather/weather.cpp:367
+#: plugins/weather/weather.cpp:369
 msgid "Thursday"
 msgstr "Štvrtok"
 
 # libicq/country.cpp:21
-#: plugins/weather/weather.cpp:368
+#: plugins/weather/weather.cpp:370
 msgid "Friday"
 msgstr "Piatok"
 
 # libicq/country.cpp:274
-#: plugins/weather/weather.cpp:369
+#: plugins/weather/weather.cpp:371
 msgid "Saturday"
 msgstr "Sobota"
 
 # libicq/country.cpp:274
-#: plugins/weather/weather.cpp:370
+#: plugins/weather/weather.cpp:372
 msgid "Sunday"
 msgstr "Nedeľa"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:372
+#: plugins/weather/weather.cpp:374
 msgid ""
 "_: weather\n"
 "Squalls"
@@ -8943,7 +8950,7 @@ msgstr "Búrky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:373
+#: plugins/weather/weather.cpp:375
 msgid ""
 "_: weather\n"
 "Overcast"
@@ -8951,7 +8958,7 @@ msgstr "Prehánky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:374
+#: plugins/weather/weather.cpp:376
 msgid ""
 "_: weather\n"
 "Fog"
@@ -8959,7 +8966,7 @@ msgstr "Hmla"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:375
+#: plugins/weather/weather.cpp:377
 msgid ""
 "_: weather\n"
 "Foggy"
@@ -8967,7 +8974,7 @@ msgstr "Hmlisto"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:376
+#: plugins/weather/weather.cpp:378
 msgid ""
 "_: weather\n"
 "Mist"
@@ -8975,7 +8982,7 @@ msgstr "Opar"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:377
+#: plugins/weather/weather.cpp:379
 msgid ""
 "_: weather\n"
 "Haze"
@@ -8983,7 +8990,7 @@ msgstr "Jemná hmla"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:378
+#: plugins/weather/weather.cpp:380
 msgid ""
 "_: weather\n"
 "Storm"
@@ -8991,7 +8998,7 @@ msgstr "Búrka"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:379
+#: plugins/weather/weather.cpp:381
 msgid ""
 "_: weather\n"
 "T-Storm"
@@ -8999,7 +9006,7 @@ msgstr "Hromobitie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:380
+#: plugins/weather/weather.cpp:382
 msgid ""
 "_: weather\n"
 "T-Storms"
@@ -9007,7 +9014,7 @@ msgstr "Hromobitia"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:381
+#: plugins/weather/weather.cpp:383
 msgid ""
 "_: weather\n"
 "Scattered T-Storms"
@@ -9015,7 +9022,7 @@ msgstr "Rozptýlené búrky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:382
+#: plugins/weather/weather.cpp:384
 msgid ""
 "_: weather\n"
 "Thunder"
@@ -9023,7 +9030,7 @@ msgstr "Hromy-blesky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:383
+#: plugins/weather/weather.cpp:385
 msgid ""
 "_: weather\n"
 "Light Rain with Thunder"
@@ -9031,7 +9038,7 @@ msgstr "Ľahký dážď s bleskami"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:384
+#: plugins/weather/weather.cpp:386
 msgid ""
 "_: weather\n"
 "Thunder in the Vicinity"
@@ -9039,7 +9046,7 @@ msgstr "Blýskanie v okolí"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:385
+#: plugins/weather/weather.cpp:387
 msgid ""
 "_: weather\n"
 "Rain"
@@ -9047,7 +9054,7 @@ msgstr "Dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:386
+#: plugins/weather/weather.cpp:388
 msgid ""
 "_: weather\n"
 "Light Rain"
@@ -9055,7 +9062,7 @@ msgstr "Ľahký dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:387
+#: plugins/weather/weather.cpp:389
 msgid ""
 "_: weather\n"
 "Heavy Rain"
@@ -9063,7 +9070,7 @@ msgstr "Hustý dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:388 plugins/weather/weather.cpp:411
+#: plugins/weather/weather.cpp:390 plugins/weather/weather.cpp:413
 msgid ""
 "_: weather\n"
 "Freezing Rain"
@@ -9071,7 +9078,7 @@ msgstr "Mrznúci dážď"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:389
+#: plugins/weather/weather.cpp:391
 msgid ""
 "_: weather\n"
 "Rain to Snow"
@@ -9079,7 +9086,7 @@ msgstr "Snehoprš"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:390
+#: plugins/weather/weather.cpp:392
 msgid ""
 "_: weather\n"
 "Snow"
@@ -9087,7 +9094,7 @@ msgstr "Sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:391
+#: plugins/weather/weather.cpp:393
 msgid ""
 "_: weather\n"
 "Light Snow"
@@ -9095,7 +9102,7 @@ msgstr "Ľahké sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:392
+#: plugins/weather/weather.cpp:394
 msgid ""
 "_: weather\n"
 "Few Snow"
@@ -9103,7 +9110,7 @@ msgstr "Občasné sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:393
+#: plugins/weather/weather.cpp:395
 msgid ""
 "_: weather\n"
 "Scattered Snow"
@@ -9111,7 +9118,7 @@ msgstr "Rozptýlené sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:394
+#: plugins/weather/weather.cpp:396
 msgid ""
 "_: weather\n"
 "Ice Crystals"
@@ -9119,7 +9126,7 @@ msgstr "Ľadové kryštáliky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:395
+#: plugins/weather/weather.cpp:397
 msgid ""
 "_: weather\n"
 "Clear"
@@ -9127,7 +9134,7 @@ msgstr "Jasno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:396
+#: plugins/weather/weather.cpp:398
 msgid ""
 "_: weather\n"
 "Clearing"
@@ -9135,7 +9142,7 @@ msgstr "Takmer jasno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:397
+#: plugins/weather/weather.cpp:399
 msgid ""
 "_: weather\n"
 "Showers"
@@ -9143,7 +9150,7 @@ msgstr "Prehánky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:398
+#: plugins/weather/weather.cpp:400
 msgid ""
 "_: weather\n"
 "Showers in the Vicinity"
@@ -9151,7 +9158,7 @@ msgstr "Prehánky v okolí"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:399
+#: plugins/weather/weather.cpp:401
 msgid ""
 "_: weather\n"
 "Mostly Clear"
@@ -9159,7 +9166,7 @@ msgstr "Prevažne jasno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:400
+#: plugins/weather/weather.cpp:402
 msgid ""
 "_: weather\n"
 "Sunny"
@@ -9167,7 +9174,7 @@ msgstr "Slnečno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:401
+#: plugins/weather/weather.cpp:403
 msgid ""
 "_: weather\n"
 "Fair"
@@ -9175,7 +9182,7 @@ msgstr "Bezoblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:402
+#: plugins/weather/weather.cpp:404
 msgid ""
 "_: weather\n"
 "Cloudy"
@@ -9183,7 +9190,7 @@ msgstr "Oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:403
+#: plugins/weather/weather.cpp:405
 msgid ""
 "_: weather\n"
 "Clouds"
@@ -9191,7 +9198,7 @@ msgstr "Oblaky"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:404
+#: plugins/weather/weather.cpp:406
 msgid ""
 "_: weather\n"
 "Mostly Cloudy"
@@ -9199,7 +9206,7 @@ msgstr "Prevažne oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:405
+#: plugins/weather/weather.cpp:407
 msgid ""
 "_: weather\n"
 "Partly Cloudy"
@@ -9207,7 +9214,7 @@ msgstr "Čiastočne oblačno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:406 plugins/weather/weather.cpp:583
+#: plugins/weather/weather.cpp:408 plugins/weather/weather.cpp:586
 msgid ""
 "_: weather\n"
 "Wind"
@@ -9215,7 +9222,7 @@ msgstr "Vietor"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:407
+#: plugins/weather/weather.cpp:409
 msgid ""
 "_: weather\n"
 "Windy"
@@ -9223,7 +9230,7 @@ msgstr "Veterno"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:408
+#: plugins/weather/weather.cpp:410
 msgid ""
 "_: weather\n"
 "Drizzle"
@@ -9231,7 +9238,7 @@ msgstr "Mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:409
+#: plugins/weather/weather.cpp:411
 msgid ""
 "_: weather\n"
 "Heavy Drizzle"
@@ -9239,7 +9246,7 @@ msgstr "Husté mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:410
+#: plugins/weather/weather.cpp:412
 msgid ""
 "_: weather\n"
 "Freezing Drizzle"
@@ -9247,7 +9254,7 @@ msgstr "Mrznúce mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:412
+#: plugins/weather/weather.cpp:414
 msgid ""
 "_: weather\n"
 "Light Drizzle"
@@ -9255,7 +9262,7 @@ msgstr "Ľahké mrholenie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:413
+#: plugins/weather/weather.cpp:415
 msgid ""
 "_: weather\n"
 "Drifting Snow"
@@ -9263,7 +9270,7 @@ msgstr "Nestále sneženie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:414
+#: plugins/weather/weather.cpp:416
 msgid ""
 "_: weather\n"
 "Snow Grains"
@@ -9271,7 +9278,7 @@ msgstr "Snehové zrnká"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:415
+#: plugins/weather/weather.cpp:417
 msgid ""
 "_: weather\n"
 "Light Snow Grains"
@@ -9279,7 +9286,7 @@ msgstr "Ľahké snehové zrnká"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:416
+#: plugins/weather/weather.cpp:418
 msgid ""
 "_: weather\n"
 "Scattered"
@@ -9287,7 +9294,7 @@ msgstr "Kopovitá oblačnosť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:417
+#: plugins/weather/weather.cpp:419
 msgid ""
 "_: weather\n"
 "Smoke"
@@ -9295,7 +9302,7 @@ msgstr "Dym"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:418
+#: plugins/weather/weather.cpp:420
 msgid ""
 "_: weather\n"
 "steady"
@@ -9303,7 +9310,7 @@ msgstr "stabilný"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:419
+#: plugins/weather/weather.cpp:421
 msgid ""
 "_: weather\n"
 "rising"
@@ -9311,7 +9318,7 @@ msgstr "stúpa"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:420
+#: plugins/weather/weather.cpp:422
 msgid ""
 "_: weather\n"
 "falling"
@@ -9319,7 +9326,7 @@ msgstr "klesá"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:421
+#: plugins/weather/weather.cpp:423
 msgid ""
 "_: weather\n"
 "Unlimited"
@@ -9327,7 +9334,7 @@ msgstr "Neobmedzene"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:423
+#: plugins/weather/weather.cpp:425
 msgid ""
 "_: weather\n"
 "N"
@@ -9335,7 +9342,7 @@ msgstr "S"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:424
+#: plugins/weather/weather.cpp:426
 msgid ""
 "_: weather\n"
 "NNW"
@@ -9343,7 +9350,7 @@ msgstr "SSZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:425
+#: plugins/weather/weather.cpp:427
 msgid ""
 "_: weather\n"
 "NW"
@@ -9351,7 +9358,7 @@ msgstr "SZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:426
+#: plugins/weather/weather.cpp:428
 msgid ""
 "_: weather\n"
 "WNW"
@@ -9359,7 +9366,7 @@ msgstr "ZSZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:427
+#: plugins/weather/weather.cpp:429
 msgid ""
 "_: weather\n"
 "W"
@@ -9367,7 +9374,7 @@ msgstr "Z"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:428
+#: plugins/weather/weather.cpp:430
 msgid ""
 "_: weather\n"
 "WSW"
@@ -9375,7 +9382,7 @@ msgstr "ZJZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:429
+#: plugins/weather/weather.cpp:431
 msgid ""
 "_: weather\n"
 "SW"
@@ -9383,7 +9390,7 @@ msgstr "JZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:430
+#: plugins/weather/weather.cpp:432
 msgid ""
 "_: weather\n"
 "SSW"
@@ -9391,7 +9398,7 @@ msgstr "JJZ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:431
+#: plugins/weather/weather.cpp:433
 msgid ""
 "_: weather\n"
 "S"
@@ -9399,7 +9406,7 @@ msgstr "J"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:432
+#: plugins/weather/weather.cpp:434
 msgid ""
 "_: weather\n"
 "SSE"
@@ -9407,7 +9414,7 @@ msgstr "JJV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:433
+#: plugins/weather/weather.cpp:435
 msgid ""
 "_: weather\n"
 "SE"
@@ -9415,7 +9422,7 @@ msgstr "JV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:434
+#: plugins/weather/weather.cpp:436
 msgid ""
 "_: weather\n"
 "ESE"
@@ -9423,7 +9430,7 @@ msgstr "VJV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:435
+#: plugins/weather/weather.cpp:437
 msgid ""
 "_: weather\n"
 "E"
@@ -9431,7 +9438,7 @@ msgstr "V"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:436
+#: plugins/weather/weather.cpp:438
 msgid ""
 "_: weather\n"
 "ENE"
@@ -9439,7 +9446,7 @@ msgstr "VSV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:437
+#: plugins/weather/weather.cpp:439
 msgid ""
 "_: weather\n"
 "NE"
@@ -9447,7 +9454,7 @@ msgstr "SV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:438
+#: plugins/weather/weather.cpp:440
 msgid ""
 "_: weather\n"
 "NNE"
@@ -9455,7 +9462,7 @@ msgstr "SSV"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:439
+#: plugins/weather/weather.cpp:441
 msgid ""
 "_: weather\n"
 "VAR"
@@ -9463,7 +9470,7 @@ msgstr "prem."
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:440
+#: plugins/weather/weather.cpp:442
 msgid ""
 "_: weather\n"
 "CALM"
@@ -9471,7 +9478,7 @@ msgstr "bezvetrie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:442
+#: plugins/weather/weather.cpp:444
 msgid ""
 "_: weather\n"
 "km"
@@ -9479,7 +9486,7 @@ msgstr "km"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:443
+#: plugins/weather/weather.cpp:445
 msgid ""
 "_: weather\n"
 "mi"
@@ -9487,7 +9494,7 @@ msgstr "míľ"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:444
+#: plugins/weather/weather.cpp:446
 msgid ""
 "_: weather\n"
 "km/h"
@@ -9495,7 +9502,7 @@ msgstr "km/h"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:445
+#: plugins/weather/weather.cpp:447
 msgid ""
 "_: weather\n"
 "mph"
@@ -9503,7 +9510,7 @@ msgstr "mph"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:446
+#: plugins/weather/weather.cpp:448
 msgid ""
 "_: weather\n"
 "mmHg"
@@ -9511,7 +9518,7 @@ msgstr "mmHg"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:447
+#: plugins/weather/weather.cpp:449
 msgid ""
 "_: weather\n"
 "inHg"
@@ -9519,7 +9526,7 @@ msgstr "inHg"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:449
+#: plugins/weather/weather.cpp:451
 msgid ""
 "_: weather\n"
 "Low"
@@ -9527,7 +9534,7 @@ msgstr "Slabé"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:450
+#: plugins/weather/weather.cpp:452
 msgid ""
 "_: weather\n"
 "Moderate"
@@ -9535,13 +9542,13 @@ msgstr "Stredné"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:451
+#: plugins/weather/weather.cpp:453
 msgid ""
 "_: weather\n"
 "High"
 msgstr "Silné"
 
-#: plugins/weather/weather.cpp:453
+#: plugins/weather/weather.cpp:455
 msgid ""
 "_: moonphase\n"
 "New"
@@ -9549,13 +9556,13 @@ msgstr "Nov"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:454
+#: plugins/weather/weather.cpp:456
 msgid ""
 "_: moonphase\n"
 "Waxing Crescent"
 msgstr "Dorastajúci kosák"
 
-#: plugins/weather/weather.cpp:455
+#: plugins/weather/weather.cpp:457
 msgid ""
 "_: moonphase\n"
 "First Quarter"
@@ -9563,13 +9570,13 @@ msgstr "Prvá štvrť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:456
+#: plugins/weather/weather.cpp:458
 msgid ""
 "_: moonphase\n"
 "Waxing Gibbous"
 msgstr "Dorastajúci obojstranne vydutý"
 
-#: plugins/weather/weather.cpp:457
+#: plugins/weather/weather.cpp:459
 msgid ""
 "_: moonphase\n"
 "Full"
@@ -9577,13 +9584,13 @@ msgstr "Spln"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:458
+#: plugins/weather/weather.cpp:460
 msgid ""
 "_: moonphase\n"
 "Waning Gibbous"
 msgstr "Cúvajúci obojstranne vydutý"
 
-#: plugins/weather/weather.cpp:459
+#: plugins/weather/weather.cpp:461
 msgid ""
 "_: moonphase\n"
 "Last Quarter"
@@ -9591,20 +9598,20 @@ msgstr "Posledná štvrť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:460
+#: plugins/weather/weather.cpp:462
 msgid ""
 "_: moonphase\n"
 "Waning Crescent"
 msgstr "Cúvajúci kosák"
 
 # libicq/country.cpp:109
-#: plugins/weather/weather.cpp:472
+#: plugins/weather/weather.cpp:474
 msgid "and"
 msgstr "a"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:475
+#: plugins/weather/weather.cpp:477
 msgid ""
 "_: weather\n"
 "Early"
@@ -9612,28 +9619,28 @@ msgstr "Zavčasu"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:478
+#: plugins/weather/weather.cpp:480
 msgid ""
 "_: weather\n"
 "Late"
 msgstr "Neskôr"
 
-#: plugins/weather/weather.cpp:517 plugins/weather/weather.cpp:519
+#: plugins/weather/weather.cpp:519 plugins/weather/weather.cpp:521
 msgid "m/s"
 msgstr "m/s"
 
 # ui/moreinfo.cpp:80
-#: plugins/weather/weather.cpp:518 plugins/weather/weather.cpp:519
+#: plugins/weather/weather.cpp:520 plugins/weather/weather.cpp:521
 msgid "gust"
 msgstr "v nárazoch"
 
-#: plugins/weather/weather.cpp:568
+#: plugins/weather/weather.cpp:571
 msgid "%t | %c"
 msgstr "%t | %c"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:577
+#: plugins/weather/weather.cpp:580
 msgid ""
 "_: weather\n"
 "Current Weather"
@@ -9641,7 +9648,7 @@ msgstr "Aktuálne počasie"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:582
 msgid ""
 "_: weather\n"
 "Temperature"
@@ -9649,7 +9656,7 @@ msgstr "Teplota"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:579
+#: plugins/weather/weather.cpp:582
 msgid ""
 "_: weather\n"
 "feels like"
@@ -9657,7 +9664,7 @@ msgstr "ako keby"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:580
+#: plugins/weather/weather.cpp:583
 msgid ""
 "_: weather\n"
 "Humidity"
@@ -9665,7 +9672,7 @@ msgstr "Vlhkosť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:581
+#: plugins/weather/weather.cpp:584
 msgid ""
 "_: weather\n"
 "Chance of Precipitation"
@@ -9673,7 +9680,7 @@ msgstr "Pravdepodobnosť zrážok"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:582
+#: plugins/weather/weather.cpp:585
 msgid ""
 "_: weather\n"
 "Pressure"
@@ -9681,7 +9688,7 @@ msgstr "Tlak"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:584
+#: plugins/weather/weather.cpp:587
 msgid ""
 "_: weather\n"
 "Visibility"
@@ -9689,7 +9696,7 @@ msgstr "Viditeľnosť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:585
+#: plugins/weather/weather.cpp:588
 msgid ""
 "_: weather\n"
 "Dew Point"
@@ -9697,7 +9704,7 @@ msgstr "Rosný bod"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:586
+#: plugins/weather/weather.cpp:589
 msgid ""
 "_: weather\n"
 "Sunrise"
@@ -9705,13 +9712,13 @@ msgstr "Východ slnka"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:587
+#: plugins/weather/weather.cpp:590
 msgid ""
 "_: weather\n"
 "Sunset"
 msgstr "Západ slnka"
 
-#: plugins/weather/weather.cpp:588
+#: plugins/weather/weather.cpp:591
 #, c-format
 msgid ""
 "_: weather\n"
@@ -9720,7 +9727,7 @@ msgstr "UV žiarenie je <b>%ut</b> s hodnotou <b>%ui</b> (z 11)"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:589
+#: plugins/weather/weather.cpp:592
 msgid ""
 "_: weather\n"
 "Moonphase"
@@ -9728,16 +9735,15 @@ msgstr "Fáza mesiaca"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-#: plugins/weather/weather.cpp:592
+#: plugins/weather/weather.cpp:595
 msgid ""
 "_: weather\n"
 "Updated"
 msgstr "Aktualizované"
 
-#: plugins/weather/weather.cpp:600
+#: plugins/weather/weather.cpp:603
+#, fuzzy
 msgid ""
-"<br><br>\n"
-"<b>Forecast for</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"><br>%c<br>\n"
 "Temperature: <b>%t</b><br>\n"
@@ -9793,7 +9799,7 @@ msgstr "Predpoveď na dni:"
 msgid "Units:"
 msgstr "Jednotky:"
 
-#: plugins/weather/wifacecfg.cpp:32 plugins/weather/wifacecfg.cpp:71
+#: plugins/weather/wifacecfg.cpp:32 plugins/weather/wifacecfg.cpp:73
 msgid "Temperature"
 msgstr "Teplota"
 
@@ -9863,24 +9869,28 @@ msgstr "Západ slnka"
 
 # ui/setupdlg.cpp:127
 #. i18n: file ./plugins/yahoo/yahoosearchbase.ui line 123
-#: plugins/weather/wifacecfg.cpp:64 plugins/weather/wifacecfg.cpp:79
+#: plugins/weather/wifacecfg.cpp:64 plugins/weather/wifacecfg.cpp:81
 #: plugins/yahoo/yahoosearchbase.cpp:101 rc.cpp:1208
 #, no-c-format
 msgid "Conditions"
 msgstr "Podmienky"
 
+#: plugins/weather/wifacecfg.cpp:66
+msgid "Obst"
+msgstr ""
+
 # ui/pagerbase.cpp:116
 # ui/phonebase.cpp:157
-#: plugins/weather/wifacecfg.cpp:73
+#: plugins/weather/wifacecfg.cpp:75
 msgid "Number"
 msgstr "Číslo"
 
-#: plugins/weather/wifacecfg.cpp:75
+#: plugins/weather/wifacecfg.cpp:77
 msgid "Day of week"
 msgstr "Deň v týždni"
 
 # qt3/i18n.cpp:45
-#: plugins/weather/wifacecfg.cpp:77
+#: plugins/weather/wifacecfg.cpp:79
 msgid "Date"
 msgstr "Dátum"
 
@@ -10078,6 +10088,13 @@ msgstr "Ryby"
 #, no-c-format
 msgid "Find ASpell"
 msgstr "Nájsť ASpell"
+
+# qt3/i18n.cpp:197
+#. i18n: file ./plugins/forward/forwardcfgbase-neu.ui line 112
+#: rc.cpp:2307
+#, fuzzy, no-c-format
+msgid "Alt+O"
+msgstr "Alt+T"
 
 # about.cpp:280
 #: sim/aboutdata.cpp:267
@@ -11757,80 +11774,80 @@ msgid "Custom"
 msgstr "Vlastné"
 
 # msgedit.cpp:130
-msgid "Close after %n second"
-msgstr "Zavrieť po %n sekundách"
+#~ msgid "Close after %n second"
+#~ msgstr "Zavrieť po %n sekundách"
 
 # msgedit.cpp:193
 # msgview.cpp:1191
 # ui/soundsetupbase.cpp:231
-msgid "URL"
-msgstr "URL"
+#~ msgid "URL"
+#~ msgstr "URL"
 
 # msgview.cpp:164
 # msgview.cpp:1204
-msgid "Authorize request"
-msgstr "Požiadavka na autorizáciu"
+#~ msgid "Authorize request"
+#~ msgstr "Požiadavka na autorizáciu"
 
 # msgview.cpp:164
 # msgview.cpp:1204
-msgid "Authorization granted"
-msgstr "Autorizácia schválená"
+#~ msgid "Authorization granted"
+#~ msgstr "Autorizácia schválená"
 
 # msgview.cpp:164
 # msgview.cpp:1204
-msgid "Authorization refused"
-msgstr "Autorizácia zamietnutá"
+#~ msgid "Authorization refused"
+#~ msgstr "Autorizácia zamietnutá"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
-msgid "Add to contacts"
-msgstr "Pridať do kontaktov"
+#~ msgid "Add to contacts"
+#~ msgstr "Pridať do kontaktov"
 
-msgid "Removed from contacts"
-msgstr "Odstránený z kontaktov"
+#~ msgid "Removed from contacts"
+#~ msgstr "Odstránený z kontaktov"
 
 # mainwin.cpp:628
 # mainwin.cpp:2727
-msgid "%n contact found"
-msgstr "nájdených %n kontaktov"
+#~ msgid "%n contact found"
+#~ msgstr "nájdených %n kontaktov"
 
-msgid "%n GPG key"
-msgstr "%n GPG kľúč"
+#~ msgid "%n GPG key"
+#~ msgstr "%n GPG kľúč"
 
 # msgedit.cpp:588
-msgid "%n file"
-msgstr "%n súbor"
+#~ msgid "%n file"
+#~ msgstr "%n súbor"
 
 # control.cpp:234
-msgid "WWW-panel message"
-msgstr "WWW-Skupinová správa"
+#~ msgid "WWW-panel message"
+#~ msgstr "WWW-Skupinová správa"
 
 # ui/maininfobase.cpp:322
-msgid "Email pager message"
-msgstr "Email pager správa"
+#~ msgid "Email pager message"
+#~ msgstr "Email pager správa"
 
 # msgview.cpp:192
 # msgview.cpp:1232
-msgid "Contact request"
-msgstr "Žiadosť o kontakt"
+#~ msgid "Contact request"
+#~ msgstr "Žiadosť o kontakt"
 
 # libicq/country.cpp:216
-msgid "%n day"
-msgstr "%n deň"
+#~ msgid "%n day"
+#~ msgstr "%n deň"
 
-msgid "LiveJournal post"
-msgstr "Odoslať na LiveJournal"
+#~ msgid "LiveJournal post"
+#~ msgstr "Odoslať na LiveJournal"
 
-msgid "You have %n unread message."
-msgstr "Máte %n nových správ."
+#~ msgid "You have %n unread message."
+#~ msgstr "Máte %n nových správ."
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
-msgid "weather"
-msgstr "počasie"
+#~ msgid "weather"
+#~ msgstr "počasie"
 
-msgid "moonphase"
-msgstr "fáza mesiaca"
+#~ msgid "moonphase"
+#~ msgstr "fáza mesiaca"
 
 # ui/editfile.cpp:123
 #~ msgid "*.wav|Sounds"
