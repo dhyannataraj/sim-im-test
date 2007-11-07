@@ -330,7 +330,7 @@ void WeatherPlugin::updateButton()
 
     QString text = unquoteText(getButtonText());
     QString tip  = getTipText();
-    QString ftip = i18n("<b>Forecast for</b><br>\n");
+    QString ftip = i18n("<br><b>Forecast for</b><br>\n");
 	ftip +=getForecastText();
     text = replace(text);
     tip  = replace(tip);
