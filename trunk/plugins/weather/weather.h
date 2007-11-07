@@ -37,6 +37,7 @@ struct WeatherData
 {
     SIM::Data	ID;
     SIM::Data	Location;
+    SIM::Data	Obst;
     SIM::Data	Time;
     SIM::Data	ForecastTime;
     SIM::Data	Forecast;
@@ -85,6 +86,7 @@ public:
     virtual ~WeatherPlugin();
     PROP_STR(ID);
     PROP_STR(Location);
+	PROP_STR(Obst);
     PROP_ULONG(Time);
     PROP_ULONG(ForecastTime);
     PROP_ULONG(Forecast);

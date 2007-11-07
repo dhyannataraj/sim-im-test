@@ -66,6 +66,7 @@ static DataDef weatherData[] =
     {
         { "ID", DATA_STRING, 1, 0 },
         { "Location", DATA_STRING, 1, 0 },
+        { "Obst", DATA_STRING, 1, 0 },
         { "Time", DATA_ULONG, 1, 0 },
         { "ForecastTime", DATA_ULONG, 1, 0 },
         { "Forecast", DATA_ULONG, 1, DATA(2) },
@@ -329,7 +330,8 @@ void WeatherPlugin::updateButton()
 
     QString text = unquoteText(getButtonText());
     QString tip  = getTipText();
-    QString ftip = getForecastText();
+    QString ftip = i18n("<b>Forecast for</b><br>\n");
+	ftip +=getForecastText();
     text = replace(text);
     tip  = replace(tip);
     if (getForecast())
@@ -528,6 +530,7 @@ QString WeatherPlugin::replace(const QString &text)
     res = res.replace(QRegExp("\\%c"), i18n_conditions(getConditions()));
     res = res.replace(QRegExp("\\%v"), i18n("weather", getVisibility()) + (getVisibility().toLong() ? ' ' + i18n("weather",getUD()) : QString::null));
     res = res.replace(QRegExp("\\%i"), QString::number(getIcon()));
+	res = res.replace(QRegExp("\\%o"), getObst());
     return res;
 }
 
@@ -597,11 +600,10 @@ QString WeatherPlugin::getForecastText()
 {
     QString str = getForecastTip();
     if (str.isEmpty())
-        str = i18n("<br><br>\n"
-                   "<b>Forecast for</b><br>\n"
-                   "<nobr><b>%d %w</b></nobr><br>\n"
+        str = i18n("<nobr><b>%d %w</b></nobr><br>\n"
                    "<img src=\"icon:weather%n\"><br>%c<br>\n"
                    "Temperature: <b>%t</b><br>\n");
+
     return str;
 }
 
@@ -635,6 +637,7 @@ static const char *tags[] =
         "dewp",
         "hi",
         "low",
+		"dnam",
         NULL,
     };
 
@@ -695,8 +698,13 @@ void WeatherPlugin::element_end(const QString& el)
             m_day--;
         return;
     }
-    if (el == "obst"){
+    if (el == "dnam"){
         setLocation(m_data);
+        m_data = QString::null;
+        return;
+    }
+    if (el == "obst"){
+        setObst(m_data);
         m_data = QString::null;
         return;
     }

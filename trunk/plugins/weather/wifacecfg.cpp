@@ -62,6 +62,8 @@ static const char *helpList[] =
         I18N_NOOP("Sunset"),
         "%c",
         I18N_NOOP("Conditions"),
+        "%o",
+        I18N_NOOP("Obst"),
         NULL
     };
 
