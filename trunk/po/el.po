@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-07 13:18+0100\n"
+"POT-Creation-Date: 2007-11-07 16:27+0100\n"
 "PO-Revision-Date: 2005-04-20 21:00+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team:  <en@li.org>\n"
@@ -7726,7 +7726,7 @@ msgid "Not connected"
 msgstr "Προσθήκη Μη-ΙΜ επαφής"
 
 #: plugins/weather/weather.cpp:333
-msgid "<b>Forecast for</b><br>\n"
+msgid "<br><b>Forecast for</b><br>\n"
 msgstr ""
 
 #: plugins/weather/weather.cpp:351
