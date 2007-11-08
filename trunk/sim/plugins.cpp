@@ -29,6 +29,7 @@
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qtextstream.h>
+#include <qprocess.h>
 
 #include "sockfactory.h"
 #include "fetch.h"
@@ -114,7 +115,7 @@ protected:
     bool setInfo(const QString &name);
 
 #ifndef WIN32
-    unsigned long execute(const QString &prg, const QStringList &args);
+    Q_ULONG execute(const QString &prg, const QStringList &args);
 #endif
 
     QString app_name;
@@ -805,42 +806,29 @@ void PluginManagerPrivate::usage(const QString &err)
 }
 
 #ifndef WIN32
-unsigned long PluginManagerPrivate::execute(const QString &prg, const QStringList &args)
+Q_ULONG PluginManagerPrivate::execute(const QString &prg, const QStringList &args)
 {
     if (prg.isEmpty())
-        return 0;
+		return (Q_ULONG)-1;  /* return  invalid pid */
 
     log(L_DEBUG, "Exec: %s", (const char*)prg.local8Bit());
-    // FIXME: use QProcess instead!
-    QStringList s = args;
-    char **arglist = new char*[s.count()+1];
-    arglist[0] = strdup((const char*)prg.local8Bit());
-    unsigned i = 1;
-    for ( QStringList::Iterator it = s.begin(); it != s.end(); ++it, i++ ) {
-        string arg;
-        arg = (*it).local8Bit();
-        arglist[i] = strdup(arg.c_str());
+
+    Q_ULONG child;
+    QStringList arglist;
+
+    // split prg to program name and optional arguments
+    QStringList s = QStringList::split(" ", prg);
+
+    arglist = s + args;
+
+    QProcess *proc = new QProcess(arglist);
+    if( proc->start() ) {
+        child = proc->processIdentifier();
+    } else {
+        child = (Q_ULONG)-1;
+        log(L_DEBUG, "can't execute %s: %s", (const char*)arglist[0].local8Bit(), strerror(errno));
     }
-    arglist[i] = NULL;
-    pid_t child = fork();
-    if (child == -1){
-        log(L_WARN, "Can't fork: %s", strerror(errno));
-        for (char **p = arglist; *p != NULL; p++)
-            free(*p);
-        delete[] arglist;
-        return 0;
-    }
-    if(!child) {
-        execvp(arglist[0], arglist);
-        // when we're here an error occurred ...
-        // a write to the logoutput isn't possible because we haven't
-        // these descriptors anymore - so we need printf
-        printf("can't execute %s: %s", arglist[0], strerror(errno));
-        _exit(-1);
-    }
-    for (char **p = arglist; *p != NULL; p++)
-        free(*p);
-    delete[] arglist;
+
     return child;
 }
 #endif
