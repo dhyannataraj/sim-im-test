@@ -675,6 +675,15 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
     if (m_iq)
     {
       m_iq->element_start(element, attrs);
+      if ( m_iq->GetXmlns() == "Unknown")
+      {
+        UnknownIq* unknown_iq = (UnknownIq*) m_iq;
+	if ( unknown_iq->CanPromote() )
+	{
+	  m_iq=unknown_iq->Promote();
+	  delete unknown_iq;
+	}
+      }
     }
     
     const char *id = NULL;  // FIXME: why it is still char * ?
@@ -688,9 +697,11 @@ void JabberClient::element_start(const QString& el, const QXmlAttributes& attrs)
                 if (id.isEmpty() || type == "set" || type == "get"){
                     m_curRequest = new IqRequest(this);
                     m_curRequest->element_start(element, attrs);
-		    m_iq = new Iq();
+		    m_iq = new UnknownIq(JABBER_IQ_INCOMING_QUERY, this);
 		    m_iq->element_start(element, attrs);
                 }else{
+		    // for "result" or "error" type, look through list of sent requests
+		    // to find one which should receive this result
                     list<ServerRequest*>::iterator it;
                     for (it = m_requests.begin(); it != m_requests.end(); ++it){
                         if ((*it)->m_id == id)

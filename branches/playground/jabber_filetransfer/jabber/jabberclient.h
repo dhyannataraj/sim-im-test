@@ -212,7 +212,7 @@ public:
         void	send();
         void	start_element(const QString &name);
         void	end_element(bool bNewLevel = false);
-        void	add_attribute(const QString &name, const char *value); //FIXME Why does this function with char * still exists?
+        void	add_attribute(const QString &name, const char *value);//FIXME Why this function still uses char* ?
         void	add_attribute(const QString &name, const QString &value);
         void	add_condition(const QString &cond, bool bXData);
         void	add_text(const QString &text);
@@ -232,6 +232,8 @@ public:
     };
 
     class Iq;
+    class UnknownIq;
+    class VersionInfoIq;
     
     class IqRequest : public ServerRequest
     {
@@ -383,7 +385,7 @@ public:
 
     QString photoFile(JabberUserData*);
     QString logoFile(JabberUserData*);
-    std::list<ServerRequest*>	m_requests;
+    std::list<ServerRequest*>	m_requests;  // List of request that were sent and is waiting for result
 
     QString discoItems(const QString &jid, const QString &node);
     QString discoInfo(const QString &jid, const QString &node);

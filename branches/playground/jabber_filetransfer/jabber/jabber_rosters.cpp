@@ -1130,20 +1130,22 @@ void JabberClient::IqRequest::element_start(const QString& el, const QXmlAttribu
                 }
     }
         // XEP-0092: Software Version
-    if ( (el == "query") && (m_query == "jabber:iq:version") ){
-            if (m_type == "get" && m_client->getUseVersion()){
+//    if ( (el == "query") && (m_query == "jabber:iq:version") ){
+  //          if (m_type == "get" && m_client->getUseVersion()){
                 // send our version
-                JabberClient::ServerRequest *req = new JabberClient::ServerRequest(m_client, JabberClient::ServerRequest::_RESULT, NULL, m_from, m_id);
-                req->start_element("query");
-                req->add_attribute("xmlns", "jabber:iq:version");
-                req->text_tag("name", PACKAGE);
-                req->text_tag("version", VERSION);
-                QString version = get_os_version();
-                req->text_tag("os", version);
-                req->send();
-                m_client->m_requests.push_back(req);
-            }
-    }
+                //JabberClient::ServerRequest *req = new JabberClient::ServerRequest(m_client, JabberClient::ServerRequest::_RESULT, NULL, m_from, m_id);
+                //req->start_element("query");
+                //req->add_attribute("xmlns", "jabber:iq:version");
+                //req->text_tag("name", PACKAGE);
+                //req->text_tag("version", VERSION);
+                //QString version = get_os_version();
+                //req->text_tag("os", version);
+                //req->send();
+
+              //  // m_client->m_requests.push_back(req); //We should not wait for response for this request
+		//cause this request is response itself...
+            //}
+   // }
     if (el == "url")
         m_data = &m_url;
     if (el == "desc")
