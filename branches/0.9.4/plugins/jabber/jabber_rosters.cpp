@@ -1413,9 +1413,10 @@ void JabberClient::MessageRequest::element_start(const char *el, const char **at
     }
     if (m_bEvent){
         // Parsing <x xmlns='jabber:x:event'> tag, which contains JEP-0022 event info
-        if (!strcmp(el, "composing"))
+        if (!strcmp(el, "composing")){
             m_bCompose = true;
-        return;
+			return;
+		}
     }
     if (!strcmp(el, "url-data")){
         m_target = JabberClient::get_attr("target", attr);
