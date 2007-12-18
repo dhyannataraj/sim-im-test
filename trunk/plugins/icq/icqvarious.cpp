@@ -1557,13 +1557,13 @@ bool SMSRequest::answer(ICQBuffer &b, unsigned short code)
                     error = QString::null;
                     l = msg->getLeaf("network");
                     if (l)
-                        network = QString(l->getValue());
+						network = QString(l->getValue().c_str());
                 }else{
                     XmlBranch *param = msg->getBranch("param");
                     if (param){
                         XmlLeaf *l = param->getLeaf("error");
                         if (l)
-                            error = QString(l->getValue());
+                            error = QString(l->getValue().c_str());
                     }
                 }
             }
