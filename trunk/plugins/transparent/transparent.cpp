@@ -25,6 +25,7 @@
 
 #include "transparent.h"
 #include "transparentcfg.h"
+#include "../floaty/floatywnd.h" //Handle Floatings
 
 #ifndef WIN32
 #include "transtop.h"
@@ -131,6 +132,19 @@ TransparentPlugin::~TransparentPlugin()
         SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
     if (timer)
         delete timer;
+	
+	//Handle Floatings
+	QWidgetList *list = QApplication::topLevelWidgets();
+	QWidgetListIt it(*list);
+    QWidget * w;
+    while ((w = it.current()) != NULL) {
+		if (w->inherits("FloatyWnd")){
+			FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+			SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(refwnd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+		}
+		++it;
+	}
+
 #else
     if (top)
         delete top;
@@ -212,6 +226,8 @@ bool TransparentPlugin::eventFilter(QObject *o, QEvent *e)
 void TransparentPlugin::setState()
 {
     QWidget *main = getMainWindow();
+	QWidgetList *list = QApplication::topLevelWidgets();
+        
     if (main == NULL)
         return;
 #ifdef WIN32
@@ -222,14 +238,41 @@ void TransparentPlugin::setState()
         SetWindowLongW(main->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
         slwa(main->winId(), main->colorGroup().background().rgb(), 0, LWA_ALPHA);
         RedrawWindow(main->winId(), NULL, NULL, RDW_UPDATENOW);
-        main->setMouseTracking(true);
+		main->setMouseTracking(true);
         m_bActive = main->isActiveWindow();
         m_bState  = !m_bActive;
+		
+		//Handle Floatings
+		QWidgetListIt it(*list);
+        QWidget * w;
+        while ((w = it.current()) != NULL) {
+			if (w->inherits("FloatyWnd")){
+				FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+				refwnd->installEventFilter(this);
+				SetWindowLongW(refwnd->winId(), GWL_EXSTYLE, GetWindowLongW(main->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+				slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), 0, LWA_ALPHA);
+				RedrawWindow(refwnd->winId(), NULL, NULL, RDW_UPDATENOW);
+			}
+			++it;
+		}
+        delete list; //Handle Floatings//
     }
     bool bNewState = m_bActive || m_bHaveMouse;
     if (bNewState == m_bState){
         BYTE d = (BYTE)(bNewState ? 255 : QMIN((100 - getTransparency()) * 256 / 100, 255));
         slwa(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
+		
+		//Handle Floatings
+		QWidgetListIt it(*list);
+        QWidget * w;
+        while ((w = it.current()) != NULL) {
+			if (w->inherits("FloatyWnd")){
+				FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+				slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), d, LWA_ALPHA);
+			}
+			++it;
+		}
+        delete list;//Handle Floatings//
         return;
     }
     m_bState = bNewState;
@@ -262,6 +305,18 @@ void TransparentPlugin::tick()
         time = timeout - time;
     BYTE d = (BYTE)QMIN((100 - getTransparency() * time / timeout) * 256 / 100, 255);
     slwa(main->winId(), main->colorGroup().background().rgb(), d, LWA_ALPHA);
+	
+	//Handle Floatings
+	QWidgetList *list = QApplication::topLevelWidgets();
+	QWidgetListIt it(*list);
+    QWidget * w;
+    while ((w = it.current()) != NULL) {
+		if (w->inherits("FloatyWnd")){
+			FloatyWnd *refwnd = static_cast<FloatyWnd*>(w);
+			slwa(refwnd->winId(), refwnd->colorGroup().background().rgb(), d, LWA_ALPHA);
+		}
+		++it;
+	}//Handle Floatings//
 #endif
 }
 
