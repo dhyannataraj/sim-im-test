@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
                          I18N_NOOP("Multiprotocol Instant Messenger"),
                          KAboutData::License_GPL,
                          "Copyright (C) 2002-2004, Vladimir Shutoff\n"
-                         "2005-2007, SIM-IM Development Team",
+                         "2005-2008, SIM-IM Development Team",
                          0,
                          "http://sim-im.org/",
                          "https://mailman.dg.net.ua/listinfo/sim-im-main");
