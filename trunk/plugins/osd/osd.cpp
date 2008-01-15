@@ -154,6 +154,7 @@ OSDPlugin::OSDPlugin(unsigned base)
     ePlugin.process();
     const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
+    bHaveUnreadMessages=false;
 }
 
 OSDPlugin::~OSDPlugin()
@@ -546,9 +547,12 @@ void OSDPlugin::processQueue()
                 }
 
 				
-				if (core->getManualStatus()==STATUS_NA && data->EnableCapsLockFlash.toBool())
+				if ( core->getManualStatus()==STATUS_NA && 
+				     data->EnableCapsLockFlash.toBool() && 
+				     ! this->running() 
+				   )
+				   
 					this->start(); //Start flashing the CapsLock if enabled
-
 				text = i18n("%1 from %2") .arg(text) .arg(contact->getName());
                 if (msg_text.isEmpty())
                     break;
@@ -576,7 +580,7 @@ void OSDPlugin::processQueue()
 }
 
 void OSDPlugin::run(){
-	while ( core->unread.size()>0 ) {
+	while ( bHaveUnreadMessages ) {
 		flashCapsLockLED(!bCapsState);
 
 #ifdef WIN32
@@ -721,6 +725,8 @@ bool OSDPlugin::processEvent(Event *e)
         if (data == NULL)
             break;
         osd.contact = msg->contact();
+	if (! core->unread.empty())
+	    bHaveUnreadMessages=true;
         if (msg->type() == MessageStatus) {
             StatusMessage *smsg = (StatusMessage*)msg;
             switch (smsg->getStatus()) {
@@ -776,6 +782,8 @@ bool OSDPlugin::processEvent(Event *e)
         if (data == NULL)
             break;
         osd.contact = msg->contact();
+	if (core->unread.empty())
+	    bHaveUnreadMessages=false;
         if (msg->type() == MessageStatus) {
             StatusMessage *smsg = (StatusMessage*)msg;
             switch (smsg->getStatus()) {

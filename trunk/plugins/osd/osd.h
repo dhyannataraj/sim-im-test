@@ -141,6 +141,8 @@ protected:
     QWidget		*m_osd;
     QTimer		*m_timer;
 	bool bCapsState;
+	bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size() 
+				  // see pacth #2304 for more info.
 };
 
 #endif
