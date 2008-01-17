@@ -924,7 +924,7 @@ protected:
     QValueList<SendDirectMsg> m_queue;
     QString name();
     QString m_name;
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     void secureConnect();
     void secureListen();
     void secureStop(bool bShutdown);

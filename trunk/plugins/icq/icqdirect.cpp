@@ -449,7 +449,7 @@ DirectClient::DirectClient(Socket *s, ICQClient *client, unsigned long ip)
 {
     m_channel = PLUGIN_NULL;
     m_state = WaitLogin;
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     m_ssl = NULL;
 #endif
 }
@@ -460,7 +460,7 @@ DirectClient::DirectClient(ICQUserData *data, ICQClient *client, unsigned channe
     m_state   = None;
     m_channel = channel;
     m_port    = (unsigned short)(data->Port.toULong());
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     m_ssl = NULL;
 #endif
 }
@@ -482,14 +482,14 @@ DirectClient::~DirectClient()
             m_data->DirectPluginStatus.clear();
         break;
     }
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     secureStop(false);
 #endif
 }
 
 bool DirectClient::isSecure()
 {
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     return m_ssl && m_ssl->connected();
 #else
     return false;
@@ -706,11 +706,11 @@ void DirectClient::processPacket()
         case ICQ_MSGxSECURExOPEN:
         case ICQ_MSGxSECURExCLOSE:
             msg_str = QString::null;
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
             msg_str = "1";
 #endif
             sendAck(seq, type, msgFlags, msg_str);
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
             if (type == ICQ_MSGxSECURExOPEN){
                 secureListen();
             }else{
@@ -832,7 +832,7 @@ void DirectClient::processPacket()
             id.id_l = seq;
             Message *m = m_client->parseMessage(type, m_client->screen(m_data), msg_str, m_socket->readBuffer(), id, 0);
             switch (msg->type()){
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
             case MessageCloseSecure:
                 secureStop(true);
                 break;
@@ -1437,7 +1437,7 @@ void DirectClient::addPluginInfoRequest(unsigned plugin_index)
     processMsgQueue();
 }
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 class ICQ_SSLClient : public SSLClient
 {

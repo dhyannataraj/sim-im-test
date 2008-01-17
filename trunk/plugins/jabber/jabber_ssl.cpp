@@ -17,7 +17,7 @@
 
 #include "simapi.h"
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 #include "jabber_ssl.h"
 

@@ -29,7 +29,7 @@
 #cmakedefine HAVE_TM_GMTOFF 1
 
 // libraries
-#cmakedefine USE_OPENSSL 1
+#cmakedefine ENABLE_OPENSSL 1
 #cmakedefine HAVE_X 1
 #cmakedefine USE_KDE 1
 

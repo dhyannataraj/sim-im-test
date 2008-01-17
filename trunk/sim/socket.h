@@ -26,7 +26,7 @@
 
 class QTimer;
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 typedef struct ssl_ctx_st SSL_CTX;
 typedef struct ssl_st SSL;
 typedef struct bio_st BIO;
@@ -234,7 +234,7 @@ private:
     ClientSocket	*m_clientSocket;
 };
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 EXPORT QByteArray md5(const char*, int size = -1);
 EXPORT QByteArray sha1(const char*, int size = -1);

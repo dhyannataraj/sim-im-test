@@ -2875,7 +2875,7 @@ bool ICQClient::send(Message *msg, void *_data)
         sendMTN(screen(data), msg->type() == MessageTypingStart ? ICQ_MTN_START : ICQ_MTN_FINISH);
         delete msg;
         return true;
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     case MessageOpenSecure: {
         if (data == NULL)
             return false;
@@ -2959,7 +2959,7 @@ bool ICQClient::canSend(unsigned type, void *_data)
                (data->Uin.toULong() || hasCap(data, CAP_AIM_SENDFILE));
     case MessageWarning:
         return data && (data->Uin.toULong() == 0);
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     case MessageOpenSecure:
         if ((data == NULL) || ((data->Status.toULong() & 0xFFFF) == ICQ_STATUS_OFFLINE))
             return false;

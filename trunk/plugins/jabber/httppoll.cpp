@@ -53,7 +53,7 @@ JabberHttpPool::JabberHttpPool(const QString &url)
     : m_url(url)
 {
     m_cookie = "0";
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     /*
         Buffer k;
         for (unsigned i = 0; i < 48; i++){
@@ -73,7 +73,7 @@ JabberHttpPool::~JabberHttpPool()
 
 QString JabberHttpPool::getKey()
 {
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     if (m_key.isEmpty()){
         m_key = m_seed;
         return m_key;
@@ -106,7 +106,7 @@ void JabberHttpPool::write(const char *buf, unsigned size)
         return;
     Buffer *packet = new Buffer;
     *packet << (const char*)m_cookie.local8Bit().data();
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     *packet << ";" << (const char*)getKey().local8Bit().data();
 #endif
     *packet << ",";

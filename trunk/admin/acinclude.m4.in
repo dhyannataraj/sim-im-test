@@ -5864,7 +5864,7 @@ else
     ac_ssl_includes=$ac_ssl_includes ac_ssl_libraries=$ac_ssl_libraries ac_ssl_rsaref=$ac_ssl_rsaref"
   
   if test "$have_ssl" = "yes"; then
-    AC_DEFINE(USE_OPENSSL, 1, [Use OpenSSL])
+    AC_DEFINE(ENABLE_OPENSSL, 1, [Use OpenSSL])
   fi
   
   ssl_libraries="$ac_ssl_libraries"

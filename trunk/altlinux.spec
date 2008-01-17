@@ -151,7 +151,7 @@ cmake %_builddir/%name-%version \
         -DCMAKE_INSTALL_PREFIX=%_prefix \
         -DCMAKE_SKIP_RPATH=YES \
         -DUSE_GCC_VISIBILITY=1 \
-        -DUSE_KDE3=0 \
+        -DENABLE_KDE3=0 \
         -DSIM_FLAVOUR="-qt"
 %make_build
 %makeinstall DESTDIR=%simqtinstalldir
@@ -168,7 +168,7 @@ cmake %_builddir/%name-%version \
         -DCMAKE_INSTALL_PREFIX=%_prefix \
         -DCMAKE_SKIP_RPATH=YES \
         -DUSE_GCC_VISIBILITY=1 \
-        -DUSE_KDE3=1
+        -DENABLE_KDE3=1
 %make_build
 %makeinstall DESTDIR=%siminstalldir
 %endif

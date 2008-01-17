@@ -21,7 +21,7 @@
 #include "simapi.h"
 #include "socket.h"
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 class JabberSSL : public SIM::SSLClient
 {

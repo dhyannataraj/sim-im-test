@@ -19,7 +19,7 @@
 #include "config.h"
 #endif
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 #include <openssl/ssl.h>
 #include <openssl/err.h>

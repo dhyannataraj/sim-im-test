@@ -457,7 +457,7 @@ protected:
     void		processList();
 
     void		auth_plain();
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     void		auth_digest();
 #endif
     void		auth_register();

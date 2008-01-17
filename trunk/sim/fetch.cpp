@@ -17,7 +17,7 @@
 
 #include "simapi.h"
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <openssl/bio.h>
@@ -83,7 +83,7 @@ protected:
     Buffer		m_data;
     Buffer		*m_postData;
     enum State{
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         SSLConnect,
 #endif
         None,
@@ -93,7 +93,7 @@ protected:
         Redirect
     };
     State		m_state;
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     bool		m_bHTTPS;
 #endif
     friend class FetchManager;
@@ -341,7 +341,7 @@ void FetchThread::run()
 
 #endif
 
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
 
 class HTTPSClient : public SSLClient
 {
@@ -546,7 +546,7 @@ void FetchClientPrivate::_fetch(const QString &headers, Buffer *postData, bool b
 #endif
     m_received = 0;
     m_socket = new ClientSocket(this);
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     m_bHTTPS = false;
 #endif
     QString proto, host, user, pass, uri, extra;
@@ -556,14 +556,14 @@ void FetchClientPrivate::_fetch(const QString &headers, Buffer *postData, bool b
         return;
     }
     if (proto != "http"){
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         if (proto == "https"){
             m_bHTTPS = true;
         }else{
 #endif
             log(L_WARN, "Unsupported protocol %s", (const char*)m_uri.local8Bit());
             return;
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         }
 #endif
     }
@@ -695,7 +695,7 @@ bool FetchClientPrivate::error_state(const QString &err, unsigned)
 
 void FetchClientPrivate::connect_ready()
 {
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     if ((m_state == None) & m_bHTTPS){
         m_socket->setRaw(true);
         m_socket->readBuffer().init(0);
@@ -826,7 +826,7 @@ void FetchClientPrivate::packet_ready()
         }
         switch (m_state){
         case None:
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         case SSLConnect:
 #endif
             if (getToken(line, ' ').left(5) != "HTTP/"){
