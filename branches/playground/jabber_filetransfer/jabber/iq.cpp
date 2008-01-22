@@ -1,7 +1,25 @@
+/***************************************************************************
+                                  iq.cpp 
+				  
+	  basic classes for implementation of Iq staza processing
+                             -------------------
+    begin                : Thu Nov 08 2007
+    copyright            : (C) 2007,2008 by Nikolay Shaplov
+    email                : N@shaplov.ru
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include "log.h"
 #include "iq.h"
-
-#include "misc.h" //for VersionInfo
+#include "iq_versioninfo.h"
 
 using namespace SIM;
 
@@ -14,11 +32,14 @@ void JabberClient::Iq::element_start(const QString& el, const QXmlAttributes& at
     {
       m_remote_client = attrs.value("from");
       m_local_client  = attrs.value("to");
-    }
-    m_id   = attrs.value("id");
-    m_type = attrs.value("type");
-  }
-
+      m_id  = attrs.value("id");
+      if (m_request) m_request->m_type = attrs.value("type");
+    } else
+    {
+      // When we get the responce, we already know m_remote_client, m_local_client, m_id values, because we sended request
+      if (m_response) m_response->m_type = attrs.value("type");
+    }    
+  }  
   if ( m_direction == JABBER_IQ_INCOMING_QUERY &&
        m_request )
   {
@@ -53,7 +74,7 @@ void JabberClient::Iq::element_end(const QString& el)
       m_response->OnReceive(); // 
     }
   }
-  log(L_DEBUG, "Element End: %s", el.latin1());
+//  log(L_DEBUG, "Element End: %s", el.latin1());
 }
 
 void JabberClient::Iq::char_data(const QString& str)
@@ -73,6 +94,25 @@ void JabberClient::Iq::char_data(const QString& str)
 QString JabberClient::Iq::GetXmlns()
 {
   return m_xmlns;
+}
+
+int JabberClient::Iq::Send()
+{
+  if (m_direction != JABBER_IQ_OUTGOING_QUERY )
+  {
+    log(L_WARN, "Iq::Send(): Covardly refuses to send empty incoming query");
+    return 0;
+  }
+  if (! m_request ) 
+  {
+    log(L_WARN, "Iq::Send(): Refuses to send query for NULL m_request");
+    return 0;
+  }
+  m_request->Send();
+  
+  m_client->m_requests.push_back(this);
+
+  return 1;
 }
 
 JabberClient::Iq::Iq(unsigned Direction, JabberClient *client)
@@ -101,7 +141,7 @@ void JabberClient::Iq::GenericStaza::Send()
   QString s=AsString();
   if (s.isEmpty())
   {
-    log(L_ERROR, "JabberClient::Iq::GenericStaza::Send(): Covardly refuses to send empty package. Something should be fixed");
+    log(L_WARN, "JabberClient::Iq::GenericStaza::Send(): Covardly refuses to send empty package. Something should be fixed");
     return;
   }
   JabberClient::Iq * parent = m_iq;
@@ -110,7 +150,7 @@ void JabberClient::Iq::GenericStaza::Send()
   parent->m_client->sendPacket();
 }
 
-QString JabberClient::Iq::GenericResponse::AsString_add_header(QString internals)
+QString JabberClient::Iq::GenericStaza::AsString_add_header(QString internals)
 {
   JabberClient::Iq * parent=m_iq;
   QString header="<iq ";
@@ -124,6 +164,7 @@ QString JabberClient::Iq::GenericResponse::AsString_add_header(QString internals
   return header;
 }
 
+
 JabberClient::UnknownIq::UnknownIq(unsigned Direction, JabberClient *client)
 	: Iq(Direction,client)
 {
@@ -133,6 +174,7 @@ JabberClient::UnknownIq::UnknownIq(unsigned Direction, JabberClient *client)
   }
   m_xmlns = "Unknown";
   m_new_xmlns = "";
+  m_request = new JabberClient::Iq::GenericRequest((JabberClient::Iq *)this);  // Needed to store m_type in it
 }
 
 void JabberClient::UnknownIq::element_start(const QString& el, const QXmlAttributes& attrs)
@@ -177,7 +219,7 @@ JabberClient::Iq* JabberClient::UnknownIq::Promote()
   {
     iq->m_local_client  = m_local_client;
     iq->m_remote_client = m_remote_client;
-    iq->m_type		= m_type;
+    if (m_request && iq->m_request) iq->m_request->m_type = m_request->m_type;
     iq->m_id		= m_id;
     iq->m_xmlns 	= m_new_xmlns;
     iq->m_depth 	= m_depth;
@@ -185,36 +227,5 @@ JabberClient::Iq* JabberClient::UnknownIq::Promote()
   return iq;
 }
 
-JabberClient::VersionInfoIq::VersionInfoIq(unsigned Direction, JabberClient *client)
-	: Iq(Direction,client)
-{
-  m_request  = new JabberClient::VersionInfoIq::Request ((JabberClient::Iq *) this);
-  m_response = new JabberClient::VersionInfoIq::Response((JabberClient::Iq *) this);
-}
 
-QString JabberClient::VersionInfoIq::Response::AsString()
-{
-  QString s="<query xmlns='jabber:iq:version'>";
-  if (! m_client_name.isEmpty()) s+= QString("<name>%1</name>").arg(m_client_name);
-  if (! m_client_version.isEmpty()) s+= QString("<version>%1</version>").arg(m_client_version);
-  if (! m_os.isEmpty()) s+= QString("<os>%1</os>").arg(m_os);
-  s+="</query>";
-  return(AsString_add_header(s));
-}
-
-void JabberClient::VersionInfoIq::Request::OnReceive()
-{
-  JabberClient::VersionInfoIq * parent = (JabberClient::VersionInfoIq*) m_iq;
-  JabberClient::VersionInfoIq::Response * response = (JabberClient::VersionInfoIq::Response *) parent->m_response;
-
-  response->m_type="result";
-  QString s = parent->m_remote_client;
-//  log(L_DEBUG, "received a version request from %s",s.latin1());
-
-  response->m_client_name = PACKAGE;
-  response->m_client_version = VERSION;
-  response->m_os = get_os_version();
- // response->m_client_version+="shaplov test";
-  response->Send();
-}
 

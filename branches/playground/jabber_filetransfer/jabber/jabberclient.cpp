@@ -273,7 +273,7 @@ void JabberClient::connect_ready()
         connected();
         return;
     }
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     m_bSSL = true;
     SSLClient *ssl = new JabberSSL(socket()->socket());
     socket()->setSocket(ssl);
@@ -934,7 +934,7 @@ void JabberClient::handshake(const char *id)
     if (getRegister()){
         auth_register();
     }else{
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
         if (getUsePlain()){
             auth_plain();
         }else{

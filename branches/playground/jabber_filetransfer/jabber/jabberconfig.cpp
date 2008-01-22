@@ -57,7 +57,7 @@ JabberConfig::JabberConfig(QWidget *parent, JabberClient *client, bool bConfig)
         edtServer1->setText(i18n("jabber.org"));
         edtPort1->setValue(m_client->getPort());
     }
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     chkSSL->setChecked(m_client->getUseSSL());
     chkSSL1->setChecked(m_client->getUseSSL());
     chkPlain->setChecked(m_client->getUsePlain());
@@ -132,7 +132,7 @@ void JabberConfig::apply()
         m_client->setPassword(edtPasswd->text());
         m_client->setRegister(chkRegister->isChecked());
     }
-#ifdef USE_OPENSSL
+#ifdef ENABLE_OPENSSL
     if (m_bConfig){
         m_client->setUseSSL(chkSSL1->isChecked());
     }else{

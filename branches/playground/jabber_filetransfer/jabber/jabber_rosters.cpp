@@ -41,6 +41,7 @@
 #include "jabber.h"
 #include "jabbermessage.h"
 
+#include "iq_versioninfo.h"
 using namespace std;
 using namespace SIM;
 
@@ -2537,7 +2538,7 @@ QString JabberClient::browse(const QString &jid)
     return req->m_id;
 }
 
-class VersionInfoRequest : public JabberClient::ServerRequest
+/* class VersionInfoRequest : public JabberClient::ServerRequest
 {
 public:
     VersionInfoRequest(JabberClient *client, const QString &jid, const QString &node);
@@ -2600,19 +2601,24 @@ void VersionInfoRequest::char_data(const QString& str)
 {
     if (m_data)
         *m_data += str;
-}
+} */
 
 QString JabberClient::versionInfo(const QString &jid, const QString &node)
 {
     if (getState() != Connected)
         return QString::null;
-    VersionInfoRequest *req = new VersionInfoRequest(this, jid, node);
+	
+    JabberClient::VersionInfoIq * req = new VersionInfoIq(this,jid,node);
+    req->Send();
+    return req->m_id;
+    
+/*    VersionInfoRequest *req = new VersionInfoRequest(this, jid, node);
     req->start_element("query");
     req->add_attribute("xmlns", "jabber:iq:version");
     req->add_attribute("node", node);
     req->send();
     m_requests.push_back(req);
-    return req->m_id;
+    return req->m_id; */
 }
 
 class TimeInfoRequest : public JabberClient::ServerRequest

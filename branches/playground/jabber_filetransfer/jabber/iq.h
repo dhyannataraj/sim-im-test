@@ -1,5 +1,27 @@
+/***************************************************************************
+                                  iq.h
+				  
+	  basic classes for implementation of Iq staza processing
+                             -------------------
+    begin                : Thu Nov 08 2007
+    copyright            : (C) 2007,2008 by Nikolay Shaplov
+    email                : N@shaplov.ru
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include"jabberclient.h"
 #include "sax.h"
+
+
+// #include "log.h" // FIXME: remove it
 
 #ifndef _JABBER__IQ_H
 #define _JABBER__IQ_H
@@ -13,7 +35,7 @@ class JabberClient;
 
 class JabberClient::Iq : public ServerRequest
 {
-protected:
+public:
   class GenericStaza;
   class GenericRequest;
   class GenericResponse;
@@ -29,14 +51,14 @@ protected:
   unsigned m_depth;         // depth level of current XML-element
   QString m_local_client;   // value of "from" for OUTGOING_QUERY, and "to"   for INCOMING_QUERY
   QString m_remote_client;  // value of "to"   for OUTGOING_QUERY, and "from" for INCOMING_QUERY
-  QString m_type;	    // value of type attribute of iq staza TODO: This property should be moved to Request and Response objects
-  QString m_id;		    // value of id attribute of iq staza
+  //  QString m_id;  //defined in ServerRequest	    // value of id attribute of iq staza
   QString m_xmlns;	    // what kind of iq request do we have
 public:
   virtual void element_start(const QString& el, const QXmlAttributes& attrs);
   virtual void element_end(const QString& el);
   virtual void char_data(const QString& str);
   QString GetXmlns();
+  virtual int Send();
 
   Iq(unsigned Direction, JabberClient *client);
   ~Iq();
@@ -48,16 +70,20 @@ class JabberClient::Iq::GenericStaza : SAXParser
 {
 protected:
   JabberClient::Iq * m_iq;
-  QString m_type;
-  virtual QString AsString_add_header(QString){return "";}
+  QString m_type;   // type of Iqstaza. May be "set", "get", "result" or "error". See XMPP-Core 9.2.3
+  virtual QString AsString_add_header(QString); 
 public:
   virtual void element_start(const QString& /*el*/, const QXmlAttributes& /*attrs*/) {}
   virtual void element_end(const QString& /*el*/) {}
   virtual void char_data(const QString& /*str*/) {}
   virtual void OnReceive(){}
-  virtual QString AsString() {return "";}
+  virtual QString AsString() {/*SIM::log(SIM::L_DEBUG, "AsString for Iq::GenericStaza");*/   return "";}
   virtual void Send();
   GenericStaza(JabberClient::Iq * iq);
+  
+  friend class JabberClient::Iq;
+  friend class JabberClient::UnknownIq;
+  friend class JabberClient::VersionInfoIq;
 };
 
 class JabberClient::Iq::GenericRequest : public GenericStaza
@@ -68,8 +94,6 @@ public:
 
 class JabberClient::Iq::GenericResponse : public GenericStaza
 {
-protected:
-  virtual QString AsString_add_header(QString internals);
 public:
   GenericResponse(JabberClient::Iq * iq) : GenericStaza(iq) {}
 };
@@ -89,36 +113,6 @@ public:
   virtual void element_start(const QString& el, const QXmlAttributes& attrs);
   unsigned CanPromote(); // Return true if query is known and can be promotet to proper object
   JabberClient::Iq* Promote();  // Return new Iq-object wich knows how to process this iq
-};
-
-class JabberClient::VersionInfoIq : public  JabberClient::Iq
-{
-public:
-  VersionInfoIq(unsigned Direction, JabberClient *client);
-  class Request;
-  class Response;
-};
-
-class JabberClient::VersionInfoIq::Request :public  GenericRequest
-{
-  friend class JabberClient::VersionInfoIq;
-
-  virtual void OnReceive();
-  Request(JabberClient::Iq * iq) : GenericRequest(iq) {}
-};
-
-class JabberClient::VersionInfoIq::Response : public GenericResponse
-{
-
-  QString m_client_name;
-  QString m_client_version;
-  QString m_os;
-  friend class JabberClient::VersionInfoIq;
-  friend class JabberClient;
-
-//  virtual void OnReceive();
-  Response(JabberClient::Iq * iq) : GenericResponse(iq) {}
-  virtual QString AsString();
 };
 
 #endif
