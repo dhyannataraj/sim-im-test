@@ -162,6 +162,9 @@ void CommonStatus::setBarStatus()
                                  case STATUS_DND:
                                      icon="SIM_dnd";
                                      break;
+                                 case STATUS_OCCUPIED:
+                                     icon="SIM_occupied";
+                                     break;
                                  case STATUS_FFC:
                                      icon="SIM_ffc";
                                      break;
@@ -262,6 +265,9 @@ void CommonStatus::rebuildStatus()
             break;
         case STATUS_DND:
             c.icon="SIM_dnd";
+            break;
+        case STATUS_OCCUPIED:
+            c.icon="SIM_occupied";
             break;
         case STATUS_FFC:
             c.icon="SIM_ffc";

@@ -52,6 +52,9 @@ AutoReplyDialog::AutoReplyDialog(unsigned status)
                 case STATUS_DND:
                     icon="SIM_dnd";
                     break;
+		        case STATUS_OCCUPIED:
+                    icon="SIM_occupied";
+                    break;
                 case STATUS_FFC:
                     icon="SIM_ffc";
                     break;

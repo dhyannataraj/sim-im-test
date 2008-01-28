@@ -572,6 +572,9 @@ void JabberClient::setStatus(unsigned status, const QString &ar)
             case STATUS_DND:
                 show = "dnd";
                 break;
+            case STATUS_OCCUPIED:
+                show = "occupied";
+                break;
             case STATUS_FFC:
                 show = "chat";
                 break;

@@ -231,6 +231,9 @@ ARItem::ARItem(QListViewItem *item, const CommandDef *def)
     case STATUS_DND:
         icon="SIM_dnd";
         break;
+    case STATUS_OCCUPIED:
+        icon="SIM_occupied";
+        break;
     case STATUS_FFC:
         icon="SIM_ffc";
         break;
