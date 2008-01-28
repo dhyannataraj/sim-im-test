@@ -33,8 +33,8 @@ const unsigned ICQ_SIGN			= 0x0001;
 
 const unsigned MESSAGE_DIRECT    = 0x0100;
 
-const unsigned STATUS_INVISIBLE	  = 2;
-const unsigned STATUS_OCCUPIED    = 100;
+//const unsigned STATUS_INVISIBLE	  = 2;     //took over to contacts.h
+//const unsigned STATUS_OCCUPIED    = 100;  //took over to contacts.h
 
 const unsigned char ICQ_TCP_VERSION = 0x09;
 

@@ -190,11 +190,15 @@ protected:
 
 const unsigned STATUS_UNKNOWN   = 0;
 const unsigned STATUS_OFFLINE   = 1;
-const unsigned STATUS_NA        = 10;
-const unsigned STATUS_DND       = 20;
-const unsigned STATUS_AWAY      = 30;
-const unsigned STATUS_ONLINE    = 40;
-const unsigned STATUS_FFC       = 50;
+const unsigned STATUS_INVISIBLE	= 2;
+const unsigned STATUS_ONLINE    = 10;
+const unsigned STATUS_AWAY      = 20;
+const unsigned STATUS_NA        = 30;
+const unsigned STATUS_DND       = 40;
+const unsigned STATUS_OCCUPIED  = 50;
+const unsigned STATUS_FFC       = 60;
+
+
 
 const unsigned CONTACT_UNDERLINE    = 0x0001;
 const unsigned CONTACT_ITALIC       = 0x0002;

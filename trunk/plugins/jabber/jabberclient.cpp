@@ -1074,6 +1074,9 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     case STATUS_DND:
                         dicon = "ICQ_dnd";
                         break;
+                    case STATUS_OCCUPIED:
+                        dicon = "ICQ_occupied";
+                        break;
                     case STATUS_FFC:
                         dicon = "ICQ_ffc";
                         break;
@@ -1111,6 +1114,9 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     case STATUS_DND:
                         dicon = "MSN_dnd";
                         break;
+                    case STATUS_OCCUPIED:
+                        dicon = "MSN_occupied";
+                        break;
                     }
                 }
             }else if (h == "yahoo"){
@@ -1129,6 +1135,9 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     break;
                 case STATUS_DND:
                     dicon = "Yahoo!_dnd";
+                    break;
+                case STATUS_OCCUPIED:
+                    dicon = "Yahoo!_occupied";
                     break;
                 case STATUS_FFC:
                     dicon = "Yahoo!_ffc";
@@ -1151,6 +1160,9 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                 case STATUS_DND:
                     dicon = "sms_dnd";
                     break;
+                case STATUS_OCCUPIED:
+                    dicon = "sms_occupied";
+                    break;
                 case STATUS_FFC:
                     dicon = "sms_ffc";
                     break;
@@ -1171,6 +1183,9 @@ const char *JabberClient::get_icon(JabberUserData *data, unsigned status, bool i
                     break;
                 case STATUS_DND:
                     dicon = "GG_dnd";
+                    break;
+                case STATUS_OCCUPIED:
+                    dicon = "GG_occupied";
                     break;
                 case STATUS_FFC:
                     dicon = "GG_ffc";

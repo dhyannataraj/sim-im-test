@@ -139,6 +139,21 @@ static CommandDef jabber_status_list[] =
             NULL,
             QString::null
         ),
+		CommandDef (
+            STATUS_OCCUPIED,
+            I18N_NOOP("Occupied"),
+            "Jabber_occupied",
+            QString::null,
+            QString::null,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            NULL,
+            QString::null
+        ),
         CommandDef (
             STATUS_FFC,
             I18N_NOOP("Free for chat"),
