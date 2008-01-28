@@ -380,7 +380,7 @@ static autoReply autoReplies[] =
               "Please do not disturb me now. Disturb me later."
           ) },
 		{ STATUS_OCCUPIED, I18N_NOOP(
-              "I'm occupied at the moment. Please only important Messages."
+              "I'm occupied at the moment. Please only urgent messages."
           ) },
         { STATUS_FFC, I18N_NOOP(
               "We'd love to hear what you have to say. Join our chat."
