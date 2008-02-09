@@ -49,6 +49,10 @@ void ServiceSocket::connect(const char *addr, unsigned short port, const QByteAr
 {
     log(L_DEBUG, "%s: connect to %s:%d ", serviceSocketName(), addr, port);
     m_cookie = cookie;
+    if(m_socket != NULL){
+	m_socket->close();
+	delete m_socket;
+    }    
     m_socket = new ICQClientSocket(this);
     m_socket->connect(addr, port, m_client);
 }
