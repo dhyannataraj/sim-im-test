@@ -807,6 +807,8 @@ JabberClient::PresenceRequest::~PresenceRequest()
             status = STATUS_NA;
         }else if (m_show == "dnd"){
             status = STATUS_DND;
+		}else if (m_show == "occupied"){
+            status = STATUS_OCCUPIED;
         }else if (m_show == "online"){
             status = STATUS_ONLINE;
         }else if (m_show.isEmpty()){
