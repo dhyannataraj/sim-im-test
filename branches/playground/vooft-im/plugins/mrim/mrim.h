@@ -48,5 +48,4 @@ public slots:
 	void parsed(const SIntMsg&);
 };
 
-
 #endif // __MRIM_H__

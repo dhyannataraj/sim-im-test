@@ -28,8 +28,6 @@ protected:
 	QString m_ProtoName;
 	bool m_Logined;
 
-	virtual void Login() = 0;
-	
 protected slots:
 	void debug_log(QString msg) 
 	{

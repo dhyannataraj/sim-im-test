@@ -5,10 +5,20 @@
 #include <QString>
 
 #include "sim.h"
+#include "gui_client.h"
 //
-sim_im::sim_im(  ) 
+sim_im::sim_im() 
 {
-	// TODO
+	gui = new SUiClient();
+	connect(gui, SIGNAL(debug(QString)), this, SLOT(debug_log(QString)));
+	gui->Init();
+	//gui->showAllWindows();
+}
+
+sim_im::~sim_im()
+{
+	if(gui)
+		delete gui;
 }
 
 void sim_im::RegisterProtocol(SProtocol *proto)
@@ -34,14 +44,16 @@ int sim_im::loadPlugins()
 	{
 		QPluginLoader loader(pluginDir.absoluteFilePath(fileName));
 		
+		debug_log(pluginDir.absoluteFilePath(fileName));
+		
 		if (SProtocol *proto = qobject_cast<SProtocol *>(loader.instance()))
 		{
 			RegisterProtocol(proto);
 		}
 	}
 	
-	if(protocols.size())
-		protocols.at(0)->Login("vooft@bk.ru", "asarhaddon");
+//	if(protocols.size())
+//		protocols.at(0)->Login("vooft@bk.ru", "asarhaddon");
 	
 	return count;
 }

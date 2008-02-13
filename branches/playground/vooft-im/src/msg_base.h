@@ -19,11 +19,8 @@ struct STextMsg
 	QString proto;
 	QString from;
 	QString to;
-	QTextDocument* msg;
+	QString msg;
 	QMap<QString, QString> flags;
-	
-	STextMsg(QObject *obj) { msg = new QTextDocument(obj); }
-	~STextMsg() { delete msg; }
 };
 
 struct SBinMsg

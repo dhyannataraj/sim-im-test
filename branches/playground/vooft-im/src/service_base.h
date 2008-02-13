@@ -29,5 +29,5 @@ signals:
 	void toSend(SIntMsg);
 };
 
-Q_DECLARE_INTERFACE(SService, "org.sim-im.SService/1.0");
+//Q_DECLARE_INTERFACE(SService, "org.sim-im.SService/1.0");
 #endif // __SERVICE_BASE_H__

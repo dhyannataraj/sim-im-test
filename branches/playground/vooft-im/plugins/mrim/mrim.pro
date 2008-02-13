@@ -1,4 +1,4 @@
-SOURCES += mrim.cpp mrim_services.cpp
+SOURCES += mrim.cpp
 HEADERS += mrim.h \
  ../../src/msg_base.h \
  ../../src/protocol_base.h \
