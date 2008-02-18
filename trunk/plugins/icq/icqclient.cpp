@@ -804,7 +804,7 @@ void ICQClient::sendPacket(bool bSend)
     m_processTimer->start(delay);
 }
 
-QCString ICQClient::cryptPassword()
+string ICQClient::cryptPassword()
 {
     unsigned char xor_table[] =
         {
@@ -812,7 +812,7 @@ QCString ICQClient::cryptPassword()
             0x71, 0xa3, 0xb9, 0xe6, 0x53, 0x7a, 0x95, 0x7c
         };
     QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
-    QCString res;
+    string res;
     for (int j = 0; j < 8; j++){
         char c = pswd[j];
         if (c == 0)
