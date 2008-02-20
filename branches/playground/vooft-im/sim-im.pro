@@ -6,14 +6,15 @@ HEADERS += src/sim.h \
  src/ev_types.h \
  src/client_base.h \
  src/gui_client.h \
- src/common_gui.h
-SOURCES += src/sim.cpp src/main.cpp src/gui_client.cpp src/common_gui.cpp
+ src/gui_codes.h \
+ src/contacts.h \
+ src/contactlist.h
+SOURCES += src/sim.cpp \
+ src/main.cpp \
+ src/gui_client.cpp \
+ src/gui_codes.cpp \
+ src/contacts.cpp \
+ src/contactlist.cpp
 QT += core network gui
 CONFIG += uitools
-FORMS += ui/logindlgbase.ui \
- ui/searchallbase.ui \
- ui/searchbase.ui \
- ui/msgcfgbase.ui \
- ui/newprotocolbase.ui \
- ui/msg_wnd.ui \
- ui/msg_tabs.ui
+FORMS += ui/msg_wnd.ui ui/msg_tabs.ui ui/contact_list.ui

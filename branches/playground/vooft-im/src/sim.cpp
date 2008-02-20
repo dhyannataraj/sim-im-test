@@ -3,6 +3,7 @@
 #include <QByteArray>
 #include <QPluginLoader>
 #include <QString>
+#include <QWidget>
 
 #include "sim.h"
 #include "gui_client.h"
@@ -11,7 +12,7 @@ sim_im::sim_im()
 {
 	gui = new SUiClient();
 	connect(gui, SIGNAL(debug(QString)), this, SLOT(debug_log(QString)));
-	gui->Init();
+//	gui->Init();
 	//gui->showAllWindows();
 }
 
@@ -25,6 +26,8 @@ void sim_im::RegisterProtocol(SProtocol *proto)
 {
 	debug_log("Loaded: " + proto->protoName());
 	protocols.append(proto);
+	connect(gui, SIGNAL(createWidget(quint16, QWidget *, QString)), proto, SLOT(fillUi(quint16, QWidget*)));
+	gui->createMsgWindow("me", proto->protoName());
 }
 
 int sim_im::loadPlugins()

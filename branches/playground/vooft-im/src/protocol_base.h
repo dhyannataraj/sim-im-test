@@ -9,6 +9,7 @@
 #include <QString>
 #include <QTime>
 #include <QTcpSocket>
+#include <QWidget>
 
 #include "msg_base.h"
 #include "service_base.h"
@@ -55,6 +56,7 @@ public slots:
 	virtual void listen() = 0;
 	virtual void toSend(const SIntMsg&) = 0;
 	virtual void parsed(const SIntMsg&) = 0;
+	virtual void fillUi(quint16, QWidget *) = 0;
 	
 signals:
 	void recieved(SIntMsg);
