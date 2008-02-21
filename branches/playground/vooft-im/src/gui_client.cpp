@@ -60,7 +60,7 @@ bool SMsgWnd::findUi()
 
 SUiClient::SUiClient()
 {
-
+	m_cl.show();
 }
 
 void SUiClient::createMsgWindow(QString ID, QString protoName)

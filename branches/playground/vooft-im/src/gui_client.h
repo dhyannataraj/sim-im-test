@@ -5,6 +5,7 @@
 #include "msg_base.h"
 
 #include "ui_msg_wnd.h"
+#include "contactlist.h"
 
 #include <QList>
 #include <QTextEdit>
@@ -65,6 +66,7 @@ class SMsgWnd: public SCommonUi
 	bool isInit;
 	
 	bool findUi();
+	
 public:
 	SMsgWnd();
 	void Init(QString descr, QString proto, QWidget *wnd=0);
@@ -95,6 +97,8 @@ class SUiClient: public SClient, public Ui::msgWnd
 
 	QList<SCommonUi*> m_UIs;
 	QList<QWidget *> m_windows;
+	
+	SContactList m_cl;
 	
 	void registerUi(SCommonUi *widg)
 	{

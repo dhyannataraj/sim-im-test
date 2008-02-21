@@ -8,13 +8,17 @@
 
 enum
 {
+	SUnknow,
 	SOffline,
-	SOnline,
-	SAway,
+	SInvisible,
+	SDND,
+	SOccupied,
 	SNA,
-	SBusy,
+	SAway,
+	SOnline,
+	SFFC,
 	
-END_OF_STATUSES
+	END_OF_STATUSES
 };
 
 // place your code here
@@ -23,10 +27,11 @@ class SContact: public QObject
 	Q_OBJECT
 	
 	QString m_proto;
-	QString m_ID;
+	QString m_name;
 	quint16 m_status;
 	QMap<QString, QString> m_extras;
 	QImage *m_img;
+	int m_ID;
 	
 private slots:
 	void contactChanged();
@@ -34,9 +39,11 @@ public:
 	SContact(QString proto, QString id, quint16 status=SOffline, QImage *img=0);
 	~SContact();
 	QString getProto() { return m_proto; }
-	QString getId() { return m_ID; }
+	QString getName() { return m_name; }
 	quint16 getStatus() { return m_status; }
 	QMap<QString, QString> getExtras() const { return m_extras; }
+	void setID(int id) { m_ID = id; }
+	int getID() { return m_ID; }
 
 public slots:
 	void setImage(QImage*);
@@ -59,12 +66,18 @@ class SGroup: public QObject
 	Q_OBJECT
 	
 	QList<SContact *> contacts;
-	QString m_ID;
+	QString m_name;
+	int m_ID;
 
 public:
 	SGroup(QString);
 	~SGroup();
 	SContact* getContact(QString proto, QString id);
+	int getCount() { return contacts.size(); }
+	QString getName() { return m_name; }
+	QList<SContact *> getContacts() const { return contacts; }
+	void setID(int id) { m_ID = id;}
+	int getID() { return m_ID; }
 
 public slots:
 	void pushContact(SContact*);
@@ -74,9 +87,9 @@ public slots:
 	void changeName(QString);
 	
 signals:
-	void nameChanged(QString);
+	void nameChanged(QString, QString);
 	void contactAdded(SContact*);
-	void groupStaffChanged();
+	void groupStaffChanged(QString);
 	void contactChanged(int);
 	
 };

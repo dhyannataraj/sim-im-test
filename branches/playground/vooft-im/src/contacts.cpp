@@ -8,7 +8,7 @@
 SContact::SContact(QString proto, QString id, quint16 status, QImage *img)
 {
 	m_proto = proto;
-	m_ID = id;
+	m_name = id;
 	m_status = status;
 	if(!img)
 		m_img = new QImage();
@@ -20,7 +20,7 @@ SContact::SContact(QString proto, QString id, quint16 status, QImage *img)
 void SContact::contactChanged()
 {
 	emit changed(this);
-	emit changed(m_proto, m_ID);
+	emit changed(m_proto, m_name);
 }
 
 SContact::~SContact()
@@ -76,7 +76,7 @@ void SContact::clearImg()
 
 SGroup::SGroup(QString name)
 {
-	m_ID = name;
+	m_name = name;
 	connect(this, SIGNAL(contactAdded(SContact*)), this, SIGNAL(groupStaffChanged()));
 }
 
@@ -91,7 +91,7 @@ SContact* SGroup::getContact(QString proto, QString id)
 	SContact* result = 0;
 	foreach(SContact *contact, contacts)
 	{
-		if(contact->getProto()==proto && contact->getId()==id)
+		if(contact->getProto()==proto && contact->getName()==id)
 		{
 			result = contact;
 			break;
@@ -111,14 +111,14 @@ void SGroup::deleteContact(QString proto, QString id)
 {
 	int count = contacts.size();
 	for(int i=0; i<count; i++)
-		if(contacts.at(i)->getProto()==proto && contacts.at(i)->getId()==id)
+		if(contacts.at(i)->getProto()==proto && contacts.at(i)->getName()==id)
 			contacts.removeAt(i);
 }
 
 void SGroup::contactChanged(SContact* contact)
 {
 	emit contactChanged(contacts.lastIndexOf(contact));
-	emit groupStaffChanged();
+	emit groupStaffChanged(m_name);
 }
 
 void SGroup::contactChanged(QString proto, QString id)
@@ -127,13 +127,14 @@ void SGroup::contactChanged(QString proto, QString id)
 	if(!cont)
 		return;
 	emit contactChanged(contacts.lastIndexOf(cont));
-	emit groupStaffChanged();
+	emit groupStaffChanged(m_name);
 }
 
 void SGroup::changeName(QString name)
 {
-	m_ID = name;
-	emit nameChanged(name);
+	QString oldname = m_name;
+	m_name = name;
+	emit nameChanged(oldname, name);
 }
 
 	

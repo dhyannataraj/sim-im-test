@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>Form</class>
- <widget class="QWidget" name="Form" >
+ <class>ContactList</class>
+ <widget class="QWidget" name="ContactList" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -38,13 +38,19 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox" />
+       <widget class="QComboBox" name="statusBox" />
       </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QTableWidget" name="tableWidget" />
+    <widget class="QTreeWidget" name="contactTree" >
+     <column>
+      <property name="text" >
+       <string>1</string>
+      </property>
+     </column>
+    </widget>
    </item>
    <item>
     <widget class="QWidget" native="1" name="protocolsBtns" >
