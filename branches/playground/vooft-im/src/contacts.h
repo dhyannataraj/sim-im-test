@@ -1,6 +1,7 @@
 #ifndef __CONTACTS_H__
 #define __CONTACTS_H__
 
+#include <QByteArray>
 #include <QImage>
 #include <QMap>
 #include <QString>
@@ -28,6 +29,7 @@ class SContact: public QObject
 	
 	QString m_proto;
 	QString m_name;
+	QString m_showName;
 	quint16 m_status;
 	QMap<QString, QString> m_extras;
 	QImage *m_img;
@@ -44,9 +46,13 @@ public:
 	QMap<QString, QString> getExtras() const { return m_extras; }
 	void setID(int id) { m_ID = id; }
 	int getID() { return m_ID; }
+	QString getShowName() { return m_showName; }
+	static SContact* genContact(QByteArray&);
+	static QString readStr(QDataStream&);
 
 public slots:
 	void setImage(QImage*);
+	void setShowName(QString name) { m_showName = name; }
 	void addExtraProps(QMap<QString, QString>);
 	void clearExtraProps();
 	void setExtraProps(QMap<QString, QString>);

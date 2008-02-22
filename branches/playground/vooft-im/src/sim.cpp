@@ -27,6 +27,7 @@ void sim_im::RegisterProtocol(SProtocol *proto)
 	debug_log("Loaded: " + proto->protoName());
 	protocols.append(proto);
 	connect(gui, SIGNAL(createWidget(quint16, QWidget *, QString)), proto, SLOT(fillUi(quint16, QWidget*)));
+	proto->RegisterClient(gui);
 	gui->createMsgWindow("me", proto->protoName());
 }
 

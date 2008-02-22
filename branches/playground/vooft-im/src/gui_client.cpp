@@ -4,13 +4,13 @@
 #include "ui_msg_wnd.h"
 #include "ui_msg_tabs.h"
 
+#include <QByteArray>
 #include <QTextEdit>
 #include <QUiLoader>
 #include <QWidget>
 #include <QString>
 #include <QObject>
 #include <QtGlobal>
-#include "gui_codes.h"
 
 void SCommonUi::getTextMsg(STextMsg &msg)
 {
@@ -61,6 +61,8 @@ bool SMsgWnd::findUi()
 SUiClient::SUiClient()
 {
 	m_cl.show();
+	for(int i=GUI_EVENTS+1; i<END_OF_GUI_EVENTS; i++)
+		m_types.append(i);
 }
 
 void SUiClient::createMsgWindow(QString ID, QString protoName)
@@ -99,4 +101,25 @@ void SUiClient::showAllWindows()
 	{
 		ui->show();
 	}
+}
+
+void SUiClient::getMsg(STextMsg &msg)
+{
+	// TODO
+}
+
+void SUiClient::getMsg(SIntMsg &msg)
+{
+	if(!msg.parsed)
+		return;
+	switch(msg.type)
+	{
+		case SGenContact: genContact(msg.data); 
+	}
+}
+
+void SUiClient::genContact(QByteArray &block)
+{
+	SContact *contact = SContact::genContact(block);
+	// TODO
 }

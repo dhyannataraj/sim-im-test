@@ -36,6 +36,7 @@ public:
 	~SContactList();
 	
 public slots:
+	void addContact(SContact*, QString groupName="NOT_IN_LIST");
 	void addGroup(SGroup *);
 	void addEmptyGroup(QString);
 	void removeGroup(QString);

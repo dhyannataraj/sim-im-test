@@ -20,6 +20,7 @@ SContactList::SContactList()
 	m_statuses.insert(SOnline, tr("Online"));
 	m_statuses.insert(SFFC, tr("Free for chat"));
 	fillStatuses();
+	addEmptyGroup("NOT_IN_LIST");
 }
 
 SContactList::~SContactList()
@@ -71,7 +72,7 @@ void SContactList::removeGroup(QString name)
 
 void SContactList::groupChanged(QString name)
 {
-	
+	repaintContactList();
 }
 
 void SContactList::addProto(SProtocol *proto)
@@ -99,10 +100,15 @@ QList<QTreeWidgetItem *> SContactList::genItems()
 		foreach(SContact *contact, contacts)
 		{
 			QTreeWidgetItem *item = new QTreeWidgetItem(groupTree, contact->getID());
-			item->setText(SNameCol, contact->getName());
+			item->setText(SNameCol, contact->getShowName());
 		}
 		result.append(groupTree);
 	}
 	
 	return result;
+}
+
+void SContactList::addContact(SContact* contact, QString groupName)
+{
+	// TODO
 }

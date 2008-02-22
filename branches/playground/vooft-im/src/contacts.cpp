@@ -1,6 +1,8 @@
+#include <QDataStream>
 #include <QImage>
 #include <QList>
 #include <QString>
+#include <QTextStream>
 
 #include "contacts.h"
 
@@ -9,12 +11,46 @@ SContact::SContact(QString proto, QString id, quint16 status, QImage *img)
 {
 	m_proto = proto;
 	m_name = id;
+	m_showName = id;
 	m_status = status;
 	if(!img)
 		m_img = new QImage();
 	connect(this, SIGNAL(statusChanged(quint16)), this, SLOT(contactChanged()));
 	connect(this, SIGNAL(imgChanged(const QImage&)), this, SLOT(contactChanged()));
 	connect(this, SIGNAL(extraPropsChanged(QMap<QString, QString>)), this, SLOT(contactChanged()));
+}
+
+SContact* SContact::genContact(QByteArray &block)
+{
+	QString proto, id;
+	quint16 status;
+	
+	QDataStream out(block);
+	
+	proto = readStr(out);
+	id = readStr(out);
+	
+	out >> status;
+	
+	SContact *result = new SContact(proto, id, status);
+	
+	return result;
+}
+
+QString SContact::readStr(QDataStream& out)
+{
+	char c;
+	QString str; 
+	
+	out.readRawData(&c, 1);
+	
+	while(c)
+	{
+		str += c;
+		out.readRawData(&c, 1);
+	}
+	
+	return str;
 }
 
 void SContact::contactChanged()

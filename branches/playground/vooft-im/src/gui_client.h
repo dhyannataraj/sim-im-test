@@ -7,6 +7,7 @@
 #include "ui_msg_wnd.h"
 #include "contactlist.h"
 
+#include <QByteArray>
 #include <QList>
 #include <QTextEdit>
 #include <QWidget>
@@ -91,7 +92,7 @@ signals:
 };
 
 // place your code here
-class SUiClient: public SClient, public Ui::msgWnd
+class SUiClient: public SClient
 {
 	Q_OBJECT
 
@@ -105,6 +106,7 @@ class SUiClient: public SClient, public Ui::msgWnd
 		m_UIs.append(widg);
 		connect(widg, SIGNAL(debug(QString)), this, SIGNAL(debug(QString))); 
 	}
+	void genContact(QByteArray&);
 public:
 	SUiClient();
 	~SUiClient() { }
@@ -112,8 +114,8 @@ public:
 	void createMsgWindow(QString, QString);
 	
 public slots:
-	void getMsg(SIntMsg&) { }
-	void getMsg(STextMsg&){ }
+	void getMsg(SIntMsg&);
+	void getMsg(STextMsg&);
 	void showAllWindows();
 
 signals:

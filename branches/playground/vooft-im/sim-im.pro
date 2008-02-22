@@ -6,7 +6,6 @@ HEADERS += src/sim.h \
  src/ev_types.h \
  src/client_base.h \
  src/gui_client.h \
- src/gui_codes.h \
  src/contacts.h \
  src/contactlist.h
 SOURCES += src/sim.cpp \
