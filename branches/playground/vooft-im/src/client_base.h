@@ -20,8 +20,8 @@ public:
 	QList<quint16> types() { return m_types; }
 	
 public slots:
-	virtual void getMsg(SIntMsg&) = 0;
-	virtual void getMsg(STextMsg&) = 0;
+	virtual void getMsg(const SIntMsg&) = 0;
+	virtual void getMsg(const STextMsg&) = 0;
 
 signals:
 	void processed(bool);

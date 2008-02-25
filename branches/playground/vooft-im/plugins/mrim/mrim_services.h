@@ -9,6 +9,10 @@
 // place your code here
 class UpholdSvc: public SService
 {
+	Q_OBJECT
+	
+	bool started;
+	
 	QTimer m_timer;
 	quint32 readUL(QByteArray&);
 public:
@@ -17,9 +21,23 @@ public:
 	void doIntMsg(SIntMsg&);
 	
 public slots:
-	void parse(SIntMsg) { }
+	void parse(SIntMsg&) {}
 	void genUphold();
+};
+
+class ContactListParser: public SService
+{
+	Q_OBJECT
+	quint32 readUL(QDataStream&);
+	QString readLPS(QDataStream&);
+	quint16 genStatus(quint32);
+public:
+	ContactListParser();
+	~ContactListParser();
 	
+public slots:
+	void parse(SIntMsg&);
+	void doIntMsg(SIntMsg&) {}
 };
 
 #endif // __MRIM_SERVICES_H__

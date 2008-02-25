@@ -15,15 +15,16 @@ SContact::SContact(QString proto, QString id, quint16 status, QImage *img)
 	m_status = status;
 	if(!img)
 		m_img = new QImage();
+	m_groupName = "NOT_IN_LIST";
 	connect(this, SIGNAL(statusChanged(quint16)), this, SLOT(contactChanged()));
 	connect(this, SIGNAL(imgChanged(const QImage&)), this, SLOT(contactChanged()));
 	connect(this, SIGNAL(extraPropsChanged(QMap<QString, QString>)), this, SLOT(contactChanged()));
 }
 
-SContact* SContact::genContact(QByteArray &block)
+SContact* SContact::genContact(const QByteArray &block)
 {
-	QString proto, id;
-	quint16 status;
+	QString proto, id, group;
+	quint16 status, tmp;
 	
 	QDataStream out(block);
 	
@@ -31,8 +32,12 @@ SContact* SContact::genContact(QByteArray &block)
 	id = readStr(out);
 	
 	out >> status;
+	out >> tmp;
+	
+	out >> group;
 	
 	SContact *result = new SContact(proto, id, status);
+	result->setGroupName(group);
 	
 	return result;
 }
@@ -55,7 +60,7 @@ QString SContact::readStr(QDataStream& out)
 
 void SContact::contactChanged()
 {
-	emit changed(this);
+//	emit changed(this);
 	emit changed(m_proto, m_name);
 }
 

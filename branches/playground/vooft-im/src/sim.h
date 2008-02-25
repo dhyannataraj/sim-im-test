@@ -33,6 +33,7 @@ public slots:
 		qDebug() << msg;
 	#endif
 	}
+	void login(QString proto, QString id, QString pass);
 	
 };
 

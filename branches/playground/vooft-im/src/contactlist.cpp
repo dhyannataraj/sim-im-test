@@ -1,3 +1,4 @@
+#include <QHeaderView>
 #include <QString>
 
 #include "contactlist.h"
@@ -10,17 +11,20 @@ SContactList::SContactList()
 {
 	setupUi(this);
 //	connect(statusBox, SIGNAL(activated(int)), this, SIGNAL(statusChanged(int)));
-	m_statuses.insert(SUnknow, tr("Unknow"));
-	m_statuses.insert(SOffline, tr("Offline"));
-	m_statuses.insert(SInvisible, tr("Invisible"));
-	m_statuses.insert(SDND, tr("Do not disturb"));
-	m_statuses.insert(SOccupied, tr("Occupied"));
-	m_statuses.insert(SNA, tr("Not available"));
-	m_statuses.insert(SAway, tr("Away"));
-	m_statuses.insert(SOnline, tr("Online"));
-	m_statuses.insert(SFFC, tr("Free for chat"));
+	contactTree->header()->hide();
+	m_states.insert(SUnknow, tr("Unknow"));
+	m_states.insert(SOffline, tr("Offline"));
+	m_states.insert(SInvisible, tr("Invisible"));
+	m_states.insert(SDND, tr("Do not disturb"));
+	m_states.insert(SOccupied, tr("Occupied"));
+	m_states.insert(SNA, tr("Not available"));
+	m_states.insert(SAway, tr("Away"));
+	m_states.insert(SOnline, tr("Online"));
+	m_states.insert(SFFC, tr("Free for chat"));
 	fillStatuses();
 	addEmptyGroup("NOT_IN_LIST");
+	
+//	connect(this, SIGNAL(groupAdded(QString)), this, SLOT(groupChanged(QString))); // FIX_LATER
 }
 
 SContactList::~SContactList()
@@ -35,8 +39,8 @@ SContactList::~SContactList()
 
 void SContactList::fillStatuses()
 {
-	for(int i=SUnknow; i<END_OF_STATUSES; i++)
-		statusBox->addItem(m_statuses[i]);
+	for(int i=SUnknow; i<END_OF_STATES; i++)
+		statusBox->addItem(m_states[i]);
 }
 
 void SContactList::addGroup(SGroup * group)
@@ -108,7 +112,29 @@ QList<QTreeWidgetItem *> SContactList::genItems()
 	return result;
 }
 
+SGroup* SContactList::findGroup(QString name)
+{
+	foreach(SGroup* group, m_groups)
+	{
+		if(group->getName()==name)
+			return group;
+	}
+	return 0;
+}
+
 void SContactList::addContact(SContact* contact, QString groupName)
 {
-	// TODO
+	if(contact->getGroupName()=="")
+		contact->setGroupName(groupName);
+	else groupName = contact->getGroupName();
+	
+	if(!findGroup(groupName))
+	{
+		addEmptyGroup(groupName);
+		emit groupAdded(groupName);
+	}
+	
+	SGroup* group = findGroup(groupName);
+	group->pushContact(contact);
+	groupChanged(groupName);
 }

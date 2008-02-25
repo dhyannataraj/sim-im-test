@@ -8,6 +8,7 @@
 #include "proto.h"
 #include "../../src/ev_types.h"
 #include "../../src/msg_base.h"
+#include "mrim_services.h"
 
 MrimProtocol::MrimProtocol()
 {
@@ -15,7 +16,14 @@ MrimProtocol::MrimProtocol()
 	m_Logined = false;
 
 // Internal services
-	
+
+// Put to external function adding of service
+	UpholdSvc *uphold = new UpholdSvc();
+	services.append(uphold);
+	connect(uphold, SIGNAL(debug(QString)), this, SIGNAL(debug(QString)));
+	connect(this, SIGNAL(connected(bool)), uphold, SLOT(genUphold()));
+	ContactListParser *cl_parser = new ContactListParser();
+	services.append(cl_parser);
 // Internal services END
 }
 
@@ -40,6 +48,8 @@ struct is:
 	mrimHeader hdr = genMrimHeader(genMrimType(msg.type), 0, 0);
 	
 	out >> hdr.seq;
+	if(!hdr.seq)
+		hdr.seq = m_seq++;
 	
 	putHeader(in, hdr);
 	
@@ -71,7 +81,8 @@ void MrimProtocol::parsed(const SIntMsg &msg)
 	}
 	else
 	{
-		emit recieved(msg); // if it was arrived from clients -> send to services
+		SIntMsg new_msg = msg;
+		emit recieved(new_msg); // if it was arrived from clients -> send to services
 	}
 }
 
@@ -221,17 +232,35 @@ void MrimProtocol::listen()
 	emit recieved(msg);
 }
 
-quint16 MrimProtocol::genMsgType(quint32 type)
+quint16 MrimProtocol::genMsgType(quint16 type)
 {
 	quint16 result;
 	
 	switch(type)
 	{
 		case MRIM_CS_HELLO_ACK: result = SPingMsg; break;
-		case MRIM_CS_LOGIN_ACK: result = SLogin; debug_log("logined"); break; 
-		case MRIM_CS_LOGIN_REJ: result = SLoginRej; break;
+		case MRIM_CS_LOGIN_ACK: result = SLogin; emit connected(true); debug_log("logined"); break; 
+		case MRIM_CS_LOGIN_REJ: result = SLoginRej; emit connected(false); break;
 		case MRIM_CS_CONNECTION_PARAMS: result = SPingMsg; break;
-	//	case 
+		case MRIM_CS_CONTACT_LIST2: result = SContacts; debug_log("contact list"); break;
+		
+		//TODO
+		//case MRIM_CS_USER_INFO
+		
+		default: debug_log("unknown type: 0x" + QString::number(type, 16));
+	}
+// 
+	
+	return result;
+}
+
+quint16 MrimProtocol::genMrimType(quint16 type)
+{
+	quint16 result = 0;
+	
+	switch(type)
+	{
+		case SUpholdConnect: result = MRIM_CS_PING; 
 	}
 	
 	return result;
@@ -281,7 +310,6 @@ QString MrimProtocol::readLPS(QDataStream &in)
 	}
 	
 	return result;
-	
 }
 
 void MrimProtocol::putHeader(QDataStream& out, mrimHeader header)
@@ -336,4 +364,14 @@ void MrimProtocol::Logout()
 	debug_log("disconnected from server");
 }
 
-Q_EXPORT_PLUGIN2(mrimprotocol, MrimProtocol)
+void MrimProtocol::fillUi(quint16 type, QWidget *wnd)
+{
+	switch(type)
+	{
+		case SMsgWndProto: break;
+		case SMsgWndUserInfo: break;
+		case SMsgBtns: break;
+	}
+}
+
+Q_EXPORT_PLUGIN2(mrim, MrimProtocol)

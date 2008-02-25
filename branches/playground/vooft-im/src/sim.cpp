@@ -27,6 +27,7 @@ void sim_im::RegisterProtocol(SProtocol *proto)
 	debug_log("Loaded: " + proto->protoName());
 	protocols.append(proto);
 	connect(gui, SIGNAL(createWidget(quint16, QWidget *, QString)), proto, SLOT(fillUi(quint16, QWidget*)));
+	connect(proto, SIGNAL(debug(QString)), this, SLOT(debug_log(QString)));
 	proto->RegisterClient(gui);
 	gui->createMsgWindow("me", proto->protoName());
 }
@@ -48,16 +49,35 @@ int sim_im::loadPlugins()
 	{
 		QPluginLoader loader(pluginDir.absoluteFilePath(fileName));
 		
-		debug_log(pluginDir.absoluteFilePath(fileName));
+		QObject *plugin = loader.instance();
 		
-		if (SProtocol *proto = qobject_cast<SProtocol *>(loader.instance()))
+		if(!plugin)
+			debug_log("Can't load file: " + fileName + ". Error: " + loader.errorString());
+		
+		if (SProtocol *proto = qobject_cast<SProtocol *> (plugin))
 		{
 			RegisterProtocol(proto);
 		}
 	}
 	
-//	if(protocols.size())
-//		protocols.at(0)->Login("vooft@bk.ru", "asarhaddon");
-	
 	return count;
+}
+
+void sim_im::login(QString protoName, QString id, QString pass)
+{
+	foreach(SProtocol *proto, protocols)
+	{
+		if(proto->protoName()==protoName)
+			proto->Login(id, pass);
+	}
+}
+
+QStringList sim_im::getProtocols()
+{
+	QStringList result;
+	
+	foreach(SProtocol* proto, protocols)
+		result.append(proto->protoName());
+	
+	return result;
 }

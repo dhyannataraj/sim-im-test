@@ -17,3 +17,4 @@ SOURCES += src/sim.cpp \
 QT += core network gui
 CONFIG += uitools
 FORMS += ui/msg_wnd.ui ui/msg_tabs.ui ui/contact_list.ui
+

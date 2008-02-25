@@ -9,7 +9,9 @@ enum
 	SLogin,
 	SLoginRej,
 	SUpholdConnect,
-	SGenContact,
+	SAddContact,
+	SAddGroup,
+	SContacts,
 	END_OF_MESSAGE_EVENTS,
 	
 	GUI_EVENTS,

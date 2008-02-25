@@ -5,4 +5,5 @@ find ./ -name "*.o" -delete
 find ./ -name "ui_*" -delete
 find ./ -name "qdevelop*" -delete
 find ./ -name "Makefile" -delete
+find ./ -name "*.so" -delete
 

@@ -20,14 +20,14 @@ public:
 	//virtual STextMsg doTextMsg(const SIntMsg&) = 0;
 	
 public slots:
-	virtual void parse(SIntMsg) = 0;
+	virtual void parse(SIntMsg&) = 0;
 	
 signals: 
-	void parsed(SIntMsg);
+	void parsed(SIntMsg&);
 	void parsed(bool);
 	void debug(QString);
-	void toSend(SIntMsg);
+	void toSend(const SIntMsg&);
 };
 
-//Q_DECLARE_INTERFACE(SService, "org.sim-im.SService/1.0");
+Q_DECLARE_INTERFACE(SService, "org.sim-im.SService/1.0");
 #endif // __SERVICE_BASE_H__

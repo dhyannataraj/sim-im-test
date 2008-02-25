@@ -1,11 +1,8 @@
 #ifndef __PROTOCOL_BASE_H__
 #define __PROTOCOL_BASE_H__
 
-#define USE_DEBUG
 
-#include <QtDebug>
 #include <QList>
-#include <QQueue>
 #include <QString>
 #include <QTime>
 #include <QTcpSocket>
@@ -25,23 +22,32 @@ protected:
 	QString m_Pass;
 	QList<SService *> services;
 	QList<SClient *> clients;
-	QQueue<SIntMsg> msgs;
+//	QQueue<SIntMsg> msgs;
 	QString m_ProtoName;
 	bool m_Logined;
 
 protected slots:
 	void debug_log(QString msg) 
 	{
-	#ifdef USE_DEBUG
-		msg = '[' + QTime::currentTime().toString("hh:mm:ss") + "] " + protoName() + ": " + msg;
-		qDebug() << msg;
-	#endif
+		emit debug(protoName() + ": " + msg);
 	}
 	
 public:
 	virtual ~SProtocol() { }
-	void RegisterService(SService *service) { services.append(service); }
-	void RegisterClient(SClient *client) { clients.append(client); }
+	void RegisterService(SService *service)
+	{ 
+		services.append(service);
+		connect(service, SIGNAL(debug(QString)), this, SIGNAL(debug(QString))); 
+		connect(service, SIGNAL(toSend(const SIntMsg&)), this, SLOT(toSend(const SIntMsg&)));
+		connect(service, SIGNAL(parsed(const SIntMsg&)), this, SLOT(parsed(const SIntMsg&)));
+		connect(this, SIGNAL(recieved(SIntMsg&)), service, SLOT(parse(SIntMsg&)));
+	}
+	void RegisterClient(SClient *client)
+	{
+		clients.append(client);
+		connect(client, SIGNAL(debug(QString)), this, SIGNAL(debug(QString)));
+		connect(this, SIGNAL(processed(const SIntMsg&)), client, SLOT(getMsg(const SIntMsg&)));
+	}
 	QString protoName() { return m_ProtoName; }
 	bool isConnected()
 	{
@@ -59,10 +65,11 @@ public slots:
 	virtual void fillUi(quint16, QWidget *) = 0;
 	
 signals:
-	void recieved(SIntMsg);
-	void processed(SIntMsg);
+	void recieved(SIntMsg&);
+	void processed(const SIntMsg&);
 	void connected(bool);
 	void disconnected(bool);
+	void debug(QString);
 	
 };
 

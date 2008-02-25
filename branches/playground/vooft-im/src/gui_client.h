@@ -106,7 +106,7 @@ class SUiClient: public SClient
 		m_UIs.append(widg);
 		connect(widg, SIGNAL(debug(QString)), this, SIGNAL(debug(QString))); 
 	}
-	void genContact(QByteArray&);
+	void genContact(const QByteArray&);
 public:
 	SUiClient();
 	~SUiClient() { }
@@ -114,8 +114,8 @@ public:
 	void createMsgWindow(QString, QString);
 	
 public slots:
-	void getMsg(SIntMsg&);
-	void getMsg(STextMsg&);
+	void getMsg(const SIntMsg&);
+	void getMsg(const STextMsg&);
 	void showAllWindows();
 
 signals:

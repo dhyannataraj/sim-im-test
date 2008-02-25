@@ -26,7 +26,7 @@ class SContactList: public QWidget, public Ui::ContactList
 	
 	QList<SGroup *> m_groups;
 	QList<SProtocol *> m_protocols;
-	QMap<int, QString> m_statuses;
+	QMap<int, QString> m_states;
 	
 	QList<QTreeWidgetItem *> genItems();
 	void fillStatuses();
@@ -34,6 +34,7 @@ class SContactList: public QWidget, public Ui::ContactList
 public:
 	SContactList();
 	~SContactList();
+	SGroup* findGroup(QString);
 	
 public slots:
 	void addContact(SContact*, QString groupName="NOT_IN_LIST");
@@ -47,9 +48,7 @@ public slots:
 signals:
 	void changeStatus(int);
 	void statusChanged(int);
-	
-//signals:
-	//void groupChanged(QString);
+	void groupAdded(QString);
 	
 };
 

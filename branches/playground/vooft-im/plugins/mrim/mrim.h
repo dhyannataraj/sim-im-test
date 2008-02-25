@@ -8,6 +8,7 @@
 
 #include "../../src/protocol_base.h"
 #include "proto.h"
+#include "mrim_services.h"
 typedef mrim_packet_header_t mrimHeader;
 
 // place your code here
@@ -22,8 +23,8 @@ class MrimProtocol: public SProtocol//, public QTcpSocket
 	quint16 m_port; // server port
 	
 	mrimHeader genMrimHeader(u_long type, u_long dlen, u_long seq);
-	quint16 genMsgType(quint32);
-	quint32 genMrimType(quint16);
+	quint16 genMsgType(quint16);
+	quint16 genMrimType(quint16);
 	void Login();
 	
 protected slots:
@@ -46,6 +47,7 @@ public slots:
 	void listen();
 	void toSend(const SIntMsg&);
 	void parsed(const SIntMsg&);
+	void fillUi(quint16, QWidget*);
 };
 
 #endif // __MRIM_H__

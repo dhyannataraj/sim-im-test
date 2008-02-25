@@ -1,3 +1,4 @@
+#include "contactlist.h"
 #include "gui_client.h"
 #include "msg_base.h"
 #include "ev_types.h"
@@ -61,6 +62,8 @@ bool SMsgWnd::findUi()
 SUiClient::SUiClient()
 {
 	m_cl.show();
+	m_types.append(SAddContact);
+	m_types.append(SAddGroup);
 	for(int i=GUI_EVENTS+1; i<END_OF_GUI_EVENTS; i++)
 		m_types.append(i);
 }
@@ -103,23 +106,23 @@ void SUiClient::showAllWindows()
 	}
 }
 
-void SUiClient::getMsg(STextMsg &msg)
+void SUiClient::getMsg(const STextMsg &msg)
 {
 	// TODO
 }
 
-void SUiClient::getMsg(SIntMsg &msg)
+void SUiClient::getMsg(const SIntMsg &msg)
 {
 	if(!msg.parsed)
 		return;
 	switch(msg.type)
 	{
-		case SGenContact: genContact(msg.data); 
+		case SAddContact: genContact(msg.data); 
 	}
 }
 
-void SUiClient::genContact(QByteArray &block)
+void SUiClient::genContact(const QByteArray &block)
 {
 	SContact *contact = SContact::genContact(block);
-	// TODO
+	m_cl.addContact(contact);
 }
