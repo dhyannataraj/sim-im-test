@@ -2,6 +2,7 @@
 #define __MRIM_SERVICES_H__
 
 #include <QTimer>
+#include <QMap>
 
 #include "../../src/msg_base.h"
 #include "../../src/service_base.h"
@@ -15,6 +16,7 @@ class UpholdSvc: public SService
 	
 	QTimer m_timer;
 	quint32 readUL(QByteArray&);
+	
 public:
 	UpholdSvc();
 	~UpholdSvc();
@@ -29,10 +31,16 @@ public slots:
 class ContactListParser: public SService
 {
 	Q_OBJECT
+	
+	QMap<quint32, QString> groups;
+	
 	quint32 readUL(QDataStream&);
 	QString readLPS(QDataStream&);
 	quint16 genStatus(quint32);
 	QString convert(QString);
+	bool putStr(QDataStream&, QString);
+	QString getGroupName(quint32);
+
 public:
 	ContactListParser();
 	~ContactListParser();

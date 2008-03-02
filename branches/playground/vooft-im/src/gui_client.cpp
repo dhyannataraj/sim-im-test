@@ -114,18 +114,37 @@ void SUiClient::getMsg(STextMsg &msg)
 
 void SUiClient::getMsg(SIntMsg &msg)
 {
+	process(msg);
+}
+
+bool SUiClient::process(SIntMsg &msg)
+{
 	if(!msg.parsed)
-		return;
+		return false;
 	emit debug("SUiClient: msg.data.size() == " + QString::number(msg.data.size()));
 	switch(msg.type)
 	{
-		case SAddContact: genContact(msg.data); 
+		case SAddContact: genContact(msg.data); break;
+		case SAddGroup: genGroup(msg.data); break;
+		default: return false; 
 	}
+	return true;
+}
+
+void SUiClient::genGroup(const QByteArray &block)
+{
+	QDataStream out(block);
+	QString name;
+	out >> name;
+	emit debug("added group: " + name);
+	m_cl.addEmptyGroup(name);
 }
 
 void SUiClient::genContact(const QByteArray &block)
 {
 	SContact *contact = SContact::genContact(block);
-	emit debug("Proto: " + contact->getProto() + ". Id: " + contact->getID() + ". Show name: " + contact->getShowName());
+	if(contact->getName()=="")
+		return;
+	emit debug("Proto: " + contact->getProto() + ". Id: " + contact->getName() + ". Show name: " + contact->getShowName());
 	m_cl.addContact(contact);
 }

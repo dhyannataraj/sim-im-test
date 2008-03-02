@@ -18,6 +18,7 @@ protected:
 public:
 	virtual ~SClient() { }
 	QList<quint16> types() { return m_types; }
+	virtual bool process(SIntMsg&) = 0;
 	
 public slots:
 	virtual void getMsg(SIntMsg&) = 0;

@@ -1,7 +1,9 @@
 #include <QByteArray>
 #include <QDataStream>
+#include <QMap>
 #include <QTextCodec>
 #include <QTextStream>
+#include <QString>
 
 #include "mrim_services.h"
 #include "../../src/ev_types.h"
@@ -28,11 +30,7 @@ void UpholdSvc::genUphold()
 	msg.type = SUpholdConnect;
 	
 	QDataStream in(&(msg.data), QIODevice::WriteOnly);
-	//in.setByteOrder(QDataStream::LittleEndian);
-	
-	//in << (quint32) 0;
-	
-	//emit debug("UpholdSvc::genUphold()");
+
 	emit toSend(msg);
 }
 
@@ -67,7 +65,7 @@ quint32 UpholdSvc::readUL(QByteArray &block)
 ContactListParser::ContactListParser()
 {
 	m_types.append(SContacts);
-	m_types.append(SUserInfo);
+//	m_types.append(SUserInfo);
 }
 
 ContactListParser::~ContactListParser()
@@ -87,7 +85,7 @@ bool ContactListParser::parse(SIntMsg& msg)
 	
 //	emit debug("Contact list size: " + QString::number(msg.data.size()));
 
-	QByteArray userInfoMsg;
+/*	QByteArray userInfoMsg;
 	
 	QDataStream msg1(&userInfoMsg, QIODevice::ReadWrite);
 	msg1.setByteOrder(QDataStream::LittleEndian);
@@ -114,7 +112,7 @@ bool ContactListParser::parse(SIntMsg& msg)
 	msg1.device()->seek(0);
 	
 	for(int i=0; i<HEADER_SIZE-1; i++)
-		out >> tmp;
+		out >> tmp;*/
 	
 	quint32 clStatus = readUL(out);
 	quint32 groupNumber = readUL(out);
@@ -146,7 +144,9 @@ bool ContactListParser::parse(SIntMsg& msg)
 		
 		name = convert(name);
 		
-		emit debug("Group readed: " + name);
+		groups.insert(i, name);
+		
+		emit debug("Group readed: " + name + ", flags: " + QString::number(flags));
 		
 		in << name;
 		
@@ -167,7 +167,7 @@ bool ContactListParser::parse(SIntMsg& msg)
 		msg.parsed = true;
 		msg.type = SAddContact;
 		
-		QTextStream in(&(msg.data), QIODevice::WriteOnly);
+		QDataStream in(&(msg.data), QIODevice::WriteOnly);
 		
 		quint32 flags = readUL(out);
 		quint32 group = readUL(out);
@@ -176,32 +176,46 @@ bool ContactListParser::parse(SIntMsg& msg)
 		quint32 srvflags = readUL(out);
 		quint32 status = readUL(out);
 		
-		//id = convert(id);
+		id = convert(id);
 		nick = convert(nick);
-
-		in.setAutoDetectUnicode(true);
 		
 		if(id=="")
 			id = nick;
 		
-		emit debug("Contact: id = " + id + ", nick = " + nick);
+		putStr(in, "mrim");
+		putStr(in, id);
+		putStr(in, nick);
 		
-		in << QString("mrim");
-		in << id;
-		in << (quint16) 0; //genStatus(status);
+		in << (quint16) genStatus(status);
 		
-		//if(srvflags&CONTACT_INTFLAG_NOT_AUTHORIZED)
-			//in << (quint16) SUnauth;
-		//else
-			in << (quint16) 0;// SAuth;
-			
-		in << QString("NOT_IN_LIST");
+		if(srvflags&CONTACT_INTFLAG_NOT_AUTHORIZED)
+			in << (quint16) SUnauth;
+		else
+			in << (quint16)  SAuth;
+		
+		//emit debug("GROUP_NUMBER = " + QString::number(group));
+		
+		QString groupName = getGroupName(group);
+		
+		putStr(in, groupName);
 		
 		emit parsed(msg);
 	}
 	
 	return true;
 	
+}
+
+QString ContactListParser::getGroupName(quint32 id)
+{
+	return groups.value(id, "NOT_IN_LIST");
+}
+
+bool ContactListParser::putStr(QDataStream &in, QString str)
+{
+	in << str;
+
+	return true;
 }
 
 QString ContactListParser::convert(QString name)

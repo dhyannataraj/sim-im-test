@@ -107,6 +107,7 @@ QList<QTreeWidgetItem *> SContactList::genItems()
 			QTreeWidgetItem *item = new QTreeWidgetItem(groupTree, contact->getID());
 			item->setText(SNameCol, contact->getShowName());
 		}
+		groupTree->setText(0, group->getName());
 		result.append(groupTree);
 	}
 	
@@ -129,7 +130,8 @@ void SContactList::addContact(SContact* contact, QString groupName)
 		contact->setGroupName(groupName);
 	else groupName = contact->getGroupName();
 	
-	emit debug("Contact list, add contact. Proto: " + contact->getProto() + ". Group: " + contact->getGroupName());
+	emit debug("Contact list, added contact. Proto: " + contact->getProto() + ". Name: " + contact->getName() +
+		". Show name: " + contact->getShowName() + ". Group: " + contact->getGroupName());
 	
 	if(!findGroup(groupName))
 	{

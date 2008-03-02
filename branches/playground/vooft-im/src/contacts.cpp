@@ -2,6 +2,7 @@
 #include <QImage>
 #include <QList>
 #include <QString>
+#include <QTextCodec>
 #include <QTextStream>
 
 #include <QtDebug>
@@ -33,19 +34,15 @@ SContact* SContact::genContact(const QByteArray &block)
 	QString group;
 
 */
-	QString proto, id, group;
+	QString proto, id, group, name;
 	quint16 status, tmp;
 	
-	QTextStream out(block);
+	QDataStream out(block);
 	
-	out.setAutoDetectUnicode(true);
+	proto = readStr(out);
 	
-	out >> proto;
-	
-//	qDebug() << "____PROTO_____: " << proto;
-	qDebug() << "___BLOCK_SIZE__: " << block.size();
-	
-	out >> id;
+	id = readStr(out);
+	name = readStr(out);
 	
 	out >> status;
 	out >> tmp;
@@ -53,24 +50,17 @@ SContact* SContact::genContact(const QByteArray &block)
 	out >> group;
 	
 	SContact *result = new SContact(proto, id, status);
-	result->setGroupName("");
-	result->setShowName(id);
+	result->setGroupName(group);
+	result->setShowName(name);
 	
 	return result;
 }
 
 QString SContact::readStr(QDataStream& out)
 {
-	char c;
 	QString str; 
 	
-	out.readRawData(&c, 1);
-	
-	while(c)
-	{
-		str += c;
-		out.readRawData(&c, 1);
-	}
+	out >> str;
 	
 	return str;
 }
@@ -141,7 +131,10 @@ SGroup::SGroup(QString name)
 SGroup::~SGroup()
 {
 	while(contacts.size())
+	{
 		delete contacts.at(0);
+		contacts.removeAt(0);
+	}
 }
 
 SContact* SGroup::getContact(QString proto, QString id)

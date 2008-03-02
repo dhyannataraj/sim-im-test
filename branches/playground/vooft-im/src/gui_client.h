@@ -107,11 +107,14 @@ class SUiClient: public SClient
 		connect(widg, SIGNAL(debug(QString)), this, SIGNAL(debug(QString))); 
 	}
 	void genContact(const QByteArray&);
+	void genGroup(const QByteArray&);
+	
 public:
 	SUiClient();
 	~SUiClient() { }
 	//void Init();
 	void createMsgWindow(QString, QString);
+	bool process(SIntMsg&);
 	
 public slots:
 	void getMsg(SIntMsg&);

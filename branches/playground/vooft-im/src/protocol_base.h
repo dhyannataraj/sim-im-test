@@ -38,7 +38,7 @@ public:
 	void RegisterService(SService *service)
 	{ 
 		services.append(service);
-		connect(this, SIGNAL(recieved(SIntMsg&)), service, SLOT(parse(SIntMsg&))); // Do not connect?
+//		connect(this, SIGNAL(recieved(SIntMsg&)), service, SLOT(parse(SIntMsg&))); // Do not connect?
 		connect(service, SIGNAL(debug(QString)), this, SLOT(debug_log(QString))); 
 		connect(service, SIGNAL(toSend(SIntMsg&)), this, SLOT(toSend(SIntMsg&)));
 		connect(service, SIGNAL(parsed(SIntMsg&)), this, SLOT(parsed(SIntMsg&)));
@@ -47,7 +47,7 @@ public:
 	{
 		clients.append(client);
 		connect(client, SIGNAL(debug(QString)), this, SLOT(debug_log(QString)));
-		connect(this, SIGNAL(processed(SIntMsg&)), client, SLOT(getMsg(SIntMsg&)));
+//		connect(this, SIGNAL(processed(SIntMsg&)), client, SLOT(getMsg(SIntMsg&)));
 	}
 	QString protoName() { return m_ProtoName; }
 	bool isConnected()
@@ -56,12 +56,22 @@ public:
 	}
 	bool isLogined() { return m_Logined; }
 	bool isInNetwork() { return isConnected() && isLogined(); }
-	bool recieved(SIntMsg &msg)
+	
+	bool askServices(SIntMsg &msg)
 	{
 		bool result = false;
 		foreach(SService *srvc, services)
 			if(result = srvc->parse(msg))
 				break;
+		return result;
+	}
+	
+	int askClients(SIntMsg &msg)
+	{
+		int result = 0;
+		foreach(SClient *client, clients)
+			if(client->process(msg))
+				result++;
 		return result;
 	}
 	

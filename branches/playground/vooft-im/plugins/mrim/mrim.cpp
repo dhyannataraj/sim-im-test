@@ -85,13 +85,15 @@ void MrimProtocol::parsed(SIntMsg &msg)
 {
 	if(msg.parsed)
 	{
-		emit processed(msg); // if msg was arrived from service -> send to clients
+		int count = askClients(msg); // if msg was arrived from service -> send to clients
+		debug_log("msg parsed clients: " + QString::number(count));
 //		debug_log("msg processed => send to clients");
 	}
 	else
 	{
 //		debug_log("msg not processed => send to services");
-		emit recieved(msg); // if it was arrived from clients -> send to services
+		if(!askServices(msg)) // if it was arrived from clients -> send to services
+			debug_log("can't process client's msg. Type: " + QString::number(msg.type));
 	}
 }
 
@@ -215,21 +217,22 @@ void MrimProtocol::Login()
 void MrimProtocol::listen()
 {
 //	debug_log("listen()");
-	while(bytesAvailable()<HEADER_SIZE)
-	{ ;	}
 	
-	mrimHeader hdr;
 	QDataStream out (this);
 	
-	out.setByteOrder(QDataStream::LittleEndian);
-
-	readHeader(out, hdr);
+	while(bytesAvailable()<HEADER_SIZE)
+		{ ;	}
+	mrimHeader hdr;
 	
-	//out.skipRawData(HEADER_SIZE);
+	qint64 count = bytesAvailable();
+	
+	out.setByteOrder(QDataStream::LittleEndian);
+	
+	while(count>HEADER_SIZE)
+	{
+		readHeader(out, hdr);
 	
 	SIntMsg msg;
-	
-//	debug_log("_AFTER_ QDataStream.pos = " + QString::number(out.device()->pos()));
 	
 	msg.type = genMsgType(hdr.msg);
 	msg.data = readData(out, hdr.dlen);
@@ -237,14 +240,17 @@ void MrimProtocol::listen()
 	
 	debug_log("dlen = " + QString::number(hdr.dlen));
 	
-	bool parsed = recieved(msg);
+	count = count - (HEADER_SIZE+hdr.dlen);
 	
-	if(!parsed)
-		debug_log("Can't process package. Internal type: " + QString::number(msg.type) + ", mrim type: " + QString::number(hdr.msg, 16));
-
 	if(hdr.msg==MRIM_CS_HELLO_ACK)
 	{
 		Login();
+	}
+	
+	bool parsed = askServices(msg);
+
+	if(!parsed)
+		debug_log("Can't process package. Internal type: " + QString::number(msg.type) + ", mrim type: " + QString::number(hdr.msg, 16));
 	}
 }
 
@@ -365,7 +371,7 @@ QByteArray MrimProtocol::readData(QDataStream &out, quint32 size)
 	
 	quint8 tmp;
 	
-	while(!out.atEnd())
+	while(size--)
 	{
 		out >> tmp;
 		in << tmp;

@@ -5,7 +5,8 @@ HEADERS += mrim.h \
  ../../src/service_base.h \
  ../../src/ev_types.h \
  mrim_services.h \
- proto.h
+ proto.h \
+ ../../src/client_base.h
 TEMPLATE = lib
 QT += network core
 CONFIG += plugin
