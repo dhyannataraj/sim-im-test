@@ -1,6 +1,7 @@
 #ifndef __MSG_BASE_H__
 #define __MSG_BASE_H__
 
+#include <QByteArray>
 #include <QString>
 #include <QTextDocument>
 #include <QMap>

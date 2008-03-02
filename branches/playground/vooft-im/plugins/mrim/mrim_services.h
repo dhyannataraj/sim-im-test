@@ -18,10 +18,11 @@ class UpholdSvc: public SService
 public:
 	UpholdSvc();
 	~UpholdSvc();
-	void doIntMsg(SIntMsg&);
+//	void doIntMsg(SIntMsg&);
+	bool parse(SIntMsg&);
 	
 public slots:
-	void parse(SIntMsg&) {}
+	//void parse(SIntMsg &msg) { doIntMsg(msg); }
 	void genUphold();
 };
 
@@ -31,13 +32,15 @@ class ContactListParser: public SService
 	quint32 readUL(QDataStream&);
 	QString readLPS(QDataStream&);
 	quint16 genStatus(quint32);
+	QString convert(QString);
 public:
 	ContactListParser();
 	~ContactListParser();
+	bool parse(SIntMsg&);
 	
 public slots:
-	void parse(SIntMsg&);
-	void doIntMsg(SIntMsg&) {}
+//	void parse(SIntMsg&);
+//	void doIntMsg(SIntMsg&) {}
 };
 
 #endif // __MRIM_SERVICES_H__

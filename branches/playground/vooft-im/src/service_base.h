@@ -11,22 +11,24 @@ class SService: public QObject
 
 protected:
 	QList<quint16> m_types;
+	bool checkType(quint16 type) { return m_types.contains(type); }
 	
 public:
 	virtual ~SService() { }
 	//virtual bool isBin() = 0;
 	QList<quint16> types() { return m_types; }
-	virtual void doIntMsg(SIntMsg&) = 0;
+//	virtual void doIntMsg(SIntMsg&) = 0;
+	virtual bool parse(SIntMsg&) = 0;
 	//virtual STextMsg doTextMsg(const SIntMsg&) = 0;
 	
 public slots:
-	virtual void parse(SIntMsg&) = 0;
+//	virtual void parse(SIntMsg&) = 0;
 	
 signals: 
 	void parsed(SIntMsg&);
-	void parsed(bool);
+//	void parsed(bool);
 	void debug(QString);
-	void toSend(const SIntMsg&);
+	void toSend(SIntMsg&);
 };
 
 Q_DECLARE_INTERFACE(SService, "org.sim-im.SService/1.0");

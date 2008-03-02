@@ -12,18 +12,25 @@
 
 MrimProtocol::MrimProtocol()
 {
+
+}
+
+void MrimProtocol::init()
+{
 	m_ProtoName = "mrim";
 	m_Logined = false;
+
+	connect(this, SIGNAL(disconnected()), this, SLOT(Logout()));
 
 // Internal services
 
 // Put to external function adding of service
 	UpholdSvc *uphold = new UpholdSvc();
-	services.append(uphold);
-	connect(uphold, SIGNAL(debug(QString)), this, SIGNAL(debug(QString)));
+	RegisterService(uphold);
 	connect(this, SIGNAL(connected(bool)), uphold, SLOT(genUphold()));
+	
 	ContactListParser *cl_parser = new ContactListParser();
-	services.append(cl_parser);
+	RegisterService(cl_parser);
 // Internal services END
 }
 
@@ -33,13 +40,14 @@ MrimProtocol::~MrimProtocol()
 		Logout();
 }
 
-void MrimProtocol::toSend(const SIntMsg &msg)
+void MrimProtocol::toSend(SIntMsg &msg)
 {
 /*
 struct is:
 	quint32 seq; // uses for replying messages
 	char a[]; // any data to send
 */
+	debug_log("toSend()");
 	QByteArray block;
 	QDataStream out(msg.data), in(&block, QIODevice::WriteOnly);
 	
@@ -53,13 +61,13 @@ struct is:
 	
 	putHeader(in, hdr);
 	
-	quint8 tmp;
+/*	quint8 tmp;
 	
 	while(!out.atEnd())
 	{
 		out >> tmp;
 		in << tmp;
-	}
+	}*/
 	
 	hdr.dlen = block.size() - HEADER_SIZE;
 	
@@ -73,16 +81,17 @@ struct is:
 	
 }
 
-void MrimProtocol::parsed(const SIntMsg &msg)
+void MrimProtocol::parsed(SIntMsg &msg)
 {
 	if(msg.parsed)
 	{
 		emit processed(msg); // if msg was arrived from service -> send to clients
+//		debug_log("msg processed => send to clients");
 	}
 	else
 	{
-		SIntMsg new_msg = msg;
-		emit recieved(new_msg); // if it was arrived from clients -> send to services
+//		debug_log("msg not processed => send to services");
+		emit recieved(msg); // if it was arrived from clients -> send to services
 	}
 }
 
@@ -175,8 +184,6 @@ void MrimProtocol::Login()
 {
 	if(m_Logined)
 		return;
-
-	debug_log("sendLogin()");
 	
 	QByteArray block;
 	
@@ -190,7 +197,7 @@ void MrimProtocol::Login()
 	writeLPS(out, m_ID);
 	writeLPS(out, m_Pass);
 	writeUL(out, quint32(STATUS_ONLINE));
-	writeLPS(out, QString("VoofT's agent"));
+	writeLPS(out, QString("SIM-IM"));
 
 	hdr = genMrimHeader(MRIM_CS_LOGIN2, block.size()-HEADER_SIZE, m_seq);
 	
@@ -207,7 +214,7 @@ void MrimProtocol::Login()
 
 void MrimProtocol::listen()
 {
-	debug_log("listen()");
+//	debug_log("listen()");
 	while(bytesAvailable()<HEADER_SIZE)
 	{ ;	}
 	
@@ -215,27 +222,38 @@ void MrimProtocol::listen()
 	QDataStream out (this);
 	
 	out.setByteOrder(QDataStream::LittleEndian);
-	
+
 	readHeader(out, hdr);
 	
-	if(hdr.msg==MRIM_CS_HELLO_ACK)
-	{
-		Login();
-	}
+	//out.skipRawData(HEADER_SIZE);
 	
 	SIntMsg msg;
+	
+//	debug_log("_AFTER_ QDataStream.pos = " + QString::number(out.device()->pos()));
 	
 	msg.type = genMsgType(hdr.msg);
 	msg.data = readData(out, hdr.dlen);
 	msg.parsed = false; 
 	
-	emit recieved(msg);
+	debug_log("dlen = " + QString::number(hdr.dlen));
+	
+	bool parsed = recieved(msg);
+	
+	if(!parsed)
+		debug_log("Can't process package. Internal type: " + QString::number(msg.type) + ", mrim type: " + QString::number(hdr.msg, 16));
+
+	if(hdr.msg==MRIM_CS_HELLO_ACK)
+	{
+		Login();
+	}
 }
 
 quint16 MrimProtocol::genMsgType(quint16 type)
 {
 	quint16 result;
 	
+	debug_log("Type: 0x" + QString::number(type, 16));
+
 	switch(type)
 	{
 		case MRIM_CS_HELLO_ACK: result = SPingMsg; break;
@@ -243,11 +261,9 @@ quint16 MrimProtocol::genMsgType(quint16 type)
 		case MRIM_CS_LOGIN_REJ: result = SLoginRej; emit connected(false); break;
 		case MRIM_CS_CONNECTION_PARAMS: result = SPingMsg; break;
 		case MRIM_CS_CONTACT_LIST2: result = SContacts; debug_log("contact list"); break;
+		case MRIM_CS_USER_INFO: result = SUserInfo; break; 
 		
-		//TODO
-		//case MRIM_CS_USER_INFO
-		
-		default: debug_log("unknown type: 0x" + QString::number(type, 16));
+		default: debug_log("unknown type: 0x" + QString::number(type, 16)); result = -1;
 	}
 // 
 	
@@ -349,7 +365,7 @@ QByteArray MrimProtocol::readData(QDataStream &out, quint32 size)
 	
 	quint8 tmp;
 	
-	while(size--)
+	while(!out.atEnd())
 	{
 		out >> tmp;
 		in << tmp;

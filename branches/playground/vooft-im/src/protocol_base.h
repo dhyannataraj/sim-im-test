@@ -33,20 +33,21 @@ protected slots:
 	}
 	
 public:
+	virtual void init() = 0;
 	virtual ~SProtocol() { }
 	void RegisterService(SService *service)
 	{ 
 		services.append(service);
-		connect(service, SIGNAL(debug(QString)), this, SIGNAL(debug(QString))); 
-		connect(service, SIGNAL(toSend(const SIntMsg&)), this, SLOT(toSend(const SIntMsg&)));
-		connect(service, SIGNAL(parsed(const SIntMsg&)), this, SLOT(parsed(const SIntMsg&)));
-		connect(this, SIGNAL(recieved(SIntMsg&)), service, SLOT(parse(SIntMsg&)));
+		connect(this, SIGNAL(recieved(SIntMsg&)), service, SLOT(parse(SIntMsg&))); // Do not connect?
+		connect(service, SIGNAL(debug(QString)), this, SLOT(debug_log(QString))); 
+		connect(service, SIGNAL(toSend(SIntMsg&)), this, SLOT(toSend(SIntMsg&)));
+		connect(service, SIGNAL(parsed(SIntMsg&)), this, SLOT(parsed(SIntMsg&)));
 	}
 	void RegisterClient(SClient *client)
 	{
 		clients.append(client);
-		connect(client, SIGNAL(debug(QString)), this, SIGNAL(debug(QString)));
-		connect(this, SIGNAL(processed(const SIntMsg&)), client, SLOT(getMsg(const SIntMsg&)));
+		connect(client, SIGNAL(debug(QString)), this, SLOT(debug_log(QString)));
+		connect(this, SIGNAL(processed(SIntMsg&)), client, SLOT(getMsg(SIntMsg&)));
 	}
 	QString protoName() { return m_ProtoName; }
 	bool isConnected()
@@ -55,18 +56,26 @@ public:
 	}
 	bool isLogined() { return m_Logined; }
 	bool isInNetwork() { return isConnected() && isLogined(); }
+	bool recieved(SIntMsg &msg)
+	{
+		bool result = false;
+		foreach(SService *srvc, services)
+			if(result = srvc->parse(msg))
+				break;
+		return result;
+	}
 	
 public slots:
 	virtual void Login(QString, QString) = 0;
 	virtual void Logout() = 0;
 	virtual void listen() = 0;
-	virtual void toSend(const SIntMsg&) = 0;
-	virtual void parsed(const SIntMsg&) = 0;
+	virtual void toSend(SIntMsg&) = 0;
+	virtual void parsed(SIntMsg&) = 0;
 	virtual void fillUi(quint16, QWidget *) = 0;
 	
 signals:
-	void recieved(SIntMsg&);
-	void processed(const SIntMsg&);
+//	void recieved(SIntMsg&);
+	void processed(SIntMsg&);
 	void connected(bool);
 	void disconnected(bool);
 	void debug(QString);

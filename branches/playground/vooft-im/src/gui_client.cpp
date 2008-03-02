@@ -61,6 +61,7 @@ bool SMsgWnd::findUi()
 
 SUiClient::SUiClient()
 {
+	connect(&m_cl, SIGNAL(debug(QString)), this, SIGNAL(debug(QString)));
 	m_cl.show();
 	m_types.append(SAddContact);
 	m_types.append(SAddGroup);
@@ -106,15 +107,16 @@ void SUiClient::showAllWindows()
 	}
 }
 
-void SUiClient::getMsg(const STextMsg &msg)
+void SUiClient::getMsg(STextMsg &msg)
 {
 	// TODO
 }
 
-void SUiClient::getMsg(const SIntMsg &msg)
+void SUiClient::getMsg(SIntMsg &msg)
 {
 	if(!msg.parsed)
 		return;
+	emit debug("SUiClient: msg.data.size() == " + QString::number(msg.data.size()));
 	switch(msg.type)
 	{
 		case SAddContact: genContact(msg.data); 
@@ -124,5 +126,6 @@ void SUiClient::getMsg(const SIntMsg &msg)
 void SUiClient::genContact(const QByteArray &block)
 {
 	SContact *contact = SContact::genContact(block);
+	emit debug("Proto: " + contact->getProto() + ". Id: " + contact->getID() + ". Show name: " + contact->getShowName());
 	m_cl.addContact(contact);
 }

@@ -4,6 +4,8 @@
 #include <QString>
 #include <QTextStream>
 
+#include <QtDebug>
+
 #include "contacts.h"
 
 // place your code here
@@ -23,13 +25,27 @@ SContact::SContact(QString proto, QString id, quint16 status, QImage *img)
 
 SContact* SContact::genContact(const QByteArray &block)
 {
+/*
+	QString proto;
+	QString id;
+	quint16 status;
+	quint16 Auth/Not auth;
+	QString group;
+
+*/
 	QString proto, id, group;
 	quint16 status, tmp;
 	
-	QDataStream out(block);
+	QTextStream out(block);
 	
-	proto = readStr(out);
-	id = readStr(out);
+	out.setAutoDetectUnicode(true);
+	
+	out >> proto;
+	
+//	qDebug() << "____PROTO_____: " << proto;
+	qDebug() << "___BLOCK_SIZE__: " << block.size();
+	
+	out >> id;
 	
 	out >> status;
 	out >> tmp;
@@ -37,7 +53,8 @@ SContact* SContact::genContact(const QByteArray &block)
 	out >> group;
 	
 	SContact *result = new SContact(proto, id, status);
-	result->setGroupName(group);
+	result->setGroupName("");
+	result->setShowName(id);
 	
 	return result;
 }

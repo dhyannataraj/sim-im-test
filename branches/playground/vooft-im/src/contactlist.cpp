@@ -21,7 +21,7 @@ SContactList::SContactList()
 	m_states.insert(SAway, tr("Away"));
 	m_states.insert(SOnline, tr("Online"));
 	m_states.insert(SFFC, tr("Free for chat"));
-	fillStatuses();
+	fillStates();
 	addEmptyGroup("NOT_IN_LIST");
 	
 //	connect(this, SIGNAL(groupAdded(QString)), this, SLOT(groupChanged(QString))); // FIX_LATER
@@ -37,8 +37,9 @@ SContactList::~SContactList()
 	}
 }
 
-void SContactList::fillStatuses()
+void SContactList::fillStates()
 {
+	statusBox->clear();
 	for(int i=SUnknow; i<END_OF_STATES; i++)
 		statusBox->addItem(m_states[i]);
 }
@@ -127,6 +128,8 @@ void SContactList::addContact(SContact* contact, QString groupName)
 	if(contact->getGroupName()=="")
 		contact->setGroupName(groupName);
 	else groupName = contact->getGroupName();
+	
+	emit debug("Contact list, add contact. Proto: " + contact->getProto() + ". Group: " + contact->getGroupName());
 	
 	if(!findGroup(groupName))
 	{

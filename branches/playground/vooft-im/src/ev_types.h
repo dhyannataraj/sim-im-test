@@ -3,6 +3,24 @@
 
 enum
 {
+	SUnknow,
+	SOffline,
+	SInvisible,
+	SDND,
+	SOccupied,
+	SNA,
+	SAway,
+	SOnline,
+	SFFC,
+	
+	SUnauth,
+	SAuth,
+	
+	END_OF_STATES
+};
+
+enum
+{
 /* Protocol events */
 	MESSAGE_EVENTS,
 	SPingMsg,
@@ -12,6 +30,7 @@ enum
 	SAddContact,
 	SAddGroup,
 	SContacts,
+	SUserInfo,
 	END_OF_MESSAGE_EVENTS,
 	
 	GUI_EVENTS,

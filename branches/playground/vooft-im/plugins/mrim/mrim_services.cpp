@@ -1,9 +1,10 @@
 #include <QByteArray>
 #include <QDataStream>
+#include <QTextCodec>
+#include <QTextStream>
 
 #include "mrim_services.h"
 #include "../../src/ev_types.h"
-#include "../../src/contacts.h"
 #include "proto.h"
 
 // place your code here
@@ -27,27 +28,34 @@ void UpholdSvc::genUphold()
 	msg.type = SUpholdConnect;
 	
 	QDataStream in(&(msg.data), QIODevice::WriteOnly);
+	//in.setByteOrder(QDataStream::LittleEndian);
 	
-	in << 0;
+	//in << (quint32) 0;
 	
-	emit debug("UpholdSvc::genUphold()");
+	//emit debug("UpholdSvc::genUphold()");
 	emit toSend(msg);
 }
 
-void UpholdSvc::doIntMsg(SIntMsg& msg)
+bool UpholdSvc::parse(SIntMsg& msg)
 {
+	if(!checkType(msg.type))
+		return false;
 	quint32 period = readUL(msg.data);
+	emit debug("Ping period: " + QString::number(period));
 	if(m_timer.timerId()==-1)
 	{
 		m_timer.start(period*1000);
-		return;
+		return true;
 	}
 	m_timer.setInterval(period*1000);
+	
+	return true;
 }
 
 quint32 UpholdSvc::readUL(QByteArray &block)
 {
 	QDataStream in(block);
+	in.setByteOrder(QDataStream::LittleEndian);
 	
 	quint32 result;
 	
@@ -59,6 +67,7 @@ quint32 UpholdSvc::readUL(QByteArray &block)
 ContactListParser::ContactListParser()
 {
 	m_types.append(SContacts);
+	m_types.append(SUserInfo);
 }
 
 ContactListParser::~ContactListParser()
@@ -66,21 +75,63 @@ ContactListParser::~ContactListParser()
 	
 }
 
-void ContactListParser::parse(SIntMsg& msg)
+bool ContactListParser::parse(SIntMsg& msg)
 {
+	if(!checkType(msg.type))
+		return false;
+
+// Mail.ru wants, that we make revers-engeneering. So, let it be :)
+	
 	QDataStream out(msg.data);
+	out.setByteOrder(QDataStream::LittleEndian);
+	
+//	emit debug("Contact list size: " + QString::number(msg.data.size()));
+
+	QByteArray userInfoMsg;
+	
+	QDataStream msg1(&userInfoMsg, QIODevice::ReadWrite);
+	msg1.setByteOrder(QDataStream::LittleEndian);
+	
+	quint8 tmp;
+	out >> tmp;
+
+// These idiots puts into ONE package THREE mesages... omg...
+	
+	while(tmp!=0xEF) // workaround. fix it
+	{
+		msg1 << tmp;
+		out >> tmp;
+	}
+	
+	tmp = 0;
+	
+	while(tmp!=0xEF) // workaround. fix it
+	{
+		msg1 << tmp;
+		out >> tmp;
+	}
+	
+	msg1.device()->seek(0);
+	
+	for(int i=0; i<HEADER_SIZE-1; i++)
+		out >> tmp;
 	
 	quint32 clStatus = readUL(out);
 	quint32 groupNumber = readUL(out);
+	
+//	emit debug("Group number: " + QString::number(groupNumber));
 	
 	QString groupMask = readLPS(out);
 	QString contactMask = readLPS(out);
 	
 	switch(clStatus)
 	{
-		case GET_CONTACTS_ERROR: emit debug("Contact list errir: Conctact list is incorrect"); return;
-		case GET_CONTACTS_INTERR: emit debug("Contact list error: Internal server error"); return;
+		case GET_CONTACTS_ERROR: emit debug("Contact list errir: Conctact list is incorrect"); return false;
+		case GET_CONTACTS_INTERR: emit debug("Contact list error: Internal server error"); return false;
+		default: emit debug("Start reading contact list...");
 	}
+	
+//	emit debug("Masks readed. Group mask = " + groupMask + ". Contact mask = " + contactMask);
 	
 	for(int i=0; i<groupNumber; i++)
 	{
@@ -93,6 +144,10 @@ void ContactListParser::parse(SIntMsg& msg)
 		quint32 flags = readUL(out);
 		QString name = readLPS(out);
 		
+		name = convert(name);
+		
+		emit debug("Group readed: " + name);
+		
 		in << name;
 		
 		emit parsed(msg);
@@ -100,11 +155,19 @@ void ContactListParser::parse(SIntMsg& msg)
 	
 	while(!out.atEnd())
 	{
+	/*
+		QString proto;
+		QString id;
+		quint16 status;
+		quint16 Auth/Not auth;
+		QString group;
+	*/
+
 		SIntMsg msg;
 		msg.parsed = true;
 		msg.type = SAddContact;
 		
-		QDataStream in(&(msg.data), QIODevice::WriteOnly);
+		QTextStream in(&(msg.data), QIODevice::WriteOnly);
 		
 		quint32 flags = readUL(out);
 		quint32 group = readUL(out);
@@ -113,21 +176,42 @@ void ContactListParser::parse(SIntMsg& msg)
 		quint32 srvflags = readUL(out);
 		quint32 status = readUL(out);
 		
-		in << "mrim";
-		in << id;
-		in << genStatus(status);
+		//id = convert(id);
+		nick = convert(nick);
+
+		in.setAutoDetectUnicode(true);
 		
-		if(srvflags&CONTACT_INTFLAG_NOT_AUTHORIZED)
-			in << (quint16) SUnauth;
-		else
-			in << (quint16) SAuth;
+		if(id=="")
+			id = nick;
+		
+		emit debug("Contact: id = " + id + ", nick = " + nick);
+		
+		in << QString("mrim");
+		in << id;
+		in << (quint16) 0; //genStatus(status);
+		
+		//if(srvflags&CONTACT_INTFLAG_NOT_AUTHORIZED)
+			//in << (quint16) SUnauth;
+		//else
+			in << (quint16) 0;// SAuth;
 			
-		in << QString();
+		in << QString("NOT_IN_LIST");
 		
 		emit parsed(msg);
-		
 	}
 	
+	return true;
+	
+}
+
+QString ContactListParser::convert(QString name)
+{
+	QTextCodec *cp1251 = QTextCodec::codecForName("CP1251");
+	QTextCodec::setCodecForTr(cp1251);
+	
+	QByteArray block = name.toLatin1();
+	
+	return cp1251->toUnicode(block);
 }
 
 quint32 ContactListParser::readUL(QDataStream &in)
@@ -165,6 +249,7 @@ quint16 ContactListParser::genStatus(quint32 status)
 		case STATUS_ONLINE: result = SOnline; break;
 		case STATUS_AWAY: result = SAway; break;
 		case STATUS_FLAG_INVISIBLE: result = SInvisible; break;
+		default: result = SOffline;
 	}
 	
 	return result;

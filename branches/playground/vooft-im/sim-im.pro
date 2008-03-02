@@ -11,10 +11,8 @@ HEADERS += src/sim.h \
 SOURCES += src/sim.cpp \
  src/main.cpp \
  src/gui_client.cpp \
- src/gui_codes.cpp \
  src/contacts.cpp \
  src/contactlist.cpp
 QT += core network gui
 CONFIG += uitools
 FORMS += ui/msg_wnd.ui ui/msg_tabs.ui ui/contact_list.ui
-

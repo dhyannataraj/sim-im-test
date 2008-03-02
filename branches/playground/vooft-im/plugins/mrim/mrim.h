@@ -31,6 +31,7 @@ protected slots:
 	void readSrv();
 	
 public:
+	void init();
 	MrimProtocol();
 	~MrimProtocol();
 	static void writeUL(QDataStream&, quint32);
@@ -45,8 +46,8 @@ public slots:
 	void Login(QString, QString);
 	void Logout();
 	void listen();
-	void toSend(const SIntMsg&);
-	void parsed(const SIntMsg&);
+	void toSend(SIntMsg&);
+	void parsed(SIntMsg&);
 	void fillUi(quint16, QWidget*);
 };
 

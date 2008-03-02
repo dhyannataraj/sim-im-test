@@ -7,23 +7,7 @@
 #include <QString>
 #include <QObject> 
 
-enum
-{
-	SUnknow,
-	SOffline,
-	SInvisible,
-	SDND,
-	SOccupied,
-	SNA,
-	SAway,
-	SOnline,
-	SFFC,
-	
-	SUnauth,
-	SAuth,
-	
-	END_OF_STATES
-};
+#include "ev_types.h"
 
 // place your code here
 class SContact: public QObject

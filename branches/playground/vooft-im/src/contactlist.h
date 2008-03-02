@@ -29,7 +29,7 @@ class SContactList: public QWidget, public Ui::ContactList
 	QMap<int, QString> m_states;
 	
 	QList<QTreeWidgetItem *> genItems();
-	void fillStatuses();
+	void fillStates();
 	
 public:
 	SContactList();
@@ -49,6 +49,7 @@ signals:
 	void changeStatus(int);
 	void statusChanged(int);
 	void groupAdded(QString);
+	void debug(QString);
 	
 };
 

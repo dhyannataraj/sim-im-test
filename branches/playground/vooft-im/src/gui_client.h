@@ -114,8 +114,8 @@ public:
 	void createMsgWindow(QString, QString);
 	
 public slots:
-	void getMsg(const SIntMsg&);
-	void getMsg(const STextMsg&);
+	void getMsg(SIntMsg&);
+	void getMsg(STextMsg&);
 	void showAllWindows();
 
 signals:
