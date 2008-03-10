@@ -22,102 +22,125 @@
     <vbox>
         <property>
             <name>margin</name>
-            <number>11</number>
-        </property>
+        <number>11</number>
+    </property>
         <property>
             <name>spacing</name>
-            <number>6</number>
-        </property>
+        <number>6</number>
+    </property>
         <widget>
             <class>QLabel</class>
             <property stdset="1">
                 <name>name</name>
                 <cstring>TextLabel1</cstring>
-            </property>
+        </property>
             <property>
                 <name>sizePolicy</name>
                 <sizepolicy>
                     <hsizetype>1</hsizetype>
                     <vsizetype>1</vsizetype>
                 </sizepolicy>
-            </property>
+        </property>
             <property>
                 <name>text</name>
                 <string>Transparency of main window:</string>
-            </property>
+        </property>
             <property>
                 <name>alignment</name>
                 <set>AlignVCenter|AlignLeft</set>
-            </property>
+        </property>
             <property>
                 <name>hAlign</name>
-            </property>
-        </widget>
+        </property>
+    </widget>
         <widget>
             <class>QSlider</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>sldTransparency</cstring>
-            </property>
+            <cstring>sldTransparency</cstring>
+        </property>
             <property>
                 <name>maxValue</name>
-                <number>100</number>
-            </property>
+            <number>100</number>
+        </property>
             <property>
                 <name>lineStep</name>
-                <number>5</number>
-            </property>
+            <number>5</number>
+        </property>
             <property>
                 <name>pageStep</name>
-                <number>20</number>
-            </property>
+            <number>20</number>
+        </property>
             <property>
                 <name>orientation</name>
-                <enum>Horizontal</enum>
-            </property>
+            <enum>Horizontal</enum>
+        </property>
             <property>
                 <name>tickmarks</name>
                 <enum>Right</enum>
-            </property>
+        </property>
             <property>
                 <name>tickInterval</name>
-                <number>0</number>
-            </property>
-        </widget>
-        <widget>
-            <class>QCheckBox</class>
-            <property stdset="1">
+            <number>0</number>
+        </property>
+    </widget>
+    <widget>
+    	<class>QCheckBox</class>
+        <property stdset="1">
                 <name>name</name>
                 <cstring>chkInactive</cstring>
-            </property>
-            <property>
+        </property>
+        <property>
                 <name>text</name>
                 <string>Transparent only if inactive</string>
-            </property>
-        </widget>
+        </property>
+    </widget>
+    <widget>
+    	<class>QCheckBox</class>
+        <property stdset="1">
+              <name>name</name>
+            	<cstring>chkMainWindow</cstring>
+        </property>
+        <property>
+        	<name>text</name>
+            <string>Mainwindow</string>
+        </property>
+    </widget>
+      
+    <widget>
+    	<class>QCheckBox</class>
+        <property stdset="1">
+				<name>name</name>
+				<cstring>chkFloatings</cstring>
+        </property>
+        <property>
+        		<name>text</name>
+            	<string>Floaties</string>
+        </property>
+    </widget>
         <spacer>
             <property>
                 <name>name</name>
                 <cstring>Spacer9</cstring>
-            </property>
+        </property>
             <property>
                 <name>orientation</name>
                 <enum>Vertical</enum>
-            </property>
+        </property>
             <property>
                 <name>sizeType</name>
                 <enum>Expanding</enum>
-            </property>
+        </property>
             <property>
                 <name>sizeHint</name>
                 <size>
                     <width>20</width>
                     <height>20</height>
                 </size>
-            </property>
+        </property>
         </spacer>
     </vbox>
-</widget>
+    </widget>
 <customwidgets>
     <customwidget>
         <class>QWidget</class>

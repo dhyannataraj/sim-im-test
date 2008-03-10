@@ -27,9 +27,13 @@ TransparentCfg::TransparentCfg(QWidget *parent, TransparentPlugin *plugin)
     m_plugin = plugin;
     sldTransparency->setValue(m_plugin->getTransparency());
 #ifdef WIN32
-    chkInactive->setChecked(m_plugin->getIfInactive());
+    chkInactive->setChecked  (m_plugin->getIfInactive  ());
+	chkMainWindow->setChecked(m_plugin->getIfMainWindow());
+	chkFloatings->setChecked (m_plugin->getIfFloatings ());
 #else
     chkInactive->hide();
+	chkMainWindow->hide();
+	chkFloatings->hide();
 #endif
 }
 
@@ -37,7 +41,9 @@ void TransparentCfg::apply()
 {
     m_plugin->setTransparency(sldTransparency->value());
 #ifdef WIN32
-    m_plugin->setIfInactive(chkInactive->isChecked());
+    m_plugin->setIfInactive  (chkInactive  ->isChecked());
+	m_plugin->setIfMainWindow(chkMainWindow->isChecked());
+	m_plugin->setIfFloatings (chkFloatings ->isChecked());
 #endif
     m_plugin->setState();
 }

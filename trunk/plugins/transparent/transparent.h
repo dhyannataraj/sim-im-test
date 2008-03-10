@@ -29,6 +29,8 @@ struct TransparentData
     SIM::Data	Transparency;
 #ifdef WIN32
     SIM::Data	IfInactive;
+	SIM::Data	IfMainWindow;
+	SIM::Data	IfFloatings;
 #endif
 };
 
@@ -45,6 +47,8 @@ public:
     PROP_ULONG(Transparency);
 #ifdef WIN32
     PROP_BOOL(IfInactive);
+	PROP_BOOL(IfMainWindow);
+	PROP_BOOL(IfFloatings);
 #endif
     void	setState();
 public slots:
