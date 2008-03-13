@@ -151,7 +151,12 @@ QString HomeDirPlugin::defaultPath()
     char szPath[1024];
     szPath[0] = 0;
     QString defPath;
-    (DWORD&)_SHGetSpecialFolderPathW = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
+	
+	//Fixme:
+	//FOLDERID_RoamingAppData <<== this is used in Vista.. should be fixed
+	//otherwise the config is stored in "Downloads" per default :-/
+    
+	(DWORD&)_SHGetSpecialFolderPathW = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
     (DWORD&)_SHGetSpecialFolderPathA = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathA");
     if (_SHGetSpecialFolderPathW && _SHGetSpecialFolderPathW(NULL, szPath, CSIDL_APPDATA, true)){
         defPath = QString::fromUcs2((unsigned short*)szPath);
