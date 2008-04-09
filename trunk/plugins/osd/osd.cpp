@@ -42,14 +42,30 @@
 #include "osdconfig.h"
 
 
+
+
 #ifdef WIN32
 	#include <windows.h>
+	#include <qlibrary.h>
 	#ifndef CS_DROPSHADOW
 		#define CS_DROPSHADOW   0x00020000
 	#endif
 	#ifndef SPI_GETSCREENSAVERRUNNING
 		#define SPI_GETSCREENSAVERRUNNING 114
 	#endif
+
+	#define SHOW_TIMEOUT	300
+	#define HIDE_TIMEOUT	1000
+
+	typedef BOOL(WINAPI *slwa_ptr)(HWND, COLORREF, BYTE, DWORD);
+	static slwa_ptr slwa = NULL;
+
+	#if _WIN32_WINNT < 0x0500
+		#define WS_EX_LAYERED           0x00080000
+		#define LWA_COLORKEY            0x00000001
+		#define LWA_ALPHA               0x00000002
+	#endif
+
 #else
 	/*#include <stdio.h>
 	#include <fcntl.h>
@@ -172,7 +188,25 @@ QWidget *OSDPlugin::createConfigWindow(QWidget *parent)
 
 void OSDPlugin::timeout()
 {
-    m_osd->hide();
+    
+#ifdef WIN32
+	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
+    if (slwa == NULL)
+        return;
+	SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+	for (double i=0;i<100;i+=0.1) {
+		int j=(int)i;
+		BYTE d = (BYTE) QMIN((100 - j) * 256 / 100, 255);
+		slwa(m_osd->winId(), m_osd->colorGroup().background().rgb(), d, LWA_ALPHA);
+		RedrawWindow(m_osd->winId(), NULL, NULL, RDW_UPDATENOW);
+	}
+#endif
+	m_osd->hide();
+#ifdef WIN32
+	SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+#endif
+
+
     m_timer->stop();
     processQueue();
 }
@@ -382,8 +416,23 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     p.drawText(rc, AlignLeft | AlignTop | WordBreak, str);
     p.end();
     bgPict = pict;
+#ifdef WIN32
+	SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+#endif
     QWidget::show();
     raise();
+#ifdef WIN32
+	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
+    if (slwa == NULL)
+        return;
+	SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+	for (double i=100;i>0;i-=0.1) {
+		int j=(int)i;
+		BYTE d = (BYTE) QMIN((100 - j) * 256 / 100, 255);
+		slwa(this->winId(), this->colorGroup().background().rgb(), d, LWA_ALPHA);
+		RedrawWindow(this->winId(), NULL, NULL, RDW_UPDATENOW);
+	}
+#endif
 }
 
 void OSDWidget::paintEvent(QPaintEvent*)

@@ -155,15 +155,26 @@ QString HomeDirPlugin::defaultPath()
 	//Fixme:
 	//FOLDERID_RoamingAppData <<== this is used in Vista.. should be fixed
 	//otherwise the config is stored in "Downloads" per default :-/
+	//Windows 2008 Server tested, simply works...
     
-	(DWORD&)_SHGetSpecialFolderPathW = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
-    (DWORD&)_SHGetSpecialFolderPathA = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathA");
+	(DWORD&)_SHGetSpecialFolderPathW   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathW");
+    (DWORD&)_SHGetSpecialFolderPathA   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetSpecialFolderPathA");
+	//(DWORD&)_SHGetKnownFolderPath	   = (DWORD)QLibrary::resolve("Shell32.dll","SHGetKnownFolderPath"); //for Vista :-/
+
     if (_SHGetSpecialFolderPathW && _SHGetSpecialFolderPathW(NULL, szPath, CSIDL_APPDATA, true)){
         defPath = QString::fromUcs2((unsigned short*)szPath);
     }else if (_SHGetSpecialFolderPathA && _SHGetSpecialFolderPathA(NULL, szPath, CSIDL_APPDATA, true)){
         defPath = QFile::decodeName(szPath);
-    }
-    if (!defPath.isEmpty()){
+	}
+    //}else if (_SHGetKnownFolderPath && _SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0x00008000, NULL, szPath)){
+	//	defPath = QFile::decodeName(szPath);
+
+	/*HRESULT SHGetKnownFolderPath(          REFKNOWNFOLDERID rfid,
+    DWORD dwFlags,
+    HANDLE hToken,
+    PWSTR *ppszPath );*/
+
+	if (!defPath.isEmpty()){
         if (!defPath.endsWith("\\"))
             defPath += '\\';
         defPath += "sim";
