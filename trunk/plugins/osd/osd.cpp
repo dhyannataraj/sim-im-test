@@ -403,7 +403,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     p.end();
     bgPict = pict;
 #ifdef WIN32
-	SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
+	//SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
 	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
     if (slwa == NULL)
         return;
@@ -421,6 +421,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 }
 
 void OSDWidget::m_transTimerFadeInTimeout(){
+#ifdef WIN32
 	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
     if (slwa == NULL)
         return;
@@ -432,6 +433,7 @@ void OSDWidget::m_transTimerFadeInTimeout(){
 		m_transTimer->stop();
 	    disconnect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
 	}
+#endif
 }
 
 void OSDPlugin::m_transTimerFadeOutTimeout(){
@@ -440,7 +442,7 @@ void OSDPlugin::m_transTimerFadeOutTimeout(){
     if (slwa == NULL)
         return;
 
-	SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+	//SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
 	BYTE d = (BYTE) QMIN((100 - transOutCounter) * 256 / 100, 255);
 	slwa(m_osd->winId(), m_osd->colorGroup().background().rgb(), d, LWA_ALPHA);
 	RedrawWindow(m_osd->winId(), NULL, NULL, RDW_UPDATENOW);
