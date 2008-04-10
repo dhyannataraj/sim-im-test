@@ -1,388 +1,120 @@
 <!DOCTYPE UI><UI>
 <class>ForwardConfigBase</class>
-<widget class="QWidget">
-    <property name="name">
+<widget>
+    <class>QWidget</class>
+    <property stdset="1">
+        <name>name</name>
         <cstring>ForwardCfg</cstring>
     </property>
-    <property name="geometry">
+    <property>
+        <name>geometry</name>
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>550</width>
-            <height>285</height>
+            <width>352</width>
+            <height>215</height>
         </rect>
     </property>
-    <property name="caption">
+    <property>
+        <name>caption</name>
         <string>Form1</string>
     </property>
     <vbox>
-    <widget class="QGroupBox">
-        <property name="name">
-            <cstring>grpCellular</cstring>
+        <property>
+            <name>margin</name>
+            <number>11</number>
         </property>
-        <property name="minimumSize">
-            <size>
-                <width>528</width>
-                <height>170</height>
-            </size>
+        <property>
+            <name>spacing</name>
+            <number>6</number>
         </property>
-        <property name="title">
-            <string>Send all messages in status "Away" and "N/A" on the cellular:</string>
-        </property>
-        <property name="checkable">
-            <bool>true</bool>
-        </property>
-        <property name="checked">
-            <bool>false</bool>
-        </property>
-        <widget class="QComboBox">
-            <property name="name">
-                <cstring>cmbPhone</cstring>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel3_2</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>40</y>
-                    <width>500</width>
-                    <height>22</height>
-                </rect>
+            <property>
+                <name>text</name>
+                <string>Send all messages in status "Away" and "N/A" on the cellular:</string>
+            </property>
+            <property>
+                <name>alignment</name>
+                <set>WordBreak|AlignVCenter|AlignLeft</set>
+            </property>
+            <property>
+                <name>wordwrap</name>
             </property>
         </widget>
-        <widget class="QLabel">
-            <property name="name">
+        <widget>
+            <class>QComboBox</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>cmbPhone</cstring>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
                 <cstring>TextLabel4_2</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>68</y>
-                    <width>508</width>
-                    <height>46</height>
-                </rect>
-            </property>
-            <property name="text">
+            <property>
+                <name>text</name>
                 <string>For the answer or sending of the new message you can answer on SMS having specified in the beginning of the message a line:
 &lt;UIN&gt;:</string>
             </property>
-            <property name="alignment">
+            <property>
+                <name>alignment</name>
                 <set>WordBreak|AlignVCenter|AlignLeft</set>
             </property>
-            <property name="wordwrap" stdset="0">
+            <property>
+                <name>wordwrap</name>
             </property>
         </widget>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>TextLabel3_2</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>508</width>
-                    <height>16</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Select the Cellular:</string>
-            </property>
-            <property name="alignment">
-                <set>WordBreak|AlignVCenter|AlignLeft</set>
-            </property>
-            <property name="wordwrap" stdset="0">
-            </property>
-        </widget>
-        <widget class="QCheckBox">
-            <property name="name">
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
                 <cstring>chkFirst</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>120</y>
-                    <width>508</width>
-                    <height>19</height>
-                </rect>
-            </property>
-            <property name="text">
+            <property>
+                <name>text</name>
                 <string>Send only &amp;one message (don't split)</string>
             </property>
-            <property name="accel">
-                <string>Alt+O</string>
-            </property>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
+        <widget>
+            <class>QCheckBox</class>
+            <property stdset="1">
+                <name>name</name>
                 <cstring>chkTranslit</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>145</y>
-                    <width>508</width>
-                    <height>19</height>
-                </rect>
-            </property>
-            <property name="text">
+            <property>
+                <name>text</name>
                 <string>Send in &amp;translit</string>
             </property>
-            <property name="accel">
-                <string>Alt+T</string>
-            </property>
         </widget>
-    </widget>
-    <widget class="QGroupBox">
-        <property name="name">
-            <cstring>grpMail</cstring>
-        </property>
-        <property name="minimumSize">
-            <size>
-                <width>528</width>
-                <height>80</height>
-            </size>
-        </property>
-        <property name="title">
-            <string>Send all messages in status "Away" and "N/A" to Email-Address:</string>
-        </property>
-        <property name="checkable">
-            <bool>true</bool>
-        </property>
-        <property name="checked">
-            <bool>false</bool>
-        </property>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>lblDp</cstring>
+        <spacer>
+            <property>
+                <name>name</name>
+                <cstring>Spacer3</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>210</x>
-                    <y>50</y>
-                    <width>16</width>
+            <property>
+                <name>orientation</name>
+                <enum>Vertical</enum>
+            </property>
+            <property>
+                <name>sizeType</name>
+                <enum>Expanding</enum>
+            </property>
+            <property>
+                <name>sizeHint</name>
+                <size>
+                    <width>20</width>
                     <height>20</height>
-                </rect>
+                </size>
             </property>
-            <property name="text">
-                <string>:</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit">
-            <property name="name">
-                <cstring>lineEdit1</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>60</x>
-                    <y>50</y>
-                    <width>140</width>
-                    <height>21</height>
-                </rect>
-            </property>
-            <property name="frameShape">
-                <enum>LineEditPanel</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-        </widget>
-        <widget class="QLineEdit">
-            <property name="name">
-                <cstring>txtLogin_2</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>220</x>
-                    <y>50</y>
-                    <width>50</width>
-                    <height>22</height>
-                </rect>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-        </widget>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>lblServer</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>50</y>
-                    <width>49</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string>Server:</string>
-            </property>
-        </widget>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>lblPassword</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>290</x>
-                    <y>50</y>
-                    <width>60</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string>Password:</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit">
-            <property name="name">
-                <cstring>txtPassword</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>350</x>
-                    <y>50</y>
-                    <width>160</width>
-                    <height>22</height>
-                </rect>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="echoMode">
-                <enum>Password</enum>
-            </property>
-        </widget>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>lblLogin</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>290</x>
-                    <y>20</y>
-                    <width>60</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string>Login:</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit">
-            <property name="name">
-                <cstring>txtLogin</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>350</x>
-                    <y>20</y>
-                    <width>160</width>
-                    <height>22</height>
-                </rect>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="frameShape">
-                <enum>LineEditPanel</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-        </widget>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>lblEmail</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>49</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string>To:</string>
-            </property>
-        </widget>
-        <widget class="QLineEdit">
-            <property name="name">
-                <cstring>txtTo</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>59</x>
-                    <y>23</y>
-                    <width>211</width>
-                    <height>21</height>
-                </rect>
-            </property>
-        </widget>
-    </widget>
-    <spacer>
-        <property name="name">
-            <cstring>Spacer3</cstring>
-        </property>
-        <property name="orientation">
-            <enum>Vertical</enum>
-        </property>
-        <property name="sizeType">
-            <enum>Expanding</enum>
-        </property>
-        <property name="sizeHint">
-            <size>
-                <width>20</width>
-                <height>16</height>
-            </size>
-        </property>
-    </spacer>
+        </spacer>
     </vbox>
 </widget>
 <customwidgets>
