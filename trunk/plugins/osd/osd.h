@@ -106,6 +106,8 @@ signals:
     void closeClick();
 protected slots:
     void slotCloseClick();
+	void m_transTimerFadeInTimeout();
+
 protected:
     bool isScreenSaverActive();
     void paintEvent(QPaintEvent*);
@@ -113,7 +115,9 @@ protected:
     QFont	baseFont;
     QPixmap bgPict;
     QPushButton	*m_button;
-    OSDPlugin *m_plugin;
+    OSDPlugin	*m_plugin;
+	QTimer		*m_transTimer;
+	uint transCounter;
 };
 
 class OSDPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
@@ -126,6 +130,7 @@ public:
     unsigned long user_data_id;
 protected slots:
     void timeout();
+	void m_transTimerFadeOutTimeout();
     void dblClick();
     void closeClick();
 protected:
@@ -141,6 +146,8 @@ protected:
     QWidget		*m_osd;
     QTimer		*m_timer;
 	bool bCapsState;
+	QTimer		*m_transTimer;
+	uint transOutCounter;
 	bool bHaveUnreadMessages; // Should use this flag in OSDPlugin::run instead of core->unread.size() 
 				  // see pacth #2304 for more info.
 };
