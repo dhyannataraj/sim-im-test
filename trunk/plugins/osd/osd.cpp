@@ -132,6 +132,7 @@ static DataDef osdUserData[] =
         { "Font", DATA_STRING, 1, 0 },
         { "Timeout", DATA_ULONG, 1, DATA(7) },
         { "Shadow", DATA_BOOL, 1, DATA(1) },
+		{ "Fading", DATA_BOOL, 1, DATA(1) },
         { "Background", DATA_BOOL, 1, 0 },
         { "BgColor", DATA_ULONG, 1, 0 },
         { "Screen", DATA_ULONG, 1, 0 },
@@ -188,10 +189,16 @@ QWidget *OSDPlugin::createConfigWindow(QWidget *parent)
 
 void OSDPlugin::timeout()
 {
-	transOutCounter=0;
-	m_transTimer = new QTimer(this);
-    connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeOutTimeout()));
-	m_transTimer->start(10);
+	Contact *contact  = getContacts()->contact(m_request.contact);
+	OSDUserData *data = (OSDUserData*)contact->getUserData(user_data_id);
+	if (data->Fading.toBool()){
+		transOutCounter=0;
+		m_transTimer = new QTimer(this);
+		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeOutTimeout()));
+		m_transTimer->start(10);
+	}
+	else
+		m_osd->hide();
 	
     m_timer->stop();
     processQueue();
@@ -404,19 +411,23 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     bgPict = pict;
 #ifdef WIN32
 	//SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
-	slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
-    if (slwa == NULL)
-        return;
-	transCounter=100;
-	SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
-	BYTE d = (BYTE) QMIN((100 - transCounter) * 256 / 100, 255);
-	slwa(this->winId(), this->colorGroup().background().rgb(), d, LWA_ALPHA);
-	RedrawWindow(this->winId(), NULL, NULL, RDW_UPDATENOW);
-	m_transTimer = new QTimer(this);
+	if (data->Fading.toBool()){
+		slwa = (slwa_ptr)QLibrary::resolve("user32.dll","SetLayeredWindowAttributes");
+		if (slwa == NULL)
+			return;
+		transCounter=100;
+		SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+		BYTE d = (BYTE) QMIN((100 - transCounter) * 256 / 100, 255);
+		slwa(this->winId(), this->colorGroup().background().rgb(), d, LWA_ALPHA);
+		RedrawWindow(this->winId(), NULL, NULL, RDW_UPDATENOW);
+		m_transTimer = new QTimer(this);
+	}
 	QWidget::show();
     raise();
-    connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
-	m_transTimer->start(10);
+	if (data->Fading.toBool()){
+		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
+		m_transTimer->start(10);
+	}
 #endif
 }
 

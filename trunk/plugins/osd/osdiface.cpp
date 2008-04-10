@@ -34,6 +34,10 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
 {
     m_plugin = plugin;
     OSDUserData *data = (OSDUserData*)d;
+#ifndef WIN32
+	chkFading->setChecked(false);
+	chkFading->hide();
+#endif
     cmbPos->insertItem(i18n("Left-bottom"));
     cmbPos->insertItem(i18n("Left-top"));
     cmbPos->insertItem(i18n("Right-bottom"));
@@ -55,6 +59,7 @@ OSDIface::OSDIface(QWidget *parent, void *d, OSDPlugin *plugin)
         edtFont->setFont(data->Font.str());
     }
     chkShadow->setChecked(data->Shadow.toBool());
+	chkFading->setChecked(data->Fading.toBool());
     if (data->Background.toBool()){
         chkBackground->setChecked(true);
         btnBgColor->setColor(data->BgColor.toULong());
@@ -100,6 +105,7 @@ void OSDIface::apply(void *d)
         f = "";
     data->Font.str() = f;
     data->Shadow.asBool() = chkShadow->isChecked();
+	data->Fading.asBool() = chkFading->isChecked();
     data->Background.asBool() = chkBackground->isChecked();
     if (data->Background.toBool()){
         data->BgColor.asULong() = btnBgColor->color().rgb();

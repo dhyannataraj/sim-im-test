@@ -149,7 +149,7 @@
                 </size>
             </property>
         </spacer>
-        <widget row="6"  column="0"  rowspan="1"  colspan="3" >
+        <widget row="6"  column="0"  rowspan="1"  colspan="1" >
             <class>QCheckBox</class>
             <property stdset="1">
                 <name>name</name>
@@ -160,6 +160,17 @@
                 <string>Show sha&amp;dow</string>
             </property>
         </widget>
+        <widget  row="6"  column="1"  rowspan="1"  colspan="2" >
+            <class>QCheckBox</class>
+            <property stdset="1">
+	    	<name>name</name>
+	        <cstring>chkFading</cstring>
+	    </property>
+	    <property>
+	    	<name>text</name>
+	        <string>Show F&amp;ading</string>
+	    </property>
+	</widget>
         <widget row="7"  column="0"  rowspan="1"  colspan="3" >
             <class>QCheckBox</class>
             <property stdset="1">

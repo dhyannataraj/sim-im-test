@@ -65,6 +65,7 @@ struct OSDUserData
     SIM::Data	Font;
     SIM::Data	Timeout;
     SIM::Data	Shadow;
+	SIM::Data	Fading;
     SIM::Data	Background;
     SIM::Data	BgColor;
     SIM::Data	Screen;
