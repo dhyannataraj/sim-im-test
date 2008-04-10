@@ -171,6 +171,10 @@ bool ForwardPlugin::processEvent(Event *e)
             if (i >= getContacts()->nClients())
                 delete m;
         }
+		if (msg->type() == MessageMail){
+			MailMessage *mail = static_cast<MailMessage*>(msg);
+			
+		}
     }
     return false;
 }

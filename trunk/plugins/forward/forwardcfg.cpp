@@ -43,6 +43,7 @@ ForwardConfig::ForwardConfig(QWidget *parent, void *_data, ForwardPlugin *plugin
             cmbPhone->insertItem(number);
     }
     cmbPhone->lineEdit()->setText(data->Phone.str());
+	
 }
 
 void ForwardConfig::apply(void *_data)

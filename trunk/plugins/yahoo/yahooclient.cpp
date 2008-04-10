@@ -256,7 +256,7 @@ void YahooClient::sendPacket(unsigned short service, unsigned long status)
     }
     socket()->writeBuffer().packetStart();
     socket()->writeBuffer().pack(YAHOO_PACKET_SIGN, 4);
-    socket()->writeBuffer() << 0x000B0000L << size << service << status << m_session;
+    socket()->writeBuffer() << 0x000C0000L << size << service << status << m_session;
     if (size){
         for (list<PARAM>::iterator it = m_values.begin(); it != m_values.end(); ++it){
             socket()->writeBuffer()
