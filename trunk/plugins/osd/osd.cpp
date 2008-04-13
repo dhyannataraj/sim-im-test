@@ -428,6 +428,9 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
 		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
 		m_transTimer->start(10);
 	}
+#else
+	QWidget::show();
+    raise();
 #endif
 }
 
