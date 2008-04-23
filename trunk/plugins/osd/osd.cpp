@@ -195,7 +195,8 @@ void OSDPlugin::timeout()
 		transOutCounter=0;
 		m_transTimer = new QTimer(this);
 		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeOutTimeout()));
-		m_transTimer->start(10);
+		SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) | WS_EX_LAYERED);
+		m_transTimer->start(5);
 	}
 	else
 		m_osd->hide();
@@ -426,7 +427,7 @@ void OSDWidget::showOSD(const QString &str, OSDUserData *data)
     raise();
 	if (data->Fading.toBool()){
 		connect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
-		m_transTimer->start(10);
+		m_transTimer->start(5);
 	}
 #else
 	QWidget::show();
@@ -442,10 +443,11 @@ void OSDWidget::m_transTimerFadeInTimeout(){
 	BYTE d = (BYTE) QMIN((100 - transCounter) * 256 / 100, 255);
 	slwa(this->winId(), this->colorGroup().background().rgb(), d, LWA_ALPHA);
 	RedrawWindow(this->winId(), NULL, NULL, RDW_UPDATENOW);
-	transCounter--;
+	transCounter-=5;
 	if (transCounter==0) {
 		m_transTimer->stop();
 	    disconnect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeInTimeout()));
+		SetWindowLongW(this->winId(), GWL_EXSTYLE, GetWindowLongW(this->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
 	}
 #endif
 }
@@ -460,7 +462,7 @@ void OSDPlugin::m_transTimerFadeOutTimeout(){
 	BYTE d = (BYTE) QMIN((100 - transOutCounter) * 256 / 100, 255);
 	slwa(m_osd->winId(), m_osd->colorGroup().background().rgb(), d, LWA_ALPHA);
 	RedrawWindow(m_osd->winId(), NULL, NULL, RDW_UPDATENOW);
-	transOutCounter++;
+	transOutCounter+=5;
 	if (transOutCounter==100){
 		m_osd->hide();
 		m_transTimer->stop();
