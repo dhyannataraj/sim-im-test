@@ -204,6 +204,10 @@ void OSDPlugin::timeout()
 	
     m_timer->stop();
     processQueue();
+#else
+	m_osd->hide();	
+    m_timer->stop();
+    processQueue();
 #endif
 }
 
