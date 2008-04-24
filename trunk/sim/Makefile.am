@@ -65,7 +65,7 @@ dist_desktop_DATA = sim.desktop
 desktopdir=$(xdg_appsdir)/
 
 # set the include path for X, qt and KDE
-INCLUDES = $(LTDLINCL) $(all_includes) 
+INCLUDES=$(LTDLINCL) -I. -I../plugins/_core $(all_includes)
 
 METASOURCES = AUTO
 
