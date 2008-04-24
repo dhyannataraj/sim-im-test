@@ -189,6 +189,7 @@ QWidget *OSDPlugin::createConfigWindow(QWidget *parent)
 
 void OSDPlugin::timeout()
 {
+#ifdef WIN32
 	Contact *contact  = getContacts()->contact(m_request.contact);
 	OSDUserData *data = (OSDUserData*)contact->getUserData(user_data_id);
 	if (data->Fading.toBool()){
@@ -203,6 +204,7 @@ void OSDPlugin::timeout()
 	
     m_timer->stop();
     processQueue();
+#endif
 }
 
 QFont OSDPlugin::getBaseFont(QFont font)
