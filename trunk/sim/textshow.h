@@ -20,6 +20,8 @@
 
 #include "simapi.h"
 #include "event.h"
+#include "core.h"
+#include "msggen.h"
 
 #include <qglobal.h>
 #include <qmainwindow.h>

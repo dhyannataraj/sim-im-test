@@ -104,13 +104,18 @@ void TextEdit::setFont(const QFont &f)
     m_bSelected   = false;
 }
 
+
 void TextEdit::slotTextChanged()
 {
     bool bEmpty = isEmpty();
     if (m_bEmpty == bEmpty)
         return;
     m_bEmpty = bEmpty;
-    emit emptyChanged(m_bEmpty);
+   
+	Command cmd;
+    cmd->id    = CmdSend;
+    cmd->flags = bEmpty ? COMMAND_DISABLED : 0;
+    EventCommandDisabled(cmd).process();
 }
 
 void TextEdit::slotClicked(int,int)
