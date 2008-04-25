@@ -899,7 +899,7 @@ void DirectClient::processPacket()
             delete msg;
             break;
         }
-        if (!itDeleted && it == m_queue.end()){
+        if (!itDeleted && it == m_queue.end()){  //arghs, Bug!!!! CRASH!
             list<Message*>::iterator it;
             for (it = m_client->m_acceptMsg.begin(); it != m_client->m_acceptMsg.end(); ++it){
                 string name = m_client->dataName(m_data);
@@ -1700,8 +1700,8 @@ void ICQFileTransfer::initReceive(char cmd)
     m_socket->readBuffer.unpack(n);
     if (m_notify)
         m_notify->transfer(false);
-    if (!dir.empty())
-        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir.c_str()) + "/" + fName;
+    //if (!dir.empty())		//Perhaps this is Linux????
+    //    fName = getContacts()->toUnicode(m_client->getContact(m_data), dir.c_str()) + "/" + fName;
     if (isDir)
         fName += "/";
     m_state = Wait;
