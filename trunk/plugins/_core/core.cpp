@@ -1957,7 +1957,7 @@ bool CorePlugin::processEvent(Event *e)
                             dir = user_file(dir);
                             EventMessageAccept(msg, dir,
                                                data->OverwriteFiles.toBool() ?
-                                                Replace : Skip).process();
+                                                Replace : Ask).process();
                             return msg;
                         }
                         if (data->AcceptMode.toULong() == 2){
