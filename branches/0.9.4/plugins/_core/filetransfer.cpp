@@ -79,14 +79,26 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
     m_size = size;
     m_name = m_name.replace(QRegExp("\\\\"), "/");
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
-    int n = m_name.findRev("/");
-    if (n >= 0){
-        QString path;
-        QString p = m_name.left(n);
+	int n = m_name.findRev("/"); 
+	if (n == 0) //REMOVE ME after rewrite
+	{
+					QString errMsg = i18n("Path ERROR: %1") .arg(m_name);
+                    m_dlg->m_msg->setError(errMsg.utf8());
+                    ft->setError();
+                    return;
+	} //\\REMOVE ME after rewrite
+    QString p(m_name.left(n));
+	QString fn(m_name.right(m_name.length()-n));
+	fn = fn.replace(QRegExp("/"), "");
+
+    /*if (n >= 0){ //REWRITE THIS SHIT ;) This does create the path new from the scratch
+        QString path("");
+        QString p(m_name.left(n));
+		QString fn(m_name.right(n-p.length());
         while (!p.isEmpty()){
             if (!path.isEmpty())
                 path += "/";
-            QString pp = getToken(p, '/');
+            QString pp(getToken(p, '/'));
             if (pp == ".."){
                 QString errMsg = i18n("Bad path: %1") .arg(m_name);
                 m_dlg->m_msg->setError(errMsg.utf8());
@@ -105,14 +117,15 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
                 }
             }
         }
-    }
+    }*/
     m_dlg->m_msg->addFile(m_name, size);
     if (m_name.isEmpty() || (m_name[(int)(m_name.length() - 1)] == '/')){
         ft->startReceive(0);
         return;
     }
     QString shortName = m_name;
-    m_name = ft->dir() + m_name;
+	//m_name = ft->dir() + m_name; Quickfix, noragen
+    m_name = ft->dir() + fn; 
     if (ft->m_file)
         delete ft->m_file;
     m_dlg->process();
