@@ -163,10 +163,14 @@ void MoreInfo::fill()
     initCombo(cmbGender, data->Gender.toULong(), genders);
     if (spnAge->text() == "0")
         spnAge->setSpecialValueText(QString::null);
-    QDate date;
-    date.setYMD(data->BirthYear.toULong(), data->BirthMonth.toULong(), data->BirthDay.toULong());
-    edtDate->setDate(date);
-    birthDayChanged();
+    
+	if (data->BirthYear.toULong()>0 && data->BirthMonth.toULong()>0 && data->BirthDay.toULong()>0) {
+		QDate date;
+		date.setYMD(data->BirthYear.toULong(), data->BirthMonth.toULong(), data->BirthDay.toULong());
+		edtDate->setDate(date);
+		birthDayChanged();
+	}
+
     unsigned l = data->Language.toULong();
     char l1 = (char)(l & 0xFF);
     l = l >> 8;
