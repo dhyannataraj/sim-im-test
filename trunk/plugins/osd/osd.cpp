@@ -475,9 +475,6 @@ void OSDPlugin::m_transTimerFadeOutTimeout(){
 		disconnect(m_transTimer, SIGNAL(timeout()), this, SLOT(m_transTimerFadeOutTimeout()));
 		SetWindowLongW(m_osd->winId(), GWL_EXSTYLE, GetWindowLongW(m_osd->winId(), GWL_EXSTYLE) & (~WS_EX_LAYERED));
 	}
-	return;
-#else
-	m_osd->hide();
 #endif
 }
 
