@@ -6,7 +6,7 @@ about_la_SOURCES = \
  aboutdlgbase.ui
 
 # set the include path for X, qt and KDE
-INCLUDES=$(LTDLINCL) -I$(srcdir)/../../sim -I. -I../plugins/_core $(all_includes)
+INCLUDES=$(LTDLINCL) -I$(srcdir)/../../sim -I. -I../_core $(all_includes)
 
 about_la_METASOURCES = AUTO
 about_la_LIBADD = ../../sim/libsim.la  $(LIBUI) $(LIB_QT) $(LIB_KDECORE) $(LIB_KDEUI) $(EXTRA_LIBS)
