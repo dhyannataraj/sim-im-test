@@ -131,7 +131,8 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
     m_dlg->process();
     ft->m_file = new QFile(m_name);
     if (ft->m_file->exists()){
-        switch (ft->overwrite()){
+	int sw=ft->overwrite();
+        switch (sw){
         case Skip:
             skip();
             return;
@@ -142,13 +143,13 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
             }
             break;
         case Resume:
-            if (ft->m_file->open(IO_WriteOnly)){
+            if (ft->m_file->open(IO_WriteOnly | IO_Append)){
                 resume();
                 return;
             }
             break;
         default:
-            if (ft->m_file->open(IO_WriteOnly)){
+            if (ft->m_file->open(IO_WriteOnly | IO_Append)){
                 QStringList buttons;
                 QString forAll;
                 if (ft->files())
@@ -534,4 +535,5 @@ void FileTransferDlg::goDir()
 #ifndef NO_MOC_INCLUDES
 #include "filetransfer.moc"
 #endif
+
 

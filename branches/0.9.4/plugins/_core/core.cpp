@@ -2045,7 +2045,7 @@ if (fname[0] != '/')
                             messageAccept ma;
                             ma.msg	     = msg;
                             ma.dir 		 = dir.c_str();
-                            ma.overwrite = data->OverwriteFiles.bValue ? Replace : Skip;
+                            ma.overwrite = data->OverwriteFiles.bValue ? Replace : Ask;
                             Event e(EventMessageAccept, &ma);
                             e.process();
                             return msg;
