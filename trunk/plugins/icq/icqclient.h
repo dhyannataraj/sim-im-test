@@ -675,7 +675,7 @@ protected:
     void requestService(ServiceSocket*);
     class SSBISocket *getSSBISocket();
     unsigned long fullStatus(unsigned status);
-	std::string cryptPassword();
+    QByteArray cryptPassword();
     virtual void connect_ready();
     virtual void packet_ready();
     const char* error_message(unsigned short error);

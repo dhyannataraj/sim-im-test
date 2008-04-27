@@ -193,15 +193,15 @@ void ICQClient::chn_login()
         return;
     }
     if (data.owner.Uin.toULong() && ! getUseMD5()){
-		std::string pswd = cryptPassword();
-        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.toULong(), pswd.c_str());
+	QByteArray pswd = cryptPassword();
+        log(L_DEBUG, "Login %lu [%s]", data.owner.Uin.toULong(), /*pswd.c_str()*/"");
         char uin[20];
         sprintf(uin, "%lu", data.owner.Uin.toULong());
 
         flap(ICQ_CHNxNEW);
         socket()->writeBuffer() << 0x00000001L;
         socket()->writeBuffer().tlv(0x0001, uin);
-        socket()->writeBuffer().tlv(0x0002, pswd.c_str(), pswd.length());
+        socket()->writeBuffer().tlv(0x0002, pswd.data(), pswd.size());
         socket()->writeBuffer().tlv(0x0003, "ICQBasic");  // ID String, currently ICQ 5.1 (21.08.2006)
         socket()->writeBuffer().tlv(0x0016, 0x010A);      // ID Number
         socket()->writeBuffer().tlv(0x0017, 0x0014);      // major
