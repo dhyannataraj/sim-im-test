@@ -191,6 +191,7 @@ void OSDPlugin::timeout()
 {
 #ifdef WIN32
 	Contact *contact  = getContacts()->contact(m_request.contact);
+	if (!contact) return; //avoid crash
 	OSDUserData *data = (OSDUserData*)contact->getUserData(user_data_id);
 	if (data->Fading.toBool()){
 		transOutCounter=0;
@@ -567,8 +568,8 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_ALERTOFFLINE:
-            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool() && !(core->getManualStatus() == STATUS_OFFLINE)){
-                text = g_i18n("%1 is offline", contact) .arg(contact->getName());
+            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool()){
+				text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
         case OSD_TYPING:
