@@ -533,6 +533,7 @@ void OSDPlugin::processQueue()
         QString text;
         OSDUserData *data = NULL;
         data = (OSDUserData*)contact->getUserData(user_data_id);
+		uint ms=core->getManualStatus();
         switch (m_request.type){
         case OSD_ALERTONLINE:
             if (data->EnableAlert.toBool() && data->EnableAlertOnline.toBool()){
@@ -568,8 +569,8 @@ void OSDPlugin::processQueue()
             }
             break;
         case OSD_ALERTOFFLINE:
-            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool()){
-				text = g_i18n("%1 is offline", contact) .arg(contact->getName());
+            if (data->EnableAlert.toBool() && data->EnableAlertOffline.toBool() && (ms-1) ){
+                text = g_i18n("%1 is offline", contact) .arg(contact->getName());
             }
             break;
         case OSD_TYPING:
