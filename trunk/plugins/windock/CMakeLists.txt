@@ -15,5 +15,5 @@ IF(WIN32)
 
     SIM_ADD_PLUGIN(windock)
 ELSE(WIN32)
-    MESSAGE(STATUS "This plugin can only be used on windows")
+    MESSAGE(STATUS "Windock plugin can only be used on windows")
 ENDIF(WIN32)
