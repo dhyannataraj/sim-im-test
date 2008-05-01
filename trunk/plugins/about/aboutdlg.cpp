@@ -55,7 +55,7 @@ KAboutApplication::KAboutApplication( const KAboutData *aboutData, QWidget *pare
     edtVersion->setPalette(p);
     txtAbout->setText((QString("<center><br>%1<br><br>%2<br><br>") +
                        "<a href=\"%3\">%4</a><br><br>" +
-                       i18n("Bug report") + ": <a href=\"mailto:%5\">%6</a><br>" +
+                       i18n("Bug report") + ": <a href=\"%5\">%6</a><br>" +
                        i18n("Note: This is an english mailing list") +
                        "</center>")
                       .arg(quote(aboutData->shortDescription()))
