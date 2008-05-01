@@ -235,6 +235,10 @@ void UpdatePlugin::Finished(int requestId, bool error){
 
 bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 
+	/*
+		The remote-String in win32 is generated in following format:
+		echo %SIMVERSION% %SIMTAG% %SVNTAG% %DATE% %TIME% >update.php
+	*/
 	//Cut the Time away
 	remote = remote.stripWhiteSpace();
 	remote = remote.left(remote.length()-11);
