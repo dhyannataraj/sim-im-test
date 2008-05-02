@@ -3800,7 +3800,11 @@ QCString CorePlugin::getConfig()
     setContainers(containers);
     if (m_main){
         saveGeometry(m_main, data.geometry);
-        saveToolbar(m_main->m_bar, data.toolBarState);
+        if (m_main->m_bar)
+        {
+          // Should update main toolbar pos only when toolbar is really exist...
+          saveToolbar(m_main->m_bar, data.toolBarState);
+        }
     }
     QCString cfg = save_data(coreData, &data);
     QString saveProfile = getProfile();
