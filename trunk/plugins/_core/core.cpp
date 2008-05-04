@@ -369,8 +369,8 @@ struct autoReply
 static autoReply autoReplies[] =
     {
         { STATUS_AWAY, I18N_NOOP(
-              "I am currently away from ICQ.\n"
-              "Please leave your message and I will get back to you as soon as I return!"
+              "I am currently away from the computer,\n"
+              "please leave your message and I will get back to you as soon as I return!"
           ) },
         { STATUS_NA, I18N_NOOP(
               "I am out'a here.\n"
