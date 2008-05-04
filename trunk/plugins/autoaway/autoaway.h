@@ -36,6 +36,7 @@ struct AutoAwayData
     SIM::Data	OffTime;
     SIM::Data	EnableOff;
     SIM::Data	DisableAlert;
+    SIM::Data	RealManualStatus;
 };
 
 class AutoAwayPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
@@ -51,6 +52,7 @@ public:
     PROP_ULONG(OffTime);
     PROP_BOOL(EnableOff);
     PROP_BOOL(DisableAlert);
+    PROP_ULONG(RealManualStatus);
 protected slots:
     void timeout();
 protected:
@@ -62,7 +64,6 @@ protected:
     bool bNA;
     bool bOff;
     CorePlugin *core;
-    unsigned long oldStatus;
     QTimer *m_timer;
     AutoAwayData data;
 };

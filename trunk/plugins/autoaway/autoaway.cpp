@@ -160,14 +160,15 @@ typedef OSStatus (*InstallEventLoopIdleTimerPtr)(EventLoopRef inEventLoop,
 
 static DataDef autoAwayData[] =
     {
-        { "AwayTime", DATA_ULONG, 1, DATA(3) },
-        { "EnableAway", DATA_BOOL, 1, DATA(1) },
-        { "NATime", DATA_ULONG, 1, DATA(10) },
-        { "EnableNA", DATA_BOOL, 1, DATA(1) },
-        { "OffTime", DATA_ULONG, 1, DATA(10) },
-        { "EnableOff", DATA_BOOL, 1, 0 },
-        { "DisableAlert", DATA_BOOL, 1, DATA(1) },
-        { NULL, DATA_UNKNOWN, 0, 0 }
+        { "AwayTime",	      DATA_ULONG,   1, DATA(3) },
+        { "EnableAway",       DATA_BOOL,    1, DATA(1) },
+        { "NATime", 	      DATA_ULONG,   1, DATA(10)},
+        { "EnableNA", 	      DATA_BOOL,    1, DATA(1) },
+        { "OffTime", 	      DATA_ULONG,   1, DATA(10)},
+        { "EnableOff", 	      DATA_BOOL,    1, 0       },
+        { "DisableAlert",     DATA_BOOL,    1, DATA(1) },
+        { "RealManualStatus", DATA_ULONG,   1, DATA(STATUS_UNKNOWN) },
+        { NULL,		      DATA_UNKNOWN, 0, 0 }
     };
 
 AutoAwayPlugin::AutoAwayPlugin(unsigned base, Buffer *config)
@@ -253,7 +254,14 @@ QWidget *AutoAwayPlugin::createConfigWindow(QWidget *parent)
 void AutoAwayPlugin::timeout()
 {
     unsigned long newStatus = core->getManualStatus();
+    unsigned long oldStatus =getRealManualStatus();
     unsigned idle_time = getIdleTime() / 60;
+    if (oldStatus != STATUS_UNKNOWN &&
+		!bAway && !bNA && !bOff){
+      // If fake ManualStatus were saved in config by chace, we should replace it by real value...
+      newStatus = oldStatus;
+      oldStatus = STATUS_UNKNOWN;
+    }
     if ((bAway && (idle_time < getAwayTime())) ||
             (bNA && (idle_time < getNATime())) ||
             (bOff && (idle_time < getOffTime()))){
@@ -261,6 +269,7 @@ void AutoAwayPlugin::timeout()
         bNA   = false;
         bOff  = false;
         newStatus = oldStatus;
+        oldStatus = STATUS_UNKNOWN;
     }else if (!bAway && !bNA && !bOff && getEnableAway() && (idle_time >= getAwayTime())){
         unsigned long status = core->getManualStatus();
         if ((status == STATUS_AWAY) || (status == STATUS_NA) || (status == STATUS_OFFLINE))
@@ -297,6 +306,7 @@ void AutoAwayPlugin::timeout()
         return;
     core->data.StatusTime.asULong() = time(NULL);
     core->data.ManualStatus.asULong() = newStatus;
+    setRealManualStatus(oldStatus);
     EventClientStatus().process();
 }
 
