@@ -224,7 +224,7 @@ class RTFGenParser : public HTMLParser
 {
 public:
     RTFGenParser(ICQClient *client, const QColor& foreColor, Contact *contact, unsigned max_size);
-    QCString parse(const QString &text);
+    QString parse(const QString &text);
     // Returns the color's index in the colors table, adding the color if necessary.
     int getColorIdx(const QColor &color);
     // Returns the font face's index in the fonts table, adding the font face if necessary.
@@ -237,7 +237,7 @@ protected:
     virtual void text(const QString &text);
     virtual void tag_start(const QString &tag, const list<QString> &attrs);
     virtual void tag_end(const QString &tag);
-    QCString res;
+    QString res;
     ICQClient  *m_client;
     Contact    *m_contact;
     QTextCodec *m_codec;
@@ -325,7 +325,7 @@ int RTFGenParser::getFontFaceIdx(const QString& fontFace)
     return m_fontFaces.size() - 1;
 }
 
-QCString RTFGenParser::parse(const QString &text)
+QString RTFGenParser::parse(const QString &text)
 {
     res = QString::null;
     m_res_size = 0;
@@ -381,7 +381,7 @@ QCString RTFGenParser::parse(const QString &text)
     m_bSpace = true;
     HTMLParser::parse(text);
 
-    QCString s;
+    QString s;
     s = "{\\rtf1\\ansi";
     if (ansicpg){
         s += "\\ansicpg";
@@ -848,10 +848,10 @@ void RTFGenParser::tag_end(const QString &tagName)
     }
 }
 
-QCString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
+QString ICQClient::createRTF(QString &text, QString &part, unsigned long foreColor, Contact *contact, unsigned max_size)
 {
     RTFGenParser p(this, foreColor, contact, max_size);
-    QCString res = p.parse(text);
+    QString res = p.parse(text);
     if (p.m_res_size == 0){
         part = text;
         text = QString::null;
@@ -883,7 +883,7 @@ protected:
     virtual void tag_end(const QString &tag);
     void startBody();
     void endBody();
-    QCString res;
+    QString res;
     bool	 m_bBody;
     bool	 m_bIcq;
 };
@@ -1105,5 +1105,6 @@ unsigned ICQClient::clearTags(QString &text)
     text = p.parse(text);
     return p.bgColor;
 }
+
 
 

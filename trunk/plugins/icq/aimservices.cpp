@@ -171,7 +171,7 @@ static bool bLatin1(const QString &s)
 
 void SearchSocket::addTlv(unsigned short n, const QString &s, bool bLatin)
 {
-    QCString str;
+    QString str;
     if (bLatin){
         str = s.latin1();
     }else{
@@ -421,4 +421,5 @@ unsigned short ICQClient::aimInfoSearch(const QString &first, const QString &las
     info.append(state);
     return s->add(info);
 }
+
 

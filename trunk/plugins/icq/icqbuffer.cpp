@@ -188,14 +188,14 @@ ICQBuffer &ICQBuffer::operator << (const TlvList &tlvList)
 
 ICQBuffer &ICQBuffer::operator << (const QString &s)
 {
-    QCString utf8 = s.utf8();
+    QString utf8 = s.utf8();
 	unsigned short size = (unsigned short)(utf8.length() + 1);
     *this << (unsigned short)htons(size);
     pack(utf8, size);
     return *this;
 }
-
-ICQBuffer &ICQBuffer::operator << (const QCString &s)
+/*
+ICQBuffer &ICQBuffer::operator << (const QString &s)
 {
     if(!s.length())
         return *this;
@@ -204,7 +204,7 @@ ICQBuffer &ICQBuffer::operator << (const QCString &s)
     pack(s, size);
     return *this;
 }
-
+*/
 ICQBuffer &ICQBuffer::operator << (const QByteArray &s)
 {
     if(!s.size())
@@ -260,7 +260,7 @@ ICQBuffer &ICQBuffer::operator << (bool b)
     return *this;
 }
 
-ICQBuffer &ICQBuffer::operator >> (QCString &str)
+ICQBuffer &ICQBuffer::operator >> (QString &str)
 {
     unsigned short s;
     str = "";
@@ -315,7 +315,7 @@ void ICQBuffer::packScreen(const QString &screen)
     pack(screen.utf8(), len);
 }
 
-void ICQBuffer::packStr32(const QCString &s)
+void ICQBuffer::packStr32(const QString &s)
 {
     unsigned long size = s.length();
     pack(size);
@@ -331,20 +331,20 @@ void ICQBuffer::pack32(const Buffer &b)
     pack(b.data(b.readPos()), size);
 }
 
-void ICQBuffer::pack(const QCString &s)
+void ICQBuffer::pack(const QString &s)
 {
-    unsigned short size = (unsigned short)(s.size());
+	unsigned short size = (unsigned short)(s.length());
     *this << size;
     pack(s, size);
 }
-
+/*
 void ICQBuffer::pack(const QString &s)
 {
-    QCString cstr = s.utf8();
+    QString cstr = s.utf8();
 	unsigned short size = (unsigned short)(s.length());
     *this << size;
     pack(cstr, size);
-}
+}*/
 
 void ICQBuffer::pack(unsigned short s)
 {
@@ -373,8 +373,8 @@ bool ICQBuffer::unpackStr(QString &str)
     unpack(str, s);
     return true;
 }
-
-bool ICQBuffer::unpackStr(QCString &str)
+/*
+bool ICQBuffer::unpackStr(QString &str)
 {
     unsigned short s;
     str = "";
@@ -386,8 +386,8 @@ bool ICQBuffer::unpackStr(QCString &str)
     unpack(str, s);
     return true;
 }
-
-bool ICQBuffer::unpackStr32(QCString &str)
+*/
+bool ICQBuffer::unpackStr32(QString &str)
 {
     unsigned long s;
     *this >> s;
@@ -449,17 +449,17 @@ unsigned ICQBuffer::unpack(QString &d, unsigned s)
     m_posRead += readn;
     return readn;
 }
-
-unsigned ICQBuffer::unpack(QCString &d, unsigned s)
+/*
+unsigned ICQBuffer::unpack(QString &d, unsigned s)
 {
     unsigned readn = size() - m_posRead;
     if (s < readn)
         readn = s;
-    d = QCString(data() + m_posRead, readn + 1);
+    d = QString(data() + m_posRead, readn + 1);
     m_posRead += readn;
     return readn;
 }
-
+*/
 unsigned ICQBuffer::unpack(QByteArray &d, unsigned s)
 {
     unsigned readn = size() - m_posRead;

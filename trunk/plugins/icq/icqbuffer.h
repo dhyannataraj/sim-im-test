@@ -14,8 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef _ICQBUFFER_H
-#define _ICQBUFFER_H
+#ifndef _ICQString_H
+#define _ICQString_H
 
 #include "buffer.h"
 #include "socket.h"
@@ -75,7 +75,7 @@ public:
 
     ICQBuffer &operator << (const TlvList&);
     ICQBuffer &operator << (const QString &s);     // utf8
-    ICQBuffer &operator << (const QCString &s);
+    //ICQBuffer &operator << (const QString &s);
     ICQBuffer &operator << (const QByteArray &s);
     ICQBuffer &operator << (const Buffer &b);
     ICQBuffer &operator << (char c);
@@ -87,7 +87,7 @@ public:
     ICQBuffer &operator << (long c) { return operator << ((unsigned long)c); }
     ICQBuffer &operator << (const bool b);
 
-    ICQBuffer &operator >> (QCString &s);  // size is 2 byte & little endian!
+    ICQBuffer &operator >> (QString &s);  // size is 2 byte & little endian!
     ICQBuffer &operator >> (char &c);
     ICQBuffer &operator >> (unsigned char &c) { return operator >> ((char&)c); }
     ICQBuffer &operator >> (unsigned short &c);
@@ -95,7 +95,7 @@ public:
     ICQBuffer &operator >> (int &c);
 
     void pack(const QString &s);
-    void pack(const QCString &s);
+//    void pack(const QString &s);
     void pack(const char *d, unsigned size) { Buffer::pack(d, size); }
     void pack(char c)          { *this << c; }
     void pack(unsigned char c) { *this << c; }
@@ -104,14 +104,14 @@ public:
     void pack(long c) { pack((unsigned long)c); }
 
     void packScreen(const QString &);
-    void packStr32(const QCString &);
+    void packStr32(const QString &);
     void pack32(const Buffer &b);
 
     // 2 byte size + string
     bool unpackStr(QString &s);     // utf8
-    bool unpackStr(QCString &s);
+    //bool unpackStr(QString &s);
     // 4 byte size  + string
-    bool unpackStr32(QCString &s);
+    bool unpackStr32(QString &s);
     bool unpackStr32(QByteArray &s);
     QString unpackScreen();
 
@@ -119,7 +119,7 @@ public:
     void unpack(unsigned char &c) { *this >> c; }
     unsigned unpack(char *d, unsigned size);
     unsigned unpack(QString &d, unsigned size); // utf8
-    unsigned unpack(QCString &d, unsigned size);
+    //unsigned unpack(QString &d, unsigned size);
     unsigned unpack(QByteArray &d, unsigned size);
     void unpack(unsigned short &c);
     void unpack(unsigned long &c);
@@ -132,11 +132,11 @@ public:
         : ClientSocket(notify, sock) {};
     ~ICQClientSocket() {};
 
-    virtual ICQBuffer &readBuffer() { return m_readICQBuffer; }
-    virtual ICQBuffer &writeBuffer() { return m_writeICQBuffer; }
+    virtual ICQBuffer &readBuffer() { return m_readICQString; }
+    virtual ICQBuffer &writeBuffer() { return m_writeICQString; }
 protected:
-    ICQBuffer m_readICQBuffer;
-    ICQBuffer m_writeICQBuffer;
+    ICQBuffer m_readICQString;
+    ICQBuffer m_writeICQString;
 };
 
-#endif  // _ICQBUFFER_H
+#endif  // _ICQString_H

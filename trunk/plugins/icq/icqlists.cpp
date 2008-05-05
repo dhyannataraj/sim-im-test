@@ -656,8 +656,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
     case ICQ_SNACxLISTS_AUTHxREQUEST:{
             QString screen = socket()->readBuffer().unpackScreen();
-            QCString message;
-            QCString charset;
+            QString message;
+            QString charset;
             unsigned short have_charset;
             socket()->readBuffer().unpackStr(message);
             socket()->readBuffer() >> have_charset;
@@ -673,7 +673,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 m = msg;
             }else{
                 ICQAuthMessage *msg = new ICQAuthMessage(MessageICQAuthRequest, MessageAuthRequest);
-                msg->setServerText(message);
+                msg->setServerText(QCString(message.data()));
                 msg->setCharset(charset);
                 m = msg;
             }
@@ -688,7 +688,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             /* we treat future grant as normal grant but it isn't the same...
                http://iserverd1.khstu.ru/oscar/snac_13_15.html */
             QString screen = socket()->readBuffer().unpackScreen();
-            QCString message;
+            QString message;
             Message *m = NULL;
 
             socket()->readBuffer().unpackStr(message);
@@ -710,8 +710,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             QString screen = socket()->readBuffer().unpackScreen();
             char auth_ok;
             socket()->readBuffer() >> auth_ok;
-            QCString message;
-            QCString charset;
+            QString message;
+            QString charset;
             unsigned short have_charset;
             socket()->readBuffer().unpackStr(message);
             socket()->readBuffer() >> have_charset;
@@ -727,7 +727,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 m = msg;
             }else{
                 ICQAuthMessage *msg = new ICQAuthMessage(auth_ok ? MessageICQAuthGranted : MessageICQAuthRefused, auth_ok ? MessageAuthGranted : MessageAuthRefused);
-                msg->setServerText(message);
+                msg->setServerText(QCString(message.data()));
                 msg->setCharset(charset);
                 m = msg;
             }
@@ -1047,7 +1047,7 @@ unsigned short ICQClient::getListId()
 TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
 {
     TlvList *tlv = new TlvList;
-    QCString name = contact->getName().utf8();
+    QString name = contact->getName().utf8();
     *tlv += new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
     if (data->WaitAuth.toBool())
         *tlv += new Tlv(TLV_WAIT_AUTH, 0, NULL);
@@ -1075,7 +1075,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
     sendPacket(true);
 
     snac(ICQ_SNACxFAM_LISTS, cmd, true);
-    QCString sName = name.utf8();
+    QString sName = name.utf8();
     socket()->writeBuffer().pack(htons(sName.length()));
     socket()->writeBuffer().pack(sName.data(), sName.length());
     socket()->writeBuffer()
@@ -1093,7 +1093,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
 
 void ICQClient::sendRosterGrp(const QString &name, unsigned short grpId, unsigned short usrId)
 {
-    QCString sName = name.utf8();
+    QString sName = name.utf8();
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UPDATE, true);
     socket()->writeBuffer().pack(sName.data(), sName.length());
     socket()->writeBuffer()
@@ -1293,7 +1293,7 @@ unsigned ICQClient::processListRequest()
                     break;
                 }
                 if(!img.save(&buf, "JPEG")) {
-                    log(L_ERROR, "Can't save QImage to QBuffer");
+                    log(L_ERROR, "Can't save QImage to QString");
                     break;
                 }
                 buf.close();
@@ -1500,7 +1500,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
 
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
     socket()->writeBuffer().packScreen(screen(data));
-    QCString message;
+    QString message;
     QString charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
         message = msg->getPlainText().utf8();
@@ -1561,8 +1561,8 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
     socket()->writeBuffer().packScreen(screen(data));
 
-    QCString message;
-    QCString charset;
+    QString message;
+    QString charset;
     if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
         message = msg->getPlainText().utf8();
         charset = "utf-8";

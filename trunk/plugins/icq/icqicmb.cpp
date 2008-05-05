@@ -283,7 +283,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 break;
             }
             if ((*it).msg){
-                QCString answer;
+                QString answer;
                 socket()->readBuffer() >> answer;
                 if (ackMessage((*it).msg, ackFlags, answer)){
                     ackMessage(*it);
@@ -323,12 +323,12 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             }
 
             if (plugin_type == PLUGIN_AR){
-                QCString answer;
+                QString answer;
                 socket()->readBuffer() >> answer;
                 log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
                 Contact *contact;
                 ICQUserData *data = findContact(screen, NULL, false, contact);
-                if (data && data->AutoReply.setStr(getContacts()->toUnicode(contact, answer))){
+                if (data && data->AutoReply.setStr(getContacts()->toUnicode(contact, QCString(answer.data())))){
                     EventContact e(contact, EventContact::eChanged);
                     e.process();
                 }
@@ -466,7 +466,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         return;
                     }
                     unsigned char type, flags;
-                    QCString msg_str;
+                    QString msg_str;
                     msg >> type;
                     msg >> flags;
                     msg >> msg_str;
@@ -701,7 +701,7 @@ void ICQClient::ackMessage(SendMsg &s)
     processSendQueue();
 }
 
-bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const QCString &msg_str)
+bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const QString &msg_str)
 {
     switch (ackFlags){
     case ICQ_TCPxACK_OCCUPIED:
@@ -1108,7 +1108,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
     adv.unpack(msgType);
     adv.unpack(msgState);
     adv.unpack(msgFlags);
-    QCString msg;
+    QString msg;
     adv >> msg;
 
     switch (msgType){
@@ -1159,7 +1159,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             if (!msg.isEmpty()){
                 Contact *contact;
                 ICQUserData *data = findContact(screen, NULL, false, contact);
-                QString m = getContacts()->toUnicode(contact, msg);
+                QString m = getContacts()->toUnicode(contact, QCString(msg.data()));
                 data->AutoReply.str() = m;
                 EventContact e(contact, EventContact::eChanged);
                 e.process();
@@ -1171,8 +1171,8 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
     if (!msg.isEmpty() || (msgType == ICQ_MSGxEXT)){
         if (adv.readPos() < adv.writePos())
             copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
-        log(L_DEBUG, "Msg size=%lu type=%u", (unsigned long) msg.size(), msgType);
-        if (msg.size() || (msgType == ICQ_MSGxEXT)){
+        log(L_DEBUG, "Msg size=%lu type=%u", (unsigned long) msg.length(), msgType);
+        if (msg.length() || (msgType == ICQ_MSGxEXT)){
             Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
             if (m){
                 if ((m_send.id == id) && (m_send.screen == screen)){
@@ -1303,7 +1303,7 @@ void ICQClient::sendAutoReply(const QString &screen, MessageId id,
     if (!response.isEmpty()){
         Contact *contact = NULL;
         findContact(screen, NULL, false, contact);
-        QCString r = getContacts()->fromUnicode(contact, response);
+        QString r = getContacts()->fromUnicode(contact, response);
         unsigned short size = (unsigned short)(r.length() + 1);
         socket()->writeBuffer().pack(size);
         socket()->writeBuffer().pack(r.data(), size);
@@ -1727,7 +1727,7 @@ bool ICQClient::processMsg()
                 return true;
             }
         }
-        QCString text;
+        QString text;
         switch (m_send.flags & SEND_MASK){
         case SEND_RTF:
             text = createRTF(m_send.text, m_send.part, m_send.msg->getForeground(), contact, MAX_TYPE2_MESSAGE_SIZE);
@@ -1739,7 +1739,7 @@ bool ICQClient::processMsg()
         case SEND_TYPE2:{
                 m_send.part = getPart(m_send.text, MAX_TYPE2_MESSAGE_SIZE);
                 text = getContacts()->fromUnicode(contact, m_send.part);
-                EventSend e(m_send.msg, text);
+                EventSend e(m_send.msg, QCString(text.data()));
                 e.process();
                 text = e.localeText();
                 break;
@@ -1846,7 +1846,7 @@ bool ICQClient::processMsg()
             }
             QString charset = bWide ? "unicode-2-0" : "us-ascii";
             tlvs += new Tlv(0x0D, charset.length(), charset.latin1());
-            QCString st;
+            QString st;
             if (bWide){
                 for (i = 0; i < (int)(text.length()); i++){
                     unsigned short s = text[i].unicode();
@@ -1978,8 +1978,8 @@ void ICQClient::sendType1(const QString &text, bool bWide, ICQUserData *data)
         msgBuf << 0x00020000L;
         msgBuf.pack(ba.data(), ba.size());
     }else{
-        QCString msg_text = getContacts()->fromUnicode(getContact(data), text);
-        EventSend e(m_send.msg, msg_text);
+        QString msg_text = getContacts()->fromUnicode(getContact(data), text);
+        EventSend e(m_send.msg, QCString(msg_text.data()));
         e.process();
         msg_text = e.localeText();
         msgBuf << 0x0000FFFFL;
@@ -2234,4 +2234,5 @@ bool operator == (const MessageId &m1, const MessageId &m2)
 {
     return ((m1.id_l == m2.id_l) && (m1.id_h == m2.id_h));
 }
+
 
