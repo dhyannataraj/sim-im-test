@@ -19,6 +19,9 @@
 
 #include "buffer.h"
 #include "socket.h"
+#include <string> //Fixme
+
+using namespace std;
 
 class ICQBuffer;
 class Tlv
@@ -87,7 +90,8 @@ public:
     ICQBuffer &operator << (long c) { return operator << ((unsigned long)c); }
     ICQBuffer &operator << (const bool b);
 
-    ICQBuffer &operator >> (QString &s);  // size is 2 byte & little endian!
+    ICQBuffer &operator >> (QString &s);  // size is 2 byte & little endian! //this is FAILES for extended message and should be fixed, Noragen.
+	ICQBuffer &operator >> (string &s);
     ICQBuffer &operator >> (char &c);
     ICQBuffer &operator >> (unsigned char &c) { return operator >> ((char&)c); }
     ICQBuffer &operator >> (unsigned short &c);
@@ -111,6 +115,7 @@ public:
     bool unpackStr(QString &s);     // utf8
     //bool unpackStr(QString &s);
     // 4 byte size  + string
+	void unpackStr32(string &s); 
     bool unpackStr32(QString &s);
     bool unpackStr32(QByteArray &s);
     QString unpackScreen();

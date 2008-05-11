@@ -260,6 +260,7 @@ ICQBuffer &ICQBuffer::operator << (bool b)
     return *this;
 }
 
+//this FAILES for extended message and should be fixed, Noragen.
 ICQBuffer &ICQBuffer::operator >> (QString &str)
 {
     unsigned short s;
@@ -272,6 +273,21 @@ ICQBuffer &ICQBuffer::operator >> (QString &str)
     if (s > size() - m_posRead)
         s = (unsigned short)(size() - m_posRead);
     unpack(str, s);
+    return *this;
+}
+
+ICQBuffer &ICQBuffer::operator >> (string &s)
+{
+    unsigned short size;
+    *this >> size;
+    size = htons(size);
+    s.erase();
+    if (size){
+        if (size > this->size() - m_posRead)
+            size = (unsigned short)(this->size() - m_posRead);
+        s.append((unsigned)size, '\x00');
+        unpack((char*)s.c_str(), size);
+    }
     return *this;
 }
 
@@ -315,6 +331,19 @@ void ICQBuffer::packScreen(const QString &screen)
     pack(screen.utf8(), len);
 }
 
+void ICQBuffer::unpackStr32(string &s)
+{
+    unsigned long size;
+    *this >> size;
+    size = htonl(size);
+    s.erase();
+    if (size == 0) return;
+	if (size > this->size() - m_posRead)
+        size = this->size() - m_posRead;
+    s.append(size, '\x00');
+    unpack((char*)s.c_str(), size);
+}
+
 void ICQBuffer::packStr32(const QString &s)
 {
     unsigned long size = s.length();
@@ -337,6 +366,15 @@ void ICQBuffer::pack(const QString &s)
     *this << size;
     pack(s, size);
 }
+/*
+void ICQBuffer::pack(const char *d, unsigned size)
+{
+    allocate(m_posWrite + size, 1024);
+    memcpy(m_data + m_posWrite, d, size);
+    m_posWrite += size;
+    if (m_posWrite > m_size) m_size = m_posWrite;
+}
+*/
 /*
 void ICQBuffer::pack(const QString &s)
 {

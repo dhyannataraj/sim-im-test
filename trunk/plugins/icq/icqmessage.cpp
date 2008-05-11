@@ -325,19 +325,22 @@ static Message *parseAuthRequest(const QString &str)
 
 Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packet, MessageId &id, unsigned cookie)
 {
-    QString header;
+    string header;
     packet >> header;
-	ICQBuffer h(header.length());
-    h.pack(header, header.length());
-    h.incReadPos(16);
+	ICQBuffer h(header.size());
+	//QString strheader(header);
+	h.pack(header.c_str(), header.size());
+	h.incReadPos(16);
     unsigned short msg_type;
     h >> msg_type;
-    QString msgType;
+    //QString msgType;
+	string msgType;
     h.unpackStr32(msgType);
-    QString info;
+	//QString info;
+    string info;
     packet.unpackStr32(info);
-	ICQBuffer b(info.length());
-    b.pack(info, info.length());
+	ICQBuffer b(info.size());
+	b.pack(info.c_str(), info.size());
 
 	log(L_DEBUG, "Extended message %s [%04X] %u", msgType.data(), msg_type, info.length());
 
@@ -386,7 +389,7 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
     }
     n = msgType.find("File");
     if (n >= 0){
-        QString fileDescr, fileName;
+        string fileDescr, fileName;
         b.unpackStr32(fileDescr);
         unsigned short port;
         b >> port;
@@ -408,8 +411,8 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
     }
     if (msgType == "ICQSMS"){
         string p;
-        b.unpackStr32(info);
-		p = QCString(info).data();   // FIXME!!
+        b.unpackStr32(p);
+		//p = QCString(info).data();   // FIXME!!
         string::iterator s = p.begin();
         auto_ptr<XmlNode> top(XmlNode::parse(s, p.end()));
         if (top.get() == NULL){
