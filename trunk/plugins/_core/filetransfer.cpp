@@ -127,7 +127,10 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
 
 	QString shortName = m_name;
 	//m_name = ft->dir() + m_name; Quickfix, noragen
-    m_name = ft->dir() + fn; 
+	if (fn.isEmpty())
+		fn=m_name;
+
+	m_name = ft->dir() + fn; 
 
     if (ft->m_file)
         delete ft->m_file;
