@@ -366,6 +366,12 @@ void HistoryWindow::next()
     if ( (m_it == NULL) )
         return;
 
+	//Quickfix Noragen, Stop at 1000 Messages, if there are Problems with storing the size.
+	if (m_history_page_count > 1000) 
+		m_history_page_count=1000;
+		
+	m_progress->setTotalSteps(m_history_page_count);
+
     for (;;){
         QString state = m_it->state();
         Message *msg = NULL;
