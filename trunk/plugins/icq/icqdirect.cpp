@@ -925,9 +925,9 @@ void DirectClient::processPacket()
                         break;
                     }
                 }
+				if (it == m_client->m_acceptMsg.end())
+					log(L_WARN, "Message for ACK not found??");
             }
-            if (it == m_client->m_acceptMsg.end())
-                log(L_WARN, "Message for ACK not found");
         }
         break;
 	}
