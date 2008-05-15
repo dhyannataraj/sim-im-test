@@ -1688,18 +1688,22 @@ void ICQFileTransfer::initReceive(char cmd)
         m_socket->error_state("Bad command in init receive");
         return;
     }
-    QString fileName;
+    string stdStrFileName;
     char isDir;
-    m_socket->readBuffer() >> isDir >> fileName;
-    QString fName = getContacts()->toUnicode(m_client->getContact(m_data), QCString(fileName.data()));
-    QString dir;
+    m_socket->readBuffer() >> isDir >> stdStrFileName;
+	QCString qcfilename(stdStrFileName.c_str());
+
+    QCString qcfName = getContacts()->fromUnicode(m_client->getContact(m_data), qcfilename);
+	QString  fName(qcfName.data());
+    string stdStrDir;
     unsigned long n;
-    m_socket->readBuffer() >> dir;
+    m_socket->readBuffer() >> stdStrDir;
+	QCString dir(stdStrDir.c_str());
     m_socket->readBuffer().unpack(n);
     if (m_notify)
         m_notify->transfer(false);
     if (!dir.isEmpty())
-        fName = getContacts()->toUnicode(m_client->getContact(m_data), QCString(dir.data())) + '/' + fName;
+        fName = getContacts()->toUnicode(m_client->getContact(m_data), dir) + '/' + fName;
     if (isDir)
         fName += '/';
     m_state = Wait;
@@ -1808,7 +1812,7 @@ void ICQFileTransfer::sendInit()
     m_socket->writeBuffer().pack((unsigned long)m_nFiles);			// nFiles
     m_socket->writeBuffer().pack((unsigned long)m_totalSize);		// Total size
     m_socket->writeBuffer().pack((unsigned long)m_speed);			// speed
-    m_socket->writeBuffer() << QString::number(m_client->data.owner.Uin.toULong());
+	m_socket->writeBuffer() << QString::number(m_client->data.owner.Uin.toULong()).data();
     sendPacket();
     if ((m_nFiles == 0) || (m_totalSize == 0))
         m_socket->error_state(I18N_NOOP("No files for transfer"));

@@ -137,8 +137,12 @@ public:
         : ClientSocket(notify, sock) {};
     ~ICQClientSocket() {};
 
-    virtual ICQBuffer &readBuffer() { return m_readICQString; }
-    virtual ICQBuffer &writeBuffer() { return m_writeICQString; }
+    virtual ICQBuffer &readBuffer() { 
+		return m_readICQString; 
+	}
+    virtual ICQBuffer &writeBuffer() { 
+		return m_writeICQString; 
+	}
 protected:
     ICQBuffer m_readICQString;
     ICQBuffer m_writeICQString;
