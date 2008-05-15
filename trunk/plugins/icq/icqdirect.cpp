@@ -1929,11 +1929,11 @@ void ICQFileTransfer::sendFileInfo()
         dir = dir.replace('/', '\\');
         fn  = fn.mid(n);
     }
-    QString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
-    QString s2;
+	string s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn).data();
+    string s2;
     if (!dir.isEmpty())
-        s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir);
-    m_socket->writeBuffer() << s1.data() << s2.data();
+        s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir).data();
+    m_socket->writeBuffer() << s1 << s2;
     m_socket->writeBuffer().pack((unsigned long)m_fileSize);
     m_socket->writeBuffer().pack((unsigned long)0);
     m_socket->writeBuffer().pack((unsigned long)m_speed);
