@@ -918,16 +918,16 @@ void DirectClient::processPacket()
                             bFound = true;
                         break;
                     }
-                    if (bFound){
+                  if (bFound){
                         m_client->m_acceptMsg.erase(it);
                         EventMessageDeleted(msg).process();
                         delete msg;
                         break;
                     }
                 }
+				if (it == m_client->m_acceptMsg.end())
+					log(L_WARN, "Message for ACK not found??");
             }
-            if (it == m_client->m_acceptMsg.end())
-                log(L_WARN, "Message for ACK not found");
         }
         break;
 	}

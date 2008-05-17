@@ -86,11 +86,16 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
     m_size = size;
     m_name = m_name.replace('\\', '/');
 
+
     FileTransfer *ft = m_dlg->m_msg->m_transfer;
     int n = m_name.findRev('/');
+	QString fn("");
     if (n >= 0){
         QString path;
-        QString p = m_name.left(n);
+		QString p(m_name.left(n));
+		fn = m_name.right(m_name.length()-n);
+		fn = fn.replace(QRegExp("/"), "");
+
         while (!p.isEmpty()){
             if (!path.isEmpty())
                 path += '/';
@@ -102,7 +107,7 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
                 return;
             }
             path += pp;
-            QDir dd(ft->dir() + '/' + path);
+            QDir dd(ft->dir() /* + '/' + path */);
             if (!dd.exists()){
                 QDir d(ft->dir());
                 if (!d.mkdir(path)){
@@ -119,8 +124,14 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
         ft->startReceive(0);
         return;
     }
-    QString shortName = m_name;
-    m_name = ft->dir() + m_name;
+
+	QString shortName = m_name;
+	//m_name = ft->dir() + m_name; Quickfix, noragen
+	if (fn.isEmpty())
+		fn=m_name;
+
+	m_name = ft->dir() + fn; 
+
     if (ft->m_file)
         delete ft->m_file;
     m_dlg->process();
@@ -137,13 +148,13 @@ void FileTransferDlgNotify::createFile(const QString &name, unsigned size, bool 
             }
             break;
         case Resume:
-            if (ft->m_file->open(IO_WriteOnly)){
+            if (ft->m_file->open(IO_WriteOnly | IO_Append)){
                 resume();
                 return;
             }
             break;
         default:
-            if (ft->m_file->open(IO_WriteOnly)){
+            if (ft->m_file->open(IO_WriteOnly | IO_Append)){
                 QStringList buttons;
                 QString forAll;
                 if (ft->files())
