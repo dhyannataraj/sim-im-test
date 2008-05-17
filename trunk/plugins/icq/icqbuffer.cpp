@@ -260,6 +260,21 @@ ICQBuffer &ICQBuffer::operator << (bool b)
     return *this;
 }
 
+ICQBuffer &ICQBuffer::operator >> (string &s)
+{
+    unsigned short size;
+    *this >> size;
+    size = htons(size);
+    s.erase();
+    if (size){
+        if (size > this->size() - m_posRead)
+            size = (unsigned short)(this->size() - m_posRead);
+        s.append((unsigned)size, '\x00');
+        unpack((char*)s.c_str(), size);
+    }
+    return *this;
+}
+
 ICQBuffer &ICQBuffer::operator >> (QCString &str)
 {
     unsigned short s;
@@ -385,6 +400,19 @@ bool ICQBuffer::unpackStr(QCString &str)
         s = (unsigned short)(size() - m_posRead);
     unpack(str, s);
     return true;
+}
+
+void ICQBuffer::unpackStr32(string &s)
+{
+    unsigned long size;
+    *this >> size;
+    size = htonl(size);
+    s.erase();
+    if (size == 0) return;
+	if (size > this->size() - m_posRead)
+        size = this->size() - m_posRead;
+    s.append(size, '\x00');
+    unpack((char*)s.c_str(), size);
 }
 
 bool ICQBuffer::unpackStr32(QCString &str)
