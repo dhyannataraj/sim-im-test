@@ -57,7 +57,7 @@ QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 
 QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsigned n)
 {
-    QString charset("us-ascii");
+    QCString charset = "us-ascii";
     Tlv *tlvCharset = NULL;
     for (unsigned i = 0; i < tlvs.count(); i++){
         Tlv *tlv = tlvs[i];
@@ -629,6 +629,5 @@ void ICQClient::setProfile(ICQUserData *data)
     encodeString(profile, "text/aolrtf", 1, 2);
     sendPacket(false);
 }
-
 
 

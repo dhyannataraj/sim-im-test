@@ -96,7 +96,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
     case ICQ_SNACxLOGIN_AUTHxKEYxRESPONSE:
         log(L_DEBUG, "Sending MD5 key");
         if (!data.owner.Screen.str().isEmpty() || data.owner.Uin.toULong()){
-            QString md5_key;
+            QCString md5_key;
             socket()->readBuffer().unpackStr(md5_key);
             snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             if (data.owner.Uin.toULong()){
@@ -106,10 +106,10 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             }else{
                 socket()->writeBuffer().tlv(0x0001, data.owner.Screen.str());
             }
-            QString md = md5_key;
+            QCString md = md5_key;
             md += getContacts()->fromUnicode(NULL, getPassword());
             md += "AOL Instant Messenger (SM)";
-            md = QCString(md5(md));
+            md = md5(md);
             socket()->writeBuffer().tlv(0x0025, md.data(), md.length());
 	        if (data.owner.Uin.toULong()){
                 socket()->writeBuffer().tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");  //ToDo: Should be updated anytime
@@ -166,7 +166,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             << 0x00000000L << 0x94680000L << 0x94680000L
             << 0x00000000L << 0x00000000L << 0x00000000L
             << 0x00000000L;
-            QString pswd = getContacts()->fromUnicode(NULL, getPassword());
+            QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
             unsigned short len = (unsigned short)(pswd.length() + 1);
             msg.pack(len);
             msg.pack(pswd.data(), len);
@@ -251,7 +251,7 @@ void ICQClient::chn_login()
     << 0x00000000L << 0x94680000L << 0x94680000L
     << 0x00000000L << 0x00000000L << 0x00000000L
     << 0x00000000L;
-    QString pswd = getContacts()->fromUnicode(NULL, getPassword());
+    QCString pswd = getContacts()->fromUnicode(NULL, getPassword());
     unsigned short len = (unsigned short)(pswd.length() + 1);
     msg.pack(len);
     msg.pack(pswd.data(), len);
@@ -373,7 +373,7 @@ void ICQClient::chn_close()
         socket()->error_state(I18N_NOOP("Close packet from server"));
         return;
     }
-    QString host(tlv_host->byteArray().data());
+    QCString host = tlv_host->byteArray().data();
     int idx = host.find(':');
     if (idx == -1){
         log(L_ERROR, "Bad host address %s", host.data());
@@ -388,5 +388,4 @@ void ICQClient::chn_close()
     m_cookie = tlv_cookie->byteArray();
     m_cookie.resize(m_cookie.size() - 1);   // tlv has \0 terminator... time for Qt4
 }
-
 

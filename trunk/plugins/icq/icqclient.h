@@ -591,9 +591,9 @@ public:
     void requestReverseConnection(const QString &screen, DirectSocket *socket);
     void accept(SIM::Message *msg, ICQUserData *data);
     SIM::Message *parseMessage(unsigned short type, const QString &screen,
-                          const QString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
+                          const QCString &p, ICQBuffer &packet, MessageId &id, unsigned cookie);
     bool messageReceived(SIM::Message*, const QString &screen);
-    static bool parseRTF(const QString &str, SIM::Contact *contact, QString &result);
+    static bool parseRTF(const QCString &str, SIM::Contact *contact, QString &result);
     static QString pictureFile(const ICQUserData *data);
     virtual QImage userPicture(unsigned id);
     QImage userPicture(ICQUserData *d);
@@ -736,7 +736,7 @@ protected:
     bool isOwnData(const QString &screen);
     void packInfoList(const QString &str);
     QString packContacts(SIM::ContactsMessage *msg, ICQUserData *data, CONTACTS_MAP &c);
-    QString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
+    QCString createRTF(QString &text, QString &part, unsigned long foreColor, SIM::Contact *contact, unsigned max_size);
     QString removeImages(const QString &text, bool icqSmiles);
     void ackMessage(SendMsg &s);
     void accept(SIM::Message *msg, const QString &dir, SIM::OverwriteMode overwrite);
@@ -761,7 +761,7 @@ protected:
     void pluginAnswer(unsigned plugin_type, unsigned long uin, ICQBuffer &b);
     void packMessage(ICQBuffer &b, SIM::Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags=ICQ_TCPxMSG_NORMAL);
     void packExtendedMessage(SIM::Message *msg, ICQBuffer &buf, ICQBuffer &msgBuf, ICQUserData *data);
-    bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const QString &str);
+    bool ackMessage(SIM::Message *msg, unsigned short ackFlags, const QCString &str);
     void fetchProfile(ICQUserData *data);
     void fetchAwayMessage(ICQUserData *data);
     void fetchProfiles();
@@ -1008,6 +1008,5 @@ protected:
 };
 
 #endif
-
 
 

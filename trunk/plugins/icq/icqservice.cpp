@@ -260,7 +260,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                 break;
             }
             if(!img.save(&buf, "JPEG")) {
-                log(L_ERROR, "Can't save QImage to QString");
+                log(L_ERROR, "Can't save QImage to QBuffer");
                 break;
             }
             buf.close();
@@ -388,7 +388,7 @@ void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short 
         return;
     }
     unsigned short port = getPort();
-    QString addr(tlv_addr->byteArray());
+    QCString addr(tlv_addr->byteArray());
     int idx = addr.find(':');
     if(idx != -1) {
         port = addr.mid(idx + 1).toUShort();

@@ -31,7 +31,6 @@ using namespace std;
 using namespace SIM;
 
 #ifdef WIN32
-#include <qprocess.h>
 #include <windows.h>
 #include <ddeml.h>
 
@@ -447,15 +446,8 @@ bool NavigatePlugin::processEvent(Event *e)
         if (!bExec){
             if (proto == "file")
                 url = url.mid(5);
-		     //ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);  //Fixme: Bug, does not work
-			QProcess openPathInExplorer;
-			QString path(url);
-			path.replace("%20", " ");
-			openPathInExplorer.addArgument("explorer");
-			openPathInExplorer.addArgument(path);
-			if (openPathInExplorer.start()) qDebug(i18n("Explorer started for Path"));
-			else qDebug(i18n("ERR: Explorer started for Path FAILED!"));	
-		}
+            ShellExecute(NULL, NULL, (LPCWSTR)url.ucs2(), NULL, NULL, SW_SHOWNORMAL);
+        }
 #else
 #ifdef USE_KDE
         if (getUseKDE())

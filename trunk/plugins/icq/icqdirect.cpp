@@ -657,7 +657,7 @@ void DirectClient::processPacket()
     m_socket->readBuffer().unpack(type);
     m_socket->readBuffer().unpack(ackFlags);
     m_socket->readBuffer().unpack(msgFlags);
-    QString msg_str;
+    QCString msg_str;
     m_socket->readBuffer() >> msg_str;
     Message *m;
     switch (command){
@@ -801,7 +801,7 @@ void DirectClient::processPacket()
                 if ((*it).type == PLUGIN_AR){
                     Contact *contact = NULL;
                     m_client->findContact(m_client->screen(m_data), NULL, false, contact);
-					m_data->AutoReply.str() = getContacts()->toUnicode(contact,QCString(msg_str.data()));
+                    m_data->AutoReply.str() = getContacts()->toUnicode(contact,msg_str);
                     m_queue.erase(it);
                     itDeleted = true;
                     break;
@@ -853,7 +853,7 @@ void DirectClient::processPacket()
                     if (msg_str.isEmpty()){
                         msg->setError(I18N_NOOP("Send message fail"));
                     }else{
-                        QString err = getContacts()->toUnicode(m_client->getContact(m_data), QCString(msg_str.data()));
+                        QString err = getContacts()->toUnicode(m_client->getContact(m_data), msg_str);
                         msg->setError(err);
                     }
                     EventMessageSent(msg).process();
@@ -925,9 +925,9 @@ void DirectClient::processPacket()
                         break;
                     }
                 }
-				if (it == m_client->m_acceptMsg.end())
-					log(L_WARN, "Message for ACK not found??");
             }
+            if (it == m_client->m_acceptMsg.end())
+                log(L_WARN, "Message for ACK not found");
         }
         break;
 	}
@@ -1130,7 +1130,7 @@ void DirectClient::sendAck(unsigned short seq, unsigned short type, unsigned sho
         return;
     }
 
-    QString message;
+    QCString message;
     if (msg)
         message = msg;
 
@@ -1248,7 +1248,7 @@ void DirectClient::acceptMessage(Message *msg)
 
 void DirectClient::declineMessage(Message *msg, const QString &reason)
 {
-    QString r;
+    QCString r;
     r = getContacts()->fromUnicode(m_client->getContact(m_data), reason);
     unsigned short seq = 0;
     switch (msg->type()){
@@ -1286,7 +1286,7 @@ void DirectClient::processMsgQueue()
             continue;
         }
         if (sm.msg){
-            QString message;
+            QCString message;
             ICQBuffer &mb = m_socket->writeBuffer();
             unsigned short flags = ICQ_TCPxMSG_NORMAL;
             if (sm.msg->getFlags() & MESSAGE_URGENT)
@@ -1313,7 +1313,7 @@ void DirectClient::processMsgQueue()
                     sm.type = CAP_UTF;
                 }else{
                     message = getContacts()->fromUnicode(m_client->getContact(m_data), sm.msg->getPlainText());
-					EventSend e(sm.msg, QCString(message.data()));
+                    EventSend e(sm.msg, message);
                     e.process();
                     message = e.localeText();
                 }
@@ -1407,7 +1407,7 @@ bool DirectClient::cancelMessage(Message *msg)
                 mb.pack((unsigned short)(*it).icq_type);
                 mb.pack((unsigned short)0);
                 mb.pack((unsigned short)0);
-                QString message;
+                QCString message;
                 mb << message;
                 sendPacket();
             }
@@ -1688,17 +1688,13 @@ void ICQFileTransfer::initReceive(char cmd)
         m_socket->error_state("Bad command in init receive");
         return;
     }
-    string stdStrFileName;
+    QCString fileName;
     char isDir;
-    m_socket->readBuffer() >> isDir >> stdStrFileName;
-	QCString qcfilename(stdStrFileName.c_str());
-
-    QCString qcfName = getContacts()->fromUnicode(m_client->getContact(m_data), qcfilename);
-	QString  fName(qcfName.data());
-    string stdStrDir;
+    m_socket->readBuffer() >> isDir >> fileName;
+    QString fName = getContacts()->toUnicode(m_client->getContact(m_data), fileName);
+    QCString dir;
     unsigned long n;
-    m_socket->readBuffer() >> stdStrDir;
-	QCString dir(stdStrDir.c_str());
+    m_socket->readBuffer() >> dir;
     m_socket->readBuffer().unpack(n);
     if (m_notify)
         m_notify->transfer(false);
@@ -1812,7 +1808,7 @@ void ICQFileTransfer::sendInit()
     m_socket->writeBuffer().pack((unsigned long)m_nFiles);			// nFiles
     m_socket->writeBuffer().pack((unsigned long)m_totalSize);		// Total size
     m_socket->writeBuffer().pack((unsigned long)m_speed);			// speed
-	m_socket->writeBuffer() << QString::number(m_client->data.owner.Uin.toULong()).data();
+    m_socket->writeBuffer() << QString::number(m_client->data.owner.Uin.toULong());
     sendPacket();
     if ((m_nFiles == 0) || (m_totalSize == 0))
         m_socket->error_state(I18N_NOOP("No files for transfer"));
@@ -1929,13 +1925,11 @@ void ICQFileTransfer::sendFileInfo()
         dir = dir.replace('/', '\\');
         fn  = fn.mid(n);
     }
-	QString s1(getContacts()->fromUnicode(m_client->getContact(m_data), fn));
-	QString s2("");
+    QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
+    QCString s2;
     if (!dir.isEmpty())
         s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir);
-	string ssc1 = s1.data();
-	string ssc2 = s2.data();
-    m_socket->writeBuffer() << ssc1 << ssc2;
+    m_socket->writeBuffer() << s1.data() << s2.data();
     m_socket->writeBuffer().pack((unsigned long)m_fileSize);
     m_socket->writeBuffer().pack((unsigned long)0);
     m_socket->writeBuffer().pack((unsigned long)m_speed);
@@ -2088,5 +2082,4 @@ bool AIMFileTransfer::error(const QString &err)
     error_state(err, 0);
     return true;
 }
-
 

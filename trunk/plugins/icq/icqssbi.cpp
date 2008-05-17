@@ -298,7 +298,7 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
         return;
     }
     if(!img.save(&buf, "JPEG")) {
-        log(L_ERROR, "Can't save QImage to QString");
+        log(L_ERROR, "Can't save QImage to QBuffer");
         return;
     }
     buf.close();
