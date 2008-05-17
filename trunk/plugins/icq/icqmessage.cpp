@@ -346,28 +346,28 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
 
     int n = msgType.find("URL");
     if (n >= 0){
-        QString info;
+        QCString info;
         b.unpackStr32(info);
         return parseURLMessage(info);
     }
     if (msgType == "Request For Contacts"){
-        QString info;
+        QCString info;
         b.unpackStr32(info);
         ICQAuthMessage *m = new ICQAuthMessage(MessageContactRequest, MessageContactRequest);
-		m->setServerText(QCString(info.data()));
+		m->setServerText(info);
         return m;
     }
     if (msgType == "Contacts"){
-        QString p;
+        QCString p;
         b.unpackStr32(p);
         return parseContactMessage(p);
     }
     if (msgType == "Message"){
-        QString p;
+        QCString p;
         b.unpackStr32(p);
         unsigned long forecolor, backcolor;
         b >> forecolor >> backcolor;
-        QString cap_str;
+        QCString cap_str;
         b.unpackStr32(cap_str);
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -907,7 +907,7 @@ void ICQClient::packExtendedMessage(Message *msg, ICQBuffer &buf, ICQBuffer &msg
         buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
         buf.packStr32("File");
         buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
-        msgBuf.packStr32(QString(getContacts()->fromUnicode(getContact(data), msg->getPlainText())));
+        msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
         msgBuf << port << (unsigned short)0;
         msgBuf << QString(getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription()));
         msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
