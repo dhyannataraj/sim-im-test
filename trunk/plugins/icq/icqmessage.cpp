@@ -907,9 +907,11 @@ void ICQClient::packExtendedMessage(Message *msg, ICQBuffer &buf, ICQBuffer &msg
         buf.pack((char*)plugins[PLUGIN_FILE], sizeof(plugin));
         buf.packStr32("File");
         buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
-        msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
+        //msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
+		msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
         msgBuf << port << (unsigned short)0;
-        msgBuf << QString(getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription()));
+		//msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription());
+        msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription());
         msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
         msgBuf << 0x00000000L;
         break;

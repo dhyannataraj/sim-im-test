@@ -1688,13 +1688,16 @@ void ICQFileTransfer::initReceive(char cmd)
         m_socket->error_state("Bad command in init receive");
         return;
     }
-    QCString fileName;
+    string stdStrFileName;
     char isDir;
-    m_socket->readBuffer() >> isDir >> fileName;
-    QString fName = getContacts()->toUnicode(m_client->getContact(m_data), fileName);
-    QCString dir;
+    m_socket->readBuffer() >> isDir >> stdStrFileName;
+	QCString qcfilename(stdStrFileName.c_str());
+	QString fName = getContacts()->toUnicode(m_client->getContact(m_data), qcfilename);
+	
+	string stdStrDir;
     unsigned long n;
-    m_socket->readBuffer() >> dir;
+    m_socket->readBuffer() >> stdStrDir;
+	QCString dir(stdStrDir.c_str());
     m_socket->readBuffer().unpack(n);
     if (m_notify)
         m_notify->transfer(false);
@@ -1808,7 +1811,7 @@ void ICQFileTransfer::sendInit()
     m_socket->writeBuffer().pack((unsigned long)m_nFiles);			// nFiles
     m_socket->writeBuffer().pack((unsigned long)m_totalSize);		// Total size
     m_socket->writeBuffer().pack((unsigned long)m_speed);			// speed
-    m_socket->writeBuffer() << QString::number(m_client->data.owner.Uin.toULong());
+	m_socket->writeBuffer() << QString::number(m_client->data.owner.Uin.toULong()).data();
     sendPacket();
     if ((m_nFiles == 0) || (m_totalSize == 0))
         m_socket->error_state(I18N_NOOP("No files for transfer"));
@@ -1925,11 +1928,14 @@ void ICQFileTransfer::sendFileInfo()
         dir = dir.replace('/', '\\');
         fn  = fn.mid(n);
     }
-    QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
+    //QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
+	QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
     QCString s2;
     if (!dir.isEmpty())
         s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir);
-    m_socket->writeBuffer() << s1.data() << s2.data();
+	string ssc1 = s1.data();
+	string ssc2 = s2.data();
+    m_socket->writeBuffer() << ssc1 << ssc2;
     m_socket->writeBuffer().pack((unsigned long)m_fileSize);
     m_socket->writeBuffer().pack((unsigned long)0);
     m_socket->writeBuffer().pack((unsigned long)m_speed);
