@@ -330,6 +330,18 @@ void ICQBuffer::packScreen(const QString &screen)
     pack(screen.utf8(), len);
 }
 
+void ICQBuffer::packStr32(const char *s)
+{
+    if (s) {
+        unsigned long size = strlen(s);
+        pack(size);
+        pack(s, strlen(s));
+    } else {
+        pack((unsigned long)0);
+        pack("", 0);
+    }
+}
+
 void ICQBuffer::packStr32(const QCString &s)
 {
     unsigned long size = s.length();

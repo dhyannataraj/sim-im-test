@@ -908,10 +908,12 @@ void ICQClient::packExtendedMessage(Message *msg, ICQBuffer &buf, ICQBuffer &msg
         buf.packStr32("File");
         buf << 0x00000100L << 0x00010000L << 0x00000000L << (unsigned short)0 << (char)0;
         //msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
-		msgBuf.packStr32(getContacts()->fromUnicode(getContact(data), msg->getPlainText()));
+		string msgdata1 = getContacts()->fromUnicode(getContact(data), msg->getPlainText()).data();
+		msgBuf.packStr32(msgdata1.c_str());
         msgBuf << port << (unsigned short)0;
 		//msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription());
-        msgBuf << getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription());
+		string msgdata2 = getContacts()->fromUnicode(getContact(data), static_cast<FileMessage*>(msg)->getDescription()).data();
+        msgBuf << msgdata2.c_str();
         msgBuf.pack((unsigned long)(static_cast<FileMessage*>(msg)->getSize()));
         msgBuf << 0x00000000L;
         break;
@@ -999,7 +1001,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
 void ICQClient::packMessage(ICQBuffer &b, Message *msg, ICQUserData *data, unsigned short &type, bool bDirect, unsigned short flags)
 {
     ICQBuffer msgBuf, buf;
-    QCString res;
+    QString res;
     switch (msg->type()){
     case MessageUrl:
         res = getContacts()->fromUnicode(getContact(data), msg->getPlainText());

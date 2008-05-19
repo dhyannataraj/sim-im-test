@@ -1930,7 +1930,7 @@ void ICQFileTransfer::sendFileInfo()
     }
     //QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
 	QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
-    QCString s2;
+    QCString s2="";
     if (!dir.isEmpty())
         s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir);
 	string ssc1 = s1.data();

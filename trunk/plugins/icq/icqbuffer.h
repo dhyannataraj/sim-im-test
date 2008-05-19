@@ -108,6 +108,7 @@ public:
     void pack(long c) { pack((unsigned long)c); }
 
     void packScreen(const QString &);
+	void packStr32(const char *s);
     void packStr32(const QCString &);
     void pack32(const Buffer &b);
 
