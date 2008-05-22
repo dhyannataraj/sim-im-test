@@ -1343,7 +1343,7 @@ msgstr "Verbinden"
 
 #: plugins/_core/filetransfer.cpp:279
 msgid "Negotiation"
-msgstr "Umkehrung"
+msgstr "Aushandlung"
 
 #: plugins/_core/filetransfer.cpp:282
 msgid "Receive file"
