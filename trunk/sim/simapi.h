@@ -84,6 +84,10 @@
 	#include <string>
 	#include <xutility>
 	#include <vector>
+#else
+	#include <memory>
+	#include <string.h>
+	#include <stdlib.h>
 #endif
 	
 #endif // _SIMAPI_H
