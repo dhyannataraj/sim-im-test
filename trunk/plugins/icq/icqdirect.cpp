@@ -1928,7 +1928,6 @@ void ICQFileTransfer::sendFileInfo()
         dir = dir.replace('/', '\\');
         fn  = fn.mid(n);
     }
-    //QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
 	QCString s1 = getContacts()->fromUnicode(m_client->getContact(m_data), fn);
     QCString s2="";
     if (!dir.isEmpty())

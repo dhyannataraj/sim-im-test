@@ -57,7 +57,7 @@ QString ICQClient::convert(Tlv *tlvInfo, TlvList &tlvs, unsigned n)
 
 QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsigned n)
 {
-    QCString charset = "us-ascii";
+    QCString charset = "us-ascii"; //perhaps Bug here, should be read from packet!?
     Tlv *tlvCharset = NULL;
     for (unsigned i = 0; i < tlvs.count(); i++){
         Tlv *tlv = tlvs[i];
@@ -79,7 +79,7 @@ QString ICQClient::convert(const char *text, unsigned size, TlvList &tlvs, unsig
         }
     }
     QString res;
-    if (charset.contains("us-ascii") || charset.contains("utf")){
+    if (charset.contains("us-ascii") || charset.contains("utf")){  //perhaps Bug here, should be read from packet!?
         res = QString::fromUtf8(text, size);
     }else if (charset.contains("unicode")){
         unsigned short *p = (unsigned short*)text;
