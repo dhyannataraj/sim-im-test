@@ -1,4 +1,4 @@
-# translation of bg.po to Bulgarian
+﻿# translation of bg.po to Bulgarian
 # Copyright (C) 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
 #
 # Атанас Мавров <bugar@mail.bg>, 2003.
@@ -5975,8 +5975,8 @@ msgid ""
 "href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
 msgstr ""
 "<div "
-"style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">По�"
-"�държанPowerот <a style=\"font-size:1em;font-style:italic;\" "
+"style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">По"
+"държанPowerот <a style=\"font-size:1em;font-style:italic;\" "
 "href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
 
 #: plugins/livejournal/livejournal.cpp:1319
