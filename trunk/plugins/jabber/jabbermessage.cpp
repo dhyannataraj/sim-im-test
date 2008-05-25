@@ -214,7 +214,6 @@ void JabberPlugin::registerMessages()
     cmd->id			 = MessageJabberOnline;
     cmd->text		 = I18N_NOOP("Log On");
     cmd->icon		 = "Jabber_online";
-    cmd->accel		 = "Ctrl+L";
     cmd->menu_grp	 = 0x3020;
     cmd->param		 = &defJabberOnline;
     EventCreateMessageType(cmd).process();
