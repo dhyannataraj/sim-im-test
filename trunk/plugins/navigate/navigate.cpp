@@ -315,7 +315,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 static DataDef navigateData[] =
     {
 #ifdef WIN32
-        { "NewWindow", DATA_BOOL, 1, 0 },
+        { "NewWindow", DATA_BOOL, 1, DATA(1) },
 #else
 #ifdef USE_KDE
         { "Browser", DATA_STRING, 1, "konqueror" },
@@ -416,38 +416,41 @@ bool NavigatePlugin::processEvent(Event *e)
             QString action = rp.value("ddeexec");
             QString topic  = rp.value("ddeexec\\Topic");
             QString server = rp.value("ddeexec\\Application");
-            if (!action.isEmpty()){
-                int pos = action.find("%1");
-                if (pos >= 0)
+
+			int pos = action.find("%1");
+			if (!action.isEmpty() && pos >= 0)
                     action = action.left(pos) + url + action.mid(pos + 2);
-                pos = prg.find("%1");
-                if (pos >= 0)
-                    prg = prg.left(pos) + url + prg.mid(pos + 2);
-                if (!prg.isEmpty()){
-                    STARTUPINFO si;
-                    PROCESS_INFORMATION pi;
-                    ZeroMemory(&si, sizeof(si));
-                    si.cb = sizeof(si);
-                    ZeroMemory(&pi, sizeof(pi));
-                    if (CreateProcess(NULL, (LPWSTR)prg.ucs2(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
-                        WaitForInputIdle(pi.hProcess, INFINITE);
-                        CloseHandle(pi.hProcess);
-                        CloseHandle(pi.hThread);
-                        bExec = true;
-                    }
+
+            pos = prg.find("%1");
+            if (pos >= 0)
+				prg = prg.left(pos) + url + prg.mid(pos + 2);
+			else
+				prg = prg + " \"" + url + "\"";
+
+			if (!prg.isEmpty()){
+                STARTUPINFO si;
+                PROCESS_INFORMATION pi;
+                ZeroMemory(&si, sizeof(si));
+                si.cb = sizeof(si);
+                ZeroMemory(&pi, sizeof(pi));
+                if (CreateProcess(NULL, (LPWSTR)prg.ucs2(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)){
+                    WaitForInputIdle(pi.hProcess, INFINITE);
+                    CloseHandle(pi.hProcess);
+                    CloseHandle(pi.hThread);
+                    bExec = true;
                 }
-                if(!bExec) {
-                    DDEbase b;
-                    DDEconversation conv(server, topic);
-                    if (conv.Execute(action))
-                        bExec = true;
-                }
+            }
+            if(!bExec) {
+                DDEbase b;
+                DDEconversation conv(server, topic);
+                if (conv.Execute(action))
+                    bExec = true;
             }
         }
         if (!bExec){
             if (proto == "file")
                 url = url.mid(5);
-		     //ShellExecuteA(NULL, NULL, url.c_str(), NULL, NULL, SW_SHOWNORMAL);  //Fixme: Bug, does not work
+			//ShellExecuteA(NULL, NULL, url.data(), NULL, NULL, SW_SHOWNORMAL);  //Fixme: Bug, does not work
 			QProcess openPathInExplorer;
 			QString path(url);
 			path.replace("%20", " ");
