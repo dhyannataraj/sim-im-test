@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2008-05-25 16:23+0200\n"
-"PO-Revision-Date: 2008-05-25 16:43+0100\n"
+"PO-Revision-Date: 2008-05-25 17:27+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7556,7 +7556,9 @@ msgstr "Mailer:"
 #: rc.cpp:2173
 #, no-c-format
 msgid "Open links in &new window (Win32: When unchecked, Explorer is used, else your installed default programs.)"
-msgstr "Verknüpfungen in neuem Fenster öffnen (Win32: Falls nicht aktiviert, wird der Explorer verwenden, ansonsten die installierten Standardprogramme.)"
+msgstr ""
+"Verknüpfungen in neuem Fenster öffnen\n"
+"(Win32: Falls nicht aktiviert, wird der Explorer verwendet, ansonsten die installierten Standardprogramme.)"
 
 #: plugins/navigate/navigate.cpp:303
 msgid "Navigate"
