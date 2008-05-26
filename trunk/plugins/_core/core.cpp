@@ -3807,8 +3807,6 @@ QCString CorePlugin::getConfig()
         }
     }
 
-	QCString cfg = save_data(coreData, &data);
-/* //TAKEN OUR FROM BUILDSTEP UNTIL NO ERRORMESSAGEBOX OCCURS, Noragen.
 // We should save profile and noshow values in profile-independent _core config, and
 // all other values in profile-dependent config.
 // FIXME: This is a nasty hack, profile management should be rewritten
@@ -3816,23 +3814,26 @@ QCString CorePlugin::getConfig()
 //Saving profile-independent config:
 static DataDef generalCoreDataDef[] =
     {
-      { "Profile", DATA_STRING, 1, 0 },
-      { "NoShow", DATA_BOOL, 1, 0 }
+      { "Profile", DATA_STRING,  1, 0 },
+      { "NoShow",  DATA_BOOL,    1, 0 },
+      { NULL,      DATA_UNKNOWN, 0, 0 }
     };
 struct TGeneralCoreData
 {
     SIM::Data	Profile;
     SIM::Data	NoShow;
 } GeneralCoreData;
-*/
+
+
     QString saveProfile = getProfile();
     setProfile(QString::null);
-/*    
+
+    load_data(generalCoreDataDef, &GeneralCoreData, NULL);  // This will just init data
     GeneralCoreData.Profile.str() = saveProfile;
     GeneralCoreData.NoShow.asBool() = getNoShow();
 
-    QCString cfg = save_data(generalCoreDataDef, &GeneralCoreData);
-*/
+    QString cfg = save_data(generalCoreDataDef, &GeneralCoreData);
+
     QString cfgName = user_file("plugins.conf");
     QFile fCFG(cfgName + BACKUP_SUFFIX); // use backup file for this ...
     if (!fCFG.open(IO_WriteOnly | IO_Truncate)){
