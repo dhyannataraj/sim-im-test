@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
-"POT-Creation-Date: 2008-05-25 16:23+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-27 00:03+0200\n"
 "PO-Revision-Date: 2005-04-20 20:56+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: ca <paubcrespo@hotmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: _translatorinfo.cpp:1 plugins/about/about.cpp:114
 msgid ""
@@ -458,22 +458,17 @@ msgstr "Informació d'usuari"
 msgid "&History"
 msgstr "&Historial"
 
-#. i18n: file ./plugins/jabber/discoinfobase.ui line 706
-#: plugins/_core/core.cpp:562 plugins/_core/filetransfer.cpp:359
-#: plugins/_core/managerbase.cpp:109 plugins/_core/toolsetupbase.cpp:135
-#: plugins/about/aboutdlgbase.cpp:121 plugins/icq/securedlg.cpp:104
-#: plugins/jabber/discoinfobase.cpp:289 rc.cpp:400 rc.cpp:1546 rc.cpp:1964
-#: rc.cpp:2316 sim/misc.cpp:410
-#, no-c-format
-msgid "&Close"
-msgstr "&Tanca"
+#: plugins/_core/core.cpp:562 sim/misc.cpp:410
+msgid "Close"
+msgstr "Tanca"
 
 #: plugins/_core/core.cpp:594 plugins/_core/msgedit.cpp:980
 msgid "&Send"
 msgstr "&Envia"
 
 #: plugins/_core/core.cpp:614 plugins/_core/core.cpp:1610
-msgid "&Insert smile"
+#, fuzzy
+msgid "I&nsert smile"
 msgstr "&IInsereix ganyota"
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 94
@@ -488,7 +483,8 @@ msgid "C&lose after send"
 msgstr "&Tanca després d'enviar"
 
 #: plugins/_core/core.cpp:637 plugins/_core/msgedit.cpp:970
-msgid "&Multiply send"
+#, fuzzy
+msgid "Multi&ply send"
 msgstr "&Enviament múltiple"
 
 #: plugins/_core/core.cpp:645 plugins/_core/core.cpp:748
@@ -498,7 +494,7 @@ msgstr "&Color de fons"
 
 #: plugins/_core/core.cpp:653 plugins/_core/core.cpp:757
 #, fuzzy
-msgid "&Foreground color"
+msgid "Fo&reground color"
 msgstr "&Color de fons"
 
 #: plugins/_core/core.cpp:659 plugins/_core/core.cpp:763
@@ -506,7 +502,8 @@ msgid "&Bold"
 msgstr "&Negreta"
 
 #: plugins/_core/core.cpp:666 plugins/_core/core.cpp:770
-msgid "&Italic"
+#, fuzzy
+msgid "It&alic"
 msgstr "&Cursiva"
 
 #: plugins/_core/core.cpp:673 plugins/_core/core.cpp:777
@@ -515,7 +512,7 @@ msgstr "&Subratllat"
 
 #: plugins/_core/core.cpp:680 plugins/_core/core.cpp:784
 #, fuzzy
-msgid "Select &font"
+msgid "Select f&ont"
 msgstr "Seleccioneu font"
 
 #: plugins/_core/core.cpp:687
@@ -623,12 +620,10 @@ msgstr ""
 msgid "&Messages"
 msgstr "&Missatges"
 
-#. i18n: file ./plugins/sms/smssetupbase.ui line 45
-#: plugins/_core/core.cpp:952 plugins/_core/msgedit.cpp:1647
-#: plugins/sms/smssetupbase.cpp:152 rc.cpp:2233
-#, no-c-format
-msgid "&SMS"
-msgstr "&SMS"
+#: plugins/_core/core.cpp:952 plugins/_core/interfacecfg.cpp:101
+#: plugins/_core/msgedit.cpp:1647 plugins/sms/sms.cpp:192
+msgid "SMS"
+msgstr "SMS"
 
 #: plugins/_core/core.cpp:959
 #, fuzzy
@@ -922,33 +917,33 @@ msgid ""
 msgstr ""
 
 #. i18n: file ./plugins/_core/managerbase.ui line 20
-#: plugins/_core/core.cpp:4086 plugins/_core/core.cpp:4107
+#: plugins/_core/core.cpp:4087 plugins/_core/core.cpp:4108
 #: plugins/_core/managerbase.cpp:102 rc.cpp:1943
 #, no-c-format
 msgid "Connection manager"
 msgstr "Gestor de connexió"
 
-#: plugins/_core/core.cpp:4093
+#: plugins/_core/core.cpp:4094
 msgid "Show status panel"
 msgstr "Mostra el plafó d'estat"
 
-#: plugins/_core/core.cpp:4100
+#: plugins/_core/core.cpp:4101
 msgid "Connections"
 msgstr "Connexions"
 
-#: plugins/_core/core.cpp:4115
+#: plugins/_core/core.cpp:4116
 msgid "Change profile"
 msgstr "Canvia perfil"
 
-#: plugins/_core/core.cpp:4142
+#: plugins/_core/core.cpp:4143
 msgid "Common status"
 msgstr "Estat comú"
 
-#: plugins/_core/core.cpp:4148
+#: plugins/_core/core.cpp:4149
 msgid "Configure client"
 msgstr "Configura client"
 
-#: plugins/_core/core.cpp:4173 plugins/_core/status.cpp:144
+#: plugins/_core/core.cpp:4174 plugins/_core/status.cpp:144
 #: plugins/_core/status.cpp:234
 msgid "&Invisible"
 msgstr "&Invisible"
@@ -1123,6 +1118,15 @@ msgstr "Enviament fallit"
 #: plugins/_core/filetransfer.cpp:305
 msgid "Transfer done"
 msgstr "Transferència feta"
+
+#. i18n: file ./plugins/jabber/discoinfobase.ui line 706
+#: plugins/_core/filetransfer.cpp:359 plugins/_core/managerbase.cpp:109
+#: plugins/_core/toolsetupbase.cpp:135 plugins/about/aboutdlgbase.cpp:121
+#: plugins/icq/securedlg.cpp:104 plugins/jabber/discoinfobase.cpp:289
+#: rc.cpp:400 rc.cpp:1546 rc.cpp:1964 rc.cpp:2316 sim/misc.cpp:410
+#, no-c-format
+msgid "&Close"
+msgstr "&Tanca"
 
 #: plugins/_core/filetransfer.cpp:369
 msgid "Transfer failed"
@@ -1308,7 +1312,7 @@ msgstr ""
 
 #: plugins/_core/historywnd.cpp:259 plugins/_core/historywnd.cpp:279
 #: plugins/_core/status.cpp:130 plugins/_core/statuswnd.cpp:101
-#: plugins/jabber/jabbermessage.cpp:111 plugins/jabber/jabbermessage.cpp:229
+#: plugins/jabber/jabbermessage.cpp:111 plugins/jabber/jabbermessage.cpp:228
 #: plugins/logger/logconfig.cpp:97 plugins/netmonitor/monitor.cpp:106
 #: plugins/windock/windock.cpp:187
 msgid "Error"
@@ -1426,10 +1430,6 @@ msgstr "Llistat de contactes"
 #: plugins/_core/interfacecfg.cpp:98
 msgid "Messages"
 msgstr "Missatges"
-
-#: plugins/_core/interfacecfg.cpp:101 plugins/sms/sms.cpp:192
-msgid "SMS"
-msgstr "SMS"
 
 #: plugins/_core/interfacecfg.cpp:142
 msgid "Copy %1 messages from history"
@@ -2686,8 +2686,8 @@ msgstr "Estableix com a \"N/A\" després de"
 msgid ""
 "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
-"Desactiva alertes en línia a \"Absent\", \"N/A\", \"No molesteu\" i "
-"\"Ocupat\""
+"Desactiva alertes en línia a \"Absent\", \"N/A\", \"No molesteu\" i \"Ocupat"
+"\""
 
 #: plugins/background/background.cpp:36
 msgid "Background"
@@ -2870,8 +2870,8 @@ msgstr "&Recepció exclusiva de missatges segons el llistat de contactes"
 #, no-c-format
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
-"Rebutja els missatjes d'usuaris desconeguts que continguin els següents "
-"mots o frases"
+"Rebutja els missatjes d'usuaris desconeguts que continguin els següents mots "
+"o frases"
 
 #. i18n: file ./plugins/filter/filtercfgbase.ui line 90
 #: plugins/filter/filtercfgbase.cpp:71 rc.cpp:1319
@@ -5081,8 +5081,8 @@ msgstr "Sol·licitud de canal segur"
 #: plugins/icq/securedlgbase.cc:73 rc.cpp:927
 #, no-c-format
 msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
+"Secure channel is established using SSL with Diffie-Hellman key exchange "
+"and  the TLS version 1 protocol.\n"
 "\n"
 "This only works with other SIM and Licq clients"
 msgstr ""
@@ -5623,7 +5623,7 @@ msgstr ""
 msgid "Log On"
 msgstr "&Entrada"
 
-#: plugins/jabber/jabbermessage.cpp:177 plugins/jabber/jabbermessage.cpp:223
+#: plugins/jabber/jabbermessage.cpp:177 plugins/jabber/jabbermessage.cpp:222
 #, fuzzy
 msgid "Log Off"
 msgstr "&Desconecta"
@@ -5676,15 +5676,14 @@ msgstr "Correu electrònic"
 #: plugins/jabber/jabbersearch.cpp:303
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
-"beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
-"\"Slower\" matches your string anywhere in the field (ie. \"b\" would yield "
-"Bob, Bill, Caleb, Robbie, etc...)"
+"beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  \"Slower"
+"\" matches your string anywhere in the field (ie. \"b\" would yield Bob, "
+"Bill, Caleb, Robbie, etc...)"
 msgstr ""
 "Seleccioneu la velocitat de recerca.  \"Ràpida\" cerca la vostra cadena "
-"només al principi de camp (per exemple, \"a\" encaixaria amb Agustí, "
-"Arnau, etc...)  \"Lenta\" cerca la vostra cedena a qualsevol part del camp "
-"(per exemple, \"a\" encaixaria amb Agustí, Arnau, Marc, Míriam, Pau, "
-"etc...)"
+"només al principi de camp (per exemple, \"a\" encaixaria amb Agustí, Arnau, "
+"etc...)  \"Lenta\" cerca la vostra cedena a qualsevol part del camp (per "
+"exemple, \"a\" encaixaria amb Agustí, Arnau, Marc, Míriam, Pau, etc...)"
 
 #: plugins/jabber/jabbersearch.cpp:304
 msgid "Search Speed"
@@ -5866,10 +5865,9 @@ msgstr "Rellistre fallit"
 
 #: plugins/livejournal/livejournal.cpp:798
 msgid ""
-"<div "
-"style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">Power"
-"ed by <a style=\"font-size:1em;font-style:italic;\" "
-"href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
+"<div style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%"
+"\">Powered by <a style=\"font-size:1em;font-style:italic;\" href=\"http://"
+"sim-im.org\">SIM Instant Messenger</a></div>"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1319
@@ -6763,8 +6761,8 @@ msgstr "Navegador"
 msgid ""
 "Plugin provides navigation on hyperlinks, call an external browser and mailer"
 msgstr ""
-"El pedaç permet la navegació en hiperenllaços, trucar un navegador extern "
-"i un gestor de correu"
+"El pedaç permet la navegació en hiperenllaços, trucar un navegador extern i "
+"un gestor de correu"
 
 #: plugins/navigate/navigate.cpp:351
 msgid "Send mail"
@@ -7415,6 +7413,12 @@ msgstr ""
 msgid "Software handshake"
 msgstr ""
 
+#. i18n: file ./plugins/sms/smssetupbase.ui line 45
+#: plugins/sms/smssetupbase.cpp:152 rc.cpp:2233
+#, fuzzy, no-c-format
+msgid "Hand&y"
+msgstr "Canadà"
+
 #. i18n: file ./plugins/sms/smssetupbase.ui line 297
 #: plugins/sms/smssetupbase.cpp:153 rc.cpp:2275
 #, fuzzy, no-c-format
@@ -7688,8 +7692,8 @@ msgstr ""
 
 #: plugins/update/update.cpp:266
 msgid ""
-"Please contact and inform me via noragen@gmx.net about this issue. "
-"//\\//oRaGen."
+"Please contact and inform me via noragen@gmx.net about this issue. //\\//"
+"oRaGen."
 msgstr ""
 
 #: plugins/update/update.cpp:291
@@ -10181,6 +10185,9 @@ msgstr "Error en iniciar SSL"
 msgid "Custom"
 msgstr "Personalització"
 
+#~ msgid "&SMS"
+#~ msgstr "&SMS"
+
 #, fuzzy
 #~ msgid "Alt+O"
 #~ msgstr "Alt"
@@ -10483,17 +10490,14 @@ msgstr "Personalització"
 #~ msgid "Apply"
 #~ msgstr "Aplica"
 
-#~ msgid "Close"
-#~ msgstr "Tanca"
-
 #~ msgid "Select Font"
 #~ msgstr "Seleccioneu font"
 
 #~ msgid ""
-#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
-#~ "toolkit from Trolltech. Qt provides single-source portability across Windows "
-#~ "95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
-#~ "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ "
+#~ "GUI toolkit from Trolltech. Qt provides single-source portability across "
+#~ "Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of "
+#~ "Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 #~ "information.</p>"
 #~ msgstr ""
 #~ "<h3>Quant a Qt</h3><p>Aquest programa utilitza la versió %1 del Qt, una "

@@ -1,23 +1,23 @@
 # translation of he.po to Hebrew
 # Copyright (C) 2003 Free Software Foundation, Inc.
 # Amir Tal <tal@whatsup.org.il>, 2003
-# 
+#
 # Email adress from Amir Tal is out of date and so there is no
 # translator for hebrew :-(
 # This ICQ-Number of Tal Amir: 15748705
 # Christian, 17.04.2004
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
-"POT-Creation-Date: 2008-05-25 16:23+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-27 00:03+0200\n"
 "PO-Revision-Date: 2005-04-20 21:06+0100\n"
 "Last-Translator: Tobias Franz <noragen@gmx.net>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: _translatorinfo.cpp:1 plugins/about/about.cpp:114
 msgid ""
@@ -385,8 +385,7 @@ msgid ""
 "please leave your message and I will get back to you as soon as I return!"
 msgstr ""
 "אני כרגע לא ליד ה ICQ שלי\n"
-"אנא השאר לי את הודעתך ואני אחזור אליך מיד "
-"כשאוכל!\n"
+"אנא השאר לי את הודעתך ואני אחזור אליך מיד כשאוכל!\n"
 
 #: plugins/_core/core.cpp:376
 #, fuzzy
@@ -409,9 +408,7 @@ msgstr ""
 #: plugins/_core/core.cpp:386
 #, fuzzy
 msgid "We'd love to hear what you have to say. Join our chat."
-msgstr ""
-"אנחנו מתים לשמוע מה יש לך לומר. הצטרף לצ'אט "
-"שלנו !.\n"
+msgstr "אנחנו מתים לשמוע מה יש לך לומר. הצטרף לצ'אט שלנו !.\n"
 
 #: plugins/_core/core.cpp:389
 #, fuzzy
@@ -473,15 +470,9 @@ msgstr "מידע &משתמש"
 msgid "&History"
 msgstr "&היסטוריה"
 
-#. i18n: file ./plugins/jabber/discoinfobase.ui line 706
-#: plugins/_core/core.cpp:562 plugins/_core/filetransfer.cpp:359
-#: plugins/_core/managerbase.cpp:109 plugins/_core/toolsetupbase.cpp:135
-#: plugins/about/aboutdlgbase.cpp:121 plugins/icq/securedlg.cpp:104
-#: plugins/jabber/discoinfobase.cpp:289 rc.cpp:400 rc.cpp:1546 rc.cpp:1964
-#: rc.cpp:2316 sim/misc.cpp:410
-#, no-c-format
-msgid "&Close"
-msgstr "&סגור"
+#: plugins/_core/core.cpp:562 sim/misc.cpp:410
+msgid "Close"
+msgstr "סגור"
 
 #: plugins/_core/core.cpp:594 plugins/_core/msgedit.cpp:980
 msgid "&Send"
@@ -489,7 +480,7 @@ msgstr "של&ח"
 
 #: plugins/_core/core.cpp:614 plugins/_core/core.cpp:1610
 #, fuzzy
-msgid "&Insert smile"
+msgid "I&nsert smile"
 msgstr "הו&ספת חיוך"
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 94
@@ -504,7 +495,8 @@ msgid "C&lose after send"
 msgstr "סגור לאחר שליחה"
 
 #: plugins/_core/core.cpp:637 plugins/_core/msgedit.cpp:970
-msgid "&Multiply send"
+#, fuzzy
+msgid "Multi&ply send"
 msgstr "&שליחה מרובת משתמשים"
 
 #: plugins/_core/core.cpp:645 plugins/_core/core.cpp:748
@@ -514,7 +506,7 @@ msgstr "צבע ר&קע:"
 
 #: plugins/_core/core.cpp:653 plugins/_core/core.cpp:757
 #, fuzzy
-msgid "&Foreground color"
+msgid "Fo&reground color"
 msgstr "צבע ר&קע:"
 
 #: plugins/_core/core.cpp:659 plugins/_core/core.cpp:763
@@ -522,7 +514,8 @@ msgid "&Bold"
 msgstr "מו&דגש"
 
 #: plugins/_core/core.cpp:666 plugins/_core/core.cpp:770
-msgid "&Italic"
+#, fuzzy
+msgid "It&alic"
 msgstr "נ&טוי"
 
 #: plugins/_core/core.cpp:673 plugins/_core/core.cpp:777
@@ -531,7 +524,7 @@ msgstr "קו &תחתון"
 
 #: plugins/_core/core.cpp:680 plugins/_core/core.cpp:784
 #, fuzzy
-msgid "Select &font"
+msgid "Select f&ont"
 msgstr "בחירת גופן"
 
 #: plugins/_core/core.cpp:687
@@ -649,11 +642,10 @@ msgstr "בדוק איות"
 msgid "&Messages"
 msgstr "&הודעה"
 
-#. i18n: file ./plugins/sms/smssetupbase.ui line 45
-#: plugins/_core/core.cpp:952 plugins/_core/msgedit.cpp:1647
-#: plugins/sms/smssetupbase.cpp:152 rc.cpp:2233
-#, fuzzy, no-c-format
-msgid "&SMS"
+#: plugins/_core/core.cpp:952 plugins/_core/interfacecfg.cpp:101
+#: plugins/_core/msgedit.cpp:1647 plugins/sms/sms.cpp:192
+#, fuzzy
+msgid "SMS"
 msgstr "SMS"
 
 #: plugins/_core/core.cpp:959
@@ -779,15 +771,11 @@ msgstr "דחה קובץ ללא סיבה"
 
 #: plugins/_core/core.cpp:1240 plugins/_core/core.cpp:3224
 msgid "Sorry, I'm busy right now, and can not respond to your request"
-msgstr ""
-"צר לי, אך אני עסוק כרגע, ולא יכול להגיב "
-"לבקשתך..."
+msgstr "צר לי, אך אני עסוק כרגע, ולא יכול להגיב לבקשתך..."
 
 #: plugins/_core/core.cpp:1245 plugins/_core/core.cpp:3228
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"צר לי, אני עסוק עכשיו, אבל אוכל להגיב "
-"לבקשתך מאוחר יותר"
+msgstr "צר לי, אני עסוק עכשיו, אבל אוכל להגיב לבקשתך מאוחר יותר"
 
 #: plugins/_core/core.cpp:1250
 msgid "Enter a decline reason"
@@ -965,38 +953,38 @@ msgid ""
 msgstr ""
 
 #. i18n: file ./plugins/_core/managerbase.ui line 20
-#: plugins/_core/core.cpp:4086 plugins/_core/core.cpp:4107
+#: plugins/_core/core.cpp:4087 plugins/_core/core.cpp:4108
 #: plugins/_core/managerbase.cpp:102 rc.cpp:1943
 #, fuzzy, no-c-format
 msgid "Connection manager"
 msgstr "מתחבר"
 
-#: plugins/_core/core.cpp:4093
+#: plugins/_core/core.cpp:4094
 #, fuzzy
 msgid "Show status panel"
 msgstr "מצב טלפון"
 
-#: plugins/_core/core.cpp:4100
+#: plugins/_core/core.cpp:4101
 #, fuzzy
 msgid "Connections"
 msgstr "חיבור"
 
-#: plugins/_core/core.cpp:4115
+#: plugins/_core/core.cpp:4116
 #, fuzzy
 msgid "Change profile"
 msgstr "הקובץ"
 
-#: plugins/_core/core.cpp:4142
+#: plugins/_core/core.cpp:4143
 #, fuzzy
 msgid "Common status"
 msgstr "קבע מצב"
 
-#: plugins/_core/core.cpp:4148
+#: plugins/_core/core.cpp:4149
 #, fuzzy
 msgid "Configure client"
 msgstr "לקוח ICQ"
 
-#: plugins/_core/core.cpp:4173 plugins/_core/status.cpp:144
+#: plugins/_core/core.cpp:4174 plugins/_core/status.cpp:144
 #: plugins/_core/status.cpp:234
 #, fuzzy
 msgid "&Invisible"
@@ -1178,6 +1166,15 @@ msgstr "השליחה נכשלה"
 #, fuzzy
 msgid "Transfer done"
 msgstr "העברת קבצים הסתיימה:"
+
+#. i18n: file ./plugins/jabber/discoinfobase.ui line 706
+#: plugins/_core/filetransfer.cpp:359 plugins/_core/managerbase.cpp:109
+#: plugins/_core/toolsetupbase.cpp:135 plugins/about/aboutdlgbase.cpp:121
+#: plugins/icq/securedlg.cpp:104 plugins/jabber/discoinfobase.cpp:289
+#: rc.cpp:400 rc.cpp:1546 rc.cpp:1964 rc.cpp:2316 sim/misc.cpp:410
+#, no-c-format
+msgid "&Close"
+msgstr "&סגור"
 
 #: plugins/_core/filetransfer.cpp:369
 #, fuzzy
@@ -1366,7 +1363,7 @@ msgstr ""
 
 #: plugins/_core/historywnd.cpp:259 plugins/_core/historywnd.cpp:279
 #: plugins/_core/status.cpp:130 plugins/_core/statuswnd.cpp:101
-#: plugins/jabber/jabbermessage.cpp:111 plugins/jabber/jabbermessage.cpp:229
+#: plugins/jabber/jabbermessage.cpp:111 plugins/jabber/jabbermessage.cpp:228
 #: plugins/logger/logconfig.cpp:97 plugins/netmonitor/monitor.cpp:106
 #: plugins/windock/windock.cpp:187
 msgid "Error"
@@ -1487,11 +1484,6 @@ msgstr "רשימת קשר נשלחה"
 #, fuzzy
 msgid "Messages"
 msgstr "הודעה"
-
-#: plugins/_core/interfacecfg.cpp:101 plugins/sms/sms.cpp:192
-#, fuzzy
-msgid "SMS"
-msgstr "SMS"
 
 #: plugins/_core/interfacecfg.cpp:142
 #, fuzzy
@@ -1762,8 +1754,7 @@ msgid ""
 msgstr ""
 "הערה:\n"
 "אתה יכול לשנות רק את המספרים שהכנסת בעצמך\n"
-"אין אפשרות לשנות מספרים אשר התקבלו "
-"ממשתמשים אחרים.."
+"אין אפשרות לשנות מספרים אשר התקבלו ממשתמשים אחרים.."
 
 #. i18n: file ./plugins/_core/maininfobase.ui line 205
 #: plugins/_core/maininfobase.cpp:198 rc.cpp:1881
@@ -1793,8 +1784,7 @@ msgid ""
 msgstr ""
 "הערה:\n"
 "אתה יכול לשנות רק את המספרים שהכנסת בעצמך\n"
-"אין אפשרות לשנות מספרים אשר התקבלו "
-"ממשתמשים אחרים.."
+"אין אפשרות לשנות מספרים אשר התקבלו ממשתמשים אחרים.."
 
 #. i18n: file ./plugins/_core/maininfobase.ui line 328
 #: plugins/_core/maininfobase.cpp:208 rc.cpp:1901
@@ -2959,9 +2949,7 @@ msgstr ""
 #: plugins/filter/filtercfgbase.cpp:70 rc.cpp:1316
 #, no-c-format
 msgid "Reject messages from unknown users contains this words or phrases:"
-msgstr ""
-"דחה הודעות ממשתמשים לא מוכרים המכילים את "
-"המילים או המשפטים הבאים:"
+msgstr "דחה הודעות ממשתמשים לא מוכרים המכילים את המילים או המשפטים הבאים:"
 
 #. i18n: file ./plugins/filter/filtercfgbase.ui line 90
 #: plugins/filter/filtercfgbase.cpp:71 rc.cpp:1319
@@ -3018,8 +3006,7 @@ msgstr ""
 #: plugins/forward/forwardcfgbase.cpp:70 rc.cpp:2288
 #, no-c-format
 msgid "Send all messages in status \"Away\" and \"N/A\" on the cellular:"
-msgstr ""
-"שלח את כל ההודעות במצב  \"Away\" and \"N/A\" לסלולרי"
+msgstr "שלח את כל ההודעות במצב  \"Away\" and \"N/A\" לסלולרי"
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 65
 #: plugins/forward/forwardcfgbase.cpp:71 rc.cpp:2291
@@ -4501,9 +4488,7 @@ msgstr "UIN"
 #: plugins/icq/icqsecurebase.cc:109 rc.cpp:942
 #, no-c-format
 msgid "My &authorization is required before users add me to Contact List"
-msgstr ""
-"דרוש &אישור ממני על מנת שאחרים יוכלו "
-"להוסיף אותי לרשימת הקשר שלהם"
+msgstr "דרוש &אישור ממני על מנת שאחרים יוכלו להוסיף אותי לרשימת הקשר שלהם"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 75
 #: plugins/icq/icqsecurebase.cc:110 rc.cpp:945
@@ -4515,9 +4500,7 @@ msgstr "אל תראה את כתובת ה &IP שלי "
 #: plugins/icq/icqsecurebase.cc:112 rc.cpp:949
 #, no-c-format
 msgid "Allow other to view my &status from the Web"
-msgstr ""
-"אפשר לאחרים לראות את &מצב החיבור שלי "
-"מהאינטרנט"
+msgstr "אפשר לאחרים לראות את &מצב החיבור שלי מהאינטרנט"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 101
 #: plugins/icq/icqsecurebase.cc:113 rc.cpp:952
@@ -4547,9 +4530,7 @@ msgstr "אפשר קישור &ישיר מכל משתמש"
 #: plugins/icq/icqsecurebase.cc:117 rc.cpp:964
 #, no-c-format
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"אפשר קישור ישיר ממשתמש הרשום &ברשימת "
-"החברים"
+msgstr "אפשר קישור ישיר ממשתמש הרשום &ברשימת החברים"
 
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 164
 #: plugins/icq/icqsecurebase.cc:118 rc.cpp:967
@@ -5212,13 +5193,13 @@ msgstr "ברשת ערוץ מאובטח"
 #: plugins/icq/securedlgbase.cc:73 rc.cpp:927
 #, no-c-format
 msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
+"Secure channel is established using SSL with Diffie-Hellman key exchange "
+"and  the TLS version 1 protocol.\n"
 "\n"
 "This only works with other SIM and Licq clients"
 msgstr ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
+"Secure channel is established using SSL with Diffie-Hellman key exchange "
+"and  the TLS version 1 protocol.\n"
 "\n"
 "זה עובד רק עם לקוחות SIM ן LICQ אחרים"
 
@@ -5753,7 +5734,7 @@ msgstr ""
 msgid "Log On"
 msgstr "כניסה למערכת"
 
-#: plugins/jabber/jabbermessage.cpp:177 plugins/jabber/jabbermessage.cpp:223
+#: plugins/jabber/jabbermessage.cpp:177 plugins/jabber/jabbermessage.cpp:222
 #, fuzzy
 msgid "Log Off"
 msgstr "כניסה למערכת"
@@ -5808,9 +5789,9 @@ msgstr "דוא\"ל"
 #: plugins/jabber/jabbersearch.cpp:303
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
-"beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
-"\"Slower\" matches your string anywhere in the field (ie. \"b\" would yield "
-"Bob, Bill, Caleb, Robbie, etc...)"
+"beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  \"Slower"
+"\" matches your string anywhere in the field (ie. \"b\" would yield Bob, "
+"Bill, Caleb, Robbie, etc...)"
 msgstr ""
 
 #: plugins/jabber/jabbersearch.cpp:304
@@ -5993,10 +5974,9 @@ msgstr "קובץ נכנס:"
 
 #: plugins/livejournal/livejournal.cpp:798
 msgid ""
-"<div "
-"style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">Power"
-"ed by <a style=\"font-size:1em;font-style:italic;\" "
-"href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
+"<div style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%"
+"\">Powered by <a style=\"font-size:1em;font-style:italic;\" href=\"http://"
+"sim-im.org\">SIM Instant Messenger</a></div>"
 msgstr ""
 
 #: plugins/livejournal/livejournal.cpp:1319
@@ -7300,8 +7280,7 @@ msgstr "כתובת פרוקסי:"
 #: plugins/proxy/proxycfgbase.cpp:137 rc.cpp:79
 #, fuzzy, no-c-format
 msgid "Do not show error dialog (automatically reconnect)"
-msgstr ""
-"&אל תראה דיאלוג כניסה למערכת בתחילת התכנית"
+msgstr "&אל תראה דיאלוג כניסה למערכת בתחילת התכנית"
 
 #. i18n: file ./plugins/proxy/proxyerrorbase.ui line 20
 #: plugins/proxy/proxyerrorbase.cpp:77 rc.cpp:45
@@ -7545,6 +7524,12 @@ msgstr "100000"
 #, no-c-format
 msgid "Software handshake"
 msgstr ""
+
+#. i18n: file ./plugins/sms/smssetupbase.ui line 45
+#: plugins/sms/smssetupbase.cpp:152 rc.cpp:2233
+#, fuzzy, no-c-format
+msgid "Hand&y"
+msgstr "קנדה"
 
 #. i18n: file ./plugins/sms/smssetupbase.ui line 297
 #: plugins/sms/smssetupbase.cpp:153 rc.cpp:2275
@@ -7815,8 +7800,8 @@ msgstr ""
 
 #: plugins/update/update.cpp:266
 msgid ""
-"Please contact and inform me via noragen@gmx.net about this issue. "
-"//\\//oRaGen."
+"Please contact and inform me via noragen@gmx.net about this issue. //\\//"
+"oRaGen."
 msgstr ""
 
 #: plugins/update/update.cpp:291
@@ -8797,10 +8782,8 @@ msgid ""
 "There is already an auto hidden window on this edge.\n"
 "Only one auto hidden window is allowed on each edge."
 msgstr ""
-"ישנו כבר חלון מוחבא אוטומטית על קצה זה של "
-"המסך.\n"
-"רק חלון מוחבא אוטומטית אחד יכול להיות בכל "
-"קצה."
+"ישנו כבר חלון מוחבא אוטומטית על קצה זה של המסך.\n"
+"רק חלון מוחבא אוטומטית אחד יכול להיות בכל קצה."
 
 #: plugins/windock/windock.cpp:360
 msgid "AutoHide"
@@ -10335,6 +10318,10 @@ msgid "Custom"
 msgstr "גזור"
 
 #, fuzzy
+#~ msgid "&SMS"
+#~ msgstr "SMS"
+
+#, fuzzy
 #~ msgid "Open links in &new window"
 #~ msgstr "פתח חלון ראשי"
 
@@ -10639,23 +10626,20 @@ msgstr "גזור"
 #~ msgid "Apply"
 #~ msgstr "החל"
 
-#~ msgid "Close"
-#~ msgstr "סגור"
-
 #~ msgid "Select Font"
 #~ msgstr "בחירת גופן"
 
 #~ msgid ""
-#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
-#~ "toolkit from Trolltech. Qt provides single-source portability across Windows "
-#~ "95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
-#~ "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ "
+#~ "GUI toolkit from Trolltech. Qt provides single-source portability across "
+#~ "Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of "
+#~ "Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 #~ "information.</p>"
 #~ msgstr ""
-#~ "<h3>אודות Qt</h3><p>This program uses Qt version %1, a multiplatform "
-#~ "C++ GUI toolkit from Trolltech. Qt provides single-source portability across "
-#~ "Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix "
-#~ "with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+#~ "<h3>אודות Qt</h3><p>This program uses Qt version %1, a multiplatform C++ "
+#~ "GUI toolkit from Trolltech. Qt provides single-source portability across "
+#~ "Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of "
+#~ "Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 #~ "information.</p>"
 
 #~ msgid "Help"

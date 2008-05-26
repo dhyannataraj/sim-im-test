@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2008-05-25 16:23+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-27 00:03+0200\n"
 "PO-Revision-Date: 2007-10-31 09:17+0100\n"
 "Last-Translator: Pavol Šimo <palo.simo@post.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 # _translatorinfo.cpp:1
@@ -41,8 +41,7 @@ msgstr "Domovský adresár"
 
 #: plugins/__homedir/homedir.cpp:59
 msgid "Plugin provides select directory for store config files"
-msgstr ""
-"Zásuvný modul umožňuje vybrať miesto uloženia konfiguračných súborov"
+msgstr "Zásuvný modul umožňuje vybrať miesto uloženia konfiguračných súborov"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:92
@@ -121,8 +120,7 @@ msgstr "Migrácia"
 
 #: plugins/__migrate/migrate.cpp:40
 msgid "Plugin provides convert configuration and history from SIM 0.8"
-msgstr ""
-"Zásuvný modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
+msgstr "Zásuvný modul umožňuje konverziu konfigurácie a histórie z SIM v0.8"
 
 #: plugins/__migrate/migratedlg.cpp:84
 msgid "Cancel convert?"
@@ -164,8 +162,8 @@ msgid ""
 "version"
 msgstr ""
 "Poznámka!\n"
-"Ak si vyberiete voľbu \" Odstrániť staré súbory \", nebudete môcť "
-"používať starú verziu"
+"Ak si vyberiete voľbu \" Odstrániť staré súbory \", nebudete môcť používať "
+"starú verziu"
 
 #. i18n: file ./plugins/__migrate/migratedlgbase.ui line 30
 #: plugins/__migrate/migratedlgbase.cpp:93 rc.cpp:1329
@@ -545,15 +543,9 @@ msgstr "&História"
 # ui/toolsetupbase.cpp:136
 # ui/userautoreply.cpp:76
 # ui/userinfobase.cpp:153
-#. i18n: file ./plugins/jabber/discoinfobase.ui line 706
-#: plugins/_core/core.cpp:562 plugins/_core/filetransfer.cpp:359
-#: plugins/_core/managerbase.cpp:109 plugins/_core/toolsetupbase.cpp:135
-#: plugins/about/aboutdlgbase.cpp:121 plugins/icq/securedlg.cpp:104
-#: plugins/jabber/discoinfobase.cpp:289 rc.cpp:400 rc.cpp:1546 rc.cpp:1964
-#: rc.cpp:2316 sim/misc.cpp:410
-#, no-c-format
-msgid "&Close"
-msgstr "&Zavrieť"
+#: plugins/_core/core.cpp:562 sim/misc.cpp:410
+msgid "Close"
+msgstr "Zavrieť"
 
 # msgedit.cpp:132
 # msgedit.cpp:358
@@ -563,7 +555,8 @@ msgstr "Odo&slať"
 
 # msgedit.cpp:119
 #: plugins/_core/core.cpp:614 plugins/_core/core.cpp:1610
-msgid "&Insert smile"
+#, fuzzy
+msgid "I&nsert smile"
 msgstr "Vložiť emo&tikon"
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 94
@@ -580,7 +573,8 @@ msgstr "Po odos&laní zavrieť"
 
 # msgedit.cpp:135
 #: plugins/_core/core.cpp:637 plugins/_core/msgedit.cpp:970
-msgid "&Multiply send"
+#, fuzzy
+msgid "Multi&ply send"
 msgstr "Poslať viacerý&m"
 
 # msgedit.cpp:113
@@ -590,7 +584,8 @@ msgstr "Farba &pozadia"
 
 # msgedit.cpp:113
 #: plugins/_core/core.cpp:653 plugins/_core/core.cpp:757
-msgid "&Foreground color"
+#, fuzzy
+msgid "Fo&reground color"
 msgstr "&Farba popredia"
 
 # chatwnd.cpp:58
@@ -602,7 +597,8 @@ msgstr "&Tučné"
 # chatwnd.cpp:59
 # msgedit.cpp:116
 #: plugins/_core/core.cpp:666 plugins/_core/core.cpp:770
-msgid "&Italic"
+#, fuzzy
+msgid "It&alic"
 msgstr "&Kurzíva"
 
 # chatwnd.cpp:60
@@ -614,7 +610,8 @@ msgstr "Podčiarkn&uté"
 
 # qt3/i18n.cpp:172
 #: plugins/_core/core.cpp:680 plugins/_core/core.cpp:784
-msgid "Select &font"
+#, fuzzy
+msgid "Select f&ont"
 msgstr "Výber &písma"
 
 # qt3/i18n.cpp:257
@@ -741,12 +738,10 @@ msgid "&Messages"
 msgstr "Správ&y"
 
 # ui/setupdlg.cpp:134
-#. i18n: file ./plugins/sms/smssetupbase.ui line 45
-#: plugins/_core/core.cpp:952 plugins/_core/msgedit.cpp:1647
-#: plugins/sms/smssetupbase.cpp:152 rc.cpp:2233
-#, no-c-format
-msgid "&SMS"
-msgstr "&SMS"
+#: plugins/_core/core.cpp:952 plugins/_core/interfacecfg.cpp:101
+#: plugins/_core/msgedit.cpp:1647 plugins/sms/sms.cpp:192
+msgid "SMS"
+msgstr "SMS správa"
 
 # mainwin.cpp:2067
 #: plugins/_core/core.cpp:959
@@ -889,13 +884,11 @@ msgstr "Odmietnuť súbor bez príčiny"
 #: plugins/_core/core.cpp:1240 plugins/_core/core.cpp:3224
 msgid "Sorry, I'm busy right now, and can not respond to your request"
 msgstr ""
-"Prepáčte, ale momentálne som zaneprázdnený a nemôžem odpovedať na "
-"požiadavku"
+"Prepáčte, ale momentálne som zaneprázdnený a nemôžem odpovedať na požiadavku"
 
 #: plugins/_core/core.cpp:1245 plugins/_core/core.cpp:3228
 msgid "Sorry, I'm busy right now, but I'll be able to respond to you later"
-msgstr ""
-"Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
+msgstr "Prepáčte, momentálne som zaneprázdnený, ale môžem odpovedať neskôr"
 
 #: plugins/_core/core.cpp:1250
 msgid "Enter a decline reason"
@@ -1005,10 +998,10 @@ msgid ""
 "If it is wrong, you can separate them. For this purpose in contact menu "
 "choose the necessary name and choose a command \"Separate\"."
 msgstr ""
-"Pri nahrávaní zoznamu kontaktov sa kontakty s rovnakými menami "
-"automaticky spoja do jedného.\n"
-"Ak to nie je správne, môžete ich rozdeliť označením kontaktu a z menu "
-"vybrať príkaz \"Rozdeliť\""
+"Pri nahrávaní zoznamu kontaktov sa kontakty s rovnakými menami automaticky "
+"spoja do jedného.\n"
+"Ak to nie je správne, môžete ich rozdeliť označením kontaktu a z menu vybrať "
+"príkaz \"Rozdeliť\""
 
 # ui/autoreplybase.cpp:75
 #: plugins/_core/core.cpp:1635
@@ -1093,46 +1086,45 @@ msgstr "Profil s týmto názvom už existuje.  Zvoľte prosím iný názov."
 msgid ""
 "Unable to create the profile.  Please do not use any special characters."
 msgstr ""
-"Nie je možné vytvoriť profil.  Nepoužívajte prosím žiadne špeciálne "
-"znaky."
+"Nie je možné vytvoriť profil.  Nepoužívajte prosím žiadne špeciálne znaky."
 
 # client.cpp:1250
 # dock.cpp:957
 #. i18n: file ./plugins/_core/managerbase.ui line 20
-#: plugins/_core/core.cpp:4086 plugins/_core/core.cpp:4107
+#: plugins/_core/core.cpp:4087 plugins/_core/core.cpp:4108
 #: plugins/_core/managerbase.cpp:102 rc.cpp:1943
 #, no-c-format
 msgid "Connection manager"
 msgstr "Správca pripojení"
 
 # mainwin.cpp:718
-#: plugins/_core/core.cpp:4093
+#: plugins/_core/core.cpp:4094
 msgid "Show status panel"
 msgstr "Zobraziť stavový panel"
 
 # ui/setupdlg.cpp:127
-#: plugins/_core/core.cpp:4100
+#: plugins/_core/core.cpp:4101
 msgid "Connections"
 msgstr "Pripojenia"
 
 # qt3/i18n.cpp:115
-#: plugins/_core/core.cpp:4115
+#: plugins/_core/core.cpp:4116
 msgid "Change profile"
 msgstr "Zmeniť profil"
 
 # control.cpp:232
-#: plugins/_core/core.cpp:4142
+#: plugins/_core/core.cpp:4143
 msgid "Common status"
 msgstr "Hlavný stav"
 
 # sim.cpp:527
-#: plugins/_core/core.cpp:4148
+#: plugins/_core/core.cpp:4149
 msgid "Configure client"
 msgstr "Konfigurovať klienta"
 
 # client.cpp:1252
 # mainwin.cpp:2708
-#: plugins/_core/core.cpp:4173 plugins/_core/status.cpp:144
+#: plugins/_core/core.cpp:4174 plugins/_core/status.cpp:144
 #: plugins/_core/status.cpp:234
 msgid "&Invisible"
 msgstr "Nev&iditeľný"
@@ -1332,6 +1324,29 @@ msgstr "Odoslanie súboru"
 msgid "Transfer done"
 msgstr "Prenos dokončený"
 
+# mainwin.cpp:2083
+# qt3/i18n.cpp:287
+# ui/aboutdlgbase.cpp:156
+# ui/enable.cpp:136
+# ui/filetransfer.cpp:217
+# ui/logindlgbase.cpp:130
+# ui/proxydlgbase.cpp:173
+# ui/randomchat.cpp:171
+# ui/randomchatbase.cpp:305
+# ui/securedlg.cpp:62
+# ui/setupdlgbase.cpp:122
+# ui/toolsetupbase.cpp:136
+# ui/userautoreply.cpp:76
+# ui/userinfobase.cpp:153
+#. i18n: file ./plugins/jabber/discoinfobase.ui line 706
+#: plugins/_core/filetransfer.cpp:359 plugins/_core/managerbase.cpp:109
+#: plugins/_core/toolsetupbase.cpp:135 plugins/about/aboutdlgbase.cpp:121
+#: plugins/icq/securedlg.cpp:104 plugins/jabber/discoinfobase.cpp:289
+#: rc.cpp:400 rc.cpp:1546 rc.cpp:1964 rc.cpp:2316 sim/misc.cpp:410
+#, no-c-format
+msgid "&Close"
+msgstr "&Zavrieť"
+
 # msgedit.cpp:513
 #: plugins/_core/filetransfer.cpp:369
 msgid "Transfer failed"
@@ -1430,8 +1445,8 @@ msgid ""
 "<b><font color=\"#FF0000\">C</font><font color=\"#FFFF00\">olored</font></b> "
 "message"
 msgstr ""
-"<b><font color=\"#FF0000\">F</font><font "
-"color=\"#FFFF00\">arebná</font></b> správa"
+"<b><font color=\"#FF0000\">F</font><font color=\"#FFFF00\">arebná</font></b> "
+"správa"
 
 # ui/randomchatbase.cpp:287
 #. i18n: file ./plugins/_core/msgcfgbase.ui line 61
@@ -1535,7 +1550,7 @@ msgstr "Textový súbor (*.txt)"
 # qt3/i18n.cpp:141
 #: plugins/_core/historywnd.cpp:259 plugins/_core/historywnd.cpp:279
 #: plugins/_core/status.cpp:130 plugins/_core/statuswnd.cpp:101
-#: plugins/jabber/jabbermessage.cpp:111 plugins/jabber/jabbermessage.cpp:229
+#: plugins/jabber/jabbermessage.cpp:111 plugins/jabber/jabbermessage.cpp:228
 #: plugins/logger/logconfig.cpp:97 plugins/netmonitor/monitor.cpp:106
 #: plugins/windock/windock.cpp:187
 msgid "Error"
@@ -1700,11 +1715,6 @@ msgstr "Zoznam kontaktov"
 msgid "Messages"
 msgstr "Správy"
 
-# ui/setupdlg.cpp:134
-#: plugins/_core/interfacecfg.cpp:101 plugins/sms/sms.cpp:192
-msgid "SMS"
-msgstr "SMS správa"
-
 # ui/fontsetupbase.cpp:226
 #: plugins/_core/interfacecfg.cpp:142
 msgid "Copy %1 messages from history"
@@ -1820,8 +1830,7 @@ msgstr "Premenovať profil"
 msgid ""
 "Unable to rename the profile.  Please do not use any special characters."
 msgstr ""
-"Nepodarilo sa premenovať profil.  Nepoužívajte prosím žiadne "
-"špeciálne znaky."
+"Nepodarilo sa premenovať profil.  Nepoužívajte prosím žiadne špeciálne znaky."
 
 # ui/soundsetupbase.cpp:235
 #: plugins/_core/logindlg.cpp:523 plugins/jabber/jabberclient.cpp:943
@@ -3067,8 +3076,8 @@ msgstr "Akcia"
 #: plugins/action/action.cpp:40
 msgid "Plugin execute external programs on event or from contact menu"
 msgstr ""
-"Zásuvný modul dovoľuje spúšťanie programov na základe udalosti alebo "
-"z ponuky kontaktov"
+"Zásuvný modul dovoľuje spúšťanie programov na základe udalosti alebo z "
+"ponuky kontaktov"
 
 # ui/workinfobase.cpp:220
 #: plugins/action/action.cpp:78
@@ -3113,8 +3122,8 @@ msgid ""
 "Thus it is possible to organize additional messages filters.\n"
 msgstr ""
 "Pre udalosti bude text správy poslaný ako štandardný vstup pre program.\n"
-"Ak program vráti nulový chybový kód, text správy bude nahradený "
-"výstupom programu.\n"
+"Ak program vráti nulový chybový kód, text správy bude nahradený výstupom "
+"programu.\n"
 "Ak je výstup programu prázdny, správa bude zničená.\n"
 "Takže je možné vytvárať ďalšie filtre správ.\n"
 
@@ -3174,8 +3183,8 @@ msgstr "Preč (AutoAway)"
 #: plugins/autoaway/autoaway.cpp:68
 msgid "Plugin provides set away and N/A status after some idle time"
 msgstr ""
-"Zásuvný modul umožňuje nastaviť status \"away\" a \"N/A\" po istom "
-"čase nečinnosti"
+"Zásuvný modul umožňuje nastaviť status \"away\" a \"N/A\" po istom čase "
+"nečinnosti"
 
 # ui/statussetupbase.cpp:143
 #. i18n: file ./plugins/autoaway/autoawaycfgbase.ui line 39
@@ -3226,8 +3235,7 @@ msgstr "Nastaviť \"Offline\" status po"
 msgid ""
 "Disable online alert in \"Away\", \"N/A\", \"DND\" and \"Occupied\" List"
 msgstr ""
-"Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" "
-"zoznam"
+"Zakázať online výstrahu pre \"Away\", \"N/A\", \"DND\" a \"Occupied\" zoznam"
 
 # ui/alertdialogbase.cpp:249
 #: plugins/background/background.cpp:36
@@ -3236,9 +3244,7 @@ msgstr "Pozadie"
 
 #: plugins/background/background.cpp:37
 msgid "Plugin provides background pictures for user list"
-msgstr ""
-"Zásuvný modul umožňuje nastaviť obrázky pozadia pre zoznam "
-"užívateľov"
+msgstr "Zásuvný modul umožňuje nastaviť obrázky pozadia pre zoznam užívateľov"
 
 #: plugins/background/bkgndcfg.cpp:50
 msgid "Select background picture"
@@ -3327,8 +3333,7 @@ msgstr "Systray"
 
 #: plugins/dock/dock.cpp:42
 msgid "Plugin provides dock main window in system tray"
-msgstr ""
-"Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
+msgstr "Zásuvný modul umožňuje umiestniť (dokovať) hlavné okno v systrayi"
 
 #: plugins/dock/dock.cpp:44 plugins/windock/windock.cpp:47
 msgid "Dock"
@@ -3435,8 +3440,7 @@ msgstr "P&rijímať správy len od kontaktov zo zoznamu"
 #: plugins/filter/filtercfgbase.cpp:69 rc.cpp:1313
 #, no-c-format
 msgid "&Receive authorization and system messages only from contacts from list"
-msgstr ""
-"P&rijímať autorizáciu a systémové správy len od kontaktov zo zoznamu"
+msgstr "P&rijímať autorizáciu a systémové správy len od kontaktov zo zoznamu"
 
 # ui/generalsecbase.cpp:227
 #. i18n: file ./plugins/filter/filtercfgbase.ui line 61
@@ -3444,8 +3448,7 @@ msgstr ""
 #, no-c-format
 msgid "Reject messages from unknown users contains this words or phrases:"
 msgstr ""
-"Odmietnuť správy od neznámych užívateľov obsahujúce tieto slová "
-"alebo výrazy:"
+"Odmietnuť správy od neznámych užívateľov obsahujúce tieto slová alebo výrazy:"
 
 # ui/generalsecbase.cpp:228
 #. i18n: file ./plugins/filter/filtercfgbase.ui line 90
@@ -3520,8 +3523,8 @@ msgid ""
 "specified in the beginning of the message a line:\n"
 "<UIN>:"
 msgstr ""
-"Pri posielaní odpovede alebo novej správy môžete odpovedať SMS-kou na "
-"číslo špecifikované na začiatku správy:\n"
+"Pri posielaní odpovede alebo novej správy môžete odpovedať SMS-kou na číslo "
+"špecifikované na začiatku správy:\n"
 "<UIN>:"
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 83
@@ -3536,8 +3539,7 @@ msgstr "GPG"
 
 #: plugins/gpg/gpg.cpp:62
 msgid "Plugin adds GnuPG encryption/decryption support for messages"
-msgstr ""
-"Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
+msgstr "Zásuvný modul pridáva podporu GnuPG šifrovania a dešifrovania správ"
 
 #: plugins/gpg/gpg.cpp:86
 msgid ""
@@ -4183,9 +4185,9 @@ msgid ""
 "Your current system encoding (UTF-8) may cause problems saving your personal "
 "information and reading offline messages from other users."
 msgstr ""
-"Váš aktuálny systém použia kódovanie UTF-8,čo môže spôsobiť "
-"problémy pri ukladaní vašich osobných údajov a čítanie správ od "
-"ostatných užívateľov v režime nepripojený."
+"Váš aktuálny systém použia kódovanie UTF-8,čo môže spôsobiť problémy pri "
+"ukladaní vašich osobných údajov a čítanie správ od ostatných užívateľov v "
+"režime nepripojený."
 
 #. i18n: file ./plugins/icq/encodingdlgbase.ui line 74
 #: plugins/icq/encodingdlgbase.cc:84 rc.cpp:915
@@ -4598,8 +4600,7 @@ msgstr "Zakázať od&poveď na žiadosti o telefónny zoznam a obrázok"
 #: plugins/icq/icqconfigbase.cc:286 rc.cpp:753
 #, no-c-format
 msgid "Disable automatically &request autoreply on change status"
-msgstr ""
-"Zakázať automaticky žiadať o automatickú odpoveď p&ri zmene statusu"
+msgstr "Zakázať automaticky žiadať o automatickú odpoveď p&ri zmene statusu"
 
 # ui/miscsetupbase.cpp:107
 #. i18n: file ./plugins/icq/icqconfigbase.ui line 635
@@ -5246,8 +5247,7 @@ msgstr "Povoliť &priame pripojenie pre všetkých užívateľov"
 #: plugins/icq/icqsecurebase.cc:117 rc.cpp:964
 #, no-c-format
 msgid "Allow direct connection from user listed in &contact list"
-msgstr ""
-"Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
+msgstr "Povoliť priame pripojenie pre užívateľov z mojho zoznamu &kontaktov"
 
 # ui/generalsecbase.cpp:219
 #. i18n: file ./plugins/icq/icqsecurebase.ui line 164
@@ -5298,8 +5298,8 @@ msgid ""
 "The Cellular network is currently unable to send your message to the "
 "recipient. Please try again later."
 msgstr ""
-"Mobilná sieť momentálne nie je schopná odoslať vašu správu "
-"prijímateľovi. Skúste neskôr prosím."
+"Mobilná sieť momentálne nie je schopná odoslať vašu správu prijímateľovi. "
+"Skúste neskôr prosím."
 
 #: plugins/icq/icqvarious.cpp:1515
 msgid "INVALID NUMBER"
@@ -6067,13 +6067,13 @@ msgstr "Žiadosť o zabezpečený kanál"
 #: plugins/icq/securedlgbase.cc:73 rc.cpp:927
 #, no-c-format
 msgid ""
-"Secure channel is established using SSL with Diffie-Hellman key exchange and "
-" the TLS version 1 protocol.\n"
+"Secure channel is established using SSL with Diffie-Hellman key exchange "
+"and  the TLS version 1 protocol.\n"
 "\n"
 "This only works with other SIM and Licq clients"
 msgstr ""
-"Zabezpečený kanál je nadviazaný použitím SSL s Diffie-Hellman výmenou "
-"klúčov a TLS protokolom verzie 1.\n"
+"Zabezpečený kanál je nadviazaný použitím SSL s Diffie-Hellman výmenou klúčov "
+"a TLS protokolom verzie 1.\n"
 "\n"
 "Funguje len s ostatnými SIM a Licq klientami"
 
@@ -6678,7 +6678,7 @@ msgstr ""
 msgid "Log On"
 msgstr "Prihlásiť"
 
-#: plugins/jabber/jabbermessage.cpp:177 plugins/jabber/jabbermessage.cpp:223
+#: plugins/jabber/jabbermessage.cpp:177 plugins/jabber/jabbermessage.cpp:222
 msgid "Log Off"
 msgstr "Odhlásiť"
 
@@ -6736,14 +6736,14 @@ msgstr "Email"
 #: plugins/jabber/jabbersearch.cpp:303
 msgid ""
 "Select the speed of the search.  \"Fast\" matches your string to the "
-"beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  "
-"\"Slower\" matches your string anywhere in the field (ie. \"b\" would yield "
-"Bob, Bill, Caleb, Robbie, etc...)"
+"beginning of the field only (ie. \"b\" would yield Bob,Bill,etc...)  \"Slower"
+"\" matches your string anywhere in the field (ie. \"b\" would yield Bob, "
+"Bill, Caleb, Robbie, etc...)"
 msgstr ""
-"Výber rýchlosti vyhľadávania. \"Rýchlo\" hľadá zhodu s vašim "
-"reťazcom od začiatku poľa (napr. reazec \"b\" sa zhoduje s Bill,Bob,...). "
-"\"Pomalšie\" hľadá zhodu s vašim reťazcom kdekoľvek v poli (napr. "
-"reťazec \"b\" sa zhoduje s Bill,Bob,Robo,Rebarbora,...)"
+"Výber rýchlosti vyhľadávania. \"Rýchlo\" hľadá zhodu s vašim reťazcom od "
+"začiatku poľa (napr. reazec \"b\" sa zhoduje s Bill,Bob,...). \"Pomalšie\" "
+"hľadá zhodu s vašim reťazcom kdekoľvek v poli (napr. reťazec \"b\" sa "
+"zhoduje s Bill,Bob,Robo,Rebarbora,...)"
 
 # mainwin.cpp:2737
 #: plugins/jabber/jabbersearch.cpp:304
@@ -6783,8 +6783,8 @@ msgid ""
 "Enter your MSN Messenger account and password. Example: user@hotmail.com.  "
 "Nickname is optional."
 msgstr ""
-"Vložte váš účet pre MSN Messenger a heslo. Napríklad: "
-"janko@hotmail.com. Prezývka je nepovinná."
+"Vložte váš účet pre MSN Messenger a heslo. Napríklad: janko@hotmail.com. "
+"Prezývka je nepovinná."
 
 #: plugins/jabber/jabbersearch.cpp:315
 msgid "Enter your AIM screenname or ICQ UIN and the password for that account"
@@ -6811,21 +6811,19 @@ msgid ""
 "Complete the form to submit your searchable attributes in the Jabber User "
 "Directory"
 msgstr ""
-"Vyplniť formulár s atribútmi pre vyhľadávanie v užívateľskom "
-"adresári Jabber."
+"Vyplniť formulár s atribútmi pre vyhľadávanie v užívateľskom adresári Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:321
 msgid "Fill in all of the fields to add yourself to the JUD."
-msgstr ""
-"Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
+msgstr "Vyplňte všetky polia pre pridanie do užívateľského adresára Jabber."
 
 #: plugins/jabber/jabbersearch.cpp:322
 msgid ""
 "Fill in a field to search for any matching Jabber User (POSIX regular "
 "expressions allowed)"
 msgstr ""
-"Vyplniť v poli pre hľadanie vyhovujúceho Jabber užívateľa (POSIX "
-"regulárne výrazy sú povolené)"
+"Vyplniť v poli pre hľadanie vyhovujúceho Jabber užívateľa (POSIX regulárne "
+"výrazy sú povolené)"
 
 #: plugins/jabber/jabbersearch.cpp:323
 msgid "Fill in a field to search for any matching Jabber users."
@@ -6836,8 +6834,8 @@ msgid ""
 "To register, please fill out the following form.  Be as accurate as possible "
 "to make it easier for people to search for you."
 msgstr ""
-"Pre registráciu vyplňte nasledujúci formulár. Buďte tak presný ako je "
-"len monžné, ušetríte tým prácu ľuďomm, ktorí Vás hľadajú."
+"Pre registráciu vyplňte nasledujúci formulár. Buďte tak presný ako je len "
+"monžné, ušetríte tým prácu ľuďomm, ktorí Vás hľadajú."
 
 # ui/pagerbase.cpp:114
 #. i18n: file ./plugins/jabber/jabberworkinfobase.ui line 96
@@ -6940,10 +6938,9 @@ msgstr "Chybné odoslanie"
 
 #: plugins/livejournal/livejournal.cpp:798
 msgid ""
-"<div "
-"style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%\">Power"
-"ed by <a style=\"font-size:1em;font-style:italic;\" "
-"href=\"http://sim-im.org\">SIM Instant Messenger</a></div>"
+"<div style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%"
+"\">Powered by <a style=\"font-size:1em;font-style:italic;\" href=\"http://"
+"sim-im.org\">SIM Instant Messenger</a></div>"
 msgstr ""
 
 # control.cpp:241
@@ -7733,14 +7730,13 @@ msgid ""
 "If you want to log more than one you may add the levels"
 msgstr ""
 "Zásuvný modul umožňuje zobrazovať vstup logov\n"
-"Môžete nastaviť úroveň ladiaceho vstup z príkazového riadku pomocou "
-"-d<loglevel>\n"
+"Môžete nastaviť úroveň ladiaceho vstup z príkazového riadku pomocou -"
+"d<loglevel>\n"
 "Pre logovanie chýb nastavte loglevel na 1, \n"
 "pre upozornenia na 2,\n"
 "pre ladiace správy na 4\n"
 "\n"
-"Ak chcete zobrazovať viac než jeden výstup môžete si pridať ďalšie "
-"úrovne"
+"Ak chcete zobrazovať viac než jeden výstup môžete si pridať ďalšie úrovne"
 
 #: plugins/logger/logger.cpp:78
 msgid "Set debug level"
@@ -7988,9 +7984,7 @@ msgstr "Navrchu"
 
 #: plugins/ontop/ontop.cpp:52
 msgid "Plugin provides main window and containers always on top"
-msgstr ""
-"Zásuvný modul umožňuje udržiavať hlavné okno a kontajnery vždy "
-"navrchu"
+msgstr "Zásuvný modul umožňuje udržiavať hlavné okno a kontajnery vždy navrchu"
 
 # mainwin.cpp:2741
 #: plugins/ontop/ontop.cpp:80
@@ -8019,8 +8013,8 @@ msgstr "OSD"
 msgid ""
 "Plugin provides on screen notification about messages and contacts status"
 msgstr ""
-"Zásuvný modul umožňuje zobrazovať notifikácie o správach a stave "
-"kontaktov na obrazovke (OSD)"
+"Zásuvný modul umožňuje zobrazovať notifikácie o správach a stave kontaktov "
+"na obrazovke (OSD)"
 
 #: plugins/osd/osd.cpp:157
 msgid "&OSD"
@@ -8490,8 +8484,8 @@ msgstr "Klávesové skratky"
 #: plugins/shortcuts/shortcuts.cpp:57
 msgid "Plugin provides keyboards shortcuts and global mouse functions"
 msgstr ""
-"Zásuvný modul umožňuje prácu s klávesovmi skratkami a globálnymi "
-"funkciami myši"
+"Zásuvný modul umožňuje prácu s klávesovmi skratkami a globálnymi funkciami "
+"myši"
 
 #: plugins/sms/sms.cpp:86
 #, c-format
@@ -8595,6 +8589,13 @@ msgstr "300"
 msgid "Software handshake"
 msgstr "Dohoda software"
 
+# libicq/country.cpp:109
+#. i18n: file ./plugins/sms/smssetupbase.ui line 45
+#: plugins/sms/smssetupbase.cpp:152 rc.cpp:2233
+#, fuzzy, no-c-format
+msgid "Hand&y"
+msgstr "a"
+
 # libicq/country.cpp:459
 #. i18n: file ./plugins/sms/smssetupbase.ui line 297
 #: plugins/sms/smssetupbase.cpp:153 rc.cpp:2275
@@ -8645,8 +8646,8 @@ msgid ""
 "Qt provides sound output so you just need to set a player if you don't like "
 "Qt's sound."
 msgstr ""
-"QT poskytuje zvukový výstup, ak nechcete použiť zvuk z QT musíte "
-"nastaviť prehrávač."
+"QT poskytuje zvukový výstup, ak nechcete použiť zvuk z QT musíte nastaviť "
+"prehrávač."
 
 # qt3/i18n.cpp:156
 #: plugins/sound/soundconfig.cpp:70
@@ -8664,8 +8665,7 @@ msgstr "Po&užiť nastavenie zvuku z KDE"
 #, no-c-format
 msgid "Use player defined in system notify settings in kcontrol"
 msgstr ""
-"Použiť prehrávač definovaný v nastavení systémovej notifikácie v "
-"kcontrol"
+"Použiť prehrávač definovaný v nastavení systémovej notifikácie v kcontrol"
 
 # ui/alertdialogbase.cpp:243
 # ui/themesetupbase.cpp:301
@@ -8743,8 +8743,7 @@ msgstr "Úvodná obrazovka"
 
 #: plugins/splash/splash.cpp:41
 msgid "Plugin provides splash screen"
-msgstr ""
-"Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
+msgstr "Zásuvný modul umožňuje zobraziť úvodnú obrazovku (splash screen)"
 
 # ui/themesetupbase.cpp:302
 #. i18n: file ./plugins/styles/fontconfigbase.ui line 39
@@ -8913,8 +8912,8 @@ msgstr ""
 
 #: plugins/update/update.cpp:266
 msgid ""
-"Please contact and inform me via noragen@gmx.net about this issue. "
-"//\\//oRaGen."
+"Please contact and inform me via noragen@gmx.net about this issue. //\\//"
+"oRaGen."
 msgstr ""
 
 #: plugins/update/update.cpp:291
@@ -9995,8 +9994,8 @@ msgstr "Predpoveď:"
 #: plugins/windock/windock.cpp:48
 msgid "Plugin provides dock main window to left or right side of screen"
 msgstr ""
-"Zásuvný modul umožňuje umiestniť hlavné okno na ľavú alebo pravú "
-"stranu obrazovky"
+"Zásuvný modul umožňuje umiestniť hlavné okno na ľavú alebo pravú stranu "
+"obrazovky"
 
 #: plugins/windock/windock.cpp:188
 msgid ""
@@ -10098,8 +10097,7 @@ msgstr "Znamenie zverokruhu"
 #: plugins/zodiak/zodiak.cpp:55
 msgid "Plugin provides show zodiak pictures for date edit"
 msgstr ""
-"Zásuvný modul umožňuje zobrazovať znamenia zverokruhu podľa zadaného "
-"dátumu"
+"Zásuvný modul umožňuje zobrazovať znamenia zverokruhu podľa zadaného dátumu"
 
 #: plugins/zodiak/zodiak.cpp:162
 msgid "View horoscope"
@@ -11845,6 +11843,10 @@ msgstr "Chyba pri inicializácii SSL (init error)"
 msgid "Custom"
 msgstr "Vlastné"
 
+# ui/setupdlg.cpp:134
+#~ msgid "&SMS"
+#~ msgstr "&SMS"
+
 #~ msgid "Open links in &new window"
 #~ msgstr "Otvoriť odkazy v &novom okne"
 
@@ -12277,39 +12279,22 @@ msgstr "Vlastné"
 #~ msgid "Apply"
 #~ msgstr "Použiť"
 
-# mainwin.cpp:2083
-# qt3/i18n.cpp:287
-# ui/aboutdlgbase.cpp:156
-# ui/enable.cpp:136
-# ui/filetransfer.cpp:217
-# ui/logindlgbase.cpp:130
-# ui/proxydlgbase.cpp:173
-# ui/randomchat.cpp:171
-# ui/randomchatbase.cpp:305
-# ui/securedlg.cpp:62
-# ui/setupdlgbase.cpp:122
-# ui/toolsetupbase.cpp:136
-# ui/userautoreply.cpp:76
-# ui/userinfobase.cpp:153
-#~ msgid "Close"
-#~ msgstr "Zavrieť"
-
 # qt3/i18n.cpp:172
 #~ msgid "Select Font"
 #~ msgstr "Výber písma"
 
 #~ msgid ""
-#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ GUI "
-#~ "toolkit from Trolltech. Qt provides single-source portability across Windows "
-#~ "95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of Unix with "
-#~ "X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
+#~ "<h3>About Qt</h3><p>This program uses Qt version %1, a multiplatform C++ "
+#~ "GUI toolkit from Trolltech. Qt provides single-source portability across "
+#~ "Windows 95/98/NT/2000, Linux, Solaris, HP-UX and many other versions of "
+#~ "Unix with X11.</p><p>See <tt>http://www.trolltech.com/qt/</tt> for more "
 #~ "information.</p>"
 #~ msgstr ""
 #~ "<h3>O Qt</h3><p>Tento program používa Qt verziu %1, multiplatformový C++ "
 #~ "GUI toolkit od Trolltech. Qt poskytuje prenositeľnosť medzi platformam "
 #~ "Windows 95/98/NT/2000, Linux, Solaris, HP-UX a mnohými ďalšími verziami "
-#~ "Unix-u s X11.</p><p>Pozrite sa na <tt>http://www.trolltech.com/qt/</tt> pre "
-#~ "viac informácií.</p>"
+#~ "Unix-u s X11.</p><p>Pozrite sa na <tt>http://www.trolltech.com/qt/</tt> "
+#~ "pre viac informácií.</p>"
 
 # qt3/i18n.cpp:183
 #~ msgid "Help"
