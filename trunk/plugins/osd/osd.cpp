@@ -835,7 +835,7 @@ bool OSDPlugin::processEvent(Event *e)
             case STATUS_DND:
                 osd.type = OSD_ALERTDND;
                 break;
-            case 100:    /* STATUS_OCCUPIED, but defined in icqclient.h ! */
+            case STATUS_OCCUPIED:    /* STATUS_OCCUPIED, took over from contacts.h! */
                 osd.type = OSD_ALERTOCCUPIED;
                 break;
             case STATUS_FFC:
@@ -892,7 +892,7 @@ bool OSDPlugin::processEvent(Event *e)
             case STATUS_DND:
                 osd.type = OSD_ALERTDND;
                 break;
-            case 100:    /* STATUS_OCCUPIED, but defined in icqclient.h ! */
+            case STATUS_OCCUPIED:    /* STATUS_OCCUPIED, took over from contacts.h! */
                 osd.type = OSD_ALERTOCCUPIED;
                 break;
             case STATUS_FFC:
