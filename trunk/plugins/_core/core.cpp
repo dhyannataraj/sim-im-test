@@ -559,7 +559,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdClose;
-    cmd->text		 = I18N_NOOP("&Close");
+    cmd->text		 = I18N_NOOP("Close");
     cmd->icon		 = "exit";
     cmd->accel		 = "Esc";
     cmd->bar_grp	 = 0xF000;
@@ -611,7 +611,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     }
 
     cmd->id         = CmdSmile;
-    cmd->text		= I18N_NOOP("&Insert smile");
+    cmd->text		= I18N_NOOP("I&nsert smile");
     cmd->icon		= smile_icon;
     cmd->bar_grp	= 0x7000;
     cmd->flags		= COMMAND_CHECK_STATE | flags;
@@ -634,7 +634,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMultiply;
-    cmd->text		= I18N_NOOP("&Multiply send");
+    cmd->text		= I18N_NOOP("Multi&ply send");
     cmd->icon		= "1rightarrow";
     cmd->icon_on	= "1leftarrow";
     cmd->bar_grp	= 0xF010;
@@ -650,7 +650,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFgColor;
-    cmd->text		= I18N_NOOP("&Foreground color");
+    cmd->text		= I18N_NOOP("Fo&reground color");
     cmd->icon		= "fgcolor";
     cmd->bar_grp	= 0x1001;
     EventCommandCreate(cmd).process();
@@ -663,7 +663,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdItalic;
-    cmd->text		= I18N_NOOP("&Italic");
+    cmd->text		= I18N_NOOP("It&alic");
     cmd->icon		= "text_italic";
     cmd->icon_on	= "text_italic";
     cmd->bar_grp	= 0x1003;
@@ -677,7 +677,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFont;
-    cmd->text		= I18N_NOOP("Select &font");
+    cmd->text		= I18N_NOOP("Select f&ont");
     cmd->icon		= "text";
     cmd->icon_on	= QString::null;
     cmd->bar_grp	= 0x1005;
@@ -754,7 +754,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFgColor;
-    cmd->text		= I18N_NOOP("&Foreground color");
+    cmd->text		= I18N_NOOP("Fo&reground color");
     cmd->icon		= "fgcolor";
     cmd->bar_grp	= 0x1010;
     EventCommandCreate(cmd).process();
@@ -767,7 +767,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdItalic;
-    cmd->text		= I18N_NOOP("&Italic");
+    cmd->text		= I18N_NOOP("It&alic");
     cmd->icon		= "text_italic";
     cmd->icon_on	= "text_italic";
     cmd->bar_grp	= 0x2010;
@@ -781,7 +781,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdFont;
-    cmd->text		= I18N_NOOP("Select &font");
+    cmd->text		= I18N_NOOP("Select f&ont");
     cmd->icon		= "text";
     cmd->icon_on	= "text";
     cmd->bar_grp	= 0x3000;
@@ -949,7 +949,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventAddPreferences(cmd).process();
 
     cmd->id			= sms_data_id;
-    cmd->text		= I18N_NOOP("&SMS");
+    cmd->text		= I18N_NOOP("SMS");
     cmd->icon		= "cell";
     cmd->icon_on	= QString::null;
     cmd->param		= (void*)getSMSSetup;
@@ -1607,7 +1607,7 @@ bool CorePlugin::processEvent(Event *e)
             }
             Command cmd;
             cmd->id			= CmdSmile;
-            cmd->text		= I18N_NOOP("&Insert smile");
+            cmd->text		= I18N_NOOP("I&nsert smile");
             cmd->icon		= smile_icon;
             cmd->bar_id		= ToolBarMsgEdit;
             cmd->bar_grp	= 0x7000;

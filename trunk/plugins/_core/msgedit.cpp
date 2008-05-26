@@ -967,7 +967,7 @@ void MsgEdit::stopSend(bool bCheck)
         Command cmd;
         m_userWnd->showListView(false);
         cmd->id			= CmdMultiply;
-        cmd->text		= I18N_NOOP("&Multiply send");
+        cmd->text		= I18N_NOOP("Multi&ply send");
         cmd->icon		= "1rightarrow";
         cmd->icon_on	= "1leftarrow";
         cmd->flags		= COMMAND_DEFAULT;
@@ -1644,7 +1644,7 @@ void MsgEdit::setupMessages()
     EventCreateMessageType(cmd).process();
 
     cmd->id			= MessageSMS;
-    cmd->text		= I18N_NOOP("&SMS");
+    cmd->text		= I18N_NOOP("SMS");
     cmd->icon		= "sms";
     cmd->accel		= "Ctrl+S";
     cmd->menu_grp	= 0x3040;
