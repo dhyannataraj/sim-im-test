@@ -65,16 +65,16 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
     case ICQ_SNACxSRV_PAUSE:
         log(L_DEBUG, "Server pause");
         m_bNoSend = true;
-        snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_PAUSExACK);
-        socket()->writeBuffer() << ICQ_SNACxFAM_SERVICE
-        << ICQ_SNACxFAM_LOCATION
-        << ICQ_SNACxFAM_BUDDY
-        << ICQ_SNACxFAM_MESSAGE
-        << ICQ_SNACxFAM_BOS
-        << ICQ_SNACxFAM_PING
-        << ICQ_SNACxFAM_LISTS
-        << ICQ_SNACxFAM_VARIOUS
-        << ICQ_SNACxFAM_LOGIN;
+        snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_PAUSExACK);
+        socket()->writeBuffer() << ICQ_SNACxFOOD_SERVICE
+        << ICQ_SNACxFOOD_LOCATION
+        << ICQ_SNACxFOOD_BUDDY
+        << ICQ_SNACxFOOD_MESSAGE
+        << ICQ_SNACxFOOD_BOS
+        << ICQ_SNACxFOOD_PING
+        << ICQ_SNACxFOOD_LISTS
+        << ICQ_SNACxFOOD_VARIOUS
+        << ICQ_SNACxFOOD_LOGIN;
         sendPacket(true);
         break;
     case ICQ_SNACxSRV_RESUME:
@@ -87,17 +87,17 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             m_bNoSend = true;
             int i;
             unsigned short cnt;
-            unsigned short fam[0x17];
+            unsigned short food[0x17];
 
             socket()->readBuffer() >> cnt;
             for (i = 0; i < cnt; i++) {
-                socket()->readBuffer() >> fam[i];
+                socket()->readBuffer() >> food[i];
             }
             TlvList tlv(socket()->readBuffer());
             Tlv *tlv_adr    = tlv(0x05);
             Tlv *tlv_cookie = tlv(0x06);
             for (; i >= 0; i--) {
-                setServiceSocket(tlv_adr,tlv_cookie,fam[i]);
+                setServiceSocket(tlv_adr,tlv_cookie,food[i]);
             }
             break;
         }
@@ -215,12 +215,12 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
                     m_rate_grp.insert(RATE_MAP::value_type(snac, class_id));
                 }
             }
-            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
+            snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_RATExACK);
             socket()->writeBuffer() << 0x00010002L << 0x00030004L << 0x0005;
             sendPacket(true);
             if(!bNew)
                 break;
-            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_GETxUSERxINFO);
+            snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_GETxUSERxINFO);
             sendPacket(true);
             listsRequest();
             locationRequest();
@@ -306,7 +306,7 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             break;
         }
     case ICQ_SNACxSRV_READYxSERVER:
-        snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
+        snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_IMxICQ);
         if (m_bAIM){
             socket()->writeBuffer()
             << 0x00010003L
@@ -356,13 +356,13 @@ void ICQClient::snac_service(unsigned short type, unsigned short)
             break;
         }
     default:
-        log(L_WARN, "Unknown service family type %04X", type);
+        log(L_WARN, "Unknown service foodgroup type %04X", type);
     }
 }
 
 void ICQClient::requestRateInfo()
 {
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
     sendPacket(true);
 }
 
@@ -402,7 +402,7 @@ void ICQClient::setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short 
 }
 void ICQClient::sendClientReady()
 {
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_READYxCLIENT);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_READYxCLIENT);
     socket()->writeBuffer()
     << 0x00010004L << 0x011008E4L
     << 0x00130004L << 0x011008E4L
@@ -448,7 +448,7 @@ void ICQClient::sendLogonStatus()
     ICQBuffer directInfo(25);
     fillDirectInfo(directInfo);
 
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_logonStatus));
     socket()->writeBuffer().tlv(0x0008, (unsigned short)0);
     socket()->writeBuffer().tlv(0x000C, directInfo);
@@ -465,7 +465,7 @@ void ICQClient::setInvisible()
 {
     if (getInvisible())
         sendInvisible(false);
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_status));
     sendPacket(true);
     if (!getInvisible())
@@ -474,7 +474,7 @@ void ICQClient::setInvisible()
 
 void ICQClient::sendStatus()
 {
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_status));
     sendPacket(true);
     sendIdleTime();
@@ -482,7 +482,7 @@ void ICQClient::sendStatus()
 
 void ICQClient::sendPluginInfoUpdate(unsigned plugin_id)
 {
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_status));
     ICQBuffer directInfo(25);
     fillDirectInfo(directInfo);
@@ -503,7 +503,7 @@ void ICQClient::sendPluginInfoUpdate(unsigned plugin_id)
 
 void ICQClient::sendPluginStatusUpdate(unsigned plugin_id, unsigned long status)
 {
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_logonStatus));
     ICQBuffer directInfo(25);
     fillDirectInfo(directInfo);
@@ -533,7 +533,7 @@ void ICQClient::sendUpdate()
     if (--m_nUpdates)
         return;
     data.owner.InfoUpdateTime.asULong() = time(NULL);
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_SETxSTATUS);
     socket()->writeBuffer().tlv(0x0006, fullStatus(m_status));
     ICQBuffer directInfo(25);
     fillDirectInfo(directInfo);
@@ -590,7 +590,7 @@ void ICQClient::sendIdleTime()
     // avoid traffic
     if(!m_bIdleTime && getIdleTime() == 0)
         return;
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SETxIDLE);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_SETxIDLE);
     if(getIdleTime()) {
         unsigned long idle = time(NULL) - getIdleTime();
         if (idle <= 0)
@@ -606,7 +606,7 @@ void ICQClient::sendIdleTime()
 
 void ICQClient::requestService(ServiceSocket *s)
 {
-    snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_SERVICExREQ, true);
+    snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_SERVICExREQ, true);
     socket()->writeBuffer() << s->id();
     sendPacket(true);
 }

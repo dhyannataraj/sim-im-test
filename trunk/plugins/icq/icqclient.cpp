@@ -675,10 +675,10 @@ void ICQClient::packet()
     case ICQ_CHNxCLOSE:
         chn_close();
         break;
-    case ICQ_CHNxDATA:{
-            unsigned short fam, type;
+    case ICQ_CHNxDATA:{ 
+            unsigned short food, type;
             unsigned short flags, seq, cmd;
-            socket()->readBuffer() >> fam >> type >> flags >> seq >> cmd;
+            socket()->readBuffer() >> food >> type >> flags >> seq >> cmd;
             if ((flags & 0x8000)) {	// some unknown data before real snac data
                 // just read the length and forget it ;-)
                 unsigned short unknown_length = 0;
@@ -686,44 +686,44 @@ void ICQClient::packet()
                 socket()->readBuffer().incReadPos(unknown_length);
             }
             // now just take a look at the type because 0x0001 == error
-            // in all families
+            // in all foodgroups
             if (type == 0x0001) {
                 unsigned short err_code;
                 socket()->readBuffer() >> err_code;
-                log(L_DEBUG,"Error! family: %04X reason: %s",fam,error_message(err_code));
+                log(L_DEBUG,"Error! foodgroup: %04X reason: %s",food,error_message(err_code));
                 // now decrease for icqicmb & icqvarious
                 socket()->readBuffer().decReadPos(sizeof(unsigned short));
             }
-            switch (fam){
-            case ICQ_SNACxFAM_SERVICE:
+            switch (food){
+            case ICQ_SNACxFOOD_SERVICE:
                 snac_service(type, seq);
                 break;
-            case ICQ_SNACxFAM_LOCATION:
+            case ICQ_SNACxFOOD_LOCATION:
                 snac_location(type, seq);
                 break;
-            case ICQ_SNACxFAM_BUDDY:
+            case ICQ_SNACxFOOD_BUDDY:
                 snac_buddy(type, seq);
                 break;
-            case ICQ_SNACxFAM_MESSAGE:
+            case ICQ_SNACxFOOD_MESSAGE:
                 snac_icmb(type, seq);
                 break;
-            case ICQ_SNACxFAM_BOS:
+            case ICQ_SNACxFOOD_BOS:
                 snac_bos(type, seq);
                 break;
-            case ICQ_SNACxFAM_PING:
+            case ICQ_SNACxFOOD_PING:
                 snac_ping(type, seq);
                 break;
-            case ICQ_SNACxFAM_LISTS:
+            case ICQ_SNACxFOOD_LISTS:
                 snac_lists(type, seq);
                 break;
-            case ICQ_SNACxFAM_VARIOUS:
+            case ICQ_SNACxFOOD_VARIOUS:
                 snac_various(type, seq);
                 break;
-            case ICQ_SNACxFAM_LOGIN:
+            case ICQ_SNACxFOOD_LOGIN:
                 snac_login(type, seq);
                 break;
             default:
-                log(L_WARN, "Unknown family %04X", fam);
+                log(L_WARN, "Unknown foodgroup %04X", food);
             }
             break;
         }
@@ -744,11 +744,11 @@ void OscarSocket::flap(char channel)
     << 0x00000000L;
 }
 
-void OscarSocket::snac(unsigned short fam, unsigned short type, bool msgId, bool bType)
+void OscarSocket::snac(unsigned short food, unsigned short type, bool msgId, bool bType)
 {
     flap(ICQ_CHNxDATA);
     socket()->writeBuffer()
-    << fam
+    << food
     << type
     << 0x0000
     << (msgId ? ++m_nMsgSequence : 0x0000)

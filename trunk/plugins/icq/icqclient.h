@@ -49,21 +49,21 @@ const unsigned char ICQ_CHNxERROR                  = 0x03;
 const unsigned char ICQ_CHNxCLOSE                  = 0x04;
 const unsigned char ICQ_CHNxPING                   = 0x05;
 
-// Server SNAC families
-const unsigned short ICQ_SNACxFAM_SERVICE          = 0x0001;
-const unsigned short ICQ_SNACxFAM_LOCATION         = 0x0002;
-const unsigned short ICQ_SNACxFAM_BUDDY            = 0x0003;
-const unsigned short ICQ_SNACxFAM_MESSAGE          = 0x0004;
-const unsigned short ICQ_SNACxFAM_AIMxINVITATION   = 0x0006;
-const unsigned short ICQ_SNACxFAM_ADMINISTRATIVE   = 0x0007;
-const unsigned short ICQ_SNACxFAM_BOS              = 0x0009;
-const unsigned short ICQ_SNACxFAM_PING             = 0x000B;
-const unsigned short ICQ_SNACxFAM_CHATxNAVIGATION  = 0x000D;
-const unsigned short ICQ_SNACxFAM_CHAT			   = 0x000E;
-const unsigned short ICQ_SNACxFAM_SSBI             = 0x0010;
-const unsigned short ICQ_SNACxFAM_LISTS            = 0x0013;
-const unsigned short ICQ_SNACxFAM_VARIOUS          = 0x0015;
-const unsigned short ICQ_SNACxFAM_LOGIN            = 0x0017;
+// Server SNAC foodgroups
+const unsigned short ICQ_SNACxFOOD_SERVICE          = 0x0001;
+const unsigned short ICQ_SNACxFOOD_LOCATION         = 0x0002;
+const unsigned short ICQ_SNACxFOOD_BUDDY            = 0x0003;
+const unsigned short ICQ_SNACxFOOD_MESSAGE          = 0x0004;
+const unsigned short ICQ_SNACxFOOD_AIMxINVITATION   = 0x0006;
+const unsigned short ICQ_SNACxFOOD_ADMINISTRATIVE   = 0x0007;
+const unsigned short ICQ_SNACxFOOD_BOS              = 0x0009;
+const unsigned short ICQ_SNACxFOOD_PING             = 0x000B;
+const unsigned short ICQ_SNACxFOOD_CHATxNAVIGATION  = 0x000D;
+const unsigned short ICQ_SNACxFOOD_CHAT			   = 0x000E;
+const unsigned short ICQ_SNACxFOOD_SSBI             = 0x0010;
+const unsigned short ICQ_SNACxFOOD_LISTS            = 0x0013;
+const unsigned short ICQ_SNACxFOOD_VARIOUS          = 0x0015;
+const unsigned short ICQ_SNACxFOOD_LOGIN            = 0x0017;
 
 #define SNAC(A, B)	((A << 16) + B)
 
@@ -472,7 +472,7 @@ protected:
     virtual ICQClientSocket *socket() = 0;
     virtual void packet() = 0;
     void flap(char channel);
-    void snac(unsigned short fam, unsigned short type, bool msgId=false, bool bType=true);
+    void snac(unsigned short food, unsigned short type, bool msgId=false, bool bType=true);
     void connect_ready();
     void packet_ready();
     bool m_bHeader;
@@ -822,7 +822,7 @@ protected:
     virtual void packet_ready();
     virtual ICQClientSocket *socket() { return m_socket; }
     virtual void packet();
-    virtual void data(unsigned short fam, unsigned short type, unsigned short seq) = 0;
+    virtual void data(unsigned short food, unsigned short type, unsigned short seq) = 0;
     unsigned short m_id;
     QByteArray  m_cookie;
     bool    m_bConnected;

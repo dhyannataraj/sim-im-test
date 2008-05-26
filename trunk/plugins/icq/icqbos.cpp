@@ -35,12 +35,12 @@ void ICQClient::snac_bos(unsigned short type, unsigned short)
         log(L_DEBUG, "BOS rights granted");
         break;
     default:
-        log(L_WARN, "Unknown bos family type %04X", type);
+        log(L_WARN, "Unknown bos foodgroup type %04X", type);
     }
 }
 
 void ICQClient::bosRequest()
 {
-    snac(ICQ_SNACxFAM_BOS, ICQ_SNACxBOS_REQUESTxRIGHTS);
+    snac(ICQ_SNACxFOOD_BOS, ICQ_SNACxBOS_REQUESTxRIGHTS);
     sendPacket(true);
 }

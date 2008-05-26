@@ -497,13 +497,13 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
         break;
     }
     default:
-        log(L_WARN, "Unknown buddy family type %04X", type);
+        log(L_WARN, "Unknown buddy foodgroup type %04X", type);
     }
 }
 
 void ICQClient::buddyRequest()
 {
-    snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REQUESTxRIGHTS);
+    snac(ICQ_SNACxFOOD_BUDDY, ICQ_SNACxBDY_REQUESTxRIGHTS);
     sendPacket(true);
 }
 
@@ -522,7 +522,7 @@ void ICQClient::sendContactList()
     }
     if (buddies.empty())
         return;
-    snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
+    snac(ICQ_SNACxFOOD_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
     it.reset();
     while ((contact = ++it) != NULL){
         ClientDataIterator it_data(contact->clientData, this);
@@ -548,7 +548,7 @@ void ICQClient::addBuddy(Contact *contact)
         if (it != buddies.end())
             continue;
         if ((data->IgnoreId.toULong() == 0)  && (data->WaitAuth.toBool() || (data->GrpId.toULong() == 0))){
-            snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
+            snac(ICQ_SNACxFOOD_BUDDY, ICQ_SNACxBDY_ADDxTOxLIST);
             socket()->writeBuffer().packScreen(screen(data));
             sendPacket(true);
             buddies.push_back(screen(data));
@@ -573,7 +573,7 @@ void ICQClient::removeBuddy(Contact *contact)
             msg->setText(i18n("removed from buddy list"));
             sendAuthRefused(msg, data);
         }
-        snac(ICQ_SNACxFAM_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
+        snac(ICQ_SNACxFOOD_BUDDY, ICQ_SNACxBDY_REMOVExFROMxLIST);
         socket()->writeBuffer().packScreen(screen(data));
         sendPacket(true);
         buddies.erase(it);

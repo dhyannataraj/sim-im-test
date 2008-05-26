@@ -96,7 +96,7 @@ public:
     virtual void process(ICQClient *client, unsigned short res)
     {
         Q_UNUSED(res);
-        client->snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_SAVE);
+        client->snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_SAVE);
         client->sendPacket(true);
     }
 
@@ -627,7 +627,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     ar.status   = m_logonStatus;
                     EventARRequest(&ar).process();
                 }
-                snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
+                snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE);
                 sendPacket(true);
                 sendClientReady();
                 setState(Connected);
@@ -641,7 +641,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendICMB(4,  3);
             sendLogonStatus();
             sendClientReady();
-            snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_ACTIVATE);
+            snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE);
             sendPacket(true);
             sendMessageRequest();
 
@@ -786,16 +786,16 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
         }
         break;
     default:
-        log(L_WARN, "Unknown lists family type %04X", type);
+        log(L_WARN, "Unknown lists foodgroup type %04X", type);
     }
 }
 
 void ICQClient::listsRequest()
 {
     log(L_DEBUG, "lists request");
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxRIGHTS);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_REQxRIGHTS);
     sendPacket(true);
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQxROSTER);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_REQxROSTER);
     unsigned long	contactsTime	= getContactsTime();
     unsigned short	contactsLength	= getContactsLength();
     socket()->writeBuffer() << contactsTime << contactsLength;
@@ -1071,10 +1071,10 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
                                      unsigned short usr_id, unsigned short subCmd, TlvList *tlv)
 {
     // start edit SSI
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_EDIT);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_EDIT);
     sendPacket(true);
 
-    snac(ICQ_SNACxFAM_LISTS, cmd, true);
+    snac(ICQ_SNACxFOOD_LISTS, cmd, true);
     QCString sName = name.utf8();
     socket()->writeBuffer().pack(htons(sName.length()));
     socket()->writeBuffer().pack(sName.data(), sName.length());
@@ -1094,7 +1094,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
 void ICQClient::sendRosterGrp(const QString &name, unsigned short grpId, unsigned short usrId)
 {
     QCString sName = name.utf8();
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_UPDATE, true);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_UPDATE, true);
     socket()->writeBuffer().pack(sName.data(), sName.length());
     socket()->writeBuffer()
     << grpId
@@ -1127,7 +1127,7 @@ unsigned ICQClient::processListRequest()
     for (;;){
         if (listRequests.size() == 0)
             return 0;
-        unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_CREATE));
+        unsigned delay = delayTime(SNAC(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_CREATE));
         if (delay)
             return delay;
         ListRequest &lr = listRequests.front();
@@ -1194,7 +1194,7 @@ unsigned ICQClient::processListRequest()
             if (data->GrpId.toULong() != grp_id){
                 if (grp_id){
                     if (data->GrpId.toULong() == 0){
-                        snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_FUTURE_AUTH);
+                        snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_FUTURE_AUTH);
                         socket()->writeBuffer().packScreen(screen(data));
                         socket()->writeBuffer() << 0x00000000L;
                         sendPacket(true);
@@ -1498,7 +1498,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
         return false;
     ICQUserData *data = (ICQUserData*)_data;
 
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
     socket()->writeBuffer().packScreen(screen(data));
     QCString message;
     QString charset;
@@ -1537,7 +1537,7 @@ bool ICQClient::sendAuthGranted(Message *msg, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
     data->WantAuth.asBool() = false;
 
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
     socket()->writeBuffer().packScreen(screen(data));
     socket()->writeBuffer()
     << (char)0x01
@@ -1558,7 +1558,7 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
     ICQUserData *data = (ICQUserData*)_data;
     data->WantAuth.asBool() = false;
 
-    snac(ICQ_SNACxFAM_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
     socket()->writeBuffer().packScreen(screen(data));
 
     QCString message;

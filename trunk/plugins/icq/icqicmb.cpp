@@ -481,19 +481,19 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
             break;
         }
     default:
-        log(L_WARN, "Unknown message family type %04X", type);
+        log(L_WARN, "Unknown message foodgroup type %04X", type);
     }
 }
 
 void ICQClient::icmbRequest()
 {
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_REQUESTxRIGHTS);
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_REQUESTxRIGHTS);
     sendPacket(true);
 }
 
 void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
 {
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SETxICQxMODE);
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SETxICQxMODE);
     socket()->writeBuffer()
     << channel << flags
     << (unsigned short)8000		// max message size
@@ -604,7 +604,7 @@ void ICQClient::sendThroughServer(const QString &screen, unsigned short channel,
 {
     // we need informations about channel 2 tlvs !
     unsigned short tlv_type = 5;
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER, true, true);
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SENDxSERVER, true, true);
     socket()->writeBuffer() << id.id_l << id.id_h;
     socket()->writeBuffer() << channel;
     socket()->writeBuffer().packScreen(screen);
@@ -1000,7 +1000,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                 }
             }
         }
-        snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
+        snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
         socket()->writeBuffer() << id.id_l << id.id_h << 0x0002;
         socket()->writeBuffer().packScreen(screen);
         socket()->writeBuffer() << 0x0003 << 0x0002 << 0x0002;
@@ -1288,7 +1288,7 @@ void ICQClient::sendAutoReply(const QString &screen, MessageId id,
                               unsigned short msgType, char msgFlags, unsigned short msgState,
                               const QString &response, unsigned short response_type, ICQBuffer &copy)
 {
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
     socket()->writeBuffer() << id.id_l << id.id_h << 0x0002;
     socket()->writeBuffer().packScreen(screen);
     socket()->writeBuffer() << 0x0003 << 0x1B00 << 0x0800;
@@ -1324,7 +1324,7 @@ void ICQClient::sendMTN(const QString &screen, unsigned short type)
 {
     if (getDisableTypingNotification())
         return;
-    snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_MTN);
+    snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_MTN);
     socket()->writeBuffer() << 0x00000000L << 0x00000000L << (unsigned short)0x0001;
     socket()->writeBuffer().packScreen(screen);
     socket()->writeBuffer() << type;
@@ -1489,7 +1489,7 @@ void ICQClient::processSendQueue()
     unsigned send_delay = 0;
     if (m_bReady){
         while (!sendFgQueue.empty()){
-            send_delay = delayTime(SNAC(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
+            send_delay = delayTime(SNAC(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
             if (send_delay){
                 delay = send_delay;
                 break;
@@ -1540,7 +1540,7 @@ void ICQClient::processSendQueue()
         delay = send_delay;
     if (m_bReady){
         while (!sendBgQueue.empty()){
-            send_delay = delayTime(SNAC(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
+            send_delay = delayTime(SNAC(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_SENDxSERVER));
             if (send_delay){
                 if (send_delay < delay)
                     delay = send_delay;
@@ -1716,7 +1716,7 @@ bool ICQClient::processMsg()
             return true;
         case MessageWarning:{
                 WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
-                snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
+                snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
                 m_send.id.id_l = m_nMsgSequence;
                 unsigned short flag = 0;
                 if (msg->getAnonymous())
@@ -2138,7 +2138,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
                 sendAutoReply(screen(data), id, plugins[PLUGIN_NULL], (unsigned short)(cookie & 0xFFFF),
                               (unsigned short)((cookie >> 16) & 0xFFFF), type, 1, 0, reason, 2, b);
             }else{
-                snac(ICQ_SNACxFAM_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
+                snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_AUTOREPLY);
                 socket()->writeBuffer() << id.id_l << id.id_h << 0x0002;
                 socket()->writeBuffer().packScreen(screen(data));
                 socket()->writeBuffer() << 0x0003 << 0x0002 << 0x0001;

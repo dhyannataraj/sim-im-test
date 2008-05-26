@@ -43,7 +43,7 @@ SSBISocket *ICQClient::getSSBISocket()
     SSBISocket *s = NULL;
 
     for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
-        if ((*it)->id() == ICQ_SNACxFAM_SSBI){
+        if ((*it)->id() == ICQ_SNACxFOOD_SSBI){
             s = static_cast<SSBISocket*>(*it);
             break;
         }
@@ -70,7 +70,7 @@ void ICQClient::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
 }
 
 SSBISocket::SSBISocket(ICQClient *client)
-    : ServiceSocket(client, ICQ_SNACxFAM_SSBI), m_refNumber(0), m_retryCount(3)
+    : ServiceSocket(client, ICQ_SNACxFOOD_SSBI), m_refNumber(0), m_retryCount(3)
 {}
 
 SSBISocket::~SSBISocket()
@@ -87,17 +87,17 @@ bool SSBISocket::error_state(const QString &err, unsigned code)
     return bRet;
 }
 
-void SSBISocket::data(unsigned short fam, unsigned short type, unsigned short seq)
+void SSBISocket::data(unsigned short food, unsigned short type, unsigned short seq)
 {
-    switch(fam) {
-        case ICQ_SNACxFAM_SERVICE:
+    switch(food) {
+        case ICQ_SNACxFOOD_SERVICE:
             snac_service(type, seq);
             break;
-        case ICQ_SNACxFAM_SSBI:
+        case ICQ_SNACxFOOD_SSBI:
             snac_ssbi(type, seq);
             break;
         default:
-            log(L_WARN, "Unknown family %d in SSBISocket", fam);
+            log(L_WARN, "Unknown foodgroup %d in SSBISocket", food);
             break;
     }
 }
@@ -115,19 +115,19 @@ void SSBISocket::snac_service(unsigned short type, unsigned short)
 {
     switch(type) {
         case ICQ_SNACxSRV_READYxSERVER:
-            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_IMxICQ);
+            snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_IMxICQ);
             socket()->writeBuffer() << 0x00010004L << 0x00100001L;
             sendPacket();
             break;
         case ICQ_SNACxSRV_ACKxIMxICQ:
-            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
+            snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_REQxRATExINFO);
             sendPacket();
             break;
         case ICQ_SNACxSRV_RATExINFO:
-            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_RATExACK);
+            snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_RATExACK);
             socket()->writeBuffer() << 0x00010002L << 0x00030004L << 0x0005;
             sendPacket();
-            snac(ICQ_SNACxFAM_SERVICE, ICQ_SNACxSRV_READYxCLIENT);
+            snac(ICQ_SNACxFOOD_SERVICE, ICQ_SNACxSRV_READYxCLIENT);
             socket()->writeBuffer() << 0x00010004L << 0x00100739L << 0x00100001L << 0x00100739L;
             sendPacket();
             m_bConnected = true;
@@ -240,7 +240,7 @@ void SSBISocket::snac_ssbi(unsigned short type, unsigned short seq)
             break;
         }
     default:
-        log(L_WARN, "Unknown SSBI family type %04X", type);
+        log(L_WARN, "Unknown SSBI foodgroup type %04X", type);
         break;
     }
 }
@@ -309,7 +309,7 @@ void SSBISocket::uploadBuddyIcon(unsigned short refNumber, const QImage &img)
         len = 0xffff;
     }
 
-    snac(ICQ_SNACxFAM_SSBI, ICQ_SNACxSSBI_UPLOAD, true);
+    snac(ICQ_SNACxFOOD_SSBI, ICQ_SNACxSSBI_UPLOAD, true);
     socket()->writeBuffer() << refNumber;
     socket()->writeBuffer() << len;
     socket()->writeBuffer().pack(ba.data(), len);
@@ -333,7 +333,7 @@ void SSBISocket::requestBuddy(const QString &screen, unsigned short buddyID, con
     }
 
     char len = buddyHash.size();
-    snac(ICQ_SNACxFAM_SSBI, m_client->m_bAIM ? ICQ_SNACxSSBI_REQ_AIM : ICQ_SNACxSSBI_REQ_ICQ, true);
+    snac(ICQ_SNACxFOOD_SSBI, m_client->m_bAIM ? ICQ_SNACxSSBI_REQ_AIM : ICQ_SNACxSSBI_REQ_ICQ, true);
 
     socket()->writeBuffer().packScreen(screen);
     socket()->writeBuffer() << (char)0x01

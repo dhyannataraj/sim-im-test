@@ -302,13 +302,13 @@ void ICQClient::snac_various(unsigned short type, unsigned short id)
             break;
         }
     default:
-        log(L_WARN, "Unknown various family type %04X", type);
+        log(L_WARN, "Unknown various foodgroup type %04X", type);
     }
 }
 
 void ICQClient::serverRequest(unsigned short cmd, unsigned short seq)
 {
-    snac(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
+    snac(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV, true);
     socket()->writeBuffer().tlv(0x0001, 0);
     socket()->writeBuffer().pack(data.owner.Uin.toULong());
     socket()->writeBuffer() << cmd;
@@ -600,7 +600,7 @@ unsigned ICQClient::processInfoRequest()
     for (list<InfoRequest>::iterator it = infoRequests.begin(); it != infoRequests.end(); ++it){
         if ((*it).request_id)
             continue;
-        unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV));
+        unsigned delay = delayTime(SNAC(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV));
         if (delay)
             return delay;
         unsigned long uin = (*it).uin;
@@ -1648,7 +1648,7 @@ unsigned ICQClient::processSMSQueue()
     for (;;){
         if (smsQueue.empty())
             break;
-        unsigned delay = delayTime(SNAC(ICQ_SNACxFAM_VARIOUS, ICQ_SNACxVAR_REQxSRV));
+        unsigned delay = delayTime(SNAC(ICQ_SNACxFOOD_VARIOUS, ICQ_SNACxVAR_REQxSRV));
         if (delay)
             return delay;
         SendMsg &s = smsQueue.front();

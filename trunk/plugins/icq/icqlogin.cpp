@@ -98,7 +98,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         if (!data.owner.Screen.str().isEmpty() || data.owner.Uin.toULong()){
             QCString md5_key;
             socket()->readBuffer().unpackStr(md5_key);
-            snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
+            snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_MD5xLOGIN, false, false);
             if (data.owner.Uin.toULong()){
                 char uin[20];
                 sprintf(uin, "%lu", data.owner.Uin.toULong());
@@ -159,7 +159,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         {
             QString verifyStr = verdlg.getVerifyString();
             log(L_DEBUG, "User input: %s", verifyStr.latin1());
-            snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
+            snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
             ICQBuffer msg;
             msg
             << 0x00000000L << 0x28000300L << 0x00000000L
@@ -178,7 +178,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
         break;
         }
     default:
-        log(L_WARN, "Unknown login family type %04X", type);
+        log(L_WARN, "Unknown login foodgroup type %04X", type);
     }
 }
 
@@ -219,7 +219,7 @@ void ICQClient::chn_login()
         flap(ICQ_CHNxNEW);
         socket()->writeBuffer() << 0x00000001L;
         sendPacket(true);
-        snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
+        snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_AUTHxREQUEST, false, false);
         if (data.owner.Uin.toULong()){
             QString uin = QString::number(data.owner.Uin.toULong());
             socket()->writeBuffer().tlv(0x0001, uin);
@@ -236,7 +236,7 @@ void ICQClient::chn_login()
         flap(ICQ_CHNxNEW);
         socket()->writeBuffer() << 0x00000001L;
         sendPacket(true);
-        snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ_IMG);
+        snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ_IMG);
         sendPacket(true);
         return;
     }
@@ -244,7 +244,7 @@ void ICQClient::chn_login()
     socket()->writeBuffer() << 0x00000001L;
     sendPacket(true);
     // first try the old registration scheme
-    snac(ICQ_SNACxFAM_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
+    snac(ICQ_SNACxFOOD_LOGIN, ICQ_SNACxLOGIN_REGISTERxREQ);
     ICQBuffer msg;
     msg
     << 0x00000000L << 0x28000300L << 0x00000000L

@@ -16,7 +16,7 @@ public:
 protected:
     virtual bool error_state(const QString &err, unsigned code);
     virtual const char *serviceSocketName() { return "SSBISocket"; }
-    virtual void data(unsigned short fam, unsigned short type, unsigned short seq);
+    virtual void data(unsigned short food, unsigned short type, unsigned short seq);
     void snac_service(unsigned short type, unsigned short seq);
     void snac_ssbi(unsigned short type, unsigned short seq);
     void process();

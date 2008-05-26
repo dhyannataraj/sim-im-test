@@ -93,9 +93,9 @@ void ServiceSocket::packet()
         sendPacket();
         break;
     case ICQ_CHNxDATA:
-        unsigned short fam, type;
+        unsigned short food, type;
         unsigned short flags, seq, cmd;
-        m_socket->readBuffer() >> fam >> type >> flags >> seq >> cmd;
+        m_socket->readBuffer() >> food >> type >> flags >> seq >> cmd;
         if ((flags & 0x8000)) {	// some unknown data before real snac data
             // just read the length and forget it ;-)
             unsigned short unknown_length = 0;
@@ -103,15 +103,15 @@ void ServiceSocket::packet()
             m_socket->readBuffer().incReadPos(unknown_length);
         }
         // now just take a look at the type because 0x0001 == error
-        // in all families
+        // in all foodgroups
         if (type == 0x0001) {
             unsigned short err_code;
             m_socket->readBuffer() >> err_code;
-            log(L_DEBUG,"%s: Error! family: %04X reason", serviceSocketName(), fam);
+            log(L_DEBUG,"%s: Error! foodgroup: %04X reason", serviceSocketName(), food);
             // now decrease for icqicmb & icqvarious
             m_socket->readBuffer().decReadPos(sizeof(unsigned short));
         }
-        data(fam, type, seq);
+        data(food, type, seq);
         break;
     default:
         log(L_ERROR, "%s: Unknown channel %u", serviceSocketName(), m_nChannel & 0xFF);
@@ -144,7 +144,7 @@ public:
     unsigned short add(const QStringList &str);
 protected:
     virtual const char *serviceSocketName() { return "SearchSocket"; }
-    void data(unsigned short fam, unsigned short type, unsigned short seq);
+    void data(unsigned short food, unsigned short type, unsigned short seq);
     void snac_service(unsigned short type);
     void snac_search(unsigned short type, unsigned short seq);
     void process();
@@ -244,17 +244,17 @@ unsigned short SearchSocket::add(const QStringList &name)
     return m_id;
 }
 
-void SearchSocket::data(unsigned short fam, unsigned short type, unsigned short seq)
+void SearchSocket::data(unsigned short food, unsigned short type, unsigned short seq)
 {
-    switch (fam){
-    case ICQ_SNACxFAM_SERVICE:
+    switch (food){
+    case ICQ_SNACxFOOD_SERVICE:
         snac_service(type);
         break;
     case USER_DIRECTORY_SERVICE:
         snac_search(type, seq);
         break;
     default:
-        log(L_WARN, "Unknown family %04X", fam);
+        log(L_WARN, "Unknown foodgroup %04X", food);
     }
 }
 
@@ -262,19 +262,19 @@ void SearchSocket::snac_service(unsigned short type)
 {
     switch (type){
     case SNACxSRV_READYxSERVER:
-        snac(ICQ_SNACxFAM_SERVICE, SNACxSRV_I_AM_ICQ);
+        snac(ICQ_SNACxFOOD_SERVICE, SNACxSRV_I_AM_ICQ);
         m_socket->writeBuffer() << 0x00010004L << 0x000F0001L;
         sendPacket();
         break;
     case SNACxSRV_ACK_ICQ:
-        snac(ICQ_SNACxFAM_SERVICE, SNACxSRV_REQxRATExINFO);
+        snac(ICQ_SNACxFOOD_SERVICE, SNACxSRV_REQxRATExINFO);
         sendPacket();
         break;
     case SNACxSRV_RATExINFO:
-        snac(ICQ_SNACxFAM_SERVICE, SNACxSRV_RATExACK);
+        snac(ICQ_SNACxFOOD_SERVICE, SNACxSRV_RATExACK);
         m_socket->writeBuffer() << 0x00010002L << 0x00030004L << 0x0005;
         sendPacket();
-        snac(ICQ_SNACxFAM_SERVICE, SNACxSRV_CLIENTxREADY);
+        snac(ICQ_SNACxFOOD_SERVICE, SNACxSRV_CLIENTxREADY);
         m_socket->writeBuffer() << 0x00010003L << 0x00100739L << 0x000F0001L << 0x00100739L;
         sendPacket();
         m_bConnected = true;
@@ -369,7 +369,7 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
         }
         break;
     default:
-        log(L_WARN, "Unknown search family type %04X", type);
+        log(L_WARN, "Unknown search foodgroup type %04X", type);
     }
 }
 

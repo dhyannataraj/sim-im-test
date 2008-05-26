@@ -194,13 +194,13 @@ void ICQClient::snac_location(unsigned short type, unsigned short seq)
     case ICQ_SNACxLOC_RESPONSExSETxINFO:
         break;
     default:
-        log(L_WARN, "Unknown location family type %04X", type);
+        log(L_WARN, "Unknown location foodgroup type %04X", type);
     }
 }
 
 void ICQClient::locationRequest()
 {
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxRIGHTS);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_REQUESTxRIGHTS);
     sendPacket(true);
 }
 
@@ -504,7 +504,7 @@ void ICQClient::sendCapability(const QString &away_msg)
         cap.pack((char*)capabilities[CAP_TYPING], sizeof(capability));
 
     cap.pack((char*)c, sizeof(c));
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (m_bAIM){
         if (data.owner.ProfileFetch.toBool()){
             QString profile;
@@ -522,7 +522,7 @@ void ICQClient::sendCapability(const QString &away_msg)
 
 void ICQClient::setAwayMessage(const QString &msg)
 {
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     if (!msg.isNull()){
         encodeString(msg, "text/plain", 3, 4);
     }else{
@@ -533,11 +533,11 @@ void ICQClient::setAwayMessage(const QString &msg)
 
 void ICQClient::fetchProfile(ICQUserData *data)
 {
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_REQUESTxUSERxINFO, true);
     socket()->writeBuffer() << (unsigned short)0x0001;
     socket()->writeBuffer().packScreen(screen(data));
     sendPacket(false);
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_REQUESTxDIRxINFO, true);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_REQUESTxDIRxINFO, true);
     socket()->writeBuffer().packScreen(screen(data));
     sendPacket(false);
     m_info_req.insert(INFO_REQ_MAP::value_type(m_nMsgSequence, screen(data)));
@@ -592,7 +592,7 @@ void ICQClient::setAIMInfo(ICQUserData *data)
             break;
         }
     }
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxDIRxINFO);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxDIRxINFO);
     QString encoding = bWide ? "unicode-2-0" : "us-ascii";
     socket()->writeBuffer().tlv(0x1C, encoding);
     socket()->writeBuffer().tlv(0x0A, (unsigned short)0x01);
@@ -623,7 +623,7 @@ void ICQClient::setAIMInfo(ICQUserData *data)
 
 void ICQClient::setProfile(ICQUserData *data)
 {
-    snac(ICQ_SNACxFAM_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
+    snac(ICQ_SNACxFOOD_LOCATION, ICQ_SNACxLOC_SETxUSERxINFO);
     QString profile;
     profile = QString("<HTML>") + data->About.str() + "</HTML>";
     encodeString(profile, "text/aolrtf", 1, 2);
