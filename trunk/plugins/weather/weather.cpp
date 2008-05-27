@@ -163,7 +163,8 @@ void WeatherPlugin::timeout()
         m_bForecast = true;
     QString url = "http://xoap.weather.com/weather/local/";
     url += getID();
-    url += "?cc=*&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
+    //url += "?cc=*&prod=xoap&par=1004517364&key=a29796f587f206b2&unit=";
+	url += "?unit="; //Quickfix Noragen
     url += getUnits() ? "s" : "m";
     if (m_bForecast && getForecast()){
         url += "&dayf=";
