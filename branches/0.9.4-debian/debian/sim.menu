@@ -1,6 +1,6 @@
 ?package(sim):\
         needs="x11"\
-        section="Apps/Net"\
+        section="Applications/Network/Communication"\
         hints="KDE,IM"\
         title="SIM"\
 	longtitle="Simple Instant Messenger" \
