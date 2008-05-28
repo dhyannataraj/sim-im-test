@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: sk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-27 00:03+0200\n"
-"PO-Revision-Date: 2007-10-31 09:17+0100\n"
-"Last-Translator: Pavol Šimo <palo.simo@post.sk>\n"
-"Language-Team: Slovak <sk@li.org>\n"
+"PO-Revision-Date: 2008-05-28 15:37+0200\n"
+"Last-Translator: Pavol Šimo <palo.simo@gmail.com>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 
 # _translatorinfo.cpp:1
 # mainwin.cpp:3078
@@ -32,7 +32,7 @@ msgstr ""
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "palo.simo@post.sk,tomas.olah@alert.sk"
+msgstr "palo.simo@gmail.com,tomas.olah@alert.sk"
 
 # qt3/i18n.cpp:117
 #: plugins/__homedir/homedir.cpp:58
@@ -430,13 +430,12 @@ msgstr "Systémové rozhranie"
 
 # client.cpp:320
 #: plugins/_core/core.cpp:372
-#, fuzzy
 msgid ""
 "I am currently away from the computer,\n"
 "please leave your message and I will get back to you as soon as I return!"
 msgstr ""
-"Momentálne som preč od ICQ.\n"
-"Pošlite mi správu, odpoviem Vám, keď sa vrátim!"
+"Momentálne som preč od počítača.\n"
+"Pošlite mi správu - odpoviem Vám, keď sa vrátim!"
 
 # client.cpp:324
 #: plugins/_core/core.cpp:376
@@ -454,7 +453,7 @@ msgstr "Teraz ma, prosím, nevyrušujte. Skúste neskôr."
 
 #: plugins/_core/core.cpp:383
 msgid "I'm occupied at the moment. Please only urgent messages."
-msgstr ""
+msgstr "Momentálne som zaneprázdnený. Len naliehavé správy, prosím."
 
 # client.cpp:335
 #: plugins/_core/core.cpp:386
@@ -555,16 +554,15 @@ msgstr "Odo&slať"
 
 # msgedit.cpp:119
 #: plugins/_core/core.cpp:614 plugins/_core/core.cpp:1610
-#, fuzzy
 msgid "I&nsert smile"
-msgstr "Vložiť emo&tikon"
+msgstr "&Vložiť ksichtík"
 
 #. i18n: file ./plugins/forward/forwardcfgbase.ui line 94
 #: plugins/_core/core.cpp:621 plugins/forward/forwardcfgbase.cpp:74
 #: rc.cpp:2298
 #, no-c-format
 msgid "Send in &translit"
-msgstr "Odoslať preložené"
+msgstr "&Odoslať preložené"
 
 # msgedit.cpp:130
 #: plugins/_core/core.cpp:629 plugins/_core/msgedit.cpp:256
@@ -573,18 +571,16 @@ msgstr "Po odos&laní zavrieť"
 
 # msgedit.cpp:135
 #: plugins/_core/core.cpp:637 plugins/_core/msgedit.cpp:970
-#, fuzzy
 msgid "Multi&ply send"
 msgstr "Poslať viacerý&m"
 
 # msgedit.cpp:113
 #: plugins/_core/core.cpp:645 plugins/_core/core.cpp:748
 msgid "Back&ground color"
-msgstr "Farba &pozadia"
+msgstr "Farba p&ozadia"
 
 # msgedit.cpp:113
 #: plugins/_core/core.cpp:653 plugins/_core/core.cpp:757
-#, fuzzy
 msgid "Fo&reground color"
 msgstr "&Farba popredia"
 
@@ -597,7 +593,6 @@ msgstr "&Tučné"
 # chatwnd.cpp:59
 # msgedit.cpp:116
 #: plugins/_core/core.cpp:666 plugins/_core/core.cpp:770
-#, fuzzy
 msgid "It&alic"
 msgstr "&Kurzíva"
 
@@ -610,14 +605,13 @@ msgstr "Podčiarkn&uté"
 
 # qt3/i18n.cpp:172
 #: plugins/_core/core.cpp:680 plugins/_core/core.cpp:784
-#, fuzzy
 msgid "Select f&ont"
 msgstr "Výber &písma"
 
 # qt3/i18n.cpp:257
 #: plugins/_core/core.cpp:687
 msgid "Select &file"
-msgstr "Výber &súboru"
+msgstr "Výber sú&boru"
 
 # ui/addphonebase.cpp:135
 #: plugins/_core/core.cpp:695
@@ -6942,6 +6936,9 @@ msgid ""
 "\">Powered by <a style=\"font-size:1em;font-style:italic;\" href=\"http://"
 "sim-im.org\">SIM Instant Messenger</a></div>"
 msgstr ""
+"<div style=\"text-align:right;font-size:0.7em;font-style:italic;width:100%"
+"\">Powered by <a style=\"font-size:1em;font-style:italic;\" href=\"http://"
+"sim-im.org\">SIM okamžitý komunikátor</a></div>"
 
 # control.cpp:241
 #: plugins/livejournal/livejournal.cpp:1319
@@ -7825,7 +7822,7 @@ msgid ""
 "_n: You have %n unread message.\n"
 "You have %n unread messages."
 msgstr ""
-"Máte neprečítanú správu.\n"
+"Máte %n neprečítanú správu.\n"
 "Máte %n neprečítaných správ."
 
 #: plugins/msn/msnpacket.cpp:502
@@ -7860,6 +7857,8 @@ msgid ""
 "Open links in &new window (Win32: When unchecked, Explorer is used, else "
 "your installed default programs.)"
 msgstr ""
+"Otvárať odkazy v &novom okne (Win32: ak nezvolené, použije sa Explorer, inak "
+"predvolený program)."
 
 # libicq/country.cpp:231
 #: plugins/navigate/navigate.cpp:303
@@ -7885,11 +7884,11 @@ msgstr "Kopírovať umiestnenie"
 
 #: plugins/navigate/navigate.cpp:459
 msgid "Explorer started for Path"
-msgstr ""
+msgstr "Explorer spustený pre cestu"
 
 #: plugins/navigate/navigate.cpp:460
 msgid "ERR: Explorer started for Path FAILED!"
-msgstr ""
+msgstr "CHYBA: Explorer spustený pre cestu ZLYHAL!"
 
 # mainwin.cpp:632
 # mainwin.cpp:2744
@@ -8228,21 +8227,21 @@ msgstr "Písmo:"
 #: plugins/osd/osdifacebase.cpp:136 rc.cpp:1277
 #, no-c-format
 msgid "Show sha&dow"
-msgstr "Ukázať tieň"
+msgstr "Ukázať &tieň"
 
 # userbox.cpp:256
 #. i18n: file ./plugins/osd/osdifacebase.ui line 171
 #: plugins/osd/osdifacebase.cpp:137 rc.cpp:1280
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Show F&ading"
-msgstr "&Ukázať všetky kódovania"
+msgstr "Ukáz&ať plynulo"
 
 # ui/pastinfobase.cpp:158
 #. i18n: file ./plugins/osd/osdifacebase.ui line 182
 #: plugins/osd/osdifacebase.cpp:138 rc.cpp:1283
 #, no-c-format
 msgid "Show &background"
-msgstr "Ukázať pozadie"
+msgstr "Ukázať po&zadie"
 
 # ui/alertdialogbase.cpp:250
 #. i18n: file ./plugins/styles/fontconfigbase.ui line 103
@@ -8587,14 +8586,14 @@ msgstr "300"
 #: plugins/sms/smssetupbase.cpp:151 rc.cpp:2269
 #, no-c-format
 msgid "Software handshake"
-msgstr "Dohoda software"
+msgstr "Dohoda softvéru"
 
 # libicq/country.cpp:109
 #. i18n: file ./plugins/sms/smssetupbase.ui line 45
 #: plugins/sms/smssetupbase.cpp:152 rc.cpp:2233
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Hand&y"
-msgstr "a"
+msgstr ""
 
 # libicq/country.cpp:459
 #. i18n: file ./plugins/sms/smssetupbase.ui line 297
@@ -8822,15 +8821,15 @@ msgstr "Priehľadnosť len pri neaktivite"
 # ui/keysetup.cpp:36
 #. i18n: file ./plugins/transparent/transparentcfgbase.ui line 106
 #: plugins/transparent/transparentcfgbase.cpp:78 rc.cpp:2224
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Mainwindow"
-msgstr "Ukázať hlavné okno"
+msgstr "Hlavné okno"
 
 #. i18n: file ./plugins/transparent/transparentcfgbase.ui line 118
 #: plugins/transparent/transparentcfgbase.cpp:79 rc.cpp:2227
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Floaties"
-msgstr "Plávajúci"
+msgstr "Plávajúce"
 
 # ui/setupdlgbase.cpp:119
 #: plugins/update/update.cpp:66
@@ -8908,7 +8907,7 @@ msgstr ""
 
 #: plugins/update/update.cpp:265
 msgid "Update Plugin: Error fetching the date of the current Update Setup."
-msgstr ""
+msgstr "Aktualizačný plugin: Chyba získavania dátumu aktuálneho nastavenia aktualizácie."
 
 #: plugins/update/update.cpp:266
 msgid ""
@@ -8967,7 +8966,7 @@ msgstr "Nepripojený"
 
 #: plugins/weather/weather.cpp:333
 msgid "<br><b>Forecast for</b><br>\n"
-msgstr ""
+msgstr "<br><b>Predpoveď na</b><br>\n"
 
 #: plugins/weather/weather.cpp:351
 msgid ""
@@ -9195,11 +9194,10 @@ msgstr "Ľadové kryštáliky"
 # libicq/country.cpp:406
 # libicq/country.cpp:452
 #: plugins/weather/weather.cpp:397
-#, fuzzy
 msgid ""
 "_: weather\n"
 "Sleet"
-msgstr "J"
+msgstr "Pľušť"
 
 # libicq/country.cpp:406
 # libicq/country.cpp:452
@@ -9819,14 +9817,11 @@ msgid ""
 msgstr "Aktualizované"
 
 #: plugins/weather/weather.cpp:604
-#, fuzzy
 msgid ""
 "<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"><br>%c<br>\n"
 "Temperature: <b>%t</b><br>\n"
 msgstr ""
-"<br><br>\n"
-"<b>Predpoveď na</b><br>\n"
 "<nobr><b>%d %w</b></nobr><br>\n"
 "<img src=\"icon:weather%n\"><br>%c<br>\n"
 "Teplota: <b>%t</b><br>\n"
@@ -11851,9 +11846,8 @@ msgstr "Vlastné"
 #~ msgstr "Otvoriť odkazy v &novom okne"
 
 # qt3/i18n.cpp:197
-#, fuzzy
 #~ msgid "Alt+O"
-#~ msgstr "Alt+T"
+#~ msgstr "Alt+O"
 
 # msgedit.cpp:130
 #~ msgid "Close after %n second"
