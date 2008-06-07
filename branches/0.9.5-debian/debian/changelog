@@ -1,3 +1,20 @@
+sim (0.9.4.99+SVN2205-1) unstable; urgency=low
+
+  * Fixed adding Non-IM contacts to contact list
+  * Fixed bug with disappearing of floaty window
+  * Added floaty docking feature
+  * Fixed crashing while sending contact via jabber
+  * Fixed crashing OSD plugin with led blinking on, on receiving two unreaded messages
+  * Fixed ICQ-server connecting with some passwords...
+  * Fixed connecting to yahoo server
+  * Fixed disabled "Send" button for sending authorize request
+  * Fixed restoring the position of main toolbar on loading Sim-IM
+  * Fixed saving autoaway status as manual one
+  * Fixed remembering ShowOnLine option when changing profiles
+  * Fixed Weather plugin according to changes at weather.com
+
+ -- Nikolay Shaplov <n@shaplov.ru>  Sat, 07 Jun 2008 21:06:12 +0400
+
 sim (0.9.4.99+SVN1805-1) unstable; urgency=high
 
   * Now build Sim-IM development version with cmake
