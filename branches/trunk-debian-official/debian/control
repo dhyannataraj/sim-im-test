@@ -1,0 +1,80 @@
+Source: sim
+Section: net
+Priority: optional
+Maintainer: Alexander Petrov <zowers@gmail.com>
+Build-Depends: debhelper (>> 4.0.0), flex, autoconf (>= 2.59), automake1.9, autotools-dev, perl, libtool (>= 1.5.2), libfam-dev (>= 2.7.0), libpng12-dev (>= 1.2.8rel), libqt3-mt-dev (>= 3:3.3.6), libqt3-headers (>= 3:3.3.6), qt3-dev-tools (>= 3:3.3.6), libssl-dev (>= 0.9.8b), kdelibs4-dev (>= 4:3.5.3), zlib1g-dev (>= 1:1.2.3), libexpat1-dev (>= 1.95.8), libxml2-dev (>= 2.6.24), libxslt1-dev (>= 1.1.16), libxft-dev (>= 2.1.8.2), libxss-dev (>= 1:1.0.1), zip
+Standards-Version: 3.7.2
+
+Package: sim
+Architecture: any
+Depends: ${shlibs:Depends}, sim-data (= ${source:Version})
+Conflicts: sim-qt (<= ${source:Version})
+Replaces:  sim-qt (<= ${source:Version})
+Suggests: gnupg (>= 1.4.3)
+Description: Simple Instant Messenger (KDE)
+ sim is a simple and powerful multi-protocol instant messenger.
+ .
+ Some of the features:
+  * Supported protocols: ICQ, Jabber, MSN, AIM, 
+    Yahoo!, LiveJournal;
+  * Receiving and sending SMS;
+  * Server-side contact list;
+  * Receiving and the sending messages in RTF-format;
+  * Phone directory support;
+  * File transfers;
+  * Chat;
+  * Support Miranda icon themes;
+  * Spam filter;
+  * Secure direct connection with SIM and L-ICQ;
+  * GPG encryption using gnupg;
+  * Message or chat mode for user window;
+  * On-Screen display notification about messages and user status;
+  * Sending of the messages to several users;
+  * Proxy: HTTP/HTTPS, SOCKS4, SOCKS5.
+ .
+  Homepage: http://sim-im.org/
+ .
+  This package is compiled with KDE support.
+  See the 'kde' package for more information about KDE.
+
+Package: sim-qt
+Architecture: any
+Depends: ${shlibs:Depends}, sim-data (= ${source:Version})
+Conflicts: sim (<= ${source:Version})
+Replaces:  sim (<= ${source:Version})
+Suggests: gnupg (>= 1.4.3)
+Description: Simple Instant Messenger (Qt)
+ sim is a simple and powerful multi-protocol instant messenger.
+ .
+ Some of the features:
+  * Supported protocols: ICQ, Jabber, MSN, AIM, 
+    Yahoo!, LiveJournal;
+  * Receiving and sending SMS;
+  * Server-side contact list;
+  * Receiving and the sending messages in RTF-format;
+  * Phone directory support;
+  * File transfers;
+  * Chat;
+  * Support Miranda icon themes;
+  * Spam filter;
+  * Secure direct connection with SIM and L-ICQ;
+  * GPG encryption using gnupg;
+  * Message or chat mode for user window;
+  * On-Screen display notification about messages and user status;
+  * Sending of the messages to several users;
+  * Proxy: HTTP/HTTPS, SOCKS4, SOCKS5.
+ .
+  Homepage: http://sim-im.org/
+ .
+  This package is compiled with Qt support.
+  If you have KDE installed then install sim package instead.
+
+Package: sim-data
+Architecture: all
+Conflicts: sim (<< ${source:Version})
+Replaces:  sim (<< ${source:Version})
+Suggests: sim (= ${source:Version}) | sim-qt (= ${source:Version})
+Description: Simple Instant Messenger data files
+ sim is a simple and powerful multi-protocol instant messenger.
+ .
+  This package contains data files for sim and sim-qt packages.
