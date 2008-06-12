@@ -44,7 +44,7 @@ def filter_path( path ):
         if not license_path:
             return True
         else:
-            license_line = open( license_path ).readlines()[0]
+            license_line = open( license_path ).readlines()[0].strip()
             if license_line in GPL_COMPATIBLE_LICENSES:
                 return True
             return False
