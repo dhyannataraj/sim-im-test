@@ -1,3 +1,15 @@
+sim (0.9.5~svn20080613-1) unstable; urgency=low
+
+  * New upstream 0.9.4.5 SVN is available (Closes: #420095)
+  * sounds/icons with unclear licensing (Closes: #386570)
+  * bashism in debian/rules (Closes: #484436)
+  * wrong dependency (Closes: #420094)
+  * Added "-- -Z bzip2" to dh_builddeb so that we use bzip2 compression
+    for the binary packages instead of gzip.
+  * Updated rules and control to use cmake.
+
+ -- Alexander Petrov <zowers@gmail.com>  Fri, 13 Jun 2008 04:30:38 -0500
+
 sim (0.9.4.2-1) unstable; urgency=high
 
   * New upstream 0.9.4.2 - bugfix release.

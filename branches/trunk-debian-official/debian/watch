@@ -1,0 +1,5 @@
+# see usan(1)
+version=3
+opts=downloadurlmangle=s/prdownload/download/,uversionmangle=s/\-svn/~svn/ \
+    http://developer.berlios.de/project/showfiles.php?group_id=4482 \
+    http://prdownload.berlios.de/sim-im/sim-(\d+\.\d+\..*)-dfsg.tar.bz2
