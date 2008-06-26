@@ -55,7 +55,7 @@ void InterestsInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     QString info[4];
     info[0] = getInfo(cmbBg1, edtBg1);
     info[1] = getInfo(cmbBg2, edtBg2);

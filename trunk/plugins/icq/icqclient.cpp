@@ -2688,7 +2688,7 @@ bool ICQClient::processEvent(Event *e)
                     return false;
                 ICQUserData *data;
                 ClientDataIterator it(contact->clientData);
-                while ((data = (ICQUserData*)(++it)) != NULL){
+                while ((data = toICQUserData(++it)) != NULL){
                     data->VisibleId.asULong() = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
                     EventContact eContact(contact, EventContact::eChanged);
                     eContact.process();
@@ -3289,6 +3289,41 @@ Contact *ICQClient::getContact(ICQUserData *data)
     Contact *contact = NULL;
     findContact(screen(data), NULL, false, contact);
     return contact;
+}
+
+
+ICQUserData* ICQClient::toICQUserData(SIM::clientData * data)
+{
+   // This function is used to more safely preform type conversion from SIM::clientData* into ICQUserData*
+   // It will at least warn if the content of the structure is not ICQUserData
+   // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
+   if (! data) return NULL;
+   if (data->Sign.asULong() != ICQ_SIGN)
+   {
+      QString Signs[] = {
+        "Unknown(0)" ,     // 0x0000
+        "ICQ_SIGN",        // 0x0001
+        "JABBER_SIGN",     // 0x0002
+        "MSN_SIGN",        // 0x0003
+        "Unknown(4)"       // 0x0004
+        "LIVEJOURNAL_SIGN",// 0x0005
+        "SMS_SIGN",        // 0x0006
+        "Unknown(7)",      // 0x0007
+        "Unknown(8)",      // 0x0008
+        "YAHOO_SIGN"       // 0x0009
+      };
+      QString Sign;
+      if (data->Sign.toULong()<=9) // is always >=0 as it is unsigned int
+        Sign = Signs[data->Sign.toULong()];
+      else
+        Sign = QString("Unknown(%1)").arg(Sign.toULong());
+
+      log(L_ERROR,
+        "ATTENTION!! Unsafly converting %s user data into ICQ_SIGN",
+         Sign.latin1());
+//      abort();
+   }
+   return (ICQUserData*) data;
 }
 
 #ifndef NO_MOC_INCLUDES

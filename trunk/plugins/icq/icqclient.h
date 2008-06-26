@@ -607,6 +607,7 @@ public:
     bool m_bAIM;
     static QString addCRLF(const QString &str);
     void uploadBuddy(const ICQUserData *data);
+    ICQUserData * toICQUserData(SIM::clientData*);  // More safely type conversion from generic SIM::clientData into ICQUserData
 protected slots:
     void ping();
     void processSendQueue();

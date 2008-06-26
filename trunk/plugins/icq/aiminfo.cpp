@@ -70,7 +70,7 @@ void AIMInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->FirstName.str()   = edtFirst->text();
     data->LastName.str()    = edtLast->text();
     data->MiddleName.str()  = edtMiddle->text();

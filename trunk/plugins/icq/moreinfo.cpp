@@ -237,7 +237,7 @@ void MoreInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->Homepage.str() = edtHomePage->text();
     data->Gender.asULong() = getComboValue(cmbGender, genders);
     data->BirthMonth.asULong() = edtDate->getDate().month();

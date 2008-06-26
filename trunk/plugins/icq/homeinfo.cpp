@@ -52,7 +52,7 @@ void HomeInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     data->Address.str() = edtAddress->text();
     data->City.str()    = edtCity->text();
     data->State.str()   = edtState->text();
