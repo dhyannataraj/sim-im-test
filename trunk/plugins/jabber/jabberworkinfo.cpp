@@ -79,7 +79,7 @@ void JabberWorkInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    JabberUserData *data = (JabberUserData*)_data;
+    JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->OrgName.str() = edtCompany->text();
     data->OrgUnit.str() = edtDepartment->text();
     data->Title.str()   = edtTitle->text();

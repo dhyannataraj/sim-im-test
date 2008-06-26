@@ -71,7 +71,7 @@ void JabberAboutInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    JabberUserData *data = (JabberUserData*)_data;
+    JabberUserData *data = m_client->toJabberUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->Desc.str() = edtAbout->text();
 }
 

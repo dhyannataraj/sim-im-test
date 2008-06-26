@@ -71,7 +71,7 @@ RostersRequest::RostersRequest(JabberClient *client)
     while ((contact = ++itc) != NULL){
         ClientDataIterator it(contact->clientData, client);
         JabberUserData *data;
-        while ((data = (JabberUserData*)(++it)) != NULL)
+        while ((data = m_client->toJabberUserData(++it)) != NULL)
             data->bChecked.asBool() = false;
     }
     client->m_bJoin = false;
@@ -86,7 +86,7 @@ RostersRequest::~RostersRequest()
         ClientDataIterator it(contact->clientData, m_client);
         JabberUserData *data;
         list<void*> dataRemoved;
-        while ((data = (JabberUserData*)(++it)) != NULL){
+        while ((data = m_client->toJabberUserData(++it)) != NULL){
             if (!data->bChecked.toBool()){
                 QString jid = data->ID.str();
                 JabberListRequest *lr = m_client->findRequest(jid, false);
@@ -577,7 +577,7 @@ void SetInfoRequest::element_start(const QString& el, const QXmlAttributes& attr
 
 void JabberClient::setClientInfo(void *_data)
 {
-    JabberUserData *data = static_cast<JabberUserData*>(_data);
+    JabberUserData *data = toJabberUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     if (data != &this->data.owner){
         this->data.owner.FirstName.str() = data->FirstName.str();
         this->data.owner.Nick.str() = data->Nick.str();
