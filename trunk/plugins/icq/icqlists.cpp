@@ -550,15 +550,17 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             ContactList::ContactIterator it_c;
             while ((contact = ++it_c) != NULL){
                 ICQUserData *data;
+                SIM::clientData * client_data;
                 ClientDataIterator it_d(contact->clientData);
                 bool bOther = (contact->clientData.size() == 0);
                 bool bMy = false;
                 unsigned long newGroup = 0;
-                while ((data = toICQUserData(++it_d)) != NULL){
+                while ((client_data = ++it_d) != NULL){
                     if (it_d.client() != this){
                         bOther = true;
                         continue;
                     }
+                    data=toICQUserData(client_data); // Will get here only when client is our's so feel free to converse
                     unsigned grpId = data->GrpId.toULong();
                     ContactList::GroupIterator it_g;
                     while ((grp = ++it_g) != NULL){
