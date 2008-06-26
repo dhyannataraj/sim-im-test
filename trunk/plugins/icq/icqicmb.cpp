@@ -506,7 +506,7 @@ void ICQClient::sendICMB(unsigned short channel, unsigned long flags)
 
 bool ICQClient::sendThruServer(Message *msg, void *_data)
 {
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     Contact *contact = getContacts()->contact(msg->contact());
     if ((contact == NULL) || (data == NULL))
         return false;
@@ -2001,7 +2001,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
         ICQUserData *data = NULL;
         if (contact){
             ClientDataIterator it(contact->clientData, this);
-            while ((data = ((ICQUserData*)(++it))) != NULL){
+            while ((data = (toICQUserData(++it))) != NULL){
                 if (msg->client() && (dataName(data) == msg->client()))
                     break;
                 data = NULL;
@@ -2036,7 +2036,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
         Contact *contact = getContacts()->contact(msg->contact());
         if (contact){
             ClientDataIterator it(contact->clientData, this);
-            while ((data = ((ICQUserData*)(++it))) != NULL){
+            while ((data = (toICQUserData(++it))) != NULL){
                 if (dataName(data) == msg->client())
                     break;
                 data = NULL;
@@ -2081,7 +2081,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
         ICQUserData *data = NULL;
         if (contact){
             ClientDataIterator it(contact->clientData, this);
-            while ((data = ((ICQUserData*)(++it))) != NULL){
+            while ((data = (toICQUserData(++it))) != NULL){
                 if (msg->client() && (dataName(data) == msg->client()))
                     break;
                 data = NULL;
@@ -2119,7 +2119,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
             contact = getContacts()->contact(msg->contact());
             if (contact){
                 ClientDataIterator it(contact->clientData, this);
-                while ((data = ((ICQUserData*)(++it))) != NULL){
+                while ((data = (toICQUserData(++it))) != NULL){
                     if (dataName(data) == msg->client())
                         break;
                     data = NULL;

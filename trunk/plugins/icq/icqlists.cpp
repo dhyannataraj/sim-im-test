@@ -483,7 +483,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 while ((grp = ++it_g) != NULL){
                     ICQUserData *data;
                     ClientDataIterator it(grp->clientData, this);
-                    while ((data = (ICQUserData*)(++it)) != NULL){
+                    while ((data = toICQUserData(++it)) != NULL){
                         if (data->IcqID.toULong() == 0){
                             data->bChecked.asBool() = true;
                             continue;
@@ -496,7 +496,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 while ((contact = ++it_c) != NULL){
                     ICQUserData *data;
                     ClientDataIterator it(contact->clientData, this);
-                    while ((data = (ICQUserData*)(++it)) != NULL){
+                    while ((data = toICQUserData(++it)) != NULL){
                         data->bChecked.asBool() = false;
                         data->GrpId.asULong() = 0;
                         data->IgnoreId.asULong() = 0;
@@ -530,7 +530,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             ContactList::GroupIterator it_g;
             list<Group*> forRemove;
             while ((grp = ++it_g) != NULL){
-                ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
+                ICQUserData *data = toICQUserData((SIM::clientData*)grp->clientData.getData(this)); // FIXME unsafe type conversion
                 QString n;
                 if (grp->id())
                     n = grp->getName();
@@ -554,7 +554,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 bool bOther = (contact->clientData.size() == 0);
                 bool bMy = false;
                 unsigned long newGroup = 0;
-                while ((data = (ICQUserData*)(++it_d)) != NULL){
+                while ((data = toICQUserData(++it_d)) != NULL){
                     if (it_d.client() != this){
                         bOther = true;
                         continue;
@@ -562,7 +562,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                     unsigned grpId = data->GrpId.toULong();
                     ContactList::GroupIterator it_g;
                     while ((grp = ++it_g) != NULL){
-                        ICQUserData *data = (ICQUserData*)(grp->clientData.getData(this));
+                        ICQUserData *data = toICQUserData((SIM::clientData*)grp->clientData.getData(this)); // FIXME unsafe type conversion
                         if (data && (data->IcqID.toULong() == grpId))
                             break;
                     }
@@ -876,9 +876,9 @@ void GroupServerRequest::process(ICQClient *client, unsigned short res)
     Group *group = getContacts()->group(m_id);
     if (group == NULL)
         return;
-    ICQUserData *data = (ICQUserData*)(group->clientData.getData(client));
+    ICQUserData *data = client->toICQUserData((SIM::clientData*)group->clientData.getData(client)); // FIXME unsafe type conversion
     if (data == NULL)
-        data = (ICQUserData*)(group->clientData.createData(client));
+        data = client->toICQUserData((SIM::clientData*)group->clientData.createData(client)); // FIXME unsafe type conversion
     data->IcqID.asULong() = m_icqId;
     data->Alias.str() = m_name;
 }
@@ -1016,7 +1016,7 @@ unsigned short ICQClient::getListId()
         Group *group;
         ContactList::GroupIterator it_grp;
         while ((group = ++it_grp) != NULL){
-            ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
+            ICQUserData *data = toICQUserData((SIM::clientData*)group->clientData.getData(this)); // FIXME unsafe type conversion
             if (data == NULL)
                 continue;
             if (data->IcqID.toULong() == id)
@@ -1029,7 +1029,7 @@ unsigned short ICQClient::getListId()
         while ((contact = ++it_cnt) != NULL){
             ClientDataIterator it(contact->clientData, this);
             ICQUserData *data;
-            while ((data = (ICQUserData*)(++it)) != NULL){
+            while ((data = toICQUserData(++it)) != NULL){
                 if ((data->IcqID.toULong() == id) || (data->IgnoreId.toULong() == id) ||
                         (data->VisibleId.toULong() == id) || (data->InvisibleId.toULong() == id))
                     break;
@@ -1186,7 +1186,7 @@ unsigned ICQClient::processListRequest()
             if (contact->getGroup()){
                 group = getContacts()->group(contact->getGroup());
                 if (group){
-                    ICQUserData *grp_data = (ICQUserData*)(group->clientData.getData(this));
+                    ICQUserData *grp_data = toICQUserData((SIM::clientData*)group->clientData.getData(this)); // FIXME unsafe type conversion
                     if (grp_data)
                         grp_id = grp_data->IcqID.toULong();
                 }
@@ -1254,7 +1254,7 @@ unsigned ICQClient::processListRequest()
             group = getContacts()->group(lr.screen.toULong());
             if (group){
                 QString name = group->getName();
-                data = (ICQUserData*)(group->clientData.getData(this));
+                data = toICQUserData((SIM::clientData*)group->clientData.getData(this)); // FIXME unsafe type conversion
                 if (data){
                     icq_id = (unsigned short)(data->IcqID.toULong());
                     QString alias = data->Alias.str();
@@ -1343,7 +1343,7 @@ void ICQClient::addGroupRequest(Group *group)
 {
     QString name;
     name = group->getName();
-    ICQUserData *data = (ICQUserData*)(group->clientData.getData(this));
+    ICQUserData *data = toICQUserData((SIM::clientData*)group->clientData.getData(this)); // FIXME unsafe type conversion
     if (data == NULL){
         list<ListRequest>::iterator it;
         for (it = listRequests.begin(); it != listRequests.end(); it++){
@@ -1381,7 +1381,7 @@ void ICQClient::addContactRequest(Contact *contact)
 {
     ICQUserData *data;
     ClientDataIterator it(contact->clientData, this);
-    while ((data = (ICQUserData*)(++it)) != NULL){
+    while ((data = toICQUserData(++it)) != NULL){
         list<ListRequest>::iterator it;
         for (it = listRequests.begin(); it != listRequests.end(); it++){
             if ((*it).type != LIST_USER_CHANGED)
@@ -1416,7 +1416,7 @@ void ICQClient::addContactRequest(Contact *contact)
             if (contact->getGroup()){
                 Group *group = getContacts()->group(contact->getGroup());
                 if (group){
-                    ICQUserData *grp_data = (ICQUserData*)(group->clientData.getData(this));
+                    ICQUserData *grp_data = toICQUserData((SIM::clientData*)group->clientData.getData(this)); // FIXME unsafe type conversion
                     if (grp_data){
                         grp_id = grp_data->IcqID.toULong();
                     }else{
@@ -1496,7 +1496,7 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
 {
     if ((getState() != Connected) || (_data == NULL))
         return false;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
 
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_REQUEST_AUTH);
     socket()->writeBuffer().packScreen(screen(data));
@@ -1534,7 +1534,7 @@ bool ICQClient::sendAuthGranted(Message *msg, void *_data)
 {
     if ((getState() != Connected) || (_data == NULL))
         return false;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->WantAuth.asBool() = false;
 
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_AUTHxSEND);
@@ -1555,7 +1555,7 @@ bool ICQClient::sendAuthRefused(Message *msg, void *_data)
 {
     if ((getState() != Connected) || (_data == NULL))
         return false;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->WantAuth.asBool() = false;
 
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_AUTHxSEND);

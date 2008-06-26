@@ -515,7 +515,7 @@ void ICQClient::sendContactList()
     while ((contact = ++it) != NULL){
         ClientDataIterator it_data(contact->clientData, this);
         ICQUserData *data;
-        while ((data = (ICQUserData*)(++it_data)) != NULL){
+        while ((data = toICQUserData(++it_data)) != NULL){
             if (data->IgnoreId.toULong() == 0)
                 buddies.push_back(screen(data));
         }
@@ -527,7 +527,7 @@ void ICQClient::sendContactList()
     while ((contact = ++it) != NULL){
         ClientDataIterator it_data(contact->clientData, this);
         ICQUserData *data;
-        while ((data = (ICQUserData*)(++it_data)) != NULL){
+        while ((data = toICQUserData(++it_data)) != NULL){
             if (data->IgnoreId.toULong() == 0)
                 socket()->writeBuffer().packScreen(screen(data));
         }
@@ -543,7 +543,7 @@ void ICQClient::addBuddy(Contact *contact)
         return;
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, this);
-    while ((data = (ICQUserData*)(++it_data)) != NULL){
+    while ((data = toICQUserData(++it_data)) != NULL){
         QStringList::iterator it = buddies.find(screen(data));
         if (it != buddies.end())
             continue;
@@ -564,7 +564,7 @@ void ICQClient::removeBuddy(Contact *contact)
         return;
     ICQUserData *data;
     ClientDataIterator it_data(contact->clientData, this);
-    while ((data = (ICQUserData*)(++it_data)) != NULL){
+    while ((data = toICQUserData(++it_data)) != NULL){
         QStringList::iterator it = buddies.find(screen(data));
         if (it == buddies.end())
             continue;

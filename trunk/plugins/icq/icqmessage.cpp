@@ -937,7 +937,7 @@ QString ICQClient::packContacts(ContactsMessage *msg, ICQUserData *, CONTACTS_MA
                     Contact *cc = contact;
                     if (!isMyData(cdata, cc))
                         continue;
-                    ICQUserData *d = (ICQUserData*)cdata;
+                    ICQUserData *d = toICQUserData(cdata);
                     QString screen = this->screen(d);
                     CONTACTS_MAP::iterator it = c.find(screen);
                     if (it == c.end()){

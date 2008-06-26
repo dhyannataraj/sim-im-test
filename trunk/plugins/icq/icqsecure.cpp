@@ -45,7 +45,7 @@ void ICQSecure::deleteVisibleItem(QListViewItem *item)
     if (contact) {
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
-        while ((data = (ICQUserData*)(++it)) != NULL){
+        while ((data = m_client->toICQUserData(++it)) != NULL){
             data->VisibleId.asULong() = 0;
             EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
@@ -59,7 +59,7 @@ void ICQSecure::deleteInvisibleItem(QListViewItem *item)
     if (contact) {
         ICQUserData *data;
         ClientDataIterator it(contact->clientData);
-        while ((data = (ICQUserData*)(++it)) != NULL){
+        while ((data = m_client->toICQUserData(++it)) != NULL){
             data->InvisibleId.asULong() = 0;
             EventContact eContact(contact, EventContact::eChanged);
             eContact.process();
@@ -91,7 +91,7 @@ void ICQSecure::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    ICQUserData *data = (ICQUserData*)_data;
+    ICQUserData *data = m_client->toICQUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->WaitAuth.asBool() = chkAuth->isChecked();
     data->WebAware.asBool() = chkWeb->isChecked();
 }
@@ -168,7 +168,7 @@ void ICQSecure::fillListView(ListView *lst, SIM::Data ICQUserData::* field)
     while ((contact = ++it) != NULL){
         ICQUserData *data;
         ClientDataIterator it(contact->clientData, m_client);
-        while ((data = (ICQUserData*)(++it)) != NULL){
+        while ((data = m_client->toICQUserData(++it)) != NULL){
             if ((data->*field).toULong()){
                 QString firstName = contact->getFirstName();
                 QString lastName  = contact->getLastName();
