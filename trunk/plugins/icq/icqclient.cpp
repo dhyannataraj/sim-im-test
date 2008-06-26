@@ -2686,12 +2686,16 @@ bool ICQClient::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return false;
-                ICQUserData *data;
+                SIM::clientData *data;
+                ICQUserData * icq_user_data;
                 ClientDataIterator it(contact->clientData);
-                while ((data = toICQUserData(++it)) != NULL){
-                    data->VisibleId.asULong() = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
-                    EventContact eContact(contact, EventContact::eChanged);
-                    eContact.process();
+                while ((data = ++it) != NULL) {
+                    if (data->Sign.asULong() == ICQ_SIGN){  // Only ICQ contacts can be added to Visible list
+                        icq_user_data=toICQUserData(data);
+                        icq_user_data->VisibleId.asULong() = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
+                        EventContact eContact(contact, EventContact::eChanged);
+                        eContact.process();
+                    }
                 }
                 return true;
             }
@@ -2699,12 +2703,16 @@ bool ICQClient::processEvent(Event *e)
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL)
                     return false;
-                ICQUserData *data;
+                SIM::clientData *data;
+                ICQUserData * icq_user_data;
                 ClientDataIterator it(contact->clientData);
-                while ((data = toICQUserData(++it)) != NULL){
-                    data->InvisibleId.asULong() = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
-                    EventContact eContact(contact, EventContact::eChanged);
-                    eContact.process();
+                while ((data = ++it) != NULL){
+                    if (data->Sign.asULong() == ICQ_SIGN){ // Only ICQ contacts can be added to Invisible list
+                        icq_user_data=toICQUserData(data);
+                        icq_user_data->InvisibleId.asULong() = (cmd->flags & COMMAND_CHECKED) ? getListId() : 0;
+                        EventContact eContact(contact, EventContact::eChanged);
+                        eContact.process();
+                    }
                 }
                 return true;
             }
