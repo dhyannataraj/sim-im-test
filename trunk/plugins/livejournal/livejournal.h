@@ -158,6 +158,7 @@ public:
     QTimer  *m_timer;
     virtual bool error_state(const QString &err, unsigned code);
     bool add(const QString &name);
+    LiveJournalUserData* toLiveJournalUserData(SIM::clientData * data); // More safely type conversion from generic SIM::clientData into LiveJournalUserData
 public slots:
     void timeout();
     void send();

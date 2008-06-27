@@ -601,7 +601,7 @@ bool LiveJournalClient::send(Message *msg, void *_data)
 {
     if (!canSend(msg->type(), _data))
         return false;
-    LiveJournalUserData *data = (LiveJournalUserData*)_data;
+    LiveJournalUserData *data = toLiveJournalUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     QString journal;
     if (data->User.str() != this->data.owner.User.str())
         journal = data->User.str();
@@ -621,7 +621,7 @@ bool LiveJournalClient::canSend(unsigned type, void *_data)
         return true;
     }
     if (type == CmdMenuWeb){
-        LiveJournalUserData *data = (LiveJournalUserData*)_data;
+        LiveJournalUserData *data = toLiveJournalUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
         if (data->User.str() != this->data.owner.User.str())
             return false;
         return true;
@@ -649,7 +649,7 @@ QString LiveJournalClient::dataName(void *data)
 {
     QString res = name();
     res += ".";
-    res += ((LiveJournalUserData*)data)->User.str();
+    res += toLiveJournalUserData((SIM::clientData*)data)->User.str(); // FIXME unsafe type conversion
     return res;
 }
 
@@ -724,7 +724,7 @@ LiveJournalUserData *LiveJournalClient::findContact(const QString &user, Contact
     while ((contact = ++it) != NULL){
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
-        while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+        while ((data = toLiveJournalUserData(++itc)) != NULL){
             if (data->User.str() == user)
                 return data;
         }
@@ -742,7 +742,7 @@ LiveJournalUserData *LiveJournalClient::findContact(const QString &user, Contact
         contact = getContacts()->contact(0, true);
         contact->setName(user);
     }
-    LiveJournalUserData *data = (LiveJournalUserData*)(contact->clientData.createData(this));
+    LiveJournalUserData *data = toLiveJournalUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     data->User.str() = user;
     EventContact e(contact, EventContact::eChanged);
     e.process();
@@ -761,7 +761,7 @@ void LiveJournalClient::auth_ok()
     while ((contact = ++it) != NULL){
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
-        while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+        while ((data = toLiveJournalUserData(++itc)) != NULL){
             if (!data->Shared.toBool())
                 continue;
             if (data->bChecked.toBool())
@@ -955,7 +955,7 @@ void LiveJournalClient::setStatus(unsigned status)
     while ((contact = ++it) != NULL){
         LiveJournalUserData *data;
         ClientDataIterator itc(contact->clientData, this);
-        while ((data = (LiveJournalUserData*)(++itc)) != NULL){
+        while ((data = toLiveJournalUserData(++itc)) != NULL){
             data->bChecked.asBool() = false;
             if (data->User.str() == this->data.owner.User.str())
                 data->bChecked.asBool() = true;
@@ -1050,7 +1050,7 @@ bool LiveJournalClient::processEvent(Event *e)
                 return false;
             LiveJournalUserData *data;
             ClientDataIterator it(contact->clientData, this);
-            while ((data = (LiveJournalUserData*)(++it)) != NULL){
+            while ((data = toLiveJournalUserData(++it)) != NULL){
                 if (dataName(data) == msg->client()){
                     Buffer cfg;
                     cfg = "[Title]\n" + msg->save();
@@ -1246,6 +1246,41 @@ void LiveJournalClient::timeout()
     m_timer->stop();
     m_requests.push_back(new CheckFriendsRequest(this));
     send();
+}
+
+
+LiveJournalUserData* LiveJournalClient::toLiveJournalUserData(SIM::clientData * data)
+{
+   // This function is used to more safely preform type conversion from SIM::clientData* into LiveJournalUserData*
+   // It will at least warn if the content of the structure is not LiveJournalUserData*
+   // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
+   if (! data) return NULL;
+   if (data->Sign.asULong() != LIVEJOURNAL_SIGN)
+   {
+      QString Signs[] = {
+        "Unknown(0)" ,     // 0x0000
+        "ICQ_SIGN",        // 0x0001
+        "JABBER_SIGN",     // 0x0002
+        "MSN_SIGN",        // 0x0003
+        "Unknown(4)"       // 0x0004
+        "LIVEJOURNAL_SIGN",// 0x0005
+        "SMS_SIGN",        // 0x0006
+        "Unknown(7)",      // 0x0007
+        "Unknown(8)",      // 0x0008
+        "YAHOO_SIGN"       // 0x0009
+      };
+      QString Sign;
+      if (data->Sign.toULong()<=9) // is always >=0 as it is unsigned int
+        Sign = Signs[data->Sign.toULong()];
+      else
+        Sign = QString("Unknown(%1)").arg(Sign.toULong());
+
+      log(L_ERROR,
+        "ATTENTION!! Unsafly converting %s user data into LIVEJOURNAL_SIGN",
+         Sign.latin1());
+//      abort();
+   }
+   return (LiveJournalUserData*) data;
 }
 
 LiveJournalRequest::LiveJournalRequest(LiveJournalClient *client, const char *mode)
