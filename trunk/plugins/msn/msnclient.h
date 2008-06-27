@@ -203,6 +203,7 @@ public:
     bool		 m_bJoin;
     SIM::Socket *createSBSocket();
     void connected();
+    MSNUserData* toMSNUserData(SIM::clientData * data);
 protected slots:
     void ping();
     void authOk();

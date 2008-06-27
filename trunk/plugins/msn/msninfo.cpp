@@ -121,7 +121,7 @@ void MSNInfo::apply(Client *client, void *_data)
     QString nick = edtNick->text();
     if (nick == edtEMail->text())
         nick = QString::null;
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = m_client->toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->ScreenName.str() = nick;
 }
 

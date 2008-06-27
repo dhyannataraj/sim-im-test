@@ -222,7 +222,7 @@ void MSNClient::disconnected()
         bool bChanged = false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = toMSNUserData(++it)) != NULL){
             if (data->Status.toULong() != STATUS_OFFLINE){
                 data->Status.asULong() = STATUS_OFFLINE;
                 data->StatusTime.asULong() = time(NULL);
@@ -407,7 +407,7 @@ void MSNClient::checkEndSync()
     list<Contact*>	contactRemove;
     while ((grp = ++itg) != NULL){
         ClientDataIterator it(grp->clientData, this);
-        MSNUserData *data = (MSNUserData*)(++it);
+        MSNUserData *data = toMSNUserData(++it);
         if (grp->id() && (data == NULL)){
             MSNListRequest lr;
             lr.Type = LR_GROUPxCHANGED;
@@ -426,7 +426,7 @@ void MSNClient::checkEndSync()
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
         list<void*> forRemove;
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = toMSNUserData(++it)) != NULL){
             if (data->sFlags.toULong() & MSN_CHECKED){
                 if ((data->sFlags.toULong() & MSN_REVERSE) && ((data->Flags.toULong() & MSN_REVERSE) == 0))
                     auth_message(contact, MessageRemoved, data);
@@ -881,7 +881,7 @@ static CommandDef cfgMsnWnd[] =
 
 CommandDef *MSNClient::infoWindows(Contact*, void *_data)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     QString name = i18n(protocol()->description()->text);
     name += " ";
     name += data->EMail.str();
@@ -900,7 +900,7 @@ CommandDef *MSNClient::configWindows()
 
 QWidget *MSNClient::infoWindow(QWidget *parent, Contact*, void *_data, unsigned id)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     switch (id){
     case MAIN_INFO:
         return new MSNInfo(parent, data, this);
@@ -923,7 +923,7 @@ bool MSNClient::canSend(unsigned type, void *_data)
 {
     if ((_data == NULL) || (((clientData*)_data)->Sign.toULong() != MSN_SIGN))
         return false;
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     if (getState() != Connected)
         return false;
     switch (type){
@@ -944,7 +944,7 @@ bool MSNClient::send(Message *msg, void *_data)
 {
     if ((_data == NULL) || (getState() != Connected))
         return false;
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     MSNPacket *packet;
     switch (msg->type()){
     case MessageAuthGranted:
@@ -1009,7 +1009,7 @@ bool MSNClient::send(Message *msg, void *_data)
 QString MSNClient::dataName(void *_data)
 {
     QString res = name();
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     res += "+";
     res += data->EMail.str();
     return res;
@@ -1019,7 +1019,7 @@ bool MSNClient::isMyData(clientData *&_data, Contact *&contact)
 {
     if (_data->Sign.toULong() != MSN_SIGN)
         return false;
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData(_data);
     if (data->EMail.str().lower() == this->data.owner.EMail.str().lower())
         return false;
     MSNUserData *my_data = findContact(data->EMail.str(), contact);
@@ -1033,8 +1033,8 @@ bool MSNClient::isMyData(clientData *&_data, Contact *&contact)
 
 bool MSNClient::createData(clientData *&_data, Contact *contact)
 {
-    MSNUserData *data = (MSNUserData*)_data;
-    MSNUserData *new_data = (MSNUserData*)(contact->clientData.createData(this));
+    MSNUserData *data = toMSNUserData(_data);
+    MSNUserData *new_data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     new_data->EMail.str() = data->EMail.str();
     _data = (clientData*)new_data;
     return true;
@@ -1042,7 +1042,7 @@ bool MSNClient::createData(clientData *&_data, Contact *contact)
 
 void MSNClient::setupContact(Contact *contact, void *_data)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     QString phones;
     if (!data->PhoneHome.str().isEmpty()){
         phones += data->PhoneHome.str();
@@ -1118,7 +1118,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, Contact *&contact)
     while ((contact = ++itc) != NULL){
         MSNUserData *res;
         ClientDataIterator it(contact->clientData, this);
-        while ((res = (MSNUserData*)(++it)) != NULL){
+        while ((res = toMSNUserData(++it)) != NULL){
             if (res->EMail.str() == mail)
                 return res;
         }
@@ -1128,7 +1128,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, Contact *&contact)
 
 QString MSNClient::contactName(void *clientData)
 {
-    MSNUserData *data = (MSNUserData*)clientData;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)clientData); // FIXME unsafe type conversion
     return "MSN: " + data->EMail.str();
 }
 
@@ -1163,7 +1163,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
         ContactList::ContactIterator it;
         while ((contact = ++it) != NULL){
             if (contact->getName() == name_str){
-                data = (MSNUserData*)(contact->clientData.createData(this));
+                data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                 data->EMail.str() = mail;
                 data->ScreenName.str() = name;
                 setupContact(contact, data);
@@ -1175,7 +1175,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
         it.reset();
         while ((contact = ++it) != NULL){
             if (contact->getName().lower() == name_str.lower()){
-                data = (MSNUserData*)(contact->clientData.createData(this));
+                data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                 data->EMail.str() = mail;
                 data->ScreenName.str() = name;
                 setupContact(contact, data);
@@ -1191,7 +1191,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
             it.reset();
             while ((contact = ++it) != NULL){
                 if (contact->getName().lower() == name_str.lower()){
-                    data = (MSNUserData*)(contact->clientData.createData(this));
+                    data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                     data->EMail.str() = mail;
                     data->ScreenName.str() = name;
                     setupContact(contact, data);
@@ -1204,7 +1204,7 @@ MSNUserData *MSNClient::findContact(const QString &mail, const QString &name, Co
         }
     }
     contact = getContacts()->contact(0, true);
-    data = (MSNUserData*)(contact->clientData.createData(this));
+    data = toMSNUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     data->EMail.str() = mail;
     data->ScreenName.str() = name;
     contact->setName(name_str);
@@ -1218,7 +1218,7 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *
     ContactList::GroupIterator itg;
     while ((grp = ++itg) != NULL){
         ClientDataIterator it(grp->clientData, this);
-        MSNUserData *res = (MSNUserData*)(++it);
+        MSNUserData *res = toMSNUserData(++it);
         if ((res == NULL) || (res->Group.toULong() != id))
             continue;
         if (!name.isEmpty() && res->ScreenName.setStr(name)){
@@ -1235,13 +1235,13 @@ MSNUserData *MSNClient::findGroup(unsigned long id, const QString &name, Group *
     while ((grp = ++itg) != NULL){
         if (grp->getName() != grpName)
             continue;
-        MSNUserData *res = (MSNUserData*)(grp->clientData.createData(this));
+        MSNUserData *res = toMSNUserData((SIM::clientData*)grp->clientData.createData(this)); // FIXME unsafe type conversion
         res->Group.asULong() = id;
         res->ScreenName.str() = name;
         return res;
     }
     grp = getContacts()->group(0, true);
-    MSNUserData *res = (MSNUserData*)(grp->clientData.createData(this));
+    MSNUserData *res = toMSNUserData((SIM::clientData*)grp->clientData.createData(this)); // FIXME unsafe type conversion
     res->Group.asULong() = id;
     res->ScreenName.str() = name;
     grp->setName(grpName);
@@ -1349,7 +1349,7 @@ bool MSNClient::processEvent(Event *e)
         while ((contact = ++it) != NULL){
             MSNUserData *data;
             ClientDataIterator itc(contact->clientData, this);
-            while ((data = (MSNUserData*)(++itc)) != NULL){
+            while ((data = toMSNUserData(++itc)) != NULL){
                 if (data->EMail.str() == addr){
                     contact->clientData.freeData(data);
                     ClientDataIterator itc(contact->clientData);
@@ -1366,7 +1366,7 @@ bool MSNClient::processEvent(Event *e)
         Contact *contact = ei->contact();
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = toMSNUserData(++it)) != NULL){
             if (data->IP.ip()) {
                 ei->setIP(data->IP.ip());
                 return true;
@@ -1381,7 +1381,7 @@ bool MSNClient::processEvent(Event *e)
             return false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = toMSNUserData(++it)) != NULL){
             if (dataName(data) == ema->msg()->client()){
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock)
@@ -1398,7 +1398,7 @@ bool MSNClient::processEvent(Event *e)
             return false;
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = toMSNUserData(++it)) != NULL){
             if (dataName(data) == emd->msg()->client()){
                 SBSocket *sock = dynamic_cast<SBSocket*>(data->sb.object());
                 if (sock)
@@ -1415,7 +1415,7 @@ bool MSNClient::processEvent(Event *e)
             case EventContact::eDeleted: {
                 MSNUserData *data;
                 ClientDataIterator it(contact->clientData, this);
-                while ((data = (MSNUserData*)(++it)) != NULL){
+                while ((data = toMSNUserData(++it)) != NULL){
                     findRequest(data->EMail.str(), LR_CONTACTxCHANGED, true);
                     MSNListRequest lr;
                     if (data->Group.toULong() != NO_GROUP){
@@ -1436,7 +1436,7 @@ bool MSNClient::processEvent(Event *e)
             case EventContact::eChanged: {
                 MSNUserData *data;
                 ClientDataIterator it(contact->clientData, this);
-                while ((data = (MSNUserData*)(++it)) != NULL){
+                while ((data = toMSNUserData(++it)) != NULL){
                     bool bChanged = false;
                     if (contact->getIgnore() != ((data->Flags.toULong() & MSN_BLOCKED) != 0))
                         bChanged = true;
@@ -1466,7 +1466,7 @@ bool MSNClient::processEvent(Event *e)
         switch (ev->action()) {
         case EventGroup::eChanged: {
             ClientDataIterator it(grp->clientData, this);
-            MSNUserData *data = (MSNUserData*)(++it);
+            MSNUserData *data = toMSNUserData(++it);
             if ((data == NULL) || (grp->getName() != data->ScreenName.str())){
                 findRequest(grp->id(), LR_GROUPxCHANGED, true);
                 MSNListRequest lr;
@@ -1479,7 +1479,7 @@ bool MSNClient::processEvent(Event *e)
         }
         case EventGroup::eDeleted: {
             ClientDataIterator it(grp->clientData, this);
-            MSNUserData *data = (MSNUserData*)(++it);
+            MSNUserData *data = toMSNUserData(++it);
             if (data){
                 findRequest(grp->id(), LR_GROUPxCHANGED, true);
                 MSNListRequest lr;
@@ -1630,7 +1630,7 @@ void MSNClient::processRequests()
                     Group *grp = getContacts()->group(contact->getGroup());
                     if(grp) {
                         ClientDataIterator it(grp->clientData, this);
-                        MSNUserData *res = (MSNUserData*)(++it);
+                        MSNUserData *res = toMSNUserData(++it);
                         if (res)
                             grp_id = res->Group.toULong();
                     }
@@ -1680,12 +1680,12 @@ void MSNClient::processRequests()
             grp = getContacts()->group(it->Name.toULong());
             if (grp){
                 ClientDataIterator it(grp->clientData, this);
-                data = (MSNUserData*)(++it);
+                data = toMSNUserData(++it);
                 if (data){
                     packet = new RegPacket(this, data->Group.toULong(), quote(grp->getName()));
                 }else{
                     packet = new AdgPacket(this, grp->id(), quote(grp->getName()));
-                    data = (MSNUserData*)(grp->clientData.createData(this));
+                    data = toMSNUserData((SIM::clientData*)grp->clientData.createData(this)); // FIXME unsafe type conversion
                 }
                 data->ScreenName.str() = grp->getName();
             }
@@ -1723,7 +1723,7 @@ bool MSNClient::add(const QString &mail, const QString &name, unsigned grp)
 
 bool MSNClient::compareData(void *d1, void *d2)
 {
-    return (((MSNUserData*)d1)->EMail.str() == ((MSNUserData*)d2)->EMail.str());
+    return (toMSNUserData((SIM::clientData*)d1)->EMail.str() == (toMSNUserData((SIM::clientData*)d2)->EMail.str())); // FIXME unsafe type conversion
 }
 
 static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
@@ -1745,7 +1745,7 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 
 void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QString &statusIcon, QString *icons)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned cmp_status = data->Status.toULong();
     const CommandDef *def;
     for (def = protocol()->statusList(); def->text; def++){
@@ -1776,7 +1776,7 @@ void MSNClient::contactInfo(void *_data, unsigned long &curStatus, unsigned&, QS
 
 QString MSNClient::contactTip(void *_data)
 {
-    MSNUserData *data = (MSNUserData*)_data;
+    MSNUserData *data = toMSNUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned long status = STATUS_UNKNOWN;
     unsigned style  = 0;
     QString statusIcon;
@@ -1835,6 +1835,42 @@ QWidget *MSNClient::searchWindow(QWidget *parent)
         return NULL;
     return new MSNSearch(this, parent);
 }
+
+
+MSNUserData* MSNClient::toMSNUserData(SIM::clientData * data)
+{
+   // This function is used to more safely preform type conversion from SIM::clientData* into MSNUserData*
+   // It will at least warn if the content of the structure is not MSNUserData
+   // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
+   if (! data) return NULL;
+   if (data->Sign.asULong() != MSN_SIGN)
+   {
+      QString Signs[] = {
+        "Unknown(0)" ,     // 0x0000
+        "ICQ_SIGN",        // 0x0001
+        "JABBER_SIGN",     // 0x0002
+        "MSN_SIGN",        // 0x0003
+        "Unknown(4)"       // 0x0004
+        "LIVEJOURNAL_SIGN",// 0x0005
+        "SMS_SIGN",        // 0x0006
+        "Unknown(7)",      // 0x0007
+        "Unknown(8)",      // 0x0008
+        "YAHOO_SIGN"       // 0x0009
+      };
+      QString Sign;
+      if (data->Sign.toULong()<=9) // is always >=0 as it is unsigned int
+        Sign = Signs[data->Sign.toULong()];
+      else
+        Sign = QString("Unknown(%1)").arg(Sign.toULong());
+
+      log(L_ERROR,
+        "ATTENTION!! Unsafly converting %s user data into MSN_SIGN",
+         Sign.latin1());
+//      abort();
+   }
+   return (MSNUserData*) data;
+}
+
 
 SBSocket::SBSocket(MSNClient *client, Contact *contact, MSNUserData *data)
 {

@@ -271,7 +271,7 @@ void SynPacket::answer(const QStringList &args)
     while ((grp = ++itg) != NULL){
         MSNUserData *data;
         ClientDataIterator it(grp->clientData, m_client);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = m_client->toMSNUserData(++it)) != NULL){
             data->sFlags.asULong() = data->Flags.toULong();
             if (args.size() > 1)
                 data->Flags.asULong()  = 0;
@@ -282,7 +282,7 @@ void SynPacket::answer(const QStringList &args)
     while ((contact = ++itc) != NULL){
         MSNUserData *data;
         ClientDataIterator it(contact->clientData, m_client);
-        while ((data = (MSNUserData*)(++it)) != NULL){
+        while ((data = m_client->toMSNUserData(++it)) != NULL){
             data->sFlags.asULong() = data->Flags.toULong();
             if (args.size() > 1)
                 data->Flags.asULong()  = 0;
@@ -329,9 +329,9 @@ void AdgPacket::answer(const QStringList &args)
         return;
     MSNUserData *data;
     ClientDataIterator it(grp->clientData, m_client);
-    data = (MSNUserData*)(++it);
+    data = m_client->toMSNUserData(++it);
     if (data == NULL)
-        data = (MSNUserData*)(grp->clientData.createData(m_client));
+        data = m_client->toMSNUserData((SIM::clientData*)grp->clientData.createData(m_client)); // FIXME unsafe type conversion
     data->Group.asULong() = args[2].toULong();
 }
 
