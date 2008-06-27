@@ -144,7 +144,7 @@ void YahooInfo::apply(Client *client, void *_data)
 {
     if (client != m_client)
         return;
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = m_client->toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     data->Nick.str()  = edtNick->text();
     data->First.str() = edtFirst->text();
     data->Last.str()  = edtLast->text();

@@ -179,6 +179,7 @@ public:
     void sendFile(SIM::FileMessage *msg, QFile *file, YahooUserData *data, unsigned short port);
     std::list<Message_ID>		m_waitMsg;
     std::list<SIM::Message*>	m_ackMsg;
+    YahooUserData* toYahooUserData(SIM::clientData * data);
 protected slots:
     void ping();
 protected:

@@ -164,7 +164,7 @@ bool YahooClient::send(Message *msg, void *_data)
 {
     if ((getState() != Connected) || (_data == NULL))
         return false;
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     Message_ID msg_id;
     switch (msg->type()){
     case MessageTypingStart:
@@ -941,7 +941,7 @@ QString YahooClient::name()
 
 QString YahooClient::dataName(void *_data)
 {
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     return name() + "+" + data->Login.str();
 }
 
@@ -1019,7 +1019,7 @@ void YahooClient::disconnected()
     while ((contact = ++it) != NULL){
         YahooUserData *data;
         ClientDataIterator it(contact->clientData, this);
-        while ((data = (YahooUserData*)(++it)) != NULL){
+        while ((data = toYahooUserData(++it)) != NULL){
             if (data->Status.toULong() != YAHOO_STATUS_OFFLINE){
                 data->Status.asULong() = YAHOO_STATUS_OFFLINE;
                 StatusMessage *m = new StatusMessage();
@@ -1052,7 +1052,7 @@ bool YahooClient::isMyData(clientData *&_data, Contact*&contact)
 {
     if (_data->Sign.toULong() != YAHOO_SIGN)
         return false;
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = toYahooUserData(_data);
     YahooUserData *my_data = findContact(data->Login.str().utf8(), NULL, contact);
     if (!my_data){
         contact = NULL;
@@ -1062,8 +1062,8 @@ bool YahooClient::isMyData(clientData *&_data, Contact*&contact)
 
 bool YahooClient::createData(clientData *&_data, Contact *contact)
 {
-    YahooUserData *data = (YahooUserData*)_data;
-    YahooUserData *new_data = (YahooUserData*)(contact->clientData.createData(this));
+    YahooUserData *data = toYahooUserData(_data);
+    YahooUserData *new_data = toYahooUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     new_data->Nick.str() = data->Nick.str();
     _data = (clientData*)new_data;
     return true;
@@ -1107,7 +1107,7 @@ void YahooClient::loadList(const char *str)
     while ((contact = ++it) != NULL){
         YahooUserData *data;
         ClientDataIterator itd(contact->clientData, this);
-        while ((data = (YahooUserData*)(++itd)) != NULL){
+        while ((data = toYahooUserData(++itd)) != NULL){
             data->bChecked.asBool() = (contact->getGroup() == 0);
         }
     }
@@ -1170,7 +1170,7 @@ void YahooClient::loadList(const char *str)
         ClientDataIterator itd(contact->clientData, this);
         list<YahooUserData*> dataForRemove;
         bool bChanged = false;
-        while ((data = (YahooUserData*)(++itd)) != NULL){
+        while ((data = toYahooUserData(++itd)) != NULL){
             if (!data->bChecked.toBool()){
                 dataForRemove.push_back(data);
                 bChanged = true;
@@ -1198,7 +1198,7 @@ YahooUserData *YahooClient::findContact(const char *_id, const char *grpname, Co
     while ((contact = ++it) != NULL){
         YahooUserData *data;
         ClientDataIterator itd(contact->clientData);
-        while ((data = (YahooUserData*)(++itd)) != NULL){
+        while ((data = toYahooUserData(++itd)) != NULL){
             if (id == data->Login.str())
                 return data;
         }
@@ -1207,7 +1207,7 @@ YahooUserData *YahooClient::findContact(const char *_id, const char *grpname, Co
     if (bJoin){
         while ((contact = ++it) != NULL){
             if (contact->getName() == id){
-                YahooUserData *data = (YahooUserData*)contact->clientData.createData(this);
+                YahooUserData *data = toYahooUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
                 data->Login.str() = id;
                 data->Group.str() = QString::fromUtf8(grpname);
                 EventContact e(contact, EventContact::eChanged);
@@ -1234,7 +1234,7 @@ YahooUserData *YahooClient::findContact(const char *_id, const char *grpname, Co
     if (grp == NULL)
         grp = getContacts()->group(0);
     contact = getContacts()->contact(0, true);
-    YahooUserData *data = (YahooUserData*)(contact->clientData.createData(this));
+    YahooUserData *data = toYahooUserData((SIM::clientData*)contact->clientData.createData(this));  // FIXME unsafe type conversion
     data->Login.str() = id;
     contact->setName(id);
     contact->setGroup(grp->id());
@@ -1299,7 +1299,7 @@ static void addIcon(QString *s, const QString &icon, const QString &statusIcon)
 
 void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QString &statusIcon, QString *icons)
 {
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned cmp_status = STATUS_OFFLINE;
     switch (data->Status.toULong()){
     case YAHOO_STATUS_AVAILABLE:
@@ -1350,7 +1350,7 @@ void YahooClient::contactInfo(void *_data, unsigned long &status, unsigned&, QSt
 
 QString YahooClient::contactTip(void *_data)
 {
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     unsigned long status = STATUS_UNKNOWN;
     unsigned style  = 0;
     QString statusIcon;
@@ -1488,7 +1488,7 @@ static CommandDef cfgYahooWnd[] =
 
 CommandDef *YahooClient::infoWindows(Contact*, void *_data)
 {
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = toYahooUserData((SIM::clientData*)_data);  // FIXME unsafe type conversion
     QString name = i18n(protocol()->description()->text);
     name += " ";
     name += data->Login.str();
@@ -1507,7 +1507,7 @@ CommandDef *YahooClient::configWindows()
 
 QWidget *YahooClient::infoWindow(QWidget *parent, Contact*, void *_data, unsigned id)
 {
-    YahooUserData *data = (YahooUserData*)_data;
+    YahooUserData *data = toYahooUserData((SIM::clientData*)_data); // FIXME unsafe type conversion
     switch (id){
     case MAIN_INFO:
         return new YahooInfo(parent, data, this);
@@ -1839,7 +1839,7 @@ bool YahooClient::processEvent(Event *e)
             case EventContact::eDeleted: {
                 ClientDataIterator it(contact->clientData, this);
                 YahooUserData *data;
-                while ((data = (YahooUserData*)(++it)) != NULL){
+                while ((data = toYahooUserData(++it)) != NULL){
                     if (getState() == Connected){
                         removeBuddy(data);
                     }else{
@@ -1863,7 +1863,7 @@ bool YahooClient::processEvent(Event *e)
                     grpName = grp->getName();
                 ClientDataIterator it(contact->clientData, this);
                 YahooUserData *data;
-                while ((data = (YahooUserData*)(++it)) != NULL){
+                while ((data = toYahooUserData(++it)) != NULL){
                     if (getState() == Connected){
                         moveBuddy(data, grpName.utf8());
                     }else{
@@ -1910,7 +1910,7 @@ bool YahooClient::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 YahooUserData *data;
                 ClientDataIterator it(contact->clientData, this);
-                while ((data = (YahooUserData*)(++it)) != NULL){
+                while ((data = toYahooUserData(++it)) != NULL){
                     if (dataName(data) == msg->client())
                         break;
                 }
@@ -1939,7 +1939,7 @@ bool YahooClient::processEvent(Event *e)
                 Contact *contact = getContacts()->contact(msg->contact());
                 if (contact){
                     ClientDataIterator itc(contact->clientData, this);
-                    while ((data = (YahooUserData*)(++itc)) != NULL){
+                    while ((data = toYahooUserData(++itc)) != NULL){
                         if (dataName(data) == msg->client())
                             break;
                     }
@@ -2063,6 +2063,40 @@ void YahooClient::sendFile(FileMessage *msg, QFile *file, YahooUserData *data, u
             break;
         }
     }
+}
+
+YahooUserData* YahooClient::toYahooUserData(SIM::clientData * data)
+{
+   // This function is used to more safely preform type conversion from SIM::clientData* into YahooUserData*
+   // It will at least warn if the content of the structure is not YahooUserData
+   // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
+   if (! data) return NULL;
+   if (data->Sign.asULong() != YAHOO_SIGN)
+   {
+      QString Signs[] = {
+        "Unknown(0)" ,     // 0x0000
+        "ICQ_SIGN",        // 0x0001
+        "JABBER_SIGN",     // 0x0002
+        "MSN_SIGN",        // 0x0003
+        "Unknown(4)"       // 0x0004
+        "LIVEJOURNAL_SIGN",// 0x0005
+        "SMS_SIGN",        // 0x0006
+        "Unknown(7)",      // 0x0007
+        "Unknown(8)",      // 0x0008
+        "YAHOO_SIGN"       // 0x0009
+      };
+      QString Sign;
+      if (data->Sign.toULong()<=9) // is always >=0 as it is unsigned int
+        Sign = Signs[data->Sign.toULong()];
+      else
+        Sign = QString("Unknown(%1)").arg(Sign.toULong());
+
+      log(L_ERROR,
+        "ATTENTION!! Unsafly converting %s user data into YAHOO_SIGN",
+         Sign.latin1());
+//      abort();
+   }
+   return (YahooUserData*) data;
 }
 
 static Message *createYahooFile(Buffer *cfg)
