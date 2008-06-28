@@ -1197,7 +1197,7 @@ YahooUserData *YahooClient::findContact(const char *_id, const char *grpname, Co
     QString id = QString::fromUtf8(_id);
     while ((contact = ++it) != NULL){
         YahooUserData *data;
-        ClientDataIterator itd(contact->clientData);
+        ClientDataIterator itd(contact->clientData, this);
         while ((data = toYahooUserData(++itd)) != NULL){
             if (id == data->Login.str())
                 return data;
