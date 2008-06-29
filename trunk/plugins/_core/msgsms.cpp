@@ -105,6 +105,7 @@ MsgSMS::MsgSMS(MsgEdit *parent, Message *msg)
 
 MsgSMS::~MsgSMS()
 {
+    m_edit->m_userWnd->setStatus(QString::null); // Clear "Size: %1 / Max. size: %2" from status line
     if (m_panel)
         delete m_panel;
 }
