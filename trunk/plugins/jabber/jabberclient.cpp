@@ -2693,8 +2693,8 @@ QImage JabberClient::userPicture(unsigned id)
 
 JabberUserData* JabberClient::toJabberUserData(SIM::clientData * data)
 {
-   // This function is used to more safely preform type conversion from SIM::clientData* into ICQUserData*
-   // It will at least warn if the content of the structure is not ICQUserData
+   // This function is used to more safely preform type conversion from SIM::clientData* into JabberUserData*
+   // It will at least warn if the content of the structure is not JabberUserData
    // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
    if (! data) return NULL;
    if (data->Sign.asULong() != JABBER_SIGN)

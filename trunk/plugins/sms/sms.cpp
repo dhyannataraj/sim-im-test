@@ -442,7 +442,7 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
     while ((contact = ++it) != NULL){
         smsUserData *data;
         ClientDataIterator itd(contact->clientData);
-        while ((data = (smsUserData*)(++itd)) != NULL){
+        while ((data = tosmsUserData(++itd)) != NULL){
             if (name == data->Name.str())
                 break;
         }
@@ -473,7 +473,7 @@ void SMSClient::phonebookEntry(int index, int type, const QString &phone, const 
             phones += ";";
         contact->setPhones(phones + phone + ",,2/-");
     }
-    smsUserData *data = (smsUserData*)contact->clientData.createData(this);
+    smsUserData *data = tosmsUserData((SIM::clientData*)contact->clientData.createData(this)); // FIXME unsafe type conversion
     data->Phone.str() = phone;
     data->Name.str()  = name;
     data->Index.asULong() = index;
@@ -606,6 +606,40 @@ void SMSClient::callTimeout()
     m_call = NULL;
     m_callTimer->stop();
     m_callNumber = "";
+}
+
+smsUserData* SMSClient::tosmsUserData(SIM::clientData * data)
+{
+   // This function is used to more safely preform type conversion from SIM::clientData* into smsUserData*
+   // It will at least warn if the content of the structure is not smsUserData
+   // Brave wariors may uncomment abort() function call to know for sure about wrong conversion ;-)
+   if (! data) return NULL;
+   if (data->Sign.asULong() != SMS_SIGN)
+   {
+      QString Signs[] = {
+        "Unknown(0)" ,     // 0x0000
+        "ICQ_SIGN",        // 0x0001
+        "JABBER_SIGN",     // 0x0002
+        "MSN_SIGN",        // 0x0003
+        "Unknown(4)"       // 0x0004
+        "LIVEJOURNAL_SIGN",// 0x0005
+        "SMS_SIGN",        // 0x0006
+        "Unknown(7)",      // 0x0007
+        "Unknown(8)",      // 0x0008
+        "YAHOO_SIGN"       // 0x0009
+      };
+      QString Sign;
+      if (data->Sign.toULong()<=9) // is always >=0 as it is unsigned int
+        Sign = Signs[data->Sign.toULong()];
+      else
+        Sign = QString("Unknown(%1)").arg(Sign.toULong());
+
+      log(L_ERROR,
+        "ATTENTION!! Unsafly converting %s user data into SMS_SIGN",
+         Sign.latin1());
+//      abort();
+   }
+   return (smsUserData*) data;
 }
 
 QWidget *SMSClient::searchWindow(QWidget*)

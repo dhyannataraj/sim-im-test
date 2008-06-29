@@ -19,6 +19,7 @@
 #define _SMS_H
 
 #include "socket.h"
+#include "log.h"
 
 class SMSProtocol;
 class GsmTA;
@@ -88,6 +89,7 @@ public:
     PROP_ULONG(Quality);
     QCString model() const;
     QCString oper() const;
+    smsUserData* tosmsUserData(SIM::clientData * data);
 protected slots:
     void error();
     void init();
