@@ -234,7 +234,7 @@ bool MsgSMS::processEvent(Event *e)
             Command c;
             c->id    = CmdPhoneNumber;
             c->param = m_edit;
-            EventCommandWidget eWidget(cmd);
+            EventCommandWidget eWidget(c);
             eWidget.process();
             CToolCombo *cmbPhone = dynamic_cast<CToolCombo*>(eWidget.widget());
             if (cmbPhone)
