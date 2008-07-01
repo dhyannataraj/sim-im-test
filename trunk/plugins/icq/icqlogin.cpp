@@ -113,9 +113,9 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
             socket()->writeBuffer().tlv(0x0025, md.data(), md.length());
 	        if (data.owner.Uin.toULong()){
                 socket()->writeBuffer().tlv(0x0003, "ICQ Inc. - Product of ICQ (TM).2003b.5.56.1.3916.85");  //ToDo: Should be updated anytime
-                socket()->writeBuffer().tlv(0x0016, 0x010A);
-                socket()->writeBuffer().tlv(0x0017, 0x0002);
-                socket()->writeBuffer().tlv(0x0018, 0x0038);
+                socket()->writeBuffer().tlv(0x0016, 0x014A); // ID Number
+                socket()->writeBuffer().tlv(0x0017, 0x0024); // major
+                socket()->writeBuffer().tlv(0x0018, 0x003D); // minor
                 socket()->writeBuffer().tlv(0x0019, 0x0001);
                 socket()->writeBuffer().tlv(0x001A, 0x0F4C);
                 socket()->writeBuffer().tlv(0x0014, 0x00000055L);
@@ -129,7 +129,7 @@ void ICQClient::snac_login(unsigned short type, unsigned short)
                 socket()->writeBuffer().tlv(0x0019, (unsigned short)0x0000);
                 socket()->writeBuffer().tlv(0x001A, (unsigned short)0x0BDC);
                 socket()->writeBuffer().tlv(0x0014, 0x000000D2L);
-                socket()->writeBuffer().tlv(0x000F, "en");
+                socket()->writeBuffer().tlv(0x000F, "en");		//Todo Send right language shortcut ;) same below
                 socket()->writeBuffer().tlv(0x000E, "us");
                 socket()->writeBuffer().tlv(0x004A, "\x01");
 	        }
@@ -203,13 +203,13 @@ void ICQClient::chn_login()
         socket()->writeBuffer().tlv(0x0001, uin);
         socket()->writeBuffer().tlv(0x0002, pswd.data(), pswd.size());
         socket()->writeBuffer().tlv(0x0003, "ICQBasic");  // ID String, currently ICQ 5.1 (21.08.2006)
-        socket()->writeBuffer().tlv(0x0016, 0x010A);      // ID Number
-        socket()->writeBuffer().tlv(0x0017, 0x0014);      // major
-        socket()->writeBuffer().tlv(0x0018, 0x0034);      // minor
+        socket()->writeBuffer().tlv(0x0016, 0x014A); // ID Number
+        socket()->writeBuffer().tlv(0x0017, 0x0024); // major
+        socket()->writeBuffer().tlv(0x0018, 0x003D); // minor
         socket()->writeBuffer().tlv(0x0019, 0x0000);      // lesser
         socket()->writeBuffer().tlv(0x001A, 0x0bb8);      // build number
         socket()->writeBuffer().tlv(0x0014, 0x00000442L); // distribution number
-        socket()->writeBuffer().tlv(0x000f, "en");
+        socket()->writeBuffer().tlv(0x000f, "en");		//Todo Send right language shortcut
         socket()->writeBuffer().tlv(0x000e, "us");
         sendPacket(true);
         return;
