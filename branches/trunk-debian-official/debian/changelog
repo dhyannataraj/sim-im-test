@@ -1,4 +1,4 @@
-sim (0.9.5~svn20080613-1) unstable; urgency=low
+sim (0.9.5~svn20080716-1) unstable; urgency=low
 
   * New upstream 0.9.4.5 SVN is available (Closes: #420095)
   * sounds/icons with unclear licensing (Closes: #386570)
@@ -8,7 +8,7 @@ sim (0.9.5~svn20080613-1) unstable; urgency=low
     for the binary packages instead of gzip.
   * Updated rules and control to use cmake.
 
- -- Alexander Petrov <zowers@gmail.com>  Fri, 13 Jun 2008 04:30:38 -0500
+ -- Alexander Petrov <zowers@gmail.com>  Wed, 23 Jul 2008 15:57:58 +0400
 
 sim (0.9.4.2-1) unstable; urgency=high
 
