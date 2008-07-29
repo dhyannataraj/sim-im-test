@@ -23,11 +23,11 @@ tmp = $(tmp_sim)
 pixmaps = $(tmp)/usr/share/pixmaps
 overrides = $(tmp)/usr/share/lintian/overrides
 kdedocs = $(tmp)/usr/share/doc/kde/HTML
-sim_data_dirs = usr/share/apps/sim  usr/share/icons  usr/share/locale  usr/share/pixmaps
+sim_data_dirs = usr/share/apps/sim  usr/share/icons  usr/share/locale
 
 stamps_to_clean = admin/make-common-stamp build-stamp build-stamp-sim build-stamp-sim-qt install-stamp-sim-data
-files_to_clean = debian/debiandirs configure aclocal.m4 acinclude.m4 po/*gmo config.log config.status
-dirs_to_clean = doc/en/HTML debian/sim-build debian/sim-qt-build
+files_to_clean = debian/debiandirs configure aclocal.m4 acinclude.m4 po/*gmo config.log config.status debian/*.log
+dirs_to_clean = doc/en/HTML debian/sim-build debian/sim-qt-build debian/sim-data
 
 INSTALL_DIR = install -p -d -o root -g root -m 755
 INSTALL_FILE = install -p -o root -g root -m 644
@@ -77,7 +77,7 @@ build-stamp:
 
 build-stamp-sim: admin/make-common-stamp
 	# delete stamp for sim-qt
-	-rm -f build-stamp-sim-qt
+	#-rm -f build-stamp-sim-qt
 
 	# configure sim
 	-mkdir -p $(bld_sim)
@@ -99,7 +99,7 @@ build-stamp-sim: admin/make-common-stamp
 
 build-stamp-sim-qt: admin/make-common-stamp
 	# delete stamp for sim
-	-rm -f build-stamp-sim
+	#-rm -f build-stamp-sim
 
 	# configure sim-qt
 	-mkdir -p $(bld_sim_qt)
@@ -129,9 +129,6 @@ build:
 clean-common:
 	dh_testdir	-p$(pkg)
 	dh_testroot	-p$(pkg)
-
-	# make clean
-	-$(MAKE) --directory=$(tmp)-build clean
 
 	# clean other files
 	-rm -f $(stamps_to_clean)
@@ -183,6 +180,7 @@ install-common: build-$(pkg)
 	  cd $$OLDPWD; done
 
 	debian/rules install-sim-data-from src_pkg=$(pkg) src_tmp=$(tmp)
+	-rmdir $(tmp)/usr/share/apps
 
 install-sim:
 	debian/rules install-common pkg=$(sim) tmp=$(tmp_sim)
@@ -223,7 +221,7 @@ binary-arch-common: build-$(pkg) install-$(pkg)
 	dh_installmenu	-p$(pkg)
 	dh_installman	-p$(pkg)
 	dh_installchangelogs -p$(pkg) ChangeLog
-	dh_installman	-p$(pkg) -a debian/sim.1
+	dh_installman	-p$(pkg) -a debian/sim.1 debian/simctrl.1
 	dh_link			-p$(pkg)
 	dh_strip		-p$(pkg)
 	dh_compress		-p$(pkg) --exclude=.docbook --exclude=.bz2

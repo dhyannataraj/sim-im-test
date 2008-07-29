@@ -1,5 +1,1 @@
-sim: description-starts-with-package-name
-sim: binary-without-manpage simctrl
 sim: package-name-doesnt-match-sonames libsim0
-sim: menu-icon-missing /usr/share/pixmaps/sim.xpm
-sim: menu-icon-missing /usr/share/pixmaps/sim-16.xpm

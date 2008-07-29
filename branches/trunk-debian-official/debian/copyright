@@ -24,3 +24,6 @@ Copyright:
 The GPL license can be found in /usr/share/common-licenses/GPL-2 on modern
 Debian systems or at http://www.gnu.org/copyleft/gpl.html
 
+OpenSSL exemption:
+This program is released under the GPL with the additional exemption that
+compiling, linking, and/or using OpenSSL is allowed.

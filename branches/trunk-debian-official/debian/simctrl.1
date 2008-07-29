@@ -1,0 +1,117 @@
+.TH "SIMCTRL" "1" "July 29, 2008" "SIM-IM Team" "Sim-IM Instant Messenger"
+.SH NAME
+simctrl \- Sim-IM Instant Messenger controller
+.SH SYNOPSIS
+.B simctrl
+[\fIoptions\fR] [\fIuin files\fR]
+.SH DESCRIPTION
+.B simctrl
+is command line controller for 
+.BR sim (1)
+which is a simple and powerful multi-protocol instant messenger.
+.B simctrl
+executes commands either interactively or in batch mode.
+Running
+.B simctrl
+without options switches
+.B simctrl
+to interactive mode when simctrl waits for commands and sends.
+Running
+.B simctrl
+with
+.B \-c
+.I command
+switches simctrl to batch mode.
+In both modes simctrl talks with running instance of 
+.BR sim (1).
+.SH OPTIONS
+.TP
+.I uin files
+UIN files
+.TP
+.B -h
+Show help about options
+.TP
+\fB\-c\fR \fIcommand\fR
+execute \fIcommand\fR on running \fBsim (1)\fR instance.
+.TP
+\fB\-s\fR \fIsocket\fR
+use socket file \fIsocket\fR for communication with running \fBsim (1)\fR.
+.SH "COMMANDS"
+Below are commands \fBsimctrl\fR recognizes. Commands are processed case-insensitively.
+.TP
+.B STATUS
+set status
+.TP
+.B INVISIBLE
+set invisible mode
+.TP
+.B MAINWINDOW
+show/hide main window
+.TP
+.B SEARCHWINDOW
+show/hide search window
+.TP
+.B QUIT
+quit SIM
+.TP
+.B CLOSE
+close session
+.TP
+.B HELP
+command help information
+.TP
+.B ADD
+add contact
+.TP
+.B DELETE
+delete contact
+.TP
+.B OPEN
+open contact
+.TP
+.B FILE
+process UIN file
+.TP
+.B CONTACTS
+print contact list
+.TP
+.B SENDFILE
+send file
+.TP
+.B GROUP
+get group name
+.TP
+.B SHOW
+open unread message
+.TP
+.B SMS
+send SMS
+.SH "SEE ALSO"
+.BR sim (1).
+.PP
+Information and help about SIM-IM can be found at project's site
+.B http://sim-im.org/
+.PP
+SIM is based on KDE and QT. Information about KDE project can be found at 
+.B http://kde.org/
+.PP
+The full documentation for
+.B Qt
+is maintained as a Texinfo manual.  If the
+.B info
+and
+.B Qt
+programs are properly installed at your site, the command
+.IP
+.B info Qt
+.PP
+should give you access to the complete manual.
+More information about Qt can be found at Trolltech's site
+.B http://doc.trolltech.com/qt.html
+
+.SH "AUTHORS"
+SIM-IM Team, see
+.B http://sim-im.org/
+and
+.BR /usr/share/doc/sim/AUTHORS.sim
