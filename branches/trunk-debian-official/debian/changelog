@@ -1,4 +1,4 @@
-sim (sim-0.9.5~svn20080716-1) unstable; urgency=low
+sim (0.9.5~svn20080716-1) unstable; urgency=low
 
   * New upstream version 0.9.4.5 SVN (Closes: #420095)
   * Replaced sounds and icons with unclear licensing with GPL ones. (Closes: #386570)
@@ -8,7 +8,7 @@ sim (sim-0.9.5~svn20080716-1) unstable; urgency=low
     for the binary packages instead of gzip.
   * Updated rules and control to use cmake.
 
- -- Alexander <zowers@gmail.com>  Tue, 29 Jul 2008 16:17:35 +0400
+ -- Alexander Petrov <zowers@gmail.com>  Tue, 29 Jul 2008 16:17:35 +0400
 
 sim (0.9.4.2-1) unstable; urgency=high
 
