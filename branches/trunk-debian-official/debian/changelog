@@ -1,7 +1,9 @@
 sim (0.9.5~svn20080716-1) unstable; urgency=low
 
   * New upstream version 0.9.4.5 SVN (Closes: #420095)
-  * Replaced sounds and icons with unclear licensing with GPL ones. (Closes: #386570)
+  * Replaced sounds and icons with unclear licensing with GPL ones.
+    (Closes: #386570)
+  * New rules allow double compilation (Closes: #489898)
   * Fixed bashism in debian/rules (Closes: #484436)
   * Updated libpng version in debian/control (Closes: #420094)
   * Added "-- -Z bzip2" to dh_builddeb so that we use bzip2 compression

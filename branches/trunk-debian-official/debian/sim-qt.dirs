@@ -1,5 +1,6 @@
 usr/bin
 usr/share/lintian/overrides
+usr/share/pixmaps
 usr/share/man/man1
 usr/share/menu
 usr/share/applications

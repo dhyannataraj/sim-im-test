@@ -29,7 +29,6 @@ stamps_to_clean = admin/make-common-stamp build-stamp build-stamp-sim build-stam
 files_to_clean = debian/debiandirs configure aclocal.m4 acinclude.m4 po/*gmo config.log config.status debian/*.log
 dirs_to_clean = doc/en/HTML debian/sim-build debian/sim-qt-build debian/sim-data
 
-INSTALL_DIR = install -p -d -o root -g root -m 755
 INSTALL_FILE = install -p -o root -g root -m 644
 
 # These are used for cross-compiling and for saving the configure script
@@ -156,13 +155,12 @@ install-common: build-$(pkg)
 	dh_installdirs	-p$(pkg)
 
 	# Install pixmaps.
-	$(INSTALL_DIR) $(pixmaps)
 	$(INSTALL_FILE) debian/sim.xpm $(pixmaps)
 	$(INSTALL_FILE) debian/sim-16.xpm $(pixmaps)
 
 	# Install overrides.
-	$(INSTALL_DIR) $(overrides)
-	$(INSTALL_FILE) debian/$(pkg).override $(overrides)/$(pkg)
+	dh_lintian	-p$(pkg)
+	#$(INSTALL_FILE) debian/$(pkg).override $(overrides)/$(pkg)
 
 	# Main install.
 	$(MAKE) --directory=$(tmp)-build install DESTDIR=$(tmp)
@@ -221,7 +219,6 @@ binary-arch-common: build-$(pkg) install-$(pkg)
 	dh_installmenu	-p$(pkg)
 	dh_installman	-p$(pkg)
 	dh_installchangelogs -p$(pkg) ChangeLog
-	dh_installman	-p$(pkg) -a debian/sim.1 debian/simctrl.1
 	dh_link			-p$(pkg)
 	dh_strip		-p$(pkg)
 	dh_compress		-p$(pkg) --exclude=.docbook --exclude=.bz2
