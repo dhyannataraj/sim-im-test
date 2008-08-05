@@ -1,0 +1,4 @@
+sim-qt/usr/bin				/usr
+sim-qt/usr/lib				/usr
+sim-qt/usr/share/applications		/usr/share
+sim-qt/usr/share/services		/usr/share

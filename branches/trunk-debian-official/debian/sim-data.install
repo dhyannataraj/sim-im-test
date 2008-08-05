@@ -1,0 +1,4 @@
+sim-qt/usr/share/apps 			/usr/share
+sim-qt/usr/share/icons			/usr/share
+sim-qt/usr/share/locale			/usr/share
+debian/*.xpm				/usr/share/pixmaps

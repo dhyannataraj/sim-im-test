@@ -1,1 +1,3 @@
 sim-qt: package-name-doesnt-match-sonames libsim0
+sim-qt: menu-icon-missing /usr/share/pixmaps/sim.xpm
+sim-qt: menu-icon-missing /usr/share/pixmaps/sim-16.xpm

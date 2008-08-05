@@ -1,0 +1,4 @@
+sim/usr/bin			/usr
+sim/usr/lib			/usr
+sim/usr/share/applications	/usr/share
+sim/usr/share/services		/usr/share

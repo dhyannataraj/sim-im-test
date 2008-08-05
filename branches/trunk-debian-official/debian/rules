@@ -2,65 +2,14 @@
 # sim-im debian/rules that uses debhelper.
 # Copyright (c) 2006-2008 Alexander 'zowers' Petrov.
 
-# This file is based on:
-# # Sample debian/rules that uses debhelper.
-# # GNU copyright 1997 to 1999 by Joey Hess.
-
-# DebHelper control
-export DH_ALWAYS_EXCLUDE=.svn
-export DH_VERBOSE=1
-
-sim = sim
-sim_qt = sim-qt
-sim_data = sim-data
-
-tmp_sim = $(CURDIR)/debian/$(sim)
-bld_sim = $(tmp_sim)-build
-tmp_sim_qt = $(CURDIR)/debian/$(sim_qt)
-bld_sim_qt = $(tmp_sim_qt)-build
-tmp_sim_data = $(CURDIR)/debian/$(sim_data)
-tmp = $(tmp_sim)
-pixmaps = $(tmp)/usr/share/pixmaps
-overrides = $(tmp)/usr/share/lintian/overrides
-kdedocs = $(tmp)/usr/share/doc/kde/HTML
-sim_data_dirs = usr/share/apps/sim  usr/share/icons  usr/share/locale
-
-stamps_to_clean = admin/make-common-stamp build-stamp build-stamp-sim build-stamp-sim-qt install-stamp-sim-data
-files_to_clean = debian/debiandirs configure aclocal.m4 acinclude.m4 po/*gmo config.log config.status debian/*.log
-dirs_to_clean = doc/en/HTML debian/sim-build debian/sim-qt-build debian/sim-data
-
-INSTALL_FILE = install -p -o root -g root -m 644
-
-# These are used for cross-compiling and for saving the configure script
-# from having to guess our platform (since we know it already)
-DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-
-# FOR AUTOCONF 2.52 AND NEWER ONLY
-CONFFLAGS =
-ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
-  CONFFLAGS += --build $(DEB_HOST_GNU_TYPE)
-else
-  CONFFLAGS += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
-endif
-
-CFLAGS = -Wall -g
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CMAKE_BUILD_TYPE=Debug
-	CFLAGS+=-O0
-else
-	CMAKE_BUILD_TYPE=RelWithDebInfo
-	CFLAGS+=-O2
-endif
-
-ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-	INSTALL_PROGRAM += -s
-endif
 
 CMAKE_INSTALL_PREFIX=/usr
 DEV_BUILD=NO
 SIM_ENABLE_FPIE=YES
 USE_GCC_VISIBILITY=YES
+WARN_FLAGS=-w -Wno-conversion -Wno-parentheses
+CFLAGS:=$(CFLAGS) $(WARN_FLAGS)
+CXXFLAGS:=$(CXXFLAGS) $(WARN_FLAGS)
 COMMON_OPTIONS=-DCMAKE_C_FLAGS:STRING="$(CFLAGS)" \
 	-DCMAKE_CXX_FLAGS:STRING="$(CXXFLAGS)" \
 	-DCMAKE_INSTALL_PREFIX:STRING="$(CMAKE_INSTALL_PREFIX)" \
@@ -68,199 +17,65 @@ COMMON_OPTIONS=-DCMAKE_C_FLAGS:STRING="$(CFLAGS)" \
 	-DSIM_ENABLE_FPIE:BOOL="$(SIM_ENABLE_FPIE)" \
 	-DUSE_GCC_VISIBILITY:BOOL="$(USE_GCC_VISIBILITY)"
 
-admin/make-common-stamp:
-	touch admin/make-common-stamp
+SIM_OPTIONS	=	$(COMMON_OPTIONS) -DENABLE_KDE3:BOOL=YES
+SIM_QT_OPTIONS	=	$(COMMON_OPTIONS) -DENABLE_KDE3:BOOL=NO
 
-build-stamp:
-	touch build-stamp
+TMP_DIR	=	$(CURDIR)/debian/tmp
 
-build-stamp-sim: admin/make-common-stamp
-	# delete stamp for sim-qt
-	#-rm -f build-stamp-sim-qt
 
-	# configure sim
-	-mkdir -p $(bld_sim)
-	cd $(bld_sim) && cmake \
-	    $(COMMON_OPTIONS) \
-	    -DENABLE_KDE3:BOOL=YES \
-	    $(CURDIR) \
-	&& cd $$OLDPWD # cd old is optional
+clean:
+	dh_clean
+	rm -f *-stamp
+	rm -fr build-sim build-sim-qt
 
-	# Touch all the UI files. This will force uic to regenerate .h as well as .cpp sources.
-	# by default .cpp sources are regenerated but headers are not.
-	touch `find . -name "*.ui"`
 
-	# make sim
-	$(MAKE) --directory=$(bld_sim)
+install: 	configure install-stamp
+install-stamp:
+	dh_testdir
+	dh_testroot
+	make -C build-sim    install DESTDIR=$(TMP_DIR)/sim
+	make -C build-sim-qt install DESTDIR=$(TMP_DIR)/sim-qt
+	find $(TMP_DIR) -type l -name libsim.so -exec rm -f '{}' +
+	touch $@
 
-	# create stamp for sim
-	touch build-stamp-sim
 
-build-stamp-sim-qt: admin/make-common-stamp
-	# delete stamp for sim
-	#-rm -f build-stamp-sim
+configure: 	configure-stamp
+configure-stamp:
+	mkdir build-sim build-sim-qt
+	cd build-sim && cmake $(SIM_OPTIONS) .. 
+	cd build-sim-qt && cmake $(SIM_QT_OPTIONS) .. 
+	touch $@
 
-	# configure sim-qt
-	-mkdir -p $(bld_sim_qt)
-	cd $(bld_sim_qt) && cmake \
-		$(COMMON_OPTIONS) \
-		-DENABLE_KDE3:BOOL=NO \
-		$(CURDIR) \
-	&& cd $$OLDPWD # cd old is optional
+binary-arch:
+    # required
+binary-indep:
+    # required
 
-	# Touch all the UI files. This will force uic to regenerate .h as well as .cpp sources.
-	# by default .cpp sources are regenerated but headers are not.
-	touch `find . -name "*.ui"`
+binary: binary-arch binary-indep install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installman
+	dh_installmenu
+	dh_install
+	dh_lintian
+	dh_link
+	dh_strip
+	dh_installdebconf
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_makeshlibs
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
 
-	# make sim-qt
-	$(MAKE) --directory=$(bld_sim_qt)
-	touch build-stamp-sim-qt
+.PHONY: build \
+	clean \
+	binary \
+	install \
+	configure
 
-build-sim: build-stamp build-stamp-sim
-	#
 
-build-sim-qt: build-stamp build-stamp-sim-qt
-	#
-
-build:
-	# build is just a required stub (Policy: 4.8)
-
-clean-common:
-	dh_testdir	-p$(pkg)
-	dh_testroot	-p$(pkg)
-
-	# clean other files
-	-rm -f $(stamps_to_clean)
-	-rm -f $(files_to_clean)
-	-rm -rf $(dirs_to_clean)
-	-rm -rf $(tmp)
-	-find $(CURDIR) -name Makefile.in -exec rm -f {} \;
-	dh_clean	-p$(pkg)
-
-clean-sim:
-	debian/rules clean-common pkg=$(sim) tmp=$(tmp_sim)
-
-clean-sim-qt:
-	debian/rules clean-common pkg=$(sim_qt) tmp=$(tmp_sim_qt)
-
-clean: clean-sim clean-sim-qt
-	# clean is just a dependecy
-
-install-common: build-$(pkg)
-
-	-rm -f install-stamp-sim-data
-	dh_testdir	-p$(pkg)
-	dh_testroot	-p$(pkg)
-	dh_clean	-p$(pkg) -k
-	dh_installdirs	-p$(pkg)
-
-	# Install pixmaps.
-	$(INSTALL_FILE) debian/sim.xpm $(pixmaps)
-	$(INSTALL_FILE) debian/sim-16.xpm $(pixmaps)
-
-	# Install overrides.
-	dh_lintian	-p$(pkg)
-	#$(INSTALL_FILE) debian/$(pkg).override $(overrides)/$(pkg)
-
-	# Main install.
-	$(MAKE) --directory=$(tmp)-build install DESTDIR=$(tmp)
-
-	# Remove unneeded stuff.
-	rm -f $(tmp)/usr/share/apps/sim/COPYING
-	rm -f $(tmp)/usr/share/mimelnk/application/x-icq.desktop
-	rm -f $(tmp)/usr/lib/libsim.la
-	rm -f $(tmp)/usr/lib/libsim.so
-	rm -f $(tmp)/usr/lib/sim/*.la
-
-	# Generate HTML docs.
-	for i in `find $(tmp) -name "*.docbook"`; do \
-	  cd `dirname $$i`; meinproc `basename $$i`; \
-	  cd $$OLDPWD; done
-
-	debian/rules install-sim-data-from src_pkg=$(pkg) src_tmp=$(tmp)
-	-rmdir $(tmp)/usr/share/apps
-
-install-sim:
-	debian/rules install-common pkg=$(sim) tmp=$(tmp_sim)
-
-install-sim-qt:
-	debian/rules install-common pkg=$(sim_qt) tmp=$(tmp_sim_qt)
-
-install-sim-data-from:
-	dh_testdir	-p$(sim_data)
-	dh_testroot	-p$(sim_data)
-	dh_clean	-p$(sim_data) -k
-	dh_installdirs	-p$(sim_data)
-
-	# move common data files from sim to sim-data
-	for d in  $(sim_data_dirs)  ; do \
-		mv -v $(src_tmp)/$$d $(tmp_sim_data)/$$d ; \
-	done
-	touch install-stamp-sim-data
-
-install-stamp-sim-data:
-	if [ -r build-stamp-sim ] ; then \
-	    debian/rules install-sim ; \
-	else \
-	    debian/rules install-sim-qt ; \
-	fi
-
-install-sim-data: install-stamp-sim-data
-	# install-sim-data is just a dependecy of install-stamp-sim-data
-
-install: install-sim install-sim-qt install-sim-data
-	# install is just a dependecy
-
-# Build architecture-dependent files here.
-binary-arch-common: build-$(pkg) install-$(pkg)
-	dh_testdir		-p$(pkg)
-	dh_testroot		-p$(pkg)
-	dh_installdocs	-p$(pkg)
-	dh_installmenu	-p$(pkg)
-	dh_installman	-p$(pkg)
-	dh_installchangelogs -p$(pkg) ChangeLog
-	dh_link			-p$(pkg)
-	dh_strip		-p$(pkg)
-	dh_compress		-p$(pkg) --exclude=.docbook --exclude=.bz2
-	dh_fixperms		-p$(pkg)
-	dh_makeshlibs	-p$(pkg)
-	dh_installdeb	-p$(pkg)
-	dh_shlibdeps	-p$(pkg) -L$(pkg)
-	dh_gencontrol	-p$(pkg)
-	dh_md5sums		-p$(pkg)
-	dh_builddeb		-p$(pkg) -- -Z bzip2
-
-# Build architecture-dependent files here.
-binary-arch-sim:
-	debian/rules binary-arch-common pkg=$(sim)
-
-# Build architecture-dependent files here.
-binary-arch-sim-qt:
-	debian/rules binary-arch-common pkg=$(sim_qt)
-
-# Build architecture-dependent files here.
-binary-arch: binary-arch-sim binary-arch-sim-qt
-	# binary-arch is just a dependecy
-
-binary-indep-sim-data: install-sim-data
-	dh_installchangelogs -p$(sim_data) ChangeLog
-	dh_installdocs	-p$(sim_data)
-	dh_compress		-p$(sim_data) --exclude=.docbook --exclude=.bz2
-	dh_fixperms		-p$(sim_data)
-	dh_gencontrol	-p$(sim_data)
-	dh_md5sums		-p$(sim_data)
-	dh_builddeb		-p$(sim_data) -- -Z bzip2
-
-# Build architecture-independent files here.
-binary-indep: binary-indep-sim-data
-	# binary-indep is just a dependecy
-
-binary: binary-arch binary-indep
-	# binary is just a dependecy
-
-.PHONY: build build-sim build-sim-qt \
-	clean clean-common clean-sim clean-sim-qt \
-	binary-indep binary-indep-sim-data\
-	binary-arch binary-arch-common  binary-arch-sim binary-arch-sim-qt 
-	binary binary-sim binary-sim-qt \
-	install install-common install-sim install-sim-qt install-sim-data
