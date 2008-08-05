@@ -8,7 +8,7 @@ Homepage: http://sim-im.org/
 
 Package: sim
 Architecture: any
-Depends: ${shlibs:Depends}, sim-data (= ${source:Version}), ${misc:Depends}
+Depends: ${shlibs:Depends}, sim-data (= ${source:Version})
 Conflicts: sim-qt (<= ${source:Version})
 Replaces:  sim-qt (<= ${source:Version})
 Suggests: gnupg (>= 1.4.6)
@@ -40,7 +40,7 @@ Description: simple instant messenger (KDE)
 
 Package: sim-qt
 Architecture: any
-Depends: ${shlibs:Depends}, sim-data (= ${source:Version}), ${misc:Depends}
+Depends: ${shlibs:Depends}, sim-data (= ${source:Version})
 Conflicts: sim (<= ${source:Version})
 Replaces:  sim (<= ${source:Version})
 Suggests: gnupg (>= 1.4.6)

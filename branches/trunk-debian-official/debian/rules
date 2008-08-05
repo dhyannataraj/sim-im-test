@@ -46,12 +46,13 @@ configure-stamp:
 	cd build-sim-qt && cmake $(SIM_QT_OPTIONS) .. 
 	touch $@
 
-binary-arch:
-    # required
-binary-indep:
+binary-arch: install
     # required
 
-binary: binary-arch binary-indep install
+binary-indep: install
+    # required
+
+binary: binary-arch binary-indep
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs 
@@ -65,16 +66,18 @@ binary: binary-arch binary-indep install
 	dh_installdebconf
 	dh_compress
 	dh_fixperms
-	dh_installdeb
 	dh_makeshlibs
+	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
-	dh_builddeb
+	dh_builddeb -- -Z bzip2
 
 .PHONY: build \
 	clean \
 	binary \
+	binary-arch \
+	binary-indep \
 	install \
 	configure
 
