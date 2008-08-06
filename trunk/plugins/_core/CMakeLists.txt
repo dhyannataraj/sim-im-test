@@ -162,8 +162,10 @@ SET(_core_UICS
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)
 
 IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
+    message( "Using non-GPL icons" )
     ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_SRCS)
 ELSE (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
+    message( "Using GPL icons" )
     # substitute with gpl icons
     ADD_JISP_ARCHIVE(GPL-Icons  sim.jisp        _core_SRCS)
 ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)

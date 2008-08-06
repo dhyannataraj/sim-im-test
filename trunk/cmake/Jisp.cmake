@@ -17,7 +17,7 @@ MACRO(ADD_JISP_ARCHIVE subdir jisp_name _sources)
 
     GET_FILENAME_COMPONENT(_in_dir ${CMAKE_CURRENT_SOURCE_DIR}/${subdir}/icondef.xml PATH)
 
-    IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${_in_dir}/icondef.xml)
+    IF(EXISTS ${_in_dir}/icondef.xml)
         FILE(GLOB _in ${_in_dir}/*.png)
         SET(_in ${_in} ${_in_dir}/icondef.xml)
 
@@ -41,5 +41,5 @@ MACRO(ADD_JISP_ARCHIVE subdir jisp_name _sources)
         SET(${_sources} ${${_sources}} ${_out})
 
         INSTALL(FILES ${_out} DESTINATION  ${SIM_ICONS_DIR})
-    ENDIF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${_in_dir}/icondef.xml)
+    ENDIF(EXISTS ${_in_dir}/icondef.xml)
 ENDMACRO(ADD_JISP_ARCHIVE)
