@@ -1078,7 +1078,7 @@ unsigned short ICQClient::sendRoster(unsigned short cmd, const QString &name, un
 
     snac(ICQ_SNACxFOOD_LISTS, cmd, true);
     QCString sName = name.utf8();
-    socket()->writeBuffer().pack(htons(sName.length()));
+    socket()->writeBuffer().pack(static_cast<unsigned short>( htons(sName.length()) ) );
     socket()->writeBuffer().pack(sName.data(), sName.length());
     socket()->writeBuffer()
     << grp_id
