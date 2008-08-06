@@ -161,12 +161,12 @@ SET(_core_UICS
 # so we don't need an extra CMakeLists.txt in every subdirectory
 ADD_JISP_ARCHIVE(jisp       sim.jisp        _core_SRCS)
 
-IF (EXISTS jisp/icondef.xml)
+IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
     ADD_JISP_ARCHIVE(GPL-Icons  GPL-Icons.jisp  _core_SRCS)
-ELSE (EXISTS jisp/icondef.xml)
+ELSE (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
     # substitute with gpl icons
     ADD_JISP_ARCHIVE(GPL-Icons  sim.jisp        _core_SRCS)
-ENDIF (EXISTS jisp/icondef.xml)
+ENDIF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/jisp/icondef.xml)
 
 #ADD_JISP_ARCHIVE(smiles     smiles.jisp     _core_SRCS)
 #ADD_JISP_ARCHIVE(additional additional.jisp _core_SRCS)
