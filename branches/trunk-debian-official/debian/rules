@@ -47,31 +47,48 @@ configure-stamp:
 	touch $@
 
 binary-arch: install
-    # required
-
-binary-indep: install
-    # required
-
-binary: binary-arch binary-indep
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs 
-	dh_installdocs
-	dh_installman
-	dh_installmenu
-	dh_install
-	dh_lintian
-	dh_link
-	dh_strip
-	dh_installdebconf
-	dh_compress
-	dh_fixperms
-	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb -- -Z bzip2
+	dh_installchangelogs 	-psim -psim-qt
+	dh_installdocs		-psim -psim-qt
+	dh_installman		-psim -psim-qt
+	dh_installmenu		-psim -psim-qt
+	dh_install		-psim -psim-qt
+	dh_lintian		-psim -psim-qt
+	dh_link			-psim -psim-qt
+	dh_strip		-psim -psim-qt
+	dh_installdebconf	-psim -psim-qt
+	dh_compress		-psim -psim-qt
+	dh_fixperms		-psim -psim-qt
+	dh_makeshlibs		-psim -psim-qt
+	dh_installdeb		-psim -psim-qt
+	dh_shlibdeps		-psim -psim-qt
+	dh_gencontrol		-psim -psim-qt
+	dh_md5sums		-psim -psim-qt
+	dh_builddeb		-psim -psim-qt -- -Z bzip2
+
+binary-indep: install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 	-psim-data
+	dh_installdocs		-psim-data
+	dh_installman		-psim-data
+	dh_installmenu		-psim-data
+	dh_install		-psim-data
+	dh_lintian		-psim-data
+	dh_link			-psim-data
+	dh_strip		-psim-data
+	dh_installdebconf	-psim-data
+	dh_compress		-psim-data
+	dh_fixperms		-psim-data
+	dh_makeshlibs		-psim-data
+	dh_installdeb		-psim-data
+	dh_shlibdeps		-psim-data
+	dh_gencontrol		-psim-data
+	dh_md5sums		-psim-data
+	dh_builddeb 		-psim-data -- -Z bzip2
+
+binary: binary-arch binary-indep
 
 .PHONY: build \
 	clean \
