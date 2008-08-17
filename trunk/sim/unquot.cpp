@@ -181,6 +181,9 @@ EXPORT QString SIM::quoteString(const QString &_str, quoteMode mode, bool bQuote
     case quoteXML:
         str.replace("\n", "<br/>\n");
         break;
+    case quoteXMLattr:
+        str.replace("'", "&apos;");
+        break;
     default:
         break;
     }

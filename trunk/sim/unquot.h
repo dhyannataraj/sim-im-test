@@ -28,6 +28,7 @@ enum quoteMode
 {
     quoteHTML,
     quoteXML,
+    quoteXMLattr,
     quoteNOBR
 };
 
