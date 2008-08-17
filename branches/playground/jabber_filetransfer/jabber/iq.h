@@ -79,6 +79,8 @@ public:
   virtual void OnReceive(){}
   virtual QString AsString() {/*SIM::log(SIM::L_DEBUG, "AsString for Iq::GenericStaza");*/   return "";}
   virtual void Send();
+  QString encodeXMLattr(const QString&);
+  
   GenericStaza(JabberClient::Iq * iq);
   
   friend class JabberClient::Iq;

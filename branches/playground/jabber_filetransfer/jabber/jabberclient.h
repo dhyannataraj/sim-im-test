@@ -441,6 +441,7 @@ protected:
     void setOffline(JabberUserData *data);
 
     static	QString encodeXML(const QString &str);
+    static	QString encodeXMLattr(const QString &str);
     QString		m_id;
     unsigned	m_depth;
 

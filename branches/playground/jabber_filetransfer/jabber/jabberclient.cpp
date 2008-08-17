@@ -791,12 +791,13 @@ JabberClient::ServerRequest::ServerRequest(JabberClient *client, const char *typ
     if (m_client->socket() == NULL)
         return;
     m_client->socket()->writeBuffer().packetStart();
-    m_client->socket()->writeBuffer() << "<iq type=\'" << type << "\' id=\'" << m_id << "\'";
+    m_client->socket()->writeBuffer() << "<iq type=\'" << encodeXMLattr(type) << "\'";
+    m_client->socket()->writeBuffer() <<" id=\'" << encodeXMLattr(m_id) << "\'";
 
     if (!from.isEmpty())
-        m_client->socket()->writeBuffer() << " from=\'" << from << "\'";
+        m_client->socket()->writeBuffer() << " from=\'" << encodeXMLattr(from) << "\'";
     if (!to.isEmpty())
-        m_client->socket()->writeBuffer() << " to=\'" << to << "\'";
+        m_client->socket()->writeBuffer() << " to=\'" << encodeXMLattr(to) << "\'";
     m_client->socket()->writeBuffer() << ">\n";
 }
 
@@ -840,7 +841,7 @@ void JabberClient::ServerRequest::add_attribute(const QString &name, const QStri
         return;
     m_client->socket()->writeBuffer()
         << " " << name
-        << "=\'" << JabberClient::encodeXML(value) << "\'";
+        << "=\'" << JabberClient::encodeXMLattr(value) << "\'";
 }
 
 void JabberClient::ServerRequest::add_attribute(const QString &name, const char *value)
@@ -978,6 +979,10 @@ void JabberClient::auth_failed()
 QString JabberClient::encodeXML(const QString &str)
 {
     return quoteString(str, quoteNOBR, false);
+}
+QString JabberClient::encodeXMLattr(const QString &str)
+{
+    return quoteString(str, quoteXMLattr, false);
 }
 
 JabberUserData *JabberClient::findContact(const QString &_jid, const QString &name, bool bCreate, Contact *&contact, QString &resource, bool bJoin)

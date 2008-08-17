@@ -20,6 +20,7 @@
 #include "log.h"
 #include "iq.h"
 #include "iq_versioninfo.h"
+#include "unquot.h"
 
 using namespace SIM;
 
@@ -154,15 +155,22 @@ QString JabberClient::Iq::GenericStaza::AsString_add_header(QString internals)
 {
   JabberClient::Iq * parent=m_iq;
   QString header="<iq ";
-  if (!parent->m_local_client.isEmpty()) header+="from='"+parent->m_local_client+"' ";
-  if (!parent->m_remote_client.isEmpty()) header+="to='"+parent->m_remote_client+"' ";
-  if (!m_type.isEmpty()) header+="type='"+m_type+"' ";
-  if (!parent->m_id.isEmpty()) header+="id='"+parent->m_id+"' ";
+  if (!parent->m_local_client.isEmpty()) header+="from='"+encodeXMLattr(parent->m_local_client)+"' ";
+  if (!parent->m_remote_client.isEmpty()) header+="to='"+encodeXMLattr(parent->m_remote_client)+"' ";
+  if (!m_type.isEmpty()) header+="type='"+encodeXMLattr(m_type)+"' ";
+  if (!parent->m_id.isEmpty()) header+="id='"+encodeXMLattr(parent->m_id)+"' ";
   header+=">";
   header+=internals;
   header+="</iq>";
   return header;
 }
+
+QString JabberClient::Iq::GenericStaza::encodeXMLattr(const QString &str)
+{
+    log(L_ERROR,"Quoutng string '%s': '%s'",str.latin1(),SIM::quoteString(str, quoteXMLattr, false).latin1());
+    return SIM::quoteString(str, quoteXMLattr, false);
+}
+    
 
 
 JabberClient::UnknownIq::UnknownIq(unsigned Direction, JabberClient *client)
