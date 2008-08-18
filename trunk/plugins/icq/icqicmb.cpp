@@ -791,6 +791,8 @@ void ICQClient::clearMsgQueue()
         if ((*it).msg) {
             (*it).msg->setError(I18N_NOOP("Client go offline"));
             EventMessageSent((*it).msg).process();
+            if ((*it).msg == m_send.msg)
+                m_send.msg = NULL;
             delete (*it).msg;
         }
     }
@@ -804,6 +806,8 @@ void ICQClient::clearMsgQueue()
         if ((*it).msg) {
             (*it).msg->setError(I18N_NOOP("Client go offline"));
             EventMessageSent((*it).msg).process();
+            if ((*it).msg == m_send.msg)
+                m_send.msg = NULL;
             delete (*it).msg;
         }
     }
