@@ -3,7 +3,7 @@ USER-VISIBLE CHANGES IN SIM INSTANT MESSENGER
 [+] New
 [-] Fixed error
 [*] Changes
-[/] Tests
+
 
 === SIM 0.9.5 (not released yet) ===
 
@@ -22,25 +22,7 @@ Build system
 [-] Autotools: add AC_LANG_C.
 [+] Add hidden visibility support for GCC4.1 and cmake.
 [-] Autotools: fix libXss detection.
-[-] Much cmake fixes (+Debian)
-[-] copy all Sounds
-[+] Installing *.ogg files via cmake. Thanks Bernd Steinhauser for the patch.
-[-] ignore BSD-specific autoconf-wrapper when picking up versions
-[-] complain on stderr if versioning fails
-[-] Openssl is now required to build Sim-IM. (As far as it is required to build most of the IM-plugins)
-[*] use --gpl option to export only GPL-compatible files, license of file is read from <file>.license, license of dir is read from <dir>/license
-[-] Don't create jisp if it has no sources, use gpl icons as main jisp if main is not found (i.e. building from gpl dir)
-[-] Fix filter (py)
-[-] Sound/cmake: Don't fail, if wavs don't exist
-[-] cmake uses spaces as arguments separator, not comma
-[-] cmake fix icons packing
-[-] cmake refix jisp inclusion
 
-Revision: 2211
-
-Message:
-now builds on debian
-please refix if it's wrong
 Core
 ~~~~
 [+] Command line option to run SIM with specified profile.
@@ -63,26 +45,6 @@ Core
 [-] Remove "To container" menu when separate containers are disabled.
 [*] Auto scroll message view only if it is scrolled to the bottom.
 [-] XFree: fix problems with Composite extension enabled.
-[-] Refix jisp inclusion
-[-] Fix icons packing
-[-] Default Accept in DND/Occupied set enabled
-[-] Fix loosing configure files on pressing "cancel" button in "Select Profile" window.
-[-] Fix loosing configure files on shutdown when "Select Profile" is opened.
-[+] Now sim really processes set subscription iq
-[-] Do not crash when _host string is NULL in SIMClientSocket::connect (Sim-IM Crashed when trying to receive file in Jabber)
-[-] Added GPL-Icons
-[-] Several fixes in PluginManager::execute
-[-] Fix color-bug in contactlist from send contacts and send multi-message in container
-[/] Tested around with vista-homedir.. ==> Comment added
-[-] Fix for Bug #11221: Send button for "Authorization request" is always disabled, when request is sending from message window menu. 
-[-] Filetransfer: Skip -> Ask - wrong descision for resuming, skip is very bad
-[-] Fix: Main toolbar position not restored
-[-] OpenDirectory after Filetransfer finished should work now.
-[-] Write in profile-independent _core config only the values that are required for profile management. 
-[-] Fix create File in Filetransfer.
-[-] Fix error messages about uninitialised variables while saving config
-[-] Make Alternate-Accelerators unique for Interface (+German)
-[-] Use more safe conversion from SIM::clientData* into ICQUserData*, It will at least warn when the wrong conversion occurred...
 
 ICQ plugin
 ~~~~~~~~~~
@@ -99,46 +61,28 @@ ICQ plugin
 [+] Send and detect SIM patchlevel in version info.
 [-] Fix receiving certain messages containing TLV(5) twice.
 [-] Fix playing sounds for messages from QIP.
-[-] Login fixed, version changed.
-[-] Fix web-aware, www status
-[-] On AOL-server error sim tries to reconnect to the server. Two sockets, both connected to the server... Now only one is used.
-[-] Fix for some ICQ passwords
-[-] Allow sendfile for ICQ6, in spite it is not ready now.
-[-] Some Oscar-Filetransfer improvements.
-[-] Fix crash: compare of incompatible list operators due to wrong scope/area
-[-] ICQ-Filetransfer Reactivation, should work un-NAT'ed between SIM<->SIM. The old ICQ-FT-Method
-[-] ICQ-Refactoring: OSCAR-Family => OSCAR-Foodgroup
-[-] In-/visible fixed: MSN, Yahoo joined contacts with other protocol does not crash any longer
-[-] Fix on multiple Error-Messages in Icqlists
-[-] Fix crash when sim-im goes offline while some messages is still sending in ICQ (related to bug #11061, but crash issue is not descibed there)
 
 Jabber plugin
 ~~~~~~~~~~~~~
 [-] Fix crash on auth request when "Receive message only from contacts from list".
 [-] Fix handling of single quotes in roster item names.
 [+] Add icons for sms and gadu-gadu transports.
-[*] Detect jabber transports by missing "@" symbol in jid instead of "/registered" ending.
+[*] Detect jabber transports by missing "@" symbol in jid instead of
+    "/registered" ending.
 [+] Allow auth messages for transports.
 [*] Show protocol icons for jabber transports in roster.
 [*] Ignore JID letter case.
 [+] Add support for XEP-0092 client version info requests/replies.
 [*] Show resource as a part of JID in contact tip, not as separate line.
 [*] Remove SIM version from default resource value.
-[+] Support for Jabber's own encryption protocol
-[-] Fix: Sim-IM crashes when trying to send contact (Contact List menu option)
-[-] Fix: Jabber::Occupied is now available
-[-] Hotfix for bug #12510: Problem with connetcing to google-talk on some OSes with openssl 0.9.8g
-[-] JabberMessage: Deleted Ambigous "Ctrl+L"
-[-] Fix problems with apostrophe in resource name. I.e. shaplov@sim-im.org/It's_me
 
 Yahoo! plugin
 ~~~~~~~~~~~~~
-[-] Login fixed, version changed.
+
 
 MSN plugin
 ~~~~~~~~~~
 [+] Add password recovery URL.
-[+] msn Icons
 
 Misc plugins
 ~~~~~~~~~~~~
@@ -153,43 +97,3 @@ Misc plugins
 [*] LiveJournal: disable formatted messages by default.
 [*] LiveJournal: add password recovery URL.
 [-] LiveJournal: fix posting messages longer than 4 Kb.
-[-] Weather: fixed
-[-] Floatings fixed
-[+] Floatings dockable
-[-] SMS-Plugin: fixed.
-[-] OS/2 support, from Eugene Romanenko
-[+] Implemented !Alpha!-Support for Audiere. (wav, mp3, ogg, flag ...)
-[+] Threaded playing of Sounds works with audiere
-[+] CapsLED Message notification in N/A mode
-[-] CAPS Lock in Windows and SCROLL Lock Linux
-[+] New SIM-IM Sounds, GPL+CC
-[-] New Weather Strings
-[-] New Big Birthday Icon
-[*] Fetch weather info on win32 directly from server, not from proxy's cache
-[-] Fix config loss on disk full
-[-] Fix for basic proxy auth
-[-] Fix to see messages with quotes in history
-[-] Now Non-IM contact can be added to contact list again
-[-] Fix disappearing of floaty windows
-[+] New floating docking feature.
-[-] Fix: Hack for trillian offline buddy messages
-[+] Transparency also for Floatings
-[-] Fix SIM hunging when got 2 or more unread messages with led blinking on
-[+] New option: Switch Transparency independend from MainWindow and Floatings
-[+] New Feature: Fading OSD
-[-] Fixed: Make the OSD-Fading thread-safe
-[+] Added: Option for OSD-Fading (added to OSD-Interface-Options).
-[+] showOSD fixed for Linux
-[*] OSD: Faster fade in/out
-[-] Linux: Hide OSD fix
-[*] Sounds: Better contactrequest sound added (GPL/CC)
-[-] Fix for OSD offline-notification
-[-] Bug report link in About dialog box will now be opened in browser, not in mail client in non-KDE bulds. In KDE builds this bug is still not resolved. 
-[*] Update-Plugin: Ensure the remote Date is remote in right format.
-[+] Added a Information to the user about occured problems.
-[-] Autoaway: Fix saving auto-away status as a manual, when user managed quickly quit sim-im, without triggering auto-status falling back to manual ICQ plugin
-[-] Avoid History Page Sizes Errors and freezing SIM with to big HistoryPage Size. =>Max. is now 1000/HistoryPage
-[-] Navigate: Fix for Win32, don't use IE for open Links in new Window instead call Firefox and Thunderbird directly, if installed the default browser...
-[-] Fix OSD: Unknown Type for STATUS_OCCUPIED.
-[-] Weather: Get XML from the right weather-url. 
-[-] Use more safe conversion for different Protocols (Jabber, MSN, Yahoo, Livejournal, SMS, ICQ)
