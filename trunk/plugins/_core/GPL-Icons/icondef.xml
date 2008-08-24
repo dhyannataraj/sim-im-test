@@ -401,7 +401,13 @@
     <!-- Licence: GNU/LGPL -->
     <!-- Do not think that empty transpanent png file will have any problems with licenses ;-) -->
   </icon>
-	      
-  
+
+  <icon name="floating">
+    <object mime="image/png">floating.png</object>
+    <!-- Licence: GNU/LGPL -->
+        <!--  Sources: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/frame_edit.png -->
+        <!--           http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/cr16-action-icq_online.png -->
+  </icon>
+      
   
 </icondef>
