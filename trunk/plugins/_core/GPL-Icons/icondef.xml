@@ -416,11 +416,20 @@
     <!-- So this icon entry will be associated with black square with number 1 on it, for a while -->
     <!-- and if nobody managed to find where it is used, it should be removed from here -->
   </icon>
-    <icon name="SMS">
-      <object mime="image/png">SMS-protocol.png</object>
-      <!-- Licence: GNU/LGPL -->
-      <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/msn_phone.png -->
-    </icon>
+  <icon name="SMS">
+    <object mime="image/png">SMS-protocol.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Source: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/msn_phone.png -->
+  </icon>
+  <icon name="birthday">
+    <object mime="image/png">birthday.png</object>
+    <!-- Licence: GNU/LGPL -->
+    <!--  Author: Nikolay Shaplov N@shaplov.ru -->
+    <!-- Sources: http://websvn.kde.org/tags/KDE/3.5.9/kdebase/kcontrol/pics/cr16-app-cookie.png -->
+    <!--          http://websvn.kde.org/tags/KDE/3.5.9/kdebase/kcontrol/pics/cr64-app-cookie.png -->
+    
+  </icon>
+        
       
       
       
