@@ -408,6 +408,14 @@
         <!--  Sources: http://www.kde-look.org/content/show.php?content=8341 16x16/actions/frame_edit.png -->
         <!--           http://websvn.kde.org/trunk/KDE/kdenetwork/kopete/protocols/oscar/icons/cr16-action-icq_online.png -->
   </icon>
+  <icon name="upd" >
+    <object mime="image/png">unknown_icon_1.png</object>
+    <!-- "upd" icon is mentioned in original Sim-IM jisp set, but I do not know where it is used -->
+    <!-- there is no such icon entry in source code (at least I didn't find it) -->
+    <!-- So this icon entry will be associated with black square with number 1 on it, for a while -->
+    <!-- and if nobody managed to find where it is used, it should be removed from here -->
+  </icon>
+      
       
   
 </icondef>
