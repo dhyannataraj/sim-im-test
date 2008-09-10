@@ -285,8 +285,8 @@ void FloatyWnd::mouseReleaseEvent(QMouseEvent *e)
         if (contact){
             FloatyUserData *data = (FloatyUserData*)(contact->userData.getUserData(m_plugin->user_data_id, false));
             if (data){
-                data->X.asULong() = x();
-                data->Y.asULong() = y();
+                data->X.asLong() = x();
+                data->Y.asLong() = y();
             }
         }
         mousePos = QPoint();

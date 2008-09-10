@@ -56,7 +56,7 @@ EXPORT_PROC PluginInfo* GetPluginInfo()
 
 static DataDef floatyUserData[] =
     {
-        { "FloatyPosition", DATA_ULONG, 2, 0 },
+        { "FloatyPosition", DATA_LONG, 2, DATA((unsigned long)-1>>1)}, // 0x7FFFFFFF - maximum value of sigend long
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -136,7 +136,7 @@ bool FloatyPlugin::processEvent(Event *e)
                 if (data == NULL)
                     continue;
                 FloatyWnd *wnd = new FloatyWnd(this, contact->id());
-                wnd->move(data->X.toULong(), data->Y.toULong());
+                wnd->move(data->X.toLong(), data->Y.toLong());
                 wnd->show();
             }
             break;
@@ -174,6 +174,8 @@ bool FloatyPlugin::processEvent(Event *e)
                         contact->userData.freeUserData(user_data_id);
                     }else{
                         data = (FloatyUserData*)(contact->userData.getUserData(user_data_id, true));
+                        data->X.asLong() = 0;
+                        data->Y.asLong() = 0;
                         FloatyWnd *wnd = new FloatyWnd(this, (unsigned long)(cmd->param));
                         wnd->move(0, 0);
                         wnd->show();
