@@ -185,7 +185,7 @@ QWidget *SoundPlugin::createConfigWindow(QWidget *parent)
     return new SoundConfig(parent, this);
 }
 
-bool SoundPlugin::processEvent(Event *e)
+bool SoundPlugin::processEvent(SIM::Event *e)
 {
     if(e->type() == EventSoundChanged) {
         Command cmd;
@@ -217,7 +217,7 @@ bool SoundPlugin::processEvent(Event *e)
         if (!m_bChanged && (cmd->id == CmdSoundDisable)){
             SoundUserData *data = (SoundUserData*)(getContacts()->getUserData(user_data_id));
             data->Disable.asBool() = !data->Disable.toBool();
-            Event eChanged(EventSoundChanged);
+            SIM::Event eChanged(EventSoundChanged);
             eChanged.process();
             return true;
         }
