@@ -230,6 +230,36 @@ QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash)
     return res;
 }
 
+QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash)
+{
+    QString     res;
+    QString     quote_chars;
+
+    quote_chars = chars;
+    if (bQuoteSlash) {
+        quote_chars += '\\';
+    }
+    for (int i = 0; i < (int) (from.length()); i++) {
+        if ( (from[i] == '\\') && (i+1 < from.length()) ) {
+          if (quote_chars.contains (from[i+1])) {
+                i++; // If the char after the slash is part of quote_chars, then we will skip that slash
+          } else
+          {
+            if (bQuoteSlash) {
+                // There should not be slashes with characters other than quote_chars after it, when bQuoteSlash is true
+                // So will warn about it
+              log(L_WARN,"Single slash found while unquoting chars '%s' in string '%s'", chars.latin1(), from.latin1());
+            }
+          }
+        }
+        if ( bQuoteSlash && (from[i] == '\\') && (i+1 == from.length()) ) {
+          // There should not be slashe at the end of the string if bQuoteSlash is true
+          log(L_WARN,"Single slash found at the end of string while unquoting chars '%s' in string '%s'", chars.latin1(), from.latin1());
+        }
+        res += from[i];
+    }
+    return res;
+}
 EXPORT QString getToken(QString &from, char c, bool bUnEscape)
 {
     QString res;
@@ -371,6 +401,7 @@ void init_data(const DataDef *d, Data *data)
 			data->clear();
             data->setName(def->name);
             data->setType(def->type);
+            
             switch (def->type){
             case DATA_STRING:
                 // when all our sources are utf-8, use QString::fromUtf8() here!

@@ -997,12 +997,29 @@ static QValueList<Tlv> makeICombo(unsigned id, const QString &str)
 
         int cat = cstr.mid( cur, idx - cur ).toULong();
         cur = idx + 1;
+        
+        int start_pos = cur;
+        // Now looking for ";" with even number of slashes before it
+        do {
+            idx = cstr.find( ';', cur );
+            if ( idx == -1 ) {
+               idx = cstr.length();  // If no ";' will use whole string
+            }
+            else{
+                // If found then count slashes before it
+                int slash_count = 0; 
+                while ( (idx > slash_count) && (cstr.mid(idx-1-slash_count,1) == "\\") ){
+                    slash_count++ ;
+                }
+                if ( slash_count % 2 != 0 )  // If there are odd number of slashes, looking for another ";"
+                {
+                  cur = idx+1;
+                  idx = -1;
+                }
+            }
+        } while (idx == -1);
 
-        idx = cstr.find( ';', cur );
-        if( idx == -1 )
-            idx = cstr.length();
-
-        QCString data = cstr.mid( cur, idx - cur);
+        QCString data = cstr.mid( start_pos, idx - start_pos );
         cur = idx + 1;
 
         int len = data.length();

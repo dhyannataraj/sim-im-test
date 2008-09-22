@@ -210,6 +210,8 @@ EXPORT void save_state();
 EXPORT QString getToken(QString &from, char c, bool bUnEsacpe=true);
 EXPORT QCString getToken(QCString &from, char c, bool bUnEsacpe=true);
 EXPORT QString quoteChars(const QString &from, const char *chars, bool bQuoteSlash=true);
+EXPORT QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash = true);
+
 EXPORT char fromHex(char);
 
 } // namespace SIM

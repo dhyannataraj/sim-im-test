@@ -160,19 +160,19 @@ void InterestsInfo::fill()
         unsigned short category = n.toUShort();
         switch (i){
         case 0:
-            edtBg1->setText(info);
+            edtBg1->setText(unquoteChars(info,";"));
             initCombo(cmbBg1, category, interests);
             break;
         case 1:
-            edtBg2->setText(info);
+            edtBg2->setText(unquoteChars(info,";"));
             initCombo(cmbBg2, category, interests);
             break;
         case 2:
-            edtBg3->setText(info);
+            edtBg3->setText(unquoteChars(info,";"));
             initCombo(cmbBg3, category, interests);
             break;
         case 3:
-            edtBg4->setText(info);
+            edtBg4->setText(unquoteChars(info,";"));
             initCombo(cmbBg4, category, interests);
             break;
         }
@@ -204,7 +204,7 @@ QString InterestsInfo::getInfo(QComboBox *cmb, QLineEdit *edt)
     if (n == 0)
         return QString::null;
     QString res = QString::number(n) + ',';
-    res += quoteChars(edt->text(), ",;");
+    res += quoteChars(edt->text(), ";");
     return res;
 }
 
