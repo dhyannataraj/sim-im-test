@@ -853,9 +853,22 @@ bool UserListBase::processEvent(Event *e)
                             break;
                         }
                     }
-                    QListViewItem *item = findGroupItem(g->id());
-                    deleteItem(item);
-                    break;
+                    QListViewItem *item;
+                    switch (m_groupMode){
+                    case 1:
+                        *item = findGroupItem(g->id());
+                        deleteItem(item);
+                        break;
+                    case 2:
+                        for (item = firstChild(); item; item = item->nextSibling()){
+                            UserViewItemBase *i = static_cast<UserViewItemBase*>(item);
+                            if (i->type() != DIV_ITEM) continue;
+                            DivItem *divItem = static_cast<DivItem*>(i);
+                            GroupItem *grpItem = findGroupItem(g->id(), divItem);
+                            deleteItem(grpItem);
+                        }
+                        break;
+                   }
             }
             break;
         }
