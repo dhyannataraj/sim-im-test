@@ -779,7 +779,7 @@ void UserListBase::fill()
                         continue;
                     grpItem = new GroupItem(divItemOffline, grp, true);
                 }
-                grpItem = new GroupItem(divItemOnline, list->group(0), true);
+                grpItem = new GroupItem(divItemOffline, list->group(0), true);
             }
         }
         while ((contact = ++contact_it) != NULL){
