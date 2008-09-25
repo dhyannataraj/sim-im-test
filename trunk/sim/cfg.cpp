@@ -240,7 +240,7 @@ QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash)
         quote_chars += '\\';
     }
     for (int i = 0; i < (int) (from.length()); i++) {
-        if ( (from[i] == '\\') && (i+1 < from.length()) ) {
+        if ( (from[i] == '\\') && (i+1 < (int) from.length()) ) {
           if (quote_chars.contains (from[i+1])) {
                 i++; // If the char after the slash is part of quote_chars, then we will skip that slash
           } else
