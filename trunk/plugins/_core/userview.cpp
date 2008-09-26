@@ -25,6 +25,7 @@
 #include "linklabel.h"
 #include "container.h"
 #include "userwnd.h"
+#include "history.h"
 
 #include <qpainter.h>
 #include <qpixmap.h>
@@ -837,6 +838,28 @@ void UserView::deleteContact(void *p)
     ContactItem *item = findContactItem(contact->id());
     if (item)
         setCurrentItem(item);
+
+    // Looking for unread messages for this contact in order to delete them
+    int no_more_messages_flag;
+    do{
+      no_more_messages_flag = 1;
+      // we should restart unread messages iteration after each message deletion
+      // because deleting message will change "unread" list
+      for (list<msg_id>::iterator it = CorePlugin::m_plugin->unread.begin(); it != CorePlugin::m_plugin->unread.end(); ++it){
+          msg_id &message_id = *it;
+          if ( message_id.contact == contact->id())
+          {
+            SIM::Message * message;
+            message = History::load(message_id.id,message_id.client,message_id.contact); 
+            EventMessageDeleted(message).process(); 
+            // may be we should do EventMessageRead instead of EventMessageDeleted when m_bRemoveHistory is flase
+            // I am not sure. shaplov.
+            no_more_messages_flag = 0;
+            break;
+          }
+       }
+    } while (!no_more_messages_flag);
+
     CorePlugin::m_plugin->setRemoveHistory(m_bRemoveHistory);
     if (!m_bRemoveHistory)
         contact->setFlags(contact->getFlags() | CONTACT_NOREMOVE_HISTORY);
