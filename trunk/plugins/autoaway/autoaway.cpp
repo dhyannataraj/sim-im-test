@@ -40,6 +40,10 @@ static BOOL (WINAPI * _GetLastInputInfo)(PLASTINPUTINFO);
 
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
 #include <Carbon/Carbon.h>
+#elif defined(__OS2__)
+#define INCL_WIN
+#include <os2.h>
+#include "sysglit.h"
 #else
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -205,6 +209,8 @@ AutoAwayPlugin::~AutoAwayPlugin()
     // nothing to do
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
     RemoveEventLoopTimer(mTimerRef);
+#elif defined(__OS2__)
+    // ---
 #else
     // We load static Xss in our autoaway.so's process space, but the bastard
     // registers for shutdown in the XDisplay variable, so after autoaway.so
@@ -355,6 +361,12 @@ unsigned AutoAwayPlugin::getIdleTime()
     return IdleUIGetLastInputTime();
 #elif defined(HAVE_CARBON_CARBON_H) && !defined(HAVE_X)
     return mSecondsIdle;
+#elif defined(__OS2__)
+    ULONG lastInp = WinGetLastInputTime();
+    if ( lastInp == 0 ) {
+        return 0;
+    }
+    return (WinGetCurrentTime(WinQueryAnchorBlock(HWND_DESKTOP)) - lastInp) / 1000;
 #else
     QWidgetList *list = QApplication::topLevelWidgets();
     QWidgetListIt it(*list);

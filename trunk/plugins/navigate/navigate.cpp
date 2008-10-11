@@ -17,6 +17,7 @@
 
 #include "navigate.h"
 #include "navcfg.h"
+#include "log.h"
 #include "core.h"
 
 #ifdef USE_KDE
@@ -471,8 +472,7 @@ bool NavigatePlugin::processEvent(Event *e)
         }
 #endif // USE_KDE
 #ifdef __OS2__
-		startBrowser( (proto == "mailto") ? getMailer() : getBrowser(), 
-		              url.c_str() );
+		startBrowser( (proto == "mailto") ? getMailer() : getBrowser(), url );
 #else
         QString param;
         if (proto == "mailto"){
