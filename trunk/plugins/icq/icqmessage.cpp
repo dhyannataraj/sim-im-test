@@ -398,7 +398,11 @@ Message *ICQClient::parseExtendedMessage(const QString &screen, ICQBuffer &packe
         unsigned long fileSize;
         b.unpack(fileSize);
         ICQFileMessage *m = new ICQFileMessage;
+#ifdef __OS2__  // to make it compileable under OS/2 (gcc 3.3.5)
+        m->setServerDescr(fileName.c_str());
+#else
         m->setServerDescr(fileName);
+#endif
         m->setServerText(QCString(fileDescr.data()));
         m->setSize(fileSize);
         m->setPort(port);

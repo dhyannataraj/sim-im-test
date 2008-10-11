@@ -139,8 +139,8 @@ QString HomeDirPlugin::defaultPath()
         s += "\\";
     }
     s += ".sim";
-    if ( access( s.c_str(), F_OK ) != 0 ) {
-    	mkdir( s.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
+    if ( access( s, F_OK ) != 0 ) {
+    	mkdir( s, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
     }
 #else
     s += ".sim";

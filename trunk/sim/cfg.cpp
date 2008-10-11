@@ -115,7 +115,11 @@ EXPORT bool makedir(const QString &p)
 
     struct stat st;
     if (stat(QFile::encodeName(r).data(), &st) != 0){
+#ifdef __OS2__    
+        int idx = r.findRev('\\');
+#else    
         int idx = r.findRev('/');
+#endif
         if(idx == -1)
             return false;
         if (makedir(r.left(idx))){
@@ -142,16 +146,21 @@ EXPORT QString app_file(const QString &f)
 #if defined( WIN32 ) || defined( __OS2__ )
     if ((fname[1] == ':') || (fname.left(2) == "\\\\"))
         return f;
-    WCHAR buff[MAX_PATH];
 #ifdef __OS2__
+    CHAR buff[MAX_PATH];
     PPIB pib;
     PTIB tib;
     DosGetInfoBlocks(&tib, &pib);
-	DosQueryModuleName(pib->pib_hmte, sizeof(buff), buff);
+    DosQueryModuleName(pib->pib_hmte, sizeof(buff), buff);
 #else	
+    WCHAR buff[MAX_PATH];
     GetModuleFileNameW(NULL, buff, MAX_PATH);
 #endif    
+#ifdef __OS2__
+    QString b = buff;
+#else    
     QString b = QString::fromUcs2((unsigned short*)buff);
+#endif    
     int idx = b.findRev('\\');
     if(idx != -1)
         b = b.left(idx+1);

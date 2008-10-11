@@ -59,7 +59,7 @@
 #include "kdeisversion.h"
 #endif
 
-#if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#if !defined(WIN32) && !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 //#include <X11/X.h>
 //#include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -310,7 +310,7 @@ void setWndProc(QWidget *w)
 }
 
 #else
-#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC)
+#if !defined(QT_MACOSX_VERSION) && !defined(QT_MAC) && !defined(__OS2__)
 
 void setWndClass(QWidget *w, const char *name)
 {

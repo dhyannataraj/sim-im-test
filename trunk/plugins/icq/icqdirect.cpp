@@ -1934,7 +1934,11 @@ void ICQFileTransfer::sendFileInfo()
         s2 = getContacts()->fromUnicode(m_client->getContact(m_data), dir);
 	string ssc1 = s1.data();
 	string ssc2 = s2.data();
+#ifdef __OS2__  // to make it compileable under OS/2 (gcc 3.3.5)
+    m_socket->writeBuffer() << ssc1.c_str() << ssc2.c_str();
+#else
     m_socket->writeBuffer() << ssc1 << ssc2;
+#endif
     m_socket->writeBuffer().pack((unsigned long)m_fileSize);
     m_socket->writeBuffer().pack((unsigned long)0);
     m_socket->writeBuffer().pack((unsigned long)m_speed);

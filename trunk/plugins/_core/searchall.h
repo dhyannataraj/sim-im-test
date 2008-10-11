@@ -18,6 +18,9 @@
 #ifndef _SEARCHALL_H
 #define _SEARCHALL_H
 
+#ifdef __OS2__  // to make it compileable under OS/2 (gcc 3.3.5)
+#include "simapi.h"
+#endif
 #include "searchallbase.h"
 
 typedef std::map<QWidget*, QStringList>	WND_MAP;
