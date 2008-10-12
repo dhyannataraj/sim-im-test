@@ -710,6 +710,8 @@ void OSDPlugin::flashCapsLockLED(bool bCapsState){
                       KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,
                       0);
 		
+#elif defined(__OS2__)
+    // TODO: add OS/2 code to switch leds
 #else
     if (bCapsState)
         system("xset led 3");
