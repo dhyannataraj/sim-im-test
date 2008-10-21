@@ -2236,13 +2236,13 @@ void AIMFileTransfer::packet_ready()
 					m_oft.rfrcsum = 0xffff0000;
 					m_oft.rfsize = 0x0;
 					m_oft.cretime = 0xffff0000;
-					m_oft.rf_csum = 0xffff0000;
+					m_oft.rfcsum = 0xffff0000;
 					m_oft.nrecvd = 0;
 					m_oft.recvcsum = 0xffff0000;
 					strncpy((char*)m_oft.idstring, "SIM File Transfer", 31);
 					m_oft.flags = 0x20; //FIXME magic
 					m_oft.lnameoffset = 0x1c; // ???
-					m_oft.lsizeoffset = m_file->name().size() + 1;
+					m_oft.lsizeoffset = m_file->name().length() + 1;
 					memset(m_oft.dummy, 0, 69);
 					memset(m_oft.macfileinfo, 0, 16);
 					m_oft.nencode = 0x200;
@@ -2274,11 +2274,11 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	unsigned long checksum = 0xffff, prevchecksum;
 	m_file->reset();
 	bool high = false;
-	while(!m_file->eof())
+	while(!m_file->atEnd())
 	{
 		prevchecksum = checksum;
 		unsigned char this_byte;
-		m_file->getChar((char*)&this_byte);
+		this_byte=(unsigned char)m_file->getch();
 		if(high)
 			checksum -= ((unsigned short)(this_byte) << 8);
 		else
