@@ -350,6 +350,39 @@ enum cap_id_t {
     CAP_NULL,                   // 0x00000400
 };
 
+struct OftData
+{
+	unsigned long magic;
+	unsigned short unknown;
+	unsigned short type;
+	char cookie[8];
+	unsigned short encrypt;
+	unsigned short compress;
+	unsigned short total_files;
+	unsigned short files_left;
+	unsigned short total_parts;
+	unsigned short parts_left;
+	unsigned long total_size;
+	unsigned long size;
+	unsigned long mod_time;
+	unsigned long checksum;
+	unsigned long rfrcsum;
+	unsigned long rfsize;
+	unsigned long cretime;
+	unsigned long rfcsum;
+	unsigned long nrecvd;
+	unsigned long recvcsum;
+	char idstring[32];
+	unsigned char flags;
+	unsigned char lnameoffset;
+	unsigned char lsizeoffset;
+	char dummy[69];
+	char macfileinfo[16];
+	unsigned short nencode;
+	unsigned short nlanguage;
+	QString name;
+};
+
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
 const unsigned PLUGIN_FILESERVER         = 2;
@@ -981,11 +1014,21 @@ protected:
 class AIMFileTransfer : public SIM::FileTransfer, public DirectSocket, public SIM::ServerSocketNotify
 {
 public:
-    AIMFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client);
+	enum tTransferDirection
+	{
+		tdInput,
+		tdOutput
+	};
+
+    AIMFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client, tTransferDirection direction);
     ~AIMFileTransfer();
     void listen();
     void connect(unsigned short port);
     void accept();
+
+	static const int OFT_fileInfo = 0x0101;
+	static const int OFT_answer = 0x0202;
+
 protected:
     enum State
     {
@@ -1004,6 +1047,13 @@ protected:
     virtual void bind_ready(unsigned short port);
     virtual bool accept(SIM::Socket *s, unsigned long ip);
     virtual bool error(const QString &err);
+
+	bool fillOFT();
+	unsigned long calculateChecksum();
+	
+	OftData m_oft;
+	unsigned long m_bytesSent;
+	tTransferDirection m_direction;
 
     friend class ICQClient;
 };

@@ -366,7 +366,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     char *m_data = (*m_tlv);
                     unsigned short encoding = (unsigned short)((m_data[0] << 8) + m_data[1]);
                     m_data += 4;
-                    if (encoding == 2){
+                    if(encoding == 2)
+					{
                         QString text;
                         for (int i = 0; i < m_tlv->Size() - 5; i += 2){
                             unsigned char r1 = *(m_data++);
@@ -865,7 +866,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             ICQFileMessage *msg = static_cast<ICQFileMessage*>(*it);
             if (msg->m_transfer == NULL)
                 continue;
-            ICQFileTransfer *ft = static_cast<ICQFileTransfer*>(msg->m_transfer);
+            AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(msg->m_transfer);
             if (ft->m_localPort == remotePort){
                 log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu",
                     screen.local8Bit().data(), inet_ntoa(addr), localPort);
@@ -891,7 +892,6 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
         ip = htonl((uint32_t)(*tlv(4)));
     if (tlv(5))
         port = *tlv(5);
-    log(L_DEBUG, "IP: %lX %lX %d", ip, real_ip, port);
     if (real_ip || ip){
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -912,7 +912,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 
     if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap))){
         log(L_DEBUG, "AIM send file");
-        Tlv *desc = tlv(0x0C);
+        Tlv *desc = tlv(0x0A);
         if (desc == NULL){
             log(L_DEBUG, "Send file ack");
             list<SendMsg>::iterator it;
@@ -1250,10 +1250,13 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                     if (msgFlags & ICQ_TCPxMSG_LIST)
                         m->setFlags(m->getFlags() | MESSAGE_LIST);
                     needAck = messageReceived(m, screen);
-                }else{
+                }
+				else
+				{
                     Message *msg = (*it).msg;
                     replyQueue.erase(it);
-                    if (msg->type() == MessageFile){
+                    if(msg->type() == MessageFile)
+					{
                         Contact *contact;
                         ICQUserData *data = findContact(screen, NULL, false, contact);
                         if ((m->type() != MessageICQFile) || (data == NULL)){
@@ -1263,17 +1266,20 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                             delete msg;
                             return;
                         }
-                        if (m_state == 1){
+                        if(m_state == 1)
+						{
                             msg->setError(I18N_NOOP("Message declined"));
                             EventMessageSent(msg).process();
                             delete msg;
                             return;
                         }
-                        ICQFileTransfer *ft = new ICQFileTransfer(static_cast<FileMessage*>(msg), data, this);
+                        AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this, AIMFileTransfer::tdOutput);
                         EventMessageAcked(msg).process();
                         m_processMsg.push_back(msg);
                         ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
-                    }else{
+                    }
+					else
+					{
                         log(L_WARN, "Unknown message type for ACK");
                         delete msg;
                     }
@@ -2060,7 +2066,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
                 break;
             }
         case MessageFile:{
-                AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
+                AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this, AIMFileTransfer::tdInput);
                 ft->setDir(dir);
                 ft->setOverwrite(overwrite);
                 EventMessageAcked(msg).process();

@@ -666,73 +666,74 @@ void ICQClient::packet_ready()
 
 void ICQClient::packet()
 {
-    ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
-    EventLog::log_packet(socket()->readBuffer(), false, plugin->OscarPacket);
-    switch (m_nChannel){
-    case ICQ_CHNxNEW:
-        chn_login();
-        break;
-    case ICQ_CHNxCLOSE:
-        chn_close();
-        break;
-    case ICQ_CHNxDATA:{ 
-            unsigned short food, type;
-            unsigned short flags, seq, cmd;
-            socket()->readBuffer() >> food >> type >> flags >> seq >> cmd;
-            if ((flags & 0x8000)) {	// some unknown data before real snac data
-                // just read the length and forget it ;-)
-                unsigned short unknown_length = 0;
-                socket()->readBuffer() >> unknown_length;
-                socket()->readBuffer().incReadPos(unknown_length);
-            }
-            // now just take a look at the type because 0x0001 == error
-            // in all foodgroups
-            if (type == 0x0001) {
-                unsigned short err_code;
-                socket()->readBuffer() >> err_code;
-                log(L_DEBUG,"Error! foodgroup: %04X reason: %s",food,error_message(err_code));
-                // now decrease for icqicmb & icqvarious
-                socket()->readBuffer().decReadPos(sizeof(unsigned short));
-            }
-            switch (food){
-            case ICQ_SNACxFOOD_SERVICE:
-                snac_service(type, seq);
-                break;
-            case ICQ_SNACxFOOD_LOCATION:
-                snac_location(type, seq);
-                break;
-            case ICQ_SNACxFOOD_BUDDY:
-                snac_buddy(type, seq);
-                break;
-            case ICQ_SNACxFOOD_MESSAGE:
-                snac_icmb(type, seq);
-                break;
-            case ICQ_SNACxFOOD_BOS:
-                snac_bos(type, seq);
-                break;
-            case ICQ_SNACxFOOD_PING:
-                snac_ping(type, seq);
-                break;
-            case ICQ_SNACxFOOD_LISTS:
-                snac_lists(type, seq);
-                break;
-            case ICQ_SNACxFOOD_VARIOUS:
-                snac_various(type, seq);
-                break;
-            case ICQ_SNACxFOOD_LOGIN:
-                snac_login(type, seq);
-                break;
-            default:
-                log(L_WARN, "Unknown foodgroup %04X", food);
-            }
-            break;
-        }
-    default:
-        log(L_ERROR, "Unknown channel %u", m_nChannel & 0xFF);
-    }
-    socket()->readBuffer().init(6);
-    socket()->readBuffer().packetStart();
-    m_bHeader = true;
+	ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
+	EventLog::log_packet(socket()->readBuffer(), false, plugin->OscarPacket);
+	switch (m_nChannel){
+		case ICQ_CHNxNEW:
+			chn_login();
+			break;
+		case ICQ_CHNxCLOSE:
+			chn_close();
+			break;
+		case ICQ_CHNxDATA:
+			{ 
+				unsigned short food, type;
+				unsigned short flags, seq, cmd;
+				socket()->readBuffer() >> food >> type >> flags >> seq >> cmd;
+				if ((flags & 0x8000)) {	// some unknown data before real snac data
+					// just read the length and forget it ;-)
+					unsigned short unknown_length = 0;
+					socket()->readBuffer() >> unknown_length;
+					socket()->readBuffer().incReadPos(unknown_length);
+				}
+				// now just take a look at the type because 0x0001 == error
+				// in all foodgroups
+				if (type == 0x0001) {
+					unsigned short err_code;
+					socket()->readBuffer() >> err_code;
+					log(L_DEBUG,"Error! foodgroup: %04X reason: %s",food,error_message(err_code));
+					// now decrease for icqicmb & icqvarious
+					socket()->readBuffer().decReadPos(sizeof(unsigned short));
+				}
+				switch (food){
+					case ICQ_SNACxFOOD_SERVICE:
+						snac_service(type, seq);
+						break;
+					case ICQ_SNACxFOOD_LOCATION:
+						snac_location(type, seq);
+						break;
+					case ICQ_SNACxFOOD_BUDDY:
+						snac_buddy(type, seq);
+						break;
+					case ICQ_SNACxFOOD_MESSAGE:
+						snac_icmb(type, seq);
+						break;
+					case ICQ_SNACxFOOD_BOS:
+						snac_bos(type, seq);
+						break;
+					case ICQ_SNACxFOOD_PING:
+						snac_ping(type, seq);
+						break;
+					case ICQ_SNACxFOOD_LISTS:
+						snac_lists(type, seq);
+						break;
+					case ICQ_SNACxFOOD_VARIOUS:
+						snac_various(type, seq);
+						break;
+					case ICQ_SNACxFOOD_LOGIN:
+						snac_login(type, seq);
+						break;
+					default:
+						log(L_WARN, "Unknown foodgroup %04X", food);
+				}
+				break;
+			}
+		default:
+			log(L_ERROR, "Unknown channel %u", m_nChannel & 0xFF);
+	}
+	socket()->readBuffer().init(6);
+	socket()->readBuffer().packetStart();
+	m_bHeader = true;
 }
 
 void OscarSocket::flap(char channel)
@@ -2864,7 +2865,7 @@ bool ICQClient::send(Message *msg, void *_data)
             if (!hasCap(data, CAP_AIM_SENDFILE))
                 return false;
             m_processMsg.push_back(msg);
-            AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this);
+            AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this, AIMFileTransfer::tdOutput);
             ft->listen();
             return true;
         }
