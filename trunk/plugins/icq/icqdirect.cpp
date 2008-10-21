@@ -2134,7 +2134,7 @@ void AIMFileTransfer::packet_ready()
 						m_socket->writeBuffer().pack(m_oft.nencode);
 						m_socket->writeBuffer().pack(m_oft.nlanguage);
 						m_socket->writeBuffer().pack(m_oft.name, m_oft.name.length());
-						for(int i = 0; i < 256 - (m_oft.name.length() + sizeof(m_oft)) + 4; i++)
+						for(unsigned int i = 0; i < 256 - (m_oft.name.length() + sizeof(m_oft)) + 4; i++)
 						{
 							m_socket->writeBuffer().pack((unsigned char)0);
 						}
