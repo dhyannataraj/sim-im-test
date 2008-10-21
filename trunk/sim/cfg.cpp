@@ -261,7 +261,7 @@ QString unquoteChars(const QString &from, const QString chars, bool bQuoteSlash)
             }
           }
         }
-        if ( bQuoteSlash && (from[i] == '\\') && (i+1 == from.length()) ) {
+        if ( bQuoteSlash && (from[i] == '\\') && (i+1 == (int) from.length()) ) {
           // There should not be slashe at the end of the string if bQuoteSlash is true
           log(L_WARN,"Single slash found at the end of string while unquoting chars '%s' in string '%s'", chars.latin1(), from.latin1());
         }
