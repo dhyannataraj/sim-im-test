@@ -2114,7 +2114,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                    << '/' << msg->getResource();
+                    << '/' << encodeXMLattr(msg->getResource());
             }
             if (getTyping()){
                 data->composeId.asULong() = ++m_msg_id;
@@ -2179,7 +2179,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                    << '/' << msg->getResource();
+                    << '/' << encodeXMLattr(msg->getResource());
             }
             socket()->writeBuffer()
                 << "\'>\n<body>" << encodeXML(m->getUrl());
@@ -2278,7 +2278,7 @@ bool JabberClient::send(Message *msg, void *_data)
                 << data->ID.str();
             if (!msg->getResource().isEmpty()){
                 socket()->writeBuffer()
-                    << '/' << msg->getResource();
+                    << '/' << encodeXMLattr(msg->getResource());
             }
             socket()->writeBuffer()
                 << "\'>\n<x xmlns='jabber:x:roster'>\n";
