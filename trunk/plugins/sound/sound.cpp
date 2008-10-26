@@ -367,6 +367,7 @@ void SoundPlugin::processQueue()
     }
 #ifdef USE_KDE
     if (getUseArts()){
+		KAudioPlayer::stop(); //This is a test to assure not overlaying sounds
         KAudioPlayer::play(sound);
         m_checkTimer->start(WAIT_SOUND_TIMEOUT);
         m_current = QString::null;
@@ -390,7 +391,8 @@ void SoundPlugin::processQueue()
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
-#ifndef AUDIERE_H
+#ifndef USE_AUDIERE
+		m_sound->stop();
         m_sound = new QSound(sound);
         m_sound->play();
 		m_checkTimer->start(CHECK_SOUND_TIMEOUT);
