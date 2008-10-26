@@ -728,6 +728,7 @@ bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const QCString
 
 void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
 {
+	log(L_DEBUG, "ICQClient::sendAdvMessage");
     if (cookie1 == 0){
         m_advCounter--;
         cookie1 = m_advCounter;
@@ -827,6 +828,7 @@ void ICQClient::clearMsgQueue()
 
 void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool needAck, MessageId id)
 {
+	log(L_DEBUG, "ICQClient::parseAdvancedMessage");
     m.incReadPos(8);    /* msg-id cookie */
     capability cap;
     m.unpack((char*)cap, sizeof(cap));
@@ -1677,7 +1679,8 @@ bool ICQClient::processMsg()
         return false;
     }
     unsigned short type = 0;
-    if (m_send.msg) {
+    if (m_send.msg)
+	{
         type = m_send.msg->type();
         log(L_DEBUG, "Send: %s %u %X", m_send.screen.latin1(), type, m_send.flags);
     }
@@ -1685,7 +1688,8 @@ bool ICQClient::processMsg()
         ICQBuffer b;
         m_send.id.id_l = rand();
         m_send.id.id_h = rand();
-        switch (m_send.msg->type()){
+        switch (m_send.msg->type())
+		{
         case MessageContacts:
             if (data->Uin.toULong() == 0){
                 CONTACTS_MAP c;
@@ -1885,7 +1889,8 @@ bool ICQClient::processMsg()
         }
         m_send.id.id_l = rand();
         m_send.id.id_h = rand();
-        if (m_send.flags == PLUGIN_AIM_FT){
+        if(m_send.flags == PLUGIN_AIM_FT)
+		{
             TlvList tlvs;
             tlvs += new Tlv(0x0E, 2, "en");
             char b[15];

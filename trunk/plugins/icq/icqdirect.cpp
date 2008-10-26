@@ -2032,11 +2032,58 @@ void AIMFileTransfer::accept()
 void AIMFileTransfer::connect(unsigned short port)
 {
 	log(L_DEBUG, "AIMFileTransfer::connect");
-    m_port = port;
+	m_port = port;
 
-    FileTransfer::m_state = FileTransfer::Connect;
-    if (m_notify)
-        m_notify->process();
+	FileTransfer::m_state = FileTransfer::Connect;
+	if (m_notify)
+		m_notify->process();
+	DirectSocket::connect();
+	
+	MessageId id;
+	AIMFileMessage* msg = static_cast<AIMFileMessage*>(m_msg);
+	if(msg)
+	{
+		id.id_h = msg->getID_H();
+		id.id_l = msg->getID_L();
+	}
+
+	memset(&m_oft, 0, sizeof(m_oft));
+
+	m_oft.magic = 0x3254464f;
+	m_oft.unknown = 0x0001;
+	m_oft.type = OFT_fileInfo;
+
+	*((unsigned long*)&m_oft.cookie[0]) = htonl(id.id_l);
+	*((unsigned long*)&m_oft.cookie[4]) = htonl(id.id_h);
+
+	m_oft.encrypt = 0;
+	m_oft.compress = 0;
+	m_oft.total_files = files();
+	m_oft.files_left = files() - file() + 1; 
+	m_oft.total_parts = 1; //FIXME if needed
+	m_oft.parts_left = 1;
+	m_oft.total_size = totalSize();
+	m_oft.size = totalSize();
+	m_oft.mod_time = 0;
+	m_oft.checksum = calculateChecksum();
+	m_oft.rfrcsum = 0xffff0000;
+	m_oft.rfsize = 0x0;
+	m_oft.cretime = 0xffff0000;
+	m_oft.rfcsum = 0xffff0000;
+	m_oft.nrecvd = 0;
+	m_oft.recvcsum = 0xffff0000;
+	strncpy((char*)m_oft.idstring, "Cool FileXfer", 31);
+	m_oft.flags = 0x20; //FIXME magic
+	m_oft.lnameoffset = 0x1c; // ???
+	m_oft.lsizeoffset = 0x11; //m_file->name().length() + 1;
+	memset(m_oft.dummy, 0, 69);
+	memset(m_oft.macfileinfo, 0, 16);
+	m_oft.nencode = 0x200;
+	m_oft.nlanguage = 0;
+	m_oft.name = m_file->name();
+
+	writeOFT();
+	m_socket->write();
 }
 
 void AIMFileTransfer::processPacket()
@@ -2047,6 +2094,7 @@ void AIMFileTransfer::processPacket()
 bool AIMFileTransfer::readOFT()
 {
 	m_socket->readBuffer().unpack(m_oft.magic);
+
 	if(m_oft.magic != 0x3254464f)
 	{
 		log(L_DEBUG, "Invalid magic for OFT in stream %08x", m_oft.magic);
@@ -2179,13 +2227,12 @@ void AIMFileTransfer::packet_ready()
 					{
 						log(L_DEBUG, "Sending file ack");
 						m_oft.type = OFT_answer;
-						if(m_proxy)
+						MessageId id;
+						AIMFileMessage* msg = static_cast<AIMFileMessage*>(m_msg);
+						id.id_h = msg->getID_H();
+						id.id_l = msg->getID_L();
+						if((id.id_h != 0) && (id.id_l != 0))
 						{
-							// Proxy doesn't fill cookie in his OFT, we need to do it ourselves
-							MessageId id;
-							AIMFileMessage* msg = static_cast<AIMFileMessage*>(m_msg);
-							id.id_h = msg->getID_H();
-							id.id_l = msg->getID_L();
 							*((unsigned long*)&m_oft.cookie[0]) = htonl(id.id_l);
 							*((unsigned long*)&m_oft.cookie[4]) = htonl(id.id_h);
 						}
@@ -2265,45 +2312,6 @@ void AIMFileTransfer::packet_ready()
 		{
 			case FileTransfer::Negotiation:
 				{
-					MessageId id;
-					AIMFileMessage* msg = static_cast<AIMFileMessage*>(m_msg);
-					id.id_h = msg->getID_H();
-					id.id_l = msg->getID_L();
-					
-					memset(&m_oft, 0, sizeof(m_oft));
-
-					m_oft.magic = 0x3254464f;
-					m_oft.unknown = 0x0001;
-					m_oft.type = OFT_fileInfo;
-
-					*((unsigned long*)&m_oft.cookie[0]) = id.id_l;
-					*((unsigned long*)&m_oft.cookie[4]) = id.id_h;
-
-					m_oft.encrypt = 0;
-					m_oft.compress = 0;
-					m_oft.total_files = files();
-					m_oft.files_left = files() - file() + 1; 
-					m_oft.total_parts = 1; //FIXME if needed
-					m_oft.parts_left = 1;
-					m_oft.total_size = totalSize();
-					m_oft.size = totalSize();
-					m_oft.mod_time = 0;
-					m_oft.checksum = calculateChecksum();
-					m_oft.rfrcsum = 0xffff0000;
-					m_oft.rfsize = 0x0;
-					m_oft.cretime = 0xffff0000;
-					m_oft.rfcsum = 0xffff0000;
-					m_oft.nrecvd = 0;
-					m_oft.recvcsum = 0xffff0000;
-					strncpy((char*)m_oft.idstring, "Cool FileXfer", 31);
-					m_oft.flags = 0x20; //FIXME magic
-					m_oft.lnameoffset = 0x1c; // ???
-					m_oft.lsizeoffset = 0x11; //m_file->name().length() + 1;
-					memset(m_oft.dummy, 0, 69);
-					memset(m_oft.macfileinfo, 0, 16);
-					m_oft.nencode = 0x200;
-					m_oft.nlanguage = 0;
-					m_oft.name = m_file->name();
 				}
 
 				break;
@@ -2353,7 +2361,11 @@ unsigned long AIMFileTransfer::calculateChecksum()
 void AIMFileTransfer::connectThroughProxy(uint32_t proxy_ip, uint16_t port, uint16_t cookie2)
 {
 	m_proxy = true;
-	connect(port);
+    m_port = port;
+
+    FileTransfer::m_state = FileTransfer::Connect;
+    if (m_notify)
+        m_notify->process();
 
     m_socket->writeBuffer().init(0);
     m_socket->readBuffer().init(2);
