@@ -2008,6 +2008,7 @@ AIMFileTransfer::AIMFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient 
     m_client	= client;
     m_state		= None;
 	m_direction = direction;
+	m_proxy = false;
 }
 
 AIMFileTransfer::~AIMFileTransfer()
@@ -2031,11 +2032,11 @@ void AIMFileTransfer::accept()
 void AIMFileTransfer::connect(unsigned short port)
 {
 	log(L_DEBUG, "AIMFileTransfer::connect");
-    m_port  = port;
+    m_port = port;
+
     FileTransfer::m_state = FileTransfer::Connect;
     if (m_notify)
         m_notify->process();
-    DirectSocket::connect();
 }
 
 void AIMFileTransfer::processPacket()
@@ -2043,12 +2044,12 @@ void AIMFileTransfer::processPacket()
 	log(L_DEBUG, "AIMFileTransfer::processPacket");
 }
 
-bool AIMFileTransfer::fillOFT()
+bool AIMFileTransfer::readOFT()
 {
 	m_socket->readBuffer().unpack(m_oft.magic);
 	if(m_oft.magic != 0x3254464f)
 	{
-		log(L_DEBUG, "Invalid magic for OFT in stream");
+		log(L_DEBUG, "Invalid magic for OFT in stream %08x", m_oft.magic);
 		return false;
 	}
 
@@ -2092,55 +2093,107 @@ bool AIMFileTransfer::fillOFT()
 	return true;
 }
 
+bool AIMFileTransfer::writeOFT()
+{
+	m_socket->writeBuffer().pack(m_oft.magic);
+	m_socket->writeBuffer().pack(m_oft.unknown);
+	m_socket->writeBuffer().pack(m_oft.type);
+	m_socket->writeBuffer().pack(m_oft.cookie, 8);
+	m_socket->writeBuffer().pack(m_oft.encrypt);
+	m_socket->writeBuffer().pack(m_oft.compress);
+	m_socket->writeBuffer().pack(htons(m_oft.total_files));
+	m_socket->writeBuffer().pack(htons(m_oft.files_left));
+	m_socket->writeBuffer().pack(htons(m_oft.total_parts));
+	m_socket->writeBuffer().pack(htons(m_oft.parts_left));
+	m_socket->writeBuffer().pack((unsigned long)htonl(m_oft.total_size));
+	m_socket->writeBuffer().pack((unsigned long)htonl(m_oft.size));
+	m_socket->writeBuffer().pack(m_oft.mod_time);
+	m_socket->writeBuffer().pack(m_oft.checksum);
+	m_socket->writeBuffer().pack(m_oft.rfrcsum);
+	m_socket->writeBuffer().pack(m_oft.rfsize);
+	m_socket->writeBuffer().pack(m_oft.cretime);
+	m_socket->writeBuffer().pack(m_oft.rfcsum);
+	m_socket->writeBuffer().pack(m_oft.nrecvd);
+	m_socket->writeBuffer().pack(m_oft.recvcsum);
+	m_socket->writeBuffer().pack(m_oft.idstring, 32);
+	m_socket->writeBuffer().pack(m_oft.flags);
+	m_socket->writeBuffer().pack(m_oft.lnameoffset);
+	m_socket->writeBuffer().pack(m_oft.lsizeoffset);
+	m_socket->writeBuffer().pack(m_oft.dummy, 69);
+	m_socket->writeBuffer().pack(m_oft.macfileinfo, 16);
+	m_socket->writeBuffer().pack(m_oft.nencode);
+	m_socket->writeBuffer().pack(m_oft.nlanguage);
+	m_socket->writeBuffer().pack(m_oft.name, m_oft.name.length());
+	for(unsigned int i = 0; i < 256 - (m_oft.name.length() + sizeof(m_oft)) + 4; i++)
+	{
+		m_socket->writeBuffer().pack((unsigned char)0);
+	}
+	return true;
+}
+
 void AIMFileTransfer::packet_ready()
 {
-	log(L_DEBUG, "AIMFileTransfer::packet_ready %d", m_direction);
+	log(L_DEBUG, "AIMFileTransfer::packet_ready");
+	if(m_proxy && FileTransfer::m_state == FileTransfer::Connect)
+	{
+		unsigned short packet_length, chunk_id, status;
+		m_socket->readBuffer() >> packet_length;
+		m_socket->readBuffer() >> chunk_id;
+		log(L_DEBUG, "Proxy packet, length = %d, chunk_id = %04x",packet_length, chunk_id);
+		if(chunk_id == Chunk_status)
+		{
+			m_socket->readBuffer() >> status;
+			log(L_DEBUG, "status = %04x", status);
+			if(status == 0x0005) // Everything is allright
+			{
+				log(L_DEBUG, "Connection accepted");
+				// Read the rest of a packet:
+				m_socket->readBuffer().incReadPos(packet_length - 4);
+				ICQBuffer buf;
+				MessageId id;
+				AIMFileMessage* msg = static_cast<AIMFileMessage*>(m_msg);
+				id.id_h = msg->getID_H();
+				id.id_l = msg->getID_L();
+				const char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
+					0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
+				buf << (unsigned short) 0x0002 << id.id_l << id.id_h;
+				buf.pack(send_file, 0x10);
+				
+				m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, id, false, true);
+
+				FileTransfer::m_state = FileTransfer::Negotiation;
+				if(m_notify)
+					m_notify->process();
+			}
+		}
+		return;
+	}
 	if(m_direction == tdInput)
 	{
 		switch(FileTransfer::m_state)
 		{
 			case FileTransfer::Negotiation:
-				if(fillOFT())
+				if(readOFT())
 				{
 					if(m_oft.type == OFT_fileInfo)
 					{
 						log(L_DEBUG, "Sending file ack");
-						m_socket->writeBuffer().pack(m_oft.magic);
-						m_socket->writeBuffer().pack((unsigned short)0x01);
-						m_socket->writeBuffer().pack((unsigned short)OFT_answer);
-						m_socket->writeBuffer().pack(m_oft.cookie, 8);
-						m_socket->writeBuffer().pack(m_oft.encrypt);
-						m_socket->writeBuffer().pack(m_oft.compress);
-						m_socket->writeBuffer().pack(htons(m_oft.total_files));
-						m_socket->writeBuffer().pack(htons(m_oft.files_left));
-						m_socket->writeBuffer().pack(htons(m_oft.total_parts));
-						m_socket->writeBuffer().pack(htons(m_oft.parts_left));
-						m_socket->writeBuffer().pack((unsigned long)htonl(m_oft.total_size));
-						m_socket->writeBuffer().pack((unsigned long)htonl(m_oft.size));
-						m_socket->writeBuffer().pack(m_oft.mod_time);
-						m_socket->writeBuffer().pack(m_oft.checksum);
-						m_socket->writeBuffer().pack(m_oft.rfrcsum);
-						m_socket->writeBuffer().pack(m_oft.rfsize);
-						m_socket->writeBuffer().pack(m_oft.cretime);
-						m_socket->writeBuffer().pack(m_oft.rfcsum);
-						m_socket->writeBuffer().pack(m_oft.nrecvd);
-						m_socket->writeBuffer().pack(m_oft.recvcsum);
-						m_socket->writeBuffer().pack(m_oft.idstring, 32);
-						m_socket->writeBuffer().pack(m_oft.flags);
-						m_socket->writeBuffer().pack(m_oft.lnameoffset);
-						m_socket->writeBuffer().pack(m_oft.lsizeoffset);
-						m_socket->writeBuffer().pack(m_oft.dummy, 69);
-						m_socket->writeBuffer().pack(m_oft.macfileinfo, 16);
-						m_socket->writeBuffer().pack(m_oft.nencode);
-						m_socket->writeBuffer().pack(m_oft.nlanguage);
-						m_socket->writeBuffer().pack(m_oft.name, m_oft.name.length());
-						for(unsigned int i = 0; i < 256 - (m_oft.name.length() + sizeof(m_oft)) + 4; i++)
+						m_oft.type = OFT_answer;
+						if(m_proxy)
 						{
-							m_socket->writeBuffer().pack((unsigned char)0);
+							// Proxy doesn't fill cookie in his OFT, we need to do it ourselves
+							MessageId id;
+							AIMFileMessage* msg = static_cast<AIMFileMessage*>(m_msg);
+							id.id_h = msg->getID_H();
+							id.id_l = msg->getID_L();
+							*((unsigned long*)&m_oft.cookie[0]) = htonl(id.id_l);
+							*((unsigned long*)&m_oft.cookie[4]) = htonl(id.id_h);
 						}
+						writeOFT();
+						m_socket->write();
 						m_nFile = m_oft.total_files - m_oft.files_left + 1;	
 						m_nFiles = m_oft.total_files;	
-						m_totalBytes = m_oft.total_size;	
+						m_totalBytes = 0;
 						m_fileSize = m_oft.total_size;
 
 						if(m_notify)
@@ -2149,8 +2202,6 @@ void AIMFileTransfer::packet_ready()
 							m_notify->createFile(m_oft.name, m_fileSize, true);
 							m_notify->process();
 						}
-
-						m_socket->write();
 						FileTransfer::m_state = FileTransfer::Read;
 					}
 				}
@@ -2160,7 +2211,6 @@ void AIMFileTransfer::packet_ready()
 				{
 					if(m_bytes < m_fileSize){
 						unsigned long size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos());
-						log(L_DEBUG, "To read: %d (%d/%d)", size, m_bytes, m_fileSize);
 						m_totalBytes += size;
 						m_bytes += size;
 						m_transferBytes += size;
@@ -2178,6 +2228,7 @@ void AIMFileTransfer::packet_ready()
 								return;
 							}
 						}
+						// TODO Speed calculation
 						if (m_notify)
 							m_notify->process();
 						m_socket->readBuffer().incReadPos(size);
@@ -2187,6 +2238,9 @@ void AIMFileTransfer::packet_ready()
 						/// TODO Calculate and verify checksum
 						log(L_DEBUG, "File transfer OK");
 						FileTransfer::m_state = FileTransfer::Done;
+						m_oft.type = OFT_success;
+						writeOFT();
+						m_socket->write();
 						if (m_notify)
 							m_notify->process();
 						m_socket->error_state(QString::null);
@@ -2215,6 +2269,8 @@ void AIMFileTransfer::packet_ready()
 					AIMFileMessage* msg = static_cast<AIMFileMessage*>(m_msg);
 					id.id_h = msg->getID_H();
 					id.id_l = msg->getID_L();
+					
+					memset(&m_oft, 0, sizeof(m_oft));
 
 					m_oft.magic = 0x3254464f;
 					m_oft.unknown = 0x0001;
@@ -2239,10 +2295,10 @@ void AIMFileTransfer::packet_ready()
 					m_oft.rfcsum = 0xffff0000;
 					m_oft.nrecvd = 0;
 					m_oft.recvcsum = 0xffff0000;
-					strncpy((char*)m_oft.idstring, "SIM File Transfer", 31);
+					strncpy((char*)m_oft.idstring, "Cool FileXfer", 31);
 					m_oft.flags = 0x20; //FIXME magic
 					m_oft.lnameoffset = 0x1c; // ???
-					m_oft.lsizeoffset = m_file->name().length() + 1;
+					m_oft.lsizeoffset = 0x11; //m_file->name().length() + 1;
 					memset(m_oft.dummy, 0, 69);
 					memset(m_oft.macfileinfo, 0, 16);
 					m_oft.nencode = 0x200;
@@ -2278,7 +2334,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	{
 		prevchecksum = checksum;
 		unsigned char this_byte;
-		this_byte=(unsigned char)m_file->getch();
+		this_byte = (unsigned char)m_file->getch();
 		if(high)
 			checksum -= ((unsigned short)(this_byte) << 8);
 		else
@@ -2294,10 +2350,44 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	return checksum << 16;
 }
 
+void AIMFileTransfer::connectThroughProxy(uint32_t proxy_ip, uint16_t port, uint16_t cookie2)
+{
+	m_proxy = true;
+	connect(port);
+
+    m_socket->writeBuffer().init(0);
+    m_socket->readBuffer().init(2);
+    m_socket->readBuffer().packetStart();
+
+	struct in_addr addr;
+	addr.s_addr = proxy_ip;
+	m_socket->connect(inet_ntoa(addr), port, NULL);
+
+	// Here, we should request a filetransfer from proxy.
+	unsigned char uin_length = m_client->getScreen().length();
+	unsigned short packet_length = 0x28 + 1 + uin_length;
+	m_socket->setRaw(true);
+	m_socket->writeBuffer() << packet_length;
+	m_socket->writeBuffer() << Chunk_status;
+	// Status chunk is made of 6 bytes, first 2 are actually status and other 4 are zeroes
+	m_socket->writeBuffer() << (unsigned short)0x0004 << (unsigned long) 0x00000000; // 0x0004 means FT request
+	// Then, UIN chunk goes. First byte is length.
+	m_socket->writeBuffer() << Chunk_uin << uin_length;
+    m_socket->writeBuffer().pack(m_client->getScreen().ascii(), uin_length);
+	// Next chunk is cookie chunk
+	m_socket->writeBuffer() << (unsigned short)cookie2 << m_cookie.id_l << m_cookie.id_h;
+	// And the last one is magic caps chunk
+	const char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
+			0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
+	m_socket->writeBuffer() << Chunk_cap << (unsigned short)0x0010;
+	m_socket->writeBuffer().pack(send_file, 0x10);
+	m_socket->write();
+}
+
 void AIMFileTransfer::connect_ready()
 {
     log(L_DEBUG, "AIMFileTransfer::connect_ready()");
-	FileTransfer::m_state = FileTransfer::Negotiation;
+	//FileTransfer::m_state = FileTransfer::Negotiation;
     m_socket->readBuffer().init(0);
     m_socket->readBuffer().packetStart();
     m_socket->setRaw(true);

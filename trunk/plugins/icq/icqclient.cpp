@@ -338,6 +338,13 @@ QString ICQClient::name()
     return "ICQ." + QString::number(data.owner.Uin.toULong());
 }
 
+QString ICQClient::getScreen()
+{
+    if (m_bAIM)
+        return data.owner.Screen.str();
+    return QString::number(data.owner.Uin.toULong());
+}
+
 QWidget	*ICQClient::setupWnd()
 {
     if (m_bAIM)

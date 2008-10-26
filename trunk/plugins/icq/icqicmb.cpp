@@ -404,7 +404,8 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 }
             case 0x0002:{
                     Tlv *tlv5 = tlvChannel(5);
-                    if (!tlv5){
+                    if(!tlv5)
+					{
                         log(L_WARN, "TLV 0x0005 not found");
                         break;
                     }
@@ -760,12 +761,14 @@ static void copyTlv(ICQBuffer &b, TlvList *tlvs, unsigned nTlv)
 
 void ICQClient::sendType2(const QString &screen, ICQBuffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
 {
+	log(L_DEBUG, "ICQClient::sendType2");
     ICQBuffer b;
     b << (unsigned short)0;
     b << id.id_l << id.id_h;
     b.pack((char*)capabilities[cap], sizeof(capability));
     b.tlv(0x0A, (unsigned short)type);
-    if (port){
+    if(port)
+	{
         b.tlv(0x03, (unsigned long)htonl(get_ip(data.owner.RealIP)));
         b.tlv(0x04, (unsigned long)htonl(get_ip(data.owner.IP)));
         b.tlv(0x05, port);
@@ -829,7 +832,8 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
     m.unpack((char*)cap, sizeof(cap));
     if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
         TlvList tlv(m);
-        if (!tlv(0x2711)){
+        if(!tlv(0x2711))
+		{
             log(L_DEBUG, "TLV 0x2711 not found");
             return;
         }
@@ -886,12 +890,17 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
     unsigned long real_ip = 0;
     unsigned long ip = 0;
     unsigned short port = 0;
+	unsigned long test_ip = 0;
+
+	if (tlv(2))
+		test_ip = htonl((uint32_t)(*tlv(2)));
     if (tlv(3))
         real_ip = htonl((uint32_t)(*tlv(3)));
     if (tlv(4))
         ip = htonl((uint32_t)(*tlv(4)));
     if (tlv(5))
         port = *tlv(5);
+
     if (real_ip || ip){
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -904,6 +913,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                 data->Port.asULong() = port;
         }
     }
+	log(L_DEBUG, "Test IP: %08x, Real IP: %08x, IP: %08x, PORT: %08x",test_ip, real_ip, ip, port);
 
     if (!memcmp(cap, capabilities[CAP_AIM_IMIMAGE], sizeof(cap))){
         log(L_DEBUG, "AIM set direct connection");
@@ -913,7 +923,9 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
     if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap))){
         log(L_DEBUG, "AIM send file");
         Tlv *desc = tlv(0x0A);
-        if (desc == NULL){
+		bool is_proxy = tlv(0x10);
+        if(desc == NULL && !is_proxy)
+		{
             log(L_DEBUG, "Send file ack");
             list<SendMsg>::iterator it;
             for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
@@ -934,11 +946,45 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             log(L_DEBUG, "File message for ack not found");
             return;
         }
-        Tlv *info = tlv(0x2711);
-        if (info == NULL){
-            log(L_WARN, "No info tlv in send file");
-            return;
-        }
+		Tlv *info = tlv(0x2711);
+		if(info == NULL) 
+		{
+			if(is_proxy) // Connection through proxy
+			{
+				for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+				{
+					log(L_DEBUG, "Msg, type = %d", (*it)->type());
+					if ((*it)->type() == MessageFile)
+					{
+						AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
+						MessageId this_id;
+						this_id.id_l = afm->getID_L();
+						this_id.id_h = afm->getID_H();
+						if(this_id == id && test_ip)
+						{
+							Contact *contact;
+							ICQUserData *data = findContact(screen, NULL, false, contact);
+							if(data)
+							{
+								set_ip(&data->RealIP, test_ip);
+								FileMessage *m = static_cast<FileMessage*>((*it));
+								AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
+								ft->setICBMCookie(this_id);
+								ft->connectThroughProxy(test_ip, 5190, *tlv(5));
+								log(L_DEBUG, "Proxy connection, IP = %08x, port = %02x", test_ip, port);
+								return;
+							}
+						}
+					}
+				}
+				return;
+			}
+			else
+			{
+				log(L_WARN, "No info tlv in send file");
+				return;
+			}
+		}
         QString d = convert(desc, tlv, 0x0D);
         ICQBuffer b(*info);
         unsigned short type;
@@ -969,6 +1015,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
         }
         msg->setDescription(d);
         msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
+		m_processMsg.push_back(msg);
         messageReceived(msg, screen);
         return;
     }
@@ -1276,7 +1323,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                         AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this, AIMFileTransfer::tdOutput);
                         EventMessageAcked(msg).process();
                         m_processMsg.push_back(msg);
-                        ft->connect(static_cast<ICQFileMessage*>(m)->getPort());
+                        ft->connect(static_cast<AIMFileMessage*>(m)->getPort());
                     }
 					else
 					{
