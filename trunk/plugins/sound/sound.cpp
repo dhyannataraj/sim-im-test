@@ -23,6 +23,7 @@
 #include <qtimer.h>
 
 #ifdef USE_KDE
+	#include <kaudioplayer.h>
 	#include <arts/soundserver.h>
 	//using namespace Arts;
     static Arts::Dispatcher * g_pArtsDispatcher = 0;
