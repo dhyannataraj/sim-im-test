@@ -23,7 +23,7 @@
 #include <qtimer.h>
 
 #ifdef USE_KDE
-#include <kaudioplayer.h>
+	#include <kaudioplayer.h>
 #endif
 
 #include "exec.h"
@@ -156,6 +156,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 	// Under OS/2, playing startup sound leads SIM to crash on next sounds
 	// under investigation
 	this->destruct=false;
+    bDone=true;
     if (bFirst)
         playSound(getStartUp());
 #endif        
@@ -168,11 +169,11 @@ SoundPlugin::~SoundPlugin()
 	while (!bDone) sleepTime(1000);
 #endif
 	delete m_sound;
-    soundPlugin = NULL;
-    EventCommandRemove(CmdSoundDisable).process();
-    EventRemovePreferences(user_data_id).process();
-    free_data(soundData, &data);
-    getContacts()->unregisterUserData(user_data_id);
+	soundPlugin = NULL;
+	EventCommandRemove(CmdSoundDisable).process();
+	EventRemovePreferences(user_data_id).process();
+	free_data(soundData, &data);
+	getContacts()->unregisterUserData(user_data_id);
 }
 
 QCString SoundPlugin::getConfig()
@@ -361,15 +362,14 @@ void SoundPlugin::processQueue()
     m_queue.erase(m_queue.begin());
     QString sound = fullName(m_current);
     // check whether file is available
+    m_snd = sound;
     if (!QFile::exists(sound)) {
         m_current = QString::null;
         return;
     }
 #ifdef USE_KDE
     if (getUseArts()){
-        KAudioPlayer::play(sound);
-        m_checkTimer->start(WAIT_SOUND_TIMEOUT);
-        m_current = QString::null;
+	this->start(); 
         return; // arts
     }
     bool bSound = false;
@@ -390,70 +390,93 @@ void SoundPlugin::processQueue()
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
-#ifndef AUDIERE_H
+#ifndef USE_AUDIERE
         m_sound = new QSound(sound);
+	qDebug("\nNON-Threaded");
         m_sound->play();
-		m_checkTimer->start(CHECK_SOUND_TIMEOUT);
+	m_checkTimer->start(CHECK_SOUND_TIMEOUT);
 #else
-		m_snd = sound;
-		//QTimer::singleShot(0,this,SLOT(playit()));
-		this->start();
-
+	//QTimer::singleShot(0,this,SLOT(playit()));
+	this->start();
 #endif	   
 
-       
        m_current = QString::null;
        return; // QSound
     }
 #if !defined( WIN32 ) && !defined( __OS2__ )
-    if (getPlayer().isEmpty()) {
+	if (getPlayer().isEmpty()) {
 		m_current = QString::null;
-        return;
-    }
-    EventExec e(getPlayer(), sound);
-    e.process();
-    m_player = e.pid();
-    if (m_player == 0){
-        log(L_WARN, "Can't execute player");
-        m_queue.clear();
-    }
-    m_current = QString::null;
-    return; // external Player
+		return;
+	}
+	this->start();	
 #endif
 }
 
 void SoundPlugin::run(){
 #ifdef USE_AUDIERE
 	AudioDevicePtr device(OpenDevice());
-       if (!device) {
-		   log(L_WARN, "No Audio Device was found.");
-		   return;
-       }
-       QFileInfo audiereSound(m_snd);
-	   
-       OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
-
-	   if (!sndstream) {
-	      log(L_WARN, "Audiostream could not be opened.");
-		  return;
-       }
-       else {
-	      sndstream->setVolume(1.0f);
-		  sndstream->play();
-       }
-	   while (sndstream->isPlaying()) {
-          sleepSecond();
-		  bDone = false;
-		  if (destruct) { //Plugin or SIM is shutting down, so lets fade out ;)
-		    for (int i=1000; i>0; --i) { 
+	if (!device) {
+		log(L_WARN, "No Audio Device was found.");
+		return;
+	}
+	QFileInfo audiereSound(m_snd);
+		
+	OutputStreamPtr sndstream (OpenSound(device, audiereSound.absFilePath().latin1(), true));
+	
+		if (!sndstream) {
+		log(L_WARN, "Audiostream could not be opened.");
+			return;
+	}
+	else {
+		sndstream->setVolume(1.0f);
+		sndstream->play();
+	}
+	while (sndstream->isPlaying()) {
+		sleepSecond();
+		bDone = false;
+		if (destruct) { //Plugin or SIM is shutting down, so lets fade out ;)
+			for (int i=1000; i>0; --i) { 
 				sndstream->setVolume(i*0.001f);
 				sleepTime(2);
 			}
-			bDone=true;
-			return;
-		 }
-       }
-	   bDone=true;
+		bDone=true;
+		return;
+		}
+	}
+	bDone=true;
+	return;
+#endif
+
+#if !defined( WIN32 ) && !defined( __OS2__ )
+	if (bDone) {
+		qDebug("\nThreaded mit getPlayer() davor");
+		bDone=false;
+		//EventExec e(, m_snd);
+		QString execme=QString("\"%1\" \"%2\"\0").arg(getPlayer()).arg(m_snd);
+		system(execme.data());
+		//e.process();
+		qDebug("\nThreaded mit getPlayer() danach");
+		/*m_player = e.pid();
+		if (m_player == 0){
+			log(L_WARN, "Can't execute player");
+			m_queue.clear();
+		}*/
+		m_current = QString::null;
+		bDone=true;
+		return;
+	}
+#endif
+#ifdef USE_KDE
+	if (bDone) {
+		qDebug("\nThreaded mit USE_KDE davor");
+		bDone=false;
+		KAudioPlayer::play(m_snd);
+		qDebug("\nThreaded mit USE_KDE danach");
+		m_checkTimer->start(WAIT_SOUND_TIMEOUT);
+		m_current = QString::null;
+		bDone=true;
+		return;
+	}
 #endif
 }
 
@@ -462,17 +485,17 @@ void SoundPlugin::checkSound()
 {
 	bDone = true;
 
-#ifndef AUDIERE_H
+#ifndef USE_AUDIERE
 
     if (m_sound && !m_sound->isFinished())
         bDone = false;
 #endif
 	if (bDone){
-        m_checkTimer->stop();
+        	m_checkTimer->stop();
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
-		m_snd	  = QString::null;
+	m_snd	  = QString::null;
         m_current = QString::null;
         processQueue();
     }

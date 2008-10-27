@@ -117,7 +117,7 @@ protected:
     QStringList     m_queue;
     QSound         *m_sound;
     QTimer         *m_checkTimer;
-	QString		    m_snd;
+QString		    m_snd;
 
 #if !defined( WIN32 ) && !defined( __OS2__ )
     long             m_player;
@@ -125,9 +125,9 @@ protected:
     SoundData	data;
     CorePlugin	*core;
     bool	    m_bChanged;
-	bool bDone;
-	bool destruct;
-	bool isPlaying;
+    bool bDone;
+    bool destruct;
+    bool isPlaying;
     friend class SoundConfig;
     friend class SoundUserConfig;
 };
