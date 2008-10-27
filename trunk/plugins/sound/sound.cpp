@@ -23,11 +23,7 @@
 #include <qtimer.h>
 
 #ifdef USE_KDE
-	#include <kaudioplayer.h>
-	#include <arts/soundserver.h>
-	//using namespace Arts;
-    static Arts::Dispatcher * g_pArtsDispatcher = 0;
-	
+#include <kaudioplayer.h>
 #endif
 
 #include "exec.h"
@@ -44,7 +40,6 @@ using namespace SIM;
 #ifdef USE_AUDIERE
   using namespace audiere;
 #endif
-
 
 const unsigned CHECK_SOUND_TIMEOUT	= 200;
 const unsigned WAIT_SOUND_TIMEOUT	= 1000;
@@ -366,20 +361,15 @@ void SoundPlugin::processQueue()
     m_queue.erase(m_queue.begin());
     QString sound = fullName(m_current);
     // check whether file is available
-	
     if (!QFile::exists(sound)) {
         m_current = QString::null;
         return;
     }
 #ifdef USE_KDE
     if (getUseArts()){
-
-        //KAudioPlayer::play(sound);
-        //m_checkTimer->start(WAIT_SOUND_TIMEOUT);
-        //m_current = QString::null;
-		m_snd = sound;
-		//QTimer::singleShot(0,this,SLOT(playit()));
-		this->start();
+        KAudioPlayer::play(sound);
+        m_checkTimer->start(WAIT_SOUND_TIMEOUT);
+        m_current = QString::null;
         return; // arts
     }
     bool bSound = false;
@@ -400,7 +390,7 @@ void SoundPlugin::processQueue()
         if (m_sound)
             delete m_sound;
         m_sound   = NULL;
-#ifndef USE_AUDIERE
+#ifndef AUDIERE_H
         m_sound = new QSound(sound);
         m_sound->play();
 		m_checkTimer->start(CHECK_SOUND_TIMEOUT);
@@ -464,20 +454,7 @@ void SoundPlugin::run(){
 		 }
        }
 	   bDone=true;
-
 #endif
-#ifdef USE_KDE
-	   if(!g_pArtsDispatcher)g_pArtsDispatcher = new Arts::Dispatcher;
-			Arts::SimpleSoundServer *server = new Arts::SimpleSoundServer(Arts::Reference("global:Arts_SimpleSoundServer"));
-			if(server->isNull())
-			{
-					debug("Can't connect to sound server to play file %s",m_snd.utf8().data());
-			} else {
-					server->play(m_snd);
-			}
-			delete server;	
-#endif
-
 }
 
 
