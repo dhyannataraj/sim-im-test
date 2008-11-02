@@ -2247,7 +2247,7 @@ void AIMFileTransfer::packet_ready()
 								m_socket->error_state("Write without file");
 								return;
 							}
-							if (m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size) != size){
+							if ((unsigned long) (m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size)) != size){
 								log(L_DEBUG, "Error while writing to file");
 								m_socket->error_state("Error write file");
 								return;
