@@ -385,6 +385,13 @@ unsigned long ICQClient::getUin()
     return data.owner.Uin.toULong();
 }
 
+void ICQClient::generateCookie(MessageId& id)
+{
+	// Just for fun:
+	id.id_h = rand() + (rand() << 16);
+	id.id_l = rand() + (rand() << 16);
+}
+
 bool ICQClient::isMyData(clientData *&_data, Contact *&contact)
 {
     if (_data->Sign.toULong() != ICQ_SIGN)
@@ -436,6 +443,7 @@ void OscarSocket::connect_ready()
 
 void ICQClient::connect_ready()
 {
+	log(L_DEBUG, "ICQClient::connect_ready()");
     m_bFirstTry = false;
     if (m_listener == NULL){
         m_listener = new ICQListener(this);

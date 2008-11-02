@@ -750,6 +750,39 @@ void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsign
     sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port.toULong() : 0, NULL, type);
 }
 
+void ICQClient::sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize, unsigned short port, const MessageId& id, unsigned short type)
+{
+	log(L_DEBUG, "ICQClient::sendFTRequest");
+	TlvList tlvs;
+	bool bWide = false;
+	for(int i = 0; i < (int)(filename.length()); i++)
+	{
+		if (filename[i].unicode() > 0x7F)
+		{
+			bWide = true;
+			break;
+		}
+	}
+	QString charset = bWide ? "utf-8" : "us-ascii";
+	tlvs += new Tlv(0x2712, charset.length(), charset);
+	//msgBuf << (const char*)(fname.utf8()) << (char)0;
+	tlvs += new Tlv(0x0017, 2, (const char*)&port);
+	ICQBuffer buf;
+	buf << ((unsigned short)0x0001) << ((unsigned short)0x0001);
+	buf << (filesize);
+	
+	if(bWide)
+	{
+		QCString decodedfname = filename.utf8();
+		buf.pack(decodedfname.data(), decodedfname.length() + 1);
+	}
+	else
+	{
+		buf.pack(filename.data(), filename.length() + 1);
+	}
+	sendType2(screen, buf, id, CAP_AIM_SENDFILE, false, port, &tlvs, type);
+}
+
 static void copyTlv(ICQBuffer &b, TlvList *tlvs, unsigned nTlv)
 {
     if (tlvs == NULL)
@@ -773,11 +806,13 @@ void ICQClient::sendType2(const QString &screen, ICQBuffer &msgBuf, const Messag
         b.tlv(0x03, (unsigned long)htonl(get_ip(data.owner.RealIP)));
         b.tlv(0x04, (unsigned long)htonl(get_ip(data.owner.IP)));
         b.tlv(0x05, port);
+		log(L_DEBUG, "RealIP = %08x, IP = %08x, port = %04x", (get_ip(data.owner.RealIP)), (get_ip(data.owner.IP)), port);
     }
     b.tlv(0x0F);
     copyTlv(b, tlvs, 0x0E);
     copyTlv(b, tlvs, 0x0D);
     copyTlv(b, tlvs, 0x0C);
+    copyTlv(b, tlvs, 0x17);
     b.tlv(0x2711, msgBuf);
     copyTlv(b, tlvs, 0x2712);
     copyTlv(b, tlvs, 0x03);
@@ -984,6 +1019,20 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 			else
 			{
 				log(L_WARN, "No info tlv in send file");
+				for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+				{
+					if ((*it)->type() == MessageFile)
+					{
+						AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
+						MessageId this_id;
+						this_id.id_l = afm->getID_L();
+						this_id.id_h = afm->getID_H();
+						if(this_id == id)
+						{
+							afm->setPort(port);
+						}
+					}
+				}
 				return;
 			}
 		}
@@ -1684,7 +1733,8 @@ bool ICQClient::processMsg()
         type = m_send.msg->type();
         log(L_DEBUG, "Send: %s %u %X", m_send.screen.latin1(), type, m_send.flags);
     }
-    if (m_send.msg && (m_send.socket == NULL)){
+    if(m_send.msg && (m_send.socket == NULL))
+	{
         ICQBuffer b;
         m_send.id.id_l = rand();
         m_send.id.id_h = rand();
@@ -1772,9 +1822,18 @@ bool ICQClient::processMsg()
                 return true;
             }
         case MessageFile:
-            packMessage(b, m_send.msg, data, type, false);
-            sendAdvMessage(screen(data), b, PLUGIN_NULL, m_send.id, false, true);
-            return true;
+			{
+				MessageId id;
+				generateCookie(id);
+				FileMessage* msg = static_cast<FileMessage*>(m_send.msg);
+				AIMFileTransfer *ft = new AIMFileTransfer(msg, data, this, AIMFileTransfer::tdOutput);
+				ft->setICBMCookie(id);
+				ft->listen();
+				QString filename = msg->getDescription(); //getContacts()->fromUnicode(getContact(data), msg->getDescription()); //Description ?? 
+				unsigned long filesize = msg->getSize();
+				sendFTRequest(m_send.screen, filename, filesize, ft->remotePort(), id, 1);
+				return true;
+			}
         case MessageWarning:{
                 WarningMessage *msg = static_cast<WarningMessage*>(m_send.msg);
                 snac(ICQ_SNACxFOOD_MESSAGE, ICQ_SNACxMSG_BLAMExUSER, true);
@@ -1868,9 +1927,12 @@ bool ICQClient::processMsg()
         sendAdvMessage(m_send.screen, msgBuf, PLUGIN_NULL, m_send.id, true, false);
         return true;
     }
-    if (m_send.socket){
+    if(m_send.socket)
+	{
         ICQBuffer msgBuf;
-        if (m_send.flags == PLUGIN_AIM_FT_ACK){
+        if(m_send.flags == PLUGIN_AIM_FT_ACK)
+		{
+			log(L_DEBUG, "This way");
             AIMFileMessage *msg = static_cast<AIMFileMessage*>(m_send.msg);
             m_send.id.id_l = msg->getID_L();
             m_send.id.id_h = msg->getID_H();

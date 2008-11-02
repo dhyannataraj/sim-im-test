@@ -380,7 +380,8 @@ struct OftData
 	char macfileinfo[16];
 	unsigned short nencode;
 	unsigned short nlanguage;
-	QString name;
+	//QString name;
+	QByteArray name;
 };
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
@@ -648,6 +649,10 @@ protected slots:
     void sendTimeout();
     void retry(int n, void*);
 protected:
+	void sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize,
+			unsigned short port, const MessageId& id, unsigned short type);
+	void generateCookie(MessageId& id);
+
     void sendPacket(bool bSend);
     virtual void setInvisible(bool bState);
     virtual void setStatus(unsigned status, bool bCommon);
@@ -1028,9 +1033,11 @@ public:
     void accept();
 	void setICBMCookie(MessageId const& cookie) {m_cookie = cookie;};
 
+	static const unsigned long OFT_magic = 0x3254464f;
 	static const int OFT_fileInfo = 0x0101;
 	static const int OFT_answer = 0x0202;
 	static const int OFT_success = 0x0402;
+	static const int OFT_continue = 0x0502;
 
 	static const unsigned short Chunk_status = 0x044a;
 	static const unsigned short Chunk_uin = 0x0000;
@@ -1057,14 +1064,16 @@ protected:
     virtual bool error(const QString &err);
 	void connectThroughProxy(uint32_t proxy_ip, uint16_t port, uint16_t cookie2);
 
-	bool readOFT();
-	bool writeOFT();
+	bool sendNextBlock();
+	bool readOFT(OftData* oft);
+	bool writeOFT(OftData* oft);
 	unsigned long calculateChecksum();
 	
 	bool m_proxy;
 	MessageId m_cookie;
 	OftData m_oft;
 	unsigned long m_bytesSent;
+	unsigned long m_packetLength;
 	tTransferDirection m_direction;
 
     friend class ICQClient;
