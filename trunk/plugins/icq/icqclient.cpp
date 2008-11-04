@@ -2865,8 +2865,11 @@ bool ICQClient::send(Message *msg, void *_data)
             return sendAuthRefused(msg, data);
         return false;
     case MessageFile:
-        if (data && ((data->Status.toULong() & 0xFFFF) != ICQ_STATUS_OFFLINE)){
-            if (data->Uin.toULong()){
+        if (data && ((data->Status.toULong() & 0xFFFF) != ICQ_STATUS_OFFLINE))
+		{
+			log(L_DEBUG, "send: MessageFile");
+            if (data->Uin.toULong())
+			{
                 DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
                 if (!dc){
                     if (data->bNoDirect.toBool())

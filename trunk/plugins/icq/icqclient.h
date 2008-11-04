@@ -384,6 +384,9 @@ struct OftData
 	QByteArray name;
 };
 
+#define AOL_PROXY_HOST "ars.oscar.aol.com"
+#define AOL_PROXY_PORT 5190
+
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
 const unsigned PLUGIN_FILESERVER         = 2;
@@ -643,14 +646,15 @@ public:
     static QString addCRLF(const QString &str);
     void uploadBuddy(const ICQUserData *data);
     ICQUserData * toICQUserData(SIM::clientData*);  // More safely type conversion from generic SIM::clientData into ICQUserData
+
+	void sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize,
+			unsigned short port, const MessageId& id, unsigned short type, unsigned long ip);
 protected slots:
     void ping();
     void processSendQueue();
     void sendTimeout();
     void retry(int n, void*);
 protected:
-	void sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize,
-			unsigned short port, const MessageId& id, unsigned short type);
 	void generateCookie(MessageId& id);
 
     void sendPacket(bool bSend);
@@ -899,6 +903,7 @@ public:
     unsigned short remotePort();
     unsigned long  Uin();
     ICQUserData    *m_data;
+	void setPort(unsigned short port) {m_port = port;}
 protected slots:
     void timeout();
 protected:
@@ -918,6 +923,7 @@ protected:
     ICQClientSocket  *m_socket;
     ICQClient        *m_client;
     unsigned long m_ip;
+	friend class AIMFileTransfer;
 };
 
 struct SendDirectMsg
@@ -1017,6 +1023,24 @@ protected:
     friend class ICQClient;
 };
 
+class AIMFileTransfer;
+
+class AcceptTimer : public QObject
+{
+	Q_OBJECT
+public:
+	AcceptTimer(AIMFileTransfer* ft) : m_ft(ft) {};
+	virtual ~AcceptTimer(){};
+
+protected slots:
+	void acceptTimeout();
+	void connectTimeout();
+	
+private:
+	AIMFileTransfer* m_ft;
+};
+
+
 class AIMFileTransfer : public SIM::FileTransfer, public DirectSocket, public SIM::ServerSocketNotify
 {
 public:
@@ -1043,13 +1067,14 @@ public:
 	static const unsigned short Chunk_uin = 0x0000;
 	static const unsigned short Chunk_cookie = 0x16d0;
 	static const unsigned short Chunk_cap = 0x0001;
-
+ 
 protected:
     enum State
     {
         None,
-        Listen,
-        Accept
+		ConnWait,
+		AcceptWait,
+		Estabilished
     };
     State m_state;
 
@@ -1058,11 +1083,14 @@ protected:
     virtual void packet_ready();
     virtual bool error_state(const QString &err, unsigned code);
     virtual void write_ready();
+	virtual void resolve_ready(unsigned long ip);
     virtual void startReceive(unsigned pos);
     virtual void bind_ready(unsigned short port);
     virtual bool accept(SIM::Socket *s, unsigned long ip);
     virtual bool error(const QString &err);
-	void connectThroughProxy(uint32_t proxy_ip, uint16_t port, uint16_t cookie2);
+	void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
+	void negotiateWithProxy(uint16_t cookie2);
+	void initOFTSending();
 
 	bool sendNextBlock();
 	bool readOFT(OftData* oft);
@@ -1071,12 +1099,15 @@ protected:
 	
 	bool m_proxy;
 	MessageId m_cookie;
+	uint16_t m_cookie2;
 	OftData m_oft;
 	unsigned long m_bytesSent;
 	unsigned long m_packetLength;
 	tTransferDirection m_direction;
+	AcceptTimer m_timer;
 
     friend class ICQClient;
+	friend class AcceptTimer;
 };
 
 #endif
