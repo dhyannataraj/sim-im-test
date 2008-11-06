@@ -188,7 +188,8 @@ void UpdatePlugin::Finished(int requestId, bool error){
 				upToDate=false;
 				return;
 			}
-			upToDate=true;		
+			upToDate=true;
+			log(L_DEBUG, "Update::You have the latest online Version.");		
 			return;
 		}
 		
@@ -261,7 +262,7 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 	
 	this->dlocal  = QDate(local.right(4).toInt(), i+1 , local.section(' ',1,1, QString::SectionDefault).toInt());
 	this->dremote = QDate(remote.right(4).toInt(), remote.mid(3,2).toInt(), remote.left(2).toInt());
-
+    log(L_DEBUG, "Update::Error in parsing Version-String. Perhaps you forgot to set SVNTAG and SIMTAG - Environment-Vars");		
 	if (dremote.isNull())	QMessageBox::critical( 0, i18n("Update Plugin: Error fetching the date of the current Update Setup."),
 							i18n("Please contact and inform me via noragen@gmx.net about this issue. //\\//oRaGen."));
 

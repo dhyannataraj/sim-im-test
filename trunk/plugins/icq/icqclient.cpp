@@ -262,7 +262,7 @@ ICQClient::~ICQClient()
         delete socket();
     for (list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it){
         Message *msg = *it;
-        msg->setError(I18N_NOOP("Process message failed"));
+        msg->setError(I18N_NOOP("Process message failed")); //and this line crashed because "msg" seems broken anyhow. (by noragen)
  // FIXME: this does not work and could crash !!!!
  //       Event e(EventRealSendMessage, msg);
  //       e.process();
