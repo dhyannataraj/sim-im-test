@@ -263,16 +263,26 @@ bool UpdatePlugin::isUpdateNeeded(QString& local, QString& remote){
 	
 	this->dlocal  = QDate(local.right(4).toInt(), i+1 , local.section(' ',1,1, QString::SectionDefault).toInt());
 	this->dremote = QDate(remote.right(4).toInt(), remote.mid(3,2).toInt(), remote.left(2).toInt());
-    log(L_DEBUG, "Update::Error in parsing Version-String. Perhaps you forgot to set SVNTAG and SIMTAG - Environment-Vars");		
-	if (dremote.isNull())	QMessageBox::critical( 0, i18n("Update Plugin: Error fetching the date of the current Update Setup."),
+    
+	if (dremote.isNull())
+	{	
+		QMessageBox::critical( 0, i18n("Update Plugin: Error fetching the date of the current Update Setup."),
 							i18n("Please contact and inform me via noragen@gmx.net about this issue. //\\//oRaGen."));
+		log(L_DEBUG, "Update::Error in parsing Version-String. Perhaps you forgot to set SVNTAG and SIMTAG - Environment-Vars");		
+	}
 
 	//local=dlocal->toString();
 	//remote=dremote->toString();
 	if (dlocal.daysTo(dremote)>0)
+	{
+		log(L_DEBUG, "Update::There is a new Version on www.sim.gosign.de");		
 		return true;
+	}
 	else
+	{
+		log(L_DEBUG, "Update::Your SIM-Version is up to date.");		
 		return false;
+	}
 }
 
 void UpdatePlugin::download_and_install(){
