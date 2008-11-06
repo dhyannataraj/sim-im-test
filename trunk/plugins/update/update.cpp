@@ -20,6 +20,7 @@
 #include "core.h"
 #include "ballonmsg.h"
 #include "aboutdata.h"
+#include "log.h"
 
 #include <time.h>
 #include <stdio.h>
