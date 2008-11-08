@@ -418,15 +418,18 @@ bool NavigatePlugin::processEvent(Event *e)
             QString topic  = rp.value("ddeexec\\Topic");
             QString server = rp.value("ddeexec\\Application");
 
-			int pos = action.find("%1");
+			int pos = action.find("%l");
 			if (!action.isEmpty() && pos >= 0)
                     action = action.left(pos) + url + action.mid(pos + 2);
 
-            pos = prg.find("%1");
-            if (pos >= 0)
-				prg = prg.left(pos) + url + prg.mid(pos + 2);
+			//prg=prg.replace("\%l","\%1");
+			if (proto=="file") {
+				pos = prg.find("%l");
+				if (pos >= 0)
+					prg = prg.left(pos) + url + prg.mid(pos + 2);
+			}
 			else
-				prg = prg + " \"" + url + "\"";
+				prg = QString(prg).arg(url);
 
 			if (!prg.isEmpty()){
                 STARTUPINFO si;
@@ -454,7 +457,7 @@ bool NavigatePlugin::processEvent(Event *e)
 			//ShellExecuteA(NULL, NULL, url.data(), NULL, NULL, SW_SHOWNORMAL);  //Fixme: Bug, does not work
 			QProcess openPathInExplorer;
 			QString path(url);
-			path.replace("%20", " ");
+			//path.replace("%20", " ");
 			openPathInExplorer.addArgument("explorer");
 			openPathInExplorer.addArgument(path);
 			if (openPathInExplorer.start()) qDebug(i18n("Explorer started for Path"));
