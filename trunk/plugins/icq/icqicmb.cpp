@@ -42,6 +42,7 @@
 
 #include "icqclient.h"
 #include "icqmessage.h"
+#include "icqdirect.h"
 #include "icq.h"
 
 using namespace std;
@@ -435,9 +436,11 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                                             msg_id.id_h = static_cast<AIMFileMessage*>(msg)->getID_H();
                                             break;
                                         }
-                                        if (msg_id == id){
+                                        if (msg_id == id)
+										{
                                             m_acceptMsg.erase(it);
                                             EventMessageDeleted(msg).process();
+											log(L_DEBUG, "=====(1)=====");
                                             delete msg;
                                             break;
                                         }
@@ -932,6 +935,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             ICQFileMessage *msg = static_cast<ICQFileMessage*>(*it);
             if (msg->m_transfer == NULL)
                 continue;
+			/*
             AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(msg->m_transfer);
             if (ft->m_localPort == remotePort){
                 log(L_DEBUG, "Setup file transfer reverse connect to %s %s:%lu",
@@ -939,6 +943,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                 ft->reverseConnect(localIP, localPort);
                 return;
             }
+			*/
         }
         log(L_DEBUG, "Setup reverse connect to %s %s:%lu",
             screen.local8Bit().data(), inet_ntoa(addr), localPort);
@@ -963,19 +968,22 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
     if (tlv(5))
         port = (*tlv(5));
 
+	log(L_DEBUG, "Test IP: %08x, Real IP: %08x, IP: %08x, PORT: %d",test_ip, real_ip, ip, port);
+
     if (real_ip || ip){
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
-        if (data){
-            if (real_ip && (get_ip(data->RealIP) == 0))
+        if (data)
+		{
+            //if(real_ip && (get_ip(data->RealIP) == 0))
+            if(real_ip)
                 set_ip(&data->RealIP, real_ip);
-            if (ip && (get_ip(data->IP) == 0))
+            if(ip && (get_ip(data->IP) == 0))
                 set_ip(&data->IP, ip);
-            if (port && (data->Port.toULong() == 0))
+            if(port && (data->Port.toULong() == 0))
                 data->Port.asULong() = port;
         }
     }
-	log(L_DEBUG, "Test IP: %08x, Real IP: %08x, IP: %08x, PORT: %d",test_ip, real_ip, ip, port);
 
     if (!memcmp(cap, capabilities[CAP_AIM_IMIMAGE], sizeof(cap))){
         log(L_DEBUG, "AIM set direct connection");
@@ -1010,61 +1018,57 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             return;
         }
 		Tlv *info = tlv(0x2711);
-		if(info == NULL) 
+		if(is_proxy) // Connection through proxy
 		{
-			if(is_proxy) // Connection through proxy
+			for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
 			{
-				for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+				log(L_DEBUG, "Msg, type = %d", (*it)->type());
+				if ((*it)->type() == MessageFile)
 				{
-					log(L_DEBUG, "Msg, type = %d", (*it)->type());
-					if ((*it)->type() == MessageFile)
+					AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
+					MessageId this_id;
+					this_id.id_l = afm->getID_L();
+					this_id.id_h = afm->getID_H();
+					if(this_id == id && test_ip)
 					{
-						AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
-						MessageId this_id;
-						this_id.id_l = afm->getID_L();
-						this_id.id_h = afm->getID_H();
-						if(this_id == id && test_ip)
+						Contact *contact;
+						ICQUserData *data = findContact(screen, NULL, false, contact);
+						if(data)
 						{
-							Contact *contact;
-							ICQUserData *data = findContact(screen, NULL, false, contact);
-							if(data)
-							{
-								set_ip(&data->RealIP, test_ip);
-								FileMessage *m = static_cast<FileMessage*>((*it));
-								AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
-								ft->setICBMCookie(this_id);
-								struct in_addr in;
-								in.s_addr = test_ip;
+							set_ip(&data->RealIP, test_ip);
+							FileMessage *m = static_cast<FileMessage*>((*it));
+							AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
+							ft->setICBMCookie(this_id);
+							struct in_addr in;
+							in.s_addr = test_ip;
 
-								ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, *tlv(5));
-								return;
-							}
+							ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, *tlv(5));
+							return;
 						}
 					}
 				}
-				return;
-			}
-			else
-			{
-				log(L_WARN, "No info tlv in send file");
-				for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
-				{
-					if ((*it)->type() == MessageFile)
-					{
-						AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
-						MessageId this_id;
-						this_id.id_l = afm->getID_L();
-						this_id.id_h = afm->getID_H();
-						if(this_id == id)
-						{
-							afm->setPort(port);
-						}
-					}
-				}
-				return;
 			}
 		}
-        QString d = convert(desc, tlv, 0x0D);
+		if(info == NULL) 
+		{
+			log(L_WARN, "No info tlv in send file");
+			for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+			{
+				if ((*it)->type() == MessageFile)
+				{
+					AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
+					MessageId this_id;
+					this_id.id_l = afm->getID_L();
+					this_id.id_h = afm->getID_H();
+					if(this_id == id)
+					{
+						afm->setPort(port);
+					}
+				}
+			}
+			return;
+		}
+		QString d = convert(desc, tlv, 0x0D);
         ICQBuffer b(*info);
         unsigned short type;
         unsigned short nFiles;
@@ -1399,8 +1403,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                             delete msg;
                             return;
                         }
-						log(L_DEBUG, "I HATE YOU MOTHERFUCKERS!!!!");
-                        AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this, AIMFileTransfer::tdOutput);
+                        AIMFileTransfer *ft = new AIMOutcomingFileTransfer(static_cast<FileMessage*>(msg), data, this);
                         EventMessageAcked(msg).process();
                         m_processMsg.push_back(msg);
                         ft->connect(static_cast<AIMFileMessage*>(m)->getPort());
@@ -1743,6 +1746,7 @@ static QString getUtf8Part(QString &str, unsigned size)
 
 bool ICQClient::processMsg()
 {
+	log(L_DEBUG, "ICQClient::processMsg");
     Contact *contact;
     ICQUserData *data = findContact(m_send.screen, NULL, false, contact);
     if ((data == NULL) && (m_send.flags != PLUGIN_RANDOMxCHAT)){
@@ -1856,7 +1860,7 @@ bool ICQClient::processMsg()
 				MessageId id;
 				generateCookie(id);
 				FileMessage* msg = static_cast<FileMessage*>(m_send.msg);
-				AIMFileTransfer *ft = new AIMFileTransfer(msg, data, this, AIMFileTransfer::tdOutput);
+				AIMOutcomingFileTransfer *ft = new AIMOutcomingFileTransfer(msg, data, this);
 				ft->setICBMCookie(id);
 				ft->listen();
 				QString filename = msg->getDescription();
@@ -2211,7 +2215,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
             }
         case MessageFile:
 			{	
-                AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this, AIMFileTransfer::tdInput);
+                AIMFileTransfer *ft = new AIMIncomingFileTransfer(static_cast<FileMessage*>(msg), data, this);
 				AIMFileMessage* fmsg = static_cast<AIMFileMessage*>(msg);
                 ft->setDir(dir);
                 ft->setOverwrite(overwrite);
@@ -2225,7 +2229,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
 				ft->setICBMCookie(this_id);
 				log(L_DEBUG, "port = %d", fmsg->getPort());
                 ft->accept();
-                break;
+				return;
             }
         default:
             log(L_DEBUG, "Bad message type %u for accept", msg->type());
@@ -2233,11 +2237,15 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
     }
     EventMessageDeleted(msg).process();
     if (bDelete)
+	{
+		log(L_DEBUG, "=====(2)=====");
         delete msg;
+	}
 }
 
 void ICQClient::decline(Message *msg, const QString &reason)
 {
+	log(L_WARN, "ICQClient::decline");
     if (msg->getFlags() & MESSAGE_DIRECT){
         Contact *contact = getContacts()->contact(msg->contact());
         ICQUserData *data = NULL;

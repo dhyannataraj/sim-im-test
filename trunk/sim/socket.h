@@ -163,6 +163,7 @@ public:
 
     virtual void error_state(const QString &err, unsigned code = 0);
     void connect(const QString &host, unsigned short port, TCPClient *client);
+	void connect(unsigned long ip, unsigned short port, TCPClient* client);
     void write();
     void pause(unsigned);
     unsigned long localHost();

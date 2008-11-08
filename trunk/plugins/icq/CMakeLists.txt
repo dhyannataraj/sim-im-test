@@ -56,6 +56,7 @@ SET(icq_HDRS
         icqconfig.h
         icqinfo.h
         icqmessage.h
+		icqdirect.h
         icqpicture.h
         icqsearch.h
         icqsecure.h

@@ -18,6 +18,17 @@
 #include <qmutex.h>
 #include <qtimer.h>
 
+#ifdef WIN32
+#include <winsock.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#endif
+
+
 #include "socket.h"
 #include "misc.h"
 #include "log.h"
@@ -93,6 +104,13 @@ void ClientSocket::connect(const QString &host, unsigned short port, TCPClient *
         e.process();
     }
     m_sock->connect(host, port);
+}
+
+void ClientSocket::connect(unsigned long ip, unsigned short port, TCPClient* client)
+{
+	struct in_addr addr;
+	addr.s_addr = ip;
+	this->connect(inet_ntoa(addr), port, NULL);
 }
 
 void ClientSocket::write()

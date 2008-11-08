@@ -67,6 +67,8 @@
 #include "encodingdlg.h"
 #include "warndlg.h"
 
+#include "icqdirect.h"
+
 using namespace std;
 using namespace SIM;
 
@@ -260,7 +262,9 @@ ICQClient::~ICQClient()
     free_data(icqClientData, &data);
     if (socket())
         delete socket();
-    for (list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it){
+	fprintf(stderr, "Alpha\n");
+    for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+	{
         Message *msg = *it;
         msg->setError(I18N_NOOP("Process message failed")); //and this line crashed because "msg" seems broken anyhow. (by noragen)
  // FIXME: this does not work and could crash !!!!
@@ -268,8 +272,10 @@ ICQClient::~ICQClient()
  //       e.process();
         delete msg;
     }
+	fprintf(stderr, "Beta\n");
     while (!m_sockets.empty())
         delete m_sockets.front();
+	fprintf(stderr, "Gamma\n");
     m_processMsg.clear();
 
     freeData();
@@ -2868,6 +2874,7 @@ bool ICQClient::send(Message *msg, void *_data)
         if (data && ((data->Status.toULong() & 0xFFFF) != ICQ_STATUS_OFFLINE))
 		{
 			log(L_DEBUG, "send: MessageFile");
+			/*
             if (data->Uin.toULong())
 			{
                 DirectClient *dc = dynamic_cast<DirectClient*>(data->Direct.object());
@@ -2880,11 +2887,10 @@ bool ICQClient::send(Message *msg, void *_data)
                 }
                 return dc->sendMessage(msg);
             }
+				*/
             if (!hasCap(data, CAP_AIM_SENDFILE))
-                return false;
-            m_processMsg.push_back(msg);
-            AIMFileTransfer *ft = new AIMFileTransfer(static_cast<FileMessage*>(msg), data, this, AIMFileTransfer::tdOutput);
-            ft->listen();
+				return false;
+			sendThruServer(msg, data);
             return true;
         }
         return false;
