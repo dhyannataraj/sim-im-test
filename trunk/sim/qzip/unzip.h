@@ -42,6 +42,10 @@
       ftp://ftp.pkware.com/probdesc.zip
 */
 
+#pragma warning(disable:4131)
+#pragma warning(disable:4100)
+#pragma warning(disable:4245)
+
 #ifndef _unz_H
 #define _unz_H
 

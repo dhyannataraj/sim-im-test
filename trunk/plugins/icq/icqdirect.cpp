@@ -2207,7 +2207,7 @@ void AIMFileTransfer::connectThroughProxy(const QString& host, uint16_t port, ui
 
 }
 
-void AIMFileTransfer::negotiateWithProxy(uint16_t cookie2)
+void AIMFileTransfer::negotiateWithProxy(uint16_t /* cookie2 */)
 {
 	unsigned char uin_length = m_client->getScreen().length();
 	unsigned short packet_length = 0x26 + 1 + uin_length;

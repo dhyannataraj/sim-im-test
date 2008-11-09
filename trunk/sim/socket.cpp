@@ -106,7 +106,7 @@ void ClientSocket::connect(const QString &host, unsigned short port, TCPClient *
     m_sock->connect(host, port);
 }
 
-void ClientSocket::connect(unsigned long ip, unsigned short port, TCPClient* client)
+void ClientSocket::connect(unsigned long ip, unsigned short port, TCPClient* /* client */)
 {
 	struct in_addr addr;
 	addr.s_addr = ip;
