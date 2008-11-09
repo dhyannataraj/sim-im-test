@@ -995,6 +995,8 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
         Tlv *desc = tlv(0x0A);
         log(L_DEBUG, "Desc = %d", (uint16_t)(*desc));
 		bool is_proxy = tlv(0x10);
+
+		/*
         if(desc == NULL && !is_proxy)
 		{
             log(L_DEBUG, "Send file ack");
@@ -1010,19 +1012,36 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                     m_processMsg.push_back(m);
                     EventMessageAcked(m).process();
                     AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
-                    ft->connect(port);
+                    //ft->connect(port);
                     return;
                 }
             }
             log(L_DEBUG, "File message for ack not found");
             return;
         }
+		*/
+		unsigned short ft_type = *desc;
+		if(ft_type == 2)
+		{
+            for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
+			{
+				AIMFileTransfer *ft = (*it);
+				if(ft->getICBMCookie() == id)
+				{
+					if(ft->getDirection() == AIMFileTransfer::tdOutput)
+					{
+						AIMOutcomingFileTransfer* oft = static_cast<AIMOutcomingFileTransfer*>(ft);
+						oft->connect(port);
+						return;
+					}
+				}
+			}
+		}
 		Tlv *info = tlv(0x2711);
 		if(is_proxy) // Connection through proxy
 		{
 			for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
 			{
-				log(L_DEBUG, "Msg, type = %d", (*it)->type());
 				if ((*it)->type() == MessageFile)
 				{
 					AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
@@ -1406,7 +1425,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                         AIMFileTransfer *ft = new AIMOutcomingFileTransfer(static_cast<FileMessage*>(msg), data, this);
                         EventMessageAcked(msg).process();
                         m_processMsg.push_back(msg);
-                        ft->connect(static_cast<AIMFileMessage*>(m)->getPort());
+                        //ft->connect(static_cast<AIMFileMessage*>(m)->getPort());
                     }
 					else
 					{

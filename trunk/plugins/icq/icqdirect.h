@@ -6,18 +6,29 @@
 #include <qtimer.h>
 #include <qwaitcondition.h>
 
+#define AOL_PROXY_HOST "ars.oscar.aol.com"
+#define AOL_PROXY_PORT 5190
+
 class AIMFileTransfer : public SIM::FileTransfer, public SIM::ClientSocketNotify, public SIM::ServerSocketNotify
 {
 public:
+	typedef enum
+	{
+		tdInput,
+		tdOutput
+	} tTransferDirection;
 
     AIMFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client);
     ~AIMFileTransfer();
-    void connect(unsigned short port);
     virtual void accept();
 	void setPort(unsigned short port) {m_port = port;}
     unsigned short remotePort();
 	void setICBMCookie(MessageId const& cookie);
 	void setICBMCookie2(unsigned short cookie2);
+	MessageId& getICBMCookie() {return m_cookie; }
+
+	virtual tTransferDirection getDirection() = 0;
+
 
 	static const unsigned long OFT_magic = 0x3254464f;
 	static const int OFT_fileInfo = 0x0101;
@@ -30,17 +41,8 @@ public:
 	static const unsigned short Chunk_cap = 0x0001;
  
 protected:
-    enum State
-    {
-        None,
-		ConnWait,
-		AcceptWait,
-		Estabilished
-    };
-    State m_state;
 
     virtual void processPacket();
-    //virtual void connect_ready();
     virtual bool error_state(const QString &err, unsigned code);
 	virtual void resolve_ready(unsigned long ip);
     virtual void startReceive(unsigned pos);
@@ -83,6 +85,7 @@ public:
 	void receiveNextBlock(long size);
 	void ackOFT();
 	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
+	virtual tTransferDirection getDirection();
 
 protected slots:
 	void connect_timeout();
@@ -90,7 +93,7 @@ protected:
     enum State
     {
         None,
-		Listen,
+		Connecting,
 		ReverseConnection,
 		ProxyConnection,
 		ProxyNegotiation,
@@ -110,14 +113,33 @@ public:
 	virtual ~AIMOutcomingFileTransfer();
 
 	void listen();
+    void connect(unsigned short port);
+	virtual tTransferDirection getDirection();
+protected slots:
+	void connect_timeout();
 protected:
+    enum State
+    {
+        None,
+		Listen,
+		ReverseConnection,
+		ProxyConnection,
+		ProxyNegotiation,
+		OFTNegotiation,
+		Writing,
+		Done
+    };
     virtual bool accept(SIM::Socket *s, unsigned long ip);
     virtual void write_ready();
     virtual void packet_ready();
     virtual void connect_ready();
+
+	//void read_ready();
 	bool sendNextBlock();
 
 	void initOFTSending();
+
+	State m_state;
 };
 
 

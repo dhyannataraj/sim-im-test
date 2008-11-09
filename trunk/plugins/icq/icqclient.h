@@ -155,6 +155,7 @@ const unsigned RATE_LIMIT = 5;
 
 const unsigned short SEARCH_DONE = (unsigned short)(-1);
 
+class AIMFileTransfer;
 class DirectClient;
 
 struct ICQUserData : public SIM::clientData
@@ -383,9 +384,6 @@ struct OftData
 	//QString name;
 	QByteArray name;
 };
-
-#define AOL_PROXY_HOST "ars.oscar.aol.com"
-#define AOL_PROXY_PORT 5190
 
 const unsigned PLUGIN_PHONEBOOK          = 0;
 const unsigned PLUGIN_PICTURE            = 1;
@@ -837,6 +835,7 @@ protected:
     std::list<SIM::Message*>	m_processMsg;
     std::list<DirectSocket*>	m_sockets;
     std::list<SIM::Message*>	m_acceptMsg;
+	std::list<AIMFileTransfer*> m_filetransfers;
     friend class ListServerRequest;
     friend class FullInfoRequest;
     friend class SMSRequest;
@@ -1022,9 +1021,6 @@ protected:
 
     friend class ICQClient;
 };
-
-class AIMFileTransfer;
-
 
 #endif
 
