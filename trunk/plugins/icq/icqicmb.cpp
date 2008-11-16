@@ -753,7 +753,7 @@ void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsign
     sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port.toULong() : 0, NULL, type);
 }
 
-void ICQClient::sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize, unsigned short port, const MessageId& id, unsigned short type, unsigned long ip)
+void ICQClient::sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize, unsigned short port, const MessageId& id, unsigned short type, unsigned long ip, bool proxy)
 {
 	log(L_DEBUG, "ICQClient::sendFTRequest type = %d", type);
 	TlvList tlvs;
@@ -768,9 +768,9 @@ void ICQClient::sendFTRequest(const QString& screen, const QString& filename, un
 	}
 	QString charset = bWide ? "utf-8" : "us-ascii";
 	unsigned short this_port = htons(port);
-	if(filename != "")
-	tlvs += new Tlv(0x2712, charset.length(), charset);
-	if(type == 3)
+	if(filename != "" && type != 4)
+		tlvs += new Tlv(0x2712, charset.length(), charset);
+	if(proxy)
 	{
 		this_port = ~this_port;
 		tlvs += new Tlv(0x0010, 0, 0);
@@ -779,6 +779,11 @@ void ICQClient::sendFTRequest(const QString& screen, const QString& filename, un
         tlvs += new Tlv(0x02, 4, (const char*) &this_ip);
 		this_ip = ~this_ip;
 		tlvs += new Tlv(0x16, 4, (const char*) &this_ip);
+	}
+	if(type == 4)
+	{
+		unsigned short pos = 0x0a00;
+		tlvs += new Tlv(0x14, 2, (const char*) &pos);
 	}
 	//msgBuf << (const char*)(fname.utf8()) << (char)0;
 	
@@ -789,7 +794,7 @@ void ICQClient::sendFTRequest(const QString& screen, const QString& filename, un
 		buf << ((unsigned short)0x0001) << ((unsigned short)0x0001);
 		buf << (filesize);
 
-		if(type != 3)
+		if(!proxy)
 		{
 			if(bWide)
 			{
@@ -827,13 +832,18 @@ void ICQClient::sendType2(const QString &screen, ICQBuffer &msgBuf, const Messag
     b << id.id_l << id.id_h;
     b.pack((char*)capabilities[cap], sizeof(capability));
     b.tlv(0x0A, (unsigned short)type);
-    b.tlv(0x0F);
+	if(type != 4)
+		b.tlv(0x0F);
+    copyTlv(b, tlvs, 0x14);
     if(port)
 	{
-        b.tlv(0x03, (unsigned long)htonl(get_ip(data.owner.RealIP)));
-		if(type != 3)
+		if(type != 4)
 		{
-			b.tlv(0x04, (unsigned long)htonl(get_ip(data.owner.IP)));
+			b.tlv(0x03, (unsigned long)htonl(get_ip(data.owner.RealIP)));
+			if(type != 3)
+			{
+				b.tlv(0x04, (unsigned long)htonl(get_ip(data.owner.IP)));
+			}
 		}
         b.tlv(0x05, port);
 		log(L_DEBUG, "RealIP = %08x, IP = %08x, port = %04x", (get_ip(data.owner.RealIP)), (get_ip(data.owner.IP)), port);
@@ -845,7 +855,8 @@ void ICQClient::sendType2(const QString &screen, ICQBuffer &msgBuf, const Messag
     copyTlv(b, tlvs, 0x10);
     copyTlv(b, tlvs, 0x02);
     copyTlv(b, tlvs, 0x16);
-    b.tlv(0x2711, msgBuf);
+	if(type != 4)
+		b.tlv(0x2711, msgBuf);
     copyTlv(b, tlvs, 0x2712);
     copyTlv(b, tlvs, 0x03);
     sendThroughServer(screen, 2, b, id, bOffline, true);
@@ -1063,6 +1074,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 		}
 
 		unsigned short ft_type = *desc;
+		ft->setStage(ft_type);
 		/*
 		if(ft_type == 3 && !is_proxy)
 		{
@@ -1102,7 +1114,10 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 						if(test_ip)
 							ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, cookie2);
 						else
+						{
+							ft->setProxyActive(true);
 							ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, cookie2);
+						}
 
 						return;
 					}
@@ -1111,19 +1126,25 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 		}
 		else
 		{
-			//if(ft_type == 2)
+			if(ft_type == 3)
+			{
+				ft->setProxyActive(true);
+				ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, 0);
+			}
+			if(ft_type == 2)
 			{
 				for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
 				{
 					AIMFileTransfer *ft = (*it);
 					if(ft->getICBMCookie() == id)
 					{
-						if(ft->getDirection() == AIMFileTransfer::tdOutput)
+						ft->connect(ip, port);
+						/*if(ft->getDirection() == AIMFileTransfer::tdOutput)
 						{
 							AIMOutcomingFileTransfer* oft = static_cast<AIMOutcomingFileTransfer*>(ft);
-							oft->connect(port);
 							return;
 						}
+						*/
 					}
 				}
 			}
@@ -1910,7 +1931,7 @@ bool ICQClient::processMsg()
 				ft->listen();
 				QString filename = msg->getDescription();
 				unsigned long filesize = msg->getSize();
-				sendFTRequest(m_send.screen, filename, filesize, ft->remotePort(), id, 1, 0);
+				sendFTRequest(m_send.screen, filename, filesize, ft->remotePort(), id, 1, 0, false);
 				return true;
 			}
         case MessageWarning:{

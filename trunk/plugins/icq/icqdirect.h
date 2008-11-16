@@ -28,6 +28,8 @@ public:
 	MessageId& getICBMCookie() {return m_cookie; }
 	void setProxyActive(bool proxyActive) { m_proxyActive = proxyActive; }
 	virtual void detectProxyDirection(int ft_type) = 0;
+	virtual void connect(unsigned long ip, unsigned short port);
+	void setStage(int stage) { m_stage = stage; }
 
 	virtual tTransferDirection getDirection() = 0;
 
@@ -57,6 +59,7 @@ protected:
 	bool writeOFT(OftData* oft);
 	unsigned long calculateChecksum();
 	
+	int m_stage;
 	bool m_proxy;
 	bool m_proxyActive;
 	MessageId m_cookie;
@@ -117,7 +120,7 @@ public:
 	virtual ~AIMOutcomingFileTransfer();
 
 	void listen();
-    void connect(unsigned short port);
+    //void connect(unsigned short port);
 	virtual tTransferDirection getDirection();
 	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
 	virtual void detectProxyDirection(int ft_type);

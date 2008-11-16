@@ -2019,12 +2019,15 @@ AIMFileTransfer::AIMFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient 
 
 AIMFileTransfer::~AIMFileTransfer()
 {
-	for(std::list<AIMFileTransfer*>::iterator it = m_client->m_filetransfers.begin(); it != m_client->m_filetransfers.end(); ++it)
+	if(m_client)
 	{
-		if((*it) == this) // FIXME make comparison by cookie
+		for(std::list<AIMFileTransfer*>::iterator it = m_client->m_filetransfers.begin(); it != m_client->m_filetransfers.end(); ++it)
 		{
-			m_client->m_filetransfers.erase(it);
-			break;
+			if((*it) == this) // FIXME make comparison by cookie
+			{
+				m_client->m_filetransfers.erase(it);
+				break;
+			}
 		}
 	}
 	log(L_DEBUG, "AIMFileTransfer::~AIMFileTransfer");
@@ -2287,6 +2290,17 @@ bool AIMFileTransfer::error(const QString &err)
     return true;
 }
 
+void AIMFileTransfer::connect(unsigned long ip, unsigned short port)
+{
+	log(L_DEBUG, "AIMFileTransfer::connect");
+
+	m_socket->connect(ip, port, NULL);
+    m_socket->writeBuffer().init(0);
+    m_socket->readBuffer().init(0);
+    m_socket->readBuffer().packetStart();
+	m_socket->setRaw(true);
+}
+
 
 AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client) : AIMFileTransfer(msg, data, client), QObject()
 {
@@ -2323,8 +2337,13 @@ void AIMIncomingFileTransfer::connect_timeout()
 		log(L_DEBUG, "Connecting timeout, trying reverse connection");
 		FileMessage* msg = static_cast<FileMessage*>(m_msg);
 		QString filename = msg->getDescription();
-		m_client->sendFTRequest(m_client->screen(m_data), filename, totalSize(), m_port, m_cookie, 0x0002, 0);
-		m_state = ReverseConnection;
+		m_client->sendFTRequest(m_client->screen(m_data), filename, totalSize(), m_port, m_cookie, 0x0002, 0, false);
+		m_state = ProxyConnection;
+		/*
+		m_proxy = true;
+		setProxyActive(true);
+		connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, 0);
+		*/
 		// TODO Here we should really open the socket and wait for incoming connection,
 		// but we'll cheat for now - skip this step and wait for request for proxy transfer
 	}
@@ -2397,7 +2416,7 @@ void AIMIncomingFileTransfer::packet_ready()
 						m_socket->readBuffer() >> m_ip;
 						FileMessage* msg = static_cast<FileMessage*>(m_msg);
 						QString filename = msg->getDescription();
-						m_client->sendFTRequest(m_client->screen(m_data), "", 0, m_cookie2, m_cookie, 0x0003, htonl(m_ip));
+						m_client->sendFTRequest(m_client->screen(m_data), "", 0, m_cookie2, m_cookie, m_stage + 1, htonl(m_ip), true);
 					}
 					if(status == 0x0005) // Everything is allright
 					{
@@ -2679,7 +2698,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 						m_socket->readBuffer() >> m_ip;
 						FileMessage* msg = static_cast<FileMessage*>(m_msg);
 						QString filename = msg->getDescription();
-						m_client->sendFTRequest(m_client->screen(m_data), filename, totalSize(), m_cookie2, m_cookie, 0x0003, htonl(m_ip));
+						m_client->sendFTRequest(m_client->screen(m_data), filename, totalSize(), m_cookie2, m_cookie, 0x0003, htonl(m_ip), true);
 					}
 					if(status == 0x0005) // Everything is allright
 					{
@@ -2890,6 +2909,7 @@ void AIMOutcomingFileTransfer::connectThroughProxy(const QString& host, uint16_t
 	AIMFileTransfer::connectThroughProxy(host, port, cookie2);
 }
 
+/*
 void AIMOutcomingFileTransfer::connect(unsigned short port)
 {
 	log(L_DEBUG, "AIMOutcomingFileTransfer::connect");
@@ -2901,6 +2921,7 @@ void AIMOutcomingFileTransfer::connect(unsigned short port)
 	m_state = ProxyConnection;
 	connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, NULL);
 }
+*/
 
 #ifndef NO_MOC_INCLUDES
 #include "icqdirect.moc"

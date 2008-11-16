@@ -646,7 +646,7 @@ public:
     ICQUserData * toICQUserData(SIM::clientData*);  // More safely type conversion from generic SIM::clientData into ICQUserData
 
 	void sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize,
-			unsigned short port, const MessageId& id, unsigned short type, unsigned long ip);
+			unsigned short port, const MessageId& id, unsigned short type, unsigned long ip, bool proxy);
     void sendThroughServer(const QString &screen, unsigned short type, ICQBuffer &b, const MessageId &id, bool bOffline, bool bReqAck);
 	void deleteFileMessage(MessageId const& cookie);
 protected slots:
