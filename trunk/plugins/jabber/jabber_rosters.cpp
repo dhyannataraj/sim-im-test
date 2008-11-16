@@ -485,7 +485,7 @@ void InfoRequest::element_start(const QString& el, const QXmlAttributes&)
         m_data = &m_ext;
         return;
     }
-    if (el == "city"){
+    if (el == "locality"){
         m_data = &m_city;
         return;
     }
@@ -528,6 +528,10 @@ void InfoRequest::element_end(const QString& el)
         m_bLogo = false;
         return;
     }
+	if(el == "vcard")
+	{
+		EventClientChanged(m_client).process();
+	}
 }
 
 void InfoRequest::char_data(const QString& str)
