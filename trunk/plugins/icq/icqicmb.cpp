@@ -417,38 +417,38 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                     case 0:
                         parseAdvancedMessage(screen, msg, tlvChannel(3) != NULL, id);
                         break;
-                    case 1:{
-                            Contact *contact;
-                            ICQUserData *data = findContact(screen, NULL, false, contact);
-                            if (data){
-                                QString name = dataName(data);
-                                for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-                                    Message *msg = *it;
-                                    if (msg->client() && (name == msg->client())){
-                                        MessageId msg_id;
-                                        switch (msg->type()){
-                                        case MessageICQFile:
-                                            msg_id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
-                                            msg_id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
-                                            break;
-                                        case MessageFile:
-                                            msg_id.id_l = static_cast<AIMFileMessage*>(msg)->getID_L();
-                                            msg_id.id_h = static_cast<AIMFileMessage*>(msg)->getID_H();
-                                            break;
-                                        }
-                                        if (msg_id == id)
+                    case 1:
+						{
+							Contact *contact;
+							ICQUserData *data = findContact(screen, NULL, false, contact);
+							if (data){
+								QString name = dataName(data);
+								for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
+									Message *msg = *it;
+									if (msg->client() && (name == msg->client())){
+										MessageId msg_id;
+										switch (msg->type()){
+											case MessageICQFile:
+												msg_id.id_l = static_cast<ICQFileMessage*>(msg)->getID_L();
+												msg_id.id_h = static_cast<ICQFileMessage*>(msg)->getID_H();
+												break;
+											case MessageFile:
+												msg_id.id_l = static_cast<AIMFileMessage*>(msg)->getID_L();
+												msg_id.id_h = static_cast<AIMFileMessage*>(msg)->getID_H();
+												break;
+										}
+										if (msg_id == id)
 										{
-                                            m_acceptMsg.erase(it);
-                                            EventMessageDeleted(msg).process();
-											log(L_DEBUG, "=====(1)=====");
-                                            delete msg;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            break;
-                        }
+											m_acceptMsg.erase(it);
+											EventMessageDeleted(msg).process();
+											delete msg;
+											break;
+										}
+									}
+								}
+							}
+							break;
+						}
                     case 2:
                         log(L_DEBUG, "File ack");
                         break;
@@ -768,6 +768,7 @@ void ICQClient::sendFTRequest(const QString& screen, const QString& filename, un
 	}
 	QString charset = bWide ? "utf-8" : "us-ascii";
 	unsigned short this_port = htons(port);
+	if(filename != "")
 	tlvs += new Tlv(0x2712, charset.length(), charset);
 	if(type == 3)
 	{
@@ -783,24 +784,27 @@ void ICQClient::sendFTRequest(const QString& screen, const QString& filename, un
 	
 	tlvs += new Tlv(0x0017, 2, (const char*)&this_port);
 	ICQBuffer buf;
-	buf << ((unsigned short)0x0001) << ((unsigned short)0x0001);
-	buf << (filesize);
-	
-	if(type != 3)
+	if(filename != "")
 	{
-		if(bWide)
+		buf << ((unsigned short)0x0001) << ((unsigned short)0x0001);
+		buf << (filesize);
+
+		if(type != 3)
 		{
-			QCString decodedfname = filename.utf8();
-			buf.pack(decodedfname.data(), decodedfname.length() + 1);
+			if(bWide)
+			{
+				QCString decodedfname = filename.utf8();
+				buf.pack(decodedfname.data(), decodedfname.length() + 1);
+			}
+			else
+			{
+				buf.pack(filename.data(), filename.length() + 1);
+			}
 		}
 		else
 		{
-			buf.pack(filename.data(), filename.length() + 1);
+			buf.pack((unsigned char)0);
 		}
-	}
-	else
-	{
-		buf.pack((unsigned char)0);
 	}
 	sendType2(screen, buf, id, CAP_AIM_SENDFILE, false, port, &tlvs, type);
 }
@@ -990,78 +994,134 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
         return;
     }
 
-    if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap))){
+    if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap)))
+	{
         log(L_DEBUG, "AIM send file");
         Tlv *desc = tlv(0x0A);
-        log(L_DEBUG, "Desc = %d", (uint16_t)(*desc));
+		Tlv *info = tlv(0x2711);
 		bool is_proxy = tlv(0x10);
+        log(L_DEBUG, "Desc = %d", (uint16_t)(*desc));
 
-		/*
-        if(desc == NULL && !is_proxy)
+		// First, let's find our filetransfer
+		AIMFileTransfer* ft = NULL;
+		for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
 		{
-            log(L_DEBUG, "Send file ack");
-            list<SendMsg>::iterator it;
-            for (it = replyQueue.begin(); it != replyQueue.end(); ++it){
-                if (((*it).id == id) && ((*it).screen == screen)){
-                    if ((*it).msg->type() != MessageFile){
-                        log(L_WARN, "Bad message type for file ack");
-                        return;
-                    }
-                    FileMessage *m = static_cast<FileMessage*>((*it).msg);
-                    replyQueue.erase(it);
-                    m_processMsg.push_back(m);
-                    EventMessageAcked(m).process();
-                    AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
-                    //ft->connect(port);
-                    return;
-                }
-            }
-            log(L_DEBUG, "File message for ack not found");
-            return;
-        }
-		*/
+			if((*it)->getICBMCookie() == id)
+			{
+				ft = (*it);
+				break;
+			}
+		}
+		if(ft == NULL)
+		{
+			// Incoming file
+			if(info == NULL) 
+			{
+				// This is baaad
+				log(L_WARN, "No info tlv in send file");
+				return;
+			}
+			QString d;//= convert(desc, tlv, 0x0D);
+			ICQBuffer b(*info);
+			unsigned short type;
+			unsigned short nFiles;
+			unsigned long  size;
+			b >> type >> nFiles >> size;
+			QString name = convert(b.data(8), b.size() - 8, tlv, 0x2712);
+			AIMFileMessage *msg = new AIMFileMessage;
+			msg->setPort(port);
+			msg->setBackground(clearTags(d));
+			//msg->setText(d);
+			msg->setSize(size);
+			msg->setID_L(id.id_l);
+			msg->setID_H(id.id_h);
+			if(type == 2)
+			{
+				d = i18n("Directory");
+				d += ' ';
+				d += name;
+				d += " (";
+				d += i18n("%n file", "%n files", nFiles);
+				d += ')';
+			}
+			else
+			{
+				if (nFiles == 1)
+				{
+					d = name;
+				}
+				else
+				{
+					d = i18n("%n file", "%n files", nFiles);
+				}
+			}
+			msg->setDescription(d);
+			msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
+			m_processMsg.push_back(msg);
+			messageReceived(msg, screen);
+			return;
+		}
+
 		unsigned short ft_type = *desc;
-		if(ft_type == 2)
+		/*
+		if(ft_type == 3 && !is_proxy)
+		{
+			is_proxy = true;
+		}
+		*/
+		if(is_proxy) // Connection through proxy
 		{
             for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
 			{
-				AIMFileTransfer *ft = (*it);
-				if(ft->getICBMCookie() == id)
+				if((*it)->getICBMCookie() == id)
 				{
-					if(ft->getDirection() == AIMFileTransfer::tdOutput)
+					Contact *contact;
+					ICQUserData *data = findContact(screen, NULL, false, contact);
+					if(data)
 					{
-						AIMOutcomingFileTransfer* oft = static_cast<AIMOutcomingFileTransfer*>(ft);
-						oft->connect(port);
+						if(test_ip)
+							set_ip(&data->RealIP, test_ip);
+						AIMFileTransfer *ft = (*it);
+						///ft->setICBMCookie(this_id);
+						struct in_addr in;
+						in.s_addr = test_ip;
+
+						if(ft_type == 2)
+						{
+							ft->setProxyActive(false);
+						}
+						if(ft_type == 3)
+						{
+							ft->setProxyActive(false);
+						}
+						unsigned short cookie2 = 0;
+						if(tlv(5))
+						{
+							cookie2 = *tlv(5);
+						};
+						if(test_ip)
+							ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, cookie2);
+						else
+							ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, cookie2);
+
 						return;
 					}
 				}
 			}
 		}
-		Tlv *info = tlv(0x2711);
-		if(is_proxy) // Connection through proxy
+		else
 		{
-			for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+			//if(ft_type == 2)
 			{
-				if ((*it)->type() == MessageFile)
+				for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
 				{
-					AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
-					MessageId this_id;
-					this_id.id_l = afm->getID_L();
-					this_id.id_h = afm->getID_H();
-					if(this_id == id && test_ip)
+					AIMFileTransfer *ft = (*it);
+					if(ft->getICBMCookie() == id)
 					{
-						Contact *contact;
-						ICQUserData *data = findContact(screen, NULL, false, contact);
-						if(data)
+						if(ft->getDirection() == AIMFileTransfer::tdOutput)
 						{
-							set_ip(&data->RealIP, test_ip);
-							FileMessage *m = static_cast<FileMessage*>((*it));
-							AIMFileTransfer *ft = static_cast<AIMFileTransfer*>(m->m_transfer);
-							ft->setICBMCookie(this_id);
-							struct in_addr in;
-							in.s_addr = test_ip;
-
-							ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, *tlv(5));
+							AIMOutcomingFileTransfer* oft = static_cast<AIMOutcomingFileTransfer*>(ft);
+							oft->connect(port);
 							return;
 						}
 					}
@@ -1070,7 +1130,6 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 		}
 		if(info == NULL) 
 		{
-			log(L_WARN, "No info tlv in send file");
 			for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
 			{
 				if ((*it)->type() == MessageFile)
@@ -1087,39 +1146,6 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 			}
 			return;
 		}
-		QString d = convert(desc, tlv, 0x0D);
-        ICQBuffer b(*info);
-        unsigned short type;
-        unsigned short nFiles;
-        unsigned long  size;
-        b >> type >> nFiles >> size;
-        QString name = convert(b.data(8), b.size() - 8, tlv, 0x2712);
-        AIMFileMessage *msg = new AIMFileMessage;
-        msg->setPort(port);
-        msg->setBackground(clearTags(d));
-        msg->setText(d);
-        msg->setSize(size);
-        msg->setID_L(id.id_l);
-        msg->setID_H(id.id_h);
-        if (type == 2){
-            d = i18n("Directory");
-            d += ' ';
-            d += name;
-            d += " (";
-            d += i18n("%n file", "%n files", nFiles);
-            d += ')';
-        }else{
-            if (nFiles == 1){
-                d = name;
-            }else{
-                d = i18n("%n file", "%n files", nFiles);
-            }
-        }
-        msg->setDescription(d);
-        msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
-		m_processMsg.push_back(msg);
-        messageReceived(msg, screen);
-        return;
     }
 
     if (!memcmp(cap, capabilities[CAP_AIM_BUDDYLIST], sizeof(cap))){
@@ -2257,7 +2283,6 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
     EventMessageDeleted(msg).process();
     if (bDelete)
 	{
-		log(L_DEBUG, "=====(2)=====");
         delete msg;
 	}
 }

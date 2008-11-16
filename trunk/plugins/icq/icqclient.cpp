@@ -262,24 +262,37 @@ ICQClient::~ICQClient()
     free_data(icqClientData, &data);
     if (socket())
         delete socket();
-	fprintf(stderr, "Alpha\n");
     for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
 	{
         Message *msg = *it;
-        msg->setError(I18N_NOOP("Process message failed")); //and this line crashed because "msg" seems broken anyhow. (by noragen)
+        msg->setError(I18N_NOOP("Process message failed"));
  // FIXME: this does not work and could crash !!!!
  //       Event e(EventRealSendMessage, msg);
  //       e.process();
         delete msg;
     }
-	fprintf(stderr, "Beta\n");
     while (!m_sockets.empty())
         delete m_sockets.front();
-	fprintf(stderr, "Gamma\n");
     m_processMsg.clear();
 
     freeData();
 }
+
+void ICQClient::deleteFileMessage(MessageId const& cookie)
+{
+    for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+	{
+		if((*it)->baseType() == MessageFile)
+		{
+			AIMFileMessage* afm = static_cast<AIMFileMessage*>(*it);
+			if(afm->getID_L() == cookie.id_l && afm->getID_H() == cookie.id_h)
+			{
+				m_processMsg.erase(it);
+				return;
+			}
+		}
+	}
+}	
 
 void ICQClient::contactsLoaded()
 {

@@ -648,6 +648,7 @@ public:
 	void sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize,
 			unsigned short port, const MessageId& id, unsigned short type, unsigned long ip);
     void sendThroughServer(const QString &screen, unsigned short type, ICQBuffer &b, const MessageId &id, bool bOffline, bool bReqAck);
+	void deleteFileMessage(MessageId const& cookie);
 protected slots:
     void ping();
     void processSendQueue();

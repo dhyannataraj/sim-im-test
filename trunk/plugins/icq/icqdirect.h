@@ -26,6 +26,8 @@ public:
 	void setICBMCookie(MessageId const& cookie);
 	void setICBMCookie2(unsigned short cookie2);
 	MessageId& getICBMCookie() {return m_cookie; }
+	void setProxyActive(bool proxyActive) { m_proxyActive = proxyActive; }
+	virtual void detectProxyDirection(int ft_type) = 0;
 
 	virtual tTransferDirection getDirection() = 0;
 
@@ -49,13 +51,14 @@ protected:
     virtual void bind_ready(unsigned short port);
     virtual bool error(const QString &err);
 	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
-	void negotiateWithProxy(uint16_t cookie2);
+	void negotiateWithProxy();
 
 	bool readOFT(OftData* oft);
 	bool writeOFT(OftData* oft);
 	unsigned long calculateChecksum();
 	
 	bool m_proxy;
+	bool m_proxyActive;
 	MessageId m_cookie;
 	uint16_t m_cookie2;
 	OftData m_oft;
@@ -86,6 +89,7 @@ public:
 	void ackOFT();
 	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
 	virtual tTransferDirection getDirection();
+	virtual void detectProxyDirection(int ft_type);
 
 protected slots:
 	void connect_timeout();
@@ -115,6 +119,8 @@ public:
 	void listen();
     void connect(unsigned short port);
 	virtual tTransferDirection getDirection();
+	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
+	virtual void detectProxyDirection(int ft_type);
 protected slots:
 	void connect_timeout();
 protected:
