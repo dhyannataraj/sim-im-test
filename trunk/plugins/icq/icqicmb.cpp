@@ -1469,7 +1469,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                             delete msg;
                             return;
                         }
-                        AIMFileTransfer *ft = new AIMOutcomingFileTransfer(static_cast<FileMessage*>(msg), data, this);
+                        AIMFileTransfer *ft = new AIMOutcomingFileTransfer(static_cast<FileMessage*>(msg), data, this);  //ft is not used, remove?
                         EventMessageAcked(msg).process();
                         m_processMsg.push_back(msg);
                         //ft->connect(static_cast<AIMFileMessage*>(m)->getPort());
@@ -1486,7 +1486,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
     if (!needAck)
         return;
     sendAutoReply(screen, id, p, cookie1, cookie2,
-                  msgType, 0, 0, QString::null, 0, copy);
+                  msgType, 0, 0, QString::null, 0, copy); //variable p seems corrupted, maybe crash?
 }
 
 void ICQClient::sendAutoReply(const QString &screen, MessageId id,
