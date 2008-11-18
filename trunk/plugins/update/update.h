@@ -44,6 +44,7 @@ public:
 protected slots:
     void timeout();
 	void Finished(int requestId, bool error);
+	void UpdateMsgDownloadFinished(int requestId, bool error);
 	void fileRequestFinished(int requestId, bool error);
 protected:
     unsigned CmdGo;
@@ -56,19 +57,25 @@ protected:
 	void download_and_install();
 	void downloadFile();
 	void installFile();
+	QString versionurl;
 	QString m_url;
     QString location;
 	QString address;
+	QString m_updateMsg;
 	PROP_ULONG(Time);
     UpdateData data;
 	QByteArray bytes;
+	QByteArray bytes_um;
 	QHttp *http;
+	QHttp *httpmsg;
 	QFile *file;
     bool httpRequestAborted;
 	int Request;
+	int Request_um;
 	QBuffer *buffer;
 	int msgret;
 	bool show;
+	bool bupdateMsgMissing;
 	bool upToDate;
 	bool ignore;
 	bool isInstalling;

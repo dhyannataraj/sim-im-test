@@ -97,7 +97,10 @@ UpdatePlugin::UpdatePlugin(unsigned base, Buffer *config)
 	this->isInstalling=false;
 	this->CHECK_INTERVAL = 60; //seconds for the first time wait
 	setTime(time(NULL)); //this was missing ;)
+	this->msgret=-1;
+	this->bupdateMsgMissing=true;
     this->timer->start(15000);
+
 }
 
 UpdatePlugin::~UpdatePlugin()
@@ -120,30 +123,30 @@ void UpdatePlugin::testForUpdate(){
 	if (!getSocketFactory()->isActive() || !isDone())
         return;
     if (((unsigned)time(NULL)) >= getTime() + CHECK_INTERVAL){
-		QString url="";
+		versionurl=QString("");
 		this->CHECK_INTERVAL=60*60*12; //checking every half day for an update, after first time
         //url = "http://sim-im.org/index.php?v=" + VERSION;
 #ifdef WIN32
-		url = "http://www.sim.gosign.de/update.php?";
-        url += "os=1";
+		versionurl = "http://www.sim.gosign.de/update.php?";
+        versionurl += "os=1";
 #else
 #ifdef QT_MACOSX_VERSION
-        url += "&os=2";
+        versionurl += "&os=2";
 		location="??";
 #endif
 #endif
 #ifdef CVS_BUILD
         //url += "&svn=";
 		QString date(__DATE__);
-		url += date;
-		url.replace(' ',"%20");
+		versionurl += date;
+		versionurl.replace(' ',"%20");
 		#ifdef WIN32
 			location="http://www.sim.gosign.de";
 		#endif 
 #else
-        url += "&release";
+        versionurl += "&release";
 #endif
-        /*url += "&l=";
+        /*versionurl += "&l=";
         QString s = i18n("Message", "%n messages", 1);
         s = s.remove("1 ");
         for (int i = 0; i < (int)(s.length()); i++){
@@ -151,32 +154,51 @@ void UpdatePlugin::testForUpdate(){
             if ((c == ' ') || (c == '%') || (c == '=') || (c == '&')){
                 char b[5];
                 sprintf(b, "%02X", c);
-                url += b;
+                versionurl += b;
             }else if (c > 0x77){
                 char b[10];
                 sprintf(b, "#%04X", c);
-                url += b;
+                versionurl += b;
             }else{
-                url += (char)c;
+                versionurl += (char)c;
             }
         }*/
-		QUrl u(url);
+		QUrl um(QString("http://www.sim.gosign.de/updatemsg.php"));
+		httpmsg = new QHttp(this);
+		connect(httpmsg, SIGNAL(requestFinished(int, bool)),this, SLOT(UpdateMsgDownloadFinished(int, bool)));
+		QBuffer *buffer_um = new QBuffer(bytes_um);
+		buffer_um->open(IO_ReadWrite);
+		httpmsg->setHost(um.host());
+		Request_um=httpmsg->get(um.path(),buffer_um);
+    }
+}
+
+void UpdatePlugin::UpdateMsgDownloadFinished(int requestId, bool error){
+	if (error || msgret==QMessageBox::Yes
+			  || msgret==QMessageBox::No 
+			  || msgret==QMessageBox::Ok
+			  || upToDate) return; //Don't show the dialog more than once SIM starts.
+	if (Request_um==requestId) {
+		QString updateMsg(bytes_um);
+		this->m_updateMsg=updateMsg;
+		this->bupdateMsgMissing=false;
+		disconnect(httpmsg, SIGNAL(requestFinished(int, bool)),this, SLOT(UpdateMsgDownloadFinished(int, bool)));
+		QUrl u=QUrl(versionurl);
 		http = new QHttp(this);
 		connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(Finished(int, bool)));
 		QBuffer *buffer = new QBuffer(bytes);
 		buffer->open(IO_ReadWrite);
 		http->setHost(u.host());
 		Request=http->get(u.path(),buffer);
-    }
+	}
 }
-
-
 
 void UpdatePlugin::Finished(int requestId, bool error){
 	if (error || msgret==QMessageBox::Yes
 			  || msgret==QMessageBox::No 
 			  || msgret==QMessageBox::Ok
-			  || upToDate) return; //Don't show the dialog more than once SIM starts.
+			  || upToDate
+			  || bupdateMsgMissing) return; //Don't show the dialog more than once SIM starts.
 
 	
     if (Request==requestId) {
@@ -200,6 +222,7 @@ void UpdatePlugin::Finished(int requestId, bool error){
 			msgret = QMessageBox::question( 0, i18n("SIM-IM Update"),
 				i18n("A new update ist available.\n\nYou have Version %1:\n%2\n\n").arg(majorVersion).arg(dlocal.toString()) +
 				i18n("New Version is:\n%1\n\n").arg(dremote.toString()) + 
+				i18n("Changes are:\n%1\n\n").arg(this->m_updateMsg) + 
 #ifdef WIN32
 				i18n("I can now DOWNLOAD the Update\navailable at: %1\nIN BACKROUND and install the update\nfor SIM-IM, automatically after finishing.\n\nWould like you to ALLOW to carry out THE UPDATE?").arg(location), 
 				QMessageBox::Yes,QMessageBox::No);
