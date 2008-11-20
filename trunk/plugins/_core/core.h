@@ -212,7 +212,6 @@ const unsigned long CmdSendMessage			= (CmdBase + 0x011);	// 17
 const unsigned long CmdSend				= (CmdBase + 0x012);	// 18
 const unsigned long CmdStatusMenu			= (CmdBase + 0x014);	// 20
 const unsigned long CmdStatusBar			= (CmdBase + 0x015);	// 21
-const unsigned long CmdQuit				= (CmdBase + 0x017);	// 23  // FIXME: Why do CmdQuit & CmdMenu has the same numbers?
 const unsigned long CmdMenu				= (CmdBase + 0x017);	// 23
 const unsigned long CmdOnline				= (CmdBase + 0x018);	// 24
 const unsigned long CmdGroup				= (CmdBase + 0x019);	// 25
@@ -289,6 +288,7 @@ const unsigned long CmdSearchMsg			= (CmdBase + 0x066);	// 102
 const unsigned long CmdSearchOptions			= (CmdBase + 0x067);	// 103
 const unsigned long CmdFetchAway			= (CmdBase + 0x068);	// 104
 const unsigned long CmdHistoryAvatar			= (CmdBase + 0x069);	// 105
+const unsigned long CmdQuit				= (CmdBase + 0x070);	// 106
 
 const unsigned long CmdContactGroup			= (CmdBase + 0x100);
 const unsigned long CmdUnread				= (CmdBase + 0x200);
