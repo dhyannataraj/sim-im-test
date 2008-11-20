@@ -59,7 +59,7 @@ SplashPlugin::SplashPlugin(unsigned base, bool bStart)
 		// FIXME: better use QSplash with QSplashScreen::drawContents()
         if (!pict.isNull()){
 			KAboutData *about_data = getAboutData();
-			QString text = QString("%1%2").arg(about_data->appName()).arg("-IM");
+			QString text = about_data->programName();
 			text += " ";
 			text += about_data->version();
 			QPainter p(&pict);

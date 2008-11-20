@@ -212,16 +212,16 @@ int main(int argc, char *argv[])
 #endif
     qInstallMsgHandler(simMessageOutput);
     KAboutData aboutData(PACKAGE,
-                         I18N_NOOP("SIM"),
+                         I18N_NOOP("Sim-IM"),
                          _VERSION,
                          I18N_NOOP("Multiprotocol Instant Messenger"),
                          KAboutData::License_GPL,
                          "Copyright (C) 2002-2004, Vladimir Shutoff\n"
-                         "2005-2008, SIM-IM Development Team",
+                         "2005-2008, Sim-IM Development Team",
                          0,
                          "http://sim-im.org/",
                          "https://mailman.dg.net.ua/listinfo/sim-im-main");
-    aboutData.addAuthor("SIM-IM Development Team",I18N_NOOP("Current development"),	"sim-im-main@lists.sim-im.org",						"http://sim-im.org/");
+    aboutData.addAuthor("Sim-IM Development Team",I18N_NOOP("Current development"),	"sim-im-main@lists.sim-im.org",						"http://sim-im.org/");
     aboutData.addAuthor("Vladimir Shutoff"		 ,I18N_NOOP("Author"),				"vovan@shutoff.ru");
     aboutData.addAuthor("Christian Ehrlicher"	 ,I18N_NOOP("Developer"),			"Ch.Ehrlicher@gmx.de");
     setAboutData(&aboutData);

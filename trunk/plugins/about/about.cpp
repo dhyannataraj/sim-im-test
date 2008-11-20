@@ -71,7 +71,7 @@ AboutPlugin::AboutPlugin(unsigned base)
 
     about = NULL;
     cmd->id			= CmdAbout;
-    cmd->text		= I18N_NOOP("&About SIM");
+    cmd->text		= I18N_NOOP("&About Sim-IM");
     cmd->icon		= "SIM";
     EventCommandCreate(cmd).process();
 

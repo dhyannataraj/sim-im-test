@@ -100,7 +100,7 @@ DockPlugin::DockPlugin(unsigned base, Buffer *config)
 
     Command cmd;
     cmd->id          = CmdTitle;
-    cmd->text        = I18N_NOOP("SIM");
+    cmd->text        = I18N_NOOP("Sim-IM");
     cmd->icon        = "SIM";
     cmd->menu_id     = DockMenu;
     cmd->menu_grp    = 0x1000;
