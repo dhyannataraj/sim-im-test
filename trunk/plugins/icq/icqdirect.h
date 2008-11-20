@@ -120,6 +120,7 @@ public:
 	virtual ~AIMOutcomingFileTransfer();
 
 	void listen();
+	virtual void connect(unsigned long ip, unsigned short port);
     //void connect(unsigned short port);
 	virtual tTransferDirection getDirection();
 	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);

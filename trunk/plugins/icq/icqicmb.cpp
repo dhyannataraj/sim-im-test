@@ -1075,6 +1075,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 
 		unsigned short ft_type = *desc;
 		ft->setStage(ft_type);
+        log(L_DEBUG, "stage = %d", ft_type);
 		/*
 		if(ft_type == 3 && !is_proxy)
 		{
@@ -1083,6 +1084,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 		*/
 		if(is_proxy) // Connection through proxy
 		{
+			log(L_DEBUG, "Proxy request");
             for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
 			{
 				if((*it)->getICBMCookie() == id)
@@ -1126,6 +1128,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 		}
 		else
 		{
+			log(L_DEBUG, "No Proxy request");
 			if(ft_type == 3)
 			{
 				ft->setProxyActive(true);
@@ -1138,13 +1141,10 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 					AIMFileTransfer *ft = (*it);
 					if(ft->getICBMCookie() == id)
 					{
-						ft->connect(ip, port);
-						/*if(ft->getDirection() == AIMFileTransfer::tdOutput)
-						{
-							AIMOutcomingFileTransfer* oft = static_cast<AIMOutcomingFileTransfer*>(ft);
-							return;
-						}
-						*/
+						if(test_ip)
+							ft->connect(test_ip, port);
+						else
+							ft->connect(ip, port);
 					}
 				}
 			}

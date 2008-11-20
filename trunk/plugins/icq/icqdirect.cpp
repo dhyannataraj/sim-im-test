@@ -2308,7 +2308,7 @@ AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserD
 
 AIMIncomingFileTransfer::~AIMIncomingFileTransfer()
 {
-	m_client->deleteFileMessage(m_cookie);
+//	m_client->deleteFileMessage(m_cookie);
 }
 
 bool AIMIncomingFileTransfer::accept(SIM::Socket *s, unsigned long ip)
@@ -2679,10 +2679,6 @@ void AIMOutcomingFileTransfer::packet_ready()
 		case ProxyNegotiation:
 			{
 				unsigned short packet_length, chunk_id, status;
-				if(packet_length <= 0)
-				{
-					return;
-				}
 				m_socket->readBuffer() >> packet_length;
 				m_socket->readBuffer() >> chunk_id;
 				log(L_DEBUG, "[Output]Proxy packet, length = %d, chunk_id = %04x",packet_length, chunk_id);
@@ -2909,19 +2905,24 @@ void AIMOutcomingFileTransfer::connectThroughProxy(const QString& host, uint16_t
 	AIMFileTransfer::connectThroughProxy(host, port, cookie2);
 }
 
-/*
-void AIMOutcomingFileTransfer::connect(unsigned short port)
+void AIMOutcomingFileTransfer::connect(unsigned long ip, unsigned short port)
 {
 	log(L_DEBUG, "AIMOutcomingFileTransfer::connect");
-	m_port = port;
-	FileTransfer::m_state = FileTransfer::Connect;
-	if (m_notify)
-		m_notify->process();
+	if(m_stage == 2)
+	{
+		m_port = port;
+		FileTransfer::m_state = FileTransfer::Connect;
+		if (m_notify)
+			m_notify->process();
 
-	m_state = ProxyConnection;
-	connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, NULL);
+		m_state = ProxyConnection;
+		connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, NULL);
+	}
+	else
+	{
+		AIMFileTransfer::connect(ip, port);
+	}
 }
-*/
 
 #ifndef NO_MOC_INCLUDES
 #include "icqdirect.moc"

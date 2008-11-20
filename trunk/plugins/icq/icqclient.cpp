@@ -285,6 +285,7 @@ void ICQClient::deleteFileMessage(MessageId const& cookie)
 		if((*it)->baseType() == MessageFile)
 		{
 			AIMFileMessage* afm = static_cast<AIMFileMessage*>(*it);
+			if(afm)
 			if(afm->getID_L() == cookie.id_l && afm->getID_H() == cookie.id_h)
 			{
 				m_processMsg.erase(it);
