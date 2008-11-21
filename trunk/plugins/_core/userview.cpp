@@ -920,7 +920,7 @@ void UserView::setGroupMode(unsigned mode, bool bFirst)
         return;
     CorePlugin::m_plugin->setGroupMode(mode);
     m_groupMode = mode;
-    Command cmd;
+    Command cmd; //FIXME: 1. Change CommandCreate to CommandChange and 2. Move this to toolabr_main.cpp
     cmd->id          = CmdGroup;
     cmd->text        = I18N_NOOP("&Groups");
     cmd->icon        = CorePlugin::m_plugin->getGroupMode() ? "grp_on" : "grp_off";
@@ -1706,7 +1706,7 @@ void UserView::dragScroll() //rewrite!?
         item = itemAt(pos);
     }else if (pos.y() > viewport()->height()){
         pos = QPoint(pos.x(), viewport()->height() - 1);
-        item = itemAt(pos); //<== crash, it does not return item, sometimes in QGList append() no mem allocation is possible :-/ ???
+        item = itemAt(pos); //<== FIXME: crash, it does not return item, sometimes in QGList append() no mem allocation is possible :-/ ???
         if (item){
             pos = QPoint(pos.x(), viewport()->height() - 1 + item->height());
             item = itemAt(pos);
