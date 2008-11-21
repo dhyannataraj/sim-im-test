@@ -58,6 +58,7 @@ protected:
 	bool readOFT(OftData* oft);
 	bool writeOFT(OftData* oft);
 	unsigned long calculateChecksum();
+	unsigned long checksumChunk(QByteArray* filechunk, unsigned int chunklength, unsigned int start);
 	
 	int m_stage;
 	bool m_proxy;
@@ -66,7 +67,7 @@ protected:
 	uint16_t m_cookie2;
 	OftData m_oft;
 	unsigned long m_packetLength;
-
+	bool bcontinue;
     ICQUserData *m_data;
     ICQClient *m_client;
     ICQClientSocket *m_socket;

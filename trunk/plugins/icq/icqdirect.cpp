@@ -2167,26 +2167,49 @@ unsigned long AIMFileTransfer::calculateChecksum()
 		log(L_WARN, "No file for checksum calculation");
 		return 0;
 	}
-	unsigned long checksum = 0xffff, prevchecksum;
+	unsigned long checksum = 0xFFFF0000;
+    //FileStream infile = null;
+	QByteArray* chunk=new QByteArray(1024);
+	Q_ULONG bytesread = 0;
+	long streamposition = 0;
+	bcontinue=true;
 	m_file->reset();
+	do
+    {
+		bytesread = m_file->readBlock(chunk->data(), chunk->size());
+        checksum += checksumChunk(chunk, (unsigned int)bytesread, checksum);
+        streamposition += bytesread;
+
+    }
+	while (bytesread == chunk->size() && bcontinue);
+	
+	if (!bcontinue)
+		return 0xFFFFFFFF;
+	return checksum;
+
+
+}
+
+unsigned long AIMFileTransfer::checksumChunk(QByteArray* filechunk, unsigned int chunklength, unsigned int start)
+{
+	unsigned long checksum = (start >> 16) & 0xFFFF, prevchecksum;
 	bool high = false;
-	while(!m_file->atEnd())
-	{
+	for (unsigned long i = 0; i < filechunk->size() && i < chunklength; i++)
+    {
 		prevchecksum = checksum;
-		unsigned char this_byte;
-		this_byte = (unsigned char)m_file->getch();
+
 		if(high)
-			checksum -= ((unsigned short)(this_byte) << 8);
+			checksum -= ((unsigned short)(filechunk->at(i)) << 8);
 		else
-			checksum -= ((unsigned short)(this_byte));
+			checksum -= ((unsigned short)(filechunk->at(i)));
 		high = !high;
 
+    	//checksum -= this_byte;
 		if(checksum > prevchecksum)
 			checksum--;
 	}
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
-	m_file->reset();
 	//return checksum << 16;
 	return checksum;
 }
