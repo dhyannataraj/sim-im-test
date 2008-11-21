@@ -2177,7 +2177,7 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	do
     {
 		bytesread = m_file->readBlock(chunk->data(), chunk->size());
-        checksum += checksumChunk(chunk, (unsigned int)bytesread, checksum);
+        checksum = checksumChunk(chunk, (unsigned int)bytesread, checksum);
         streamposition += bytesread;
 
     }
@@ -2185,9 +2185,8 @@ unsigned long AIMFileTransfer::calculateChecksum()
 	
 	if (!bcontinue)
 		return 0xFFFFFFFF;
-	return checksum;
 
-
+	return (checksum >> 16);
 }
 
 unsigned long AIMFileTransfer::checksumChunk(QByteArray* filechunk, unsigned int chunklength, unsigned int start)
@@ -2204,14 +2203,13 @@ unsigned long AIMFileTransfer::checksumChunk(QByteArray* filechunk, unsigned int
 			checksum -= ((unsigned short)(filechunk->at(i)));
 		high = !high;
 
-    	//checksum -= this_byte;
 		if(checksum > prevchecksum)
 			checksum--;
 	}
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
 	checksum = ((checksum & 0x0000ffff) + (checksum >> 16));
-	//return checksum << 16;
-	return checksum;
+
+	return checksum << 16;
 }
 
 void AIMFileTransfer::connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2)
@@ -2776,6 +2774,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 					// TODO cleanup
 					return;
 				}
+				m_file->reset();
 				m_state = Writing;
 				// TODO Check other fields in this_oft
 				FileTransfer::m_state = FileTransfer::Write;
