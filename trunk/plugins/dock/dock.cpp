@@ -251,8 +251,8 @@ bool DockPlugin::processEvent(Event *e)
         }
         break;
     }
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *def = ecs->cmd();
         if (def->id == CmdToggle){
             def->flags &= ~COMMAND_CHECKED;

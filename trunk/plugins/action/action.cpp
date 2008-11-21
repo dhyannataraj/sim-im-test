@@ -127,8 +127,8 @@ public:
 bool ActionPlugin::processEvent(Event *e)
 {
     switch (e->type() ) {
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->id == CmdAction) && (cmd->menu_id == MenuContact)){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));

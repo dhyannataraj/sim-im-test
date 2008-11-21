@@ -200,8 +200,8 @@ bool SoundPlugin::processEvent(SIM::Event *e)
         return false;
     }
     switch (e->type()) {
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdSoundDisable){
             cmd->flags &= ~COMMAND_CHECKED;

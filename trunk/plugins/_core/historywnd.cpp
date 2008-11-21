@@ -205,8 +205,8 @@ bool HistoryWindow::processEvent(Event *e)
         }
         break;
     }
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->id == CmdHistoryDirection) && ((unsigned long)(cmd->param) == m_id)){
             cmd->flags &= ~COMMAND_CHECKED;

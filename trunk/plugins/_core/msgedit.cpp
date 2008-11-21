@@ -103,7 +103,7 @@ Message *MsgTextEdit::createMessage(QMimeSource *src)
                 c->id      = cmd->id;
                 c->menu_id = MenuMessage;
                 c->param	 = (void*)(m_edit->m_userWnd->id());
-                if (EventCheckState(c).process())
+                if (EventCheckCommandState(c).process())
                     break;
                 delete msg;
                 msg = NULL;
@@ -1024,13 +1024,13 @@ bool MsgEdit::adjustType()
     cmd->param = (void*)(m_userWnd->m_id);
     cmd->id = m_userWnd->getMessageType();
     if (m_userWnd->getMessageType() != m_type) {
-        if(EventCheckState(cmd).process()) {
+        if(EventCheckCommandState(cmd).process()) {
             if (setType(m_userWnd->getMessageType()))
                 return true;
         }
     }
     cmd->id = m_type;
-    if(EventCheckState(cmd).process())
+    if(EventCheckCommandState(cmd).process())
         return true;
     EventMenuGetDef eMenu(MenuMessage);
     eMenu.process();
@@ -1043,7 +1043,7 @@ bool MsgEdit::adjustType()
         if (c->id == CmdContactClients)
             continue;
         c->param = (void*)(m_userWnd->m_id);
-        if (!EventCheckState(c).process())
+        if (!EventCheckCommandState(c).process())
             continue;
         if (setType(c->id)){
             bSet = true;
@@ -1097,8 +1097,8 @@ bool MsgEdit::processEvent(Event *e)
         }
         break;
     }
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->param == this) && (cmd->id == CmdTranslit)){
             Contact *contact = getContacts()->contact(m_userWnd->id());
@@ -1334,7 +1334,7 @@ void MsgEdit::setEmptyMessage()
     CommandDef *c;
     while ((c = ++itc) != NULL){
         c->param = (void*)(m_userWnd->m_id);
-        if (EventCheckState(c).process()){
+        if (EventCheckCommandState(c).process()){
             Message *msg;
             CommandDef *def = CorePlugin::m_plugin->messageTypes.find(c->id);
             if (def == NULL)

@@ -223,8 +223,8 @@ void SpellHighlighter::slotConfigChanged()
 
 bool SpellHighlighter::processEvent(SIM::Event *e)
 {
-    if (e->type() == SIM::eEventCheckState){
-        SIM::EventCheckState *ecs = static_cast<SIM::EventCheckState*>(e);
+    if (e->type() == SIM::eEventCheckCommandState){
+        SIM::EventCheckCommandState *ecs = static_cast<SIM::EventCheckCommandState*>(e);
         SIM::CommandDef *cmd = ecs->cmd();
         if (cmd->id == m_plugin->CmdSpell){
             MsgEdit *m_edit = (MsgEdit*)(cmd->param);

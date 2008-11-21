@@ -253,8 +253,8 @@ bool TextEdit::processEvent(Event *e)
 {
     if (m_param == NULL)
         return false;
-    if (e->type() == eEventCheckState){
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->param != m_param)
             return false;

@@ -189,8 +189,8 @@ bool FilterPlugin::processEvent(Event *e)
 		}
         break;
     }
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdIgnore){
             cmd->flags &= ~BTN_HIDE;

@@ -110,8 +110,8 @@ bool MsgReceived::processEvent(Event *e)
             }
         }
     } else
-    if (e->type() == eEventCheckState){
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;
@@ -127,7 +127,7 @@ bool MsgReceived::processEvent(Event *e)
                         if (msg){
                             c.id   -= CmdReceived;
                             c.param = msg;
-                            if (EventCheckState(&c).process())
+                            if (EventCheckCommandState(&c).process())
                                 cmd->flags &= ~BTN_HIDE;
                             if (m_msg == NULL)
                                 delete msg;
@@ -149,7 +149,7 @@ bool MsgReceived::processEvent(Event *e)
                                 if (msg){
                                     CommandDef c = *d;
                                     c.param = msg;
-                                    if (EventCheckState(&c).process())
+                                    if (EventCheckCommandState(&c).process())
                                         cmd->flags &= ~BTN_HIDE;
                                     if (m_msg == NULL)
                                         delete msg;

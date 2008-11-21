@@ -1080,8 +1080,8 @@ bool LiveJournalClient::processEvent(Event *e)
         eUrl.process();
         return true;
     } else
-    if (e->type() == eEventCheckState){
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdMenuWeb){
             unsigned menu_id = cmd->menu_id - MenuWeb;

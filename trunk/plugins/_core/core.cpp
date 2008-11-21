@@ -2025,7 +2025,7 @@ bool CorePlugin::processEvent(Event *e)
             CommandDef *c;
             while ((c = ++itc) != NULL){
                 c->param = (void*)(contact_id);
-                if(EventCheckState(c).process()) {
+                if(EventCheckCommandState(c).process()) {
                     return EventCommandExec(c).process();
                 }
             }
@@ -2164,8 +2164,8 @@ bool CorePlugin::processEvent(Event *e)
             m_focus = NULL;
             return true;
         }
-    case eEventCheckState:{
-            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
             CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuEncoding){
                 if (cmd->id == CmdChangeEncoding){

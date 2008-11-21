@@ -804,8 +804,8 @@ bool Container::processEvent(Event *e)
         }
         break;
     }
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         UserWnd *userWnd = m_tabBar->currentWnd();
         if (userWnd && ((unsigned long)(cmd->param) == userWnd->id()) &&

@@ -497,8 +497,8 @@ bool NavigatePlugin::processEvent(Event *e)
         h->setText(parseUrl(h->text()));
         return true;
     } else
-    if (e->type() == eEventCheckState){
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdMail){
             Contact *contact = getContacts()->contact((unsigned long)(cmd->param));

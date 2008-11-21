@@ -395,8 +395,8 @@ bool CommonStatus::processEvent(Event *e)
             rebuildStatus();
             break;
         }
-    case eEventCheckState:{
-            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
             CommandDef *def = ecs->cmd();
             if (def->menu_id == MenuStatus){
                 if (def->id == CmdInvisible){

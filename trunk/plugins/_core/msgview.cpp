@@ -925,8 +925,8 @@ bool MsgViewBase::processEvent(Event *e)
     if (e->type() == eEventHistoryColors) {
         setColors();
     } else
-    if (e->type() == eEventCheckState){
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->param != this) || (cmd->menu_id != MenuMsgView))
             return false;
@@ -1001,7 +1001,7 @@ bool MsgViewBase::processEvent(Event *e)
                     CommandDef cmd = *c;
                     cmd.menu_id = MenuMsgCommand;
                     cmd.param   = msg;
-                    if (!EventCheckState(&cmd).process())
+                    if (!EventCheckCommandState(&cmd).process())
                         continue;
                     cmd.flags &= ~COMMAND_CHECK_STATE;
                     cmds[n++] = cmd;

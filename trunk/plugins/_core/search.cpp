@@ -374,8 +374,8 @@ bool SearchDialog::processEvent(Event *e)
             }
             break;
         }
-    case eEventCheckState:{
-            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
             CommandDef *cmd = ecs->cmd();
             if ((cmd->id == CmdSearchOptions) && (cmd->menu_id == MenuSearchItem)){
                 EventMenuGetDef eMenu(MenuSearchOptions);
@@ -395,7 +395,7 @@ bool SearchDialog::processEvent(Event *e)
                         while ((s = ++list) != NULL){
                             if (s->flags & COMMAND_CHECK_STATE){
                                 CommandDef cCheck = *s;
-                                if (!EventCheckState(&cCheck).process())
+                                if (!EventCheckCommandState(&cCheck).process())
                                     continue;
                             }
                             if (prev && ((prev & 0xFF00) != (s->menu_grp & 0xFF00)))

@@ -401,15 +401,15 @@ QCString GpgPlugin::getConfig()
 bool GpgPlugin::processEvent(Event *e)
 {
     switch (e->type()){
-    case eEventCheckState:{
-            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
             CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuMessage){
                 if (cmd->id == MessageGPGKey){
                     cmd->flags &= ~COMMAND_CHECKED;
                     CommandDef c = *cmd;
                     c.id = MessageGeneric;
-                    return EventCheckState(&c).process();
+                    return EventCheckCommandState(&c).process();
                 }
                 if (cmd->id == MessageGPGUse){
                     cmd->flags &= ~COMMAND_CHECKED;
@@ -902,8 +902,8 @@ void MsgGPGKey::exportReady()
 
 bool MsgGPGKey::processEvent(Event *e)
 {
-    if (e->type() == eEventCheckState){
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->param == m_edit){
             unsigned id = cmd->bar_grp;

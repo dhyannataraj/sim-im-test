@@ -608,7 +608,7 @@ bool RemotePlugin::command(const QString &in, QString &out, bool &bError)
                         cmd->id      = type;
                         cmd->menu_id = MenuMessage;
                         cmd->param   = (void*)(contact->id());
-                        if (!EventCheckState(cmd).process())
+                        if (!EventCheckCommandState(cmd).process())
                             continue;
                     }
                     unsigned style = 0;

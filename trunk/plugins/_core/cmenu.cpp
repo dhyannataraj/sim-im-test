@@ -59,7 +59,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
         s->flags &= ~COMMAND_DISABLED;
         s->text_wrk = QString::null;
         s->flags |= COMMAND_CHECK_STATE;
-        if(!EventCheckState(s).process())
+        if(!EventCheckCommandState(s).process())
             return;
         if (s->flags & COMMAND_RECURSIVE){
             CommandDef *cmds = (CommandDef*)(s->param);
@@ -206,7 +206,7 @@ void CMenu::menuActivated(int n)
             if (s->flags & COMMAND_CHECK_STATE){
                 s->param = m_param;
                 s->flags |= COMMAND_CHECK_STATE;
-                if(!EventCheckState(s).process()){
+                if(!EventCheckCommandState(s).process()){
                     s->text_wrk = QString::null;
                     return;
                 }

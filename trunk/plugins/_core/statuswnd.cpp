@@ -184,8 +184,8 @@ bool StatusFrame::processEvent(Event *e)
         delete l;
         break;
     }
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->menu_id == MenuStatusWnd) && (cmd->id == CmdStatusWnd)){
             unsigned n = 0;

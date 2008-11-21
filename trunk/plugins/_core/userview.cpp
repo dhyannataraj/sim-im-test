@@ -637,8 +637,8 @@ bool UserView::processEvent(Event *e)
             }
             break;
         }
-    case eEventCheckState:{
-            EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState:{
+            EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
             CommandDef *cmd = ecs->cmd();
             if (cmd->menu_id == MenuGroups){
                 cmd->flags = cmd->flags & (~COMMAND_CHECKED);
@@ -721,7 +721,7 @@ bool UserView::processEvent(Event *e)
                     c->id	   = cmd->id - CmdSendMessage;
                     c->menu_id = MenuMessage;
                     c->param   = cmd->param;
-                    bool res = EventCheckState(c).process();
+                    bool res = EventCheckCommandState(c).process();
                     if (res && (c->flags & COMMAND_RECURSIVE)){
                         cmd->flags |= COMMAND_RECURSIVE;
                         cmd->param = c->param;
@@ -1525,7 +1525,7 @@ void UserView::dragEvent(QDropEvent *e, bool isDrop)
                         cmd->id      = type;
                         cmd->menu_id = MenuMessage;
                         cmd->param	 = (void*)(static_cast<ContactItem*>(item)->id());
-                        if (EventCheckState(cmd).process())
+                        if (EventCheckCommandState(cmd).process())
                             break;
                     }
                 }

@@ -113,7 +113,7 @@ enum SIMEvent
     eEventCommandShow       = 0x0515,
     eEventCommandWidget     = 0x0516,
 
-    eEventCheckState        = 0x0520,   // check state of a Command
+    eEventCheckCommandState = 0x0520,   // check state of a Command
 
     eEventAddWidget         = 0x0570,   // add a widget to main/statuswindow
 
@@ -1074,11 +1074,11 @@ protected:
     QWidget *m_widget;
 };
 
-class EXPORT EventCheckState : public EventCommand
+class EXPORT EventCheckCommandState : public EventCommand
 {
 public:
-    EventCheckState(CommandDef *cmd)
-        : EventCommand(eEventCheckState, cmd) {}
+    EventCheckCommandState(CommandDef *cmd)
+        : EventCommand(eEventCheckCommandState, cmd) {}
 };
 
 class EventMessage : public Event

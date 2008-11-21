@@ -93,7 +93,7 @@ MainInfo::MainInfo(QWidget *parent, Contact *contact)
     }
     Command cmd;
     cmd->id = CmdPhones;
-    if (!EventCheckState(cmd).process()){
+    if (!EventCheckCommandState(cmd).process()){
         lblCurrent->hide();
         cmbCurrent->hide();
         lblStatus->hide();
@@ -128,8 +128,8 @@ bool MainInfo::processEvent(Event *e)
         }
         break;
     }
-    case eEventCheckState: {
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    case eEventCheckCommandState: {
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->menu_id == MenuMailList){
             if ((cmd->id != CmdEditList) && (cmd->id != CmdRemoveList))
