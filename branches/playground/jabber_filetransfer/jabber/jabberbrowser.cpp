@@ -379,8 +379,8 @@ bool JabberBrowser::processEvent(Event *e)
             return true;
         }
     } else
-    if (e->type() == eEventCheckState){
-        EventCheckState *ecs = static_cast<EventCheckState*>(e);
+    if (e->type() == eEventCheckCommandState){
+        EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if ((cmd->menu_id == MenuSearchOptions) && isVisible()){
             cmd->flags &= ~COMMAND_CHECKED;
