@@ -494,6 +494,8 @@ void FileTransferDlg::closeToggled(bool bState)
 
 void FileTransferDlg::action(int nAct, void*)
 {
+	if(!m_msg->m_transfer)
+		return;
     FileTransferDlgNotify *notify = static_cast<FileTransferDlgNotify*>(m_msg->m_transfer->notify());
     FileTransfer *ft = m_msg->m_transfer;
     switch (nAct){

@@ -33,7 +33,6 @@ public:
 
 	virtual tTransferDirection getDirection() = 0;
 
-
 	static const unsigned long OFT_magic = 0x3254464f;
 	static const int OFT_fileInfo = 0x0101;
 	static const int OFT_answer = 0x0202;
@@ -96,7 +95,7 @@ public:
 	virtual void detectProxyDirection(int ft_type);
 
 protected slots:
-	void connect_timeout();
+	virtual void connect_timeout();
 protected:
     enum State
     {
@@ -109,8 +108,8 @@ protected:
 		Reading,
 		Done
     };
-	QWaitCondition m_connectReady;
 	State m_state;
+	QTimer m_connectTimer;
 };
 
 class AIMOutcomingFileTransfer : public QObject, public AIMFileTransfer
@@ -127,7 +126,7 @@ public:
 	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
 	virtual void detectProxyDirection(int ft_type);
 protected slots:
-	void connect_timeout();
+	virtual void connect_timeout();
 protected:
     enum State
     {
@@ -151,6 +150,7 @@ protected:
 	void initOFTSending();
 
 	State m_state;
+	QTimer m_connectTimer;
 };
 
 

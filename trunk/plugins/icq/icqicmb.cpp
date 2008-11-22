@@ -904,13 +904,172 @@ void ICQClient::clearMsgQueue()
     m_send.screen = QString::null;
 }
 
+void ICQClient::icbmSendFile(TlvList& tlv, unsigned long primary_ip, unsigned long secondary_ip, unsigned short port,const QString &screen, MessageId const& id)
+{
+	log(L_DEBUG, "ICQClient::icbmSendFile()");
+	Tlv *desc = tlv(0x0A);
+	Tlv *info = tlv(0x2711);
+	QString d;
+	ICQBuffer b(*info);
+	unsigned short type;
+	unsigned short nFiles;
+	unsigned long  size;
+	bool is_proxy = tlv(0x10);
+	log(L_DEBUG, "Desc = %d", (uint16_t)(*desc));
+
+	// First, let's find our filetransfer
+	AIMFileTransfer* ft = NULL;
+	for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
+	{
+		if((*it)->getICBMCookie() == id)
+		{
+			ft = (*it);
+			break;
+		}
+	}
+	if(ft == NULL)
+	{
+		// Incoming file
+		if(info == NULL) 
+		{
+			// This is baaad
+			log(L_WARN, "No info tlv in send file");
+			return;
+		}
+		b >> type >> nFiles >> size;
+		QString name = convert(b.data(8), b.size() - 8, tlv, 0x2712);
+		AIMFileMessage *msg = new AIMFileMessage;
+		msg->setPort(port);
+		msg->setBackground(clearTags(d));
+		//msg->setText(d);
+		msg->setSize(size);
+		msg->setID_L(id.id_l);
+		msg->setID_H(id.id_h);
+		if(type == 2)
+		{
+			d = i18n("Directory");
+			d += ' ';
+			d += name;
+			d += " (";
+			d += i18n("%n file", "%n files", nFiles);
+			d += ')';
+		}
+		else
+		{
+			if (nFiles == 1)
+			{
+				d = name;
+			}
+			else
+			{
+				d = i18n("%n file", "%n files", nFiles);
+			}
+		}
+		msg->setDescription(d);
+		msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
+		m_processMsg.push_back(msg);
+		messageReceived(msg, screen);
+		return;
+	}
+
+	unsigned short ft_type = *desc;
+	ft->setStage(ft_type);
+	log(L_DEBUG, "stage = %d", ft_type);
+	if(is_proxy) // Connection through proxy
+	{
+		log(L_DEBUG, "Proxy request");
+		for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
+		{
+			if((*it)->getICBMCookie() == id)
+			{
+				Contact *contact;
+				ICQUserData *data = findContact(screen, NULL, false, contact);
+				if(data)
+				{
+					if(primary_ip)
+						set_ip(&data->RealIP, primary_ip);
+					AIMFileTransfer *ft = (*it);
+					struct in_addr in;
+					in.s_addr = primary_ip;
+
+					if(ft_type == 2)
+					{
+						ft->setProxyActive(false);
+					}
+					if(ft_type == 3)
+					{
+						ft->setProxyActive(false);
+					}
+					unsigned short cookie2 = 0;
+					if(tlv(5))
+					{
+						cookie2 = *tlv(5);
+					};
+					if(primary_ip)
+						ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, cookie2);
+					else
+					{
+						ft->setProxyActive(true);
+						ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, cookie2);
+					}
+
+					return;
+				}
+			}
+		}
+	}
+	else
+	{
+		log(L_DEBUG, "No Proxy request: %d", ft_type);
+		if(ft_type == 3)
+		{
+			ft->setProxyActive(true);
+			ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, 0);
+		}
+		if(ft_type == 2)
+		{
+			for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
+			{
+				AIMFileTransfer *ft = (*it);
+				if(ft->getICBMCookie() == id)
+				{
+					if(primary_ip)
+						ft->connect(primary_ip, port);
+					else
+						ft->connect(secondary_ip, port);
+				}
+			}
+		}
+		return;
+	}
+	if(info == NULL) 
+	{
+		for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+		{
+			if ((*it)->type() == MessageFile)
+			{
+				AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
+				MessageId this_id;
+				this_id.id_l = afm->getID_L();
+				this_id.id_h = afm->getID_H();
+				if(this_id == id)
+				{
+					afm->setPort(port);
+				}
+			}
+		}
+		return;
+	}
+}
+
 void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool needAck, MessageId id)
 {
 	log(L_DEBUG, "ICQClient::parseAdvancedMessage");
     m.incReadPos(8);    /* msg-id cookie */
     capability cap;
     m.unpack((char*)cap, sizeof(cap));
-    if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap))){
+    if (!memcmp(cap, capabilities[CAP_DIRECT], sizeof(cap)))
+	{
         TlvList tlv(m);
         if(!tlv(0x2711))
 		{
@@ -985,7 +1144,8 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 
 	log(L_DEBUG, "Test IP: %08x, Real IP: %08x, IP: %08x, PORT: %d",test_ip, real_ip, ip, port);
 
-    if (real_ip || ip){
+    if (real_ip || ip)
+	{
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
         if (data)
@@ -1007,166 +1167,8 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 
     if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap)))
 	{
-        log(L_DEBUG, "AIM send file");
-        Tlv *desc = tlv(0x0A);
-		Tlv *info = tlv(0x2711);
-		bool is_proxy = tlv(0x10);
-        log(L_DEBUG, "Desc = %d", (uint16_t)(*desc));
-
-		// First, let's find our filetransfer
-		AIMFileTransfer* ft = NULL;
-		for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
-		{
-			if((*it)->getICBMCookie() == id)
-			{
-				ft = (*it);
-				break;
-			}
-		}
-		if(ft == NULL)
-		{
-			// Incoming file
-			if(info == NULL) 
-			{
-				// This is baaad
-				log(L_WARN, "No info tlv in send file");
-				return;
-			}
-			QString d;//= convert(desc, tlv, 0x0D);
-			ICQBuffer b(*info);
-			unsigned short type;
-			unsigned short nFiles;
-			unsigned long  size;
-			b >> type >> nFiles >> size;
-			QString name = convert(b.data(8), b.size() - 8, tlv, 0x2712);
-			AIMFileMessage *msg = new AIMFileMessage;
-			msg->setPort(port);
-			msg->setBackground(clearTags(d));
-			//msg->setText(d);
-			msg->setSize(size);
-			msg->setID_L(id.id_l);
-			msg->setID_H(id.id_h);
-			if(type == 2)
-			{
-				d = i18n("Directory");
-				d += ' ';
-				d += name;
-				d += " (";
-				d += i18n("%n file", "%n files", nFiles);
-				d += ')';
-			}
-			else
-			{
-				if (nFiles == 1)
-				{
-					d = name;
-				}
-				else
-				{
-					d = i18n("%n file", "%n files", nFiles);
-				}
-			}
-			msg->setDescription(d);
-			msg->setFlags(MESSAGE_RECEIVED | MESSAGE_RICHTEXT | MESSAGE_TEMP);
-			m_processMsg.push_back(msg);
-			messageReceived(msg, screen);
-			return;
-		}
-
-		unsigned short ft_type = *desc;
-		ft->setStage(ft_type);
-        log(L_DEBUG, "stage = %d", ft_type);
-		/*
-		if(ft_type == 3 && !is_proxy)
-		{
-			is_proxy = true;
-		}
-		*/
-		if(is_proxy) // Connection through proxy
-		{
-			log(L_DEBUG, "Proxy request");
-            for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
-			{
-				if((*it)->getICBMCookie() == id)
-				{
-					Contact *contact;
-					ICQUserData *data = findContact(screen, NULL, false, contact);
-					if(data)
-					{
-						if(test_ip)
-							set_ip(&data->RealIP, test_ip);
-						AIMFileTransfer *ft = (*it);
-						///ft->setICBMCookie(this_id);
-						struct in_addr in;
-						in.s_addr = test_ip;
-
-						if(ft_type == 2)
-						{
-							ft->setProxyActive(false);
-						}
-						if(ft_type == 3)
-						{
-							ft->setProxyActive(false);
-						}
-						unsigned short cookie2 = 0;
-						if(tlv(5))
-						{
-							cookie2 = *tlv(5);
-						};
-						if(test_ip)
-							ft->connectThroughProxy(inet_ntoa(in), AOL_PROXY_PORT, cookie2);
-						else
-						{
-							ft->setProxyActive(true);
-							ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, cookie2);
-						}
-
-						return;
-					}
-				}
-			}
-		}
-		else
-		{
-			log(L_DEBUG, "No Proxy request");
-			if(ft_type == 3)
-			{
-				ft->setProxyActive(true);
-				ft->connectThroughProxy(AOL_PROXY_HOST, AOL_PROXY_PORT, 0);
-			}
-			if(ft_type == 2)
-			{
-				for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
-				{
-					AIMFileTransfer *ft = (*it);
-					if(ft->getICBMCookie() == id)
-					{
-						if(test_ip)
-							ft->connect(test_ip, port);
-						else
-							ft->connect(ip, port);
-					}
-				}
-			}
-		}
-		if(info == NULL) 
-		{
-			for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
-			{
-				if ((*it)->type() == MessageFile)
-				{
-					AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
-					MessageId this_id;
-					this_id.id_l = afm->getID_L();
-					this_id.id_h = afm->getID_H();
-					if(this_id == id)
-					{
-						afm->setPort(port);
-					}
-				}
-			}
-			return;
-		}
+		icbmSendFile(tlv, test_ip, ip, port, screen, id);
+		return;
     }
 
     if (!memcmp(cap, capabilities[CAP_AIM_BUDDYLIST], sizeof(cap))){
@@ -1469,9 +1471,9 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                             delete msg;
                             return;
                         }
-                        AIMFileTransfer *ft = new AIMOutcomingFileTransfer(static_cast<FileMessage*>(msg), data, this);  //ft is not used, remove?
-                        EventMessageAcked(msg).process();
-                        m_processMsg.push_back(msg);
+                        //AIMFileTransfer *ft = new AIMOutcomingFileTransfer(static_cast<FileMessage*>(msg), data, this);  //ft is not used, remove?
+                        //EventMessageAcked(msg).process();
+                        //m_processMsg.push_back(msg);
                         //ft->connect(static_cast<AIMFileMessage*>(m)->getPort());
                     }
 					else

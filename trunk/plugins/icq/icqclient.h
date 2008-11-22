@@ -649,6 +649,7 @@ public:
 			unsigned short port, const MessageId& id, unsigned short type, unsigned long ip, bool proxy);
     void sendThroughServer(const QString &screen, unsigned short type, ICQBuffer &b, const MessageId &id, bool bOffline, bool bReqAck);
 	void deleteFileMessage(MessageId const& cookie);
+	void icbmSendFile(TlvList& tlv, unsigned long primary_ip, unsigned long secondary_ip, unsigned short port,const QString &screen, MessageId const& id);
 protected slots:
     void ping();
     void processSendQueue();

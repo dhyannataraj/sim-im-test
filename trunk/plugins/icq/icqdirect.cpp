@@ -54,7 +54,7 @@ const char FT_START		= 3;
 const char FT_SPEED		= 5;
 const char FT_DATA		= 6;
 
-const unsigned DIRECT_TIMEOUT	= 20;
+const unsigned DIRECT_TIMEOUT	= 10;
 
 ICQListener::ICQListener(ICQClient *client)
 {
@@ -2030,6 +2030,7 @@ AIMFileTransfer::~AIMFileTransfer()
 			}
 		}
 	}
+	delete m_socket;
 	log(L_DEBUG, "AIMFileTransfer::~AIMFileTransfer");
 }
 
@@ -2323,16 +2324,34 @@ void AIMFileTransfer::connect(unsigned long ip, unsigned short port)
 }
 
 
-AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client) : AIMFileTransfer(msg, data, client), QObject()
+AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client) : AIMFileTransfer(msg, data, client), QObject(), m_connectTimer(this)
 {
+	QObject::connect(&m_connectTimer, SIGNAL(timeout()), this, SLOT(connect_timeout()));
 }
 
 AIMIncomingFileTransfer::~AIMIncomingFileTransfer()
 {
-//	m_client->deleteFileMessage(m_cookie);
+	m_client->deleteFileMessage(m_cookie);
+	/*
+	for(list<Message*>::iterator it = m_client->m_processMsg.begin(); it != m_client->m_processMsg.end(); ++it)
+	{
+		if ((*it)->type() == MessageFile)
+		{
+			AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
+			MessageId this_id;
+			this_id.id_l = afm->getID_L();
+			this_id.id_h = afm->getID_H();
+			if(this_id == m_cookie)
+			{
+				m_client->m_processMsg.erase(it);
+				break;
+			}
+		}
+	}
+	*/
 }
 
-bool AIMIncomingFileTransfer::accept(SIM::Socket *s, unsigned long ip)
+bool AIMIncomingFileTransfer::accept(SIM::Socket* /*s*/, unsigned long /*ip*/)
 {
 	// TODO
 	return false;
@@ -2342,7 +2361,7 @@ void AIMIncomingFileTransfer::accept()
 {
 	log(L_DEBUG, "AIMIncomingFileTransfer::accept");
     m_state = Connecting;
-	QTimer::singleShot(DIRECT_TIMEOUT * 1000, this, SLOT(connect_timeout()));
+	m_connectTimer.start(DIRECT_TIMEOUT * 1000, true);
 	FileTransfer::m_state = FileTransfer::Connect;
 	if(m_notify)
 		m_notify->process();
@@ -2373,6 +2392,7 @@ void AIMIncomingFileTransfer::connect_timeout()
 void AIMIncomingFileTransfer::connect_ready()
 {
 	log(L_DEBUG, "AIMIncomingFileTransfer::connect_ready()");
+	m_connectTimer.stop();
 	m_socket->writeBuffer().init(0);
 	m_socket->readBuffer().init(0);
 	m_socket->writeBuffer().packetStart();
@@ -2589,8 +2609,9 @@ AIMFileTransfer::tTransferDirection AIMIncomingFileTransfer::getDirection()
 }
 
 
-AIMOutcomingFileTransfer::AIMOutcomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client) : AIMFileTransfer(msg, data, client)
+AIMOutcomingFileTransfer::AIMOutcomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client) : AIMFileTransfer(msg, data, client), m_connectTimer(this)
 {
+	QObject::connect(&m_connectTimer, SIGNAL(timeout()), this, SLOT(connect_timeout()));
 }
 
 AIMOutcomingFileTransfer::~AIMOutcomingFileTransfer()
@@ -2827,7 +2848,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 
 bool AIMOutcomingFileTransfer::sendNextBlock()
 {
-	log(L_DEBUG, "Sending block");
+	//log(L_DEBUG, "Sending block");
 	if(!m_file)
 	{
 		log(L_DEBUG, "Read without file");
@@ -2883,7 +2904,7 @@ void AIMOutcomingFileTransfer::connect_ready()
 
 void AIMOutcomingFileTransfer::write_ready()
 {
-	log(L_DEBUG, "AIMOutcomingFileTransfer::write_ready %d", FileTransfer::m_state);
+	//log(L_DEBUG, "AIMOutcomingFileTransfer::write_ready %d", FileTransfer::m_state);
 	if(FileTransfer::m_state != FileTransfer::Connect)
 	{
 		if(m_bytes < m_fileSize)
