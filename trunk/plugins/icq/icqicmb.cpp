@@ -904,7 +904,7 @@ void ICQClient::clearMsgQueue()
     m_send.screen = QString::null;
 }
 
-void ICQClient::icbmSendFile(TlvList& tlv, unsigned long primary_ip, unsigned long secondary_ip, unsigned short port,const QString &screen, MessageId const& id)
+void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned long secondary_ip, unsigned short port,const QString &screen, MessageId const& id)
 {
 	log(L_DEBUG, "ICQClient::icbmSendFile()");
 	Tlv *desc = tlv(0x0A);
@@ -1167,7 +1167,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 
     if (!memcmp(cap, capabilities[CAP_AIM_SENDFILE], sizeof(cap)))
 	{
-		icbmSendFile(tlv, test_ip, ip, port, screen, id);
+		icmbSendFile(tlv, test_ip, ip, port, screen, id);
 		return;
     }
 
