@@ -910,7 +910,6 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 	Tlv *desc = tlv(0x0A);
 	Tlv *info = tlv(0x2711);
 	QString d;
-	ICQBuffer b(*info);
 	unsigned short type;
 	unsigned short nFiles;
 	unsigned long  size;
@@ -929,6 +928,7 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 	}
 	if(ft == NULL)
 	{
+		log(L_DEBUG, "ft == NULL");
 		// Incoming file
 		if(info == NULL) 
 		{
@@ -936,6 +936,7 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 			log(L_WARN, "No info tlv in send file");
 			return;
 		}
+		ICQBuffer b(*info);
 		b >> type >> nFiles >> size;
 		QString name = convert(b.data(8), b.size() - 8, tlv, 0x2712);
 		AIMFileMessage *msg = new AIMFileMessage;
@@ -970,6 +971,22 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 		m_processMsg.push_back(msg);
 		messageReceived(msg, screen);
 		return;
+	}
+	AIMFileMessage* afm = NULL;
+	for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
+	{
+		if ((*it)->type() == MessageFile)
+		{
+			afm = static_cast<AIMFileMessage*>((*it));
+			MessageId this_id;
+			this_id.id_l = afm->getID_L();
+			this_id.id_h = afm->getID_H();
+			if(this_id == id)
+			{
+				EventMessageAcked(afm).process();
+				afm->setPort(port);
+			}
+		}
 	}
 
 	unsigned short ft_type = *desc;
@@ -1042,22 +1059,9 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 		}
 		return;
 	}
-	if(info == NULL) 
+	if(info == NULL && afm) 
 	{
-		for(list<Message*>::iterator it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
-		{
-			if ((*it)->type() == MessageFile)
-			{
-				AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
-				MessageId this_id;
-				this_id.id_l = afm->getID_L();
-				this_id.id_h = afm->getID_H();
-				if(this_id == id)
-				{
-					afm->setPort(port);
-				}
-			}
-		}
+		afm->setPort(port);
 		return;
 	}
 }
@@ -2285,6 +2289,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
 			{	
                 AIMFileTransfer *ft = new AIMIncomingFileTransfer(static_cast<FileMessage*>(msg), data, this);
 				AIMFileMessage* fmsg = static_cast<AIMFileMessage*>(msg);
+				fmsg->m_transfer = ft;
                 ft->setDir(dir);
                 ft->setOverwrite(overwrite);
                 EventMessageAcked(msg).process();

@@ -2542,10 +2542,11 @@ bool ICQClient::processEvent(Event *e)
         for (it = m_processMsg.begin(); it != m_processMsg.end(); ++it)
             if (*it == msg)
                 break;
-        if (it != m_processMsg.end()){
+        if (it != m_processMsg.end())
+		{
             m_processMsg.erase(it);
             delete msg;
-            return msg;
+            return true;
         }
         if (msg->type() == MessageSMS){
             for (list<SendMsg>::iterator it = smsQueue.begin(); it != smsQueue.end(); ++it){

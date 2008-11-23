@@ -2131,10 +2131,10 @@ bool AIMFileTransfer::writeOFT(OftData* oft)
 	m_socket->writeBuffer().pack(oft->cookie, 8);
 	m_socket->writeBuffer().pack(oft->encrypt);
 	m_socket->writeBuffer().pack(oft->compress);
-	m_socket->writeBuffer().pack(htons(oft->total_files));
-	m_socket->writeBuffer().pack(htons(oft->files_left));
-	m_socket->writeBuffer().pack(htons(oft->total_parts));
-	m_socket->writeBuffer().pack(htons(oft->parts_left));
+	m_socket->writeBuffer().pack((unsigned short)htons(oft->total_files));
+	m_socket->writeBuffer().pack((unsigned short)htons(oft->files_left));
+	m_socket->writeBuffer().pack((unsigned short)htons(oft->total_parts));
+	m_socket->writeBuffer().pack((unsigned short)htons(oft->parts_left));
 	m_socket->writeBuffer().pack((unsigned long)htonl(oft->total_size));
 	m_socket->writeBuffer().pack((unsigned long)htonl(oft->size));
 	m_socket->writeBuffer().pack(oft->mod_time);
@@ -2331,24 +2331,7 @@ AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserD
 
 AIMIncomingFileTransfer::~AIMIncomingFileTransfer()
 {
-	m_client->deleteFileMessage(m_cookie);
-	/*
-	for(list<Message*>::iterator it = m_client->m_processMsg.begin(); it != m_client->m_processMsg.end(); ++it)
-	{
-		if ((*it)->type() == MessageFile)
-		{
-			AIMFileMessage* afm = static_cast<AIMFileMessage*>((*it));
-			MessageId this_id;
-			this_id.id_l = afm->getID_L();
-			this_id.id_h = afm->getID_H();
-			if(this_id == m_cookie)
-			{
-				m_client->m_processMsg.erase(it);
-				break;
-			}
-		}
-	}
-	*/
+	//m_client->deleteFileMessage(m_cookie);
 }
 
 bool AIMIncomingFileTransfer::accept(SIM::Socket* /*s*/, unsigned long /*ip*/)
@@ -2431,7 +2414,6 @@ void AIMIncomingFileTransfer::detectProxyDirection(int ft_type)
 void AIMIncomingFileTransfer::packet_ready()
 {
 	long size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos());
-	log(L_DEBUG, "AIMIncomingFileTransfer::packet_ready %d (%d)", m_state, size);
 	if(size <= 0)
 	{
 		log(L_DEBUG, "size <= 0");
@@ -2487,14 +2469,16 @@ void AIMIncomingFileTransfer::packet_ready()
 					ackOFT();
 				FileTransfer::m_state = FileTransfer::Read;
 				if(m_notify)
+				{
+					m_notify->transfer(true);
 					m_notify->process();
+				}
 				m_state = Reading;
 			}
 			break;
 
 		case Reading:
 			{
-				log(L_DEBUG, "%d | %d", m_bytes, m_fileSize);
 				if(m_bytes < m_fileSize)
 				{
 					long size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos());
@@ -2508,6 +2492,8 @@ void AIMIncomingFileTransfer::packet_ready()
 				{
 					/// TODO Calculate and verify checksum
 					log(L_DEBUG, "File transfer OK (2)");
+					if(m_notify)
+						m_notify->transfer(false);
 					m_oft.type = OFT_success;
 					writeOFT(&m_oft);
 					m_socket->write();
@@ -2546,7 +2532,6 @@ void AIMIncomingFileTransfer::ackOFT()
 	if(m_notify)
 	{
 		m_notify->transfer(false);
-		log(L_DEBUG, "Encoding: %04x", m_oft.nencode);
 		if(m_oft.nencode == 0x0200) // this is ucs2
 		{
 			m_notify->createFile(QString::fromUcs2((unsigned short*)m_oft.name.data()), m_fileSize, true);
@@ -2560,7 +2545,6 @@ void AIMIncomingFileTransfer::ackOFT()
 
 void AIMIncomingFileTransfer::receiveNextBlock(long size)
 {
-	log(L_DEBUG, "Read: %d", size);
 	m_totalBytes += size;
 	m_bytes += size;
 	m_transferBytes += size;
@@ -2580,7 +2564,6 @@ void AIMIncomingFileTransfer::receiveNextBlock(long size)
 			return;
 		}
 	}
-	// TODO Speed calculation
 	if (m_notify)
 		m_notify->process();
 	m_socket->readBuffer().incReadPos(size);
@@ -2592,6 +2575,7 @@ void AIMIncomingFileTransfer::write_ready()
 	if(m_state == Done)
 	{
 		FileTransfer::m_state = FileTransfer::Done;
+		m_client->deleteFileMessage(m_cookie);
 		if(m_notify)
 			m_notify->process();
 	}
@@ -2795,6 +2779,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 					// TODO cleanup
 					return;
 				}
+				EventMessageAcked(m_msg).process();
 				m_file->reset();
 				m_state = Writing;
 				// TODO Check other fields in this_oft
@@ -2806,7 +2791,10 @@ void AIMOutcomingFileTransfer::packet_ready()
 				m_fileSize = m_oft.total_size;
 
 				if(m_notify)
+				{
+					m_notify->transfer(true);
 					m_notify->process();
+				}
 
 				sendNextBlock();
 			}
@@ -2825,11 +2813,14 @@ void AIMOutcomingFileTransfer::packet_ready()
 				if(this_oft.type == OFT_success)
 				{
 					log(L_DEBUG, "File transfer OK(4)");
-					//FileTransfer::m_state = FileTransfer::Done;
+					FileTransfer::m_state = FileTransfer::Done;
 					m_socket->close();
-					if (m_notify)
-						m_notify->process();
 					m_socket->error_state(QString::null);
+					if(m_notify)
+					{
+						m_notify->transfer(false);
+						m_notify->process();
+					}
 					return;
 				}
 			}
@@ -2848,7 +2839,6 @@ void AIMOutcomingFileTransfer::packet_ready()
 
 bool AIMOutcomingFileTransfer::sendNextBlock()
 {
-	//log(L_DEBUG, "Sending block");
 	if(!m_file)
 	{
 		log(L_DEBUG, "Read without file");
@@ -2904,7 +2894,6 @@ void AIMOutcomingFileTransfer::connect_ready()
 
 void AIMOutcomingFileTransfer::write_ready()
 {
-	//log(L_DEBUG, "AIMOutcomingFileTransfer::write_ready %d", FileTransfer::m_state);
 	if(FileTransfer::m_state != FileTransfer::Connect)
 	{
 		if(m_bytes < m_fileSize)
@@ -2914,7 +2903,6 @@ void AIMOutcomingFileTransfer::write_ready()
 		}
 		else
 		{
-			
 			/// TODO Calculate and verify checksum
 			log(L_DEBUG, "File transfer OK(6)");
 		}
