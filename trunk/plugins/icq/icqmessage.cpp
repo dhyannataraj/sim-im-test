@@ -251,6 +251,7 @@ static Message *parseURLMessage(const QCString &str)
     return m;
 }
 
+//ToDo: Send Contacts does not work
 static Message *parseContactMessage(const QCString &str)
 {
     QValueList<QCString> l;
