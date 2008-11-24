@@ -452,7 +452,7 @@ void SoundPlugin::run(){
 		qDebug("\nThreaded mit getPlayer() davor");
 		bDone=false;
 		//EventExec e(, m_snd);
-		QString execme=QString("\"%1\" \"%2\"\0").arg(getPlayer()).arg(m_snd);
+		QString execme=QString("%1 \"%2\"\0").arg(getPlayer()).arg(m_snd);
 		system(execme.data());
 		//e.process();
 		qDebug("\nThreaded mit getPlayer() danach");
