@@ -219,12 +219,12 @@ void UpdatePlugin::Finished(int requestId, bool error){
 		if (!show) {
 			show=!show;
 			disconnect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
-			msgret = QMessageBox::question( 0, i18n("SIM-IM Update"),
+			msgret = QMessageBox::question( 0, i18n("Sim-IM Update"),
 				i18n("A new update ist available.\n\nYou have Version %1:\n%2\n\n").arg(majorVersion).arg(dlocal.toString()) +
 				i18n("New Version is:\n%1\n\n").arg(dremote.toString()) + 
 				i18n("Changes are:\n%1\n\n").arg(this->m_updateMsg) + 
 #ifdef WIN32
-				i18n("I can now DOWNLOAD the Update\navailable at: %1\nIN BACKROUND and install the update\nfor SIM-IM, automatically after finishing.\n\nWould like you to ALLOW to carry out THE UPDATE?").arg(location), 
+				i18n("I can now DOWNLOAD the Update\navailable at: %1\nIN BACKROUND and install the update\nfor Sim-IM, automatically after finishing.\n\nWould like you to ALLOW to carry out THE UPDATE?").arg(location), 
 				QMessageBox::Yes,QMessageBox::No);
 			
 			address=QString("http://sim.gosign.de/setup.exe");
@@ -232,7 +232,7 @@ void UpdatePlugin::Finished(int requestId, bool error){
 			if (msgret == QMessageBox::Yes) 
 				download_and_install();
 			else {
-				msgret = QMessageBox::question( 0, i18n("SIM-IM Update Remember?"),
+				msgret = QMessageBox::question( 0, i18n("Sim-IM Update Remember?"),
 				i18n("Should I remember you to update in some minutes again?"),
 				QMessageBox::Yes,QMessageBox::No);
 
@@ -324,7 +324,7 @@ void UpdatePlugin::installFile(){
 
 	if ( !proc->start() ) {
 		 QMessageBox::critical( 0, i18n("Error launching the Update-Setup"),
-				i18n("Make sure the SIM-IM Dirctory\n") +
+				i18n("Make sure the Sim-IM Dirctory\n") +
 				i18n("is writable and you have rights to install.\n"));
 		 ignore=false;
 		 disconnect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(fileRequestFinished(int, bool)));
