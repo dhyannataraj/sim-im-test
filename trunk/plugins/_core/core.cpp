@@ -435,16 +435,11 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     m_cmds	= new Commands;
     boundTypes();
 
-    EventToolbar(ToolBarMain, EventToolbar::eAdd).process();
     EventToolbar(ToolBarContainer, EventToolbar::eAdd).process();
     EventToolbar(ToolBarTextEdit, EventToolbar::eAdd).process();
     EventToolbar(ToolBarMsgEdit, EventToolbar::eAdd).process();
     EventToolbar(BarHistory, EventToolbar::eAdd).process();
 
-    EventMenu(MenuMain, EventMenu::eAdd).process();
-    EventMenu(MenuPhones, EventMenu::eAdd).process();
-    EventMenu(MenuLocation, EventMenu::eAdd).process();
-    EventMenu(MenuPhoneState, EventMenu::eAdd).process();
     EventMenu(MenuFileDecline, EventMenu::eAdd).process();
     EventMenu(MenuMailList, EventMenu::eAdd).process();
     EventMenu(MenuPhoneList, EventMenu::eAdd).process();
@@ -454,69 +449,9 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventMenu(MenuSearchGroups, EventMenu::eAdd).process();
     EventMenu(MenuSearchOptions, EventMenu::eAdd).process();
 
+    createMainToolbar();
+
     Command cmd;
-    cmd->id          = CmdConfigure;
-    cmd->text        = I18N_NOOP("Setup");
-    cmd->icon        = "configure";
-    cmd->bar_id      = ToolBarMain;
-    cmd->menu_id     = MenuMain;
-    cmd->menu_grp    = 0x8080;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			 = CmdUnread;
-    cmd->text		 = I18N_NOOP("Unread messages");
-    cmd->icon		 = "message";
-    cmd->bar_id		 = 0;
-    cmd->menu_grp	 = 0x3000;
-    cmd->flags		 = COMMAND_IMPORTANT | COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id          = CmdQuit;
-    cmd->text        = I18N_NOOP("Quit");
-    cmd->icon        = "exit";
-    cmd->bar_id      = ToolBarMain;
-    cmd->menu_id     = MenuMain;
-    cmd->menu_grp    = 0x10080;
-    cmd->flags		 = COMMAND_IMPORTANT;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			 = CmdMenu;
-    cmd->text        = I18N_NOOP("&Menu");
-    cmd->icon        = "1downarrow";
-    cmd->bar_id      = ToolBarMain;
-    cmd->bar_grp     = 0x8000;
-    cmd->menu_id     = 0;
-    cmd->menu_grp    = 0;
-    cmd->popup_id    = MenuMain;
-    EventCommandCreate(cmd).process();
-
-    cmd->id          = CmdSearch;
-    cmd->text        = I18N_NOOP("Search / Add contact");
-    cmd->icon		 = "find";
-    cmd->bar_id		 = ToolBarMain;
-    cmd->bar_grp	 = 0;
-    cmd->menu_id	 = MenuMain;
-    cmd->menu_grp    = 0x2080;
-    cmd->popup_id	 = 0;
-    cmd->flags		 = COMMAND_DEFAULT;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			 = CmdSendSMS;
-    cmd->text		 = I18N_NOOP("&Send SMS");
-    cmd->icon		 = "sms";
-    cmd->menu_grp	 = 0x2081;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			 = CmdPhones;
-    cmd->text		 = I18N_NOOP("&Phone service");
-    cmd->bar_id		 = 0;
-    cmd->bar_grp	 = 0;
-    cmd->icon		 = "phone";
-    cmd->menu_grp	 = 0x60F0;
-    cmd->popup_id	 = MenuPhones;
-    cmd->flags		 = COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdMessageType;
     cmd->text		 = I18N_NOOP("Message");
@@ -869,7 +804,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     EventMenu(MenuTextEdit, EventMenu::eAdd).process();
-    EventMenu(MenuGroups, EventMenu::eAdd).process();
     EventMenu(MenuContainer, EventMenu::eAdd).process();
 
     cmd->id			= CmdUndo;
@@ -962,58 +896,10 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->param		= (void*)getHistorySetup;
     EventAddPreferences(cmd).process();
 
-    cmd->id          = CmdOnline;
-    cmd->text        = I18N_NOOP("Show &offline");
-    cmd->icon        = "online_off";
-    cmd->icon_on     = "online_on";
-    cmd->bar_id      = ToolBarMain;
-    cmd->bar_grp     = 0x4000;
-    cmd->menu_id	 = MenuMain;
-    cmd->menu_grp    = 0;
-    if (getShowOnLine())
-        cmd->flags |= COMMAND_CHECKED;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdGrpOff;
-    cmd->text		= I18N_NOOP("Do&n't show groups");
-    cmd->icon		= "grp_off";
-    cmd->icon_on	= QString::null;
-    cmd->bar_id		= 0;
-    cmd->menu_id	= MenuGroups;
-    cmd->menu_grp	= 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdGrpMode1;
-    cmd->text		= I18N_NOOP("Group mode 1");
-    cmd->icon		= "grp_on";
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdGrpMode2;
-    cmd->text		= I18N_NOOP("Group mode 2");
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdOnline;
-    cmd->text		= I18N_NOOP("Show &offline");
-    cmd->icon		= "online_off";
-    cmd->icon_on	= "online_on";
-    cmd->menu_grp	= 0x8000;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdEmptyGroup;
-    cmd->text		= I18N_NOOP("Show &empty groups");
-    cmd->icon		= QString::null;
-    cmd->icon_on	= QString::null;
-    cmd->menu_grp	= 0x8001;
-    EventCommandCreate(cmd).process();
-
     cmd->id			= CmdGrpCreate;
     cmd->text		= I18N_NOOP("&Create group");
     cmd->icon		= "grp_create";
     cmd->icon_on	= QString::null;
-    cmd->menu_grp	= 0xA000;
-    EventCommandCreate(cmd).process();
-
     cmd->menu_id	= MenuGroup;
     cmd->menu_grp	= 0x4000;
     EventCommandCreate(cmd).process();
@@ -1173,59 +1059,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->accel		= QString::null;
     cmd->menu_id	= MenuContactGroup;
     cmd->menu_grp	= 0x2000;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdLocation;
-    cmd->text		= I18N_NOOP("&Location");
-    cmd->menu_id	= MenuPhones;
-    cmd->menu_grp	= 0x1000;
-    cmd->popup_id   = MenuLocation;
-    cmd->flags		= COMMAND_DEFAULT;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdPhoneState;
-    cmd->text		= I18N_NOOP("&Status");
-    cmd->menu_id	= MenuPhones;
-    cmd->menu_grp   = 0x1010;
-    cmd->popup_id   = MenuPhoneState;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdPhoneBook;
-    cmd->text		= I18N_NOOP("&Phone book");
-    cmd->menu_id	= MenuPhones;
-    cmd->menu_grp   = 0x1020;
-    cmd->popup_id   = 0;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdPhoneNoShow;
-    cmd->text		= I18N_NOOP("&No show");
-    cmd->menu_id	= MenuPhoneState;
-    cmd->menu_grp   = 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdPhoneAvailable;
-    cmd->text		= I18N_NOOP("&Available");
-    cmd->icon		= "phone";
-    cmd->menu_id	= MenuPhoneState;
-    cmd->menu_grp   = 0x1001;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdPhoneBusy;
-    cmd->text		= I18N_NOOP("&Busy");
-    cmd->icon		= "nophone";
-    cmd->menu_id	= MenuPhoneState;
-    cmd->menu_grp   = 0x1002;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdLocation;
-    cmd->text		= "_";
-    cmd->icon		= QString::null;
-    cmd->menu_id	= MenuLocation;
-    cmd->menu_grp   = 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdDeclineWithoutReason;
@@ -4110,12 +3943,6 @@ void CorePlugin::loadMenu()
         cmd->menu_id	= MenuMain;
         cmd->flags		= COMMAND_DEFAULT;
     }
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdChange;
-    cmd->text		= I18N_NOOP("Change profile");
-    cmd->menu_grp	= 0x10040;
-    cmd->popup_id	= 0;
     EventCommandCreate(cmd).process();
 
     if (m_status == NULL)

@@ -508,6 +508,8 @@ protected:
     QString typeName(const QString &name);
     void setAutoReplies();
     bool lockProfile(const QString &profile, bool bSend = false);
+    
+    void createMainToolbar();
     bool                m_bInit;
     QStringList         m_profiles;
     QWidget             *m_cfg;
