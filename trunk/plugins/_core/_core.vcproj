@@ -1195,6 +1195,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\toolbar_main.cpp"
+				>
+			</File>
+			<File
 				RelativePath="toolsetup.cpp"
 				>
 				<FileConfiguration
@@ -6775,7 +6779,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6785,7 +6789,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6799,7 +6803,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6809,7 +6813,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6823,7 +6827,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6833,7 +6837,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6847,7 +6851,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6857,7 +6861,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6871,7 +6875,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6881,7 +6885,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6895,7 +6899,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6905,7 +6909,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6919,7 +6923,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6929,7 +6933,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6943,7 +6947,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6953,7 +6957,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6967,7 +6971,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6977,7 +6981,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -6991,7 +6995,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7001,7 +7005,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7015,7 +7019,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7025,7 +7029,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7039,7 +7043,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7049,7 +7053,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7063,7 +7067,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7073,7 +7077,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7087,7 +7091,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7097,7 +7101,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7111,7 +7115,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7121,7 +7125,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7135,7 +7139,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -7145,7 +7149,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying EMOTICONS &amp; ICONS"
-						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons"
+						CommandLine="copy $(InputDir)$(InputFileName) $(SolutionDir)$(ConfigurationName)\icons&#x0D;&#x0A;"
 						Outputs="$(SolutionDir)$(ConfigurationName)\icons\$(InputFileName)"
 					/>
 				</FileConfiguration>
