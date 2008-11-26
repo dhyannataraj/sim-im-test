@@ -81,7 +81,8 @@ _core_la_SOURCES = \
  filetransfer.cpp \
  filetransferbase.ui \
  declinedlg.cpp \
- declinedlgbase.ui 
+ declinedlgbase.ui \
+ toolbar_main.cpp
 
 SUBDIRS=pict styles jisp GPL-Icons emoticons_prebuilt
 
