@@ -80,7 +80,7 @@ void Commands::clear()
 CommandsDef *Commands::createMenu(unsigned id)
 {
     if (id == MenuLocation)
-        id = MenuLocation;
+        id = MenuLocation;  // FIXME: if id==MenuLocation then id = MenuLocation, Does it make sense?
     MENU_MAP::iterator it = menus.find(id);
     if (it != menus.end())
         return (*it).second.def;

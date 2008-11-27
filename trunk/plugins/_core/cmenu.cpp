@@ -58,7 +58,7 @@ void CMenu::processItem(CommandDef *s, bool &bSeparator, bool &bFirst, unsigned 
     if (s->flags & COMMAND_CHECK_STATE){
         s->flags &= ~COMMAND_DISABLED;
         s->text_wrk = QString::null;
-        s->flags |= COMMAND_CHECK_STATE;
+        s->flags |= COMMAND_CHECK_STATE;  // FIXME: What for? COMMAND_CHECK_STATE BIT is already 1 if this code is execued, because of "if" above
         if(!EventCheckCommandState(s).process())
             return;
         if (s->flags & COMMAND_RECURSIVE){
