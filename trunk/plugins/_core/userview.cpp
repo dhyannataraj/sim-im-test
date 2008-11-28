@@ -920,18 +920,7 @@ void UserView::setGroupMode(unsigned mode, bool bFirst)
         return;
     CorePlugin::m_plugin->setGroupMode(mode);
     m_groupMode = mode;
-    Command cmd; //FIXME: 1. Change CommandCreate to CommandChange and 2. Move this to toolabr_main.cpp
-    cmd->id          = CmdGroup;
-    cmd->text        = I18N_NOOP("&Groups");
-    cmd->icon        = CorePlugin::m_plugin->getGroupMode() ? "grp_on" : "grp_off";
-    cmd->bar_id      = ToolBarMain;
-    cmd->bar_grp     = 0x4000;
-    cmd->menu_id     = MenuMain;
-    cmd->menu_grp    = 0x6001;
-    cmd->popup_id    = MenuGroups;
-
-    EventCommandCreate(cmd).process();
-
+    EventUpdateCommandState(CmdGroupToolbarButton).process();
     fill();
 }
 

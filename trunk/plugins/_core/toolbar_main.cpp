@@ -38,18 +38,18 @@ void CorePlugin::createMainToolbar()
   cmd->icon_on     = "online_on";
   cmd->bar_id      = ToolBarMain;
   cmd->bar_grp     = 0x4000;
-  cmd->menu_id	 = MenuMain;
+  cmd->menu_id     = MenuMain;
   cmd->menu_grp    = 0;
   if (getShowOnLine()) cmd->flags |= COMMAND_CHECKED;
   EventCommandCreate(cmd).process();
 
-  cmd->id          = CmdGroup;
+  cmd->id          = CmdGroupToolbarButton;
   cmd->text        = I18N_NOOP("&Groups");
   cmd->icon        = getGroupMode() ? "grp_on" : "grp_off";
+  cmd->icon_on     = QString::null;
   cmd->bar_id      = ToolBarMain;
   cmd->bar_grp     = 0x4000;
-  cmd->menu_id     = MenuMain;
-  cmd->menu_grp    = 0x6001;
+  cmd->menu_id     = 0;
   cmd->popup_id    = MenuGroups;
   EventCommandCreate(cmd).process();
 
@@ -105,7 +105,16 @@ void CorePlugin::createMainToolbar()
 
   // Status menu item is created at status.cpp line 56. May be it should be moved here too...
 
-  // Groups menu item were already created in this function. See above...
+  cmd->id          = CmdGroup;
+  cmd->text        = I18N_NOOP("&Groups");
+  cmd->icon        = "grp_on";
+  cmd->icon_on     = QString::null;
+  cmd->bar_id      = 0;
+  cmd->menu_id     = MenuMain;
+  cmd->menu_grp    = 0x6001;
+  cmd->popup_id    = MenuGroups;
+  cmd->flags       = COMMAND_DEFAULT;
+  EventCommandCreate(cmd).process();
 
   cmd->id          = CmdPhones;
   cmd->text        = I18N_NOOP("&Phone service");
@@ -305,5 +314,39 @@ void CorePlugin::createMainToolbar()
   cmd->popup_id    = 0;
   cmd->flags       = COMMAND_DEFAULT;
   EventCommandCreate(cmd).process();
+}
 
+bool CorePlugin::updateMainToolbar(unsigned long commandID)
+{
+  bool bUpdateAll = (commandID == ~((unsigned long) 0));
+
+  if ( ( commandID == CmdGroupToolbarButton ) || bUpdateAll )
+  {
+    Command cmd;
+    cmd->id          = CmdGroupToolbarButton;
+    cmd->text        = I18N_NOOP("&Groups");
+    cmd->icon        = getGroupMode() ? "grp_on" : "grp_off";
+    cmd->bar_id      = ToolBarMain;
+    cmd->bar_grp     = 0x4000;
+    cmd->menu_id     = 0;
+    cmd->menu_grp    = 0;
+    cmd->popup_id    = MenuGroups;
+    EventCommandChange(cmd).process();
+  }
+
+  if ( ( commandID == CmdOnline ) || bUpdateAll )
+  {
+    Command cmd;
+    cmd->id          = CmdOnline;
+    cmd->text        = I18N_NOOP("Show &offline");
+    cmd->icon        = "online_off";
+    cmd->icon_on     = "online_on";
+    cmd->bar_id      = ToolBarMain;
+    cmd->bar_grp     = 0x4000;
+    cmd->menu_id     = MenuGroups;
+    cmd->menu_grp    = 0x8000;
+    cmd->flags       = COMMAND_CHECK_STATE;
+    if (getShowOnLine()) cmd->flags |= COMMAND_CHECKED;
+    EventCommandChange(cmd).process();
+  }
 }

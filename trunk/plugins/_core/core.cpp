@@ -1565,6 +1565,7 @@ bool CorePlugin::processEvent(Event *e)
                 removeTranslator();
                 installTranslator();
                 initData();
+                EventUpdateCommandState(CmdOnline).process();
             }
             break;
         }
@@ -2622,6 +2623,10 @@ bool CorePlugin::processEvent(Event *e)
             }
             return true;
         }
+    case eEventUpdateCommandState:{
+      EventUpdateCommandState *eucs = static_cast<EventUpdateCommandState*>(e);
+      return updateMainToolbar(eucs->commandID());
+    }
     case eEventCommandExec:{
             EventCommandExec *ece = static_cast<EventCommandExec*>(e);
             CommandDef *cmd = ece->cmd();

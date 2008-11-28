@@ -113,7 +113,8 @@ enum SIMEvent
     eEventCommandShow       = 0x0515,
     eEventCommandWidget     = 0x0516,
 
-    eEventCheckCommandState = 0x0520,   // check state of a Command
+    eEventCheckCommandState = 0x0520, // check state of a Command
+    eEventUpdateCommandState= 0x0528, // recalculate command state for commands with semi-static (once-calculated) states
 
     eEventAddWidget         = 0x0570,   // add a widget to main/statuswindow
 
@@ -713,7 +714,7 @@ public:
 
 /* Base bar for mainwindow */
 // FIXME: put them into class EventToolbar?
-const unsigned long ToolBarMain      = 1;
+const unsigned long ToolBarMain      = 1;  // FIXME: In CommandDef toolbar id is unsigned. Type should be changed here or there
 const unsigned long ToolBarContainer = 2;
 const unsigned long ToolBarTextEdit  = 3;
 const unsigned long ToolBarMsgEdit  = 4;
@@ -905,7 +906,7 @@ protected:
    menu items & bar buttons
    param is CommandDef* */
 
-struct EXPORT CommandDef
+struct EXPORT CommandDef  // FIXME: move it to cmddef.h ???
 {
     unsigned long   id;        // Command ID
     QString     text;          // Command name
@@ -1079,6 +1080,19 @@ class EXPORT EventCheckCommandState : public EventCommand
 public:
     EventCheckCommandState(CommandDef *cmd)
         : EventCommand(eEventCheckCommandState, cmd) {}
+};
+
+class EXPORT EventUpdateCommandState : public Event
+{
+public:
+    EventUpdateCommandState(unsigned long     id = ~( (unsigned long)0 ) )// 0xFFF..FF means "update all commands"
+        : Event(eEventUpdateCommandState), m_id(id) {}
+    // Also possible to update command by it's command def
+    EventUpdateCommandState(CommandDef *cmd)
+        : Event(eEventUpdateCommandState), m_id(cmd->id) {}
+    unsigned long commandID() {return m_id;}
+protected:
+    unsigned long m_id;
 };
 
 class EventMessage : public Event
