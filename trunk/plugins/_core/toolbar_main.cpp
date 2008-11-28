@@ -349,4 +349,5 @@ bool CorePlugin::updateMainToolbar(unsigned long commandID)
     if (getShowOnLine()) cmd->flags |= COMMAND_CHECKED;
     EventCommandChange(cmd).process();
   }
+  return bUpdateAll;
 }
