@@ -131,6 +131,7 @@ public:
 protected slots:
 	virtual void connect_timeout();
 protected:
+    virtual void startReceive(unsigned pos);
     enum State
     {
         None,

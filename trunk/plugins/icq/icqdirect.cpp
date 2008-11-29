@@ -2527,12 +2527,9 @@ void AIMIncomingFileTransfer::packet_ready()
 			break;
 	}
 }
-
-void AIMIncomingFileTransfer::ackOFT()
+void AIMIncomingFileTransfer::startReceive(unsigned pos)
 {
-	log(L_DEBUG, "Sending file ack");
 	m_oft.type = OFT_answer;
-
 	*((unsigned long*)&m_oft.cookie[0]) = htonl(m_cookie.id_l);
 	*((unsigned long*)&m_oft.cookie[4]) = htonl(m_cookie.id_h);
 	writeOFT(&m_oft);
@@ -2541,7 +2538,11 @@ void AIMIncomingFileTransfer::ackOFT()
 	m_nFiles = m_oft.total_files;	
 	m_fileSize = m_oft.size;
 	m_totalSize = m_oft.total_size;
+}
 
+void AIMIncomingFileTransfer::ackOFT()
+{
+	log(L_DEBUG, "Sending file ack");
 	if(m_notify)
 	{
 		m_notify->transfer(false);
@@ -2566,7 +2567,6 @@ void AIMIncomingFileTransfer::receiveNextBlock(long size)
 		if(!m_file)
 		{
 			log(L_DEBUG, "Write without file");
-			m_socket->error_state("Write without file");
 			return;
 		}
 		long hret = m_file->writeBlock(m_socket->readBuffer().data(m_socket->readBuffer().readPos()), size);
