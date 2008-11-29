@@ -9,6 +9,39 @@
 #define AOL_PROXY_HOST "ars.oscar.aol.com"
 #define AOL_PROXY_PORT 5190
 
+struct OftData
+{
+	unsigned long magic;
+	unsigned short unknown;
+	unsigned short type;
+	char cookie[8];
+	unsigned short encrypt;
+	unsigned short compress;
+	unsigned short total_files;
+	unsigned short files_left;
+	unsigned short total_parts;
+	unsigned short parts_left;
+	unsigned long total_size;
+	unsigned long size;
+	unsigned long mod_time;
+	unsigned long checksum;
+	unsigned long rfrcsum;
+	unsigned long rfsize;
+	unsigned long cretime;
+	unsigned long rfcsum;
+	unsigned long nrecvd;
+	unsigned long recvcsum;
+	char idstring[32];
+	unsigned char flags;
+	unsigned char lnameoffset;
+	unsigned char lsizeoffset;
+	char dummy[69];
+	char macfileinfo[16];
+	unsigned short nencode;
+	unsigned short nlanguage;
+	QByteArray name;
+};
+
 class AIMFileTransfer : public SIM::FileTransfer, public SIM::ClientSocketNotify, public SIM::ServerSocketNotify
 {
 public:

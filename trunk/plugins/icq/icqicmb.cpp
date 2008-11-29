@@ -983,7 +983,6 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 			this_id.id_h = afm->getID_H();
 			if(this_id == id)
 			{
-				EventMessageAcked(afm).process();
 				afm->setPort(port);
 			}
 		}
@@ -1148,7 +1147,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
 
 	log(L_DEBUG, "Test IP: %08x, Real IP: %08x, IP: %08x, PORT: %d",test_ip, real_ip, ip, port);
 
-    if (real_ip || ip)
+    if(real_ip || ip)
 	{
         Contact *contact;
         ICQUserData *data = findContact(screen, NULL, false, contact);
@@ -2293,7 +2292,7 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
                 ft->setDir(dir);
                 ft->setOverwrite(overwrite);
                 EventMessageAcked(msg).process();
-                m_processMsg.push_back(msg);
+                //m_processMsg.push_back(msg);
                 bDelete = false;
 				ft->setPort(fmsg->getPort());
 				MessageId this_id;

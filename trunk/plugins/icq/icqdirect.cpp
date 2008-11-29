@@ -2327,6 +2327,7 @@ void AIMFileTransfer::connect(unsigned long ip, unsigned short port)
 AIMIncomingFileTransfer::AIMIncomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client) : AIMFileTransfer(msg, data, client), QObject(), m_connectTimer(this)
 {
 	QObject::connect(&m_connectTimer, SIGNAL(timeout()), this, SLOT(connect_timeout()));
+	m_totalBytes = 0;
 }
 
 AIMIncomingFileTransfer::~AIMIncomingFileTransfer()
@@ -2350,6 +2351,10 @@ void AIMIncomingFileTransfer::accept()
 		m_notify->process();
 
 	unsigned long ip = get_ip(m_data->RealIP);
+	if(!ip)
+	{
+		ip = get_ip(m_data->IP);
+	}
 	m_socket->connect(ip, m_port, NULL);
 }
 
@@ -2491,21 +2496,27 @@ void AIMIncomingFileTransfer::packet_ready()
 				if(m_bytes >= m_fileSize)
 				{
 					/// TODO Calculate and verify checksum
-					log(L_DEBUG, "File transfer OK (2)");
-					if(m_notify)
-						m_notify->transfer(false);
 					m_oft.type = OFT_success;
 					writeOFT(&m_oft);
 					m_socket->write();
 
-					ICQBuffer buf;
-					const char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-						0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
-					buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
-					buf.pack(send_file, 0x10);
+					if(m_totalBytes >= m_totalSize)
+					{
+						if(m_notify)
+							m_notify->transfer(false);
+						ICQBuffer buf;
+						const char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
+							0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
+						buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
+						buf.pack(send_file, 0x10);
 
-					m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
-					m_state = Done;
+						m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
+						m_state = Done;
+					}
+					else
+					{
+						m_state = OFTNegotiation;
+					}
 					return;
 				}
 			}
@@ -2526,8 +2537,8 @@ void AIMIncomingFileTransfer::ackOFT()
 	m_socket->write();
 	m_nFile = m_oft.total_files - m_oft.files_left + 1;	
 	m_nFiles = m_oft.total_files;	
-	m_totalBytes = 0;
-	m_fileSize = m_oft.total_size;
+	m_fileSize = m_oft.size;
+	m_totalSize = m_oft.total_size;
 
 	if(m_notify)
 	{
