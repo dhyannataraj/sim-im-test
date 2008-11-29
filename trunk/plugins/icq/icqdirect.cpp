@@ -2509,6 +2509,8 @@ void AIMIncomingFileTransfer::packet_ready()
 							0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
 						buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
 						buf.pack(send_file, 0x10);
+						if(m_file)
+							m_file->flush();
 
 						m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
 						m_state = Done;

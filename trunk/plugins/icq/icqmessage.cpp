@@ -47,6 +47,7 @@ AIMFileMessage::AIMFileMessage(Buffer *cfg)
         : FileMessage(MessageFile, cfg)
 {
     load_data(aimFileMessageData, &data, cfg);
+	isProxy = false;
 }
 
 AIMFileMessage::~AIMFileMessage()

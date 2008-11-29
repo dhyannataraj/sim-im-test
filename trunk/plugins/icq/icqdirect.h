@@ -63,6 +63,7 @@ public:
 	virtual void detectProxyDirection(int ft_type) = 0;
 	virtual void connect(unsigned long ip, unsigned short port);
 	void setStage(int stage) { m_stage = stage; }
+	void forceProxyConnection() { m_proxy = true;}
 
 	virtual tTransferDirection getDirection() = 0;
 

@@ -113,6 +113,8 @@ public:
     PROP_ULONG(ID_L);
     PROP_ULONG(ID_H);
     virtual unsigned baseType() { return SIM::MessageFile; }
+	bool isProxy;
+	uint16_t cookie2;
 protected:
     AIMFileMessageData data;
 };

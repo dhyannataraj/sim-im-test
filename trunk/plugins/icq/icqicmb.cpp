@@ -946,6 +946,14 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 		msg->setSize(size);
 		msg->setID_L(id.id_l);
 		msg->setID_H(id.id_h);
+		if(is_proxy)
+		{
+			msg->isProxy = true;
+		}
+		if(tlv(5))
+		{
+			msg->cookie2 = *tlv(5);
+		}
 		if(type == 2)
 		{
 			d = i18n("Directory");
@@ -2300,6 +2308,13 @@ void ICQClient::accept(Message *msg, const QString &dir, OverwriteMode overwrite
 				this_id.id_h = fmsg->getID_H();
 				ft->setICBMCookie(this_id);
 				log(L_DEBUG, "port = %d", fmsg->getPort());
+				ft->setStage(1);
+				if(fmsg->isProxy)
+				{
+					ft->setICBMCookie2(fmsg->cookie2);
+					ft->setProxyActive(false);
+					ft->forceProxyConnection();
+				}
                 ft->accept();
 				return;
             }
