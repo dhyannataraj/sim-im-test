@@ -60,10 +60,10 @@ public:
 	void setICBMCookie2(unsigned short cookie2);
 	MessageId& getICBMCookie() {return m_cookie; }
 	void setProxyActive(bool proxyActive) { m_proxyActive = proxyActive; }
-	virtual void detectProxyDirection(int ft_type) = 0;
 	virtual void connect(unsigned long ip, unsigned short port);
 	void setStage(int stage) { m_stage = stage; }
 	void forceProxyConnection() { m_proxy = true;}
+	void requestFT();
 
 	virtual tTransferDirection getDirection() = 0;
 
@@ -126,7 +126,6 @@ public:
 	void ackOFT();
 	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
 	virtual tTransferDirection getDirection();
-	virtual void detectProxyDirection(int ft_type);
 
 protected slots:
 	virtual void connect_timeout();
@@ -159,7 +158,6 @@ public:
     //void connect(unsigned short port);
 	virtual tTransferDirection getDirection();
 	virtual void connectThroughProxy(const QString& host, uint16_t port, uint16_t cookie2);
-	virtual void detectProxyDirection(int ft_type);
 protected slots:
 	virtual void connect_timeout();
 protected:

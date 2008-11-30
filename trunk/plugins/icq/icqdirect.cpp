@@ -22,6 +22,8 @@
 
 #include "core.h"
 
+#include "sockfactory.h"
+
 #ifdef WIN32
 #include <winsock.h>
 #else
@@ -2009,6 +2011,7 @@ AIMFileTransfer::AIMFileTransfer(FileMessage *msg, ICQUserData *data, ICQClient 
     m_msg		= msg;
     m_client	= client;
 	m_data = data;
+	m_ip = 0;
 	m_proxy = false;
 	m_proxyActive = true;
 	m_packetLength = 1000;
@@ -2034,6 +2037,89 @@ AIMFileTransfer::~AIMFileTransfer()
 	log(L_DEBUG, "AIMFileTransfer::~AIMFileTransfer");
 }
 
+void AIMFileTransfer::requestFT()
+{
+	log(L_DEBUG, "AIMFileTransfer::requestFT m_stage = %d", m_stage);
+	log(L_DEBUG, "Description: %s", m_msg->getDescription().ascii());
+	log(L_DEBUG, "filename: %s", filename().ascii());
+	TlvList tlvs;
+	ICQBuffer b;
+	bool bWide = false;
+	for(int i = 0; i < (int)(filename().length()); i++)
+	{
+		if (filename()[i].unicode() > 0x7F)
+		{
+			bWide = true;
+			break;
+		}
+	}
+	QString charset = bWide ? "utf-8" : "us-ascii";
+
+	unsigned short this_port = (unsigned short)(m_proxy ? m_cookie2 : m_port);
+
+    b << (unsigned short)0;
+    b << m_cookie.id_l << m_cookie.id_h;
+    b.pack((char*)m_client->capabilities[CAP_AIM_SENDFILE], sizeof(capability));
+    b.tlv(0x0A, (unsigned short)m_stage);
+	b.tlv(0x0F);
+	b.tlv(0x03, (unsigned long)htonl(get_ip(m_client->data.owner.RealIP)));
+	b.tlv(0x04, (unsigned long)htonl(get_ip(m_client->data.owner.IP)));
+	b.tlv(0x05, this_port);
+
+	this_port = ~(htons(m_port));
+	b.tlv(0x17, this_port);
+
+	unsigned long this_ip = m_ip; 
+	if(m_ip == 0)
+		this_ip = htonl(get_ip(m_client->data.owner.RealIP));
+
+	b.tlv(0x02, this_ip);
+	this_ip = ~this_ip;
+	b.tlv(0x16, this_ip);
+
+	if(m_proxy)
+	{
+		b.tlv(0x10);
+		tlvs += new Tlv(0x0010, 0, 0);
+	}
+	ICQBuffer buf;
+	if(m_stage == 1)
+	{
+		if(files() == 1)
+		{
+			buf << ((unsigned short)0x0001) << ((unsigned short)0x0001);
+		}
+		else
+		{
+			buf << ((unsigned short)0x0002) << ((unsigned short)files());
+		}
+		buf << ((unsigned long)totalSize());
+
+		if(!m_proxy && (files() == 1))
+		{
+			if(bWide)
+			{
+				QCString decodedfname = filename().utf8();
+				buf.pack(decodedfname.data(), decodedfname.length() + 1);
+			}
+			else
+			{
+				buf.pack(filename().data(), filename().length() + 1);
+			}
+		}
+		else
+		{
+			buf.pack((unsigned char)0);
+		}
+	}
+	b.tlv(0x2711, buf);
+	if(m_stage == 1)
+	{
+		b.tlv(0x2712, charset.ascii(), charset.length());
+	}
+    m_client->sendThroughServer(m_client->screen(m_data), 2, b, m_cookie, false, true);
+}
+
 void AIMFileTransfer::accept()
 {
 }
@@ -2050,7 +2136,6 @@ void AIMFileTransfer::processPacket()
 
 void AIMFileTransfer::setICBMCookie(MessageId const& cookie)
 {
-	log(L_DEBUG, "AIMFileTransfer::setICBMCookie: %lx %lx", cookie.id_l, cookie.id_h);
 	m_cookie = cookie;
 }
 
@@ -2125,6 +2210,7 @@ bool AIMFileTransfer::readOFT(OftData* oft)
 
 bool AIMFileTransfer::writeOFT(OftData* oft)
 {
+	log(L_DEBUG, "writing OFT");
 	m_socket->writeBuffer().pack(oft->magic);
 	m_socket->writeBuffer().pack(oft->unknown);
 	m_socket->writeBuffer().pack(oft->type);
@@ -2365,7 +2451,8 @@ void AIMIncomingFileTransfer::connect_timeout()
 		log(L_DEBUG, "Connecting timeout, trying reverse connection");
 		FileMessage* msg = static_cast<FileMessage*>(m_msg);
 		QString filename = msg->getDescription();
-		m_client->sendFTRequest(m_client->screen(m_data), filename, totalSize(), m_port, m_cookie, 0x0002, 0, false);
+		m_stage++;
+		requestFT();
 		m_state = ProxyConnection;
 		/*
 		m_proxy = true;
@@ -2408,14 +2495,6 @@ void AIMIncomingFileTransfer::connect_ready()
 	}
 	m_socket->setRaw(true);
 }
-void AIMIncomingFileTransfer::detectProxyDirection(int ft_type)
-{
-	if(ft_type == 3)
-	{
-		m_proxyActive = true;
-	}
-}
-
 void AIMIncomingFileTransfer::packet_ready()
 {
 	long size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos());
@@ -2444,7 +2523,8 @@ void AIMIncomingFileTransfer::packet_ready()
 						m_socket->readBuffer() >> m_ip;
 						FileMessage* msg = static_cast<FileMessage*>(m_msg);
 						QString filename = msg->getDescription();
-						m_client->sendFTRequest(m_client->screen(m_data), "", 0, m_cookie2, m_cookie, m_stage + 1, htonl(m_ip), true);
+						m_stage++;
+						requestFT();
 					}
 					if(status == 0x0005) // Everything is allright
 					{
@@ -2609,6 +2689,9 @@ AIMFileTransfer::tTransferDirection AIMIncomingFileTransfer::getDirection()
 AIMOutcomingFileTransfer::AIMOutcomingFileTransfer(SIM::FileMessage *msg, ICQUserData *data, ICQClient *client) : AIMFileTransfer(msg, data, client), m_connectTimer(this)
 {
 	QObject::connect(&m_connectTimer, SIGNAL(timeout()), this, SLOT(connect_timeout()));
+	openFile();
+	m_totalBytes = 0;
+	EventMessageAcked(m_msg).process();
 }
 
 AIMOutcomingFileTransfer::~AIMOutcomingFileTransfer()
@@ -2646,7 +2729,6 @@ bool AIMOutcomingFileTransfer::accept(Socket *s, unsigned long)
 
 void AIMOutcomingFileTransfer::initOFTSending()
 {
-	openFile();
 	m_oft.magic = OFT_magic;
 	m_oft.unknown = 0x0001;
 	m_oft.type = OFT_fileInfo;
@@ -2661,7 +2743,7 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	m_oft.total_parts = 1; //FIXME if needed
 	m_oft.parts_left = 1;
 	m_oft.total_size = totalSize();
-	m_oft.size = totalSize();
+	m_oft.size = fileSize();
 	m_oft.mod_time = time(NULL); //FIXME
 	m_oft.checksum = calculateChecksum();
 	m_oft.rfrcsum = 0x0000ffff;
@@ -2679,11 +2761,11 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	memset(m_oft.macfileinfo, 0, 16);
 	FileMessage* msg = static_cast<FileMessage*>(m_msg);
 
-	QString filename = msg->getDescription();
+//	QString filename = filename();
 	bool bWide = false;
-	for(int i = 0; i < (int)(filename.length() + 1); i++)
+	for(int i = 0; i < (int)(filename().length() + 1); i++)
 	{
-		if (filename[i].unicode() > 0x7F)
+		if (filename()[i].unicode() > 0x7F)
 		{
 			bWide = true;
 			break;
@@ -2694,17 +2776,17 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	{
 		m_oft.nencode = 0x0200;
 		m_oft.nlanguage = 0;
-		m_oft.name.resize((filename.length() + 1) * 2);
-		for(int i = 0; i < (int)(filename.length() + 1); i++)
+		m_oft.name.resize((filename().length() + 1) * 2);
+		for(int i = 0; i < (int)(filename().length() + 1); i++)
 		{
-			*((unsigned short*)(&m_oft.name.data()[i * 2])) = htons(filename[i].unicode());
+			*((unsigned short*)(&m_oft.name.data()[i * 2])) = htons(filename()[i].unicode());
 		}
 	}
 	else
 	{
 		m_oft.nencode = 0x0;
 		m_oft.nlanguage = 0;
-		m_oft.name.duplicate(filename.data(), filename.length() + 1);
+		m_oft.name.duplicate(filename().data(), filename().length() + 1);
 	}
 	writeOFT(&m_oft);
 	m_socket->write();
@@ -2733,7 +2815,8 @@ void AIMOutcomingFileTransfer::packet_ready()
 						m_socket->readBuffer() >> m_ip;
 						FileMessage* msg = static_cast<FileMessage*>(m_msg);
 						QString filename = msg->getDescription();
-						m_client->sendFTRequest(m_client->screen(m_data), filename, totalSize(), m_cookie2, m_cookie, 0x0003, htonl(m_ip), true);
+						m_stage++;
+						requestFT();
 					}
 					if(status == 0x0005) // Everything is allright
 					{
@@ -2792,16 +2875,10 @@ void AIMOutcomingFileTransfer::packet_ready()
 					// TODO cleanup
 					return;
 				}
-				EventMessageAcked(m_msg).process();
 				m_file->reset();
 				m_state = Writing;
 				// TODO Check other fields in this_oft
 				FileTransfer::m_state = FileTransfer::Write;
-
-				m_nFile = m_oft.total_files - m_oft.files_left + 1;	
-				m_nFiles = m_oft.total_files;	
-				m_totalBytes = 0;
-				m_fileSize = m_oft.total_size;
 
 				if(m_notify)
 				{
@@ -2809,6 +2886,7 @@ void AIMOutcomingFileTransfer::packet_ready()
 					m_notify->process();
 				}
 
+				log(L_DEBUG, "m_nFile = %d", file());
 				sendNextBlock();
 			}
 			break;
@@ -2826,13 +2904,25 @@ void AIMOutcomingFileTransfer::packet_ready()
 				if(this_oft.type == OFT_success)
 				{
 					log(L_DEBUG, "File transfer OK(4)");
-					FileTransfer::m_state = FileTransfer::Done;
-					m_socket->close();
-					m_socket->error_state(QString::null);
-					if(m_notify)
+					if(totalBytes() >= totalSize())
 					{
-						m_notify->transfer(false);
-						m_notify->process();
+						FileTransfer::m_state = FileTransfer::Done;
+						m_socket->close();
+						m_socket->error_state(QString::null);
+						if(m_notify)
+						{
+							m_notify->transfer(false);
+							m_notify->process();
+						}
+					}
+					else
+					{
+						m_state = OFTNegotiation;
+						openFile();
+						log(L_DEBUG, "m_nFile = %d", file());
+						if(m_notify)
+							m_notify->process();
+						initOFTSending();
 					}
 					return;
 				}
@@ -2887,14 +2977,6 @@ bool AIMOutcomingFileTransfer::sendNextBlock()
 	return true;
 }
 
-void AIMOutcomingFileTransfer::detectProxyDirection(int ft_type)
-{
-	if(ft_type == 2)
-	{
-		m_proxyActive = false;
-	}
-}
-
 void AIMOutcomingFileTransfer::connect_ready()
 {
 	log(L_DEBUG, "AIMOutcomingFileTransfer::connect_ready() %d %d", m_state, m_proxyActive);
@@ -2909,7 +2991,7 @@ void AIMOutcomingFileTransfer::write_ready()
 {
 	if(FileTransfer::m_state != FileTransfer::Connect)
 	{
-		if(m_bytes < m_fileSize)
+		if(totalBytes() < totalSize())
 		{
 			if(FileTransfer::m_state == FileTransfer::Write)
 				sendNextBlock();
@@ -2952,6 +3034,7 @@ void AIMOutcomingFileTransfer::connectThroughProxy(const QString& host, uint16_t
 void AIMOutcomingFileTransfer::connect(unsigned long ip, unsigned short port)
 {
 	log(L_DEBUG, "AIMOutcomingFileTransfer::connect");
+
 	if(m_stage == 2)
 	{
 		m_port = port;

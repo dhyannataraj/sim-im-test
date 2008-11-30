@@ -753,67 +753,6 @@ void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsign
     sendType2(screen, msgBuf, id, CAP_SRV_RELAY, bOffline, bDirect ? data.owner.Port.toULong() : 0, NULL, type);
 }
 
-void ICQClient::sendFTRequest(const QString& screen, const QString& filename, unsigned long filesize, unsigned short port, const MessageId& id, unsigned short type, unsigned long ip, bool proxy)
-{
-	log(L_DEBUG, "ICQClient::sendFTRequest type = %d", type);
-	TlvList tlvs;
-	bool bWide = false;
-	for(int i = 0; i < (int)(filename.length()); i++)
-	{
-		if (filename[i].unicode() > 0x7F)
-		{
-			bWide = true;
-			break;
-		}
-	}
-	QString charset = bWide ? "utf-8" : "us-ascii";
-	unsigned short this_port = htons(port);
-	if(filename != "" && type != 4)
-		tlvs += new Tlv(0x2712, charset.length(), charset);
-	if(proxy)
-	{
-		this_port = ~this_port;
-		tlvs += new Tlv(0x0010, 0, 0);
-
-		unsigned long this_ip = ip; 
-        tlvs += new Tlv(0x02, 4, (const char*) &this_ip);
-		this_ip = ~this_ip;
-		tlvs += new Tlv(0x16, 4, (const char*) &this_ip);
-	}
-	if(type == 4)
-	{
-		unsigned short pos = 0x0a00;
-		tlvs += new Tlv(0x14, 2, (const char*) &pos);
-	}
-	//msgBuf << (const char*)(fname.utf8()) << (char)0;
-	
-	tlvs += new Tlv(0x0017, 2, (const char*)&this_port);
-	ICQBuffer buf;
-	if(filename != "")
-	{
-		buf << ((unsigned short)0x0001) << ((unsigned short)0x0001);
-		buf << (filesize);
-
-		if(!proxy)
-		{
-			if(bWide)
-			{
-				QCString decodedfname = filename.utf8();
-				buf.pack(decodedfname.data(), decodedfname.length() + 1);
-			}
-			else
-			{
-				buf.pack(filename.data(), filename.length() + 1);
-			}
-		}
-		else
-		{
-			buf.pack((unsigned char)0);
-		}
-	}
-	sendType2(screen, buf, id, CAP_AIM_SENDFILE, false, port, &tlvs, type);
-}
-
 static void copyTlv(ICQBuffer &b, TlvList *tlvs, unsigned nTlv)
 {
     if (tlvs == NULL)
@@ -1943,8 +1882,9 @@ bool ICQClient::processMsg()
 				ft->setICBMCookie(id);
 				ft->listen();
 				QString filename = msg->getDescription();
+				ft->setStage(1);
 				unsigned long filesize = msg->getSize();
-				sendFTRequest(m_send.screen, filename, filesize, ft->remotePort(), id, 1, 0, false);
+				ft->requestFT();
 				return true;
 			}
         case MessageWarning:{
