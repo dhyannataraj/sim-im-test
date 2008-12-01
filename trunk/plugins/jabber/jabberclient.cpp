@@ -37,6 +37,7 @@
 #include "icons.h"
 #include "log.h"
 #include "unquot.h"
+#include "core.h"
 #include "core_events.h"
 
 #include "jabberclient.h"

@@ -33,6 +33,7 @@
 #include <qfile.h>
 
 #include "log.h"
+#include "core.h"
 #include "core_events.h"
 
 #include "msnclient.h"

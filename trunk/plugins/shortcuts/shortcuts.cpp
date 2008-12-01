@@ -19,6 +19,7 @@
 
 #include "log.h"
 #include "cmddef.h"
+#include "core.h"
 #include "core_consts.h"
 
 #include "shortcuts.h"

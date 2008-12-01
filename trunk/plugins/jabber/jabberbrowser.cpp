@@ -25,6 +25,7 @@
 #include "toolbtn.h"
 #include "jidsearch.h"
 #include "ballonmsg.h"
+#include "core.h"
 #include "core_consts.h"
 
 #include <qpixmap.h>
