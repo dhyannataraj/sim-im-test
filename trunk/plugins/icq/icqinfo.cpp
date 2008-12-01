@@ -18,7 +18,6 @@
 #include "icons.h"
 #include "icqinfo.h"
 #include "icqclient.h"
-#include "core.h"
 #include "ballonmsg.h"
 
 #include <qlineedit.h>

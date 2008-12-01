@@ -18,7 +18,7 @@
 #include "navigate.h"
 #include "navcfg.h"
 #include "log.h"
-#include "core.h"
+#include "core_consts.h"
 
 #ifdef USE_KDE
 #include <kapplication.h>

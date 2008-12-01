@@ -18,7 +18,8 @@
 #include "simapi.h"
 
 #include "log.h"
-#include "core.h"
+#include "cmddef.h"
+#include "core_consts.h"
 
 #include "shortcuts.h"
 #include "shortcutcfg.h"

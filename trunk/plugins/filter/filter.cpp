@@ -19,7 +19,6 @@
 
 #include "ballonmsg.h"
 #include "unquot.h"
-#include "core.h"
 #include "msgedit.h"
 #include "msgview.h"
 #include "userwnd.h"

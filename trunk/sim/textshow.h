@@ -20,7 +20,7 @@
 
 #include "simapi.h"
 #include "event.h"
-#include "core.h"
+#include "core_consts.h"
 #include "msggen.h"
 
 #include <qglobal.h>

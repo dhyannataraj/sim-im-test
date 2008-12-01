@@ -20,7 +20,7 @@
 #include "icqmessage.h"
 #include "icqdirect.h"
 
-#include "core.h"
+#include "core_events.h"
 
 #include "sockfactory.h"
 

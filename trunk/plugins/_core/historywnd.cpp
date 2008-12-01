@@ -93,7 +93,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
     m_view = new MsgViewBase(this, NULL, id);
     setCentralWidget(m_view);
 
-    EventToolbar eHistoryBar(BarHistory, this);
+    EventToolbar eHistoryBar(ToolBarHistory, this);
     eHistoryBar.process();
     m_bar = eHistoryBar.toolBar();
     m_bar->setParam((void*)m_id);
@@ -133,8 +133,8 @@ HistoryWindow::HistoryWindow(unsigned long id)
         }
 
         if (!img.isNull()) {
-            EventToolbar(BarHistoryAvatar, EventToolbar::eAdd).process();
-            EventToolbar e(BarHistoryAvatar, this);
+            EventToolbar(ToolBarHistoryAvatar, EventToolbar::eAdd).process();
+            EventToolbar e(ToolBarHistoryAvatar, this);
             e.process();
             m_avatar_bar = e.toolBar();
             m_avatar_bar->setOrientation(Qt::Vertical);
@@ -144,7 +144,7 @@ HistoryWindow::HistoryWindow(unsigned long id)
 
             Command cmd;
             cmd->id = CmdHistoryAvatar;
-            cmd->bar_id = BarHistoryAvatar;
+            cmd->bar_id = ToolBarHistoryAvatar;
             cmd->bar_grp	 = 0x2000;
             cmd->text = QString::null;
             cmd->icon = "empty";

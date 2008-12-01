@@ -44,7 +44,6 @@
 #include "socket.h"
 #include "unquot.h"
 #include "log.h"
-#include "core.h"
 
 #include "icq.h"
 #include "icqconfig.h"
@@ -2626,7 +2625,7 @@ bool ICQClient::processEvent(Event *e)
             }
             return false;
         }
-        if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == BarHistory)){
+        if ((cmd->bar_id == ToolBarContainer) || (cmd->bar_id == ToolBarHistory)){
             if (cmd->id == CmdChangeEncoding){
                 Contact *contact = getContacts()->contact((unsigned long)(cmd->param));
                 if (contact == NULL){

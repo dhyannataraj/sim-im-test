@@ -38,7 +38,7 @@
 #include "html.h"
 #include "unquot.h"
 #include "log.h"
-#include "core.h"
+#include "core_events.h"
 
 #include "icqclient.h"
 #include "icqmessage.h"

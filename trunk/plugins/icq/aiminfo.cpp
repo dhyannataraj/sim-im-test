@@ -18,7 +18,6 @@
 #include "icons.h"
 #include "aiminfo.h"
 #include "icqclient.h"
-#include "core.h"
 
 #include <qlineedit.h>
 #include <qmultilineedit.h>

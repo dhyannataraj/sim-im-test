@@ -17,7 +17,8 @@
 
 #include "jabberclient.h"
 #include "jabber.h"
-#include "core.h"
+#include "misc.h"
+#include "core_consts.h"
 
 using namespace SIM;
 

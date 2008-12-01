@@ -438,7 +438,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventToolbar(ToolBarContainer, EventToolbar::eAdd).process();
     EventToolbar(ToolBarTextEdit, EventToolbar::eAdd).process();
     EventToolbar(ToolBarMsgEdit, EventToolbar::eAdd).process();
-    EventToolbar(BarHistory, EventToolbar::eAdd).process();
+    EventToolbar(ToolBarHistory, EventToolbar::eAdd).process();
 
     EventMenu(MenuFileDecline, EventMenu::eAdd).process();
     EventMenu(MenuMailList, EventMenu::eAdd).process();
@@ -645,7 +645,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->text		= I18N_NOOP("&Direction");
     cmd->icon		= "1uparrow";
     cmd->icon_on	= "1downarrow";
-    cmd->bar_id		= BarHistory;
+    cmd->bar_id		= ToolBarHistory;
     cmd->bar_grp	= 0x2000;
     cmd->flags		= COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
@@ -1144,7 +1144,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon		 = "encoding";
     cmd->menu_id	 = 0;
     cmd->menu_grp	 = 0;
-    cmd->bar_id		 = BarHistory;
+    cmd->bar_id		 = ToolBarHistory;
     cmd->bar_grp	 = 0x8080;
     cmd->popup_id	 = MenuEncoding;
     EventCommandCreate(cmd).process();

@@ -19,7 +19,6 @@
 #include "yahoo.h"
 #include "yahooinfo.h"
 #include "yahooclient.h"
-#include "core.h"
 
 #include <qlineedit.h>
 #include <qstringlist.h>

@@ -19,7 +19,8 @@
 #include "shortcuts.h"
 #include "qkeybutton.h"
 #include "mousecfg.h"
-#include "core.h"
+#include "core_consts.h"
+#include "cmddef.h"
 
 #include <qlistview.h>
 #include <qlabel.h>
