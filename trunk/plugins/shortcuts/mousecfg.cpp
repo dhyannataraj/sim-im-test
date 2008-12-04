@@ -25,6 +25,7 @@
 
 #include "cmddef.h"
 #include "misc.h"
+#include "core_consts.h"
 
 #include "mousecfg.h"
 #include "shortcuts.h"

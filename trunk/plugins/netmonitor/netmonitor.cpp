@@ -19,6 +19,7 @@
 #include <qwidget.h>
 
 #include "misc.h"
+#include "core_consts.h"
 
 #include "netmonitor.h"
 #include "monitor.h"

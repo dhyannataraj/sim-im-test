@@ -30,6 +30,7 @@
 #endif
 
 #include "misc.h"
+#include "core_consts.h"
 
 #include "ontop.h"
 #include "ontopcfg.h"

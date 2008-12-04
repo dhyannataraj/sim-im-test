@@ -145,30 +145,44 @@ const unsigned long CmdClient				= (CmdBase + 0x500);
 const unsigned long CmdContactResource			= (CmdBase + 0x600);
 const unsigned long CmdReceived				= 0x600;  //FIXME: Why it does not have CmdBase in it?
 
-const unsigned long MenuConnections			= (CmdBase + 0x001);
-const unsigned long MenuContainerContact		= (CmdBase + 0x002);
-const unsigned long MenuStatus				= (CmdBase + 0x003);
-const unsigned long MenuGroups				= (CmdBase + 0x004);
-const unsigned long MenuMsgView				= (CmdBase + 0x005);
-const unsigned long MenuTextEdit			= (CmdBase + 0x006);
-const unsigned long MenuMsgCommand			= (CmdBase + 0x007);
-const unsigned long MenuPhones				= (CmdBase + 0x008);
-const unsigned long MenuLocation			= (CmdBase + 0x009);
-const unsigned long MenuPhoneState			= (CmdBase + 0x00A);	// 10
-const unsigned long MenuFileDecline			= (CmdBase + 0x00B);	// 11
-const unsigned long MenuMailList			= (CmdBase + 0x00C);	// 12
-const unsigned long MenuPhoneList			= (CmdBase + 0x00D);	// 13
-const unsigned long MenuStatusWnd			= (CmdBase + 0x00E);	// 14
-const unsigned long MenuEncoding			= (CmdBase + 0x00F);	// 15
-const unsigned long MenuSearchItem			= (CmdBase + 0x010);	// 16
-const unsigned long MenuSearchGroups			= (CmdBase + 0x011);	// 17
-const unsigned long MenuSearchOptions			= (CmdBase + 0x012);	// 18
 
+// *** Here we defines ids for all menus used in _core plugin ***
 
-// const unsigned ToolBarMain          = 0x001;
+// Main menu and it's submenus
+const unsigned MenuMain             = 0x0001;
+const unsigned MenuStatus           = 0x0002;
+const unsigned MenuGroups           = 0x0003;
+const unsigned MenuPhones           = 0x0004;
+const unsigned MenuLocation         = 0x0005;  //FIXME: Rename it to MenuPhoneLocation
+const unsigned MenuPhoneState       = 0x0006;
+const unsigned MenuConnections      = 0x0007;
+// other menus
+const unsigned MenuGroup            = 0x1001;  // Context menu for Group item in userlist
+const unsigned MenuContact          = 0x1002;  // Context menu for Contact item in userlist
+const unsigned MenuContactGroup     = 0x1003;
+const unsigned MenuContainer        = 0x1004;
+const unsigned MenuMessage          = 0x1005;
+const unsigned MenuContainerContact = 0x1006;
+const unsigned MenuMsgView          = 0x1007;
+const unsigned MenuTextEdit         = 0x1008;
+const unsigned MenuMsgCommand       = 0x1009;
+const unsigned MenuFileDecline      = 0x100A;
+const unsigned MenuMailList         = 0x100B;
+const unsigned MenuPhoneList        = 0x100C;
+const unsigned MenuStatusWnd        = 0x100D;
+const unsigned MenuEncoding         = 0x100E;
+const unsigned MenuSearchItem       = 0x100F;
+const unsigned MenuSearchGroups     = 0x1010;
+const unsigned MenuSearchOptions    = 0x1011;
 
-const unsigned long ToolBarHistory				= (CmdBase + 0x001);
-const unsigned long ToolBarHistoryAvatar			= (CmdBase + 0x002);
+// *** Here we defines ids for all toolbars used in _core plugin ***
+
+const unsigned ToolBarMain          = 1;
+const unsigned ToolBarContainer     = 2;
+const unsigned ToolBarTextEdit      = 3;
+const unsigned ToolBarMsgEdit       = 4;
+const unsigned ToolBarHistory       = 5;
+const unsigned ToolBarHistoryAvatar = 6;
 
 
 #endif

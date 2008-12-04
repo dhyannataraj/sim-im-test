@@ -29,6 +29,7 @@
 
 #include "about.h"
 #include "aboutdata.h"
+#include "core_consts.h"
 
 using namespace SIM;
 

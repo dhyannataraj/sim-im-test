@@ -712,13 +712,6 @@ public:
         : EventError(eEventShowError, data) {}
 };
 
-/* Base bar for mainwindow */
-// FIXME: put them into class EventToolbar?
-const unsigned long ToolBarMain      = 1;  // FIXME: In CommandDef toolbar id is unsigned. Type should be changed here or there
-const unsigned long ToolBarContainer = 2;
-const unsigned long ToolBarTextEdit  = 3;
-const unsigned long ToolBarMsgEdit  = 4;
-
 class EXPORT EventToolbar : public Event
 {
 public:
@@ -756,15 +749,6 @@ public:
 protected:
     CommandsDef *m_defs;
 };
-
-/* Base menu for mainwindow */
-// FIXME: put them into class EventMenu?
-const unsigned long MenuMain = 1;
-const unsigned long MenuGroup = 2;
-const unsigned long MenuContact = 3;
-const unsigned long MenuContactGroup = 4;
-const unsigned long MenuContainer = 5;
-const unsigned long MenuMessage = 6;
 
 class EXPORT EventMenu : public Event
 {
