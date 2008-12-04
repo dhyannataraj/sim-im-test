@@ -537,6 +537,7 @@ void ICQClient::sendContactList()
 
 void ICQClient::addBuddy(Contact *contact)
 {
+	log(L_DEBUG, "ICQClient::addBuddy");
     if (getState() != Connected)
         return;
     if (contact->id() == 0)
@@ -558,6 +559,7 @@ void ICQClient::addBuddy(Contact *contact)
 
 void ICQClient::removeBuddy(Contact *contact)
 {
+	log(L_DEBUG, "ICQClient::removeBuddy");
     if (getState() != Connected)
         return;
     if (contact->id() == 0)

@@ -2338,6 +2338,7 @@ void AIMFileTransfer::negotiateWithProxy()
 			0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
 		m_socket->writeBuffer() << Chunk_cap << (unsigned short)0x0010;
 		m_socket->writeBuffer().pack(send_file, 0x10);
+        EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
 		m_socket->write();
 	}
 	else // Remote host initiated proxy transfer
@@ -2358,6 +2359,7 @@ void AIMFileTransfer::negotiateWithProxy()
 			0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
 		m_socket->writeBuffer() << Chunk_cap << (unsigned short)0x0010;
 		m_socket->writeBuffer().pack((const char*)send_file, 0x10);
+        EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
 		m_socket->write();
 	}
 }
@@ -2497,6 +2499,8 @@ void AIMIncomingFileTransfer::connect_ready()
 }
 void AIMIncomingFileTransfer::packet_ready()
 {
+	ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
+	EventLog::log_packet(m_socket->readBuffer(), false, plugin->AIMDirectPacket);
 	long size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos());
 	if(size <= 0)
 	{
@@ -2578,6 +2582,7 @@ void AIMIncomingFileTransfer::packet_ready()
 					/// TODO Calculate and verify checksum
 					m_oft.type = OFT_success;
 					writeOFT(&m_oft);
+					EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
 					m_socket->write();
 
 					if(m_totalBytes >= m_totalSize)
@@ -2613,6 +2618,7 @@ void AIMIncomingFileTransfer::startReceive(unsigned pos)
 	*((unsigned long*)&m_oft.cookie[0]) = htonl(m_cookie.id_l);
 	*((unsigned long*)&m_oft.cookie[4]) = htonl(m_cookie.id_h);
 	writeOFT(&m_oft);
+	EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
 	m_socket->write();
 	m_nFile = m_oft.total_files - m_oft.files_left + 1;	
 	m_nFiles = m_oft.total_files;	
@@ -2789,12 +2795,15 @@ void AIMOutcomingFileTransfer::initOFTSending()
 		m_oft.name.duplicate(filename().data(), filename().length() + 1);
 	}
 	writeOFT(&m_oft);
+	EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
 	m_socket->write();
 }
 
 void AIMOutcomingFileTransfer::packet_ready()
 {
 	log(L_DEBUG, "AIMOutcomingFileTransfer::packet_ready %d", m_state);
+	ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
+	EventLog::log_packet(m_socket->readBuffer(), false, plugin->AIMDirectPacket, m_client->screen(m_data));
 	switch(m_state)
 	{
 		case ProxyNegotiation:
@@ -2935,8 +2944,6 @@ void AIMOutcomingFileTransfer::packet_ready()
 	{
 		return;
 	}
-	ICQPlugin *plugin = static_cast<ICQPlugin*>(m_client->protocol()->plugin());
-	EventLog::log_packet(m_socket->readBuffer(), false, plugin->AIMDirectPacket, m_client->screen(m_data));
 	m_socket->readBuffer().init(0);
 }
 

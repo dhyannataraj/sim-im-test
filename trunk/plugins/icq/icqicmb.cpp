@@ -955,14 +955,7 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 					struct in_addr in;
 					in.s_addr = primary_ip;
 
-					if(ft_type == 2)
-					{
-						ft->setProxyActive(false);
-					}
-					if(ft_type == 3)
-					{
-						ft->setProxyActive(false);
-					}
+					ft->setProxyActive(false);
 					unsigned short cookie2 = 0;
 					if(tlv(5))
 					{
