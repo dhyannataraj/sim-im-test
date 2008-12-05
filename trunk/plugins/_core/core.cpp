@@ -438,7 +438,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventToolbar(ToolBarContainer, EventToolbar::eAdd).process();
     EventToolbar(ToolBarTextEdit, EventToolbar::eAdd).process();
     EventToolbar(ToolBarMsgEdit, EventToolbar::eAdd).process();
-    EventToolbar(ToolBarHistory, EventToolbar::eAdd).process();
 
     EventMenu(MenuFileDecline, EventMenu::eAdd).process();
     EventMenu(MenuMailList, EventMenu::eAdd).process();
@@ -450,6 +449,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventMenu(MenuSearchOptions, EventMenu::eAdd).process();
 
     createMainToolbar();
+    createHistoryToolbar();
 
     Command cmd;
 
@@ -639,44 +639,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->icon		= "message";
     cmd->bar_grp	= 0x8000;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdHistoryDirection;
-    cmd->text		= I18N_NOOP("&Direction");
-    cmd->icon		= "1uparrow";
-    cmd->icon_on	= "1downarrow";
-    cmd->bar_id		= ToolBarHistory;
-    cmd->bar_grp	= 0x2000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id		= CmdHistoryFind;
-    cmd->text		= I18N_NOOP("&Filter");
-    cmd->icon		= "filter";
-    cmd->icon_on	= "filter";
-    cmd->bar_grp	= 0x3000;
-    cmd->flags		= BTN_COMBO_CHECK;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdHistoryPrev;
-    cmd->text		= I18N_NOOP("&Previous page");
-    cmd->icon		= "1leftarrow";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x5000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdHistoryNext;
-    cmd->text		= I18N_NOOP("&Next page");
-    cmd->icon		= "1rightarrow";
-    cmd->bar_grp	= 0x5001;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdHistorySave;
-    cmd->text		= I18N_NOOP("&Save as text");
-    cmd->icon		= "filesave";
-    cmd->accel		= "Ctrl+S";
-    cmd->bar_grp	= 0x6000;
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdBgColor;
@@ -1135,16 +1097,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->menu_id	 = 0;
     cmd->menu_grp	 = 0;
     cmd->bar_id		 = ToolBarContainer;
-    cmd->bar_grp	 = 0x8080;
-    cmd->popup_id	 = MenuEncoding;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			 = CmdChangeEncoding;
-    cmd->text		 = I18N_NOOP("Change &encoding");
-    cmd->icon		 = "encoding";
-    cmd->menu_id	 = 0;
-    cmd->menu_grp	 = 0;
-    cmd->bar_id		 = ToolBarHistory;
     cmd->bar_grp	 = 0x8080;
     cmd->popup_id	 = MenuEncoding;
     EventCommandCreate(cmd).process();

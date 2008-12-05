@@ -50,6 +50,7 @@ SET(_core_SRCS
         status.cpp
         statuswnd.cpp
         tmpl.cpp
+        toolbar_history.cpp
         toolbar_main.cpp
         toolbarcfg.cpp
         toolsetup.cpp
