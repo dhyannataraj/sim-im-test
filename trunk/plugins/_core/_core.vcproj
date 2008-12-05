@@ -1195,6 +1195,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\toolbar_history.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\toolbar_main.cpp"
 				>
 			</File>
