@@ -40,6 +40,7 @@
 #include <qstringlist.h>
 #include <qapplication.h>
 #include <qdir.h>
+#include <qstyle.h>
 #ifdef _DEBUG
 # include <qmessagebox.h>
 #endif
@@ -912,12 +913,18 @@ EXPORT void saveGeometry(QWidget *w, Geometry geo)
     geo[TOP].asLong()    = pos.y();
     geo[WIDTH].asLong()  = size.width();
     geo[HEIGHT].asLong() = size.height();
+    // if window is not visible QT return geometry without frame sizes
+    // may work for X versions too
+    if ( !w->isShown() ) {
+        int th = w->style().pixelMetric( QStyle::PM_TitleBarHeight, w );
+        int fw = w->style().pixelMetric( QStyle::PM_DefaultFrameWidth, w );
+        geo[0].asLong() -= fw * 2; // + size of left frame border
+        geo[1].asLong() -= th + fw; // + size of title and border
+    }
 #ifdef WIN32
     if (GetWindowLongA(w->winId(), GWL_EXSTYLE) & WS_EX_TOOLWINDOW){
-        int dc = GetSystemMetrics(SM_CYCAPTION);
-        int ds = GetSystemMetrics(SM_CYSMCAPTION);
-        geo[1].asLong() += dc - ds;
-        geo[3].asLong() -= (dc - ds) * 2;
+        int dd = GetSystemMetrics(SM_CYDLGFRAME);
+        geo[3].asLong() -= dd * 2;
     }
 #endif
 #ifdef USE_KDE
