@@ -2439,7 +2439,7 @@ bool CorePlugin::processEvent(Event *e)
                     cmd->flags |= COMMAND_CHECKED;
                 return true;
             }
-            if ((cmd->menu_id == MenuLocation) && (cmd->id == CmdLocation)){
+            if ((cmd->menu_id == MenuPhoneLocation) && (cmd->id == CmdPhoneLocation)){
                 unsigned n = 2;
                 QString phones = getContacts()->owner()->getPhones();
                 while (!phones.isEmpty()){
@@ -2448,9 +2448,9 @@ bool CorePlugin::processEvent(Event *e)
                 }
                 CommandDef *cmds = new CommandDef[n];
                 n = 0;
-                cmds[n].id      = CmdLocation;
+                cmds[n].id      = CmdPhoneLocation;
                 cmds[n].text    = I18N_NOOP("Not available");
-                cmds[n].menu_id = MenuLocation;
+                cmds[n].menu_id = MenuPhoneLocation;
                 phones = getContacts()->owner()->getPhones();
                 bool bActive = false;
                 while (!phones.isEmpty()){
@@ -2460,9 +2460,9 @@ bool CorePlugin::processEvent(Event *e)
                     QString number = getToken(item, ',');
                     getToken(item, ',');
                     unsigned long icon = getToken(item, ',').toULong();
-                    cmds[n].id   = CmdLocation + n;
+                    cmds[n].id   = CmdPhoneLocation + n;
                     cmds[n].text = "_";
-                    cmds[n].menu_id  = MenuLocation;
+                    cmds[n].menu_id  = MenuPhoneLocation;
                     cmds[n].text_wrk = number;
                     if (!item.isEmpty()){
                         cmds[n].flags = COMMAND_CHECKED;
@@ -2936,9 +2936,9 @@ bool CorePlugin::processEvent(Event *e)
                 }
                 return true;
             }
-            if (cmd->menu_id == MenuLocation){
+            if (cmd->menu_id == MenuPhoneLocation){
                 Contact *owner = getContacts()->owner();
-                unsigned n = cmd->id - CmdLocation;
+                unsigned n = cmd->id - CmdPhoneLocation;
                 QString res;
                 QString phones = owner->getPhones();
                 while (!phones.isEmpty()){
@@ -3003,7 +3003,7 @@ bool CorePlugin::processEvent(Event *e)
                 }
                 return true;
             }
-            if (cmd->id == CmdChange){
+            if (cmd->id == CmdProfileChange){
                 QTimer::singleShot(0, this, SLOT(selectProfile()));
                 return true;
             }

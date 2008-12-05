@@ -152,7 +152,7 @@ void CorePlugin::createMainToolbar()
 
   // "About Sim-IM" menu item is created by "about" plugin
 
-  cmd->id          = CmdChange;  // TODO: rename CmdChange to CmdChangeProfile, otherwise it is impossible to understand what this command should change
+  cmd->id          = CmdProfileChange;
   cmd->text        = I18N_NOOP("Change profile");
   cmd->icon        = QString::null;
   cmd->bar_id      = 0;
@@ -239,24 +239,24 @@ void CorePlugin::createMainToolbar()
 
   EventMenu(MenuPhones, EventMenu::eAdd).process();
 
-  cmd->id          = CmdLocation; // TODO: Rename it to CmdPhoneLocation
+  cmd->id          = CmdPhoneLocation;
   cmd->text        = I18N_NOOP("&Location");
   cmd->icon        = QString::null;
   cmd->icon_on     = QString::null;
   cmd->bar_id      = 0;
   cmd->menu_id     = MenuPhones;
   cmd->menu_grp    = 0x1000;
-  cmd->popup_id    = MenuLocation; // TODO: Rename it to MenuPhoneLocation
+  cmd->popup_id    = MenuPhoneLocation;
   cmd->flags       = COMMAND_DEFAULT;
   EventCommandCreate(cmd).process();
 
-    EventMenu(MenuLocation, EventMenu::eAdd).process();
+    EventMenu(MenuPhoneLocation, EventMenu::eAdd).process();
 
-    cmd->id          = CmdLocation;
+    cmd->id          = CmdPhoneLocation; //FIXME: Is it ok that we have two CmdPhoneLocation menu items in different menus?
     cmd->text        = "_";
     cmd->icon        = QString::null;
     cmd->bar_id      = 0;
-    cmd->menu_id     = MenuLocation;
+    cmd->menu_id     = MenuPhoneLocation;
     cmd->menu_grp    = 0x1000;
     cmd->popup_id    = 0;
     cmd->flags       = COMMAND_CHECK_STATE;
