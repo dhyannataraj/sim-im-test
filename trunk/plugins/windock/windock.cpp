@@ -27,6 +27,7 @@
 
 #include "windock.h"
 #include "ontop.h"
+#include "core_consts.h"
 #include "mainwin.h"
 
 using namespace std;
