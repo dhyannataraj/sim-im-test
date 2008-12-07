@@ -697,7 +697,7 @@ const char* ICQClient::error_message(unsigned short error)
 
 void OscarSocket::packet_ready()
 {
-	unsigned short size;
+	unsigned short size=0;
     if (m_bHeader){
         char c;
         socket()->readBuffer() >> c;
