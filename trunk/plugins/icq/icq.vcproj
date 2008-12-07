@@ -963,6 +963,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\snac.cpp"
+				>
+			</File>
+			<File
 				RelativePath="verifydlg.cpp"
 				>
 				<FileConfiguration
@@ -2562,6 +2566,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\icqbuddy.h"
+				>
+			</File>
+			<File
 				RelativePath=".\icqbuffer.h"
 				>
 			</File>
@@ -2622,7 +2630,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -2632,7 +2640,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputName).h ..."
-						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp"
+						CommandLine="%qtdir%\bin\moc.exe $(InputDir)$(InputName).h -o $(InputDir)moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -2888,6 +2896,10 @@
 						Outputs="$(InputDir)moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\snac.h"
+				>
 			</File>
 			<File
 				RelativePath="verifydlg.h"
