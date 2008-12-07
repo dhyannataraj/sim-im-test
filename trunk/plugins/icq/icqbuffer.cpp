@@ -48,6 +48,10 @@ Tlv::Tlv(unsigned short num, unsigned short size, const char *data)
     memcpy(m_data.data(), data, m_nSize);
     m_data[(int)m_nSize] = 0;
 }
+Tlv::Tlv(unsigned short num, QByteArray& array) : m_nNum(num), m_nSize(array.size())
+{
+	m_data.duplicate(array);
+}
 
 Tlv::operator uint16_t () const
 {
@@ -387,7 +391,6 @@ void ICQBuffer::pack(unsigned long s)
     SWAP_L(i);
     pack((char*)&i, 4);
 }
-
 bool ICQBuffer::unpackStr(QString &str)
 {
     unsigned short s;

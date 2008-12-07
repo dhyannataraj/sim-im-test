@@ -17,6 +17,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <dlfcn.h>
 
 #include "plugins.h"
 
@@ -410,7 +411,7 @@ void PluginManagerPrivate::load(pluginInfo &info)
         PluginInfo* (*getInfo)() = NULL;
         getInfo = (PluginInfo* (*)()) info.module->resolve("GetPluginInfo");
         if (getInfo == NULL){
-            fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry\n", info.name.local8Bit().data());
+            fprintf(stderr, "Plugin %s doesn't have the GetPluginInfo entry: %s\n", info.name.local8Bit().data(), dlerror());
             release(info);
             return;
         }

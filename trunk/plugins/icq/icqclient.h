@@ -24,6 +24,7 @@
 #include <qdatetime.h>
 
 #include "misc.h"
+#include "snac.h"
 
 #include "socket.h"
 #include "icq.h"
@@ -160,100 +161,103 @@ class DirectClient;
 
 struct ICQUserData : public SIM::clientData
 {
-    SIM::Data        Alias;
-    SIM::Data        Cellular;
-    SIM::Data		Status;
-    SIM::Data		Class;
-    SIM::Data		StatusTime;
-    SIM::Data		OnlineTime;
-    SIM::Data		WarningLevel;
-    SIM::Data        IP;
-    SIM::Data        RealIP;
-    SIM::Data		Port;
-    SIM::Data		DCcookie;
-    SIM::Data		Caps;
-    SIM::Data		Caps2;
-    SIM::Data        AutoReply;
-    SIM::Data		Uin;
-    SIM::Data        Screen;
-    SIM::Data		IcqID;
-    SIM::Data		bChecked;
-    SIM::Data		GrpId;
-    SIM::Data		IgnoreId;
-    SIM::Data		VisibleId;
-    SIM::Data		ContactVisibleId;
-    SIM::Data		InvisibleId;
-    SIM::Data		ContactInvisibleId;
-    SIM::Data		WaitAuth;
-    SIM::Data		WantAuth;
-    SIM::Data		WebAware;
-    SIM::Data		InfoUpdateTime;
-    SIM::Data		PluginInfoTime;
-    SIM::Data		PluginStatusTime;
-    SIM::Data		InfoFetchTime;
-    SIM::Data		PluginInfoFetchTime;
-    SIM::Data		PluginStatusFetchTime;
-    SIM::Data		Mode;
-    SIM::Data		Version;
-    SIM::Data		Build;
-    SIM::Data        Nick;
-    SIM::Data        FirstName;
-    SIM::Data        LastName;
-    SIM::Data		MiddleName;
-    SIM::Data		Maiden;
-    SIM::Data        EMail;
-    SIM::Data		HiddenEMail;
-    SIM::Data        City;
-    SIM::Data        State;
-    SIM::Data        HomePhone;
-    SIM::Data        HomeFax;
-    SIM::Data        Address;
-    SIM::Data        PrivateCellular;
-    SIM::Data        Zip;
-    SIM::Data		Country;
-    SIM::Data		TimeZone;
-    SIM::Data		Age;
-    SIM::Data		Gender;
-    SIM::Data        Homepage;
-    SIM::Data		BirthYear;
-    SIM::Data		BirthMonth;
-    SIM::Data		BirthDay;
-    SIM::Data		Language;
-    SIM::Data        EMails;
-    SIM::Data        WorkCity;
-    SIM::Data        WorkState;
-    SIM::Data        WorkPhone;
-    SIM::Data        WorkFax;
-    SIM::Data        WorkAddress;
-    SIM::Data        WorkZip;
-    SIM::Data		WorkCountry;
-    SIM::Data        WorkName;
-    SIM::Data        WorkDepartment;
-    SIM::Data        WorkPosition;
-    SIM::Data		Occupation;
-    SIM::Data        WorkHomepage;
-    SIM::Data        About;
-    SIM::Data        Interests;
-    SIM::Data        Backgrounds;
-    SIM::Data        Affilations;
-    SIM::Data		FollowMe;
-    SIM::Data		SharedFiles;
-    SIM::Data		ICQPhone;
-    SIM::Data        Picture;
-    SIM::Data		PictureWidth;
-    SIM::Data		PictureHeight;
-    SIM::Data        PhoneBook;
-    SIM::Data		ProfileFetch;
-    SIM::Data		bTyping;
-    SIM::Data		bBadClient;
-    SIM::Data		Direct;
-    SIM::Data		DirectPluginInfo;
-    SIM::Data		DirectPluginStatus;
-    SIM::Data		bNoDirect;
-    SIM::Data		bInvisible;
-    SIM::Data       buddyRosterID;
-    SIM::Data       buddyID;
-    SIM::Data       buddyHash;
+	SIM::Data        Alias;
+	SIM::Data        Cellular;
+	SIM::Data		Status;
+	SIM::Data		Class;
+	SIM::Data		StatusTime;
+	SIM::Data		OnlineTime;
+	SIM::Data		WarningLevel;
+	SIM::Data        IP;
+	SIM::Data        RealIP;
+	SIM::Data		Port;
+	SIM::Data		DCcookie;
+	SIM::Data		Caps;
+	SIM::Data		Caps2;
+	SIM::Data        AutoReply;
+	SIM::Data		Uin;
+	SIM::Data        Screen;
+	SIM::Data		IcqID;
+	SIM::Data		bChecked;
+	SIM::Data		GrpId;
+	SIM::Data		IgnoreId;
+	SIM::Data		VisibleId;
+	SIM::Data		ContactVisibleId;
+	SIM::Data		InvisibleId;
+	SIM::Data		ContactInvisibleId;
+	SIM::Data		WaitAuth;
+	SIM::Data		WantAuth;
+	SIM::Data		WebAware;
+	SIM::Data		InfoUpdateTime;
+	SIM::Data		PluginInfoTime;
+	SIM::Data		PluginStatusTime;
+	SIM::Data		InfoFetchTime;
+	SIM::Data		PluginInfoFetchTime;
+	SIM::Data		PluginStatusFetchTime;
+	SIM::Data		Mode;
+	SIM::Data		Version;
+	SIM::Data		Build;
+	SIM::Data        Nick;
+	SIM::Data        FirstName;
+	SIM::Data        LastName;
+	SIM::Data		MiddleName;
+	SIM::Data		Maiden;
+	SIM::Data        EMail;
+	SIM::Data		HiddenEMail;
+	SIM::Data        City;
+	SIM::Data        State;
+	SIM::Data        HomePhone;
+	SIM::Data        HomeFax;
+	SIM::Data        Address;
+	SIM::Data        PrivateCellular;
+	SIM::Data        Zip;
+	SIM::Data		Country;
+	SIM::Data		TimeZone;
+	SIM::Data		Age;
+	SIM::Data		Gender;
+	SIM::Data        Homepage;
+	SIM::Data		BirthYear;
+	SIM::Data		BirthMonth;
+	SIM::Data		BirthDay;
+	SIM::Data		Language;
+	SIM::Data        EMails;
+	SIM::Data        WorkCity;
+	SIM::Data        WorkState;
+	SIM::Data        WorkPhone;
+	SIM::Data        WorkFax;
+	SIM::Data        WorkAddress;
+	SIM::Data        WorkZip;
+	SIM::Data		WorkCountry;
+	SIM::Data        WorkName;
+	SIM::Data        WorkDepartment;
+	SIM::Data        WorkPosition;
+	SIM::Data		Occupation;
+	SIM::Data        WorkHomepage;
+	SIM::Data        About;
+	SIM::Data        Interests;
+	SIM::Data        Backgrounds;
+	SIM::Data        Affilations;
+	SIM::Data		FollowMe;
+	SIM::Data		SharedFiles;
+	SIM::Data		ICQPhone;
+	SIM::Data        Picture;
+	SIM::Data		PictureWidth;
+	SIM::Data		PictureHeight;
+	SIM::Data        PhoneBook;
+	SIM::Data		ProfileFetch;
+	SIM::Data		bTyping;
+	SIM::Data		bBadClient;
+	SIM::Data		Direct;
+	SIM::Data		DirectPluginInfo;
+	SIM::Data		DirectPluginStatus;
+	SIM::Data		bNoDirect;
+	SIM::Data		bInvisible;
+	SIM::Data       buddyRosterID;
+	SIM::Data       buddyID;
+	SIM::Data       buddyHash;
+	SIM::Data		unknown2;
+	SIM::Data		unknown4;
+	SIM::Data		unknown5;
 };
 
 struct ICQClientData
@@ -471,7 +475,7 @@ public:
 protected:
     void sendPacket(bool bSend=true);
     virtual ICQClientSocket *socket() = 0;
-    virtual void packet() = 0;
+    virtual void packet(unsigned long size) = 0;
     void flap(char channel);
     void snac(unsigned short food, unsigned short type, bool msgId=false, bool bType=true);
     void connect_ready();
@@ -507,6 +511,7 @@ struct InfoRequest
 
 typedef std::map<SIM::my_string, alias_group>	CONTACTS_MAP;
 typedef std::map<unsigned, unsigned>			RATE_MAP;
+typedef std::map<unsigned short, SnacHandler*> mapSnacHandlers;
 
 class ICQClient : public SIM::TCPClient, public OscarSocket
 {
@@ -611,9 +616,21 @@ public:
     void uploadBuddy(const ICQUserData *data);
     ICQUserData * toICQUserData(SIM::clientData*);  // More safely type conversion from generic SIM::clientData into ICQUserData
 
+	bool addSnacHandler(SnacHandler* handler);
+	void clearSnacHandlers();
+
+	// ICBM:
     void sendThroughServer(const QString &screen, unsigned short type, ICQBuffer &b, const MessageId &id, bool bOffline, bool bReqAck);
 	void deleteFileMessage(MessageId const& cookie);
 	void icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned long secondary_ip, unsigned short port,const QString &screen, MessageId const& id);
+
+	// SSI:
+	void ssiStartTransaction();
+	void ssiEndTransaction();
+	unsigned short ssiAddBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
+	unsigned short ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
+	void getGroupIDs(unsigned short group_id, ICQBuffer* buf); // hack
+	void ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
 protected slots:
     void ping();
     void processSendQueue();
@@ -646,7 +663,7 @@ protected:
     virtual QString contactName(void *clientData);
     QString dataName(const QString &screen);
     QByteArray  m_cookie;
-    virtual void packet();
+    virtual void packet(unsigned long size);
     void snac_service(unsigned short, unsigned short);
     void snac_location(unsigned short, unsigned short);
     void snac_buddy(unsigned short, unsigned short);
@@ -802,6 +819,8 @@ protected:
     std::list<DirectSocket*>	m_sockets;
     std::list<SIM::Message*>	m_acceptMsg;
 	std::list<AIMFileTransfer*> m_filetransfers;
+	mapSnacHandlers m_snacHandlers;
+
     friend class ListServerRequest;
     friend class FullInfoRequest;
     friend class SMSRequest;
@@ -830,7 +849,7 @@ protected:
     virtual void connect_ready();
     virtual void packet_ready();
     virtual ICQClientSocket *socket() { return m_socket; }
-    virtual void packet();
+    virtual void packet(unsigned long size);
     virtual void data(unsigned short food, unsigned short type, unsigned short seq) = 0;
     unsigned short m_id;
     QByteArray  m_cookie;

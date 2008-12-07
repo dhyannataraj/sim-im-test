@@ -2042,7 +2042,6 @@ void AIMFileTransfer::requestFT()
 	log(L_DEBUG, "AIMFileTransfer::requestFT m_stage = %d", m_stage);
 	log(L_DEBUG, "Description: %s", m_msg->getDescription().ascii());
 	log(L_DEBUG, "filename: %s", filename().ascii());
-	TlvList tlvs;
 	ICQBuffer b;
 	bool bWide = false;
 	for(int i = 0; i < (int)(filename().length()); i++)
@@ -2080,7 +2079,6 @@ void AIMFileTransfer::requestFT()
 	if(m_proxy)
 	{
 		b.tlv(0x10);
-		tlvs += new Tlv(0x0010, 0, 0);
 	}
 	ICQBuffer buf;
 	if(m_stage == 1)

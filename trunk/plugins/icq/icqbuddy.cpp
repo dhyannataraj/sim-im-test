@@ -32,6 +32,7 @@
 #include <qfileinfo.h>
 
 #include "log.h"
+#include "icqbuddy.h"
 
 using namespace SIM;
 
@@ -53,6 +54,20 @@ const unsigned short TLV_USER_ONLINE_TIME   = 0x000F; // not interpreted
 const unsigned short TLV_USER_TIMES_UPDATED = 0x0011; // ????
 const unsigned short TLV_USER_NEWCAPS       = 0x0019;
 const unsigned short TLV_USER_BUDDYINFO     = 0x001D;
+
+
+SnacIcqBuddy::SnacIcqBuddy(ICQClient* client) : SnacHandler(client, 0x0003)
+{
+}
+
+SnacIcqBuddy::~SnacIcqBuddy()
+{
+}
+
+bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf)
+{
+	return false;
+}
 
 static QString makeCapStr( const capability cap, unsigned size )
 {
@@ -582,4 +597,6 @@ void ICQClient::removeBuddy(Contact *contact)
     }
 }
 
-
+#ifndef NO_MOC_INCLUDES
+#include "icqbuddy.moc"
+#endif

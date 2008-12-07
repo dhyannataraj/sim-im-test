@@ -28,6 +28,7 @@ class Tlv
 {
 public:
     Tlv(unsigned short num = 0, unsigned short size = 0, const char *data = NULL);
+	Tlv(unsigned short num, QByteArray& array);
     unsigned short Num() const { return m_nNum; }
     unsigned short Size() const { return m_nSize; }
     const char *Data() const { return m_data.data(); }

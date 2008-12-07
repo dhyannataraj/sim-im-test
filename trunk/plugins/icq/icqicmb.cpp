@@ -731,7 +731,6 @@ bool ICQClient::ackMessage(Message *msg, unsigned short ackFlags, const QCString
 
 void ICQClient::sendAdvMessage(const QString &screen, ICQBuffer &msgText, unsigned plugin_index, const MessageId &id, bool bOffline, bool bDirect, unsigned short cookie1, unsigned short cookie2, unsigned short type)
 {
-	log(L_DEBUG, "ICQClient::sendAdvMessage");
     if (cookie1 == 0){
         m_advCounter--;
         cookie1 = m_advCounter;
@@ -765,7 +764,6 @@ static void copyTlv(ICQBuffer &b, TlvList *tlvs, unsigned nTlv)
 
 void ICQClient::sendType2(const QString &screen, ICQBuffer &msgBuf, const MessageId &id, unsigned cap, bool bOffline, unsigned short port, TlvList *tlvs, unsigned short type)
 {
-	log(L_DEBUG, "ICQClient::sendType2");
     ICQBuffer b;
     b << (unsigned short)0;
     b << id.id_l << id.id_h;
@@ -1757,7 +1755,6 @@ static QString getUtf8Part(QString &str, unsigned size)
 
 bool ICQClient::processMsg()
 {
-	log(L_DEBUG, "ICQClient::processMsg");
     Contact *contact;
     ICQUserData *data = findContact(m_send.screen, NULL, false, contact);
     if ((data == NULL) && (m_send.flags != PLUGIN_RANDOMxCHAT)){

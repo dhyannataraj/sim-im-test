@@ -40,6 +40,7 @@ SET(icq_SRCS
         warndlg.cpp
         workinfo.cpp
         xml.cpp
+		snac.cpp
 )
 
 SET(icq_HDRS
@@ -70,6 +71,7 @@ SET(icq_HDRS
         warndlg.h
         workinfo.h
         xml.h
+		snac.h
 )
 
 SET(icq_UICS

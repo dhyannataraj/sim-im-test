@@ -135,8 +135,7 @@ unsigned Buffer::unpack(char *d, unsigned s)
     return readn;
 }
 
-
-Buffer &Buffer::operator << (char c)
+Buffer& Buffer::operator << (char c)
 {
     pack(&c, 1);
     return *this;

@@ -65,6 +65,7 @@
 #include "ballonmsg.h"
 #include "encodingdlg.h"
 #include "warndlg.h"
+#include "icqbuddy.h"
 
 #include "icqdirect.h"
 
@@ -169,6 +170,9 @@ static DataDef _icqUserData[] =
         { "", DATA_ULONG, 1, 0},                // buddyRosterID
         { "buddyID", DATA_ULONG, 1, 0},
         { "buddyHash", DATA_BINARY, 1, 0},
+		{ "unknown2", DATA_BINARY, 1, 0},
+		{ "unknown4", DATA_BINARY, 1, 0},
+		{ "unknown5", DATA_BINARY, 1, 0},
         { NULL, DATA_UNKNOWN, 0, 0 }
     };
 
@@ -211,46 +215,48 @@ static DataDef icqClientData[] =
 ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
         : TCPClient(protocol, cfg, HighPriority - 1)
 {
-    m_bAIM = bAIM;
+	m_bAIM = bAIM;
 
-    m_listener = NULL;
-    load_data(icqClientData, &data, cfg);
-    if (data.owner.Uin.toULong() != 0)
-        m_bAIM = false;
-    if (!data.owner.Screen.str().isEmpty())
-        m_bAIM = true;
+	m_listener = NULL;
+	load_data(icqClientData, &data, cfg);
+	if (data.owner.Uin.toULong() != 0)
+		m_bAIM = false;
+	if (!data.owner.Screen.str().isEmpty())
+		m_bAIM = true;
 
-    m_bVerifying = false;
-    m_bNoSend  = true;
-    m_bReady   = false;
-    m_bRosters = false;
-    m_bJoin    = false;
-    m_listRequest = NULL;
-    data.owner.DCcookie.asULong() = rand();
-    m_bBirthday = false;
-    m_sendTimer = new QTimer(this);
-    connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
-    m_processTimer = new QTimer(this);
-    connect(m_processTimer, SIGNAL(timeout()), this, SLOT(processSendQueue()));
-    QString requests = getListRequests();
-    while (requests.length()){
-        QString req = getToken(requests, ';');
-        QString n = getToken(req, ',');
-        ListRequest lr;
-        lr.type   = n.toUInt();
-        lr.screen = req;
-        listRequests.push_back(lr);
-    }
-    disconnected();
-    m_bFirstTry = false;
-    ContactList::ContactIterator it;
-    Contact *contact;
-    while ((contact = ++it) != NULL){
-        ClientDataIterator itd(contact->clientData, this);
-        ICQUserData *data;
-        while ((data = toICQUserData(++itd)) != NULL)
-            data->Alias.str() = contact->getName();
-    }
+	m_bVerifying = false;
+	m_bNoSend  = true;
+	m_bReady   = false;
+	m_bRosters = false;
+	m_bJoin    = false;
+	m_listRequest = NULL;
+	data.owner.DCcookie.asULong() = rand();
+	m_bBirthday = false;
+	m_sendTimer = new QTimer(this);
+	connect(m_sendTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
+	m_processTimer = new QTimer(this);
+	connect(m_processTimer, SIGNAL(timeout()), this, SLOT(processSendQueue()));
+	QString requests = getListRequests();
+	while (requests.length()){
+		QString req = getToken(requests, ';');
+		QString n = getToken(req, ',');
+		ListRequest lr;
+		lr.type   = n.toUInt();
+		lr.screen = req;
+		listRequests.push_back(lr);
+	}
+	disconnected();
+	m_bFirstTry = false;
+	ContactList::ContactIterator it;
+	Contact *contact;
+	while ((contact = ++it) != NULL){
+		ClientDataIterator itd(contact->clientData, this);
+		ICQUserData *data;
+		while ((data = toICQUserData(++itd)) != NULL)
+			data->Alias.str() = contact->getName();
+	}
+
+	addSnacHandler(new SnacIcqBuddy(this));
 }
 
 ICQClient::~ICQClient()
@@ -275,6 +281,24 @@ ICQClient::~ICQClient()
     m_processMsg.clear();
 
     freeData();
+}
+
+bool ICQClient::addSnacHandler(SnacHandler* handler)
+{
+	if(!handler)
+		return false;
+	mapSnacHandlers::iterator it = m_snacHandlers.find(handler->getType());
+	if(it != m_snacHandlers.end())
+	{
+		delete it->second;
+	}
+	m_snacHandlers[handler->getType()] = handler;
+	return true;
+}
+
+void ICQClient::clearSnacHandlers()
+{
+	// TODO
 }
 
 void ICQClient::deleteFileMessage(MessageId const& cookie)
@@ -673,6 +697,7 @@ const char* ICQClient::error_message(unsigned short error)
 
 void OscarSocket::packet_ready()
 {
+	unsigned short size;
     if (m_bHeader){
         char c;
         socket()->readBuffer() >> c;
@@ -682,7 +707,7 @@ void OscarSocket::packet_ready()
             return;
         }
         socket()->readBuffer() >> m_nChannel;
-        unsigned short sequence, size;
+        unsigned short sequence;
         socket()->readBuffer() >> sequence >> size;
         m_bHeader = false;
         if (size){
@@ -690,7 +715,7 @@ void OscarSocket::packet_ready()
             return;
         }
     }
-    packet();
+    packet(size);
 }
 
 void ICQClient::packet_ready()
@@ -698,7 +723,7 @@ void ICQClient::packet_ready()
     OscarSocket::packet_ready();
 }
 
-void ICQClient::packet()
+void ICQClient::packet(unsigned long size)
 {
 	ICQPlugin *plugin = static_cast<ICQPlugin*>(protocol()->plugin());
 	EventLog::log_packet(socket()->readBuffer(), false, plugin->OscarPacket);
@@ -714,9 +739,9 @@ void ICQClient::packet()
 				unsigned short food, type;
 				unsigned short flags, seq, cmd;
 				socket()->readBuffer() >> food >> type >> flags >> seq >> cmd;
+				unsigned short unknown_length = 0;
 				if ((flags & 0x8000)) {	// some unknown data before real snac data
 					// just read the length and forget it ;-)
-					unsigned short unknown_length = 0;
 					socket()->readBuffer() >> unknown_length;
 					socket()->readBuffer().incReadPos(unknown_length);
 				}
@@ -758,7 +783,21 @@ void ICQClient::packet()
 						snac_login(type, seq);
 						break;
 					default:
-						log(L_WARN, "Unknown foodgroup %04X", food);
+						{
+							mapSnacHandlers::iterator it = m_snacHandlers.find(food);
+							if(it == m_snacHandlers.end())
+							{
+								log(L_WARN, "Unknown foodgroup %04X", food);
+							}
+							else
+							{
+								ICQBuffer b;
+								socket()->readBuffer().decReadPos(sizeof(unsigned short));
+								b.resize(size - unknown_length);
+								socket()->readBuffer().unpack(b.data(), size - unknown_length);
+								it->second->process(type, &b);
+							}
+						}
 				}
 				break;
 			}
@@ -786,8 +825,8 @@ void OscarSocket::snac(unsigned short food, unsigned short type, bool msgId, boo
     << food
     << type
     << 0x0000
-    << (msgId ? ++m_nMsgSequence : 0x0000)
-    << (bType ? type : (unsigned short)0);
+    << (bType ? type : (unsigned short)0)
+    << (msgId ? ++m_nMsgSequence : 0x0000);
 }
 
 void OscarSocket::sendPacket(bool bSend)
