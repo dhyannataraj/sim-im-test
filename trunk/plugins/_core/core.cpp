@@ -435,6 +435,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     m_cmds	= new Commands;
     boundTypes();
 
+    EventToolbar(ToolBarContainer, EventToolbar::eAdd).process();
     EventToolbar(ToolBarTextEdit, EventToolbar::eAdd).process();
     EventToolbar(ToolBarMsgEdit, EventToolbar::eAdd).process();
 
@@ -449,11 +450,80 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
 
     createMainToolbar();
     createHistoryToolbar();
-    createContainerToolbar();
-    MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar(), because
-                              // createContainerToolbar() creates MenuMessage, and setupMessages() creates some items
-                              // in that menu. If menu were not created, items can't be added, and will be just missing
+
     Command cmd;
+
+    cmd->id			 = CmdMessageType;
+    cmd->text		 = I18N_NOOP("Message");
+    cmd->icon		 = "message";
+    cmd->bar_id		 = ToolBarContainer;
+    cmd->bar_grp	 = 0x2000;
+    cmd->menu_id	 = 0;
+    cmd->menu_grp	 = 0;
+    cmd->popup_id	 = MenuMessage;
+    cmd->flags		 = BTN_PICT;
+    EventCommandCreate(cmd).process();
+
+    cmd->id			 = CmdContainerContact;
+    cmd->text		 = I18N_NOOP("Contact");
+    cmd->icon		 = "empty";
+    cmd->bar_grp	 = 0x6000;
+    cmd->popup_id	 = MenuContainerContact;
+    EventCommandCreate(cmd).process();
+
+    cmd->id			 = CmdContactGroup;
+    cmd->text		 = I18N_NOOP("Group");
+    cmd->icon		 = "grp_on";
+    cmd->bar_grp	 = 0x7000;
+    cmd->flags		 = COMMAND_DEFAULT;
+    cmd->popup_id	 = MenuContactGroup;
+    EventCommandCreate(cmd).process();
+
+    cmd->id			 = CmdInfo;
+    cmd->text		 = I18N_NOOP("User &info");
+    cmd->icon		 = "info";
+    cmd->popup_id	 = 0;
+    cmd->bar_grp	 = 0x8000;
+    EventCommandCreate(cmd).process();
+
+    cmd->id			 = CmdHistory;
+    cmd->text		 = I18N_NOOP("&History");
+    cmd->icon		 = "history";
+    cmd->popup_id	 = 0;
+    cmd->bar_grp	 = 0x8010;
+    EventCommandCreate(cmd).process();
+
+    cmd->id			 = CmdClose;
+    cmd->text		 = I18N_NOOP("Close");
+    cmd->icon		 = "exit";
+    cmd->accel		 = "Esc";
+    cmd->bar_grp	 = 0xF000;
+    EventCommandCreate(cmd).process();
+
+    EventMenu(MenuContainerContact, EventMenu::eAdd).process();
+
+    cmd->id			= CmdContainerContacts;
+    cmd->text		= "_";
+    cmd->icon		= QString::null;
+    cmd->menu_id	= MenuContainerContact;
+    cmd->menu_grp	= 0x1000;
+    cmd->accel		= QString::null;
+    cmd->bar_id		= 0;
+    cmd->bar_grp	= 0;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
+
+    EventMenu(MenuMessage, EventMenu::eAdd).process();
+
+    MsgEdit::setupMessages();
+
+    cmd->id			= CmdContactClients;
+    cmd->text		= "_";
+    cmd->icon		= "NULL";
+    cmd->menu_id	= MenuMessage;
+    cmd->menu_grp	= 0x30FF;
+    cmd->flags		= COMMAND_CHECK_STATE;
+    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdSend;
     cmd->text		= I18N_NOOP("&Send");
@@ -1019,6 +1089,16 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     cmd->text		 = I18N_NOOP("&Show all encodings");
     cmd->menu_id	 = MenuEncoding;
     cmd->menu_grp	 = 0x8000;
+    EventCommandCreate(cmd).process();
+
+    cmd->id			 = CmdChangeEncoding;
+    cmd->text		 = I18N_NOOP("Change &encoding");
+    cmd->icon		 = "encoding";
+    cmd->menu_id	 = 0;
+    cmd->menu_grp	 = 0;
+    cmd->bar_id		 = ToolBarContainer;
+    cmd->bar_grp	 = 0x8080;
+    cmd->popup_id	 = MenuEncoding;
     EventCommandCreate(cmd).process();
 
     cmd->id			 = CmdContactGroup;
