@@ -64,7 +64,7 @@ SnacIcqBuddy::~SnacIcqBuddy()
 {
 }
 
-bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf)
+bool SnacIcqBuddy::process(unsigned short subtype, ICQBuffer* buf) //Fixme: Unused Parameters subtype and buf
 {
 	return false;
 }
@@ -346,7 +346,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
             Tlv *tlvPlugin = tlv(0x0011);
             if (tlvPlugin && data->Uin.toULong()){
                 ICQBuffer info(*tlvPlugin);
-                char type;
+                char type; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope, see previous declaration at line '81'
                 unsigned long time;
                 info >> type;
                 info.unpack(time);
@@ -499,7 +499,7 @@ void ICQClient::snac_buddy(unsigned short type, unsigned short)
                          (((prevStatus & 0xFF) != ICQ_STATUS_ONLINE)) || bAwayChanged) &&
                         (((prevStatus & 0xFFFF) != ICQ_STATUS_OFFLINE) ||
                          (data->OnlineTime.toULong() > this->data.owner.OnlineTime.toULong()))){
-                    EventContact e(contact, EventContact::eOnline);
+                    EventContact e(contact, EventContact::eOnline); //Fixme: Local declaration of 'e' hides declaration of the same name in outer scope, see previous declaration at line '493'
                     e.process();
                 }
                 if (!getDisableAutoReplyUpdate() && ((data->Status.toULong() & 0xFF) != ICQ_STATUS_ONLINE)){

@@ -81,7 +81,7 @@ void ServiceSocket::packet_ready()
     OscarSocket::packet_ready();
 }
 
-void ServiceSocket::packet(unsigned long size)
+void ServiceSocket::packet(unsigned long size) //Fixme: Unsed Parameter size
 {
     EventLog::log_packet(m_socket->readBuffer(), false,ICQPlugin::icq_plugin->OscarPacket);
     switch (m_nChannel){

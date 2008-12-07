@@ -765,7 +765,7 @@ void DirectClient::processPacket()
                 delete m;
             }
         }else{
-            plugin p;
+            plugin p; //Fixme: Local declaration of 'p' hides declaration of the same name in outer scope, see previous declaration at line '609'
             m_socket->readBuffer().unpack((char*)p, sizeof(p));
             unsigned plugin_index;
             for (plugin_index = 0; plugin_index < PLUGIN_NULL; plugin_index++){
@@ -773,7 +773,7 @@ void DirectClient::processPacket()
                     break;
             }
             ICQBuffer info;
-            unsigned short type = 1;
+            unsigned short type = 1; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope, see previous declaration at line '665'
             switch (plugin_index){
             case PLUGIN_FILESERVER:
             case PLUGIN_FOLLOWME:
@@ -839,7 +839,7 @@ void DirectClient::processPacket()
             }
             MessageId id;
             id.id_l = seq;
-            Message *m = m_client->parseMessage(type, m_client->screen(m_data), msg_str, m_socket->readBuffer(), id, 0);
+            Message *m = m_client->parseMessage(type, m_client->screen(m_data), msg_str, m_socket->readBuffer(), id, 0); //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope, see previous declaration at line '671'
             switch (msg->type()){
 #ifdef ENABLE_OPENSSL
             case MessageCloseSecure:
@@ -887,7 +887,7 @@ void DirectClient::processPacket()
             if (m_client->ackMessage(msg, ackFlags, msg_str)){
                 if ((msg->getFlags() & MESSAGE_NOHISTORY) == 0){
                     if (msg->type() == MessageGeneric){
-                        Message m;
+                        Message m; //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope, see previous declaration at line '842'
                         m.setContact(msg->contact());
                         m.setClient(msg->client());
                         if ((*it).type == CAP_RTF){
@@ -914,7 +914,7 @@ void DirectClient::processPacket()
             break;
         }
         if (!itDeleted && (m_queue.size() == 0 || it == m_queue.end())){
-            list<Message*>::iterator it;
+            list<Message*>::iterator it; //Fixme: Local declaration of 'it' hides declaration of the same name in outer scope, see previous declaration at line '805'
             for (it = m_client->m_acceptMsg.begin(); it != m_client->m_acceptMsg.end(); ++it){
                 QString name = m_client->dataName(m_data);
                 Message *msg = *it;
@@ -1042,6 +1042,7 @@ void DirectClient::sendInit2()
 
 bool DirectClient::error_state(const QString &_err, unsigned code)
 {
+	//Fixme: Dereferencing NULL pointer 'm_data': Lines: 1045, 1046, 1048, 1058, 1059, 1060, 1061, 1062, 1069
     QString err = _err;
     if (!err.isEmpty() && !DirectSocket::error_state(err, code))
         return false;
@@ -2333,7 +2334,7 @@ void AIMFileTransfer::negotiateWithProxy()
 		m_socket->writeBuffer() << m_cookie.id_l << m_cookie.id_h;
 		// And the last one is magic caps chunk
 		const char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-			0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
+			0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00}; //Fixme: Truncation of constant Value: here: 0x82 is signed, but not unsigned
 		m_socket->writeBuffer() << Chunk_cap << (unsigned short)0x0010;
 		m_socket->writeBuffer().pack(send_file, 0x10);
         EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
@@ -2568,7 +2569,7 @@ void AIMIncomingFileTransfer::packet_ready()
 			{
 				if(m_bytes < m_fileSize)
 				{
-					long size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos());
+					long size = (unsigned long)(m_socket->readBuffer().size() - m_socket->readBuffer().readPos()); //Fixme: Local declaration of 'size' hides declaration of the same name in outer scope, see previous declaration at line '2502'
 					if(size < 0)
 					{
 						return;
@@ -2589,7 +2590,7 @@ void AIMIncomingFileTransfer::packet_ready()
 							m_notify->transfer(false);
 						ICQBuffer buf;
 						const char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-							0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
+							0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00}; //Fixme: Truncation of constant Value: here: 0x82 is signed, but not unsigned
 						buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
 						buf.pack(send_file, 0x10);
 						if(m_file)
@@ -2610,7 +2611,7 @@ void AIMIncomingFileTransfer::packet_ready()
 			break;
 	}
 }
-void AIMIncomingFileTransfer::startReceive(unsigned pos)
+void AIMIncomingFileTransfer::startReceive(unsigned pos) //Unused Parameter pos
 {
 	m_oft.type = OFT_answer;
 	*((unsigned long*)&m_oft.cookie[0]) = htonl(m_cookie.id_l);
@@ -2763,7 +2764,7 @@ void AIMOutcomingFileTransfer::initOFTSending()
 	m_oft.lsizeoffset = 0x11;
 	memset(m_oft.dummy, 0, 69);
 	memset(m_oft.macfileinfo, 0, 16);
-	FileMessage* msg = static_cast<FileMessage*>(m_msg);
+	FileMessage* msg = static_cast<FileMessage*>(m_msg); //Fixme: msg is initialized, but not used.
 
 //	QString filename = filename();
 	bool bWide = false;

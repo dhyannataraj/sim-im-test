@@ -79,7 +79,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
     case ICQ_SNACxMSG_MTN:{
             socket()->readBuffer().incReadPos(10);
             QString screen = socket()->readBuffer().unpackScreen();
-            unsigned short type;
+            unsigned short type; //Fixme!!! Local declaration of 'type' hides declaration of the same name in outer scope: Function parameter "type" 
             socket()->readBuffer() >> type;
             bool bType = (type > 1);
             Contact *contact;
@@ -327,7 +327,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                 QCString answer;
                 socket()->readBuffer() >> answer;
                 log(L_DEBUG, "Autoreply from %s %s", screen.latin1(), answer.data());
-                Contact *contact;
+                Contact *contact; //Fixme: Local declaration of 'contact' hides declaration of the same name in outer scope, see previous declaration at line '300'
                 ICQUserData *data = findContact(screen, NULL, false, contact);
                 if (data && data->AutoReply.setStr(getContacts()->toUnicode(contact, answer))){
                     EventContact e(contact, EventContact::eChanged);
@@ -411,7 +411,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         break;
                     }
                     ICQBuffer msg(*tlv5);
-                    unsigned short type;
+					unsigned short type; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope, see previous declaration at line '73'
                     msg >> type;
                     switch (type){
                     case 0:
@@ -424,7 +424,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
 							if (data){
 								QString name = dataName(data);
 								for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ++it){
-									Message *msg = *it;
+									Message *msg = *it; //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '413'
 									if (msg->client() && (name == msg->client())){
 										MessageId msg_id;
 										switch (msg->type()){
@@ -470,7 +470,7 @@ void ICQClient::snac_icmb(unsigned short type, unsigned short seq)
                         parseAdvancedMessage(screen, msg, tlvChannel(6) != NULL, id);
                         return;
                     }
-                    unsigned char type, flags;
+					unsigned char type, flags; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope, see previous declaration at line '73'
                     QCString msg_str;
                     msg >> type;
                     msg >> flags;
@@ -949,7 +949,7 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 				{
 					if(primary_ip)
 						set_ip(&data->RealIP, primary_ip);
-					AIMFileTransfer *ft = (*it);
+					AIMFileTransfer *ft = (*it); //Fixme:Local declaration of 'ft' hides declaration from line: 857
 					struct in_addr in;
 					in.s_addr = primary_ip;
 
@@ -984,7 +984,7 @@ void ICQClient::icmbSendFile(TlvList& tlv, unsigned long primary_ip, unsigned lo
 		{
 			for(list<AIMFileTransfer*>::iterator it = m_filetransfers.begin(); it != m_filetransfers.end(); ++it)
 			{
-				AIMFileTransfer *ft = (*it);
+				AIMFileTransfer *ft = (*it); //Fixme:Local declaration of 'ft' hides declaration from line: 857
 				if(ft->getICBMCookie() == id)
 				{
 					if(primary_ip)
@@ -1227,7 +1227,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             return;
         }
         adv.incReadPos(8);
-        plugin p;
+        plugin p; //Fixme: Local declaration of 'p' hides declaration of the same name in outer scope: previous declaration at line '1176'
         adv.unpack((char*)p, sizeof(p));
         unsigned plugin_type;
         for (plugin_type = 0; plugin_type < PLUGIN_NULL; plugin_type++){
@@ -1300,9 +1300,9 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             EventARRequest(&ar).process();
 
             if (!msg.isEmpty()){
-                Contact *contact;
-                ICQUserData *data = findContact(screen, NULL, false, contact);
-                QString m = getContacts()->toUnicode(contact, msg);
+                Contact *contact; //Fixme: Local declaration of 'contact' hides declaration of the same name in outer scope, see previous declaration at line '1278'
+                ICQUserData *data = findContact(screen, NULL, false, contact); //Fixme: Local declaration of 'data' hides declaration of the same name in outer scope, see previous declaration at line '1279'
+                QString m = getContacts()->toUnicode(contact, msg); //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1006'
                 data->AutoReply.str() = m;
                 EventContact e(contact, EventContact::eChanged);
                 e.process();
@@ -1316,7 +1316,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
             copy.pack(adv.data(adv.readPos()), adv.writePos() - adv.readPos());
         log(L_DEBUG, "Msg size=%lu type=%u", (unsigned long) msg.size(), msgType);
         if (msg.size() || (msgType == ICQ_MSGxEXT)){
-            Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16));
+            Message *m = parseMessage(msgType, screen, msg, adv, id, cookie1 | (cookie2 << 16)); //Fixme: Local declaration of 'm' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1006'
             if (m){
                 if ((m_send.id == id) && (m_send.screen == screen)){
                     replyQueue.push_back(m_send);
@@ -1392,7 +1392,7 @@ void ICQClient::parseAdvancedMessage(const QString &screen, ICQBuffer &m, bool n
                 }
 				else
 				{
-                    Message *msg = (*it).msg;
+                    Message *msg = (*it).msg; //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '1254'
                     replyQueue.erase(it);
                     if(msg->type() == MessageFile)
 					{
@@ -1797,7 +1797,7 @@ bool ICQClient::processMsg()
                 ICQBuffer msgBuf;
                 vector<alias_group> cc;
                 for (CONTACTS_MAP::iterator it = c.begin(); it != c.end(); ++it){
-                    alias_group c;
+                    alias_group c; //Fixme: Local declaration of 'c' hides declaration of the same name in outer scope, see previous declaration at line '1786'
                     c.alias = (*it).first.str();
                     c.grp   = (*it).second.grp;
                     cc.push_back(c);
@@ -1873,7 +1873,7 @@ bool ICQClient::processMsg()
 				ft->listen();
 				QString filename = msg->getDescription();
 				ft->setStage(1);
-				unsigned long filesize = msg->getSize();
+				unsigned long filesize = msg->getSize(); //Fixme: filesize is initialized, but not used.
 				ft->requestFT();
 				return true;
 			}
@@ -2075,7 +2075,7 @@ bool ICQClient::processMsg()
         if ((status == ICQ_STATUS_ONLINE) || (status == ICQ_STATUS_OFFLINE))
             return false;
 
-        unsigned short type = ICQ_MSGxAR_AWAY;
+        unsigned short type = ICQ_MSGxAR_AWAY; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1771'
         if (status & ICQ_STATUS_DND){
             type = ICQ_MSGxAR_DND;
         }else if (status & ICQ_STATUS_OCCUPIED){
@@ -2106,7 +2106,7 @@ bool ICQClient::processMsg()
         log(L_DEBUG, "Plugin info request %s (%u)", m_send.screen.latin1(), plugin_index);
 
         ICQBuffer b;
-        unsigned short type = 0;
+        unsigned short type = 0; //Fixme: Local declaration of 'type' hides declaration of the same name in outer scope. For additional information, see previous declaration at line '1771'
         switch (plugin_index){
         case PLUGIN_QUERYxINFO:
         case PLUGIN_PHONEBOOK:
@@ -2165,7 +2165,7 @@ void ICQClient::accept(Message *msg, ICQUserData *data)
     MessageId id;
     if (msg->getFlags() & MESSAGE_DIRECT){
         Contact *contact = getContacts()->contact(msg->contact());
-        ICQUserData *data = NULL;
+        ICQUserData *data = NULL; //Fixme: Local declaration of 'data' hides declaration of the same name in outer scope, see previous declaration at line '2163'
         if (contact){
             ClientDataIterator it(contact->clientData, this);
             while ((data = (toICQUserData(++it))) != NULL){
@@ -2330,7 +2330,7 @@ void ICQClient::decline(Message *msg, const QString &reason)
                 socket()->writeBuffer() << 0x0003 << 0x0002 << 0x0001;
                 sendPacket(false);
                 if (!reason.isEmpty()){
-                    Message *msg = new Message(MessageGeneric);
+                    Message *msg = new Message(MessageGeneric);  //Fixme: Local declaration of 'msg' hides declaration of the same name in outer scope, see previous declaration at line '2262'
                     msg->setText(reason);
                     msg->setFlags(MESSAGE_NOHISTORY);
                     msg->setContact(contact->id());
