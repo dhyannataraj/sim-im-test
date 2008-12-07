@@ -9,8 +9,3 @@ SnacHandler::SnacHandler(ICQClient* client, unsigned short snac) : m_snac(snac)
 SnacHandler::~SnacHandler()
 {
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "icqbuddy.moc"
-#endif
-

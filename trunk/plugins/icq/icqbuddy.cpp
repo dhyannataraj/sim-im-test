@@ -596,7 +596,3 @@ void ICQClient::removeBuddy(Contact *contact)
         buddies.erase(it);
     }
 }
-
-#ifndef NO_MOC_INCLUDES
-#include "icqbuddy.moc"
-#endif

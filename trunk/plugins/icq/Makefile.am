@@ -60,7 +60,8 @@ icq_la_SOURCES = \
  verifydlg.cpp \
  verifydlgbase.ui \
  xml.cpp \
- icqssbi.cpp
+ icqssbi.cpp \
+ snac.cpp
 
 SUBDIRS = sounds
 
