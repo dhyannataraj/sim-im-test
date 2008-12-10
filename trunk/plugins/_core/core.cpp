@@ -49,6 +49,7 @@
 #include "toolbtn.h"
 #include "unquot.h"
 #include "xsl.h"
+#include "textshow.h"
 // _core
 #include "core.h"
 #include "cfgdlg.h"
@@ -74,7 +75,6 @@
 #include "smscfg.h"
 #include "tmpl.h"
 #include "autoreply.h"
-#include "textshow.h"
 #include "filetransfer.h"
 #include "declinedlg.h"
 #include "userhistorycfg.h"
@@ -436,7 +436,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     boundTypes();
 
     EventToolbar(ToolBarTextEdit, EventToolbar::eAdd).process();
-    EventToolbar(ToolBarMsgEdit, EventToolbar::eAdd).process();
 
     EventMenu(MenuFileDecline, EventMenu::eAdd).process();
     EventMenu(MenuMailList, EventMenu::eAdd).process();
@@ -450,126 +449,13 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     createMainToolbar();
     createHistoryToolbar();
     createContainerToolbar();
-    MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar(), because
-                              // createContainerToolbar() creates MenuMessage, and setupMessages() creates some items
-                              // in that menu. If menu were not created, items can't be added, and will be just missing
+    createMsgEditToolbar();
+
+    MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar and createMsgEditToolbar
+                              // because setupMessages() adds items to MenuMessage and to ToolBatMsgEdit, witch are
+                              // created by createContainerToolbar and createMsgEditToolbar
+                              // If menu or toolbar were not created, items can't be added, and will be just missing
     Command cmd;
-
-    cmd->id			= CmdSend;
-    cmd->text		= I18N_NOOP("&Send");
-    cmd->icon		= "mail_generic";
-    cmd->menu_id	= 0;
-    cmd->menu_grp	= 0;
-    cmd->bar_id		= ToolBarMsgEdit;
-    cmd->bar_grp	= 0x8000;
-    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    QStringList smiles;
-    getIcons()->getSmiles(smiles);
-    unsigned flags = 0;
-    QString smile_icon;
-    if (smiles.empty()){
-        flags = BTN_HIDE;
-    }else{
-        smile_icon = smiles.front();
-    }
-
-    cmd->id         = CmdSmile;
-    cmd->text		= I18N_NOOP("I&nsert smile");
-    cmd->icon		= smile_icon;
-    cmd->bar_grp	= 0x7000;
-    cmd->flags		= COMMAND_CHECK_STATE | flags;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdTranslit;
-    cmd->text		= I18N_NOOP("Send in &translit");
-    cmd->icon		= "translit";
-    cmd->icon_on	= "translit";
-    cmd->bar_grp	= 0x7010;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdSendClose;
-    cmd->text		= I18N_NOOP("C&lose after send");
-    cmd->icon		= "fileclose";
-    cmd->icon_on	= "fileclose";
-    cmd->bar_grp	= 0x7020;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdMultiply;
-    cmd->text		= I18N_NOOP("Multi&ply send");
-    cmd->icon		= "1rightarrow";
-    cmd->icon_on	= "1leftarrow";
-    cmd->bar_grp	= 0xF010;
-    cmd->flags		= COMMAND_DEFAULT;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdBgColor;
-    cmd->text		= I18N_NOOP("Back&ground color");
-    cmd->icon		= "bgcolor";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdFgColor;
-    cmd->text		= I18N_NOOP("Fo&reground color");
-    cmd->icon		= "fgcolor";
-    cmd->bar_grp	= 0x1001;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdBold;
-    cmd->text		= I18N_NOOP("&Bold");
-    cmd->icon		= "text_bold";
-    cmd->icon_on	= "text_bold";
-    cmd->bar_grp	= 0x1002;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdItalic;
-    cmd->text		= I18N_NOOP("It&alic");
-    cmd->icon		= "text_italic";
-    cmd->icon_on	= "text_italic";
-    cmd->bar_grp	= 0x1003;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdUnderline;
-    cmd->text		= I18N_NOOP("&Underline");
-    cmd->icon		= "text_under";
-    cmd->icon_on	= "text_under";
-    cmd->bar_grp	= 0x1004;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdFont;
-    cmd->text		= I18N_NOOP("Select f&ont");
-    cmd->icon		= "text";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x1005;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdFileName;
-    cmd->text		= I18N_NOOP("Select &file");
-    cmd->icon		= "file";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x1010;
-    cmd->flags		= BTN_EDIT | COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdPhoneNumber;
-    cmd->text		= I18N_NOOP("&Phone number");
-    cmd->icon		= "cell";
-    cmd->icon_on	= QString::null;
-    cmd->bar_grp	= 0x1020;
-    cmd->flags		= BTN_COMBO | BTN_NO_BUTTON | COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdNextMessage;
-    cmd->text		= I18N_NOOP("&Next");
-    cmd->icon		= "message";
-    cmd->bar_grp	= 0x8000;
-    cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdBgColor;
     cmd->text		= I18N_NOOP("Back&ground color");
@@ -669,7 +555,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgQuote + CmdReceived;
-    cmd->bar_id		= ToolBarMsgEdit;
+    cmd->bar_id		= ToolBarMsgEdit; //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
     cmd->bar_grp	= 0x1041;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();
@@ -684,7 +570,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgForward + CmdReceived;
-    cmd->bar_id		= ToolBarMsgEdit;
+    cmd->bar_id		= ToolBarMsgEdit;  //FIXME: Cant see this item at ToolBarMsgEdit; item list. Why?
     cmd->bar_grp	= 0x1042;
     cmd->flags		= BTN_PICT | COMMAND_CHECK_STATE;
     EventCommandCreate(cmd).process();

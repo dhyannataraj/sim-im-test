@@ -53,6 +53,7 @@ SET(_core_SRCS
         toolbar_container.cpp
         toolbar_history.cpp
         toolbar_main.cpp
+        toolbar_msgedit.cpp
         toolbarcfg.cpp
         toolsetup.cpp
         usercfg.cpp

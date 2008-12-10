@@ -145,6 +145,16 @@ const unsigned long CmdClient				= (CmdBase + 0x500);
 const unsigned long CmdContactResource			= (CmdBase + 0x600);
 const unsigned long CmdReceived				= 0x600;  //FIXME: Why it does not have CmdBase in it?
 
+// These consts are really defined at textshow.h, but listed here
+// as a comments, in order to have a full comand list in one file:
+//
+//const unsigned TextCmdBase  = 0x00030000;
+//const unsigned CmdBgColor   = TextCmdBase;
+//const unsigned CmdFgColor   = TextCmdBase + 1;
+//const unsigned CmdBold      = TextCmdBase + 2;
+//const unsigned CmdItalic    = TextCmdBase + 3;
+//const unsigned CmdUnderline = TextCmdBase + 4;
+//const unsigned CmdFont      = TextCmdBase + 5;
 
 // *** Here we defines ids for all menus used in _core plugin ***
 

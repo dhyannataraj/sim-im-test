@@ -386,6 +386,7 @@ protected:
     bool updateMainToolbar(unsigned long commandID);
     void createHistoryToolbar();
     void createContainerToolbar();
+    void createMsgEditToolbar();
 
     bool                m_bInit;
     QStringList         m_profiles;
