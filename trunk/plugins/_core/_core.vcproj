@@ -1207,6 +1207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\toolbar_msgedit.cpp"
+				>
+			</File>
+			<File
 				RelativePath="toolsetup.cpp"
 				>
 				<FileConfiguration
