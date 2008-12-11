@@ -256,7 +256,8 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 			data->Alias.str() = contact->getName();
 	}
 
-	addSnacHandler(new SnacIcqBuddy(this));
+	m_snacBuddy = new SnacIcqBuddy(this);
+	addSnacHandler(m_snacBuddy);
 }
 
 ICQClient::~ICQClient()
@@ -697,8 +698,9 @@ const char* ICQClient::error_message(unsigned short error)
 
 void OscarSocket::packet_ready()
 {
-	unsigned short size=0;
-    if (m_bHeader){
+	unsigned short l_size = 0;
+    if(m_bHeader)
+	{
         char c;
         socket()->readBuffer() >> c;
         if (c != 0x2A){
@@ -708,14 +710,15 @@ void OscarSocket::packet_ready()
         }
         socket()->readBuffer() >> m_nChannel;
         unsigned short sequence;
-        socket()->readBuffer() >> sequence >> size;
+        socket()->readBuffer() >> sequence >> l_size;
         m_bHeader = false;
-        if (size){
-            socket()->readBuffer().add(size);
+        if (l_size){
+            socket()->readBuffer().add(l_size);
             return;
         }
     }
-    packet(size);
+	l_size = socket()->readBuffer().size() - socket()->readBuffer().readPos();
+    packet(l_size);
 }
 
 void ICQClient::packet_ready()
@@ -761,9 +764,9 @@ void ICQClient::packet(unsigned long size)
 					case ICQ_SNACxFOOD_LOCATION:
 						snac_location(type, seq);
 						break;
-					case ICQ_SNACxFOOD_BUDDY:
-						snac_buddy(type, seq);
-						break;
+					//case ICQ_SNACxFOOD_BUDDY:
+					//	snac_buddy(type, seq);
+					//	break;
 					case ICQ_SNACxFOOD_MESSAGE:
 						snac_icmb(type, seq);
 						break;
@@ -792,8 +795,9 @@ void ICQClient::packet(unsigned long size)
 							else
 							{
 								ICQBuffer b;
-								socket()->readBuffer().decReadPos(sizeof(unsigned short));
 								b.resize(size - unknown_length);
+								b.setReadPos(0);
+								b.setWritePos(size - unknown_length);
 								socket()->readBuffer().unpack(b.data(), size - unknown_length);
 								it->second->process(type, &b);
 							}
@@ -2506,13 +2510,13 @@ bool ICQClient::processEvent(Event *e)
                     listRequests.push_back(lr);
                     processSendQueue();
                 }
-                removeBuddy(contact);
+                m_snacBuddy->removeBuddy(contact);
                 break;
             }
             case EventContact::eChanged: {
                 if (getState() == Connected){
                     if (!m_bAIM)
-                        addBuddy(contact);
+                        m_snacBuddy->addBuddy(contact);
                     if (contact == getContacts()->owner()){
                         time_t now = time(NULL);
                         if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){

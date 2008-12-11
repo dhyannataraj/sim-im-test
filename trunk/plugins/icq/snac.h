@@ -13,7 +13,7 @@ public:
 	unsigned short getType() { return m_snac; };
 	virtual bool process(unsigned short subtype, ICQBuffer* buf) = 0;
 
-private:
+protected:
 	unsigned short m_snac;
 	ICQClient* m_client;
 

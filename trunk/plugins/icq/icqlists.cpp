@@ -769,7 +769,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             break;
         }
     case ICQ_SNACxLISTS_DONE:
-		log(L_DEBUG, "SSI_DONE");
         if (m_listRequest && m_listRequest->seq() == seq)
 		{
             unsigned short res;

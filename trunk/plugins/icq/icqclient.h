@@ -25,6 +25,7 @@
 
 #include "misc.h"
 #include "snac.h"
+#include "icqbuddy.h"
 
 #include "socket.h"
 #include "icq.h"
@@ -666,7 +667,7 @@ protected:
     virtual void packet(unsigned long size);
     void snac_service(unsigned short, unsigned short);
     void snac_location(unsigned short, unsigned short);
-    void snac_buddy(unsigned short, unsigned short);
+    //void snac_buddy(unsigned short, unsigned short);
     void snac_icmb(unsigned short, unsigned short);
     void snac_bos(unsigned short, unsigned short);
     void snac_ping(unsigned short, unsigned short);
@@ -727,8 +728,6 @@ protected:
     std::list<ar_request>	arRequests;
     void addGroupRequest(SIM::Group *group);
     void addContactRequest(SIM::Contact *contact);
-    void addBuddy(SIM::Contact *contact);
-    void removeBuddy(SIM::Contact *contact);
     void checkListRequest();
     void checkInfoRequest();
     ServerRequest *findServerRequest(unsigned short id);
@@ -819,6 +818,7 @@ protected:
     std::list<DirectSocket*>	m_sockets;
     std::list<SIM::Message*>	m_acceptMsg;
 	std::list<AIMFileTransfer*> m_filetransfers;
+	SnacIcqBuddy* m_snacBuddy;
 	mapSnacHandlers m_snacHandlers;
 
     friend class ListServerRequest;
@@ -832,6 +832,8 @@ protected:
     friend class ICQFileTransfer;
     friend class SetBuddyRequest;
     friend class SSBISocket;
+	
+	friend class SnacIcqBuddy;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket

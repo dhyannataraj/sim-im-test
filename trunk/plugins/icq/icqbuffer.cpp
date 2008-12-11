@@ -69,7 +69,8 @@ TlvList::TlvList()
 
 TlvList::TlvList(ICQBuffer &b, unsigned nTlvs)
 {
-    for (unsigned n = 0; (b.readPos() < b.size()) && (n < nTlvs); n++){
+    for(unsigned n = 0; (b.readPos() < b.size()) && (n < nTlvs); n++)
+	{
         unsigned short num, size;
         b >> num >> size;
         if (b.readPos() + size > b.size())

@@ -3,6 +3,7 @@
 #define _ICQBUDDY_H
 
 #include "snac.h"
+#include "contacts.h"
 
 class ICQClient;
 class SnacIcqBuddy : public SnacHandler
@@ -12,6 +13,8 @@ public:
 	virtual ~SnacIcqBuddy();
 
 	virtual bool process(unsigned short subtype, ICQBuffer* buf);
+    void addBuddy(SIM::Contact *contact);
+    void removeBuddy(SIM::Contact *contact);
 };
 
 #endif
