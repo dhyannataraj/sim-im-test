@@ -1074,7 +1074,9 @@ TlvList *ICQClient::createListTlv(ICQUserData *data, Contact *contact)
     QCString name = contact->getName().utf8();
     *tlv += new Tlv(TLV_ALIAS, (unsigned short)(name.length()), name);
     if (data->WaitAuth.toBool())
-        *tlv += new Tlv(TLV_WAIT_AUTH, 0, NULL);
+	{
+		*tlv += new Tlv(TLV_WAIT_AUTH, 0, NULL);
+	}
     QString cell = getUserCellular(contact);
     if (cell.length())
         *tlv += new Tlv(TLV_CELLULAR, (unsigned short)(cell.length()), cell.latin1());
@@ -1322,6 +1324,7 @@ unsigned ICQClient::processListRequest()
                         snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_FUTURE_AUTH);
                         socket()->writeBuffer().packScreen(screen(data));
                         socket()->writeBuffer() << 0x00000000L;
+						data->WaitAuth.setBool(true);
                         sendPacket(true);
                     }
                     if (data->IcqID.toULong() == 0)
@@ -1335,7 +1338,9 @@ unsigned ICQClient::processListRequest()
 					QString groupname = group->getName();
 					ssiStartTransaction();
                     if(data->GrpId.toULong())
+					{
 						seq = ssiDeleteBuddy(name, data->GrpId.toULong(), data->IcqID.toULong(), 0, tlv);
+					}
 					seq = ssiAddBuddy(name, grp_id, (unsigned short) data->IcqID.toULong(), 0, tlv);
 					ssiAddToGroup(groupname, data->IcqID.toULong(), grp_id);
 					data->GrpId.setULong(grp_id);
@@ -1642,10 +1647,13 @@ bool ICQClient::sendAuthRequest(Message *msg, void *_data)
     socket()->writeBuffer().packScreen(screen(data));
     QCString message;
     QString charset;
-    if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF)){
+    if (hasCap(data, CAP_RTF) || hasCap(data, CAP_UTF))
+	{
         message = msg->getPlainText().utf8();
         charset = "utf-8";
-    }else{
+    }
+	else
+	{
         message = getContacts()->fromUnicode(NULL, msg->getPlainText());
     }
     socket()->writeBuffer()

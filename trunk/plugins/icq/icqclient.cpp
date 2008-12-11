@@ -741,7 +741,7 @@ void ICQClient::packet(unsigned long size)
 			{ 
 				unsigned short food, type;
 				unsigned short flags, seq, cmd;
-				socket()->readBuffer() >> food >> type >> flags >> seq >> cmd;
+				socket()->readBuffer() >> food >> type >> flags >> cmd >> seq;
 				unsigned short unknown_length = 0;
 				if ((flags & 0x8000)) {	// some unknown data before real snac data
 					// just read the length and forget it ;-)
