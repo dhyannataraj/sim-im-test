@@ -1211,6 +1211,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\toolbar_textedit.cpp"
+				>
+			</File>
+			<File
 				RelativePath="toolsetup.cpp"
 				>
 				<FileConfiguration
