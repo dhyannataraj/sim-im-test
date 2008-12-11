@@ -931,6 +931,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\msgview_menu.cpp"
+				>
+			</File>
+			<File
 				RelativePath="newprotocol.cpp"
 				>
 				<FileConfiguration
