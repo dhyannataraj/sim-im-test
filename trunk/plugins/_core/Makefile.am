@@ -85,7 +85,8 @@ _core_la_SOURCES = \
  toolbar_main.cpp \
  toolbar_history.cpp \
  toolbar_container.cpp \
- toolbar_msgedit.cpp 
+ toolbar_msgedit.cpp \
+ toolbar_textedit.cpp
 
 SUBDIRS=pict styles jisp GPL-Icons emoticons_prebuilt
 

@@ -54,6 +54,7 @@ SET(_core_SRCS
         toolbar_history.cpp
         toolbar_main.cpp
         toolbar_msgedit.cpp
+        toolbar_textedit.cpp
         toolbarcfg.cpp
         toolsetup.cpp
         usercfg.cpp

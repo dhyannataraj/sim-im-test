@@ -435,8 +435,6 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     m_cmds	= new Commands;
     boundTypes();
 
-    EventToolbar(ToolBarTextEdit, EventToolbar::eAdd).process();
-
     EventMenu(MenuFileDecline, EventMenu::eAdd).process();
     EventMenu(MenuMailList, EventMenu::eAdd).process();
     EventMenu(MenuPhoneList, EventMenu::eAdd).process();
@@ -450,55 +448,13 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     createHistoryToolbar();
     createContainerToolbar();
     createMsgEditToolbar();
+    createTextEditToolbar();
 
     MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar and createMsgEditToolbar
                               // because setupMessages() adds items to MenuMessage and to ToolBatMsgEdit, witch are
                               // created by createContainerToolbar and createMsgEditToolbar
                               // If menu or toolbar were not created, items can't be added, and will be just missing
     Command cmd;
-
-    cmd->id			= CmdBgColor;
-    cmd->text		= I18N_NOOP("Back&ground color");
-    cmd->icon		= "bgcolor";
-    cmd->icon_on	= QString::null;
-    cmd->bar_id		= ToolBarTextEdit;
-    cmd->bar_grp	= 0x1000;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdFgColor;
-    cmd->text		= I18N_NOOP("Fo&reground color");
-    cmd->icon		= "fgcolor";
-    cmd->bar_grp	= 0x1010;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdBold;
-    cmd->text		= I18N_NOOP("&Bold");
-    cmd->icon		= "text_bold";
-    cmd->icon_on	= "text_bold";
-    cmd->bar_grp	= 0x2000;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdItalic;
-    cmd->text		= I18N_NOOP("It&alic");
-    cmd->icon		= "text_italic";
-    cmd->icon_on	= "text_italic";
-    cmd->bar_grp	= 0x2010;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdUnderline;
-    cmd->text		= I18N_NOOP("&Underline");
-    cmd->icon		= "text_under";
-    cmd->icon_on	= "text_under";
-    cmd->bar_grp	= 0x2020;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdFont;
-    cmd->text		= I18N_NOOP("Select f&ont");
-    cmd->icon		= "text";
-    cmd->icon_on	= "text";
-    cmd->bar_grp	= 0x3000;
-    EventCommandCreate(cmd).process();
 
     EventMenu(MenuGroup, EventMenu::eAdd).process();
     EventMenu(MenuContact, EventMenu::eAdd).process();

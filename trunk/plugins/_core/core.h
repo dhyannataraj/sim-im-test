@@ -387,6 +387,7 @@ protected:
     void createHistoryToolbar();
     void createContainerToolbar();
     void createMsgEditToolbar();
+    void createTextEditToolbar();
 
     bool                m_bInit;
     QStringList         m_profiles;
