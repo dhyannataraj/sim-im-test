@@ -449,6 +449,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     createContainerToolbar();
     createMsgEditToolbar();
     createTextEditToolbar();
+    createMenuMsgView();
 
     MsgEdit::setupMessages(); // Make sure this function is called after createContainerToolbar and createMsgEditToolbar
                               // because setupMessages() adds items to MenuMessage and to ToolBatMsgEdit, witch are
@@ -459,45 +460,7 @@ CorePlugin::CorePlugin(unsigned base, Buffer *config)
     EventMenu(MenuGroup, EventMenu::eAdd).process();
     EventMenu(MenuContact, EventMenu::eAdd).process();
     EventMenu(MenuContactGroup, EventMenu::eAdd).process();
-    EventMenu(MenuMsgView, EventMenu::eAdd).process();
     EventMenu(MenuMsgCommand, EventMenu::eAdd).process();
-
-    cmd->id			= CmdMsgOpen;
-    cmd->text		= I18N_NOOP("&Open message");
-    cmd->accel		= QString::null;
-    cmd->icon		= "message";
-    cmd->icon_on	= QString::null;
-    cmd->menu_id	= MenuMsgView;
-    cmd->menu_grp	= 0x1000;
-    cmd->bar_id		= 0;
-    cmd->bar_grp	= 0;
-    cmd->flags		= COMMAND_CHECK_STATE;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdMsgSpecial;
-    cmd->text		= "_";
-    cmd->icon		= QString::null;
-    cmd->menu_grp	= 0x1001;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdCopy;
-    cmd->text		= I18N_NOOP("&Copy");
-    cmd->accel		= "Ctrl+C";
-    cmd->icon		= "editcopy";
-    cmd->menu_grp	= 0x2000;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdDeleteMessage;
-    cmd->text		= I18N_NOOP("&Delete message");
-    cmd->accel		= QString::null;
-    cmd->icon		= "remove";
-    cmd->menu_grp	= 0x3000;
-    EventCommandCreate(cmd).process();
-
-    cmd->id			= CmdCutHistory;
-    cmd->text		= I18N_NOOP("&Cut history");
-    cmd->menu_grp	= 0x3001;
-    EventCommandCreate(cmd).process();
 
     cmd->id			= CmdMsgQuote;
     cmd->text		= I18N_NOOP("&Quote");

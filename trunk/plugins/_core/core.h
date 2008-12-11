@@ -388,6 +388,7 @@ protected:
     void createContainerToolbar();
     void createMsgEditToolbar();
     void createTextEditToolbar();
+    void createMenuMsgView(); // in msgview_menu.cpp
 
     bool                m_bInit;
     QStringList         m_profiles;

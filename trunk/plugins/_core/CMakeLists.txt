@@ -38,6 +38,7 @@ SET(_core_SRCS
         msgsms.cpp
         msgurl.cpp
         msgview.cpp
+        msgview_menu.cpp
         newprotocol.cpp
         nonim.cpp
         pagerdetails.cpp
