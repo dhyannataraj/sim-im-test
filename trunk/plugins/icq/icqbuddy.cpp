@@ -636,6 +636,3 @@ void SnacIcqBuddy::removeBuddy(Contact *contact)
     }
 }
 
-#ifndef NO_MOC_INCLUDES
-#include "icqbuddy.moc"
-#endif
