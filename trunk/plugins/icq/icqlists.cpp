@@ -922,7 +922,6 @@ ContactServerRequest::~ContactServerRequest()
 
 void ContactServerRequest::process(ICQClient *client, unsigned short res)
 {
-    ListServerRequest::process(client, res);
 
     ListRequest *lr = client->findContactListRequest(m_screen);
     if (lr && (lr->type == LIST_USER_DELETED)){
@@ -934,6 +933,8 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
     Contact *contact;
     ICQUserData *data = client->findContact(m_screen, NULL, true, contact);
     if ((res == 0x0E) && !data->WaitAuth.toBool()){
+		TlvList *tlv = client->createListTlv(data, contact);
+		client->ssiAddBuddy(m_screen, m_grpId, (unsigned short) data->IcqID.toULong(), 0, tlv);
         data->WaitAuth.asBool() = true;
         EventContact e(contact, EventContact::eChanged);
         e.process();
@@ -961,6 +962,7 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
             data->Cellular.clear();
         }
     }
+    ListServerRequest::process(client, res);
 }
 
 //-----------------------------------------------------------------------------

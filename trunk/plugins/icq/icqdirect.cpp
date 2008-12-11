@@ -2239,7 +2239,14 @@ bool AIMFileTransfer::writeOFT(OftData* oft)
 	m_socket->writeBuffer().pack(oft->nencode);
 	m_socket->writeBuffer().pack(oft->nlanguage);
 	m_socket->writeBuffer().pack(oft->name.data(), oft->name.size() - 1);
-	for(unsigned int i = 0; i < 0x40 - oft->name.size() + 1; i++)
+	if(oft->name.size() < 0x40)
+	{
+		for(unsigned int i = 0; i < 0x40 - oft->name.size() + 1; i++)
+		{
+			m_socket->writeBuffer().pack((unsigned char)0);
+		}
+	}
+	else
 	{
 		m_socket->writeBuffer().pack((unsigned char)0);
 	}
@@ -2734,8 +2741,12 @@ bool AIMOutcomingFileTransfer::accept(Socket *s, unsigned long)
 
 void AIMOutcomingFileTransfer::initOFTSending()
 {
+	int delta_length = filename().length() - 0x40;
+	if(delta_length < 0)
+		delta_length = 0;
+
 	m_oft.magic = OFT_magic;
-	m_oft.unknown = 0x0001;
+	m_oft.unknown = htons(256 + delta_length);
 	m_oft.type = OFT_fileInfo;
 
 	*((unsigned long*)&m_oft.cookie[0]) = htonl(m_cookie.id_l);

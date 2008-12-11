@@ -829,7 +829,8 @@ void OscarSocket::snac(unsigned short food, unsigned short type, bool msgId, boo
     << food
     << type
     << 0x0000
-    << (bType ? type : (unsigned short)0)
+    //<< (bType ? type : (unsigned short)0)
+    << (unsigned short)0
     << (msgId ? ++m_nMsgSequence : 0x0000);
 }
 

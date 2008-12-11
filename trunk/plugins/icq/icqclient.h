@@ -632,6 +632,7 @@ public:
 	unsigned short ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs);
 	void getGroupIDs(unsigned short group_id, ICQBuffer* buf); // hack
 	void ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
+    TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
 protected slots:
     void ping();
     void processSendQueue();
@@ -747,7 +748,6 @@ protected:
     bool isSupportPlugins(ICQUserData *data);
     QString trimPhone(const QString &phone);
     unsigned short getListId();
-    TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
     unsigned short sendRoster(unsigned short cmd, const QString &name,
                               unsigned short grp_id,  unsigned short usr_id,
                               unsigned short subCmd=0, TlvList *tlv = NULL);
