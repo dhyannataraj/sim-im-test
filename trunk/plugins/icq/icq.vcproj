@@ -2754,6 +2754,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\icqservice.h"
+				>
+			</File>
+			<File
 				RelativePath=".\icqssbi.h"
 				>
 				<FileConfiguration

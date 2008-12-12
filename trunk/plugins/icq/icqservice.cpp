@@ -381,6 +381,7 @@ bool SnacIcqService::process(unsigned short subtype, ICQBuffer* buf)
 		default:
 			log(L_WARN, "Unknown service foodgroup type %04X", subtype);
 	}
+	return true;
 }
 
 void SnacIcqService::requestRateInfo()
