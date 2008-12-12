@@ -82,7 +82,7 @@ void ICQSecure::apply()
         m_client->setDirectMode(mode);
     }
     if (bStatusChanged && (m_client->getState() == Client::Connected))
-        m_client->sendStatus();
+        m_client->snacService()->sendStatus();
     m_client->setIgnoreAuth(chkIgnoreAuth->isChecked());
     m_client->setUseMD5(chkUseMD5->isChecked());
 }

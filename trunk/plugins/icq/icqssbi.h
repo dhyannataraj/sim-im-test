@@ -26,7 +26,7 @@ protected:
     unsigned short m_refNumber; // the ref number for the image
     unsigned m_retryCount;
 protected slots:
-    void requestService() { m_client->requestService(this); }
+    void requestService() { m_client->snacService()->requestService(this); }
 };
 
 #endif // ICQSSBI_H

@@ -2340,10 +2340,8 @@ void AIMFileTransfer::negotiateWithProxy()
 		// Next chunk is cookie chunk
 		m_socket->writeBuffer() << m_cookie.id_l << m_cookie.id_h;
 		// And the last one is magic caps chunk
-		const char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-			0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00}; //Fixme: Truncation of constant Value: here: 0x82 is signed, but not unsigned
 		m_socket->writeBuffer() << Chunk_cap << (unsigned short)0x0010;
-		m_socket->writeBuffer().pack(send_file, 0x10);
+		m_socket->writeBuffer().pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
         EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
 		m_socket->write();
 	}
@@ -2361,10 +2359,8 @@ void AIMFileTransfer::negotiateWithProxy()
 		// Next chunk is cookie chunk
 		m_socket->writeBuffer() << (unsigned short)m_cookie2 << m_cookie.id_l << m_cookie.id_h;
 		// And the last one is magic caps chunk
-		const unsigned char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-			0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
 		m_socket->writeBuffer() << Chunk_cap << (unsigned short)0x0010;
-		m_socket->writeBuffer().pack((const char*)send_file, 0x10);
+		m_socket->writeBuffer().pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
         EventLog::log_packet(m_socket->writeBuffer(), true, ICQPlugin::icq_plugin->AIMDirectPacket);
 		m_socket->write();
 	}
@@ -2484,12 +2480,10 @@ void AIMIncomingFileTransfer::connect_ready()
 	if(!m_proxy)
 	{
 		m_state = OFTNegotiation;
-		const unsigned char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-			0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
 
 		ICQBuffer buf;
 		buf << 0x0002 << m_cookie.id_l << m_cookie.id_h;
-		buf.pack((const char*)send_file, 0x10);
+		buf.pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
 		m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
 
 		FileTransfer::m_state = FileTransfer::Negotiation;
@@ -2542,10 +2536,8 @@ void AIMIncomingFileTransfer::packet_ready()
 						// Read the rest of a packet:
 						m_socket->readBuffer().incReadPos(packet_length - 4);
 						ICQBuffer buf;
-						const unsigned char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-							0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
 						buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
-						buf.pack((const char*)send_file, 0x10);
+						buf.pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
 
 						m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
 						FileTransfer::m_state = FileTransfer::Negotiation;
@@ -2596,10 +2588,8 @@ void AIMIncomingFileTransfer::packet_ready()
 						if(m_notify)
 							m_notify->transfer(false);
 						ICQBuffer buf;
-						const char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-							0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00}; //Fixme: Truncation of constant Value: here: 0x82 is signed, but not unsigned
 						buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
-						buf.pack(send_file, 0x10);
+						buf.pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
 						if(m_file)
 							m_file->flush();
 
@@ -2844,10 +2834,8 @@ void AIMOutcomingFileTransfer::packet_ready()
 						if(!m_proxyActive)
 						{
 							ICQBuffer buf;
-							const unsigned char send_file[] = {0x09, 0x46, 0x13, 0x43, 0x4c, 0x7f, 0x11, 0xd1,
-								0x82, 0x22, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00};
 							buf << (unsigned short) 0x0002 << m_cookie.id_l << m_cookie.id_h;
-							buf.pack((const char*)send_file, 0x10);
+							buf.pack(m_client->capabilities[CAP_AIM_SENDFILE], 0x10);
 
 							m_client->sendThroughServer(m_client->screen(m_data), 0x0002, buf, m_cookie, false, true);
 						}

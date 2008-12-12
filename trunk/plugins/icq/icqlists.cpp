@@ -652,7 +652,7 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
                 }
                 snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE);
                 sendPacket(true);
-                sendClientReady();
+                m_snacService->sendClientReady();
                 setState(Connected);
                 m_bReady = true;
                 processSendQueue();
@@ -662,8 +662,8 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
             sendICMB(1, 11);
             sendICMB(2,  3);
             sendICMB(4,  3);
-            sendLogonStatus();
-            sendClientReady();
+            snacService()->sendLogonStatus();
+            snacService()->sendClientReady();
             snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_ACTIVATE);
             sendPacket(true);
             sendMessageRequest();
@@ -816,7 +816,6 @@ void ICQClient::snac_lists(unsigned short type, unsigned short seq)
 
 void ICQClient::listsRequest()
 {
-    log(L_DEBUG, "lists request");
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_REQxRIGHTS);
     sendPacket(true);
     snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_REQxROSTER);
@@ -935,7 +934,7 @@ void ContactServerRequest::process(ICQClient *client, unsigned short res)
     if ((res == 0x0E) && !data->WaitAuth.toBool()){
 		TlvList *tlv = client->createListTlv(data, contact);
 		client->ssiAddBuddy(m_screen, m_grpId, (unsigned short) data->IcqID.toULong(), 0, tlv);
-        data->WaitAuth.asBool() = true;
+        data->WaitAuth.setBool(true);
         EventContact e(contact, EventContact::eChanged);
         e.process();
         return;
@@ -1118,7 +1117,7 @@ void ICQClient::ssiEndTransaction()
 unsigned short ICQClient::ssiAddBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs)
 {
 	log(L_DEBUG, "ICQClient::ssiAddBuddy");
-    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_CREATE, true);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_CREATE, true, false);
     QCString utfscreen = screen.utf8();
 	socket()->writeBuffer() << (unsigned short)utfscreen.length();
 	socket()->writeBuffer().pack(utfscreen.data(), utfscreen.length());
@@ -1138,7 +1137,7 @@ unsigned short ICQClient::ssiAddBuddy(QString& screen, unsigned short group_id, 
 unsigned short ICQClient::ssiDeleteBuddy(QString& screen, unsigned short group_id, unsigned short buddy_id, unsigned short buddy_type, TlvList* tlvs)
 {
 	log(L_DEBUG, "ICQClient::ssiDeleteBuddy");
-    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_DELETE, true);
+    snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_DELETE, true, false);
     QCString utfscreen = screen.utf8();
 	socket()->writeBuffer() << (unsigned short)utfscreen.length();
 	socket()->writeBuffer().pack(utfscreen.data(), utfscreen.length());
@@ -1178,7 +1177,7 @@ void ICQClient::getGroupIDs(unsigned short group_id, ICQBuffer* buf)
 void ICQClient::ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id)
 {
     QCString sName = groupname.utf8();
-	snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_UPDATE, true);
+	snac(ICQ_SNACxFOOD_LISTS, ICQ_SNACxLISTS_UPDATE, true, false);
 	socket()->writeBuffer() << (unsigned short)sName.length();
 	socket()->writeBuffer().pack(sName.data(), sName.length());
 	socket()->writeBuffer() << group_id << (unsigned short)0x0000 << (unsigned short)0x0001;

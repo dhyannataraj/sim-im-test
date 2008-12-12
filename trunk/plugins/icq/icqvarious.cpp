@@ -940,7 +940,7 @@ bool SetMainInfoRequest::answer(ICQBuffer&, unsigned short)
     m_client->data.owner.TimeZone.asULong() = m_tz;
     m_client->data.owner.HiddenEMail.asBool() = m_hiddenEMail;
     EventClientChanged(m_client).process();
-    m_client->sendUpdate();
+    m_client->snacService()->sendUpdate();
     return true;
 }
 
@@ -955,7 +955,7 @@ static Tlv makeSString(unsigned id, const QString &str)
     ba[0] = (char)((len     ) & 0xff);
     ba[1] = (char)((len >> 8) & 0xff);
     memcpy( ba.data() + 2, cstr, len );
-    return Tlv( id, ba.size(), ba.data() );
+    return Tlv(id, ba.size(), ba.data());
 }
 
 static Tlv makeBCombo(unsigned id, unsigned long y, unsigned long m, unsigned long d)
@@ -1290,7 +1290,7 @@ bool ChangeInfoRequest::answer(ICQBuffer&, unsigned short)
                 break;
         }
     }
-    m_client->sendStatus();
+    m_client->snacService()->sendStatus();
     EventClientChanged(m_client).process();
     return true;
 }
@@ -1465,7 +1465,7 @@ void ICQClient::setClientInfo(void *_data)
     }
 
     setChatGroup();
-    sendStatus();
+    snacService()->sendStatus();
 }
 
 class SetPasswordRequest : public ServerRequest

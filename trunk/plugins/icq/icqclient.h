@@ -26,6 +26,7 @@
 #include "misc.h"
 #include "snac.h"
 #include "icqbuddy.h"
+#include "icqservice.h"
 
 #include "socket.h"
 #include "icq.h"
@@ -473,12 +474,13 @@ class OscarSocket
 public:
     OscarSocket();
     virtual ~OscarSocket();
+
+    void snac(unsigned short food, unsigned short type, bool msgId=false, bool bType=true);
 protected:
     void sendPacket(bool bSend=true);
     virtual ICQClientSocket *socket() = 0;
     virtual void packet(unsigned long size) = 0;
     void flap(char channel);
-    void snac(unsigned short food, unsigned short type, bool msgId=false, bool bType=true);
     void connect_ready();
     void packet_ready();
     bool m_bHeader;
@@ -586,8 +588,6 @@ public:
     void removeListRequest(ListRequest *lr);
     virtual void setupContact(SIM::Contact*, void *data);
     QString clientName(ICQUserData*);
-    void sendStatus();
-    void sendUpdate();
     void changePassword(const QString &new_pswd);
     void searchChat(unsigned short);
     void randomChatInfo(unsigned long uin);
@@ -617,6 +617,8 @@ public:
     void uploadBuddy(const ICQUserData *data);
     ICQUserData * toICQUserData(SIM::clientData*);  // More safely type conversion from generic SIM::clientData into ICQUserData
 
+	unsigned long getFullStatus();
+
 	bool addSnacHandler(SnacHandler* handler);
 	void clearSnacHandlers();
 
@@ -633,6 +635,10 @@ public:
 	void getGroupIDs(unsigned short group_id, ICQBuffer* buf); // hack
 	void ssiAddToGroup(QString& groupname, unsigned short buddy_id, unsigned short group_id);
     TlvList *createListTlv(ICQUserData *data, SIM::Contact *contact);
+	
+	// Snac handlers accessors
+	SnacIcqService* snacService() { return m_snacService; }
+	SnacIcqBuddy* snacBuddy() { return m_snacBuddy; }
 protected slots:
     void ping();
     void processSendQueue();
@@ -666,9 +672,7 @@ protected:
     QString dataName(const QString &screen);
     QByteArray  m_cookie;
     virtual void packet(unsigned long size);
-    void snac_service(unsigned short, unsigned short);
     void snac_location(unsigned short, unsigned short);
-    //void snac_buddy(unsigned short, unsigned short);
     void snac_icmb(unsigned short, unsigned short);
     void snac_bos(unsigned short, unsigned short);
     void snac_ping(unsigned short, unsigned short);
@@ -687,20 +691,13 @@ protected:
     void addCapability(ICQBuffer &cap, cap_id_t id);   // helper for sendCapability()
     void sendCapability(const QString &msg=QString::null);
     void sendICMB(unsigned short channel, unsigned long flags);
-    void sendLogonStatus();
-    void sendClientReady();
     void sendMessageRequest();
-    void requestRateInfo();
-    void setServiceSocket(Tlv *tlv_addr, Tlv *tlv_cookie, unsigned short service);
     void serverRequest(unsigned short cmd, unsigned short seq=0);
     void sendServerRequest();
     void sendInvisible(bool bState);
     void sendContactList();
-    void setInvisible();
     void setOffline(ICQUserData*);
-    void fillDirectInfo(ICQBuffer &directInfo);
     void removeFullInfoRequest(unsigned long uin);
-    void requestService(ServiceSocket*);
     class SSBISocket *getSSBISocket();
     unsigned long fullStatus(unsigned status);
     QByteArray cryptPassword();
@@ -709,7 +706,6 @@ protected:
     const char* error_message(unsigned short error);
     bool m_bVerifying;
     ICQListener			*m_listener;
-    std::list<ServiceSocket*> m_services;
     QTimer *m_processTimer;
     QTimer *m_sendTimer;
     unsigned short m_sendSmsId;
@@ -739,10 +735,6 @@ protected:
     unsigned processListRequest();
     unsigned processSMSQueue();
     unsigned processInfoRequest();
-    void sendIdleTime();
-    void sendPluginInfoUpdate(unsigned plugin_id);
-    void sendPluginStatusUpdate(unsigned plugin_id, unsigned long status);
-    bool m_bIdleTime;
     static bool hasCap(const ICQUserData *data, cap_id_t fcap);
     static void setCap(ICQUserData *data, cap_id_t fcap);
     bool isSupportPlugins(ICQUserData *data);
@@ -802,7 +794,6 @@ protected:
     INFO_REQ_MAP m_info_req;
     unsigned short msgStatus();
     unsigned short m_advCounter;
-    unsigned m_nUpdates;
     bool     m_bJoin;
     bool	 m_bFirstTry;
     bool	 m_bHTTP;
@@ -819,6 +810,7 @@ protected:
     std::list<SIM::Message*>	m_acceptMsg;
 	std::list<AIMFileTransfer*> m_filetransfers;
 	SnacIcqBuddy* m_snacBuddy;
+	SnacIcqService* m_snacService;
 	mapSnacHandlers m_snacHandlers;
 
     friend class ListServerRequest;
@@ -834,6 +826,7 @@ protected:
     friend class SSBISocket;
 	
 	friend class SnacIcqBuddy;
+	friend class SnacIcqService;
 };
 
 class ServiceSocket : public SIM::ClientSocketNotify, public OscarSocket

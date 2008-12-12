@@ -28,7 +28,7 @@ ServiceSocket::ServiceSocket(ICQClient *client, unsigned short id)
 {
     m_client = client;
     m_id     = id;
-    m_client->m_services.push_back(this);
+    m_client->m_snacService->addService(this);
     m_socket = NULL;
 
     m_bConnected = false;
@@ -36,12 +36,7 @@ ServiceSocket::ServiceSocket(ICQClient *client, unsigned short id)
 
 ServiceSocket::~ServiceSocket()
 {
-    for (list<ServiceSocket*>::iterator it = m_client->m_services.begin(); it != m_client->m_services.end(); ++it){
-        if ((*it) == this){
-            m_client->m_services.erase(it);
-            break;
-        }
-    }
+	m_client->m_snacService->deleteService(this);
     delete m_socket;
 }
 
@@ -375,16 +370,10 @@ void SearchSocket::snac_search(unsigned short type, unsigned short seq)
 
 unsigned short ICQClient::aimEMailSearch(const QString &name)
 {
-    SearchSocket *s = NULL;
-    for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
-        if ((*it)->id() == USER_DIRECTORY_SERVICE){
-            s = static_cast<SearchSocket*>(*it);
-            break;
-        }
-    }
+    SearchSocket *s = static_cast<SearchSocket*>(m_snacService->getService(USER_DIRECTORY_SERVICE));
     if (s == NULL){
         s = new SearchSocket(this);
-        requestService(s);
+        snacService()->requestService(s);
     }
     QStringList sl;
     sl.append(name);
@@ -396,16 +385,11 @@ unsigned short ICQClient::aimInfoSearch(const QString &first, const QString &las
                                         const QString &city, const QString &nick, const QString &zip,
                                         const QString &state)
 {
-    SearchSocket *s = NULL;
-    for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
-        if ((*it)->id() == USER_DIRECTORY_SERVICE){
-            s = static_cast<SearchSocket*>(*it);
-            break;
-        }
-    }
-    if (s == NULL){
+    SearchSocket *s = static_cast<SearchSocket*>(m_snacService->getService(USER_DIRECTORY_SERVICE));
+    if(s == NULL)
+	{
         s = new SearchSocket(this);
-        requestService(s);
+        snacService()->requestService(s);
     }
     QStringList info;
 

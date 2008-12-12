@@ -65,7 +65,9 @@
 #include "ballonmsg.h"
 #include "encodingdlg.h"
 #include "warndlg.h"
+
 #include "icqbuddy.h"
+#include "icqservice.h"
 
 #include "icqdirect.h"
 
@@ -245,6 +247,12 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 		lr.screen = req;
 		listRequests.push_back(lr);
 	}
+
+	m_snacBuddy = new SnacIcqBuddy(this);
+	m_snacService = new SnacIcqService(this);
+	addSnacHandler(m_snacBuddy);
+	addSnacHandler(m_snacService);
+
 	disconnected();
 	m_bFirstTry = false;
 	ContactList::ContactIterator it;
@@ -256,8 +264,6 @@ ICQClient::ICQClient(Protocol *protocol, Buffer *cfg, bool bAIM)
 			data->Alias.str() = contact->getName();
 	}
 
-	m_snacBuddy = new SnacIcqBuddy(this);
-	addSnacHandler(m_snacBuddy);
 }
 
 ICQClient::~ICQClient()
@@ -592,7 +598,7 @@ void ICQClient::setStatus(unsigned status)
     }
     if (status != m_status){
         m_status = status;
-        sendStatus();
+        snacService()->sendStatus();
         EventClientChanged(this).process();
     }
 }
@@ -602,7 +608,7 @@ void ICQClient::setInvisible(bool bState)
     if (bState != getInvisible()){
         TCPClient::setInvisible(bState);
         if (getState() == Connected)
-            setInvisible();
+            snacService()->setInvisible();
         EventClientChanged(this).process();
     }
 }
@@ -645,17 +651,13 @@ void ICQClient::disconnected()
     m_acceptMsg.clear();
     m_bRosters = false;
     m_nMsgSequence = 0;
-    m_bIdleTime = false;
     m_bNoSend	= true;
     m_bReady	= false;
     m_cookie.resize(0);
     m_advCounter = 0;
-    m_nUpdates = 0;
     m_info_req.clear();
-    while (!m_services.empty()){
-        ServiceSocket *s = m_services.front();
-        delete s;
-    }
+	if(m_snacService)
+		m_snacService->clearServices();
     if (m_listener){
         delete m_listener;
         m_listener = NULL;
@@ -758,9 +760,9 @@ void ICQClient::packet(unsigned long size)
 					socket()->readBuffer().decReadPos(sizeof(unsigned short));
 				}
 				switch (food){
-					case ICQ_SNACxFOOD_SERVICE:
-						snac_service(type, seq);
-						break;
+					//case ICQ_SNACxFOOD_SERVICE:
+					//	snac_service(type, seq);
+					//	break;
 					case ICQ_SNACxFOOD_LOCATION:
 						snac_location(type, seq);
 						break;
@@ -829,8 +831,7 @@ void OscarSocket::snac(unsigned short food, unsigned short type, bool msgId, boo
     << food
     << type
     << 0x0000
-    //<< (bType ? type : (unsigned short)0)
-    << (unsigned short)0
+    << (bType ? type : (unsigned short)0)
     << (msgId ? ++m_nMsgSequence : 0x0000);
 }
 
@@ -904,6 +905,10 @@ QByteArray ICQClient::cryptPassword()
     QByteArray res;
     res.duplicate(buf,len);
     return res;
+}
+unsigned long ICQClient::getFullStatus()
+{
+	return fullStatus(m_status);
 }
 
 unsigned long ICQClient::fullStatus(unsigned s)
@@ -2523,17 +2528,17 @@ bool ICQClient::processEvent(Event *e)
                         if (getContacts()->owner()->getPhones() != data.owner.PhoneBook.str()){
                             data.owner.PhoneBook.str() = getContacts()->owner()->getPhones();
                             data.owner.PluginInfoTime.asULong() = now;
-                            sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
+                            snacService()->sendPluginInfoUpdate(PLUGIN_PHONEBOOK);
                         }
                         if (getPicture() != data.owner.Picture.str()){
                             data.owner.Picture.str() = getPicture();
                             data.owner.PluginInfoTime.asULong() = now;
-                            sendPluginInfoUpdate(PLUGIN_PICTURE);
+                            snacService()->sendPluginInfoUpdate(PLUGIN_PICTURE);
                         }
                         if (getContacts()->owner()->getPhoneStatus() != data.owner.FollowMe.toULong()){
                             data.owner.FollowMe.asULong() = getContacts()->owner()->getPhoneStatus();
                             data.owner.PluginStatusTime.asULong() = now;
-                            sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.toULong());
+                            snacService()->sendPluginStatusUpdate(PLUGIN_FOLLOWME, data.owner.FollowMe.toULong());
                         }
                         return false;
                     }

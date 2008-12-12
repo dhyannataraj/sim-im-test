@@ -102,6 +102,7 @@ public:
     void pack(const QString &s);
     void pack(const QCString &s);
     void pack(const char *d, unsigned size) { Buffer::pack(d, size); }
+    void pack(const unsigned char *d, unsigned size) { Buffer::pack((const char*)d, size); }
     void pack(char c)          { *this << c; }
     void pack(unsigned char c) { *this << c; }
     void pack(unsigned short c);

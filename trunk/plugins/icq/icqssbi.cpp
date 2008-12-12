@@ -40,17 +40,10 @@ const unsigned short ICQ_SNACxSSBI_REQ_ICQ_ACK      = 0x0007;   // src -> cli
 
 SSBISocket *ICQClient::getSSBISocket()
 {
-    SSBISocket *s = NULL;
-
-    for (list<ServiceSocket*>::iterator it = m_services.begin(); it != m_services.end(); ++it){
-        if ((*it)->id() == ICQ_SNACxFOOD_SSBI){
-            s = static_cast<SSBISocket*>(*it);
-            break;
-        }
-    }
+    SSBISocket *s = static_cast<SSBISocket*>(m_snacService->getService(ICQ_SNACxFOOD_SSBI));
     if (s == NULL){
         s = new SSBISocket(this);
-        requestService(s);
+        snacService()->requestService(s);
     }
     return s;
 }
