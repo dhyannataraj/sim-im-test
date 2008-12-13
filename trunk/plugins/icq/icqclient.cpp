@@ -2516,7 +2516,7 @@ bool ICQClient::processEvent(Event *e)
                     listRequests.push_back(lr);
                     processSendQueue();
                 }
-                m_snacBuddy->removeBuddy(contact);
+                //m_snacBuddy->removeBuddy(contact);
                 break;
             }
             case EventContact::eChanged: {
