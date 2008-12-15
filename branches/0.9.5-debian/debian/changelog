@@ -1,3 +1,17 @@
+sim (0.9.4.99+SVN2366-1) unstable; urgency=low
+
+  * Update Bulgarian translation
+  * Jabber: fix problem with apostrophe in resource name 
+  * ICQ: fix crash on closing sim when some long message is still sending
+  * ICQ: fix problems with "," and ";" in interests list (Bug #14105)
+  * ICQ: fix file transfer
+  * Floaty: Now floaty window is not lost, whet it has 0,0 coordinates
+  * Core: Properly remove both contact entries when contact is deleted in GroupMode2 (Bug #5180)
+  * Core: In GrupMode2 "Not in list" group were shown twice. Now it is fixed (Bug #5180)
+  * Core: Fix remaining incoming note in the tray when unreceived message were deleted (Bug #14564)
+
+ -- Nikolay Shaplov <N@shaplov.ru>  Mon, 15 Dec 2008 18:23:00 +0400
+
 sim (0.9.4.99+SVN2233-1) unstable; urgency=high
 
   * July-2008 ICQ hotfix
