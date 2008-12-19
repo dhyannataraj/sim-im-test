@@ -145,6 +145,7 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
     const pluginInfo *info = ePlugin.info();
     core = static_cast<CorePlugin*>(info->plugin);
 
+	m_process = NULL;
     m_sound	 = NULL;
 #if !defined( WIN32 ) && !defined( __OS2__ )
     m_player = 0;
@@ -347,7 +348,11 @@ void SoundPlugin::playSound(const QString &s)
     if (m_current == s)
         return;
     if(m_queue.contains(s))
-        return;
+	{
+		if (m_sound == NULL)
+			processQueue();
+		return;
+	}
     m_queue.append(s);
     if (m_sound == NULL)
         processQueue();
@@ -412,7 +417,8 @@ void SoundPlugin::processQueue()
 #endif
 }
 
-void SoundPlugin::run(){
+void SoundPlugin::run()
+{
 #ifdef USE_AUDIERE
 	AudioDevicePtr device(OpenDevice());
 	if (!device) {
@@ -448,7 +454,9 @@ void SoundPlugin::run(){
 #endif
 
 #if !defined( WIN32 ) && !defined( __OS2__ )
-	if (bDone) {
+	/*
+	if(bDone)
+	{
 		qDebug("\nThreaded mit getPlayer() davor");
 		bDone=false;
 		//EventExec e(, m_snd);
@@ -456,13 +464,18 @@ void SoundPlugin::run(){
 		system(execme.data());
 		//e.process();
 		qDebug("\nThreaded mit getPlayer() danach");
-		/*m_player = e.pid();
-		if (m_player == 0){
-			log(L_WARN, "Can't execute player");
-			m_queue.clear();
-		}*/
 		m_current = QString::null;
 		bDone=true;
+		return;
+	}
+	*/
+	if((!m_process) && (!getPlayer().isEmpty()) && (!m_snd.isEmpty()))
+	{
+		m_process = new QProcess(this);
+		m_process->addArgument(getPlayer());
+		m_process->addArgument(m_snd);
+		m_process->start();
+		connect(m_process, SIGNAL(processExited()), this, SLOT(processExited()));
 		return;
 	}
 #endif
@@ -480,6 +493,13 @@ void SoundPlugin::run(){
 #endif
 }
 
+void SoundPlugin::processExited()
+{
+	delete m_process;
+	m_process = NULL;
+	m_current = QString::null;
+	processQueue();
+}
 
 void SoundPlugin::checkSound()
 {
