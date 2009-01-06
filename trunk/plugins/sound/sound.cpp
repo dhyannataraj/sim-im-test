@@ -381,7 +381,7 @@ void SoundPlugin::processQueue()
     }
 #ifdef USE_KDE
     if (getUseArts()){
-	this->start(); 
+	this->run(); 
         return; // arts
     }
     bool bSound = false;
@@ -393,23 +393,22 @@ void SoundPlugin::processQueue()
     can take 5 seconds to return a value */
     bool bSound = !getPlayer() && QSound::available();
 #endif
-    if (bSound){
-        if (!QSound::available()){
-            m_queue.clear();
-            m_current = QString::null;
-            return;
-        }
-        if (m_sound)
-            delete m_sound;
-        m_sound   = NULL;
+	if (bSound){
+		if (!QSound::available()){
+			m_queue.clear();
+			m_current = QString::null;
+			return;
+		}
+		if (m_sound)
+			delete m_sound;
+		m_sound   = NULL;
 #ifndef USE_AUDIERE
-        m_sound = new QSound(sound);
-	qDebug("\nNON-Threaded");
-        m_sound->play();
-	m_checkTimer->start(CHECK_SOUND_TIMEOUT);
+		m_sound = new QSound(sound);
+		qDebug("\nNON-Threaded");
+		m_sound->play();
+		m_checkTimer->start(CHECK_SOUND_TIMEOUT);
 #else
-	//QTimer::singleShot(0,this,SLOT(playit()));
-	this->start();
+	this->run();
 #endif	   
 
        m_current = QString::null;
@@ -420,7 +419,7 @@ void SoundPlugin::processQueue()
 		m_current = QString::null;
 		return;
 	}
-	this->start();	
+	this->run();	
 #endif
 }
 

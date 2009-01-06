@@ -52,6 +52,7 @@ protected slots:
     void slotLookupFinished(int);
     void resolveReady(unsigned long addr, const QString &host);
     void timeout();
+	void error(int errcode);
 protected:
     void timerStop();
     unsigned short port;

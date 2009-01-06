@@ -342,6 +342,10 @@ void SIMClientSocket::timeout()
 {
     QTimer::singleShot(0, this, SLOT(slotConnectionClosed()));
 }
+void SIMClientSocket::error(int errcode)
+{
+	log(L_DEBUG, "SIMClientSocket::error(%d), SocketDevice error: %d", errcode, sock->socketDevice()->error());
+}
 
 void SIMClientSocket::slotReadReady()
 {

@@ -82,14 +82,13 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
+class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
 
 {
     Q_OBJECT
 public:
     SoundPlugin(unsigned, bool, Buffer*);
     virtual ~SoundPlugin();
-
 
 #ifdef USE_KDE
     PROP_BOOL(UseArts);
