@@ -192,6 +192,9 @@ void LoginDialog::accept()
         return;
     }
     LoginDialogBase::accept();
+	EventLoginStart ev;
+	ev.process();
+
 }
 
 void LoginDialog::reject()

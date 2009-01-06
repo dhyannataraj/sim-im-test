@@ -158,8 +158,6 @@ SoundPlugin::SoundPlugin(unsigned base, bool bFirst, Buffer *config)
 	// under investigation
 	this->destruct=false;
     bDone=true;
-    if (bFirst)
-        playSound(getStartUp());
 #endif        
 }
 
@@ -201,7 +199,12 @@ bool SoundPlugin::processEvent(SIM::Event *e)
         return false;
     }
     switch (e->type()) {
-    case eEventCheckCommandState: {
+	case eEventLoginStart:
+	{
+		playSound(getStartUp());
+		break;
+	}
+	case eEventCheckCommandState: {
         EventCheckCommandState *ecs = static_cast<EventCheckCommandState*>(e);
         CommandDef *cmd = ecs->cmd();
         if (cmd->id == CmdSoundDisable){
@@ -344,9 +347,13 @@ QString SoundPlugin::fullName(const QString &name)
 void SoundPlugin::playSound(const QString &s)
 {
     if (s.isEmpty())
+	{
         return;
+	}
     if (m_current == s)
+	{
         return;
+	}
     if(m_queue.contains(s))
 	{
 		if (m_sound == NULL)

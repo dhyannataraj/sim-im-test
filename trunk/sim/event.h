@@ -122,6 +122,7 @@ enum SIMEvent
     eEventRemovePreferences = 0x0581,
 
     eEventClientChanged     = 0x0590,   // a client changed status
+	eEventLoginStart		= 0x0591,	// login process initiated
 
     eEventHomeDir           = 0x0601,   // get home dir for config
     eEventGoURL             = 0x0602,   // open url in browser / mail / ...
@@ -884,6 +885,17 @@ public:
     Client *client() const { return m_client; }
 protected:
     Client *m_client;
+};
+
+class EventLoginStart : public Event
+{
+public:
+	EventLoginStart() : Event(eEventLoginStart)
+	{
+	}
+	virtual ~EventLoginStart()
+	{
+	}
 };
 
 /* Commands - create command
