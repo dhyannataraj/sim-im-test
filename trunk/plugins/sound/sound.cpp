@@ -408,7 +408,7 @@ void SoundPlugin::processQueue()
 		m_sound->play();
 		m_checkTimer->start(CHECK_SOUND_TIMEOUT);
 #else
-	this->run();
+	this->start();
 #endif	   
 
        m_current = QString::null;

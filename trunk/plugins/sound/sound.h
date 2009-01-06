@@ -82,7 +82,7 @@ class CorePlugin;
 class QTimer;
 class QSound;
 
-class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver
+class SoundPlugin : public QObject, public SIM::Plugin, public SIM::EventReceiver, public QThread
 
 {
     Q_OBJECT
