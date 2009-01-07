@@ -1126,7 +1126,8 @@ void ICQClient::setOffline(ICQUserData *data)
 {
     QString name = dataName(data);
     for (list<Message*>::iterator it = m_acceptMsg.begin(); it != m_acceptMsg.end(); ){
-        Message *msg = *it;
+        Message *msg = *it; //will sometimes not work, content: it is broken then:	0xcdcdcdcd, reason seems to be Filetransfer.. however..
+
         if (msg->client() && (name == msg->client())){
             EventMessageDeleted(msg).process();
             delete msg;
